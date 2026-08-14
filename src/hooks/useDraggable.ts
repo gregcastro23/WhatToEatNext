@@ -97,7 +97,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
       // If handle is specified, check if click is on handle
       if (handle) {
         const handleElement = element.querySelector(handle);
-        if (!handleElement || !handleElement.contains(target)) return;
+        if (!handleElement?.contains(target)) return;
       }
 
       e.preventDefault();
@@ -201,7 +201,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
       // If handle is specified, check if touch is on handle
       if (handle) {
         const handleElement = element.querySelector(handle);
-        if (!handleElement || !handleElement.contains(target)) return;
+        if (!handleElement?.contains(target)) return;
       }
 
       e.preventDefault();

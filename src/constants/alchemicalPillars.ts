@@ -524,7 +524,7 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   reactivity: number;
 } | null {
   const pillar = getCookingMethodPillar(cookingMethod);
-  if (!pillar || !pillar.elementalAssociations) return null;
+  if (!pillar?.elementalAssociations) return null;
 
   const primaryElement = pillar.elementalAssociations.primary;
   const secondaryElement = pillar.elementalAssociations.secondary;

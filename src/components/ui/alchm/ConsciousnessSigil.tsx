@@ -437,7 +437,7 @@ export function ConsciousnessSigil({
                 cy={n.y}
                 r={r + 4}
                 fill={color}
-                opacity={hover && hover.title.includes(p.planet) ? 0.22 : 0.1}
+                opacity={hover?.title.includes(p.planet) ? 0.22 : 0.1}
               />
               <circle
                 cx={n.x}

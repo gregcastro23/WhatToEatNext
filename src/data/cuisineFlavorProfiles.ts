@@ -1016,7 +1016,7 @@ export async function getRecipesForCuisineMatch(
           >;
         } | undefined;
 
-        if (cuisine && cuisine.dishes) {
+        if (cuisine?.dishes) {
           log.info(
             `Direct import successful for ${cuisineName}, extracting recipes from dishes`,
           );

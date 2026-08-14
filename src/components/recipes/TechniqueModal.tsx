@@ -49,7 +49,7 @@ const ELEMENT_COLORS: Record<string, { bar: string; text: string; icon: string }
 };
 
 function formatDuration(d?: { min?: number; max?: number }): string {
-  if (!d || d.min == null || d.max == null) return "";
+  if (d?.min == null || d.max == null) return "";
   const fmt = (m: number) => {
     if (m < 60) return `${m}m`;
     const h = Math.floor(m / 60);

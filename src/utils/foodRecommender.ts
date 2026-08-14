@@ -599,8 +599,7 @@ export const getRecommendedIngredients = (
 
           // Check if the planet is in its sign of dignity or fall
           if (
-            astroState.planetaryPositions &&
-            astroState.planetaryPositions[planetLower]
+            astroState.planetaryPositions?.[planetLower]
           ) {
             const signPosition =
               astroState.planetaryPositions[planetLower].sign;
@@ -707,10 +706,7 @@ export const getRecommendedIngredients = (
       planetaryDayScore = (diurnalMatch + nocturnalMatch) / 2;
 
       // If the ingredient has a direct planetary affinity, give bonus points
-      if (
-        profile.rulingPlanets &&
-        profile.rulingPlanets.some((p) => p.toLowerCase() === planetaryDay)
-      ) {
+      if (profile.rulingPlanets?.some((p) => p.toLowerCase() === planetaryDay)) {
         planetaryDayScore = Math.min(1.0, planetaryDayScore + 0.3);
       }
     }
@@ -733,10 +729,7 @@ export const getRecommendedIngredients = (
           standardized.elementalProperties[relevantElement] || 0;
 
         // If the ingredient has a direct planetary affinity, give bonus points
-        if (
-          profile.rulingPlanets &&
-          profile.rulingPlanets.some((p) => p.toLowerCase() === hourPlanet)
-        ) {
+        if (profile.rulingPlanets?.some((p) => p.toLowerCase() === hourPlanet)) {
           planetaryHourScore = Math.min(1.0, planetaryHourScore + 0.3);
         }
       }
@@ -893,8 +886,7 @@ export const getRecommendedIngredients = (
     let seasonalScore = 0.5; // Default
 
     if (
-      standardized.seasonalAdjustments &&
-      standardized.seasonalAdjustments[currentSeason]
+      standardized.seasonalAdjustments?.[currentSeason]
     ) {
       // Use the specific seasonal adjustments if available
       const adjustment = standardized.seasonalAdjustments[currentSeason];
@@ -911,8 +903,7 @@ export const getRecommendedIngredients = (
         );
       }
     } else if (
-      standardized.season &&
-      standardized.season.includes(currentSeason)
+      standardized.season?.includes(currentSeason)
     ) {
       // Direct season match
       seasonalScore = 0.9;
@@ -1053,8 +1044,7 @@ export const getRecommendedIngredients = (
     ) {
       profile.rulingPlanets.forEach((planet) => {
         if (
-          astroState.tarotPlanetaryBoosts &&
-          astroState.tarotPlanetaryBoosts[planet.toLowerCase() as Planet]
+          astroState.tarotPlanetaryBoosts?.[planet.toLowerCase() as Planet]
         ) {
           tarotScore = Math.max(
             tarotScore,

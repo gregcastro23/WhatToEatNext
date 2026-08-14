@@ -55,8 +55,7 @@ export async function getCachedCalculation<T>(
     const cached = browserCache.get(cacheKey);
 
     if (
-      cached &&
-      cached.inputHash === inputHash &&
+      cached?.inputHash === inputHash &&
       now - cached.timestamp < ttl
     ) {
       log.info(

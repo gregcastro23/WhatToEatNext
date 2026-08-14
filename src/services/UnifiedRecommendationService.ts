@@ -1037,7 +1037,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         const recipeIngredient = (recipe.ingredients || []).find(
           (ing) => ing.name.toLowerCase() === ingredientName.toLowerCase(),
         );
-        if (recipeIngredient && recipeIngredient.amount) {
+        if (recipeIngredient?.amount) {
           // Simple quantity matching bonus (could be enhanced)
           const quantityMatch =
             Math.abs(Number(recipeIngredient.amount) - quantityInfo.quantity) <

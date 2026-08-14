@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     }
 
     const item = await tokenEconomy.getShopItem(shopItemSlug);
-    if (!item || !item.isActive) {
+    if (!item?.isActive) {
       return NextResponse.json(
         { success: false, message: "Shop item not found or unavailable" },
         { status: 404 },
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 
     // Validate the item exists
     const item = await tokenEconomy.getShopItem(shopItemSlug);
-    if (!item || !item.isActive) {
+    if (!item?.isActive) {
       return NextResponse.json(
         { success: false, message: "Shop item not found or unavailable" },
         { status: 404 },

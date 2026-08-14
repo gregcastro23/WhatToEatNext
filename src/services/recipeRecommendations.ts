@@ -332,16 +332,14 @@ export class RecipeRecommender {
 
     // Enhanced Moon influence (always boosted)
     if (
-      recipe.astrologicalInfluences &&
-      recipe.astrologicalInfluences.includes("Moon")
+      recipe.astrologicalInfluences?.includes("Moon")
     ) {
       finalAlignment += 0.15; // Boost for Moon-influenced recipes
     }
 
     // Enhanced Sun influence (always boosted)
     if (
-      recipe.astrologicalInfluences &&
-      recipe.astrologicalInfluences.includes("Sun")
+      recipe.astrologicalInfluences?.includes("Sun")
     ) {
       finalAlignment += 0.15; // Boost for Sun-influenced recipes
     }

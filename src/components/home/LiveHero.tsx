@@ -558,7 +558,7 @@ export function LiveHero() {
   const bias = composite?.vector ?? null;
   const reading = useMemo(
     () =>
-      quizAnswers && quizAnswers.length === FIRST_MEAL_QUIZ.length
+      quizAnswers?.length === FIRST_MEAL_QUIZ.length
         ? scoreFirstMeal(quizAnswers, bias)
         : null,
     [quizAnswers, bias],

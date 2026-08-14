@@ -135,7 +135,7 @@ export default function SauceRecommender({
       const sauceRecommender = cuisineData.sauceRecommender || {};
       
       // Add sauce recommendations based on protein
-      if (protein && sauceRecommender.forProtein && sauceRecommender.forProtein[protein]) {
+      if (protein && sauceRecommender.forProtein?.[protein]) {
         sauceRecommender.forProtein[protein].forEach((sauceName: string) => {
           // Find the sauce data in the traditionalSauces
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
@@ -165,7 +165,7 @@ export default function SauceRecommender({
       }
       
       // Add sauce recommendations based on vegetable
-      if (vegetable && sauceRecommender.forVegetable && sauceRecommender.forVegetable[vegetable]) {
+      if (vegetable && sauceRecommender.forVegetable?.[vegetable]) {
         sauceRecommender.forVegetable[vegetable].forEach((sauceName: string) => {
           // Find the sauce data in the traditionalSauces
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
@@ -195,7 +195,7 @@ export default function SauceRecommender({
       }
       
       // Add sauce recommendations based on cooking method
-      if (cookingMethod && sauceRecommender.forCookingMethod && sauceRecommender.forCookingMethod[cookingMethod]) {
+      if (cookingMethod && sauceRecommender.forCookingMethod?.[cookingMethod]) {
         sauceRecommender.forCookingMethod[cookingMethod].forEach((sauceName: string) => {
           // Find the sauce data in the traditionalSauces
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
@@ -255,7 +255,7 @@ export default function SauceRecommender({
       // Add cross-cultural recommendations based on elemental profile
       Object.entries(allCuisines).forEach(([cuisineId, cuisineData]: [string, any]) => {
         // Skip if this is the same as our specific cuisine
-        if (cuisine && cuisineId.toLowerCase() === cuisine.toLowerCase()) {
+        if (cuisineId.toLowerCase() === cuisine?.toLowerCase()) {
           return;
         }
         
@@ -579,7 +579,7 @@ export default function SauceRecommender({
                       <div>
                         <h5 className="text-xs font-medium mb-1">Key Ingredients:</h5>
                         <ul className="pl-2">
-                          {sauce.ingredients && sauce.ingredients.map((ing: string, idx: number) => (
+                          {sauce.ingredients?.map((ing: string, idx: number) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>
@@ -595,7 +595,7 @@ export default function SauceRecommender({
                       <div>
                         <h5 className="text-xs font-medium mb-1">Uses:</h5>
                         <ul className="pl-2">
-                          {sauce.culinaryUses && sauce.culinaryUses.map((use: string, idx: number) => (
+                          {sauce.culinaryUses?.map((use: string, idx: number) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>{use}</span>

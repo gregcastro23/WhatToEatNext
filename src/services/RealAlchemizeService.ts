@@ -300,7 +300,7 @@ export function alchemize(
 
     // Momentum Calculation: (Current Longitude - Historical Longitude) * Mass
     // Using decimalDegrees for arc-minute precise difference.
-    if (historicalPositions && historicalPositions[planet]) {
+    if (historicalPositions?.[planet]) {
       const histPos = historicalPositions[planet];
       // Note: handles 12*60=720 arc-minute / 360 degree wrap implicitly
       // as DecimalDegrees are typically 0-360.
@@ -537,7 +537,7 @@ export function alchemizeDetailed(
     addElement(signElement, SIGN_WEIGHT);
     addElement(sectElement, SECT_WEIGHT);
 
-    if (historicalPositions && historicalPositions[planet]) {
+    if (historicalPositions?.[planet]) {
       const histPos = historicalPositions[planet];
       let delta =
         (position.exactLongitude || (position.degree + position.minute / 60)) -

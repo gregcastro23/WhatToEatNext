@@ -389,7 +389,7 @@ export async function invokeTool(
 
   try {
     const debit = await debitForTool(name, caller);
-    if (debit.reason && debit.reason.startsWith("insufficient-")) {
+    if (debit.reason?.startsWith("insufficient-")) {
       result = {
         ok: false,
         data: null,

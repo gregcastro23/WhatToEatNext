@@ -291,7 +291,7 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
                                 <div className="pr-4 flex-1">
                                   <div className="flex items-center gap-2 flex-wrap">
                                     <h6 className="font-semibold text-white text-sm">{item.name}</h6>
-                                    {item.dietaryTags && item.dietaryTags.map(tag => {
+                                    {item.dietaryTags?.map(tag => {
                                       const tagMeta = DIETARY_TAGS.find(t => t.key === tag);
                                       return tagMeta ? (
                                         <span key={tag} className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border ${tagMeta.color} bg-black/40`} title={tagMeta.label}>

@@ -226,7 +226,7 @@ export async function POST(request: Request) {
     // Auto-provision agents in the @agentic.alchm.kitchen namespace on first event.
     // This removes the bootstrap race where PA emits before the sign-in fan-out
     // or explicit agent-sync call has propagated the user row.
-    if (isAgenticNamespace && (!user || !user.isAgent)) {
+    if (isAgenticNamespace && (!user?.isAgent)) {
       try {
         user = await userDatabase.ensurePlanetaryAgent(normalizedEmail, agentDisplayName);
         console.log(
@@ -268,7 +268,7 @@ export async function POST(request: Request) {
       }
     }
 
-    if (!user || !user.isAgent) {
+    if (!user?.isAgent) {
       rememberFeedEmit(eventType, normalizedEmail, 404);
       return NextResponse.json(
         {
@@ -284,7 +284,7 @@ export async function POST(request: Request) {
 
     // Agentic users always run premium (gating reserved for human accounts).
     const sub = await subscriptionService.getUserSubscription(user.id);
-    if (!sub || sub.tier !== "premium") {
+    if (sub?.tier !== "premium") {
       console.log(`[Feed API] Auto-upgrading agent ${normalizedEmail} to premium tier.`);
       await subscriptionService.getOrCreateSubscription(user.id);
       await subscriptionService.updateSubscription(user.id, {

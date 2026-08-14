@@ -286,8 +286,7 @@ export function useSpacetimePlannerSync(
       for (const [key, slot] of desired) {
         const existing = remote.get(key);
         const changed =
-          !existing ||
-          existing.recipeRef !== slot.recipeRef ||
+          existing?.recipeRef !== slot.recipeRef ||
           existing.recipeName !== slot.recipeName ||
           Math.abs(existing.servings - slot.servings) > 1e-6;
         if (changed) {

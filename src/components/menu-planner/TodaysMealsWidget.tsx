@@ -236,7 +236,7 @@ export default function TodaysMealsWidget({
 
   const handleLogMeal = async (mealType: MealType) => {
     const slot = todaysMeals[mealType];
-    if (!slot || !slot.recipe) return;
+    if (!slot?.recipe) return;
     const userId = currentUser?.userId;
     if (!userId) {
       showInfo("Sign in to log meals to your food diary.");

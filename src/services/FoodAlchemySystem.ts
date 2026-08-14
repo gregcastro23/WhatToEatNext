@@ -495,7 +495,7 @@ export class FoodAlchemySystem {
       const planetDegree = normalizedPositions[planetaryDay].degree;
 
       // Dignity effect bonus/penalty
-      if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
+      if (dayElements.dignityEffect?.[planetSign]) {
         dignityBonus = dayElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
         elementalScore = Math.min(
           1.0,
@@ -510,9 +510,7 @@ export class FoodAlchemySystem {
 
       // Apply decan effects if the planet is in its own decan
       if (
-        signInfo[planetSign] &&
-        signInfo[planetSign].decanEffects[decan] &&
-        signInfo[planetSign].decanEffects[decan].includes(planetaryDay)
+        signInfo[planetSign]?.decanEffects[decan]?.includes(planetaryDay)
       ) {
         decanBonus = 0.15;
         elementalScore = Math.min(1.0, elementalScore + decanBonus);
@@ -520,9 +518,7 @@ export class FoodAlchemySystem {
 
       // Apply degree effects
       if (
-        signInfo[planetSign] &&
-        signInfo[planetSign].degreeEffects[planetaryDay] &&
-        signInfo[planetSign].degreeEffects[planetaryDay].length === 2
+        signInfo[planetSign]?.degreeEffects[planetaryDay]?.length === 2
       ) {
         const [minDegree, maxDegree] =
           signInfo[planetSign].degreeEffects[planetaryDay];
@@ -582,8 +578,7 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (
-        hourElements.dignityEffect &&
-        hourElements.dignityEffect[planetSign]
+        hourElements.dignityEffect?.[planetSign]
       ) {
         dignityBonus = hourElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
         elementalScore = Math.min(

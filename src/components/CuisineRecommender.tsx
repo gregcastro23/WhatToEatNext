@@ -186,7 +186,7 @@ export default function CuisineRecommender() {
         const name = typeof ing === 'string' ? ing : ing.name;
         const amount = typeof ing === 'object' ? (ing.amount || 1) : 1;
         return name ? { name, asin: resolveAsin(name), amount } : null;
-      }).filter((x): x is AmazonCartItem & { asin: string } => Boolean(x && x.asin)) : [];
+      }).filter((x): x is AmazonCartItem & { asin: string } => Boolean(x?.asin)) : [];
 
       if (ingredients.length === 0) {
         showToast("No ingredients could be matched to Amazon products.", "error");
@@ -272,7 +272,7 @@ export default function CuisineRecommender() {
           notes: ing.notes,
         };
       })
-      .filter((x): x is NormalizedCartIngredient => Boolean(x && x.name));
+      .filter((x): x is NormalizedCartIngredient => Boolean(x?.name));
 
     if (normalized.length === 0) {
       showToast('This recipe has no ingredients to add.', 'warning');

@@ -334,7 +334,7 @@ export function generateCircuitSuggestions(
     const mealSlot = currentMenu.meals.find(
       (m) => m.id === bottleneck.mealSlotId,
     );
-    if (!mealSlot || !mealSlot.recipe) continue;
+    if (!mealSlot?.recipe) continue;
 
     const currentEfficiency =
       dayCircuits[mealSlot.dayOfWeek].meals[mealSlot.mealType]?.efficiency || 0;
@@ -359,7 +359,7 @@ export function generateCircuitSuggestions(
     const mealSlot = currentMenu.meals.find(
       (m) => m.id === bottleneck.mealSlotId,
     );
-    if (!mealSlot || !mealSlot.recipe) continue;
+    if (!mealSlot?.recipe) continue;
 
     const currentServings = mealSlot.servings;
     const suggestedServings = Math.ceil(currentServings * 1.5); // 50% increase

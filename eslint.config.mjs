@@ -129,7 +129,7 @@ export default [
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/no-unnecessary-condition": "off", // Too many false positives
       "@typescript-eslint/prefer-nullish-coalescing": "off", // Style preference
-      "@typescript-eslint/prefer-optional-chain": "off", // 107 warnings - style preference
+      "@typescript-eslint/prefer-optional-chain": "error",
       "@typescript-eslint/prefer-as-const": "error",
       "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/no-floating-promises": "warn", // Pervasive in React async patterns (useEffect, onClick)

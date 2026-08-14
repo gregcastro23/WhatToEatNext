@@ -37,7 +37,7 @@ export interface AuthMiddlewareOptions {
 function extractTokenFromRequest(req: Request): string | null {
   const authHeader = req.headers.authorization;
 
-  if (authHeader && authHeader.startsWith("Bearer ")) {
+  if (authHeader?.startsWith("Bearer ")) {
     return authHeader.slice(7); // Remove 'Bearer ' prefix
   }
 
@@ -47,7 +47,7 @@ function extractTokenFromRequest(req: Request): string | null {
   }
 
   // Check for token in cookies
-  if (req.cookies && req.cookies.accessToken) {
+  if (req.cookies?.accessToken) {
     return req.cookies.accessToken;
   }
 

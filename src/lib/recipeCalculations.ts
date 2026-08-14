@@ -109,7 +109,7 @@ export async function getRecipesForTarotCard(
   ];
 
   // If there are no cards, return default recipes
-  if (!cards || !cards.minorCard || !cards.majorCard) {
+  if (!cards?.minorCard || !cards.majorCard) {
     return defaultRecipes;
   }
 

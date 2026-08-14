@@ -98,7 +98,7 @@ let skyCache: { bucket: number; sky: GlobalSky } | null = null;
 
 async function getGlobalSky(now = new Date()): Promise<GlobalSky> {
   const bucket = Math.floor(now.getTime() / 600_000);
-  if (skyCache && skyCache.bucket === bucket) return skyCache.sky;
+  if (skyCache?.bucket === bucket) return skyCache.sky;
 
   // Time-boxed: the ephemeris backend can burn ~7s of timeout budget on a
   // cold path, and recognize() awaits this before its SQL. 2.5s or we fall

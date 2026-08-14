@@ -678,8 +678,7 @@ export function filterRecipesByIngredientMappings(
         ingredientRequirements.excluded?.some(
           (excl) =>
             match.name.toLowerCase().includes(excl.toLowerCase()) ||
-            (match.matchedTo?.name &&
-              match.matchedTo.name.toLowerCase().includes(excl.toLowerCase())),
+            (match.matchedTo?.name?.toLowerCase().includes(excl.toLowerCase())),
         ),
       );
 
@@ -757,10 +756,7 @@ export function filterRecipesByIngredientMappings(
           ingredientRequirements.emphasized?.some(
             (emph) =>
               match.name.toLowerCase().includes(emph.toLowerCase()) ||
-              (match.matchedTo?.name &&
-                match.matchedTo.name
-                  .toLowerCase()
-                  .includes(emph.toLowerCase())),
+              (match.matchedTo?.name?.toLowerCase().includes(emph.toLowerCase())),
           ),
       );
 

@@ -181,8 +181,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
   // Try to get from elementalMapping if available
   const elementalMapping = recipe.elementalMapping as any;
   if (
-    elementalMapping &&
-    elementalMapping.astrologicalInfluences &&
+    elementalMapping?.astrologicalInfluences &&
     Array.isArray(elementalMapping.astrologicalInfluences)
   ) {
     return elementalMapping.astrologicalInfluences.filter(
@@ -211,9 +210,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   // Try to get from elementalMapping if available
   const elementalMapping = recipe.elementalMapping as any;
   if (
-    elementalMapping &&
-    elementalMapping.astrologicalProfile &&
-    elementalMapping.astrologicalProfile.favorableZodiac &&
+    elementalMapping?.astrologicalProfile?.favorableZodiac &&
     Array.isArray(elementalMapping.astrologicalProfile.favorableZodiac)
   ) {
     return elementalMapping.astrologicalProfile.favorableZodiac.filter(
@@ -325,7 +322,7 @@ export function recipeHasIngredient(
       return String(ingredient).toLowerCase().includes(searchName);
     }
 
-    if (typeof ingredient === "object" && ingredient && ingredient.name) {
+    if (typeof ingredient === "object" && ingredient?.name) {
       return String(ingredient.name).toLowerCase().includes(searchName);
     }
 

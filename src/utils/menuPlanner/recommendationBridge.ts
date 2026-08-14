@@ -925,8 +925,7 @@ async function searchRecipesForDay(
       // Preferred cooking methods match (weight: 0.05)
       if (
         preferredCookingMethodsLc.length > 0 &&
-        lcCookingMethods &&
-        lcCookingMethods.some((m) =>
+        lcCookingMethods?.some((m) =>
           preferredCookingMethodsLc.some((pm) => m.includes(pm)),
         )
       ) {

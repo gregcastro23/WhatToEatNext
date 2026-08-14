@@ -248,7 +248,7 @@ export function generateGroceryList(
     >();
 
     meals.forEach((meal) => {
-      if (!meal.recipe || !meal.recipe.ingredients) return;
+      if (!meal.recipe?.ingredients) return;
 
       meal.recipe.ingredients.forEach((rawIngredient: any) => {
         // Handle both string ingredients and object ingredients

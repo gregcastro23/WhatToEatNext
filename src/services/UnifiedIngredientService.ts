@@ -498,7 +498,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     let candidates = includeExotic
       ? allIngredients
       : (allIngredients || []).filter(
-          (ing) => !ing.tags || !ing.tags.includes("exotic"),
+          (ing) => !ing.tags?.includes("exotic"),
         );
 
     // Apply seasonal optimization if requested

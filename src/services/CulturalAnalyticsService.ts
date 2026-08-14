@@ -564,7 +564,7 @@ export class CulturalAnalyticsService {
     season: string,
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
-    if (!culinaryTradition || !culinaryTradition.astrologicalProfile || !culinaryTradition.astrologicalProfile.seasonalPreference) {
+    if (!culinaryTradition?.astrologicalProfile?.seasonalPreference) {
       return 0;
     }
 
@@ -582,7 +582,7 @@ export class CulturalAnalyticsService {
     astrologicalState: { zodiacSign: ZodiacSign; lunarPhase: LunarPhase },
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
-    if (!culinaryTradition || !culinaryTradition.astrologicalProfile) {
+    if (!culinaryTradition?.astrologicalProfile) {
       return 0.7; // Default compatibility
     }
 

@@ -55,7 +55,7 @@ export function getCurrentTransitSign(
   date: Date = new Date(),
 ): ZodiacSignType | null {
   const planetData = planetDataMap[planet];
-  if (!planetData || !planetData.PlanetSpecific) return null;
+  if (!planetData?.PlanetSpecific) return null;
   const { TransitDates } = planetData.PlanetSpecific;
   if (!TransitDates) return null;
 

@@ -181,7 +181,7 @@ export function resolveIngredientByName(
   // item. Query-side only — indexed catalog names keep their full identity —
   // and last, so it can only turn a miss into a hit.
   const firstSegment = name.split(/\s+and\s+/i)[0];
-  if (firstSegment && firstSegment.trim() && firstSegment !== name) {
+  if (firstSegment?.trim() && firstSegment !== name) {
     return resolveIngredientByName(firstSegment);
   }
   return undefined;

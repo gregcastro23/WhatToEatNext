@@ -143,7 +143,7 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
 
   for (const key of cuisineKeys) {
     const cuisine = await getCuisineData(key);
-    if (!cuisine || !cuisine.cookingTechniques) continue;
+    if (!cuisine?.cookingTechniques) continue;
 
     cuisine.cookingTechniques.forEach((technique) => {
       const methodName = technique.name.toLowerCase();

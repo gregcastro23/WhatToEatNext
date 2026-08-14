@@ -531,7 +531,7 @@ export class DegreeAgentMatcher {
 
     const agentWisdom = wisdomTemplates[profile.agentId as keyof typeof wisdomTemplates]
 
-    if (agentWisdom && agentWisdom[activationType as keyof typeof agentWisdom]) {
+    if (agentWisdom?.[activationType as keyof typeof agentWisdom]) {
       return agentWisdom[activationType as keyof typeof agentWisdom]
     }
 

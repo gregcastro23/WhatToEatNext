@@ -794,14 +794,11 @@ export class UnifiedSeasonalSystem {
 
     // Get traditional use from seasonal usage data
     const traditionalUse: string[] = [];
-    if (seasonProfile.growing && seasonProfile.growing.includes(ingredientName))
+    if (seasonProfile.growing?.includes(ingredientName))
       traditionalUse.push("growing");
-    if (seasonProfile.herbs && seasonProfile.herbs.includes(ingredientName))
+    if (seasonProfile.herbs?.includes(ingredientName))
       traditionalUse.push("culinary herb");
-    if (
-      seasonProfile.vegetables &&
-      seasonProfile.vegetables.includes(ingredientName)
-    )
+    if (seasonProfile.vegetables?.includes(ingredientName))
       traditionalUse.push("seasonal vegetable");
 
     // Get complementary flavors for the season (top scoring ingredients)
@@ -1520,11 +1517,9 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
     return { inGrowing: false, inHerbs: false, inVegetables: false };
 
   return {
-    inGrowing:
-      seasonProfile.growing && seasonProfile.growing.includes(ingredient),
-    inHerbs: seasonProfile.herbs && seasonProfile.herbs.includes(ingredient),
-    inVegetables:
-      seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredient),
+    inGrowing: seasonProfile.growing?.includes(ingredient),
+    inHerbs: seasonProfile.herbs?.includes(ingredient),
+    inVegetables: seasonProfile.vegetables?.includes(ingredient),
   };
 }
 

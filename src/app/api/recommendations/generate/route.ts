@@ -357,7 +357,7 @@ async function handlePost(request: NextRequest) {
       // Resolve the item to read base costs, then apply personalised live
       // pricing so the user's natal chart shapes the per-token cost.
       const item = await tokenEconomy.getShopItem("unlock-basic-recipe");
-      if (!item || !item.isActive) {
+      if (!item?.isActive) {
         return NextResponse.json(
           {
             success: false,

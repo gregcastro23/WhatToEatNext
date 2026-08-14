@@ -61,9 +61,9 @@ const alchemize = async (
 
     // If astroState contains planetary positions, add them to the horoscope
     const astro = astroState as AstroStateShape | null | undefined;
-    if (astro && astro.planetaryPositions) {
+    if (astro?.planetaryPositions) {
       Object.entries(astro.planetaryPositions).forEach(([planet, position]) => {
-        if (position && position.sign) {
+        if (position?.sign) {
           horoscopeDict.tropical.CelestialBodies[planet] = {
             Sign: { label: position.sign },
             ChartPosition: {
@@ -419,7 +419,7 @@ export default function CookingMethods() {
 
         // Check if ingredient is in the method's suitable_for list
         const suitableFor = (method as { suitable_for?: string[] }).suitable_for;
-        if (suitableFor && suitableFor.some(item =>
+        if (suitableFor?.some(item =>
           item.toLowerCase().includes(ingredient.toLowerCase())
         )) {
           compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
@@ -1759,7 +1759,7 @@ export default function CookingMethods() {
                         </span>
                       )}
                       
-                      {method.bestFor && method.bestFor[0] && (
+                      {method.bestFor?.[0] && (
                         <span className={styles.infoTag}>
                           Best for: {method.bestFor[0]}
                         </span>

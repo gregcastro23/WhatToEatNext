@@ -167,8 +167,7 @@ export function useAstrologicalState(): AstrologyHookData {
         Object.entries(positions).forEach(([planet, position]) => {
           if (
             !planetKeys.includes(planet.toLowerCase()) ||
-            !position ||
-            !position.sign
+            !position?.sign
           ) {
             return;
           }

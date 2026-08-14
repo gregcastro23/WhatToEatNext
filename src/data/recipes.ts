@@ -275,7 +275,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                     dishes.forEach((dish: unknown) => {
                       const dishData = dish as DishData;
 
-                      if (!dishData || !dishData.name) {
+                      if (!dishData?.name) {
                         logger.debug("Skipping invalid dish: ", dish);
                         return;
                       }
@@ -1128,8 +1128,7 @@ async function applyAdditionalFilters(
     // Season match - enhanced with better scoring
     if (criteria.season) {
       const seasonMatch =
-        (recipe.energyProfile.season &&
-          recipe.energyProfile.season.includes(criteria.season)) ||
+        (recipe.energyProfile.season?.includes(criteria.season)) ||
         (Array.isArray(recipe.season) &&
           recipe.season.includes(criteria.season)) ||
         (typeof recipe.season === "string" &&
@@ -1150,8 +1149,7 @@ async function applyAdditionalFilters(
       const normalizedMealType = criteria.mealType.toLowerCase();
 
       const mealTypeMatch =
-        (recipe.tags &&
-          recipe.tags.some(
+        (recipe.tags?.some(
             (tag) => tag.toLowerCase() === normalizedMealType,
           )) ||
         (Array.isArray(recipe.mealType) &&

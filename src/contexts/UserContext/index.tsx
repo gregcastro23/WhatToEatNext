@@ -142,7 +142,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   // Check if the profile is missing essential information
   const checkProfileCompleteness = (profile: UserProfile | null) => {
-    if (!profile || !profile.birthData) {
+    if (!profile?.birthData) {
       setIsProfileIncomplete(true);
     } else {
       setIsProfileIncomplete(false);

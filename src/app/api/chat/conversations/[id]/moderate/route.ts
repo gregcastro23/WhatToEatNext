@@ -33,7 +33,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     // Host gate: the caller must hold role='host' in this conversation.
     const membership = await chatDatabase.getMembership(conversationId, userId);
-    if (!membership || membership.role !== "host" || membership.leftAt || membership.banned) {
+    if (membership?.role !== "host" || membership.leftAt || membership.banned) {
       return NextResponse.json({ success: false, message: "Only the host can moderate this conversation." }, { status: 403 });
     }
 

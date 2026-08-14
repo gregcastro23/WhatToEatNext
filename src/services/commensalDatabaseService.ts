@@ -657,7 +657,7 @@ class CommensalDatabaseService {
             (c.requesterId === actingUserId && c.addresseeId === opts.targetUserId) ||
             (c.requesterId === opts.targetUserId && c.addresseeId === actingUserId),
         );
-    if (!local || local.status !== "blocked") return false;
+    if (local?.status !== "blocked") return false;
     const isParty =
       local.requesterId === actingUserId || local.addresseeId === actingUserId;
     if (!isParty) return false;

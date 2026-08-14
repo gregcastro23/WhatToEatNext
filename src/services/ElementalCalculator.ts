@@ -113,7 +113,7 @@ export class ElementalCalculator {
       const elementKey = element as keyof ElementalProperties;
       // Use optional chaining with nullish coalescing to handle undefined values
       const itemValue =
-        (item.elementalProperties && item.elementalProperties[elementKey]) || 0;
+        (item.elementalProperties?.[elementKey]) || 0;
 
       // Calculate weighted difference (more important elements get higher weight)
       const weight = value * 2; // Emphasize elements that are strong in current state

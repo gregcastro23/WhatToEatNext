@@ -53,7 +53,7 @@ const SERVICES: Record<ServiceKey, ServiceSpec> = {
 function resolveFromEnv(key: ServiceKey): string | undefined {
   for (const name of SERVICES[key].envNames) {
     const v = process.env[name];
-    if (v && v.trim()) return v.trim().replace(/\/+$/, "");
+    if (v?.trim()) return v.trim().replace(/\/+$/, "");
   }
   return undefined;
 }

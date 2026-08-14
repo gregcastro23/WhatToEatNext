@@ -135,18 +135,18 @@ export function recipeNftChain() {
 
 export function recipeRegistryAddress(): Address | undefined {
   const a = process.env.NEXT_PUBLIC_RECIPE_REGISTRY_ADDRESS;
-  return a && a.startsWith("0x") ? (a as Address) : undefined;
+  return a?.startsWith("0x") ? (a as Address) : undefined;
 }
 
 export function rightsRegistryAddress(): Address | undefined {
   const a = process.env.NEXT_PUBLIC_RIGHTS_REGISTRY_ADDRESS;
-  return a && a.startsWith("0x") ? (a as Address) : undefined;
+  return a?.startsWith("0x") ? (a as Address) : undefined;
 }
 
 /** The genesis rights anchor id, produced at deploy time. */
 export function alchmRightsId(): Hex | undefined {
   const id = process.env.NEXT_PUBLIC_ALCHM_RIGHTS_ID;
-  return id && id.startsWith("0x") ? (id as Hex) : undefined;
+  return id?.startsWith("0x") ? (id as Hex) : undefined;
 }
 
 /**

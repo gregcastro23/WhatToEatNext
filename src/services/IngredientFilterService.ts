@@ -238,7 +238,7 @@ export class IngredientFilterService {
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
         const hasAllVitamins = filter.vitamins.every(
           (vitamin) =>
-            nutrition.vitamins && nutrition.vitamins.includes(vitamin),
+            nutrition.vitamins?.includes(vitamin),
         );
         if (!hasAllVitamins) return false;
       }
@@ -247,7 +247,7 @@ export class IngredientFilterService {
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
         const hasAllMinerals = filter.minerals.every(
           (mineral) =>
-            nutrition.minerals && nutrition.minerals.includes(mineral),
+            nutrition.minerals?.includes(mineral),
         );
         if (!hasAllMinerals) return false;
       }
@@ -291,8 +291,7 @@ export class IngredientFilterService {
       // Check Fire element range
       if (
         filter.minFire !== undefined &&
-        (!elementalProps ||
-          elementalProps.Fire === undefined ||
+        (elementalProps?.Fire === undefined ||
           elementalProps.Fire < filter.minFire)
       ) {
         return false;
@@ -300,8 +299,7 @@ export class IngredientFilterService {
 
       if (
         filter.maxFire !== undefined &&
-        (!elementalProps ||
-          elementalProps.Fire === undefined ||
+        (elementalProps?.Fire === undefined ||
           elementalProps.Fire > filter.maxFire)
       ) {
         return false;
@@ -310,8 +308,7 @@ export class IngredientFilterService {
       // Check Water element range
       if (
         filter.minWater !== undefined &&
-        (!elementalProps ||
-          elementalProps.Water === undefined ||
+        (elementalProps?.Water === undefined ||
           elementalProps.Water < filter.minWater)
       ) {
         return false;
@@ -319,8 +316,7 @@ export class IngredientFilterService {
 
       if (
         filter.maxWater !== undefined &&
-        (!elementalProps ||
-          elementalProps.Water === undefined ||
+        (elementalProps?.Water === undefined ||
           elementalProps.Water > filter.maxWater)
       ) {
         return false;
@@ -329,8 +325,7 @@ export class IngredientFilterService {
       // Check Earth element range
       if (
         filter.minEarth !== undefined &&
-        (!elementalProps ||
-          elementalProps.Earth === undefined ||
+        (elementalProps?.Earth === undefined ||
           elementalProps.Earth < filter.minEarth)
       ) {
         return false;
@@ -338,8 +333,7 @@ export class IngredientFilterService {
 
       if (
         filter.maxEarth !== undefined &&
-        (!elementalProps ||
-          elementalProps.Earth === undefined ||
+        (elementalProps?.Earth === undefined ||
           elementalProps.Earth > filter.maxEarth)
       ) {
         return false;
@@ -348,8 +342,7 @@ export class IngredientFilterService {
       // Check Air element range
       if (
         filter.minAir !== undefined &&
-        (!elementalProps ||
-          elementalProps.Air === undefined ||
+        (elementalProps?.Air === undefined ||
           elementalProps.Air < filter.minAir)
       ) {
         return false;
@@ -357,8 +350,7 @@ export class IngredientFilterService {
 
       if (
         filter.maxAir !== undefined &&
-        (!elementalProps ||
-          elementalProps.Air === undefined ||
+        (elementalProps?.Air === undefined ||
           elementalProps.Air > filter.maxAir)
       ) {
         return false;
@@ -660,7 +652,7 @@ export class IngredientFilterService {
     try {
       // Use local nutritional profiles
       const ingredient = this.findIngredientByName(ingredientName);
-      if (ingredient && ingredient.nutritionalProfile) {
+      if (ingredient?.nutritionalProfile) {
         return {
           name: ingredientName,
           // Note: findIngredientByName is declared to return IngredientMapping

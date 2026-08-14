@@ -706,12 +706,12 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const [orderOpen, setOrderOpen] = useState(false);
 
   const handleAddToGroceryCart = useCallback(() => {
-    if (!recipe || !recipe.ingredients || recipe.ingredients.length === 0) {
+    if (!recipe?.ingredients || recipe.ingredients.length === 0) {
       showToast("This recipe has no ingredients to add.", "warning");
       return;
     }
     const normalized = recipe.ingredients
-      .filter((ing) => ing && ing.name)
+      .filter((ing) => ing?.name)
       .map((ing) => ({
         name: ing.name,
         amount: typeof ing.amount === "number" ? ing.amount : 1,
@@ -1468,9 +1468,9 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
         </div>
 
         {/* ===== Ingredient Drawer ===== */}
-        {(() => {
-          const sel = selectedIngredientIndex != null ? recipe.ingredients[selectedIngredientIndex] : null;
-          const scaledAmount = sel && sel.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
+          {(() => {
+            const sel = selectedIngredientIndex != null ? recipe.ingredients[selectedIngredientIndex] : null;
+            const scaledAmount = sel?.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
           return (
             <IngredientDrawer
               ingredientName={sel?.name ?? null}

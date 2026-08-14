@@ -657,7 +657,7 @@ function MegaMenu({
   onSelect: () => void;
 }): JSX.Element | null {
   const m = NAV_IA[menuKey];
-  if (!m || !m.routes.length) return null;
+  if (!m?.routes.length) return null;
   const featured = FEATURED_TILE[menuKey];
 
   const groupDef = MENU_GROUPS[menuKey];

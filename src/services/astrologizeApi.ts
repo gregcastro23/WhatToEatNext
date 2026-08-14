@@ -358,8 +358,7 @@ export async function fetchPlanetaryPositions(
     // accurate to sub-arcsecond). Fall back to local approximate calculation.
     const serverAscendant = (data as any).ascendant;
     if (
-      serverAscendant &&
-      serverAscendant.sign &&
+      serverAscendant?.sign &&
       typeof serverAscendant.exactLongitude === "number"
     ) {
       positions["Ascendant"] = {

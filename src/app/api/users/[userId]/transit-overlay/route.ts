@@ -56,7 +56,7 @@ export async function GET(
     const row = profileResult.rows[0];
     const rawNatal = parseJsonField<any>(row.natal_chart, null);
 
-    if (!rawNatal || !rawNatal.planets) {
+    if (!rawNatal?.planets) {
       return NextResponse.json(
         { success: false, message: "Natal chart data missing or incomplete" },
         { status: 400 },

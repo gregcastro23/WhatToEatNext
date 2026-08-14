@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
     
     // Auto-accept logic for Agentic Users
     let finalCommensalship = commensalship;
-    if (targetUserRecord && targetUserRecord.isAgent) {
+    if (targetUserRecord?.isAgent) {
       const accepted = await commensalDatabase.updateCommensalshipStatus(commensalship.id, 'accepted', targetUserId);
       if (accepted) {
         finalCommensalship = accepted;
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
     // which notifies the original requester with commensal_accepted — a
     // "wants to be your dining companion" ping here would be wrong.
     if (
-      (!targetUserRecord || !targetUserRecord.isAgent) &&
+      (!targetUserRecord?.isAgent) &&
       finalCommensalship.status === "pending"
     ) {
       notificationDatabase.createNotification(

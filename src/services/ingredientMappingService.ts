@@ -191,10 +191,8 @@ class IngredientMappingService {
       }
       // Check for complementary categories
       else if (
-        (complementaryCategories[category1] &&
-          complementaryCategories[category1].includes(category2)) ||
-        (complementaryCategories[category2] &&
-          complementaryCategories[category2].includes(category1))
+        complementaryCategories[category1]?.includes(category2) ||
+        complementaryCategories[category2]?.includes(category1)
       ) {
         categoryAdjustment = 0.15;
       }

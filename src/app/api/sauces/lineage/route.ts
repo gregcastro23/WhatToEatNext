@@ -72,7 +72,7 @@ function findRoot(
   for (const [key, entry] of Object.entries(data)) {
     if (
       key.toLowerCase().includes(needle) ||
-      (entry?.name && entry.name.toLowerCase().includes(needle))
+      (entry?.name?.toLowerCase().includes(needle))
     ) {
       return { key, entry };
     }
@@ -91,7 +91,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const rootParam = searchParams.get("root");
-    if (!rootParam || !rootParam.trim()) {
+    if (!rootParam?.trim()) {
       return NextResponse.json(
         { error: "Query parameter `root` is required (e.g. ?root=bechamel)." },
         { status: 400 },

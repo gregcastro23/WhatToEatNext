@@ -66,7 +66,7 @@ export async function POST(req: Request) {
 
     // 2. Parse request payload
     const body = await req.json().catch(() => null);
-    if (!body || !body.dob || !body.city) {
+    if (!body?.dob || !body.city) {
       return NextResponse.json(
         { success: false, error: "bad_request", message: "Date of Birth (dob) and City (city) are required." },
         { status: 400 }

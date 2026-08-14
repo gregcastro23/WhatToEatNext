@@ -714,8 +714,7 @@ export async function getRecommendedCookingMethods(
         (method) =>
           // Include methods that match the culture OR have variations that match
           method.culturalOrigin === culturalPreference ||
-          (method.variations &&
-            method.variations.some(
+          (method.variations?.some(
               (v) => v.culturalOrigin === culturalPreference,
             )),
       )
@@ -1137,8 +1136,7 @@ export async function getRecommendedCookingMethods(
 
     // Seasonal bonus (15% of score) - enhanced with more seasonal associations
     if (
-      methodWithProps.preferences?.seasonalPreference &&
-      methodWithProps.preferences.seasonalPreference.includes(season)
+      methodWithProps.preferences?.seasonalPreference?.includes(season)
     ) {
       seasonalScore += 0.15;
     } else {
@@ -1276,8 +1274,7 @@ export async function getRecommendedCookingMethods(
       culturalScore = 0.05; // 5% boost for direct cultural match
     } else if (
       culturalPreference &&
-      method.variations &&
-      method.variations.some((v) => v.culturalOrigin === culturalPreference)
+      method.variations?.some((v) => v.culturalOrigin === culturalPreference)
     ) {
       culturalScore = 0.03; // 3% boost if a variation matches the culture
     }
@@ -1409,7 +1406,7 @@ export async function getRecommendedCookingMethods(
       }
 
       // Add score for culinary temperament alignment
-      if (venusTemperament && venusTemperament.FoodFocus) {
+      if (venusTemperament?.FoodFocus) {
         const foodFocus = String(
           venusTemperament.FoodFocus || "",
         ).toLowerCase();

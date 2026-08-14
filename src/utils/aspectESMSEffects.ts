@@ -442,7 +442,7 @@ export function getAspectESMSEffect(
 
   // Look up specific pair effects, fallback to default
   const pairEffects = PLANET_PAIR_ASPECT_EFFECTS[pairKey];
-  if (pairEffects && pairEffects[aspectType]) {
+  if (pairEffects?.[aspectType]) {
     return pairEffects[aspectType];
   }
 

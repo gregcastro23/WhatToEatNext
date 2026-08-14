@@ -43,7 +43,7 @@ export const _getAstrologicalEffect = (
 ): number => {
   const methodData =
     allCookingMethods[method as unknown as keyof typeof allCookingMethods];
-  if (!methodData || !methodData.astrologicalInfluences) return 0.5;
+  if (!methodData?.astrologicalInfluences) return 0.5;
   let effectScore = 0.5; // Neutral score as default
   // Check zodiac sign
   if (
@@ -84,7 +84,7 @@ export const _calculateModifiedElementalEffect = (
 ): ElementalProperties => {
   const methodData =
     allCookingMethods[method as unknown as keyof typeof allCookingMethods];
-  if (!methodData || !methodData.elementalEffect) {
+  if (!methodData?.elementalEffect) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
   // Start with base elemental effect

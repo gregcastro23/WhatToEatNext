@@ -2869,7 +2869,7 @@ class FoodDiaryService {
     input: UpdateFoodDiaryEntryInput,
   ): Promise<FoodDiaryEntry | null> {
     const entry = this.entries.get(input.id);
-    if (!entry || entry.userId !== userId) {
+    if (entry?.userId !== userId) {
       return null;
     }
 
@@ -2966,7 +2966,7 @@ class FoodDiaryService {
    */
   async deleteEntry(userId: string, entryId: string): Promise<boolean> {
     const entry = this.entries.get(entryId);
-    if (!entry || entry.userId !== userId) {
+    if (entry?.userId !== userId) {
       return false;
     }
 
@@ -3357,7 +3357,7 @@ class FoodDiaryService {
     entryId: string,
   ): Promise<UserFoodFavorite | null> {
     const entry = this.entries.get(entryId);
-    if (!entry || entry.userId !== userId) return null;
+    if (entry?.userId !== userId) return null;
 
     // Update entry
     entry.isFavorite = true;
@@ -3436,7 +3436,7 @@ class FoodDiaryService {
     if (userEntryIds) {
       for (const entryId of userEntryIds) {
         const entry = this.entries.get(entryId);
-        if (entry && entry.foodName === removed.foodName && entry.isFavorite) {
+        if (entry?.foodName === removed.foodName && entry.isFavorite) {
           entry.isFavorite = false;
           entry.updatedAt = new Date();
           this.entries.set(entryId, entry);

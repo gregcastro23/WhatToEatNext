@@ -543,7 +543,7 @@ class NotificationDatabaseService {
     }
 
     const n = notificationsStore.get(notificationId);
-    if (n && n.userId === userId) {
+    if (n?.userId === userId) {
       n.isRead = true;
       return true;
     }
@@ -585,7 +585,7 @@ class NotificationDatabaseService {
     }
 
     const n = notificationsStore.get(notificationId);
-    if (n && n.userId === userId && n.type === "table_join_request") {
+    if (n?.userId === userId && n.type === "table_join_request") {
       n.metadata = { ...(n.metadata || {}), status };
       n.isRead = true;
       return true;

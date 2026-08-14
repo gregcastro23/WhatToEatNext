@@ -442,7 +442,7 @@ export function calculateNutritionalProgress(
 
   // Determine overall status
   let status: "under" | "on-track" | "over";
-  if (!goals || !goals.dailyCalories) {
+  if (!goals?.dailyCalories) {
     status = "on-track";
   } else {
     const caloriePercentage = percentages.calories;

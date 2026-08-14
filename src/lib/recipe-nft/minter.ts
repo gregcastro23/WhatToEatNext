@@ -49,7 +49,7 @@ export interface MintOnChainInput {
 
 function minterAccount() {
   const pk = process.env.RECIPE_MINTER_PRIVATE_KEY ?? process.env.MINTER_PRIVATE_KEY;
-  if (!pk || !pk.startsWith("0x")) return null;
+  if (!pk?.startsWith("0x")) return null;
   return privateKeyToAccount(pk as Hex);
 }
 

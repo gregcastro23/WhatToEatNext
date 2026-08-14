@@ -993,7 +993,7 @@ class TableDatabaseService {
   ): Promise<TableInvite | null> {
     try {
       const table = await this.getTableHostAndStatus(tableId);
-      if (!table || table.hostId !== hostId) return null;
+      if (table?.hostId !== hostId) return null;
 
       const token = randomBytes(24).toString("base64url");
       const expiresInHours = opts.expiresInHours ?? 168;

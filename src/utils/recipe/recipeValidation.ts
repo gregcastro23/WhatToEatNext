@@ -327,7 +327,7 @@ function validateComputationIntegrity(
 
   // Validate computation metadata
   const metadata = computed.computationMetadata;
-  if (!metadata || !metadata.planetaryPositionsUsed) {
+  if (!metadata?.planetaryPositionsUsed) {
     errors.push("Missing computation metadata");
     integrity = false;
   }

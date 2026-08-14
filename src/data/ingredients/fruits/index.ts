@@ -96,7 +96,7 @@ export const getFruitsByPreparation = (
     .filter(([_, value]) => {
       const fruitData = value as unknown as FruitDataLike;
       const preparationData = fruitData.preparation;
-      return preparationData && preparationData[String(method || "")];
+      return preparationData?.[String(method || "")];
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 

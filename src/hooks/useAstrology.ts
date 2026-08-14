@@ -161,7 +161,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
             }
           }
 
-          if (!response || !response.ok) {
+          if (!response?.ok) {
             const errorData = (await response?.json()) || {
               error: `API error: ${response?.status || "Network error"}`,
             };

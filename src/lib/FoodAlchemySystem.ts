@@ -520,7 +520,7 @@ export class FoodAlchemySystem {
     food: FoodCorrespondence,
     state: SystemState,
   ): number {
-    if (!food || !state || !state.elements) {
+    if (!food || !state?.elements) {
       return 0.5; // Default neutral value
     }
 
@@ -600,7 +600,7 @@ export class FoodAlchemySystem {
       const planetDegree = planetaryPositions[planetaryDay].degree;
 
       // Dignity effect bonus/penalty
-      if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
+      if (dayElements.dignityEffect?.[planetSign]) {
         dignityBonus = dayElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
         elementalScore = Math.min(
           1.0,
@@ -615,9 +615,7 @@ export class FoodAlchemySystem {
 
       // Apply decan effects if the planet is in its own decan
       if (
-        signInfo[planetSign] &&
-        signInfo[planetSign].decanEffects[decan] &&
-        signInfo[planetSign].decanEffects[decan].includes(planetaryDay)
+        signInfo[planetSign]?.decanEffects[decan]?.includes(planetaryDay)
       ) {
         decanBonus = 0.15;
         elementalScore = Math.min(1.0, elementalScore + decanBonus);
@@ -625,9 +623,7 @@ export class FoodAlchemySystem {
 
       // Apply degree effects
       if (
-        signInfo[planetSign] &&
-        signInfo[planetSign].degreeEffects[planetaryDay] &&
-        signInfo[planetSign].degreeEffects[planetaryDay].length === 2
+        signInfo[planetSign]?.degreeEffects[planetaryDay]?.length === 2
       ) {
         const [minDegree, maxDegree] =
           signInfo[planetSign].degreeEffects[planetaryDay];
@@ -674,13 +670,12 @@ export class FoodAlchemySystem {
     let aspectBonus = 0;
 
     // Apply dignity effects if we have planet positions
-    if (state.planetaryPositions && state.planetaryPositions[planetaryHour]) {
+    if (state.planetaryPositions?.[planetaryHour]) {
       const planetSign = state.planetaryPositions[planetaryHour].sign;
 
       // Dignity effect bonus/penalty
       if (
-        hourElements.dignityEffect &&
-        hourElements.dignityEffect[planetSign]
+        hourElements.dignityEffect?.[planetSign]
       ) {
         dignityBonus = hourElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
         elementalScore = Math.min(
@@ -976,7 +971,7 @@ export class FoodAlchemySystem {
     }
 
     // Check for planetary conditions that might require caution
-    if (state.planetaryPositions && state.planetaryPositions[food.planet]) {
+    if (state.planetaryPositions?.[food.planet]) {
       const planetSign = state.planetaryPositions[food.planet].sign;
       const dignityEffect =
         planetaryElements[food.planet].dignityEffect?.[planetSign];

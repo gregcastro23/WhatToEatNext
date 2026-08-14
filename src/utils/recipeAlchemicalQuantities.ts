@@ -244,7 +244,7 @@ function queryVariants(text: string): Set<string> {
   // Compound lines ("sea salt and pepper to taste") resolve as their first
   // item — query-side only, so catalog names keep their full identity.
   const firstSegment = text.split(/\s+and\s+/i)[0];
-  if (firstSegment && firstSegment.trim() && firstSegment !== text) {
+  if (firstSegment?.trim() && firstSegment !== text) {
     for (const v of catalogVariants(firstSegment)) set.add(v);
   }
   const tokens = tokenizeForMatch(text)

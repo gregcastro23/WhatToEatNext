@@ -124,7 +124,7 @@ export function LocationSearch({
 
   useEffect(() => {
     // Don't search if the query matches the selected location
-    if (selectedLocation && query === selectedLocation.displayName) {
+    if (query === selectedLocation?.displayName) {
       return;
     }
 

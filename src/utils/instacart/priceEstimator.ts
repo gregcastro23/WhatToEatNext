@@ -145,7 +145,7 @@ export function calculateBangForBuck(
   nutrition: RecipeNutrition | undefined | null,
   costPerServing: number
 ): BangForBuckScore {
-  if (!nutrition || !nutrition.calories || costPerServing <= 0) {
+  if (!nutrition?.calories || costPerServing <= 0) {
     return { score: 50, label: "Fair", caloriesPerDollar: 0, proteinPerDollar: 0 };
   }
 

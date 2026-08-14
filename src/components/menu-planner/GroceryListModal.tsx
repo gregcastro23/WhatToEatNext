@@ -978,7 +978,7 @@ export default function GroceryListModal({
                 >
                   Processing...
                 </button>
-              ) : amazonResolution && amazonResolution.resolved.length === 0 ? (
+              ) : amazonResolution?.resolved.length === 0 ? (
                 <>
                   <button
                     onClick={() => { void confirmUpdateCart("fresh"); }}

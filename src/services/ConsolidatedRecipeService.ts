@@ -91,7 +91,7 @@ export class ConsolidatedRecipeService {
 
   async searchRecipes(query: string): Promise<Recipe[]> {
     const recipes = await loadRecipes();
-    if (!query || !query.trim()) return recipes;
+    if (!query?.trim()) return recipes;
     const q = query.toLowerCase().trim();
     return recipes.filter((r) => {
       if (r.name?.toLowerCase().includes(q)) return true;

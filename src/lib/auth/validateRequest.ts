@@ -146,7 +146,7 @@ export async function validateToken(token: string): Promise<ValidationResult> {
     const userDatabase = await getUserDatabase();
     if (userDatabase) {
       const user = await userDatabase.getUserById(decoded.userId);
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         return {
           valid: false,
           error: "User account is inactive or deleted",

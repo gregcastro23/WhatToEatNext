@@ -124,7 +124,7 @@ export async function GET(_req: Request, props: { params: Promise<{ recipeId: st
 
     const sameCuisine = recipe.cuisine
       ? others
-          .filter((r) => r.cuisine && r.cuisine.toLowerCase() === recipe.cuisine!.toLowerCase())
+          .filter((r) => r.cuisine?.toLowerCase() === recipe.cuisine!.toLowerCase())
           .sort((a, b) => (b.monicaScore ?? 0) - (a.monicaScore ?? 0))
           .slice(0, 3)
           .map((r) => slim(r))

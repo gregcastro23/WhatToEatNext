@@ -596,7 +596,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Check cache first
     if (this.cuisineCompatibilityCache.has(cacheKey)) {
       const cached = this.cuisineCompatibilityCache.get(cacheKey) ?? undefined;
-      if (cached && cached[cuisine2]) {
+      if (cached?.[cuisine2]) {
         return cached[cuisine2];
       }
     }

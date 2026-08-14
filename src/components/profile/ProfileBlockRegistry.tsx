@@ -22,10 +22,10 @@ const InsightsTicker = ({ data }: { data: any }) => {
     const sun = placements.find((p: any) => p.planet === "Sun");
     const moon = placements.find((p: any) => p.planet === "Moon");
 
-    if (sun && sun.sign) {
+    if (sun?.sign) {
       list.push(`With Sun in ${sun.sign}, your alchemical constitution seeks corresponding solar coordinate flavors.`);
     }
-    if (moon && moon.sign) {
+    if (moon?.sign) {
       list.push(`The Moon in ${moon.sign} influences your nocturnal digestive patterns and hydration cycles.`);
     }
 

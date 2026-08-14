@@ -217,7 +217,7 @@ export async function discoverTables(
     where.push("t.visibility = 'public'");
   }
 
-  if (params.q && params.q.trim()) {
+  if (params.q?.trim()) {
     const like = `%${params.q.trim()}%`;
     where.push(`(t.title ILIKE ${p.add(like)} OR t.venue_name ILIKE ${p.add(like)})`);
   }

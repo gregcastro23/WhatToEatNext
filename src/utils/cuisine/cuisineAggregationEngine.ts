@@ -457,7 +457,7 @@ export function computeCuisineProperties(
   } else if (weightingStrategy === "popularity") {
     // Caller supplies the popularity signal via options.recipeWeights
     // (e.g. food_diary counts). Fall back to equal weighting if absent.
-    if (recipeWeights && recipeWeights.length === recipes.length) {
+    if (recipeWeights?.length === recipes.length) {
       weights = recipeWeights;
     } else {
       weights = undefined;
