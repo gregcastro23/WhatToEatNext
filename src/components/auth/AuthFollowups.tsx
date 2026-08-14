@@ -722,7 +722,7 @@ export function UpgradeGate({
 
   useEffect(() => {
     track("upgrade_gate_shown", { tier: currentTier, from });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- currentTier and from are mount-impression fields; prop changes must not emit duplicate telemetry.
 
   const tiers = useMemo(
     () =>

@@ -463,7 +463,9 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         {/* Drawer Backdrop Overlay */}
         {selectedCuisine && (
-          <div
+          <button
+            type="button"
+            aria-label="Close cuisine details"
             onClick={() => setSelectedCuisine(null)}
             style={{
               position: "fixed",

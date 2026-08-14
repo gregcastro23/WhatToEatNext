@@ -70,6 +70,8 @@ function StarRating({
           type="button"
           disabled={readonly}
           onClick={() => onChange?.(star)}
+          aria-label={`${star} star${star === 1 ? '' : 's'}`}
+          aria-pressed={star === value}
           className={`text-xl transition-transform ${
             readonly ? 'cursor-default' : 'hover:scale-110'
           } ${star <= (value ?? 0) ? 'text-yellow-400' : 'text-gray-200'}`}
@@ -242,6 +244,14 @@ function EntryCard({
   return (
     <div
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
       className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow group"
     >
       {/* Photo */}
@@ -662,9 +672,8 @@ function NewEntryForm({
         )}
 
         {/* Photos */}
-        <div>
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs font-medium text-gray-600 mb-2">Photos</label>
+        <div role="group" aria-labelledby="food-lab-photos-label">
+          <span id="food-lab-photos-label" className="block text-xs font-medium text-gray-600 mb-2">Photos</span>
           <div className="flex gap-2 flex-wrap">
             {photos.map((p, i) => (
               <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden">
@@ -804,15 +813,15 @@ function NewEntryForm({
         </div>
 
         {/* Elemental tags */}
-        <div>
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs text-gray-500 mb-2">Elemental Properties (select all that apply)</label>
+        <div role="group" aria-labelledby="food-lab-elements-label">
+          <span id="food-lab-elements-label" className="block text-xs text-gray-500 mb-2">Elemental Properties (select all that apply)</span>
           <div className="flex gap-2 flex-wrap">
             {(['Fire', 'Water', 'Earth', 'Air'] as const).map((el) => (
               <button
                 key={el}
                 type="button"
                 onClick={() => toggleElement(el)}
+                aria-pressed={form.elementalTags[el] !== undefined}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                   form.elementalTags[el] !== undefined
                     ? ELEMENT_COLORS[el]
@@ -826,9 +835,8 @@ function NewEntryForm({
         </div>
 
         {/* Rating */}
-        <div>
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs text-gray-500 mb-2">Your Rating</label>
+        <div role="group" aria-labelledby="food-lab-rating-label">
+          <span id="food-lab-rating-label" className="block text-xs text-gray-500 mb-2">Your Rating</span>
           <StarRating
             value={form.rating}
             onChange={(v) => setForm((p) => ({ ...p, rating: v }))}

@@ -296,7 +296,6 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     <div className={styles['cooking-methods-container']}>
       <div 
         className={`${styles['cooking-methods-header']} ${!showToggle ? styles['no-toggle'] : ''}`} 
-        onClick={showToggle ? toggleExpanded : undefined}
       >
         <h3 className={styles.title}>
           <Sparkles size={18} className={styles.titleIcon} />
@@ -313,17 +312,20 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         {/* Add ingredient search toggle button */}
         <button 
           className={`${styles['ingredient-search-toggle']} ${showIngredientSearch ? styles.active : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleIngredientSearch();
-          }}
+          onClick={toggleIngredientSearch}
           title="Check ingredient compatibility"
         >
           <Search size={18} />
         </button>
         
         {showToggle && (
-          <button className={styles['toggle-button']}>
+          <button
+            type="button"
+            className={styles['toggle-button']}
+            onClick={toggleExpanded}
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? 'Collapse cooking methods' : 'Expand cooking methods'}
+          >
             {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
         )}
@@ -369,6 +371,14 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                 key={method.id} 
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
                 onClick={() => onSelectMethod?.(method)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    onSelectMethod?.(method);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
@@ -523,6 +533,15 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                             e.stopPropagation(); // Prevent parent click
                             onSelectMethod?.(variation);
                           }}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              onSelectMethod?.(variation);
+                            }
+                          }}
+                          role="button"
+                          tabIndex={0}
                         >
                           <div className={styles['variation-header']}>
                             <span className={styles['variation-name']}>{variation.name}</span>
@@ -658,4 +677,4 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   );
 };
 
-export default CookingMethodsSection; 
+export default CookingMethodsSection;

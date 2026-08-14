@@ -416,7 +416,7 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
               }}
             />
           )}
-          <div className="alchm-pill" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
+          <div className="alchm-pill" onPointerLeave={scheduleClose} onPointerEnter={cancelClose}>
             {PRIMARY_KEYS.map((k) => {
               const section = NAV_IA[k];
               const isActive = k === resolved;
@@ -795,8 +795,8 @@ function MegaMenu({
       id={`alchm-mega-menu-${menuKey}`}
       role="region"
       aria-label={`${m.label} navigation`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onPointerEnter={onMouseEnter}
+      onPointerLeave={onMouseLeave}
       style={{
         position: "absolute",
         left: 0,

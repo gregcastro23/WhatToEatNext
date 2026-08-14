@@ -61,9 +61,11 @@ export function CustomizeDrawer({
 
   return (
     <>
-      <div
+      <button
+        type="button"
         className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
         onClick={onClose}
+        aria-label="Close layout customization"
       />
       <aside className="fixed right-0 top-0 h-full w-80 bg-[#0e0e1a] border-l border-white/10 z-50 flex flex-col shadow-2xl">
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">

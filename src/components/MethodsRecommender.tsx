@@ -148,12 +148,17 @@ export default function MethodsRecommender() {
     <div className={styles['cooking-methods-container']}>
       <div 
         className={`${styles['cooking-methods-header']} ${!showToggle ? styles['no-toggle'] : ''}`} 
-        onClick={showToggle ? toggleExpanded : undefined}
       >
         <h3>Recommended Cooking Methods</h3>
         
         {showToggle && (
-          <button className={styles['toggle-button']}>
+          <button
+            type="button"
+            className={styles['toggle-button']}
+            onClick={toggleExpanded}
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? 'Collapse cooking methods' : 'Expand cooking methods'}
+          >
             {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
         )}
@@ -166,6 +171,14 @@ export default function MethodsRecommender() {
               key={method.id} 
               className={`${styles['cooking-method-item']} ${selectedMethodId === method.id ? styles.selected : ''}`}
               onClick={() => handleMethodSelect(method.id)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  handleMethodSelect(method.id);
+                }
+              }}
+              role="button"
+              tabIndex={0}
             >
               <div className={styles['method-header']}>
                 <h4>{method.name}</h4>
@@ -276,4 +289,4 @@ export default function MethodsRecommender() {
       )}
     </div>
   );
-} 
+}

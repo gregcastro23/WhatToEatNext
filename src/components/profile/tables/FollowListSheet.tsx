@@ -81,22 +81,26 @@ export function FollowListSheet({
 
   useEffect(() => {
     if (open) setKind(initialKind);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, initialKind]);
 
   if (!open) return null;
 
   return (
     <div
       className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-label={kind === "followers" ? "Followers" : "Following"}
-      onClick={onClose}
+      role="presentation"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
     >
       <GlassPanel
         className="w-full max-w-md max-h-[80vh] overflow-y-auto p-6 bg-alchm-bg-elev"
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={kind === "followers" ? "Followers" : "Following"}
       >
         <div className="flex items-center justify-between mb-5">
           <div role="tablist" aria-label="Follow list scope" className="flex gap-4">

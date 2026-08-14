@@ -565,13 +565,14 @@
     transform: translateX(0);
     box-shadow: 0 0 60px 0 var(--accent-glow);
   }
-  .admin-shell.nav-open::after {
-    content: "";
+  .admin-shell button[data-shell-scrim] {
     position: fixed;
     inset: 56px 0 0 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 15;
     backdrop-filter: blur(2px);
+    border: 0;
+    padding: 0;
   }
   .dash-hamburger {
     display: inline-flex;

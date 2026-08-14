@@ -828,11 +828,11 @@ function MenuPlannerContent() {
               </div>
 
               <div className="p-6">
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block mb-2 text-xs font-label-caps text-on-surface-variant">
+                <label htmlFor="template-name" className="block mb-2 text-xs font-label-caps text-on-surface-variant">
                   Template Name
                 </label>
                 <input
+                  id="template-name"
                   type="text"
                   value={templateName}
                   onChange={(e) => setTemplateName(e.target.value)}
@@ -871,11 +871,11 @@ function MenuPlannerContent() {
 
               <div className="p-6 space-y-4">
                 <div>
-                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                  <label className="block mb-2 text-xs font-label-caps text-on-surface-variant">
+                  <label htmlFor="share-menu-title" className="block mb-2 text-xs font-label-caps text-on-surface-variant">
                     Menu Description/Title
                   </label>
                   <input
+                    id="share-menu-title"
                     type="text"
                     value={shareTitle}
                     onChange={(e) => setShareTitle(e.target.value)}

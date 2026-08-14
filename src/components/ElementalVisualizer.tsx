@@ -552,15 +552,18 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
           overflow: 'hidden',
           height: showDetails ? 'auto' : '40px'
         }}>
-          <div 
+          <button
+            type="button"
             className="details-header" 
             style={{ 
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between'
+              , width: '100%', background: 'none', border: 0, padding: 0
             }}
             onClick={handleToggleDetails}
+            aria-expanded={showDetails}
           >
             <span style={{ fontWeight: 'bold' }}>
               Element Details
@@ -568,7 +571,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
             <span style={{ fontSize: '10px' }}>
               {showDetails ? '▲' : '▼'}
             </span>
-          </div>
+          </button>
           
           {showDetails && (
             <div className="details-content" style={{ marginTop: '8px' }}>

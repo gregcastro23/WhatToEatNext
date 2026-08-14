@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 interface TechniqueData {
   name?: string;
@@ -127,13 +127,6 @@ export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) 
     };
   }, [open]);
 
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) onClose();
-    },
-    [onClose],
-  );
-
   if (!open) return null;
 
   const t = data?.technique;
@@ -142,16 +135,20 @@ export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) 
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${displayName} technique details`}
+      role="presentation"
     >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" />
+      <button
+        type="button"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+        aria-label="Close technique details"
+      />
 
       <div
         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#0a0a12] border border-white/10 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${displayName} technique details`}
       >
         <header className="sticky top-0 z-10 backdrop-blur-xl bg-[#0a0a12]/90 border-b border-white/10">
           <div className="flex items-start justify-between gap-4 px-5 py-4">

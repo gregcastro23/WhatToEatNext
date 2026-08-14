@@ -142,9 +142,9 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       {/* Search Input Fields */}
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
         <div className="sm:col-span-3">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-[10px] font-semibold text-white/60 uppercase tracking-wider mb-1">Search</label>
+          <label htmlFor="restaurant-search-query" className="block text-[10px] font-semibold text-white/60 uppercase tracking-wider mb-1">Search</label>
           <input
+            id="restaurant-search-query"
             type="text"
             value={query}
             onChange={(e) => { setQuery(e.target.value); handleInputChange(e.target.value, location); }}
@@ -153,9 +153,9 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
           />
         </div>
         <div className="sm:col-span-2">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-[10px] font-semibold text-white/60 uppercase tracking-wider mb-1">Location</label>
+          <label htmlFor="restaurant-search-location" className="block text-[10px] font-semibold text-white/60 uppercase tracking-wider mb-1">Location</label>
           <input
+            id="restaurant-search-location"
             type="text"
             value={location}
             onChange={(e) => { setLocation(e.target.value); handleInputChange(query, e.target.value); }}

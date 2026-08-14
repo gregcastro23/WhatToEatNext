@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 // ===== Types =====
 
@@ -294,13 +294,6 @@ export function IngredientDrawer({
     };
   }, [open]);
 
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) onClose();
-    },
-    [onClose],
-  );
-
   if (!open) return null;
 
   const ingredient = data?.ingredient;
@@ -348,21 +341,22 @@ export function IngredientDrawer({
   return (
     <div
       className="fixed inset-0 z-[100] flex justify-end"
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${displayName} details`}
+      role="presentation"
     >
       {/* Backdrop */}
-      <div
+      <button
+        type="button"
         className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]"
-        aria-hidden="true"
+        onClick={onClose}
+        aria-label="Close ingredient details"
       />
 
       {/* Drawer panel */}
       <aside
         className="relative h-full w-full sm:max-w-lg md:max-w-xl bg-[#0a0a12] border-l border-white/10 overflow-y-auto animate-[slideInRight_0.28s_cubic-bezier(0.2,0.9,0.3,1)] shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${displayName} details`}
       >
         {/* Header */}
         <header className="sticky top-0 z-10 backdrop-blur-xl bg-[#0a0a12]/90 border-b border-white/10">

@@ -55,14 +55,19 @@ export function ReportMessageDialog({ messageId, onClose }: ReportMessageDialogP
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Report message"
-      onClick={onClose}
+      role="presentation"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
     >
       <div
         className="w-full max-w-sm rounded-2xl border border-white/10 bg-alchm-bg-elev p-5"
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Report message"
       >
         {done ? (
           <div className="text-center">

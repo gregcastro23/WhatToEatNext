@@ -4,7 +4,6 @@ import { Loader2, Info } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { getPlanetaryDignity } from '@/utils/astrologyUtils';
-import { PlanetInfoModal as _PlanetInfoModal } from './PlanetInfoModal';
 
 // Define planet and zodiac symbols for the legend
 const PLANET_SYMBOLS: Record<string, string> = {

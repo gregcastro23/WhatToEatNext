@@ -192,6 +192,10 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
                     className="relative flex items-center gap-2 group/token cursor-default"
                     onMouseEnter={() => setHoveredToken(key)}
                     onMouseLeave={() => setHoveredToken(null)}
+                    onFocus={() => setHoveredToken(key)}
+                    onBlur={() => setHoveredToken(null)}
+                    role="button"
+                    tabIndex={0}
                   >
                     <motion.span
                       animate={isCreditFlashing ? { scale: [1, 1.35, 1] } : {}}

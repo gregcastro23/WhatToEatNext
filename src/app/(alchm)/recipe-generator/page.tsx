@@ -298,25 +298,37 @@ function AddToMealPlannerModal({ recipe, onClose, onAdded }: AddToMealPlannerPro
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+      role="presentation"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
+    >
       <div
         className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6"
-        onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-lg font-bold text-gray-800 mb-1">Add to Meal Planner</h3>
         <p className="text-sm text-gray-500 mb-4 truncate">{recipe.name}</p>
 
         {/* Day Selection */}
-        <div className="mb-4">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block">
+        <div className="mb-4" role="group" aria-labelledby="meal-planner-day-label">
+          <span
+            id="meal-planner-day-label"
+            className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block"
+          >
             Day
-          </label>
+          </span>
           <div className="grid grid-cols-7 gap-1">
             {DAYS_OF_WEEK.map((day, i) => (
               <button
                 key={day}
+                type="button"
                 onClick={() => setSelectedDay(i)}
+                aria-pressed={selectedDay === i}
                 className={`py-2 rounded-lg text-xs font-medium transition-all ${
                   selectedDay === i
                     ? "bg-purple-600 text-white shadow-md"
@@ -330,16 +342,20 @@ function AddToMealPlannerModal({ recipe, onClose, onAdded }: AddToMealPlannerPro
         </div>
 
         {/* Meal Type Selection */}
-        <div className="mb-6">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block">
+        <div className="mb-6" role="group" aria-labelledby="meal-planner-meal-label">
+          <span
+            id="meal-planner-meal-label"
+            className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2 block"
+          >
             Meal
-          </label>
+          </span>
           <div className="grid grid-cols-4 gap-2">
             {MEAL_TYPES.map((meal) => (
               <button
                 key={meal}
+                type="button"
                 onClick={() => setSelectedMeal(meal)}
+                aria-pressed={selectedMeal === meal}
                 className={`py-2.5 rounded-lg text-sm font-medium transition-all capitalize ${
                   selectedMeal === meal
                     ? "bg-amber-500 text-white shadow-md"

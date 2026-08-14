@@ -431,8 +431,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       window.removeEventListener("online", goOnline);
       window.removeEventListener("offline", goOffline);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [flushPendingUpdates]);
 
   useEffect(() => {
     void loadProfile();

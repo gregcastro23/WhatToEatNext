@@ -272,7 +272,8 @@ function RecipeDisplay({
       </div>
       {/* Environmental Match Indicator */}
       {recipe.isEnvironmentalMatch && (
-        <div
+        <button
+          type="button"
           className="flex items-center gap-1 text-xs text-emerald-300 mb-2 cursor-pointer"
           title={
             recipe.environmentalMatchDetails ||
@@ -282,7 +283,7 @@ function RecipeDisplay({
         >
           <span>🌍✨</span>
           <span className="font-medium">Environmental Match!</span>
-        </div>
+        </button>
       )}
       {/* Lunar Oracle Badge */}
       {recipe.optimal_cooking_window && (
@@ -556,6 +557,7 @@ export default function MealSlot({
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Native drag events belong to the labelled meal-slot group; its nested controls provide the keyboard actions.
     <div
       className={`
         relative rounded-xl border-2 p-3 backdrop-blur-md
@@ -572,6 +574,8 @@ export default function MealSlot({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onDragEnd={handleDragEnd}
+      role="group"
+      aria-label={`${mealSlot.mealType} meal slot`}
     >
       {/* Meal Type Header */}
       <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-white/10">

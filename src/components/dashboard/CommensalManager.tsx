@@ -332,9 +332,9 @@ function AddCommensalForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="sm:col-span-1">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs text-gray-500 mb-1">Name *</label>
+          <label htmlFor="commensal-name" className="block text-xs text-gray-500 mb-1">Name *</label>
           <input
+            id="commensal-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -343,9 +343,9 @@ function AddCommensalForm({
           />
         </div>
         <div className="sm:col-span-1">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs text-gray-500 mb-1">Relationship</label>
+          <label htmlFor="commensal-relationship" className="block text-xs text-gray-500 mb-1">Relationship</label>
           <select
+            id="commensal-relationship"
             value={relationship}
             onChange={(e) => setRelationship(e.target.value as GroupMember['relationship'])}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
@@ -356,9 +356,9 @@ function AddCommensalForm({
           </select>
         </div>
         <div className="sm:col-span-1">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs text-gray-500 mb-1">Birth Date &amp; Time *</label>
+          <label htmlFor="commensal-birth-date" className="block text-xs text-gray-500 mb-1">Birth Date &amp; Time *</label>
           <input
+            id="commensal-birth-date"
             type="datetime-local"
             value={dateTime}
             onChange={(e) => setDateTime(e.target.value)}
@@ -366,8 +366,7 @@ function AddCommensalForm({
           />
         </div>
         <div className="sm:col-span-2">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="block text-xs text-gray-500 mb-1">Birth Location *</label>
+          <label htmlFor="birth-location" className="block text-xs text-gray-500 mb-1">Birth Location *</label>
           <LocationSearch
             compact
             showCoordinates
@@ -381,8 +380,7 @@ function AddCommensalForm({
         </div>
         {timezone && (
           <div className="sm:col-span-1">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-xs text-gray-500 mb-1">Timezone</label>
+            <p className="block text-xs text-gray-500 mb-1">Timezone</p>
             <div className="px-3 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg border border-gray-200">
               {timezone}
             </div>
@@ -438,6 +436,15 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
         selected ? 'border-purple-400 bg-purple-50' : 'border-gray-200 bg-white hover:border-gray-300'
       }`}
       onClick={onToggle}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onToggle();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
     >
       <input
         type="checkbox"

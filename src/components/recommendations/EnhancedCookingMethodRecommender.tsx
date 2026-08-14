@@ -459,8 +459,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       .catch(() => {
         console.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshPlanetaryPositions]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1364,9 +1363,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-transparent rounded-xl border border-white/10 p-4 shadow-sm">
         {/* Focus dropdown */}
         <div className="flex items-center gap-2">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="text-xs font-semibold text-gray-500">Focus:</label>
+          <label htmlFor="cooking-method-focus" className="text-xs font-semibold text-gray-500">Focus:</label>
           <select
+            id="cooking-method-focus"
             value={focusMode}
             onChange={(e) => setFocusMode(e.target.value as FocusMode)}
             className="rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-sm font-medium text-gray-300 shadow-sm focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:outline-none"
@@ -1445,7 +1444,16 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               <div
                 className="cursor-pointer p-5"
                 onClick={() => toggleMethod(method.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggleMethod(method.id);
+                  }
+                }}
                 onDoubleClick={() => onDoubleClickMethod?.(method.name)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isExpanded}
               >
                 <div className="flex items-start gap-4">
                   {/* Rank badge */}

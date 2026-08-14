@@ -27,8 +27,8 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
     Air: 0.25,
   };
 
-  const handleClick = (e: React.MouseEvent) => {
-    if (onClick && !(e.target as HTMLElement).closest(".add-diary-btn")) {
+  const handleSelect = (target: EventTarget | null) => {
+    if (onClick && !(target instanceof HTMLElement && target.closest(".add-diary-btn"))) {
       onClick();
     }
   };
@@ -39,7 +39,15 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
     <>
       <div
         className="group relative max-w-sm overflow-hidden rounded-2xl border border-white/10 bg-[#08080e]/80 backdrop-blur-lg shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl cursor-pointer"
-        onClick={handleClick}
+        onClick={(event) => handleSelect(event.target)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleSelect(event.target);
+          }
+        }}
+        role="button"
+        tabIndex={0}
       >
         {/* Recipe Image */}
         <div className="relative h-48 w-full overflow-hidden">

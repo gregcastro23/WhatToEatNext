@@ -133,11 +133,11 @@ export function CookingEquipmentPanel({ methodKey, methodName }: CookingEquipmen
                         : categoryColor[cat]
                     }`}
                   >
-                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                     <label
                       htmlFor={`equip-${item.asin}`}
                       className="flex items-start gap-2 cursor-pointer min-w-0 flex-1 select-none"
                     >
+                      <span className="sr-only">Select {item.name}</span>
                       <input
                         id={`equip-${item.asin}`}
                         type="checkbox"

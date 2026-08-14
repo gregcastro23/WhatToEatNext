@@ -164,9 +164,9 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-xs text-gray-400 mb-1">Latitude</label>
+            <label htmlFor="chart-latitude" className="block text-xs text-gray-400 mb-1">Latitude</label>
             <input
+              id="chart-latitude"
               type="number"
               value={latitude}
               onChange={(e) => setLatitude(e.target.value)}
@@ -179,11 +179,11 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
           </div>
 
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-xs text-gray-400 mb-1">
+            <label htmlFor="chart-longitude" className="block text-xs text-gray-400 mb-1">
               Longitude
             </label>
             <input
+              id="chart-longitude"
               type="number"
               value={longitude}
               onChange={(e) => setLongitude(e.target.value)}

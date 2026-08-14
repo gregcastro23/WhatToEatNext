@@ -72,6 +72,7 @@ function QueueItemCard({
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Native drag events belong to this focusable list item; its nested controls provide the keyboard actions.
     <div
       className={`
         bg-white rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-all p-3 mb-2 cursor-move
@@ -80,6 +81,8 @@ function QueueItemCard({
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      role="listitem"
+      tabIndex={0}
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-2">

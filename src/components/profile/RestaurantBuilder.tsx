@@ -113,9 +113,9 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
           </div>
           <form onSubmit={handleCreateRestaurant} className="space-y-4">
             <div>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="block text-xs font-semibold text-purple-300 mb-1.5 uppercase tracking-wide">Restaurant Name *</label>
+              <label htmlFor="restaurant-name" className="block text-xs font-semibold text-purple-300 mb-1.5 uppercase tracking-wide">Restaurant Name *</label>
               <input
+                id="restaurant-name"
                 type="text" value={newRestName} onChange={(e) => setNewRestName(e.target.value)} required
                 className="w-full px-4 py-2.5 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 text-white placeholder-white/30 text-sm shadow-sm"
                 placeholder="e.g. Alchemical Kitchen"
@@ -123,18 +123,18 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block text-xs font-semibold text-purple-300 mb-1.5 uppercase tracking-wide">Cuisine Style *</label>
+                <label htmlFor="restaurant-cuisine" className="block text-xs font-semibold text-purple-300 mb-1.5 uppercase tracking-wide">Cuisine Style *</label>
                 <input
+                  id="restaurant-cuisine"
                   type="text" value={newRestCuisine} onChange={(e) => setNewRestCuisine(e.target.value)} required
                   className="w-full px-4 py-2.5 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 text-white placeholder-white/30 text-sm shadow-sm"
                   placeholder="e.g. Fusion, Italian, Vegan..."
                 />
               </div>
               <div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block text-xs font-semibold text-purple-300 mb-1.5 uppercase tracking-wide">Location (Optional)</label>
+                <label htmlFor="restaurant-location" className="block text-xs font-semibold text-purple-300 mb-1.5 uppercase tracking-wide">Location (Optional)</label>
                 <input
+                  id="restaurant-location"
                   type="text" value={newRestLocation} onChange={(e) => setNewRestLocation(e.target.value)}
                   className="w-full px-4 py-2.5 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 text-white placeholder-white/30 text-sm shadow-sm"
                   placeholder="e.g. Portland, OR"
@@ -186,6 +186,18 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
             const isEditing = editingRestaurantId === restaurant.id;
             const items = restaurant.menuItems || [];
             const totalItems = items.length;
+            const toggleRestaurantEditor = () => {
+              if (isEditing) {
+                setEditingRestaurantId(null);
+                return;
+              }
+              setEditingRestaurantId(restaurant.id);
+              setActiveCategory('Appetizers');
+              setNewItemName('');
+              setNewItemDesc('');
+              setNewItemPrice('');
+              setNewItemTags([]);
+            };
 
             return (
               <div
@@ -197,14 +209,16 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
                 {/* Header */}
                 <div
                   className={`p-4 cursor-pointer flex items-center justify-between ${isEditing ? 'bg-gradient-to-r from-purple-900/20 to-orange-900/20' : 'bg-white/5'}`}
-                  onClick={() => {
-                    if (isEditing) { setEditingRestaurantId(null); }
-                    else {
-                      setEditingRestaurantId(restaurant.id);
-                      setActiveCategory('Appetizers');
-                      setNewItemName(''); setNewItemDesc(''); setNewItemPrice(''); setNewItemTags([]);
+                  onClick={toggleRestaurantEditor}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      toggleRestaurantEditor();
                     }
                   }}
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isEditing}
                 >
                   <div>
                     <div className="flex items-center gap-3">
@@ -363,9 +377,8 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
                           />
 
                           {/* Dietary Tags */}
-                          <div>
-                            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                            <label className="block text-[10px] font-semibold text-white/50 uppercase tracking-wider mb-1.5">Dietary Tags</label>
+                          <div role="group" aria-labelledby="restaurant-dietary-tags-label">
+                            <span id="restaurant-dietary-tags-label" className="block text-[10px] font-semibold text-white/50 uppercase tracking-wider mb-1.5">Dietary Tags</span>
                             <div className="flex flex-wrap gap-2">
                               {DIETARY_TAGS.map(tag => {
                                 const isSelected = newItemTags.includes(tag.key);

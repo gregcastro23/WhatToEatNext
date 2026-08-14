@@ -72,11 +72,19 @@ export function AddToMealPlanButton({ recipe, servings }: Props) {
       {open && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-          onClick={() => setOpen(false)}
+          role="presentation"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setOpen(false);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setOpen(false);
+          }}
         >
           <div
             className="w-full max-w-md glass-card-premium rounded-2xl border border-white/8 p-6 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Schedule ${recipe.name}`}
           >
             <div className="flex items-start justify-between mb-4">
               <div>

@@ -356,11 +356,11 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
         {/* Group Selector */}
         {diningGroups.length > 0 && (
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="mb-2 block text-sm font-medium text-gray-700">
+            <label htmlFor="kalchm-recommendation-mode" className="mb-2 block text-sm font-medium text-gray-700">
               Recommendation Mode
             </label>
             <select
+              id="kalchm-recommendation-mode"
               value={selectedGroupId || "individual"}
               onChange={(e) =>
                 setSelectedGroupId(

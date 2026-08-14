@@ -208,6 +208,16 @@ export default function RecipeQuickView({
     onSelect?.(recipe);
   }, [onSelect, recipe]);
 
+  const handleSelectKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleSelect();
+      }
+    },
+    [handleSelect],
+  );
+
   const elementalProperties = recipe.elementalProperties || {
     Fire: 0.25,
     Water: 0.25,
@@ -240,8 +250,11 @@ export default function RecipeQuickView({
           ${className}
         `}
         onClick={handleSelect}
+        onKeyDown={handleSelectKeyDown}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        role="button"
+        tabIndex={0}
       >
         <div className="flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
@@ -284,8 +297,11 @@ export default function RecipeQuickView({
         ${className}
       `}
       onClick={handleSelect}
+      onKeyDown={handleSelectKeyDown}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      role="button"
+      tabIndex={0}
     >
       {/* Header */}
       <div className="p-3 pb-2">
@@ -499,6 +515,16 @@ export function MiniRecipeCard({
     onClick?.(recipe);
   }, [onClick, recipe]);
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleClick();
+      }
+    },
+    [handleClick],
+  );
+
   return (
     <div
       className={`
@@ -507,7 +533,10 @@ export function MiniRecipeCard({
         ${className}
       `}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       draggable
+      role="button"
+      tabIndex={0}
     >
       {/* Elemental indicator dot */}
       <div

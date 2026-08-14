@@ -121,6 +121,7 @@ export default function CosmicRecipeGenerator() {
   const [preferredCuisine, setPreferredCuisine] = useState<string>("");
   const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
   const [storedRecipe, setStoredRecipe] = useState<MonicaOptimizedRecipe | null>(null);
+  const [object, setObject] = useState<Partial<CosmicRecipe> | undefined>(undefined);
   const [isLikingRecipe, setIsLikingRecipe] = useState(false);
   const [likedRecipe, setLikedRecipe] = useState(false);
 
@@ -156,8 +157,7 @@ export default function CosmicRecipeGenerator() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedRecipeId]);
+  }, [object, savedRecipeId]);
 
   const mintCostLabel = (() => {
     if (!mintQuote?.enabled) return null;
@@ -286,7 +286,6 @@ export default function CosmicRecipeGenerator() {
   const preferredCuisineRef = useRef<string>("");
   preferredCuisineRef.current = preferredCuisine;
 
-  const [object, setObject] = useState<Partial<CosmicRecipe> | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [lastPayload, setLastPayload] = useState<unknown>(null);
@@ -503,11 +502,11 @@ export default function CosmicRecipeGenerator() {
           {showAdvanced && (
             <div className="mt-4 grid sm:grid-cols-2 gap-4 animate-in slide-in-from-top-2 fade-in duration-200">
               <div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                <label htmlFor="cosmic-key-ingredients" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                   Key Ingredients (use comma)
                 </label>
                 <input 
+                  id="cosmic-key-ingredients"
                   type="text" 
                   value={ingredientsMain}
                   onChange={(e) => setIngredientsMain(e.target.value)}
@@ -516,11 +515,11 @@ export default function CosmicRecipeGenerator() {
                 />
               </div>
               <div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                <label htmlFor="cosmic-avoid-ingredients" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                   Avoid Ingredients
                 </label>
                 <input 
+                  id="cosmic-avoid-ingredients"
                   type="text" 
                   value={disallowedIngredients}
                   onChange={(e) => setDisallowedIngredients(e.target.value)}
@@ -529,11 +528,11 @@ export default function CosmicRecipeGenerator() {
                 />
               </div>
               <div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                <label htmlFor="cosmic-preferred-cuisine" className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                   Preferred Cuisine
                 </label>
                 <select
+                  id="cosmic-preferred-cuisine"
                   value={preferredCuisine}
                   onChange={(e) => setPreferredCuisine(e.target.value)}
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-purple-500 outline-none"

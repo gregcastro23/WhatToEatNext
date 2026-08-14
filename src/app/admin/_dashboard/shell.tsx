@@ -62,6 +62,14 @@ export function AdminShell({
         }}
       >
         <AdminSideRail data={data} onNavigate={() => setNavOpen(false)} />
+        {navOpen && (
+          <button
+            type="button"
+            data-shell-scrim=""
+            aria-label="Close navigation"
+            onClick={() => setNavOpen(false)}
+          />
+        )}
         <main
           data-shell-main=""
           style={{
@@ -70,7 +78,6 @@ export function AdminShell({
             overflow: "auto",
             padding: "16px 20px 24px",
           }}
-          onClick={() => navOpen && setNavOpen(false)}
         >
           {children}
         </main>
