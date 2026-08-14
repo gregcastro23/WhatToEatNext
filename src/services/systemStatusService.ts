@@ -155,15 +155,49 @@ export function rollUpOverall(
 /**
  * Derive a single FlowStatus from a PathHealth observation. Exported for
  * unit tests.
+ *
+ * ── Why this reads `serverErrorRate` and not `errorRate` ────────────────────
+ *
+ * A 5xx means the server failed. A 4xx means the server understood the request
+ * and correctly refused it — that is the endpoint WORKING, and it must not page
+ * anyone.
+ *
+ * `[MEASURED 2026-08-14]` this distinction was not being made, and it cost 26
+ * false INCIDENT alerts in 7 days on the `economy` flow, each one emailing every
+ * admin. Over that window the whole request log held **9,819 requests and ZERO
+ * 5xx**; 6,427 of the 6,488 responses >= 400 were `402 insufficient_funds` on
+ * `/api/economy/sync-debit`, which is a documented outcome of that route (an
+ * agent tried to spend ESMS it does not have). The alarm was measuring how many
+ * agents are broke and reporting it as "/api/economy failing (100.0%)".
+ *
+ * The smallest sample behind one of those alerts was TWO requests, both 402.
+ *
+ * This is not a new policy — `probeRecommendations` already summed `errors5xx`
+ * rather than `errorRate` for exactly this reason. The other four call sites
+ * were simply never updated, so the rule now lives in the shared helper where
+ * it cannot drift again.
+ *
+ * ── What this deliberately does NOT do ──────────────────────────────────────
+ *
+ * No minimum sample size. It is tempting — the two-request alert above is
+ * embarrassing — but there is no evidence a 5xx is ever noise here (there were
+ * none at all to look at), and a minimum would silence a genuine lone 500 on a
+ * low-traffic route like `/api/stripe/webhook`. Narrowing on measured evidence
+ * is a fix; narrowing on a hunch is just a quieter alarm.
+ *
+ * `/api/economy/sync-debit` returned 500 on 100% of calls for twelve weeks
+ * without anything noticing (see `agentDebitPathHealth.ts`). A 100%-5xx path
+ * still reports INCIDENT here — that case gets stronger, not weaker, once the
+ * 402 noise stops burying it.
  */
 export function statusFromPathHealth(
   health: PathHealth,
   thresholds: { warnErrorRate: number; warnP95Ms: number; failErrorRate: number },
 ): FlowStatus {
   if (!health.observed) return "UNKNOWN";
-  if (health.errorRate >= thresholds.failErrorRate) return "INCIDENT";
+  if (health.serverErrorRate >= thresholds.failErrorRate) return "INCIDENT";
   if (
-    health.errorRate >= thresholds.warnErrorRate ||
+    health.serverErrorRate >= thresholds.warnErrorRate ||
     health.p95LatencyMs >= thresholds.warnP95Ms
   ) {
     return "DEGRADED";
@@ -499,7 +533,8 @@ async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
           : status === "INCIDENT"
             ? syntheticFreshFailure
               ? "Synthetic onboarding probe failing — flow is broken"
-              : `/api/onboarding is failing (${formatPct(onboardingHealth.errorRate)} error rate)`
+              : // serverErrorRate, to match the rate the verdict was made on.
+                `/api/onboarding server errors: ${formatPct(onboardingHealth.serverErrorRate)} of ${onboardingHealth.count} req`
             : "Awaiting signals",
     metrics: [
       { label: "Signups · 24h", value: `${signupsLast24h}`, raw: signupsLast24h },
@@ -749,7 +784,12 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
               // reader at a healthy endpoint.
               yieldHealth.verdict === "INCIDENT" && pathStatus !== "INCIDENT"
               ? yieldHealth.summary
-              : `/api/economy failing (${formatPct(economy.errorRate)})`
+              : // Report the rate the VERDICT was made on, and the sample it
+                // came from. The old message printed `errorRate` (4xx + 5xx)
+                // beside a verdict, which is how "/api/economy failing
+                // (100.0%)" got sent for two requests that both returned a
+                // correct 402.
+                `/api/economy server errors: ${formatPct(economy.serverErrorRate)} of ${economy.count} req`
             : "Awaiting signals",
     metrics: [
       { label: "Txns · 24h", value: `${txns24h}`, raw: txns24h },
@@ -766,9 +806,22 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
       },
       { label: "p95", value: formatLatency(economy.p95LatencyMs), raw: economy.p95LatencyMs },
       {
-        label: "Success rate",
-        value: economy.observed ? formatPct(economy.successRate) : "—",
-        raw: economy.successRate,
+        label: "Server errors",
+        value: economy.observed ? formatPct(economy.serverErrorRate) : "—",
+        raw: economy.serverErrorRate,
+      },
+      {
+        // `[MEASURED 2026-08-14]` this sits near 70% in steady state and that is
+        // healthy: it is `402 insufficient_funds` on sync-debit, i.e. how often
+        // an agent tried to spend ESMS it does not hold. Shown separately from
+        // "Server errors" so a reader is never asked to infer which kind of
+        // non-2xx they are looking at — the previous single "Success rate: 30%"
+        // read as an outage.
+        label: "Refused · 4xx",
+        value: economy.observed
+          ? formatPct(economy.count > 0 ? economy.errors4xx / economy.count : 0)
+          : "—",
+        raw: economy.count > 0 ? economy.errors4xx / economy.count : 0,
       },
     ],
     issues,
@@ -1066,7 +1119,8 @@ async function probeAgents(): Promise<FlowHealth> {
               ? debitHealth.summary
               : creditHealth.verdict === "INCIDENT"
                 ? creditHealth.summary
-                : `Feed ingest failing (${formatPct(feedPath.errorRate)})`
+                : // serverErrorRate, to match the rate the verdict was made on.
+                  `Feed ingest server errors: ${formatPct(feedPath.serverErrorRate)} of ${feedPath.count} req`
             : "Awaiting signals",
     metrics: [
       { label: "Agents", value: `${agentCount}`, raw: agentCount },
