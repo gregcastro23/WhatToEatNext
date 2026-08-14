@@ -6,7 +6,8 @@
  *    `token_transactions` ledger; a 67-user / 521.7-Spirit divergence has
  *    happened. This compares the materialized balances to per-axis ledger sums.
  *  - welcomeGrant: #744 moved the signup grant to user creation, but humans
- *    created before the fix can still hold no `signup_grant` row.
+ *    created before the fix can still hold no grant row at all. Both spellings
+ *    of the grant count as covered — see `welcomeGrantCoverageSql`.
  *  - onchainClaims: `esms_onchain_claims` rows stuck in `pending` mean a user
  *    was debited off-chain with no confirmed mint — retryable, but only if
  *    someone can see the backlog.
@@ -41,7 +42,9 @@ export interface LedgerDriftStatus {
 }
 
 export interface WelcomeGrantCoverage {
-  /** Human users holding no `signup_grant` ledger row — should trend to 0. */
+  /** Non-agent users holding no welcome grant under EITHER spelling
+   *  (`signup_grant`, or its closed-set predecessor `initial_grant`).
+   *  0 in production as of 2026-08-13; a non-zero value is a real miss. */
   humansWithoutGrant: number;
   live: boolean;
 }

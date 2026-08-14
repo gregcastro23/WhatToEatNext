@@ -286,7 +286,7 @@ export function EconomyIntegrityPanel({
     : welcomeGrant.humansWithoutGrant === 0
       ? {
           value: "COVERED",
-          sub: "every human holds signup_grant",
+          sub: "every non-agent holds a welcome grant",
           tone: "ok" as IntegrityTone,
           action: undefined,
         }
