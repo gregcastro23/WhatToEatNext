@@ -330,11 +330,11 @@ export default [
       yoda: "warn",
 
       // Code Quality - RELAXED FOR ALCHEMICAL CALCULATIONS
-      // Formally declined from debt tracking on 2026-08-14: complexity (372),
-      // max-depth (99), max-lines (618), and max-lines-per-function (2,039).
+      // Formally declined from debt tracking on 2026-08-14: complexity,
+      // max-depth, max-lines, and max-lines-per-function.
       // These are refactor prompts, not defect indicators; thermodynamic formulas,
       // astrological computations, and their component surfaces are legitimately
-      // complex. The audit baseline records their 3,128 findings separately.
+      // complex. The audit baseline records their measured counts separately.
       complexity: "off",
       "max-depth": "off",
       "max-lines": "off",
