@@ -112,7 +112,7 @@ export function useMealSlots({
       dayOfWeek: DayOfWeek,
       mealType: MealType,
       recipe: MonicaOptimizedRecipe,
-      servings: number = 1,
+      servings = 1,
       locked?: boolean,
     ) => {
       if (!currentMenu) return;
@@ -370,7 +370,7 @@ export function useMealSlots({
   // -------------------------------------------------------------------------
 
   const addSauceToMeal = useCallback(
-    (mealSlotId: string, sauceId: string, servings: number = 1) => {
+    (mealSlotId: string, sauceId: string, servings = 1) => {
       if (!currentMenu) return;
       // Dynamic import to avoid circular deps at module level
       const { allSauces } = require("@/data/sauces");

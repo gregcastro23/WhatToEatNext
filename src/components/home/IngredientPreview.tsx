@@ -179,9 +179,9 @@ export default function IngredientPreview() {
         if (signEl) weights[signEl] += 0.6;
       }
     }
-    const top = (Object.entries(weights) as Array<[ElementKey, number]>).sort(
+    const [top] = (Object.entries(weights) as Array<[ElementKey, number]>).sort(
       (a, b) => b[1] - a[1],
-    )[0];
+    );
     return top?.[1] > 0 ? top[0] : "Fire";
   }, [planetaryPositions]);
 

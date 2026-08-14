@@ -536,15 +536,15 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       const methodThermo = method.thermodynamicProperties || getCookingMethodThermodynamics(id) || { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
 
-      const gregsEnergy = calculateGregsEnergy({
+      const { gregsEnergy } = calculateGregsEnergy({
         Spirit: transformedESMS.Spirit, Essence: transformedESMS.Essence,
         Matter: transformedESMS.Matter, Substance: transformedESMS.Substance,
         Fire: method.elementalEffect.Fire, Water: method.elementalEffect.Water,
         Air: method.elementalEffect.Air, Earth: method.elementalEffect.Earth,
-      }).gregsEnergy;
+      });
 
       const kalchm = calculateKalchm(transformedESMS);
-      const reactivity = methodThermo.reactivity;
+      const { reactivity } = methodThermo;
       const monica = gregsEnergy !== null && kalchm ? calculateMonica(gregsEnergy, reactivity, kalchm) : null;
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;
@@ -727,8 +727,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     { key: "equipment", label: "Equipment", icon: "🛒" },
   ];
 
-  const renderRecipesTab = (method: (typeof currentMethods)[0]) => {
-    return (
+  const renderRecipesTab = (method: (typeof currentMethods)[0]) => (
       <div className="space-y-4">
         <div className="rounded-xl border border-white/10 bg-transparent/5 p-5 shadow-sm">
           <h4 className="text-sm font-bold text-gray-200 mb-2 flex items-center gap-2">
@@ -772,7 +771,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </div>
       </div>
     );
-  };
 
   // ============================================================================
   // RENDER: Overview Tab

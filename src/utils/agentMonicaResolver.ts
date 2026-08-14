@@ -216,7 +216,7 @@ export function parseAgentPlacement(rawName: string): AgentPlacement | null {
  */
 export function agentMonicaFromName(name: string): AgentMonica | null {
   const placement = parseAgentPlacement(name);
-  if (!placement || placement.kind !== "single") return null;
+  if (placement?.kind !== "single") return null;
   return agentMonica(placement.planet, placement.sign, placement.degree);
 }
 
@@ -238,7 +238,7 @@ export function agentMonicaFromName(name: string): AgentMonica | null {
  */
 export function twoBodyMonicaFromName(name: string): AgentMonica | null {
   const placement = parseAgentPlacement(name);
-  if (!placement || placement.kind !== "phase") return null;
+  if (placement?.kind !== "phase") return null;
   return twoBodyMonica(placement.phase ?? "", placement.sign, placement.degree);
 }
 

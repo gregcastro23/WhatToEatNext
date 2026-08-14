@@ -100,9 +100,9 @@ function getAstrologicallyInformedFlavorProfile(
     return generateFlavorProfileFromElements(elementalProps);
   }
 
-  const primaryElement = Object.entries(elementalProps).sort(
+  const [[primaryElement]] = Object.entries(elementalProps).sort(
     (a, b) => b[1] - a[1],
-  )[0][0];
+  );
 
   return `${flavorAttributes.join(", ")} flavors with ${getElementalDescription(primaryElement)} characteristics`;
 }

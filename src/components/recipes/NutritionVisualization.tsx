@@ -84,8 +84,8 @@ function MacroTooltip({ active, payload }: {
   active?: boolean;
   payload?: MacroTooltipPayload[];
 }) {
-  if (!active || !payload || !payload.length) return null;
-  const p = payload[0];
+  if (!active || !payload?.length) return null;
+  const [p] = payload;
   const name = p.name ?? "";
   const cals = p.value ?? 0;
   const grams = p.payload?.grams ?? 0;

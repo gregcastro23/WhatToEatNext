@@ -28,7 +28,7 @@ export default function AlchemicalPropertiesDisplay({
     { name: 'Substance', value: values.Substance, color: 'bg-emerald-500', barColor: 'from-emerald-400 to-emerald-600', icon: '⬢' },
   ];
 
-  const formatValue = (value: number = 0) => value.toFixed(4);
+  const formatValue = (value = 0) => value.toFixed(4);
 
   return (
     <div className={`p-6 rounded-xl shadow-sm border ${isDaytime ? 'bg-white/80 border-amber-100' : 'bg-white/90 border-indigo-100'} ${className}`}>

@@ -23,8 +23,8 @@ import type {
 export function degreesToSVGCoords(
   longitude: number,
   radius: number,
-  centerX: number = 250,
-  centerY: number = 250,
+  centerX = 250,
+  centerY = 250,
 ): { x: number; y: number } {
   // Convert to radians, adjusting so 0° Aries is at top (90° in standard coords)
   const radians = ((longitude - 90) * Math.PI) / 180;
@@ -204,7 +204,7 @@ export function getElementColor(element: string): string {
 export function formatDegreeString(
   sign: ZodiacSignType,
   degree: number,
-  minute: number = 0,
+  minute = 0,
 ): string {
   const signName = sign.charAt(0).toUpperCase() + sign.slice(1);
   const degreeInt = Math.floor(degree);
@@ -226,8 +226,8 @@ export function getZodiacArcPath(
   signIndex: number,
   innerRadius: number,
   outerRadius: number,
-  centerX: number = 250,
-  centerY: number = 250,
+  centerX = 250,
+  centerY = 250,
 ): string {
   const startAngle = signIndex * 30 - 90; // -90 to start at top
   const endAngle = startAngle + 30;

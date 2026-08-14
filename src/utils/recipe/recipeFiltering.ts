@@ -142,9 +142,7 @@ export class RecipeFilter {
           const recipeIngredients = recipe.ingredients || [];
           const hasIngredients = options.ingredients.every((ingredient) =>
             recipeIngredients.some(
-              (ri) =>
-                ri.name &&
-                ri.name.toLowerCase().includes(ingredient.toLowerCase()),
+              (ri) => ri.name?.toLowerCase().includes(ingredient.toLowerCase()),
             ),
           );
           if (!hasIngredients) return false;
@@ -157,9 +155,7 @@ export class RecipeFilter {
             (recipe.name || "").toLowerCase().includes(query) ||
             (recipe.description || "").toLowerCase().includes(query) ||
             (recipe.ingredients || []).some(
-              (ingredient) =>
-                ingredient.name &&
-                ingredient.name.toLowerCase().includes(query),
+              (ingredient) => ingredient.name?.toLowerCase().includes(query),
             );
           if (!matchesSearch) return false;
         }
@@ -260,8 +256,7 @@ export class RecipeFilter {
           const hasExcluded = options.excludedIngredients.some((excluded) =>
             recipeIngredients.some(
               (ingredient) =>
-                ingredient.name &&
-                ingredient.name.toLowerCase().includes(excluded.toLowerCase()),
+                ingredient.name?.toLowerCase().includes(excluded.toLowerCase()),
             ),
           );
           if (hasExcluded) return false;
@@ -328,9 +323,7 @@ export class RecipeFilter {
           const recipeIngredients = recipe.ingredients || [];
           const favoriteCount = options.favoriteIngredients.filter((favorite) =>
             recipeIngredients.some(
-              (ri) =>
-                ri.name &&
-                ri.name.toLowerCase().includes(favorite.toLowerCase()),
+              (ri) => ri.name?.toLowerCase().includes(favorite.toLowerCase()),
             ),
           ).length;
           score *= 1 + favoriteCount * 0.1; // 10% bonus per favorite ingredient
@@ -479,8 +472,7 @@ export class RecipeFilter {
       ];
       const hasLowCarb = ingredients.some((ingredient) =>
         lowCarbIngredients.some(
-          (carb) =>
-            ingredient.name && ingredient.name.toLowerCase().includes(carb),
+          (carb) => ingredient.name?.toLowerCase().includes(carb),
         ),
       );
 
@@ -488,8 +480,7 @@ export class RecipeFilter {
       const highCarbIngredients = ["rice", "pasta", "bread", "potato", "sugar"];
       const hasHighCarb = ingredients.some((ingredient) =>
         highCarbIngredients.some(
-          (carb) =>
-            ingredient.name && ingredient.name.toLowerCase().includes(carb),
+          (carb) => ingredient.name?.toLowerCase().includes(carb),
         ),
       );
 
@@ -520,15 +511,13 @@ export class RecipeFilter {
 
       const hasPaleo = ingredients.some((ingredient) =>
         paleoIngredients.some(
-          (paleo) =>
-            ingredient.name && ingredient.name.toLowerCase().includes(paleo),
+          (paleo) => ingredient.name?.toLowerCase().includes(paleo),
         ),
       );
 
       const hasNonPaleo = ingredients.some((ingredient) =>
         nonPaleoIngredients.some(
-          (nonPaleo) =>
-            ingredient.name && ingredient.name.toLowerCase().includes(nonPaleo),
+          (nonPaleo) => ingredient.name?.toLowerCase().includes(nonPaleo),
         ),
       );
 
@@ -595,9 +584,7 @@ export class RecipeFilter {
       // Ingredient match
       const ingredients = recipe.ingredients || [];
       const hasIngredientMatch = ingredients.some(
-        (ingredient) =>
-          ingredient.name &&
-          ingredient.name.toLowerCase().includes(searchQuery),
+        (ingredient) => ingredient.name?.toLowerCase().includes(searchQuery),
       );
       if (hasIngredientMatch) {
         relevanceScore += 0.2;
@@ -734,8 +721,7 @@ export class RecipeFilter {
         const cuisineIngredients = ingredients.filter((ingredient) =>
           cuisineTypes.some(
             (cuisine) =>
-              ingredient.name &&
-              ingredient.name.toLowerCase().includes(cuisine.toLowerCase()),
+              ingredient.name?.toLowerCase().includes(cuisine.toLowerCase()),
           ),
         );
 
@@ -787,8 +773,7 @@ export class RecipeFilter {
 
       return ingredients.some((ingredient) =>
         highProteinFoods.some(
-          (food) =>
-            ingredient.name && ingredient.name.toLowerCase().includes(food),
+          (food) => ingredient.name?.toLowerCase().includes(food),
         ),
       );
     } catch (error) {
@@ -822,8 +807,7 @@ export class RecipeFilter {
 
       return !ingredients.some((ingredient) =>
         highCarbFoods.some(
-          (carb) =>
-            ingredient.name && ingredient.name.toLowerCase().includes(carb),
+          (carb) => ingredient.name?.toLowerCase().includes(carb),
         ),
       );
     } catch (error) {
@@ -882,8 +866,7 @@ export function filterRecipesByIngredientMappings(
           (required) =>
             ingredients.some(
               (ingredient) =>
-                ingredient.name &&
-                ingredient.name.toLowerCase().includes(required.toLowerCase()),
+                ingredient.name?.toLowerCase().includes(required.toLowerCase()),
             ),
         );
         if (!hasAllRequired) return false;
@@ -894,8 +877,7 @@ export function filterRecipesByIngredientMappings(
         const hasAvoided = ingredientRequirements.avoided.some((avoided) =>
           ingredients.some(
             (ingredient) =>
-              ingredient.name &&
-              ingredient.name.toLowerCase().includes(avoided.toLowerCase()),
+              ingredient.name?.toLowerCase().includes(avoided.toLowerCase()),
           ),
         );
         if (hasAvoided) return false;

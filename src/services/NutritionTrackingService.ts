@@ -154,7 +154,7 @@ export class NutritionTrackingService {
     const base = createEmptyNutritionalSummary();
     if (!meal.recipe) return base;
 
-    const recipe = meal.recipe;
+    const { recipe } = meal;
     const nutrition = recipe.nutrition as Record<string, number | undefined> | undefined;
     const servings = meal.servings || 1;
 

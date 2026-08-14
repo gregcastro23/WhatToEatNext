@@ -606,7 +606,7 @@ function buildCard({
     elements[sectElement] += SECT_WEIGHT;
   }
 
-  const dignityEsmsScale = contribution.dignityEsmsScale;
+  const { dignityEsmsScale } = contribution;
   const multiplier = contribution.dignityMultiplier;
   // A speed of exactly 0 is astronomy-engine's "no motion computed" sentinel
   // (serverPlanetaryCalculations initializes longitudeSpeed = 0 and only
@@ -814,14 +814,14 @@ function buildCard({
   const ry = esms.Spirit - esms.Matter;
   const resultantMagnitude = Math.hypot(rx, ry);
   const resultantAngle = normalizeAngle((Math.atan2(ry, rx) * 180) / Math.PI);
-  const dominant = (
+  const [[dominant]] = (
     Object.entries(esms) as Array<[FBDResultant["dominant"], number]>
-  ).sort((a, b) => b[1] - a[1])[0][0];
+  ).sort((a, b) => b[1] - a[1]);
 
   const elementalEntries = Object.entries(elements) as Array<
     ["Fire" | "Water" | "Earth" | "Air", number]
   >;
-  const dominantElement = elementalEntries.sort((a, b) => b[1] - a[1])[0][0];
+  const [[dominantElement]] = elementalEntries.sort((a, b) => b[1] - a[1]);
 
   return {
     planet,

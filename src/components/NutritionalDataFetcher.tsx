@@ -49,8 +49,8 @@ function ZodiacRecommendations({ dominantElement }: { dominantElement: Element }
     .filter(([_sign, data]) => {
       // Find signs that need this element the most
       const elementNeeds = data.elementalNeeds;
-      const dominantElementNeeded = Object.entries(elementNeeds)
-        .sort(([_a, valueA], [_b, valueB]) => valueB - valueA)[0][0];
+      const [[dominantElementNeeded]] = Object.entries(elementNeeds)
+        .sort(([_a, valueA], [_b, valueB]) => valueB - valueA);
       return dominantElementNeeded === dominantElement;
     })
     .map(([sign]) => sign as ZodiacSign);

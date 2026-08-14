@@ -333,7 +333,7 @@ export const flattenCuisineRecipes = (cuisinesData: Record<string, any>): Recipe
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
     const cuisine = cuisinesData[cuisineName] || cuisinesData[cuisineName.toLowerCase()] || cuisinesData[cuisineName.toUpperCase()];
 
-    if (cuisine && cuisine.dishes) {
+    if (cuisine?.dishes) {
       Object.entries(cuisine.dishes).forEach(
         ([mealType, mealTypeData]: [string, unknown]) => {
           if (mealTypeData && typeof mealTypeData === "object") {

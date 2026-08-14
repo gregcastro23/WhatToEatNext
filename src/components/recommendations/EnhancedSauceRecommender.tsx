@@ -140,7 +140,7 @@ function SauceResultCard({ result, rank }: { result: CuisineSauceResult; rank: n
   const [expanded, setExpanded] = useState(false);
   const [scaleMultiplier, setScaleMultiplier] = useState(1);
   const dataSauce = result.sauce.dataKey ? allSauces[result.sauce.dataKey] : undefined;
-  const sauce = result.sauce;
+  const { sauce } = result;
 
   const scaledIngredients = useMemo(() => {
     const ings = sauce.ingredients ?? dataSauce?.ingredients;

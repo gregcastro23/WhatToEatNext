@@ -29,12 +29,11 @@ export function getSeasonalScore(
   season: Season = getCurrentSeason(),
 ): number {
   // Check if the ingredient exists in seasonal patterns
-  if (!seasonalPatterns[season] || !seasonalPatterns[season][ingredientName]) {
+  if (!seasonalPatterns[season]?.[ingredientName]) {
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
     if (
       season !== "all" &&
-      seasonalPatterns["all"] &&
-      seasonalPatterns["all"][ingredientName]
+      seasonalPatterns["all"]?.[ingredientName]
     ) {
       return seasonalPatterns["all"][ingredientName] as number;
     }

@@ -82,7 +82,7 @@ export function formatPersonaBlock(agent: CraftedAgent): string {
   const challengesBlock = formatChallenges(agent.personality?.challenges)
   if (challengesBlock) sections.push(['## Challenges', challengesBlock].join('\n'))
 
-  const abilities = agent.abilities
+  const { abilities } = agent
   if (abilities) {
     const abilLines = [
       `- **Specialty**: ${abilities.specialty}`,

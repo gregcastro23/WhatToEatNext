@@ -18,9 +18,9 @@ export const timingUtils = {
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(
+      const [[cuisineElement]] = Object.entries(
         cuisineProfile.elementalAlignment,
-      ).sort(([, a], [, b]) => b - a)[0][0];
+      ).sort(([, a], [, b]) => b - a);
 
       return this.applyCuisineModifiers(baseTiming, cuisineElement);
     }
@@ -59,7 +59,7 @@ export const timingUtils = {
 
     // Implement getDominantElement directly
     const entries = Object.entries(baseProperties);
-    const dominantElement = entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
+    const [dominantElement] = entries.reduce((a, b) => (a[1] > b[1] ? a : b));
 
     // Base timing by dominant element (in minutes)
     const elementalTiming: Record<string, number> = {

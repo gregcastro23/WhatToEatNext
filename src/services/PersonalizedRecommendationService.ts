@@ -61,8 +61,8 @@ export interface PersonalizationContext {
 }
 
 class PersonalizedRecommendationService {
-  private chartComparisonCache: Map<string, ChartComparison> = new Map();
-  private cacheExpiryMs = 5 * 60 * 1000; // 5 minutes
+  private readonly chartComparisonCache: Map<string, ChartComparison> = new Map();
+  private readonly cacheExpiryMs = 5 * 60 * 1000; // 5 minutes
 
   /**
    * Get or calculate chart comparison for a user
@@ -214,7 +214,7 @@ class PersonalizedRecommendationService {
     }
 
     // Elemental harmony
-    const favorableElements = chartComparison.insights.favorableElements;
+    const { favorableElements } = chartComparison.insights;
     const itemDominantElement = this.getDominantElement(
       item.elementalProperties,
     ) as Element;

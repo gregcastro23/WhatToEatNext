@@ -383,14 +383,11 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
     return weights;
   }, [planetaryPositions]);
 
-  const dominantTransitElement = useMemo<ElementKey>(() => {
-    return (Object.entries(resonance) as Array<[ElementKey, number]>).sort(
+  const dominantTransitElement = useMemo<ElementKey>(() => (Object.entries(resonance) as Array<[ElementKey, number]>).sort(
       (a, b) => b[1] - a[1],
-    )[0][0];
-  }, [resonance]);
+    )[0][0], [resonance]);
 
-  const derived = useMemo<DerivedIngredient[]>(() => {
-    return ingredients.map((ing) => {
+  const derived = useMemo<DerivedIngredient[]>(() => ingredients.map((ing) => {
       const lookupKey = normalizeAmazonIngredientKey(ing.name || "");
       const staticAsin = resolveAsin(ing.name || "");
       const liveLookup = amazonLookups[lookupKey];
@@ -420,8 +417,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
         seasons: seasonsOf(ing),
         lookupPending: lookupStatus === "loading" && !staticAsin && !liveLookup,
       };
-    });
-  }, [ingredients, amazonLookups, lookupStatus, resonance]);
+    }), [ingredients, amazonLookups, lookupStatus, resonance]);
 
   const filteredCandidates = useMemo(() => {
     const cat = CATEGORY_CHOICES.find((c) => c.id === category) ?? CATEGORY_CHOICES[0];
@@ -505,11 +501,9 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
     };
   }, [amazonLookups, filteredCandidates]);
 
-  const filtered = useMemo(() => {
-    return verifiedOnly
+  const filtered = useMemo(() => verifiedOnly
       ? filteredCandidates.filter(({ asin }) => Boolean(asin))
-      : filteredCandidates;
-  }, [filteredCandidates, verifiedOnly]);
+      : filteredCandidates, [filteredCandidates, verifiedOnly]);
 
   const verifiedCount = derived.filter((d) => d.asin).length;
   const optimizedCount = derived.length;

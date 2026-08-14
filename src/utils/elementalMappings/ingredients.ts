@@ -402,9 +402,9 @@ export const _getSeasonalIngredients = (season: string) =>
 export const _getComplementaryIngredients = (
   ingredient: keyof typeof ingredientMappings,
 ) => {
-  const baseElement = Object.entries(
+  const [baseElement] = Object.entries(
     ingredientMappings[ingredient].elementalProperties,
-  ).reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
+  ).reduce((max, curr) => (curr[1] > max[1] ? curr : max));
 
   return Object.entries(ingredientMappings)
     .filter(([name, mapping]) => {

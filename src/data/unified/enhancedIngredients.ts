@@ -897,11 +897,11 @@ export class EnhancedIngredientsSystem {
       // Index by dominant element
       const elementalProps = ingredient.elementalProperties;
       if (elementalProps) {
-        const dominantElement = Object.entries(elementalProps).reduce(
+        const [dominantElement] = Object.entries(elementalProps).reduce(
           (max, [element, value]) =>
             Number(value) > Number(max[1]) ? [element, value] : max,
           ["Fire", 0],
-        )[0];
+        );
         const elementIngredients =
           this.elementalIndex.get(dominantElement) || [];
         elementIngredients.push(ingredient.name);
@@ -1240,10 +1240,10 @@ export class EnhancedIngredientsSystem {
     };
     // Find dominant element
     const elementalProps = ingredient.elementalProperties;
-    const dominantElement = Object.entries(elementalProps).reduce(
+    const [dominantElement] = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max[1] ? [element, value] : max),
       ["Fire", 0],
-    )[0];
+    );
     return (
       seasonalityByElement[dominantElement] || {
         peak: ["summer"],

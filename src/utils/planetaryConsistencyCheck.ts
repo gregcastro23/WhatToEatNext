@@ -69,11 +69,11 @@ export function logPlanetaryConsistencyCheck(): void {
   const issues = validatePlanetaryModifiers();
 
   if (issues.length === 0) {
-    if (typeof logger !== "undefined" && logger.info) {
+    if (logger?.info) {
       logger.info("✅ Planetary modifiers are consistent");
     }
   } else {
-    if (typeof logger !== "undefined" && logger.error) {
+    if (logger?.error) {
       logger.error("❌ Planetary modifier consistency issues found: ");
       issues.forEach((issue) => logger.error(`- ${issue}`));
     }

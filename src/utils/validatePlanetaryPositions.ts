@@ -55,11 +55,11 @@ export function getCurrentTransitSign(
   date: Date = new Date(),
 ): ZodiacSignType | null {
   const planetData = planetDataMap[planet];
-  if (!planetData || !planetData.PlanetSpecific) return null;
+  if (!planetData?.PlanetSpecific) return null;
   const { TransitDates } = planetData.PlanetSpecific;
   if (!TransitDates) return null;
 
-  const currentDateString = date.toISOString().split("T")[0]; // YYYY-MM-DD format
+  const [currentDateString] = date.toISOString().split("T"); // YYYY-MM-DD format
 
   for (const [sign, transit] of Object.entries(TransitDates)) {
     if (!transit.Start || !transit.End) continue;

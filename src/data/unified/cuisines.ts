@@ -373,7 +373,7 @@ export class CuisineEnhancer {
   /**
    * Enhance a cuisine with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceCuisine(cuisine: Record<string, unknown>, sourceFile: string = 'unknown'): EnhancedCuisine {
+  static enhanceCuisine(cuisine: Record<string, unknown>, sourceFile = 'unknown'): EnhancedCuisine {
     // Calculate cuisine Kalchm and analysis
     const kalchmAnalysis = this.calculateCuisineKalchm(cuisine);
     // Calculate elemental balance
@@ -438,7 +438,7 @@ export class CuisineAnalyzer {
   static findKalchmSimilarCuisines(
     targetCuisine: EnhancedCuisine,
     cuisinePool: EnhancedCuisine[],
-    tolerance: number = 0.2,
+    tolerance = 0.2,
   ): EnhancedCuisine[] {
     const targetKalchm = targetCuisine.alchemicalProperties?.totalKalchm || 1.0;
     return cuisinePool.filter(cuisine => {
@@ -453,7 +453,7 @@ export class CuisineAnalyzer {
   static getCuisinesByElementalDominance(
     cuisines: EnhancedCuisine[],
     element: keyof ElementalProperties,
-    threshold: number = 0.4,
+    threshold = 0.4,
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access
@@ -500,12 +500,12 @@ export class CuisineAnalyzer {
         | ElementalProperties
         | undefined;
       if (elementalBalance) {
-        const dominant = Object.entries(elementalBalance).reduce((a, b) =>
+        const [dominant] = Object.entries(elementalBalance).reduce((a, b) =>
           elementalBalance[a[0] as keyof ElementalProperties] >
           elementalBalance[b[0] as keyof ElementalProperties]
             ? a
             : b,
-        )[0];
+        );
         const dominantKey = `${dominant.toLowerCase()  }-dominant`;
         if (elementalDistribution[dominantKey] !== undefined) {
           elementalDistribution[dominantKey]++;

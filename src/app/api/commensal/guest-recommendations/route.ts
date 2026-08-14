@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const raw = await req.json().catch(() => null);
     const parsed = bodySchema.safeParse(raw);
     if (!parsed.success) {
-      const first = parsed.error.issues[0];
+      const [first] = parsed.error.issues;
       const path = first?.path.join(".") || "request";
       const message = first
         ? `${path}: ${first.message}`

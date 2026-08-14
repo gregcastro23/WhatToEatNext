@@ -123,7 +123,7 @@ class FollowDatabaseService {
          (SELECT COUNT(*) FROM follows WHERE follower_id = $1::uuid) AS following`,
       [userId],
     );
-    const row = res.rows[0];
+    const [row] = res.rows;
     return {
       followers: Number(row?.followers ?? 0),
       following: Number(row?.following ?? 0),
@@ -138,7 +138,7 @@ class FollowDatabaseService {
          EXISTS(SELECT 1 FROM follows WHERE follower_id = $2::uuid AND followee_id = $1::uuid) AS followed_by`,
       [viewerId, targetId],
     );
-    const row = res.rows[0];
+    const [row] = res.rows;
     return {
       follows: row?.follows === true,
       followedBy: row?.followed_by === true,

@@ -396,7 +396,7 @@ function FullRecipeCard({
   isSaving,
 }: FullRecipeCardProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>("ingredients");
-  const recipe = recommendation.recipe;
+  const { recipe } = recommendation;
   const displayScore = recommendation.personalizedScore ?? recommendation.score;
   const scorePercent = Math.round(displayScore * 100);
 

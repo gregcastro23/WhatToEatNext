@@ -462,7 +462,7 @@ async function handlePost(req: NextRequest) {
         );
       }
 
-      const final = updateRes.rows[0];
+      const [final] = updateRes.rows;
       return {
         kind: "ok" as const,
         groupId,

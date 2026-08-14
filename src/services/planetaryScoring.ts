@@ -449,7 +449,7 @@ export class PlanetaryScoringService {
   determineRulingPlanet(recipe: Recipe): Planet {
     // Check explicit planetary influences
     if (recipe.planetaryInfluences?.favorable?.length) {
-      const planet = recipe.planetaryInfluences.favorable[0];
+      const [planet] = recipe.planetaryInfluences.favorable;
       if (SCORING_PLANETS.includes(planet as Planet)) {
         return planet as Planet;
       }

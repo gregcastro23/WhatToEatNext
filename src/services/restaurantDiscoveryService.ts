@@ -265,7 +265,7 @@ export function buildAstrologicalState(now: Date = new Date()): CosmicComputatio
   const timeFactors = getTimeFactors();
   const planetaryHour = timeFactors.planetaryHour.planet as Planet;
   const planetaryDay = timeFactors._planetaryDay.planet as Planet;
-  const hourOfDay = timeFactors.planetaryHour.hourOfDay;
+  const { hourOfDay } = timeFactors.planetaryHour;
 
   const state: AstrologicalState = {
     zodiacSign: sunSign,
@@ -798,7 +798,7 @@ function taDetailLimit(): number {
 }
 
 function normalizeTripadvisor(d: TripadvisorDetails): NormalizedRestaurant {
-  const cuisineLabel = d.cuisine[0];
+  const [cuisineLabel] = d.cuisine;
   const business: YelpBusiness = {
     id: `ta_${d.locationId}`,
     name: d.name,

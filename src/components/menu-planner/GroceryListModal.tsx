@@ -559,9 +559,7 @@ export default function GroceryListModal({
   };
 
   // Check if item is in pantry
-  const checkPantryStatus = (itemName: string) => {
-    return PantryManager.hasItem(itemName);
-  };
+  const checkPantryStatus = (itemName: string) => PantryManager.hasItem(itemName);
 
   // Add item to pantry and sync with context for Posso
   const addToPantry = (item: GroceryItem) => {
@@ -980,7 +978,7 @@ export default function GroceryListModal({
                 >
                   Processing...
                 </button>
-              ) : amazonResolution && amazonResolution.resolved.length === 0 ? (
+              ) : amazonResolution?.resolved.length === 0 ? (
                 <>
                   <button
                     onClick={() => { void confirmUpdateCart("fresh"); }}

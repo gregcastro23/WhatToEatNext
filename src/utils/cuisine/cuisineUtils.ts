@@ -61,8 +61,7 @@ export function getIngredientsForCuisine(
     Object.entries(__grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data as unknown as GrainCuisineEntryLike;
       if (
-        grainDataEntry?.cuisines &&
-        grainDataEntry.cuisines.includes(cuisineName)
+        grainDataEntry?.cuisines?.includes(cuisineName)
       ) {
         result.grain.push(grain);
       }

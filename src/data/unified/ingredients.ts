@@ -506,7 +506,7 @@ const _pluralAliasMap: Record<string, string> = {};
       if (aLen !== bLen) return bLen - aLen;
       return a.localeCompare(b);
     });
-    const primaryKey = ranked[0];
+    const [primaryKey] = ranked;
     const primary = _rawUnified[primaryKey];
     // Shallow-merge sibling fields into the primary so unique data from
     // plural variants isn't lost, then drop the alias from the exported map.

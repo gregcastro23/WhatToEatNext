@@ -52,7 +52,7 @@ export interface BackendResponse<T> {
 }
 
 export class PlanetaryAPIClient {
-  private baseUrl: string
+  private readonly baseUrl: string
 
   constructor(baseUrl: string = BACKEND_URL) {
     this.baseUrl = baseUrl
@@ -159,7 +159,7 @@ export class PlanetaryAPIClient {
     date: Date,
     latitude: number,
     longitude: number,
-    houseSystem: string = 'P' // Placidus
+    houseSystem = 'P' // Placidus
   ): Promise<HouseSystem> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/houses`, {

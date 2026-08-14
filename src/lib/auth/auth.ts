@@ -395,7 +395,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (isNewUser && user.email!.endsWith("@agentic.alchm.kitchen")) {
               const email = user.email!;
               const displayName = user.name ?? undefined;
-              const agentId = email.split("@")[0]; // e.g. "monica-001"
+              const [agentId] = email.split("@"); // e.g. "monica-001"
 
               const paSecret = process.env.INTERNAL_API_SECRET;
               // PA Python backend is at api.agents.alchm.kitchen — the bare

@@ -132,8 +132,7 @@ export function parseBirthData(text: string): ParsedBirthData | null {
 
   for (const [cityName, coords] of Object.entries(CITY_COORDS)) {
     if (lowerText.includes(cityName)) {
-      latitude = coords.latitude
-      longitude = coords.longitude
+      ;({ latitude, longitude } = coords)
       break
     }
   }

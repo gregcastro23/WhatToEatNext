@@ -305,7 +305,7 @@ export function QuantityWavefunction({
     if (hist.counts.length === 0 || hist.binWidth === 0) {
       return { bars: [] as Array<{ x: number; w: number; h: number }>, gaussian: "", currentX: 0 };
     }
-    const xMin = hist.edges[0];
+    const [xMin] = hist.edges;
     const xMax = hist.edges[hist.edges.length - 1];
     const xRange = Math.max(xMax - xMin, 1e-9);
 

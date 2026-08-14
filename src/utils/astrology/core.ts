@@ -345,7 +345,7 @@ export async function calculatemoonSign(
   try {
     const rawPositions = getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
-    if (positions.Moon && positions.Moon.sign) {
+    if (positions.Moon?.sign) {
       return positions.Moon.sign;
     }
     throw new Error("Moon position not available");
@@ -652,7 +652,7 @@ export async function calculateAspects(
   };
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: { sign: string; degree: number }): number => {
-    if (!position || !position.sign) {
+    if (!position?.sign) {
       debugLog("Invalid position object encountered: ", position);
       return 0;
     }

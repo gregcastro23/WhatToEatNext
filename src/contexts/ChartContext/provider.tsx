@@ -38,9 +38,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
   const isMountedRef = React.useRef(true);
   const refreshChartRef = React.useRef<() => Promise<void>>(async () => {});
 
-  React.useEffect(() => {
-    return () => { isMountedRef.current = false; };
-  }, []);
+  React.useEffect(() => () => { isMountedRef.current = false; }, []);
 
   // Safe helper function for planetary data access
   const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {

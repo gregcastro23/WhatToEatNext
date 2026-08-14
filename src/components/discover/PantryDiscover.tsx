@@ -44,7 +44,7 @@ interface ResolvedGroup {
 
 /** Resolve the group defs against NAV_IA, sweeping orphans into "More". */
 function resolveGroups(): ResolvedGroup[] {
-  const routes = NAV_IA.discover.routes;
+  const { routes } = NAV_IA.discover;
   const claimed = new Set(GROUP_DEFS.flatMap((g) => g.paths));
   const groups: ResolvedGroup[] = GROUP_DEFS.map((g) => ({
     label: g.label,

@@ -8,7 +8,7 @@ interface CacheEntry<T> {
 }
 
 class PerformanceCache {
-  private cache = new Map<string, CacheEntry<unknown>>()
+  private readonly cache = new Map<string, CacheEntry<unknown>>()
 
   // Cache planetary positions for 5 minutes (they don't change that often)
   private readonly PLANETARY_POSITIONS_TTL = 5 * 60 * 1000 // 5 minutes

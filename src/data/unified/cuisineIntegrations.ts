@@ -596,7 +596,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Check cache first
     if (this.cuisineCompatibilityCache.has(cacheKey)) {
       const cached = this.cuisineCompatibilityCache.get(cacheKey) ?? undefined;
-      if (cached && cached[cuisine2]) {
+      if (cached?.[cuisine2]) {
         return cached[cuisine2];
       }
     }
@@ -1369,7 +1369,7 @@ export class UnifiedCuisineIntegrationSystem {
     ] as Season[]) {
       // Get seasonal ingredients with safe property access
       const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-      const getSeasonalScore = seasonalSystem.getSeasonalScore;
+      const { getSeasonalScore } = seasonalSystem;
       const seasonalIngredients = (fusionIngredients || []).filter(
         (ingredient) => {
           if (typeof getSeasonalScore === "function") {
@@ -1638,7 +1638,7 @@ export class UnifiedCuisineIntegrationSystem {
     const cuisineIngredients = this.getCuisineIngredients(cuisine);
     // Safe property access for getSeasonalScore;
     const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-    const getSeasonalScore = seasonalSystem.getSeasonalScore;
+    const { getSeasonalScore } = seasonalSystem;
     const adaptedIngredients = (cuisineIngredients || []).filter(
       (ingredient) => {
         if (typeof getSeasonalScore === "function") {
@@ -1927,7 +1927,7 @@ export class UnifiedCuisineIntegrationSystem {
     );
     // Get seasonal ingredients with safe property access
     const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-    const getSeasonalScore = seasonalSystem.getSeasonalScore;
+    const { getSeasonalScore } = seasonalSystem;
     const seasonalIngredients = (fusionProfile.fusionIngredients || []).filter(
       (ingredient) => {
         if (typeof getSeasonalScore === "function") {
@@ -2145,7 +2145,7 @@ export class UnifiedCuisineIntegrationSystem {
       let totalScore = 0;
       // Safe property access for getSeasonalScore
       const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-      const getSeasonalScore = seasonalSystem.getSeasonalScore;
+      const { getSeasonalScore } = seasonalSystem;
       for (const ingredient of ingredients) {
         if (typeof getSeasonalScore === "function") {
           totalScore += getSeasonalScore(ingredient.name, season);
@@ -2183,7 +2183,7 @@ export class UnifiedCuisineIntegrationSystem {
     if (season) {
       // Filter by seasonal availability with safe property access
       const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-      const getSeasonalScore = seasonalSystem.getSeasonalScore;
+      const { getSeasonalScore } = seasonalSystem;
       ingredients = (ingredients || []).filter((ingredient) => {
         if (typeof getSeasonalScore === "function") {
           return getSeasonalScore(ingredient.name, season) > 0.5;

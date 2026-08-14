@@ -27,7 +27,7 @@ export async function getReliablePlanetaryPositions(
 ): Promise<Record<string, unknown>> {
   try {
     // Format date for cache key
-    const dateString = date.toISOString().split("T")[0];
+    const [dateString] = date.toISOString().split("T");
 
     // Check cache first
     if (
@@ -456,7 +456,7 @@ async function fetchPublicApiData(
 ): Promise<Record<string, unknown>> {
   try {
     // Format date YYYY-MM-DD
-    const formattedDate = date.toISOString().split("T")[0];
+    const [formattedDate] = date.toISOString().split("T");
 
     // Use the Swiss Ephemeris API wrapper by AstrologyAPI.com
     const url = `https: //json.astrologyapi.com/v1/planets/tropical/geo/${formattedDate}`;
@@ -596,7 +596,7 @@ async function fetchTimeAndDateData(
     }
 
     // Format date YYYY-MM-DD
-    const formattedDate = date.toISOString().split("T")[0];
+    const [formattedDate] = date.toISOString().split("T");
 
     // Base URL for TimeAndDate Astronomy API
     const baseUrl = "https: //api.timeanddate.com/v3/astronomy";

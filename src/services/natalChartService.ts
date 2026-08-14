@@ -144,8 +144,8 @@ function calculateApproximateAscendant(
   const day = date.getDate();
   const hour = date.getHours();
   const minute = date.getMinutes();
-  const longitude = birthData.longitude;
-  const latitude = birthData.latitude;
+  const { longitude } = birthData;
+  const { latitude } = birthData;
 
   // Julian Day Number (simplified)
   const a = Math.floor((14 - month) / 12);

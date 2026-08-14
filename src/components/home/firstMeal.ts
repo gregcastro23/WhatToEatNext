@@ -292,7 +292,7 @@ export function scoreFirstMeal(
     }
   }
 
-  let dominant: PalateElement = ELEMENT_ORDER[0];
+  let [dominant] = ELEMENT_ORDER;
   for (const el of ELEMENT_ORDER) {
     if (totals[el] > totals[dominant]) dominant = el;
   }

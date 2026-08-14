@@ -360,7 +360,7 @@ function fixMealTypes(recipe: Record<string, unknown>): FixResult | null {
  * Normalize spice level
  */
 function fixSpiceLevel(recipe: Record<string, unknown>): FixResult | null {
-  const spiceLevel = recipe.spiceLevel;
+  const { spiceLevel } = recipe;
 
   if (spiceLevel === undefined || spiceLevel === null) {
     return null; // Spice level is optional

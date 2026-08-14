@@ -533,7 +533,7 @@ function flavorMatchScore(sauce: UnifiedSauce, targets: FlavorAxis[] | undefined
 }
 
 function authenticityScore(sauce: UnifiedSauce, ctx: CuisineSauceContext): number {
-  if (sauce.ownerCuisine && sauce.ownerCuisine.toLowerCase() === ctx.cuisine.toLowerCase()) {
+  if (sauce.ownerCuisine?.toLowerCase() === ctx.cuisine.toLowerCase()) {
     if (sauce.origin === "mother") return 1.0;
     if (sauce.origin === "traditional") return 0.85;
     if (sauce.origin === "named-only") return 0.65;
@@ -546,7 +546,7 @@ function authenticityScore(sauce: UnifiedSauce, ctx: CuisineSauceContext): numbe
 }
 
 function dishPairingScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisine: Cuisine | null): { score: number; matches: string[] } {
-  if (!cuisine || !cuisine.sauceRecommender) return { score: 0, matches: [] };
+  if (!cuisine?.sauceRecommender) return { score: 0, matches: [] };
   const sr = cuisine.sauceRecommender;
   const matches: string[] = [];
   let hits = 0, total = 0;
@@ -686,7 +686,7 @@ export function recommendForCuisineContext(
     const reasoning: string[] = [], tags: string[] = [];
     const authenticity = authenticityScore(sauce, ctx);
     if (sauce.origin === "mother") { reasoning.push(`Mother sauce of ${sauce.ownerCuisine} cuisine`); tags.push("Mother sauce"); }
-    else if (sauce.ownerCuisine && sauce.ownerCuisine.toLowerCase() === ctx.cuisine.toLowerCase()) {
+    else if (sauce.ownerCuisine?.toLowerCase() === ctx.cuisine.toLowerCase()) {
       reasoning.push(`Native to ${sauce.ownerCuisine} cuisine`);
       if (sauce.origin === "traditional") tags.push("Traditional");
     }

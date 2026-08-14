@@ -187,12 +187,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, [allIngredients]);
   
   // Convert cooking methods to ElementalItem array
-  const cookingMethodsArray = useMemo(() => {
-    return Object.entries(cookingMethods).map(([key, method]) => {
+  const cookingMethodsArray = useMemo(() => Object.entries(cookingMethods).map(([key, method]) => {
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
       if ((method as any).elementalEffect) {
-        elementalEffect = (method as any).elementalEffect;
+        ({ elementalEffect } = (method as any));
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -245,8 +244,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         name: (method as any).name || key,
         elementalProperties: elementalEffect
       };
-    });
-  }, []);
+    }), []);
   
   // Convert cuisines to ElementalItem array
   const cuisinesArray = useMemo(() => {
@@ -255,7 +253,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get cuisine elemental state or calculate it
       let elementalState;
       if ((cuisine).elementalState) {
-        elementalState = (cuisine).elementalState;
+        ({ elementalState } = (cuisine));
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };

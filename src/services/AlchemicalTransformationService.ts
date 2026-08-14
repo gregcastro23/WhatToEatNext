@@ -492,7 +492,7 @@ export class AlchemicalTransformationService {
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
     const recipeData = recipe as unknown as any;
-    const astrologicalAffinities = recipeData.astrologicalAffinities;
+    const { astrologicalAffinities } = recipeData;
     const lunarPhases = (astrologicalAffinities.lunarPhases as string[]) || [];
 
     if (lunarPhases.length === 0 || !this.lunarPhase) {
@@ -516,7 +516,7 @@ export class AlchemicalTransformationService {
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
     const recipeData = recipe as unknown as any;
-    const astrologicalAffinities = recipeData.astrologicalAffinities;
+    const { astrologicalAffinities } = recipeData;
     const signs = (astrologicalAffinities.signs as string[]) || [];
 
     if (signs.length === 0 || !this.currentZodiac) {

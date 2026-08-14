@@ -29,7 +29,7 @@ export class SauceRecommender {
       return [];
     }
     const cuisine = cuisinesMap[cuisineName];
-    if (!cuisine || !cuisine.sauceRecommender) {
+    if (!cuisine?.sauceRecommender) {
       return [];
     }
 
@@ -37,7 +37,7 @@ export class SauceRecommender {
       cuisine.sauceRecommender;
     const recommendations = new Set<string>();
 
-    if (criteria.protein && forProtein && forProtein[criteria.protein]) {
+    if (criteria.protein && forProtein?.[criteria.protein]) {
       forProtein[criteria.protein].forEach((sauce: string) =>
         recommendations.add(sauce),
       );
@@ -45,8 +45,7 @@ export class SauceRecommender {
 
     if (
       criteria.vegetable &&
-      forVegetable &&
-      forVegetable[criteria.vegetable]
+      forVegetable?.[criteria.vegetable]
     ) {
       forVegetable[criteria.vegetable].forEach((sauce: string) =>
         recommendations.add(sauce),
@@ -55,8 +54,7 @@ export class SauceRecommender {
 
     if (
       criteria.cookingMethod &&
-      forCookingMethod &&
-      forCookingMethod[criteria.cookingMethod]
+      forCookingMethod?.[criteria.cookingMethod]
     ) {
       forCookingMethod[criteria.cookingMethod].forEach((sauce: string) =>
         recommendations.add(sauce),

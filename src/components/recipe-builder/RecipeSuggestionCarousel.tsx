@@ -176,7 +176,7 @@ export default function RecipeSuggestionCarousel({
   const current = suggestions[currentIndex];
   if (!current) return null;
 
-  const recipe = current.recipe;
+  const { recipe } = current;
   const displayScore = current.personalizedScore ?? current.score;
   const scorePercent = Math.round(displayScore * 100);
 

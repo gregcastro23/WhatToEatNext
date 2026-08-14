@@ -973,7 +973,7 @@ export function calculateEnhancedStelliumEffects(
     // Group planets by house
     Object.entries(planetPositions).forEach(([planet, position]) => {
       // Skip if missing data
-      if (!position || position.degree === undefined) return;
+      if (position?.degree === undefined) return;
       // Calculate house position
       const absoluteDegree = getLongitudeFromSignAndDegree(
         position.sign,
@@ -1340,7 +1340,7 @@ export function getPlanetaryDignityInfo(
   // accumulator at astrologyUtils:1149 — so the correction is behavioural, not
   // cosmetic. (celestialCalculations has its own local jupiterDignities table and
   // is unaffected.)
-  if (rulerships[planetLower] && rulerships[planetLower].includes(signLower)) {
+  if (rulerships[planetLower]?.includes(signLower)) {
     return { type: "Domicile", strength: 2.0 };
   } else if (exaltations[planetLower] === signLower) {
     return { type: "Exaltation", strength: 1.0 };
@@ -1397,7 +1397,7 @@ export function calculateAspects(
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: { sign: string; degree: number }): number => {
     // Check if position or position.sign is undefined/null
-    if (!position || !position.sign) {
+    if (!position?.sign) {
       debugLog("Invalid position object _encountered: ", position);
       return 0; // Return default value
     }

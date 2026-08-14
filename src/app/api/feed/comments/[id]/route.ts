@@ -24,7 +24,7 @@ interface Params {
 export async function DELETE(request: NextRequest, { params }: Params) {
   const auth = await validateRequest(request);
   if ("error" in auth) return auth.error;
-  const userId = auth.user.userId;
+  const { userId } = auth.user;
   const isAdmin = auth.user.roles.includes("admin") && isAdminEmail(auth.user.email);
 
   const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "feed-comment-delete", identifier: userId });

@@ -266,7 +266,7 @@ async function handleRestaurantOrderCheckout(
   }
 
   const metadata = session.metadata ?? {};
-  const splitMode = metadata.splitMode;
+  const { splitMode } = metadata;
   const connectedAccountId = metadata.stripeConnectedAccountId;
   const transferAmountCents = metadataInt(metadata.transferAmountCents);
   const transferGroup = metadata.transferGroup || `restaurant_order_${orderId}`;
@@ -518,8 +518,8 @@ export async function POST(request: Request) {
               : session.subscription.id;
             const sub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
             const period = getSubscriptionPeriod(sub);
-            currentPeriodStart = period.currentPeriodStart;
-            currentPeriodEnd = period.currentPeriodEnd;
+            ({ currentPeriodStart } = period);
+            ({ currentPeriodEnd } = period);
           }
 
           await subscriptionService.updateSubscription(userId, {

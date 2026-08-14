@@ -52,10 +52,10 @@ export function __setValidateRequestTestLoaders(loaders: {
   userDatabaseLoader?: UserDatabaseLoader;
 }): void {
   if (loaders.authLoader) {
-    authLoader = loaders.authLoader;
+    ({ authLoader } = loaders);
   }
   if (loaders.userDatabaseLoader) {
-    userDatabaseLoader = loaders.userDatabaseLoader;
+    ({ userDatabaseLoader } = loaders);
   }
 }
 
@@ -146,7 +146,7 @@ export async function validateToken(token: string): Promise<ValidationResult> {
     const userDatabase = await getUserDatabase();
     if (userDatabase) {
       const user = await userDatabase.getUserById(decoded.userId);
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         return {
           valid: false,
           error: "User account is inactive or deleted",

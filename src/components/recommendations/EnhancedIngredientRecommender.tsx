@@ -300,7 +300,7 @@ function calculateAstrologicalScore(
   if (!astroProfile || typeof astroProfile !== "object") return 0.5;
 
   let zodiacScore = 0.5;
-  const favorableZodiac = astroProfile.favorableZodiac;
+  const { favorableZodiac } = astroProfile;
   if (Array.isArray(favorableZodiac) && ctx.zodiacSign) {
     const sign = String(ctx.zodiacSign).toLowerCase();
     const favored = favorableZodiac.map((z: string) => String(z).toLowerCase());
@@ -309,7 +309,7 @@ function calculateAstrologicalScore(
   }
 
   let planetScore = 0.5;
-  const rulingPlanets = astroProfile.rulingPlanets;
+  const { rulingPlanets } = astroProfile;
   if (Array.isArray(rulingPlanets)) {
     const positions = ctx.planetaryPositions || {};
     const activeRulers = rulingPlanets.filter(
@@ -1794,7 +1794,7 @@ export const EnhancedIngredientRecommender: React.FC<
               );
             }
             // affinities as fallback pairing display
-            const affinities = ingredient.affinities;
+            const { affinities } = ingredient;
             if (Array.isArray(affinities) && affinities.length > 0) {
               return (
                 <div className="mb-2 text-xs text-gray-600 dark:text-slate-300">
@@ -2041,9 +2041,7 @@ export const EnhancedIngredientRecommender: React.FC<
                           </div>
                         )}
                       {(() => {
-                        const seasonalAffinity = (
-                          ingredient.astrologicalProfile as AstroProfileLike
-                        ).seasonalAffinity;
+                        const { seasonalAffinity } = (ingredient.astrologicalProfile as AstroProfileLike);
                         if (!seasonalAffinity || !Array.isArray(seasonalAffinity))
                           return null;
                         return (
@@ -2628,8 +2626,7 @@ export const EnhancedIngredientRecommender: React.FC<
 
                 {/* Varieties */}
                 {(() => {
-                  const varieties = (ingredient as Record<string, unknown>)
-                    .varieties;
+                  const { varieties } = (ingredient as Record<string, unknown>);
                   if (
                     !varieties ||
                     typeof varieties !== "object" ||

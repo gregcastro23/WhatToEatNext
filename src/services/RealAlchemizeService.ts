@@ -300,7 +300,7 @@ export function alchemize(
 
     // Momentum Calculation: (Current Longitude - Historical Longitude) * Mass
     // Using decimalDegrees for arc-minute precise difference.
-    if (historicalPositions && historicalPositions[planet]) {
+    if (historicalPositions?.[planet]) {
       const histPos = historicalPositions[planet];
       // Note: handles 12*60=720 arc-minute / 360 degree wrap implicitly
       // as DecimalDegrees are typically 0-360.
@@ -390,9 +390,9 @@ export function alchemize(
   );
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
-  const dominantElement = Object.entries(elements).sort(
+  const [[dominantElement]] = Object.entries(elements).sort(
     (a, b) => b[1] - a[1],
-  )[0][0];
+  );
   // Calculate score based on total energy
   const score = Math.min(
     1.0,
@@ -537,7 +537,7 @@ export function alchemizeDetailed(
     addElement(signElement, SIGN_WEIGHT);
     addElement(sectElement, SECT_WEIGHT);
 
-    if (historicalPositions && historicalPositions[planet]) {
+    if (historicalPositions?.[planet]) {
       const histPos = historicalPositions[planet];
       let delta =
         (position.exactLongitude || (position.degree + position.minute / 60)) -
@@ -606,7 +606,7 @@ export function alchemizeDetailed(
   );
 
   const elements = { Fire, Water, Air, Earth };
-  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
+  const [[dominantElement]] = Object.entries(elements).sort((a, b) => b[1] - a[1]);
   const score = Math.min(
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20),

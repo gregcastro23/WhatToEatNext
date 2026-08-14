@@ -54,7 +54,7 @@ export function TokenBalanceTrends() {
           // Group transactions by date string YYYY-MM-DD
           const txByDate: Record<string, any[]> = {};
           txs.forEach((tx: any) => {
-            const dateStr = new Date(tx.createdAt).toISOString().split('T')[0];
+            const [dateStr] = new Date(tx.createdAt).toISOString().split('T');
             if (!txByDate[dateStr]) txByDate[dateStr] = [];
             txByDate[dateStr].push(tx);
           });
@@ -62,7 +62,7 @@ export function TokenBalanceTrends() {
           for (let i = 0; i < days; i++) {
             const d = new Date(now);
             d.setDate(now.getDate() - i);
-            const dateStr = d.toISOString().split('T')[0];
+            const [dateStr] = d.toISOString().split('T');
 
             // Add point for end of this day
             history.unshift({

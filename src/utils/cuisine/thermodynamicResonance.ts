@@ -475,7 +475,7 @@ function determineTransformationPotential(
   thermo: ThermodynamicProperties,
   _userReactivityPref?: number,
 ): "low" | "moderate" | "high" | "exceptional" {
-  const reactivity = thermo.reactivity;
+  const { reactivity } = thermo;
   const kalchm = thermo.kalchm ?? 1;
 
   // High reactivity + favorable Kalchm = high transformation potential
@@ -500,7 +500,7 @@ function assessStability(
   thermo: ThermodynamicProperties,
   variance?: CuisineThermodynamicProfile["thermodynamicVariance"],
 ): "very stable" | "stable" | "dynamic" | "highly dynamic" {
-  const entropy = thermo.entropy;
+  const { entropy } = thermo;
   const entropyVar = variance?.entropyVariance ?? 0;
   const reactivityVar = variance?.reactivityVariance ?? 0;
 

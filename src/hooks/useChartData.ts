@@ -98,7 +98,7 @@ function buildSignMaps(positions: Record<string, PlanetPosition>): {
   const lower: Record<string, string> = {};
   const capital: Record<string, string> = {};
   for (const [planet, pos] of Object.entries(positions)) {
-    if (!pos || pos.sign == null) continue;
+    if (pos?.sign == null) continue;
     const lowerSign = String(pos.sign).toLowerCase();
     lower[planet] = lowerSign;
     capital[planet] = capitalizeSign(lowerSign);
@@ -138,8 +138,8 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
 
   // Stabilize fetch dependencies so the effect doesn't re-run on every render
   // (the location object identity changes when the page passes a literal).
-  const latitude = location.latitude;
-  const longitude = location.longitude;
+  const { latitude } = location;
+  const { longitude } = location;
   const dateTimeMs = dateTime ? dateTime.getTime() : null;
 
   const fetchChartData = useCallback(async () => {

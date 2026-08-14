@@ -70,9 +70,7 @@ export default function NutritionDashboard({
     };
   }, [dailySummary]);
 
-  const _priorityInsights = useMemo(() => {
-    return insights.filter((i) => i.priority === "high").slice(0, 3);
-  }, [insights]);
+  const _priorityInsights = useMemo(() => insights.filter((i) => i.priority === "high").slice(0, 3), [insights]);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100">

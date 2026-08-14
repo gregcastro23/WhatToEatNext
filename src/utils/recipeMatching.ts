@@ -218,7 +218,7 @@ export async function findBestMatches(
             if (typeof ingredient === "string") {
               return ingredient.toLowerCase().includes(lowerExcluded);
             } else if (ingredient && typeof ingredient === "object" && "name" in ingredient) {
-              const name = ingredient.name;
+              const { name } = ingredient;
               return (
                 typeof name === "string" &&
                 name.toLowerCase().includes(lowerExcluded)
@@ -512,7 +512,7 @@ async function _calculateRecipeEnergyMatch(
 
   // Use dominant elements for enhanced scoring if available
   if (recipeDominantElements.length > 0) {
-    const [_primaryElement, primaryValue] = recipeDominantElements[0];
+    const [[_primaryElement, primaryValue]] = recipeDominantElements;
     if (primaryValue > 0.4) {
       // Boost score for recipes with strong dominant element
       score += 0.1;
@@ -856,11 +856,9 @@ function getCacheKey(
   // Create a simplified representation of recipes (just ids to avoid huge keys)
   const recipeIds =
     recipes
-      ?.map((r) => {
-        return (
+      ?.map((r) => (
           r.id || `${r.name || "unknown"}-${r.cuisine || "unknown"}`
-        );
-      })
+        ))
       .join(",") || "none";
   // Stringify the filters and energy objects
   const filtersStr = JSON.stringify(filters);
@@ -1445,8 +1443,8 @@ function _calculateAstrologicalMatch(
 
   if (!userElement) return 0.5; // Default to neutral if sign not recognized
 
-  const sign = recipeInfluence.sign;
-  const elements = recipeInfluence.elements;
+  const { sign } = recipeInfluence;
+  const { elements } = recipeInfluence;
 
   // If recipe has a specific sign it aligns with
   if (sign && typeof sign === "string") {

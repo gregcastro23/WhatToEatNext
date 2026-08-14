@@ -29,9 +29,9 @@ export interface CommunityTip {
 }
 
 function displayName(row: TipRow): string {
-  if (row.author_name && row.author_name.trim()) return row.author_name.trim();
+  if (row.author_name?.trim()) return row.author_name.trim();
   if (row.author_email) {
-    const local = row.author_email.split("@")[0];
+    const [local] = row.author_email.split("@");
     return local.charAt(0).toUpperCase() + local.slice(1);
   }
   return "Anonymous cook";

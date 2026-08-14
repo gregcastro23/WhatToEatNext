@@ -154,7 +154,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
         if (currentPlanetaryAlignment[planet.toLowerCase()]) {
           const position = currentPlanetaryAlignment[planet.toLowerCase()];
           // Check if position has a sign property and it's defined
-          if (!position || !position.sign) {
+          if (!position?.sign) {
             return 0.5; // Default middle value if position or sign is missing
           }
           // Get the sign's current energy state

@@ -109,7 +109,7 @@ function toSamples(
   elevationM: number,
   source: "forecast" | "archive",
 ): EnvironmentSample[] {
-  const hourly = payload.hourly;
+  const { hourly } = payload;
   if (!hourly?.time?.length) return [];
 
   // Renamed on destructure: the wire keys are snake_case, our locals are not.

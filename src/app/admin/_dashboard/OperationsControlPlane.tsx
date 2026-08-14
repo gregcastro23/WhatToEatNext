@@ -168,8 +168,8 @@ export function OperationsControlPlane({ data }: Props) {
   );
   const warming = operations.domains.length === 0;
   const { migrations, cronHeartbeats } = data.maintenance;
-  const triageQueue = data.triageQueue;
-  const settlement = launchReadiness.settlement;
+  const { triageQueue } = data;
+  const { settlement } = launchReadiness;
   const settlementBadge = !settlement.live
     ? "no source"
     : settlement.pending === 0

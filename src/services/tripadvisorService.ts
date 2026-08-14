@@ -180,7 +180,7 @@ class TripadvisorService {
     url.searchParams.set("currency", "USD");
 
     const d = await this.getJson<TaDetailsResponse>(url);
-    if (!d || !d.name) return null;
+    if (!d?.name) return null;
 
     return {
       locationId,

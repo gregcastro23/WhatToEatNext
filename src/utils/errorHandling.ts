@@ -408,9 +408,7 @@ export function handleSyncError<T>(
 // React hook for error handling
 export function useErrorHandler() {
   const handleError = React.useCallback(
-    async (error: Error, context?: Record<string, unknown>) => {
-      return await globalErrorHandler.handleError(error, context);
-    },
+    async (error: Error, context?: Record<string, unknown>) => await globalErrorHandler.handleError(error, context),
     [],
   );
 

@@ -27,8 +27,8 @@ let resend403Logged = false;
 class EmailService {
   private resendApiKey: string | null = null;
   private smtpTransporter: any | null = null; // Use any for Transporter to avoid type issues with dynamic import
-  private fromName: string = "alchm.kitchen";
-  private fromAddress: string = "noreply@alchm.kitchen";
+  private fromName = "alchm.kitchen";
+  private fromAddress = "noreply@alchm.kitchen";
 
   /**
    * Initialize the email service.

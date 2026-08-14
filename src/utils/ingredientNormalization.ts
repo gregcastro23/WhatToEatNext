@@ -64,7 +64,7 @@ export function singularize(token: string): string {
     return token;
 }
 
-export function normalizedVariants(input: string, skipStopwordOnly: boolean = true): Set<string> {
+export function normalizedVariants(input: string, skipStopwordOnly = true): Set<string> {
     const out = new Set<string>();
     const raw = normalize(input);
     if (!raw) return out;
@@ -194,7 +194,7 @@ export function canonicalizeCoverageName(input: string): string {
 
     const splitOr = name.split(/\s+or\s+/).map((s) => s.trim()).filter(Boolean);
     if (splitOr.length > 1) {
-        name = splitOr[0];
+        [name] = splitOr;
     }
 
     name = name.replace(/\s+/g, " ").trim();

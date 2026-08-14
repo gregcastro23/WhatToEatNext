@@ -50,7 +50,7 @@ function formatDisplayName(raw: string): { primary: string; secondary: string } 
     return { primary: parts[0], secondary: parts.slice(1).join(", ") };
   }
   // Typically: City, State/Region, Country
-  const primary = parts[0];
+  const [primary] = parts;
   const secondary = [parts[1], parts[parts.length - 1]]
     .filter(Boolean)
     .join(", ");
@@ -124,7 +124,7 @@ export function LocationSearch({
 
   useEffect(() => {
     // Don't search if the query matches the selected location
-    if (selectedLocation && query === selectedLocation.displayName) {
+    if (query === selectedLocation?.displayName) {
       return;
     }
 

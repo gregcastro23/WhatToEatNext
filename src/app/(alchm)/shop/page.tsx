@@ -215,7 +215,7 @@ function ShopInner(): JSX.Element {
           }
           const from = String(j1.challenge.message.from || "");
           const signer = embeddedWallet;
-          if (!signer || signer.address.toLowerCase() !== from.toLowerCase()) {
+          if (signer?.address.toLowerCase() !== from.toLowerCase()) {
             setNotice({
               kind: "err",
               text: "Your Privy session wallet doesn't match your linked wallet — relink on the Account page.",

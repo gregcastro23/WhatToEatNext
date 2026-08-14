@@ -117,7 +117,7 @@ export default function AlchmKitchen() {
               degree: newPositions.sun.degree || 0,
             }
           );
-          const suit = cards.minorCard.suit;
+          const { suit } = cards.minorCard;
           setCurrentSuit(suit);
           
           // PlanetaryPosition (interface) lacks the index signature PlanetaryPositionsType requires; shapes are otherwise compatible.

@@ -37,7 +37,7 @@ export async function POST(
     const body = await req.json();
     const { viewer } = body; // viewer should contain { id, natalChart } or similar
 
-    if (!viewer || !viewer.natalChart || !viewer.natalChart.planets) {
+    if (!viewer?.natalChart?.planets) {
       return NextResponse.json(
         { success: false, message: "Viewer's natal chart details required in request body" },
         { status: 400 },
@@ -63,10 +63,10 @@ export async function POST(
       );
     }
 
-    const row = profileResult.rows[0];
+    const [row] = profileResult.rows;
     const rawNatal = parseJsonField<any>(row.natal_chart, null);
 
-    if (!rawNatal || !rawNatal.planets) {
+    if (!rawNatal?.planets) {
       return NextResponse.json(
         { success: false, message: "Agent natal chart data missing or incomplete" },
         { status: 400 },

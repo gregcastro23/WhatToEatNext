@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       `SELECT share_identity, avatar_url FROM user_profiles WHERE user_id = $1::uuid`,
       [userId],
     );
-    const row = res.rows[0];
+    const [row] = res.rows;
     return NextResponse.json({
       success: true,
       // No row (or pre-migration NULL) = shared by default — mirrors the

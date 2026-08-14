@@ -41,9 +41,7 @@ export default function ElementalAlchemicalDisplay() {
   const { heat, entropy, reactivity, gregsEnergy } = celestialEnergy;
   
   // Helper function to format values as decimals
-  const formatValue = (value: number = 0) => {
-    return value.toFixed(2);
-  };
+  const formatValue = (value = 0) => value.toFixed(2);
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">

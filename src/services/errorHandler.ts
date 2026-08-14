@@ -184,11 +184,11 @@ class ErrorHandlerService {
     let componentStack: string | undefined;
 
     if (error instanceof Error) {
-      message = error.message;
-      stack = error.stack;
+      ({ message } = error);
+      ({ stack } = error);
       errorType = error.name;
       // @ts-expect-error: componentStack is not standard on Error
-      componentStack = error.componentStack;
+      ({ componentStack } = error);
     } else if (typeof error === "string") {
       message = error;
       errorType = "string";
@@ -196,7 +196,7 @@ class ErrorHandlerService {
       message = String(error);
       errorType = "object";
       // @ts-expect-error: componentStack may exist
-      componentStack = error.componentStack;
+      ({ componentStack } = error);
     }
 
     return {

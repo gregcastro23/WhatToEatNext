@@ -196,11 +196,9 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
     return dominant;
   }, [currentModalityCounts]);
 
-  const retrogradePlanets = useMemo(() => {
-    return (Object.entries(transitPositions))
+  const retrogradePlanets = useMemo(() => (Object.entries(transitPositions))
       .filter(([, pos]) => pos.isRetrograde)
-      .map(([name]) => name);
-  }, [transitPositions]);
+      .map(([name]) => name), [transitPositions]);
 
   const transitInsights = useMemo(() => {
     const insights: TransitInsight[] = [];

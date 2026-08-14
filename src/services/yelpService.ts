@@ -36,7 +36,7 @@ interface FetchResult<T> {
 
 class YelpService {
   private static instance: YelpService;
-  private apiKey: string;
+  private readonly apiKey: string;
 
   private constructor() {
     this.apiKey = process.env.YELP_API_KEY ?? "";

@@ -29,9 +29,7 @@ export interface UserWithProfile extends User {
 }
 
 // Check if we should use database (only in server-side contexts with DB available)
-const isServerWithDB = (): boolean => {
-  return typeof window === "undefined" && !!process.env.DATABASE_URL;
-};
+const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 // Lazy-load database module to avoid build-time issues
 let dbModule: typeof import("@/lib/database") | null = null;
@@ -111,8 +109,8 @@ export const jsonbOrNull = (value: unknown): string | null => {
 
 class UserDatabaseService {
   // In-memory fallback storage
-  private users: Map<string, UserWithProfile> = new Map();
-  private emailIndex: Map<string, string> = new Map(); // email -> userId
+  private readonly users: Map<string, UserWithProfile> = new Map();
+  private readonly emailIndex: Map<string, string> = new Map(); // email -> userId
   private initialized = false;
 
   constructor() {
@@ -345,7 +343,7 @@ class UserDatabaseService {
         );
 
         if (result.rows.length > 0) {
-          const row = result.rows[0];
+          const [row] = result.rows;
           return this.rowToUserWithProfile(row);
         }
       } catch (error) {

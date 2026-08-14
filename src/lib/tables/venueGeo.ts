@@ -37,7 +37,7 @@ export async function resolveVenueCoords(
   if (venue.address && venue.address.trim().length >= 2) {
     try {
       const results = await geocodeLocation(venue.address);
-      const best = results[0];
+      const [best] = results;
       if (best && Number.isFinite(best.latitude) && Number.isFinite(best.longitude)) {
         return { venueLat: best.latitude, venueLng: best.longitude };
       }

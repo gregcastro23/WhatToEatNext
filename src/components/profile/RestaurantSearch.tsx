@@ -71,9 +71,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
   }, [performSearch]);
 
   // Cleanup on unmount
-  useEffect(() => {
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, []);
+  useEffect(() => () => { if (debounceRef.current) clearTimeout(debounceRef.current); }, []);
 
   const isSaved = (fsqId: string) => savedRestaurants.some(r => r.externalId === fsqId);
 
@@ -82,7 +80,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
 
     // eslint-disable-next-line no-alert
     const dish = window.prompt(`Saving ${place.name}. What's your favorite dish here? (Optional)`);
-    const menuItems = dish && dish.trim() ? [{
+    const menuItems = dish?.trim() ? [{
       id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name: dish.trim(),
       category: 'Mains' as const,

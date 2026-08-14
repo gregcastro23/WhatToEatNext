@@ -73,7 +73,7 @@ export async function getFullCuisine(name: string): Promise<AlchemyCuisine | nul
 
 export function getCuisineKAlchm(cuisineName: string): { targetKAlchm: number, tolerance: number } {
     const cuisine = cuisines[cuisineName.toLowerCase()];
-    if (cuisine && cuisine.alchemicalSignature) {
+    if (cuisine?.alchemicalSignature) {
         return cuisine.alchemicalSignature;
     }
     return { targetKAlchm: 1.0, tolerance: 0.5 };

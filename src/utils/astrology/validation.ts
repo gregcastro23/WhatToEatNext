@@ -263,7 +263,7 @@ export function calculatePlanetaryAspects(positions: {
     const planet1 = planets[i];
     const pos1 = positions[planet1];
 
-    if (!pos1 || !pos1.exactLongitude) {
+    if (!pos1?.exactLongitude) {
       // Skip planets without position data
       continue;
     }
@@ -272,7 +272,7 @@ export function calculatePlanetaryAspects(positions: {
       const planet2 = planets[j];
       const pos2 = positions[planet2];
 
-      if (!pos2 || !pos2.exactLongitude) {
+      if (!pos2?.exactLongitude) {
         // Skip planets without position data
         continue;
       }
@@ -556,7 +556,7 @@ export function validatePlanetaryPositions(
 
   for (const planet of requiredPlanets) {
     const planetData = (positions as Record<string, { sign?: string }>)[planet];
-    if (!planetData || !planetData.sign) {
+    if (!planetData?.sign) {
       isValid = false;
       break;
     }

@@ -19,12 +19,12 @@ export function handleApiError(error: unknown): NextResponse {
   // If this is one of our custom API errors, use its status code
   if ((error as ApiError).statusCode) {
     const apiError = error as ApiError;
-    statusCode = apiError.statusCode;
-    message = apiError.message;
-    details = apiError.details;
+    ({ statusCode } = apiError);
+    ({ message } = apiError);
+    ({ details } = apiError);
   } else if (error instanceof Error) {
     // For standard Error objects, use the message
-    message = error.message;
+    ({ message } = error);
   }
 
   // Log the error (with different levels based on severity)

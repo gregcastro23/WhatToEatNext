@@ -853,8 +853,7 @@ class CelestialCalculator {
       // Increase influence if planet is in a sign it has dignity in
       if (
         sign &&
-        outerPlanetDignities[planet] &&
-        outerPlanetDignities[planet][sign]
+        outerPlanetDignities[planet]?.[sign]
       ) {
         influence = outerPlanetDignities[planet][sign];
       }

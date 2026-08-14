@@ -286,18 +286,14 @@ export default function NutritionalDashboard({
   }, [currentMenu]);
 
   // Calculate weekly totals
-  const weeklyTotals: WeeklyNutritionTotals = useMemo(() => {
-    return calculateWeeklyTotals(mealsByDay);
-  }, [mealsByDay]);
+  const weeklyTotals: WeeklyNutritionTotals = useMemo(() => calculateWeeklyTotals(mealsByDay), [mealsByDay]);
 
   // Calculate macro breakdown
-  const macroBreakdown = useMemo(() => {
-    return calculateMacroBreakdown(
+  const macroBreakdown = useMemo(() => calculateMacroBreakdown(
       weeklyTotals.totalProtein / 7,
       weeklyTotals.totalCarbs / 7,
       weeklyTotals.totalFat / 7,
-    );
-  }, [weeklyTotals]);
+    ), [weeklyTotals]);
 
   // Generate chart data
   const macroChart = useMemo(

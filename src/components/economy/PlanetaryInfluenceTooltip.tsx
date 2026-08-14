@@ -74,16 +74,14 @@ export function PlanetaryInfluenceTooltip({
 }: PlanetaryInfluenceTooltipProps) {
   const { planetaryPositions } = useAlchemical();
 
-  const contributors = useMemo(() => {
-    return ALL_PLANETS.filter(
+  const contributors = useMemo(() => ALL_PLANETS.filter(
       (planet) => (PLANETARY_ALCHEMY[planet] as Record<TokenType, number>)[tokenType] > 0,
     )
       .map((planet) => ({
         planet,
         sign: extractSign(planetaryPositions ?? {}, planet),
       }))
-      .slice(0, 4);
-  }, [tokenType, planetaryPositions]);
+      .slice(0, 4), [tokenType, planetaryPositions]);
 
   const lead =
     contributors.length > 0 && contributors[0].sign

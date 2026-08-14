@@ -1370,7 +1370,7 @@ export class UnifiedRecipeBuildingSystem {
     if (!cookingMethodArray || cookingMethodArray.length === 0) {
       return Math.max(0.2, Math.min(1.0, score)); // Return early if no cooking methods
     }
-    const primaryMethod = cookingMethodArray[0]; // Use first method for scoring
+    const [primaryMethod] = cookingMethodArray; // Use first method for scoring
     const methodScore = this.getCookingMethodSeasonalScore(
       primaryMethod,
       season,
@@ -3010,7 +3010,7 @@ export class UnifiedRecipeBuildingSystem {
     cuisines: string[],
   ): number {
     if (cuisines.length <= 1) return 0;
-    const primary = cuisines[0];
+    const [primary] = cuisines;
     const primarySig = lookupCuisineSignature(primary);
     if (!primarySig) return Math.min(1, (cuisines.length - 1) * 0.25);
 
@@ -3032,11 +3032,11 @@ export class UnifiedRecipeBuildingSystem {
     // Count cooking methods not typical for the primary region. Without
     // per-cuisine method data, treat the number of secondary cuisines as
     // a proxy for borrowed methods.
-    const foreignMethods = recipeCookingMethods(recipe).filter((m) => {
+    const foreignMethods = recipeCookingMethods(recipe).filter((m) =>
       // Cheap heuristic: methods that match secondary cuisine names count
       // as "foreign" influence.
-      return cuisines.slice(1).some((c) => m.includes(c.toLowerCase()));
-    }).length;
+      cuisines.slice(1).some((c) => m.includes(c.toLowerCase()))
+    ).length;
 
     const secondaryCount = cuisines.length - 1;
     return Math.min(

@@ -9,9 +9,7 @@ export default function ElementalDisplay() {
   const { elementalState, alchemicalValues } = state;
   
   // Helper function to format values as decimals
-  const formatValue = (value: number) => {
-    return value.toFixed(2);
-  };
+  const formatValue = (value: number) => value.toFixed(2);
 
   return (
     <div className="space-y-4">

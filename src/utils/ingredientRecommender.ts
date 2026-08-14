@@ -461,7 +461,7 @@ export async function getIngredientRecommendations(
   > = {};
   Object.entries(elementalProps.planetaryAlignment || {}).forEach(
     ([planet, position]) => {
-      if (!position || !position.sign) return;
+      if (!position?.sign) return;
       const sign = position.sign.toLowerCase();
       const degree = position.degree || 0;
       // Determine which decan the planet is in
@@ -1177,7 +1177,7 @@ function calculateVenusInfluence(
     }
   }
   // Check texture alignment with Venus preferences
-  const texture = ingredientData.texture;
+  const { texture } = ingredientData;
   if (texture) {
     // Venus favors smooth, creamy, luscious textures
     const venusTextures = [
@@ -1198,7 +1198,7 @@ function calculateVenusInfluence(
     score += textureMatch * 0.5;
   }
   // Check culinary technique alignment
-  const culinaryUses = ingredientData.culinaryUses;
+  const { culinaryUses } = ingredientData;
   if (venusData.PlanetSpecific?.CulinaryTechniques && culinaryUses) {
     const culinaryUsesArray = Array.isArray(culinaryUses)
       ? culinaryUses
@@ -1215,7 +1215,7 @@ function calculateVenusInfluence(
       score += 1.8;
     }
     // Check for balance and harmony in flavor pairings
-    const harmonyPairings = ingredientData.harmonyPairings;
+    const { harmonyPairings } = ingredientData;
     const harmonyPairingsArray = Array.isArray(harmonyPairings)
       ? harmonyPairings
       : [];
@@ -1237,10 +1237,10 @@ function calculateVenusInfluence(
       score += 1.2;
     }
     // Check for fragrance and aroma enhancement
-    const aromaticProperties = ingredientData.aromaticProperties;
+    const { aromaticProperties } = ingredientData;
     if (
       aromaticProperties ||
-      (flavorProfile && flavorProfile.aromatic && flavorProfile.aromatic > 0.7)
+      (flavorProfile?.aromatic && flavorProfile.aromatic > 0.7)
     ) {
       score += 1.6;
     }
@@ -1272,7 +1272,7 @@ function calculateVenusInfluence(
       // Direct keywords match;
       const keywords = foodFocus.split(/[\s,,]+/).filter((k) => k.length > 3);
       for (const keyword of keywords) {
-        const description = ingredient.description;
+        const { description } = ingredient;
         if (
           ingredientName.includes(keyword) ||
           (description &&
@@ -1385,7 +1385,7 @@ function calculateVenusInfluence(
           .toLowerCase()
           .split(/[\s,,]+/)
           .filter((k) => k.length > 3);
-        const description = ingredient.description;
+        const { description } = ingredient;
         if (
           focusKeywords.some(
             (keyword) =>
@@ -1439,7 +1439,7 @@ function calculateVenusInfluence(
           .toLowerCase()
           .split(/[\s,,]+/)
           .filter((k) => k.length > 3);
-        const description = ingredient.description;
+        const { description } = ingredient;
         if (
           focusKeywords.some(
             (keyword) =>
@@ -1486,7 +1486,7 @@ function calculateVenusInfluence(
       if (
         hasJuicyTexture ||
         hasTenderTexture ||
-        (flavorProfile && flavorProfile.juicy && flavorProfile.juicy > 0.5)
+        (flavorProfile?.juicy && flavorProfile.juicy > 0.5)
       ) {
         score += 2.0;
       }
@@ -1541,8 +1541,8 @@ function calculateVenusInfluence(
         culinaryUsesArray.includes("stimulating") ||
         culinaryUsesString.includes("stimulating");
       if (
-        (flavorProfile && flavorProfile.spicy && flavorProfile.spicy > 0.3) ||
-        (flavorProfile && flavorProfile.vibrant && flavorProfile.vibrant > 0.5) ||
+        (flavorProfile?.spicy && flavorProfile.spicy > 0.3) ||
+        (flavorProfile?.vibrant && flavorProfile.vibrant > 0.5) ||
         hasStimulatingUses
       ) {
         score += 2.0;
@@ -1916,8 +1916,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
   const lowerIngredient = ingredientName.toLowerCase();
   // Check direct Mercury food associations
   if (
-    mercuryData.FoodAssociations &&
-    mercuryData.FoodAssociations.some(
+    mercuryData.FoodAssociations?.some(
       (food) =>
         food.toLowerCase() === lowerIngredient ||
         lowerIngredient.includes(food.toLowerCase()) ||
@@ -1928,8 +1927,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
   }
   // Check Mercury herb associations
   if (
-    mercuryData.HerbalAssociations?.Herbs &&
-    mercuryData.HerbalAssociations.Herbs.some(
+    mercuryData.HerbalAssociations?.Herbs?.some(
       (herb) =>
         herb.toLowerCase() === lowerIngredient ||
         lowerIngredient.includes(herb.toLowerCase()) ||
@@ -2076,8 +2074,7 @@ function calculateMercuryInfluence(
     if (mercuryTransit) {
       // Boost for ingredients matching transit ingredients
       if (
-        mercuryTransit.Ingredients &&
-        mercuryTransit?.Ingredients?.some(
+        mercuryTransit.Ingredients?.some(
           (transitIngredient) =>
             ingredientName.includes(transitIngredient.toLowerCase()) ||
             transitIngredient.toLowerCase().includes(ingredientName),
@@ -2687,7 +2684,7 @@ function calculatePlanetaryDayInfluence(
     const planetSign = planetaryPositions[planetaryDay].sign;
     const planetDegree = planetaryPositions[planetaryDay].degree;
     // Dignity effect bonus/penalty
-    if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
+    if (dayElements.dignityEffect?.[planetSign]) {
       const dignityModifier = dayElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
       elementalScore = Math.min(
         1.0,
@@ -2700,17 +2697,13 @@ function calculatePlanetaryDayInfluence(
     else if (planetDegree > 20) decan = "3rd Decan";
     // Apply decan effects if the planet is in its own decan
     if (
-      signInfo[planetSign] &&
-      signInfo[planetSign].decanEffects[decan] &&
-      signInfo[planetSign].decanEffects[decan].includes(planetaryDay)
+      signInfo[planetSign]?.decanEffects[decan]?.includes(planetaryDay)
     ) {
       elementalScore = Math.min(1.0, elementalScore + 0.15);
     }
     // Apply degree effects
     if (
-      signInfo[planetSign] &&
-      signInfo[planetSign].degreeEffects[planetaryDay] &&
-      signInfo[planetSign].degreeEffects[planetaryDay].length === 2
+      signInfo[planetSign]?.degreeEffects[planetaryDay]?.length === 2
     ) {
       const [minDegree, maxDegree] =
         signInfo[planetSign].degreeEffects[planetaryDay];
@@ -2776,7 +2769,7 @@ function calculatePlanetaryHourInfluence(
   if (planetaryPositions?.[planetaryHour]) {
     const planetSign = planetaryPositions[planetaryHour].sign;
     // Dignity effect bonus/penalty
-    if (hourElements.dignityEffect && hourElements.dignityEffect[planetSign]) {
+    if (hourElements.dignityEffect?.[planetSign]) {
       const dignityModifier = hourElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
       elementalMatch = Math.min(
         1.0,

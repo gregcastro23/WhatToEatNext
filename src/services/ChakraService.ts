@@ -50,7 +50,7 @@ export class ChakraService {
     };
 
     signEnergyStates.forEach((_state) => {
-      const sign: unknown = _state.sign;
+      const { sign } = _state;
       if (typeof sign === "string" && sign in signEnergyRecord) {
         // The `in` check above proves `sign` is one of the literal keys
         // of signEnergyRecord, so this narrowing is safe.
@@ -141,11 +141,11 @@ export class ChakraService {
     const rootState = chakraEnergyStates.find(
       (state) => state.chakra === "Root",
     );
-    if (rootState && rootState.balanceState === "underactive") {
+    if (rootState?.balanceState === "underactive") {
       suggestions.push(
         "Increase grounding foods like root vegetables and proteins",
       );
-    } else if (rootState && rootState.balanceState === "overactive") {
+    } else if (rootState?.balanceState === "overactive") {
       suggestions.push(
         "Reduce heavy, dense foods and incorporate more light plant foods",
       );
@@ -155,7 +155,7 @@ export class ChakraService {
     const sacralState = chakraEnergyStates.find(
       (state) => state.chakra === "Sacral",
     );
-    if (sacralState && sacralState.balanceState === "underactive") {
+    if (sacralState?.balanceState === "underactive") {
       suggestions.push(
         "Add orange foods and sweet flavors to stimulate creativity",
       );
@@ -165,7 +165,7 @@ export class ChakraService {
     const solarPlexusState = chakraEnergyStates.find(
       (state) => state.chakra === "Solar Plexus",
     );
-    if (solarPlexusState && solarPlexusState.balanceState === "underactive") {
+    if (solarPlexusState?.balanceState === "underactive") {
       suggestions.push(
         "Include more complex carbohydrates and yellow foods for energy",
       );
@@ -175,7 +175,7 @@ export class ChakraService {
     const heartState = chakraEnergyStates.find(
       (state) => state.chakra === "Heart",
     );
-    if (heartState && heartState.balanceState === "underactive") {
+    if (heartState?.balanceState === "underactive") {
       suggestions.push(
         "Incorporate more leafy greens and heart-opening foods like rose tea",
       );

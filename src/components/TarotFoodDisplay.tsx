@@ -35,15 +35,14 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   const { currentPlanetaryAlignment, loading: _astroLoading } = useAstrologicalState();
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
-  const hasSunPosition = (alignment: Record<string, unknown>): alignment is { sun: PlanetaryPosition } => {
+  const hasSunPosition = (alignment: Record<string, unknown>): alignment is { sun: PlanetaryPosition } =>
     // @ts-expect-error - Auto-fixed by script
-    return alignment && 
-           typeof alignment === 'object' && 
-           'sun' in alignment && 
-           alignment.sun && 
-           typeof alignment.sun === 'object' &&
-           'sign' in alignment.sun;
-  };
+    alignment &&
+    typeof alignment === 'object' &&
+    'sun' in alignment &&
+    alignment.sun &&
+    typeof alignment.sun === 'object' &&
+    'sign' in alignment.sun;
 
   // Update the ref when onTarotLoaded changes
   useEffect(() => {

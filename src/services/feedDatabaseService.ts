@@ -118,7 +118,7 @@ class FeedDatabaseService {
             let agentEmail = user.email.toLowerCase().trim();
             // Ensure canonical agent email format (ends with @agentic.alchm.kitchen)
             if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
-              const agentId = agentEmail.split("@")[0];
+              const [agentId] = agentEmail.split("@");
               agentEmail = `${agentId}@agentic.alchm.kitchen`;
             }
 
@@ -168,7 +168,7 @@ class FeedDatabaseService {
   /**
    * Fetch recent feed events
    */
-  async getRecentEvents(limit: number = 50, offset: number = 0): Promise<FeedEvent[]> {
+  async getRecentEvents(limit = 50, offset = 0): Promise<FeedEvent[]> {
     try {
       const result = await executeQuery(
         `SELECT f.*, u.is_agent, u.email as actor_email,
@@ -256,7 +256,7 @@ class FeedDatabaseService {
   /**
    * Fetch paginated feed events for a specific actor
    */
-  async getEventsByActor(actorId: string, limit: number = 20, offset: number = 0): Promise<FeedEvent[]> {
+  async getEventsByActor(actorId: string, limit = 20, offset = 0): Promise<FeedEvent[]> {
     try {
       const result = await executeQuery(
         `SELECT f.*, u.is_agent, u.email as actor_email,

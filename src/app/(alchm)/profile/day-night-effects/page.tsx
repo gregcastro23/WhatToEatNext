@@ -44,7 +44,7 @@ export default function DayNightEffectsPage() {
     );
   }
 
-  const natalChart = profileData.natalChart;
+  const { natalChart } = profileData;
 
   // Calculate user's natal sect using the birth time if available
   // Whole birthData: sect needs the birthplace, not just the moment.

@@ -22,10 +22,10 @@ const InsightsTicker = ({ data }: { data: any }) => {
     const sun = placements.find((p: any) => p.planet === "Sun");
     const moon = placements.find((p: any) => p.planet === "Moon");
 
-    if (sun && sun.sign) {
+    if (sun?.sign) {
       list.push(`With Sun in ${sun.sign}, your alchemical constitution seeks corresponding solar coordinate flavors.`);
     }
-    if (moon && moon.sign) {
+    if (moon?.sign) {
       list.push(`The Moon in ${moon.sign} influences your nocturnal digestive patterns and hydration cycles.`);
     }
 
@@ -34,7 +34,7 @@ const InsightsTicker = ({ data }: { data: any }) => {
         .filter(([, val]) => typeof val === "number")
         .sort((a, b) => (b[1] as number) - (a[1] as number));
       if (sorted.length > 0) {
-        const [domName, domVal] = sorted[0];
+        const [[domName, domVal]] = sorted;
         list.push(`Your dominant element is ${domName} (${Math.round((domVal as number) * 100)}%), driving your primary taste preferences.`);
       }
       if (sorted.length > 1) {

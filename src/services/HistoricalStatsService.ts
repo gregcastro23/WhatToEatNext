@@ -156,7 +156,7 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
 
             const charge = alch.esms.Matter + alch.esms.Substance;
             const energy = alch.thermodynamicProperties.gregsEnergy;
-            const reactivity = alch.thermodynamicProperties.reactivity;
+            const { reactivity } = alch.thermodynamicProperties;
             const potential = charge > 0 ? energy / charge : 0;
             const flow = reactivity * charge * 0.1;
             const p = flow * potential;
@@ -195,9 +195,7 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
  * Revalidates every 12 hours (43200 seconds)
  */
 export const getCachedHistoricalStats = unstable_cache(
-    async () => {
-        return generateHistoricalStats();
-    },
+    async () => generateHistoricalStats(),
     ['historical-alchemical-stats'],
     { revalidate: 43200, tags: ['historical-stats'] }
 );

@@ -35,8 +35,7 @@ export const AlchemicalDisplay: React.FC<AlchemicalDisplayProps> = ({
 
   // Enhanced defensive checks for alchemical and all required properties
   if (
-    !alchemical ||
-    !alchemical.elementalProperties ||
+    !alchemical?.elementalProperties ||
     !alchemical.thermodynamicProperties ||
     !alchemical.esms
   ) {

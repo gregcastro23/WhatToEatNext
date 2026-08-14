@@ -109,9 +109,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(!isTestEnvironment);
   const [error, setError] = useState<string | null>(null);
   const isMountedRef = React.useRef(true);
-  React.useEffect(() => {
-    return () => { isMountedRef.current = false; };
-  }, []);
+  React.useEffect(() => () => { isMountedRef.current = false; }, []);
   // Helper function to get dominant element
   const getDominantElement = (): string => {
     const elementalProps = state.astrologicalState?.elementalProperties as

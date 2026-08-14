@@ -60,7 +60,7 @@ export function estimateIngredientCost(
   ing: RecipeIngredient, 
   dietaryFlags: string[] = []
 ): { cost: number; confidence: "exact" | "fuzzy" | "fallback" } {
-  const name = ing.name;
+  const { name } = ing;
   const amount = ing.amount || 1;
   const unit = ing.unit || "each";
   
@@ -108,7 +108,7 @@ export function estimateIngredientCost(
  */
 export function calculateRecipeEstimatedCost(
   ingredients: RecipeIngredient[],
-  servings: number = 4,
+  servings = 4,
   dietaryFlags: string[] = []
 ): RecipeCostEstimate {
   const breakdown: RecipeCostEstimate["breakdown"] = [];
@@ -145,7 +145,7 @@ export function calculateBangForBuck(
   nutrition: RecipeNutrition | undefined | null,
   costPerServing: number
 ): BangForBuckScore {
-  if (!nutrition || !nutrition.calories || costPerServing <= 0) {
+  if (!nutrition?.calories || costPerServing <= 0) {
     return { score: 50, label: "Fair", caloriesPerDollar: 0, proteinPerDollar: 0 };
   }
 

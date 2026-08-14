@@ -275,7 +275,7 @@ export function compositeFromVectors(
   const meanSum = ELEMENT_ORDER.reduce((acc, el) => acc + mean[el], 0);
   if (!(meanSum > 0)) return null;
 
-  let leaning: PalateElement = ELEMENT_ORDER[0];
+  let [leaning] = ELEMENT_ORDER;
   for (const el of ELEMENT_ORDER) {
     if (mean[el] > mean[leaning]) leaning = el;
   }

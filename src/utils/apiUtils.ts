@@ -77,7 +77,7 @@ export async function retryWithTimeout<T>(
   fn: () => Promise<T>,
   retries: number,
   timeout: number,
-  delay: number = 0,
+  delay = 0,
 ): Promise<T> {
   let attempt = 0;
   while (attempt <= retries) {

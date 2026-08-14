@@ -217,7 +217,7 @@ export function aggregateIngredientElementals(
 
       for (const compName of composites) {
         const compProfile = unifiedIngredientService.getIngredientByName(compName);
-        if (compProfile && compProfile.elementalProperties) {
+        if (compProfile?.elementalProperties) {
           const scaled = scaleIngredientByQuantity(
             compProfile.elementalProperties,
             sharedAmount,

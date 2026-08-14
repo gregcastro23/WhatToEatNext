@@ -11,7 +11,7 @@ import type { Recipe } from "@/types/recipe";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const HONO_API_URL = process.env.HONO_API_URL;
+const { HONO_API_URL } = process.env;
 
 function filterRecipes(
   recipes: Recipe[],

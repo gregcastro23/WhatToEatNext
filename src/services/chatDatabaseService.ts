@@ -235,7 +235,7 @@ class ChatDatabaseService {
           [tableId],
         );
         if (tableResult.rows.length === 0) return null;
-        const row = tableResult.rows[0];
+        const [row] = tableResult.rows;
         if (row.status !== "live" && row.status !== "memory") return null;
         return await this.ensureTableConversationOnClient(client, {
           id: String(row.id),
@@ -766,7 +766,7 @@ class ChatDatabaseService {
         [messageId, actorId],
       );
       if (context.rows.length === 0) return { ok: false, reason: "not_found" };
-      const row = context.rows[0];
+      const [row] = context.rows;
       const allowed =
         opts?.isAdmin === true ||
         String(row.sender_id) === actorId ||

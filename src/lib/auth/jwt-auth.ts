@@ -65,7 +65,7 @@ export class JWTAuthService {
     try {
       const user = this.users.get(email);
 
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         logger.warn("Authentication failed: user not found or inactive", {
           email,
         });
@@ -147,7 +147,7 @@ export class JWTAuthService {
       const user = Array.from(this.users.values()).find(
         (u) => u.id === decoded.userId,
       );
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         logger.warn("Token validation failed: user inactive or deleted", {
           userId: decoded.userId,
         });
@@ -181,7 +181,7 @@ export class JWTAuthService {
       const user = Array.from(this.users.values()).find(
         (u) => u.id === decoded.userId,
       );
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         logger.warn(
           "Refresh token validation failed: user inactive or deleted",
           { userId: decoded.userId },
@@ -240,7 +240,7 @@ export class JWTAuthService {
     if (!match) return 3600; // Default 1 hour
 
     const value = parseInt(match[1], 10);
-    const unit = match[2];
+    const [,, unit] = match;
 
     switch (unit) {
       case "s":

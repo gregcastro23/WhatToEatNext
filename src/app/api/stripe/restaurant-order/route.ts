@@ -381,7 +381,7 @@ async function findPartnerRouting(input: {
        LIMIT 1`,
       [input.restaurantId, input.provider || null],
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     return row
       ? {
           id: row.id,

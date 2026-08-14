@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     const db = dbModule;
     if(db && typeof db.executeQuery === 'function') {
       const uRes = await db.executeQuery("SELECT wallet_address FROM users WHERE id = $1", [userId]);
-      if(uRes && uRes.rows && uRes.rows[0]) {
+      if(uRes?.rows?.[0]) {
         wallet = uRes.rows[0].wallet_address as Address;
       }
     }

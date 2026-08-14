@@ -49,7 +49,7 @@ export class PlanetaryKineticsClient {
   private readonly cache: Map<string, { data: KineticMetrics; timestamp: number }> =
     new Map();
   private previousPositions: Record<string, string> | null = null;
-  private lastCalculationTime: number = 0;
+  private lastCalculationTime = 0;
 
   private constructor() {}
 

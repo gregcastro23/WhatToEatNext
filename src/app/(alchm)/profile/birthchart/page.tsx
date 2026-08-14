@@ -34,7 +34,7 @@ export default function BirthChartPage() {
     );
   }
 
-  const natalChart = profileData.natalChart;
+  const { natalChart } = profileData;
   const natalPositions = extractPlanetaryPositions(natalChart);
 
   const sunSign = natalPositions.Sun;

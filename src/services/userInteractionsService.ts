@@ -266,7 +266,7 @@ export async function computeTasteGraph(userId: string): Promise<TasteGraph> {
 
   for (const row of rows) {
     const w = payloadWeight(row);
-    const payload = row.payload;
+    const { payload } = row;
 
     switch (row.interaction_type) {
       case "recipe_view":
@@ -298,7 +298,7 @@ export async function computeTasteGraph(userId: string): Promise<TasteGraph> {
           elementalWeight += w;
         }
 
-        const complexity = payload.complexity;
+        const { complexity } = payload;
         if (complexity === "simple" || complexity === "moderate" || complexity === "complex") {
           complexityScores[complexity] += w;
         }

@@ -15,9 +15,7 @@ const getAstrologizeApiUrl = () => {
   return `/api/astrologize`;
 };
 
-const getRecipeRecommendationsApiUrl = () => {
-  return `/api/astrological/recipe-recommendations-by-chart`;
-};
+const getRecipeRecommendationsApiUrl = () => `/api/astrological/recipe-recommendations-by-chart`;
 
 // Interface for the local API request
 interface LocalAstrologizeRequest {
@@ -360,8 +358,7 @@ export async function fetchPlanetaryPositions(
     // accurate to sub-arcsecond). Fall back to local approximate calculation.
     const serverAscendant = (data as any).ascendant;
     if (
-      serverAscendant &&
-      serverAscendant.sign &&
+      serverAscendant?.sign &&
       typeof serverAscendant.exactLongitude === "number"
     ) {
       positions["Ascendant"] = {

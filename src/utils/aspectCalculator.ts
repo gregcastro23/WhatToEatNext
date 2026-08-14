@@ -125,7 +125,7 @@ export function calculateComprehensiveAspects(
     }
 
     // Otherwise, calculate from sign and degree
-    if (!position || !position.sign) {
+    if (!position?.sign) {
       _logger.warn("Invalid position object encountered: ", position);
       return 0; // Return default value
     }

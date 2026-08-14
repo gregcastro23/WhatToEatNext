@@ -158,7 +158,7 @@ export async function fetchCreditPathSignals(): Promise<CreditPathSignals> {
            WHERE description LIKE 'Sync: %'
              AND created_at > NOW() - INTERVAL '7 days') AS last_credit_age_ms`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     return {
       calls24h: row?.calls_24h ?? 0,
       credits24h: row?.credits_24h ?? 0,

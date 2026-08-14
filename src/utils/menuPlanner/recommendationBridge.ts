@@ -338,7 +338,7 @@ function calculatePersonalizationBoost(
 
   // 1. Elemental alignment with user's dominant element (±15%)
   if (recipe.elementalProperties && natalChart.elementalBalance) {
-    const dominantElement = natalChart.dominantElement;
+    const { dominantElement } = natalChart;
     const recipeElementValue = recipe.elementalProperties[dominantElement] || 0;
 
     // Higher recipe value for user's dominant element = higher boost
@@ -925,8 +925,7 @@ async function searchRecipesForDay(
       // Preferred cooking methods match (weight: 0.05)
       if (
         preferredCookingMethodsLc.length > 0 &&
-        lcCookingMethods &&
-        lcCookingMethods.some((m) =>
+        lcCookingMethods?.some((m) =>
           preferredCookingMethodsLc.some((pm) => m.includes(pm)),
         )
       ) {
@@ -1001,7 +1000,7 @@ async function searchRecipesForDay(
           ingredients,
           (recipe as { servings?: number }).servings ?? 4,
         );
-        costPerServing = estimate.costPerServing;
+        ({ costPerServing } = estimate);
 
         const budgetRatio = costPerServing / (budget);
 
@@ -1322,7 +1321,7 @@ function scoreNutritionalAlignment(
 export function getDailyIngredientRecommendations(
   dayOfWeek: DayOfWeek,
   astroState: AstrologicalState,
-  limit: number = 20,
+  limit = 20,
 ): string[] {
   const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
 

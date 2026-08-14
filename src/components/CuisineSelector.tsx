@@ -99,8 +99,7 @@ function CuisineSelector({
   };
   
   // Filter cuisines by modality and zodiac influence
-  const filteredCuisines = useMemo(() => {
-    return sortedCuisines.filter(c => {
+  const filteredCuisines = useMemo(() => sortedCuisines.filter(c => {
       const cuisine = c as any;
       // Apply modality filter
       if (modalityFilter !== 'all' && getCuisineModality(cuisine) !== modalityFilter) {
@@ -129,8 +128,7 @@ function CuisineSelector({
       }
       
       return true;
-    });
-  }, [sortedCuisines, modalityFilter, zodiacFilter]);
+    }), [sortedCuisines, modalityFilter, zodiacFilter]);
 
   const handleCuisineSelect = (cuisineName: string) => {
     // Just notify the parent component about the cuisine change

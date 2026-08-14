@@ -70,8 +70,8 @@ export interface DegreePattern {
  * Advanced Degree-to-Agent Matching Engine
  */
 export class DegreeAgentMatcher {
-  private agentProfiles = new Map<string, AgentDegreeProfile>()
-  private degreeCache = new Map<string, DegreeActivation[]>()
+  private readonly agentProfiles = new Map<string, AgentDegreeProfile>()
+  private readonly degreeCache = new Map<string, DegreeActivation[]>()
   private readonly ORB_EXACT = 1 // 1 degree for exact matches
   private readonly ORB_CLOSE = 3 // 3 degrees for close matches
   private readonly ORB_HARMONIC = 5 // 5 degrees for harmonic matches
@@ -531,7 +531,7 @@ export class DegreeAgentMatcher {
 
     const agentWisdom = wisdomTemplates[profile.agentId as keyof typeof wisdomTemplates]
 
-    if (agentWisdom && agentWisdom[activationType as keyof typeof agentWisdom]) {
+    if (agentWisdom?.[activationType as keyof typeof agentWisdom]) {
       return agentWisdom[activationType as keyof typeof agentWisdom]
     }
 
@@ -666,7 +666,7 @@ export class DegreeAgentMatcher {
       }
     })
 
-    const dominantElement = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0][0]
+    const [[dominantElement]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)
 
     return `${dominantElement} Dominant`
   }
@@ -684,7 +684,7 @@ export class DegreeAgentMatcher {
       return `${planet} transits ${degree}° with A# energy of ${moment.alchemical.A_number.toFixed(2)}.`
     }
 
-    const primaryAgent = activatedAgents[0]
+    const [primaryAgent] = activatedAgents
     const otherCount = activatedAgents.length - 1
 
     let message = `${planet} at ${degree}° strongly activates ${primaryAgent.agentName} (${(primaryAgent.resonanceStrength * 100).toFixed(0)}% resonance)`
@@ -701,7 +701,7 @@ export class DegreeAgentMatcher {
   /**
    * Detect degree patterns across multiple activations
    */
-  detectPatterns(activations: DegreeActivation[], timeWindow: number = 24): DegreePattern[] {
+  detectPatterns(activations: DegreeActivation[], timeWindow = 24): DegreePattern[] {
     const patterns: DegreePattern[] = []
 
     // Group activations by time windows

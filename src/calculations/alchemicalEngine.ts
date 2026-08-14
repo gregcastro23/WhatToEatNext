@@ -176,9 +176,9 @@ export class AlchemicalEngineAdvanced {
       const entries = Object.entries(baseElements).filter(
         ([, v]) => typeof v === "number",
       );
-      const dominantElement = (entries.reduce((max, current) =>
+      const [dominantElement] = (entries.reduce((max, current) =>
         current[1] > max[1] ? current : max,
-      ) || ["Fire", DEFAULT_ELEMENT_VALUE])[0];
+      ) || ["Fire", DEFAULT_ELEMENT_VALUE]);
       // Validate season
       const validSeason = this.getValidSeason(season);
       // Function to check if string is a valid RulingPlanet

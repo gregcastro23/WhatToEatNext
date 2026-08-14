@@ -37,8 +37,7 @@ export const KineticsDisplay: React.FC<KineticsDisplayProps> = ({
 
   // Enhanced defensive checks for kinetics and all required properties
   if (
-    !kinetics ||
-    !kinetics.velocity ||
+    !kinetics?.velocity ||
     !kinetics.momentum ||
     !kinetics.power
   ) {

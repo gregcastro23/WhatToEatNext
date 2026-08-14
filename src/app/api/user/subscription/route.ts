@@ -12,7 +12,7 @@ import { auth } from "@/lib/auth/auth";
 import { subscriptionService } from "@/services/subscriptionService";
 
 /** Minimal fallback response so the frontend always has valid data */
-function fallbackResponse(tier: string = "free") {
+function fallbackResponse(tier = "free") {
   const now = new Date();
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
   return {

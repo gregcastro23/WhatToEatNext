@@ -123,15 +123,15 @@ export default [
       // Function and Variable Declarations - RELAXED
       "@typescript-eslint/explicit-function-return-type": "off", // DISABLED: TS inference is excellent (562 warnings)
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-inferrable-types": "off", // DISABLED: Style preference
+      "@typescript-eslint/no-inferrable-types": "error",
 
       // Best Practices
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/no-unnecessary-condition": "off", // Too many false positives
       "@typescript-eslint/prefer-nullish-coalescing": "off", // Style preference
-      "@typescript-eslint/prefer-optional-chain": "off", // 107 warnings - style preference
+      "@typescript-eslint/prefer-optional-chain": "error",
       "@typescript-eslint/prefer-as-const": "error",
-      "@typescript-eslint/prefer-readonly": "off", // Style preference
+      "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/no-floating-promises": "warn", // Pervasive in React async patterns (useEffect, onClick)
       "@typescript-eslint/no-misused-promises": "warn", // Pervasive in React async event handlers
       "@typescript-eslint/await-thenable": "warn", // Downgraded - some false positives with type inference
@@ -330,11 +330,11 @@ export default [
       yoda: "warn",
 
       // Code Quality - RELAXED FOR ALCHEMICAL CALCULATIONS
-      // Formally declined from debt tracking on 2026-08-14: complexity (372),
-      // max-depth (99), max-lines (618), and max-lines-per-function (2,039).
+      // Formally declined from debt tracking on 2026-08-14: complexity,
+      // max-depth, max-lines, and max-lines-per-function.
       // These are refactor prompts, not defect indicators; thermodynamic formulas,
       // astrological computations, and their component surfaces are legitimately
-      // complex. The audit baseline records their 3,128 findings separately.
+      // complex. The audit baseline records their measured counts separately.
       complexity: "off",
       "max-depth": "off",
       "max-lines": "off",
@@ -343,9 +343,9 @@ export default [
       "max-params": ["warn", 7], // Slightly increased for flexibility
 
       // ES6+ Features - RELAXED STYLE RULES
-      "arrow-body-style": "off", // DISABLED: Style preference
+      "arrow-body-style": "error",
       "prefer-arrow-callback": "warn",
-      "prefer-destructuring": "off", // DISABLED: Style preference
+      "prefer-destructuring": "error",
       "prefer-rest-params": "warn",
       "prefer-spread": "warn",
       "prefer-template": "warn",

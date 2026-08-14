@@ -4,7 +4,7 @@
 import { ANumberCalculator } from './core-energy-rules'
 
 // Environment variables for Galileo configuration
-const GALILEO_API_KEY = process.env.GALILEO_API_KEY
+const { GALILEO_API_KEY } = process.env
 const GALILEO_PROJECT = process.env.GALILEO_PROJECT || 'AlchmPlanetaryAgents'
 const QUANTITIES_STREAM = process.env.GALILEO_QUANTITIES_STREAM || 'alchm-quantities'
 const GALILEO_BASE_URL = process.env.GALILEO_BASE_URL || 'https://api.galileo.ai'
@@ -72,7 +72,7 @@ export interface GalileoSession {
 class GalileoLogger {
   private currentSession: GalileoSession | null = null
   private currentTrace: GalileoTrace | null = null
-  private spans: Map<string, GalileoSpan> = new Map()
+  private readonly spans: Map<string, GalileoSpan> = new Map()
 
   /**
    * Start a new session for grouping related traces

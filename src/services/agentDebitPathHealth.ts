@@ -131,7 +131,7 @@ export async function fetchDebitPathSignals(): Promise<DebitPathSignals> {
             FROM token_transactions
            WHERE source_type = 'agents_operation') AS last_debit_age_ms`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     // Prefer the real call count; fall back to the feed-event proxy while the
     // request log has nothing for this route. The fallback is not belt-and-
     // braces — request_log_entries began covering sync-debit only when

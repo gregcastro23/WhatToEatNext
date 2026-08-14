@@ -46,7 +46,7 @@ export function useProfile() {
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.profile) {
-            profile = data.profile;
+            ({ profile } = data);
             serverProfileLoaded = true;
           }
         }

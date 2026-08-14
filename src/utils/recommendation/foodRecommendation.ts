@@ -157,7 +157,7 @@ export function explainRecommendation(
     astrologicalState.activePlanets &&
     astrologicalState.activePlanets.length > 0
   ) {
-    const activePlanet = astrologicalState.activePlanets[0];
+    const [activePlanet] = astrologicalState.activePlanets;
     explanations.push(`Harmonizes with ${activePlanet} energy`);
   }
 

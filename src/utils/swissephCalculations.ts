@@ -178,7 +178,7 @@ export function calculatePlanetaryPositionsSwissEph(
           continue;
         }
 
-        const longitude = result.longitude;
+        const { longitude } = result;
         const speed = result.longitudeSpeed;
 
         // Convert to zodiac position
@@ -214,7 +214,7 @@ export function calculatePlanetaryPositionsSwissEph(
       );
 
       if (!northNodeResult.error) {
-        const longitude = northNodeResult.longitude;
+        const { longitude } = northNodeResult;
         const zodiacPos = longitudeToZodiacPosition(longitude);
 
         positions["NorthNode"] = {
@@ -268,7 +268,7 @@ export function calculateHouses(
   date: Date,
   latitude: number,
   longitude: number,
-  houseSystem: string = "P", // Placidus by default
+  houseSystem = "P", // Placidus by default
 ): {
   cusps: number[];
   ascendant: number;

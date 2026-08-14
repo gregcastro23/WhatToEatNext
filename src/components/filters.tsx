@@ -11,8 +11,7 @@ interface FiltersProps {
   onFilterChange: (updater: (prev: FilterState) => FilterState) => void;
 }
 
-const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
-  return (
+const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => (
     <div className="space-y-6">
       {/* Serving Size */}
       <div className="space-y-2">
@@ -96,6 +95,5 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
       </div>
     </div>
   );
-};
 
 export default Filters;

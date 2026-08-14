@@ -101,7 +101,7 @@ export class EphemerisParser {
 
     if (match) {
       const degrees = parseInt(match[1], 10);
-      const signChar = match[2];
+      const [,, signChar] = match;
       const minutes = parseInt(match[3], 10);
       const signNum = this.signSymbols[signChar] || 0;
 
@@ -210,8 +210,8 @@ export class EphemerisParser {
           return;
         }
 
-        const date = parts[0];
-        const siderealTime = parts[1];
+        const [date] = parts;
+        const [, siderealTime] = parts;
         const positions = this.parseEphemerisLine(line);
 
         if (positions && Object.keys(positions).length > 0) {

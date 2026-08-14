@@ -78,7 +78,7 @@ export async function GET(
        WHERE user_id = $1 AND recipe_id = $2`,
       [userId, resolvedId],
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
 
     return NextResponse.json({
       authenticated: true,

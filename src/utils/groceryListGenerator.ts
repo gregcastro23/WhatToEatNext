@@ -248,7 +248,7 @@ export function generateGroceryList(
     >();
 
     meals.forEach((meal) => {
-      if (!meal.recipe || !meal.recipe.ingredients) return;
+      if (!meal.recipe?.ingredients) return;
 
       meal.recipe.ingredients.forEach((rawIngredient: any) => {
         // Handle both string ingredients and object ingredients
@@ -268,8 +268,8 @@ export function generateGroceryList(
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);
-          amount = converted.amount;
-          unit = converted.unit;
+          ({ amount } = converted);
+          ({ unit } = converted);
         }
 
         if (ingredientMap.has(key)) {
@@ -321,12 +321,12 @@ export function generateGroceryList(
             : `${normalizedName}-sauce-${meal.sauce!.id}`;
 
         let amount = Number(ingredient.amount) * sauceServings;
-        let unit = ingredient.unit;
+        let { unit } = ingredient;
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);
-          amount = converted.amount;
-          unit = converted.unit;
+          ({ amount } = converted);
+          ({ unit } = converted);
         }
 
         if (ingredientMap.has(key)) {

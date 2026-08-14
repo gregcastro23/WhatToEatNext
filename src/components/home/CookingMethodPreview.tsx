@@ -326,7 +326,7 @@ export default function CookingMethodPreview() {
           Air: method.elementalEffect.Air,
           Earth: method.elementalEffect.Earth,
         });
-        const gregsEnergy = result.gregsEnergy;
+        const { gregsEnergy } = result;
 
         // Calculate Kalchm using TRANSFORMED ESMS (method-specific equilibrium constant)
         const kalchm = calculateKalchm({
@@ -337,7 +337,7 @@ export default function CookingMethodPreview() {
         });
 
         // Use method-specific reactivity for Monica calculation
-        const reactivity = methodThermo.reactivity;
+        const { reactivity } = methodThermo;
         const monica =
           gregsEnergy !== null && kalchm
             ? calculateMonica(gregsEnergy, reactivity, kalchm)

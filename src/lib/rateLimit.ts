@@ -125,7 +125,7 @@ export async function rateLimit(
   entry.timestamps = entry.timestamps.filter((t) => t > cutoff);
 
   if (entry.timestamps.length >= max) {
-    const oldestInWindow = entry.timestamps[0];
+    const [oldestInWindow] = entry.timestamps;
     const resetMs = Math.max(0, window - (now - oldestInWindow));
     return buildResponse(false, 0, resetMs, max, now);
   }

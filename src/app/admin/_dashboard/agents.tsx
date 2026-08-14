@@ -1323,8 +1323,7 @@ function AgentInteractionsPanel({
               : "discourse stream offline"}
         </div>
       ) : (
-        entries.map((interaction) => {
-          return (
+        entries.map((interaction) => (
             <div
               key={interaction.sessionId}
               style={{
@@ -1406,8 +1405,7 @@ function AgentInteractionsPanel({
                 </a>
               </span>
             </div>
-          );
-        })
+          ))
       )}
     </Card>
   );

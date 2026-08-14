@@ -114,7 +114,7 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   meals.forEach((meal) => {
     if (!meal.recipe) return;
 
-    const recipe = meal.recipe;
+    const { recipe } = meal;
 
     // Safe check for ingredients and instructions
     if (
@@ -131,13 +131,10 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     const servings = meal.servings || 1;
 
     // Basic nutrition - support both new AlchemicalRecipe format and old format
-    const nutritionPerServing = (
-      recipe as EnhancedRecipe & {
+    const { nutritionPerServing } = (recipe as EnhancedRecipe & {
         nutritionPerServing?: NutritionPerServingLike;
-      }
-    ).nutritionPerServing;
-    const nutritionalProfile: NutritionalProfileLike | undefined =
-      recipe.nutritionalProfile;
+      });
+    const { nutritionalProfile }: { nutritionalProfile?: NutritionalProfileLike } = recipe;
 
     if (nutritionPerServing) {
       totalCalories += (nutritionPerServing.calories || 0) * servings;
@@ -442,7 +439,7 @@ export function calculateNutritionalProgress(
 
   // Determine overall status
   let status: "under" | "on-track" | "over";
-  if (!goals || !goals.dailyCalories) {
+  if (!goals?.dailyCalories) {
     status = "on-track";
   } else {
     const caloriePercentage = percentages.calories;

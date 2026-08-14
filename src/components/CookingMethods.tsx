@@ -61,9 +61,9 @@ const alchemize = async (
 
     // If astroState contains planetary positions, add them to the horoscope
     const astro = astroState as AstroStateShape | null | undefined;
-    if (astro && astro.planetaryPositions) {
+    if (astro?.planetaryPositions) {
       Object.entries(astro.planetaryPositions).forEach(([planet, position]) => {
-        if (position && position.sign) {
+        if (position?.sign) {
           horoscopeDict.tropical.CelestialBodies[planet] = {
             Sign: { label: position.sign },
             ChartPosition: {
@@ -328,15 +328,13 @@ export default function CookingMethods() {
   ], []);
   
   // Helper functions for the component
-  const normalizeAstroState = useCallback(() => {
-    return {
+  const normalizeAstroState = useCallback(() => ({
       currentZodiac,
       lunarPhase,
       activePlanets,
       isDaytime,
       currentPlanetaryAlignment
-    };
-  }, [activePlanets, currentPlanetaryAlignment, currentZodiac, isDaytime, lunarPhase]);
+    }), [activePlanets, currentPlanetaryAlignment, currentZodiac, isDaytime, lunarPhase]);
   
   interface ThermoTuple { heat: number; entropy: number; reactivity: number }
 
@@ -421,7 +419,7 @@ export default function CookingMethods() {
 
         // Check if ingredient is in the method's suitable_for list
         const suitableFor = (method as { suitable_for?: string[] }).suitable_for;
-        if (suitableFor && suitableFor.some(item =>
+        if (suitableFor?.some(item =>
           item.toLowerCase().includes(ingredient.toLowerCase())
         )) {
           compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
@@ -1386,15 +1384,13 @@ export default function CookingMethods() {
       const astroState = normalizeAstroState();
       
       // Get the cooking methods with default thermodynamic properties
-      const baseMethods = Object.entries(cookingMethods).map(([key, method]) => {
-        return {
+      const baseMethods = Object.entries(cookingMethods).map(([key, method]) => ({
           ...method,
           id: key,
           name: key.replace(/_/g, ' '),
           gregsEnergy: 0.5, // Default value, will be updated below
           matchReason: ''
-        };
-      });
+        }));
       
       // Process methods in parallel using Promise.all
       const methodsWithScores = await Promise.all(
@@ -1763,7 +1759,7 @@ export default function CookingMethods() {
                         </span>
                       )}
                       
-                      {method.bestFor && method.bestFor[0] && (
+                      {method.bestFor?.[0] && (
                         <span className={styles.infoTag}>
                           Best for: {method.bestFor[0]}
                         </span>

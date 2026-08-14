@@ -87,7 +87,7 @@ async function handlePost(request: NextRequest) {
   // Auth'd path: token economy is the throttle. Every user gets 1 free daily generation,
   // and subsequent recipe generations spend personalized live ESMS tokens.
   if (access.mode === "auth") {
-    const userId = access.userId;
+    const { userId } = access;
     let isFirstGeneration = true;
     let count = 0;
 
@@ -108,7 +108,7 @@ async function handlePost(request: NextRequest) {
       // If they already generated their free daily recipe, charge them using their ESMS token balances
       if (!isFirstGeneration) {
         const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
-        if (!item || !item.isActive) {
+        if (!item?.isActive) {
           return new Response(JSON.stringify({
             error: "shop_item_unavailable",
             message: "Cosmic recipe unlock is not configured.",

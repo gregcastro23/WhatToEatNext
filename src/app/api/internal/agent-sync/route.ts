@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
     // 2. Parse and Validate Request Body
     const body = (await req.json().catch(() => null)) as SyncBody | null;
-    if (!body || !body.email) {
+    if (!body?.email) {
       return NextResponse.json(
         { success: false, message: "email is required" },
         { status: 400 }
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
 
     // 3. Map & Reconstruct Birth Data
     let birthData: any = null;
-    if (birthDate && birthLocation && birthLocation.latitude !== undefined && birthLocation.longitude !== undefined) {
+    if (birthDate && birthLocation?.latitude !== undefined && birthLocation.longitude !== undefined) {
       const timeStr = birthTime || "12:00";
       try {
         const parsedDate = new Date(`${birthDate}T${timeStr}`);

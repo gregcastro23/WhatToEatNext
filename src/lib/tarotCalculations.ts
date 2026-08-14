@@ -296,8 +296,8 @@ export const getTarotCardsForDate = (
 
   // Extract suit and number from the card name
   const nameParts = tarotCard.name.split(" of ");
-  const suit = nameParts[1];
-  const numberStr = nameParts[0];
+  const [, suit] = nameParts;
+  const [numberStr] = nameParts;
 
   // Convert number string to actual number
   let number;
@@ -430,7 +430,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
     }
   }
 
-  if (tarotCards.majorCard && tarotCards.majorCard.element) {
+  if (tarotCards.majorCard?.element) {
     filters.elementalProperties[tarotCards.majorCard.element] =
       (filters.elementalProperties[tarotCards.majorCard.element] || 0) + 0.5;
   }

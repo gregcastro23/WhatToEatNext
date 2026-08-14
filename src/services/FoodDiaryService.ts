@@ -40,9 +40,7 @@ import { reportQuestEventBestEffort } from "./questEventReporter";
 import { tokenEconomy } from "./TokenEconomyService";
 
 // Check if we should use database (only in server-side contexts with DB available)
-const isServerWithDB = (): boolean => {
-  return typeof window === "undefined" && !!process.env.DATABASE_URL;
-};
+const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 // Lazy-load database module to avoid build-time issues
 let dbModule: typeof import("@/lib/database") | null = null;
@@ -2571,9 +2569,9 @@ const QUICK_FOOD_PRESETS: QuickFoodPreset[] = [
  */
 class FoodDiaryService {
   // In-memory fallback storage
-  private entries: Map<string, FoodDiaryEntry> = new Map();
-  private userEntries: Map<string, Set<string>> = new Map(); // userId -> entryIds
-  private favorites: Map<string, UserFoodFavorite[]> = new Map(); // userId -> favorites
+  private readonly entries: Map<string, FoodDiaryEntry> = new Map();
+  private readonly userEntries: Map<string, Set<string>> = new Map(); // userId -> entryIds
+  private readonly favorites: Map<string, UserFoodFavorite[]> = new Map(); // userId -> favorites
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
   private initialized = false;
 
@@ -2871,7 +2869,7 @@ class FoodDiaryService {
     input: UpdateFoodDiaryEntryInput,
   ): Promise<FoodDiaryEntry | null> {
     const entry = this.entries.get(input.id);
-    if (!entry || entry.userId !== userId) {
+    if (entry?.userId !== userId) {
       return null;
     }
 
@@ -2968,7 +2966,7 @@ class FoodDiaryService {
    */
   async deleteEntry(userId: string, entryId: string): Promise<boolean> {
     const entry = this.entries.get(entryId);
-    if (!entry || entry.userId !== userId) {
+    if (entry?.userId !== userId) {
       return false;
     }
 
@@ -3359,7 +3357,7 @@ class FoodDiaryService {
     entryId: string,
   ): Promise<UserFoodFavorite | null> {
     const entry = this.entries.get(entryId);
-    if (!entry || entry.userId !== userId) return null;
+    if (entry?.userId !== userId) return null;
 
     // Update entry
     entry.isFavorite = true;
@@ -3438,7 +3436,7 @@ class FoodDiaryService {
     if (userEntryIds) {
       for (const entryId of userEntryIds) {
         const entry = this.entries.get(entryId);
-        if (entry && entry.foodName === removed.foodName && entry.isFavorite) {
+        if (entry?.foodName === removed.foodName && entry.isFavorite) {
           entry.isFavorite = false;
           entry.updatedAt = new Date();
           this.entries.set(entryId, entry);
@@ -3589,7 +3587,7 @@ class FoodDiaryService {
 
     // High-rated foods pattern
     if (patterns.topRatedFoods.length > 0) {
-      const topRated = patterns.topRatedFoods[0];
+      const [topRated] = patterns.topRatedFoods;
       insights.push({
         id: `insight_favorite_${Date.now()}`,
         type: "rating_pattern",
@@ -4213,7 +4211,7 @@ class FoodDiaryService {
   ): Record<string, FoodDiaryEntry[]> {
     const grouped: Record<string, FoodDiaryEntry[]> = {};
     for (const entry of entries) {
-      const day = new Date(entry.date).toISOString().split("T")[0];
+      const [day] = new Date(entry.date).toISOString().split("T");
       if (!grouped[day]) grouped[day] = [];
       grouped[day].push(entry);
     }
@@ -4232,12 +4230,12 @@ class FoodDiaryService {
       .reverse();
 
     let streak = 0;
-    const today = new Date().toISOString().split("T")[0];
+    const [today] = new Date().toISOString().split("T");
 
     for (let i = 0; i < sortedDays.length; i++) {
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() - i);
-      const expected = expectedDate.toISOString().split("T")[0];
+      const [expected] = expectedDate.toISOString().split("T");
 
       if (sortedDays[i] === expected || (i === 0 && sortedDays[0] === today)) {
         streak++;

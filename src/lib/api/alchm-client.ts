@@ -199,7 +199,7 @@ export class AlchmAPIClient {
 
   // --- External Data Service Methods with Caching ---
 
-  private _cache: {
+  private readonly _cache: {
     cuisines?: Promise<Record<string, any>>;
     sauces?: Promise<Record<string, any>>;
     ingredients?: Promise<Record<string, any>>;

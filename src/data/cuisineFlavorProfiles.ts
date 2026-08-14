@@ -1016,7 +1016,7 @@ export async function getRecipesForCuisineMatch(
           >;
         } | undefined;
 
-        if (cuisine && cuisine.dishes) {
+        if (cuisine?.dishes) {
           log.info(
             `Direct import successful for ${cuisineName}, extracting recipes from dishes`,
           );
@@ -1179,12 +1179,10 @@ export async function getRecipesForCuisineMatch(
 
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
-              const ingredients = recipeData.ingredients;
-              const recipeIngredientNames = ingredients.map((ing) => {
-                return typeof ing === "string"
+              const { ingredients } = recipeData;
+              const recipeIngredientNames = ingredients.map((ing) => typeof ing === "string"
                   ? ing.toLowerCase()
-                  : String(ing.name || "").toLowerCase();
-              });
+                  : String(ing.name || "").toLowerCase());
 
               const commonIngredients =
                 cuisineProfile.signatureIngredients.filter((ing) =>
@@ -1206,7 +1204,7 @@ export async function getRecipesForCuisineMatch(
               cuisineProfile.signatureTechniques &&
               recipeData.cookingMethods
             ) {
-              const cookingMethods = recipeData.cookingMethods;
+              const { cookingMethods } = recipeData;
               const recipeTechniques = Array.isArray(cookingMethods)
                 ? cookingMethods.map((tech) =>
                     String(tech || "").toLowerCase(),

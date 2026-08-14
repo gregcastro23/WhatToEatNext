@@ -62,7 +62,7 @@ export function calculateMealCircuit(
     return null;
   }
 
-  const recipe = mealSlot.recipe;
+  const { recipe } = mealSlot;
 
   // Safe check for ingredients and instructions
   if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
@@ -111,10 +111,10 @@ export function calculateMealCircuit(
     );
 
     // 3. Extract circuit properties from kinetics
-    const charge = kinetics.charge; // Q = Matter + Substance
-    const potentialDifference = kinetics.potentialDifference; // V = Greg's Energy / Q
-    const currentFlow = kinetics.currentFlow; // I = Reactivity × (dQ/dt)
-    const power = kinetics.power; // P = I × V
+    const { charge } = kinetics; // Q = Matter + Substance
+    const { potentialDifference } = kinetics; // V = Greg's Energy / Q
+    const { currentFlow } = kinetics; // I = Reactivity × (dQ/dt)
+    const { power } = kinetics; // P = I × V
 
     // 4. Calculate resistance and losses
     const resistance = thermodynamics.entropy; // Entropy as resistance (Ohms)

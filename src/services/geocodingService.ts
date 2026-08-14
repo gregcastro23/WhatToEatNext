@@ -82,7 +82,7 @@ export async function geocodeLocation(
         if (parts.length <= 2) {
           return { primary: parts[0], secondary: parts.slice(1).join(", ") };
         }
-        const primary = parts[0];
+        const [primary] = parts;
         const secondary = [parts[1], parts[parts.length - 1]].filter(Boolean).join(", ");
         return { primary, secondary };
       })();

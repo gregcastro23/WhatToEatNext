@@ -714,7 +714,7 @@ export class SwissEphemerisService {
   async getPlanetaryPositions(
     date: Date = new Date(),
   ): Promise<Record<string, CelestialPosition>> {
-    const cacheKey = date.toISOString().split("T")[0];
+    const [cacheKey] = date.toISOString().split("T");
 
     if (this.cache.has(cacheKey)) {
       logger.debug("Using cached Swiss Ephemeris data");
@@ -905,7 +905,7 @@ export class SwissEphemerisService {
     }
 
     // Find closest day if exact day not found
-    let closestEntry = yearData[0];
+    let [closestEntry] = yearData;
     let minDiff = Math.abs(targetDay - closestEntry.day);
 
     for (const entry of yearData) {
@@ -923,7 +923,7 @@ export class SwissEphemerisService {
    * Approximate positions for dates outside the available ephemeris range
    */
   private approximateForDate(date: Date): SwissEphemerisData | null {
-    const baseEntry = this.ephemerisData["2025"][0]; // Use 2025 as base
+    const [baseEntry] = this.ephemerisData["2025"]; // Use 2025 as base
     const baseDate = baseEntry.date;
 
     const daysDiff =

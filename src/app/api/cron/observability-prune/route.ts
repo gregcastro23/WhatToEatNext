@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     }>(`SELECT * FROM prune_observability_logs($1)`, [retainDays]);
 
     // pg returns BIGINT as string — coerce for the JSON response.
-    const row = result.rows[0];
+    const [row] = result.rows;
     const requestLogDeleted = row ? Number(row.request_log_deleted) : 0;
     const slowQueryLogDeleted = row ? Number(row.slow_query_log_deleted) : 0;
     // mcp_invocations_deleted only present after migration 46 has applied;

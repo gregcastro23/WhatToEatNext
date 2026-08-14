@@ -929,7 +929,7 @@ export interface RecentAlertsData {
  * the query fails — never throws.
  */
 export async function getRecentAlerts(
-  limit: number = 8,
+  limit = 8,
 ): Promise<RecentAlertsData> {
   try {
     const result = await executeQuery<{
@@ -1007,7 +1007,7 @@ export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
            WHERE practice_type = 'feed_visit'
              AND created_at >= CURRENT_DATE) AS feed_dau`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     return {
       affiliateClicksWeek: Number(row?.affiliate_clicks ?? 0),
       cookedPostsWeek: Number(row?.cooked_posts ?? 0),
@@ -1042,7 +1042,7 @@ export interface ErrorGroupsData {
  * E-7741 / E-7740 fixtures with the real recent error footprint.
  */
 export async function getErrorGroupSummary(
-  windowMinutes: number = 60,
+  windowMinutes = 60,
 ): Promise<ErrorGroupsData> {
   try {
     const result = await executeQuery<{
@@ -1142,7 +1142,7 @@ export async function getSecuritySummary(): Promise<SecuritySummaryData> {
       ),
     ]);
 
-    const countsRow = counts.rows[0];
+    const [countsRow] = counts.rows;
     for (const row of hourly.rows) {
       const idx = 23 - row.hour_bucket;
       if (idx >= 0 && idx < 24) {

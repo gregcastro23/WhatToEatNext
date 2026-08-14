@@ -174,8 +174,8 @@ export function isHistoricalAgentFeedItem(value: unknown): value is HistoricalAg
   if (typeof value.id !== "string" || typeof value.createdAt !== "string") return false;
 
   if (value.type === "recipe_post") {
-    const agent = value.agent;
-    const recipe = value.recipe;
+    const { agent } = value;
+    const { recipe } = value;
     return (
       isRecord(agent) &&
       typeof agent.id === "string" &&
@@ -196,7 +196,7 @@ export function isHistoricalAgentFeedItem(value: unknown): value is HistoricalAg
   }
 
   if (value.type === "agent_event") {
-    const agent = value.agent;
+    const { agent } = value;
     return (
       isRecord(agent) &&
       typeof agent.id === "string" &&

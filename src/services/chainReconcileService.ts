@@ -189,7 +189,7 @@ export async function checkWalletInvariants(maxWallets = 20): Promise<InvariantS
        LIMIT $1`,
       [Math.min(Math.max(maxWallets, 1), 100)],
     );
-    rows = res.rows;
+    ({ rows } = res);
   } catch (err) {
     console.error("[chainReconcile] invariant enumeration failed:", err);
     summary.failures++;
@@ -250,7 +250,7 @@ export async function backfillPendingNfts(limit = 3): Promise<NftBackfillSummary
        LIMIT $1`,
       [Math.min(Math.max(limit, 1), 10)],
     );
-    rows = res.rows;
+    ({ rows } = res);
   } catch (err) {
     console.error("[chainReconcile] pending-NFT scan failed:", err);
     summary.failures++;

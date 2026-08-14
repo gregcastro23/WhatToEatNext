@@ -552,7 +552,7 @@ class TableDatabaseService {
           [tableId, hostId],
         );
         if (result.rows.length === 0) return null;
-        const tableRow = result.rows[0];
+        const [tableRow] = result.rows;
         const { chatDatabase } = await import("@/services/chatDatabaseService");
         await chatDatabase.ensureTableConversationOnClient(client, {
           id: String(tableRow.id),
@@ -601,7 +601,7 @@ class TableDatabaseService {
           [tableId, hostId],
         );
         if (tableResult.rows.length === 0) return null;
-        const tableRow = tableResult.rows[0];
+        const [tableRow] = tableResult.rows;
 
         const membersResult = await client.query(
           `SELECT tm.user_id, tm.display_name, COALESCE(up.name, u.name) AS user_name
@@ -853,7 +853,7 @@ class TableDatabaseService {
         [memberId, tableId],
       );
       if (memberResult.rows.length === 0) return { ok: false, reason: "not_found" };
-      const row = memberResult.rows[0];
+      const [row] = memberResult.rows;
 
       if (row.role === "host") return { ok: false, reason: "forbidden" };
 
@@ -945,7 +945,7 @@ class TableDatabaseService {
         [tableId],
       );
       if (tableResult.rows.length === 0) return { ok: false, reason: "not_found" };
-      const row = tableResult.rows[0];
+      const [row] = tableResult.rows;
       const hostId = dbString(row.host_id);
       const tableTitle: string = row.title;
 
@@ -993,7 +993,7 @@ class TableDatabaseService {
   ): Promise<TableInvite | null> {
     try {
       const table = await this.getTableHostAndStatus(tableId);
-      if (!table || table.hostId !== hostId) return null;
+      if (table?.hostId !== hostId) return null;
 
       const token = randomBytes(24).toString("base64url");
       const expiresInHours = opts.expiresInHours ?? 168;
@@ -1045,7 +1045,7 @@ class TableDatabaseService {
         [token],
       );
       if (result.rows.length === 0) return null;
-      const row = result.rows[0];
+      const [row] = result.rows;
       const valid =
         !row.revoked_at &&
         new Date(row.expires_at).getTime() > Date.now() &&

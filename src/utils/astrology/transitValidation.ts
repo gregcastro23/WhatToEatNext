@@ -68,7 +68,7 @@ export function validateTransitDate(
   transitDates: PlanetTransitDates,
 ): boolean {
   try {
-    if (!transitDates || !transitDates[sign]) {
+    if (!transitDates?.[sign]) {
       logger.warn(`No transit data found for ${planet} in ${sign}`);
       return false;
     }

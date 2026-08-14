@@ -162,7 +162,7 @@ export default function GeneratedRecipePage() {
           return res.json();
         })
         .then((data) => {
-          if (data && data.success && data.recipe) {
+          if (data?.success && data.recipe) {
             setRecipe(data.recipe);
           }
           setHasCheckedStore(true);

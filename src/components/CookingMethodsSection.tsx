@@ -368,7 +368,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
               <div 
                 key={method.id} 
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
-                onClick={() => onSelectMethod && onSelectMethod(method)}
+                onClick={() => onSelectMethod?.(method)}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
@@ -521,7 +521,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                           className={`${styles['variation-item']} ${selectedMethodId === variation.id ? styles.selected : ''}`}
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent parent click
-                            onSelectMethod && onSelectMethod(variation);
+                            onSelectMethod?.(variation);
                           }}
                         >
                           <div className={styles['variation-header']}>

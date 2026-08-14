@@ -12,9 +12,7 @@ import type {
   UserNotification,
 } from "@/types/notification";
 
-const isServerWithDB = (): boolean => {
-  return typeof window === "undefined" && !!process.env.DATABASE_URL;
-};
+const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
 const getDbModule = async () => {
@@ -282,7 +280,7 @@ class NotificationDatabaseService {
           JSON.stringify(baseMetadata), // $10
         ],
       );
-      const row = result.rows[0];
+      const [row] = result.rows;
       return row ? rowToNotification(row) : null;
     } catch (error) {
       const code = (error as { code?: string })?.code;
@@ -371,7 +369,7 @@ class NotificationDatabaseService {
         );
 
         if (found.rows.length > 0) {
-          const row = found.rows[0];
+          const [row] = found.rows;
           const prev = parseNotificationMetadata(row.metadata);
           const nextCount = (typeof prev.unreadCount === "number" ? prev.unreadCount : 1) + 1;
           const nextMeta = {
@@ -545,7 +543,7 @@ class NotificationDatabaseService {
     }
 
     const n = notificationsStore.get(notificationId);
-    if (n && n.userId === userId) {
+    if (n?.userId === userId) {
       n.isRead = true;
       return true;
     }
@@ -587,7 +585,7 @@ class NotificationDatabaseService {
     }
 
     const n = notificationsStore.get(notificationId);
-    if (n && n.userId === userId && n.type === "table_join_request") {
+    if (n?.userId === userId && n.type === "table_join_request") {
       n.metadata = { ...(n.metadata || {}), status };
       n.isRead = true;
       return true;

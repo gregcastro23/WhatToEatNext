@@ -40,7 +40,7 @@ function matchesCategory(ing: UnifiedIngredient, categories?: string[]): boolean
 
 function hasPlanetaryRuler(ing: UnifiedIngredient, planet: string): boolean {
   const target = planet.toLowerCase();
-  if (ing.planetaryRuler && ing.planetaryRuler.toString().toLowerCase() === target) {
+  if (ing.planetaryRuler?.toString().toLowerCase() === target) {
     return true;
   }
   const rulers = ing.astrologicalProfile?.rulingPlanets;
@@ -50,7 +50,7 @@ function hasPlanetaryRuler(ing: UnifiedIngredient, planet: string): boolean {
 
 export class ConsolidatedIngredientService {
   private static instance: ConsolidatedIngredientService;
-  private core: IngredientService;
+  private readonly core: IngredientService;
 
   private constructor() {
     this.core = IngredientService.getInstance();
@@ -78,7 +78,7 @@ export class ConsolidatedIngredientService {
   async searchIngredients(query: string): Promise<UnifiedIngredient[]> {
     try {
       const all = this.core.getAllIngredientsFlat();
-      if (!query || !query.trim()) return all;
+      if (!query?.trim()) return all;
       const q = query.toLowerCase().trim();
       return all.filter((ing) => {
         if (ing.name?.toLowerCase().includes(q)) return true;

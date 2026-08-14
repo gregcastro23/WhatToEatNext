@@ -74,13 +74,13 @@ export function calculateTransitScoreModifier(
 
   if (natalMoon && currentMoonInfo) {
     const natalMoonElement = getElementForSign(natalMoon.sign);
-    const currentMoonSign = currentMoonInfo.split(' in ')[1];
+    const [, currentMoonSign] = currentMoonInfo.split(' in ');
     const currentMoonElement = getElementForSign(currentMoonSign);
 
     if (natalMoonElement === currentMoonElement) {
       // Check if the recipe is a "comfort food". This is a simplification.
       // We'll use keywords in the description or category.
-      if (recipe.description && recipe.description.toLowerCase().includes('comfort') || (recipe.mealType && recipe.mealType.includes('comfort'))) {
+      if (recipe.description?.toLowerCase().includes('comfort') || (recipe.mealType?.includes('comfort'))) {
         modifier += 0.2; // 20% boost for comfort foods
       }
     }
@@ -92,14 +92,14 @@ export function calculateTransitScoreModifier(
 
   if (natalMars && currentMarsInfo) {
     const natalMarsSign = natalMars.sign;
-    const currentMarsSign = currentMarsInfo.split(' in ')[1];
+    const [, currentMarsSign] = currentMarsInfo.split(' in ');
     
     const aspect = getAspect(natalMarsSign, currentMarsSign);
 
     if (aspect === 'square') {
       // Check for high protein/energy.
       const nutritionalProfile = recipe.nutritionalProfile as any;
-      if (nutritionalProfile && nutritionalProfile.protein && nutritionalProfile.protein > 25) { // e.g., > 25g protein
+      if (nutritionalProfile?.protein && nutritionalProfile.protein > 25) { // e.g., > 25g protein
         modifier += 0.15; // 15% boost
       }
       if (recipe.description && (recipe.description.toLowerCase().includes('energy') || recipe.description.toLowerCase().includes('hearty'))) {

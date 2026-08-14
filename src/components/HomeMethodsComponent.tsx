@@ -149,10 +149,10 @@ export default function HomeMethodsComponent() {
   const handleSelectMethod = (method: unknown) => {
     const selected = method as FormattedMethod;
     setSelectedMethod(prevSelected =>
-      prevSelected && prevSelected.id === selected.id ? null : selected
+      prevSelected?.id === selected.id ? null : selected
     );
 
-    if (!selectedMethod || selectedMethod.id !== selected.id) {
+    if (selectedMethod?.id !== selected.id) {
       logger.debug('Selected method', { name: selected.name });
     } else {
       logger.debug('Unselected method', { name: selected.name });

@@ -49,9 +49,9 @@ export const _addHeatLevels = (
     );
 
     // Calculate potency based on dominant element with some variation
-    const dominantElement = Object.entries(normalizedProperties).sort(
+    const [[dominantElement]] = Object.entries(normalizedProperties).sort(
       ([, a], [, b]) => b - a,
-    )[0][0];
+    );
     const potencyBase = normalizedProperties[dominantElement] * 8;
     const potency = Math.min(
       10,

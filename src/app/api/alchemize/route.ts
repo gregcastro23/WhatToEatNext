@@ -107,8 +107,8 @@ export async function GET(request: Request) {
     const elTotal = Object.values(elementCounts).reduce((a, b) => a + b, 0) || 1;
     const modalityTotal = Object.values(modalityCounts).reduce((a, b) => a + b, 0) || 1;
 
-    const dominantElement = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0][0];
-    const dominantModality = Object.entries(modalityCounts).sort(([, a], [, b]) => b - a)[0][0];
+    const [[dominantElement]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
+    const [[dominantModality]] = Object.entries(modalityCounts).sort(([, a], [, b]) => b - a);
 
     // Material vocabulary: the ESMS axes as proportions (Spirit is surfaced as
     // part of the alchemical block above, not needed here).

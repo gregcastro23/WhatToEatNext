@@ -76,7 +76,7 @@ class PerformanceMonitoringService {
       memory?: { usedJSHeapSize?: number };
     };
     const perf = performance as PerformanceWithMemory;
-    if (perf && perf.memory && typeof perf.memory.usedJSHeapSize === "number") {
+    if (perf?.memory && typeof perf.memory.usedJSHeapSize === "number") {
       totalMemory = perf.memory.usedJSHeapSize / 1024 / 1024; // MB
     }
 

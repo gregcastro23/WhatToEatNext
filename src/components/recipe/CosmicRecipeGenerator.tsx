@@ -203,7 +203,7 @@ export default function CosmicRecipeGenerator() {
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
-          const rewardQuest = data.completedQuests[0];
+          const [rewardQuest] = data.completedQuests;
           questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
         }
         showSuccess(`Successfully shared to community feed!${questMessage}`);
@@ -310,7 +310,7 @@ export default function CosmicRecipeGenerator() {
         else if (res.status >= 500) message = "The recipe service is temporarily unavailable. Please try again shortly.";
         try {
           const data = await res.json();
-          if (typeof data?.message === "string") message = data.message;
+          if (typeof data?.message === "string") ({ message } = data);
           else if (typeof data?.error === "string") message = data.error;
         } catch {
           /* keep default message */

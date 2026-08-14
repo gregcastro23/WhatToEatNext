@@ -131,7 +131,7 @@ async function getSettlementBacklog(): Promise<SettlementBacklog> {
         WHERE status = 'settlement_pending'
            OR transfer_status = 'retry_required'`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     const pending = Number(row?.count ?? 0);
     return {
       pending,

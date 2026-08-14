@@ -138,8 +138,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
       // NOTE (preserved latent bug): calculateLunarNodes returns { northNode: number; isRetrograde: boolean }.
       // `.northNode` is a number (not the {sign,degree,...} object expected here) and `.southNode` is undefined.
       // Kept as-is in this types-only pass.
-      northNode = (lunarNodes as Record<string, unknown>).northNode;
-      southNode = (lunarNodes as Record<string, unknown>).southNode;
+      ({ northNode } = (lunarNodes as Record<string, unknown>));
+      ({ southNode } = (lunarNodes as Record<string, unknown>));
     } catch (_fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

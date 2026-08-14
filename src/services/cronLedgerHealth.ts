@@ -116,7 +116,7 @@ export async function fetchCronLedgerSignals(): Promise<CronLedgerSignals> {
            WHERE source_type = 'agents_yield'
              AND created_at > NOW() - INTERVAL '7 days') AS eligible`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     return {
       biggestBatch24h: row?.biggest_batch ?? 0,
       eligibleProducers: row?.eligible ?? 0,

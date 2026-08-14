@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
             body.notes ?? existing.rows[0].notes,
           ],
         );
-        row = updated.rows[0];
+        [row] = updated.rows;
       } else {
         const inserted = await executeQuery<CustomRecipeRow>(
           `INSERT INTO user_custom_recipes
@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
             body.notes ?? null,
           ],
         );
-        row = inserted.rows[0];
+        [row] = inserted.rows;
       }
     } else {
       const inserted = await executeQuery<CustomRecipeRow>(
@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
           body.notes ?? null,
         ],
       );
-      row = inserted.rows[0];
+      [row] = inserted.rows;
     }
 
     try {
