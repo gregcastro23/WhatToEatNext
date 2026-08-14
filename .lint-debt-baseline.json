@@ -1,18 +1,18 @@
 {
   "measuredAt": "2026-08-14",
-  "sourceRevision": "47f859fdb1abf2aa5699126d70df021cfa3eb346",
+  "sourceRevision": "4569532bdd0270979f369a8ee38708afb33a1f64",
   "files": 1888,
-  "rawTotal": 25742,
-  "autoFixable": 505,
-  "trackedTotal": 22614,
+  "rawTotal": 24932,
+  "autoFixable": 0,
+  "trackedTotal": 21806,
   "declined": {
-    "total": 3128,
+    "total": 3126,
     "reason": "These four shape rules are refactor prompts, not defect indicators; the project's thermodynamic, astrological, and component code can be legitimately large or complex.",
     "rules": {
       "complexity": 372,
       "max-depth": 99,
       "max-lines": 618,
-      "max-lines-per-function": 2039
+      "max-lines-per-function": 2037
     }
   },
   "rules": {
@@ -26,21 +26,21 @@
     },
     "@typescript-eslint/no-explicit-any": { "count": 1088, "autoFixable": 0 },
     "@typescript-eslint/no-inferrable-types": {
-      "count": 61,
-      "autoFixable": 61
+      "count": 0,
+      "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 3931,
+      "count": 3932,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": { "count": 777, "autoFixable": 0 },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 2358,
+      "count": 2351,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": { "count": 433, "autoFixable": 0 },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 4067,
+      "count": 4043,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": { "count": 241, "autoFixable": 0 },
@@ -49,12 +49,12 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
-      "count": 237,
-      "autoFixable": 187
+      "count": 0,
+      "autoFixable": 0
     },
-    "@typescript-eslint/prefer-readonly": { "count": 26, "autoFixable": 26 },
+    "@typescript-eslint/prefer-readonly": { "count": 0, "autoFixable": 0 },
     "@typescript-eslint/require-await": { "count": 169, "autoFixable": 0 },
-    "arrow-body-style": { "count": 70, "autoFixable": 70 },
+    "arrow-body-style": { "count": 0, "autoFixable": 0 },
     "complexity": { "count": 372, "autoFixable": 0 },
     "jsx-a11y/click-events-have-key-events": { "count": 66, "autoFixable": 0 },
     "jsx-a11y/no-noninteractive-element-interactions": {
@@ -67,12 +67,12 @@
     },
     "max-depth": { "count": 99, "autoFixable": 0 },
     "max-lines": { "count": 618, "autoFixable": 0 },
-    "max-lines-per-function": { "count": 2039, "autoFixable": 0 },
+    "max-lines-per-function": { "count": 2037, "autoFixable": 0 },
     "max-nested-callbacks": { "count": 0, "autoFixable": 0 },
     "no-console": { "count": 754, "autoFixable": 0 },
     "no-useless-assignment": { "count": 93, "autoFixable": 0 },
     "no-void": { "count": 748, "autoFixable": 0 },
-    "prefer-destructuring": { "count": 384, "autoFixable": 161 },
+    "prefer-destructuring": { "count": 0, "autoFixable": 0 },
     "react/display-name": { "count": 0, "autoFixable": 0 }
   }
 }
