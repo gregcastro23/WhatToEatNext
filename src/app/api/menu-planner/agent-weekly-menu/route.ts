@@ -251,7 +251,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const user = await userDatabase.ensureAgent(
+    const user = await userDatabase.ensurePlanetaryAgent(
       agentEmail,
       searchParams.get("agentDisplayName") ?? undefined,
     );
@@ -316,7 +316,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const user = await userDatabase.ensureAgent(
+    const user = await userDatabase.ensurePlanetaryAgent(
       agentEmail,
       asString(body.agentDisplayName, MAX_TITLE_LENGTH),
     );

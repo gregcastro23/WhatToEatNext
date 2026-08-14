@@ -6,7 +6,7 @@
  * `[MEASURED 2026-08-09]` the "Agent monica drift + integrity" gate went red on
  * master and stayed red for two days for a single row: the agent `Chiron`, name
  * unparseable, `natal_positions = []`. Deleting the row cleared the gate; it did
- * nothing about the writer that made it. `ensureAgent` classifies monica at
+ * nothing about the writer that made it. `ensurePlanetaryAgent` classifies monica at
  * creation but never writes `natal_positions` at all, so that exact shape was
  * still one feed event away from returning.
  *
@@ -15,11 +15,11 @@
  *
  *     parseAgentPlacement(name) === null && fullChartMonica(positions) === null
  *
- * Remove the guard block from `ensureAgent` and the "refuses" tests fail.
+ * Remove the guard block from `ensurePlanetaryAgent` and the "refuses" tests fail.
  */
 
 // The holder is deliberate — see the note in userDatabaseService.signupGrant
-// test. `ensureAgent` reaches the DB through a lazy `await import`, which is a
+// test. `ensurePlanetaryAgent` reaches the DB through a lazy `await import`, which is a
 // DIFFERENT module instance than a top-level import in this file; attaching an
 // implementation to the latter would leave the transaction callback unrun and
 // every assertion below passing vacuously on zero captured statements.
@@ -55,7 +55,7 @@ interface Captured {
 }
 
 /**
- * Drive the real `ensureAgent` through a fake transaction.
+ * Drive the real `ensurePlanetaryAgent` through a fake transaction.
  *
  * `verifiedRow` is what the post-upsert read-back returns — i.e. the state the
  * row would have IN the database. That is the input the guard actually judges,
@@ -89,7 +89,7 @@ async function runEnsureAgent(
 
   let error: unknown = null;
   try {
-    await userDatabase.ensureAgent(AGENT_EMAIL, displayName);
+    await userDatabase.ensurePlanetaryAgent(AGENT_EMAIL, displayName);
   } catch (e) {
     error = e;
   }
@@ -100,7 +100,7 @@ const savedDatabaseUrl = process.env.DATABASE_URL;
 
 beforeEach(() => {
   jest.clearAllMocks();
-  // After the transaction commits, `ensureAgent` re-reads the user through
+  // After the transaction commits, `ensurePlanetaryAgent` re-reads the user through
   // `getUserByEmail` and throws if it comes back empty. That lookup is not what
   // these tests are about, so it is stubbed to succeed — otherwise every
   // "allows" case fails on the lookup rather than on the guard.
@@ -172,16 +172,16 @@ describe("agentIsClassifiable — the shared predicate", () => {
  * is empty — so once a DB test has run, unsetting the env var no longer returns
  * this branch. Ordering is the dependency; do not move this block.
  */
-describe("ensureAgent — in-memory path (no DATABASE_URL)", () => {
+describe("ensurePlanetaryAgent — in-memory path (no DATABASE_URL)", () => {
   it("refuses an unparseable name there too", async () => {
     expect(process.env.DATABASE_URL).toBeUndefined();
     await expect(
-      userDatabase.ensureAgent("chiron@agentic.alchm.kitchen", "Chiron"),
+      userDatabase.ensurePlanetaryAgent("chiron@agentic.alchm.kitchen", "Chiron"),
     ).rejects.toBeInstanceOf(AgentChartRequiredError);
   });
 
   it("still provisions a placement-named agent", async () => {
-    const user = await userDatabase.ensureAgent(
+    const user = await userDatabase.ensurePlanetaryAgent(
       "saturn-aries-5@agentic.alchm.kitchen",
       "Saturn in Aries 5",
     );
@@ -189,9 +189,9 @@ describe("ensureAgent — in-memory path (no DATABASE_URL)", () => {
   });
 });
 
-describe("ensureAgent — enforcement", () => {
+describe("ensurePlanetaryAgent — enforcement", () => {
   /**
-   * `ensureAgent` only reaches the database when `isServerWithDB()` is true,
+   * `ensurePlanetaryAgent` only reaches the database when `isServerWithDB()` is true,
    * which requires `DATABASE_URL`. Without this the suite silently runs the
    * in-memory branch instead — the guard tests still pass, because that branch
    * throws too, but they would prove nothing about the transaction. The
@@ -218,7 +218,7 @@ describe("ensureAgent — enforcement", () => {
   });
 
   it("does not launder the refusal into a generic provisioning failure", async () => {
-    // The catch in ensureAgent wraps everything in `new Error("Failed to
+    // The catch in ensurePlanetaryAgent wraps everything in `new Error("Failed to
     // provision agent")`. If the typed error does not survive that wrapper,
     // every caller falls back to 500 and the 422 mapping is dead code.
     const { error } = await runEnsureAgent("Chiron", {

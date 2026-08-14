@@ -393,18 +393,42 @@ class UserDatabaseService {
   }
 
   /**
-   * Idempotent upsert of an @agentic.alchm.kitchen agent identity.
+   * Idempotent upsert of a PLANETARY agent identity — one whose whole chart is
+   * its name.
    *
-   * Mirrors the canonical Python implementation at
-   * backend/alchm_kitchen/main.py POST /api/internal/agent-sync so a feed
-   * POST and a sign-in fan-out produce identical DB state. Used by the
-   * /api/feed POST handler to provision PA-emitted agents that haven't
-   * been synced yet.
+   * ── What this provisions, and what it does not ──────────────────────────────
    *
-   * Throws when called with an email outside the agentic namespace —
-   * callers must guard before invoking.
+   * A planetary agent IS a placement: "Mercury Leo 7", "Moon Phase Waning
+   * Gibbous 24". Its monica is classified from that name (`agentMonicaWithMethod`)
+   * and it carries no birth chart — `natal_chart` and `natal_positions` keep
+   * their column defaults of `'{}'` and `'[]'`.
+   *
+   * A HISTORICAL agent is the other kind: it has a real birth chart, which makes
+   * it the same shape of user as a human. Those arrive through
+   * `POST /api/internal/agent-sync` with a chart, and derive their positions
+   * through `natalPositionsFromStoredChart` — the same converter `createUser`
+   * uses for humans. They must NOT be provisioned here: this path has no way to
+   * accept a chart, so routing one through it would silently drop it.
+   *
+   * `[MEASURED 2026-08-13]` against production, that split is real and visible:
+   * of 6,311 agents holding a profile, 6,240 have no chart at all and 71 hold a
+   * real chart with real positions. There is no third population.
+   *
+   * ── Relationship to the Python endpoint ────────────────────────────────────
+   *
+   * This used to claim it "mirrors" `backend/alchm_kitchen/main.py`'s
+   * `POST /api/internal/agent-sync` so that both produce identical DB state.
+   * They do not, and the difference is the whole point of this function: the
+   * Python route writes a NAME-ONLY `user_profiles` row and leaves
+   * `monica_method` NULL, while this classifies at creation inside the same
+   * transaction. That is measurable — restricted to the agents the nightly
+   * monica backfill has never touched (`updated_at = created_at`), 2 of 2 carry
+   * a monica method they could only have received at creation.
+   *
+   * Throws when called with an email outside the agentic namespace — callers
+   * must guard before invoking.
    */
-  async ensureAgent(
+  async ensurePlanetaryAgent(
     email: string,
     displayName?: string,
   ): Promise<UserWithProfile> {
@@ -414,7 +438,7 @@ class UserDatabaseService {
     const normalizedEmail = email.toLowerCase().trim();
     if (!normalizedEmail.endsWith("@agentic.alchm.kitchen")) {
       throw new Error(
-        `ensureAgent: refusing to auto-provision outside @agentic.alchm.kitchen namespace (got: ${normalizedEmail})`,
+        `ensurePlanetaryAgent: refusing to auto-provision outside @agentic.alchm.kitchen namespace (got: ${normalizedEmail})`,
       );
     }
 
@@ -501,7 +525,7 @@ class UserDatabaseService {
           ],
         );
         if (insertUser.rowCount === 0) {
-          throw new Error("ensureAgent: upsert returned no row");
+          throw new Error("ensurePlanetaryAgent: upsert returned no row");
         }
         const finalId = insertUser.rows[0].id as string;
 
@@ -526,7 +550,7 @@ class UserDatabaseService {
         // on a row written correctly.
         const resolved = agentMonicaWithMethod(resolvedName, (error) =>
           console.warn(
-            `[ensureAgent] unclassifiable phase in "${resolvedName}" —` +
+            `[ensurePlanetaryAgent] unclassifiable phase in "${resolvedName}" —` +
               ` left for the nightly backfill to surface. ${String(error)}`,
           ),
         );
@@ -628,10 +652,10 @@ class UserDatabaseService {
       const fresh = await this.getUserByEmail(normalizedEmail);
       if (!fresh) {
         throw new Error(
-          "ensureAgent: upsert succeeded but lookup returned no user",
+          "ensurePlanetaryAgent: upsert succeeded but lookup returned no user",
         );
       }
-      _logger.info("ensureAgent: agent provisioned/refreshed", {
+      _logger.info("ensurePlanetaryAgent: agent provisioned/refreshed", {
         email: normalizedEmail,
         userId: fresh.id,
       });
@@ -642,13 +666,13 @@ class UserDatabaseService {
       // the type every caller uses to answer 422 instead of 500 — the whole
       // reason the error is typed.
       if (error instanceof AgentChartRequiredError) {
-        _logger.warn("ensureAgent: refused unclassifiable agent", {
+        _logger.warn("ensurePlanetaryAgent: refused unclassifiable agent", {
           email: error.agentEmail,
           name: error.agentName,
         });
         throw error;
       }
-      _logger.error("ensureAgent: failed to upsert agent", error);
+      _logger.error("ensurePlanetaryAgent: failed to upsert agent", error);
       throw new Error("Failed to provision agent", { cause: error });
     }
   }

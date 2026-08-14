@@ -13,6 +13,7 @@ jest.mock("next/server", () => ({
 
 import { withTransaction } from "@/lib/database";
 import { agentMonica } from "@/utils/agentMonica";
+import { MIN_CHART_BODIES } from "@/utils/fullChartMonica";
 import { POST } from "../route";
 
 jest.mock("@/lib/database", () => ({
@@ -263,6 +264,176 @@ describe("POST /api/internal/agent-sync", () => {
       expect(params[7]).toBeNull(); // monica_diurnal
       expect(params[8]).toBeNull(); // monica_nocturnal
       expect(params[9]).toBeNull(); // monica_method
+    });
+  });
+
+  /**
+   * A chart-bearing agent is the same kind of user as a chart-bearing human, so
+   * it must derive `natal_positions` through the SAME converter — #751 fixed the
+   * human half, where `natal_chart` was stored and `natal_positions` was not, and
+   * every full-chart monica silently computed over an empty column.
+   *
+   * `natal_positions` is parameter index 5 on the profile INSERT.
+   */
+  describe("natal_positions comes from the shared chart core when the caller omits it", () => {
+    function captureUserProfilesParams(mockClient: { query: jest.Mock }): unknown[] {
+      const call = mockClient.query.mock.calls.find(([sql]: [string]) =>
+        sql.includes("INSERT INTO user_profiles")
+      );
+      if (!call) throw new Error("INSERT INTO user_profiles was never called");
+      return call[1];
+    }
+
+    const newUserClient = () => {
+      const mockClient = {
+        query: jest.fn().mockImplementation((queryStr: string) => {
+          if (queryStr.includes("SELECT id FROM users")) {
+            return Promise.resolve({ rows: [] }); // new user
+          }
+          return Promise.resolve({ rowCount: 1, rows: [] });
+        }),
+      };
+      (withTransaction as jest.Mock).mockImplementation(async (callback) => {
+        await callback(mockClient);
+      });
+      return mockClient;
+    };
+
+    /**
+     * A stored-shape chart: `planets` as an ARRAY, the human dialect.
+     *
+     * Sized from `MIN_CHART_BODIES` rather than a hand-picked count, because the
+     * converter returns null for a chart shorter than that — a partial chart is
+     * refused rather than silently treated as whole. A literal here would keep
+     * passing if that threshold moved.
+     */
+    const BODIES = [
+      { name: "Sun", sign: "leo", position: 132.5 },
+      { name: "Moon", sign: "taurus", position: 42.25 },
+      { name: "Mercury", sign: "virgo", position: 155.75 },
+      { name: "Venus", sign: "cancer", position: 98.5 },
+      { name: "Mars", sign: "aries", position: 12.25 },
+      { name: "Jupiter", sign: "pisces", position: 341.5 },
+    ];
+    const CHART = { planets: BODIES };
+
+    it("uses a fixture long enough to clear MIN_CHART_BODIES", () => {
+      // Guards the three cases below: if BODIES fell under the threshold the
+      // converter would return null and "derived nothing" would be
+      // indistinguishable from "derivation is not wired up".
+      expect(BODIES.length).toBeGreaterThanOrEqual(MIN_CHART_BODIES);
+    });
+
+    it("refuses to derive from a chart shorter than MIN_CHART_BODIES", async () => {
+      const mockClient = newUserClient();
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "hildegard@agentic.alchm.kitchen",
+            displayName: "Hildegard of Bingen",
+            natalChart: { planets: BODIES.slice(0, MIN_CHART_BODIES - 1) },
+          },
+          { "X-Sync-Secret": mockSyncSecret }
+        )
+      );
+      expect((await res.json()).ok).toBe(true);
+
+      // A partial chart yields NULL, not a partial set — the same rule
+      // `parseNatalPositions` states. A half-read chart produces a monica that
+      // looks fine and means nothing.
+      expect(captureUserProfilesParams(mockClient)[5]).toBeNull();
+    });
+
+    it("derives positions from the chart when none are supplied", async () => {
+      const mockClient = newUserClient();
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "hildegard@agentic.alchm.kitchen",
+            displayName: "Hildegard of Bingen",
+            natalChart: CHART,
+            // natalPositions deliberately absent — the case this guards
+          },
+          { "X-Sync-Secret": mockSyncSecret }
+        )
+      );
+      expect((await res.json()).ok).toBe(true);
+
+      const stored = JSON.parse(String(captureUserProfilesParams(mockClient)[5]));
+      expect(stored).toHaveLength(BODIES.length);
+      expect(stored).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ planet: "Sun", sign: "leo", position: 132.5 }),
+          expect.objectContaining({ planet: "Moon", sign: "taurus", position: 42.25 }),
+        ])
+      );
+    });
+
+    it("derives when the caller supplies an EMPTY array, not just when absent", async () => {
+      const mockClient = newUserClient();
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "hildegard@agentic.alchm.kitchen",
+            displayName: "Hildegard of Bingen",
+            natalChart: CHART,
+            natalPositions: [], // the shape `[]` column default also has
+          },
+          { "X-Sync-Secret": mockSyncSecret }
+        )
+      );
+      expect((await res.json()).ok).toBe(true);
+
+      const stored = JSON.parse(String(captureUserProfilesParams(mockClient)[5]));
+      expect(stored).toHaveLength(BODIES.length);
+    });
+
+    it("does NOT override positions the caller actually sent", async () => {
+      const mockClient = newUserClient();
+
+      // Deliberately disagrees with CHART: if derivation overrode the caller,
+      // this would come back as the chart's two bodies instead of this one.
+      const supplied = [{ planet: "Mars", sign: "aries", degree: 3, position: 3 }];
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "hildegard@agentic.alchm.kitchen",
+            displayName: "Hildegard of Bingen",
+            natalChart: CHART,
+            natalPositions: supplied,
+          },
+          { "X-Sync-Secret": mockSyncSecret }
+        )
+      );
+      expect((await res.json()).ok).toBe(true);
+
+      const stored = JSON.parse(String(captureUserProfilesParams(mockClient)[5]));
+      expect(stored).toHaveLength(1);
+      expect(stored[0]).toMatchObject({ planet: "Mars", sign: "aries" });
+    });
+
+    it("stores NULL for a planetary agent — no chart means nothing to derive", async () => {
+      const mockClient = newUserClient();
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "mercury-leo-7@agentic.alchm.kitchen",
+            displayName: "Mercury Leo 7",
+            // No chart at all: the 6,240-agent majority measured in production.
+          },
+          { "X-Sync-Secret": mockSyncSecret }
+        )
+      );
+      expect((await res.json()).ok).toBe(true);
+
+      // Not `'[]'` — an empty JSON array would claim a chart was read and found
+      // to contain no bodies, which is a different statement from "no chart".
+      expect(captureUserProfilesParams(mockClient)[5]).toBeNull();
     });
   });
 });

@@ -48,19 +48,19 @@ function syncDebitProfileSql() {
 }
 
 /**
- * The profile UPSERT from `userDatabaseService.ensureAgent`, extracted from the
+ * The profile UPSERT from `userDatabaseService.ensurePlanetaryAgent`, extracted from the
  * module source. This is the statement 370 of 370 real arrivals go through.
  */
 function ensureAgentProfileSql() {
   const src = readFileSync("src/services/userDatabaseService.ts", "utf8");
 
-  // Scope to the ensureAgent body FIRST. There are four `INSERT INTO
+  // Scope to the ensurePlanetaryAgent body FIRST. There are four `INSERT INTO
   // user_profiles` statements in this module and a file-wide regex would
   // happily verify one of the other three — which is the same class of mistake
   // that let #666 pass while the real producer went unpatched.
-  const start = src.indexOf("async ensureAgent");
+  const start = src.indexOf("async ensurePlanetaryAgent");
   if (start === -1) {
-    console.error("CONTROL FAILED: no `async ensureAgent` in userDatabaseService.ts. Update this extractor.");
+    console.error("CONTROL FAILED: no `async ensurePlanetaryAgent` in userDatabaseService.ts. Update this extractor.");
     process.exit(1);
   }
   const nextMethod = src.slice(start + 1).search(/\n {2}(?:async )?[a-zA-Z_]\w*\s*\(/);
@@ -68,14 +68,14 @@ function ensureAgentProfileSql() {
 
   const sql = body.match(/`(INSERT INTO user_profiles[\s\S]*?updated_at = CURRENT_TIMESTAMP)`/)?.[1];
   if (!sql) {
-    console.error("CONTROL FAILED: no profile UPSERT inside ensureAgent. Update this extractor.");
+    console.error("CONTROL FAILED: no profile UPSERT inside ensurePlanetaryAgent. Update this extractor.");
     process.exit(1);
   }
-  // The point of this whole section: if ensureAgent's UPSERT does not classify,
+  // The point of this whole section: if ensurePlanetaryAgent's UPSERT does not classify,
   // say so precisely rather than reporting an extraction problem.
   if (!/monica_method/.test(sql)) {
     console.error(
-      "FAIL: ensureAgent's profile UPSERT does not write monica_method.\n" +
+      "FAIL: ensurePlanetaryAgent's profile UPSERT does not write monica_method.\n" +
         "      This is the path 370/370 real arrivals take, so every new agent\n" +
         "      lands unclassified and the nightly backfill papers over it.",
     );
@@ -182,14 +182,14 @@ try {
   //
   // `[MEASURED 2026-07-29]` Sections 1-3 verify the two endpoints #666 believed
   // were the writers. They are not. Over seven days, 370 of 370 arrivals carry
-  // `ensureAgent`'s fingerprint and 0 carry sync-debit's — so every assertion
+  // `ensurePlanetaryAgent`'s fingerprint and 0 carry sync-debit's — so every assertion
   // above passed while every real arrival landed unclassified.
   //
   // The lesson is not that the gate was wrong. It executed real SQL against a
   // real database and reported honestly. It was POINTED AT THE WRONG STATEMENT,
   // and nothing in it could notice. Hence this section, and hence the assertion
   // at the end that the extractor still finds something.
-  console.log("\n3b. ensureAgent — the path 370/370 real arrivals actually take");
+  console.log("\n3b. ensurePlanetaryAgent — the path 370/370 real arrivals actually take");
   const ENSURE_SQL = ensureAgentProfileSql();
   const ensureParams = (userId, name, resolved) => [
     userId,
@@ -205,7 +205,7 @@ try {
     ["single-body", "Venus Taurus 12", "single-body"],
     ["person", "Edgar Allan Poe", null],
   ]) {
-    // ensureAgent INSERTs the profile row itself, so unlike above there must be
+    // ensurePlanetaryAgent INSERTs the profile row itself, so unlike above there must be
     // no pre-existing row — that is the branch real arrivals take.
     const uid = randomUUID();
     const email = `ensure-${uid.slice(0, 8)}@agentic.alchm.kitchen`;
