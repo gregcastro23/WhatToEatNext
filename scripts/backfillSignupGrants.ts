@@ -51,8 +51,14 @@ interface TargetRow {
 }
 
 /** Humans with no welcome grant on the ledger. Both grant sources count:
- *  `initial_grant` is the retired predecessor of `signup_grant`, and a user who
- *  got one is not owed the other. */
+ *  `initial_grant` is a closed set (420 rows, 2026-05-14 → 2026-05-25, no
+ *  writer left in the tree), and a user who got one is not owed the other.
+ *
+ *  `is_agent IS NOT TRUE` rather than `= false` only to read identically to the
+ *  admin indicator it repairs (`welcomeGrantCoverageSql`). It is not a
+ *  behaviour change and does not close a gap: `users.is_agent` is NOT NULL with
+ *  default false, so the two forms select the same rows. A repair tool that
+ *  merely LOOKS like it disagrees with its alarm is worth one word to fix. */
 const SELECT_TARGETS = `
   SELECT u.id::text            AS id,
          u.email,
@@ -62,7 +68,7 @@ const SELECT_TARGETS = `
           + COALESCE(b.matter,0) + COALESCE(b.substance,0))::text AS total_esms
   FROM users u
   LEFT JOIN token_balances b ON b.user_id = u.id
-  WHERE u.is_agent = false
+  WHERE u.is_agent IS NOT TRUE
     AND NOT EXISTS (
       SELECT 1 FROM token_transactions t
       WHERE t.user_id = u.id

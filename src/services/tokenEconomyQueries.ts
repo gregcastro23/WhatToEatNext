@@ -857,12 +857,45 @@ export function ledgerDriftSql(): BuiltQuery {
 }
 
 /**
- * Human users holding no `signup_grant` ledger row.
+ * Non-agent users holding no welcome grant of ANY spelling on the ledger.
  *
  * #744 moved the grant into `createUser` itself, but humans created before the
- * fix (and any future path that skips it) can still hold nothing. `IS NOT TRUE`
- * rather than `= false`: a NULL `is_agent` is a human, and `NOT (NULL)` would
- * drop those rows from the count entirely.
+ * fix (and any future path that skips it) can still hold nothing.
+ *
+ * `IS NOT TRUE` rather than `= false` is defensive only — it is NOT load-bearing
+ * as this comment once claimed. `users.is_agent` is `boolean NOT NULL DEFAULT
+ * false`, so a NULL `is_agent` cannot exist and the two forms select the same
+ * rows. The gate asserts that constraint rather than assuming it, so if the
+ * column ever becomes nullable the tri-state case stops being hypothetical and
+ * gets covered.
+ *
+ * WHY TWO SPELLINGS
+ * -----------------
+ * The welcome grant has been written under two `source_type` values. Matching
+ * only the current one made this indicator permanently non-zero, which is the
+ * failure mode the panel exists to prevent — an alarm nobody can ever clear.
+ *
+ * `[MEASURED 2026-08-13]` against production, over the 14 `is_agent IS NOT TRUE`
+ * rows: `signup_grant` only = 13, `initial_grant` only = 1, both = 0,
+ * **neither = 0**. Every non-agent user has in fact been granted; the lone
+ * `initial_grant` holder is the synthetic monitoring account, seeded 4 × 500 at
+ * 2026-05-25 01:12:29Z. Counting it forever was the whole of the "failure".
+ *
+ * Forgiving `initial_grant` cannot mask a future miss: it is a CLOSED set. All
+ * 420 rows were written between 2026-05-14 and 2026-05-25 (52 of the 53
+ * recipients are agents), and a filesystem-wide search finds no writer — every
+ * remaining occurrence in the tree is a comment or a read predicate. So the
+ * clause can only ever forgive rows that already exist.
+ *
+ * This also makes the indicator agree with the tool that would repair it:
+ * `scripts/backfillSignupGrants.ts` has always treated a user holding either
+ * spelling as not owed a grant. An alarm whose repair tool disagrees with it is
+ * an alarm that cannot be actioned.
+ *
+ * Narrowing a count is indistinguishable from deleting the check unless the
+ * check is still shown to fire, so the surviving behaviour is proven against a
+ * real PostgreSQL in `scripts/checkWelcomeGrantCoverageBehaviour.mjs`, mutation
+ * controls included.
  */
 export function welcomeGrantCoverageSql(): BuiltQuery {
   return {
@@ -871,7 +904,8 @@ export function welcomeGrantCoverageSql(): BuiltQuery {
           WHERE u.is_agent IS NOT TRUE
             AND NOT EXISTS (
               SELECT 1 FROM token_transactions t
-              WHERE t.user_id = u.id AND t.source_type = 'signup_grant'
+              WHERE t.user_id = u.id
+                AND t.source_type IN ('signup_grant', 'initial_grant')
             )`,
     values: [],
   };

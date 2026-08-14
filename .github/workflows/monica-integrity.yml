@@ -184,6 +184,21 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkAgentClassifiedAtCreation.mjs
 
+      - name: Welcome-grant indicator still counts real misses
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports `welcomeGrantCoverageSql` and runs it over
+        # rows it inserts, inside a transaction that is always rolled back.
+        #
+        # The statement was widened to accept BOTH spellings of the welcome
+        # grant, which strictly narrows what it counts — and narrowing a count
+        # is indistinguishable from deleting the check unless the check is still
+        # shown to fire. So this asserts the cases that must still count, and
+        # then re-runs each assertion against a deliberately broken copy of the
+        # statement to prove the assertion CAN fail.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkWelcomeGrantCoverageBehaviour.mjs
+
       - name: Environmental SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it imports the live query builders AND applies
@@ -344,6 +359,15 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
+
+      - name: Welcome-grant indicator still counts real misses
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Also in `pre-merge-sql`, so a PR sees it. Repeated here because the
+        # pre-merge job runs only on `pull_request` — a direct push to master
+        # would otherwise skip it entirely, and `skipping` is not `pass`.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkWelcomeGrantCoverageBehaviour.mjs
 
       - name: Balances reconcile with their own ledger
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
