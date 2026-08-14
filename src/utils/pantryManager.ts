@@ -309,7 +309,7 @@ export function getPantryStats(): PantryStats {
  * @param days - Number of days to check
  * @returns Array of items expiring within specified days
  */
-export function getExpiringItems(days: number = 7): PantryItem[] {
+export function getExpiringItems(days = 7): PantryItem[] {
   const pantry = getPantry();
   const now = new Date();
   const cutoffDate = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
@@ -366,7 +366,7 @@ export function exportPantryJSON(): string {
  */
 export function importPantryJSON(
   jsonString: string,
-  merge: boolean = false,
+  merge = false,
 ): void {
   try {
     const imported = JSON.parse(jsonString);
@@ -474,7 +474,7 @@ export function deductRecipeFromPantry(
     quantity?: number;
     unit?: string;
   }>,
-  servings: number = 1,
+  servings = 1,
 ): PantryDeductionResult {
   const result: PantryDeductionResult = {
     deducted: [],

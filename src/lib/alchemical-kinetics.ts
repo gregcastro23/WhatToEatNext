@@ -113,7 +113,7 @@ export function getThermalDirection(heatDvdt: number): 'heating' | 'cooling' | '
  */
 export function computeFiniteDifference(
   series: Array<{ t: Date; value: number }>,
-  smoothingWindow: number = 3
+  smoothingWindow = 3
 ): Array<{ t: Date; dvdt: number }> {
   if (!series || series.length === 0) return []
   const values = series.map(s => s.value)

@@ -250,7 +250,7 @@ export async function getEventCounts(
  */
 export async function getUserEvents(
   userId: string,
-  limit: number = 50,
+  limit = 50,
 ): Promise<
   Array<{
     id: number;

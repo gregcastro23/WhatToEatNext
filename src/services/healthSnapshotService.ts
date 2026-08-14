@@ -111,7 +111,7 @@ export interface RecentSnapshotPoint {
 }
 
 export async function getRecentSnapshotOverall(
-  limit: number = 168, // one week at hourly cadence
+  limit = 168, // one week at hourly cadence
 ): Promise<RecentSnapshotPoint[]> {
   try {
     const result = await executeQuery<{

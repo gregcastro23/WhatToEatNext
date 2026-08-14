@@ -489,7 +489,7 @@ export default function CuisineRecommender() {
   };
   
   // Function to render a score badge with stars for high scores
-  const renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
+  const renderScoreBadge = (score: number, hasDualMatch = false) => {
     const formattedScore = Math.round(score * 100);
     let tooltipText = 'Match score based on cuisine, season, and elemental balance';
     

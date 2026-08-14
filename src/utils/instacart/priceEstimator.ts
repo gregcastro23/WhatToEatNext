@@ -108,7 +108,7 @@ export function estimateIngredientCost(
  */
 export function calculateRecipeEstimatedCost(
   ingredients: RecipeIngredient[],
-  servings: number = 4,
+  servings = 4,
   dietaryFlags: string[] = []
 ): RecipeCostEstimate {
   const breakdown: RecipeCostEstimate["breakdown"] = [];

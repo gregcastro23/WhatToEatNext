@@ -47,7 +47,7 @@ function mapStdbRecipe(row: StdbRecipeRow): Recipe {
  * rows (e.g. recipe_ref rehydration) don't hold the full-table subscription
  * open the entire time they're mounted.
  */
-export function useSpacetimeLiveRecipes(active: boolean = true): Recipe[] {
+export function useSpacetimeLiveRecipes(active = true): Recipe[] {
   const { connection, status } = useSpacetime();
   const enabled = isLiveCulinaryEnabled();
   const [rows, setRows] = useState<StdbRecipeRow[]>([]);

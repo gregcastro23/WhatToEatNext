@@ -123,7 +123,7 @@ export default [
       // Function and Variable Declarations - RELAXED
       "@typescript-eslint/explicit-function-return-type": "off", // DISABLED: TS inference is excellent (562 warnings)
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-inferrable-types": "off", // DISABLED: Style preference
+      "@typescript-eslint/no-inferrable-types": "error",
 
       // Best Practices
       "@typescript-eslint/no-unnecessary-type-assertion": "error",

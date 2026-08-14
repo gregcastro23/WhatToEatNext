@@ -126,7 +126,7 @@ function calculateAlchemicalCompatibility(
 export function calculateIndividualRecommendationScore(
   recipe: RecipeData,
   natalChart: NatalChart,
-  baseScore: number = 0.5,
+  baseScore = 0.5,
 ): { score: number; compatibility: number; reasons: string[] } {
   const reasons: string[] = [];
 
@@ -196,7 +196,7 @@ export function calculateGroupRecommendationScore(
   recipe: RecipeData,
   groupMembers: GroupMember[],
   strategy: GroupScoringStrategy = { type: "average" },
-  baseScore: number = 0.5,
+  baseScore = 0.5,
 ): GroupRecipeScore {
   if (groupMembers.length === 0) {
     throw new Error("Cannot calculate group score for empty group");
@@ -380,7 +380,7 @@ function calculateHarmonyScore(memberScores: MemberRecipeScore[]): number {
  */
 export function filterBestForEveryone(
   groupScores: GroupRecipeScore[],
-  minimumThreshold: number = 0.6,
+  minimumThreshold = 0.6,
 ): GroupRecipeScore[] {
   return groupScores.filter((groupScore) => {
     const minMemberScore = Math.min(

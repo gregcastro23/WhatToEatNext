@@ -139,7 +139,7 @@ export function getSignModality(sign: string): string {
 }
 
 // Get the planetary element based on time of day
-export function getPlanetaryElement(planet: string, isDiurnal: boolean = true): string {
+export function getPlanetaryElement(planet: string, isDiurnal = true): string {
   const planetElement = planetaryElements[planet as keyof typeof planetaryElements]
   if (!planetElement) return 'Unknown'
 
@@ -150,7 +150,7 @@ export function getPlanetaryElement(planet: string, isDiurnal: boolean = true): 
 export function calculateElementalAffinity(
   planet: string,
   sign: string,
-  isDiurnal: boolean = true
+  isDiurnal = true
 ): number {
   const signElement = getSignElement(sign)
   const planetElement = getPlanetaryElement(planet, isDiurnal)

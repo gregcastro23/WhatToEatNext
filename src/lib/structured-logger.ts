@@ -211,21 +211,21 @@ class StructuredLogger {
   /**
    * Get recent logs for debugging
    */
-  getRecentLogs(count: number = 100): LogEntry[] {
+  getRecentLogs(count = 100): LogEntry[] {
     return this.logBuffer.slice(-count)
   }
 
   /**
    * Get logs by level
    */
-  getLogsByLevel(level: LogLevel, count: number = 50): LogEntry[] {
+  getLogsByLevel(level: LogLevel, count = 50): LogEntry[] {
     return this.logBuffer.filter(entry => entry.level >= level).slice(-count)
   }
 
   /**
    * Get performance metrics from logs
    */
-  getPerformanceMetrics(hours: number = 1): {
+  getPerformanceMetrics(hours = 1): {
     averageResponseTime: number
     errorRate: number
     requestCount: number

@@ -701,7 +701,7 @@ export class DegreeAgentMatcher {
   /**
    * Detect degree patterns across multiple activations
    */
-  detectPatterns(activations: DegreeActivation[], timeWindow: number = 24): DegreePattern[] {
+  detectPatterns(activations: DegreeActivation[], timeWindow = 24): DegreePattern[] {
     const patterns: DegreePattern[] = []
 
     // Group activations by time windows

@@ -159,7 +159,7 @@ export class PlanetaryAPIClient {
     date: Date,
     latitude: number,
     longitude: number,
-    houseSystem: string = 'P' // Placidus
+    houseSystem = 'P' // Placidus
   ): Promise<HouseSystem> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/houses`, {

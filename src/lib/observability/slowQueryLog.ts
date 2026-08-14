@@ -156,7 +156,7 @@ function ensureHydrated(): void {
   })();
 }
 
-export function getRecentSlowQueries(limit: number = 50): SlowQueryEntry[] {
+export function getRecentSlowQueries(limit = 50): SlowQueryEntry[] {
   ensureHydrated();
   const n = Math.min(Math.max(limit, 1), RING_SIZE);
   return ring.slice().reverse().slice(0, n);

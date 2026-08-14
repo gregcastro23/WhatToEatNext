@@ -64,7 +64,7 @@ export function singularize(token: string): string {
     return token;
 }
 
-export function normalizedVariants(input: string, skipStopwordOnly: boolean = true): Set<string> {
+export function normalizedVariants(input: string, skipStopwordOnly = true): Set<string> {
     const out = new Set<string>();
     const raw = normalize(input);
     if (!raw) return out;

@@ -261,8 +261,8 @@ class InstacartService {
    * Results are cached client-side for 30 minutes.
    */
   public async fetchNearbyRetailers(
-    postalCode: string = "11375",
-    countryCode: string = "US",
+    postalCode = "11375",
+    countryCode = "US",
   ): Promise<InstacartRetailer[]> {
     const cacheKey = `${postalCode}-${countryCode}`;
     const cached = this.retailerCache.get(cacheKey);

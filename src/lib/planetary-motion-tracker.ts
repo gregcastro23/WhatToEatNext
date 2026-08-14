@@ -227,7 +227,7 @@ export class PlanetaryMotionTracker {
     position1: number,
     planet2: string,
     position2: number,
-    aspectAngle: number = 0,
+    aspectAngle = 0,
     date: Date = new Date()
   ): Promise<number> {
     const motion1 = await this.getPlanetaryMotion(planet1, position1, date)
@@ -281,7 +281,7 @@ export class PlanetaryMotionTracker {
     planet2: string,
     position2: number,
     aspectAngle: number,
-    maxDays: number = 90,
+    maxDays = 90,
     date: Date = new Date()
   ): Promise<{ date: Date; orb: number } | null> {
     const separationVelocity = await this.calculateSeparationVelocity(
@@ -459,7 +459,7 @@ export async function calculateAspectSeparationRate(
   position1: number,
   planet2: string,
   position2: number,
-  aspectAngle: number = 0,
+  aspectAngle = 0,
   date: Date = new Date()
 ): Promise<number> {
   return planetaryMotionTracker.calculateSeparationVelocity(

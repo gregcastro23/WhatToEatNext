@@ -82,7 +82,7 @@ export function clearMcpNetworkSummaryCache(): void {
  * and gracefully degrades to `{ live: false, ...stale }` rather than throwing on timeouts
  * or network failures.
  */
-export async function getMcpNetworkSummary(windowMinutes: number = 60): Promise<McpNetworkSummary> {
+export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetworkSummary> {
   const isServer = typeof window === "undefined";
   const now = Date.now();
 

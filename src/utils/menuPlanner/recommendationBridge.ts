@@ -1322,7 +1322,7 @@ function scoreNutritionalAlignment(
 export function getDailyIngredientRecommendations(
   dayOfWeek: DayOfWeek,
   astroState: AstrologicalState,
-  limit: number = 20,
+  limit = 20,
 ): string[] {
   const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
 

@@ -82,7 +82,7 @@ export function recordAlert(opts: RecordAlertOptions): AlertLogEntry {
   return entry;
 }
 
-export function getRecentAlerts(limit: number = 50): AlertLogEntry[] {
+export function getRecentAlerts(limit = 50): AlertLogEntry[] {
   const n = Math.min(Math.max(limit, 1), RING_SIZE);
   return ring.slice().reverse().slice(0, n);
 }

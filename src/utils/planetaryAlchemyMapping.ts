@@ -354,7 +354,7 @@ export function getTidalPull(planet: string, distanceAu?: number): number {
  * Prevents Day chart Matter/Substance collapse while introducing continuous positional modulation.
  * Decans: 1st (0-10°), 2nd (10-20°), 3rd (20-30°).
  */
-export function calculatePositionalAscendantVessel(sign: string, degree: number = 0): AlchemicalProperties {
+export function calculatePositionalAscendantVessel(sign: string, degree = 0): AlchemicalProperties {
   const signClean = sign.trim().charAt(0).toUpperCase() + sign.trim().slice(1).toLowerCase();
   const element = ZODIAC_ELEMENTS[signClean as ZodiacSignType] ?? "Earth";
 
@@ -667,7 +667,7 @@ function compactBodyKey(body: string): string {
  */
 export function calculateAlchemicalFromPlanetsDetailed(
   planetaryPositions: AlchemicalPlanetPositions,
-  diurnal: boolean = true,
+  diurnal = true,
   options: AlchemicalCalculationOptions = {},
 ): EnhancedAlchemicalDetail {
   const totals: AlchemicalProperties = {
@@ -804,7 +804,7 @@ export function calculateAlchemicalFromPlanetsDetailed(
  */
 export function calculateAlchemicalFromPlanets(
   planetaryPositions: AlchemicalPlanetPositions,
-  diurnal: boolean = true,
+  diurnal = true,
 ): AlchemicalProperties {
   return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal)
     .totals;
@@ -881,7 +881,7 @@ export function aggregateZodiacElementals(planetaryPositions: {
  */
 export function aggregateEnhancedZodiacElementals(
   planetaryPositions: Record<string, string>,
-  isDiurnal: boolean = true
+  isDiurnal = true
 ): ElementalProperties {
   const totals = {
     Fire: 0,

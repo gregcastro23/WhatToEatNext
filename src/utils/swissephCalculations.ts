@@ -268,7 +268,7 @@ export function calculateHouses(
   date: Date,
   latitude: number,
   longitude: number,
-  houseSystem: string = "P", // Placidus by default
+  houseSystem = "P", // Placidus by default
 ): {
   cusps: number[];
   ascendant: number;

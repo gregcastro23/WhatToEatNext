@@ -929,7 +929,7 @@ export interface RecentAlertsData {
  * the query fails — never throws.
  */
 export async function getRecentAlerts(
-  limit: number = 8,
+  limit = 8,
 ): Promise<RecentAlertsData> {
   try {
     const result = await executeQuery<{
@@ -1042,7 +1042,7 @@ export interface ErrorGroupsData {
  * E-7741 / E-7740 fixtures with the real recent error footprint.
  */
 export async function getErrorGroupSummary(
-  windowMinutes: number = 60,
+  windowMinutes = 60,
 ): Promise<ErrorGroupsData> {
   try {
     const result = await executeQuery<{

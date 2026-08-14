@@ -506,7 +506,7 @@ export function searchRecipes(
 export function quickSearchRecipes(
   recipes: Recipe[],
   query: string,
-  limit: number = 20,
+  limit = 20,
 ): ScoredRecipe[] {
   return searchRecipes(recipes, { query, limit });
 }
@@ -518,7 +518,7 @@ export function getRecommendedRecipesForMeal(
   recipes: Recipe[],
   dayOfWeek: DayOfWeek,
   mealType: MealType,
-  limit: number = 10,
+  limit = 10,
 ): ScoredRecipe[] {
   return searchRecipes(recipes, {
     mealType: [mealType],
@@ -682,7 +682,7 @@ export function getAllUniqueIngredients(recipes: Recipe[]): string[] {
 export function searchIngredients(
   recipes: Recipe[],
   query: string,
-  limit: number = 10,
+  limit = 10,
 ): string[] {
   if (!query || query.length < 2) return [];
 
