@@ -206,7 +206,19 @@ export interface PathHealth {
   errors4xx: number;
   errors5xx: number;
   successRate: number;
+  /** Every response >= 400 over count — 4xx AND 5xx together.
+   *
+   *  Kept for display, but do NOT drive a health verdict from it: a 4xx means
+   *  the server understood the request and correctly refused it, which is the
+   *  endpoint working. `[MEASURED 2026-08-14]` 6,427 of the 6,488 4xx responses
+   *  in a 7-day window were `402 insufficient_funds` on `/api/economy/sync-debit`
+   *  — a documented, intended outcome. Use `serverErrorRate` for health. */
   errorRate: number;
+  /** Responses >= 500 over count — the server actually failing.
+   *
+   *  This is the health signal. Split out from `errorRate` because conflating
+   *  the two made the economy flow alert 26 times in 7 days against ZERO 5xx. */
+  serverErrorRate: number;
   p50LatencyMs: number;
   p95LatencyMs: number;
   /** Most recent failure (status >= 400) for context. Null when none. */
@@ -246,6 +258,7 @@ export function summarizePath(
       errors5xx: 0,
       successRate: 1,
       errorRate: 0,
+      serverErrorRate: 0,
       p50LatencyMs: 0,
       p95LatencyMs: 0,
       lastFailure: null,
@@ -270,6 +283,7 @@ export function summarizePath(
     errors5xx,
     successRate: 1 - errors / matching.length,
     errorRate: errors / matching.length,
+    serverErrorRate: errors5xx / matching.length,
     p50LatencyMs: pick(0.5),
     p95LatencyMs: pick(0.95),
     lastFailure,
