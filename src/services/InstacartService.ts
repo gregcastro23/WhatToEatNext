@@ -50,11 +50,11 @@ class InstacartService {
   private static instance: InstacartService;
 
   /** In-memory retailer cache to avoid redundant API calls */
-  private retailerCache: Map<string, { retailers: InstacartRetailer[]; expiresAt: number }> = new Map();
+  private readonly retailerCache: Map<string, { retailers: InstacartRetailer[]; expiresAt: number }> = new Map();
   private static readonly RETAILER_CACHE_TTL = 30 * 60 * 1000; // 30 min client-side
 
   /** In-memory recipe URL cache (per Instacart best practice: reuse URLs) */
-  private recipeUrlCache: Map<string, { url: string; expiresAt: number }> = new Map();
+  private readonly recipeUrlCache: Map<string, { url: string; expiresAt: number }> = new Map();
   private static readonly RECIPE_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
   private constructor() {

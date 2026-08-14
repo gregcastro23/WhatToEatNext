@@ -37,7 +37,7 @@ import type { RecipeServiceInterface } from "./interfaces/RecipeServiceInterface
  */
 export class RecipeFinder implements RecipeServiceInterface {
   private static instance: RecipeFinder;
-  private recipeService: any;
+  private readonly recipeService: any;
   /**
    * Private constructor to enforce singleton pattern
    */

@@ -109,7 +109,7 @@ const PLANETARY_VELOCITY_PROFILES: Record<string, PlanetaryVelocityProfile> = {
 }
 
 export class PlanetaryMotionTracker {
-  private motionCache: Map<string, { data: PlanetaryMotion; timestamp: number }> = new Map()
+  private readonly motionCache: Map<string, { data: PlanetaryMotion; timestamp: number }> = new Map()
   private readonly CACHE_TTL = 1800000 // 30 minutes for most planets
   private readonly MOON_CACHE_TTL = 300000 // 5 minutes for Moon
   private readonly SUN_CACHE_TTL = 3600000 // 1 hour for Sun

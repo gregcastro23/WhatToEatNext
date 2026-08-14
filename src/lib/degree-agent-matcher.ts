@@ -70,8 +70,8 @@ export interface DegreePattern {
  * Advanced Degree-to-Agent Matching Engine
  */
 export class DegreeAgentMatcher {
-  private agentProfiles = new Map<string, AgentDegreeProfile>()
-  private degreeCache = new Map<string, DegreeActivation[]>()
+  private readonly agentProfiles = new Map<string, AgentDegreeProfile>()
+  private readonly degreeCache = new Map<string, DegreeActivation[]>()
   private readonly ORB_EXACT = 1 // 1 degree for exact matches
   private readonly ORB_CLOSE = 3 // 3 degrees for close matches
   private readonly ORB_HARMONIC = 5 // 5 degrees for harmonic matches

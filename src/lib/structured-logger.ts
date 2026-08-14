@@ -41,11 +41,11 @@ export interface LogEntry {
 
 class StructuredLogger {
   private static instance: StructuredLogger
-  private logLevel: LogLevel = LogLevel.INFO
+  private readonly logLevel: LogLevel = LogLevel.INFO
   private logBuffer: LogEntry[] = []
-  private maxBufferSize = 1000
-  private isDevelopment = process.env.NODE_ENV !== 'production'
-  private enablePerformanceLogging = true
+  private readonly maxBufferSize = 1000
+  private readonly isDevelopment = process.env.NODE_ENV !== 'production'
+  private readonly enablePerformanceLogging = true
 
   private constructor() {
     // Set log level from environment

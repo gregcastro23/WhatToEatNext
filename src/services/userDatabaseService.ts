@@ -111,8 +111,8 @@ export const jsonbOrNull = (value: unknown): string | null => {
 
 class UserDatabaseService {
   // In-memory fallback storage
-  private users: Map<string, UserWithProfile> = new Map();
-  private emailIndex: Map<string, string> = new Map(); // email -> userId
+  private readonly users: Map<string, UserWithProfile> = new Map();
+  private readonly emailIndex: Map<string, string> = new Map(); // email -> userId
   private initialized = false;
 
   constructor() {

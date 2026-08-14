@@ -50,7 +50,7 @@ function hasPlanetaryRuler(ing: UnifiedIngredient, planet: string): boolean {
 
 export class ConsolidatedIngredientService {
   private static instance: ConsolidatedIngredientService;
-  private core: IngredientService;
+  private readonly core: IngredientService;
 
   private constructor() {
     this.core = IngredientService.getInstance();

@@ -2571,9 +2571,9 @@ const QUICK_FOOD_PRESETS: QuickFoodPreset[] = [
  */
 class FoodDiaryService {
   // In-memory fallback storage
-  private entries: Map<string, FoodDiaryEntry> = new Map();
-  private userEntries: Map<string, Set<string>> = new Map(); // userId -> entryIds
-  private favorites: Map<string, UserFoodFavorite[]> = new Map(); // userId -> favorites
+  private readonly entries: Map<string, FoodDiaryEntry> = new Map();
+  private readonly userEntries: Map<string, Set<string>> = new Map(); // userId -> entryIds
+  private readonly favorites: Map<string, UserFoodFavorite[]> = new Map(); // userId -> favorites
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
   private initialized = false;
 

@@ -52,7 +52,7 @@ export interface BackendResponse<T> {
 }
 
 export class PlanetaryAPIClient {
-  private baseUrl: string
+  private readonly baseUrl: string
 
   constructor(baseUrl: string = BACKEND_URL) {
     this.baseUrl = baseUrl

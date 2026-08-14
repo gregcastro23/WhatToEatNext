@@ -131,7 +131,7 @@ export default [
       "@typescript-eslint/prefer-nullish-coalescing": "off", // Style preference
       "@typescript-eslint/prefer-optional-chain": "off", // 107 warnings - style preference
       "@typescript-eslint/prefer-as-const": "error",
-      "@typescript-eslint/prefer-readonly": "off", // Style preference
+      "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/no-floating-promises": "warn", // Pervasive in React async patterns (useEffect, onClick)
       "@typescript-eslint/no-misused-promises": "warn", // Pervasive in React async event handlers
       "@typescript-eslint/await-thenable": "warn", // Downgraded - some false positives with type inference

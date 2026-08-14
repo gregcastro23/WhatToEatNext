@@ -47,7 +47,7 @@ interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
 export class RecipeService {
   private static instance: RecipeService;
   private static _allRecipes: Recipe[] | null = null;
-  private recipeCache: Map<string, Recipe[]> = new Map();
+  private readonly recipeCache: Map<string, Recipe[]> = new Map();
   /**
    * Private constructor for singleton pattern
    */

@@ -137,7 +137,7 @@ export interface CelestialTimeSeries {
  * Advanced Celestial Energy Calculator
  */
 export class CelestialEnergyCalculator {
-  private cache = new Map<string, CelestialMoment>()
+  private readonly cache = new Map<string, CelestialMoment>()
   private readonly CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 
   /**

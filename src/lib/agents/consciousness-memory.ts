@@ -70,7 +70,7 @@ export interface AgentConsciousnessMemory {
 }
 
 export class ConsciousnessMemorySystem {
-  private static memories: Map<string, AgentConsciousnessMemory> = new Map()
+  private static readonly memories: Map<string, AgentConsciousnessMemory> = new Map()
 
   /**
    * Record a new consciousness memory snapshot for an agent

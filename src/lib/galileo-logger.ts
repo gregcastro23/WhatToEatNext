@@ -72,7 +72,7 @@ export interface GalileoSession {
 class GalileoLogger {
   private currentSession: GalileoSession | null = null
   private currentTrace: GalileoTrace | null = null
-  private spans: Map<string, GalileoSpan> = new Map()
+  private readonly spans: Map<string, GalileoSpan> = new Map()
 
   /**
    * Start a new session for grouping related traces
