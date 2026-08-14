@@ -26,6 +26,8 @@ jobs:
         include:
           - name: Verify
             command: bun run verify
+          - name: Lint debt
+            command: bun run lint:debt
           - name: Build
             command: bun run build
           - name: Test

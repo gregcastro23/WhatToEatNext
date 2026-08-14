@@ -1,0 +1,78 @@
+{
+  "measuredAt": "2026-08-14",
+  "sourceRevision": "47f859fdb1abf2aa5699126d70df021cfa3eb346",
+  "files": 1888,
+  "rawTotal": 25742,
+  "autoFixable": 505,
+  "trackedTotal": 22614,
+  "declined": {
+    "total": 3128,
+    "reason": "These four shape rules are refactor prompts, not defect indicators; the project's thermodynamic, astrological, and component code can be legitimately large or complex.",
+    "rules": {
+      "complexity": 372,
+      "max-depth": 99,
+      "max-lines": 618,
+      "max-lines-per-function": 2039
+    }
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": {
+      "count": 2599,
+      "autoFixable": 0
+    },
+    "@typescript-eslint/explicit-module-boundary-types": {
+      "count": 1145,
+      "autoFixable": 0
+    },
+    "@typescript-eslint/no-explicit-any": { "count": 1088, "autoFixable": 0 },
+    "@typescript-eslint/no-inferrable-types": {
+      "count": 61,
+      "autoFixable": 61
+    },
+    "@typescript-eslint/no-unnecessary-condition": {
+      "count": 3931,
+      "autoFixable": 0
+    },
+    "@typescript-eslint/no-unsafe-argument": { "count": 777, "autoFixable": 0 },
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 2358,
+      "autoFixable": 0
+    },
+    "@typescript-eslint/no-unsafe-call": { "count": 433, "autoFixable": 0 },
+    "@typescript-eslint/no-unsafe-member-access": {
+      "count": 4067,
+      "autoFixable": 0
+    },
+    "@typescript-eslint/no-unsafe-return": { "count": 241, "autoFixable": 0 },
+    "@typescript-eslint/prefer-nullish-coalescing": {
+      "count": 3289,
+      "autoFixable": 0
+    },
+    "@typescript-eslint/prefer-optional-chain": {
+      "count": 237,
+      "autoFixable": 187
+    },
+    "@typescript-eslint/prefer-readonly": { "count": 26, "autoFixable": 26 },
+    "@typescript-eslint/require-await": { "count": 169, "autoFixable": 0 },
+    "arrow-body-style": { "count": 70, "autoFixable": 70 },
+    "complexity": { "count": 372, "autoFixable": 0 },
+    "jsx-a11y/click-events-have-key-events": { "count": 66, "autoFixable": 0 },
+    "jsx-a11y/no-noninteractive-element-interactions": {
+      "count": 17,
+      "autoFixable": 0
+    },
+    "jsx-a11y/no-static-element-interactions": {
+      "count": 61,
+      "autoFixable": 0
+    },
+    "max-depth": { "count": 99, "autoFixable": 0 },
+    "max-lines": { "count": 618, "autoFixable": 0 },
+    "max-lines-per-function": { "count": 2039, "autoFixable": 0 },
+    "max-nested-callbacks": { "count": 0, "autoFixable": 0 },
+    "no-console": { "count": 754, "autoFixable": 0 },
+    "no-useless-assignment": { "count": 93, "autoFixable": 0 },
+    "no-void": { "count": 748, "autoFixable": 0 },
+    "prefer-destructuring": { "count": 384, "autoFixable": 161 },
+    "react/display-name": { "count": 0, "autoFixable": 0 }
+  }
+}
