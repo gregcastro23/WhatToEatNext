@@ -451,7 +451,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
   requestSeries: { points: [], windowHours: 24, live: false },
   economyIntegrity: {
     drift: { driftedUsers: 0, maxAbsDelta: 0, checkedUsers: 0, live: false },
-    welcomeGrant: { humansWithoutGrant: 0, live: false },
+    welcomeGrant: { humansWithoutGrant: 0, missing: [], live: false },
     onchainClaims: { pending: 0, oldestPendingHours: null, live: false },
     generatedAt: new Date(0).toISOString(),
   },

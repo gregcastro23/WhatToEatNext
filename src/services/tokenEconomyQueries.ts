@@ -857,6 +857,29 @@ export function ledgerDriftSql(): BuiltQuery {
 }
 
 /**
+ * The FROM/WHERE shared by BOTH welcome-grant projections — the count that
+ * raises the alarm, and the sample that names who set it off.
+ *
+ * One string rather than two hand-kept copies, ON PURPOSE. Copies drift on the
+ * first edit, and this pair drifts in the worst possible direction: a panel
+ * reporting "3 users missing a grant" beside a list of 2 names, or of the
+ * wrong 2. The count and the list cannot disagree about who is ungranted while
+ * there is only one definition of ungranted.
+ *
+ * Both projections are PREPAREd by `checkEconomySqlParses.ts`, whose
+ * builder-coverage control fails if a third is added without one. That the two
+ * agree ROW-FOR-ROW is a semantic claim PREPARE cannot make, so it is asserted
+ * separately in `checkWelcomeGrantCoverageBehaviour.mjs`.
+ */
+const UNGRANTED_NON_AGENTS = `FROM users u
+          WHERE u.is_agent IS NOT TRUE
+            AND NOT EXISTS (
+              SELECT 1 FROM token_transactions t
+              WHERE t.user_id = u.id
+                AND t.source_type IN ('signup_grant', 'initial_grant')
+            )`;
+
+/**
  * Non-agent users holding no welcome grant of ANY spelling on the ledger.
  *
  * #744 moved the grant into `createUser` itself, but humans created before the
@@ -900,14 +923,41 @@ export function ledgerDriftSql(): BuiltQuery {
 export function welcomeGrantCoverageSql(): BuiltQuery {
   return {
     sql: `SELECT COUNT(*)::int AS humans_without_grant
-          FROM users u
-          WHERE u.is_agent IS NOT TRUE
-            AND NOT EXISTS (
-              SELECT 1 FROM token_transactions t
-              WHERE t.user_id = u.id
-                AND t.source_type IN ('signup_grant', 'initial_grant')
-            )`,
+          ${UNGRANTED_NON_AGENTS}`,
     values: [],
+  };
+}
+
+/**
+ * How many ungranted users the dashboard names. The count is unbounded; only
+ * this list is capped, and the panel says so whenever it truncates — an
+ * unmarked cap reads as "that's all of them".
+ */
+export const WELCOME_GRANT_SAMPLE_LIMIT = 10;
+
+/**
+ * WHO is missing a welcome grant — the same rows `welcomeGrantCoverageSql`
+ * counts, named.
+ *
+ * The count alone is not actionable: an operator reading "3" has no way to
+ * reach the three users, and the panel's old link pointed at an unfiltered
+ * user list. Newest first, because the newest ungranted user is the one whose
+ * grant path just failed; the older ones are backlog for
+ * `scripts/backfillSignupGrants.ts`.
+ *
+ * `id::text` because the caller serializes it into JSON either way, and the
+ * cast is a no-op on a uuid column while keeping the reader honest about the
+ * shape it gets.
+ */
+export function welcomeGrantMissingUsersSql(
+  limit: number = WELCOME_GRANT_SAMPLE_LIMIT,
+): BuiltQuery {
+  return {
+    sql: `SELECT u.id::text AS id, u.email, u.created_at
+          ${UNGRANTED_NON_AGENTS}
+          ORDER BY u.created_at DESC NULLS LAST
+          LIMIT $1`,
+    values: [limit],
   };
 }
 

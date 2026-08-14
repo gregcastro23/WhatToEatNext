@@ -289,6 +289,16 @@ statements.push({
   builder: "welcomeGrantCoverageSql",
 });
 
+// The sample behind the welcome-grant count. It shares its FROM/WHERE with the
+// count via one module-level string, so a PREPARE failure here would normally
+// also fail `welcomeGrantCoverage` — what this catches independently is the
+// projection and the `LIMIT $1` bind, which the count has neither of.
+statements.push({
+  label: "welcomeGrantMissingUsers",
+  sql: queries.welcomeGrantMissingUsersSql().sql,
+  builder: "welcomeGrantMissingUsersSql",
+});
+
 statements.push({
   label: "onchainClaimBacklog",
   sql: queries.onchainClaimBacklogSql().sql,
@@ -308,8 +318,8 @@ statements.push({
 });
 
 // 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
-// statements, plus 14 reads/bookkeeping and 5 dashboard aggregates.
-const EXPECTED_TOTAL = 42;
+// statements, plus 14 reads/bookkeeping and 6 dashboard aggregates.
+const EXPECTED_TOTAL = 43;
 
 const client = new pg.Client({
   connectionString: url,
