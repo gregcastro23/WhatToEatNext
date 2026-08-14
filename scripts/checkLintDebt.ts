@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
@@ -13,6 +14,11 @@ const baseline = lintDebtBaselineSchema.parse(
 );
 const auditedRuleNames = Object.keys(AUDITED_RULES).sort();
 const baselineRuleNames = Object.keys(baseline.rules).sort();
+
+execFileSync("./node_modules/.bin/next", ["typegen"], {
+  cwd: repoRoot,
+  stdio: "ignore",
+});
 
 if (JSON.stringify(auditedRuleNames) !== JSON.stringify(baselineRuleNames)) {
   console.error(
