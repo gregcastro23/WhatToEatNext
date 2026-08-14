@@ -25,7 +25,10 @@
 //   DATABASE_PUBLIC_URL="$PROD_URL" bun scripts/checkWelcomeGrantCoverageBehaviour.mjs
 import { randomUUID } from "node:crypto";
 import pg from "pg";
-import { welcomeGrantCoverageSql } from "../src/services/tokenEconomyQueries.ts";
+import {
+  welcomeGrantCoverageSql,
+  welcomeGrantMissingUsersSql,
+} from "../src/services/tokenEconomyQueries.ts";
 
 const c = new pg.Client({
   connectionString: process.env.DATABASE_PUBLIC_URL,
@@ -45,13 +48,21 @@ const SHIPPED = welcomeGrantCoverageSql().sql;
 /** Run a statement and return its `humans_without_grant`. */
 const countWith = async (sql) => Number((await c.query(sql)).rows[0].humans_without_grant);
 
-/** Insert a user with an explicit `is_agent`. */
+/**
+ * Insert a user with an explicit `is_agent`.
+ *
+ * `clock_timestamp()` rather than `now()`: `now()` is the TRANSACTION start
+ * time, so every user inserted below would share one `created_at` to the
+ * microsecond and the roster's `ORDER BY created_at DESC` would be untestable
+ * — the newest-first assertion would pass on any ordering at all.
+ */
 const mkUser = async (isAgent) => {
   const id = randomUUID();
   await c.query(
     `INSERT INTO users (id, email, password_hash, role, is_active, email_verified, is_agent,
                         name, profile, preferences, login_count, created_at, updated_at)
-     VALUES ($1,$2,'NO_LOGIN','USER'::user_role,true,true,$3,'probe','{}'::jsonb,'{}'::jsonb,0,now(),now())`,
+     VALUES ($1,$2,'NO_LOGIN','USER'::user_role,true,true,$3,'probe','{}'::jsonb,'{}'::jsonb,0,
+             clock_timestamp(), clock_timestamp())`,
     [id, `wgc-${id}@example.invalid`, isAgent],
   );
   return id;
@@ -130,7 +141,7 @@ try {
   // ── The cases that must still COUNT — the check is not deleted ────────────
   console.log("must still be counted:");
 
-  await mkUser(false); // a plain human, no ledger rows at all
+  const plainHuman = await mkUser(false); // no ledger rows at all
   await asserts(
     1,
     "a non-agent user with no grant of any spelling counts",
@@ -165,7 +176,7 @@ try {
     "an initial_grant holder was counted — the permanent-alarm bug is back",
   );
 
-  await mkUser(true); // an agent, equally grantless
+  const grantlessAgent = await mkUser(true);
   await asserts(
     0,
     "a grantless agent is not counted — agents get no welcome grant",
@@ -207,6 +218,93 @@ try {
         `users.is_agent is now nullable (${isAgentNullable}) — the tri-state ` +
           "case became reachable and this gate no longer covers it",
       );
+
+  // ── The roster names EXACTLY who the count counts ────────────────────────
+  // The panel now prints identities beside the number. A count and a list built
+  // from two copies of a predicate can disagree, and the disagreement is
+  // invisible from either side alone — "3 missing" over a list of 2 names is a
+  // bug an operator has to debug instead of act on. They share one FROM/WHERE
+  // string in `tokenEconomyQueries.ts` so they CANNOT drift; this proves the
+  // property behaviourally rather than trusting that reading.
+  console.log("\ncount ↔ roster agreement:");
+
+  const roster = async (sql, values) => (await c.query(sql, values)).rows;
+  const total = await countWith(SHIPPED);
+
+  // A cap above the count cannot bite, so cardinality is a real comparison.
+  const full = welcomeGrantMissingUsersSql(total + 5);
+  const allRows = await roster(full.sql, full.values);
+  allRows.length === total
+    ? ok(`roster returns ${allRows.length} rows for a count of ${total}`)
+    : no(
+        `roster returned ${allRows.length} rows but the count says ${total} — ` +
+          "the panel would print a number its own list contradicts",
+      );
+
+  // Cardinality alone is not set equality: two different sets of the same size
+  // would pass the check above. Name the users that must and must not appear.
+  const named = new Set(allRows.map((r) => String(r.id)));
+  for (const [id, label] of [
+    [plainHuman, "the grantless human"],
+    [yieldOnly, "the user holding only non-grant ledger rows"],
+  ]) {
+    named.has(id)
+      ? ok(`roster names ${label}`)
+      : no(`roster OMITS ${label} the count counts — the list is not the set`);
+  }
+  for (const [id, label] of [
+    [signupGranted, "the signup_grant holder"],
+    [initialGranted, "the initial_grant holder"],
+    [grantlessAgent, "the grantless agent"],
+    [partial, "the partially-granted user"],
+  ]) {
+    named.has(id)
+      ? no(`roster NAMES ${label}, whom the count excludes — a false accusation`)
+      : ok(`roster excludes ${label}`);
+  }
+
+  // Truncation must take the NEWEST, not an arbitrary page: under a cap the
+  // operator sees only these, and the newest miss is the one whose grant path
+  // just failed. `yieldOnly` was inserted after `plainHuman`, and both are
+  // newer than anything in production.
+  const one = welcomeGrantMissingUsersSql(1);
+  const topRow = (await roster(one.sql, one.values))[0];
+  String(topRow?.id) === yieldOnly
+    ? ok("LIMIT 1 returns the newest ungranted user, not an arbitrary one")
+    : no(
+        `LIMIT 1 returned ${topRow?.id ?? "nothing"}, expected the newest ` +
+          `ungranted user ${yieldOnly} — ORDER BY is not doing its job`,
+      );
+
+  // The projection must carry what the panel renders. A NULL email is allowed
+  // (the panel falls back to the id); a MISSING column is not.
+  const cols = Object.keys(topRow ?? {}).sort().join(",");
+  cols === "created_at,email,id"
+    ? ok("roster projects id + email + created_at, as the panel expects")
+    : no(`roster projects "${cols}" — the panel reads id, email, created_at`);
+
+  // ── Mutation control for the roster ──────────────────────────────────────
+  // The agreement assertions above are only worth their output if they can
+  // fail. Drop the agent filter from the ROSTER alone: it then names the
+  // grantless agent, which the count still excludes.
+  const skewed = full.sql.replace(/u\.is_agent IS NOT TRUE\s*AND\s+/, "");
+  if (skewed === full.sql) {
+    no("roster mutant did not apply — the statement text changed shape");
+  } else {
+    const skewedRows = await roster(skewed, full.values);
+    const skewedIds = new Set(skewedRows.map((r) => String(r.id)));
+    skewedRows.length !== total && skewedIds.has(grantlessAgent)
+      ? ok(
+          `roster with the is_agent filter removed returns ${skewedRows.length} ` +
+            `vs the count's ${total} and names the agent — the agreement ` +
+            "assertions above can fail",
+        )
+      : no(
+          `roster mutant returned ${skewedRows.length} rows vs count ${total}; ` +
+            "it is indistinguishable from the shipped roster, so the agreement " +
+            "assertions prove nothing",
+        );
+  }
 
   // ── Mutation controls ────────────────────────────────────────────────────
   // The shipped statement counted 2 of the 7 users inserted above. Each mutant

@@ -7,7 +7,9 @@
  *    happened. This compares the materialized balances to per-axis ledger sums.
  *  - welcomeGrant: #744 moved the signup grant to user creation, but humans
  *    created before the fix can still hold no grant row at all. Both spellings
- *    of the grant count as covered — see `welcomeGrantCoverageSql`.
+ *    of the grant count as covered — see `welcomeGrantCoverageSql`. The check
+ *    also NAMES the users behind a non-zero count; a bare number left the
+ *    operator with nothing to act on but an unfiltered user list.
  *  - onchainClaims: `esms_onchain_claims` rows stuck in `pending` mean a user
  *    was debited off-chain with no confirmed mint — retryable, but only if
  *    someone can see the backlog.
@@ -28,6 +30,7 @@ import {
   ledgerDriftSql,
   onchainClaimBacklogSql,
   welcomeGrantCoverageSql,
+  welcomeGrantMissingUsersSql,
 } from "@/services/tokenEconomyQueries";
 
 export interface LedgerDriftStatus {
@@ -41,11 +44,30 @@ export interface LedgerDriftStatus {
   live: boolean;
 }
 
+/** One ungranted user, named so the count can be acted on. */
+export interface MissingGrantUser {
+  id: string;
+  /** Nullable in the schema; the panel falls back to the id. */
+  email: string | null;
+  /** ISO 8601, or null when the row predates a populated `created_at`. */
+  createdAt: string | null;
+}
+
 export interface WelcomeGrantCoverage {
   /** Non-agent users holding no welcome grant under EITHER spelling
    *  (`signup_grant`, or its closed-set predecessor `initial_grant`).
    *  0 in production as of 2026-08-13; a non-zero value is a real miss. */
   humansWithoutGrant: number;
+  /** WHO those users are, newest first, capped at
+   *  `WELCOME_GRANT_SAMPLE_LIMIT`. Necessarily empty when the count is 0.
+   *
+   *  Truncation needs no separate field: `humansWithoutGrant - missing.length`
+   *  is exactly how many went unnamed, and stays correct if the cap changes.
+   *
+   *  Empty while the count is NON-zero means the identity query failed, and
+   *  the panel says so — distinguishable from the count alone, which is why
+   *  this needs no separate `live` flag either. */
+  missing: MissingGrantUser[];
   live: boolean;
 }
 
@@ -84,17 +106,51 @@ async function checkLedgerDrift(): Promise<LedgerDriftStatus> {
 }
 
 async function checkWelcomeGrantCoverage(): Promise<WelcomeGrantCoverage> {
+  const empty = { missing: [] as MissingGrantUser[] };
+  let humansWithoutGrant: number;
   try {
     const { sql, values } = welcomeGrantCoverageSql();
     const res = await executeQuery(sql, values);
     const row = res.rows[0] as { humans_without_grant: number } | undefined;
+    humansWithoutGrant = Number(row?.humans_without_grant ?? 0);
+  } catch (error) {
+    _logger.error("[economyIntegrity] welcome-grant check failed:", error);
+    return { humansWithoutGrant: 0, ...empty, live: false };
+  }
+
+  // The alarm is already answered when nobody is missing a grant, and the
+  // sample would be empty by construction — so don't spend a second query on
+  // the healthy case, which is every poll in a healthy production.
+  if (humansWithoutGrant === 0) {
+    return { humansWithoutGrant, ...empty, live: true };
+  }
+
+  try {
+    const { sql, values } = welcomeGrantMissingUsersSql();
+    const res = await executeQuery(sql, values);
+    const rows = res.rows as Array<{
+      id: string;
+      email: string | null;
+      created_at: Date | string | null;
+    }>;
     return {
-      humansWithoutGrant: Number(row?.humans_without_grant ?? 0),
+      humansWithoutGrant,
+      missing: rows.map((r) => ({
+        id: String(r.id),
+        email: r.email ?? null,
+        createdAt:
+          r.created_at === null || r.created_at === undefined
+            ? null
+            : new Date(r.created_at).toISOString(),
+      })),
       live: true,
     };
   } catch (error) {
-    _logger.error("[economyIntegrity] welcome-grant check failed:", error);
-    return { humansWithoutGrant: 0, live: false };
+    // The count survived, so the alarm still fires with a real number — only
+    // the names are missing. Degrading the whole check to `live: false` here
+    // would hide a genuine miss behind "unreadable".
+    _logger.error("[economyIntegrity] welcome-grant identities failed:", error);
+    return { humansWithoutGrant, ...empty, live: true };
   }
 }
 

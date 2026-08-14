@@ -90,6 +90,98 @@ function IntegrityTile({
   );
 }
 
+/**
+ * The users behind a non-zero welcome-grant count, named.
+ *
+ * Rendered BELOW the tile row rather than inside the tile: the tiles sit in a
+ * 3-column grid where a list of emails is unreadable, and this only appears
+ * when the alarm is actually up. In the healthy case (every poll, in a healthy
+ * production) it renders nothing and the panel keeps its compact shape.
+ *
+ * `missing` empty while the count is non-zero is NOT "nobody" — it means the
+ * identity query failed while the count survived. Saying so is the honest
+ * degradation; rendering an empty list under a count of 3 would read as a
+ * contradiction the operator has to debug.
+ *
+ * Each name links to `/admin/users/[userId]`, which carries a GrantTokensModal
+ * — so the link is the repair, not just a lookup. The bulk path stays
+ * `scripts/backfillSignupGrants.ts`, which reads the same predicate.
+ */
+function MissingGrantRoster({
+  count,
+  missing,
+}: {
+  count: number;
+  missing: EconomyIntegrityData["welcomeGrant"]["missing"];
+}) {
+  const unnamed = count - missing.length;
+  return (
+    <div
+      style={{
+        border: "1px solid color-mix(in oklch, var(--accent-2), transparent 65%)",
+        borderRadius: 8,
+        padding: "9px 11px",
+        marginBottom: 12,
+      }}
+    >
+      <div
+        className="t-tag"
+        style={{ fontSize: 8, marginBottom: 6, color: "var(--accent-2)" }}
+      >
+        WITHOUT A WELCOME GRANT · REPAIR ONE BELOW, OR ALL WITH
+        scripts/backfillSignupGrants.ts
+      </div>
+      {missing.length === 0 ? (
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          {count.toLocaleString()} counted · identities unavailable (the count
+          query succeeded, the identity query did not)
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          {missing.map((u) => (
+            <div
+              key={u.id}
+              className="t-mono"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 10,
+                fontSize: 9,
+                color: "var(--fg-dim)",
+              }}
+            >
+              <Link
+                href={`/admin/users/${u.id}`}
+                style={{
+                  color: "var(--accent-2)",
+                  textDecoration: "none",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {u.email || u.id}
+              </Link>
+              <span style={{ flexShrink: 0, color: "var(--fg-mute)" }}>
+                {u.createdAt ? relativeTime(u.createdAt) : "age unknown"}
+              </span>
+            </div>
+          ))}
+          {unnamed > 0 && (
+            <div
+              className="t-mono"
+              style={{ fontSize: 8.5, color: "var(--fg-mute)", marginTop: 2 }}
+            >
+              + {unnamed.toLocaleString()} more not shown · newest{" "}
+              {missing.length} listed
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function FlowColumn({
   title,
   rows,
@@ -292,9 +384,12 @@ export function EconomyIntegrityPanel({
         }
       : {
           value: welcomeGrant.humansWithoutGrant.toLocaleString(),
-          sub: "humans without grant · should trend to 0 ·",
+          // No link here any more: it used to point at an unfiltered
+          // /admin/users, which cannot answer "which ones?". The roster below
+          // names them and links each one directly.
+          sub: "humans without grant · named below",
           tone: "warn" as IntegrityTone,
-          action: { href: "/admin/users", label: "→ /admin/users" },
+          action: undefined,
         };
 
   const claimsStuck =
@@ -357,6 +452,12 @@ export function EconomyIntegrityPanel({
         <IntegrityTile label="Welcome grants" {...grantTile} />
         <IntegrityTile label="On-chain claims" {...claimsTile} />
       </div>
+      {welcomeGrant.live && welcomeGrant.humansWithoutGrant > 0 && (
+        <MissingGrantRoster
+          count={welcomeGrant.humansWithoutGrant}
+          missing={welcomeGrant.missing}
+        />
+      )}
       <div
         style={{
           display: "grid",
