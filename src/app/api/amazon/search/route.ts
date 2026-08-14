@@ -152,7 +152,7 @@ function buildPaapiSearchResult({
   substituted?: boolean;
   substitutionReason?: AmazonSubstitutionReason;
 }): AmazonSearchResult {
-  const inStock = paapiResult.inStock;
+  const { inStock } = paapiResult;
   const matchConfidence: AmazonMatchConfidence =
     confident && inStock ? "medium" : "low";
 

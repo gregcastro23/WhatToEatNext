@@ -176,7 +176,7 @@ export async function prewarmAgentRecipes(
         LIMIT $1`,
       [limit, CACHE_PREFIX],
     );
-    rows = result.rows;
+    ({ rows } = result);
   } catch (error) {
     _logger.error("[prewarm] agent query failed:", error);
     return { attempted: 0, generated: 0 };

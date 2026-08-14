@@ -52,10 +52,10 @@ export function __setValidateRequestTestLoaders(loaders: {
   userDatabaseLoader?: UserDatabaseLoader;
 }): void {
   if (loaders.authLoader) {
-    authLoader = loaders.authLoader;
+    ({ authLoader } = loaders);
   }
   if (loaders.userDatabaseLoader) {
-    userDatabaseLoader = loaders.userDatabaseLoader;
+    ({ userDatabaseLoader } = loaders);
   }
 }
 

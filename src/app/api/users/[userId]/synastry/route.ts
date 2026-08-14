@@ -63,7 +63,7 @@ export async function POST(
       );
     }
 
-    const row = profileResult.rows[0];
+    const [row] = profileResult.rows;
     const rawNatal = parseJsonField<any>(row.natal_chart, null);
 
     if (!rawNatal?.planets) {

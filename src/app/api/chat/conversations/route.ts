@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    const data = parsed.data;
+    const { data } = parsed;
 
     if (data.kind === "table") {
       const conversation = await chatDatabase.ensureTableConversation(data.tableId);

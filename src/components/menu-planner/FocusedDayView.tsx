@@ -592,6 +592,7 @@ export default function FocusedDayView({
   const [loadingMealType, setLoadingMealType] = useState<MealType | null>(null);
 
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);
+  const { planet } = characteristics;
 
   // Generate reasons for why a recipe was suggested
   const generateReasons = useCallback((
@@ -612,7 +613,6 @@ export default function FocusedDayView({
     }
 
     // Planetary alignment
-    const planet = characteristics.planet;
     if (recipe.elementalProperties) {
       if (planet === "Sun" && recipe.elementalProperties.Fire > 0.3) {
         reasons.push("Fire-aligned for Sun's day");
@@ -650,7 +650,7 @@ export default function FocusedDayView({
     }
 
     return reasons.slice(0, 4);
-  }, [characteristics.planet]);
+  }, [planet]);
 
   // Generate suggestions for a specific meal type
   const generateSuggestions = useCallback(

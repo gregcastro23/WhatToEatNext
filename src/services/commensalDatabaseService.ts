@@ -266,7 +266,7 @@ class CommensalDatabaseService {
           );
           if (existing.rows.length === 0) return undefined;
 
-          const row = existing.rows[0];
+          const [row] = existing.rows;
           if (row.status === "blocked") return null;
 
           const isReversePending =
@@ -404,11 +404,11 @@ class CommensalDatabaseService {
         );
         if (check.rows.length === 0) return null;
 
-        const {
+        const [{
           requester_id: requesterId,
           addressee_id: addresseeId,
           status,
-        } = check.rows[0];
+        }] = check.rows;
         const isParty =
           actingUserId === requesterId.toString() ||
           actingUserId === addresseeId.toString();
@@ -897,7 +897,7 @@ class CommensalDatabaseService {
           ],
         );
 
-        const row = insert.rows[0];
+        const [row] = insert.rows;
         if (!row) {
           _logger.error("createSavedChart: upsert returned no row");
           return null;
@@ -1154,7 +1154,7 @@ class CommensalDatabaseService {
          RETURNING id, name, relationship, birth_data, natal_chart, created_at`,
         params,
       );
-      const row = result.rows[0];
+      const [row] = result.rows;
       if (!row) return null;
       return {
         id: row.id,

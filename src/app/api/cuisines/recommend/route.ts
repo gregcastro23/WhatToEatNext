@@ -151,7 +151,7 @@ function computeLocalRecommendations(bias: Record<string, number> | null = null)
     Earth: share("Earth"),
     Air: share("Air"),
   });
-  const dominant = sig.dominant;
+  const { dominant } = sig;
   const secondary = sig.ranked[1].element;
 
   const primData = CUISINE_MAP[dominant];

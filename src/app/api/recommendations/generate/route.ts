@@ -290,7 +290,7 @@ async function handlePost(request: NextRequest) {
   }
 
   // Auth path beyond this point — access.mode is narrowed to "auth".
-  const userId = access.userId;
+  const { userId } = access;
 
   // Load the stored profile once up front: the server-side natal chart drives
   // both personalization and per-user live pricing. getUserById already

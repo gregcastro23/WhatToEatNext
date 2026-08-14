@@ -224,7 +224,7 @@ function MenuPlannerContent() {
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
-          const rewardQuest = data.completedQuests[0];
+          const [rewardQuest] = data.completedQuests;
           questMessage = ` ✨ +${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType} — the Work notices.`;
         }
         // Dual-write to the live feed so connected clients see the share

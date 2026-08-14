@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const userId = authResult.user.userId;
+  const { userId } = authResult.user;
   const body = await request.json();
 
   const {

@@ -227,7 +227,7 @@ export class ConsciousnessMemorySystem {
     const powerAmplification = isOptimal ? 1.3 : 1.0
 
     // Find next optimal hour
-    const nextOptimalHour = profile.alignment[0] // Simplified - could be enhanced
+    const [nextOptimalHour] = profile.alignment // Simplified - could be enhanced
 
     const recommendations: string[] = []
     if (isOptimal) {

@@ -197,7 +197,7 @@ function validateVenusProximity(
  * Validate degree and minute values are in valid ranges
  */
 function validateDegreeMinute(position: PlanetPosition): boolean {
-  const degree = position.degree;
+  const { degree } = position;
   const minute = position.minute || 0;
 
   // Degree should be 0-29 for position within a sign

@@ -92,7 +92,7 @@ function stripStepPrefix(text: string): string {
 }
 
 function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
-  const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
+  const { details } = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } });
   if (details?.prepTimeMinutes != null) {
     return { prep: details.prepTimeMinutes, cook: details.cookTimeMinutes || 0 };
   }
@@ -482,7 +482,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
     .filter((s) => s.value > 0)
     .map((s) => ({ value: s.value, color: MONICA_COMPONENT_CONFIG[s.key].color, label: MONICA_COMPONENT_CONFIG[s.key].label }));
 
-  const monicaScore  = recipe.monicaScore;
+  const { monicaScore } = recipe;
   const monicaLabel  = recipe.monicaScoreLabel;
   const rawMonica    = recipe.monicaOptimization?.optimizedMonica as number | null | undefined;
 

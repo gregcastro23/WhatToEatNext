@@ -118,7 +118,7 @@ function buildIndex(): void {
   // Second pass: authored aliases ("shoyu" → soy sauce). Indexed after every
   // display name so an alias can never shadow another ingredient's real name.
   for (const ingredient of Object.values(unifiedIngredients)) {
-    const aliases = (ingredient as { aliases?: unknown }).aliases;
+    const { aliases } = (ingredient as { aliases?: unknown });
     if (!Array.isArray(aliases)) continue;
     for (const alias of aliases) {
       if (typeof alias !== "string" || !alias) continue;
@@ -180,7 +180,7 @@ export function resolveIngredientByName(
   // Compound lines ("sea salt and pepper to taste") resolve as their first
   // item. Query-side only — indexed catalog names keep their full identity —
   // and last, so it can only turn a miss into a hit.
-  const firstSegment = name.split(/\s+and\s+/i)[0];
+  const [firstSegment] = name.split(/\s+and\s+/i);
   if (firstSegment?.trim() && firstSegment !== name) {
     return resolveIngredientByName(firstSegment);
   }

@@ -8,7 +8,7 @@ import { sauceRecommender } from "@/services/sauceRecommender";
 export const dynamic = "force-dynamic";
 
 const RECIPE_DETAIL_LIMIT = { window: 60_000, max: 60, bucket: "recipe-detail" };
-const HONO_API_URL = process.env.HONO_API_URL;
+const { HONO_API_URL } = process.env;
 
 /** Safely extract cooking methods from a recipe regardless of singular/plural key. */
 function getCookingMethods(recipe: Record<string, unknown>): string[] {

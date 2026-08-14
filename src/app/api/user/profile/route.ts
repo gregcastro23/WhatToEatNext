@@ -21,7 +21,7 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const HONO_API_URL = process.env.HONO_API_URL;
+const { HONO_API_URL } = process.env;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 
 /**
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
         if (honoResponse.ok) {
           const data = await honoResponse.json();
           // Still do lazy migration locally if it's not handled in Hono yet to preserve exact feature parity
-          const profile = data.profile;
+          const { profile } = data;
           const natalChart = profile?.natalChart;
           if (natalChart?.planets?.length > 0 && natalChart?.birthData?.dateTime) {
             const needsMigration = natalChart.planets.some(

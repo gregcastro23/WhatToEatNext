@@ -312,7 +312,7 @@ export function daysUntilNextIngress(): { sign: string; days: number; date: Date
 
   // If we're in the last sign of the year, get next year's Aries
   const nextYearCalendar = buildAnnualCalendar(year + 1)
-  const nextAries = nextYearCalendar.signPeriods[0]
+  const [nextAries] = nextYearCalendar.signPeriods
   const days = (nextAries.startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
 
   return {

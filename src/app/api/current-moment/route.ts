@@ -34,7 +34,7 @@ export async function GET(request: Request) {
       if (el) elementCounts[el]++;
     });
 
-    const dominant = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0][0];
+    const [[dominant]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
 
     const hour = now.getHours();
     let timeOfDay: string;

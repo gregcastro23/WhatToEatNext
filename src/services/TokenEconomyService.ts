@@ -433,7 +433,7 @@ class TokenEconomyService {
               idempotencyKey: idemKey,
             });
             const res = await client.query(query.sql, query.values);
-            if (res.rows.length > 0) last = res.rows[0];
+            if (res.rows.length > 0) [last] = res.rows;
           }
           return last;
         });
@@ -805,7 +805,7 @@ class TokenEconomyService {
         // 1. Look up the shop item
         const lookup = shopItemForPurchaseSql(shopItemSlug);
         const itemResult = await db.executeQuery(lookup.sql, lookup.values);
-        const item = itemResult.rows[0];
+        const [item] = itemResult.rows;
         if (!item) {
           _logger.warn("[TokenEconomy] Shop item not found:", shopItemSlug);
           return { success: false, reason: "item_not_found" };
@@ -929,7 +929,7 @@ class TokenEconomyService {
       try {
         const query = shopItemDetailSql(slug);
         const result = await db.executeQuery(query.sql, query.values);
-        const row = result.rows[0];
+        const [row] = result.rows;
         if (!row) return null;
         return {
           id: row.id,

@@ -280,7 +280,7 @@ class NotificationDatabaseService {
           JSON.stringify(baseMetadata), // $10
         ],
       );
-      const row = result.rows[0];
+      const [row] = result.rows;
       return row ? rowToNotification(row) : null;
     } catch (error) {
       const code = (error as { code?: string })?.code;
@@ -369,7 +369,7 @@ class NotificationDatabaseService {
         );
 
         if (found.rows.length > 0) {
-          const row = found.rows[0];
+          const [row] = found.rows;
           const prev = parseNotificationMetadata(row.metadata);
           const nextCount = (typeof prev.unreadCount === "number" ? prev.unreadCount : 1) + 1;
           const nextMeta = {

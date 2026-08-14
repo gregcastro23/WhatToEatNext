@@ -359,7 +359,7 @@ export class IngredientFilterService {
       // Check for dominant element if specified
       if (filter.dominantElement) {
         if (!elementalProps) return false;
-        const dominantEntry = (
+        const [dominantEntry] = (
           Object.entries(elementalProps) as Array<
             [keyof ElementalProperties, number]
           >
@@ -369,9 +369,9 @@ export class IngredientFilterService {
               key,
             ),
           )
-          .sort(([, a], [, b]) => b - a)[0];
+          .sort(([, a], [, b]) => b - a);
 
-        const dominantElement = dominantEntry[0];
+        const [dominantElement] = dominantEntry;
         if (dominantElement !== filter.dominantElement) return false;
       }
 

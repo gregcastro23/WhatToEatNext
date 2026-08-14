@@ -214,7 +214,7 @@ class PersonalizedRecommendationService {
     }
 
     // Elemental harmony
-    const favorableElements = chartComparison.insights.favorableElements;
+    const { favorableElements } = chartComparison.insights;
     const itemDominantElement = this.getDominantElement(
       item.elementalProperties,
     ) as Element;

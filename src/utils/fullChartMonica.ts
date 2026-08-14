@@ -314,7 +314,7 @@ export function fullChartMonicaForSect(
   diurnal: boolean,
   instant: Date = CHARTLESS_REFERENCE_INSTANT,
 ): number {
-  const monica = alchemize(positions, null, instant, { diurnal }).monica;
+  const { monica } = alchemize(positions, null, instant, { diurnal });
   return Number.isFinite(monica) ? monica : Number.NaN;
 }
 

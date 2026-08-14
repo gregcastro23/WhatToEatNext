@@ -98,7 +98,7 @@ function normalizeInstructions(value: unknown): string[] {
   }
 
   if (parsed && typeof parsed === "object") {
-    const steps = (parsed as Record<string, unknown>).steps;
+    const { steps } = (parsed as Record<string, unknown>);
     return normalizeInstructions(steps);
   }
 

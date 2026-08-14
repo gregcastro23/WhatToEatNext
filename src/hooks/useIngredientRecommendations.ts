@@ -317,13 +317,13 @@ function generateRecommendationReason(
   currentProfile: { Fire: number; Water: number; Earth: number; Air: number },
   isDaytime?: boolean,
 ): string {
-  const dominantElement = Object.entries(ingredient.elementalProfile).reduce(
+  const [dominantElement] = Object.entries(ingredient.elementalProfile).reduce(
     (a, b) => (a[1] > b[1] ? a : b),
-  )[0];
+  );
 
-  const currentDominant = Object.entries(currentProfile).reduce((a, b) =>
+  const [currentDominant] = Object.entries(currentProfile).reduce((a, b) =>
     a[1] > b[1] ? a : b,
-  )[0];
+  );
   const timeContext = isDaytime ? "daytime solar" : "nighttime lunar";
 
   if (dominantElement === currentDominant) {

@@ -265,7 +265,7 @@ function FlowStrip({
 }: {
   flowSeries: CosmicYieldData["flowSeries"];
 }) {
-  const days = flowSeries.days;
+  const { days } = flowSeries;
   if (!flowSeries.live || days.length === 0) {
     return (
       <div

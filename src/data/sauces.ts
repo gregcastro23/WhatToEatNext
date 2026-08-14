@@ -1207,9 +1207,9 @@ export function getSaucesByElement(
 ): Sauce[] {
   return Object.values(allSauces).filter((sauce) => {
     // Find the dominant element
-    const dominantElement = Object.entries(sauce.elementalProperties).sort(
+    const [[dominantElement]] = Object.entries(sauce.elementalProperties).sort(
       ([, a], [, b]) => b - a,
-    )[0][0];
+    );
     return dominantElement === element;
   });
 }

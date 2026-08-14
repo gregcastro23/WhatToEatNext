@@ -74,7 +74,7 @@ export function calculateTransitScoreModifier(
 
   if (natalMoon && currentMoonInfo) {
     const natalMoonElement = getElementForSign(natalMoon.sign);
-    const currentMoonSign = currentMoonInfo.split(' in ')[1];
+    const [, currentMoonSign] = currentMoonInfo.split(' in ');
     const currentMoonElement = getElementForSign(currentMoonSign);
 
     if (natalMoonElement === currentMoonElement) {
@@ -92,7 +92,7 @@ export function calculateTransitScoreModifier(
 
   if (natalMars && currentMarsInfo) {
     const natalMarsSign = natalMars.sign;
-    const currentMarsSign = currentMarsInfo.split(' in ')[1];
+    const [, currentMarsSign] = currentMarsInfo.split(' in ');
     
     const aspect = getAspect(natalMarsSign, currentMarsSign);
 

@@ -92,7 +92,7 @@ export function calculateMoonPhase(date: Date = new Date()): MoonPhase {
  */
 function getMoonAge(date: Date): number {
   // Find the most recent new moon before the given date
-  let lastNewMoon = NEW_MOON_DATES[0]
+  let [lastNewMoon] = NEW_MOON_DATES
 
   for (const newMoonDate of NEW_MOON_DATES) {
     if (newMoonDate <= date) {

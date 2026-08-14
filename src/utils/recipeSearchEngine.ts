@@ -145,7 +145,7 @@ function parseTimeToMinutes(timeStr?: string | number): number {
   if (!match) return 0;
 
   const value = parseInt(match[1], 10);
-  const unit = match[2];
+  const [,, unit] = match;
 
   if (unit.startsWith("h")) {
     return value * 60;
@@ -317,7 +317,7 @@ function calculateRecipeScore(
     const dayCharacteristics = getPlanetaryDayCharacteristics(
       options.planetaryDay,
     );
-    const planet = dayCharacteristics.planet;
+    const { planet } = dayCharacteristics;
 
     // Check if recipe has favorable planetary influences
     if (recipe.planetaryInfluences?.favorable?.includes(planet)) {

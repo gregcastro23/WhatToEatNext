@@ -64,7 +64,7 @@ export async function PUT(
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const userId = authResult.user.userId;
+  const { userId } = authResult.user;
   const body = await request.json();
   const now = new Date().toISOString();
 
@@ -191,7 +191,7 @@ export async function DELETE(
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  const userId = authResult.user.userId;
+  const { userId } = authResult.user;
 
   const db = await getDbModule();
   if (db) {

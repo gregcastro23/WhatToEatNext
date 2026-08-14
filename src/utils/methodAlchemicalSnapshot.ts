@@ -93,7 +93,7 @@ const PLANETS = Object.keys(DEFAULT_PLANETARY_POSITIONS);
 function extractSign(position: unknown): string {
   if (typeof position === "string") return position;
   if (position && typeof position === "object") {
-    const sign = (position as Record<string, unknown>).sign;
+    const { sign } = (position as Record<string, unknown>);
     if (typeof sign === "string" && sign.length > 0) {
       return sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
     }
@@ -161,7 +161,7 @@ export function computeMethodSnapshot(
       reactivity: 0.5,
     };
 
-  const gregsEnergy = calculateGregsEnergy({
+  const { gregsEnergy } = calculateGregsEnergy({
     Spirit: transformedESMS.Spirit,
     Essence: transformedESMS.Essence,
     Matter: transformedESMS.Matter,
@@ -170,7 +170,7 @@ export function computeMethodSnapshot(
     Water: method.elementalEffect.Water,
     Air: method.elementalEffect.Air,
     Earth: method.elementalEffect.Earth,
-  }).gregsEnergy;
+  });
 
   const kalchm = calculateKalchm({
     Spirit: transformedESMS.Spirit,

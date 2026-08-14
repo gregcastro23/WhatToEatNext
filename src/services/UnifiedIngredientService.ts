@@ -240,7 +240,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const result: UnifiedIngredient[] = [];
     for (const ingredients of this.ingredientCache.values()) {
       const matching = (ingredients || []).filter((ing) => {
-        const subCategory = (ing as Record<string, unknown>).subCategory;
+        const { subCategory } = (ing as Record<string, unknown>);
         return (
           typeof subCategory === "string" &&
           subCategory.toLowerCase() === normalizedSubCategory
@@ -444,7 +444,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         ?.astrologicalProperties;
       if (!legacy?.planets) return false;
 
-      const planets = legacy.planets;
+      const { planets } = legacy;
       return Array.isArray(planets)
         ? planets.includes(planet) // ← Pattern HH-1: Safe conversion via unknown
         : planets === (planet as unknown); // ← Pattern HH-1: Safe conversion via unknown
@@ -462,7 +462,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         ?.astrologicalProperties;
       if (!legacy?.signs) return false;
 
-      const signs = legacy.signs;
+      const { signs } = legacy;
       return Array.isArray(signs)
         ? signs.includes(sign) // ← Pattern HH-1: Safe conversion via unknown
         : signs === (sign as unknown); // ← Pattern HH-1: Safe conversion via unknown
@@ -1103,7 +1103,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
 
       // Check subcategory
-      const subCategory = (_ingredient as Record<string, unknown>).subCategory;
+      const { subCategory } = (_ingredient as Record<string, unknown>);
       if (
         typeof subCategory === "string" &&
         subCategory.toLowerCase().includes(normalizedQuery)
@@ -1155,7 +1155,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return false;
       }
 
-      const signs = legacy.signs;
+      const { signs } = legacy;
       return Array.isArray(signs)
         ? signs.includes(currentZodiacSignType)
         : signs ===
@@ -1180,7 +1180,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return false;
       }
 
-      const planets = legacy.planets;
+      const { planets } = legacy;
       return Array.isArray(planets)
         ? planets.includes(planet)
         : planets ===

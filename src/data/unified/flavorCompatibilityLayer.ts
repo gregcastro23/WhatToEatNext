@@ -148,9 +148,9 @@ export function calculatePlanetaryFlavorMatch(
     );
 
     // Find strongest planetary influence
-    const strongestPlanet = Object.entries(planetaryInfluences).sort(
+    const [strongestPlanet] = Object.entries(planetaryInfluences).sort(
       (a, b) => b[1] - a[1],
-    )[0];
+    );
 
     if (!strongestPlanet) return 0.5;
     const planetProfile = unifiedFlavorEngine.getProfile(

@@ -125,7 +125,7 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
 
   // The x-axis is real hours from request_log_entries, so alert markers are
   // placed at their actual timestamps; alerts outside the window are dropped.
-  const points = requestSeries.points;
+  const { points } = requestSeries;
   const windowMs = (requestSeries.windowHours || 24) * 3_600_000;
   const windowEnd =
     points.length > 0
@@ -299,7 +299,7 @@ function Heartbeat({
   const W = 980;
   const H = 168;
   const P = 4;
-  const points = series.points;
+  const { points } = series;
   const span = Math.max(windowEnd - windowStart, 1);
   const xOfTime = (t: number) => P + ((W - P * 2) * (t - windowStart)) / span;
   const maxV = Math.max(1, ...points.map((p) => Math.max(p.requests, p.errors)));

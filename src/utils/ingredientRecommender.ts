@@ -1177,7 +1177,7 @@ function calculateVenusInfluence(
     }
   }
   // Check texture alignment with Venus preferences
-  const texture = ingredientData.texture;
+  const { texture } = ingredientData;
   if (texture) {
     // Venus favors smooth, creamy, luscious textures
     const venusTextures = [
@@ -1198,7 +1198,7 @@ function calculateVenusInfluence(
     score += textureMatch * 0.5;
   }
   // Check culinary technique alignment
-  const culinaryUses = ingredientData.culinaryUses;
+  const { culinaryUses } = ingredientData;
   if (venusData.PlanetSpecific?.CulinaryTechniques && culinaryUses) {
     const culinaryUsesArray = Array.isArray(culinaryUses)
       ? culinaryUses
@@ -1215,7 +1215,7 @@ function calculateVenusInfluence(
       score += 1.8;
     }
     // Check for balance and harmony in flavor pairings
-    const harmonyPairings = ingredientData.harmonyPairings;
+    const { harmonyPairings } = ingredientData;
     const harmonyPairingsArray = Array.isArray(harmonyPairings)
       ? harmonyPairings
       : [];
@@ -1237,7 +1237,7 @@ function calculateVenusInfluence(
       score += 1.2;
     }
     // Check for fragrance and aroma enhancement
-    const aromaticProperties = ingredientData.aromaticProperties;
+    const { aromaticProperties } = ingredientData;
     if (
       aromaticProperties ||
       (flavorProfile?.aromatic && flavorProfile.aromatic > 0.7)
@@ -1272,7 +1272,7 @@ function calculateVenusInfluence(
       // Direct keywords match;
       const keywords = foodFocus.split(/[\s,,]+/).filter((k) => k.length > 3);
       for (const keyword of keywords) {
-        const description = ingredient.description;
+        const { description } = ingredient;
         if (
           ingredientName.includes(keyword) ||
           (description &&
@@ -1385,7 +1385,7 @@ function calculateVenusInfluence(
           .toLowerCase()
           .split(/[\s,,]+/)
           .filter((k) => k.length > 3);
-        const description = ingredient.description;
+        const { description } = ingredient;
         if (
           focusKeywords.some(
             (keyword) =>
@@ -1439,7 +1439,7 @@ function calculateVenusInfluence(
           .toLowerCase()
           .split(/[\s,,]+/)
           .filter((k) => k.length > 3);
-        const description = ingredient.description;
+        const { description } = ingredient;
         if (
           focusKeywords.some(
             (keyword) =>

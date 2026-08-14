@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { id: userId, is_agent: isAgent } = userResult.rows[0];
+    const [{ id: userId, is_agent: isAgent }] = userResult.rows;
 
     // 3. Report Event to QuestService
     const completed = await questService.reportEvent(userId, event, metadata);

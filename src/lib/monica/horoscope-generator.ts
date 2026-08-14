@@ -237,8 +237,8 @@ function calculatePlanetPosition(
  */
 function calculateAscendant(birthInfo: BirthInfo): { sign: string; degree: number } {
   // Enhanced ascendant calculation using sidereal time approximation
-  const hour = birthInfo.hour
-  const minute = birthInfo.minute
+  const { hour } = birthInfo
+  const { minute } = birthInfo
   const latitude = birthInfo.latitude || 0
   const longitude = birthInfo.longitude || 0
 

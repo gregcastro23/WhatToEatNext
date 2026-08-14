@@ -200,11 +200,11 @@ export class CulinaryAstrologer {
     const viable = Object.entries(traditions).filter(
       ([, profile]) => (profile.elementalAlignment[dominant] ?? 0) > 0.3,
     );
-    const best = viable.sort(
+    const [best] = viable.sort(
       (a, b) =>
         (b[1].elementalAlignment[dominant] ?? 0) -
         (a[1].elementalAlignment[dominant] ?? 0),
-    )[0];
+    );
     const style = best[0] || "Fusion";
     const modKey = `${dominant}_dominant`;
     const modification =

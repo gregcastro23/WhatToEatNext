@@ -536,15 +536,15 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       const methodThermo = method.thermodynamicProperties || getCookingMethodThermodynamics(id) || { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
 
-      const gregsEnergy = calculateGregsEnergy({
+      const { gregsEnergy } = calculateGregsEnergy({
         Spirit: transformedESMS.Spirit, Essence: transformedESMS.Essence,
         Matter: transformedESMS.Matter, Substance: transformedESMS.Substance,
         Fire: method.elementalEffect.Fire, Water: method.elementalEffect.Water,
         Air: method.elementalEffect.Air, Earth: method.elementalEffect.Earth,
-      }).gregsEnergy;
+      });
 
       const kalchm = calculateKalchm(transformedESMS);
-      const reactivity = methodThermo.reactivity;
+      const { reactivity } = methodThermo;
       const monica = gregsEnergy !== null && kalchm ? calculateMonica(gregsEnergy, reactivity, kalchm) : null;
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;

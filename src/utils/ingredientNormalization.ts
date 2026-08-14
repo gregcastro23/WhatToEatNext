@@ -194,7 +194,7 @@ export function canonicalizeCoverageName(input: string): string {
 
     const splitOr = name.split(/\s+or\s+/).map((s) => s.trim()).filter(Boolean);
     if (splitOr.length > 1) {
-        name = splitOr[0];
+        [name] = splitOr;
     }
 
     name = name.replace(/\s+/g, " ").trim();

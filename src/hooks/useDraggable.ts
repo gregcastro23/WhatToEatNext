@@ -136,7 +136,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
 
       e.preventDefault();
 
-      const touch = e.touches[0];
+      const [touch] = e.touches;
       const deltaX = touch.clientX - startPos.current.x;
       const deltaY = touch.clientY - startPos.current.y;
 
@@ -193,7 +193,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     (e: TouchEvent) => {
       if (disabled || e.touches.length !== 1) return;
 
-      const touch = e.touches[0];
+      const [touch] = e.touches;
       const target = touch.target as HTMLElement;
       const element = elementRef.current;
       if (!element) return;

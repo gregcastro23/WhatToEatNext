@@ -87,7 +87,7 @@ async function handlePost(request: NextRequest) {
   // Auth'd path: token economy is the throttle. Every user gets 1 free daily generation,
   // and subsequent recipe generations spend personalized live ESMS tokens.
   if (access.mode === "auth") {
-    const userId = access.userId;
+    const { userId } = access;
     let isFirstGeneration = true;
     let count = 0;
 

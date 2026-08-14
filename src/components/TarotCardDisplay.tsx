@@ -55,7 +55,7 @@ export default function TarotCardDisplay() {
                     'Swords': 'Substance'
                 };
 
-                const suit = cards.minorCard.suit;
+                const { suit } = cards.minorCard;
                 const tokenType = suitMap[suit];
                 const value = cards.minorCard.number;
                 

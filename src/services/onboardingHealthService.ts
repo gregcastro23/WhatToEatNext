@@ -153,7 +153,7 @@ async function readFunnel(): Promise<{ row: FunnelRow; live: boolean }> {
        -- just to count the last 24 hours.
        WHERE u.created_at > NOW() - INTERVAL '24 hours'`,
     );
-    const r = result.rows[0];
+    const [r] = result.rows;
     return {
       row: {
         signups: r?.signups ?? 0,
@@ -389,7 +389,7 @@ export async function getOnboardingHealth(): Promise<OnboardingHealthPayload> {
 
   const apiHealth = readApiHealth();
   const funnel = funnelData.row;
-  const live = funnelData.live;
+  const { live } = funnelData;
 
   // Compute drop-offs as percent reduction from previous stage.
   // Signup → Birth-data → Natal chart → Onboarded.

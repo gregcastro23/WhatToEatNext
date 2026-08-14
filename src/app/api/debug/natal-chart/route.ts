@@ -31,8 +31,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Get stored natal chart from database
-    const natalChart = user.profile.natalChart;
-    const birthData = user.profile.birthData;
+    const { natalChart } = user.profile;
+    const { birthData } = user.profile;
 
     if (!natalChart || !birthData) {
       return NextResponse.json({

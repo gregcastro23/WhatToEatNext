@@ -114,8 +114,8 @@ export default function ElementalBalanceWheel({
           };
 
     const entries = (Object.entries(s) as Array<[ElementKey, number]>);
-    const dom = entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
-    const miss = entries.reduce((a, b) => (a[1] < b[1] ? a : b))[0];
+    const [dom] = entries.reduce((a, b) => (a[1] > b[1] ? a : b));
+    const [miss] = entries.reduce((a, b) => (a[1] < b[1] ? a : b));
 
     return { shares: s, total: sum, dominant: dom, missing: miss };
   }, [balance]);

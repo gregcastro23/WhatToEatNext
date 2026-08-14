@@ -91,9 +91,9 @@ export default function LiveTransits() {
       ) : (
         <ul className="space-y-4">
           {aspects.map((a, i) => {
-            const matchedMethod = (
+            const [matchedMethod] = (
               rulerIndex[a.planet1] ?? rulerIndex[a.planet2] ?? []
-            )[0];
+            );
             return (
               <li
                 key={`${a.planet1}-${a.type}-${a.planet2}`}

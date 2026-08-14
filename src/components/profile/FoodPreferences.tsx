@@ -89,7 +89,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
-          const rewardQuest = data.completedQuests[0];
+          const [rewardQuest] = data.completedQuests;
           questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
         }
         showSuccess(`Shared to feed successfully!${questMessage}`);
@@ -161,7 +161,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
-          const rewardQuest = data.completedQuests[0];
+          const [rewardQuest] = data.completedQuests;
           questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
         }
         showSuccess(`Preferences Card downloaded successfully!${questMessage}`);

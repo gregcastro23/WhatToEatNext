@@ -68,7 +68,7 @@ function parseMinutesFromString(s: string | undefined): number {
 }
 
 function getTotalMinutes(recipe: Recipe): number {
-  const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
+  const { details } = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } });
   if (details?.prepTimeMinutes != null) {
     return details.prepTimeMinutes + (details.cookTimeMinutes ?? 0);
   }

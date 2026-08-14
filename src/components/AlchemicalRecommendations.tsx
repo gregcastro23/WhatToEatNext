@@ -191,7 +191,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
       if ((method as any).elementalEffect) {
-        elementalEffect = (method as any).elementalEffect;
+        ({ elementalEffect } = (method as any));
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -253,7 +253,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get cuisine elemental state or calculate it
       let elementalState;
       if ((cuisine).elementalState) {
-        elementalState = (cuisine).elementalState;
+        ({ elementalState } = (cuisine));
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };

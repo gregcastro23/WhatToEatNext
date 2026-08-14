@@ -32,7 +32,7 @@ const loadVegetables = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vegetables).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/vegetables");
-      vegetables = ingredientModule.vegetables;
+      ({ vegetables } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading vegetables: ", error);
     }
@@ -44,7 +44,7 @@ const loadFruits = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(fruits).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/fruits");
-      fruits = ingredientModule.fruits;
+      ({ fruits } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading fruits: ", error);
     }
@@ -56,7 +56,7 @@ const loadHerbs = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(herbs).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/herbs");
-      herbs = ingredientModule.herbs;
+      ({ herbs } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading herbs: ", error);
     }
@@ -68,7 +68,7 @@ const loadSpices = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(spices).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/spices");
-      spices = ingredientModule.spices;
+      ({ spices } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading spices: ", error);
     }
@@ -92,7 +92,7 @@ const loadGrains = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(grains).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/grains");
-      grains = ingredientModule.grains;
+      ({ grains } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading grains: ", error);
     }
@@ -105,7 +105,7 @@ const loadSeasonings = async (): Promise<Record<string, unknown>> => {
     try {
       const ingredientModule =
         await import("../../data/ingredients/seasonings");
-      seasonings = ingredientModule.seasonings;
+      ({ seasonings } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading seasonings: ", error);
     }
@@ -129,7 +129,7 @@ const loadVinegars = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vinegars).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/vinegars");
-      vinegars = ingredientModule.vinegars;
+      ({ vinegars } = ingredientModule);
     } catch (error) {
       _logger.error("Error loading vinegars: ", error);
     }
@@ -660,7 +660,7 @@ export async function getRecommendedIngredients(
 
   // Sort by dominant element if available
   if (astroState.dominantElement) {
-    const dominantElement = astroState.dominantElement;
+    const { dominantElement } = astroState;
     filteredIngredients.sort((a, b) => {
       const aValue = a.elementalProperties[dominantElement] || 0;
       const bValue = b.elementalProperties[dominantElement] || 0;
@@ -1013,7 +1013,7 @@ function calculateUnifiedFlavorScore(
     let score = 0.5;
 
     if ("flavorProfile" in ingredient && ingredient.flavorProfile) {
-      const flavorProfile = ingredient.flavorProfile;
+      const { flavorProfile } = ingredient;
 
       // Map elemental properties to flavor preferences
       // Fire → spicy, bitter; Water → sweet, umami; Earth → salty, umami; Air → sour, bitter

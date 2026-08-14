@@ -105,7 +105,7 @@ function getChronologicalNextMeal(now: Date): {
   isTomorrow: boolean;
 } {
   const hour = now.getHours();
-  const firstWindow = MEAL_WINDOWS[0];
+  const [firstWindow] = MEAL_WINDOWS;
   const lastWindow = MEAL_WINDOWS[MEAL_WINDOWS.length - 1];
 
   // Before breakfast or past dinner → roll to tomorrow's breakfast

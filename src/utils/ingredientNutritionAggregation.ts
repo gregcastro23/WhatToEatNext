@@ -329,7 +329,7 @@ export function computeRecipeNutritionFromIngredients(
     servings?: number;
   },
 ): NormalizedRecipeNutrition | null {
-  const ingredients = recipe.ingredients;
+  const { ingredients } = recipe;
   if (!Array.isArray(ingredients) || ingredients.length === 0) return null;
 
   const total = emptyNutrition();

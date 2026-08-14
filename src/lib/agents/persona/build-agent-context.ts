@@ -52,7 +52,7 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
     }
 
     if (queryResult.rows.length > 0) {
-      const row = queryResult.rows[0]
+      const [row] = queryResult.rows
       const profile = row.profile || {}
       const birthData = row.birth_data || {}
       const chart = row.natal_chart || {}

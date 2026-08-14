@@ -125,8 +125,8 @@ export default function AgentProfile({
   const planets = agent.consciousness?.natalChart?.planets ?? {};
   const aspects = agent.consciousness?.natalChart?.aspects ?? [];
   const ae = agent.consciousness?.alchemicalElements;
-  const personality = agent.personality;
-  const abilities = agent.abilities;
+  const { personality } = agent;
+  const { abilities } = agent;
   const diet = agent.historicalDiet;
  
   const slug = handle ? handle.split("@")[0] : null;

@@ -395,12 +395,12 @@ export class RecipeEnhancer {
       }
     }
     // Elemental recommendations
-    const dominant = Object.entries(elementalBalance).reduce((a, b) =>
+    const [dominant] = Object.entries(elementalBalance).reduce((a, b) =>
       elementalBalance[a[0] as keyof ElementalProperties] >
       elementalBalance[b[0] as keyof ElementalProperties]
         ? a
         : b,
-    )[0];
+    );
     switch (dominant) {
       case "Fire":
         recommendations.push("Fire-dominant: Best with direct heat methods");

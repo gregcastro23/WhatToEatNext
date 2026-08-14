@@ -45,7 +45,7 @@ function QueueItemCard({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const recipe = item.recipe;
+  const { recipe } = item;
 
   // Calculate days since added
   const daysSinceAdded = Math.floor(

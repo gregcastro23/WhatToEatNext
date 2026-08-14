@@ -108,7 +108,7 @@ export async function runAgentDailyYield(limit = 30): Promise<AgentYieldResult> 
         LIMIT $1`,
       [limit],
     );
-    rows = query.rows;
+    ({ rows } = query);
   } catch (error) {
     _logger.error("[agent-yield] agent query failed:", error);
     return result;

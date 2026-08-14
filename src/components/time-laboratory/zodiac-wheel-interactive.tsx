@@ -244,8 +244,7 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
   // Touch gesture handlers for mobile
   const getTouchDistance = useCallback((touches: React.TouchList) => {
     if (touches.length < 2) return 0
-    const touch1 = touches[0]
-    const touch2 = touches[1]
+    const [touch1, touch2] = Array.from(touches)
     return Math.sqrt(
       Math.pow(touch2.clientX - touch1.clientX, 2) + Math.pow(touch2.clientY - touch1.clientY, 2)
     )
@@ -274,7 +273,7 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
         setLastTouchDistance(currentDistance)
       } else if (e.touches.length === 1 && !isPinching) {
         // Single touch for rotation
-        const touch = e.touches[0]
+        const [touch] = Array.from(e.touches)
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
         const centerX = rect.left + rect.width / 2
         const centerY = rect.top + rect.height / 2

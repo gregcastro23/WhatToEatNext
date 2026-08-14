@@ -81,7 +81,7 @@ export function BlurredLedgerPreview({
           {FAKE_ROWS.map((row) => {
             const values = fakeSparkline(row.seed);
             const last = values[values.length - 1];
-            const first = values[0];
+            const [first] = values;
             const delta = ((last - first) / first) * 100;
             return (
               <div

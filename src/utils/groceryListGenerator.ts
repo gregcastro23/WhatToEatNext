@@ -268,8 +268,8 @@ export function generateGroceryList(
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);
-          amount = converted.amount;
-          unit = converted.unit;
+          ({ amount } = converted);
+          ({ unit } = converted);
         }
 
         if (ingredientMap.has(key)) {
@@ -321,12 +321,12 @@ export function generateGroceryList(
             : `${normalizedName}-sauce-${meal.sauce!.id}`;
 
         let amount = Number(ingredient.amount) * sauceServings;
-        let unit = ingredient.unit;
+        let { unit } = ingredient;
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);
-          amount = converted.amount;
-          unit = converted.unit;
+          ({ amount } = converted);
+          ({ unit } = converted);
         }
 
         if (ingredientMap.has(key)) {

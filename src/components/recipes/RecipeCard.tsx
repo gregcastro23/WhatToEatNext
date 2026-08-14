@@ -101,8 +101,8 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
   // Planetary fields are attached by the recipes page's scoring pass; they
   // are absent on un-scored cards (e.g. "similar recipes" on the detail page).
   const score = recipe.score ?? (recipe as { planetaryScore?: number }).planetaryScore;
-  const rulingPlanet = (recipe as { rulingPlanet?: string }).rulingPlanet;
-  const planetaryReason = (recipe as { planetaryReason?: string }).planetaryReason;
+  const { rulingPlanet } = (recipe as { rulingPlanet?: string });
+  const { planetaryReason } = (recipe as { planetaryReason?: string });
   const regionalVariant =
     typeof recipe.regionalVariant === "string" ? recipe.regionalVariant : undefined;
 

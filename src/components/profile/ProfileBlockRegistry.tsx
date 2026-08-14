@@ -34,7 +34,7 @@ const InsightsTicker = ({ data }: { data: any }) => {
         .filter(([, val]) => typeof val === "number")
         .sort((a, b) => (b[1] as number) - (a[1] as number));
       if (sorted.length > 0) {
-        const [domName, domVal] = sorted[0];
+        const [[domName, domVal]] = sorted;
         list.push(`Your dominant element is ${domName} (${Math.round((domVal as number) * 100)}%), driving your primary taste preferences.`);
       }
       if (sorted.length > 1) {

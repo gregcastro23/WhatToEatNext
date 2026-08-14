@@ -343,7 +343,7 @@ class UserDatabaseService {
         );
 
         if (result.rows.length > 0) {
-          const row = result.rows[0];
+          const [row] = result.rows;
           return this.rowToUserWithProfile(row);
         }
       } catch (error) {

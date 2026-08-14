@@ -234,7 +234,7 @@ export async function sampleHourlyAlchm(
       if (planetaryCalculator) {
         const planetaryInfo = planetaryCalculator.getPlanetaryHour(hourDate)
         planetaryHour = planetaryInfo.planet
-        isDaytime = planetaryInfo.isDaytime
+        ;({ isDaytime } = planetaryInfo)
       }
 
       // Convert to kinetics format

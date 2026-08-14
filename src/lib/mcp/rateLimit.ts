@@ -64,7 +64,7 @@ export function checkMcpRateLimit(options: CheckOptions): CheckResult {
   bucket.timestamps = bucket.timestamps.filter((t) => t > cutoff);
 
   if (bucket.timestamps.length >= limit) {
-    const oldest = bucket.timestamps[0];
+    const [oldest] = bucket.timestamps;
     return {
       allowed: false,
       remaining: 0,

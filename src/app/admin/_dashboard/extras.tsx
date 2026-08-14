@@ -987,7 +987,7 @@ function formatRelativeShort(iso: string): string {
 }
 
 export function ErrorGroups({ errorGroups }: { errorGroups: ErrorGroupsData }) {
-  const groups = errorGroups.groups;
+  const { groups } = errorGroups;
   const fiveXxTotal = groups.reduce((sum, g) => sum + g.fiveXxCount, 0);
   return (
     <Card

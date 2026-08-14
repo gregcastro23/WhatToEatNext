@@ -269,7 +269,7 @@ export function deduplicateIngredients(
   for (const [, group] of groups.entries()) {
     let finalQty = group.totalQuantity;
     let finalUnit = group.unit;
-    let finalName = group.originalNames[0]; // pick first original name as base
+    let [finalName] = group.originalNames; // pick first original name as base
 
     // Special protein deduplication
     // If it's a protein, we don't sum all quantities if it's across multiple meals

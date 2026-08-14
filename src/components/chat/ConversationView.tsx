@@ -30,7 +30,7 @@ export function ConversationView({
   className = "",
 }: ConversationViewProps): JSX.Element {
   const convo = useConversation(conversationId, { viewerId: seedViewerId });
-  const viewerId = convo.viewerId;
+  const { viewerId } = convo;
   const [reportTarget, setReportTarget] = useState<ChatMessage | null>(null);
 
   // Destructured rather than called as `convo.markRead()`: the rule treats a

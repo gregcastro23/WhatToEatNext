@@ -90,7 +90,7 @@ export function PracticeDelightHost(): JSX.Element {
 
   useEffect(() => {
     const onReward = (e: Event) => {
-      const detail = (e as CustomEvent<PracticeReward>).detail;
+      const { detail } = (e as CustomEvent<PracticeReward>);
       if (!detail || typeof detail.amount !== "number" || detail.amount <= 0) return;
       queue.current.push(detail);
       if (!playing.current) playNext();
@@ -106,7 +106,7 @@ export function PracticeDelightHost(): JSX.Element {
   const { status } = useSession();
   useEffect(() => {
     if (status !== "authenticated" || !pathname) return;
-    const segment = pathname.split("/").filter(Boolean)[0];
+    const [segment] = pathname.split("/").filter(Boolean);
     if (segment && DISCOVERABLE_SURFACES.has(segment)) {
       discoverSurface(segment);
     }

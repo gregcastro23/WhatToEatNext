@@ -306,7 +306,7 @@ function FilterChip({
 function EventRow({ event }: { event: ActivityEvent }) {
   const catStyle = CATEGORY_STYLE[event.category];
   const statusStyle = STATUS_STYLE[event.status];
-  const actor = event.actor;
+  const { actor } = event;
   return (
     <li className="px-4 sm:px-6 py-3 hover:bg-gray-50">
       <div className="flex items-start gap-3">

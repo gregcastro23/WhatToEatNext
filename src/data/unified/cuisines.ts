@@ -500,12 +500,12 @@ export class CuisineAnalyzer {
         | ElementalProperties
         | undefined;
       if (elementalBalance) {
-        const dominant = Object.entries(elementalBalance).reduce((a, b) =>
+        const [dominant] = Object.entries(elementalBalance).reduce((a, b) =>
           elementalBalance[a[0] as keyof ElementalProperties] >
           elementalBalance[b[0] as keyof ElementalProperties]
             ? a
             : b,
-        )[0];
+        );
         const dominantKey = `${dominant.toLowerCase()  }-dominant`;
         if (elementalDistribution[dominantKey] !== undefined) {
           elementalDistribution[dominantKey]++;

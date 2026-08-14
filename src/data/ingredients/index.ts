@@ -383,9 +383,9 @@ function mergeIngredientVariants(variants: Ingredient[]): Ingredient {
     .map((v) => (v as { name?: string }).name)
     .filter((n): n is string => Boolean(n));
   if (names.length > 0) {
-    const canonical = [...names].sort(
+    const [canonical] = [...names].sort(
       (a, b) => a.length - b.length || a.localeCompare(b),
-    )[0];
+    );
     base.name = canonical;
   }
   return base as unknown as Ingredient;

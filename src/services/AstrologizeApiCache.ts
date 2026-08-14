@@ -83,7 +83,7 @@ class AstrologizeApiCache {
   private generateKey(lat: number, lng: number, date: Date): string {
     const roundedLat = Math.round(lat * 100) / 100; // Round to 2 decimal places
     const roundedLng = Math.round(lng * 100) / 100;
-    const dateKey = date.toISOString().split("T")[0]; // YYYY-MM-DD
+    const [dateKey] = date.toISOString().split("T"); // YYYY-MM-DD
     return `${roundedLat},${roundedLng},${dateKey}`;
   }
 
@@ -252,7 +252,7 @@ class AstrologizeApiCache {
     }
 
     // Use the closest data as base for prediction
-    const baseData = nearbyData[0];
+    const [baseData] = nearbyData;
     const predictedPositions: Record<string, PlanetaryPosition> = {};
     const sources: string[] = [];
 
@@ -330,7 +330,7 @@ class AstrologizeApiCache {
     // Try to find nearby data if exact match not found
     const nearby = this.findNearby(lat, lng, date, 25, 1); // Closer search for current matching
     if (nearby.length > 0) {
-      const best = nearby[0];
+      const [best] = nearby;
       return {
         elementalAbsolutes: best.elementalAbsolutes,
         elementalRelatives: best.elementalRelatives,

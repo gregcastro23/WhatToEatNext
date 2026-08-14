@@ -66,7 +66,7 @@ interface PairCounts {
 async function runPair(label: string, sql: string): Promise<PairCounts | null> {
   try {
     const result = await executeQuery<PairCounts>(sql);
-    const row = result.rows[0];
+    const [row] = result.rows;
     return {
       today: Number(row?.today ?? 0),
       yesterday: Number(row?.yesterday ?? 0),

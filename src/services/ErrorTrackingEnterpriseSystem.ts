@@ -211,7 +211,7 @@ export class ErrorTrackingEnterpriseSystem {
         if (data.count > previous)
           existing.successRate = Math.max(0.5, existing.successRate - 0.01);
       } else {
-        const first = data.errors[0];
+        const [first] = data.errors;
         const newPattern: ErrorPattern = {
           patternId: patternKey,
           errorCode: first.code,

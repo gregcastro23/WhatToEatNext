@@ -327,7 +327,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
                 pos.longitude === null
                   ? dignityFoldsForSign(pos.planet as ManifestPlanet, signStr, chartSect)
                   : dignityFoldsAtLongitude(pos.planet as ManifestPlanet, pos.longitude, chartSect);
-              const multiplier = folds.multiplier;
+              const { multiplier } = folds;
               const dignityType = toLegacyDignityType(folds);
               // The legacy type alone now under-describes the physics — Venus in
               // virgo reads "Fall" yet applies ×0.98, because the Earth day

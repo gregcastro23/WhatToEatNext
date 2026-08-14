@@ -51,7 +51,7 @@ function toTarotRecipe(r: Recipe): TarotRecipe {
         )
         .filter((n): n is string => Boolean(n))
     : [];
-  const instructions = (r as { instructions?: unknown }).instructions;
+  const { instructions } = (r as { instructions?: unknown });
   const preparation =
     (r as { description?: string }).description ||
     (Array.isArray(instructions) ? instructions.join(" ") : "") ||

@@ -348,7 +348,7 @@ export function BestMatchExplorer({
   const source: RestaurantDiscoverySource =
     status.kind === "ready" ? status.data.source ?? "google" : "google";
 
-  const hero = ranked[0];
+  const [hero] = ranked;
   const runnersUp = ranked.slice(1);
 
   return (
@@ -896,7 +896,7 @@ function HeroCard({ entry, saved, onReserve, onSave, onLog }: CardProps) {
   const decoration = ELEMENT_DECORATION[entry.dominantElement];
   const hasScore = entry.alchmScore > 0;
   const isPartner = entry.isPartner === true;
-  const reason = entry.matchReasons[0];
+  const [reason] = entry.matchReasons;
 
   return (
     <section

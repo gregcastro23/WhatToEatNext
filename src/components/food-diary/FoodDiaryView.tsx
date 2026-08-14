@@ -97,7 +97,7 @@ export default function FoodDiaryView({
               onClick={() => {
                 const input = document.createElement("input");
                 input.type = "date";
-                input.value = selectedDate.toISOString().split("T")[0];
+                [input.value] = selectedDate.toISOString().split("T");
                 input.onchange = () => onSetDate(new Date(input.value));
                 input.click();
               }}

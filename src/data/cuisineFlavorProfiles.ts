@@ -1179,7 +1179,7 @@ export async function getRecipesForCuisineMatch(
 
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
-              const ingredients = recipeData.ingredients;
+              const { ingredients } = recipeData;
               const recipeIngredientNames = ingredients.map((ing) => typeof ing === "string"
                   ? ing.toLowerCase()
                   : String(ing.name || "").toLowerCase());
@@ -1204,7 +1204,7 @@ export async function getRecipesForCuisineMatch(
               cuisineProfile.signatureTechniques &&
               recipeData.cookingMethods
             ) {
-              const cookingMethods = recipeData.cookingMethods;
+              const { cookingMethods } = recipeData;
               const recipeTechniques = Array.isArray(cookingMethods)
                 ? cookingMethods.map((tech) =>
                     String(tech || "").toLowerCase(),

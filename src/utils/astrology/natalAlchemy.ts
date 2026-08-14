@@ -157,7 +157,7 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
       // capitalized names. Normalize before lookup — without this every lookup
       // missed, so elementalScores/modalityScores stayed 0 and the entire
       // profile (elements + ESMS + thermodynamics) computed to zero.
-      const sign = planet.sign;
+      const { sign } = planet;
       const normalizedSign =
         typeof sign === "string" && sign.length > 0
           ? sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase()

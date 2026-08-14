@@ -108,7 +108,7 @@ export function usePushSubscription() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ subscription: subscription.toJSON() }),
       });
-      const ok = res.ok;
+      const { ok } = res;
       if (ok) await setPreference(true);
       setState((s) => ({ ...s, permission, subscribed: ok, busy: false }));
       return ok;
@@ -124,7 +124,7 @@ export function usePushSubscription() {
       const reg = await navigator.serviceWorker.getRegistration();
       const subscription = reg ? await reg.pushManager.getSubscription() : null;
       if (subscription) {
-        const endpoint = subscription.endpoint;
+        const { endpoint } = subscription;
         await subscription.unsubscribe();
         await fetch("/api/push/subscribe", {
           method: "DELETE",

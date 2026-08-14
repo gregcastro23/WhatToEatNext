@@ -281,7 +281,7 @@ export function useTableChat(
         });
         if (!res.ok) return false;
         const data = (await res.json()) as { message?: ChatMessage; replay?: boolean };
-        const message = data.message;
+        const { message } = data;
         if (message) {
           // Optimistically show it, then let the canonical refetch confirm.
           setCanonical((prev) =>

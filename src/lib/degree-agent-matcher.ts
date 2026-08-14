@@ -666,7 +666,7 @@ export class DegreeAgentMatcher {
       }
     })
 
-    const dominantElement = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0][0]
+    const [[dominantElement]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)
 
     return `${dominantElement} Dominant`
   }
@@ -684,7 +684,7 @@ export class DegreeAgentMatcher {
       return `${planet} transits ${degree}° with A# energy of ${moment.alchemical.A_number.toFixed(2)}.`
     }
 
-    const primaryAgent = activatedAgents[0]
+    const [primaryAgent] = activatedAgents
     const otherCount = activatedAgents.length - 1
 
     let message = `${planet} at ${degree}° strongly activates ${primaryAgent.agentName} (${(primaryAgent.resonanceStrength * 100).toFixed(0)}% resonance)`

@@ -240,7 +240,7 @@ export class JWTAuthService {
     if (!match) return 3600; // Default 1 hour
 
     const value = parseInt(match[1], 10);
-    const unit = match[2];
+    const [,, unit] = match;
 
     switch (unit) {
       case "s":

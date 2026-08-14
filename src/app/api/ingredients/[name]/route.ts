@@ -13,7 +13,7 @@ import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
 
-const HONO_API_URL = process.env.HONO_API_URL;
+const { HONO_API_URL } = process.env;
 
 interface RelatedRecipe {
   id: string;
@@ -28,7 +28,7 @@ interface RelatedRecipe {
 }
 
 function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined {
-  const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
+  const { details } = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } });
   if (details) {
     const v = kind === "prep" ? details.prepTimeMinutes : details.cookTimeMinutes;
     if (typeof v === "number") return v;

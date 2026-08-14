@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         body.notes ?? null,
       ],
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     return NextResponse.json({
       success: true,
       id: row.id,

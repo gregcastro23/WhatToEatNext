@@ -84,7 +84,7 @@ export async function getLatestSnapshot(): Promise<SnapshotRow | null> {
        ORDER BY captured_at DESC
        LIMIT 1`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     if (!row) return null;
     return {
       id: row.id,

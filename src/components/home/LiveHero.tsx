@@ -539,7 +539,7 @@ export function LiveHero() {
   const tunedSuffix = useMemo(() => {
     if (tableSize === 0) return "";
     if (tableSize === 1 && table.length === 1) {
-      const p = table[0];
+      const [p] = table;
       // "your" only when the birthday is plausibly the visitor's own — a
       // named guest ("Mom") gets the possessive of their name instead.
       const isSelf = !p.name || p.name === "You";

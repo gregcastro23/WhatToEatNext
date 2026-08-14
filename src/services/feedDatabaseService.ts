@@ -118,7 +118,7 @@ class FeedDatabaseService {
             let agentEmail = user.email.toLowerCase().trim();
             // Ensure canonical agent email format (ends with @agentic.alchm.kitchen)
             if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
-              const agentId = agentEmail.split("@")[0];
+              const [agentId] = agentEmail.split("@");
               agentEmail = `${agentId}@agentic.alchm.kitchen`;
             }
 

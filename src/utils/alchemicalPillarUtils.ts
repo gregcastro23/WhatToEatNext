@@ -209,7 +209,7 @@ export function applyPillarTransformation(
 
   // Also apply elemental effects if the item has elemental properties and the pillar has elemental associations
   if (pillar?.elementalAssociations) {
-    const elementalAssociations = pillar.elementalAssociations;
+    const { elementalAssociations } = pillar;
     const primaryElement = elementalAssociations.primary;
     const secondaryElement = elementalAssociations.secondary;
 
@@ -512,7 +512,7 @@ const getMethodCompatibility = (
   );
 
   if (pillar.elementalAssociations) {
-    const elementalAssociations = pillar.elementalAssociations;
+    const { elementalAssociations } = pillar;
     logger.debug(`- Primary Element: ${elementalAssociations.primary}`);
     if (elementalAssociations.secondary) {
       logger.debug(`- Secondary Element: ${elementalAssociations.secondary}`);
@@ -543,7 +543,7 @@ const getMethodCompatibility = (
     itemWithProps.element &&
     pillar.elementalAssociations
   ) {
-    const elementalAssociations = pillar.elementalAssociations;
+    const { elementalAssociations } = pillar;
     const primaryElement = elementalAssociations.primary;
 
     // Primary element match (case insensitive)
@@ -592,7 +592,7 @@ const getMethodCompatibility = (
     itemWithProps.element &&
     pillar.elementalAssociations
   ) {
-    const elementalAssociations = pillar.elementalAssociations;
+    const { elementalAssociations } = pillar;
     const primaryElement = String(
       elementalAssociations.primary || "",
     ).toLowerCase();
@@ -775,7 +775,7 @@ export const _getHolisticCookingRecommendations = async (
 
       // Add elemental associations
       if (pillar.elementalAssociations) {
-        const elementalAssociations = pillar.elementalAssociations;
+        const { elementalAssociations } = pillar;
         const elements = [String(elementalAssociations.primary || "")];
         if (elementalAssociations.secondary) {
           elements.push(String(elementalAssociations.secondary));

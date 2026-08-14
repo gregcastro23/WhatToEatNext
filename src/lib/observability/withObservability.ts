@@ -70,7 +70,7 @@ export function withObservability<TRest extends unknown[] = []>(
 ): ObservedHandler<TRest> {
   return async (request, ...rest) => {
     const startedAt = performance.now();
-    const method = request.method;
+    const { method } = request;
     let response: Response;
     let threw: unknown;
 
@@ -86,7 +86,7 @@ export function withObservability<TRest extends unknown[] = []>(
     }
 
     const latencyMs = Math.round(performance.now() - startedAt);
-    const status = response.status;
+    const { status } = response;
 
     // Fire-and-forget: kick the userId + ip-hash resolution into the
     // background. The response goes back to the client immediately;

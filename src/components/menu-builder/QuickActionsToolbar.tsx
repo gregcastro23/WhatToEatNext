@@ -34,7 +34,7 @@ interface NamedIngredientLike { name?: string }
  */
 function calculateNutritionScore(recipe: Recipe): number {
   let score = 0;
-  const nutrition = recipe.nutrition;
+  const { nutrition } = recipe;
   if (!nutrition) return 50; // neutral score if no nutrition data
 
   if (nutrition.protein && nutrition.protein > 15) score += 20;
@@ -461,7 +461,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           );
 
         if (betterRecipes.length > 0) {
-          const replacement = betterRecipes[0];
+          const [replacement] = betterRecipes;
           usedIds.delete(meal.slot.recipe!.id);
           usedIds.add(replacement.id);
           await addMealToSlot(

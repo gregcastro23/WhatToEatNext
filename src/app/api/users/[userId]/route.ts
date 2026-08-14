@@ -183,7 +183,7 @@ export async function GET(
       );
     }
 
-    const row = profileResult.rows[0];
+    const [row] = profileResult.rows;
     const realUserId = row.user_id;
 
     // Optional viewer — never required (public route); failures count as anon.

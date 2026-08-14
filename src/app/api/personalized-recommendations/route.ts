@@ -97,7 +97,7 @@ async function handlePost(request: NextRequest) {
     const challengingElements = sortedElements.slice(-1);
 
     // Find planets in favorable signs (same element as dominant)
-    const dominantElement = sortedElements[0];
+    const [dominantElement] = sortedElements;
     const harmonicPlanets = Object.entries(currentPositions)
       .filter(([, sign]) => SIGN_TO_ELEMENT[sign] === dominantElement)
       .map(([planet]) => planet)

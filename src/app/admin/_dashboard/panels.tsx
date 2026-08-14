@@ -457,7 +457,7 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
   let total = 0;
 
   for (const item of breakdownData) {
-    const count = item.count;
+    const { count } = item;
     total += count;
     const el = item.element.toLowerCase();
     if (el === "fire") fireCount += count;

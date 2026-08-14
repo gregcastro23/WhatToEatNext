@@ -3587,7 +3587,7 @@ class FoodDiaryService {
 
     // High-rated foods pattern
     if (patterns.topRatedFoods.length > 0) {
-      const topRated = patterns.topRatedFoods[0];
+      const [topRated] = patterns.topRatedFoods;
       insights.push({
         id: `insight_favorite_${Date.now()}`,
         type: "rating_pattern",
@@ -4211,7 +4211,7 @@ class FoodDiaryService {
   ): Record<string, FoodDiaryEntry[]> {
     const grouped: Record<string, FoodDiaryEntry[]> = {};
     for (const entry of entries) {
-      const day = new Date(entry.date).toISOString().split("T")[0];
+      const [day] = new Date(entry.date).toISOString().split("T");
       if (!grouped[day]) grouped[day] = [];
       grouped[day].push(entry);
     }
@@ -4230,12 +4230,12 @@ class FoodDiaryService {
       .reverse();
 
     let streak = 0;
-    const today = new Date().toISOString().split("T")[0];
+    const [today] = new Date().toISOString().split("T");
 
     for (let i = 0; i < sortedDays.length; i++) {
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() - i);
-      const expected = expectedDate.toISOString().split("T")[0];
+      const [expected] = expectedDate.toISOString().split("T");
 
       if (sortedDays[i] === expected || (i === 0 && sortedDays[0] === today)) {
         streak++;

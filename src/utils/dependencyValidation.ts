@@ -168,7 +168,7 @@ export async function validateFileImports(
     const pathMatch = importStatement.match(/from\s+['"]([^'"]+)['"]/);
     if (!pathMatch) continue;
 
-    const importPath = pathMatch[1];
+    const [, importPath] = pathMatch;
 
     // Skip external packages (don't start with . or /)
     if (!importPath.startsWith(".") && !importPath.startsWith("/")) {

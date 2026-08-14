@@ -66,7 +66,7 @@ export function useHardenedPolling(
       running = true;
       let ok = false;
       try {
-        ok = (await pollRef.current()).ok;
+        ({ ok } = (await pollRef.current()));
       } catch {
         ok = false;
       } finally {

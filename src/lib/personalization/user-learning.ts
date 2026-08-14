@@ -890,9 +890,9 @@ class UserLearningSystem {
       }
     });
 
-    const maxComplexity = Object.entries(complexityScores).sort(
+    const [maxComplexity] = Object.entries(complexityScores).sort(
       ([, a], [, b]) => b - a,
-    )[0];
+    );
 
     return maxComplexity
       ? (maxComplexity[0] as "simple" | "moderate" | "complex")

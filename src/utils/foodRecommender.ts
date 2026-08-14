@@ -1022,9 +1022,9 @@ export const getRecommendedIngredients = (
       Object.keys(astroState.tarotElementBoosts).length > 0
     ) {
       // Get the dominant element in the ingredient
-      const dominantElement = Object.entries(
+      const [[dominantElement]] = Object.entries(
         standardized.elementalProperties,
-      ).sort(([, a], [, b]) => b - a)[0][0];
+      ).sort(([, a], [, b]) => b - a);
 
       // Check if this element is boosted by tarot
       if (astroState.tarotElementBoosts[dominantElement]) {

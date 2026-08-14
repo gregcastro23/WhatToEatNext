@@ -50,7 +50,7 @@ async function handlePost(request: NextRequest) {
     );
   }
 
-  const userId = access.userId;
+  const { userId } = access;
   const COST = 5;
   const balances = await tokenEconomy.getBalances(userId);
   const total = balances.spirit + balances.essence + balances.matter + balances.substance;

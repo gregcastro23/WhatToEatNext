@@ -79,9 +79,9 @@ export function useActiveTransits() {
    */
   const groupForPlanet = (planet: string, body?: TransitBody): TransitGroup | null => {
     const pl = planet.toLowerCase();
-    const tightest = aspects
+    const [tightest] = aspects
       .filter((a) => a.planet1.toLowerCase() === pl || a.planet2.toLowerCase() === pl)
-      .sort((x, y) => x.orbDegrees - y.orbDegrees)[0];
+      .sort((x, y) => x.orbDegrees - y.orbDegrees);
     if (tightest) return groupForRecord(tightest);
     return body ? groupForAspect(body, body) : null;
   };

@@ -188,7 +188,7 @@ export class CelestialEnergyCalculator {
         }
       )
 
-      const sample = alchemicalSample[0] // Get the single sample for this moment
+      const [sample] = alchemicalSample // Get the single sample for this moment
 
       if (!sample) {
         throw new Error('Failed to generate alchemical sample')
@@ -665,7 +665,7 @@ export class CelestialEnergyCalculator {
       }
     }
 
-    const first = moments[0]
+    const [first] = moments
     const last = moments[moments.length - 1]
 
     // Alchemical trend

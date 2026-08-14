@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       }
     } else {
       const body = (await request.json().catch(() => ({}))) as { text?: unknown };
-      if (typeof body.text === "string") text = body.text;
+      if (typeof body.text === "string") ({ text } = body);
     }
 
     text = text.slice(0, MAX_TEXT);

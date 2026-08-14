@@ -345,7 +345,7 @@ export default [
       // ES6+ Features - RELAXED STYLE RULES
       "arrow-body-style": "error",
       "prefer-arrow-callback": "warn",
-      "prefer-destructuring": "off", // DISABLED: Style preference
+      "prefer-destructuring": "error",
       "prefer-rest-params": "warn",
       "prefer-spread": "warn",
       "prefer-template": "warn",

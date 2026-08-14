@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     if (access.mode === "denied") return access.blocked;
     return NextResponse.json({ error: "Sign in to mint a recipe NFT." }, { status: 401 });
   }
-  const userId = access.userId;
+  const { userId } = access;
 
   // The flag gates the WHOLE route, not just the on-chain leg.
   //
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
   if (!parsed.ok || !parsed.recipe) {
     return NextResponse.json({ error: "Invalid recipe payload.", detail: parsed.error }, { status: 400 });
   }
-  const recipe = parsed.recipe;
+  const { recipe } = parsed;
 
   // Authoritative fingerprint + on-chain commitments (server-computed).
   const fingerprint = computeRecipeFingerprint(recipe);

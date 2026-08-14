@@ -67,7 +67,7 @@ export class EnhancedAstrologyService {
   async getEnhancedPlanetaryPositions(
     date: Date = new Date(),
   ): Promise<EnhancedAstrologicalData> {
-    const cacheKey = date.toISOString().split("T")[0];
+    const [cacheKey] = date.toISOString().split("T");
 
     if (this.cache.has(cacheKey)) {
       const cached = this.cache.get(cacheKey);

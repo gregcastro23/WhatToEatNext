@@ -74,9 +74,9 @@ export const _recipeCalculations = {
     userElements: ElementalProperties,
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe._elementalProperties).sort(
+    const [[dominantElement]] = Object.entries(recipe._elementalProperties).sort(
       ([, a], [, b]) => b - a,
-    )[0][0];
+    );
 
     // Calculate boost from the user's affinity with that element
     const boost = userElements[dominantElement] * 1.5;

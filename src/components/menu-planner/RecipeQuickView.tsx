@@ -69,7 +69,7 @@ function ElementalBadge({ element, value }: ElementalBadgeProps) {
 }
 
 function NutritionSnippet({ recipe }: { recipe: Recipe }) {
-  const nutrition = recipe.nutrition;
+  const { nutrition } = recipe;
   if (!nutrition) {
     return (
       <div className="text-xs text-gray-400 italic">
@@ -216,10 +216,10 @@ export default function RecipeQuickView({
   };
 
   // Get dominant element
-  const dominantElement = Object.entries(elementalProperties).reduce(
+  const [dominantElement] = Object.entries(elementalProperties).reduce(
     (max, [key, value]) => (value > max[1] ? [key, value] : max),
     ["Fire", 0],
-  )[0];
+  );
 
   const dominantConfig: Record<string, string> = {
     Fire: "border-l-red-400",

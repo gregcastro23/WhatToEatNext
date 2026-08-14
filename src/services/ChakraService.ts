@@ -50,7 +50,7 @@ export class ChakraService {
     };
 
     signEnergyStates.forEach((_state) => {
-      const sign: unknown = _state.sign;
+      const { sign } = _state;
       if (typeof sign === "string" && sign in signEnergyRecord) {
         // The `in` check above proves `sign` is one of the literal keys
         // of signEnergyRecord, so this narrowing is safe.

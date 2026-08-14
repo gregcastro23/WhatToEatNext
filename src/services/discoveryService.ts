@@ -274,7 +274,7 @@ export async function discoverTables(
   let rows: TableRow[] = [];
   try {
     const result = await executeQuery<TableRow>(sql, p.values);
-    rows = result.rows;
+    ({ rows } = result);
   } catch (error) {
     _logger.error("discoverTables query failed:", error);
     return { tables: [], nextCursor: null };
@@ -490,7 +490,7 @@ export async function discoverPeople(
   let rows: PersonRow[] = [];
   try {
     const result = await executeQuery<PersonRow>(sql, p.values);
-    rows = result.rows;
+    ({ rows } = result);
   } catch (error) {
     _logger.error("discoverPeople query failed:", error);
     return { people: [], nextCursor: null };

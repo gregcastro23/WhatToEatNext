@@ -139,7 +139,7 @@ async function getLastNonSuppressedDispatchAt(
        LIMIT 1`,
       [component, currentStatus, cooldownMs / 1000],
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     if (!row) return null;
     return new Date(row.triggered_at).toISOString();
   } catch (err) {

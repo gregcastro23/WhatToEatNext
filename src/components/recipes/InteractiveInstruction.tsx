@@ -83,7 +83,7 @@ function buildMatches(text: string): Match[] {
     while ((m = g.exec(text)) !== null) {
       const qty1 = parseFloat(m[1]);
       const qty2 = m[2] ? parseFloat(m[2]) : undefined;
-      const unit = m[3];
+      const [,,, unit] = m;
       // Use the upper bound if range, else single quantity
       const qty = qty2 ?? qty1;
       const seconds = unitToSeconds(qty, unit);

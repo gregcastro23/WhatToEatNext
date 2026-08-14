@@ -134,9 +134,9 @@ function scoreElementalMatch(
   recipe: Recipe,
   gap: ElementKey | undefined,
 ): number {
-  const elementalProperties = (recipe as Recipe & {
+  const { elementalProperties } = (recipe as Recipe & {
     elementalProperties?: ElementalProperties;
-  }).elementalProperties;
+  });
   if (!gap || !elementalProperties) return 0.5;
   const share = elementalProperties[gap] ?? 0.25;
   // Max share per element is ~1.0 (summed to 1). 0.4+ is notable dominance.
@@ -152,9 +152,9 @@ function scoreNutritionalMatch(
   gap: keyof NutritionalSummary | undefined,
 ): number {
   if (!gap) return 0.5;
-  const nutrition = (recipe as Recipe & {
+  const { nutrition } = (recipe as Recipe & {
     nutrition?: NutritionalSummary;
-  }).nutrition;
+  });
   const value = nutrition?.[gap];
   if (typeof value !== "number" || value <= 0) return 0.3;
   // Rough per-serving thresholds considered "high" for the key nutrients.
@@ -209,9 +209,9 @@ function scoreAstrologicalAlignment(
   elementalState: ElementalProperties | undefined,
 ): number {
   if (!elementalState) return 0.5;
-  const elementalProperties = (recipe as Recipe & {
+  const { elementalProperties } = (recipe as Recipe & {
     elementalProperties?: ElementalProperties;
-  }).elementalProperties;
+  });
   if (!elementalProperties) return 0.5;
   let diff = 0;
   for (const el of ELEMENTS) {
@@ -683,10 +683,10 @@ export class EnhancedRecommendationService {
       recentNames.set(key, (recentNames.get(key) ?? 0) + 1);
     }
 
-    const todayStr = new Date().toISOString().split("T")[0];
+    const [todayStr] = new Date().toISOString().split("T");
     const consumedToday: Partial<NutritionalSummary> = {};
     for (const e of entries) {
-      const day = new Date(e.date).toISOString().split("T")[0];
+      const [day] = new Date(e.date).toISOString().split("T");
       if (day !== todayStr) continue;
       for (const [k, v] of Object.entries(e.nutrition)) {
         if (typeof v !== "number") continue;
@@ -707,7 +707,7 @@ export class EnhancedRecommendationService {
   private static aggregateElementalBalance(
     entries: FoodDiaryEntry[],
   ): ElementalProperties | undefined {
-    const todayStr = new Date().toISOString().split("T")[0];
+    const [todayStr] = new Date().toISOString().split("T");
     const today = entries.filter(
       (e) => new Date(e.date).toISOString().split("T")[0] === todayStr,
     );

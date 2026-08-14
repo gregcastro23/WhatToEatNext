@@ -359,8 +359,8 @@ export default function SauceRecommender({
 
   // Helper function to render the sauce element icons
   const _renderElementIcons = (elementalProps: ElementalProperties) => {
-    const dominant = Object.entries(elementalProps)
-      .sort(([, a], [, b]) => b - a)[0][0];
+    const [[dominant]] = Object.entries(elementalProps)
+      .sort(([, a], [, b]) => b - a);
     
     return (
       <div className="flex gap-1">
@@ -490,9 +490,9 @@ export default function SauceRecommender({
             
             // Determine styling based on dominant element
             const elementalProps = sauce.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-            const dominant = Object.entries(elementalProps)
+            const [[dominant]] = Object.entries(elementalProps)
               // @ts-expect-error - Auto-fixed by script
-              .sort(([, a], [, b]) => b - a)[0][0];
+              .sort(([, a], [, b]) => b - a);
             const elementClass = dominant.toLowerCase();
             
             return (

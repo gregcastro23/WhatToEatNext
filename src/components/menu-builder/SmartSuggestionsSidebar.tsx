@@ -68,7 +68,7 @@ function countRecipeFrequency(
   weekPlan.meals
     .filter((m) => m.recipe)
     .forEach((m) => {
-      const id = m.recipe!.id;
+      const { id } = (m.recipe!);
       counts[id] = (counts[id] || 0) + 1;
     });
   return counts;

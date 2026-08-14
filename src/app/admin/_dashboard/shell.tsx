@@ -416,7 +416,7 @@ function AdminSideRail({
   ).length;
   const recipeCount = data.stats.totalRecipes;
   const ingredientCount = data.stats.totalIngredients;
-  const commensals = data.pageTelemetry.commensals;
+  const { commensals } = data.pageTelemetry;
 
   const modules: ModuleEntry[] = [
     {
@@ -541,7 +541,7 @@ function AdminSideRail({
     process.env.NEXT_PUBLIC_BUILD_ID ??
     "local";
   const region = process.env.NEXT_PUBLIC_VERCEL_REGION ?? "—";
-  const pool = data.dbObservability.pool;
+  const { pool } = data.dbObservability;
   const poolState =
     pool.total === 0
       ? "—"

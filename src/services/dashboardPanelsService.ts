@@ -1007,7 +1007,7 @@ export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
            WHERE practice_type = 'feed_visit'
              AND created_at >= CURRENT_DATE) AS feed_dau`,
     );
-    const row = result.rows[0];
+    const [row] = result.rows;
     return {
       affiliateClicksWeek: Number(row?.affiliate_clicks ?? 0),
       cookedPostsWeek: Number(row?.cooked_posts ?? 0),
@@ -1142,7 +1142,7 @@ export async function getSecuritySummary(): Promise<SecuritySummaryData> {
       ),
     ]);
 
-    const countsRow = counts.rows[0];
+    const [countsRow] = counts.rows;
     for (const row of hourly.rows) {
       const idx = 23 - row.hour_bucket;
       if (idx >= 0 && idx < 24) {

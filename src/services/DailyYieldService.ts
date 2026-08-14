@@ -141,7 +141,7 @@ class DailyYieldService {
           [todayStr],
         );
         if (result.rows.length > 0) {
-          const row = result.rows[0];
+          const [row] = result.rows;
           const positions = typeof row.planet_positions === "string"
             ? JSON.parse(row.planet_positions)
             : row.planet_positions;

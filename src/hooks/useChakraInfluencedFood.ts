@@ -106,9 +106,9 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
 
     // Check user's chakra state for imbalances
     if (userChakraState.length > 0) {
-      const mostImbalanced = userChakraState
+      const [mostImbalanced] = userChakraState
         .filter((state) => state.isBlocked || state.energyLevel < 0.3)
-        .sort((a, b) => a.energyLevel - b.energyLevel)[0];
+        .sort((a, b) => a.energyLevel - b.energyLevel);
 
       if (mostImbalanced) return mostImbalanced.chakra;
     }
@@ -123,9 +123,9 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     });
 
     // Find strongest planet and return its associated chakra
-    const strongestPlanet = Object.entries(planetStrengths).sort(
+    const [strongestPlanet] = Object.entries(planetStrengths).sort(
       ([, a], [, b]) => b - a,
-    )[0];
+    );
 
     if (strongestPlanet) {
       const chakra = PLANETARY_CHAKRA_MAP[strongestPlanet[0]];

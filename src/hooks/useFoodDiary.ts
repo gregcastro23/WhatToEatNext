@@ -141,7 +141,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const loadCoreData = useCallback(async () => {
     if (userId && userId !== "guest") {
       // Fetch persisted entries from the API
-      const dateStr = selectedDate.toISOString().split("T")[0];
+      const [dateStr] = selectedDate.toISOString().split("T");
       const res = await fetch(
         `/api/food-diary?userId=${encodeURIComponent(userId)}&date=${dateStr}`,
         { credentials: "include" },

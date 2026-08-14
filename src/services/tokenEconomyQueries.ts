@@ -415,7 +415,7 @@ export function debitAllTokensSql(opts: {
   // Narrowed on `intent.kind` rather than a precomputed boolean: a boolean does
   // not narrow a discriminated union, and the order of these `add` calls IS the
   // parameter order, so they must stay as written.
-  const intent = opts.intent;
+  const { intent } = opts;
   const isPurchase = intent.kind === "purchase";
   const sourceType =
     intent.kind === "purchase"

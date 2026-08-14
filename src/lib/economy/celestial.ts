@@ -168,7 +168,7 @@ async function getNatalWeights(userId: string): Promise<CoinVector | null> {
        WHERE user_id = $1 AND weight_scale_version = $2`,
       [userId, YIELD_WEIGHT_SCALE_VERSION],
     );
-    const row = res.rows[0];
+    const [row] = res.rows;
     if (!row) return null;
     const w = {
       spirit: parseFloat(row.spirit_weight) || 0,

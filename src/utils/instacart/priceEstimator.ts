@@ -60,7 +60,7 @@ export function estimateIngredientCost(
   ing: RecipeIngredient, 
   dietaryFlags: string[] = []
 ): { cost: number; confidence: "exact" | "fuzzy" | "fallback" } {
-  const name = ing.name;
+  const { name } = ing;
   const amount = ing.amount || 1;
   const unit = ing.unit || "each";
   

@@ -17,7 +17,7 @@ export function getAmazonLink(
   asin?: string | null,
   options: AmazonLinkOptions = {},
 ): string {
-  const tag = AMAZON_CONFIG.tag;
+  const { tag } = AMAZON_CONFIG;
 
   if (asin) {
     return `https://www.amazon.com/dp/${asin}?tag=${tag}`;

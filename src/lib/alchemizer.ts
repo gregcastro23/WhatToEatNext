@@ -653,7 +653,7 @@ export function alchemize(
   }
 
   // Determine dominant element
-  alchmInfo['Dominant Element'] = getElementRanking(alchmInfo['Total Effect Value'])[1]
+  ;({ 1: alchmInfo['Dominant Element'] } = getElementRanking(alchmInfo['Total Effect Value']))
 
   // Calculate percentages for modalities
   const totalPlanets = alchmInfo['# Cardinal'] + alchmInfo['# Fixed'] + alchmInfo['# Mutable']

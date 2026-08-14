@@ -153,7 +153,7 @@ export async function recomputeBaseline(
 export async function getBaseline(geohash5: string): Promise<BaselineRow | null> {
   const { rows } = await executeQuery(buildSelectBaseline(), [geohash5]);
   if (rows.length === 0) return null;
-  const r = rows[0];
+  const [r] = rows;
   return {
     geohash5: r.geohash5,
     elevationM: Number(r.elevation_m),

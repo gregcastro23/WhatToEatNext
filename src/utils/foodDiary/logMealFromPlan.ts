@@ -86,9 +86,9 @@ export function buildDiaryEntryFromPlan(
   const recipeNutrition = (recipe as Recipe & {
     nutrition?: NutritionalSummary;
   }).nutrition;
-  const elementalProperties = (recipe as Recipe & {
+  const { elementalProperties } = (recipe as Recipe & {
     elementalProperties?: ElementalProperties;
-  }).elementalProperties;
+  });
 
   const date = input.date ?? new Date();
   const time = input.time ?? nowTimeString();

@@ -390,9 +390,9 @@ export function alchemize(
   );
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
-  const dominantElement = Object.entries(elements).sort(
+  const [[dominantElement]] = Object.entries(elements).sort(
     (a, b) => b[1] - a[1],
-  )[0][0];
+  );
   // Calculate score based on total energy
   const score = Math.min(
     1.0,
@@ -606,7 +606,7 @@ export function alchemizeDetailed(
   );
 
   const elements = { Fire, Water, Air, Earth };
-  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
+  const [[dominantElement]] = Object.entries(elements).sort((a, b) => b[1] - a[1]);
   const score = Math.min(
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20),
