@@ -24,7 +24,7 @@ interface UnifiedAgentRequest {
 }
 
 /**
- * The chart's Ascendant longitude, or null when the chart states no angle.
+ * The Ascendant as `{ sign, degree }`, or null when the chart states no angle.
  *
  * `calculateNatalChart` carries the Ascendant in `planets` alongside the ten
  * bodies, and in production it is a real computed angle — the pyswisseph backend
@@ -56,28 +56,19 @@ interface UnifiedAgentRequest {
  * from both fields of this row, never null in one and 0° Aries in the other. null
  * makes every reader skip the point, where 0 makes all of them place it at 0°
  * Aries.
- */
-function ascendantLongitude(
-  planets: Array<{ name: string; position: number }>,
-): number | null {
-  const ascendant = planets.find((p) => p.name === "Ascendant");
-  if (!ascendant || !statesALongitude(ascendant.position)) return null;
-  return ascendant.position;
-}
-
-/**
- * The Ascendant as `{ sign, degree }` — the SELF-DESCRIBING form.
  *
- * ⚠️ This used to be written as a bare number, and a bare number cannot state
- * its unit. `[MEASURED 2026-07-29]` all 71 production charts carrying a numeric
- * ascendant stored a DEGREE WITHIN A SIGN, while every reader interpreted it as
- * an absolute longitude — a 30-150° error on the sign, which is the dominant
- * lever on monica (±37-43%). Those values are purged; this shape is what stops
- * the ambiguity recurring.
+ * ⚠️ The field is SELF-DESCRIBING because a bare number cannot state its unit.
+ * `[MEASURED 2026-07-29]` all 71 production charts carrying a numeric ascendant
+ * stored a DEGREE WITHIN A SIGN, while every reader interpreted it as an
+ * absolute longitude — a 30-150° error on the sign, which is the dominant lever
+ * on monica (±37-43%). Those values are purged; `{ sign, degree }` is what stops
+ * the ambiguity recurring, and `degree` is 0..30 within `sign`, matching the
+ * `planets` entries beside it, so one convention covers the whole chart.
  *
- * `degree` is 0..30 within `sign`, matching the `planets` entries beside it, so
- * one convention covers the whole chart. Returns null when there is no real
- * angle — never a placeholder, per `ascendantLongitude()` above.
+ * (A sibling `ascendantLongitude()` returning the absolute angle lived here
+ * until 2026-08-13. It was left behind by the shape change above and had no
+ * callers; the rationale it carried is this comment. Reintroducing a bare
+ * number is the defect, not the fix.)
  */
 function ascendantPoint(
   planets: Array<{ name: string; position: number; sign: string }>,

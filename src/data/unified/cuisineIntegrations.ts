@@ -29,11 +29,11 @@ const unifiedSeasonalSystem = {
   autumn: { dominantElement: "Earth", supportingElements: ["Fire"] },
   winter: { dominantElement: "Water", supportingElements: ["Earth"] },
 };
-type SeasonalProfilePlaceholder = {
+interface SeasonalProfilePlaceholder {
   ingredients: never[];
   flavors: never[];
   techniques: never[];
-};
+}
 // `Season` includes "fall" (alias of "autumn") and "all", but this
 // placeholder was only ever populated for the four calendar seasons; both
 // are declared explicitly (mapped to `undefined`) so indexing by any `Season`
@@ -49,18 +49,14 @@ const unifiedSeasonalProfiles: Record<
   winter: { ingredients: [], flavors: [], techniques: [] },
   all: undefined,
 };
-const unifiedIngredients = {
-  // Placeholder for unified ingredient system;
-  getAllIngredients: () => [],
-  getIngredientsByCategory: (_category: string) => [],
-  getIngredientProperties: (_ingredient: string) => ({}),
-};
-// Name-indexed ingredient lookup used by the fusion helpers below. Kept as a
-// separate typed map (rather than an index signature on `unifiedIngredients`
-// above) because that object's own keys are utility method names, not
-// ingredient names; it is intentionally empty (placeholder), matching the
-// previous behavior where indexing `unifiedIngredients` by an arbitrary
-// ingredient name never resolved real ingredient data.
+// Name-indexed ingredient lookup used by the fusion helpers below. It is
+// intentionally empty (placeholder) and preserves the original behavior: the
+// helpers used to index a local stub whose own keys were utility method names
+// (`getAllIngredients` and friends), not ingredient names, so an arbitrary
+// ingredient name never resolved real data. That stub had no readers left once
+// this map existed and was removed 2026-08-13; note this file does NOT import
+// the real `unifiedIngredients` catalog from `@/data/unified/ingredients`, so
+// nothing here resolves ingredients yet.
 const unifiedIngredientsByName: Record<string, UnifiedIngredient> = {};
 // Import existing cuisine data
 // ===== ENHANCED CUISINE INTEGRATION INTERFACES =====;

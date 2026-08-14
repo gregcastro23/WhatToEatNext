@@ -10,7 +10,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useCallback, useEffect, useState, Suspense } from "react";
 import { FEATURE_TOKEN_COSTS } from "@/types/subscription";
 
 interface TokenBalances {
@@ -32,7 +32,10 @@ function PremiumPageContent() {
   const [claiming, setClaiming] = useState(false);
   const [claimMessage, setClaimMessage] = useState<string | null>(null);
 
-  const fetchBalances = async () => {
+  // Memoized on `session` alone, so its identity changes exactly when the old
+  // `[session]` effect would have re-fired — same fetch cadence as before, now
+  // stated in the dependency array instead of hidden behind a stale closure.
+  const fetchBalances = useCallback(async () => {
     if (!session?.user) {
       setLoading(false);
       return;
@@ -50,11 +53,11 @@ function PremiumPageContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [session]);
 
   useEffect(() => {
     void fetchBalances();
-  }, [session]);
+  }, [fetchBalances]);
 
   const handleClaimDaily = async () => {
     setClaiming(true);

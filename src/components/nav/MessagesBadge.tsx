@@ -11,8 +11,8 @@
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { isCirclesEnabledClient, isDmsEnabledClient } from "@/lib/chat/flags";
 import { useChatUnread } from "@/hooks/useChatUnread";
+import { isCirclesEnabledClient, isDmsEnabledClient } from "@/lib/chat/flags";
 import type { JSX } from "react";
 
 export default function MessagesBadge(): JSX.Element | null {
