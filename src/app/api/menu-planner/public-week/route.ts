@@ -7,7 +7,7 @@
  * the agent's alchm.kitchen profile page.
  *
  * Safety: resolves an EXISTING user by id (never creates one — unlike the
- * internal ensureAgent bridge) and serves ONLY agent-domain users. A
+ * internal ensurePlanetaryAgent bridge) and serves ONLY agent-domain users. A
  * non-agent's plan is private and returns 403. No secrets or auth required —
  * this is public agent content, and only meals/servings/planetary data are
  * returned (never budgets, grocery lists, or owner identity beyond display

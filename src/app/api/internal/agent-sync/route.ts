@@ -13,7 +13,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { withTransaction } from "@/lib/database";
 import { jsonbOrNull } from "@/services/userDatabaseService";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
-import { normaliseNatalPositions } from "@/utils/fullChartMonica";
+import {
+  natalPositionsFromStoredChart,
+  normaliseNatalPositions,
+} from "@/utils/fullChartMonica";
 
 /** `{}` and `[]` mean "absent" here, exactly as jsonbOrNull treats them. */
 const nonEmpty = <T,>(v: T): T | undefined => (jsonbOrNull(v) === null ? undefined : v);
@@ -144,7 +147,46 @@ export async function POST(req: NextRequest) {
     // over objects carrying neither key, so every body arrives with a fabricated
     // `longitude: 0`. This is the boundary that upstream crosses, so it is the
     // boundary that strips it — see normaliseNatalPositions.
-    const cleanNatalPositions = normaliseNatalPositions(natalPositions);
+    const suppliedPositions = normaliseNatalPositions(natalPositions);
+
+    // A chart-bearing agent is the same kind of user as a chart-bearing HUMAN,
+    // so it derives positions the same way. #751 fixed exactly this asymmetry on
+    // the human side: `createUser` stored `natal_chart` and nothing else, so
+    // `natal_positions` — the column `parseNatalPositions` actually reads — was
+    // empty for 8 of 8 chart-bearing humans and every full-chart monica silently
+    // computed over nothing.
+    //
+    // This route never had that bug, because its caller sends positions
+    // alongside the chart. But it had no defence against a caller that stops:
+    // it stored whatever arrived, and a chart with no positions would have
+    // produced the same silent emptiness here. `natalPositionsFromStoredChart`
+    // is the SAME converter the human writer uses, so a chart-bearing agent and
+    // a chart-bearing human now cannot disagree about what their chart means.
+    //
+    // `[MEASURED 2026-08-13]` against production this repairs no existing row —
+    // of 6,311 agents with a profile, 71 hold a real chart and all 71 already
+    // hold real positions, and the other 6,240 hold neither. It is a guard, not
+    // a backfill. Derivation is the FALLBACK, never an override: a caller that
+    // sends positions is the authority on its own chart.
+    //
+    // `normaliseNatalPositions` returns `unknown` — it passes a non-array
+    // through untouched — so "usable" is tested as "a non-empty array" rather
+    // than by truthiness. `[]` and a stray object are both absent here, which is
+    // the same emptiness rule `jsonbOrNull` applies one line down.
+    const suppliedIsUsable =
+      Array.isArray(suppliedPositions) && suppliedPositions.length > 0;
+    const derivedPositions = suppliedIsUsable
+      ? null
+      : natalPositionsFromStoredChart(natalChart);
+    const cleanNatalPositions = suppliedIsUsable
+      ? suppliedPositions
+      : derivedPositions;
+    if (derivedPositions?.length) {
+      console.warn(
+        `[agent-sync] ${email} sent a chart with no usable positions —` +
+          ` derived ${derivedPositions.length} bodies from the chart itself.`,
+      );
+    }
     const parsedMonicaConstant = resolvedMonica?.combined ?? null;
 
     const userProfilePayload = {

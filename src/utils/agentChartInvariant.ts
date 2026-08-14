@@ -8,7 +8,7 @@
  * bucket, budget 0. That gate went red on 2026-08-09 for a single row (`Chiron`,
  * name unparseable, `natal_positions = []`) and stayed red for two days.
  *
- * Deleting the row cleared the gate but left the class bug: `ensureAgent` could
+ * Deleting the row cleared the gate but left the class bug: `ensurePlanetaryAgent` could
  * still construct exactly that row. This predicate is what makes it
  * unconstructible, and it is deliberately expressed as a call to the SAME two
  * functions the gate uses rather than a re-implementation of their rules —
@@ -45,7 +45,7 @@ export function agentIsClassifiable(
  *
  * Typed so callers can tell a POLICY refusal from an infrastructure failure.
  * That distinction is load-bearing: `/api/feed` returned 500 for any
- * `ensureAgent` throw, and a stream of 500s on a chart-less agent would read as
+ * `ensurePlanetaryAgent` throw, and a stream of 500s on a chart-less agent would read as
  * an outage and trip the sustained-incident alerting added in #746 — announcing
  * a platform problem when the actual answer is "this agent needs a chart".
  */

@@ -228,7 +228,7 @@ export async function POST(request: Request) {
     // or explicit agent-sync call has propagated the user row.
     if (isAgenticNamespace && (!user || !user.isAgent)) {
       try {
-        user = await userDatabase.ensureAgent(normalizedEmail, agentDisplayName);
+        user = await userDatabase.ensurePlanetaryAgent(normalizedEmail, agentDisplayName);
         console.log(
           `[Feed API] Auto-provisioned agent ${normalizedEmail} (userId=${user.id})`,
         );
@@ -255,7 +255,7 @@ export async function POST(request: Request) {
             { status: 422 },
           );
         }
-        console.error("[Feed API] ensureAgent failed for", normalizedEmail, provisionError);
+        console.error("[Feed API] ensurePlanetaryAgent failed for", normalizedEmail, provisionError);
         rememberFeedEmit(eventType, normalizedEmail, 500);
         return NextResponse.json(
           {

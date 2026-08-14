@@ -1,6 +1,6 @@
 jest.mock("@/services/userDatabaseService", () => ({
   userDatabase: {
-    ensureAgent: jest.fn(),
+    ensurePlanetaryAgent: jest.fn(),
   },
 }));
 
@@ -23,8 +23,8 @@ import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
-const mockedEnsureAgent = userDatabase.ensureAgent as jest.MockedFunction<
-  typeof userDatabase.ensureAgent
+const mockedEnsureAgent = userDatabase.ensurePlanetaryAgent as jest.MockedFunction<
+  typeof userDatabase.ensurePlanetaryAgent
 >;
 const mockedUpsertMenu =
   menuPersistenceService.upsertMenu as jest.MockedFunction<
