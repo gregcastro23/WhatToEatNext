@@ -52,6 +52,7 @@
     "verify": "bun run typecheck && bun run lint",
     "verify:full": "bun run verify && bun run build && bun run test --passWithNoTests",
     "lint": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache --cache-strategy content src --max-warnings=10000",
+    "lint:debt": "NODE_OPTIONS=--max-old-space-size=8192 node scripts/checkLintDebt.mjs",
     "lint:fix": "eslint --config eslint.config.mjs --fix src",
     "lint:fast": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache src",
     "lint:quick": "eslint --config eslint.config.fast.mjs src --cache --cache-location .eslintcache-fast --max-warnings=10000",

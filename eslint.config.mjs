@@ -330,11 +330,15 @@ export default [
       yoda: "warn",
 
       // Code Quality - RELAXED FOR ALCHEMICAL CALCULATIONS
-      // Rationale: Thermodynamic formulas and astrological computations are inherently complex
-      complexity: "off", // 76 warnings - alchemical calculations are complex by nature
-      "max-depth": "off", // 7 warnings - nested conditionals common in domain logic
-      "max-lines": "off", // 54 warnings - component files can be large
-      "max-lines-per-function": "off", // 32 warnings - alchemical functions are complex
+      // Formally declined from debt tracking on 2026-08-14: complexity (372),
+      // max-depth (99), max-lines (618), and max-lines-per-function (2,039).
+      // These are refactor prompts, not defect indicators; thermodynamic formulas,
+      // astrological computations, and their component surfaces are legitimately
+      // complex. The audit baseline records their 3,128 findings separately.
+      complexity: "off",
+      "max-depth": "off",
+      "max-lines": "off",
+      "max-lines-per-function": "off",
       "max-nested-callbacks": "off", // Async patterns require nesting
       "max-params": ["warn", 7], // Slightly increased for flexibility
 
