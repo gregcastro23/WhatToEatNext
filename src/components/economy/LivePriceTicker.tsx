@@ -427,8 +427,12 @@ function Cards({ data }: { data: TickerSnapshot }) {
       <div className="epx-foot">
         {rails ? <span>{rails}</span> : <span>No USD rail configured.</span>}
         {supplyLive ? (
-          <span>
-            circulating{" "}
+          // "ledger", not "circulating": this is the off-chain balance table.
+          // The SPL mirror has its own on-chain supply, which this is NOT —
+          // with a Solana chip beside it, an unqualified label would conflate
+          // two different quantities (ADR-011 §6).
+          <span title="Off-chain ESMS ledger balances — not the SPL mints' on-chain supply">
+            ledger supply{" "}
             {TOKEN_VISUALS.map((v) => (
               <span key={v.key} className="epx-supply" style={{ color: v.color }}>
                 {v.glyph} {Math.round(payload.supply[v.key]).toLocaleString()}
@@ -436,7 +440,11 @@ function Cards({ data }: { data: TickerSnapshot }) {
             ))}
           </span>
         ) : null}
-        {splEnabled ? <span>Solana {esmsSplCluster()}</span> : null}
+        {splEnabled ? (
+          <span title="Token-2022 mirror mints — links only; no price or supply is read from Solana">
+            SPL mirror · {esmsSplCluster()}
+          </span>
+        ) : null}
         <span className="epx-basis" title={payload.basis.engine}>
           {payload.basis.model}
         </span>

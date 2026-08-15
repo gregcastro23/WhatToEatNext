@@ -5,6 +5,8 @@
  * advertise a crypto rail that isn't actually live."
  */
 
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   esmsSplCluster,
   esmsSplExplorerUrl,
@@ -93,5 +95,56 @@ describe("solanaMirror gate", () => {
     expect(esmsSplExplorerUrl(MINT)).toBe(
       `https://explorer.solana.com/address/${MINT}`,
     );
+  });
+
+  // The gate fails CLOSED, which is right but silent: one mistyped character
+  // in a documented address turns the mirror off with no error anywhere.
+  // These assert the shipped .env.example would actually pass the gate.
+  describe(".env.example documented mints", () => {
+    const envExample = readFileSync(
+      join(process.cwd(), ".env.example"),
+      "utf8",
+    );
+
+    const documented = (name: string): string | undefined =>
+      new RegExp(`^${name}=(.+)$`, "m").exec(envExample)?.[1]?.trim();
+
+    it.each([
+      ["NEXT_PUBLIC_ESMS_SPL_MINT_SPIRIT", "spirit"],
+      ["NEXT_PUBLIC_ESMS_SPL_MINT_ESSENCE", "essence"],
+      ["NEXT_PUBLIC_ESMS_SPL_MINT_MATTER", "matter"],
+      ["NEXT_PUBLIC_ESMS_SPL_MINT_SUBSTANCE", "substance"],
+    ] as const)("%s is present and passes the base58 validator", (envName, coin) => {
+      const value = documented(envName);
+      expect(value).toBeDefined();
+      process.env[envName] = value;
+      expect(esmsSplMintAddress(coin)).toBe(value);
+    });
+
+    it("the documented set as a whole opens the gate once the flag is set", () => {
+      for (const name of [
+        "NEXT_PUBLIC_ESMS_SPL_MINT_SPIRIT",
+        "NEXT_PUBLIC_ESMS_SPL_MINT_ESSENCE",
+        "NEXT_PUBLIC_ESMS_SPL_MINT_MATTER",
+        "NEXT_PUBLIC_ESMS_SPL_MINT_SUBSTANCE",
+      ]) {
+        process.env[name] = documented(name);
+      }
+      // Ships as false on purpose — a copied env must not advertise the rail.
+      expect(documented("NEXT_PUBLIC_ESMS_SPL_ENABLED")).toBe("false");
+      expect(esmsSplMirrorEnabled()).toBe(false);
+      process.env.NEXT_PUBLIC_ESMS_SPL_ENABLED = "true";
+      expect(esmsSplMirrorEnabled()).toBe(true);
+    });
+
+    it("the four documented mints are distinct (no copy-paste of one address)", () => {
+      const all = [
+        "NEXT_PUBLIC_ESMS_SPL_MINT_SPIRIT",
+        "NEXT_PUBLIC_ESMS_SPL_MINT_ESSENCE",
+        "NEXT_PUBLIC_ESMS_SPL_MINT_MATTER",
+        "NEXT_PUBLIC_ESMS_SPL_MINT_SUBSTANCE",
+      ].map(documented);
+      expect(new Set(all).size).toBe(4);
+    });
   });
 });

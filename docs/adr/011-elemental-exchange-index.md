@@ -140,6 +140,39 @@ behind `NEXT_PUBLIC_ESMS_SPL_ENABLED === "true"` **and** all four
 placeholder address. Launch readiness gains an `esms-spl-mirror` subsystem so
 the operator can see the gate state.
 
+#### Mirror addresses — MEASURED 2026-08-15
+
+The four mints are **PDAs**, seeds `["esms_mint", <mint_id 0..3>]` under
+program `5QheuqaicKvPPRFEoEXwaE5xaFp7gauvJCfsjpQv8WzD`, so they are
+*reproducible from their basis* rather than transcribed:
+
+| id | token | mint |
+|---|---|---|
+| 0 | Spirit | `K5kwwomtWYydxJacA7bC5yUEW9TtEuVqBKBoqAWLmhQ` |
+| 1 | Essence | `3FcpToU7bj4sLD687uecbesEjzjxBfqYn2EcBXJKPaCf` |
+| 2 | Matter | `7naJZozLrknDF3dguAdEWn7Z4MviUkXitjhaAt57Vkb4` |
+| 3 | Substance | `6RY6ZG1eJQ2uEvpyA6XK74WyF1MpTYbw97hdhELqDUsa` |
+
+Derivation reproduced independently (all bump 255), and **existence verified
+against devnet** (`getAccountInfo`, slot 484097582): every account is live and
+owned by Token-2022, `decimals: 4` (parity with the off-chain
+`DECIMAL(12,4)` ledger), `tokenMetadata` written (Spirit/SPIRIT … + URI),
+`freezeAuthority: null`, and mint authority `4YCVh9…` is **off-curve** — a
+program PDA, not a keypair a human holds. Supplies at check:
+989.0007 / 478.0014 / 217.0021 / 81.0028.
+
+⚠️ **The gate is validity-only, by construction.** WTEN makes no Solana RPC
+call — adding one would put a third-party endpoint in the render path of a
+public page for a decorative link. So the gate proves an address is *well
+formed and deliberately configured*, not that it still resolves. The
+existence check above is a deploy-time fact recorded here; re-verify it when
+the cluster or program id changes. This is also why the mirror is a link
+only: no balance, supply, or price is ever read from Solana.
+
+⚠️ **The ticker's `supply` block is the OFF-CHAIN ledger** (`token_balances`),
+which is a different quantity from the SPL mints' on-chain supply. It is
+labelled as such in the UI; the two must never be presented as one number.
+
 ### 7. Client discipline
 
 One module-level store shares a single jittered poll (the `/feed` precedent:
