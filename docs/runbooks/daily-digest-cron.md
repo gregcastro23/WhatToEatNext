@@ -142,8 +142,59 @@ run.
 If it fails again, the body is now in the deploy logs — read it before
 theorising.
 
-## Standing gap
+## The dead-man's-switch
 
-Nothing alerts on this cron missing a day. Five silent misses is the actual
-cost here, larger than the one crash that surfaced. A dead-man's-switch (alert
-if no successful digest in ~26h) would have caught it on Aug 6.
+Five silent misses is the larger cost here: a crash leaves a traceback, a job
+that never fires leaves nothing. That is now covered — **without adding a
+monitoring vendor**, because the repo already had the machinery and was only
+missing the wiring.
+
+What existed: `cronHeartbeatService` records a run per cron
+(`recordCronRun`) and `getCronHeartbeats()` grades staleness against each job's
+cadence (`ok` / `late` / `failing` / `never`). What was missing was that
+**nothing read it except the admin dashboard** — so every cron in the system,
+not just this one, was watched only by whoever happened to open a panel.
+
+Three wires close it:
+
+1. **`daily-digest` is in the registry.** The registry is read from
+   `vercel.json`; a Railway-scheduled job can never appear there, so
+   `EXTERNAL_REGISTRY` is merged in unconditionally.
+2. **The digest route beats.** `/api/admin/digest` calls
+   `recordCronRun("daily-digest", …)` on every terminal path — success,
+   misconfiguration (503), delivery failure (502), and exceptions (500).
+   **Only for the internal bearer caller**: an admin running the digest from
+   the browser to test must not make a dead scheduler look alive.
+3. **Staleness is a dependency in the status payload.**
+   `probeScheduledJobsDependency()` maps `late`/`failing` → `DEGRADED`,
+   `never` → `UNKNOWN`, and names the offending jobs in the summary. Because it
+   sits in `SystemStatusPayload.dependencies`, the hourly
+   `/api/cron/system-health-snapshot` diffs it and `dispatchTransitions` pushes
+   the change to **Slack** (`ALERT_SLACK_WEBHOOK_URL`) and **email**
+   (`AUTH_ADMIN_EMAIL`).
+
+The detector runs hourly on **Vercel**; the job runs on **Railway**. That
+independence is what makes it a watchdog rather than another thing that dies
+quietly alongside what it watches. `late` triggers at ~2× cadence, so a missed
+daily digest surfaces within about a day — Aug 6 would have paged.
+
+Severity is capped at `DEGRADED` on purpose. This feeds the same banner that
+reports payments being down; a late cron is real but is not a user-facing
+outage, and crying INCIDENT is how alerting gets ignored.
+
+### Blast radius, stated plainly
+
+This arms staleness alerting for **all** registered crons, not just the digest —
+the other eight (`system-health-snapshot`, `esms-reconciliation`,
+`chain-reconcile`, `environmental-ingest`, `cache-ephemeris`,
+`observability-prune`, `agents-daily-yield`, `prewarm-agent-recipes`) now also
+page when late. That is the intent, but it is new signal: expect noise from any
+job that was already quietly unreliable, and treat the first week's alerts as a
+survey rather than a regression.
+
+### What this does NOT cover
+
+If Vercel itself is down, the detector is down too. For that outer ring an
+external dead-man's-switch is the right tool — see the PR discussion; it is
+deliberately not added here, because a vendor duplicating machinery you already
+own is worth less than wiring the machinery you already own.

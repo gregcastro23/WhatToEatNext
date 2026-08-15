@@ -23,6 +23,10 @@ import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { getEventCounts } from "@/services/authEventsService";
+import {
+  recordCronRun,
+  type CronRunStatus,
+} from "@/services/cronHeartbeatService";
 import emailService from "@/services/emailService";
 import type { NextRequest } from "next/server";
 
@@ -120,8 +124,25 @@ function renderHtml(payload: Awaited<ReturnType<typeof buildPayload>>): string {
 }
 
 export async function POST(request: NextRequest) {
+  const startedAt = new Date();
+  const isInternal = isInternalCaller(request.headers.get("Authorization"));
+
+  /**
+   * Record this run on the cron heartbeat, so a digest that stops arriving
+   * becomes visible instead of silent (see docs/runbooks/daily-digest-cron.md:
+   * the job missed five days in fifteen and nothing noticed).
+   *
+   * ONLY the scheduled caller beats. An admin hitting this route from the
+   * browser to test must not make a dead scheduler look alive — that would
+   * turn the watchdog into a liar at exactly the moment it matters.
+   * `recordCronRun` never throws, so this can never break the digest.
+   */
+  const beat = (status: CronRunStatus, error?: string): Promise<void> =>
+    isInternal
+      ? recordCronRun("daily-digest", { status, startedAt, error })
+      : Promise.resolve();
+
   try {
-    const isInternal = isInternalCaller(request.headers.get("Authorization"));
     if (!isInternal) {
       const authResult = await validateAdminRequest(request);
       if ("error" in authResult) return authResult.error;
@@ -143,6 +164,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!recipient) {
+      await beat("failure", "no recipient configured (AUTH_ADMIN_EMAIL)");
       return NextResponse.json(
         { success: false, message: "No recipient configured (AUTH_ADMIN_EMAIL)" },
         { status: 503 },
@@ -155,6 +177,7 @@ export async function POST(request: NextRequest) {
       /* configured below */
     }
     if (!emailService.isConfigured()) {
+      await beat("failure", "email service not configured");
       return NextResponse.json(
         { success: false, message: "Email service is not configured" },
         { status: 503 },
@@ -187,6 +210,7 @@ export async function POST(request: NextRequest) {
       console.error(
         `[admin/digest] email delivery failed after ${MAX_ATTEMPTS} attempts to ${recipient}`,
       );
+      await beat("failure", `email delivery failed after ${MAX_ATTEMPTS} attempts`);
       return NextResponse.json(
         {
           success: false,
@@ -198,6 +222,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    await beat("success");
     return NextResponse.json({
       success: true,
       delivered: true,
@@ -207,6 +232,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("[admin/digest] Failed:", error);
+    await beat("failure", error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       { success: false, message: "Failed to build/send digest" },
       { status: 500 },
