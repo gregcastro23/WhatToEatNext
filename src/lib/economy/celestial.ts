@@ -15,6 +15,7 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { globalMultiplierForANumber, isPricedBody } from "@/lib/economy/livePricing";
 import { YIELD_WEIGHT_SCALE_VERSION } from "@/services/DailyYieldService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import {
@@ -53,9 +54,17 @@ const REWARD_MAX = 1.6;
 
 /**
  * Base daily practice allowance in tokens. The live budget breathes around
- * this with the sky (~15–24): deliberately BELOW the sum of every per-type
- * cap at full rate, so on most days the budget — not the caps — is the
- * binding scarcity.
+ * this with the sky: deliberately BELOW the sum of every per-type cap at full
+ * rate, so on most days the budget — not the caps — is the binding scarcity.
+ *
+ * `[MEASURED 2026-08-15]` — for an unpersonalized user the budget is
+ * `18 × skyMultiplier`, so it spans **15.3 – 22.9** (multiplier 0.85 – 1.2703
+ * over 17,520 hourly samples), median ~18.0.
+ *
+ * The previous "~15–24" here was aspirational, not measured: under the old
+ * A_NUMBER_CENTER = 20 the multiplier never left 0.850–0.875, so the budget
+ * was pinned to 15.3–15.7 and the documented ceiling was unreachable. ADR-012
+ * re-centered the multiplier; this range is now real.
  */
 export const BASE_DAILY_PRACTICE_BUDGET = 18;
 
@@ -71,6 +80,9 @@ function clamp(value: number, min: number, max: number): number {
 function asPlanetaryPositions(positions: Record<string, any>): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
   for (const [planet, pos] of Object.entries(positions)) {
+    // Same whitelist the debit side uses: rewards must breathe with the same
+    // sky the debits charge on, and this path is remote-first too (ADR-012).
+    if (!isPricedBody(planet)) continue;
     normalized[planet] = {
       sign: String(pos?.sign ?? "").toLowerCase(),
       degree: Number(pos?.degree ?? 0),
@@ -131,7 +143,10 @@ async function getGlobalSky(now = new Date()): Promise<GlobalSky> {
       : { spirit: 0.25, essence: 0.25, matter: 0.25, substance: 0.25 };
 
   const sky: GlobalSky = {
-    skyMultiplier: round(clamp(1 + (total - 20) / 100, 0.85, 1.35), 4),
+    // ONE definition, imported — never a second copy of the spread. The reward
+    // side and the debit side must move together: a drifted copy here would pay
+    // out on a different sky than livePricing charges on.
+    skyMultiplier: round(globalMultiplierForANumber(total), 4),
     transitWeights: {
       spirit: round(transitWeights.spirit, 4),
       essence: round(transitWeights.essence, 4),

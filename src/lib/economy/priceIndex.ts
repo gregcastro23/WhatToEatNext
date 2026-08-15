@@ -49,6 +49,7 @@ import {
   PER_TOKEN_MIN,
   PERSONALIZATION_SCALE,
   globalMultiplierForANumber,
+  isPricedBody,
 } from "./livePricing";
 
 /** Snapshot granularity. One minute: below display resolution for the fastest
@@ -142,6 +143,11 @@ function asPlanetaryPositions(
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
   for (const [planet, pos] of Object.entries(positions)) {
+    // The oracle's local source happens not to return an Ascendant today, so
+    // this is a no-op here — which is exactly why it belongs: the ten-body
+    // claim in this module's header is now enforced, not merely true by
+    // accident of which util answered. See PRICED_BODIES (ADR-012).
+    if (!isPricedBody(planet)) continue;
     normalized[planet] = {
       sign: String(pos.sign ?? "").toLowerCase(),
       degree: Number(pos.degree ?? 0),

@@ -226,12 +226,18 @@ describe("[GOLDEN] fixture-sky pins", () => {
     const snapshot = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
     // Scarcity polarity, visible in the pins: Spirit carries half the sky
     // (w 0.5029) and is the CHEAPEST quote; Substance is scarcest (w 0.0404)
-    // and the DEAREST. mean(index) = multiplier to 4dp.
+    // and the DEAREST. compositeIndex is mean(index) — equal to `multiplier`
+    // up to the last 4dp digit, since the four indices round independently
+    // before averaging (the ±1e-3 identity is asserted separately above).
+    //
+    // Re-derived 2026-08-15 for ADR-012's A_NUMBER_CENTER 20 → 5.84 and
+    // A_NUMBER_SPREAD 100 → 6.1. `aNumber` and the weights are engine facts
+    // and did NOT move; only the multiplier-scaled quotes did.
     expect(snapshot.aNumber).toBe(6.3484);
-    expect(snapshot.multiplier).toBe(0.8635);
-    expect(snapshot.tokens.map((t) => t.index)).toEqual([0.8089, 0.8355, 0.9008, 0.9087]);
+    expect(snapshot.multiplier).toBe(1.0833);
+    expect(snapshot.tokens.map((t) => t.index)).toEqual([1.0149, 1.0483, 1.1302, 1.1401]);
     expect(snapshot.tokens.map((t) => t.weight)).toEqual([0.5029, 0.3795, 0.0772, 0.0404]);
-    expect(snapshot.compositeIndex).toBe(0.8635);
+    expect(snapshot.compositeIndex).toBe(1.0834);
     expect(snapshot.sunSign).toBe("cancer");
     expect(snapshot.dominantElement).toBe("Air");
     expect(snapshot.isDiurnal).toBe(true);

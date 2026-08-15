@@ -197,6 +197,10 @@ collapses to a static grid under `prefers-reduced-motion`.
 
 ## Open items
 
+- ~~The imported `A_NUMBER_CENTER`/`A_NUMBER_SPREAD` carry no measured basis.~~
+  Resolved by **ADR-012**: measured over 17,520 hourly real skies, re-centered
+  20 → 5.84 and 100 → 6.1. The oracle inherits this by import, and its golden
+  pins were re-derived there.
 - Real distance modulation (shared with livePricing/celestial — they are
   distance-flat today too).
 - Whether `/quantities` and the admin dashboard adopt the same payload
