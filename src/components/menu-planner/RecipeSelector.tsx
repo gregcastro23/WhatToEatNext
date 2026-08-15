@@ -75,6 +75,15 @@ function RecipeCard({
         }
       `}
       onClick={onSelect}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isSelected}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -422,11 +431,11 @@ export default function RecipeSelector({
           <div className="flex flex-wrap gap-4">
             {/* Cuisine Filter */}
             <div className="flex-1 min-w-[200px]">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="recipe-selector-cuisine" className="block text-sm font-medium text-gray-700 mb-1">
                 Cuisine
               </label>
               <select
+                id="recipe-selector-cuisine"
                 multiple
                 value={cuisineFilter}
                 onChange={(e) => {
@@ -447,11 +456,10 @@ export default function RecipeSelector({
             </div>
 
             {/* Dietary Filters */}
-            <div className="flex-1 min-w-[200px]">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="flex-1 min-w-[200px]" role="group" aria-labelledby="recipe-selector-dietary-label">
+              <span id="recipe-selector-dietary-label" className="block text-sm font-medium text-gray-700 mb-1">
                 Dietary
-              </label>
+              </span>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(dietaryFilters).map(([key, value]) => (
                   <label
@@ -477,11 +485,11 @@ export default function RecipeSelector({
 
             {/* Prep Time Filter */}
             <div className="flex-1 min-w-[200px]">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="recipe-selector-prep-time" className="block text-sm font-medium text-gray-700 mb-1">
                 Max Prep Time
               </label>
               <select
+                id="recipe-selector-prep-time"
                 value={maxPrepTime || ""}
                 onChange={(e) =>
                   setMaxPrepTime(
@@ -501,11 +509,11 @@ export default function RecipeSelector({
 
             {/* Ingredient Search Filter */}
             <div className="flex-1 min-w-[250px] relative">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="recipe-selector-ingredient-search" className="block text-sm font-medium text-gray-700 mb-1">
                 Search by Ingredients
               </label>
               <input
+                id="recipe-selector-ingredient-search"
                 type="text"
                 value={ingredientInput}
                 onChange={(e) => setIngredientInput(e.target.value)}

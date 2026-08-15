@@ -119,13 +119,18 @@ export function ReservationModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
+      role="presentation"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
     >
       <div
         className="relative w-full max-w-md rounded-3xl border border-purple-500/30 bg-gradient-to-br from-[#0c0c14] to-[#1a0f24] p-6 shadow-2xl shadow-purple-900/40"
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
       >
         <button
           type="button"

@@ -37,6 +37,14 @@ const RecipeComponent: FC<RecipeProps> = ({
             <li 
               key={ingredient.id || ingredient.name}
               onClick={() => onIngredientClick?.(ingredient)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  onIngredientClick?.(ingredient);
+                }
+              }}
+              role="button"
+              tabIndex={0}
               className="ingredient-item"
             >
               <span className="amount">{calculateAmount(ingredient.amount)}</span>
@@ -76,4 +84,4 @@ const RecipeComponent: FC<RecipeProps> = ({
   );
 };
 
-export default RecipeComponent; 
+export default RecipeComponent;

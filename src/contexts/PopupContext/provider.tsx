@@ -137,6 +137,14 @@ export const PopupProvider = ({
             id={`popup-${popup.id}`}
             className={popup.className}
             onClick={() => closePopup(popup.id)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                closePopup(popup.id);
+              }
+            }}
+            role="button"
+            tabIndex={0}
           >
             {popup.elemental?.primaryElement && (
               <span className="popup-element-icon">

@@ -102,16 +102,17 @@ function MealTypeSelector() {
   const { mealType, setMealType } = useRecipeBuilder();
 
   return (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+    <div role="group" aria-labelledby="recipe-builder-meal-type-label">
+      <span id="recipe-builder-meal-type-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
         Meal Type
-      </label>
+      </span>
       <div className="flex flex-wrap gap-2">
         {MEAL_TYPES.map((type) => (
           <button
             key={type}
+            type="button"
             onClick={() => setMealType(mealType === type ? null : type)}
+            aria-pressed={mealType === type}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
               mealType === type
                 ? "bg-indigo-600 text-white border-indigo-600"
@@ -130,16 +131,17 @@ function FlavorSelector() {
   const { flavors, toggleFlavor } = useRecipeBuilder();
 
   return (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+    <div role="group" aria-labelledby="recipe-builder-flavor-label">
+      <span id="recipe-builder-flavor-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
         Flavor Preferences
-      </label>
+      </span>
       <div className="flex flex-wrap gap-2">
         {FLAVOR_OPTIONS.map((flavor) => (
           <button
             key={flavor}
+            type="button"
             onClick={() => toggleFlavor(flavor)}
+            aria-pressed={flavors.includes(flavor)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border capitalize ${
               flavors.includes(flavor)
                 ? "bg-pink-600 text-white border-pink-600"
@@ -159,17 +161,18 @@ function DietarySelector() {
     useRecipeBuilder();
 
   return (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+    <div role="group" aria-labelledby="recipe-builder-dietary-label">
+      <span id="recipe-builder-dietary-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
         Dietary Preferences
-      </label>
+      </span>
       <div className="flex flex-wrap gap-2">
         {DIETARY_OPTIONS.map((pref) => {
           const isSelected = dietaryPreferences.includes(pref);
           return (
             <button
               key={pref}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() =>
                 isSelected
                   ? removeDietaryPreference(pref)
@@ -203,17 +206,18 @@ function AllergySelector() {
   };
 
   return (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+    <div role="group" aria-labelledby="recipe-builder-allergies-label">
+      <span id="recipe-builder-allergies-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
         Allergies / Exclusions
-      </label>
+      </span>
       <div className="flex flex-wrap gap-2 mb-2">
         {COMMON_ALLERGIES.map((allergy) => {
           const isSelected = allergies.includes(allergy);
           return (
             <button
               key={allergy}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() =>
                 isSelected ? removeAllergy(allergy) : addAllergy(allergy)
               }
@@ -232,6 +236,7 @@ function AllergySelector() {
       <div className="flex gap-2">
         <input
           type="text"
+          aria-label="Custom allergy or exclusion"
           value={customAllergy}
           onChange={(e) => setCustomAllergy(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddCustom()}
@@ -239,6 +244,7 @@ function AllergySelector() {
           className="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:border-red-300 focus:ring-1 focus:ring-red-100 outline-none"
         />
         <button
+          type="button"
           onClick={handleAddCustom}
           disabled={!customAllergy.trim()}
           className="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-100 text-red-700 hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
@@ -296,17 +302,18 @@ function CuisineSelector() {
   };
 
   return (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+    <div role="group" aria-labelledby="recipe-builder-cuisines-label">
+      <span id="recipe-builder-cuisines-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
         Preferred Cuisines
-      </label>
+      </span>
       <div className="flex flex-wrap gap-2 mb-2">
         {cuisineOptions.map((cuisine) => {
           const isSelected = selectedCuisines.includes(cuisine);
           return (
             <button
               key={cuisine}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() => (isSelected ? removeCuisine(cuisine) : addCuisine(cuisine))}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
                 isSelected
@@ -388,17 +395,18 @@ function CookingMethodSelector() {
   };
 
   return (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+    <div role="group" aria-labelledby="recipe-builder-methods-label">
+      <span id="recipe-builder-methods-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
         Cooking Methods
-      </label>
+      </span>
       <div className="flex flex-wrap gap-2 mb-2">
         {COOKING_METHOD_OPTIONS.map((method) => {
           const isSelected = selectedCookingMethods.includes(method);
           return (
             <button
               key={method}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() =>
                 isSelected ? removeCookingMethod(method) : addCookingMethod(method)
               }
@@ -416,6 +424,7 @@ function CookingMethodSelector() {
       <div className="flex gap-2">
         <input
           type="text"
+          aria-label="Custom cooking method"
           value={customMethod}
           onChange={(e) => setCustomMethod(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddCustomMethod()}
@@ -423,6 +432,7 @@ function CookingMethodSelector() {
           className="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:border-orange-300 focus:ring-1 focus:ring-orange-100 outline-none"
         />
         <button
+          type="button"
           onClick={handleAddCustomMethod}
           disabled={!customMethod.trim()}
           className="px-3 py-1.5 rounded-lg text-xs font-medium bg-orange-100 text-orange-700 hover:bg-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
@@ -482,10 +492,9 @@ export default function RecipeBuilderPanel({
 
       {/* Ingredient Search */}
       <div>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+        <p className="text-xs font-medium text-gray-600 mb-1.5 block">
           Search Ingredients
-        </label>
+        </p>
         <IngredientSearchBar />
       </div>
 

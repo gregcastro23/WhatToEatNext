@@ -739,6 +739,15 @@ export default function GroceryListModal({
                     <div
                       className={`${info.color} rounded-lg p-3 flex items-center justify-between cursor-pointer hover:opacity-80 transition-opacity`}
                       onClick={() => toggleCategory(categoryKey)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          toggleCategory(categoryKey);
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={isExpanded}
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-2xl">{info.icon}</span>

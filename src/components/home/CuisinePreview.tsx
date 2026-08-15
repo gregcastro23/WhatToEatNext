@@ -195,6 +195,15 @@ export default function CuisinePreview() {
           <div
             className="bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 p-5 cursor-pointer hover:from-purple-100 hover:via-indigo-100 hover:to-blue-100 transition-all duration-300"
             onClick={() => toggleCuisine(cuisine.cuisine_id)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggleCuisine(cuisine.cuisine_id);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-expanded={expandedCuisines.has(cuisine.cuisine_id)}
           >
             <div className="flex justify-between items-center">
               <div className="flex-1">
@@ -251,6 +260,15 @@ export default function CuisinePreview() {
                         <div
                           className="p-4 cursor-pointer hover:bg-purple-50 transition-colors"
                           onClick={() => toggleRecipe(recipe.recipe_id)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              toggleRecipe(recipe.recipe_id);
+                            }
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          aria-expanded={expandedRecipes.has(recipe.recipe_id)}
                         >
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex-1">

@@ -161,8 +161,12 @@ export default function TokenShopModal() {
   return (
     <div
       className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+      role="presentation"
       onClick={(e) => {
         if (e.target === e.currentTarget) setOpen(false);
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") setOpen(false);
       }}
     >
       <div
@@ -268,4 +272,3 @@ export default function TokenShopModal() {
     </div>
   );
 }
-

@@ -1720,6 +1720,15 @@ export default function CookingMethods() {
                     <div 
                       className={styles.methodHeader}
                       onClick={() => toggleMethodExpansion(methodId)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          toggleMethodExpansion(methodId);
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={isExpanded}
                     >
                       <h3 className={styles.methodName}>{method.name}</h3>
                       <div className={styles.headerControls}>
@@ -1835,11 +1844,15 @@ export default function CookingMethods() {
 
                         {molecular && (
                           <div className={styles.methodDetailSection}>
-                            <h4
-                              onClick={() => toggleMolecular(methodId)}
-                              style={{ cursor: 'pointer' }}
-                            >
-                              Molecular Gastronomy {expandedMolecular[methodId] ? '▾' : '▸'}
+                            <h4>
+                              <button
+                                type="button"
+                                onClick={() => toggleMolecular(methodId)}
+                                aria-expanded={!!expandedMolecular[methodId]}
+                                style={{ cursor: 'pointer', background: 'none', border: 0, padding: 0, font: 'inherit' }}
+                              >
+                                Molecular Gastronomy {expandedMolecular[methodId] ? '▾' : '▸'}
+                              </button>
                             </h4>
                             {expandedMolecular[methodId] && (
                               <div>

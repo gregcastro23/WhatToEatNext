@@ -52,14 +52,19 @@ export function ReportCommentDialog({ commentId, onClose, onReported }: ReportCo
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Report comment"
-      onClick={onClose}
+      role="presentation"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
     >
       <GlassPanel
         className="w-full max-w-sm p-5"
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Report comment"
       >
         {done ? (
           <p className="py-4 text-center text-sm text-white/70">Thanks — our team will take a look.</p>

@@ -251,8 +251,7 @@ export default function CookingMethodPreview() {
       .catch(() => {
         console.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshPlanetaryPositions]);
 
   // Get current elemental properties from alchemical context
   const currentElementals = useMemo(() => {
@@ -448,6 +447,15 @@ export default function CookingMethodPreview() {
             <div
               className="bg-gradient-to-r from-orange-50 via-red-50 to-pink-50 p-5 cursor-pointer hover:from-orange-100 hover:via-red-100 hover:to-pink-100 transition-all duration-300"
               onClick={() => toggleMethod(method.id)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  toggleMethod(method.id);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-expanded={expandedMethods.has(method.id)}
             >
               <div className="flex justify-between items-start mb-3">
                 <div className="flex-1">

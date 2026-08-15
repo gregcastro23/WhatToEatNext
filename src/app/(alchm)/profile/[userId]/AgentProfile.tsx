@@ -903,15 +903,29 @@ export default function AgentProfile({
               const recipeId = getRecipeIdFromPath(artifact.alchmKitchenPath);
               const isLoading = recipeId ? !!loadingRecipes[recipeId] : false;
               const recipe = recipeId ? recipeDetails[recipeId] : null;
+              const handleRecipeToggle = () => {
+                if (isRecipe) {
+                  void toggleRecipe(artifact.id, artifact.alchmKitchenPath);
+                }
+              };
 
               return (
                 <div
                   key={artifact.id}
-                  onClick={() => {
-                    if (isRecipe) {
-                      void toggleRecipe(artifact.id, artifact.alchmKitchenPath);
-                    }
-                  }}
+                  {...(isRecipe
+                    ? {
+                        onClick: handleRecipeToggle,
+                        onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            handleRecipeToggle();
+                          }
+                        },
+                        role: "button",
+                        tabIndex: 0,
+                        "aria-expanded": isExpanded,
+                      }
+                    : {})}
                   className={`p-5 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                     isExpanded ? "md:col-span-2 border-purple-500/25 bg-purple-950/10" : ""
                   }`}
@@ -951,7 +965,12 @@ export default function AgentProfile({
                   )}
 
                   {isExpanded && recipe && (
-                    <div className="space-y-6 text-left" onClick={(e) => e.stopPropagation()}>
+                    <div
+                      className="space-y-6 text-left"
+                      role="presentation"
+                      onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
+                    >
                       {/* Description */}
                       {recipe.description && (
                         <p className="text-xs text-white/70 leading-relaxed italic font-serif">
@@ -1087,7 +1106,12 @@ export default function AgentProfile({
 
                   {/* Graceful Fallback if recipe not found or loading failed */}
                   {isExpanded && !recipe && !isLoading && (
-                    <div className="py-8 text-center text-xs text-white/40 leading-relaxed border border-white/5 bg-white/[0.01] rounded-xl px-4 w-full" onClick={(e) => e.stopPropagation()}>
+                    <div
+                      className="py-8 text-center text-xs text-white/40 leading-relaxed border border-white/5 bg-white/[0.01] rounded-xl px-4 w-full"
+                      role="presentation"
+                      onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
+                    >
                       <p className="font-serif italic font-medium mb-2">&ldquo;{artifact.summary}&rdquo;</p>
                       <p className="text-[10px] text-amber-300/80 font-mono">This cosmic dish is undergoing alchemical synchronization. Click the standalone view below to review its planetary coordinates.</p>
                       {artifact.alchmKitchenPath && (

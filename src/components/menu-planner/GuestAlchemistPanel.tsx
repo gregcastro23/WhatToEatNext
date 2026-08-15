@@ -77,11 +77,11 @@ export default function GuestAlchemistPanel({
           className="space-y-4 mb-8 border-b pb-6"
         >
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="guest-name" className="block text-sm font-medium text-gray-700 mb-1">
               Name
             </label>
             <input
+              id="guest-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -91,11 +91,11 @@ export default function GuestAlchemistPanel({
             />
           </div>
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="guest-birth-date" className="block text-sm font-medium text-gray-700 mb-1">
               Birth Date
             </label>
             <input
+              id="guest-birth-date"
               type="date"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
@@ -104,11 +104,11 @@ export default function GuestAlchemistPanel({
             />
           </div>
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="guest-birth-time" className="block text-sm font-medium text-gray-700 mb-1">
               Birth Time (Optional)
             </label>
             <input
+              id="guest-birth-time"
               type="time"
               value={birthTime}
               onChange={(e) => setBirthTime(e.target.value)}

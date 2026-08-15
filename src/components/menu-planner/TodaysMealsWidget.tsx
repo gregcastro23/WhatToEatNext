@@ -488,6 +488,15 @@ export default function TodaysMealsWidget({
         <div
           className="flex items-center justify-between px-4 py-3 cursor-pointer select-none border-b border-muted bg-surface-container-low/50"
           onClick={() => setIsCollapsed(!isCollapsed)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setIsCollapsed(!isCollapsed);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-expanded={!isCollapsed}
         >
           <div className="flex items-center gap-3">
             <div className="flex flex-col">
@@ -588,6 +597,15 @@ export default function TodaysMealsWidget({
                     e.stopPropagation();
                     handleMealClick(meal.type);
                   }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      handleMealClick(meal.type);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
                   className={`
                     flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 cursor-pointer
                     ${isActive

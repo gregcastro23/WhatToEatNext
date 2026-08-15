@@ -77,7 +77,7 @@ export function useDiscoverTables(query: DiscoverTablesQuery) {
         setState((s) => ({ ...s, loading: false, error: "Failed to load tables" }));
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- query is represented by key so equivalent query objects do not recreate the fetch callback.
     [key],
   );
 
@@ -152,7 +152,7 @@ export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true) {
         setState((s) => ({ ...s, loading: false, error: "Failed to load people" }));
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- query is represented by key so equivalent query objects do not recreate the fetch callback.
     [key, enabled],
   );
 

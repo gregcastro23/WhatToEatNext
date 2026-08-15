@@ -91,8 +91,7 @@ export function TokenRainParticles({
         rotate: (Math.random() - 0.5) * 360,
       };
     });
-    // Regenerate on every new splash.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- key intentionally invalidates the memo to randomize every new splash.
   }, [key, count, visible, tokenTypes]);
 
   return (

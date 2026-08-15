@@ -105,9 +105,9 @@ export function NutritionFilters({
 
       {/* Sort */}
       <div className="flex items-center gap-2 mb-2">
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label className="text-xs text-gray-600">Sort:</label>
+        <label htmlFor="nutrition-sort" className="text-xs text-gray-600">Sort:</label>
         <select
+          id="nutrition-sort"
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value as NutritionSortOption)}
           className="text-xs border border-gray-300 rounded px-2 py-1 bg-white"
@@ -158,13 +158,13 @@ export function NutritionFilters({
       {isExpanded && (
         <div className="space-y-3 pt-2 border-t border-gray-100">
           {/* Calorie Range */}
-          <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="text-xs font-medium text-gray-600 block mb-1">
+          <div role="group" aria-labelledby="calorie-range-label">
+            <span id="calorie-range-label" className="text-xs font-medium text-gray-600 block mb-1">
               Calorie Range
-            </label>
+            </span>
             <div className="flex items-center gap-2">
               <input
+                aria-label="Minimum calories"
                 type="number"
                 placeholder="Min"
                 value={filters.calorieRange?.[0] ?? ""}
@@ -183,6 +183,7 @@ export function NutritionFilters({
               />
               <span className="text-xs text-gray-400">to</span>
               <input
+                aria-label="Maximum calories"
                 type="number"
                 placeholder="Max"
                 value={filters.calorieRange?.[1] ?? ""}
@@ -205,11 +206,11 @@ export function NutritionFilters({
 
           {/* Min Protein */}
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="text-xs font-medium text-gray-600 block mb-1">
+            <label htmlFor="minimum-protein" className="text-xs font-medium text-gray-600 block mb-1">
               Min Protein (g)
             </label>
             <input
+              id="minimum-protein"
               type="number"
               placeholder="e.g. 20"
               value={filters.minProtein ?? ""}
@@ -225,11 +226,11 @@ export function NutritionFilters({
 
           {/* Max Carbs */}
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="text-xs font-medium text-gray-600 block mb-1">
+            <label htmlFor="maximum-carbs" className="text-xs font-medium text-gray-600 block mb-1">
               Max Carbs (g)
             </label>
             <input
+              id="maximum-carbs"
               type="number"
               placeholder="e.g. 50"
               value={filters.maxCarbs ?? ""}
@@ -245,11 +246,11 @@ export function NutritionFilters({
 
           {/* Max Fat */}
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="text-xs font-medium text-gray-600 block mb-1">
+            <label htmlFor="maximum-fat" className="text-xs font-medium text-gray-600 block mb-1">
               Max Fat (g)
             </label>
             <input
+              id="maximum-fat"
               type="number"
               placeholder="e.g. 30"
               value={filters.maxFat ?? ""}
@@ -265,17 +266,18 @@ export function NutritionFilters({
 
           {/* Deficiency Fillers */}
           {deficientNutrients.length > 0 && (
-            <div>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="text-xs font-medium text-gray-600 block mb-1">
+            <div role="group" aria-labelledby="deficiency-filter-label">
+              <span id="deficiency-filter-label" className="text-xs font-medium text-gray-600 block mb-1">
                 Fill Deficiency
-              </label>
+              </span>
               <div className="flex flex-wrap gap-1">
                 {deficientNutrients.map((nutrient) => {
                   const isActive = filters.fillsDeficiency?.includes(nutrient);
                   return (
                     <button
                       key={nutrient}
+                      type="button"
+                      aria-pressed={isActive}
                       onClick={() => {
                         const current = filters.fillsDeficiency ?? [];
                         const updated = isActive

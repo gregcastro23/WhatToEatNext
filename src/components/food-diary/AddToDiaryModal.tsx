@@ -59,7 +59,7 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 text-gray-900">
-      <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 overflow-y-auto max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 overflow-y-auto max-h-[90vh]">
         <div className="flex justify-between items-center mb-4">
           <h4 className="text-lg font-semibold">
             Log {itemType === "restaurant" ? "Meal" : (itemType === "recipe" ? "Recipe" : "Ingredient")}

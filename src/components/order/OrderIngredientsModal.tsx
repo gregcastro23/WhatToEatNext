@@ -155,14 +155,19 @@ export function OrderIngredientsModal({
   return (
     <div
       className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm p-0 sm:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Order ingredients — ${title}`}
-      onClick={onClose}
+      role="presentation"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
     >
       <div
         className="w-full sm:max-w-lg max-h-[85vh] overflow-hidden flex flex-col rounded-t-2xl sm:rounded-2xl border border-purple-500/20 bg-[#0d0b14]/95 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Order ingredients — ${title}`}
       >
         <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-white/5">
           <div>

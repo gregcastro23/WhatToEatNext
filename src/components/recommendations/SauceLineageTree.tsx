@@ -112,7 +112,6 @@ function NodeRow({
             : "hover:bg-slate-50"
         }`}
         style={{ paddingLeft: `${depth * 16 + 8}px` }}
-        onClick={() => onSelect(node.id)}
       >
         {hasChildren ? (
           <button
@@ -129,22 +128,28 @@ function NodeRow({
           <span className="w-4" />
         )}
 
-        <OriginBadge origin={node.origin} />
-        <span
-          className={`text-sm ${
-            node.origin === "mother"
-              ? "font-semibold text-amber-800"
-              : "text-slate-700"
-          }`}
+        <button
+          type="button"
+          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          onClick={() => onSelect(node.id)}
         >
-          {node.name}
-        </span>
-        <CuisineChip cuisine={node.cuisine} />
-        {hasChildren && (
-          <span className="text-[10px] text-slate-400 ml-auto">
-            {children.length + variants.length} desc.
+          <OriginBadge origin={node.origin} />
+          <span
+            className={`text-sm ${
+              node.origin === "mother"
+                ? "font-semibold text-amber-800"
+                : "text-slate-700"
+            }`}
+          >
+            {node.name}
           </span>
-        )}
+          <CuisineChip cuisine={node.cuisine} />
+          {hasChildren && (
+            <span className="text-[10px] text-slate-400 ml-auto">
+              {children.length + variants.length} desc.
+            </span>
+          )}
+        </button>
       </div>
 
       {isOpen && hasChildren && (

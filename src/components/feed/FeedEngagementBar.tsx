@@ -113,8 +113,7 @@ export function FeedEngagementBar({
   // Track incoming comment-count refreshes from the shared feed payload.
   useEffect(() => {
     setCommentTally(commentCount);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventId]);
+  }, [eventId, commentCount]);
 
   // Seed active kinds: prefer the server-provided bootstrap, else the local cache.
   const viewerKindsKey = viewerKinds ? viewerKinds.join(",") : undefined;
@@ -124,14 +123,15 @@ export function FeedEngagementBar({
     } else {
       setActive(new Set(readCache()[eventId] ?? []));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- viewerKinds is represented by viewerKindsKey so equal arrays do not reset optimistic state.
   }, [eventId, viewerKindsKey]);
 
   // Track incoming count refreshes (viewer-independent) from the shared feed.
+  const initialCountsKey = JSON.stringify(initialCounts);
   useEffect(() => {
     setCounts(initialCounts);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- initialCounts is represented by initialCountsKey so equal objects do not reset optimistic state.
+  }, [eventId, initialCountsKey]);
 
   const kitCounts: Partial<Record<ReactionKind, number>> = {};
   for (const [db, n] of Object.entries(counts)) {

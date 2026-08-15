@@ -177,6 +177,10 @@ export default function MealCircuitBadge({
       <div
         onMouseEnter={() => setShowExpanded(true)}
         onMouseLeave={() => setShowExpanded(false)}
+        onFocus={() => setShowExpanded(true)}
+        onBlur={() => setShowExpanded(false)}
+        role="button"
+        tabIndex={0}
         className="relative inline-block"
       >
         <CompactBadge

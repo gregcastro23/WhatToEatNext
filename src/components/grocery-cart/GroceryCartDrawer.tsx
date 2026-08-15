@@ -60,7 +60,9 @@ export function GroceryCartDrawer() {
   return (
     <>
       {/* Backdrop */}
-      <div
+      <button
+        type="button"
+        aria-label="Close grocery cart"
         className={`fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-200 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}

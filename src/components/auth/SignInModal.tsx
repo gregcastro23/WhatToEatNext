@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import { useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 
 export default function SignInModal() {
   const { status } = useSession();
@@ -14,6 +14,19 @@ export default function SignInModal() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  const handleCloseModal = useCallback(() => {
+    setIsOpen(false);
+    setIsSigningIn(false); // Reset spinner
+
+    // Remove query param if present
+    if (searchParams?.get('signin') === 'true') {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete('signin');
+      const newUrl = pathname + (newParams.toString() ? `?${newParams.toString()}` : '');
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [pathname, router, searchParams]);
 
   // Sync ref with state
   useEffect(() => {
@@ -81,21 +94,7 @@ export default function SignInModal() {
       document.removeEventListener('keydown', onKey);
       previouslyFocusedRef.current?.focus?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
-
-  const handleCloseModal = () => {
-    setIsOpen(false);
-    setIsSigningIn(false); // Reset spinner
-    
-    // Remove query param if present
-    if (searchParams?.get('signin') === 'true') {
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.delete('signin');
-      const newUrl = pathname + (newParams.toString() ? `?${newParams.toString()}` : '');
-      router.replace(newUrl, { scroll: false });
-    }
-  };
+  }, [isOpen, handleCloseModal]);
 
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
@@ -129,9 +128,13 @@ export default function SignInModal() {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+      role="presentation"
       onClick={(e) => {
         // Click-outside dismissal (only when clicking the backdrop itself)
         if (e.target === e.currentTarget) handleCloseModal();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") handleCloseModal();
       }}
     >
       <div

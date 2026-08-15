@@ -186,6 +186,15 @@ export function CuisineCard({
             onSelectCuisine(cuisine.cuisine);
           }
         }}
+        onKeyDown={(event) => {
+          if ((event.key === "Enter" || event.key === " ") && onSelectCuisine) {
+            event.preventDefault();
+            acted();
+            onSelectCuisine(cuisine.cuisine);
+          }
+        }}
+        role="button"
+        tabIndex={0}
         className={`rounded-xl border bg-[#0c0c14]/80 backdrop-blur-md hover:border-purple-400/40 hover:bg-[#10101a]/90 transition-all duration-200 p-4 cursor-pointer ${
           selectedCuisine === cuisine.cuisine
             ? "border-purple-500 shadow-[0_0_20px_rgba(192,132,252,0.25)] bg-[#10101a]/95"
@@ -261,12 +270,22 @@ export function CuisineCard({
       className="relative group"
       onMouseEnter={() => setShowPreview(true)}
       onMouseLeave={() => setShowPreview(false)}
+      onFocus={() => setShowPreview(true)}
+      onBlur={() => setShowPreview(false)}
       onDoubleClick={(e) => {
         if (onDoubleClickCuisine) {
           e.preventDefault();
           onDoubleClickCuisine(cuisine.cuisine);
         }
       }}
+      onKeyDown={(event) => {
+        if ((event.key === "Enter" || event.key === " ") && onDoubleClickCuisine) {
+          event.preventDefault();
+          onDoubleClickCuisine(cuisine.cuisine);
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
       <div className={`relative rounded-2xl border bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
         selectedCuisine === cuisine.cuisine

@@ -416,6 +416,14 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
               }}
             />
           )}
+          {/* The hover-open nav genuinely is not keyboard-reachable, and this
+              rule is right to say so. Suppressed rather than "fixed", because
+              the only fix that does not change behaviour is renaming these to
+              pointer events — which adds no keyboard access at all and DOES
+              change touch behaviour (pointerenter/leave fire on tap; mouse
+              events do not). This component is deliberately fenced off; a real
+              fix means focus/blur handling and an Escape route, not a rename. */}
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- hover-open nav pill; needs a real keyboard affordance, not an event rename */}
           <div className="alchm-pill" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
             {PRIMARY_KEYS.map((k) => {
               const section = NAV_IA[k];
@@ -791,6 +799,10 @@ function MegaMenu({
   };
 
   return (
+    // Same call as the nav pill: the hover handlers are a bridge that keeps the
+    // menu open while the pointer travels into it. Named suppression rather
+    // than a rename to pointer events — see the pill for why.
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- hover-bridge on a role="region" panel; needs a real keyboard affordance
     <div
       id={`alchm-mega-menu-${menuKey}`}
       role="region"

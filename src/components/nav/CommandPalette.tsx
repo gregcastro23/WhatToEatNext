@@ -221,9 +221,7 @@ export function CommandPalette(): JSX.Element | null {
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Command palette"
+      role="presentation"
       className="alchm-palette-root"
       style={{
         position: "fixed",
@@ -243,6 +241,9 @@ export function CommandPalette(): JSX.Element | null {
       <div
         ref={containerRef}
         className="alchm-panel-glow"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
         style={{
           width: "min(680px, calc(100% - 32px))",
           height: "fit-content",
@@ -253,7 +254,6 @@ export function CommandPalette(): JSX.Element | null {
           overflow: "hidden",
           color: "var(--fg)",
         }}
-        onMouseDown={(e) => e.stopPropagation()}
       >
         {/* input */}
         <div

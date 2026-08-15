@@ -95,14 +95,20 @@ export default function GrantTokensModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="grant-modal-title"
+      role="presentation"
       onClick={(e) => {
         if (e.target === e.currentTarget && !loading) onClose();
       }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && !loading) onClose();
+      }}
     >
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl">
+      <div
+        className="w-full max-w-md bg-white rounded-lg shadow-xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="grant-modal-title"
+      >
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 id="grant-modal-title" className="text-base font-semibold text-gray-800">
             Grant tokens

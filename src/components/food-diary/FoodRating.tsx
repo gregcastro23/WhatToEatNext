@@ -208,16 +208,17 @@ export default function FoodRating({
       {/* Mood Tags - Expanded View */}
       {isExpanded && (
         <>
-          <div className="mb-4">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="mb-4" role="group" aria-labelledby="food-mood-label">
+            <span id="food-mood-label" className="block text-sm font-medium text-gray-700 mb-2">
               How did it make you feel?
-            </label>
+            </span>
             <div className="flex flex-wrap gap-2">
               {MOOD_TAG_OPTIONS.map(({ tag, label, color }) => (
                 <button
                   key={tag}
+                  type="button"
                   onClick={() => handleMoodToggle(tag)}
+                  aria-pressed={selectedMoods.includes(tag)}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                     selectedMoods.includes(tag)
                       ? `${color} ring-2 ring-offset-1 ring-amber-400`

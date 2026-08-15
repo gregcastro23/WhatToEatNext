@@ -34,17 +34,18 @@ export default function MobileNavToggle({ children }: { children: React.ReactNod
             {open && (
                 <div
                     className="xl:hidden absolute left-0 right-0 top-full z-50 shadow-2xl shadow-purple-900/50"
-                    onClick={() => setOpen(false)}
                 >
                     {/* Backdrop */}
-                    <div
+                    <button
+                        type="button"
+                        aria-label="Close mobile navigation"
                         className="absolute inset-0 bg-[#08080e]/95 backdrop-blur-xl border-b-2 border-purple-500/40"
                         style={{ backgroundImage: 'radial-gradient(ellipse at top, rgba(109,40,217,0.15) 0%, transparent 70%)' }}
+                        onClick={() => setOpen(false)}
                     />
                     <nav
                         className="relative flex flex-col gap-1.5 p-4 max-h-[75vh] overflow-y-auto"
                         aria-label="Mobile navigation"
-                        onClick={e => e.stopPropagation()}
                     >
                         {children}
                     </nav>

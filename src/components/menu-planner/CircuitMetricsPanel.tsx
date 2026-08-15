@@ -36,6 +36,10 @@ function Tooltip({
       <div
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
+        onFocus={() => setShow(true)}
+        onBlur={() => setShow(false)}
+        role="button"
+        tabIndex={0}
         className="cursor-help"
       >
         {children}
