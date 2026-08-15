@@ -201,6 +201,20 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
       ],
     ),
     subsystem(
+      "esms-spl-mirror",
+      "On-chain · ESMS SPL mirror (Solana)",
+      "Token-2022 mints of the four coins, deployed from AlchmAgentsSolana. " +
+        "The price ticker links them only when this whole gate is green.",
+      [
+        check("Mirror enabled", "NEXT_PUBLIC_ESMS_SPL_ENABLED", "flag"),
+        check("Cluster", "NEXT_PUBLIC_ESMS_SPL_CLUSTER", "config"),
+        check("Spirit mint", "NEXT_PUBLIC_ESMS_SPL_MINT_SPIRIT", "config"),
+        check("Essence mint", "NEXT_PUBLIC_ESMS_SPL_MINT_ESSENCE", "config"),
+        check("Matter mint", "NEXT_PUBLIC_ESMS_SPL_MINT_MATTER", "config"),
+        check("Substance mint", "NEXT_PUBLIC_ESMS_SPL_MINT_SUBSTANCE", "config"),
+      ],
+    ),
+    subsystem(
       "recipe-nft",
       "On-chain · Recipe NFT minting",
       "Spend ESMS to mint a recipe as an on-chain NFT.",

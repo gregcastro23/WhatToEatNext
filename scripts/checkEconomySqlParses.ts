@@ -317,9 +317,15 @@ statements.push({
   builder: "tokenSources24hSql",
 });
 
+statements.push({
+  label: "circulatingSupply",
+  sql: queries.circulatingSupplySql().sql,
+  builder: "circulatingSupplySql",
+});
+
 // 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
-// statements, plus 14 reads/bookkeeping and 6 dashboard aggregates.
-const EXPECTED_TOTAL = 43;
+// statements, plus 14 reads/bookkeeping and 7 dashboard aggregates.
+const EXPECTED_TOTAL = 44;
 
 const client = new pg.Client({
   connectionString: url,

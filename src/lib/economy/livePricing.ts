@@ -41,11 +41,35 @@ export interface PersonalizedPricingContext extends LivePricingContext {
  * How strongly per-user affinity bends the global multiplier (per token).
  * 0.5 → a user whose natal+transit weight is +0.25 above baseline (0.25)
  * pays that token at ~0.875× of the global cost; symmetric on the upside.
+ *
+ * Exported (not copied) so downstream pricing surfaces — the price-index
+ * oracle in ./priceIndex.ts — stay pinned to the SAME constants this module
+ * charges with. A drifted copy would quote prices the debit path never uses.
  */
-const PERSONALIZATION_SCALE = 0.5;
-const BASELINE_WEIGHT = 0.25;
-const PER_TOKEN_MIN = 0.5;
-const PER_TOKEN_MAX = 1.6;
+export const PERSONALIZATION_SCALE = 0.5;
+export const BASELINE_WEIGHT = 0.25;
+export const PER_TOKEN_MIN = 0.5;
+export const PER_TOKEN_MAX = 1.6;
+
+/** The A-number the global multiplier is centered on ("calm sky"). */
+export const A_NUMBER_CENTER = 20;
+/** A-number points per 1.00 of multiplier movement. */
+export const A_NUMBER_SPREAD = 100;
+export const GLOBAL_MULTIPLIER_MIN = 0.85;
+export const GLOBAL_MULTIPLIER_MAX = 1.35;
+
+/**
+ * The global cost multiplier for a given A-number (total sky ESMS).
+ * Extracted so every surface that quotes or charges this spread — including
+ * the price-index oracle — computes it from ONE definition.
+ */
+export function globalMultiplierForANumber(aNumber: number): number {
+  return clamp(
+    1 + (aNumber - A_NUMBER_CENTER) / A_NUMBER_SPREAD,
+    GLOBAL_MULTIPLIER_MIN,
+    GLOBAL_MULTIPLIER_MAX,
+  );
+}
 
 function round(value: number, digits = 2): number {
   const factor = 10 ** digits;
@@ -92,7 +116,7 @@ export async function getLivePricingContext(now = new Date()): Promise<LivePrici
 
   // Dynamic spread based on current alchemical intensity.
   // Centered near 20, clamped to avoid extreme swings.
-  const multiplier = clamp(1 + (aNumber - 20) / 100, 0.85, 1.35);
+  const multiplier = globalMultiplierForANumber(aNumber);
 
   return {
     multiplier: round(multiplier, 4),
@@ -176,7 +200,7 @@ export async function getPersonalizedPricingContext(
     Number(alch.esms.Essence || 0) +
     Number(alch.esms.Matter || 0) +
     Number(alch.esms.Substance || 0);
-  const globalMultiplier = clamp(1 + (aNumber - 20) / 100, 0.85, 1.35);
+  const globalMultiplier = globalMultiplierForANumber(aNumber);
   const transitWeights = normaliseEsms(alch.esms);
 
   let natalWeights: EsmsCost | null = null;

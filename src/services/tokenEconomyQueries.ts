@@ -1013,3 +1013,20 @@ export function tokenSources24hSql(): BuiltQuery {
     values: [],
   };
 }
+
+/**
+ * Per-axis circulating supply — the four-column split of the total that
+ * `getCosmicYield` already sums. Read by the public price-index route
+ * (ADR-011 §5) as market context beside the oracle quotes; the oracle math
+ * itself never depends on this statement.
+ */
+export function circulatingSupplySql(): BuiltQuery {
+  return {
+    sql: `SELECT COALESCE(SUM(spirit), 0)::float8    AS spirit,
+                 COALESCE(SUM(essence), 0)::float8   AS essence,
+                 COALESCE(SUM(matter), 0)::float8    AS matter,
+                 COALESCE(SUM(substance), 0)::float8 AS substance
+          FROM token_balances`,
+    values: [],
+  };
+}

@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import LivePriceTicker from "@/components/economy/LivePriceTicker";
 import { FeaturedRecipe } from "@/components/home/FeaturedRecipe";
 import { LiveHero } from "@/components/home/LiveHero";
 import type { JSX } from "react";
@@ -229,6 +230,10 @@ export default function AlchmKitchenHome(): JSX.Element {
         {/* The consolidated hero: masthead + "Who's eating tonight?" +
             capability preview grid + meal-crafting quiz, one surface. */}
         <LiveHero />
+
+        {/* Elemental Exchange ribbon — live per-token index (ADR-011).
+            A sibling strip, deliberately outside the locked Living Hero. */}
+        <LivePriceTicker variant="ribbon" />
 
         {/* Natal chart soft-prompt banner (shown after skip) */}
         <NatalPromptBanner />
