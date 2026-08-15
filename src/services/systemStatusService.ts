@@ -36,6 +36,7 @@ import {
   fetchDebitPathSignals,
 } from "@/services/agentDebitPathHealth";
 import { getEventCounts } from "@/services/authEventsService";
+import { getCronHeartbeats } from "@/services/cronHeartbeatService";
 import {
   classifyCronLedgerPath,
   fetchCronLedgerSignals,
@@ -1479,6 +1480,87 @@ function probeStripeDependency(): DependencyHealth {
   };
 }
 
+/**
+ * The dead-man's-switch for every scheduled job.
+ *
+ * `getCronHeartbeats()` has always computed staleness, but nothing read it
+ * except the admin dashboard — so a dead cron was visible only to whoever
+ * happened to open a panel. `daily-digest` missed five days in fifteen and no
+ * one found out (docs/runbooks/daily-digest-cron.md).
+ *
+ * Surfacing it as a dependency is what arms it: this payload is diffed hourly
+ * by `/api/cron/system-health-snapshot`, and `dispatchTransitions` pushes any
+ * status change to Slack and email. Detection therefore lives on a DIFFERENT
+ * schedule from the job it watches — which is what makes it a watchdog and not
+ * just another thing that can fail quietly with it.
+ *
+ * Severity is deliberately capped at DEGRADED. A late cron is a real problem
+ * but it is not a user-facing outage, and this feeds the same banner that
+ * reports payments being down; INCIDENT here would cry wolf.
+ *
+ * `never` maps to UNKNOWN rather than DEGRADED: a job with no rows may simply
+ * predate heartbeats or have just been registered. `worst()` still rolls
+ * UNKNOWN up to DEGRADED, so a job that never once fires does surface — it
+ * just does not claim to be a known failure.
+ *
+ * Exported for unit tests; production callers go through `getSystemStatus`.
+ */
+export async function probeScheduledJobsDependency(): Promise<DependencyHealth> {
+  const checkedAt = new Date().toISOString();
+  const { entries, live } = await getCronHeartbeats();
+
+  if (!live) {
+    return {
+      id: "scheduled-jobs",
+      label: "Scheduled jobs",
+      status: "UNKNOWN",
+      summary: "heartbeat table unreadable",
+      latencyMs: null,
+      checkedAt,
+    };
+  }
+
+  const failing = entries.filter((e) => e.state === "failing");
+  const late = entries.filter((e) => e.state === "late");
+  const never = entries.filter((e) => e.state === "never");
+
+  const name = (list: typeof entries) => list.map((e) => e.name).join(", ");
+
+  if (failing.length > 0 || late.length > 0) {
+    const parts: string[] = [];
+    if (late.length > 0) parts.push(`late: ${name(late)}`);
+    if (failing.length > 0) parts.push(`failing: ${name(failing)}`);
+    return {
+      id: "scheduled-jobs",
+      label: "Scheduled jobs",
+      status: "DEGRADED",
+      summary: parts.join(" · "),
+      latencyMs: null,
+      checkedAt,
+    };
+  }
+
+  if (never.length > 0) {
+    return {
+      id: "scheduled-jobs",
+      label: "Scheduled jobs",
+      status: "UNKNOWN",
+      summary: `no run ever recorded: ${name(never)}`,
+      latencyMs: null,
+      checkedAt,
+    };
+  }
+
+  return {
+    id: "scheduled-jobs",
+    label: "Scheduled jobs",
+    status: "OK",
+    summary: `${entries.length} jobs on schedule`,
+    latencyMs: null,
+    checkedAt,
+  };
+}
+
 function probeGoogleOAuthDependency(): DependencyHealth {
   // OAuth liveness inferred from /api/auth traffic + auth_events signin_complete.
   // No synthetic probe — Google's OAuth pages aren't pingable from server.
@@ -1573,6 +1655,19 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     paDep,
     probeStripeDependency(),
     probeGoogleOAuthDependency(),
+    // Never let a heartbeat read break the whole status payload: the watchdog
+    // going quiet must not take the thing it watches down with it.
+    await probeScheduledJobsDependency().catch((err): DependencyHealth => {
+      _logger.error("[systemStatus] scheduled-jobs probe threw:", err);
+      return {
+        id: "scheduled-jobs",
+        label: "Scheduled jobs",
+        status: "UNKNOWN",
+        summary: "probe failed",
+        latencyMs: null,
+        checkedAt: new Date().toISOString(),
+      };
+    }),
   ];
 
   const overall = rollUpOverall(

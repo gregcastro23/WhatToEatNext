@@ -77,10 +77,31 @@ const FALLBACK_REGISTRY: CronRegistryEntry[] = [
 ];
 
 /**
+ * Jobs scheduled OUTSIDE vercel.json — Railway cron services that call into
+ * this app over HTTP. They can never appear in the vercel.json read, so they
+ * are merged in unconditionally; without this, a Railway cron is invisible to
+ * the heartbeat panel no matter how long it has been dead.
+ *
+ * `daily-digest` earned its place: between 2026-08-01 and 08-15 it failed to
+ * run on five days (Aug 6, 8, 9, 10, 13) and nothing noticed, because a job
+ * that never fires emits no error to notice. See
+ * docs/runbooks/daily-digest-cron.md.
+ *
+ * The schedule is inferred from ten consecutive Railway deployments, all
+ * between 09:00 and 09:05 UTC. It is used for the operator display column and
+ * for `expectedIntervalMinutes`, which returns 1440 for ANY daily shape — so a
+ * wrong hour here mislabels a column and cannot fabricate or delay a verdict.
+ */
+const EXTERNAL_REGISTRY: CronRegistryEntry[] = [
+  { name: "daily-digest", schedule: "0 9 * * *" },
+];
+
+/**
  * The scheduled-job registry. Runtime read of vercel.json so a cron added
  * there shows up without touching this file; the synthetic-* probes are
  * excluded because they self-record under their own probe names and are
- * surfaced by the probe panel, not this one.
+ * surfaced by the probe panel, not this one. Externally-scheduled jobs are
+ * appended in both branches — they are not in vercel.json to be read.
  */
 function readCronRegistry(): CronRegistryEntry[] {
   try {
@@ -98,11 +119,11 @@ function readCronRegistry(): CronRegistryEntry[] {
         schedule: c.schedule,
       }))
       .filter((c) => !c.name.startsWith("synthetic-"));
-    if (entries.length > 0) return entries;
+    if (entries.length > 0) return [...entries, ...EXTERNAL_REGISTRY];
   } catch {
     // Not in the bundle — the mirror below still names every known cron.
   }
-  return FALLBACK_REGISTRY;
+  return [...FALLBACK_REGISTRY, ...EXTERNAL_REGISTRY];
 }
 
 /**
