@@ -30,6 +30,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
 import { base, baseSepolia } from "viem/chains";
+import LivePriceTicker from "@/components/economy/LivePriceTicker";
 import { Button } from "@/components/ui/button";
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
@@ -338,6 +339,13 @@ function ShopInner(): JSX.Element {
           a gasless signature is your consent, the burn is your receipt.
         </p>
       </header>
+
+      {/* Elemental Exchange Index — public market context, rendered before
+          auth on purpose (the swap-rates precedent: anyone can see how the
+          cosmos is pricing the four coins). ADR-011. */}
+      <div style={{ marginBottom: 24 }}>
+        <LivePriceTicker variant="cards" />
+      </div>
 
       {authError ? (
         <div className="bazaar-card">
