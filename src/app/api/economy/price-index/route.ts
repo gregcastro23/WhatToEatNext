@@ -25,6 +25,7 @@ import {
   type PriceIndexApiPayload,
 } from "@/lib/economy/priceIndex";
 import { getUsdRails } from "@/lib/economy/usdRails";
+import { _logger } from "@/lib/logger";
 import { redisCached } from "@/lib/redis";
 import { circulatingSupplySql } from "@/services/tokenEconomyQueries";
 
@@ -41,36 +42,57 @@ const SUPPLY_FALLBACK: EsmsSupplyBlock = {
   substance: 0,
 };
 
+/**
+ * Coerce one supply column off a raw driver row.
+ *
+ * Two reasons this cannot just read `row.spirit as number`:
+ *  - `executeQuery`'s type parameter is declared `_T` and never used in its
+ *    return type, so a `executeQuery<{spirit: number}>` annotation buys nothing
+ *    — the row is `any` at runtime and at compile time.
+ *  - node-postgres returns NUMERIC/BIGINT as **strings**, so the shape that
+ *    annotation claimed was wrong anyway.
+ *
+ * So the row genuinely is unknown here, and the honest move is to say so and
+ * coerce explicitly. A non-finite or non-numeric column reads 0, matching the
+ * previous `Number(...) || 0` behaviour exactly.
+ */
+function toSupplyAmount(value: unknown): number {
+  const n =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number(value)
+        : Number.NaN;
+  return Number.isFinite(n) ? n : 0;
+}
+
 async function loadSupply(): Promise<EsmsSupplyBlock> {
   try {
     const { sql, values } = circulatingSupplySql();
-    const res = await executeQuery<{
-      spirit: number;
-      essence: number;
-      matter: number;
-      substance: number;
-    }>(sql, values);
-    const [row] = res.rows;
+    const res = (await executeQuery(sql, values)) as {
+      rows?: Array<Record<string, unknown>>;
+    };
+    const row = res.rows?.[0];
     if (!row) return SUPPLY_FALLBACK;
     return {
       live: true,
-      spirit: Number(row.spirit) || 0,
-      essence: Number(row.essence) || 0,
-      matter: Number(row.matter) || 0,
-      substance: Number(row.substance) || 0,
+      spirit: toSupplyAmount(row.spirit),
+      essence: toSupplyAmount(row.essence),
+      matter: toSupplyAmount(row.matter),
+      substance: toSupplyAmount(row.substance),
     };
   } catch {
     return SUPPLY_FALLBACK;
   }
 }
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   let snapshot;
   try {
     snapshot = getLivePriceIndexSnapshot();
   } catch (error) {
     // A broken engine must never quote — no defaults, no last-known-good.
-    console.error("[GET /api/economy/price-index]", error);
+    _logger.error("[GET /api/economy/price-index]", error);
     return NextResponse.json(
       {
         success: false,

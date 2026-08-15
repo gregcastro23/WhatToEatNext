@@ -79,7 +79,9 @@ function scheduleNext(): void {
   // Fresh jitter every tick so clients don't re-converge over time.
   const delay = currentIntervalMs + Math.floor(Math.random() * POLL_JITTER_MS);
   timer = window.setTimeout(() => {
-    void poll();
+    // poll() handles its own errors; .catch keeps that guarantee local if it
+    // ever grows a throwing path.
+    poll().catch(() => undefined);
   }, delay);
 }
 
@@ -140,7 +142,7 @@ function onVisibilityChange(): void {
 function start(): void {
   currentIntervalMs = BASE_POLL_MS;
   document.addEventListener("visibilitychange", onVisibilityChange);
-  void poll();
+  poll().catch(() => undefined);
 }
 
 function stop(): void {
@@ -163,7 +165,7 @@ function subscribe(listener: () => void): () => void {
 function refreshNow(): void {
   if (timer !== null) window.clearTimeout(timer);
   currentIntervalMs = BASE_POLL_MS;
-  void poll();
+  poll().catch(() => undefined);
 }
 
 function useTickerSnapshot(): TickerSnapshot {
@@ -191,7 +193,7 @@ const shortAddress = (addr: string): string =>
 
 // ─── Sparkline ─────────────────────────────────────────────────────────────
 
-function Sparkline({ values, color }: { values: number[]; color: string }) {
+function Sparkline({ values, color }: { values: number[]; color: string }): React.JSX.Element {
   const gradientId = React.useId();
   const w = 120;
   const h = 34;
@@ -238,7 +240,7 @@ function Sparkline({ values, color }: { values: number[]; color: string }) {
 
 // ─── Shared bits ───────────────────────────────────────────────────────────
 
-function StatusChip({ status }: { status: TickerStatus }) {
+function StatusChip({ status }: { status: TickerStatus }): React.JSX.Element {
   const label =
     status === "live"
       ? "LIVE"
@@ -266,7 +268,7 @@ function railsLine(payload: PriceIndexApiPayload): string | null {
 
 // ─── Ribbon ────────────────────────────────────────────────────────────────
 
-function RibbonItems({ payload }: { payload: PriceIndexApiPayload }) {
+function RibbonItems({ payload }: { payload: PriceIndexApiPayload }): React.JSX.Element {
   const rails = railsLine(payload);
   return (
     <>
@@ -299,7 +301,7 @@ function RibbonItems({ payload }: { payload: PriceIndexApiPayload }) {
   );
 }
 
-function Ribbon({ data }: { data: TickerSnapshot }) {
+function Ribbon({ data }: { data: TickerSnapshot }): React.JSX.Element {
   const { payload, status } = data;
   if (!payload) {
     return (
@@ -341,7 +343,7 @@ function Ribbon({ data }: { data: TickerSnapshot }) {
 
 // ─── Cards ─────────────────────────────────────────────────────────────────
 
-function QuoteCard({ quote }: { quote: TokenIndexQuote }) {
+function QuoteCard({ quote }: { quote: TokenIndexQuote }): React.JSX.Element {
   const visual = tokenVisualFor(quote.token);
   const change = fmtChange(quote.change24hPct);
   const splEnabled = esmsSplMirrorEnabled();
@@ -377,7 +379,25 @@ function QuoteCard({ quote }: { quote: TokenIndexQuote }) {
   );
 }
 
-function Cards({ data }: { data: TickerSnapshot }) {
+/**
+ * Is the supply block present AND live?
+ *
+ * `PriceIndexApiPayload` declares `supply` non-optional, so `payload.supply?.live`
+ * reads as provably-dead code — but this object came off the wire, where an
+ * older or partial response can omit it entirely, and reading `.live` off
+ * `undefined` throws in the render path. Validating an `unknown` keeps the
+ * check real: unlike an optional-typed local, it cannot be narrowed away by
+ * control-flow analysis.
+ */
+function isSupplyLive(supply: unknown): boolean {
+  return (
+    typeof supply === "object" &&
+    supply !== null &&
+    (supply as { live?: unknown }).live === true
+  );
+}
+
+function Cards({ data }: { data: TickerSnapshot }): React.JSX.Element {
   const { payload, status } = data;
   if (!payload) {
     return (
@@ -399,7 +419,7 @@ function Cards({ data }: { data: TickerSnapshot }) {
 
   const rails = railsLine(payload);
   const splEnabled = esmsSplMirrorEnabled();
-  const supplyLive = payload.supply?.live === true;
+  const supplyLive = isSupplyLive(payload.supply);
 
   return (
     <div>
@@ -459,7 +479,7 @@ export default function LivePriceTicker({
   variant,
 }: {
   variant: "ribbon" | "cards";
-}) {
+}): React.JSX.Element {
   const data = useTickerSnapshot();
   return (
     <section

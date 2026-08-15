@@ -137,9 +137,21 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-/** Same adapter shape celestial.ts/livePricing.ts feed the engine. */
+/**
+ * Same adapter shape celestial.ts/livePricing.ts feed the engine.
+ *
+ * The parameter is `Partial<PlanetPositionData>` on purpose. `PlanetPositionData`
+ * declares every field required, but this adapter sits on a boundary: the
+ * positions arrive from an ephemeris provider, and in the sibling debit path
+ * from a remote HTTP backend, so the interface is a *claim* about that data
+ * rather than a guarantee. Typing the input as complete would make the `??`
+ * guards below provably dead code — which is exactly what the linter reported
+ * — and deleting them would trade a real runtime guard for a compile-time
+ * fiction. Widening the parameter keeps the guards live and makes the type
+ * tell the truth: fields may be missing.
+ */
 function asPlanetaryPositions(
-  positions: Record<string, PlanetPositionData>,
+  positions: Record<string, Partial<PlanetPositionData>>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
   for (const [planet, pos] of Object.entries(positions)) {
