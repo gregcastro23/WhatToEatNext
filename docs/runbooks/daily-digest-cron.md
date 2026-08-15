@@ -1,0 +1,149 @@
+# Runbook: `daily-digest-cron` (Railway)
+
+The daily auth digest. A Railway cron service that makes exactly one HTTP call:
+
+```
+POST https://alchm.kitchen/api/admin/digest?period=daily
+Authorization: Bearer $INTERNAL_API_SECRET
+```
+
+The Next.js route composes the summary and emails `AUTH_ADMIN_EMAIL`. The cron
+container is *only* a caller — it holds no logic worth debugging.
+
+## Incident 2026-08-15: CRASHED, and silently dropping days
+
+**What Railway showed.** The whole deploy log for the crashed run:
+
+```
+Starting Container
+ERROR: Unable to open log: Permission denied
+```
+
+**That second line is not the cause.** The previous day's *successful* run emits
+it identically — it is `apk` noise about its own logfile, present on every run.
+Do not chase it. There is no traceback because the container is a one-line
+shell command and the old flags (`-s`, no `--fail-with-body`) discarded the
+response body.
+
+**What actually happened — the request never arrived.** In the 09:00–09:20 UTC
+window, Vercel's runtime logs show every other cron hitting the app
+(`esms-reconciliation`, the `synthetic-*` family, `environmental-ingest`,
+`system-health-snapshot`) and **no `/api/admin/digest` entry at all**. There is
+also no runtime-error group for that route. The app never saw the call, so the
+failure is inside the cron container, before curl reached the network.
+
+**It was already unreliable.** Railway creates one deployment per run;
+deployments exist for Aug 1, 2, 3, 4, 5, 7, 11, 12, 14, 15 — and not for 6, 8,
+9, 10, or 13. Five missed days in fifteen, unnoticed, because a cron that never
+runs raises nothing.
+
+**And a run hung.** The Aug-14 container was not stopped until
+`2026-08-15T09:04:09Z` — it lived ~24h instead of exiting, which is what a
+stalled `curl` with no timeout looks like.
+
+### Root cause
+
+The old start command installed its dependency over the network on **every**
+execution:
+
+```sh
+apk add --no-cache curl >/dev/null && curl -fsS --retry 3 --retry-delay 5 ...
+```
+
+An ephemeral container resolving and downloading a package from the Alpine CDN
+on each run has a per-run failure probability that is small but not zero — and
+`&&` means a failed `apk` skips the request entirely and exits non-zero. That
+matches every observed symptom: no HTTP request, no traceback, intermittent
+missed days. `>/dev/null` also discarded the one message that would have named
+it.
+
+Stated honestly: this is the **leading hypothesis**, not a proven traceback.
+The old configuration destroyed the evidence, which is the deeper defect. The
+new configuration below preserves it.
+
+## The fix
+
+Bake the dependency into the image and stop hiding failures.
+
+| setting | old | new |
+|---|---|---|
+| Source image | `alpine:latest` | `curlimages/curl:8.21.0` |
+| Start command | `apk add --no-cache curl >/dev/null && curl -fsS …` | see below |
+
+```sh
+/bin/sh -c 'exec curl --fail-with-body -sS --retry 3 --retry-delay 5 --connect-timeout 15 --max-time 120 -X POST -H "Authorization: Bearer $INTERNAL_API_SECRET" "https://alchm.kitchen/api/admin/digest?period=daily"'
+```
+
+### ⚠️ The shell wrapper is mandatory — do not simplify it away
+
+Railway's start command behaves differently by deploy type
+([docs](https://docs.railway.com/deployments/start-command)):
+
+- **Railpack** (what this service used to be): the command runs *in a shell*.
+  That is the only reason `$INTERNAL_API_SECRET` and `&&` ever worked.
+- **Image** (what it becomes once the source image is set): the command
+  **overrides the image's `ENTRYPOINT` in exec form**, and *exec form does not
+  expand variables*.
+
+So the obvious-looking version:
+
+```sh
+curl --fail-with-body -sS -H "Authorization: Bearer $INTERNAL_API_SECRET" ...   # ✗ BROKEN
+```
+
+would send the **literal string** `Bearer $INTERNAL_API_SECRET`, and every run
+would fail auth. Wrapping in `/bin/sh -c '…'` restores expansion.
+`curlimages/curl` is Alpine-based and ships busybox `sh`, so `/bin/sh` exists.
+
+The wrapper also means the image's `ENTRYPOINT ["curl"]` is replaced rather
+than prepended — no doubled `curl`.
+
+### Why each flag
+
+- `--fail-with-body` — still exits non-zero on HTTP ≥400 (so Railway marks the
+  run failed) but **prints the response body first**. `-f` alone discards it,
+  which is why a 4xx/5xx here has never been diagnosable.
+- `-sS` — quiet progress meter, but keep error messages.
+- `--connect-timeout 15` / `--max-time 120` — bounds the run. This is the direct
+  fix for the ~24h hang; the digest does DB rollups plus a send with up to three
+  internal retries, so 120s is generous but finite.
+- `--retry 3 --retry-delay 5` — unchanged. Retries transient/5xx only; a 4xx
+  fails fast, which is correct.
+
+### Also worth setting
+
+- **Restart policy `NEVER`.** For a cron, `ON_FAILURE` can re-run a job that
+  legitimately failed. Verify before changing.
+- Keep the schedule as-is; nothing here depends on it.
+
+## Applying it
+
+Two halves, in two places:
+
+1. **Start command** — Railway API/MCP (`update_service`, `start_command`), or
+   the dashboard.
+2. **Source image** — dashboard (Settings → Source). The API surface used here
+   exposes no image field, so this half is manual.
+
+Order matters: set the **image first, then the start command**. Between the two
+the service is briefly an Image deploy still carrying the Railpack-era shell
+command, which would fail — so do not leave it half-applied across a scheduled
+run.
+
+## Verifying the next run
+
+1. `environment_status` → service is `SUCCESS`, not `CRASHED`.
+2. Deploy logs contain no `apk` line at all (nothing is installed anymore).
+3. Vercel runtime logs show `POST /api/admin/digest 200` at the scheduled minute
+   — **this is the real check**. Railway reporting success only means curl
+   exited 0; the request appearing on the app side is what proves the job ran.
+4. The digest email arrives.
+
+If it fails again, the body is now in the deploy logs — read it before
+theorising.
+
+## Standing gap
+
+Nothing alerts on this cron missing a day. Five silent misses is the actual
+cost here, larger than the one crash that surfaced. A dead-man's-switch (alert
+if no successful digest in ~26h) would have caught it on Aug 6.
