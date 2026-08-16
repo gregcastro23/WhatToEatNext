@@ -243,19 +243,82 @@ pub struct TableChatMute {
     pub created_at: Timestamp,
 }
 
-/// Ephemeral live environmental observation (elevation, ambient temperature, relative humidity, Z-score context).
+/// How a client came to believe its own elevation.
+///
+/// This is not bookkeeping. Elevation enters the physics through the boiling
+/// point, at roughly **0.34 °C per 100 m**, so the error bar on the source is
+/// the error bar on every wet-heat number the app prints:
+///
+/// | source | typical vertical error | worst-case °C on the boil |
+/// |--------|------------------------|---------------------------|
+/// | `User` | 0 m (they read a sign) | 0 |
+/// | `Dem`  | 5–15 m                 | ~0.05 |
+/// | `Gps`  | 10–30 m (GNSS vertical is ~2× worse than horizontal) | ~0.1 |
+/// | `Ip`   | city centroid — kilometres, and *systematically* wrong in mountain metros | **3+** |
+///
+/// The `Ip` row is why this column exists. A Denver IP resolves to a centroid
+/// that can sit 1000 m from where the user is actually standing, and the app
+/// would print a confidently wrong boiling point with no way for the UI to
+/// hedge. A card fed by `Ip` must say so; a card fed by `User` may not.
+#[derive(spacetimedb::SpacetimeType, Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ElevationProvenance {
+    /// Device GNSS altitude.
+    Gps,
+    /// Digital elevation model sampled at a known lat/lon.
+    Dem,
+    /// IP geolocation. Coarse and systematically biased in mountain terrain.
+    Ip,
+    /// The user typed it.
+    User,
+}
+
+/// Ephemeral live environmental observation — one row per identity.
+///
+/// EPHEMERAL BY CONTRACT. This is the live-sync surface, not the record: it
+/// exists so a cooking session's cards react to where and when the user is
+/// actually standing. Anything that must outlive the session (a permanently
+/// adjusted recipe core time, a saved kitchen elevation) is flushed to
+/// Postgres through the `pg` driver; Spacetime is never asked to be durable
+/// here.
+///
+/// Ownership follows ADR-008: `owner` is always `ctx.sender`, never a
+/// reducer argument, and `#[unique]` on it makes the upsert race-safe the same
+/// way `TableSession::wten_table_id` does — SpacetimeDB has no multi-column
+/// unique constraints, but one row per identity needs only the one column.
+///
+/// ⚠️ `station_pressure_kpa` is stored **raw, as measured**. It is NOT clamped
+/// here. The Antoine correlation this eventually feeds is only valid to
+/// 101.372841 kPa (`[MEASURED]`, the pressure at which it reaches its 100.01 °C
+/// ceiling), and the clamp for that lives at the point of *use*, where it can
+/// be reported to the user. Sanitising a measurement at ingest destroys the
+/// only copy of the truth; see the `clamped` flag on the read path.
 #[spacetimedb::table(accessor = environmental_observation, public)]
 #[derive(Clone)]
 pub struct EnvironmentalObservation {
     #[primary_key]
     #[auto_inc]
     pub obs_id: u64,
-    #[index(btree)]
+    /// Owner — always `ctx.sender`. Unique: one live observation per identity.
+    #[unique]
     pub owner: Identity,
+    /// Metres above mean sea level.
     pub elevation_m: f32,
+    /// How `elevation_m` was obtained. Governs how much the UI may claim.
+    pub elevation_provenance: ElevationProvenance,
+    /// Ambient (room) air temperature, °C.
     pub ambient_temp_c: f32,
+    /// Ambient relative humidity, %.
+    ///
+    /// Feeds the evaporative-ceiling and browning-onset panel text ONLY. It is
+    /// deliberately not routed into the convection particle simulation: that
+    /// engine solves buoyancy, drag and Newton cooling, and none of those terms
+    /// takes a humidity argument. Animating particles on humidity would be a
+    /// fabricated behaviour dressed as physics.
     pub relative_humidity_pct: f32,
-    pub h_z_score_modifier: f32,
+    /// Measured absolute station pressure, kPa — **not** sea-level-reduced, and
+    /// **not** clamped. `None` when the client has no barometer, in which case
+    /// readers fall back to the ISA pressure implied by `elevation_m`.
+    pub station_pressure_kpa: Option<f32>,
     pub updated_at: Timestamp,
 }
 

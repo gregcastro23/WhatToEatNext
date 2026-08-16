@@ -33,7 +33,13 @@ import {
   altitudeCriticalTemperatureC,
 } from "@/data/cooking/methodPhysics";
 import { localizedMedium, altitudeCriticalGap, altitudeEffect } from "@/lib/cooking/methodMetrics";
-import { boilingPointCAtElevation } from "@/lib/cooking/thermo";
+import {
+  ANTOINE_CLAMP_KPA,
+  boilingPointC,
+  boilingPointCAtElevation,
+  saturationCeilingFromStationPressure,
+} from "@/lib/cooking/thermo";
+import { pressureFromElevation } from "@/lib/environment/isa";
 
 const DENVER_M = 1609;
 const BOGOTA_M = 2640;
@@ -236,6 +242,163 @@ describe("altitudeEffect carries the localized medium", () => {
       if (!mediumTracksWaterCeiling(METHOD_PHYSICS[id])) continue;
       const effect = altitudeEffect(id, BOGOTA_M)!;
       expect(effect.localizedMedium.celsius).toBeLessThanOrEqual(effect.boilingC + 1e-9);
+    }
+  });
+});
+
+describe("measured station pressure supersedes the ISA model", () => {
+  /**
+   * `[MEASURED]` The pressure at which Antoine reaches its 100.01 °C acceptance
+   * ceiling. Bisected against the same coefficients the library uses, so this
+   * pins the ACTUAL boundary rather than a remembered one.
+   */
+  const ANTOINE_THROW_KPA = 101.372841;
+
+  it("the clamp target really is below the throw boundary", () => {
+    // The control for the whole clamp: prove the unclamped call throws, so a
+    // passing clamp test cannot be passing for the trivial reason that nothing
+    // was ever out of range.
+    expect(() => boilingPointC(ANTOINE_THROW_KPA + 0.001)).toThrow(RangeError);
+    expect(() => boilingPointC(ANTOINE_CLAMP_KPA)).not.toThrow();
+    expect(ANTOINE_CLAMP_KPA).toBeLessThan(ANTOINE_THROW_KPA);
+  });
+
+  it("survives every pressure a barometer can legitimately report", () => {
+    // The crash path the clamp exists for: an ordinary high-pressure system.
+    for (const kpa of [101.4, 102, 103, 105, 107.8, 110]) {
+      expect(() => saturationCeilingFromStationPressure(kpa)).not.toThrow();
+      const ceiling = saturationCeilingFromStationPressure(kpa);
+      expect(ceiling.clamped).toBe(true);
+      expect(ceiling.appliedKpa).toBe(ANTOINE_CLAMP_KPA);
+      // Truth is preserved even though it was not used.
+      expect(ceiling.measuredKpa).toBe(kpa);
+    }
+  });
+
+  it("does not clamp, or claim to, below the ceiling", () => {
+    for (const kpa of [60, 80, 95, 101.325]) {
+      const ceiling = saturationCeilingFromStationPressure(kpa);
+      expect(ceiling.clamped).toBe(false);
+      expect(ceiling.appliedKpa).toBe(kpa);
+      expect(ceiling.celsius).toBe(boilingPointC(kpa));
+    }
+  });
+
+  it("still rejects a broken sensor rather than clamping it", () => {
+    // Clamping is for weather. Zero, negative and NaN are not weather.
+    for (const bad of [0, -1, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(() => saturationCeilingFromStationPressure(bad)).toThrow(RangeError);
+    }
+  });
+
+  it("a measured low beats ISA — the same elevation gets a lower ceiling", () => {
+    // The reason to prefer a barometer at all. Denver under a deep low sits
+    // below the ISA pressure for its elevation, and the food notices.
+    const isaKpa = pressureFromElevation(DENVER_M);
+    const stormyKpa = isaKpa - 2.5;
+
+    const modelled = localizedMedium("boiling", DENVER_M)!;
+    const measured = localizedMedium("boiling", DENVER_M, stormyKpa)!;
+
+    expect(measured.celsius).toBeLessThan(modelled.celsius);
+    expect(measured.coreTimeIncrease!).toBeGreaterThan(modelled.coreTimeIncrease!);
+    expect(measured.pressureClamped).toBeUndefined();
+  });
+
+  it("omitting the reading is byte-identical to the elevation-only path", () => {
+    // Guards the optional parameter: adding it must not have moved any existing
+    // number. Compared across every method, not a sampled few.
+    for (const id of ALL) {
+      for (const m of [0, DENVER_M, BOGOTA_M, LA_PAZ_M]) {
+        expect(localizedMedium(id, m, undefined)).toEqual(localizedMedium(id, m));
+      }
+    }
+  });
+
+  it("reports the clamp instead of swallowing it", () => {
+    // A sea-level kitchen in a record high. The medium reads as sea level —
+    // which is a FLOOR, not the truth — so the flag has to survive to the UI.
+    const local = localizedMedium("boiling", 0, 107.8)!;
+    expect(local.pressureClamped).toBe(true);
+    // ...and the flag is set even though the medium itself did not move,
+    // which is the case a naive `if (clamped)` would drop on the floor.
+    expect(local.clamped).toBe(false);
+  });
+
+  it("the elevation path is unclamped at and above sea level", () => {
+    for (const m of [0, DENVER_M, LA_PAZ_M, HIGHEST_SETTLEMENT_M]) {
+      expect(pressureFromElevation(m)).toBeLessThanOrEqual(ANTOINE_CLAMP_KPA);
+      for (const id of ALL) {
+        expect(localizedMedium(id, m)!.pressureClamped).toBeUndefined();
+      }
+    }
+  });
+});
+
+describe("below sea level — the crash this feature would otherwise have armed", () => {
+  /**
+   * `[MEASURED 2026-08-16]` ISA pressure crosses Antoine's validity ceiling at
+   * −3.982 m, NOT at 0 m. Every inhabited depression on Earth is past it:
+   *
+   *   Netherlands (Zuidplaspolder)  −6.76 m  101.406 kPa
+   *   Death Valley (Badwater)         −86 m  102.362 kPa
+   *   Turfan Depression, China       −154 m  103.189 kPa  (~600 000 residents)
+   *   Jericho                        −258 m  104.463 kPa
+   *   Dead Sea shore (Ein Bokek)     −430 m  106.598 kPa
+   *
+   * The raw kernel throws for all of them. That was harmless while the UI only
+   * offered five presets at 0 m and above — and would have stopped being
+   * harmless the moment live telemetry started supplying real elevations, which
+   * is precisely what `upsert_environmental_observation` does (it accepts down
+   * to −500 m). A dormant defect that the next commit arms is not a dormant
+   * defect.
+   */
+  const BELOW_SEA_LEVEL_M = [-6.76, -86, -154, -258, -430, -500];
+
+  it("the raw kernel really does throw — the control for everything below", () => {
+    // If this ever stops throwing, the tests beneath it are vacuous.
+    for (const m of BELOW_SEA_LEVEL_M) {
+      expect(() => boilingPointCAtElevation(m)).toThrow(RangeError);
+    }
+    expect(() => boilingPointCAtElevation(-3.9)).not.toThrow();
+  });
+
+  it("every public entry point survives every inhabited depression", () => {
+    for (const m of BELOW_SEA_LEVEL_M) {
+      for (const id of ALL) {
+        expect(() => localizedMedium(id, m)).not.toThrow();
+        expect(() => altitudeEffect(id, m)).not.toThrow();
+        expect(() => altitudeCriticalGap(id, m)).not.toThrow();
+      }
+    }
+  });
+
+  it("saturates rather than inventing a super-100 °C medium", () => {
+    for (const m of BELOW_SEA_LEVEL_M) {
+      const local = localizedMedium("boiling", m)!;
+      expect(local.pressureClamped).toBe(true);
+      expect(local.celsius).toBe(METHOD_PHYSICS.boiling.mediumC);
+      expect(local.clamped).toBe(false);
+    }
+  });
+
+  it("reports no altitude penalty below sea level, which is the physical truth", () => {
+    // Water boils HOTTER down here, so a boil is if anything faster. The
+    // multiplier must not exceed 1 — an altitude penalty at −430 m would be
+    // the sign error this whole module exists to prevent.
+    for (const m of BELOW_SEA_LEVEL_M) {
+      const effect = altitudeEffect("boiling", m)!;
+      expect(effect.softeningMultiplier).toBeLessThanOrEqual(1);
+      expect(effect.pasteurisationMultiplier).toBeLessThanOrEqual(1);
+      expect(effect.shiftC).toBe(0);
+    }
+  });
+
+  it("a dry sear floor ignores the barometer as thoroughly as it ignores altitude", () => {
+    for (const kpa of [80, 101.325, 107.8]) {
+      const local = localizedMedium("tilt_skillet", BOGOTA_M, kpa)!;
+      expect(local.celsius).toBe(METHOD_PHYSICS.tilt_skillet.mediumC);
+      expect(local.clamped).toBe(false);
     }
   });
 });

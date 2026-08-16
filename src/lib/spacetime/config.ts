@@ -82,5 +82,18 @@ export function isLiveTableChatEnabled(): boolean {
   return process.env.NEXT_PUBLIC_SPACETIME_LIVE_TABLE_CHAT === "1";
 }
 
+/**
+ * Live environmental telemetry via `environmental_observation` — elevation,
+ * ambient temperature, relative humidity and station pressure for the cooking
+ * method cards.
+ *
+ * Off by default like every other live flag: with it off the cards keep using
+ * their elevation preset buttons, which is a fully working surface, not a
+ * degraded one. This flag only replaces a manual picker with a live reading.
+ */
+export function isLiveEnvironmentEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_ENVIRONMENT === "1";
+}
+
 /** localStorage key for the SpacetimeDB identity token. */
 export const SPACETIME_TOKEN_STORAGE_KEY = "alchm:spacetime:token";

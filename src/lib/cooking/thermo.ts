@@ -112,10 +112,109 @@ export function boilingPointC(pressureKpa: number): number {
  * folk rule of "1 °F per 500 ft", which is a linearisation that drifts badly
  * above ~1500 m.
  *
+ * ⚠️ THROWS BELOW −3.98 m. `[MEASURED]` ISA pressure crosses Antoine's validity
+ * ceiling at that elevation, so every point below it — the Netherlands
+ * (−6.76 m), Death Valley (−86 m), the Turfan Depression (−154 m, ~600 000
+ * residents), Jericho (−258 m), the Dead Sea resort strip (−430 m) — raises a
+ * `RangeError` from this function. That is the correct contract for a physics
+ * kernel and the wrong one for a UI, so **application code should call
+ * {@link saturationCeilingAtElevation}**, which saturates and reports instead
+ * of throwing.
+ *
  * @param elevationM Metres above mean sea level.
+ * @throws RangeError below ~−3.98 m (see above) and above the troposphere.
  */
 export function boilingPointCAtElevation(elevationM: number): number {
   return boilingPointC(pressureFromElevation(elevationM));
+}
+
+/**
+ * Highest pressure this library will feed to {@link boilingPointC}, kPa.
+ *
+ * BASIS: the ISA standard sea-level pressure, 101.325 kPa exactly. It is chosen
+ * as the clamp target because it is a *defined* constant, not because it is
+ * where Antoine actually fails. `[MEASURED]` Antoine (Stull 1947) hits its
+ * 100.01 °C acceptance ceiling at **101.372841 kPa**, so there is 0.048 kPa of
+ * headroom between this clamp and the throw.
+ */
+export const ANTOINE_CLAMP_KPA = 101.325;
+
+/** A saturation temperature, plus whether we had to bend the input to get it. */
+export interface SaturationCeiling {
+  /** Boiling point at {@link appliedKpa}, °C. */
+  celsius: number;
+  /** True when the measurement exceeded {@link ANTOINE_CLAMP_KPA} and was capped. */
+  clamped: boolean;
+  /** What the barometer actually said, kPa — preserved even when clamped. */
+  measuredKpa: number;
+  /** What was fed to the correlation, kPa. */
+  appliedKpa: number;
+}
+
+/**
+ * Saturation temperature from a **measured absolute station pressure**, with
+ * the Antoine validity ceiling applied as a reported clamp rather than a throw.
+ *
+ * ── Why clamp at all ────────────────────────────────────────────────────────
+ *
+ * {@link boilingPointC} throws above ~101.37 kPa, and that is the right
+ * behaviour for a physics kernel: above 1 atm you need a steam table, and a
+ * pressure cooker silently receiving an Antoine extrapolation would be a real
+ * defect. But a live barometer is not a pressure vessel — it is a sensor that
+ * routinely reads 102–103 kPa in an ordinary high-pressure system at sea level.
+ * Letting the weather crash a cooking card is not a defensible failure mode.
+ *
+ * ── What the clamp costs ────────────────────────────────────────────────────
+ *
+ * `[MEASURED]` The clamp only bites above 101.325 kPa, and it understates:
+ *
+ * | station pressure | true ceiling | reported | understated by |
+ * |------------------|--------------|----------|----------------|
+ * | 101.325 kPa (ISA sea level) | 99.997 °C | 99.997 °C | 0 |
+ * | 103 kPa (strong high)       | 100.455 °C | 99.997 °C | 0.46 °C |
+ * | 105 kPa (exceptional)       | 100.994 °C | 99.997 °C | 1.00 °C |
+ * | 107.8 kPa (record, low elevation) | 101.734 °C | 99.997 °C | 1.74 °C |
+ *
+ * So this is cheap in ordinary weather and NOT free in a record high — which is
+ * exactly why `clamped` is returned rather than swallowed. A caller that wants
+ * to hedge the number can; a caller that ignores it gets sea-level truth, which
+ * is the same answer the app gave before it had a barometer at all.
+ *
+ * This is deliberately an interim measure. The correct fix is an IAPWS-IF97
+ * saturation-line lookup, which is valid to 22 MPa and would serve pressure
+ * cooking from the same code path.
+ *
+ * @param pressureKpa Absolute station pressure, kPa. NOT sea-level-reduced.
+ * @throws RangeError only for non-finite, non-positive, or absurdly low input —
+ *         i.e. a broken sensor, never weather.
+ */
+export function saturationCeilingFromStationPressure(pressureKpa: number): SaturationCeiling {
+  if (!Number.isFinite(pressureKpa) || pressureKpa <= 0) {
+    throw new RangeError(`pressureKpa must be a positive finite number, received ${pressureKpa}`);
+  }
+  const clamped = pressureKpa > ANTOINE_CLAMP_KPA;
+  const appliedKpa = clamped ? ANTOINE_CLAMP_KPA : pressureKpa;
+  return {
+    celsius: boilingPointC(appliedKpa),
+    clamped,
+    measuredKpa: pressureKpa,
+    appliedKpa,
+  };
+}
+
+/**
+ * Local water ceiling from elevation alone, with the Antoine limit applied as a
+ * reported clamp — the safe counterpart to {@link boilingPointCAtElevation}.
+ *
+ * Use this anywhere the elevation came from a user, a device, or telemetry.
+ * `[MEASURED]` Below −3.98 m the ISA pressure exceeds Antoine's validity and the
+ * raw composition raises a `RangeError`; this saturates instead. The
+ * understatement is real and bounded — 1.42 °C at the Dead Sea shore, the
+ * lowest inhabited land on Earth — which is exactly why `clamped` is returned
+ * rather than hidden.
+ */
+export function saturationCeilingAtElevation(elevationM: number): SaturationCeiling {
+  return saturationCeilingFromStationPressure(pressureFromElevation(elevationM));
 }
 
 /**
@@ -144,8 +243,12 @@ export function altitudeTimeMultiplier(
   regime: "softening" | "pasteurisation",
 ): number {
   const zValueC = regime === "pasteurisation" ? Z_VALUE_CULINARY_C : zValueFromQ10(Q10_CULINARY);
-  const seaLevel = boilingPointCAtElevation(0);
-  const atAltitude = boilingPointCAtElevation(elevationM);
+  // Saturating rather than raw: this takes a caller-supplied elevation, and
+  // below −3.98 m the raw composition throws (see `boilingPointCAtElevation`).
+  // Identical output at every non-negative elevation; the only behaviour change
+  // is that below-sea-level input now returns ×1.00 instead of a RangeError.
+  const seaLevel = saturationCeilingAtElevation(0).celsius;
+  const atAltitude = saturationCeilingAtElevation(elevationM).celsius;
   return timeScaleFactor(atAltitude - seaLevel, zValueC);
 }
 

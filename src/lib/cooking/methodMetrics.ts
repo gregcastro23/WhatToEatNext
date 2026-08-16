@@ -53,10 +53,14 @@ import {
   type AltitudeResponse,
 } from "@/data/cooking/methodPhysics";
 import {
-  altitudeTimeMultiplier,
-  boilingPointCAtElevation,
   cToF,
+  saturationCeilingAtElevation,
+  saturationCeilingFromStationPressure,
   slabCoreTime,
+  timeScaleFactor,
+  zValueFromQ10,
+  Q10_CULINARY,
+  Z_VALUE_CULINARY_C,
   type SlabCookResult,
 } from "@/lib/cooking/thermo";
 import { robustStat, robustZScore, type RobustStat } from "@/lib/environment/robustStats";
@@ -389,6 +393,13 @@ export interface LocalizedMedium {
    * is a stated refusal rather than a number produced from the wrong curve.
    */
   uncomputableReason?: string;
+  /**
+   * Set when a MEASURED station pressure exceeded the Antoine validity ceiling
+   * and was capped at 101.325 kPa — i.e. the reported medium is a floor, and
+   * the real one is up to ~1.7 °C hotter. Never set on the elevation-derived
+   * path, where ISA pressure cannot exceed sea level by construction.
+   */
+  pressureClamped?: boolean;
 }
 
 /**
@@ -400,7 +411,19 @@ export interface LocalizedMedium {
  * still above them. No per-method threshold table is needed or wanted — one
  * would be a second thing to keep in step with the first.
  */
-export function localizedMedium(methodId: string, elevationM: number): LocalizedMedium | null {
+/**
+ * @param stationPressureKpa Optional MEASURED absolute station pressure. When
+ *   present it supersedes the ISA pressure implied by `elevationM` — a
+ *   barometer beats a model, including on the days the model is furthest off
+ *   (a deep low can drop the local ceiling a further ~1 °C below what ISA
+ *   predicts for that elevation). Omit it and behaviour is byte-identical to
+ *   before this parameter existed.
+ */
+export function localizedMedium(
+  methodId: string,
+  elevationM: number,
+  stationPressureKpa?: number,
+): LocalizedMedium | null {
   const physics = METHOD_PHYSICS[methodId];
   if (!physics) return null;
 
@@ -429,8 +452,23 @@ export function localizedMedium(methodId: string, elevationM: number): Localized
 
   if (!mediumTracksWaterCeiling(physics)) return unchanged();
 
-  const ceilingC = boilingPointCAtElevation(elevationM);
-  if (ceilingC >= nominalC - MEANINGFUL_CLAMP_C) return unchanged();
+  // A measured barometer supersedes the ISA model; absent one, elevation is the
+  // only evidence we have. BOTH paths saturate at the Antoine limit and report
+  // it, because both can exceed it: a high-pressure system above 101.325 kPa,
+  // and — the one that is easy to miss — any elevation below −3.98 m, where ISA
+  // pressure alone is already past the limit. Death Valley and the Turfan
+  // Depression are not hypothetical inputs.
+  const ceiling =
+    stationPressureKpa !== undefined
+      ? saturationCeilingFromStationPressure(stationPressureKpa)
+      : saturationCeilingAtElevation(elevationM);
+  const ceilingC = ceiling.celsius;
+  const pressureClamped = ceiling.clamped;
+
+  if (ceilingC >= nominalC - MEANINGFUL_CLAMP_C) {
+    const result = unchanged();
+    return pressureClamped ? { ...result, pressureClamped } : result;
+  }
 
   const coreMinutes = referenceCookTime({ ...physics, mediumC: ceilingC }).result?.minutes ?? null;
 
@@ -445,6 +483,7 @@ export function localizedMedium(methodId: string, elevationM: number): Localized
       coreMinutes === null || seaLevelCoreMinutes === null || seaLevelCoreMinutes === 0
         ? null
         : coreMinutes / seaLevelCoreMinutes - 1,
+    ...(pressureClamped ? { pressureClamped } : {}),
   };
 }
 
@@ -462,7 +501,9 @@ export function altitudeCriticalGap(
   const physics = METHOD_PHYSICS[methodId];
   if (!physics) return null;
   const criticalC = altitudeCriticalTemperatureC(physics);
-  const ceilingC = boilingPointCAtElevation(elevationM);
+  // Saturating: this takes a caller-supplied elevation and must not throw
+  // below sea level. Identical at every non-negative elevation.
+  const ceilingC = saturationCeilingAtElevation(elevationM).celsius;
   return {
     criticalC,
     ceilingC,
@@ -490,24 +531,47 @@ export function altitudeCriticalGap(
  * describe the water, which is worth showing — but `multipliersApply` says
  * whether they may be presented as this method's own cooking time.
  */
-export function altitudeEffect(methodId: string, elevationM: number): AltitudeEffect | null {
+/**
+ * @param stationPressureKpa Optional MEASURED station pressure, which supersedes
+ *   the ISA pressure implied by `elevationM` throughout — the headline boiling
+ *   point, the time multipliers and the localized medium all come off the same
+ *   reading, so the card cannot show a measured medium beside a modelled boil.
+ */
+export function altitudeEffect(
+  methodId: string,
+  elevationM: number,
+  stationPressureKpa?: number,
+): AltitudeEffect | null {
   const physics = METHOD_PHYSICS[methodId];
   if (!physics) return null;
 
-  const boilingC = boilingPointCAtElevation(elevationM);
-  const seaLevelC = boilingPointCAtElevation(0);
+  // Saturating on both: `elevationM` is caller-supplied and below −3.98 m the
+  // raw composition throws. The sea-level reference is saturated too, purely so
+  // the two sides of `shiftC` come off the same function.
+  const ceiling =
+    stationPressureKpa !== undefined
+      ? saturationCeilingFromStationPressure(stationPressureKpa)
+      : saturationCeilingAtElevation(elevationM);
+  const boilingC = ceiling.celsius;
+  const seaLevelC = saturationCeilingAtElevation(0).celsius;
+
+  const shiftC = boilingC - seaLevelC;
 
   return {
     elevationM,
     boilingC,
     boilingF: cToF(boilingC),
-    shiftC: boilingC - seaLevelC,
-    softeningMultiplier: altitudeTimeMultiplier(elevationM, "softening"),
-    pasteurisationMultiplier: altitudeTimeMultiplier(elevationM, "pasteurisation"),
+    shiftC,
+    // Derived from the SAME ceiling as `boilingC` rather than re-entered from
+    // elevation, so a measured barometer moves the multipliers too. With no
+    // measurement this is identical to `altitudeTimeMultiplier(elevationM, …)`
+    // by construction — both are `timeScaleFactor` of the same shift.
+    softeningMultiplier: timeScaleFactor(shiftC, zValueFromQ10(Q10_CULINARY)),
+    pasteurisationMultiplier: timeScaleFactor(shiftC, Z_VALUE_CULINARY_C),
     response: physics.altitudeResponse,
     multipliersApply: physics.altitudeResponse === "penalised",
     note: physics.altitudeNote,
-    localizedMedium: localizedMedium(methodId, elevationM)!,
+    localizedMedium: localizedMedium(methodId, elevationM, stationPressureKpa)!,
   };
 }
 

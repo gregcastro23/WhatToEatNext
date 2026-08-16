@@ -18,6 +18,10 @@ import React, { useMemo, useState } from "react";
 import { METHOD_PHYSICS, RATE_LIMITER_LABEL, RATE_LIMITER_NOTE } from "@/data/cooking/methodPhysics";
 import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
 import {
+  useEnvironmentalObservation,
+  type ElevationProvenance,
+} from "@/hooks/useEnvironmentalObservation";
+import {
   altitudeEffect,
   altitudeCriticalGap,
   REFERENCE_LOAD,
@@ -25,6 +29,14 @@ import {
 } from "@/lib/cooking/methodMetrics";
 import { cToF, fToC, slabCoreTime } from "@/lib/cooking/thermo";
 import { OvenConvectionCanvas } from "./OvenConvectionCanvas";
+
+/** How the elevation was obtained, in words a cook can weigh. */
+const PROVENANCE_LABEL: Readonly<Record<ElevationProvenance, string>> = {
+  gps: "device GPS",
+  dem: "an elevation model",
+  ip: "IP geolocation",
+  user: "you",
+};
 
 // ============================================================================
 // Shared primitives
@@ -495,9 +507,26 @@ export function ConditionsTab({
   optimalTemperatures?: Record<string, number>;
 }) {
   const { physics, methodId } = metrics;
-  const [elevationM, setElevationM] = useState<number>(0);
 
-  const altitude = useMemo(() => altitudeEffect(methodId, elevationM), [methodId, elevationM]);
+  // Live telemetry, or null when the flag is off / disconnected / no row yet.
+  // Null means "we do not know where you are" — NOT sea level.
+  const live = useEnvironmentalObservation();
+
+  // A manual pick always wins over the live reading; `null` means "follow live
+  // if there is one". The user can leave the live reading by tapping a preset
+  // and return to it with the Live chip, so the app never traps them on a
+  // location a coarse IP lookup guessed for them.
+  const [manualElevationM, setManualElevationM] = useState<number | null>(null);
+  const usingLive = manualElevationM === null && live !== null;
+  const elevationM = manualElevationM ?? live?.elevationM ?? 0;
+  // Only a live reading carries a barometer. A manual preset is an elevation
+  // and nothing more, so it must fall back to the ISA model.
+  const stationPressureKpa = usingLive ? (live?.stationPressureKpa ?? undefined) : undefined;
+
+  const altitude = useMemo(
+    () => altitudeEffect(methodId, elevationM, stationPressureKpa),
+    [methodId, elevationM, stationPressureKpa],
+  );
   const criticalGap = useMemo(
     () => altitudeCriticalGap(methodId, elevationM),
     [methodId, elevationM],
@@ -580,16 +609,32 @@ export function ConditionsTab({
         tone="cool"
       >
         <div className="mb-3 flex flex-wrap gap-1.5">
+          {live && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setManualElevationM(null);
+              }}
+              className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-colors ${
+                usingLive
+                  ? "bg-emerald-500/20 text-emerald-200 ring-1 ring-emerald-400/40"
+                  : "text-gray-500 hover:bg-white/5 hover:text-gray-300"
+              }`}
+            >
+              ● Live {live.elevationM.toFixed(0)} m
+            </button>
+          )}
           {ELEVATION_PRESETS.map(({ m, label }) => (
             <button
               key={m}
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setElevationM(m);
+                setManualElevationM(m);
               }}
               className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-colors ${
-                elevationM === m
+                !usingLive && elevationM === m
                   ? "bg-sky-500/20 text-sky-200 ring-1 ring-sky-400/40"
                   : "text-gray-500 hover:bg-white/5 hover:text-gray-300"
               }`}
@@ -598,6 +643,52 @@ export function ConditionsTab({
             </button>
           ))}
         </div>
+
+        {/* An elevation is only as good as how it was obtained. IP geolocation
+            resolves to a city centroid — in mountain terrain that is not an
+            error bar but a systematic offset, and at ~0.34 °C per 100 m it is
+            large enough to change what a cook should actually do. Saying which
+            source produced the number is cheaper than quietly printing a
+            confident boiling point derived from a guess. */}
+        {usingLive && (
+          <div
+            className={`mb-3 rounded-lg border p-2.5 text-[11px] leading-snug ${
+              live.elevationTrustworthy
+                ? "border-emerald-400/20 bg-emerald-500/5 text-gray-400"
+                : "border-amber-400/25 bg-amber-500/5 text-gray-300"
+            }`}
+          >
+            {live.elevationTrustworthy ? (
+              <>
+                Elevation from{" "}
+                <span className="font-semibold text-emerald-200">
+                  {PROVENANCE_LABEL[live.elevationProvenance]}
+                </span>
+                {" · ±"}
+                {live.elevationErrorM} m
+                {live.stationPressureKpa !== null && (
+                  <>
+                    {" · barometer "}
+                    <span className="font-semibold text-emerald-200">
+                      {live.stationPressureKpa.toFixed(1)} kPa
+                    </span>{" "}
+                    (measured, not modelled)
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                This elevation came from{" "}
+                <span className="font-semibold text-amber-200">
+                  {PROVENANCE_LABEL[live.elevationProvenance]}
+                </span>
+                , which resolves to a city centroid and can be off by a kilometre
+                or more in hilly terrain — roughly 3 °C of boiling point. Treat
+                the numbers below as approximate, or pick a preset you know.
+              </>
+            )}
+          </div>
+        )}
 
         {altitude && (
           <>
@@ -698,6 +789,29 @@ export function ConditionsTab({
               </div>
             )}
 
+            {/* The measurement was past the Antoine correlation's validity, so
+                the number above is a FLOOR. This happens in two unrelated
+                situations that share one cause — pressure above 101.325 kPa:
+                a strong high-pressure system, and any elevation below −3.98 m
+                (Death Valley, the Turfan Depression, the Dead Sea shore). The
+                alternative to saying this is printing sea level as though it
+                were measured. */}
+            {altitude.localizedMedium.pressureClamped && (
+              <div className="mt-3 rounded-lg border border-amber-400/25 bg-amber-500/5 p-3">
+                <div className="text-[10px] font-semibold uppercase tracking-wide text-amber-300">
+                  Above this library&rsquo;s pressure range — shown as sea level
+                </div>
+                <div className="mt-1 text-[11px] leading-snug text-gray-400">
+                  Local pressure here is above one atmosphere, so water actually
+                  boils a little <em>hotter</em> than the {altitude.boilingF.toFixed(0)}°F shown.
+                  The Antoine correlation behind these numbers is only valid to
+                  101.325 kPa, so the readout is capped there rather than
+                  extrapolated. The gap is under 0.5 °C in ordinary high pressure
+                  and up to about 1.7 °C at the lowest inhabited places on Earth.
+                </div>
+              </div>
+            )}
+
             {altitude.localizedMedium.uncomputableReason && (
               <div className="mt-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
                 <div className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
@@ -714,8 +828,35 @@ export function ConditionsTab({
         )}
       </Panel>
 
-      {/* Humidity */}
+      {/* Humidity
+          ⚠️ GUARDRAIL — this is where live humidity stops.
+          `ambientTempC` and `relativeHumidityPct` reach this panel's TEXT and
+          go no further. They are deliberately not passed to
+          `OvenConvectionCanvas`: that engine solves buoyancy, drag and Newton
+          cooling, and not one of those terms takes a humidity argument. Feeding
+          humidity into a particle velocity would make the canvas *look*
+          responsive to the room while meaning nothing — a fabricated behaviour
+          wearing the costume of physics. If humidity is ever to move a
+          particle, it earns that by first appearing in the thermo-core
+          equations with a citation and a golden vector. */}
       <Panel title="Humidity" subtitle="The variable most kitchens never think about, and several methods are ruled by.">
+        {usingLive && (
+          <div className="mb-2.5 flex flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-emerald-400/20 bg-emerald-500/5 px-3 py-2">
+            <span className="text-[10px] uppercase tracking-wide text-emerald-300">
+              ● In your kitchen now
+            </span>
+            <span className="text-[11px] text-gray-300">
+              <span className="font-semibold text-gray-100">
+                {cToF(live.ambientTempC).toFixed(0)}°F
+              </span>{" "}
+              air · {" "}
+              <span className="font-semibold text-gray-100">
+                {live.relativeHumidityPct.toFixed(0)}%
+              </span>{" "}
+              RH
+            </span>
+          </div>
+        )}
         <p className="text-[11px] leading-relaxed text-gray-400">{physics.humidityNote}</p>
       </Panel>
     </div>

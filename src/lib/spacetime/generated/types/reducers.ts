@@ -14,6 +14,7 @@ import CartRemoveItemReducer from "../cart_remove_item_reducer";
 import CartSetAsinReducer from "../cart_set_asin_reducer";
 import CartSetQuantityReducer from "../cart_set_quantity_reducer";
 import CartUpsertItemReducer from "../cart_upsert_item_reducer";
+import ClearEnvironmentalObservationReducer from "../clear_environmental_observation_reducer";
 import ClearMealPlanSlotReducer from "../clear_meal_plan_slot_reducer";
 import ClearMealPlanWeekReducer from "../clear_meal_plan_week_reducer";
 import CloseTableSessionReducer from "../close_table_session_reducer";
@@ -31,6 +32,7 @@ import SendTableChatMessageReducer from "../send_table_chat_message_reducer";
 import SetCommensalSessionStatusReducer from "../set_commensal_session_status_reducer";
 import SetMealPlanSlotLockedReducer from "../set_meal_plan_slot_locked_reducer";
 import SetTableChatMuteReducer from "../set_table_chat_mute_reducer";
+import UpsertEnvironmentalObservationReducer from "../upsert_environmental_observation_reducer";
 import UpsertMealPlanSlotReducer from "../upsert_meal_plan_slot_reducer";
 
 export type AddCuisineParams = __Infer<typeof AddCuisineReducer>;
@@ -41,6 +43,7 @@ export type CartRemoveItemParams = __Infer<typeof CartRemoveItemReducer>;
 export type CartSetAsinParams = __Infer<typeof CartSetAsinReducer>;
 export type CartSetQuantityParams = __Infer<typeof CartSetQuantityReducer>;
 export type CartUpsertItemParams = __Infer<typeof CartUpsertItemReducer>;
+export type ClearEnvironmentalObservationParams = __Infer<typeof ClearEnvironmentalObservationReducer>;
 export type ClearMealPlanSlotParams = __Infer<typeof ClearMealPlanSlotReducer>;
 export type ClearMealPlanWeekParams = __Infer<typeof ClearMealPlanWeekReducer>;
 export type CloseTableSessionParams = __Infer<typeof CloseTableSessionReducer>;
@@ -58,5 +61,6 @@ export type SendTableChatMessageParams = __Infer<typeof SendTableChatMessageRedu
 export type SetCommensalSessionStatusParams = __Infer<typeof SetCommensalSessionStatusReducer>;
 export type SetMealPlanSlotLockedParams = __Infer<typeof SetMealPlanSlotLockedReducer>;
 export type SetTableChatMuteParams = __Infer<typeof SetTableChatMuteReducer>;
+export type UpsertEnvironmentalObservationParams = __Infer<typeof UpsertEnvironmentalObservationReducer>;
 export type UpsertMealPlanSlotParams = __Infer<typeof UpsertMealPlanSlotReducer>;
 
