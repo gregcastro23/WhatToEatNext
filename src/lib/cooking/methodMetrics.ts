@@ -46,6 +46,8 @@ import {
 } from "@/data/cooking/cookwareMaterials";
 import {
   METHOD_PHYSICS,
+  mediumTracksWaterCeiling,
+  altitudeCriticalTemperatureC,
   type MethodPhysicsProfile,
   type RateLimiter,
   type AltitudeResponse,
@@ -72,6 +74,22 @@ export const REFERENCE_LOAD = {
 
 /** A medium must clear the target by this margin for the core time to be finite. */
 const REFERENCE_HEADROOM_C = 2;
+
+/**
+ * Smallest elevation correction worth reporting as a correction, K.
+ *
+ * `[MEASURED 2026-08-16]` Not a fudge factor — it exists because an exact
+ * comparison is wrong at sea level. Stull's Antoine coefficients put saturation
+ * at 101.325 kPa at 99.99683 °C rather than exactly 100 °C (a +0.04 % residual
+ * on the defining 760 mmHg, which `cookingThermo.test.ts` pins). So a strict
+ * `ceiling < nominal` test fires for a boiling pot AT SEA LEVEL, flagging a
+ * 3 mK "correction" and telling a cook on the coast that their elevation
+ * changed something.
+ *
+ * 0.1 K is comfortably above that residual and far below any difference a
+ * kitchen can express — it corresponds to about 30 m of elevation.
+ */
+const MEANINGFUL_CLAMP_C = 0.1;
 
 export interface ReferenceCookTime {
   result: SlabCookResult | null;
@@ -325,6 +343,132 @@ export interface AltitudeEffect {
   /** True only when the multipliers describe this method's own cooking time. */
   multipliersApply: boolean;
   note: string;
+  /**
+   * The method's own medium temperature AT THIS ELEVATION, and what that does
+   * to the reference cook time.
+   *
+   * `[MEASURED 2026-08-16]` This field exists because the panel used to
+   * contradict itself. `mediumC` is a fixed constant, so at Bogotá a card could
+   * print "Boiling · medium 212 °F" directly above "water boils at 196 °F here",
+   * and the headline "min to core" was computed at the sea-level medium
+   * regardless of where the user actually is. Measured understatement of the
+   * core time: boiling and steaming 8 % at Denver, 14 % at Bogotá, 20 % at
+   * La Paz; braising 1 / 6 / 12 %.
+   */
+  localizedMedium: LocalizedMedium;
+}
+
+/**
+ * A method's medium temperature corrected for elevation.
+ *
+ * Correction applies ONLY where the medium physically sits on water's
+ * vapour-pressure curve — see `mediumTracksWaterCeiling`. For a dry sear floor
+ * or an oil bath the medium is unchanged, and saying otherwise would invent a
+ * penalty rather than remove one.
+ */
+export interface LocalizedMedium {
+  /** Medium temperature at this elevation, °C. */
+  celsius: number;
+  fahrenheit: number;
+  /** True when elevation actually moved it. */
+  clamped: boolean;
+  /** Change from the nominal medium, K. ≤ 0. */
+  shiftC: number;
+  /** Reference core time at this elevation, or null where none is defined. */
+  coreMinutes: number | null;
+  /** Reference core time at sea level, for comparison. */
+  seaLevelCoreMinutes: number | null;
+  /** Fractional increase in core time, e.g. 0.14 for +14 %. Null when N/A. */
+  coreTimeIncrease: number | null;
+  /**
+   * Set when the medium is on a NON-water vapour-pressure curve and therefore
+   * does move with elevation, but not by an amount this library can compute.
+   *
+   * Distilling runs on ethanol's curve and cryogenic work on nitrogen's. We
+   * carry water's Antoine coefficients and nobody else's, so the honest output
+   * is a stated refusal rather than a number produced from the wrong curve.
+   */
+  uncomputableReason?: string;
+}
+
+/**
+ * A method's medium temperature and reference core time at a given elevation.
+ *
+ * The clamp is `min(nominal, localBoilingPoint)`, which is self-thresholding:
+ * a 95 °C braise liquid is untouched until roughly 1510 m, a 91 °C simmer until
+ * 2710 m and an 88 °C stew until 3610 m, because until then the ceiling is
+ * still above them. No per-method threshold table is needed or wanted — one
+ * would be a second thing to keep in step with the first.
+ */
+export function localizedMedium(methodId: string, elevationM: number): LocalizedMedium | null {
+  const physics = METHOD_PHYSICS[methodId];
+  if (!physics) return null;
+
+  const nominalC = physics.mediumC;
+  const seaLevelCoreMinutes = referenceCookTime(physics).result?.minutes ?? null;
+
+  const unchanged = (uncomputableReason?: string): LocalizedMedium => ({
+    celsius: nominalC,
+    fahrenheit: cToF(nominalC),
+    clamped: false,
+    shiftC: 0,
+    coreMinutes: seaLevelCoreMinutes,
+    seaLevelCoreMinutes,
+    coreTimeIncrease: seaLevelCoreMinutes === null ? null : 0,
+    ...(uncomputableReason ? { uncomputableReason } : {}),
+  });
+
+  if (physics.mediumKind === "non-aqueous-saturated") {
+    return unchanged(
+      "This medium sits on another substance's vapour-pressure curve — ethanol for distilling, " +
+        "nitrogen for cryogenic work. It does fall with elevation, but not by water's Antoine " +
+        "relation, which is the only one this library carries. Applying water's curve here would " +
+        "produce a confident number read off the wrong graph.",
+    );
+  }
+
+  if (!mediumTracksWaterCeiling(physics)) return unchanged();
+
+  const ceilingC = boilingPointCAtElevation(elevationM);
+  if (ceilingC >= nominalC - MEANINGFUL_CLAMP_C) return unchanged();
+
+  const coreMinutes = referenceCookTime({ ...physics, mediumC: ceilingC }).result?.minutes ?? null;
+
+  return {
+    celsius: ceilingC,
+    fahrenheit: cToF(ceilingC),
+    clamped: true,
+    shiftC: ceilingC - nominalC,
+    coreMinutes,
+    seaLevelCoreMinutes,
+    coreTimeIncrease:
+      coreMinutes === null || seaLevelCoreMinutes === null || seaLevelCoreMinutes === 0
+        ? null
+        : coreMinutes / seaLevelCoreMinutes - 1,
+  };
+}
+
+/**
+ * The temperature elevation acts on for this method, against the local ceiling.
+ *
+ * Exposed so a caller can explain WHY a method is penalised when its displayed
+ * medium did not move — tilt-skillet's sear floor stays at 424 °F while its
+ * covered braise liquid follows the ceiling down.
+ */
+export function altitudeCriticalGap(
+  methodId: string,
+  elevationM: number,
+): { criticalC: number; ceilingC: number; squeezed: boolean; differsFromMedium: boolean } | null {
+  const physics = METHOD_PHYSICS[methodId];
+  if (!physics) return null;
+  const criticalC = altitudeCriticalTemperatureC(physics);
+  const ceilingC = boilingPointCAtElevation(elevationM);
+  return {
+    criticalC,
+    ceilingC,
+    squeezed: ceilingC < criticalC,
+    differsFromMedium: criticalC !== physics.mediumC,
+  };
 }
 
 /**
@@ -363,6 +507,7 @@ export function altitudeEffect(methodId: string, elevationM: number): AltitudeEf
     response: physics.altitudeResponse,
     multipliersApply: physics.altitudeResponse === "penalised",
     note: physics.altitudeNote,
+    localizedMedium: localizedMedium(methodId, elevationM)!,
   };
 }
 

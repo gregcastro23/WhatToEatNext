@@ -62,6 +62,82 @@ export type RateLimiter =
  */
 export type AltitudeResponse = "penalised" | "compensated" | "accelerated" | "unaffected";
 
+/**
+ * What the medium temperature physically IS.
+ *
+ * This exists so that "does elevation move this number" stops being an opinion
+ * and becomes a consequence. Only a medium sitting on water's vapour-pressure
+ * curve tracks the local boiling point; everything else does not, and clamping
+ * it would invent a penalty.
+ *
+ * `[MEASURED 2026-08-16]` Without this, the clamp had to be applied per method
+ * by hand, and the obvious shortcut — "clamp everything marked `penalised`" —
+ * is wrong for the two-phase methods. `tilt_skillet` is marked `penalised` and
+ * carries `mediumC: 218` (a dry steel sear floor, hotter than water's ceiling at
+ * every elevation on Earth). A blanket clamp would have dropped its displayed
+ * medium from 424 °F to 196 °F at Bogotá and inflated its core time by 133 %,
+ * which is not a correction — it is a different, wrong number replacing a right
+ * one. See {@link MethodPhysicsProfile.altitudeCriticalC}.
+ */
+export type MediumKind =
+  /** Sits ON water's vapour-pressure curve. Tracks the local boiling point exactly. */
+  | "saturated-water"
+  /** Water-based but held BELOW the ceiling. Clamps only once the ceiling falls under it. */
+  | "aqueous-subboiling"
+  /** Held above ambient by design — the ceiling is restored or exceeded. */
+  | "pressurised-steam"
+  /** On a DIFFERENT substance's vapour-pressure curve (ethanol, nitrogen). Moves, but not on water's. */
+  | "non-aqueous-saturated"
+  /** Hot air. No liquid ceiling. */
+  | "dry-air"
+  /** Hot fat. Boils far above any culinary temperature. */
+  | "oil"
+  /** A hot solid surface — steel, stone, a plancha. */
+  | "solid-contact"
+  /** Radiant flux from a hot source; pressure-independent. */
+  | "radiant"
+  /** Room or chill temperature; no thermal medium worth naming. */
+  | "ambient";
+
+/** Media whose temperature is set by water's vapour-pressure curve. */
+const WATER_BOUND_KINDS: ReadonlySet<MediumKind> = new Set<MediumKind>([
+  "saturated-water",
+  "aqueous-subboiling",
+]);
+
+/**
+ * Does elevation move this method's DISPLAYED medium temperature?
+ *
+ * Deliberately narrower than {@link MethodPhysicsProfile.altitudeResponse}. A
+ * method can be genuinely altitude-penalised while its displayed medium does
+ * not move at all, because the penalty lands on a different phase — that is the
+ * whole point of the split.
+ */
+export function mediumTracksWaterCeiling(profile: MethodPhysicsProfile): boolean {
+  return WATER_BOUND_KINDS.has(profile.mediumKind);
+}
+
+/**
+ * The temperature elevation actually acts on for this method.
+ *
+ * Falls back to `mediumC` where the method has a single thermal phase. The
+ * override exists because several methods are altitude-sensitive at a
+ * temperature the card never shows:
+ *
+ *   `tilt_skillet`   shows 218 °C (the sear); the altitude penalty is on the
+ *                    covered braise liquid, near 95 °C.
+ *   `gelification`   shows 60 °C (the set); agar needs a genuine ~90 °C
+ *                    HYDRATION, and above ~2500 m the ceiling closes on it —
+ *                    a weak set at altitude is under-hydration, not under-dosing.
+ *
+ * Reading the penalty off `mediumC` for these gets the physics backwards in
+ * both directions at once: it clamps a number that does not move, and it misses
+ * the number that does.
+ */
+export function altitudeCriticalTemperatureC(profile: MethodPhysicsProfile): number {
+  return profile.altitudeCriticalC ?? profile.mediumC;
+}
+
 /** Fractional contribution of each transfer mode. Sums to 1. */
 export interface TransferModes {
   conduction: number;
@@ -131,6 +207,22 @@ export interface MethodPhysicsProfile {
    * altitude-SENSITIVE and altitude-COMPENSATING, and a boolean cannot say so.
    */
   altitudeResponse: AltitudeResponse;
+  /**
+   * What {@link mediumC} physically is — and therefore whether elevation moves it.
+   *
+   * Not redundant with {@link altitudeResponse}: this describes the number the
+   * card SHOWS, while `altitudeResponse` describes the method as a whole. They
+   * legitimately disagree for two-phase methods.
+   */
+  mediumKind: MediumKind;
+  /**
+   * The temperature elevation acts on, when it is NOT {@link mediumC}.
+   *
+   * Set this only for methods whose altitude sensitivity lives in a different
+   * thermal phase from the one displayed. Leave it undefined otherwise —
+   * `altitudeCriticalTemperatureC` falls back to `mediumC`.
+   */
+  altitudeCriticalC?: number;
   /** How ambient humidity changes this method. */
   humidityNote: string;
   /** The cookware property that matters most here. */
@@ -205,6 +297,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, COLLAGEN, FAT_RENDER, WATER_BOIL],
     altitudeResponse: "unaffected",
+    mediumKind: "dry-air",
     altitudeNote:
       "Oven air temperature is unaffected by altitude. What changes is the surface: the evaporative ceiling drops with the boiling point, so crusts set at a lower surface temperature and food dries faster in the thinner air.",
     humidityNote:
@@ -224,6 +317,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, STARCH_GEL, WATER_BOIL],
     altitudeResponse: "unaffected",
+    mediumKind: "oil",
     altitudeNote:
       "Oil temperature is set by the burner, not the atmosphere. But the moisture leaving the food boils at a lower temperature, so the crust sets sooner relative to the interior — thin at altitude, or the middle lags.",
     humidityNote:
@@ -243,6 +337,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, PROTEIN_DENAT, WATER_BOIL],
     altitudeResponse: "unaffected",
+    mediumKind: "oil",
     altitudeNote:
       "Effectively altitude-independent. Contact times are seconds, far too short for the interior to notice a shifted boiling point.",
     humidityNote:
@@ -262,6 +357,10 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, COLLAGEN, FAT_RENDER, WATER_BOIL],
     altitudeResponse: "penalised",
+    mediumKind: "solid-contact",
+    // The card shows `mediumC`, but elevation acts here instead:
+    // the covered braise liquid, not the 218 °C sear floor the card shows.
+    altitudeCriticalC: 95,
     altitudeNote:
       "The sear phase does not care; the covered braise phase does. Once the lid traps vapour, the liquid ceiling follows the local boiling point and the braise runs cooler and slower.",
     humidityNote:
@@ -283,6 +382,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, PROTEIN_DENAT, FAT_RENDER],
     altitudeResponse: "unaffected",
+    mediumKind: "radiant",
     altitudeNote:
       "Radiant flux is independent of pressure. Combustion is slightly less vigorous in thinner air, so a charcoal bed runs marginally cooler — a second-order effect.",
     humidityNote:
@@ -304,6 +404,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, WATER_BOIL],
     altitudeResponse: "unaffected",
+    mediumKind: "radiant",
     altitudeNote: "Radiant flux is pressure-independent. No meaningful altitude correction.",
     humidityNote:
       "Negligible. The flux is high enough to drive off surface water in seconds regardless of the cavity's humidity.",
@@ -323,6 +424,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "held",
     reactions: [PROTEIN_DENAT, COLLAGEN, FAT_RENDER],
     altitudeResponse: "unaffected",
+    mediumKind: "aqueous-subboiling",
     altitudeNote:
       "Below boiling everywhere on Earth, so the bath temperature is exactly what the controller says. The one method altitude leaves alone entirely.",
     humidityNote: "Sealed. Ambient humidity cannot reach the food.",
@@ -341,6 +443,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [STARCH_GEL, PECTIN, ENZYME_KILL, PROTEIN_DENAT, WATER_BOIL],
     altitudeResponse: "penalised",
+    mediumKind: "saturated-water",
     altitudeNote:
       "The definitive altitude-sensitive method. The medium temperature IS the boiling point, so it falls with elevation: 100 °C at sea level, 94.7 °C in Denver, 90.0 °C at 3000 m — roughly doubling softening times at 3000 m.",
     humidityNote: "Irrelevant. The food is immersed; ambient air never touches it.",
@@ -359,6 +462,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [STARCH_GEL, PECTIN, ENZYME_KILL, PROTEIN_DENAT],
     altitudeResponse: "penalised",
+    mediumKind: "saturated-water",
     altitudeNote:
       "Capped by the boiling point exactly as boiling is. The enormous h cannot compensate — you cannot drive heat with a temperature difference that no longer exists.",
     humidityNote: "Saturated by definition. This is the 100 % RH case.",
@@ -379,6 +483,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [COLLAGEN, PECTIN, FAT_RENDER, PROTEIN_DENAT],
     altitudeResponse: "penalised",
+    mediumKind: "aqueous-subboiling",
     altitudeNote:
       "The liquid ceiling drops with elevation, and collagen conversion is strongly time-at-temperature — so the loss compounds. Expect meaningfully longer holds at altitude, not merely proportionally longer.",
     humidityNote:
@@ -398,6 +503,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [PROTEIN_DENAT, ENZYME_KILL],
     altitudeResponse: "unaffected",
+    mediumKind: "aqueous-subboiling",
     altitudeNote:
       "The target sits 20–40 °C below boiling, so there is headroom at any habitable elevation. Above ~4000 m the window starts to narrow.",
     humidityNote: "Irrelevant — immersed.",
@@ -416,6 +522,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [COLLAGEN, STARCH_GEL, PECTIN, PROTEIN_DENAT],
     altitudeResponse: "penalised",
+    mediumKind: "aqueous-subboiling",
     altitudeNote:
       "A simmer is defined relative to boiling, so its absolute temperature falls with elevation. At 2500 m a simmer runs near 88 °C instead of 96 °C, and extractions slow accordingly.",
     humidityNote: "Irrelevant to the liquid; governs how fast an uncovered pot reduces.",
@@ -434,6 +541,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [COLLAGEN, PECTIN, STARCH_GEL],
     altitudeResponse: "compensated",
+    mediumKind: "pressurised-steam",
     altitudeNote:
       "The one method that FIXES altitude. Gauge pressure adds to whatever the ambient is, so a sealed cooker restores — and exceeds — the sea-level ceiling. This is why pressure cookers are standard equipment in high-altitude kitchens.",
     humidityNote: "Saturated and sealed.",
@@ -452,6 +560,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     moistureFlux: "into-food",
     reactions: [COLLAGEN, PECTIN, STARCH_GEL, FAT_RENDER],
     altitudeResponse: "penalised",
+    mediumKind: "aqueous-subboiling",
     altitudeNote:
       "Same ceiling as simmering, with the same compounding penalty on collagen conversion. Long cooks at altitude need genuinely more time, not a hotter burner.",
     humidityNote: "Governed by the lid, not the room.",
@@ -477,6 +586,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "ambient",
     altitudeNote: "No pressure dependence. Ionic crosslinking is unaffected by the atmosphere.",
     humidityNote: "No effect. The reaction happens inside a liquid bath.",
     equipmentPriority: "inertness",
@@ -498,6 +608,10 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Gellan set", onsetC: 80, note: "Low-acyl sets brittle, high-acyl sets elastic; blending the two is how texture is dialled in." },
     ],
     altitudeResponse: "penalised",
+    mediumKind: "aqueous-subboiling",
+    // The card shows `mediumC`, but elevation acts here instead:
+    // agar's hydration temperature, not the 60 °C set.
+    altitudeCriticalC: 90,
     altitudeNote:
       "Agar needs a genuine ~90 °C hydration. Above roughly 2500 m the boiling point approaches that threshold and full hydration becomes unreliable — a weak set at altitude is usually under-hydration, not under-dosing.",
     humidityNote: "No effect during setting; surface drying matters on the plate.",
@@ -519,6 +633,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Emulsion breaking", onsetC: 85, note: "Above ~85 °C egg proteins coagulate rather than emulsify — the reason hollandaise splits from overheating, not from over-whisking." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "aqueous-subboiling",
     altitudeNote: "No pressure dependence within the working range.",
     humidityNote: "No meaningful effect.",
     equipmentPriority: "spreading",
@@ -539,6 +654,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Glass transition", onsetC: -135, note: "Below roughly −135 °C water vitrifies rather than crystallising, which is the point of going cryogenic at all." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "non-aqueous-saturated",
     altitudeNote: "Nitrogen's boiling point shifts slightly with pressure; irrelevant against a 220 °C gradient.",
     humidityNote:
       "Highly relevant, and the opposite way round from cooking: ambient moisture frosts instantly onto cold surfaces and ruins clean release.",
@@ -562,6 +678,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Salt-driven selection", onsetC: 0, note: "2–5 % brine suppresses spoilage organisms while lactobacilli tolerate it. Salt, not heat, is the safety control here." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "ambient",
     altitudeNote:
       "No temperature dependence on pressure, but CO₂-producing ferments build headspace pressure faster against a lower ambient — vessels vent sooner at altitude.",
     humidityNote:
@@ -585,6 +702,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Pectin acid-firming", onsetC: 0, note: "Below pH 4.6 pectin resists softening — the reason a properly acid pickle stays crisp for months." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "ambient",
     altitudeNote:
       "Cold pickling is unaffected. Water-bath canning is a different matter entirely: process times must be extended at altitude because the ceiling drops.",
     humidityNote: "Irrelevant — submerged in brine.",
@@ -609,6 +727,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Collagen stall", onsetC: 70, note: "The famous plateau: evaporative cooling from the surface balances heat input, and the internal temperature stops climbing for hours. Wrapping breaks it by stopping evaporation." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "dry-air",
     altitudeNote:
       "Chamber temperature is set by the fire. Evaporation is faster in thinner air, so the stall arrives sooner and bites harder at altitude.",
     humidityNote:
@@ -632,6 +751,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Protein cross-linking", onsetC: 0, note: "Salt-induced restructuring firms the texture progressively — the difference between a two-week and a six-month ham." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "ambient",
     altitudeNote: "No pressure dependence. Drying is marginally faster in thinner air.",
     humidityNote:
       "The single most important variable. Dry-curing needs 70–80 % RH: too dry and the surface hardens into a case that traps moisture inside — case hardening, the classic failure — too damp and spoilage outruns the cure.",
@@ -654,6 +774,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Case hardening", onsetC: 0, note: "Too much heat too early seals the surface and traps water inside. The failure looks like dryness and is the opposite." },
     ],
     altitudeResponse: "accelerated",
+    mediumKind: "dry-air",
     altitudeNote:
       "Genuinely faster at altitude. Lower ambient pressure means a lower vapour-pressure barrier, so moisture leaves more readily — the same principle vacuum drying industrialises.",
     humidityNote:
@@ -677,6 +798,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Tannin extraction", onsetC: 85, note: "Astringent polyphenols come out fast above ~85 °C. This is why over-hot tea turns bitter while the same leaf at 75 °C does not." },
     ],
     altitudeResponse: "penalised",
+    mediumKind: "aqueous-subboiling",
     altitudeNote:
       "Water infusions are capped by the boiling point, so tea and stock extract measurably less at elevation. A pressure vessel or longer contact time restores it.",
     humidityNote: "No effect on a liquid infusion.",
@@ -699,6 +821,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Vacuum distillation", onsetC: 20, note: "Lowering pressure lowers every boiling point, so aromatics can be separated near room temperature without cooking them — how modern kitchens distil delicate flavours." },
     ],
     altitudeResponse: "penalised",
+    mediumKind: "non-aqueous-saturated",
     altitudeNote:
       "Every boiling point in the system falls together, so the separation between fractions narrows slightly and cut points must be re-found. Altitude is a mild continuous vacuum distillation.",
     humidityNote: "No effect on the still; affects condenser efficiency only marginally.",
@@ -721,6 +844,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
       { name: "Enzymatic tenderising", onsetC: 0, note: "Papain and bromelain cut protein aggressively but stay near the surface, and denature around 70 °C — so their effect ends the moment cooking starts." },
     ],
     altitudeResponse: "unaffected",
+    mediumKind: "ambient",
     altitudeNote: "No pressure dependence at ordinary elevations.",
     humidityNote: "Irrelevant — submerged.",
     equipmentPriority: "inertness",
