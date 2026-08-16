@@ -17,6 +17,13 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import type { KineticMetrics } from "@/calculations/kinetics";
+import {
+  ConditionsTab,
+  CookTimeExplorer,
+  EquipmentPhysicsPanel,
+  PhysicsTab,
+  ReactionsTab,
+} from "@/components/cooking-methods/MethodPhysicsPanels";
 import { CookingEquipmentPanel } from "@/components/CookingEquipmentPanel";
 import {
   ALCHEMICAL_PILLARS,
@@ -39,6 +46,7 @@ import {
   calculateMonica,
 } from "@/data/unified/alchemicalCalculations";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
+import { buildMethodMetrics } from "@/lib/cooking/methodMetrics";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -98,7 +106,23 @@ interface CategoryConfig {
   methods: Record<string, MethodData>;
 }
 
-type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions" | "recipes" | "equipment";
+/**
+ * Tab order encodes the editorial ruling behind this surface: physical
+ * behaviour first, alchemical quantities last and clearly labelled.
+ *
+ * The alchemical layer is not removed — it drives matching against the sky and
+ * is genuinely load-bearing — but it no longer sets, or appears alongside, any
+ * number a cook would act on. See `src/lib/cooking/thermo.ts` for what the old
+ * arrangement was producing.
+ */
+type ExpandedTab =
+  | "overview"
+  | "physics"
+  | "reactions"
+  | "conditions"
+  | "equipment"
+  | "alchemy"
+  | "recipes";
 
 interface CurrentMomentPayload {
   success: boolean;
@@ -181,10 +205,6 @@ const INTENT_OPTIONS: Array<{ key: UserIntent; label: string; icon: string }> = 
   { key: "flavorful", label: "Flavorful", icon: "🌿" },
 ];
 
-function toCelsius(fahrenheit: number): number {
-  return (fahrenheit - 32) * (5 / 9);
-}
-
 function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
@@ -216,6 +236,30 @@ function classifyMonica(monica: number | null): { label: string; color: string; 
   if (monica > 1) return { label: "Balanced", color: "text-green-700", bgColor: "bg-green-100", badgeColor: "bg-green-500" };
   if (monica > 0.5) return { label: "Stable", color: "text-blue-700", bgColor: "bg-blue-100", badgeColor: "bg-blue-500" };
   return { label: "Very Stable", color: "text-indigo-700", bgColor: "bg-indigo-100", badgeColor: "bg-indigo-500" };
+}
+
+/**
+ * Kalchm spans eight orders of magnitude across the method corpus
+ * (`[MEASURED 2026-08-16]` 8.6e-3 to 3.6e+5 on fallback ESMS, and past 9.5e+5
+ * on live sky data), because it is a ratio of terms of the form Sᔆ·Eᴱ/(Mᴹ·Suˢᵘ).
+ *
+ * Rendered with `.toFixed(3)` that produced "958634.963" — ten characters of
+ * false precision in a fixed-width card, which overflowed into the Monica cell
+ * beside it. Neither the digits nor the layout survived.
+ *
+ * Scientific notation past four digits keeps every magnitude legible at a
+ * constant width, and the log form is what actually carries meaning: Kalchm is
+ * an equilibrium constant, so ln K is the quantity that behaves additively.
+ */
+function formatKalchm(kalchm: number | null): { display: string; lnK: string | null } {
+  if (kalchm === null || !Number.isFinite(kalchm) || kalchm <= 0) {
+    return { display: "N/A", lnK: null };
+  }
+  const lnK = Math.log(kalchm);
+  if (kalchm >= 10000 || kalchm < 0.01) {
+    return { display: kalchm.toExponential(2), lnK: lnK.toFixed(2) };
+  }
+  return { display: kalchm.toFixed(3), lnK: lnK.toFixed(2) };
 }
 
 function getPillarColors(pillarId: number) {
@@ -570,6 +614,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       const kProfile = getKineticProfile(id, (method as any).kineticProfile);
       const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
+      // Physical behaviour — independent of everything above it. Null only when
+      // a method has no physics profile, which a coverage test forbids.
+      const physicsMetrics = buildMethodMetrics(id);
 
       const projHeat = currentMoment ? projectZScoreTarget(currentMoment.heat ?? 0.5, currentMoment.historicalContext?.metrics?.heat, "heat") : null;
       const projEntropy = currentMoment ? projectZScoreTarget(currentMoment.entropy ?? 0.5, currentMoment.historicalContext?.metrics?.entropy, "entropy") : null;
@@ -639,6 +686,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         kProfile,
         harmony,
         referenceProfile,
+        physicsMetrics,
         thermoAlignmentScore,
         kineticAlignmentScore,
       };
@@ -718,12 +766,13 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   }, [expandedTab, expandedMethod, loadAlignedRecipes]);
 
   const tabs: Array<{ key: ExpandedTab; label: string; icon: string }> = [
-    { key: "overview", label: "Overview", icon: "🔮" },
-    { key: "thermo", label: "Thermodynamics", icon: "🌡️" },
-    { key: "kinetics", label: "Kinetics", icon: "⚡" },
+    { key: "overview", label: "Overview", icon: "📋" },
+    { key: "physics", label: "Heat Transfer", icon: "🌡️" },
+    { key: "reactions", label: "Reactions", icon: "🧫" },
     { key: "conditions", label: "Conditions", icon: "🎯" },
+    { key: "equipment", label: "Equipment", icon: "🍳" },
+    { key: "alchemy", label: "Alchemy", icon: "🔮" },
     { key: "recipes", label: "Aligned Recipes", icon: "🍱" },
-    { key: "equipment", label: "Equipment", icon: "🛒" },
   ];
 
   const renderRecipesTab = (method: (typeof currentMethods)[0]) => (
@@ -775,7 +824,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // RENDER: Overview Tab
   // ============================================================================
   const renderOverviewTab = (method: (typeof currentMethods)[0]) => {
-    const { monicaClass: _monicaClass, kalchm, gregsEnergy, pillar, harmony } = method;
+    const { pillar, harmony, physicsMetrics: physics } = method;
     const pillarColors = pillar ? getPillarColors(pillar.id) : null;
 
     return (
@@ -813,61 +862,77 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             </div>
           </div>
 
-          {/* Key Metrics */}
+          {/* Physical character.
+              `[CHANGED 2026-08-16]` This card used to be "Transformation
+              Overview" — Kalchm, Greg's Energy and a volatility badge. Those
+              are correspondence quantities and now live in the Alchemy tab; the
+              headline card leads with what the method physically does. */}
           <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-300 mb-3">Transformation Overview</h4>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <div className="text-xs text-gray-500">Volatility</div>
-                <div className="mt-1"><VolatilityBadge monica={method.monica} /></div>
-              </div>
-              <div>
-                <div className="text-xs text-gray-500">Kalchm</div>
-                <div className="text-lg font-bold text-purple-700 mt-0.5">{kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(3) : "N/A"}</div>
-              </div>
-              <div>
-                <div className="text-xs text-gray-500">Greg&apos;s Energy</div>
-                <div className={`text-lg font-bold mt-0.5 ${gregsEnergy >= 0 ? "text-green-600" : "text-red-600"}`}>
-                  {gregsEnergy >= 0 ? "+" : ""}{gregsEnergy.toFixed(3)}
-                </div>
-              </div>
-              {pillar && (
+            <h4 className="text-sm font-bold text-gray-300 mb-3">Physical character</h4>
+            {physics ? (
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <div className="text-xs text-gray-500">Pillar</div>
-                  <span className={`inline-block mt-1 rounded-full px-2.5 py-0.5 text-xs font-bold ${pillarColors?.bg} ${pillarColors?.text}`}>
-                    #{pillar.id} {pillar.name}
-                  </span>
+                  <div className="text-xs text-gray-500">Paced by</div>
+                  <div className="mt-0.5 text-sm font-bold capitalize text-gray-200">
+                    {physics.rateLimiter.replace(/-/g, " ")}
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* ESMS Matrix */}
-        <div className="rounded-xl border border-purple-200 bg-transparent p-5 shadow-sm">
-          <h4 className="text-sm font-bold text-gray-300 mb-3">Alchemical Matrix (ESMS)</h4>
-          <div className="grid grid-cols-4 gap-3">
-            {[
-              { name: "Spirit", value: method.alchemicalProperties.Spirit, color: "bg-yellow-400", icon: "✨" },
-              { name: "Essence", value: method.alchemicalProperties.Essence, color: "bg-blue-400", icon: "💫" },
-              { name: "Matter", value: method.alchemicalProperties.Matter, color: "bg-green-500", icon: "🌿" },
-              { name: "Substance", value: method.alchemicalProperties.Substance, color: "bg-purple-400", icon: "🔮" },
-            ].map(({ name, value, color, icon }) => (
-              <div key={name} className="text-center">
-                <div className="text-lg">{icon}</div>
-                <div className="text-xs font-semibold text-gray-400 mt-1">{name}</div>
-                <div className="text-lg font-black text-gray-200">{value}</div>
-                <div className="mt-1 mx-auto h-1.5 w-12 bg-white/10 rounded-full overflow-hidden">
-                  <div className={`h-full ${color} rounded-full`} style={{ width: `${Math.min(100, ((value + 5) / 10) * 100)}%` }} />
+                <div>
+                  <div className="text-xs text-gray-500">Medium</div>
+                  <div className="mt-0.5 text-sm font-bold tabular-nums text-sky-300">
+                    {Math.round(physics.medium.fahrenheit)}°F
+                    <span className="ml-1 text-[11px] font-normal text-gray-500">
+                      {Math.round(physics.medium.celsius)}°C
+                    </span>
+                  </div>
                 </div>
+                <div>
+                  <div className="text-xs text-gray-500">Transfer coefficient</div>
+                  <div className="mt-0.5 text-sm font-bold tabular-nums text-amber-300">
+                    {physics.transfer ? (
+                      <>
+                        {physics.transfer.typical.toLocaleString()}
+                        <span className="ml-1 text-[11px] font-normal text-gray-500">W·m⁻²·K⁻¹</span>
+                      </>
+                    ) : (
+                      <span className="text-gray-500">not heat-limited</span>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500">Browning</div>
+                  <div className="mt-0.5 text-sm font-bold text-gray-200">
+                    {physics.browning.available ? "Reachable" : "Unreachable"}
+                  </div>
+                </div>
+                {physics.reference.result && (
+                  <div className="col-span-2 border-t border-white/5 pt-2">
+                    <div className="text-xs text-gray-500">
+                      25 mm slab, 5 °C → 60 °C core
+                    </div>
+                    <div className="mt-0.5 text-sm font-bold tabular-nums text-gray-200">
+                      {physics.reference.result.minutes.toFixed(0)} min
+                      {physics.reference.z !== null && (
+                        <span className="ml-2 font-mono text-[11px] font-normal text-gray-500">
+                          z = {physics.reference.z >= 0 ? "+" : ""}
+                          {physics.reference.z.toFixed(2)} vs comparable methods
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {pillar && (
+                  <div className="col-span-2">
+                    <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-bold ${pillarColors?.bg} ${pillarColors?.text}`}>
+                      Pillar #{pillar.id} {pillar.name}
+                    </span>
+                  </div>
+                )}
               </div>
-            ))}
+            ) : (
+              <p className="text-xs text-gray-500">No physics profile registered for this method.</p>
+            )}
           </div>
-          {method.pillar && (
-            <div className="mt-3 text-center text-xs text-gray-500">
-              Pillar Effects: {Object.entries(method.pillar.effects).map(([p, v]) => `${p} ${(v) > 0 ? "+" : ""}${v}`).join(", ")}
-            </div>
-          )}
         </div>
 
         {/* Details Grid */}
@@ -904,98 +969,185 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   };
 
   // ============================================================================
-  // RENDER: Thermodynamics Tab
+  // RENDER: Alchemy Tab
+  //
+  // Every metaphysical quantity on this surface lives here and nowhere else:
+  // ESMS, Kalchm, Monica, Greg's Energy, the P=IV analogue, planetary hours and
+  // lunar phases. They drive matching against the live sky and are genuinely
+  // load-bearing for that — they are simply not statements about heat, and are
+  // no longer presented next to numbers a cook would act on.
   // ============================================================================
-  const renderThermoTab = (method: (typeof currentMethods)[0]) => {
-    if (!method.thermodynamicProperties) return <p className="text-sm text-gray-500 py-8 text-center">No thermodynamic data available.</p>;
-    const { heat, entropy, reactivity } = method.thermodynamicProperties;
-    const { gregsEnergy, kalchm, monica, monicaClass } = method;
-    const metrics = [
-      { name: "Heat", value: heat, icon: "🔥", color: "bg-red-500", desc: "Active energy" },
-      { name: "Entropy", value: entropy, icon: "🌀", color: "bg-orange-500", desc: "System disorder" },
-      { name: "Reactivity", value: reactivity, icon: "⚡", color: "bg-pink-500", desc: "Change potential" },
-    ];
+  const renderAlchemyTab = (method: (typeof currentMethods)[0]) => {
+    const { gregsEnergy, kalchm, monica, monicaClass, kinetics, kProfile, optimalConditions } = method;
+    const thermo = method.thermodynamicProperties;
+    const kalchmFmt = formatKalchm(kalchm);
+    const metrics = thermo
+      ? [
+        { name: "Heat", value: thermo.heat, icon: "🔥", color: "bg-red-500", desc: "Active energy" },
+        { name: "Entropy", value: thermo.entropy, icon: "🌀", color: "bg-orange-500", desc: "System disorder" },
+        { name: "Reactivity", value: thermo.reactivity, icon: "⚡", color: "bg-pink-500", desc: "Change potential" },
+      ]
+      : [];
+
     return (
       <div className="space-y-4">
-        <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-          <h4 className="text-sm font-bold text-gray-300 mb-4">Heat · Entropy · Reactivity</h4>
-          <div className="space-y-3">
-            {metrics.map(({ name, value, icon, color, desc }) => (
-              <div key={name} className="flex items-center gap-3">
-                <span className="text-xl w-8 text-center">{icon}</span>
-                <div className="w-20">
-                  <div className="text-sm font-bold text-gray-300">{name}</div>
-                  <div className="text-[10px] text-gray-400">{desc}</div>
-                </div>
-                <div className="flex-1">
-                  <div className="relative h-5 bg-white/10 rounded-full overflow-hidden">
-                    <div className={`h-full ${color} transition-all duration-500 rounded-full`} style={{ width: `${value * 100}%` }} />
-                    <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white mix-blend-difference">{(value * 100).toFixed(0)}%</span>
-                  </div>
-                </div>
-                <div className="w-14 text-right text-sm font-semibold text-gray-400">{value.toFixed(3)}</div>
-              </div>
-            ))}
-          </div>
+        {/* Standing disclaimer — the sequestration only works if it is stated. */}
+        <div className="rounded-xl border border-violet-400/25 bg-violet-500/[0.06] p-4">
+          <h4 className="text-sm font-bold text-violet-200">Alchemical layer</h4>
+          <p className="mt-1 text-[11px] leading-relaxed text-gray-400">
+            These are dimensionless correspondence quantities derived from the live planetary positions and
+            the method&apos;s alchemical pillar. They rank how a method resonates with the current sky, which
+            is what drives recommendation order. They are <strong className="text-gray-300">not</strong>{" "}
+            thermodynamic measurements and set no temperature, time or equipment choice — those live in the
+            Heat Transfer and Conditions tabs, from published physics.
+          </p>
         </div>
 
+        {metrics.length > 0 && (
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-sm font-bold text-gray-300 mb-1">Heat · Entropy · Reactivity</h4>
+            <p className="mb-4 text-[11px] text-gray-500">
+              Elemental scalars on a 0–1 scale, not calories or joules.
+            </p>
+            <div className="space-y-3">
+              {metrics.map(({ name, value, icon, color, desc }) => (
+                <div key={name} className="flex items-center gap-3">
+                  <span className="text-xl w-8 text-center">{icon}</span>
+                  <div className="w-20">
+                    <div className="text-sm font-bold text-gray-300">{name}</div>
+                    <div className="text-[10px] text-gray-400">{desc}</div>
+                  </div>
+                  <div className="flex-1">
+                    {/* The label sits OUTSIDE the track. Centring it over the
+                        full track put the glyphs half on the fill and half off
+                        it, so at 55 % the "%" appeared to fall out of the bar. */}
+                    <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
+                      <div className={`h-full ${color} transition-all duration-500 rounded-full`} style={{ width: `${Math.max(0, Math.min(100, value * 100))}%` }} />
+                    </div>
+                  </div>
+                  <div className="w-20 text-right text-sm font-semibold tabular-nums text-gray-400">
+                    {value.toFixed(3)}
+                    <span className="ml-1 text-[10px] text-gray-600">{(value * 100).toFixed(0)}%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Derived Metrics */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center">
             <div className="text-xs text-gray-500 mb-1">Greg&apos;s Energy</div>
-            <div className={`text-2xl font-black ${gregsEnergy >= 0 ? "text-green-600" : "text-red-600"}`}>
+            <div className={`text-2xl font-black tabular-nums ${gregsEnergy >= 0 ? "text-green-500" : "text-red-500"}`}>
               {gregsEnergy >= 0 ? "+" : ""}{gregsEnergy.toFixed(3)}
             </div>
-            <div className="text-[10px] text-gray-400 mt-1">H - (S × R)</div>
+            <div className="text-[10px] text-gray-400 mt-1">H − (S × R)</div>
           </div>
-          <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center">
+          <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center overflow-hidden">
             <div className="text-xs text-gray-500 mb-1">Kalchm</div>
-            <div className="text-2xl font-black text-purple-600">{kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(3) : "N/A"}</div>
-            <div className="text-[10px] text-gray-400 mt-1">Equilibrium K</div>
+            <div className="text-2xl font-black tabular-nums text-purple-400 break-all">{kalchmFmt.display}</div>
+            <div className="text-[10px] text-gray-400 mt-1">
+              Equilibrium K{kalchmFmt.lnK !== null && <> · ln K = {kalchmFmt.lnK}</>}
+            </div>
           </div>
           <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center">
             <div className="text-xs text-gray-500 mb-1">Monica</div>
-            <div className={`text-xl font-black ${monicaClass.color}`}>
+            <div className={`text-xl font-black tabular-nums ${monicaClass.color}`}>
               {monica !== null && !isNaN(monica) ? monica.toFixed(3) : "N/A"}
             </div>
             <div className="mt-1"><VolatilityBadge monica={monica} /></div>
           </div>
         </div>
-      </div>
-    );
-  };
 
-  // ============================================================================
-  // RENDER: Kinetics Tab
-  // ============================================================================
-  const renderKineticsTab = (method: (typeof currentMethods)[0]) => {
-    const { kinetics, kProfile } = method;
+        {/* ESMS */}
+        <div className="rounded-xl border border-purple-400/25 bg-transparent p-5 shadow-sm">
+          <h4 className="text-sm font-bold text-gray-300 mb-3">Alchemical Matrix (ESMS)</h4>
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { name: "Spirit", value: method.alchemicalProperties.Spirit, color: "bg-yellow-400", icon: "✨" },
+              { name: "Essence", value: method.alchemicalProperties.Essence, color: "bg-blue-400", icon: "💫" },
+              { name: "Matter", value: method.alchemicalProperties.Matter, color: "bg-green-500", icon: "🌿" },
+              { name: "Substance", value: method.alchemicalProperties.Substance, color: "bg-purple-400", icon: "🔮" },
+            ].map(({ name, value, color, icon }) => (
+              <div key={name} className="text-center">
+                <div className="text-lg">{icon}</div>
+                <div className="text-xs font-semibold text-gray-400 mt-1">{name}</div>
+                <div className="text-lg font-black tabular-nums text-gray-200">{value.toFixed(2)}</div>
+                <div className="mt-1 mx-auto h-1.5 w-12 bg-white/10 rounded-full overflow-hidden">
+                  <div className={`h-full ${color} rounded-full`} style={{ width: `${Math.max(0, Math.min(100, ((value + 5) / 10) * 100))}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          {method.pillar && (
+            <div className="mt-3 text-center text-xs text-gray-500">
+              Pillar Effects: {Object.entries(method.pillar.effects).map(([p, v]) => `${p} ${(v) > 0 ? "+" : ""}${v}`).join(", ")}
+            </div>
+          )}
+        </div>
 
-    return (
-      <div className="space-y-4">
+        {/* Celestial timing — sequestered here, away from the physical conditions. */}
+        {optimalConditions && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+              <div className="text-xs font-bold text-gray-300 mb-2">Best Planetary Hours</div>
+              <div className="flex flex-wrap gap-1.5">
+                {optimalConditions.planetaryHours.map((p) => (
+                  <span key={p} className="rounded-md bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-300 border border-amber-400/25">{p}</span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+              <div className="text-xs font-bold text-gray-300 mb-2">Lunar Phases</div>
+              <div className="flex flex-wrap gap-1.5">
+                {optimalConditions.lunarPhases.map((ph) => (
+                  <span key={ph} className="rounded-md bg-indigo-500/10 px-2.5 py-1 text-xs font-medium text-indigo-300 border border-indigo-400/25">{ph.replace("_", " ")}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {method.pillar && (
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-xs font-bold text-gray-300 mb-2">Pillar #{method.pillar.id} · {method.pillar.name}</h4>
+            <p className="text-xs text-gray-400">{method.pillar.description}</p>
+            <div className="mt-2 flex flex-wrap gap-3 text-xs text-gray-500">
+              {method.pillar.planetaryAssociations && <span>Planets: {method.pillar.planetaryAssociations.join(", ")}</span>}
+              {method.pillar.tarotAssociations && <span>Tarot: {method.pillar.tarotAssociations.join(", ")}</span>}
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Rendered only when the method has a registered kinetic profile.
-              The lookup used to substitute six 0.50 midpoints on a miss, so this
-              panel would display a full circuit readout for a method the
-              registry knows nothing about. Absent is now absent. */}
           {kProfile && (
             <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-              <h4 className="text-sm font-bold text-gray-300 mb-3">P=IV Circuit Profile</h4>
+              <h4 className="text-sm font-bold text-gray-300 mb-1">Circuit analogue — method profile</h4>
+              {/* `[FIXED 2026-08-16]` These six were labelled "Voltage / Current /
+                  Resistance" in volts, amps and ohms next to a panel labelling
+                  DIFFERENT numbers with the same units — the profile inputs and
+                  the sky-modulated outputs both claimed to be "V" and "I", and
+                  disagreed (0.95 vs 0.705). They are dimensionless 0–1 weights
+                  in an electrical ANALOGY, and are now named as such. */}
+              <p className="mb-3 text-[11px] text-gray-500">
+                Dimensionless 0–1 weights, not volts or amps. Real heat transfer is in the Heat Transfer tab.
+              </p>
               <div className="flex justify-center">
                 <KineticRadar profile={kProfile} size={180} />
               </div>
               <div className="mt-3 grid grid-cols-3 gap-2 text-center">
                 {[
-                  { label: "Voltage", value: kProfile.voltage, unit: "V" },
-                  { label: "Current", value: kProfile.current, unit: "I" },
-                  { label: "Resistance", value: kProfile.resistance, unit: "R" },
-                  { label: "Velocity", value: kProfile.velocityFactor, unit: "v" },
-                  { label: "Momentum", value: kProfile.momentumRetention, unit: "p" },
-                  { label: "Force", value: kProfile.forceImpact, unit: "F" },
-                ].map(({ label, value, unit }) => (
+                  { label: "Drive", value: kProfile.voltage },
+                  { label: "Transfer", value: kProfile.current },
+                  { label: "Impedance", value: kProfile.resistance },
+                  { label: "Velocity", value: kProfile.velocityFactor },
+                  { label: "Carry-over", value: kProfile.momentumRetention },
+                  { label: "Structural", value: kProfile.forceImpact },
+                ].map(({ label, value }) => (
                   <div key={label} className="text-xs">
-                    <div className="text-gray-400">{label}</div>
-                    <div className="font-bold text-gray-300">{value.toFixed(2)} <span className="text-gray-400 text-[10px]">{unit}</span></div>
+                    <div className="text-gray-500">{label}</div>
+                    <div className="font-bold tabular-nums text-gray-300">{value.toFixed(2)}</div>
                   </div>
                 ))}
               </div>
@@ -1004,19 +1156,26 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
           {kinetics && (
             <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-              <h4 className="text-sm font-bold text-gray-300 mb-3">Computed Kinetics</h4>
+              <h4 className="text-sm font-bold text-gray-300 mb-1">Circuit analogue — sky-modulated</h4>
+              <p className="mb-3 text-[11px] text-gray-500">
+                The profile above after the live planetary positions act on it. Different quantities from the
+                profile, deliberately — that is what the modulation does.
+              </p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "Power (P=IV)", value: kinetics.power, color: "text-indigo-600" },
-                  { label: "Force Magnitude", value: kinetics.forceMagnitude, color: "text-pink-600" },
-                  { label: "Charge (Q)", value: kinetics.charge, color: "text-green-600" },
-                  { label: "Potential (V)", value: kinetics.potentialDifference, color: "text-blue-600" },
-                  { label: "Current (I)", value: kinetics.currentFlow, color: "text-amber-600" },
+                  // Labelled P = I·V·(1−R) because that is what the code computes
+                  // (`cookingMethodKinetics.ts`); it was captioned "P=IV", which
+                  // the resistance term makes false.
+                  { label: "Power  I·V·(1−R)", value: kinetics.power, color: "text-indigo-400" },
+                  { label: "Force magnitude", value: kinetics.forceMagnitude, color: "text-pink-400" },
+                  { label: "Charge", value: kinetics.charge, color: "text-green-400" },
+                  { label: "Drive (modulated)", value: kinetics.potentialDifference, color: "text-blue-400" },
+                  { label: "Transfer (modulated)", value: kinetics.currentFlow, color: "text-amber-400" },
                   { label: "Inertia", value: kinetics.inertia, color: "text-gray-400" },
                 ].map(({ label, value, color }) => (
                   <div key={label}>
-                    <div className="text-[10px] text-gray-400">{label}</div>
-                    <div className={`text-lg font-black ${color}`}>{value.toFixed(3)}</div>
+                    <div className="text-[10px] text-gray-500">{label}</div>
+                    <div className={`text-lg font-black tabular-nums ${color}`}>{value.toFixed(3)}</div>
                   </div>
                 ))}
               </div>
@@ -1079,104 +1238,91 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
   // ============================================================================
   // RENDER: Conditions Tab
+  //
+  // `[FIXED 2026-08-16]` This tab used to lead with a computed "optimal
+  // temperature" of `200 + heat × 300 + monicaAdjustment`, where `heat` is an
+  // elemental scalar and the adjustment is a step function of the Monica
+  // constant. Across all 26 servable methods that put 23 of them OUTSIDE the
+  // published envelope printed directly beneath it — cryogenic cooking at
+  // +240 °F against a −321…32 °F envelope, fermentation at +285 °F against
+  // 55–95 °F. The envelope, the per-ingredient targets and the environmental
+  // corrections are now the whole tab; nothing alchemical sets a temperature.
+  // Reproduce the old behaviour with `scripts/audit-cooking-method-physics.ts`.
   // ============================================================================
   const renderConditionsTab = (method: (typeof currentMethods)[0]) => {
     const reference = method.referenceProfile as MethodPhysicalReference | undefined;
-    const hasCalculatedConditions = Boolean(method.optimalConditions);
-    const { temperature, timing, planetaryHours, lunarPhases } = method.optimalConditions || {
-      temperature: null,
-      timing: null,
-      planetaryHours: [],
-      lunarPhases: [],
-    };
-    const temperatureF = typeof temperature === "number" ? temperature : 0;
-    const mods = method.monicaModifiers as any;
+    if (!method.physicsMetrics) {
+      return (
+        <p className="py-8 text-center text-sm text-gray-500">
+          No physics profile registered for this method.
+        </p>
+      );
+    }
     return (
-      <div className="space-y-4">
-        {hasCalculatedConditions ? (
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm text-center">
-              <div className="text-xs text-gray-500 mb-1">Temperature</div>
-              <div className="text-3xl font-black text-red-600">{temperatureF}°F</div>
-              <div className="text-sm text-gray-500">{Math.round(((temperatureF - 32) * 5) / 9)}°C</div>
-              {mods?.temperatureAdjustment !== 0 && (
-                <div className="mt-1 text-xs text-gray-400">Monica: {mods.temperatureAdjustment >= 0 ? "+" : ""}{mods.temperatureAdjustment.toFixed(0)}°F</div>
-              )}
-            </div>
-            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm text-center">
-              <div className="text-xs text-gray-500 mb-1">Timing</div>
-              <span className={`inline-block rounded-full px-4 py-2 text-sm font-bold ${timing === "quick" ? "bg-yellow-100 text-yellow-800"
-                : timing === "slow" ? "bg-blue-100 text-blue-800"
-                  : "bg-green-100 text-green-800"
-                }`}>{String(timing).toUpperCase()}</span>
-              {mods?.timingAdjustment !== 0 && (
-                <div className="mt-2 text-xs text-gray-400">Monica: {mods.timingAdjustment >= 0 ? "+" : ""}{mods.timingAdjustment.toFixed(0)} min</div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-xl border border-dashed border-white/10 bg-white/5 p-5 text-center text-sm text-gray-500">
-            Computed Monica conditions unavailable for this method; using canonical culinary reference ranges below.
-          </div>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {hasCalculatedConditions && (
-            <>
-              <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-                <div className="text-xs font-bold text-gray-300 mb-2">Best Planetary Hours</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {planetaryHours.map((p) => (
-                    <span key={p} className="rounded-md bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 border border-amber-200">{p}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-                <div className="text-xs font-bold text-gray-300 mb-2">Lunar Phases</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {lunarPhases.map((ph) => (
-                    <span key={ph} className="rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 border border-indigo-200">{ph.replace("_", " ")}</span>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-          {reference && (
-            <div className="rounded-xl border border-emerald-200 bg-transparent p-5 shadow-sm md:col-span-2">
-              <h4 className="text-xs font-bold text-gray-300 mb-3">Scientific Culinary Reference</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="rounded-lg bg-emerald-50 border border-emerald-100 p-3">
-                  <div className="text-[11px] font-semibold text-emerald-700 mb-1">Temperature Envelope</div>
-                  <div className="text-sm font-bold text-gray-200">
-                    {reference.temperatureF.low}-{reference.temperatureF.high}°F
-                    <span className="text-gray-500 font-medium"> ({Math.round(toCelsius(reference.temperatureF.low))}-{Math.round(toCelsius(reference.temperatureF.high))}°C)</span>
-                  </div>
-                  <div className="text-xs text-gray-400 mt-1">Ideal: {reference.temperatureF.ideal}°F ({Math.round(toCelsius(reference.temperatureF.ideal))}°C)</div>
-                  <div className="text-xs text-gray-500 mt-1">{reference.temperatureF.note}</div>
-                </div>
-                <div className="rounded-lg bg-sky-50 border border-sky-100 p-3">
-                  <div className="text-[11px] font-semibold text-sky-700 mb-1">Pressure Environment</div>
-                  <div className="text-sm font-bold text-gray-200 capitalize">{reference.pressure.mode}</div>
-                  <div className="text-xs text-gray-400 mt-1">Gauge: {reference.pressure.gaugePsi} psi</div>
-                  <div className="text-xs text-gray-400">Absolute: {reference.pressure.absoluteKPa} kPa</div>
-                  <div className="text-xs text-gray-500 mt-1">{reference.pressure.note}</div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        {method.pillar && (
-          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-            <h4 className="text-xs font-bold text-gray-300 mb-2">Pillar Details: #{method.pillar.id} {method.pillar.name}</h4>
-            <p className="text-xs text-gray-400">{method.pillar.description}</p>
-            <div className="mt-2 flex flex-wrap gap-3 text-xs text-gray-500">
-              {method.pillar.planetaryAssociations && <span>Planets: {method.pillar.planetaryAssociations.join(", ")}</span>}
-              {method.pillar.tarotAssociations && <span>Tarot: {method.pillar.tarotAssociations.join(", ")}</span>}
-            </div>
-          </div>
-        )}
-      </div>
+      <ConditionsTab
+        metrics={method.physicsMetrics}
+        reference={reference}
+        optimalTemperatures={(method as { optimalTemperatures?: Record<string, number> }).optimalTemperatures}
+      />
     );
   };
+
+  // ============================================================================
+  // RENDER: Heat Transfer, Reactions, Equipment
+  //
+  // All three read only from `src/lib/cooking/*`. A missing physics profile is
+  // reported as missing rather than filled with defaults — a coverage test
+  // (`cookingMethodPhysicsCoverage.test.ts`) asserts every servable method has
+  // one, so this branch means a genuine registry gap.
+  // ============================================================================
+  const renderMissingPhysics = (name: string) => (
+    <p className="py-8 text-center text-sm text-gray-500">
+      No physics profile registered for {name}.
+    </p>
+  );
+
+  const renderPhysicsTab = (method: (typeof currentMethods)[0]) =>
+    method.physicsMetrics ? (
+      <div className="space-y-4">
+        <PhysicsTab metrics={method.physicsMetrics} />
+        <CookTimeExplorer metrics={method.physicsMetrics} />
+      </div>
+    ) : (
+      renderMissingPhysics(method.name)
+    );
+
+  const renderReactionsTab = (method: (typeof currentMethods)[0]) =>
+    method.physicsMetrics ? (
+      <ReactionsTab
+        metrics={method.physicsMetrics}
+        reference={method.referenceProfile}
+      />
+    ) : (
+      renderMissingPhysics(method.name)
+    );
+
+  const renderEquipmentTab = (method: (typeof currentMethods)[0]) => (
+    <div className="space-y-4">
+      {method.physicsMetrics ? (
+        <EquipmentPhysicsPanel metrics={method.physicsMetrics} />
+      ) : (
+        renderMissingPhysics(method.name)
+      )}
+      {method.toolsRequired && method.toolsRequired.length > 0 && (
+        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 shadow-sm">
+          <h4 className="text-sm font-bold text-gray-200">Tools this method needs</h4>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {method.toolsRequired.map((tool, i) => (
+              <span key={i} className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-gray-300">
+                {tool}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+      <CookingEquipmentPanel methodKey={method.id} methodName={method.name} />
+    </div>
+  );
 
   // ============================================================================
   // RENDER: Compare Delta View
@@ -1483,27 +1629,44 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                       {method.shortDescription || method.description}
                     </p>
 
-                    {/* Key metrics row */}
+                    {/* Key metrics row.
+                        `[CHANGED 2026-08-16]` This row used to read
+                        "⚡ −12.92 · ⚙️ P=0.28 · 🌡️ 87% thermo · ⚡ 77% kinetic" —
+                        four alchemical scores in the most-read line on the card,
+                        two of them wearing physics units they do not have. It now
+                        leads with what the method physically does; the alchemical
+                        scores are one tab away, labelled as such. */}
                     <div className="mt-2.5 flex flex-wrap items-center gap-3">
                       <HarmonyRing value={method.harmony.harmonyIndex} size={40} />
                       <span className="text-xs text-gray-500">⏱️ {formatDuration(method)}</span>
-                      <span className={`text-xs font-semibold ${method.gregsEnergy >= 0 ? "text-green-600" : "text-red-500"}`}>
-                        ⚡ {method.gregsEnergy >= 0 ? "+" : ""}{method.gregsEnergy.toFixed(2)}
-                      </span>
-                      {method.kinetics && (
-                        <span className="text-xs font-semibold text-indigo-600">
-                          ⚙️ P={method.kinetics.power.toFixed(2)}
-                        </span>
-                      )}
-                      {method.thermoAlignmentScore !== null && method.thermoAlignmentScore !== undefined && (
-                        <span className="text-xs font-semibold text-rose-600">
-                          🌡️ {Math.round(method.thermoAlignmentScore)}% thermo
-                        </span>
-                      )}
-                      {method.kineticAlignmentScore !== null && method.kineticAlignmentScore !== undefined && (
-                        <span className="text-xs font-semibold text-cyan-700">
-                          ⚡ {Math.round(method.kineticAlignmentScore)}% kinetic
-                        </span>
+                      {method.physicsMetrics && (
+                        <>
+                          <span className="text-xs font-semibold text-sky-400">
+                            🌡️ {Math.round(method.physicsMetrics.medium.fahrenheit)}°F medium
+                          </span>
+                          {method.physicsMetrics.transfer && (
+                            <span
+                              className="text-xs font-semibold text-amber-400"
+                              title={method.physicsMetrics.transfer.regime}
+                            >
+                              ⇄ h={method.physicsMetrics.transfer.typical.toLocaleString()}
+                              {method.physicsMetrics.transfer.z !== null && (
+                                <span className="ml-1 font-normal text-gray-500">
+                                  z{method.physicsMetrics.transfer.z >= 0 ? "+" : ""}
+                                  {method.physicsMetrics.transfer.z.toFixed(1)}
+                                </span>
+                              )}
+                            </span>
+                          )}
+                          {method.physicsMetrics.reference.result && (
+                            <span className="text-xs font-semibold text-emerald-400">
+                              ◷ {method.physicsMetrics.reference.result.minutes.toFixed(0)} min to core
+                            </span>
+                          )}
+                          {method.physicsMetrics.browning.available && (
+                            <span className="text-xs font-semibold text-orange-400">🥖 browns</span>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
@@ -1536,13 +1699,12 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
                   {/* Tab content */}
                   {expandedTab === "overview" && renderOverviewTab(method)}
-                  {expandedTab === "thermo" && renderThermoTab(method)}
-                  {expandedTab === "kinetics" && renderKineticsTab(method)}
+                  {expandedTab === "physics" && renderPhysicsTab(method)}
+                  {expandedTab === "reactions" && renderReactionsTab(method)}
                   {expandedTab === "conditions" && renderConditionsTab(method)}
+                  {expandedTab === "equipment" && renderEquipmentTab(method)}
+                  {expandedTab === "alchemy" && renderAlchemyTab(method)}
                   {expandedTab === "recipes" && renderRecipesTab(method)}
-                  {expandedTab === "equipment" && (
-                    <CookingEquipmentPanel methodKey={method.id} methodName={method.name} />
-                  )}
                 </div>
               )}
 
