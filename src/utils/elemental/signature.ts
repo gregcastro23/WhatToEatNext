@@ -95,8 +95,29 @@ function buildShortLabel(
  * all-zero / negative vector falls back to an even 0.25 split (→ "balanced"),
  * which is also the SSR/first-paint state, keeping first render deterministic.
  */
+/**
+ * Accepted input: any four-channel elemental vector.
+ *
+ * ⚠️ Deliberately NOT `ElementalProperties` from `@/types/alchemy`, which
+ * carries an `[key: string]: number` index signature. This function reads
+ * exactly four named channels and never indexes by a computed key, so
+ * demanding that signature rejected perfectly valid callers — notably
+ * `@/types/celestial`'s `ElementalProperties`, which is structurally identical
+ * minus the indexer. Requiring a capability the body does not use is the
+ * constraint being wrong, not the caller.
+ *
+ * The four keys stay REQUIRED so a partial or misspelt vector is still a type
+ * error; only the indexer requirement is dropped.
+ */
+export interface ElementalVector {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+}
+
 export function elementalSignature(
-  props: ElementalProperties | null | undefined,
+  props: ElementalVector | null | undefined,
 ): ElementalSignature {
   const raw: Record<Element, number> = {
     Fire: channel(props?.Fire),

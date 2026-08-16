@@ -26,6 +26,15 @@ import {
 } from "@/components/cooking-methods/MethodPhysicsPanels";
 import { CookingEquipmentPanel } from "@/components/CookingEquipmentPanel";
 import {
+  Chip,
+  Divider,
+  ELEMENT_ACCENT,
+  elementAccent,
+  HarmonyRing,
+  InstrumentLabel,
+  Readout,
+} from "@/components/recommendations/instrument";
+import {
   ALCHEMICAL_PILLARS,
   calculateOptimalCookingConditions,
   calculatePillarMonicaModifiers,
@@ -57,6 +66,7 @@ import {
   calculateMethodSpecificKinetics,
   getKineticProfile,
 } from "@/utils/cookingMethodKinetics";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import { calculateMonicaOptimizationScore } from "@/utils/monicaKalchmCalculations";
 import {
@@ -228,14 +238,28 @@ function normalizePlanetaryPositions(contextPositions: Record<string, unknown> |
   return normalized;
 }
 
+/**
+ * Volatility band for the Monica constant.
+ *
+ * `[CHANGED]` These were `bg-red-100` / `text-red-700` pairs — Tailwind's
+ * light-mode ramp, which on `#07060B` rendered as bright pastel lozenges with
+ * near-black text. Each band is now a tinted border over a 10% wash of its own
+ * hue, which is the chip grammar used everywhere else on this surface.
+ */
 function classifyMonica(monica: number | null): { label: string; color: string; bgColor: string; badgeColor: string } {
-  if (monica === null || isNaN(monica)) return { label: "Undefined", color: "text-gray-500", bgColor: "bg-white/10", badgeColor: "bg-gray-400" };
-  if (monica > 10) return { label: "Highly Volatile", color: "text-red-700", bgColor: "bg-red-100", badgeColor: "bg-red-500" };
-  if (monica > 5) return { label: "Volatile", color: "text-orange-700", bgColor: "bg-orange-100", badgeColor: "bg-orange-500" };
-  if (monica > 2) return { label: "Transformative", color: "text-yellow-700", bgColor: "bg-yellow-100", badgeColor: "bg-yellow-500" };
-  if (monica > 1) return { label: "Balanced", color: "text-green-700", bgColor: "bg-green-100", badgeColor: "bg-green-500" };
-  if (monica > 0.5) return { label: "Stable", color: "text-blue-700", bgColor: "bg-blue-100", badgeColor: "bg-blue-500" };
-  return { label: "Very Stable", color: "text-indigo-700", bgColor: "bg-indigo-100", badgeColor: "bg-indigo-500" };
+  if (monica === null || isNaN(monica))
+    return { label: "Undefined", color: "text-alchm-fg-mute", bgColor: "border-alchm-line-hi bg-white/[0.03]", badgeColor: "bg-alchm-fg-faint" };
+  if (monica > 10)
+    return { label: "Highly Volatile", color: "text-red-300", bgColor: "border-red-400/35 bg-red-500/10", badgeColor: "bg-red-400" };
+  if (monica > 5)
+    return { label: "Volatile", color: "text-orange-300", bgColor: "border-orange-400/35 bg-orange-500/10", badgeColor: "bg-orange-400" };
+  if (monica > 2)
+    return { label: "Transformative", color: "text-amber-300", bgColor: "border-amber-400/35 bg-amber-500/10", badgeColor: "bg-amber-400" };
+  if (monica > 1)
+    return { label: "Balanced", color: "text-emerald-300", bgColor: "border-emerald-400/35 bg-emerald-500/10", badgeColor: "bg-emerald-400" };
+  if (monica > 0.5)
+    return { label: "Stable", color: "text-sky-300", bgColor: "border-sky-400/35 bg-sky-500/10", badgeColor: "bg-sky-400" };
+  return { label: "Very Stable", color: "text-indigo-300", bgColor: "border-indigo-400/35 bg-indigo-500/10", badgeColor: "bg-indigo-400" };
 }
 
 /**
@@ -262,39 +286,58 @@ function formatKalchm(kalchm: number | null): { display: string; lnK: string | n
   return { display: kalchm.toFixed(3), lnK: lnK.toFixed(2) };
 }
 
+/**
+ * Per-pillar accent.
+ *
+ * `[CHANGED]` The 14 entries were `bg-*-50` / `text-*-800` / `border-*-300` —
+ * fourteen pale chips on a near-black page. Each is now the same hue expressed
+ * as a 10% wash plus a 35% border, so the pillar identity survives without any
+ * surface going light. `accent` is unchanged: it is consumed as a raw SVG
+ * stroke, where it was already dark-safe.
+ */
 function getPillarColors(pillarId: number) {
   const map: Record<number, { bg: string; text: string; border: string; accent: string }> = {
-    1: { bg: "bg-blue-50", text: "text-blue-800", border: "border-blue-300", accent: "#3b82f6" },
-    2: { bg: "bg-cyan-50", text: "text-cyan-800", border: "border-cyan-300", accent: "#06b6d4" },
-    3: { bg: "bg-sky-50", text: "text-sky-800", border: "border-sky-300", accent: "#0ea5e9" },
-    4: { bg: "bg-indigo-50", text: "text-indigo-800", border: "border-indigo-300", accent: "#6366f1" },
-    5: { bg: "bg-purple-50", text: "text-purple-800", border: "border-purple-300", accent: "#a855f7" },
-    6: { bg: "bg-yellow-50", text: "text-yellow-800", border: "border-yellow-300", accent: "#eab308" },
-    7: { bg: "bg-red-50", text: "text-red-800", border: "border-red-300", accent: "#ef4444" },
-    8: { bg: "bg-green-50", text: "text-green-800", border: "border-green-300", accent: "#22c55e" },
-    9: { bg: "bg-teal-50", text: "text-teal-800", border: "border-teal-300", accent: "#14b8a6" },
-    10: { bg: "bg-orange-50", text: "text-orange-800", border: "border-orange-300", accent: "#f97316" },
-    11: { bg: "bg-pink-50", text: "text-pink-800", border: "border-pink-300", accent: "#ec4899" },
-    12: { bg: "bg-emerald-50", text: "text-emerald-800", border: "border-emerald-300", accent: "#10b981" },
-    13: { bg: "bg-violet-50", text: "text-violet-800", border: "border-violet-300", accent: "#8b5cf6" },
-    14: { bg: "bg-amber-50", text: "text-amber-800", border: "border-amber-300", accent: "#f59e0b" },
+    1: { bg: "bg-blue-500/10", text: "text-blue-300", border: "border-blue-400/35", accent: "#3b82f6" },
+    2: { bg: "bg-cyan-500/10", text: "text-cyan-300", border: "border-cyan-400/35", accent: "#06b6d4" },
+    3: { bg: "bg-sky-500/10", text: "text-sky-300", border: "border-sky-400/35", accent: "#0ea5e9" },
+    4: { bg: "bg-indigo-500/10", text: "text-indigo-300", border: "border-indigo-400/35", accent: "#6366f1" },
+    5: { bg: "bg-purple-500/10", text: "text-purple-300", border: "border-purple-400/35", accent: "#a855f7" },
+    6: { bg: "bg-yellow-500/10", text: "text-yellow-300", border: "border-yellow-400/35", accent: "#eab308" },
+    7: { bg: "bg-red-500/10", text: "text-red-300", border: "border-red-400/35", accent: "#ef4444" },
+    8: { bg: "bg-green-500/10", text: "text-green-300", border: "border-green-400/35", accent: "#22c55e" },
+    9: { bg: "bg-teal-500/10", text: "text-teal-300", border: "border-teal-400/35", accent: "#14b8a6" },
+    10: { bg: "bg-orange-500/10", text: "text-orange-300", border: "border-orange-400/35", accent: "#f97316" },
+    11: { bg: "bg-pink-500/10", text: "text-pink-300", border: "border-pink-400/35", accent: "#ec4899" },
+    12: { bg: "bg-emerald-500/10", text: "text-emerald-300", border: "border-emerald-400/35", accent: "#10b981" },
+    13: { bg: "bg-violet-500/10", text: "text-violet-300", border: "border-violet-400/35", accent: "#8b5cf6" },
+    14: { bg: "bg-amber-500/10", text: "text-amber-300", border: "border-amber-400/35", accent: "#f59e0b" },
   };
-  return map[pillarId] || { bg: "bg-white/5", text: "text-gray-200", border: "border-white/10", accent: "#6b7280" };
+  return map[pillarId] || { bg: "bg-white/[0.03]", text: "text-alchm-fg-dim", border: "border-alchm-line-hi", accent: "#6E6884" };
 }
 
 // ============================================================================
 // SVG Spider Chart — Elemental Quadrant Map
 // ============================================================================
 
+/**
+ * `[CHANGED]` Both charts drew their rings and spokes in `#e5e7eb` / `#d1d5db`
+ * — Tailwind's grey-200/300, chosen for a white page. On `#07060B` those are
+ * near-white, so the graticule out-shouted the data polygon it was meant to
+ * sit behind. Rings and spokes are now white at 8–14%, which is the same
+ * hairline weight the panels use, and the axis dots carry the colour.
+ */
+const CHART_RING = "rgba(255,255,255,0.14)";
+const CHART_SPOKE = "rgba(255,255,255,0.22)";
+
 function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number>; size?: number }) {
   const cx = size / 2;
   const cy = size / 2;
   const r = size * 0.38;
   const axes = [
-    { key: "Fire", label: "🔥", value: effect.Fire || 0, color: "#ef4444" },
-    { key: "Air", label: "💨", value: effect.Air || 0, color: "#38bdf8" },
-    { key: "Water", label: "💧", value: effect.Water || 0, color: "#3b82f6" },
-    { key: "Earth", label: "🌍", value: effect.Earth || 0, color: "#d97706" },
+    { key: "Fire", label: "🔥", value: effect.Fire || 0, color: ELEMENT_ACCENT.Fire },
+    { key: "Air", label: "💨", value: effect.Air || 0, color: ELEMENT_ACCENT.Air },
+    { key: "Water", label: "💧", value: effect.Water || 0, color: ELEMENT_ACCENT.Water },
+    { key: "Earth", label: "🌍", value: effect.Earth || 0, color: ELEMENT_ACCENT.Earth },
   ];
   const n = axes.length;
   const angleStep = (2 * Math.PI) / n;
@@ -304,8 +347,13 @@ function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number
     return {
       x: cx + r * a.value * Math.cos(angle),
       y: cy + r * a.value * Math.sin(angle),
-      lx: cx + (r + 14) * Math.cos(angle),
-      ly: cy + (r + 14) * Math.sin(angle),
+      // `[FIXED]` The label radius was a FIXED `r + 14`. At the 80 px size this
+      // chart is actually rendered at, r is 30.4, so labels landed at ±4.4 —
+      // outside the `0 0 80 80` viewBox on all four axes, and every one of them
+      // was clipped away. Measured in the DOM: x = -4.4 and 84.4, y = -4.4 and
+      // 84.4. Scaling the offset with the chart keeps them inside at any size.
+      lx: cx + (r + size * 0.09) * Math.cos(angle),
+      ly: cy + (r + size * 0.09) * Math.sin(angle),
       ...a,
     };
   });
@@ -314,7 +362,7 @@ function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number
   const rings = [0.25, 0.5, 0.75, 1.0];
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="drop-shadow-sm">
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible">
       {rings.map(ring => (
         <polygon
           key={ring}
@@ -322,20 +370,87 @@ function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number
             const angle = -Math.PI / 2 + i * angleStep;
             return `${cx + r * ring * Math.cos(angle)},${cy + r * ring * Math.sin(angle)}`;
           }).join(" ")}
-          fill="none" stroke="#e5e7eb" strokeWidth="0.5"
+          fill="none" stroke={CHART_RING} strokeWidth="0.5"
         />
       ))}
       {axes.map((_, i) => {
         const angle = -Math.PI / 2 + i * angleStep;
-        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.5" />;
+        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke={CHART_SPOKE} strokeWidth="0.5" />;
       })}
-      <polygon points={polygon} fill="rgba(99, 102, 241, 0.15)" stroke="#6366f1" strokeWidth="1.5" />
+      <polygon points={polygon} fill="rgba(192, 140, 255, 0.18)" stroke="#C08CFF" strokeWidth="1.5" />
       {points.map((p, i) => (
         <g key={i}>
           <circle cx={p.x} cy={p.y} r="3" fill={p.color} />
           <text x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" className="text-[10px]" fill={p.color}>{p.label}</text>
         </g>
       ))}
+    </svg>
+  );
+}
+
+/**
+ * Two elemental signatures on ONE graticule.
+ *
+ * The compare view previously drew two separate spiders side by side, which
+ * makes the reader estimate a difference across a gap — the one thing a shared
+ * axis exists to prevent. Solid trace is the left method, dashed is the right,
+ * matching the legend beneath it.
+ */
+const SPIDER_AXES = ["Fire", "Air", "Water", "Earth"] as const;
+
+function ElementalSpiderCompare({
+  a,
+  b,
+  accentA,
+  accentB,
+  size = 160,
+}: {
+  a: Record<string, number>;
+  b: Record<string, number>;
+  accentA: string;
+  accentB: string;
+  size?: number;
+}): React.ReactElement {
+  const cx = size / 2;
+  const cy = size / 2;
+  const r = size * 0.36;
+  const angleStep = (2 * Math.PI) / SPIDER_AXES.length;
+  const angleAt = (i: number) => -Math.PI / 2 + i * angleStep;
+
+  const trace = (effect: Record<string, number>) =>
+    SPIDER_AXES.map((key, i) => {
+      const value = effect[key] || 0;
+      return `${cx + r * value * Math.cos(angleAt(i))},${cy + r * value * Math.sin(angleAt(i))}`;
+    }).join(" ");
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label="Elemental signatures compared">
+      {[0.25, 0.5, 0.75, 1].map((ring) => (
+        <polygon
+          key={ring}
+          points={SPIDER_AXES.map((_, i) => `${cx + r * ring * Math.cos(angleAt(i))},${cy + r * ring * Math.sin(angleAt(i))}`).join(" ")}
+          fill="none"
+          stroke={CHART_RING}
+          strokeWidth="0.5"
+        />
+      ))}
+      {SPIDER_AXES.map((key, i) => (
+        <g key={key}>
+          <line x1={cx} y1={cy} x2={cx + r * Math.cos(angleAt(i))} y2={cy + r * Math.sin(angleAt(i))} stroke={CHART_SPOKE} strokeWidth="0.5" />
+          <text
+            x={cx + (r + 16) * Math.cos(angleAt(i))}
+            y={cy + (r + 16) * Math.sin(angleAt(i))}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill={ELEMENT_ACCENT[key]}
+            className="font-mono text-[9px] uppercase"
+          >
+            {key}
+          </text>
+        </g>
+      ))}
+      <polygon points={trace(a)} fill={`${accentA}22`} stroke={accentA} strokeWidth="1.5" />
+      <polygon points={trace(b)} fill="none" stroke={accentB} strokeWidth="1.5" strokeDasharray="4 2" />
     </svg>
   );
 }
@@ -383,49 +498,21 @@ function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; cur
             const angle = -Math.PI / 2 + i * angleStep;
             return `${cx + r * ring * Math.cos(angle)},${cy + r * ring * Math.sin(angle)}`;
           }).join(" ")}
-          fill="none" stroke="#e5e7eb" strokeWidth="0.5"
+          fill="none" stroke={CHART_RING} strokeWidth="0.5"
         />
       ))}
       {axes.map((_, i) => {
         const angle = -Math.PI / 2 + i * angleStep;
-        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.5" />;
+        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke={CHART_SPOKE} strokeWidth="0.5" />;
       })}
-      <polygon points={polygon} fill="rgba(139, 92, 246, 0.2)" stroke="#8b5cf6" strokeWidth="1.5" />
+      <polygon points={polygon} fill="rgba(192, 140, 255, 0.2)" stroke="#C08CFF" strokeWidth="1.5" />
       {points.map((p, i) => (
         <g key={i}>
-          <circle cx={p.x} cy={p.y} r="2.5" fill="#8b5cf6" />
-          <text x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" className="text-[8px] font-bold fill-gray-500">{p.label}</text>
+          <circle cx={p.x} cy={p.y} r="2.5" fill="#C08CFF" />
+          <text x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" className="fill-alchm-fg-mute text-[8px] font-bold">{p.label}</text>
         </g>
       ))}
     </svg>
-  );
-}
-
-// ============================================================================
-// Harmony Ring — circular progress indicator
-// ============================================================================
-
-function HarmonyRing({ value, size = 56 }: { value: number; size?: number }) {
-  const getColor = (v: number) => {
-    if (v >= 75) return "text-emerald-500";
-    if (v >= 60) return "text-green-500";
-    if (v >= 45) return "text-yellow-500";
-    if (v >= 30) return "text-orange-500";
-    return "text-red-500";
-  };
-  const r = 15.9;
-  return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <svg className="-rotate-90" viewBox="0 0 36 36" width={size} height={size}>
-        <circle cx="18" cy="18" r={r} fill="none" stroke="#f3f4f6" strokeWidth="2.5" />
-        <circle cx="18" cy="18" r={r} fill="none" stroke="currentColor" strokeWidth="2.5"
-          strokeDasharray={`${value} 100`} strokeLinecap="round"
-          className={getColor(value)} />
-      </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className={`text-sm font-black ${getColor(value)}`}>{Math.round(value)}%</span>
-      </div>
-    </div>
   );
 }
 
@@ -436,8 +523,10 @@ function HarmonyRing({ value, size = 56 }: { value: number; size?: number }) {
 function VolatilityBadge({ monica }: { monica: number | null }) {
   const cls = classifyMonica(monica);
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${cls.bgColor} ${cls.color}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${cls.badgeColor}`} />
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[10px] font-medium uppercase leading-none tracking-[0.08em] ${cls.bgColor} ${cls.color}`}
+    >
+      <span className={`h-1.5 w-1.5 rounded-full ${cls.badgeColor}`} />
       {cls.label}
     </span>
   );
@@ -938,27 +1027,27 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         {/* Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {method.suitable_for && method.suitable_for.length > 0 && (
-            <div className="rounded-xl border border-green-200 bg-transparent p-4 shadow-sm">
-              <h4 className="text-xs font-bold text-gray-300 mb-2">Suitable For</h4>
-              <div className="flex flex-wrap gap-1">
+            <div className="rounded-alchm border border-alchm-line bg-white/[0.02] p-4">
+              <InstrumentLabel>Suitable for</InstrumentLabel>
+              <div className="mt-2 flex flex-wrap gap-1">
                 {method.suitable_for.slice(0, 6).map((item, i) => (
-                  <span key={i} className="rounded-md bg-green-50 px-2 py-0.5 text-xs text-green-700">{item}</span>
+                  <span key={i} className="rounded-md border border-emerald-400/25 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-200">{item}</span>
                 ))}
               </div>
             </div>
           )}
           {method.benefits && method.benefits.length > 0 && (
-            <div className="rounded-xl border border-blue-200 bg-transparent p-4 shadow-sm">
-              <h4 className="text-xs font-bold text-gray-300 mb-2">Benefits</h4>
-              <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-400">
+            <div className="rounded-alchm border border-alchm-line bg-white/[0.02] p-4">
+              <InstrumentLabel>Benefits</InstrumentLabel>
+              <ul className="mt-2 list-inside list-disc space-y-0.5 text-xs text-alchm-fg-dim">
                 {method.benefits.slice(0, 3).map((b, i) => <li key={i}>{b}</li>)}
               </ul>
             </div>
           )}
           {method.expertTips && method.expertTips.length > 0 && (
-            <div className="rounded-xl border border-amber-200 bg-transparent p-4 shadow-sm">
-              <h4 className="text-xs font-bold text-gray-300 mb-2">Expert Tips</h4>
-              <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-400">
+            <div className="rounded-alchm border border-alchm-line bg-white/[0.02] p-4">
+              <InstrumentLabel>Expert tips</InstrumentLabel>
+              <ul className="mt-2 list-inside list-disc space-y-0.5 text-xs text-alchm-fg-dim">
                 {method.expertTips.slice(0, 2).map((t, i) => <li key={i}>{t}</li>)}
               </ul>
             </div>
@@ -1181,13 +1270,13 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               </div>
 
               <div className="mt-4 flex gap-3">
-                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${kinetics.forceClassification === "accelerating" ? "bg-green-100 text-green-700"
-                  : kinetics.forceClassification === "balanced" ? "bg-blue-100 text-blue-700"
-                    : "bg-orange-100 text-orange-700"
+                <span className={`rounded-full border px-2.5 py-1 text-xs font-bold ${kinetics.forceClassification === "accelerating" ? "border-emerald-400/35 bg-emerald-500/10 text-emerald-300"
+                  : kinetics.forceClassification === "balanced" ? "border-sky-400/35 bg-sky-500/10 text-sky-300"
+                    : "border-orange-400/35 bg-orange-500/10 text-orange-300"
                   }`}>{kinetics.forceClassification}</span>
-                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${kinetics.thermalDirection === "heating" ? "bg-red-100 text-red-700"
-                  : kinetics.thermalDirection === "cooling" ? "bg-blue-100 text-blue-700"
-                    : "bg-white/10 text-gray-300"
+                <span className={`rounded-full border px-2.5 py-1 text-xs font-bold ${kinetics.thermalDirection === "heating" ? "border-red-400/35 bg-red-500/10 text-red-300"
+                  : kinetics.thermalDirection === "cooling" ? "border-sky-400/35 bg-sky-500/10 text-sky-300"
+                    : "border-alchm-line-hi bg-white/[0.03] text-alchm-fg-dim"
                   }`}>
                   {kinetics.thermalDirection === "heating" ? "🔥" : kinetics.thermalDirection === "cooling" ? "❄️" : "➖"} {kinetics.thermalDirection}
                 </span>
@@ -1219,7 +1308,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                       ].map(({ label, value }) => (
                         <div key={label} className="flex items-center gap-1 text-[10px]">
                           <span className="text-gray-400 w-6">{label}</span>
-                          <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="flex-1 h-1 bg-white/[0.08] rounded-full overflow-hidden">
                             <div className={`h-full ${colors[el]} rounded-full`} style={{ width: `${Math.min(100, value * 200)}%` }} />
                           </div>
                           <span className="text-gray-500 w-8 text-right">{value.toFixed(2)}</span>
@@ -1330,67 +1419,185 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const renderCompareView = () => {
     if (!compareData) {
       return (
-        <div className="rounded-xl border-2 border-dashed border-indigo-200 p-8 text-center">
-          <p className="text-gray-500">Select exactly 2 methods to compare by clicking on their cards.</p>
-          <p className="text-xs text-gray-400 mt-1">Selected: {compareSelections.length}/2</p>
+        <div className="rounded-alchm border border-dashed border-alchm-line-hi bg-white/[0.02] p-8 text-center">
+          <p className="text-sm text-alchm-fg-dim">Select exactly two methods to compare by clicking their rows.</p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-alchm-fg-mute">
+            Selected {compareSelections.length}/2
+          </p>
         </div>
       );
     }
 
     const { a, b } = compareData;
 
-    const deltaRow = (label: string, aVal: number, bVal: number, fmt = (v: number) => v.toFixed(3)) => {
-      const diff = bVal - aVal;
+    /**
+     * One comparison row.
+     *
+     * ⚠️ NULL IS NOT ZERO HERE, AND IT USED TO BE.
+     *
+     * `[FIXED]` Every row was written `a.monica ?? 0` / `a.kalchm ?? 0` /
+     * `a.kinetics?.power ?? 0`. A method with no kinetic profile therefore
+     * rendered "0.000" — a real, readable, wrong measurement — and the delta
+     * column then subtracted the other method from that fabricated zero and
+     * printed the difference as though the comparison had been made. The `??`
+     * chain stops at the first non-nullish value, so an absent quantity became
+     * the most confident number in the row.
+     *
+     * Absence now propagates: either side missing renders an em dash on that
+     * side and suppresses the delta entirely, because there is no delta.
+     */
+    const deltaRow = (
+      label: string,
+      aVal: number | null | undefined,
+      bVal: number | null | undefined,
+      fmt: (v: number) => string = (v) => v.toFixed(3),
+      absentNote = "not registered",
+    ) => {
+      const aOk = typeof aVal === "number" && Number.isFinite(aVal);
+      const bOk = typeof bVal === "number" && Number.isFinite(bVal);
+      const diff = aOk && bOk ? bVal - aVal : null;
+
+      // ⚠️ The delta chip is deliberately ONE colour for every non-zero delta.
+      // A green/amber pair was tried and is wrong here: it reads as good/bad,
+      // and on the "to core" row a green +9 min would be asserting that slower
+      // is better. Whether faster is better is exactly what the Intent control
+      // above lets the cook decide — "Tender" wants the slow one. The sign
+      // carries the direction; the colour must not smuggle in a verdict.
+
       return (
-        <div className="flex items-center gap-3 py-2 border-b border-gray-100 last:border-0">
-          <span className="w-32 text-xs font-medium text-gray-400">{label}</span>
-          <span className="w-20 text-right text-sm font-bold text-gray-300">{fmt(aVal)}</span>
-          <span className={`w-20 text-center text-xs font-bold ${diff > 0 ? "text-green-600" : diff < 0 ? "text-red-600" : "text-gray-400"}`}>
-            {diff > 0 ? "+" : ""}{fmt(diff)}
+        <div key={label} className="grid grid-cols-[1fr_96px_1fr] items-center gap-3 border-b border-alchm-line py-2.5 last:border-0">
+          <span className="flex items-baseline justify-between gap-2">
+            <InstrumentLabel>{label}</InstrumentLabel>
+            <span className={`font-mono text-[13px] font-bold tabular-nums ${aOk ? "text-alchm-fg" : "text-alchm-fg-faint"}`}>
+              {aOk ? fmt(aVal) : "—"}
+            </span>
           </span>
-          <span className="w-20 text-right text-sm font-bold text-gray-300">{fmt(bVal)}</span>
+          <span className="text-center">
+            {diff === null ? (
+              <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-alchm-fg-faint">{absentNote}</span>
+            ) : (
+              <span
+                className={`inline-block rounded border px-2 py-0.5 font-mono text-[11px] font-bold tabular-nums ${diff === 0
+                  ? "border-transparent text-alchm-fg-mute"
+                  : "border-alchm-violet/30 bg-alchm-violet/10 text-alchm-violet-bright"
+                  }`}
+              >
+                {diff > 0 ? "+" : ""}{fmt(diff)}
+              </span>
+            )}
+          </span>
+          <span className="flex items-baseline justify-between gap-2">
+            <span className={`font-mono text-[13px] font-bold tabular-nums ${bOk ? "text-alchm-fg" : "text-alchm-fg-faint"}`}>
+              {bOk ? fmt(bVal) : "—"}
+            </span>
+            <InstrumentLabel>{label}</InstrumentLabel>
+          </span>
         </div>
       );
     };
 
+    /** Categorical rows have no arithmetic delta — they either match or they don't. */
+    const matchRow = (label: string, aText: string, bText: string) => (
+      <div key={label} className="grid grid-cols-[1fr_96px_1fr] items-center gap-3 border-b border-alchm-line py-2.5 last:border-0">
+        <span className="flex items-baseline justify-between gap-2">
+          <InstrumentLabel>{label}</InstrumentLabel>
+          <span className="font-mono text-[13px] font-bold capitalize text-alchm-fg">{aText}</span>
+        </span>
+        <span className="text-center font-mono text-[10px] uppercase tracking-[0.1em] text-alchm-fg-mute">
+          {aText === bText ? "same" : "differs"}
+        </span>
+        <span className="flex items-baseline justify-between gap-2">
+          <span className="font-mono text-[13px] font-bold capitalize text-alchm-fg">{bText}</span>
+          <InstrumentLabel>{label}</InstrumentLabel>
+        </span>
+      </div>
+    );
+
+    const accentA = elementAccent(elementalSignature(a.elementalEffect).dominant);
+    const accentB = elementAccent(elementalSignature(b.elementalEffect).dominant);
+
     return (
-      <div className="rounded-xl border border-indigo-200 bg-transparent p-6 shadow-lg space-y-4">
+      <div className="space-y-5 rounded-alchm border border-alchm-line bg-white/[0.02] p-5 backdrop-blur-xl md:p-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-gray-100">Delta View</h3>
-          <button onClick={() => { setCompareMode(false); setCompareSelections([]); }}
-            className="text-xs text-gray-400 hover:text-gray-400">Close Compare</button>
+          <InstrumentLabel>Delta view</InstrumentLabel>
+          <button
+            onClick={() => { setCompareMode(false); setCompareSelections([]); }}
+            className="font-mono text-[10px] uppercase tracking-[0.1em] text-alchm-fg-mute transition-colors hover:text-alchm-fg-dim"
+          >
+            Close compare
+          </button>
         </div>
 
-        {/* Headers */}
-        <div className="flex items-center gap-3 pb-2 border-b border-white/10">
-          <span className="w-32" />
-          <span className="w-20 text-right text-xs font-bold text-indigo-600 capitalize">{a.name}</span>
-          <span className="w-20 text-center text-xs font-bold text-gray-400">Δ Delta</span>
-          <span className="w-20 text-right text-xs font-bold text-indigo-600 capitalize">{b.name}</span>
-        </div>
-
-        {deltaRow("Harmony Index", a.harmony.harmonyIndex, b.harmony.harmonyIndex, v => `${Math.round(v)}%`)}
-        {deltaRow("Monica (Mᴄ)", a.monica ?? 0, b.monica ?? 0)}
-        {deltaRow("Greg's Energy", a.gregsEnergy, b.gregsEnergy)}
-        {deltaRow("Kalchm (K)", a.kalchm ?? 0, b.kalchm ?? 0)}
-        {deltaRow("Heat", a.thermodynamicProperties?.heat ?? 0, b.thermodynamicProperties?.heat ?? 0)}
-        {deltaRow("Entropy", a.thermodynamicProperties?.entropy ?? 0, b.thermodynamicProperties?.entropy ?? 0)}
-        {deltaRow("Reactivity", a.thermodynamicProperties?.reactivity ?? 0, b.thermodynamicProperties?.reactivity ?? 0)}
-        {deltaRow("Power (P=IV)", a.kinetics?.power ?? 0, b.kinetics?.power ?? 0)}
-
-        {/* Side-by-side Spider Charts */}
-        <div className="grid grid-cols-2 gap-4 pt-4">
-          <div className="text-center">
-            <h4 className="text-xs font-bold text-gray-400 mb-2 capitalize">{a.name}</h4>
-            <div className="flex justify-center">
-              <ElementalSpider effect={a.elementalEffect as unknown as Record<string, number>} size={120} />
-            </div>
+        {/* Column heads */}
+        <div className="grid grid-cols-[1fr_96px_1fr] gap-3">
+          <div className="border-b-2 pb-2 text-center" style={{ borderColor: accentA }}>
+            <h3 className="font-display text-2xl capitalize leading-none text-alchm-fg">{a.name.replace(/_/g, " ")}</h3>
           </div>
-          <div className="text-center">
-            <h4 className="text-xs font-bold text-gray-400 mb-2 capitalize">{b.name}</h4>
-            <div className="flex justify-center">
-              <ElementalSpider effect={b.elementalEffect as unknown as Record<string, number>} size={120} />
-            </div>
+          <div className="flex items-end justify-center border-b border-alchm-line pb-2">
+            <InstrumentLabel>Δ</InstrumentLabel>
+          </div>
+          <div className="border-b-2 pb-2 text-center" style={{ borderColor: accentB }}>
+            <h3 className="font-display text-2xl capitalize leading-none text-alchm-fg">{b.name.replace(/_/g, " ")}</h3>
+          </div>
+        </div>
+
+        {/* Physical behaviour first — the numbers a cook acts on. */}
+        <div>
+          <InstrumentLabel className="text-sky-300">Physical</InstrumentLabel>
+          <div className="mt-2">
+            {matchRow(
+              "Paced by",
+              a.physicsMetrics?.rateLimiter.replace(/-/g, " ") ?? "—",
+              b.physicsMetrics?.rateLimiter.replace(/-/g, " ") ?? "—",
+            )}
+            {deltaRow("Medium °F", a.physicsMetrics?.medium.fahrenheit, b.physicsMetrics?.medium.fahrenheit, v => `${Math.round(v)}°F`, "no profile")}
+            {deltaRow("Transfer h", a.physicsMetrics?.transfer?.typical, b.physicsMetrics?.transfer?.typical, v => `${Math.round(v).toLocaleString()}`, "not heat-limited")}
+            {deltaRow("To core", a.physicsMetrics?.reference.result?.minutes, b.physicsMetrics?.reference.result?.minutes, v => `${v.toFixed(0)} min`, "no reference")}
+            {matchRow(
+              "Browning",
+              a.physicsMetrics?.browning.available ? "reachable" : "unreachable",
+              b.physicsMetrics?.browning.available ? "reachable" : "unreachable",
+            )}
+          </div>
+        </div>
+
+        {/* Then the correspondence layer, named as such. */}
+        <div>
+          <InstrumentLabel className="text-alchm-violet-bright">
+            Alchemical — dimensionless, sets nothing physical
+          </InstrumentLabel>
+          <div className="mt-2">
+            {deltaRow("Harmony", a.harmony.harmonyIndex, b.harmony.harmonyIndex, v => `${Math.round(v)}%`)}
+            {deltaRow("Monica", a.monica, b.monica)}
+            {deltaRow("Greg's energy", a.gregsEnergy, b.gregsEnergy)}
+            {deltaRow("ln Kalchm", a.kalchm !== null && a.kalchm > 0 ? Math.log(a.kalchm) : null, b.kalchm !== null && b.kalchm > 0 ? Math.log(b.kalchm) : null, v => v.toFixed(2))}
+            {deltaRow("Heat", a.thermodynamicProperties?.heat, b.thermodynamicProperties?.heat)}
+            {deltaRow("Entropy", a.thermodynamicProperties?.entropy, b.thermodynamicProperties?.entropy)}
+            {deltaRow("Reactivity", a.thermodynamicProperties?.reactivity, b.thermodynamicProperties?.reactivity)}
+            {deltaRow("Circuit power", a.kinetics?.power, b.kinetics?.power, v => v.toFixed(4), "no kinetic profile")}
+          </div>
+        </div>
+
+        {/* One chart, two traces — a shared graticule is what makes the shapes
+            comparable. Two separate spiders side by side left the reader
+            measuring across a gap. */}
+        <div className="flex flex-col items-center gap-3 pt-2">
+          <ElementalSpiderCompare
+            a={a.elementalEffect as unknown as Record<string, number>}
+            b={b.elementalEffect as unknown as Record<string, number>}
+            accentA={accentA}
+            accentB={accentB}
+            size={180}
+          />
+          <div className="flex gap-5">
+            <span className="flex items-center gap-2">
+              <span className="h-0.5 w-4" style={{ backgroundColor: accentA }} />
+              <InstrumentLabel>{a.name.replace(/_/g, " ")}</InstrumentLabel>
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-0.5 w-4 border-t-2 border-dashed" style={{ borderColor: accentB }} />
+              <InstrumentLabel>{b.name.replace(/_/g, " ")}</InstrumentLabel>
+            </span>
           </div>
         </div>
       </div>
@@ -1401,33 +1608,47 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // MAIN RENDER
   // ============================================================================
   return (
-    <div className="space-y-6 px-2 md:px-6 py-4">
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="text-3xl md:text-4xl font-black text-gray-100">Cooking Methods</h2>
-        <p className="text-gray-500 mt-1">Alchemical Transformation System · Harmony Index · 14 Pillars</p>
-        <div className="mt-2 flex items-center justify-center gap-3">
-          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${positionsSource === "real" ? "bg-green-100 text-green-700" : "bg-white/10 text-gray-400"
-            }`}>
-            {positionsSource === "real" ? "🌟 Live Planetary Data" : "⏳ Default Positions"}
-          </span>
-          <button onClick={() => setShowPillarsGuide(!showPillarsGuide)} className="text-xs text-purple-600 hover:text-purple-800 hover:underline">
-            {showPillarsGuide ? "Hide" : "Show"} 14 Pillars
+    <div className="space-y-6 px-2 py-4 md:px-6">
+      {/* ── Masthead ── */}
+      <header className="flex flex-col gap-4 border-b border-alchm-line pb-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 className="font-display text-4xl font-semibold leading-none tracking-tight text-alchm-fg md:text-5xl">
+            Cooking Methods
+          </h2>
+          <p className="mt-2 font-mono text-[10px] uppercase leading-none tracking-[0.12em] text-alchm-fg-mute">
+            Measured thermophysics · ranked against the live sky
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {userBias && (
+            <Chip tone="accent">
+              Tuned to your {biasSource === "chart" ? "chart" : "table"}
+            </Chip>
+          )}
+          <Chip tone={positionsSource === "real" ? "live" : "stale"} pulse={positionsSource === "real"}>
+            {positionsSource === "real" ? "Live planetary data" : "Fallback positions"}
+          </Chip>
+          <button
+            type="button"
+            onClick={() => setShowPillarsGuide(!showPillarsGuide)}
+            className="rounded-full border border-alchm-line-hi px-2.5 py-1 font-mono text-[10px] uppercase leading-none tracking-[0.1em] text-alchm-fg-mute transition-colors hover:border-alchm-violet/40 hover:text-alchm-violet-bright"
+          >
+            {showPillarsGuide ? "Hide" : "Show"} 14 pillars
           </button>
         </div>
-      </div>
+      </header>
 
       {/* Pillars Guide (collapsible) */}
       {showPillarsGuide && (
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-5 shadow-sm">
-          <h3 className="text-lg font-bold text-indigo-900 mb-3">The 14 Alchemical Pillars</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
+        <div className="rounded-alchm border border-alchm-line bg-white/[0.02] p-5 backdrop-blur-xl">
+          <InstrumentLabel className="text-alchm-violet-bright">The 14 alchemical pillars</InstrumentLabel>
+          <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-7">
             {ALCHEMICAL_PILLARS.map((pillar) => {
               const c = getPillarColors(pillar.id);
               return (
                 <div key={pillar.id} className={`rounded-lg border ${c.border} ${c.bg} p-2.5 text-center`}>
-                  <div className={`font-bold text-xs ${c.text}`}>{pillar.id}. {pillar.name}</div>
-                  <div className="text-[10px] text-gray-500 mt-1">
+                  <div className={`text-xs font-bold ${c.text}`}>{pillar.id}. {pillar.name}</div>
+                  <div className="mt-1 font-mono text-[10px] tabular-nums text-alchm-fg-mute">
                     {Object.entries(pillar.effects).map(([p, v]) => `${p[0]}${v > 0 ? "+" : ""}${v}`).join(" ")}
                   </div>
                 </div>
@@ -1437,67 +1658,86 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </div>
       )}
 
-      {/* Current Moment Panel */}
-      <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-        <div className="flex items-center justify-between gap-2 mb-4">
-          <h3 className="text-sm font-bold text-gray-200">Current Moment Metrics</h3>
-          <span className="flex items-center gap-2">
-            {userBias && (
-              <span className="rounded-full px-2.5 py-1 text-[10px] font-bold bg-violet-500/15 text-violet-300">
-                {biasSource === "chart" ? "Tuned to your chart" : "Tuned to your table"}
-              </span>
-            )}
-            <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${momentStatus === "ready" ? "bg-emerald-100 text-emerald-700" : momentStatus === "loading" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
-              }`}>
-              {momentStatus === "ready" ? "LIVE /api/alchm-quantities" : momentStatus === "loading" ? "Loading..." : "Unavailable"}
-            </span>
-          </span>
+      {/* ── Current moment ──
+          `[CHANGED]` This was four pastel cards (purple-50 / amber-50 / rose-50 /
+          cyan-50) that read as a colour key rather than a readout. It is one
+          strip now, divided by hairlines: the same instrument grammar as the
+          per-method physics strips below, so the eye learns one pattern. */}
+      <section className="overflow-x-auto rounded-alchm border border-alchm-line bg-white/[0.02] p-4 backdrop-blur-xl">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <InstrumentLabel>Current moment</InstrumentLabel>
+          <Chip
+            tone={momentStatus === "ready" ? "live" : momentStatus === "loading" ? "neutral" : "warn"}
+            pulse={momentStatus === "ready"}
+          >
+            {momentStatus === "ready"
+              ? "/api/alchm-quantities"
+              : momentStatus === "loading"
+                ? "Connecting…"
+                : "Unavailable"}
+          </Chip>
         </div>
         {currentMoment ? (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-            <div className="rounded-lg border border-purple-200 bg-purple-50 p-3">
-              <div className="font-bold text-purple-800 mb-1">ESMS</div>
-              <div className="text-gray-300">S {currentMoment.quantities.Spirit.toFixed(2)}</div>
-              <div className="text-gray-300">E {currentMoment.quantities.Essence.toFixed(2)}</div>
-              <div className="text-gray-300">M {currentMoment.quantities.Matter.toFixed(2)}</div>
-              <div className="text-gray-300">Su {currentMoment.quantities.Substance.toFixed(2)}</div>
+          <div className="flex min-w-max items-start gap-6">
+            <div className="flex flex-col gap-2">
+              <InstrumentLabel>ESMS</InstrumentLabel>
+              <div className="flex gap-3 font-mono text-[13px] font-bold tabular-nums text-alchm-fg">
+                <span><span className="text-alchm-fg-mute">S</span> {currentMoment.quantities.Spirit.toFixed(2)}</span>
+                <span><span className="text-alchm-fg-mute">E</span> {currentMoment.quantities.Essence.toFixed(2)}</span>
+                <span><span className="text-alchm-fg-mute">M</span> {currentMoment.quantities.Matter.toFixed(2)}</span>
+                <span><span className="text-alchm-fg-mute">Su</span> {currentMoment.quantities.Substance.toFixed(2)}</span>
+              </div>
             </div>
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-              <div className="font-bold text-amber-800 mb-1">Elemental</div>
-              <div className="text-gray-300">🔥 {currentMoment.circuit.elementalBalance.Fire.toFixed(3)}</div>
-              <div className="text-gray-300">💧 {currentMoment.circuit.elementalBalance.Water.toFixed(3)}</div>
-              <div className="text-gray-300">🌍 {currentMoment.circuit.elementalBalance.Earth.toFixed(3)}</div>
-              <div className="text-gray-300">💨 {currentMoment.circuit.elementalBalance.Air.toFixed(3)}</div>
+            <Divider />
+            <div className="flex flex-col gap-2">
+              <InstrumentLabel>Elemental</InstrumentLabel>
+              <div className="flex gap-3 font-mono text-[13px] font-bold tabular-nums">
+                {(["Fire", "Water", "Earth", "Air"] as const).map((el) => (
+                  <span key={el} style={{ color: ELEMENT_ACCENT[el] }}>
+                    <span className="text-alchm-fg-mute">{el.slice(0, 2)}</span>{" "}
+                    {currentMoment.circuit.elementalBalance[el].toFixed(3)}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="rounded-lg border border-rose-200 bg-rose-50 p-3">
-              <div className="font-bold text-rose-800 mb-1">Thermodynamic</div>
-              <div className="text-gray-300">Heat {currentMoment.heat.toFixed(3)}</div>
-              <div className="text-gray-300">Entropy {currentMoment.entropy.toFixed(3)}</div>
-              <div className="text-gray-300">Reactivity {currentMoment.reactivity.toFixed(3)}</div>
-              <div className="text-gray-300">Monica {currentMoment.monica.toFixed(3)}</div>
+            <Divider />
+            <div className="flex flex-col gap-2">
+              <InstrumentLabel>Thermodynamic</InstrumentLabel>
+              <div className="flex gap-3 font-mono text-[13px] font-bold tabular-nums text-alchm-fg">
+                <span><span className="text-alchm-fg-mute">H</span> {currentMoment.heat.toFixed(3)}</span>
+                <span><span className="text-alchm-fg-mute">S</span> {currentMoment.entropy.toFixed(3)}</span>
+                <span><span className="text-alchm-fg-mute">R</span> {currentMoment.reactivity.toFixed(3)}</span>
+                <span><span className="text-alchm-fg-mute">M</span> {currentMoment.monica.toFixed(3)}</span>
+              </div>
             </div>
-            <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
-              <div className="font-bold text-cyan-800 mb-1">Kinetic / Circuit</div>
-              <div className="text-gray-300">Power {currentMoment.circuit.power.toFixed(4)}</div>
-              <div className="text-gray-300">Force {currentMoment.circuit.forceMagnitude.toFixed(4)}</div>
-              <div className="text-gray-300">State {currentMoment.circuit.forceClassification}</div>
-              <div className="text-gray-300">Thermal {currentMoment.circuit.thermalDirection}</div>
+            <Divider />
+            <div className="flex flex-col gap-2">
+              <InstrumentLabel>Circuit</InstrumentLabel>
+              <div className="flex items-baseline gap-3 font-mono text-[13px] font-bold tabular-nums text-alchm-fg">
+                <span><span className="text-alchm-fg-mute">P</span> {currentMoment.circuit.power.toFixed(4)}</span>
+                <span><span className="text-alchm-fg-mute">F</span> {currentMoment.circuit.forceMagnitude.toFixed(4)}</span>
+                <span className="font-normal text-[10px] uppercase tracking-[0.1em] text-alchm-fg-mute">
+                  {currentMoment.circuit.forceClassification} · {currentMoment.circuit.thermalDirection}
+                </span>
+              </div>
             </div>
           </div>
         ) : (
-          <p className="text-sm text-gray-500">Using planetary fallback values while current-moment metrics load.</p>
+          <p className="font-mono text-[11px] text-alchm-fg-mute">
+            Using planetary fallback values while current-moment metrics load.
+          </p>
         )}
-      </div>
+      </section>
 
-      {/* Category Selector */}
-      <div className="flex flex-wrap justify-center gap-2">
+      {/* ── Category rail ── */}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-alchm-line">
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => { setSelectedCategory(cat.id); setExpandedMethod(null); setCompareSelections([]); }}
-            className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${selectedCategory === cat.id
-              ? "bg-gray-900 text-white shadow-lg scale-105"
-              : "bg-transparent text-gray-300 border border-white/10 hover:border-gray-400 hover:shadow"
+            className={`-mb-px border-b-2 pb-2.5 font-mono text-[11px] uppercase leading-none tracking-[0.12em] transition-colors ${selectedCategory === cat.id
+              ? "border-alchm-violet text-alchm-violet-bright"
+              : "border-transparent text-alchm-fg-mute hover:text-alchm-fg-dim"
               }`}
           >
             <span className="mr-1.5">{cat.icon}</span>{cat.name}
@@ -1505,16 +1745,17 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         ))}
       </div>
 
-      {/* Controls: Focus dropdown + Intent + Compare toggle */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-transparent rounded-xl border border-white/10 p-4 shadow-sm">
-        {/* Focus dropdown */}
+      {/* ── Control bar ── */}
+      <div className="flex flex-col items-start gap-4 rounded-alchm border border-alchm-line bg-white/[0.02] p-4 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2">
-          <label htmlFor="cooking-method-focus" className="text-xs font-semibold text-gray-500">Focus:</label>
+          <label htmlFor="cooking-method-focus">
+            <InstrumentLabel>Focus</InstrumentLabel>
+          </label>
           <select
             id="cooking-method-focus"
             value={focusMode}
             onChange={(e) => setFocusMode(e.target.value as FocusMode)}
-            className="rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-sm font-medium text-gray-300 shadow-sm focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:outline-none"
+            className="rounded-lg border border-alchm-line-hi bg-alchm-bg-elev px-3 py-1.5 text-xs font-medium text-alchm-fg-dim outline-none transition-colors focus:border-alchm-violet/50 focus:ring-1 focus:ring-alchm-violet/40"
           >
             {FOCUS_OPTIONS.map(({ key, label }) => (
               <option key={key} value={key}>{label}</option>
@@ -1522,17 +1763,16 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </select>
         </div>
 
-        {/* User Intent chips */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-gray-500">Intent:</span>
-          <div className="flex gap-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <InstrumentLabel>Intent</InstrumentLabel>
+          <div className="flex flex-wrap gap-1.5">
             {INTENT_OPTIONS.map(({ key, label, icon }) => (
               <button
                 key={label}
                 onClick={() => setUserIntent(key)}
-                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${userIntent === key
-                  ? "bg-indigo-100 text-indigo-700 shadow-sm ring-1 ring-indigo-300"
-                  : "text-gray-500 hover:bg-white/10"
+                className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${userIntent === key
+                  ? "border-alchm-violet/45 bg-alchm-violet/10 text-alchm-violet-bright"
+                  : "border-alchm-line text-alchm-fg-mute hover:border-alchm-line-hi hover:text-alchm-fg-dim"
                   }`}
               >
                 {icon} {label}
@@ -1541,28 +1781,30 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
         </div>
 
-        {/* Compare toggle */}
         <button
           onClick={() => { setCompareMode(!compareMode); if (compareMode) setCompareSelections([]); }}
-          className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${compareMode
-            ? "bg-indigo-600 text-white shadow-md"
-            : "bg-white/10 text-gray-400 hover:bg-gray-200"
+          className={`rounded-lg border px-3 py-1.5 font-mono text-[10px] uppercase leading-none tracking-[0.1em] transition-colors ${compareMode
+            ? "border-alchm-violet/45 bg-alchm-violet/15 text-alchm-violet-bright"
+            : "border-alchm-line text-alchm-fg-mute hover:border-alchm-line-hi hover:text-alchm-fg-dim"
             }`}
         >
-          {compareMode ? "✔ Compare On" : "↔ Compare"}
+          {compareMode ? "✔ Compare on" : "↔ Compare"}
         </button>
       </div>
 
-      {/* Category subtitle */}
-      <div className="flex items-center gap-3 px-1">
-        <span className="text-3xl">{category?.icon}</span>
-        <div>
-          <h3 className="text-xl font-bold text-gray-100">{category?.name} Methods</h3>
-          <p className="text-xs text-gray-500">
-            {currentMethods.length} methods · Focus: {FOCUS_OPTIONS.find(f => f.key === focusMode)?.label}
-            {userIntent && ` · Intent: ${userIntent}`}
-          </p>
-        </div>
+      {/* ── Category subtitle ── */}
+      {/* `flex-wrap` is load-bearing at 375 px: unwrapped, the three items
+          competed for one line, the heading collapsed to "Dry" and the focus
+          label overlapped it. */}
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 px-1">
+        <h3 className="whitespace-nowrap font-display text-2xl text-alchm-fg">{category?.name}</h3>
+        <span className="ml-auto whitespace-nowrap font-mono text-[10px] font-bold tabular-nums tracking-[0.1em] text-alchm-fg-mute">
+          {String(currentMethods.length).padStart(2, "0")}_METHODS
+        </span>
+        <InstrumentLabel className="w-full">
+          Focus: {FOCUS_OPTIONS.find(f => f.key === focusMode)?.label}
+          {userIntent && ` · Intent: ${userIntent}`}
+        </InstrumentLabel>
       </div>
 
       {/* Compare Delta View */}
@@ -1576,19 +1818,26 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           const isCompareSelected = compareSelections.includes(method.id);
           const pillarColors = method.pillar ? getPillarColors(method.pillar.id) : null;
 
+          const physics = method.physicsMetrics;
+          // The row's colour identity. Derived from the same canonical helper
+          // the /cooking-methods atlas uses, so a method is the same colour on
+          // both surfaces instead of each page inventing its own mapping.
+          const accent = elementAccent(elementalSignature(method.elementalEffect).dominant);
+
           return (
             <div
               key={method.id}
-              className={`rounded-xl border transition-all duration-300 ${isCompareSelected
-                ? "border-2 border-indigo-400 shadow-lg bg-indigo-50/30"
+              className={`overflow-hidden rounded-alchm border backdrop-blur-xl transition-colors duration-200 ${isCompareSelected
+                ? "border-alchm-violet/50 bg-alchm-violet/[0.06]"
                 : isExpanded
-                  ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
-                  : "border-white/10 bg-transparent hover:border-white/10 hover:shadow-md"
+                  ? "border-alchm-line-hi bg-white/[0.035]"
+                  : "border-alchm-line bg-white/[0.02] hover:border-alchm-line-hi"
                 }`}
+              style={{ boxShadow: `inset 2px 0 0 0 ${accent}` }}
             >
-              {/* -- Collapsed Card (always visible) -- */}
+              {/* -- Collapsed row (always visible) -- */}
               <div
-                className="cursor-pointer p-5"
+                className="cursor-pointer p-4 md:p-5"
                 onClick={() => toggleMethod(method.id)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
@@ -1602,97 +1851,120 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                 aria-expanded={isExpanded}
               >
                 <div className="flex items-start gap-4">
-                  {/* Rank badge */}
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-black text-gray-500">
-                    {idx + 1}
-                  </div>
+                  <span className="font-mono text-2xl font-bold tabular-nums leading-none text-alchm-fg-faint">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <HarmonyRing value={method.harmony.harmonyIndex} size={44} />
 
-                  {/* Main content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="text-lg font-bold capitalize text-gray-100">{method.name}</h4>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {/* Normalised on READ, never renamed at the source: the
+                          corpus keys are snake_case and `method.name` carries
+                          them through verbatim, so "Sous_vide" was rendering
+                          with the underscore intact in a 24 px display serif.
+                          The atlas at /cooking-methods already does this same
+                          replace; the id itself stays untouched because 27
+                          registries key off it. */}
+                      <h4 className="font-display text-2xl capitalize leading-none text-alchm-fg">
+                        {method.name.replace(/_/g, " ")}
+                      </h4>
                       {method.culinaryArchetype && (
-                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold bg-white/10 text-gray-400 italic">
+                        <span className="rounded-full border border-alchm-line-hi px-2 py-0.5 text-[10px] font-medium italic text-alchm-fg-mute">
                           {method.culinaryArchetype}
                         </span>
                       )}
                       {method.pillar && (
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${pillarColors?.bg} ${pillarColors?.text}`}>
+                        <span className={`rounded-full border px-2 py-0.5 font-mono text-[10px] font-bold ${pillarColors?.bg} ${pillarColors?.text} ${pillarColors?.border}`}>
                           #{method.pillar.id}
                         </span>
                       )}
                       <VolatilityBadge monica={method.monica} />
                     </div>
 
-                    {/* Alchemist's Hook */}
-                    <p className="text-sm text-gray-400 mt-1 line-clamp-1 italic">
+                    <p className="mt-1.5 line-clamp-1 text-[13px] italic text-alchm-fg-dim">
                       {method.shortDescription || method.description}
                     </p>
 
-                    {/* Key metrics row.
+                    {/* Physics strip.
                         `[CHANGED 2026-08-16]` This row used to read
                         "⚡ −12.92 · ⚙️ P=0.28 · 🌡️ 87% thermo · ⚡ 77% kinetic" —
                         four alchemical scores in the most-read line on the card,
                         two of them wearing physics units they do not have. It now
                         leads with what the method physically does; the alchemical
-                        scores are one tab away, labelled as such. */}
-                    <div className="mt-2.5 flex flex-wrap items-center gap-3">
-                      <HarmonyRing value={method.harmony.harmonyIndex} size={40} />
-                      <span className="text-xs text-gray-500">⏱️ {formatDuration(method)}</span>
-                      {method.physicsMetrics && (
+                        scores are one tab away, labelled as such.
+
+                        `[CHANGED]` The values are now label-over-value readouts
+                        with their z against the corpus, rather than emoji-prefixed
+                        run-on text. Each cell states its own absence: a method
+                        with no reference geometry shows the engine's own
+                        `unavailableReason`, never a filled-in number. */}
+                    <div className="mt-3 flex flex-wrap items-start gap-x-6 gap-y-3">
+                      <Readout label="Duration" value={formatDuration(method)} />
+                      {physics ? (
                         <>
-                          <span className="text-xs font-semibold text-sky-400">
-                            🌡️ {Math.round(method.physicsMetrics.medium.fahrenheit)}°F medium
-                          </span>
-                          {method.physicsMetrics.transfer && (
-                            <span
-                              className="text-xs font-semibold text-amber-400"
-                              title={method.physicsMetrics.transfer.regime}
-                            >
-                              ⇄ h={method.physicsMetrics.transfer.typical.toLocaleString()}
-                              {method.physicsMetrics.transfer.z !== null && (
-                                <span className="ml-1 font-normal text-gray-500">
-                                  z{method.physicsMetrics.transfer.z >= 0 ? "+" : ""}
-                                  {method.physicsMetrics.transfer.z.toFixed(1)}
-                                </span>
-                              )}
-                            </span>
-                          )}
-                          {method.physicsMetrics.reference.result && (
-                            <span className="text-xs font-semibold text-emerald-400">
-                              ◷ {method.physicsMetrics.reference.result.minutes.toFixed(0)} min to core
-                            </span>
-                          )}
-                          {method.physicsMetrics.browning.available && (
-                            <span className="text-xs font-semibold text-orange-400">🥖 browns</span>
-                          )}
+                          <Readout
+                            label="Paced by"
+                            value={physics.rateLimiter.replace(/-/g, " ")}
+                            className="capitalize"
+                          />
+                          <Readout
+                            label="Medium"
+                            tone="heat"
+                            value={`${Math.round(physics.medium.fahrenheit)}°F`}
+                            unit={`${Math.round(physics.medium.celsius)}°C`}
+                          />
+                          <Readout
+                            label="Transfer"
+                            tone="transfer"
+                            value={physics.transfer ? physics.transfer.typical.toLocaleString() : undefined}
+                            unit={physics.transfer ? "W·m⁻²·K⁻¹" : undefined}
+                            z={physics.transfer?.z}
+                            absent={physics.transfer ? null : "not heat-limited"}
+                          />
+                          <Readout
+                            label="To core"
+                            tone="time"
+                            value={
+                              physics.reference.result
+                                ? `${physics.reference.result.minutes.toFixed(0)} min`
+                                : undefined
+                            }
+                            z={physics.reference.result ? physics.reference.z : undefined}
+                            absent={physics.reference.result ? null : physics.reference.unavailableReason}
+                          />
+                          <Readout
+                            label="Browning"
+                            tone={physics.browning.available ? "browning" : "default"}
+                            value={physics.browning.available ? "reachable" : "unreachable"}
+                          />
                         </>
+                      ) : (
+                        <Readout label="Physics" absent="no profile registered" />
                       )}
                     </div>
                   </div>
 
-                  {/* Spider Chart (elemental quadrant map) */}
-                  <div className="hidden md:block flex-shrink-0">
+                  <div className="hidden shrink-0 md:block">
                     <ElementalSpider effect={method.elementalEffect as unknown as Record<string, number>} size={80} />
                   </div>
                 </div>
               </div>
 
-              {/* -- Expanded View -- */}
+              {/* -- Expanded view -- */}
               {isExpanded && !compareMode && (
-                <div className="border-t border-white/10 px-5 pb-5">
-                  {/* Tab bar */}
-                  <div className="flex gap-1 py-3 border-b border-gray-100 mb-4">
+                <div className="border-t border-alchm-line px-4 pb-5 md:px-5">
+                  {/* Tab rail */}
+                  <div className="mb-4 flex gap-6 overflow-x-auto border-b border-alchm-line">
                     {tabs.map((tab) => (
                       <button
                         key={tab.key}
                         onClick={(e) => { e.stopPropagation(); setExpandedTab(tab.key); }}
-                        className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${expandedTab === tab.key
-                          ? "bg-gray-900 text-white shadow"
-                          : "text-gray-500 hover:bg-white/10"
+                        className={`-mb-px shrink-0 border-b-2 py-3 font-mono text-[10px] uppercase leading-none tracking-[0.12em] transition-colors ${expandedTab === tab.key
+                          ? "border-alchm-violet text-alchm-violet-bright"
+                          : "border-transparent text-alchm-fg-mute hover:text-alchm-fg-dim"
                           }`}
                       >
-                        {tab.icon} {tab.label}
+                        {tab.label}
                       </button>
                     ))}
                   </div>
@@ -1710,9 +1982,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
               {/* Expand indicator */}
               {!compareMode && (
-                <div className="text-center pb-2">
-                  <span className="text-[10px] text-gray-400">
-                    {isExpanded ? "▲ collapse" : "▼ expand"}
+                <div className="pb-2 text-center">
+                  <span className="font-mono text-[10px] tracking-[0.1em] text-alchm-fg-faint">
+                    {isExpanded ? "▲ COLLAPSE" : "▼ EXPAND"}
                   </span>
                 </div>
               )}
@@ -1722,9 +1994,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       </div>
 
       {/* Footer */}
-      <div className="text-center text-xs text-gray-400 pt-4">
-        Alchemical Cooking System · Harmony Index · 14 Pillars · ESMS · P=IV Kinetics · Monica Constants
-      </div>
+      <footer className="border-t border-alchm-line pt-5 text-center">
+        <InstrumentLabel>
+          Physics from published correlations · alchemical layer ranks, never prescribes
+        </InstrumentLabel>
+      </footer>
     </div>
   );
 }
