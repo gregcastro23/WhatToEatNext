@@ -26,6 +26,20 @@
 
 pub mod words;
 
+/// Culinary heat-transfer physics.
+///
+/// Re-exported rather than defined here. The implementation lives in
+/// `crates/thermo-core` because the browser WASM engine
+/// (`crates/thermo-wasm`) needs the identical arithmetic, and a second copy in
+/// this module is a second copy to drift. `[MEASURED 2026-08-16]` the copy that
+/// briefly lived at `src/thermo.rs` had already drifted from the TypeScript
+/// implementation in three places before it was ever committed: a food
+/// effusivity literal that disagreed with its own stated basis, an Antoine
+/// validity envelope of 0–105 °C against the TypeScript 1–100 °C, and a
+/// convection buoyancy constant 6× smaller than the one the canvas was drawing
+/// with.
+pub use thermo_core as thermo;
+
 #[cfg(target_arch = "wasm32")]
 pub mod tables;
 

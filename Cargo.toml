@@ -1,0 +1,35 @@
+# Cargo workspace root.
+#
+# Three crates, deliberately separated by what they are allowed to link against:
+#
+#   crates/thermo-core   pure math. Zero dependencies, zero macros, no host
+#                        assumptions. Both other crates and `cargo test` build it.
+#   crates/thermo-wasm   browser target. `#[wasm_bindgen]` only.
+#   spacetime-module     database module. `#[spacetimedb::table]` only.
+#
+# thermo-wasm and spacetime-module are BOTH cdylib crates targeting wasm32, and
+# their ABIs are mutually exclusive: wasm-bindgen emits its own shims and import
+# section, while the SpacetimeDB module ABI expects the module's exports to be
+# the reducer surface. Building one crate that carries both attribute macros
+# produces a wasm binary that neither `wasm-bindgen` nor `spacetime publish`
+# will accept. Hence two thin edge crates over one shared core, rather than one
+# crate with feature flags.
+
+[workspace]
+resolver = "2"
+members = ["crates/thermo-core", "crates/thermo-wasm", "spacetime-module"]
+
+[workspace.package]
+edition = "2024"
+license = "UNLICENSED"
+
+# Release profile for the browser artifact. `opt-level = "s"` and LTO matter
+# here because the .wasm ships over the wire to every visitor of a cooking
+# method page; `panic = "abort"` drops the unwinding tables, which are dead
+# weight in a browser module that has no unwind boundary to cross.
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

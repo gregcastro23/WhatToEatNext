@@ -1,7 +1,8 @@
 [package]
 name = "alchm_culinary"
 version = "0.1.0"
-edition = "2024"
+edition.workspace = true
+license.workspace = true
 description = "Alchm.kitchen culinary data engine — transactional ingredient/recipe/cuisine module for SpacetimeDB"
 
 [lib]
@@ -12,3 +13,6 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 spacetimedb = { version = "2.4.1" }
 log = "0.4"
+# Shared physics. Dependency-free and macro-free by construction, so linking it
+# adds nothing to the published module beyond the arithmetic itself.
+thermo-core = { path = "../crates/thermo-core" }

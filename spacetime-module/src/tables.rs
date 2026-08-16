@@ -146,3 +146,113 @@ pub struct CuisineRecipe {
     #[index(btree)]
     pub recipe_id: u64,
 }
+
+// ============================================================================
+// Cooking-method physics
+// ============================================================================
+//
+// The catalog half of the physics layer introduced in
+// `src/data/cooking/methodPhysics.ts` and `src/data/cooking/cookwareMaterials.ts`.
+// Stored rather than computed because these are MEASURED material and method
+// properties with cited sources — the arithmetic derived from them lives in
+// [`crate::thermo`] and is never persisted alongside its own inputs.
+//
+// Every row must be reproducible from its `source` field. A number here that
+// cannot be traced back to a published measurement does not belong in the
+// table; see `scripts/audit-cooking-method-physics.ts` for the check that
+// enforces the same rule on the TypeScript side.
+
+/// A cookware material and the four quantities that decide how it cooks.
+///
+/// `effusivity`, `areal_heat_capacity` and `spreading` are DERIVED from
+/// `k`/`rho`/`c`/`thickness` and are stored only so clients can sort and
+/// compare without recomputing. They are written by the reducer from the base
+/// properties, never accepted from a client — a stored derived value that can
+/// be set independently of its inputs is a value that will eventually disagree
+/// with them.
+#[spacetimedb::table(accessor = cookware_material, public)]
+#[derive(Clone)]
+pub struct CookwareMaterialTable {
+    #[primary_key]
+    #[auto_inc]
+    pub material_id: u64,
+    /// Stable slug, e.g. `cast_iron`, `carbon_steel`, `stainless_304`.
+    #[unique]
+    pub slug: String,
+    pub label: String,
+    /// Thermal conductivity, W·m⁻¹·K⁻¹.
+    pub k_w_m_k: f32,
+    /// Density, kg·m⁻³.
+    pub rho_kg_m3: f32,
+    /// Specific heat capacity, J·kg⁻¹·K⁻¹.
+    pub c_j_kg_k: f32,
+    /// Typical pan wall thickness, mm.
+    pub typical_thickness_mm: f32,
+    /// √(k·ρ·c) — how hard the pan fights to hold its surface temperature.
+    pub effusivity: f32,
+    /// ρ·c·t — recovery against a cold load, J·m⁻²·K⁻¹.
+    pub areal_heat_capacity: f32,
+    /// k·t — how well it evens out a hot spot, W·K⁻¹.
+    pub spreading: f32,
+    /// Whether the surface is chemically inert to acid.
+    pub acid_safe: bool,
+    /// Citation for `k`, `rho` and `c`. Required.
+    pub source: String,
+}
+
+/// A cooking method's physical profile — what actually paces it.
+///
+/// `h_low`/`h_typical`/`h_high` is a BAND, not an error bar: the surface heat
+/// transfer coefficient genuinely varies that much with agitation, airflow and
+/// contact. It spans four orders of magnitude across the corpus, which is why
+/// it is the organising quantity rather than temperature.
+///
+/// `h_typical` is null-equivalent (`-1.0`) for methods that are not paced by
+/// heat transfer at all — fermentation, curing, pickling, marinating and
+/// spherification are mass-transfer, microbial or reaction-limited, and
+/// attaching a heat transfer coefficient to them would be a fabricated number
+/// dressed as a measurement.
+#[spacetimedb::table(accessor = method_physics, public)]
+#[derive(Clone)]
+pub struct MethodPhysicsTable {
+    #[primary_key]
+    #[auto_inc]
+    pub physics_id: u64,
+    /// Stable method slug, e.g. `stir_frying`, `sous_vide`, `pressure_cooking`.
+    #[unique]
+    pub method_slug: String,
+    /// What sets the pace: `0` heat-transfer, `1` mass-transfer,
+    /// `2` reaction-kinetics, `3` microbial, `4` phase-change.
+    pub rate_limiter: u8,
+    /// Surface heat transfer coefficient band, W·m⁻²·K⁻¹. `-1.0` = not applicable.
+    pub h_low: f32,
+    pub h_typical: f32,
+    pub h_high: f32,
+    /// Temperature of the medium the food is actually in, °C.
+    ///
+    /// NOT the appliance setting. Braising's oven dial reads 135–175 °C while
+    /// the food sits in liquid at 95 °C; that gap is the technique, so the two
+    /// are separate columns and `medium_divergence_note` explains any daylight
+    /// between them.
+    pub medium_c: f32,
+    pub medium_divergence_note: String,
+    /// Conduction/convection/radiation split, summing to 1.0 (or all zero for
+    /// non-thermal methods).
+    pub mode_conduction: f32,
+    pub mode_convection: f32,
+    pub mode_radiation: f32,
+    /// Whether the surface can reach browning chemistry at all.
+    pub surface_can_brown: bool,
+    /// Radiant source temperature, K. `-1.0` where radiation is not a mode.
+    pub radiant_source_k: f32,
+    /// How the method responds to elevation: `0` penalised, `1` compensated,
+    /// `2` accelerated, `3` unaffected.
+    ///
+    /// A boolean here was wrong and shipped briefly: it collapsed `penalised`
+    /// and `compensated` together, which would have handed a slowdown to
+    /// pressure cooking — the one appliance bought specifically to defeat
+    /// altitude.
+    pub altitude_response: u8,
+    /// Citation for the `h` band. Required.
+    pub source: String,
+}

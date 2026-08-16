@@ -20,14 +20,50 @@
 /** Standard sea-level pressure, ISA. */
 export const SEA_LEVEL_PRESSURE_KPA = 101.325;
 
-/**
- * ISA troposphere exponent, g·M/(R·L).
- * 9.80665 × 0.0289644 / (8.31447 × 0.0065) = 5.25588
- */
-const ISA_EXPONENT = 5.25588;
+// ── ISA-1976 defining constants ─────────────────────────────────────────────
+//
+// Every one of these is a DEFINED value of the standard atmosphere rather than
+// a measurement, so the two derived quantities below are exact arithmetic on
+// exact inputs and are computed, never transcribed.
 
-/** L/T0 = 0.0065 K/m / 288.15 K = 2.25577e-5 per metre. */
-const ISA_LAPSE_RATIO = 2.25577e-5;
+/** Standard sea-level temperature, K. */
+const ISA_T0_K = 288.15;
+/** Troposphere lapse rate, K·m⁻¹. */
+const ISA_LAPSE_K_PER_M = 0.0065;
+/** Standard gravity, m·s⁻². */
+const ISA_G_M_S2 = 9.80665;
+/** Molar mass of dry air, kg·mol⁻¹. */
+const ISA_MOLAR_MASS_AIR = 0.0289644;
+
+/**
+ * Universal gas constant **as defined by the US Standard Atmosphere 1976**,
+ * J·mol⁻¹·K⁻¹.
+ *
+ * ⚠️ NOT the CODATA value. `[MEASURED 2026-08-16]` this file previously carried
+ * the literal `ISA_EXPONENT = 5.25588` above a comment stating its basis as
+ *
+ *     9.80665 × 0.0289644 / (8.31447 × 0.0065) = 5.25588
+ *
+ * That arithmetic actually evaluates to **5.2557813**. The comment cited
+ * CODATA's molar gas constant 8.31447, while the literal it claimed to justify
+ * came from ISA-1976's *defined* R* = 8.31432, which gives 5.2558761 → 5.25588.
+ * So the number was right and its stated derivation was wrong — a constant
+ * nobody could regenerate from the basis printed beside it.
+ *
+ * The literal is now gone and the exponent is computed, which is also what lets
+ * `crates/thermo-core` and this file agree bit-for-bit rather than to 2.5e-7.
+ */
+const ISA_R_STAR = 8.31432;
+
+/**
+ * ISA troposphere exponent, g₀·M/(R*·L) = 5.2558761132785179.
+ *
+ * The standard publishes the rounding 5.25588.
+ */
+const ISA_EXPONENT = (ISA_G_M_S2 * ISA_MOLAR_MASS_AIR) / (ISA_R_STAR * ISA_LAPSE_K_PER_M);
+
+/** L/T₀ = 0.0065 K·m⁻¹ / 288.15 K = 2.2557696e-5 per metre. */
+const ISA_LAPSE_RATIO = ISA_LAPSE_K_PER_M / ISA_T0_K;
 
 /** Upper bound of the ISA troposphere model, in metres. */
 const ISA_TROPOSPHERE_CEILING_M = 11_000;
