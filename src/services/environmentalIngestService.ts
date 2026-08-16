@@ -218,7 +218,9 @@ export async function seedFromArchive(
   const daily = reduceToDailyAtHour(hourly, sampleHourForGeohash(geohash5));
   const written = await insertSamples(geohash5, daily);
 
-  void _logger.info("Seeded environmental baseline from archive", {
+  // No `void` operator: this `_logger.info` already returns void, so discarding
+  // it was a no-op that only read as though a promise were being dropped.
+  _logger.info("Seeded environmental baseline from archive", {
     geohash5,
     elevationM,
     daysWritten: written,
