@@ -87,6 +87,21 @@ function persist(loc: UserLocation | null): void {
   }
 }
 
+/** Everything the hook hands back. Named so the hook can declare a return type. */
+export interface UseUserLocationResult {
+  location: UserLocation | null;
+  status: LocationStatus;
+  error: string | null;
+  /** Trigger the browser geolocation prompt. */
+  requestBrowserLocation: () => void;
+  /** Set an explicit location (e.g. from a city search result). */
+  setLocation: (loc: UserLocation | null) => void;
+  /** Reset to no-location. */
+  clearLocation: () => void;
+  /** Search cities by name; returns up to 5 suggestions. */
+  searchCity: (query: string) => Promise<CitySuggestion[]>;
+}
+
 interface UseUserLocationOptions {
   /** Seed coordinates (e.g. from the user's profile birth location). */
   initial?: UserLocation;
@@ -94,7 +109,7 @@ interface UseUserLocationOptions {
   persistChoice?: boolean;
 }
 
-export function useUserLocation(options?: UseUserLocationOptions) {
+export function useUserLocation(options?: UseUserLocationOptions): UseUserLocationResult {
   const persistChoice = options?.persistChoice ?? true;
   const [location, setLocationState] = useState<UserLocation | null>(
     options?.initial ?? null,
