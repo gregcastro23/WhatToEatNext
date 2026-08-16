@@ -1,0 +1,21 @@
+[package]
+name = "thermo-wasm"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Browser WebAssembly engine for the cooking-method physics canvas. wasm-bindgen edge crate over thermo-core."
+
+[lib]
+# cdylib -> the .wasm that wasm-bindgen post-processes for the browser.
+# rlib   -> lets `cargo test` build a host test binary for the non-bindgen logic.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+thermo-core = { path = "../thermo-core" }
+
+# ⚠️ The `wasm-bindgen` CRATE version and the `wasm-bindgen` CLI version must be
+# identical, or the CLI aborts with a schema-mismatch error. Rather than pin a
+# literal here and hand-maintain it, `scripts/build-thermo-wasm.sh` reads the
+# resolved version out of Cargo.lock and installs/verifies that exact CLI — so
+# there is one source of truth and no second number to forget.
+wasm-bindgen = "0.2"

@@ -16,26 +16,26 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import type { MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
+import {
+  createThermoEngine,
+  FallbackThermoEngine,
+  simulationInputs,
+  FLOATS_PER_PARTICLE,
+  type ThermoEngineHandle,
+} from "@/lib/wasm/thermoEngine";
 
-interface Particle {
-  x: number;
-  y: number;
-  z: number;
-  vx: number;
-  vy: number;
-  vz: number;
-  tempC: number;
-  radiantIntensity: number;
-}
+/** Particles simulated. Matches the count the golden trace was generated from. */
+const PARTICLE_COUNT = 60;
 
 export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetrics }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  // What is ACTUALLY executing. Rendered to the user, so it is state rather
+  // than a constant — see the note beside the label at the bottom of this file.
+  const [engineKind, setEngineKind] = useState<"wasm" | "typescript">("typescript");
 
-  const { physics, transfer, medium } = metrics;
-  const hWm2K = transfer?.typical ?? 25;
-  const mediumC = medium.celsius;
-  const radiantK = physics.radiantSourceK ?? 505;
+  const { transfer } = metrics;
+  const { ovenTempC: mediumC, hWm2K, radiantSourceK: radiantK } = simulationInputs(metrics);
   const zScore = transfer?.z ?? 0;
 
   useEffect(() => {
@@ -44,54 +44,41 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Initialize 60 particles for fluid convection visualization
-    const particles: Particle[] = Array.from({ length: 60 }, () => ({
-      x: (Math.random() - 0.5) * 2,
-      y: Math.random(),
-      z: (Math.random() - 0.5) * 2,
-      vx: (Math.random() - 0.5) * 0.2,
-      vy: Math.random() * 0.3 + 0.1,
-      vz: (Math.random() - 0.5) * 0.2,
-      tempC: 20 + Math.random() * 50,
-      radiantIntensity: Math.random(),
-    }));
-
-    let animId: number;
+    let animId = 0;
+    let disposed = false;
     let lastTime = performance.now();
 
+    // Start on the TypeScript engine SYNCHRONOUSLY, then upgrade to WASM if it
+    // arrives. Acquiring the WASM module is async, and making the first frame
+    // wait on that promise would reintroduce the blank-canvas defect fixed
+    // below — the panel would mount empty and stay empty anywhere rAF does not
+    // fire, which is exactly where the synchronous first frame is load-bearing.
+    //
+    // Both engines run the same model, so the upgrade is invisible apart from
+    // the label and the frame cost.
+    let engine: ThermoEngineHandle = new FallbackThermoEngine(PARTICLE_COUNT);
+
     const render = (now: number) => {
-      const dt = Math.min((now - lastTime) / 1000, 0.05); // cap dt at 50ms
+      const dt = (now - lastTime) / 1000;
       lastTime = now;
 
+      // The simulation itself is NOT implemented here any more. It lives in
+      // `crates/thermo-core` and reaches this component either as compiled
+      // WebAssembly or as the TypeScript transliteration in
+      // `src/lib/wasm/thermoEngine.ts` — one model, two executables, pinned
+      // together by a golden trace in
+      // `src/__tests__/cookingThermoCrossRuntimeParity.test.ts`.
+      //
+      // `[FIXED 2026-08-16]` What used to be here was a SECOND, independently
+      // written model that had drifted from the Rust it claimed to mirror:
+      // buoyancy 0.003·ΔT against the Rust's effective 0.0005·ΔT, and swirl
+      // amplitude 0.4 against 0.5. Because the browser silently falls back to
+      // this path whenever WASM is unavailable, the "graceful degradation"
+      // rendered a visibly different simulation with nothing to say so.
       if (!isPaused) {
-        // Step convection simulation loop (mirroring thermo.rs step_oven_simulation)
-        const buoyancy = Math.max(0, mediumC - 20) * 0.003;
-        const drag = 0.98;
-
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          const phase = p.x * 2.0 + p.z * 3.0 + i * 0.1;
-          const swirlX = Math.sin(phase) * 0.4;
-          const swirlZ = Math.cos(phase) * 0.4;
-
-          p.vx = (p.vx + swirlX * dt) * drag;
-          p.vy = (p.vy + buoyancy * dt) * drag;
-          p.vz = (p.vz + swirlZ * dt) * drag;
-
-          p.x += p.vx * dt;
-          p.y += p.vy * dt;
-          p.z += p.vz * dt;
-
-          if (p.y > 1.0) p.y = 0.0;
-          if (p.x < -1.0) p.x = 1.0;
-          if (p.x > 1.0) p.x = -1.0;
-          if (p.z < -1.0) p.z = 1.0;
-          if (p.z > 1.0) p.z = -1.0;
-
-          p.tempC += (mediumC - p.tempC) * (hWm2K * 0.001) * dt;
-          p.radiantIntensity = Math.min(1.0, Math.pow(radiantK / 1000, 4) * 0.25);
-        }
+        engine.step(dt, mediumC, hWm2K, radiantK);
       }
+      const particles = engine.view();
 
       // Clear Canvas
       const { width, height } = canvas;
@@ -128,23 +115,32 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
       ctx.fillRect(20, 10, width - 40, 5);
       ctx.shadowBlur = 0;
 
-      // Render 3D Convection Particles
-      for (const p of particles) {
-        // Perspective projection
-        const scale = 0.8 + p.z * 0.3;
-        const px = width / 2 + p.x * (width * 0.35) * scale;
-        const py = height - p.y * (height * 0.65) - 30;
+      // Render 3D Convection Particles, read straight out of the engine's
+      // buffer. For the WASM engine that buffer IS linear memory — no copy,
+      // no serialisation, no per-frame allocation.
+      if (particles) {
+        for (let o = 0; o + FLOATS_PER_PARTICLE <= particles.length; o += FLOATS_PER_PARTICLE) {
+          const x = particles[o];
+          const y = particles[o + 1];
+          const z = particles[o + 2];
+          const tempC = particles[o + 6];
 
-        const radius = Math.max(2, 3.5 * scale);
-        const tempRatio = Math.min(1, Math.max(0, (p.tempC - 20) / 200));
+          // Perspective projection
+          const scale = 0.8 + z * 0.3;
+          const px = width / 2 + x * (width * 0.35) * scale;
+          const py = height - y * (height * 0.65) - 30;
 
-        const red = Math.floor(100 + tempRatio * 155);
-        const blue = Math.floor(255 - tempRatio * 200);
+          const radius = Math.max(2, 3.5 * scale);
+          const tempRatio = Math.min(1, Math.max(0, (tempC - 20) / 200));
 
-        ctx.fillStyle = `rgba(${red}, 130, ${blue}, ${0.6 * scale})`;
-        ctx.beginPath();
-        ctx.arc(px, py, radius, 0, Math.PI * 2);
-        ctx.fill();
+          const red = Math.floor(100 + tempRatio * 155);
+          const blue = Math.floor(255 - tempRatio * 200);
+
+          ctx.fillStyle = `rgba(${red}, 130, ${blue}, ${0.6 * scale})`;
+          ctx.beginPath();
+          ctx.arc(px, py, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
       // Render Central Food Slab Core Conduction Profile (Slab Transient)
@@ -234,9 +230,34 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
     // A first synchronous frame costs one paint and makes the panel correct at
     // rest, which also matters for the offline/Tauri resilience this component
     // claims — a still frame of real physics beats an empty box.
+    //
+    // It runs BEFORE the engine resolves, so the chamber, the element, the slab
+    // and the z-axis are all drawn immediately and the particles appear on the
+    // next frame. Waiting for an await here would reintroduce the blank panel.
     render(performance.now());
     animId = requestAnimationFrame(render);
-    return () => cancelAnimationFrame(animId);
+
+    // Now try to upgrade. `disposed` guards the case where the effect is torn
+    // down while the module fetch is still in flight — without it, a fast
+    // unmount leaks an engine that nothing will ever free.
+    void createThermoEngine(PARTICLE_COUNT).then((created) => {
+      if (disposed || created.engine !== "wasm") {
+        // Either we are gone, or `createThermoEngine` fell back to the same
+        // TypeScript engine we are already running. Nothing to swap in.
+        created.dispose();
+        return;
+      }
+      const previous = engine;
+      engine = created;
+      previous.dispose();
+      setEngineKind("wasm");
+    });
+
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(animId);
+      engine.dispose();
+    };
   }, [mediumC, hWm2K, radiantK, zScore, isPaused]);
 
   return (
@@ -267,13 +288,21 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
       />
 
       <div className="mt-2 flex items-center justify-between text-[10px] text-gray-400 font-mono">
-        {/* `[FIXED 2026-08-16]` This read "Engine: WASM / Pure Rust Math" while
-            the loop below is plain TypeScript on Canvas 2D — no WASM is loaded
-            and no Rust runs. On a surface whose entire premise is that displayed
+        {/* `[FIXED 2026-08-16]` This once read "Engine: WASM / Pure Rust Math"
+            while the loop was plain TypeScript on Canvas 2D — no WASM loaded and
+            no Rust running. On a surface whose entire premise is that displayed
             values mean what they claim, a false provenance label is the same
-            defect class as the temperatures this PR removes. It will say WASM
-            when it is WASM. */}
-        <span>Engine: TypeScript · Canvas 2D</span>
+            defect class as the temperatures this work removed.
+
+            It now reports whichever engine actually resolved. Both execute the
+            same model from `crates/thermo-core`; the label distinguishes the
+            compiled path from the transliterated fallback, and it is READ from
+            the engine rather than assumed. */}
+        <span>
+          {engineKind === "wasm"
+            ? "Engine: WebAssembly · Rust thermo-core"
+            : "Engine: TypeScript · thermo-core parity build"}
+        </span>
         <span>Z-Score Context: z = {zScore >= 0 ? `+${zScore.toFixed(2)}` : zScore.toFixed(2)}</span>
       </div>
     </div>

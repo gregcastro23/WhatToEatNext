@@ -148,3 +148,14 @@ backend/.env
 
 # wten migration: local-only paste of planetary_agents UI surface for in-flight ports
 /wten-migration-ui-components/
+
+# Rust workspace build output. The workspace root moved the target dir here
+# from spacetime-module/target when the thermo crates were added; without this
+# a cargo build drops hundreds of MB of untracked files into a checkout that is
+# shared with concurrent sessions.
+/target/
+# wasm-bindgen output — regenerate with `bun run build:wasm`, never hand-edit.
+# Lives under public/ because the browser has to be able to FETCH it: a module
+# under src/ is only reachable if the bundler resolves it at build time, and it
+# cannot, since a fresh checkout has not built it yet.
+/public/wasm/

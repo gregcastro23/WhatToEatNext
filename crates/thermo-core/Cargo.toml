@@ -1,0 +1,28 @@
+[package]
+name = "thermo-core"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Culinary heat-transfer physics. Pure math, no dependencies, no macros — the single Rust definition shared by the SpacetimeDB module and the browser WASM engine."
+
+[lib]
+# rlib only. This crate is never a cdylib: it is linked INTO the two edge
+# crates, which own their respective (mutually incompatible) wasm ABIs.
+crate-type = ["rlib"]
+
+[dependencies]
+# Intentionally empty, and it must stay that way. Anything added here is linked
+# into both the SpacetimeDB module and the browser bundle.
+
+[dev-dependencies]
+# Test-only: reading the shared golden-vector fixture. Dev-dependencies are not
+# linked into either edge crate, so this does not violate the rule above.
+#
+# `float_roundtrip` is REQUIRED, not a preference. `[MEASURED 2026-08-16]`
+# serde_json's default float parser is a fast approximation that lands within
+# 1 ULP rather than correctly rounding; against exact-equality assertions it
+# failed 6 of 10 golden tests on differences of 1e-16 that exist nowhere in the
+# physics. This feature switches to the same correctly-rounded algorithm as
+# Rust's own `str::parse::<f64>` — and as `JSON.parse`, which is what makes the
+# TypeScript half comparable at all.
+serde_json = { version = "1", features = ["float_roundtrip"] }

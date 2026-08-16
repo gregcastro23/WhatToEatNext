@@ -242,3 +242,20 @@ pub struct TableChatMute {
     pub muted_by: Identity,
     pub created_at: Timestamp,
 }
+
+/// Ephemeral live environmental observation (elevation, ambient temperature, relative humidity, Z-score context).
+#[spacetimedb::table(accessor = environmental_observation, public)]
+#[derive(Clone)]
+pub struct EnvironmentalObservation {
+    #[primary_key]
+    #[auto_inc]
+    pub obs_id: u64,
+    #[index(btree)]
+    pub owner: Identity,
+    pub elevation_m: f32,
+    pub ambient_temp_c: f32,
+    pub relative_humidity_pct: f32,
+    pub h_z_score_modifier: f32,
+    pub updated_at: Timestamp,
+}
+

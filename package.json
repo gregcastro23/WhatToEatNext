@@ -165,7 +165,9 @@
     "sync:railway": "bash scripts/sync-railway-env.sh",
     "server:hono": "bun src/server/hono-api.ts",
     "debug:devtools": "react-devtools",
-    "debug:scan": "react-scan"
+    "debug:scan": "react-scan",
+    "build:wasm": "bash scripts/build-thermo-wasm.sh",
+    "test:parity:rust": "cargo test -p thermo-core"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1045.0",
