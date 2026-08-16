@@ -203,7 +203,6 @@ function HomeSection({
 
 export default function AlchmKitchenHome(): JSX.Element {
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
-  const [prepTab, setPrepTab] = useState<"sauces" | "methods">("sauces");
 
   return (
     <>
@@ -295,71 +294,22 @@ export default function AlchmKitchenHome(): JSX.Element {
           </div>
         </HomeSection>
 
-        {/* 3 · CELESTIAL PREP (COMBINED SAUCE + METHODS RECOMMENDER) */}
+        {/* 4 · CELESTIAL PREP (SAUCES)
+
+            `[FIXED 2026-08-16]` This section carried a Sauces/Methods tab whose
+            Methods branch mounted a SECOND full EnhancedCookingMethodRecommender
+            — the same 26-method surface already rendered in section 3 above.
+            Both section comments were even numbered "3", which is the copy-paste
+            this came from. Two live instances each ran their own 60-second
+            /api/alchm-quantities poll and their own refreshPlanetaryPositions()
+            on mount, so the homepage made twice the requests and twice the
+            per-method computation to render the identical thing twice.
+            Methods now live in section 3 only; this section is sauces. */}
         <HomeSection
           tag="PREPARATION · CELESTIAL PREP"
-          title="Celestial Prep: Sauces & Methods"
+          title="Celestial Prep: Sauces"
         >
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              borderBottom: "1px solid var(--line-hi)",
-              marginBottom: 16,
-              paddingBottom: 8,
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setPrepTab("sauces")}
-              className="t-mono"
-              style={{
-                fontSize: 10,
-                fontWeight: "bold",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                padding: "6px 12px",
-                borderRadius: 6,
-                border: "1px solid",
-                background: prepTab === "sauces" ? "rgba(255,255,255,0.06)" : "transparent",
-                borderColor: prepTab === "sauces" ? "var(--accent)" : "transparent",
-                color: prepTab === "sauces" ? "var(--accent)" : "var(--fg-mute)",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-            >
-              Sauces
-            </button>
-            <button
-              type="button"
-              onClick={() => setPrepTab("methods")}
-              className="t-mono"
-              style={{
-                fontSize: 10,
-                fontWeight: "bold",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                padding: "6px 12px",
-                borderRadius: 6,
-                border: "1px solid",
-                background: prepTab === "methods" ? "rgba(255,255,255,0.06)" : "transparent",
-                borderColor: prepTab === "methods" ? "var(--accent)" : "transparent",
-                color: prepTab === "methods" ? "var(--accent)" : "var(--fg-mute)",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-            >
-              Cooking Methods
-            </button>
-          </div>
-
-          {prepTab === "sauces" ? (
-            <EnhancedSauceRecommender />
-          ) : (
-            <div className="alchm-home-cookmethods">
-              <EnhancedCookingMethodRecommender />
-            </div>
-          )}
+          <EnhancedSauceRecommender />
         </HomeSection>
 
         {/* Footer hint to the Lab */}

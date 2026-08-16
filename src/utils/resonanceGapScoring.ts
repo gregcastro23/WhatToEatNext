@@ -193,13 +193,41 @@ function calculateIntentAlignment(input: ResonanceInput, intent: UserIntent): nu
   }
 }
 
+/**
+ * Scale of the logistic map from Greg's Energy to the thermo dimension, in
+ * Greg's-Energy units.
+ *
+ * `[MEASURED 2026-08-16]` over all 26 servable methods, Greg's Energy is
+ * ENTIRELY NEGATIVE and much wider than the old linear map assumed:
+ *
+ *   fallback ESMS (4/4/4/2):  min −2.924  median −0.245  max −0.055
+ *   live sky ESMS:            reaches −6.97 for stir-frying, −10 and beyond
+ *
+ * The previous map was `60 + gregsEnergy × 40`, documented as "−1 maps to ~20,
+ * 0 maps to ~60, +1 maps to ~100" — a calibration for a [−1, +1] range that the
+ * quantity never occupies. At −2.9 it returns −56, at −6.97 it returns −219,
+ * and both clamp to the floor of 5. Five of 26 methods pinned there on fallback
+ * data and MORE on live data, so a dimension carrying 25 % of the Harmony Index
+ * was contributing a constant for whichever methods happened to saturate —
+ * silently, because a clamped score looks like a low score.
+ *
+ * A logistic centred on the observed median maps the whole real line into
+ * (0, 100) with no clamping anywhere, so every method stays on the discriminating
+ * part of the curve however far the sky pushes the input. SCALE sets how quickly
+ * it saturates; 1.5 keeps the measured fallback range spread across roughly
+ * 15–70 rather than compressed against either rail.
+ */
+const THERMO_CENTRE = -0.5;
+const THERMO_SCALE = 1.5;
+
 function calculateThermoEfficiency(gregsEnergy: number, thermo: { heat: number; entropy: number; reactivity: number }): number {
-  // Positive Greg's Energy = efficient transformation
-  // Normalize around 0: -1 maps to ~20, 0 maps to ~60, +1 maps to ~100
-  const energyScore = 60 + gregsEnergy * 40;
+  if (!Number.isFinite(gregsEnergy)) return 50;
+  // Logistic — higher (less negative) Greg's Energy scores higher, and nothing
+  // ever leaves the responsive part of the curve.
+  const energyScore = 100 / (1 + Math.exp(-(gregsEnergy - THERMO_CENTRE) / THERMO_SCALE));
   // Penalize extreme entropy (system chaos)
   const entropyPenalty = thermo.entropy > 0.8 ? (thermo.entropy - 0.8) * 100 : 0;
-  return Math.max(5, Math.min(100, energyScore - entropyPenalty));
+  return Math.max(1, Math.min(100, energyScore - entropyPenalty));
 }
 
 function calculateAlchemicalBalance(esms: { Spirit: number; Essence: number; Matter: number; Substance: number }): number {
