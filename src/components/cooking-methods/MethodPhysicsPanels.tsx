@@ -15,9 +15,14 @@
  */
 
 import React, { useMemo, useState } from "react";
-import { RATE_LIMITER_LABEL, RATE_LIMITER_NOTE } from "@/data/cooking/methodPhysics";
+import { METHOD_PHYSICS, RATE_LIMITER_LABEL, RATE_LIMITER_NOTE } from "@/data/cooking/methodPhysics";
 import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
-import { altitudeEffect, REFERENCE_LOAD, type MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
+import {
+  altitudeEffect,
+  altitudeCriticalGap,
+  REFERENCE_LOAD,
+  type MethodPhysicsMetrics,
+} from "@/lib/cooking/methodMetrics";
 import { cToF, fToC, slabCoreTime } from "@/lib/cooking/thermo";
 import { OvenConvectionCanvas } from "./OvenConvectionCanvas";
 
@@ -493,6 +498,12 @@ export function ConditionsTab({
   const [elevationM, setElevationM] = useState<number>(0);
 
   const altitude = useMemo(() => altitudeEffect(methodId, elevationM), [methodId, elevationM]);
+  const criticalGap = useMemo(
+    () => altitudeCriticalGap(methodId, elevationM),
+    [methodId, elevationM],
+  );
+  /** Sea-level medium, for the "down from" comparison. */
+  const nominalMediumC = METHOD_PHYSICS[methodId]?.mediumC ?? null;
 
   const perIngredient = optimalTemperatures ? Object.entries(optimalTemperatures) : [];
   const proteins = reference?.temperatureF.proteins
@@ -628,6 +639,76 @@ export function ConditionsTab({
                 </div>
               )}
             </div>
+            {/* `[FIXED 2026-08-16]` The medium temperature shown elsewhere on
+                this card was a fixed constant, so at Bogotá the panel could
+                read "medium 212 °F" directly above "water boils at 196 °F
+                here" — two numbers, one screen, flatly contradicting each
+                other. This block is where the corrected medium is stated, and
+                it appears ONLY when elevation genuinely moved it. */}
+            {altitude.localizedMedium.clamped && (
+              <div className="mt-3 rounded-lg border border-sky-400/25 bg-sky-500/5 p-3">
+                <div className="text-[10px] font-semibold uppercase tracking-wide text-sky-300">
+                  At this elevation, your medium is cooler
+                </div>
+                <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="text-sm font-bold text-gray-100">
+                    {altitude.localizedMedium.fahrenheit.toFixed(0)}°F
+                  </span>
+                  <span className="text-[11px] text-gray-400">
+                    down from {nominalMediumC === null ? "—" : cToF(nominalMediumC).toFixed(0)}°F at sea level
+                    {" · "}
+                    {altitude.localizedMedium.shiftC.toFixed(1)} K
+                  </span>
+                </div>
+                {altitude.localizedMedium.coreTimeIncrease !== null &&
+                  altitude.localizedMedium.coreTimeIncrease > 0.005 && (
+                    <div className="mt-1.5 text-[11px] leading-snug text-gray-400">
+                      The reference load ({REFERENCE_LOAD.description}) takes{" "}
+                      <span className="font-semibold text-sky-200">
+                        +{(altitude.localizedMedium.coreTimeIncrease * 100).toFixed(0)}%
+                      </span>{" "}
+                      longer here —{" "}
+                      {altitude.localizedMedium.seaLevelCoreMinutes!.toFixed(0)} min at sea level
+                      versus {altitude.localizedMedium.coreMinutes!.toFixed(0)} min.
+                    </div>
+                  )}
+              </div>
+            )}
+
+            {/* A method can be altitude-penalised while the number on the card
+                does not move, because the penalty lands on a phase the card
+                never shows — tilt-skillet's sear floor holds at 424 °F while
+                its covered braise liquid follows the ceiling down. Saying so is
+                better than either clamping the wrong number or staying silent. */}
+            {!altitude.localizedMedium.clamped && criticalGap?.differsFromMedium && (
+              <div className="mt-3 rounded-lg border border-amber-400/25 bg-amber-500/5 p-3">
+                <div className="text-[10px] font-semibold uppercase tracking-wide text-amber-300">
+                  The medium above does not move — a different phase does
+                </div>
+                <div className="mt-1 text-[11px] leading-snug text-gray-400">
+                  Altitude acts on this method at{" "}
+                  <span className="font-semibold text-amber-200">
+                    {cToF(criticalGap.criticalC).toFixed(0)}°F
+                  </span>
+                  , not at the medium temperature shown on this card.{" "}
+                  {criticalGap.squeezed
+                    ? `The local ceiling of ${cToF(criticalGap.ceilingC).toFixed(0)}°F is now below it, so that phase is running cooler than intended.`
+                    : `The local ceiling of ${cToF(criticalGap.ceilingC).toFixed(0)}°F still clears it, so nothing is squeezed yet.`}
+                </div>
+              </div>
+            )}
+
+            {altitude.localizedMedium.uncomputableReason && (
+              <div className="mt-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+                <div className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                  Not computed here
+                </div>
+                <div className="mt-1 text-[11px] leading-snug text-gray-500">
+                  {altitude.localizedMedium.uncomputableReason}
+                </div>
+              </div>
+            )}
+
             <p className="mt-3 text-[11px] leading-relaxed text-gray-400">{altitude.note}</p>
           </>
         )}
