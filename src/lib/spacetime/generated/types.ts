@@ -29,6 +29,22 @@ export const CommensalSession = __t.object("CommensalSession", {
 });
 export type CommensalSession = __Infer<typeof CommensalSession>;
 
+export const CookwareMaterialTable = __t.object("CookwareMaterialTable", {
+  materialId: __t.u64(),
+  slug: __t.string(),
+  label: __t.string(),
+  kWMK: __t.f32(),
+  rhoKgM3: __t.f32(),
+  cJKgK: __t.f32(),
+  typicalThicknessMm: __t.f32(),
+  effusivity: __t.f32(),
+  arealHeatCapacity: __t.f32(),
+  spreading: __t.f32(),
+  acidSafe: __t.bool(),
+  source: __t.string(),
+});
+export type CookwareMaterialTable = __Infer<typeof CookwareMaterialTable>;
+
 export const Cuisine = __t.object("Cuisine", {
   cuisineId: __t.u64(),
   name: __t.string(),
@@ -53,6 +69,29 @@ export const ElementalSignature = __t.object("ElementalSignature", {
   substance: __t.f32(),
 });
 export type ElementalSignature = __Infer<typeof ElementalSignature>;
+
+// The tagged union or sum type for the algebraic type `ElevationProvenance`.
+export const ElevationProvenance = __t.enum("ElevationProvenance", {
+  Gps: __t.unit(),
+  Dem: __t.unit(),
+  Ip: __t.unit(),
+  User: __t.unit(),
+});
+export type ElevationProvenance = __Infer<typeof ElevationProvenance>;
+
+export const EnvironmentalObservation = __t.object("EnvironmentalObservation", {
+  obsId: __t.u64(),
+  owner: __t.identity(),
+  elevationM: __t.f32(),
+  get elevationProvenance() {
+    return ElevationProvenance;
+  },
+  ambientTempC: __t.f32(),
+  relativeHumidityPct: __t.f32(),
+  stationPressureKpa: __t.option(__t.f32()),
+  updatedAt: __t.timestamp(),
+});
+export type EnvironmentalObservation = __Infer<typeof EnvironmentalObservation>;
 
 export const FeedEvent = __t.object("FeedEvent", {
   eventId: __t.u64(),
@@ -108,6 +147,25 @@ export const MealPlanSlot = __t.object("MealPlanSlot", {
   updatedAt: __t.timestamp(),
 });
 export type MealPlanSlot = __Infer<typeof MealPlanSlot>;
+
+export const MethodPhysicsTable = __t.object("MethodPhysicsTable", {
+  physicsId: __t.u64(),
+  methodSlug: __t.string(),
+  rateLimiter: __t.u8(),
+  hLow: __t.f32(),
+  hTypical: __t.f32(),
+  hHigh: __t.f32(),
+  mediumC: __t.f32(),
+  mediumDivergenceNote: __t.string(),
+  modeConduction: __t.f32(),
+  modeConvection: __t.f32(),
+  modeRadiation: __t.f32(),
+  surfaceCanBrown: __t.bool(),
+  radiantSourceK: __t.f32(),
+  altitudeResponse: __t.u8(),
+  source: __t.string(),
+});
+export type MethodPhysicsTable = __Infer<typeof MethodPhysicsTable>;
 
 export const Recipe = __t.object("Recipe", {
   recipeId: __t.u64(),

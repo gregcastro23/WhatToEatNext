@@ -1064,3 +1064,131 @@ pub fn kick_table_chat_member(
     }
     Ok(())
 }
+
+// ---------------------------------------------------------------------------
+// Environmental telemetry (the live-physics layer — PR 4)
+// ---------------------------------------------------------------------------
+//
+// One row per identity, upserted by `ctx.sender`. These rows drive the cooking
+// method cards' localized medium temperature and evaporative-ceiling text.
+//
+// The validation below rejects; it does NOT clamp. Every bound here is a
+// "no sensor on Earth reports this" bound, chosen so that a plausible-but-
+// extreme real reading is preserved rather than quietly rewritten. The one
+// clamp this subsystem needs — the Antoine validity ceiling — is applied on
+// the READ side, where the UI can tell the user it happened.
+
+/// Below the Dead Sea shore (-430 m), no kitchen exists.
+const ELEVATION_MIN_M: f32 = -500.0;
+/// Above La Rinconada (5100 m) nobody lives; 9000 m covers aircraft galleys.
+const ELEVATION_MAX_M: f32 = 9_000.0;
+/// A room a cook can stand in. Wider than comfortable, narrower than absurd.
+const AMBIENT_TEMP_MIN_C: f32 = -60.0;
+const AMBIENT_TEMP_MAX_C: f32 = 70.0;
+/// Absolute station pressure bounds. 25 kPa is above the summit of Everest
+/// (~33.7 kPa); 110 kPa is above the highest station pressure ever recorded at
+/// low elevation (~107.8 kPa, Siberia). A reading outside this is a broken
+/// sensor or a unit error (hPa passed as kPa), not weather.
+const STATION_PRESSURE_MIN_KPA: f32 = 25.0;
+const STATION_PRESSURE_MAX_KPA: f32 = 110.0;
+
+fn validate_finite(label: &str, value: f32) -> Result<(), String> {
+    if !value.is_finite() {
+        return Err(format!("{label} must be finite, received {value}"));
+    }
+    Ok(())
+}
+
+fn validate_range(label: &str, value: f32, min: f32, max: f32) -> Result<(), String> {
+    validate_finite(label, value)?;
+    if value < min || value > max {
+        return Err(format!("{label} must be within {min}..={max}, received {value}"));
+    }
+    Ok(())
+}
+
+/// Create or replace the caller's live environmental observation.
+///
+/// Ownership is derived from `ctx.sender` (ADR-008) — there is no owner
+/// argument, so an identity can only ever write its own telemetry. The
+/// `#[unique]` constraint on `owner` makes the find-then-write below race-safe:
+/// two concurrent calls from one identity serialise, and the loser updates
+/// rather than inserting a duplicate.
+///
+/// `station_pressure_kpa` is optional: most clients have no barometer, and a
+/// missing reading is meaningfully different from a guessed one. Readers fall
+/// back to the ISA pressure implied by `elevation_m` when it is `None`, which
+/// is exactly the behaviour the app had before this table existed.
+#[spacetimedb::reducer]
+pub fn upsert_environmental_observation(
+    ctx: &ReducerContext,
+    elevation_m: f32,
+    elevation_provenance: ElevationProvenance,
+    ambient_temp_c: f32,
+    relative_humidity_pct: f32,
+    station_pressure_kpa: Option<f32>,
+) -> Result<(), String> {
+    validate_range("elevation_m", elevation_m, ELEVATION_MIN_M, ELEVATION_MAX_M)?;
+    validate_range(
+        "ambient_temp_c",
+        ambient_temp_c,
+        AMBIENT_TEMP_MIN_C,
+        AMBIENT_TEMP_MAX_C,
+    )?;
+    validate_range("relative_humidity_pct", relative_humidity_pct, 0.0, 100.0)?;
+    if let Some(kpa) = station_pressure_kpa {
+        validate_range(
+            "station_pressure_kpa",
+            kpa,
+            STATION_PRESSURE_MIN_KPA,
+            STATION_PRESSURE_MAX_KPA,
+        )?;
+    }
+
+    match ctx.db.environmental_observation().owner().find(ctx.sender()) {
+        Some(existing) => {
+            ctx.db
+                .environmental_observation()
+                .obs_id()
+                .update(EnvironmentalObservation {
+                    elevation_m,
+                    elevation_provenance,
+                    ambient_temp_c,
+                    relative_humidity_pct,
+                    station_pressure_kpa,
+                    updated_at: ctx.timestamp,
+                    ..existing
+                });
+        }
+        None => {
+            ctx.db
+                .environmental_observation()
+                .try_insert(EnvironmentalObservation {
+                    obs_id: 0,
+                    owner: ctx.sender(),
+                    elevation_m,
+                    elevation_provenance,
+                    ambient_temp_c,
+                    relative_humidity_pct,
+                    station_pressure_kpa,
+                    updated_at: ctx.timestamp,
+                })
+                .map_err(|e| e.to_string())?;
+        }
+    }
+    Ok(())
+}
+
+/// Drop the caller's observation — the session ended, or the user revoked
+/// location. The cards fall back to their sea-level nominal values, which is
+/// the honest state for "we no longer know where you are".
+#[spacetimedb::reducer]
+pub fn clear_environmental_observation(ctx: &ReducerContext) -> Result<(), String> {
+    if let Some(existing) = ctx.db.environmental_observation().owner().find(ctx.sender()) {
+        ctx.db
+            .environmental_observation()
+            .obs_id()
+            .delete(existing.obs_id);
+    }
+    Ok(())
+}
