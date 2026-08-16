@@ -15,37 +15,54 @@ import { _logger } from "@/lib/logger";
 import {
   getKitchenSettings,
   persistKitchenSettings,
+  type RecipeCoreTimeAdjustment,
 } from "@/services/kitchenSettingsService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function POST(request: NextRequest) {
+/**
+ * Client-supplied body. Every field is `unknown`, because it is: this is parsed
+ * JSON off the wire, and typing it as the happy-path shape would let
+ * `no-unsafe-*` violations stand in for the validation that actually has to
+ * happen below.
+ *
+ * Elevation bounds mirror the SpacetimeDB reducer's (−500..9000 m) so a value
+ * that is acceptable live is acceptable durably.
+ */
+interface KitchenSettingsBody {
+  kitchenElevationM?: unknown;
+  kitchenElevationBasis?: unknown;
+  kitchenSettings?: unknown;
+  recipeAdjustments?: unknown;
+}
+
+const ELEVATION_MIN_M = -500;
+const ELEVATION_MAX_M = 9000;
+
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const user = await getDatabaseUserFromRequest(request);
     if (!user) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const {
-      kitchenElevationM,
-      kitchenElevationBasis,
-      kitchenSettings,
-      recipeAdjustments,
-    } = body ?? {};
+    const body = ((await request.json()) ?? {}) as KitchenSettingsBody;
+    const { kitchenElevationM, kitchenElevationBasis, kitchenSettings, recipeAdjustments } = body;
+
+    const elevationProvided = kitchenElevationM !== undefined && kitchenElevationM !== null;
+    const elevationValue = elevationProvided ? Number(kitchenElevationM) : undefined;
 
     if (
-      kitchenElevationM !== undefined &&
-      kitchenElevationM !== null &&
-      (!Number.isFinite(Number(kitchenElevationM)) ||
-        Number(kitchenElevationM) < -500 ||
-        Number(kitchenElevationM) > 9000)
+      elevationValue !== undefined &&
+      (!Number.isFinite(elevationValue) ||
+        elevationValue < ELEVATION_MIN_M ||
+        elevationValue > ELEVATION_MAX_M)
     ) {
       return NextResponse.json(
         {
           success: false,
-          message: "kitchenElevationM must be a number within -500..9000 metres",
+          message: `kitchenElevationM must be a number within ${ELEVATION_MIN_M}..${ELEVATION_MAX_M} metres`,
         },
         { status: 400 },
       );
@@ -53,13 +70,17 @@ export async function POST(request: NextRequest) {
 
     const result = await persistKitchenSettings({
       userId: user.id,
-      kitchenElevationM:
-        kitchenElevationM !== undefined && kitchenElevationM !== null
-          ? Number(kitchenElevationM)
+      kitchenElevationM: elevationValue,
+      // Normalised inside the service, which accepts either vocabulary and
+      // returns null for anything it does not recognise.
+      kitchenElevationBasis: typeof kitchenElevationBasis === "string" ? kitchenElevationBasis : null,
+      kitchenSettings:
+        typeof kitchenSettings === "object" && kitchenSettings !== null && !Array.isArray(kitchenSettings)
+          ? (kitchenSettings as Record<string, unknown>)
           : undefined,
-      kitchenElevationBasis,
-      kitchenSettings: typeof kitchenSettings === "object" ? kitchenSettings : undefined,
-      recipeAdjustments: Array.isArray(recipeAdjustments) ? recipeAdjustments : undefined,
+      recipeAdjustments: Array.isArray(recipeAdjustments)
+        ? (recipeAdjustments as RecipeCoreTimeAdjustment[])
+        : undefined,
     });
 
     return NextResponse.json({
@@ -78,7 +99,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const user = await getDatabaseUserFromRequest(request);
     if (!user) {

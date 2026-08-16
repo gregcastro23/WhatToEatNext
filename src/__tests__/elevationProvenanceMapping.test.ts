@@ -14,6 +14,7 @@
 import {
   provenanceToElevationBasis,
   elevationBasisToProvenance,
+  normaliseToElevationBasis,
   type PostgresElevationBasis,
 } from '@/lib/environment/elevationProvenance';
 import type { ElevationProvenance } from '@/hooks/useEnvironmentalObservation';
@@ -113,5 +114,48 @@ describe('elevation vocabulary reconciliation', () => {
       expect(basis).toBe('ABSENT');
       expect(elevationBasisToProvenance(basis)).toBeNull();
     });
+  });
+});
+
+describe('normaliseToElevationBasis — the silent-downgrade guard', () => {
+  it('the one-way mapper really does downgrade a Postgres basis', () => {
+    // The CONTROL. Everything below is only meaningful because this is true:
+    // `provenanceToElevationBasis` understands the Spacetime spellings only and
+    // falls through to 'COMPUTED' for anything else, including values that were
+    // already correct. If this ever stops being true, the guard is redundant
+    // and this whole describe block should be re-examined rather than trusted.
+    expect(provenanceToElevationBasis('MEASURED' as never)).toBe('COMPUTED');
+    expect(provenanceToElevationBasis('DERIVED' as never)).toBe('COMPUTED');
+  });
+
+  it('passes an already-correct Postgres basis through untouched', () => {
+    // `/api/environment/lookup` returns `elevationBasis: 'DERIVED'`, so a
+    // round-trip through "save my kitchen settings" used to re-record a
+    // model-derived elevation as a guessed one.
+    for (const basis of ['MEASURED', 'DERIVED', 'COMPUTED', 'ABSENT'] as const) {
+      expect(normaliseToElevationBasis(basis)).toBe(basis);
+    }
+  });
+
+  it('still accepts the Spacetime vocabulary', () => {
+    expect(normaliseToElevationBasis('gps')).toBe('MEASURED');
+    expect(normaliseToElevationBasis('user')).toBe('MEASURED');
+    expect(normaliseToElevationBasis('dem')).toBe('DERIVED');
+    expect(normaliseToElevationBasis('ip')).toBe('COMPUTED');
+  });
+
+  it('is case- and whitespace-insensitive in both vocabularies', () => {
+    expect(normaliseToElevationBasis('  measured ')).toBe('MEASURED');
+    expect(normaliseToElevationBasis('GPS')).toBe('MEASURED');
+  });
+
+  it('refuses an unrecognised value instead of guessing', () => {
+    // Returning 'COMPUTED' for junk would be a claim: it asserts the elevation
+    // was inferred, which the UI then trusts enough to hedge on. Null asserts
+    // nothing.
+    expect(normaliseToElevationBasis('carrier-pigeon')).toBeNull();
+    expect(normaliseToElevationBasis('')).toBeNull();
+    expect(normaliseToElevationBasis(null)).toBeNull();
+    expect(normaliseToElevationBasis(undefined)).toBeNull();
   });
 });

@@ -127,8 +127,11 @@ export function useUserLocation(options?: UseUserLocationOptions) {
     [persistChoice],
   );
 
-  const requestBrowserLocation = useCallback(() => {
-    if (typeof navigator === "undefined" || !navigator.geolocation) {
+  const requestBrowserLocation = useCallback((): void => {
+    // `navigator.geolocation` is non-optional in lib.dom, but is genuinely
+    // absent in non-secure contexts and some embedded webviews — hence the
+    // runtime check the type system says is unnecessary.
+    if (typeof navigator === "undefined" || typeof navigator.geolocation === "undefined") {
       setStatus("error");
       setError("Location services are unavailable in this browser.");
       return;

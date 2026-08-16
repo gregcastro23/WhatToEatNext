@@ -70,6 +70,47 @@ export function provenanceToElevationBasis(
   }
 }
 
+/**
+ * Accept EITHER vocabulary and return the Postgres one.
+ *
+ * ⚠️ THE REASON THIS EXISTS IS A SILENT DOWNGRADE.
+ *
+ * `provenanceToElevationBasis` takes the Spacetime vocabulary and falls through
+ * to `'COMPUTED'` for anything it does not recognise — which includes every
+ * Postgres basis. `[MEASURED 2026-08-16]` Feeding it a value that was already
+ * correct produced:
+ *
+ *     'MEASURED' -> 'COMPUTED'      'DERIVED' -> 'COMPUTED'
+ *
+ * The save path did exactly that, via an `as any` that silenced the type error.
+ * `/api/environment/lookup` returns `elevationBasis: 'DERIVED'`, so a
+ * round-trip through "save my kitchen settings" re-recorded a model-derived
+ * elevation as a guessed one — and provenance is precisely what decides whether
+ * the UI may print a confident boiling point.
+ *
+ * A caller holding a value that might be in either vocabulary must use this,
+ * not the one-way mapper.
+ */
+export function normaliseToElevationBasis(
+  value: string | null | undefined,
+): PostgresElevationBasis | null {
+  if (!value) return null;
+
+  const upper = value.toUpperCase().trim();
+  if (upper === 'MEASURED' || upper === 'DERIVED' || upper === 'COMPUTED' || upper === 'ABSENT') {
+    return upper;
+  }
+
+  const lower = value.toLowerCase().trim();
+  if (lower === 'gps' || lower === 'user' || lower === 'dem' || lower === 'ip') {
+    return provenanceToElevationBasis(lower);
+  }
+
+  // Neither vocabulary. Refuse rather than guess: writing a wrong provenance is
+  // worse than writing none, because a wrong one is trusted.
+  return null;
+}
+
 export interface ElevationBasisToProvenanceOptions {
   /**
    * Disambiguation hint when Postgres basis is 'MEASURED'.

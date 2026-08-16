@@ -1,123 +1,157 @@
 /**
  * Unit tests for kitchenSettingsService.
  *
- * Tests:
- * - Persisting kitchen elevation and basis
- * - Updating settings JSON payload
- * - Recipe core time adjustments
- * - Reading back persisted settings
+ * ⚠️ SCOPE: these mock the `pg` driver, so they exercise the ARGUMENT MAPPING
+ * and the row mapper — not the SQL. A mocked driver cannot tell you whether
+ * Postgres can parse the statement or whether the columns exist; only a real
+ * `PREPARE` against the live schema can, and that is a separate check.
  *
  * @file src/services/__tests__/kitchenSettingsService.test.ts
  */
 
 import { executeQuery } from "@/lib/database/connection";
-import {
-  getKitchenSettings,
-  persistKitchenSettings,
-} from "@/services/kitchenSettingsService";
+import { getKitchenSettings, persistKitchenSettings } from "@/services/kitchenSettingsService";
 
 jest.mock("@/lib/database/connection", () => ({
   executeQuery: jest.fn(),
 }));
 
-describe("kitchenSettingsService", () => {
-  const mockExecuteQuery = executeQuery as jest.Mock;
+const mockExecuteQuery = executeQuery as jest.Mock;
 
+/** A row shaped the way node-postgres actually returns it — NUMERIC as string. */
+function dbRow(overrides: Record<string, unknown> = {}) {
+  return {
+    user_id: "00000000-0000-0000-0000-000000000001",
+    kitchen_elevation_m: "1609.00",
+    kitchen_elevation_basis: "MEASURED",
+    kitchen_settings: { stationPressureKpa: 83.4 },
+    updated_at: new Date("2026-08-16T12:00:00Z").toISOString(),
+    ...overrides,
+  };
+}
+
+describe("kitchenSettingsService", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   describe("persistKitchenSettings", () => {
-    it("updates kitchen elevation and settings for user", async () => {
-      const mockRow = {
-        user_id: "00000000-0000-0000-0000-000000000001",
-        kitchen_elevation_m: "1609.00",
-        kitchen_elevation_basis: "MEASURED",
-        kitchen_settings: { stationPressureKpa: 83.4 },
-        updated_at: new Date().toISOString(),
-      };
+    it("writes in a SINGLE statement, not an update-then-insert pair", () => {
+      // The previous implementation issued an UPDATE, checked for zero rows,
+      // then a separate INSERT ... ON CONFLICT. That was racy (another request
+      // could insert in between) AND the two paths disagreed on null handling.
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [dbRow()] });
 
-      mockExecuteQuery.mockResolvedValueOnce({ rows: [mockRow] });
-
-      const result = await persistKitchenSettings({
+      return persistKitchenSettings({
         userId: "00000000-0000-0000-0000-000000000001",
         kitchenElevationM: 1609,
         kitchenElevationBasis: "gps",
-        kitchenSettings: { stationPressureKpa: 83.4 },
-      });
-
-      expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
-      expect(result).toEqual({
-        userId: "00000000-0000-0000-0000-000000000001",
-        kitchenElevationM: 1609,
-        kitchenElevationBasis: "MEASURED",
-        kitchenSettings: { stationPressureKpa: 83.4 },
-        updatedAt: expect.any(Date),
+      }).then(() => {
+        expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+        const [sql] = mockExecuteQuery.mock.calls[0] as [string, unknown[]];
+        expect(sql).toMatch(/INSERT INTO user_profiles/);
+        expect(sql).toMatch(/ON CONFLICT \(user_id\) DO UPDATE/);
       });
     });
 
-    it("inserts new profile row if user profile was not present", async () => {
-      mockExecuteQuery
-        .mockResolvedValueOnce({ rows: [] }) // update returned 0 rows
-        .mockResolvedValueOnce({
-          rows: [
-            {
-              user_id: "00000000-0000-0000-0000-000000000002",
-              kitchen_elevation_m: "2640.00",
-              kitchen_elevation_basis: "DERIVED",
-              kitchen_settings: { city: "Bogota" },
-              updated_at: new Date().toISOString(),
-            },
-          ],
-        });
+    it("null means 'leave it alone' on the conflict path too", async () => {
+      // The specific defect: the conflict clause used to assign bare
+      // `EXCLUDED.*`, so a null ERASED a stored elevation whenever the profile
+      // row already existed — while the same null PRESERVED it when the row did
+      // not. Same input, opposite outcome, decided by invisible state.
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [dbRow()] });
+      await persistKitchenSettings({ userId: "u", kitchenSettings: { a: 1 } });
 
-      const result = await persistKitchenSettings({
-        userId: "00000000-0000-0000-0000-000000000002",
-        kitchenElevationM: 2640,
-        kitchenElevationBasis: "dem",
-        kitchenSettings: { city: "Bogota" },
-      });
+      const [sql, params] = mockExecuteQuery.mock.calls[0] as [string, unknown[]];
+      expect(sql).toMatch(
+        /kitchen_elevation_m\s*=\s*COALESCE\(EXCLUDED\.kitchen_elevation_m, user_profiles\.kitchen_elevation_m\)/,
+      );
+      expect(sql).toMatch(
+        /kitchen_elevation_basis\s*=\s*COALESCE\(EXCLUDED\.kitchen_elevation_basis, user_profiles\.kitchen_elevation_basis\)/,
+      );
+      // ...and an omitted elevation really is sent as null, not 0.
+      expect(params[1]).toBeNull();
+    });
 
-      expect(mockExecuteQuery).toHaveBeenCalledTimes(2);
-      expect(result).toEqual({
-        userId: "00000000-0000-0000-0000-000000000002",
-        kitchenElevationM: 2640,
-        kitchenElevationBasis: "DERIVED",
-        kitchenSettings: { city: "Bogota" },
-        updatedAt: expect.any(Date),
-      });
+    it("accepts the Postgres vocabulary without downgrading it", async () => {
+      // `[MEASURED]` The regression this exists for: the service used to route
+      // every basis through `provenanceToElevationBasis`, which only knows the
+      // Spacetime spellings and falls through to 'COMPUTED'. So a caller
+      // passing 'MEASURED' — which is what /api/environment/lookup returns —
+      // had it silently rewritten to 'COMPUTED', turning a real measurement
+      // into a guess in the one column that decides how much the UI may claim.
+      for (const [input, expected] of [
+        ["MEASURED", "MEASURED"],
+        ["DERIVED", "DERIVED"],
+        ["COMPUTED", "COMPUTED"],
+        ["ABSENT", "ABSENT"],
+      ]) {
+        mockExecuteQuery.mockResolvedValueOnce({ rows: [dbRow()] });
+        await persistKitchenSettings({ userId: "u", kitchenElevationBasis: input });
+        const [, params] = mockExecuteQuery.mock.calls.at(-1) as [string, unknown[]];
+        expect(params[2]).toBe(expected);
+      }
+    });
+
+    it("still maps the Spacetime vocabulary", async () => {
+      for (const [input, expected] of [
+        ["gps", "MEASURED"],
+        ["user", "MEASURED"],
+        ["dem", "DERIVED"],
+        ["ip", "COMPUTED"],
+      ]) {
+        mockExecuteQuery.mockResolvedValueOnce({ rows: [dbRow()] });
+        await persistKitchenSettings({ userId: "u", kitchenElevationBasis: input });
+        const [, params] = mockExecuteQuery.mock.calls.at(-1) as [string, unknown[]];
+        expect(params[2]).toBe(expected);
+      }
+    });
+
+    it("writes no basis at all rather than guessing at an unknown one", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [dbRow()] });
+      await persistKitchenSettings({ userId: "u", kitchenElevationBasis: "carrier-pigeon" });
+      const [, params] = mockExecuteQuery.mock.calls[0] as [string, unknown[]];
+      expect(params[2]).toBeNull();
+    });
+
+    it("returns null when the write returns no row", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+      await expect(persistKitchenSettings({ userId: "u" })).resolves.toBeNull();
     });
   });
 
   describe("getKitchenSettings", () => {
-    it("returns null if no profile exists", async () => {
+    it("returns null when no profile exists", async () => {
       mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
-
-      const result = await getKitchenSettings("00000000-0000-0000-0000-000000000003");
-      expect(result).toBeNull();
+      await expect(getKitchenSettings("nobody")).resolves.toBeNull();
     });
 
-    it("returns parsed kitchen settings", async () => {
+    it("converts the NUMERIC string Postgres actually returns", async () => {
+      // node-postgres hands NUMERIC back as a STRING to avoid float precision
+      // loss. Returning it unconverted would put "1609.00" where callers expect
+      // a number, and `"1609.00" - 0` style coercion downstream would hide it.
       mockExecuteQuery.mockResolvedValueOnce({
-        rows: [
-          {
-            user_id: "00000000-0000-0000-0000-000000000004",
-            kitchen_elevation_m: "500.00",
-            kitchen_elevation_basis: "MEASURED",
-            kitchen_settings: { altitudeExploreSaved: true },
-            updated_at: new Date().toISOString(),
-          },
-        ],
+        rows: [dbRow({ kitchen_elevation_m: "500.00" })],
       });
+      const result = await getKitchenSettings("u");
+      expect(result?.kitchenElevationM).toBe(500);
+      expect(typeof result?.kitchenElevationM).toBe("number");
+    });
 
-      const result = await getKitchenSettings("00000000-0000-0000-0000-000000000004");
-      expect(result).toEqual({
-        userId: "00000000-0000-0000-0000-000000000004",
-        kitchenElevationM: 500,
-        kitchenElevationBasis: "MEASURED",
-        kitchenSettings: { altitudeExploreSaved: true },
-        updatedAt: expect.any(Date),
+    it("keeps a null elevation null rather than coercing it to zero", async () => {
+      // `Number(null)` is 0, and 0 m is sea level — a real, wrong claim.
+      mockExecuteQuery.mockResolvedValueOnce({
+        rows: [dbRow({ kitchen_elevation_m: null, kitchen_elevation_basis: null })],
       });
+      const result = await getKitchenSettings("u");
+      expect(result?.kitchenElevationM).toBeNull();
+      expect(result?.kitchenElevationBasis).toBeNull();
+    });
+
+    it("defaults absent settings to an empty object", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [dbRow({ kitchen_settings: null })] });
+      const result = await getKitchenSettings("u");
+      expect(result?.kitchenSettings).toEqual({});
     });
   });
 });

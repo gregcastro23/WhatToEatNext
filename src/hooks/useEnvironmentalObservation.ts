@@ -160,7 +160,7 @@ export function useEnvironmentalObservation(active = true): EnvironmentalReading
       return;
     }
 
-    const refresh = () => {
+    const refresh = (): void => {
       try {
         // The table is `public` for reads (SpacetimeDB 2.x leaves
         // client_visibility_filter unenforced), so filter by identity here —
@@ -183,7 +183,7 @@ export function useEnvironmentalObservation(active = true): EnvironmentalReading
     connection.db.environmental_observation.onUpdate(refresh);
     connection.db.environmental_observation.onDelete(refresh);
 
-    return () => {
+    return (): void => {
       try {
         connection.db.environmental_observation.removeOnInsert(refresh);
         connection.db.environmental_observation.removeOnUpdate(refresh);
@@ -222,7 +222,7 @@ export function usePublishEnvironmentalObservation(): (
       // Best-effort: a dropped publish costs a stale card, not a wrong number,
       // and the next reading re-sends. Swallowing the rejection here is why
       // callers need no error branch.
-      void connection.reducers
+      connection.reducers
         .upsertEnvironmentalObservation({
           elevationM: reading.elevationM,
           elevationProvenance: { tag: PROVENANCE_TAG_BY_VALUE[reading.elevationProvenance] },
@@ -232,7 +232,7 @@ export function usePublishEnvironmentalObservation(): (
           relativeHumidityPct: reading.relativeHumidityPct ?? Number.NaN,
           stationPressureKpa: reading.stationPressureKpa ?? undefined,
         })
-        .catch(() => {});
+        .catch(() => undefined);
     },
     [connection, status, enabled],
   );

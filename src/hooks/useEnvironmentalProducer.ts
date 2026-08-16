@@ -116,94 +116,128 @@ export interface UseEnvironmentalProducerOptions {
   active?: boolean;
 }
 
-export function useEnvironmentalProducer(options?: UseEnvironmentalProducerOptions) {
+/**
+ * The subset of `/api/environment/lookup`'s response this hook consumes.
+ *
+ * Declared as `unknown` fields and narrowed below rather than typed as the
+ * happy path: it is parsed JSON from a network call, and asserting the shape
+ * would convert a runtime surprise into unchecked member access.
+ */
+interface EnvironmentLookupResponse {
+  success?: unknown;
+  elevationM?: unknown;
+  elevationBasis?: unknown;
+  pressureMedianKpa?: unknown;
+}
+
+/** Room-condition inputs, all of which are absent until hardware supplies them. */
+interface RoomOverrides {
+  ambientTempC: number | null;
+  relativeHumidityPct: number | null;
+  stationPressureKpa: number | null;
+}
+
+/** Device GNSS gave us an altitude directly — no lookup needed. */
+function readingFromGnss(
+  location: UserLocation,
+  room: RoomOverrides,
+): PublishedObservationState | null {
+  if (typeof location.altitude !== "number" || !Number.isFinite(location.altitude)) return null;
+  return {
+    elevationM: location.altitude,
+    elevationProvenance: location.elevationProvenance ?? "gps",
+    ...room,
+  };
+}
+
+/** No GNSS altitude: ask the lookup route, which prefers a stored baseline. */
+async function readingFromLookup(
+  location: UserLocation,
+  room: RoomOverrides,
+): Promise<PublishedObservationState | null> {
+  const query = `lat=${encodeURIComponent(location.lat)}&lng=${encodeURIComponent(location.lng)}`;
+  const res = await fetch(`/api/environment/lookup?${query}`);
+  if (!res.ok) return null;
+
+  const data = (await res.json()) as EnvironmentLookupResponse;
+  if (data.success !== true || typeof data.elevationM !== "number") return null;
+
+  const basis = typeof data.elevationBasis === "string" ? data.elevationBasis : null;
+  const baselinePressure =
+    typeof data.pressureMedianKpa === "number" ? data.pressureMedianKpa : null;
+
+  return {
+    elevationM: data.elevationM,
+    elevationProvenance: location.elevationProvenance ?? elevationBasisToProvenance(basis) ?? "dem",
+    ambientTempC: room.ambientTempC,
+    relativeHumidityPct: room.relativeHumidityPct,
+    stationPressureKpa: room.stationPressureKpa ?? baselinePressure,
+  };
+}
+
+export function useEnvironmentalProducer(options?: UseEnvironmentalProducerOptions): void {
   const active = options?.active ?? true;
   const enabled = isLiveEnvironmentEnabled();
   const { location: hookLocation } = useUserLocation();
-  const location = options?.locationOverride !== undefined ? options?.locationOverride : hookLocation;
+  const location = options?.locationOverride !== undefined ? options.locationOverride : hookLocation;
 
   const publish = usePublishEnvironmentalObservation();
   const lastPublished = useRef<PublishedObservationState | null>(null);
   const inFlightLookup = useRef<string | null>(null);
 
+  const ambientTempCOverride = options?.ambientTempCOverride;
+  const relativeHumidityPctOverride = options?.relativeHumidityPctOverride;
+  const stationPressureKpaOverride = options?.stationPressureKpaOverride;
+
   useEffect(() => {
-    if (!active || !enabled || !location) {
+    if (!active || !enabled || !location) return;
+
+    let cancelled = false;
+    // `?? null`, never `?? <plausible constant>`. No sensor means no reading.
+    const room: RoomOverrides = {
+      ambientTempC: ambientTempCOverride ?? null,
+      relativeHumidityPct: relativeHumidityPctOverride ?? null,
+      stationPressureKpa: stationPressureKpaOverride ?? null,
+    };
+
+    const emit = (next: PublishedObservationState | null): void => {
+      if (cancelled || !next) return;
+      if (!isMeaningfulChange(lastPublished.current, next)) return;
+      lastPublished.current = next;
+      publish(next);
+    };
+
+    const fromGnss = readingFromGnss(location, room);
+    if (fromGnss) {
+      emit(fromGnss);
       return;
     }
 
-    let cancelled = false;
+    // One lookup in flight per coordinate: without this guard a re-render
+    // storm would issue a request per render for the same place.
+    const cacheKey = `${location.lat.toFixed(4)},${location.lng.toFixed(4)}`;
+    if (inFlightLookup.current === cacheKey) return;
+    inFlightLookup.current = cacheKey;
 
-    async function resolveAndPublish() {
-      if (!location) return;
-
-      // `?? null`, never `?? <plausible constant>`. No sensor means no reading.
-      const ambientTempC = options?.ambientTempCOverride ?? null;
-      const relativeHumidityPct = options?.relativeHumidityPctOverride ?? null;
-      const stationPressureKpa = options?.stationPressureKpaOverride ?? null;
-
-      // 1. GNSS altitude available directly from device
-      if (typeof location.altitude === "number" && Number.isFinite(location.altitude)) {
-        const next: PublishedObservationState = {
-          elevationM: location.altitude,
-          elevationProvenance: location.elevationProvenance ?? "gps",
-          ambientTempC,
-          relativeHumidityPct,
-          stationPressureKpa,
-        };
-        if (isMeaningfulChange(lastPublished.current, next)) {
-          lastPublished.current = next;
-          publish(next);
-        }
-        return;
-      }
-
-      // 2. DEM / Baseline lookup via /api/environment/lookup
-      const cacheKey = `${location.lat.toFixed(4)},${location.lng.toFixed(4)}`;
-      if (inFlightLookup.current === cacheKey) return;
-      inFlightLookup.current = cacheKey;
-
-      try {
-        const res = await fetch(`/api/environment/lookup?lat=${encodeURIComponent(location.lat)}&lng=${encodeURIComponent(location.lng)}`);
-        if (!res.ok || cancelled) return;
-        const data = await res.json();
-        if (!data.success || typeof data.elevationM !== "number" || cancelled) return;
-
-        const resolvedProvenance: ElevationProvenance =
-          location.elevationProvenance ??
-          elevationBasisToProvenance(data.elevationBasis) ??
-          "dem";
-
-        const next: PublishedObservationState = {
-          elevationM: data.elevationM,
-          elevationProvenance: resolvedProvenance,
-          ambientTempC,
-          relativeHumidityPct,
-          stationPressureKpa: stationPressureKpa ?? (data.pressureMedianKpa ? Number(data.pressureMedianKpa) : null),
-        };
-
-        if (isMeaningfulChange(lastPublished.current, next)) {
-          lastPublished.current = next;
-          publish(next);
-        }
-      } catch {
-        // Best-effort lookup
-      } finally {
+    readingFromLookup(location, room)
+      .then(emit)
+      // Best-effort: a failed lookup costs a card that keeps its manual preset,
+      // not a wrong number.
+      .catch(() => undefined)
+      .finally(() => {
         inFlightLookup.current = null;
-      }
-    }
+      });
 
-    void resolveAndPublish();
-
-    return () => {
+    return (): void => {
       cancelled = true;
     };
   }, [
     active,
     enabled,
     location,
-    options?.ambientTempCOverride,
-    options?.relativeHumidityPctOverride,
-    options?.stationPressureKpaOverride,
+    ambientTempCOverride,
+    relativeHumidityPctOverride,
+    stationPressureKpaOverride,
     publish,
   ]);
 }
