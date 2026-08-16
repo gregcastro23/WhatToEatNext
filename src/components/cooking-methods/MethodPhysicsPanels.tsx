@@ -15,12 +15,18 @@
  */
 
 import React, { useMemo, useState } from "react";
-import { METHOD_PHYSICS, RATE_LIMITER_LABEL, RATE_LIMITER_NOTE } from "@/data/cooking/methodPhysics";
+import {
+  METHOD_PHYSICS,
+  RATE_LIMITER_LABEL,
+  RATE_LIMITER_NOTE,
+  type MethodPhysicsProfile,
+} from "@/data/cooking/methodPhysics";
 import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
 import {
   useEnvironmentalObservation,
   type ElevationProvenance,
 } from "@/hooks/useEnvironmentalObservation";
+import { useEnvironmentalProducer } from "@/hooks/useEnvironmentalProducer";
 import {
   altitudeEffect,
   altitudeCriticalGap,
@@ -52,7 +58,7 @@ function Panel({
   subtitle?: string;
   children: React.ReactNode;
   tone?: "neutral" | "warm" | "cool";
-}) {
+}): React.ReactElement {
   const border =
     tone === "warm" ? "border-amber-400/25" : tone === "cool" ? "border-sky-400/25" : "border-white/10";
   return (
@@ -71,7 +77,7 @@ function Panel({
  * behind it is information. Renders an explicit "no baseline" state rather than
  * defaulting a null z to the centre of the track.
  */
-function ZMeter({ z, note, label }: { z: number | null; note: string | null; label: string }) {
+function ZMeter({ z, note, label }: { z: number | null; note: string | null; label: string }): React.ReactElement {
   if (z === null) {
     return (
       <div className="text-[11px] text-gray-500">
@@ -117,7 +123,7 @@ function Stat({
   value: string;
   unit?: string;
   hint?: string;
-}) {
+}): React.ReactElement {
   return (
     <div>
       <div className="text-[10px] uppercase tracking-wide text-gray-500">{label}</div>
@@ -144,7 +150,7 @@ function describeTimeZ(z: number): string {
 }
 
 /** Absent data is stated, never filled in. */
-function Absent({ reason }: { reason: string }) {
+function Absent({ reason }: { reason: string }): React.ReactElement {
   return (
     <div className="rounded-lg border border-dashed border-white/15 bg-white/[0.02] p-3 text-[11px] leading-relaxed text-gray-500">
       {reason}
@@ -163,7 +169,7 @@ const MODE_META = [
   { key: "phaseChange", label: "Phase change", colour: "bg-violet-400", note: "latent heat" },
 ] as const;
 
-export function PhysicsTab({ metrics }: { metrics: MethodPhysicsMetrics }) {
+export function PhysicsTab({ metrics }: { metrics: MethodPhysicsMetrics }): React.ReactElement {
   const { physics, transfer, medium, reference, browning } = metrics;
   const modeTotal =
     physics.modes.conduction + physics.modes.convection + physics.modes.radiation + physics.modes.phaseChange;
@@ -385,7 +391,7 @@ export function ReactionsTab({
 }: {
   metrics: MethodPhysicsMetrics;
   reference?: MethodPhysicalReference;
-}) {
+}): React.ReactElement {
   const { physics } = metrics;
   const envLowC = reference ? fToC(reference.temperatureF.low) : null;
   const envHighC = reference ? fToC(reference.temperatureF.high) : null;
@@ -505,8 +511,11 @@ export function ConditionsTab({
   metrics: MethodPhysicsMetrics;
   reference?: MethodPhysicalReference;
   optimalTemperatures?: Record<string, number>;
-}) {
+}): React.ReactElement {
   const { physics, methodId } = metrics;
+
+  // Active telemetry producer: resolves elevation (GNSS/DEM/geohash) and publishes to SpacetimeDB
+  useEnvironmentalProducer();
 
   // Live telemetry, or null when the flag is off / disconnected / no row yet.
   // Null means "we do not know where you are" — NOT sea level.
@@ -521,7 +530,7 @@ export function ConditionsTab({
   const elevationM = manualElevationM ?? live?.elevationM ?? 0;
   // Only a live reading carries a barometer. A manual preset is an elevation
   // and nothing more, so it must fall back to the ISA model.
-  const stationPressureKpa = usingLive ? (live?.stationPressureKpa ?? undefined) : undefined;
+  const stationPressureKpa = usingLive ? (live.stationPressureKpa ?? undefined) : undefined;
 
   const altitude = useMemo(
     () => altitudeEffect(methodId, elevationM, stationPressureKpa),
@@ -531,13 +540,24 @@ export function ConditionsTab({
     () => altitudeCriticalGap(methodId, elevationM),
     [methodId, elevationM],
   );
-  /** Sea-level medium, for the "down from" comparison. */
-  const nominalMediumC = METHOD_PHYSICS[methodId]?.mediumC ?? null;
+  /**
+   * Sea-level medium, for the "down from" comparison.
+   *
+   * The index is asserted as possibly-undefined on purpose. `METHOD_PHYSICS` is
+   * declared `Record<string, MethodPhysicsProfile>`, so TypeScript believes
+   * every string key resolves and flags the `?.` as unnecessary — but an
+   * unrecognised `methodId` really does return undefined at runtime. Dropping
+   * the guard to silence the rule would swap a lint warning for a crash.
+   */
+  const nominalMediumC =
+    (METHOD_PHYSICS as Record<string, MethodPhysicsProfile | undefined>)[methodId]?.mediumC ?? null;
 
   const perIngredient = optimalTemperatures ? Object.entries(optimalTemperatures) : [];
-  const proteins = reference?.temperatureF.proteins
-    ? Object.entries(reference.temperatureF.proteins)
-    : [];
+  // `Object.entries` over an all-optional interface degrades to `[string, any][]`,
+  // which then spreads `any` through every `entry.temp` below. Narrowed once here.
+  const proteins = (
+    reference?.temperatureF.proteins ? Object.entries(reference.temperatureF.proteins) : []
+  ) as Array<[string, { temp: number; note: string }]>;
 
   return (
     <div className="space-y-4">
@@ -840,20 +860,36 @@ export function ConditionsTab({
           particle, it earns that by first appearing in the thermo-core
           equations with a citation and a golden vector. */}
       <Panel title="Humidity" subtitle="The variable most kitchens never think about, and several methods are ruled by.">
-        {usingLive && (
+        {/* Rendered ONLY when something actually measured the room. A previous
+            producer supplied 21 °C / 50 % as literals whenever no sensor
+            existed — which was every case — and this block printed them under
+            "in your kitchen now". A plausible number labelled as a measurement
+            is worse than a blank: the blank prompts a question, the fabrication
+            ends one. The `!== null` guards are the fix, and they are load-
+            bearing rather than defensive. */}
+        {usingLive && (live.ambientTempC !== null || live.relativeHumidityPct !== null) && (
           <div className="mb-2.5 flex flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-emerald-400/20 bg-emerald-500/5 px-3 py-2">
             <span className="text-[10px] uppercase tracking-wide text-emerald-300">
               ● In your kitchen now
             </span>
             <span className="text-[11px] text-gray-300">
-              <span className="font-semibold text-gray-100">
-                {cToF(live.ambientTempC).toFixed(0)}°F
-              </span>{" "}
-              air · {" "}
-              <span className="font-semibold text-gray-100">
-                {live.relativeHumidityPct.toFixed(0)}%
-              </span>{" "}
-              RH
+              {live.ambientTempC !== null && (
+                <>
+                  <span className="font-semibold text-gray-100">
+                    {cToF(live.ambientTempC).toFixed(0)}°F
+                  </span>{" "}
+                  air
+                </>
+              )}
+              {live.ambientTempC !== null && live.relativeHumidityPct !== null && " · "}
+              {live.relativeHumidityPct !== null && (
+                <>
+                  <span className="font-semibold text-gray-100">
+                    {live.relativeHumidityPct.toFixed(0)}%
+                  </span>{" "}
+                  RH
+                </>
+              )}
             </span>
           </div>
         )}
@@ -876,7 +912,7 @@ const PRIORITY_EXPLAIN: Record<string, string> = {
   airflow: "Airflow — the rate is set by how fast the medium is exchanged, not by how hot it is.",
 };
 
-export function EquipmentPhysicsPanel({ metrics }: { metrics: MethodPhysicsMetrics }) {
+export function EquipmentPhysicsPanel({ metrics }: { metrics: MethodPhysicsMetrics }): React.ReactElement {
   const { physics, equipment } = metrics;
 
   return (
@@ -958,7 +994,7 @@ const THICKNESS_STEPS = [10, 15, 20, 25, 30, 40, 50, 65] as const;
  * target — and watch the answer respond. The L² law is far more persuasive when
  * you can drag it than when it is written down.
  */
-export function CookTimeExplorer({ metrics }: { metrics: MethodPhysicsMetrics }) {
+export function CookTimeExplorer({ metrics }: { metrics: MethodPhysicsMetrics }): React.ReactElement {
   const { physics, reference } = metrics;
   const [thicknessMm, setThicknessMm] = useState<number>(25);
   const [targetC, setTargetC] = useState<number>(60);
