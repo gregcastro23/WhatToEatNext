@@ -305,9 +305,29 @@ pub struct EnvironmentalObservation {
     pub elevation_m: f32,
     /// How `elevation_m` was obtained. Governs how much the UI may claim.
     pub elevation_provenance: ElevationProvenance,
-    /// Ambient (room) air temperature, °C.
+    /// Ambient (room) air temperature, °C — or **NaN when nothing measured it**.
+    ///
+    /// ⚠️ NaN IS THE ABSENCE SENTINEL HERE, AND THAT IS A COMPROMISE.
+    ///
+    /// This should be `Option<f32>`, for the same reason `station_pressure_kpa`
+    /// below is: a required field with no data source does not yield a missing
+    /// value, it yields a fabricated one. It duly did — a producer shipped
+    /// `21.0 °C` / `50.0 %` as literal fallbacks "when room sensors are absent",
+    /// which is every case, and the UI rendered them under "in your kitchen now".
+    ///
+    /// `[MEASURED 2026-08-16]` The `Option` migration is BLOCKED: SpacetimeDB
+    /// rejects `F32 -> (some: F32 | none: ())` as a breaking change, and the
+    /// only override is `--delete-data`, which drops the whole database — 1030
+    /// seeded recipes plus every user's meal plans and carts. Not a trade worth
+    /// making for a field nothing writes yet.
+    ///
+    /// So absence is carried as NaN, which is at least the one f32 value that
+    /// genuinely means "not a number". Readers MUST normalise with an
+    /// `isFinite` check; `useEnvironmentalObservation` does. Reducers accept NaN
+    /// for these two fields specifically and reject it everywhere else.
     pub ambient_temp_c: f32,
-    /// Ambient relative humidity, %.
+    /// Ambient relative humidity, % — or NaN when unmeasured. Same compromise
+    /// and the same reader contract as `ambient_temp_c` above.
     ///
     /// Feeds the evaporative-ceiling and browning-onset panel text ONLY. It is
     /// deliberately not routed into the convection particle simulation: that

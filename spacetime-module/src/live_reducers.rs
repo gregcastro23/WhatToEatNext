@@ -1129,13 +1129,25 @@ pub fn upsert_environmental_observation(
     station_pressure_kpa: Option<f32>,
 ) -> Result<(), String> {
     validate_range("elevation_m", elevation_m, ELEVATION_MIN_M, ELEVATION_MAX_M)?;
-    validate_range(
-        "ambient_temp_c",
-        ambient_temp_c,
-        AMBIENT_TEMP_MIN_C,
-        AMBIENT_TEMP_MAX_C,
-    )?;
-    validate_range("relative_humidity_pct", relative_humidity_pct, 0.0, 100.0)?;
+    // NaN is ACCEPTED for these two, and only these two: it is the absence
+    // sentinel forced by the blocked `Option` migration (see the field docs on
+    // `EnvironmentalObservation::ambient_temp_c`). Any other non-finite value —
+    // and NaN in any other field — is still a rejection.
+    if ambient_temp_c.is_finite() {
+        validate_range(
+            "ambient_temp_c",
+            ambient_temp_c,
+            AMBIENT_TEMP_MIN_C,
+            AMBIENT_TEMP_MAX_C,
+        )?;
+    } else if !ambient_temp_c.is_nan() {
+        return Err("ambient_temp_c must be finite or NaN (unmeasured)".to_string());
+    }
+    if relative_humidity_pct.is_finite() {
+        validate_range("relative_humidity_pct", relative_humidity_pct, 0.0, 100.0)?;
+    } else if !relative_humidity_pct.is_nan() {
+        return Err("relative_humidity_pct must be finite or NaN (unmeasured)".to_string());
+    }
     if let Some(kpa) = station_pressure_kpa {
         validate_range(
             "station_pressure_kpa",

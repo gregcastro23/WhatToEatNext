@@ -21,6 +21,7 @@ import {
   useEnvironmentalObservation,
   type ElevationProvenance,
 } from "@/hooks/useEnvironmentalObservation";
+import { useEnvironmentalProducer } from "@/hooks/useEnvironmentalProducer";
 import {
   altitudeEffect,
   altitudeCriticalGap,
@@ -508,6 +509,9 @@ export function ConditionsTab({
 }) {
   const { physics, methodId } = metrics;
 
+  // Active telemetry producer: resolves elevation (GNSS/DEM/geohash) and publishes to SpacetimeDB
+  useEnvironmentalProducer();
+
   // Live telemetry, or null when the flag is off / disconnected / no row yet.
   // Null means "we do not know where you are" — NOT sea level.
   const live = useEnvironmentalObservation();
@@ -840,20 +844,36 @@ export function ConditionsTab({
           particle, it earns that by first appearing in the thermo-core
           equations with a citation and a golden vector. */}
       <Panel title="Humidity" subtitle="The variable most kitchens never think about, and several methods are ruled by.">
-        {usingLive && (
+        {/* Rendered ONLY when something actually measured the room. A previous
+            producer supplied 21 °C / 50 % as literals whenever no sensor
+            existed — which was every case — and this block printed them under
+            "in your kitchen now". A plausible number labelled as a measurement
+            is worse than a blank: the blank prompts a question, the fabrication
+            ends one. The `!== null` guards are the fix, and they are load-
+            bearing rather than defensive. */}
+        {usingLive && (live.ambientTempC !== null || live.relativeHumidityPct !== null) && (
           <div className="mb-2.5 flex flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-emerald-400/20 bg-emerald-500/5 px-3 py-2">
             <span className="text-[10px] uppercase tracking-wide text-emerald-300">
               ● In your kitchen now
             </span>
             <span className="text-[11px] text-gray-300">
-              <span className="font-semibold text-gray-100">
-                {cToF(live.ambientTempC).toFixed(0)}°F
-              </span>{" "}
-              air · {" "}
-              <span className="font-semibold text-gray-100">
-                {live.relativeHumidityPct.toFixed(0)}%
-              </span>{" "}
-              RH
+              {live.ambientTempC !== null && (
+                <>
+                  <span className="font-semibold text-gray-100">
+                    {cToF(live.ambientTempC).toFixed(0)}°F
+                  </span>{" "}
+                  air
+                </>
+              )}
+              {live.ambientTempC !== null && live.relativeHumidityPct !== null && " · "}
+              {live.relativeHumidityPct !== null && (
+                <>
+                  <span className="font-semibold text-gray-100">
+                    {live.relativeHumidityPct.toFixed(0)}%
+                  </span>{" "}
+                  RH
+                </>
+              )}
             </span>
           </div>
         )}

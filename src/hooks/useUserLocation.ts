@@ -1,25 +1,34 @@
 "use client";
 
 /**
- * useUserLocation — shared location capture for restaurant/cuisine discovery.
+ * useUserLocation — shared location capture for restaurant/cuisine discovery
+ * and environmental telemetry.
  *
  * Replaces the four near-identical `requestLocation` blocks previously copied
  * into RestaurantDiscovery, CuisineRestaurantFinder, LocalCuisineGroups, and
  * PlanetaryChartControls. Provides:
- *   - browser geolocation (with permission-aware status)
+ *   - browser geolocation (with permission-aware status and GNSS altitude)
  *   - manual city entry via the keyless Nominatim geocoder (`/api/geocoding`)
  *   - lightweight localStorage persistence so the choice survives reloads
+ *   - elevation provenance attribution (GNSS `gps`, DEM `dem`, manual `user`, IP `ip`)
  *
  * @file src/hooks/useUserLocation.ts
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { ElevationProvenance } from "@/hooks/useEnvironmentalObservation";
 
 export interface UserLocation {
   lat: number;
   lng: number;
   /** Human-readable label (city / "Current location"). */
   label?: string;
+  /** Altitude in metres (from GNSS altimeter or DEM lookup), if resolved. */
+  altitude?: number;
+  /** Vertical accuracy in metres, if provided by device GNSS. */
+  altitudeAccuracy?: number;
+  /** How altitude was obtained. Governs physical error bars and claims. */
+  elevationProvenance?: ElevationProvenance;
 }
 
 export interface CitySuggestion {
@@ -54,6 +63,9 @@ function readStored(): UserLocation | null {
         lat: parsed.lat,
         lng: parsed.lng,
         label: typeof parsed.label === "string" ? parsed.label : undefined,
+        altitude: typeof parsed.altitude === "number" && Number.isFinite(parsed.altitude) ? parsed.altitude : undefined,
+        altitudeAccuracy: typeof parsed.altitudeAccuracy === "number" && Number.isFinite(parsed.altitudeAccuracy) ? parsed.altitudeAccuracy : undefined,
+        elevationProvenance: parsed.elevationProvenance,
       };
     }
   } catch {
@@ -125,10 +137,22 @@ export function useUserLocation(options?: UseUserLocationOptions) {
     setError(null);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        const hasGpsAltitude =
+          pos.coords.altitude !== null &&
+          typeof pos.coords.altitude === "number" &&
+          Number.isFinite(pos.coords.altitude);
+
         const next: UserLocation = {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
           label: "Current location",
+          altitude: hasGpsAltitude ? pos.coords.altitude : undefined,
+          altitudeAccuracy:
+            typeof pos.coords.altitudeAccuracy === "number" &&
+            Number.isFinite(pos.coords.altitudeAccuracy)
+              ? pos.coords.altitudeAccuracy
+              : undefined,
+          elevationProvenance: hasGpsAltitude ? "gps" : undefined,
         };
         setLocationState(next);
         setStatus("ready");
@@ -145,7 +169,7 @@ export function useUserLocation(options?: UseUserLocationOptions) {
           setError("Couldn't read your location. Please try again.");
         }
       },
-      { enableHighAccuracy: false, timeout: 10000, maximumAge: 5 * 60 * 1000 },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5 * 60 * 1000 },
     );
   }, [persistChoice]);
 

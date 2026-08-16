@@ -80,8 +80,16 @@ export interface EnvironmentalReading {
    * a confident local boiling point.
    */
   elevationTrustworthy: boolean;
-  ambientTempC: number;
-  relativeHumidityPct: number;
+  /**
+   * Measured room air temperature, °C, or `null` when nothing measured it.
+   *
+   * ⚠️ `null` must render as absence, never as a substituted figure. A previous
+   * producer filled these with `21 °C` / `50 %` when no sensor existed, and the
+   * panel presented the constants as a live reading of the user's kitchen.
+   */
+  ambientTempC: number | null;
+  /** Measured relative humidity, %, or `null` when nothing measured it. */
+  relativeHumidityPct: number | null;
   /**
    * Measured absolute station pressure, kPa, or null when the client has no
    * barometer. Null is NOT sea level — readers fall back to the ISA pressure
@@ -106,6 +114,19 @@ function readProvenance(value: StdbObservationRow["elevationProvenance"]): Eleva
   return PROVENANCE_TAGS.find((known) => known === tag) ?? "ip";
 }
 
+/**
+ * Normalise a wire value to `number | null`, treating NaN as absence.
+ *
+ * NaN is the absence sentinel for `ambient_temp_c` / `relative_humidity_pct`,
+ * forced by a blocked schema migration. It is a genuinely sound choice for
+ * "not a number", but it is silent: `NaN ?? 0` is NaN, `NaN > 5` is false, and
+ * `NaN.toFixed(0)` is the string "NaN" — so it must be converted once, at the
+ * boundary, rather than guarded at each of the places that read it.
+ */
+function finiteOrNull(value: number | null | undefined): number | null {
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
 function mapObservation(row: StdbObservationRow): EnvironmentalReading {
   const elevationProvenance = readProvenance(row.elevationProvenance);
   const elevationErrorM = PROVENANCE_VERTICAL_ERROR_M[elevationProvenance];
@@ -115,9 +136,15 @@ function mapObservation(row: StdbObservationRow): EnvironmentalReading {
     elevationProvenance,
     elevationErrorM,
     elevationTrustworthy: elevationErrorM <= TRUSTWORTHY_VERTICAL_ERROR_M,
-    ambientTempC: row.ambientTempC,
-    relativeHumidityPct: row.relativeHumidityPct,
-    stationPressureKpa: row.stationPressureKpa ?? null,
+    // `finiteOrNull`, NOT `?? null`: these two arrive as a required f32 whose
+    // absence sentinel is NaN (the `Option` migration is blocked — see the
+    // field docs in `live_tables.rs`). `??` only catches null/undefined and
+    // would sail straight past NaN, handing the panel a value that formats as
+    // "NaN°F". Normalising here is what lets every downstream reader treat
+    // these as an ordinary `number | null`.
+    ambientTempC: finiteOrNull(row.ambientTempC),
+    relativeHumidityPct: finiteOrNull(row.relativeHumidityPct),
+    stationPressureKpa: finiteOrNull(row.stationPressureKpa),
     updatedAtMs: Number(row.updatedAt.toDate().getTime()),
   };
 }
@@ -199,8 +226,10 @@ export function usePublishEnvironmentalObservation(): (
         .upsertEnvironmentalObservation({
           elevationM: reading.elevationM,
           elevationProvenance: { tag: PROVENANCE_TAG_BY_VALUE[reading.elevationProvenance] },
-          ambientTempC: reading.ambientTempC,
-          relativeHumidityPct: reading.relativeHumidityPct,
+          // NaN on the way out is the same sentinel the reader normalises on
+          // the way in — the reducer accepts it for these two fields only.
+          ambientTempC: reading.ambientTempC ?? Number.NaN,
+          relativeHumidityPct: reading.relativeHumidityPct ?? Number.NaN,
           stationPressureKpa: reading.stationPressureKpa ?? undefined,
         })
         .catch(() => {});

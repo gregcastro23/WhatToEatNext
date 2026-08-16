@@ -30,6 +30,8 @@
  *
  * @file src/__tests__/particleEngineHumidityGuardrail.test.ts
  */
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { seedParticles, simulationInputs, stepOvenSimulation } from "@/lib/wasm/thermoEngine";
 import { buildMethodMetrics } from "@/lib/cooking/methodMetrics";
 
@@ -80,5 +82,80 @@ describe("the particle engine has no humidity channel", () => {
       stepOvenSimulation(hot, 0.016, 230, hWm2K, radiantSourceK);
     }
     expect(Array.from(cool)).not.toEqual(Array.from(hot));
+  });
+});
+
+/**
+ * A second, separate fabrication risk on the same data path.
+ *
+ * The guardrail above stops humidity reaching the SIMULATION. This one stops an
+ * unmeasured room condition being INVENTED in the first place.
+ *
+ * `[MEASURED 2026-08-16]` A producer revision shipped
+ * `DEFAULT_AMBIENT_TEMP_C = 21.0` / `DEFAULT_RELATIVE_HUMIDITY_PCT = 50.0` as
+ * fallbacks "when room sensors are absent". Nothing in this app supplies a room
+ * sensor, so the fallback WAS the value — every user published two literals,
+ * and the Humidity panel rendered them beneath "● In your kitchen now".
+ *
+ * The root cause was schema shape, not carelessness: `ambient_temp_c` was a
+ * required `f32`, so absence was not representable and something had to be put
+ * there. Both fields are now `Option<f32>`.
+ */
+describe("unmeasured room conditions are absent, not invented", () => {
+  const producerSource = readFileSync(
+    join(process.cwd(), "src/hooks/useEnvironmentalProducer.ts"),
+    "utf8",
+  );
+
+  it("the producer declares no default room temperature or humidity", () => {
+    // Pinned against the source because the defect is the EXISTENCE of a
+    // constant, which no runtime assertion can observe once it is gone.
+    //
+    // Matches a `const` DECLARATION, not the identifier: the doc comment in the
+    // producer names both constants while explaining why they were removed, and
+    // a bare-identifier regex fails on that prose. (It did, on first run.)
+    expect(producerSource).not.toMatch(/^\s*const\s+DEFAULT_AMBIENT_TEMP_C/m);
+    expect(producerSource).not.toMatch(/^\s*const\s+DEFAULT_RELATIVE_HUMIDITY_PCT/m);
+  });
+
+  it("...and the control: that regex would have caught the real declaration", () => {
+    // Without this, a regex that matches nothing at all would pass the test
+    // above for the wrong reason.
+    const withDefect = 'const DEFAULT_AMBIENT_TEMP_C = 21.0;\nconst DEFAULT_RELATIVE_HUMIDITY_PCT = 50.0;';
+    expect(withDefect).toMatch(/^\s*const\s+DEFAULT_AMBIENT_TEMP_C/m);
+    expect(withDefect).toMatch(/^\s*const\s+DEFAULT_RELATIVE_HUMIDITY_PCT/m);
+  });
+
+  it("falls back to null, never to a plausible constant", () => {
+    // The specific regression: `?? 21.0` / `?? 50.0`. A numeric literal on the
+    // right of `??` for either field is the defect, whatever it is named.
+    expect(producerSource).toMatch(/ambientTempCOverride\s*\?\?\s*null/);
+    expect(producerSource).toMatch(/relativeHumidityPctOverride\s*\?\?\s*null/);
+    expect(producerSource).not.toMatch(/(ambientTempC|relativeHumidityPct)Override\s*\?\?\s*[\d.]/);
+  });
+
+  it("the reader normalises the NaN sentinel instead of nullish-coalescing it", () => {
+    // The root cause is that absence must be REPRESENTABLE or it gets faked.
+    // `Option<f32>` is the right shape, but that migration is blocked upstream
+    // (SpacetimeDB treats F32 -> Option<F32> as breaking, and the only override
+    // drops the whole database), so absence is carried as NaN instead.
+    //
+    // `?? null` does NOT catch NaN. If this reverts to `??`, the panel receives
+    // NaN and renders the string "NaN°F" — so the specific mechanism is pinned,
+    // not merely the outcome.
+    const hook = readFileSync(
+      join(process.cwd(), "src/hooks/useEnvironmentalObservation.ts"),
+      "utf8",
+    );
+    expect(hook).toMatch(/ambientTempC:\s*finiteOrNull\(/);
+    expect(hook).toMatch(/relativeHumidityPct:\s*finiteOrNull\(/);
+    expect(hook).toMatch(/Number\.isFinite/);
+  });
+
+  it("NaN really does defeat the coalescing operator — the control", () => {
+    // Without this the test above could pass while `??` was in fact adequate.
+    expect(Number.NaN ?? null).toBeNaN();
+    expect(Number.NaN ?? 0).toBeNaN();
+    expect(Number.NaN.toFixed(0)).toBe("NaN");
   });
 });
