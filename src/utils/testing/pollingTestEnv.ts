@@ -46,7 +46,7 @@ export function makeDocumentVisible(): () => void {
     get: () => "visible",
   });
 
-  restore = () => {
+  restore = (): void => {
     delete (document as unknown as Record<string, unknown>).hidden;
     delete (document as unknown as Record<string, unknown>).visibilityState;
     if (hiddenDescriptor) {

@@ -18,7 +18,11 @@
  */
 
 import React from "react";
-import { hasValue, type Provenance } from "@/components/admin/kit/provenance";
+import {
+  hasValue,
+  type Provenance,
+  type ProvenanceState,
+} from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 
 export interface MetricProps {
@@ -47,8 +51,12 @@ const SIZE = {
   lg: { value: 38, label: 11 },
 };
 
-/** Reason text shown in place of a value. Never a number. */
-const ABSENT_CAPTION: Record<string, string> = {
+/**
+ * Reason text shown in place of a value. Never a number. Partial on purpose —
+ * the remaining states carry a value, so they have no absence caption and fall
+ * through to the generic one.
+ */
+const ABSENT_CAPTION: Partial<Record<ProvenanceState, string>> = {
   "no-source": "no source — not a zero",
   "not-instrumented": "not instrumented",
 };
@@ -63,9 +71,19 @@ export function Metric({
   caption,
   size = "md",
   className,
-}: MetricProps) {
+}: MetricProps): React.JSX.Element {
   const dims = SIZE[size];
-  const present = hasValue(provenance) && value !== null && value !== undefined;
+
+  // Resolve once, here, so the "is there a value" question is answered in a
+  // single place. The JSX below can then never reach a formatting branch for
+  // an absent value — which is the property the contract tests pin.
+  const display: string | null =
+    hasValue(provenance) && value !== null && value !== undefined
+      ? format
+        ? format(value)
+        : String(value)
+      : null;
+  const present = display !== null;
 
   const deltaColor =
     delta?.direction === "flat"
@@ -110,11 +128,7 @@ export function Metric({
             color: present ? "var(--fg, #f2edff)" : "var(--status-unknown)",
           }}
         >
-          {present && value !== null && value !== undefined
-            ? format
-              ? format(value)
-              : String(value)
-            : "—"}
+          {display ?? "—"}
         </span>
 
         {present && delta && (
@@ -135,7 +149,7 @@ export function Metric({
         )}
       </div>
 
-      {(caption || !present) && (
+      {(caption !== undefined || !present) && (
         <div
           style={{
             marginTop: 3,

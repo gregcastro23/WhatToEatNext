@@ -10,7 +10,7 @@
 
 import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { makeDocumentVisible } from "@/__tests__/utils/pollingTestEnv";
+import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 
 // jsdom reports `document.hidden === true` under this jest config, which trips

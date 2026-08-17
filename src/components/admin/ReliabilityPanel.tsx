@@ -103,7 +103,7 @@ const STATUS_COLOR: Record<FlowStatus, string> = {
 };
 
 /** Shared "we could not measure this" state — never rendered as a zero. */
-function NoSource({ what }: { what: string }) {
+function NoSource({ what }: { what: string }): React.JSX.Element {
   return (
     <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-4 py-6 text-center">
       <p className="text-sm font-medium text-gray-600">No source</p>
@@ -125,7 +125,7 @@ function ms(value: number | null): string {
 
 // ─── 1 · Health history ribbon ─────────────────────────────────────────
 
-function HealthHistorySection({ health }: { health: HealthHistoryData }) {
+function HealthHistorySection({ health }: { health: HealthHistoryData }): React.JSX.Element {
   if (!health.live) return <NoSource what="System health history" />;
 
   if (health.points.length === 0) {
@@ -181,7 +181,7 @@ function HealthHistorySection({ health }: { health: HealthHistoryData }) {
         {ordered.map((p) => (
           <div
             key={p.capturedAt}
-            className={`h-8 flex-1 ${STATUS_COLOR[p.overall] ?? STATUS_COLOR.UNKNOWN}`}
+            className={`h-8 flex-1 ${STATUS_COLOR[p.overall]}`}
             title={`${new Date(p.capturedAt).toLocaleString()} — ${p.overall}`}
           />
         ))}
@@ -196,7 +196,7 @@ function HealthHistorySection({ health }: { health: HealthHistoryData }) {
 
 // ─── 2 · Probe reliability ─────────────────────────────────────────────
 
-function ProbeSection({ probes }: { probes: ProbeReliabilityData }) {
+function ProbeSection({ probes }: { probes: ProbeReliabilityData }): React.JSX.Element {
   if (!probes.live) return <NoSource what="Synthetic probe results" />;
 
   if (probes.probes.length === 0) {
@@ -269,7 +269,7 @@ function ProbeSection({ probes }: { probes: ProbeReliabilityData }) {
 
 // ─── 3 · Alert delivery ────────────────────────────────────────────────
 
-function AlertDeliverySection({ alerts }: { alerts: AlertDeliveryData }) {
+function AlertDeliverySection({ alerts }: { alerts: AlertDeliveryData }): React.JSX.Element {
   if (!alerts.live) return <NoSource what="Alert delivery records" />;
 
   if (alerts.alertsFired === 0) {
@@ -352,7 +352,7 @@ function Section({
   title: string;
   hint: string;
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return (
     <section className="border-t border-gray-100 pt-4 first:border-0 first:pt-0">
       <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
@@ -362,7 +362,7 @@ function Section({
   );
 }
 
-export default function ReliabilityPanel() {
+export default function ReliabilityPanel(): React.JSX.Element {
   const [data, setData] = React.useState<ReliabilityPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);

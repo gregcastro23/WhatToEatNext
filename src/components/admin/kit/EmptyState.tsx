@@ -59,7 +59,7 @@ export function EmptyState({
   description,
   action,
   className,
-}: EmptyStateProps) {
+}: EmptyStateProps): React.JSX.Element {
   const style = KIND[kind];
 
   return (

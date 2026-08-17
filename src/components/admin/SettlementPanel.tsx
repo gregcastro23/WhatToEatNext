@@ -59,7 +59,7 @@ function formatAge(iso: string): string {
   return `${Math.round(ageMs / 86_400_000)}d`;
 }
 
-export default function SettlementPanel() {
+export default function SettlementPanel(): React.JSX.Element {
   const [orders, setOrders] = React.useState<PendingOrder[]>([]);
   // Lifetime totals for the rail. `null` = unknown (the query failed), which
   // must never be rendered as a zero.
@@ -106,7 +106,10 @@ export default function SettlementPanel() {
   // relaxed cadence is plenty; the resolve handler refreshes immediately.
   useHardenedPolling(poll, { baseIntervalMs: 45_000 });
 
-  const resolve = async (orderId: string, action: "retry" | "refund") => {
+  const resolve = async (
+    orderId: string,
+    action: "retry" | "refund",
+  ): Promise<void> => {
     // Refund re-credits ESMS and is irreversible from this screen — confirm it.
     if (action === "refund") {
       // eslint-disable-next-line no-alert

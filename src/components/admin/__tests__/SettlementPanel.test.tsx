@@ -7,7 +7,7 @@
 
 import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { makeDocumentVisible } from "@/__tests__/utils/pollingTestEnv";
+import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
 import SettlementPanel from "@/components/admin/SettlementPanel";
 
 let restoreVisibility: () => void;

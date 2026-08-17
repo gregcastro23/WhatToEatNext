@@ -22,6 +22,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
+import { _logger } from "@/lib/logger";
 import { getAdminReliability } from "@/services/adminReliabilityService";
 
 export const dynamic = "force-dynamic";
@@ -42,7 +43,7 @@ function readIntParam(
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) {
     return authResult.error;
@@ -60,7 +61,7 @@ export async function GET(request: NextRequest) {
     );
     return NextResponse.json({ success: true, ...payload });
   } catch (error) {
-    console.error("[admin/reliability] Failed:", error);
+    _logger.error("[admin/reliability] Failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load reliability data" },
       { status: 500 },

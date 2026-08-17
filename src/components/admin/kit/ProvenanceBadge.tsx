@@ -68,7 +68,7 @@ export function ProvenanceBadge({
   provenance,
   compact = false,
   className,
-}: ProvenanceBadgeProps) {
+}: ProvenanceBadgeProps): React.JSX.Element {
   const style = STYLE[provenance.state];
 
   let label = PROVENANCE_LABEL[provenance.state];
