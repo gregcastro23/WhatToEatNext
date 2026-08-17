@@ -38,8 +38,13 @@ const bootstrapArg = process.argv
 const bootstrap = bootstrapArg ? bootstrapArg.split(",").map((s) => s.trim()).filter(Boolean) : null;
 
 function listMigrationFiles(): string[] {
+  // Exclude macOS conflict-copies ("foo 2.sql", "foo 3.sql", …). This reads the
+  // FILESYSTEM, not git, so .gitignore's `*\ [0-9]*` rule does not protect it —
+  // the filter must mirror that pattern itself. The old form (`" 2."` only)
+  // let "foo 3.sql"+ through, and macOS increments the suffix on every repeat
+  // conflict, so a survivor here would be APPLIED as a real migration.
   return readdirSync(INIT_DIR)
-    .filter((f) => f.endsWith(".sql") && !f.includes(" 2."))
+    .filter((f) => f.endsWith(".sql") && !/ \d+\.sql$/.test(f))
     .sort();
 }
 
