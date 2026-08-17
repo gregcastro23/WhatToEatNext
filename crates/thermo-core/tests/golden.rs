@@ -311,3 +311,12 @@ fn external_anchors_still_hold() {
         "Stefan–Boltzmann drifted from the CODATA definition"
     );
 }
+
+// DELIBERATE FAILURE — proving the new CI rust job can go red.
+// This test exists for exactly one commit and is reverted immediately after
+// the red run is observed. If you are reading this on master, the revert
+// was lost: delete this test.
+#[test]
+fn ci_red_proof_delete_me() {
+    panic!("deliberate: the rust CI job must be able to fail before it counts as a gate");
+}
