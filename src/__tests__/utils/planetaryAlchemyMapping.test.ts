@@ -7,8 +7,6 @@
 import {
   PLANETARY_ALCHEMY,
   ZODIAC_ELEMENTS,
-  ZODIAC_QUALITIES,
-  PLANETARY_SECTARIAN_ELEMENTS,
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
   getDominantAlchemicalProperty,

@@ -1,4 +1,3 @@
-import React from "react";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useFoodDiary, useQuickFoodEntry, useFoodDiaryInsights } from "@/hooks/useFoodDiary";
 import * as foodDiaryActions from "@/actions/foodDiary";

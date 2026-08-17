@@ -7,10 +7,9 @@
  * 2. The alchemical context returns default values
  */
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import CookingMethodPreview from "@/components/home/CookingMethodPreview";
-import EnhancedCookingMethodRecommender from "@/components/home/EnhancedCookingMethodRecommender";
 
 // Mock the cooking method data to avoid importing large data files
 jest.mock("@/data/cooking/methods", () => ({
