@@ -112,17 +112,35 @@ export interface RecentSnapshotPoint {
 
 export async function getRecentSnapshotOverall(
   limit = 168, // one week at hourly cadence
+  windowHours?: number,
 ): Promise<RecentSnapshotPoint[]> {
   try {
+    // `limit` alone reaches arbitrarily far back when the cron has gaps, which
+    // makes an "uptime over the last week" figure silently cover more than a
+    // week. Callers that need a true window pass `windowHours` and get rows
+    // bounded by time as well as by count.
+    const boundedHours =
+      windowHours === undefined
+        ? null
+        : Math.max(1, Math.min(Math.floor(windowHours), 720));
+
     const result = await executeQuery<{
       captured_at: Date;
       overall: FlowStatus;
     }>(
-      `SELECT captured_at, overall
-       FROM system_health_snapshots
-       ORDER BY captured_at DESC
-       LIMIT $1`,
-      [Math.max(1, Math.min(limit, 720))],
+      boundedHours === null
+        ? `SELECT captured_at, overall
+           FROM system_health_snapshots
+           ORDER BY captured_at DESC
+           LIMIT $1`
+        : `SELECT captured_at, overall
+           FROM system_health_snapshots
+           WHERE captured_at > now() - make_interval(hours => $2)
+           ORDER BY captured_at DESC
+           LIMIT $1`,
+      boundedHours === null
+        ? [Math.max(1, Math.min(limit, 720))]
+        : [Math.max(1, Math.min(limit, 720)), boundedHours],
     );
     return result.rows.map((row) => ({
       capturedAt: new Date(row.captured_at).toISOString(),

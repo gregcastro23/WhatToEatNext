@@ -124,14 +124,38 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
       return { ...stale, live: false };
     }
 
-    const data = (await res.json()) as McpNetworkSummary;
-    const liveData: McpNetworkSummary = { ...data, live: true };
+    const data = (await res.json()) as Partial<McpNetworkSummary> | null;
 
-    // Update cache
-    cachedSummary = {
-      data: liveData,
-      timestamp: now,
+    // A 200 does not mean the upstream had data. The proxy reports its own
+    // `live: false` when it could not reach the MCP source, and forcing
+    // `live: true` over it relabelled a known-degraded payload as live.
+    // A malformed body is likewise not live: the panel indexes into
+    // `totals`/`byTool`, so caching a shape without them crashed /admin/mcp.
+    const wellFormed =
+      !!data &&
+      typeof data.totals === "object" &&
+      data.totals !== null &&
+      Array.isArray(data.byTool) &&
+      Array.isArray(data.byAgent);
+
+    if (!wellFormed) {
+      return { ...stale, live: false };
+    }
+
+    const liveData: McpNetworkSummary = {
+      ...DEFAULT_SUMMARY,
+      ...(data as McpNetworkSummary),
+      // Respect the upstream's own verdict rather than asserting liveness.
+      live: data.live !== false,
     };
+
+    // Only a genuinely live payload is worth caching as the stale fallback.
+    if (liveData.live) {
+      cachedSummary = {
+        data: liveData,
+        timestamp: now,
+      };
+    }
 
     return liveData;
   } catch (_error) {

@@ -395,6 +395,24 @@ export function IncidentsPanel({
                       SUPPRESSED
                     </span>
                   )}
+                  {alert.undeliveredChannels.length > 0 && (
+                    /* An alert that fired but reached nobody looked identical
+                       to a delivered one here. Name the channels it missed. */
+                    <span
+                      className="t-mono"
+                      title={`Delivery failed for: ${alert.undeliveredChannels.join(", ")}`}
+                      style={{
+                        fontSize: 9,
+                        padding: "2px 6px",
+                        borderRadius: 999,
+                        color: "var(--status-incident)",
+                        border: "1px solid var(--status-incident)",
+                        letterSpacing: "0.14em",
+                      }}
+                    >
+                      UNDELIVERED · {alert.undeliveredChannels.join(" ").toUpperCase()}
+                    </span>
+                  )}
                   <span
                     style={{
                       marginLeft: "auto",

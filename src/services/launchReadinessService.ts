@@ -262,6 +262,20 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
       "Transit updates, meal-plan digests, bulletins.",
       [check("Resend API key", "RESEND_API_KEY", "secret")],
     ),
+    // Alert *delivery* is the half of alerting that fails silently: the alert
+    // still writes to `alert_events` and still renders in the dashboard when
+    // no channel is configured, so a missing webhook looks exactly like a
+    // delivered alert. Surfacing the config here puts the gap on the same
+    // board an operator already checks before launch.
+    subsystem(
+      "alerting",
+      "Alerting · delivery channels",
+      "Where system-health alerts are actually sent.",
+      [
+        check("Slack webhook", "ALERT_SLACK_WEBHOOK_URL", "secret"),
+        check("Email sender", "RESEND_API_KEY", "secret"),
+      ],
+    ),
   ];
 
   const settlement = await getSettlementBacklog();

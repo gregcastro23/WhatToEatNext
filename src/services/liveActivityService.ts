@@ -105,7 +105,10 @@ async function readSignups(): Promise<ActivityEvent[]> {
     }));
   } catch (err) {
     _logger.warn("[liveActivity] signups query failed:", err);
-    return [];
+    // Rethrow so getLiveActivity's allSettled sees a rejection. Returning []
+    // here made every source look fulfilled, which pinned `live` to true — a
+    // total DB outage rendered as "all sources live · quiet".
+    throw err;
   }
 }
 
@@ -181,7 +184,10 @@ async function readAuthEvents(): Promise<ActivityEvent[]> {
     });
   } catch (err) {
     _logger.warn("[liveActivity] auth events query failed:", err);
-    return [];
+    // Rethrow so getLiveActivity's allSettled sees a rejection. Returning []
+    // here made every source look fulfilled, which pinned `live` to true — a
+    // total DB outage rendered as "all sources live · quiet".
+    throw err;
   }
 }
 
@@ -235,7 +241,10 @@ async function readOnboardingCompletions(): Promise<ActivityEvent[]> {
     });
   } catch (err) {
     _logger.warn("[liveActivity] onboarding completions query failed:", err);
-    return [];
+    // Rethrow so getLiveActivity's allSettled sees a rejection. Returning []
+    // here made every source look fulfilled, which pinned `live` to true — a
+    // total DB outage rendered as "all sources live · quiet".
+    throw err;
   }
 }
 
@@ -283,7 +292,10 @@ async function readFeedEvents(): Promise<ActivityEvent[]> {
     }));
   } catch (err) {
     _logger.warn("[liveActivity] feed events query failed:", err);
-    return [];
+    // Rethrow so getLiveActivity's allSettled sees a rejection. Returning []
+    // here made every source look fulfilled, which pinned `live` to true — a
+    // total DB outage rendered as "all sources live · quiet".
+    throw err;
   }
 }
 
@@ -349,7 +361,10 @@ async function readTokenTransactions(): Promise<ActivityEvent[]> {
     });
   } catch (err) {
     _logger.warn("[liveActivity] token transactions query failed:", err);
-    return [];
+    // Rethrow so getLiveActivity's allSettled sees a rejection. Returning []
+    // here made every source look fulfilled, which pinned `live` to true — a
+    // total DB outage rendered as "all sources live · quiet".
+    throw err;
   }
 }
 
@@ -409,7 +424,10 @@ async function readUserInteractions(): Promise<ActivityEvent[]> {
     });
   } catch (err) {
     _logger.warn("[liveActivity] user interactions query failed:", err);
-    return [];
+    // Rethrow so getLiveActivity's allSettled sees a rejection. Returning []
+    // here made every source look fulfilled, which pinned `live` to true — a
+    // total DB outage rendered as "all sources live · quiet".
+    throw err;
   }
 }
 

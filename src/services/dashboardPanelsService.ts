@@ -915,6 +915,13 @@ export interface RecentAlertEntry {
   title: string;
   message: string;
   suppressed: boolean;
+  /**
+   * Channels this alert failed to reach, e.g. `["slack"]`. An alert that
+   * fired but reached nobody is otherwise indistinguishable from a delivered
+   * one, so the panel must be able to say so. Empty array = every channel
+   * that was attempted succeeded.
+   */
+  undeliveredChannels: string[];
 }
 
 export interface RecentAlertsData {
@@ -942,10 +949,25 @@ export async function getRecentAlerts(
       title: string;
       message: string;
       suppressed: boolean | null;
+      undelivered_channels: string[] | null;
     }>(
+      // `dispatch` holds one object per channel (`{"slack":{"ok":false,...}}`)
+      // alongside scalar bookkeeping keys such as `suppressed`. Expanding it
+      // lets us report which channels the alert failed to reach — reading
+      // only `suppressed` silently hid a channel that had never worked.
       `SELECT id, triggered_at, component, previous_status, current_status,
               severity, title, message,
-              COALESCE((dispatch->>'suppressed')::boolean, false) AS suppressed
+              COALESCE((dispatch->>'suppressed')::boolean, false) AS suppressed,
+              COALESCE(
+                ARRAY(
+                  SELECT ch.key
+                  FROM jsonb_each(dispatch) AS ch(key, value)
+                  WHERE jsonb_typeof(ch.value) = 'object'
+                    AND ch.value->>'ok' = 'false'
+                  ORDER BY ch.key
+                ),
+                ARRAY[]::text[]
+              ) AS undelivered_channels
        FROM alert_events
        ORDER BY triggered_at DESC
        LIMIT $1`,
@@ -963,6 +985,7 @@ export async function getRecentAlerts(
         title: row.title,
         message: row.message,
         suppressed: Boolean(row.suppressed),
+        undeliveredChannels: row.undelivered_channels ?? [],
       })),
       live: true,
     };

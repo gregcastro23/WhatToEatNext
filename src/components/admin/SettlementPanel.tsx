@@ -19,6 +19,7 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface PendingOrder {
@@ -60,6 +61,12 @@ function formatAge(iso: string): string {
 
 export default function SettlementPanel() {
   const [orders, setOrders] = React.useState<PendingOrder[]>([]);
+  // Lifetime totals for the rail. `null` = unknown (the query failed), which
+  // must never be rendered as a zero.
+  const [lifetime, setLifetime] = React.useState<{
+    orders: number;
+    restaurants: number;
+  } | null>(null);
   const [loaded, setLoaded] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [busyId, setBusyId] = React.useState<string | null>(null);
@@ -77,10 +84,12 @@ export default function SettlementPanel() {
       const json = (await res.json()) as {
         success: boolean;
         pending?: PendingOrder[];
+        lifetime?: { orders: number; restaurants: number } | null;
         message?: string;
       };
       if (json.success) {
         setOrders(json.pending ?? []);
+        setLifetime(json.lifetime ?? null);
         setError(null);
         setLoaded(true);
         return { ok: true };
@@ -203,14 +212,35 @@ export default function SettlementPanel() {
           <p className="text-gray-500 text-xs">Loading pending settlements…</p>
         </div>
       ) : orders.length === 0 ? (
-        <div className="p-10 text-center">
-          <p className="text-3xl mb-2">✅</p>
-          <p className="text-sm font-semibold text-gray-700">
-            No orders awaiting settlement
-          </p>
-          <p className="text-xs text-gray-400 mt-1">
-            The restaurant payment rail is clear.
-          </p>
+        /* An empty queue means two very different things. If the rail has
+           never carried an order, a green "all clear" would be a false
+           reassurance — the rail is unproven, not healthy. */
+        <div className="p-6">
+          {lifetime?.orders === 0 ? (
+            <EmptyState
+              kind="never-used"
+              title="Rail not yet in use"
+              description={`No restaurant order has ever been placed${
+                lifetime.restaurants === 0
+                  ? " and no restaurants are onboarded"
+                  : ` across ${lifetime.restaurants} onboarded restaurant${
+                      lifetime.restaurants === 1 ? "" : "s"
+                    }`
+              }. This screen stays empty until the crypto-food rail goes live — it is not a sign that settlements are healthy.`}
+            />
+          ) : (
+            <EmptyState
+              kind="all-clear"
+              title="No orders awaiting settlement"
+              description={
+                lifetime
+                  ? `The restaurant payment rail is clear — ${lifetime.orders} order${
+                      lifetime.orders === 1 ? "" : "s"
+                    } settled to date.`
+                  : "The restaurant payment rail is clear."
+              }
+            />
+          )}
         </div>
       ) : (
         <div className="overflow-x-auto">
