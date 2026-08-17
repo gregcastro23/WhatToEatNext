@@ -167,9 +167,13 @@ export default function AdminUserDeepDivePage() {
   const revokeSessions = React.useCallback(async () => {
     if (!userId) return;
     if (
+      // The confirm cannot promise an outcome: whether the stamp signs anyone
+      // out depends on AUTH_REVOCATION_CHECK, which is only known from the
+      // response. So it describes the write, and the result reports the rest.
       // eslint-disable-next-line no-alert
       !window.confirm(
-        "Revoke all active sessions for this user? They will be signed out on every device.",
+        "Mark every unrevoked session row for this user as revoked? " +
+          "Whether that signs any device out depends on the revocation check — the result will say.",
       )
     ) {
       return;
@@ -182,13 +186,23 @@ export default function AdminUserDeepDivePage() {
       const json = (await res.json()) as {
         success?: boolean;
         revoked?: number;
+        revocationCheck?: "on" | "off";
         message?: string;
       };
       if (res.ok && json.success) {
         const n = json.revoked ?? 0;
+        const rows = `Marked ${n} session row${n === 1 ? "" : "s"} revoked.`;
+        // Both branches state the mechanism, never the effect. No expiry is
+        // quoted: the JWT's maxAge is refreshed on use (auth.config.ts
+        // updateAge), so "up to 30 days" would be a bound nobody has measured.
+        const consequence =
+          json.revocationCheck === "on"
+            ? " With the revocation check on, a device is sent to /login the next time it loads a protected page — unless the revocation store is unreachable, in which case the check fails open and lets it through."
+            : " The revocation check is off, so no device is signed out — existing sign-ins keep working.";
         setRevokeState({
           loading: false,
-          message: `Revoked ${n} session${n === 1 ? "" : "s"}`,
+          message:
+            json.revocationCheck === undefined ? rows : rows + consequence,
         });
         void poll();
       } else {
@@ -352,9 +366,17 @@ export default function AdminUserDeepDivePage() {
             sub={identity.lastLoginAt ? new Date(identity.lastLoginAt).toLocaleString() : undefined}
           />
           <DetailTile
-            label="Active sessions"
+            // A count of device_sessions rows, not of devices. A sign-in whose
+            // session write failed leaves no row (both writers are non-blocking)
+            // and is neither counted here nor reached by a revoke — so "0" must
+            // not read as "this account has nothing signed in".
+            label="Unrevoked session rows"
             value={identity.activeSessions.toString()}
-            sub={identity.activeSessions === 0 ? "no active devices" : undefined}
+            sub={
+              identity.activeSessions === 0
+                ? "no rows with revoked_at unset — a row count, not a device count"
+                : "rows with revoked_at unset"
+            }
             valueClass="font-mono"
             action={
               <>

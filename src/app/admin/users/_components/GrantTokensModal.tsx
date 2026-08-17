@@ -29,8 +29,17 @@ interface GrantResultBalances {
 
 interface GrantResponse {
   success: boolean;
-  alreadyClaimed?: boolean;
-  balances?: GrantResultBalances;
+  /**
+   * What the write actually did. `replayed` means this idempotency key was
+   * already applied; `failed` means the transaction rolled back and nothing
+   * was credited. The route used to report the latter as the former.
+   */
+  result?: "credited" | "replayed" | "failed";
+  /** Null when the balance could not be read — render an absence, not zeros. */
+  balances?: GrantResultBalances | null;
+  /** Credits that wrote a row, of those attempted. Present on `credited`. */
+  written?: number;
+  requested?: number;
   message?: string;
 }
 
@@ -161,7 +170,7 @@ export default function GrantTokensModal({
             <div
               className={`rounded p-3 text-sm ${
                 result.success
-                  ? result.alreadyClaimed
+                  ? result.result === "replayed"
                     ? "bg-amber-50 border border-amber-200 text-amber-800"
                     : "bg-green-50 border border-green-200 text-green-800"
                   : "bg-red-50 border border-red-200 text-red-700"
@@ -170,14 +179,24 @@ export default function GrantTokensModal({
               {result.success ? (
                 <>
                   <p className="font-medium">
-                    {result.alreadyClaimed
-                      ? "Already granted with that key — balances unchanged."
-                      : "Granted. New balances:"}
+                    {result.result === "replayed"
+                      ? "Already granted with that key — nothing was credited again."
+                      : result.written !== undefined && result.requested !== undefined
+                        ? `Granted ${result.written} of ${result.requested} token ${
+                            result.requested === 1 ? "type" : "types"
+                          }.`
+                        : "Granted."}
                   </p>
-                  {result.balances && (
+                  {result.balances ? (
                     <p className="mt-1 font-mono text-xs">
                       S {result.balances.spirit} · E {result.balances.essence} ·{" "}
                       M {result.balances.matter} · Sub {result.balances.substance}
+                    </p>
+                  ) : (
+                    // Four zeros here would be indistinguishable from a user who
+                    // genuinely holds nothing, so say the balance is unreadable.
+                    <p className="mt-1 text-xs">
+                      <span className="font-mono">—</span> balance could not be read
                     </p>
                   )}
                 </>
