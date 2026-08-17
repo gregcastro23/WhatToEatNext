@@ -57,6 +57,38 @@ jobs:
       - name: Run ${{ matrix.name }}
         run: ${{ matrix.command }}
 
+  # The Rust half of the physics parity proof. Until 2026-08-16 NOTHING ran
+  # cargo in CI: the 49 workspace tests (thermo-core golden vectors included)
+  # and the wasm build only ran when someone remembered to run them locally,
+  # while the TypeScript half (cookingThermoCrossRuntimeParity.test.ts, in the
+  # jest leg above) ran on every PR — so the cross-runtime parity proof looked
+  # covered but only one side of the equality was ever checked.
+  #
+  # build-thermo-wasm.sh is deliberately used instead of wasm-pack (see the
+  # script header): it pins wasm-bindgen-cli to the crate version resolved in
+  # Cargo.lock, and its final step verifies the COMPILED wasm artifact against
+  # the golden vectors — different target, different libm than the host tests.
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Cache cargo registry and target
+        uses: Swatinem/rust-cache@v2
+      - name: cargo test (workspace, all 3 crates)
+        # --no-fail-fast: a red run must report the FULL picture — without it,
+        # cargo stops at the first failing binary and the remaining crates'
+        # suites never run at all (observed on this job's first-ever red run).
+        run: cargo test --workspace --locked --no-fail-fast
+      - name: Build the browser wasm and verify it against the golden vectors
+        run: bash scripts/build-thermo-wasm.sh
+
   # NOTE: frontend prod deploys are handled by Vercel's native Git integration
   # (auto-deploys on master merge — see CLAUDE.md + the "Vercel" status check).
   # A second amondnet/vercel-action "Deploy to Vercel" job used to live here, but
