@@ -67,7 +67,6 @@ import {
   getKineticProfile,
 } from "@/utils/cookingMethodKinetics";
 import { elementalSignature } from "@/utils/elemental/signature";
-import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import { calculateMonicaOptimizationScore } from "@/utils/monicaKalchmCalculations";
 import {
   calculateAlchemicalFromPlanets,
@@ -649,7 +648,29 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       }
       : planetaryDerivedESMS;
 
-    const methods = Object.entries(category.methods).map(([id, method]) => {
+    const methods = Object.entries(category.methods).flatMap(([id, method]) => {
+      // Thermodynamics gate — FIRST, because everything below it is scored.
+      //
+      // `[MEASURED 2026-08-17]` This chain used to end in
+      // `|| { heat: 0.5, entropy: 0.5, reactivity: 0.5 }`. Those literals fed
+      // monica, kinetics, and calculateHarmonyIndex — whose harmonyIndex is
+      // the sort key at the bottom of this memo — so a method with no
+      // thermodynamic data would have been ranked as though it were exactly
+      // average in every dimension. The same absence was already handled
+      // honestly three other times in this file (optimalConditions below,
+      // the Alchemy panel, and the compare view's em dashes); line 669 was
+      // the lone outlier, and the only one that moved list position.
+      //
+      // A ranking cannot honestly place an item it cannot score, so an
+      // un-scoreable method is omitted rather than given invented merit.
+      // This is a guard, not a code path in use: all 26 methods across all
+      // five registries carry their own thermodynamicProperties, which
+      // `methodRankingProvenance.test.ts` enforces — the registries are
+      // handed in through an `as Record<string, MethodData>` cast, so the
+      // optional field on MethodData cannot enforce it at compile time.
+      const methodThermo = method.thermodynamicProperties ?? getCookingMethodThermodynamics(id);
+      if (!methodThermo) return [];
+
       const pillar = getCookingMethodPillar(id);
       const baseESMS = {
         Spirit: baseAlchemicalProperties?.Spirit ?? 4,
@@ -665,8 +686,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
         }
         : baseESMS;
-
-      const methodThermo = method.thermodynamicProperties || getCookingMethodThermodynamics(id) || { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
 
       const { gregsEnergy } = calculateGregsEnergy({
         Spirit: transformedESMS.Spirit, Essence: transformedESMS.Essence,
@@ -707,35 +726,14 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       // a method has no physics profile, which a coverage test forbids.
       const physicsMetrics = buildMethodMetrics(id);
 
-      const projHeat = currentMoment ? projectZScoreTarget(currentMoment.heat ?? 0.5, currentMoment.historicalContext?.metrics?.heat, "heat") : null;
-      const projEntropy = currentMoment ? projectZScoreTarget(currentMoment.entropy ?? 0.5, currentMoment.historicalContext?.metrics?.entropy, "entropy") : null;
-      const projReactivity = currentMoment ? projectZScoreTarget(currentMoment.reactivity ?? 0.5, currentMoment.historicalContext?.metrics?.reactivity, "reactivity") : null;
-
-      const thermoAlignmentScore = projHeat !== null
-        ? Math.max(
-          0,
-          100 -
-          ((Math.abs(projHeat - methodThermo.heat) +
-            Math.abs(projEntropy! - methodThermo.entropy) +
-            Math.abs(projReactivity! - methodThermo.reactivity)) /
-            3) *
-          100,
-        )
-        : null;
-
-      // Null when the method has no registered kinetic profile. The lookup used
-      // to return six 0.50 midpoints on a miss, which produced a real-looking
-      // power proxy for a method the registry knows nothing about.
-      const methodPowerProxy = kProfile
-        ? Math.max(0, Math.min(1, kProfile.voltage * kProfile.current * (1 - kProfile.resistance)))
-        : null;
-      const currentPowerProxy = currentMoment
-        ? Math.max(0, Math.min(1, Math.abs(currentMoment.circuit.power) * 20))
-        : null;
-      const kineticAlignmentScore =
-        currentPowerProxy === null || methodPowerProxy === null
-          ? null
-          : Math.max(0, 100 - Math.abs(methodPowerProxy - currentPowerProxy) * 100);
+      // `thermoAlignmentScore` and `kineticAlignmentScore` were computed here
+      // and returned on every method object, and NOTHING ever read either one
+      // (verified repo-wide: the only occurrences were this computation and
+      // the property). Their supporting `projHeat`/`projEntropy`/
+      // `projReactivity` projections and the two power proxies went with them.
+      // Computed-but-never-rendered scores read as coverage on inspection
+      // while proving nothing, so they are gone rather than wired up: neither
+      // had a designed place in the UI.
 
       // Calculate Harmony Index via Resonance Gap model
       const duration = method.duration || method.time_range;
@@ -760,7 +758,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         focusMode,
       );
 
-      return {
+      return [{
         id, ...method,
         alchemicalProperties: transformedESMS,
         baseESMS,
@@ -776,9 +774,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         harmony,
         referenceProfile,
         physicsMetrics,
-        thermoAlignmentScore,
-        kineticAlignmentScore,
-      };
+      }];
     });
 
     // Sort by Harmony Index (primary sort for all focus modes)
