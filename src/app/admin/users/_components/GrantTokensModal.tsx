@@ -43,6 +43,18 @@ interface GrantResponse {
   message?: string;
 }
 
+/** What to tell the operator a successful response actually did. */
+function successHeadline(result: GrantResponse): string {
+  if (result.result === "replayed") {
+    return "Already granted with that key — nothing was credited again.";
+  }
+  if (result.written !== undefined && result.requested !== undefined) {
+    const noun = result.requested === 1 ? "type" : "types";
+    return `Granted ${result.written} of ${result.requested} token ${noun}.`;
+  }
+  return "Granted.";
+}
+
 export default function GrantTokensModal({
   target,
   onClose,
@@ -178,15 +190,7 @@ export default function GrantTokensModal({
             >
               {result.success ? (
                 <>
-                  <p className="font-medium">
-                    {result.result === "replayed"
-                      ? "Already granted with that key — nothing was credited again."
-                      : result.written !== undefined && result.requested !== undefined
-                        ? `Granted ${result.written} of ${result.requested} token ${
-                            result.requested === 1 ? "type" : "types"
-                          }.`
-                        : "Granted."}
-                  </p>
+                  <p className="font-medium">{successHeadline(result)}</p>
                   {result.balances ? (
                     <p className="mt-1 font-mono text-xs">
                       S {result.balances.spirit} · E {result.balances.essence} ·{" "}

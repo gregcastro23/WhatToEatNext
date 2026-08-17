@@ -103,6 +103,30 @@ function formatRelative(iso: string): string {
   return `${Math.round(ageMs / 86_400_000)}d ago`;
 }
 
+/**
+ * What a revoke actually accomplished.
+ *
+ * Both branches state the mechanism, never the effect — the route only stamps
+ * `revoked_at`, and whether that signs anyone out depends on the revocation
+ * check it reports back. No expiry is quoted either: the JWT's maxAge is
+ * refreshed on use (auth.config.ts updateAge), so any fixed bound like
+ * "up to 30 days" would be invented rather than measured.
+ */
+function revokeMessage(
+  revoked: number,
+  revocationCheck: "on" | "off" | undefined,
+): string {
+  const rows = `Marked ${revoked} session row${revoked === 1 ? "" : "s"} revoked.`;
+  if (revocationCheck === "on") {
+    return `${rows} With the revocation check on, a device is sent to /login the next time it loads a protected page — unless the revocation store is unreachable, in which case the check fails open and lets it through.`;
+  }
+  if (revocationCheck === "off") {
+    return `${rows} The revocation check is off, so no device is signed out — existing sign-ins keep working.`;
+  }
+  // An older deployment that does not report the flag: say nothing about it.
+  return rows;
+}
+
 function getElementColor(element: string | null) {
   switch (element?.toLowerCase()) {
     case "fire":
@@ -190,19 +214,9 @@ export default function AdminUserDeepDivePage() {
         message?: string;
       };
       if (res.ok && json.success) {
-        const n = json.revoked ?? 0;
-        const rows = `Marked ${n} session row${n === 1 ? "" : "s"} revoked.`;
-        // Both branches state the mechanism, never the effect. No expiry is
-        // quoted: the JWT's maxAge is refreshed on use (auth.config.ts
-        // updateAge), so "up to 30 days" would be a bound nobody has measured.
-        const consequence =
-          json.revocationCheck === "on"
-            ? " With the revocation check on, a device is sent to /login the next time it loads a protected page — unless the revocation store is unreachable, in which case the check fails open and lets it through."
-            : " The revocation check is off, so no device is signed out — existing sign-ins keep working.";
         setRevokeState({
           loading: false,
-          message:
-            json.revocationCheck === undefined ? rows : rows + consequence,
+          message: revokeMessage(json.revoked ?? 0, json.revocationCheck),
         });
         void poll();
       } else {

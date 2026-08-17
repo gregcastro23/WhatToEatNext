@@ -179,6 +179,57 @@ export type CreditResult =
       message: string;
     };
 
+/**
+ * Write every credit inside one already-open transaction, reporting the last
+ * balance row and how many statements actually wrote.
+ *
+ * `written` counts statements that RETURNed a row. A credit whose per-type
+ * idempotency key was already used hits ON CONFLICT DO NOTHING and returns
+ * none, so it is correctly not counted as a write.
+ */
+async function applyCreditsInTransaction(
+  client: {
+    query: (
+      sql: string,
+      values: unknown[],
+    ) => Promise<{ rows: Record<string, unknown>[] }>;
+  },
+  args: {
+    userId: string;
+    credits: Array<{ tokenType: TokenType; amount: number }>;
+    sourceType: TransactionSourceType;
+    groupId: string;
+    sourceId: string | null;
+    description: string | null;
+    idempotencyKey: string | null;
+  },
+): Promise<{ lastRow: Record<string, unknown> | null; written: number }> {
+  let lastRow: Record<string, unknown> | null = null;
+  let written = 0;
+
+  for (const { tokenType, amount } of args.credits) {
+    const query = creditTokensSql({
+      userId: args.userId,
+      tokenType,
+      amount,
+      sourceType: args.sourceType,
+      sourceId: args.sourceId,
+      description: args.description,
+      transactionGroupId: args.groupId,
+      idempotencyKey: args.idempotencyKey
+        ? `${args.idempotencyKey}:${tokenType}`
+        : null,
+    });
+    const res = await client.query(query.sql, query.values);
+    if (res.rows.length > 0) {
+      [lastRow] = res.rows;
+      written += 1;
+    }
+  }
+
+  return { lastRow, written };
+}
+
 /** FK constraints that specifically mean "no such user". */
 const USER_FK_CONSTRAINTS = new Set([
   "token_transactions_user_id_fkey",
@@ -510,31 +561,23 @@ class TokenEconomyService {
       // (say) the 3rd of 4 left a partially-applied grant. Per-type idempotency
       // keys still make the whole grant safe to replay.
       try {
-        const { lastRow, written } = await db.withTransaction(async (client) => {
-          let last: Record<string, unknown> | null = null;
-          let rows = 0;
-          for (const { tokenType, amount } of applicable) {
-            const idemKey = opts?.idempotencyKey
-              ? `${opts.idempotencyKey}:${tokenType}`
-              : null;
-            const query = creditTokensSql({
+        const { lastRow, written } = await db.withTransaction(
+          async (client: {
+            query: (
+              sql: string,
+              values: unknown[],
+            ) => Promise<{ rows: Record<string, unknown>[] }>;
+          }) =>
+            applyCreditsInTransaction(client, {
               userId,
-              tokenType,
-              amount,
+              credits: applicable,
               sourceType,
-              sourceId: opts?.sourceId || null,
-              description: opts?.description || null,
-              transactionGroupId: groupId,
-              idempotencyKey: idemKey,
-            });
-            const res = await client.query(query.sql, query.values);
-            if (res.rows.length > 0) {
-              [last] = res.rows;
-              rows += 1;
-            }
-          }
-          return { lastRow: last, written: rows };
-        });
+              groupId,
+              sourceId: opts?.sourceId ?? null,
+              description: opts?.description ?? null,
+              idempotencyKey: opts?.idempotencyKey ?? null,
+            }),
+        );
 
         if (lastRow) {
           return {
