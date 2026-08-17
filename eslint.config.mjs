@@ -19,6 +19,7 @@ import importPlugin from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
+import unusedImports from "eslint-plugin-unused-imports";
 import globals from "globals";
 
 // ============================================================================
@@ -75,6 +76,7 @@ export default [
       "react-hooks": reactHooks,
       "jsx-a11y": jsxA11y,
       import: importPlugin,
+      "unused-imports": unusedImports,
     },
 
     settings: {
@@ -108,6 +110,18 @@ export default [
       "@typescript-eslint/no-unsafe-call": "off", // 386 warnings
       "@typescript-eslint/no-unsafe-return": "off", // 183 warnings
       "@typescript-eslint/no-unsafe-argument": "off", // 338 warnings
+
+      // Unused IMPORTS are errors, not warnings, and the reason is nastier
+      // than tidiness: this repo's toolchain never resolves an unused import's
+      // path (tsc elides before resolving in test files, ts-jest drops it at
+      // transform), so an unused import of a NONEXISTENT module passes every
+      // gate while reading as coverage. Banning unused imports outright means
+      // every surviving import is used — and used imports do get resolved.
+      // The `^_` exemption preserves the lint-campaign convention of keeping
+      // deliberate renames. Test files are globally ignored by this config
+      // (and excluded from tsconfig), so their half of this guard lives in
+      // src/__tests__/testImportPathsResolve.test.ts instead.
+      "unused-imports/no-unused-imports": ["error", { varsIgnorePattern: "^_" }],
 
       // Unused Variables (High priority for cleanup)
       "@typescript-eslint/no-unused-vars": [

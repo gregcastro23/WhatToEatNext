@@ -15,7 +15,6 @@ import {
   provenanceToElevationBasis,
   elevationBasisToProvenance,
   normaliseToElevationBasis,
-  type PostgresElevationBasis,
 } from '@/lib/environment/elevationProvenance';
 import type { ElevationProvenance } from '@/hooks/useEnvironmentalObservation';
 

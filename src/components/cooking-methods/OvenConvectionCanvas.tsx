@@ -36,7 +36,17 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
 
   const { transfer } = metrics;
   const { ovenTempC: mediumC, hWm2K, radiantSourceK: radiantK } = simulationInputs(metrics);
-  const zScore = transfer?.z ?? 0;
+  // Decorative mode: this method has no h of its own, so the loop borrows the
+  // roasting profile to have something to animate (see simulationInputs). The
+  // ANIMATION may borrow; the TEXT may not — every displayed claim below is
+  // gated so the borrowed figures are never presented as this method's own.
+  const decorative = transfer === null;
+  // null = nothing to standardise: either no coefficient at all (decorative)
+  // or a degenerate corpus spread. Distinct from z = 0, which is a real
+  // "exactly at the median" measurement — the two must never be conflated
+  // (`?? 0` here once meant this panel claimed "typical" about a coefficient
+  // that does not exist).
+  const z = transfer?.z ?? null;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -175,43 +185,48 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
       ctx.textAlign = "center";
       ctx.fillText("SLAB CORE (Biot / Fourier Conduction)", width / 2, slabY + slabH + 12);
 
-      // Render Statistical Z-Score Overlay (-3σ to +3σ distribution boundary)
-      const zBoxY = height - 26;
-      const zBoxW = width - 40;
-      const zBoxX = 20;
+      // Render Statistical Z-Score Overlay (-3σ to +3σ distribution boundary).
+      // Only when there is a real z: drawing the median axis with a marker for
+      // a method that has nothing to standardise would place a "typical" dot
+      // on an axis the method is not on.
+      if (z !== null) {
+        const zBoxY = height - 26;
+        const zBoxW = width - 40;
+        const zBoxX = 20;
 
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-      ctx.beginPath();
-      ctx.moveTo(zBoxX, zBoxY);
-      ctx.lineTo(zBoxX + zBoxW, zBoxY);
-      ctx.stroke();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.beginPath();
+        ctx.moveTo(zBoxX, zBoxY);
+        ctx.lineTo(zBoxX + zBoxW, zBoxY);
+        ctx.stroke();
 
-      // Median tick
-      const medX = zBoxX + zBoxW / 2;
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.beginPath();
-      ctx.moveTo(medX, zBoxY - 4);
-      ctx.lineTo(medX, zBoxY + 4);
-      ctx.stroke();
+        // Median tick
+        const medX = zBoxX + zBoxW / 2;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.beginPath();
+        ctx.moveTo(medX, zBoxY - 4);
+        ctx.lineTo(medX, zBoxY + 4);
+        ctx.stroke();
 
-      // Clamped Z marker
-      const clampedZ = Math.max(-3, Math.min(3, zScore));
-      const markerPct = (clampedZ + 3) / 6;
-      const markerX = zBoxX + markerPct * zBoxW;
+        // Clamped Z marker
+        const clampedZ = Math.max(-3, Math.min(3, z));
+        const markerPct = (clampedZ + 3) / 6;
+        const markerX = zBoxX + markerPct * zBoxW;
 
-      ctx.fillStyle = Math.abs(zScore) >= 2 ? "#fbbf24" : "#818cf8";
-      ctx.beginPath();
-      ctx.arc(markerX, zBoxY, 4, 0, Math.PI * 2);
-      ctx.fill();
+        ctx.fillStyle = Math.abs(z) >= 2 ? "#fbbf24" : "#818cf8";
+        ctx.beginPath();
+        ctx.arc(markerX, zBoxY, 4, 0, Math.PI * 2);
+        ctx.fill();
 
-      ctx.font = "9px sans-serif";
-      ctx.fillStyle = "rgba(156, 163, 175, 0.9)";
-      ctx.textAlign = "left";
-      ctx.fillText("-3σ", zBoxX, zBoxY + 12);
-      ctx.textAlign = "center";
-      ctx.fillText("Median (z=0)", medX, zBoxY + 12);
-      ctx.textAlign = "right";
-      ctx.fillText("+3σ", zBoxX + zBoxW, zBoxY + 12);
+        ctx.font = "9px sans-serif";
+        ctx.fillStyle = "rgba(156, 163, 175, 0.9)";
+        ctx.textAlign = "left";
+        ctx.fillText("-3σ", zBoxX, zBoxY + 12);
+        ctx.textAlign = "center";
+        ctx.fillText("Median (z=0)", medX, zBoxY + 12);
+        ctx.textAlign = "right";
+        ctx.fillText("+3σ", zBoxX + zBoxW, zBoxY + 12);
+      }
 
       animId = requestAnimationFrame(render);
     };
@@ -258,7 +273,7 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
       cancelAnimationFrame(animId);
       engine.dispose();
     };
-  }, [mediumC, hWm2K, radiantK, zScore, isPaused]);
+  }, [mediumC, hWm2K, radiantK, z, isPaused]);
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-amber-400/20 bg-black/40 p-4 shadow-lg">
@@ -267,9 +282,17 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
           <h5 className="text-xs font-bold uppercase tracking-wider text-amber-300">
             3D Thermal Physics Simulation Loop
           </h5>
-          <p className="text-[11px] text-gray-400">
-            Convection (h = {hWm2K} W·m⁻²·K⁻¹) · Radiation ({radiantK} K) · Transient Conduction
-          </p>
+          {decorative ? (
+            <p className="text-[11px] text-gray-400">
+              Illustrative motion only — animation parameters borrowed from the
+              roasting profile. This method has no heat-transfer coefficient of
+              its own; the panel below says why.
+            </p>
+          ) : (
+            <p className="text-[11px] text-gray-400">
+              Convection (h = {hWm2K} W·m⁻²·K⁻¹) · Radiation ({radiantK} K) · Transient Conduction
+            </p>
+          )}
         </div>
         <button
           type="button"
@@ -303,7 +326,13 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
             ? "Engine: WebAssembly · Rust thermo-core"
             : "Engine: TypeScript · thermo-core parity build"}
         </span>
-        <span>Z-Score Context: z = {zScore >= 0 ? `+${zScore.toFixed(2)}` : zScore.toFixed(2)}</span>
+        <span>
+          {z !== null
+            ? `Z-Score Context: z = ${z >= 0 ? `+${z.toFixed(2)}` : z.toFixed(2)}`
+            : decorative
+              ? "Z-score: none — no coefficient to standardise"
+              : "Z-score: none — no measurable spread across methods"}
+        </span>
       </div>
     </div>
   );
