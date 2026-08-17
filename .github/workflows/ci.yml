@@ -82,7 +82,10 @@ jobs:
       - name: Cache cargo registry and target
         uses: Swatinem/rust-cache@v2
       - name: cargo test (workspace, all 3 crates)
-        run: cargo test --workspace --locked
+        # --no-fail-fast: a red run must report the FULL picture — without it,
+        # cargo stops at the first failing binary and the remaining crates'
+        # suites never run at all (observed on this job's first-ever red run).
+        run: cargo test --workspace --locked --no-fail-fast
       - name: Build the browser wasm and verify it against the golden vectors
         run: bash scripts/build-thermo-wasm.sh
 

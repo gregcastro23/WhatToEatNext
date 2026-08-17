@@ -48,11 +48,45 @@ fn f(v: &Value) -> f64 {
 /// Deliberately not an epsilon. `toBeCloseTo(…, 15)` once passed against three
 /// separately wrong constants elsewhere in this repository; a tolerance here
 /// would wave through exactly the class of drift this file exists to catch.
+///
+/// The ONE exception is the slabEigenvalue tan-bisection family — see
+/// `assert_slab_ulps` below.
 fn assert_bits_eq(actual: f64, expected: f64, what: &str) {
     assert_eq!(
         actual.to_bits(),
         expected.to_bits(),
         "{what}: got {actual:.17e}, fixture has {expected:.17e} (Δ {:.3e})",
+        (actual - expected).abs()
+    );
+}
+
+/// Measured ULP budget for values derived from the `slabEigenvalue` tan
+/// bisection, and for NOTHING else.
+///
+/// ⚠️ A MEASUREMENT, NOT A COMFORT MARGIN — the same budget, for the same
+/// reason, as MAX_ULP in scripts/verify-thermo-wasm-parity.mjs: across the
+/// three runtimes every disagreement sits in this one family (worst observed
+/// 4 ULP), because `tan` comes from each platform's libm while everything else
+/// here reproduces bit-identically.
+///
+/// `[MEASURED 2026-08-16, PR #768]` The first-ever linux run of this suite
+/// found glibc computing the roasting slab cook time 2 ULPs (Δ 7.1e-15) from
+/// the macOS-generated fixture. The fixture is not wrong and neither is glibc;
+/// bit-exactness across host libms is not a promise `tan` makes. A genuinely
+/// wrong constant lands at 1e-7 relative or worse — eight orders of magnitude
+/// outside this window. Do not raise the budget to make a failure go away.
+const SLAB_MAX_ULP: u64 = 8;
+
+/// ULP distance for same-sign finite doubles (every slab quantity is positive).
+fn ulp_distance(a: f64, b: f64) -> u64 {
+    (a.to_bits() as i64).abs_diff(b.to_bits() as i64)
+}
+
+fn assert_slab_ulps(actual: f64, expected: f64, what: &str) {
+    let d = ulp_distance(actual, expected);
+    assert!(
+        d <= SLAB_MAX_ULP,
+        "{what}: got {actual:.17e}, fixture has {expected:.17e} (Δ {:.3e}, {d} ULPs > {SLAB_MAX_ULP})",
         (actual - expected).abs()
     );
 }
@@ -120,8 +154,8 @@ fn slab_eigenvalues_match_the_fixture() {
     for row in fixture()["slabEigen"].as_array().unwrap() {
         let bi = f(&row["biot"]);
         let lambda = slab_eigenvalue(bi).unwrap();
-        assert_bits_eq(lambda, f(&row["lambda1"]), &format!("λ₁(Bi={bi})"));
-        assert_bits_eq(
+        assert_slab_ulps(lambda, f(&row["lambda1"]), &format!("λ₁(Bi={bi})"));
+        assert_slab_ulps(
             slab_coefficient(lambda),
             f(&row["coefficientA1"]),
             &format!("A₁(Bi={bi})"),
@@ -144,11 +178,12 @@ fn slab_cook_times_match_the_fixture() {
             one_sided: row["oneSided"].as_bool().unwrap(),
         })
         .unwrap();
-        assert_bits_eq(r.minutes, f(&row["minutes"]), &format!("{name} minutes"));
+        assert_slab_ulps(r.minutes, f(&row["minutes"]), &format!("{name} minutes"));
+        // Bi = h·L/k is pure arithmetic — no transcendental, no band.
         assert_bits_eq(r.biot, f(&row["biot"]), &format!("{name} Bi"));
-        assert_bits_eq(r.fourier, f(&row["fourier"]), &format!("{name} Fo"));
-        assert_bits_eq(r.lambda1, f(&row["lambda1"]), &format!("{name} λ₁"));
-        assert_bits_eq(
+        assert_slab_ulps(r.fourier, f(&row["fourier"]), &format!("{name} Fo"));
+        assert_slab_ulps(r.lambda1, f(&row["lambda1"]), &format!("{name} λ₁"));
+        assert_slab_ulps(
             r.coefficient_a1,
             f(&row["coefficientA1"]),
             &format!("{name} A₁"),
