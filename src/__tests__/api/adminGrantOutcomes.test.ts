@@ -102,6 +102,24 @@ describe("admin grant — a rolled-back transaction", () => {
     expect(body.message).toContain("token_transactions_user_id_fkey");
   });
 
+  it("404s a malformed user id on the SQLSTATE alone", async () => {
+    // The route's own regex admits ids that are not valid UUIDs (`deadbeef`
+    // matches /^[0-9a-f-]{8,}$/i), so the uuid cast raises 22P02. That code
+    // carries NO constraint name, which is why it is matched on the code —
+    // and why the message says the id was rejected rather than naming a
+    // specific missing row.
+    const { status, body } = await callRoute({
+      status: "failed",
+      code: "22P02",
+      constraint: null,
+      message: 'invalid input syntax for type uuid: "deadbeef"',
+    });
+
+    expect(status).toBe(404);
+    expect(body.message).toContain("22P02");
+    expect(body.message).toContain("No tokens were credited");
+  });
+
   it("does not claim 'no such user' for a code that cannot prove it", async () => {
     // 22P02 (invalid_text_representation) carries no constraint name, so it is
     // matched on the code alone — but an unrelated failure must not inherit
