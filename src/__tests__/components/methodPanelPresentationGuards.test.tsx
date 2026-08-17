@@ -41,6 +41,14 @@ jest.mock("@/hooks/useEnvironmentalObservation", () => ({
   useEnvironmentalObservation: () => mockReading,
 }));
 
+// The picked location supplies the HORIZONTAL basis, which the observation above
+// does not carry: its `elevationProvenance` says how the altitude was obtained at
+// some coordinate, not whether that coordinate is the cook's own.
+let mockLocation: import("@/hooks/useUserLocation").UserLocation | null = null;
+jest.mock("@/hooks/useUserLocation", () => ({
+  useUserLocation: () => ({ location: mockLocation }),
+}));
+
 import { PhysicsTab, ConditionsTab } from "@/components/cooking-methods/MethodPhysicsPanels";
 import { buildMethodMetrics, localizedMedium } from "@/lib/cooking/methodMetrics";
 
@@ -63,6 +71,7 @@ const liveReading = (
 
 afterEach(() => {
   mockReading = null;
+  mockLocation = null;
 });
 
 describe("absence renders a stated reason and never a number", () => {
@@ -188,5 +197,66 @@ describe("humidity reaches panel text — and only when measured", () => {
     const { container } = render(<ConditionsTab metrics={buildMethodMetrics("boiling")!} />);
     expect(container.textContent).toContain("47%");
     expect(container.textContent).not.toContain("°F air");
+  });
+});
+
+describe("a vertical error bar is only quoted for a coordinate that earned it", () => {
+  /**
+   * `elevationErrorM` is the source's error AT THE POINT IT SAMPLED. When the
+   * coordinate is a postal or city centroid the figure is a true statement about
+   * the wrong place: the DEM's ±15 m grid error says nothing about the terrain
+   * between a code's centre point and the cook's kitchen, which in a hilly metro
+   * is the far larger number.
+   *
+   * There is no substitute figure to print, either — the geocoder's postal
+   * bounding box is a fixed synthetic size (measured identical for a 2 km² and a
+   * 5,000 km² code), so a derived radius would be a constant wearing a
+   * measurement's clothes. The panel must therefore name the basis and withhold
+   * the number.
+   */
+  it("a device-located cook still gets the error bar (control)", () => {
+    mockLocation = { lat: 39.7392, lng: -104.9903, horizontalBasis: "device", accuracyM: 12 };
+    mockReading = liveReading({ elevationErrorM: 30 });
+    const { container } = render(<ConditionsTab metrics={buildMethodMetrics("boiling")!} />);
+    expect(container.textContent).toContain("±30 m");
+  });
+
+  it("no basis recorded also gets the error bar (control: absent ≠ centroid)", () => {
+    // Locations persisted before `horizontalBasis` existed carry none. An absent
+    // basis must not be read as a centroid, nor a centroid as absent.
+    mockLocation = { lat: 39.7392, lng: -104.9903 };
+    mockReading = liveReading({ elevationErrorM: 30 });
+    const { container } = render(<ConditionsTab metrics={buildMethodMetrics("boiling")!} />);
+    expect(container.textContent).toContain("±30 m");
+  });
+
+  it("a postal centroid suppresses the error bar and says why", () => {
+    mockLocation = {
+      lat: 39.7509685,
+      lng: -104.9968121,
+      label: "80202 · Denver",
+      horizontalBasis: "postal-centroid",
+    };
+    mockReading = liveReading({ elevationErrorM: 30 });
+    const { container } = render(<ConditionsTab metrics={buildMethodMetrics("boiling")!} />);
+
+    expect(container.textContent).not.toContain("±30 m");
+    expect(container.textContent).not.toMatch(/±\s*\d/);
+    expect(container.textContent).toContain("postal code's centre point");
+    expect(container.textContent).toContain("isn't measured");
+  });
+
+  it("a city centroid does the same, naming the place it actually sampled", () => {
+    mockLocation = {
+      lat: 40.7128,
+      lng: -74.006,
+      label: "New York",
+      horizontalBasis: "place-centroid",
+    };
+    mockReading = liveReading({ elevationErrorM: 30 });
+    const { container } = render(<ConditionsTab metrics={buildMethodMetrics("boiling")!} />);
+
+    expect(container.textContent).not.toMatch(/±\s*\d/);
+    expect(container.textContent).toContain("centre point of the place you picked");
   });
 });

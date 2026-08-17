@@ -4,6 +4,7 @@
  * Uses OpenStreetMap's Nominatim API (free, no API key required)
  */
 
+import type { ParsedPostalCode, PostalFormat } from "@/lib/location/postalCode";
 import { _logger } from "@/lib/logger";
 import { resolveBirthZone } from "@/utils/astrology/birthTimezone";
 
@@ -117,6 +118,124 @@ export async function geocodeLocation(
     _logger.error("Geocoding error:", error);
     throw new Error("Failed to geocode location", { cause: error });
   }
+}
+
+/**
+ * A postal code resolved to a coordinate.
+ *
+ * ⚠️ NOTE WHAT IS ABSENT: there is no accuracy radius. The geocoder's bounding
+ * box for a postal result is a fixed-size synthetic box, measured identical for
+ * a 2 km² and a 5,000 km² code — see `POSTAL_CENTROID_CAVEAT` for the numbers.
+ * A surface that needs to tell the user how precise this is must say what it is
+ * (a code-area centre point) rather than print a fabricated distance.
+ */
+export interface PostalCodeResolution {
+  /** The code as queried, normalised. */
+  postalCode: string;
+  /** ISO-3166-1 alpha-2 country the pattern identified. */
+  country: string;
+  format: PostalFormat;
+  /** Full geocoder display name. */
+  displayName: string;
+  /**
+   * Town / city the code sits in, or `null` when the geocoder resolved none.
+   *
+   * ⚠️ `null` IS A QUALITY SIGNAL, NOT A COSMETIC GAP. `[MEASURED 2026-08-17]`
+   * US ZIP `96950` (Saipan, Northern Mariana Islands) resolves to 17.436N
+   * 130.039E — open water in the Philippine Sea, roughly 500 km from the real
+   * place — and its display name is the bare `"96950, United States"` with no
+   * locality at all. The missing locality is the only cheap tell that the pin
+   * is junk, so it is surfaced rather than smoothed over: a caller showing a
+   * confirmed town lets the user catch a wrong pin, and a caller with no town
+   * must say so instead of implying the match was verified.
+   */
+  locality: string | null;
+  latitude: number;
+  longitude: number;
+}
+
+/**
+ * The postal response as it actually arrives.
+ *
+ * Deliberately NOT `NominatimResult`: that interface declares `address` as
+ * always present with a required `country`, which does not hold for sparse
+ * postal entries (the `96950` case documented above carries no locality keys at
+ * all). Reusing it would let this function index a possibly-absent object under
+ * a type that promises it is there.
+ */
+interface NominatimPostalResult {
+  display_name: string;
+  lat: string;
+  lon: string;
+  address?: Record<string, string | undefined>;
+}
+
+/** Locality-bearing keys in a Nominatim address, most specific first. */
+const LOCALITY_KEYS = [
+  "city",
+  "town",
+  "village",
+  "hamlet",
+  "municipality",
+  "suburb",
+  "county",
+] as const;
+
+/**
+ * Resolve a parsed postal code to a coordinate via Nominatim's STRUCTURED
+ * query.
+ *
+ * Structured (`postalcode=` + `country=`), never free text: the free-text form
+ * of a bare code matches four countries — see `parsePostalCode`'s header for the
+ * measured result. `null` when the code does not resolve; callers must not
+ * substitute a nearby guess.
+ */
+export async function resolvePostalCode(
+  parsed: ParsedPostalCode,
+): Promise<PostalCodeResolution | null> {
+  const params = new URLSearchParams({
+    postalcode: parsed.code,
+    country: parsed.country,
+    format: "json",
+    addressdetails: "1",
+    limit: "1",
+  });
+
+  const response = await fetch(`${NOMINATIM_API_URL}?${params.toString()}`, {
+    headers: {
+      "User-Agent": "WhatToEatNext/1.0 (cookingwithcastrollc@gmail.com)",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Geocoding API returned ${response.status}`);
+  }
+
+  const data = (await response.json()) as NominatimPostalResult[];
+  const [first] = data;
+  if (!first) return null;
+
+  const latitude = parseFloat(first.lat);
+  const longitude = parseFloat(first.lon);
+  // A code that resolves to an unparseable coordinate is a failed resolution,
+  // not a resolution to 0,0 — which is a real place in the Gulf of Guinea.
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+
+  const address = first.address ?? {};
+  const locality =
+    LOCALITY_KEYS.map((key) => address[key])
+      .find((value): value is string => typeof value === "string" && value.trim().length > 0)
+      ?.trim() ?? null;
+
+  return {
+    postalCode: parsed.code,
+    country: parsed.country,
+    format: parsed.format,
+    displayName: first.display_name,
+    locality,
+    latitude,
+    longitude,
+  };
 }
 
 /**

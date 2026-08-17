@@ -108,7 +108,7 @@
     "format:changed": "prettier --write $(git diff --name-only --diff-filter=ACMR HEAD | grep -E '\\.(ts|tsx|js|jsx|json|md|yml|yaml)$' | tr '\\n' ' ')",
     "format:staged": "prettier --write $(git diff --cached --name-only --diff-filter=ACMR | grep -E '\\.(ts|tsx|js|jsx|json|md|yml|yaml)$' | tr '\\n' ' ')",
     "test": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest",
-    "test:fast": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --silent 'src/__tests__/physics/' 'src/__tests__/calculations/' 'CrossRuntimeParity' 'src/__tests__/cookingThermo' 'testImportPathsResolve' 'methodPanelPresentationGuards' 'methodRankingProvenance'",
+    "test:fast": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --silent 'src/__tests__/physics/' 'src/__tests__/calculations/' 'CrossRuntimeParity' 'src/__tests__/cookingThermo' 'testImportPathsResolve' 'methodPanelPresentationGuards' 'methodRankingProvenance' 'postalCode'",
     "test:watch": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --watch",
     "test:memory": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --detectOpenHandles --forceExit",
     "test:detect-open-handles": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --runInBand --detectOpenHandles --passWithNoTests --no-forceExit",

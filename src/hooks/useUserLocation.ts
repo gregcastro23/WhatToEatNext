@@ -17,6 +17,31 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ElevationProvenance } from "@/hooks/useEnvironmentalObservation";
+import { parsePostalCode, POSTAL_FORMAT_LABEL } from "@/lib/location/postalCode";
+import type { PostalCodeResolution } from "@/services/geocodingService";
+
+/**
+ * How lat/lng was obtained — the HORIZONTAL question, which
+ * `elevationProvenance` does not answer.
+ *
+ * ⚠️ The two are independent and conflating them overstates precision. A
+ * postal-code centroid feeds the DEM lookup a coordinate that may be kilometres
+ * from the cook, yet the elevation that comes back is still `dem`-provenanced
+ * and carries the DEM's own ±15 m grid error — which is the error *at the point
+ * queried*, not the error between that point and the kitchen. A surface printing
+ * "±15 m" off a centroid is quoting a true number about the wrong place, so any
+ * surface that quotes vertical precision must also read this field.
+ *
+ * `ip` is absent on purpose: nothing in this hook produces an IP-derived
+ * location. Add it only alongside code that actually sets it.
+ *
+ * `device` rather than `gps`: the browser Geolocation API does not say whether a
+ * fix came from GNSS, wifi trilateration, or the network, and those differ by
+ * three orders of magnitude. What it *does* report is `coords.accuracy`, which
+ * is stored as {@link UserLocation.accuracyM} — a measured radius beats a guessed
+ * mechanism.
+ */
+export type HorizontalBasis = "device" | "postal-centroid" | "place-centroid";
 
 export interface UserLocation {
   lat: number;
@@ -29,7 +54,28 @@ export interface UserLocation {
   altitudeAccuracy?: number;
   /** How altitude was obtained. Governs physical error bars and claims. */
   elevationProvenance?: ElevationProvenance;
+  /**
+   * How lat/lng was obtained. Optional because locations persisted before this
+   * field existed carry no basis — and an absent basis must stay absent rather
+   * than defaulting to the most flattering option.
+   */
+  horizontalBasis?: HorizontalBasis;
+  /**
+   * Horizontal accuracy radius in metres, when the source measured one.
+   *
+   * Only the device Geolocation API supplies this. A postal or place centroid
+   * has NO radius available: the geocoder's bounding box for a postal code is a
+   * fixed synthetic size, identical for a 2 km² and a 5,000 km² code, so any
+   * number derived from it would be a constant wearing a measurement's clothes
+   * (see `POSTAL_CENTROID_CAVEAT`). Absent here means absent.
+   */
+  accuracyM?: number;
 }
+
+/** Outcome of resolving a typed postal code. */
+export type PostalResolution =
+  | { ok: true; resolution: PostalCodeResolution }
+  | { ok: false; message: string };
 
 export interface CitySuggestion {
   displayName: string;
@@ -66,6 +112,11 @@ function readStored(): UserLocation | null {
         altitude: typeof parsed.altitude === "number" && Number.isFinite(parsed.altitude) ? parsed.altitude : undefined,
         altitudeAccuracy: typeof parsed.altitudeAccuracy === "number" && Number.isFinite(parsed.altitudeAccuracy) ? parsed.altitudeAccuracy : undefined,
         elevationProvenance: parsed.elevationProvenance,
+        horizontalBasis: parsed.horizontalBasis,
+        accuracyM:
+          typeof parsed.accuracyM === "number" && Number.isFinite(parsed.accuracyM)
+            ? parsed.accuracyM
+            : undefined,
       };
     }
   } catch {
@@ -100,6 +151,12 @@ export interface UseUserLocationResult {
   clearLocation: () => void;
   /** Search cities by name; returns up to 5 suggestions. */
   searchCity: (query: string) => Promise<CitySuggestion[]>;
+  /**
+   * Resolve a typed postal code (US ZIP / CA postal / UK postcode) and adopt it
+   * as the location. Returns the resolution so the caller can confirm the town
+   * back to the user.
+   */
+  resolvePostalInput: (input: string) => Promise<PostalResolution>;
 }
 
 interface UseUserLocationOptions {
@@ -171,6 +228,8 @@ export function useUserLocation(options?: UseUserLocationOptions): UseUserLocati
               ? pos.coords.altitudeAccuracy
               : undefined,
           elevationProvenance: hasGpsAltitude ? "gps" : undefined,
+          horizontalBasis: "device",
+          accuracyM: Number.isFinite(pos.coords.accuracy) ? pos.coords.accuracy : undefined,
         };
         setLocationState(next);
         setStatus("ready");
@@ -211,6 +270,81 @@ export function useUserLocation(options?: UseUserLocationOptions): UseUserLocati
     [],
   );
 
+  /**
+   * Resolve a typed postal code and adopt it as the location.
+   *
+   * This is the answer to "where are you?" that does not depend on the browser
+   * being honest about it — a VPN moves the IP-derived answer to another
+   * continent, and a denied permission prompt removes it entirely, but a typed
+   * code is the cook's own statement. It is also *tighter* than a city name
+   * wherever a city is big: a New York place-centroid serves one point for
+   * ~780 km², while `10001` serves one for ~2 km².
+   *
+   * On success the location is set with `horizontalBasis: "postal-centroid"` and
+   * NO accuracy radius — see {@link UserLocation.accuracyM} for why there is
+   * none to give. The full resolution is returned so the caller can show the
+   * user which town the code landed in; a code whose `locality` is `null` did
+   * not resolve to a town and may be a bad geocoder entry rather than a bad
+   * code.
+   */
+  const resolvePostalInput = useCallback(
+    async (input: string): Promise<PostalResolution> => {
+      const parsed = parsePostalCode(input);
+      if (!parsed) {
+        return {
+          ok: false,
+          message:
+            "Not a postal code we recognise. Try a city or address instead.",
+        };
+      }
+
+      setStatus("locating");
+      setError(null);
+
+      try {
+        const res = await fetch(
+          `/api/geocoding/postal?code=${encodeURIComponent(parsed.code)}`,
+        );
+        const data = (await res.json()) as {
+          success?: boolean;
+          result?: PostalCodeResolution;
+          message?: string;
+        };
+
+        if (!res.ok || data.success !== true || !data.result) {
+          const message =
+            data.message ??
+            `Couldn't find ${parsed.code}. Check the ${POSTAL_FORMAT_LABEL[parsed.format]} and try again.`;
+          setStatus("error");
+          setError(message);
+          return { ok: false, message };
+        }
+
+        const resolution = data.result;
+        const next: UserLocation = {
+          lat: resolution.latitude,
+          lng: resolution.longitude,
+          label: resolution.locality
+            ? `${resolution.postalCode} · ${resolution.locality}`
+            : resolution.postalCode,
+          horizontalBasis: "postal-centroid",
+        };
+
+        setLocationState(next);
+        setStatus("ready");
+        if (persistChoice) persist(next);
+
+        return { ok: true, resolution };
+      } catch {
+        const message = "Couldn't reach the location service. Try again.";
+        setStatus("error");
+        setError(message);
+        return { ok: false, message };
+      }
+    },
+    [persistChoice],
+  );
+
   const clearLocation = useCallback(() => {
     setLocationState(null);
     setStatus("idle");
@@ -230,6 +364,8 @@ export function useUserLocation(options?: UseUserLocationOptions): UseUserLocati
     clearLocation,
     /** Search cities by name; returns up to 5 suggestions. */
     searchCity,
+    /** Resolve a typed postal code and adopt it. */
+    resolvePostalInput,
   };
 }
 
