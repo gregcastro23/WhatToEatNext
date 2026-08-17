@@ -107,6 +107,45 @@ it("keeps explicit card checkout available", async () => {
   ]);
 });
 
+/**
+ * ⚠️ THIS IS THE ONLY ESMS BRANCH REACHABLE IN PRODUCTION TODAY.
+ *
+ * `[MEASURED 2026-08-17]` the prod `restaurants` table holds **0 rows** and
+ * `restaurant_order_intents` holds **0 rows** — so every ESMS order attempt
+ * resolves `connectedAccountId` to null and lands here, and the connected-partner
+ * tests below cover a state that has never existed. Until the first partner
+ * completes Stripe Connect onboarding, this 409 *is* the feature's behaviour, and
+ * it was the one path with no test.
+ *
+ * What it must guarantee: refuse BEFORE spending anything. A 409 that had already
+ * debited the user's ESMS, or already opened a Stripe session, would take value
+ * for an order that cannot be fulfilled.
+ */
+it("refuses an ESMS order with no connected partner — and debits nothing", async () => {
+  process.env.NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED = "true";
+  process.env.NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN = "1";
+  process.env.DATABASE_URL = "postgresql://test";
+  // The default mock already returns no partner row — the prod state. Asserted
+  // explicitly here so a change to the shared default cannot silently turn this
+  // into a connected-partner test.
+  executeQuery.mockImplementation(async (sql: string) => {
+    if (sql.includes("SELECT id, stripe_connect_account_id")) return { rows: [] };
+    return { rows: [] };
+  });
+
+  const response = await POST(request("esms"));
+
+  expect(response.status).toBe(409);
+  const body = await response.json();
+  expect(body.error).toMatch(/Stripe-connected restaurant partner/);
+
+  // Nothing may be spent or reserved on the way to the refusal.
+  expect(reserveEsmsForRestaurantOrder).not.toHaveBeenCalled();
+  expect(createTransfer).not.toHaveBeenCalled();
+  expect(createCheckoutSession).not.toHaveBeenCalled();
+  expect(triggerOrderFulfillment).not.toHaveBeenCalled();
+});
+
 it("debits an ESMS basket and settles the connected restaurant", async () => {
   process.env.NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED = "true";
   process.env.NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN = "1";
