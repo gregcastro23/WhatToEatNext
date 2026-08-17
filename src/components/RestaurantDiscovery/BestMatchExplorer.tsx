@@ -28,8 +28,10 @@ import { useUser } from "@/contexts/UserContext";
 import {
   useUserLocation,
   type CitySuggestion,
+  type HorizontalBasis,
 } from "@/hooks/useUserLocation";
 import { firePractice } from "@/lib/economy/practiceClient";
+import { parsePostalCode } from "@/lib/location/postalCode";
 import type { SavedRestaurant } from "@/types/restaurant";
 import type {
   AlchmScoredRestaurant,
@@ -41,6 +43,21 @@ const POPULAR_CUISINES = [
   "Italian", "Mexican", "Japanese", "Thai", "Indian", "Mediterranean",
   "Chinese", "Korean", "American", "French", "Vietnamese", "Greek",
 ];
+
+/**
+ * What each location basis actually is, for the chip's tooltip.
+ *
+ * Each says what was resolved, not how good it is — no basis here carries a
+ * measured radius except `device`, and inventing one for the centroids would
+ * print a constant as if it were a measurement.
+ */
+const HORIZONTAL_BASIS_TITLE: Readonly<Record<HorizontalBasis, string>> = {
+  device: "From your device's own location.",
+  "postal-centroid":
+    "The centre point of your postal code's area — not your street address.",
+  "place-centroid":
+    "The centre point of the place you picked, which for a large city can be miles from you.",
+};
 
 type SortKey = "match" | "distance" | "rating" | "price";
 
@@ -141,14 +158,28 @@ export function BestMatchExplorer({
   const [status, setStatus] = useState<FetchStatus>({ kind: "idle" });
   const abortRef = useRef<AbortController | null>(null);
 
-  const { location, status: locStatus, error: locError, requestBrowserLocation, setLocation, searchCity } =
-    useUserLocation();
+  const {
+    location,
+    status: locStatus,
+    error: locError,
+    requestBrowserLocation,
+    setLocation,
+    searchCity,
+    resolvePostalInput,
+  } = useUserLocation();
 
   // City search
   const [cityQuery, setCityQuery] = useState("");
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [cityOpen, setCityOpen] = useState(false);
   const cityDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // One field, two resolvers. A postal code is unambiguous once its pattern
+  // fixes the country, so it resolves on submit; a place name is not, so it
+  // offers suggestions to pick from. `parsePostalCode` decides which, and the
+  // user never has to tell us what kind of thing they typed.
+  const typedPostal = parsePostalCode(cityQuery);
+  const [postalNote, setPostalNote] = useState<string | null>(null);
 
   const { currentUser, updateProfile } = useUser();
   const { showToast } = useToast();
@@ -182,7 +213,11 @@ export function BestMatchExplorer({
   // ── City search (debounced) ──
   useEffect(() => {
     if (cityDebounce.current) clearTimeout(cityDebounce.current);
-    if (cityQuery.trim().length < 2) {
+    // A recognised postal code is NOT sent to the free-text search: the bare code
+    // matches several countries there (`80202` returns Lithuania, Bosnia, Kenya
+    // and Denver), so suggesting those would be offering the user four wrong
+    // answers. It resolves on submit through the structured route instead.
+    if (typedPostal || cityQuery.trim().length < 2) {
       setCitySuggestions([]);
       return;
     }
@@ -196,7 +231,28 @@ export function BestMatchExplorer({
     return () => {
       if (cityDebounce.current) clearTimeout(cityDebounce.current);
     };
-  }, [cityQuery, searchCity]);
+  }, [cityQuery, searchCity, typedPostal]);
+
+  // ── Postal code submit ──
+  const submitPostal = useCallback(async () => {
+    if (!typedPostal) return;
+    setPostalNote(null);
+    const outcome = await resolvePostalInput(cityQuery);
+    if (!outcome.ok) {
+      setPostalNote(outcome.message);
+      return;
+    }
+    setCityQuery("");
+    setCityOpen(false);
+    // A code that resolved to no town is the geocoder's tell that the entry may
+    // be junk — one US ZIP resolves ~500 km into open water. Say so rather than
+    // presenting an unverified pin as a confirmed place.
+    setPostalNote(
+      outcome.resolution.locality
+        ? null
+        : `Found ${outcome.resolution.postalCode}, but no town is on record for it — check the results look local before trusting them.`,
+    );
+  }, [cityQuery, resolvePostalInput, typedPostal]);
 
   // ── Fetch best matches when inputs change ──
   useEffect(() => {
@@ -326,10 +382,16 @@ export function BestMatchExplorer({
   const selectCity = useCallback(
     (c: CitySuggestion) => {
       const primary = c.displayName.split(",")[0]?.trim() || c.displayName;
-      setLocation({ lat: c.latitude, lng: c.longitude, label: primary });
+      setLocation({
+        lat: c.latitude,
+        lng: c.longitude,
+        label: primary,
+        horizontalBasis: "place-centroid",
+      });
       setCityQuery("");
       setCitySuggestions([]);
       setCityOpen(false);
+      setPostalNote(null);
     },
     [setLocation],
   );
@@ -448,7 +510,14 @@ export function BestMatchExplorer({
           {/* Location + radius */}
           <div className="flex flex-wrap items-center gap-3">
             {location ? (
-              <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-100">
+              <div
+                className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-100"
+                title={
+                  location.horizontalBasis
+                    ? HORIZONTAL_BASIS_TITLE[location.horizontalBasis]
+                    : undefined
+                }
+              >
                 <span aria-hidden>📍</span>
                 {location.label ?? "Your location"}
                 <button
@@ -472,16 +541,39 @@ export function BestMatchExplorer({
               </button>
             )}
 
-            {/* City search */}
-            <div className="relative flex-1 min-w-[180px]">
+            {/* ZIP / postal code or place name — one field, routed by what was
+                typed. ZIP first in the placeholder because it is both the
+                easiest thing to type and the tighter of the two: a city
+                centroid serves one point for a whole metro. */}
+            <form
+              className="relative flex-1 min-w-[180px]"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void submitPostal();
+              }}
+            >
               <input
                 type="text"
                 value={cityQuery}
-                onChange={(e) => setCityQuery(e.target.value)}
+                onChange={(e) => {
+                  setCityQuery(e.target.value);
+                  setPostalNote(null);
+                }}
                 onFocus={() => citySuggestions.length > 0 && setCityOpen(true)}
-                placeholder="Or enter a city…"
-                className="w-full px-4 py-2 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:ring-2 focus:ring-purple-400/40 focus:border-purple-400/50 transition-all"
+                placeholder="ZIP code, or a city…"
+                aria-label="ZIP or postal code, city, or address"
+                enterKeyHint={typedPostal ? "go" : "search"}
+                className="w-full px-4 py-2 pr-16 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:ring-2 focus:ring-purple-400/40 focus:border-purple-400/50 transition-all"
               />
+              {typedPostal && (
+                <button
+                  type="submit"
+                  disabled={locStatus === "locating"}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-purple-500/30 text-purple-100 text-[10px] font-black uppercase tracking-wider hover:bg-purple-500/50 transition-colors disabled:opacity-50"
+                >
+                  {locStatus === "locating" ? "…" : "Set"}
+                </button>
+              )}
               {cityOpen && citySuggestions.length > 0 && (
                 <ul className="absolute z-30 mt-1 w-full max-h-60 overflow-auto rounded-xl border border-white/10 bg-[#15121f] shadow-2xl shadow-black/50">
                   {citySuggestions.map((c, i) => (
@@ -497,7 +589,7 @@ export function BestMatchExplorer({
                   ))}
                 </ul>
               )}
-            </div>
+            </form>
 
             {/* Radius */}
             <div className="inline-flex items-center gap-1 rounded-xl border border-white/10 bg-black/30 p-1">
@@ -519,6 +611,15 @@ export function BestMatchExplorer({
           </div>
 
           {locError && <p className="text-[11px] text-rose-300">{locError}</p>}
+          {postalNote && !locError && (
+            <p className="text-[11px] text-amber-300">{postalNote}</p>
+          )}
+          {location?.horizontalBasis === "place-centroid" && (
+            <p className="text-[11px] text-white/40">
+              City centre point — a ZIP or postal code narrows this to your
+              neighbourhood.
+            </p>
+          )}
 
           <div className="h-px bg-white/10" />
 

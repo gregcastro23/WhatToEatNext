@@ -27,6 +27,7 @@ import {
   type ElevationProvenance,
 } from "@/hooks/useEnvironmentalObservation";
 import { useEnvironmentalProducer } from "@/hooks/useEnvironmentalProducer";
+import { useUserLocation } from "@/hooks/useUserLocation";
 import {
   altitudeEffect,
   altitudeCriticalGap,
@@ -517,6 +518,17 @@ export function ConditionsTab({
   // Active telemetry producer: resolves elevation (GNSS/DEM/geohash) and publishes to SpacetimeDB
   useEnvironmentalProducer();
 
+  // The HORIZONTAL basis, which the live observation does not carry: its
+  // `elevationProvenance` says how the altitude was obtained at a coordinate,
+  // not whether that coordinate is the cook's. A centroid-derived location makes
+  // the vertical error bar unquotable — see where `centroidBasis` is read below.
+  const { location: pickedLocation } = useUserLocation();
+  const centroidBasis =
+    pickedLocation?.horizontalBasis === "postal-centroid" ||
+    pickedLocation?.horizontalBasis === "place-centroid"
+      ? pickedLocation.horizontalBasis
+      : null;
+
   // Live telemetry, or null when the flag is off / disconnected / no row yet.
   // Null means "we do not know where you are" — NOT sea level.
   const live = useEnvironmentalObservation();
@@ -684,8 +696,31 @@ export function ConditionsTab({
                 <span className="font-semibold text-emerald-200">
                   {PROVENANCE_LABEL[live.elevationProvenance]}
                 </span>
-                {" · ±"}
-                {live.elevationErrorM} m
+                {/* The ±N m is the source's error AT THE POINT IT SAMPLED. When
+                    that point is a postal or city centroid rather than the
+                    cook's own coordinate, the figure is a true statement about
+                    the wrong place — the DEM's 15 m grid error says nothing
+                    about the terrain between the centroid and the kitchen. No
+                    error bar is substituted for it: the distance from a postal
+                    centroid to an address is not measured anywhere in this app,
+                    and the geocoder cannot supply it (its postal bounding box is
+                    a fixed synthetic size — see POSTAL_CENTROID_CAVEAT). So the
+                    basis is named and the number withheld. */}
+                {centroidBasis ? (
+                  <>
+                    {", sampled at "}
+                    {centroidBasis === "postal-centroid"
+                      ? "your postal code's centre point"
+                      : "the centre point of the place you picked"}
+                    {" — no error bar, because the distance from there to your"}
+                    {" kitchen isn't measured"}
+                  </>
+                ) : (
+                  <>
+                    {" · ±"}
+                    {live.elevationErrorM} m
+                  </>
+                )}
                 {live.stationPressureKpa !== null && (
                   <>
                     {" · barometer "}
