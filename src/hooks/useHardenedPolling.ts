@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 /**
  * useHardenedPolling
@@ -105,9 +105,15 @@ export function useHardenedPolling(
     };
   }, [baseIntervalMs, maxIntervalMs]);
 
-  return {
-    refreshNow: () => {
-      refreshRef.current();
-    },
-  };
+  // Stable identity. `refreshNow` is a legitimate dependency for effects that
+  // refetch when a filter changes (see _dashboard/agents.tsx), but a fresh
+  // closure on every render made those effects self-triggering: refresh →
+  // setState → re-render → new identity → refresh. That loop polled
+  // /api/admin/agents/network — eight Postgres aggregates behind a 5s memo —
+  // at round-trip speed for as long as the tab was open.
+  const refreshNow = useCallback(() => {
+    refreshRef.current();
+  }, []);
+
+  return { refreshNow };
 }

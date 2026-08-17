@@ -898,6 +898,21 @@ export function ArchitectCard({
                   title={a.title}
                 >
                   {a.title}
+                  {a.undeliveredChannels.length > 0 && (
+                    /* Fired is not delivered — say which channels missed it. */
+                    <span
+                      className="t-mono"
+                      title={`Delivery failed for: ${a.undeliveredChannels.join(", ")}`}
+                      style={{
+                        marginLeft: 6,
+                        fontSize: 8.5,
+                        letterSpacing: "0.12em",
+                        color: "var(--status-incident)",
+                      }}
+                    >
+                      ⚠ UNDELIVERED
+                    </span>
+                  )}
                 </span>
                 <span
                   className="t-mono"

@@ -7,6 +7,7 @@ import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
 import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
 import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
+import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
@@ -268,6 +269,15 @@ export default function AdminDashboardPage() {
       {/* System Status — per-flow health for every critical user-facing
           surface plus external dependencies. Polls every 15s. */}
       <SystemStatusPanel />
+
+      {/* Reliability over time — the companion to System Status above. That
+          panel answers "what is happening now"; this one answers "is it
+          getting better or worse, and did the alert reach anyone". Reads the
+          hourly health snapshots, per-probe failure rates, and per-channel
+          alert delivery. Polls every 60s. */}
+      <div className="mb-8">
+        <ReliabilityPanel />
+      </div>
 
       {/* Onboarding flow watch — surfaces stuck users, recent errors,
           and the 24h funnel so we always know if signup is working. */}

@@ -135,7 +135,38 @@ export async function GET(request: NextRequest) {
        ORDER BY created_at DESC
        LIMIT 100`,
     );
-    return NextResponse.json({ success: true, pending: result.rows });
+    // An empty queue is ambiguous on its own: a rail that has settled
+    // thousands of orders and a rail that has never carried one both return
+    // zero rows. `lifetime` lets the panel tell those apart instead of
+    // showing a green "all clear" for a rail that has never run.
+    let lifetime: { orders: number; restaurants: number } | null = null;
+    try {
+      const totals = await executeQuery<{
+        orders: string;
+        restaurants: string;
+      }>(
+        `SELECT
+           (SELECT COUNT(*) FROM restaurant_order_intents)::text AS orders,
+           (SELECT COUNT(*) FROM restaurants)::text AS restaurants`,
+      );
+      const [row] = totals.rows;
+      if (row) {
+        lifetime = {
+          orders: Number(row.orders),
+          restaurants: Number(row.restaurants),
+        };
+      }
+    } catch (err) {
+      // Non-fatal: the pending list is the primary payload. `lifetime: null`
+      // means "unknown", and the panel must not render it as a zero.
+      _logger.warn("[admin/restaurants/settlement] lifetime totals failed:", err);
+    }
+
+    return NextResponse.json({
+      success: true,
+      pending: result.rows,
+      lifetime,
+    });
   } catch (error) {
     _logger.error("[admin/restaurants/settlement] list failed:", error);
     return NextResponse.json(

@@ -40,6 +40,25 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 255, 255, 255;
+
+  /* Semantic STATUS palette — deliberately distinct from the four --el-*
+     element hues (Fire/Water/Earth/Air). Those are a DOMAIN palette, and
+     reusing them for health meant a Fire-element dot and a DEGRADED badge
+     rendered identically, while "incident" was a bare #FF5252 literal
+     repeated across 7 dashboard files.
+
+     Defined on :root, NOT on .alchm-root/.dashboard-root, because the admin
+     is mid-migration: the legacy Tailwind pages sit outside every themed
+     root, and status must mean the same thing on both sides of that seam.
+
+     Status is never conveyed by color alone — a dot or word always
+     accompanies it — but these must stay separable at 8px. --status-unknown
+     is grey ON PURPOSE: a value that could not be measured must never read
+     as healthy (green) or as broken (red). */
+  --status-ok: #34d399;
+  --status-warn: #fbbf24;
+  --status-incident: #ef4444;
+  --status-unknown: #9ca3af;
 }
 
 [data-theme="dark"] {

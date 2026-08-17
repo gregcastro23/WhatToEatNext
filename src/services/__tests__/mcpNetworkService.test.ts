@@ -103,4 +103,59 @@ describe("mcpNetworkService", () => {
     expect(summary2.live).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(1); // Call count should still be 1!
   });
+
+  // The proxy can answer HTTP 200 while reporting its own failure, and
+  // /admin/mcp renders straight out of this summary. Forcing `live: true`
+  // over the body relabelled a known-degraded payload as live, and caching a
+  // malformed body meant the page indexed into a missing `totals`.
+  it("does not relabel an explicitly degraded upstream as live", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ...MOCK_SUMMARY, live: false }),
+    });
+
+    const summary = await getMcpNetworkSummary(60);
+
+    expect(summary.live).toBe(false);
+  });
+
+  it("treats a 200 carrying a malformed body as not live", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({ success: false, message: "pa_unreachable" }),
+    });
+
+    const summary = await getMcpNetworkSummary(60);
+
+    expect(summary.live).toBe(false);
+    // The page dereferences these, so they must always be present.
+    expect(summary.totals).toBeDefined();
+    expect(summary.totals.calls).toBe(0);
+    expect(Array.isArray(summary.byTool)).toBe(true);
+    expect(Array.isArray(summary.byAgent)).toBe(true);
+  });
+
+  it("does not cache a degraded payload as the stale fallback", async () => {
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ success: false }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(MOCK_SUMMARY),
+      });
+    global.fetch = fetchMock;
+
+    const degraded = await getMcpNetworkSummary(60);
+    expect(degraded.live).toBe(false);
+
+    // A poisoned cache would short-circuit this second call.
+    const recovered = await getMcpNetworkSummary(60);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(recovered.live).toBe(true);
+    expect(recovered.totals.calls).toBe(142);
+  });
 });
