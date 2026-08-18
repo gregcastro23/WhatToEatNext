@@ -133,6 +133,163 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
     }
     out.push_str("  ],\n");
 
+    // ── Bessel series ───────────────────────────────────────────────────────
+    // Emitted separately from the eigenvalues so a drift in the SERIES is
+    // distinguishable from a drift in the BISECTION that consumes it. These
+    // are pure arithmetic — no transcendental — so unlike the tan family they
+    // are expected to reproduce bit-exactly on every platform.
+    out.push_str("  \"bessel\": [\n");
+    let bessel_args = [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        BESSEL_J0_FIRST_ZERO,
+    ];
+    for (i, x) in bessel_args.iter().enumerate() {
+        out.push_str(&format!(
+            "    {{ \"x\": {}, \"j0\": {}, \"j1\": {} }}{}\n",
+            j(*x),
+            j(bessel_j0(*x)),
+            j(bessel_j1(*x)),
+            if i + 1 < bessel_args.len() { "," } else { "" }
+        ));
+    }
+    out.push_str("  ],\n");
+
+    // ── Geometry eigenvalue / coefficient ───────────────────────────────────
+    // The cylinder and sphere halves of the one-term family. `slab` is emitted
+    // here too, through the geometry entry point rather than `slab_eigenvalue`,
+    // so that the two paths cannot silently diverge.
+    out.push_str("  \"geometryEigen\": [\n");
+    let geometries = [
+        ("slab", FoodGeometry::Slab),
+        ("cylinder", FoodGeometry::Cylinder),
+        ("sphere", FoodGeometry::Sphere),
+    ];
+    let mut rows: Vec<String> = Vec::new();
+    for (name, geom) in geometries.iter() {
+        for b in biots.iter() {
+            let lambda = geometry_eigenvalue(*geom, *b).unwrap();
+            rows.push(format!(
+                "    {{ \"geometry\": \"{}\", \"biot\": {}, \"lambda1\": {}, \"coefficientA1\": {}, \"lengthRatio\": {} }}",
+                name,
+                j(*b),
+                j(lambda),
+                j(geometry_coefficient(*geom, lambda)),
+                j(geom.characteristic_length_ratio()),
+            ));
+        }
+    }
+    out.push_str(&rows.join(",\n"));
+    out.push_str("\n  ],\n");
+
+    // ── Choi & Okos component properties ────────────────────────────────────
+    // Sampled across the published fit range, INCLUDING below freezing so the
+    // water specific-heat branch is exercised on both sides of 32 F.
+    out.push_str("  \"choiOkosComponents\": [\n");
+    let comps: [(&str, FoodComponent); 7] = [
+        ("water", FoodComponent::Water),
+        ("protein", FoodComponent::Protein),
+        ("fat", FoodComponent::Fat),
+        ("carbohydrate", FoodComponent::Carbohydrate),
+        ("fibre", FoodComponent::Fibre),
+        ("ash", FoodComponent::Ash),
+        ("ice", FoodComponent::Ice),
+    ];
+    let temps = [-40.0_f64, -10.0, 0.0, 5.0, 20.0, 75.0, 100.0, 148.0];
+    let mut crows: Vec<String> = Vec::new();
+    for (name, c) in comps.iter() {
+        for t in temps.iter() {
+            crows.push(format!(
+                "    {{ \"component\": \"{}\", \"celsius\": {}, \"k\": {}, \"rho\": {}, \"cp\": {} }}",
+                name,
+                j(*t),
+                j(component_conductivity(*c, *t).unwrap()),
+                j(component_density(*c, *t).unwrap()),
+                j(component_specific_heat(*c, *t).unwrap()),
+            ));
+        }
+    }
+    out.push_str(&crows.join(",\n"));
+    out.push_str("\n  ],\n");
+
+    // ── Choi & Okos mixtures ────────────────────────────────────────────────
+    // Real compositions from src/data/ingredients, plus the ASHRAE worked
+    // example, plus a food that does NOT close (vanilla extract, a third
+    // ethanol) so the unaccounted fraction is pinned rather than assumed zero.
+    out.push_str("  \"choiOkosMixtures\": [\n");
+    let mixes: [(&str, MassFractions, f64); 6] = [
+        ("ashrae_lamb_example", MassFractions { water: 0.7342, protein: 0.2029, fat: 0.0525, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 }, 5.0),
+        ("carrot", MassFractions { water: 0.883, protein: 0.0093, fat: 0.0024, carbohydrate: 0.0958, fibre: 0.0, ash: 0.0097 }, 20.0),
+        ("butter", MassFractions { water: 0.162, protein: 0.0085, fat: 0.8111, carbohydrate: 0.0006, fibre: 0.0, ash: 0.0009 }, 20.0),
+        ("chicken_roasted", MassFractions { water: 0.653, protein: 0.3102, fat: 0.0357, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 }, 70.0),
+        ("potato", MassFractions { water: 0.792, protein: 0.0205, fat: 0.0009, carbohydrate: 0.175, fibre: 0.0, ash: 0.0111 }, 100.0),
+        ("vanilla_extract_open", MassFractions { water: 0.526, protein: 0.0006, fat: 0.0006, carbohydrate: 0.126, fibre: 0.0, ash: 0.0026 }, 20.0),
+    ];
+    let mut mrows: Vec<String> = Vec::new();
+    for (name, f, t) in mixes.iter() {
+        let r = food_properties(*f, *t, 0.0).unwrap();
+        mrows.push(format!(
+            "    {{ \"name\": \"{}\", \"celsius\": {}, \"water\": {}, \"protein\": {}, \"fat\": {}, \"carbohydrate\": {}, \"fibre\": {}, \"ash\": {}, \"density\": {}, \"specificHeat\": {}, \"conductivity\": {}, \"diffusivity\": {}, \"unaccounted\": {} }}",
+            name, j(*t), j(f.water), j(f.protein), j(f.fat), j(f.carbohydrate), j(f.fibre), j(f.ash),
+            j(r.density_kg_m3), j(r.specific_heat_j_kg_k), j(r.conductivity_w_m_k),
+            j(r.diffusivity_m2_s), j(r.unaccounted_fraction),
+        ));
+    }
+    out.push_str(&mrows.join(",\n"));
+    out.push_str("\n  ],\n");
+
+    // ── Latent heat ─────────────────────────────────────────────────────────
+    out.push_str("  \"latentHeat\": {\n");
+    out.push_str(&format!(
+        "    \"waterFusionJkg\": {},\n    \"boundWaterFraction\": {},\n",
+        j(water_fusion_j_kg()),
+        j(BOUND_WATER_FRACTION),
+    ));
+    out.push_str("    \"vaporisation\": [\n");
+    let vtemps = [0.0_f64, 20.0, 50.0, 72.0, 100.0];
+    let vrows: Vec<String> = vtemps
+        .iter()
+        .map(|t| {
+            format!(
+                "      {{ \"celsius\": {}, \"jPerKg\": {} }}",
+                j(*t),
+                j(latent_heat_vaporisation(*t).unwrap())
+            )
+        })
+        .collect();
+    out.push_str(&vrows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    // Real ingredient compositions, so the food-level helpers are pinned too.
+    out.push_str("    \"foods\": [\n");
+    let foods: [(&str, f64, f64, f64); 4] = [
+        ("chicken_roasted", 0.653, 0.0357, 70.0),
+        ("carrot", 0.883, 0.0024, 100.0),
+        ("butter", 0.162, 0.8111, 40.0),
+        ("potato", 0.792, 0.0009, 100.0),
+    ];
+    let frows: Vec<String> = foods
+        .iter()
+        .map(|(name, water, fat, t)| {
+            format!(
+                "      {{ \"name\": \"{}\", \"water\": {}, \"fat\": {}, \"celsius\": {}, \"freezable\": {}, \"fusionJkg\": {}, \"vaporisationJkg\": {}, \"lossFivePercentJkg\": {} }}",
+                name,
+                j(*water),
+                j(*fat),
+                j(*t),
+                j(freezable_water_fraction(*water).unwrap()),
+                j(food_fusion_enthalpy(*water).unwrap()),
+                j(food_vaporisation_enthalpy(*water, *t).unwrap()),
+                j(evaporative_energy_loss(0.05, *t).unwrap()),
+            )
+        })
+        .collect();
+    out.push_str(&frows.join(",\n"));
+    out.push_str("\n    ]\n  },\n");
+
     // ── Slab core time ──────────────────────────────────────────────────────
     // Every method regime the panels actually render: oven, bath, fryer,
     // boiling water, steam, and a one-sided pan sear.

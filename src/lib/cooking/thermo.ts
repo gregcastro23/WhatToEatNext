@@ -340,6 +340,219 @@ export function slabCoefficient(lambda1: number): number {
   return (4 * Math.sin(lambda1)) / (2 * lambda1 + Math.sin(2 * lambda1));
 }
 
+// ============================================================================
+// Geometry — the one-term solution for cylinders and spheres
+// ============================================================================
+
+/**
+ * The three shapes the one-term transient solution is defined for.
+ *
+ * A steak is a slab, a roast or a carrot is a cylinder, a meatball or a
+ * potato is a sphere. The distinction is not cosmetic: at the same Biot
+ * number a sphere cores in roughly a third the Fourier time of a slab,
+ * because it is fed from three directions instead of one.
+ */
+export type FoodGeometry = "slab" | "cylinder" | "sphere";
+
+/**
+ * Number of terms in the Bessel series below.
+ *
+ * FIXED, not convergence-tested. A loop that exits when a term stops mattering
+ * is free to exit after a different number of iterations in a different
+ * runtime, and that is a last-bit difference the parity test exists to catch.
+ *
+ * `[MEASURED 2026-08-17]` At the worst-case argument this file can produce —
+ * x = j₀,₁ = 2.4048, the ceiling of the cylinder eigenvalue search — J₀ reaches
+ * its final bits at 19 terms and J₁ at 11. 30 therefore carries an 11-term
+ * margin over the binding case. Reproduce by sweeping the term count against a
+ * 60-term reference; the Rust golden test fails below 19, which is what pins
+ * this number as a measurement rather than a guess.
+ */
+const BESSEL_TERMS = 30;
+
+/**
+ * Bessel function of the first kind, order 0, by the ascending power series
+ *
+ * > J₀(x) = Σ (−1)ᵐ (x/2)²ᵐ / (m!)²
+ *
+ * BASIS: Abramowitz & Stegun, *Handbook of Mathematical Functions*, 9.1.10.
+ *
+ * VALIDITY. The series is exact for all x but loses precision to cancellation
+ * once x grows past roughly 10. That is not a limit here: the only argument
+ * this file ever passes is a cylinder's first eigenvalue, which lies in
+ * (0, j₀,₁ ≈ 2.4048]. Do not reach for this as a general-purpose J₀.
+ *
+ * Implemented with the recurrence rather than factorials so that no
+ * intermediate overflows, and with `+ − × ÷` only — no transcendental is
+ * involved, which is what makes bit-exact agreement with the Rust half
+ * achievable at all. Rust's `std` has no Bessel function, and the `libm`
+ * crate's would reintroduce the platform drift already logged against this
+ * codebase.
+ */
+export function besselJ0(x: number): number {
+  const half = x / 2;
+  const halfSq = half * half;
+  let term = 1;
+  let sum = 1;
+  for (let m = 1; m <= BESSEL_TERMS; m += 1) {
+    term = (-term * halfSq) / (m * m);
+    sum += term;
+  }
+  return sum;
+}
+
+/**
+ * Bessel function of the first kind, order 1, by the ascending power series
+ *
+ * > J₁(x) = Σ (−1)ᵐ (x/2)²ᵐ⁺¹ / (m!·(m+1)!)
+ *
+ * BASIS: Abramowitz & Stegun 9.1.10. Same validity envelope and the same
+ * reasoning about determinism as {@link besselJ0}.
+ */
+export function besselJ1(x: number): number {
+  const half = x / 2;
+  const halfSq = half * half;
+  let term = half;
+  let sum = half;
+  for (let m = 1; m <= BESSEL_TERMS; m += 1) {
+    term = (-term * halfSq) / (m * (m + 1));
+    sum += term;
+  }
+  return sum;
+}
+
+/** Upper bound of the first eigenvalue for each geometry, as Bi → ∞. */
+const EIGENVALUE_CEILING: Record<FoodGeometry, number> = {
+  // λ·tan λ → ∞ at π/2.
+  slab: Math.PI / 2,
+  // The first zero of J₀, j₀,₁. Bounds the cylinder's λ₁ and therefore bounds
+  // every argument the Bessel series above is ever asked for.
+  cylinder: 2.404825557695773,
+  // 1 − λ·cot λ → ∞ at π.
+  sphere: Math.PI,
+};
+
+/**
+ * The transcendental whose root is λ₁, written as `f(λ) − Bi`.
+ *
+ * Each is monotone increasing on (0, ceiling), which is what lets a plain
+ * bisection find the root without a derivative and without the possibility of
+ * landing on a higher branch.
+ *
+ *   slab      λ·tan λ        = Bi
+ *   cylinder  λ·J₁(λ)/J₀(λ)  = Bi
+ *   sphere    1 − λ·cot λ    = Bi
+ *
+ * ⚠️ THE SPHERE IS WRITTEN MULTIPLIED THROUGH BY sin λ, DELIBERATELY.
+ *
+ * `[MEASURED 2026-08-17]` Written the direct way — `1 − λ/tan λ − Bi` — this
+ * runtime and Rust disagreed by **32 ULP** on λ₁ at Bi = 0.001, four times the
+ * measured budget for the whole rest of the fixture. The cause is conditioning,
+ * not a wrong formula: the residual's slope at the root collapses to 3.65e-2 at
+ * Bi = 0.001 against 1.57 at Bi = 1, so a last-bit disagreement in `tan` is
+ * amplified by roughly forty. Multiplying through by sin λ removes the division
+ * and trades `tan` for `sin` and `cos`, which agree between V8 and Rust's libm
+ * where `tan` does not: the same 27 vectors then reproduce at **0 ULP** on this
+ * host, for all three geometries.
+ *
+ * The root is unchanged — sin λ > 0 on (0, π), so multiplying by it moves no
+ * sign and therefore moves no bisection step. Do not "simplify" this back to
+ * the cot form; it is the shape of the expression that is load bearing.
+ */
+function eigenvalueResidual(geometry: FoodGeometry, lambda: number, biot: number): number {
+  switch (geometry) {
+    case "slab":
+      return lambda * Math.tan(lambda) - biot;
+    case "cylinder":
+      return (lambda * besselJ1(lambda)) / besselJ0(lambda) - biot;
+    case "sphere":
+      return (1 - biot) * Math.sin(lambda) - lambda * Math.cos(lambda);
+  }
+}
+
+/**
+ * First eigenvalue λ₁ of the one-term transient solution for a given shape.
+ *
+ * Bisection, 200 iterations, matching {@link slabEigenvalue} exactly — the
+ * iteration count is part of the answer, not an implementation detail, because
+ * a different count is a different last bit.
+ *
+ * BASIS: Incropera & DeWitt, *Fundamentals of Heat and Mass Transfer*,
+ * Table 5.1 and §5.5.
+ */
+export function geometryEigenvalue(geometry: FoodGeometry, biot: number): number {
+  if (!(biot >= 0)) throw new RangeError(`biot must be non-negative, received ${biot}`);
+  if (biot === 0) return 0;
+  let lo = 0;
+  let hi = EIGENVALUE_CEILING[geometry] - 1e-12;
+  for (let i = 0; i < 200; i += 1) {
+    const mid = (lo + hi) / 2;
+    if (eigenvalueResidual(geometry, mid, biot) < 0) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+/**
+ * Leading coefficient A₁ of the one-term solution for a given shape.
+ *
+ * BASIS: Incropera & DeWitt, Table 5.1.
+ *
+ *   slab      4 sin λ / (2λ + sin 2λ)
+ *   cylinder  (2/λ)·J₁(λ) / (J₀²(λ) + J₁²(λ))
+ *   sphere    4(sin λ − λ cos λ) / (2λ − sin 2λ)
+ */
+export function geometryCoefficient(geometry: FoodGeometry, lambda1: number): number {
+  if (lambda1 === 0) return 1;
+  switch (geometry) {
+    case "slab":
+      return slabCoefficient(lambda1);
+    case "cylinder": {
+      const j0 = besselJ0(lambda1);
+      const j1 = besselJ1(lambda1);
+      return ((2 / lambda1) * j1) / (j0 * j0 + j1 * j1);
+    }
+    case "sphere":
+      return (
+        (4 * (Math.sin(lambda1) - lambda1 * Math.cos(lambda1))) /
+        (2 * lambda1 - Math.sin(2 * lambda1))
+      );
+  }
+}
+
+/**
+ * Characteristic length Lc = V/A, in units of the shape's own half-dimension.
+ *
+ * This is the volumetric statement of why shape changes cooking time. For a
+ * slab of half-thickness L the conduction path is L itself; a cylinder of
+ * radius R behaves as R/2 and a sphere as R/3, because each has more surface
+ * feeding the same volume. It is also exactly the ratio that makes a diced
+ * vegetable cook faster than a whole one at identical thickness.
+ */
+export function characteristicLengthRatio(geometry: FoodGeometry): number {
+  switch (geometry) {
+    case "slab":
+      return 1;
+    case "cylinder":
+      return 1 / 2;
+    case "sphere":
+      return 1 / 3;
+  }
+}
+
+/**
+ * Surface-area-to-volume ratio, m⁻¹, for a piece of the given shape.
+ *
+ * @param geometry Shape of the piece.
+ * @param halfDimensionM Half-thickness for a slab, radius for the others, metres.
+ */
+export function surfaceAreaToVolume(geometry: FoodGeometry, halfDimensionM: number): number {
+  if (!(halfDimensionM > 0)) {
+    throw new RangeError(`halfDimensionM must be positive, received ${halfDimensionM}`);
+  }
+  return 1 / (halfDimensionM * characteristicLengthRatio(geometry));
+}
+
 export interface SlabCookInput {
   /** Full thickness of the piece, millimetres. */
   thicknessMm: number;

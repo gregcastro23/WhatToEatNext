@@ -179,6 +179,11 @@ pub enum ThermoError {
     NonPositiveZValue,
     TargetUnreachable,
     NegativeBiot,
+    /// Outside a correlation's published fit range, or a fraction outside [0, 1].
+    ///
+    /// Extrapolating a polynomial fit is not a smaller error than refusing — it
+    /// is a different curve, and it returns a number that looks like an answer.
+    OutsideCorrelationRange,
 }
 
 // ============================================================================
@@ -344,6 +349,220 @@ pub fn slab_coefficient(lambda1: f64) -> f64 {
         return 1.0;
     }
     (4.0 * (lambda1).sin()) / (2.0 * lambda1 + (2.0 * lambda1).sin())
+}
+
+// ============================================================================
+// Geometry — the one-term solution for cylinders and spheres
+// ============================================================================
+
+/// The three shapes the one-term transient solution is defined for.
+///
+/// A steak is a slab, a roast or a carrot is a cylinder, a meatball or a
+/// potato is a sphere. The distinction is not cosmetic: at the same Biot
+/// number a sphere cores in roughly a third the Fourier time of a slab,
+/// because it is fed from three directions instead of one.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FoodGeometry {
+    Slab,
+    Cylinder,
+    Sphere,
+}
+
+/// Number of terms in the Bessel series below.
+///
+/// FIXED, not convergence-tested. A loop that exits when a term stops mattering
+/// is free to exit after a different number of iterations in a different
+/// runtime, and that is a last-bit difference the parity test exists to catch.
+///
+/// `[MEASURED 2026-08-17]` At the worst-case argument this file can produce —
+/// x = j₀,₁ = 2.4048, the ceiling of the cylinder eigenvalue search — J₀
+/// reaches its final bits at 19 terms and J₁ at 11. 30 therefore carries an
+/// 11-term margin over the binding case. Reproduce by sweeping the term count
+/// against a 60-term reference; `bessel_series_matches_the_fixture_bit_exactly`
+/// fails below 19, which is what pins this number as a measurement rather than
+/// a guess.
+const BESSEL_TERMS: u32 = 30;
+
+/// Bessel function of the first kind, order 0, by the ascending power series
+///
+/// > J₀(x) = Σ (−1)ᵐ (x/2)²ᵐ / (m!)²
+///
+/// BASIS: Abramowitz & Stegun, *Handbook of Mathematical Functions*, 9.1.10.
+///
+/// VALIDITY. The series is exact for all x but loses precision to cancellation
+/// once x grows past roughly 10. That is not a limit here: the only argument
+/// this file ever passes is a cylinder's first eigenvalue, which lies in
+/// (0, j₀,₁ ≈ 2.4048]. Do not reach for this as a general-purpose J₀.
+///
+/// ⚠️ `std` has no Bessel function and the `libm` crate's would reintroduce the
+/// glibc-vs-macOS drift already logged against this workspace. This series uses
+/// `+ − × ÷` only — no transcendental — which is what makes bit-exact agreement
+/// with the TypeScript half achievable. The operation order below is load
+/// bearing and must not be "simplified".
+pub fn bessel_j0(x: f64) -> f64 {
+    let half = x / 2.0;
+    let half_sq = half * half;
+    let mut term = 1.0_f64;
+    let mut sum = 1.0_f64;
+    for m in 1..=BESSEL_TERMS {
+        let m = f64::from(m);
+        term = (-term * half_sq) / (m * m);
+        sum += term;
+    }
+    sum
+}
+
+/// Bessel function of the first kind, order 1, by the ascending power series
+///
+/// > J₁(x) = Σ (−1)ᵐ (x/2)²ᵐ⁺¹ / (m!·(m+1)!)
+///
+/// BASIS: Abramowitz & Stegun 9.1.10. Same validity envelope and the same
+/// reasoning about determinism as [`bessel_j0`].
+pub fn bessel_j1(x: f64) -> f64 {
+    let half = x / 2.0;
+    let half_sq = half * half;
+    let mut term = half;
+    let mut sum = half;
+    for m in 1..=BESSEL_TERMS {
+        let m = f64::from(m);
+        term = (-term * half_sq) / (m * (m + 1.0));
+        sum += term;
+    }
+    sum
+}
+
+/// The first zero of J₀. Bounds the cylinder's λ₁, and therefore bounds every
+/// argument [`bessel_j0`] is ever asked for.
+pub const BESSEL_J0_FIRST_ZERO: f64 = 2.404825557695773;
+
+impl FoodGeometry {
+    /// Upper bound of the first eigenvalue as Bi → ∞.
+    fn eigenvalue_ceiling(self) -> f64 {
+        match self {
+            // λ·tan λ → ∞ at π/2.
+            FoodGeometry::Slab => std::f64::consts::FRAC_PI_2,
+            FoodGeometry::Cylinder => BESSEL_J0_FIRST_ZERO,
+            // 1 − λ·cot λ → ∞ at π.
+            FoodGeometry::Sphere => std::f64::consts::PI,
+        }
+    }
+
+    /// The transcendental whose root is λ₁, written as `f(λ) − Bi`.
+    ///
+    /// Each is monotone increasing on (0, ceiling), which is what lets a plain
+    /// bisection find the root without a derivative and without the
+    /// possibility of landing on a higher branch.
+    ///
+    ///   slab      λ·tan λ        = Bi
+    ///   cylinder  λ·J₁(λ)/J₀(λ)  = Bi
+    ///   sphere    1 − λ·cot λ    = Bi
+    ///
+    /// ⚠️ THE SPHERE IS WRITTEN MULTIPLIED THROUGH BY sin λ, DELIBERATELY.
+    ///
+    /// `[MEASURED 2026-08-17]` Written the direct way — `1 − λ/tan λ − Bi` —
+    /// this crate and the TypeScript half disagreed by **32 ULP** on λ₁ at
+    /// Bi = 0.001, four times the measured budget for the whole rest of the
+    /// fixture. The cause is conditioning, not a wrong formula: the residual's
+    /// slope at the root collapses to 3.65e-2 at Bi = 0.001 against 1.57 at
+    /// Bi = 1, so a last-bit disagreement in `tan` is amplified by roughly
+    /// forty. Multiplying through by sin λ removes the division and trades
+    /// `tan` for `sin` and `cos`, which agree between the two libms where `tan`
+    /// does not: the same 27 vectors then reproduce at **0 ULP** on this host,
+    /// for all three geometries.
+    ///
+    /// The root is unchanged — sin λ > 0 on (0, π), so multiplying by it moves
+    /// no sign and therefore moves no bisection step. Do not "simplify" this
+    /// back to the cot form; it is the shape of the expression that is load
+    /// bearing.
+    fn eigenvalue_residual(self, lambda: f64, biot: f64) -> f64 {
+        match self {
+            FoodGeometry::Slab => lambda * lambda.tan() - biot,
+            FoodGeometry::Cylinder => (lambda * bessel_j1(lambda)) / bessel_j0(lambda) - biot,
+            FoodGeometry::Sphere => (1.0 - biot) * lambda.sin() - lambda * lambda.cos(),
+        }
+    }
+
+    /// Characteristic length Lc = V/A, in units of the shape's own
+    /// half-dimension.
+    ///
+    /// This is the volumetric statement of why shape changes cooking time. For
+    /// a slab of half-thickness L the conduction path is L itself; a cylinder
+    /// of radius R behaves as R/2 and a sphere as R/3, because each has more
+    /// surface feeding the same volume. It is also exactly the ratio that makes
+    /// a diced vegetable cook faster than a whole one at identical thickness.
+    pub fn characteristic_length_ratio(self) -> f64 {
+        match self {
+            FoodGeometry::Slab => 1.0,
+            FoodGeometry::Cylinder => 1.0 / 2.0,
+            FoodGeometry::Sphere => 1.0 / 3.0,
+        }
+    }
+}
+
+/// First eigenvalue λ₁ of the one-term transient solution for a given shape.
+///
+/// Bisection, 200 iterations, matching [`slab_eigenvalue`] exactly — the
+/// iteration count is part of the answer, not an implementation detail, because
+/// a different count is a different last bit.
+///
+/// BASIS: Incropera & DeWitt, *Fundamentals of Heat and Mass Transfer*,
+/// Table 5.1 and §5.5.
+pub fn geometry_eigenvalue(geometry: FoodGeometry, biot: f64) -> Result<f64, ThermoError> {
+    if !(biot >= 0.0) {
+        return Err(ThermoError::NegativeBiot);
+    }
+    if biot == 0.0 {
+        return Ok(0.0);
+    }
+    let mut lo = 0.0_f64;
+    let mut hi = geometry.eigenvalue_ceiling() - 1e-12;
+    for _ in 0..200 {
+        let mid = (lo + hi) / 2.0;
+        if geometry.eigenvalue_residual(mid, biot) < 0.0 {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    Ok((lo + hi) / 2.0)
+}
+
+/// Leading coefficient A₁ of the one-term solution for a given shape.
+///
+/// BASIS: Incropera & DeWitt, Table 5.1.
+///
+///   slab      4 sin λ / (2λ + sin 2λ)
+///   cylinder  (2/λ)·J₁(λ) / (J₀²(λ) + J₁²(λ))
+///   sphere    4(sin λ − λ cos λ) / (2λ − sin 2λ)
+pub fn geometry_coefficient(geometry: FoodGeometry, lambda1: f64) -> f64 {
+    if lambda1 == 0.0 {
+        return 1.0;
+    }
+    match geometry {
+        FoodGeometry::Slab => slab_coefficient(lambda1),
+        FoodGeometry::Cylinder => {
+            let j0 = bessel_j0(lambda1);
+            let j1 = bessel_j1(lambda1);
+            ((2.0 / lambda1) * j1) / (j0 * j0 + j1 * j1)
+        }
+        FoodGeometry::Sphere => {
+            (4.0 * (lambda1.sin() - lambda1 * lambda1.cos()))
+                / (2.0 * lambda1 - (2.0 * lambda1).sin())
+        }
+    }
+}
+
+/// Surface-area-to-volume ratio, m⁻¹, for a piece of the given shape.
+///
+/// `half_dimension_m` is the half-thickness for a slab, the radius otherwise.
+pub fn surface_area_to_volume(
+    geometry: FoodGeometry,
+    half_dimension_m: f64,
+) -> Result<f64, ThermoError> {
+    if !(half_dimension_m > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    Ok(1.0 / (half_dimension_m * geometry.characteristic_length_ratio()))
 }
 
 /// Inputs to [`slab_core_time`].
@@ -1061,3 +1280,381 @@ fn cos_f32(x: f32) -> f32 {
 
 #[cfg(test)]
 mod tests;
+
+// ============================================================================
+// Choi & Okos — thermophysical properties from composition
+// ============================================================================
+//
+// The Rust half of `src/lib/cooking/choiOkos.ts`. See that file for the full
+// rationale; the short version is that the published coefficients are IMPERIAL
+// and are stored that way, byte-for-byte as ASHRAE prints them, with the result
+// converted using factors derived from the exact SI definitions of the BTU, the
+// pound and the foot.
+//
+// BASIS: Choi & Okos (1986), as tabulated in the 1998 ASHRAE Refrigeration
+// Handbook Ch. 8 "Thermal Properties of Foods", Tables 1 and 2, with the
+// mixture rules from Equations 6, 7, 35 and 36 of that chapter.
+
+/// International Table BTU, joules. Exact by definition.
+pub const BTU_IT_J: f64 = 1055.05585262;
+/// Pound, kilograms. Exact by definition.
+pub const POUND_KG: f64 = 0.45359237;
+/// Foot, metres. Exact by definition.
+pub const FOOT_M: f64 = 0.3048;
+/// A Fahrenheit degree is 5/9 of a kelvin.
+const F_DEGREE_IN_K: f64 = 5.0 / 9.0;
+
+/// Btu/(h·ft·°F) → W/(m·K).
+pub const K_IMPERIAL_TO_SI: f64 = BTU_IT_J / (3600.0 * FOOT_M * F_DEGREE_IN_K);
+/// lb/ft³ → kg/m³.
+pub const RHO_IMPERIAL_TO_SI: f64 = POUND_KG / (FOOT_M * FOOT_M * FOOT_M);
+/// Btu/(lb·°F) → J/(kg·K). Works out to exactly 4186.8.
+pub const CP_IMPERIAL_TO_SI: f64 = BTU_IT_J / (POUND_KG * F_DEGREE_IN_K);
+
+/// Lower bound of the Choi & Okos fits, °C (ASHRAE states −40 °F).
+pub const CHOI_OKOS_MIN_C: f64 = -40.0;
+/// Upper bound of the Choi & Okos fits, °C (ASHRAE states 300 °F → 148.888… °C).
+pub const CHOI_OKOS_MAX_C: f64 = (300.0 - 32.0) * (5.0 / 9.0);
+
+const WATER_FREEZE_F: f64 = 32.0;
+
+/// The components Choi & Okos fit separately.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FoodComponent {
+    Water,
+    Protein,
+    Fat,
+    Carbohydrate,
+    Fibre,
+    Ash,
+    Ice,
+}
+
+/// The six components a food's composition is built from, in a fixed order.
+///
+/// Ice is deliberately NOT here: a frozen food needs the ice fraction resolved
+/// first, which is a different calculation (ASHRAE Eq 4/5) and not this one.
+pub const COMPOSITION_COMPONENTS: [FoodComponent; 6] = [
+    FoodComponent::Water,
+    FoodComponent::Protein,
+    FoodComponent::Fat,
+    FoodComponent::Carbohydrate,
+    FoodComponent::Fibre,
+    FoodComponent::Ash,
+];
+
+#[inline]
+fn eval_poly(c: [f64; 3], t_f: f64) -> f64 {
+    c[0] + c[1] * t_f + c[2] * t_f * t_f
+}
+
+#[inline]
+fn c_to_f_local(celsius: f64) -> f64 {
+    celsius * (9.0 / 5.0) + 32.0
+}
+
+impl FoodComponent {
+    /// Thermal conductivity coefficients, Btu/(h·ft·°F). ASHRAE Tables 1 and 2.
+    fn k_btu(self) -> [f64; 3] {
+        match self {
+            FoodComponent::Protein => [9.0535e-2, 4.1486e-4, -4.8467e-7],
+            FoodComponent::Fat => [1.3273e-1, -8.8405e-4, -3.1652e-8],
+            FoodComponent::Carbohydrate => [1.0133e-1, 4.9478e-4, -7.7238e-7],
+            FoodComponent::Fibre => [9.2499e-2, 4.3731e-4, -5.65e-7],
+            FoodComponent::Ash => [1.7553e-1, 4.8292e-4, -5.1839e-7],
+            FoodComponent::Water => [3.1064e-1, 6.4226e-4, -1.1955e-6],
+            FoodComponent::Ice => [1.3652, -3.1648e-3, 1.8108e-5],
+        }
+    }
+
+    /// Density coefficients, lb/ft³. Component fits are LINEAR; water is quadratic.
+    fn rho_lb(self) -> [f64; 3] {
+        match self {
+            FoodComponent::Protein => [8.3599e1, -1.7979e-2, 0.0],
+            FoodComponent::Fat => [5.8246e1, -1.4482e-2, 0.0],
+            FoodComponent::Carbohydrate => [1.0017e2, -1.0767e-2, 0.0],
+            FoodComponent::Fibre => [8.228e1, -1.269e-2, 0.0],
+            FoodComponent::Ash => [1.5162e2, -9.7329e-3, 0.0],
+            FoodComponent::Water => [6.2174e1, 4.7425e-3, -7.2397e-5],
+            FoodComponent::Ice => [5.7385e1, -4.5333e-3, 0.0],
+        }
+    }
+
+    /// Specific heat coefficients, Btu/(lb·°F). Water's ABOVE-freezing fit.
+    fn cp_btu(self) -> [f64; 3] {
+        match self {
+            FoodComponent::Protein => [4.7442e-1, 1.6661e-4, -9.6784e-8],
+            FoodComponent::Fat => [4.673e-1, 2.1815e-4, -3.5391e-7],
+            FoodComponent::Carbohydrate => [3.6114e-1, 2.8843e-4, -4.3788e-7],
+            FoodComponent::Fibre => [4.3276e-1, 2.6485e-4, -3.4285e-7],
+            FoodComponent::Ash => [2.5266e-1, 2.681e-4, -2.7141e-7],
+            FoodComponent::Water => [9.9827e-1, -3.7879e-5, 4.0347e-7],
+            FoodComponent::Ice => [4.6677e-1, 8.0636e-4, 0.0],
+        }
+    }
+}
+
+/// Specific heat of SUPERCOOLED water, −40 to 32 °F, Btu/(lb·°F).
+///
+/// Materially different from the above-freezing fit — 1.406 against 1.000 at
+/// −40 °F. Applying the wrong branch is a 40 % error in the term that dominates
+/// almost every food's specific heat, so the branch is explicit.
+const CP_WATER_BELOW_FREEZING: [f64; 3] = [1.0725, -5.3992e-3, 7.3361e-5];
+
+fn check_range(celsius: f64) -> Result<(), ThermoError> {
+    // `.contains` rather than a manual pair: identical for NaN (both false,
+    // so both refuse), and clippy is right that it reads better.
+    if !(CHOI_OKOS_MIN_C..=CHOI_OKOS_MAX_C).contains(&celsius) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(())
+}
+
+/// Thermal conductivity of a pure food component, W·m⁻¹·K⁻¹.
+pub fn component_conductivity(c: FoodComponent, celsius: f64) -> Result<f64, ThermoError> {
+    check_range(celsius)?;
+    Ok(eval_poly(c.k_btu(), c_to_f_local(celsius)) * K_IMPERIAL_TO_SI)
+}
+
+/// Density of a pure food component, kg·m⁻³.
+pub fn component_density(c: FoodComponent, celsius: f64) -> Result<f64, ThermoError> {
+    check_range(celsius)?;
+    Ok(eval_poly(c.rho_lb(), c_to_f_local(celsius)) * RHO_IMPERIAL_TO_SI)
+}
+
+/// Specific heat capacity of a pure food component, J·kg⁻¹·K⁻¹.
+pub fn component_specific_heat(c: FoodComponent, celsius: f64) -> Result<f64, ThermoError> {
+    check_range(celsius)?;
+    let t_f = c_to_f_local(celsius);
+    let poly = if c == FoodComponent::Water && t_f < WATER_FREEZE_F {
+        CP_WATER_BELOW_FREEZING
+    } else {
+        c.cp_btu()
+    };
+    Ok(eval_poly(poly, t_f) * CP_IMPERIAL_TO_SI)
+}
+
+/// Mass fractions of the proximate components, each 0–1.
+///
+/// NOT renormalised: a set that does not sum to 1 describes a food with unnamed
+/// mass, and scaling it up would invent composition the source did not measure.
+#[derive(Debug, Clone, Copy)]
+pub struct MassFractions {
+    pub water: f64,
+    pub protein: f64,
+    pub fat: f64,
+    pub carbohydrate: f64,
+    pub fibre: f64,
+    pub ash: f64,
+}
+
+impl MassFractions {
+    fn get(&self, c: FoodComponent) -> f64 {
+        match c {
+            FoodComponent::Water => self.water,
+            FoodComponent::Protein => self.protein,
+            FoodComponent::Fat => self.fat,
+            FoodComponent::Carbohydrate => self.carbohydrate,
+            FoodComponent::Fibre => self.fibre,
+            FoodComponent::Ash => self.ash,
+            FoodComponent::Ice => 0.0,
+        }
+    }
+}
+
+/// Derived thermophysical properties of a food at a temperature.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FoodThermophysicalProperties {
+    pub density_kg_m3: f64,
+    pub specific_heat_j_kg_k: f64,
+    pub conductivity_w_m_k: f64,
+    /// Derived as k/(ρ·cp), m²·s⁻¹.
+    pub diffusivity_m2_s: f64,
+    /// How much mass the fractions failed to account for. Zero when they sum to 1.
+    pub unaccounted_fraction: f64,
+}
+
+/// Thermophysical properties of a food from its composition.
+///
+/// ⚠️ Conductivity uses VOLUME fractions (Eq 35/36) and specific heat uses MASS
+/// fractions (Eq 7). They are not interchangeable — fat's density is barely half
+/// of ash's, so a fatty food's volume fractions look nothing like its mass ones.
+pub fn food_properties(
+    fractions: MassFractions,
+    celsius: f64,
+    porosity: f64,
+) -> Result<FoodThermophysicalProperties, ThermoError> {
+    check_range(celsius)?;
+    if !(0.0..1.0).contains(&porosity) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let mut specific_heat = 0.0;
+    let mut volume_per_mass = 0.0;
+    let mut shares = [0.0_f64; 6];
+
+    for (i, c) in COMPOSITION_COMPONENTS.iter().enumerate() {
+        let x = fractions.get(*c);
+        if !(0.0..=1.0).contains(&x) {
+            return Err(ThermoError::OutsideCorrelationRange);
+        }
+        specific_heat += x * component_specific_heat(*c, celsius)?;
+        let share = x / component_density(*c, celsius)?;
+        shares[i] = share;
+        volume_per_mass += share;
+    }
+
+    if !(volume_per_mass > 0.0) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let mut conductivity = 0.0;
+    for (i, c) in COMPOSITION_COMPONENTS.iter().enumerate() {
+        conductivity += (shares[i] / volume_per_mass) * component_conductivity(*c, celsius)?;
+    }
+
+    let density = (1.0 - porosity) / volume_per_mass;
+    let total: f64 = COMPOSITION_COMPONENTS
+        .iter()
+        .map(|c| fractions.get(*c))
+        .sum();
+
+    Ok(FoodThermophysicalProperties {
+        density_kg_m3: density,
+        specific_heat_j_kg_k: specific_heat,
+        conductivity_w_m_k: conductivity,
+        diffusivity_m2_s: conductivity / (density * specific_heat),
+        unaccounted_fraction: 1.0 - total,
+    })
+}
+
+// ============================================================================
+// Latent heat
+// ============================================================================
+//
+// The Rust half of `src/lib/cooking/latentHeat.ts`. See that file for the
+// rationale. The short version: heating a kilogram of water 20 → 100 °C costs
+// ~335 kJ and boiling it away costs ~2257 kJ, so the latent terms — not the
+// oven dial — set the pace of most cooking.
+
+/// Fleagle & Andreas intercept, J·kg⁻¹ at 0 K.
+const FLEAGLE_INTERCEPT_J_KG: f64 = 3.121e6;
+/// Fleagle & Andreas slope, J·kg⁻¹·K⁻¹.
+const FLEAGLE_SLOPE_J_KG_K: f64 = 2.274e3;
+/// 0 °C in kelvin.
+const KELVIN_OFFSET: f64 = 273.15;
+
+/// Validity floor of the vaporisation fit, °C.
+pub const VAPORISATION_MIN_C: f64 = 0.0;
+/// Validity ceiling of the vaporisation fit, °C.
+pub const VAPORISATION_MAX_C: f64 = 100.0;
+
+/// Enthalpy of vaporisation of water, J·kg⁻¹.
+///
+/// BASIS: Fleagle & Andreas, *Atmospheric Dynamics*, `Δh = 3.121e6 − 2.274e3·T`
+/// with T in KELVIN.
+///
+/// ⚠️ VALIDITY IS 0–100 °C AND THIS REFUSES OUTSIDE IT. `[MEASURED 2026-08-18]`
+/// against steam-table saturation values the fit is within 0.707 % across that
+/// range (0.042 % at 0 °C, 0.036 % at 20 °C, 0.707 % at 100 °C) and degrades to
+/// 2.1 % by 150 °C. A linear fit to a curve that must vanish at the critical
+/// point cannot be extended — it stays finite and wrong.
+pub fn latent_heat_vaporisation(celsius: f64) -> Result<f64, ThermoError> {
+    if !(VAPORISATION_MIN_C..=VAPORISATION_MAX_C).contains(&celsius) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(FLEAGLE_INTERCEPT_J_KG - FLEAGLE_SLOPE_J_KG_K * (celsius + KELVIN_OFFSET))
+}
+
+/// Latent heat of fusion of PURE water, J·kg⁻¹.
+///
+/// BASIS: 1998 ASHRAE Refrigeration Handbook Ch. 8 states `Lo = 143.4 Btu/lb`.
+/// Converted here rather than transcribed as 333 550, so the constant
+/// regenerates from its own stated basis — 1 Btu/lb is exactly 2326 J/kg.
+pub fn water_fusion_j_kg() -> f64 {
+    143.4 * (BTU_IT_J / POUND_KG)
+}
+
+/// Fraction of a food's water that will NOT freeze at ordinary freezer
+/// temperatures.
+///
+/// ⚠️ NOT A ROUNDING. Omitting it overstates the freezing load by 25 %. Bound
+/// water is held by solutes and macromolecules and stays liquid; the
+/// food-freezing literature converges on treating the latent release as about
+/// 80 % of what total water content would suggest. A rigorous treatment
+/// resolves the ice fraction continuously below the initial freezing point
+/// (ASHRAE Eq 4/5), which needs a per-food initial freezing point this codebase
+/// does not hold.
+pub const BOUND_WATER_FRACTION: f64 = 0.2;
+
+fn check_fraction(v: f64) -> Result<(), ThermoError> {
+    if !(0.0..=1.0).contains(&v) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(())
+}
+
+/// The part of a food's water that can actually freeze, as a mass fraction OF
+/// THE FOOD.
+pub fn freezable_water_fraction(water_mass_fraction: f64) -> Result<f64, ThermoError> {
+    check_fraction(water_mass_fraction)?;
+    Ok(water_mass_fraction * (1.0 - BOUND_WATER_FRACTION))
+}
+
+/// Energy to freeze or thaw one kilogram of FOOD, J·kg⁻¹.
+pub fn food_fusion_enthalpy(water_mass_fraction: f64) -> Result<f64, ThermoError> {
+    Ok(freezable_water_fraction(water_mass_fraction)? * water_fusion_j_kg())
+}
+
+/// Energy to evaporate ALL the water out of one kilogram of food, J·kg⁻¹.
+///
+/// A ceiling, not a prediction — no process drives a food to zero moisture.
+pub fn food_vaporisation_enthalpy(
+    water_mass_fraction: f64,
+    celsius: f64,
+) -> Result<f64, ThermoError> {
+    check_fraction(water_mass_fraction)?;
+    Ok(water_mass_fraction * latent_heat_vaporisation(celsius)?)
+}
+
+/// Energy carried away by evaporating a given fraction of a food's MASS.
+///
+/// `mass_loss_fraction` is loss as a share of starting mass — what a scale
+/// measures — not a share of the food's water.
+pub fn evaporative_energy_loss(
+    mass_loss_fraction: f64,
+    celsius: f64,
+) -> Result<f64, ThermoError> {
+    check_fraction(mass_loss_fraction)?;
+    Ok(mass_loss_fraction * latent_heat_vaporisation(celsius)?)
+}
+
+/// Enthalpy of fusion of culinary fat, J·kg⁻¹ of FAT — a BAND, deliberately.
+///
+/// Unlike water, whose fusion enthalpy is a constant to five figures, a fat's
+/// depends on its fatty-acid profile AND on which polymorphic form (α/β′/β) it
+/// is in — the same fat differs by tens of percent between them. Reported
+/// values for animal fats span roughly 125–210 kJ·kg⁻¹. Publishing one figure
+/// would invent a precision the quantity does not have.
+pub const FAT_FUSION_LOW_J_KG: f64 = 125e3;
+pub const FAT_FUSION_TYPICAL_J_KG: f64 = 167e3;
+pub const FAT_FUSION_HIGH_J_KG: f64 = 210e3;
+
+/// Melting range of culinary fat, °C. Fat does not melt at a point.
+pub const FAT_MELTING_LOW_C: f64 = 25.0;
+pub const FAT_MELTING_HIGH_C: f64 = 45.0;
+
+/// How many kelvin of sensible heating one latent term is worth.
+///
+/// The most clarifying number here: evaporating 5 % of a food's mass costs
+/// about as much as raising the whole thing 30 K, which is why moisture loss
+/// and not the dial sets the pace of a roast.
+pub fn latent_as_temperature_rise(
+    latent_j_kg: f64,
+    specific_heat_j_kg_k: f64,
+) -> Result<f64, ThermoError> {
+    if !(specific_heat_j_kg_k > 0.0) {
+        return Err(ThermoError::NonPositiveZValue);
+    }
+    Ok(latent_j_kg / specific_heat_j_kg_k)
+}

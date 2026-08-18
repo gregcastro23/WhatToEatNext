@@ -91,6 +91,137 @@ fn assert_slab_ulps(actual: f64, expected: f64, what: &str) {
     );
 }
 
+/// Last-bit disagreement allowed in the libm primitives a residual is built
+/// from, in ULPs of those primitives.
+///
+/// `[MEASURED 2026-08-16, PR #768]` glibc and macOS agree on `sin` and `cos`
+/// to within a last bit each; two covers the pair.
+const LIBM_ULPS: f64 = 2.0;
+
+/// Spacing of the doubles at `x`.
+fn ulp_of(x: f64) -> f64 {
+    let a = x.abs();
+    f64::from_bits(a.to_bits() + 1) - a
+}
+
+/// ULP budget for one eigenvalue row, derived from the conditioning of the
+/// residual this crate actually bisects.
+///
+/// ⚠️ A DERIVED BOUND, NOT A RAISED CEILING — [`SLAB_MAX_ULP`] is the correct
+/// budget only where the residual carries no cancellation. That is true of the
+/// slab and the cylinder and false of the sphere, and applying the slab's
+/// number to the sphere was reading a measurement taken on one family as if it
+/// covered another.
+///
+/// A bisection cannot resolve λ closer than the point where the residual's own
+/// rounding noise swamps its slope:
+///
+///     δλ = η / |f′(λ₁)|,    η ≈ LIBM_ULPS · ε · max|term|
+///
+/// For the slab and the cylinder `max|term|` is Bi itself — the residual *is*
+/// the small quantity — and this bound stays under 1 ULP at every Bi in the
+/// fixture, so the measured floor governs. The sphere is the exception. Written
+/// multiplied through by sin λ (see `eigenvalue_residual`) its terms are O(λ)
+/// while the residual it must resolve is O(Bi·λ), so the noise floor sits a
+/// factor 1/Bi above the answer.
+///
+/// `[MEASURED 2026-08-18]` The first linux run of this suite put glibc 46 ULPs
+/// from the macOS fixture on λ₁(sphere, Bi = 0.01), against a budget of 8. This
+/// bound predicts 137 there: it covers the observed drift without having been
+/// fitted to it. Bi = 0.001 predicts 1751 and happened to agree bit-for-bit on
+/// that same run — which is exactly why a flat budget cannot be raised into
+/// correctness. The next libm that rounds `sin` the other way at that row moves
+/// it by ~1000 ULP, and no constant chosen today would be the reason.
+///
+/// The teeth are intact. The loosest row this admits is 2.2e-13 relative —
+/// five orders inside the 1e-7 where a genuinely wrong constant lands.
+fn conditioned_ulp_budget(geometry: FoodGeometry, biot: f64, lambda: f64) -> u64 {
+    if lambda == 0.0 {
+        return SLAB_MAX_ULP;
+    }
+    let (term, slope) = match geometry {
+        FoodGeometry::Slab => (
+            (lambda * lambda.tan()).abs().max(biot),
+            (lambda.tan() + lambda / (lambda.cos() * lambda.cos())).abs(),
+        ),
+        FoodGeometry::Cylinder => {
+            let ratio = bessel_j1(lambda) / bessel_j0(lambda);
+            (
+                (lambda * ratio).abs().max(biot),
+                (lambda * (1.0 + ratio * ratio)).abs(),
+            )
+        }
+        FoodGeometry::Sphere => (
+            ((1.0 - biot) * lambda.sin())
+                .abs()
+                .max((lambda * lambda.cos()).abs()),
+            (-biot * lambda.cos() + lambda * lambda.sin()).abs(),
+        ),
+    };
+    let budget = (LIBM_ULPS * f64::EPSILON * term) / slope / ulp_of(lambda);
+    if !budget.is_finite() {
+        return SLAB_MAX_ULP;
+    }
+    (budget.ceil() as u64).max(SLAB_MAX_ULP)
+}
+
+/// ULP budget for A₁, which carries λ₁'s uncertainty *and* one of its own.
+///
+/// The inherited term is the obvious one: λ₁ is known only to `lambda_budget`,
+/// so A₁ is known only to whatever that interval maps to. Rather than
+/// differentiate each geometry's coefficient by hand, this carries λ₁'s
+/// interval through the very function under test.
+///
+/// ⚠️ THE INHERITED TERM ALONE IS NOT ENOUGH. The sphere's coefficient is
+/// 4(sin λ − λ cos λ)/(2λ − sin 2λ), which at small λ is 0/0: numerator and
+/// denominator each cancel to O(λ³) out of terms of O(λ). That is a rounding
+/// noise belonging to A₁ itself, and perturbing λ₁ does not reveal any of it —
+/// both endpoints of the interval are evaluated by the same cancelling
+/// expression, so the difference between them says nothing about the error
+/// common to both.
+///
+/// `[MEASURED 2026-08-18]` Propagating λ₁ alone put A₁(sphere, Bi = 0.01) at
+/// the floor of 8, and linux measured 110 ULPs. The inherited term was not
+/// merely too tight — it was the wrong term. With the direct term the bound is
+/// 302 there, and the observed 110 sits inside it.
+///
+/// The slab's 4 sin λ/(2λ + sin 2λ) and the cylinder's (2/λ)J₁/(J₀² + J₁²)
+/// both tend to O(1) over O(1) as λ → 0 — a sum where the sphere has a
+/// difference — so neither carries a direct term and both keep the floor.
+fn coefficient_ulp_budget(geometry: FoodGeometry, lambda: f64, lambda_budget: u64, a1: f64) -> u64 {
+    if lambda == 0.0 || a1 == 0.0 {
+        return SLAB_MAX_ULP;
+    }
+    let edge = lambda + lambda_budget as f64 * ulp_of(lambda);
+    let inherited = (geometry_coefficient(geometry, edge) - a1).abs();
+    let direct = match geometry {
+        FoodGeometry::Slab | FoodGeometry::Cylinder => 0.0,
+        FoodGeometry::Sphere => {
+            let two = 2.0 * lambda;
+            let numer = (lambda.sin() - lambda * lambda.cos()).abs();
+            let denom = (two - two.sin()).abs();
+            let noise_n =
+                LIBM_ULPS * f64::EPSILON * lambda.sin().abs().max((lambda * lambda.cos()).abs());
+            let noise_d = LIBM_ULPS * f64::EPSILON * two.abs().max(two.sin().abs());
+            a1.abs() * (noise_n / numer + noise_d / denom)
+        }
+    };
+    let budget = (inherited + direct) / ulp_of(a1);
+    if !budget.is_finite() {
+        return SLAB_MAX_ULP;
+    }
+    (budget.ceil() as u64).max(SLAB_MAX_ULP)
+}
+
+fn assert_conditioned_ulps(actual: f64, expected: f64, budget: u64, what: &str) {
+    let d = ulp_distance(actual, expected);
+    assert!(
+        d <= budget,
+        "{what}: got {actual:.17e}, fixture has {expected:.17e} (Δ {:.3e}, {d} ULPs > {budget})",
+        (actual - expected).abs()
+    );
+}
+
 #[test]
 fn constants_match_the_fixture() {
     let g = fixture();
@@ -161,6 +292,429 @@ fn slab_eigenvalues_match_the_fixture() {
             &format!("A₁(Bi={bi})"),
         );
     }
+}
+
+#[test]
+fn bessel_series_matches_the_fixture_bit_exactly() {
+    // NOT `assert_slab_ulps`. The series is `+ − × ÷` only, so unlike the tan
+    // family it owes no debt to the host libm and must reproduce to the bit.
+    // If this ever needs a ULP budget, the series has been changed into
+    // something that calls a transcendental and that is the bug.
+    for row in fixture()["bessel"].as_array().unwrap() {
+        let x = f(&row["x"]);
+        assert_bits_eq(bessel_j0(x), f(&row["j0"]), &format!("J₀({x})"));
+        assert_bits_eq(bessel_j1(x), f(&row["j1"]), &format!("J₁({x})"));
+    }
+}
+
+#[test]
+fn bessel_j0_vanishes_at_its_first_zero() {
+    // Anchors BESSEL_J0_FIRST_ZERO against the function it claims to be the
+    // zero of, so a mistyped digit in the constant cannot pass unnoticed. The
+    // constant bounds the cylinder eigenvalue search, so a wrong one would
+    // silently truncate the bisection interval.
+    assert!(
+        bessel_j0(BESSEL_J0_FIRST_ZERO).abs() < 1e-15,
+        "J₀ at the tabulated first zero should vanish, got {:.3e}",
+        bessel_j0(BESSEL_J0_FIRST_ZERO)
+    );
+}
+
+#[test]
+fn geometry_eigenvalues_match_the_fixture() {
+    for row in fixture()["geometryEigen"].as_array().unwrap() {
+        let bi = f(&row["biot"]);
+        let name = row["geometry"].as_str().unwrap();
+        let geom = match name {
+            "slab" => FoodGeometry::Slab,
+            "cylinder" => FoodGeometry::Cylinder,
+            "sphere" => FoodGeometry::Sphere,
+            other => panic!("unknown geometry in fixture: {other}"),
+        };
+        let lambda = geometry_eigenvalue(geom, bi).unwrap();
+        let lambda_budget = conditioned_ulp_budget(geom, bi, lambda);
+        assert_conditioned_ulps(
+            lambda,
+            f(&row["lambda1"]),
+            lambda_budget,
+            &format!("λ₁({name}, Bi={bi})"),
+        );
+        let a1 = geometry_coefficient(geom, lambda);
+        assert_conditioned_ulps(
+            a1,
+            f(&row["coefficientA1"]),
+            coefficient_ulp_budget(geom, lambda, lambda_budget, a1),
+            &format!("A₁({name}, Bi={bi})"),
+        );
+        assert_bits_eq(
+            geom.characteristic_length_ratio(),
+            f(&row["lengthRatio"]),
+            &format!("Lc/R({name})"),
+        );
+    }
+}
+
+#[test]
+fn the_geometry_path_and_the_slab_path_agree_exactly() {
+    // `slab_eigenvalue` and `geometry_eigenvalue(Slab, …)` are two entry points
+    // to one answer. Nothing in the type system stops them drifting, and a
+    // caller has no way to tell which one a given panel used.
+    for row in fixture()["slabEigen"].as_array().unwrap() {
+        let bi = f(&row["biot"]);
+        assert_bits_eq(
+            geometry_eigenvalue(FoodGeometry::Slab, bi).unwrap(),
+            slab_eigenvalue(bi).unwrap(),
+            &format!("slab λ₁ via both paths (Bi={bi})"),
+        );
+    }
+}
+
+#[test]
+fn a_sphere_cores_faster_than_a_slab_at_equal_biot() {
+    // The ordering IS the physics: more surface feeding the same volume means a
+    // larger eigenvalue, and λ₁ enters the exponent as λ₁², so the sphere's
+    // Fourier time is the shortest of the three. If this ever inverts, the
+    // residuals have been mixed up between geometries — a swap the fixture
+    // alone would happily ratify, since it was generated from the same code.
+    for bi in [0.1_f64, 1.0, 10.0, 100.0] {
+        let slab = geometry_eigenvalue(FoodGeometry::Slab, bi).unwrap();
+        let cyl = geometry_eigenvalue(FoodGeometry::Cylinder, bi).unwrap();
+        let sph = geometry_eigenvalue(FoodGeometry::Sphere, bi).unwrap();
+        assert!(
+            slab < cyl && cyl < sph,
+            "at Bi={bi} expected λ₁ slab < cylinder < sphere, got {slab} / {cyl} / {sph}"
+        );
+    }
+}
+
+#[test]
+fn geometry_eigenvalues_reproduce_the_published_table() {
+    // EXTERNAL anchor, not a self-check: Incropera & DeWitt, Fundamentals of
+    // Heat and Mass Transfer, Table 5.1. The fixture above was generated from
+    // this same code, so it can only catch drift — it cannot catch the whole
+    // family being wrong. These values were not.
+    //
+    // Tolerance is 5e-5 because the table is PRINTED to four decimals; that is
+    // the table's precision, not a margin chosen to make this pass.
+    // clippy reads the 1.5708 below as a fumbled FRAC_PI_2. It is not an
+    // approximation of anything — it is the figure Table 5.1 PRINTS, copied as
+    // printed. That it happens to be π/2 to four places is a real property of
+    // the sphere at Bi = 1 (cot(π/2) = 0, so 1 − λ·cot λ = 1 exactly there),
+    // and `the_sphere_at_biot_one_is_exactly_half_pi` asserts that separately.
+    // Replacing it with the constant would silently upgrade the book's
+    // four-decimal print to full precision and destroy what this test checks.
+    #[allow(clippy::approx_constant)]
+    let table: [(&str, f64, f64, f64); 9] = [
+        ("slab", 0.1, 0.3111, 1.0161),
+        ("cylinder", 0.1, 0.4417, 1.0246),
+        ("sphere", 0.1, 0.5423, 1.0298),
+        ("slab", 1.0, 0.8603, 1.1191),
+        ("cylinder", 1.0, 1.2558, 1.2071),
+        ("sphere", 1.0, 1.5708, 1.2732),
+        ("slab", 10.0, 1.4289, 1.2620),
+        ("cylinder", 10.0, 2.1795, 1.5677),
+        ("sphere", 10.0, 2.8363, 1.9249),
+    ];
+    for (name, bi, want_lambda, want_a1) in table {
+        let geom = match name {
+            "slab" => FoodGeometry::Slab,
+            "cylinder" => FoodGeometry::Cylinder,
+            _ => FoodGeometry::Sphere,
+        };
+        let lambda = geometry_eigenvalue(geom, bi).unwrap();
+        let a1 = geometry_coefficient(geom, lambda);
+        assert!(
+            (lambda - want_lambda).abs() < 5e-5,
+            "λ₁({name}, Bi={bi}) = {lambda}, Incropera Table 5.1 prints {want_lambda}"
+        );
+        assert!(
+            (a1 - want_a1).abs() < 5e-5,
+            "A₁({name}, Bi={bi}) = {a1}, Incropera Table 5.1 prints {want_a1}"
+        );
+    }
+}
+
+#[test]
+fn the_sphere_at_biot_one_is_exactly_half_pi() {
+    // An anchor that owes nothing to the fixture, the table, or a tolerance.
+    // At Bi = 1 the sphere equation 1 − λ·cot λ = Bi reduces to cot λ = 0, so
+    // λ₁ is π/2 exactly. Any residual reformulation that moved the root would
+    // land here first — including the sin-λ multiply-through, which is why this
+    // is worth a test of its own rather than a comment.
+    let lambda = geometry_eigenvalue(FoodGeometry::Sphere, 1.0).unwrap();
+    assert!(
+        (lambda - std::f64::consts::FRAC_PI_2).abs() < 1e-15,
+        "sphere λ₁(Bi=1) should be π/2 exactly, got {lambda} (Δ {:.3e})",
+        (lambda - std::f64::consts::FRAC_PI_2).abs()
+    );
+}
+
+#[test]
+fn choi_okos_component_properties_match_the_fixture() {
+    for row in fixture()["choiOkosComponents"].as_array().unwrap() {
+        let name = row["component"].as_str().unwrap();
+        let c = match name {
+            "water" => FoodComponent::Water,
+            "protein" => FoodComponent::Protein,
+            "fat" => FoodComponent::Fat,
+            "carbohydrate" => FoodComponent::Carbohydrate,
+            "fibre" => FoodComponent::Fibre,
+            "ash" => FoodComponent::Ash,
+            "ice" => FoodComponent::Ice,
+            other => panic!("unknown component in fixture: {other}"),
+        };
+        let t = f(&row["celsius"]);
+        // Pure polynomial arithmetic — no transcendental anywhere, so these owe
+        // nothing to the host libm and must reproduce to the bit.
+        assert_bits_eq(
+            component_conductivity(c, t).unwrap(),
+            f(&row["k"]),
+            &format!("k({name}, {t} C)"),
+        );
+        assert_bits_eq(
+            component_density(c, t).unwrap(),
+            f(&row["rho"]),
+            &format!("rho({name}, {t} C)"),
+        );
+        assert_bits_eq(
+            component_specific_heat(c, t).unwrap(),
+            f(&row["cp"]),
+            &format!("cp({name}, {t} C)"),
+        );
+    }
+}
+
+#[test]
+fn choi_okos_mixtures_match_the_fixture() {
+    for row in fixture()["choiOkosMixtures"].as_array().unwrap() {
+        let name = row["name"].as_str().unwrap();
+        let r = food_properties(
+            MassFractions {
+                water: f(&row["water"]),
+                protein: f(&row["protein"]),
+                fat: f(&row["fat"]),
+                carbohydrate: f(&row["carbohydrate"]),
+                fibre: f(&row["fibre"]),
+                ash: f(&row["ash"]),
+            },
+            f(&row["celsius"]),
+            0.0,
+        )
+        .unwrap();
+        assert_bits_eq(r.density_kg_m3, f(&row["density"]), &format!("{name} rho"));
+        assert_bits_eq(
+            r.specific_heat_j_kg_k,
+            f(&row["specificHeat"]),
+            &format!("{name} cp"),
+        );
+        assert_bits_eq(
+            r.conductivity_w_m_k,
+            f(&row["conductivity"]),
+            &format!("{name} k"),
+        );
+        assert_bits_eq(
+            r.diffusivity_m2_s,
+            f(&row["diffusivity"]),
+            &format!("{name} alpha"),
+        );
+        assert_bits_eq(
+            r.unaccounted_fraction,
+            f(&row["unaccounted"]),
+            &format!("{name} unaccounted"),
+        );
+    }
+}
+
+#[test]
+fn choi_okos_reproduces_the_published_worked_example() {
+    // EXTERNAL anchor. ASHRAE 1998 Refrigeration Handbook Ch. 8, Example 2:
+    // lamb at 41 F, x_wo 0.7342 / x_p 0.2029 / x_f 0.0525 / x_a 0.0106, worked
+    // through to c = 0.858 Btu/(lb.F). The fixture was generated from this same
+    // code and cannot vouch for the coefficients being right; this can.
+    //
+    // The chapter also prints each component value at 41 F, so the individual
+    // polynomials are checked, not just their weighted sum.
+    let t = (41.0 - 32.0) * 5.0 / 9.0;
+    for (c, want) in [
+        (FoodComponent::Water, 0.9974),
+        (FoodComponent::Protein, 0.4811),
+        (FoodComponent::Fat, 0.4756),
+        (FoodComponent::Ash, 0.2632),
+    ] {
+        let btu = component_specific_heat(c, t).unwrap() / CP_IMPERIAL_TO_SI;
+        assert!(
+            (btu - want).abs() < 5e-5,
+            "cp({c:?}) at 41 F = {btu}, ASHRAE prints {want}"
+        );
+    }
+    let lamb = food_properties(
+        MassFractions { water: 0.7342, protein: 0.2029, fat: 0.0525, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 },
+        t,
+        0.0,
+    )
+    .unwrap();
+    let btu = lamb.specific_heat_j_kg_k / CP_IMPERIAL_TO_SI;
+    assert!(
+        (btu - 0.858).abs() < 5e-4,
+        "mixture cp at 41 F = {btu} Btu/(lb.F), ASHRAE Example 2 gives 0.858"
+    );
+}
+
+#[test]
+fn choi_okos_refuses_to_extrapolate_past_its_fit() {
+    // The fits are stated for -40 to 300 F. Past that they are still smooth and
+    // still return a number, which is precisely why refusing has to be explicit.
+    assert_eq!(
+        component_conductivity(FoodComponent::Water, CHOI_OKOS_MAX_C + 0.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+    assert_eq!(
+        component_density(FoodComponent::Protein, CHOI_OKOS_MIN_C - 0.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+    // A fraction above 1 is almost certainly grams per 100 g.
+    assert_eq!(
+        food_properties(
+            MassFractions { water: 88.3, protein: 0.0, fat: 0.0, carbohydrate: 0.0, fibre: 0.0, ash: 0.0 },
+            20.0,
+            0.0
+        ),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+}
+
+#[test]
+fn the_water_specific_heat_branch_actually_switches_at_freezing() {
+    // Two DIFFERENT published fits meet at 32 F. If the branch were dropped, the
+    // above-freezing polynomial would extrapolate smoothly downward and nothing
+    // would look wrong — it is 40 % low at -40 C.
+    let below = component_specific_heat(FoodComponent::Water, -40.0).unwrap();
+    let above = component_specific_heat(FoodComponent::Water, 0.0).unwrap();
+    assert!(
+        below > above * 1.3,
+        "supercooled water cp should be far above the 0 C value, got {below} vs {above}"
+    );
+}
+
+#[test]
+fn latent_heat_matches_the_fixture() {
+    let g = fixture();
+    let l = &g["latentHeat"];
+    assert_bits_eq(water_fusion_j_kg(), f(&l["waterFusionJkg"]), "water fusion");
+    assert_bits_eq(
+        BOUND_WATER_FRACTION,
+        f(&l["boundWaterFraction"]),
+        "bound water fraction",
+    );
+    for row in l["vaporisation"].as_array().unwrap() {
+        let t = f(&row["celsius"]);
+        assert_bits_eq(
+            latent_heat_vaporisation(t).unwrap(),
+            f(&row["jPerKg"]),
+            &format!("h_fg({t} C)"),
+        );
+    }
+    for row in l["foods"].as_array().unwrap() {
+        let name = row["name"].as_str().unwrap();
+        let w = f(&row["water"]);
+        let t = f(&row["celsius"]);
+        assert_bits_eq(
+            freezable_water_fraction(w).unwrap(),
+            f(&row["freezable"]),
+            &format!("{name} freezable"),
+        );
+        assert_bits_eq(
+            food_fusion_enthalpy(w).unwrap(),
+            f(&row["fusionJkg"]),
+            &format!("{name} fusion"),
+        );
+        assert_bits_eq(
+            food_vaporisation_enthalpy(w, t).unwrap(),
+            f(&row["vaporisationJkg"]),
+            &format!("{name} vaporisation"),
+        );
+        assert_bits_eq(
+            evaporative_energy_loss(0.05, t).unwrap(),
+            f(&row["lossFivePercentJkg"]),
+            &format!("{name} 5% loss"),
+        );
+    }
+}
+
+#[test]
+fn latent_heat_reproduces_the_steam_tables() {
+    // EXTERNAL anchor. Saturation enthalpy of vaporisation, kJ/kg, from the
+    // steam tables — a source entirely outside this repository, which the
+    // Rust-generated fixture cannot vouch for.
+    //
+    // `[MEASURED 2026-08-18]` the Fleagle & Andreas fit sits within 0.707 %
+    // across 0-100 C. That bound is a MEASUREMENT of this fit, not a comfort
+    // margin: it is 0.042 % at 0 C and worst at the boil.
+    for (t, table_kj) in [(0.0, 2500.9), (20.0, 2453.5), (50.0, 2382.0), (100.0, 2256.5)] {
+        let ours = latent_heat_vaporisation(t).unwrap() / 1000.0;
+        let rel = (ours - table_kj).abs() / table_kj;
+        assert!(
+            rel < 0.008,
+            "h_fg({t} C) = {ours} kJ/kg vs steam table {table_kj} ({:.3} %)",
+            rel * 100.0
+        );
+    }
+    // The fusion constant must regenerate from ASHRAE's 143.4 Btu/lb to the
+    // standard 333.55 kJ/kg — the check that it was converted, not transcribed.
+    assert!(
+        (water_fusion_j_kg() - 333_550.0).abs() < 5.0,
+        "water fusion {} J/kg should reproduce the standard 333550",
+        water_fusion_j_kg()
+    );
+}
+
+#[test]
+fn latent_heat_refuses_to_extrapolate_past_the_boil() {
+    // The fit is linear and the true curve falls to zero at the critical point,
+    // so above 100 C it stays finite and wrong rather than failing visibly.
+    assert_eq!(
+        latent_heat_vaporisation(100.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+    assert_eq!(
+        latent_heat_vaporisation(-0.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+}
+
+#[test]
+fn bound_water_is_not_quietly_dropped() {
+    // Omitting the bound-water correction overstates the freezing load by 25 %,
+    // and nothing about the resulting number looks wrong. This pins the gap
+    // between the two so the correction cannot be removed silently.
+    let water = 0.883;
+    let with_binding = food_fusion_enthalpy(water).unwrap();
+    let naive = water * water_fusion_j_kg();
+    assert!(
+        (naive / with_binding - 1.25).abs() < 1e-9,
+        "ignoring bound water should overstate by exactly 25 %, got {}",
+        naive / with_binding
+    );
+}
+
+#[test]
+fn evaporation_dwarfs_sensible_heating() {
+    // The claim the whole file exists to support, asserted rather than narrated:
+    // losing a few percent of a food's mass to steam costs more energy than a
+    // large temperature rise. Chicken breast at 70 C, cp from Choi & Okos.
+    let cp = food_properties(
+        MassFractions { water: 0.653, protein: 0.3102, fat: 0.0357, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 },
+        70.0,
+        0.0,
+    )
+    .unwrap()
+    .specific_heat_j_kg_k;
+    let five_percent = evaporative_energy_loss(0.05, 70.0).unwrap();
+    let kelvin = latent_as_temperature_rise(five_percent, cp).unwrap();
+    assert!(
+        kelvin > 25.0,
+        "5 % moisture loss should be worth more than 25 K of sensible heating, got {kelvin}"
+    );
 }
 
 #[test]
