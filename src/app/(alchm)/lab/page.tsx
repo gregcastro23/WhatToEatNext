@@ -24,7 +24,9 @@ import {
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
 import { getAssetUrl } from "@/utils/urlUtils";
+import { BoundariesPanel } from "./_solver/BoundariesPanel";
 import { SolverPanel } from "./_solver/SolverPanel";
+import { VolumetricsPanel } from "./_solver/VolumetricsPanel";
 import "./_solver/solver.css";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
@@ -367,7 +369,7 @@ function useHealthTelemetry(): PipelineService[] {
  * thermal solver belongs to the lab, and splitting it off would have made it a
  * second destination competing with the one it extends.
  */
-type LabTab = "dashboard" | "solver";
+type LabTab = "dashboard" | "solver" | "boundaries" | "volumetrics";
 
 export default function LaboratoryDashboardPage(): JSX.Element {
   const [tab, setTab] = useState<LabTab>("dashboard");
@@ -758,6 +760,8 @@ export default function LaboratoryDashboardPage(): JSX.Element {
           [
             ["dashboard", "Dashboard"],
             ["solver", "Thermal solver"],
+            ["boundaries", "Boundaries"],
+            ["volumetrics", "Volumetrics"],
           ] as Array<[LabTab, string]>
         ).map(([id, label]) => (
           <button
@@ -798,7 +802,10 @@ export default function LaboratoryDashboardPage(): JSX.Element {
         }
         .alchm-lab-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
       `}</style>
-      {tab === "dashboard" ? dashboard : <SolverPanel />}
+      {tab === "dashboard" ? dashboard : null}
+      {tab === "solver" ? <SolverPanel /> : null}
+      {tab === "boundaries" ? <BoundariesPanel /> : null}
+      {tab === "volumetrics" ? <VolumetricsPanel /> : null}
     </>
   );
 }
