@@ -133,6 +133,58 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
     }
     out.push_str("  ],\n");
 
+    // ── Bessel series ───────────────────────────────────────────────────────
+    // Emitted separately from the eigenvalues so a drift in the SERIES is
+    // distinguishable from a drift in the BISECTION that consumes it. These
+    // are pure arithmetic — no transcendental — so unlike the tan family they
+    // are expected to reproduce bit-exactly on every platform.
+    out.push_str("  \"bessel\": [\n");
+    let bessel_args = [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        BESSEL_J0_FIRST_ZERO,
+    ];
+    for (i, x) in bessel_args.iter().enumerate() {
+        out.push_str(&format!(
+            "    {{ \"x\": {}, \"j0\": {}, \"j1\": {} }}{}\n",
+            j(*x),
+            j(bessel_j0(*x)),
+            j(bessel_j1(*x)),
+            if i + 1 < bessel_args.len() { "," } else { "" }
+        ));
+    }
+    out.push_str("  ],\n");
+
+    // ── Geometry eigenvalue / coefficient ───────────────────────────────────
+    // The cylinder and sphere halves of the one-term family. `slab` is emitted
+    // here too, through the geometry entry point rather than `slab_eigenvalue`,
+    // so that the two paths cannot silently diverge.
+    out.push_str("  \"geometryEigen\": [\n");
+    let geometries = [
+        ("slab", FoodGeometry::Slab),
+        ("cylinder", FoodGeometry::Cylinder),
+        ("sphere", FoodGeometry::Sphere),
+    ];
+    let mut rows: Vec<String> = Vec::new();
+    for (name, geom) in geometries.iter() {
+        for b in biots.iter() {
+            let lambda = geometry_eigenvalue(*geom, *b).unwrap();
+            rows.push(format!(
+                "    {{ \"geometry\": \"{}\", \"biot\": {}, \"lambda1\": {}, \"coefficientA1\": {}, \"lengthRatio\": {} }}",
+                name,
+                j(*b),
+                j(lambda),
+                j(geometry_coefficient(*geom, lambda)),
+                j(geom.characteristic_length_ratio()),
+            ));
+        }
+    }
+    out.push_str(&rows.join(",\n"));
+    out.push_str("\n  ],\n");
+
     // ── Slab core time ──────────────────────────────────────────────────────
     // Every method regime the panels actually render: oven, bath, fryer,
     // boiling water, steam, and a one-sided pan sear.

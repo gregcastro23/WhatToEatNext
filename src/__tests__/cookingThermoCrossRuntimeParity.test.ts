@@ -56,6 +56,13 @@ import {
   slabEigenvalue,
   slabCoefficient,
   slabCoreTime,
+  besselJ0,
+  besselJ1,
+  geometryEigenvalue,
+  geometryCoefficient,
+  characteristicLengthRatio,
+  surfaceAreaToVolume,
+  type FoodGeometry,
   radiantFluxKwM2,
   radiativeH,
   wetBulbC,
@@ -87,6 +94,14 @@ interface Golden {
     pasteurisationMultiplier: number;
   }[];
   slabEigen: { biot: number; lambda1: number; coefficientA1: number }[];
+  bessel: { x: number; j0: number; j1: number }[];
+  geometryEigen: {
+    geometry: FoodGeometry;
+    biot: number;
+    lambda1: number;
+    coefficientA1: number;
+    lengthRatio: number;
+  }[];
   slabCookTime: {
     name: string;
     thicknessMm: number;
@@ -303,6 +318,87 @@ describe("transient slab conduction", () => {
     expect(() => slabCoreTime({ thicknessMm: 25, mediumC: 55, initialC: 5, targetC: 60, hWm2K: 95 })).toThrow(
       RangeError,
     );
+  });
+});
+
+describe("geometry — cylinders and spheres", () => {
+  it.each(GOLDEN.bessel)("Bessel series matches Rust EXACTLY at x = $x", ({ x, j0, j1 }) => {
+    // `toBe`, not the ULP helper. The series is `+ − × ÷` only, so it owes
+    // nothing to V8's or libm's transcendentals and must agree to the bit.
+    // Rust's std has no Bessel function; that is precisely why this is a
+    // hand-rolled shared series rather than a library call on either side.
+    // If this ever needs a tolerance, the series has been changed into
+    // something that calls a transcendental, and that is the bug.
+    expect(besselJ0(x)).toBe(j0);
+    expect(besselJ1(x)).toBe(j1);
+  });
+
+  it.each(GOLDEN.geometryEigen)(
+    "$geometry eigenvalue matches Rust at Bi = $biot",
+    ({ geometry, biot, lambda1, coefficientA1, lengthRatio }) => {
+      // The cylinder branch is pure arithmetic and reproduces exactly; the slab
+      // and sphere branches go through tan, so they get the same measured ULP
+      // budget as the rest of that family.
+      expectNearlyExact(geometryEigenvalue(geometry, biot), lambda1, `λ₁(${geometry}, Bi=${biot})`);
+      expectNearlyExact(
+        geometryCoefficient(geometry, lambda1),
+        coefficientA1,
+        `A₁(${geometry}, Bi=${biot})`,
+      );
+      expect(characteristicLengthRatio(geometry)).toBe(lengthRatio);
+    },
+  );
+
+  it("routes the slab through one answer, whichever entry point is used", () => {
+    // Two exported paths to the same number, and a caller cannot tell which one
+    // a given panel reached for.
+    for (const { biot } of GOLDEN.slabEigen) {
+      expect(geometryEigenvalue("slab", biot)).toBe(slabEigenvalue(biot));
+    }
+  });
+
+  it("orders the shapes by how fast they core, at equal Biot", () => {
+    // The ordering IS the physics: more surface feeding the same volume means a
+    // larger λ₁, and λ₁ enters the exponent squared. The fixture was generated
+    // from this same code and so cannot catch the whole family being wrong;
+    // this can.
+    for (const biot of [0.1, 1, 10, 100]) {
+      const slab = geometryEigenvalue("slab", biot);
+      const cylinder = geometryEigenvalue("cylinder", biot);
+      const sphere = geometryEigenvalue("sphere", biot);
+      expect(slab).toBeLessThan(cylinder);
+      expect(cylinder).toBeLessThan(sphere);
+    }
+  });
+
+  it("derives surface-area-to-volume from the shape, not a table", () => {
+    // A 20 mm cube of carrot and a 20 mm-diameter carrot are not the same
+    // cooking problem, and this ratio is why.
+    expect(surfaceAreaToVolume("slab", 0.01)).toBeCloseTo(100, 10);
+    expect(surfaceAreaToVolume("cylinder", 0.01)).toBeCloseTo(200, 10);
+    expect(surfaceAreaToVolume("sphere", 0.01)).toBeCloseTo(300, 10);
+    expect(() => surfaceAreaToVolume("sphere", 0)).toThrow(RangeError);
+  });
+
+  it("reproduces Incropera Table 5.1, which the fixture cannot vouch for", () => {
+    // EXTERNAL anchor. Tolerance is 5e-5 because the table is PRINTED to four
+    // decimals — that is the source's precision, not a margin chosen to pass.
+    const table: Array<[FoodGeometry, number, number, number]> = [
+      ["slab", 0.1, 0.3111, 1.0161],
+      ["cylinder", 0.1, 0.4417, 1.0246],
+      ["sphere", 0.1, 0.5423, 1.0298],
+      ["slab", 1, 0.8603, 1.1191],
+      ["cylinder", 1, 1.2558, 1.2071],
+      ["sphere", 1, 1.5708, 1.2732],
+      ["slab", 10, 1.4289, 1.262],
+      ["cylinder", 10, 2.1795, 1.5677],
+      ["sphere", 10, 2.8363, 1.9249],
+    ];
+    for (const [geometry, biot, wantLambda, wantA1] of table) {
+      const lambda = geometryEigenvalue(geometry, biot);
+      expect(Math.abs(lambda - wantLambda)).toBeLessThan(5e-5);
+      expect(Math.abs(geometryCoefficient(geometry, lambda) - wantA1)).toBeLessThan(5e-5);
+    }
   });
 });
 

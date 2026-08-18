@@ -164,6 +164,153 @@ fn slab_eigenvalues_match_the_fixture() {
 }
 
 #[test]
+fn bessel_series_matches_the_fixture_bit_exactly() {
+    // NOT `assert_slab_ulps`. The series is `+ − × ÷` only, so unlike the tan
+    // family it owes no debt to the host libm and must reproduce to the bit.
+    // If this ever needs a ULP budget, the series has been changed into
+    // something that calls a transcendental and that is the bug.
+    for row in fixture()["bessel"].as_array().unwrap() {
+        let x = f(&row["x"]);
+        assert_bits_eq(bessel_j0(x), f(&row["j0"]), &format!("J₀({x})"));
+        assert_bits_eq(bessel_j1(x), f(&row["j1"]), &format!("J₁({x})"));
+    }
+}
+
+#[test]
+fn bessel_j0_vanishes_at_its_first_zero() {
+    // Anchors BESSEL_J0_FIRST_ZERO against the function it claims to be the
+    // zero of, so a mistyped digit in the constant cannot pass unnoticed. The
+    // constant bounds the cylinder eigenvalue search, so a wrong one would
+    // silently truncate the bisection interval.
+    assert!(
+        bessel_j0(BESSEL_J0_FIRST_ZERO).abs() < 1e-15,
+        "J₀ at the tabulated first zero should vanish, got {:.3e}",
+        bessel_j0(BESSEL_J0_FIRST_ZERO)
+    );
+}
+
+#[test]
+fn geometry_eigenvalues_match_the_fixture() {
+    for row in fixture()["geometryEigen"].as_array().unwrap() {
+        let bi = f(&row["biot"]);
+        let name = row["geometry"].as_str().unwrap();
+        let geom = match name {
+            "slab" => FoodGeometry::Slab,
+            "cylinder" => FoodGeometry::Cylinder,
+            "sphere" => FoodGeometry::Sphere,
+            other => panic!("unknown geometry in fixture: {other}"),
+        };
+        let lambda = geometry_eigenvalue(geom, bi).unwrap();
+        assert_slab_ulps(lambda, f(&row["lambda1"]), &format!("λ₁({name}, Bi={bi})"));
+        assert_slab_ulps(
+            geometry_coefficient(geom, lambda),
+            f(&row["coefficientA1"]),
+            &format!("A₁({name}, Bi={bi})"),
+        );
+        assert_bits_eq(
+            geom.characteristic_length_ratio(),
+            f(&row["lengthRatio"]),
+            &format!("Lc/R({name})"),
+        );
+    }
+}
+
+#[test]
+fn the_geometry_path_and_the_slab_path_agree_exactly() {
+    // `slab_eigenvalue` and `geometry_eigenvalue(Slab, …)` are two entry points
+    // to one answer. Nothing in the type system stops them drifting, and a
+    // caller has no way to tell which one a given panel used.
+    for row in fixture()["slabEigen"].as_array().unwrap() {
+        let bi = f(&row["biot"]);
+        assert_bits_eq(
+            geometry_eigenvalue(FoodGeometry::Slab, bi).unwrap(),
+            slab_eigenvalue(bi).unwrap(),
+            &format!("slab λ₁ via both paths (Bi={bi})"),
+        );
+    }
+}
+
+#[test]
+fn a_sphere_cores_faster_than_a_slab_at_equal_biot() {
+    // The ordering IS the physics: more surface feeding the same volume means a
+    // larger eigenvalue, and λ₁ enters the exponent as λ₁², so the sphere's
+    // Fourier time is the shortest of the three. If this ever inverts, the
+    // residuals have been mixed up between geometries — a swap the fixture
+    // alone would happily ratify, since it was generated from the same code.
+    for bi in [0.1_f64, 1.0, 10.0, 100.0] {
+        let slab = geometry_eigenvalue(FoodGeometry::Slab, bi).unwrap();
+        let cyl = geometry_eigenvalue(FoodGeometry::Cylinder, bi).unwrap();
+        let sph = geometry_eigenvalue(FoodGeometry::Sphere, bi).unwrap();
+        assert!(
+            slab < cyl && cyl < sph,
+            "at Bi={bi} expected λ₁ slab < cylinder < sphere, got {slab} / {cyl} / {sph}"
+        );
+    }
+}
+
+#[test]
+fn geometry_eigenvalues_reproduce_the_published_table() {
+    // EXTERNAL anchor, not a self-check: Incropera & DeWitt, Fundamentals of
+    // Heat and Mass Transfer, Table 5.1. The fixture above was generated from
+    // this same code, so it can only catch drift — it cannot catch the whole
+    // family being wrong. These values were not.
+    //
+    // Tolerance is 5e-5 because the table is PRINTED to four decimals; that is
+    // the table's precision, not a margin chosen to make this pass.
+    // clippy reads the 1.5708 below as a fumbled FRAC_PI_2. It is not an
+    // approximation of anything — it is the figure Table 5.1 PRINTS, copied as
+    // printed. That it happens to be π/2 to four places is a real property of
+    // the sphere at Bi = 1 (cot(π/2) = 0, so 1 − λ·cot λ = 1 exactly there),
+    // and `the_sphere_at_biot_one_is_exactly_half_pi` asserts that separately.
+    // Replacing it with the constant would silently upgrade the book's
+    // four-decimal print to full precision and destroy what this test checks.
+    #[allow(clippy::approx_constant)]
+    let table: [(&str, f64, f64, f64); 9] = [
+        ("slab", 0.1, 0.3111, 1.0161),
+        ("cylinder", 0.1, 0.4417, 1.0246),
+        ("sphere", 0.1, 0.5423, 1.0298),
+        ("slab", 1.0, 0.8603, 1.1191),
+        ("cylinder", 1.0, 1.2558, 1.2071),
+        ("sphere", 1.0, 1.5708, 1.2732),
+        ("slab", 10.0, 1.4289, 1.2620),
+        ("cylinder", 10.0, 2.1795, 1.5677),
+        ("sphere", 10.0, 2.8363, 1.9249),
+    ];
+    for (name, bi, want_lambda, want_a1) in table {
+        let geom = match name {
+            "slab" => FoodGeometry::Slab,
+            "cylinder" => FoodGeometry::Cylinder,
+            _ => FoodGeometry::Sphere,
+        };
+        let lambda = geometry_eigenvalue(geom, bi).unwrap();
+        let a1 = geometry_coefficient(geom, lambda);
+        assert!(
+            (lambda - want_lambda).abs() < 5e-5,
+            "λ₁({name}, Bi={bi}) = {lambda}, Incropera Table 5.1 prints {want_lambda}"
+        );
+        assert!(
+            (a1 - want_a1).abs() < 5e-5,
+            "A₁({name}, Bi={bi}) = {a1}, Incropera Table 5.1 prints {want_a1}"
+        );
+    }
+}
+
+#[test]
+fn the_sphere_at_biot_one_is_exactly_half_pi() {
+    // An anchor that owes nothing to the fixture, the table, or a tolerance.
+    // At Bi = 1 the sphere equation 1 − λ·cot λ = Bi reduces to cot λ = 0, so
+    // λ₁ is π/2 exactly. Any residual reformulation that moved the root would
+    // land here first — including the sin-λ multiply-through, which is why this
+    // is worth a test of its own rather than a comment.
+    let lambda = geometry_eigenvalue(FoodGeometry::Sphere, 1.0).unwrap();
+    assert!(
+        (lambda - std::f64::consts::FRAC_PI_2).abs() < 1e-15,
+        "sphere λ₁(Bi=1) should be π/2 exactly, got {lambda} (Δ {:.3e})",
+        (lambda - std::f64::consts::FRAC_PI_2).abs()
+    );
+}
+
+#[test]
 fn slab_cook_times_match_the_fixture() {
     for row in fixture()["slabCookTime"].as_array().unwrap() {
         let name = row["name"].as_str().unwrap();

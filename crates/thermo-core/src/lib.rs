@@ -346,6 +346,220 @@ pub fn slab_coefficient(lambda1: f64) -> f64 {
     (4.0 * (lambda1).sin()) / (2.0 * lambda1 + (2.0 * lambda1).sin())
 }
 
+// ============================================================================
+// Geometry — the one-term solution for cylinders and spheres
+// ============================================================================
+
+/// The three shapes the one-term transient solution is defined for.
+///
+/// A steak is a slab, a roast or a carrot is a cylinder, a meatball or a
+/// potato is a sphere. The distinction is not cosmetic: at the same Biot
+/// number a sphere cores in roughly a third the Fourier time of a slab,
+/// because it is fed from three directions instead of one.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FoodGeometry {
+    Slab,
+    Cylinder,
+    Sphere,
+}
+
+/// Number of terms in the Bessel series below.
+///
+/// FIXED, not convergence-tested. A loop that exits when a term stops mattering
+/// is free to exit after a different number of iterations in a different
+/// runtime, and that is a last-bit difference the parity test exists to catch.
+///
+/// `[MEASURED 2026-08-17]` At the worst-case argument this file can produce —
+/// x = j₀,₁ = 2.4048, the ceiling of the cylinder eigenvalue search — J₀
+/// reaches its final bits at 19 terms and J₁ at 11. 30 therefore carries an
+/// 11-term margin over the binding case. Reproduce by sweeping the term count
+/// against a 60-term reference; `bessel_series_matches_the_fixture_bit_exactly`
+/// fails below 19, which is what pins this number as a measurement rather than
+/// a guess.
+const BESSEL_TERMS: u32 = 30;
+
+/// Bessel function of the first kind, order 0, by the ascending power series
+///
+/// > J₀(x) = Σ (−1)ᵐ (x/2)²ᵐ / (m!)²
+///
+/// BASIS: Abramowitz & Stegun, *Handbook of Mathematical Functions*, 9.1.10.
+///
+/// VALIDITY. The series is exact for all x but loses precision to cancellation
+/// once x grows past roughly 10. That is not a limit here: the only argument
+/// this file ever passes is a cylinder's first eigenvalue, which lies in
+/// (0, j₀,₁ ≈ 2.4048]. Do not reach for this as a general-purpose J₀.
+///
+/// ⚠️ `std` has no Bessel function and the `libm` crate's would reintroduce the
+/// glibc-vs-macOS drift already logged against this workspace. This series uses
+/// `+ − × ÷` only — no transcendental — which is what makes bit-exact agreement
+/// with the TypeScript half achievable. The operation order below is load
+/// bearing and must not be "simplified".
+pub fn bessel_j0(x: f64) -> f64 {
+    let half = x / 2.0;
+    let half_sq = half * half;
+    let mut term = 1.0_f64;
+    let mut sum = 1.0_f64;
+    for m in 1..=BESSEL_TERMS {
+        let m = f64::from(m);
+        term = (-term * half_sq) / (m * m);
+        sum += term;
+    }
+    sum
+}
+
+/// Bessel function of the first kind, order 1, by the ascending power series
+///
+/// > J₁(x) = Σ (−1)ᵐ (x/2)²ᵐ⁺¹ / (m!·(m+1)!)
+///
+/// BASIS: Abramowitz & Stegun 9.1.10. Same validity envelope and the same
+/// reasoning about determinism as [`bessel_j0`].
+pub fn bessel_j1(x: f64) -> f64 {
+    let half = x / 2.0;
+    let half_sq = half * half;
+    let mut term = half;
+    let mut sum = half;
+    for m in 1..=BESSEL_TERMS {
+        let m = f64::from(m);
+        term = (-term * half_sq) / (m * (m + 1.0));
+        sum += term;
+    }
+    sum
+}
+
+/// The first zero of J₀. Bounds the cylinder's λ₁, and therefore bounds every
+/// argument [`bessel_j0`] is ever asked for.
+pub const BESSEL_J0_FIRST_ZERO: f64 = 2.404825557695773;
+
+impl FoodGeometry {
+    /// Upper bound of the first eigenvalue as Bi → ∞.
+    fn eigenvalue_ceiling(self) -> f64 {
+        match self {
+            // λ·tan λ → ∞ at π/2.
+            FoodGeometry::Slab => std::f64::consts::FRAC_PI_2,
+            FoodGeometry::Cylinder => BESSEL_J0_FIRST_ZERO,
+            // 1 − λ·cot λ → ∞ at π.
+            FoodGeometry::Sphere => std::f64::consts::PI,
+        }
+    }
+
+    /// The transcendental whose root is λ₁, written as `f(λ) − Bi`.
+    ///
+    /// Each is monotone increasing on (0, ceiling), which is what lets a plain
+    /// bisection find the root without a derivative and without the
+    /// possibility of landing on a higher branch.
+    ///
+    ///   slab      λ·tan λ        = Bi
+    ///   cylinder  λ·J₁(λ)/J₀(λ)  = Bi
+    ///   sphere    1 − λ·cot λ    = Bi
+    ///
+    /// ⚠️ THE SPHERE IS WRITTEN MULTIPLIED THROUGH BY sin λ, DELIBERATELY.
+    ///
+    /// `[MEASURED 2026-08-17]` Written the direct way — `1 − λ/tan λ − Bi` —
+    /// this crate and the TypeScript half disagreed by **32 ULP** on λ₁ at
+    /// Bi = 0.001, four times the measured budget for the whole rest of the
+    /// fixture. The cause is conditioning, not a wrong formula: the residual's
+    /// slope at the root collapses to 3.65e-2 at Bi = 0.001 against 1.57 at
+    /// Bi = 1, so a last-bit disagreement in `tan` is amplified by roughly
+    /// forty. Multiplying through by sin λ removes the division and trades
+    /// `tan` for `sin` and `cos`, which agree between the two libms where `tan`
+    /// does not: the same 27 vectors then reproduce at **0 ULP** on this host,
+    /// for all three geometries.
+    ///
+    /// The root is unchanged — sin λ > 0 on (0, π), so multiplying by it moves
+    /// no sign and therefore moves no bisection step. Do not "simplify" this
+    /// back to the cot form; it is the shape of the expression that is load
+    /// bearing.
+    fn eigenvalue_residual(self, lambda: f64, biot: f64) -> f64 {
+        match self {
+            FoodGeometry::Slab => lambda * lambda.tan() - biot,
+            FoodGeometry::Cylinder => (lambda * bessel_j1(lambda)) / bessel_j0(lambda) - biot,
+            FoodGeometry::Sphere => (1.0 - biot) * lambda.sin() - lambda * lambda.cos(),
+        }
+    }
+
+    /// Characteristic length Lc = V/A, in units of the shape's own
+    /// half-dimension.
+    ///
+    /// This is the volumetric statement of why shape changes cooking time. For
+    /// a slab of half-thickness L the conduction path is L itself; a cylinder
+    /// of radius R behaves as R/2 and a sphere as R/3, because each has more
+    /// surface feeding the same volume. It is also exactly the ratio that makes
+    /// a diced vegetable cook faster than a whole one at identical thickness.
+    pub fn characteristic_length_ratio(self) -> f64 {
+        match self {
+            FoodGeometry::Slab => 1.0,
+            FoodGeometry::Cylinder => 1.0 / 2.0,
+            FoodGeometry::Sphere => 1.0 / 3.0,
+        }
+    }
+}
+
+/// First eigenvalue λ₁ of the one-term transient solution for a given shape.
+///
+/// Bisection, 200 iterations, matching [`slab_eigenvalue`] exactly — the
+/// iteration count is part of the answer, not an implementation detail, because
+/// a different count is a different last bit.
+///
+/// BASIS: Incropera & DeWitt, *Fundamentals of Heat and Mass Transfer*,
+/// Table 5.1 and §5.5.
+pub fn geometry_eigenvalue(geometry: FoodGeometry, biot: f64) -> Result<f64, ThermoError> {
+    if !(biot >= 0.0) {
+        return Err(ThermoError::NegativeBiot);
+    }
+    if biot == 0.0 {
+        return Ok(0.0);
+    }
+    let mut lo = 0.0_f64;
+    let mut hi = geometry.eigenvalue_ceiling() - 1e-12;
+    for _ in 0..200 {
+        let mid = (lo + hi) / 2.0;
+        if geometry.eigenvalue_residual(mid, biot) < 0.0 {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    Ok((lo + hi) / 2.0)
+}
+
+/// Leading coefficient A₁ of the one-term solution for a given shape.
+///
+/// BASIS: Incropera & DeWitt, Table 5.1.
+///
+///   slab      4 sin λ / (2λ + sin 2λ)
+///   cylinder  (2/λ)·J₁(λ) / (J₀²(λ) + J₁²(λ))
+///   sphere    4(sin λ − λ cos λ) / (2λ − sin 2λ)
+pub fn geometry_coefficient(geometry: FoodGeometry, lambda1: f64) -> f64 {
+    if lambda1 == 0.0 {
+        return 1.0;
+    }
+    match geometry {
+        FoodGeometry::Slab => slab_coefficient(lambda1),
+        FoodGeometry::Cylinder => {
+            let j0 = bessel_j0(lambda1);
+            let j1 = bessel_j1(lambda1);
+            ((2.0 / lambda1) * j1) / (j0 * j0 + j1 * j1)
+        }
+        FoodGeometry::Sphere => {
+            (4.0 * (lambda1.sin() - lambda1 * lambda1.cos()))
+                / (2.0 * lambda1 - (2.0 * lambda1).sin())
+        }
+    }
+}
+
+/// Surface-area-to-volume ratio, m⁻¹, for a piece of the given shape.
+///
+/// `half_dimension_m` is the half-thickness for a slab, the radius otherwise.
+pub fn surface_area_to_volume(
+    geometry: FoodGeometry,
+    half_dimension_m: f64,
+) -> Result<f64, ThermoError> {
+    if !(half_dimension_m > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    Ok(1.0 / (half_dimension_m * geometry.characteristic_length_ratio()))
+}
+
 /// Inputs to [`slab_core_time`].
 #[derive(Debug, Clone, Copy)]
 pub struct SlabCookInput {
