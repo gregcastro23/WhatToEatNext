@@ -33,6 +33,7 @@
  * catches.
  */
 
+import type { MethodPhysicsProfile } from "@/data/cooking/methodPhysics";
 import type { MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
 
 /** f32 narrowing. Aliased because it appears on nearly every line below. */
@@ -47,8 +48,176 @@ export const BUOYANCY_PER_K = f(0.003);
 export const SWIRL_AMPLITUDE = f(0.4);
 export const CONVECTION_DRAG = f(0.98);
 
-/** Floats per particle: `[x, y, z, vx, vy, vz, tempC, radiantIntensity]`. */
-export const FLOATS_PER_PARTICLE = 8;
+/** Room temperature, the reference the buoyant ΔT is taken against, °C. */
+export const RENDER_AMBIENT_C = f(20);
+
+/** Extra velocity a phase-change tracer carries along its transition direction. */
+export const VAPOUR_TRANSIT = f(0.55);
+
+/**
+ * Floats per particle:
+ * `[x, y, z, vx, vy, vz, tempC, radiantIntensity, phaseFrac]`.
+ */
+export const FLOATS_PER_PARTICLE = 9;
+
+/**
+ * How a medium actually moves heat. Mirrors `thermo_core::HeatRegime`, and the
+ * numeric values ARE the wire format — they cross into WASM as a `u8`.
+ *
+ * `[MEASURED 2026-08-17]` Before this existed the canvas ran one motion model
+ * for all 26 methods, so `boiling` was drawn as a dry oven with a glowing
+ * element, and `cryo_cooking` at −196 °C was drawn as a hot amber chamber with
+ * perfectly still air (the old buoyancy clamped negative superheat to zero).
+ * The data to tell them apart was already in `methodPhysics.ts` and none of it
+ * reached the simulation.
+ */
+export const HeatRegime = {
+  BuoyantAir: 0,
+  Oil: 1,
+  RollingBoil: 2,
+  CondensingSteam: 3,
+  StillLiquid: 4,
+  Radiant: 5,
+  SolidContact: 6,
+  Cryogenic: 7,
+  Diffusion: 8,
+  Distillation: 9,
+} as const;
+
+export type HeatRegime = (typeof HeatRegime)[keyof typeof HeatRegime];
+
+/** Motion parameters for one regime. Mirrors `thermo_core::RegimeParams`. */
+export interface RegimeParams {
+  buoyancyPerK: number;
+  swirl: number;
+  drag: number;
+  nucleationPerS: number;
+  nucleationDir: number;
+  coolingSign: number;
+}
+
+// ── Volumetric thermal expansion, K⁻¹ ───────────────────────────────────────
+// Mirrors `thermo_core::{BETA_AIR_OVEN, BETA_WATER_HOT, BETA_OIL, BETA_LN2}`.
+// BASIS is stated once, in the Rust; duplicating the citations here would be a
+// second place for them to rot.
+const BETA_AIR_OVEN = f(f(1) / f(450));
+const BETA_WATER_HOT = f(697.9e-6);
+const BETA_OIL = f(7.0e-4);
+const BETA_LN2 = f(5.7e-3);
+
+/** Standard gravity as the ISA block fixes it, narrowed to f32. */
+const G_M_S2 = f(9.80665);
+
+/**
+ * Render-box units per metre. DEFINED so `buoyancyForBeta(BETA_AIR_OVEN)`
+ * reproduces {@link BUOYANCY_PER_K} exactly — asserted in the parity test, and
+ * in `thermo_core`'s own `derived_air_buoyancy_reproduces_the_shipped_constant`.
+ */
+const SCENE_SCALE = f(BUOYANCY_PER_K / f(G_M_S2 * BETA_AIR_OVEN));
+
+/** Buoyant acceleration per kelvin for a fluid of expansion coefficient β. */
+export function buoyancyForBeta(betaPerK: number): number {
+  return f(f(G_M_S2 * betaPerK) * SCENE_SCALE);
+}
+
+/**
+ * Motion parameters per regime. Transliterated from `thermo_core::regime_params`
+ * and pinned value-for-value by the golden fixture's `simulation.regimes` block.
+ */
+export function regimeParams(regime: HeatRegime): RegimeParams {
+  switch (regime) {
+    case HeatRegime.BuoyantAir:
+      return {
+        buoyancyPerK: BUOYANCY_PER_K,
+        swirl: SWIRL_AMPLITUDE,
+        drag: CONVECTION_DRAG,
+        nucleationPerS: 0,
+        nucleationDir: 0,
+        coolingSign: 1,
+      };
+    case HeatRegime.Oil:
+      return {
+        buoyancyPerK: buoyancyForBeta(BETA_OIL),
+        swirl: f(0.22),
+        drag: f(0.94),
+        nucleationPerS: f(1.6),
+        nucleationDir: 1,
+        coolingSign: 1,
+      };
+    case HeatRegime.RollingBoil:
+      return {
+        buoyancyPerK: buoyancyForBeta(BETA_WATER_HOT),
+        swirl: f(0.3),
+        drag: f(0.965),
+        nucleationPerS: f(3.2),
+        nucleationDir: 1,
+        coolingSign: 1,
+      };
+    case HeatRegime.CondensingSteam:
+      return {
+        buoyancyPerK: f(buoyancyForBeta(BETA_WATER_HOT) * f(0.5)),
+        swirl: f(0.16),
+        drag: f(0.97),
+        nucleationPerS: f(2.4),
+        nucleationDir: -1,
+        coolingSign: 1,
+      };
+    case HeatRegime.StillLiquid:
+      return {
+        buoyancyPerK: buoyancyForBeta(BETA_WATER_HOT),
+        swirl: f(0.09),
+        drag: f(0.95),
+        nucleationPerS: 0,
+        nucleationDir: 0,
+        coolingSign: 1,
+      };
+    case HeatRegime.Radiant:
+      return {
+        buoyancyPerK: f(buoyancyForBeta(BETA_AIR_OVEN) * f(0.6)),
+        swirl: f(0.12),
+        drag: f(0.96),
+        nucleationPerS: 0,
+        nucleationDir: 0,
+        coolingSign: 1,
+      };
+    case HeatRegime.SolidContact:
+      return {
+        buoyancyPerK: f(buoyancyForBeta(BETA_AIR_OVEN) * f(0.25)),
+        swirl: f(0.06),
+        drag: f(0.93),
+        nucleationPerS: f(0.5),
+        nucleationDir: 1,
+        coolingSign: 1,
+      };
+    case HeatRegime.Cryogenic:
+      return {
+        buoyancyPerK: buoyancyForBeta(BETA_LN2),
+        swirl: f(0.14),
+        drag: f(0.985),
+        nucleationPerS: f(2),
+        nucleationDir: 1,
+        coolingSign: -1,
+      };
+    case HeatRegime.Diffusion:
+      return {
+        buoyancyPerK: 0,
+        swirl: f(0.05),
+        drag: f(0.992),
+        nucleationPerS: 0,
+        nucleationDir: 0,
+        coolingSign: 0,
+      };
+    case HeatRegime.Distillation:
+      return {
+        buoyancyPerK: f(buoyancyForBeta(BETA_WATER_HOT) * f(0.8)),
+        swirl: f(0.1),
+        drag: f(0.972),
+        nucleationPerS: f(2.8),
+        nucleationDir: 1,
+        coolingSign: 1,
+      };
+  }
+}
 
 /** Longest delta a single step will integrate, seconds. */
 const MAX_STEP_S = 0.05;
@@ -61,8 +230,14 @@ const MAX_PARTICLES = 4096;
  * so the render loop never branches on which one it got.
  */
 export interface ThermoEngineHandle {
-  /** Advance by `dtS` seconds. */
-  step(dtS: number, ovenTempC: number, hWm2K: number, radiantSourceK: number): void;
+  /** Advance by `dtS` seconds in `regime`. */
+  step(
+    dtS: number,
+    regime: HeatRegime,
+    mediumTempC: number,
+    hWm2K: number,
+    radiantSourceK: number,
+  ): void;
   /** Current particle state, `FLOATS_PER_PARTICLE` floats per particle. */
   view(): Float32Array;
   readonly particleCount: number;
@@ -91,17 +266,19 @@ export function seedParticles(n: number): Float32Array {
     buffer[o + 5] = 0;
     buffer[o + 6] = f(20 + f(f(fi * f(0.7)) % 50));
     buffer[o + 7] = 0;
+    // Staggered so nucleation does not pulse in unison. Closed form in the
+    // index, like every other field — see `thermo_core::seeded_particles`.
+    buffer[o + 8] = f(f(fi * f(0.113)) % 1);
   }
   return buffer;
 }
 
 /**
- * One simulation step, transliterated from `thermo_core::step_oven_simulation`.
+ * One simulation step in the [`HeatRegime.BuoyantAir`] regime.
  *
- * Operates in place on a flat `Float32Array`. The association order of every
- * expression follows the Rust exactly; `a * b * c` is `(a * b) * c` in both
- * languages, and each intermediate is narrowed to f32 because the Rust
- * intermediates are f32.
+ * Retained as the entry point the pre-existing golden trace was generated
+ * through — the trace reproducing byte-for-byte after the regime work is the
+ * evidence that adding nine regimes did not perturb the shipped one.
  */
 export function stepOvenSimulation(
   buffer: Float32Array,
@@ -110,8 +287,31 @@ export function stepOvenSimulation(
   hWm2K: number,
   radiantSourceK: number,
 ): void {
+  stepMediumSimulation(buffer, dtS, HeatRegime.BuoyantAir, ovenTempC, hWm2K, radiantSourceK);
+}
+
+/**
+ * One simulation step, transliterated from `thermo_core::step_medium_simulation`.
+ *
+ * Operates in place on a flat `Float32Array`. The association order of every
+ * expression follows the Rust exactly; `a * b * c` is `(a * b) * c` in both
+ * languages, and each intermediate is narrowed to f32 because the Rust
+ * intermediates are f32.
+ */
+export function stepMediumSimulation(
+  buffer: Float32Array,
+  dtS: number,
+  regime: HeatRegime,
+  mediumTempC: number,
+  hWm2K: number,
+  radiantSourceK: number,
+): void {
   const dt = f(dtS);
-  const buoyancy = f(Math.max(0, f(f(ovenTempC) - 20)) * BUOYANCY_PER_K);
+  const params = regimeParams(regime);
+  // ⚠️ SIGNED, where the original clamped with `Math.max(0, ...)`. That clamp is
+  // why a −196 °C cryogen animated as perfectly still air; cold media are denser
+  // than the room and sink, and the sign of ΔT already says so.
+  const buoyancy = f(f(f(mediumTempC) - RENDER_AMBIENT_C) * params.buoyancyPerK);
   const hRate = f(f(hWm2K) * f(0.001));
 
   // r⁴ is constant across particles, exactly as in the Rust.
@@ -129,30 +329,51 @@ export function stepOvenSimulation(
     let vy = buffer[o + 4];
     let vz = buffer[o + 5];
     let tempC = buffer[o + 6];
+    let phaseFrac = buffer[o + 8];
 
     const phase = f(f(f(x * 2) + f(z * 3)) + f(f(i) * f(0.1)));
     // `sin_f32` in the Rust is `(x as f64).sin() as f32` — the transcendental
     // is evaluated in double precision and only then narrowed.
-    const swirlX = f(f(Math.sin(phase)) * SWIRL_AMPLITUDE);
-    const swirlZ = f(f(Math.cos(phase)) * SWIRL_AMPLITUDE);
+    const swirlX = f(f(Math.sin(phase)) * params.swirl);
+    const swirlZ = f(f(Math.cos(phase)) * params.swirl);
 
-    vx = f(f(vx + f(swirlX * dt)) * CONVECTION_DRAG);
-    vy = f(f(vy + f(buoyancy * dt)) * CONVECTION_DRAG);
-    vz = f(f(vz + f(swirlZ * dt)) * CONVECTION_DRAG);
+    // Phase-change tracers carry an extra velocity along the transition
+    // direction, ramped by how far through the cycle they are.
+    const transit = f(f(params.nucleationDir * phaseFrac) * VAPOUR_TRANSIT);
+
+    vx = f(f(vx + f(swirlX * dt)) * params.drag);
+    vy = f(f(vy + f(f(buoyancy + transit) * dt)) * params.drag);
+    vz = f(f(vz + f(swirlZ * dt)) * params.drag);
 
     x = f(x + f(vx * dt));
     y = f(y + f(vy * dt));
     z = f(z + f(vz * dt));
 
-    // Wrap into the 1×1×1 render box.
+    // Wrap into the 1×1×1 render box. The y < 0 case is reachable only in the
+    // regimes that travel downward — condensing steam, and anything below room
+    // temperature.
     if (y > 1) y = 0;
+    if (y < 0) y = 1;
     if (x < -1) x = 1;
     if (x > 1) x = -1;
     if (z < -1) z = 1;
     if (z > 1) z = -1;
 
-    // Newton cooling toward the medium, paced by the method's own h.
-    tempC = f(tempC + f(f(f(ovenTempC - tempC) * hRate) * dt));
+    // Newton cooling toward the medium, paced by the method's own h. Gated
+    // rather than scaled: a mass-transfer method has no heat flow, and letting
+    // a borrowed h drive a temperature here is how the old canvas came to show
+    // a fermentation crock equilibrating like a roast.
+    if (params.coolingSign !== 0) {
+      tempC = f(tempC + f(f(f(mediumTempC - tempC) * hRate) * dt));
+    }
+
+    // Advance the phase-change cycle. Deterministic and RNG-free, like the seed.
+    if (params.nucleationPerS > 0) {
+      phaseFrac = f(phaseFrac + f(params.nucleationPerS * dt));
+      if (phaseFrac >= 1) phaseFrac = f(phaseFrac - 1);
+    } else {
+      phaseFrac = 0;
+    }
 
     buffer[o] = x;
     buffer[o + 1] = y;
@@ -162,6 +383,7 @@ export function stepOvenSimulation(
     buffer[o + 5] = vz;
     buffer[o + 6] = tempC;
     buffer[o + 7] = radiantIntensity;
+    buffer[o + 8] = phaseFrac;
   }
 }
 
@@ -180,13 +402,19 @@ export class FallbackThermoEngine implements ThermoEngineHandle {
     return this.buffer.length / FLOATS_PER_PARTICLE;
   }
 
-  step(dtS: number, ovenTempC: number, hWm2K: number, radiantSourceK: number): void {
+  step(
+    dtS: number,
+    regime: HeatRegime,
+    mediumTempC: number,
+    hWm2K: number,
+    radiantSourceK: number,
+  ): void {
     // Same clamp as the WASM engine. A backgrounded tab hands back a delta of
     // whole seconds when it wakes; integrating that in one step throws every
     // particle out of the box at once, which reads as the canvas resetting
     // itself whenever the user comes back to the page.
     const dt = Math.min(Math.max(dtS, 0), MAX_STEP_S);
-    stepOvenSimulation(this.buffer, dt, ovenTempC, hWm2K, radiantSourceK);
+    stepMediumSimulation(this.buffer, dt, regime, mediumTempC, hWm2K, radiantSourceK);
   }
 
   view(): Float32Array {
@@ -233,7 +461,13 @@ const WASM_MODULE_URL = "/wasm/thermo_wasm.js";
 interface ThermoWasmModule {
   default: (input?: unknown) => Promise<{ memory: WebAssembly.Memory }>;
   ThermoEngine: new (count: number) => {
-    step(dtS: number, ovenTempC: number, hWm2K: number, radiantSourceK: number): void;
+    step(
+      dtS: number,
+      regime: number,
+      mediumTempC: number,
+      hWm2K: number,
+      radiantSourceK: number,
+    ): boolean;
     readonly buffer_ptr: number;
     readonly buffer_len: number;
     readonly particle_count: number;
@@ -254,8 +488,20 @@ class WasmThermoEngine implements ThermoEngineHandle {
     return this.inner.particle_count;
   }
 
-  step(dtS: number, ovenTempC: number, hWm2K: number, radiantSourceK: number): void {
-    this.inner.step(dtS, ovenTempC, hWm2K, radiantSourceK);
+  step(
+    dtS: number,
+    regime: HeatRegime,
+    mediumTempC: number,
+    hWm2K: number,
+    radiantSourceK: number,
+  ): void {
+    // The module REFUSES a regime it does not recognise rather than defaulting
+    // to one. A stale bundle paired with a newer page would otherwise silently
+    // render every method as an oven again — the precise regression this layer
+    // exists to remove, and it would report nothing.
+    if (!this.inner.step(dtS, regime, mediumTempC, hWm2K, radiantSourceK)) {
+      throw new RangeError(`thermo-wasm rejected regime ${regime}`);
+    }
   }
 
   view(): Float32Array {
@@ -334,18 +580,76 @@ export async function createThermoEngine(count: number): Promise<ThermoEngineHan
 }
 
 /**
+ * Which motion regime a method actually cooks in.
+ *
+ * DERIVED from the physics profile — `mediumKind`, `rateLimiter` and the
+ * transfer-mode fractions — rather than read from a hand-written table of
+ * method ids. That is deliberate: a lookup table would let a newly added method
+ * fall through to a default, and the default would be the dry oven that every
+ * method used to get. Here a new `MediumKind` is a compile error instead.
+ *
+ * The mapping, and why each branch is where it is:
+ *
+ *   no `h` at all      → Diffusion. The method is not heat-limited; the old
+ *                        canvas borrowed the roasting profile for these and
+ *                        animated a fermentation crock as a roast.
+ *   saturated-water    → the rate limiter splits it. `phase-change` means the
+ *                        transition is happening ON the food (steaming), so the
+ *                        mass flux points inward; otherwise it is a boil.
+ *   aqueous-subboiling → any phase-change fraction at all means vapour is being
+ *                        generated (braise, simmer, stew). Zero means the
+ *                        stillness IS the method (sous-vide, poaching).
+ *   non-aqueous        → the sign of the superheat separates a cryogen from a
+ *                        still. Both sit on a vapour-pressure curve; only one
+ *                        of them takes heat OUT of the food.
+ */
+export function heatRegimeFor(physics: MethodPhysicsProfile): HeatRegime {
+  // Checked first: `smoking`, `dehydrating` and `infusing` are mass-transfer
+  // limited but DO carry a real `h`, so they keep their convective scene. Only
+  // a method with no coefficient at all has no heat story to tell.
+  if (physics.h === null) return HeatRegime.Diffusion;
+
+  switch (physics.mediumKind) {
+    case "dry-air":
+      return HeatRegime.BuoyantAir;
+    case "oil":
+      return HeatRegime.Oil;
+    case "solid-contact":
+      return HeatRegime.SolidContact;
+    case "radiant":
+      return HeatRegime.Radiant;
+    case "saturated-water":
+      return physics.rateLimiter === "phase-change"
+        ? HeatRegime.CondensingSteam
+        : HeatRegime.RollingBoil;
+    case "pressurised-steam":
+      return HeatRegime.CondensingSteam;
+    case "aqueous-subboiling":
+      return physics.modes.phaseChange > 0 ? HeatRegime.RollingBoil : HeatRegime.StillLiquid;
+    case "non-aqueous-saturated":
+      return physics.mediumC < RENDER_AMBIENT_C ? HeatRegime.Cryogenic : HeatRegime.Distillation;
+    case "ambient":
+      return HeatRegime.Diffusion;
+  }
+}
+
+/**
  * Pull the simulation's driving parameters out of a method's physics metrics.
  *
- * Defaults are the roasting profile, used only when a method carries no `h` at
- * all — the mass-transfer and microbial methods, where a convection animation
- * is decorative rather than descriptive.
+ * The `h` default is the roasting figure and is reached only by a method that
+ * carries no coefficient at all. Those methods now run in
+ * {@link HeatRegime.Diffusion}, where `coolingSign` is zero and the borrowed
+ * number drives nothing — so the fallback no longer leaks a roast's pace into a
+ * crock of pickles the way it used to.
  */
 export function simulationInputs(metrics: MethodPhysicsMetrics): {
+  regime: HeatRegime;
   ovenTempC: number;
   hWm2K: number;
   radiantSourceK: number;
 } {
   return {
+    regime: heatRegimeFor(metrics.physics),
     ovenTempC: metrics.medium.celsius,
     hWm2K: metrics.transfer?.typical ?? 25,
     radiantSourceK: metrics.physics.radiantSourceK ?? 505,

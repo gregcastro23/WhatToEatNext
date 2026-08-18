@@ -23,12 +23,13 @@
 //! WASM heap detaches every existing view. `buffer_ptr` is stable between those
 //! calls and only between those calls.
 //!
-//! Layout, `FLOATS_PER_PARTICLE` (8) floats per particle:
-//! `[x, y, z, vx, vy, vz, temp_c, radiant_intensity]`
+//! Layout, `FLOATS_PER_PARTICLE` (9) floats per particle:
+//! `[x, y, z, vx, vy, vz, temp_c, radiant_intensity, phase_frac]`
 
 use thermo_core as core_physics;
 use thermo_core::{
-    seeded_particles, AltitudeRegime, ConvectionParticle, SlabCookInput, FLOATS_PER_PARTICLE,
+    seeded_particles, AltitudeRegime, ConvectionParticle, HeatRegime, SlabCookInput,
+    FLOATS_PER_PARTICLE,
 };
 use wasm_bindgen::prelude::*;
 
@@ -72,16 +73,34 @@ impl ThermoEngine {
     /// whole seconds when it wakes, and integrating that in one step throws
     /// every particle out of the render box at once — the visible symptom is a
     /// canvas that appears to reset itself whenever the user returns to it.
-    pub fn step(&mut self, dt_s: f32, oven_temp_c: f32, h_w_m2_k: f32, radiant_source_k: f32) {
+    ///
+    /// `regime` is the [`HeatRegime`] discriminant. An unrecognised value is
+    /// REFUSED rather than defaulted: a caller and a module that disagree about
+    /// the regime table would otherwise render a boil as an oven and report
+    /// nothing, which is the exact class of silent substitution this engine's
+    /// engine-kind label already had to be fixed for once.
+    pub fn step(
+        &mut self,
+        dt_s: f32,
+        regime: u8,
+        medium_temp_c: f32,
+        h_w_m2_k: f32,
+        radiant_source_k: f32,
+    ) -> bool {
+        let Some(regime) = HeatRegime::from_u8(regime) else {
+            return false;
+        };
         let dt = dt_s.clamp(0.0, 0.05);
-        core_physics::step_oven_simulation(
+        core_physics::step_medium_simulation(
             &mut self.particles,
             dt,
-            oven_temp_c,
+            regime,
+            medium_temp_c,
             h_w_m2_k,
             radiant_source_k,
         );
         self.sync_buffer();
+        true
     }
 
     /// Re-seed with a different particle count. Invalidates any existing view.
@@ -123,6 +142,7 @@ impl ThermoEngine {
             self.buffer[o + 5] = p.vz;
             self.buffer[o + 6] = p.temp_c;
             self.buffer[o + 7] = p.radiant_intensity;
+            self.buffer[o + 8] = p.phase_frac;
         }
     }
 }
@@ -251,11 +271,33 @@ mod tests {
     fn step_clamps_a_backgrounded_tab_delta() {
         // A tab that slept for 4 s must not integrate 4 s in one step.
         let mut wild = ThermoEngine::new(16);
-        wild.step(4.0, 175.0, 25.0, 505.0);
+        assert!(wild.step(4.0, HeatRegime::BuoyantAir as u8, 175.0, 25.0, 505.0));
         let mut capped = ThermoEngine::new(16);
-        capped.step(0.05, 175.0, 25.0, 505.0);
+        assert!(capped.step(0.05, HeatRegime::BuoyantAir as u8, 175.0, 25.0, 505.0));
         for (a, b) in wild.buffer.iter().zip(capped.buffer.iter()) {
             assert_eq!(a, b, "dt was not clamped to 50 ms");
+        }
+    }
+
+    #[test]
+    fn step_refuses_an_unknown_regime_rather_than_defaulting() {
+        // ⚠️ A stale bundle paired with a newer page is the realistic case, and
+        // silently falling back to BuoyantAir would render every method as an
+        // oven again with nothing anywhere reporting it. The refusal must be
+        // observable, and the buffer must be untouched.
+        let mut engine = ThermoEngine::new(8);
+        let before = engine.buffer.clone();
+        assert!(!engine.step(1.0 / 60.0, 200, 175.0, 25.0, 505.0));
+        assert_eq!(engine.buffer, before, "a refused step must not advance state");
+    }
+
+    #[test]
+    fn every_regime_is_accepted_across_the_boundary() {
+        // The discriminants are the wire format. If the enum is reordered
+        // without the TypeScript following, this is where it shows.
+        let mut engine = ThermoEngine::new(8);
+        for r in 0u8..=9 {
+            assert!(engine.step(1.0 / 60.0, r, 120.0, 500.0, 505.0), "regime {r}");
         }
     }
 

@@ -289,6 +289,85 @@ fn simulation_trace_matches_the_fixture() {
     assert!(next.is_none(), "not every trace row was reached");
 }
 
+/// Every regime, pinned with the real numbers of a method that cooks in it.
+///
+/// The trace above pins ONE motion model. This pins the other nine, and it is
+/// the only thing standing between the two runtimes and a regime that silently
+/// exists on one side alone — the failure mode the whole layer was added to
+/// remove, so it does not get to rely on the layer's own good intentions.
+#[test]
+fn regime_traces_match_the_fixture() {
+    let g = fixture();
+    let cases = g["simulation"]["regimes"].as_array().unwrap();
+    assert_eq!(cases.len(), 10, "every regime must carry a vector");
+
+    for case in cases {
+        let name = case["name"].as_str().unwrap();
+        let regime = HeatRegime::from_u8(case["regime"].as_u64().unwrap() as u8)
+            .unwrap_or_else(|| panic!("{name}: unknown discriminant in the fixture"));
+
+        // The parameters, not just the trajectory. A regime whose buoyancy has
+        // been retuned produces a different trace, but so does one whose
+        // *inputs* moved — asserting both says which happened.
+        let p = regime_params(regime);
+        let fp = &case["params"];
+        assert_bits_eq(
+            p.buoyancy_per_k as f64,
+            f(&fp["buoyancyPerK"]),
+            &format!("{name} buoyancyPerK"),
+        );
+        assert_bits_eq(p.swirl as f64, f(&fp["swirl"]), &format!("{name} swirl"));
+        assert_bits_eq(p.drag as f64, f(&fp["drag"]), &format!("{name} drag"));
+        assert_bits_eq(
+            p.nucleation_per_s as f64,
+            f(&fp["nucleationPerS"]),
+            &format!("{name} nucleationPerS"),
+        );
+        assert_bits_eq(
+            p.nucleation_dir as f64,
+            f(&fp["nucleationDir"]),
+            &format!("{name} nucleationDir"),
+        );
+        assert_bits_eq(
+            p.cooling_sign as f64,
+            f(&fp["coolingSign"]),
+            &format!("{name} coolingSign"),
+        );
+
+        let medium_c = f(&case["mediumC"]) as f32;
+        let h = f(&case["hWm2K"]) as f32;
+        let radiant_k = f(&case["radiantSourceK"]) as f32;
+
+        let mut ps = seeded_particles(8);
+        let mut expected = case["trace"].as_array().unwrap().iter();
+        let mut next = expected.next();
+        for step in 1..=60u64 {
+            step_medium_simulation(&mut ps, 1.0 / 60.0, regime, medium_c, h, radiant_k);
+            if let Some(row) = next
+                && row["step"].as_u64().unwrap() == step
+            {
+                let p = ps[row["particle"].as_u64().unwrap() as usize];
+                assert_bits_eq(p.x as f64, f(&row["x"]), &format!("{name} step {step} x"));
+                assert_bits_eq(p.y as f64, f(&row["y"]), &format!("{name} step {step} y"));
+                assert_bits_eq(p.z as f64, f(&row["z"]), &format!("{name} step {step} z"));
+                assert_bits_eq(p.vy as f64, f(&row["vy"]), &format!("{name} step {step} vy"));
+                assert_bits_eq(
+                    p.temp_c as f64,
+                    f(&row["tempC"]),
+                    &format!("{name} step {step} tempC"),
+                );
+                assert_bits_eq(
+                    p.phase_frac as f64,
+                    f(&row["phaseFrac"]),
+                    &format!("{name} step {step} phaseFrac"),
+                );
+                next = expected.next();
+            }
+        }
+        assert!(next.is_none(), "{name}: not every trace row was reached");
+    }
+}
+
 /// The part of this file that is NOT circular.
 ///
 /// These bands come from published sources outside this repository, and they

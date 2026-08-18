@@ -1,17 +1,27 @@
 "use client";
 
 /**
- * 3D Oven Convection & Heat Flux Canvas Renderer.
+ * The cooking-method heat-flow canvas.
  *
- * Executes a frame-by-frame (60 FPS) Delta Time physics rendering loop.
- * Visualizes:
- *  1. Convection particle velocity currents (medium temperature & h-driven).
- *  2. Stefan-Boltzmann radiant flux vectors (source temperature & emissivity).
- *  3. Transient Biot/Fourier heat conduction gradient into the slab core.
- *  4. Z-Score statistical distribution overlay (±1σ, ±2σ, ±3σ) for method standardisation.
+ * Owns the engine lifecycle and the 60 FPS loop. What gets DRAWN lives in
+ * `methodScenes.ts` (palette and copy) and `methodSceneRenderer.ts` (ink); the
+ * simulation lives in `crates/thermo-core`. This file is the seam between them.
  *
- * Resilience: 100% functional offline in Tauri desktop environments using local
- * thermodynamic math, with graceful degradation when SpacetimeDB/WASM drop.
+ * ── What changed, and why the file no longer says "oven" ────────────────────
+ *
+ * `[MEASURED 2026-08-17]` It used to draw exactly one scene — a dry oven
+ * chamber, a top radiant rod, buoyant tracers and a seared slab — for every one
+ * of the 26 methods, with only the medium temperature, `h` and the radiant
+ * source varying. Those three scalars cannot change what a picture asserts, so
+ * a rolling boil, a sous-vide bath, a broiler and a −196 °C cryogen were the
+ * same image with different numbers under it.
+ *
+ * The panel now runs the regime the method actually cooks in, and draws the
+ * vessel, source and flux direction that go with it. The name is kept because
+ * it is the exported symbol the physics tab imports.
+ *
+ * Resilience is unchanged: a synchronous first frame, a TypeScript engine that
+ * upgrades to WASM if the module resolves, and no runtime error on any path.
  */
 
 import React, { useEffect, useRef, useState } from "react";
@@ -20,9 +30,10 @@ import {
   createThermoEngine,
   FallbackThermoEngine,
   simulationInputs,
-  FLOATS_PER_PARTICLE,
   type ThermoEngineHandle,
 } from "@/lib/wasm/thermoEngine";
+import { drawScene } from "./methodSceneRenderer";
+import { SCENE_THEMES, sceneInputs } from "./methodScenes";
 
 /** Particles simulated. Matches the count the golden trace was generated from. */
 const PARTICLE_COUNT = 60;
@@ -35,7 +46,9 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
   const [engineKind, setEngineKind] = useState<"wasm" | "typescript">("typescript");
 
   const { transfer } = metrics;
-  const { ovenTempC: mediumC, hWm2K, radiantSourceK: radiantK } = simulationInputs(metrics);
+  const { regime, ovenTempC: mediumC, hWm2K, radiantSourceK: radiantK } = simulationInputs(metrics);
+  const scene = sceneInputs(metrics, regime);
+  const theme = SCENE_THEMES[regime];
   // Decorative mode: this method has no h of its own, so the loop borrows the
   // roasting profile to have something to animate (see simulationInputs). The
   // ANIMATION may borrow; the TEXT may not — every displayed claim below is
@@ -57,6 +70,48 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
     let animId = 0;
     let disposed = false;
     let lastTime = performance.now();
+
+    // Match the backing store to the pixels the element actually occupies.
+    //
+    // The canvas was a fixed 480x220 buffer stretched across `w-full`, so on
+    // any display with a device pixel ratio above 1 — every laptop this ships
+    // to — the scene was upscaled and soft. The regime work makes the vessel
+    // outlines and the hairline flux arrows carry meaning, and those are the
+    // first thing a blur eats. Capped at 2 because the third ratio costs fill
+    // rate on a 60 FPS loop and buys nothing visible.
+    //
+    // The scene is DRAWN in CSS pixels — `resize` leaves a scale transform on
+    // the context — so every font size and hairline width in the renderer means
+    // the same thing at any ratio. Drawing in device pixels instead would halve
+    // the captions on exactly the displays that motivated the change.
+    let sceneW = 480;
+    let sceneH = 220;
+    const resize = () => {
+      const dpr = Math.min(typeof window === "undefined" ? 1 : window.devicePixelRatio || 1, 2);
+      const cssW = canvas.clientWidth || 480;
+      const cssH = Math.round(cssW * (220 / 480));
+      sceneW = cssW;
+      sceneH = cssH;
+      const nextW = Math.round(cssW * dpr);
+      const nextH = Math.round(cssH * dpr);
+      if (canvas.width !== nextW || canvas.height !== nextH) {
+        canvas.width = nextW;
+        canvas.height = nextH;
+        canvas.style.height = `${cssH}px`;
+      }
+      // Re-applied on every resize: setting `canvas.width` resets the context,
+      // transform included, so a transform set once at mount would be silently
+      // dropped the first time the panel changed size.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    // `clientWidth` is 0 during server rendering and in some headless panes, so
+    // `resize` falls back to the authored size rather than a zero-pixel canvas
+    // that would draw nothing and report no error.
+    const observer =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => resize());
+    observer?.observe(canvas);
 
     // Start on the TypeScript engine SYNCHRONOUSLY, then upgrade to WASM if it
     // arrives. Acquiring the WASM module is async, and making the first frame
@@ -86,121 +141,32 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
       // this path whenever WASM is unavailable, the "graceful degradation"
       // rendered a visibly different simulation with nothing to say so.
       if (!isPaused) {
-        engine.step(dt, mediumC, hWm2K, radiantK);
+        engine.step(dt, regime, mediumC, hWm2K, radiantK);
       }
       const particles = engine.view();
 
-      // Clear Canvas
-      const { width, height } = canvas;
-      ctx.clearRect(0, 0, width, height);
+      // Everything the frame draws lives in `methodSceneRenderer`, keyed on the
+      // method's own regime. This used to be ~150 lines of one hardcoded oven —
+      // a top element, buoyant tracers and a seared slab — painted identically
+      // for a boil, a bath, a broiler and a bath of liquid nitrogen.
+      drawScene(ctx, sceneW, sceneH, scene, particles, now);
 
-      // Background Oven Chamber Gradient
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
-      bgGrad.addColorStop(0, "#1e130c");
-      bgGrad.addColorStop(0.5, "#0d0a08");
-      bgGrad.addColorStop(1, "#18100a");
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Render Top Radiant Heating Element (Stefan-Boltzmann Rays)
-      const rayCount = 12;
-      ctx.lineWidth = 1.5;
-      for (let r = 0; r < rayCount; r++) {
-        const rx = (width / (rayCount + 1)) * (r + 1);
-        const intensity = Math.sin(now * 0.003 + r) * 0.2 + 0.8;
-        const grad = ctx.createLinearGradient(rx, 15, rx, height * 0.4);
-        grad.addColorStop(0, `rgba(245, 158, 11, ${0.7 * intensity})`);
-        grad.addColorStop(1, "rgba(245, 158, 11, 0.0)");
-        ctx.strokeStyle = grad;
-        ctx.beginPath();
-        ctx.moveTo(rx, 15);
-        ctx.lineTo(rx + Math.sin(r) * 15, height * 0.4);
-        ctx.stroke();
-      }
-
-      // Render Oven Top Heating Rod
-      ctx.fillStyle = "#f59e0b";
-      ctx.shadowColor = "#f59e0b";
-      ctx.shadowBlur = 12;
-      ctx.fillRect(20, 10, width - 40, 5);
-      ctx.shadowBlur = 0;
-
-      // Render 3D Convection Particles, read straight out of the engine's
-      // buffer. For the WASM engine that buffer IS linear memory — no copy,
-      // no serialisation, no per-frame allocation.
-      if (particles) {
-        for (let o = 0; o + FLOATS_PER_PARTICLE <= particles.length; o += FLOATS_PER_PARTICLE) {
-          const x = particles[o];
-          const y = particles[o + 1];
-          const z = particles[o + 2];
-          const tempC = particles[o + 6];
-
-          // Perspective projection
-          const scale = 0.8 + z * 0.3;
-          const px = width / 2 + x * (width * 0.35) * scale;
-          const py = height - y * (height * 0.65) - 30;
-
-          const radius = Math.max(2, 3.5 * scale);
-          const tempRatio = Math.min(1, Math.max(0, (tempC - 20) / 200));
-
-          const red = Math.floor(100 + tempRatio * 155);
-          const blue = Math.floor(255 - tempRatio * 200);
-
-          ctx.fillStyle = `rgba(${red}, 130, ${blue}, ${0.6 * scale})`;
-          ctx.beginPath();
-          ctx.arc(px, py, radius, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      // Render Central Food Slab Core Conduction Profile (Slab Transient)
-      const slabW = width * 0.4;
-      const slabH = 24;
-      const slabX = (width - slabW) / 2;
-      const slabY = height * 0.58;
-
-      // Slab outer crust vs core gradient
-      const slabGrad = ctx.createRadialGradient(
-        slabX + slabW / 2,
-        slabY + slabH / 2,
-        2,
-        slabX + slabW / 2,
-        slabY + slabH / 2,
-        slabW / 2,
-      );
-      slabGrad.addColorStop(0, "#e11d48"); // 5 °C core (pink/red)
-      slabGrad.addColorStop(0.6, "#b91c1c"); // 60 °C doneness
-      slabGrad.addColorStop(1, "#d97706"); // 140 °C crust (seared brown)
-
-      ctx.fillStyle = slabGrad;
-      ctx.beginPath();
-      ctx.roundRect(slabX, slabY, slabW, slabH, 6);
-      ctx.fill();
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-      ctx.font = "9px monospace";
-      ctx.textAlign = "center";
-      ctx.fillText("SLAB CORE (Biot / Fourier Conduction)", width / 2, slabY + slabH + 12);
-
-      // Render Statistical Z-Score Overlay (-3σ to +3σ distribution boundary).
+      // Statistical Z-Score Overlay (-3sigma to +3sigma distribution boundary).
       // Only when there is a real z: drawing the median axis with a marker for
       // a method that has nothing to standardise would place a "typical" dot
       // on an axis the method is not on.
       if (z !== null) {
-        const zBoxY = height - 26;
-        const zBoxW = width - 40;
+        const zBoxY = sceneH - 26;
+        const zBoxW = sceneW - 40;
         const zBoxX = 20;
 
         ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(zBoxX, zBoxY);
         ctx.lineTo(zBoxX + zBoxW, zBoxY);
         ctx.stroke();
 
-        // Median tick
         const medX = zBoxX + zBoxW / 2;
         ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
         ctx.beginPath();
@@ -208,7 +174,6 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
         ctx.lineTo(medX, zBoxY + 4);
         ctx.stroke();
 
-        // Clamped Z marker
         const clampedZ = Math.max(-3, Math.min(3, z));
         const markerPct = (clampedZ + 3) / 6;
         const markerX = zBoxX + markerPct * zBoxW;
@@ -221,11 +186,11 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
         ctx.font = "9px sans-serif";
         ctx.fillStyle = "rgba(156, 163, 175, 0.9)";
         ctx.textAlign = "left";
-        ctx.fillText("-3σ", zBoxX, zBoxY + 12);
+        ctx.fillText("-3\u03c3", zBoxX, zBoxY + 12);
         ctx.textAlign = "center";
         ctx.fillText("Median (z=0)", medX, zBoxY + 12);
         ctx.textAlign = "right";
-        ctx.fillText("+3σ", zBoxX + zBoxW, zBoxY + 12);
+        ctx.fillText("+3\u03c3", zBoxX + zBoxW, zBoxY + 12);
       }
 
       animId = requestAnimationFrame(render);
@@ -270,27 +235,42 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
 
     return () => {
       disposed = true;
+      observer?.disconnect();
       cancelAnimationFrame(animId);
       engine.dispose();
     };
-  }, [mediumC, hWm2K, radiantK, z, isPaused]);
+    // `scene` is rebuilt each render from `metrics`, so it cannot be a dep
+    // without re-arming the loop every frame. Its CONTENTS are the deps: every
+    // field of it is derived from these five values plus `metrics.physics`,
+    // which only changes when the method does — and the method changing changes
+    // `regime` too.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [regime, mediumC, hWm2K, radiantK, z, isPaused]);
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-amber-400/20 bg-black/40 p-4 shadow-lg">
       <div className="mb-2 flex items-center justify-between">
         <div>
+          {/* The heading names the SCENE, not the file. A panel titled "3D
+              Thermal Physics Simulation Loop" said the same thing over a boil,
+              a broiler and a bath of liquid nitrogen — which was accurate about
+              the code and useless about the method. */}
           <h5 className="text-xs font-bold uppercase tracking-wider text-amber-300">
-            3D Thermal Physics Simulation Loop
+            {theme.title}
           </h5>
+          <p className="text-[11px] text-gray-400">{theme.flow}</p>
           {decorative ? (
-            <p className="text-[11px] text-gray-400">
-              Illustrative motion only — animation parameters borrowed from the
-              roasting profile. This method has no heat-transfer coefficient of
-              its own; the panel below says why.
+            <p className="mt-1 text-[11px] text-gray-500">
+              No heat-transfer coefficient of its own — so this scene shows the
+              mass transfer that actually paces the method, and no temperature.
+              The panel below says why.
             </p>
           ) : (
-            <p className="text-[11px] text-gray-400">
-              Convection (h = {hWm2K} W·m⁻²·K⁻¹) · Radiation ({radiantK} K) · Transient Conduction
+            <p className="mt-1 text-[11px] text-gray-500">
+              h = {hWm2K} W·m⁻²·K⁻¹ · medium {mediumC} °C
+              {metrics.physics.radiantSourceK === undefined
+                ? null
+                : ` · radiant source ${radiantK} K`}
             </p>
           )}
         </div>

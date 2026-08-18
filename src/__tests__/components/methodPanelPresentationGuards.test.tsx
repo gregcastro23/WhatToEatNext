@@ -96,7 +96,21 @@ describe("absence renders a stated reason and never a number", () => {
     // legend, which once presented its borrowed roasting-profile h as this
     // method's own.
     expect(container.textContent).not.toContain("W·m⁻²·K⁻¹");
-    expect(container.textContent).toContain("Illustrative motion only");
+    // This once read "Illustrative motion only — animation parameters borrowed
+    // from the roasting profile", which was an honest caption on a dishonest
+    // picture: the panel really was running a roast's buoyancy and a roast's
+    // `h` behind that sentence, and saying so in small text does not make a
+    // fermentation crock circulate like an oven.
+    //
+    // `[MEASURED 2026-08-17]` The scene no longer borrows anything. A method
+    // with no coefficient runs `HeatRegime.Diffusion`, whose `coolingSign` is
+    // zero, so the borrowed default drives no temperature and no buoyancy — it
+    // shows the mass transfer that actually paces the method. The guarantee
+    // asserted here is therefore stronger than the caption it replaced.
+    expect(container.textContent).toContain("No heat-transfer coefficient of its own");
+    expect(container.textContent).toContain("solute crossing a boundary");
+    // And nothing anywhere claims the method is being heated.
+    expect(container.textContent).not.toContain("Heat into the food");
   });
 
   it("no transfer coefficient means no z-score claim — not z = +0.00", () => {
