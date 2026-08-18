@@ -356,7 +356,17 @@ export function solveArrangement(input: SolverInput): SolverResult {
       : missing(`core time needs the food's properties, which are unavailable`);
 
   // ── Water loss ───────────────────────────────────────────────────────────
-  const waterLoss = attempt<WaterLossReading>(() => {
+  // Guarded on the same `h` as the rest. Without it the arithmetic still runs
+  // and returns a clean `0 g·h⁻¹` — the surface sits at ambient, the driving
+  // force vanishes, and the answer is a computed zero to a question nobody
+  // asked. Pickling's mass transfer is diffusion into brine, not evaporation
+  // into air, and a confident nought is the worst way to say so.
+  const waterLoss: Reading<WaterLossReading> = !hTyped
+    ? missing(
+        `${input.methodId} is ${method.rateLimiter}-limited: its mass transfer is not ` +
+          `evaporation into air, so a free-surface water loss is not the question it answers`,
+      )
+    : attempt<WaterLossReading>(() => {
     const surfaceC = Math.min(ceiling.celsius, method.mediumC);
     const water = saturatedWaterProperties(Math.min(100, Math.max(6.85, surfaceC)));
     const areaM2 = vessel ? vessel.rimAreaM2 : 1 / surfaceAreaToVolumePerM;
@@ -409,7 +419,7 @@ export function solveArrangement(input: SolverInput): SolverResult {
         returnFraction: covered.returnFraction,
       },
     };
-  }, "water loss");
+      }, "water loss");
 
   // ── Surface state ────────────────────────────────────────────────────────
   const surfaceState: Reading<SurfaceStateReading> = !hTyped

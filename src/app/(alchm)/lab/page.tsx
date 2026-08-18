@@ -24,6 +24,8 @@ import {
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
 import { getAssetUrl } from "@/utils/urlUtils";
+import { SolverPanel } from "./_solver/SolverPanel";
+import "./_solver/solver.css";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
 // floating-point values between server and client, tripping hydration warnings.
@@ -359,7 +361,16 @@ function useHealthTelemetry(): PipelineService[] {
 
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 
+/**
+ * Tabs on `/lab`, mirroring the `/cooking-methods` Physics/Reactions/Conditions
+ * split. Ruling 7 was explicit that this is a tab and not a new route: the
+ * thermal solver belongs to the lab, and splitting it off would have made it a
+ * second destination competing with the one it extends.
+ */
+type LabTab = "dashboard" | "solver";
+
 export default function LaboratoryDashboardPage(): JSX.Element {
+  const [tab, setTab] = useState<LabTab>("dashboard");
   const { currentUser } = useUser();
   const alch = useAlchemicalSafe();
   const services = useHealthTelemetry();
@@ -405,7 +416,7 @@ export default function LaboratoryDashboardPage(): JSX.Element {
     </>
   );
 
-  return (
+  const dashboard = (
     <div
       style={{
         display: "grid",
@@ -738,5 +749,56 @@ export default function LaboratoryDashboardPage(): JSX.Element {
         )}
       </aside>
     </div>
+  );
+
+  return (
+    <>
+      <nav className="alchm-lab-tabs" aria-label="lab sections">
+        {(
+          [
+            ["dashboard", "Dashboard"],
+            ["solver", "Thermal solver"],
+          ] as Array<[LabTab, string]>
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => setTab(id)}
+            aria-current={tab === id ? "page" : undefined}
+            className={tab === id ? "is-active" : undefined}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+      <style>{`
+        .alchm-lab-tabs {
+          display: flex;
+          gap: 2px;
+          border-bottom: 1px solid var(--line);
+          padding: 0 22px;
+          background: var(--bg);
+        }
+        .alchm-lab-tabs button {
+          appearance: none;
+          background: none;
+          border: 0;
+          border-bottom: 2px solid transparent;
+          padding: 12px 14px;
+          font: inherit;
+          font-size: 11px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--fg-mute);
+          cursor: pointer;
+        }
+        .alchm-lab-tabs button.is-active {
+          color: var(--accent);
+          border-bottom-color: var(--accent);
+        }
+        .alchm-lab-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+      `}</style>
+      {tab === "dashboard" ? dashboard : <SolverPanel />}
+    </>
   );
 }

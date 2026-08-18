@@ -75,6 +75,11 @@ describe("refusals arrive as reasons, never as numbers", () => {
     expect(s.coreTime.available).toBe(false);
     expect(s.bottleneck.available).toBe(false);
     expect(s.surfaceState.available).toBe(false);
+    // Water loss too. Without this guard the arithmetic still runs and returns
+    // a clean `0 g/h` — the surface sits at ambient and the driving force
+    // vanishes — which is a confident nought answering a question nobody asked.
+    expect(s.waterLoss.available).toBe(false);
+    if (!s.waterLoss.available) expect(s.waterLoss.reason).toMatch(/not the question/);
     if (!s.coreTime.available) {
       expect(s.coreTime.reason).toMatch(/pickling/);
       expect(s.coreTime.reason).toMatch(/mass-transfer/);
