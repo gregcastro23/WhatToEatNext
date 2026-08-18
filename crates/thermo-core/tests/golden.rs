@@ -165,18 +165,48 @@ fn conditioned_ulp_budget(geometry: FoodGeometry, biot: f64, lambda: f64) -> u64
     (budget.ceil() as u64).max(SLAB_MAX_ULP)
 }
 
-/// ULP budget for A₁, which inherits λ₁'s uncertainty and nothing else.
+/// ULP budget for A₁, which carries λ₁'s uncertainty *and* one of its own.
 ///
-/// Rather than differentiate each geometry's coefficient by hand, this carries
-/// λ₁'s own interval through the very function under test and measures how far
-/// A₁ moves. A₁ is therefore held exactly as tightly as λ₁ permits — no looser.
+/// The inherited term is the obvious one: λ₁ is known only to `lambda_budget`,
+/// so A₁ is known only to whatever that interval maps to. Rather than
+/// differentiate each geometry's coefficient by hand, this carries λ₁'s
+/// interval through the very function under test.
+///
+/// ⚠️ THE INHERITED TERM ALONE IS NOT ENOUGH. The sphere's coefficient is
+/// 4(sin λ − λ cos λ)/(2λ − sin 2λ), which at small λ is 0/0: numerator and
+/// denominator each cancel to O(λ³) out of terms of O(λ). That is a rounding
+/// noise belonging to A₁ itself, and perturbing λ₁ does not reveal any of it —
+/// both endpoints of the interval are evaluated by the same cancelling
+/// expression, so the difference between them says nothing about the error
+/// common to both.
+///
+/// `[MEASURED 2026-08-18]` Propagating λ₁ alone put A₁(sphere, Bi = 0.01) at
+/// the floor of 8, and linux measured 110 ULPs. The inherited term was not
+/// merely too tight — it was the wrong term. With the direct term the bound is
+/// 302 there, and the observed 110 sits inside it.
+///
+/// The slab's 4 sin λ/(2λ + sin 2λ) and the cylinder's (2/λ)J₁/(J₀² + J₁²)
+/// both tend to O(1) over O(1) as λ → 0 — a sum where the sphere has a
+/// difference — so neither carries a direct term and both keep the floor.
 fn coefficient_ulp_budget(geometry: FoodGeometry, lambda: f64, lambda_budget: u64, a1: f64) -> u64 {
     if lambda == 0.0 || a1 == 0.0 {
         return SLAB_MAX_ULP;
     }
     let edge = lambda + lambda_budget as f64 * ulp_of(lambda);
-    let spread = (geometry_coefficient(geometry, edge) - a1).abs();
-    let budget = spread / ulp_of(a1);
+    let inherited = (geometry_coefficient(geometry, edge) - a1).abs();
+    let direct = match geometry {
+        FoodGeometry::Slab | FoodGeometry::Cylinder => 0.0,
+        FoodGeometry::Sphere => {
+            let two = 2.0 * lambda;
+            let numer = (lambda.sin() - lambda * lambda.cos()).abs();
+            let denom = (two - two.sin()).abs();
+            let noise_n =
+                LIBM_ULPS * f64::EPSILON * lambda.sin().abs().max((lambda * lambda.cos()).abs());
+            let noise_d = LIBM_ULPS * f64::EPSILON * two.abs().max(two.sin().abs());
+            a1.abs() * (noise_n / numer + noise_d / denom)
+        }
+    };
+    let budget = (inherited + direct) / ulp_of(a1);
     if !budget.is_finite() {
         return SLAB_MAX_ULP;
     }
