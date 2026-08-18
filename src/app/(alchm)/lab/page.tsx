@@ -24,7 +24,10 @@ import {
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
 import { getAssetUrl } from "@/utils/urlUtils";
+import { BoundariesPanel } from "./_solver/BoundariesPanel";
+import { ComparisonPanel } from "./_solver/ComparisonPanel";
 import { SolverPanel } from "./_solver/SolverPanel";
+import { VolumetricsPanel } from "./_solver/VolumetricsPanel";
 import "./_solver/solver.css";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
@@ -268,7 +271,7 @@ const SAUCE_VIEWBOX = { width: 320, height: 200 };
 
 function layoutLineage(payload: SauceLineagePayload): SauceLineageView {
   const { width, height } = SAUCE_VIEWBOX;
-  const rootNode = payload.nodes.find((n) => n.depth === 0) ?? payload.nodes[0];
+  const rootNode = payload.nodes.find((n) => n.depth === 0) ?? payload.nodes.at(0);
   const variants = payload.nodes.filter((n) => n.id !== rootNode?.id);
   const cx = width / 2;
   const rootY = 44;
@@ -367,7 +370,7 @@ function useHealthTelemetry(): PipelineService[] {
  * thermal solver belongs to the lab, and splitting it off would have made it a
  * second destination competing with the one it extends.
  */
-type LabTab = "dashboard" | "solver";
+type LabTab = "dashboard" | "solver" | "compare" | "boundaries" | "volumetrics";
 
 export default function LaboratoryDashboardPage(): JSX.Element {
   const [tab, setTab] = useState<LabTab>("dashboard");
@@ -758,6 +761,9 @@ export default function LaboratoryDashboardPage(): JSX.Element {
           [
             ["dashboard", "Dashboard"],
             ["solver", "Thermal solver"],
+            ["compare", "Compare"],
+            ["boundaries", "Boundaries"],
+            ["volumetrics", "Volumetrics"],
           ] as Array<[LabTab, string]>
         ).map(([id, label]) => (
           <button
@@ -798,7 +804,11 @@ export default function LaboratoryDashboardPage(): JSX.Element {
         }
         .alchm-lab-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
       `}</style>
-      {tab === "dashboard" ? dashboard : <SolverPanel />}
+      {tab === "dashboard" ? dashboard : null}
+      {tab === "solver" ? <SolverPanel /> : null}
+      {tab === "compare" ? <ComparisonPanel /> : null}
+      {tab === "boundaries" ? <BoundariesPanel /> : null}
+      {tab === "volumetrics" ? <VolumetricsPanel /> : null}
     </>
   );
 }

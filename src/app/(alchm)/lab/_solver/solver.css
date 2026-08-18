@@ -254,3 +254,121 @@
 @media (max-width: 640px) {
   .ma-chain__row { overflow-x: auto; }
 }
+
+/* ── Boundaries & Volumetrics ────────────────────────────────────────────── */
+
+/* Both reference tabs are read-only, so the rail is not narrower than the results. */
+.ma-boundaries { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 1100px) { .ma-boundaries { grid-template-columns: minmax(0, 1fr); } }
+
+/* Wide tables scroll inside their own box; the page body never scrolls sideways. */
+.ma-scroll { overflow-x: auto; margin-top: 12px; }
+.ma-scroll--tall { max-height: 420px; overflow-y: auto; }
+
+.ma-table { border-collapse: collapse; width: 100%; font-size: 12px; white-space: nowrap; }
+.ma-table :is(th, td) {
+  padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--ma-line);
+  font-family: ui-monospace, "JetBrains Mono", monospace; font-variant-numeric: tabular-nums;
+}
+.ma-table th {
+  position: sticky; top: 0; z-index: 1; background: var(--ma-surface);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ma-outline); white-space: normal;
+}
+.ma-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+.ma-quiet { color: var(--ma-outline); }
+
+/*
+ * Derived columns read lighter than stored ones, because the distinction is the
+ * point of the table: the stored four are transcribed and can be mistyped; the
+ * rest are computed from them and cannot disagree without revealing it.
+ */
+.ma-derived-head { color: #6d7f80; font-style: italic; }
+.ma-derived-cell { color: #8fb6b8; }
+
+.ma-closure { margin: 10px 0 0; font-size: 11px; color: var(--ma-outline); }
+.ma-closure strong { color: var(--ma-measured); }
+
+.ma-table tr.is-understated td { color: var(--ma-ember); }
+.ma-table em { font-style: normal; font-size: 10px; color: var(--ma-outline); }
+
+/* ── Proportion bars ─────────────────────────────────────────────────────── */
+
+.ma-coverage-bar {
+  display: flex; height: 14px; margin-top: 12px;
+  border: 1px solid var(--ma-line); border-radius: 2px; overflow: hidden;
+}
+.ma-coverage-bar .is-measured { background: var(--ma-measured); }
+.ma-coverage-bar .is-approximated { flex: 1; background: repeating-linear-gradient(45deg, #23252f, #23252f 3px, #1b1d25 3px, #1b1d25 6px); }
+.ma-coverage-bar .is-void { flex: 1; background: repeating-linear-gradient(45deg, #23252f, #23252f 3px, #1b1d25 3px, #1b1d25 6px); }
+
+.ma-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 8px 0 0; padding: 0; list-style: none; font-size: 11px; color: var(--ma-outline); }
+.ma-legend li { display: flex; align-items: center; gap: 6px; }
+.ma-legend__key { width: 10px; height: 10px; display: inline-block; border: 1px solid var(--ma-line); }
+.ma-legend__key--measured { background: var(--ma-measured); }
+.ma-legend__key--approx { background: #23252f; }
+.ma-legend__key--etched { background: var(--ma-fg); }
+.ma-legend__key--scored { background: var(--ma-accent); }
+
+/* ── Basis chips: measured and approximated must not look alike ──────────── */
+
+.ma-basis-chip {
+  display: block; margin: 10px 0 0; padding: 8px 10px;
+  border: 1px solid var(--ma-line); border-radius: 3px;
+  font-family: ui-monospace, monospace; font-size: 11px;
+}
+.ma-basis-chip.is-measured { border-color: var(--ma-measured); color: var(--ma-measured); }
+.ma-basis-chip.is-approximated {
+  border-style: dashed; color: var(--ma-outline);
+  background: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.02) 5px, rgba(255,255,255,0.02) 10px);
+}
+.ma-basis-chip em { display: block; margin-top: 4px; font-style: normal; font-size: 10px; }
+
+/* ── Boiling chart ───────────────────────────────────────────────────────── */
+
+.ma-chart { width: 100%; min-width: 460px; height: auto; }
+.ma-chart__grid { stroke: var(--ma-line); stroke-width: 1; stroke-dasharray: 2 3; }
+.ma-chart__tick, .ma-chart__axis { fill: var(--ma-outline); font-size: 10px; font-family: ui-monospace, monospace; }
+.ma-chart__curve { fill: none; stroke: var(--ma-fg); stroke-width: 1.6; }
+.ma-chart__curve--scored { stroke: var(--ma-accent); }
+/* ONE critical heat flux, so one line. A scored surface meets it at a lower
+   excess temperature — not at a different flux. */
+.ma-chart__chf { stroke: var(--ma-ember); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.ma-chart__chf-label { fill: var(--ma-ember); font-size: 10px; font-family: ui-monospace, monospace; }
+.ma-chart__stop { fill: var(--ma-ember); }
+
+/* ── Comparison tab ──────────────────────────────────────────────────────── */
+
+.ma-compare { grid-template-columns: minmax(0, 1fr); }
+.ma-compare__head { max-width: 70ch; }
+.ma-compare__head h2 {
+  margin: 0 0 8px; font-size: 22px; font-weight: 600; color: var(--ma-fg); letter-spacing: -0.01em;
+}
+.ma-compare__head .ma-note { margin-top: 0; font-size: 13px; }
+
+.ma-compare__grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;
+}
+.ma-compare__count {
+  margin: -6px 0 0; font-family: ui-monospace, monospace; font-size: 11px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline);
+}
+
+.ma-compare__strip { margin-top: 4px; }
+.ma-compare__bars { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.ma-compare__bar { display: grid; grid-template-columns: minmax(120px, 1fr) 3fr minmax(110px, auto); gap: 12px; align-items: center; }
+.ma-compare__bar-label { font-size: 12px; color: var(--ma-outline); }
+.ma-compare__bar-track {
+  display: block; height: 12px; border: 1px solid var(--ma-line);
+  border-radius: 2px; background: var(--ma-bg); overflow: hidden;
+}
+.ma-compare__bar-track > span { display: block; height: 100%; background: #2b3a3c; }
+.ma-compare__bar-track > span.is-accent { background: var(--ma-accent); }
+.ma-compare__bar-value {
+  font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums;
+  font-size: 12px; text-align: right; color: var(--ma-fg);
+}
+@media (max-width: 640px) {
+  .ma-compare__bar { grid-template-columns: 1fr; gap: 4px; }
+  .ma-compare__bar-value { text-align: left; }
+}
