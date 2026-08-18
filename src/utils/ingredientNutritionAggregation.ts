@@ -59,6 +59,12 @@ export function parseServingSizeGrams(
 
 interface IngredientLike {
   nutritionalProfile?: unknown;
+  /**
+   * Used to resolve a volume unit against USDA's MEASURED household weights.
+   * Optional because not every caller has it — without it, a volume unit falls
+   * back to the water approximation, which is frequently wrong by several fold.
+   */
+  name?: string;
 }
 
 interface NutritionalMacros {
@@ -308,7 +314,8 @@ export function computeIngredientNutrition(
     parseServingSizeGrams(profile.serving_size) ?? DEFAULT_SERVING_GRAMS;
 
   const recipeGrams =
-    convertToGrams(amount, unit) ?? amount * (UNIT_CONVERSIONS["each"] ?? 50);
+    convertToGrams(amount, unit, ingredient.name) ??
+    amount * (UNIT_CONVERSIONS["each"] ?? 50);
   if (!Number.isFinite(recipeGrams) || recipeGrams <= 0) return null;
 
   const factor = recipeGrams / servingGrams;

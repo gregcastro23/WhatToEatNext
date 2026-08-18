@@ -8,7 +8,7 @@ import type {
   QuantityScaledProperties,
   ThermodynamicMetrics,
 } from "@/types/alchemy";
-import { UNIT_CONVERSIONS } from "./unitConversion";
+import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
 
 // Re-export for backwards compatibility with any consumers that imported
 // UNIT_CONVERSIONS directly from this module.
@@ -25,10 +25,13 @@ export function calculateQuantityFactor(
   amount: number,
   unit: string,
   _baseUnit = "g",
+  ingredientName?: string,
 ): number {
-  // Convert to base unit (grams)
-  const conversionFactor = UNIT_CONVERSIONS[unit.toLowerCase()] || 1;
-  const grams = amount * conversionFactor;
+  // Convert to base unit (grams). Passing the ingredient name lets a volume
+  // unit resolve against USDA's MEASURED household weights instead of the
+  // water approximation — the difference reaches 15x for leafy things, and
+  // this factor is what weights the ingredient's elemental contribution.
+  const grams = convertToGrams(amount, unit, ingredientName) ?? amount;
 
   // Apply logarithmic scaling with diminishing returns
   // Factor ranges from ~0.1 (very small amounts) to ~2.0 (large amounts)

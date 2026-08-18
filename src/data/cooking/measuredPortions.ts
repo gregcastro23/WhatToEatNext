@@ -38,6 +38,15 @@ export interface MeasuredPortion {
   retrieved: string;
   /** Grams per ONE of each measure. Absent means USDA published none. */
   gramsPer: Partial<Record<VolumeMeasure, number>>;
+  /**
+   * The preparation USDA measured, where the portion was qualified —
+   * "chopped", "ground", "shredded". Present only for a qualified measure; an
+   * unqualified one always wins over a qualified one for the same measure.
+   *
+   * It matters: a cup of CHOPPED onion and a cup of whole onion are different
+   * masses, and the reader deserves to know which was weighed.
+   */
+  measuredAs?: Partial<Record<VolumeMeasure, string>>;
 }
 
 export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
@@ -49,11 +58,27 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     gramsPer: { cup: 125 },
   },
   {
+    ingredient: "Bay Leaf",
+    fdcId: 170917,
+    fdcDescription: "Spices, bay leaf",
+    retrieved: "2026-08-18",
+    gramsPer: { tbsp: 1.8, tsp: 0.6 },
+    measuredAs: { tbsp: "crumbled", tsp: "crumbled" },
+  },
+  {
     ingredient: "Butter",
     fdcId: 173430,
     fdcDescription: "Butter, without salt",
     retrieved: "2026-08-18",
     gramsPer: { tbsp: 14.2, cup: 227 },
+  },
+  {
+    ingredient: "Chicken",
+    fdcId: 171477,
+    fdcDescription: "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 140 },
+    measuredAs: { cup: "chopped or diced" },
   },
   {
     ingredient: "Cilantro",
@@ -84,6 +109,14 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     gramsPer: { cup: 218, tsp: 4.5, tbsp: 13.6 },
   },
   {
+    ingredient: "Cumin",
+    fdcId: 170923,
+    fdcDescription: "Spices, cumin seed",
+    retrieved: "2026-08-18",
+    gramsPer: { tsp: 2.1, tbsp: 6 },
+    measuredAs: { tsp: "whole", tbsp: "whole" },
+  },
+  {
     ingredient: "Garlic",
     fdcId: 169230,
     fdcDescription: "Garlic, raw",
@@ -102,7 +135,8 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcId: 170859,
     fdcDescription: "Cream, fluid, heavy whipping",
     retrieved: "2026-08-18",
-    gramsPer: { tbsp: 15 },
+    gramsPer: { cup: 120, tbsp: 15 },
+    measuredAs: { cup: "whipped" },
   },
   {
     ingredient: "Lemon Juice",
@@ -147,6 +181,14 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     gramsPer: { tbsp: 13.5, tsp: 4.5, cup: 216 },
   },
   {
+    ingredient: "Onion",
+    fdcId: 170000,
+    fdcDescription: "Onions, raw",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 160 },
+    measuredAs: { cup: "chopped" },
+  },
+  {
     ingredient: "Parsley",
     fdcId: 170416,
     fdcDescription: "Parsley, fresh",
@@ -154,11 +196,35 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     gramsPer: { tbsp: 3.8 },
   },
   {
+    ingredient: "Pepper",
+    fdcId: 170931,
+    fdcDescription: "Spices, pepper, black",
+    retrieved: "2026-08-18",
+    gramsPer: { tbsp: 6.9, tsp: 2.3 },
+    measuredAs: { tbsp: "ground", tsp: "ground" },
+  },
+  {
+    ingredient: "Potato",
+    fdcId: 170026,
+    fdcDescription: "Potatoes, flesh and skin, raw",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 150 },
+    measuredAs: { cup: "diced" },
+  },
+  {
     ingredient: "Salt",
     fdcId: 173468,
     fdcDescription: "Salt, table",
     retrieved: "2026-08-18",
     gramsPer: { cup: 292, tsp: 6, tbsp: 18 },
+  },
+  {
+    ingredient: "Scallion",
+    fdcId: 170005,
+    fdcDescription: "Onions, spring or scallions (includes tops and bulb), raw",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 100 },
+    measuredAs: { cup: "chopped" },
   },
   {
     ingredient: "Sesame Oil",
@@ -196,6 +262,14 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     gramsPer: { tsp: 0.8 },
   },
   {
+    ingredient: "Tomato",
+    fdcId: 170457,
+    fdcDescription: "Tomatoes, red, ripe, raw, year round average",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 180 },
+    measuredAs: { cup: "chopped or sliced" },
+  },
+  {
     ingredient: "Tomato Paste",
     fdcId: 170459,
     fdcDescription: "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
@@ -222,6 +296,14 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcDescription: "Oil, soybean, salad or cooking",
     retrieved: "2026-08-18",
     gramsPer: { tbsp: 13.6, tsp: 4.5, cup: 218 },
+  },
+  {
+    ingredient: "Walnuts",
+    fdcId: 170187,
+    fdcDescription: "Nuts, walnuts, english",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 80 },
+    measuredAs: { cup: "ground" },
   },
   {
     ingredient: "Water",
