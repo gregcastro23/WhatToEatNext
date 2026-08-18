@@ -77,6 +77,58 @@ export interface CookingMethod {
   description: string;
 }
 
+/**
+ * How a {@link WaterContent} figure was established.
+ *
+ * `usda-fdc`      a specific FoodData Central record, identified by `fdcId`.
+ * `class-typical` a representative figure for the food class, NOT this
+ *                 ingredient. Honest about being an inheritance, not a lookup.
+ * `derived`       computed from other fields on this profile rather than read
+ *                 from a source. Carries the largest error and says so.
+ */
+export type WaterContentBasis = "usda-fdc" | "class-typical" | "derived";
+
+/**
+ * Water content of the edible portion, as a MASS FRACTION.
+ *
+ * ⚠️ A FRACTION IN [0, 1], NOT GRAMS — and deliberately not inside `macros`.
+ * Every number in `macros` is grams per the free-text `serving_size` ("1 medium
+ * (58g)"), so a `water: 0.883` sitting beside `protein: 0.6` would read as
+ * 0.883 GRAMS of water in a 58 g lime. Being off by two orders of magnitude in
+ * the one direction that still looks plausible is exactly the defect this
+ * separation exists to prevent. The name says `fraction`, the type says
+ * `fraction`, and nothing in this object is denominated in the serving.
+ *
+ * ── Why a fraction rather than grams ────────────────────────────────────────
+ *
+ * The consumers are composition correlations — Choi & Okos (1986) for specific
+ * heat, conductivity and density, and latent heat, which is essentially a
+ * water-content quantity. All of them take mass fractions. Storing grams would
+ * mean re-deriving the fraction from `serving_size`, which is free text that
+ * can be edited without anyone noticing the water figure silently changed
+ * meaning.
+ *
+ * ── Provenance is part of the value ─────────────────────────────────────────
+ *
+ * A water fraction with no stated source is a guess with a decimal point. Every
+ * entry carries how it was established; `usda-fdc` entries carry the `fdcId`
+ * that reproduces them. Regenerate with `bun run fetch:water-content`.
+ */
+export interface WaterContent {
+  /** Mass fraction of water in the edible portion, 0–1. */
+  fraction: number;
+  /** How this figure was established. See {@link WaterContentBasis}. */
+  basis: WaterContentBasis;
+  /** FoodData Central id. Present, and only present, when `basis` is `usda-fdc`. */
+  fdcId?: number;
+  /** The FDC record's own description, so a mismatched match is visible. */
+  fdcDescription?: string;
+  /** ISO date the source was read. FDC revises records. */
+  retrieved?: string;
+  /** Anything a reader needs in order not to misuse the figure. */
+  note?: string;
+}
+
 // Canonical nutritional profile (aligned to USDA FoodData Central serving format).
 // Optional fields are genuinely optional per ingredient category — e.g. salts have no macros.
 export interface NutritionalProfile {
@@ -93,6 +145,14 @@ export interface NutritionalProfile {
     potassium?: number;
     cholesterol?: number;
   };
+  /**
+   * Water content as a mass fraction, with its basis. See {@link WaterContent}.
+   *
+   * Absent means UNKNOWN, never zero — a missing figure and a genuinely
+   * anhydrous ingredient are different claims, and only one of them is safe to
+   * feed a latent-heat calculation.
+   */
+  waterContent?: WaterContent;
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
   source?: string;

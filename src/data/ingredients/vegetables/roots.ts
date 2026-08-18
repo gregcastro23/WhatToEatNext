@@ -116,6 +116,13 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.5, Water: 0.25, Fire: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.883,
+        basis: "usda-fdc",
+        fdcId: 170393,
+        fdcDescription: "Carrots, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (61g)",
       calories: 25,
       macros: {

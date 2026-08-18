@@ -1073,6 +1073,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.162,
+        basis: "usda-fdc",
+        fdcId: 173430,
+        fdcDescription: "Butter, without salt",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 102,
       macros: {

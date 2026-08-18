@@ -398,6 +398,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0002,
+        basis: "usda-fdc",
+        fdcId: 746784,
+        fdcDescription: "Sugars, granulated",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (4g)",
       calories: 16,
       macros: { protein: 0, carbs: 4.2, fat: 0, fiber: 0, sugar: 4.2, sodium: 0 },
@@ -1453,6 +1460,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.002,
+        basis: "usda-fdc",
+        fdcId: 173468,
+        fdcDescription: "Salt, table",
+        retrieved: "2026-08-18",
+      },
       serving_size: "0.25 tsp (1.5g)",
       calories: 0,
       macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 0.25 },

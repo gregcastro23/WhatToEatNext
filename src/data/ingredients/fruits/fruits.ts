@@ -373,6 +373,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0,
+        basis: "usda-fdc",
+        fdcId: 171413,
+        fdcDescription: "Oil, olive, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 119,
       macros: {

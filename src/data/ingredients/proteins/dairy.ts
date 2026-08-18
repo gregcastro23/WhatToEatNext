@@ -1037,6 +1037,13 @@ const rawDairy = {
       ],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.162,
+        basis: "usda-fdc",
+        fdcId: 173430,
+        fdcDescription: "Butter, without salt",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 Tbsp (14g)",
       calories: 102,
       macros: { protein: 0.1, carbs: 0, fat: 11.5, fiber: 0, saturatedFat: 7.3, sugar: 0, potassium: 3, sodium: 91, cholesterol: 31 },

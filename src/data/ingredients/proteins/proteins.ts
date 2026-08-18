@@ -831,6 +831,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.762,
+        basis: "usda-fdc",
+        fdcId: 171287,
+        fdcDescription: "Egg, whole, raw, fresh",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 large (50g)",
       calories: 72,
       macros: {

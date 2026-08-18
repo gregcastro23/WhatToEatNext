@@ -17,6 +17,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ["healthy", "versatile", "rich"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0,
+        basis: "usda-fdc",
+        fdcId: 171413,
+        fdcDescription: "Oil, olive, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       calories: 119,
       fat_g: 13.5,
       saturated_fat_g: 1.9,

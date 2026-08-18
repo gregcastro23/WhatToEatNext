@@ -23,6 +23,13 @@ const rawAromatics = {
     },
     qualities: ["pungent", "savory", "sweet when cooked"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.891,
+        basis: "usda-fdc",
+        fdcId: 170000,
+        fdcDescription: "Onions, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (110g)",
       calories: 44,
       macros: {
