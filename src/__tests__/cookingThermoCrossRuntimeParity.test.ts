@@ -100,6 +100,8 @@ import {
   naturalConvectionH,
   nucleateBoilingFlux,
   saturatedWaterProperties,
+  coveredWaterLoss,
+  lidHeatBalance,
   saturationPressureKpa,
   solveBoundaryNetwork,
   vapourDensityKgM3,
@@ -152,6 +154,8 @@ interface Golden {
       foodBiot: number | null;
       links: Array<{ id: string; r: number; share: number; dropK: number }>;
     }>;
+    lid: Array<{ case: string } & Record<string, number>>;
+    coveredLoss: Array<{ holding: boolean } & Record<string, number>>;
   };
   latentHeat: {
     waterFusionJkg: number;
@@ -991,6 +995,43 @@ describe("method to regime mapping", () => {
     for (let i = 0; i < 12; i += 1) {
       const o = i * FLOATS_PER_PARTICLE;
       expect(buffer[o + 6]).toBe(before[o + 6]);
+    }
+  });
+});
+
+describe("lid balance parity", () => {
+  const bn = GOLDEN.boundaryNetwork;
+  const hfg100 = 2257e3;
+
+  it("reproduces the lid temperature, an 80-step bisection, and its heat loss", () => {
+    for (const row of bn.lid) {
+      const b = lidHeatBalance({
+        lidAreaM2: row.areaM2,
+        lidPerimeterM: row.perimeterM,
+        lidThicknessM: row.thicknessM,
+        lidKWmK: row.kWmK,
+        headspaceC: 100,
+        ambientC: row.ambientC,
+        latentHeatJkg: hfg100,
+        emissivity: 0.9,
+      });
+      expect(b.lidC).toBe(row.lidC);
+      expect(b.convectiveLossW).toBe(row.convW);
+      expect(b.radiativeLossW).toBe(row.radW);
+      expect(b.totalLossW).toBe(row.totalW);
+      expect(b.condensationCapacityKgS).toBe(row.condKgS);
+    }
+  });
+
+  it("reproduces the covered-pot water balance across the power sweep", () => {
+    const cap = bn.lid.find((r) => r.case === "dutch_26cm_enamel")!.condKgS;
+    for (const row of bn.coveredLoss) {
+      const l = coveredWaterLoss(row.powerW, cap, hfg100);
+      expect(l.steamGeneratedKgS).toBe(row.steamKgS);
+      expect(l.condensateReturnedKgS).toBe(row.returnedKgS);
+      expect(l.netLossKgS).toBe(row.netKgS);
+      expect(l.returnFraction).toBe(row.returnFraction);
+      expect(l.holding).toBe(row.holding);
     }
   });
 });

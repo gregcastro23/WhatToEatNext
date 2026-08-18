@@ -748,6 +748,54 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
         })
         .collect();
     out.push_str(&net_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    // Lid heat balance. The material sweep is the load-bearing one: metal lids
+    // must agree with each other and glass must NOT.
+    out.push_str("    \"lid\": [\n");
+    let lid_cases: [(&str, f64, f64, f64, f64, f64); 6] = [
+        ("dutch_26cm_enamel", 0.0531, 0.8168, 0.006, 40.0, 20.0),
+        ("saucepan_20cm_steel", 0.0314, 0.6283, 0.0015, 15.0, 20.0),
+        ("stockpot_24cm_steel", 0.0452, 0.7540, 0.0012, 15.0, 20.0),
+        ("glass_4mm", 0.0531, 0.8168, 0.004, 1.1, 20.0),
+        ("glass_8mm", 0.0531, 0.8168, 0.008, 1.1, 20.0),
+        ("dutch_cold_kitchen", 0.0531, 0.8168, 0.006, 40.0, 5.0),
+    ];
+    let hfg100 = saturated_water_properties(100.0).unwrap().hfg_j_kg;
+    let lid_rows: Vec<String> = lid_cases
+        .iter()
+        .map(|(name, area, perim, thick, k, amb)| {
+            let b = lid_heat_balance(*area, *perim, *thick, *k, 100.0, *amb, hfg100, 0.9).unwrap();
+            format!(
+                "      {{ \"case\": \"{}\", \"areaM2\": {}, \"perimeterM\": {}, \
+\"thicknessM\": {}, \"kWmK\": {}, \"ambientC\": {}, \"lidC\": {}, \"convW\": {}, \
+\"radW\": {}, \"totalW\": {}, \"condKgS\": {} }}",
+                name, j(*area), j(*perim), j(*thick), j(*k), j(*amb), j(b.lid_c),
+                j(b.convective_loss_w), j(b.radiative_loss_w), j(b.total_loss_w),
+                j(b.condensation_capacity_kg_s)
+            )
+        })
+        .collect();
+    out.push_str(&lid_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"coveredLoss\": [\n");
+    let cap = lid_heat_balance(0.0531, 0.8168, 0.006, 40.0, 100.0, 20.0, hfg100, 0.9)
+        .unwrap()
+        .condensation_capacity_kg_s;
+    let loss_rows: Vec<String> = [50.0_f64, 200.0, 400.0, 800.0, 1500.0, 2500.0]
+        .iter()
+        .map(|p| {
+            let l = covered_water_loss(*p, cap, hfg100).unwrap();
+            format!(
+                "      {{ \"powerW\": {}, \"steamKgS\": {}, \"returnedKgS\": {}, \
+\"netKgS\": {}, \"holding\": {}, \"returnFraction\": {} }}",
+                j(*p), j(l.steam_generated_kg_s), j(l.condensate_returned_kg_s),
+                j(l.net_loss_kg_s), l.holding, j(l.return_fraction)
+            )
+        })
+        .collect();
+    out.push_str(&loss_rows.join(",\n"));
     out.push_str("\n    ]\n  }\n}\n");
 
     print!("{out}");

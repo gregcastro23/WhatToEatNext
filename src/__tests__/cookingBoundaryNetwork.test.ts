@@ -19,6 +19,8 @@ import {
   WATER_MIN_C,
   absoluteHumidityKgM3,
   airProperties,
+  coveredWaterLoss,
+  lidHeatBalance,
   criticalHeatFluxWm2,
   diffusionWaterInAir,
   evaporativeFlux,
@@ -517,5 +519,102 @@ describe("the series resistance network", () => {
       saturatedWaterProperties(100).rhoVapourKgM3,
       12,
     );
+  });
+});
+
+describe("the lid, and the derivation that turned out to be the wrong quantity", () => {
+  const hfg = saturatedWaterProperties(100).hfgJkg;
+  /** 26 cm Dutch oven lid. */
+  const dutch = { lidAreaM2: 0.0531, lidPerimeterM: 0.8168, headspaceC: 100, ambientC: 20 };
+  const heavy = lidHeatBalance({ ...dutch, lidThicknessM: 0.006, lidKWmK: 40, latentHeatJkg: hfg });
+
+  it("runs a metal lid within a degree of the steam, whatever it is made of", () => {
+    // Condensing steam is such a good heat-transfer mode that the plate cannot
+    // hold a temperature gradient. That is WHY material drops out below.
+    expect(heavy.lidC).toBeGreaterThan(99);
+    expect(heavy.lidC).toBeLessThan(100);
+  });
+
+  it("gives every metal lid the SAME steady heat loss, gauge and material regardless", () => {
+    // `[MEASURED 2026-08-18]` 1.2 mm stainless / 1.5 mm stainless / 6 mm
+    // enamelled cast iron → 66.21 / 66.19 / 66.12 W. Material is a TRANSIENT
+    // property (thermal mass, which vessels.ts already carries), not a steady one.
+    const thin = lidHeatBalance({ ...dutch, lidThicknessM: 0.0012, lidKWmK: 15, latentHeatJkg: hfg });
+    expect(Math.abs(thin.totalLossW - heavy.totalLossW) / heavy.totalLossW).toBeLessThan(0.01);
+  });
+
+  it("but NOT a glass one — the discriminating case a metals-only test would miss", () => {
+    // At k ≈ 1.1 the conduction term finally rivals the outside air film. A model
+    // that ignored lid conduction entirely would pass the metal test above and
+    // fail here, which is the point of keeping this case.
+    const glass = lidHeatBalance({ ...dutch, lidThicknessM: 0.008, lidKWmK: 1.1, latentHeatJkg: hfg });
+    expect(glass.lidC).toBeLessThan(95);
+    expect(glass.totalLossW).toBeLessThan(heavy.totalLossW * 0.95);
+  });
+
+  it("scales with the room, which is the other thing that actually sets it", () => {
+    const cold = lidHeatBalance({ ...dutch, ambientC: 5, lidThicknessM: 0.006, lidKWmK: 40, latentHeatJkg: hfg });
+    expect(cold.totalLossW).toBeGreaterThan(heavy.totalLossW * 1.1);
+  });
+
+  it("REFUSES a headspace that is not above ambient", () => {
+    // No temperature difference means no condensation to balance, and the
+    // bisection would be solving an empty problem.
+    expect(() =>
+      lidHeatBalance({ ...dutch, headspaceC: 20, lidThicknessM: 0.006, lidKWmK: 40, latentHeatJkg: hfg }),
+    ).toThrow(RangeError);
+  });
+
+  it("condenses only about a ninth of what a free surface evaporates", () => {
+    // ⚠️ THE FINDING. `vessels.ts` declares a tight lid returns 92 % of the
+    // free-surface rate. The lid's heat loss says 11–12 %, and says nearly the
+    // same for every lid, because it is set by area and room temperature rather
+    // than by seal quality. Both cannot be describing the same thing — and the
+    // resolution is that the free-surface rate does not apply under a lid at
+    // all, so there is nothing for a fraction to multiply.
+    const lc = plateCharacteristicLength(dutch.lidAreaM2, dutch.lidPerimeterM);
+    const h = naturalConvectionH(airProperties(60), "horizontal-up", 80, lc).hWm2K;
+    const free =
+      evaporativeFlux(h, 100, 20, absoluteHumidityKgM3(20, 50), hfg).massFluxKgM2s *
+      dutch.lidAreaM2;
+    const ratio = heavy.condensationCapacityKgS / free;
+    expect(ratio).toBeGreaterThan(0.08);
+    expect(ratio).toBeLessThan(0.15);
+    // And it is nearly seal-blind: a thin loose stockpot lid lands in the same band.
+    const stockpot = lidHeatBalance({
+      lidAreaM2: 0.0452,
+      lidPerimeterM: 0.754,
+      lidThicknessM: 0.0012,
+      lidKWmK: 15,
+      headspaceC: 100,
+      ambientC: 20,
+      latentHeatJkg: hfg,
+    });
+    const lcS = plateCharacteristicLength(0.0452, 0.754);
+    const hS = naturalConvectionH(airProperties(60), "horizontal-up", 80, lcS).hWm2K;
+    const freeS =
+      evaporativeFlux(hS, 100, 20, absoluteHumidityKgM3(20, 50), hfg).massFluxKgM2s * 0.0452;
+    expect(Math.abs(stockpot.condensationCapacityKgS / freeS - ratio)).toBeLessThan(0.02);
+  });
+
+  it("puts the SAME lid in two regimes on burner power alone", () => {
+    // Which is the reason a per-seal constant is the wrong shape, not merely
+    // the wrong number.
+    const quiet = coveredWaterLoss(50, heavy.condensationCapacityKgS, hfg);
+    const hard = coveredWaterLoss(800, heavy.condensationCapacityKgS, hfg);
+    expect(quiet.holding).toBe(true);
+    expect(quiet.netLossKgS).toBe(0);
+    expect(quiet.returnFraction).toBe(1);
+    expect(hard.holding).toBe(false);
+    expect(hard.netLossKgS * 3.6e6).toBeGreaterThan(1000);
+    expect(hard.returnFraction).toBeLessThan(0.1);
+  });
+
+  it("conserves mass and refuses nonsense power", () => {
+    const l = coveredWaterLoss(400, heavy.condensationCapacityKgS, hfg);
+    expect(l.condensateReturnedKgS + l.netLossKgS).toBeCloseTo(l.steamGeneratedKgS, 15);
+    expect(l.netLossKgS).toBeGreaterThanOrEqual(0);
+    expect(() => coveredWaterLoss(-1, heavy.condensationCapacityKgS, hfg)).toThrow(RangeError);
+    expect(() => coveredWaterLoss(400, heavy.condensationCapacityKgS, 0)).toThrow(RangeError);
   });
 });

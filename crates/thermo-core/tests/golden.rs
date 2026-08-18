@@ -1080,3 +1080,71 @@ fn boundary_network_refuses_outside_its_envelopes() {
     // A chain with nothing in it.
     assert!(solve_boundary_network(200.0, 20.0, None, None).is_err());
 }
+
+#[test]
+fn lid_balance_matches_fixture() {
+    let g = fixture();
+    let bn = &g["boundaryNetwork"];
+    let hfg100 = 2257e3;
+    for row in bn["lid"].as_array().unwrap() {
+        let b = lid_heat_balance(
+            f(&row["areaM2"]),
+            f(&row["perimeterM"]),
+            f(&row["thicknessM"]),
+            f(&row["kWmK"]),
+            100.0,
+            f(&row["ambientC"]),
+            hfg100,
+            0.9,
+        )
+        .unwrap();
+        assert_bits_eq(b.lid_c, f(&row["lidC"]), "lid temperature");
+        assert_bits_eq(b.total_loss_w, f(&row["totalW"]), "lid loss");
+        assert_bits_eq(
+            b.condensation_capacity_kg_s,
+            f(&row["condKgS"]),
+            "condensation capacity",
+        );
+    }
+    let cap = f(&bn["lid"][0]["condKgS"]);
+    for row in bn["coveredLoss"].as_array().unwrap() {
+        let l = covered_water_loss(f(&row["powerW"]), cap, hfg100).unwrap();
+        assert_bits_eq(l.net_loss_kg_s, f(&row["netKgS"]), "net water loss");
+        assert_bits_eq(l.return_fraction, f(&row["returnFraction"]), "return fraction");
+        assert_eq!(l.holding, row["holding"].as_bool().unwrap());
+    }
+}
+
+/// The finding that killed the promised derivation, pinned so it cannot be
+/// "fixed" by substituting one quantity for the other.
+#[test]
+fn a_lids_heat_loss_does_not_derive_a_per_seal_escape_fraction() {
+    let hfg = saturated_water_properties(100.0).unwrap().hfg_j_kg;
+    // Metal lids, wildly different material and gauge, same steady loss.
+    let thin = lid_heat_balance(0.0531, 0.8168, 0.0012, 15.0, 100.0, 20.0, hfg, 0.9).unwrap();
+    let heavy = lid_heat_balance(0.0531, 0.8168, 0.006, 40.0, 100.0, 20.0, hfg, 0.9).unwrap();
+    let spread = (thin.total_loss_w - heavy.total_loss_w).abs() / heavy.total_loss_w;
+    assert!(
+        spread < 0.01,
+        "1.2 mm steel and 6 mm enamelled cast iron differ by {spread}, expected under 1 %"
+    );
+    // Glass is the exception, and it is NOT small — this is the discriminating
+    // case. A test that only compared metals would pass on a model that ignored
+    // the lid's conduction entirely.
+    let glass = lid_heat_balance(0.0531, 0.8168, 0.008, 1.1, 100.0, 20.0, hfg, 0.9).unwrap();
+    assert!(
+        glass.total_loss_w < heavy.total_loss_w * 0.95,
+        "8 mm glass ({} W) should lose visibly less than cast iron ({} W)",
+        glass.total_loss_w,
+        heavy.total_loss_w
+    );
+    assert!(glass.lid_c < 95.0, "glass lid runs cool: {} °C", glass.lid_c);
+
+    // The same lid spans two regimes on burner power alone, which is why no
+    // per-seal constant can express it.
+    let quiet = covered_water_loss(50.0, heavy.condensation_capacity_kg_s, hfg).unwrap();
+    let hard = covered_water_loss(800.0, heavy.condensation_capacity_kg_s, hfg).unwrap();
+    assert!(quiet.holding, "at 50 W the lid condenses everything raised");
+    assert!(!hard.holding);
+    assert!(hard.net_loss_kg_s * 3.6e6 > 1000.0, "at 800 W it sheds over a kg an hour");
+}

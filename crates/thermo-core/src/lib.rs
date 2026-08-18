@@ -2387,3 +2387,154 @@ pub fn solve_boundary_network(
         food_biot,
     })
 }
+
+/// Convective coefficient for filmwise condensation of steam, W·m⁻²·K⁻¹.
+///
+/// ⚠️ Picking one value costs almost nothing, and that is a MEASUREMENT:
+/// sweeping 3 000 → 25 000 moves a 26 cm lid's loss from 65.81 W to 66.20 W,
+/// a spread of 0.27 %. This resistance sits in series with an outside air film
+/// two orders of magnitude larger.
+pub const CONDENSATION_H_WM2K: f64 = 10000.0;
+
+/// Steady heat balance on a lid.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct LidHeatBalance {
+    pub lid_c: f64,
+    pub convective_loss_w: f64,
+    pub radiative_loss_w: f64,
+    pub total_loss_w: f64,
+    /// Steam the lid can condense per second, kg·s⁻¹ — the quantity its heat
+    /// loss genuinely derives.
+    pub condensation_capacity_kg_s: f64,
+}
+
+/// How hot a lid runs, and how much steam it can therefore condense back.
+///
+/// ⚠️ `[MEASURED 2026-08-18]` a metal lid's steady loss does NOT depend on its
+/// material or gauge — 1.2 mm stainless, 1.5 mm stainless and 6 mm enamelled
+/// cast iron give 66.21 / 66.19 / 66.12 W, a 0.14 % spread — because condensing
+/// steam pins the underside to within a degree of the headspace whatever the
+/// plate is. Glass is the exception and is not small: 8 mm glass runs at
+/// 92.0 °C and loses 58.0 W, 12 % less than any metal lid.
+#[allow(clippy::too_many_arguments)]
+pub fn lid_heat_balance(
+    lid_area_m2: f64,
+    lid_perimeter_m: f64,
+    lid_thickness_m: f64,
+    lid_k_w_m_k: f64,
+    headspace_c: f64,
+    ambient_c: f64,
+    latent_heat_j_kg: f64,
+    emissivity: f64,
+) -> Result<LidHeatBalance, ThermoError> {
+    if !(lid_area_m2 > 0.0) || !(lid_perimeter_m > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    if !(lid_thickness_m > 0.0) || !(lid_k_w_m_k > 0.0) {
+        return Err(ThermoError::NonPositiveConductivity);
+    }
+    if headspace_c <= ambient_c {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    fn pow4(x: f64) -> f64 {
+        let sq = x * x;
+        sq * sq
+    }
+    let lc = plate_characteristic_length(lid_area_m2, lid_perimeter_m)?;
+    let ambient_k4 = pow4(ambient_c + 273.15);
+    let inner_resistance = 1.0 / CONDENSATION_H_WM2K + lid_thickness_m / lid_k_w_m_k;
+
+    let outward_flux = |lid_c: f64| -> Result<f64, ThermoError> {
+        let film = air_properties((lid_c + ambient_c) / 2.0)?;
+        let delta_t = (lid_c - ambient_c).max(1e-9);
+        let h = natural_convection_h(&film, ConvectiveSurface::HorizontalUp, delta_t, lc)?.h_w_m2_k;
+        Ok(h * (lid_c - ambient_c)
+            + emissivity * STEFAN_BOLTZMANN * (pow4(lid_c + 273.15) - ambient_k4))
+    };
+
+    let mut lo = ambient_c;
+    let mut hi = headspace_c;
+    for _ in 0..80 {
+        let mid = (lo + hi) / 2.0;
+        if (headspace_c - mid) / inner_resistance > outward_flux(mid)? {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    let lid_c = (lo + hi) / 2.0;
+    let film = air_properties((lid_c + ambient_c) / 2.0)?;
+    let h = natural_convection_h(
+        &film,
+        ConvectiveSurface::HorizontalUp,
+        (lid_c - ambient_c).max(1e-9),
+        lc,
+    )?
+    .h_w_m2_k;
+    let convective_loss_w = h * (lid_c - ambient_c) * lid_area_m2;
+    let radiative_loss_w =
+        emissivity * STEFAN_BOLTZMANN * (pow4(lid_c + 273.15) - ambient_k4) * lid_area_m2;
+    let total_loss_w = convective_loss_w + radiative_loss_w;
+    Ok(LidHeatBalance {
+        lid_c,
+        convective_loss_w,
+        radiative_loss_w,
+        total_loss_w,
+        condensation_capacity_kg_s: total_loss_w / latent_heat_j_kg,
+    })
+}
+
+/// Water a covered pot actually loses.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct CoveredWaterLoss {
+    pub steam_generated_kg_s: f64,
+    pub condensate_returned_kg_s: f64,
+    pub net_loss_kg_s: f64,
+    /// The lid condenses everything the burner raises: the pot loses nothing.
+    pub holding: bool,
+    pub return_fraction: f64,
+}
+
+/// Net water loss under a lid, from a stated power input.
+///
+/// ⚠️ This REPLACES the per-seal `VAPOUR_ESCAPE_FRACTION` in `vessels.ts`, which
+/// was the wrong SHAPE and not merely the wrong value. `[MEASURED 2026-08-18]`
+/// a lid's condensation capacity is 11.1–11.6 % of the free-surface rate over
+/// the same area, and near-identical for a tight Dutch oven and a loose
+/// stockpot lid, because it is set by area and room temperature rather than by
+/// seal quality. The free-surface rate does not apply under a lid at all: the
+/// headspace saturates and the driving force collapses. What remains is a
+/// circulation whose throughput the lid sets, plus a net loss set by how much
+/// steam the POWER INPUT raises beyond that — a function of the burner, which
+/// no per-seal constant can express. Same Dutch oven: nothing lost at 200 W,
+/// 998 g·h⁻¹ at 800 W.
+///
+/// ⚠️ Leakage past the seal is still not modelled and cannot be from anything
+/// here — it needs a gap dimension that is not a published property of any pan.
+/// This is therefore an UPPER bound on water lost.
+pub fn covered_water_loss(
+    power_into_contents_w: f64,
+    lid_condensation_capacity_kg_s: f64,
+    latent_heat_j_kg: f64,
+) -> Result<CoveredWaterLoss, ThermoError> {
+    if !power_into_contents_w.is_finite() || power_into_contents_w < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if !(latent_heat_j_kg > 0.0) {
+        return Err(ThermoError::NonPositiveZValue);
+    }
+    let steam_generated_kg_s = power_into_contents_w / latent_heat_j_kg;
+    let condensate_returned_kg_s = steam_generated_kg_s.min(lid_condensation_capacity_kg_s);
+    let net_loss_kg_s = steam_generated_kg_s - condensate_returned_kg_s;
+    Ok(CoveredWaterLoss {
+        steam_generated_kg_s,
+        condensate_returned_kg_s,
+        net_loss_kg_s,
+        holding: net_loss_kg_s == 0.0,
+        return_fraction: if steam_generated_kg_s == 0.0 {
+            1.0
+        } else {
+            condensate_returned_kg_s / steam_generated_kg_s
+        },
+    })
+}

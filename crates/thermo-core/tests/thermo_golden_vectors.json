@@ -357,6 +357,22 @@
           { "id": "vessel-wall", "r": 0.004, "share": 0.01171875, "dropK": 1.7578125 },
           { "id": "vessel-to-medium", "r": 0.004, "share": 0.01171875, "dropK": 1.7578125 }
         ] }
+    ],
+    "lid": [
+      { "case": "dutch_26cm_enamel", "areaM2": 0.0531, "perimeterM": 0.8168, "thicknessM": 0.006, "kWmK": 40.0, "ambientC": 20.0, "lidC": 99.6886642793535, "convW": 33.7765633450104, "radW": 32.3511437203053, "totalW": 66.1277070653157, "condKgS": 2.929893977196088e-5 },
+      { "case": "saucepan_20cm_steel", "areaM2": 0.0314, "perimeterM": 0.6283, "thicknessM": 0.0015, "kWmK": 15.0, "ambientC": 20.0, "lidC": 99.74206267433789, "convW": 21.347985578167645, "radW": 19.148174550783633, "totalW": 40.496160128951274, "condKgS": 1.7942472365507876e-5 },
+      { "case": "stockpot_24cm_steel", "areaM2": 0.0452, "perimeterM": 0.754, "thicknessM": 0.0012, "kWmK": 15.0, "ambientC": 20.0, "lidC": 99.7731827306842, "convW": 29.3778321224476, "radW": 27.578504394634543, "totalW": 56.95633651708214, "condKgS": 2.5235417154223367e-5 },
+      { "case": "glass_4mm", "areaM2": 0.0531, "perimeterM": 0.8168, "thicknessM": 0.004, "kWmK": 1.1, "ambientC": 20.0, "lidC": 95.64927966336103, "convW": 31.71255687476937, "radW": 30.118483237902836, "totalW": 61.831040112672206, "condKgS": 2.7395232659580066e-5 },
+      { "case": "glass_8mm", "areaM2": 0.0531, "perimeterM": 0.8168, "thicknessM": 0.008, "kWmK": 1.1, "ambientC": 20.0, "lidC": 91.95018126288005, "convW": 29.839310376351317, "radW": 28.137250959675416, "totalW": 57.976561336026734, "condKgS": 2.5687444101030896e-5 },
+      { "case": "dutch_cold_kitchen", "areaM2": 0.0531, "perimeterM": 0.8168, "thicknessM": 0.006, "kWmK": 40.0, "ambientC": 5.0, "lidC": 99.63142437214017, "convW": 42.17417493637095, "radW": 36.111288421053175, "totalW": 78.28546335742413, "condKgS": 3.468562842597436e-5 }
+    ],
+    "coveredLoss": [
+      { "powerW": 50.0, "steamKgS": 2.2153300841825433e-5, "returnedKgS": 2.2153300841825433e-5, "netKgS": 0.0, "holding": true, "returnFraction": 1.0 },
+      { "powerW": 200.0, "steamKgS": 8.861320336730173e-5, "returnedKgS": 2.929893977196088e-5, "netKgS": 5.931426359534085e-5, "holding": false, "returnFraction": 0.3306385353265785 },
+      { "powerW": 400.0, "steamKgS": 0.00017722640673460346, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.00014792746696264258, "holding": false, "returnFraction": 0.16531926766328925 },
+      { "powerW": 800.0, "steamKgS": 0.0003544528134692069, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.00032515387369724607, "holding": false, "returnFraction": 0.08265963383164462 },
+      { "powerW": 1500.0, "steamKgS": 0.000664599025254763, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.0006353000854828021, "holding": false, "returnFraction": 0.0440851380435438 },
+      { "powerW": 2500.0, "steamKgS": 0.0011076650420912715, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.0010783661023193107, "holding": false, "returnFraction": 0.026451082826126283 }
     ]
   }
 }

@@ -1178,3 +1178,248 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
  * test importing two modules to say one thing.
  */
 export { biotNumber };
+
+// ============================================================================
+// The lid — what its heat loss actually derives
+// ============================================================================
+
+/**
+ * Convective coefficient for filmwise condensation of steam, W·m⁻²·K⁻¹.
+ *
+ * Steam condensing on a lid's underside is an extremely good heat-transfer
+ * mode; published values for filmwise condensation of water run roughly
+ * 5 000–15 000 W·m⁻²·K⁻¹ depending on film thickness and orientation, and
+ * dropwise condensation is higher still.
+ *
+ * ⚠️ PICKING ONE VALUE HERE COSTS ALMOST NOTHING, AND THAT IS A MEASUREMENT,
+ * NOT AN ASSUMPTION. `[MEASURED 2026-08-18]` sweeping 3 000 → 25 000 — more
+ * than eightfold — moves a 26 cm lid's heat loss from 65.81 W to 66.20 W, a
+ * spread of **0.27 %**. The reason is that this resistance is in series with
+ * an outside air film around 1/12 W⁻¹·m²·K, so it contributes under 1 % of the
+ * total no matter which end of the published range it sits at. The lid's
+ * temperature is set by the room, not by the steam.
+ */
+export const CONDENSATION_H_WM2K = 10000;
+
+export interface LidHeatBalance {
+  /** Steady lid temperature, °C. */
+  lidC: number;
+  /** Convective loss from the lid's top face, W. */
+  convectiveLossW: number;
+  /** Radiative loss from the lid's top face, W. */
+  radiativeLossW: number;
+  /** Total outward loss, W. */
+  totalLossW: number;
+  /**
+   * Mass of steam the lid can condense per second, kg·s⁻¹.
+   *
+   * This is the quantity the lid's heat loss genuinely derives: condensation
+   * releases latent heat, and the lid can only condense as fast as it can shed
+   * that heat to the room.
+   */
+  condensationCapacityKgS: number;
+}
+
+/**
+ * Steady heat balance on a lid: how hot it runs, and how much steam it can
+ * therefore condense back into the pot.
+ *
+ * Solves `(T_head − T_lid)/(1/h_cond + t/k) = h_out(T_lid − T_room) + εσ(T_lid⁴ − T_room⁴)`
+ * for the lid temperature by bisection, then reports the loss at that solution.
+ *
+ * ── The finding this function exists to record ──────────────────────────────
+ *
+ * `[MEASURED 2026-08-18]` **A metal lid's steady heat loss does not depend on
+ * its material or its gauge.** Over 1.2 mm stainless, 1.5 mm stainless and
+ * 6 mm enamelled cast iron the loss is 66.21 / 66.19 / 66.12 W — a spread of
+ * **0.14 %** — because condensing steam pins the underside to within a degree
+ * of the headspace whatever the plate is made of, and the outside air film
+ * then does all the resisting.
+ *
+ * **Glass is the exception, and it is not small.** At k ≈ 1.1 the conduction
+ * term finally becomes comparable to the air film: 4 mm glass runs at 95.6 °C
+ * and loses 61.8 W, 8 mm glass at 92.0 °C and 58.0 W — **12 % less** than any
+ * metal lid. So "lid material" matters for the transient (thermal mass, which
+ * `vessels.ts` already carries) and for glass, and for nothing else.
+ *
+ * What sets the loss instead is **area and the room**: `[MEASURED]` the flux is
+ * 1247–1290 W·m⁻² across a 20 / 24 / 26 cm lid, and the total swings from 78 W
+ * in a 5 °C kitchen to 58 W in a 30 °C one.
+ *
+ * Named rather than positional: eight interchangeable numbers is an invitation
+ * to transpose two of them, and a transposed area and perimeter would still
+ * return a plausible temperature.
+ */
+export interface LidHeatBalanceInput {
+  /** Area of the lid's top face, m². */
+  lidAreaM2: number;
+  /** Perimeter, for the plate characteristic length A/P. */
+  lidPerimeterM: number;
+  /** Lid gauge, m. */
+  lidThicknessM: number;
+  /** Lid conductivity, W·m⁻¹·K⁻¹. */
+  lidKWmK: number;
+  /** Temperature of the saturated headspace, °C. */
+  headspaceC: number;
+  /** Kitchen air, °C. */
+  ambientC: number;
+  /** Latent heat at the headspace temperature, J·kg⁻¹. */
+  latentHeatJkg: number;
+  /** Lid's top-face emissivity. Defaults to 0.9. */
+  emissivity?: number;
+}
+
+export function lidHeatBalance(input: LidHeatBalanceInput): LidHeatBalance {
+  const {
+    lidAreaM2,
+    lidPerimeterM,
+    lidThicknessM,
+    lidKWmK,
+    headspaceC,
+    ambientC,
+    latentHeatJkg,
+    emissivity = 0.9,
+  } = input;
+  if (!(lidAreaM2 > 0) || !(lidPerimeterM > 0)) {
+    throw new RangeError(`lid area and perimeter must be positive`);
+  }
+  if (!(lidThicknessM > 0) || !(lidKWmK > 0)) {
+    throw new RangeError(`lid thickness and conductivity must be positive`);
+  }
+  if (headspaceC <= ambientC) {
+    throw new RangeError(
+      `headspace ${headspaceC} °C is not above ambient ${ambientC} °C — there is no ` +
+        `condensation to balance, and the lid is not shedding heat outward`,
+    );
+  }
+  const sigma = 5.670374419e-8;
+  const pow4 = (x: number): number => {
+    const sq = x * x;
+    return sq * sq;
+  };
+  const lc = plateCharacteristicLength(lidAreaM2, lidPerimeterM);
+  const ambientK4 = pow4(ambientC + 273.15);
+  const innerResistance = 1 / CONDENSATION_H_WM2K + lidThicknessM / lidKWmK;
+
+  const outwardFlux = (lidC: number): number => {
+    const film = airProperties((lidC + ambientC) / 2);
+    // The correlation needs a non-zero ΔT; at the bracket's lower end the lid
+    // sits AT ambient and the true flux is zero, which the floor preserves.
+    const deltaT = Math.max(1e-9, lidC - ambientC);
+    const h = naturalConvectionH(film, "horizontal-up", deltaT, lc).hWm2K;
+    return h * (lidC - ambientC) + emissivity * sigma * (pow4(lidC + 273.15) - ambientK4);
+  };
+
+  let lo = ambientC;
+  let hi = headspaceC;
+  for (let i = 0; i < 80; i += 1) {
+    const mid = (lo + hi) / 2;
+    if ((headspaceC - mid) / innerResistance > outwardFlux(mid)) lo = mid;
+    else hi = mid;
+  }
+  const lidC = (lo + hi) / 2;
+  const film = airProperties((lidC + ambientC) / 2);
+  const h = naturalConvectionH(
+    film,
+    "horizontal-up",
+    Math.max(1e-9, lidC - ambientC),
+    lc,
+  ).hWm2K;
+  const convectiveLossW = h * (lidC - ambientC) * lidAreaM2;
+  const radiativeLossW =
+    emissivity * sigma * (pow4(lidC + 273.15) - ambientK4) * lidAreaM2;
+  const totalLossW = convectiveLossW + radiativeLossW;
+  return {
+    lidC,
+    convectiveLossW,
+    radiativeLossW,
+    totalLossW,
+    condensationCapacityKgS: totalLossW / latentHeatJkg,
+  };
+}
+
+export interface CoveredWaterLoss {
+  /** Steam raised by the net power input, kg·s⁻¹. */
+  steamGeneratedKgS: number;
+  /** Steam the lid condenses and returns, kg·s⁻¹. */
+  condensateReturnedKgS: number;
+  /** Water actually leaving the pot, kg·s⁻¹. Never negative. */
+  netLossKgS: number;
+  /**
+   * True when the lid can condense everything the burner raises, so the pot
+   * loses no water at all. This is what a covered pot at a bare simmer is
+   * doing, and it is a REGIME, not a rounding of a small number.
+   */
+  holding: boolean;
+  /** Share of raised steam that comes back. 1 when holding. */
+  returnFraction: number;
+}
+
+/**
+ * Water a covered pot actually loses, from a stated power input.
+ *
+ * ── Why this replaces a per-seal escape fraction ────────────────────────────
+ *
+ * `vessels.ts` declares a `VAPOUR_ESCAPE_FRACTION` per seal state, multiplying
+ * the FREE-SURFACE evaporation rate. That was flagged in its own file as the
+ * one modelling choice in the thermal stack, with a note promising the boundary
+ * network would derive it. Doing the work showed the promise was wrong in a way
+ * worth writing down: **the lid's heat loss does not derive that fraction, and
+ * the fraction is the wrong shape.**
+ *
+ * `[MEASURED 2026-08-18]` The lid's condensation capacity is 41–66 W across
+ * the four lidded vessels, or **53–106 g·h⁻¹**. The free-surface rate over the
+ * same areas is **477–908 g·h⁻¹**. So a lid can return only **11.1–11.6 %** of
+ * a free surface's evaporation, and — the part that matters — that figure is
+ * near-identical for a tight Dutch oven and a loose stockpot lid, because it is
+ * set by lid area and room temperature, not by seal quality. Substituting it
+ * for the declared 0.92 return would make a Dutch oven lose MORE water than a
+ * loose-lidded stockpot does today: wrong, and wrong in the direction anyone
+ * can check with a kitchen scale.
+ *
+ * The resolution is that the free-surface rate does not apply under a lid at
+ * all. A closed headspace saturates, the vapour-density driving force collapses
+ * toward zero, and there is no 900 g·h⁻¹ of evaporation for a fraction to act
+ * on. What is left is a circulation — raise steam, condense it, drip it back —
+ * whose throughput is set by the lid, and a net loss set by **how much steam
+ * the power input raises beyond what the lid can condense.**
+ *
+ * That is a function of the burner, which is exactly why a per-seal constant
+ * could not express it. `[MEASURED]` a 5.5 qt Dutch oven whose lid returns
+ * 106 g·h⁻¹: at 200 W it loses nothing at all, and at 800 W it loses 998 g·h⁻¹
+ * — same lid, same seal, two regimes.
+ *
+ * ⚠️ **Leakage past the seal is still not modelled**, and cannot be from
+ * anything here: it needs a gap dimension that is not a published property of
+ * any pan. This function therefore gives the loss for a lid that vents freely
+ * once the lid's condensation is saturated, which is an UPPER bound on the
+ * water lost. A better seal shows up as a longer `holding` regime, not as a
+ * fitted coefficient.
+ *
+ * @param powerIntoContentsW Net power reaching the water, W — burner output
+ *        less what the vessel walls shed.
+ * @param lidCondensationCapacityKgS From {@link lidHeatBalance}.
+ * @param latentHeatJkg Latent heat at the boiling point, J·kg⁻¹.
+ */
+export function coveredWaterLoss(
+  powerIntoContentsW: number,
+  lidCondensationCapacityKgS: number,
+  latentHeatJkg: number,
+): CoveredWaterLoss {
+  if (!Number.isFinite(powerIntoContentsW) || powerIntoContentsW < 0) {
+    throw new RangeError(`powerIntoContentsW must be ≥ 0, received ${powerIntoContentsW}`);
+  }
+  if (!(latentHeatJkg > 0)) {
+    throw new RangeError(`latentHeatJkg must be positive, received ${latentHeatJkg}`);
+  }
+  const steamGeneratedKgS = powerIntoContentsW / latentHeatJkg;
+  const condensateReturnedKgS = Math.min(steamGeneratedKgS, lidCondensationCapacityKgS);
+  const netLossKgS = steamGeneratedKgS - condensateReturnedKgS;
+  return {
+    steamGeneratedKgS,
+    condensateReturnedKgS,
+    netLossKgS,
+    holding: netLossKgS === 0,
+    returnFraction: steamGeneratedKgS === 0 ? 1 : condensateReturnedKgS / steamGeneratedKgS,
+  };
+}

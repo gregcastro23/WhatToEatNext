@@ -34,26 +34,55 @@ import { getCookware, type CookwareDerived } from "@/data/cooking/cookwareMateri
 /**
  * How well a lid seals, and therefore how much vapour still escapes.
  *
- * ⚠️ THE ESCAPE FRACTIONS ARE A MODELLING CHOICE, NOT A MEASUREMENT — and this
- * is the one quantity in the thermal stack that is. Lid seal quality is not a
- * published property; there is no table to cite. `none` is definitional (an
- * open pan loses everything a free surface loses) and the rest are graded
- * between it and a well-fitting lid.
+ * ⚠️ THE ESCAPE FRACTIONS ARE A COARSE INDEX, NOT A MEASUREMENT, AND NOT THE
+ * MODEL. Prefer `lidHeatBalance` + `coveredWaterLoss` in
+ * `src/lib/cooking/boundaryNetwork.ts` wherever a power input is known. These
+ * remain only as an ordering of seal states for callers that have no burner
+ * setting to work from.
  *
- * They are placeholders for a number the boundary network will be able to
- * DERIVE rather than declare. Under a lid the headspace saturates, so net loss
- * is whatever escapes past the seal — and the condensate that forms instead is
- * bounded by how fast the lid can shed heat to the room. Once that surface-loss
- * term exists, the condensation rate follows from it and these fractions should
- * be replaced by the consequence rather than tuned.
+ * ── What happened to the derivation this comment used to promise ────────────
+ *
+ * An earlier version of this note said the boundary network would DERIVE these
+ * fractions: the headspace saturates, so net loss is whatever escapes the seal,
+ * and the condensate forming instead is bounded by how fast the lid sheds heat.
+ * That reasoning is sound and it derives the WRONG QUANTITY.
+ *
+ * `[MEASURED 2026-08-18]` The lid's heat loss gives a condensation capacity of
+ * 41–66 W across the four lidded vessels here — 53–106 g·h⁻¹, against a
+ * free-surface rate of 477–908 g·h⁻¹ over the same areas. That is a return of
+ * **11.1–11.6 %**, and it is near-identical for the tight Dutch oven and the
+ * loose stockpot, because it is set by lid AREA and ROOM TEMPERATURE, not by
+ * seal quality. Substituting it for the 0.92 declared below would make a Dutch
+ * oven lose more water than a loose-lidded stockpot — wrong, and wrong in the
+ * direction anyone can check with a kitchen scale.
+ *
+ * The resolution is that **the free-surface rate does not apply under a lid at
+ * all.** A closed headspace saturates, the vapour-density driving force
+ * collapses, and there is no 900 g·h⁻¹ of evaporation for a fraction to act on.
+ * What remains is a circulation the lid's heat loss governs, plus a net loss
+ * set by how much steam the POWER INPUT raises beyond it. `[MEASURED]` the same
+ * Dutch oven loses nothing at 200 W and 998 g·h⁻¹ at 800 W — one lid, one seal,
+ * two regimes. A per-seal constant cannot express a burner.
+ *
+ * So this table is not merely imprecise; it has the wrong SHAPE. It is kept,
+ * demoted and labelled rather than deleted, because callers with no power input
+ * still need seal states ordered — and because a reader who finds it should
+ * find this explanation with it.
+ *
+ * ⚠️ Leakage past the seal remains unmodelled in BOTH routes, and cannot be
+ * derived from anything in this repository: it needs a gap dimension that is
+ * not a published property of any pan. `coveredWaterLoss` is therefore an upper
+ * bound, and a better seal shows up there as a longer `holding` regime rather
+ * than as a fitted coefficient.
  */
 export type LidSeal = "tight" | "loose" | "cracked" | "none";
 
 /**
  * Share of free-surface evaporation that still escapes, by seal state.
  *
- * See the warning on {@link LidSeal}: `none` is definitional, the rest are
- * graded modelling choices awaiting the boundary network.
+ * See the warning on {@link LidSeal}: `none` is definitional, the rest are a
+ * graded ORDERING of seal states. For an actual water loss, use
+ * `coveredWaterLoss` with a power input instead.
  */
 export const VAPOUR_ESCAPE_FRACTION: Record<LidSeal, number> = {
   /** No lid. A free surface loses what a free surface loses. */
