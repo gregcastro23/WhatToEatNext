@@ -17,8 +17,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ["healthy", "versatile", "rich"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0,
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
         basis: "usda-fdc",
         fdcId: 171413,
         fdcDescription: "Oil, olive, salad or cooking",
@@ -96,8 +100,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "tropical", "solid"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0003,
+      composition: {
+        water: 0.0003,
+        protein: 0,
+        fat: 0.991,
+        carbohydrate: 0,
+        ash: 0.0003,
         basis: "usda-fdc",
         fdcId: 171412,
         fdcDescription: "Oil, coconut",
@@ -146,8 +154,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ["nutty", "aromatic", "warming"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0,
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
         basis: "usda-fdc",
         fdcId: 171016,
         fdcDescription: "Oil, sesame, salad or cooking",

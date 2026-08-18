@@ -377,8 +377,12 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     origin: ["Gulf of Mexico", "Pacific Ocean", "Atlantic Ocean"],
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.784,
+      composition: {
+        water: 0.784,
+        protein: 0.201,
+        fat: 0.0051,
+        carbohydrate: 0,
+        ash: 0.0123,
         basis: "usda-fdc",
         fdcId: 175179,
         fdcDescription: "Crustaceans, shrimp, raw",

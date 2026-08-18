@@ -18,8 +18,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.945,
+      composition: {
+        water: 0.945,
+        protein: 0.0088,
+        fat: 0.002,
+        carbohydrate: 0.0389,
+        ash: 0.005,
         basis: "usda-fdc",
         fdcId: 170457,
         fdcDescription: "Tomatoes, red, ripe, raw, year round average",
@@ -392,8 +396,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.735,
+      composition: {
+        water: 0.735,
+        protein: 0.0432,
+        fat: 0.0047,
+        carbohydrate: 0.189,
+        ash: 0.028,
         basis: "usda-fdc",
         fdcId: 170459,
         fdcDescription: "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",

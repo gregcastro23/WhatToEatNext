@@ -2336,12 +2336,17 @@ export const recipeCoverageIngredients: Record<
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.125,
+      composition: {
+        water: 0.125,
+        protein: 0.104,
+        fat: 0.0326,
+        carbohydrate: 0.64,
+        ash: 0.0449,
         basis: "usda-fdc",
         fdcId: 170931,
         fdcDescription: "Spices, pepper, black",
         retrieved: "2026-08-18",
+        unaccountedNote: "The SR Legacy record's own proximates sum to 94.7 %: its carbohydrate is not computed by difference, so ~5 % is unattributed at source.",
       },
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",

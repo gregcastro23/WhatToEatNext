@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Write fetched USDA water fractions into the ingredient data files as
- * `nutritionalProfile.waterContent`.
+ * Write fetched USDA proximate composition into the ingredient data files as
+ * `nutritionalProfile.composition`.
  *
- * Reads `scripts/data/usda-water-content.json` (produced by
- * `scripts/fetch-usda-water-content.mjs`) and edits `src/data/ingredients/**.ts`
+ * Reads `scripts/data/usda-composition.json` (produced by
+ * `scripts/fetch-usda-composition.mjs`) and edits `src/data/ingredients/**.ts`
  * in place.
  *
  * ── Why this is depth-aware and not a regex over the file ───────────────────
@@ -17,21 +17,21 @@
  * accepts a `name:` and a `nutritionalProfile:` that sit at the SAME depth in
  * the SAME object.
  *
- * Idempotent: an entry that already has `waterContent` is left alone and
+ * Idempotent: an entry whose stored fractions already match is left alone and
  * reported as skipped, so a re-run after a partial fetch is safe.
  *
  * Usage:
- *   node scripts/apply-usda-water-content.mjs --dry-run   # report only
- *   node scripts/apply-usda-water-content.mjs             # write
+ *   node scripts/apply-usda-composition.mjs --dry-run   # report only
+ *   node scripts/apply-usda-composition.mjs             # write
  *
- * @file scripts/apply-usda-water-content.mjs
+ * @file scripts/apply-usda-composition.mjs
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const DATA = join(HERE, "data", "usda-water-content.json");
+const DATA = join(HERE, "data", "usda-composition.json");
 const ROOT = join(HERE, "..", "src", "data", "ingredients");
 const DRY = process.argv.includes("--dry-run");
 /**
@@ -54,7 +54,7 @@ const fetched = JSON.parse(readFileSync(DATA, "utf8"));
 const byName = new Map(fetched.results.map((r) => [r.ingredient.toLowerCase(), r]));
 
 if (byName.size === 0) {
-  console.error("No fetched results. Run scripts/fetch-usda-water-content.mjs first.");
+  console.error("No fetched results. Run scripts/fetch-usda-composition.mjs first.");
   process.exit(1);
 }
 
@@ -105,28 +105,67 @@ const PROFILE_RE = /^\s*nutritionalProfile:\s*\{\s*$/;
  */
 const PROFILE_INLINE_RE = /^(\s*)nutritionalProfile:\s*\{(?!\s*$)/;
 
-/** Compact one-line form, for profiles that are themselves one line. */
-function renderInline(row) {
-  return (
-    `waterContent: { fraction: ${row.fraction}, basis: "usda-fdc", ` +
-    `fdcId: ${row.fdcId}, fdcDescription: ${JSON.stringify(row.fdcDescription)}, ` +
-    `retrieved: ${JSON.stringify(row.retrieved)} },`
-  );
+/**
+ * Notes for entries whose five fractions genuinely do not sum to 1.
+ *
+ * `[MEASURED 2026-08-18]` 40 of 42 sourced ingredients close within 0.2 % of
+ * 1.000 — a real conservation law, since a proximate analysis is by definition
+ * complete. The two that do not are not mismatches; they carry mass the
+ * proximate set does not name, and Choi–Okos cannot see it. Keyed by the exact
+ * `name:` value, lowercased.
+ */
+const UNACCOUNTED = new Map([
+  [
+    "vanilla extract",
+    "~34 % of the mass is ethanol, which is not a proximate component. Choi-Okos " +
+      "will treat that third as absent and understate the result.",
+  ],
+  [
+    "pepper",
+    "The SR Legacy record's own proximates sum to 94.7 %: its carbohydrate is not " +
+      "computed by difference, so ~5 % is unattributed at source.",
+  ],
+]);
+
+/** Mass fractions from the fetched record, rounded the way the fetcher rounds water. */
+function fractions(row) {
+  const c = row.companions;
+  const f = (grams) => Number((grams / 100).toFixed(4));
+  return {
+    water: row.fraction,
+    protein: f(c.proteinG),
+    fat: f(c.fatG),
+    carbohydrate: f(c.carbohydrateG),
+    ash: f(c.ashG),
+  };
 }
 
-function render(row, indent) {
+function fieldLines(row, owner) {
+  const x = fractions(row);
+  const note = UNACCOUNTED.get(owner.toLowerCase());
+  return [
+    `water: ${x.water},`,
+    `protein: ${x.protein},`,
+    `fat: ${x.fat},`,
+    `carbohydrate: ${x.carbohydrate},`,
+    `ash: ${x.ash},`,
+    `basis: "usda-fdc",`,
+    `fdcId: ${row.fdcId},`,
+    `fdcDescription: ${JSON.stringify(row.fdcDescription)},`,
+    `retrieved: ${JSON.stringify(row.retrieved)},`,
+    ...(note ? [`unaccountedNote: ${JSON.stringify(note)},`] : []),
+  ];
+}
+
+/** Compact one-line form, for profiles that are themselves one line. */
+function renderInline(row, owner) {
+  return `composition: { ${fieldLines(row, owner).join(" ").replace(/,$/, "")} },`;
+}
+
+function render(row, indent, owner) {
   const pad = " ".repeat(indent);
   const inner = " ".repeat(indent + 2);
-  const lines = [
-    `${pad}waterContent: {`,
-    `${inner}fraction: ${row.fraction},`,
-    `${inner}basis: "usda-fdc",`,
-    `${inner}fdcId: ${row.fdcId},`,
-    `${inner}fdcDescription: ${JSON.stringify(row.fdcDescription)},`,
-    `${inner}retrieved: ${JSON.stringify(row.retrieved)},`,
-    `${pad}},`,
-  ];
-  return lines;
+  return [`${pad}composition: {`, ...fieldLines(row, owner).map((l) => inner + l), `${pad}},`];
 }
 
 let applied = 0;
@@ -161,7 +200,7 @@ for (const file of walk(ROOT)) {
       const owner = nameAtDepth.get(depth);
       const row = owner ? byName.get(owner.toLowerCase()) : undefined;
       if (row) {
-        if (line.includes("waterContent:")) {
+        if (/composition:\s*\{/.test(line)) {
           alreadyHas.add(owner);
         } else {
           inlineEdits.push({ at: i, row, owner });
@@ -173,12 +212,13 @@ for (const file of walk(ROOT)) {
       const owner = nameAtDepth.get(depth);
       const row = owner ? byName.get(owner.toLowerCase()) : undefined;
       if (row) {
-        // Does this profile object already carry waterContent? Scan to its close,
+        // Does this profile object already carry a composition (or a legacy
+        // waterContent block)? Scan to its close,
         // capturing the block's exact span so `--replace` can swap it in place.
         let d = 1;
         let has = false;
         for (let j = i + 1; j < lines.length && d > 0; j += 1) {
-          if (/^\s*waterContent:\s*\{/.test(lines[j]) && d === 1) {
+          if (/^\s*(?:composition|waterContent):\s*\{/.test(lines[j]) && d === 1) {
             // Walk to this block's own closing brace, tracking depth from it.
             let bd = 0;
             let end = j;
@@ -189,12 +229,15 @@ for (const file of walk(ROOT)) {
                 break;
               }
             }
-            const stored = /fraction:\s*([\d.]+)/.exec(lines[j + 1] ?? "");
+            // Legacy `waterContent` blocks say `fraction:`; new ones say `water:`. A
+            // legacy block ALWAYS differs, because it lacks the other four fractions.
+            const isLegacy = /waterContent:/.test(lines[j]);
+            const stored = /(?:water|fraction):\s*([\d.]+)/.exec(lines[j + 1] ?? "");
             has = {
               start: j,
               end,
               indent: (/^(\s*)/.exec(lines[j]) ?? ["", ""])[1].length,
-              differs: !stored || Number(stored[1]) !== row.fraction,
+              differs: isLegacy || !stored || Number(stored[1]) !== row.fraction,
             };
           }
           d += braceDelta(lines[j]);
@@ -218,10 +261,16 @@ for (const file of walk(ROOT)) {
   // Apply back-to-front so earlier indices stay valid.
   const out = [...lines];
   for (const edit of inlineEdits) {
-    // Splice the block in immediately after the profile's opening brace.
-    out[edit.at] = out[edit.at].replace(
+    // Drop any LEGACY inline `waterContent: { … },` first. Without this the new
+    // block is inserted alongside the stale one and the line carries both — the
+    // dry run caught exactly that. The inner object is flat (no nested braces
+    // and no braces inside the description strings), which is what makes a
+    // bounded `[^}]*` safe here; the multi-line form is handled by the
+    // depth-aware span replacement instead, never by a pattern.
+    let line = out[edit.at].replace(/waterContent: \{[^{}]*\},\s*/, "");
+    out[edit.at] = line.replace(
       /nutritionalProfile:\s*\{/,
-      `nutritionalProfile: { ${renderInline(edit.row)}`,
+      `nutritionalProfile: { ${renderInline(edit.row, edit.owner)}`,
     );
     appliedNames.push(edit.owner);
     satisfied.add(edit.owner.toLowerCase());
@@ -229,14 +278,14 @@ for (const file of walk(ROOT)) {
   applied += inlineEdits.length;
   if (inlineEdits.length > 0) touchedFiles.add(file);
   for (const rep of [...replacements].sort((a, b) => b.start - a.start)) {
-    out.splice(rep.start, rep.end - rep.start + 1, ...render(rep.row, rep.indent));
+    out.splice(rep.start, rep.end - rep.start + 1, ...render(rep.row, rep.indent, rep.owner));
     replacedNames.push(rep.owner);
     touchedFiles.add(file);
   }
   applied += replacements.length;
 
   for (const ins of [...insertions].sort((a, b) => b.after - a.after)) {
-    out.splice(ins.after + 1, 0, ...render(ins.row, ins.indent));
+    out.splice(ins.after + 1, 0, ...render(ins.row, ins.indent, ins.owner));
     appliedNames.push(ins.owner);
     satisfied.add(ins.owner.toLowerCase());
   }
@@ -246,14 +295,14 @@ for (const file of walk(ROOT)) {
 }
 
 const rel = (f) => f.replace(join(HERE, ".."), "").replace(/^\//, "");
-console.log(`${DRY ? "[dry run] would apply" : "applied"} ${applied} waterContent block(s)`);
+console.log(`${DRY ? "[dry run] would apply" : "applied"} ${applied} composition block(s)`);
 console.log(`  ingredients: ${appliedNames.sort().join(", ") || "(none)"}`);
 console.log(`  files touched: ${touchedFiles.size}`);
 for (const f of [...touchedFiles].sort()) console.log(`    ${rel(f)}`);
 if (replacedNames.length > 0) {
   console.log(`  REPLACED (stored value differed): ${replacedNames.sort().join(", ")}`);
 }
-if (skipped > 0) console.log(`  already had waterContent, left alone: ${skipped}`);
+if (skipped > 0) console.log(`  already current, left alone: ${skipped}`);
 
 // A fetched value counts as placed if it landed in THIS run or a previous one.
 // Comparing only against this run's insertions reported every already-applied

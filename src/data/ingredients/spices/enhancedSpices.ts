@@ -164,8 +164,12 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.4, Air: 0.35, Earth: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.106,
+      composition: {
+        water: 0.106,
+        protein: 0.0399,
+        fat: 0.0124,
+        carbohydrate: 0.806,
+        ash: 0.036,
         basis: "usda-fdc",
         fdcId: 171320,
         fdcDescription: "Spices, cinnamon, ground",
@@ -317,8 +321,12 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.45, Fire: 0.3, Air: 0.2, Water: 0.05 },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0806,
+      composition: {
+        water: 0.0806,
+        protein: 0.178,
+        fat: 0.223,
+        carbohydrate: 0.442,
+        ash: 0.0762,
         basis: "usda-fdc",
         fdcId: 170923,
         fdcDescription: "Spices, cumin seed",
@@ -472,8 +480,12 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.5, Fire: 0.25, Water: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.128,
+      composition: {
+        water: 0.128,
+        protein: 0.0968,
+        fat: 0.0325,
+        carbohydrate: 0.671,
+        ash: 0.0708,
         basis: "usda-fdc",
         fdcId: 172231,
         fdcDescription: "Spices, turmeric, ground",
@@ -617,8 +629,12 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.5, Air: 0.25, Earth: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.789,
+      composition: {
+        water: 0.789,
+        protein: 0.0182,
+        fat: 0.0075,
+        carbohydrate: 0.178,
+        ash: 0.0077,
         basis: "usda-fdc",
         fdcId: 169231,
         fdcDescription: "Ginger root, raw",
@@ -1191,8 +1207,12 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.35, Air: 0.35, Earth: 0.2, Water: 0.1 },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0623,
+      composition: {
+        water: 0.0623,
+        protein: 0.0584,
+        fat: 0.363,
+        carbohydrate: 0.493,
+        ash: 0.0234,
         basis: "usda-fdc",
         fdcId: 171326,
         fdcDescription: "Spices, nutmeg, ground",

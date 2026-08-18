@@ -563,8 +563,12 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.653,
+      composition: {
+        water: 0.653,
+        protein: 0.31,
+        fat: 0.0357,
+        carbohydrate: 0,
+        ash: 0.0106,
         basis: "usda-fdc",
         fdcId: 171477,
         fdcDescription: "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
@@ -669,8 +673,12 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.578,
+      composition: {
+        water: 0.578,
+        protein: 0.27,
+        fat: 0.147,
+        carbohydrate: 0,
+        ash: 0.0109,
         basis: "usda-fdc",
         fdcId: 167832,
         fdcDescription: "Pork, fresh, loin, center rib (roasts), bone-in, separable lean and fat, cooked, roasted",
@@ -845,8 +853,12 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.762,
+      composition: {
+        water: 0.762,
+        protein: 0.126,
+        fat: 0.0951,
+        carbohydrate: 0.0072,
+        ash: 0.0106,
         basis: "usda-fdc",
         fdcId: 171287,
         fdcDescription: "Egg, whole, raw, fresh",

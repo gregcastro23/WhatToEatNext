@@ -54,8 +54,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.881,
+      composition: {
+        water: 0.881,
+        protein: 0.0315,
+        fat: 0.0325,
+        carbohydrate: 0.048,
+        ash: 0.0067,
         basis: "usda-fdc",
         fdcId: 171265,
         fdcDescription: "Milk, whole, 3.25% milkfat, with added vitamin D",
@@ -544,8 +548,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.676,
+      composition: {
+        water: 0.676,
+        protein: 0.0229,
+        fat: 0.238,
+        carbohydrate: 0.0554,
+        ash: 0.0072,
         basis: "usda-fdc",
         fdcId: 170172,
         fdcDescription: "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
@@ -744,8 +752,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.577,
+      composition: {
+        water: 0.577,
+        protein: 0.0284,
+        fat: 0.361,
+        carbohydrate: 0.0284,
+        ash: 0.0053,
         basis: "usda-fdc",
         fdcId: 170859,
         fdcDescription: "Cream, fluid, heavy whipping",
@@ -1094,8 +1106,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.162,
+      composition: {
+        water: 0.162,
+        protein: 0.0085,
+        fat: 0.811,
+        carbohydrate: 0.0006,
+        ash: 0.0009,
         basis: "usda-fdc",
         fdcId: 173430,
         fdcDescription: "Butter, without salt",

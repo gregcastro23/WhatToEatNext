@@ -23,8 +23,12 @@ const rawAromatics = {
     },
     qualities: ["pungent", "savory", "sweet when cooked"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.891,
+      composition: {
+        water: 0.891,
+        protein: 0.011,
+        fat: 0.001,
+        carbohydrate: 0.0934,
+        ash: 0.0035,
         basis: "usda-fdc",
         fdcId: 170000,
         fdcDescription: "Onions, raw",
@@ -94,8 +98,12 @@ const rawAromatics = {
     },
     qualities: ["pungent", "spicy", "medicinal"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.586,
+      composition: {
+        water: 0.586,
+        protein: 0.0636,
+        fat: 0.005,
+        carbohydrate: 0.331,
+        ash: 0.015,
         basis: "usda-fdc",
         fdcId: 169230,
         fdcDescription: "Garlic, raw",
@@ -165,8 +173,12 @@ const rawAromatics = {
     },
     qualities: ["warming", "pungent", "aromatic"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.789,
+      composition: {
+        water: 0.789,
+        protein: 0.0182,
+        fat: 0.0075,
+        carbohydrate: 0.178,
+        ash: 0.0077,
         basis: "usda-fdc",
         fdcId: 169231,
         fdcDescription: "Ginger root, raw",
@@ -376,8 +388,12 @@ const rawAromatics = {
     },
     qualities: ["fresh", "mild", "grassy"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.898,
+      composition: {
+        water: 0.898,
+        protein: 0.0183,
+        fat: 0.0019,
+        carbohydrate: 0.0734,
+        ash: 0.0081,
         basis: "usda-fdc",
         fdcId: 170005,
         fdcDescription: "Onions, spring or scallions (includes tops and bulb), raw",

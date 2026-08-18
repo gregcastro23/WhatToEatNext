@@ -116,8 +116,12 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.5, Water: 0.25, Fire: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.883,
+      composition: {
+        water: 0.883,
+        protein: 0.0093,
+        fat: 0.0024,
+        carbohydrate: 0.0958,
+        ash: 0.0097,
         basis: "usda-fdc",
         fdcId: 170393,
         fdcDescription: "Carrots, raw",
@@ -278,8 +282,12 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     qualities: ["warming", "spicy", "aromatic"],
     affinities: ["garlic", "lemon", "honey", "soy sauce", "turmeric"],
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.789,
+      composition: {
+        water: 0.789,
+        protein: 0.0182,
+        fat: 0.0075,
+        carbohydrate: 0.178,
+        ash: 0.0077,
         basis: "usda-fdc",
         fdcId: 169231,
         fdcDescription: "Ginger root, raw",

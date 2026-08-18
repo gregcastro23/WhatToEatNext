@@ -553,8 +553,12 @@ const rawRefinedGrains = {
     ],
     category: "grain",
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.119,
+      composition: {
+        water: 0.119,
+        protein: 0.103,
+        fat: 0.0098,
+        carbohydrate: 0.763,
+        ash: 0.0047,
         basis: "usda-fdc",
         fdcId: 168894,
         fdcDescription: "Wheat flour, white, all-purpose, enriched, bleached",

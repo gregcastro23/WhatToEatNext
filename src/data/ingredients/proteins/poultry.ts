@@ -68,8 +68,12 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       ],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.653,
+      composition: {
+        water: 0.653,
+        protein: 0.31,
+        fat: 0.0357,
+        carbohydrate: 0,
+        ash: 0.0106,
         basis: "usda-fdc",
         fdcId: 171477,
         fdcDescription: "Chicken, broilers or fryers, breast, meat only, cooked, roasted",

@@ -923,8 +923,12 @@ const rawDairy = {
       preparationTips: ["Scald (heat to just-steaming) before adding to yeast or custards.", "Don't boil milk-based sauces — they break and grain."],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.881,
+      composition: {
+        water: 0.881,
+        protein: 0.0315,
+        fat: 0.0325,
+        carbohydrate: 0.048,
+        ash: 0.0067,
         basis: "usda-fdc",
         fdcId: 171265,
         fdcDescription: "Milk, whole, 3.25% milkfat, with added vitamin D",
@@ -1044,8 +1048,12 @@ const rawDairy = {
       ],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.162,
+      composition: {
+        water: 0.162,
+        protein: 0.0085,
+        fat: 0.811,
+        carbohydrate: 0.0006,
+        ash: 0.0009,
         basis: "usda-fdc",
         fdcId: 173430,
         fdcDescription: "Butter, without salt",
@@ -1273,8 +1281,12 @@ const rawDairy = {
       preparationTips: ["Chill bowl and beaters for fastest, firmest whipping.", "Add sugar after soft peaks form.", "Reduce by half for intense velvety pan sauces."],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.577,
+      composition: {
+        water: 0.577,
+        protein: 0.0284,
+        fat: 0.361,
+        carbohydrate: 0.0284,
+        ash: 0.0053,
         basis: "usda-fdc",
         fdcId: 170859,
         fdcDescription: "Cream, fluid, heavy whipping",

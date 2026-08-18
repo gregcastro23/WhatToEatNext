@@ -18,8 +18,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.891,
+      composition: {
+        water: 0.891,
+        protein: 0.011,
+        fat: 0.001,
+        carbohydrate: 0.0934,
+        ash: 0.0035,
         basis: "usda-fdc",
         fdcId: 170000,
         fdcDescription: "Onions, raw",
@@ -175,8 +179,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.586,
+      composition: {
+        water: 0.586,
+        protein: 0.0636,
+        fat: 0.005,
+        carbohydrate: 0.331,
+        ash: 0.015,
         basis: "usda-fdc",
         fdcId: 169230,
         fdcDescription: "Garlic, raw",

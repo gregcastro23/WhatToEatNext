@@ -58,8 +58,12 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.923,
+      composition: {
+        water: 0.923,
+        protein: 0.0035,
+        fat: 0.0024,
+        carbohydrate: 0.069,
+        ash: 0.0021,
         basis: "usda-fdc",
         fdcId: 167747,
         fdcDescription: "Lemon juice, raw",
@@ -380,8 +384,12 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0,
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
         basis: "usda-fdc",
         fdcId: 171413,
         fdcDescription: "Oil, olive, salad or cooking",
@@ -493,8 +501,12 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.908,
+      composition: {
+        water: 0.908,
+        protein: 0.0042,
+        fat: 0.0007,
+        carbohydrate: 0.0842,
+        ash: 0.0031,
         basis: "usda-fdc",
         fdcId: 168156,
         fdcDescription: "Lime juice, raw",
@@ -535,8 +547,12 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.676,
+      composition: {
+        water: 0.676,
+        protein: 0.0229,
+        fat: 0.238,
+        carbohydrate: 0.0554,
+        ash: 0.0072,
         basis: "usda-fdc",
         fdcId: 170172,
         fdcDescription: "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",

@@ -398,8 +398,12 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0002,
+      composition: {
+        water: 0.0002,
+        protein: 0,
+        fat: 0.0032,
+        carbohydrate: 0.996,
+        ash: 0.0007,
         basis: "usda-fdc",
         fdcId: 746784,
         fdcDescription: "Sugars, granulated",
@@ -433,8 +437,12 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.324,
+      composition: {
+        water: 0.324,
+        protein: 0.0004,
+        fat: 0.0006,
+        carbohydrate: 0.67,
+        ash: 0.0047,
         basis: "usda-fdc",
         fdcId: 169661,
         fdcDescription: "Syrups, maple",
@@ -711,8 +719,12 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0407,
+      composition: {
+        water: 0.0407,
+        protein: 0.152,
+        fat: 0.652,
+        carbohydrate: 0.137,
+        ash: 0.0178,
         basis: "usda-fdc",
         fdcId: 170187,
         fdcDescription: "Nuts, walnuts, english",
@@ -1285,12 +1297,17 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.526,
+      composition: {
+        water: 0.526,
+        protein: 0.0006,
+        fat: 0.0006,
+        carbohydrate: 0.126,
+        ash: 0.0026,
         basis: "usda-fdc",
         fdcId: 173471,
         fdcDescription: "Vanilla extract",
         retrieved: "2026-08-18",
+        unaccountedNote: "~34 % of the mass is ethanol, which is not a proximate component. Choi-Okos will treat that third as absent and understate the result.",
       },
       serving_size: "1 tsp (4.2g)",
       calories: 12,
@@ -1481,8 +1498,12 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.002,
+      composition: {
+        water: 0.002,
+        protein: 0,
+        fat: 0,
+        carbohydrate: 0,
+        ash: 0.998,
         basis: "usda-fdc",
         fdcId: 173468,
         fdcDescription: "Salt, table",
@@ -2651,8 +2672,12 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.712,
+      composition: {
+        water: 0.712,
+        protein: 0.0814,
+        fat: 0.0057,
+        carbohydrate: 0.0493,
+        ash: 0.152,
         basis: "usda-fdc",
         fdcId: 174277,
         fdcDescription: "Soy sauce made from soy and wheat (shoyu)",
@@ -2928,8 +2953,12 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0469,
+      composition: {
+        water: 0.0469,
+        protein: 0.177,
+        fat: 0.497,
+        carbohydrate: 0.234,
+        ash: 0.0445,
         basis: "usda-fdc",
         fdcId: 170150,
         fdcDescription: "Seeds, sesame seeds, whole, dried",

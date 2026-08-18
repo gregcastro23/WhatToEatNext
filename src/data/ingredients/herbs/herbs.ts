@@ -19,8 +19,12 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.651,
+      composition: {
+        water: 0.651,
+        protein: 0.0556,
+        fat: 0.0168,
+        carbohydrate: 0.244,
+        ash: 0.032,
         basis: "usda-fdc",
         fdcId: 173470,
         fdcDescription: "Thyme, fresh",
@@ -193,8 +197,12 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.0544,
+      composition: {
+        water: 0.0544,
+        protein: 0.0761,
+        fat: 0.0836,
+        carbohydrate: 0.75,
+        ash: 0.0362,
         basis: "usda-fdc",
         fdcId: 170917,
         fdcDescription: "Spices, bay leaf",
@@ -301,8 +309,12 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.877,
+      composition: {
+        water: 0.877,
+        protein: 0.0297,
+        fat: 0.0079,
+        carbohydrate: 0.0633,
+        ash: 0.022,
         basis: "usda-fdc",
         fdcId: 170416,
         fdcDescription: "Parsley, fresh",
@@ -376,8 +388,12 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.86,
+      composition: {
+        water: 0.86,
+        protein: 0.0346,
+        fat: 0.0112,
+        carbohydrate: 0.0702,
+        ash: 0.0245,
         basis: "usda-fdc",
         fdcId: 172233,
         fdcDescription: "Dill weed, fresh",
@@ -488,8 +504,12 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
-      waterContent: {
-        fraction: 0.922,
+      composition: {
+        water: 0.922,
+        protein: 0.0213,
+        fat: 0.0052,
+        carbohydrate: 0.0367,
+        ash: 0.0147,
         basis: "usda-fdc",
         fdcId: 169997,
         fdcDescription: "Coriander (cilantro) leaves, raw",
