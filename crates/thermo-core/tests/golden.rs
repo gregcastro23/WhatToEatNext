@@ -91,6 +91,107 @@ fn assert_slab_ulps(actual: f64, expected: f64, what: &str) {
     );
 }
 
+/// Last-bit disagreement allowed in the libm primitives a residual is built
+/// from, in ULPs of those primitives.
+///
+/// `[MEASURED 2026-08-16, PR #768]` glibc and macOS agree on `sin` and `cos`
+/// to within a last bit each; two covers the pair.
+const LIBM_ULPS: f64 = 2.0;
+
+/// Spacing of the doubles at `x`.
+fn ulp_of(x: f64) -> f64 {
+    let a = x.abs();
+    f64::from_bits(a.to_bits() + 1) - a
+}
+
+/// ULP budget for one eigenvalue row, derived from the conditioning of the
+/// residual this crate actually bisects.
+///
+/// ⚠️ A DERIVED BOUND, NOT A RAISED CEILING — [`SLAB_MAX_ULP`] is the correct
+/// budget only where the residual carries no cancellation. That is true of the
+/// slab and the cylinder and false of the sphere, and applying the slab's
+/// number to the sphere was reading a measurement taken on one family as if it
+/// covered another.
+///
+/// A bisection cannot resolve λ closer than the point where the residual's own
+/// rounding noise swamps its slope:
+///
+///     δλ = η / |f′(λ₁)|,    η ≈ LIBM_ULPS · ε · max|term|
+///
+/// For the slab and the cylinder `max|term|` is Bi itself — the residual *is*
+/// the small quantity — and this bound stays under 1 ULP at every Bi in the
+/// fixture, so the measured floor governs. The sphere is the exception. Written
+/// multiplied through by sin λ (see `eigenvalue_residual`) its terms are O(λ)
+/// while the residual it must resolve is O(Bi·λ), so the noise floor sits a
+/// factor 1/Bi above the answer.
+///
+/// `[MEASURED 2026-08-18]` The first linux run of this suite put glibc 46 ULPs
+/// from the macOS fixture on λ₁(sphere, Bi = 0.01), against a budget of 8. This
+/// bound predicts 137 there: it covers the observed drift without having been
+/// fitted to it. Bi = 0.001 predicts 1751 and happened to agree bit-for-bit on
+/// that same run — which is exactly why a flat budget cannot be raised into
+/// correctness. The next libm that rounds `sin` the other way at that row moves
+/// it by ~1000 ULP, and no constant chosen today would be the reason.
+///
+/// The teeth are intact. The loosest row this admits is 2.2e-13 relative —
+/// five orders inside the 1e-7 where a genuinely wrong constant lands.
+fn conditioned_ulp_budget(geometry: FoodGeometry, biot: f64, lambda: f64) -> u64 {
+    if lambda == 0.0 {
+        return SLAB_MAX_ULP;
+    }
+    let (term, slope) = match geometry {
+        FoodGeometry::Slab => (
+            (lambda * lambda.tan()).abs().max(biot),
+            (lambda.tan() + lambda / (lambda.cos() * lambda.cos())).abs(),
+        ),
+        FoodGeometry::Cylinder => {
+            let ratio = bessel_j1(lambda) / bessel_j0(lambda);
+            (
+                (lambda * ratio).abs().max(biot),
+                (lambda * (1.0 + ratio * ratio)).abs(),
+            )
+        }
+        FoodGeometry::Sphere => (
+            ((1.0 - biot) * lambda.sin())
+                .abs()
+                .max((lambda * lambda.cos()).abs()),
+            (-biot * lambda.cos() + lambda * lambda.sin()).abs(),
+        ),
+    };
+    let budget = (LIBM_ULPS * f64::EPSILON * term) / slope / ulp_of(lambda);
+    if !budget.is_finite() {
+        return SLAB_MAX_ULP;
+    }
+    (budget.ceil() as u64).max(SLAB_MAX_ULP)
+}
+
+/// ULP budget for A₁, which inherits λ₁'s uncertainty and nothing else.
+///
+/// Rather than differentiate each geometry's coefficient by hand, this carries
+/// λ₁'s own interval through the very function under test and measures how far
+/// A₁ moves. A₁ is therefore held exactly as tightly as λ₁ permits — no looser.
+fn coefficient_ulp_budget(geometry: FoodGeometry, lambda: f64, lambda_budget: u64, a1: f64) -> u64 {
+    if lambda == 0.0 || a1 == 0.0 {
+        return SLAB_MAX_ULP;
+    }
+    let edge = lambda + lambda_budget as f64 * ulp_of(lambda);
+    let spread = (geometry_coefficient(geometry, edge) - a1).abs();
+    let budget = spread / ulp_of(a1);
+    if !budget.is_finite() {
+        return SLAB_MAX_ULP;
+    }
+    (budget.ceil() as u64).max(SLAB_MAX_ULP)
+}
+
+fn assert_conditioned_ulps(actual: f64, expected: f64, budget: u64, what: &str) {
+    let d = ulp_distance(actual, expected);
+    assert!(
+        d <= budget,
+        "{what}: got {actual:.17e}, fixture has {expected:.17e} (Δ {:.3e}, {d} ULPs > {budget})",
+        (actual - expected).abs()
+    );
+}
+
 #[test]
 fn constants_match_the_fixture() {
     let g = fixture();
@@ -201,10 +302,18 @@ fn geometry_eigenvalues_match_the_fixture() {
             other => panic!("unknown geometry in fixture: {other}"),
         };
         let lambda = geometry_eigenvalue(geom, bi).unwrap();
-        assert_slab_ulps(lambda, f(&row["lambda1"]), &format!("λ₁({name}, Bi={bi})"));
-        assert_slab_ulps(
-            geometry_coefficient(geom, lambda),
+        let lambda_budget = conditioned_ulp_budget(geom, bi, lambda);
+        assert_conditioned_ulps(
+            lambda,
+            f(&row["lambda1"]),
+            lambda_budget,
+            &format!("λ₁({name}, Bi={bi})"),
+        );
+        let a1 = geometry_coefficient(geom, lambda);
+        assert_conditioned_ulps(
+            a1,
             f(&row["coefficientA1"]),
+            coefficient_ulp_budget(geom, lambda, lambda_budget, a1),
             &format!("A₁({name}, Bi={bi})"),
         );
         assert_bits_eq(
