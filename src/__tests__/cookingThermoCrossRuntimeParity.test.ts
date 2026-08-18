@@ -89,6 +89,25 @@ import {
   foodFatMeltingEnthalpy,
   FAT_FUSION_BAND,
 } from "@/lib/cooking/latentHeat";
+import {
+  absoluteHumidityKgM3,
+  airProperties,
+  criticalHeatFluxWm2,
+  evaporativeFlux,
+  evaporativePinnedSurfaceC,
+  forcedConvectionHFlatPlate,
+  humidAirVapourDensity,
+  naturalConvectionH,
+  nucleateBoilingFlux,
+  saturatedWaterProperties,
+  coveredWaterLoss,
+  lidHeatBalance,
+  saturationPressureKpa,
+  solveBoundaryNetwork,
+  vapourDensityKgM3,
+  type BoilingSurface,
+  type ConvectiveSurface,
+} from "@/lib/cooking/boundaryNetwork";
 import { pressureFromElevation, SEA_LEVEL_PRESSURE_KPA } from "@/lib/environment/isa";
 import {
   BUOYANCY_PER_K,
@@ -116,6 +135,28 @@ interface Golden {
   }[];
   slabEigen: { biot: number; lambda1: number; coefficientA1: number }[];
   bessel: { x: number; j0: number; j1: number }[];
+  boundaryNetwork: {
+    air: Array<Record<string, number>>;
+    water: Array<Record<string, number>>;
+    vapour: Array<Record<string, number>>;
+    convection: Array<{ surface: string; lengthM: number } & Record<string, number>>;
+    forced: Record<string, number>;
+    criticalHeatFlux: number;
+    boiling: Array<{ excessK: number; surface: string } & Record<string, number>>;
+    evaporation: Array<{ case: string } & Record<string, number>>;
+    pinnedSurface: Array<{ case: string; saturated: boolean } & Record<string, number>>;
+    network: Array<{
+      case: string;
+      totalR: number;
+      ua: number;
+      heatFlowW: number;
+      controlling: string;
+      foodBiot: number | null;
+      links: Array<{ id: string; r: number; share: number; dropK: number }>;
+    }>;
+    lid: Array<{ case: string } & Record<string, number>>;
+    coveredLoss: Array<{ holding: boolean } & Record<string, number>>;
+  };
   latentHeat: {
     waterFusionJkg: number;
     boundWaterFraction: number;
@@ -274,6 +315,51 @@ function expectNearlyExact(actual: number, expected: number, what: string): void
       `${what}: ${actual} vs Rust ${expected} — ${distance} ULP apart ` +
         `(relative ${(Math.abs(actual - expected) / Math.abs(expected)).toExponential(3)}), ` +
         `budget is ${MAX_ULP}. A gap this size is drift, not libm rounding.`,
+    );
+  }
+}
+
+/**
+ * Maximum permitted disagreement for values computed through the FORWARD
+ * Antoine direction, `10^(A − B/(C+T))`.
+ *
+ * ⚠️ SEPARATE FROM {@link MAX_ULP} ON PURPOSE, and much tighter. Reusing the
+ * tan family's budget of 8 here would hide a real regression behind a bound
+ * measured for a different function.
+ *
+ * `[MEASURED 2026-08-18]` swept over the whole 1–100 °C Antoine window,
+ * 74 values across `saturationPressureKpa` and everything chaining off it:
+ * **64 agree exactly, 5 differ by 1 ULP, 5 by 2 ULP.** Worst case 2, at 10 °C.
+ *
+ * The reformulation test was run before accepting a budget at all, because an
+ * ill-conditioned expression of MY OWN can look exactly like platform drift
+ * (it did once already — see the sphere eigenvalue). Three algebraically
+ * equivalent routes to the same power were compared:
+ *
+ *   `Math.pow(10, e)`          vs `10f64.powf(e)`             1 ULP
+ *   `Math.exp(e·LN10)`         vs `(e·LN_10).exp()`           1 ULP
+ *   `Math.pow(2, e·log2 10)`   vs `(e·LOG2_10).exp2()`        1 ULP
+ *
+ * All three disagree identically, which is what says the gap belongs to the
+ * platforms' exponential implementations and not to the way it is written.
+ * Where a reformulation DID work it was taken instead of a budget: `x⁴` is now
+ * explicit squaring on both sides rather than `pow`/`powi`, and the flat-plate
+ * Prandtl factor is `pow(x, ⅓)` on both sides rather than `cbrt`, which drifts.
+ * Both of those are 0 ULP now and are asserted with `toBe`.
+ *
+ * The bound is 1.5× the worst observed. A genuinely wrong Antoine coefficient
+ * shows up at 1e-5 relative or worse, ten orders of magnitude outside this.
+ */
+const MAX_ULP_ANTOINE = 3;
+
+/** Assert agreement to within {@link MAX_ULP_ANTOINE}. */
+function expectAntoineFamily(actual: number, expected: number, what: string): void {
+  const distance = ulpDistance(actual, expected);
+  if (distance > MAX_ULP_ANTOINE) {
+    throw new Error(
+      `${what}: ${actual} vs Rust ${expected} — ${distance} ULP apart ` +
+        `(relative ${(Math.abs(actual - expected) / Math.abs(expected)).toExponential(3)}), ` +
+        `budget is ${MAX_ULP_ANTOINE}. Re-measure; do not raise this to go green.`,
     );
   }
 }
@@ -909,6 +995,211 @@ describe("method to regime mapping", () => {
     for (let i = 0; i < 12; i += 1) {
       const o = i * FLOATS_PER_PARTICLE;
       expect(buffer[o + 6]).toBe(before[o + 6]);
+    }
+  });
+});
+
+describe("lid balance parity", () => {
+  const bn = GOLDEN.boundaryNetwork;
+  const hfg100 = 2257e3;
+
+  it("reproduces the lid temperature, an 80-step bisection, and its heat loss", () => {
+    for (const row of bn.lid) {
+      const b = lidHeatBalance({
+        lidAreaM2: row.areaM2,
+        lidPerimeterM: row.perimeterM,
+        lidThicknessM: row.thicknessM,
+        lidKWmK: row.kWmK,
+        headspaceC: 100,
+        ambientC: row.ambientC,
+        latentHeatJkg: hfg100,
+        emissivity: 0.9,
+      });
+      expect(b.lidC).toBe(row.lidC);
+      expect(b.convectiveLossW).toBe(row.convW);
+      expect(b.radiativeLossW).toBe(row.radW);
+      expect(b.totalLossW).toBe(row.totalW);
+      expect(b.condensationCapacityKgS).toBe(row.condKgS);
+    }
+  });
+
+  it("reproduces the covered-pot water balance across the power sweep", () => {
+    const cap = bn.lid.find((r) => r.case === "dutch_26cm_enamel")!.condKgS;
+    for (const row of bn.coveredLoss) {
+      const l = coveredWaterLoss(row.powerW, cap, hfg100);
+      expect(l.steamGeneratedKgS).toBe(row.steamKgS);
+      expect(l.condensateReturnedKgS).toBe(row.returnedKgS);
+      expect(l.netLossKgS).toBe(row.netKgS);
+      expect(l.returnFraction).toBe(row.returnFraction);
+      expect(l.holding).toBe(row.holding);
+    }
+  });
+});
+
+describe("boundary network parity", () => {
+  const bn = GOLDEN.boundaryNetwork;
+
+  it("reproduces every air property, including the three derived columns", () => {
+    // ν, α and Pr are not stored in either runtime — they are computed from
+    // ρ, cp, μ and k. Asserting them bit-for-bit therefore checks the ARITHMETIC
+    // as well as the table, which is the whole reason for deriving them.
+    for (const row of bn.air) {
+      const a = airProperties(row.celsius);
+      expect(a.rhoKgM3).toBe(row.rho);
+      expect(a.cpJkgK).toBe(row.cp);
+      expect(a.muPaS).toBe(row.mu);
+      expect(a.kWmK).toBe(row.k);
+      expect(a.nuM2s).toBe(row.nu);
+      expect(a.alphaM2s).toBe(row.alpha);
+      expect(a.prandtl).toBe(row.prandtl);
+      expect(a.betaPerK).toBe(row.beta);
+    }
+  });
+
+  it("reproduces saturated water, including the finite-differenced β", () => {
+    // β is a central difference over the stored density column, so its bracket
+    // selection is a branch that could easily differ between runtimes. It does
+    // not, and this is what says so.
+    for (const row of bn.water) {
+      const w = saturatedWaterProperties(row.celsius);
+      expect(w.rhoKgM3).toBe(row.rho);
+      expect(w.cpJkgK).toBe(row.cp);
+      expect(w.muPaS).toBe(row.mu);
+      expect(w.kWmK).toBe(row.k);
+      expect(w.nuM2s).toBe(row.nu);
+      expect(w.alphaM2s).toBe(row.alpha);
+      expect(w.prandtl).toBe(row.prandtl);
+      expect(w.betaPerK).toBe(row.beta);
+      expect(w.sigmaNm).toBe(row.sigma);
+      expect(w.hfgJkg).toBe(row.hfg);
+      // Chains off the forward Antoine power — the one scoped exception.
+      expectAntoineFamily(w.rhoVapourKgM3, row.rhoVapour, `water ${row.celsius} rhoVapour`);
+    }
+  });
+
+  it("reproduces the forward Antoine direction and both humidity conversions", () => {
+    // Everything here is downstream of `10^(A − B/(C+T))`, whose two libm
+    // implementations disagree in the last bit for some arguments. That is the
+    // ONLY scoped exception in this block; every other field below is `toBe`.
+    for (const row of bn.vapour) {
+      const p = saturationPressureKpa(row.celsius);
+      expectAntoineFamily(p, row.satKpa, `satKpa ${row.celsius}`);
+      expectAntoineFamily(vapourDensityKgM3(p, row.celsius), row.rhoSat, `rhoSat ${row.celsius}`);
+      expectAntoineFamily(
+        absoluteHumidityKgM3(row.celsius, 50),
+        row.absHumid50,
+        `absHumid ${row.celsius}`,
+      );
+      expectAntoineFamily(
+        humidAirVapourDensity(row.celsius, 50, 200),
+        row.heatedTo200,
+        `heatedTo200 ${row.celsius}`,
+      );
+    }
+  });
+
+  it("reproduces every convection correlation to the bit", () => {
+    // `Math.pow(x, 9/16)` and `powf(9.0/16.0)` are separate libm calls on
+    // separate platforms. This is exactly where the Bessel work found drift
+    // before, so it is asserted rather than assumed.
+    const film = airProperties(60);
+    for (const row of bn.convection) {
+      const r = naturalConvectionH(film, row.surface as ConvectiveSurface, 80, row.lengthM);
+      expect(r.rayleigh).toBe(row.rayleigh);
+      expect(r.nusselt).toBe(row.nusselt);
+      expect(r.hWm2K).toBe(row.h);
+    }
+    const lam = forcedConvectionHFlatPlate(film, 3, 0.3);
+    expect(lam.rayleigh).toBe(bn.forced.laminarRe);
+    expect(lam.nusselt).toBe(bn.forced.laminarNu);
+    expect(lam.hWm2K).toBe(bn.forced.laminarH);
+    const turb = forcedConvectionHFlatPlate(film, 40, 0.3);
+    expect(turb.rayleigh).toBe(bn.forced.turbulentRe);
+    expect(turb.nusselt).toBe(bn.forced.turbulentNu);
+    expect(turb.hWm2K).toBe(bn.forced.turbulentH);
+  });
+
+  it("reproduces Rohsenow and Zuber across surfaces and excess temperatures", () => {
+    const w100 = saturatedWaterProperties(100);
+    expect(criticalHeatFluxWm2(w100)).toBe(bn.criticalHeatFlux);
+    for (const row of bn.boiling) {
+      const b = nucleateBoilingFlux(w100, row.excessK, row.surface as BoilingSurface);
+      expect(b.fluxWm2).toBe(row.flux);
+      expect(b.hWm2K).toBe(row.h);
+      expect(b.burnoutFraction).toBe(row.burnout);
+    }
+  });
+
+  it("reproduces the Chilton–Colburn evaporation, condensation branch included", () => {
+    for (const row of bn.evaporation) {
+      const clamped = Math.max(280 - 273.15, Math.min(100, row.surfaceC));
+      const w = saturatedWaterProperties(clamped);
+      const e = evaporativeFlux(row.h, row.surfaceC, row.airC, row.bulkVapour, w.hfgJkg);
+      // The transport half is exact; only the vapour-density driving force
+      // carries the Antoine power.
+      expect(e.lewis).toBe(row.lewis);
+      expect(e.hMassMs).toBe(row.hMass);
+      expectAntoineFamily(e.massFluxKgM2s, row.massFlux, `${row.case} massFlux`);
+      expectAntoineFamily(e.latentFluxWm2, row.latentFlux, `${row.case} latentFlux`);
+    }
+  });
+
+  it("reproduces the pinned surface, which is 80 bisection steps deep", () => {
+    // Bisection amplifies any disagreement: one differing comparison early
+    // sends the two runtimes down different halves and they never reconverge.
+    // Bit-equality here is a strong statement about the whole evaporation stack.
+    for (const row of bn.pinnedSurface) {
+      const r = evaporativePinnedSurfaceC(row.airC, row.bulkVapour, row.h, row.radiantC, 0.9, row.ceilingC);
+      // The bisection itself lands on the SAME double in both runtimes — 80
+      // halvings deep, which is the strongest single statement in this file.
+      // Only the two evaporative quantities carry the Antoine power.
+      expect(r.celsius).toBe(row.celsius);
+      expect(r.convectiveGainWm2).toBe(row.convGain);
+      expect(r.radiativeGainWm2).toBe(row.radGain);
+      expectAntoineFamily(r.evaporativeLossWm2, row.evapLoss, `${row.case} evapLoss`);
+      expectAntoineFamily(r.massFluxKgM2s, row.massFlux, `${row.case} massFlux`);
+      expect(r.saturated).toBe(row.saturated);
+    }
+  });
+
+  it("reproduces every resistance in the chain, and the same controlling link", () => {
+    const potato = {
+      geometry: "sphere" as const,
+      halfDimensionM: 0.025,
+      kWmK: 0.55,
+      areaM2: 4 * Math.PI * 0.025 * 0.025,
+    };
+    const vessel = {
+      sourceToVesselHWm2K: 60,
+      areaM2: 0.05,
+      kWmK: 15,
+      thicknessM: 0.003,
+      vesselToMediumHWm2K: 5000,
+    };
+    const cases: Record<string, Parameters<typeof solveBoundaryNetwork>[0]> = {
+      "oven-rack": { sourceC: 200, sinkC: 20, food: { ...potato, mediumToFoodHWm2K: 15 } },
+      "boiling-pot": {
+        sourceC: 250,
+        sinkC: 20,
+        vessel,
+        food: { ...potato, mediumToFoodHWm2K: 1500 },
+      },
+      "empty-pot": { sourceC: 250, sinkC: 100, vessel },
+    };
+    for (const row of bn.network) {
+      const n = solveBoundaryNetwork(cases[row.case]);
+      expect(n.totalResistanceKperW).toBe(row.totalR);
+      expect(n.uaWperK).toBe(row.ua);
+      expect(n.heatFlowW).toBe(row.heatFlowW);
+      expect(n.controlling.id).toBe(row.controlling);
+      expect(n.foodBiot).toBe(row.foodBiot);
+      expect(n.links.length).toBe(row.links.length);
+      row.links.forEach((expected, i) => {
+        expect(n.links[i].id).toBe(expected.id);
+        expect(n.links[i].resistanceKperW).toBe(expected.r);
+        expect(n.links[i].share).toBe(expected.share);
+        expect(n.links[i].dropK).toBe(expected.dropK);
+      });
     }
   });
 });

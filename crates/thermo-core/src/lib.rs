@@ -1658,3 +1658,883 @@ pub fn latent_as_temperature_rise(
     }
     Ok(latent_j_kg / specific_heat_j_kg_k)
 }
+
+// ============================================================================
+// Boundary network — fluid properties, correlations, evaporation, resistances
+// ============================================================================
+//
+// Mirror of `src/lib/cooking/boundaryNetwork.ts`. Every table row, coefficient
+// and envelope is duplicated here on purpose: the golden fixture asserts the
+// two runtimes agree to the BIT, so a transcription that drifts fails a test
+// rather than quietly serving two different answers on server and client.
+//
+// The commentary explaining WHY each value is what it is lives in the
+// TypeScript file. This file carries the basis lines and the traps only.
+
+/// Standard acceleration of gravity, m·s⁻². Exact by definition (CGPM 1901).
+pub const STANDARD_GRAVITY: f64 = 9.80665;
+
+/// Molar mass of water, kg·mol⁻¹. IUPAC 2021 standard atomic weights.
+pub const MOLAR_MASS_WATER: f64 = 0.01801528;
+
+/// Universal gas constant, J·mol⁻¹·K⁻¹. Exact by the 2019 SI redefinition.
+pub const GAS_CONSTANT: f64 = 8.31446261815324;
+
+/// Dry air at 1 atm: `[K, ρ, cp, μ, k]`. Incropera Table A.4.
+///
+/// ν, α and Pr are DERIVED, not stored — they are algebraically redundant, and
+/// the printed columns are used in the test files as a transcription check.
+const AIR_TABLE: [[f64; 5]; 12] = [
+    [250.0, 1.3947, 1006.0, 159.6e-7, 22.3e-3],
+    [300.0, 1.1614, 1007.0, 184.6e-7, 26.3e-3],
+    [350.0, 0.995, 1009.0, 208.2e-7, 30.0e-3],
+    [400.0, 0.8711, 1014.0, 230.1e-7, 33.8e-3],
+    [450.0, 0.774, 1021.0, 250.7e-7, 37.3e-3],
+    [500.0, 0.6964, 1030.0, 270.1e-7, 40.7e-3],
+    [550.0, 0.6329, 1040.0, 288.4e-7, 43.9e-3],
+    [600.0, 0.5804, 1051.0, 305.8e-7, 46.9e-3],
+    [650.0, 0.5356, 1063.0, 322.5e-7, 49.7e-3],
+    [700.0, 0.4975, 1075.0, 338.8e-7, 52.4e-3],
+    [750.0, 0.4643, 1087.0, 354.6e-7, 54.9e-3],
+    [800.0, 0.4354, 1099.0, 369.8e-7, 57.3e-3],
+];
+
+/// Saturated liquid water: `[K, ρ, cp, μ, k, σ, h_fg]`. Incropera Table A.6.
+///
+/// ⚠️ The 373.15 K viscosity is the independently known **0.2818 mPa·s**, not
+/// the 279e-6 first transcribed — which closed the Prandtl identity to 1.730
+/// against a printed 1.76, an outlier against every other row's ≤0.4 %.
+const WATER_TABLE: [[f64; 7]; 11] = [
+    [280.0, 1000.0, 4198.0, 1422e-6, 582e-3, 74.8e-3, 2485e3],
+    [290.0, 999.0, 4184.0, 1080e-6, 598e-3, 73.7e-3, 2461e3],
+    [300.0, 997.0, 4179.0, 855e-6, 613e-3, 71.7e-3, 2438e3],
+    [310.0, 993.05, 4178.0, 695e-6, 628e-3, 70.0e-3, 2414e3],
+    [320.0, 989.12, 4180.0, 577e-6, 640e-3, 68.3e-3, 2390e3],
+    [330.0, 984.25, 4184.0, 489e-6, 650e-3, 66.6e-3, 2366e3],
+    [340.0, 979.43, 4188.0, 420e-6, 660e-3, 64.9e-3, 2342e3],
+    [350.0, 973.71, 4195.0, 365e-6, 668e-3, 63.2e-3, 2317e3],
+    [360.0, 967.12, 4203.0, 324e-6, 674e-3, 61.4e-3, 2291e3],
+    [370.0, 960.61, 4214.0, 289e-6, 679e-3, 59.5e-3, 2265e3],
+    [373.15, 957.85, 4217.0, 281.8e-6, 680e-3, 58.9e-3, 2257e3],
+];
+
+/// Lowest tabulated air temperature, °C.
+pub const AIR_MIN_C: f64 = 250.0 - 273.15;
+/// Highest tabulated air temperature, °C.
+pub const AIR_MAX_C: f64 = 800.0 - 273.15;
+/// Lowest tabulated saturated-water temperature, °C.
+pub const WATER_MIN_C: f64 = 280.0 - 273.15;
+/// Highest tabulated saturated-water temperature, °C — the normal boiling point.
+pub const WATER_MAX_C: f64 = 373.15 - 273.15;
+
+/// A fluid's transport properties at one temperature.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FluidState {
+    pub celsius: f64,
+    pub kelvin: f64,
+    pub rho_kg_m3: f64,
+    pub cp_j_kg_k: f64,
+    pub mu_pa_s: f64,
+    pub k_w_m_k: f64,
+    pub nu_m2_s: f64,
+    pub alpha_m2_s: f64,
+    pub prandtl: f64,
+    pub beta_per_k: f64,
+}
+
+/// Saturated liquid water, plus the two properties only a liquid–vapour pair has.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct WaterState {
+    pub fluid: FluidState,
+    pub sigma_n_m: f64,
+    pub hfg_j_kg: f64,
+    pub rho_vapour_kg_m3: f64,
+}
+
+/// Locate `x` in a sorted first column; return the low index and the weight.
+///
+/// Mirrors the TypeScript loop EXACTLY, including its clamp at the top row —
+/// a binary search would find the same bracket but is not guaranteed to
+/// produce the same `t` in floating point, and this pair is asserted bit-equal.
+fn bracket_index(first_col: &[f64], x: f64) -> (usize, f64) {
+    let mut lo = 0usize;
+    for i in 1..first_col.len() {
+        if first_col[i] <= x {
+            lo = i;
+        }
+    }
+    if lo == first_col.len() - 1 {
+        lo = first_col.len() - 2;
+    }
+    let span = first_col[lo + 1] - first_col[lo];
+    (lo, (x - first_col[lo]) / span)
+}
+
+fn lerp(a: f64, b: f64, t: f64) -> f64 {
+    a + (b - a) * t
+}
+
+/// Dry air properties at 1 atm, linearly interpolated. Refuses outside the table.
+pub fn air_properties(celsius: f64) -> Result<FluidState, ThermoError> {
+    if !celsius.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if celsius < AIR_MIN_C || celsius > AIR_MAX_C {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    let kelvin = celsius + 273.15;
+    let firsts: Vec<f64> = AIR_TABLE.iter().map(|r| r[0]).collect();
+    let (i, t) = bracket_index(&firsts, kelvin);
+    let rho_kg_m3 = lerp(AIR_TABLE[i][1], AIR_TABLE[i + 1][1], t);
+    let cp_j_kg_k = lerp(AIR_TABLE[i][2], AIR_TABLE[i + 1][2], t);
+    let mu_pa_s = lerp(AIR_TABLE[i][3], AIR_TABLE[i + 1][3], t);
+    let k_w_m_k = lerp(AIR_TABLE[i][4], AIR_TABLE[i + 1][4], t);
+    let nu_m2_s = mu_pa_s / rho_kg_m3;
+    let alpha_m2_s = k_w_m_k / (rho_kg_m3 * cp_j_kg_k);
+    Ok(FluidState {
+        celsius,
+        kelvin,
+        rho_kg_m3,
+        cp_j_kg_k,
+        mu_pa_s,
+        k_w_m_k,
+        nu_m2_s,
+        alpha_m2_s,
+        prandtl: nu_m2_s / alpha_m2_s,
+        beta_per_k: 1.0 / kelvin,
+    })
+}
+
+/// Saturated liquid water properties. β is a central difference on the stored
+/// density column — 8.1 % high at 300 K, which is 1.97 % in h and far inside
+/// the natural-convection correlations' own ±20–30 %.
+pub fn saturated_water_properties(celsius: f64) -> Result<WaterState, ThermoError> {
+    if !celsius.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if celsius < WATER_MIN_C || celsius > WATER_MAX_C {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    let kelvin = celsius + 273.15;
+    let firsts: Vec<f64> = WATER_TABLE.iter().map(|r| r[0]).collect();
+    let (i, t) = bracket_index(&firsts, kelvin);
+    let rho_kg_m3 = lerp(WATER_TABLE[i][1], WATER_TABLE[i + 1][1], t);
+    let cp_j_kg_k = lerp(WATER_TABLE[i][2], WATER_TABLE[i + 1][2], t);
+    let mu_pa_s = lerp(WATER_TABLE[i][3], WATER_TABLE[i + 1][3], t);
+    let k_w_m_k = lerp(WATER_TABLE[i][4], WATER_TABLE[i + 1][4], t);
+    let sigma_n_m = lerp(WATER_TABLE[i][5], WATER_TABLE[i + 1][5], t);
+    let hfg_j_kg = lerp(WATER_TABLE[i][6], WATER_TABLE[i + 1][6], t);
+    let nu_m2_s = mu_pa_s / rho_kg_m3;
+    let alpha_m2_s = k_w_m_k / (rho_kg_m3 * cp_j_kg_k);
+
+    let lo = if t < 0.5 { i.saturating_sub(1) } else { i };
+    let hi = (lo + 2).min(WATER_TABLE.len() - 1);
+    let beta_per_k = -(WATER_TABLE[hi][1] - WATER_TABLE[lo][1])
+        / (rho_kg_m3 * (WATER_TABLE[hi][0] - WATER_TABLE[lo][0]));
+
+    let sat_kpa = saturation_pressure_kpa(celsius.min(100.0))?;
+    Ok(WaterState {
+        fluid: FluidState {
+            celsius,
+            kelvin,
+            rho_kg_m3,
+            cp_j_kg_k,
+            mu_pa_s,
+            k_w_m_k,
+            nu_m2_s,
+            alpha_m2_s,
+            prandtl: nu_m2_s / alpha_m2_s,
+            beta_per_k,
+        },
+        sigma_n_m,
+        hfg_j_kg,
+        rho_vapour_kg_m3: vapour_density_kg_m3(sat_kpa, celsius),
+    })
+}
+
+/// Saturation vapour pressure of water, kPa — the FORWARD Antoine direction.
+///
+/// Shares the one coefficient triple with [`boiling_point_c`], so the two round
+/// trip; the fixture pins that they do.
+pub fn saturation_pressure_kpa(celsius: f64) -> Result<f64, ThermoError> {
+    if !celsius.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if !(1.0..=100.0).contains(&celsius) {
+        return Err(ThermoError::OutsideAntoineRange);
+    }
+    Ok(10f64.powf(8.07131 - 1730.63 / (233.426 + celsius)) / 7.500617)
+}
+
+/// Density of water vapour at a stated partial pressure, kg·m⁻³ (ideal gas).
+pub fn vapour_density_kg_m3(partial_pressure_kpa: f64, celsius: f64) -> f64 {
+    (partial_pressure_kpa * 1000.0 * MOLAR_MASS_WATER) / (GAS_CONSTANT * (celsius + 273.15))
+}
+
+/// Absolute humidity of moist air, kg·m⁻³.
+///
+/// ⚠️ Refuses above 100 °C: saturation pressure exceeds atmospheric there, so
+/// any relative humidity implies more vapour than 1 atm of air can hold. That
+/// is a broken variable, not a wide envelope.
+pub fn absolute_humidity_kg_m3(
+    celsius: f64,
+    relative_humidity_pct: f64,
+) -> Result<f64, ThermoError> {
+    if !(0.0..=100.0).contains(&relative_humidity_pct) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if celsius > 100.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    let partial = saturation_pressure_kpa(celsius)? * (relative_humidity_pct / 100.0);
+    Ok(vapour_density_kg_m3(partial, celsius))
+}
+
+/// Vapour density of kitchen air heated to `air_c`, kg·m⁻³.
+///
+/// A vented oven holds room air that got hot: same mole fraction, lower density,
+/// `ρ_v ∝ 1/T`. 8.609 g·m⁻³ at 20 °C becomes 5.334 at 200 °C.
+pub fn humid_air_vapour_density(
+    ambient_c: f64,
+    relative_humidity_pct: f64,
+    air_c: f64,
+) -> Result<f64, ThermoError> {
+    let ambient = absolute_humidity_kg_m3(ambient_c, relative_humidity_pct)?;
+    Ok((ambient * (ambient_c + 273.15)) / (air_c + 273.15))
+}
+
+/// Rayleigh number `g·β·ΔT·L³/(ν·α)`.
+pub fn rayleigh_number(fluid: &FluidState, delta_t_k: f64, length_m: f64) -> f64 {
+    (STANDARD_GRAVITY * fluid.beta_per_k * delta_t_k.abs() * length_m * length_m * length_m)
+        / (fluid.nu_m2_s * fluid.alpha_m2_s)
+}
+
+/// Which face a natural-convection correlation describes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ConvectiveSurface {
+    Vertical,
+    HorizontalUp,
+    HorizontalDown,
+    HorizontalCylinder,
+}
+
+/// Result of a convection correlation.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ConvectionResult {
+    pub h_w_m2_k: f64,
+    pub nusselt: f64,
+    /// Rayleigh for natural convection; Reynolds for forced.
+    pub dimensionless: f64,
+    /// True when the correlation was asked outside its published envelope.
+    pub extrapolated: bool,
+}
+
+/// Natural-convection coefficient. Churchill & Chu (1975) for the vertical
+/// plate and horizontal cylinder; McAdams for the flat plates.
+///
+/// ⚠️ These correlations carry ±20–30 % of their own. Two significant figures
+/// is all the precision that exists here, however many the arithmetic prints.
+pub fn natural_convection_h(
+    fluid: &FluidState,
+    surface: ConvectiveSurface,
+    delta_t_k: f64,
+    length_m: f64,
+) -> Result<ConvectionResult, ThermoError> {
+    if !(length_m > 0.0) || !length_m.is_finite() {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    let ra = rayleigh_number(fluid, delta_t_k, length_m);
+    let pr = fluid.prandtl;
+    let (nusselt, extrapolated) = match surface {
+        ConvectiveSurface::Vertical => {
+            let denom = (1.0 + (0.492 / pr).powf(9.0 / 16.0)).powf(8.0 / 27.0);
+            let root = 0.825 + (0.387 * ra.powf(1.0 / 6.0)) / denom;
+            (root * root, false)
+        }
+        ConvectiveSurface::HorizontalCylinder => {
+            let denom = (1.0 + (0.559 / pr).powf(9.0 / 16.0)).powf(8.0 / 27.0);
+            let root = 0.6 + (0.387 * ra.powf(1.0 / 6.0)) / denom;
+            (root * root, ra > 1e12)
+        }
+        ConvectiveSurface::HorizontalUp => {
+            if ra < 1e7 {
+                (0.54 * ra.powf(0.25), ra < 1e4)
+            } else {
+                (0.15 * ra.powf(1.0 / 3.0), ra > 1e11)
+            }
+        }
+        ConvectiveSurface::HorizontalDown => (0.27 * ra.powf(0.25), !(1e5..=1e10).contains(&ra)),
+    };
+    Ok(ConvectionResult {
+        h_w_m2_k: (nusselt * fluid.k_w_m_k) / length_m,
+        nusselt,
+        dimensionless: ra,
+        extrapolated,
+    })
+}
+
+/// Characteristic length for a flat plate: `A/P`. For a circle that is **D/4**.
+pub fn plate_characteristic_length(area_m2: f64, perimeter_m: f64) -> Result<f64, ThermoError> {
+    if !(area_m2 > 0.0) || !(perimeter_m > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    Ok(area_m2 / perimeter_m)
+}
+
+/// Forced convection over a flat plate. Laminar below Re = 5e5, mixed above.
+pub fn forced_convection_h_flat_plate(
+    fluid: &FluidState,
+    velocity_m_s: f64,
+    length_m: f64,
+) -> Result<ConvectionResult, ThermoError> {
+    if velocity_m_s < 0.0 || !(length_m > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    let re = (velocity_m_s * length_m) / fluid.nu_m2_s;
+    // `powf(1/3)`, NOT `cbrt`: the two runtimes' `cbrt` disagree by 1 ULP at
+    // realistic Prandtl numbers while `powf` with a ⅓ exponent agrees exactly.
+    let pr_cube = fluid.prandtl.powf(1.0 / 3.0);
+    let nusselt = if re < 5e5 {
+        0.664 * re.sqrt() * pr_cube
+    } else {
+        (0.037 * re.powf(0.8) - 871.0) * pr_cube
+    };
+    Ok(ConvectionResult {
+        h_w_m2_k: (nusselt * fluid.k_w_m_k) / length_m,
+        nusselt,
+        dimensionless: re,
+        extrapolated: fluid.prandtl < 0.6,
+    })
+}
+
+/// Rohsenow surface–fluid pairing for water, Incropera Table 10.1.
+///
+/// ⚠️ `C_sf` is CUBED, so scored stainless transfers 11.79× the flux of a
+/// polished one at the same excess temperature — enough to put the two pans in
+/// different regimes at the same dial.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BoilingSurface {
+    StainlessPolished,
+    StainlessEtched,
+    StainlessGround,
+    StainlessScored,
+    CopperPolished,
+    CopperScored,
+    Brass,
+}
+
+impl BoilingSurface {
+    pub fn csf(self) -> f64 {
+        match self {
+            BoilingSurface::StainlessPolished => 0.0132,
+            BoilingSurface::StainlessEtched => 0.0130,
+            BoilingSurface::StainlessGround => 0.0080,
+            BoilingSurface::StainlessScored => 0.0058,
+            BoilingSurface::CopperPolished => 0.0128,
+            BoilingSurface::CopperScored => 0.0068,
+            BoilingSurface::Brass => 0.0060,
+        }
+    }
+}
+
+/// Rohsenow's Prandtl exponent. 1.0 for water; 1.7 for every other fluid.
+pub const ROHSENOW_PR_EXPONENT_WATER: f64 = 1.0;
+
+/// Zuber's critical heat flux for saturated pool boiling, W·m⁻².
+pub fn critical_heat_flux_wm2(water: &WaterState) -> f64 {
+    0.149
+        * water.hfg_j_kg
+        * water.rho_vapour_kg_m3.sqrt()
+        * (water.sigma_n_m * STANDARD_GRAVITY * (water.fluid.rho_kg_m3 - water.rho_vapour_kg_m3))
+            .powf(0.25)
+}
+
+/// Nucleate pool boiling, Rohsenow (1952).
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct BoilingResult {
+    pub flux_w_m2: f64,
+    pub h_w_m2_k: f64,
+    pub critical_flux_w_m2: f64,
+    pub burnout_fraction: f64,
+}
+
+/// Nucleate pool boiling flux, W·m⁻². Goes as the excess temperature CUBED.
+///
+/// ⚠️ REFUSES above the critical heat flux, where the vapour film goes
+/// continuous and flux FALLS — Rohsenow's monotone cube points the wrong way
+/// there and would invent energy.
+pub fn nucleate_boiling_flux(
+    water: &WaterState,
+    excess_temp_k: f64,
+    surface: BoilingSurface,
+) -> Result<BoilingResult, ThermoError> {
+    if !excess_temp_k.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if excess_temp_k <= 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    let buoyancy = ((STANDARD_GRAVITY * (water.fluid.rho_kg_m3 - water.rho_vapour_kg_m3))
+        / water.sigma_n_m)
+        .sqrt();
+    let bracket_term = (water.fluid.cp_j_kg_k * excess_temp_k)
+        / (surface.csf() * water.hfg_j_kg * water.fluid.prandtl.powf(ROHSENOW_PR_EXPONENT_WATER));
+    let flux_w_m2 = water.fluid.mu_pa_s * water.hfg_j_kg * buoyancy * bracket_term.powi(3);
+    let critical_flux_w_m2 = critical_heat_flux_wm2(water);
+    let burnout_fraction = flux_w_m2 / critical_flux_w_m2;
+    if burnout_fraction > 1.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(BoilingResult {
+        flux_w_m2,
+        h_w_m2_k: flux_w_m2 / excess_temp_k,
+        critical_flux_w_m2,
+        burnout_fraction,
+    })
+}
+
+/// Binary diffusion coefficient of water vapour in air at 298 K, m²·s⁻¹.
+pub const D_WATER_AIR_298: f64 = 0.26e-4;
+
+/// Diffusion coefficient of water vapour in air, scaled as `T^{3/2}`.
+///
+/// ⚠️ Fuller's empirical `T^{1.75}` differs by 10.9 % at 200 °C, reaching the
+/// flux as 7.4 % after `Le^{-2/3}`. Inside the convection envelope, but this is
+/// the first exponent to replace if better than ±10 % is ever needed.
+pub fn diffusion_water_in_air(celsius: f64) -> f64 {
+    D_WATER_AIR_298 * ((celsius + 273.15) / 298.0).powf(1.5)
+}
+
+/// Evaporative mass and heat flux, Chilton–Colburn analogy.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct EvaporationResult {
+    pub mass_flux_kg_m2_s: f64,
+    pub latent_flux_w_m2: f64,
+    pub h_mass_m_s: f64,
+    pub lewis: f64,
+    pub surface_vapour_kg_m3: f64,
+    pub bulk_vapour_kg_m3: f64,
+}
+
+/// Evaporative flux from a free water surface.
+///
+/// ⚠️ FREE WATER, so an upper bound on evaporation: real food's crust limits
+/// moisture migration and the true flux is lower. The negative branch is
+/// condensation and is deliberately not clamped.
+pub fn evaporative_flux(
+    h_w_m2_k: f64,
+    surface_c: f64,
+    air_c: f64,
+    bulk_vapour_kg_m3: f64,
+    latent_heat_j_kg: f64,
+) -> Result<EvaporationResult, ThermoError> {
+    if h_w_m2_k < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    let film_c = (surface_c + air_c) / 2.0;
+    let film = air_properties(film_c)?;
+    let lewis = film.alpha_m2_s / diffusion_water_in_air(film_c);
+    let h_mass_m_s = h_w_m2_k / (film.rho_kg_m3 * film.cp_j_kg_k * lewis.powf(2.0 / 3.0));
+    let surface_vapour_kg_m3 = vapour_density_kg_m3(saturation_pressure_kpa(surface_c)?, surface_c);
+    let mass_flux_kg_m2_s = h_mass_m_s * (surface_vapour_kg_m3 - bulk_vapour_kg_m3);
+    Ok(EvaporationResult {
+        mass_flux_kg_m2_s,
+        latent_flux_w_m2: mass_flux_kg_m2_s * latent_heat_j_kg,
+        h_mass_m_s,
+        lewis,
+        surface_vapour_kg_m3,
+        bulk_vapour_kg_m3,
+    })
+}
+
+/// Where a freely-evaporating surface settles.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PinnedSurfaceResult {
+    pub celsius: f64,
+    pub depression_k: f64,
+    pub convective_gain_w_m2: f64,
+    pub radiative_gain_w_m2: f64,
+    pub evaporative_loss_w_m2: f64,
+    pub mass_flux_kg_m2_s: f64,
+    pub saturated: bool,
+}
+
+/// Steady-state temperature of a freely-evaporating surface, by bisection.
+///
+/// ⚠️ The FREE-WATER limit — real food sits above it, because once a surface
+/// dries the evaporative term weakens. Read it as "as cold as the surface can
+/// possibly be", which is the bound worth knowing when asking why something
+/// has not browned.
+pub fn evaporative_pinned_surface_c(
+    air_c: f64,
+    bulk_vapour_kg_m3: f64,
+    h_w_m2_k: f64,
+    radiant_source_c: f64,
+    emissivity: f64,
+    ceiling_c: f64,
+) -> Result<PinnedSurfaceResult, ThermoError> {
+    // Explicit squaring, not `powi(4)`: matches the TypeScript half exactly,
+    // where `Math.pow(x, 4)` differs from this by 1 ULP.
+    fn pow4(x: f64) -> f64 {
+        let sq = x * x;
+        sq * sq
+    }
+    let source_k4 = pow4(radiant_source_c + 273.15);
+    let hi = ceiling_c.min(100.0);
+    let lo = 1.0_f64;
+
+    let evaluate = |ts: f64| -> Result<(f64, EvaporationResult), ThermoError> {
+        let water = saturated_water_properties(ts.clamp(WATER_MIN_C, WATER_MAX_C))?;
+        let evap = evaporative_flux(h_w_m2_k, ts, air_c, bulk_vapour_kg_m3, water.hfg_j_kg)?;
+        let conv = h_w_m2_k * (air_c - ts);
+        let rad = emissivity * STEFAN_BOLTZMANN * (source_k4 - pow4(ts + 273.15));
+        Ok((conv + rad - evap.latent_flux_w_m2, evap))
+    };
+
+    let (imbalance_hi, evap_hi) = evaluate(hi)?;
+    if imbalance_hi > 0.0 {
+        return Ok(PinnedSurfaceResult {
+            celsius: hi,
+            depression_k: air_c - hi,
+            convective_gain_w_m2: h_w_m2_k * (air_c - hi),
+            radiative_gain_w_m2: emissivity * STEFAN_BOLTZMANN * (source_k4 - pow4(hi + 273.15)),
+            evaporative_loss_w_m2: evap_hi.latent_flux_w_m2,
+            mass_flux_kg_m2_s: evap_hi.mass_flux_kg_m2_s,
+            saturated: true,
+        });
+    }
+
+    let mut a = lo;
+    let mut b = hi;
+    for _ in 0..80 {
+        let mid = (a + b) / 2.0;
+        if evaluate(mid)?.0 > 0.0 {
+            a = mid;
+        } else {
+            b = mid;
+        }
+    }
+    let celsius = (a + b) / 2.0;
+    let (_, evap) = evaluate(celsius)?;
+    Ok(PinnedSurfaceResult {
+        celsius,
+        depression_k: air_c - celsius,
+        convective_gain_w_m2: h_w_m2_k * (air_c - celsius),
+        radiative_gain_w_m2: emissivity
+            * STEFAN_BOLTZMANN
+            * (source_k4 - pow4(celsius + 273.15)),
+        evaporative_loss_w_m2: evap.latent_flux_w_m2,
+        mass_flux_kg_m2_s: evap.mass_flux_kg_m2_s,
+        saturated: false,
+    })
+}
+
+/// One link in the chain from source to core.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BoundaryLink {
+    pub id: &'static str,
+    pub resistance_k_per_w: f64,
+    pub area_m2: f64,
+    pub h_w_m2_k: Option<f64>,
+    pub share: f64,
+    pub drop_k: f64,
+}
+
+/// The vessel half of a chain. Omitted for a roast on a rack.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct VesselLeg {
+    pub source_to_vessel_h_w_m2_k: f64,
+    pub area_m2: f64,
+    pub k_w_m_k: f64,
+    pub thickness_m: f64,
+    pub vessel_to_medium_h_w_m2_k: f64,
+}
+
+/// The food half of a chain.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FoodLeg {
+    pub medium_to_food_h_w_m2_k: f64,
+    pub geometry: FoodGeometry,
+    pub half_dimension_m: f64,
+    pub k_w_m_k: f64,
+    pub area_m2: f64,
+}
+
+/// Solved series chain.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BoundaryNetworkResult {
+    pub links: Vec<BoundaryLink>,
+    pub total_resistance_k_per_w: f64,
+    pub ua_w_per_k: f64,
+    pub heat_flow_w: f64,
+    pub controlling: usize,
+    pub node_celsius: Vec<f64>,
+    /// `R_internal / R_external`, which IS the Biot number algebraically.
+    ///
+    /// ⚠️ Agrees with `biot_number` to a handful of ULP, not to the bit: the
+    /// food's area cancels on paper, and the two paths round differently.
+    pub food_biot: Option<f64>,
+}
+
+/// Solve the series chain and report which link controls.
+///
+/// Steady state. The transient answer for the interior is the Heisler one-term
+/// series; this sizes the boundary that solution takes as given.
+pub fn solve_boundary_network(
+    source_c: f64,
+    sink_c: f64,
+    vessel: Option<VesselLeg>,
+    food: Option<FoodLeg>,
+) -> Result<BoundaryNetworkResult, ThermoError> {
+    let mut ids: Vec<&'static str> = Vec::new();
+    let mut resistances: Vec<f64> = Vec::new();
+    let mut areas: Vec<f64> = Vec::new();
+    let mut coefficients: Vec<Option<f64>> = Vec::new();
+
+    if let Some(v) = vessel {
+        for value in [
+            v.area_m2,
+            v.source_to_vessel_h_w_m2_k,
+            v.k_w_m_k,
+            v.thickness_m,
+            v.vessel_to_medium_h_w_m2_k,
+        ] {
+            if !(value > 0.0) || !value.is_finite() {
+                return Err(ThermoError::NonPositiveThickness);
+            }
+        }
+        ids.push("source-to-vessel");
+        resistances.push(1.0 / (v.source_to_vessel_h_w_m2_k * v.area_m2));
+        areas.push(v.area_m2);
+        coefficients.push(Some(v.source_to_vessel_h_w_m2_k));
+
+        ids.push("vessel-wall");
+        resistances.push(v.thickness_m / (v.k_w_m_k * v.area_m2));
+        areas.push(v.area_m2);
+        coefficients.push(None);
+
+        ids.push("vessel-to-medium");
+        resistances.push(1.0 / (v.vessel_to_medium_h_w_m2_k * v.area_m2));
+        areas.push(v.area_m2);
+        coefficients.push(Some(v.vessel_to_medium_h_w_m2_k));
+    }
+
+    let mut food_biot = None;
+    if let Some(f) = food {
+        for value in [
+            f.medium_to_food_h_w_m2_k,
+            f.half_dimension_m,
+            f.k_w_m_k,
+            f.area_m2,
+        ] {
+            if !(value > 0.0) || !value.is_finite() {
+                return Err(ThermoError::NonPositiveThickness);
+            }
+        }
+        let external = 1.0 / (f.medium_to_food_h_w_m2_k * f.area_m2);
+        let length_m = f.half_dimension_m * f.geometry.characteristic_length_ratio();
+        let internal = length_m / (f.k_w_m_k * f.area_m2);
+
+        ids.push("medium-to-food");
+        resistances.push(external);
+        areas.push(f.area_m2);
+        coefficients.push(Some(f.medium_to_food_h_w_m2_k));
+
+        ids.push("food-interior");
+        resistances.push(internal);
+        areas.push(f.area_m2);
+        coefficients.push(None);
+
+        food_biot = Some(internal / external);
+    }
+
+    if resistances.is_empty() {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let total_resistance_k_per_w: f64 = resistances.iter().sum();
+    let ua_w_per_k = 1.0 / total_resistance_k_per_w;
+    let heat_flow_w = (source_c - sink_c) / total_resistance_k_per_w;
+
+    let mut links = Vec::with_capacity(resistances.len());
+    let mut node_celsius = vec![source_c];
+    let mut running = source_c;
+    let mut controlling = 0usize;
+    for (i, &r) in resistances.iter().enumerate() {
+        let drop_k = heat_flow_w * r;
+        running -= drop_k;
+        node_celsius.push(running);
+        if r > resistances[controlling] {
+            controlling = i;
+        }
+        links.push(BoundaryLink {
+            id: ids[i],
+            resistance_k_per_w: r,
+            area_m2: areas[i],
+            h_w_m2_k: coefficients[i],
+            share: r / total_resistance_k_per_w,
+            drop_k,
+        });
+    }
+
+    Ok(BoundaryNetworkResult {
+        links,
+        total_resistance_k_per_w,
+        ua_w_per_k,
+        heat_flow_w,
+        controlling,
+        node_celsius,
+        food_biot,
+    })
+}
+
+/// Convective coefficient for filmwise condensation of steam, W·m⁻²·K⁻¹.
+///
+/// ⚠️ Picking one value costs almost nothing, and that is a MEASUREMENT:
+/// sweeping 3 000 → 25 000 moves a 26 cm lid's loss from 65.81 W to 66.20 W,
+/// a spread of 0.27 %. This resistance sits in series with an outside air film
+/// two orders of magnitude larger.
+pub const CONDENSATION_H_WM2K: f64 = 10000.0;
+
+/// Steady heat balance on a lid.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct LidHeatBalance {
+    pub lid_c: f64,
+    pub convective_loss_w: f64,
+    pub radiative_loss_w: f64,
+    pub total_loss_w: f64,
+    /// Steam the lid can condense per second, kg·s⁻¹ — the quantity its heat
+    /// loss genuinely derives.
+    pub condensation_capacity_kg_s: f64,
+}
+
+/// How hot a lid runs, and how much steam it can therefore condense back.
+///
+/// ⚠️ `[MEASURED 2026-08-18]` a metal lid's steady loss does NOT depend on its
+/// material or gauge — 1.2 mm stainless, 1.5 mm stainless and 6 mm enamelled
+/// cast iron give 66.21 / 66.19 / 66.12 W, a 0.14 % spread — because condensing
+/// steam pins the underside to within a degree of the headspace whatever the
+/// plate is. Glass is the exception and is not small: 8 mm glass runs at
+/// 92.0 °C and loses 58.0 W, 12 % less than any metal lid.
+#[allow(clippy::too_many_arguments)]
+pub fn lid_heat_balance(
+    lid_area_m2: f64,
+    lid_perimeter_m: f64,
+    lid_thickness_m: f64,
+    lid_k_w_m_k: f64,
+    headspace_c: f64,
+    ambient_c: f64,
+    latent_heat_j_kg: f64,
+    emissivity: f64,
+) -> Result<LidHeatBalance, ThermoError> {
+    if !(lid_area_m2 > 0.0) || !(lid_perimeter_m > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    if !(lid_thickness_m > 0.0) || !(lid_k_w_m_k > 0.0) {
+        return Err(ThermoError::NonPositiveConductivity);
+    }
+    if headspace_c <= ambient_c {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    fn pow4(x: f64) -> f64 {
+        let sq = x * x;
+        sq * sq
+    }
+    let lc = plate_characteristic_length(lid_area_m2, lid_perimeter_m)?;
+    let ambient_k4 = pow4(ambient_c + 273.15);
+    let inner_resistance = 1.0 / CONDENSATION_H_WM2K + lid_thickness_m / lid_k_w_m_k;
+
+    let outward_flux = |lid_c: f64| -> Result<f64, ThermoError> {
+        let film = air_properties((lid_c + ambient_c) / 2.0)?;
+        let delta_t = (lid_c - ambient_c).max(1e-9);
+        let h = natural_convection_h(&film, ConvectiveSurface::HorizontalUp, delta_t, lc)?.h_w_m2_k;
+        Ok(h * (lid_c - ambient_c)
+            + emissivity * STEFAN_BOLTZMANN * (pow4(lid_c + 273.15) - ambient_k4))
+    };
+
+    let mut lo = ambient_c;
+    let mut hi = headspace_c;
+    for _ in 0..80 {
+        let mid = (lo + hi) / 2.0;
+        if (headspace_c - mid) / inner_resistance > outward_flux(mid)? {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    let lid_c = (lo + hi) / 2.0;
+    let film = air_properties((lid_c + ambient_c) / 2.0)?;
+    let h = natural_convection_h(
+        &film,
+        ConvectiveSurface::HorizontalUp,
+        (lid_c - ambient_c).max(1e-9),
+        lc,
+    )?
+    .h_w_m2_k;
+    let convective_loss_w = h * (lid_c - ambient_c) * lid_area_m2;
+    let radiative_loss_w =
+        emissivity * STEFAN_BOLTZMANN * (pow4(lid_c + 273.15) - ambient_k4) * lid_area_m2;
+    let total_loss_w = convective_loss_w + radiative_loss_w;
+    Ok(LidHeatBalance {
+        lid_c,
+        convective_loss_w,
+        radiative_loss_w,
+        total_loss_w,
+        condensation_capacity_kg_s: total_loss_w / latent_heat_j_kg,
+    })
+}
+
+/// Water a covered pot actually loses.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct CoveredWaterLoss {
+    pub steam_generated_kg_s: f64,
+    pub condensate_returned_kg_s: f64,
+    pub net_loss_kg_s: f64,
+    /// The lid condenses everything the burner raises: the pot loses nothing.
+    pub holding: bool,
+    pub return_fraction: f64,
+}
+
+/// Net water loss under a lid, from a stated power input.
+///
+/// ⚠️ This REPLACES the per-seal `VAPOUR_ESCAPE_FRACTION` in `vessels.ts`, which
+/// was the wrong SHAPE and not merely the wrong value. `[MEASURED 2026-08-18]`
+/// a lid's condensation capacity is 11.1–11.6 % of the free-surface rate over
+/// the same area, and near-identical for a tight Dutch oven and a loose
+/// stockpot lid, because it is set by area and room temperature rather than by
+/// seal quality. The free-surface rate does not apply under a lid at all: the
+/// headspace saturates and the driving force collapses. What remains is a
+/// circulation whose throughput the lid sets, plus a net loss set by how much
+/// steam the POWER INPUT raises beyond that — a function of the burner, which
+/// no per-seal constant can express. Same Dutch oven: nothing lost at 200 W,
+/// 998 g·h⁻¹ at 800 W.
+///
+/// ⚠️ Leakage past the seal is still not modelled and cannot be from anything
+/// here — it needs a gap dimension that is not a published property of any pan.
+/// This is therefore an UPPER bound on water lost.
+pub fn covered_water_loss(
+    power_into_contents_w: f64,
+    lid_condensation_capacity_kg_s: f64,
+    latent_heat_j_kg: f64,
+) -> Result<CoveredWaterLoss, ThermoError> {
+    if !power_into_contents_w.is_finite() || power_into_contents_w < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if !(latent_heat_j_kg > 0.0) {
+        return Err(ThermoError::NonPositiveZValue);
+    }
+    let steam_generated_kg_s = power_into_contents_w / latent_heat_j_kg;
+    let condensate_returned_kg_s = steam_generated_kg_s.min(lid_condensation_capacity_kg_s);
+    let net_loss_kg_s = steam_generated_kg_s - condensate_returned_kg_s;
+    Ok(CoveredWaterLoss {
+        steam_generated_kg_s,
+        condensate_returned_kg_s,
+        net_loss_kg_s,
+        holding: net_loss_kg_s == 0.0,
+        return_fraction: if steam_generated_kg_s == 0.0 {
+            1.0
+        } else {
+            condensate_returned_kg_s / steam_generated_kg_s
+        },
+    })
+}
