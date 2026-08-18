@@ -271,7 +271,7 @@ const SAUCE_VIEWBOX = { width: 320, height: 200 };
 
 function layoutLineage(payload: SauceLineagePayload): SauceLineageView {
   const { width, height } = SAUCE_VIEWBOX;
-  const rootNode = payload.nodes.find((n) => n.depth === 0) ?? payload.nodes[0];
+  const rootNode = payload.nodes.find((n) => n.depth === 0) ?? payload.nodes.at(0);
   const variants = payload.nodes.filter((n) => n.id !== rootNode?.id);
   const cx = width / 2;
   const rootY = 44;
