@@ -1527,3 +1527,134 @@ pub fn food_properties(
         unaccounted_fraction: 1.0 - total,
     })
 }
+
+// ============================================================================
+// Latent heat
+// ============================================================================
+//
+// The Rust half of `src/lib/cooking/latentHeat.ts`. See that file for the
+// rationale. The short version: heating a kilogram of water 20 → 100 °C costs
+// ~335 kJ and boiling it away costs ~2257 kJ, so the latent terms — not the
+// oven dial — set the pace of most cooking.
+
+/// Fleagle & Andreas intercept, J·kg⁻¹ at 0 K.
+const FLEAGLE_INTERCEPT_J_KG: f64 = 3.121e6;
+/// Fleagle & Andreas slope, J·kg⁻¹·K⁻¹.
+const FLEAGLE_SLOPE_J_KG_K: f64 = 2.274e3;
+/// 0 °C in kelvin.
+const KELVIN_OFFSET: f64 = 273.15;
+
+/// Validity floor of the vaporisation fit, °C.
+pub const VAPORISATION_MIN_C: f64 = 0.0;
+/// Validity ceiling of the vaporisation fit, °C.
+pub const VAPORISATION_MAX_C: f64 = 100.0;
+
+/// Enthalpy of vaporisation of water, J·kg⁻¹.
+///
+/// BASIS: Fleagle & Andreas, *Atmospheric Dynamics*, `Δh = 3.121e6 − 2.274e3·T`
+/// with T in KELVIN.
+///
+/// ⚠️ VALIDITY IS 0–100 °C AND THIS REFUSES OUTSIDE IT. `[MEASURED 2026-08-18]`
+/// against steam-table saturation values the fit is within 0.707 % across that
+/// range (0.042 % at 0 °C, 0.036 % at 20 °C, 0.707 % at 100 °C) and degrades to
+/// 2.1 % by 150 °C. A linear fit to a curve that must vanish at the critical
+/// point cannot be extended — it stays finite and wrong.
+pub fn latent_heat_vaporisation(celsius: f64) -> Result<f64, ThermoError> {
+    if !(VAPORISATION_MIN_C..=VAPORISATION_MAX_C).contains(&celsius) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(FLEAGLE_INTERCEPT_J_KG - FLEAGLE_SLOPE_J_KG_K * (celsius + KELVIN_OFFSET))
+}
+
+/// Latent heat of fusion of PURE water, J·kg⁻¹.
+///
+/// BASIS: 1998 ASHRAE Refrigeration Handbook Ch. 8 states `Lo = 143.4 Btu/lb`.
+/// Converted here rather than transcribed as 333 550, so the constant
+/// regenerates from its own stated basis — 1 Btu/lb is exactly 2326 J/kg.
+pub fn water_fusion_j_kg() -> f64 {
+    143.4 * (BTU_IT_J / POUND_KG)
+}
+
+/// Fraction of a food's water that will NOT freeze at ordinary freezer
+/// temperatures.
+///
+/// ⚠️ NOT A ROUNDING. Omitting it overstates the freezing load by 25 %. Bound
+/// water is held by solutes and macromolecules and stays liquid; the
+/// food-freezing literature converges on treating the latent release as about
+/// 80 % of what total water content would suggest. A rigorous treatment
+/// resolves the ice fraction continuously below the initial freezing point
+/// (ASHRAE Eq 4/5), which needs a per-food initial freezing point this codebase
+/// does not hold.
+pub const BOUND_WATER_FRACTION: f64 = 0.2;
+
+fn check_fraction(v: f64) -> Result<(), ThermoError> {
+    if !(0.0..=1.0).contains(&v) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(())
+}
+
+/// The part of a food's water that can actually freeze, as a mass fraction OF
+/// THE FOOD.
+pub fn freezable_water_fraction(water_mass_fraction: f64) -> Result<f64, ThermoError> {
+    check_fraction(water_mass_fraction)?;
+    Ok(water_mass_fraction * (1.0 - BOUND_WATER_FRACTION))
+}
+
+/// Energy to freeze or thaw one kilogram of FOOD, J·kg⁻¹.
+pub fn food_fusion_enthalpy(water_mass_fraction: f64) -> Result<f64, ThermoError> {
+    Ok(freezable_water_fraction(water_mass_fraction)? * water_fusion_j_kg())
+}
+
+/// Energy to evaporate ALL the water out of one kilogram of food, J·kg⁻¹.
+///
+/// A ceiling, not a prediction — no process drives a food to zero moisture.
+pub fn food_vaporisation_enthalpy(
+    water_mass_fraction: f64,
+    celsius: f64,
+) -> Result<f64, ThermoError> {
+    check_fraction(water_mass_fraction)?;
+    Ok(water_mass_fraction * latent_heat_vaporisation(celsius)?)
+}
+
+/// Energy carried away by evaporating a given fraction of a food's MASS.
+///
+/// `mass_loss_fraction` is loss as a share of starting mass — what a scale
+/// measures — not a share of the food's water.
+pub fn evaporative_energy_loss(
+    mass_loss_fraction: f64,
+    celsius: f64,
+) -> Result<f64, ThermoError> {
+    check_fraction(mass_loss_fraction)?;
+    Ok(mass_loss_fraction * latent_heat_vaporisation(celsius)?)
+}
+
+/// Enthalpy of fusion of culinary fat, J·kg⁻¹ of FAT — a BAND, deliberately.
+///
+/// Unlike water, whose fusion enthalpy is a constant to five figures, a fat's
+/// depends on its fatty-acid profile AND on which polymorphic form (α/β′/β) it
+/// is in — the same fat differs by tens of percent between them. Reported
+/// values for animal fats span roughly 125–210 kJ·kg⁻¹. Publishing one figure
+/// would invent a precision the quantity does not have.
+pub const FAT_FUSION_LOW_J_KG: f64 = 125e3;
+pub const FAT_FUSION_TYPICAL_J_KG: f64 = 167e3;
+pub const FAT_FUSION_HIGH_J_KG: f64 = 210e3;
+
+/// Melting range of culinary fat, °C. Fat does not melt at a point.
+pub const FAT_MELTING_LOW_C: f64 = 25.0;
+pub const FAT_MELTING_HIGH_C: f64 = 45.0;
+
+/// How many kelvin of sensible heating one latent term is worth.
+///
+/// The most clarifying number here: evaporating 5 % of a food's mass costs
+/// about as much as raising the whole thing 30 K, which is why moisture loss
+/// and not the dial sets the pace of a roast.
+pub fn latent_as_temperature_rise(
+    latent_j_kg: f64,
+    specific_heat_j_kg_k: f64,
+) -> Result<f64, ThermoError> {
+    if !(specific_heat_j_kg_k > 0.0) {
+        return Err(ThermoError::NonPositiveZValue);
+    }
+    Ok(latent_j_kg / specific_heat_j_kg_k)
+}

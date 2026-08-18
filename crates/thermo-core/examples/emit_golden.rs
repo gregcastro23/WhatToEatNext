@@ -241,6 +241,55 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
     out.push_str(&mrows.join(",\n"));
     out.push_str("\n  ],\n");
 
+    // ── Latent heat ─────────────────────────────────────────────────────────
+    out.push_str("  \"latentHeat\": {\n");
+    out.push_str(&format!(
+        "    \"waterFusionJkg\": {},\n    \"boundWaterFraction\": {},\n",
+        j(water_fusion_j_kg()),
+        j(BOUND_WATER_FRACTION),
+    ));
+    out.push_str("    \"vaporisation\": [\n");
+    let vtemps = [0.0_f64, 20.0, 50.0, 72.0, 100.0];
+    let vrows: Vec<String> = vtemps
+        .iter()
+        .map(|t| {
+            format!(
+                "      {{ \"celsius\": {}, \"jPerKg\": {} }}",
+                j(*t),
+                j(latent_heat_vaporisation(*t).unwrap())
+            )
+        })
+        .collect();
+    out.push_str(&vrows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    // Real ingredient compositions, so the food-level helpers are pinned too.
+    out.push_str("    \"foods\": [\n");
+    let foods: [(&str, f64, f64, f64); 4] = [
+        ("chicken_roasted", 0.653, 0.0357, 70.0),
+        ("carrot", 0.883, 0.0024, 100.0),
+        ("butter", 0.162, 0.8111, 40.0),
+        ("potato", 0.792, 0.0009, 100.0),
+    ];
+    let frows: Vec<String> = foods
+        .iter()
+        .map(|(name, water, fat, t)| {
+            format!(
+                "      {{ \"name\": \"{}\", \"water\": {}, \"fat\": {}, \"celsius\": {}, \"freezable\": {}, \"fusionJkg\": {}, \"vaporisationJkg\": {}, \"lossFivePercentJkg\": {} }}",
+                name,
+                j(*water),
+                j(*fat),
+                j(*t),
+                j(freezable_water_fraction(*water).unwrap()),
+                j(food_fusion_enthalpy(*water).unwrap()),
+                j(food_vaporisation_enthalpy(*water, *t).unwrap()),
+                j(evaporative_energy_loss(0.05, *t).unwrap()),
+            )
+        })
+        .collect();
+    out.push_str(&frows.join(",\n"));
+    out.push_str("\n    ]\n  },\n");
+
     // ── Slab core time ──────────────────────────────────────────────────────
     // Every method regime the panels actually render: oven, bath, fryer,
     // boiling water, steam, and a one-sided pan sear.

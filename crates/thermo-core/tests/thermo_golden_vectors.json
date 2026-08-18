@@ -146,6 +146,23 @@
     { "name": "potato", "celsius": 100.0, "water": 0.792, "protein": 0.0205, "fat": 0.0009, "carbohydrate": 0.175, "fibre": 0.0, "ash": 0.0111, "density": 1043.4379491594154, "specificHeat": 3697.766019600265, "conductivity": 0.6268104254847329, "diffusivity": 1.6245390545349382e-7, "unaccounted": 0.000500000000000056 },
     { "name": "vanilla_extract_open", "celsius": 20.0, "water": 0.526, "protein": 0.0006, "fat": 0.0006, "carbohydrate": 0.126, "fibre": 0.0, "ash": 0.0026, "density": 1640.5792785401175, "specificHeat": 2402.037561339859, "conductivity": 0.5535805342524246, "diffusivity": 1.404765375658767e-7, "unaccounted": 0.34419999999999984 }
   ],
+  "latentHeat": {
+    "waterFusionJkg": 333548.4,
+    "boundWaterFraction": 0.2,
+    "vaporisation": [
+      { "celsius": 0.0, "jPerKg": 2499856.9 },
+      { "celsius": 20.0, "jPerKg": 2454376.9 },
+      { "celsius": 50.0, "jPerKg": 2386156.9 },
+      { "celsius": 72.0, "jPerKg": 2336128.9 },
+      { "celsius": 100.0, "jPerKg": 2272456.9 }
+    ],
+    "foods": [
+      { "name": "chicken_roasted", "water": 0.653, "fat": 0.0357, "celsius": 70.0, "freezable": 0.5224000000000001, "fusionJkg": 174245.68416000003, "vaporisationJkg": 1528462.0157, "lossFivePercentJkg": 117033.845 },
+      { "name": "carrot", "water": 0.883, "fat": 0.0024, "celsius": 100.0, "freezable": 0.7064, "fusionJkg": 235618.58976000003, "vaporisationJkg": 2006579.4427, "lossFivePercentJkg": 113622.845 },
+      { "name": "butter", "water": 0.162, "fat": 0.8111, "celsius": 40.0, "freezable": 0.12960000000000002, "fusionJkg": 43227.87264000001, "vaporisationJkg": 390241.2978, "lossFivePercentJkg": 120444.845 },
+      { "name": "potato", "water": 0.792, "fat": 0.0009, "celsius": 100.0, "freezable": 0.6336, "fusionJkg": 211336.26624000003, "vaporisationJkg": 1799785.8648, "lossFivePercentJkg": 113622.845 }
+    ]
+  },
   "slabCookTime": [
     { "name": "roasting", "thicknessMm": 25.0, "mediumC": 175.0, "initialC": 5.0, "targetC": 60.0, "hWm2K": 25.0, "oneSided": false, "minutes": 17.114034094202697, "biot": 0.6944444444444444, "fourier": 0.8543325819825988, "lambda1": 0.7481721415218556, "coefficientA1": 1.091285353044734, "oneTermValid": true },
     { "name": "sous_vide_baldwin", "thicknessMm": 25.0, "mediumC": 55.0, "initialC": 5.0, "targetC": 54.5, "hWm2K": 95.0, "oneSided": false, "minutes": 71.5957809331164, "biot": 2.638888888888889, "fourier": 3.574061384181171, "lambda1": 1.157451810537578, "coefficientA1": 1.200791455233827, "oneTermValid": true },

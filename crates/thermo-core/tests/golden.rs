@@ -458,6 +458,127 @@ fn the_water_specific_heat_branch_actually_switches_at_freezing() {
 }
 
 #[test]
+fn latent_heat_matches_the_fixture() {
+    let g = fixture();
+    let l = &g["latentHeat"];
+    assert_bits_eq(water_fusion_j_kg(), f(&l["waterFusionJkg"]), "water fusion");
+    assert_bits_eq(
+        BOUND_WATER_FRACTION,
+        f(&l["boundWaterFraction"]),
+        "bound water fraction",
+    );
+    for row in l["vaporisation"].as_array().unwrap() {
+        let t = f(&row["celsius"]);
+        assert_bits_eq(
+            latent_heat_vaporisation(t).unwrap(),
+            f(&row["jPerKg"]),
+            &format!("h_fg({t} C)"),
+        );
+    }
+    for row in l["foods"].as_array().unwrap() {
+        let name = row["name"].as_str().unwrap();
+        let w = f(&row["water"]);
+        let t = f(&row["celsius"]);
+        assert_bits_eq(
+            freezable_water_fraction(w).unwrap(),
+            f(&row["freezable"]),
+            &format!("{name} freezable"),
+        );
+        assert_bits_eq(
+            food_fusion_enthalpy(w).unwrap(),
+            f(&row["fusionJkg"]),
+            &format!("{name} fusion"),
+        );
+        assert_bits_eq(
+            food_vaporisation_enthalpy(w, t).unwrap(),
+            f(&row["vaporisationJkg"]),
+            &format!("{name} vaporisation"),
+        );
+        assert_bits_eq(
+            evaporative_energy_loss(0.05, t).unwrap(),
+            f(&row["lossFivePercentJkg"]),
+            &format!("{name} 5% loss"),
+        );
+    }
+}
+
+#[test]
+fn latent_heat_reproduces_the_steam_tables() {
+    // EXTERNAL anchor. Saturation enthalpy of vaporisation, kJ/kg, from the
+    // steam tables — a source entirely outside this repository, which the
+    // Rust-generated fixture cannot vouch for.
+    //
+    // `[MEASURED 2026-08-18]` the Fleagle & Andreas fit sits within 0.707 %
+    // across 0-100 C. That bound is a MEASUREMENT of this fit, not a comfort
+    // margin: it is 0.042 % at 0 C and worst at the boil.
+    for (t, table_kj) in [(0.0, 2500.9), (20.0, 2453.5), (50.0, 2382.0), (100.0, 2256.5)] {
+        let ours = latent_heat_vaporisation(t).unwrap() / 1000.0;
+        let rel = (ours - table_kj).abs() / table_kj;
+        assert!(
+            rel < 0.008,
+            "h_fg({t} C) = {ours} kJ/kg vs steam table {table_kj} ({:.3} %)",
+            rel * 100.0
+        );
+    }
+    // The fusion constant must regenerate from ASHRAE's 143.4 Btu/lb to the
+    // standard 333.55 kJ/kg — the check that it was converted, not transcribed.
+    assert!(
+        (water_fusion_j_kg() - 333_550.0).abs() < 5.0,
+        "water fusion {} J/kg should reproduce the standard 333550",
+        water_fusion_j_kg()
+    );
+}
+
+#[test]
+fn latent_heat_refuses_to_extrapolate_past_the_boil() {
+    // The fit is linear and the true curve falls to zero at the critical point,
+    // so above 100 C it stays finite and wrong rather than failing visibly.
+    assert_eq!(
+        latent_heat_vaporisation(100.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+    assert_eq!(
+        latent_heat_vaporisation(-0.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+}
+
+#[test]
+fn bound_water_is_not_quietly_dropped() {
+    // Omitting the bound-water correction overstates the freezing load by 25 %,
+    // and nothing about the resulting number looks wrong. This pins the gap
+    // between the two so the correction cannot be removed silently.
+    let water = 0.883;
+    let with_binding = food_fusion_enthalpy(water).unwrap();
+    let naive = water * water_fusion_j_kg();
+    assert!(
+        (naive / with_binding - 1.25).abs() < 1e-9,
+        "ignoring bound water should overstate by exactly 25 %, got {}",
+        naive / with_binding
+    );
+}
+
+#[test]
+fn evaporation_dwarfs_sensible_heating() {
+    // The claim the whole file exists to support, asserted rather than narrated:
+    // losing a few percent of a food's mass to steam costs more energy than a
+    // large temperature rise. Chicken breast at 70 C, cp from Choi & Okos.
+    let cp = food_properties(
+        MassFractions { water: 0.653, protein: 0.3102, fat: 0.0357, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 },
+        70.0,
+        0.0,
+    )
+    .unwrap()
+    .specific_heat_j_kg_k;
+    let five_percent = evaporative_energy_loss(0.05, 70.0).unwrap();
+    let kelvin = latent_as_temperature_rise(five_percent, cp).unwrap();
+    assert!(
+        kelvin > 25.0,
+        "5 % moisture loss should be worth more than 25 K of sensible heating, got {kelvin}"
+    );
+}
+
+#[test]
 fn slab_cook_times_match_the_fixture() {
     for row in fixture()["slabCookTime"].as_array().unwrap() {
         let name = row["name"].as_str().unwrap();

@@ -77,6 +77,18 @@ import {
   CHOI_OKOS_MAX_C,
   type FoodComponent,
 } from "@/lib/cooking/choiOkos";
+import {
+  latentHeatVaporisation,
+  WATER_FUSION_J_KG,
+  BOUND_WATER_FRACTION,
+  freezableWaterFraction,
+  foodFusionEnthalpy,
+  foodVaporisationEnthalpy,
+  evaporativeEnergyLoss,
+  latentAsTemperatureRise,
+  foodFatMeltingEnthalpy,
+  FAT_FUSION_BAND,
+} from "@/lib/cooking/latentHeat";
 import { pressureFromElevation, SEA_LEVEL_PRESSURE_KPA } from "@/lib/environment/isa";
 import {
   BUOYANCY_PER_K,
@@ -104,6 +116,21 @@ interface Golden {
   }[];
   slabEigen: { biot: number; lambda1: number; coefficientA1: number }[];
   bessel: { x: number; j0: number; j1: number }[];
+  latentHeat: {
+    waterFusionJkg: number;
+    boundWaterFraction: number;
+    vaporisation: { celsius: number; jPerKg: number }[];
+    foods: {
+      name: string;
+      water: number;
+      fat: number;
+      celsius: number;
+      freezable: number;
+      fusionJkg: number;
+      vaporisationJkg: number;
+      lossFivePercentJkg: number;
+    }[];
+  };
   choiOkosComponents: { component: FoodComponent; celsius: number; k: number; rho: number; cp: number }[];
   choiOkosMixtures: {
     name: string;
@@ -562,6 +589,87 @@ describe("Choi & Okos — properties from composition", () => {
       20,
     );
     expect(Math.abs(carrot.unaccountedFraction)).toBeLessThan(0.01);
+  });
+});
+
+describe("latent heat", () => {
+  it("shares the fusion constant and the bound-water fraction with Rust", () => {
+    expect(WATER_FUSION_J_KG).toBe(GOLDEN.latentHeat.waterFusionJkg);
+    expect(BOUND_WATER_FRACTION).toBe(GOLDEN.latentHeat.boundWaterFraction);
+  });
+
+  it.each(GOLDEN.latentHeat.vaporisation)(
+    "vaporisation enthalpy at $celsius °C matches Rust EXACTLY",
+    ({ celsius, jPerKg }) => {
+      // A linear expression — no transcendental — so it must agree to the bit.
+      expect(latentHeatVaporisation(celsius)).toBe(jPerKg);
+    },
+  );
+
+  it.each(GOLDEN.latentHeat.foods)("food-level latent terms for $name match Rust", (row) => {
+    expect(freezableWaterFraction(row.water)).toBe(row.freezable);
+    expect(foodFusionEnthalpy(row.water)).toBe(row.fusionJkg);
+    expect(foodVaporisationEnthalpy(row.water, row.celsius)).toBe(row.vaporisationJkg);
+    expect(evaporativeEnergyLoss(0.05, row.celsius)).toBe(row.lossFivePercentJkg);
+  });
+
+  it("reproduces the steam tables, which the fixture cannot vouch for", () => {
+    // EXTERNAL anchor: saturation enthalpy of vaporisation, kJ/kg.
+    // `[MEASURED 2026-08-18]` the Fleagle & Andreas fit is within 0.707 % over
+    // 0–100 °C — 0.042 % at 0 °C, worst at the boil. That bound is a
+    // measurement of this fit, not a margin chosen to pass.
+    for (const [t, tableKj] of [
+      [0, 2500.9],
+      [20, 2453.5],
+      [50, 2382.0],
+      [100, 2256.5],
+    ] as const) {
+      const ours = latentHeatVaporisation(t) / 1000;
+      expect(Math.abs(ours - tableKj) / tableKj).toBeLessThan(0.008);
+    }
+    // Regenerates from ASHRAE's 143.4 Btu/lb to the standard 333.55 kJ/kg —
+    // the check that it was CONVERTED and not transcribed.
+    expect(Math.abs(WATER_FUSION_J_KG - 333550)).toBeLessThan(5);
+  });
+
+  it("refuses to extrapolate past the boil", () => {
+    // Linear fit to a curve that must vanish at the critical point: above
+    // 100 °C it stays finite and wrong rather than failing visibly.
+    expect(() => latentHeatVaporisation(100.1)).toThrow(RangeError);
+    expect(() => latentHeatVaporisation(-0.1)).toThrow(RangeError);
+  });
+
+  it("does not quietly drop the bound-water correction", () => {
+    // Omitting it overstates the freezing load by exactly 25 %, and nothing
+    // about the resulting number looks wrong. Pinned so it cannot be removed.
+    const water = 0.883;
+    const naive = water * WATER_FUSION_J_KG;
+    expect(naive / foodFusionEnthalpy(water)).toBeCloseTo(1.25, 9);
+  });
+
+  it("keeps fat's melting enthalpy a BAND, because the value is not a constant", () => {
+    // A fat's fusion enthalpy depends on its fatty-acid profile AND its
+    // polymorphic form (α/β′/β) — the same fat differs by tens of percent
+    // between them. Collapsing this to one number would invent precision the
+    // quantity does not have, so the band is asserted to stay a band.
+    expect(FAT_FUSION_BAND.low).toBeLessThan(FAT_FUSION_BAND.typical);
+    expect(FAT_FUSION_BAND.typical).toBeLessThan(FAT_FUSION_BAND.high);
+    expect(FAT_FUSION_BAND.note.length).toBeGreaterThan(0);
+    // Butter is 81 % fat — the case where this term actually matters.
+    const butter = foodFatMeltingEnthalpy(0.8111);
+    expect(butter.low).toBeLessThan(butter.high);
+    expect(butter.typical).toBeCloseTo(0.8111 * FAT_FUSION_BAND.typical, 6);
+  });
+
+  it("shows evaporation dwarfing sensible heating", () => {
+    // The claim this file exists to support, asserted rather than narrated.
+    // Chicken breast at 70 °C, specific heat from Choi & Okos.
+    const cp = foodProperties(
+      { water: 0.653, protein: 0.3102, fat: 0.0357, carbohydrate: 0, ash: 0.0106 },
+      70,
+    ).specificHeatJkgK;
+    const kelvin = latentAsTemperatureRise(evaporativeEnergyLoss(0.05, 70), cp);
+    expect(kelvin).toBeGreaterThan(25);
   });
 });
 
