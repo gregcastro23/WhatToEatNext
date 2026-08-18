@@ -530,6 +530,224 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
         ));
     }
     out.push_str(&regime_rows.join(",\n"));
+    out.push_str("\n    ]\n  },\n");
+
+    // ── Boundary network ───────────────────────────────────────────────────
+    out.push_str("  \"boundaryNetwork\": {\n");
+
+    out.push_str("    \"air\": [\n");
+    let air_rows: Vec<String> = [-20.0_f64, 0.0, 20.0, 60.0, 100.0, 180.0, 250.0, 400.0, 500.0]
+        .iter()
+        .map(|c| {
+            let a = air_properties(*c).unwrap();
+            format!(
+                "      {{ \"celsius\": {}, \"rho\": {}, \"cp\": {}, \"mu\": {}, \"k\": {}, \
+\"nu\": {}, \"alpha\": {}, \"prandtl\": {}, \"beta\": {} }}",
+                j(*c), j(a.rho_kg_m3), j(a.cp_j_kg_k), j(a.mu_pa_s), j(a.k_w_m_k),
+                j(a.nu_m2_s), j(a.alpha_m2_s), j(a.prandtl), j(a.beta_per_k)
+            )
+        })
+        .collect();
+    out.push_str(&air_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"water\": [\n");
+    let water_rows: Vec<String> = [10.0_f64, 25.0, 50.0, 75.0, 95.0, 100.0]
+        .iter()
+        .map(|c| {
+            let w = saturated_water_properties(*c).unwrap();
+            format!(
+                "      {{ \"celsius\": {}, \"rho\": {}, \"cp\": {}, \"mu\": {}, \"k\": {}, \
+\"nu\": {}, \"alpha\": {}, \"prandtl\": {}, \"beta\": {}, \"sigma\": {}, \"hfg\": {}, \
+\"rhoVapour\": {} }}",
+                j(*c), j(w.fluid.rho_kg_m3), j(w.fluid.cp_j_kg_k), j(w.fluid.mu_pa_s),
+                j(w.fluid.k_w_m_k), j(w.fluid.nu_m2_s), j(w.fluid.alpha_m2_s),
+                j(w.fluid.prandtl), j(w.fluid.beta_per_k), j(w.sigma_n_m), j(w.hfg_j_kg),
+                j(w.rho_vapour_kg_m3)
+            )
+        })
+        .collect();
+    out.push_str(&water_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"vapour\": [\n");
+    let vap_rows: Vec<String> = [
+        1.0_f64, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 37.0, 45.0, 55.0, 60.0, 70.0, 80.0, 90.0, 95.0,
+        99.0, 100.0,
+    ]
+        .iter()
+        .map(|c| {
+            let p = saturation_pressure_kpa(*c).unwrap();
+            format!(
+                "      {{ \"celsius\": {}, \"satKpa\": {}, \"rhoSat\": {}, \"absHumid50\": {}, \
+\"heatedTo200\": {} }}",
+                j(*c), j(p), j(vapour_density_kg_m3(p, *c)),
+                j(absolute_humidity_kg_m3(*c, 50.0).unwrap()),
+                j(humid_air_vapour_density(*c, 50.0, 200.0).unwrap())
+            )
+        })
+        .collect();
+    out.push_str(&vap_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"convection\": [\n");
+    let film = air_properties(60.0).unwrap();
+    let surfaces = [
+        (ConvectiveSurface::Vertical, "vertical", 0.15_f64),
+        (ConvectiveSurface::HorizontalUp, "horizontal-up", 0.05),
+        (ConvectiveSurface::HorizontalDown, "horizontal-down", 0.05),
+        (ConvectiveSurface::HorizontalCylinder, "horizontal-cylinder", 0.08),
+    ];
+    let conv_rows: Vec<String> = surfaces
+        .iter()
+        .map(|(s, name, l)| {
+            let r = natural_convection_h(&film, *s, 80.0, *l).unwrap();
+            format!(
+                "      {{ \"surface\": \"{}\", \"lengthM\": {}, \"rayleigh\": {}, \
+\"nusselt\": {}, \"h\": {} }}",
+                name, j(*l), j(r.dimensionless), j(r.nusselt), j(r.h_w_m2_k)
+            )
+        })
+        .collect();
+    out.push_str(&conv_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    let forced = forced_convection_h_flat_plate(&film, 3.0, 0.3).unwrap();
+    let forced_turb = forced_convection_h_flat_plate(&film, 40.0, 0.3).unwrap();
+    out.push_str(&format!(
+        "    \"forced\": {{ \"laminarRe\": {}, \"laminarNu\": {}, \"laminarH\": {}, \
+\"turbulentRe\": {}, \"turbulentNu\": {}, \"turbulentH\": {} }},\n",
+        j(forced.dimensionless), j(forced.nusselt), j(forced.h_w_m2_k),
+        j(forced_turb.dimensionless), j(forced_turb.nusselt), j(forced_turb.h_w_m2_k)
+    ));
+
+    let w100 = saturated_water_properties(100.0).unwrap();
+    out.push_str(&format!(
+        "    \"criticalHeatFlux\": {},\n",
+        j(critical_heat_flux_wm2(&w100))
+    ));
+    out.push_str("    \"boiling\": [\n");
+    let boil_cases = [
+        (3.0_f64, BoilingSurface::StainlessEtched, "stainless-etched"),
+        (10.0, BoilingSurface::StainlessEtched, "stainless-etched"),
+        (20.0, BoilingSurface::StainlessEtched, "stainless-etched"),
+        (5.0, BoilingSurface::StainlessPolished, "stainless-polished"),
+        (5.0, BoilingSurface::StainlessScored, "stainless-scored"),
+        (8.0, BoilingSurface::CopperPolished, "copper-polished"),
+    ];
+    let boil_rows: Vec<String> = boil_cases
+        .iter()
+        .map(|(dt, s, name)| {
+            let b = nucleate_boiling_flux(&w100, *dt, *s).unwrap();
+            format!(
+                "      {{ \"excessK\": {}, \"surface\": \"{}\", \"flux\": {}, \"h\": {}, \
+\"burnout\": {} }}",
+                j(*dt), name, j(b.flux_w_m2), j(b.h_w_m2_k), j(b.burnout_fraction)
+            )
+        })
+        .collect();
+    out.push_str(&boil_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"evaporation\": [\n");
+    let kitchen = absolute_humidity_kg_m3(20.0, 50.0).unwrap();
+    let evap_cases = [
+        (8.531_f64, 100.0_f64, 20.0_f64, kitchen, "open pot"),
+        (15.0, 60.0, 200.0, humid_air_vapour_density(20.0, 50.0, 200.0).unwrap(), "oven surface"),
+        (10.0, 5.0, 25.0, absolute_humidity_kg_m3(25.0, 80.0).unwrap(), "cold plate"),
+    ];
+    let evap_rows: Vec<String> = evap_cases
+        .iter()
+        .map(|(h, ts, ta, bulk, name)| {
+            let w = saturated_water_properties(ts.clamp(WATER_MIN_C, WATER_MAX_C)).unwrap();
+            let e = evaporative_flux(*h, *ts, *ta, *bulk, w.hfg_j_kg).unwrap();
+            format!(
+                "      {{ \"case\": \"{}\", \"h\": {}, \"surfaceC\": {}, \"airC\": {}, \
+\"bulkVapour\": {}, \"lewis\": {}, \"hMass\": {}, \"massFlux\": {}, \"latentFlux\": {} }}",
+                name, j(*h), j(*ts), j(*ta), j(*bulk), j(e.lewis), j(e.h_mass_m_s),
+                j(e.mass_flux_kg_m2_s), j(e.latent_flux_w_m2)
+            )
+        })
+        .collect();
+    out.push_str(&evap_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"pinnedSurface\": [\n");
+    let oven_vapour = humid_air_vapour_density(20.0, 50.0, 200.0).unwrap();
+    let pin_cases = [
+        (200.0_f64, oven_vapour, 15.0_f64, 200.0_f64, 100.0_f64, "still oven"),
+        (200.0, oven_vapour, 40.0, 200.0, 100.0, "convection oven"),
+        (200.0, oven_vapour, 15.0, 600.0, 100.0, "broiler"),
+        (200.0, oven_vapour, 15.0, 600.0, 94.7, "broiler at altitude"),
+    ];
+    let pin_rows: Vec<String> = pin_cases
+        .iter()
+        .map(|(air, vap, h, rad, ceiling, name)| {
+            let r = evaporative_pinned_surface_c(*air, *vap, *h, *rad, 0.9, *ceiling).unwrap();
+            format!(
+                "      {{ \"case\": \"{}\", \"airC\": {}, \"bulkVapour\": {}, \"h\": {}, \
+\"radiantC\": {}, \"ceilingC\": {}, \"celsius\": {}, \"convGain\": {}, \"radGain\": {}, \
+\"evapLoss\": {}, \"massFlux\": {}, \"saturated\": {} }}",
+                name, j(*air), j(*vap), j(*h), j(*rad), j(*ceiling), j(r.celsius),
+                j(r.convective_gain_w_m2), j(r.radiative_gain_w_m2), j(r.evaporative_loss_w_m2),
+                j(r.mass_flux_kg_m2_s), r.saturated
+            )
+        })
+        .collect();
+    out.push_str(&pin_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    out.push_str("    \"network\": [\n");
+    let potato = FoodLeg {
+        medium_to_food_h_w_m2_k: 15.0,
+        geometry: FoodGeometry::Sphere,
+        half_dimension_m: 0.025,
+        k_w_m_k: 0.55,
+        area_m2: 4.0 * core::f64::consts::PI * 0.025 * 0.025,
+    };
+    let pot_leg = VesselLeg {
+        source_to_vessel_h_w_m2_k: 60.0,
+        area_m2: 0.05,
+        k_w_m_k: 15.0,
+        thickness_m: 0.003,
+        vessel_to_medium_h_w_m2_k: 5000.0,
+    };
+    let net_cases: [(&str, f64, f64, Option<VesselLeg>, Option<FoodLeg>); 3] = [
+        ("oven-rack", 200.0, 20.0, None, Some(potato)),
+        (
+            "boiling-pot",
+            250.0,
+            20.0,
+            Some(pot_leg),
+            Some(FoodLeg { medium_to_food_h_w_m2_k: 1500.0, ..potato }),
+        ),
+        ("empty-pot", 250.0, 100.0, Some(pot_leg), None),
+    ];
+    let net_rows: Vec<String> = net_cases
+        .iter()
+        .map(|(name, src, sink, v, f)| {
+            let n = solve_boundary_network(*src, *sink, *v, *f).unwrap();
+            let links: Vec<String> = n
+                .links
+                .iter()
+                .map(|l| {
+                    format!(
+                        "          {{ \"id\": \"{}\", \"r\": {}, \"share\": {}, \"dropK\": {} }}",
+                        l.id, j(l.resistance_k_per_w), j(l.share), j(l.drop_k)
+                    )
+                })
+                .collect();
+            format!(
+                "      {{ \"case\": \"{}\", \"totalR\": {}, \"ua\": {}, \"heatFlowW\": {}, \
+\"controlling\": \"{}\", \"foodBiot\": {},\n        \"links\": [\n{}\n        ] }}",
+                name, j(n.total_resistance_k_per_w), j(n.ua_w_per_k), j(n.heat_flow_w),
+                n.links[n.controlling].id,
+                match n.food_biot { Some(b) => j(b), None => "null".to_string() },
+                links.join(",\n")
+            )
+        })
+        .collect();
+    out.push_str(&net_rows.join(",\n"));
     out.push_str("\n    ]\n  }\n}\n");
 
     print!("{out}");

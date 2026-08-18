@@ -840,3 +840,243 @@ fn external_anchors_still_hold() {
         "Stefan–Boltzmann drifted from the CODATA definition"
     );
 }
+
+// ============================================================================
+// Boundary network
+// ============================================================================
+
+#[test]
+fn boundary_network_matches_fixture() {
+    let g = fixture();
+    let bn = &g["boundaryNetwork"];
+
+    for row in bn["air"].as_array().unwrap() {
+        let a = air_properties(f(&row["celsius"])).unwrap();
+        assert_bits_eq(a.rho_kg_m3, f(&row["rho"]), "air rho");
+        assert_bits_eq(a.cp_j_kg_k, f(&row["cp"]), "air cp");
+        assert_bits_eq(a.mu_pa_s, f(&row["mu"]), "air mu");
+        assert_bits_eq(a.k_w_m_k, f(&row["k"]), "air k");
+        assert_bits_eq(a.nu_m2_s, f(&row["nu"]), "air nu");
+        assert_bits_eq(a.alpha_m2_s, f(&row["alpha"]), "air alpha");
+        assert_bits_eq(a.prandtl, f(&row["prandtl"]), "air Pr");
+        assert_bits_eq(a.beta_per_k, f(&row["beta"]), "air beta");
+    }
+
+    for row in bn["water"].as_array().unwrap() {
+        let w = saturated_water_properties(f(&row["celsius"])).unwrap();
+        assert_bits_eq(w.fluid.rho_kg_m3, f(&row["rho"]), "water rho");
+        assert_bits_eq(w.fluid.prandtl, f(&row["prandtl"]), "water Pr");
+        assert_bits_eq(w.fluid.beta_per_k, f(&row["beta"]), "water beta");
+        assert_bits_eq(w.sigma_n_m, f(&row["sigma"]), "water sigma");
+        assert_bits_eq(w.hfg_j_kg, f(&row["hfg"]), "water hfg");
+        assert_bits_eq(w.rho_vapour_kg_m3, f(&row["rhoVapour"]), "water rhoVapour");
+    }
+
+    for row in bn["vapour"].as_array().unwrap() {
+        let c = f(&row["celsius"]);
+        let p = saturation_pressure_kpa(c).unwrap();
+        assert_bits_eq(p, f(&row["satKpa"]), "satKpa");
+        assert_bits_eq(vapour_density_kg_m3(p, c), f(&row["rhoSat"]), "rhoSat");
+        assert_bits_eq(
+            absolute_humidity_kg_m3(c, 50.0).unwrap(),
+            f(&row["absHumid50"]),
+            "absHumid50",
+        );
+        assert_bits_eq(
+            humid_air_vapour_density(c, 50.0, 200.0).unwrap(),
+            f(&row["heatedTo200"]),
+            "heatedTo200",
+        );
+    }
+
+    let film = air_properties(60.0).unwrap();
+    for row in bn["convection"].as_array().unwrap() {
+        let surface = match row["surface"].as_str().unwrap() {
+            "vertical" => ConvectiveSurface::Vertical,
+            "horizontal-up" => ConvectiveSurface::HorizontalUp,
+            "horizontal-down" => ConvectiveSurface::HorizontalDown,
+            "horizontal-cylinder" => ConvectiveSurface::HorizontalCylinder,
+            other => panic!("unknown surface {other}"),
+        };
+        let r = natural_convection_h(&film, surface, 80.0, f(&row["lengthM"])).unwrap();
+        assert_bits_eq(r.dimensionless, f(&row["rayleigh"]), "convection Ra");
+        assert_bits_eq(r.nusselt, f(&row["nusselt"]), "convection Nu");
+        assert_bits_eq(r.h_w_m2_k, f(&row["h"]), "convection h");
+    }
+
+    let w100 = saturated_water_properties(100.0).unwrap();
+    assert_bits_eq(
+        critical_heat_flux_wm2(&w100),
+        f(&bn["criticalHeatFlux"]),
+        "critical heat flux",
+    );
+    for row in bn["boiling"].as_array().unwrap() {
+        let surface = match row["surface"].as_str().unwrap() {
+            "stainless-polished" => BoilingSurface::StainlessPolished,
+            "stainless-etched" => BoilingSurface::StainlessEtched,
+            "stainless-scored" => BoilingSurface::StainlessScored,
+            "copper-polished" => BoilingSurface::CopperPolished,
+            other => panic!("unknown boiling surface {other}"),
+        };
+        let b = nucleate_boiling_flux(&w100, f(&row["excessK"]), surface).unwrap();
+        assert_bits_eq(b.flux_w_m2, f(&row["flux"]), "boiling flux");
+        assert_bits_eq(b.burnout_fraction, f(&row["burnout"]), "burnout fraction");
+    }
+
+    for row in bn["pinnedSurface"].as_array().unwrap() {
+        let r = evaporative_pinned_surface_c(
+            f(&row["airC"]),
+            f(&row["bulkVapour"]),
+            f(&row["h"]),
+            f(&row["radiantC"]),
+            0.9,
+            f(&row["ceilingC"]),
+        )
+        .unwrap();
+        assert_bits_eq(r.celsius, f(&row["celsius"]), "pinned surface");
+        assert_bits_eq(r.evaporative_loss_w_m2, f(&row["evapLoss"]), "pinned evap loss");
+        assert_eq!(r.saturated, row["saturated"].as_bool().unwrap());
+    }
+
+    let potato = FoodLeg {
+        medium_to_food_h_w_m2_k: 15.0,
+        geometry: FoodGeometry::Sphere,
+        half_dimension_m: 0.025,
+        k_w_m_k: 0.55,
+        area_m2: 4.0 * core::f64::consts::PI * 0.025 * 0.025,
+    };
+    let pot_leg = VesselLeg {
+        source_to_vessel_h_w_m2_k: 60.0,
+        area_m2: 0.05,
+        k_w_m_k: 15.0,
+        thickness_m: 0.003,
+        vessel_to_medium_h_w_m2_k: 5000.0,
+    };
+    for row in bn["network"].as_array().unwrap() {
+        let (src, sink, vessel, food) = match row["case"].as_str().unwrap() {
+            "oven-rack" => (200.0, 20.0, None, Some(potato)),
+            "boiling-pot" => (
+                250.0,
+                20.0,
+                Some(pot_leg),
+                Some(FoodLeg { medium_to_food_h_w_m2_k: 1500.0, ..potato }),
+            ),
+            "empty-pot" => (250.0, 100.0, Some(pot_leg), None),
+            other => panic!("unknown network case {other}"),
+        };
+        let n = solve_boundary_network(src, sink, vessel, food).unwrap();
+        assert_bits_eq(n.total_resistance_k_per_w, f(&row["totalR"]), "network total R");
+        assert_bits_eq(n.heat_flow_w, f(&row["heatFlowW"]), "network heat flow");
+        assert_eq!(n.links[n.controlling].id, row["controlling"].as_str().unwrap());
+        for (i, link) in row["links"].as_array().unwrap().iter().enumerate() {
+            assert_eq!(n.links[i].id, link["id"].as_str().unwrap());
+            assert_bits_eq(n.links[i].resistance_k_per_w, f(&link["r"]), "link R");
+            assert_bits_eq(n.links[i].drop_k, f(&link["dropK"]), "link drop");
+        }
+    }
+}
+
+/// Published figures from OUTSIDE this repository. Regenerating the fixture
+/// cannot launder a wrong table past these, because none of the bands are read
+/// back from the values they judge.
+#[test]
+fn boundary_network_external_anchors_hold() {
+    // 1. Incropera Table A.4 prints ν, α and Pr as well as the four columns
+    //    stored here. Pr ≡ μ·cp/k, so the printed column is an independent
+    //    check on the transcription — and it is the ONLY check on it.
+    let printed_air = [
+        (250.0, 0.720),
+        (300.0, 0.707),
+        (400.0, 0.690),
+        (600.0, 0.685),
+        (800.0, 0.709),
+    ];
+    for (kelvin, pr) in printed_air {
+        let derived = air_properties(kelvin - 273.15).unwrap().prandtl;
+        assert!(
+            ((derived - pr) / pr).abs() < 0.001,
+            "air Pr at {kelvin} K: derived {derived}, table prints {pr}"
+        );
+    }
+
+    // 2. Table A.6 likewise. The 373.15 K row is the one that caught a bad
+    //    viscosity: 279e-6 closes to 1.730 against a printed 1.76.
+    let printed_water = [(280.0, 10.26), (300.0, 5.83), (350.0, 2.29), (373.15, 1.76)];
+    for (kelvin, pr) in printed_water {
+        let derived = saturated_water_properties(kelvin - 273.15).unwrap().fluid.prandtl;
+        assert!(
+            ((derived - pr) / pr).abs() < 0.01,
+            "water Pr at {kelvin} K: derived {derived}, table prints {pr}"
+        );
+    }
+
+    // 3. Water's own well-known properties at its boiling point.
+    let w = saturated_water_properties(100.0).unwrap();
+    assert!((w.hfg_j_kg - 2257e3).abs() < 1e3, "h_fg at 100 °C");
+    assert!((w.sigma_n_m - 0.0589).abs() < 1e-4, "surface tension at 100 °C");
+    assert!((w.fluid.rho_kg_m3 - 957.85).abs() < 0.1, "density at 100 °C");
+
+    // 4. This crate's OTHER latent-heat implementation, fitted from a different
+    //    source (Fleagle & Andreas), lands within 1 % of the table value. Two
+    //    independent derivations agreeing is worth more than either alone.
+    let fitted = latent_heat_vaporisation(100.0).unwrap();
+    assert!(
+        ((w.hfg_j_kg - fitted) / w.hfg_j_kg).abs() < 0.01,
+        "table h_fg {} vs fitted {fitted}",
+        w.hfg_j_kg
+    );
+
+    // 5. Antoine round-trips through its own inverse, which is the shared
+    //    coefficient triple's only guard against one copy being edited alone.
+    for t in [1.0_f64, 20.0, 50.0, 80.0, 100.0] {
+        let back = boiling_point_c(saturation_pressure_kpa(t).unwrap()).unwrap();
+        assert!((back - t).abs() < 1e-9, "Antoine round trip at {t} °C gave {back}");
+    }
+    // …and 20 °C sits on the published 2.339 kPa.
+    let p20 = saturation_pressure_kpa(20.0).unwrap();
+    assert!(((p20 - 2.339) / 2.339).abs() < 0.005, "p_sat(20 °C) = {p20}");
+
+    // 6. Zuber's critical heat flux for water at 1 atm is published at
+    //    ~1.1–1.25 MW·m⁻², the spread being the finite-plate correction.
+    let chf = critical_heat_flux_wm2(&w);
+    assert!(
+        (1.0e6..1.4e6).contains(&chf),
+        "critical heat flux {chf} outside the published band"
+    );
+
+    // 7. Natural convection in air lives at 2–25 W·m⁻²·K⁻¹. Anything outside
+    //    that is a units error, not a nuance.
+    let film = air_properties(60.0).unwrap();
+    let h = natural_convection_h(&film, ConvectiveSurface::Vertical, 80.0, 0.15)
+        .unwrap()
+        .h_w_m2_k;
+    assert!((2.0..25.0).contains(&h), "natural convection h = {h}");
+
+    // 8. Nucleate boiling at a 10 K excess is ~10⁵ W·m⁻² in every textbook.
+    let b = nucleate_boiling_flux(&w, 10.0, BoilingSurface::StainlessEtched).unwrap();
+    assert!(
+        (5e4..5e5).contains(&b.flux_w_m2),
+        "nucleate boiling flux {} at ΔTe = 10 K",
+        b.flux_w_m2
+    );
+}
+
+/// Every refusal in the layer, exercised. A validity envelope that is never
+/// tested is a comment.
+#[test]
+fn boundary_network_refuses_outside_its_envelopes() {
+    assert!(air_properties(AIR_MIN_C - 1.0).is_err());
+    assert!(air_properties(AIR_MAX_C + 1.0).is_err());
+    assert!(saturated_water_properties(WATER_MAX_C + 1.0).is_err());
+    assert!(saturation_pressure_kpa(0.5).is_err());
+    assert!(saturation_pressure_kpa(101.0).is_err());
+    // Relative humidity stops meaning anything above the boiling point.
+    assert!(absolute_humidity_kg_m3(200.0, 10.0).is_err());
+    // Past burnout Rohsenow's monotone cube points the wrong way.
+    let w = saturated_water_properties(100.0).unwrap();
+    assert!(nucleate_boiling_flux(&w, 30.0, BoilingSurface::StainlessEtched).is_err());
+    assert!(nucleate_boiling_flux(&w, 0.0, BoilingSurface::StainlessEtched).is_err());
+    assert!(nucleate_boiling_flux(&w, 10.0, BoilingSurface::StainlessScored).is_err());
+    // A chain with nothing in it.
+    assert!(solve_boundary_network(200.0, 20.0, None, None).is_err());
+}
