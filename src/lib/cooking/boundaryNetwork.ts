@@ -1385,9 +1385,10 @@ export interface CoveredWaterLoss {
  * the power input raises beyond what the lid can condense.**
  *
  * That is a function of the burner, which is exactly why a per-seal constant
- * could not express it. `[MEASURED]` a 5.5 qt Dutch oven whose lid returns
- * 106 g·h⁻¹: at 200 W it loses nothing at all, and at 800 W it loses 998 g·h⁻¹
- * — same lid, same seal, two regimes.
+ * could not express it. `[MEASURED 2026-08-18]` a 5.5 qt Dutch oven whose lid
+ * returns 106 g·h⁻¹: at 50 W it loses nothing at all, at 200 W it loses
+ * 214 g·h⁻¹ and at 800 W it loses 1171 g·h⁻¹ — same lid, same seal, three
+ * regimes on the dial alone.
  *
  * ⚠️ **Leakage past the seal is still not modelled**, and cannot be from
  * anything here: it needs a gap dimension that is not a published property of

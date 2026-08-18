@@ -60,9 +60,10 @@ import { getCookware, type CookwareDerived } from "@/data/cooking/cookwareMateri
  * all.** A closed headspace saturates, the vapour-density driving force
  * collapses, and there is no 900 g·h⁻¹ of evaporation for a fraction to act on.
  * What remains is a circulation the lid's heat loss governs, plus a net loss
- * set by how much steam the POWER INPUT raises beyond it. `[MEASURED]` the same
- * Dutch oven loses nothing at 200 W and 998 g·h⁻¹ at 800 W — one lid, one seal,
- * two regimes. A per-seal constant cannot express a burner.
+ * set by how much steam the POWER INPUT raises beyond it. `[MEASURED 2026-08-18]`
+ * the same Dutch oven loses nothing at 50 W, 214 g·h⁻¹ at 200 W and 1171 g·h⁻¹
+ * at 800 W — one lid, one seal, three regimes on the dial alone. A per-seal
+ * constant cannot express a burner.
  *
  * So this table is not merely imprecise; it has the wrong SHAPE. It is kept,
  * demoted and labelled rather than deleted, because callers with no power input
