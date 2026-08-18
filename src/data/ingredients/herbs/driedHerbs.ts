@@ -1238,6 +1238,17 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
+      composition: {
+        water: 0.0544,
+        protein: 0.0761,
+        fat: 0.0836,
+        carbohydrate: 0.75,
+        ash: 0.0362,
+        basis: "usda-fdc",
+        fdcId: 170917,
+        fdcDescription: "Spices, bay leaf",
+        retrieved: "2026-08-18",
+      },
         serving_size: "1 tsp (1 g)",
         calories: 3,
       protein_g: 0,

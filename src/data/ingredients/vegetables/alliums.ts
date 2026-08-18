@@ -18,6 +18,17 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
+      composition: {
+        water: 0.891,
+        protein: 0.011,
+        fat: 0.001,
+        carbohydrate: 0.0934,
+        ash: 0.0035,
+        basis: "usda-fdc",
+        fdcId: 170000,
+        fdcDescription: "Onions, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (110g)",
       calories: 44,
       macros: {
@@ -168,6 +179,17 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
+      composition: {
+        water: 0.586,
+        protein: 0.0636,
+        fat: 0.005,
+        carbohydrate: 0.331,
+        ash: 0.015,
+        basis: "usda-fdc",
+        fdcId: 169230,
+        fdcDescription: "Garlic, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 cloves (9g)",
       calories: 13,
       macros: {

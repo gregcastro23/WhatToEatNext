@@ -68,6 +68,17 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       ],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.653,
+        protein: 0.31,
+        fat: 0.0357,
+        carbohydrate: 0,
+        ash: 0.0106,
+        basis: "usda-fdc",
+        fdcId: 171477,
+        fdcDescription: "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+        retrieved: "2026-08-18",
+      },
       serving_size: "5 oz (150g) roasted breast, skin-off",
       calories: 231,
       macros: { protein: 43.5, carbs: 0, fat: 5, fiber: 0, saturatedFat: 1.4, sugar: 0, potassium: 384, sodium: 111, cholesterol: 120 },

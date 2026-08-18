@@ -23,6 +23,17 @@ const rawAromatics = {
     },
     qualities: ["pungent", "savory", "sweet when cooked"],
     nutritionalProfile: {
+      composition: {
+        water: 0.891,
+        protein: 0.011,
+        fat: 0.001,
+        carbohydrate: 0.0934,
+        ash: 0.0035,
+        basis: "usda-fdc",
+        fdcId: 170000,
+        fdcDescription: "Onions, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (110g)",
       calories: 44,
       macros: {
@@ -87,6 +98,17 @@ const rawAromatics = {
     },
     qualities: ["pungent", "spicy", "medicinal"],
     nutritionalProfile: {
+      composition: {
+        water: 0.586,
+        protein: 0.0636,
+        fat: 0.005,
+        carbohydrate: 0.331,
+        ash: 0.015,
+        basis: "usda-fdc",
+        fdcId: 169230,
+        fdcDescription: "Garlic, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 cloves (9g)",
       calories: 13,
       macros: {
@@ -151,6 +173,17 @@ const rawAromatics = {
     },
     qualities: ["warming", "pungent", "aromatic"],
     nutritionalProfile: {
+      composition: {
+        water: 0.789,
+        protein: 0.0182,
+        fat: 0.0075,
+        carbohydrate: 0.178,
+        ash: 0.0077,
+        basis: "usda-fdc",
+        fdcId: 169231,
+        fdcDescription: "Ginger root, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp fresh (6g)",
       calories: 5,
       macros: {
@@ -355,6 +388,17 @@ const rawAromatics = {
     },
     qualities: ["fresh", "mild", "grassy"],
     nutritionalProfile: {
+      composition: {
+        water: 0.898,
+        protein: 0.0183,
+        fat: 0.0019,
+        carbohydrate: 0.0734,
+        ash: 0.0081,
+        basis: "usda-fdc",
+        fdcId: 170005,
+        fdcDescription: "Onions, spring or scallions (includes tops and bulb), raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (15g)",
       calories: 5,
       macros: {

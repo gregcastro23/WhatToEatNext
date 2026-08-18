@@ -77,6 +77,91 @@ export interface CookingMethod {
   description: string;
 }
 
+/**
+ * How a {@link ProximateComposition} was established.
+ *
+ * `usda-fdc`      a specific FoodData Central record, identified by `fdcId`.
+ * `class-typical` a representative figure for the food class, NOT this
+ *                 ingredient. Honest about being an inheritance, not a lookup.
+ * `derived`       computed from other fields on this profile rather than read
+ *                 from a source. Carries the largest error and says so.
+ */
+export type CompositionBasis = "usda-fdc" | "class-typical" | "derived";
+
+/**
+ * Proximate composition of the edible portion, as MASS FRACTIONS.
+ *
+ * ⚠️ FRACTIONS IN [0, 1], NOT GRAMS — and deliberately not inside `macros`.
+ * Every number in `macros` is grams per the free-text `serving_size` ("1 medium
+ * (58g)"), so a `water: 0.883` sitting beside `protein: 0.6` would read as
+ * 0.883 GRAMS of water in a 58 g lime. Being wrong by two orders of magnitude
+ * in the one direction that still looks plausible is exactly the defect this
+ * separation exists to prevent.
+ *
+ * ── Why all five, from ONE record ───────────────────────────────────────────
+ *
+ * These are the inputs to Choi & Okos (1986), which predicts specific heat,
+ * thermal conductivity and density from composition, and to latent heat, which
+ * is very nearly a pure water-content quantity. The correlation assumes the
+ * components describe ONE substance. Taking water from one source and protein
+ * from another produces a figure that is individually citable and jointly
+ * meaningless — `[MEASURED 2026-08-18]` exactly what happened when garlic's
+ * water came from an FDC Foundation record while its macros followed SR Legacy.
+ * So all five fractions come from a single `fdcId`, or none do.
+ *
+ * ── They should sum to 1, and when they do not that is information ──────────
+ *
+ * Water + protein + fat + carbohydrate + ash is a complete proximate analysis:
+ * it closes at 1.000 for 40 of the 42 sourced ingredients. It does NOT close
+ * for foods carrying mass the proximate set does not name — vanilla extract is
+ * ~34 % ethanol, and alcohol is not a proximate component. Such entries state
+ * why in {@link ProximateComposition.unaccountedNote}, because Choi & Okos will
+ * understate a food whose missing third is ethanol, and a reader deserves to
+ * know before trusting a derived conductivity. Use
+ * {@link compositionResidual} to measure it rather than assuming closure.
+ *
+ * Provenance is part of the value: `usda-fdc` entries carry the `fdcId` that
+ * reproduces them. Regenerate with `bun run fetch:composition`.
+ */
+export interface ProximateComposition {
+  /** Mass fraction of water, 0–1. */
+  water: number;
+  /** Mass fraction of protein, 0–1. */
+  protein: number;
+  /** Mass fraction of total lipid (fat), 0–1. */
+  fat: number;
+  /** Mass fraction of carbohydrate, 0–1. */
+  carbohydrate: number;
+  /** Mass fraction of ash (total mineral content), 0–1. */
+  ash: number;
+  /** How this analysis was established. See {@link CompositionBasis}. */
+  basis: CompositionBasis;
+  /** FoodData Central id. Present, and only present, when `basis` is `usda-fdc`. */
+  fdcId?: number;
+  /** The FDC record's own description, so a mismatched match is visible. */
+  fdcDescription?: string;
+  /** ISO date the source was read. FDC revises records. */
+  retrieved?: string;
+  /**
+   * Why the five fractions do not sum to 1, when they do not.
+   *
+   * Required reading before feeding such an entry to a composition
+   * correlation — the unnamed mass is real and the correlation cannot see it.
+   */
+  unaccountedNote?: string;
+}
+
+/**
+ * How much of the mass the five proximate fractions fail to account for.
+ *
+ * Zero for a complete analysis. Positive when something unnamed is present
+ * (ethanol, in the one culinary case that matters). Computed rather than
+ * stored, so it cannot drift from the fractions it describes.
+ */
+export function compositionResidual(c: ProximateComposition): number {
+  return 1 - (c.water + c.protein + c.fat + c.carbohydrate + c.ash);
+}
+
 // Canonical nutritional profile (aligned to USDA FoodData Central serving format).
 // Optional fields are genuinely optional per ingredient category — e.g. salts have no macros.
 export interface NutritionalProfile {
@@ -93,6 +178,15 @@ export interface NutritionalProfile {
     potassium?: number;
     cholesterol?: number;
   };
+  /**
+   * Proximate composition as mass fractions, with its basis and provenance.
+   * See {@link ProximateComposition}.
+   *
+   * Absent means UNKNOWN, never zero — a missing analysis and a genuinely
+   * anhydrous or ash-free ingredient are different claims, and only one of
+   * them is safe to feed a latent-heat or Choi–Okos calculation.
+   */
+  composition?: ProximateComposition;
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
   source?: string;

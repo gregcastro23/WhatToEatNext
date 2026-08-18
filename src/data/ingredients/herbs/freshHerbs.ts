@@ -26,6 +26,17 @@ const rawFreshHerbs = {
       seasonalAffinity: ["spring"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.906,
+        protein: 0.0327,
+        fat: 0.0073,
+        carbohydrate: 0.0435,
+        ash: 0.01,
+        basis: "usda-fdc",
+        fdcId: 169994,
+        fdcDescription: "Chives, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp chopped (3g)",
       calories: 1,
       macros: { protein: 0.1, carbs: 0.1, fat: 0.01, fiber: 0.1, sugar: 0.05, sodium: 0.001 },
@@ -407,7 +418,7 @@ const rawFreshHerbs = {
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      nutritionalProfile: { composition: { water: 0.651, protein: 0.0556, fat: 0.0168, carbohydrate: 0.244, ash: 0.032, basis: "usda-fdc", fdcId: 173470, fdcDescription: "Thyme, fresh", retrieved: "2026-08-18" }, serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
@@ -512,7 +523,7 @@ const rawFreshHerbs = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      nutritionalProfile: { composition: { water: 0.0544, protein: 0.0761, fat: 0.0836, carbohydrate: 0.75, ash: 0.0362, basis: "usda-fdc", fdcId: 170917, fdcDescription: "Spices, bay leaf", retrieved: "2026-08-18" }, serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
@@ -575,7 +586,7 @@ const rawFreshHerbs = {
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      nutritionalProfile: { composition: { water: 0.877, protein: 0.0297, fat: 0.0079, carbohydrate: 0.0633, ash: 0.022, basis: "usda-fdc", fdcId: 170416, fdcDescription: "Parsley, fresh", retrieved: "2026-08-18" }, serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
@@ -617,7 +628,7 @@ const rawFreshHerbs = {
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      nutritionalProfile: { composition: { water: 0.86, protein: 0.0346, fat: 0.0112, carbohydrate: 0.0702, ash: 0.0245, basis: "usda-fdc", fdcId: 172233, fdcDescription: "Dill weed, fresh", retrieved: "2026-08-18" }, serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
@@ -722,7 +733,7 @@ const rawFreshHerbs = {
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { spicy: 0.1, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0, umami: 0.1 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      nutritionalProfile: { composition: { water: 0.922, protein: 0.0213, fat: 0.0052, carbohydrate: 0.0367, ash: 0.0147, basis: "usda-fdc", fdcId: 169997, fdcDescription: "Coriander (cilantro) leaves, raw", retrieved: "2026-08-18" }, serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }

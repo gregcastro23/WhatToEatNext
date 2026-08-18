@@ -304,6 +304,17 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 1,
+        protein: 0,
+        fat: 0,
+        carbohydrate: 0,
+        ash: 0.0007,
+        basis: "usda-fdc",
+        fdcId: 174158,
+        fdcDescription: "Water, bottled, generic",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (240ml)",
       calories: 0,
       macros: {

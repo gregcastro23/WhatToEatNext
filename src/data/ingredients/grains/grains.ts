@@ -100,6 +100,17 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.119,
+        protein: 0.103,
+        fat: 0.0098,
+        carbohydrate: 0.763,
+        ash: 0.0047,
+        basis: "usda-fdc",
+        fdcId: 168894,
+        fdcDescription: "Wheat flour, white, all-purpose, enriched, bleached",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (125g)",
       calories: 455,
       macros: {

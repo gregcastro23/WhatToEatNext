@@ -34,6 +34,17 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.789,
+        protein: 0.0182,
+        fat: 0.0075,
+        carbohydrate: 0.178,
+        ash: 0.0077,
+        basis: "usda-fdc",
+        fdcId: 169231,
+        fdcDescription: "Ginger root, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (6g)",
       calories: 5,
       macros: {
@@ -68,6 +79,17 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.106,
+        protein: 0.0399,
+        fat: 0.0124,
+        carbohydrate: 0.806,
+        ash: 0.036,
+        basis: "usda-fdc",
+        fdcId: 171320,
+        fdcDescription: "Spices, cinnamon, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (2.6g)",
       calories: 6,
       macros: {
@@ -102,6 +124,17 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.0623,
+        protein: 0.0584,
+        fat: 0.363,
+        carbohydrate: 0.493,
+        ash: 0.0234,
+        basis: "usda-fdc",
+        fdcId: 171326,
+        fdcDescription: "Spices, nutmeg, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (2.2g)",
       calories: 12,
       macros: {
@@ -277,6 +310,17 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.128,
+        protein: 0.0968,
+        fat: 0.0325,
+        carbohydrate: 0.671,
+        ash: 0.0708,
+        basis: "usda-fdc",
+        fdcId: 172231,
+        fdcDescription: "Spices, turmeric, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (3g)",
       calories: 9,
       macros: {
@@ -617,6 +661,17 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.0806,
+        protein: 0.178,
+        fat: 0.223,
+        carbohydrate: 0.442,
+        ash: 0.0762,
+        basis: "usda-fdc",
+        fdcId: 170923,
+        fdcDescription: "Spices, cumin seed",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (2.1g)",
       calories: 8,
       macros: {

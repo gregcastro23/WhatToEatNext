@@ -54,6 +54,17 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.881,
+        protein: 0.0315,
+        fat: 0.0325,
+        carbohydrate: 0.048,
+        ash: 0.0067,
+        basis: "usda-fdc",
+        fdcId: 171265,
+        fdcDescription: "Milk, whole, 3.25% milkfat, with added vitamin D",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (244g)",
       calories: 102,
       macros: {
@@ -537,6 +548,17 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.676,
+        protein: 0.0229,
+        fat: 0.238,
+        carbohydrate: 0.0554,
+        ash: 0.0072,
+        basis: "usda-fdc",
+        fdcId: 170172,
+        fdcDescription: "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (240ml)",
       calories: 552,
       macros: {
@@ -730,6 +752,17 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.577,
+        protein: 0.0284,
+        fat: 0.361,
+        carbohydrate: 0.0284,
+        ash: 0.0053,
+        basis: "usda-fdc",
+        fdcId: 170859,
+        fdcDescription: "Cream, fluid, heavy whipping",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (15g)",
       calories: 51,
       macros: {
@@ -1073,6 +1106,17 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.162,
+        protein: 0.0085,
+        fat: 0.811,
+        carbohydrate: 0.0006,
+        ash: 0.0009,
+        basis: "usda-fdc",
+        fdcId: 173430,
+        fdcDescription: "Butter, without salt",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 102,
       macros: {

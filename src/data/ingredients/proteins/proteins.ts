@@ -563,6 +563,17 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.653,
+        protein: 0.31,
+        fat: 0.0357,
+        carbohydrate: 0,
+        ash: 0.0106,
+        basis: "usda-fdc",
+        fdcId: 171477,
+        fdcDescription: "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 oz (85g)",
       calories: 165,
       macros: {
@@ -662,6 +673,17 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.578,
+        protein: 0.27,
+        fat: 0.147,
+        carbohydrate: 0,
+        ash: 0.0109,
+        basis: "usda-fdc",
+        fdcId: 167832,
+        fdcDescription: "Pork, fresh, loin, center rib (roasts), bone-in, separable lean and fat, cooked, roasted",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 oz (85g)",
       calories: 210,
       macros: {
@@ -831,6 +853,17 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.762,
+        protein: 0.126,
+        fat: 0.0951,
+        carbohydrate: 0.0072,
+        ash: 0.0106,
+        basis: "usda-fdc",
+        fdcId: 171287,
+        fdcDescription: "Egg, whole, raw, fresh",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 large (50g)",
       calories: 72,
       macros: {

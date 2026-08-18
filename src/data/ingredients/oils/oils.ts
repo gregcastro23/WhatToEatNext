@@ -24,6 +24,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ["healthy", "versatile", "rich"],
     nutritionalProfile: {
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
+        basis: "usda-fdc",
+        fdcId: 171413,
+        fdcDescription: "Oil, olive, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 119,
       macros: {
@@ -127,6 +138,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 177, fahrenheit: 350 },
     qualities: ["sweet", "tropical", "solid"],
     nutritionalProfile: {
+      composition: {
+        water: 0.0003,
+        protein: 0,
+        fat: 0.991,
+        carbohydrate: 0,
+        ash: 0.0003,
+        basis: "usda-fdc",
+        fdcId: 171412,
+        fdcDescription: "Oil, coconut",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 121,
       macros: {
@@ -213,6 +235,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ["nutty", "aromatic", "warming"],
     nutritionalProfile: {
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
+        basis: "usda-fdc",
+        fdcId: 171016,
+        fdcDescription: "Oil, sesame, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 120,
       macros: {
@@ -2066,6 +2099,17 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["neutral", "versatile", "economical"],
     nutritionalProfile: {
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
+        basis: "usda-fdc",
+        fdcId: 171411,
+        fdcDescription: "Oil, soybean, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 120,
       macros: {

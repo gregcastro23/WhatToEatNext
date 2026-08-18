@@ -58,6 +58,17 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.923,
+        protein: 0.0035,
+        fat: 0.0024,
+        carbohydrate: 0.069,
+        ash: 0.0021,
+        basis: "usda-fdc",
+        fdcId: 167747,
+        fdcDescription: "Lemon juice, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (15ml)",
       calories: 3,
       macros: {
@@ -373,6 +384,17 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0,
+        protein: 0,
+        fat: 1,
+        carbohydrate: 0,
+        ash: 0,
+        basis: "usda-fdc",
+        fdcId: 171413,
+        fdcDescription: "Oil, olive, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 119,
       macros: {
@@ -479,6 +501,17 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.908,
+        protein: 0.0042,
+        fat: 0.0007,
+        carbohydrate: 0.0842,
+        ash: 0.0031,
+        basis: "usda-fdc",
+        fdcId: 168156,
+        fdcDescription: "Lime juice, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (15ml)",
       calories: 4,
       macros: {
@@ -514,6 +547,17 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      composition: {
+        water: 0.676,
+        protein: 0.0229,
+        fat: 0.238,
+        carbohydrate: 0.0554,
+        ash: 0.0072,
+        basis: "usda-fdc",
+        fdcId: 170172,
+        fdcDescription: "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (240ml)",
       calories: 552,
       macros: {
