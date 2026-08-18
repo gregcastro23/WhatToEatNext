@@ -192,7 +192,7 @@ async function applyCreditsInTransaction(
     query: (
       sql: string,
       values: unknown[],
-    ) => Promise<{ rows: Record<string, unknown>[] }>;
+    ) => Promise<{ rows: Array<Record<string, unknown>> }>;
   },
   args: {
     userId: string;
@@ -566,7 +566,7 @@ class TokenEconomyService {
             query: (
               sql: string,
               values: unknown[],
-            ) => Promise<{ rows: Record<string, unknown>[] }>;
+            ) => Promise<{ rows: Array<Record<string, unknown>> }>;
           }) =>
             applyCreditsInTransaction(client, {
               userId,
