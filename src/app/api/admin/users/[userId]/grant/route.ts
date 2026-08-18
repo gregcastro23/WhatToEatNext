@@ -32,7 +32,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
-import { tokenEconomy } from "@/services/TokenEconomyService";
+import {
+  isMissingUserFailure,
+  tokenEconomy,
+  type CreditResult,
+} from "@/services/TokenEconomyService";
 import { TOKEN_TYPES, type TokenType } from "@/types/economy";
 
 export const dynamic = "force-dynamic";
@@ -53,6 +57,32 @@ const grantBodySchema = z.object({
   idempotencyKey: z.string().min(8).max(200),
   description: z.string().max(500).optional(),
 });
+
+/**
+ * A rolled-back grant, reported as one. Names the SQLSTATE rather than
+ * guessing a cause: 22P02 carries no constraint at all, and 23503 can name
+ * either of two user FKs, so only those two justify "no such user".
+ */
+function failureResponse(
+  outcome: Extract<CreditResult, { status: "failed" }>,
+): NextResponse {
+  const missingUser = isMissingUserFailure(outcome);
+  const detail = outcome.code
+    ? ` (${outcome.code}${outcome.constraint ? ` ${outcome.constraint}` : ""})`
+    : "";
+  return NextResponse.json(
+    {
+      success: false,
+      result: "failed",
+      code: outcome.code,
+      constraint: outcome.constraint,
+      message: missingUser
+        ? `The database rejected that user id${detail}. No tokens were credited.`
+        : `The grant transaction rolled back${detail}. No tokens were credited.`,
+    },
+    { status: missingUser ? 404 : 500 },
+  );
+}
 
 export async function POST(
   request: NextRequest,
@@ -94,7 +124,13 @@ export async function POST(
   }));
 
   try {
-    const balances = await tokenEconomy.creditMultipleTokens(
+    // Deliberately the *Detailed* variant. `creditMultipleTokens` answers
+    // `TokenBalances | null`, and for sourceType "admin" a null can only mean
+    // the transaction rolled back — the daily-yield carve-out that also returns
+    // null is backed by an index covering DAILY_YIELD_SOURCES only, and a
+    // genuine idempotency replay returns balances rather than null. Reading
+    // that null as "already granted" told the operator a lost grant had landed.
+    const outcome = await tokenEconomy.creditMultipleTokensDetailed(
       userId,
       credits,
       "admin",
@@ -104,21 +140,30 @@ export async function POST(
       },
     );
 
-    if (balances === null) {
-      // Idempotency hit — credit had already been applied for this key.
-      const current = await tokenEconomy.getBalances(userId);
-      return NextResponse.json({
-        success: true,
-        alreadyClaimed: true,
-        balances: current,
-      });
-    }
+    switch (outcome.status) {
+      case "credited":
+        return NextResponse.json({
+          success: true,
+          result: "credited",
+          balances: outcome.balances,
+          written: outcome.written,
+          requested: outcome.requested,
+        });
 
-    return NextResponse.json({
-      success: true,
-      alreadyClaimed: false,
-      balances,
-    });
+      // A real replay of this idempotency key, and the daily-yield race — which
+      // cannot occur for "admin", but is answered honestly rather than falling
+      // through to a failure it is not.
+      case "replayed":
+      case "already_applied":
+        return NextResponse.json({
+          success: true,
+          result: "replayed",
+          balances: outcome.balances,
+        });
+
+      case "failed":
+        return failureResponse(outcome);
+    }
   } catch (error) {
     console.error("[admin/users/grant] credit failed:", error);
     return NextResponse.json(

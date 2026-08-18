@@ -142,6 +142,116 @@ function rowToTransaction(row: TokenTransactionRow): TokenTransaction {
 }
 
 
+// ─── Credit outcomes ──────────────────────────────────────────────────
+
+/**
+ * What a multi-token credit actually did.
+ *
+ * `creditMultipleTokens` collapses all four of these onto
+ * `TokenBalances | null`, and that `null` is ambiguous in a way that has
+ * misled callers: for any sourceType outside DAILY_YIELD_SOURCES a `null`
+ * means the transaction ROLLED BACK — never "already claimed" — because a
+ * genuine idempotency replay returns the current balances instead.
+ *
+ * `balances` is nullable on purpose: a read that failed must not be
+ * indistinguishable from a user who holds nothing.
+ */
+export type CreditResult =
+  /** At least one ledger row was written. */
+  | {
+      status: "credited";
+      balances: TokenBalances | null;
+      /** Credits that wrote a row. */
+      written: number;
+      /** Credits with a positive amount that were attempted. */
+      requested: number;
+    }
+  /** Nothing written, nothing failed: this idempotency key was already applied. */
+  | { status: "replayed"; balances: TokenBalances | null }
+  /** The daily-yield uniqueness index caught a same-day double claim. */
+  | { status: "already_applied"; balances: null }
+  /** The transaction rolled back. Nothing was credited. */
+  | {
+      status: "failed";
+      /** SQLSTATE, when the driver supplied one. */
+      code: string | null;
+      constraint: string | null;
+      message: string;
+    };
+
+/**
+ * Write every credit inside one already-open transaction, reporting the last
+ * balance row and how many statements actually wrote.
+ *
+ * `written` counts statements that RETURNed a row. A credit whose per-type
+ * idempotency key was already used hits ON CONFLICT DO NOTHING and returns
+ * none, so it is correctly not counted as a write.
+ */
+async function applyCreditsInTransaction(
+  client: {
+    query: (
+      sql: string,
+      values: unknown[],
+    ) => Promise<{ rows: Record<string, unknown>[] }>;
+  },
+  args: {
+    userId: string;
+    credits: Array<{ tokenType: TokenType; amount: number }>;
+    sourceType: TransactionSourceType;
+    groupId: string;
+    sourceId: string | null;
+    description: string | null;
+    idempotencyKey: string | null;
+  },
+): Promise<{ lastRow: Record<string, unknown> | null; written: number }> {
+  let lastRow: Record<string, unknown> | null = null;
+  let written = 0;
+
+  for (const { tokenType, amount } of args.credits) {
+    const query = creditTokensSql({
+      userId: args.userId,
+      tokenType,
+      amount,
+      sourceType: args.sourceType,
+      sourceId: args.sourceId,
+      description: args.description,
+      transactionGroupId: args.groupId,
+      idempotencyKey: args.idempotencyKey
+        ? `${args.idempotencyKey}:${tokenType}`
+        : null,
+    });
+    const res = await client.query(query.sql, query.values);
+    if (res.rows.length > 0) {
+      [lastRow] = res.rows;
+      written += 1;
+    }
+  }
+
+  return { lastRow, written };
+}
+
+/** FK constraints that specifically mean "no such user". */
+const USER_FK_CONSTRAINTS = new Set([
+  "token_transactions_user_id_fkey",
+  "token_balances_user_id_fkey",
+]);
+
+/**
+ * True when a failed credit was rejected because the target user does not
+ * exist (or the id was malformed), rather than for some other reason.
+ * 22P02 carries no constraint name, so it is matched on the code alone.
+ */
+export function isMissingUserFailure(
+  outcome: Extract<CreditResult, { status: "failed" }>,
+): boolean {
+  if (outcome.code === "22P02") return true;
+  return (
+    outcome.code === "23503" &&
+    outcome.constraint !== null &&
+    USER_FK_CONSTRAINTS.has(outcome.constraint)
+  );
+}
+
 // ─── Service Class ────────────────────────────────────────────────────
 
 class TokenEconomyService {
@@ -173,6 +283,35 @@ class TokenEconomyService {
       memoryBalances.set(userId, { ...EMPTY_BALANCES });
     }
     return memoryBalances.get(userId)!;
+  }
+
+  /**
+   * Balances, or null when they could not be read.
+   *
+   * `getBalances` falls back to an in-memory EMPTY_BALANCES on any DB error,
+   * so a caller cannot tell "this user holds nothing" from "the read failed" —
+   * it is four confident zeros either way. Callers that must not print a
+   * fabricated number use this instead and render an absence.
+   *
+   * Deliberately a separate method: `getBalances` has far more callers than
+   * the ones that need the distinction, and flipping its contract to nullable
+   * would be a much wider change than the honesty it buys here.
+   */
+  async getBalancesOrNull(userId: string): Promise<TokenBalances | null> {
+    const db = await getDbModule();
+    if (!db) return null;
+
+    try {
+      const query = getBalancesSql(userId);
+      const result = await db.executeQuery(query.sql, query.values);
+      if (result.rows.length > 0) {
+        return rowToBalances(result.rows[0]);
+      }
+      return null;
+    } catch (error) {
+      _logger.error("[TokenEconomy] getBalancesOrNull failed:", error);
+      return null;
+    }
   }
 
   // ═══════════════════════════════════════════════════════════════════
@@ -394,7 +533,148 @@ class TokenEconomyService {
   }
 
   /**
+   * Credit multiple token types at once, reporting WHICH outcome occurred.
+   *
+   * Prefer this over `creditMultipleTokens` anywhere the difference between
+   * "already applied" and "rolled back" is visible to a user or an operator.
+   * See {@link CreditResult} for why the older `TokenBalances | null` return
+   * cannot carry that distinction.
+   */
+  async creditMultipleTokensDetailed(
+    userId: string,
+    credits: Array<{ tokenType: TokenType; amount: number }>,
+    sourceType: TransactionSourceType,
+    opts?: {
+      sourceId?: string;
+      description?: string;
+      idempotencyKey?: string;
+    },
+  ): Promise<CreditResult> {
+    const groupId = crypto.randomUUID();
+    const db = await getDbModule();
+    // Non-positive amounts are skipped, so they are not part of what was asked.
+    const applicable = credits.filter(({ amount }) => amount > 0);
+
+    if (db) {
+      // All credits in ONE transaction so a multi-token grant is all-or-nothing:
+      // previously each credit auto-committed independently, so a failure on
+      // (say) the 3rd of 4 left a partially-applied grant. Per-type idempotency
+      // keys still make the whole grant safe to replay.
+      try {
+        const { lastRow, written } = await db.withTransaction(
+          async (client: {
+            query: (
+              sql: string,
+              values: unknown[],
+            ) => Promise<{ rows: Record<string, unknown>[] }>;
+          }) =>
+            applyCreditsInTransaction(client, {
+              userId,
+              credits: applicable,
+              sourceType,
+              groupId,
+              sourceId: opts?.sourceId ?? null,
+              description: opts?.description ?? null,
+              idempotencyKey: opts?.idempotencyKey ?? null,
+            }),
+        );
+
+        if (lastRow) {
+          return {
+            status: "credited",
+            balances: rowToBalances(lastRow),
+            written,
+            requested: applicable.length,
+          };
+        }
+        // No row updated and no error: every credit hit ON CONFLICT DO NOTHING,
+        // so this idempotency key was already applied and the balance already
+        // reflects it. This — not `null` — is what a genuine replay looks like.
+        return { status: "replayed", balances: await this.getBalancesOrNull(userId) };
+      } catch (error) {
+        // A unique violation on `uniq_daily_yield_per_user_day` is not a
+        // failure — it is the atomic backstop doing its job. The application
+        // guard in sync-credit §3b is a check-then-act SELECT, so two concurrent
+        // requests can both pass it; this index is what makes the second one
+        // lose. The day's yield IS already applied.
+        //
+        // Distinguished from a genuine fault so it is not logged as an error and
+        // does not read as an incident. 23505 = unique_violation. Note the
+        // backing index only covers DAILY_YIELD_SOURCES, so this branch cannot
+        // fire for any other sourceType.
+        const pgError = error as {
+          code?: string;
+          constraint?: string;
+          message?: string;
+        };
+        if (
+          pgError?.code === "23505" &&
+          pgError?.constraint === "uniq_daily_yield_per_user_day"
+        ) {
+          _logger.info(
+            `[TokenEconomy] daily-yield double-credit prevented by the DB for user ${userId} (${sourceType}); ` +
+              "the application guard lost a race and the index caught it.",
+          );
+          return { status: "already_applied", balances: null };
+        }
+        _logger.error(
+          "[TokenEconomy] creditMultipleTokens failed, rolled back:",
+          error,
+        );
+        return {
+          status: "failed",
+          code: pgError?.code ?? null,
+          constraint: pgError?.constraint ?? null,
+          message:
+            error instanceof Error ? error.message : "credit transaction failed",
+        };
+      }
+    }
+
+    // In-memory fallback (no DB): apply sequentially via creditTokens.
+    // Caveat: this path has no ledger, so `creditTokens` returns the current
+    // balance for both a fresh write and an idempotency replay. `written` here
+    // therefore counts credits that were applied OR replayed, which is the most
+    // this path can actually measure.
+    let lastBalances: TokenBalances | null = null;
+    let written = 0;
+    for (const { tokenType, amount } of applicable) {
+      const idemKey = opts?.idempotencyKey
+        ? `${opts.idempotencyKey}:${tokenType}`
+        : undefined;
+      const next = await this.creditTokens(userId, tokenType, amount, sourceType, {
+        sourceId: opts?.sourceId,
+        description: opts?.description,
+        idempotencyKey: idemKey,
+        transactionGroupId: groupId,
+      });
+      if (next) {
+        lastBalances = next;
+        written += 1;
+      }
+    }
+    if (lastBalances) {
+      return {
+        status: "credited",
+        balances: lastBalances,
+        written,
+        requested: applicable.length,
+      };
+    }
+    return { status: "replayed", balances: await this.getBalancesOrNull(userId) };
+  }
+
+  /**
    * Credit multiple token types at once (for 'all' rewards or daily yield).
+   *
+   * Thin adapter over {@link creditMultipleTokensDetailed} that preserves this
+   * method's historical contract exactly, so its existing callers are
+   * unaffected: balances on a write or a replay, `null` on a rolled-back
+   * transaction or a daily-yield race.
+   *
+   * That `null` cannot distinguish those last two from each other, and several
+   * callers read it as "already applied" when it may mean the write was lost.
+   * New code should call `creditMultipleTokensDetailed` directly.
    */
   async creditMultipleTokens(
     userId: string,
@@ -406,91 +686,24 @@ class TokenEconomyService {
       idempotencyKey?: string;
     },
   ): Promise<TokenBalances | null> {
-    const groupId = crypto.randomUUID();
-    const db = await getDbModule();
+    const outcome = await this.creditMultipleTokensDetailed(
+      userId,
+      credits,
+      sourceType,
+      opts,
+    );
 
-    if (db) {
-      // All credits in ONE transaction so a multi-token grant is all-or-nothing:
-      // previously each credit auto-committed independently, so a failure on
-      // (say) the 3rd of 4 left a partially-applied grant. Per-type idempotency
-      // keys still make the whole grant safe to replay.
-      try {
-        const lastRow = await db.withTransaction(async (client) => {
-          let last: Record<string, unknown> | null = null;
-          for (const { tokenType, amount } of credits) {
-            if (amount <= 0) continue;
-            const idemKey = opts?.idempotencyKey
-              ? `${opts.idempotencyKey}:${tokenType}`
-              : null;
-            const query = creditTokensSql({
-              userId,
-              tokenType,
-              amount,
-              sourceType,
-              sourceId: opts?.sourceId || null,
-              description: opts?.description || null,
-              transactionGroupId: groupId,
-              idempotencyKey: idemKey,
-            });
-            const res = await client.query(query.sql, query.values);
-            if (res.rows.length > 0) [last] = res.rows;
-          }
-          return last;
-        });
-
-        if (lastRow) return rowToBalances(lastRow);
-        // No row updated: every credit hit ON CONFLICT DO NOTHING (idempotency
-        // replay) or all amounts were non-positive. The balance already
-        // reflects any prior claim, so return the current balance.
-        return this.getBalances(userId);
-      } catch (error) {
-        // A unique violation on `uniq_daily_yield_per_user_day` is not a
-        // failure — it is the atomic backstop doing its job. The application
-        // guard in sync-credit §3b is a check-then-act SELECT, so two concurrent
-        // requests can both pass it; this index is what makes the second one
-        // lose. Returning null routes it to the same 409 "already_applied" the
-        // caller already produces for an idempotency replay, which is exactly
-        // the right answer: the day's yield IS already applied.
-        //
-        // Distinguished from a genuine fault so it is not logged as an error and
-        // does not read as an incident. 23505 = unique_violation.
-        const pgError = error as { code?: string; constraint?: string };
-        if (
-          pgError?.code === "23505" &&
-          pgError?.constraint === "uniq_daily_yield_per_user_day"
-        ) {
-          _logger.info(
-            `[TokenEconomy] daily-yield double-credit prevented by the DB for user ${userId} (${sourceType}); ` +
-              "the application guard lost a race and the index caught it.",
-          );
-          return null;
-        }
-        _logger.error(
-          "[TokenEconomy] creditMultipleTokens failed, rolled back:",
-          error,
-        );
+    switch (outcome.status) {
+      case "credited":
+      case "replayed":
+        // `?? getBalances` reproduces the old behaviour bit for bit: the replay
+        // branch used to call getBalances, whose in-memory fallback is why this
+        // method never returned null for a replay.
+        return outcome.balances ?? (await this.getBalances(userId));
+      case "already_applied":
+      case "failed":
         return null;
-      }
     }
-
-    // In-memory fallback (no DB): apply sequentially via creditTokens.
-    let lastBalances: TokenBalances | null = null;
-    for (const { tokenType, amount } of credits) {
-      if (amount <= 0) continue;
-      const idemKey = opts?.idempotencyKey
-        ? `${opts.idempotencyKey}:${tokenType}`
-        : undefined;
-      lastBalances = await this.creditTokens(userId, tokenType, amount, sourceType, {
-        sourceId: opts?.sourceId,
-        description: opts?.description,
-        idempotencyKey: idemKey,
-        transactionGroupId: groupId,
-      });
-      if (lastBalances === null && idemKey) {
-        return null;
-      }
-    }
-    return lastBalances || this.getBalances(userId);
   }
 
   // ═══════════════════════════════════════════════════════════════════
