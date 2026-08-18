@@ -222,6 +222,40 @@ fn assert_conditioned_ulps(actual: f64, expected: f64, budget: u64, what: &str) 
     );
 }
 
+/// Measured ULP budget for values whose derivation passes through the
+/// platform's libm, and for NOTHING else.
+///
+/// ⚠️ THE CLASSIFICATION IS THE POINT, NOT THE NUMBER. `assert_bits_eq` is
+/// still correct for everything reachable by arithmetic alone, and this file
+/// keeps it there: every air property, every water property except the one
+/// below, the Rayleigh number, and the whole resistance network are polynomial
+/// fits and four-function arithmetic, reproduce bit-for-bit on any IEEE-754
+/// host, and are asserted exactly. Only the quantities that reach `powf` are
+/// listed here, and each was traced to that call before being moved.
+///
+/// `[MEASURED 2026-08-18]` The first linux run of this suite found glibc
+/// 2 ULPs (Δ 3.469e-18) from the macOS fixture on `water rhoVapour`. It
+/// derives from `saturation_pressure_kpa`, which is `10f64.powf(…)` — a
+/// transcendental, and bit-exactness across host libms is not a promise `powf`
+/// makes any more than `tan` does. The budget matches [`SLAB_MAX_ULP`] for the
+/// same reason and to the same measurement.
+///
+/// A genuinely wrong constant still lands at 1e-7 relative or worse, eight
+/// orders outside this window. And if some quantity here ever exceeds 8, that
+/// is a measurement of how its expression compounds `powf` — the Nusselt
+/// correlations nest two of them and boiling flux cubes its argument — and the
+/// answer is to write down the compounding, not to raise the number.
+const TRANSCENDENTAL_MAX_ULP: u64 = 8;
+
+fn assert_libm_ulps(actual: f64, expected: f64, what: &str) {
+    let d = ulp_distance(actual, expected);
+    assert!(
+        d <= TRANSCENDENTAL_MAX_ULP,
+        "{what}: got {actual:.17e}, fixture has {expected:.17e} (Δ {:.3e}, {d} ULPs > {TRANSCENDENTAL_MAX_ULP})",
+        (actual - expected).abs()
+    );
+}
+
 #[test]
 fn constants_match_the_fixture() {
     let g = fixture();
@@ -1008,20 +1042,20 @@ fn boundary_network_matches_fixture() {
         assert_bits_eq(w.fluid.beta_per_k, f(&row["beta"]), "water beta");
         assert_bits_eq(w.sigma_n_m, f(&row["sigma"]), "water sigma");
         assert_bits_eq(w.hfg_j_kg, f(&row["hfg"]), "water hfg");
-        assert_bits_eq(w.rho_vapour_kg_m3, f(&row["rhoVapour"]), "water rhoVapour");
+        assert_libm_ulps(w.rho_vapour_kg_m3, f(&row["rhoVapour"]), "water rhoVapour");
     }
 
     for row in bn["vapour"].as_array().unwrap() {
         let c = f(&row["celsius"]);
         let p = saturation_pressure_kpa(c).unwrap();
-        assert_bits_eq(p, f(&row["satKpa"]), "satKpa");
-        assert_bits_eq(vapour_density_kg_m3(p, c), f(&row["rhoSat"]), "rhoSat");
-        assert_bits_eq(
+        assert_libm_ulps(p, f(&row["satKpa"]), "satKpa");
+        assert_libm_ulps(vapour_density_kg_m3(p, c), f(&row["rhoSat"]), "rhoSat");
+        assert_libm_ulps(
             absolute_humidity_kg_m3(c, 50.0).unwrap(),
             f(&row["absHumid50"]),
             "absHumid50",
         );
-        assert_bits_eq(
+        assert_libm_ulps(
             humid_air_vapour_density(c, 50.0, 200.0).unwrap(),
             f(&row["heatedTo200"]),
             "heatedTo200",
@@ -1039,12 +1073,12 @@ fn boundary_network_matches_fixture() {
         };
         let r = natural_convection_h(&film, surface, 80.0, f(&row["lengthM"])).unwrap();
         assert_bits_eq(r.dimensionless, f(&row["rayleigh"]), "convection Ra");
-        assert_bits_eq(r.nusselt, f(&row["nusselt"]), "convection Nu");
-        assert_bits_eq(r.h_w_m2_k, f(&row["h"]), "convection h");
+        assert_libm_ulps(r.nusselt, f(&row["nusselt"]), "convection Nu");
+        assert_libm_ulps(r.h_w_m2_k, f(&row["h"]), "convection h");
     }
 
     let w100 = saturated_water_properties(100.0).unwrap();
-    assert_bits_eq(
+    assert_libm_ulps(
         critical_heat_flux_wm2(&w100),
         f(&bn["criticalHeatFlux"]),
         "critical heat flux",
@@ -1058,8 +1092,8 @@ fn boundary_network_matches_fixture() {
             other => panic!("unknown boiling surface {other}"),
         };
         let b = nucleate_boiling_flux(&w100, f(&row["excessK"]), surface).unwrap();
-        assert_bits_eq(b.flux_w_m2, f(&row["flux"]), "boiling flux");
-        assert_bits_eq(b.burnout_fraction, f(&row["burnout"]), "burnout fraction");
+        assert_libm_ulps(b.flux_w_m2, f(&row["flux"]), "boiling flux");
+        assert_libm_ulps(b.burnout_fraction, f(&row["burnout"]), "burnout fraction");
     }
 
     for row in bn["pinnedSurface"].as_array().unwrap() {
@@ -1072,8 +1106,8 @@ fn boundary_network_matches_fixture() {
             f(&row["ceilingC"]),
         )
         .unwrap();
-        assert_bits_eq(r.celsius, f(&row["celsius"]), "pinned surface");
-        assert_bits_eq(r.evaporative_loss_w_m2, f(&row["evapLoss"]), "pinned evap loss");
+        assert_libm_ulps(r.celsius, f(&row["celsius"]), "pinned surface");
+        assert_libm_ulps(r.evaporative_loss_w_m2, f(&row["evapLoss"]), "pinned evap loss");
         assert_eq!(r.saturated, row["saturated"].as_bool().unwrap());
     }
 
