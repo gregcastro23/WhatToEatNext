@@ -336,3 +336,39 @@
 .ma-chart__chf { stroke: var(--ma-ember); stroke-width: 1.2; stroke-dasharray: 5 4; }
 .ma-chart__chf-label { fill: var(--ma-ember); font-size: 10px; font-family: ui-monospace, monospace; }
 .ma-chart__stop { fill: var(--ma-ember); }
+
+/* ── Comparison tab ──────────────────────────────────────────────────────── */
+
+.ma-compare { grid-template-columns: minmax(0, 1fr); }
+.ma-compare__head { max-width: 70ch; }
+.ma-compare__head h2 {
+  margin: 0 0 8px; font-size: 22px; font-weight: 600; color: var(--ma-fg); letter-spacing: -0.01em;
+}
+.ma-compare__head .ma-note { margin-top: 0; font-size: 13px; }
+
+.ma-compare__grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;
+}
+.ma-compare__count {
+  margin: -6px 0 0; font-family: ui-monospace, monospace; font-size: 11px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline);
+}
+
+.ma-compare__strip { margin-top: 4px; }
+.ma-compare__bars { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.ma-compare__bar { display: grid; grid-template-columns: minmax(120px, 1fr) 3fr minmax(110px, auto); gap: 12px; align-items: center; }
+.ma-compare__bar-label { font-size: 12px; color: var(--ma-outline); }
+.ma-compare__bar-track {
+  display: block; height: 12px; border: 1px solid var(--ma-line);
+  border-radius: 2px; background: var(--ma-bg); overflow: hidden;
+}
+.ma-compare__bar-track > span { display: block; height: 100%; background: #2b3a3c; }
+.ma-compare__bar-track > span.is-accent { background: var(--ma-accent); }
+.ma-compare__bar-value {
+  font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums;
+  font-size: 12px; text-align: right; color: var(--ma-fg);
+}
+@media (max-width: 640px) {
+  .ma-compare__bar { grid-template-columns: 1fr; gap: 4px; }
+  .ma-compare__bar-value { text-align: left; }
+}

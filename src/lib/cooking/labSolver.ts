@@ -478,6 +478,21 @@ export function solveArrangement(input: SolverInput): SolverResult {
             sinkC: input.startC,
             vessel: vessel
               ? {
+                  // ⚠️ STATED SIMPLIFICATION. The method's own `h` is the
+                  // MEDIUM-TO-FOOD coefficient; it is reused here for the
+                  // burner-to-vessel and vessel-to-medium links because the
+                  // method registry publishes no separate values for them.
+                  //
+                  // The two real coefficients differ by orders of magnitude — a
+                  // gas ring against a pot base is ~60 W·m⁻²·K⁻¹ while nucleate
+                  // boiling on the inside is thousands — so these two links'
+                  // magnitudes should be read as placeholders. What survives the
+                  // simplification is the comparison the tab exists for: the
+                  // food's own interior against everything outside it, since
+                  // `medium-to-food` and `food-interior` are both real.
+                  //
+                  // The Compare tab uses the honest pair (60 / 5000) because it
+                  // fixes one arrangement and can afford to name them.
                   sourceToVesselHWm2K: hTyped,
                   areaM2: vessel.baseAreaM2,
                   kWmK: vessel.material.kWmK,

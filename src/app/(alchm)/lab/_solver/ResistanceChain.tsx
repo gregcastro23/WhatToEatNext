@@ -21,10 +21,23 @@ import type { BoundaryNetworkResult } from "@/lib/cooking/boundaryNetwork";
 /** Minimum rendered width, so a sub-1 % link stays visible and hoverable. */
 const MIN_VISIBLE_PERCENT = 1.6;
 
+/**
+ * Four bands, not three, and they say what they mean.
+ *
+ * ⚠️ 0.1 is the LUMPED-CAPACITANCE threshold — below it the interior is
+ * effectively isothermal and the surface is the whole story. It is NOT the
+ * point where the surface stops dominating. `[MEASURED]` a roast at Bi = 0.227
+ * still has 81.5 % of its resistance in the boundary layer, so calling it
+ * "mixed" (as a three-band version did) reads as a contradiction next to its
+ * own chain, while calling it "surface-limited" overclaims a lumped solution
+ * that is no longer valid. Both facts fit only if the middle is split at 1,
+ * where the two resistances are actually equal.
+ */
 function biotVerdict(biot: number): string {
-  if (biot < 0.1) return "surface-limited";
-  if (biot > 10) return "interior-limited";
-  return "mixed — neither end dominates";
+  if (biot < 0.1) return "surface-limited — the interior is effectively isothermal";
+  if (biot < 1) return "surface-dominated — but the interior is no longer negligible";
+  if (biot <= 10) return "interior-dominated";
+  return "interior-limited — the surface barely matters";
 }
 
 export function ResistanceChain({

@@ -25,6 +25,7 @@ import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
 import { getAssetUrl } from "@/utils/urlUtils";
 import { BoundariesPanel } from "./_solver/BoundariesPanel";
+import { ComparisonPanel } from "./_solver/ComparisonPanel";
 import { SolverPanel } from "./_solver/SolverPanel";
 import { VolumetricsPanel } from "./_solver/VolumetricsPanel";
 import "./_solver/solver.css";
@@ -369,7 +370,7 @@ function useHealthTelemetry(): PipelineService[] {
  * thermal solver belongs to the lab, and splitting it off would have made it a
  * second destination competing with the one it extends.
  */
-type LabTab = "dashboard" | "solver" | "boundaries" | "volumetrics";
+type LabTab = "dashboard" | "solver" | "compare" | "boundaries" | "volumetrics";
 
 export default function LaboratoryDashboardPage(): JSX.Element {
   const [tab, setTab] = useState<LabTab>("dashboard");
@@ -760,6 +761,7 @@ export default function LaboratoryDashboardPage(): JSX.Element {
           [
             ["dashboard", "Dashboard"],
             ["solver", "Thermal solver"],
+            ["compare", "Compare"],
             ["boundaries", "Boundaries"],
             ["volumetrics", "Volumetrics"],
           ] as Array<[LabTab, string]>
@@ -804,6 +806,7 @@ export default function LaboratoryDashboardPage(): JSX.Element {
       `}</style>
       {tab === "dashboard" ? dashboard : null}
       {tab === "solver" ? <SolverPanel /> : null}
+      {tab === "compare" ? <ComparisonPanel /> : null}
       {tab === "boundaries" ? <BoundariesPanel /> : null}
       {tab === "volumetrics" ? <VolumetricsPanel /> : null}
     </>
