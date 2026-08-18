@@ -38,7 +38,11 @@ import { SCENE_THEMES, sceneInputs } from "./methodScenes";
 /** Particles simulated. Matches the count the golden trace was generated from. */
 const PARTICLE_COUNT = 60;
 
-export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetrics }) {
+export function OvenConvectionCanvas({
+  metrics,
+}: {
+  metrics: MethodPhysicsMetrics;
+}): React.ReactElement {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   // What is ACTUALLY executing. Rendered to the user, so it is state rather
@@ -86,7 +90,7 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
     // the captions on exactly the displays that motivated the change.
     let sceneW = 480;
     let sceneH = 220;
-    const resize = () => {
+    const resize = (): void => {
       const dpr = Math.min(typeof window === "undefined" ? 1 : window.devicePixelRatio || 1, 2);
       const cssW = canvas.clientWidth || 480;
       const cssH = Math.round(cssW * (220 / 480));
@@ -123,7 +127,7 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
     // the label and the frame cost.
     let engine: ThermoEngineHandle = new FallbackThermoEngine(PARTICLE_COUNT);
 
-    const render = (now: number) => {
+    const render = (now: number): void => {
       const dt = (now - lastTime) / 1000;
       lastTime = now;
 
@@ -220,20 +224,27 @@ export function OvenConvectionCanvas({ metrics }: { metrics: MethodPhysicsMetric
     // Now try to upgrade. `disposed` guards the case where the effect is torn
     // down while the module fetch is still in flight — without it, a fast
     // unmount leaks an engine that nothing will ever free.
-    void createThermoEngine(PARTICLE_COUNT).then((created) => {
-      if (disposed || created.engine !== "wasm") {
-        // Either we are gone, or `createThermoEngine` fell back to the same
-        // TypeScript engine we are already running. Nothing to swap in.
-        created.dispose();
-        return;
-      }
-      const previous = engine;
-      engine = created;
-      previous.dispose();
-      setEngineKind("wasm");
-    });
+    createThermoEngine(PARTICLE_COUNT)
+      .then((created) => {
+        if (disposed || created.engine !== "wasm") {
+          // Either we are gone, or `createThermoEngine` fell back to the same
+          // TypeScript engine we are already running. Nothing to swap in.
+          created.dispose();
+          return;
+        }
+        const previous = engine;
+        engine = created;
+        previous.dispose();
+        setEngineKind("wasm");
+      })
+      // `createThermoEngine` is documented never to reject — every failure path
+      // resolves to the fallback engine. The catch is here so the chain is
+      // HANDLED rather than floating, which the `void` operator that used to
+      // stand here only silenced at the lint level. If it ever does reject, a
+      // canvas that keeps running on TypeScript is the correct outcome.
+      .catch(() => undefined);
 
-    return () => {
+    return (): void => {
       disposed = true;
       observer?.disconnect();
       cancelAnimationFrame(animId);

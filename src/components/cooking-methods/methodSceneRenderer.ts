@@ -520,7 +520,6 @@ function drawJar(ctx: CanvasRenderingContext2D, l: Layout, theme: SceneTheme, no
   roundedRect(ctx, l.foodX - 4, l.foodY - 4, l.foodW + 8, l.foodH + 8, 5);
   ctx.stroke();
   ctx.setLineDash([]);
-  void now;
 }
 
 function drawStill(ctx: CanvasRenderingContext2D, l: Layout, theme: SceneTheme, now: number): void {
@@ -709,7 +708,7 @@ function mix(a: string, b: string, t: number): string {
   const pa = parseHex(a);
   const pb = parseHex(b);
   if (!pa || !pb) return b;
-  const c = (i: number) => Math.round(pa[i] + (pb[i] - pa[i]) * t);
+  const c = (i: number): number => Math.round(pa[i] + (pb[i] - pa[i]) * t);
   return `rgb(${c(0)}, ${c(1)}, ${c(2)})`;
 }
 

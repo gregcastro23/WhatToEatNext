@@ -530,7 +530,7 @@ async function loadModule(): Promise<ThermoWasmModule | null> {
   if (typeof WebAssembly === "undefined") return null;
   if (modulePromise) return modulePromise;
 
-  modulePromise = (async () => {
+  modulePromise = (async (): Promise<ThermoWasmModule | null> => {
     try {
       // Probe before importing. A missing bundle is the NORMAL state of a
       // checkout that has not run `bun run build:wasm`, and Next's dev overlay
