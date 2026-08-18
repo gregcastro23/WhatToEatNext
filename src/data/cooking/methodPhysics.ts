@@ -196,6 +196,21 @@ export interface MethodPhysicsProfile {
   radiantFluxKwM2?: number;
   /** Effective radiating source temperature, K. */
   radiantSourceK?: number;
+  /**
+   * Where the radiant source sits relative to the food.
+   *
+   * A view-factor fact, and the difference between a grill and a broiler: the
+   * same flux arriving from below cooks the face resting on the grate, and from
+   * above cooks the face turned away from it. Both methods already asserted
+   * their geometry in prose — broiling's transfer regime reads "Top-down
+   * radiation from a glowing element", grilling's equipment note is about grate
+   * bars underneath — so this promotes a documented fact to a typed one rather
+   * than introducing a new claim.
+   *
+   * Defaults to `surrounding` when unset, which is the honest reading of an
+   * enclosure whose walls all radiate.
+   */
+  radiantGeometry?: "above" | "below" | "surrounding";
   /** Which direction water moves. */
   moistureFlux: "into-food" | "out-of-food" | "neutral" | "held";
   /** Reactions this method is chosen to drive, with their onset temperatures. */
@@ -294,6 +309,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     surfaceCanBrown: true,
     radiantFluxKwM2: 1.9,
     radiantSourceK: 505,
+    radiantGeometry: "surrounding",
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, COLLAGEN, FAT_RENDER, WATER_BOIL],
     altitudeResponse: "unaffected",
@@ -379,6 +395,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     surfaceCanBrown: true,
     radiantFluxKwM2: 98.7,
     radiantSourceK: 1200,
+    radiantGeometry: "below",
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, PROTEIN_DENAT, FAT_RENDER],
     altitudeResponse: "unaffected",
@@ -401,6 +418,7 @@ export const METHOD_PHYSICS: Record<string, MethodPhysicsProfile> = {
     surfaceCanBrown: true,
     radiantFluxKwM2: 69.3,
     radiantSourceK: 1100,
+    radiantGeometry: "above",
     moistureFlux: "out-of-food",
     reactions: [MAILLARD, CARAMELISATION, WATER_BOIL],
     altitudeResponse: "unaffected",

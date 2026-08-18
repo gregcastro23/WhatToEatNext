@@ -302,6 +302,77 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
         }
     }
     out.push_str(&rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    // ── Per-regime traces ───────────────────────────────────────────────────
+    //
+    // The block above pins ONE motion model. It cannot detect a regime that
+    // exists on one runtime and not the other, or two regimes that have
+    // silently collapsed into each other — which is the failure this whole
+    // layer was built to remove, so it gets its own vectors.
+    //
+    // Each case is driven with the REAL numbers of a method that cooks in that
+    // regime, named in `method`, so a diff here reads as "distilling changed"
+    // rather than "case 9 changed".
+    out.push_str("    \"regimes\": [\n");
+    let cases: [(HeatRegime, &str, &str, f32, f32, f32); 10] = [
+        (HeatRegime::BuoyantAir, "BuoyantAir", "roasting", 190.0, 25.0, 505.0),
+        (HeatRegime::Oil, "Oil", "frying", 177.0, 500.0, 505.0),
+        (HeatRegime::RollingBoil, "RollingBoil", "boiling", 100.0, 3000.0, 505.0),
+        (HeatRegime::CondensingSteam, "CondensingSteam", "steaming", 100.0, 9000.0, 505.0),
+        (HeatRegime::StillLiquid, "StillLiquid", "sous_vide", 60.0, 95.0, 505.0),
+        (HeatRegime::Radiant, "Radiant", "grilling", 260.0, 60.0, 1200.0),
+        (HeatRegime::SolidContact, "SolidContact", "tilt_skillet", 218.0, 700.0, 505.0),
+        (HeatRegime::Cryogenic, "Cryogenic", "cryo_cooking", -196.0, 250.0, 505.0),
+        (HeatRegime::Diffusion, "Diffusion", "pickling", 20.0, 25.0, 505.0),
+        (HeatRegime::Distillation, "Distillation", "distilling", 78.0, 3000.0, 505.0),
+    ];
+    let mut regime_rows: Vec<String> = Vec::new();
+    for (regime, name, method, medium_c, h, radiant_k) in cases {
+        let params = regime_params(regime);
+        let mut ps = seeded_particles(8);
+        let mut samples: Vec<String> = Vec::new();
+        for step in 1..=60 {
+            step_medium_simulation(&mut ps, 1.0 / 60.0, regime, medium_c, h, radiant_k);
+            if step % 30 == 0 {
+                let p = ps[3];
+                samples.push(format!(
+                    "        {{ \"step\": {}, \"particle\": 3, \"x\": {}, \"y\": {}, \"z\": {}, \
+\"vx\": {}, \"vy\": {}, \"vz\": {}, \"tempC\": {}, \"phaseFrac\": {} }}",
+                    step,
+                    j(p.x as f64),
+                    j(p.y as f64),
+                    j(p.z as f64),
+                    j(p.vx as f64),
+                    j(p.vy as f64),
+                    j(p.vz as f64),
+                    j(p.temp_c as f64),
+                    j(p.phase_frac as f64)
+                ));
+            }
+        }
+        regime_rows.push(format!(
+            "      {{ \"regime\": {}, \"name\": \"{}\", \"method\": \"{}\", \
+\"mediumC\": {}, \"hWm2K\": {}, \"radiantSourceK\": {},\n        \
+\"params\": {{ \"buoyancyPerK\": {}, \"swirl\": {}, \"drag\": {}, \
+\"nucleationPerS\": {}, \"nucleationDir\": {}, \"coolingSign\": {} }},\n        \
+\"trace\": [\n{}\n        ] }}",
+            regime as u8,
+            name,
+            method,
+            j(medium_c as f64),
+            j(h as f64),
+            j(radiant_k as f64),
+            j(params.buoyancy_per_k as f64),
+            j(params.swirl as f64),
+            j(params.drag as f64),
+            j(params.nucleation_per_s as f64),
+            j(params.nucleation_dir as f64),
+            j(params.cooling_sign as f64),
+            samples.join(",\n")
+        ));
+    }
+    out.push_str(&regime_rows.join(",\n"));
     out.push_str("\n    ]\n  }\n}\n");
 
     print!("{out}");

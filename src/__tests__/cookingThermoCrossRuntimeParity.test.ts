@@ -67,9 +67,14 @@ import {
   SWIRL_AMPLITUDE,
   CONVECTION_DRAG,
   FLOATS_PER_PARTICLE,
+  HeatRegime,
+  heatRegimeFor,
+  regimeParams,
   seedParticles,
+  stepMediumSimulation,
   stepOvenSimulation,
 } from "@/lib/wasm/thermoEngine";
+import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
 
 interface Golden {
   constants: Record<string, number>;
@@ -425,5 +430,118 @@ describe("convection simulation", () => {
     }
 
     expect(cursor).toBe(expected.length);
+  });
+
+  it("replays the Rust golden trace for every regime", () => {
+    // The trace above pins ONE motion model. This pins the other nine.
+    //
+    // Without it the TypeScript fallback could carry a regime table that has
+    // drifted from the Rust — a boil rendered with an oven's buoyancy, say —
+    // and every existing assertion would still pass, because they all drive the
+    // BuoyantAir path. That is the same shape as the defect this whole file was
+    // written for: two runtimes wearing one name.
+    const cases = GOLDEN.simulation.regimes as Array<{
+      regime: number;
+      name: string;
+      method: string;
+      mediumC: number;
+      hWm2K: number;
+      radiantSourceK: number;
+      params: Record<string, number>;
+      trace: Array<Record<string, number>>;
+    }>;
+    expect(cases).toHaveLength(Object.keys(HeatRegime).length);
+
+    for (const c of cases) {
+      // Parameters first: a retuned regime and a re-driven regime both move the
+      // trajectory, and asserting both says which one happened.
+      const p = regimeParams(c.regime as HeatRegime);
+      expect(`${c.name} buoyancyPerK ${p.buoyancyPerK}`).toBe(
+        `${c.name} buoyancyPerK ${c.params.buoyancyPerK}`,
+      );
+      expect(p.swirl).toBe(c.params.swirl);
+      expect(p.drag).toBe(c.params.drag);
+      expect(p.nucleationPerS).toBe(c.params.nucleationPerS);
+      expect(p.nucleationDir).toBe(c.params.nucleationDir);
+      expect(p.coolingSign).toBe(c.params.coolingSign);
+
+      const buffer = seedParticles(8);
+      const expected = [...c.trace].sort((a, b) => a.step - b.step);
+      let cursor = 0;
+
+      for (let step = 1; step <= 60; step += 1) {
+        stepMediumSimulation(
+          buffer,
+          1 / 60,
+          c.regime as HeatRegime,
+          c.mediumC,
+          c.hWm2K,
+          c.radiantSourceK,
+        );
+        const row = expected[cursor];
+        if (!row || row.step !== step) continue;
+        const o = row.particle * FLOATS_PER_PARTICLE;
+        expect(`${c.name} step ${step} x ${buffer[o]}`).toBe(`${c.name} step ${step} x ${row.x}`);
+        expect(buffer[o + 1]).toBe(row.y);
+        expect(buffer[o + 2]).toBe(row.z);
+        expect(buffer[o + 3]).toBe(row.vx);
+        expect(buffer[o + 4]).toBe(row.vy);
+        expect(buffer[o + 5]).toBe(row.vz);
+        expect(buffer[o + 6]).toBe(row.tempC);
+        expect(buffer[o + 8]).toBe(row.phaseFrac);
+        cursor += 1;
+      }
+
+      expect(`${c.name} rows reached`).toBe(`${c.name} rows reached`);
+      expect(cursor).toBe(expected.length);
+    }
+  });
+});
+
+describe("method to regime mapping", () => {
+  it("gives every method in the corpus a regime, with no silent default", () => {
+    // ⚠️ The guard against the old behaviour returning by omission. A method
+    // added without a matching `MediumKind` branch would previously have fallen
+    // through to the dry-oven scene and looked plausible; here it fails.
+    const ids = Object.keys(METHOD_PHYSICS);
+    expect(ids.length).toBeGreaterThan(0);
+    const valid = new Set<number>(Object.values(HeatRegime));
+    for (const id of ids) {
+      const regime = heatRegimeFor(METHOD_PHYSICS[id]);
+      expect(`${id} -> ${regime}`).toBe(`${id} -> ${regime}`);
+      expect(valid.has(regime)).toBe(true);
+    }
+  });
+
+  it("separates the methods a single oven scene used to collapse together", () => {
+    // Each pair rendered identically before regimes existed. The point is not
+    // that the numbers differ — they always did — but that the MOTION does.
+    const pairs: Array<[string, string]> = [
+      ["boiling", "roasting"],
+      ["steaming", "boiling"],
+      ["cryo_cooking", "roasting"],
+      ["sous_vide", "boiling"],
+      ["grilling", "frying"],
+      ["pickling", "roasting"],
+    ];
+    for (const [a, b] of pairs) {
+      const ra = heatRegimeFor(METHOD_PHYSICS[a]);
+      const rb = heatRegimeFor(METHOD_PHYSICS[b]);
+      expect(`${a}/${b}: ${ra} vs ${rb}`).not.toBe(`${a}/${b}: ${ra} vs ${ra}`);
+    }
+  });
+
+  it("takes the temperature story away from a method that has no heat flow", () => {
+    // `pickling` carries no h, so `simulationInputs` hands the loop the roasting
+    // default of 25. In Diffusion that number must drive nothing at all.
+    const buffer = seedParticles(12);
+    const before = Array.from(buffer);
+    for (let i = 0; i < 300; i += 1) {
+      stepMediumSimulation(buffer, 1 / 60, HeatRegime.Diffusion, 190, 3000, 505);
+    }
+    for (let i = 0; i < 12; i += 1) {
+      const o = i * FLOATS_PER_PARTICLE;
+      expect(buffer[o + 6]).toBe(before[o + 6]);
+    }
   });
 });

@@ -296,3 +296,145 @@ fn a_hotter_oven_circulates_faster() {
     assert!(rise(230.0) > rise(120.0), "buoyancy must scale with superheat");
     assert!(rise(20.0).abs() < rise(230.0).abs());
 }
+
+// ============================================================================
+// Heat-flow regimes
+// ============================================================================
+
+/// Every regime, for the sweeps below. Kept exhaustive by hand ON PURPOSE: a
+/// `match` in `regime_params` will not compile when a variant is added, and
+/// this array is the second place the compiler cannot help — so
+/// `every_regime_is_covered_by_the_sweeps` checks the count against `from_u8`.
+const ALL_REGIMES: [HeatRegime; 10] = [
+    HeatRegime::BuoyantAir,
+    HeatRegime::Oil,
+    HeatRegime::RollingBoil,
+    HeatRegime::CondensingSteam,
+    HeatRegime::StillLiquid,
+    HeatRegime::Radiant,
+    HeatRegime::SolidContact,
+    HeatRegime::Cryogenic,
+    HeatRegime::Diffusion,
+    HeatRegime::Distillation,
+];
+
+#[test]
+fn every_regime_is_covered_by_the_sweeps() {
+    for (i, r) in ALL_REGIMES.iter().enumerate() {
+        assert_eq!(HeatRegime::from_u8(i as u8), Some(*r), "discriminant {i}");
+    }
+    assert_eq!(
+        HeatRegime::from_u8(ALL_REGIMES.len() as u8),
+        None,
+        "an unknown discriminant must be refused, never defaulted to BuoyantAir"
+    );
+}
+
+/// The derived scale must regenerate the constant it was derived from.
+///
+/// This crate's standing rule is that a constant which cannot be reproduced
+/// from its own stated basis is a guess with a citation. `SCENE_SCALE` is
+/// defined backwards out of `BUOYANCY_PER_K`, so the round trip is the whole
+/// claim: if it does not hold to the bit, then every other regime's buoyancy is
+/// scaled against something that is not the shipped air value.
+#[test]
+fn derived_air_buoyancy_reproduces_the_shipped_constant() {
+    assert_eq!(
+        buoyancy_for_beta(BETA_AIR_OVEN).to_bits(),
+        BUOYANCY_PER_K.to_bits(),
+        "g·β_air·SCENE_SCALE must be exactly BUOYANCY_PER_K"
+    );
+}
+
+/// Mean vertical velocity after a fixed simulated time.
+fn mean_vy(regime: HeatRegime, medium_c: f32, h: f32, steps: usize) -> f32 {
+    let mut ps = seeded_particles(48);
+    for _ in 0..steps {
+        step_medium_simulation(&mut ps, 1.0 / 60.0, regime, medium_c, h, 505.0);
+    }
+    ps.iter().map(|p| p.vy).sum::<f32>() / ps.len() as f32
+}
+
+/// ⚠️ THE regression this enum was added for.
+///
+/// `[MEASURED 2026-08-17]` With `(T − 20).max(0.0)`, a −196 °C cryogen produced
+/// exactly the same dead-calm buoyancy as a 20 °C room, so `cryo_cooking`
+/// animated as still air inside a chamber the canvas painted hot amber. A
+/// cryogen's vapour is denser than the room and falls.
+#[test]
+fn a_cryogen_sinks_and_an_oven_rises() {
+    let oven = mean_vy(HeatRegime::BuoyantAir, 190.0, 25.0, 120);
+    let cryo = mean_vy(HeatRegime::Cryogenic, -196.0, 250.0, 120);
+    assert!(oven > 0.0, "hot air must rise, got {oven}");
+    assert!(cryo < 0.0, "a cryogen must sink, got {cryo}");
+}
+
+/// Condensation is the only hot regime whose mass flux points at the food.
+#[test]
+fn condensing_steam_travels_downward_while_a_boil_travels_up() {
+    let boil = mean_vy(HeatRegime::RollingBoil, 100.0, 3000.0, 120);
+    let steam = mean_vy(HeatRegime::CondensingSteam, 100.0, 9000.0, 120);
+    assert!(boil > 0.0, "vapour must leave a boil upward, got {boil}");
+    assert!(
+        steam < boil,
+        "condensate must run counter to the boil: steam {steam} vs boil {boil}"
+    );
+}
+
+/// A method with no heat flow must not acquire a temperature from a borrowed h.
+#[test]
+fn a_mass_transfer_method_has_no_temperature_story() {
+    let mut ps = seeded_particles(24);
+    let before: Vec<f32> = ps.iter().map(|p| p.temp_c).collect();
+    for _ in 0..600 {
+        // A deliberately large borrowed h — the roasting profile the old canvas
+        // handed these methods. It must have no effect at all.
+        step_medium_simulation(&mut ps, 1.0 / 60.0, HeatRegime::Diffusion, 190.0, 3000.0, 505.0);
+    }
+    for (p, was) in ps.iter().zip(before) {
+        assert_eq!(p.temp_c, was, "a diffusion tracer must not change temperature");
+    }
+}
+
+/// Nucleation exists only where the method actually has a phase change.
+#[test]
+fn only_phase_change_regimes_nucleate() {
+    for r in ALL_REGIMES {
+        let mut ps = seeded_particles(16);
+        for _ in 0..90 {
+            step_medium_simulation(&mut ps, 1.0 / 60.0, r, 100.0, 500.0, 505.0);
+        }
+        let active = ps.iter().any(|p| p.phase_frac > 0.0);
+        let expected = regime_params(r).nucleation_per_s > 0.0;
+        assert_eq!(active, expected, "{r:?} nucleation state");
+    }
+}
+
+/// ⚠️ The differentiation claim, asserted rather than asserted-about.
+///
+/// The panel's whole premise is that a method's animation shows THAT method.
+/// Before regimes existed this test could not have passed for any pair: the
+/// simulation had one motion model and three scalars, so two methods with the
+/// same medium temperature and the same `h` were pixel-identical no matter how
+/// differently they cook.
+#[test]
+fn no_two_regimes_render_the_same_motion() {
+    let state = |r: HeatRegime| {
+        let mut ps = seeded_particles(32);
+        for _ in 0..150 {
+            step_medium_simulation(&mut ps, 1.0 / 60.0, r, 120.0, 500.0, 505.0);
+        }
+        ps.iter()
+            .map(|p| (p.x, p.y, p.z, p.vy, p.phase_frac))
+            .collect::<Vec<_>>()
+    };
+    for (i, a) in ALL_REGIMES.iter().enumerate() {
+        for b in &ALL_REGIMES[i + 1..] {
+            assert_ne!(
+                state(*a),
+                state(*b),
+                "{a:?} and {b:?} render identically — they must not"
+            );
+        }
+    }
+}

@@ -135,11 +135,22 @@ if (floatsPerParticle !== golden.simulation.floatsPerParticle) {
   );
 }
 
+// `HeatRegime::BuoyantAir`. The discriminant is the wire format and is pinned
+// by the fixture's `regimes` block, so it is spelled out rather than imported.
+const BUOYANT_AIR = 0;
+
 const engine = new mod.ThermoEngine(8);
 const trace = [...golden.simulation.trace].sort((a, b) => a.step - b.step);
 let cursor = 0;
 for (let step = 1; step <= 60; step += 1) {
-  engine.step(1 / 60, 175, 25, 505);
+  // `step` RETURNS FALSE for a regime the module does not recognise, and a
+  // silently ignored frame reads downstream as "every velocity is zero" — which
+  // is exactly how this check failed when the signature gained its regime
+  // argument and this line had not caught up. Assert the return.
+  if (!engine.step(1 / 60, BUOYANT_AIR, 175, 25, 505)) {
+    failures.push(`simulation step ${step}: module refused regime ${BUOYANT_AIR}`);
+    break;
+  }
   const row = trace[cursor];
   if (!row || row.step !== step) continue;
   // Rebuilt every read: growing linear memory detaches existing views.
@@ -161,6 +172,41 @@ for (let step = 1; step <= 60; step += 1) {
 }
 if (cursor !== trace.length) {
   failures.push(`simulation trace: reached ${cursor} of ${trace.length} rows`);
+}
+
+// Every OTHER regime, through the compiled module. The block above only ever
+// drives BuoyantAir, so without this the WASM engine could disagree with the
+// Rust about all nine remaining regimes and this verifier would still pass.
+for (const c of golden.simulation.regimes) {
+  const e = new mod.ThermoEngine(8);
+  const rows = [...c.trace].sort((a, b) => a.step - b.step);
+  let seen = 0;
+  for (let step = 1; step <= 60; step += 1) {
+    if (!e.step(1 / 60, c.regime, c.mediumC, c.hWm2K, c.radiantSourceK)) {
+      failures.push(`${c.name} step ${step}: module refused regime ${c.regime}`);
+      break;
+    }
+    const row = rows[seen];
+    if (!row || row.step !== step) continue;
+    const particles = new Float32Array(wasm.memory.buffer, e.buffer_ptr, e.buffer_len);
+    const o = row.particle * floatsPerParticle;
+    for (const [key, index] of [
+      ["x", 0],
+      ["y", 1],
+      ["z", 2],
+      ["vx", 3],
+      ["vy", 4],
+      ["vz", 5],
+      ["tempC", 6],
+      ["phaseFrac", 8],
+    ]) {
+      check(`${c.name} step ${step} ${key}`, particles[o + index], row[key]);
+    }
+    seen += 1;
+  }
+  if (seen !== rows.length) {
+    failures.push(`${c.name}: reached ${seen} of ${rows.length} rows`);
+  }
 }
 
 console.log(`  checked ${checks} values against ${FIXTURE}`);

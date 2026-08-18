@@ -576,10 +576,304 @@ pub const SWIRL_AMPLITUDE: f32 = 0.4;
 pub const CONVECTION_DRAG: f32 = 0.98;
 
 /// Number of floats each particle occupies in the shared linear-memory buffer:
-/// `[x, y, z, vx, vy, vz, temp_c, radiant_intensity]`.
-pub const FLOATS_PER_PARTICLE: usize = 8;
+/// `[x, y, z, vx, vy, vz, temp_c, radiant_intensity, phase_frac]`.
+pub const FLOATS_PER_PARTICLE: usize = 9;
 
-/// A single convection tracer in the oven chamber.
+/// Room temperature, °C — the reference the buoyant ΔT is taken against.
+///
+/// Was an unnamed `20.0` inside the step. Naming it is what makes the sign of
+/// ΔT legible: a medium BELOW this figure gives a negative buoyancy and the
+/// tracer sinks, which is the entire behaviour of [`HeatRegime::Cryogenic`].
+pub const RENDER_AMBIENT_C: f32 = 20.0;
+
+/// Extra velocity a phase-change tracer carries along its transition direction.
+///
+/// A SCENE constant: it sets how fast a detaching bubble outruns the bulk flow
+/// it was born in. Ordered against [`SWIRL_AMPLITUDE`] so nucleation reads as
+/// the faster motion, which is what a rolling boil looks like.
+pub const VAPOUR_TRANSIT: f32 = 0.55;
+
+// ============================================================================
+// Heat-flow regimes
+// ============================================================================
+
+/// How a medium actually moves heat, as a motion model the render loop can run.
+///
+/// ## Why this enum exists
+///
+/// `[MEASURED 2026-08-17]` Before it, `step_oven_simulation` was the ONLY
+/// simulation, and the canvas drew one scene — a dry oven chamber with a top
+/// radiant rod — for every method in the corpus. The three scalars that varied
+/// (medium temperature, `h`, radiant source) could not change what the picture
+/// asserted, so:
+///
+///   * `boiling`, `steaming` and `pressure_cooking` were drawn as dry ovens
+///     with a glowing element and no water anywhere;
+///   * `cryo_cooking` at −196 °C was drawn as a hot amber chamber, because
+///     buoyancy was `max(0, T − 20)` and a cryogen simply clamped to zero
+///     instead of sinking;
+///   * `grilling` (radiation 0.70) and `roasting` (radiation 0.40) were drawn
+///     with identical radiant rays.
+///
+/// The physics to tell these apart was already in the repository —
+/// `MethodPhysicsProfile::medium_kind` and `modes` — and none of it reached the
+/// simulation. This enum is the channel.
+///
+/// The discriminants are stable: they cross an FFI boundary as `u8` and are
+/// pinned by the golden vectors.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[repr(u8)]
+pub enum HeatRegime {
+    /// Hot air rising off the food and the chamber walls. Dry-air media.
+    BuoyantAir = 0,
+    /// Hot fat: buoyant like air, but ~40× more viscous, and carrying the
+    /// steam boiling OUT of the food's surface.
+    Oil = 1,
+    /// Saturated water below its own vapour ceiling — a rolling boil, with
+    /// vapour nucleating on the heated floor and rising through the column.
+    RollingBoil = 2,
+    /// Steam condensing ONTO the food. The mass flux is inward and downward,
+    /// the opposite direction from every other hot regime.
+    CondensingSteam = 3,
+    /// Water held below boiling. Gentle convection, no nucleation.
+    StillLiquid = 4,
+    /// Radiation-dominated. The medium barely matters; photons travel in
+    /// straight lines from a glowing source and the food shadows itself.
+    Radiant = 5,
+    /// A hot solid interface. Almost no medium motion — the action is a
+    /// conduction front propagating into the food from the contact face.
+    SolidContact = 6,
+    /// A cryogen. Heat flows OUT of the food, and the cold dense vapour SINKS.
+    Cryogenic = 7,
+    /// No heat flow worth animating: the method is limited by mass transfer or
+    /// microbial growth. Solute migrates across a boundary instead.
+    Diffusion = 8,
+    /// Evaporation, transport, and condensation on a cool surface.
+    Distillation = 9,
+}
+
+impl HeatRegime {
+    /// Round-trip from the wire representation. Unknown values are refused
+    /// rather than defaulted: a silent fall back to `BuoyantAir` is exactly the
+    /// failure this enum was added to remove.
+    pub fn from_u8(v: u8) -> Option<HeatRegime> {
+        match v {
+            0 => Some(HeatRegime::BuoyantAir),
+            1 => Some(HeatRegime::Oil),
+            2 => Some(HeatRegime::RollingBoil),
+            3 => Some(HeatRegime::CondensingSteam),
+            4 => Some(HeatRegime::StillLiquid),
+            5 => Some(HeatRegime::Radiant),
+            6 => Some(HeatRegime::SolidContact),
+            7 => Some(HeatRegime::Cryogenic),
+            8 => Some(HeatRegime::Diffusion),
+            9 => Some(HeatRegime::Distillation),
+            _ => None,
+        }
+    }
+}
+
+// ── Volumetric thermal expansion, K⁻¹ ───────────────────────────────────────
+//
+// β is what actually sets buoyant acceleration in a Boussinesq fluid:
+// a = g·β·ΔT. It is the reason a pot of water and an oven full of air circulate
+// at such different rates at the same superheat, and it is the only physical
+// input separating the convective regimes below.
+//
+// BASIS: Incropera & DeWitt, *Fundamentals of Heat and Mass Transfer*,
+// thermophysical property tables — Table A.4 (air) and Table A.6 (saturated
+// water), each read at the film temperature the regime actually runs at.
+
+/// Air at 450 K (a 175 °C oven), K⁻¹. An ideal gas, so β ≡ 1/T exactly.
+///
+/// DERIVED, not transcribed — see [`food_effusivity_lean_meat`] for why that
+/// distinction is written down in this crate.
+pub const BETA_AIR_OVEN: f32 = 1.0 / 450.0;
+
+/// Saturated water at 360 K (a simmer), K⁻¹. Incropera Table A.6: 697.9×10⁻⁶.
+pub const BETA_WATER_HOT: f32 = 697.9e-6;
+
+/// Triglyceride frying oil near 450 K, K⁻¹.
+///
+/// BASIS: measured volumetric expansion of vegetable oils, ~7×10⁻⁴ K⁻¹ over
+/// culinary frying temperatures. Nearly equal to hot water's β, which is the
+/// point worth seeing: oil does not out-circulate water — it out-*wets* it.
+pub const BETA_OIL: f32 = 7.0e-4;
+
+/// Saturated liquid nitrogen at 77 K, K⁻¹.
+///
+/// BASIS: NIST Chemistry WebBook, nitrogen saturated-liquid line. Cryogens
+/// expand roughly an order of magnitude harder than room-temperature liquids,
+/// which is why a cryogen's vapour stratifies as aggressively as it does.
+pub const BETA_LN2: f32 = 5.7e-3;
+
+/// Standard gravity in the units the ISA block already fixes, m·s⁻².
+const G_M_S2_F32: f32 = ISA_G_M_S2 as f32;
+
+/// Render-box units per metre of physical displacement.
+///
+/// ⚠️ DEFINED so that [`BUOYANCY_PER_K`] keeps the exact value it shipped with.
+/// It is a SCENE constant, not a measurement: the simulation draws into a
+/// 1×1×1 box that corresponds to no particular oven. Deriving it backwards from
+/// the one buoyancy constant that already existed is what lets every other
+/// regime be computed from its own β while the pre-existing golden trace stays
+/// byte-for-byte unchanged — the evidence that adding regimes did not perturb
+/// the model that was already shipping.
+pub const SCENE_SCALE: f32 = BUOYANCY_PER_K / (G_M_S2_F32 * BETA_AIR_OVEN);
+
+/// Buoyant acceleration per kelvin for a fluid of expansion coefficient β,
+/// in render-box units.
+#[inline]
+pub fn buoyancy_for_beta(beta_per_k: f32) -> f32 {
+    G_M_S2_F32 * beta_per_k * SCENE_SCALE
+}
+
+/// The motion parameters one regime runs with.
+///
+/// ## What is physical here and what is not
+///
+/// `buoyancy_per_k` and `cooling_sign` are physics: the first is g·β·[`SCENE_SCALE`]
+/// for the regime's own fluid, the second is the direction heat actually flows.
+/// `swirl`, `drag` and `nucleation_per_s` are SCENE parameters — this is a
+/// visualisation, not a CFD solve, and the crate says so. They are ordered by
+/// the fluid's kinematic viscosity and by whether the regime has a phase change
+/// at all, so the ranking between regimes is meaningful even though no single
+/// value is a measurement.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RegimeParams {
+    /// Buoyant acceleration per kelvin of superheat, render units·s⁻².
+    pub buoyancy_per_k: f32,
+    /// Amplitude of the standing convection roll.
+    pub swirl: f32,
+    /// Per-step velocity retention. Lower is more viscous.
+    pub drag: f32,
+    /// Phase-change tracers born per second, per particle. Zero where the
+    /// regime has no phase change to show.
+    pub nucleation_per_s: f32,
+    /// Which way the phase-change tracers travel: `+1` rise (vapour leaving),
+    /// `-1` fall (condensate landing), `0` none.
+    pub nucleation_dir: f32,
+    /// Sign of the heat flow relative to the food. `+1` the medium heats the
+    /// food, `-1` the food is being cooled, `0` no heat flow worth animating.
+    pub cooling_sign: f32,
+}
+
+/// Motion parameters for a regime.
+///
+/// `const` so the WASM engine, the SpacetimeDB module and the TypeScript
+/// transliteration cannot disagree about a regime by accident.
+pub fn regime_params(regime: HeatRegime) -> RegimeParams {
+    match regime {
+        // The shipped model, unchanged. Every constant here is the one the
+        // pre-existing golden trace was generated from.
+        HeatRegime::BuoyantAir => RegimeParams {
+            buoyancy_per_k: BUOYANCY_PER_K,
+            swirl: SWIRL_AMPLITUDE,
+            drag: CONVECTION_DRAG,
+            nucleation_per_s: 0.0,
+            nucleation_dir: 0.0,
+            cooling_sign: 1.0,
+        },
+        // Oil: β close to water's, but ν ≈ 40× air at frying temperature, so
+        // the roll is slower to build and slower to die. The nucleation here is
+        // NOT the oil boiling — it is the food's own moisture leaving, which is
+        // why `frying` carries phaseChange 0.35 with moistureFlux out-of-food.
+        HeatRegime::Oil => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_OIL),
+            swirl: 0.22,
+            drag: 0.94,
+            nucleation_per_s: 1.6,
+            nucleation_dir: 1.0,
+            cooling_sign: 1.0,
+        },
+        // A rolling boil is the most vigorous regime in the kitchen: vapour
+        // nucleates on the heated floor and drags the column with it.
+        HeatRegime::RollingBoil => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_WATER_HOT),
+            swirl: 0.30,
+            drag: 0.965,
+            nucleation_per_s: 3.2,
+            nucleation_dir: 1.0,
+            cooling_sign: 1.0,
+        },
+        // Condensation runs the other way: vapour arrives, gives up its latent
+        // heat at the food surface, and runs back down as liquid. Steaming's
+        // h ≈ 9000 is three times boiling's precisely because this transition
+        // is happening ON the food.
+        HeatRegime::CondensingSteam => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_WATER_HOT) * 0.5,
+            swirl: 0.16,
+            drag: 0.97,
+            nucleation_per_s: 2.4,
+            nucleation_dir: -1.0,
+            cooling_sign: 1.0,
+        },
+        // Below the ceiling there is nothing to nucleate. Sous-vide, poaching
+        // and infusing are quiet on purpose — the stillness IS the method.
+        HeatRegime::StillLiquid => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_WATER_HOT),
+            swirl: 0.09,
+            drag: 0.95,
+            nucleation_per_s: 0.0,
+            nucleation_dir: 0.0,
+            cooling_sign: 1.0,
+        },
+        // Radiation does not need a fluid. The little motion left is the plume
+        // the hot food itself drives.
+        HeatRegime::Radiant => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_AIR_OVEN) * 0.6,
+            swirl: 0.12,
+            drag: 0.96,
+            nucleation_per_s: 0.0,
+            nucleation_dir: 0.0,
+            cooling_sign: 1.0,
+        },
+        // A plancha has no convection story worth telling. What moves is the
+        // conduction front, and that is drawn from the transient solution
+        // rather than from tracers.
+        HeatRegime::SolidContact => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_AIR_OVEN) * 0.25,
+            swirl: 0.06,
+            drag: 0.93,
+            nucleation_per_s: 0.5,
+            nucleation_dir: 1.0,
+            cooling_sign: 1.0,
+        },
+        // ⚠️ The regime the old model could not express at all. ΔT is negative,
+        // so the vapour is DENSER than the room and sinks; `max(0, ΔT)` pinned
+        // this to a dead calm and the canvas painted it hot anyway.
+        HeatRegime::Cryogenic => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_LN2),
+            swirl: 0.14,
+            drag: 0.985,
+            nucleation_per_s: 2.0,
+            nucleation_dir: 1.0,
+            cooling_sign: -1.0,
+        },
+        // No heat flow. These methods are limited by how fast a solute crosses
+        // a boundary, so that is what moves — slowly, without buoyancy, and
+        // with no temperature story at all.
+        HeatRegime::Diffusion => RegimeParams {
+            buoyancy_per_k: 0.0,
+            swirl: 0.05,
+            drag: 0.992,
+            nucleation_per_s: 0.0,
+            nucleation_dir: 0.0,
+            cooling_sign: 0.0,
+        },
+        // Evaporate, rise, condense on something cold, run off.
+        HeatRegime::Distillation => RegimeParams {
+            buoyancy_per_k: buoyancy_for_beta(BETA_WATER_HOT) * 0.8,
+            swirl: 0.10,
+            drag: 0.972,
+            nucleation_per_s: 2.8,
+            nucleation_dir: 1.0,
+            cooling_sign: 1.0,
+        },
+    }
+}
+
+/// A single convection tracer in the cooking medium.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct ConvectionParticle {
     pub x: f32,
@@ -590,18 +884,23 @@ pub struct ConvectionParticle {
     pub vz: f32,
     pub temp_c: f32,
     pub radiant_intensity: f32,
+    /// Position in this tracer's phase-change cycle, 0..1.
+    ///
+    /// Zero for every regime without a phase change, which is how the renderer
+    /// tells a plain convection tracer from a bubble or a condensing droplet
+    /// without re-deriving the distinction on its own — the drift this crate
+    /// exists to prevent.
+    pub phase_frac: f32,
 }
 
 /// Advance the oven convection simulation by `dt_s` seconds.
 ///
-/// Pure: it reads and writes only `particles`. This is what both the WASM
-/// engine and (transliterated) the TypeScript fallback execute, so the two
-/// render the same thing.
-///
-/// The model is a visualisation, not a CFD solve — a buoyancy-driven swirl with
-/// drag, plus a Newton-cooling temperature approach whose rate is set by the
-/// method's real `h`. It is honest about what it shows: hotter ovens circulate
-/// faster, high-`h` media equilibrate a tracer faster.
+/// Retained as the [`HeatRegime::BuoyantAir`] case of
+/// [`step_medium_simulation`], which is what it always was. Keeping this entry
+/// point is not politeness to callers: the pre-existing golden trace was
+/// generated through it, and the fact that the trace still reproduces
+/// byte-for-byte after the regime work is the evidence that adding nine new
+/// regimes did not perturb the one that was already shipping.
 pub fn step_oven_simulation(
     particles: &mut [ConvectionParticle],
     dt_s: f32,
@@ -609,24 +908,75 @@ pub fn step_oven_simulation(
     h_w_m2_k: f32,
     radiant_source_k: f32,
 ) {
-    let buoyancy = (oven_temp_c - 20.0).max(0.0) * BUOYANCY_PER_K;
+    step_medium_simulation(
+        particles,
+        dt_s,
+        HeatRegime::BuoyantAir,
+        oven_temp_c,
+        h_w_m2_k,
+        radiant_source_k,
+    );
+}
+
+/// Advance the medium simulation by `dt_s` seconds, in the motion regime the
+/// method actually cooks in.
+///
+/// Pure: it reads and writes only `particles`. This is what both the WASM
+/// engine and (transliterated) the TypeScript fallback execute, so the two
+/// render the same thing.
+///
+/// The model is a visualisation, not a CFD solve — a buoyancy-driven swirl with
+/// drag, a phase-change tracer cycle, and a Newton-cooling temperature approach
+/// whose rate is set by the method's real `h`. It is honest about what it shows:
+/// hotter media circulate faster, high-`h` media equilibrate a tracer faster,
+/// and a medium COLDER than the room drives its tracers downward.
+pub fn step_medium_simulation(
+    particles: &mut [ConvectionParticle],
+    dt_s: f32,
+    regime: HeatRegime,
+    medium_temp_c: f32,
+    h_w_m2_k: f32,
+    radiant_source_k: f32,
+) {
+    let params = regime_params(regime);
+
+    // ⚠️ SIGNED, where the original was `(T − 20).max(0.0)`.
+    //
+    // `[MEASURED 2026-08-17]` That clamp is why `cryo_cooking` had no motion to
+    // show: at −196 °C the superheat is −216 K, the clamp pinned it to zero, and
+    // liquid nitrogen rendered as perfectly still air. Cold media are DENSER
+    // than the room and sink, and the sign of ΔT already says so — the clamp was
+    // throwing that away. No hot method reaches this branch: every regime with a
+    // non-zero buoyancy other than `Cryogenic` runs above room temperature, so
+    // dropping the clamp changes nothing that was previously drawn.
+    let buoyancy = (medium_temp_c - RENDER_AMBIENT_C) * params.buoyancy_per_k;
 
     for (i, p) in particles.iter_mut().enumerate() {
         let phase = p.x * 2.0 + p.z * 3.0 + (i as f32) * 0.1;
-        let swirl_x = sin_f32(phase) * SWIRL_AMPLITUDE;
-        let swirl_z = cos_f32(phase) * SWIRL_AMPLITUDE;
+        let swirl_x = sin_f32(phase) * params.swirl;
+        let swirl_z = cos_f32(phase) * params.swirl;
 
-        p.vx = (p.vx + swirl_x * dt_s) * CONVECTION_DRAG;
-        p.vy = (p.vy + buoyancy * dt_s) * CONVECTION_DRAG;
-        p.vz = (p.vz + swirl_z * dt_s) * CONVECTION_DRAG;
+        // Phase-change tracers carry an extra velocity along the transition
+        // direction, ramped by how far through the cycle they are: a bubble
+        // accelerates as it grows and detaches, a droplet as it runs off.
+        let transit = params.nucleation_dir * p.phase_frac * VAPOUR_TRANSIT;
+
+        p.vx = (p.vx + swirl_x * dt_s) * params.drag;
+        p.vy = (p.vy + (buoyancy + transit) * dt_s) * params.drag;
+        p.vz = (p.vz + swirl_z * dt_s) * params.drag;
 
         p.x += p.vx * dt_s;
         p.y += p.vy * dt_s;
         p.z += p.vz * dt_s;
 
-        // Wrap into the 1×1×1 render box.
+        // Wrap into the 1×1×1 render box. The y < 0 case is reachable only in
+        // the regimes that travel downward — condensing steam, and any medium
+        // below room temperature.
         if p.y > 1.0 {
             p.y = 0.0;
+        }
+        if p.y < 0.0 {
+            p.y = 1.0;
         }
         if p.x < -1.0 {
             p.x = 1.0;
@@ -642,7 +992,25 @@ pub fn step_oven_simulation(
         }
 
         // Newton cooling toward the medium, paced by the method's own h.
-        p.temp_c += (oven_temp_c - p.temp_c) * (h_w_m2_k * 0.001) * dt_s;
+        //
+        // Gated rather than scaled: a mass-transfer method has NO heat flow, and
+        // letting a borrowed h drive a temperature here is how the old canvas
+        // came to show a fermentation crock equilibrating like a roast.
+        if params.cooling_sign != 0.0 {
+            p.temp_c += (medium_temp_c - p.temp_c) * (h_w_m2_k * 0.001) * dt_s;
+        }
+
+        // Advance the phase-change cycle. Deterministic and RNG-free, like the
+        // seed — a random nucleation would leave the two runtimes with nothing
+        // to compare.
+        if params.nucleation_per_s > 0.0 {
+            p.phase_frac += params.nucleation_per_s * dt_s;
+            if p.phase_frac >= 1.0 {
+                p.phase_frac -= 1.0;
+            }
+        } else {
+            p.phase_frac = 0.0;
+        }
 
         // Radiative glow, Stefan–Boltzmann's fourth power in normalised units.
         let r = radiant_source_k / 1000.0;
@@ -671,6 +1039,11 @@ pub fn seeded_particles(n: usize) -> Vec<ConvectionParticle> {
                 vz: 0.0,
                 temp_c: 20.0 + (f * 0.7) % 50.0,
                 radiant_intensity: 0.0,
+                // Staggered so nucleation does not pulse in unison — a boil
+                // where every bubble detaches on the same frame reads as a
+                // strobe rather than as a boil. Closed form in the index, like
+                // every other field here.
+                phase_frac: (f * 0.113) % 1.0,
             }
         })
         .collect()

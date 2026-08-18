@@ -32,7 +32,12 @@
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { seedParticles, simulationInputs, stepOvenSimulation } from "@/lib/wasm/thermoEngine";
+import {
+  seedParticles,
+  simulationInputs,
+  stepMediumSimulation,
+  stepOvenSimulation,
+} from "@/lib/wasm/thermoEngine";
 import { buildMethodMetrics } from "@/lib/cooking/methodMetrics";
 
 const METRICS = buildMethodMetrics("roasting")!;
@@ -43,13 +48,30 @@ describe("the particle engine has no humidity channel", () => {
     expect(stepOvenSimulation.length).toBe(5);
   });
 
+  it("stepMediumSimulation takes exactly its six thermodynamic arguments", () => {
+    // buffer, dtS, regime, mediumTempC, hWm2K, radiantSourceK — and nothing
+    // else. This is the entry point the canvas actually calls now;
+    // `stepOvenSimulation` is a wrapper on the BuoyantAir case, so pinning only
+    // the wrapper would leave the live path unguarded — which is precisely the
+    // gap this file exists to prevent.
+    expect(stepMediumSimulation.length).toBe(6);
+  });
+
   it("simulationInputs yields only physics-derived quantities", () => {
     // The full set of values that reach the simulation. Every one is derived
     // from the static method profile; none can carry a live room reading.
+    //
+    // `regime` joined this list on 2026-08-17 and qualifies on the same terms as
+    // the other three: `heatRegimeFor` reads `mediumKind`, `rateLimiter` and the
+    // transfer-mode fractions off the STATIC method profile. It cannot vary with
+    // the room — the same method resolves to the same regime on every machine,
+    // in every kitchen, which is what the determinism test below then proves
+    // about the motion.
     expect(Object.keys(simulationInputs(METRICS)).sort()).toEqual([
       "hWm2K",
       "ovenTempC",
       "radiantSourceK",
+      "regime",
     ]);
   });
 
