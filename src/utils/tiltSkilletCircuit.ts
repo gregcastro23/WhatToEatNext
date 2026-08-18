@@ -113,7 +113,7 @@ export function blendStageElemental(ingredients: BatchIngredient[]): ElementalPr
 
   for (const ing of ingredients ?? []) {
     const elemental = ing.elementalProperties ?? resolveIngredientElemental(ing.name);
-    const weight = calculateQuantityFactor(ing.amount, ing.unit);
+    const weight = calculateQuantityFactor(ing.amount, ing.unit, "g", ing.name);
     if (!(weight > 0)) continue;
     acc.Fire += elemental.Fire * weight;
     acc.Water += elemental.Water * weight;
