@@ -185,6 +185,62 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
     out.push_str(&rows.join(",\n"));
     out.push_str("\n  ],\n");
 
+    // ── Choi & Okos component properties ────────────────────────────────────
+    // Sampled across the published fit range, INCLUDING below freezing so the
+    // water specific-heat branch is exercised on both sides of 32 F.
+    out.push_str("  \"choiOkosComponents\": [\n");
+    let comps: [(&str, FoodComponent); 7] = [
+        ("water", FoodComponent::Water),
+        ("protein", FoodComponent::Protein),
+        ("fat", FoodComponent::Fat),
+        ("carbohydrate", FoodComponent::Carbohydrate),
+        ("fibre", FoodComponent::Fibre),
+        ("ash", FoodComponent::Ash),
+        ("ice", FoodComponent::Ice),
+    ];
+    let temps = [-40.0_f64, -10.0, 0.0, 5.0, 20.0, 75.0, 100.0, 148.0];
+    let mut crows: Vec<String> = Vec::new();
+    for (name, c) in comps.iter() {
+        for t in temps.iter() {
+            crows.push(format!(
+                "    {{ \"component\": \"{}\", \"celsius\": {}, \"k\": {}, \"rho\": {}, \"cp\": {} }}",
+                name,
+                j(*t),
+                j(component_conductivity(*c, *t).unwrap()),
+                j(component_density(*c, *t).unwrap()),
+                j(component_specific_heat(*c, *t).unwrap()),
+            ));
+        }
+    }
+    out.push_str(&crows.join(",\n"));
+    out.push_str("\n  ],\n");
+
+    // ── Choi & Okos mixtures ────────────────────────────────────────────────
+    // Real compositions from src/data/ingredients, plus the ASHRAE worked
+    // example, plus a food that does NOT close (vanilla extract, a third
+    // ethanol) so the unaccounted fraction is pinned rather than assumed zero.
+    out.push_str("  \"choiOkosMixtures\": [\n");
+    let mixes: [(&str, MassFractions, f64); 6] = [
+        ("ashrae_lamb_example", MassFractions { water: 0.7342, protein: 0.2029, fat: 0.0525, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 }, 5.0),
+        ("carrot", MassFractions { water: 0.883, protein: 0.0093, fat: 0.0024, carbohydrate: 0.0958, fibre: 0.0, ash: 0.0097 }, 20.0),
+        ("butter", MassFractions { water: 0.162, protein: 0.0085, fat: 0.8111, carbohydrate: 0.0006, fibre: 0.0, ash: 0.0009 }, 20.0),
+        ("chicken_roasted", MassFractions { water: 0.653, protein: 0.3102, fat: 0.0357, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 }, 70.0),
+        ("potato", MassFractions { water: 0.792, protein: 0.0205, fat: 0.0009, carbohydrate: 0.175, fibre: 0.0, ash: 0.0111 }, 100.0),
+        ("vanilla_extract_open", MassFractions { water: 0.526, protein: 0.0006, fat: 0.0006, carbohydrate: 0.126, fibre: 0.0, ash: 0.0026 }, 20.0),
+    ];
+    let mut mrows: Vec<String> = Vec::new();
+    for (name, f, t) in mixes.iter() {
+        let r = food_properties(*f, *t, 0.0).unwrap();
+        mrows.push(format!(
+            "    {{ \"name\": \"{}\", \"celsius\": {}, \"water\": {}, \"protein\": {}, \"fat\": {}, \"carbohydrate\": {}, \"fibre\": {}, \"ash\": {}, \"density\": {}, \"specificHeat\": {}, \"conductivity\": {}, \"diffusivity\": {}, \"unaccounted\": {} }}",
+            name, j(*t), j(f.water), j(f.protein), j(f.fat), j(f.carbohydrate), j(f.fibre), j(f.ash),
+            j(r.density_kg_m3), j(r.specific_heat_j_kg_k), j(r.conductivity_w_m_k),
+            j(r.diffusivity_m2_s), j(r.unaccounted_fraction),
+        ));
+    }
+    out.push_str(&mrows.join(",\n"));
+    out.push_str("\n  ],\n");
+
     // ── Slab core time ──────────────────────────────────────────────────────
     // Every method regime the panels actually render: oven, bath, fryer,
     // boiling water, steam, and a one-sided pan sear.

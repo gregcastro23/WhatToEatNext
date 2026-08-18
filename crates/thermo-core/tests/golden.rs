@@ -311,6 +311,153 @@ fn the_sphere_at_biot_one_is_exactly_half_pi() {
 }
 
 #[test]
+fn choi_okos_component_properties_match_the_fixture() {
+    for row in fixture()["choiOkosComponents"].as_array().unwrap() {
+        let name = row["component"].as_str().unwrap();
+        let c = match name {
+            "water" => FoodComponent::Water,
+            "protein" => FoodComponent::Protein,
+            "fat" => FoodComponent::Fat,
+            "carbohydrate" => FoodComponent::Carbohydrate,
+            "fibre" => FoodComponent::Fibre,
+            "ash" => FoodComponent::Ash,
+            "ice" => FoodComponent::Ice,
+            other => panic!("unknown component in fixture: {other}"),
+        };
+        let t = f(&row["celsius"]);
+        // Pure polynomial arithmetic — no transcendental anywhere, so these owe
+        // nothing to the host libm and must reproduce to the bit.
+        assert_bits_eq(
+            component_conductivity(c, t).unwrap(),
+            f(&row["k"]),
+            &format!("k({name}, {t} C)"),
+        );
+        assert_bits_eq(
+            component_density(c, t).unwrap(),
+            f(&row["rho"]),
+            &format!("rho({name}, {t} C)"),
+        );
+        assert_bits_eq(
+            component_specific_heat(c, t).unwrap(),
+            f(&row["cp"]),
+            &format!("cp({name}, {t} C)"),
+        );
+    }
+}
+
+#[test]
+fn choi_okos_mixtures_match_the_fixture() {
+    for row in fixture()["choiOkosMixtures"].as_array().unwrap() {
+        let name = row["name"].as_str().unwrap();
+        let r = food_properties(
+            MassFractions {
+                water: f(&row["water"]),
+                protein: f(&row["protein"]),
+                fat: f(&row["fat"]),
+                carbohydrate: f(&row["carbohydrate"]),
+                fibre: f(&row["fibre"]),
+                ash: f(&row["ash"]),
+            },
+            f(&row["celsius"]),
+            0.0,
+        )
+        .unwrap();
+        assert_bits_eq(r.density_kg_m3, f(&row["density"]), &format!("{name} rho"));
+        assert_bits_eq(
+            r.specific_heat_j_kg_k,
+            f(&row["specificHeat"]),
+            &format!("{name} cp"),
+        );
+        assert_bits_eq(
+            r.conductivity_w_m_k,
+            f(&row["conductivity"]),
+            &format!("{name} k"),
+        );
+        assert_bits_eq(
+            r.diffusivity_m2_s,
+            f(&row["diffusivity"]),
+            &format!("{name} alpha"),
+        );
+        assert_bits_eq(
+            r.unaccounted_fraction,
+            f(&row["unaccounted"]),
+            &format!("{name} unaccounted"),
+        );
+    }
+}
+
+#[test]
+fn choi_okos_reproduces_the_published_worked_example() {
+    // EXTERNAL anchor. ASHRAE 1998 Refrigeration Handbook Ch. 8, Example 2:
+    // lamb at 41 F, x_wo 0.7342 / x_p 0.2029 / x_f 0.0525 / x_a 0.0106, worked
+    // through to c = 0.858 Btu/(lb.F). The fixture was generated from this same
+    // code and cannot vouch for the coefficients being right; this can.
+    //
+    // The chapter also prints each component value at 41 F, so the individual
+    // polynomials are checked, not just their weighted sum.
+    let t = (41.0 - 32.0) * 5.0 / 9.0;
+    for (c, want) in [
+        (FoodComponent::Water, 0.9974),
+        (FoodComponent::Protein, 0.4811),
+        (FoodComponent::Fat, 0.4756),
+        (FoodComponent::Ash, 0.2632),
+    ] {
+        let btu = component_specific_heat(c, t).unwrap() / CP_IMPERIAL_TO_SI;
+        assert!(
+            (btu - want).abs() < 5e-5,
+            "cp({c:?}) at 41 F = {btu}, ASHRAE prints {want}"
+        );
+    }
+    let lamb = food_properties(
+        MassFractions { water: 0.7342, protein: 0.2029, fat: 0.0525, carbohydrate: 0.0, fibre: 0.0, ash: 0.0106 },
+        t,
+        0.0,
+    )
+    .unwrap();
+    let btu = lamb.specific_heat_j_kg_k / CP_IMPERIAL_TO_SI;
+    assert!(
+        (btu - 0.858).abs() < 5e-4,
+        "mixture cp at 41 F = {btu} Btu/(lb.F), ASHRAE Example 2 gives 0.858"
+    );
+}
+
+#[test]
+fn choi_okos_refuses_to_extrapolate_past_its_fit() {
+    // The fits are stated for -40 to 300 F. Past that they are still smooth and
+    // still return a number, which is precisely why refusing has to be explicit.
+    assert_eq!(
+        component_conductivity(FoodComponent::Water, CHOI_OKOS_MAX_C + 0.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+    assert_eq!(
+        component_density(FoodComponent::Protein, CHOI_OKOS_MIN_C - 0.1),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+    // A fraction above 1 is almost certainly grams per 100 g.
+    assert_eq!(
+        food_properties(
+            MassFractions { water: 88.3, protein: 0.0, fat: 0.0, carbohydrate: 0.0, fibre: 0.0, ash: 0.0 },
+            20.0,
+            0.0
+        ),
+        Err(ThermoError::OutsideCorrelationRange)
+    );
+}
+
+#[test]
+fn the_water_specific_heat_branch_actually_switches_at_freezing() {
+    // Two DIFFERENT published fits meet at 32 F. If the branch were dropped, the
+    // above-freezing polynomial would extrapolate smoothly downward and nothing
+    // would look wrong — it is 40 % low at -40 C.
+    let below = component_specific_heat(FoodComponent::Water, -40.0).unwrap();
+    let above = component_specific_heat(FoodComponent::Water, 0.0).unwrap();
+    assert!(
+        below > above * 1.3,
+        "supercooled water cp should be far above the 0 C value, got {below} vs {above}"
+    );
+}
+
+#[test]
 fn slab_cook_times_match_the_fixture() {
     for row in fixture()["slabCookTime"].as_array().unwrap() {
         let name = row["name"].as_str().unwrap();

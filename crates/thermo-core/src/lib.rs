@@ -179,6 +179,11 @@ pub enum ThermoError {
     NonPositiveZValue,
     TargetUnreachable,
     NegativeBiot,
+    /// Outside a correlation's published fit range, or a fraction outside [0, 1].
+    ///
+    /// Extrapolating a polynomial fit is not a smaller error than refusing — it
+    /// is a different curve, and it returns a number that looks like an answer.
+    OutsideCorrelationRange,
 }
 
 // ============================================================================
@@ -1275,3 +1280,250 @@ fn cos_f32(x: f32) -> f32 {
 
 #[cfg(test)]
 mod tests;
+
+// ============================================================================
+// Choi & Okos — thermophysical properties from composition
+// ============================================================================
+//
+// The Rust half of `src/lib/cooking/choiOkos.ts`. See that file for the full
+// rationale; the short version is that the published coefficients are IMPERIAL
+// and are stored that way, byte-for-byte as ASHRAE prints them, with the result
+// converted using factors derived from the exact SI definitions of the BTU, the
+// pound and the foot.
+//
+// BASIS: Choi & Okos (1986), as tabulated in the 1998 ASHRAE Refrigeration
+// Handbook Ch. 8 "Thermal Properties of Foods", Tables 1 and 2, with the
+// mixture rules from Equations 6, 7, 35 and 36 of that chapter.
+
+/// International Table BTU, joules. Exact by definition.
+pub const BTU_IT_J: f64 = 1055.05585262;
+/// Pound, kilograms. Exact by definition.
+pub const POUND_KG: f64 = 0.45359237;
+/// Foot, metres. Exact by definition.
+pub const FOOT_M: f64 = 0.3048;
+/// A Fahrenheit degree is 5/9 of a kelvin.
+const F_DEGREE_IN_K: f64 = 5.0 / 9.0;
+
+/// Btu/(h·ft·°F) → W/(m·K).
+pub const K_IMPERIAL_TO_SI: f64 = BTU_IT_J / (3600.0 * FOOT_M * F_DEGREE_IN_K);
+/// lb/ft³ → kg/m³.
+pub const RHO_IMPERIAL_TO_SI: f64 = POUND_KG / (FOOT_M * FOOT_M * FOOT_M);
+/// Btu/(lb·°F) → J/(kg·K). Works out to exactly 4186.8.
+pub const CP_IMPERIAL_TO_SI: f64 = BTU_IT_J / (POUND_KG * F_DEGREE_IN_K);
+
+/// Lower bound of the Choi & Okos fits, °C (ASHRAE states −40 °F).
+pub const CHOI_OKOS_MIN_C: f64 = -40.0;
+/// Upper bound of the Choi & Okos fits, °C (ASHRAE states 300 °F → 148.888… °C).
+pub const CHOI_OKOS_MAX_C: f64 = (300.0 - 32.0) * (5.0 / 9.0);
+
+const WATER_FREEZE_F: f64 = 32.0;
+
+/// The components Choi & Okos fit separately.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FoodComponent {
+    Water,
+    Protein,
+    Fat,
+    Carbohydrate,
+    Fibre,
+    Ash,
+    Ice,
+}
+
+/// The six components a food's composition is built from, in a fixed order.
+///
+/// Ice is deliberately NOT here: a frozen food needs the ice fraction resolved
+/// first, which is a different calculation (ASHRAE Eq 4/5) and not this one.
+pub const COMPOSITION_COMPONENTS: [FoodComponent; 6] = [
+    FoodComponent::Water,
+    FoodComponent::Protein,
+    FoodComponent::Fat,
+    FoodComponent::Carbohydrate,
+    FoodComponent::Fibre,
+    FoodComponent::Ash,
+];
+
+#[inline]
+fn eval_poly(c: [f64; 3], t_f: f64) -> f64 {
+    c[0] + c[1] * t_f + c[2] * t_f * t_f
+}
+
+#[inline]
+fn c_to_f_local(celsius: f64) -> f64 {
+    celsius * (9.0 / 5.0) + 32.0
+}
+
+impl FoodComponent {
+    /// Thermal conductivity coefficients, Btu/(h·ft·°F). ASHRAE Tables 1 and 2.
+    fn k_btu(self) -> [f64; 3] {
+        match self {
+            FoodComponent::Protein => [9.0535e-2, 4.1486e-4, -4.8467e-7],
+            FoodComponent::Fat => [1.3273e-1, -8.8405e-4, -3.1652e-8],
+            FoodComponent::Carbohydrate => [1.0133e-1, 4.9478e-4, -7.7238e-7],
+            FoodComponent::Fibre => [9.2499e-2, 4.3731e-4, -5.65e-7],
+            FoodComponent::Ash => [1.7553e-1, 4.8292e-4, -5.1839e-7],
+            FoodComponent::Water => [3.1064e-1, 6.4226e-4, -1.1955e-6],
+            FoodComponent::Ice => [1.3652, -3.1648e-3, 1.8108e-5],
+        }
+    }
+
+    /// Density coefficients, lb/ft³. Component fits are LINEAR; water is quadratic.
+    fn rho_lb(self) -> [f64; 3] {
+        match self {
+            FoodComponent::Protein => [8.3599e1, -1.7979e-2, 0.0],
+            FoodComponent::Fat => [5.8246e1, -1.4482e-2, 0.0],
+            FoodComponent::Carbohydrate => [1.0017e2, -1.0767e-2, 0.0],
+            FoodComponent::Fibre => [8.228e1, -1.269e-2, 0.0],
+            FoodComponent::Ash => [1.5162e2, -9.7329e-3, 0.0],
+            FoodComponent::Water => [6.2174e1, 4.7425e-3, -7.2397e-5],
+            FoodComponent::Ice => [5.7385e1, -4.5333e-3, 0.0],
+        }
+    }
+
+    /// Specific heat coefficients, Btu/(lb·°F). Water's ABOVE-freezing fit.
+    fn cp_btu(self) -> [f64; 3] {
+        match self {
+            FoodComponent::Protein => [4.7442e-1, 1.6661e-4, -9.6784e-8],
+            FoodComponent::Fat => [4.673e-1, 2.1815e-4, -3.5391e-7],
+            FoodComponent::Carbohydrate => [3.6114e-1, 2.8843e-4, -4.3788e-7],
+            FoodComponent::Fibre => [4.3276e-1, 2.6485e-4, -3.4285e-7],
+            FoodComponent::Ash => [2.5266e-1, 2.681e-4, -2.7141e-7],
+            FoodComponent::Water => [9.9827e-1, -3.7879e-5, 4.0347e-7],
+            FoodComponent::Ice => [4.6677e-1, 8.0636e-4, 0.0],
+        }
+    }
+}
+
+/// Specific heat of SUPERCOOLED water, −40 to 32 °F, Btu/(lb·°F).
+///
+/// Materially different from the above-freezing fit — 1.406 against 1.000 at
+/// −40 °F. Applying the wrong branch is a 40 % error in the term that dominates
+/// almost every food's specific heat, so the branch is explicit.
+const CP_WATER_BELOW_FREEZING: [f64; 3] = [1.0725, -5.3992e-3, 7.3361e-5];
+
+fn check_range(celsius: f64) -> Result<(), ThermoError> {
+    // `.contains` rather than a manual pair: identical for NaN (both false,
+    // so both refuse), and clippy is right that it reads better.
+    if !(CHOI_OKOS_MIN_C..=CHOI_OKOS_MAX_C).contains(&celsius) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok(())
+}
+
+/// Thermal conductivity of a pure food component, W·m⁻¹·K⁻¹.
+pub fn component_conductivity(c: FoodComponent, celsius: f64) -> Result<f64, ThermoError> {
+    check_range(celsius)?;
+    Ok(eval_poly(c.k_btu(), c_to_f_local(celsius)) * K_IMPERIAL_TO_SI)
+}
+
+/// Density of a pure food component, kg·m⁻³.
+pub fn component_density(c: FoodComponent, celsius: f64) -> Result<f64, ThermoError> {
+    check_range(celsius)?;
+    Ok(eval_poly(c.rho_lb(), c_to_f_local(celsius)) * RHO_IMPERIAL_TO_SI)
+}
+
+/// Specific heat capacity of a pure food component, J·kg⁻¹·K⁻¹.
+pub fn component_specific_heat(c: FoodComponent, celsius: f64) -> Result<f64, ThermoError> {
+    check_range(celsius)?;
+    let t_f = c_to_f_local(celsius);
+    let poly = if c == FoodComponent::Water && t_f < WATER_FREEZE_F {
+        CP_WATER_BELOW_FREEZING
+    } else {
+        c.cp_btu()
+    };
+    Ok(eval_poly(poly, t_f) * CP_IMPERIAL_TO_SI)
+}
+
+/// Mass fractions of the proximate components, each 0–1.
+///
+/// NOT renormalised: a set that does not sum to 1 describes a food with unnamed
+/// mass, and scaling it up would invent composition the source did not measure.
+#[derive(Debug, Clone, Copy)]
+pub struct MassFractions {
+    pub water: f64,
+    pub protein: f64,
+    pub fat: f64,
+    pub carbohydrate: f64,
+    pub fibre: f64,
+    pub ash: f64,
+}
+
+impl MassFractions {
+    fn get(&self, c: FoodComponent) -> f64 {
+        match c {
+            FoodComponent::Water => self.water,
+            FoodComponent::Protein => self.protein,
+            FoodComponent::Fat => self.fat,
+            FoodComponent::Carbohydrate => self.carbohydrate,
+            FoodComponent::Fibre => self.fibre,
+            FoodComponent::Ash => self.ash,
+            FoodComponent::Ice => 0.0,
+        }
+    }
+}
+
+/// Derived thermophysical properties of a food at a temperature.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FoodThermophysicalProperties {
+    pub density_kg_m3: f64,
+    pub specific_heat_j_kg_k: f64,
+    pub conductivity_w_m_k: f64,
+    /// Derived as k/(ρ·cp), m²·s⁻¹.
+    pub diffusivity_m2_s: f64,
+    /// How much mass the fractions failed to account for. Zero when they sum to 1.
+    pub unaccounted_fraction: f64,
+}
+
+/// Thermophysical properties of a food from its composition.
+///
+/// ⚠️ Conductivity uses VOLUME fractions (Eq 35/36) and specific heat uses MASS
+/// fractions (Eq 7). They are not interchangeable — fat's density is barely half
+/// of ash's, so a fatty food's volume fractions look nothing like its mass ones.
+pub fn food_properties(
+    fractions: MassFractions,
+    celsius: f64,
+    porosity: f64,
+) -> Result<FoodThermophysicalProperties, ThermoError> {
+    check_range(celsius)?;
+    if !(0.0..1.0).contains(&porosity) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let mut specific_heat = 0.0;
+    let mut volume_per_mass = 0.0;
+    let mut shares = [0.0_f64; 6];
+
+    for (i, c) in COMPOSITION_COMPONENTS.iter().enumerate() {
+        let x = fractions.get(*c);
+        if !(0.0..=1.0).contains(&x) {
+            return Err(ThermoError::OutsideCorrelationRange);
+        }
+        specific_heat += x * component_specific_heat(*c, celsius)?;
+        let share = x / component_density(*c, celsius)?;
+        shares[i] = share;
+        volume_per_mass += share;
+    }
+
+    if !(volume_per_mass > 0.0) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let mut conductivity = 0.0;
+    for (i, c) in COMPOSITION_COMPONENTS.iter().enumerate() {
+        conductivity += (shares[i] / volume_per_mass) * component_conductivity(*c, celsius)?;
+    }
+
+    let density = (1.0 - porosity) / volume_per_mass;
+    let total: f64 = COMPOSITION_COMPONENTS
+        .iter()
+        .map(|c| fractions.get(*c))
+        .sum();
+
+    Ok(FoodThermophysicalProperties {
+        density_kg_m3: density,
+        specific_heat_j_kg_k: specific_heat,
+        conductivity_w_m_k: conductivity,
+        diffusivity_m2_s: conductivity / (density * specific_heat),
+        unaccounted_fraction: 1.0 - total,
+    })
+}

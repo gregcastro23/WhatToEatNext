@@ -68,6 +68,15 @@ import {
   wetBulbC,
   cToF,
 } from "@/lib/cooking/thermo";
+import {
+  componentConductivity,
+  componentDensity,
+  componentSpecificHeat,
+  foodProperties,
+  CHOI_OKOS_MIN_C,
+  CHOI_OKOS_MAX_C,
+  type FoodComponent,
+} from "@/lib/cooking/choiOkos";
 import { pressureFromElevation, SEA_LEVEL_PRESSURE_KPA } from "@/lib/environment/isa";
 import {
   BUOYANCY_PER_K,
@@ -95,6 +104,22 @@ interface Golden {
   }[];
   slabEigen: { biot: number; lambda1: number; coefficientA1: number }[];
   bessel: { x: number; j0: number; j1: number }[];
+  choiOkosComponents: { component: FoodComponent; celsius: number; k: number; rho: number; cp: number }[];
+  choiOkosMixtures: {
+    name: string;
+    celsius: number;
+    water: number;
+    protein: number;
+    fat: number;
+    carbohydrate: number;
+    fibre: number;
+    ash: number;
+    density: number;
+    specificHeat: number;
+    conductivity: number;
+    diffusivity: number;
+    unaccounted: number;
+  }[];
   geometryEigen: {
     geometry: FoodGeometry;
     biot: number;
@@ -399,6 +424,144 @@ describe("geometry — cylinders and spheres", () => {
       expect(Math.abs(lambda - wantLambda)).toBeLessThan(5e-5);
       expect(Math.abs(geometryCoefficient(geometry, lambda) - wantA1)).toBeLessThan(5e-5);
     }
+  });
+});
+
+describe("Choi & Okos — properties from composition", () => {
+  it.each(GOLDEN.choiOkosComponents)(
+    "$component at $celsius °C matches Rust EXACTLY",
+    ({ component, celsius, k, rho, cp }) => {
+      // `toBe`, not the ULP helper. These are polynomials — `+ − × ÷` only, no
+      // transcendental — so they owe nothing to V8's or libm's maths library
+      // and must agree to the bit. A tolerance here would hide a mistyped
+      // coefficient, which is the single most likely defect in this table.
+      expect(componentConductivity(component, celsius)).toBe(k);
+      expect(componentDensity(component, celsius)).toBe(rho);
+      expect(componentSpecificHeat(component, celsius)).toBe(cp);
+    },
+  );
+
+  it.each(GOLDEN.choiOkosMixtures)("mixture $name matches Rust EXACTLY", (row) => {
+    const r = foodProperties(
+      {
+        water: row.water,
+        protein: row.protein,
+        fat: row.fat,
+        carbohydrate: row.carbohydrate,
+        fibre: row.fibre,
+        ash: row.ash,
+      },
+      row.celsius,
+    );
+    expect(r.densityKgM3).toBe(row.density);
+    expect(r.specificHeatJkgK).toBe(row.specificHeat);
+    expect(r.conductivityWmK).toBe(row.conductivity);
+    expect(r.diffusivityM2S).toBe(row.diffusivity);
+    expect(r.unaccountedFraction).toBe(row.unaccounted);
+  });
+
+  it("reproduces ASHRAE's published worked example, which the fixture cannot vouch for", () => {
+    // EXTERNAL anchor: 1998 ASHRAE Refrigeration Handbook Ch. 8, Example 2 —
+    // lamb at 41 °F worked through to c = 0.858 Btu/(lb·°F). The chapter also
+    // prints each component value at that temperature, so the individual
+    // polynomials are checked and not merely their weighted sum.
+    const CP_BTU_TO_SI = 4186.8;
+    const t = ((41 - 32) * 5) / 9;
+    const published: Array<[FoodComponent, number]> = [
+      ["water", 0.9974],
+      ["protein", 0.4811],
+      ["fat", 0.4756],
+      ["ash", 0.2632],
+    ];
+    for (const [component, want] of published) {
+      expect(Math.abs(componentSpecificHeat(component, t) / CP_BTU_TO_SI - want)).toBeLessThan(5e-5);
+    }
+    const lamb = foodProperties(
+      { water: 0.7342, protein: 0.2029, fat: 0.0525, carbohydrate: 0, ash: 0.0106 },
+      t,
+    );
+    expect(Math.abs(lamb.specificHeatJkgK / CP_BTU_TO_SI - 0.858)).toBeLessThan(5e-4);
+  });
+
+  it("lands near the steam tables for pure water, and no nearer than the fit allows", () => {
+    // A SECOND external anchor, and deliberately a loose one: Choi & Okos is a
+    // composition correlation, not a steam table. Pinning it to four decimals
+    // would be asserting the wrong thing and would break on any legitimate
+    // coefficient revision.
+    //
+    // `[MEASURED 2026-08-18]` at 20 °C, against the steam-table values:
+    //   k    0.6037 vs 0.5984   +0.878 %
+    //   rho  995.74 vs 998.21   −0.248 %
+    //   cp   4176.6 vs 4181.7   −0.122 %
+    // So 1 % is the accuracy this model actually has here — asserted as a
+    // RELATIVE bound, because `toBeCloseTo`'s absolute precision means something
+    // different at 0.6 than at 4181 and reads as a bug when it bites.
+    const relative = (got: number, want: number) => Math.abs(got - want) / want;
+    expect(relative(componentConductivity("water", 20), 0.5984)).toBeLessThan(0.01);
+    expect(relative(componentDensity("water", 20), 998.21)).toBeLessThan(0.01);
+    expect(relative(componentSpecificHeat("water", 20), 4181.7)).toBeLessThan(0.01);
+  });
+
+  it("refuses to extrapolate past its published fit range", () => {
+    // The polynomials stay smooth and keep returning numbers outside −40…300 °F,
+    // which is exactly why refusing has to be explicit rather than implied.
+    expect(() => componentConductivity("water", CHOI_OKOS_MAX_C + 0.1)).toThrow(RangeError);
+    expect(() => componentDensity("protein", CHOI_OKOS_MIN_C - 0.1)).toThrow(RangeError);
+    // 88.3 is grams per 100 g, not a fraction — the same 100× mistake the
+    // ingredient-composition guards exist to catch, refused here too.
+    expect(() =>
+      foodProperties({ water: 88.3, protein: 0, fat: 0, carbohydrate: 0, ash: 0 }, 20),
+    ).toThrow(RangeError);
+  });
+
+  it("uses VOLUME fractions for conductivity and MASS fractions for specific heat", () => {
+    // ASHRAE Eq 35/36 vs Eq 7. Using mass fractions for both is the obvious
+    // simplification and it is wrong. The two only diverge where the components
+    // differ sharply in DENSITY, so the test needs a food that actually
+    // discriminates.
+    //
+    // `[MEASURED 2026-08-18]` volume- vs mass-weighted conductivity, at 20 °C:
+    //   soy sauce 5.30 %   (15.2 % ash at ρ≈1516 against water's 998)
+    //   walnuts   5.23 %
+    //   carrot    2.50 %
+    //   butter    0.94 %
+    //   salt      0.20 %
+    // Butter was the first choice and is a poor witness — under 1 %, close
+    // enough to pass on rounding. Soy sauce is the discriminating case.
+    const soySauce = {
+      water: 0.712,
+      protein: 0.081,
+      fat: 0.006,
+      carbohydrate: 0.0493,
+      ash: 0.152,
+    };
+    const r = foodProperties(soySauce, 20);
+    const massWeightedK =
+      soySauce.water * componentConductivity("water", 20) +
+      soySauce.protein * componentConductivity("protein", 20) +
+      soySauce.fat * componentConductivity("fat", 20) +
+      soySauce.carbohydrate * componentConductivity("carbohydrate", 20) +
+      soySauce.ash * componentConductivity("ash", 20);
+    // If the implementation silently used mass fractions these would coincide.
+    const relativeGap = Math.abs(r.conductivityWmK - massWeightedK) / r.conductivityWmK;
+    expect(relativeGap).toBeGreaterThan(0.02);
+  });
+
+  it("reports the mass a composition fails to account for", () => {
+    // Vanilla extract is ~34 % ethanol, which Choi & Okos has no term for. The
+    // model still returns numbers — a density of ~1641 kg·m⁻³ against a real
+    // ~880 — so the caller needs the residual to know the answer is unusable.
+    const vanilla = foodProperties(
+      { water: 0.526, protein: 0.0006, fat: 0.0006, carbohydrate: 0.126, ash: 0.0026 },
+      20,
+    );
+    expect(vanilla.unaccountedFraction).toBeGreaterThan(0.3);
+    // …and a food that DOES close reports essentially nothing missing.
+    const carrot = foodProperties(
+      { water: 0.883, protein: 0.0093, fat: 0.0024, carbohydrate: 0.0958, ash: 0.0097 },
+      20,
+    );
+    expect(Math.abs(carrot.unaccountedFraction)).toBeLessThan(0.01);
   });
 });
 
