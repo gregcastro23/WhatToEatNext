@@ -134,6 +134,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 177, fahrenheit: 350 },
     qualities: ["sweet", "tropical", "solid"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0003,
+        basis: "usda-fdc",
+        fdcId: 171412,
+        fdcDescription: "Oil, coconut",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 121,
       macros: {
@@ -220,6 +227,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ["nutty", "aromatic", "warming"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0,
+        basis: "usda-fdc",
+        fdcId: 171016,
+        fdcDescription: "Oil, sesame, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 120,
       macros: {
@@ -2073,6 +2087,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ["neutral", "versatile", "economical"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0,
+        basis: "usda-fdc",
+        fdcId: 171411,
+        fdcDescription: "Oil, soybean, salad or cooking",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (14g)",
       calories: 120,
       macros: {

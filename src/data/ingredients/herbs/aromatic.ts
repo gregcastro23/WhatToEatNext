@@ -13,6 +13,13 @@ const rawAromaticHerbs = {
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
     qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.651,
+        basis: "usda-fdc",
+        fdcId: 173470,
+        fdcDescription: "Thyme, fresh",
+        retrieved: "2026-08-18",
+      },
         serving_size: "1 tbsp (2 g)",
         calories: 1,
       protein_g: 0,
@@ -593,6 +600,13 @@ const rawAromaticHerbs = {
       Water: 0.1,
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.86,
+        basis: "usda-fdc",
+        fdcId: 172233,
+        fdcDescription: "Dill weed, fresh",
+        retrieved: "2026-08-18",
+      },
         serving_size: "1 tbsp (2 g)",
         calories: 1,
       protein_g: 0,
@@ -662,6 +676,13 @@ const rawAromaticHerbs = {
       Water: 0.1,
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0544,
+        basis: "usda-fdc",
+        fdcId: 170917,
+        fdcDescription: "Spices, bay leaf",
+        retrieved: "2026-08-18",
+      },
         serving_size: "1 tbsp (2 g)",
         calories: 1,
       protein_g: 0,

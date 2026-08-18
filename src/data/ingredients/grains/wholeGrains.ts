@@ -919,7 +919,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { waterContent: { fraction: 0.119, basis: "usda-fdc", fdcId: 168894, fdcDescription: "Wheat flour, white, all-purpose, enriched, bleached", retrieved: "2026-08-18" }, serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }

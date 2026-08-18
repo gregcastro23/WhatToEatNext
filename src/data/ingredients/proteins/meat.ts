@@ -193,6 +193,13 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       doneness: ["medium-rare (63°C/145°F for whole muscle)", "well-done (71°C/160°F for ground or rolled)"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.578,
+        basis: "usda-fdc",
+        fdcId: 167832,
+        fdcDescription: "Pork, fresh, loin, center rib (roasts), bone-in, separable lean and fat, cooked, roasted",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 oz (85g) roasted loin chop",
       calories: 206,
       macros: { protein: 23, carbs: 0, fat: 12, fiber: 0, saturatedFat: 4.4, sugar: 0, potassium: 292, sodium: 48, cholesterol: 65 },

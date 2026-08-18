@@ -433,6 +433,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.324,
+        basis: "usda-fdc",
+        fdcId: 169661,
+        fdcDescription: "Syrups, maple",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (20g)",
       calories: 52,
       macros: { protein: 0, carbs: 13.4, fat: 0.01, fiber: 0, sugar: 12.7, sodium: 0 },
@@ -704,6 +711,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0407,
+        basis: "usda-fdc",
+        fdcId: 170187,
+        fdcDescription: "Nuts, walnuts, english",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 oz (28g)",
       calories: 185,
       macros: { protein: 4.3, carbs: 3.9, fat: 18.5, fiber: 1.9, sugar: 0.4, sodium: 0 },
@@ -1271,6 +1285,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.526,
+        basis: "usda-fdc",
+        fdcId: 173471,
+        fdcDescription: "Vanilla extract",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (4.2g)",
       calories: 12,
       macros: { protein: 0, carbs: 0.5, fat: 0, fiber: 0, sugar: 0.1, sodium: 0 },
@@ -2630,6 +2651,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.712,
+        basis: "usda-fdc",
+        fdcId: 174277,
+        fdcDescription: "Soy sauce made from soy and wheat (shoyu)",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (18g)",
       calories: 11,
       macros: { protein: 1.3, carbs: 1.0, fat: 0, fiber: 0.1, sugar: 0.8, sodium: 0.38 },
@@ -2900,6 +2928,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0469,
+        basis: "usda-fdc",
+        fdcId: 170150,
+        fdcDescription: "Seeds, sesame seeds, whole, dried",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (9g)",
       calories: 52,
       macros: { protein: 1.6, carbs: 2.1, fat: 4.5, fiber: 1.1, sugar: 0.2, sodium: 0 },

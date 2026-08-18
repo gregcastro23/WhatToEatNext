@@ -94,6 +94,13 @@ const rawAromatics = {
     },
     qualities: ["pungent", "spicy", "medicinal"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.586,
+        basis: "usda-fdc",
+        fdcId: 169230,
+        fdcDescription: "Garlic, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 cloves (9g)",
       calories: 13,
       macros: {
@@ -158,6 +165,13 @@ const rawAromatics = {
     },
     qualities: ["warming", "pungent", "aromatic"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.789,
+        basis: "usda-fdc",
+        fdcId: 169231,
+        fdcDescription: "Ginger root, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp fresh (6g)",
       calories: 5,
       macros: {
@@ -362,6 +376,13 @@ const rawAromatics = {
     },
     qualities: ["fresh", "mild", "grassy"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.898,
+        basis: "usda-fdc",
+        fdcId: 170005,
+        fdcDescription: "Onions, spring or scallions (includes tops and bulb), raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (15g)",
       calories: 5,
       macros: {

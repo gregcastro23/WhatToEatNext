@@ -58,6 +58,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.923,
+        basis: "usda-fdc",
+        fdcId: 167747,
+        fdcDescription: "Lemon juice, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (15ml)",
       calories: 3,
       macros: {
@@ -486,6 +493,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.908,
+        basis: "usda-fdc",
+        fdcId: 168156,
+        fdcDescription: "Lime juice, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (15ml)",
       calories: 4,
       macros: {
@@ -521,6 +535,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.676,
+        basis: "usda-fdc",
+        fdcId: 170172,
+        fdcDescription: "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (240ml)",
       calories: 552,
       macros: {

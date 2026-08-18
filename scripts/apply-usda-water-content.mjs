@@ -34,6 +34,20 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DATA = join(HERE, "data", "usda-water-content.json");
 const ROOT = join(HERE, "..", "src", "data", "ingredients");
 const DRY = process.argv.includes("--dry-run");
+/**
+ * Replace blocks whose stored value no longer matches the fetched one.
+ *
+ * Needed whenever a figure is CORRECTED rather than added — e.g. after a target
+ * is re-pointed at a different FDC record. Without it the idempotent skip means
+ * a corrected value silently never lands.
+ *
+ * ⚠️ The old block is located with the SAME depth-aware scan used to insert it,
+ * never a regex. `[MEASURED 2026-08-18]` A lazy multi-line regex written to
+ * delete exactly one block instead spanned from one entry to the next and
+ * removed 214 lines of unrelated ingredient data. If insertion needs a
+ * structure-aware parser, so does removal.
+ */
+const REPLACE = process.argv.includes("--replace");
 
 const fetched = JSON.parse(readFileSync(DATA, "utf8"));
 /** Keyed by the exact `name:` value the ingredient files use. */
@@ -77,7 +91,28 @@ function braceDelta(line) {
 }
 
 const NAME_RE = /^\s*name:\s*"([^"]+)"\s*,?\s*$/;
+/** Multi-line form: `nutritionalProfile: {` with the brace ending the line. */
 const PROFILE_RE = /^\s*nutritionalProfile:\s*\{\s*$/;
+/**
+ * Single-line form: the whole object on one line.
+ *
+ * `[MEASURED 2026-08-18]` 370 of 1,435 profiles are written this way — 26 % of
+ * the corpus. Matching only the multi-line form skipped every one of them
+ * SILENTLY; `potato` exists in no other form and simply never received a value.
+ * It surfaced only because the unmatched-value report names what it could not
+ * place. A coverage gap that reports itself is survivable; this one nearly did
+ * not.
+ */
+const PROFILE_INLINE_RE = /^(\s*)nutritionalProfile:\s*\{(?!\s*$)/;
+
+/** Compact one-line form, for profiles that are themselves one line. */
+function renderInline(row) {
+  return (
+    `waterContent: { fraction: ${row.fraction}, basis: "usda-fdc", ` +
+    `fdcId: ${row.fdcId}, fdcDescription: ${JSON.stringify(row.fdcDescription)}, ` +
+    `retrieved: ${JSON.stringify(row.retrieved)} },`
+  );
+}
 
 function render(row, indent) {
   const pad = " ".repeat(indent);
@@ -100,6 +135,7 @@ let skipped = 0;
 const satisfied = new Set();
 const touchedFiles = new Set();
 const appliedNames = [];
+const replacedNames = [];
 
 for (const file of walk(ROOT)) {
   const src = readFileSync(file, "utf8");
@@ -110,6 +146,8 @@ for (const file of walk(ROOT)) {
   // then find `nutritionalProfile:` keys at the same depth.
   const nameAtDepth = new Map();
   const insertions = [];
+  const inlineEdits = [];
+  const replacements = [];
   let depth = 0;
   let alreadyHas = new Set();
 
@@ -118,19 +156,52 @@ for (const file of walk(ROOT)) {
     const nameMatch = NAME_RE.exec(line);
     if (nameMatch) nameAtDepth.set(depth, nameMatch[1]);
 
+    const inline = PROFILE_INLINE_RE.exec(line);
+    if (inline && !PROFILE_RE.test(line)) {
+      const owner = nameAtDepth.get(depth);
+      const row = owner ? byName.get(owner.toLowerCase()) : undefined;
+      if (row) {
+        if (line.includes("waterContent:")) {
+          alreadyHas.add(owner);
+        } else {
+          inlineEdits.push({ at: i, row, owner });
+        }
+      }
+    }
+
     if (PROFILE_RE.test(line)) {
       const owner = nameAtDepth.get(depth);
       const row = owner ? byName.get(owner.toLowerCase()) : undefined;
       if (row) {
-        // Does this profile object already carry waterContent? Scan to its close.
+        // Does this profile object already carry waterContent? Scan to its close,
+        // capturing the block's exact span so `--replace` can swap it in place.
         let d = 1;
         let has = false;
         for (let j = i + 1; j < lines.length && d > 0; j += 1) {
-          if (/^\s*waterContent:\s*\{/.test(lines[j]) && d === 1) has = true;
+          if (/^\s*waterContent:\s*\{/.test(lines[j]) && d === 1) {
+            // Walk to this block's own closing brace, tracking depth from it.
+            let bd = 0;
+            let end = j;
+            for (let k = j; k < lines.length; k += 1) {
+              bd += braceDelta(lines[k]);
+              if (bd === 0) {
+                end = k;
+                break;
+              }
+            }
+            const stored = /fraction:\s*([\d.]+)/.exec(lines[j + 1] ?? "");
+            has = {
+              start: j,
+              end,
+              indent: (/^(\s*)/.exec(lines[j]) ?? ["", ""])[1].length,
+              differs: !stored || Number(stored[1]) !== row.fraction,
+            };
+          }
           d += braceDelta(lines[j]);
         }
         if (has) {
           alreadyHas.add(owner);
+          if (REPLACE && has.differs) replacements.push({ ...has, row, owner });
         } else {
           const indent = (/^(\s*)/.exec(line) ?? ["", ""])[1].length + 2;
           insertions.push({ after: i, row, indent, owner });
@@ -142,10 +213,28 @@ for (const file of walk(ROOT)) {
 
   for (const n of alreadyHas) satisfied.add(n.toLowerCase());
   skipped += alreadyHas.size;
-  if (insertions.length === 0) continue;
+  if (insertions.length === 0 && inlineEdits.length === 0 && replacements.length === 0) continue;
 
   // Apply back-to-front so earlier indices stay valid.
   const out = [...lines];
+  for (const edit of inlineEdits) {
+    // Splice the block in immediately after the profile's opening brace.
+    out[edit.at] = out[edit.at].replace(
+      /nutritionalProfile:\s*\{/,
+      `nutritionalProfile: { ${renderInline(edit.row)}`,
+    );
+    appliedNames.push(edit.owner);
+    satisfied.add(edit.owner.toLowerCase());
+  }
+  applied += inlineEdits.length;
+  if (inlineEdits.length > 0) touchedFiles.add(file);
+  for (const rep of [...replacements].sort((a, b) => b.start - a.start)) {
+    out.splice(rep.start, rep.end - rep.start + 1, ...render(rep.row, rep.indent));
+    replacedNames.push(rep.owner);
+    touchedFiles.add(file);
+  }
+  applied += replacements.length;
+
   for (const ins of [...insertions].sort((a, b) => b.after - a.after)) {
     out.splice(ins.after + 1, 0, ...render(ins.row, ins.indent));
     appliedNames.push(ins.owner);
@@ -161,6 +250,9 @@ console.log(`${DRY ? "[dry run] would apply" : "applied"} ${applied} waterConten
 console.log(`  ingredients: ${appliedNames.sort().join(", ") || "(none)"}`);
 console.log(`  files touched: ${touchedFiles.size}`);
 for (const f of [...touchedFiles].sort()) console.log(`    ${rel(f)}`);
+if (replacedNames.length > 0) {
+  console.log(`  REPLACED (stored value differed): ${replacedNames.sort().join(", ")}`);
+}
 if (skipped > 0) console.log(`  already had waterContent, left alone: ${skipped}`);
 
 // A fetched value counts as placed if it landed in THIS run or a previous one.

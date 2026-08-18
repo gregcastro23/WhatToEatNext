@@ -164,6 +164,13 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.4, Air: 0.35, Earth: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.106,
+        basis: "usda-fdc",
+        fdcId: 171320,
+        fdcDescription: "Spices, cinnamon, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 teaspoon ground (2.6g)",
       calories: 6,
       macros: {
@@ -310,6 +317,13 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.45, Fire: 0.3, Air: 0.2, Water: 0.05 },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0806,
+        basis: "usda-fdc",
+        fdcId: 170923,
+        fdcDescription: "Spices, cumin seed",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 teaspoon seeds (2.1g)",
       calories: 8,
       macros: {
@@ -458,6 +472,13 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.5, Fire: 0.25, Water: 0.15, Air: 0.1 },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.128,
+        basis: "usda-fdc",
+        fdcId: 172231,
+        fdcDescription: "Spices, turmeric, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 teaspoon ground (3g)",
       calories: 9,
       macros: {
@@ -596,6 +617,13 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.5, Air: 0.25, Earth: 0.15, Water: 0.1 },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.789,
+        basis: "usda-fdc",
+        fdcId: 169231,
+        fdcDescription: "Ginger root, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tablespoon fresh grated (6g)",
       calories: 5,
       macros: {
@@ -1163,6 +1191,13 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.35, Air: 0.35, Earth: 0.2, Water: 0.1 },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0623,
+        basis: "usda-fdc",
+        fdcId: 171326,
+        fdcDescription: "Spices, nutmeg, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 teaspoon ground (2.2g)",
       calories: 12,
       macros: {

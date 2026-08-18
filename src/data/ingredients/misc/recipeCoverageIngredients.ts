@@ -2336,6 +2336,13 @@ export const recipeCoverageIngredients: Record<
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.125,
+        basis: "usda-fdc",
+        fdcId: 170931,
+        fdcDescription: "Spices, pepper, black",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
       vitamins: {},

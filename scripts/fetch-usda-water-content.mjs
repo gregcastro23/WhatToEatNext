@@ -44,6 +44,20 @@ const ENDPOINT = "https://api.nal.usda.gov/fdc/v1/foods/search";
 /**
  * `ingredient` is the exact `name:` value in src/data/ingredients — the key the
  * apply step matches on. `query` and `expect` pin the FDC record.
+ *
+ * ⚠️ MATCH THE PREPARATION STATE, NOT JUST THE NAME.
+ *
+ * `[MEASURED 2026-08-18]` Pork and chicken were first matched to RAW records
+ * while their profiles describe "roasted loin chop" and "roasted breast".
+ * Cooking drives off water and concentrates protein, so the raw figure is a
+ * correct number for a different food: closure came out at 1.090 and 1.078.
+ *
+ * A word-matching heuristic over the FDC description does NOT catch this — it
+ * flagged four false positives ("salad or cooking" is a product name) and
+ * missed both real cases ("fryers" contains "fry", "chops or roasts" contains
+ * "roast"). The closure assertion in
+ * `src/__tests__/data/ingredientWaterContent.test.ts` catches it by arithmetic,
+ * which is why that test is the gate and this comment is only a warning.
  */
 const TARGETS = [
   { ingredient: "Salt", query: "salt table", expect: /^Salt, table/i },
@@ -86,8 +100,11 @@ const TARGETS = [
   { ingredient: "Lemon Juice", query: "lemon juice raw", expect: /lemon juice/i },
   { ingredient: "Lime Juice", query: "lime juice raw", expect: /lime juice/i },
   { ingredient: "Scallion", query: "onions spring or scallions includes tops and bulb raw", expect: /scallion|spring/i },
-  { ingredient: "Pork", query: "pork fresh loin center rib separable lean raw", expect: /pork/i },
-  { ingredient: "Chicken", query: "chicken broilers or fryers breast meat only raw", expect: /chicken/i },
+  // ⚠️ COOKED. The profile's serving is "3 oz (85g) roasted loin chop", so the raw
+  // record is the wrong food: roasting drives off water and concentrates protein.
+  { ingredient: "Pork", query: "pork fresh loin center rib chops bone-in cooked roasted", expect: /pork.*roasted/i },
+  // ⚠️ COOKED. The profile's serving is "5 oz (150g) roasted breast, skin-off".
+  { ingredient: "Chicken", query: "chicken broilers or fryers breast meat only roasted", expect: /chicken.*breast.*roasted/i },
   { ingredient: "Pepper", query: "spices pepper black", expect: /pepper, black/i },
 ];
 

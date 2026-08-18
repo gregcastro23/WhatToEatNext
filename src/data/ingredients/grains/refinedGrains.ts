@@ -553,6 +553,13 @@ const rawRefinedGrains = {
     ],
     category: "grain",
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.119,
+        basis: "usda-fdc",
+        fdcId: 168894,
+        fdcDescription: "Wheat flour, white, all-purpose, enriched, bleached",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (125g)",
       calories: 455,
       macros: {

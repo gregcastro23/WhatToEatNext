@@ -41,6 +41,13 @@ const rawWarmSpices = {
       "ginger",
     ],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.106,
+        basis: "usda-fdc",
+        fdcId: 171320,
+        fdcDescription: "Spices, cinnamon, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp ground",
       calories: 6,
       macros: {

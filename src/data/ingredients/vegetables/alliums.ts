@@ -175,6 +175,13 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.586,
+        basis: "usda-fdc",
+        fdcId: 169230,
+        fdcDescription: "Garlic, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "3 cloves (9g)",
       calories: 13,
       macros: {

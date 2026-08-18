@@ -19,6 +19,13 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.651,
+        basis: "usda-fdc",
+        fdcId: 173470,
+        fdcDescription: "Thyme, fresh",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp dried (1g)",
       calories: 3,
       macros: {
@@ -186,6 +193,13 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0544,
+        basis: "usda-fdc",
+        fdcId: 170917,
+        fdcDescription: "Spices, bay leaf",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 leaf (0.6g)",
       calories: 2,
       macros: {
@@ -287,6 +301,13 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.877,
+        basis: "usda-fdc",
+        fdcId: 170416,
+        fdcDescription: "Parsley, fresh",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1/4 cup chopped (15g)",
       calories: 5,
       macros: {
@@ -355,6 +376,13 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.86,
+        basis: "usda-fdc",
+        fdcId: 172233,
+        fdcDescription: "Dill weed, fresh",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (4g)",
       calories: 2,
       macros: {
@@ -460,6 +488,13 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.922,
+        basis: "usda-fdc",
+        fdcId: 169997,
+        fdcDescription: "Coriander (cilantro) leaves, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1/4 cup (4g)",
       calories: 1,
       macros: {

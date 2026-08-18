@@ -18,6 +18,13 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
 
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.945,
+        basis: "usda-fdc",
+        fdcId: 170457,
+        fdcDescription: "Tomatoes, red, ripe, raw, year round average",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 medium (123g)",
       calories: 22,
       macros: {
@@ -385,6 +392,13 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.735,
+        basis: "usda-fdc",
+        fdcId: 170459,
+        fdcDescription: "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (16g)",
       calories: 13,
       macros: {

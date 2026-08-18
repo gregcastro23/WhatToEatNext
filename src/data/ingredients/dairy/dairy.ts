@@ -54,6 +54,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.881,
+        basis: "usda-fdc",
+        fdcId: 171265,
+        fdcDescription: "Milk, whole, 3.25% milkfat, with added vitamin D",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (244g)",
       calories: 102,
       macros: {
@@ -537,6 +544,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.676,
+        basis: "usda-fdc",
+        fdcId: 170172,
+        fdcDescription: "Nuts, coconut milk, raw (liquid expressed from grated meat and water)",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (240ml)",
       calories: 552,
       macros: {
@@ -730,6 +744,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.577,
+        basis: "usda-fdc",
+        fdcId: 170859,
+        fdcDescription: "Cream, fluid, heavy whipping",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (15g)",
       calories: 51,
       macros: {

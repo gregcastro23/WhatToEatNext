@@ -278,6 +278,13 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     qualities: ["warming", "spicy", "aromatic"],
     affinities: ["garlic", "lemon", "honey", "soy sauce", "turmeric"],
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.789,
+        basis: "usda-fdc",
+        fdcId: 169231,
+        fdcDescription: "Ginger root, raw",
+        retrieved: "2026-08-18",
+      },
       fiber: "moderate",
       vitamins: { B6: 0.1, C: 0.1 },
       minerals: { magnesium: 0.1, potassium: 0.1 },

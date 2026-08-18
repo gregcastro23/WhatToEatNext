@@ -923,6 +923,13 @@ const rawDairy = {
       preparationTips: ["Scald (heat to just-steaming) before adding to yeast or custards.", "Don't boil milk-based sauces — they break and grain."],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.881,
+        basis: "usda-fdc",
+        fdcId: 171265,
+        fdcDescription: "Milk, whole, 3.25% milkfat, with added vitamin D",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 cup (240ml) whole milk",
       calories: 149,
       macros: { protein: 7.7, carbs: 12, fat: 8, fiber: 0, saturatedFat: 4.6, sugar: 12, potassium: 322, sodium: 105, cholesterol: 24 },
@@ -1266,6 +1273,13 @@ const rawDairy = {
       preparationTips: ["Chill bowl and beaters for fastest, firmest whipping.", "Add sugar after soft peaks form.", "Reduce by half for intense velvety pan sauces."],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.577,
+        basis: "usda-fdc",
+        fdcId: 170859,
+        fdcDescription: "Cream, fluid, heavy whipping",
+        retrieved: "2026-08-18",
+      },
       serving_size: "2 Tbsp (30ml)",
       calories: 103,
       macros: { protein: 0.9, carbs: 0.8, fat: 11, fiber: 0, saturatedFat: 7, sugar: 0.8, potassium: 23, sodium: 11, cholesterol: 41 },

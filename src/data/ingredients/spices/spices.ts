@@ -34,6 +34,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.789,
+        basis: "usda-fdc",
+        fdcId: 169231,
+        fdcDescription: "Ginger root, raw",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tbsp (6g)",
       calories: 5,
       macros: {
@@ -68,6 +75,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.106,
+        basis: "usda-fdc",
+        fdcId: 171320,
+        fdcDescription: "Spices, cinnamon, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (2.6g)",
       calories: 6,
       macros: {
@@ -102,6 +116,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0623,
+        basis: "usda-fdc",
+        fdcId: 171326,
+        fdcDescription: "Spices, nutmeg, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (2.2g)",
       calories: 12,
       macros: {
@@ -277,6 +298,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.128,
+        basis: "usda-fdc",
+        fdcId: 172231,
+        fdcDescription: "Spices, turmeric, ground",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (3g)",
       calories: 9,
       macros: {
@@ -617,6 +645,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
+      waterContent: {
+        fraction: 0.0806,
+        basis: "usda-fdc",
+        fdcId: 170923,
+        fdcDescription: "Spices, cumin seed",
+        retrieved: "2026-08-18",
+      },
       serving_size: "1 tsp (2.1g)",
       calories: 8,
       macros: {
