@@ -1,0 +1,256 @@
+/*
+ * Lab solver — instrument styling on the existing `--ma-*` palette.
+ *
+ * Reuses the tokens from `src/app/cooking-methods/alchemy.css` rather than
+ * introducing a second dark palette. Deliberately absent, all of them things
+ * the design round proposed and this file declines:
+ *
+ *  - No WebGL shader backdrop. A per-frame `requestAnimationFrame` loop to draw
+ *    a static grid costs a GPU context and a wake-up every 16 ms for decoration.
+ *  - No animated pulse on the "recomputed" dot. The recompute is synchronous
+ *    and sub-millisecond; a pulse would be inventing latency to look busy.
+ *  - No solve button. There is nothing to press.
+ *
+ * Numbers are monospaced and tabular so a column does not reflow as it updates.
+ */
+
+.ma-solver {
+  --ma-bg: #0a0a0c;
+  --ma-surface: #11131e;
+  --ma-fg: #e2e1f1;
+  --ma-outline: #849495;
+  --ma-line: #3a494b;
+  --ma-accent: #00f2ff;
+  --ma-ember: #ff571a;
+  --ma-measured: #00fb86;
+
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+  gap: 24px;
+  background: var(--ma-bg);
+  color: var(--ma-fg);
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .ma-solver { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 16px; }
+}
+
+.ma-solver :is(input, select, button) { font: inherit; color: inherit; }
+
+/* Every number in this panel is tabular and monospaced. */
+.ma-solver :is(dd, .ma-headline, .ma-field__input input, .ma-chain__nums, .ma-basis, .ma-derived strong) {
+  font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Input rail ──────────────────────────────────────────────────────────── */
+
+.ma-rail { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+.ma-step {
+  border: 1px solid var(--ma-line);
+  border-radius: 4px;
+  background: var(--ma-surface);
+  padding: 16px;
+  margin: 0;
+  min-width: 0;
+}
+
+.ma-step > legend {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ma-outline);
+}
+.ma-step > legend span {
+  font-family: ui-monospace, monospace;
+  color: var(--ma-accent);
+}
+
+.ma-solver select,
+.ma-field__input {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--ma-line);
+  border-radius: 3px;
+  background: var(--ma-bg);
+  color: var(--ma-fg);
+  padding: 8px 10px;
+}
+.ma-solver select { appearance: none; }
+.ma-solver :is(select, input):focus-visible {
+  outline: 2px solid var(--ma-accent);
+  outline-offset: 1px;
+}
+
+.ma-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.ma-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ma-field > span {
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline);
+}
+.ma-field__input { align-items: baseline; padding: 0; }
+.ma-field__input input {
+  flex: 1; min-width: 0; border: 0; background: none; padding: 8px 10px; text-align: right;
+}
+.ma-field__input em {
+  font-style: normal; font-size: 12px; color: var(--ma-outline);
+  padding: 8px 10px; border-left: 1px solid var(--ma-line);
+}
+
+.ma-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.ma-tiles button {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 4px; border: 1px solid var(--ma-line); border-radius: 3px;
+  background: var(--ma-bg); cursor: pointer;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.ma-tiles button em { font-style: normal; font-size: 10px; color: var(--ma-outline); text-transform: none; }
+.ma-tiles button.is-active { border-color: var(--ma-accent); color: var(--ma-accent); }
+.ma-tiles button.is-active .ma-glyph { stroke: var(--ma-accent); }
+.ma-glyph { width: 40px; height: 32px; fill: none; stroke: var(--ma-outline); stroke-width: 1.4; }
+
+.ma-seg { display: flex; margin-top: 12px; border: 1px solid var(--ma-line); border-radius: 3px; overflow: hidden; }
+.ma-seg button {
+  flex: 1; padding: 8px 4px; border: 0; border-right: 1px solid var(--ma-line);
+  background: var(--ma-bg); cursor: pointer;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.ma-seg button:last-child { border-right: 0; }
+.ma-seg button.is-active { background: rgba(0, 242, 255, 0.12); color: var(--ma-accent); font-weight: 700; }
+
+.ma-chip {
+  display: inline-block; margin: 12px 0 0;
+  border: 1px solid var(--ma-line); border-radius: 999px; padding: 2px 10px;
+  font-size: 11px; letter-spacing: 0.04em; color: var(--ma-outline);
+}
+
+.ma-derived {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--ma-line);
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline);
+}
+.ma-derived strong { margin-left: auto; font-size: 14px; color: var(--ma-fg); text-transform: none; letter-spacing: 0; }
+.ma-derived em { flex-basis: 100%; font-style: normal; text-transform: none; letter-spacing: 0; color: var(--ma-ember); }
+
+.ma-vessel { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 12px 0 0; }
+.ma-vessel dt { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline); }
+.ma-vessel dd { margin: 2px 0 0; }
+
+.ma-summary { margin: 0; color: var(--ma-fg); font-family: ui-monospace, monospace; font-size: 12px; }
+
+/* ── Composition ─────────────────────────────────────────────────────────── */
+
+.ma-comp { margin-top: 12px; }
+.ma-comp__bar { display: flex; height: 10px; border: 1px solid var(--ma-line); border-radius: 2px; overflow: hidden; }
+.ma-comp__seg { display: block; height: 100%; }
+.ma-comp__seg--water { background: #2f6f9f; }
+.ma-comp__seg--protein { background: #a34b4b; }
+.ma-comp__seg--fat { background: #b8863b; }
+.ma-comp__seg--carbohydrate { background: #4d7f4d; }
+.ma-comp__seg--ash { background: #6b6b73; }
+.ma-comp__legend {
+  display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 8px 0 0; padding: 0;
+  list-style: none; font-size: 11px; color: var(--ma-outline);
+}
+.ma-comp__legend li { display: flex; align-items: center; gap: 4px; }
+.ma-comp__key { width: 8px; height: 8px; display: inline-block; }
+.ma-basis { margin: 8px 0 0; font-size: 11px; color: var(--ma-measured); }
+
+/* ── Results ─────────────────────────────────────────────────────────────── */
+
+.ma-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-content: start; min-width: 0; }
+.ma-card {
+  border: 1px solid var(--ma-line); border-radius: 4px; background: var(--ma-surface);
+  padding: 16px; min-width: 0;
+}
+.ma-card--wide { grid-column: 1 / -1; }
+.ma-card h3 {
+  margin: 0 0 12px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ma-outline);
+}
+.ma-headline { margin: 0; font-size: 34px; line-height: 1.1; color: var(--ma-accent); }
+.ma-headline em { font-style: normal; font-size: 14px; color: var(--ma-outline); margin-left: 6px; }
+
+.ma-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 14px 0 0; }
+.ma-stats dt { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline); }
+.ma-stats dd { margin: 2px 0 0; }
+.ma-stats dd em { font-style: normal; font-size: 11px; color: var(--ma-outline); }
+
+/* ── The honesty states ──────────────────────────────────────────────────── */
+
+/*
+ * A refusal is the tool working correctly, not an error. It gets the ember
+ * colour for attention and nothing else — no icon, no alert box, no red panel.
+ */
+.ma-refusal {
+  margin: 0; padding: 10px 12px;
+  border-left: 2px solid var(--ma-ember); background: rgba(255, 87, 26, 0.06);
+  color: var(--ma-fg); font-size: 13px;
+}
+.ma-warn { margin: 12px 0 0; color: var(--ma-ember); font-size: 12px; }
+.ma-note { margin: 12px 0 0; color: var(--ma-outline); font-size: 12px; }
+.ma-coverage { margin: 10px 0 0; color: var(--ma-outline); font-size: 11px; }
+/* Absence is styled as absence — italic, quiet, never a numeral. */
+.ma-absent { font-style: italic; color: var(--ma-outline); }
+
+/* ── Resistance chain ────────────────────────────────────────────────────── */
+
+.ma-chain { margin: 0; min-width: 0; }
+.ma-chain__row {
+  display: flex; gap: 1px; height: 46px;
+  border: 1px solid var(--ma-line); border-radius: 3px; overflow: hidden;
+}
+.ma-chain__block {
+  display: flex; align-items: center; justify-content: center;
+  background: #1b1d2b; overflow: hidden; min-width: 0;
+}
+.ma-chain__block.is-controlling {
+  background: rgba(0, 242, 255, 0.14);
+  box-shadow: inset 0 0 0 1px var(--ma-accent);
+}
+.ma-chain__pct {
+  font-family: ui-monospace, monospace; font-size: 11px; color: var(--ma-outline);
+  white-space: nowrap; padding: 0 2px;
+}
+.ma-chain__block.is-controlling .ma-chain__pct { color: var(--ma-accent); font-weight: 700; }
+
+.ma-chain__links { list-style: none; margin: 14px 0 0; padding: 0; }
+.ma-chain__links li {
+  display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline;
+  padding: 8px 0; border-bottom: 1px solid var(--ma-line);
+}
+.ma-chain__links li.is-controlling { border-left: 2px solid var(--ma-accent); padding-left: 8px; }
+.ma-chain__label { flex: 1 1 180px; font-size: 12px; }
+.ma-chain__links li.is-controlling .ma-chain__label { color: var(--ma-accent); font-weight: 600; }
+.ma-chain__tag {
+  margin-left: 8px; font-style: normal; font-size: 10px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ma-accent);
+}
+.ma-chain__nums { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--ma-outline); }
+
+.ma-chain__summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px; margin: 14px 0 0;
+}
+.ma-chain__summary dt { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-outline); }
+.ma-chain__summary dd { margin: 2px 0 0; }
+.ma-chain__verdict { display: block; font-style: normal; font-size: 11px; color: var(--ma-outline); }
+.ma-chain figcaption { margin-top: 12px; font-size: 12px; color: var(--ma-outline); }
+
+/* Wide content scrolls inside its own container; the page never scrolls sideways. */
+@media (max-width: 640px) {
+  .ma-chain__row { overflow-x: auto; }
+}

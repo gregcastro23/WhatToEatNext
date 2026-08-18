@@ -2506,8 +2506,8 @@ pub struct CoveredWaterLoss {
 /// headspace saturates and the driving force collapses. What remains is a
 /// circulation whose throughput the lid sets, plus a net loss set by how much
 /// steam the POWER INPUT raises beyond that — a function of the burner, which
-/// no per-seal constant can express. Same Dutch oven: nothing lost at 200 W,
-/// 998 g·h⁻¹ at 800 W.
+/// no per-seal constant can express. Same Dutch oven: nothing lost at 50 W,
+/// 214 g·h⁻¹ at 200 W, 1171 g·h⁻¹ at 800 W.
 ///
 /// ⚠️ Leakage past the seal is still not modelled and cannot be from anything
 /// here — it needs a gap dimension that is not a published property of any pan.
