@@ -6,6 +6,34 @@
 - Verify: `bun run verify`
 - Test: `bun run test`
 
+## No fabricated values
+
+Every value must name a basis and be reproducible from it. Where none exists,
+return an explicit absent state — `null`, or a documented `ABSENT` basis — never
+a plausible-looking default.
+
+`Math.random()` is an **eslint error** in `src/constants`, `src/data`,
+`src/calculations` and `src/services` (`no-restricted-syntax` in
+`eslint.config.mjs`). A fabricated value in those layers is indistinguishable at
+the call site from a computed one. Components keep genuine visual randomness. A
+shrink-only ratchet list holds the pre-existing violations; **it may only lose
+entries**. If randomness is genuinely required (ids, nonces, jitter), add an
+`eslint-disable-next-line` naming why.
+
+The same rule applies to lookups. A miss must be visible:
+
+- Return `null` or throw — never a default object of midpoints. `getKineticProfile`
+  used to return six `0.50`s on a miss.
+- Never `catch { score = 0.5 }`. A swallowed error becomes a fabricated number
+  and keeps the real fault out of the logs.
+- Use `??`, not `||`, on numerics — `||` silently replaces a legitimate `0`.
+- A guard over an empty table (`if (lookup[key])` where the table has no keys)
+  reads as a working tier while never resolving anything.
+
+Registries here are read through `Record<string, …>` index signatures, so
+**TypeScript cannot see a missing key** — coverage must be a runtime test, and it
+must cover the data/registry seam, not just the registry against itself.
+
 ## Agent skills
 
 ### Issue tracker
