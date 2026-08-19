@@ -20,6 +20,8 @@
 
 import React from "react";
 import { EmptyState } from "@/components/admin/kit/EmptyState";
+import type { Provenance } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface PendingOrder {
@@ -157,6 +159,21 @@ export default function SettlementPanel(): React.JSX.Element {
     }
   };
 
+  /* Provenance comes from the FETCH OUTCOME, not from the payload:
+     GET /api/admin/restaurants/settlement returns {success, pending, lifetime}
+     and carries no `live` field, so `fromLiveFlag` has nothing to read and
+     asserting LIVE unconditionally would be fabricating it.
+
+     The three states are genuinely distinct for this panel:
+       never read successfully -> no-source (there is no value)
+       read once, latest poll failed -> stale (real data, but not current)
+       latest poll succeeded -> live */
+  const provenance: Provenance = !loaded
+    ? { state: "no-source", detail: error ?? undefined }
+    : error
+      ? { state: "stale", detail: error }
+      : { state: "live" };
+
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
@@ -169,14 +186,17 @@ export default function SettlementPanel(): React.JSX.Element {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <ProvenanceBadge provenance={provenance} compact />
           <span
             className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-              orders.length === 0
-                ? "bg-emerald-100 text-emerald-800"
-                : "bg-amber-100 text-amber-800"
+              !loaded
+                ? "bg-gray-100 text-gray-600"
+                : orders.length === 0
+                  ? "bg-emerald-100 text-emerald-800"
+                  : "bg-amber-100 text-amber-800"
             }`}
           >
-            {loaded ? `${orders.length} pending` : "…"}
+            {loaded ? `${orders.length} pending` : "—"}
           </span>
           <button
             type="button"
@@ -213,6 +233,31 @@ export default function SettlementPanel(): React.JSX.Element {
         <div className="p-8 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2" />
           <p className="text-gray-500 text-xs">Loading pending settlements…</p>
+        </div>
+      ) : !loaded ? (
+        /* The read failed and we have never had a successful one, so `orders`
+           is [] because we know nothing — not because the queue is empty.
+           Falling through to the branches below printed a green "no orders
+           awaiting settlement" over a real-money queue whose state is
+           unknown. `lifetime` is null here, so the never-used tie-break
+           (`lifetime?.orders === 0`) is false and could not catch it. */
+        <div className="p-6">
+          <EmptyState
+            kind="cannot-read"
+            title="Cannot read the settlement queue"
+            description={`The settlement API did not answer (${
+              error ?? "unknown error"
+            }). Pending orders are UNKNOWN — this is not an all-clear. Any ESMS already debited for a restaurant order stays at risk until this reads again.`}
+            action={
+              <button
+                type="button"
+                onClick={() => void poll()}
+                className="text-xs font-semibold text-purple-600 hover:text-purple-800"
+              >
+                Retry
+              </button>
+            }
+          />
         </div>
       ) : orders.length === 0 ? (
         /* An empty queue means two very different things. If the rail has
