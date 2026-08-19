@@ -55,6 +55,21 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+/**
+ * Deadline for the upstream Planetary Agents call.
+ *
+ * The fetch below had NO timeout: it was bounded only by `maxDuration`, so a
+ * slow PA held a 60s Vercel function open and the platform killed it with no
+ * catchable error, no status, and no chance to record anything.
+ *
+ * [MEASURED 2026-08-19] PA's POST /api/generate-recipe answered 200 in
+ * 23.0s / 24.7s / 24.8s / 30.8s across four samples, while PA's /health
+ * answered in 0.35s — the cost is the LLM generation, not reachability.
+ * 45s sits above that band so a healthy-but-slow generation still completes,
+ * and below `maxDuration` so we return an honest 504 instead of being killed.
+ */
+const PA_TIMEOUT_MS = 45_000;
+
 const birthDataSchema = z
   .object({
     dateTime: z.string().min(1).optional(),
@@ -290,6 +305,10 @@ async function handlePost(request: NextRequest) {
     const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      // Covers the body read as well as the headers: AbortSignal.timeout stays
+      // armed until the response is fully consumed, unlike a manual
+      // clearTimeout in a finally block.
+      signal: AbortSignal.timeout(PA_TIMEOUT_MS),
       body: JSON.stringify({
         prompt: enrichedPrompt,
         dominantElement,
@@ -357,9 +376,36 @@ async function handlePost(request: NextRequest) {
     recipe = validation.data;
   } catch (error) {
     console.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
+    // A deadline breach is an UPSTREAM failure, not a WTEN crash. Reporting it
+    // as 504 rather than 500 keeps `serverErrorRate` and the route-health panel
+    // pointing at the service that actually owns the latency.
+    //
+    // NOTE: the ESMS debit above happens BEFORE this call, and this exit —
+    // like the existing non-ok exit — returns without refunding it. That
+    // "charged but no recipe" hole predates this change; the deadline makes it
+    // reachable more often and it needs closing on its own.
+    // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
+    // with a DOMException; Node 22 makes that an Error subclass, but a
+    // different realm (jest's node environment, a bundler shim) does not, and
+    // there the instanceof silently returns false and every upstream timeout
+    // gets misreported as a WTEN 500. `[MEASURED 2026-08-19]` real Node
+    // v22.23.1: `instanceof Error` true; jest node env: false. The `.name` is
+    // "TimeoutError" in both.
+    const timedOut =
+      typeof error === "object" &&
+      error !== null &&
+      (error as { name?: unknown }).name === "TimeoutError";
     return new Response(
-      JSON.stringify({ error: "Internal server error contacting agents network" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
+      JSON.stringify({
+        error: timedOut
+          ? "Agents network timed out generating the recipe"
+          : "Internal server error contacting agents network",
+        ...(timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
+      }),
+      {
+        status: timedOut ? 504 : 500,
+        headers: { "Content-Type": "application/json" },
+      },
     );
   }
 

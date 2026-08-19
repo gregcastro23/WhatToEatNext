@@ -119,14 +119,14 @@ async function generateOne(row: PrewarmAgentRow): Promise<boolean> {
       signal: controller.signal,
     });
   } catch (error) {
-    _logger.warn(`[prewarm] PA fetch failed for ${agentName}:`, error);
+    _logger.error(`[prewarm] PA fetch failed for ${agentName}:`, error);
     return false;
   } finally {
     clearTimeout(timeout);
   }
 
   if (!res.ok) {
-    _logger.warn(`[prewarm] PA returned ${res.status} for ${agentName}`);
+    _logger.error(`[prewarm] PA returned ${res.status} for ${agentName}`);
     return false;
   }
 
@@ -138,7 +138,7 @@ async function generateOne(row: PrewarmAgentRow): Promise<boolean> {
   }
   const validation = cosmicRecipeSchema.safeParse(parsed);
   if (!validation.success) {
-    _logger.warn(`[prewarm] PA recipe failed schema for ${agentName}`);
+    _logger.error(`[prewarm] PA recipe failed schema for ${agentName}`);
     return false;
   }
 
@@ -187,7 +187,7 @@ export async function prewarmAgentRecipes(
     try {
       if (await generateOne(row)) generated += 1;
     } catch (error) {
-      _logger.warn("[prewarm] generateOne threw:", error);
+      _logger.error("[prewarm] generateOne threw:", error);
     }
   }
   return { attempted: rows.length, generated };
