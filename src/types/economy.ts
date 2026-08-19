@@ -172,6 +172,29 @@ export interface DailyYieldResult {
   };
 }
 
+/**
+ * What a daily-yield claim actually did.
+ *
+ * `claimDailyYield` used to return `DailyYieldResult | null`, and that `null`
+ * collapsed two opposite outcomes: the day was already claimed (nothing owed)
+ * versus the credit transaction rolled back (the day is still owed). Both
+ * callers read it as the first, so a database fault told the user "return
+ * tomorrow" and cost them a day's yield.
+ */
+export type DailyYieldClaim =
+  /** Tokens were credited. */
+  | { status: "claimed"; result: DailyYieldResult }
+  /** Today's yield was already credited — nothing further is owed. */
+  | { status: "already_claimed" }
+  /** The transaction rolled back. Nothing was credited and the day is STILL claimable. */
+  | {
+      status: "failed";
+      /** SQLSTATE, when the driver supplied one. */
+      code: string | null;
+      constraint: string | null;
+      message: string;
+    };
+
 // ─── Streaks ───────────────────────────────────────────────────────────
 
 /** User streak state */
