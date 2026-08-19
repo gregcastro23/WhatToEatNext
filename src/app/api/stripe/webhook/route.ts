@@ -27,6 +27,7 @@
 import { NextResponse } from "next/server";
 import { handleMcpTopUpCheckout } from "@/lib/billing/handleMcpTopUpCheckout";
 import { MCP_TOP_UP_PURPOSE } from "@/lib/billing/mcpTopUp";
+import { withObservability } from "@/lib/observability/withObservability";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import { RESTAURANT_ORDER_PURPOSE } from "@/lib/payments/restaurantPayments";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
@@ -454,8 +455,10 @@ async function dispatchSettledCheckoutSession(
   );
 }
 
-export async function POST(request: Request) {
-  const body = await request.text();
+export const POST = withObservability(
+  { routeName: "/api/stripe/webhook", skipUserResolution: true },
+  async (request: Request) => {
+    const body = await request.text();
   // Read the signature off the Request rather than next/headers: it is the same
   // header, but next/headers needs an async request scope, which couples a pure
   // request→response handler to Next's rendering context and makes it
@@ -651,4 +654,4 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-}
+});

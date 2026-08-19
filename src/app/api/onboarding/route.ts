@@ -9,10 +9,12 @@
  */
 
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { natalBodiesFromRawPositions, unusableChartMessage } from "@/lib/astrology/natalBodies";
 import { auth } from "@/lib/auth/auth";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { withObservability } from "@/lib/observability/withObservability";
 import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
@@ -27,7 +29,6 @@ import {
   calculateAlchemicalFromPlanets,
   isSectDiurnalForBirth,
 } from "@/utils/planetaryAlchemyMapping";
-import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -78,7 +79,9 @@ function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
   };
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withObservability(
+  { routeName: "/api/onboarding" },
+  async (request: NextRequest) => {
   try {
     let body: unknown;
     try {
@@ -302,100 +305,106 @@ export async function POST(request: NextRequest) {
       { status: 500 },
     );
   }
-}
+});
 
 /** PATCH /api/onboarding — Skip natal data, mark onboarding complete */
-export async function PATCH(request: NextRequest) {
-  try {
-    let body: unknown;
+export const PATCH = withObservability(
+  { routeName: "/api/onboarding" },
+  async (request: NextRequest) => {
     try {
-      body = await request.json();
-    } catch {
-      return NextResponse.json(
-        { success: false, message: "Invalid JSON in request body" },
-        { status: 400 },
-      );
-    }
-
-    const parsed = body as Record<string, unknown>;
-    if (!parsed.skipNatal) {
-      return NextResponse.json(
-        { success: false, message: "Only skipNatal=true is accepted by this endpoint" },
-        { status: 400 },
-      );
-    }
-
-    const user = await getDatabaseUserFromRequest(request);
-
-    if (!user) {
-      let hasValidSession = false;
+      let body: unknown;
       try {
-        const session = await auth();
-        hasValidSession = !!(session?.user?.email);
+        body = await request.json();
       } catch {
-        // auth() failed — treat as unauthenticated
-      }
-
-      if (hasValidSession) {
         return NextResponse.json(
-          { success: false, message: "Service temporarily unavailable. Please try again in a moment." },
-          { status: 503 },
+          { success: false, message: "Invalid JSON in request body" },
+          { status: 400 },
         );
       }
 
+      const parsed = body as Record<string, unknown>;
+      if (!parsed.skipNatal) {
+        return NextResponse.json(
+          { success: false, message: "Only skipNatal=true is accepted by this endpoint" },
+          { status: 400 },
+        );
+      }
+
+      const user = await getDatabaseUserFromRequest(request);
+
+      if (!user) {
+        let hasValidSession = false;
+        try {
+          const session = await auth();
+          hasValidSession = !!(session?.user?.email);
+        } catch {
+          // auth() failed — treat as unauthenticated
+        }
+
+        if (hasValidSession) {
+          return NextResponse.json(
+            { success: false, message: "Service temporarily unavailable. Please try again in a moment." },
+            { status: 503 },
+          );
+        }
+
+        return NextResponse.json(
+          { success: false, message: "User not found. Please sign in first." },
+          { status: 401 },
+        );
+      }
+
+      await userDatabase.updateUserProfile(user.id, { onboardingComplete: true }, user.email);
+      await reportQuestEventBestEffort(user.id, "complete_onboarding");
+
+      const response = NextResponse.json({ success: true });
+
+      response.cookies.set("onboarding_completed", "1", {
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: false,
+      });
+
+      return response;
+    } catch (error) {
+      _logger.error("[PATCH /api/onboarding] Skip onboarding error", error);
       return NextResponse.json(
-        { success: false, message: "User not found. Please sign in first." },
-        { status: 401 },
+        { success: false, message: "Failed to skip onboarding. Please try again." },
+        { status: 500 },
       );
     }
-
-    await userDatabase.updateUserProfile(user.id, { onboardingComplete: true }, user.email);
-    await reportQuestEventBestEffort(user.id, "complete_onboarding");
-
-    const response = NextResponse.json({ success: true });
-
-    response.cookies.set("onboarding_completed", "1", {
-      path: "/",
-      maxAge: 30 * 24 * 60 * 60,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: false,
-    });
-
-    return response;
-  } catch (error) {
-    _logger.error("[PATCH /api/onboarding] Skip onboarding error", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to skip onboarding. Please try again." },
-      { status: 500 },
-    );
-  }
-}
+  },
+);
 
 /** GET /api/onboarding — Check onboarding status */
-export async function GET(request: NextRequest) {
-  try {
-    const user = await getDatabaseUserFromRequest(request);
+export const GET = withObservability(
+  { routeName: "/api/onboarding" },
+  async (request: NextRequest) => {
+    try {
+      const user = await getDatabaseUserFromRequest(request);
 
-    if (!user) {
-      _logger.warn("[GET /api/onboarding] User not found or not authenticated");
+      if (!user) {
+        _logger.warn("[GET /api/onboarding] User not found or not authenticated");
+        return NextResponse.json(
+          { success: false, message: "Authentication required" },
+          { status: 401 },
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        onboardingComplete: user.profile.onboardingComplete ?? false,
+        hasNatalChart: !!user.profile.natalChart,
+        hasBirthData: !!user.profile.birthData,
+      });
+    } catch (error) {
+      _logger.error("[GET /api/onboarding] Failed to check status", error);
       return NextResponse.json(
-        { success: false, message: "Authentication required" },
-        { status: 401 },
+        { success: false, message: "Failed to check onboarding status" },
+        { status: 500 },
       );
     }
-
-    return NextResponse.json({
-      success: true,
-      onboardingComplete: user.profile.onboardingComplete ?? false,
-      hasNatalChart: !!user.profile.natalChart,
-      hasBirthData: !!user.profile.birthData,
-    });
-  } catch (error) {
-    _logger.error("[GET /api/onboarding] Failed to check status", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to check onboarding status" },
-      { status: 500 },
-    );
-  }
-}
+  },
+);

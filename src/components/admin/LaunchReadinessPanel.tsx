@@ -17,6 +17,9 @@
 
 import Link from "next/link";
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 type ReadinessStatus = "READY" | "PARTIAL" | "OFF";
@@ -56,7 +59,7 @@ export default function LaunchReadinessPanel({
   variant = "full",
 }: {
   variant?: "compact" | "full";
-}) {
+}): React.JSX.Element | null {
   const [report, setReport] = React.useState<Report | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -96,28 +99,39 @@ export default function LaunchReadinessPanel({
 
   if (error && !report) {
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-rose-200 p-4">
-        <p className="text-rose-700 text-sm">Readiness failed: {error}</p>
-        <button
-          type="button"
-          onClick={() => void poll()}
-          className="mt-2 px-3 py-1 bg-rose-600 text-white rounded text-xs hover:bg-rose-700"
-        >
-          Retry
-        </button>
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+        <EmptyState
+          kind="cannot-read"
+          title="Could not load launch readiness"
+          description={`Readiness checks failed: ${error}`}
+          action={
+            <button
+              type="button"
+              onClick={() => void poll()}
+              className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
+            >
+              Retry
+            </button>
+          }
+        />
       </div>
     );
   }
 
   if (!report) return null;
 
+  const prov = fromLiveFlag(true);
+
   const backlog = report.settlement;
 
   if (variant === "compact") {
     return (
       <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-        <div className="px-4 sm:px-6 py-3 border-b border-gray-100 flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-lg font-bold text-gray-800">Launch Readiness</h2>
+        <div className="px-4 sm:px-6 py-3 border-b border-gray-100 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold text-gray-800">Launch Readiness</h2>
+            <ProvenanceBadge provenance={prov} compact />
+          </div>
           <Link
             href="/admin/settings"
             className="text-[11px] font-bold text-purple-600 hover:text-purple-800"
@@ -177,8 +191,11 @@ export default function LaunchReadinessPanel({
       <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-bold text-gray-800">Launch Readiness</h2>
-            <p className="text-xs text-gray-500">
+            <div className="flex items-center gap-2.5">
+              <h2 className="text-lg font-bold text-gray-800">Launch Readiness</h2>
+              <ProvenanceBadge provenance={prov} />
+            </div>
+            <p className="text-xs text-gray-500 mt-0.5">
               Presence-only config for revenue &amp; on-chain subsystems — values
               are never read, only whether each var is set.
             </p>

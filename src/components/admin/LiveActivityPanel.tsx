@@ -13,6 +13,9 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 type Category =
@@ -123,7 +126,7 @@ function shortHandle(actor: Actor | null): string {
   return at > 0 ? actor.email.slice(0, at) : actor.email;
 }
 
-export default function LiveActivityPanel() {
+export default function LiveActivityPanel(): React.JSX.Element | null {
   const [data, setData] = React.useState<ActivityPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [filter, setFilter] = React.useState<Category | "all">("all");
@@ -172,15 +175,21 @@ export default function LiveActivityPanel() {
 
   if (error && !data) {
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-rose-200 p-6">
-        <p className="text-rose-700 font-medium">{error}</p>
-        <button
-          type="button"
-          onClick={() => void poll()}
-          className="mt-3 px-4 py-1.5 bg-rose-600 text-white rounded text-sm hover:bg-rose-700"
-        >
-          Retry
-        </button>
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+        <EmptyState
+          kind="cannot-read"
+          title="Could not load live activity"
+          description={error}
+          action={
+            <button
+              type="button"
+              onClick={() => void poll()}
+              className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
+            >
+              Retry
+            </button>
+          }
+        />
       </div>
     );
   }
@@ -202,19 +211,15 @@ export default function LiveActivityPanel() {
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       {/* Header */}
       <div className="px-4 sm:px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <span
-            className={`h-2.5 w-2.5 rounded-full ${
-              data.live ? "bg-emerald-500 animate-pulse" : "bg-amber-500"
-            }`}
-          />
-          <div>
+        <div>
+          <div className="flex items-center gap-2.5">
             <h2 className="text-lg font-bold text-gray-800">Live Activity</h2>
-            <p className="text-xs text-gray-500">
-              {totalEvents} events in last {data.windowHours}h ·{" "}
-              {data.live ? "all sources live" : "some sources degraded"}
-            </p>
+            <ProvenanceBadge provenance={fromLiveFlag(data.live)} />
           </div>
+          <p className="text-xs text-gray-500 mt-0.5">
+            {totalEvents} events in last {data.windowHours}h ·{" "}
+            {data.live ? "all sources live" : "some sources degraded"}
+          </p>
         </div>
         <span className="text-[10px] font-mono text-gray-400">
           updated {formatRelative(data.generatedAt)} ago
@@ -248,12 +253,16 @@ export default function LiveActivityPanel() {
       {/* Stream */}
       <div className="max-h-[480px] overflow-y-auto">
         {filteredEvents.length === 0 ? (
-          <div className="p-10 text-center">
-            <p className="text-gray-500 text-sm">
-              {totalEvents === 0
-                ? `Quiet — no activity in the last ${data.windowHours}h. The next signup or sign-in will appear here.`
-                : `No ${filter === "all" ? "" : `${CATEGORY_LABEL[filter]} `}events to show.`}
-            </p>
+          <div className="p-6">
+            <EmptyState
+              kind={totalEvents === 0 ? "never-used" : "all-clear"}
+              title={totalEvents === 0 ? "No activity in window" : `No ${filter === "all" ? "" : `${CATEGORY_LABEL[filter]} `}events`}
+              description={
+                totalEvents === 0
+                  ? `Quiet — no activity in the last ${data.windowHours}h. The next signup or sign-in will appear here.`
+                  : `No ${filter === "all" ? "" : `${CATEGORY_LABEL[filter]} `}events found in this filter.`
+              }
+            />
           </div>
         ) : (
           <ul className="divide-y divide-gray-100">

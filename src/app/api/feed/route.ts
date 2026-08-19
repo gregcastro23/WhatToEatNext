@@ -19,6 +19,7 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
@@ -96,44 +97,49 @@ async function extractWebhookPreview(request: Request) {
 // SpacetimeDB subscription; this HTTP poll is the degraded fallback).
 const FEED_CACHE_TTL_SECONDS = 12;
 
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const limit = Math.min(parseInt(searchParams.get("limit") ?? "20", 10), 100);
-    const offset = parseInt(searchParams.get("offset") || "0", 10);
+export const GET = withObservability(
+  { routeName: "/api/feed" },
+  async (request: Request) => {
+    try {
+      const { searchParams } = new URL(request.url);
+      const limit = Math.min(parseInt(searchParams.get("limit") ?? "20", 10), 100);
+      const offset = parseInt(searchParams.get("offset") || "0", 10);
 
-    const events = await redisCached(
-      `feed:recent:${limit}:${offset}`,
-      FEED_CACHE_TTL_SECONDS,
-      () => feedDatabase.getRecentEvents(limit, offset),
-    );
+      const events = await redisCached(
+        `feed:recent:${limit}:${offset}`,
+        FEED_CACHE_TTL_SECONDS,
+        () => feedDatabase.getRecentEvents(limit, offset),
+      );
 
-    return NextResponse.json(
-      {
-        success: true,
-        events,
-      },
-      {
-        headers: {
-          "Cache-Control": `public, s-maxage=${FEED_CACHE_TTL_SECONDS}, stale-while-revalidate=30`,
+      return NextResponse.json(
+        {
+          success: true,
+          events,
         },
-      },
-    );
-  } catch (error) {
-    console.error("Feed fetch error:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to fetch feed events." },
-      { status: 500 },
-    );
-  }
-}
+        {
+          headers: {
+            "Cache-Control": `public, s-maxage=${FEED_CACHE_TTL_SECONDS}, stale-while-revalidate=30`,
+          },
+        },
+      );
+    } catch (error) {
+      console.error("Feed fetch error:", error);
+      return NextResponse.json(
+        { success: false, message: "Failed to fetch feed events." },
+        { status: 500 },
+      );
+    }
+  },
+);
 
-export async function POST(request: Request) {
-  let agentEmail = "unknown";
-  let eventType = "unknown";
+export const POST = withObservability(
+  { routeName: "/api/feed" },
+  async (request: Request) => {
+    let agentEmail = "unknown";
+    let eventType = "unknown";
 
-  try {
-    const preview = await extractWebhookPreview(request);
+    try {
+      const preview = await extractWebhookPreview(request);
     agentEmail = preview.agentEmail || agentEmail;
     eventType = preview.eventType || eventType;
 
@@ -363,4 +369,4 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
-}
+});
