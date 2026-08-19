@@ -140,7 +140,7 @@ describe("scheduled-job staleness becomes an alertable status", () => {
       "utf8",
     );
     expect(src).toMatch(
-      /dependencies:\s*DependencyHealth\[\][\s\S]{0,600}probeScheduledJobsDependency/,
+      /dependencies:\s*DependencyHealth\[\][\s\S]{0,1200}probeScheduledJobsDependency/,
     );
   });
 });

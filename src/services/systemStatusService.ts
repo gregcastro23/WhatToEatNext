@@ -1669,6 +1669,19 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
 
   const dependencies: DependencyHealth[] = [
     paDep,
+    // Never let a heartbeat read break the whole status payload: the watchdog
+    // going quiet must not take the thing it watches down with it.
+    await probeScheduledJobsDependency().catch((err): DependencyHealth => {
+      _logger.error("[systemStatus] scheduled-jobs probe threw:", err);
+      return {
+        id: "scheduled-jobs",
+        label: "Scheduled jobs",
+        status: "UNKNOWN",
+        summary: "probe failed",
+        latencyMs: null,
+        checkedAt: new Date().toISOString(),
+      };
+    }),
     // Both read the durable request log, so both are async and both must be
     // awaited HERE — an un-awaited Promise in this array makes `d.status`
     // undefined below, and `rollUpOverall` reads undefined as OK.
@@ -1690,19 +1703,6 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
         label: "Google OAuth",
         status: "UNKNOWN",
         summary: "request log unavailable",
-        latencyMs: null,
-        checkedAt: new Date().toISOString(),
-      };
-    }),
-    // Never let a heartbeat read break the whole status payload: the watchdog
-    // going quiet must not take the thing it watches down with it.
-    await probeScheduledJobsDependency().catch((err): DependencyHealth => {
-      _logger.error("[systemStatus] scheduled-jobs probe threw:", err);
-      return {
-        id: "scheduled-jobs",
-        label: "Scheduled jobs",
-        status: "UNKNOWN",
-        summary: "probe failed",
         latencyMs: null,
         checkedAt: new Date().toISOString(),
       };
