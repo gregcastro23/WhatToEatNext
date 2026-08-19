@@ -12,16 +12,24 @@
 
 import { handlers } from "@/lib/auth/auth";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import { withObservability } from "@/lib/observability/withObservability";
 import type { NextRequest } from "next/server";
 
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
-  applyRequestAuthOrigin(request);
-  return handlers.GET(request);
-}
+export const GET = withObservability(
+  { routeName: "/api/auth/[...nextauth]" },
+  async (request: NextRequest) => {
+    applyRequestAuthOrigin(request);
+    return handlers.GET(request);
+  },
+);
 
-export async function POST(request: NextRequest) {
-  applyRequestAuthOrigin(request);
-  return handlers.POST(request);
-}
+export const POST = withObservability(
+  { routeName: "/api/auth/[...nextauth]" },
+  async (request: NextRequest) => {
+    applyRequestAuthOrigin(request);
+    return handlers.POST(request);
+  },
+);
+

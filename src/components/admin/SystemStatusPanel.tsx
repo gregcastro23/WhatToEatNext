@@ -20,6 +20,9 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface FlowMetric {
@@ -103,7 +106,7 @@ function formatRelative(iso: string): string {
   return `${Math.round(ageMs / 86_400_000)}d ago`;
 }
 
-export default function SystemStatusPanel() {
+export default function SystemStatusPanel(): React.JSX.Element | null {
   const [data, setData] = React.useState<SystemStatusPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [expandedFlow, setExpandedFlow] = React.useState<string | null>(null);
@@ -147,17 +150,23 @@ export default function SystemStatusPanel() {
 
   if (error && !data) {
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-rose-200 p-6">
-        <p className="text-rose-700 font-medium">{error}</p>
-        <button
-          type="button"
-          onClick={() => {
-            void poll();
-          }}
-          className="mt-3 px-4 py-1.5 bg-rose-600 text-white rounded text-sm hover:bg-rose-700"
-        >
-          Retry
-        </button>
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+        <EmptyState
+          kind="cannot-read"
+          title="Could not load system status"
+          description={error}
+          action={
+            <button
+              type="button"
+              onClick={() => {
+                void poll();
+              }}
+              className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
+            >
+              Retry
+            </button>
+          }
+        />
       </div>
     );
   }
@@ -165,6 +174,7 @@ export default function SystemStatusPanel() {
   if (!data) return null;
 
   const overallStyle = STATUS_STYLE[data.overall];
+  const overallProv = combine(data.flows.map((f) => fromLiveFlag(f.live)));
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
@@ -179,8 +189,11 @@ export default function SystemStatusPanel() {
             }`}
           />
           <div>
-            <h2 className="text-lg font-bold text-gray-800">System Status</h2>
-            <p className="text-xs text-gray-500">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-gray-800">System Status</h2>
+              <ProvenanceBadge provenance={overallProv} />
+            </div>
+            <p className="text-xs text-gray-500 mt-0.5">
               {data.flows.length} flows · {data.dependencies.length} dependencies ·
               updated {formatRelative(data.generatedAt)}
             </p>
@@ -244,6 +257,7 @@ function FlowTile({
         <div className="flex items-center gap-2">
           <span className={`h-2.5 w-2.5 rounded-full ${style.dot}`} />
           <h4 className="text-sm font-bold text-gray-800">{flow.label}</h4>
+          <ProvenanceBadge provenance={fromLiveFlag(flow.live)} compact />
         </div>
         <span
           className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${style.pill}`}

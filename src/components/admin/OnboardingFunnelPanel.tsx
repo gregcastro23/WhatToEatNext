@@ -18,6 +18,9 @@
 
 import Link from "next/link";
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 type OverallStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
@@ -131,7 +134,7 @@ function elementColor(element: string | null): string {
   }
 }
 
-export default function OnboardingFunnelPanel() {
+export default function OnboardingFunnelPanel(): React.JSX.Element | null {
   const [data, setData] = React.useState<OnboardingHealthPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -175,17 +178,23 @@ export default function OnboardingFunnelPanel() {
 
   if (error && !data) {
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-rose-200 p-6">
-        <p className="text-rose-700 font-medium">{error}</p>
-        <button
-          type="button"
-          onClick={() => {
-            void poll();
-          }}
-          className="mt-3 px-4 py-1.5 bg-rose-600 text-white rounded text-sm hover:bg-rose-700"
-        >
-          Retry
-        </button>
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+        <EmptyState
+          kind="cannot-read"
+          title="Could not load onboarding health"
+          description={error}
+          action={
+            <button
+              type="button"
+              onClick={() => {
+                void poll();
+              }}
+              className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
+            >
+              Retry
+            </button>
+          }
+        />
       </div>
     );
   }
@@ -204,9 +213,12 @@ export default function OnboardingFunnelPanel() {
         <div className="flex items-center gap-3">
           <span className={`h-3 w-3 rounded-full ${style.dot}`} />
           <div>
-            <h2 className="text-lg font-bold text-gray-800">
-              New-User Onboarding
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-gray-800">
+                New-User Onboarding
+              </h2>
+              <ProvenanceBadge provenance={fromLiveFlag(data.live)} />
+            </div>
             <p className="text-sm text-gray-700">{data.headline}</p>
           </div>
         </div>
@@ -341,9 +353,11 @@ export default function OnboardingFunnelPanel() {
               )}
             </>
           ) : (
-            <p className="text-sm text-gray-500 italic">
-              No /api/onboarding traffic in the last hour.
-            </p>
+            <EmptyState
+              kind="never-used"
+              title="No /api/onboarding traffic"
+              description="No requests observed on /api/onboarding in the last hour."
+            />
           )}
         </div>
       </div>
@@ -405,9 +419,11 @@ export default function OnboardingFunnelPanel() {
           Recent successful onboardings
         </h3>
         {data.recentSuccesses.length === 0 ? (
-          <p className="text-sm text-gray-500 italic">
-            No completed onboardings yet.
-          </p>
+          <EmptyState
+            kind="never-used"
+            title="No completed onboardings"
+            description="Completed user onboardings from the last 24h will appear here."
+          />
         ) : (
           <ul className="space-y-2">
             {data.recentSuccesses.slice(0, 5).map((user) => (

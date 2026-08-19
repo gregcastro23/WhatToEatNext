@@ -13,6 +13,9 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface HighlightMetric {
@@ -61,7 +64,7 @@ function deltaText(delta: number | null): string {
   return `${sign}${delta} vs yesterday`;
 }
 
-export default function TodaysHighlightsPanel() {
+export default function TodaysHighlightsPanel(): React.JSX.Element | null {
   const [data, setData] = React.useState<TodaysHighlightsPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -103,25 +106,36 @@ export default function TodaysHighlightsPanel() {
 
   if (error && !data) {
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-rose-200 p-4">
-        <p className="text-rose-700 text-sm">Highlights failed: {error}</p>
-        <button
-          type="button"
-          onClick={() => void poll()}
-          className="mt-2 px-3 py-1 bg-rose-600 text-white rounded text-xs hover:bg-rose-700"
-        >
-          Retry
-        </button>
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+        <EmptyState
+          kind="cannot-read"
+          title="Could not load today's highlights"
+          description={`Highlights failed: ${error}`}
+          action={
+            <button
+              type="button"
+              onClick={() => void poll()}
+              className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
+            >
+              Retry
+            </button>
+          }
+        />
       </div>
     );
   }
 
   if (!data) return null;
 
+  const prov = combine(data.metrics.map((m) => fromLiveFlag(m.live)));
+
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-      <div className="px-4 sm:px-6 py-3 border-b border-gray-100 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-lg font-bold text-gray-800">Today</h2>
+      <div className="px-4 sm:px-6 py-3 border-b border-gray-100 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5">
+          <h2 className="text-lg font-bold text-gray-800">Today</h2>
+          <ProvenanceBadge provenance={prov} />
+        </div>
         <span className="text-[10px] text-gray-400 font-mono">
           24h vs prior 24h · updated {formatRelative(data.generatedAt)}
         </span>
@@ -148,8 +162,13 @@ function MetricTile({ metric }: { metric: HighlightMetric }) {
       className="p-4 border-r border-b border-gray-100 last:border-r-0 hover:bg-gray-50"
       title={metric.hint}
     >
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-        {metric.label}
+      <div className="flex items-center justify-between gap-1">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 truncate">
+          {metric.label}
+        </span>
+        {!metric.live && (
+          <ProvenanceBadge provenance={fromLiveFlag(false)} compact />
+        )}
       </div>
       <div className="text-3xl font-bold text-gray-900 font-mono mt-1 leading-none">
         {metric.live ? metric.today : "—"}
@@ -160,3 +179,4 @@ function MetricTile({ metric }: { metric: HighlightMetric }) {
     </div>
   );
 }
+

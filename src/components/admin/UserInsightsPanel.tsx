@@ -12,6 +12,10 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { Metric } from "@/components/admin/kit/Metric";
+import { fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface SignupTrendPoint {
@@ -109,7 +113,7 @@ function formatPercent(n: number, digits = 0): string {
   return `${(n * 100).toFixed(digits)}%`;
 }
 
-export default function UserInsightsPanel() {
+export default function UserInsightsPanel(): React.JSX.Element {
   const [data, setData] = React.useState<UserInsightsPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -151,13 +155,27 @@ export default function UserInsightsPanel() {
 
   if (!data) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-sm text-red-700">
-        {error ?? "Insights unavailable"}
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <EmptyState
+          kind="cannot-read"
+          title="Could not load user insights"
+          description={error ?? "Insights unavailable"}
+          action={
+            <button
+              type="button"
+              onClick={() => void poll()}
+              className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
+            >
+              Retry
+            </button>
+          }
+        />
       </div>
     );
   }
 
   const { totals, signups, activity, onboarding, tiers, elements, modalities, sunSigns } = data;
+  const prov = fromLiveFlag(data.live);
 
   const headlineTiles = [
     {
@@ -195,14 +213,17 @@ export default function UserInsightsPanel() {
 
   return (
     <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6">
-      <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div>
-          <h2 className="text-lg font-semibold text-gray-800">User Insights</h2>
-          <p className="text-xs text-gray-500">
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-lg font-semibold text-gray-800">User Insights</h2>
+            <ProvenanceBadge provenance={prov} />
+          </div>
+          <p className="text-xs text-gray-500 mt-0.5">
             Aggregate demographics across the full roster · refreshed every 60s
           </p>
         </div>
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-gray-400 font-mono">
           Updated {formatRelative(data.generatedAt)}
         </span>
       </div>
@@ -225,15 +246,15 @@ export default function UserInsightsPanel() {
         {headlineTiles.map((tile) => (
           <div
             key={tile.label}
-            className="rounded-lg border border-gray-100 bg-gray-50 px-3 py-3"
+            className="rounded-lg border border-gray-100 bg-gray-50 p-3"
           >
-            <p className="text-[11px] uppercase tracking-wider text-gray-500">
-              {tile.label}
-            </p>
-            <p className="mt-1 text-2xl font-bold text-gray-800 font-mono">
-              {tile.value}
-            </p>
-            <p className="mt-0.5 text-xs text-gray-500">{tile.sub}</p>
+            <Metric
+              label={tile.label}
+              value={tile.value}
+              provenance={prov}
+              caption={tile.sub}
+              size="md"
+            />
           </div>
         ))}
       </div>

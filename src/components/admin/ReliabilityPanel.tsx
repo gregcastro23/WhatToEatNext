@@ -24,6 +24,9 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 type FlowStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
@@ -105,12 +108,11 @@ const STATUS_COLOR: Record<FlowStatus, string> = {
 /** Shared "we could not measure this" state — never rendered as a zero. */
 function NoSource({ what }: { what: string }): React.JSX.Element {
   return (
-    <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-4 py-6 text-center">
-      <p className="text-sm font-medium text-gray-600">No source</p>
-      <p className="mt-1 text-xs text-gray-500">
-        {what} could not be read. This is not a zero — the value is unknown.
-      </p>
-    </div>
+    <EmptyState
+      kind="cannot-read"
+      title="No source"
+      description={`${what} could not be read. This is not a zero — the value is unknown.`}
+    />
   );
 }
 
@@ -130,10 +132,11 @@ function HealthHistorySection({ health }: { health: HealthHistoryData }): React.
 
   if (health.points.length === 0) {
     return (
-      <p className="text-sm text-gray-500">
-        No snapshots captured in the last {health.windowHours}h. The
-        system-health-snapshot cron writes one row per hour.
-      </p>
+      <EmptyState
+        kind="never-used"
+        title="No snapshots captured"
+        description={`No snapshots captured in the last ${health.windowHours}h. The system-health-snapshot cron writes one row per hour.`}
+      />
     );
   }
 
@@ -347,15 +350,20 @@ function AlertDeliverySection({ alerts }: { alerts: AlertDeliveryData }): React.
 function Section({
   title,
   hint,
+  provenance,
   children,
 }: {
   title: string;
   hint: string;
+  provenance?: { state: "live" | "stale" | "no-source" | "not-instrumented" | "partial" };
   children: React.ReactNode;
 }): React.JSX.Element {
   return (
     <section className="border-t border-gray-100 pt-4 first:border-0 first:pt-0">
-      <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
+      <div className="flex items-center gap-2 mb-0.5">
+        <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
+        {provenance && <ProvenanceBadge provenance={provenance} compact />}
+      </div>
       <p className="mb-3 text-xs text-gray-500">{hint}</p>
       {children}
     </section>
@@ -391,12 +399,23 @@ export default function ReliabilityPanel(): React.JSX.Element {
     { baseIntervalMs: 60_000 },
   );
 
+  const overallProvenance = data
+    ? combine([
+        fromLiveFlag(data.health.live),
+        fromLiveFlag(data.probes.live),
+        fromLiveFlag(data.alerts.live),
+      ])
+    : { state: "no-source" as const };
+
   return (
     <div className="rounded-xl bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold text-gray-900">Reliability over time</h2>
-          <p className="text-xs text-gray-500">
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-lg font-bold text-gray-900">Reliability over time</h2>
+            {data && <ProvenanceBadge provenance={overallProvenance} />}
+          </div>
+          <p className="text-xs text-gray-500 mt-0.5">
             History, failure rates and alert delivery — the questions a
             point-in-time status view cannot answer.
           </p>
@@ -428,6 +447,7 @@ export default function ReliabilityPanel(): React.JSX.Element {
           <Section
             title="System health history"
             hint="Hourly overall status. Each cell is one snapshot; hover for the exact time."
+            provenance={fromLiveFlag(data.health.live)}
           >
             <HealthHistorySection health={data.health} />
           </Section>
@@ -435,6 +455,7 @@ export default function ReliabilityPanel(): React.JSX.Element {
           <Section
             title="Synthetic probe reliability"
             hint="Failure rate across every run in the window — not just the most recent one."
+            provenance={fromLiveFlag(data.probes.live)}
           >
             <ProbeSection probes={data.probes} />
           </Section>
@@ -442,6 +463,7 @@ export default function ReliabilityPanel(): React.JSX.Element {
           <Section
             title="Alert delivery"
             hint="Whether alerts that fired actually reached each channel."
+            provenance={fromLiveFlag(data.alerts.live)}
           >
             <AlertDeliverySection alerts={data.alerts} />
           </Section>

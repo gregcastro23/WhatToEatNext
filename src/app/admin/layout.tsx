@@ -157,20 +157,23 @@ export default function AdminLayout({
           className="flex overflow-x-auto border-t border-gray-700 no-scrollbar"
           aria-label="Admin sections"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex-shrink-0 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors whitespace-nowrap ${
-                pathname === item.href
-                  ? "bg-gray-700 text-white border-b-2 border-purple-500"
-                  : ""
-              }`}
-            >
-              <span className="mr-2">{item.icon}</span>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const active = pathname === item.href || (item.href !== "/admin" && Boolean(pathname?.startsWith(`${item.href}/`)));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex-shrink-0 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors whitespace-nowrap ${
+                  active
+                    ? "bg-gray-700 text-white border-b-2 border-purple-500"
+                    : ""
+                }`}
+              >
+                <span className="mr-2">{item.icon}</span>
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </header>
 
@@ -184,20 +187,23 @@ export default function AdminLayout({
         </div>
 
         <nav className="mt-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors ${
-                pathname === item.href
-                  ? "bg-gray-700 text-white border-r-4 border-purple-500"
-                  : ""
-              }`}
-            >
-              <span className="mr-3">{item.icon}</span>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const active = pathname === item.href || (item.href !== "/admin" && Boolean(pathname?.startsWith(`${item.href}/`)));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors ${
+                  active
+                    ? "bg-gray-700 text-white border-r-4 border-purple-500"
+                    : ""
+                }`}
+              >
+                <span className="mr-3">{item.icon}</span>
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="absolute bottom-0 w-full p-6 border-t border-gray-700">

@@ -13,6 +13,10 @@
  */
 
 import React from "react";
+import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { Metric } from "@/components/admin/kit/Metric";
+import { fromLiveFlag } from "@/components/admin/kit/provenance";
+import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface RequestEntry {
@@ -100,7 +104,7 @@ function rowStyle(row: PerPathRow) {
   return { dot: "bg-emerald-500", row: "" };
 }
 
-export default function ApiRouteHealthPanel() {
+export default function ApiRouteHealthPanel(): React.JSX.Element {
   const [rows, setRows] = React.useState<PerPathRow[]>([]);
   const [summary, setSummary] = React.useState<ObservabilitySummary | null>(null);
   const [error, setError] = React.useState<string | null>(null);
@@ -129,45 +133,78 @@ export default function ApiRouteHealthPanel() {
 
   useHardenedPolling(poll, { baseIntervalMs: 30_000 });
 
+  const prov = fromLiveFlag(!error && summary !== null);
+
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       <div className="px-4 sm:px-6 py-4 border-b border-gray-100 bg-gray-50 flex flex-wrap justify-between items-center gap-3">
         <div>
-          <h2 className="text-lg font-bold text-gray-800">API Route Health</h2>
-          <p className="text-xs text-gray-500">
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-lg font-bold text-gray-800">API Route Health</h2>
+            <ProvenanceBadge provenance={prov} />
+          </div>
+          <p className="text-xs text-gray-500 mt-0.5">
             Per-endpoint metrics from in-memory request log · 5 min window
           </p>
         </div>
         {summary && (
-          <div className="flex gap-4 text-xs">
-            <Stat label="Reqs" value={`${summary.count}`} />
-            <Stat label="p50" value={`${summary.p50LatencyMs}ms`} />
-            <Stat label="p95" value={`${summary.p95LatencyMs}ms`} />
-            <Stat
+          <div className="flex gap-4 text-xs items-center">
+            <Metric
+              label="Reqs"
+              value={summary.count}
+              provenance={prov}
+              size="sm"
+            />
+            <Metric
+              label="p50"
+              value={summary.p50LatencyMs}
+              provenance={prov}
+              format={(v) => `${v}ms`}
+              size="sm"
+            />
+            <Metric
+              label="p95"
+              value={summary.p95LatencyMs}
+              provenance={prov}
+              format={(v) => `${v}ms`}
+              size="sm"
+            />
+            <Metric
               label="Err%"
-              value={`${(summary.errorRate * 100).toFixed(1)}%`}
-              status={summary.errorRate > 0.05 ? "error" : "ok"}
+              value={summary.errorRate * 100}
+              provenance={prov}
+              format={(v) => `${Number(v).toFixed(1)}%`}
+              higherIsBetter={false}
+              size="sm"
             />
           </div>
         )}
       </div>
       {error ? (
         <div className="p-6">
-          <p className="text-rose-700 text-sm">{error}</p>
-          <button
-            type="button"
-            onClick={() => {
-              void poll();
-            }}
-            className="mt-2 px-3 py-1 text-xs bg-rose-600 text-white rounded hover:bg-rose-700"
-          >
-            Retry
-          </button>
+          <EmptyState
+            kind="cannot-read"
+            title="Could not load API health"
+            description={error}
+            action={
+              <button
+                type="button"
+                onClick={() => void poll()}
+                className="px-3 py-1 text-xs bg-rose-600 text-white font-bold rounded hover:bg-rose-700 transition"
+              >
+                Retry
+              </button>
+            }
+          />
         </div>
       ) : rows.length === 0 ? (
-        <p className="p-6 text-sm text-gray-500 italic">
-          No requests observed in the last 5 minutes.
-        </p>
+        <div className="p-6">
+          <EmptyState
+            kind="never-used"
+            title="No requests observed in 5m window"
+            description="No traffic recorded on instrumented endpoints in the last 5 minutes. As human-facing and background endpoints are hit, per-path latency and error rates will appear here."
+          />
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -240,27 +277,3 @@ export default function ApiRouteHealthPanel() {
   );
 }
 
-function Stat({
-  label,
-  value,
-  status = "ok",
-}: {
-  label: string;
-  value: string;
-  status?: "ok" | "error";
-}) {
-  return (
-    <div className="text-center">
-      <div className="text-[9px] uppercase tracking-wider text-gray-500 font-semibold">
-        {label}
-      </div>
-      <div
-        className={`font-mono font-bold ${
-          status === "error" ? "text-rose-700" : "text-gray-900"
-        }`}
-      >
-        {value}
-      </div>
-    </div>
-  );
-}
