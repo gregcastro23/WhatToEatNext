@@ -48,6 +48,19 @@ export interface ObservabilityOptions {
    */
   routeName: string;
   /**
+   * Optional refinement for catch-all routes, where one route file serves a
+   * family of distinct URLs. When present, its return value is recorded as
+   * the path instead of `routeName`; `routeName` stays required and is the
+   * fallback if the deriver throws or returns an empty string, so the worst
+   * case is exactly the previous behaviour.
+   *
+   * The deriver MUST return a bounded set of names — two consumers group by
+   * exact path and then truncate (the error-group `LIMIT 8` and
+   * `summarizeRecent().topPaths`), so unbounded output would crowd real
+   * routes off both. See `authRouteName.ts` for the reference implementation.
+   */
+  deriveRouteName?: (request: NextRequest) => string;
+  /**
    * If true, skip resolving the userId — useful for high-traffic
    * public endpoints where the auth lookup would be wasted work.
    * Defaults to false.
@@ -94,7 +107,10 @@ export function withObservability<TRest extends unknown[] = []>(
     // do not await this so the request hot path is unaffected.
     void resolveAndRecord({
       request,
-      routeName: options.routeName,
+      // Resolved HERE, synchronously, rather than inside resolveAndRecord:
+      // a throwing deriver is caught on the request path where we still have
+      // a `try` around it, and can never reach the fire-and-forget microtask.
+      routeName: resolveRouteName(options, request),
       method,
       status,
       latencyMs,
@@ -108,6 +124,25 @@ export function withObservability<TRest extends unknown[] = []>(
     }
     return response;
   };
+}
+
+/**
+ * Apply `deriveRouteName` when the route supplies one, falling back to the
+ * static `routeName` on any failure or empty result. Never throws.
+ */
+function resolveRouteName(
+  options: ObservabilityOptions,
+  request: NextRequest,
+): string {
+  if (!options.deriveRouteName) return options.routeName;
+  try {
+    const derived = options.deriveRouteName(request);
+    return typeof derived === "string" && derived.length > 0
+      ? derived
+      : options.routeName;
+  } catch {
+    return options.routeName;
+  }
 }
 
 interface ResolveAndRecordOpts {

@@ -293,6 +293,108 @@ export function summarizePath(
 }
 
 /**
+ * Durable equivalent of {@link summarizePath}, reading `request_log_entries`
+ * instead of the in-memory ring.
+ *
+ * `summarizePath` cannot honestly answer a question about a long window. The
+ * ring holds at most RING_SIZE (500) entries, is module-level state private to
+ * ONE serverless isolate, and `ensureHydrated` runs once per process and never
+ * re-runs. `[MEASURED 2026-08-19]` the newest 500 rows in production spanned
+ * **3.02 hours** (14:00Z–17:01Z) — so a caller asking for a 24-hour window got
+ * a 3-hour answer, and an isolate that serves admin traffic will never observe
+ * a request served by the auth or webhook isolate at all.
+ *
+ * Use this for any window beyond a few minutes, and for any question about
+ * traffic another route handles. Returns `observed: false` when the
+ * persistence layer is unavailable, so callers degrade to UNKNOWN rather than
+ * inventing a healthy zero.
+ */
+export async function summarizePathDurable(
+  pathPrefix: string,
+  windowMs: number,
+): Promise<PathHealth> {
+  const empty: PathHealth = {
+    pathPrefix,
+    count: 0,
+    errors4xx: 0,
+    errors5xx: 0,
+    successRate: 1,
+    errorRate: 0,
+    serverErrorRate: 0,
+    p50LatencyMs: 0,
+    p95LatencyMs: 0,
+    lastFailure: null,
+    lastSeen: null,
+    observed: false,
+  };
+  if (typeof window !== "undefined") return empty;
+  if (!process.env.DATABASE_URL) return empty;
+
+  try {
+    const { executeQuery } = await import("@/lib/database/connection");
+    // `at` is TIMESTAMPTZ, so comparisons and MAX are timezone-safe; the
+    // timestamp is still formatted to text in SQL because node-pg parses a
+    // naive timestamp as LOCAL time.
+    const result = await executeQuery<{
+      total: number;
+      four_xx: number;
+      five_xx: number;
+      p50: number | null;
+      p95: number | null;
+      last_seen: string | null;
+    }>(
+      `SELECT COUNT(*)::int                                            AS total,
+              COUNT(*) FILTER (WHERE status >= 400 AND status < 500)::int AS four_xx,
+              COUNT(*) FILTER (WHERE status >= 500)::int               AS five_xx,
+              percentile_disc(0.5) WITHIN GROUP (ORDER BY latency_ms)  AS p50,
+              percentile_disc(0.95) WITHIN GROUP (ORDER BY latency_ms) AS p95,
+              to_char(MAX(at) AT TIME ZONE 'UTC',
+                      'YYYY-MM-DD"T"HH24:MI:SS"Z"')                    AS last_seen
+         FROM request_log_entries
+        WHERE path LIKE $1 || '%'
+          AND at > NOW() - make_interval(secs => $2)`,
+      [pathPrefix, Math.round(windowMs / 1000)],
+    );
+
+    const [row] = result.rows;
+    if (!row || row.total === 0) return empty;
+
+    const { total, four_xx: errors4xx, five_xx: errors5xx } = row;
+    const errors = errors4xx + errors5xx;
+    return {
+      pathPrefix,
+      count: total,
+      errors4xx,
+      errors5xx,
+      successRate: 1 - errors / total,
+      errorRate: errors / total,
+      serverErrorRate: errors5xx / total,
+      p50LatencyMs: row.p50 ?? 0,
+      p95LatencyMs: row.p95 ?? 0,
+      // The aggregate query does not carry whole entries; callers that need a
+      // sample row should read the ring or query directly.
+      lastFailure: null,
+      lastSeen: row.last_seen
+        ? {
+            id: 0,
+            at: row.last_seen,
+            method: "",
+            path: pathPrefix,
+            status: 0,
+            latencyMs: 0,
+            userId: null,
+            ipHash: null,
+          }
+        : null,
+      observed: true,
+    };
+  } catch {
+    // Persistence offline — an honest "no source" beats a fabricated zero.
+    return empty;
+  }
+}
+
+/**
  * Per-path summary for every distinct path seen in-window. Backs the
  * "API route health" admin panel — sorts by request volume descending.
  */
