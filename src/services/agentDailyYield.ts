@@ -122,12 +122,21 @@ export async function runAgentDailyYield(limit = 30): Promise<AgentYieldResult> 
       continue;
     }
     try {
-      const yieldResult = await dailyYieldService.claimDailyYield(row.id, signs, false, "agents");
-      if (yieldResult) {
+      const claim = await dailyYieldService.claimDailyYield(row.id, signs, false, "agents");
+      if (claim.status === "claimed") {
         result.credited += 1;
-        result.tokensMinted += yieldResult.totalTokens;
-      } else {
+        result.tokensMinted += claim.result.totalTokens;
+      } else if (claim.status === "already_claimed") {
         result.alreadyClaimed += 1;
+      } else {
+        // A rolled-back credit used to land in `alreadyClaimed`, so a run that
+        // credited nobody reported a clean sheet. It is a failure, and it is
+        // counted as one — these agents are still owed today's yield.
+        result.failed += 1;
+        _logger.warn(
+          `[agent-yield] credit rolled back for ${row.email ?? row.id} ` +
+            `(code=${claim.code ?? "—"}): ${claim.message}`,
+        );
       }
     } catch (error) {
       result.failed += 1;

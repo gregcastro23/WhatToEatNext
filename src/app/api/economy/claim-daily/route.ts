@@ -74,9 +74,23 @@ export async function POST(request: NextRequest) {
     const isPremium = sub?.tier === "premium" && sub?.status === "active";
 
     // Claim the daily yield (site-specific idempotency)
-    const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium, site);
+    const claim = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium, site);
 
-    if (!yieldResult) {
+    if (claim.status === "failed") {
+      // NOT "already claimed": the credit rolled back, so the day is still
+      // owed. Sending the 409 here — as this route did for any falsy result —
+      // told the user to return tomorrow and silently cost them a yield they
+      // could have collected by retrying. A 500 is honest and retryable.
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Could not collect your Cosmic Yield just now. Please try again.",
+        },
+        { status: 500 },
+      );
+    }
+
+    if (claim.status === "already_claimed") {
       return NextResponse.json(
         {
           success: false,
@@ -86,6 +100,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const yieldResult = claim.result;
     const milestoneNote = yieldResult.milestoneBonus
       ? ` 🔥 ${yieldResult.milestoneBonus.days}-day streak milestone: +${yieldResult.milestoneBonus.totalTokens} bonus tokens!`
       : "";

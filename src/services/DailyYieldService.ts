@@ -15,7 +15,7 @@
 
 import { _logger } from "@/lib/logger";
 import type { AlchemicalProperties } from "@/types/celestial";
-import type { DailyYieldResult, TokenType } from "@/types/economy";
+import type { DailyYieldClaim, TokenType } from "@/types/economy";
 import {
   BASE_DAILY_TOKENS,
   PREMIUM_YIELD_MULTIPLIER,
@@ -295,23 +295,29 @@ class DailyYieldService {
   /**
    * Main entry point: Calculate and credit the user's daily Cosmic Yield.
    *
+   * Returns a discriminated {@link DailyYieldClaim} rather than
+   * `DailyYieldResult | null`. The `null` it used to return meant EITHER "you
+   * already claimed today" OR "the credit transaction rolled back", and both
+   * callers rendered it as the former — so a database fault told the user
+   * "return tomorrow" and quietly cost them a day's yield, while the agents
+   * cron counted the same fault as `alreadyClaimed` and reported success.
+   *
    * @param userId - User's database ID
    * @param natalPositions - Planet → sign map from user's natal chart
    * @param isPremium - Whether the user has a premium subscription (2× yield)
    * @param site - Origin site ('main' | 'agents'). Each site has an independent daily claim.
-   * @returns DailyYieldResult with amounts and new balances, or null if already claimed
    */
   async claimDailyYield(
     userId: string,
     natalPositions: Record<string, string>,
     isPremium = false,
     site: "main" | "agents" = "main",
-  ): Promise<DailyYieldResult | null> {
+  ): Promise<DailyYieldClaim> {
     // 1. Idempotency check (site-specific)
     const alreadyClaimed = await tokenEconomy.hasClaimedToday(userId, site);
     if (alreadyClaimed) {
       _logger.info("[DailyYield] User already claimed today:", { userId, site });
-      return null;
+      return { status: "already_claimed" };
     }
 
     // 2. Get today's transit data (from cache, fetched once/day by cron)
@@ -364,7 +370,7 @@ class DailyYieldService {
     const credits = allCredits.filter(c => c.amount > 0);
 
     const sourceType = site === "agents" ? "agents_yield" : "daily_yield";
-    const newBalances = await tokenEconomy.creditMultipleTokens(
+    const credit = await tokenEconomy.creditMultipleTokensDetailed(
       userId,
       credits,
       sourceType,
@@ -374,10 +380,42 @@ class DailyYieldService {
       },
     );
 
-    if (!newBalances) {
-      // Idempotency blocked (race condition — already claimed)
-      return null;
+    if (credit.status === "failed") {
+      // The transaction ROLLED BACK — nothing was credited. This is the case
+      // the old `null` hid: the day's yield is still unclaimed and the caller
+      // must say so, rather than sending the user away until tomorrow.
+      _logger.error(
+        `[DailyYield] credit rolled back for user ${userId} (${site}) — yield NOT claimed ` +
+          `(code=${credit.code ?? "—"} constraint=${credit.constraint ?? "—"}): ${credit.message}`,
+      );
+      return {
+        status: "failed",
+        code: credit.code,
+        constraint: credit.constraint,
+        message: credit.message,
+      };
     }
+
+    if (credit.status === "already_applied" || credit.status === "replayed") {
+      // Genuinely already claimed. `already_applied` is the daily-yield
+      // uniqueness index catching a race the `hasClaimedToday` check above lost;
+      // `replayed` means today's idempotency key was already written, which
+      // happens when a previous claim credited but then failed to stamp the
+      // timestamp below. Re-stamp it so that user is not wedged on 409 for the
+      // rest of the day — the same repair the old code did by accident, by
+      // treating a replay as a successful claim.
+      _logger.info("[DailyYield] already claimed (credit was a no-op):", {
+        userId,
+        site,
+        creditStatus: credit.status,
+      });
+      await tokenEconomy.updateDailyClaimTimestamp(userId, site);
+      return { status: "already_claimed" };
+    }
+
+    // Preserves the old adapter's behaviour exactly: a failed balance READ must
+    // not be reported as a zero balance.
+    const newBalances = credit.balances ?? (await tokenEconomy.getBalances(userId));
 
     // 8. Update site-specific daily claim timestamp and streak
     await tokenEconomy.updateDailyClaimTimestamp(userId, site);
@@ -393,7 +431,7 @@ class DailyYieldService {
     const milestone = getStreakMilestone(updatedStreak.currentStreak);
     if (milestone) {
       const perToken = Math.round((milestone.totalTokens / 4) * 100) / 100;
-      const bonusBalances = await tokenEconomy.creditMultipleTokens(
+      const bonus = await tokenEconomy.creditMultipleTokensDetailed(
         userId,
         [
           { tokenType: "Spirit", amount: perToken },
@@ -408,21 +446,36 @@ class DailyYieldService {
           idempotencyKey: `streak_bonus:${userId}:m${milestone.days}:${todayStr}`,
         },
       );
-      if (bonusBalances) {
+      if (bonus.status === "failed") {
+        // Permanent, unlike the base yield: this key is day-scoped, and by
+        // tomorrow the streak has moved past `milestone.days`, so
+        // `getStreakMilestone` no longer matches and nothing re-attempts it.
+        // The claim itself succeeded, so it is still reported as claimed —
+        // but the forfeited bonus needs an operator to grant by hand.
+        _logger.error(
+          `[DailyYield] streak milestone bonus LOST for user ${userId} — ` +
+            `${milestone.days}-day milestone (${milestone.totalTokens} tokens) rolled back and will not be retried ` +
+            `(code=${bonus.code ?? "—"}): ${bonus.message}`,
+        );
+      } else {
+        // credited, replayed, or already_applied — the bonus is in place.
         milestoneBonus = milestone;
       }
     }
 
     return {
-      baseTokens: BASE_DAILY_TOKENS,
-      streakMultiplier,
-      holdingsMultiplier,
-      totalTokens: credits.reduce((sum, c) => sum + c.amount, 0),
-      distribution,
-      transitBonus,
-      newBalances,
-      streakCount: updatedStreak.currentStreak,
-      milestoneBonus,
+      status: "claimed",
+      result: {
+        baseTokens: BASE_DAILY_TOKENS,
+        streakMultiplier,
+        holdingsMultiplier,
+        totalTokens: credits.reduce((sum, c) => sum + c.amount, 0),
+        distribution,
+        transitBonus,
+        newBalances,
+        streakCount: updatedStreak.currentStreak,
+        milestoneBonus,
+      },
     };
   }
 }

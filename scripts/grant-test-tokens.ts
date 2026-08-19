@@ -27,7 +27,10 @@
  */
 
 import { Pool } from "pg";
-import { tokenEconomy } from "../src/services/TokenEconomyService";
+import {
+  isMissingUserFailure,
+  tokenEconomy,
+} from "../src/services/TokenEconomyService";
 import { TOKEN_TYPES } from "../src/types/economy";
 
 const GRANT_AMOUNT = 5;
@@ -171,23 +174,34 @@ async function main(): Promise<void> {
     return;
   }
 
-  // We rely on TokenEconomyService.creditMultipleTokens for atomicity per user
-  // and on the unique index over token_transactions.idempotency_key for the
-  // global "exactly once" guarantee across re-runs.
+  // We rely on TokenEconomyService.creditMultipleTokensDetailed for atomicity
+  // per user and on the unique index over token_transactions.idempotency_key
+  // for the global "exactly once" guarantee across re-runs.
+  //
+  // The `Detailed` variant is required, not a preference. The older
+  // `creditMultipleTokens` collapses its outcomes onto `TokenBalances | null`,
+  // and with sourceType "admin" that mapping put this script's two counters
+  // exactly backwards: a genuine idempotent replay returns balances and was
+  // counted as a fresh credit, while a ROLLED-BACK transaction returns null and
+  // was counted as "already claimed (idempotency skip)". The daily-yield race
+  // that `null` is also supposed to mean cannot occur here at all, because its
+  // backing index covers only DAILY_YIELD_SOURCES. So a bulk grant that
+  // credited nobody printed "Failed: 0" and exited 0.
   const credits = TOKEN_TYPES.map((tokenType) => ({
     tokenType,
     amount: GRANT_AMOUNT,
   }));
 
   let credited = 0;
-  let alreadyClaimed = 0;
+  let alreadyGranted = 0;
   let failed = 0;
+  let missingUsers = 0;
   const start = Date.now();
 
   for (const user of audience) {
     const idempotencyKey = `${ADMIN_TEST_GRANT_KEY}:${user.id}`;
     try {
-      const result = await tokenEconomy.creditMultipleTokens(
+      const result = await tokenEconomy.creditMultipleTokensDetailed(
         user.id,
         credits,
         "admin",
@@ -197,10 +211,29 @@ async function main(): Promise<void> {
         },
       );
 
-      if (result === null) {
-        alreadyClaimed++;
-      } else {
-        credited++;
+      switch (result.status) {
+        case "credited":
+          credited++;
+          if (result.written < result.requested) {
+            console.warn(
+              `  ! ${user.email}: only ${result.written}/${result.requested} token types wrote a row`,
+            );
+          }
+          break;
+        case "replayed":
+        case "already_applied":
+          // This grant was already applied under the same key — the re-run
+          // no-op the header promises.
+          alreadyGranted++;
+          break;
+        case "failed":
+          failed++;
+          if (isMissingUserFailure(result)) missingUsers++;
+          console.error(
+            `  ✗ ${user.email}: rolled back (code=${result.code ?? "—"} ` +
+              `constraint=${result.constraint ?? "—"}): ${result.message}`,
+          );
+          break;
       }
     } catch (err) {
       failed++;
@@ -213,10 +246,24 @@ async function main(): Promise<void> {
 
   console.log("─".repeat(60));
   console.log(`Credited:        ${credited}`);
-  console.log(`Already claimed: ${alreadyClaimed}  (idempotency skip)`);
-  console.log(`Failed:          ${failed}`);
+  console.log(`Already granted: ${alreadyGranted}  (idempotency skip)`);
+  console.log(`Failed:          ${failed}  (rolled back — NOT credited)`);
+  if (missingUsers > 0) {
+    console.log(`  of which no such user: ${missingUsers}`);
+  }
   console.log(`Elapsed:         ${(elapsedMs / 1000).toFixed(2)}s`);
   console.log("─".repeat(60));
+
+  // Every user is accounted for in exactly one bucket. If that ever stops
+  // holding, the totals above are not describing this run.
+  const tallied = credited + alreadyGranted + failed;
+  if (tallied !== audience.length) {
+    console.error(
+      `Tally mismatch: ${tallied} outcomes for ${audience.length} users — the counts above are unreliable.`,
+    );
+    await pool.end();
+    process.exit(2);
+  }
 
   await pool.end();
 
