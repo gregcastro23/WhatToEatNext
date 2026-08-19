@@ -429,9 +429,23 @@ async function dispatchSettledCheckoutSession(
       payment_status: session.payment_status,
       metadata: session.metadata,
     });
-    console.log(
-      `[webhook] MCP top-up ${result.outcome}: session=${session.id} user=${result.userId ?? "—"} sku=${result.sku ?? "—"}`,
-    );
+    // These three outcomes mean the customer HAS PAID and was credited
+    // nothing, with no retry coming — Stripe is about to get a 2xx and settle
+    // the event forever — so they are logged as errors rather than buried at
+    // info level next to the successes. With no Slack alerting configured,
+    // this log is the only signal an operator gets. (`pending-payment` is NOT
+    // one of them: a crypto session legitimately arrives here unpaid on
+    // `completed` and is credited later on `async_payment_succeeded`.)
+    const paidButNotCredited =
+      result.outcome === "missing-metadata" ||
+      result.outcome === "unknown-sku" ||
+      result.outcome === "credit-failed";
+    const line = `[webhook] MCP top-up ${result.outcome}: session=${session.id} user=${result.userId ?? "—"} sku=${result.sku ?? "—"}`;
+    if (paidButNotCredited) {
+      console.error(`${line} — PAID, NOT CREDITED; needs manual follow-up`);
+    } else {
+      console.log(line);
+    }
     return;
   }
 
