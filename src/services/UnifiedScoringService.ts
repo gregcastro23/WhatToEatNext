@@ -612,12 +612,15 @@ export function calculateThermodynamicEffect(
       });
 
     // Monica
-    let monica = context.item.monicaConstant ?? 1.0;
-    if (kalchm > 0 && !context.item.monicaConstant) {
+    let monica: number | null = context.item.monicaConstant ?? null;
+    if (kalchm > 0 && monica === null) {
       const lnK = Math.log(kalchm);
       if (lnK !== 0) {
         monica = -gregsEnergy / (reactivity * lnK);
       }
+    }
+    if (monica === null) {
+      monica = 1.0;
     }
 
     itemThermo = { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
