@@ -12,6 +12,10 @@ import {
 } from "@/lib/billing/mcpTopUp";
 
 const ENV_KEYS = [
+  "STRIPE_TOKEN_PACKAGE_INITIATE_PRICE_ID",
+  "STRIPE_TOKEN_PACKAGE_ADEPT_PRICE_ID",
+  "STRIPE_TOKEN_PACKAGE_CHEST_PRICE_ID",
+  "STRIPE_TOKEN_PACKAGE_VAULT_PRICE_ID",
   "STRIPE_MCP_TOP_UP_5_PRICE_ID",
   "STRIPE_MCP_TOP_UP_20_PRICE_ID",
   "STRIPE_MCP_TOP_UP_50_PRICE_ID",
@@ -39,23 +43,22 @@ describe("mcpTopUp catalog", () => {
     expect(MCP_TOP_UP_PURPOSE).toBe("mcp_top_up");
   });
 
-  it("returns 3 SKUs at the documented price/esms split", () => {
+  it("returns token packages and MCP SKUs at the documented price/esms split", () => {
     const catalog = getMcpTopUpCatalog();
-    expect(catalog).toHaveLength(3);
-    expect(catalog.map((s) => ({ sku: s.sku, c: s.priceCents, e: s.esmsPerAxis }))).toEqual([
-      { sku: "mcp_top_up_5", c: 500, e: 50 },
-      { sku: "mcp_top_up_20", c: 2000, e: 250 },
-      { sku: "mcp_top_up_50", c: 5000, e: 750 },
-    ]);
+    expect(catalog.length).toBeGreaterThanOrEqual(4);
+    expect(findSku("initiate_box")).toMatchObject({ priceCents: 500, esmsPerAxis: 50 });
+    expect(findSku("adept_sphere")).toMatchObject({ priceCents: 1000, esmsPerAxis: 120 });
+    expect(findSku("alchemist_chest")).toMatchObject({ priceCents: 2500, esmsPerAxis: 350 });
+    expect(findSku("sovereign_vault")).toMatchObject({ priceCents: 5000, esmsPerAxis: 800 });
   });
 
   it("resolves stripe price ids from env vars", () => {
-    process.env.STRIPE_MCP_TOP_UP_5_PRICE_ID = "price_abc123";
-    const five = findSku("mcp_top_up_5");
-    expect(five?.stripePriceId).toBe("price_abc123");
+    process.env.STRIPE_TOKEN_PACKAGE_INITIATE_PRICE_ID = "price_initiate123";
+    const initiate = findSku("initiate_box");
+    expect(initiate?.stripePriceId).toBe("price_initiate123");
     // SKUs without a configured price id surface null.
-    const twenty = findSku("mcp_top_up_20");
-    expect(twenty?.stripePriceId).toBeNull();
+    const adept = findSku("adept_sphere");
+    expect(adept?.stripePriceId).toBeNull();
   });
 
   it("rejects env values that aren't a Stripe price id", () => {

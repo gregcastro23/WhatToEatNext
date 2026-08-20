@@ -86,6 +86,8 @@ const cosmicRecipeBodySchema = z.object({
   disallowed_ingredients: z.array(z.string().max(80)).max(40).optional(),
   birthData: birthDataSchema,
   preferredCuisine: z.string().trim().max(80).optional(),
+  idempotencyKey: z.string().trim().min(8).max(160).optional(),
+  requestId: z.string().trim().min(8).max(160).optional(),
 });
 
 async function handlePost(request: NextRequest) {
@@ -135,8 +137,6 @@ async function handlePost(request: NextRequest) {
     preferredCuisine,
   } = parsed.data;
 
-
-  const isPremiumUser = false;
 
   // The ESMS debit below happens BEFORE the upstream generation, so every exit
   // after it that does not deliver a recipe owes the user a refund. Recording
@@ -199,14 +199,34 @@ async function handlePost(request: NextRequest) {
           pricing,
         );
 
+        const clientKey =
+          parsed.data.idempotencyKey ||
+          parsed.data.requestId ||
+          request.headers.get("idempotency-key") ||
+          request.headers.get("x-request-id") ||
+          undefined;
+
         const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
           overrideCosts: liveCost,
           descriptionSuffix: pricing.personalized
             ? `live x${pricing.multiplier.toFixed(2)} · personalized`
             : `live x${pricing.multiplier.toFixed(2)}`,
+          idempotencyKey: clientKey ? `cosmic_recipe_debit:${clientKey}` : undefined,
         });
 
         if (!purchase.success && purchase.reason !== "already_owned") {
+          if (purchase.reason === "already_applied") {
+            return new Response(
+              JSON.stringify({
+                error: "already_processed",
+                message: "This recipe generation request was already processed.",
+              }),
+              {
+                status: 409,
+                headers: { "Content-Type": "application/json" },
+              },
+            );
+          }
           // `purchase_failed` means the debit threw server-side (e.g. a DB error
           // inside purchaseShopItem) — NOT that the user is out of tokens. Return
           // 5xx so it surfaces as an incident on the synthetic probe / dashboards
@@ -368,7 +388,6 @@ async function handlePost(request: NextRequest) {
           thermodynamicProperties: alchemized?.thermodynamicProperties,
           disallowedIngredients: disallowedIngredients ?? undefined,
           userId: userId ?? undefined,
-          tier: isPremiumUser ? "premium" : "free",
         }),
       });
 

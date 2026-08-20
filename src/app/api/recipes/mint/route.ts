@@ -10,7 +10,6 @@ import { generateRecipeImage } from "@/lib/recipe-nft/image";
 import { parseRecipeForMint } from "@/lib/recipe-nft/mintableRecipe";
 import { defaultRecipient, mintRecipeOnChain } from "@/lib/recipe-nft/minter";
 import { recipeNftMintService } from "@/services/recipeNftMintService";
-import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
@@ -92,10 +91,8 @@ export async function POST(request: NextRequest) {
   const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
   let cost = baseMintCost(fingerprint);
 
-  const sub = await subscriptionService.getUserSubscription(userId);
-  const isPremium = sub?.tier === "premium";
   let weightedToCoin: string | null = null;
-  if (isPremium && natalPositions && Object.keys(natalPositions).length > 0) {
+  if (natalPositions && Object.keys(natalPositions).length > 0) {
     const coin = elementToCoin(getDominantElementFromPositions(natalPositions));
     cost = redistributeTowardDominant(cost, coin, getCurrentSwapRates());
     weightedToCoin = coin;

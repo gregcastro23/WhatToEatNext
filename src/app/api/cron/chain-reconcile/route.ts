@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
         current: "DEGRADED",
         severity: "warn",
         title: `Shop burn audit hit ${shop.failures} error(s)`,
-        message: `Checked ${shop.pairsChecked} (user, item) pairs; healed ${shop.healed}; ${shop.failures} reads/grants failed.`,
+        message: `Checked ${shop.pairsChecked} (user, item) pairs; healed ${shop.healed}; ${shop.failures} reads/grants failed.${shop.firstError ? ` First error: ${shop.firstError}` : ""}`,
       });
       alerts.push("chain-shop");
     }

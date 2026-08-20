@@ -307,14 +307,88 @@ function ulpDistance(a: number, b: number): number {
   return Number(oa > ob ? oa - ob : ob - oa);
 }
 
-/** Assert agreement to within {@link MAX_ULP}, reporting the actual distance. */
-function expectNearlyExact(actual: number, expected: number, what: string): void {
+/** Distance to the next representable IEEE-754 double */
+function ulpOf(x: number): number {
+  if (!Number.isFinite(x) || x === 0) return Number.EPSILON;
+  const abs = Math.abs(x);
+  const exp = Math.floor(Math.log2(abs));
+  return Math.pow(2, exp - 52);
+}
+
+/** ULP budget for eigenvalues, conditioned against the slope at the root */
+function conditionedUlpBudget(
+  geometry: "slab" | "cylinder" | "sphere",
+  biot: number,
+  lambda: number,
+): number {
+  if (lambda === 0) return MAX_ULP;
+  let term: number;
+  let slope: number;
+  switch (geometry) {
+    case "slab":
+      term = Math.max(Math.abs(lambda * Math.tan(lambda)), biot);
+      slope = Math.abs(Math.tan(lambda) + lambda / (Math.cos(lambda) * Math.cos(lambda)));
+      break;
+    case "cylinder": {
+      const ratio = besselJ1(lambda) / besselJ0(lambda);
+      term = Math.max(Math.abs(lambda * ratio), biot);
+      slope = Math.abs(lambda * (1.0 + ratio * ratio));
+      break;
+    }
+    case "sphere":
+      term = Math.max(
+        Math.abs((1.0 - biot) * Math.sin(lambda)),
+        Math.abs(lambda * Math.cos(lambda)),
+      );
+      slope = Math.abs(-biot * Math.cos(lambda) + lambda * Math.sin(lambda));
+      break;
+  }
+  const budget = (MAX_ULP * Number.EPSILON * term) / slope / ulpOf(lambda);
+  if (!Number.isFinite(budget)) return MAX_ULP;
+  return Math.max(Math.ceil(budget), MAX_ULP);
+}
+
+/** ULP budget for A₁, which carries λ₁'s uncertainty and its own rounding noise */
+function coefficientUlpBudget(
+  geometry: "slab" | "cylinder" | "sphere",
+  lambda: number,
+  lambdaBudget: number,
+  a1: number,
+): number {
+  if (lambda === 0 || a1 === 0) return MAX_ULP;
+  const edge = lambda + lambdaBudget * ulpOf(lambda);
+  const inherited = Math.abs(geometryCoefficient(geometry, edge) - a1);
+  let direct = 0;
+  if (geometry === "sphere") {
+    const two = 2.0 * lambda;
+    const numer = Math.abs(Math.sin(lambda) - lambda * Math.cos(lambda));
+    const denom = Math.abs(two - Math.sin(two));
+    const noiseN =
+      MAX_ULP *
+      Number.EPSILON *
+      Math.max(Math.abs(Math.sin(lambda)), Math.abs(lambda * Math.cos(lambda)));
+    const noiseD =
+      MAX_ULP * Number.EPSILON * Math.max(Math.abs(two), Math.abs(Math.sin(two)));
+    direct = Math.abs(a1) * (noiseN / numer + noiseD / denom);
+  }
+  const budget = (inherited + direct) / ulpOf(a1);
+  if (!Number.isFinite(budget)) return MAX_ULP;
+  return Math.max(Math.ceil(budget), MAX_ULP);
+}
+
+/** Assert agreement to within a given ULP budget, reporting the actual distance. */
+function expectNearlyExact(
+  actual: number,
+  expected: number,
+  what: string,
+  maxUlps: number = MAX_ULP,
+): void {
   const distance = ulpDistance(actual, expected);
-  if (distance > MAX_ULP) {
+  if (distance > maxUlps) {
     throw new Error(
       `${what}: ${actual} vs Rust ${expected} — ${distance} ULP apart ` +
         `(relative ${(Math.abs(actual - expected) / Math.abs(expected)).toExponential(3)}), ` +
-        `budget is ${MAX_ULP}. A gap this size is drift, not libm rounding.`,
+        `budget is ${maxUlps}. A gap this size is drift, not libm rounding.`,
     );
   }
 }
@@ -474,16 +548,20 @@ describe("geometry — cylinders and spheres", () => {
   it.each(GOLDEN.geometryEigen)(
     "$geometry eigenvalue matches Rust at Bi = $biot",
     ({ geometry, biot, lambda1, coefficientA1, lengthRatio }) => {
-      // The cylinder branch is pure arithmetic and reproduces exactly; the slab
-      // and sphere branches go through tan, so they get the same measured ULP
-      // budget as the rest of that family.
-      expectNearlyExact(geometryEigenvalue(geometry, biot), lambda1, `λ₁(${geometry}, Bi=${biot})`);
+      const geom = geometry as "slab" | "cylinder" | "sphere";
+      const lambda = geometryEigenvalue(geom, biot);
+      const lambdaBudget = conditionedUlpBudget(geom, biot, lambda);
+      expectNearlyExact(lambda, lambda1, `λ₁(${geometry}, Bi=${biot})`, lambdaBudget);
+
+      const a1 = geometryCoefficient(geom, lambda);
+      const a1Budget = coefficientUlpBudget(geom, lambda, lambdaBudget, a1);
       expectNearlyExact(
-        geometryCoefficient(geometry, lambda1),
+        a1,
         coefficientA1,
         `A₁(${geometry}, Bi=${biot})`,
+        a1Budget,
       );
-      expect(characteristicLengthRatio(geometry)).toBe(lengthRatio);
+      expect(characteristicLengthRatio(geom)).toBe(lengthRatio);
     },
   );
 

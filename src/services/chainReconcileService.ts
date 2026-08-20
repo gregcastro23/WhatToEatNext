@@ -48,18 +48,21 @@ export interface BurnHealSummary {
   pairsChecked: number;
   healed: number; // burned on-chain, grant inserted
   failures: number;
+  firstError?: string;
 }
 
 export interface InvariantSummary {
   walletsChecked: number;
   violations: Array<{ wallet: string; coin: string; onchain: number; ledger: number }>;
   failures: number;
+  firstError?: string;
 }
 
 export interface NftBackfillSummary {
   scanned: number;
   minted: number;
   failures: number;
+  firstError?: string;
 }
 
 /** 1. Settle in-flight ESMS claims the request path lost track of. */
@@ -155,8 +158,16 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
         [pair.user_id, pair.item_id],
       );
       summary.healed++;
-    } catch {
+    } catch (err) {
       summary.failures++;
+      const errMessage = err instanceof Error ? err.message : String(err);
+      if (!summary.firstError) {
+        summary.firstError = errMessage;
+        console.error(
+          `[chainReconcile] healBurnedPurchases failed for pair (${pair.user_id}, ${pair.slug}):`,
+          err,
+        );
+      }
     }
   }
   return summary;
@@ -219,8 +230,16 @@ export async function checkWalletInvariants(maxWallets = 20): Promise<InvariantS
           });
         }
       }
-    } catch {
+    } catch (err) {
       summary.failures++;
+      const errMessage = err instanceof Error ? err.message : String(err);
+      if (!summary.firstError) {
+        summary.firstError = errMessage;
+        console.error(
+          `[chainReconcile] checkWalletInvariants failed for wallet ${row.wallet_address}:`,
+          err,
+        );
+      }
     }
   }
   return summary;
@@ -302,8 +321,16 @@ export async function backfillPendingNfts(limit = 3): Promise<NftBackfillSummary
       } else {
         summary.failures++;
       }
-    } catch {
+    } catch (err) {
       summary.failures++;
+      const errMessage = err instanceof Error ? err.message : String(err);
+      if (!summary.firstError) {
+        summary.firstError = errMessage;
+        console.error(
+          `[chainReconcile] backfillPendingNfts failed for row ${row.id}:`,
+          err,
+        );
+      }
     }
   }
   return summary;

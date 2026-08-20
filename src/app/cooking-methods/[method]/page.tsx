@@ -468,11 +468,7 @@ export default async function CookingMethodPage({
             />
             <MaDataReadout
               label="DURATION"
-              value={
-                method.duration
-                  ? `${method.duration.min}–${method.duration.max} MIN`
-                  : "—"
-              }
+              value={`${method.duration.min}–${method.duration.max} MIN`}
               valueClassName="text-ma-fg"
             />
           </div>

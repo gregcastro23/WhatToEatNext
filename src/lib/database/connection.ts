@@ -2,7 +2,7 @@ import { logger } from "../logger";
 import { recordSlowQuery, type PoolGauges } from "../observability/slowQueryLog";
 import { databaseConfig } from "./config";
 import { getDatabasePool, initializeDatabase, closeDatabase } from "./rawPool";
-import type { PoolClient, QueryResult } from "pg";
+import type { PoolClient, QueryResult, QueryResultRow } from "pg";
 
 /**
  * Database Connection Layer
@@ -121,7 +121,7 @@ export async function withTransaction<T>(
   }
 }
 // Query execution with error handling and logging
-export async function executeQuery<_T extends any = any>(
+export async function executeQuery<T extends QueryResultRow = any>(
   query: string,
   params: any[] = [],
   options: {
@@ -140,7 +140,7 @@ export async function executeQuery<_T extends any = any>(
      */
     client?: PoolClient;
   } = {},
-): Promise<QueryResult<any>> {
+): Promise<QueryResult<T>> {
   const { logQuery = databaseConfig.logQueries, timeout: _timeout = 30000 } = options;
   const startTime = Date.now();
   try {
@@ -232,12 +232,12 @@ export async function executeQuery<_T extends any = any>(
 // helper therefore executes any data-modifying statement exactly once,
 // regardless of `maxRetries`. Callers that need a retried write must guarantee
 // idempotency (e.g. an idempotency key) and call executeQuery directly.
-export async function executeQueryWithRetry<T extends any = any>(
+export async function executeQueryWithRetry<T extends QueryResultRow = any>(
   query: string,
   params: any[] = [],
   maxRetries = 3,
   retryDelay = 1000,
-): Promise<QueryResult<any>> {
+): Promise<QueryResult<T>> {
   const head = query.replace(/^\s+/, "").slice(0, 12).toUpperCase();
   const isMutating =
     /^(INSERT|UPDATE|DELETE|MERGE|TRUNCATE|CREATE|ALTER|DROP|GRANT|REVOKE)\b/.test(

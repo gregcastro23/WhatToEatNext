@@ -64,6 +64,9 @@ interface UserInsightsPayload {
     free: number;
     premium: number;
     admin: number;
+    visitors?: number;
+    accountHolders?: number;
+    activeHolders?: number;
   };
   elements: {
     fire: number;
@@ -297,7 +300,7 @@ export default function UserInsightsPanel(): React.JSX.Element {
               value={formatMedianTime(onboarding.medianMinutesToComplete)}
               hint="Signup → onboarded"
             />
-            <Stat label="Premium / total" value={`${tiers.premium} / ${totals.all}`} />
+            <Stat label="Account Holders" value={`${tiers.accountHolders ?? totals.humans} / ${totals.all}`} />
           </div>
         </Section>
 

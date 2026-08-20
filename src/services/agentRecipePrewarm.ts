@@ -22,7 +22,7 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 
 const CACHE_PREFIX = "agent_recipe:";
 const CACHE_TTL_SECONDS = 26 * 60 * 60; // ~26h — outlives the hourly rotating cron
-const PA_TIMEOUT_MS = 18_000;
+const PA_TIMEOUT_MS = 45_000;
 const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
 type FeedElementLocal = (typeof ELEMENTS)[number];
 

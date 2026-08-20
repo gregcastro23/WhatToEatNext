@@ -107,7 +107,7 @@ class MenuPersistenceService {
     );
 
     if (result.rows.length === 0) return null;
-    return mapRowToPersistedMenu(result.rows[0] as WeeklyMenuRow);
+    return mapRowToPersistedMenu(result.rows[0]);
   }
 
   async upsertMenu(
@@ -155,7 +155,7 @@ class MenuPersistenceService {
       ],
     );
 
-    return mapRowToPersistedMenu(result.rows[0] as WeeklyMenuRow);
+    return mapRowToPersistedMenu(result.rows[0]);
   }
 
   async saveTemplate(
@@ -183,16 +183,6 @@ class MenuPersistenceService {
          template_name
        )
        VALUES ($1, $2, $3::jsonb, $4::jsonb, $5::jsonb, $6::jsonb, $7, true, $8)
-       ON CONFLICT (user_id, week_start_date)
-       DO UPDATE SET
-         meals = EXCLUDED.meals,
-         nutritional_totals = EXCLUDED.nutritional_totals,
-         grocery_list = EXCLUDED.grocery_list,
-         inventory = EXCLUDED.inventory,
-         weekly_budget = EXCLUDED.weekly_budget,
-         is_template = true,
-         template_name = EXCLUDED.template_name,
-         updated_at = CURRENT_TIMESTAMP
        RETURNING id, week_start_date, meals, nutritional_totals, grocery_list,
                  inventory, weekly_budget, is_template, template_name, created_at, updated_at`,
       [
@@ -207,7 +197,7 @@ class MenuPersistenceService {
       ],
     );
 
-    return mapRowToPersistedMenu(result.rows[0] as WeeklyMenuRow);
+    return mapRowToPersistedMenu(result.rows[0]);
   }
 
   async getTemplates(userId: string): Promise<PersistedWeeklyMenu[]> {
@@ -223,7 +213,7 @@ class MenuPersistenceService {
       [userId],
     );
 
-    return result.rows.map((row) => mapRowToPersistedMenu(row as WeeklyMenuRow));
+    return result.rows.map((row) => mapRowToPersistedMenu(row));
   }
 }
 

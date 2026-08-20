@@ -474,11 +474,23 @@ impl FoodGeometry {
     /// no sign and therefore moves no bisection step. Do not "simplify" this
     /// back to the cot form; it is the shape of the expression that is load
     /// bearing.
+/// Computes sin(λ) − λ·cos(λ) without catastrophic cancellation for small λ
+/// using its alternating Taylor series λ³·(1/3 − λ²/30 + λ⁴/840 − λ⁶/45360 + λ⁸/3991680).
+#[inline]
+fn sphere_sin_minus_lambda_cos(lambda: f64) -> f64 {
+    if lambda < 0.2 {
+        let l2 = lambda * lambda;
+        lambda * l2 * (1.0 / 3.0 - l2 * (1.0 / 30.0 - l2 * (1.0 / 840.0 - l2 * (1.0 / 45360.0 - l2 / 3991680.0))))
+    } else {
+        lambda.sin() - lambda * lambda.cos()
+    }
+}
+
     fn eigenvalue_residual(self, lambda: f64, biot: f64) -> f64 {
         match self {
             FoodGeometry::Slab => lambda * lambda.tan() - biot,
             FoodGeometry::Cylinder => (lambda * bessel_j1(lambda)) / bessel_j0(lambda) - biot,
-            FoodGeometry::Sphere => (1.0 - biot) * lambda.sin() - lambda * lambda.cos(),
+            FoodGeometry::Sphere => Self::sphere_sin_minus_lambda_cos(lambda) - biot * lambda.sin(),
         }
     }
 

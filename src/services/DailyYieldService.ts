@@ -18,7 +18,6 @@ import type { AlchemicalProperties } from "@/types/celestial";
 import type { DailyYieldClaim, TokenType } from "@/types/economy";
 import {
   BASE_DAILY_TOKENS,
-  PREMIUM_YIELD_MULTIPLIER,
   TRANSIT_BONUS_SCALE,
   getHoldingsMultiplier,
   getStreakMilestone,
@@ -296,23 +295,24 @@ class DailyYieldService {
    * Main entry point: Calculate and credit the user's daily Cosmic Yield.
    *
    * Returns a discriminated {@link DailyYieldClaim} rather than
-   * `DailyYieldResult | null`. The `null` it used to return meant EITHER "you
-   * already claimed today" OR "the credit transaction rolled back", and both
-   * callers rendered it as the former — so a database fault told the user
-   * "return tomorrow" and quietly cost them a day's yield, while the agents
-   * cron counted the same fault as `alreadyClaimed` and reported success.
+   * `DailyYieldResult | null`.
    *
    * @param userId - User's database ID
    * @param natalPositions - Planet → sign map from user's natal chart
-   * @param isPremium - Whether the user has a premium subscription (2× yield)
-   * @param site - Origin site ('main' | 'agents'). Each site has an independent daily claim.
+   * @param siteOrLegacyPremium - Origin site ('main' | 'agents') or legacy boolean
+   * @param legacySite - Origin site when called with 4 arguments
    */
   async claimDailyYield(
     userId: string,
     natalPositions: Record<string, string>,
-    isPremium = false,
-    site: "main" | "agents" = "main",
+    siteOrLegacyPremium?: "main" | "agents" | boolean,
+    legacySite?: "main" | "agents",
   ): Promise<DailyYieldClaim> {
+    const site: "main" | "agents" =
+      typeof siteOrLegacyPremium === "string"
+        ? siteOrLegacyPremium
+        : legacySite ?? "main";
+
     // 1. Idempotency check (site-specific)
     const alreadyClaimed = await tokenEconomy.hasClaimedToday(userId, site);
     if (alreadyClaimed) {
@@ -334,9 +334,7 @@ class DailyYieldService {
     // 5. Calculate transit bonus
     const transitBonus = this.calculateTransitBonus(natalPositions, transitESMS);
 
-    // 6. Compute final distribution (premium users get 2× base; holdings scale yield)
-    const premiumMult = isPremium ? PREMIUM_YIELD_MULTIPLIER : 1.0;
-
+    // 6. Compute final distribution: holdings scale yield dynamically
     // Balance-scaled yield: the more ESMS you hold, the more you draw each day —
     // with steep diminishing returns + a hard cap (getHoldingsMultiplier) so
     // holdings reward loyalty without runaway "whale" compounding.
@@ -349,7 +347,7 @@ class DailyYieldService {
     const holdingsMultiplier = getHoldingsMultiplier(totalHoldings);
 
     const totalBaseTokens = Math.round(
-      BASE_DAILY_TOKENS * premiumMult * streakMultiplier * holdingsMultiplier,
+      BASE_DAILY_TOKENS * streakMultiplier * holdingsMultiplier,
     );
 
     const distribution = {

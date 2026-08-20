@@ -58,6 +58,9 @@ describe("getSubscriptionRevenueBreakdown", () => {
       paidSubs: 0,
       provisionedSubs: 0,
       mrr: 0,
+      tokenBundlesSold: 0,
+      dailyYieldsClaimed: 0,
+      tokensBurned: 0,
     });
   });
 

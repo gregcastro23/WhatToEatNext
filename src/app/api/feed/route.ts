@@ -23,7 +23,6 @@ import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
-import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 
@@ -296,17 +295,6 @@ export const POST = withObservability(
         },
         { status: 404 },
       );
-    }
-
-    // Agentic users always run premium (gating reserved for human accounts).
-    const sub = await subscriptionService.getUserSubscription(user.id);
-    if (sub?.tier !== "premium") {
-      console.log(`[Feed API] Auto-upgrading agent ${normalizedEmail} to premium tier.`);
-      await subscriptionService.getOrCreateSubscription(user.id);
-      await subscriptionService.updateSubscription(user.id, {
-        tier: "premium",
-        status: "active",
-      });
     }
 
     const success = await feedDatabase.createEvent(
