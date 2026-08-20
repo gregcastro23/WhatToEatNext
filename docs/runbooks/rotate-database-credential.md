@@ -148,11 +148,18 @@ last — it is the path everything else depends on.
 ## 5. Verify
 
 ```bash
-curl -s https://alchm.kitchen/api/health | jq '.database'
+curl -s https://alchm.kitchen/api/health | jq '.services.database'
 ```
 
-Must read `"healthy"`. `/api/health` memoizes, so also confirm with a route that
-does real database work.
+Must read `"healthy"`.
+
+> ⚠️ This step read `jq '.database'` until 2026-08-19. The payload nests it as
+> `services.database`, so the expression returned `null` and could never read
+> `"healthy"` — a verification gate that structurally could not pass. The same
+> line also claimed `/api/health` memoizes; it does not, there is no cache in
+> the route. Still confirm with a route that does real database work, because a
+> single `SELECT 1` proves connectivity, not that the credential has the grants
+> the app needs.
 
 Then re-run the enumeration against the **new** value — it should find the new
 password everywhere the old one was:
