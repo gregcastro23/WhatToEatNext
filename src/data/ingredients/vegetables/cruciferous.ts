@@ -306,8 +306,78 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
-},
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
+  },
+  brussels_sprouts: {
+    image_url: "ingredients/brussels_sprouts.png",
+    description: "Miniature, cabbage-like buds (Brassica oleracea var. gemmifera) that grow tightly clustered along a thick central stalk. Halving and high-heat roasting transforms them, caramelizing natural sugars into crispy, nutty, deeply savory layers.",
+    name: "Brussels Sprouts",
+    aliases: ["brussels sprouts", "brussels sprout", "brussel sprouts", "brussel sprout"],
+    origin: ["Belgium", "Mediterranean"],
+    season: ["fall", "winter"],
+    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
+    scaledElemental: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    alchemicalProperties: {
+      Spirit: 0.2,
+      Essence: 0.5,
+      Matter: 0.55,
+      Substance: 0.45,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
+    qualities: ["nutritious", "earthy", "crisp", "dense", "savory"],
+    category: "vegetable",
+    subCategory: "cruciferous",
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn", "Mars"],
+      favorableZodiac: ["capricorn", "scorpio", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (88g)",
+      calories: 38,
+      macros: {
+        protein: 3.0,
+        carbs: 8.0,
+        fat: 0.3,
+        fiber: 3.3,
+        saturatedFat: 0.1,
+        sugar: 1.9,
+        potassium: 342,
+        sodium: 22,
+      },
+      vitamins: { C: 0.94, K: 1.5, folate: 0.15, A: 0.13, B6: 0.1 },
+      minerals: { manganese: 0.15, potassium: 0.08, iron: 0.08, calcium: 0.04 },
+      source: "USDA FoodData Central",
+    },
+    sensoryProfile: {
+      taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.25, umami: 0.15, spicy: 0.0 },
+      aroma: { vegetal: 0.7, earthy: 0.5, roasted: 0.6 },
+      texture: { crisp: 0.7, tender: 0.5, dense: 0.6 },
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["earthy", "nutty"],
+        secondary: ["sweet", "bittersweet"],
+        notes: "High-heat roasting or searing caramelizes sugars and suppresses harsh sulfur notes.",
+      },
+      cookingMethods: ["roast", "saute", "shave", "char", "braise"],
+      cuisineAffinity: ["European", "American", "British", "Modern Western"],
+      preparationTips: [
+        "Trim the stem end and slice in half lengthwise through the core.",
+        "Roast cut-side down on a preheated sheet pan for maximum browning.",
+      ],
+    },
+    pairingRecommendations: {
+      complementary: ["bacon", "pancetta", "parmesan", "balsamic vinegar", "garlic", "pecans", "maple syrup", "mustard"],
+      contrasting: ["lemon", "pomegranate"],
+      toAvoid: [],
+    },
+    storage: {
+      refrigerated: "Store in produce bag in crisper drawer for up to 1-2 weeks.",
+      notes: "Do not wash until ready to prepare.",
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

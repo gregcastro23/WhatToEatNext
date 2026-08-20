@@ -706,6 +706,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       image_url: "ingredients/heavy_cream.png",
     description: "The high-fat layer (at least 36% milk fat) skimmed from the top of milk before homogenization. Because of its high fat content, it is highly stable—it can be whipped into a foam to hold air, and it won't curdle or \"break\" when boiled or reduced with acidic ingredients.",
     name: "heavy cream",
+    aliases: ["cream", "heavy cream", "heavy whipping cream", "whipping cream"],
     origin: ["Worldwide"],
     season: ["all"],
     elementalProperties: { Fire: 0.18, Water: 0.38, Earth: 0.35, Air: 0.09 },
