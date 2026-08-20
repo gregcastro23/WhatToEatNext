@@ -33,16 +33,16 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
 
     // Infer serving info
     const serving = {
-      amount: item.servingSize || item.defaultServing?.amount || 1,
-      unit: item.unit || item.defaultServing?.unit || "serving",
-      grams: item.grams || item.defaultServing?.grams || 100,
-      description: item.description || item.defaultServing?.description || "1 serving",
+      amount: item.servingSize ?? item.defaultServing?.amount ?? 1,
+      unit: item.unit ?? item.defaultServing?.unit ?? "serving",
+      grams: item.grams ?? item.defaultServing?.grams ?? 100,
+      description: item.description ?? item.defaultServing?.description ?? "1 serving",
     };
 
     await addEntry({
       foodName: itemType === "restaurant" ? item.business.name : item.name,
       foodSource,
-      sourceId: itemType === "restaurant" ? item.business.id : (item.id || undefined),
+      sourceId: itemType === "restaurant" ? item.business.id : (item.id ?? undefined),
       date: new Date(),
       mealType,
       time,

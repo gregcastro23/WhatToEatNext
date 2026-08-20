@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     // returned someone else's. Signed-out callers still search the shared
     // preset catalogue as "guest" — that half was never user-scoped.
     const userId = (await getUserIdFromRequest(request)) ?? "guest";
-    const limit = parseInt(searchParams.get("limit") || "20", 10);
+    const limit = parseInt(searchParams.get("limit") ?? "20", 10);
     const category = searchParams.get("category") as QuickFoodCategory | null;
 
     if (!query || query.length < 2) {

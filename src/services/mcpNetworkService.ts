@@ -104,7 +104,7 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
     };
 
     if (isServer) {
-      const secret = process.env.INTERNAL_API_SECRET || "";
+      const secret = process.env.INTERNAL_API_SECRET ?? "";
       const base = getServiceUrlSafe("planetaryAgentsApi");
       url = `${base}/api/admin/mcp-summary?windowMinutes=${windowMinutes}`;
       if (secret) {

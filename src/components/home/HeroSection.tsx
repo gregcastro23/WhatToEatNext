@@ -71,7 +71,7 @@ function getDefaultTimeOfDay(): TimeOfDay {
 
 export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
   if (!timeOfDay) timeOfDay = getDefaultTimeOfDay();
-  const planet = planetaryHour || "Sun";
+  const planet = planetaryHour ?? "Sun";
   const tagline = PLANET_TAGLINES[planet] || PLANET_TAGLINES.Sun;
   const cta = TIME_CTA[timeOfDay];
   const season = getCurrentSeason();

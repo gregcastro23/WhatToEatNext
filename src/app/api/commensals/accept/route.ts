@@ -49,7 +49,7 @@ export async function PUT(request: NextRequest) {
     // Notify the requester that their commensal request was accepted (fire-and-forget)
     if (commensalship.requesterId) {
       const accepter = await userDatabase.getUserById(userId);
-      const accepterName = (accepter as any)?.profile?.name || (accepter as any)?.name || "Someone";
+      const accepterName = (accepter as any)?.profile?.name ?? (accepter as any)?.name ?? "Someone";
       notificationDatabase.createNotification(
         commensalship.requesterId,
         "commensal_accepted",

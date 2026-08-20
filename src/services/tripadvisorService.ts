@@ -83,7 +83,7 @@ class TripadvisorService {
 
   private constructor() {
     this.apiKey = process.env.TRIPADVISOR_API_KEY ?? "";
-    this.referer = process.env.TRIPADVISOR_REFERER || undefined;
+    this.referer = process.env.TRIPADVISOR_REFERER ?? undefined;
     if (!this.apiKey) {
       logger.info(
         "TripadvisorService: no TRIPADVISOR_API_KEY — provider disabled (finder falls back to OpenStreetMap).",
@@ -191,7 +191,7 @@ class TripadvisorService {
       priceLevel: d.price_level,
       ratingImageUrl: d.rating_image_url,
       cuisine: (d.cuisine ?? [])
-        .map((c) => c.localized_name || c.name || "")
+        .map((c) => c.localized_name ?? c.name ?? "")
         .filter(Boolean),
       latitude: numOrUndefined(d.latitude),
       longitude: numOrUndefined(d.longitude),

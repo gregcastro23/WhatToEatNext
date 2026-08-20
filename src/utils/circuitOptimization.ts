@@ -337,7 +337,7 @@ export function generateCircuitSuggestions(
     if (!mealSlot?.recipe) continue;
 
     const currentEfficiency =
-      dayCircuits[mealSlot.dayOfWeek].meals[mealSlot.mealType]?.efficiency || 0;
+      dayCircuits[mealSlot.dayOfWeek].meals[mealSlot.mealType]?.efficiency ?? 0;
     const targetEfficiency = 0.8;
     const expectedImprovement =
       ((targetEfficiency - currentEfficiency) / currentEfficiency) * 100;

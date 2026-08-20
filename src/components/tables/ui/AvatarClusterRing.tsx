@@ -66,7 +66,7 @@ export function AvatarClusterRing({
       ? `${VARIANT_NAMES[variant]}: ${members
           .map((member) => member.name)
           .join(", ")}`
-      : label || VARIANT_NAMES[variant];
+      : label ?? VARIANT_NAMES[variant];
   return (
     <button
       type="button"

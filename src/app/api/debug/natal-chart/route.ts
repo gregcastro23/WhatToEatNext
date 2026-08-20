@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
       const areIdentical = natalSign?.toLowerCase() === currentSign?.toLowerCase();
 
       comparison[planet] = {
-        natal: natalSign || 'N/A',
+        natal: natalSign ?? 'N/A',
         current: currentSign || 'N/A',
         identical: areIdentical,
         natalDegree: natalChart.planets?.find(p => p.name === planet)?.position,

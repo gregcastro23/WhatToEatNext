@@ -95,7 +95,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         showSuccess(`Shared to feed successfully!${questMessage}`);
         setHasSharedFeed(true);
       } else {
-        showError(data.message || "Failed to share to feed");
+        showError(data.message ?? "Failed to share to feed");
       }
     } catch (err) {
       showError("Error sharing to feed");

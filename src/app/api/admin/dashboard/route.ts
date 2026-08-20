@@ -323,7 +323,7 @@ async function assembleTelemetryCore() {
           status?: string;
           health?: string;
         };
-        paHealth = healthData.status || healthData.health || "healthy";
+        paHealth = healthData.status ?? healthData.health ?? "healthy";
       } else {
         paHealth = healthRes.status === "fulfilled" ? "unhealthy" : "offline";
       }
@@ -518,7 +518,7 @@ export async function GET(request: NextRequest) {
         name: adminName,
         email: adminEmail,
         role: "ARCHITECT",
-        badge: `ALCH-${(adminDbUser?.id || "").slice(0, 6).toUpperCase() || "0001"}`,
+        badge: `ALCH-${(adminDbUser?.id ?? "").slice(0, 6).toUpperCase() || "0001"}`,
         initial: (adminName[0] || "A").toUpperCase(),
         tier: authResult.user.roles.includes("admin") ? "ROOT" : "ALCHEMIST",
         joined: adminJoined,

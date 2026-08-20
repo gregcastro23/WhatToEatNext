@@ -26,7 +26,7 @@ export function getCuisinePAirings(
       const grainData = __grainCuisineMatrix[
         ingredientName
       ] as unknown as GrainCuisineEntryLike;
-      return grainData?.cuisines || [];
+      return grainData?.cuisines ?? [];
     }
     case "culinary_herb":
       return __herbCuisineMatrix[ingredientName] || [];

@@ -247,16 +247,16 @@ export function deduplicateIngredients(
       groups.set(key, {
         canonicalName,
         originalNames: [item.name],
-        totalQuantity: Number(item.quantity || 1),
-        unit: item.unit || 'each',
+        totalQuantity: Number(item.quantity ?? 1),
+        unit: item.unit ?? 'each',
         category: item.category,
-        recipes: new Set(item.usedInRecipes || []),
+        recipes: new Set(item.usedInRecipes ?? []),
         itemRefs: [item]
       });
     } else {
       const g = groups.get(key)!;
       g.originalNames.push(item.name);
-      g.totalQuantity += Number(item.quantity || 1);
+      g.totalQuantity += Number(item.quantity ?? 1);
       if (item.usedInRecipes) {
         item.usedInRecipes.forEach(r => g.recipes.add(r));
       }

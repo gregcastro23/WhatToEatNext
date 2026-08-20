@@ -309,7 +309,7 @@ class RecommendationAnalyticsService {
 
     // Calculate interaction rate (interactions per minute)
     const timeSpan =
-      timeWindow || now - (this.userInteractions[0]?.timestamp || now);
+      timeWindow ?? now - (this.userInteractions[0]?.timestamp || now);
     const interactionRate = relevantInteractions.length / (timeSpan / 60000);
 
     // Calculate average session duration

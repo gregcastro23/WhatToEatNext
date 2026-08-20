@@ -83,7 +83,7 @@ export function batchEnrichRecipes(
 
   for (const recipe of recipes) {
     totalProcessed++;
-    const recipeId = recipe.id || recipe.name || `recipe-${totalProcessed}`;
+    const recipeId = recipe.id ?? recipe.name ?? `recipe-${totalProcessed}`;
 
     try {
       // Check if recipe needs enrichment
@@ -245,7 +245,7 @@ export function applyBatchEnrichment(
   const enrichedRecipes: Recipe[] = [];
 
   for (const recipe of recipes) {
-    const recipeId = recipe.id || recipe.name || "";
+    const recipeId = recipe.id ?? recipe.name ?? "";
     const enrichment = enrichmentResults.results.get(recipeId);
 
     if (enrichment) {
@@ -254,12 +254,12 @@ export function applyBatchEnrichment(
       // Keep original recipe with minimal defaults
       enrichedRecipes.push({
         id: recipeId,
-        name: recipe.name || "Unnamed Recipe",
-        description: recipe.description || "",
-        cuisine: recipe.cuisine || "Various",
-        ingredients: recipe.ingredients || [],
-        instructions: recipe.instructions || [],
-        elementalProperties: recipe.elementalProperties || {
+        name: recipe.name ?? "Unnamed Recipe",
+        description: recipe.description ?? "",
+        cuisine: recipe.cuisine ?? "Various",
+        ingredients: recipe.ingredients ?? [],
+        instructions: recipe.instructions ?? [],
+        elementalProperties: recipe.elementalProperties ?? {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -282,20 +282,20 @@ export function applyBatchEnrichment(
  */
 export function extractRecipesFromCuisine(cuisineData: any): Array<Partial<Recipe>> {
   const recipes: Array<Partial<Recipe>> = [];
-  const cuisineName = cuisineData.name || cuisineData.id || "Unknown";
+  const cuisineName = cuisineData.name ?? cuisineData.id ?? "Unknown";
 
   // Handle dishes object structure (breakfast, lunch, dinner, etc.)
   if (cuisineData.dishes) {
     for (const [mealType, mealData] of Object.entries(cuisineData.dishes)) {
       if (mealData && typeof mealData === "object") {
         // Handle 'all' array or direct array
-        const dishArray = (mealData as any).all || mealData;
+        const dishArray = (mealData as any).all ?? mealData;
         if (Array.isArray(dishArray)) {
           for (const dish of dishArray) {
             recipes.push({
               ...dish,
-              cuisine: dish.cuisine || cuisineName,
-              mealType: dish.mealType || [mealType],
+              cuisine: dish.cuisine ?? cuisineName,
+              mealType: dish.mealType ?? [mealType],
             });
           }
         }
@@ -308,7 +308,7 @@ export function extractRecipesFromCuisine(cuisineData: any): Array<Partial<Recip
     for (const recipe of cuisineData.recipes) {
       recipes.push({
         ...recipe,
-        cuisine: recipe.cuisine || cuisineName,
+        cuisine: recipe.cuisine ?? cuisineName,
       });
     }
   }
@@ -393,7 +393,7 @@ export async function batchEnrichWithProgress(
 
   for (const recipe of recipes) {
     totalProcessed++;
-    const recipeId = recipe.id || recipe.name || `recipe-${totalProcessed}`;
+    const recipeId = recipe.id ?? recipe.name ?? `recipe-${totalProcessed}`;
 
     // Report progress
     if (onProgress) {

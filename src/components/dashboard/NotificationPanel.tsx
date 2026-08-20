@@ -47,11 +47,11 @@ export function NotificationPanel() {
     const result = await generateDailyInsight();
 
     if (!result.success) {
-      setStatusMessage(result.message || 'Unable to generate daily insight right now.');
+      setStatusMessage(result.message ?? 'Unable to generate daily insight right now.');
     } else if (result.created) {
       setStatusMessage('New daily insight generated.');
     } else {
-      setStatusMessage(result.message || 'Daily insight already generated today.');
+      setStatusMessage(result.message ?? 'Daily insight already generated today.');
     }
 
     setGeneratingInsight(false);
@@ -67,7 +67,7 @@ export function NotificationPanel() {
     const result = await respondToCommensalRequest(notification, action);
 
     if (!result.success) {
-      setStatusMessage(result.message || `Could not ${action} request.`);
+      setStatusMessage(result.message ?? `Could not ${action} request.`);
     } else {
       setStatusMessage(
         action === 'accept' ? 'Companion request accepted.' : 'Companion request declined.',
@@ -88,7 +88,7 @@ export function NotificationPanel() {
     const result = await respondToTableInvite(notification, response);
 
     if (!result.success) {
-      setStatusMessage(result.message || `Could not ${response === 'joined' ? 'accept' : 'decline'} the invitation.`);
+      setStatusMessage(result.message ?? `Could not ${response === 'joined' ? 'accept' : 'decline'} the invitation.`);
     } else {
       setStatusMessage(response === 'joined' ? 'You joined the table.' : 'Invitation declined.');
       await fetchNotifications();
@@ -114,7 +114,7 @@ export function NotificationPanel() {
 
     if (!result.success) {
       setStatusMessage(
-        result.message ||
+        result.message ??
           (action === 'invite' ? 'Could not send the invitation.' : 'Could not dismiss the request.'),
       );
     } else {
@@ -141,13 +141,13 @@ export function NotificationPanel() {
       });
       const data = await res.json();
       if (data.success) {
-        setStatusMessage(data.message || 'Reward claimed!');
+        setStatusMessage(data.message ?? 'Reward claimed!');
         void markAsRead(notification.id);
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event(TOKEN_ECONOMY_EVENT));
         }
       } else {
-        setStatusMessage(data.message || 'Failed to claim reward.');
+        setStatusMessage(data.message ?? 'Failed to claim reward.');
       }
     } catch {
       setStatusMessage('Error claiming reward.');
@@ -223,9 +223,9 @@ export function NotificationPanel() {
         </div>
       </div>
 
-      {(error || statusMessage) && (
+      {(error ?? statusMessage) && (
         <div className="text-[10px] font-bold uppercase tracking-widest rounded-xl px-4 py-3 glass-highlight border border-white/5 text-white/60 animate-fade-in">
-          {statusMessage || error}
+          {statusMessage ?? error}
         </div>
       )}
 

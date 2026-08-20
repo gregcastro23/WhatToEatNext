@@ -63,7 +63,7 @@ async function notifyTableInvite(
 
     const { userDatabase } = await import("@/services/userDatabaseService");
     const host = await userDatabase.getUserById(hostId);
-    const hostName = host?.profile?.name || "Someone";
+    const hostName = host?.profile?.name ?? "Someone";
 
     const { notificationDatabase } = await import("@/services/notificationDatabaseService");
     await notificationDatabase.createNotification(

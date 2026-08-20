@@ -246,7 +246,7 @@ class UserLearningSystem {
    * Track user interaction for learning
    */
   trackInteraction(userId: string, interaction: UserInteraction): void {
-    const userInteractions = this.interactions.get(userId) || [];
+    const userInteractions = this.interactions.get(userId) ?? [];
     userInteractions.push(interaction);
 
     // Keep only last 1000 interactions per user
@@ -303,7 +303,7 @@ class UserLearningSystem {
         );
         return {
           recipeId: rec.id,
-          baseScore: rec.score || 0.5,
+          baseScore: rec.score ?? 0.5,
           personalizedScore: score.score,
           reasons: score.reasons,
           confidence: preferences.learningConfidence,
@@ -487,7 +487,7 @@ class UserLearningSystem {
   }> {
     await this.hydrateUser(userId);
 
-    const interactions = this.interactions.get(userId) || [];
+    const interactions = this.interactions.get(userId) ?? [];
     const foodRatings = interactions.filter((i) => i.type === "food_rating");
     const foodEntries = interactions.filter(
       (i) => i.type === "food_diary_entry",
@@ -549,7 +549,7 @@ class UserLearningSystem {
     };
 
     for (const entry of foodEntries) {
-      const mealType = entry.context?.mealType || entry.data.mealType;
+      const mealType = entry.context?.mealType ?? entry.data.mealType;
       if (mealType && mealFoods[mealType]) {
         // `!` matches the prior `any` read; a missing foodName adds the string
         // "undefined" to the set exactly as before.
@@ -576,7 +576,7 @@ class UserLearningSystem {
   private async computeUserPreferences(
     userId: string,
   ): Promise<UserPreferences> {
-    const interactions = this.interactions.get(userId) || [];
+    const interactions = this.interactions.get(userId) ?? [];
 
     if (interactions.length === 0) {
       return this.getDefaultPreferences(userId);
@@ -617,7 +617,7 @@ class UserLearningSystem {
     preferences: UserPreferences,
     context?: { planetaryHour?: string; timeOfDay?: string },
   ): { score: number; reasons: string[] } {
-    let score = recommendation.baseScore || 0.5;
+    let score = recommendation.baseScore ?? 0.5;
     const reasons: string[] = [];
 
     // Cuisine preference boost
@@ -667,12 +667,12 @@ class UserLearningSystem {
     const favoriteIngredients =
       recommendation.ingredients?.filter((ing: string) =>
         preferences.favoriteIngredients.includes(ing),
-      ) || [];
+      ) ?? [];
 
     const dislikedIngredients =
       recommendation.ingredients?.filter((ing: string) =>
         preferences.dislikedIngredients.includes(ing),
-      ) || [];
+      ) ?? [];
 
     if (favoriteIngredients.length > 0) {
       const boost = favoriteIngredients.length * 0.1;
@@ -717,7 +717,7 @@ class UserLearningSystem {
 
     interactions.forEach((interaction) => {
       if (interaction.type === "recipe_view" && interaction.data.cuisine) {
-        const weight = interaction.data.weight || 1;
+        const weight = interaction.data.weight ?? 1;
         cuisineScores[interaction.data.cuisine] =
           (cuisineScores[interaction.data.cuisine] || 0) + weight;
       }
@@ -752,7 +752,7 @@ class UserLearningSystem {
         interaction.data.ingredients
       ) {
         const weight =
-          (interaction.data.weight || 1) * (type === "positive" ? 1 : -0.5);
+          (interaction.data.weight ?? 1) * (type === "positive" ? 1 : -0.5);
 
         interaction.data.ingredients.forEach((ingredient: string) => {
           ingredientScores[ingredient] =
@@ -787,7 +787,7 @@ class UserLearningSystem {
         interaction.type === "recipe_view" &&
         interaction.data.elementalBalance
       ) {
-        const weight = interaction.data.weight || 1;
+        const weight = interaction.data.weight ?? 1;
         const balance = interaction.data.elementalBalance;
 
         Object.keys(affinities).forEach((element) => {
@@ -815,7 +815,7 @@ class UserLearningSystem {
 
     interactions.forEach((interaction) => {
       if (interaction.type === "planetary_query" && interaction.data.planet) {
-        const weight = interaction.data.engagement || 0.5;
+        const weight = interaction.data.engagement ?? 0.5;
         preferences[interaction.data.planet] =
           (preferences[interaction.data.planet] || 0) + weight;
       }
@@ -842,7 +842,7 @@ class UserLearningSystem {
         interaction.type === "recipe_view" &&
         interaction.data.cookingMethod
       ) {
-        const weight = interaction.data.weight || 1;
+        const weight = interaction.data.weight ?? 1;
         methodScores[interaction.data.cookingMethod] =
           (methodScores[interaction.data.cookingMethod] || 0) + weight;
       }
@@ -883,7 +883,7 @@ class UserLearningSystem {
 
     interactions.forEach((interaction) => {
       if (interaction.type === "recipe_view" && interaction.data.complexity) {
-        const weight = interaction.data.weight || 1;
+        const weight = interaction.data.weight ?? 1;
         complexityScores[
           interaction.data.complexity as keyof typeof complexityScores
         ] += weight;

@@ -174,8 +174,8 @@ function normalizeAddress(value: unknown): FulfillmentAddress | null {
 
 function appUrlFrom(request: Request): string {
   const configured =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.AUTH_URL ||
+    process.env.NEXT_PUBLIC_APP_URL ??
+    process.env.AUTH_URL ??
     process.env.VERCEL_URL;
 
   if (configured) {
@@ -551,7 +551,7 @@ export async function POST(request: Request) {
   });
   const connectedAccountId =
     connectedAccountIdFromBody || partnerRouting?.stripeConnectAccountId || null;
-  const internalRestaurantId = partnerRouting?.id || restaurantId;
+  const internalRestaurantId = partnerRouting?.id ?? restaurantId;
   const partnerSystem = provider || "direct";
   const transferAmountCents = Math.max(subtotalCents - platformFeeCents, 0);
   const resolvedSplitMode = resolveSplitMode(
@@ -586,7 +586,7 @@ export async function POST(request: Request) {
     restaurantId: internalRestaurantId,
     restaurantName,
     restaurantUrl: parsedRestaurantUrl.toString(),
-    stripeConnectedAccountId: connectedAccountId || null,
+    stripeConnectedAccountId: connectedAccountId ?? null,
     splitMode,
     currency: orderCurrency,
     subtotalCents,

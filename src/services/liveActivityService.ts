@@ -337,7 +337,7 @@ async function readTokenTransactions(): Promise<ActivityEvent[]> {
       const amount = Number.parseFloat(row.amount) || 0;
       const sign = amount >= 0 ? "+" : "";
       const desc =
-        row.description ||
+        row.description ??
         `${sign}${amount.toFixed(2)} ${row.token_type} · ${row.source_type}`;
       return {
         id: `token:${row.id}`,

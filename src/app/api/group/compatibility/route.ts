@@ -11,7 +11,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { getServiceUrl } from "@/lib/serviceUrls";
 
-const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || "";
+const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET ?? "";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json().catch(() => ({}));
       return NextResponse.json(
-        { error: errorData.detail || "Backend compatibility analysis failed" },
+        { error: errorData.detail ?? "Backend compatibility analysis failed" },
         { status: backendResponse.status },
       );
     }

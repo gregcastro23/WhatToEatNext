@@ -379,9 +379,9 @@ function calculatePersonalizationBoost(
     let recipeTotal = 0;
 
     for (const prop of props) {
-      similarity += (userAlch[prop] || 0) * (recipeAlch[prop] || 0);
+      similarity += (userAlch[prop] || 0) * (recipeAlch[prop] ?? 0);
       userTotal += (userAlch[prop] || 0) ** 2;
-      recipeTotal += (recipeAlch[prop] || 0) ** 2;
+      recipeTotal += (recipeAlch[prop] ?? 0) ** 2;
     }
 
     if (userTotal > 0 && recipeTotal > 0) {
@@ -474,7 +474,7 @@ async function generateMealRecommendations(
       const proteinIng = rec.recipe.ingredients?.find(
         (ing: any) => ing.category === "protein",
       );
-      const proteinKey = proteinIng?.name?.toLowerCase() || "";
+      const proteinKey = proteinIng?.name?.toLowerCase() ?? "";
 
       // Prefer recipes with a protein we haven't used yet
       if (proteinKey && selectedProteins.has(proteinKey)) continue;
@@ -740,7 +740,7 @@ async function searchRecipesForDay(
     const allRecipes = await getServerRecipes();
     const recipes = allRecipes as unknown as IndexedRecipe[];
     const currentSeason = getCurrentSeason();
-    const existingMeals = options.existingMeals || [];
+    const existingMeals = options.existingMeals ?? [];
     const existingRecipeIds = new Set(existingMeals.map((m) => m.recipeId));
     const existingCuisines = existingMeals
       .map((m) => m.cuisine?.toLowerCase())
@@ -809,8 +809,8 @@ async function searchRecipesForDay(
       if (options.maxPrepTimeMinutes) {
         const maxTime = options.maxPrepTimeMinutes;
         const recipeTime = (recipe as any).prepTime
-          || parseInt(String((recipe as any).timeToMake || "0"), 10)
-          || 0;
+          ?? parseInt(String((recipe as any).timeToMake ?? "0"), 10)
+          ?? 0;
         if (recipeTime > 0 && recipeTime > maxTime) return false;
       }
 
@@ -1038,7 +1038,7 @@ async function searchRecipesForDay(
 
       const recipeCuisine =
         entry.recipe._lcCuisine ?? entry.recipe.cuisine?.toLowerCase() ?? "";
-      const recipeProtein = entry.protein || "";
+      const recipeProtein = entry.protein ?? "";
 
       // Prefer recipes that don't duplicate protein or cuisine within this batch
       if (recipeProtein && selectedProteins.has(recipeProtein)) continue;
@@ -1187,7 +1187,7 @@ function scoreRecipeForDay(
     const activeFlavors = astroState.activePlanets.flatMap(
       (p) => PLANET_CULINARY_PROFILES[p]?.flavorBias || [],
     );
-    const recipeQualities = ((recipe as any).qualities || []) as string[];
+    const recipeQualities = ((recipe as any).qualities ?? []) as string[];
     const flavorOverlap = recipeQualities.filter((q: string) =>
       activeFlavors.some((f) => q.toLowerCase().includes(f.toLowerCase())),
     ).length;
@@ -1278,9 +1278,9 @@ function scoreNutritionalAlignment(
   if (!recipe.nutritionalProfile) return 0.5;
 
   const nutritionProfile = recipe.nutritionalProfile as any;
-  const protein = nutritionProfile.protein || 0;
-  const carbs = nutritionProfile.carbs || 0;
-  const fat = nutritionProfile.fat || 0;
+  const protein = nutritionProfile.protein ?? 0;
+  const carbs = nutritionProfile.carbs ?? 0;
+  const fat = nutritionProfile.fat ?? 0;
   const total = protein + carbs + fat;
 
   if (total === 0) return 0.5;

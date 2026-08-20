@@ -22,8 +22,8 @@ const FALLBACK_SALT = "alchm:observability:fallback-salt";
 
 function getSalt(): string {
   return (
-    process.env.INTERNAL_API_SECRET ||
-    process.env.AUTH_SECRET ||
+    process.env.INTERNAL_API_SECRET ??
+    process.env.AUTH_SECRET ??
     FALLBACK_SALT
   );
 }

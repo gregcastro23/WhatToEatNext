@@ -185,7 +185,7 @@ export interface CuisineSauceResult {
  */
 function resolveCuisine(key: string, cuisinesMapData?: Record<string, Cuisine>): { cuisine: Cuisine; canonicalKey: string } | null {
   if (!key) return null;
-  const map = cuisinesMapData || cuisinesMap;
+  const map = cuisinesMapData ?? cuisinesMap;
 
   if (map[key]) return { cuisine: map[key], canonicalKey: key };
 
@@ -270,7 +270,7 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
 }
 
 export function listCuisines(cuisinesMapData?: Record<string, Cuisine>): Array<{ key: string; name: string }> {
-  const map = cuisinesMapData || cuisinesMap;
+  const map = cuisinesMapData ?? cuisinesMap;
   return [
     "Italian", "French", "Japanese", "Mexican", "Thai", "Chinese", "Indian",
     "Greek", "Korean", "Vietnamese", "Middle Eastern", "American", "African", "Russian",
@@ -374,7 +374,7 @@ function fromGlobalSauce(key: string, sauce: DataSauce): UnifiedSauce {
 }
 
 function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
-  const ingredientsArray = sauce.ingredients || sauce.keyIngredients || [];
+  const ingredientsArray = sauce.ingredients ?? sauce.keyIngredients ?? [];
   if (ingredientsArray.length === 0) return sauce;
 
   const recipeIngs = ingredientsArray.map(name => ({
@@ -396,7 +396,7 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
   }
 
   const elementalProperties = normalizeForDisplay(rawElementals);
-  const alchemicalProperties = sauce.alchemicalProperties || deriveAlchemicalFromElemental(elementalProperties);
+  const alchemicalProperties = sauce.alchemicalProperties ?? deriveAlchemicalFromElemental(elementalProperties);
   const thermodynamicProperties = performAlchemicalAnalysis(alchemicalProperties, elementalProperties);
 
   return {

@@ -164,8 +164,8 @@ export class RecommendationAdapter {
       Object.entries(planetaryPositions).forEach(([planet, data]) => {
         if (typeof data === "object" && data !== null) {
           this.convertedPositions[planet] = {
-            sign: data.sign || "",
-            degree: data.degree || 0,
+            sign: data.sign ?? "",
+            degree: data.degree ?? 0,
             ...(data.isRetrograde !== undefined
               ? { isRetrograde: data.isRetrograde }
               : {}),
@@ -224,21 +224,21 @@ export class RecommendationAdapter {
         this.ingredients,
         this.planetaryPositions,
         this.isDaytime,
-        this.currentZodiac || undefined,
+        this.currentZodiac ?? undefined,
       );
       // Transform cooking methods
       this.transformedMethods = transformItemsWithPlanetaryPositions(
         this.methods,
         this.planetaryPositions,
         this.isDaytime,
-        this.currentZodiac || undefined,
+        this.currentZodiac ?? undefined,
       );
       // Transform cuisines
       this.transformedCuisines = transformItemsWithPlanetaryPositions(
         this.cuisines,
         this.planetaryPositions,
         this.isDaytime,
-        this.currentZodiac || undefined,
+        this.currentZodiac ?? undefined,
       );
       logger.info("Items transformed using direct planetary positions");
     } catch (error) {
@@ -260,7 +260,7 @@ export class RecommendationAdapter {
           PlanetaryPosition
         >,
         isDaytime: this.isDaytime,
-        lunarPhase: this.lunarPhase || undefined,
+        lunarPhase: this.lunarPhase ?? undefined,
         retrogradeStatus: this.retrogradeStatus,
       });
       this.alchemicalResult = result as unknown as Record<string, number>;
@@ -464,10 +464,10 @@ export class RecommendationAdapter {
     }
     const balanceRecord = balance as Record<string, unknown>;
     return {
-      Fire: this.safeGetNumber(balanceRecord.Fire || balanceRecord.fire),
-      Water: this.safeGetNumber(balanceRecord.Water || balanceRecord.water),
-      Earth: this.safeGetNumber(balanceRecord.Earth || balanceRecord.earth),
-      Air: this.safeGetNumber(balanceRecord.Air || balanceRecord.air),
+      Fire: this.safeGetNumber(balanceRecord.Fire ?? balanceRecord.fire),
+      Water: this.safeGetNumber(balanceRecord.Water ?? balanceRecord.water),
+      Earth: this.safeGetNumber(balanceRecord.Earth ?? balanceRecord.earth),
+      Air: this.safeGetNumber(balanceRecord.Air ?? balanceRecord.air),
     };
   }
   /**
@@ -760,9 +760,9 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
-      const elementalBalance = alchemicalData.elementalBalance || {};
+      const elementalBalance = alchemicalData.elementalBalance ?? {};
       const fire = Number(elementalBalance?.Fire) || 0;
-      const spirit = alchemicalData.spirit || 0;
+      const spirit = alchemicalData.spirit ?? 0;
       // Heat is primarily influenced by Fire element and Spirit property
       return (Number(fire) * 0.6 + Number(spirit) * 0.4) / 2;
     }
@@ -780,9 +780,9 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
-      const elementalBalance = alchemicalData.elementalBalance || {};
+      const elementalBalance = alchemicalData.elementalBalance ?? {};
       const air = Number(elementalBalance?.Air) || 0;
-      const substance = alchemicalData.substance || 0;
+      const substance = alchemicalData.substance ?? 0;
       // Entropy is primarily influenced by Air element and Substance property
       return (Number(air) * 0.7 + Number(substance) * 0.3) / 2;
     }
@@ -800,7 +800,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
-      const elementalBalance = alchemicalData.elementalBalance || {};
+      const elementalBalance = alchemicalData.elementalBalance ?? {};
       const essence = Number(alchemicalData.essence) || 0;
       const water = Number(elementalBalance?.Water) || 0;
       // Reactivity is primarily influenced by Water element and Essence property
@@ -820,7 +820,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract data with safe property access
       const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
-      const elementalBalanceData = alchemicalData.elementalBalance || {};
+      const elementalBalanceData = alchemicalData.elementalBalance ?? {};
       const Fire = Number(elementalBalanceData?.Fire) || 0;
       const Water = Number(elementalBalanceData?.Water) || 0;
       const Earth = Number(elementalBalanceData?.Earth) || 0;

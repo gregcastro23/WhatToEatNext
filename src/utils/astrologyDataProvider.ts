@@ -62,7 +62,7 @@ async function getPositionsFromAPI(): Promise<Record<
     if (
       !data ||
       typeof data !== "object" ||
-      Object.keys(data || {}).length === 0
+      Object.keys(data ?? {}).length === 0
     ) {
       throw new Error("Invalid data format received from API");
     }
@@ -70,7 +70,7 @@ async function getPositionsFromAPI(): Promise<Record<
     // Process and normalize the API response
     const positions: { [key: string]: CelestialPosition } = {};
 
-    Object.entries(data || {}).forEach(([planet, position]) => {
+    Object.entries(data ?? {}).forEach(([planet, position]) => {
       if (
         typeof position === "object" &&
         position !== null &&

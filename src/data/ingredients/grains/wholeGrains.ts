@@ -419,7 +419,7 @@ const rawWholeGrains = {
       },
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0, bitter: 0.2, salty: 0, umami: 0.2 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (43g)", calories: 160, macros: { protein: 6, carbs: 29, fat: 2.5, fiber: 3 }, vitamins: { B1: 0.1, B6: 0.1, folate: 0.19 }, minerals: { magnesium: 0.28, iron: 0.15, phosphorus: 0.2 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -804,7 +804,7 @@ const rawWholeGrains = {
       },
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/2 cup rolled oats (40g)", calories: 150, macros: { protein: 5, carbs: 27, fat: 2.5, fiber: 4 }, vitamins: { B1: 0.15, folate: 0.03 }, minerals: { iron: 0.1, magnesium: 0.14, phosphorus: 0.15 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -879,7 +879,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup (30g)", calories: 110, macros: { protein: 3.1, carbs: 23.2, fat: 0.3, fiber: 0.8 }, vitamins: { B1: 0.18, B3: 0.15, folate: 0.24 }, minerals: { iron: 0.1 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -899,7 +899,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.2, sour: 0, bitter: 0, salty: 0, umami: 0.1 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.5, carbs: 35.8, fat: 0.4, fiber: 0.6 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.2 }, minerals: { iron: 0.08, magnesium: 0.03 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -919,7 +919,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { composition: { water: 0.119, protein: 0.103, fat: 0.0098, carbohydrate: 0.763, ash: 0.0047, basis: "usda-fdc", fdcId: 168894, fdcDescription: "Wheat flour, white, all-purpose, enriched, bleached", retrieved: "2026-08-18" }, serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup (30g)", calories: 110, macros: { protein: 3.1, carbs: 23.2, fat: 0.3, fiber: 0.8 }, vitamins: { B1: 0.18, B3: 0.15, folate: 0.24 }, minerals: { iron: 0.1 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -939,7 +939,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 slice (43g)", calories: 105, macros: { protein: 4.8, carbs: 18.5, fat: 1.4, fiber: 3 }, vitamins: { B1: 0.12, B3: 0.1, folate: 0.08 }, minerals: { iron: 0.07, magnesium: 0.08, manganese: 0.35 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -959,7 +959,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (40g)", calories: 150, macros: { protein: 5, carbs: 27, fat: 2.5, fiber: 4 }, vitamins: { B1: 0.15, folate: 0.03 }, minerals: { iron: 0.1, magnesium: 0.14, phosphorus: 0.15 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -979,7 +979,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup (28g)", calories: 110, macros: { protein: 3.8, carbs: 20.5, fat: 1.3, fiber: 1.2 }, vitamins: { B1: 0.12, B3: 0.09, folate: 0.12 }, minerals: { iron: 0.06 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -999,7 +999,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.4, carbs: 36, fat: 0.4, fiber: 0.5 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.2 }, minerals: { iron: 0.08 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1019,7 +1019,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/2 cup prepared (100g)", calories: 175, macros: { protein: 3.5, carbs: 22, fat: 8.2, fiber: 1.5 }, vitamins: { B1: 0.1, folate: 0.08 }, minerals: { sodium: 0.22, iron: 0.06 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1039,7 +1039,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 roll (100g)", calories: 130, macros: { protein: 2.1, carbs: 28, fat: 0.5, fiber: 0.6 }, vitamins: { B1: 0.05 }, minerals: { sodium: 0.02 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1059,7 +1059,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 165, macros: { protein: 3.1, carbs: 37, fat: 0.3, fiber: 0.4 }, vitamins: { B1: 0.08, B3: 0.09 }, minerals: { iron: 0.05 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1079,7 +1079,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 slice (50g)", calories: 135, macros: { protein: 4.5, carbs: 26, fat: 0.8, fiber: 1.5 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.18 }, minerals: { iron: 0.08, sodium: 0.11 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1099,7 +1099,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 slice (28g)", calories: 75, macros: { protein: 2.3, carbs: 13.8, fat: 0.9, fiber: 0.7 }, vitamins: { B1: 0.12, B3: 0.09, folate: 0.14 }, minerals: { iron: 0.05, calcium: 0.04 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1119,7 +1119,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.5, carbs: 36, fat: 0.4, fiber: 0.6 }, vitamins: { B1: 0.15, B3: 0.12 }, minerals: { iron: 0.08 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1139,7 +1139,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/2 cup (40g)", calories: 145, macros: { protein: 2.8, carbs: 31, fat: 0.4, fiber: 0.8 }, vitamins: { B1: 0.1, B3: 0.08 }, minerals: { iron: 0.15 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1159,7 +1159,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.6, carbs: 36, fat: 0.4, fiber: 0.5 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.2 }, minerals: { iron: 0.08, magnesium: 0.03 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1179,7 +1179,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/2 cup cooked (79g)", calories: 105, macros: { protein: 2.2, carbs: 22.5, fat: 0.2, fiber: 0.3 }, vitamins: { B1: 0.09, B3: 0.08, folate: 0.12 }, minerals: { iron: 0.05 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1199,7 +1199,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.2, carbs: 36.2, fat: 0.3, fiber: 0.5 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.2 }, minerals: { iron: 0.08 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1219,7 +1219,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.2, carbs: 36.2, fat: 0.3, fiber: 0.5 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.2 }, minerals: { iron: 0.08 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1239,7 +1239,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "100g", calories: 220, macros: { protein: 4.2, carbs: 49, fat: 0.6, fiber: 1.2 }, vitamins: { B1: 0.06 }, minerals: { iron: 0.05 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1259,7 +1259,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "100g", calories: 220, macros: { protein: 4.2, carbs: 49, fat: 0.6, fiber: 1.2 }, vitamins: { B1: 0.06 }, minerals: { iron: 0.05 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1279,7 +1279,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup (32g)", calories: 120, macros: { protein: 1.9, carbs: 25.8, fat: 0.4, fiber: 0.8 }, vitamins: { B1: 0.08, B3: 0.09 }, minerals: { magnesium: 0.03 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1299,7 +1299,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 piece (60g)", calories: 165, macros: { protein: 5.2, carbs: 32, fat: 1.8, fiber: 1.8 }, vitamins: { B1: 0.16, B3: 0.14, folate: 0.15 }, minerals: { iron: 0.09 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1319,7 +1319,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.5, carbs: 35.5, fat: 0.4, fiber: 0.5 }, vitamins: { B1: 0.14, B3: 0.11, folate: 0.18 }, minerals: { iron: 0.07, magnesium: 0.03 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1339,7 +1339,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 195, macros: { protein: 0.2, carbs: 48, fat: 0.1, fiber: 0.3 }, vitamins: {  }, minerals: { iron: 0.04 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1359,7 +1359,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 1.8, carbs: 45, fat: 0.3, fiber: 0.9 }, vitamins: { folate: 0.04 }, minerals: { iron: 0.04, manganese: 0.08 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1379,7 +1379,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 165, macros: { protein: 3.1, carbs: 37, fat: 0.3, fiber: 0.4 }, vitamins: { B1: 0.08, B3: 0.09 }, minerals: { iron: 0.05 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1399,7 +1399,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup (30g)", calories: 110, macros: { protein: 0.1, carbs: 26.5, fat: 0.1, fiber: 0.1 }, vitamins: {  }, minerals: { calcium: 0.01, iron: 0.02 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1419,7 +1419,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup (32g)", calories: 120, macros: { protein: 1.8, carbs: 26.5, fat: 0.3, fiber: 0.5 }, vitamins: { B1: 0.06, B3: 0.07 }, minerals: { iron: 0.04 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1439,7 +1439,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 1.8, carbs: 45, fat: 0.3, fiber: 0.9 }, vitamins: { folate: 0.04 }, minerals: { iron: 0.04 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
@@ -1459,7 +1459,7 @@ const rawWholeGrains = {
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      nutritionalProfile: { serving_size: "1/2 cup cooked", calories: 120, macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 }, vitamins: { B1: 0.08, B3: 0.1, folate: 0.04 }, minerals: { manganese: 0.4, magnesium: 0.15, phosphorus: 0.1 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1/4 cup dry (45g)", calories: 160, macros: { protein: 3.4, carbs: 35.8, fat: 0.4, fiber: 0.5 }, vitamins: { B1: 0.14, B3: 0.11 }, minerals: { iron: 0.07 }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }

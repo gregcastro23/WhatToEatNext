@@ -106,8 +106,8 @@ class CurrentMomentManager {
     try {
       void logger.info("Starting current moment update...");
 
-      const targetDate = customDateTime || new Date();
-      const location = customLocation || DEFAULT_LOCATION;
+      const targetDate = customDateTime ?? new Date();
+      const location = customLocation ?? DEFAULT_LOCATION;
 
       // Step 1: Get fresh planetary positions from API
       let planetaryPositions: Record<string, PlanetPosition>;

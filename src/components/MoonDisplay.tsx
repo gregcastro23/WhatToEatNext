@@ -102,7 +102,7 @@ const MoonDisplay: React.FC = () => {
 
   // Extract moon info directly from planetaryPositions rather than calculating it separately
   // Fall back to using the moon position from planetaryPositions if available
-  const moon = planetaryPositions?.moon || { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
+  const moon = planetaryPositions?.moon ?? { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
   
   // Simplified lunar node handling - ensure we have default values if northNode or southNode are missing
   const northNode = useMemo(() => {
@@ -112,12 +112,12 @@ const MoonDisplay: React.FC = () => {
     }
     
     // Try both possible property names
-    const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
+    const node = planetaryPositions?.northnode ?? planetaryPositions?.northNode;
     
     // Ensure all required properties are present
     return {
       // @ts-expect-error - Auto-fixed by script
-      sign: node?.sign || 'virgo',
+      sign: node?.sign ?? 'virgo',
       // @ts-expect-error - Auto-fixed by script
       degree: node?.degree ?? 15,
       // @ts-expect-error - Auto-fixed by script
@@ -134,12 +134,12 @@ const MoonDisplay: React.FC = () => {
     }
     
     // Try both possible property names
-    const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
+    const node = planetaryPositions?.southnode ?? planetaryPositions?.southNode;
     
     // Ensure all required properties are present
     return {
       // @ts-expect-error - Auto-fixed by script
-      sign: node?.sign || 'pisces',
+      sign: node?.sign ?? 'pisces',
       // @ts-expect-error - Auto-fixed by script
       degree: node?.degree ?? 15,
       // @ts-expect-error - Auto-fixed by script
@@ -340,14 +340,14 @@ const MoonDisplay: React.FC = () => {
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
     const northNodeIncomplete = 
       // @ts-expect-error - Auto-fixed by script
-      (planetaryPositions.northNode && !planetaryPositions.northNode.sign) || 
+      (planetaryPositions.northNode && !planetaryPositions.northNode.sign) ?? 
       // @ts-expect-error - Auto-fixed by script
       (planetaryPositions.northnode && !planetaryPositions.northnode.sign);
     
     if (northNodeMissing || northNodeIncomplete) {
       // Log only once
       console.warn('North Node data missing or incomplete:', {
-        northNodeData: planetaryPositions.northNode || planetaryPositions.northnode || 'undefined',
+        northNodeData: planetaryPositions.northNode ?? planetaryPositions.northnode ?? 'undefined',
         availableKeys: Object.keys(planetaryPositions)
       });
     }

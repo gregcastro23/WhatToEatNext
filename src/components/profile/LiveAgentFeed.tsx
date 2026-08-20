@@ -72,7 +72,7 @@ export function LiveAgentFeed({
       if (res.ok) {
         const data = await res.json();
         if (data.success) {
-          setEvents(data.events || []);
+          setEvents(data.events ?? []);
           setHasMore(data.events.length >= 20);
         }
       }
@@ -124,11 +124,11 @@ export function LiveAgentFeed({
         {events.map((event) => {
           const signature = event.actorIsAgent ? getPlanetarySignature(event.metadataPayload) : null;
           const natalPlacements =
-            signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) || [];
+            signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) ?? [];
           const narration = narrateFeedEvent(event.eventType, event.metadataPayload);
           
           // Use event-level actorName if available (from API), fallback to static "This user" context
-          const displayName = event.actorName || "They";
+          const displayName = event.actorName ?? "They";
           
           return (
             <motion.div
@@ -190,8 +190,8 @@ export function LiveAgentFeed({
                     }`}
                   >
                     <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-wider">
-                      {(signature.planetaryHour || signature.dominantPlanet) && (
-                        <span>Hour {signature.planetaryHour || signature.dominantPlanet}</span>
+                      {(signature.planetaryHour ?? signature.dominantPlanet) && (
+                        <span>Hour {signature.planetaryHour ?? signature.dominantPlanet}</span>
                       )}
                       {signature.planetaryDay && <span>Day {signature.planetaryDay}</span>}
                       {signature.sacredStat && <span>{signature.sacredStat}</span>}

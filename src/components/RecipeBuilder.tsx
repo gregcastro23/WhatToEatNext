@@ -35,8 +35,8 @@ export default function RecipeBuilder() {
     const modalityCounts: Record<Modality, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
     
     selectedIngredients.forEach(ingredient => {
-      const modality = (ingredient.modality || 
-        determineIngredientModality(ingredient.elementalProperties, ingredient.qualities || [])) as Modality;
+      const modality = (ingredient.modality ?? 
+        determineIngredientModality(ingredient.elementalProperties, ingredient.qualities ?? [])) as Modality;
       modalityCounts[modality]++;
     });
     
@@ -193,10 +193,10 @@ export default function RecipeBuilder() {
         // Ensure required fields exist
         id: baseRecipe.id || `recipe-${Date.now()}`,
         name: baseRecipe.name,
-        description: baseRecipe.description || '',
-        cuisine: baseRecipe.cuisine || 'Various',
-        timeToMake: baseRecipe.timeToMake || '30 minutes',
-        numberOfServings: baseRecipe.numberOfServings || 4,
+        description: baseRecipe.description ?? '',
+        cuisine: baseRecipe.cuisine ?? 'Various',
+        timeToMake: baseRecipe.timeToMake ?? '30 minutes',
+        numberOfServings: baseRecipe.numberOfServings ?? 4,
         instructions: baseRecipe.instructions || [],
         // Add chakra balance data using the Recipe's allowance for additional properties
         chakraBalance: {
@@ -206,7 +206,7 @@ export default function RecipeBuilder() {
         },
         // Add special note on astrologicalInfluences for integration with existing systems
         astrologicalInfluences: [
-          ...(baseRecipe.astrologicalInfluences || []),
+          ...(baseRecipe.astrologicalInfluences ?? []),
           ...chakrasToFocus.map(c => `Chakra: ${c.chakra}`)
         ]
       } as Recipe; // Use type assertion to handle the extended property
@@ -235,8 +235,8 @@ export default function RecipeBuilder() {
         {selectedIngredients.map(ingredient => (
           <div key={ingredient.id} className="selected-ingredient">
             <span>{ingredient.name}</span>
-            <span className={`modality-badge ${ingredient.modality?.toLowerCase() || 'mutable'}`}>
-              {ingredient.modality || 'Mutable'}
+            <span className={`modality-badge ${ingredient.modality?.toLowerCase() ?? 'mutable'}`}>
+              {ingredient.modality ?? 'Mutable'}
             </span>
           </div>
         ))}

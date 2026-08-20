@@ -140,8 +140,8 @@ class BuildPerformanceMonitor {
       const compilationTime = performance.now() - startTime;
 
       // Parse errors and warnings
-      const errorCount = (result.match(/error TS/g) || []).length;
-      const warningCount = (result.match(/warning TS/g) || []).length;
+      const errorCount = (result.match(/error TS/g) ?? []).length;
+      const warningCount = (result.match(/warning TS/g) ?? []).length;
 
       // Record metrics
       this.recordBuildMetrics({
@@ -162,9 +162,9 @@ class BuildPerformanceMonitor {
 
       // Handle compilation errors
       const err = error as { stdout?: string; stderr?: string };
-      const errorOutput = err.stdout || err.stderr || "";
-      const errorCount = (errorOutput.match(/error TS/g) || []).length;
-      const warningCount = (errorOutput.match(/warning TS/g) || []).length;
+      const errorOutput = err.stdout ?? err.stderr ?? "";
+      const errorCount = (errorOutput.match(/error TS/g) ?? []).length;
+      const warningCount = (errorOutput.match(/warning TS/g) ?? []).length;
 
       this.recordBuildMetrics({
         typeScriptCompilationTime: compilationTime,
@@ -232,9 +232,9 @@ class BuildPerformanceMonitor {
       const finalMemory = process.memoryUsage().heapUsed;
 
       const err = error as { stdout?: string; stderr?: string };
-      const errorOutput = err.stdout || err.stderr || "";
-      const errorCount = (errorOutput.match(/error/gi) || []).length;
-      const warningCount = (errorOutput.match(/warning/gi) || []).length;
+      const errorOutput = err.stdout ?? err.stderr ?? "";
+      const errorCount = (errorOutput.match(/error/gi) ?? []).length;
+      const warningCount = (errorOutput.match(/warning/gi) ?? []).length;
 
       const metrics: BuildMetrics = {
         typeScriptCompilationTime: 0,
@@ -495,10 +495,10 @@ class BuildPerformanceMonitor {
       if (!fs.existsSync(filePath)) return 0;
       const content = fs.readFileSync(filePath, "utf8");
       const lines = content.split("\n").length;
-      const imports = (content.match(/import\s+/g) || []).length;
-      const exports = (content.match(/export\s+/g) || []).length;
+      const imports = (content.match(/import\s+/g) ?? []).length;
+      const exports = (content.match(/export\s+/g) ?? []).length;
       const functions = (
-        content.match(/function\s+|const\s+\w+\s*=\s*\(/g) || []
+        content.match(/function\s+|const\s+\w+\s*=\s*\(/g) ?? []
       ).length;
       return lines + imports * 2 + exports * 2 + functions * 3;
     } catch (_error) {
@@ -511,7 +511,7 @@ class BuildPerformanceMonitor {
       if (!fs.existsSync(filePath)) return [];
       const content = fs.readFileSync(filePath, "utf8");
       const importMatches =
-        content.match(/import\s+.*?\s+from\s+['"]([^'"]+)['"]/g) || [];
+        content.match(/import\s+.*?\s+from\s+['"]([^'"]+)['"]/g) ?? [];
       return importMatches
         .map((match) => {
           const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);

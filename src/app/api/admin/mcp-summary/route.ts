@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   if ("error" in authResult) return authResult.error;
 
   const { searchParams } = new URL(request.url);
-  const windowMinutesStr = searchParams.get("windowMinutes") || "60";
+  const windowMinutesStr = searchParams.get("windowMinutes") ?? "60";
   const windowMinutes = parseInt(windowMinutesStr, 10) || 60;
 
   const secret = process.env.INTERNAL_API_SECRET;

@@ -18,20 +18,20 @@ export function enrichRecipeData(recipe: Partial<Recipe>): Recipe {
 
   // Ensure all required properties exist with proper defaults
   const enriched: Recipe = {
-    id: enrichedRecipe.id || `recipe-${Date.now()}`,
-    name: enrichedRecipe.name || "Unnamed Recipe",
-    description: enrichedRecipe.description || "",
-    cuisine: enrichedRecipe.cuisine || "Various",
-    ingredients: enrichedRecipe.ingredients || [],
-    instructions: enrichedRecipe.instructions || [],
-    elementalProperties: enrichedRecipe.elementalProperties || {
+    id: enrichedRecipe.id ?? `recipe-${Date.now()}`,
+    name: enrichedRecipe.name ?? "Unnamed Recipe",
+    description: enrichedRecipe.description ?? "",
+    cuisine: enrichedRecipe.cuisine ?? "Various",
+    ingredients: enrichedRecipe.ingredients ?? [],
+    instructions: enrichedRecipe.instructions ?? [],
+    elementalProperties: enrichedRecipe.elementalProperties ?? {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25,
     },
-    timeToMake: enrichedRecipe.timeToMake || "30 minutes",
-    numberOfServings: enrichedRecipe.numberOfServings || 4,
+    timeToMake: enrichedRecipe.timeToMake ?? "30 minutes",
+    numberOfServings: enrichedRecipe.numberOfServings ?? 4,
     // Copy over all other properties
     ...enrichedRecipe,
   };
@@ -590,7 +590,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   }
 
   // Normalize per serving if multiple servings
-  const servings = recipe.numberOfServings || 1;
+  const servings = recipe.numberOfServings ?? 1;
   if (servings > 1) {
     // Only divide the explicitly mapped fields.
     // Other NutritionalSummary fields remain 0.

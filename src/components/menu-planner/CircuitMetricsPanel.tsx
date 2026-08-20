@@ -410,7 +410,7 @@ export default function CircuitMetricsPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Calculate total meal count
-  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
+  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length ?? 0;
   const hasEnoughMeals = totalMeals >= 6;
 
   // Auto-collapse when not enough meals

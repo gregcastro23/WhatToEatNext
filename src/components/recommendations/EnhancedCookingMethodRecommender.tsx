@@ -231,7 +231,7 @@ function normalizePlanetaryPositions(contextPositions: Record<string, unknown> |
   const normalized: Record<string, string> = {};
   const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
   for (const planet of planets) {
-    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
+    const position = contextPositions[planet] ?? contextPositions[planet.toLowerCase()];
     normalized[planet] = extractZodiacSignType(position);
   }
   return normalized;
@@ -736,7 +736,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       // had a designed place in the UI.
 
       // Calculate Harmony Index via Resonance Gap model
-      const duration = method.duration || method.time_range;
+      const duration = method.duration ?? method.time_range;
       const harmony = calculateHarmonyIndex(
         {
           transformedESMS,
@@ -745,7 +745,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           gregsEnergy,
           kalchm,
           monica,
-          duration: duration || undefined,
+          duration: duration ?? undefined,
           kineticPower: kinetics?.power,
           userElementalBias: userBias,
         },
@@ -823,7 +823,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   }, [compareMode, expandedMethod]);
 
   const formatDuration = (method: MethodData) => {
-    const t = method.duration || method.time_range;
+    const t = method.duration ?? method.time_range;
     if (!t) return "Variable";
     if (t.min >= 1440) return `${Math.floor(t.min / 1440)}-${Math.floor(t.max / 1440)} days`;
     if (t.min >= 60) return `${Math.floor(t.min / 60)}-${Math.floor(t.max / 60)} hrs`;
@@ -885,7 +885,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                         {Math.round(recipe.matchScore)}% Match
                       </span>
                     </div>
-                    <div className="text-xs text-brand text-purple-400">{recipe.cuisine || "Global"}</div>
+                    <div className="text-xs text-brand text-purple-400">{recipe.cuisine ?? "Global"}</div>
                   </div>
 
                   <div className="mt-3 flex gap-2">
@@ -1878,7 +1878,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                     </div>
 
                     <p className="mt-1.5 line-clamp-1 text-[13px] italic text-alchm-fg-dim">
-                      {method.shortDescription || method.description}
+                      {method.shortDescription ?? method.description}
                     </p>
 
                     {/* Physics strip.

@@ -279,7 +279,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     if (generationPreferences.preferredCuisines.length > 0) {
       const cuisineFiltered = filtered.filter((r) =>
         r.cuisine && generationPreferences.preferredCuisines.some(
-          (c) => c.toLowerCase() === (r.cuisine || "").toLowerCase(),
+          (c) => c.toLowerCase() === (r.cuisine ?? "").toLowerCase(),
         ),
       );
       // Fall back to full list if no matches
@@ -290,7 +290,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     if (generationPreferences.maxPrepTimeMinutes !== null) {
       const maxTime = generationPreferences.maxPrepTimeMinutes;
       const timeFiltered = filtered.filter((r) => {
-        const prepTime = parseInt(r.prepTime || r.timeToMake || "0", 10) || 0;
+        const prepTime = parseInt(r.prepTime ?? r.timeToMake ?? "0", 10) || 0;
         return prepTime <= 0 || prepTime <= maxTime;
       });
       if (timeFiltered.length > 0) filtered = timeFiltered;
@@ -505,7 +505,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           const recipeIngs = new Set<string>();
           (m.recipe!.ingredients || []).forEach((ing) => {
             const name = (typeof ing === 'string' ? ing : (ing as NamedIngredientLike).name ?? '').toLowerCase();
-            ingredientCounts.set(name, (ingredientCounts.get(name) || 0) + 1);
+            ingredientCounts.set(name, (ingredientCounts.get(name) ?? 0) + 1);
             recipeIngs.add(name);
           });
           recipeIngredients.set(m.recipe!.id, recipeIngs);
@@ -515,9 +515,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
       const filledMeals = currentMenu.meals
         .filter((m) => m.recipe)
         .map((m) => {
-          const ings = recipeIngredients.get(m.recipe!.id) || new Set();
+          const ings = recipeIngredients.get(m.recipe!.id) ?? new Set();
           const repetitionScore = Array.from(ings).reduce(
-            (sum, ing) => sum + (ingredientCounts.get(ing) || 0),
+            (sum, ing) => sum + (ingredientCounts.get(ing) ?? 0),
             0,
           );
           return { slot: m, repetitionScore };
@@ -570,7 +570,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     }
   };
 
-  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
+  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length ?? 0;
 
   // Count active generation preferences (including nutritional targets)
   const nutTargets = generationPreferences.nutritionalTargets;

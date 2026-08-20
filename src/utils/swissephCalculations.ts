@@ -139,7 +139,7 @@ export function calculatePlanetaryPositionsSwissEph(
 
     // Set sidereal mode if requested
     if (zodiacSystem === "sidereal") {
-      const mode = siderealMode || swisseph.SE_SIDM_LAHIRI; // Default to Lahiri
+      const mode = siderealMode ?? swisseph.SE_SIDM_LAHIRI; // Default to Lahiri
       swisseph.swe_set_sid_mode(mode, 0, 0);
       logger.info(`Using sidereal zodiac (ayanamsa mode: ${mode})`);
     }

@@ -102,23 +102,23 @@ function convertAlchemizerOutput(alchmData: any): {
   essence: number
 } {
   const totals: ElementVector = {
-    Fire: alchmData['Total Effect Value']?.['Fire'] || 0,
-    Water: alchmData['Total Effect Value']?.['Water'] || 0,
-    Air: alchmData['Total Effect Value']?.['Air'] || 0,
-    Earth: alchmData['Total Effect Value']?.['Earth'] || 0,
+    Fire: alchmData['Total Effect Value']?.['Fire'] ?? 0,
+    Water: alchmData['Total Effect Value']?.['Water'] ?? 0,
+    Air: alchmData['Total Effect Value']?.['Air'] ?? 0,
+    Earth: alchmData['Total Effect Value']?.['Earth'] ?? 0,
   }
 
   return {
     totals,
-    Heat: alchmData['Heat'] || 0,
-    Entropy: alchmData['Entropy'] || 0,
-    Reactivity: alchmData['Reactivity'] || 0,
-    Energy: alchmData['Energy'] || 0,
-    matter: alchmData['Alchemy Effects']?.['Total Matter'] || 0,
+    Heat: alchmData['Heat'] ?? 0,
+    Entropy: alchmData['Entropy'] ?? 0,
+    Reactivity: alchmData['Reactivity'] ?? 0,
+    Energy: alchmData['Energy'] ?? 0,
+    matter: alchmData['Alchemy Effects']?.['Total Matter'] ?? 0,
     earth: totals.Earth, // Earth element from totals
-    substance: alchmData['Alchemy Effects']?.['Total Substance'] || 0,
-    spirit: alchmData['Alchemy Effects']?.['Total Spirit'] || 0,
-    essence: alchmData['Alchemy Effects']?.['Total Essence'] || 0,
+    substance: alchmData['Alchemy Effects']?.['Total Substance'] ?? 0,
+    spirit: alchmData['Alchemy Effects']?.['Total Spirit'] ?? 0,
+    essence: alchmData['Alchemy Effects']?.['Total Essence'] ?? 0,
   }
 }
 
@@ -312,7 +312,7 @@ export function validateTimingPatterns(samples: HourlyAlchemicalSample[]): Timin
     let avgFireForce = 0
     if (forceSamples.length > 0) {
       avgFireForce =
-        forceSamples.reduce((sum, s) => sum + (s.force?.Fire || 0), 0) / forceSamples.length
+        forceSamples.reduce((sum, s) => sum + (s.force?.Fire ?? 0), 0) / forceSamples.length
     }
 
     planetaryPatterns[hour] = avgEnergy

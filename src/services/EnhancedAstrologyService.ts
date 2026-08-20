@@ -263,7 +263,7 @@ export class EnhancedAstrologyService {
       .map(([planet]) => planet);
 
     // Get special events
-    const specialEvents = seasonalTransit?.specialEvents || [];
+    const specialEvents = seasonalTransit?.specialEvents ?? [];
 
     // Get key aspects from seasonal transit
     const keyAspects =
@@ -273,7 +273,7 @@ export class EnhancedAstrologyService {
       planetaryPositions: primaryPositions || {},
       dataSource,
       confidence,
-      siderealTime: siderealTime || undefined,
+      siderealTime: siderealTime ?? undefined,
       seasonalTransit,
       keyAspects,
       dominantElements,
@@ -343,7 +343,7 @@ export class EnhancedAstrologyService {
     };
 
     Object.values(positions).forEach((position) => {
-      const element = signElements[position.sign || "aries"];
+      const element = signElements[position.sign ?? "aries"];
       if (element) {
         elementCounts[element]++;
       }

@@ -32,7 +32,7 @@ interface AgentRow {
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const limit = Math.min(parseInt(searchParams.get("limit") || "60", 10), 200);
+  const limit = Math.min(parseInt(searchParams.get("limit") ?? "60", 10), 200);
 
   try {
     const agents = await redisCached(
@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
         return result.rows.map((row) => ({
           userId: row.user_id,
           handle: row.email,
-          name: row.name || row.email.split("@")[0],
+          name: row.name ?? row.email.split("@")[0],
           bio: row.bio,
           dominantElement: row.dominant_element,
           monicaConstant: row.monica_constant

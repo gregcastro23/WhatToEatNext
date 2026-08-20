@@ -130,25 +130,25 @@ export function applyPillarTransformation(
   // Apply to spirit, essence, matter, substance if they exist in the item
   if ("spirit" in transformedItem) {
     transformedItem.spirit =
-      Number(transformedItem.spirit || 0) *
+      Number(transformedItem.spirit ?? 0) *
       (1 + 0.2 * Number(alchemicalEffects.Spirit || 0));
   }
 
   if ("essence" in transformedItem) {
     transformedItem.essence =
-      Number(transformedItem.essence || 0) *
+      Number(transformedItem.essence ?? 0) *
       (1 + 0.2 * Number(alchemicalEffects.Essence || 0));
   }
 
   if ("matter" in transformedItem) {
     transformedItem.matter =
-      Number(transformedItem.matter || 0) *
+      Number(transformedItem.matter ?? 0) *
       (1 + 0.2 * Number(alchemicalEffects.Matter || 0));
   }
 
   if ("substance" in transformedItem) {
     transformedItem.substance =
-      Number(transformedItem.substance || 0) *
+      Number(transformedItem.substance ?? 0) *
       (1 + 0.2 * Number(alchemicalEffects.Substance || 0));
   }
 
@@ -525,13 +525,13 @@ const getMethodCompatibility = (
 
   logger.debug(`\nIngredient Details: `);
   logger.debug(
-    `- Element: ${itemWithProps.element || "Not specified"}`,
+    `- Element: ${itemWithProps.element ?? "Not specified"}`,
   );
   logger.debug(
-    `- Elemental Character: ${itemWithProps.elementalCharacter || "Not specified"}`,
+    `- Elemental Character: ${itemWithProps.elementalCharacter ?? "Not specified"}`,
   );
   logger.debug(
-    `- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`,
+    `- Spirit: ${transformedItem.spirit ?? 0}, Essence: ${transformedItem.essence ?? 0}, Matter: ${transformedItem.matter ?? 0}, Substance: ${transformedItem.substance ?? 0}`,
   );
 
   // Base compatibility from element matching
@@ -615,10 +615,10 @@ const getMethodCompatibility = (
   // Check for alchemical property alignment
   // If method enhances the ingredient's strongest property
   const itemProperties = {
-    Spirit: transformedItem.spirit || 0,
-    Essence: transformedItem.essence || 0,
-    Matter: transformedItem.matter || 0,
-    Substance: transformedItem.substance || 0,
+    Spirit: transformedItem.spirit ?? 0,
+    Essence: transformedItem.essence ?? 0,
+    Matter: transformedItem.matter ?? 0,
+    Substance: transformedItem.substance ?? 0,
   };
 
   // Find the strongest property in the ingredient
@@ -683,8 +683,8 @@ export const _getHolisticCookingRecommendations = async (
 > => {
   logger.debug("\n--- HOLISTIC COOKING RECOMMENDATIONS ---");
   logger.debug(`Ingredient: ${item.name}`);
-  logger.debug(`Planet influence: ${planet || "None"}`);
-  logger.debug(`Tarot influence: ${tarotCard || "None"}`);
+  logger.debug(`Planet influence: ${planet ?? "None"}`);
+  logger.debug(`Tarot influence: ${tarotCard ?? "None"}`);
   logger.debug(`Time of day: ${isDaytime ? "Daytime" : "Nighttime"}`);
   logger.debug(`Available methods count: ${availableMethods.length}`);
   logger.debug(`Requesting top ${count} recommendations`);
@@ -701,18 +701,18 @@ export const _getHolisticCookingRecommendations = async (
   if (planet || tarotCard) {
     logger.debug("Original item: ", {
       element: item.element,
-      spirit: item.spirit || 0,
-      essence: item.essence || 0,
-      matter: item.matter || 0,
-      substance: item.substance || 0,
+      spirit: item.spirit ?? 0,
+      essence: item.essence ?? 0,
+      matter: item.matter ?? 0,
+      substance: item.substance ?? 0,
     });
 
     logger.debug("Transformed item: ", {
       element: transformedItem.element,
-      spirit: transformedItem.spirit || 0,
-      essence: transformedItem.essence || 0,
-      matter: transformedItem.matter || 0,
-      substance: transformedItem.substance || 0,
+      spirit: transformedItem.spirit ?? 0,
+      essence: transformedItem.essence ?? 0,
+      matter: transformedItem.matter ?? 0,
+      substance: transformedItem.substance ?? 0,
     });
   } else {
     logger.debug("No planetary or tarot influences to apply.");
@@ -971,9 +971,9 @@ export function getEnhancedCookingRecommendations(
 
       // Apply safe type conversion for property access
       const sustainabilityRating = Number(
-        methodData.sustainabilityRating || 0.5,
+        methodData.sustainabilityRating ?? 0.5,
       );
-      const equipmentComplexity = Number(methodData.equipmentComplexity || 0.5);
+      const equipmentComplexity = Number(methodData.equipmentComplexity ?? 0.5);
       const astrologicalInfluences =
         (methodData.astrologicalInfluences as Record<string, unknown>) || {};
       const duration = (methodData.duration as Record<string, unknown>) || {};
@@ -1010,8 +1010,8 @@ export function getEnhancedCookingRecommendations(
 
       // Generate cooking time range
       const cookingTime = {
-        min: Number(duration.min || 10),
-        max: Number(duration.max || 60),
+        min: Number(duration.min ?? 10),
+        max: Number(duration.max ?? 60),
       };
 
       // Generate health benefits
@@ -1055,10 +1055,10 @@ function calculateMethodCompatibility(
     let compatibility = 0.5;
 
     // Apply safe type conversion for property access
-    const spirit = Number(item.spirit || 0);
-    const essence = Number(item.essence || 0);
-    const matter = Number(item.matter || 0);
-    const substance = Number(item.substance || 0);
+    const spirit = Number(item.spirit ?? 0);
+    const essence = Number(item.essence ?? 0);
+    const matter = Number(item.matter ?? 0);
+    const substance = Number(item.substance ?? 0);
 
     // Calculate compatibility based on how well the method's effects align with the item's properties
     const spiritEffect = Number(alchemicalEffects.Spirit || 0);
@@ -1099,10 +1099,10 @@ function generateHealthBenefits(
   }
 
   // Add item-specific benefits based on alchemical properties
-  const spirit = Number(_item.spirit || 0);
-  const essence = Number(_item.essence || 0);
-  const matter = Number(_item.matter || 0);
-  const substance = Number(_item.substance || 0);
+  const spirit = Number(_item.spirit ?? 0);
+  const essence = Number(_item.essence ?? 0);
+  const matter = Number(_item.matter ?? 0);
+  const substance = Number(_item.substance ?? 0);
 
   if (spirit > 0.4) benefits.push("Enhances vitality");
   if (essence > 0.4) benefits.push("Supports emotional balance");
@@ -1154,14 +1154,14 @@ function getAllCookingMethodData(): Record<string, unknown> {
     // Import methods from each category
     // Using dynamic imports instead of require statements
     const dryMethods = import("../data/cooking/methods/dry").then(
-      (module) => ((module as Record<string, unknown>).default || module) as Record<string, unknown>,
+      (module) => ((module as Record<string, unknown>).default ?? module) as Record<string, unknown>,
     );
     const wetMethods = import("../data/cooking/methods/wet").then(
-      (module) => ((module as Record<string, unknown>).default || module) as Record<string, unknown>,
+      (module) => ((module as Record<string, unknown>).default ?? module) as Record<string, unknown>,
     );
     const traditionalMethods =
       import("../data/cooking/methods/traditional").then(
-        (module) => ((module as Record<string, unknown>).default || module) as Record<string, unknown>,
+        (module) => ((module as Record<string, unknown>).default ?? module) as Record<string, unknown>,
       );
 
     // Since we're using async imports, return a promise with all methods

@@ -9,7 +9,7 @@
  */
 
 export const ADMIN_EMAILS: readonly string[] = [
-  process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com",
+  process.env.AUTH_ADMIN_EMAIL ?? "xalchm@gmail.com",
   "gregcastro23@gmail.com",
   "cookingwithcastrollc@gmail.com",
 ];

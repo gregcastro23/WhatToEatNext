@@ -164,7 +164,7 @@ function AddByEmailForm({
         setSentTo((prev) => new Set(prev).add(userEmail));
         onRequestSent();
       } else {
-        setMessage({ type: 'error', text: data.message || 'Failed to send request' });
+        setMessage({ type: 'error', text: data.message ?? 'Failed to send request' });
       }
     } catch {
       setMessage({ type: 'error', text: 'Failed to send request' });
@@ -308,7 +308,7 @@ function AddCommensalForm({
         console.error('Non-JSON response from /api/user/commensals:', res.status, raw);
         throw new Error(`Server error (${res.status}): ${raw.slice(0, 200)}`);
       }
-      if (!res.ok || !data.success) throw new Error(data.message || 'Failed to add commensal');
+      if (!res.ok || !data.success) throw new Error(data.message ?? 'Failed to add commensal');
       onAdded(data.commensal!);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add commensal');

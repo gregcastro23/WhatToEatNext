@@ -49,7 +49,7 @@ export async function GET(
     if (recipeResult.rows[0]?.read_model?.ingredients) {
       rawIngredients = recipeResult.rows[0].read_model.ingredients.map((ing: any) => ({
         name: typeof ing === 'string' ? ing : ing.name,
-        quantity: typeof ing === 'object' ? (ing.amount || 1) : 1
+        quantity: typeof ing === 'object' ? (ing.amount ?? 1) : 1
       }));
     }
   }

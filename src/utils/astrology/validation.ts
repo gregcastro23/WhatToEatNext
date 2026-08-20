@@ -573,9 +573,9 @@ export function validatePlanetaryPositions(
     if (typeof data === "object" && data !== null) {
       const src = data as Record<string, unknown>;
       const position: CelestialPosition = {
-        sign: String(src.sign || ""),
-        degree: Number(src.degree || 0),
-        exactLongitude: Number(src.exactLongitude || 0),
+        sign: String(src.sign ?? ""),
+        degree: Number(src.degree ?? 0),
+        exactLongitude: Number(src.exactLongitude ?? 0),
         isRetrograde: Boolean(src.isRetrograde),
       };
 
@@ -643,7 +643,7 @@ export function getCurrentTransitPositions(): {
     result[planet] = {
       sign: data.sign as ZodiacSignType,
       degree: (data.degree as number) || 0,
-      isRetrograde: data.isRetrograde || false,
+      isRetrograde: data.isRetrograde ?? false,
     };
   }
 

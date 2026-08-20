@@ -144,7 +144,7 @@ export function validateImportStatement(
  */
 export function extractImportStatements(fileContent: string): string[] {
   const importRegex = /^import\s+.*?from\s+['"][^'"]+["'];?$/gm;
-  return fileContent.match(importRegex) || [];
+  return fileContent.match(importRegex) ?? [];
 }
 
 /**

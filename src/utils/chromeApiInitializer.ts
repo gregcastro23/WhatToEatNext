@@ -65,7 +65,7 @@ export function initializeChromeApis(): void {
 
           return Promise.resolve({
             id: 999,
-            url: options.url || "about:blank",
+            url: options.url ?? "about:blank",
           });
         },
         _query() {

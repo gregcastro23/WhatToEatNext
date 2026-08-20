@@ -130,11 +130,11 @@ class ErrorTrackingSystem {
       );
       if (fs.existsSync(dataPath)) {
         const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-        this.typeScriptErrors = data.typeScriptErrors || [];
-        this.lintingViolations = data.lintingViolations || [];
-        this.buildFailures = data.buildFailures || [];
-        this.errorPatterns = data.errorPatterns || [];
-        this.qualityHistory = data.qualityHistory || [];
+        this.typeScriptErrors = data.typeScriptErrors ?? [];
+        this.lintingViolations = data.lintingViolations ?? [];
+        this.buildFailures = data.buildFailures ?? [];
+        this.errorPatterns = data.errorPatterns ?? [];
+        this.qualityHistory = data.qualityHistory ?? [];
       }
     } catch (error) {
       _logger.warn(
@@ -191,8 +191,8 @@ class ErrorTrackingSystem {
       return [];
     } catch (error) {
       const output =
-        (error as { stdout?: string; stderr?: string }).stdout ||
-        (error as { stderr?: string }).stderr ||
+        (error as { stdout?: string; stderr?: string }).stdout ??
+        (error as { stderr?: string }).stderr ??
         "";
       const errors = this.parseTypeScriptErrors(output);
 
@@ -271,7 +271,7 @@ class ErrorTrackingSystem {
       return violations;
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const output = (error as { stdout?: string }).stdout || "";
+      const output = (error as { stdout?: string }).stdout ?? "";
 
       try {
         const lintResults = JSON.parse(output);
@@ -306,13 +306,13 @@ class ErrorTrackingSystem {
     for (const fileResult of lintResults) {
       const { filePath } = fileResult;
 
-      for (const message of fileResult.messages || []) {
+      for (const message of fileResult.messages ?? []) {
         violations.push({
-          rule: message.ruleId || "unknown",
+          rule: message.ruleId ?? "unknown",
           message: (message.message as string) || "",
           file: (filePath as string) || "",
-          line: message.line || 0,
-          column: message.column || 0,
+          line: message.line ?? 0,
+          column: message.column ?? 0,
           severity: this.mapLintSeverity(message.severity ?? 0),
           fixable: message.fix !== undefined,
           timestamp: new Date(),
@@ -377,7 +377,7 @@ class ErrorTrackingSystem {
 
   private analyzeRootCause(failure: BuildFailure): string {
     const message = failure.message.toLowerCase();
-    const stack = (failure.stack || "").toLowerCase();
+    const stack = (failure.stack ?? "").toLowerCase();
     // Common root cause patterns
     if (
       message.includes("cannot find module") ||
@@ -861,9 +861,9 @@ class ErrorTrackingSystem {
       totalRecentFailures: recentFailures.length,
       topErrorCategories: this.getTopErrorCategories(activeErrors),
       topLintRules: this.getTopLintRules(activeLintViolations),
-      codeQualityScore: currentMetrics?.codeQualityScore || 0,
-      technicalDebtScore: currentMetrics?.technicalDebtScore || 0,
-      maintainabilityIndex: currentMetrics?.maintainabilityIndex || 0,
+      codeQualityScore: currentMetrics?.codeQualityScore ?? 0,
+      technicalDebtScore: currentMetrics?.technicalDebtScore ?? 0,
+      maintainabilityIndex: currentMetrics?.maintainabilityIndex ?? 0,
       automationOpportunities: this.errorPatterns.filter((p) => p.automatable)
         .length,
       criticalIssues: this.errorPatterns.filter(
@@ -878,7 +878,7 @@ class ErrorTrackingSystem {
     const categories = new Map<string, number>();
 
     for (const error of errors) {
-      categories.set(error.category, (categories.get(error.category) || 0) + 1);
+      categories.set(error.category, (categories.get(error.category) ?? 0) + 1);
     }
 
     return Array.from(categories.entries())
@@ -893,7 +893,7 @@ class ErrorTrackingSystem {
     const rules = new Map<string, number>();
 
     for (const violation of violations) {
-      rules.set(violation.rule, (rules.get(violation.rule) || 0) + 1);
+      rules.set(violation.rule, (rules.get(violation.rule) ?? 0) + 1);
     }
 
     return Array.from(rules.entries())

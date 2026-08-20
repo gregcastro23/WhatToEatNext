@@ -484,7 +484,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       optimizeForSeason?: boolean;
       includeExotic?: boolean;
     };
-    const maxResults = Number(optionsData.maxResults || 10);
+    const maxResults = Number(optionsData.maxResults ?? 10);
     const optimizeForSeason =
       optionsData.optimizeForSeason !== undefined
         ? optionsData.optimizeForSeason
@@ -514,7 +514,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       // Apply Pattern PP-1: Safe service method access
       const alchemicalEngineData = alchemicalEngine as Record<string, unknown>;
       const compatibilityMethod =
-        alchemicalEngineData.calculateElementalCompatibility ||
+        alchemicalEngineData.calculateElementalCompatibility ??
         this.fallbackElementalCompatibility;
       const compatibility =
         typeof compatibilityMethod === "function"
@@ -578,7 +578,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate elemental compatibility
     const alchemicalEngineData2 = alchemicalEngine as Record<string, unknown>;
     const compatibilityMethod2 =
-      alchemicalEngineData2.calculateElementalCompatibility ||
+      alchemicalEngineData2.calculateElementalCompatibility ??
       this.fallbackElementalCompatibility;
     const elementalCompatibility =
       typeof compatibilityMethod2 === "function"
@@ -698,7 +698,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient {
     const enhancedIngredient: UnifiedIngredient = {
       ...(ingredient as UnifiedIngredient),
-      elementalProperties: (ingredient.elementalPropertiesState ||
+      elementalProperties: (ingredient.elementalPropertiesState ??
         this.calculateElementalProperties(ingredient)) as ElementalProperties,
     };
 
@@ -779,14 +779,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       // Check protein
       if (
         filter.minProtein !== undefined &&
-        (nutrition?.protein || 0) < filter.minProtein
+        (nutrition?.protein ?? 0) < filter.minProtein
       ) {
         return false;
       }
 
       if (
         filter.minProtein !== undefined &&
-        (nutrition?.protein || 0) < filter.minProtein
+        (nutrition?.protein ?? 0) < filter.minProtein
       ) {
         return false;
       }
@@ -794,7 +794,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       // Check fiber
       if (
         filter.minFiber !== undefined &&
-        (nutrition?.fiber || 0) < filter.minFiber
+        (nutrition?.fiber ?? 0) < filter.minFiber
       ) {
         return false;
       }
@@ -805,7 +805,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (
         maxFiber !== undefined &&
         maxFiber !== null &&
-        (nutrition?.fiber || 0) > maxFiber
+        (nutrition?.fiber ?? 0) > maxFiber
       ) {
         return false;
       }
@@ -813,14 +813,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       // Check calories
       if (
         filter.maxCalories !== undefined &&
-        (nutrition?.calories || 0) > filter.maxCalories
+        (nutrition?.calories ?? 0) > filter.maxCalories
       ) {
         return false;
       }
 
       if (
         filter.maxCalories !== undefined &&
-        (nutrition?.calories || 0) > filter.maxCalories
+        (nutrition?.calories ?? 0) > filter.maxCalories
       ) {
         return false;
       }
@@ -871,17 +871,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const { lowCarb } = filter;
       const { lowFat } = filter;
 
-      if (highProtein && (nutrition?.protein || 0) < 15) {
+      if (highProtein && (nutrition?.protein ?? 0) < 15) {
         return false;
       }
 
       // Check low carb flag
-      if (lowCarb && (nutrition?.carbs || 0) > 10) {
+      if (lowCarb && (nutrition?.carbs ?? 0) > 10) {
         return false;
       }
 
       // Check low fat flag
-      if (lowFat && (nutrition?.fat || 0) > 3) {
+      if (lowFat && (nutrition?.fat ?? 0) > 3) {
         return false;
       }
 
@@ -1113,7 +1113,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Check tags
       if (
-        (_ingredient.tags || []).some((tag: string) =>
+        (_ingredient.tags ?? []).some((tag: string) =>
           tag?.toLowerCase()?.includes(normalizedQuery),
         )
       ) {
@@ -1271,7 +1271,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
     // Count overlapping seasons
     const overlappingSeasons = (ing1.seasonality || []).filter((season) =>
-      (ing2.seasonality || []).includes(season),
+      (ing2.seasonality ?? []).includes(season),
     );
 
     // Calculate based on overlap
@@ -1296,9 +1296,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // is not a declared UnifiedIngredient field (only `energyValues`/
     // `energyProfile` are), so narrow the fallback-or-computed result to
     // the shape actually read below.
-    const metrics1 = (ing1.thermodynamicProperties ||
+    const metrics1 = (ing1.thermodynamicProperties ??
       this.performAlchemicalAnalysis(ing1)) as ThermodynamicProperties;
-    const metrics2 = (ing2.thermodynamicProperties ||
+    const metrics2 = (ing2.thermodynamicProperties ??
       this.performAlchemicalAnalysis(ing2)) as ThermodynamicProperties;
 
     // Calculate differences in key properties

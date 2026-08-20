@@ -17,8 +17,8 @@ export default function NutritionalDisplay({
   compact = false,
   showSearch = true
 }: NutritionalDisplayProps) {
-  const [searchTerm, setSearchTerm] = useState(ingredientName || '');
-  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(ingredientName || null);
+  const [searchTerm, setSearchTerm] = useState(ingredientName ?? '');
+  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(ingredientName ?? null);
   const [nutritionalData, setNutritionalData] = useState<NutritionalProfile | null>(
     // @ts-expect-error - Auto-fixed by script
     ingredientName ? getNutritionalData(ingredientName) : null
@@ -80,7 +80,7 @@ export default function NutritionalDisplay({
 
       {nutritionalData ? (
         <div>
-          <h3 className="text-lg font-semibold mb-2">{nutritionalData.name || selectedIngredient}</h3>
+          <h3 className="text-lg font-semibold mb-2">{nutritionalData.name ?? selectedIngredient}</h3>
           
           {/* Macronutrients Section */}
           <div className="mb-4">

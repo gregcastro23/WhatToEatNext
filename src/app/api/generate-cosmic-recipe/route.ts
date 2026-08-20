@@ -200,10 +200,10 @@ async function handlePost(request: NextRequest) {
         );
 
         const clientKey =
-          parsed.data.idempotencyKey ||
-          parsed.data.requestId ||
-          request.headers.get("idempotency-key") ||
-          request.headers.get("x-request-id") ||
+          parsed.data.idempotencyKey ??
+          parsed.data.requestId ??
+          request.headers.get("idempotency-key") ??
+          request.headers.get("x-request-id") ??
           undefined;
 
         const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
@@ -351,7 +351,7 @@ async function handlePost(request: NextRequest) {
     // forwards them to the model. PA owns the rest of the prompt (persona,
     // JSON contract, schema injection) since the PA-side rebuild.
     const baseUserPrompt =
-      prompt || "A nourishing, restorative meal aligned with today's cosmic energies.";
+      prompt ?? "A nourishing, restorative meal aligned with today's cosmic energies.";
     const preferredIngredientsHint = ingredientsMain?.length
       ? `\nPreferred main ingredients: ${ingredientsMain.join(", ")}.`
       : "";
@@ -383,7 +383,7 @@ async function handlePost(request: NextRequest) {
           cuisine: cuisineEntry?.cuisine ?? undefined,
           topIngredients,
           birthData,
-          dietPreference: diet || "omnivore",
+          dietPreference: diet ?? "omnivore",
           alchemicalState: esms,
           thermodynamicProperties: alchemized?.thermodynamicProperties,
           disallowedIngredients: disallowedIngredients ?? undefined,

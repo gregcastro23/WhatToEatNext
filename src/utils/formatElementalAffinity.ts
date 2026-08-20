@@ -27,8 +27,8 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
     return {
       primary: inputData?.element,
       secondary: inputData?.secondary,
-      strength: inputData?.strength || 0.5,
-      compatibility: inputData?.compatibility || {
+      strength: inputData?.strength ?? 0.5,
+      compatibility: inputData?.compatibility ?? {
         Fire: 1,
         Water: 0.3,
         Earth: 0.7,
@@ -42,8 +42,8 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
     return {
       primary: "Fire",
       secondary: inputData?.secondary,
-      strength: inputData?.strength || 0.5,
-      compatibility: inputData?.compatibility || {
+      strength: inputData?.strength ?? 0.5,
+      compatibility: inputData?.compatibility ?? {
         Fire: 1,
         Water: 0.3,
         Earth: 0.7,
@@ -54,10 +54,10 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
 
   // Ensure all required properties exist
   return {
-    primary: inputData?.primary || "Fire",
+    primary: inputData?.primary ?? "Fire",
     secondary: inputData?.secondary,
-    strength: inputData?.strength || 0.5,
-    compatibility: inputData?.compatibility || {
+    strength: inputData?.strength ?? 0.5,
+    compatibility: inputData?.compatibility ?? {
       Fire: 1,
       Water: 0.3,
       Earth: 0.7,

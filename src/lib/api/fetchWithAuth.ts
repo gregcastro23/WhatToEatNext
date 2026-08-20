@@ -64,7 +64,7 @@ export async function fetchWithAuth<T = unknown>(
           return {
             ok: false,
             status: 403,
-            error: body.message || "This feature requires a Premium subscription.",
+            error: body.message ?? "This feature requires a Premium subscription.",
             upgradeRequired: true,
           };
         }
@@ -94,7 +94,7 @@ export async function fetchWithAuth<T = unknown>(
         return {
           ok: false,
           status: response.status,
-          error: body.message || body.error || `Request failed (${response.status})`,
+          error: body.message ?? body.error ?? `Request failed (${response.status})`,
         };
       } catch {
         return {

@@ -38,7 +38,7 @@ class PerformanceCache {
     const entry: CacheEntry<T> = {
       data,
       timestamp: Date.now(),
-      ttl: ttl || this.ALCHEMICAL_TTL,
+      ttl: ttl ?? this.ALCHEMICAL_TTL,
     }
 
     this.cache.set(key, entry)

@@ -215,7 +215,7 @@ export default function FoodDiaryView({
               const mealEntries = entriesByMeal[mealType];
               const mealInfo = MEAL_TYPE_LABELS[mealType];
               const mealCalories = mealEntries.reduce(
-                (sum, e) => sum + (e.nutrition.calories || 0),
+                (sum, e) => sum + (e.nutrition.calories ?? 0),
                 0,
               );
 
@@ -358,7 +358,7 @@ function FoodEntryCard({
           )}
           <div className="text-right">
             <div className="text-lg font-black text-white leading-none">
-              {Math.round(entry.nutrition.calories || 0)}
+              {Math.round(entry.nutrition.calories ?? 0)}
             </div>
             <div className="text-[8px] font-black text-gray-500 uppercase tracking-tighter">KCAL</div>
           </div>
@@ -378,7 +378,7 @@ function FoodEntryCard({
         <div className="px-5 pb-5 pt-2 bg-black/20 border-t border-white/5 animate-in slide-in-from-top-2 duration-300">
           
           {/* New Tracking Fields Display */}
-          {(entry.price || entry.store || entry.quality) && (
+          {(entry.price ?? entry.store ?? entry.quality) && (
             <div className="flex flex-wrap gap-4 py-4 border-b border-white/5 mb-4">
               {entry.price !== undefined && (
                 <div className="bg-white/5 px-3 py-2 rounded-xl border border-white/5">
@@ -412,7 +412,7 @@ function FoodEntryCard({
               <div key={stat.label} className="text-center">
                 <div className="text-[9px] font-black text-gray-500 uppercase tracking-tighter mb-1">{stat.label}</div>
                 <div className={`text-md font-black ${stat.color}`}>
-                  {Math.round(stat.val || 0)}<span className="text-[10px] ml-0.5 opacity-60">g</span>
+                  {Math.round(stat.val ?? 0)}<span className="text-[10px] ml-0.5 opacity-60">g</span>
                 </div>
               </div>
             ))}

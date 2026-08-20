@@ -12,7 +12,7 @@ export class NutritionService {
 
     return {
       calories:
-        foodData.foodNutrients.find((n) => n.nutrientNumber === "208")?.value ||
+        foodData.foodNutrients.find((n) => n.nutrientNumber === "208")?.value ??
         0,
       macros: {
         protein: this.getNutrientValue(foodData, "203"),
@@ -40,7 +40,7 @@ export class NutritionService {
     nutrientId: string,
   ): number {
     return (
-      data.foodNutrients.find((n) => n.nutrientNumber === nutrientId)?.value ||
+      data.foodNutrients.find((n) => n.nutrientNumber === nutrientId)?.value ??
       0
     );
   }
@@ -53,7 +53,7 @@ export class NutritionService {
       .reduce(
         (acc: Record<string, number>, n) => ({
           ...acc,
-          [n.nutrientName || ""]: n.value || 0,
+          [n.nutrientName ?? ""]: n.value ?? 0,
         }),
         {},
       );

@@ -323,14 +323,14 @@ export class JWTAuthService {
    * Get user by ID
    */
   getUserById(userId: string): User | null {
-    return Array.from(this.users.values()).find((u) => u.id === userId) || null;
+    return Array.from(this.users.values()).find((u) => u.id === userId) ?? null;
   }
 
   /**
    * Get user by email
    */
   getUserByEmail(email: string): User | null {
-    return this.users.get(email) || null;
+    return this.users.get(email) ?? null;
   }
 }
 

@@ -37,7 +37,7 @@ export function getEnhancedFoodRecommendation(
     dominant?: { element?: string };
   };
   const dominant = resultData?.dominant;
-  const dominantElement = dominant?.element || "balanced";
+  const dominantElement = dominant?.element ?? "balanced";
   return {
     cookingMethod: "See existing recipes",
     mainIngredient: "See existing recipes",

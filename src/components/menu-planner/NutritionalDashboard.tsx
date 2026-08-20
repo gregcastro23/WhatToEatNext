@@ -65,7 +65,7 @@ function PieChart({
                 cy="50"
                 r="30"
                 fill="transparent"
-                stroke={item.color || "#8b5cf6"}
+                stroke={item.color ?? "#8b5cf6"}
                 strokeWidth="30"
                 strokeDasharray={dashArray}
                 strokeDashoffset={dashOffset}
@@ -82,7 +82,7 @@ function PieChart({
           <div key={index} className="flex items-center gap-2">
             <div
               className="w-4 h-4 rounded"
-              style={{ backgroundColor: item.color || "#8b5cf6" }}
+              style={{ backgroundColor: item.color ?? "#8b5cf6" }}
             />
             <span className="text-sm">
               {item.label}: {item.value.toFixed(1)}%
@@ -116,7 +116,7 @@ function BarChart({
             <div className="flex justify-between text-sm">
               <span className="font-medium">{item.label}</span>
               <span className="text-gray-600">
-                {Math.round(item.value)} {unit || ""}
+                {Math.round(item.value)} {unit ?? ""}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
@@ -124,7 +124,7 @@ function BarChart({
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${percentage}%`,
-                  backgroundColor: item.color || "#8b5cf6",
+                  backgroundColor: item.color ?? "#8b5cf6",
                 }}
               />
             </div>
@@ -233,7 +233,7 @@ function RadarChart({
             cx={point.x}
             cy={point.y}
             r="4"
-            fill={data[i].color || "#8b5cf6"}
+            fill={data[i].color ?? "#8b5cf6"}
           />
         ))}
 
@@ -246,7 +246,7 @@ function RadarChart({
             textAnchor="middle"
             alignmentBaseline="middle"
             className="text-xs font-medium"
-            fill={label.color || "#8b5cf6"}
+            fill={label.color ?? "#8b5cf6"}
           >
             {label.label}
           </text>
@@ -347,7 +347,7 @@ export default function NutritionalDashboard({
     currentMenu.meals.forEach((meal) => {
       if (meal.mealType === mealType && meal.recipe) {
         const nutrition =
-          (meal.recipe as any).nutritionalProfile || meal.recipe.nutrition;
+          (meal.recipe as any).nutritionalProfile ?? meal.recipe.nutrition;
         if (nutrition?.calories) {
           mealTypeCalories += nutrition.calories * (meal.servings || 1);
         }

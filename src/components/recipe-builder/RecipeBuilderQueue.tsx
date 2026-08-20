@@ -110,7 +110,7 @@ export default function RecipeBuilderQueue({
   } = useRecipeBuilder();
 
   const hasAnything =
-    mealType ||
+    Boolean(mealType) ||
     flavors.length > 0 ||
     dietaryPreferences.length > 0 ||
     allergies.length > 0 ||

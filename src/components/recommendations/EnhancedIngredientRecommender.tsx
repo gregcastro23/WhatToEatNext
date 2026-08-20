@@ -203,9 +203,9 @@ function normalizeSeasonality(
 
   if (typeof seasonality === "object") {
     // Handle object: { peak: ["summer"], available: ["spring", "summer"], optimal: [...] }
-    const peak = seasonality.peak || [];
-    const available = seasonality.available || [];
-    const optimal = seasonality.optimal || [];
+    const peak = seasonality.peak ?? [];
+    const available = seasonality.available ?? [];
+    const optimal = seasonality.optimal ?? [];
     return [...peak, ...available, ...optimal].filter(
       (s) => typeof s === "string",
     );
@@ -311,7 +311,7 @@ function calculateAstrologicalScore(
   let planetScore = 0.5;
   const { rulingPlanets } = astroProfile;
   if (Array.isArray(rulingPlanets)) {
-    const positions = ctx.planetaryPositions || {};
+    const positions = ctx.planetaryPositions ?? {};
     const activeRulers = rulingPlanets.filter(
       (p: string) => positions[p] !== undefined,
     ).length;
@@ -340,8 +340,8 @@ function calculateLunarScore(
   const modifiers = lunarPhaseModifiers;
   // Try several key shapes
   const match =
-    modifiers[phase] ||
-    modifiers[lunarPhase] ||
+    modifiers[phase] ??
+    modifiers[lunarPhase] ??
     modifiers[String(lunarPhase).toLowerCase()];
   if (!match || typeof match !== "object") return 0.5;
   const matchRecord = match as Record<string, unknown>;
@@ -535,7 +535,7 @@ function calculateCompatibilityScore(
   // ingredient's metadata against the current astrological moment.
   const astrologicalScore = calculateAstrologicalScore(
     ingredientExtras?.astrologicalProfile,
-    astroCtx || {},
+    astroCtx ?? {},
   );
   const lunarScore = calculateLunarScore(
     ingredientExtras?.astrologicalProfile,
@@ -674,7 +674,7 @@ function extractNutrition(np: NutritionalProfileLike | undefined | null): {
 } | null {
   if (!np) return null;
   const calories = np.calories ?? np.kcal;
-  const macros = np.macros || {};
+  const macros = np.macros ?? {};
   const protein = macros.protein ?? np.protein_g ?? np.protein;
   const carbs = macros.carbs ?? np.carbs_g ?? np.carbohydrates;
   const fat = macros.fat ?? np.fat_g ?? np.fat;
@@ -782,7 +782,7 @@ interface PairingRecommendationsLike {
 
 function getIngredientImageUrl(ingredient: UnifiedIngredient): string | null {
   const root = ingredient as unknown as Record<string, unknown>;
-  const rawValue = root.image_url || root.imageUrl || root.image;
+  const rawValue = root.image_url ?? root.imageUrl ?? root.image;
 
   if (typeof rawValue === "string" && rawValue.trim().length > 0) {
     return getAssetUrl(rawValue.trim()) ?? null;
@@ -812,10 +812,10 @@ export const EnhancedIngredientRecommender: React.FC<
 }) => {
   // State
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    initialCategory || null,
+    initialCategory ?? null,
   );
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(
-    initialSelectedIngredient || null,
+    initialSelectedIngredient ?? null,
   );
   const [searchQuery, setSearchQuery] = useState("");
   const [ingredients, setIngredients] = useState<UnifiedIngredient[]>([]);
@@ -843,7 +843,7 @@ export const EnhancedIngredientRecommender: React.FC<
     } else {
       const added = pantry.addItem({
         name,
-        category: category || "other",
+        category: category ?? "other",
         quantity: 1,
         unit: "item",
       });
@@ -985,7 +985,7 @@ export const EnhancedIngredientRecommender: React.FC<
     return filtered
       .map((ing) => {
         // Use seasonality or fall back to season field (some data uses one or the other)
-        const seasonData = ing.seasonality || ing.season;
+        const seasonData = ing.seasonality ?? ing.season;
 
         const result = ing.elementalProperties
           ? calculateCompatibilityScore(
@@ -1558,11 +1558,11 @@ export const EnhancedIngredientRecommender: React.FC<
               Object.keys(taste).length === 0
             ) {
               const fp =
-                (ingredient as Record<string, unknown>).unifiedFlavorProfile ||
+                (ingredient as Record<string, unknown>).unifiedFlavorProfile ??
                 ingredient.flavorProfile;
               if (fp && typeof fp === "object" && !Array.isArray(fp)) {
                 const fpRecord = fp as Record<string, unknown>;
-                taste = fpRecord.baseNotes || fp;
+                taste = fpRecord.baseNotes ?? fp;
               }
             }
 
@@ -1744,8 +1744,8 @@ export const EnhancedIngredientRecommender: React.FC<
             const culinaryProfile = (ingredient as Record<string, unknown>)
               .culinaryProfile as CulinaryProfileLike | undefined;
             const methods: unknown =
-              culinaryProfile?.cookingMethods ||
-              (ingredient as Record<string, unknown>).cookingMethods ||
+              culinaryProfile?.cookingMethods ??
+              (ingredient as Record<string, unknown>).cookingMethods ??
               (ingredient as Record<string, unknown>).recommendedCookingMethods;
             if (!methods || !Array.isArray(methods) || methods.length === 0)
               return null;
@@ -1837,7 +1837,7 @@ export const EnhancedIngredientRecommender: React.FC<
               <span>📍 {ingredient.origin.slice(0, 2).join(", ")}</span>
             )}
             {(() => {
-              const seasonData = ingredient.seasonality || ingredient.season;
+              const seasonData = ingredient.seasonality ?? ingredient.season;
               const normalizedSeasons = normalizeSeasonality(seasonData);
               if (normalizedSeasons.length === 0) return null;
               return (
@@ -2212,8 +2212,8 @@ export const EnhancedIngredientRecommender: React.FC<
                 {(() => {
                   const culinaryProfile = (ingredient as Record<string, unknown>)
                     .culinaryProfile as CulinaryProfileLike | undefined;
-                  const methods = (culinaryProfile?.cookingMethods ||
-                    (ingredient as Record<string, unknown>).cookingMethods ||
+                  const methods = (culinaryProfile?.cookingMethods ??
+                    (ingredient as Record<string, unknown>).cookingMethods ??
                     (ingredient as Record<string, unknown>)
                       .recommendedCookingMethods) as string[] | undefined;
                   if (
@@ -2369,7 +2369,7 @@ export const EnhancedIngredientRecommender: React.FC<
                     | NutritionalProfileLike
                     | undefined;
                   if (!np) return null;
-                  const macros = np.macros || {};
+                  const macros = np.macros ?? {};
                   return (
                     <div>
                       <div className="mb-1 text-sm font-semibold text-gray-800 dark:text-slate-100">
@@ -2579,8 +2579,8 @@ export const EnhancedIngredientRecommender: React.FC<
                 {/* Flavor / Description text */}
                 {(() => {
                   const desc =
-                    (ingredient as Record<string, unknown>).flavor ||
-                    ingredient.description ||
+                    (ingredient as Record<string, unknown>).flavor ??
+                    ingredient.description ??
                     (ingredient as Record<string, unknown>).flavorDescription;
                   if (!desc || typeof desc !== "string") return null;
                   return (
@@ -2600,7 +2600,7 @@ export const EnhancedIngredientRecommender: React.FC<
                   const culinaryApplications = (ingredient as Record<string, unknown>)
                     .culinaryApplications as CulinaryApplicationsLike | undefined;
                   const uses = ((ingredient as Record<string, unknown>)
-                    .culinaryUses || culinaryApplications?.uses) as
+                    .culinaryUses ?? culinaryApplications?.uses) as
                     | string[]
                     | undefined;
                   if (!uses || !Array.isArray(uses) || uses.length === 0)
@@ -2829,7 +2829,7 @@ export const EnhancedIngredientRecommender: React.FC<
         <div className="mt-6 flex justify-center">
           <button
             onClick={() =>
-              handleToggleExpand(selectedCategory || ALL_INGREDIENTS_KEY)
+              handleToggleExpand(selectedCategory ?? ALL_INGREDIENTS_KEY)
             }
             className="group flex items-center gap-2 rounded-lg border border-amber-300/30 bg-amber-500/10 px-6 py-3 text-amber-100 transition-all hover:border-amber-300/50 hover:bg-amber-500/20"
           >

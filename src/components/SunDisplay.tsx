@@ -29,7 +29,7 @@ const SunDisplay: React.FC = () => {
   });
 
   // Get sun position from planetaryPositions if available
-  const sun = planetaryPositions.sun || { sign: 'unknown', degree: 0 };
+  const sun = planetaryPositions.sun ?? { sign: 'unknown', degree: 0 };
 
   // Get user's location
   useEffect(() => {
@@ -162,7 +162,7 @@ const SunDisplay: React.FC = () => {
           <span className="text-3xl mr-3">🝇</span>
           <div>
             // @ts-expect-error - Auto-fixed by script
-            <p className="font-medium">{sun.sign || 'Unknown'}</p>
+            <p className="font-medium">{sun.sign ?? 'Unknown'}</p>
             <p className="text-sm text-amber-200">
               // @ts-expect-error - Auto-fixed by script
               {sun?.degree !== undefined ? formatDegree(sun.degree) : ''}

@@ -253,7 +253,7 @@ export default function InlineNutritionDashboard({
           totals.protein += (meal.recipe.nutrition.protein || 0) * servings;
           totals.carbs += (meal.recipe.nutrition.carbs || 0) * servings;
           totals.fat += (meal.recipe.nutrition.fat || 0) * servings;
-          totals.fiber += (meal.recipe.nutrition.fiber || 0) * servings;
+          totals.fiber += (meal.recipe.nutrition.fiber ?? 0) * servings;
         }
 
         // Add elemental properties

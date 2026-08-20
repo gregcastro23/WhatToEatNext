@@ -151,7 +151,7 @@ export function AgentsFeedThread() {
         const data = (await response.json()) as FeedResponse;
 
         if (!data.success || !Array.isArray(data.events)) {
-          throw new Error(data.message || "Feed response was not valid.");
+          throw new Error(data.message ?? "Feed response was not valid.");
         }
 
         setFeedItems(data.events);
@@ -329,8 +329,8 @@ export function AgentsFeedThread() {
 }
 
 function WidgetHumanRow({ event }: { event: FeedEvent }) {
-  const actorName = event.actorName || event.user;
-  const actorId = event.actorId || event.userId;
+  const actorName = event.actorName ?? event.user;
+  const actorId = event.actorId ?? event.userId;
   const actorHref = actorId ? `/profile/${actorId}` : null;
   const timeLabel = formatDistanceToNow(event.createdAt);
   const narration = getEventNarration(event);
@@ -342,7 +342,7 @@ function WidgetHumanRow({ event }: { event: FeedEvent }) {
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={event.actorImage}
-            alt={actorName || "Avatar"}
+            alt={actorName ?? "Avatar"}
             className="w-full h-full object-cover"
           />
         ) : (

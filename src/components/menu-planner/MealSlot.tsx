@@ -276,7 +276,7 @@ function RecipeDisplay({
           type="button"
           className="flex items-center gap-1 text-xs text-emerald-300 mb-2 cursor-pointer"
           title={
-            recipe.environmentalMatchDetails ||
+            recipe.environmentalMatchDetails ??
             "This recipe aligns with current environmental energies!"
           }
           onClick={() => { void handleEnvironmentalMatchClick(); }}

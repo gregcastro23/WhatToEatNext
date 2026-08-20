@@ -41,11 +41,11 @@ function CuisineSelector({
     // Map dynamic cuisines into the selector array format
     const baseCuisines: ElementalItem[] = ['italian', 'french', 'thai', 'middleEastern'].map(key => {
       const dbKey = key === 'middleEastern' ? 'Middle Eastern' : key.charAt(0).toUpperCase() + key.slice(1);
-      const c = cuisines[dbKey] || cuisines[key] || {};
+      const c = cuisines[dbKey] ?? cuisines[key] ?? {};
       return {
         id: key,
         ...c,
-        elementalProperties: c.elementalState || c.elementalProperties || { 
+        elementalProperties: c.elementalState ?? c.elementalProperties ?? { 
           Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
         },
       };
@@ -93,7 +93,7 @@ function CuisineSelector({
     
     // Otherwise determine from elemental state
     // @ts-expect-error - Auto-fixed by script
-    return determineModalityFromElements(cuisine.elementalState || cuisine.elementalProperties || {
+    return determineModalityFromElements(cuisine.elementalState ?? cuisine.elementalProperties ?? {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     });
   };
@@ -109,11 +109,11 @@ function CuisineSelector({
       // Apply zodiac filter
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
-        const zodiacInfluences = cuisine.zodiacInfluences || [];
+        const zodiacInfluences = cuisine.zodiacInfluences ?? [];
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
           if ('planetaryDignities' in cuisine) {
-            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some(
+            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities ?? {}).some(
               // @ts-expect-error - Auto-fixed by script
               (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(zodiacFilter)
             );
@@ -210,8 +210,8 @@ function CuisineSelector({
           const cuisine = c as any;
           // Determine if current zodiac is favorable for this cuisine
           const isZodiacFavorable = currentZodiac && 
-            (cuisine.zodiacInfluences?.includes(currentZodiac) ||
-             Object.values(cuisine.planetaryDignities || {}).some(
+            (cuisine.zodiacInfluences?.includes(currentZodiac) ??
+             Object.values(cuisine.planetaryDignities ?? {}).some(
                // @ts-expect-error - Auto-fixed by script
                (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(currentZodiac)
              ));

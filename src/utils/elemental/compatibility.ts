@@ -134,8 +134,8 @@ export function autoConvertToRaw(
   // If force convert, always treat as normalized
   if (forceConvert) {
     const refIntensity =
-      referenceIntensity ||
-      CATEGORY_REFERENCE_INTENSITIES[category?.toLowerCase() ?? ""] ||
+      referenceIntensity ??
+      (category ? CATEGORY_REFERENCE_INTENSITIES[category.toLowerCase()] : undefined) ??
       CATEGORY_REFERENCE_INTENSITIES.default;
     return {
       Fire: properties.Fire * refIntensity,
@@ -157,8 +157,8 @@ export function autoConvertToRaw(
 
   if (appearsNormalized) {
     const refIntensity =
-      referenceIntensity ||
-      CATEGORY_REFERENCE_INTENSITIES[category?.toLowerCase() ?? ""] ||
+      referenceIntensity ??
+      (category ? CATEGORY_REFERENCE_INTENSITIES[category.toLowerCase()] : undefined) ??
       CATEGORY_REFERENCE_INTENSITIES.default;
     return convertNormalizedToRaw(properties, refIntensity);
   }

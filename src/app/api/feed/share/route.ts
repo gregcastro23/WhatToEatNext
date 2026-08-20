@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       shareName: _droppedShareName,
       identity: _droppedIdentity,
       ...safePayload
-    } = (payload || {}) as Record<string, unknown>;
+    } = (payload ?? {}) as Record<string, unknown>;
     const metadataPayload = {
       ...safePayload,
       ...cardExtras,

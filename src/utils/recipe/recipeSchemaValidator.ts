@@ -397,7 +397,7 @@ export function validateRecipe(
       autoFixable: false,
     });
   } else {
-    const instructions = r.instructions || r.preparationSteps;
+    const instructions = r.instructions ?? r.preparationSteps;
     if (!Array.isArray(instructions)) {
       issues.push({
         field: "instructions",
@@ -468,7 +468,7 @@ export function validateRecipe(
       severity: "warning",
       message: "Prep time format is invalid",
       currentValue: r.prepTime,
-      suggestedValue: `${normalizeTimeToMinutes(r.prepTime) || 30} minutes`,
+      suggestedValue: `${normalizeTimeToMinutes(r.prepTime) ?? 30} minutes`,
       autoFixable: true,
     });
   }
@@ -488,7 +488,7 @@ export function validateRecipe(
       severity: "warning",
       message: "Cook time format is invalid",
       currentValue: r.cookTime,
-      suggestedValue: `${normalizeTimeToMinutes(r.cookTime) || 30} minutes`,
+      suggestedValue: `${normalizeTimeToMinutes(r.cookTime) ?? 30} minutes`,
       autoFixable: true,
     });
   }
@@ -811,16 +811,16 @@ function calculateRecipeSimilarity(
   let weightedSimilarity = 0;
 
   // Name similarity (weight: 0.4)
-  const name1 = String(recipe1.name || "").toLowerCase();
-  const name2 = String(recipe2.name || "").toLowerCase();
+  const name1 = String(recipe1.name ?? "").toLowerCase();
+  const name2 = String(recipe2.name ?? "").toLowerCase();
   if (name1 && name2) {
     weightedSimilarity += calculateNameSimilarity(name1, name2) * 0.4;
     totalWeight += 0.4;
   }
 
   // Cuisine match (weight: 0.2)
-  const cuisine1 = String(recipe1.cuisine || "").toLowerCase();
-  const cuisine2 = String(recipe2.cuisine || "").toLowerCase();
+  const cuisine1 = String(recipe1.cuisine ?? "").toLowerCase();
+  const cuisine2 = String(recipe2.cuisine ?? "").toLowerCase();
   if (cuisine1 && cuisine2) {
     weightedSimilarity += (cuisine1 === cuisine2 ? 1 : 0) * 0.2;
     totalWeight += 0.2;
@@ -829,12 +829,12 @@ function calculateRecipeSimilarity(
   // Ingredient overlap (weight: 0.3)
   const ingredients1 = Array.isArray(recipe1.ingredients)
     ? recipe1.ingredients.map((i: unknown) =>
-        String((i as Record<string, unknown>).name || i).toLowerCase(),
+        String((i as Record<string, unknown>).name ?? i).toLowerCase(),
       )
     : [];
   const ingredients2 = Array.isArray(recipe2.ingredients)
     ? recipe2.ingredients.map((i: unknown) =>
-        String((i as Record<string, unknown>).name || i).toLowerCase(),
+        String((i as Record<string, unknown>).name ?? i).toLowerCase(),
       )
     : [];
 
@@ -894,8 +894,8 @@ export function detectDuplicates(
     const recipe1 = recipes[i] as Record<string, unknown>;
     const group: DuplicateGroup["recipes"] = [
       {
-        id: String(recipe1.id || `recipe-${i}`),
-        name: String(recipe1.name || "unknown"),
+        id: String(recipe1.id ?? `recipe-${i}`),
+        name: String(recipe1.name ?? "unknown"),
         cuisine: recipe1.cuisine as string | undefined,
         similarity: 1,
       },
@@ -909,8 +909,8 @@ export function detectDuplicates(
 
       if (similarity >= similarityThreshold) {
         group.push({
-          id: String(recipe2.id || `recipe-${j}`),
-          name: String(recipe2.name || "unknown"),
+          id: String(recipe2.id ?? `recipe-${j}`),
+          name: String(recipe2.name ?? "unknown"),
           cuisine: recipe2.cuisine as string | undefined,
           similarity: Math.round(similarity * 100) / 100,
         });

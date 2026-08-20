@@ -32,7 +32,7 @@ export function getInstacartBaseUrl(): string {
 
 export function getInstacartApiKey(): string {
   const apiKey =
-    process.env.INSTACART_API_KEY || process.env.instacart_development_api;
+    process.env.INSTACART_API_KEY ?? process.env.instacart_development_api;
   if (!apiKey) {
     throw new InstacartConfigurationError(
       "Instacart API key not configured. Set INSTACART_API_KEY in your environment.",

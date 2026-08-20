@@ -56,7 +56,7 @@ export function PhotoGrid({
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setError(data.message || "Could not add that photo.");
+        setError(data.message ?? "Could not add that photo.");
         return;
       }
       onChanged?.();

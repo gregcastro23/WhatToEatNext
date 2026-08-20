@@ -29,7 +29,7 @@ export const dynamic = "force-dynamic";
 // the UI — it degrades to OFFLINE when the backend is unreachable, so a missing
 // env should fall back to the default rather than 500 the chip.
 const BACKEND_URL = getServiceUrlSafe("wtenBackend");
-const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET || "";
+const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET ?? "";
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 const PROXY_TIMEOUT_MS = 2500;
 

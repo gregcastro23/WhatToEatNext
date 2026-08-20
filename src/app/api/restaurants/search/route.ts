@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
     }
 
     const data = (await response.json()) as { results?: FoursquarePlaceRaw[] };
-    const results = (data.results || []).map((place) => ({
+    const results = (data.results ?? []).map((place) => ({
       fsq_id: place.fsq_id,
       name: place.name,
       location: {
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
         region: place.location?.region,
         address: place.location?.address,
       },
-      categories: (place.categories || []).map((cat) => ({
+      categories: (place.categories ?? []).map((cat) => ({
         name: cat.name,
         icon: cat.icon,
       })),

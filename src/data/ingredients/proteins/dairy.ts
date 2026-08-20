@@ -1409,7 +1409,7 @@ const rawDairy = {
       notes: "Measure then return immediately to fridge — a few minutes on the counter undoes the purpose.",
     },
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
-      nutritionalProfile: { serving_size: "3 oz", calories: 180, macros: { protein: 22, carbs: 0, fat: 10, fiber: 0, saturatedFat: 3 }, vitamins: { B12: 0.4, B6: 0.3, niacin: 0.3 }, minerals: { iron: 0.15, zinc: 0.3, selenium: 0.4 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 102, macros: { protein: 0.1, carbs: 0, fat: 11.5, fiber: 0 }, vitamins: { A: 0.11 }, minerals: {  }, source: "USDA FoodData Central" },
       pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] }
 },
   parmesan: {

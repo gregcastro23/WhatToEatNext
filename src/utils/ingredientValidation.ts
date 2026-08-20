@@ -556,7 +556,7 @@ function validateAlchemicalConsistency(
     // Check consistency between alchemical and elemental properties
     // Spirit should correlate with Air and Fire
     const airFire = (elemental.Air || 0) + (elemental.Fire || 0);
-    const spirit = alchemical.spirit || 0;
+    const spirit = alchemical.spirit ?? 0;
     if (Math.abs(spirit - airFire * 0.5) > 0.3) {
       warnings.push({
         type: "MINOR_INCONSISTENCY",
@@ -569,7 +569,7 @@ function validateAlchemicalConsistency(
 
     // Matter should correlate with Earth and Water
     const earthWater = (elemental.Earth || 0) + (elemental.Water || 0);
-    const matter = alchemical.matter || 0;
+    const matter = alchemical.matter ?? 0;
     if (Math.abs(matter - earthWater * 0.5) > 0.3) {
       warnings.push({
         type: "MINOR_INCONSISTENCY",

@@ -60,7 +60,7 @@ async function notifyHostOfJoinRequest(
   try {
     const { userDatabase } = await import("@/services/userDatabaseService");
     const requester = await userDatabase.getUserById(requesterId);
-    const requesterName = requester?.profile?.name || "An alchemist";
+    const requesterName = requester?.profile?.name ?? "An alchemist";
 
     const { notificationDatabase } = await import("@/services/notificationDatabaseService");
     await notificationDatabase.createNotification(

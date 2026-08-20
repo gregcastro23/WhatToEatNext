@@ -581,7 +581,7 @@ function standardizeIngredient(
     amount: ingredient.amount || 0,
     unit: ingredient.unit || "",
     element: ingredient.element || "Fire",
-    category: ingredient.category || "",
+    category: ingredient.category ?? "",
     elementalProperties:
       ingredient.elementalProperties ||
       createElementalProperties({
@@ -624,7 +624,7 @@ function standardizeIngredient(
 export async function getRecommendedIngredients(
   astroState: AstrologicalState,
 ): Promise<Ingredient[]> {
-  const activePlanets = astroState.activePlanets || [];
+  const activePlanets = astroState.activePlanets ?? [];
   // If we don't have any active planets, use all planets by default
   const planetsToUse =
     activePlanets.length > 0
@@ -722,7 +722,7 @@ export async function getIngredientRecommendations(
           _elementalProps.timestamp,
         );
         const modalityScore = await calculateModalityScore(
-          ingredient.qualities || [],
+          ingredient.qualities ?? [],
           _options.modalityPreference,
         );
 
@@ -806,9 +806,9 @@ export async function getIngredientRecommendations(
   scoredIngredients.sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
 
   // Group by category with improved distribution
-  const limit = _options.limit || 10;
+  const limit = _options.limit ?? 10;
   scoredIngredients.slice(0, limit * 2).forEach((ingredient) => {
-    const category = ingredient.category || "other";
+    const category = ingredient.category ?? "other";
     if (!recommendations[category]) {
       recommendations[category] = [];
     }
@@ -879,7 +879,7 @@ export const _getTopIngredientMatches = async (
 
   // Sort by score and return top matches
   return scoredIngredients
-    .sort((a, b) => (b.score || 0) - (a.score || 0))
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
     .slice(0, limit);
 };
 
@@ -1341,10 +1341,10 @@ function createElementalProperties(
   values: Partial<ElementalProperties>,
 ): ElementalProperties {
   return {
-    Fire: values.Fire || 0,
-    Water: values.Water || 0,
-    Earth: values.Earth || 0,
-    Air: values.Air || 0,
+    Fire: values.Fire ?? 0,
+    Water: values.Water ?? 0,
+    Earth: values.Earth ?? 0,
+    Air: values.Air ?? 0,
   };
 }
 
@@ -1364,9 +1364,9 @@ export async function recommendIngredients(
     timestamp: new Date(),
     currentStability: 0.5,
     planetaryAlignment: {},
-    currentZodiac: astroState.currentZodiac || "aries",
-    activePlanets: astroState.activePlanets || [],
-    lunarPhase: astroState.lunarPhase || "new",
+    currentZodiac: astroState.currentZodiac ?? "aries",
+    activePlanets: astroState.activePlanets ?? [],
+    lunarPhase: astroState.lunarPhase ?? "new",
     aspects: [],
   };
 

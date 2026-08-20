@@ -128,7 +128,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     // @ts-expect-error - Auto-fixed by script
     const suit = card.name?.split(' of ')[1];
     // @ts-expect-error - Auto-fixed by script
-    const number = card.number || 0;
+    const number = card.number ?? 0;
     
     // Create base object with all values at 0
     const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -170,7 +170,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   const element = suit ? (SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown') : 'Unknown';
   const token = suit ? (SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum') : 'Quantum';
   // @ts-expect-error - Auto-fixed by script
-  const value = tarotCards.minorCard?.number || 0;
+  const value = tarotCards.minorCard?.number ?? 0;
 
   return (
     <div className="mb-6 mt-2">
@@ -194,7 +194,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           <div className="flex justify-between items-start">
             <div>
               // @ts-expect-error - Auto-fixed by script
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name || 'Minor Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name ?? 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 {getElementIcon(element)}
                 <span className="ml-1 text-sm font-medium">{element}</span>
@@ -209,7 +209,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
               // @ts-expect-error - Auto-fixed by script
-              {tarotCards.minorCard?.keywords?.join(', ') || 'No keywords available'}
+              {tarotCards.minorCard?.keywords?.join(', ') ?? 'No keywords available'}
             </div>
             <p className="mt-2 text-sm opacity-90 bg-black bg-opacity-20 p-2 rounded-md text-white">
               This card influences your ingredient selections by enhancing their {element.toLowerCase()} properties.
@@ -221,11 +221,11 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           <div className="flex justify-between items-start">
             <div>
               // @ts-expect-error - Auto-fixed by script
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard?.name || 'Major Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard?.name ?? 'Major Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <span className="text-yellow-300 mr-1">✧</span>
                 // @ts-expect-error - Auto-fixed by script
-                <span className="text-sm font-medium text-white">{tarotCards.majorCard?.planet || 'Unknown Planet'}</span>
+                <span className="text-sm font-medium text-white">{tarotCards.majorCard?.planet ?? 'Unknown Planet'}</span>
               </div>
             </div>
           </div>
@@ -233,11 +233,11 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
               // @ts-expect-error - Auto-fixed by script
-              {tarotCards.majorCard?.keywords?.join(', ') || 'No keywords available'}
+              {tarotCards.majorCard?.keywords?.join(', ') ?? 'No keywords available'}
             </div>
             <p className="mt-2 text-sm opacity-90 bg-black bg-opacity-20 p-2 rounded-md text-white">
               // @ts-expect-error - Auto-fixed by script
-              This card heightens the influence of {tarotCards.majorCard?.planet || 'planetary'} energies on today&apos;s recommended foods.
+              This card heightens the influence of {tarotCards.majorCard?.planet ?? 'planetary'} energies on today&apos;s recommended foods.
             </p>
           </div>
         </div>
@@ -257,11 +257,11 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
                     <div 
                       className="h-1 bg-purple-500" 
                       // @ts-expect-error - Auto-fixed by script
-                      style={{ width: `${(card.energy || 0.5) * 100}%` }}
+                      style={{ width: `${(card.energy ?? 0.5) * 100}%` }}
                      />
                   </div>
                   // @ts-expect-error - Auto-fixed by script
-                  <span className="ml-1 text-xs text-gray-500">{Math.round((card.energy || 0.5) * 100)}%</span>
+                  <span className="ml-1 text-xs text-gray-500">{Math.round((card.energy ?? 0.5) * 100)}%</span>
                 </div>
               </div>
             ))}

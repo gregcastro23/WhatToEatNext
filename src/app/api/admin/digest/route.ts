@@ -155,8 +155,8 @@ export async function POST(request: NextRequest) {
     const payload = await buildPayload(period);
 
     const recipient =
-      process.env.AUTH_ADMIN_EMAIL ||
-      process.env.ADMIN_NOTIFICATION_EMAIL ||
+      process.env.AUTH_ADMIN_EMAIL ??
+      process.env.ADMIN_NOTIFICATION_EMAIL ??
       "";
 
     if (dryRun) {
@@ -254,8 +254,8 @@ export async function GET(request: NextRequest) {
     const period = searchParams.get("period") === "weekly" ? "weekly" : "daily";
     const payload = await buildPayload(period);
     const recipient =
-      process.env.AUTH_ADMIN_EMAIL ||
-      process.env.ADMIN_NOTIFICATION_EMAIL ||
+      process.env.AUTH_ADMIN_EMAIL ??
+      process.env.ADMIN_NOTIFICATION_EMAIL ??
       null;
     return NextResponse.json({ success: true, dryRun: true, payload, recipient });
   } catch (error) {

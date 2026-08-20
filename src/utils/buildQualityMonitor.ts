@@ -360,7 +360,7 @@ async function getErrorAndWarningCounts(): Promise<{
       const eslintResults = JSON.parse(eslintOutput);
       warnings = eslintResults.reduce(
         (total: number, result: { warningCount?: number }) =>
-          total + (result.warningCount || 0),
+          total + (result.warningCount ?? 0),
         0,
       );
     } catch (_error) {
@@ -981,7 +981,7 @@ async function getLintingWarningCount(): Promise<number> {
     const results = JSON.parse(output);
     return results.reduce(
       (total: number, result: { warningCount?: number }) =>
-        total + (result.warningCount || 0),
+        total + (result.warningCount ?? 0),
       0,
     );
   } catch (_error) {

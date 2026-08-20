@@ -220,9 +220,9 @@ export class RuneAgentClient {
       try {
         const url = new URL("/api/consciousness/live", this.backendUrl);
         const payload = {
-          datetime: input.datetime?.toISOString() || new Date().toISOString(),
+          datetime: input.datetime?.toISOString() ?? new Date().toISOString(),
           location: input.location,
-          context: input.context || "cuisine",
+          context: input.context ?? "cuisine",
           preferences: input.preferences,
         };
 

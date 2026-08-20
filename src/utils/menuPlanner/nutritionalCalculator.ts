@@ -137,21 +137,21 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     const { nutritionalProfile }: { nutritionalProfile?: NutritionalProfileLike } = recipe;
 
     if (nutritionPerServing) {
-      totalCalories += (nutritionPerServing.calories || 0) * servings;
-      totalProtein += (nutritionPerServing.proteinG || 0) * servings;
-      totalCarbs += (nutritionPerServing.carbsG || 0) * servings;
-      totalFat += (nutritionPerServing.fatG || 0) * servings;
-      totalFiber += (nutritionPerServing.fiberG || 0) * servings;
-      totalSodium += (nutritionPerServing.sodiumMg || 0) * servings;
-      totalSugar += (nutritionPerServing.sugarG || 0) * servings;
+      totalCalories += (nutritionPerServing.calories ?? 0) * servings;
+      totalProtein += (nutritionPerServing.proteinG ?? 0) * servings;
+      totalCarbs += (nutritionPerServing.carbsG ?? 0) * servings;
+      totalFat += (nutritionPerServing.fatG ?? 0) * servings;
+      totalFiber += (nutritionPerServing.fiberG ?? 0) * servings;
+      totalSodium += (nutritionPerServing.sodiumMg ?? 0) * servings;
+      totalSugar += (nutritionPerServing.sugarG ?? 0) * servings;
     } else if (nutritionalProfile) {
-      totalCalories += (nutritionalProfile.calories || 0) * servings;
-      totalProtein += (nutritionalProfile.protein || 0) * servings;
-      totalCarbs += (nutritionalProfile.carbs || 0) * servings;
-      totalFat += (nutritionalProfile.fat || 0) * servings;
-      totalFiber += (nutritionalProfile.fiber || 0) * servings;
-      totalSodium += (nutritionalProfile.sodium || 0) * servings;
-      totalSugar += (nutritionalProfile.sugar || 0) * servings;
+      totalCalories += (nutritionalProfile.calories ?? 0) * servings;
+      totalProtein += (nutritionalProfile.protein ?? 0) * servings;
+      totalCarbs += (nutritionalProfile.carbs ?? 0) * servings;
+      totalFat += (nutritionalProfile.fat ?? 0) * servings;
+      totalFiber += (nutritionalProfile.fiber ?? 0) * servings;
+      totalSodium += (nutritionalProfile.sodium ?? 0) * servings;
+      totalSugar += (nutritionalProfile.sugar ?? 0) * servings;
     }
 
     // Elemental properties
@@ -194,13 +194,13 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     if (meal.sauce?.nutritionalProfile) {
       const sauceServings = meal.sauce.servings || 1;
       const sauceNutrition = meal.sauce.nutritionalProfile as NutritionalProfileLike;
-      totalCalories += (sauceNutrition.calories || 0) * sauceServings;
-      totalProtein += (sauceNutrition.protein || 0) * sauceServings;
-      totalCarbs += (sauceNutrition.carbs || 0) * sauceServings;
-      totalFat += (sauceNutrition.fat || 0) * sauceServings;
-      totalFiber += (sauceNutrition.fiber || 0) * sauceServings;
-      totalSodium += (sauceNutrition.sodium || 0) * sauceServings;
-      totalSugar += (sauceNutrition.sugar || 0) * sauceServings;
+      totalCalories += (sauceNutrition.calories ?? 0) * sauceServings;
+      totalProtein += (sauceNutrition.protein ?? 0) * sauceServings;
+      totalCarbs += (sauceNutrition.carbs ?? 0) * sauceServings;
+      totalFat += (sauceNutrition.fat ?? 0) * sauceServings;
+      totalFiber += (sauceNutrition.fiber ?? 0) * sauceServings;
+      totalSodium += (sauceNutrition.sodium ?? 0) * sauceServings;
+      totalSugar += (sauceNutrition.sugar ?? 0) * sauceServings;
     }
 
     // Sauce elemental properties
@@ -218,7 +218,7 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   });
 
   // Normalize elemental properties (average across meals)
-  const mealCount = meals.filter((m) => m.recipe || m.sauce).length;
+  const mealCount = meals.filter((m) => m.recipe ?? m.sauce).length;
   if (mealCount > 0) {
     elementalAccumulator.Fire /= mealCount;
     elementalAccumulator.Water /= mealCount;

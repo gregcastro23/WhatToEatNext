@@ -62,7 +62,7 @@ export default function GenerateRecipeButton({
 
       // Build astrological state from the hook
       const astroState: AstrologicalState = {
-        currentZodiac: astroHook.currentZodiac || "aries",
+        currentZodiac: astroHook.currentZodiac ?? "aries",
         lunarPhase: astroHook.lunarPhase || "full",
         activePlanets: astroHook.activePlanets || [],
         domElements: astroHook.domElements || {
@@ -71,7 +71,7 @@ export default function GenerateRecipeButton({
           Earth: 0.25,
           Air: 0.25,
         },
-        currentPlanetaryHour: astroHook.currentPlanetaryHour || undefined,
+        currentPlanetaryHour: astroHook.currentPlanetaryHour ?? undefined,
       };
 
       // Determine meal types from builder selection (or use all if none selected)
@@ -163,10 +163,10 @@ export default function GenerateRecipeButton({
           onGenerated([]);
           return;
         }
-        throw new Error(data?.message || "Generation failed");
+        throw new Error(data?.message ?? "Generation failed");
       }
 
-      const recommendations = (data.recommendations || []) as RecommendedMeal[];
+      const recommendations = (data.recommendations ?? []) as RecommendedMeal[];
 
       logger.info(`Generated ${recommendations.length} recipe suggestions`);
       onGenerated(recommendations);

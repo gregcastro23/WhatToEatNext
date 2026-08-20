@@ -196,10 +196,10 @@ export function updatePlanetaryConfigWithLiveSky(
 
   return {
     ...config,
-    sign: planetData.sign || config.sign,
-    degree: planetData.degree?.toString() || config.degree,
-    dignity: getPlanetaryDignity(config.planet, planetData.sign || config.sign),
-    element: getSignElement(planetData.sign || config.sign) as Element,
+    sign: planetData.sign ?? config.sign,
+    degree: planetData.degree?.toString() ?? config.degree,
+    dignity: getPlanetaryDignity(config.planet, planetData.sign ?? config.sign),
+    element: getSignElement(planetData.sign ?? config.sign) as Element,
   }
 }
 
@@ -216,8 +216,8 @@ export function convertLegacyAgentConfig(
     degree: legacyConfig.degree,
     dignity: getPlanetaryDignity(legacyConfig.planet, legacyConfig.sign),
     element: getSignElement(legacyConfig.sign) as Element,
-    color: legacyConfig.color || PLANET_COLORS[legacyConfig.planet] || '#6b7280',
-    symbol: legacyConfig.symbol || PLANET_SYMBOLS[legacyConfig.planet] || '●',
+    color: legacyConfig.color ?? PLANET_COLORS[legacyConfig.planet] ?? '#6b7280',
+    symbol: legacyConfig.symbol ?? PLANET_SYMBOLS[legacyConfig.planet] ?? '●',
     moonPhase: legacyConfig.moonPhase,
     moonDegree: legacyConfig.moonDegree,
     liveSkySync: false,

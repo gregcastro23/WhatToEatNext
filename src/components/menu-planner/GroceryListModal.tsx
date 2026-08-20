@@ -1154,7 +1154,7 @@ function RecipeGroupedView({
         const recipeName =
           recipeId === "_uncategorized"
             ? "Other Items"
-            : recipeNames.get(recipeId) || recipeId;
+            : recipeNames.get(recipeId) ?? recipeId;
 
         return (
           <div key={recipeId} className="mb-4">

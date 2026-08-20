@@ -560,7 +560,7 @@ export function MiniRecipeCard({
           </Link>
         </p>
         <p className="text-xs text-gray-500">
-          {recipe.nutrition?.calories || 0} kcal
+          {recipe.nutrition?.calories ?? 0} kcal
         </p>
       </div>
     </div>

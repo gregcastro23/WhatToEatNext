@@ -162,8 +162,8 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
   const [restaurantView, setRestaurantView] = useState<'build' | 'discover'>('build');
 
   const { currentUser, updateProfile } = useUser();
-  const currentPrefs = (currentUser?.preferences as UserPreferences | undefined) || preferences;
-  const savedRestaurants = currentPrefs.savedRestaurants || [];
+  const currentPrefs = (currentUser?.preferences as UserPreferences | undefined) ?? preferences;
+  const savedRestaurants = currentPrefs.savedRestaurants ?? [];
 
   const handleSaveRestaurant = async (restaurant: SavedRestaurant) => {
     const newSaved = [...savedRestaurants, restaurant];
@@ -406,7 +406,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               <div className="space-y-3">
                 {cuisines.slice(0, 10).map((cuisine) => {
                   const isExpandable = Boolean(
-                    cuisine.flavor_profile || (cuisine.nested_recipes && cuisine.nested_recipes.length > 0)
+                    cuisine.flavor_profile ?? (cuisine.nested_recipes && cuisine.nested_recipes.length > 0)
                   );
                   const isExpanded = isExpandable && expandedCuisine === cuisine.cuisine_id;
                   return (
@@ -430,7 +430,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="hidden sm:flex gap-1.5">
-                            {Object.entries(cuisine.elemental_properties || {})
+                            {Object.entries(cuisine.elemental_properties ?? {})
                               .sort(([, a], [, b]) => (b) - (a))
                               .slice(0, 2)
                               .map(([el]) => {

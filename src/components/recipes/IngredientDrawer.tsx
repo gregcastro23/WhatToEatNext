@@ -138,7 +138,7 @@ function normalizeOrigin(origin?: string[] | string): string[] {
 function normalizeMethods(methods?: Array<string | { name?: string }>): string[] {
   if (!methods) return [];
   return methods
-    .map((m) => (typeof m === "string" ? m : m?.name || ""))
+    .map((m) => (typeof m === "string" ? m : m?.name ?? ""))
     .filter(Boolean);
 }
 
@@ -392,7 +392,7 @@ export function IngredientDrawer({
           </div>
 
           {/* In this recipe banner */}
-          {(recipeAmount != null || recipeUnit || recipeNotes) && (
+          {Boolean(recipeAmount != null || recipeUnit || recipeNotes) && (
             <div className="px-5 pb-4">
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
                 <span className="text-[10px] uppercase tracking-widest text-amber-400/80 font-semibold">
@@ -704,7 +704,7 @@ export function IngredientDrawer({
             )}
 
             {/* Pairings */}
-            {pairing && (pairing.complementary?.length || pairing.contrasting?.length || pairing.toAvoid?.length) && (
+            {pairing && (pairing.complementary?.length ?? pairing.contrasting?.length ?? pairing.toAvoid?.length) && (
               <Section title="Pairings">
                 {pairing.complementary && pairing.complementary.length > 0 && (
                   <div className="mb-3">

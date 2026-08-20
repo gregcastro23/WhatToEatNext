@@ -83,7 +83,7 @@ export class ConsciousnessMemorySystem {
     location?: { lat: number; lon: number }
   ): Promise<ConsciousnessMemorySnapshot> {
     const defaultLocation = { lat: 37.7749, lon: -122.4194 } // San Francisco
-    const targetLocation = location || defaultLocation
+    const targetLocation = location ?? defaultLocation
 
     // Get current kinetic context
     const kinetics = await AlchemicalKineticsClient.get({
@@ -213,7 +213,7 @@ export class ConsciousnessMemorySystem {
     }
 
     const defaultLocation = { lat: 37.7749, lon: -122.4194 }
-    const targetLocation = location || defaultLocation
+    const targetLocation = location ?? defaultLocation
 
     const kinetics = await AlchemicalKineticsClient.get({
       lat: targetLocation.lat,

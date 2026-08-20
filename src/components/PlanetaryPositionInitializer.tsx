@@ -240,7 +240,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
               Using current March 2025 planetary positions
             </p>
             <p className="text-yellow-600 text-xs">
-              {updateError || 'Unable to connect to astronomical data source'}
+              {updateError ?? 'Unable to connect to astronomical data source'}
             </p>
           </div>
         </div>

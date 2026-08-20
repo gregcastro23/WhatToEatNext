@@ -73,7 +73,7 @@ export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProp
       }
       const data = await res.json();
       if (data.success) {
-        setTransactions(data.transactions || []);
+        setTransactions(data.transactions ?? []);
       }
     } catch {
       // Non-critical
@@ -160,7 +160,7 @@ export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProp
                     <span className={`text-lg ${visual.color}`}>{visual.symbol}</span>
                     <div className="min-w-0">
                       <div className="text-[11px] font-bold text-white/85 truncate">
-                        {txn.description || sourceLabel}
+                        {txn.description ?? sourceLabel}
                       </div>
                       <div className="text-[9px] text-white/25 uppercase tracking-wider">
                         {sourceLabel} · {formatRelativeTime(txn.createdAt)}

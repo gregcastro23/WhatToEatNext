@@ -190,8 +190,8 @@ async function handlePost(req: NextRequest) {
       }
 
       const bioCandidate =
-        (ap.bio as string | undefined) ||
-        (ap.monicaCreationStory as string | undefined) ||
+        (ap.bio as string | undefined) ??
+        (ap.monicaCreationStory as string | undefined) ??
         null;
       const dominantElementCandidate = (ap.dominantElement as string | undefined) ?? null;
 
@@ -256,7 +256,7 @@ async function handlePost(req: NextRequest) {
       const hasNatalPositions = Boolean(
         Array.isArray(natalPositions) && (natalPositions as unknown[]).length > 0,
       );
-      const hasBirthData = Boolean(ap.birthDate || ap.birthTime || ap.birthLocation);
+      const hasBirthData = Boolean(ap.birthDate ?? ap.birthTime ?? ap.birthLocation);
 
       // COALESCE so a null/empty field in this fire never wipes a previously
       // written value — every tick keeps the row fresh without regression.
@@ -311,9 +311,9 @@ async function handlePost(req: NextRequest) {
           userId,
           bioCandidate,
           hasNatalChart,
-          JSON.stringify(ap.natalChart || {}),
+          JSON.stringify(ap.natalChart ?? {}),
           hasNatalPositions,
-          JSON.stringify(natalPositions || []),
+          JSON.stringify(natalPositions ?? []),
           dominantElementCandidate,
           monicaCandidate,
           hasBirthData,

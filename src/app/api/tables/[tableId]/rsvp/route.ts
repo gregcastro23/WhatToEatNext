@@ -87,7 +87,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     if (parsed.data.response === "joined") {
-      const guestName = result.member.name || "A guest";
+      const guestName = result.member.name ?? "A guest";
       void notifyHostOfRsvp(tableId, result.table.hostId, result.table.title, guestName);
       // Ambient recognition of the join (server-anchored, no visible amounts).
       recognizeTableJoin(userId, tableId);

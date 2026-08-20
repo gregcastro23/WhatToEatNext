@@ -67,8 +67,8 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
       if (prevBalances.current) {
         const types: Array<keyof TokenBalances> = ['spirit', 'essence', 'matter', 'substance'];
         for (const t of types) {
-          const cur = Number(balances[t] || 0);
-          const prev = Number(prevBalances.current[t] || 0);
+          const cur = Number(balances[t] ?? 0);
+          const prev = Number(prevBalances.current[t] ?? 0);
           if (cur < prev) {
             setDebitFlash(t);
             if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {

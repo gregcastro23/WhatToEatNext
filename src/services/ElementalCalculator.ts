@@ -68,7 +68,7 @@ export class ElementalCalculator {
 
   static initialize(initialState?: ElementalProperties): void {
     const instance = ElementalCalculator.getInstance();
-    instance.currentBalance = initialState || {
+    instance.currentBalance = initialState ?? {
       ...DEFAULT_ELEMENTAL_PROPERTIES,
     };
     instance.initialized = true;
@@ -113,7 +113,7 @@ export class ElementalCalculator {
       const elementKey = element as keyof ElementalProperties;
       // Use optional chaining with nullish coalescing to handle undefined values
       const itemValue =
-        (item.elementalProperties?.[elementKey]) || 0;
+        (item.elementalProperties?.[elementKey]) ?? 0;
 
       // Calculate weighted difference (more important elements get higher weight)
       const weight = value * 2; // Emphasize elements that are strong in current state
@@ -361,7 +361,7 @@ export class ElementalCalculator {
 
       // Process ascendant if available
       if (bodiesData.ascendant || bodiesData.Ascendant) {
-        const ascendant = bodiesData.ascendant || bodiesData.Ascendant;
+        const ascendant = bodiesData.ascendant ?? bodiesData.Ascendant;
         this.processAscendantData(ascendant, elementalValues);
       }
     }
@@ -393,7 +393,7 @@ export class ElementalCalculator {
     // Also look for ascendant
     if (data.Ascendant || data.ascendant) {
       this.processAscendantData(
-        data.Ascendant || data.ascendant,
+        data.Ascendant ?? data.ascendant,
         elementalValues,
       );
     }
@@ -469,10 +469,10 @@ export class ElementalCalculator {
       // Extract planet info
       const planetRecord = planet as Record<string, unknown>;
       const planetName = String(
-        planetRecord.name || planetRecord.label || planetRecord.planet || "",
+        planetRecord.name ?? planetRecord.label ?? planetRecord.planet ?? "",
       );
       const signData = planetRecord.Sign as Record<string, unknown>;
-      const sign = String(signData.label || planetRecord.sign || "");
+      const sign = String(signData.label ?? planetRecord.sign ?? "");
 
       if (!planetName || !sign) return;
 
@@ -514,8 +514,8 @@ export class ElementalCalculator {
           ? ascendant
           : String(
               (ascendantData.Sign as Record<string, unknown> | undefined)
-                ?.label ||
-                ascendantData.sign ||
+                ?.label ??
+                ascendantData.sign ??
                 "",
             );
 
@@ -665,7 +665,7 @@ export class ElementalCalculator {
 
       Object.entries(currentState).forEach(([element, value]) => {
         const elementKey = element as keyof ElementalProperties;
-        const ingredientValue = elementalProperties[elementKey] || 0;
+        const ingredientValue = elementalProperties[elementKey] ?? 0;
 
         // Calculate weighted difference (more important elements get higher weight)
         const weight = value * 2; // Emphasize elements that are strong in current state
@@ -829,7 +829,7 @@ export class ElementalCalculator {
     Object.entries(specificAdjustments).forEach(([element, value]) => {
       // Use nullish coalescing to ensure value is never undefined
       const elementKey = element as keyof ElementalProperties;
-      result[elementKey] = (result[elementKey] || 0) + (value || 0);
+      result[elementKey] = (result[elementKey] || 0) + (value ?? 0);
     });
 
     // Normalize to ensure values stay in valid range
@@ -929,7 +929,7 @@ export class ElementalCalculator {
           Math.abs(dignityEffectValue) === 1 ||
           Math.abs(dignityEffectValue) === 3
         ) {
-          const signElement = signInfoRecord[sign]?.Element || "Fire";
+          const signElement = signInfoRecord[sign]?.Element ?? "Fire";
           elementalEffect[signElement] =
             1 * (dignityEffectValue / Math.abs(dignityEffectValue));
         }
@@ -974,7 +974,7 @@ export class ElementalCalculator {
           unknown
         >;
         const signData = planetData.Sign as Record<string, unknown>;
-        const sign = String(signData.label || "");
+        const sign = String(signData.label ?? "");
 
         if (sign) {
           const planetEffect = this.processPlanetElementalEffect(planet, sign);

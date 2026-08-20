@@ -390,7 +390,7 @@ export default function OnboardingFunnelPanel(): React.JSX.Element | null {
                         className="block hover:text-purple-700"
                       >
                         <div className="font-medium text-gray-800">
-                          {user.name || "No name"}
+                          {user.name ?? "No name"}
                         </div>
                         <div className="text-xs text-gray-600 font-mono">
                           {user.email}
@@ -440,7 +440,7 @@ export default function OnboardingFunnelPanel(): React.JSX.Element | null {
                       href={`/admin/users/${user.userId}`}
                       className="block font-medium text-gray-800 truncate hover:text-purple-700"
                     >
-                      {user.name || "No name"}
+                      {user.name ?? "No name"}
                     </Link>
                     <div className="text-xs text-gray-500 font-mono truncate">
                       {user.email}

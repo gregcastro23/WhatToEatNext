@@ -93,7 +93,7 @@ export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) 
         );
         const json = (await res.json()) as ApiResponse;
         if (!res.ok || !json.success) {
-          setError(json.error || "Technique not found");
+          setError(json.error ?? "Technique not found");
           setData(null);
           return;
         }

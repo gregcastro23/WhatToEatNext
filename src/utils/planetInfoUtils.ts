@@ -72,7 +72,7 @@ export async function getPlanetInfo(
     }
 
     const positionData = planetPosition as Record<string, unknown>;
-    const planetSign = String(positionData.sign || "Unknown").toLowerCase();
+    const planetSign = String(positionData.sign ?? "Unknown").toLowerCase();
     const planetDegree = Number(positionData.degree ?? 0);
     const planetIsRetrograde = Boolean(positionData.isRetrograde);
 

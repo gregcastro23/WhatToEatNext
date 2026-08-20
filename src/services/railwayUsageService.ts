@@ -83,7 +83,7 @@ export async function fetchRailwayResourceUsage(): Promise<RailwayResourceUsage 
   const token = process.env.RAILWAY_API_TOKEN;
   if (!token) return null;
 
-  const projectId = process.env.RAILWAY_PROJECT_ID || DEFAULT_PROJECT_ID;
+  const projectId = process.env.RAILWAY_PROJECT_ID ?? DEFAULT_PROJECT_ID;
   const measurements = MEASUREMENTS.map((m) => m.measurement);
   const { start, end, label } = monthWindow();
 

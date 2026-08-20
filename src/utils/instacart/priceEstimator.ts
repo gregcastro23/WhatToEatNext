@@ -61,8 +61,8 @@ export function estimateIngredientCost(
   dietaryFlags: string[] = []
 ): { cost: number; confidence: "exact" | "fuzzy" | "fallback" } {
   const { name } = ing;
-  const amount = ing.amount || 1;
-  const unit = ing.unit || "each";
+  const amount = ing.amount ?? 1;
+  const unit = ing.unit ?? "each";
   
   // 1. Get Market Rate Info
   const priceMatch = getPricePoint(name);
@@ -93,7 +93,7 @@ export function estimateIngredientCost(
   }
 
   // 2. Fallback to Category Baselines
-  const category = (ing.category || "other") as IngredientCategory;
+  const category = (ing.category ?? "other") as IngredientCategory;
   const baselineRate = CATEGORY_BASELINES[category] || CATEGORY_BASELINES.other;
   const grams = convertToGrams(name, amount, unit);
   
@@ -191,8 +191,8 @@ export function estimateWeeklyGroceryCost(
       if (ing.optional) continue;
       
       const name = ing.name.toLowerCase();
-      const amount = ing.amount || 1;
-      const unit = ing.unit || "each";
+      const amount = ing.amount ?? 1;
+      const unit = ing.unit ?? "each";
       const actualQuantity = convertToGrams(name, amount, unit);
       
       // Check if we have enough "purchasedStock" from previous meals
@@ -204,7 +204,7 @@ export function estimateWeeklyGroceryCost(
         breakdown.push({ ingredient: ing.name, estimatedCost: 0, confidence: "exact" });
       } else {
         // Need to "buy" more.
-        const result = estimateIngredientCost(ing, recipe.dietaryFlags || []);
+        const result = estimateIngredientCost(ing, recipe.dietaryFlags ?? []);
         if (result.confidence !== "fallback") highConfidence++;
         
         // Cost simulation: assume we buy slightly more than needed (surplus for leftovers)
@@ -227,7 +227,7 @@ export function estimateWeeklyGroceryCost(
 
     recipeBreakdown.push({
       totalCost: Math.round(recipeTotal * 100) / 100,
-      costPerServing: Math.round((recipeTotal / (recipe.servings || 4)) * 100) / 100,
+      costPerServing: Math.round((recipeTotal / (recipe.servings ?? 4)) * 100) / 100,
       breakdown,
       confidence: matchRatio >= 0.7 ? "high" : matchRatio >= 0.4 ? "medium" : "low"
     });

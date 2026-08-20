@@ -69,10 +69,10 @@ export async function GET(request: NextRequest) {
   // request a smaller window via ?limit / ?offset.
   const { searchParams } = new URL(request.url);
   const limit = Math.min(
-    Math.max(parseInt(searchParams.get("limit") || "500", 10) || 500, 1),
+    Math.max(parseInt(searchParams.get("limit") ?? "500", 10) || 500, 1),
     1000,
   );
-  const offset = Math.max(parseInt(searchParams.get("offset") || "0", 10) || 0, 0);
+  const offset = Math.max(parseInt(searchParams.get("offset") ?? "0", 10) || 0, 0);
 
   const db = await getDbModule();
   if (db) {

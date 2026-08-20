@@ -1246,20 +1246,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["capricorn", "taurus", "virgo"],
       seasonalAffinity: ["winter", "fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp (14g)",
-      calories: 102,
-      macros: {
-        protein: 0.1,
-        carbs: 0,
-        fat: 11.5,
-        fiber: 0,
-        sugar: 0,
-        sodium: 91,
-      },
-        vitamins: {},
-        minerals: {}
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 102, macros: { protein: 0.1, carbs: 0, fat: 11.5, fiber: 0 }, vitamins: { A: 0.11 }, minerals: {  }, source: "USDA FoodData Central" },
       culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
       storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
 },

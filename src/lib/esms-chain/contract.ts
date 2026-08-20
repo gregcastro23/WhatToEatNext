@@ -90,7 +90,7 @@ export const ESMS_ABI = [
 ] as const
 
 export function esmsChain() {
-  return (process.env.NEXT_PUBLIC_ESMS_CHAIN || 'base-sepolia') === 'base' ? base : baseSepolia
+  return (process.env.NEXT_PUBLIC_ESMS_CHAIN ?? 'base-sepolia') === 'base' ? base : baseSepolia
 }
 
 /** CAIP-2 chain id, e.g. "eip155:8453" (Base) or "eip155:84532" (Base Sepolia). */

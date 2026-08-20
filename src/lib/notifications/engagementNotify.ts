@@ -51,7 +51,7 @@ export async function notifyReactionReceived(args: {
     const actorName = await gate(args.actorId, args.recipientId);
     if (!actorName) return;
 
-    const dish = args.dishLabel?.trim() || "your dish";
+    const dish = args.dishLabel?.trim() ?? "your dish";
     await notificationDatabase.createOrBumpEventNotification({
       recipientId: args.recipientId,
       actorId: args.actorId,
@@ -79,7 +79,7 @@ export async function notifyCommentReceived(args: {
     const actorName = await gate(args.actorId, args.recipientId);
     if (!actorName) return;
 
-    const dish = args.dishLabel?.trim() || "your dish";
+    const dish = args.dishLabel?.trim() ?? "your dish";
     await notificationDatabase.createOrBumpEventNotification({
       recipientId: args.recipientId,
       actorId: args.actorId,

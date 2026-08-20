@@ -119,7 +119,7 @@ export function calculatePlanetaryPositions(date: Date = new Date()): Record<str
         sign,
         degree,
         exactLongitude: adjustedLongitude,
-        isRetrograde: currentPosition.isRetrograde || false
+        isRetrograde: currentPosition.isRetrograde ?? false
       };
     }
     

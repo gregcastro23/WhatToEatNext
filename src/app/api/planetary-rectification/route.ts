@@ -14,9 +14,9 @@ export async function GET(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "planetary-rectification" });
   if (!rl.allowed) return rl.response!;
   const url = new URL(request.url);
-  const dateStr = url.searchParams.get("date") || url.searchParams.get("birthDate");
-  const lat = parseFloat(url.searchParams.get("latitude") || "40.7128");
-  const lon = parseFloat(url.searchParams.get("longitude") || "-74.0060");
+  const dateStr = url.searchParams.get("date") ?? url.searchParams.get("birthDate");
+  const lat = parseFloat(url.searchParams.get("latitude") ?? "40.7128");
+  const lon = parseFloat(url.searchParams.get("longitude") ?? "-74.0060");
 
   if (!dateStr) {
     return NextResponse.json({ success: false, error: "Missing required parameter: date (ISO format)" }, { status: 400 });
@@ -81,7 +81,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
   const params = new URLSearchParams();
-  if (body.date || body.birthDate) params.set("date", body.date || body.birthDate);
+  if (body.date || body.birthDate) params.set("date", body.date ?? body.birthDate);
   if (body.latitude) params.set("latitude", String(body.latitude));
   if (body.longitude) params.set("longitude", String(body.longitude));
   const syntheticReq = new Request(`${new URL(request.url).origin}/api/planetary-rectification?${params}`);

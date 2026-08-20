@@ -174,7 +174,7 @@ export default function HomeMethodsComponent() {
         <CookingMethodsSection
           methods={methods}
           onSelectMethod={handleSelectMethod}
-          selectedMethodId={selectedMethod?.id || null}
+          selectedMethodId={selectedMethod?.id ?? null}
           initiallyExpanded
         />
       ) : (

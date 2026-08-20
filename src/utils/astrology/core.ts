@@ -126,7 +126,7 @@ export async function calculateActivePlanets(
   const activePlanets: string[] = [];
   try {
     // Add ruling planet of current sun sign
-    const sunPos = (positions.sun || positions.Sun) as PlanetaryPosition | undefined;
+    const sunPos = (positions.sun ?? positions.Sun) as PlanetaryPosition | undefined;
     const sunSign = sunPos?.sign?.toLowerCase();
     if (sunSign) {
       // Map signs to their ruling planets
@@ -243,8 +243,8 @@ export async function calculateLunarPhase(
       throw new Error("Sun or Moon position missing");
     }
     // Calculate the angular distance between Sun and Moon
-    const moonLong = positions.Moon.longitude || 0;
-    const sunLong = positions.Sun.longitude || 0;
+    const moonLong = positions.Moon.longitude ?? 0;
+    const sunLong = positions.Sun.longitude ?? 0;
     let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
@@ -376,7 +376,7 @@ export async function calculatePlanetaryPositions(
       error instanceof Error ? error.message : String(error),
     );
     const response = await getLatestAstrologicalState();
-    const fallbackPositions = response.data?.planetaryPositions || {};
+    const fallbackPositions = response.data?.planetaryPositions ?? {};
     return normalizePlanetaryPositions(fallbackPositions);
   }
 }
@@ -402,9 +402,9 @@ export async function getCurrentAstrologicalState(
     const hourCalculator = new PlanetaryHourCalculator();
     const planetaryHour = hourCalculator.calculatePlanetaryHour(date);
     // Get Sun and Moon signs
-    const sunSign = (positions.Sun.sign.toLowerCase() ||
+    const sunSign = (positions.Sun.sign.toLowerCase() ??
       "aries") as ZodiacSignType;
-    const moonSign = (positions.moon.sign.toLowerCase() ||
+    const moonSign = (positions.moon.sign.toLowerCase() ??
       "taurus") as ZodiacSignType;
     // Get active planets
     const activePlanets = await calculateActivePlanets(positions);
@@ -545,7 +545,7 @@ export async function calculateDominantElement(
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(
       ([planet, position]) => {
-        const element = getZodiacElementalInfluence(position.sign || "aries");
+        const element = getZodiacElementalInfluence(position.sign ?? "aries");
         // Weight by planet importance
         let weight = 1;
         if (planet === "Sun" || planet === "Moon") weight = 3;
@@ -585,7 +585,7 @@ export async function calculateElementalProfile(
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(
       ([planet, position]) => {
-        const element = getZodiacElementalInfluence(position.sign || "aries");
+        const element = getZodiacElementalInfluence(position.sign ?? "aries");
         // Weight by planet importance
         let weight = 1;
         if (planet === "Sun" || planet === "Moon") weight = 3;

@@ -66,9 +66,9 @@ export default function AlchmKitchen() {
   const planetaryHour = ctxPlanetaryHour || 'Unknown';
   const lunarPhase = ctxLunarPhase || 'Unknown';
 
-  const activeElementalState = displayElementalState || elementalState || DEFAULT_ELEMENTAL_PROPERTIES;
-  const activeAlchemicalValues = displayAlchemicalValues || alchemicalValues || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
-  const activePositions = displayPositions || planetaryPositions;
+  const activeElementalState = displayElementalState ?? elementalState ?? DEFAULT_ELEMENTAL_PROPERTIES;
+  const activeAlchemicalValues = displayAlchemicalValues ?? alchemicalValues ?? { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  const activePositions = displayPositions ?? planetaryPositions;
   const activeIsDaytime = timeFrame === 'current' ? (astrologicalState?.isDaytime ?? checkIsDaytime(new Date())) : isDaytimeTarget;
 
   useEffect(() => {
@@ -140,8 +140,8 @@ export default function AlchmKitchen() {
           new Date(),
           planetaryPositions.sun
             ? {
-                sign: planetaryPositions.sun.sign || 'aries',
-                degree: planetaryPositions.sun.degree || 0,
+                sign: planetaryPositions.sun.sign ?? 'aries',
+                degree: planetaryPositions.sun.degree ?? 0,
               }
             : undefined
         );
@@ -165,8 +165,8 @@ export default function AlchmKitchen() {
         const cards = getTarotCardsForDate(
           targetDate,
           activePositions?.sun && {
-            sign: activePositions.sun.sign || 'aries',
-            degree: activePositions.sun.degree || 0,
+            sign: activePositions.sun.sign ?? 'aries',
+            degree: activePositions.sun.degree ?? 0,
           }
         );
 
@@ -176,8 +176,8 @@ export default function AlchmKitchen() {
             name: cards.minorCard.name,
             suit: cards.minorCard.suit,
             number: cards.minorCard.number,
-            keywords: cards.minorCard.keywords || [],
-            quantum: cards.minorCard.quantum || 0,
+            keywords: cards.minorCard.keywords ?? [],
+            quantum: cards.minorCard.quantum ?? 0,
             element: cards.minorCard.element,
             associatedRecipes: cards.minorCard.associatedRecipes,
           },
@@ -290,7 +290,7 @@ export default function AlchmKitchen() {
         <div>Renders: {renderCount}</div>
         <div>Time Frame: {timeFrame}</div>
         <div>Is Daytime: {activeIsDaytime.toString()}</div>
-        <div>Tarot Suit: {currentSuit || 'none'}</div>
+        <div>Tarot Suit: {currentSuit ?? 'none'}</div>
         <div>Current Sign: {currentSign}</div>
         <div>Planetary Hour: {planetaryHour}</div>
         <div>Lunar Phase: {lunarPhase}</div>

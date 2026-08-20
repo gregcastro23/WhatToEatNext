@@ -2606,12 +2606,12 @@ class FoodDiaryService {
     const now = new Date();
 
     // Calculate nutrition if not provided
-    let nutrition = input.nutrition || {};
+    let nutrition = input.nutrition ?? {};
     let nutritionConfidence: "high" | "medium" | "low" = "medium";
 
     if (input.foodSource === "quick" && input.sourceId) {
       const preset =
-        (await this.getDatabaseQuickFoodPreset(input.sourceId)) ||
+        (await this.getDatabaseQuickFoodPreset(input.sourceId)) ??
         this.getQuickFoodPreset(input.sourceId);
       if (preset) {
         nutrition = this.calculateNutritionFromPreset(
@@ -2672,33 +2672,33 @@ class FoodDiaryService {
             userId,
             input.foodName,
             input.foodSource,
-            input.sourceId || null,
-            input.brandName || null,
+            input.sourceId ?? null,
+            input.brandName ?? null,
             input.date,
             input.mealType,
             input.time,
             input.serving.amount,
             input.serving.unit,
             input.serving.grams || null,
-            input.serving.description || null,
+            input.serving.description ?? null,
             input.quantity,
-            nutrition.calories || null,
-            nutrition.protein || null,
-            nutrition.carbs || null,
-            nutrition.fat || null,
-            nutrition.fiber || null,
-            nutrition.sugar || null,
-            nutrition.sodium || null,
+            nutrition.calories ?? null,
+            nutrition.protein ?? null,
+            nutrition.carbs ?? null,
+            nutrition.fat ?? null,
+            nutrition.fiber ?? null,
+            nutrition.sugar ?? null,
+            nutrition.sodium ?? null,
             nutritionConfidence,
-            input.elementalProperties?.Fire || null,
-            input.elementalProperties?.Water || null,
-            input.elementalProperties?.Earth || null,
-            input.elementalProperties?.Air || null,
-            input.notes || null,
-            input.tags || [],
-            input.price || null,
-            input.store || null,
-            input.quality || null,
+            input.elementalProperties?.Fire ?? null,
+            input.elementalProperties?.Water ?? null,
+            input.elementalProperties?.Earth ?? null,
+            input.elementalProperties?.Air ?? null,
+            input.notes ?? null,
+            input.tags ?? [],
+            input.price ?? null,
+            input.store ?? null,
+            input.quality ?? null,
             false,
             JSON.stringify(astrologicalContext),
             now,
@@ -2804,7 +2804,7 @@ class FoodDiaryService {
     }
 
     // Fallback to in-memory
-    return this.entries.get(entryId) || null;
+    return this.entries.get(entryId) ?? null;
   }
 
   /**
@@ -2816,8 +2816,8 @@ class FoodDiaryService {
       userId: row.user_id,
       foodName: row.food_name,
       foodSource: row.food_source,
-      sourceId: row.source_id || undefined,
-      brandName: row.brand_name || undefined,
+      sourceId: row.source_id ?? undefined,
+      brandName: row.brand_name ?? undefined,
       date: toDate(row.date),
       mealType: row.meal_type,
       time: row.time,
@@ -2825,7 +2825,7 @@ class FoodDiaryService {
         amount: toNumber(row.serving_amount, 1),
         unit: row.serving_unit,
         grams: toNumber(row.serving_grams, 100),
-        description: row.serving_description || undefined,
+        description: row.serving_description ?? undefined,
       },
       quantity: toNumber(row.quantity, 1),
       nutrition: {
@@ -2837,7 +2837,7 @@ class FoodDiaryService {
         sugar: toOptionalNumber(row.sugar),
         sodium: toOptionalNumber(row.sodium),
       },
-      nutritionConfidence: row.nutrition_confidence || "medium",
+      nutritionConfidence: row.nutrition_confidence ?? "medium",
       elementalProperties: row.elemental_fire != null
         ? {
             Fire: toNumber(row.elemental_fire),
@@ -2847,14 +2847,14 @@ class FoodDiaryService {
           }
         : undefined,
       rating: toOptionalNumber(row.rating) as FoodRating | undefined,
-      moodTags: row.mood_tags || [],
-      notes: row.notes || undefined,
+      moodTags: row.mood_tags ?? [],
+      notes: row.notes ?? undefined,
       wouldEatAgain: row.would_eat_again ?? undefined,
       isFavorite: row.is_favorite ?? false,
-      tags: row.tags || [],
+      tags: row.tags ?? [],
       price: toOptionalNumber(row.price),
-      store: row.store || undefined,
-      quality: row.quality || undefined,
+      store: row.store ?? undefined,
+      quality: row.quality ?? undefined,
       astrologicalContext: parseAstrologicalContext(row.astrological_context),
       createdAt: toDate(row.created_at),
       updatedAt: toDate(row.updated_at),
@@ -2875,12 +2875,12 @@ class FoodDiaryService {
 
     // Recalculate nutrition if serving/quantity changed
     if (input.serving || input.quantity) {
-      const newServing = input.serving || entry.serving;
+      const newServing = input.serving ?? entry.serving;
       const newQuantity = input.quantity ?? entry.quantity;
 
       if (entry.foodSource === "quick" && entry.sourceId) {
         const preset =
-          (await this.getDatabaseQuickFoodPreset(entry.sourceId)) ||
+          (await this.getDatabaseQuickFoodPreset(entry.sourceId)) ??
           this.getQuickFoodPreset(entry.sourceId);
         if (preset) {
           entry.nutrition = this.calculateNutritionFromPreset(
@@ -2929,24 +2929,24 @@ class FoodDiaryService {
             entry.serving.amount,
             entry.serving.unit,
             entry.serving.grams || null,
-            entry.serving.description || null,
+            entry.serving.description ?? null,
             entry.quantity,
-            entry.nutrition.calories || null,
-            entry.nutrition.protein || null,
-            entry.nutrition.carbs || null,
-            entry.nutrition.fat || null,
-            entry.nutrition.fiber || null,
-            entry.nutrition.sugar || null,
-            entry.nutrition.sodium || null,
-            entry.rating || null,
-            entry.moodTags || [],
-            entry.notes || null,
+            entry.nutrition.calories ?? null,
+            entry.nutrition.protein ?? null,
+            entry.nutrition.carbs ?? null,
+            entry.nutrition.fat ?? null,
+            entry.nutrition.fiber ?? null,
+            entry.nutrition.sugar ?? null,
+            entry.nutrition.sodium ?? null,
+            entry.rating ?? null,
+            entry.moodTags ?? [],
+            entry.notes ?? null,
             entry.wouldEatAgain ?? null,
             entry.isFavorite,
-            entry.tags || [],
-            entry.price || null,
-            entry.store || null,
-            entry.quality || null,
+            entry.tags ?? [],
+            entry.price ?? null,
+            entry.store ?? null,
+            entry.quality ?? null,
             entry.updatedAt,
             entry.id,
             userId,
@@ -3169,7 +3169,7 @@ class FoodDiaryService {
   }
 
   private normalizeQuickFoodCategory(category?: string | null): QuickFoodCategory {
-    const normalized = (category || "").toLowerCase().trim();
+    const normalized = (category ?? "").toLowerCase().trim();
     for (const [quickFoodCategory, aliases] of Object.entries(
       QUICK_FOOD_CATEGORY_MAP,
     ) as Array<[QuickFoodCategory, string[]]>) {
@@ -3183,7 +3183,7 @@ class FoodDiaryService {
   private mapIngredientRowToQuickFoodPreset(row: QuickFoodIngredientRow): QuickFoodPreset {
     return {
       id: row.id,
-      name: row.common_name || row.name,
+      name: row.common_name ?? row.name,
       category: this.normalizeQuickFoodCategory(row.category),
       defaultServing: {
         amount: 100,
@@ -3327,7 +3327,7 @@ class FoodDiaryService {
     }
 
     // Search user favorites
-    const userFavorites = this.favorites.get(userId) || [];
+    const userFavorites = this.favorites.get(userId) ?? [];
     for (const favorite of userFavorites) {
       if (favorite.foodName.toLowerCase().includes(queryLower)) {
         results.push({
@@ -3364,7 +3364,7 @@ class FoodDiaryService {
     this.entries.set(entryId, entry);
 
     // Add to favorites list
-    const userFavorites = this.favorites.get(userId) || [];
+    const userFavorites = this.favorites.get(userId) ?? [];
     const existingIdx = userFavorites.findIndex(
       (f) => f.foodName === entry.foodName,
     );
@@ -3375,7 +3375,7 @@ class FoodDiaryService {
       userFavorites[existingIdx].lastEaten = entry.date;
       if (entry.rating) {
         const current =
-          userFavorites[existingIdx].averageRating || entry.rating;
+          userFavorites[existingIdx].averageRating ?? entry.rating;
         userFavorites[existingIdx].averageRating = (current + entry.rating) / 2;
       }
     } else {
@@ -3408,7 +3408,7 @@ class FoodDiaryService {
    * Get user's favorites
    */
   async getFavorites(userId: string): Promise<UserFoodFavorite[]> {
-    return this.favorites.get(userId) || [];
+    return this.favorites.get(userId) ?? [];
   }
 
   /**
@@ -3978,7 +3978,7 @@ class FoodDiaryService {
     const ratedEntries = entries.filter((e) => e.rating !== undefined);
     if (ratedEntries.length > 0) {
       summary.averageRating =
-        ratedEntries.reduce((sum, e) => sum + (e.rating || 0), 0) /
+        ratedEntries.reduce((sum, e) => sum + (e.rating ?? 0), 0) /
         ratedEntries.length;
     }
 
@@ -4134,7 +4134,7 @@ class FoodDiaryService {
     const ratingDistribution: Record<number, number> = {};
 
     for (const entry of ratedEntries) {
-      const rating = Math.floor(entry.rating || 0);
+      const rating = Math.floor(entry.rating ?? 0);
       ratingDistribution[rating] = (ratingDistribution[rating] || 0) + 1;
     }
 
@@ -4147,11 +4147,11 @@ class FoodDiaryService {
 
     for (const dayEntries of Object.values(entriesByDay)) {
       const dayCalories = dayEntries.reduce(
-        (sum, e) => sum + (e.nutrition.calories || 0),
+        (sum, e) => sum + (e.nutrition.calories ?? 0),
         0,
       );
       const dayProtein = dayEntries.reduce(
-        (sum, e) => sum + (e.nutrition.protein || 0),
+        (sum, e) => sum + (e.nutrition.protein ?? 0),
         0,
       );
       totalCalories += dayCalories;
@@ -4188,7 +4188,7 @@ class FoodDiaryService {
       totalRatedEntries: ratedEntries.length,
       averageRating:
         ratedEntries.length > 0
-          ? ratedEntries.reduce((sum, e) => sum + (e.rating || 0), 0) /
+          ? ratedEntries.reduce((sum, e) => sum + (e.rating ?? 0), 0) /
             ratedEntries.length
           : 0,
       ratingDistribution,
@@ -4345,8 +4345,8 @@ class FoodDiaryService {
     let totalCompliance = 0;
 
     for (const nutrient of nutrients) {
-      const actualVal = actual[nutrient] || 0;
-      const targetVal = target[nutrient] || 1;
+      const actualVal = actual[nutrient] ?? 0;
+      const targetVal = target[nutrient] ?? 1;
       const compliance = (Math.min(actualVal / targetVal, 1.2) / 1.2) * 100;
       totalCompliance += compliance;
     }
@@ -4361,8 +4361,8 @@ class FoodDiaryService {
     const result: Record<string, number> = {};
 
     for (const key of Object.keys(target) as Array<keyof NutritionalSummary>) {
-      const actualVal = actual[key] || 0;
-      const targetVal = target[key] || 1;
+      const actualVal = actual[key] ?? 0;
+      const targetVal = target[key] ?? 1;
       result[key] = Math.round((actualVal / targetVal) * 100);
     }
 

@@ -374,7 +374,7 @@ export function getSafeRecipeDescription(recipe: Recipe): string {
     return "No description available";
   }
 
-  return String(recipe.description || "No description available");
+  return String(recipe.description ?? "No description available");
 }
 
 /**
@@ -458,8 +458,8 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
           name: ingredient.name || "Unknown ingredient",
           amount: ingredient.amount || 1,
           unit: ingredient.unit || "piece",
-          optional: ingredient.optional || false,
-          preparation: ingredient.preparation || undefined,
+          optional: ingredient.optional ?? false,
+          preparation: ingredient.preparation ?? undefined,
         };
       }
 

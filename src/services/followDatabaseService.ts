@@ -67,9 +67,9 @@ function rowToEntry(row: FollowListRow): FollowListEntry {
   return {
     userId: String(row.user_id),
     name: row.name || "Alchemist",
-    avatarUrl: row.avatar_url || null,
+    avatarUrl: row.avatar_url ?? null,
     isAgent: row.is_agent === true,
-    dominantElement: row.dominant_element || null,
+    dominantElement: row.dominant_element ?? null,
     followedByViewer: row.followed_by_viewer === true,
   };
 }

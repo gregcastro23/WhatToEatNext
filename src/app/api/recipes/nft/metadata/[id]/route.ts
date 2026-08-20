@@ -32,7 +32,7 @@ export async function GET(
   // failed at mint time, and it must trigger regeneration here — `??` would
   // pin the blank image forever.
   const imageUrl =
-    storedImageUrl ||
+    storedImageUrl ??
     ((await generateRecipeImage({
       id: recipe.id,
       title: recipe.title,

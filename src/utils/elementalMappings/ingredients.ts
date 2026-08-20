@@ -9,7 +9,7 @@ function createIngredientMapping(
 ): IngredientMapping {
   return {
     name: id, // Add the required name property
-    elementalProperties: properties.elementalProperties || {
+    elementalProperties: properties.elementalProperties ?? {
       Earth: 0.25,
       Water: 0.25,
       Fire: 0.25,

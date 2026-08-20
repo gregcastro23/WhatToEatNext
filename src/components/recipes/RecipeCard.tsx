@@ -119,7 +119,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
     : 0;
 
   const mealType = firstString(recipe.mealType)?.toLowerCase();
-  const coverGlyph = (mealType && MEAL_ICONS[mealType]) || ELEMENT_META[dom].icon;
+  const coverGlyph = (mealType && MEAL_ICONS[mealType]) ?? ELEMENT_META[dom].icon;
 
   const duration = formatDuration(recipe);
   const servings = recipe.numberOfServings ?? recipe.servingSize;
@@ -224,7 +224,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           )}
 
           {/* Tag chips */}
-          {(monicaLabel || spice || cookingMethod || recipe.isVegan || recipe.isVegetarian || recipe.isGlutenFree) && (
+          {(monicaLabel ?? spice ?? cookingMethod ?? recipe.isVegan ?? recipe.isVegetarian ?? recipe.isGlutenFree) && (
             <div className="flex flex-wrap gap-1.5">
               {monicaLabel && (
                 <span className="rounded border border-indigo-400/20 bg-indigo-500/10 px-1.5 py-0.5 text-[11px] text-indigo-300">
@@ -259,7 +259,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           )}
 
           {/* Planetary footer (present only on scored cards) */}
-          {(rulingPlanet || planetaryReason) && (
+          {(rulingPlanet ?? planetaryReason) && (
             <div className="mt-auto border-t border-white/8 pt-2">
               {rulingPlanet && (
                 <p className="text-xs text-slate-300">

@@ -47,11 +47,11 @@ export interface RenderedEmail {
 }
 
 export function renderBulletinEmail(input: BulletinInput): RenderedEmail {
-  const appUrl = input.appUrl || BRAND.appUrl;
+  const appUrl = input.appUrl ?? BRAND.appUrl;
   const ctx = buildPersonalContext(input.name, input.natalChart);
   const theme = ctx.element ? ELEMENT_THEME[ctx.element] : null;
-  const accent = theme?.color || BRAND.accent;
-  const heroEmoji = theme?.emoji || "✨";
+  const accent = theme?.color ?? BRAND.accent;
+  const heroEmoji = theme?.emoji ?? "✨";
 
   // Subject + hero copy adapt to whether we know their chart.
   const subject = ctx.hasChart && ctx.element

@@ -560,7 +560,7 @@ export class CelestialEnergyCalculator {
         hour: 60 * 60 * 1000,
         day: 24 * 60 * 60 * 1000,
         week: 7 * 24 * 60 * 60 * 1000,
-      }[interval] || 60 * 60 * 1000
+      }[interval] ?? 60 * 60 * 1000
 
     while (current <= endDate) {
       steps.push(new Date(current))

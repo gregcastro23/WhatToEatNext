@@ -242,7 +242,7 @@ class CelestialCalculator {
               planet1: aspect.planets[0],
               planet2: aspect.planets[1],
               type: aspect.type,
-              orb: aspect.orb || 0,
+              orb: aspect.orb ?? 0,
               strength: aspect.influence,
             }),
         ),
@@ -368,7 +368,7 @@ class CelestialCalculator {
     return {
       name,
       suit,
-      description: `Tarot card associated with ${zodiacAssociation || planetaryAssociation || "universal forces"}`,
+      description: `Tarot card associated with ${zodiacAssociation ?? planetaryAssociation ?? "universal forces"}`,
       planetaryInfluences: planetaryAssociation
         ? { [planetaryAssociation]: 1.0 }
         : undefined,
@@ -454,8 +454,8 @@ class CelestialCalculator {
     } else {
       // Generate from dominant planets and zodiac sign
       safeAlignment.astrologicalInfluences = [
-        ...(safeAlignment.dominantPlanets?.map((p) => p.name) || []),
-        safeAlignment.zodiacSign || "libra",
+        ...(safeAlignment.dominantPlanets?.map((p) => p.name) ?? []),
+        safeAlignment.zodiacSign ?? "libra",
         "all", // Add 'all' as a fallback to ensure matches with recipes
       ];
     }
@@ -790,7 +790,7 @@ class CelestialCalculator {
         dominantPlanets[jupiterIndex] = {
           ...dominantPlanets[jupiterIndex],
           influence: Math.max(
-            dominantPlanets[jupiterIndex].influence || 0,
+            dominantPlanets[jupiterIndex].influence ?? 0,
             jupiterInfluence,
           ),
           effect: jupiterEffect,
@@ -811,7 +811,7 @@ class CelestialCalculator {
         dominantPlanets[saturnIndex] = {
           ...dominantPlanets[saturnIndex],
           influence: Math.max(
-            dominantPlanets[saturnIndex].influence || 0,
+            dominantPlanets[saturnIndex].influence ?? 0,
             saturnInfluence,
           ),
           effect: saturnEffect,
@@ -947,7 +947,7 @@ class CelestialCalculator {
     dominantPlanets.forEach((planet) => {
       const element = planetElements[planet.name];
       if (element) {
-        balance[element] += 0.1 * (planet.influence || 0);
+        balance[element] += 0.1 * (planet.influence ?? 0);
       }
     });
 
@@ -1117,8 +1117,8 @@ class CelestialCalculator {
     if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
       const alignment = this.getCurrentAlignment();
       tarotCards = this.calculateTarotInfluences(
-        alignment.zodiacSign || "libra",
-        alignment.dominantPlanets || [],
+        alignment.zodiacSign ?? "libra",
+        alignment.dominantPlanets ?? [],
       );
       cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60);
     }
@@ -1318,22 +1318,22 @@ class CelestialCalculator {
         // Apply effects based on Jupiter's condition
         if (jupiterEffect === "expansive") {
           // Jupiter expands all energies, but especially Spirit and Substance
-          energyStateBalance.Spirit += 0.07 * (jupiterInfluence || 0);
-          energyStateBalance.Substance += 0.06 * (jupiterInfluence || 0);
-          energyStateBalance.Essence += 0.04 * (jupiterInfluence || 0);
-          energyStateBalance.Matter += 0.03 * (jupiterInfluence || 0);
+          energyStateBalance.Spirit += 0.07 * (jupiterInfluence ?? 0);
+          energyStateBalance.Substance += 0.06 * (jupiterInfluence ?? 0);
+          energyStateBalance.Essence += 0.04 * (jupiterInfluence ?? 0);
+          energyStateBalance.Matter += 0.03 * (jupiterInfluence ?? 0);
         } else if (jupiterEffect === "balanced") {
           // Balanced Jupiter provides moderate expansion to all energies
-          energyStateBalance.Spirit += 0.04 * (jupiterInfluence || 0);
-          energyStateBalance.Substance += 0.04 * (jupiterInfluence || 0);
-          energyStateBalance.Essence += 0.04 * (jupiterInfluence || 0);
-          energyStateBalance.Matter += 0.04 * (jupiterInfluence || 0);
+          energyStateBalance.Spirit += 0.04 * (jupiterInfluence ?? 0);
+          energyStateBalance.Substance += 0.04 * (jupiterInfluence ?? 0);
+          energyStateBalance.Essence += 0.04 * (jupiterInfluence ?? 0);
+          energyStateBalance.Matter += 0.04 * (jupiterInfluence ?? 0);
         } else if (jupiterEffect === "restricted") {
           // Restricted Jupiter still expands, but mainly focused on practical energies
-          energyStateBalance.Spirit += 0.02 * (jupiterInfluence || 0);
-          energyStateBalance.Substance += 0.03 * (jupiterInfluence || 0);
-          energyStateBalance.Essence += 0.03 * (jupiterInfluence || 0);
-          energyStateBalance.Matter += 0.06 * (jupiterInfluence || 0);
+          energyStateBalance.Spirit += 0.02 * (jupiterInfluence ?? 0);
+          energyStateBalance.Substance += 0.03 * (jupiterInfluence ?? 0);
+          energyStateBalance.Essence += 0.03 * (jupiterInfluence ?? 0);
+          energyStateBalance.Matter += 0.06 * (jupiterInfluence ?? 0);
         }
       }
 
@@ -1351,20 +1351,20 @@ class CelestialCalculator {
         // Apply effects based on Saturn's condition
         if (saturnEffect === "restrictive") {
           // Strong Saturn restricts expansion but adds discipline and structure, especially to Matter
-          energyStateBalance.Spirit -= 0.02 * (saturnInfluence || 0);
-          energyStateBalance.Substance += 0.02 * (saturnInfluence || 0);
-          energyStateBalance.Essence -= 0.02 * (saturnInfluence || 0);
-          energyStateBalance.Matter += 0.06 * (saturnInfluence || 0);
+          energyStateBalance.Spirit -= 0.02 * (saturnInfluence ?? 0);
+          energyStateBalance.Substance += 0.02 * (saturnInfluence ?? 0);
+          energyStateBalance.Essence -= 0.02 * (saturnInfluence ?? 0);
+          energyStateBalance.Matter += 0.06 * (saturnInfluence ?? 0);
         } else if (saturnEffect === "balanced") {
           // Balanced Saturn provides helpful structure without excessive restriction
-          energyStateBalance.Spirit += 0.01 * (saturnInfluence || 0);
-          energyStateBalance.Substance += 0.03 * (saturnInfluence || 0);
-          energyStateBalance.Essence -= 0.01 * (saturnInfluence || 0);
-          energyStateBalance.Matter += 0.04 * (saturnInfluence || 0);
+          energyStateBalance.Spirit += 0.01 * (saturnInfluence ?? 0);
+          energyStateBalance.Substance += 0.03 * (saturnInfluence ?? 0);
+          energyStateBalance.Essence -= 0.01 * (saturnInfluence ?? 0);
+          energyStateBalance.Matter += 0.04 * (saturnInfluence ?? 0);
         } else if (saturnEffect === "softened") {
           // Softened Saturn has reduced restrictive qualities
-          energyStateBalance.Substance += 0.02 * (saturnInfluence || 0);
-          energyStateBalance.Matter += 0.03 * (saturnInfluence || 0);
+          energyStateBalance.Substance += 0.02 * (saturnInfluence ?? 0);
+          energyStateBalance.Matter += 0.03 * (saturnInfluence ?? 0);
         }
       }
     }
@@ -1401,7 +1401,7 @@ class CelestialCalculator {
     };
 
     // Map elements to chakras
-    const elementalBalance = alignment.elementalBalance || {
+    const elementalBalance = alignment.elementalBalance ?? {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,

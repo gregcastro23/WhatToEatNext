@@ -16,7 +16,7 @@ interface FoodData {
  */
 export class FoodDataCentral {
   private static readonly apiKey =
-    process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || "";
+    process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY ?? "";
   private static readonly baseUrl = "https://api.nal.usda.gov/fdc/v1";
 
   /**
@@ -70,7 +70,7 @@ export class FoodDataCentral {
       }
 
       const data = await response.json();
-      return data.foods || [];
+      return data.foods ?? [];
     } catch (error) {
       console.error("Error searching foods:", error);
       return [];

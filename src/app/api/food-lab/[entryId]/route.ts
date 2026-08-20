@@ -170,7 +170,7 @@ export async function PUT(
       ...(tags !== undefined && { tags }),
       ...(isPublic !== undefined && {
         isPublic,
-        shareToken: isPublic ? (entries[idx].shareToken || generateShareToken()) : undefined,
+        shareToken: isPublic ? (entries[idx].shareToken ?? generateShareToken()) : undefined,
       }),
       updatedAt: now,
     };

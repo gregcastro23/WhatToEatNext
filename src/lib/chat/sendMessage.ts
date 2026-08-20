@@ -173,7 +173,7 @@ async function afterMessageInserted(
   if (recipients.length === 0) return;
 
   const type = conversation.kind === "dm" ? "dm_message" : "circle_message";
-  const title = conversation.kind === "dm" ? "New message" : conversation.title || "New message";
+  const title = conversation.kind === "dm" ? "New message" : conversation.title ?? "New message";
   const preview = messagePreview(message);
 
   await Promise.all(

@@ -301,7 +301,7 @@ export default function LabBookIngest() {
                 onChange={(e) => updatePreviewName(idx, e.target.value)}
                 className="w-full border-b border-white/10 bg-transparent pb-1 text-lg font-semibold text-white focus:border-purple-500 focus:outline-none"
               />
-              {(r.yield || r.categories?.length > 0) && (
+              {(r.yield ?? r.categories?.length > 0) && (
                 <p className="mt-1 text-xs text-white/40">
                   {r.yield ? `Yield: ${r.yield}` : ""}
                   {r.yield && r.categories?.length > 0 ? " · " : ""}

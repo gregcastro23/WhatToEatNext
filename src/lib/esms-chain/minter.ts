@@ -37,7 +37,7 @@ function toOnchainAmounts(a: EsmsAmounts): bigint[] {
 /** True when a claim-mint custody path is configured (Privy server wallet or raw key). */
 export function minterConfigured(): boolean {
   return Boolean(
-    (process.env.PRIVY_MINTER_WALLET_ID && getPrivyClient()) ||
+    (process.env.PRIVY_MINTER_WALLET_ID && getPrivyClient()) ??
     process.env.MINTER_PRIVATE_KEY
   )
 }

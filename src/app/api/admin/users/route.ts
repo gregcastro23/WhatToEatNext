@@ -74,12 +74,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     // Accept both `?q=` (admin panel shorthand) and `?search=` (existing).
     const search =
-      searchParams.get("q")?.toLowerCase()?.trim() ||
-      searchParams.get("search")?.toLowerCase()?.trim() ||
+      searchParams.get("q")?.toLowerCase()?.trim() ??
+      searchParams.get("search")?.toLowerCase()?.trim() ??
       null;
     const status = searchParams.get("status");
     const tierFilter = searchParams.get("tier");
-    const userType = (searchParams.get("userType") || "all").toLowerCase();
+    const userType = (searchParams.get("userType") ?? "all").toLowerCase();
     const page = Math.max(parseInt(searchParams.get("page") ?? "1", 10) || 1, 1);
     const pageSize = Math.min(
       Math.max(parseInt(searchParams.get("pageSize") ?? `${DEFAULT_PAGE_SIZE}`, 10) || DEFAULT_PAGE_SIZE, 1),
@@ -278,7 +278,7 @@ export async function GET(request: NextRequest) {
       // Honor the userType filter when degraded so the UI tabs still work.
       const { searchParams: degradedSearch } = new URL(request.url);
       const degradedUserType = (
-        degradedSearch.get("userType") || "all"
+        degradedSearch.get("userType") ?? "all"
       ).toLowerCase();
       const filtered = users.filter((u) => {
         if (degradedUserType === "agent") return u.isAgent === true;

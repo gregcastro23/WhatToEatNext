@@ -104,8 +104,8 @@ export async function POST(request: NextRequest) {
         );
         const agents = result.rows.map((row) => ({
           id: row.user_id,
-          name: row.name || row.email.split("@")[0],
-          title: row.bio || "Custom Agent",
+          name: row.name ?? row.email.split("@")[0],
+          title: row.bio ?? "Custom Agent",
           dominantElement: row.dominant_element,
           // Explicit null test, not truthiness: a real monica of 0 (284 agents)
           // is falsy, so `? :` would report those agents as having no monica.
@@ -204,8 +204,8 @@ export async function POST(request: NextRequest) {
           dateTime: birthMomentUtc(year, month, day, hour, minute).toISOString(),
           latitude,
           longitude,
-          timezone: birthInfo.timezone || "UTC",
-          name: birthInfo.locationName || birthInfo.location?.name || "Unknown"
+          timezone: birthInfo.timezone ?? "UTC",
+          name: birthInfo.locationName ?? birthInfo.location?.name ?? "Unknown"
         };
 
         console.log(`[unified-api] Calculating natal chart on create for agent: ${name}`);
@@ -369,7 +369,7 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ success: false, error: "Invalid or missing agentId", timestamp }, { status: 400 });
         }
 
-        const msgContent = message || userMessage;
+        const msgContent = message ?? userMessage;
         if (!msgContent || typeof msgContent !== "string" || msgContent.trim().length === 0 || msgContent.length > 5000) {
           return NextResponse.json({ success: false, error: "Invalid or missing message (max 5000 characters)", timestamp }, { status: 400 });
         }
@@ -381,7 +381,7 @@ export async function POST(request: NextRequest) {
 
         const paApiUrl = getServiceUrlSafe("planetaryAgentsApi");
         const chatUrl = `${paApiUrl}/api/chat`;
-        const secret = process.env.INTERNAL_API_SECRET || process.env.ALCHM_KITCHEN_SYNC_SECRET;
+        const secret = process.env.INTERNAL_API_SECRET ?? process.env.ALCHM_KITCHEN_SYNC_SECRET;
 
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), PA_TIMEOUT_MS);
@@ -391,13 +391,13 @@ export async function POST(request: NextRequest) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "X-Sync-Secret": secret || "",
+              "X-Sync-Secret": secret ?? "",
               ...(secret ? { "Authorization": `Bearer ${secret}` } : {})
             },
             body: JSON.stringify({
               agentId,
               message: msgContent,
-              sessionId: sessionId || randomUUID(),
+              sessionId: sessionId ?? randomUUID(),
               userId,
               context,
               systemPromptOverride: personaCtx.personaBlock,
@@ -430,7 +430,7 @@ export async function POST(request: NextRequest) {
             data: {
               text: defaultResponse,
               agentId,
-              sessionId: sessionId || randomUUID(),
+              sessionId: sessionId ?? randomUUID(),
               degraded: true,
               error: fetchErr.message
             },
@@ -445,7 +445,7 @@ export async function POST(request: NextRequest) {
   } catch (err: any) {
     console.error("[unified-api] Handler error:", err);
     return NextResponse.json(
-      { success: false, error: err.message || "Internal Server Error", timestamp: new Date().toISOString() },
+      { success: false, error: err.message ?? "Internal Server Error", timestamp: new Date().toISOString() },
       { status: 500 }
     );
   }

@@ -307,10 +307,10 @@ function applyElementalModifiers(
   modifiers: Partial<ElementalProperties>,
 ): ElementalProperties {
   return {
-    Fire: base.Fire + (modifiers.Fire || 0),
-    Water: base.Water + (modifiers.Water || 0),
-    Earth: base.Earth + (modifiers.Earth || 0),
-    Air: base.Air + (modifiers.Air || 0),
+    Fire: base.Fire + (modifiers.Fire ?? 0),
+    Water: base.Water + (modifiers.Water ?? 0),
+    Earth: base.Earth + (modifiers.Earth ?? 0),
+    Air: base.Air + (modifiers.Air ?? 0),
   };
 }
 
@@ -326,10 +326,10 @@ function applyAlchemicalModifiers(
   modifiers: Partial<AlchemicalProperties>,
 ): AlchemicalProperties {
   return {
-    Spirit: base.Spirit + (modifiers.Spirit || 0),
-    Essence: base.Essence + (modifiers.Essence || 0),
-    Matter: base.Matter + (modifiers.Matter || 0),
-    Substance: base.Substance + (modifiers.Substance || 0),
+    Spirit: base.Spirit + (modifiers.Spirit ?? 0),
+    Essence: base.Essence + (modifiers.Essence ?? 0),
+    Matter: base.Matter + (modifiers.Matter ?? 0),
+    Substance: base.Substance + (modifiers.Substance ?? 0),
   };
 }
 
@@ -472,7 +472,7 @@ export function applyCulturalInfluences(
   const philosophyResult = applyPhilosophyInfluences(
     exchangeInfluencedElementals,
     cuisineProperties.averageAlchemical,
-    culturalInfluence.philosophies || [],
+    culturalInfluence.philosophies ?? [],
   );
 
   // Update the cuisine properties

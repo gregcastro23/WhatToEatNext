@@ -299,10 +299,10 @@ class QuestService {
 
         if (result.rows.length > 0) {
           return {
-            progress: result.rows[0].progress || 0,
-            completedAt: result.rows[0].completed_at?.toISOString?.() || result.rows[0].completed_at || null,
-            claimedAt: result.rows[0].claimed_at?.toISOString?.() || result.rows[0].claimed_at || null,
-            periodStart: result.rows[0].period_start || null,
+            progress: result.rows[0].progress ?? 0,
+            completedAt: result.rows[0].completed_at?.toISOString?.() ?? result.rows[0].completed_at ?? null,
+            claimedAt: result.rows[0].claimed_at?.toISOString?.() ?? result.rows[0].claimed_at ?? null,
+            periodStart: result.rows[0].period_start ?? null,
           };
         }
       } catch (error) {
@@ -311,12 +311,12 @@ class QuestService {
     }
 
     // In-memory fallback
-    const key = `${userId}:${quest.id}:${periodStart || "all"}`;
+    const key = `${userId}:${quest.id}:${periodStart ?? "all"}`;
     const mem = memoryProgress.get(key);
     return {
-      progress: mem?.progress || 0,
-      completedAt: mem?.completedAt || null,
-      claimedAt: mem?.claimedAt || null,
+      progress: mem?.progress ?? 0,
+      completedAt: mem?.completedAt ?? null,
+      claimedAt: mem?.claimedAt ?? null,
       periodStart,
     };
   }
@@ -415,7 +415,7 @@ class QuestService {
     }
 
     // In-memory fallback
-    const key = `${userId}:${quest.id}:${periodStart || "all"}`;
+    const key = `${userId}:${quest.id}:${periodStart ?? "all"}`;
     memoryProgress.set(key, {
       progress: newProgress,
       completedAt: isNowComplete ? new Date().toISOString() : null,
@@ -511,7 +511,7 @@ class QuestService {
     }
 
     // In-memory fallback
-    const key = `${userId}:${quest.id}:${periodStart || "all"}`;
+    const key = `${userId}:${quest.id}:${periodStart ?? "all"}`;
     const mem = memoryProgress.get(key);
     if (mem) {
       memoryProgress.set(key, { ...mem, claimedAt: new Date().toISOString() });
@@ -561,7 +561,7 @@ class QuestService {
     quest: QuestDefinition,
     periodStart: string | null,
   ): Promise<{ questSlug: string; tokensAwarded: number; tokenType: string; credited: boolean }> {
-    const idemKey = `quest_claim:${userId}:${quest.slug}:${periodStart || "all"}`;
+    const idemKey = `quest_claim:${userId}:${quest.slug}:${periodStart ?? "all"}`;
 
     if (quest.tokenRewardType === "all") {
       // Split evenly across all 4 token types
@@ -631,7 +631,7 @@ class QuestService {
 
     const todayStr = new Date().toISOString().slice(0, 10);
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-    const agentName = eventMetadata?.agentName?.trim() || "A planetary agent";
+    const agentName = eventMetadata?.agentName?.trim() ?? "A planetary agent";
     const sacredStat = eventMetadata?.sacredStat;
 
     // ESMS columns mirror token_balances; map TokenType -> column name.

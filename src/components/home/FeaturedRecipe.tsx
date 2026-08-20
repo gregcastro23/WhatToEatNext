@@ -39,8 +39,8 @@ const MAX_SERVINGS = 24;
 
 // Real recipe-NFT protocol wiring for the ledger showcase (env-driven; the
 // showcase previously displayed hardcoded mock registry/token/block values).
-const REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_RECIPE_REGISTRY_ADDRESS || "";
-const RIGHTS_ID = process.env.NEXT_PUBLIC_ALCHM_RIGHTS_ID || "";
+const REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_RECIPE_REGISTRY_ADDRESS ?? "";
+const RIGHTS_ID = process.env.NEXT_PUBLIC_ALCHM_RIGHTS_ID ?? "";
 const IS_TESTNET = (process.env.NEXT_PUBLIC_RECIPE_NFT_CHAIN ?? "base-sepolia") !== "base";
 const NFT_ENABLED =
   process.env.NEXT_PUBLIC_RECIPE_NFT_ENABLED === "true" && Boolean(REGISTRY_ADDRESS) && Boolean(RIGHTS_ID);

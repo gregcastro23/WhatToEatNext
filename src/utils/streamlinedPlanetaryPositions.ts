@@ -49,9 +49,9 @@ export function getCurrentPlanetaryPositions(): {
         const posData = position as any;
         convertedPositions[planetName] = {
           sign: posData.sign as string,
-          degree: posData.degree || 0,
-          exactLongitude: posData.exactLongitude || 0,
-          isRetrograde: posData.isRetrograde || false,
+          degree: posData.degree ?? 0,
+          exactLongitude: posData.exactLongitude ?? 0,
+          isRetrograde: posData.isRetrograde ?? false,
         };
       }
     }

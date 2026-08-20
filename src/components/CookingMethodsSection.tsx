@@ -153,7 +153,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         if (method.variations) {
           method.variations.forEach(variation => {
             // Use parent method's elemental effect if variation doesn't have one
-            const variationElemental = variation.elementalEffect || method.elementalEffect;
+            const variationElemental = variation.elementalEffect ?? method.elementalEffect;
             
             if (variationElemental) {
               // @ts-expect-error - Auto-fixed by script
@@ -573,7 +573,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                           </div>
                           
                           {/* Show elemental transformations for variations too */}
-                          {(variation.elementalEffect || variation.alchemicalProperties) && (
+                          {(variation.elementalEffect ?? variation.alchemicalProperties) && (
                             <div className={styles['elemental-transformations-small']}>
                               {(() => {
                                 const transformations = getElementalTransformations(variation);

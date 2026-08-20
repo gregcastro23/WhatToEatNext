@@ -123,7 +123,7 @@ function normalizeSignName(signName: string): any {
     pisces: "pisces",
   };
   const normalized = signName.toLowerCase() as any;
-  return signMap[normalized] || "aries";
+  return signMap[normalized] ?? "aries";
 }
 
 /**
@@ -317,7 +317,7 @@ export async function fetchPlanetaryPositions(
       celestialBodies.all.length === 0;
     if (hasError && hasNoPlanets) {
       throw new Error(
-        `API returned error: ${(data as any).error || "Calculations unavailable"}`,
+        `API returned error: ${(data as any).error ?? "Calculations unavailable"}`,
       );
     }
 

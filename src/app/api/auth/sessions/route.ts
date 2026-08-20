@@ -54,10 +54,10 @@ function jwtFallback(
   userId: string,
   jti?: string | null,
 ): SessionRow[] {
-  const ua = request.headers.get("user-agent") || "Unknown device";
+  const ua = request.headers.get("user-agent") ?? "Unknown device";
   return [
     {
-      id: jti || "current",
+      id: jti ?? "current",
       sub: "kitchen.alchm.kitchen",
       device: ua.split(/[)]/)[0]?.slice(0, 80) || "This browser",
       loc: "—",
@@ -135,13 +135,13 @@ export async function GET(request: Request) {
     );
 
     const rows: SessionRow[] = result.rows.map((r: DeviceSessionRow) => {
-      const rowId = r.id || "";
-      const ua = r.user_agent || r.device || "Unknown device";
+      const rowId = r.id ?? "";
+      const ua = r.user_agent ?? r.device ?? "Unknown device";
       const locParts = [r.location_city, r.location_region, r.location_country]
         .filter((x: unknown): x is string => typeof x === "string" && x.length > 0);
       return {
         id: rowId,
-        sub: r.subdomain || "kitchen.alchm.kitchen",
+        sub: r.subdomain ?? "kitchen.alchm.kitchen",
         device: ua.slice(0, 80),
         loc: locParts.join(", ") || "—",
         time: relativeTime(r.last_seen_at),

@@ -156,7 +156,7 @@ export default function MealRowCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <Link
-              href={`/recipes/${recipe.id || encodeURIComponent(recipe.name)}`}
+              href={`/recipes/${recipe.id ?? encodeURIComponent(recipe.name)}`}
               className="font-body-md text-[15px] font-medium text-primary truncate hover:underline"
             >
               {recipe.name}

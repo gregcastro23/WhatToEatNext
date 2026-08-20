@@ -102,6 +102,8 @@ export interface AgentEventFeedItem {
   href?: string;
   /** Leading glyph from the narration. */
   icon: string;
+  /** Optional audio URL for voice insights or narrated walkthroughs. */
+  audioUrl?: string;
   element?: FeedElement;
   esmsTag?: EsmsTag;
   planetaryHour?: string;

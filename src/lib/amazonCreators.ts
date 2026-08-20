@@ -110,7 +110,7 @@ function setCachedToken(accessToken: string, expiresInSeconds: number) {
 }
 
 async function readErrorPayload(response: Response): Promise<unknown> {
-  const contentType = response.headers.get("content-type") || "";
+  const contentType = response.headers.get("content-type") ?? "";
   if (contentType.includes("application/json")) {
     try {
       return await response.json();

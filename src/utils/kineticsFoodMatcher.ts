@@ -47,7 +47,7 @@ export function getTemporalFoodRecommendations(
   const powerData = kinetics.data.base.power.find(
     (p) => p.hour === currentHour,
   );
-  const currentPower = powerData?.power || 0.5;
+  const currentPower = powerData?.power ?? 0.5;
 
   // Determine energy category based on power level
   const energyCategory = getEnergyCategory(currentPower);
@@ -124,9 +124,9 @@ export function calculateOptimalPortions<T extends { amount: number }>(
 ): T[] {
   const currentHour = new Date().getHours();
   const powerLevel =
-    kinetics.data.base.power.find((p) => p.hour === currentHour)?.power || 0.5;
+    kinetics.data.base.power.find((p) => p.hour === currentHour)?.power ?? 0.5;
   const powerMultiplier =
-    kinetics.data.agentOptimization?.powerAmplification || 1.0;
+    kinetics.data.agentOptimization?.powerAmplification ?? 1.0;
 
   // Higher power = larger portions for energy utilization
   // Lower power = smaller portions for easier digestion
@@ -198,7 +198,7 @@ export function getAspectEnhancedRecommendations(
 ): KineticsEnhancedRecommendation {
   const currentHour = new Date().getHours();
   const currentPower =
-    kinetics.data.base.power.find((p) => p.hour === currentHour)?.power || 0.5;
+    kinetics.data.base.power.find((p) => p.hour === currentHour)?.power ?? 0.5;
   const trend = kinetics.data.powerPrediction?.trend;
 
   const baseRecommendation = getTemporalFoodRecommendations(
@@ -229,7 +229,7 @@ export function calculateKineticAlignment(
 ): number {
   const currentHour = new Date().getHours();
   const powerLevel =
-    kinetics.data.base.power.find((p) => p.hour === currentHour)?.power || 0.5;
+    kinetics.data.base.power.find((p) => p.hour === currentHour)?.power ?? 0.5;
   const elementalTotals = kinetics.data.base.elemental.totals;
 
   // Power alignment score (0-1)
@@ -357,7 +357,7 @@ function calculatePortionModifier(
   powerLevel: number,
   powerAmplification?: number,
 ): number {
-  const multiplier = powerAmplification || 1.0;
+  const multiplier = powerAmplification ?? 1.0;
   return (powerLevel * multiplier - 0.5) * 0.3 + 1.0;
 }
 

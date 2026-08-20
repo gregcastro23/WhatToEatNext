@@ -1219,11 +1219,11 @@ export function getDeployHistory(): { entries: DeployHistoryEntry[]; live: boole
       entries: [
         {
           sha: vercelSha.slice(0, 7),
-          author: process.env.VERCEL_GIT_COMMIT_AUTHOR_NAME || "unknown",
+          author: process.env.VERCEL_GIT_COMMIT_AUTHOR_NAME ?? "unknown",
           // Vercel exposes no deploy timestamp env, so the age is the deploy's
           // identity, not a fabricated duration.
           age: "current",
-          message: process.env.VERCEL_GIT_COMMIT_MESSAGE || "unknown",
+          message: process.env.VERCEL_GIT_COMMIT_MESSAGE ?? "unknown",
         },
       ],
       live: true,

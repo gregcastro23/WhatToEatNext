@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
     return unauthorizedResponse();
   }
 
-  const legacyManual = user.profile.groupMembers || [];
+  const legacyManual = user.profile.groupMembers ?? [];
   const [newManual, linked] = await Promise.all([
     commensalDatabase.getManualCompanionsForUser(user.id),
     commensalDatabase.getLinkedCommensalsForUser(user.id),
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
     const created = await commensalDatabase.createManualCompanion({
       ownerId: user.id,
       name,
-      relationship: relationship || "friend",
+      relationship: relationship ?? "friend",
       birthData: natalChart.birthData,
       natalChart,
     });

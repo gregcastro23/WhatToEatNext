@@ -328,7 +328,7 @@ export function getDominantElement(
 export function mapToIngredient(mapping: IngredientMappingType): Ingredient {
   // Set default values for required properties
   const ingredient = {
-    name: (mapping.name as unknown) || "",
+    name: (mapping.name as unknown) ?? "",
     category:
       (mapping.category as unknown as IngredientCategory) || "culinary_herb",
     elementalProperties:
@@ -339,12 +339,12 @@ export function mapToIngredient(mapping: IngredientMappingType): Ingredient {
         Air: 0.25,
       },
     qualities: (mapping.qualities) || [],
-    storage: (mapping.storage as unknown) || {
+    storage: (mapping.storage as unknown) ?? {
       duration: "unknown",
     },
     // Add missing required properties for Ingredient interface
-    amount: (mapping as unknown as any).amount || 1,
-    astrologicalProfile: (mapping as unknown as any).astrologicalProfile || {
+    amount: (mapping as unknown as any).amount ?? 1,
+    astrologicalProfile: (mapping as unknown as any).astrologicalProfile ?? {
       elementalAffinity: { base: "Earth" },
       rulingPlanets: [],
       zodiacAffinity: [],
@@ -382,11 +382,11 @@ export function ingredientToRecipeIngredient(
     unit,
     category: ingredient.category || "culinary_herb",
     elementalProperties: ingredient.elementalProperties,
-    qualities: (ingredient as any).qualities || [],
+    qualities: (ingredient as any).qualities ?? [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as any).origin || undefined,
-    seasonality: (ingredient as any).seasonality || undefined,
+    origin: (ingredient as any).origin ?? undefined,
+    seasonality: (ingredient as any).seasonality ?? undefined,
   };
 }
 

@@ -21,8 +21,8 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || "";
-const ALCHM_KITCHEN_SYNC_SECRET = process.env.ALCHM_KITCHEN_SYNC_SECRET || "";
+const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET ?? "";
+const ALCHM_KITCHEN_SYNC_SECRET = process.env.ALCHM_KITCHEN_SYNC_SECRET ?? "";
 
 const AgentRecipeBodySchema = z.object({
   // The authoring agent's WTEN user id (PA's alchmKitchenUserId).
@@ -43,8 +43,8 @@ interface InsertedRow {
 }
 
 export async function POST(request: NextRequest) {
-  const authHeader = request.headers.get("authorization") || "";
-  const syncHeader = request.headers.get("x-sync-secret") || "";
+  const authHeader = request.headers.get("authorization") ?? "";
+  const syncHeader = request.headers.get("x-sync-secret") ?? "";
 
   const isBearerAuthorized = !!INTERNAL_API_SECRET && authHeader === `Bearer ${INTERNAL_API_SECRET}`;
   const isSyncHeaderAuthorized = !!ALCHM_KITCHEN_SYNC_SECRET && syncHeader === ALCHM_KITCHEN_SYNC_SECRET;

@@ -149,8 +149,8 @@ class UserDatabaseService {
     const user: UserWithProfile = {
       id: userId,
       email,
-      passwordHash: data.passwordHash || "TEMP_NO_PASSWORD",
-      roles: data.roles || ["user" as UserRole],
+      passwordHash: data.passwordHash ?? "TEMP_NO_PASSWORD",
+      roles: data.roles ?? ["user" as UserRole],
       isActive: true,
       createdAt: now,
       profile: {
@@ -187,14 +187,14 @@ class UserDatabaseService {
               userId,
               email,
               data.name,
-              data.image || null,
+              data.image ?? null,
               user.passwordHash,
               primaryRole,
               true,
               true,
               0,
               JSON.stringify(user.profile),
-              JSON.stringify(user.profile.preferences || {}),
+              JSON.stringify(user.profile.preferences ?? {}),
               now,
             ],
           );
@@ -220,7 +220,7 @@ class UserDatabaseService {
             [
               userId,
               data.name,
-              JSON.stringify(data.profile?.dietaryPreferences || {}),
+              JSON.stringify(data.profile?.dietaryPreferences ?? {}),
               jsonbOrNull(data.profile?.birthData),
               jsonbOrNull(data.profile?.natalChart),
               // `[MEASURED 2026-08-12]` 0 of 8 chart-bearing humans held
@@ -234,8 +234,8 @@ class UserDatabaseService {
               // cannot disagree. Null when the chart is unusable: jsonbOrNull
               // keeps an empty array out of a NOT-NULL-looking column.
               jsonbOrNull(natalPositionsFromStoredChart(data.profile?.natalChart)),
-              JSON.stringify(data.profile?.groupMembers || []),
-              JSON.stringify(data.profile?.diningGroups || []),
+              JSON.stringify(data.profile?.groupMembers ?? []),
+              JSON.stringify(data.profile?.diningGroups ?? []),
             ],
           );
 
@@ -352,7 +352,7 @@ class UserDatabaseService {
     }
 
     // Fallback to in-memory
-    return this.users.get(userId) || null;
+    return this.users.get(userId) ?? null;
   }
 
   /**
@@ -387,7 +387,7 @@ class UserDatabaseService {
 
     // Fallback to in-memory
     const userId = this.emailIndex.get(normalizedEmail);
-    return userId ? this.users.get(userId) || null : null;
+    return userId ? this.users.get(userId) ?? null : null;
   }
 
   /**
@@ -457,7 +457,7 @@ class UserDatabaseService {
         const existing = this.users.get(existingId);
         if (existing) {
           existing.isAgent = true;
-          existing.profile.name ||= resolvedName;
+          existing.profile.name ??= resolvedName;
           return existing;
         }
       }
@@ -729,7 +729,7 @@ class UserDatabaseService {
             [
               userId,
               JSON.stringify(updatedProfile),
-              JSON.stringify(updatedProfile.preferences || {}),
+              JSON.stringify(updatedProfile.preferences ?? {}),
             ],
           );
 
@@ -749,12 +749,12 @@ class UserDatabaseService {
                  updated_at = CURRENT_TIMESTAMP`,
               [
                 userId,
-                updatedProfile.name || "",
+                updatedProfile.name ?? "",
                 jsonbOrNull(updatedProfile.birthData),
                 jsonbOrNull(updatedProfile.natalChart),
-                JSON.stringify(updatedProfile.dietaryPreferences || {}),
-                JSON.stringify(updatedProfile.groupMembers || []),
-                JSON.stringify(updatedProfile.diningGroups || []),
+                JSON.stringify(updatedProfile.dietaryPreferences ?? {}),
+                JSON.stringify(updatedProfile.groupMembers ?? []),
+                JSON.stringify(updatedProfile.diningGroups ?? []),
                 onboardingComplete,
               ],
             );
@@ -773,11 +773,11 @@ class UserDatabaseService {
                  updated_at = CURRENT_TIMESTAMP`,
               [
                 userId,
-                updatedProfile.name || "",
+                updatedProfile.name ?? "",
                 jsonbOrNull(updatedProfile.birthData),
                 jsonbOrNull(updatedProfile.natalChart),
-                JSON.stringify(updatedProfile.groupMembers || []),
-                JSON.stringify(updatedProfile.diningGroups || []),
+                JSON.stringify(updatedProfile.groupMembers ?? []),
+                JSON.stringify(updatedProfile.diningGroups ?? []),
                 onboardingComplete,
               ],
             );
@@ -1085,7 +1085,7 @@ class UserDatabaseService {
     }
 
     // Fallback to in-memory
-    return Array.from(this.users.values()).find((u) => u.privyDid === privyDid) || null;
+    return Array.from(this.users.values()).find((u) => u.privyDid === privyDid) ?? null;
   }
 
   /**
@@ -1192,8 +1192,8 @@ class UserDatabaseService {
     // updateUserProfile (dual-writes both), so the column wins going forward and
     // this fallback only ever fires for un-backfilled legacy rows.
     const jsonbProfile = parseJsonColumn<Record<string, unknown>>(row.profile, {});
-    const hasColumnBirthData = Object.keys(columnBirthData || {}).length > 0;
-    const hasColumnNatalChart = Object.keys(columnNatalChart || {}).length > 0;
+    const hasColumnBirthData = Object.keys(columnBirthData ?? {}).length > 0;
+    const hasColumnNatalChart = Object.keys(columnNatalChart ?? {}).length > 0;
     const birthData = hasColumnBirthData
       ? columnBirthData
       : (jsonbProfile?.birthData as UserProfile["birthData"] | undefined);
@@ -1225,7 +1225,7 @@ class UserDatabaseService {
     );
 
     // Map single 'role' ENUM column back to roles array
-    const dbRole = (row.role || "USER").toUpperCase();
+    const dbRole = (row.role ?? "USER").toUpperCase();
     const roles =
       dbRole === "ADMIN"
         ? (["admin", "user"] as UserRole[])
@@ -1238,13 +1238,13 @@ class UserDatabaseService {
       roles,
       isActive: row.is_active,
       isAgent: row.is_agent === true,
-      privyDid: row.privy_did || undefined,
-      walletAddress: row.wallet_address || undefined,
+      privyDid: row.privy_did ?? undefined,
+      walletAddress: row.wallet_address ?? undefined,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
       profile: {
         userId: row.id,
-        name: row.profile_name || row.name || undefined,
+        name: row.profile_name ?? row.name ?? undefined,
         email: row.email,
         preferences,
         dietaryPreferences,
@@ -1254,9 +1254,9 @@ class UserDatabaseService {
           row.onboarding_completed === true ||
           jsonbProfile?.onboardingComplete === true,
         birthData:
-          Object.keys(birthData || {}).length > 0 ? birthData : undefined,
+          Object.keys(birthData ?? {}).length > 0 ? birthData : undefined,
         natalChart:
-          Object.keys(natalChart || {}).length > 0 ? natalChart : undefined,
+          Object.keys(natalChart ?? {}).length > 0 ? natalChart : undefined,
         groupMembers,
         diningGroups,
       },

@@ -238,12 +238,12 @@ export const _getRecommendedCookingMethodsForIngredient = async (
   log.info("COOKING METHOD RECOMMENDATIONS ENGINE START");
   log.info("===========================================");
   log.info(`_Ingredient: ${ingredient.name}`);
-  log.info(`_Element: ${ingredient.element || "Not specified"}`);
+  log.info(`_Element: ${ingredient.element ?? "Not specified"}`);
   log.info(
-    `Elemental _Character: ${ingredient.elementalCharacter || "Not specified"}`,
+    `Elemental _Character: ${ingredient.elementalCharacter ?? "Not specified"}`,
   );
   log.info(
-    `_Spirit: ${ingredient.spirit || 0}, _Essence: ${ingredient.essence || 0}, _Matter: ${ingredient.matter || 0}, _Substance: ${ingredient.substance || 0}`,
+    `_Spirit: ${ingredient.spirit ?? 0}, _Essence: ${ingredient.essence ?? 0}, _Matter: ${ingredient.matter ?? 0}, _Substance: ${ingredient.substance ?? 0}`,
   );
   log.info(`Available cooking methods: ${cookingMethods.length}`);
 

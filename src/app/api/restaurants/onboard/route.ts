@@ -55,8 +55,8 @@ function text(value: unknown): string {
 
 function appUrlFrom(request: Request): string {
   const configured =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.AUTH_URL ||
+    process.env.NEXT_PUBLIC_APP_URL ??
+    process.env.AUTH_URL ??
     process.env.VERCEL_URL;
 
   if (configured) {
@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
 
       account = await stripe.accounts.create(
         {
-          country: process.env.STRIPE_RESTAURANT_CONNECT_COUNTRY || "US",
+          country: process.env.STRIPE_RESTAURANT_CONNECT_COUNTRY ?? "US",
           email,
           business_type: businessType(body.businessType),
           capabilities: {

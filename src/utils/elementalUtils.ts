@@ -401,7 +401,7 @@ export function fixIngredientMapping(
   key: string,
 ): IngredientMapping {
   const name =
-    mapping.name || key.replace(/_/g, " ").replace(/\s+/g, " ").trim();
+    mapping.name ?? key.replace(/_/g, " ").replace(/\s+/g, " ").trim();
 
   const elementalProperties = mapping.elementalProperties
     ? ensureCompleteElementalProperties(mapping.elementalProperties)

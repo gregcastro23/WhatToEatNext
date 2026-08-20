@@ -433,7 +433,7 @@ async function readTokenTxns(userId: string): Promise<TimelineEvent[]> {
       const amount = toNum(row.amount);
       const sign = amount >= 0 ? "+" : "";
       const description =
-        row.description ||
+        row.description ??
         `${sign}${amount.toFixed(2)} ${row.token_type} · ${row.source_type}`;
       return {
         id: `token:${row.id}`,

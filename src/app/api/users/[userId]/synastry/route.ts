@@ -76,7 +76,7 @@ export async function POST(
     // Call the in-process MCP tool handler
     const mcpRes = await computeSynastryOverlay({
       agentA: {
-        id: viewer.id || "viewer",
+        id: viewer.id ?? "viewer",
         natalChart: {
           planets: viewer.natalChart.planets,
           ascendant: viewer.natalChart.ascendant,
@@ -95,7 +95,7 @@ export async function POST(
 
     if (!mcpRes.ok) {
       return NextResponse.json(
-        { success: false, message: mcpRes.errorMessage || "Failed to calculate synastry overlay" },
+        { success: false, message: mcpRes.errorMessage ?? "Failed to calculate synastry overlay" },
         { status: 500 },
       );
     }

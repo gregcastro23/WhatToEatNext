@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get("category") as QuickFoodCategory | null;
 
     const presets = await foodDiaryService.getServerQuickFoodPresets(
-      category || undefined,
+      category ?? undefined,
     );
 
     // Group by category for easier consumption

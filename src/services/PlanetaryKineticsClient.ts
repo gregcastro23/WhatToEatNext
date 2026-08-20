@@ -70,7 +70,7 @@ export class PlanetaryKineticsClient {
     try {
       const cacheKey = `kinetics_${location.latitude}_${location.longitude}`;
       const now = Date.now();
-      const cacheTimeout = options.cacheTimeout || 5 * 60 * 1000; // 5 minutes
+      const cacheTimeout = options.cacheTimeout ?? 5 * 60 * 1000; // 5 minutes
 
       // Check cache
       if (options.useCache !== false) {
@@ -111,7 +111,7 @@ export class PlanetaryKineticsClient {
       // Run the P=IV kinetics calculation
       const fullMetrics: FullKineticMetrics = calculateKinetics({
         currentPlanetaryPositions: currentPositions,
-        previousPlanetaryPositions: this.previousPositions || undefined,
+        previousPlanetaryPositions: this.previousPositions ?? undefined,
         timeInterval,
       });
 
@@ -125,7 +125,7 @@ export class PlanetaryKineticsClient {
         forceMagnitude: fullMetrics.forceMagnitude,
         power: fullMetrics.power,
         efficiency,
-        aspectPhase: fullMetrics.aspectPhase?.type || "stable",
+        aspectPhase: fullMetrics.aspectPhase?.type ?? "stable",
         thermalDirection: fullMetrics.thermalDirection,
       };
 
@@ -168,7 +168,7 @@ export class PlanetaryKineticsClient {
         // aspectType is a defensive fallback for the celestial.ts PlanetaryAspect variant;
         // calculateAspects only ever sets `type`, so it is normally undefined at runtime.
         const view: { type?: string; aspectType?: string } = a;
-        return harmoniousTypes.has(String(view.type || view.aspectType || ""));
+        return harmoniousTypes.has(String(view.type ?? view.aspectType ?? ""));
       }).length;
 
       return aspects.length > 0 ? harmoniousCount / aspects.length : 0.5;

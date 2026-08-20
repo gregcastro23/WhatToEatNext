@@ -369,7 +369,7 @@ export class RecipeService {
        WHERE recipe_id = $1`,
       [recipeId],
     );
-    return result.rows[0] || null;
+    return result.rows[0] ?? null;
   }
 }
 
@@ -417,7 +417,7 @@ export class ElementalService {
             properties.water,
             properties.earth,
             properties.air,
-            properties.calculation_method || "manual",
+            properties.calculation_method ?? "manual",
             properties.confidence_score || 1.0,
           ],
         );
@@ -436,7 +436,7 @@ export class ElementalService {
             properties.water,
             properties.earth,
             properties.air,
-            properties.calculation_method || "manual",
+            properties.calculation_method ?? "manual",
             properties.confidence_score || 1.0,
           ],
         );
@@ -510,7 +510,7 @@ export class CacheService {
         "DELETE FROM calculation_cache WHERE cache_key LIKE $1",
         [`%${pattern}%`],
       );
-      return result.rowCount || 0;
+      return result.rowCount ?? 0;
     } catch (error) {
       void logger.warn("Cache invalidation failed", {
         pattern,
@@ -525,7 +525,7 @@ export class CacheService {
       const result = await executeQuery(
         "SELECT clean_expired_cache() as deleted_count",
       );
-      return result.rows[0].deleted_count || 0;
+      return result.rows[0].deleted_count ?? 0;
     } catch (error) {
       void logger.warn("Cache cleanup failed", {
         error: error instanceof Error ? error.message : "Unknown error",

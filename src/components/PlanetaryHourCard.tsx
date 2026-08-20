@@ -63,7 +63,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
   const seconds = Math.floor((state.timeRemainingMs % 60000) / 1000);
 
   return (
-    <div className={className || ""}>
+    <div className={className ?? ""}>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         <div style={{ fontWeight: 700 }}>Current Planetary Hour</div>
         <div>

@@ -60,7 +60,7 @@ export function CommentList({
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setError(data.message || "Could not post that.");
+        setError(data.message ?? "Could not post that.");
         return;
       }
       setBody("");
@@ -92,7 +92,7 @@ export function CommentList({
                       : "text-alchm-violet-bright"
                   }
                 >
-                  {comment.authorName || "A guest"}
+                  {comment.authorName ?? "A guest"}
                 </LabelXS>
                 <span className="shrink-0 text-[10px] font-mono text-alchm-fg-mute">
                   {new Date(comment.createdAt).toLocaleString(undefined, {

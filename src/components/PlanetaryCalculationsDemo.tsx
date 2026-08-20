@@ -230,17 +230,17 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
         if (planetData) {
           const planetName =
             planetKey.charAt(0).toUpperCase() + planetKey.slice(1);
-          const signKey = planetData.Sign?.key || planetData.Sign?.zodiac;
+          const signKey = planetData.Sign?.key ?? planetData.Sign?.zodiac;
 
           positions[planetName] = {
             sign: signKey as ZodiacSignType,
             degree:
-              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.degrees || 0,
+              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
             minute:
-              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.minutes || 0,
+              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
             exactLongitude:
-              planetData.ChartPosition?.Ecliptic?.DecimalDegrees || 0,
-            isRetrograde: planetData.isRetrograde || false,
+              planetData.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
+            isRetrograde: planetData.isRetrograde ?? false,
           };
 
           // Capitalize the sign for the mapping (Aries, Taurus, etc.)
@@ -920,7 +920,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-900">
-                {kineticMetrics?.power.toFixed(3) || "0"}
+                {kineticMetrics?.power.toFixed(3) ?? "0"}
               </div>
               <div className="text-sm text-gray-600">Kinetic Power</div>
             </div>

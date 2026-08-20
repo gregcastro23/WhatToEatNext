@@ -68,7 +68,7 @@ export function SignInScreen() {
 
 export function AuthErrorScreen() {
   const searchParams = useSearchParams();
-  const error = searchParams?.get('error') || 'Authentication failed';
+  const error = searchParams?.get('error') ?? 'Authentication failed';
 
   return (
     <AuthShell

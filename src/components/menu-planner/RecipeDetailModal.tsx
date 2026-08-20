@@ -247,7 +247,7 @@ export default function RecipeDetailModal({
     }
   };
 
-  const baseServings = recipe.servingSize || recipe.numberOfServings || 4;
+  const baseServings = recipe.servingSize ?? recipe.numberOfServings ?? 4;
   const scaledServings = Math.round(baseServings * servingMultiplier);
 
   const scaledIngredients = useMemo(
@@ -259,9 +259,8 @@ export default function RecipeDetailModal({
   const prepMins = parseTimeToMinutes(recipe.prepTime);
   const cookMins = parseTimeToMinutes(recipe.cookTime);
   const totalMins =
-    parseTimeToMinutes(recipe.totalTime) ||
-    (prepMins || 0) + (cookMins || 0) ||
-    null;
+    parseTimeToMinutes(recipe.totalTime) ??
+    ((prepMins ?? 0) + (cookMins ?? 0) || null);
 
   const rating = getRecipeRating(recipe.id);
 
@@ -380,7 +379,7 @@ export default function RecipeDetailModal({
           </div>
 
           {/* Time breakdown */}
-          {(prepMins || cookMins) && (
+          {(prepMins ?? cookMins) && (
             <div className="flex gap-4 mt-3 text-xs text-gray-600">
               {prepMins && (
                 <span>

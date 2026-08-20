@@ -47,8 +47,8 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
     const elementalProps = hasProperty(cuisineData, "elementalProperties")
       ? cuisineData.elementalProperties
       : null;
-    const props = (alchemicalProps ||
-      elementalProps ||
+    const props = (alchemicalProps ??
+      elementalProps ??
       {}) as ElementalProperties;
     return getAstrologicallyInformedFlavorProfile(
       astrologicalInfluences as string[],
@@ -63,8 +63,8 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   const elementalProps = hasProperty(cuisineData, "elementalProperties")
     ? cuisineData.elementalProperties
     : null;
-  const props = (alchemicalProps ||
-    elementalProps ||
+  const props = (alchemicalProps ??
+    elementalProps ??
     {}) as ElementalProperties;
   return generateFlavorProfileFromElements(props);
 }

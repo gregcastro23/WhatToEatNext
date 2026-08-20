@@ -51,7 +51,7 @@ function extractSign(positions: Record<string, unknown>, planet: Planet): string
   if (typeof value === 'string') return value;
   if (typeof value === 'object' && value !== null) {
     const v = value as { sign?: string; Sign?: string; name?: string };
-    return v.sign || v.Sign || v.name || null;
+    return v.sign ?? v.Sign ?? v.name ?? null;
   }
   return null;
 }

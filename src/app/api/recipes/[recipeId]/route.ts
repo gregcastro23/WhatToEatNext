@@ -98,7 +98,7 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
             cuisine: recipe.cuisine,
             cookingMethod: cookingMethods[0],
             ingredients: recipe.ingredients.map((i: any) => i.name),
-            complexity: (recipe as any).complexity || "moderate",
+            complexity: (recipe as any).complexity ?? "moderate",
             elementalBalance: recipe.elementalProperties,
           },
         }).catch((err) => console.error("Failed to record recipe_view interaction:", err));

@@ -53,7 +53,7 @@ export function toZodiacSignType(zodiac: string): ZodiacSignType {
 
   const normalized = zodiac.toLowerCase();
   const found = validSigns.find((sign) => sign.toLowerCase() === normalized);
-  return found || "aries";
+  return found ?? "aries";
 }
 
 /**

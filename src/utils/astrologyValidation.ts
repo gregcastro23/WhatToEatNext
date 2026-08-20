@@ -103,9 +103,9 @@ export async function validatePlanetaryPositions(
 
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
-        sign: String(calculatedData.sign || "").toLowerCase(),
-        degree: Math.floor(Number(calculatedData.degree || 0)),
-        minute: Math.floor((Number(calculatedData.degree || 0) % 1) * 60),
+        sign: String(calculatedData.sign ?? "").toLowerCase(),
+        degree: Math.floor(Number(calculatedData.degree ?? 0)),
+        minute: Math.floor((Number(calculatedData.degree ?? 0) % 1) * 60),
         isRetrograde: Boolean(calculatedData.isRetrograde),
       };
 
@@ -230,7 +230,7 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
 
     const data = await response.json();
     const responseData = data;
-    return (responseData.calculatedPositions || {}) as Record<string, unknown>;
+    return (responseData.calculatedPositions ?? {}) as Record<string, unknown>;
   } catch (error) {
     _logger.error("Error fetching latest positions: ", error);
     return {};
@@ -268,9 +268,9 @@ export async function validateAgainstAPI(): Promise<{
     const positionData = calculatedPosition as Record<string, unknown>;
 
     const formattedCalculated: PlanetaryPosition = {
-      sign: String(positionData.sign || "").toLowerCase(),
-      degree: Math.floor(Number(positionData.degree || 0)),
-      minute: Math.floor((Number(positionData.degree || 0) % 1) * 60),
+      sign: String(positionData.sign ?? "").toLowerCase(),
+      degree: Math.floor(Number(positionData.degree ?? 0)),
+      minute: Math.floor((Number(positionData.degree ?? 0) % 1) * 60),
       isRetrograde: Boolean(positionData.isRetrograde),
     };
 

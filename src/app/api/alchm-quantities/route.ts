@@ -526,10 +526,10 @@ export async function GET(request: Request) {
         if (response.ok) {
           const backendData = await response.json();
           const backendQuantities = {
-            Spirit: round(backendData.spirit_score || 0),
-            Essence: round(backendData.essence_score || 0),
-            Matter: round(backendData.matter_score || 0),
-            Substance: round(backendData.substance_score || 0)
+            Spirit: round(backendData.spirit_score ?? 0),
+            Essence: round(backendData.essence_score ?? 0),
+            Matter: round(backendData.matter_score ?? 0),
+            Substance: round(backendData.substance_score ?? 0)
           };
 
           const discrepancy = {
@@ -593,7 +593,7 @@ export async function GET(request: Request) {
           backendQuantities: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
           discrepancy: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
           status: "failed" as const,
-          error: err.message || String(err)
+          error: err.message ?? String(err)
         };
       }
     }
@@ -650,7 +650,7 @@ export async function GET(request: Request) {
       // Preserve prior field for any older consumers
       alchemical: quantities,
       planetaryMomentum: nowAlch.planetaryMomentum,
-      historicalContext: historicalContext || undefined,
+      historicalContext: historicalContext ?? undefined,
       crossVerification,
       vectorCircuit,
     };

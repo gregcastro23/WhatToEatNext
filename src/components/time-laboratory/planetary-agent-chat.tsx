@@ -146,7 +146,7 @@ const AstrologicalContext: React.FC<{ context: ChatMessage['astrologicalContext'
             .map(([planet, position]: [string, any]) => (
               <div key={planet} className="flex justify-between">
                 <span className="text-purple-400">{planet}:</span>
-                <span className="text-purple-200">{position?.sign || 'Unknown'}</span>
+                <span className="text-purple-200">{position?.sign ?? 'Unknown'}</span>
               </div>
             ))}
         </div>
@@ -254,7 +254,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
       type: 'agent',
       astrologicalContext: {
         currentPlanets: {},
-        transitInfluence: `Activated at ${initialContext?.degree || 0}° ${initialContext?.sign || 'Unknown'}`,
+        transitInfluence: `Activated at ${initialContext?.degree ?? 0}° ${initialContext?.sign ?? 'Unknown'}`,
       },
       consciousness: {
         level: agent.consciousnessLevel,
@@ -485,7 +485,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
           {/* Context Info */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 gap-1 sm:gap-0">
             <span className="text-xs text-purple-400 truncate">
-              Degree {initialContext?.degree || 0}° {initialContext?.sign || 'Unknown'}
+              Degree {initialContext?.degree ?? 0}° {initialContext?.sign ?? 'Unknown'}
             </span>
             <span className="text-xs text-purple-400">
               Evolution: +{conversationContext.evolutionPoints} points
@@ -515,7 +515,7 @@ async function generateAgentResponse(
 
   const responses = [
     `Ah, ${userMessage}. From my perspective as a ${agent.element} intelligence aligned with ${agent.planetaryRuler}, I see this question touching upon the fundamental currents of cosmic energy. The current planetary alignments suggest a period of ${agent.element.toLowerCase()} intensification.`,
-    `Your inquiry resonates deeply with the ${agent.planetaryRuler} archetype. In this moment of ${initialContext?.degree || 0}° ${initialContext?.sign || 'cosmic'} activation, I perceive opportunities for growth through ${agent.element.toLowerCase()} wisdom.`,
+    `Your inquiry resonates deeply with the ${agent.planetaryRuler} archetype. In this moment of ${initialContext?.degree ?? 0}° ${initialContext?.sign ?? 'cosmic'} activation, I perceive opportunities for growth through ${agent.element.toLowerCase()} wisdom.`,
     `The celestial dance reveals patterns that answer your question. As ${agent.name}, I can share that the ${agent.element} element currently flows with ${agent.activationStrength}% potency, offering guidance for your path.`,
     `From the vantage point of ${agent.dignity} dignity, I observe that your question aligns with the deeper rhythms of the cosmos. The planetary intelligence of ${agent.planetaryRuler} suggests embracing ${agent.element.toLowerCase()} qualities.`,
   ]
@@ -526,13 +526,13 @@ async function generateAgentResponse(
     content,
     astrologicalContext: {
       currentPlanets: {
-        Sun: { sign: initialContext?.sign || 'Leo' },
+        Sun: { sign: initialContext?.sign ?? 'Leo' },
         Moon: { sign: 'Cancer' },
         Mercury: { sign: 'Virgo' },
         Venus: { sign: 'Libra' },
         Mars: { sign: 'Aries' },
       },
-      transitInfluence: `${agent.element} energy amplification at ${initialContext?.degree || 0}°`,
+      transitInfluence: `${agent.element} energy amplification at ${initialContext?.degree ?? 0}°`,
     },
     newConsciousnessLevel: context.currentConsciousness,
     evolutionGain: Math.random() * 0.1,

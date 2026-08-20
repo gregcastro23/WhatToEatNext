@@ -268,20 +268,20 @@ function normalizeVarietyData(data: Record<string, unknown>): {
   }
 
   return {
-    appearance: data.appearance || "",
-    texture: data.texture || "",
-    flavor: data.flavor || data.flavour || "",
+    appearance: data.appearance ?? "",
+    texture: data.texture ?? "",
+    flavor: data.flavor ?? data.flavour ?? "",
     bestUses: Array.isArray(data.best_uses)
       ? data.best_uses
       : Array.isArray(data.bestUses)
         ? data.bestUses
         : data.best_uses || data.bestUses
-          ? [data.best_uses || data.bestUses]
+          ? [data.best_uses ?? data.bestUses]
           : [],
-    notes: data.notes || "",
-    origin: data.origin || "",
-    storage: data.storage || "",
-    ripening: data.ripening || "",
+    notes: data.notes ?? "",
+    origin: data.origin ?? "",
+    storage: data.storage ?? "",
+    ripening: data.ripening ?? "",
   };
 }
 
@@ -298,14 +298,14 @@ export function normalizeStorage(
   }
 
   return {
-    temperature: storage.temperature || "",
-    duration: storage.duration || "",
-    humidity: storage.humidity || "",
-    container: storage.container || "",
-    notes: storage.notes || "",
-    fresh: storage.fresh || {},
-    frozen: storage.frozen || {},
-    dried: storage.dried || {},
+    temperature: storage.temperature ?? "",
+    duration: storage.duration ?? "",
+    humidity: storage.humidity ?? "",
+    container: storage.container ?? "",
+    notes: storage.notes ?? "",
+    fresh: storage.fresh ?? {},
+    frozen: storage.frozen ?? {},
+    dried: storage.dried ?? {},
   };
 }
 
@@ -322,16 +322,16 @@ export function normalizePreparation(
   }
 
   return {
-    washing: preparation.washing || "",
-    peeling: preparation.peeling || "",
-    cutting: preparation.cutting || "",
-    cooking: preparation.cooking || "",
+    washing: preparation.washing ?? "",
+    peeling: preparation.peeling ?? "",
+    cutting: preparation.cutting ?? "",
+    cooking: preparation.cooking ?? "",
     tips: Array.isArray(preparation.tips)
       ? preparation.tips
       : preparation.tips
         ? [preparation.tips]
         : [],
-    notes: preparation.notes || "",
+    notes: preparation.notes ?? "",
   };
 }
 
@@ -413,7 +413,7 @@ export function safeGetNutritionalData(
 ): unknown {
   try {
     const profile = ingredient.nutritionalProfile as any;
-    return profile[field] || null;
+    return profile[field] ?? null;
   } catch (_error) {
     // logger.warn(`Error accessing nutritional field ${field}:`, error)
     return null;

@@ -55,8 +55,8 @@ export const DegreeAgentSelector: React.FC<DegreeAgentSelectorProps> = ({
   onDegreeChange,
   onAgentChat: _onAgentChat,
 }) => {
-  const [inputDegree, setInputDegree] = useState(selectedDegree?.toString() || '0')
-  const [sliderDegree, setSliderDegree] = useState(selectedDegree || 0)
+  const [inputDegree, setInputDegree] = useState(selectedDegree?.toString() ?? '0')
+  const [sliderDegree, setSliderDegree] = useState(selectedDegree ?? 0)
 
   const handleDegreeSubmit = useCallback(
     (degree: number) => {
@@ -154,18 +154,18 @@ export const DegreeAgentSelector: React.FC<DegreeAgentSelectorProps> = ({
           {/* Current Position Display */}
           <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg">
             <div className="flex items-center gap-3">
-              <div className="text-2xl">{currentSign?.symbol || '♈'}</div>
+              <div className="text-2xl">{currentSign?.symbol ?? '♈'}</div>
               <div>
                 <div className="text-lg font-semibold text-purple-200">
-                  {currentSign?.name || 'Aries'} {degreeWithinSign}°
+                  {currentSign?.name ?? 'Aries'} {degreeWithinSign}°
                 </div>
                 <div className="text-sm text-purple-400">Degree {sliderDegree} of 360</div>
               </div>
             </div>
             <div className="text-right">
-              <Badge className="cosmic-badge">{currentSign?.element || 'Fire'}</Badge>
+              <Badge className="cosmic-badge">{currentSign?.element ?? 'Fire'}</Badge>
               <div className="text-xs text-purple-400 mt-1">
-                {currentSign?.modality || 'Cardinal'}
+                {currentSign?.modality ?? 'Cardinal'}
               </div>
             </div>
           </div>

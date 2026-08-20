@@ -93,7 +93,7 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       const isChunkError =
-        this.state.error?.message.includes("ChunkLoadError") ||
+        this.state.error?.message.includes("ChunkLoadError") ??
         this.state.error?.message.includes("Loading chunk");
 
       return (

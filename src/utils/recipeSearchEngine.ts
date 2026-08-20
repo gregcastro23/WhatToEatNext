@@ -116,7 +116,7 @@ function calculateElementalSimilarity(
 
   elements.forEach((element) => {
     const val1 = props1[element] || 0;
-    const val2 = props2[element] || 0;
+    const val2 = props2[element] ?? 0;
 
     dotProduct += val1 * val2;
     mag1 += val1 * val1;
@@ -346,7 +346,7 @@ function calculateRecipeScore(
   // 8. Time bonus (0-20 points)
   if (options.prepTimeMax || options.cookTimeMax || options.totalTimeMax) {
     const prepTime = parseTimeToMinutes(recipe.prepTime);
-    const maxTime = options.prepTimeMax || options.totalTimeMax || 120;
+    const maxTime = options.prepTimeMax ?? options.totalTimeMax ?? 120;
 
     if (prepTime <= maxTime) {
       // Score higher for quicker recipes
@@ -485,7 +485,7 @@ export function searchRecipes(
     scoredResults.sort((a, b) => b.searchScore - a.searchScore);
 
     // 11. Apply pagination
-    const start = options.offset || 0;
+    const start = options.offset ?? 0;
     const end = options.limit ? start + options.limit : undefined;
     const paginatedResults = scoredResults.slice(start, end);
 
@@ -885,7 +885,7 @@ export function formatAuditSummary(audit: RecipeAuditResult): string {
   ) {
     lines.push("", "--- Incomplete Recipes (first 20) ---");
     audit.incompleteRecipes.slice(0, 20).forEach((r, i) => {
-      lines.push(`${i + 1}. ${r.recipeName} (${r.cuisine || "no cuisine"})`);
+      lines.push(`${i + 1}. ${r.recipeName} (${r.cuisine ?? "no cuisine"})`);
       lines.push(`   Issues: ${r.issues.join(", ")}`);
     });
   }

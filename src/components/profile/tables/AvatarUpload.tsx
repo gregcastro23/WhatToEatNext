@@ -61,7 +61,7 @@ export function AvatarUpload({ hasAvatar, onChanged, className = "" }: AvatarUpl
         onChanged(json.avatarUrl);
         if (json.reward) revealPracticeReward(json.reward);
       } else {
-        setError(json.message || "Upload failed");
+        setError(json.message ?? "Upload failed");
       }
     } catch {
       setError("Upload failed");
@@ -79,7 +79,7 @@ export function AvatarUpload({ hasAvatar, onChanged, className = "" }: AvatarUpl
       if (json.success) {
         onChanged(null);
       } else {
-        setError(json.message || "Removal failed");
+        setError(json.message ?? "Removal failed");
       }
     } catch {
       setError("Removal failed");

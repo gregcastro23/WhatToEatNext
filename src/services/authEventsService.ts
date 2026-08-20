@@ -80,8 +80,8 @@ async function getDbModule() {
 }
 
 const IP_HASH_SALT =
-  process.env.AUTH_EVENTS_IP_SALT ||
-  process.env.AUTH_SECRET ||
+  process.env.AUTH_EVENTS_IP_SALT ??
+  process.env.AUTH_SECRET ??
   "auth-events-default-salt-rotate-me";
 
 function hashIp(ip: string | null | undefined): string | null {

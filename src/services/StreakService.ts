@@ -72,7 +72,7 @@ function rowToStreak(row: UserStreakRow): UserStreak {
 }
 
 function getUTCDateString(date?: Date): string {
-  const d = date || new Date();
+  const d = date ?? new Date();
   return d.toISOString().slice(0, 10);
 }
 

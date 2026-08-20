@@ -77,7 +77,7 @@ export async function GET(
 
     if (!mcpRes.ok) {
       return NextResponse.json(
-        { success: false, message: mcpRes.errorMessage || "Failed to calculate transit overlay" },
+        { success: false, message: mcpRes.errorMessage ?? "Failed to calculate transit overlay" },
         { status: 500 },
       );
     }

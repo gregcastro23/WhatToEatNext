@@ -100,8 +100,8 @@ export function activatePlanetaryAgentForDegree(
     transitInfo = {
       transitingPlanet: options.transitingPlanet,
       natalPlanet: options.natalPlanet,
-      aspectType: options.aspectType || 'conjunction',
-      orb: options.orb || 0,
+      aspectType: options.aspectType ?? 'conjunction',
+      orb: options.orb ?? 0,
       significance: calculateTransitSignificance(config, options),
     }
   }
@@ -163,8 +163,8 @@ export function calculateTransitActivation(
     orbTolerance?: number
   } = {}
 ): ActivatedPlanetaryAgent[] {
-  const transitingPlanet = options.transitingPlanet || 'Sun'
-  const orbTolerance = options.orbTolerance || 5 // degrees
+  const transitingPlanet = options.transitingPlanet ?? 'Sun'
+  const orbTolerance = options.orbTolerance ?? 5 // degrees
 
   const activatedAgents: ActivatedPlanetaryAgent[] = []
 
@@ -190,7 +190,7 @@ export function calculateTransitActivation(
 
   // Sort by significance (highest first)
   return activatedAgents.sort(
-    (a, b) => (b.transitInfo?.significance || 0) - (a.transitInfo?.significance || 0)
+    (a, b) => (b.transitInfo?.significance ?? 0) - (a.transitInfo?.significance ?? 0)
   )
 }
 
@@ -252,7 +252,7 @@ export function createMomentPlanetaryAgents(
       color: PLANET_COLORS[planetName] || '#8b5cf6',
       symbol: PLANET_SYMBOLS[planetName] || '●',
       isDiurnal: options.currentDateTime ? isDiurnalTime(options.currentDateTime) : true,
-      retrograde: planetData.retrograde || false,
+      retrograde: planetData.retrograde ?? false,
     } as unknown as PlanetaryConfig
 
     // Add lunar personality for Moon agent

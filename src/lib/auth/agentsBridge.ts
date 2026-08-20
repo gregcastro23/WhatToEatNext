@@ -30,8 +30,8 @@
 // Trusted, fixed default. Only ever an alchm.kitchen-owned host; never derived
 // from request input.
 const AGENTS_BASE_URL = (
-  process.env.AGENTS_BASE_URL ||
-  process.env.NEXT_PUBLIC_AGENTS_URL ||
+  process.env.AGENTS_BASE_URL ??
+  process.env.NEXT_PUBLIC_AGENTS_URL ??
   "https://agents.alchm.kitchen"
 ).replace(/\/$/, "");
 

@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     } else if (type === "login") {
       success = await emailService.sendLoginNotificationEmail(to, name, true);
     } else if (type === "bulletin") {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen";
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alchm.kitchen";
       success = await emailService.sendBulletinEmail(
         to,
         name,

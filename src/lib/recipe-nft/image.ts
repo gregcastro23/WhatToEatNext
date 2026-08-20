@@ -22,8 +22,8 @@ const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 const { R2_ACCESS_KEY_ID } = process.env;
 const { R2_SECRET_ACCESS_KEY } = process.env;
-const R2_BUCKET = process.env.R2_BUCKET_NAME || "alchm-assets";
-const R2_DOMAIN = (process.env.NEXT_PUBLIC_R2_DOMAIN || "https://assets.alchm.kitchen").replace(/\/$/, "");
+const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "alchm-assets";
+const R2_DOMAIN = (process.env.NEXT_PUBLIC_R2_DOMAIN ?? "https://assets.alchm.kitchen").replace(/\/$/, "");
 const CACHE_TTL = 60 * 60 * 24 * 30; // 30 days — the R2 object is durable.
 
 const NEGATIVE_PROMPT =

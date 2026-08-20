@@ -39,8 +39,8 @@ const GlobalPopup: FC = () => {
     showPopup(message, {
       ...options,
       type: 'success',
-      className: `${options.className || ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
-      duration: options.duration || 3000
+      className: `${options.className ?? ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
+      duration: options.duration ?? 3000
     });
   };
 
@@ -48,8 +48,8 @@ const GlobalPopup: FC = () => {
     showPopup(message, {
       ...options,
       type: 'error',
-      className: `${options.className || ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
-      duration: options.duration || 5000 // Longer duration for errors
+      className: `${options.className ?? ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
+      duration: options.duration ?? 5000 // Longer duration for errors
     });
   };
 
@@ -57,8 +57,8 @@ const GlobalPopup: FC = () => {
     showPopup(message, {
       ...options,
       type: 'warning',
-      className: `${options.className || ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
-      duration: options.duration || 4000
+      className: `${options.className ?? ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
+      duration: options.duration ?? 4000
     });
   };
 
@@ -66,8 +66,8 @@ const GlobalPopup: FC = () => {
     showPopup(message, {
       ...options,
       type: 'info',
-      className: `${options.className || ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
-      duration: options.duration || 3000
+      className: `${options.className ?? ''} ${getElementalClasses(options.sunSign, options.moonSign)}`,
+      duration: options.duration ?? 3000
     });
   };
 
@@ -77,8 +77,8 @@ const GlobalPopup: FC = () => {
     showPopup(message, {
       ...options,
       type: 'elemental',
-      className: `${options.className || ''} ${elementalClass}`,
-      duration: options.duration || 3000
+      className: `${options.className ?? ''} ${elementalClass}`,
+      duration: options.duration ?? 3000
     });
   };
 

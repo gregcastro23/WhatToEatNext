@@ -16,7 +16,7 @@ const PLANETARY_LIMIT = { window: 60_000, max: 60, bucket: "planetary-positions"
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 
 interface NormalizedPlanetPosition {
@@ -64,7 +64,7 @@ function parsePlanetaryRequest(request: NextRequest): PlanetaryRequestBody {
 }
 
 function normalizeBackendPositions(backendPayload: any): Record<string, NormalizedPlanetPosition> {
-  const rawPositions = backendPayload?.planetary_positions || backendPayload?.positions || backendPayload || {};
+  const rawPositions = backendPayload?.planetary_positions ?? backendPayload?.positions ?? backendPayload ?? {};
   const positions: Record<string, NormalizedPlanetPosition> = {};
 
   for (const [planet, raw] of Object.entries(rawPositions)) {

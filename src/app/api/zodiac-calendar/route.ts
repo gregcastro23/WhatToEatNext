@@ -33,7 +33,7 @@ export async function GET(request: Request) {
   if (!rl.allowed) return rl.response!;
   try {
     const url = new URL(request.url);
-    const action = url.searchParams.get("action") || "current-period";
+    const action = url.searchParams.get("action") ?? "current-period";
 
     const now = new Date();
     const raw = getAccuratePlanetaryPositions(now);
@@ -91,8 +91,8 @@ export async function GET(request: Request) {
     }
 
     if (action === "monthly-calendar") {
-      const year = parseInt(url.searchParams.get("year") || String(now.getFullYear()), 10);
-      const month = parseInt(url.searchParams.get("month") || String(now.getMonth()), 10);
+      const year = parseInt(url.searchParams.get("year") ?? String(now.getFullYear()), 10);
+      const month = parseInt(url.searchParams.get("month") ?? String(now.getMonth()), 10);
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const days = Array.from({ length: daysInMonth }, (_, i) => {
         const d = new Date(year, month, i + 1, 12, 0, 0);

@@ -110,7 +110,7 @@ export function addItem(
     const newItem: PantryItem = {
       ...item,
       id: generateId(),
-      addedDate: item.addedDate || new Date(),
+      addedDate: item.addedDate ?? new Date(),
     };
 
     pantry.push(newItem);
@@ -378,7 +378,7 @@ export function importPantryJSON(
     // Validate items
     const items: PantryItem[] = imported.map((item: any) => ({
       ...item,
-      id: item.id || generateId(),
+      id: item.id ?? generateId(),
       addedDate: new Date(item.addedDate),
       expirationDate: item.expirationDate
         ? new Date(item.expirationDate)

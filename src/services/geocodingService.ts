@@ -276,7 +276,7 @@ export async function reverseGeocode(
     }
 
     const data = await response.json();
-    return data.display_name || null;
+    return data.display_name ?? null;
   } catch (error) {
     _logger.error("Reverse geocoding error:", error);
     return null;

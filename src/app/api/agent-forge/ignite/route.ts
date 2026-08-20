@@ -175,7 +175,7 @@ export async function POST(req: Request) {
       await userDatabase.updateUserProfile(
         userId,
         { birthData, natalChart: chart, onboardingComplete: true },
-        session?.user?.email || undefined,
+        session?.user?.email ?? undefined,
       );
       console.log(`[ignite] Persisted natal profile + marked onboarding complete (user_profiles synced).`);
     } catch (err) {
@@ -196,14 +196,14 @@ export async function POST(req: Request) {
     try {
       const baseUrl = process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
-        : `http://localhost:${process.env.PORT || 3000}`;
+        : `http://localhost:${process.env.PORT ?? 3000}`;
 
       console.log(`[ignite] Invoking server-side recipe generation at: ${baseUrl}/api/generate-cosmic-recipe`);
       const generateRes = await fetch(`${baseUrl}/api/generate-cosmic-recipe`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "cookie": req.headers.get("cookie") || "",
+          "cookie": req.headers.get("cookie") ?? "",
         },
         body: JSON.stringify({
           birthData: {
@@ -218,7 +218,7 @@ export async function POST(req: Request) {
 
       if (generateRes.ok) {
         const payload = await generateRes.json();
-        cosmicRecipe = payload.recipe || payload;
+        cosmicRecipe = payload.recipe ?? payload;
         console.log(`[ignite] Recipe generated successfully via local endpoint proxy.`);
       } else {
         const text = await generateRes.text();
@@ -289,7 +289,7 @@ export async function POST(req: Request) {
         }
 
         const payload = await agentResponse.json();
-        cosmicRecipe = payload.recipe || payload;
+        cosmicRecipe = payload.recipe ?? payload;
 
         // Since we bypassed the endpoint proxy, record the limit directly in PostgreSQL for consistency
         try {
@@ -330,7 +330,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("[ignite] Ignition process failed:", error);
     return NextResponse.json(
-      { success: false, error: "internal_server_error", message: error.message || "An unexpected error occurred during ignition." },
+      { success: false, error: "internal_server_error", message: error.message ?? "An unexpected error occurred during ignition." },
       { status: 500 }
     );
   }

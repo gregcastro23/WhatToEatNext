@@ -139,16 +139,16 @@ export async function GET(_req: NextRequest) {
   // Parse and normalize birth data + charts with defensive fallback structures.
   const hydratedAgents = localAgents
     .map((row): CompanionView | null => {
-      const profile = parseObject(row.profile) || {};
+      const profile = parseObject(row.profile) ?? {};
       const birthData =
-        parseObject(row.birth_data) ||
-        parseObject(profile.birthData) ||
-        parseObject(profile.birth_data) ||
-        parseObject(profile.natalChart)?.birthData ||
+        parseObject(row.birth_data) ??
+        parseObject(profile.birthData) ??
+        parseObject(profile.birth_data) ??
+        parseObject(profile.natalChart)?.birthData ??
         parseObject(profile.natal_chart)?.birthData;
       const natalChart =
-        parseObject(row.natal_chart) ||
-        parseObject(profile.natalChart) ||
+        parseObject(row.natal_chart) ??
+        parseObject(profile.natalChart) ??
         parseObject(profile.natal_chart);
       const email = typeof row.email === "string" ? row.email : "";
 
@@ -157,18 +157,18 @@ export async function GET(_req: NextRequest) {
       return {
         userId: row.user_id,
         email,
-        name: row.name || email.split("@")[0],
+        name: row.name ?? email.split("@")[0],
         bio:
-          row.bio ||
-          profile.bio ||
+          row.bio ??
+          profile.bio ??
           "Planetary sage guiding alchemical balance.",
         dominantElement:
-          row.dominant_element || natalChart?.dominantElement || "Fire",
+          row.dominant_element ?? natalChart?.dominantElement ?? "Fire",
         monicaConstant: row.monica_constant
           ? parseFloat(row.monica_constant)
           : null,
         birthData: birthData as BirthData,
-        natalChart: (natalChart as NatalChart | null) || null,
+        natalChart: (natalChart as NatalChart | null) ?? null,
       };
     })
     .filter((agent): agent is CompanionView => agent !== null);
@@ -207,7 +207,7 @@ export async function GET(_req: NextRequest) {
   // Category 1: Present Moment Agents (aligned with active transits)
   const activeAgents = activations
     .map((act: PlanetaryActivation) => {
-      const actAgentId = String(act.agent?.id || "").toLowerCase();
+      const actAgentId = String(act.agent?.id ?? "").toLowerCase();
       // Match by email slug (prefix before @)
       const matchedLocal = hydratedAgents.find(
         (agent) => agent.email.split("@")[0].toLowerCase() === actAgentId,
@@ -219,10 +219,10 @@ export async function GET(_req: NextRequest) {
         ...matchedLocal,
         activation: {
           strength: typeof act.strength === "number" ? act.strength : 1.0,
-          dignity: act.dignity || "peregrine",
-          element: act.element || matchedLocal.dominantElement,
-          planetaryRuler: act.planetaryRuler || "Sun",
-          description: act.agent?.description || matchedLocal.bio,
+          dignity: act.dignity ?? "peregrine",
+          element: act.element ?? matchedLocal.dominantElement,
+          planetaryRuler: act.planetaryRuler ?? "Sun",
+          description: act.agent?.description ?? matchedLocal.bio,
         },
       };
     })
@@ -233,11 +233,11 @@ export async function GET(_req: NextRequest) {
     .filter((a) => actorTimestamps.has(a.userId))
     .map((a) => ({
       ...a,
-      lastActionAt: actorTimestamps.get(a.userId) || null,
+      lastActionAt: actorTimestamps.get(a.userId) ?? null,
     }))
     .sort((a, b) => {
-      const timeA = new Date(a.lastActionAt || 0).getTime();
-      const timeB = new Date(b.lastActionAt || 0).getTime();
+      const timeA = new Date(a.lastActionAt ?? 0).getTime();
+      const timeB = new Date(b.lastActionAt ?? 0).getTime();
       return timeB - timeA;
     });
 
@@ -261,7 +261,7 @@ export async function GET(_req: NextRequest) {
           userId: companion.id,
           email: "",
           name: companion.name,
-          bio: `Saved companion chart (${companion.relationship || "friend"})`,
+          bio: `Saved companion chart (${companion.relationship ?? "friend"})`,
           dominantElement: companion.natalChart.dominantElement || "Fire",
           monicaConstant: null,
           birthData: companion.birthData,

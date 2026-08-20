@@ -40,7 +40,7 @@ export class RecipeRecommender {
 
       // Get current celestial influences if not provided
       const _celestialInfluence =
-        criteria.celestialInfluence ||
+        criteria.celestialInfluence ??
         _celestialCalculator.calculateCurrentInfluences();
 
       // Score and sort recipes
@@ -352,10 +352,10 @@ export class RecipeRecommender {
   ) {
     return ingredients.reduce(
       (acc, ingredient) => ({
-        Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
-        Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
-        Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
-        Air: acc.Air + (ingredient.elementalProperties?.Air || 0),
+        Fire: acc.Fire + (ingredient.elementalProperties?.Fire ?? 0),
+        Water: acc.Water + (ingredient.elementalProperties?.Water ?? 0),
+        Earth: acc.Earth + (ingredient.elementalProperties?.Earth ?? 0),
+        Air: acc.Air + (ingredient.elementalProperties?.Air ?? 0),
       }),
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     );
@@ -495,7 +495,7 @@ export class RecipeRecommender {
     let totalMinutes = 0;
     
     // Parse timeToMake, totalTime, prepTime
-    const timeStr = recipe.totalTime || recipe.timeToMake || recipe.prepTime || "";
+    const timeStr = recipe.totalTime ?? recipe.timeToMake ?? recipe.prepTime ?? "";
     if (!timeStr) return 0.5; // Neutral if no time specified
     
     const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);

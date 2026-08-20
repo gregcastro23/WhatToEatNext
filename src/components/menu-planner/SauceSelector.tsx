@@ -101,7 +101,7 @@ function SauceCard({
         <div className="mb-2">
           <div className="flex items-center gap-2 text-xs text-slate-600 mb-1">
             <span className="font-medium">Yield:</span>
-            <span>{sauce.yield || "1 serving"}</span>
+            <span>{sauce.yield ?? "1 serving"}</span>
             <span className="text-slate-400">|</span>
             <span className="font-medium">Scale:</span>
             {[1, 2, 3].map((mult) => (

@@ -69,7 +69,7 @@ export default function TokenShopModal() {
       }
       const data = await res.json();
       if (!res.ok || !data?.success) {
-        setError(data?.message || "Failed to load shop");
+        setError(data?.message ?? "Failed to load shop");
         return;
       }
       setShop(data);
@@ -141,7 +141,7 @@ export default function TokenShopModal() {
         return;
       }
       if (!res.ok || !data?.success) {
-        setError(data?.message || "Purchase failed");
+        setError(data?.message ?? "Purchase failed");
       }
       await fetchShop();
     } catch {
@@ -226,12 +226,12 @@ export default function TokenShopModal() {
 
           {!loading && !error && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {(shop?.items || []).map((item) => (
+              {(shop?.items ?? []).map((item) => (
                 <div key={item.id} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <h3 className="text-sm font-bold text-white/90">{item.title}</h3>
-                      <p className="text-xs text-white/50 mt-1">{item.description || "Feature unlock"}</p>
+                      <p className="text-xs text-white/50 mt-1">{item.description ?? "Feature unlock"}</p>
                     </div>
                     <span className="text-[10px] uppercase tracking-wider text-white/35">
                       {item.isOneTime ? "one-time" : "per use"}

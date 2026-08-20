@@ -170,7 +170,7 @@ export class AstrologicalService {
           return true; // Skip dominantPlanet property
         }
         return validZodiacSignTypes.includes(
-          (sign.sign?.toLowerCase() || "") as StandardZodiacSignType,
+          (sign.sign?.toLowerCase() ?? "") as StandardZodiacSignType,
         );
       });
 
@@ -194,7 +194,7 @@ export class AstrologicalService {
     try {
       logger.info("Testing astrological APIs...");
 
-      const endpoints = apiEndpoints || [
+      const endpoints = apiEndpoints ?? [
         "/api/planetary-positions",
         "/api/astrologize",
         "/api/astrology",

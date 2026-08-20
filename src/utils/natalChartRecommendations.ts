@@ -258,7 +258,7 @@ export function calculateGroupRecommendationScore(
 
     case "consensus": {
       // Only recommend if most members like it
-      const threshold = strategy.minimumConsensus || 0.6;
+      const threshold = strategy.minimumConsensus ?? 0.6;
       const highScores = memberScores.filter(
         (ms) => ms.score >= threshold,
       ).length;

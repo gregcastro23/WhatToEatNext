@@ -200,7 +200,7 @@ export function projectZScoreTarget(
   metric?: { mean: number; stdDev: number },
   fallbackKey?: string
 ): number {
-  const activeMetric = metric || (fallbackKey ? FALLBACK_METRICS[fallbackKey] : undefined);
+  const activeMetric = metric ?? (fallbackKey ? FALLBACK_METRICS[fallbackKey] : undefined);
   if (!activeMetric || activeMetric.stdDev === 0) {
     // If absolutely no metric or fallback, at least clamp to standard [0.1, 0.9] range.
     return Math.max(0.1, Math.min(0.9, value));

@@ -229,7 +229,7 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
     const metadata = order.metadata ?? {};
     const restaurant = await getRestaurantFulfillmentData(order.restaurant_id);
     const deliverectLocationId =
-      restaurant?.deliverect_location_id || order.restaurant_id;
+      restaurant?.deliverect_location_id ?? order.restaurant_id;
     const customer = normalizeCustomer(order.customer_info ?? metadata.customer);
     const orderType = normalizeOrderType(order.order_type ?? metadata.orderType);
     const deliveryAddress = normalizeAddress(
@@ -254,7 +254,7 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
 
     if (orderType === "delivery" && deliveryAddress && pickupAddress) {
       const logisticsClient = new LogisticsClient();
-      deliveryProvider = process.env.LOGISTICS_PROVIDER || "doordash_drive";
+      deliveryProvider = process.env.LOGISTICS_PROVIDER ?? "doordash_drive";
       delivery = await logisticsClient.requestDriver({
         orderId: order.id,
         pickupAddress,

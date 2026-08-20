@@ -47,8 +47,8 @@ export class AlchemicalService {
         convertedPositions[planet] = {
           sign: position.sign,
           degree: position.degree,
-          minute: position.minute || 0,
-          isRetrograde: position.isRetrograde || false,
+          minute: position.minute ?? 0,
+          isRetrograde: position.isRetrograde ?? false,
         };
       }
       const result = alchemize(convertedPositions);
@@ -72,7 +72,7 @@ export class AlchemicalService {
       const { getCurrentPlanetaryPositions } = await import("./astrologizeApi");
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
       const planetaryPositions = await getCurrentPlanetaryPositions(
-        location || defaultLocation,
+        location ?? defaultLocation,
         zodiacSystem,
       );
       return await this.calculateAlchemicalProperties(planetaryPositions);
@@ -100,7 +100,7 @@ export class AlchemicalService {
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
       const planetaryPositions = await getPlanetaryPositionsForDateTime(
         date,
-        location || defaultLocation,
+        location ?? defaultLocation,
         zodiacSystem,
       );
       return await this.calculateAlchemicalProperties(planetaryPositions);

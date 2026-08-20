@@ -116,7 +116,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     const southNodeDegree = southNodeLongitude % 30;
 
     // Apply surgical type casting for node data properties
-    const isRetrograde = nodeDataTyped.isRetrograde || true;
+    const isRetrograde = nodeDataTyped.isRetrograde ?? true;
 
     northNode = {
       sign: northNodeSign,

@@ -107,7 +107,7 @@ export function getNavigationState(): NavigationState {
     if (!isStateValid(parsed.timestamp)) {
       return defaultState;
     }
-    const data = (parsed.data || {}) as Partial<NavigationState>;
+    const data = (parsed.data ?? {}) as Partial<NavigationState>;
     return { ...defaultState, ...data };
   } catch (error) {
     _logger.warn("Failed to parse navigation state: ", error);

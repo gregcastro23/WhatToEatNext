@@ -329,7 +329,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                               </Text>
                             </Box>
                             <Badge colorScheme={getPriorityColor(rec.priority)}>
-                              {rec.priority || "recommended"}
+                              {rec.priority ?? "recommended"}
                             </Badge>
                           </Flex>
                         </CardHeader>
@@ -377,7 +377,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                             </HStack>
 
                             {/* Ingredient Match Info */}
-                            {(rec.matching_ingredients ||
+                            {(rec.matching_ingredients ??
                               rec.seasonal_ingredients) && (
                               <HStack {...({ spacing: 2 } as any)}>
                                 <Icon as={FaUtensils} color="blue.500" />

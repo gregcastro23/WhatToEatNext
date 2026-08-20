@@ -35,7 +35,7 @@ const RecipeComponent: FC<RecipeProps> = ({
         <ul>
           {recipe.ingredients.map((ingredient) => (
             <li 
-              key={ingredient.id || ingredient.name}
+              key={ingredient.id ?? ingredient.name}
               onClick={() => onIngredientClick?.(ingredient)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {

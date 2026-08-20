@@ -312,16 +312,16 @@ export function calculateWeeklyCircuit(
 
   // 3. Power distribution analysis
   const breakfastPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.breakfast?.power || 0),
+    Object.values(dayCircuits).map((d) => d.meals.breakfast?.power ?? 0),
   );
   const lunchPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.lunch?.power || 0),
+    Object.values(dayCircuits).map((d) => d.meals.lunch?.power ?? 0),
   );
   const dinnerPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.dinner?.power || 0),
+    Object.values(dayCircuits).map((d) => d.meals.dinner?.power ?? 0),
   );
   const snackPower = sum(
-    Object.values(dayCircuits).map((d) => d.meals.snack?.power || 0),
+    Object.values(dayCircuits).map((d) => d.meals.snack?.power ?? 0),
   );
   const totalMealPower = breakfastPower + lunchPower + dinnerPower + snackPower;
 

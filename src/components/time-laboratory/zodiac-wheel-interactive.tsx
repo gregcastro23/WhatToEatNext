@@ -92,8 +92,8 @@ const DegreeSegment: React.FC<DegreeSegmentProps> = ({
   const getSegmentColor = () => {
     if (!agent) return '#374151' // gray-700
 
-    const element = agent.config?.element || 'Spirit'
-    const strength = agent.activationStrength || 0
+    const element = agent.config?.element ?? 'Spirit'
+    const strength = agent.activationStrength ?? 0
 
     const baseColors = {
       Fire: '#DC2626', // red-600
@@ -205,13 +205,13 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
       
       const data: any[] = [];
       for (let degree = 0; degree < 360; degree++) {
-        const agent = agentsMap[degree] || null;
+        const agent = agentsMap[degree] ?? null;
         data.push({
           degree,
           agent,
           angle: degree - 90, // Start from top
           sign:
-            ZODIAC_SIGNS.find(sign => degree >= sign.degrees[0] && degree < sign.degrees[1])?.name ||
+            ZODIAC_SIGNS.find(sign => degree >= sign.degrees[0] && degree < sign.degrees[1])?.name ??
             'Unknown',
         });
       }
@@ -225,7 +225,7 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
     (degree: number) => {
       if (onDegreeClick) {
         const sign =
-          ZODIAC_SIGNS.find(s => degree >= s.degrees[0] && degree < s.degrees[1])?.name || 'Unknown'
+          ZODIAC_SIGNS.find(s => degree >= s.degrees[0] && degree < s.degrees[1])?.name ?? 'Unknown'
         onDegreeClick(degree, sign)
       }
     },
@@ -429,11 +429,11 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
               <div className="space-y-4">
                 <div>
                   <h3 className="text-lg font-semibold text-purple-200">
-                    {(selectedAgent).agent?.name || (selectedAgent).name}
+                    {(selectedAgent).agent?.name ?? (selectedAgent).name}
                   </h3>
                   <p className="text-sm text-purple-400">
                     Degree {selectedDegree}° -{' '}
-                    {(selectedAgent).config?.planetaryRuler || 'Unknown Ruler'}
+                    {(selectedAgent).config?.planetaryRuler ?? 'Unknown Ruler'}
                   </p>
                 </div>
 
@@ -441,31 +441,31 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
                   <div>
                     <span className="text-purple-400">Element:</span>
                     <div className="text-purple-200 font-medium">
-                      {(selectedAgent).config?.element || 'Unknown'}
+                      {(selectedAgent).config?.element ?? 'Unknown'}
                     </div>
                   </div>
                   <div>
                     <span className="text-purple-400">Dignity:</span>
                     <div className="text-purple-200 font-medium">
-                      {(selectedAgent).config?.dignity || 'Unknown'}
+                      {(selectedAgent).config?.dignity ?? 'Unknown'}
                     </div>
                   </div>
                   <div>
                     <span className="text-purple-400">Strength:</span>
                     <div className="text-purple-200 font-medium">
-                      {(selectedAgent).activationStrength || 0}%
+                      {(selectedAgent).activationStrength ?? 0}%
                     </div>
                   </div>
                   <div>
                     <span className="text-purple-400">Consciousness:</span>
                     <div className="text-purple-200 font-medium">
-                      {(selectedAgent).consciousnessState?.level || 'Unknown'}
+                      {(selectedAgent).consciousnessState?.level ?? 'Unknown'}
                     </div>
                   </div>
                 </div>
 
                 <p className="text-sm text-purple-300">
-                  {(selectedAgent).agent?.description || (selectedAgent).description}
+                  {(selectedAgent).agent?.description ?? (selectedAgent).description}
                 </p>
 
                 <div className="flex gap-2">

@@ -13,8 +13,8 @@ export function GuestSelector({ onParticipantsChange }: GuestSelectorProps) {
   const [activeParticipants, setActiveParticipants] = useState<string[]>([]);
 
   const savedCharts: Array<DiningGroup | GroupMember> = [
-    ...(currentUser?.diningGroups || []),
-    ...(currentUser?.groupMembers || []),
+    ...(currentUser?.diningGroups ?? []),
+    ...(currentUser?.groupMembers ?? []),
   ];
 
   const toggleParticipant = (chartId: string) => {

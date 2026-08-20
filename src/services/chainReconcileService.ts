@@ -307,7 +307,7 @@ export async function backfillPendingNfts(limit = 3): Promise<NftBackfillSummary
         },
         engineVersion: row.engine_version,
         contentURI: `${base}/api/recipes/nft/content/${row.content_hash}`,
-        metadataURI: row.metadata_uri || `${base}/api/recipes/nft/metadata/${row.content_hash}`,
+        metadataURI: row.metadata_uri ?? `${base}/api/recipes/nft/metadata/${row.content_hash}`,
       });
 
       if (result.status === "minted" && result.txHash) {

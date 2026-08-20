@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const postalCode = searchParams.get("postal_code");
-    const countryCode = searchParams.get("country_code") || "US";
+    const countryCode = searchParams.get("country_code") ?? "US";
 
     if (!postalCode) {
       return NextResponse.json(

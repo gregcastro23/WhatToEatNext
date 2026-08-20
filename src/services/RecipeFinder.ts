@@ -661,7 +661,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           context: {
             service: "RecipeFinder",
             action: "calculateElementalProperties",
-            data: { recipeId: recipe.id || "unknown" },
+            data: { recipeId: recipe.id ?? "unknown" },
           },
         },
       );
@@ -736,5 +736,5 @@ export class RecipeFinder implements RecipeServiceInterface {
 // Export standalone function for compatibility
 export const getAllRecipes = async (): Promise<Recipe[]> => {
   const response = await RecipeFinder.getInstance().getAllRecipes();
-  return response.success ? response.data || [] : [];
+  return response.success ? response.data ?? [] : [];
 };

@@ -320,11 +320,11 @@ export async function GET(
         userId: realUserId,
         // Never leak full email for human users — only show the agentic slug.
         handle: row.is_agent ? row.email : null,
-        name: row.name || (row.is_agent ? row.email.split("@")[0] : "Alchemist"),
+        name: row.name ?? (row.is_agent ? row.email.split("@")[0] : "Alchemist"),
         isAgent: row.is_agent,
         // COALESCE(user_profiles.avatar_url, users.image) — client falls back
         // to the element sigil (AvatarCircle) when null.
-        avatarUrl: row.avatar_url || null,
+        avatarUrl: row.avatar_url ?? null,
         social,
         // Owner-only: the identity default toggle state. Never sent to
         // other viewers.

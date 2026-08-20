@@ -99,8 +99,8 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
 
       <SimpleGrid columns={{ base: 1, md: 3 }} gap="6">
         {recommendations.map((recipe) => {
-          const prepTime = Number(recipe.prepTime || 0);
-          const cookTime = Number(recipe.cookTime || 0);
+          const prepTime = Number(recipe.prepTime ?? 0);
+          const cookTime = Number(recipe.cookTime ?? 0);
 
           const displayImage = getAssetUrl(recipe.image);
 
@@ -139,7 +139,7 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
                 </Flex>
 
                 <Flex wrap="wrap" gap="2">
-                  {(recipe.tags || []).slice(0, 3).map((tag) => (
+                  {(recipe.tags ?? []).slice(0, 3).map((tag) => (
                     <Box key={tag} {...chipStyles}>
                       {tag}
                     </Box>

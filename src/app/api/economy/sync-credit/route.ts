@@ -87,7 +87,7 @@ async function handlePost(req: NextRequest) {
 
     // `source` defaults to agents_yield when the caller omits it, so the
     // resolved value — not the raw field — decides which rules apply below.
-    const resolvedSource = source || "agents_yield";
+    const resolvedSource = source ?? "agents_yield";
     const isDailyYield = DAILY_YIELD_SOURCE_SET.has(resolvedSource);
 
     // 2. Look up user ID by email.

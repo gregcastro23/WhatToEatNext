@@ -101,7 +101,7 @@ export class RecipeFilter {
         // Prep time filter
         if (
           options.maxPrepTime &&
-          this.parseTime(recipe.timeToMake || "") > options.maxPrepTime
+          this.parseTime(recipe.timeToMake ?? "") > options.maxPrepTime
         ) {
           return false;
         }
@@ -129,7 +129,7 @@ export class RecipeFilter {
           const query = options.searchQuery.toLowerCase();
           const matchesSearch =
             recipe.name.toLowerCase().includes(query) ||
-            recipe.description?.toLowerCase().includes(query) ||
+            Boolean(recipe.description?.toLowerCase().includes(query)) ||
             recipe.ingredients.some((i) =>
               i.name.toLowerCase().includes(query),
             );
@@ -212,8 +212,8 @@ export class RecipeFilter {
             break;
           case "prepTime":
             comparison =
-              this.parseTime(a.timeToMake || "0") -
-              this.parseTime(b.timeToMake || "0");
+              this.parseTime(a.timeToMake ?? "0") -
+              this.parseTime(b.timeToMake ?? "0");
             break;
           case "elementalState":
             comparison = this.getelementalState(b) - this.getelementalState(a);
@@ -532,7 +532,7 @@ export class RecipeFilter {
 
         // Cooking time range
         if (options.cookingTime) {
-          const time = this.parseTime(recipe.timeToMake || "");
+          const time = this.parseTime(recipe.timeToMake ?? "");
           if (options.cookingTime.min && time < options.cookingTime.min)
             return false;
           if (options.cookingTime.max && time > options.cookingTime.max)
@@ -613,7 +613,7 @@ export function filterRecipesByIngredientMappings(
   }>;
 }> {
   // Default elemental target if none provided
-  const targetElements = elementalTarget || {
+  const targetElements = elementalTarget ?? {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -715,7 +715,7 @@ export function filterRecipesByIngredientMappings(
                 recipe.dietaryInfo as
                   | { includes?: (value: string) => boolean }
                   | undefined
-              )?.includes?.(restriction) || false,
+              )?.includes?.(restriction) ?? false,
         );
 
       if (!meetsRestrictions) {

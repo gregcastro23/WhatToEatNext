@@ -117,7 +117,7 @@ export default function IngredientMapper() {
               {mappedRecipes.map((result, index) => (
                 <div key={index} className="p-3 border rounded">
                   <div className="font-medium">{result.recipe.name}</div>
-                  <div className="text-sm text-gray-600">{result.recipe.cuisine || 'Unknown Cuisine'}</div>
+                  <div className="text-sm text-gray-600">{result.recipe.cuisine ?? 'Unknown Cuisine'}</div>
                   <div className="text-sm">Match Quality: <span className="font-semibold">{result.matchQuality}</span></div>
                   <div className="text-sm">Score: {(result.score * 100).toFixed(0)}%</div>
                   <div className="mt-2">
@@ -172,7 +172,7 @@ export default function IngredientMapper() {
                 <div key={index} className="p-2 border rounded flex justify-between items-center">
                   <div>
                     <div className="font-medium">{alt.name}</div>
-                    <div className="text-xs text-gray-600">{alt.mapping.category || 'Unknown Category'}</div>
+                    <div className="text-xs text-gray-600">{alt.mapping.category ?? 'Unknown Category'}</div>
                   </div>
                   <div className="text-sm font-semibold">
                     {(alt.similarity * 100).toFixed(0)}% Similar

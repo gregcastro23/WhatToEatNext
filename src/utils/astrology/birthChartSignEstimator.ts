@@ -591,7 +591,7 @@ export function detectStaticFallback(
     if (!pos) continue;
     total++;
 
-    const actualSign = typeof pos === "string" ? pos : pos.sign || pos;
+    const actualSign = typeof pos === "string" ? pos : pos.sign ?? pos;
     if (String(actualSign).toLowerCase() === expectedSign) {
       matches++;
     }

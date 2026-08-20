@@ -60,10 +60,10 @@ class IngredientMappingService {
       filteredRecipes,
       options.elementalTarget,
       {
-        required: options.requiredIngredients || [],
-        excluded: options.excludedIngredients || [],
-        dietaryRestrictions: options.dietaryRestrictions || [],
-        emphasized: options.emphasizedIngredients || [],
+        required: options.requiredIngredients ?? [],
+        excluded: options.excludedIngredients ?? [],
+        dietaryRestrictions: options.dietaryRestrictions ?? [],
+        emphasized: options.emphasizedIngredients ?? [],
       },
     );
   }
@@ -255,7 +255,7 @@ class IngredientMappingService {
             combinations.push({
               ingredients: [ing1.name, ing2.name],
               compatibility: result.compatibility,
-              type: result.type || "unknown",
+              type: result.type ?? "unknown",
             });
           }
         }

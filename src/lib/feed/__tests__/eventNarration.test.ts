@@ -30,4 +30,27 @@ describe("narrateFeedEvent", () => {
     expect(narration.label).toBe("Made: Lunar Mint Tea");
     expect(narration.href).toBe("/recipes/tea-12345");
   });
+
+  it("narrates cart handoff events to Amazon Fresh", () => {
+    const narration = narrateFeedEvent("cart_handoff", {
+      itemCount: 8,
+      provider: "Amazon Fresh",
+    });
+
+    expect(narration.icon).toBe("🛒");
+    expect(narration.action).toContain("transferred their culinary pantry cart to Amazon Fresh with 8 ingredients.");
+    expect(narration.label).toBe("Cart Handoff · Amazon Fresh");
+  });
+
+  it("narrates voice audio walkthrough events with audio URLs", () => {
+    const narration = narrateFeedEvent("agent_audio_narration", {
+      recipeName: "Solar Saffron Elixir",
+      audioUrl: "https://assets.alchm.kitchen/audio/solar_saffron.mp3",
+    });
+
+    expect(narration.icon).toBe("🎙️");
+    expect(narration.action).toContain("narrated an alchemical walkthrough for Solar Saffron Elixir");
+    expect(narration.label).toBe("Voice Walkthrough · Solar Saffron Elixir");
+    expect(narration.href).toBe("https://assets.alchm.kitchen/audio/solar_saffron.mp3");
+  });
 });

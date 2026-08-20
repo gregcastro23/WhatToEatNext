@@ -74,7 +74,7 @@ export function assertNotNull<T>(
   message?: string,
 ): asserts value is T {
   if (value === null || value === undefined) {
-    throw new Error(message || "Value is null or undefined");
+    throw new Error(message ?? "Value is null or undefined");
   }
 }
 

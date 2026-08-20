@@ -130,7 +130,7 @@ export default function ProfileWeekFixture({
           <h3 className="font-headline-md text-[18px] font-bold text-primary truncate">
             {title}
           </h3>
-          {variant === "agent" && (updatedLabel || planetaryFocus) && (
+          {variant === "agent" && (updatedLabel ?? planetaryFocus) && (
             <p className="font-mono text-[9px] uppercase tracking-wider text-on-surface-variant/70 truncate">
               {[updatedLabel, planetaryFocus].filter(Boolean).join(" · ")}
             </p>

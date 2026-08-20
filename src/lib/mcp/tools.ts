@@ -116,7 +116,7 @@ export async function alchemizeIngredients(
 
   const analyzed = inputIngredients.map((name) => {
     const item = ingredientService.getIngredientByName(name);
-    const props = item?.elementalProperties || {
+    const props = item?.elementalProperties ?? {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -132,8 +132,8 @@ export async function alchemizeIngredients(
     const stored = item?.alchemicalProperties;
     return {
       name,
-      resolvedName: item?.name || "Unknown Alchemical Flora",
-      category: item?.category || "uncategorized",
+      resolvedName: item?.name ?? "Unknown Alchemical Flora",
+      category: item?.category ?? "uncategorized",
       esms: stored
         ? {
             spirit: Math.round(stored.Spirit * 100),
@@ -144,7 +144,7 @@ export async function alchemizeIngredients(
         : null,
       esmsSource: stored ? ("ingredient-data" as const) : null,
       elementalProperties: props,
-      planetaryRuler: item?.planetaryRuler || "none",
+      planetaryRuler: item?.planetaryRuler ?? "none",
     };
   });
 
@@ -226,7 +226,7 @@ export async function generateCosmicRecipe(
     filtered = filtered.filter(
       (r) =>
         r.name.toLowerCase().includes(prompt) ||
-        (r.description || "").toLowerCase().includes(prompt),
+        (r.description ?? "").toLowerCase().includes(prompt),
     );
   }
 
@@ -251,9 +251,9 @@ export async function generateCosmicRecipe(
       id: r.id,
       name: r.name,
       description: r.description,
-      cuisine: r.cuisine || "Cosmic",
-      prepTime: r.timeToMake || "30 MIN",
-      servings: r.numberOfServings || 2,
+      cuisine: r.cuisine ?? "Cosmic",
+      prepTime: r.timeToMake ?? "30 MIN",
+      servings: r.numberOfServings ?? 2,
       // A recipe has no planets, and the Recipe type carries no curated
       // quantities (elementalProperties is its only such reading — see
       // src/types/recipe.ts). This field previously returned spirit = Fire * 100,
@@ -288,8 +288,8 @@ export async function generateCosmicRecipe(
       returnedCount: finalRecipes.length,
       filters: {
         prompt: prompt || null,
-        cuisine: cuisine || null,
-        dominantElement: domElem || null,
+        cuisine: cuisine ?? null,
+        dominantElement: domElem ?? null,
         dietary: dietary ?? null,
       },
     },

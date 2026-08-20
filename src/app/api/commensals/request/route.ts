@@ -100,8 +100,8 @@ export async function POST(request: NextRequest) {
     // Notify the target user of the commensal request (fire-and-forget)
     // Only notify if they are not an agent (agents don't check notifications)
     const requester = await userDatabase.getUserById(userId);
-    const requesterName = requester?.profile?.name || "Someone";
-    const targetName = targetUserRecord?.profile?.name || "another alchemist";
+    const requesterName = requester?.profile?.name ?? "Someone";
+    const targetName = targetUserRecord?.profile?.name ?? "another alchemist";
 
     feedDatabase.createEvent(userId, "commensal_request", { targetName }).catch(() => {});
 

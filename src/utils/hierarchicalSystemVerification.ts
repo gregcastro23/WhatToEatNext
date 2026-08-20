@@ -439,7 +439,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     );
     planetaryPatterns.forEach((pattern) => {
       results.push(
-        `   ${pattern.planet}: ${(pattern.planetaryStrength || 0).toFixed(2)} strength, dominant element: ${pattern.dominantElement}`,
+        `   ${pattern.planet}: ${(pattern.planetaryStrength ?? 0).toFixed(2)} strength, dominant element: ${pattern.dominantElement}`,
       );
     });
     // Test 5: Recommendation engine

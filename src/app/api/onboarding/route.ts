@@ -263,7 +263,7 @@ export const POST = withObservability(
       const emailService = (await import("@/services/emailService")).default;
       emailService.ensureInitialized();
       if (emailService.isConfigured()) {
-        const userName = name || user.profile.name || user.email;
+        const userName = name ?? user.profile.name ?? user.email;
         void emailService.sendAdminNotificationEmail(
           user.email,
           userName,
@@ -277,9 +277,9 @@ export const POST = withObservability(
     const response = NextResponse.json({
       success: true,
       user: {
-        id: updatedUser?.id || userId,
-        email: updatedUser?.email || user.email,
-        name: updatedUser?.profile?.name || name || "",
+        id: updatedUser?.id ?? userId,
+        email: updatedUser?.email ?? user.email,
+        name: updatedUser?.profile?.name ?? name ?? "",
       },
       profile: updatedUser?.profile ?? null,
       natalChart,

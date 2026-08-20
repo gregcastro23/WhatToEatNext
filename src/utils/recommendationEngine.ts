@@ -316,7 +316,7 @@ export function explainRecommendation(
       // value shaped like { name: string } (pre-existing dead-code path, preserved as-is;
       // not "fixed" to avoid changing which branch runs).
       const planetName = String(
-        (dominantPlanet as unknown as Record<string, unknown>).name ||
+        (dominantPlanet as unknown as Record<string, unknown>).name ??
           dominantPlanet,
       );
       const planetScore = calculatePlanetaryScore(

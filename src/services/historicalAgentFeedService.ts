@@ -123,6 +123,8 @@ export function mapAgentEventRow(row: AgentEventRow): AgentEventFeedItem {
   const planetaryHour = str(signature.planetaryHour) ?? str(signature.dominantPlanet);
   const natalSignature = formatNatalPlacements(signature.natalPositions ?? row.natal_positions);
 
+  const audioUrl = str(meta.audioUrl) ?? str(meta.audio_url);
+
   return {
     id: row.id,
     type: "agent_event",
@@ -136,6 +138,7 @@ export function mapAgentEventRow(row: AgentEventRow): AgentEventFeedItem {
     action: narration.action,
     icon: narration.icon,
     ...(narration.href ? { href: narration.href } : {}),
+    ...(audioUrl ? { audioUrl } : {}),
     ...(element ? { element } : {}),
     ...(esmsTag ? { esmsTag } : {}),
     ...(planetaryHour ? { planetaryHour } : {}),

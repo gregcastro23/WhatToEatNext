@@ -45,7 +45,7 @@ export async function PUT(
   const { name, relationship } = body as { name?: string; relationship?: string };
 
   // 1. Try legacy JSONB first
-  const members = user.profile.groupMembers || [];
+  const members = user.profile.groupMembers ?? [];
   const idx = members.findIndex((m) => m.id === commensalId);
 
   if (idx !== -1) {
@@ -102,7 +102,7 @@ export async function DELETE(
     return unauthorizedResponse();
   }
 
-  const members = user.profile.groupMembers || [];
+  const members = user.profile.groupMembers ?? [];
   const filtered = members.filter((m) => m.id !== commensalId);
 
   let deletedFromTable = false;
@@ -116,7 +116,7 @@ export async function DELETE(
   }
 
   // Also remove from any dining groups that reference this commensal
-  const groups = (user.profile.diningGroups || []).map((g) => ({
+  const groups = (user.profile.diningGroups ?? []).map((g) => ({
     ...g,
     memberIds: g.memberIds.filter((id) => id !== commensalId),
   }));

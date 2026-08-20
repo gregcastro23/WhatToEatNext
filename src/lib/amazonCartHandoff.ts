@@ -35,7 +35,7 @@ export async function preflightAndSubmitAmazonCart({
 
   if (!response.ok || !body?.success || !body.payload || !body.formAction) {
     reservedTarget?.close();
-    throw new Error(body?.error || `Checkout preflight failed (${response.status})`);
+    throw new Error(body?.error ?? `Checkout preflight failed (${response.status})`);
   }
 
   submitAmazonCartPayload({

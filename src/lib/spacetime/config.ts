@@ -35,7 +35,7 @@ export function getSpacetimeConfig(): SpacetimeConfig | null {
     process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "alchm-culinary"
   ).trim();
   const moduleName =
-    rawModule.replace(/^@/, "").split("/").pop()?.trim() || "alchm-culinary";
+    rawModule.replace(/^@/, "").split("/").pop()?.trim() ?? "alchm-culinary";
 
   return {
     uri,

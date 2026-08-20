@@ -256,15 +256,15 @@ export function generateGroceryList(
           ? { name: rawIngredient, amount: 1, unit: 'unit' }
           : rawIngredient;
 
-        const normalizedName = normalizeIngredientName(ingredient.name || String(rawIngredient));
+        const normalizedName = normalizeIngredientName(ingredient.name ?? String(rawIngredient));
         const key =
           consolidateBy === "ingredient"
             ? normalizedName
             : `${normalizedName}-${meal.recipe!.id}`;
 
         // Convert to base unit if requested
-        let amount = Number(ingredient.amount || 1) * meal.servings;
-        let unit = ingredient.unit || 'unit';
+        let amount = Number(ingredient.amount ?? 1) * meal.servings;
+        let unit = ingredient.unit ?? 'unit';
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);

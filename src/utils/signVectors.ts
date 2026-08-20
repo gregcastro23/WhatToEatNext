@@ -83,7 +83,7 @@ function computePlanetaryWeightForSign(
 ): number {
   let weight = 0;
   Object.entries(planetaryPositions || {}).forEach(([planet, pos]) => {
-    const sign = String(pos.sign || "").toLowerCase();
+    const sign = String(pos.sign ?? "").toLowerCase();
     if (!sign) return;
     const base = sign === targetSign ? 1.0 : 0.2; // strongest when the planet is in the target sign
     // Degree proximity boost within the same, sign: earlier degrees slightly stronger
@@ -93,9 +93,9 @@ function computePlanetaryWeightForSign(
         ? 1 - Math.min(30, Math.max(0, degree)) / 30
         : 0.5;
     // Aspect modifiers involving the planet
-    const aspectFactor = (aspects || []).reduce((acc, aspect) => {
+    const aspectFactor = (aspects ?? []).reduce((acc, aspect) => {
       if (aspect.planet1 === planet || aspect.planet2 === planet) {
-        const t = String(aspect.type || aspect.aspectType || "").toLowerCase();
+        const t = String(aspect.type ?? aspect.aspectType ?? "").toLowerCase();
         if (t === "conjunction") return acc * 1.2;
         if (t === "trine") return acc * 1.1;
         if (t === "sextile") return acc * 1.05;

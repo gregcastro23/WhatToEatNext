@@ -46,10 +46,10 @@ export function TokenBalanceTrends() {
           const history: TrendPoint[] = [];
           const now = new Date();
           
-          let currentSpirit = currentBalances.spirit || 0;
-          let currentEssence = currentBalances.essence || 0;
-          let currentMatter = currentBalances.matter || 0;
-          let currentSubstance = currentBalances.substance || 0;
+          let currentSpirit = currentBalances.spirit ?? 0;
+          let currentEssence = currentBalances.essence ?? 0;
+          let currentMatter = currentBalances.matter ?? 0;
+          let currentSubstance = currentBalances.substance ?? 0;
 
           // Group transactions by date string YYYY-MM-DD
           const txByDate: Record<string, any[]> = {};

@@ -72,7 +72,7 @@ export const recipeNftMintService = {
           // generation failed at mint time" — storing "" would permanently pin
           // a blank image, because the metadata route regenerates only when the
           // stored value is absent.
-          input.imageUrl || null,
+          input.imageUrl ?? null,
         ],
       );
       const id = res.rows?.[0]?.id;
@@ -113,7 +113,7 @@ export const recipeNftMintService = {
         contentJson: row.content_json ?? null,
         // `|| null` deliberately: a legacy "" must read as absent so the
         // metadata route regenerates instead of serving a blank image forever.
-        imageUrl: row.image_url || null,
+        imageUrl: row.image_url ?? null,
       };
     } catch {
       return null;
