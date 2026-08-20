@@ -22,6 +22,7 @@ import { checkDatabaseHealth, executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import {
   summarizePath,
+  summarizePathDurable,
   type PathHealth,
 } from "@/lib/observability/requestLog";
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
@@ -313,7 +314,12 @@ const STALE_HOURLY = 4 * 60 * 60 * 1000; // hourly cron → 4 missed runs.
 
 async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
-  // /api/auth covers next-auth handler + session pings; very high traffic.
+  // /api/auth covers the next-auth catch-all only — csrf, signin, callback,
+  // signout. It does NOT cover session pings: /api/auth/session and
+  // /api/auth/sessions/* are concrete route files that shadow the catch-all
+  // and carry no observability wrapper, so they are invisible here. Much of
+  // what this does see is the 15-minute auth-signin synthetic probe rather
+  // than organic traffic.
   const session = summarizePath("/api/auth", FIVE_MIN);
   let authEventsLive = true;
   let signins24h = 0;
@@ -1451,10 +1457,14 @@ async function probePADependency(): Promise<DependencyHealth> {
   }
 }
 
-function probeStripeDependency(): DependencyHealth {
+async function probeStripeDependency(): Promise<DependencyHealth> {
   // Stripe doesn't get a synthetic ping (rate-limited, costs API budget).
   // Use webhook freshness as a proxy: when did Stripe last reach us?
-  const webhookHealth = summarizePath("/api/stripe/webhook", ONE_DAY);
+  //
+  // Read the DURABLE table, not the ring: the ring holds 500 entries spanning
+  // ~3h in production and is private to one serverless isolate, so a 24h
+  // question asked of it is unanswerable by construction.
+  const webhookHealth = await summarizePathDurable("/api/stripe/webhook", ONE_DAY);
   const checkedAt = new Date().toISOString();
   if (!webhookHealth.observed) {
     return {
@@ -1561,11 +1571,17 @@ export async function probeScheduledJobsDependency(): Promise<DependencyHealth> 
   };
 }
 
-function probeGoogleOAuthDependency(): DependencyHealth {
+async function probeGoogleOAuthDependency(): Promise<DependencyHealth> {
   // OAuth liveness inferred from /api/auth traffic + auth_events signin_complete.
   // No synthetic probe — Google's OAuth pages aren't pingable from server.
+  //
+  // Two things had to be true for this to ever report anything. The catch-all
+  // now records the URL it served rather than the filesystem route name (see
+  // `authRouteName.ts`), and the 24h lookup goes to the durable table — the
+  // in-memory ring spans ~3h and belongs to a different isolate than the one
+  // that serves the callback.
   const checkedAt = new Date().toISOString();
-  const authPath = summarizePath("/api/auth/callback/google", ONE_DAY);
+  const authPath = await summarizePathDurable("/api/auth/callback/google", ONE_DAY);
   if (!authPath.observed) {
     return {
       id: "google-oauth",
@@ -1653,8 +1669,6 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
 
   const dependencies: DependencyHealth[] = [
     paDep,
-    probeStripeDependency(),
-    probeGoogleOAuthDependency(),
     // Never let a heartbeat read break the whole status payload: the watchdog
     // going quiet must not take the thing it watches down with it.
     await probeScheduledJobsDependency().catch((err): DependencyHealth => {
@@ -1664,6 +1678,31 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
         label: "Scheduled jobs",
         status: "UNKNOWN",
         summary: "probe failed",
+        latencyMs: null,
+        checkedAt: new Date().toISOString(),
+      };
+    }),
+    // Both read the durable request log, so both are async and both must be
+    // awaited HERE — an un-awaited Promise in this array makes `d.status`
+    // undefined below, and `rollUpOverall` reads undefined as OK.
+    await probeStripeDependency().catch((err): DependencyHealth => {
+      _logger.error("[systemStatus] stripe dependency probe threw:", err);
+      return {
+        id: "stripe",
+        label: "Stripe",
+        status: "UNKNOWN",
+        summary: "request log unavailable",
+        latencyMs: null,
+        checkedAt: new Date().toISOString(),
+      };
+    }),
+    await probeGoogleOAuthDependency().catch((err): DependencyHealth => {
+      _logger.error("[systemStatus] google-oauth dependency probe threw:", err);
+      return {
+        id: "google-oauth",
+        label: "Google OAuth",
+        status: "UNKNOWN",
+        summary: "request log unavailable",
         latencyMs: null,
         checkedAt: new Date().toISOString(),
       };

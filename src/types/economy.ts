@@ -63,6 +63,14 @@ export type TransactionSourceType =
    */
   | "restaurant_refund"
   /**
+   * Re-credit of an `unlock-cosmic-recipe` debit when the Planetary Agents
+   * generation produced no recipe — upstream non-2xx, the 45s deadline breach,
+   * schema drift, or an unexpected fault. Idempotency key shape:
+   * `cosmic_recipe_refund:<transactionGroupId>`, the group id of the debit
+   * being reversed. See src/app/api/generate-cosmic-recipe/route.ts.
+   */
+  | "cosmic_recipe_refund"
+  /**
    * Re-credit of a `recipe-nft-mint` debit when the off-chain mint could not be
    * recorded — e.g. a concurrent mint of the same recipe content won the
    * content_hash race, or the ledger write failed after the ESMS was debited.

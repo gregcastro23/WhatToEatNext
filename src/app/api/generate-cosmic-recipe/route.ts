@@ -55,6 +55,21 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+/**
+ * Deadline for the upstream Planetary Agents call.
+ *
+ * The fetch below had NO timeout: it was bounded only by `maxDuration`, so a
+ * slow PA held a 60s Vercel function open and the platform killed it with no
+ * catchable error, no status, and no chance to record anything.
+ *
+ * [MEASURED 2026-08-19] PA's POST /api/generate-recipe answered 200 in
+ * 23.0s / 24.7s / 24.8s / 30.8s across four samples, while PA's /health
+ * answered in 0.35s — the cost is the LLM generation, not reachability.
+ * 45s sits above that band so a healthy-but-slow generation still completes,
+ * and below `maxDuration` so we return an honest 504 instead of being killed.
+ */
+const PA_TIMEOUT_MS = 45_000;
+
 const birthDataSchema = z
   .object({
     dateTime: z.string().min(1).optional(),
@@ -82,7 +97,56 @@ async function handlePost(request: NextRequest) {
   });
   if (access.mode === "denied") return access.blocked;
 
+  // Parse the body BEFORE any money moves.
+  //
+  // This used to sit ~50 lines below the ESMS debit, so a malformed request
+  // paid full price (15-48 ESMS) for a 400. Hoisting deletes those two
+  // charge-and-fail exits outright rather than refunding them, and stops a junk
+  // request costing a daily-limit query, a shop lookup and a pricing
+  // computation. Safe: nothing in the auth/debit block below reads the body,
+  // and `gateDemoOrAuth` above never touches the request stream.
+  const rawBody = await request.json().catch(() => null);
+  if (!rawBody || typeof rawBody !== "object") {
+    return new Response(
+      JSON.stringify({ error: "invalid_request", message: "Request body must be JSON." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  const parsed = cosmicRecipeBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return new Response(
+      JSON.stringify({
+        error: "invalid_request",
+        message: "Recipe input failed validation.",
+        issues: parsed.error.issues.slice(0, 5).map((i) => ({
+          path: i.path.join("."),
+          message: i.message,
+        })),
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  const {
+    prompt,
+    diet,
+    ingredients_main: ingredientsMain,
+    disallowed_ingredients: disallowedIngredients,
+    birthData,
+    preferredCuisine,
+  } = parsed.data;
+
+
   const isPremiumUser = false;
+
+  // The ESMS debit below happens BEFORE the upstream generation, so every exit
+  // after it that does not deliver a recipe owes the user a refund. Recording
+  // the spend here (rather than refunding at each exit) is what lets a single
+  // `finally` settle every path, including throws.
+  let spend: {
+    userId: string;
+    groupId: string;
+    costs: { spirit: number; essence: number; matter: number; substance: number };
+  } | null = null;
 
   // Auth'd path: token economy is the throttle. Every user gets 1 free daily generation,
   // and subsequent recipe generations spend personalized live ESMS tokens.
@@ -169,6 +233,22 @@ async function handlePost(request: NextRequest) {
             headers: { "Content-Type": "application/json" },
           });
         }
+
+        // `if (purchase.success)` is required by TS narrowing — and that
+        // requirement is the guarantee. `transactionGroupId` only exists on the
+        // success branch, so a no-op `already_owned` result cannot produce a
+        // refund of ESMS that was never taken.
+        // The `mem_` guard covers the no-DATABASE_URL in-memory fallback, which
+        // returns `success: true` with a `mem_<ts>` group id while debiting
+        // nothing. Refunding that would credit ESMS never taken. Dev-only, but
+        // this is a money path.
+        if (purchase.success && !purchase.transactionGroupId.startsWith("mem_")) {
+          spend = {
+            userId,
+            groupId: purchase.transactionGroupId,
+            costs: liveCost,
+          };
+        }
       }
 
     // Cosmic recipes count toward both the generic "Culinary Explorer" tiers
@@ -177,238 +257,311 @@ async function handlePost(request: NextRequest) {
     await reportQuestEventBestEffort(userId, "generate_premium_recipe");
   }
 
-  // Beyond this point, both auth and demo paths build the same prompt and call
-  // the agents network. Demo users skip personalization that requires a userId
-  // (food history note) but still see the wow grounding payload.
-  const demoMode = access.mode === "demo";
-  const userId: string | null = access.mode === "auth" ? access.userId : null;
-
-  const rawBody = await request.json().catch(() => null);
-  if (!rawBody || typeof rawBody !== "object") {
-    return new Response(
-      JSON.stringify({ error: "invalid_request", message: "Request body must be JSON." }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-  const parsed = cosmicRecipeBodySchema.safeParse(rawBody);
-  if (!parsed.success) {
-    return new Response(
-      JSON.stringify({
-        error: "invalid_request",
-        message: "Recipe input failed validation.",
-        issues: parsed.error.issues.slice(0, 5).map((i) => ({
-          path: i.path.join("."),
-          message: i.message,
-        })),
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-  const {
-    prompt,
-    diet,
-    ingredients_main: ingredientsMain,
-    disallowed_ingredients: disallowedIngredients,
-    birthData,
-    preferredCuisine,
-  } = parsed.data;
-
-  // Compute the current sky once. We use it for both the dominant element
-  // (a top-level field PA expects) and to derive the alchemical state +
-  // thermodynamic properties PA grounds the recipe on.
-  const skyDate = new Date();
-  const raw = getAccuratePlanetaryPositions(skyDate);
-  const dominantElement: ClassicalElement =
-    getDominantElementFromPositions(raw);
-
-  // Project-curated grounding: which cuisine the user picked (if any),
-  // and which indexed ingredients are strongest in the dominant element
-  // right now. PA ingests these as structured context — it does not
-  // recompute them.
-  const cuisineName = preferredCuisine ? normalizeCuisineName(preferredCuisine) : "";
-  const cuisineEntry = cuisineName ? getCuisineEntry(cuisineName) : null;
-  const topIngredients = findTopIngredientsForElement(dominantElement, 8).map((i) => i.name);
-
-  // Auth-path personalization: pull the user's recent food diary so PA
-  // can steer toward variety. Demo users have no diary to draw from.
-  const recentEntries = userId
-    ? await foodDiaryService.getEntries(userId, { limit: 10 })
-    : [];
-  const recentFoods = recentEntries.map((e) => e.foodName).join(", ");
-
-  // Compute Spirit/Essence/Matter/Substance + thermodynamic properties
-  // from the current sky. PA wants the raw numeric maps; it builds its
-  // own prompt from them.
-  const normalizedPositions: Record<
-    string,
-    { sign: string; degree: number; minute: number; isRetrograde: boolean }
-  > = {};
-  Object.entries(raw).forEach(([planet, pos]) => {
-    const p = pos as {
-      sign: unknown;
-      degree?: unknown;
-      minute?: unknown;
-      isRetrograde?: unknown;
-    };
-    normalizedPositions[planet] = {
-      sign: String(p.sign ?? "").toLowerCase(),
-      degree: Number(p.degree) || 0,
-      minute: Number(p.minute) || 0,
-      isRetrograde: Boolean(p.isRetrograde),
-    };
-  });
-  const esms = calculateAlchemicalFromPlanets(
-    raw,
-    isCurrentSkyDiurnal(skyDate),
-  );
-  const alchemized = alchemize(normalizedPositions);
-
-  // Augment the user's natural-language prompt with their recent-foods
-  // history + their preferred main ingredients so PA's prompt builder
-  // forwards them to the model. PA owns the rest of the prompt (persona,
-  // JSON contract, schema injection) since the PA-side rebuild.
-  const baseUserPrompt =
-    prompt || "A nourishing, restorative meal aligned with today's cosmic energies.";
-  const preferredIngredientsHint = ingredientsMain?.length
-    ? `\nPreferred main ingredients: ${ingredientsMain.join(", ")}.`
-    : "";
-  const recentFoodsHint = recentFoods
-    ? `\nUser recently consumed: ${recentFoods}. Ensure variety or complementary pairings.`
-    : "";
-  const enrichedPrompt = `${baseUserPrompt}${preferredIngredientsHint}${recentFoodsHint}`;
-
-  // PA backend at api.agents.alchm.kitchen owns recipe generation since
-  // the PA-side rebuild: it handles the alchemical-chef persona, prompt
-  // construction, provider-native JSON mode, Pydantic validation, one
-  // auto-retry on malformed output, and a 60s prompt-hash cache. WTEN
-  // forwards the structured grounding fields it has computed and gets
-  // back a validated CosmicRecipeResponse.
-  const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
-
-  let recipe: z.infer<typeof cosmicRecipeSchema>;
+  // Every exit below this line either delivers a recipe or owes a refund, so
+  // there is exactly ONE settlement point rather than a refund call sprinkled
+  // at each `return`. `finally` also covers the unguarded throw sites
+  // (planetary positions, the food-diary read, alchemize, the PA body read),
+  // which no per-exit approach would catch, and a future early return added
+  // inside this block cannot forget it.
+  //
+  // Nothing between the debit and this `try` can throw past it:
+  // reportQuestEventBestEffort swallows everything internally.
+  let delivered = false;
   try {
-    const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: enrichedPrompt,
-        dominantElement,
-        cuisine: cuisineEntry?.cuisine ?? undefined,
-        topIngredients,
-        birthData,
-        dietPreference: diet || "omnivore",
-        alchemicalState: esms,
-        thermodynamicProperties: alchemized?.thermodynamicProperties,
-        disallowedIngredients: disallowedIngredients ?? undefined,
-        userId: userId ?? undefined,
-        tier: isPremiumUser ? "premium" : "free",
-      }),
-    });
 
-    if (!agentResponse.ok) {
-      const upstreamBody = (await agentResponse
-        .json()
-        .catch(() => ({}))) as Record<string, unknown>;
-      const upstreamDetail =
-        typeof upstreamBody.detail === "string"
-          ? upstreamBody.detail
-          : typeof upstreamBody.message === "string"
-            ? upstreamBody.message
-            : null;
+    // Beyond this point, both auth and demo paths build the same prompt and call
+    // the agents network. Demo users skip personalization that requires a userId
+    // (food history note) but still see the wow grounding payload.
+    const demoMode = access.mode === "demo";
+    const userId: string | null = access.mode === "auth" ? access.userId : null;
+
+
+    // Compute the current sky once. We use it for both the dominant element
+    // (a top-level field PA expects) and to derive the alchemical state +
+    // thermodynamic properties PA grounds the recipe on.
+    const skyDate = new Date();
+    const raw = getAccuratePlanetaryPositions(skyDate);
+    const dominantElement: ClassicalElement =
+      getDominantElementFromPositions(raw);
+
+    // Project-curated grounding: which cuisine the user picked (if any),
+    // and which indexed ingredients are strongest in the dominant element
+    // right now. PA ingests these as structured context — it does not
+    // recompute them.
+    const cuisineName = preferredCuisine ? normalizeCuisineName(preferredCuisine) : "";
+    const cuisineEntry = cuisineName ? getCuisineEntry(cuisineName) : null;
+    const topIngredients = findTopIngredientsForElement(dominantElement, 8).map((i) => i.name);
+
+    // Auth-path personalization: pull the user's recent food diary so PA
+    // can steer toward variety. Demo users have no diary to draw from.
+    const recentEntries = userId
+      ? await foodDiaryService.getEntries(userId, { limit: 10 })
+      : [];
+    const recentFoods = recentEntries.map((e) => e.foodName).join(", ");
+
+    // Compute Spirit/Essence/Matter/Substance + thermodynamic properties
+    // from the current sky. PA wants the raw numeric maps; it builds its
+    // own prompt from them.
+    const normalizedPositions: Record<
+      string,
+      { sign: string; degree: number; minute: number; isRetrograde: boolean }
+    > = {};
+    Object.entries(raw).forEach(([planet, pos]) => {
+      const p = pos as {
+        sign: unknown;
+        degree?: unknown;
+        minute?: unknown;
+        isRetrograde?: unknown;
+      };
+      normalizedPositions[planet] = {
+        sign: String(p.sign ?? "").toLowerCase(),
+        degree: Number(p.degree) || 0,
+        minute: Number(p.minute) || 0,
+        isRetrograde: Boolean(p.isRetrograde),
+      };
+    });
+    const esms = calculateAlchemicalFromPlanets(
+      raw,
+      isCurrentSkyDiurnal(skyDate),
+    );
+    const alchemized = alchemize(normalizedPositions);
+
+    // Augment the user's natural-language prompt with their recent-foods
+    // history + their preferred main ingredients so PA's prompt builder
+    // forwards them to the model. PA owns the rest of the prompt (persona,
+    // JSON contract, schema injection) since the PA-side rebuild.
+    const baseUserPrompt =
+      prompt || "A nourishing, restorative meal aligned with today's cosmic energies.";
+    const preferredIngredientsHint = ingredientsMain?.length
+      ? `\nPreferred main ingredients: ${ingredientsMain.join(", ")}.`
+      : "";
+    const recentFoodsHint = recentFoods
+      ? `\nUser recently consumed: ${recentFoods}. Ensure variety or complementary pairings.`
+      : "";
+    const enrichedPrompt = `${baseUserPrompt}${preferredIngredientsHint}${recentFoodsHint}`;
+
+    // PA backend at api.agents.alchm.kitchen owns recipe generation since
+    // the PA-side rebuild: it handles the alchemical-chef persona, prompt
+    // construction, provider-native JSON mode, Pydantic validation, one
+    // auto-retry on malformed output, and a 60s prompt-hash cache. WTEN
+    // forwards the structured grounding fields it has computed and gets
+    // back a validated CosmicRecipeResponse.
+    const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
+
+    let recipe: z.infer<typeof cosmicRecipeSchema>;
+    try {
+      const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Covers the body read as well as the headers: AbortSignal.timeout stays
+        // armed until the response is fully consumed, unlike a manual
+        // clearTimeout in a finally block.
+        signal: AbortSignal.timeout(PA_TIMEOUT_MS),
+        body: JSON.stringify({
+          prompt: enrichedPrompt,
+          dominantElement,
+          cuisine: cuisineEntry?.cuisine ?? undefined,
+          topIngredients,
+          birthData,
+          dietPreference: diet || "omnivore",
+          alchemicalState: esms,
+          thermodynamicProperties: alchemized?.thermodynamicProperties,
+          disallowedIngredients: disallowedIngredients ?? undefined,
+          userId: userId ?? undefined,
+          tier: isPremiumUser ? "premium" : "free",
+        }),
+      });
+
+      if (!agentResponse.ok) {
+        const upstreamBody = (await agentResponse
+          .json()
+          .catch(() => ({}))) as Record<string, unknown>;
+        const upstreamDetail =
+          typeof upstreamBody.detail === "string"
+            ? upstreamBody.detail
+            : typeof upstreamBody.message === "string"
+              ? upstreamBody.message
+              : null;
+        return new Response(
+          JSON.stringify({
+            error: "Failed to generate recipe via agents network",
+            upstreamStatus: agentResponse.status,
+            upstreamDetail,
+          }),
+          {
+            // PA's recipe orchestrator returns 502 on retry exhaustion; we
+            // forward that as-is. A 404 from PA means the new endpoint
+            // isn't deployed yet — surface as 502 so the client gets a
+            // uniform "upstream not ready" signal instead of a misleading
+            // "not found".
+            status: agentResponse.status === 404 ? 502 : agentResponse.status,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+
+      // PA already validates its response against a Pydantic mirror of
+      // cosmicRecipeSchema before sending. We do a defensive Zod parse
+      // here so any future drift between the two schemas surfaces at the
+      // WTEN edge instead of leaking malformed data to the client.
+      const parsed = (await agentResponse.json()) as unknown;
+      const validation = cosmicRecipeSchema.safeParse(parsed);
+      if (!validation.success) {
+        console.error(
+          "[generate-cosmic-recipe] PA returned recipe that failed local schema check:",
+          validation.error.issues.slice(0, 5),
+        );
+        return new Response(
+          JSON.stringify({
+            error: "Recipe schema drift between PA and WTEN",
+            issues: validation.error.issues
+              .slice(0, 5)
+              .map((i) => ({ path: i.path.join("."), message: i.message })),
+          }),
+          { status: 502, headers: { "Content-Type": "application/json" } },
+        );
+      }
+      recipe = validation.data;
+    } catch (error) {
+      console.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
+      // A deadline breach is an UPSTREAM failure, not a WTEN crash. Reporting it
+      // as 504 rather than 500 keeps `serverErrorRate` and the route-health panel
+      // pointing at the service that actually owns the latency.
+      //
+      // NOTE: the ESMS debit above happens BEFORE this call, and this exit —
+      // like the existing non-ok exit — returns without refunding it. That
+      // "charged but no recipe" hole predates this change; the deadline makes it
+      // reachable more often and it needs closing on its own.
+      // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
+      // with a DOMException; Node 22 makes that an Error subclass, but a
+      // different realm (jest's node environment, a bundler shim) does not, and
+      // there the instanceof silently returns false and every upstream timeout
+      // gets misreported as a WTEN 500. `[MEASURED 2026-08-19]` real Node
+      // v22.23.1: `instanceof Error` true; jest node env: false. The `.name` is
+      // "TimeoutError" in both.
+      const timedOut =
+        typeof error === "object" &&
+        error !== null &&
+        (error as { name?: unknown }).name === "TimeoutError";
       return new Response(
         JSON.stringify({
-          error: "Failed to generate recipe via agents network",
-          upstreamStatus: agentResponse.status,
-          upstreamDetail,
+          error: timedOut
+            ? "Agents network timed out generating the recipe"
+            : "Internal server error contacting agents network",
+          ...(timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
         }),
         {
-          // PA's recipe orchestrator returns 502 on retry exhaustion; we
-          // forward that as-is. A 404 from PA means the new endpoint
-          // isn't deployed yet — surface as 502 so the client gets a
-          // uniform "upstream not ready" signal instead of a misleading
-          // "not found".
-          status: agentResponse.status === 404 ? 502 : agentResponse.status,
+          status: timedOut ? 504 : 500,
           headers: { "Content-Type": "application/json" },
         },
       );
     }
 
-    // PA already validates its response against a Pydantic mirror of
-    // cosmicRecipeSchema before sending. We do a defensive Zod parse
-    // here so any future drift between the two schemas surfaces at the
-    // WTEN edge instead of leaking malformed data to the client.
-    const parsed = (await agentResponse.json()) as unknown;
-    const validation = cosmicRecipeSchema.safeParse(parsed);
-    if (!validation.success) {
-      console.error(
-        "[generate-cosmic-recipe] PA returned recipe that failed local schema check:",
-        validation.error.issues.slice(0, 5),
-      );
-      return new Response(
-        JSON.stringify({
-          error: "Recipe schema drift between PA and WTEN",
-          issues: validation.error.issues
-            .slice(0, 5)
-            .map((i) => ({ path: i.path.join("."), message: i.message })),
-        }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
-    }
-    recipe = validation.data;
-  } catch (error) {
-    console.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error contacting agents network" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
-  }
+    // Increment recipes_generated count atomically in user_daily_limits for free-tier users
+    let updatedCount = 0;
+    if (access.mode === "auth") {
+      try {
+        const sub = await subscriptionService.getUserSubscription(access.userId);
+        const isPremium = sub?.tier === "premium";
 
-  // Increment recipes_generated count atomically in user_daily_limits for free-tier users
-  let updatedCount = 0;
-  if (access.mode === "auth") {
-    try {
-      const sub = await subscriptionService.getUserSubscription(access.userId);
-      const isPremium = sub?.tier === "premium";
-
-      if (!isPremium) {
-        const { executeQuery } = await import("@/lib/database");
-        const updateResult = await executeQuery(
-          `INSERT INTO user_daily_limits (user_id, date, recipes_generated)
-           VALUES ($1, CURRENT_DATE, 1)
-           ON CONFLICT (user_id, date)
-           DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
-           RETURNING recipes_generated`,
-          [access.userId]
-        );
-        updatedCount = updateResult.rows[0]?.recipes_generated ?? 1;
+        if (!isPremium) {
+          const { executeQuery } = await import("@/lib/database");
+          const updateResult = await executeQuery(
+            `INSERT INTO user_daily_limits (user_id, date, recipes_generated)
+             VALUES ($1, CURRENT_DATE, 1)
+             ON CONFLICT (user_id, date)
+             DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
+             RETURNING recipes_generated`,
+            [access.userId]
+          );
+          updatedCount = updateResult.rows[0]?.recipes_generated ?? 1;
+        }
+      } catch (err) {
+        console.warn("[generate-cosmic-recipe] Failed to increment daily limits:", err);
       }
-    } catch (err) {
-      console.warn("[generate-cosmic-recipe] Failed to increment daily limits:", err);
+    }
+
+    // Spread the recipe at the top level so the existing client
+    // (CosmicRecipeGenerator → data.title / data.short_description / ...)
+    // continues to work. The `success: true` sentinel is what the
+    // synthetic-cosmic-recipe probe checks at HTTP 200.
+    let responseJson: Record<string, unknown> = {
+      success: true,
+      ...recipe,
+      recipesGeneratedToday: updatedCount,
+    };
+
+    if (demoMode) {
+      responseJson = {
+        ...responseJson,
+        demo: true,
+        demoRemaining: access.mode === "demo" ? access.demoRemaining : undefined,
+      };
+    }
+
+    // Build the response BEFORE marking delivery. If JSON.stringify threw
+    // (it will not for a Zod-validated recipe, but the flag must not depend on
+    // that), the finally below still refunds instead of silently keeping the
+    // charge.
+    const okResponse = new Response(JSON.stringify(responseJson), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+    delivered = true;
+    return okResponse;
+
+  } finally {
+    if (spend && !delivered) {
+      try {
+        // Credit the EXACT basket that was debited. `applyPersonalizedPricing`
+        // rounds to 2dp and the column is DECIMAL(12,4), so this reverses the
+        // debit with no rounding residual in either direction.
+        //
+        // Idempotency is the ledger's, not ours: token_transactions
+        // .idempotency_key is UNIQUE and creditTokensSql upserts the balance
+        // `FROM inserted`, so a replayed key inserts nothing and moves the
+        // balance by zero. Keying on the debit's transactionGroupId (not on
+        // user+date) matters because that index is GLOBAL.
+        //
+        // Awaited inside `finally` so the response waits for the credit to
+        // COMMIT — returning first and refunding after would lose it to a
+        // lambda freeze, which is the failure this whole change is about.
+        const outcome = await tokenEconomy.creditMultipleTokensDetailed(
+          spend.userId,
+          [
+            { tokenType: "Spirit", amount: spend.costs.spirit },
+            { tokenType: "Essence", amount: spend.costs.essence },
+            { tokenType: "Matter", amount: spend.costs.matter },
+            { tokenType: "Substance", amount: spend.costs.substance },
+          ],
+          "cosmic_recipe_refund",
+          {
+            sourceId: spend.groupId,
+            idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
+            description: "Refund - cosmic recipe generation produced no recipe",
+          },
+        );
+        if (outcome.status === "failed") {
+          // console.error, not _logger.warn: warn emits NOTHING in production,
+          // and a user charged with no recipe is the one event on this path
+          // that must reach production logs.
+          console.error(
+            "[generate-cosmic-recipe] REFUND FAILED - user charged, no recipe",
+            {
+              userId: spend.userId,
+              transactionGroupId: spend.groupId,
+              code: outcome.code,
+            },
+          );
+        }
+      } catch (refundError) {
+        // A throw escaping `finally` would REPLACE the intended 504/502 with a
+        // 500 and lose the real status, so the refund is contained.
+        console.error("[generate-cosmic-recipe] refund threw", refundError);
+      }
     }
   }
 
-  // Spread the recipe at the top level so the existing client
-  // (CosmicRecipeGenerator → data.title / data.short_description / ...)
-  // continues to work. The `success: true` sentinel is what the
-  // synthetic-cosmic-recipe probe checks at HTTP 200.
-  let responseJson: Record<string, unknown> = {
-    success: true,
-    ...recipe,
-    recipesGeneratedToday: updatedCount,
-  };
-
-  if (demoMode) {
-    responseJson = {
-      ...responseJson,
-      demo: true,
-      demoRemaining: access.mode === "demo" ? access.demoRemaining : undefined,
-    };
-  }
-
-  return new Response(JSON.stringify(responseJson), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
 }
 
 export const POST = withObservability(

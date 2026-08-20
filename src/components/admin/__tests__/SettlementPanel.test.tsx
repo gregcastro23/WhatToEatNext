@@ -24,7 +24,44 @@ function mockFetch(body: unknown) {
   }) as unknown as typeof fetch;
 }
 
+/** A failing read — the case none of the original three tests covered. */
+function mockFailedFetch(status: number) {
+  global.fetch = jest.fn().mockResolvedValue({
+    ok: false,
+    status,
+    json: async () => ({}),
+  }) as unknown as typeof fetch;
+}
+
 describe("SettlementPanel empty states", () => {
+  it("does not report an all-clear when it could not read the queue", async () => {
+    // On a failed first read the panel kept `loaded=false`, `orders=[]` and
+    // `lifetime=null`. The spinner guard (`!loaded && !error`) was dead
+    // because `error` was set, `orders.length === 0` was true, and the
+    // never-used tie-break `lifetime?.orders === 0` was FALSE because
+    // `lifetime` was null — so control fell through to a green
+    // "No orders awaiting settlement" over a real-money queue whose state was
+    // entirely unknown. All three original tests pass with or without the fix.
+    mockFailedFetch(500);
+    render(<SettlementPanel />);
+
+    await waitFor(() =>
+      expect(
+        screen.getByText("Cannot read the settlement queue"),
+      ).toBeInTheDocument(),
+    );
+
+    // THE defect.
+    expect(
+      screen.queryByText("No orders awaiting settlement"),
+    ).not.toBeInTheDocument();
+    // And it must not borrow the other honest-but-wrong empty state either.
+    expect(screen.queryByText("Rail not yet in use")).not.toBeInTheDocument();
+
+    // The header must not assert LIVE over data it never received.
+    expect(screen.getByText("NO SOURCE")).toBeInTheDocument();
+  });
+
   it("does not claim the rail is clear when no order has ever been placed", async () => {
     mockFetch({
       success: true,

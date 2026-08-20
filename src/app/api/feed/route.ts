@@ -98,7 +98,14 @@ async function extractWebhookPreview(request: Request) {
 const FEED_CACHE_TTL_SECONDS = 12;
 
 export const GET = withObservability(
-  { routeName: "/api/feed" },
+  // The observability userId is write-only: every reader of
+  // `request_log_entries` selects only path/status/at, and no admin panel
+  // surfaces the column. Resolving it here would cost one dynamic import of
+  // the auth chain (which drags in `jose`), one session decrypt, and one
+  // uncached `users LEFT JOIN user_profiles` SELECT on every poll that
+  // reaches the origin — for a value nothing reads. The ipHash is recorded
+  // outside this guard, so abuse tooling is unaffected.
+  { routeName: "/api/feed", skipUserResolution: true },
   async (request: Request) => {
     try {
       const { searchParams } = new URL(request.url);
@@ -133,7 +140,10 @@ export const GET = withObservability(
 );
 
 export const POST = withObservability(
-  { routeName: "/api/feed" },
+  // Authenticated solely by `Authorization: Bearer <INTERNAL_API_SECRET>`
+  // (see isAuthorizedAgentRequest), so user resolution can only ever return
+  // null — the lookup is unconditionally wasted here.
+  { routeName: "/api/feed", skipUserResolution: true },
   async (request: Request) => {
     let agentEmail = "unknown";
     let eventType = "unknown";
