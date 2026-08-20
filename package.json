@@ -29,7 +29,7 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build": "next build",
+    "build": "bash -c 'set -o pipefail; next build | tee .next-build.log && bun scripts/check-route-sizes.cjs .next-build.log'",
     "build:pwa": "ENABLE_PWA=true NEXT_PUBLIC_ENABLE_PWA=true next build",
     "build:size-check": "bash -c 'set -o pipefail; next build | tee .next-build.log && bun scripts/check-route-sizes.cjs .next-build.log'",
     "check-route-sizes": "bun scripts/check-route-sizes.cjs",
