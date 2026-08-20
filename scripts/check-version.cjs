@@ -10,7 +10,7 @@ const nodeVersion = process.version;
 const requiredNode = engines.node;
 
 // Check Node.js
-if (!semver.satisfies(nodeVersion, requiredNode) && !nodeVersion.startsWith('v20.') && !nodeVersion.startsWith('v24.')) {
+if (!semver.satisfies(nodeVersion, requiredNode) && !semver.satisfies(nodeVersion, '>=20')) {
   console.error(`❌ Required Node.js version ${requiredNode} not satisfied by ${nodeVersion}`);
   process.exit(1);
 }
