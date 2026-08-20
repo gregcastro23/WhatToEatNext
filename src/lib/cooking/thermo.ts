@@ -459,6 +459,21 @@ const EIGENVALUE_CEILING: Record<FoodGeometry, number> = {
  * sign and therefore moves no bisection step. Do not "simplify" this back to
  * the cot form; it is the shape of the expression that is load bearing.
  */
+function sphereSinMinusLambdaCos(lambda: number): number {
+  if (lambda < 0.2) {
+    const l2 = lambda * lambda;
+    return (
+      lambda *
+      l2 *
+      (1 / 3 -
+        l2 *
+          (1 / 30 -
+            l2 * (1 / 840 - l2 * (1 / 45360 - (l2 * 1) / 3991680))))
+    );
+  }
+  return Math.sin(lambda) - lambda * Math.cos(lambda);
+}
+
 function eigenvalueResidual(geometry: FoodGeometry, lambda: number, biot: number): number {
   switch (geometry) {
     case "slab":
@@ -466,7 +481,7 @@ function eigenvalueResidual(geometry: FoodGeometry, lambda: number, biot: number
     case "cylinder":
       return (lambda * besselJ1(lambda)) / besselJ0(lambda) - biot;
     case "sphere":
-      return (1 - biot) * Math.sin(lambda) - lambda * Math.cos(lambda);
+      return sphereSinMinusLambdaCos(lambda) - biot * Math.sin(lambda);
   }
 }
 

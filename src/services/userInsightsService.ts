@@ -57,6 +57,9 @@ export interface UserInsightsPayload {
     free: number;
     premium: number;
     admin: number;
+    visitors?: number;
+    accountHolders?: number;
+    activeHolders?: number;
   };
   elements: {
     fire: number;
@@ -324,6 +327,9 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
       free: rollup.free,
       premium: rollup.premium,
       admin: rollup.admins,
+      visitors: rollup.pending_onboarding,
+      accountHolders: rollup.humans,
+      activeHolders: rollup.active_30d,
     },
     elements: {
       fire: elements.fire ?? 0,

@@ -23,14 +23,22 @@
 import type { TokenType } from "@/types/economy";
 
 export const MCP_TOP_UP_PURPOSE = "mcp_top_up" as const;
+export const TOKEN_PACKAGE_PURPOSE = "token_package" as const;
 
-export type McpTopUpSku =
+export type TokenPackageSku =
+  | "initiate_box"
+  | "adept_sphere"
+  | "alchemist_chest"
+  | "sovereign_vault"
   | "mcp_top_up_5"
   | "mcp_top_up_20"
   | "mcp_top_up_50";
 
-export interface McpTopUpDefinition {
-  sku: McpTopUpSku;
+/** Backward compatibility alias for McpTopUpSku */
+export type McpTopUpSku = TokenPackageSku;
+
+export interface TokenPackageDefinition {
+  sku: TokenPackageSku;
   label: string;
   /** Display price (cents). Same as the Stripe Price's `unit_amount`. */
   priceCents: number;
@@ -40,7 +48,34 @@ export interface McpTopUpDefinition {
   stripePriceId: string | null;
 }
 
-const STATIC_DEFS: Array<Omit<McpTopUpDefinition, "stripePriceId">> = [
+export type McpTopUpDefinition = TokenPackageDefinition;
+
+const STATIC_DEFS: Array<Omit<TokenPackageDefinition, "stripePriceId">> = [
+  {
+    sku: "initiate_box",
+    label: "Initiate Box — 50 of each axis (200 ESMS)",
+    priceCents: 500,
+    esmsPerAxis: 50,
+  },
+  {
+    sku: "adept_sphere",
+    label: "Adept Sphere — 120 of each axis (480 ESMS)",
+    priceCents: 1000,
+    esmsPerAxis: 120,
+  },
+  {
+    sku: "alchemist_chest",
+    label: "Alchemist Chest — 350 of each axis (1,400 ESMS)",
+    priceCents: 2500,
+    esmsPerAxis: 350,
+  },
+  {
+    sku: "sovereign_vault",
+    label: "Sovereign Vault — 800 of each axis (3,200 ESMS)",
+    priceCents: 5000,
+    esmsPerAxis: 800,
+  },
+  // MCP legacy / compatibility SKUs
   {
     sku: "mcp_top_up_5",
     label: "Starter — 50 of each axis",
@@ -61,13 +96,17 @@ const STATIC_DEFS: Array<Omit<McpTopUpDefinition, "stripePriceId">> = [
   },
 ];
 
-const PRICE_ENV: Record<McpTopUpSku, string> = {
+const PRICE_ENV: Record<TokenPackageSku, string> = {
+  initiate_box: "STRIPE_TOKEN_PACKAGE_INITIATE_PRICE_ID",
+  adept_sphere: "STRIPE_TOKEN_PACKAGE_ADEPT_PRICE_ID",
+  alchemist_chest: "STRIPE_TOKEN_PACKAGE_CHEST_PRICE_ID",
+  sovereign_vault: "STRIPE_TOKEN_PACKAGE_VAULT_PRICE_ID",
   mcp_top_up_5: "STRIPE_MCP_TOP_UP_5_PRICE_ID",
   mcp_top_up_20: "STRIPE_MCP_TOP_UP_20_PRICE_ID",
   mcp_top_up_50: "STRIPE_MCP_TOP_UP_50_PRICE_ID",
 };
 
-function resolvePriceId(sku: McpTopUpSku): string | null {
+function resolvePriceId(sku: TokenPackageSku): string | null {
   const envKey = PRICE_ENV[sku];
   const value = process.env[envKey];
   if (typeof value === "string" && value.startsWith("price_")) {

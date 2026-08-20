@@ -14,22 +14,8 @@ export const ADMIN_EMAILS: readonly string[] = [
   "cookingwithcastrollc@gmail.com",
 ];
 
-export const PREMIUM_EMAILS: readonly string[] = [
-  "alchmnft@gmail.com",
-  "liskater@gmail.com",
-  "roberttcastro1@gmail.com",
-  "zaby250@gmail.com",
-  "atd250@gmail.com",
-];
-
 export function isAdminEmail(email: string | null | undefined): boolean {
   if (!email) return false;
   const normalized = email.trim().toLowerCase();
   return ADMIN_EMAILS.some((e) => e.trim().toLowerCase() === normalized);
-}
-
-export function isPremiumEmail(email: string | null | undefined): boolean {
-  if (!email) return false;
-  const normalized = email.trim().toLowerCase();
-  return PREMIUM_EMAILS.some((e) => e.trim().toLowerCase() === normalized);
 }

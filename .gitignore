@@ -33,6 +33,7 @@ public/swe-worker-*.js
 *.pem
 .env*
 errors.log
+.next-build.log
 tsconfig.tsbuildinfo
 
 # Python/Backend

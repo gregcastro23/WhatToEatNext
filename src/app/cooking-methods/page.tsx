@@ -225,7 +225,7 @@ export default function CookingMethodsPage() {
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <Flame className="h-5 w-5 text-[var(--ma-accent)]" aria-hidden />
               <span className="ma-label text-[var(--ma-accent-soft)]">FEATURED_TOOL</span>
-              <MaChip tone="accent">PREMIUM</MaChip>
+              <MaChip tone="accent">BATCH_PLANNER</MaChip>
             </div>
             <h2 className="font-grimoire text-2xl text-ma-fg md:text-3xl">
               Tilt Skillet — Batch Circuit Planner

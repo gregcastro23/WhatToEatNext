@@ -295,11 +295,18 @@ export default function CosmicRecipeGenerator() {
     setObject(undefined);
     setErrorMessage(null);
     setLastPayload(payload);
+    const requestId =
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `req_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
     try {
       const res = await fetch('/api/generate-cosmic-recipe', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': requestId,
+        },
+        body: JSON.stringify({ ...payload, requestId }),
       });
       if (!res.ok) {
         let message = "We couldn't conjure a recipe this time. Please try again.";

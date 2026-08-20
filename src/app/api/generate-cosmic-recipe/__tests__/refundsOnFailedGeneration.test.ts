@@ -246,4 +246,57 @@ describe("cosmic recipe ESMS settlement", () => {
 
     expect(creditMultipleTokensDetailed).not.toHaveBeenCalled();
   });
+
+  it("passes client idempotencyKey / requestId to purchaseShopItem for deduplication", async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      new Response(JSON.stringify(VALID_RECIPE), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    ) as unknown as typeof fetch;
+
+    const mod = await import("@/app/api/generate-cosmic-recipe/route");
+    const req = new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Idempotency-Key": "client-req-999",
+      },
+      body: JSON.stringify({ prompt: "something nourishing", requestId: "client-req-999" }),
+    });
+
+    const res = await (mod.POST as unknown as (r: Request) => Promise<Response>)(req);
+    expect(res.status).toBe(200);
+
+    expect(purchaseShopItem).toHaveBeenCalledWith(
+      "user-1",
+      "unlock-cosmic-recipe",
+      expect.objectContaining({
+        idempotencyKey: "cosmic_recipe_debit:client-req-999",
+      }),
+    );
+  });
+
+  it("returns 409 when debit was already_applied (duplicate request)", async () => {
+    purchaseShopItem.mockResolvedValue({
+      success: false,
+      reason: "already_applied",
+    });
+    const fetchSpy = jest.fn();
+    global.fetch = fetchSpy as unknown as typeof fetch;
+
+    const mod = await import("@/app/api/generate-cosmic-recipe/route");
+    const req = new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Idempotency-Key": "client-req-dup",
+      },
+      body: JSON.stringify({ prompt: "something nourishing" }),
+    });
+
+    const res = await (mod.POST as unknown as (r: Request) => Promise<Response>)(req);
+    expect(res.status).toBe(409);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
 });

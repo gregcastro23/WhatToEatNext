@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 import { ESLint } from "eslint";
@@ -80,4 +80,28 @@ if (comparison.exceedsBaseline) {
     }
   }
   process.exit(1);
+}
+
+if (trackedTotal < baseline.trackedTotal) {
+  const decreasedBy = baseline.trackedTotal - trackedTotal;
+  console.log(
+    `🎉 Lint debt decreased by ${decreasedBy}: ${trackedTotal} (down from ${baseline.trackedTotal}).`,
+  );
+  if (process.argv.includes("--ratchet") || process.env.LINT_DEBT_AUTO_RATCHET === "1") {
+    const updatedBaseline = {
+      ...baseline,
+      trackedTotal,
+      rules: Object.fromEntries(
+        Object.entries(baseline.rules).map(([rule, info]) => [
+          rule,
+          {
+            ...info,
+            count: counts[rule] ?? info.count,
+          },
+        ]),
+      ),
+    };
+    await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
+    console.log(`🔒 Baseline auto-ratcheted down to ${trackedTotal}.`);
+  }
 }

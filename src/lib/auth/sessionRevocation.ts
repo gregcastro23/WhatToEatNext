@@ -39,8 +39,8 @@ function getJwtMaxAgeSeconds(): number {
  *             `device_sessions.jti` / `device_sessions.id`).
  * @returns    true if the jti is revoked or unknown, false otherwise.
  */
-export async function isJtiRevoked(jti: string): Promise<boolean> {
-  if (!jti) return false;
+export async function isJtiRevoked(jti: string | null | undefined): Promise<boolean> {
+  if (!jti?.trim()) return false;
 
   // Step 1: Redis denylist.
   const cached = await checkRedis(jti);

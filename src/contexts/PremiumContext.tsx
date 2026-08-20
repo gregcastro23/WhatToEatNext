@@ -251,20 +251,9 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   );
 
   const openCheckout = useCallback(
-    async (targetTier: SubscriptionTier, options?: { trial?: boolean }) => {
-      try {
-        const res = await fetch("/api/stripe/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ tier: targetTier, trial: options?.trial === true }),
-        });
-        if (res.ok) {
-          const { url } = await res.json();
-          if (url) window.location.href = url;
-        }
-      } catch (error) {
-        console.error("[PremiumContext] Checkout failed:", error);
-      }
+    async (_targetTier?: SubscriptionTier, _options?: { trial?: boolean }): Promise<void> => {
+      window.location.href = "/vault";
+      await Promise.resolve();
     },
     [],
   );

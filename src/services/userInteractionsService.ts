@@ -154,7 +154,7 @@ export async function fetchUserInteractions(
 }
 
 async function fetchCorrections(userId: string): Promise<TasteCorrections> {
-  const result = await executeQuery<{ taste_corrections: unknown }>(
+  const result = await executeQuery<{ taste_corrections: TasteCorrections | string | null }>(
     `SELECT taste_corrections FROM user_profiles WHERE user_id = $1 LIMIT 1`,
     [userId],
   );
@@ -167,7 +167,7 @@ async function fetchCorrections(userId: string): Promise<TasteCorrections> {
       return {};
     }
   }
-  return raw as TasteCorrections;
+  return raw;
 }
 
 function payloadWeight(row: InteractionRow): number {

@@ -1314,8 +1314,8 @@ async function probeDatabase(): Promise<FlowHealth> {
   let status: FlowStatus;
   if (!healthy) status = "INCIDENT";
   else if (pooler.verdict === "INCIDENT") status = "INCIDENT";
-  else if ((latency ?? 0) > 200 || slowQueries.count >= 20) status = "DEGRADED";
   else if (slowQueries.count >= 5) status = "DEGRADED";
+  else if ((latency ?? 0) > 350) status = "DEGRADED";
   else if (pooler.verdict === "DEGRADED") status = "DEGRADED";
   else status = "OK";
 
@@ -1341,6 +1341,13 @@ async function probeDatabase(): Promise<FlowHealth> {
       severity: slowQueries.count >= 20 ? "error" : "warn",
     });
   }
+  if ((latency ?? 0) > 350) {
+    issues.push({
+      at: checkedAt,
+      message: `High ping latency: ${formatLatency(latency ?? 0)}`,
+      severity: (latency ?? 0) > 1000 ? "error" : "warn",
+    });
+  }
 
   return {
     id: "database",
@@ -1359,7 +1366,11 @@ async function probeDatabase(): Promise<FlowHealth> {
           : status === "DEGRADED"
             ? pooler.verdict === "DEGRADED" && slowQueries.count < 5
               ? pooler.summary
-              : `${slowQueries.count} slow queries in 5m`
+              : slowQueries.count >= 5
+                ? `${slowQueries.count} slow queries in 5m`
+                : (latency ?? 0) > 350
+                  ? `High ping latency (${formatLatency(latency ?? 0)})`
+                  : "Database degraded"
             : "Database unreachable",
     metrics: [
       {
@@ -1470,21 +1481,42 @@ async function probeStripeDependency(): Promise<DependencyHealth> {
     return {
       id: "stripe",
       label: "Stripe",
-      status: "UNKNOWN",
+      status: "DEGRADED",
       summary: "No webhook traffic in 24h",
       latencyMs: null,
       checkedAt,
     };
   }
   const errors = webhookHealth.errors5xx;
+  const verified = Math.max(0, webhookHealth.count - webhookHealth.errors4xx - webhookHealth.errors5xx);
+
+  if (errors > 0) {
+    return {
+      id: "stripe",
+      label: "Stripe",
+      status: errors >= 3 ? "INCIDENT" : "DEGRADED",
+      summary: `${errors} webhook 5xx in 24h`,
+      latencyMs: webhookHealth.p95LatencyMs,
+      checkedAt,
+    };
+  }
+
+  if (verified === 0) {
+    return {
+      id: "stripe",
+      label: "Stripe",
+      status: "DEGRADED",
+      summary: `No verified webhook deliveries in 24h${webhookHealth.errors4xx > 0 ? ` (${webhookHealth.errors4xx} unsigned probes seen)` : ""}`,
+      latencyMs: webhookHealth.p95LatencyMs,
+      checkedAt,
+    };
+  }
+
   return {
     id: "stripe",
     label: "Stripe",
-    status: errors === 0 ? "OK" : errors >= 3 ? "INCIDENT" : "DEGRADED",
-    summary:
-      errors === 0
-        ? `${webhookHealth.count} webhook events · 0 errors`
-        : `${errors} webhook 5xx in 24h`,
+    status: "OK",
+    summary: `${verified} webhook events · 0 errors`,
     latencyMs: webhookHealth.p95LatencyMs,
     checkedAt,
   };

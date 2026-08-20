@@ -26,7 +26,7 @@
 
 import { NextResponse } from "next/server";
 import { handleMcpTopUpCheckout } from "@/lib/billing/handleMcpTopUpCheckout";
-import { MCP_TOP_UP_PURPOSE } from "@/lib/billing/mcpTopUp";
+import { MCP_TOP_UP_PURPOSE, TOKEN_PACKAGE_PURPOSE } from "@/lib/billing/mcpTopUp";
 import { withObservability } from "@/lib/observability/withObservability";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import { RESTAURANT_ORDER_PURPOSE } from "@/lib/payments/restaurantPayments";
@@ -424,7 +424,7 @@ async function dispatchSettledCheckoutSession(
     return;
   }
 
-  if (purpose === MCP_TOP_UP_PURPOSE) {
+  if (purpose === MCP_TOP_UP_PURPOSE || purpose === TOKEN_PACKAGE_PURPOSE) {
     const result = await handleMcpTopUpCheckout({
       id: session.id,
       payment_status: session.payment_status,
@@ -478,19 +478,29 @@ export const POST = withObservability(
     );
   }
 
+  let event: Stripe.Event;
+  let stripe: Stripe;
+  let subscriptionService: typeof import("@/services/subscriptionService").subscriptionService;
+
   try {
     const { getStripe } = await import("@/lib/stripe/stripe");
-    const stripe = getStripe();
-    const { subscriptionService } = await import(
-      "@/services/subscriptionService"
-    );
+    stripe = getStripe();
+    ({ subscriptionService } = await import("@/services/subscriptionService"));
 
-    const event = stripe.webhooks.constructEvent(
+    event = stripe.webhooks.constructEvent(
       body,
       signature,
       webhookSecret,
     );
+  } catch (error) {
+    console.error("[webhook] Signature verification failed:", error);
+    return NextResponse.json(
+      { error: "Invalid signature" },
+      { status: 400 },
+    );
+  }
 
+  try {
     console.log(`[webhook] Processing event: ${event.type}`);
 
     switch (event.type) {
@@ -651,7 +661,7 @@ export const POST = withObservability(
     console.error("[webhook] Error processing webhook:", error);
     return NextResponse.json(
       { error: "Webhook processing failed" },
-      { status: 400 },
+      { status: 500 },
     );
   }
 });

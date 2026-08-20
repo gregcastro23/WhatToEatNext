@@ -14,7 +14,7 @@
  */
 
 import NextAuth from "next-auth";
-import { isAdminEmail, isPremiumEmail } from "@/lib/auth/adminEmails";
+import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { logAuthEvent } from "@/services/authEventsService";
 import { createLogger } from "@/utils/logger";
@@ -443,8 +443,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               }
             }
 
-            // 1. Auto-provision premium
-            if (isAdminEmail(user.email) || isPremiumEmail(user.email)) {
+            // 1. Auto-provision admin
+            if (isAdminEmail(user.email)) {
               const { subscriptionService } = await import("@/services/subscriptionService");
               const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
               if (sub.tier !== "premium") {
@@ -501,11 +501,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 ).catch(() => {});
               }
 
-              // Premium daily insight — only if user has a natal chart
-              const isPremium =
-                isAdminEmail(user.email) ||
-                isPremiumEmail(user.email) ||
-                (dbUser)?.tier === "premium";
+              // Daily insight notification — for users with a natal chart
               const natalChart =
                 (dbUser)?.profile?.natalChart ||
                 (dbUser)?.profile?.natal_chart;
@@ -516,7 +512,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 natalChart?.Sun
               );
 
-              if (isPremium && hasPositions) {
+              if (hasPositions) {
                 import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
                   generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
                 }).catch(() => {});
@@ -690,8 +686,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             // Embed subscription tier into JWT for instant access everywhere
             // Admins always get premium regardless of subscription state
             if (isAdmin) {
-              token.tier = "premium";
-            } else if (isPremiumEmail(token.email)) {
               token.tier = "premium";
             } else {
               try {

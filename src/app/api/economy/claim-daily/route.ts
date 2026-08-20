@@ -11,7 +11,6 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { feedDatabase } from "@/services/feedDatabaseService";
-import { subscriptionService } from "@/services/subscriptionService";
 import type { ClaimDailyResponse } from "@/types/economy";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
@@ -69,12 +68,8 @@ export async function POST(request: NextRequest) {
     const siteParam = searchParams.get("site");
     const site: "main" | "agents" = siteParam === "agents" ? "agents" : "main";
 
-    // Check if user is premium for yield multiplier
-    const sub = await subscriptionService.getUserSubscription(user.id);
-    const isPremium = sub?.tier === "premium" && sub?.status === "active";
-
     // Claim the daily yield (site-specific idempotency)
-    const claim = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium, site);
+    const claim = await dailyYieldService.claimDailyYield(user.id, natalPositions, site);
 
     if (claim.status === "failed") {
       // NOT "already claimed": the credit rolled back, so the day is still
