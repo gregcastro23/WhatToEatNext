@@ -3615,6 +3615,14 @@
       "rawIngredientName": "Sichuan peppercorns",
       "amount": 1,
       "unit": "tsp"
+    },
+    {
+      "recipeId": "hsca-shiitake-broth-with-shrimp-soba-and-baby-bok-choy",
+      "recipeName": "SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY",
+      "cuisine": "hsca",
+      "rawIngredientName": "szechwan peppercorns",
+      "amount": 1,
+      "unit": "teaspoon"
     }
   ],
   "dried_red_chilies": [
@@ -10921,6 +10929,14 @@
       "unit": "piece"
     },
     {
+      "recipeId": "hsca-hot-wings-with-stilton-yogurt-dressing",
+      "recipeName": "HOT WINGS WITH STILTON-YOGURT DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "tabasco sauce",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
       "recipeId": "hsca-cocktail-sauce",
       "recipeName": "Cocktail Sauce",
       "cuisine": "hsca",
@@ -10959,6 +10975,14 @@
       "rawIngredientName": "hot stock or hot water",
       "amount": 1.3333333333333333,
       "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-barbecue-tofu",
+      "recipeName": "Barbecue Tofu",
+      "cuisine": "hsca",
+      "rawIngredientName": "tabasco sauce",
+      "amount": 2,
+      "unit": "teaspoons"
     },
     {
       "recipeId": "hsca-indian-style-seitan-kebabs-with-mango-coulis",
@@ -11745,6 +11769,22 @@
       "unit": "tbsp"
     },
     {
+      "recipeId": "chinese-authentic-sichuan-dan-dan-noodles",
+      "recipeName": "Authentic Sichuan Dan Dan Noodles",
+      "cuisine": "chinese",
+      "rawIngredientName": "ground roasted Sichuan peppercorns",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "chinese-authentic-sichuan-mapo-tofu",
+      "recipeName": "Authentic Sichuan Mapo Tofu",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1.5,
+      "unit": "tsp"
+    },
+    {
       "recipeId": "chinese-authentic-har-gow-shrimp-dumplings",
       "recipeName": "Authentic Har Gow (Shrimp Dumplings)",
       "cuisine": "chinese",
@@ -11759,6 +11799,14 @@
       "rawIngredientName": "white pepper",
       "amount": 0.5,
       "unit": "tsp"
+    },
+    {
+      "recipeId": "chinese-authentic-kung-pao-shrimp",
+      "recipeName": "Authentic Kung Pao Shrimp",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
+      "unit": "teaspoon"
     },
     {
       "recipeId": "chinese-authentic-kung-pao-shrimp",
@@ -11801,10 +11849,26 @@
       "unit": "unit"
     },
     {
+      "recipeId": "chinese-authentic-mapo-tofu",
+      "recipeName": "Authentic Mapo Tofu",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
       "recipeId": "chinese-authentic-har-gow-shrimp-dumplings",
       "recipeName": "Authentic Har Gow (Shrimp Dumplings)",
       "cuisine": "chinese",
       "rawIngredientName": "white pepper",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "chinese-authentic-kung-pao-chicken-gong-bao-ji-ding",
+      "recipeName": "Authentic Kung Pao Chicken (Gong Bao Ji Ding)",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
       "amount": 1,
       "unit": "tsp"
     },
@@ -11822,6 +11886,14 @@
       "cuisine": "chinese",
       "rawIngredientName": "White pepper",
       "amount": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "chinese-mapo-tofu",
+      "recipeName": "Mapo Tofu",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
       "unit": "tsp"
     },
     {
@@ -12193,6 +12265,14 @@
       "unit": "pinch"
     },
     {
+      "recipeId": "french-authentic-pot-au-feu",
+      "recipeName": "Authentic Pot-au-Feu",
+      "cuisine": "french",
+      "rawIngredientName": "black peppercorns",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
       "recipeId": "french-authentic-quiche-lorraine",
       "recipeName": "Authentic Quiche Lorraine",
       "cuisine": "french",
@@ -12201,11 +12281,27 @@
       "unit": "tsp"
     },
     {
+      "recipeId": "french-authentic-duck-confit-confit-de-canard",
+      "recipeName": "Authentic Duck Confit (Confit de Canard)",
+      "cuisine": "french",
+      "rawIngredientName": "black peppercorns",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
       "recipeId": "french-quiche-lorraine",
       "recipeName": "Quiche Lorraine",
       "cuisine": "french",
       "rawIngredientName": "White pepper",
       "amount": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "russian-borscht",
+      "recipeName": "Borscht",
+      "cuisine": "russian",
+      "rawIngredientName": "black peppercorns",
+      "amount": 1,
       "unit": "tsp"
     },
     {
@@ -12223,6 +12319,14 @@
       "rawIngredientName": "black pepper",
       "amount": 1,
       "unit": "tsp"
+    },
+    {
+      "recipeId": "russian-authentic-kholodets-jellied-meat",
+      "recipeName": "Authentic Kholodets (Jellied Meat)",
+      "cuisine": "russian",
+      "rawIngredientName": "black peppercorns",
+      "amount": 1,
+      "unit": "tbsp"
     },
     {
       "recipeId": "russian-authentic-rassolnik-pickled-cucumber-soup",
@@ -12366,6 +12470,14 @@
       "cuisine": "hsca",
       "rawIngredientName": "white pepper",
       "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-mushroom-consomm",
+      "recipeName": "Mushroom Consommé",
+      "cuisine": "hsca",
+      "rawIngredientName": "black peppercorns",
+      "amount": 5,
       "unit": "piece"
     },
     {
@@ -12993,6 +13105,14 @@
       "unit": "teaspoon"
     },
     {
+      "recipeId": "hsca-dill-pickles",
+      "recipeName": "DILL PICKLES",
+      "cuisine": "hsca",
+      "rawIngredientName": "black peppercorns",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
       "recipeId": "hsca-tuna-ceviche",
       "recipeName": "TUNA CEVICHE",
       "cuisine": "hsca",
@@ -13094,6 +13214,14 @@
       "cuisine": "hsca",
       "rawIngredientName": "freshly ground black pepper",
       "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-curry-marinade",
+      "recipeName": "Curry Marinade",
+      "cuisine": "hsca",
+      "rawIngredientName": "peppercorns",
+      "amount": 0.125,
       "unit": "teaspoon"
     },
     {
@@ -13297,11 +13425,27 @@
       "unit": "piece"
     },
     {
+      "recipeId": "hsca-porcini-mushroom-stock",
+      "recipeName": "PORCINI MUSHROOM STOCK",
+      "cuisine": "hsca",
+      "rawIngredientName": "black peppercorns",
+      "amount": 4,
+      "unit": "piece"
+    },
+    {
       "recipeId": "hsca-sauce-espagnole-brown-sauce",
       "recipeName": "SAUCE ESPAGNOLE (BROWN SAUCE)",
       "cuisine": "hsca",
       "rawIngredientName": "sea salt and freshly ground black pepper to taste",
       "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-vegetarian-bordelaise",
+      "recipeName": "VEGETARIAN BORDELAISE",
+      "cuisine": "hsca",
+      "rawIngredientName": "peppercorns",
+      "amount": 3,
       "unit": "piece"
     },
     {
@@ -13561,6 +13705,14 @@
       "unit": "teaspoon"
     },
     {
+      "recipeId": "hsca-shiitake-broth-with-shrimp-soba-and-baby-bok-choy",
+      "recipeName": "SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY",
+      "cuisine": "hsca",
+      "rawIngredientName": "szechwan peppercorns",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
       "recipeId": "hsca-dark-onion-soup-with-whole-grain-croutons",
       "recipeName": "DARK ONION SOUP WITH WHOLE GRAIN CROUTONS",
       "cuisine": "hsca",
@@ -13743,6 +13895,14 @@
       "rawIngredientName": "fresh cracked pepper",
       "amount": 1,
       "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-whole-poached-norwegian-salmon",
+      "recipeName": "Whole Poached Norwegian Salmon",
+      "cuisine": "hsca",
+      "rawIngredientName": "peppercorns",
+      "amount": 2,
+      "unit": "tablespoons"
     },
     {
       "recipeId": "hsca-tempeh-vegetable-kebobs",
@@ -16899,6 +17059,14 @@
       "unit": "grams"
     },
     {
+      "recipeId": "hsca-wakame-seitan-and-toasted-walnut-casserole",
+      "recipeName": "WAKAME, SEITAN, AND TOASTED WALNUT CASSEROLE",
+      "cuisine": "hsca",
+      "rawIngredientName": "whole wheat elbow pasta",
+      "amount": 6,
+      "unit": "ounces"
+    },
+    {
       "recipeId": "african-authentic-egyptian-koshari",
       "recipeName": "Authentic Egyptian Koshari",
       "cuisine": "african",
@@ -18093,6 +18261,14 @@
       "rawIngredientName": "Sichuan peppercorns",
       "amount": 1,
       "unit": "tsp"
+    },
+    {
+      "recipeId": "hsca-shiitake-broth-with-shrimp-soba-and-baby-bok-choy",
+      "recipeName": "SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY",
+      "cuisine": "hsca",
+      "rawIngredientName": "szechwan peppercorns",
+      "amount": 1,
+      "unit": "teaspoon"
     }
   ],
   "flank_steak": [
@@ -23890,6 +24066,14 @@
     }
   ],
   "katsuobushi": [
+    {
+      "recipeId": "hsca-ichiban-dashi",
+      "recipeName": "ICHIBAN DASHI",
+      "cuisine": "hsca",
+      "rawIngredientName": "bonito flakes",
+      "amount": 0.3333333333333333,
+      "unit": "cup"
+    },
     {
       "recipeId": "japanese-authentic-yaki-onigiri-grilled-rice-balls",
       "recipeName": "Authentic Yaki Onigiri (Grilled Rice Balls)",
@@ -75356,6 +75540,30 @@
       "unit": "tbsp"
     },
     {
+      "recipeId": "chinese-authentic-sichuan-dan-dan-noodles",
+      "recipeName": "Authentic Sichuan Dan Dan Noodles",
+      "cuisine": "chinese",
+      "rawIngredientName": "ground roasted Sichuan peppercorns",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "chinese-authentic-sichuan-mapo-tofu",
+      "recipeName": "Authentic Sichuan Mapo Tofu",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1.5,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "chinese-authentic-kung-pao-shrimp",
+      "recipeName": "Authentic Kung Pao Shrimp",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
       "recipeId": "chinese-authentic-kung-pao-shrimp",
       "recipeName": "Authentic Kung Pao Shrimp",
       "cuisine": "chinese",
@@ -75396,12 +75604,28 @@
       "unit": "tbsp"
     },
     {
+      "recipeId": "chinese-authentic-mapo-tofu",
+      "recipeName": "Authentic Mapo Tofu",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
       "recipeId": "chinese-authentic-dan-dan-noodles",
       "recipeName": "Authentic Dan Dan Noodles",
       "cuisine": "chinese",
       "rawIngredientName": "black vinegar",
       "amount": 1,
       "unit": "tbsp"
+    },
+    {
+      "recipeId": "chinese-authentic-kung-pao-chicken-gong-bao-ji-ding",
+      "recipeName": "Authentic Kung Pao Chicken (Gong Bao Ji Ding)",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
+      "unit": "tsp"
     },
     {
       "recipeId": "chinese-authentic-kung-pao-chicken-gong-bao-ji-ding",
@@ -75434,6 +75658,14 @@
       "rawIngredientName": "Fermented black beans",
       "amount": 1,
       "unit": "tbsp"
+    },
+    {
+      "recipeId": "chinese-mapo-tofu",
+      "recipeName": "Mapo Tofu",
+      "cuisine": "chinese",
+      "rawIngredientName": "Sichuan peppercorns",
+      "amount": 1,
+      "unit": "tsp"
     },
     {
       "recipeId": "chinese-authentic-tangyuan-glutinous-rice-balls-in-syrup",
@@ -76420,6 +76652,14 @@
       "unit": "teaspoon"
     },
     {
+      "recipeId": "hsca-curry-marinade",
+      "recipeName": "Curry Marinade",
+      "cuisine": "hsca",
+      "rawIngredientName": "peppercorns",
+      "amount": 0.125,
+      "unit": "teaspoon"
+    },
+    {
       "recipeId": "hsca-barbecue-style-rub",
       "recipeName": "Barbecue-Style Rub",
       "cuisine": "hsca",
@@ -76505,6 +76745,14 @@
       "cuisine": "hsca",
       "rawIngredientName": "sea salt and freshly ground black pepper to taste",
       "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-vegetarian-bordelaise",
+      "recipeName": "VEGETARIAN BORDELAISE",
+      "cuisine": "hsca",
+      "rawIngredientName": "peppercorns",
+      "amount": 3,
       "unit": "piece"
     },
     {
@@ -76609,6 +76857,14 @@
       "cuisine": "hsca",
       "rawIngredientName": "freshly ground black pepper",
       "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-shiitake-broth-with-shrimp-soba-and-baby-bok-choy",
+      "recipeName": "SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY",
+      "cuisine": "hsca",
+      "rawIngredientName": "szechwan peppercorns",
+      "amount": 1,
       "unit": "teaspoon"
     },
     {
@@ -76762,6 +77018,14 @@
       "rawIngredientName": "black pepper",
       "amount": 1,
       "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-whole-poached-norwegian-salmon",
+      "recipeName": "Whole Poached Norwegian Salmon",
+      "cuisine": "hsca",
+      "rawIngredientName": "peppercorns",
+      "amount": 2,
+      "unit": "tablespoons"
     },
     {
       "recipeId": "hsca-tempeh-bolognese",
@@ -77878,6 +78142,14 @@
       "unit": "tablespoon"
     },
     {
+      "recipeId": "hsca-white-bean-and-garlic-sauce",
+      "recipeName": "WHITE BEAN AND GARLIC SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "navy beans or great northern beans",
+      "amount": 1.5,
+      "unit": "cups"
+    },
+    {
       "recipeId": "hsca-almond-cream-sauce",
       "recipeName": "ALMOND “CREAM” SAUCE",
       "cuisine": "hsca",
@@ -78003,6 +78275,14 @@
       "cuisine": "hsca",
       "rawIngredientName": "white wine",
       "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-great-northern-bean-and-roasted-garlic-pur-e",
+      "recipeName": "GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE",
+      "cuisine": "hsca",
+      "rawIngredientName": "great northern beans",
+      "amount": 1,
       "unit": "cup"
     },
     {
@@ -99001,6 +99281,22 @@
       "unit": "piece"
     },
     {
+      "recipeId": "hsca-sweet-potato-pecan-pie",
+      "recipeName": "SWEET POTATO PECAN PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "yam",
+      "amount": 4,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-gluten-free-sweet-potato-pecan-tart",
+      "recipeName": "GLUTEN-FREE SWEET POTATO PECAN TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "garnet yams cooked and mashed",
+      "amount": 1.5,
+      "unit": "pounds"
+    },
+    {
       "recipeId": "african-authentic-senegalese-thieboudienne",
       "recipeName": "Authentic Senegalese Thieboudienne",
       "cuisine": "african",
@@ -99567,11 +99863,27 @@
       "unit": "piece"
     },
     {
+      "recipeId": "hsca-sweet-potato-pecan-pie",
+      "recipeName": "SWEET POTATO PECAN PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "yam",
+      "amount": 4,
+      "unit": "cups"
+    },
+    {
       "recipeId": "hsca-shepherd-s-pie",
       "recipeName": "SHEPHERD’S PIE",
       "cuisine": "hsca",
       "rawIngredientName": "peeled yukon gold potatoes",
       "amount": 2,
+      "unit": "pounds"
+    },
+    {
+      "recipeId": "hsca-gluten-free-sweet-potato-pecan-tart",
+      "recipeName": "GLUTEN-FREE SWEET POTATO PECAN TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "garnet yams cooked and mashed",
+      "amount": 1.5,
       "unit": "pounds"
     },
     {
@@ -100177,11 +100489,27 @@
       "unit": "piece"
     },
     {
+      "recipeId": "hsca-sweet-potato-pecan-pie",
+      "recipeName": "SWEET POTATO PECAN PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "yam",
+      "amount": 4,
+      "unit": "cups"
+    },
+    {
       "recipeId": "hsca-shepherd-s-pie",
       "recipeName": "SHEPHERD’S PIE",
       "cuisine": "hsca",
       "rawIngredientName": "peeled yukon gold potatoes",
       "amount": 2,
+      "unit": "pounds"
+    },
+    {
+      "recipeId": "hsca-gluten-free-sweet-potato-pecan-tart",
+      "recipeName": "GLUTEN-FREE SWEET POTATO PECAN TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "garnet yams cooked and mashed",
+      "amount": 1.5,
       "unit": "pounds"
     },
     {
@@ -100419,6 +100747,22 @@
       "rawIngredientName": "yam or sweet potato",
       "amount": 1,
       "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-sweet-potato-pecan-pie",
+      "recipeName": "SWEET POTATO PECAN PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "yam",
+      "amount": 4,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-gluten-free-sweet-potato-pecan-tart",
+      "recipeName": "GLUTEN-FREE SWEET POTATO PECAN TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "garnet yams cooked and mashed",
+      "amount": 1.5,
+      "unit": "pounds"
     },
     {
       "recipeId": "african-authentic-senegalese-thieboudienne",
@@ -101016,6 +101360,14 @@
       "unit": "head"
     },
     {
+      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
+      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "romaine hearts",
+      "amount": 3,
+      "unit": "piece"
+    },
+    {
       "recipeId": "hsca-sea-palm-wakame-and-dulse-seaweed-salad-with-creamy-carrot-dressing",
       "recipeName": "SEA PALM, WAKAME AND DULSE SEAWEED SALAD WITH CREAMY CARROT DRESSING",
       "cuisine": "hsca",
@@ -101152,6 +101504,14 @@
       "rawIngredientName": "romaine lettuce",
       "amount": 1,
       "unit": "head"
+    },
+    {
+      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
+      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "romaine hearts",
+      "amount": 3,
+      "unit": "piece"
     },
     {
       "recipeId": "hsca-sea-palm-wakame-and-dulse-seaweed-salad-with-creamy-carrot-dressing",
@@ -101698,6 +102058,14 @@
       "rawIngredientName": "mushrooms",
       "amount": 0.5,
       "unit": "pound"
+    },
+    {
+      "recipeId": "hsca-herb-ravioli-with-porcini-mushroom-pesto-and-tofu-ricotta",
+      "recipeName": "Herb Ravioli with Porcini Mushroom Pesto and Tofu \\\"Ricotta\\\"",
+      "cuisine": "hsca",
+      "rawIngredientName": "dried porcinis",
+      "amount": 1.5,
+      "unit": "ounces"
     },
     {
       "recipeId": "hsca-tempeh-vegetable-kebobs",
@@ -104011,6 +104379,24 @@
       "rawIngredientName": "napa cabbage",
       "amount": 2,
       "unit": "cups"
+    }
+  ],
+  "brussels_sprouts": [
+    {
+      "recipeId": "hsca-cruciferous-salad",
+      "recipeName": "CRUCIFEROUS SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "brussels sprouts",
+      "amount": 1,
+      "unit": "pound"
+    },
+    {
+      "recipeId": "hsca-hashed-brussel-sprouts-with-carrots-and-poppy-seeds",
+      "recipeName": "HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS",
+      "cuisine": "hsca",
+      "rawIngredientName": "brussels sprouts",
+      "amount": 1.25,
+      "unit": "pound"
     }
   ],
   "onions": [
@@ -110486,6 +110872,14 @@
       "rawIngredientName": "fresh or dried shrimp",
       "amount": 200,
       "unit": "g"
+    },
+    {
+      "recipeId": "vietnamese-b-n-b-hu",
+      "recipeName": "Bún Bò Huế",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Mắm ruốc",
+      "amount": 2,
+      "unit": "tbsp"
     },
     {
       "recipeId": "vietnamese-g-i-cu-n",
@@ -124060,6 +124454,22 @@
   ],
   "white_beans": [
     {
+      "recipeId": "hsca-white-bean-and-garlic-sauce",
+      "recipeName": "WHITE BEAN AND GARLIC SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "navy beans or great northern beans",
+      "amount": 1.5,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-great-northern-bean-and-roasted-garlic-pur-e",
+      "recipeName": "GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE",
+      "cuisine": "hsca",
+      "rawIngredientName": "great northern beans",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
       "recipeId": "hsca-butternut-minestrone",
       "recipeName": "BUTTERNUT MINESTRONE",
       "cuisine": "hsca",
@@ -131944,6 +132354,14 @@
       "unit": "cup"
     },
     {
+      "recipeId": "american-authentic-loaded-baked-potato-soup",
+      "recipeName": "Authentic Loaded Baked Potato Soup",
+      "cuisine": "american",
+      "rawIngredientName": "sour cream",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
       "recipeId": "american-authentic-key-lime-pie",
       "recipeName": "Authentic Key Lime Pie",
       "cuisine": "american",
@@ -131968,11 +132386,35 @@
       "unit": "cup"
     },
     {
+      "recipeId": "american-authentic-new-york-cheesecake",
+      "recipeName": "Authentic New York Cheesecake",
+      "cuisine": "american",
+      "rawIngredientName": "cream cheese",
+      "amount": 4,
+      "unit": "blocks (8oz each)"
+    },
+    {
+      "recipeId": "american-authentic-new-york-cheesecake",
+      "recipeName": "Authentic New York Cheesecake",
+      "cuisine": "american",
+      "rawIngredientName": "sour cream",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
       "recipeId": "american-authentic-strawberry-shortcake",
       "recipeName": "Authentic Strawberry Shortcake",
       "cuisine": "american",
       "rawIngredientName": "heavy cream",
       "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "american-authentic-strawberry-shortcake",
+      "recipeName": "Authentic Strawberry Shortcake",
+      "cuisine": "american",
+      "rawIngredientName": "heavy whipping cream",
+      "amount": 1,
       "unit": "cup"
     },
     {
@@ -131984,12 +132426,36 @@
       "unit": "cup"
     },
     {
+      "recipeId": "american-s-mores-ice-cream-pie",
+      "recipeName": "S'mores Ice Cream Pie",
+      "cuisine": "american",
+      "rawIngredientName": "marshmallow or vanilla ice cream",
+      "amount": 1.5,
+      "unit": "quarts"
+    },
+    {
+      "recipeId": "american-s-mores-ice-cream-pie",
+      "recipeName": "S'mores Ice Cream Pie",
+      "cuisine": "american",
+      "rawIngredientName": "cream of tartar",
+      "amount": 0.25,
+      "unit": "tsp"
+    },
+    {
       "recipeId": "american-authentic-pumpkin-pie",
       "recipeName": "Authentic Pumpkin Pie",
       "cuisine": "american",
       "rawIngredientName": "heavy cream",
       "amount": 1,
       "unit": "cup"
+    },
+    {
+      "recipeId": "italian-authentic-maritozzo-con-panna",
+      "recipeName": "Authentic Maritozzo con Panna",
+      "cuisine": "italian",
+      "rawIngredientName": "heavy whipping cream",
+      "amount": 2,
+      "unit": "cups"
     },
     {
       "recipeId": "italian-authentic-gelato-artigianale-fior-di-latte",
@@ -132080,6 +132546,14 @@
       "unit": "cups"
     },
     {
+      "recipeId": "french-authentic-brioche-perdue",
+      "recipeName": "Authentic Brioche Perdue",
+      "cuisine": "french",
+      "rawIngredientName": "heavy whipping cream",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
       "recipeId": "french-authentic-gratin-dauphinois",
       "recipeName": "Authentic Gratin Dauphinois",
       "cuisine": "french",
@@ -132115,8 +132589,104 @@
       "recipeId": "french-authentic-chocolate-profiteroles",
       "recipeName": "Authentic Chocolate Profiteroles",
       "cuisine": "french",
+      "rawIngredientName": "crème pâtissière or whipped cream",
+      "amount": 2,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "french-authentic-chocolate-profiteroles",
+      "recipeName": "Authentic Chocolate Profiteroles",
+      "cuisine": "french",
       "rawIngredientName": "heavy cream",
       "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-authentic-russian-syrniki",
+      "recipeName": "Authentic Russian Syrniki",
+      "cuisine": "russian",
+      "rawIngredientName": "smetana (sour cream)",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-borscht",
+      "recipeName": "Borscht",
+      "cuisine": "russian",
+      "rawIngredientName": "smetana (sour cream)",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-authentic-vareniki-dumplings",
+      "recipeName": "Authentic Vareniki (Dumplings)",
+      "cuisine": "russian",
+      "rawIngredientName": "sour cream",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "russian-authentic-borscht",
+      "recipeName": "Authentic Borscht",
+      "cuisine": "russian",
+      "rawIngredientName": "sour cream (smetana)",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-authentic-beef-stroganoff",
+      "recipeName": "Authentic Beef Stroganoff",
+      "cuisine": "russian",
+      "rawIngredientName": "sour cream (smetana)",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-authentic-pelmeni",
+      "recipeName": "Authentic Pelmeni",
+      "cuisine": "russian",
+      "rawIngredientName": "sour cream (smetana)",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-beef-stroganoff",
+      "recipeName": "Beef Stroganoff",
+      "cuisine": "russian",
+      "rawIngredientName": "Sour cream (Smetana)",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-golubtsy",
+      "recipeName": "Golubtsy",
+      "cuisine": "russian",
+      "rawIngredientName": "Sour cream",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-medovik",
+      "recipeName": "Medovik",
+      "cuisine": "russian",
+      "rawIngredientName": "smetana (sour cream)",
+      "amount": 700,
+      "unit": "g"
+    },
+    {
+      "recipeId": "russian-okroshka",
+      "recipeName": "Okroshka",
+      "cuisine": "russian",
+      "rawIngredientName": "smetana (sour cream)",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-rassolnik",
+      "recipeName": "Rassolnik",
+      "cuisine": "russian",
+      "rawIngredientName": "smetana (sour cream)",
+      "amount": 1,
       "unit": "cup"
     },
     {
@@ -132128,12 +132698,60 @@
       "unit": "cup"
     },
     {
+      "recipeId": "russian-sochnik",
+      "recipeName": "Sochnik",
+      "cuisine": "russian",
+      "rawIngredientName": "sour cream",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "russian-vareniki-s-vishney",
+      "recipeName": "Vareniki s Vishney",
+      "cuisine": "russian",
+      "rawIngredientName": "smetana or sour cream",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-buttermilk-style-waffles",
+      "recipeName": "BUTTERMILK-STYLE WAFFLES",
+      "cuisine": "hsca",
+      "rawIngredientName": "cream of tartar",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
       "recipeId": "hsca-cr-pes-suzette",
       "recipeName": "CRÊPES SUZETTE",
       "cuisine": "hsca",
       "rawIngredientName": "heavy cream",
       "amount": 1,
       "unit": "pint"
+    },
+    {
+      "recipeId": "hsca-scrambled-eggs",
+      "recipeName": "SCRAMBLED EGGS",
+      "cuisine": "hsca",
+      "rawIngredientName": "milk or cream",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-vegetable-polenta-napoleons",
+      "recipeName": "Vegetable-Polenta Napoleons",
+      "cuisine": "hsca",
+      "rawIngredientName": "recipe tomato “cream” sauce",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-beet-terrine",
+      "recipeName": "Beet Terrine",
+      "cuisine": "hsca",
+      "rawIngredientName": "sour cream",
+      "amount": 0.5,
+      "unit": "cup"
     },
     {
       "recipeId": "hsca-brandade",
@@ -132160,12 +132778,36 @@
       "unit": "ounces"
     },
     {
+      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
+      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "cashew sour cream",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-hiziki-caviar",
+      "recipeName": "HIZIKI CAVIAR",
+      "cuisine": "hsca",
+      "rawIngredientName": "tofu sour cream",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
       "recipeId": "hsca-smoked-trout-terrine",
       "recipeName": "SMOKED TROUT TERRINE",
       "cuisine": "hsca",
       "rawIngredientName": "heavy cream",
       "amount": 0.6666666666666666,
       "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-chicken-kotletky-chicken-burgers",
+      "recipeName": "CHICKEN KOTLETKY (CHICKEN BURGERS)",
+      "cuisine": "hsca",
+      "rawIngredientName": "sour cream",
+      "amount": 0.5,
+      "unit": "pint"
     },
     {
       "recipeId": "hsca-whipped-cream",
@@ -132176,12 +132818,60 @@
       "unit": "pint"
     },
     {
+      "recipeId": "hsca-sour-cream-coffee-cake",
+      "recipeName": "Sour Cream Coffee Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "sour cream",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
       "recipeId": "hsca-currant-scones",
       "recipeName": "CURRANT SCONES",
       "cuisine": "hsca",
       "rawIngredientName": "-4 tablespoons heavy cream",
       "amount": 3,
       "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-lemon-whipped-coconut-cream",
+      "recipeName": "LEMON WHIPPED COCONUT CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "coconut cream",
+      "amount": 2,
+      "unit": "cans"
+    },
+    {
+      "recipeId": "hsca-orange-whipped-coconut-cream",
+      "recipeName": "ORANGE WHIPPED COCONUT CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "coconut cream",
+      "amount": 12,
+      "unit": "ounces"
+    },
+    {
+      "recipeId": "hsca-chocolate-peanut-butter-frosting",
+      "recipeName": "CHOCOLATE-PEANUT BUTTER FROSTING",
+      "cuisine": "hsca",
+      "rawIngredientName": "coconut cream",
+      "amount": 8,
+      "unit": "ounces"
+    },
+    {
+      "recipeId": "hsca-meringue-frosting",
+      "recipeName": "Meringue Frosting",
+      "cuisine": "hsca",
+      "rawIngredientName": "cream of tartar",
+      "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-mocha-frosting",
+      "recipeName": "Mocha Frosting",
+      "cuisine": "hsca",
+      "rawIngredientName": "coconut cream",
+      "amount": 8,
+      "unit": "ounces"
     },
     {
       "recipeId": "hsca-kabocha-squash-pie",
@@ -132192,11 +132882,35 @@
       "unit": "cup"
     },
     {
+      "recipeId": "hsca-caramelized-onion-tart",
+      "recipeName": "CARAMELIZED ONION TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "cream",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
       "recipeId": "hsca-gluten-free-sweet-potato-pecan-tart",
       "recipeName": "GLUTEN-FREE SWEET POTATO PECAN TART",
       "cuisine": "hsca",
       "rawIngredientName": "heavy cream",
       "amount": 0.3333333333333333,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-hazelnut-mocha-and-almond-parfait",
+      "recipeName": "HAZELNUT-MOCHA AND ALMOND PARFAIT",
+      "cuisine": "hsca",
+      "rawIngredientName": "almond pastry cream",
+      "amount": 2.5,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-avocado-and-coconut-terrine",
+      "recipeName": "Avocado and Coconut Terrine",
+      "cuisine": "hsca",
+      "rawIngredientName": "coconut cream",
+      "amount": 0.75,
       "unit": "cup"
     },
     {
@@ -132224,6 +132938,14 @@
       "unit": "cups"
     },
     {
+      "recipeId": "hsca-rugelach",
+      "recipeName": "RUGELACH",
+      "cuisine": "hsca",
+      "rawIngredientName": "cream cheese",
+      "amount": 4,
+      "unit": "ounces"
+    },
+    {
       "recipeId": "hsca-cr-me-anglaise-stirred-custard",
       "recipeName": "Crème Anglaise (Stirred Custard)",
       "cuisine": "hsca",
@@ -132232,12 +132954,44 @@
       "unit": "cups"
     },
     {
+      "recipeId": "hsca-chocolate-souffl",
+      "recipeName": "CHOCOLATE SOUFFLÉ",
+      "cuisine": "hsca",
+      "rawIngredientName": "cream of tartar",
+      "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "mexican-authentic-gorditas",
+      "recipeName": "Authentic Gorditas",
+      "cuisine": "mexican",
+      "rawIngredientName": "sour cream",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
       "recipeId": "african-authentic-south-african-malva-pudding",
       "recipeName": "Authentic South African Malva Pudding",
       "cuisine": "african",
       "rawIngredientName": "heavy cream",
       "amount": 1,
       "unit": "cup"
+    },
+    {
+      "recipeId": "african-authentic-south-african-koeksister",
+      "recipeName": "Authentic South African Koeksister",
+      "cuisine": "african",
+      "rawIngredientName": "cream of tartar",
+      "amount": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "vietnamese-che-ba-mau",
+      "recipeName": "Che Ba Mau",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Coconut cream",
+      "amount": 1,
+      "unit": "can"
     }
   ],
   "sour_cream": [
@@ -143580,10 +144334,26 @@
       "unit": "cup"
     },
     {
+      "recipeId": "hsca-green-lentil-terrine",
+      "recipeName": "GREEN LENTIL TERRINE",
+      "cuisine": "hsca",
+      "rawIngredientName": "-1 1/2 cups whole wheat bread crumbs",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
       "recipeId": "hsca-polenta-goat-cheese-and-black-bean-terrine",
       "recipeName": "Polenta, Goat Cheese, and Black Bean Terrine",
       "cuisine": "hsca",
       "rawIngredientName": "whole wheat breadcrumbs",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-red-lentil-p-t",
+      "recipeName": "RED LENTIL PÂTÉ",
+      "cuisine": "hsca",
+      "rawIngredientName": "whole-wheat bread crumbs",
       "amount": 0.25,
       "unit": "cup"
     },
@@ -143604,6 +144374,22 @@
       "unit": "cup"
     },
     {
+      "recipeId": "hsca-ravioli-with-beet-stuffing",
+      "recipeName": "Ravioli with Beet Stuffing",
+      "cuisine": "hsca",
+      "rawIngredientName": "bread crumbs",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-tofu-burgers",
+      "recipeName": "TOFU BURGERS",
+      "cuisine": "hsca",
+      "rawIngredientName": "cooked millet or rice or bread crumbs",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
       "recipeId": "hsca-chicken-kotletky-chicken-burgers",
       "recipeName": "CHICKEN KOTLETKY (CHICKEN BURGERS)",
       "cuisine": "hsca",
@@ -143620,12 +144406,28 @@
       "unit": "cups"
     },
     {
+      "recipeId": "hsca-horseradish-crusted-salmon",
+      "recipeName": "HORSERADISH-CRUSTED SALMON",
+      "cuisine": "hsca",
+      "rawIngredientName": "¾ cup panko bread crumbs",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
       "recipeId": "hsca-hazelnut-crusted-flounder",
       "recipeName": "HAZELNUT-CRUSTED FLOUNDER",
       "cuisine": "hsca",
       "rawIngredientName": "panko breadcrumbs",
       "amount": 0.5,
       "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-flounder-roulades",
+      "recipeName": "Flounder Roulades",
+      "cuisine": "hsca",
+      "rawIngredientName": "gluten-free bread crumbs",
+      "amount": 2,
+      "unit": "tablespoons"
     },
     {
       "recipeId": "hsca-pan-fried-millet-croquettes",
@@ -145744,10 +146546,74 @@
   ],
   "flaxseed": [
     {
+      "recipeId": "hsca-amaranth-porridge",
+      "recipeName": "AMARANTH PORRIDGE",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax seeds",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-flax-seed-drink",
+      "recipeName": "Flax Seed Drink",
+      "cuisine": "hsca",
+      "rawIngredientName": "-2 tablespoons organic flax seeds",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-rice-flour-griddle-cakes",
+      "recipeName": "RICE FLOUR GRIDDLE CAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax seed",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-morning-glory-muffins",
+      "recipeName": "Morning Glory Muffins",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax seed",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-vegan-and-gluten-free-spiced-fruit-muffins",
+      "recipeName": "Vegan and Gluten-Free Spiced Fruit Muffins",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax seed",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-poached-chicken-and-roasted-asparagus",
+      "recipeName": "POACHED CHICKEN AND ROASTED ASPARAGUS",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax seed oil",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-zucchini-bread",
+      "recipeName": "Zucchini Bread",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax seed",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
       "recipeId": "hsca-gluten-free-egg-free-mini-pizzas",
       "recipeName": "Gluten-Free, Egg-Free Mini Pizzas",
       "cuisine": "hsca",
       "rawIngredientName": "flaxseed",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-seitan-croquettes",
+      "recipeName": "Seitan Croquettes",
+      "cuisine": "hsca",
+      "rawIngredientName": "flax",
       "amount": 2,
       "unit": "tablespoons"
     }
@@ -157630,6 +158496,22 @@
       "unit": "tablespoons"
     },
     {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "grand marnier",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "grand marnier",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
       "recipeId": "hsca-fresh-herb-dressing",
       "recipeName": "Fresh Herb Dressing",
       "cuisine": "hsca",
@@ -158052,6 +158934,14 @@
       "rawIngredientName": "oranges",
       "amount": 2,
       "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-raspberry-sauce-for-almond-fruit-tart",
+      "recipeName": "Raspberry Sauce (for Almond Fruit Tart)",
+      "cuisine": "hsca",
+      "rawIngredientName": "grand marnier",
+      "amount": 2,
+      "unit": "tablespoons"
     },
     {
       "recipeId": "mexican-authentic-cochinita-pibil",
@@ -166079,6 +166969,14 @@
     }
   ],
   "shrimp_paste": [
+    {
+      "recipeId": "vietnamese-b-n-b-hu",
+      "recipeName": "Bún Bò Huế",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Mắm ruốc",
+      "amount": 2,
+      "unit": "tbsp"
+    },
     {
       "recipeId": "vietnamese-authentic-bun-bo-hue",
       "recipeName": "Authentic Bun Bo Hue",

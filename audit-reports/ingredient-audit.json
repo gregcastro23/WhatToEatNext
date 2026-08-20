@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T21:34:10.854Z",
+  "generatedAt": "2026-08-20T13:05:07.821Z",
   "maxScore": 14,
   "rubric": [
     {
@@ -9477,6 +9477,17 @@
       "isReal": false
     },
     {
+      "slug": "beet",
+      "name": "Beet",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": [],
+      "realFlags": [],
+      "isReal": true
+    },
+    {
       "slug": "tomato",
       "name": "tomato",
       "category": "vegetables",
@@ -10064,6 +10075,17 @@
       "isReal": false
     },
     {
+      "slug": "bean_sprouts",
+      "name": "Bean Sprouts",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": [],
+      "realFlags": [],
+      "isReal": true
+    },
+    {
       "slug": "cauliflower",
       "name": "Cauliflower",
       "category": "vegetables",
@@ -10108,6 +10130,17 @@
         "nutrition_placeholder"
       ],
       "isReal": false
+    },
+    {
+      "slug": "brussels_sprouts",
+      "name": "Brussels Sprouts",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/cruciferous.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": [],
+      "realFlags": [],
+      "isReal": true
     },
     {
       "slug": "onion",

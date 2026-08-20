@@ -80,29 +80,12 @@
     ]
   },
   {
-    "name": "grand marnier",
-    "occurrences": 3,
-    "sampleRecipes": [
-      "hsca / CRÊPES SUZETTE",
-      "hsca / Raspberry Sauce (for Almond Fruit Tart)"
-    ]
-  },
-  {
     "name": "brandy",
     "occurrences": 3,
     "sampleRecipes": [
       "hsca / CRÊPES SUZETTE",
       "hsca / SAUTÉED CHICKEN LIVERS WITH ONION, APPLE, AND FRISÉE",
       "hsca / FRENCH WALNUT TART"
-    ]
-  },
-  {
-    "name": "peppercorns",
-    "occurrences": 3,
-    "sampleRecipes": [
-      "hsca / Curry Marinade",
-      "hsca / VEGETARIAN BORDELAISE",
-      "hsca / Whole Poached Norwegian Salmon"
     ]
   },
   {
@@ -163,27 +146,11 @@
     ]
   },
   {
-    "name": "brussels sprouts",
-    "occurrences": 2,
-    "sampleRecipes": [
-      "hsca / CRUCIFEROUS SALAD",
-      "hsca / HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS"
-    ]
-  },
-  {
     "name": "poppy seeds",
     "occurrences": 2,
     "sampleRecipes": [
       "hsca / OATMEAL DULSE CRACKERS",
       "hsca / WHOLE WHEAT POPPYSEED BREAD"
-    ]
-  },
-  {
-    "name": "tabasco sauce",
-    "occurrences": 2,
-    "sampleRecipes": [
-      "hsca / HOT WINGS WITH STILTON-YOGURT DRESSING",
-      "hsca / Barbecue Tofu"
     ]
   },
   {
@@ -649,24 +616,10 @@
     ]
   },
   {
-    "name": "1 1 2 cups whole wheat bread crumbs",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / GREEN LENTIL TERRINE"
-    ]
-  },
-  {
     "name": "micro greens for garnish",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / Beet Terrine"
-    ]
-  },
-  {
-    "name": "whole wheat bread crumbs",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / RED LENTIL PÂTÉ"
     ]
   },
   {
@@ -681,13 +634,6 @@
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS"
-    ]
-  },
-  {
-    "name": "romaine hearts",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS"
     ]
   },
   {
@@ -733,24 +679,10 @@
     ]
   },
   {
-    "name": "great northern beans",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE"
-    ]
-  },
-  {
     "name": "loose lapsang souchong tea",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / SMOKY GREEN SPLIT PEA SOUP"
-    ]
-  },
-  {
-    "name": "bonito flakes",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / ICHIBAN DASHI"
     ]
   },
   {
@@ -779,13 +711,6 @@
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / Carrot-Beet Sauce"
-    ]
-  },
-  {
-    "name": "szechwan peppercorns",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY"
     ]
   },
   {
@@ -866,20 +791,6 @@
     ]
   },
   {
-    "name": "bread crumbs",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / Ravioli with Beet Stuffing"
-    ]
-  },
-  {
-    "name": "dried porcinis",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / Herb Ravioli with Porcini Mushroom Pesto and Tofu \\\"Ricotta\\\""
-    ]
-  },
-  {
     "name": "winter squash",
     "occurrences": 1,
     "sampleRecipes": [
@@ -950,13 +861,6 @@
     ]
   },
   {
-    "name": "flax",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / Seitan Croquettes"
-    ]
-  },
-  {
     "name": "fresh seitan",
     "occurrences": 1,
     "sampleRecipes": [
@@ -996,13 +900,6 @@
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / SALT-CRUSTED BAKED BASS"
-    ]
-  },
-  {
-    "name": "gluten free bread crumbs",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / Flounder Roulades"
     ]
   },
   {
@@ -1076,13 +973,6 @@
     ]
   },
   {
-    "name": "whole wheat elbow pasta",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / WAKAME, SEITAN, AND TOASTED WALNUT CASSEROLE"
-    ]
-  },
-  {
     "name": "cocoa",
     "occurrences": 1,
     "sampleRecipes": [
@@ -1118,13 +1008,6 @@
     ]
   },
   {
-    "name": "yam",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / SWEET POTATO PECAN PIE"
-    ]
-  },
-  {
     "name": "blind baked 9 inch tart shell",
     "occurrences": 1,
     "sampleRecipes": [
@@ -1136,20 +1019,6 @@
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / SWEET CRANBERRY TART"
-    ]
-  },
-  {
-    "name": "cream",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / CARAMELIZED ONION TART"
-    ]
-  },
-  {
-    "name": "garnet yams cooked and mashed",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / GLUTEN-FREE SWEET POTATO PECAN TART"
     ]
   },
   {
@@ -1346,13 +1215,6 @@
     "occurrences": 1,
     "sampleRecipes": [
       "vietnamese / Bánh Mì Ốp La"
-    ]
-  },
-  {
-    "name": "mam ruoc",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "vietnamese / Bún Bò Huế"
     ]
   },
   {

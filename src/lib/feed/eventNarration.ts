@@ -228,6 +228,96 @@ export function narrateFeedEvent(
       return { icon: "💬", action, label };
     }
 
+    case "agent_audio_narration":
+    case "audio_narration":
+    case "voice_narration": {
+      const recipeName =
+        getString(metadata, "recipeName") ??
+        getString(metadata, "dishName") ??
+        getString(metadata, "title");
+      const recipeId =
+        getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
+      const audioUrl = getString(metadata, "audioUrl") ?? getString(metadata, "audio_url");
+      const action = recipeName
+        ? `narrated an alchemical walkthrough for ${recipeName} with voice synthesis.`
+        : "recorded a voice-guided alchemical cooking walkthrough.";
+      const label = recipeName ? `Voice Walkthrough · ${recipeName}` : "Voice Walkthrough";
+      return {
+        icon: "🎙️",
+        action,
+        label,
+        href: audioUrl ?? (recipeId ? `/recipes/${recipeId}` : undefined),
+      };
+    }
+
+    case "agent_voice_insight":
+    case "voice_insight":
+    case "transit_audio_note": {
+      const title =
+        getString(metadata, "title") ??
+        getString(metadata, "insightTitle") ??
+        getString(metadata, "topic");
+      const planet = getString(metadata, "planet");
+      const audioUrl = getString(metadata, "audioUrl") ?? getString(metadata, "audio_url");
+      const action = title
+        ? `broadcast an astrological audio insight: "${title}".`
+        : planet
+          ? `broadcast a planetary transit audio insight for ${planet}.`
+          : "broadcast an astrological audio insight.";
+      const label = title
+        ? `Voice Insight · ${title}`
+        : planet
+          ? `Transit Insight · ${planet}`
+          : "Voice Insight";
+      return {
+        icon: "📻",
+        action,
+        label,
+        href: audioUrl,
+      };
+    }
+
+    case "transit_discussion":
+    case "transit_group_chat":
+    case "transit_alignment": {
+      const aspect =
+        getString(metadata, "aspect") ??
+        getString(metadata, "transits") ??
+        getString(metadata, "topic");
+      const agents = getString(metadata, "agents") ?? getString(metadata, "participants");
+      const action = aspect
+        ? agents
+          ? `convened a live planetary council on ${aspect} with ${agents}.`
+          : `held a live planetary discourse on the ${aspect} transit.`
+        : "held a live planetary transit council.";
+      const label = aspect ? `Transit Council · ${aspect}` : "Planetary Transit Council";
+      return {
+        icon: "🪐",
+        action,
+        label,
+      };
+    }
+
+    case "multimodal_cooking_step":
+    case "guided_cooking": {
+      const stepIndex = getNumber(metadata, "stepIndex");
+      const recipeName =
+        getString(metadata, "recipeName") ?? getString(metadata, "dishName");
+      const recipeId =
+        getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
+      const stepPhrase = stepIndex !== undefined ? ` (Step ${stepIndex + 1})` : "";
+      const action = recipeName
+        ? `completed guided alchemical cooking for ${recipeName}${stepPhrase}.`
+        : "completed a guided alchemical cooking step.";
+      const label = recipeName ? `Guided Step · ${recipeName}` : "Guided Cooking Step";
+      return {
+        icon: "👨‍🍳",
+        action,
+        label,
+        href: recipeId ? `/recipes/${recipeId}` : undefined,
+      };
+    }
+
     default:
       break;
   }

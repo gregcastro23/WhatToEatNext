@@ -1,7 +1,7 @@
 # Ingredient Data Audit
 
-Generated: 2026-07-02T21:34:10.857Z
-**Total ingredients:** 1181
+Generated: 2026-08-20T13:05:07.823Z
+**Total ingredients:** 1184
 **Max score per ingredient:** 14
 
 ## Category Summary
@@ -18,12 +18,12 @@ Generated: 2026-07-02T21:34:10.857Z
 | proteins | 121 | 98 | 0 | 111 | 1 |
 | seasonings | 61 | 90 | 8 | 53 | 0 |
 | spices | 55 | 100 | 0 | 55 | 0 |
-| vegetables | 77 | 100 | 0 | 77 | 36 |
+| vegetables | 80 | 100 | 0 | 80 | 36 |
 | vinegars | 19 | 100 | 0 | 19 | 0 |
 
 ## Real vs. default (placeholder/default values — drive to 0)
 
-**Non-real ingredients:** 420 / 1181
+**Non-real ingredients:** 420 / 1184
 
 | Marker | Count |
 | --- | --- |
@@ -1225,7 +1225,7 @@ Generated: 2026-07-02T21:34:10.857Z
 | `jerk_seasoning` | Jerk Seasoning | 100% | — |
 | `ground_cinnamon` | Ground Cinnamon | 100% | — |
 
-### vegetables (77)
+### vegetables (80)
 
 | Slug | Name | % | Missing |
 | --- | --- | --- | --- |
@@ -1240,6 +1240,7 @@ Generated: 2026-07-02T21:34:10.857Z
 | `jerusalem_artichoke` | Jerusalem Artichoke | 100% | — |
 | `carrots` | carrots | 100% | — |
 | `parsnips` | parsnips | 100% | — |
+| `beet` | Beet | 100% | — |
 | `tomato` | tomato | 100% | — |
 | `bell_pepper` | bell pepper | 100% | — |
 | `eggplant` | eggplant | 100% | — |
@@ -1289,10 +1290,12 @@ Generated: 2026-07-02T21:34:10.857Z
 | `sweet_corn` | sweet corn | 100% | — |
 | `corn_on_the_cob` | corn on the cob | 100% | — |
 | `green_beans` | green beans | 100% | — |
+| `bean_sprouts` | Bean Sprouts | 100% | — |
 | `cauliflower` | Cauliflower | 100% | — |
 | `broccoli` | broccoli | 100% | — |
 | `cabbage` | cabbage | 100% | — |
 | `napa_cabbage` | napa cabbage | 100% | — |
+| `brussels_sprouts` | Brussels Sprouts | 100% | — |
 | `onion` | onion | 100% | — |
 | `garlic` | garlic | 100% | — |
 | `onions` | onions | 100% | — |

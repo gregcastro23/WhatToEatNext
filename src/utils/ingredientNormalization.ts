@@ -127,12 +127,116 @@ export function normalizedVariants(input: string, skipStopwordOnly = true): Set<
     const noParens = raw.replace(/\([^)]*\)/g, "").replace(/\s+/g, " ").trim();
     addVariant(noParens);
 
-    if (raw.startsWith("foundation of ")) addVariant(raw.replace(/^foundation of\s+/, ""));
-    if (raw.startsWith("warm ")) addVariant(raw.replace(/^warm\s+/, ""));
-    if (raw.startsWith("caramel sauce ")) addVariant(raw.replace(/^caramel sauce\s+/, ""));
-    if (corrected.startsWith("foundation of ")) addVariant(corrected.replace(/^foundation of\s+/, ""));
-    if (corrected.startsWith("warm ")) addVariant(corrected.replace(/^warm\s+/, ""));
-    if (corrected.startsWith("caramel sauce ")) addVariant(corrected.replace(/^caramel sauce\s+/, ""));
+    // Prefix stripping helpers
+    const prefixReplacements = [
+        /^foundation of\s+/,
+        /^recipe\s+/,
+        /^loosely packed\s+/,
+        /^lightly toasted\s+/,
+        /^sifted\s+/,
+        /^freshly grated\s+/,
+        /^freshly ground\s+/,
+        /^small heads\s+/,
+        /^bunch\s+/,
+        /^leaves\s+/,
+        /^toppings\s+/,
+        /^crumbled\s+/,
+        /^shelled\s+/,
+        /^dried\s+/,
+        /^fresh\s+/,
+        /^warm\s+/,
+        /^cold\s+/,
+        /^caramel sauce\s+/,
+        /^partially blind baked 9 inch crust\s*/,
+        /^blind baked 9 inch tart shell\s*/,
+        /^partially blind baked\s+/,
+        /^blind baked\s+/,
+        /^loaf french or italian\s+/,
+        /^loaf\s+/,
+        /^container\s+/,
+    ];
+
+    for (const base of [raw, corrected, noParens]) {
+        for (const re of prefixReplacements) {
+            if (re.test(base)) {
+                addVariant(base.replace(re, "").trim());
+            }
+        }
+    }
+
+    // Embedded quantity + unit prefix stripping (e.g. "6 cups stock" -> "stock", "1 1 2 cups whole wheat bread crumbs" -> "whole wheat bread crumbs", "2 pounds kabocha squash" -> "kabocha squash")
+    const qtyRegex = /^(?:\d+[\s\d/]*\s*(?:cups?|pounds?|lbs?|ounces?|oz|tablespoons?|tbsp|teaspoons?|tsp|heads?|bunch|leaves|toppings|pieces?|cloves?|slices?|cans?|bottles?|pinches?|pinch|plus\s+\d+[\s\d/]*\s*(?:teaspoons?|tablespoons?|cups?))(?:\s+of)?|\d+\s+)\s*/i;
+    for (const base of [raw, corrected, noParens]) {
+        if (qtyRegex.test(base)) {
+            const stripped = base.replace(qtyRegex, "").trim();
+            if (stripped) addVariant(stripped);
+        }
+    }
+
+    // Suffix and preparation phrase stripping
+    const suffixReplacements = [
+        /\s+cooked and mashed$/,
+        /\s+cooked al dente$/,
+        /\s+for garnish$/,
+        /\s+plus 2 teaspoons for dusting pan$/,
+        /\s+stems and leaves$/,
+        /\s+filets?$/,
+        /\s+and brush$/,
+    ];
+    for (const base of [raw, corrected, noParens]) {
+        for (const re of suffixReplacements) {
+            if (re.test(base)) {
+                addVariant(base.replace(re, "").trim());
+            }
+        }
+    }
+
+    // Synonym variations
+    const synonyms: Array<[RegExp, string]> = [
+        [/\bpeppercorns\b/g, "black pepper"],
+        [/\bfrisee\b/g, "curly endive"],
+        [/\btabasco sauce\b/g, "hot sauce"],
+        [/\bgrand marnier\b/g, "orange liqueur"],
+        [/\bmadeira wine\b/g, "madeira"],
+        [/\bbowtie pasta\b/g, "farfalle"],
+        [/\bromaine hearts\b/g, "romaine lettuce"],
+        [/\bgreat northern beans\b/g, "white beans"],
+        [/\bloose lapsang souchong tea\b/g, "lapsang souchong"],
+        [/\bszechwan peppercorns\b/g, "sichuan peppercorn"],
+        [/\baduki beans\b/g, "adzuki beans"],
+        [/\bdried chipotle\b/g, "chipotle"],
+        [/\bgarnet yams\b/g, "sweet potato"],
+        [/\byam\b/g, "sweet potato"],
+        [/\bcarob powder\b/g, "carob"],
+        [/\bcacao nibs\b/g, "cocoa nibs"],
+        [/\bkefalotyri or mizithra cheese\b/g, "kefalotyri"],
+        [/\bfresh or frozen udon noodles\b/g, "udon noodles"],
+        [/\bbrandy or rum\b/g, "brandy"],
+        [/\bgluten free or whole wheat fusilli\b/g, "fusilli"],
+        [/\bmam ruoc\b/g, "fermented shrimp paste"],
+        [/\bplain crepes\b/g, "crepes"],
+        [/\bfilet of sole\b/g, "sole"],
+        [/\bwinter squash\b/g, "squash"],
+        [/\bblackening spice mix\b/g, "cajun seasoning"],
+        [/\bwhole wheat elbow pasta\b/g, "elbow macaroni"],
+        [/\bwhole wheat bread crumbs\b/g, "breadcrumbs"],
+        [/\bbread crumbs\b/g, "breadcrumbs"],
+        [/\bgluten free bread crumbs\b/g, "breadcrumbs"],
+        [/\bdried porcinis\b/g, "porcini mushrooms"],
+        [/\bbonito flakes\b/g, "katsuobushi"],
+        [/\bmesclun greens\b/g, "mesclun"],
+        [/\bred belgian endive\b/g, "endive"],
+        [/\bred endive\b/g, "endive"],
+    ];
+
+    for (const [re, target] of synonyms) {
+        if (re.test(raw)) {
+            addVariant(raw.replace(re, target));
+        }
+        if (re.test(corrected)) {
+            addVariant(corrected.replace(re, target));
+        }
+    }
 
     const splitOr = corrected.split(/\s+or\s+/).map((s) => s.trim()).filter(Boolean);
     if (splitOr.length > 1) {

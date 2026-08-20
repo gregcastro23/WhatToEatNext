@@ -1249,6 +1249,7 @@ const rawDairy = {
   heavy_cream: {
       image_url: "ingredients/heavy_cream.png",
     name: "Heavy Cream",
+    aliases: ["cream", "heavy cream", "heavy whipping cream", "whipping cream"],
     origin: ["Worldwide"],
     description:
       "Cow's milk cream with at least 36% butterfat — rich enough to whip to stable peaks and beat into butter. Essential for whipped cream, pastry cream, ganache, Alfredo sauce, and any preparation requiring the creamy body that milk alone can't deliver. Higher-fat cream is more stable under heat (less prone to breaking) than lower-fat half-and-half. Pasture-raised versions carry deeper flavor and color.",
