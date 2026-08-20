@@ -1,6 +1,6 @@
-# Next Session: Planetary Agents Real-Time Interop & Nutrition Batch Enrichment
+# Next Session: USDA Nutrition Batch Enrichment & Planetary Agent State Sync
 
-**Current Status:** Data Authenticity Reconciliation & Planetary Agent Multimodal Feed 100% Shipped & Verified.  
+**Current Status:** Recipe Ingredient Authenticity & Multimodal Feed Narration 100% Shipped & Merged to `master` (PR #791).  
 **Lint Debt:** `20,829` · **Standard Lint / Typecheck:** `0 errors, 0 warnings` · **Test Suites:** `10/10` fast (`408/408` tests) / `277/277` full passed · **Rust Thermo Workspace:** `81/81` passed · **Route Size Gate:** 100% passed (`111/111` routes within threshold) · **Ingredient Quality Audit:** `0 ingredient issues, 0 unmatched recipe ingredients`.
 
 ---
@@ -36,7 +36,7 @@ The codebase's tracked lint debt under `eslint.config.audit.mjs` remains ratchet
 
 ---
 
-## 1. What Shipped in the Preceding Session (Completed & Verified)
+## 1. What Shipped in the Preceding Session (Completed & Merged)
 
 | Component | Changes Shipped |
 |---|---|
@@ -47,15 +47,35 @@ The codebase's tracked lint debt under `eslint.config.audit.mjs` remains ratchet
 
 ---
 
-## 2. Prioritized Focus Areas for Next Session
+## 2. Most Urgent Prioritized Focus Areas for Next Session
 
-### 1. USDA Batch Enrichment on Placeholder Nutrition Cards
-- Execute USDA batch enrichment on the remaining 420 placeholder nutrition cards using `scripts/fetch-usda-composition.mjs` and `scripts/batchEnrichIngredients.ts`.
-- Re-run `bun run audit:ingredients` to verify 100% real nutrition coverage.
+### 1. USDA Batch Enrichment on 420 Placeholder Nutrition Cards (Data Authenticity)
+- **Problem**: `bun run audit:ingredients` reports 420 of 1,184 ingredient cards carry placeholder/default nutrition markers (specifically in `src/data/ingredients/misc/recipeCoverageIngredients.ts`).
+- **Objective**: Backfill real USDA FoodData Central (FDC) macronutrient, micronutrient, and calorie data into these cards using the automated fetcher.
+- **Actionable Steps**:
+  1. Inspect `scripts/fetch-usda-composition.mjs` and `scripts/batchEnrichIngredients.ts`.
+  2. Run `bun run ingredients:batch-enrich` to query USDA FDC API for authentic nutritional composition.
+  3. Recompute non-uniform elemental signatures where nutrition markers change.
+  4. Run `bun run audit:ingredients` and assert placeholder count drops to 0.
 
-### 2. Cart Fulfillment & Conversion Funnel Telemetry
-- **Omnichannel Grocery Telemetry:** Track grocery affiliate cart handoffs (Instacart / Amazon Fresh) with token cashback rebates.
-- **Conversion Tracking:** Instrument checkout funnels and token velocity in `/admin/dashboard` and `/admin/settlements`.
+### 2. Planetary Agent Audio Player & Interactive Walkthrough Widget
+- **Problem**: We enabled multimodal audio feed narration (`agent_audio_narration`, `agent_voice_insight`), but frontend feed cards and recipe walkthroughs need a lightweight inline audio player.
+- **Objective**:
+  1. Create an accessible, lightweight audio player component (`src/components/feed/FeedAudioPlayer.tsx`) supporting play/pause, scrub, playback rate, and wave visualizer.
+  2. Wire `FeedAudioPlayer` into `FeedCard.tsx` and `InteractiveInstruction.tsx` for spoken recipe instructions.
+  3. Verify audio element cleanup on unmount to prevent audio memory leaks.
 
-### 3. Continuous Lint Debt Ratcheting
-- Continue targeted ratchet passes against high-frequency rules: `@typescript-eslint/no-unsafe-member-access` (3,460), `@typescript-eslint/prefer-nullish-coalescing` (3,302), `@typescript-eslint/no-explicit-any` (1,091).
+### 3. Cart Fulfillment & Conversion Funnel Telemetry
+- **Problem**: The grocery cart (`/grocery-cart` and `/meal-plan/groceries`) lacks automated affiliate handoff telemetry and token cashback rebate recording.
+- **Objective**:
+  1. Instrument Instacart / Amazon Fresh cart export handlers in `src/services/grocery/` with referral affiliate tags and token rebate attribution.
+  2. Record outbound checkout handoffs in `feed_events` (event_type `"cart_handoff"`) and grant user streak/rebate tokens via `DailyYieldService`.
+  3. Add conversion metrics to `/admin/dashboard` and `/admin/settlements`.
+
+### 4. Continuous Lint Debt Ratcheting (Target: < 20,000)
+- **Current Baseline**: `20,829` tracked warnings in `.lint-debt-baseline.json`.
+- **High-Impact Targets**:
+  - `@typescript-eslint/no-unsafe-member-access` (3,460 warnings): Refactor dynamic dictionary accesses in `src/services/` and `src/data/` with typed guards.
+  - `@typescript-eslint/prefer-nullish-coalescing` (3,302 warnings): Safely replace `||` with `??` where boolean falsy values (`0`, `""`, `false`) are valid.
+  - `@typescript-eslint/no-explicit-any` (1,091 warnings): Replace `any` with `unknown` or narrow domain types in API route handlers (`src/app/api/**`).
+- **Verification**: Run `bun run lint:debt` to automatically ratchet down the baseline.
