@@ -171,7 +171,7 @@ function SauceResultCard({ result, rank }: { result: CuisineSauceResult; rank: n
           </div>
         </div>
         
-        <p className="text-xs text-slate-600 line-clamp-2 mb-3">{sauce.description || "A traditional sauce pairing for your selection."}</p>
+        <p className="text-xs text-slate-600 line-clamp-2 mb-3">{sauce.description ?? "A traditional sauce pairing for your selection."}</p>
         
         <div className="space-y-1 mb-4">
           <ScoreBar label="Authenticity" value={result.breakdown.cuisineAuthenticity} />
@@ -196,7 +196,7 @@ function SauceResultCard({ result, rank }: { result: CuisineSauceResult; rank: n
               </ul>
             </div>
             
-            {(sauce.ingredients || dataSauce?.ingredients) && (
+            {(sauce.ingredients ?? dataSauce?.ingredients) && (
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <p className="text-[10px] font-semibold text-slate-600">Ingredients</p>
@@ -219,11 +219,11 @@ function SauceResultCard({ result, rank }: { result: CuisineSauceResult; rank: n
               </div>
             )}
 
-            {(sauce.preparationSteps || dataSauce?.preparationSteps) && (
+            {(sauce.preparationSteps ?? dataSauce?.preparationSteps) && (
               <div>
                 <p className="text-[10px] font-semibold text-slate-600 mb-1">Preparation</p>
                 <ol className="text-[10px] text-slate-500 space-y-1 list-decimal list-inside">
-                  {(sauce.preparationSteps || dataSauce?.preparationSteps || []).map((s: string, i: number) => (
+                  {(sauce.preparationSteps ?? dataSauce?.preparationSteps ?? []).map((s: string, i: number) => (
                     <li key={i}>{s}</li>
                   ))}
                 </ol>
@@ -242,7 +242,7 @@ function SauceResultCard({ result, rank }: { result: CuisineSauceResult; rank: n
 
 export default function EnhancedSauceRecommender() {
   const { cuisines: cuisinesMapData, loading: dataLoading } = useAlchemicalData();
-  const availableCuisines = useMemo(() => listCuisines(cuisinesMapData || undefined), [cuisinesMapData]);
+  const availableCuisines = useMemo(() => listCuisines(cuisinesMapData ?? undefined), [cuisinesMapData]);
   const detectedSeason = useCurrentSeason();
   const { isDaytime, planetaryHour, lunarPhase } = useAlchemical();
   const astroState = useAstrologicalState();
@@ -267,7 +267,7 @@ export default function EnhancedSauceRecommender() {
     }
   }, [dataLoading, availableCuisines, cuisineKey]);
 
-  const fingerprint = useMemo(() => getCuisineFingerprint(cuisineKey, cuisinesMapData || undefined), [cuisineKey, cuisinesMapData]);
+  const fingerprint = useMemo(() => getCuisineFingerprint(cuisineKey, cuisinesMapData ?? undefined), [cuisineKey, cuisinesMapData]);
 
   // Visitor's elemental bias (chart/table) rides the context so the sauce
   // similarity target is personalized; null keeps scoring bit-identical.
@@ -287,7 +287,7 @@ export default function EnhancedSauceRecommender() {
     setLoading(true);
     setTimeout(() => {
       try {
-        const results = recommendForCuisineContext(ctx, { strictCuisine, maxResults: 15 }, cuisinesMapData || undefined);
+        const results = recommendForCuisineContext(ctx, { strictCuisine, maxResults: 15 }, cuisinesMapData ?? undefined);
         setRecommendations(results);
       } catch (error) {
         console.error("Recommendation error:", error);
@@ -324,13 +324,13 @@ export default function EnhancedSauceRecommender() {
             {fingerprint && fingerprint.regions.length > 0 && (
               <div>
                 <label htmlFor="sauce-region" className="text-[10px] uppercase font-bold text-slate-400 mb-1.5 block">Regional Variant</label>
-                <select id="sauce-region" value={region || ""} onChange={(e) => setRegion(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                <select id="sauce-region" value={region ?? ""} onChange={(e) => setRegion(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
                   <option value="">Full {fingerprint.name} Cuisine</option>
                   {fingerprint.regions.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
                 </select>
               </div>
             )}
-            <CuisineFingerprintPanel cuisineKey={cuisineKey} cuisinesMapData={cuisinesMapData || undefined} />
+            <CuisineFingerprintPanel cuisineKey={cuisineKey} cuisinesMapData={cuisinesMapData ?? undefined} />
           </div>
         </section>
 
@@ -343,14 +343,14 @@ export default function EnhancedSauceRecommender() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label htmlFor="sauce-protein" className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Protein</label>
-                <select id="sauce-protein" value={protein || ""} onChange={(e) => setProtein(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
+                <select id="sauce-protein" value={protein ?? ""} onChange={(e) => setProtein(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
                   <option value="">Select...</option>
                   {PROTEINS.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
               <div>
                 <label htmlFor="sauce-vegetable" className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Vegetable</label>
-                <select id="sauce-vegetable" value={vegetable || ""} onChange={(e) => setVegetable(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
+                <select id="sauce-vegetable" value={vegetable ?? ""} onChange={(e) => setVegetable(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
                   <option value="">Select...</option>
                   {VEGETABLES.map(v => <option key={v} value={v}>{v}</option>)}
                 </select>
@@ -358,7 +358,7 @@ export default function EnhancedSauceRecommender() {
             </div>
             <div>
               <label htmlFor="sauce-cooking-method" className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Cooking Method</label>
-              <select id="sauce-cooking-method" value={cookingMethod || ""} onChange={(e) => setCookingMethod(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
+              <select id="sauce-cooking-method" value={cookingMethod ?? ""} onChange={(e) => setCookingMethod(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
                 <option value="">Select...</option>
                 {COOKING_METHODS.map(m => <option key={m} value={m}>{m}</option>)}
               </select>

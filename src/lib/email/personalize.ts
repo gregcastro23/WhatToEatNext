@@ -39,7 +39,7 @@ const MODALITIES: Modality[] = ["Cardinal", "Fixed", "Mutable"];
 
 /** First name (or a warm fallback) from a possibly-empty display name. */
 export function firstNameOf(name?: string | null): string {
-  const trimmed = (name || "").trim();
+  const trimmed = (name ?? "").trim();
   if (!trimmed) return "there";
   return trimmed.split(/\s+/)[0];
 }
@@ -66,15 +66,15 @@ export function buildPersonalContext(
   natalChart?: Partial<NatalChart> | null,
 ): PersonalContext {
   const firstName = firstNameOf(name);
-  const chart = natalChart || {};
+  const chart = natalChart ?? {};
   const element = isValidElement(chart.dominantElement) ? chart.dominantElement : undefined;
 
   if (!element) {
     return { hasChart: false, firstName };
   }
 
-  const positions = (chart.planetaryPositions || {}) as Record<string, string>;
-  const balanceRaw = (chart.elementalBalance || {}) as Partial<Record<Element, number>>;
+  const positions = (chart.planetaryPositions ?? {}) as Record<string, string>;
+  const balanceRaw = (chart.elementalBalance ?? {}) as Partial<Record<Element, number>>;
   const balance = {
     Fire: balanceRaw.Fire ?? 0,
     Water: balanceRaw.Water ?? 0,
@@ -174,7 +174,7 @@ export function chartProfileCard(ctx: PersonalContext): string {
       ${theme.word} dominant${modality}
     </p>
     ${summary ? `<p style="color:#6b7280;font-size:13px;margin:0 0 14px 0;">${summary}</p>` : ""}
-    ${emailBalanceBars(ctx.balance || { Fire: 0, Water: 0, Earth: 0, Air: 0 })}
+    ${emailBalanceBars(ctx.balance ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 })}
     <p style="color:#374151;font-size:14px;line-height:1.7;margin:14px 0 0 0;">
       Your chart leans <strong>${g.vibe}</strong>. We tune every recommendation to this —
       think <strong>${g.cuisines}</strong> cuisines, ingredients like ${g.ingredients},

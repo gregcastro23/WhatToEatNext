@@ -482,12 +482,12 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             </Box>
           )}
           {/* Chef's Notes */}
-          {(recipe.tips ||
-            recipe.substitutions ||
-            recipe.variations ||
-            recipe.pairing_suggestions ||
-            recipe.storage_info ||
-            recipe.common_mistakes ||
+          {(recipe.tips ??
+            recipe.substitutions ??
+            recipe.variations ??
+            recipe.pairing_suggestions ??
+            recipe.storage_info ??
+            recipe.common_mistakes ??
             recipe.timing_tips) && (
             <Box>
               <Text fontSize="sm" fontWeight="medium" mb={2}>

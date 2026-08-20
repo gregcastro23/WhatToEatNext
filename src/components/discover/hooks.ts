@@ -63,7 +63,7 @@ export function useDiscoverTables(query: DiscoverTablesQuery) {
         const data = await res.json();
         if (reqId !== reqIdRef.current) return; // a newer request superseded this
         if (!res.ok || data.success === false) {
-          setState((s) => ({ ...s, loading: false, error: data.message || "Failed to load tables" }));
+          setState((s) => ({ ...s, loading: false, error: data.message ?? "Failed to load tables" }));
           return;
         }
         setState((s) => ({
@@ -137,7 +137,7 @@ export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true) {
         const data = await res.json();
         if (reqId !== reqIdRef.current) return;
         if (!res.ok || data.success === false) {
-          setState((s) => ({ ...s, loading: false, error: data.message || "Failed to load people" }));
+          setState((s) => ({ ...s, loading: false, error: data.message ?? "Failed to load people" }));
           return;
         }
         setNeedsAuth(false);

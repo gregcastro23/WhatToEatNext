@@ -79,7 +79,7 @@ function normalizeItems(items: unknown): {
       continue;
     }
 
-    const name = String(item.name || item.ingredientName || asin).trim();
+    const name = String(item.name ?? item.ingredientName ?? asin).trim();
     const rawQuantity = parseQuantity(item);
     const quantity = getStandardizedQuantity(name, rawQuantity);
     const price = parsePrice(item.price);
@@ -246,6 +246,20 @@ export async function POST(request: Request) {
 
   if (userId) {
     void reportQuestEventBestEffort(userId, "amazon_cart_send");
+    try {
+      const { feedDatabase } = await import("@/services/feedDatabaseService");
+      void feedDatabase.createEvent(userId, "other", {
+        subtype: "cart_handoff",
+        source,
+        itemCount: items.length,
+        provider: cartType === "fresh" ? "Amazon Fresh" : "Amazon",
+        itemNames: items.flatMap((item) => item.names).slice(0, 5),
+        associateTag: AMAZON_ASSOCIATE_TAG,
+        handoffId,
+      });
+    } catch {
+      // Best-effort feed emission
+    }
   }
 
   const response: CheckoutPreflightResponse = {

@@ -54,7 +54,7 @@ export async function POST(request: Request) {
           [
             sessionId,
             session.user.id,
-            name || "Group Session",
+            name ?? "Group Session",
             JSON.stringify(memberIds),
             strategy,
           ],
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
       session: {
         id: sessionId,
         creatorId: session.user.id,
-        name: name || "Group Session",
+        name: name ?? "Group Session",
         memberIds,
         strategy,
         status: "active",

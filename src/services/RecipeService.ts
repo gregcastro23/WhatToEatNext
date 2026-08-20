@@ -122,7 +122,7 @@ export class RecipeService {
       // Filter by max prep time
       if (criteria.maxPrepTime) {
         filteredRecipes = filteredRecipes.filter((recipe) => {
-          const prepTime = this.parseTimeToMinutes(recipe.timeToMake || '');
+          const prepTime = this.parseTimeToMinutes(recipe.timeToMake ?? '');
           return prepTime <= criteria.maxPrepTime!;
         });
       }
@@ -185,7 +185,7 @@ export class RecipeService {
       logger.debug(`Getting recipes for zodiac sign: ${zodiacSign}`);
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter((recipe) => {
-        const influences = recipe.astrologicalInfluences || [];
+        const influences = recipe.astrologicalInfluences ?? [];
         return influences.some((influence: string) =>
           influence.toLowerCase().includes(zodiacSign.toLowerCase()),
         );
@@ -203,7 +203,7 @@ export class RecipeService {
       logger.debug(`Getting recipes for lunar phase: ${lunarPhase}`);
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter((recipe) => {
-        const influences = recipe.astrologicalInfluences || [];
+        const influences = recipe.astrologicalInfluences ?? [];
         return influences.some((influence: string) =>
           influence.toLowerCase().includes(lunarPhase.toLowerCase()),
         );
@@ -224,7 +224,7 @@ export class RecipeService {
       logger.debug(`Getting recipes for season: ${season}`);
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter((recipe) => {
-        const recipeSeasons = recipe.season || [];
+        const recipeSeasons = recipe.season ?? [];
         const seasonsArray = Array.isArray(recipeSeasons) ? recipeSeasons : [recipeSeasons];
         return seasonsArray.some((recipeSeason: string) =>
           recipeSeason.toLowerCase().includes(season.toLowerCase()),
@@ -285,7 +285,7 @@ export class RecipeService {
 
       const allRecipes = await this.getAllRecipes();
       const scoredRecipes = allRecipes.map(recipe => {
-        const recipeFlavor = (recipe as any).flavorProfile || { sweet: 0.5, savory: 0.5, spicy: 0, salty: 0.5 };
+        const recipeFlavor = (recipe as any).flavorProfile ?? { sweet: 0.5, savory: 0.5, spicy: 0, salty: 0.5 };
         const match = calculateFlavorCompatibility(flavorProfile, recipeFlavor);
         return { recipe, score: match.compatibility };
       });
@@ -347,7 +347,7 @@ export class RecipeService {
   ): Promise<Recipe[]> {
     try {
       const recipes: Recipe[] = [];
-      const rawDishes = cuisine.dishes || [];
+      const rawDishes = cuisine.dishes ?? [];
       const dishes = Array.isArray(rawDishes) ? rawDishes : Object.values(rawDishes).flat();
       for (const dish of dishes) {
         const recipe = await this.convertDishToRecipe(
@@ -373,18 +373,18 @@ export class RecipeService {
   ): Promise<Recipe | null> {
     try {
       // Generate unique ID
-      const dishName = String(dish.name || "Unknown Dish");
+      const dishName = String(dish.name ?? "Unknown Dish");
       const cuisineName = String(cuisine.name || "Unknown Cuisine");
       const id = `${cuisineName.toLowerCase().replace(/\s+/g, "-")}-${dishName.toLowerCase().replace(/\s+/g, "-")}`;
       // Convert ingredients
       const ingredients = Array.isArray(dish.ingredients)
         ? dish.ingredients.map((ing: any) => ({
-            name: String(ing.name || ""),
+            name: String(ing.name ?? ""),
             amount: typeof ing.amount === "number" ? ing.amount : 1,
-            unit: String(ing.unit || "unit"),
+            unit: String(ing.unit ?? "unit"),
             optional: Boolean(ing.optional),
-            preparation: String(ing.preparation || ""),
-            category: String(ing.category || ""),
+            preparation: String(ing.preparation ?? ""),
+            category: String(ing.category ?? ""),
           }))
         : [];
       // Convert instructions
@@ -392,12 +392,12 @@ export class RecipeService {
         ? dish.instructions.map((inst: any) => String(inst))
         : Array.isArray(dish.preparationSteps)
           ? dish.preparationSteps.map((step: any) => String(step))
-          : [String(dish.instructions || dish.preparationSteps || "")];
+          : [String(dish.instructions ?? dish.preparationSteps ?? "")];
       // Parse time
       const timeToMake = this.parseTime(
-        String(dish.timeToMake || dish.prepTime || "30 minutes"),
+        String(dish.timeToMake ?? dish.prepTime ?? "30 minutes"),
       );
-      const cookTime = this.parseTime(String(dish.cookTime || "0 minutes"));
+      const cookTime = this.parseTime(String(dish.cookTime ?? "0 minutes"));
       // Parse servings
       const numberOfServings =
         typeof dish.numberOfServings === "number"
@@ -419,7 +419,7 @@ export class RecipeService {
       const recipe: Recipe = {
         id,
         name: dishName,
-        description: String(dish.description || ""),
+        description: String(dish.description ?? ""),
         ingredients,
         instructions,
         timeToMake,

@@ -104,12 +104,12 @@ export const BackendStatus: React.FC = () => {
       setDemoResults({
         elements: { ...elements, responseTime: elementsTime },
         planetary: { 
-          dominant_planet: planData.metadata?.dominant_planet || "Unknown",
-          influence_strength: planData.metadata?.influence_strength || 0,
+          dominant_planet: planData.metadata?.dominant_planet ?? "Unknown",
+          influence_strength: planData.metadata?.influence_strength ?? 0,
           responseTime: planetaryTime 
         },
         recommendations: { 
-          total_count: recData.recipes?.length || 0, 
+          total_count: recData.recipes?.length ?? 0, 
           responseTime: recTime 
         },
       });

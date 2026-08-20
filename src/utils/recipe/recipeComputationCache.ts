@@ -301,7 +301,7 @@ export function withComputationCaching<T extends any[], R>(
     cache?: RecipeComputationCacheManager;
   },
 ) {
-  const cache = options.cache || getRecipeComputationCache();
+  const cache = options.cache ?? getRecipeComputationCache();
 
   return (...args: T): R => {
     const cacheKey = options.getCacheKey(args);
@@ -345,7 +345,7 @@ export function batchCacheOperations(
   }>,
   cache?: RecipeComputationCacheManager,
 ): Array<RecipeComputedProperties | null> {
-  const cacheManager = cache || getRecipeComputationCache();
+  const cacheManager = cache ?? getRecipeComputationCache();
   const results: Array<RecipeComputedProperties | null> = [];
 
   for (const op of operations) {
@@ -386,7 +386,7 @@ export function getCachePerformanceMetrics(
 ): CachePerformanceMetrics {
   // This would require additional instrumentation
   // For now, return basic stats
-  const cacheManager = cache || getRecipeComputationCache();
+  const cacheManager = cache ?? getRecipeComputationCache();
   const stats = cacheManager.getStats();
 
   return {
@@ -405,7 +405,7 @@ export function getCachePerformanceMetrics(
 export function exportCacheData(
   cache?: RecipeComputationCacheManager,
 ): RecipeComputationCache[] {
-  const cacheManager = cache || getRecipeComputationCache();
+  const cacheManager = cache ?? getRecipeComputationCache();
   return cacheManager.export();
 }
 
@@ -416,6 +416,6 @@ export function importCacheData(
   data: RecipeComputationCache[],
   cache?: RecipeComputationCacheManager,
 ): void {
-  const cacheManager = cache || getRecipeComputationCache();
+  const cacheManager = cache ?? getRecipeComputationCache();
   cacheManager.import(data);
 }

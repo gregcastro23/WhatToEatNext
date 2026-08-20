@@ -422,11 +422,11 @@ export class AlchemicalTransformationService {
 
     // Use provided targets or default to first ingredient
     const dominantElement =
-      targetElement ||
+      targetElement ??
       (topIngredients.length > 0 ? topIngredients[0].dominantElement : "Fire");
 
     const dominantAlchemicalProperty =
-      targetAlchemicalProperty ||
+      targetAlchemicalProperty ??
       (topIngredients.length > 0
         ? topIngredients[0].dominantAlchemicalProperty
         : "Spirit");

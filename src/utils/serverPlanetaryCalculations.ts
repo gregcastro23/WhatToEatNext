@@ -10,13 +10,13 @@ import type { DegradedInfo } from "@/types/degraded";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
-const Astronomy = (AstronomyModule as any).default || AstronomyModule;
+const Astronomy = (AstronomyModule as any).default ?? AstronomyModule;
 const logger = createLogger("ServerPlanetaryCalculations");
 
 // Backend URL configuration
 const BACKEND_URL =
-  process.env.BACKEND_URL ||
-  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.BACKEND_URL ??
+  process.env.NEXT_PUBLIC_BACKEND_URL ??
   "http://localhost:8000";
 
 /**
@@ -88,7 +88,7 @@ async function calculatePlanetaryPositionsBackend(
     const positions: Record<string, PlanetPosition> = {};
 
     for (const [planetName, position] of Object.entries(
-      data.planetary_positions || {},
+      data.planetary_positions ?? {},
     )) {
       const pos = position as any;
       positions[planetName] = {
@@ -106,7 +106,7 @@ async function calculatePlanetaryPositionsBackend(
     }
 
     logger.info(
-      `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source || "unknown"})`,
+      `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source ?? "unknown"})`,
     );
 
     return positions;

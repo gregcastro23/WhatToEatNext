@@ -5,9 +5,9 @@ import { ANumberCalculator } from './core-energy-rules'
 
 // Environment variables for Galileo configuration
 const { GALILEO_API_KEY } = process.env
-const GALILEO_PROJECT = process.env.GALILEO_PROJECT || 'AlchmPlanetaryAgents'
-const QUANTITIES_STREAM = process.env.GALILEO_QUANTITIES_STREAM || 'alchm-quantities'
-const GALILEO_BASE_URL = process.env.GALILEO_BASE_URL || 'https://api.galileo.ai'
+const GALILEO_PROJECT = process.env.GALILEO_PROJECT ?? 'AlchmPlanetaryAgents'
+const QUANTITIES_STREAM = process.env.GALILEO_QUANTITIES_STREAM ?? 'alchm-quantities'
+const GALILEO_BASE_URL = process.env.GALILEO_BASE_URL ?? 'https://api.galileo.ai'
 const GALILEO_FAIL_SILENTLY = (process.env.GALILEO_FAIL_SILENTLY ?? 'true') !== 'false'
 const GALILEO_VERBOSE_FALLBACK = (process.env.GALILEO_VERBOSE_FALLBACK ?? 'true') !== 'false'
 
@@ -132,7 +132,7 @@ class GalileoLogger {
 
     const span: GalileoSpan = {
       id: spanId,
-      trace_id: this.currentTrace?.id || 'no_trace',
+      trace_id: this.currentTrace?.id ?? 'no_trace',
       parent_id: parentId,
       name: spanName,
       type,
@@ -385,7 +385,7 @@ export async function logQuantitiesToGalileo(
     // Start a trace for the complete calculation workflow
     const _traceId = galileoLogger.startTrace('calculate-alchemical-quantities', {
       dominant_element: metrics.dominantElement,
-      api_endpoint: context.api_endpoint || 'unknown',
+      api_endpoint: context.api_endpoint ?? 'unknown',
     })
 
     // Span 1: Retrieve planetary positions (retriever type)

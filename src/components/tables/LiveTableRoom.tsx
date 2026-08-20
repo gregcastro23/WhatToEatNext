@@ -79,7 +79,7 @@ export function LiveTableRoom({
   const selfMember = viewerId
     ? members.find((m) => m.userId === viewerId)
     : undefined;
-  const displayName = selfMember?.name || selfMember?.displayName || "Anonymous Alchemist";
+  const displayName = selfMember?.name ?? selfMember?.displayName ?? "Anonymous Alchemist";
   const live = tableStatus === "live";
 
   // ── Subscription: this table's session + presence rows only ─────────
@@ -252,7 +252,7 @@ export function LiveTableRoom({
       <ul className="flex flex-wrap gap-4">
         {expected.map((member, index) => {
           const here = !!member.userId && presentUserIds.has(member.userId);
-          const name = member.name || member.displayName || "Guest";
+          const name = member.name ?? member.displayName ?? "Guest";
           return (
             <li key={member.id} className="flex flex-col items-center gap-1.5">
               <PresenceAvatar

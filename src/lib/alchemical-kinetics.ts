@@ -635,12 +635,12 @@ export function validateKineticResults(
 
   // Range checks
   const vMax =
-    kinetics.elementalVelocity?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude || 0), 0) ?? 0
+    kinetics.elementalVelocity?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude ?? 0), 0) ?? 0
   const pMax =
-    kinetics.elementalMomentum?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude || 0), 0) ?? 0
-  const powMax = kinetics.power?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.power || 0), 0) ?? 0
+    kinetics.elementalMomentum?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude ?? 0), 0) ?? 0
+  const powMax = kinetics.power?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.power ?? 0), 0) ?? 0
   const fMax =
-    kinetics.elementalForce?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude || 0), 0) ?? 0
+    kinetics.elementalForce?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude ?? 0), 0) ?? 0
   if (vMax > expectedRanges.velocityMax)
     warnings.push(
       `Velocity magnitude exceeds expected max (${vMax.toFixed(3)} > ${expectedRanges.velocityMax}).`

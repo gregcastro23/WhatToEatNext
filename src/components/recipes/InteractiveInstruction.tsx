@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { FeedAudioPlayer } from "@/components/feed/FeedAudioPlayer";
 
 // ===== Known technique verbs → canonical form =====
 // Keep this list broad; the API resolves to cookingMethod data.
@@ -264,9 +265,16 @@ function InlineTimer({ totalSeconds, label }: { totalSeconds: number; label: str
 interface InteractiveInstructionProps {
   text: string;
   onTechniqueClick: (canonical: string) => void;
+  audioUrl?: string;
+  stepIndex?: number;
 }
 
-export function InteractiveInstruction({ text, onTechniqueClick }: InteractiveInstructionProps) {
+export function InteractiveInstruction({
+  text,
+  onTechniqueClick,
+  audioUrl,
+  stepIndex,
+}: InteractiveInstructionProps) {
   const tokens = useMemo(() => tokenize(text), [text]);
 
   return (
@@ -309,6 +317,15 @@ export function InteractiveInstruction({ text, onTechniqueClick }: InteractiveIn
         }
         return null;
       })}
+      {audioUrl && (
+        <span className="ml-2 inline-flex align-middle">
+          <FeedAudioPlayer
+            src={audioUrl}
+            compact
+            title={stepIndex != null ? `Step ${stepIndex + 1}` : "Voice Step"}
+          />
+        </span>
+      )}
     </span>
   );
 }

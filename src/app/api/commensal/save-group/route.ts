@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
   // profile dual-write below — so a failure anywhere rolls the entire write
   // back. No other pooled connections are acquired inside the transaction
   // (hold-and-acquire under concurrency would starve the small pool).
-  const existingGroups = user.profile.diningGroups || [];
+  const existingGroups = user.profile.diningGroups ?? [];
   let newGroup: DiningGroup | null = null;
 
   const created: GroupMember[] | null =
@@ -201,7 +201,7 @@ export async function POST(request: NextRequest) {
           [
             user.id,
             JSON.stringify(updatedProfile),
-            JSON.stringify(updatedProfile.preferences || {}),
+            JSON.stringify(updatedProfile.preferences ?? {}),
           ],
         );
         await client.query(
@@ -218,10 +218,10 @@ export async function POST(request: NextRequest) {
              updated_at = CURRENT_TIMESTAMP`,
           [
             user.id,
-            updatedProfile.name || "",
-            JSON.stringify(updatedProfile.birthData || {}),
-            JSON.stringify(updatedProfile.natalChart || {}),
-            JSON.stringify(updatedProfile.groupMembers || []),
+            updatedProfile.name ?? "",
+            JSON.stringify(updatedProfile.birthData ?? {}),
+            JSON.stringify(updatedProfile.natalChart ?? {}),
+            JSON.stringify(updatedProfile.groupMembers ?? []),
             JSON.stringify(updatedProfile.diningGroups || []),
             onboardingComplete,
           ],

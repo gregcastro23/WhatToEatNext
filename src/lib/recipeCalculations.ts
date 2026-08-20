@@ -58,7 +58,7 @@ function toTarotRecipe(r: Recipe): TarotRecipe {
     "Prepare with intention, aligned to the card's element.";
   const astro = (r as { astrologicalInfluences?: unknown }).astrologicalInfluences;
   return {
-    id: (r as { id?: string }).id || r.name,
+    id: (r as { id?: string }).id ?? r.name,
     name: r.name,
     ingredients,
     preparation,
@@ -116,8 +116,8 @@ export async function getRecipesForTarotCard(
   try {
     // Element associated with the minor card (Wands→Fire, Cups→Water, …).
     const element =
-      cards.minorCard.element ||
-      SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ||
+      cards.minorCard.element ??
+      SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ??
       "Fire";
 
     // Rank the full recipe catalog by strength in the card's element and

@@ -462,13 +462,13 @@ function calculatePlanetPositionVSOP(planet: string, T: number): EnhancedPlanetP
   }
 
   // Mean longitude
-  const L = elements.L0 + elements.L1 * T + (elements.L2 || 0) * T * T
+  const L = elements.L0 + elements.L1 * T + (elements.L2 ?? 0) * T * T
 
   // Eccentricity
-  const e = elements.e + (elements.e1 || 0) * T
+  const e = elements.e + (elements.e1 ?? 0) * T
 
   // Mean anomaly
-  const M = normalizeDegrees(L - elements.w - (elements.w1 || 0) * T)
+  const M = normalizeDegrees(L - elements.w - (elements.w1 ?? 0) * T)
   const MRad = (M * Math.PI) / 180
 
   // Solve Kepler's equation (simplified)
@@ -481,7 +481,7 @@ function calculatePlanetPositionVSOP(planet: string, T: number): EnhancedPlanetP
   const nu = 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(E / 2))
 
   // True longitude
-  const trueLongitude = normalizeDegrees((nu * 180) / Math.PI + elements.w + (elements.w1 || 0) * T)
+  const trueLongitude = normalizeDegrees((nu * 180) / Math.PI + elements.w + (elements.w1 ?? 0) * T)
 
   // Calculate speed
   const speed = elements.L1 / 365.25
@@ -495,7 +495,7 @@ function calculatePlanetPositionVSOP(planet: string, T: number): EnhancedPlanetP
     planet,
     longitude: trueLongitude,
     latitude: 0, // Simplified
-    distance: elements.a || 1, // Semi-major axis
+    distance: elements.a ?? 1, // Semi-major axis
     speed: Math.abs(speed),
     retrograde,
     sign: position.sign,
@@ -515,7 +515,7 @@ export function calculateEnhancedAscendant(birthInfo: EnhancedBirthInfo): Enhanc
       birthInfo.day,
       birthInfo.hour,
       birthInfo.minute,
-      birthInfo.second || 0
+      birthInfo.second ?? 0
     )
   )
 
@@ -582,7 +582,7 @@ export function calculateAllPlanets(birthInfo: EnhancedBirthInfo): {
       birthInfo.day,
       birthInfo.hour,
       birthInfo.minute,
-      birthInfo.second || 0
+      birthInfo.second ?? 0
     )
   )
 
@@ -697,7 +697,7 @@ export function calculateProfessionalHouses(
       birthInfo.day,
       birthInfo.hour,
       birthInfo.minute,
-      birthInfo.second || 0
+      birthInfo.second ?? 0
     )
   )
 

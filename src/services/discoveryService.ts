@@ -310,7 +310,7 @@ export async function discoverTables(
       photoUrl: row.photo_url ?? undefined,
       host: {
         id: String(row.host_id),
-        name: row.host_name || "A host",
+        name: row.host_name ?? "A host",
         avatarUrl: row.host_avatar ?? null,
         dominantElement: row.host_dominant ?? null,
       },
@@ -504,7 +504,7 @@ export async function discoverPeople(
 
   const cards: DiscoverPersonCard[] = rows.map((row) => ({
     id: String(row.id),
-    name: row.display_name || "An alchemist",
+    name: row.display_name ?? "An alchemist",
     avatarUrl: row.avatar_url ?? null,
     bio: row.bio ?? null,
     dominantElement: row.dominant_element ?? deriveDominant(readBalance(row.balance)),

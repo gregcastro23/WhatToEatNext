@@ -143,7 +143,7 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
 }
 
 function hasDietaryTag(tags: string[] | null | undefined, tag: string): boolean {
-  return (tags || []).some(
+  return (tags ?? []).some(
     (item) => item.toLowerCase().replace(/\s+/g, "") === tag,
   );
 }
@@ -152,32 +152,32 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
   // Prefer the denormalized read_model for performance and data consistency
   if (row.read_model) {
     const rm = row.read_model;
-    const dietaryTags = rm.dietary_tags || row.dietary_tags || [];
+    const dietaryTags = rm.dietary_tags ?? row.dietary_tags ?? [];
     
     // Extract seasons from nested contexts if available
     let seasons: string[] = [];
     if (Array.isArray(rm.contexts)) {
-      seasons = rm.contexts.flatMap((c: any) => c.seasonal || []);
+      seasons = rm.contexts.flatMap((c: any) => c.seasonal ?? []);
     }
     
     // Extract meal types from nested contexts (timeOfDay)
     let mealTypes: string[] = [];
     if (Array.isArray(rm.contexts)) {
-      mealTypes = rm.contexts.flatMap((c: any) => c.timeOfDay || []);
+      mealTypes = rm.contexts.flatMap((c: any) => c.timeOfDay ?? []);
     }
     if (mealTypes.length === 0 && rm.category) {
       mealTypes = [rm.category];
     }
 
-    const imageUrl = getAssetUrl(rm.image_url || row.image_url);
+    const imageUrl = getAssetUrl(rm.image_url ?? row.image_url);
 
     return {
-      id: rm.id || row.id,
-      name: rm.name || row.name,
+      id: rm.id ?? row.id,
+      name: rm.name ?? row.name,
       image: imageUrl,
       imageUrl,
-      description: rm.description || row.description || undefined,
-      cuisine: publicCuisine(rm.cuisine || row.cuisine),
+      description: rm.description ?? row.description ?? undefined,
+      cuisine: publicCuisine(rm.cuisine ?? row.cuisine),
       ingredients: normalizeIngredients(rm.ingredients),
       instructions: normalizeInstructions(rm.instructions),
       prepTime: String(rm.prep_time_minutes ?? row.prep_time_minutes ?? 0),
@@ -194,12 +194,12 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
         Earth: rm.elemental_properties?.earth ?? rm.elemental_properties?.Earth ?? 0.25,
         Air: rm.elemental_properties?.air ?? rm.elemental_properties?.Air ?? 0.25,
       },
-      allergens: rm.allergens || row.allergens || [],
+      allergens: rm.allergens ?? row.allergens ?? [],
       isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
       isVegan: hasDietaryTag(dietaryTags, "vegan"),
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
       isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
-      nutrition: rm.nutritional_profile || row.nutritional_profile || undefined,
+      nutrition: rm.nutritional_profile ?? row.nutritional_profile ?? undefined,
       tags: dietaryTags,
       createdAt: row.created_at ? new Date(row.created_at).toISOString() : undefined,
       updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : undefined,
@@ -207,7 +207,7 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
   }
 
   // Fallback to legacy row-based mapping if read_model is missing
-  const dietaryTags = row.dietary_tags || [];
+  const dietaryTags = row.dietary_tags ?? [];
   const prepTime = row.prep_time_minutes ?? 0;
   const cookTime = row.cook_time_minutes ?? 0;
   const mealTypes = row.meal_types?.length ? row.meal_types : row.category ? [row.category] : [];
@@ -229,9 +229,9 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
     servingSize: row.servings ?? undefined,
     numberOfServings: row.servings ?? undefined,
     mealType: mealTypes,
-    season: row.seasons || undefined,
+    season: row.seasons ?? undefined,
     elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES, // Legacy fallback
-    allergens: row.allergens || [],
+    allergens: row.allergens ?? [],
     isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
     isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree"),
@@ -414,7 +414,7 @@ export class LocalRecipeService {
         const decodedId = decodeURIComponent(recipeId);
         const { getServerRecipes } = await import("@/actions/recipes");
         const recipes = await getServerRecipes();
-        return recipes.find((r) => String(r.id) === decodedId || r.name === decodedId) || null;
+        return recipes.find((r) => String(r.id) === decodedId || r.name === decodedId) ?? null;
       } catch (_innerError) {
         return null;
       }

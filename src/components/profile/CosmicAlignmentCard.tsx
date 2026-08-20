@@ -26,7 +26,7 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
   // Helper to map our alchemical context lunar phase string back to the display format
   const getMoonDisplayData = (phaseStr: string) => {
     const normalized = (phaseStr || 'new moon').toLowerCase().replace(/_/g, ' ');
-    return MOON_PHASES.find(p => p.name.toLowerCase() === normalized) || MOON_PHASES[0];
+    return MOON_PHASES.find(p => p.name.toLowerCase() === normalized) ?? MOON_PHASES[0];
   };
 
   const moonData = getMoonDisplayData(lunarPhase);

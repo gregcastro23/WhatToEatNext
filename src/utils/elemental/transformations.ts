@@ -207,12 +207,12 @@ export function transformSingleItem(
     elementalProperties: transformedElemental,
     alchemicalProperties,
     uniqueness:
-      (item as unknown as LegacyAlchemicalFields).uniqueness || uniqueness,
+      (item as unknown as LegacyAlchemicalFields).uniqueness ?? uniqueness,
     planetaryInfluences:
-      (item as unknown as LegacyAlchemicalFields).planetaryInfluences ||
+      (item as unknown as LegacyAlchemicalFields).planetaryInfluences ??
       Object.keys(planetaryInfluences),
-    _lunarPhaseEffect: context.lunarPhase || "new Moon",
-    _zodiacInfluence: context.currentZodiac || "aries",
+    _lunarPhaseEffect: context.lunarPhase ?? "new Moon",
+    _zodiacInfluence: context.currentZodiac ?? "aries",
     transformationScore: calculateTransformationScore(
       alchemicalProperties,
       uniqueness,
@@ -320,10 +320,10 @@ export function sortByAlchemicalCompatibility(
     // ✅ Pattern MM-1: Safe type assertion for transformation score comparison
     return (items || []).sort((a, b) => {
       const scoreB = Number(
-        (b as unknown as LegacyAlchemicalFields).transformationScore || 0,
+        (b as unknown as LegacyAlchemicalFields).transformationScore ?? 0,
       );
       const scoreA = Number(
-        (a as unknown as LegacyAlchemicalFields).transformationScore || 0,
+        (a as unknown as LegacyAlchemicalFields).transformationScore ?? 0,
       );
       return scoreB - scoreA;
     });
@@ -569,7 +569,7 @@ function calculateAlchemicalProperties(
     const planetProps = PLANETARY_ALCHEMICAL_PROPERTIES[planet];
     if (!planetProps) continue;
 
-    const tarotBoost = tarotPlanetaryBoosts?.[planet] || 0;
+    const tarotBoost = tarotPlanetaryBoosts?.[planet] ?? 0;
     const totalStrength =
       influence.strength + influence.dignityBonus + tarotBoost;
 
@@ -649,7 +649,7 @@ function calculateCompatibilityScore(
 
   // ✅ Pattern MM-1: Safe property access for transformation score
   score +=
-    ((item as unknown as LegacyAlchemicalFields).transformationScore || 0.5) *
+    ((item as unknown as LegacyAlchemicalFields).transformationScore ?? 0.5) *
     0.4;
   totalWeight += 0.4;
 

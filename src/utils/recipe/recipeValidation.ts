@@ -43,7 +43,7 @@ export function validateRecipe(
 
   // Check 2: Ingredient resolution
   const ingredientsResolved = checkIngredients
-    ? validateIngredientResolution(recipe.ingredients || [], errors)
+    ? validateIngredientResolution(recipe.ingredients ?? [], errors)
     : true;
 
   // Check 3: Elemental properties

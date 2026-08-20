@@ -36,7 +36,7 @@ function computeDominantModality(
     Mutable: 0,
   };
   for (const pos of Object.values(positions || {})) {
-    const modality = SIGN_MODALITY[(pos?.sign || "").toLowerCase()];
+    const modality = SIGN_MODALITY[(pos?.sign ?? "").toLowerCase()];
     if (modality) tally[modality] += 1;
   }
   const [top] = (
@@ -304,8 +304,8 @@ export function alchemize(
       const histPos = historicalPositions[planet];
       // Note: handles 12*60=720 arc-minute / 360 degree wrap implicitly
       // as DecimalDegrees are typically 0-360.
-      let delta = (position.exactLongitude || (position.degree + position.minute/60)) -
-                  (histPos.exactLongitude || (histPos.degree + histPos.minute/60));
+      let delta = (position.exactLongitude ?? (position.degree + position.minute/60)) -
+                  (histPos.exactLongitude ?? (histPos.degree + histPos.minute/60));
 
       // Handle the 360 -> 0 wrap
       if (delta > 180) delta -= 360;
@@ -425,8 +425,8 @@ export function alchemize(
       source: "alchemize",
       dominantElement,
       dominantModality: computeDominantModality(planetaryPositions),
-      sunSign: planetaryPositions["Sun"]?.sign || "",
-      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
+      sunSign: planetaryPositions["Sun"]?.sign ?? "",
+      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign ?? "aries"),
       isDiurnal: diurnal,
     },
     ...(degraded ? { degraded } : {}),
@@ -540,8 +540,8 @@ export function alchemizeDetailed(
     if (historicalPositions?.[planet]) {
       const histPos = historicalPositions[planet];
       let delta =
-        (position.exactLongitude || (position.degree + position.minute / 60)) -
-        (histPos.exactLongitude || (histPos.degree + histPos.minute / 60));
+        (position.exactLongitude ?? (position.degree + position.minute / 60)) -
+        (histPos.exactLongitude ?? (histPos.degree + histPos.minute / 60));
       if (delta > 180) delta -= 360;
       if (delta < -180) delta += 360;
       planetaryMomentum[planet] = delta * momentumWeight;
@@ -632,8 +632,8 @@ export function alchemizeDetailed(
       source: "alchemizeDetailed",
       dominantElement,
       dominantModality: computeDominantModality(planetaryPositions),
-      sunSign: planetaryPositions["Sun"]?.sign || "",
-      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
+      sunSign: planetaryPositions["Sun"]?.sign ?? "",
+      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign ?? "aries"),
       isDiurnal: diurnal,
     },
     perPlanet,
@@ -670,7 +670,7 @@ export function loadPlanetaryPositionsWithMeta(): {
     for (const [planetName, planetData] of Object.entries(positions)) {
       const data = planetData as any;
       convertedPositions[planetName] = {
-        sign: normalizeSign(String(data.sign || "")),
+        sign: normalizeSign(String(data.sign ?? "")),
         degree: Number(data.degree) || 0,
         minute: Number(data.minute) || 0,
         isRetrograde: Boolean(data.isRetrograde) || false,

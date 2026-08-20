@@ -51,7 +51,7 @@ export function ComplianceScore({
       </svg>
       <div className={styles.scoreValue}>{normalizedScore.toFixed(0)}%</div>
       {showLabel && (
-        <div className={styles.scoreLabel}>{label || "Compliance"}</div>
+        <div className={styles.scoreLabel}>{label ?? "Compliance"}</div>
       )}
     </div>
   );

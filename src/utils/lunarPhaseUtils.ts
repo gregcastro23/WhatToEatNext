@@ -369,7 +369,7 @@ export function normalizeLunarPhase(
 // convertToLunarPhase function
 export function convertToLunarPhase(input: string | Date | number): LunarPhase {
   if (typeof input === "string")
-    return normalizeLunarPhase(input) || "new moon";
+    return normalizeLunarPhase(input) ?? "new moon";
   if (input instanceof Date) return getLunarPhaseFromDate(input);
   if (typeof input === "number") {
     const d = input % 29.5;
@@ -404,7 +404,7 @@ export function getLunarPhaseWithKinetics(
     ) {
       return applyVelocityBoost(
         phase,
-        kinetics.aspectPhase?.velocityBoost || 0,
+        kinetics.aspectPhase?.velocityBoost ?? 0,
       );
     } else if (
       kinetics.forceClassification === "decelerating" &&
@@ -412,7 +412,7 @@ export function getLunarPhaseWithKinetics(
     ) {
       return applyVelocityBoost(
         phase,
-        kinetics.aspectPhase?.velocityBoost || 0,
+        kinetics.aspectPhase?.velocityBoost ?? 0,
       );
     }
     return phase;
@@ -457,7 +457,7 @@ export function getKineticsEnhancedLunarModifiers(
     const dominant = getDominantElementFromModifiers(enhanced);
     // Latent bug preserved: compared below against aspect-KIND names ("conjunction"/"opposition") which AspectPhase["type"] ("applying"|"exact"|"separating") can never equal, so aspectBoost always hits the 0.05 default. Types-only pass -- behavior unchanged. Typed as unknown so the always-false literal comparisons remain type-legal dead code.
     const aspectPhaseType: unknown =
-      kinetics.aspectPhase?.type || kinetics.aspectPhase;
+      kinetics.aspectPhase?.type ?? kinetics.aspectPhase;
     const aspectBoost =
       aspectPhaseType === "conjunction"
         ? 0.15
@@ -512,7 +512,7 @@ export function calculateLunarKineticsMetrics(
     const phaseVelocity = calculatePhaseVelocity(phase, kinetics);
     // Latent bug preserved: compared below against aspect-KIND names ("conjunction"/"opposition"/"trine"/"square") which AspectPhase["type"] ("applying"|"exact"|"separating") can never equal, so aspectInfluence always hits the 0.2 default. Types-only pass -- behavior unchanged. Typed as unknown so the always-false literal comparisons remain type-legal dead code.
     const aspectPhaseType: unknown =
-      kinetics.aspectPhase?.type || kinetics.aspectPhase;
+      kinetics.aspectPhase?.type ?? kinetics.aspectPhase;
     const aspectInfluence =
       aspectPhaseType === "conjunction"
         ? 1.0

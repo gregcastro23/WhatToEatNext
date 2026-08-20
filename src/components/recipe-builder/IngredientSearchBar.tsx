@@ -94,7 +94,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   isSelected,
   onAdd,
 }) => {
-  const elementalProps = ingredient.elementalProperties || {};
+  const elementalProps = ingredient.elementalProperties ?? {};
 
   // Find dominant element
   let dominant = "";

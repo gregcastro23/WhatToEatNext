@@ -33,7 +33,7 @@ export async function collectFeedback(
     logger.info("Received user feedback", {
       type: feedback.type,
       title: feedback.title,
-      priority: feedback.priority || "medium",
+      priority: feedback.priority ?? "medium",
     });
 
     // In a real application, you would send this to a server/API endpoint

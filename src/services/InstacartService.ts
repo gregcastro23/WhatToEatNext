@@ -99,7 +99,7 @@ class InstacartService {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: title || "Grocery List from Alchm Kitchen",
+        title: title ?? "Grocery List from Alchm Kitchen",
         link_type: "shopping_list",
         line_items: lineItems,
         landing_page_configuration: {
@@ -120,11 +120,11 @@ class InstacartService {
     }
 
     const data = (await response.json()) as InstacartShoppingListResponse & { url?: string };
-    const url = data.url || data.products_link_url;
+    const url = data.url ?? data.products_link_url;
 
     this.trackEvent("instacart_shopping_list_created", {
       itemCount: activeItems.length,
-      title: title || "Grocery List from Alchm Kitchen",
+      title: title ?? "Grocery List from Alchm Kitchen",
     });
 
     logger.info("Shopping list created successfully", { itemCount: activeItems.length, url });
@@ -160,7 +160,7 @@ class InstacartService {
       const item: InstacartLineItem = {
         name: ing.name,
         display_text: ing.amount
-          ? `${ing.amount} ${ing.unit || "each"} ${ing.name}`
+          ? `${ing.amount} ${ing.unit ?? "each"} ${ing.name}`
           : ing.name,
       };
 
@@ -168,7 +168,7 @@ class InstacartService {
         item.line_item_measurements = [
           {
             quantity: ing.amount,
-            unit: this.mapToIdpUnit(ing.unit || "each"),
+            unit: this.mapToIdpUnit(ing.unit ?? "each"),
           },
         ];
       }
@@ -185,7 +185,7 @@ class InstacartService {
     });
 
     const { included: filteredLineItems, excluded: pantryExcludedItems } =
-      splitItemsByInventory(lineItems, recipe.inventory || []);
+      splitItemsByInventory(lineItems, recipe.inventory ?? []);
 
     if (filteredLineItems.length === 0) {
       throw new Error("All recipe ingredients are already covered by pantry inventory.");
@@ -198,7 +198,7 @@ class InstacartService {
         title: recipe.name,
         image_url: recipe.imageUrl,
         author: "Alchm Kitchen",
-        servings: recipe.servings || 4,
+        servings: recipe.servings ?? 4,
         cooking_time: recipe.cookingTime,
         external_reference_id: recipe.id,
         content_creator_credit_info: "Recipe by Alchm Kitchen — alchm.kitchen",
@@ -226,7 +226,7 @@ class InstacartService {
     }
 
     const data = (await response.json()) as InstacartRecipeResponse & { url?: string };
-    const url = data.url || data.products_link_url;
+    const url = data.url ?? data.products_link_url;
 
     // Cache the URL (inventory-aware)
     const finalCacheKey = this.getRecipeCacheKey(recipe.id, recipe.inventory);
@@ -389,7 +389,7 @@ class InstacartService {
     // Store in sessionStorage for debugging/demo purposes
     if (typeof window !== "undefined") {
       try {
-        const existing = JSON.parse(sessionStorage.getItem("instacart_events") || "[]") as InstacartEvent[];
+        const existing = JSON.parse(sessionStorage.getItem("instacart_events") ?? "[]") as InstacartEvent[];
         existing.push(event);
         // Keep last 50 events
         if (existing.length > 50) existing.splice(0, existing.length - 50);
@@ -406,7 +406,7 @@ class InstacartService {
   public getSessionEvents(): InstacartEvent[] {
     if (typeof window === "undefined") return [];
     try {
-      return JSON.parse(sessionStorage.getItem("instacart_events") || "[]") as InstacartEvent[];
+      return JSON.parse(sessionStorage.getItem("instacart_events") ?? "[]") as InstacartEvent[];
     } catch {
       return [];
     }

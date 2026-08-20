@@ -75,7 +75,7 @@ export const calculateMonicaConstant = async (
       reactivity,
       0.5,
     );
-    return esmsResult.monica || gregsEnergy * reactivity * kalchm * 0.1;
+    return esmsResult.monica ?? gregsEnergy * reactivity * kalchm * 0.1;
   });
 };
 
@@ -186,10 +186,10 @@ export const getPersonalizedRecommendations = async (preferences: {
     current_time: new Date().toISOString(),
     location: { latitude: 40.7128, longitude: -74.006 }, // Default to NYC
     current_elements: preferences.currentElements,
-    cuisine_preferences: preferences.cuisinePreferences || [],
-    dietary_restrictions: preferences.dietaryRestrictions || [],
+    cuisine_preferences: preferences.cuisinePreferences ?? [],
+    dietary_restrictions: preferences.dietaryRestrictions ?? [],
     max_prep_time: preferences.maxPrepTime,
-    limit: preferences.limit || 10,
+    limit: preferences.limit ?? 10,
   };
 
   const cacheKey = `recommendations_${JSON.stringify(request)}`;

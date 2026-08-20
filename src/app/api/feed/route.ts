@@ -109,7 +109,7 @@ export const GET = withObservability(
     try {
       const { searchParams } = new URL(request.url);
       const limit = Math.min(parseInt(searchParams.get("limit") ?? "20", 10), 100);
-      const offset = parseInt(searchParams.get("offset") || "0", 10);
+      const offset = parseInt(searchParams.get("offset") ?? "0", 10);
 
       const events = await redisCached(
         `feed:recent:${limit}:${offset}`,
@@ -149,8 +149,8 @@ export const POST = withObservability(
 
     try {
       const preview = await extractWebhookPreview(request);
-    agentEmail = preview.agentEmail || agentEmail;
-    eventType = preview.eventType || eventType;
+    agentEmail = preview.agentEmail ?? agentEmail;
+    eventType = preview.eventType ?? eventType;
 
     if (!isAuthorizedAgentRequest(request.headers.get("Authorization"))) {
       rememberFeedEmit(eventType, agentEmail, 401);
@@ -178,8 +178,8 @@ export const POST = withObservability(
     );
     const metadataPayload = isRecord(body.metadataPayload) ? body.metadataPayload : {};
 
-    agentEmail = incomingAgentEmail || agentEmail;
-    eventType = incomingEventType || eventType;
+    agentEmail = incomingAgentEmail ?? agentEmail;
+    eventType = incomingEventType ?? eventType;
 
     if (!incomingAgentEmail || !incomingEventType) {
       rememberFeedEmit(eventType, agentEmail, 400);
@@ -321,20 +321,20 @@ export const POST = withObservability(
           incomingEventType === "made_it")
       ) {
         const title =
-          asString(metadataPayload.insightTitle) ||
-          asString(metadataPayload.dishName) ||
-          asString(metadataPayload.recipeName) ||
-          `New Activity from ${user.profile?.name || "an Agent"}`;
+          asString(metadataPayload.insightTitle) ??
+          asString(metadataPayload.dishName) ??
+          asString(metadataPayload.recipeName) ??
+          `New Activity from ${user.profile?.name ?? "an Agent"}`;
         const message =
-          asString(metadataPayload.insightContent) ||
-          asString(metadataPayload.description) ||
-          asString(metadataPayload.review) ||
+          asString(metadataPayload.insightContent) ??
+          asString(metadataPayload.description) ??
+          asString(metadataPayload.review) ??
           `A Planetary Agent has shared a new ${incomingEventType.replace("_", " ")}.`;
 
         const { executeQuery } = await import("@/lib/database");
         const metadata = JSON.stringify({
           ...metadataPayload,
-          agentName: user.profile?.name || normalizedEmail,
+          agentName: user.profile?.name ?? normalizedEmail,
           eventType: incomingEventType,
         });
         // Unique text id per row (matches the notif_<ts>_<rand> service

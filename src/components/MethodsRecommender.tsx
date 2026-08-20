@@ -48,18 +48,18 @@ export default function MethodsRecommender() {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       const astroState = {
         // @ts-expect-error - Auto-fixed by script
-        zodiacSign: currentPlanetaryAlignment.sun?.sign || 'Aries',
+        zodiacSign: currentPlanetaryAlignment.sun?.sign ?? 'Aries',
         // @ts-expect-error - Auto-fixed by script
-        lunarPhase: currentPlanetaryAlignment.moon?.phase || 'New Moon',
+        lunarPhase: currentPlanetaryAlignment.moon?.phase ?? 'New Moon',
         elementalState: {
           // @ts-expect-error - Auto-fixed by script
-          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
+          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
           // @ts-expect-error - Auto-fixed by script
-          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
+          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
           // @ts-expect-error - Auto-fixed by script
-          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
+          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
           // @ts-expect-error - Auto-fixed by script
-          Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2
+          Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2
         },
         planets: currentPlanetaryAlignment
       };

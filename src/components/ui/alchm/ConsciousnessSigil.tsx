@@ -138,13 +138,13 @@ export function ConsciousnessSigil({
   const [hover, setHover] = useState<SigilHoverInfo | null>(null);
 
   // Normalize inputs across mock data and real DB formats
-  const signature = agent.signature || agent.consciousness?.signature || "ALCH·KTC·0000·∇0·BAL";
+  const signature = agent.signature ?? agent.consciousness?.signature ?? "ALCH·KTC·0000·∇0·BAL";
   const entropy = typeof agent.entropy === "number" ? agent.entropy : 0.35;
   
-  const rawDominant = agent.dominantEl || agent.consciousness?.dominantElement || "air";
+  const rawDominant = agent.dominantEl ?? agent.consciousness?.dominantElement ?? "air";
   const dominantEl = (rawDominant.toLowerCase() as "fire" | "water" | "earth" | "air");
 
-  const rawModality = agent.modality || agent.consciousness?.dominantModality || "fixed";
+  const rawModality = agent.modality ?? agent.consciousness?.dominantModality ?? "fixed";
   const modality = (rawModality.toLowerCase() as "cardinal" | "fixed" | "mutable");
 
   const h = sigHash(signature);

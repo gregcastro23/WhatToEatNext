@@ -120,7 +120,7 @@ class PersonalizedRecommendationService {
   ): Promise<PersonalizedRecommendation> {
     // Get or calculate chart comparison
     const chartComparison =
-      context.chartComparison ||
+      context.chartComparison ??
       (await this.getChartComparison(context.natalChart, context.momentChart));
 
     // Get personalization boost
@@ -163,7 +163,7 @@ class PersonalizedRecommendationService {
   ): Promise<PersonalizedRecommendation[]> {
     // Get or calculate chart comparison once for all items
     const chartComparison =
-      context.chartComparison ||
+      context.chartComparison ??
       (await this.getChartComparison(context.natalChart, context.momentChart));
 
     // Score all items

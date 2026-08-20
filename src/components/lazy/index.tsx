@@ -93,7 +93,7 @@ export class LazyComponentErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        this.props.fallback || (
+        this.props.fallback ?? (
           <div
             style={{
               padding: "20px",
@@ -109,7 +109,7 @@ export class LazyComponentErrorBoundary extends React.Component<
               Component Failed to Load
             </div>
             <div style={{ fontSize: "14px" }}>
-              {this.state.error?.message || "An unexpected error occurred"}
+              {this.state.error?.message ?? "An unexpected error occurred"}
             </div>
           </div>
         )

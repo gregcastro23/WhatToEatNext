@@ -233,7 +233,7 @@ export function aggregateIngredientElementals(
     }
 
     // 2. Fall back to the ingredient's provided elementals or the profile's elementals
-    const elementals = recipeIngredient.elementalProperties || resolvedProfile?.elementalProperties;
+    const elementals = recipeIngredient.elementalProperties ?? resolvedProfile?.elementalProperties;
 
     if (!elementals) continue;
 

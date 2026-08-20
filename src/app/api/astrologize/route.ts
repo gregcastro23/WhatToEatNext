@@ -24,7 +24,7 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
 
-const RAILWAY_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
+const RAILWAY_URL = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 const { HONO_API_URL } = process.env;
 

@@ -132,7 +132,7 @@ export const performanceMonitoring = {
     // Store performance data for optimization
     if (typeof window !== "undefined") {
       const perfData = JSON.parse(
-        localStorage.getItem("modulePerformance") || "{}",
+        localStorage.getItem("modulePerformance") ?? "{}",
       );
       perfData[moduleName] = {
         loadTime,
@@ -145,7 +145,7 @@ export const performanceMonitoring = {
   getPerformanceRecommendations: () => {
     if (typeof window === "undefined") return [];
     const perfData = JSON.parse(
-      localStorage.getItem("modulePerformance") || "{}",
+      localStorage.getItem("modulePerformance") ?? "{}",
     );
     const recommendations: string[] = [];
 

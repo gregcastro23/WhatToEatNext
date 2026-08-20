@@ -82,8 +82,8 @@ export async function calculateMomentChart(
   dateTime?: Date,
   location?: { latitude: number; longitude: number },
 ): Promise<MomentChart> {
-  const targetDateTime = dateTime || new Date();
-  const targetLocation = location || {
+  const targetDateTime = dateTime ?? new Date();
+  const targetLocation = location ?? {
     latitude: 40.7498, // Default: New York
     longitude: -73.7976,
   };
@@ -383,7 +383,7 @@ export async function compareCharts(
   momentChart?: MomentChart,
 ): Promise<ChartComparison> {
   // Calculate moment chart if not provided
-  const moment = momentChart || (await calculateMomentChart());
+  const moment = momentChart ?? (await calculateMomentChart());
 
   // Safely extract planetary positions from legacy formats if needed
   const safePlanetaryPositions = extractPlanetaryPositions(natalChart);
@@ -541,7 +541,7 @@ export function getPersonalizationBoost(
   const elements: Element[] = ["Fire", "Water", "Earth", "Air"];
   elements.forEach((element) => {
     const itemValue = itemElemental[element];
-    const boostValue = chartComparison.elementalBoosts[element] || 0;
+    const boostValue = chartComparison.elementalBoosts[element] ?? 0;
     boost += itemValue * boostValue;
   });
 
@@ -561,7 +561,7 @@ export function getPersonalizationBoost(
   if (totalAlchem > 0) {
     alchemProps.forEach((prop) => {
       const normalizedValue = itemAlchemical[prop] / totalAlchem;
-      const boostValue = chartComparison.alchemicalBoosts[prop] || 0;
+      const boostValue = chartComparison.alchemicalBoosts[prop] ?? 0;
       boost += normalizedValue * boostValue;
     });
   }

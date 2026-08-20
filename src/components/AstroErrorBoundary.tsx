@@ -35,7 +35,7 @@ class AstroErrorBoundary extends Component<Props, State> {
             <AlertTriangle className="w-5 h-5 mr-2 text-amber-300" />
             <div>
               <p className="font-semibold">Astrological calculation error</p>
-              <p className="text-sm">{this.state.error?.message || 'Something went wrong with astronomical calculations'}</p>
+              <p className="text-sm">{this.state.error?.message ?? 'Something went wrong with astronomical calculations'}</p>
             </div>
           </div>
           <button 

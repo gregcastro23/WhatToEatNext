@@ -357,7 +357,7 @@ export function generateEnhancedCuisineRecommendations(
 
     const rawScore =
       (elementalCompatibility * scoringWeights.elemental +
-        (alchemicalCompatibility || 0) * scoringWeights.alchemical +
+        (alchemicalCompatibility ?? 0) * scoringWeights.alchemical +
         kineticScore * scoringWeights.kinetic +
         thermodynamicScore * scoringWeights.thermodynamic +
         culturalAlignment * scoringWeights.cultural +

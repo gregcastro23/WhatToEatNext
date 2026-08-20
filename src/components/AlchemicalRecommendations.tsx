@@ -60,7 +60,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
         if (planet in positions) {
           // @ts-expect-error - Auto-fixed by script
-          positions[planet as RulingPlanet] = data.degree || 0;
+          positions[planet as RulingPlanet] = data.degree ?? 0;
         }
       });
       
@@ -83,10 +83,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, [planetPositions, alchemicalContext.planetaryPositions]);
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
-  const resolvedCurrentZodiac = currentZodiac || alchemicalContext.zodiacSign || null;
+  const resolvedCurrentZodiac = currentZodiac ?? alchemicalContext.zodiacSign || null;
   
   // Fix the lunar phase type resolution
-  const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase || 
+  const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase ?? 
     (alchemicalContext.lunarPhase as LunarPhaseWithSpaces) || 
     'new moon';
   
@@ -107,8 +107,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProps = (ingredient).elementalProperties;
       } else {
         // Calculate based on ingredient category and attributes
-        const category = (ingredient).category || '';
-        const rulingPlanets = (ingredient).astrologicalProfile?.rulingPlanets || [];
+        const category = (ingredient).category ?? '';
+        const rulingPlanets = (ingredient).astrologicalProfile?.rulingPlanets ?? [];
         
         // Start with empty properties
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -178,9 +178,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       return {
         id: key,
         // @ts-expect-error - Auto-fixed by script
-        name: ingredient.name || key,
+        name: ingredient.name ?? key,
         elementalProperties: elementalProps,
-        qualities: (ingredient).qualities || [],
+        qualities: (ingredient).qualities ?? [],
         modality: (ingredient).modality
       };
     });
@@ -197,7 +197,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = ((method as any).name || key).toLowerCase();
+        const methodName = ((method as any).name ?? key).toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -242,7 +242,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (method as any).name || key,
+        name: (method as any).name ?? key,
         elementalProperties: elementalEffect
       };
     }), []);
@@ -260,7 +260,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine).name || key).toLowerCase();
+        const cuisineName = ((cuisine).name ?? key).toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -311,7 +311,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (cuisine).name || key,
+        name: (cuisine).name ?? key,
         elementalProperties: elementalState
       };
     });
@@ -323,8 +323,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     
     return ingredientsArray.filter(ingredient => {
       const elementalProps = ingredient.elementalProperties;
-      const qualities = ingredient.qualities || [];
-      const modality = ingredient.modality || 
+      const qualities = ingredient.qualities ?? [];
+      const modality = ingredient.modality ?? 
         // @ts-expect-error - Auto-fixed by script
         determineIngredientModality(elementalProps, qualities);
       return modality === modalityFilter;
@@ -456,7 +456,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <label htmlFor="recommendation-element-filter">Element:</label>
             <select 
               id="recommendation-element-filter"
-              value={targetElement || ''} 
+              value={targetElement ?? ''} 
               onChange={(e) => setTargetElement(e.target.value as ElementalCharacter || undefined)}
             >
               <option value="">Any Element</option>
@@ -471,7 +471,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <label htmlFor="recommendation-property-filter">Alchemical Property:</label>
             <select 
               id="recommendation-property-filter"
-              value={targetProperty || ''} 
+              value={targetProperty ?? ''} 
               onChange={(e) => setTargetProperty(e.target.value as AlchemicalProperty || undefined)}
             >
               <option value="">Any Property</option>
@@ -525,7 +525,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     // @ts-expect-error - Auto-fixed by script
-                    <span className={`modality-badge ${ingredient.modality?.toLowerCase() || ''}`}>
+                    <span className={`modality-badge ${ingredient.modality?.toLowerCase() ?? ''}`}>
                       // @ts-expect-error - Auto-fixed by script
                       {ingredient.modality}
                     </span>
@@ -560,7 +560,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     // @ts-expect-error - Auto-fixed by script
-                    <span className={`modality-badge ${method.modality?.toLowerCase() || ''}`}>
+                    <span className={`modality-badge ${method.modality?.toLowerCase() ?? ''}`}>
                       // @ts-expect-error - Auto-fixed by script
                       {method.modality}
                     </span>
@@ -595,7 +595,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     // @ts-expect-error - Auto-fixed by script
-                    <span className={`modality-badge ${cuisine.modality?.toLowerCase() || ''}`}>
+                    <span className={`modality-badge ${cuisine.modality?.toLowerCase() ?? ''}`}>
                       // @ts-expect-error - Auto-fixed by script
                       {cuisine.modality}
                     </span>

@@ -378,7 +378,7 @@ export class FoodAlchemySystem {
   ): CompatibilityScore {
     // Normalize planetary positions for robust, type-safe access
     const normalizedPositions = normalizePlanetaryPositions(
-      planetaryPositions || {},
+      planetaryPositions ?? {},
     );
     // Use normalizedPositions in all downstream logic
     // Calculate elemental match (45% weight)
@@ -440,7 +440,7 @@ export class FoodAlchemySystem {
         planetaryDayMatch: planetaryDayMatch * 0.35,
         planetaryHourMatch: planetaryHourMatch * 0.2,
         affinityBonus,
-        dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
+        dignityBonus: (dayDignityBonus ?? 0) + (hourDignityBonus ?? 0),
         decanBonus: dayDecanBonus,
         aspectBonus,
       },
@@ -470,7 +470,7 @@ export class FoodAlchemySystem {
     planetaryPositions?: Record<string, { sign: string; degree: number }>,
   ): { score: number; dignityBonus?: number; decanBonus?: number } {
     const normalizedPositions = normalizePlanetaryPositions(
-      planetaryPositions || {},
+      planetaryPositions ?? {},
     );
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
@@ -589,9 +589,9 @@ export class FoodAlchemySystem {
     }
 
     // Apply aspect effects if available
-    if ((aspects || []).length > 0) {
+    if ((aspects ?? []).length > 0) {
       // Find aspects involving the planetary hour ruler
-      const hourAspects = (aspects || []).filter((a) =>
+      const hourAspects = (aspects ?? []).filter((a) =>
         a.planets.includes(planetaryHour),
       );
 
@@ -822,9 +822,9 @@ export class FoodAlchemySystem {
       }
 
       // Add aspect-based recommendations
-      if ((aspects || []).length > 0) {
+      if ((aspects ?? []).length > 0) {
         // Find relevant aspects involving the food's ruling planet
-        const foodPlanetAspects = (aspects || []).filter((a) =>
+        const foodPlanetAspects = (aspects ?? []).filter((a) =>
           a.planets.includes(food.planetaryRuler),
         );
 

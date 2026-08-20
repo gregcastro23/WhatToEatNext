@@ -453,7 +453,7 @@ export class IngredientFilterService {
     return ingredients.filter((ingredient) => {
       // Safe access to seasonality property with type assertion
       const seasonality =
-        (ingredient as unknown as { seasonality?: string[] }).seasonality || [];
+        (ingredient as unknown as { seasonality?: string[] }).seasonality ?? [];
 
       // If no seasonality data, assume available year-round
       if (
@@ -483,8 +483,8 @@ export class IngredientFilterService {
     return ingredients.filter((ingredient) => {
       // Safe access to ingredient name with type assertion
       const ingredientName =
-        (ingredient as unknown as { name?: string; id?: string }).name ||
-        (ingredient as unknown as { id?: string }).id ||
+        (ingredient as unknown as { name?: string; id?: string }).name ??
+        (ingredient as unknown as { id?: string }).id ??
         "";
 
       // Check if ingredient name matches query
@@ -498,7 +498,7 @@ export class IngredientFilterService {
       // Check if any preparation notes match (if available)
       const preparationNotes =
         (ingredient as unknown as { preparationNotes?: string })
-          .preparationNotes || "";
+          .preparationNotes ?? "";
       if (typeof preparationNotes === "string" && preparationNotes.length > 0) {
         if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
           return true;
@@ -507,7 +507,7 @@ export class IngredientFilterService {
 
       // Check if any affinities match (if available)
       const affinities =
-        (ingredient as unknown as { affinities?: unknown[] }).affinities || [];
+        (ingredient as unknown as { affinities?: unknown[] }).affinities ?? [];
       if (Array.isArray(affinities) && affinities.length > 0) {
         return affinities.some(
           (affinity: unknown) =>
@@ -530,8 +530,8 @@ export class IngredientFilterService {
     return ingredients.filter((ingredient) => {
       // Safe access to ingredient name with type assertion
       const ingredientName =
-        (ingredient as unknown as { name?: string; id?: string }).name ||
-        (ingredient as unknown as { id?: string }).id ||
+        (ingredient as unknown as { name?: string; id?: string }).name ??
+        (ingredient as unknown as { id?: string }).id ??
         "";
 
       return !excludedIngredients.some(
@@ -607,7 +607,7 @@ export class IngredientFilterService {
     ) {
       score +=
         ((nutrition as unknown as { vitamin_density?: number })
-          .vitamin_density || 0) * 2;
+          .vitamin_density ?? 0) * 2;
     }
 
     // Penalize for very high calories

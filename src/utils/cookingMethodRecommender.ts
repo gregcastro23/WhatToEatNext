@@ -191,17 +191,17 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       const baseMethod = method as unknown as BaseCookingMethod;
       acc[id] = {
         id,
-        name: baseMethod.name || id,
-        description: baseMethod.description || "",
-        elementalEffect: baseMethod.elementalEffect || {
+        name: baseMethod.name ?? id,
+        description: baseMethod.description ?? "",
+        elementalEffect: baseMethod.elementalEffect ?? {
           Fire: 0,
           Water: 0,
           Earth: 0,
           Air: 0,
         },
         duration: { min: 10, max: 30 }, // Default duration
-        suitable_for: baseMethod.suitable_for || [],
-        benefits: baseMethod.benefits || [],
+        suitable_for: baseMethod.suitable_for ?? [],
+        benefits: baseMethod.benefits ?? [],
         variations: [], // Initialize empty variations array
       };
       return acc;
@@ -222,36 +222,36 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         if (methods[culturalMethod.relatedToMainMethod]) {
           // Add to variations if it doesn't exist yet
           const existingVariations =
-            methods[culturalMethod.relatedToMainMethod].variations || [];
+            methods[culturalMethod.relatedToMainMethod].variations ?? [];
           if (!existingVariations.some((v) => v.id === culturalMethod.id)) {
             methods[culturalMethod.relatedToMainMethod].variations = [
               ...existingVariations,
               {
-                id: culturalMethod.id || "",
-                name: culturalMethod.variationName || culturalMethod.name || "",
-                description: culturalMethod.description || "",
-                elementalEffect: culturalMethod.elementalProperties || {
+                id: culturalMethod.id ?? "",
+                name: culturalMethod.variationName ?? culturalMethod.name ?? "",
+                description: culturalMethod.description ?? "",
+                elementalEffect: culturalMethod.elementalProperties ?? {
                   Fire: 0,
                   Water: 0,
                   Earth: 0,
                   Air: 0,
                 },
-                toolsRequired: culturalMethod.toolsRequired || [],
-                bestFor: culturalMethod.bestFor || [],
+                toolsRequired: culturalMethod.toolsRequired ?? [],
+                bestFor: culturalMethod.bestFor ?? [],
                 culturalOrigin: culturalMethod.culturalOrigin,
                 astrologicalInfluences: {
                   favorableZodiac:
-                    culturalMethod.astrologicalInfluences?.favorableZodiac ||
+                    culturalMethod.astrologicalInfluences?.favorableZodiac ??
                     [],
                   unfavorableZodiac:
                     culturalMethod.astrologicalInfluences
-                      ?.unfavorableZodiac || [],
+                      ?.unfavorableZodiac ?? [],
                   dominantPlanets:
-                    culturalMethod.astrologicalInfluences?.dominantPlanets ||
+                    culturalMethod.astrologicalInfluences?.dominantPlanets ??
                     [],
                 },
                 duration: { min: 10, max: 30 },
-                suitable_for: culturalMethod.bestFor || [],
+                suitable_for: culturalMethod.bestFor ?? [],
                 benefits: [],
                 relatedToMainMethod: culturalMethod.relatedToMainMethod,
               },
@@ -264,32 +264,32 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
 
       // Only add as standalone if it doesn't already exist and isn't a variation
       if (
-        !methods[culturalMethod.id || ""] &&
+        !methods[culturalMethod.id ?? ""] &&
         !culturalMethod.relatedToMainMethod
       ) {
-        methods[culturalMethod.id || ""] = {
-          id: culturalMethod.id || "",
-          name: culturalMethod.name || "",
-          description: culturalMethod.description || "",
-          elementalEffect: culturalMethod.elementalProperties || {
+        methods[culturalMethod.id ?? ""] = {
+          id: culturalMethod.id ?? "",
+          name: culturalMethod.name ?? "",
+          description: culturalMethod.description ?? "",
+          elementalEffect: culturalMethod.elementalProperties ?? {
             Fire: 0,
             Water: 0,
             Earth: 0,
             Air: 0,
           },
-          toolsRequired: culturalMethod.toolsRequired || [],
-          bestFor: culturalMethod.bestFor || [],
+          toolsRequired: culturalMethod.toolsRequired ?? [],
+          bestFor: culturalMethod.bestFor ?? [],
           culturalOrigin: culturalMethod.culturalOrigin,
           astrologicalInfluences: {
             favorableZodiac:
-              culturalMethod.astrologicalInfluences?.favorableZodiac || [],
+              culturalMethod.astrologicalInfluences?.favorableZodiac ?? [],
             unfavorableZodiac:
-              culturalMethod.astrologicalInfluences?.unfavorableZodiac || [],
+              culturalMethod.astrologicalInfluences?.unfavorableZodiac ?? [],
             dominantPlanets:
-              culturalMethod.astrologicalInfluences?.dominantPlanets || [],
+              culturalMethod.astrologicalInfluences?.dominantPlanets ?? [],
           },
           duration: { min: 10, max: 30 },
-          suitable_for: culturalMethod.bestFor || [],
+          suitable_for: culturalMethod.bestFor ?? [],
           benefits: [],
           variations: [], // Initialize empty variations array
         };
@@ -330,7 +330,7 @@ export function getMethodThermodynamics(
 ): BasicThermodynamicProperties {
   // ✅ Pattern MM-1: Safe type assertion for method with thermodynamics
   const methodData = method as unknown as MethodWithThermodynamics;
-  const methodName = methodData.name || "";
+  const methodName = methodData.name ?? "";
   // ✅ Pattern KK-1: Safe string conversion for method name
   const methodNameLower = String(methodName || "").toLowerCase();
 
@@ -611,8 +611,8 @@ function calculatePlanetaryDayInfluence(
   // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
   const methodWithProps = method as unknown as MethodWithElementalProperties;
   const methodElementals: ElementalProperties =
-    methodWithProps.elementalProperties ||
-    methodWithProps.elementalEffect ||
+    methodWithProps.elementalProperties ??
+    methodWithProps.elementalEffect ??
     { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   const diurnalMatch = methodElementals[diurnalElement] || 0;
   const nocturnalMatch = methodElementals[nocturnalElement] || 0;
@@ -659,8 +659,8 @@ function calculatePlanetaryHourInfluence(
   // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
   const methodWithProps = method as unknown as MethodWithElementalProperties;
   const methodElementals: ElementalProperties =
-    methodWithProps.elementalProperties ||
-    methodWithProps.elementalEffect ||
+    methodWithProps.elementalProperties ??
+    methodWithProps.elementalEffect ??
     { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   const elementalMatch = methodElementals[relevantElement] || 0;
 
@@ -721,52 +721,52 @@ export async function getRecommendedCookingMethods(
     : methodsArray;
 
   // Check if Venus is one of the active planets
-  const isVenusActive = planets?.includes("Venus") || false;
+  const isVenusActive = planets?.includes("Venus") ?? false;
 
   // Check if Venus is retrograde
-  const isVenusRetrograde = planets?.includes("Venus-R") || false;
+  const isVenusRetrograde = planets?.includes("Venus-R") ?? false;
 
   // Check if Mars is one of the active planets
-  const isMarsActive = planets?.includes("Mars") || false;
+  const isMarsActive = planets?.includes("Mars") ?? false;
 
   // Check if Mars is retrograde
-  const _isMarsRetrograde = planets?.includes("Mars-R") || false;
+  const _isMarsRetrograde = planets?.includes("Mars-R") ?? false;
 
   // Check if Mercury is one of the active planets
-  const isMercuryActive = planets?.includes("Mercury") || false;
+  const isMercuryActive = planets?.includes("Mercury") ?? false;
 
   // Check if Mercury is retrograde
-  const _isMercuryRetrograde = planets?.includes("Mercury-R") || false;
+  const _isMercuryRetrograde = planets?.includes("Mercury-R") ?? false;
 
   // Check if Jupiter is one of the active planets
-  const isJupiterActive = planets?.includes("Jupiter") || false;
+  const isJupiterActive = planets?.includes("Jupiter") ?? false;
 
   // Check if Jupiter is retrograde
-  const _isJupiterRetrograde = planets?.includes("Jupiter-R") || false;
+  const _isJupiterRetrograde = planets?.includes("Jupiter-R") ?? false;
 
   // Check if Saturn is one of the active planets
-  const isSaturnActive = planets?.includes("Saturn") || false;
+  const isSaturnActive = planets?.includes("Saturn") ?? false;
 
   // Check if Saturn is retrograde
-  const _isSaturnRetrograde = planets?.includes("Saturn-R") || false;
+  const _isSaturnRetrograde = planets?.includes("Saturn-R") ?? false;
 
   // Check if Uranus is one of the active planets
-  const isUranusActive = planets?.includes("Uranus") || false;
+  const isUranusActive = planets?.includes("Uranus") ?? false;
 
   // Check if Uranus is retrograde
-  const _isUranusRetrograde = planets?.includes("Uranus-R") || false;
+  const _isUranusRetrograde = planets?.includes("Uranus-R") ?? false;
 
   // Check if Neptune is one of the active planets
-  const isNeptuneActive = planets?.includes("Neptune") || false;
+  const isNeptuneActive = planets?.includes("Neptune") ?? false;
 
   // Check if Neptune is retrograde
-  const _isNeptuneRetrograde = planets?.includes("Neptune-R") || false;
+  const _isNeptuneRetrograde = planets?.includes("Neptune-R") ?? false;
 
   // Check if Pluto is one of the active planets
-  const isPlutoActive = planets?.includes("Pluto") || false;
+  const isPlutoActive = planets?.includes("Pluto") ?? false;
 
   // Check if Pluto is retrograde
-  const _isPlutoRetrograde = planets?.includes("Pluto-R") || false;
+  const _isPlutoRetrograde = planets?.includes("Pluto-R") ?? false;
 
   // Get Venus transit data for current zodiac sign if applicable
   // ✅ Pattern MM-1: Safe type assertion for planetary data access
@@ -954,7 +954,7 @@ export async function getRecommendedCookingMethods(
     // Skip if we already have a similar method
     // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
     const methodWithProps = method as unknown as MethodWithElementalProperties;
-    const methodNameNorm = normalizeMethodName(methodWithProps.name || "");
+    const methodNameNorm = normalizeMethodName(methodWithProps.name ?? "");
     if (
       Object.keys(recommendationsMap).some((existingMethod) =>
         areSimilarMethods(existingMethod, methodNameNorm),
@@ -984,8 +984,8 @@ export async function getRecommendedCookingMethods(
       methodWithProps.elementalEffect ||
       methodWithProps.elementalProperties
     ) {
-      const elementalProps = methodWithProps.elementalEffect ||
-        methodWithProps.elementalProperties || {
+      const elementalProps = methodWithProps.elementalEffect ??
+        methodWithProps.elementalProperties ?? {
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -1141,7 +1141,7 @@ export async function getRecommendedCookingMethods(
       seasonalScore += 0.15;
     } else {
       // Enhanced default seasonal preferences
-      const methodName = methodWithProps.name?.toLowerCase() || "";
+      const methodName = methodWithProps.name?.toLowerCase() ?? "";
       if (season === "winter") {
         if (
           methodName.includes("brais") ||
@@ -1193,7 +1193,7 @@ export async function getRecommendedCookingMethods(
       toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1;
     } else {
       // Enhanced assumptions about basic tools availability
-      const methodName = methodWithProps.name?.toLowerCase() || "";
+      const methodName = methodWithProps.name?.toLowerCase() ?? "";
       if (
         methodName.includes("sous_vide") ||
         methodName.includes("sous vide")
@@ -1588,8 +1588,8 @@ export async function getRecommendedCookingMethods(
     if (currentZodiac && method.astrologicalInfluences?.dominantPlanets) {
       const zodiacElement = getElementForSign(currentZodiac);
       if (zodiacElement) {
-        const methodElementals = methodWithProps.elementalEffect ||
-          methodWithProps.elementalProperties ||
+        const methodElementals = methodWithProps.elementalEffect ??
+          methodWithProps.elementalProperties ??
           { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         const methodElementValue = methodElementals[zodiacElement] || 0;
 
@@ -1662,7 +1662,7 @@ export async function getRecommendedCookingMethods(
   });
 
   // Sort by score (highest first)
-  return recommendations.sort((a, b) => (b.score || 0) - (a.score || 0));
+  return recommendations.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 }
 
 function _calculateLunarMethodAffinity(
@@ -1672,7 +1672,7 @@ function _calculateLunarMethodAffinity(
   // Convert method to proper type with safe property access
   const methodData = method as unknown as LunarMethodInfo;
   const { properties } = methodData;
-  const { element } = properties || {};
+  const { element } = properties ?? {};
 
   if (!element) return 0.5;
 
@@ -1741,8 +1741,8 @@ export function calculateMethodScore(
   // Astrological influence
   if (astrologicalInfluence) {
     // ✅ Pattern GG-6: Safe property access for astrological influences
-    const zodiacCompatibility = astrologicalInfluence.zodiacCompatibility || {};
-    const planetaryAlignment = astrologicalInfluence.planetaryAlignment || {};
+    const zodiacCompatibility = astrologicalInfluence.zodiacCompatibility ?? {};
+    const planetaryAlignment = astrologicalInfluence.planetaryAlignment ?? {};
 
     if (zodiacCompatibility && astroState.currentZodiac) {
       const { currentZodiac } = astroState;
@@ -1819,7 +1819,7 @@ function getAstrologicalElementalProfile(
   //    This is less accurate but provides a default if the full profile is missing.
   if (astroState.zodiacSign) {
     // ✅ Pattern KK-1: Safe string conversion for zodiac sign
-    const sign = String(astroState.zodiacSign || "").toLowerCase();
+    const sign = String(astroState.zodiacSign ?? "").toLowerCase();
     return {
       Fire:
         sign.includes("aries") ||
@@ -1932,7 +1932,7 @@ export function getCookingMethodRecommendations(
  */
 function getElementForSign(sign: string | undefined): keyof ElementalProperties {
   // ✅ Pattern KK-1: Safe string conversion for element lookup
-  const signLower = String(sign || "").toLowerCase();
+  const signLower = String(sign ?? "").toLowerCase();
   const fireElements = ["aries", "leo", "sagittarius"];
   const earthElements = ["taurus", "virgo", "capricorn"];
   const airElements = ["gemini", "libra", "aquarius"];

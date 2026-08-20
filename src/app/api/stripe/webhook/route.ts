@@ -528,7 +528,7 @@ export const POST = withObservability(
         }
 
         const userId = session.metadata?.userId;
-        const tier = (session.metadata?.tier || "premium") as SubscriptionTier;
+        const tier = (session.metadata?.tier ?? "premium") as SubscriptionTier;
 
         if (userId && session.customer) {
           // Ensure record exists

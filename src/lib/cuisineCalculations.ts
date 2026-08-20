@@ -45,14 +45,14 @@ export async function getCuisineRecommendations(): Promise<
       return {
         id,
         name: id.charAt(0).toUpperCase() + id.slice(1),
-        description: traditionData.description || "A unique culinary tradition",
-        alchemicalProperties: traditionData.elementalAlignment || {
+        description: traditionData.description ?? "A unique culinary tradition",
+        alchemicalProperties: traditionData.elementalAlignment ?? {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25,
         },
-        elementalProperties: traditionData.elementalAlignment || {
+        elementalProperties: traditionData.elementalAlignment ?? {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -60,7 +60,7 @@ export async function getCuisineRecommendations(): Promise<
         },
         astrologicalInfluences: deriveAstrologicalInfluences(tradition),
         compatibilityScore: 0.8, // Default compatibility score
-        elementalAlignment: traditionData.elementalAlignment || {
+        elementalAlignment: traditionData.elementalAlignment ?? {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,

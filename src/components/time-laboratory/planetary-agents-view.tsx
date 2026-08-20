@@ -36,7 +36,7 @@ const SIGN_MODALITY: Record<string, 'Cardinal' | 'Fixed' | 'Mutable'> = {
 }
 
 function modalityFromAgentId(id: string | undefined): string | undefined {
-  const sign = String(id || '').split('-')[2]?.toLowerCase()
+  const sign = String(id ?? '').split('-')[2]?.toLowerCase()
   return sign ? SIGN_MODALITY[sign] : undefined
 }
 
@@ -273,7 +273,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
       if (f.elements.length > 0 && !f.elements.includes(a.element)) return false
       if (f.dignities.length > 0 && !f.dignities.includes(a.dignity)) return false
       if (f.modalities.length > 0) {
-        const m = a.modality || modalityFromAgentId(a.agent?.id)
+        const m = a.modality ?? modalityFromAgentId(a.agent?.id)
         if (!m || !f.modalities.includes(m)) return false
       }
       if (
@@ -300,7 +300,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
       const fetchedActivations = await fetchAgentsForDate(selectedDate);
       const withModality = (fetchedActivations as PlanetaryAgentActivation[]).map((a) => ({
         ...a,
-        modality: a.modality || modalityFromAgentId(a.agent?.id),
+        modality: a.modality ?? modalityFromAgentId(a.agent?.id),
       }));
       setActivations(withModality);
       setLastUpdated(new Date());

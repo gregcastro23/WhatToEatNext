@@ -399,7 +399,7 @@ export default function RecipeSelector({
               <h2 className="text-2xl font-bold text-gray-800">
                 Select Recipe
               </h2>
-              {(mealTypeInfo || planetaryInfo) && (
+              {(mealTypeInfo ?? planetaryInfo) && (
                 <p className="text-sm text-gray-600 mt-1">
                   {mealTypeInfo &&
                     `${filters!.mealType!.charAt(0).toUpperCase()}${filters!.mealType!.slice(1)}: ${mealTypeInfo.guidance}`}
@@ -490,7 +490,7 @@ export default function RecipeSelector({
               </label>
               <select
                 id="recipe-selector-prep-time"
-                value={maxPrepTime || ""}
+                value={maxPrepTime ?? ""}
                 onChange={(e) =>
                   setMaxPrepTime(
                     e.target.value ? parseInt(e.target.value, 10) : undefined,

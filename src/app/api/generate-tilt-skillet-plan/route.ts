@@ -98,10 +98,10 @@ async function handlePost(request: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        prompt: prompt || "A large-batch braise for the week ahead.",
+        prompt: prompt ?? "A large-batch braise for the week ahead.",
         batchServings,
         cuisine,
-        dietPreference: diet || "omnivore",
+        dietPreference: diet ?? "omnivore",
         disallowedIngredients: disallowedIngredients ?? undefined,
         stages: stages.map((s) => ({ name: s.name, ingredients: s.ingredients })),
         circuitContext: circuit,

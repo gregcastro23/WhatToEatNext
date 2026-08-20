@@ -735,7 +735,7 @@ export function formatStats(stats: Sacred7Stats): string {
   return Object.entries(stats)
     .map(([key, value]) => {
       const meta = SACRED_STATS_METADATA.find(m => m.key === key)
-      return `${meta?.icon || ''} ${meta?.label || key}: ${value}`
+      return `${meta?.icon ?? ''} ${meta?.label ?? key}: ${value}`
     })
     .join(' | ')
 }

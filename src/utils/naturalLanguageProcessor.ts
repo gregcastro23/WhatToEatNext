@@ -436,7 +436,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
         // gets an array of range strings here, possibly overwritten by
         // extractTimeRange below.
         if ((pattern.category as string) === "cookingTime") {
-          const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
+          const timeRange = extractTimeRange(query) ?? { min: 0, max: 30 };
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
           extractedFilters._cookingTime = {
@@ -561,7 +561,7 @@ export function enhancedSearch(
     }
   }
 
-  return results.sort((a, b) => (b.searchScore || 0) - (a.searchScore || 0));
+  return results.sort((a, b) => (b.searchScore ?? 0) - (a.searchScore ?? 0));
 }
 
 /**
@@ -734,7 +734,7 @@ export function processQueryWithKinetics(
     const kineticsContext = {
       forceClassification: kinetics.forceClassification,
       thermalDirection: kinetics.thermalDirection,
-      aspectPhase: kinetics.aspectPhase || "neutral",
+      aspectPhase: kinetics.aspectPhase ?? "neutral",
       powerLevel: kinetics.power || 50,
       momentumFactor: kinetics.momentum || 0,
     } as unknown as NonNullable<KineticsAwareSearchIntent["kineticsContext"]>;

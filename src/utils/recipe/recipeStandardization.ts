@@ -220,7 +220,7 @@ export function standardizeRecipe(
     standardized.servingSize === undefined ||
     standardized.servingSize === null
   ) {
-    standardized.servingSize = standardized.numberOfServings || 4;
+    standardized.servingSize = standardized.numberOfServings ?? 4;
   } else if (typeof standardized.servingSize === "string") {
     standardized.servingSize = parseInt(standardized.servingSize, 10) || 4;
   }
@@ -257,11 +257,11 @@ export function standardizeRecipe(
             : typeof ing.amount === "string"
               ? parseFloat(ing.amount) || 1
               : 1,
-        unit: ing.unit || "piece",
+        unit: ing.unit ?? "piece",
         name:
           typeof ing.name === "string"
             ? ing.name.toLowerCase()
-            : String(ing.name || ""),
+            : String(ing.name ?? ""),
       };
     });
   }
@@ -331,7 +331,7 @@ export const flattenCuisineRecipes = (cuisinesData: Record<string, any>): Recipe
   const enhancedFlags = new Map<string, boolean>();
 
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
-    const cuisine = cuisinesData[cuisineName] || cuisinesData[cuisineName.toLowerCase()] || cuisinesData[cuisineName.toUpperCase()];
+    const cuisine = cuisinesData[cuisineName] ?? cuisinesData[cuisineName.toLowerCase()] ?? cuisinesData[cuisineName.toUpperCase()];
 
     if (cuisine?.dishes) {
       Object.entries(cuisine.dishes).forEach(
@@ -363,7 +363,7 @@ export const flattenCuisineRecipes = (cuisinesData: Record<string, any>): Recipe
                       recipeMap.set(normalizedKey, standardizedRecipe);
                       enhancedFlags.set(normalizedKey, isEnhanced);
                     } else {
-                      const existingIsEnhanced = enhancedFlags.get(normalizedKey) || false;
+                      const existingIsEnhanced = enhancedFlags.get(normalizedKey) ?? false;
 
                       if (existingIsEnhanced && !isEnhanced) {
                         recipeMap.set(normalizedKey, standardizedRecipe);

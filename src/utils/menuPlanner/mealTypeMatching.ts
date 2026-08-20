@@ -34,8 +34,8 @@ export function isSuitableForMealType(
   }
 
   // Check tags for meal type hints
-  const tags = (recipe.tags || []).map((t) => t.toLowerCase());
-  const name = (recipe.name || "").toLowerCase();
+  const tags = (recipe.tags ?? []).map((t) => t.toLowerCase());
+  const name = (recipe.name ?? "").toLowerCase();
 
   if (mealType === "breakfast") {
     const breakfastKeywords = [

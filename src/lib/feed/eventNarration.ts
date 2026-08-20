@@ -318,6 +318,22 @@ export function narrateFeedEvent(
       };
     }
 
+    case "cart_handoff":
+    case "grocery_cart_send":
+    case "amazon_cart_send": {
+      const itemCount =
+        getNumber(metadata, "itemCount") ?? getNumber(metadata, "itemsCount");
+      const provider = getString(metadata, "provider") ?? "Amazon Fresh";
+      const itemPhrase = itemCount
+        ? ` with ${itemCount} ingredient${itemCount !== 1 ? "s" : ""}`
+        : "";
+      return {
+        icon: "🛒",
+        action: `transferred their culinary pantry cart to ${provider}${itemPhrase}.`,
+        label: `Cart Handoff · ${provider}`,
+      };
+    }
+
     default:
       break;
   }

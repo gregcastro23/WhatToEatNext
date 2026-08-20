@@ -34,7 +34,7 @@ interface TxnRow {
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const limit = Math.min(parseInt(searchParams.get("limit") || "30", 10), 100);
+  const limit = Math.min(parseInt(searchParams.get("limit") ?? "30", 10), 100);
 
   try {
     const transactions = await redisCached(
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
           description: row.description,
           createdAt: row.created_at,
           actorIsAgent: row.is_agent === true,
-          actorName: row.actor_name || (row.is_agent ? "Agent" : "Alchemist"),
+          actorName: row.actor_name ?? (row.is_agent ? "Agent" : "Alchemist"),
         }));
       },
     );

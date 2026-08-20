@@ -97,21 +97,21 @@ export function CompanionSuggestions({
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(data.message || "Failed to load dining companions");
+          throw new Error(data.message ?? "Failed to load dining companions");
         }
 
         if (data.success) {
-          setActiveAgents(data.activeAgents || []);
-          setHistoricalAgents(data.historicalAgents || []);
-          setCosmicRoster(data.cosmicRoster || []);
-          setSavedCompanions(data.savedCompanions || []);
+          setActiveAgents(data.activeAgents ?? []);
+          setHistoricalAgents(data.historicalAgents ?? []);
+          setCosmicRoster(data.cosmicRoster ?? []);
+          setSavedCompanions(data.savedCompanions ?? []);
           setDegraded(data.degraded === true);
 
           if (data.savedCompanions && data.savedCompanions.length > 0) {
             setActiveTab("saved");
           }
         } else {
-          throw new Error(data.message || "Failed to load dining companions");
+          throw new Error(data.message ?? "Failed to load dining companions");
         }
       } catch (err) {
         if (controller.signal.aborted) return;
@@ -262,7 +262,7 @@ export function CompanionSuggestions({
                       )}
                     </div>
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
-                      {ELEMENT_ICON[agent.dominantElement] || (
+                      {ELEMENT_ICON[agent.dominantElement] ?? (
                         <Sparkles className="w-3 h-3 text-purple-300" />
                       )}
                       <span className="text-[10px] font-semibold text-purple-200">
@@ -271,7 +271,7 @@ export function CompanionSuggestions({
                     </div>
                   </div>
                   <p className="text-xs text-purple-300/70 mt-1.5 leading-relaxed line-clamp-2">
-                    {agent.activation?.description || agent.bio}
+                    {agent.activation?.description ?? agent.bio}
                   </p>
 
                   {/* Active Strength Indicator */}

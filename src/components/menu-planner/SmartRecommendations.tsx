@@ -162,7 +162,7 @@ function scoreRecipeForNutrition(
   const reasons: RecommendationReason[] = [];
   let score = 0;
 
-  const nutrition = recipe.nutrition || {
+  const nutrition = recipe.nutrition ?? {
     calories: 0,
     protein: 0,
     carbs: 0,
@@ -285,7 +285,7 @@ function scoreRecipeForVariety(
   }
 
   // Reward cuisine variety
-  const cuisine = recipe.cuisine?.toLowerCase() || "";
+  const cuisine = recipe.cuisine?.toLowerCase() ?? "";
   if (cuisine && !existingCuisines.has(cuisine)) {
     score += 20;
     reasons.push({
@@ -560,7 +560,7 @@ export default function SmartRecommendations({
             (meal.recipe.nutrition.carbs || 0) * servings;
           nutritionTotals.fat += (meal.recipe.nutrition.fat || 0) * servings;
           nutritionTotals.fiber +=
-            (meal.recipe.nutrition.fiber || 0) * servings;
+            (meal.recipe.nutrition.fiber ?? 0) * servings;
         }
 
         // Aggregate elementals

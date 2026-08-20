@@ -279,7 +279,7 @@ async function getTypeScriptErrors(): Promise<string> {
     // If there's no stdout, this might be a real failure
     if ((error as any)?.stderr || (error as any)?.message) {
       throw new Error(
-        `TypeScript compilation failed: ${(error as any)?.stderr || (error as any)?.message}`,
+        `TypeScript compilation failed: ${(error as any)?.stderr ?? (error as any)?.message}`,
         { cause: error },
       );
     }

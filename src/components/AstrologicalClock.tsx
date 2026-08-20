@@ -137,7 +137,7 @@ const AstrologicalClock: React.FC = () => {
       <div className="flex justify-center" ref={svgContainerRef} />
       
       <div className="mt-3 text-sm">
-        <p>Ascendant: {ZODIAC_SYMBOLS[chartData.ascendant || 'Libra']} {chartData.ascendant || 'Not available'}</p>
+        <p>Ascendant: {ZODIAC_SYMBOLS[chartData.ascendant ?? 'Libra']} {chartData.ascendant ?? 'Not available'}</p>
         <p className="text-xs text-gray-500 mt-1">
           Showing current planetary positions
         </p>

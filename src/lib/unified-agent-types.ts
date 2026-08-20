@@ -64,7 +64,7 @@ export interface AgentMemory {
 
 export interface ConsciousnessProfile {
   level: ConsciousnessLevel
-  monicaConstant: number
+  monicaConstant: number | null
   dominantElement: Element
   dominantModality?: Modality
   signature: string

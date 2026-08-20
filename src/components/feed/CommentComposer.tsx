@@ -50,7 +50,7 @@ export function CommentComposer({ eventId, onPosted }: CommentComposerProps): JS
         setValue("");
         if (json.reward) revealPracticeReward(json.reward);
       } else {
-        setError(json.message || "Could not post your comment.");
+        setError(json.message ?? "Could not post your comment.");
       }
     } catch {
       setError("Could not post your comment.");

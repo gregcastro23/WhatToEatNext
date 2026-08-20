@@ -60,7 +60,7 @@ export class PlanetaryHoursClient {
       location?: Coordinates;
     } = {},
   ): Promise<PlanetaryHourResult> {
-    const targetDate = params.datetime || new Date();
+    const targetDate = params.datetime ?? new Date();
     const { location } = params;
 
     if (this.useBackend && this.backendUrl) {

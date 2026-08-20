@@ -178,11 +178,11 @@ export async function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       const aIsInSeason = Array.isArray(a.season)
-        ? (matchFilters.season && a.season.includes(matchFilters.season)) ||
+        ? (matchFilters.season && a.season.includes(matchFilters.season)) ??
           a.season.includes("all")
         : a.season === matchFilters.season || a.season === "all";
       const bIsInSeason = Array.isArray(b.season)
-        ? (matchFilters.season && b.season.includes(matchFilters.season)) ||
+        ? (matchFilters.season && b.season.includes(matchFilters.season)) ??
           b.season.includes("all")
         : b.season === matchFilters.season || b.season === "all";
 
@@ -524,7 +524,7 @@ async function _calculateRecipeEnergyMatch(
   score += elementalScore * 0.7; // Doubled from 0.35
 
   // 2. Calculate modality score - use qualities array even if preferredModality doesn't exist
-  const qualities = recipe.qualities || [];
+  const qualities = recipe.qualities ?? [];
   const { preferredModality } = currentEnergy;
 
   // Check if preferredModality exists in currentEnergy, if not skip this boost
@@ -664,7 +664,7 @@ function hasLowCarb(recipe: Recipe): boolean {
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
-  const carbs = profile.carbohydrates || profile.carbs;
+  const carbs = profile.carbohydrates ?? profile.carbs;
   return typeof carbs === "number" && carbs <= 30;
 }
 
@@ -857,9 +857,9 @@ function getCacheKey(
   const recipeIds =
     recipes
       ?.map((r) => (
-          r.id || `${r.name || "unknown"}-${r.cuisine || "unknown"}`
+          r.id || `${r.name || "unknown"}-${r.cuisine ?? "unknown"}`
         ))
-      .join(",") || "none";
+      .join(",") ?? "none";
   // Stringify the filters and energy objects
   const filtersStr = JSON.stringify(filters);
   const energyStr = energy ? JSON.stringify(energy) : "null";

@@ -146,7 +146,7 @@ export type ParsedOnboardingRequest = z.infer<typeof OnboardingRequestSchema>;
 export const CommensalRequestSchema = z.object({
   targetUserId: z.string().optional(),
   email: z.string().email().optional()
-}).refine(data => data.targetUserId || data.email, {
+}).refine(data => data.targetUserId ?? data.email, {
   message: "Either targetUserId or email must be provided",
   path: ["targetUserId"]
 });

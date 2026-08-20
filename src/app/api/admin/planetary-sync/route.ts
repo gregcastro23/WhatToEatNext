@@ -68,7 +68,7 @@ async function resolveSyncTargets(
     return { targets: syncableAgents };
   }
 
-  const identifier = (agentEmail || agentId || "").trim().toLowerCase();
+  const identifier = (agentEmail ?? agentId ?? "").trim().toLowerCase();
   if (!identifier) {
     return { targets: [], error: "Missing agent email or ID for sync-one action." };
   }
@@ -193,8 +193,8 @@ export async function POST(request: NextRequest) {
             agent: target.email,
             statusCode: response.status,
             message:
-              responseData.detail ||
-              responseData.message ||
+              responseData.detail ??
+              responseData.message ??
               `PA Backend responded with error code ${response.status}.`,
           });
           continue;

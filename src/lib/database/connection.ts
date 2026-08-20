@@ -219,7 +219,7 @@ export async function executeQuery<T extends QueryResultRow = any>(
     }
     // Rethrow with better context if it's an ErrorEvent-like object
     if ((error as any).type === 'error') {
-      throw new Error(`DB ErrorEvent: ${(error as any).message || 'Unknown connection error'}`);
+      throw new Error(`DB ErrorEvent: ${(error as any).message ?? 'Unknown connection error'}`);
     }
     throw error;
   }

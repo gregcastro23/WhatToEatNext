@@ -81,9 +81,9 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
   const raw = ingredient as Record<string, unknown>;
 
   return {
-    id: String(raw.id || "unknown"),
-    name: String(raw.name || "Unknown Ingredient"),
-    category: String(raw.category || "other"),
+    id: String(raw.id ?? "unknown"),
+    name: String(raw.name ?? "Unknown Ingredient"),
+    category: String(raw.category ?? "other"),
     _subcategory: raw.subCategory ? String(raw.subCategory) : undefined,
     elementalProperties: standardizeElementalProperties(raw.elementalState),
     flavorProfile: standardizeFlavorProfile(raw.flavorProfile),
@@ -117,10 +117,10 @@ export function standardizeRecipe(recipe: unknown): Recipe {
   const raw = recipe as Record<string, unknown>;
 
   return {
-    id: String(raw.id || "unknown"),
-    name: String(raw.name || "Unknown Recipe"),
+    id: String(raw.id ?? "unknown"),
+    name: String(raw.name ?? "Unknown Recipe"),
     description: raw.description ? String(raw.description) : undefined,
-    cuisine: String(raw.cuisine || "international"),
+    cuisine: String(raw.cuisine ?? "international"),
     mealType: Array.isArray(raw.mealType)
       ? raw.mealType || [].map(String)
       : ["dinner"],
@@ -199,7 +199,7 @@ export function validateIngredient(
     ingredientData.astrologicalProfile
   ) {
     const astroProfile =
-      ingredientData.astrologicalPropertiesProfile ||
+      ingredientData.astrologicalPropertiesProfile ??
       ingredientData.astrologicalProfile;
     const astroValidation = validateAstrologicalProfile(
       astroProfile as AstrologicalProfile,
@@ -468,7 +468,7 @@ function _standardizeAstrologicalProfile(
     elementalAffinity: standardizeElementalAffinity(
       String(
         (prof.elementalAffinity as Record<string, unknown> | undefined)
-          ?.base || "",
+          ?.base ?? "",
       ),
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets)
@@ -545,9 +545,9 @@ function standardizeRecipeIngredients(
     if (ingredient && typeof ingredient === "object") {
       const ing = ingredient;
       return {
-        name: String(ing.name || "Unknown"),
+        name: String(ing.name ?? "Unknown"),
         amount: typeof ing.amount === "number" ? ing.amount : 1,
-        unit: String(ing.unit || "item"),
+        unit: String(ing.unit ?? "item"),
         preparation: ing.preparation ? String(ing.preparation) : undefined,
         optional: Boolean(ing.optional),
         notes: ing.notes ? String(ing.notes) : undefined,

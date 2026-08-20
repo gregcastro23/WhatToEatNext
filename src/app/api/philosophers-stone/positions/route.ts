@@ -13,9 +13,9 @@ const RATE_LIMIT = { window: 60_000, max: 30, bucket: "philosophers-stone-positi
 // kicks in if alchm.kitchen hasn't shipped the endpoint yet — the math is
 // equivalent.
 const ALCHM_KITCHEN_URL = (
-  process.env.NEXT_PUBLIC_BACKEND_URL ||
-  process.env.API_BASE_URL ||
-  process.env.BACKEND_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ??
+  process.env.API_BASE_URL ??
+  process.env.BACKEND_URL ??
   ""
 ).replace(/\/+$/, "");
 

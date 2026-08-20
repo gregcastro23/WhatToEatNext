@@ -85,7 +85,7 @@ function fixId(recipe: Record<string, unknown>): FixResult | null {
     return null;
   }
 
-  const name = String(recipe.name || "unnamed");
+  const name = String(recipe.name ?? "unnamed");
   const cuisine = recipe.cuisine as string | undefined;
   const newId = generateRecipeId(name, cuisine);
 
@@ -630,8 +630,8 @@ export function fixRecipe(
   const remainingIssues = validationResult.issues.filter((i) => !i.autoFixable);
 
   return {
-    recipeId: String(recipeObj.id || "unknown"),
-    recipeName: String(recipeObj.name || "unknown"),
+    recipeId: String(recipeObj.id ?? "unknown"),
+    recipeName: String(recipeObj.name ?? "unknown"),
     fixes,
     fixedRecipe: recipeObj,
     remainingIssues,

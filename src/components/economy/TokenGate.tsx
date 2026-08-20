@@ -99,7 +99,7 @@ export function TokenGate({
         }
         onUnlocked?.();
       } else {
-        setError(data.message || "Purchase failed");
+        setError(data.message ?? "Purchase failed");
       }
     } catch {
       setError("Network error — please try again");
@@ -112,8 +112,8 @@ export function TokenGate({
   if (checkingAccess) return null;
   if (isUnlocked) return <>{children}</>;
 
-  const hasCost = cost && (cost.spirit || cost.essence || cost.matter || cost.substance);
-  const displayName = featureName || "this feature";
+  const hasCost = cost && (cost.spirit ?? cost.essence ?? cost.matter ?? cost.substance);
+  const displayName = featureName ?? "this feature";
 
   // Token costs display
   const tokenIcons: Record<string, { symbol: string; color: string }> = {

@@ -159,7 +159,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         // If the main method exists, add this as a variation
         const mainId = methodData.relatedToMainMethod as string;
         if (methods[mainId]) {
-          const existingVariations = methods[mainId].variations || [];
+          const existingVariations = methods[mainId].variations ?? [];
           const existingVariationsArray = Array.isArray(existingVariations)
             ? existingVariations
             : [];
@@ -168,7 +168,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               ...existingVariationsArray,
               {
                 id: methodData.id as string,
-                name: (methodData.variationName ||
+                name: (methodData.variationName ??
                   methodData.name) as string,
                 description: methodData.description as string,
                 elementalEffect:
@@ -185,8 +185,8 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 astrologicalInfluences:
                   methodData.astrologicalInfluences as CookingMethodData["astrologicalInfluences"],
                 duration: {
-                  min: methodData.duration ? (methodData.duration as { min?: number }).min || 0 : 0,
-                  max: methodData.duration ? (methodData.duration as { max?: number }).max || 0 : 0,
+                  min: methodData.duration ? (methodData.duration as { min?: number }).min ?? 0 : 0,
+                  max: methodData.duration ? (methodData.duration as { max?: number }).max ?? 0 : 0,
                 },
                 suitable_for: (methodData.bestFor as string[]) || [],
                 benefits: [],
@@ -222,22 +222,22 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             favorableZodiac:
               ((methodData.astrologicalInfluences as
                 | { favorableZodiac?: string[] }
-                | undefined)?.favorableZodiac) ||
+                | undefined)?.favorableZodiac) ??
               [],
             unfavorableZodiac:
               ((methodData.astrologicalInfluences as
                 | { unfavorableZodiac?: string[] }
-                | undefined)?.unfavorableZodiac) ||
+                | undefined)?.unfavorableZodiac) ??
               [],
             dominantPlanets:
               ((methodData.astrologicalInfluences as
                 | { dominantPlanets?: string[] }
-                | undefined)?.dominantPlanets) ||
+                | undefined)?.dominantPlanets) ??
               [],
           },
           duration: {
-            min: methodData.duration ? (methodData.duration as { min?: number }).min || 0 : 0,
-            max: methodData.duration ? (methodData.duration as { max?: number }).max || 0 : 0,
+            min: methodData.duration ? (methodData.duration as { min?: number }).min ?? 0 : 0,
+            max: methodData.duration ? (methodData.duration as { max?: number }).max ?? 0 : 0,
           },
           suitable_for: (methodData.bestFor as string[]) || [],
           benefits: [],
@@ -466,7 +466,7 @@ export function calculatePlanetaryDayInfluence(
   };
 
   const methodData = method as unknown as Record<string, unknown>;
-  const methodName = String(methodData.name || "").toLowerCase();
+  const methodName = String(methodData.name ?? "").toLowerCase();
   const affinities = planetaryMethodAffinities[planetaryDay] || [];
 
   const hasAffinity = affinities.some((affinity) =>
@@ -495,7 +495,7 @@ export function calculatePlanetaryHourInfluence(
   };
 
   const methodData = method as unknown as Record<string, unknown>;
-  const methodName = String(methodData.name || "").toLowerCase();
+  const methodName = String(methodData.name ?? "").toLowerCase();
   const affinities = hourMethodAffinities[planetaryHour] || [];
 
   const hasAffinity = affinities.some((affinity) =>
@@ -581,7 +581,7 @@ export function getRecommendedCookingMethods(
     }
 
     // Cultural preference (10% weight)
-    const culturalOrigin = String(methodData.culturalOrigin || "");
+    const culturalOrigin = String(methodData.culturalOrigin ?? "");
     if (culturalPreference && culturalOrigin === culturalPreference) {
       score += 0.1;
       reasons.push(`${culturalPreference} tradition`);
@@ -628,7 +628,7 @@ export function getRecommendedCookingMethods(
       elementalEffect: rec.method.elementalEffect,
       duration: rec.method.duration,
       thermodynamics: rec.thermodynamics,
-      variations: rec.method.variations || [],
+      variations: rec.method.variations ?? [],
     }));
 }
 
@@ -837,8 +837,8 @@ export function getCookingMethodRecommendations(
 
     // Apply surgical type casting with variable extraction
     const methodData = method as unknown as Record<string, unknown>;
-    const methodId = String(methodData.id || methodData.name || "unknown");
-    const methodName = String(methodData.name || "Unknown Method");
+    const methodId = String(methodData.id ?? methodData.name ?? "unknown");
+    const methodName = String(methodData.name ?? "Unknown Method");
     const elementalEffect =
       (methodData.elementalEffect as ElementalProperties) ||
       createElementalProperties({
@@ -847,9 +847,9 @@ export function getCookingMethodRecommendations(
         Earth: 0.25,
         Air: 0.25,
       });
-    const astrologicalInfluences = methodData.astrologicalInfluences || {};
+    const astrologicalInfluences = methodData.astrologicalInfluences ?? {};
     const description = String(
-      methodData.description || "Recommended cooking method",
+      methodData.description ?? "Recommended cooking method",
     );
 
     return {
@@ -913,7 +913,7 @@ export function getHolisticCookingRecommendations(
 ): Array<{ method: string; compatibility: number; reason?: string }> {
   try {
     // Default to empty elementalProperties if not provided
-    const elementalProperties = (ingredient.transformedElementalProperties || {
+    const elementalProperties = (ingredient.transformedElementalProperties ?? {
       Fire: (ingredient.Fire as number) || 0.25,
       Water: (ingredient.Water as number) || 0.25,
       Earth: (ingredient.Earth as number) || 0.25,
@@ -942,7 +942,7 @@ export function getHolisticCookingRecommendations(
           const recData = rec as unknown as Record<string, unknown>;
           return (availableMethods || []).some((method) =>
             areSimilarMethods(
-              String(recData.method || recData.name || recData.id),
+              String(recData.method ?? recData.name ?? recData.id),
               method,
             ),
           );
@@ -957,10 +957,10 @@ export function getHolisticCookingRecommendations(
         | undefined;
       return {
         method:
-          method?.name ||
-          method?.id ||
-          recData.name ||
-          recData.id ||
+          method?.name ??
+          method?.id ??
+          recData.name ??
+          recData.id ??
           "unknown",
         compatibility: (Number(recData.score) || 0) * 100,
         reason: includeReasons
@@ -1009,13 +1009,13 @@ export function getRecommendedCookingMethodsForIngredient(
     // Calculate compatibility for each method
     const scoredMethods = (cookingMethods as unknown[]).map((method) => {
       const methodData = method as Record<string, unknown>;
-      const methodElement = String(methodData.element || "").toLowerCase();
+      const methodElement = String(methodData.element ?? "").toLowerCase();
 
       // Simple compatibility based on elemental harmony
       let compatibility = 0.5; // Base score
 
       // Boost score for matching element
-      if (methodElement === String(ingredient.element || "").toLowerCase()) {
+      if (methodElement === String(ingredient.element ?? "").toLowerCase()) {
         compatibility += 0.3;
       }
 
@@ -1033,7 +1033,7 @@ export function getRecommendedCookingMethodsForIngredient(
         compatibility += (elementalProps?.Air || 0) * 0.2;
 
       return {
-        method: String(methodData.name || "Unknown Method"),
+        method: String(methodData.name ?? "Unknown Method"),
         compatibility: Math.min(compatibility * 100, 100), // Cap at 100%
       };
     });

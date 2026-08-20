@@ -118,16 +118,16 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 
   // Core required properties with enhanced validation
   const safeRecipe: Recipe = {
-    id: safeGetString(recipe.id) || `recipe-${Date.now()}`,
-    name: safeGetString(recipe.name) || "Unnamed Recipe",
-    description: safeGetString(recipe.description) || "",
-    cuisine: safeGetString(recipe.cuisine) || "",
+    id: safeGetString(recipe.id) ?? `recipe-${Date.now()}`,
+    name: safeGetString(recipe.name) ?? "Unnamed Recipe",
+    description: safeGetString(recipe.description) ?? "",
+    cuisine: safeGetString(recipe.cuisine) ?? "",
     ingredients: validateAndNormalizeIngredients(
       Array.isArray(recipe.ingredients)
         ? (recipe.ingredients)
         : [],
     ),
-    instructions: validateAndNormalizeInstructions(recipe.instructions || []),
+    instructions: validateAndNormalizeInstructions(recipe.instructions ?? []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || "30 minutes",
     numberOfServings: validateServings(recipe.numberOfServings) || 2,
     // Use the new recipe elemental service to ensure proper elemental properties
@@ -162,7 +162,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   }
 
   // Timestamp handling
-  safeRecipe.createdAt = recipe.createdAt || new Date().toISOString();
+  safeRecipe.createdAt = recipe.createdAt ?? new Date().toISOString();
   safeRecipe.updatedAt = new Date().toISOString();
 
   return safeRecipe;
@@ -181,13 +181,13 @@ function validateAndNormalizeIngredients(
   }
 
   return ingredients.map((ing) => ({
-    name: safeGetString(ing.name) || "Unknown Ingredient",
+    name: safeGetString(ing.name) ?? "Unknown Ingredient",
     amount: typeof ing.amount === "number" ? ing.amount : 1,
-    unit: ing.unit || "piece",
-    category: ing.category || "other",
-    optional: ing.optional || false,
-    preparation: ing.preparation || "",
-    notes: ing.notes || "",
+    unit: ing.unit ?? "piece",
+    category: ing.category ?? "other",
+    optional: ing.optional ?? false,
+    preparation: ing.preparation ?? "",
+    notes: ing.notes ?? "",
     // Standardize ingredient elemental properties too
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   }));
@@ -382,43 +382,43 @@ class RecipeData {
         // original `.name`/`.description` lookups verbatim requires an any-typed read.
         const cuisineAny = mappingData.cuisine as any;
         let elementalProps =
-          mappingData.elementalProperties || mappingData.elementalProfile;
+          mappingData.elementalProperties ?? mappingData.elementalProfile;
 
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
           elementalProps = recipeElementalService.deriveElementalProperties({
-            cuisine: String(cuisineAny.name || cuisineAny || ""),
-            cookingMethod: [String(mappingData.cookingMethod || "")],
+            cuisine: String(cuisineAny.name ?? cuisineAny ?? ""),
+            cookingMethod: [String(mappingData.cookingMethod ?? "")],
           });
         }
 
         // Create a partial recipe object with safe defaults
         const partialRecipe: Partial<Recipe> = {
           id:
-            safeGetString(mappingData.id) ||
+            safeGetString(mappingData.id) ??
             `recipe-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
           name:
-            safeGetString(mappingData.name) ||
-            safeGetString(mappingData.id) ||
+            safeGetString(mappingData.name) ??
+            safeGetString(mappingData.id) ??
             "Unknown Recipe",
           cuisine:
-            safeGetString(cuisineAny.name) ||
-            safeGetString(mappingData.cuisine) ||
+            safeGetString(cuisineAny.name) ??
+            safeGetString(mappingData.cuisine) ??
             "Unknown",
           description:
-            safeGetString(mappingData.description) ||
-            safeGetString(cuisineAny.description) ||
+            safeGetString(mappingData.description) ??
+            safeGetString(cuisineAny.description) ??
             "",
           elementalProperties: elementalProps as ElementalProperties,
           ingredients: Array.isArray(mappingData.ingredients)
             ? (mappingData.ingredients as unknown[]).map((ing: unknown) => {
                 const ingData = ing as RawMappingIngredient;
                 return {
-                  name: String(ingData.name || "Unknown Ingredient"),
+                  name: String(ingData.name ?? "Unknown Ingredient"),
                   amount:
                     typeof ingData.amount === "number" ? ingData.amount : 1,
-                  unit: String(ingData.unit || "piece"),
-                  category: String(ingData.category || "other"),
+                  unit: String(ingData.unit ?? "piece"),
+                  category: String(ingData.category ?? "other"),
                 };
               })
             : [],
@@ -426,7 +426,7 @@ class RecipeData {
             ? mappingData.instructions
             : [],
           timeToMake: String(mappingData.timeToMake) || "30 minutes",
-          energyProfile: mappingData.energyProfile || {},
+          energyProfile: mappingData.energyProfile ?? {},
           // Critical field: always ensure astrologicalInfluences is set
           astrologicalInfluences: mappingData.astrologicalInfluences
             ? Array.isArray(mappingData.astrologicalInfluences)
@@ -580,7 +580,7 @@ class RecipeData {
 
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter((recipe) => {
-        const recipeCuisine = String(recipe.cuisine || "").toLowerCase();
+        const recipeCuisine = String(recipe.cuisine ?? "").toLowerCase();
         const targetCuisine = String(cuisine || "").toLowerCase();
         return recipeCuisine === targetCuisine;
       });
@@ -603,7 +603,7 @@ class RecipeData {
       const recipes = await this.getAllRecipes();
       return recipes.filter((recipe) => {
         const recipeName = String(recipe.name || "").toLowerCase();
-        const recipeCuisine = String(recipe.cuisine || "").toLowerCase();
+        const recipeCuisine = String(recipe.cuisine ?? "").toLowerCase();
         return (
           recipeName.includes(lowercaseQuery) ||
           recipeCuisine.includes(lowercaseQuery)
@@ -653,7 +653,7 @@ class RecipeData {
     try {
       const recipes = await this.getAllRecipes();
       const recipe = recipes.find((r) => r.id === id);
-      return recipe || null;
+      return recipe ?? null;
     } catch (error) {
       errorHandler.handleError(error, {
         context: "RecipeData",
@@ -734,7 +734,7 @@ class RecipeData {
           filters.astrologicalInfluences &&
           filters.astrologicalInfluences.length > 0
         ) {
-          const influences = recipe.astrologicalInfluences || [];
+          const influences = recipe.astrologicalInfluences ?? [];
 
           // Special case: if 'all' is included, it matches any influence
           if (!influences.includes("all")) {

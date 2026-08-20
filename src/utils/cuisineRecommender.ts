@@ -22,7 +22,7 @@ export function generateTopSauceRecommendations(
   // Sauce data from ESM import
 
   // Use provided elemental profile or a balanced default
-  const userProfile = currentElementalProfile || {
+  const userProfile = currentElementalProfile ?? {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -56,11 +56,11 @@ export function generateTopSauceRecommendations(
     ).elementalProperties;
     const planetaryInfluences =
       (sauce as unknown as { _astrologicalInfluences?: string[] })
-        ._astrologicalInfluences || [];
+        ._astrologicalInfluences ?? [];
 
     // 1. Elemental Match Score (50% weight)
     const elementalMatchScore = calculateElementalMatch(
-      elementalProps || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalProps ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       userProfile,
     );
 

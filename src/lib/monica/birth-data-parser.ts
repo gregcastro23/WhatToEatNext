@@ -82,7 +82,7 @@ export function parseBirthData(text: string): ParsedBirthData | null {
   // Extract date components
   const dateMatch =
     // Format: "June 23 1991" or "June 23, 1991"
-    lowerText.match(/(\w+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/) ||
+    lowerText.match(/(\w+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/) ??
     // Format: "6/23/1991" or "06-23-1991"
     lowerText.match(/(\d{1,2})[/-](\d{1,2})[/-](\d{4})/)
 

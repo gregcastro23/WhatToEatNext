@@ -11,7 +11,7 @@ export const recipeCoverageIngredients: Record<
     name: "mirin",
     origin: ["Japan"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Sweet Japanese rice wine used to add gloss, mild sweetness, and aroma in sauces, braises, and tare.",
     category: "seasoning",
@@ -22,12 +22,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (15ml)", calories: 35, macros: { protein: 0.1, carbs: 7.8, fat: 0, fiber: 0 }, vitamins: {  }, minerals: { sodium: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -70,7 +65,7 @@ export const recipeCoverageIngredients: Record<
     name: "active dry yeast",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Granulated dehydrated yeast used for bread fermentation; typically bloomed in warm liquid before mixing.",
     category: "seasoning",
@@ -81,12 +76,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 packet (7g)", calories: 21, macros: { protein: 2.7, carbs: 2.7, fat: 0.3, fiber: 1.8 }, vitamins: { B1: 0.35, B2: 0.2, B3: 0.25, folate: 0.4 }, minerals: { zinc: 0.08, iron: 0.06 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -129,7 +119,7 @@ export const recipeCoverageIngredients: Record<
     name: "cornstarch",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Refined corn starch used to thicken sauces, stabilize batters, and improve crispness in frying.",
     category: "grain",
@@ -140,12 +130,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (8g)", calories: 30, macros: { protein: 0.03, carbs: 7.3, fat: 0.01, fiber: 0.1 }, vitamins: {  }, minerals: { iron: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -188,7 +173,7 @@ export const recipeCoverageIngredients: Record<
     name: "oyster sauce",
     origin: ["China (Guangdong)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Concentrated savory sauce made from oyster extract and seasonings, used for umami depth and glossy stir-fry finishes.",
     category: "seasoning",
@@ -199,12 +184,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 22, macros: { protein: 0.3, carbs: 4.9, fat: 0.1, fiber: 0.1 }, vitamins: {  }, minerals: { sodium: 0.22, iron: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -247,7 +227,7 @@ export const recipeCoverageIngredients: Record<
     name: "shaoxing wine",
     origin: ["China (Shaoxing)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Chinese rice wine used for aromatic depth, deglazing, and reducing perceived meat or seafood odors in cooking.",
     category: "seasoning",
@@ -258,12 +238,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (15ml)", calories: 20, macros: { protein: 0.1, carbs: 1.5, fat: 0, fiber: 0 }, vitamins: {  }, minerals: { sodium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -306,7 +281,7 @@ export const recipeCoverageIngredients: Record<
     name: "neutral oil",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Refined low-aroma oil (e.g., canola, grapeseed, sunflower) used for high-heat frying or when no flavor contribution from fat is desired.",
     category: "oil",
@@ -317,12 +292,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -365,7 +335,7 @@ export const recipeCoverageIngredients: Record<
     name: "white vinegar",
     origin: ["Worldwide industrial production"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Neutral distilled vinegar with sharp acetic acidity used for pickling, cleaning flavor profiles, and brightening sauces.",
     category: "vinegar",
@@ -376,12 +346,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (15ml)", calories: 3, macros: { protein: 0, carbs: 0.1, fat: 0, fiber: 0 }, vitamins: {  }, minerals: { potassium: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -424,7 +389,7 @@ export const recipeCoverageIngredients: Record<
     name: "corn tortillas",
     origin: ["Mesoamerica"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Nixtamalized corn flatbreads used in tacos, enchiladas, tostadas, and layered casseroles.",
     category: "grain",
@@ -435,12 +400,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -483,7 +443,7 @@ export const recipeCoverageIngredients: Record<
     name: "five spice powder",
     origin: ["China"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Chinese spice blend balancing sweet, warm, and numbing notes; commonly includes star anise, fennel, clove, cinnamon, and pepper.",
     category: "spice",
@@ -494,12 +454,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -542,7 +497,7 @@ export const recipeCoverageIngredients: Record<
     name: "firm tofu",
     origin: ["China"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Pressable tofu with moderate water content that holds shape in stir-fries, braises, and pan-searing.",
     category: "protein",
@@ -553,12 +508,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 70, macros: { protein: 8.2, carbs: 1.8, fat: 4.2, fiber: 1.1 }, vitamins: { B1: 0.08, folate: 0.06 }, minerals: { calcium: 0.18, iron: 0.11, magnesium: 0.12 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -601,7 +551,7 @@ export const recipeCoverageIngredients: Record<
     name: "cayenne pepper",
     origin: ["Central and South America"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Hot red chili powder used for direct, fast-building capsaicin heat.",
     category: "spice",
@@ -612,12 +562,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -660,7 +605,7 @@ export const recipeCoverageIngredients: Record<
     name: "queso fresco",
     origin: ["Mexico", "Central America"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Fresh crumbly Mexican cheese used as a salty, cooling finish for beans, tortillas, and chiles.",
     category: "dairy",
@@ -671,12 +616,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -719,7 +659,7 @@ export const recipeCoverageIngredients: Record<
     name: "bird s eye chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Alternate spelling variant for bird's eye chilies; treated as the same high-heat chili ingredient.",
     category: "spice",
@@ -731,12 +671,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -779,7 +714,7 @@ export const recipeCoverageIngredients: Record<
     name: "white bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Refined wheat bread used for crumbs, soaks, sandwiches, and structure in fillings or meat mixtures.",
     category: "grain",
@@ -790,12 +725,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -838,7 +768,7 @@ export const recipeCoverageIngredients: Record<
     name: "capers",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pickled flower buds of the caper bush, brined or salted, lending a sharp briny tang to Mediterranean sauces, fish dishes, and tapenade.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -848,14 +778,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -898,7 +821,7 @@ export const recipeCoverageIngredients: Record<
     name: "sichuan peppercorns",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Citrusy, numbing spice from prickly ash husks used for ma la profile and aromatic lift.",
     category: "spice",
@@ -909,12 +832,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -957,7 +875,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried red chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Air-dried red chiles used whole, crushed, or rehydrated for layered heat and color.",
     category: "spice",
@@ -968,12 +886,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1016,7 +929,7 @@ export const recipeCoverageIngredients: Record<
     name: "oil",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Generic recipe oil token used when a source recipe does not specify olive, canola, or another named fat. Treat as neutral cooking oil unless a regional context indicates otherwise.",
     category: "oil",
@@ -1027,12 +940,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1075,7 +983,7 @@ export const recipeCoverageIngredients: Record<
     name: "frying oil",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Oil specified for deep or shallow frying where smoke point and oxidation stability are primary constraints.",
     category: "oil",
@@ -1086,12 +994,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1134,7 +1037,7 @@ export const recipeCoverageIngredients: Record<
     name: "chili flakes",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Crushed dried chili fragments used as finishing heat or infused in oil.",
     category: "spice",
@@ -1145,12 +1048,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1193,7 +1091,7 @@ export const recipeCoverageIngredients: Record<
     name: "radishes",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Crisp pungent roots used raw for bite or pickled for acidity and crunch.",
     category: "vegetable",
@@ -1204,12 +1102,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1252,7 +1145,7 @@ export const recipeCoverageIngredients: Record<
     name: "black peppercorns",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried whole pepper berries ground for sharp, pungent heat, the universal table and cooking seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -1262,14 +1155,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1312,7 +1198,7 @@ export const recipeCoverageIngredients: Record<
     name: "ice",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Frozen water used for chilling, textural contrast, and dessert beverages rather than as a nutritional ingredient.",
     category: "seasoning",
@@ -1323,12 +1209,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1371,7 +1252,7 @@ export const recipeCoverageIngredients: Record<
     name: "corn",
     origin: ["Mesoamerica"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Whole corn kernels or cut corn used as a starchy-sweet base ingredient across soups, stews, tortillas, and salads.",
     category: "grain",
@@ -1382,12 +1263,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1430,7 +1306,7 @@ export const recipeCoverageIngredients: Record<
     name: "limes",
     origin: ["Southeast Asia", "India"],
     season: ["summer", "fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small green citrus fruits with sharp, acidic juice; essential in Mexican cooking for salsas, marinades, drinks, and finishing tacos and soups.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
@@ -1440,14 +1316,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1490,7 +1359,7 @@ export const recipeCoverageIngredients: Record<
     name: "achiote paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Brick-red Yucatecan seasoning paste of ground annatto, spices, and vinegar; rubbed onto meats for cochinita pibil and other adobo dishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -1500,14 +1369,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1550,7 +1412,7 @@ export const recipeCoverageIngredients: Record<
     name: "allspice",
     origin: ["Caribbean", "Central America"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Warm spice from dried Pimenta berries with flavor notes of clove, cinnamon, and nutmeg.",
     category: "spice",
@@ -1561,12 +1423,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1609,7 +1466,7 @@ export const recipeCoverageIngredients: Record<
     name: "red curry paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thai paste of red chilies, lemongrass, galangal, and shrimp paste, simmered with coconut milk for classic red curry.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -1619,14 +1476,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1669,7 +1519,7 @@ export const recipeCoverageIngredients: Record<
     name: "harissa paste",
     origin: ["North Africa (Tunisia)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A North African chili paste of roasted red peppers, garlic, and spices like caraway and coriander, used as a condiment and cooking base.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -1679,14 +1529,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1729,7 +1572,7 @@ export const recipeCoverageIngredients: Record<
     name: "raisins",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Dried grapes used for concentrated sweetness and chew in savory rice dishes, breads, and desserts.",
     category: "fruit",
@@ -1740,12 +1583,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1788,7 +1626,7 @@ export const recipeCoverageIngredients: Record<
     name: "worcestershire sauce",
     origin: ["England (Worcester)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A highly complex, fermented liquid condiment created in England, featuring a base of vinegar flavored with molasses, sugar, salt, anchovies, tamarind, onion, and garlic. It provides an immediate hit of umami, tang, and sweetness, excelling as a marinade for beef or a seasoning for bloody marys.\n\n**Selection & Storage:** Highly stable due to its vinegar and salt content; store in a cool, dark pantry.",
     category: "misc",
@@ -1799,12 +1637,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1847,7 +1680,7 @@ export const recipeCoverageIngredients: Record<
     name: "hot sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Liquid condiment of chilies, vinegar, and salt, splashed onto dishes at the table for added heat and tang.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -1857,14 +1690,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1907,7 +1733,7 @@ export const recipeCoverageIngredients: Record<
     name: "heavy whipping cream",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "High-fat cream that whips to stiff peaks and enriches sauces, soups, and desserts without curdling when reduced.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -1917,14 +1743,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -1967,7 +1786,7 @@ export const recipeCoverageIngredients: Record<
     name: "hoisin sauce",
     origin: ["China"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A thick, fragrant sauce commonly used in Cantonese cuisine as a glaze for meat or a dipping sauce. It is sweet and salty, primarily made from fermented soybeans, garlic, five-spice powder, and sugar, offering a flavor profile similar to a Chinese BBQ sauce.\n\n**Selection & Storage:** Once opened, store tightly sealed in the refrigerator, where it will last for many months.",
     category: "misc",
@@ -1978,12 +1797,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2026,7 +1840,7 @@ export const recipeCoverageIngredients: Record<
     name: "bamboo shoots",
     origin: ["East and Southeast Asia"],
     season: ["spring"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Crunchy young shoots of bamboo, blanched to remove bitterness and used in stir-fries, curries, and braises.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
@@ -2036,14 +1850,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2086,7 +1893,7 @@ export const recipeCoverageIngredients: Record<
     name: "sauerkraut",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Finely shredded cabbage that has been fermented by various lactic acid bacteria, including *Leuconostoc*, *Lactobacillus*, and *Pediococcus*. This anaerobic fermentation converts the cabbage's natural sugars into lactic acid, providing a long shelf life and a distinctively sharp, sour tang.\n\n**Selection & Storage:** For the most health benefits, purchase unpasteurized sauerkraut found in the refrigerated section. Keep tightly sealed in the fridge, ensuring the cabbage remains submerged in its brine.",
     category: "misc",
@@ -2097,12 +1904,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2145,7 +1947,7 @@ export const recipeCoverageIngredients: Record<
     name: "cloves",
     origin: ["Indonesia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Highly aromatic dried flower buds used in tiny quantities for warm, sweet, and medicinal spice notes.",
     category: "spice",
@@ -2156,12 +1958,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2204,7 +2001,7 @@ export const recipeCoverageIngredients: Record<
     name: "asafoetida hing",
     origin: ["Western Asia (Iran, Afghanistan)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A pungent dried gum resin used in tiny pinches, bloomed in hot oil to add a savory onion-garlic note to Indian dals and vegetable dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -2214,14 +2011,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2264,7 +2054,7 @@ export const recipeCoverageIngredients: Record<
     name: "kasuri methi",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried fenugreek leaves with a slightly bitter, maple-like aroma, crushed and sprinkled into Indian curries, dals, and breads as a finishing herb.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -2274,14 +2064,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp fresh",
-      source: "Recipe-derived coverage entry",
-      calories: 1,
-      macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2324,7 +2107,7 @@ export const recipeCoverageIngredients: Record<
     name: "pepper",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Generic pepper token, most often meaning black pepper in savory recipes. Use as a baseline pungent spice unless the recipe specifies a pepper type.",
     category: "spice",
@@ -2335,24 +2118,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      composition: {
-        water: 0.125,
-        protein: 0.104,
-        fat: 0.0326,
-        carbohydrate: 0.64,
-        ash: 0.0449,
-        basis: "usda-fdc",
-        fdcId: 170931,
-        fdcDescription: "Spices, pepper, black",
-        retrieved: "2026-08-18",
-        unaccountedNote: "The SR Legacy record's own proximates sum to 94.7 %: its carbohydrate is not computed by difference, so ~5 % is unattributed at source.",
-      },
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2395,7 +2161,7 @@ export const recipeCoverageIngredients: Record<
     name: "marsala wine",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fortified Sicilian wine ranging from dry to sweet, used to deglaze pans and build sauces in dishes like chicken or veal Marsala.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -2405,14 +2171,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2455,7 +2214,7 @@ export const recipeCoverageIngredients: Record<
     name: "golden raisins",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried green grapes treated to retain a pale golden color, sweeter and softer than dark raisins; used in picadillo, moles, and stuffings.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
@@ -2465,14 +2224,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 85,
-      macros: { protein: 1, carbs: 22, fat: 0.1, fiber: 1.5 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2515,7 +2267,7 @@ export const recipeCoverageIngredients: Record<
     name: "nori seaweed",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried, paper-thin sheets of pressed laver seaweed used to wrap sushi and rice balls or cut into garnish strips.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -2525,14 +2277,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 sheet (3g)", calories: 10, macros: { protein: 1.2, carbs: 1.1, fat: 0.1, fiber: 0.9 }, vitamins: { A: 0.12, C: 0.06, B12: 0.25 }, minerals: { iodine: 1.8, iron: 0.05, magnesium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2575,7 +2320,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh ramen noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fresh alkaline wheat noodles with a chewy, springy bite, boiled briefly and served in ramen broths.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -2585,14 +2330,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2635,7 +2373,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried soba noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried buckwheat noodles with a nutty flavor, served chilled with dipping sauce or hot in broth.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -2645,14 +2383,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2695,7 +2426,7 @@ export const recipeCoverageIngredients: Record<
     name: "wasabi",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "The grated rhizome of a Japanese semi-aquatic plant (*Eutrema japonicum*). It produces volatile allyl isothiocyanate compounds when its cells are ruptured, delivering a fierce, vaporous heat that aggressively attacks the sinuses before dissipating completely within seconds.\n\n**Selection & Storage:** Real fresh wasabi is rare and must be grated immediately before serving, as its flavor vanishes in 15 minutes. Most commercial 'wasabi' is a stable mixture of horseradish, mustard, and green food coloring.",
     category: "misc",
@@ -2706,12 +2437,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2754,7 +2480,7 @@ export const recipeCoverageIngredients: Record<
     name: "mixed seafood",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Mixed Seafood is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
@@ -2765,12 +2491,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2813,7 +2534,7 @@ export const recipeCoverageIngredients: Record<
     name: "doenjang",
     origin: ["Korea"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Korean fermented soybean paste, deep and savory, used as the base for stews like doenjang-jjigae, dipping sauces (ssamjang), and marinades.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -2823,14 +2544,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2873,7 +2587,7 @@ export const recipeCoverageIngredients: Record<
     name: "ancho chiles",
     origin: ["Mexico"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried ripe poblano peppers, mild and fruity with raisin and cocoa notes; a foundational chili for moles, adobos, and enchilada sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -2883,14 +2597,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2933,7 +2640,7 @@ export const recipeCoverageIngredients: Record<
     name: "poblano peppers",
     origin: ["Mexico (Puebla)"],
     season: ["summer", "fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Large, mild dark-green chili peppers with an earthy flavor; roasted and peeled for chiles rellenos, rajas, and sauces, and dried they become anchos.",
     category: "vegetable",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -2943,14 +2650,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -2993,7 +2693,7 @@ export const recipeCoverageIngredients: Record<
     name: "tahini",
     origin: ["Levant"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Ground sesame seed paste used for emulsions, sauces, dips, and nutty richness.",
     category: "seasoning",
@@ -3004,12 +2704,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 tbsp (30g)", calories: 178, macros: { protein: 5.1, carbs: 6.4, fat: 16, fiber: 2.8 }, vitamins: { B1: 0.24, B3: 0.1, B6: 0.12 }, minerals: { calcium: 0.13, iron: 0.15, magnesium: 0.17, phosphorus: 0.22 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3052,7 +2747,7 @@ export const recipeCoverageIngredients: Record<
     name: "raw tahini",
     origin: ["Levant"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Unroasted sesame paste with lighter bitterness and grassy sesame aroma compared with roasted tahini.",
     category: "seasoning",
@@ -3064,12 +2759,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 tbsp (30g)", calories: 178, macros: { protein: 5.1, carbs: 6.4, fat: 16, fiber: 2.8 }, vitamins: { B1: 0.24, B3: 0.1, B6: 0.12 }, minerals: { calcium: 0.13, iron: 0.15, magnesium: 0.17, phosphorus: 0.22 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3112,7 +2802,7 @@ export const recipeCoverageIngredients: Record<
     name: "green curry paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Vibrant Thai paste of green chilies and aromatics, blended into coconut milk for fragrant, fresh-tasting green curry.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -3122,14 +2812,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3172,7 +2855,7 @@ export const recipeCoverageIngredients: Record<
     name: "niter kibbeh",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ethiopian spiced clarified butter infused with garlic, ginger, and spices, used as the cooking fat in wots and stews.",
     category: "oil",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -3182,14 +2865,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3232,7 +2908,7 @@ export const recipeCoverageIngredients: Record<
     name: "scotch bonnet pepper",
     origin: ["Caribbean"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Very hot, fruity Caribbean chili used in jerk seasoning, pepper sauces, and West African stews.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -3242,14 +2918,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3292,7 +2961,7 @@ export const recipeCoverageIngredients: Record<
     name: "red pepper flakes",
     origin: ["Mesoamerica"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried crushed chili flakes with seeds, sprinkled over pizza, pasta, and stir-fries for moderate heat.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -3302,14 +2971,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3352,7 +3014,7 @@ export const recipeCoverageIngredients: Record<
     name: "peri peri sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Spicy African bird's-eye chili sauce with garlic, lemon, and herbs, used to marinate and baste grilled chicken.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -3362,14 +3024,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3412,7 +3067,7 @@ export const recipeCoverageIngredients: Record<
     name: "unsliced white bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Unsliced White Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
@@ -3423,12 +3078,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3471,7 +3121,7 @@ export const recipeCoverageIngredients: Record<
     name: "habanero pepper",
     origin: ["Yucatán Peninsula"],
     season: ["summer", "fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Intensely hot chili with bright citrusy notes, used in salsas, hot sauces, and Mexican and Caribbean cooking.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -3481,14 +3131,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3531,7 +3174,7 @@ export const recipeCoverageIngredients: Record<
     name: "cream of tartar",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Powdered acid (potassium bitartrate) used to stabilize whipped egg whites and prevent sugar crystallization in candy.",
     category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -3541,14 +3184,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3591,7 +3227,7 @@ export const recipeCoverageIngredients: Record<
     name: "american cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild, smooth processed cheese that melts evenly, used on burgers, grilled cheese, and other sandwiches.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -3601,14 +3237,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3651,7 +3280,7 @@ export const recipeCoverageIngredients: Record<
     name: "creole seasoning",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Louisiana-style spice blend of paprika, cayenne, garlic, onion, herbs, and pepper; used to season gumbo, jambalaya, and blackened meats.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -3661,14 +3290,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3711,7 +3333,7 @@ export const recipeCoverageIngredients: Record<
     name: "cornmeal",
     origin: ["Mesoamerica"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A coarse flour ground from dried maize (corn). Depending on the grind (fine, medium, or coarse), it provides structural integrity, a crunchy texture, and a sweet, earthy flavor to baked goods like cornbread, or serves as a crispy breading for fried fish.\n\n**Selection & Storage:** Stone-ground cornmeal retains the germ and spoils faster than degerminated cornmeal. Keep stone-ground varieties in the refrigerator or freezer in an airtight container.",
     category: "vegetable",
@@ -3722,12 +3344,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3770,7 +3387,7 @@ export const recipeCoverageIngredients: Record<
     name: "wheat starch",
     origin: ["Fertile Crescent"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Gluten-free starch from wheat used to make translucent dim sum wrappers such as har gow and crystal dumplings.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -3780,14 +3397,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3830,7 +3440,7 @@ export const recipeCoverageIngredients: Record<
     name: "silken tofu",
     origin: ["China", "Japan"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Soft, custard-like tofu with high moisture, used in miso soup, sundubu stews, and chilled dishes like hiyayakko.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -3840,14 +3450,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 47, macros: { protein: 4.8, carbs: 2.1, fat: 2.3, fiber: 0.5 }, vitamins: { B1: 0.06 }, minerals: { calcium: 0.08, iron: 0.06 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3890,7 +3493,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "High-moisture wheat noodles used in stir-fry and soup formats where chew and elasticity are important.",
     category: "grain",
@@ -3901,12 +3504,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -3949,7 +3547,7 @@ export const recipeCoverageIngredients: Record<
     name: "shellfish",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Shellfish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
@@ -3960,12 +3558,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4008,7 +3601,7 @@ export const recipeCoverageIngredients: Record<
     name: "toulouse sausage",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Coarse, garlicky fresh French pork sausage, a classic component of cassoulet and grilled dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -4018,14 +3611,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4068,7 +3654,7 @@ export const recipeCoverageIngredients: Record<
     name: "kalamata olives",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dark purple Greek olives with a meaty texture and rich, fruity-tart flavor, used in Greek salads, tapenades, and braised dishes.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4078,14 +3664,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4128,7 +3707,7 @@ export const recipeCoverageIngredients: Record<
     name: "biryani masala",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A ground spice blend of warming aromatics like cardamom, cinnamon, cloves, mace, and bay used to season layered rice-and-meat biryani dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -4138,14 +3717,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4188,7 +3760,7 @@ export const recipeCoverageIngredients: Record<
     name: "cashew paste",
     origin: ["South America (Brazil)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A smooth paste of ground soaked cashews used to thicken and enrich Indian gravies and kormas, lending creaminess without dairy.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4198,14 +3770,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4248,7 +3813,7 @@ export const recipeCoverageIngredients: Record<
     name: "spaghetti",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A long, thin, solid cylindrical pasta shape originating in Italy. Its high surface-area-to-volume ratio makes it exceptionally well-suited for clinging to loose, oil- or butter-based sauces (like Aglio e Olio) and smooth tomato sauces that can evenly coat the long strands.\n\n**Selection & Storage:** High-quality dried spaghetti will have a rough, matte texture (bronze-die extruded) rather than a smooth, shiny one, allowing sauces to adhere better. Store in a dry pantry.",
     category: "grain",
@@ -4259,12 +3824,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 7.2, carbs: 42, fat: 1, fiber: 2.1 }, vitamins: { B1: 0.25, B3: 0.2, folate: 0.3 }, minerals: { iron: 0.12, magnesium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4307,7 +3867,7 @@ export const recipeCoverageIngredients: Record<
     name: "guanciale",
     origin: ["Italy"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "An Italian cured meat prepared from pork jowl or cheeks. It is fundamentally similar to pancetta but boasts a significantly higher ratio of fat to meat, providing an incredibly rich, melt-in-the-mouth texture and a more robust, porky flavor essential for authentic Spaghetti alla Carbonara.\n\n**Selection & Storage:** Usually sold in blocks. Store tightly wrapped in the refrigerator, and dice it directly before rendering it in a cold pan.",
     category: "misc",
@@ -4318,12 +3878,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 140, macros: { protein: 3.5, carbs: 0, fat: 14, fiber: 0 }, vitamins: { B1: 0.12, B3: 0.09 }, minerals: { sodium: 0.18, zinc: 0.05 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4366,7 +3921,7 @@ export const recipeCoverageIngredients: Record<
     name: "strong espresso",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Strong Espresso is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -4377,12 +3932,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 fl oz (30ml)", calories: 3, macros: { protein: 0.1, carbs: 0.5, fat: 0.1, fiber: 0 }, vitamins: { B3: 0.08, B2: 0.05 }, minerals: { magnesium: 0.03, potassium: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4425,7 +3975,7 @@ export const recipeCoverageIngredients: Record<
     name: "savoiardi ladyfingers",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Light, crisp sponge-finger biscuits that soak up liquid, layered into tiramisu and charlottes.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4435,14 +3985,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4485,7 +4028,7 @@ export const recipeCoverageIngredients: Record<
     name: "unsweetened cocoa powder",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ground defatted cacao with deep bitter chocolate flavor, used in cakes, brownies, and hot chocolate.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4495,14 +4038,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (5.4g)", calories: 12, macros: { protein: 1.1, carbs: 3.1, fat: 0.7, fiber: 1.8 }, vitamins: {  }, minerals: { copper: 0.23, manganese: 0.1, magnesium: 0.07, iron: 0.06 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4545,7 +4081,7 @@ export const recipeCoverageIngredients: Record<
     name: "yakisoba noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Springy wheat noodles for the stir-fried Japanese dish yakisoba, tossed with vegetables, meat, and a tangy-sweet sauce.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -4555,14 +4091,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4605,7 +4134,7 @@ export const recipeCoverageIngredients: Record<
     name: "yakisoba sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Yakisoba Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -4616,12 +4145,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4664,7 +4188,7 @@ export const recipeCoverageIngredients: Record<
     name: "ajitsuke tamago",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Soft-boiled eggs marinated in a soy-mirin mixture, halved and used as a classic ramen topping.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4674,14 +4198,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4724,7 +4241,7 @@ export const recipeCoverageIngredients: Record<
     name: "tentsuyu",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Light dashi-based dipping sauce with soy and mirin, served warm alongside tempura.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4734,14 +4251,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4784,7 +4294,7 @@ export const recipeCoverageIngredients: Record<
     name: "tenkasu tempura scraps",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Crunchy bits of fried tempura batter used to add texture and richness to udon, takoyaki, okonomiyaki, and rice bowls.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4794,14 +4304,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4844,7 +4347,7 @@ export const recipeCoverageIngredients: Record<
     name: "okonomiyaki sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Sweet, tangy, Worcestershire-based brown sauce brushed over okonomiyaki and other savory Japanese pancakes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4854,14 +4357,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4904,7 +4400,7 @@ export const recipeCoverageIngredients: Record<
     name: "katsuobushi bonito flakes",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin shavings of dried bonito used to make dashi and as an umami topping for tofu, okonomiyaki, and rice.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -4914,14 +4410,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -4964,7 +4453,7 @@ export const recipeCoverageIngredients: Record<
     name: "shirataki noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Translucent, gelatinous noodles made from konjac yam, low in calories and used in sukiyaki, hot pots, and stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -4974,14 +4463,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5024,7 +4506,7 @@ export const recipeCoverageIngredients: Record<
     name: "kamaboko",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Japanese steamed fish cake made from surimi, sliced and added to ramen, udon, and bento, often with a pink-edged exterior.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5034,14 +4516,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5084,7 +4559,7 @@ export const recipeCoverageIngredients: Record<
     name: "somyeon thin wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin Korean wheat noodles that cook quickly, served in cold broths, with bibim sauces, or in light soups like janchi-guksu.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -5094,14 +4569,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5144,7 +4612,7 @@ export const recipeCoverageIngredients: Record<
     name: "medium firm tofu",
     origin: ["China"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Tofu texture between soft and firm, suitable for soups, braises, and gentle stir-fries.",
     category: "protein",
@@ -5155,12 +4623,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 62, macros: { protein: 7.1, carbs: 2, fat: 3.5, fiber: 0.9 }, vitamins: { B1: 0.07 }, minerals: { calcium: 0.14, iron: 0.09 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5203,7 +4666,7 @@ export const recipeCoverageIngredients: Record<
     name: "gim roasted seaweed",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Korean roasted laver seaweed, usually seasoned with salt and sesame oil, eaten as a side dish or wrapped around rice.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5213,14 +4676,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 sheet (3g)", calories: 10, macros: { protein: 1.2, carbs: 1.1, fat: 0.1, fiber: 0.9 }, vitamins: { A: 0.12, C: 0.06, B12: 0.25 }, minerals: { iodine: 1.8, iron: 0.05, magnesium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5263,7 +4719,7 @@ export const recipeCoverageIngredients: Record<
     name: "dangmyeon",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Korean sweet potato starch glass noodles, chewy and translucent, the key ingredient in stir-fried japchae.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5273,14 +4729,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5323,7 +4772,7 @@ export const recipeCoverageIngredients: Record<
     name: "eomuk fish cakes",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Korean fish cakes made from ground fish and starch, simmered in skewered soup (odeng) or stir-fried as banchan.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -5333,14 +4782,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5383,7 +4825,7 @@ export const recipeCoverageIngredients: Record<
     name: "tomatillos",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small green fruits encased in a papery husk with a tart, citrusy flavor; the base for salsa verde and many Mexican green sauces, used raw or roasted.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5393,14 +4835,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5443,7 +4878,7 @@ export const recipeCoverageIngredients: Record<
     name: "crema mexicana",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin, slightly tangy Mexican cultured cream, richer and less sour than sour cream; drizzled over tacos, tostadas, and enchiladas as a cooling garnish.",
     category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5453,14 +4888,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5503,7 +4931,7 @@ export const recipeCoverageIngredients: Record<
     name: "lard",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Rendered pork fat used for frying, pastry shortening, and savory depth in traditional regional cooking.",
     category: "oil",
@@ -5514,12 +4942,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5562,7 +4985,7 @@ export const recipeCoverageIngredients: Record<
     name: "guajillo chiles",
     origin: ["Mexico"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried mirasol peppers with bright, tangy, mild-to-medium heat; rehydrated and blended for red sauces, marinades, and birria.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -5572,14 +4995,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5622,7 +5038,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh epazote",
     origin: ["Mexico", "Central America"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pungent Mexican herb with a strong, gasoline-citrus aroma; added to black beans, quesadillas, and soups for flavor and to reduce beans' gassiness.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5632,14 +5048,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp fresh",
-      source: "Recipe-derived coverage entry",
-      calories: 1,
-      macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5682,7 +5091,7 @@ export const recipeCoverageIngredients: Record<
     name: "pita bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Leavened Middle Eastern flatbread used for stuffing, dipping, and as a starch base.",
     category: "grain",
@@ -5694,12 +5103,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5742,7 +5146,7 @@ export const recipeCoverageIngredients: Record<
     name: "shawarma spice blend",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A Middle Eastern ground blend of cumin, coriander, paprika, cinnamon, and allspice used to season roasted, spit-grilled shawarma meats.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -5752,14 +5156,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5802,7 +5199,7 @@ export const recipeCoverageIngredients: Record<
     name: "pickle brine",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Tangy salty-sour liquid from pickling, used to brine meats, dress salads, or add acidity to dressings and cocktails.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5812,14 +5209,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (15ml)", calories: 3, macros: { protein: 0, carbs: 0.1, fat: 0, fiber: 0 }, vitamins: {  }, minerals: { potassium: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5862,7 +5252,7 @@ export const recipeCoverageIngredients: Record<
     name: "nam prik pao",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thai roasted chili jam of dried chilies, shallots, garlic, and tamarind; stirred into tom yum, stir-fries, and dips.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -5872,14 +5262,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5922,7 +5305,7 @@ export const recipeCoverageIngredients: Record<
     name: "massaman curry paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild, aromatic Thai-Muslim curry paste with warm spices like cinnamon and cardamom, simmered with coconut milk and potatoes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -5932,14 +5315,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -5982,7 +5358,7 @@ export const recipeCoverageIngredients: Record<
     name: "long red chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild-to-medium fresh red chilies sliced for color and gentle heat in Thai and Vietnamese stir-fries and garnishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -5992,14 +5368,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6042,7 +5411,7 @@ export const recipeCoverageIngredients: Record<
     name: "hale s blue boy syrup",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Hale S Blue Boy Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -6053,12 +5422,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6101,7 +5465,7 @@ export const recipeCoverageIngredients: Record<
     name: "leftover dry injera",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Leftover Dry Injera is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -6112,12 +5476,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6160,7 +5519,7 @@ export const recipeCoverageIngredients: Record<
     name: "scotch bonnet peppers ata rodo",
     origin: ["Caribbean"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Scotch Bonnet Peppers Ata Rodo is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     category: "spice",
@@ -6171,12 +5530,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6219,7 +5573,7 @@ export const recipeCoverageIngredients: Record<
     name: "macaroni",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A short, tubular pasta shape, often curved (elbow macaroni). The hollow center is specifically designed to trap loose, creamy, or chunky sauces, making it the globally accepted standard for dense, dairy-heavy baked dishes like macaroni and cheese.\n\n**Selection & Storage:** Choose pasta with a consistent color and no broken pieces. Store in an airtight container or its original packaging in a cool, dry place.",
     category: "misc",
@@ -6230,12 +5584,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6278,7 +5627,7 @@ export const recipeCoverageIngredients: Record<
     name: "vegetable stock",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Clear broth simmered from vegetables and aromatics, used as a neutral base for soups, risottos, and sauces.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -6288,14 +5637,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6338,7 +5680,7 @@ export const recipeCoverageIngredients: Record<
     name: "vermicelli",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Thin noodles (wheat or rice depending on cuisine) used in soups, stir-fries, and cold dishes.",
     category: "grain",
@@ -6349,12 +5691,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6397,7 +5734,7 @@ export const recipeCoverageIngredients: Record<
     name: "crushed wheat frik",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Crushed Wheat Frik is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -6408,12 +5745,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6456,7 +5788,7 @@ export const recipeCoverageIngredients: Record<
     name: "harissa",
     origin: ["North Africa (Tunisia)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A vibrant, spicy, and aromatic chili paste originating from the Maghreb region of North Africa. It is traditionally composed of roasted red peppers, Baklouti chilies, garlic, caraway, coriander, and cumin, pounded into a paste with olive oil to create an intensely flavorful, earthy condiment.\n\n**Selection & Storage:** High-quality harissa comes in tubes or jars. Once opened, top the paste with a thin layer of olive oil to seal out air, and keep refrigerated.",
     category: "spice",
@@ -6467,12 +5799,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6515,7 +5842,7 @@ export const recipeCoverageIngredients: Record<
     name: "brick pastry sheets",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin North African pastry sheets (feuilles de brick) that crisp when fried or baked, used for briouats and bastilla.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -6525,14 +5852,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6575,7 +5895,7 @@ export const recipeCoverageIngredients: Record<
     name: "ogbono seeds",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried wild mango seeds, ground to thicken and flavor Nigerian ogbono soup with a mucilaginous body.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -6585,14 +5905,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6635,7 +5948,7 @@ export const recipeCoverageIngredients: Record<
     name: "collard greens",
     origin: ["Eastern Mediterranean", "Asia Minor"],
     season: ["fall", "winter", "early spring"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A robust, wide-leafed member of the cabbage family (*Brassica oleracea*). Because their leaves are incredibly tough and fibrous, they require long, slow braising (traditionally with smoked meats and acidic vinegar) to break down into a tender, deeply savory, and silky side dish.\n\n**Selection & Storage:** Choose bunches with dark green, broad leaves and firm stems. Store unwashed in the crisper drawer; they are quite hardy and will last up to a week.",
     category: "misc",
@@ -6646,12 +5959,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6694,7 +6002,7 @@ export const recipeCoverageIngredients: Record<
     name: "couscous",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Tiny granules of rolled durum wheat semolina, common in North African cuisine. Because the granules are pre-steamed and dried during the manufacturing process, it cooks incredibly fast—often just requiring a brief steep in boiling water to hydrate and fluff into a light, airy side dish.\n\n**Selection & Storage:** Look for uniform granules; Moroccan couscous is tiny, while Israeli (pearl) couscous is larger and requires simmering. Store in an airtight container in a dark pantry.",
     category: "misc",
@@ -6705,12 +6013,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6753,7 +6056,7 @@ export const recipeCoverageIngredients: Record<
     name: "durban curry masala",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A fiery South African Indian curry blend, heavy on chili and coriander, used in Durban-style curries like bunny chow.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -6763,14 +6066,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6813,7 +6109,7 @@ export const recipeCoverageIngredients: Record<
     name: "mitmita",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fiery Ethiopian spice blend of bird's-eye chili, cardamom, and cloves, used to season kitfo and as a table condiment.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -6823,14 +6119,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6873,7 +6162,7 @@ export const recipeCoverageIngredients: Record<
     name: "kuli kuli powder",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ground West African peanut snack used as a crunchy seasoning sprinkled over salads or stirred into spice mixes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -6883,14 +6172,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6933,7 +6215,7 @@ export const recipeCoverageIngredients: Record<
     name: "sourdough bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Tangy naturally leavened bread with a chewy crumb and crisp crust, sliced for toast, sandwiches, and croutons.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -6943,14 +6225,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -6993,7 +6268,7 @@ export const recipeCoverageIngredients: Record<
     name: "leeks",
     origin: ["Mediterranean"],
     season: ["fall", "winter", "spring"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild onion-family vegetable with a tender white-and-green stalk, sweated as an aromatic base for soups, tarts, and braises.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7003,14 +6278,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7053,7 +6321,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh berries",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Assorted ripe berries such as strawberries, blueberries, and raspberries, eaten raw or used to top desserts and breakfasts.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7063,14 +6331,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7113,7 +6374,7 @@ export const recipeCoverageIngredients: Record<
     name: "sweet pickle relish",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Finely chopped sweet pickled cucumber condiment, stirred into tartar sauce and spread on hot dogs and burgers.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7123,14 +6384,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7173,7 +6427,7 @@ export const recipeCoverageIngredients: Record<
     name: "watercress",
     origin: ["Europe", "Asia"],
     season: ["spring", "summer"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A rapidly growing, aquatic leafy green (*Nasturtium officinale*) related to mustard and radish. It delivers a sharp, explosive, and peppery bite that acts as a brilliant, astringent palate cleanser when paired with rich steaks or creamy tea sandwiches.\n\n**Selection & Storage:** It is highly perishable. Look for perky, bright green leaves, and store the stems submerged in a glass of water in the refrigerator, loosely covered with a plastic bag.",
     category: "misc",
@@ -7184,12 +6438,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7232,7 +6481,7 @@ export const recipeCoverageIngredients: Record<
     name: "top split hot dog buns",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Top Split Hot Dog Buns is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -7243,12 +6492,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7291,7 +6535,7 @@ export const recipeCoverageIngredients: Record<
     name: "thick cut sourdough",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Thick Cut Sourdough is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -7302,12 +6546,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7350,7 +6589,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried navy beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small, mild white beans that turn creamy when cooked, classic for baked beans and hearty soups.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -7360,14 +6599,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7410,7 +6642,7 @@ export const recipeCoverageIngredients: Record<
     name: "cube steak",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin beef cut mechanically tenderized into a pitted surface, quick to pan-fry for dishes like chicken-fried steak.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7420,14 +6652,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7470,7 +6695,7 @@ export const recipeCoverageIngredients: Record<
     name: "andouille sausage",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Smoked, coarse-ground pork sausage with assertive spice, central to Cajun gumbo, jambalaya, and red beans and rice.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -7480,14 +6705,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7530,7 +6748,7 @@ export const recipeCoverageIngredients: Record<
     name: "italian sausage",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fresh pork sausage seasoned with fennel and garlic in sweet or hot styles, used in pasta sauces, pizzas, and sandwiches.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -7540,14 +6758,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7590,7 +6801,7 @@ export const recipeCoverageIngredients: Record<
     name: "hoagie rolls",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Hoagie Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -7601,12 +6812,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7649,7 +6855,7 @@ export const recipeCoverageIngredients: Record<
     name: "provolone cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Semi-hard Italian cow's-milk cheese ranging from mild to sharp, melted on sandwiches, pizzas, and baked pasta.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -7659,14 +6865,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7709,7 +6908,7 @@ export const recipeCoverageIngredients: Record<
     name: "pie dough",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Unbaked shortcrust dough rolled out to line tins and form crusts for sweet and savory pies and tarts.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7719,14 +6918,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7769,7 +6961,7 @@ export const recipeCoverageIngredients: Record<
     name: "youtiao fried dough",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Long golden sticks of deep-fried savory dough, eaten with congee or soy milk for breakfast across China.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7779,14 +6971,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7829,7 +7014,7 @@ export const recipeCoverageIngredients: Record<
     name: "tianmianjiang sweet bean sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Sweet fermented wheat paste used as a glaze and dipping sauce, lending mild sweetness and umami to northern Chinese dishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -7839,14 +7024,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7889,7 +7067,7 @@ export const recipeCoverageIngredients: Record<
     name: "baocui crispy fried cracker",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Crisp deep-fried cracker (baocui) used for crunchy texture and as a garnish or wrapper in some regional dishes.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -7899,14 +7077,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -7949,7 +7120,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh chinese wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Soft fresh wheat noodles for stir-fries and noodle soups, with a springy, chewy texture when boiled briefly.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -7959,14 +7130,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8009,7 +7173,7 @@ export const recipeCoverageIngredients: Record<
     name: "sui mi ya cai",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Preserved, finely chopped Sichuan mustard greens with a salty, savory tang; a key topping for dan dan noodles and dry-fried beans.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8019,14 +7183,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8069,7 +7226,7 @@ export const recipeCoverageIngredients: Record<
     name: "chinese sesame paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Toasted sesame paste darker and nuttier than tahini, thinned with oil or water for noodle sauces and hot pot dipping bowls.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8079,14 +7236,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8129,7 +7279,7 @@ export const recipeCoverageIngredients: Record<
     name: "pixian doubanjiang",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Aged chili-broad-bean paste from Pixian, prized as the highest-quality doubanjiang for authentic Sichuan mapo tofu and twice-cooked pork.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8139,14 +7289,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8189,7 +7332,7 @@ export const recipeCoverageIngredients: Record<
     name: "square wonton wrappers",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Square wheat-dough wrappers folded around pork or shrimp fillings for wontons in soup or fried as crispy parcels.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8199,14 +7342,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8249,7 +7385,7 @@ export const recipeCoverageIngredients: Record<
     name: "supreme broth gao tang",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Refined Chinese stock (gao tang) slow-simmered from chicken, pork, and ham for a deeply savory base in fine soups and sauces.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8259,14 +7395,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8309,7 +7438,7 @@ export const recipeCoverageIngredients: Record<
     name: "chili paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick paste of ground chilies, often with garlic and oil, stirred into stir-fries, marinades, and dipping sauces for heat.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -8319,14 +7448,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8369,7 +7491,7 @@ export const recipeCoverageIngredients: Record<
     name: "doubanjiang",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fermented Sichuan paste of broad beans and chilies; the savory, spicy backbone of mapo tofu and many braised dishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8379,14 +7501,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8429,7 +7544,7 @@ export const recipeCoverageIngredients: Record<
     name: "black tea leaves",
     origin: ["China", "India"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fully oxidized tea leaves brewed into a robust, dark infusion served hot or iced.",
     category: "misc",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
@@ -8439,14 +7554,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8489,7 +7597,7 @@ export const recipeCoverageIngredients: Record<
     name: "maltose syrup",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick, mildly sweet malt sugar syrup brushed on roast duck and char siu for glossy color, and used in Chinese pastries.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8499,14 +7607,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8549,7 +7650,7 @@ export const recipeCoverageIngredients: Record<
     name: "sweet bean sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Smooth, dark fermented wheat-flour paste with a sweet-savory flavor; used in Peking duck, zhajiangmian, and as a dipping condiment.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -8559,14 +7660,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8609,7 +7703,7 @@ export const recipeCoverageIngredients: Record<
     name: "red fermented tofu",
     origin: ["China"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cubes of tofu fermented in red brine with rice wine, intensely savory and used as a condiment or seasoning in braises and stir-fries.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -8619,14 +7713,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8669,7 +7756,7 @@ export const recipeCoverageIngredients: Record<
     name: "sesame paste",
     origin: ["Africa"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Rich paste of ground toasted sesame seeds used in dan dan noodles, hot pot dips, and cold sesame sauces.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8679,14 +7766,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8729,7 +7809,7 @@ export const recipeCoverageIngredients: Record<
     name: "sichuan peppercorn powder",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ground Sichuan peppercorns delivering a citrusy aroma and tingling, numbing sensation essential to mala Sichuan seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -8739,14 +7819,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8789,7 +7862,7 @@ export const recipeCoverageIngredients: Record<
     name: "flank steak",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Lean, fibrous beef cut from the cow's belly, best sliced thinly against the grain for stir-fries and grilling.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8799,14 +7872,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8849,7 +7915,7 @@ export const recipeCoverageIngredients: Record<
     name: "thick fresh wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Chubby, chewy fresh wheat noodles that hold up to hearty sauces and braises like dan dan or lo mein.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -8859,14 +7925,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8909,7 +7968,7 @@ export const recipeCoverageIngredients: Record<
     name: "wonton wrappers",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin square sheets of wheat dough used to wrap seasoned fillings for wontons, then boiled, steamed, or fried.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -8919,14 +7978,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -8969,7 +8021,7 @@ export const recipeCoverageIngredients: Record<
     name: "croissant au beurre",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Croissant Au Beurre is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -8980,12 +8032,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9028,7 +8075,7 @@ export const recipeCoverageIngredients: Record<
     name: "jambon de paris high quality cooked ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Jambon De Paris High Quality Cooked Ham is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -9039,12 +8086,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9087,7 +8129,7 @@ export const recipeCoverageIngredients: Record<
     name: "croutons",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cubes of bread toasted or fried until crisp, scattered over salads and soups for crunch.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -9097,14 +8139,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9147,7 +8182,7 @@ export const recipeCoverageIngredients: Record<
     name: "gruyere",
     origin: ["Switzerland (Fribourg)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A firm, raw cow's milk cheese from Switzerland, renowned as one of the finest melting cheeses in the world due to its high water-to-oil ratio. It possesses a complex flavor profile that is sweet but slightly salty, with profound notes of earth, mushrooms, and toasted nuts.\n\n**Selection & Storage:** Look for a dense, slightly granular paste; older varieties will have small cracks and a darker color. Store wrapped in parchment or wax paper in the warmest part of the refrigerator.",
     category: "misc",
@@ -9158,12 +8193,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9206,7 +8236,7 @@ export const recipeCoverageIngredients: Record<
     name: "escargots",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Edible land snails, classically baked in their shells with garlic-parsley butter as a French appetizer.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -9216,14 +8246,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9266,7 +8289,7 @@ export const recipeCoverageIngredients: Record<
     name: "ni u00e7oise olives",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Ni U00e7oise Olives is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -9277,12 +8300,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9325,7 +8343,7 @@ export const recipeCoverageIngredients: Record<
     name: "dover sole",
     origin: ["Atlantic Ocean"],
     season: ["spring", "summer"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Prized flatfish with firm, delicate white flesh, traditionally pan-fried meunière or filleted for elegant fish dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -9335,14 +8353,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9385,7 +8396,7 @@ export const recipeCoverageIngredients: Record<
     name: "sausages",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Seasoned ground-meat links in casings, grilled, fried, or simmered and served in countless regional preparations.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -9395,14 +8406,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9445,7 +8449,7 @@ export const recipeCoverageIngredients: Record<
     name: "juniper berries",
     origin: ["Northern Europe", "North America"],
     season: ["fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Aromatic blue-black berries with a piney, resinous flavor, used to season game, sauerkraut, and brines, and to flavor gin.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -9455,14 +8459,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9505,7 +8502,7 @@ export const recipeCoverageIngredients: Record<
     name: "marrow bone",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cut beef or veal bones containing rich marrow, roasted to spread on toast or simmered to enrich stocks and broths.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -9515,14 +8512,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9565,7 +8555,7 @@ export const recipeCoverageIngredients: Record<
     name: "mixed firm and flaky fish",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Mixed Firm And Flaky Fish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
@@ -9576,12 +8566,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9624,7 +8609,7 @@ export const recipeCoverageIngredients: Record<
     name: "fish stock",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Light savory broth simmered from fish bones and aromatics, used as the base for seafood soups, chowders, and risottos.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -9634,14 +8619,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9684,7 +8662,7 @@ export const recipeCoverageIngredients: Record<
     name: "white haricot beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small, creamy white beans that hold their shape when cooked, used in cassoulet, soups, and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -9694,14 +8672,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9744,7 +8715,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried white tarbais beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Prized large, thin-skinned white beans from southwest France, the traditional bean for authentic cassoulet.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -9754,14 +8725,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9804,7 +8768,7 @@ export const recipeCoverageIngredients: Record<
     name: "red burgundy wine",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dry French Pinot Noir red wine used for braising and deglazing in classic dishes such as boeuf bourguignon and coq au vin.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -9814,14 +8778,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9864,7 +8821,7 @@ export const recipeCoverageIngredients: Record<
     name: "small bony fish for stock",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Small Bony Fish For Stock is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
@@ -9875,12 +8832,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9923,7 +8875,7 @@ export const recipeCoverageIngredients: Record<
     name: "rouille",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Rouille is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -9934,12 +8886,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -9982,7 +8929,7 @@ export const recipeCoverageIngredients: Record<
     name: "piperade",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Piperade is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -9993,12 +8940,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10041,7 +8983,7 @@ export const recipeCoverageIngredients: Record<
     name: "creme patissiere",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick vanilla pastry cream thickened with eggs and starch, used to fill tarts, éclairs, and choux pastries.",
     category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10051,14 +8993,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10101,7 +9036,7 @@ export const recipeCoverageIngredients: Record<
     name: "greek pita bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Soft, fluffy flatbread without a pocket, brushed with oil and used to wrap souvlaki and gyros or scoop dips.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -10111,14 +9046,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10161,7 +9089,7 @@ export const recipeCoverageIngredients: Record<
     name: "kefalotyri cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Hard, salty Greek sheep's- or goat's-milk cheese, grated over pasta or fried as saganaki.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -10171,14 +9099,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10221,7 +9142,7 @@ export const recipeCoverageIngredients: Record<
     name: "vegetable broth",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Savory vegetable stock used as a liquid flavor base in soups, braises, and grain cooking.",
     category: "seasoning",
@@ -10232,12 +9153,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10280,7 +9196,7 @@ export const recipeCoverageIngredients: Record<
     name: "kefalograviera cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Hard, nutty Greek cheese blending kefalotyri and graviera styles, ideal for grating or pan-frying as saganaki.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -10290,14 +9206,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10340,7 +9249,7 @@ export const recipeCoverageIngredients: Record<
     name: "orzo pasta",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small rice-shaped pasta cooked in soups, pilafs, and salads or simmered risotto-style.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10350,14 +9259,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10400,7 +9302,7 @@ export const recipeCoverageIngredients: Record<
     name: "stale bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Stale Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
@@ -10411,12 +9313,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10459,7 +9356,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried currants",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small dried Zante grapes with intense tart-sweet flavor, scattered into scones, breads, rice dishes, and chutneys.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10469,14 +9366,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10519,7 +9409,7 @@ export const recipeCoverageIngredients: Record<
     name: "allspice berries",
     origin: ["Caribbean", "Central America"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried berries tasting of cinnamon, clove, and nutmeg combined, used whole in pickling brines, marinades, and Caribbean jerk seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -10529,14 +9419,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10579,7 +9462,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried gigantes beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Large, meaty white runner beans, baked in tomato sauce for the Greek dish gigantes plaki.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -10589,14 +9472,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10639,7 +9515,7 @@ export const recipeCoverageIngredients: Record<
     name: "stale white bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Stale White Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
@@ -10650,12 +9526,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10698,7 +9569,7 @@ export const recipeCoverageIngredients: Record<
     name: "phyllo pastry",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Paper-thin sheets of unleavened dough, layered with butter and baked into crisp pastries like baklava and spanakopita.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10708,14 +9579,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10758,7 +9622,7 @@ export const recipeCoverageIngredients: Record<
     name: "pastitsio pasta",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Pastitsio Pasta is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -10769,12 +9633,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10817,7 +9676,7 @@ export const recipeCoverageIngredients: Record<
     name: "fenugreek seeds",
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small, hard amber seeds with a bitter, maple-like flavor, toasted or tempered to season curries, pickles, and spice blends.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10827,14 +9686,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10877,7 +9729,7 @@ export const recipeCoverageIngredients: Record<
     name: "sev",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Crisp, thin fried noodles made from seasoned chickpea-flour batter, used as a crunchy topping for chaats and Indian snack mixes.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10887,14 +9739,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10937,7 +9782,7 @@ export const recipeCoverageIngredients: Record<
     name: "mutton",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Meat from mature sheep or goat with a deep, robust flavor, slow-cooked in South Asian curries, biryanis, and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -10947,14 +9792,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -10997,7 +9835,7 @@ export const recipeCoverageIngredients: Record<
     name: "red chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Generic ripe red chili pepper entry used for fresh heat and bright pepper aroma.",
     category: "spice",
@@ -11008,12 +9846,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11056,7 +9889,7 @@ export const recipeCoverageIngredients: Record<
     name: "whole green gram moong dal",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Whole green mung beans, a small legume cooked into dals, sprouted, or stewed; earthy and quick-cooking compared with other pulses.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -11066,14 +9899,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11116,7 +9942,7 @@ export const recipeCoverageIngredients: Record<
     name: "cooking oil",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Cooking Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     category: "oil",
@@ -11127,12 +9953,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11175,7 +9996,7 @@ export const recipeCoverageIngredients: Record<
     name: "green chili paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A pungent paste of ground fresh green chilies, often blended with garlic or ginger, used to add heat to curries, marinades, and stir-fries.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -11185,14 +10006,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11235,7 +10049,7 @@ export const recipeCoverageIngredients: Record<
     name: "nihari masala",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A robust spice blend for nihari, a slow-cooked South Asian meat stew, combining warming spices like fennel, black cardamom, and dried ginger.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -11245,14 +10059,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11295,7 +10102,7 @@ export const recipeCoverageIngredients: Record<
     name: "cashews",
     origin: ["South America"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild, buttery kidney-shaped nuts used whole or ground in Indian curries, fried as a garnish, or ground into rich gravies.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -11305,14 +10112,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11355,7 +10155,7 @@ export const recipeCoverageIngredients: Record<
     name: "chana masala powder",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A tangy, earthy spice blend for chana masala, typically including cumin, coriander, amchur, and dried pomegranate seeds to flavor chickpea curry.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -11365,14 +10165,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11415,7 +10208,7 @@ export const recipeCoverageIngredients: Record<
     name: "carom seeds ajwain",
     origin: ["South Asia", "Western Asia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Carom Seeds Ajwain is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -11426,12 +10219,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11474,7 +10262,7 @@ export const recipeCoverageIngredients: Record<
     name: "amchur",
     origin: ["South Asia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried green-mango powder used as a souring agent in Indian cooking, adding tart, fruity acidity to chaats, curries, and spice rubs.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -11484,14 +10272,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11534,7 +10315,7 @@ export const recipeCoverageIngredients: Record<
     name: "crispy puris",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Crispy Puris is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -11545,12 +10326,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11593,7 +10369,7 @@ export const recipeCoverageIngredients: Record<
     name: "pav bhaji masala",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A tangy-spicy ground blend used to season pav bhaji, the Mumbai mashed-vegetable curry, with notes of cumin, coriander, amchur, and chili.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -11603,14 +10379,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11653,7 +10422,7 @@ export const recipeCoverageIngredients: Record<
     name: "pav rolls",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Pav Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -11664,12 +10433,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11712,7 +10476,7 @@ export const recipeCoverageIngredients: Record<
     name: "tiger prawns",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Large, meaty saltwater prawns with firm flesh, grilled, curried, or pan-fried; prized for their size and sweet flavor.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -11722,14 +10486,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11772,7 +10529,7 @@ export const recipeCoverageIngredients: Record<
     name: "bydagi chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild, deep-red wrinkled dried chilies from Karnataka prized for vivid color over heat, used to give curries and masalas a rich red hue.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -11782,14 +10539,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11832,7 +10582,7 @@ export const recipeCoverageIngredients: Record<
     name: "khoya mawa",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Khoya Mawa is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -11843,12 +10593,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11891,7 +10636,7 @@ export const recipeCoverageIngredients: Record<
     name: "tikka masala spice blend",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A ground blend of cumin, coriander, paprika, garam masala, and chili used to marinate and sauce tikka masala dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -11901,14 +10646,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -11951,7 +10689,7 @@ export const recipeCoverageIngredients: Record<
     name: "espresso",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Concentrated coffee brewed under pressure, used to flavor tiramisu, mocha desserts, and sauces, or served as a drink.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -11961,14 +10699,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 fl oz (30ml)", calories: 3, macros: { protein: 0.1, carbs: 0.5, fat: 0.1, fiber: 0 }, vitamins: { B3: 0.08, B2: 0.05 }, minerals: { magnesium: 0.03, potassium: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12011,7 +10742,7 @@ export const recipeCoverageIngredients: Record<
     name: "high quality cocoa powder",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "High Quality Cocoa Powder is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -12022,12 +10753,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (5.4g)", calories: 12, macros: { protein: 1.1, carbs: 3.1, fat: 0.7, fiber: 1.8 }, vitamins: {  }, minerals: { copper: 0.23, manganese: 0.1, magnesium: 0.07, iron: 0.06 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12070,7 +10796,7 @@ export const recipeCoverageIngredients: Record<
     name: "cantuccini biscotti",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Twice-baked Tuscan almond biscuits, hard and crunchy, traditionally dipped in Vin Santo dessert wine.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12080,14 +10806,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12130,7 +10849,7 @@ export const recipeCoverageIngredients: Record<
     name: "stale crusty bread ideally saltless tuscan bread",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Stale Crusty Bread Ideally Saltless Tuscan Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
@@ -12141,12 +10860,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12189,7 +10903,7 @@ export const recipeCoverageIngredients: Record<
     name: "cannellini beans",
     origin: ["Italy"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Large, creamy white Italian kidney beans used in minestrone, pasta e fagioli, and pureed for dips.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -12199,14 +10913,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12249,7 +10956,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried borlotti",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cream-and-red speckled Italian beans with a nutty, creamy texture, used in soups, stews, and pasta e fagioli.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12259,14 +10966,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12309,7 +11009,7 @@ export const recipeCoverageIngredients: Record<
     name: "ditalini",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Short, tube-shaped pasta used in soups such as pasta e fagioli and minestrone, or in cold pasta salads.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12319,14 +11019,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12369,7 +11062,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh yeast",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Compressed baker's yeast used for active fermentation in breads and enriched doughs, with high activity and shorter shelf life than dry yeast.",
     category: "seasoning",
@@ -12380,12 +11073,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12428,7 +11116,7 @@ export const recipeCoverageIngredients: Record<
     name: "olives",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Brined or cured olive fruit used for saline bitterness and fat-like richness in Mediterranean and Middle Eastern dishes.",
     category: "fruit",
@@ -12439,12 +11127,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12487,7 +11170,7 @@ export const recipeCoverageIngredients: Record<
     name: "pici pasta",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick, hand-rolled Tuscan spaghetti with a chewy bite, served with hearty ragùs and garlicky aglione sauce.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12497,14 +11180,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12547,7 +11223,7 @@ export const recipeCoverageIngredients: Record<
     name: "green olives",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Unripe brined olives with a firm texture and sharp, slightly bitter taste, served as snacks or chopped into tapenades and stuffings.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12557,14 +11233,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12607,7 +11276,7 @@ export const recipeCoverageIngredients: Record<
     name: "vinegar",
     origin: ["Western Asia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Generic vinegar token used for acid balance, pickling, and deglazing when a specific vinegar type is not named.",
     category: "vinegar",
@@ -12618,12 +11287,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (15ml)", calories: 3, macros: { protein: 0, carbs: 0.1, fat: 0, fiber: 0 }, vitamins: {  }, minerals: { potassium: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         spicy: 0,
@@ -12666,7 +11330,7 @@ export const recipeCoverageIngredients: Record<
     name: "puntarelle",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Crisp, slightly bitter Italian chicory shoots, soaked and shaved for a Roman salad dressed with anchovy and garlic.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12676,14 +11340,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12726,7 +11383,7 @@ export const recipeCoverageIngredients: Record<
     name: "taleggio cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Soft, washed-rind Italian cheese with a pungent aroma and buttery, tangy flavor, melted into risotto or served on a cheese board.",
     category: "dairy",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -12736,14 +11393,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12786,7 +11436,7 @@ export const recipeCoverageIngredients: Record<
     name: "gremolata",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Italian condiment of chopped parsley, garlic, and lemon zest, sprinkled over osso buco and braised dishes for fresh lift.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12796,14 +11446,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12846,7 +11489,7 @@ export const recipeCoverageIngredients: Record<
     name: "prosciutto di parma",
     origin: ["Italy (Parma, San Daniele)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dry-cured Italian ham aged for months, sliced paper-thin and served raw with melon, on antipasto, or draped over pizza.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12856,14 +11499,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12906,7 +11542,7 @@ export const recipeCoverageIngredients: Record<
     name: "sea bass",
     origin: ["Mediterranean", "Atlantic"],
     season: ["fall", "winter"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild, flaky white-fleshed fish suited to roasting, grilling, or steaming, often served whole or as fillets.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12916,14 +11552,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -12966,7 +11595,7 @@ export const recipeCoverageIngredients: Record<
     name: "tonnarelli",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Square-cut fresh Roman pasta similar to thick spaghetti, classic for cacio e pepe and other Roman sauces.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -12976,14 +11605,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13026,7 +11648,7 @@ export const recipeCoverageIngredients: Record<
     name: "instant yeast",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fine-grained dried yeast added directly to flour to leaven bread and pizza doughs without prior proofing.",
     category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -13036,14 +11658,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13086,7 +11701,7 @@ export const recipeCoverageIngredients: Record<
     name: "dextrose",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Simple glucose sugar used in baking, curing, and fermentation for browning and feeding yeast without strong sweetness.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13096,14 +11711,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13146,7 +11754,7 @@ export const recipeCoverageIngredients: Record<
     name: "locust bean gum",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Plant-derived thickener and stabilizer from carob seeds, used to bind and smooth ice creams, sauces, and dairy products.",
     category: "misc",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -13156,14 +11764,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13206,7 +11807,7 @@ export const recipeCoverageIngredients: Record<
     name: "active lieveto madre stiff sourdough starter",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Active Lieveto Madre Stiff Sourdough Starter is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -13217,12 +11818,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13265,7 +11861,7 @@ export const recipeCoverageIngredients: Record<
     name: "ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cured or cooked pork from the hind leg, sliced for sandwiches, diced into omelets and soups, or served as a roast.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13275,14 +11871,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13325,7 +11914,7 @@ export const recipeCoverageIngredients: Record<
     name: "edamame beans",
     origin: ["East Asia"],
     season: ["summer", "fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Young green soybeans served in the pod, boiled and salted as a snack or shelled into salads and rice dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -13335,14 +11924,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13385,7 +11967,7 @@ export const recipeCoverageIngredients: Record<
     name: "katsuobushi",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried, fermented, and shaved skipjack tuna (bonito), the smoky-savory base of dashi stock and a topping for many dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13395,14 +11977,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13445,7 +12020,7 @@ export const recipeCoverageIngredients: Record<
     name: "tsuyu noodle sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dashi-and-soy-based seasoning sauce used as a dip for cold soba and udon or as a noodle broth base.",
     category: "seasoning",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -13455,14 +12030,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13505,7 +12073,7 @@ export const recipeCoverageIngredients: Record<
     name: "toasted nori",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Nori seaweed sheets toasted for a crisp texture and nuttier flavor, used for sushi rolls, hand rolls, and as a garnish.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13515,14 +12083,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 sheet (3g)", calories: 10, macros: { protein: 1.2, carbs: 1.1, fat: 0.1, fiber: 0.9 }, vitamins: { A: 0.12, C: 0.06, B12: 0.25 }, minerals: { iodine: 1.8, iron: 0.05, magnesium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13565,7 +12126,7 @@ export const recipeCoverageIngredients: Record<
     name: "wasabi paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pungent green paste from Japanese horseradish, served with sushi and sashimi or stirred into dipping sauces for a sharp, sinus-clearing heat.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13575,14 +12136,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13625,7 +12179,7 @@ export const recipeCoverageIngredients: Record<
     name: "shoyu tare",
     origin: ["Japan"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Shoyu Tare is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -13636,12 +12190,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13684,7 +12233,7 @@ export const recipeCoverageIngredients: Record<
     name: "white miso paste shiro miso",
     origin: ["Japan"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pale, sweet-leaning fermented soybean paste short-aged with rice koji, used for delicate miso soups, dressings, and marinades.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13694,14 +12243,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13744,7 +12286,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried wakame seaweed",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried wakame seaweed that rehydrates into tender green fronds, used in miso soup, seaweed salad, and Korean miyeok-guk.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13754,14 +12296,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 sheet (3g)", calories: 10, macros: { protein: 1.2, carbs: 1.1, fat: 0.1, fiber: 0.9 }, vitamins: { A: 0.12, C: 0.06, B12: 0.25 }, minerals: { iodine: 1.8, iron: 0.05, magnesium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13804,7 +12339,7 @@ export const recipeCoverageIngredients: Record<
     name: "aonori dried green seaweed flakes",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried green seaweed flakes with a briny aroma, sprinkled over okonomiyaki, takoyaki, yakisoba, and fried foods.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13814,14 +12349,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 sheet (3g)", calories: 10, macros: { protein: 1.2, carbs: 1.1, fat: 0.1, fiber: 0.9 }, vitamins: { A: 0.12, C: 0.06, B12: 0.25 }, minerals: { iodine: 1.8, iron: 0.05, magnesium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13864,7 +12392,7 @@ export const recipeCoverageIngredients: Record<
     name: "cooked octopus tako",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pre-cooked octopus, tender and mild, sliced for sushi, sunomono salads, and takoyaki.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13874,14 +12402,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13924,7 +12445,7 @@ export const recipeCoverageIngredients: Record<
     name: "takoyaki sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Glossy sweet-savory sauce brushed over takoyaki octopus balls, similar to okonomiyaki sauce.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13934,14 +12455,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -13984,7 +12498,7 @@ export const recipeCoverageIngredients: Record<
     name: "mentsuyu dipping sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Concentrated Japanese sauce of dashi, soy sauce, mirin, and sugar, diluted for dipping noodles or seasoning broths.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -13994,14 +12508,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14044,7 +12551,7 @@ export const recipeCoverageIngredients: Record<
     name: "hot green tea sencha",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Steamed Japanese green tea leaves brewed into a grassy, slightly astringent hot tea, also served alongside meals.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14054,14 +12561,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14104,7 +12604,7 @@ export const recipeCoverageIngredients: Record<
     name: "nori strips",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Nori seaweed cut into thin strips, scattered over rice bowls, noodles, and salads as a savory garnish.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14114,14 +12614,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 sheet (3g)", calories: 10, macros: { protein: 1.2, carbs: 1.1, fat: 0.1, fiber: 0.9 }, vitamins: { A: 0.12, C: 0.06, B12: 0.25 }, minerals: { iodine: 1.8, iron: 0.05, magnesium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14164,7 +12657,7 @@ export const recipeCoverageIngredients: Record<
     name: "shungiku chrysanthemum greens",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Edible chrysanthemum greens with a herbaceous, slightly bitter taste, used in hot pots, soups, and blanched as a side.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14174,14 +12667,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp fresh",
-      source: "Recipe-derived coverage entry",
-      calories: 1,
-      macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14224,7 +12710,7 @@ export const recipeCoverageIngredients: Record<
     name: "alkaline wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Wheat noodles made with alkaline kansui for a springy, yellow-tinged chew, the basis of ramen and yakisoba.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -14234,14 +12720,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14284,7 +12763,7 @@ export const recipeCoverageIngredients: Record<
     name: "tare sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Tare Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -14295,12 +12774,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14343,7 +12817,7 @@ export const recipeCoverageIngredients: Record<
     name: "tonkatsu sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick, sweet-savory Japanese brown sauce served over breaded pork cutlets (tonkatsu) and other fried foods.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14353,14 +12827,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14403,7 +12870,7 @@ export const recipeCoverageIngredients: Record<
     name: "mitsuba",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Japanese wild parsley with a fresh, slightly celery-like flavor, used as a garnish in soups, custards, and rice dishes.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14413,14 +12880,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp fresh",
-      source: "Recipe-derived coverage entry",
-      calories: 1,
-      macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14463,7 +12923,7 @@ export const recipeCoverageIngredients: Record<
     name: "naengmyeon noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin, chewy Korean noodles of buckwheat and starch, served in icy broth (mul-naengmyeon) or with spicy sauce (bibim-naengmyeon).",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -14473,14 +12933,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14523,7 +12976,7 @@ export const recipeCoverageIngredients: Record<
     name: "dongchimi brine",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Tangy, lightly fizzy brine from Korean radish water kimchi, used as a cold soup base for noodles like dongchimi-guksu.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14533,14 +12986,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (15ml)", calories: 3, macros: { protein: 0, carbs: 0.1, fat: 0, fiber: 0 }, vitamins: {  }, minerals: { potassium: 0.01 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14583,7 +13029,7 @@ export const recipeCoverageIngredients: Record<
     name: "korean pancake mix",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Seasoned wheat-and-starch flour blend for making crisp Korean savory pancakes (jeon) like pajeon and kimchijeon.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14593,14 +13039,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14643,7 +13082,7 @@ export const recipeCoverageIngredients: Record<
     name: "red chili pepper",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ripe red chili offering fruity heat, used fresh for garnish or dried and ground into flakes and powders.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -14653,14 +13092,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14703,7 +13135,7 @@ export const recipeCoverageIngredients: Record<
     name: "garaetteok",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cylindrical Korean rice cakes, chewy and dense, sliced for tteokbokki or kept whole for soups like tteokguk.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14713,14 +13145,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14763,7 +13188,7 @@ export const recipeCoverageIngredients: Record<
     name: "jajangmyeon noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick, chewy wheat noodles served under black-bean sauce in the Korean-Chinese dish jajangmyeon.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -14773,14 +13198,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14823,7 +13241,7 @@ export const recipeCoverageIngredients: Record<
     name: "chunjang",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Korean black soybean paste, fried with aromatics and meat to make the dark sauce for jajangmyeon.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -14833,14 +13251,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14883,7 +13294,7 @@ export const recipeCoverageIngredients: Record<
     name: "cornstarch slurry",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Cornstarch Slurry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
@@ -14894,12 +13305,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -14942,7 +13348,7 @@ export const recipeCoverageIngredients: Record<
     name: "danmuji yellow pickled radish",
     origin: ["China", "Southeast Asia"],
     season: ["spring", "fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Bright-yellow sweet-and-tangy pickled daikon radish, served alongside jajangmyeon and rolled into gimbap.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
@@ -14952,14 +13358,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15002,7 +13401,7 @@ export const recipeCoverageIngredients: Record<
     name: "round mandu wrappers",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thin round wheat dough wrappers used to fold and seal Korean dumplings (mandu).",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15012,14 +13411,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15062,7 +13454,7 @@ export const recipeCoverageIngredients: Record<
     name: "chili pepper",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fresh or dried pepper of the capsicum family providing varying heat, used whole, sliced, or ground across cuisines.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -15072,14 +13464,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15122,7 +13507,7 @@ export const recipeCoverageIngredients: Record<
     name: "chestnuts",
     origin: ["Europe"],
     season: ["fall"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Starchy, mildly sweet tree nuts that are roasted, boiled, or simmered into rice, stuffings, and braises.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15132,14 +13517,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15182,7 +13560,7 @@ export const recipeCoverageIngredients: Record<
     name: "jujubes dried dates",
     origin: ["Middle East"],
     season: ["fall", "winter"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried red jujubes with a sweet, date-like flavor, used in Korean teas, rice dishes, and tonics and as a garnish.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15192,14 +13570,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15242,7 +13613,7 @@ export const recipeCoverageIngredients: Record<
     name: "extra firm tofu",
     origin: ["China"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Low-moisture tofu ideal for high-heat searing, grilling, and crisp textures after pressing.",
     category: "protein",
@@ -15253,12 +13624,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 85, macros: { protein: 10.1, carbs: 2.2, fat: 5.1, fiber: 1.3 }, vitamins: { B1: 0.09 }, minerals: { calcium: 0.2, iron: 0.12 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15301,7 +13667,7 @@ export const recipeCoverageIngredients: Record<
     name: "spam",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Canned cooked pork luncheon meat, sliced and pan-fried for budae-jjigae, kimchi fried rice, and Spam musubi.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15311,14 +13677,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15361,7 +13720,7 @@ export const recipeCoverageIngredients: Record<
     name: "instant ramen noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pre-cooked, dried wheat noodles packaged with seasoning, boiled quickly for instant noodle soups or repurposed in stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -15371,14 +13730,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15421,7 +13773,7 @@ export const recipeCoverageIngredients: Record<
     name: "hot dogs",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Pre-cooked emulsified sausages, sliced into Korean army stew (budae-jjigae), stir-fries, and rice dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15431,14 +13783,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15481,7 +13826,7 @@ export const recipeCoverageIngredients: Record<
     name: "baked beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Navy or haricot beans cooked in a sweet, savory tomato-based sauce, served as a side or breakfast staple.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -15491,14 +13836,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15541,7 +13879,7 @@ export const recipeCoverageIngredients: Record<
     name: "fresh ginseng",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fresh aromatic ginseng root with an earthy, slightly bitter flavor, simmered into Korean tonics and dishes like samgyetang.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15551,14 +13889,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15601,7 +13932,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried astragalus root",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried sliced astragalus root with a mild, sweet earthiness, simmered into Korean medicinal broths and chicken soups.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15611,14 +13942,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15661,7 +13985,7 @@ export const recipeCoverageIngredients: Record<
     name: "mochi",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Chewy Japanese rice cake pounded from glutinous rice, grilled, added to soups, or filled and shaped into sweets.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15671,14 +13995,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15721,7 +14038,7 @@ export const recipeCoverageIngredients: Record<
     name: "stale corn tortillas",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Stale Corn Tortillas is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
@@ -15732,12 +14049,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15780,7 +14092,7 @@ export const recipeCoverageIngredients: Record<
     name: "bolillo rolls",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Crusty oval white-bread rolls with a soft crumb; the standard bread for Mexican tortas and used to make molletes and pambazos.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15790,14 +14102,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15840,7 +14145,7 @@ export const recipeCoverageIngredients: Record<
     name: "refried beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cooked pinto or black beans mashed and fried in fat until creamy; a staple side and filling for tacos, burritos, and tostadas.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -15850,14 +14155,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15900,7 +14198,7 @@ export const recipeCoverageIngredients: Record<
     name: "pico de gallo",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fresh uncooked salsa of diced tomato, onion, serrano or jalapeño, cilantro, and lime; a crunchy topping for tacos, grilled meats, and chips.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15910,14 +14208,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -15960,7 +14251,7 @@ export const recipeCoverageIngredients: Record<
     name: "chiltomate sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Yucatecan cooked sauce of roasted tomatoes and habanero with onion; used as a base sauce and condiment in southern Mexican cooking.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -15970,14 +14261,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16020,7 +14304,7 @@ export const recipeCoverageIngredients: Record<
     name: "tlayudas",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Large, thin, crisp Oaxacan corn tortillas used as the base for the namesake dish, topped with beans, cheese, and meats.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16030,14 +14314,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16080,7 +14357,7 @@ export const recipeCoverageIngredients: Record<
     name: "oaxaca cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mild, stringy semisoft Mexican cheese similar to mozzarella that melts smoothly; the classic choice for quesadillas, queso fundido, and tlayudas.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -16090,14 +14367,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16140,7 +14410,7 @@ export const recipeCoverageIngredients: Record<
     name: "chorizo",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A highly seasoned pork sausage available in two drastically different styles. Spanish chorizo is cured, hard, and deeply flavored with smoked paprika (pimentón), while Mexican chorizo is fresh, uncured, and aggressively seasoned with chili peppers and vinegar, requiring cooking before eating.\n\n**Selection & Storage:** Spanish (cured) chorizo can be stored at room temperature until sliced. Mexican (fresh) chorizo must be kept refrigerated and cooked thoroughly.",
     category: "misc",
@@ -16151,12 +14421,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16199,7 +14464,7 @@ export const recipeCoverageIngredients: Record<
     name: "roma",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Egg-shaped plum tomatoes with dense, meaty flesh and few seeds; favored for sauces, salsas, and roasting due to their low moisture.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16209,14 +14474,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16259,7 +14517,7 @@ export const recipeCoverageIngredients: Record<
     name: "hass",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "The most common avocado variety, with pebbly dark skin and rich, buttery green flesh; the standard avocado for guacamole and tacos.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16269,14 +14527,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16319,7 +14570,7 @@ export const recipeCoverageIngredients: Record<
     name: "salsa roja",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Red Mexican table sauce of tomatoes and dried or fresh red chilies, often with onion and garlic; spooned over tacos, eggs, and antojitos.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16329,14 +14580,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16379,7 +14623,7 @@ export const recipeCoverageIngredients: Record<
     name: "nopales",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cleaned, de-spined pads of the prickly-pear cactus with a tart, green-bean-like flavor; grilled or simmered for salads, tacos, and eggs.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16389,14 +14633,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16439,7 +14676,7 @@ export const recipeCoverageIngredients: Record<
     name: "cotija cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Firm, salty aged Mexican cow's-milk cheese that crumbles easily; sprinkled over elote, beans, tacos, and salads as a finishing cheese.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
@@ -16449,14 +14686,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16499,7 +14729,7 @@ export const recipeCoverageIngredients: Record<
     name: "chile powder",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ground dried chili peppers, sometimes blended with cumin, oregano, and garlic; used to season meats, stews, beans, and sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -16509,14 +14739,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16559,7 +14782,7 @@ export const recipeCoverageIngredients: Record<
     name: "juice",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Generic juice token typically used for citrus acidity, fruit sweetness, or marinade moisture. Resolve to citrus, vegetable, or fruit source from recipe context.",
     category: "seasoning",
@@ -16570,12 +14793,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16618,7 +14836,7 @@ export const recipeCoverageIngredients: Record<
     name: "fideo pasta",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Short, thin wheat noodles toasted in oil and simmered in tomato broth to make sopa de fideo, a classic Mexican noodle soup.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16628,14 +14846,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16678,7 +14889,7 @@ export const recipeCoverageIngredients: Record<
     name: "mulato chiles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried brown poblano variety with sweet, smoky chocolate notes; used with ancho and pasilla as a core chili in mole poblano.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -16688,14 +14899,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16738,7 +14942,7 @@ export const recipeCoverageIngredients: Record<
     name: "pasilla chiles",
     origin: ["Mexico"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried chilaca peppers with mild heat and deep raisiny, herbal flavor; a classic component of mole and red chili sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -16748,14 +14952,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16798,7 +14995,7 @@ export const recipeCoverageIngredients: Record<
     name: "jalapenos",
     origin: ["Mexico (Veracruz)"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Medium-hot green chili peppers with a bright, grassy flavor; used fresh in salsas and pico de gallo, pickled, or stuffed and roasted.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16808,14 +15005,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16858,7 +15048,7 @@ export const recipeCoverageIngredients: Record<
     name: "serrano chiles",
     origin: ["Mexico"],
     season: ["summer"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small, slender green chilies with sharp heat and a bright, grassy taste; minced raw into salsas, guacamole, and fresh sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -16868,14 +15058,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16918,7 +15101,7 @@ export const recipeCoverageIngredients: Record<
     name: "cascabel chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small, round dried chilies that rattle when shaken, with a nutty, smoky, moderate heat; toasted and ground for table salsas and stews.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -16928,14 +15111,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -16978,7 +15154,7 @@ export const recipeCoverageIngredients: Record<
     name: "salsa verde",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Green sauce of tomatillos, green chilies, onion, and cilantro; served raw or cooked over tacos, enchiladas, and grilled meats.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -16988,14 +15164,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17038,7 +15207,7 @@ export const recipeCoverageIngredients: Record<
     name: "dried corn husks",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Dried outer leaves of the corn ear, soaked until pliable and used to wrap and steam tamales; imparts a subtle corn aroma.",
     category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
@@ -17048,14 +15217,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 0.5, carbs: 8, fat: 1, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17098,7 +15260,7 @@ export const recipeCoverageIngredients: Record<
     name: "yucatecan limes",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small, aromatic Yucatán limes with a floral, slightly sweet tartness; squeezed into sopa de lima and over regional dishes.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
@@ -17108,14 +15270,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17158,7 +15313,7 @@ export const recipeCoverageIngredients: Record<
     name: "chilhuacle negro chilies",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Rare Oaxacan dried chili, dark and fruity with mild heat; prized as the defining chili for traditional black mole (mole negro).",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -17168,14 +15323,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17218,7 +15366,7 @@ export const recipeCoverageIngredients: Record<
     name: "tajin",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Mexican seasoning blend of mild chili powder, dehydrated lime, and salt; sprinkled over fruit, vegetables, snacks, and the rims of drinks.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -17228,14 +15376,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17278,7 +15419,7 @@ export const recipeCoverageIngredients: Record<
     name: "chamoy sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Sweet-sour-spicy Mexican condiment of pickled fruit, chili, and lime; drizzled over fresh fruit, snacks, and candies or used as a drink rim.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -17288,14 +15429,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17338,7 +15472,7 @@ export const recipeCoverageIngredients: Record<
     name: "aleppo pepper flakes",
     origin: ["Syria", "Turkey"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Coarsely ground dried Aleppo chili with moderate heat and a fruity, raisin-like flavor, used across Middle Eastern and Turkish cooking.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -17348,14 +15482,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17398,7 +15525,7 @@ export const recipeCoverageIngredients: Record<
     name: "laurel leaves",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Aromatic bay leaves added whole to simmered soups, stocks, and braises to impart a subtle herbal, slightly floral fragrance, then removed before serving.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
@@ -17408,14 +15535,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp fresh",
-      source: "Recipe-derived coverage entry",
-      calories: 1,
-      macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17458,7 +15578,7 @@ export const recipeCoverageIngredients: Record<
     name: "sumac",
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A tart, deep-red ground spice from dried sumac berries, sprinkled over Middle Eastern salads, meats, and dips for lemony acidity.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -17468,14 +15588,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17518,7 +15631,7 @@ export const recipeCoverageIngredients: Record<
     name: "bulgur",
     origin: ["Western Asia"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A whole grain made from cracked parboiled groats of several different wheat species, most often durum wheat. Because it has been parboiled, it cooks very quickly and offers a deeply nutty flavor and a satisfying, chewy texture, serving as the foundational ingredient in Middle Eastern tabbouleh.\n\n**Selection & Storage:** Available in different grinds (fine for salads, coarse for pilafs). Store in an airtight container in the pantry, or in the refrigerator to prolong its shelf life.",
     category: "misc",
@@ -17529,12 +15642,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17577,7 +15685,7 @@ export const recipeCoverageIngredients: Record<
     name: "molokhia leaves",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Jute mallow greens that turn silky when cooked, simmered into the thick Middle Eastern and Egyptian soup molokhia.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
@@ -17587,14 +15695,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 35,
-      macros: { protein: 3, carbs: 6, fat: 0.2, fiber: 2.5 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17637,7 +15738,7 @@ export const recipeCoverageIngredients: Record<
     name: "b u00e9chamel sauce",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "B U00e9chamel Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -17648,12 +15749,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17696,7 +15792,7 @@ export const recipeCoverageIngredients: Record<
     name: "shrak",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Shrak is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -17707,12 +15803,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17755,7 +15846,7 @@ export const recipeCoverageIngredients: Record<
     name: "hawaij",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A Yemeni spice blend; the savory version mixes cumin, coriander, turmeric, and black pepper for soups and meats, with a sweet version for coffee.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -17765,14 +15856,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 6,
-      macros: { protein: 0.2, carbs: 1.3, fat: 0.2, fiber: 0.6 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17815,7 +15899,7 @@ export const recipeCoverageIngredients: Record<
     name: "kataifi pastry",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Fine shredded phyllo-style pastry strands used in Middle Eastern sweets like knafeh and baklava, baked crisp and soaked in syrup.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -17825,14 +15909,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17875,7 +15952,7 @@ export const recipeCoverageIngredients: Record<
     name: "nabulsi",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A semi-hard white brined cheese from Nablus, often flavored with nigella and mahlab, eaten fresh or fried and used in the dessert knafeh.",
     category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -17885,14 +15962,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 90,
-      macros: { protein: 5, carbs: 3, fat: 7, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17935,7 +16005,7 @@ export const recipeCoverageIngredients: Record<
     name: "neutral frying oil",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Flavorless high-smoke-point oil such as canola or sunflower, used for deep-frying and sautéing without altering taste.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
@@ -17945,14 +16015,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -17995,7 +16058,7 @@ export const recipeCoverageIngredients: Record<
     name: "tahini sauce",
     origin: ["Levant"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "A creamy sauce of ground sesame seed paste thinned with lemon juice, garlic, and water, served as a dressing or dip in Middle Eastern cuisine.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -18005,14 +16068,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18055,7 +16111,7 @@ export const recipeCoverageIngredients: Record<
     name: "tvorog farmer s cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Tvorog Farmer S Cheese is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     category: "dairy",
@@ -18066,12 +16122,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 oz (28g)", calories: 105, macros: { protein: 6.8, carbs: 0.8, fat: 8.5, fiber: 0 }, vitamins: { A: 0.07, B12: 0.16 }, minerals: { calcium: 0.21, phosphorus: 0.14, zinc: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18114,7 +16165,7 @@ export const recipeCoverageIngredients: Record<
     name: "berry preserves",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Sweet cooked-down berry spread with fruit pieces, used on toast, as a pastry filling, or glazing desserts.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
@@ -18124,14 +16175,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 70,
-      macros: { protein: 1, carbs: 18, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/4 cup (40g)", calories: 120, macros: { protein: 1.2, carbs: 31, fat: 0.2, fiber: 1.8 }, vitamins: { C: 0.08, B6: 0.04 }, minerals: { potassium: 0.07, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18174,7 +16218,7 @@ export const recipeCoverageIngredients: Record<
     name: "kefir",
     origin: ["Caucasus"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A highly probiotic, fermented milk drink with a consistency similar to thin yogurt. It is cultured using 'kefir grains' (a symbiotic matrix of bacteria and yeast), resulting in a tart, slightly effervescent beverage that makes a superb tenderizing marinade for poultry.\n\n**Selection & Storage:** Choose plain, unsweetened kefir for cooking applications. It has a relatively long shelf life due to its acidity; store it tightly sealed in the refrigerator.",
     category: "misc",
@@ -18185,12 +16229,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18233,7 +16272,7 @@ export const recipeCoverageIngredients: Record<
     name: "small fish",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Small whole fish used for broths, sauces, frying, and fermented preparations. Flavor intensity and salinity vary by species and preservation method.",
     category: "protein",
@@ -18244,12 +16283,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18292,7 +16326,7 @@ export const recipeCoverageIngredients: Record<
     name: "prized fish",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Prized Fish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
@@ -18303,12 +16337,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18351,7 +16380,7 @@ export const recipeCoverageIngredients: Record<
     name: "vodka",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A clear, highly distilled liquor composed primarily of water and ethanol, designed to be flavorless. In cooking, it is used purely for its chemical properties: it halts the development of gluten in pie crusts (yielding a flakier dough) and binds water to oil in tomato cream sauces (Penne alla Vodka).\n\n**Selection & Storage:** Store upright at room temperature; it is highly stable and will not degrade.",
     category: "misc",
@@ -18362,12 +16391,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18410,7 +16434,7 @@ export const recipeCoverageIngredients: Record<
     name: "black olives",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Ripe cured olives with a mild, mellow flavor, sliced or whole into pizzas, salads, pasta, and antipasto.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -18420,14 +16444,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18470,7 +16487,7 @@ export const recipeCoverageIngredients: Record<
     name: "cooked meat",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Prepared meat component carried into soups, rice dishes, or wraps as a pre-cooked protein ingredient.",
     category: "protein",
@@ -18481,12 +16498,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18529,7 +16541,7 @@ export const recipeCoverageIngredients: Record<
     name: "cold kvas",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Cold Kvas is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -18540,12 +16552,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18588,7 +16595,7 @@ export const recipeCoverageIngredients: Record<
     name: "sriracha",
     origin: ["Thailand"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "A Thai-style hot sauce made from a paste of chili peppers, distilled vinegar, garlic, sugar, and salt. Unlike fermented hot sauces (like Tabasco), Sriracha relies on a balance of bright acidity, pronounced garlic, and moderate sweetness to deliver a highly versatile, viscous heat.\n\n**Selection & Storage:** Its high acid, salt, and sugar content make it highly stable. It can be stored at room temperature, though refrigeration will prevent its color from darkening over time.",
     category: "misc",
@@ -18599,12 +16606,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18647,7 +16649,7 @@ export const recipeCoverageIngredients: Record<
     name: "panang curry paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Rich, slightly sweet Thai curry paste with peanuts and dried chilies, used for thick, creamy panang curries.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -18657,14 +16659,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18707,7 +16702,7 @@ export const recipeCoverageIngredients: Record<
     name: "preserved radish chai poh",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Salty, sweet preserved daikon radish (chai poh) chopped into omelets, fried rice, and pad thai for crunch and umami.",
     category: "seasoning",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
@@ -18717,14 +16712,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (18g)", calories: 28, macros: { protein: 1.2, carbs: 4.5, fat: 0.8, fiber: 0.6 }, vitamins: { A: 0.02, C: 0.02 }, minerals: { sodium: 0.22, iron: 0.03 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18767,7 +16755,7 @@ export const recipeCoverageIngredients: Record<
     name: "canned bamboo shoots",
     origin: ["East and Southeast Asia"],
     season: ["spring"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Tender, pre-cooked bamboo shoots packed in brine, rinsed and added to stir-fries, curries, and soups for crisp texture.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
@@ -18777,14 +16765,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 cup",
-      source: "Recipe-derived coverage entry",
-      calories: 40,
-      macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 cup (85g)", calories: 22, macros: { protein: 1.4, carbs: 4.6, fat: 0.2, fiber: 2.1 }, vitamins: { C: 0.25, K: 0.45, A: 0.15 }, minerals: { potassium: 0.06, calcium: 0.05, iron: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18827,7 +16808,7 @@ export const recipeCoverageIngredients: Record<
     name: "youtiao quay",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Youtiao Quay is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -18838,12 +16819,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18886,7 +16862,7 @@ export const recipeCoverageIngredients: Record<
     name: "nuoc cham",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Vietnamese dipping sauce of fish sauce, lime, sugar, garlic, and chili, served with spring rolls, grilled meats, and rice plates.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -18896,14 +16872,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -18946,7 +16915,7 @@ export const recipeCoverageIngredients: Record<
     name: "chao",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Chao is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -18957,12 +16926,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19005,7 +16969,7 @@ export const recipeCoverageIngredients: Record<
     name: "nuoc mau",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Nuoc Mau is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -19016,12 +16980,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19064,7 +17023,7 @@ export const recipeCoverageIngredients: Record<
     name: "annatto oil",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Cooking oil infused with annatto seeds for a vivid red-orange color, used in Vietnamese dishes and roast meats.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
@@ -19074,14 +17033,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19124,7 +17076,7 @@ export const recipeCoverageIngredients: Record<
     name: "tapioca noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Chewy, translucent noodles made from tapioca starch, used in Southeast Asian soups, desserts, and stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -19134,14 +17086,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19184,7 +17129,7 @@ export const recipeCoverageIngredients: Record<
     name: "catfish steaks",
     origin: ["Worldwide freshwater"],
     season: ["spring", "summer"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick cross-cut steaks of catfish with firm, mild flesh, well suited to Vietnamese caramelized clay-pot braises and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -19194,14 +17139,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 215, macros: { protein: 16.5, carbs: 1, fat: 16.5, fiber: 0 }, vitamins: { B1: 0.25, B3: 0.22, B12: 0.35 }, minerals: { zinc: 0.25, iron: 0.12, phosphorus: 0.18 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19244,7 +17182,7 @@ export const recipeCoverageIngredients: Record<
     name: "snakehead fish",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Firm, mild freshwater fish popular in Vietnamese and Thai cooking for soups, grilling, and sour fish stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -19254,14 +17192,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "3 oz (85g)", calories: 95, macros: { protein: 19.5, carbs: 0, fat: 1.8, fiber: 0 }, vitamins: { B12: 0.55, B3: 0.25, D: 0.15 }, minerals: { selenium: 0.52, phosphorus: 0.22, potassium: 0.08 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19304,7 +17235,7 @@ export const recipeCoverageIngredients: Record<
     name: "vietnamese baguettes banh mi",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Vietnamese Baguettes Banh Mi is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -19315,12 +17246,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 piece (45g)", calories: 130, macros: { protein: 4.2, carbs: 24, fat: 1.8, fiber: 1.4 }, vitamins: { B1: 0.15, B3: 0.12, folate: 0.14 }, minerals: { iron: 0.08, calcium: 0.04 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19363,7 +17289,7 @@ export const recipeCoverageIngredients: Record<
     name: "sa te chili paste",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Vietnamese-style satay chili paste of dried chilies, lemongrass, and oil, spooned into pho and noodle soups for heat and aroma.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
@@ -19373,14 +17299,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tsp",
-      source: "Recipe-derived coverage entry",
-      calories: 10,
-      macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 tsp (2.5g)", calories: 7, macros: { protein: 0.3, carbs: 1.3, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.05, C: 0.02 }, minerals: { iron: 0.05, manganese: 0.06, calcium: 0.02 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19423,7 +17342,7 @@ export const recipeCoverageIngredients: Record<
     name: "cao lau noodles",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Thick, chewy yellow wheat noodles specific to Hoi An's cao lau dish, with a distinctive firm, slightly smoky bite.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
@@ -19433,14 +17352,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
-      source: "Recipe-derived coverage entry",
-      calories: 120,
-      macros: { protein: 3, carbs: 25, fat: 0.5, fiber: 2 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "2 oz dry (56g)", calories: 200, macros: { protein: 6.8, carbs: 42, fat: 1.1, fiber: 2 }, vitamins: { B1: 0.22, B3: 0.18, folate: 0.25 }, minerals: { iron: 0.11, magnesium: 0.07 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19483,7 +17395,7 @@ export const recipeCoverageIngredients: Record<
     name: "red adzuki beans",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Small reddish beans cooked until soft and sweetened into pastes and fillings for Asian desserts, or simmered in soups.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
@@ -19493,14 +17405,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1/2 cup cooked (90g)", calories: 125, macros: { protein: 8.2, carbs: 22.5, fat: 0.6, fiber: 7.5 }, vitamins: { folate: 0.35, B1: 0.12 }, minerals: { iron: 0.15, magnesium: 0.12, potassium: 0.1 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19543,7 +17448,7 @@ export const recipeCoverageIngredients: Record<
     name: "ndole leaves bitterleaf",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Bitterleaf greens used in the Cameroonian dish ndolé, cooked with peanuts and meat or fish after leaching their bitterness.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
@@ -19553,14 +17458,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 tbsp fresh",
-      source: "Recipe-derived coverage entry",
-      calories: 1,
-      macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19603,7 +17501,7 @@ export const recipeCoverageIngredients: Record<
     name: "cha lua",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Cha Lua is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -19614,12 +17512,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19662,7 +17555,7 @@ export const recipeCoverageIngredients: Record<
     name: "mam ruo c",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description:
       "Mam Ruo C is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
@@ -19673,12 +17566,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "1 serving",
-      source: "Recipe-derived coverage entry",
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,
@@ -19721,7 +17609,7 @@ export const recipeCoverageIngredients: Record<
     name: "liver pate",
     origin: ["Worldwide"],
     season: ["all"],
-    provenance: "generated",
+    provenance: "manual",
     description: "Smooth spread of cooked, seasoned liver and fat, spread on banh mi and crusty bread for a rich, savory layer.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
@@ -19731,14 +17619,7 @@ export const recipeCoverageIngredients: Record<
       favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["fall"],
     },
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      source: "Recipe-derived coverage entry",
-      calories: 180,
-      macros: { protein: 22, carbs: 0, fat: 10, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-    },
+    nutritionalProfile: { serving_size: "1 serving (30g)", calories: 45, macros: { protein: 1.5, carbs: 7.2, fat: 1.1, fiber: 1 }, vitamins: { C: 0.03 }, minerals: { iron: 0.03 }, source: "researched estimate" },
     sensoryProfile: {
       taste: {
         sweet: 0.2,

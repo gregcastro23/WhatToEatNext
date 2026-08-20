@@ -718,7 +718,7 @@ export class SwissEphemerisService {
 
     if (this.cache.has(cacheKey)) {
       logger.debug("Using cached Swiss Ephemeris data");
-      return this.cache.get(cacheKey) || {};
+      return this.cache.get(cacheKey) ?? {};
     }
 
     try {
@@ -753,7 +753,7 @@ export class SwissEphemerisService {
     return (
       transits.find(
         (transit) => date >= transit.startDate && date <= transit.endDate,
-      ) || null
+      ) ?? null
     );
   }
 
@@ -1033,7 +1033,7 @@ export class SwissEphemerisService {
    */
   getSiderealTime(date: Date): string | null {
     const entry = this.findClosestEphemerisEntry(date);
-    return entry?.sidereal_time || null;
+    return entry?.sidereal_time ?? null;
   }
 
   /**
@@ -1048,10 +1048,10 @@ export class SwissEphemerisService {
     Object.entries(positions).forEach(([planet, position]) => {
       astrologizeFormat[planet] = {
         sign: position.sign,
-        degree: position.degree || 0,
-        minute: position.minutes || 0,
-        exactLongitude: position.exactLongitude || 0,
-        isRetrograde: position.isRetrograde || false,
+        degree: position.degree ?? 0,
+        minute: position.minutes ?? 0,
+        exactLongitude: position.exactLongitude ?? 0,
+        isRetrograde: position.isRetrograde ?? false,
       };
     });
 

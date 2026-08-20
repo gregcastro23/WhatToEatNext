@@ -740,7 +740,7 @@ export default function TodaysMealsWidget({
         onClose={() => setRecipeSelectorMealType(null)}
         onSelectRecipe={handleRecipeSelect}
         filters={{
-          mealType: recipeSelectorMealType || undefined,
+          mealType: recipeSelectorMealType ?? undefined,
           dayOfWeek: todayDow,
           planetarySnapshot: currentSlotSnapshot,
         }}

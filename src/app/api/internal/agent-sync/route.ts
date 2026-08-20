@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     // 3. Map & Reconstruct Birth Data
     let birthData: any = null;
     if (birthDate && birthLocation?.latitude !== undefined && birthLocation.longitude !== undefined) {
-      const timeStr = birthTime || "12:00";
+      const timeStr = birthTime ?? "12:00";
       try {
         const parsedDate = new Date(`${birthDate}T${timeStr}`);
         if (!isNaN(parsedDate.getTime())) {
@@ -110,8 +110,8 @@ export async function POST(req: NextRequest) {
             dateTime: parsedDate.toISOString(),
             latitude: Number(birthLocation.latitude),
             longitude: Number(birthLocation.longitude),
-            timezone: birthLocation.timezone || undefined,
-            name: birthLocation.name || birthLocation.displayName || undefined
+            timezone: birthLocation.timezone ?? undefined,
+            name: birthLocation.name ?? birthLocation.displayName ?? undefined
           };
         }
       } catch (err) {
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const resolvedName = displayName?.trim() || email.split("@")[0];
+    const resolvedName = displayName?.trim() ?? email.split("@")[0];
     // §18j — WTEN computes its own monica from the agent's own name, the same
     // way sync-debit and agents/unified do. This endpoint used to trust
     // `monicaConstant` straight from the sync payload (PA's own legacy,
@@ -193,7 +193,7 @@ export async function POST(req: NextRequest) {
       email,
       isAgent: true,
       name: resolvedName,
-      bio: bio || undefined,
+      bio: bio ?? undefined,
       // Same emptiness rule as the columns below: `x || undefined` keeps a
       // truthy '{}', which would merge an empty chart into users.profile.
       birthData: nonEmpty(birthData),
@@ -254,7 +254,7 @@ export async function POST(req: NextRequest) {
           [
             wtenUserId,
             resolvedName,
-            bio || null,
+            bio ?? null,
             // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
             // truthy, so the old guard wrote '{}' for a caller that has no chart.
             // Where this statement COALESCEs onto the stored value, a non-null
@@ -267,7 +267,7 @@ export async function POST(req: NextRequest) {
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
             resolved?.method ?? null,
-            dominantElement || null
+            dominantElement ?? null
           ]
         );
       } else {
@@ -304,7 +304,7 @@ export async function POST(req: NextRequest) {
           [
             wtenUserId,
             resolvedName,
-            bio || null,
+            bio ?? null,
             // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
             // truthy, so the old guard wrote '{}' for a caller that has no chart.
             // Where this statement COALESCEs onto the stored value, a non-null
@@ -317,7 +317,7 @@ export async function POST(req: NextRequest) {
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
             resolved?.method ?? null,
-            dominantElement || null
+            dominantElement ?? null
           ]
         );
 

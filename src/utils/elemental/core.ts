@@ -159,10 +159,10 @@ export function normalizeProperties(
   properties: Partial<ElementalProperties>,
 ): ElementalProperties {
   const normalized: ElementalProperties = {
-    Fire: properties.Fire || 0,
-    Water: properties.Water || 0,
-    Earth: properties.Earth || 0,
-    Air: properties.Air || 0,
+    Fire: properties.Fire ?? 0,
+    Water: properties.Water ?? 0,
+    Earth: properties.Earth ?? 0,
+    Air: properties.Air ?? 0,
   };
 
   const total =
@@ -284,7 +284,7 @@ export async function calculateDetailalCompatibility(
   recipeElemental: ElementalProperties,
   userElemental?: ElementalProperties,
 ): Promise<ElementalCompatibility> {
-  const userProps = userElemental || {
+  const userProps = userElemental ?? {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -413,7 +413,7 @@ function calculateElementalStateFromIngredients(
   let totalWeight = 0;
 
   (ingredients || []).forEach((ingredient) => {
-    const category = ingredient.category?.toLowerCase() || "";
+    const category = ingredient.category?.toLowerCase() ?? "";
     const amount = Number(ingredient.amount) || 1; // Explicitly cast to Number
 
     // Map categories to elements

@@ -83,7 +83,7 @@ export type JoinRequestResult =
 type DbTimestamp = Date | string | null | undefined;
 
 const dbIsoString = (value: DbTimestamp, fallback = new Date().toISOString()): string =>
-  value instanceof Date ? value.toISOString() : value || fallback;
+  value instanceof Date ? value.toISOString() : value ?? fallback;
 
 const dbString = (value: string | number | null | undefined, fallback = ""): string =>
   value == null ? fallback : String(value);
@@ -142,7 +142,7 @@ class TableDatabaseService {
       rsvpAt: row.rsvp_at ? dbIsoString(row.rsvp_at) : undefined,
       createdAt: dbIsoString(row.created_at),
       updatedAt: dbIsoString(row.updated_at),
-      name: (row.user_name || row.display_name || undefined) ?? undefined,
+      name: (row.user_name ?? row.display_name ?? undefined) ?? undefined,
       avatarUrl: row.user_image ?? undefined,
       isAgent: row.user_is_agent === true,
     };
@@ -618,7 +618,7 @@ class TableDatabaseService {
         );
 
         const guests = membersResult.rows.map((r: Row) => ({
-          name: r.user_name || r.display_name || "A guest",
+          name: r.user_name ?? r.display_name ?? "A guest",
           userId: r.user_id ?? undefined,
         }));
 
@@ -1053,7 +1053,7 @@ class TableDatabaseService {
 
       return {
         tableTitle: row.title,
-        hostName: row.host_name || "Someone",
+        hostName: row.host_name ?? "Someone",
         scheduledAt: dbIsoString(row.scheduled_at),
         venueName: row.venue_name ?? undefined,
         joinedCount: Number(row.joined_count) || 0,

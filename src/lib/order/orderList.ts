@@ -98,7 +98,7 @@ export function buildOrderList(inputs: OrderInput[], scale = 1): OrderListItem[]
   for (const input of inputs) {
     const name = (input.name || "").trim();
     if (!name) continue;
-    const unit = (input.unit || "each").trim();
+    const unit = (input.unit ?? "each").trim();
     const key = `${slugify(name)}__${slugify(unit)}`;
     const amount = typeof input.amount === "number" && Number.isFinite(input.amount) ? input.amount : 1;
     const quantity = round2(Math.max(0, amount) * Math.max(0, scale));

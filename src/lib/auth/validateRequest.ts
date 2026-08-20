@@ -121,7 +121,7 @@ export function extractToken(request: NextRequest): string | null {
 
   // Check cookies
   const cookieToken =
-    request.cookies.get("accessToken")?.value ||
+    request.cookies.get("accessToken")?.value ??
     request.cookies.get("auth_token")?.value;
   if (cookieToken) {
     return cookieToken;
@@ -205,7 +205,7 @@ export async function validateRequest(
       // Passing the request object does NOT work reliably in NextAuth v5 beta.
       const session = await auth();
       if (session?.user) {
-        const sessionRole = (session.user as any).role || "user";
+        const sessionRole = (session.user as any).role ?? "user";
         const roles =
           sessionRole === "admin" ? ["admin", "user"] : ["user"];
         return {
@@ -242,8 +242,8 @@ export async function validateRequest(
   if (!result.valid || !result.user) {
     return {
       error: NextResponse.json(
-        { success: false, message: result.error || "Unauthorized" },
-        { status: result.statusCode || 401 },
+        { success: false, message: result.error ?? "Unauthorized" },
+        { status: result.statusCode ?? 401 },
       ),
     };
   }

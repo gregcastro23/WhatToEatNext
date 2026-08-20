@@ -55,12 +55,12 @@ export function CookedDishCard({
   actorName,
   actorImage,
 }: CookedDishCardProps): JSX.Element {
-  const dish = meta.recipeName || "a dish";
+  const dish = meta.recipeName ?? "a dish";
   const recipeHref = meta.recipeId ? `/recipes/${encodeURIComponent(meta.recipeId)}` : null;
 
   // Revealed = real identity heads the card; persona joins the transit line.
   const revealed = Boolean(actorId && actorName);
-  const personaLine = [meta.persona, meta.transitLine || "made under today's sky"]
+  const personaLine = [meta.persona, meta.transitLine ?? "made under today's sky"]
     .filter(Boolean)
     .join(" · ");
 
@@ -95,7 +95,7 @@ export function CookedDishCard({
                   {actorName}
                 </Link>
               ) : (
-                <span className="font-bold text-purple-200">{meta.persona || "An alchemist of the kitchen"}</span>
+                <span className="font-bold text-purple-200">{meta.persona ?? "An alchemist of the kitchen"}</span>
               )}{" "}
               made{" "}
               {recipeHref ? (
@@ -110,7 +110,7 @@ export function CookedDishCard({
               )}
             </p>
             <p className="text-[11px] text-white/40 mt-1 italic">
-              {revealed ? personaLine : meta.transitLine || "made under today's sky"}
+              {revealed ? personaLine : meta.transitLine ?? "made under today's sky"}
             </p>
           </div>
           {meta.signature && (

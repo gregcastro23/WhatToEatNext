@@ -441,7 +441,7 @@ function DetailPane({
         </div>
 
         {/* Notes */}
-        {(node.preparationNotes || node.technicalTips) && (
+        {(node.preparationNotes ?? node.technicalTips) && (
           <div className="bg-slate-50 rounded p-2 border border-slate-100 space-y-1">
             {node.preparationNotes && (
               <p className="text-[11px] text-slate-600">📝 {node.preparationNotes}</p>
@@ -481,7 +481,7 @@ function DetailPane({
 
 export default function SauceLineageTree() {
   const { cuisines, loading } = useAlchemicalData();
-  const forest = useMemo(() => getSauceForest(cuisines || undefined), [cuisines]);
+  const forest = useMemo(() => getSauceForest(cuisines ?? undefined), [cuisines]);
   const [activeFamily, setActiveFamily] = useState<BaseFamily>("tomato");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -665,7 +665,7 @@ export default function SauceLineageTree() {
                     expanded={expanded}
                     onToggle={onToggle}
                     onSelect={onSelect}
-                    cuisinesData={cuisines || undefined}
+                    cuisinesData={cuisines ?? undefined}
                   />
                 ))
               ) : (
@@ -681,7 +681,7 @@ export default function SauceLineageTree() {
             <DetailPane
               selectedId={selectedId}
               onSelect={onSelect}
-              cuisinesData={cuisines || undefined}
+              cuisinesData={cuisines ?? undefined}
             />
           </div>
         </div>

@@ -244,10 +244,10 @@ class StateManager {
       const influences = _celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
       const elementalState: ElementalProperties = {
-        Fire: influences.elementalBalance?.Fire || 0,
-        Water: influences.elementalBalance?.Water || 0,
-        Earth: influences.elementalBalance?.Earth || 0,
-        Air: influences.elementalBalance?.Air || 0,
+        Fire: influences.elementalBalance?.Fire ?? 0,
+        Water: influences.elementalBalance?.Water ?? 0,
+        Earth: influences.elementalBalance?.Earth ?? 0,
+        Air: influences.elementalBalance?.Air ?? 0,
       };
 
       this.setState({

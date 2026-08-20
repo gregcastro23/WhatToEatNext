@@ -66,7 +66,7 @@ export async function PUT(request: NextRequest) {
     const persisted = await menuPersistenceService.upsertMenu(userId, {
       weekStartDate,
       meals: Array.isArray(body.meals) ? body.meals : [],
-      nutritionalTotals: body.nutritionalTotals || {},
+      nutritionalTotals: body.nutritionalTotals ?? {},
       groceryList: Array.isArray(body.groceryList) ? body.groceryList : [],
       inventory: Array.isArray(body.inventory) ? body.inventory : [],
       weeklyBudget:

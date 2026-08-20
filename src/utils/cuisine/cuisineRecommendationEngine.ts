@@ -382,7 +382,7 @@ export function generateCuisineRecommendations(
 
     const overallScore =
       (elementalCompatibility * weights.elemental +
-        (alchemicalCompatibility || 0) * weights.alchemical +
+        (alchemicalCompatibility ?? 0) * weights.alchemical +
         culturalAlignment * weights.cultural +
         seasonalRelevance * weights.seasonal +
         signatureMatch * weights.signature) /

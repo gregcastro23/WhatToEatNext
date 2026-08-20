@@ -109,7 +109,7 @@ export async function GET(request: Request) {
     // Fallback logic
     const session = await auth().catch(() => null) as any;
     const isAdmin = session?.user?.role?.toString().toLowerCase() === "admin";
-    const jwtTier = session?.user?.tier || "free";
+    const jwtTier = session?.user?.tier ?? "free";
     const fallbackTier = isAdmin ? "premium" : jwtTier;
     
     return NextResponse.json(fallbackResponse(fallbackTier));

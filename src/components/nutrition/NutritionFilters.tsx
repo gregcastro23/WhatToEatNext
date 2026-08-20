@@ -62,7 +62,7 @@ export function NutritionFilters({
     onSortChange("relevance");
   }, [onFiltersChange, onSortChange]);
 
-  const hasActiveFilters =
+  const hasActiveFilters = Boolean(
     filters.highFiber ||
     filters.highProtein ||
     filters.lowSodium ||
@@ -70,7 +70,8 @@ export function NutritionFilters({
     filters.maxCarbs !== undefined ||
     filters.maxFat !== undefined ||
     filters.calorieRange !== undefined ||
-    (filters.fillsDeficiency && filters.fillsDeficiency.length > 0);
+    (filters.fillsDeficiency && filters.fillsDeficiency.length > 0),
+  );
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-3">
@@ -360,14 +361,14 @@ export function applyNutritionFilters(
 }
 
 function hasAnyFilter(filters: NutritionFilterValues): boolean {
-  return !!(
+  return Boolean(
     filters.highFiber ||
     filters.highProtein ||
     filters.lowSodium ||
     filters.minProtein !== undefined ||
     filters.maxCarbs !== undefined ||
     filters.maxFat !== undefined ||
-    filters.calorieRange !== undefined
+    filters.calorieRange !== undefined,
   );
 }
 

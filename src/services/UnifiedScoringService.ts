@@ -187,17 +187,17 @@ export function calculateTransitEffect(
   const transits = astroData.transits.active;
 
   // Check if item has planetary rulers that are being transited
-  const itemRulers = _context.item.planetaryRulers || [];
+  const itemRulers = _context.item.planetaryRulers ?? [];
 
   for (const transit of transits) {
     if (itemRulers.includes(transit.natalPlanet)) {
       // Positive transits boost score
       if (["trine", "sextile", "conjunction"].includes(transit.aspect)) {
-        score += ((transit as any)?.strength || 0) * 0.2;
+        score += ((transit as any)?.strength ?? 0) * 0.2;
       }
       // Challenging transits reduce score
       else if (["square", "opposition"].includes(transit.aspect)) {
-        score -= ((transit as any)?.strength || 0) * 0.2;
+        score -= ((transit as any)?.strength ?? 0) * 0.2;
       }
     }
   }
@@ -213,7 +213,7 @@ export function calculateDignityEffect(
   _context: ScoringContext,
 ): number {
   let score = 0;
-  const itemRulers = _context.item.planetaryRulers || [];
+  const itemRulers = _context.item.planetaryRulers ?? [];
 
   for (const planet of itemRulers) {
     const dignity = astroData.dignity[planet] || 0;
@@ -304,7 +304,7 @@ export function calculateSeasonalEffect(
     "winter",
   ][month];
 
-  const itemSeasonality = context.item.seasonality || [];
+  const itemSeasonality = context.item.seasonality ?? [];
 
   if (itemSeasonality.includes(season as Season)) {
     return 0.2; // Boost for seasonal items
@@ -329,7 +329,7 @@ export function calculateLocationEffect(
       context.dateTime,
     );
 
-  const itemRulers = context.item.planetaryRulers || [];
+  const itemRulers = context.item.planetaryRulers ?? [];
   let score = 0;
 
   for (const influence of locationInfluences) {
@@ -454,7 +454,7 @@ export function calculateAspectEffect(
   context: ScoringContext,
 ): number {
   let score = 0;
-  const itemRulers = context.item.planetaryRulers || [];
+  const itemRulers = context.item.planetaryRulers ?? [];
 
   for (const aspect of astroData.aspects) {
     if (
@@ -544,11 +544,11 @@ export function calculateThermodynamicEffect(
     const elem = context.item.elementalProperties;
 
     // Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
-    const heatNum = Math.pow(alch.Spirit || 0, 2) + Math.pow(elem.Fire || 0, 2);
+    const heatNum = Math.pow(alch.Spirit ?? 0, 2) + Math.pow(elem.Fire || 0, 2);
     const heatDen = Math.pow(
-      (alch.Substance || 0) +
-      (alch.Essence || 0) +
-      (alch.Matter || 0) +
+      (alch.Substance ?? 0) +
+      (alch.Essence ?? 0) +
+      (alch.Matter ?? 0) +
       (elem.Water || 0) +
       (elem.Air || 0) +
       (elem.Earth || 0),
@@ -558,13 +558,13 @@ export function calculateThermodynamicEffect(
 
     // Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
     const entropyNum =
-      Math.pow(alch.Spirit || 0, 2) +
-      Math.pow(alch.Substance || 0, 2) +
+      Math.pow(alch.Spirit ?? 0, 2) +
+      Math.pow(alch.Substance ?? 0, 2) +
       Math.pow(elem.Fire || 0, 2) +
       Math.pow(elem.Air || 0, 2);
     const entropyDen = Math.pow(
-      (alch.Essence || 0) +
-      (alch.Matter || 0) +
+      (alch.Essence ?? 0) +
+      (alch.Matter ?? 0) +
       (elem.Earth || 0) +
       (elem.Water || 0),
       2,
@@ -573,13 +573,13 @@ export function calculateThermodynamicEffect(
 
     // Reactivity
     const reactivityNum =
-      Math.pow(alch.Spirit || 0, 2) +
-      Math.pow(alch.Substance || 0, 2) +
-      Math.pow(alch.Essence || 0, 2) +
+      Math.pow(alch.Spirit ?? 0, 2) +
+      Math.pow(alch.Substance ?? 0, 2) +
+      Math.pow(alch.Essence ?? 0, 2) +
       Math.pow(elem.Fire || 0, 2) +
       Math.pow(elem.Air || 0, 2) +
       Math.pow(elem.Water || 0, 2);
-    const reactivityDen = Math.pow((alch.Matter || 0) + (elem.Earth || 0), 2);
+    const reactivityDen = Math.pow((alch.Matter ?? 0) + (elem.Earth || 0), 2);
     const reactivity = reactivityNum / (reactivityDen || 1);
 
     // Greg's Energy
@@ -612,12 +612,15 @@ export function calculateThermodynamicEffect(
       });
 
     // Monica
-    let monica = context.item.monicaConstant || 1.0;
-    if (kalchm > 0 && !context.item.monicaConstant) {
+    let monica: number | null = context.item.monicaConstant ?? null;
+    if (kalchm > 0 && monica === null) {
       const lnK = Math.log(kalchm);
       if (lnK !== 0) {
         monica = -gregsEnergy / (reactivity * lnK);
       }
+    }
+    if (monica === null) {
+      monica = 1.0;
     }
 
     itemThermo = { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
@@ -720,15 +723,15 @@ export function calculateTokenAffinityEffect(
   const alch = context.item.alchemicalProperties;
   if (!alch) return 0;
 
-  const alchTotal = (alch.Spirit || 0) + (alch.Essence || 0) + (alch.Matter || 0) + (alch.Substance || 0);
+  const alchTotal = (alch.Spirit ?? 0) + (alch.Essence ?? 0) + (alch.Matter ?? 0) + (alch.Substance ?? 0);
   if (alchTotal === 0) return 0;
 
   // Dot-product similarity between user token distribution and recipe ESMS
   const recipeWeights = {
-    Spirit: (alch.Spirit || 0) / alchTotal,
-    Essence: (alch.Essence || 0) / alchTotal,
-    Matter: (alch.Matter || 0) / alchTotal,
-    Substance: (alch.Substance || 0) / alchTotal,
+    Spirit: (alch.Spirit ?? 0) / alchTotal,
+    Essence: (alch.Essence ?? 0) / alchTotal,
+    Matter: (alch.Matter ?? 0) / alchTotal,
+    Substance: (alch.Substance ?? 0) / alchTotal,
   };
 
   const dotProduct =
@@ -788,11 +791,11 @@ export function calculateKineticCompatibilityEffect(
 
     // Calculate thermodynamics first (needed for kinetics)
     const heatNum =
-      Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemElem.Fire || 0, 2);
+      Math.pow(itemAlch.Spirit ?? 0, 2) + Math.pow(itemElem.Fire || 0, 2);
     const heatDen = Math.pow(
-      (itemAlch.Substance || 0) +
-      (itemAlch.Essence || 0) +
-      (itemAlch.Matter || 0) +
+      (itemAlch.Substance ?? 0) +
+      (itemAlch.Essence ?? 0) +
+      (itemAlch.Matter ?? 0) +
       (itemElem.Water || 0) +
       (itemElem.Air || 0) +
       (itemElem.Earth || 0),
@@ -801,13 +804,13 @@ export function calculateKineticCompatibilityEffect(
     const heat = heatNum / (heatDen || 1);
 
     const entropyNum =
-      Math.pow(itemAlch.Spirit || 0, 2) +
-      Math.pow(itemAlch.Substance || 0, 2) +
+      Math.pow(itemAlch.Spirit ?? 0, 2) +
+      Math.pow(itemAlch.Substance ?? 0, 2) +
       Math.pow(itemElem.Fire || 0, 2) +
       Math.pow(itemElem.Air || 0, 2);
     const entropyDen = Math.pow(
-      (itemAlch.Essence || 0) +
-      (itemAlch.Matter || 0) +
+      (itemAlch.Essence ?? 0) +
+      (itemAlch.Matter ?? 0) +
       (itemElem.Earth || 0) +
       (itemElem.Water || 0),
       2,
@@ -815,14 +818,14 @@ export function calculateKineticCompatibilityEffect(
     const entropy = entropyNum / (entropyDen || 1);
 
     const reactivityNum =
-      Math.pow(itemAlch.Spirit || 0, 2) +
-      Math.pow(itemAlch.Substance || 0, 2) +
-      Math.pow(itemAlch.Essence || 0, 2) +
+      Math.pow(itemAlch.Spirit ?? 0, 2) +
+      Math.pow(itemAlch.Substance ?? 0, 2) +
+      Math.pow(itemAlch.Essence ?? 0, 2) +
       Math.pow(itemElem.Fire || 0, 2) +
       Math.pow(itemElem.Air || 0, 2) +
       Math.pow(itemElem.Water || 0, 2);
     const reactivityDen = Math.pow(
-      (itemAlch.Matter || 0) + (itemElem.Earth || 0),
+      (itemAlch.Matter ?? 0) + (itemElem.Earth || 0),
       2,
     );
     const reactivity = reactivityNum / (reactivityDen || 1);
@@ -830,7 +833,7 @@ export function calculateKineticCompatibilityEffect(
     const gregsEnergy = heat - entropy * reactivity;
 
     // Kinetic properties
-    const itemCharge = (itemAlch.Matter || 0) + (itemAlch.Substance || 0);
+    const itemCharge = (itemAlch.Matter ?? 0) + (itemAlch.Substance ?? 0);
     const itemVoltage = itemCharge > 0 ? gregsEnergy / itemCharge : 0;
     const itemCurrent = reactivity;
     const itemPower = itemCurrent * itemVoltage;
@@ -868,7 +871,7 @@ export function calculateRetrogradeEffect(
   context: ScoringContext,
 ): number {
   let score = 0;
-  const itemRulers = context.item.planetaryRulers || [];
+  const itemRulers = context.item.planetaryRulers ?? [];
 
   for (const planet of itemRulers) {
     const planetData = astroData.planetaryPositions[planet];
@@ -1048,8 +1051,8 @@ export class UnifiedScoringService {
           date: context.dateTime.getDate(),
           hour: context.dateTime.getHours(),
           minute: context.dateTime.getMinutes(),
-          latitude: context.location?.latitude || 40.7498,
-          longitude: context.location?.longitude || -73.7976,
+          latitude: context.location?.latitude ?? 40.7498,
+          longitude: context.location?.longitude ?? -73.7976,
         }),
       });
 
@@ -1073,8 +1076,8 @@ export class UnifiedScoringService {
   ): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions:
-        context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
-      aspects: (context.aspects || []).map((aspect) => ({
+        context.planetaryPositions ?? ({} as Record<Planet, PlanetaryPosition>),
+      aspects: (context.aspects ?? []).map((aspect) => ({
         ...aspect,
         strength: 0.5, // Default strength for fallback data
       })),
@@ -1116,9 +1119,9 @@ export class UnifiedScoringService {
     // This would transform the actual API response
     // The exact structure depends on what the Astrologize API returns
     return {
-      planetaryPositions: data.planets || ({} as any),
-      aspects: data.aspects || ([] as any),
-      dignity: data.dignity || ({} as any),
+      planetaryPositions: data.planets ?? ({} as any),
+      aspects: data.aspects ?? ([] as any),
+      dignity: data.dignity ?? ({} as any),
     };
   }
 

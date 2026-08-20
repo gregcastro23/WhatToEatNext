@@ -11,8 +11,8 @@ export class AspectsService {
       Object.entries(positions || {}).map(([k, v]) => [
         k,
         {
-          sign: String((v as any)?.sign || ""),
-          degree: Number((v as any)?.degree || 0),
+          sign: String((v as any)?.sign ?? ""),
+          degree: Number((v as any)?.degree ?? 0),
         },
       ]),
     );

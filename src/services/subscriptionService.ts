@@ -66,7 +66,7 @@ class SubscriptionService {
       }
     }
     if (!sub) {
-      sub = memorySubscriptions.get(userId) || null;
+      sub = memorySubscriptions.get(userId) ?? null;
     }
     // In ESMS Token Economy, default active status with free/standard tier
     if (sub) {
@@ -225,14 +225,14 @@ class SubscriptionService {
            WHERE user_id = $1 AND feature = $2 AND period_start = $3`,
           [userId, feature, period.start],
         );
-        return result.rows[0]?.count || 0;
+        return result.rows[0]?.count ?? 0;
       } catch (error) {
         console.error("[subscriptionService] Usage query failed:", error);
       }
     }
 
     const key = `${userId}:${feature}:${period.start}`;
-    return memoryUsage.get(key)?.count || 0;
+    return memoryUsage.get(key)?.count ?? 0;
   }
 
   async incrementUsage(
@@ -252,7 +252,7 @@ class SubscriptionService {
            RETURNING count`,
           [userId, feature, period.start, period.end],
         );
-        return result.rows[0]?.count || 1;
+        return result.rows[0]?.count ?? 1;
       } catch (error) {
         console.error("[subscriptionService] Increment failed:", error);
       }
@@ -260,7 +260,7 @@ class SubscriptionService {
 
     const key = `${userId}:${feature}:${period.start}`;
     const existing = memoryUsage.get(key);
-    const newCount = (existing?.count || 0) + 1;
+    const newCount = (existing?.count ?? 0) + 1;
     memoryUsage.set(key, {
       userId,
       feature,

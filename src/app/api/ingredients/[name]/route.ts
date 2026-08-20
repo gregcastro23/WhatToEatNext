@@ -97,7 +97,7 @@ export async function GET(
     const ingredient = ingredientService.getIngredientByName(ingredientName);
 
     // Resolve canonical slug for the recipe index
-    const canonicalName = ingredient?.name || ingredientName;
+    const canonicalName = ingredient?.name ?? ingredientName;
     const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
     // Get from pre-computed recipe index
@@ -122,8 +122,8 @@ export async function GET(
           prepTime: extractTime(recipe, "prep"),
           cookTime: extractTime(recipe, "cook"),
           servings:
-            (recipe as { baseServingSize?: number }).baseServingSize ||
-            recipe.servingSize ||
+            (recipe as { baseServingSize?: number }).baseServingSize ??
+            recipe.servingSize ??
             recipe.numberOfServings,
           amount: typeof match.amount === "number" ? match.amount : undefined,
           unit: match.unit,

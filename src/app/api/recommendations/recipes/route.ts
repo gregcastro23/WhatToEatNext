@@ -68,7 +68,7 @@ export async function GET(request: Request) {
             return {
                 id: recipe.id,
                 name: recipe.name,
-                cuisine: rAsAny.cuisine || rAsAny.details?.cuisine,
+                cuisine: rAsAny.cuisine ?? rAsAny.details?.cuisine,
                 matchScore,
                 elementalProperties: recipe.elementalProperties,
                 alchemicalProperties: rAsAny.alchemicalProperties,

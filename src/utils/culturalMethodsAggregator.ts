@@ -201,7 +201,7 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
           unfavorableZodiac:
             mainMethod.astrologicalInfluences.unfavorableZodiac,
           dominantPlanets:
-            mainMethod.astrologicalInfluences.dominantPlanets || [],
+            mainMethod.astrologicalInfluences.dominantPlanets ?? [],
         };
       }
     }

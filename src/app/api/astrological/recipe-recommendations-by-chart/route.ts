@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 const getBackendBaseUrl = () =>
   // Server-side: use absolute URL from environment variables
   (
-    process.env.NEXT_PUBLIC_BACKEND_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+    process.env.NEXT_PUBLIC_BACKEND_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
     "http://localhost:8001"
   ); // Fallback to local Docker port
 

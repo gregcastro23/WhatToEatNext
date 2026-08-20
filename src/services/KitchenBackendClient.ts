@@ -28,7 +28,7 @@ export class KitchenBackendClient {
 
   constructor() {
     this.backendUrl =
-      process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ||
+      process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ??
       process.env.NEXT_PUBLIC_BACKEND_URL;
     this.useBackend =
       String(process.env.NEXT_PUBLIC_KITCHEN_BACKEND).toLowerCase() === "true";
@@ -51,7 +51,7 @@ export class KitchenBackendClient {
   ): Promise<EnhancedRecommendationResult | null> {
     try {
       return await this.post("/api/kitchen/recommendations/cuisines", {
-        datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
+        datetime: ctx.datetime?.toISOString() ?? new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences,
       });
@@ -65,7 +65,7 @@ export class KitchenBackendClient {
   ): Promise<EnhancedRecommendationResult | null> {
     try {
       return await this.post("/api/kitchen/recommendations/ingredients", {
-        datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
+        datetime: ctx.datetime?.toISOString() ?? new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences,
       });
@@ -97,7 +97,7 @@ export class KitchenBackendClient {
             ({
               id: r.id,
               name: r.name,
-              url: r.url || undefined,
+              url: r.url ?? undefined,
               // Add any other required Recipe fields with defaults
             }) as any,
         );
@@ -106,7 +106,7 @@ export class KitchenBackendClient {
         return {
           recommendations: recipes,
           context: {
-            datetime: ctx.datetime || new Date(),
+            datetime: ctx.datetime ?? new Date(),
             location: ctx.location,
           },
           score: 1.0,
@@ -115,7 +115,7 @@ export class KitchenBackendClient {
 
       // Fallback to original implementation
       return await this.post("/api/kitchen/recommendations/recipes", {
-        datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
+        datetime: ctx.datetime?.toISOString() ?? new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences,
       });

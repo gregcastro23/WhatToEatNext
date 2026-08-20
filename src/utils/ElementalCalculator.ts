@@ -142,14 +142,14 @@ export function calculateMatchScore(
         import("../data/cuisineFlavorProfiles")
           .then((module) => {
             const getCuisineProfile =
-              (module as any).getCuisineProfile ||
+              (module as any).getCuisineProfile ??
               (module as any)._getCuisineProfile;
-            const cuisineProfile = getCuisineProfile(options.cuisine || "");
+            const cuisineProfile = getCuisineProfile(options.cuisine ?? "");
 
             if (cuisineProfile?.elementalAlignment) {
               // If cuisine heavily emphasizes this element, weight it higher
               const cuisineElementValue =
-                cuisineProfile.elementalAlignment[element] || 0;
+                cuisineProfile.elementalAlignment[element] ?? 0;
               if (cuisineElementValue > 0.5) {
                 elementWeight *= 1 + (cuisineElementValue - 0.5); // Up to 1.5x for element value of 1.0
               }

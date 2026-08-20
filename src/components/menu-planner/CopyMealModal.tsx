@@ -161,7 +161,7 @@ export default function CopyMealModal({
           <div className="mb-6 p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
             <p className="text-sm text-gray-600 mb-1">Source Meal:</p>
             <h3 className="text-lg font-bold text-purple-900">
-              {sourceMeal.recipe?.name || "Empty Slot"}
+              {sourceMeal.recipe?.name ?? "Empty Slot"}
             </h3>
             <p className="text-sm text-gray-600">
               {getDayName(sourceMeal.dayOfWeek)} • {sourceMeal.mealType}

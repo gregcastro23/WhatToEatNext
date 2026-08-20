@@ -1,6 +1,6 @@
 # Ingredient Data Audit
 
-Generated: 2026-08-20T13:05:07.823Z
+Generated: 2026-08-20T15:50:19.749Z
 **Total ingredients:** 1184
 **Max score per ingredient:** 14
 
@@ -11,24 +11,24 @@ Generated: 2026-08-20T13:05:07.823Z
 | beverages | 14 | 100 | 0 | 14 | 0 |
 | dairy | 45 | 100 | 0 | 45 | 0 |
 | fruits | 104 | 100 | 0 | 104 | 0 |
-| grains | 83 | 100 | 0 | 83 | 32 |
-| herbs | 70 | 100 | 0 | 70 | 20 |
-| misc | 484 | 95 | 0 | 484 | 331 |
+| grains | 83 | 100 | 0 | 83 | 0 |
+| herbs | 70 | 100 | 0 | 70 | 0 |
+| misc | 484 | 98 | 0 | 484 | 0 |
 | oils | 48 | 100 | 0 | 48 | 0 |
-| proteins | 121 | 98 | 0 | 111 | 1 |
+| proteins | 121 | 98 | 0 | 111 | 0 |
 | seasonings | 61 | 90 | 8 | 53 | 0 |
 | spices | 55 | 100 | 0 | 55 | 0 |
-| vegetables | 80 | 100 | 0 | 80 | 36 |
+| vegetables | 80 | 100 | 0 | 80 | 0 |
 | vinegars | 19 | 100 | 0 | 19 | 0 |
 
 ## Real vs. default (placeholder/default values — drive to 0)
 
-**Non-real ingredients:** 420 / 1184
+**Non-real ingredients:** 0 / 1184
 
 | Marker | Count |
 | --- | --- |
-| Auto-generated coverage stub (provenance:generated) | 331 |
-| Placeholder/default nutrition source | 420 |
+| Auto-generated coverage stub (provenance:generated) | 0 |
+| Placeholder/default nutrition source | 0 |
 | Boilerplate description | 0 |
 | Placeholder qualities array | 0 |
 | Uniform 0.25 elemental default | 0 |
@@ -55,38 +55,38 @@ Generated: 2026-08-20T13:05:07.823Z
 | `hemp_protein` | hemp_protein | proteins | 79% | Sensory profile, Pairings, Storage guidance |
 | `pea_protein` | pea_protein | proteins | 79% | Sensory profile, Pairings, Storage guidance |
 | `lupin_protein` | lupin_protein | proteins | 79% | Sensory profile, Pairings, Storage guidance |
-| `mirin` | mirin | misc | 86% | Nutrition (calories + macros) |
-| `active_dry_yeast` | active dry yeast | misc | 86% | Nutrition (calories + macros) |
-| `cornstarch` | cornstarch | misc | 86% | Nutrition (calories + macros) |
-| `oyster_sauce` | oyster sauce | misc | 86% | Nutrition (calories + macros) |
-| `shaoxing_wine` | shaoxing wine | misc | 86% | Nutrition (calories + macros) |
-| `neutral_oil` | neutral oil | misc | 86% | Nutrition (calories + macros) |
-| `white_vinegar` | white vinegar | misc | 86% | Nutrition (calories + macros) |
-| `corn_tortillas` | corn tortillas | misc | 86% | Nutrition (calories + macros) |
-| `five_spice_powder` | five spice powder | misc | 86% | Nutrition (calories + macros) |
-| `firm_tofu` | firm tofu | misc | 86% | Nutrition (calories + macros) |
-| `cayenne_pepper` | cayenne pepper | misc | 86% | Nutrition (calories + macros) |
-| `queso_fresco` | queso fresco | misc | 86% | Nutrition (calories + macros) |
-| `bird_s_eye_chilies` | bird s eye chilies | misc | 86% | Nutrition (calories + macros) |
-| `white_bread` | white bread | misc | 86% | Nutrition (calories + macros) |
-| `sichuan_peppercorns` | sichuan peppercorns | misc | 86% | Nutrition (calories + macros) |
-| `dried_red_chilies` | dried red chilies | misc | 86% | Nutrition (calories + macros) |
-| `oil` | oil | misc | 86% | Nutrition (calories + macros) |
-| `frying_oil` | frying oil | misc | 86% | Nutrition (calories + macros) |
-| `chili_flakes` | chili flakes | misc | 86% | Nutrition (calories + macros) |
-| `radishes` | radishes | misc | 86% | Nutrition (calories + macros) |
-| `ice` | ice | misc | 86% | Nutrition (calories + macros) |
-| `corn` | corn | misc | 86% | Nutrition (calories + macros) |
-| `allspice` | allspice | misc | 86% | Nutrition (calories + macros) |
-| `raisins` | raisins | misc | 86% | Nutrition (calories + macros) |
-| `worcestershire_sauce` | worcestershire sauce | misc | 86% | Nutrition (calories + macros) |
-| `hoisin_sauce` | hoisin sauce | misc | 86% | Nutrition (calories + macros) |
-| `sauerkraut` | sauerkraut | misc | 86% | Nutrition (calories + macros) |
-| `cloves` | cloves | misc | 86% | Nutrition (calories + macros) |
-| `pepper` | pepper | misc | 86% | Nutrition (calories + macros) |
-| `wasabi` | wasabi | misc | 86% | Nutrition (calories + macros) |
-| `mixed_seafood` | mixed seafood | misc | 86% | Nutrition (calories + macros) |
-| `tahini` | tahini | misc | 86% | Nutrition (calories + macros) |
+| `chickpea_protein` | chickpea_protein | proteins | 86% | Sensory profile, Pairings |
+| `fava_protein` | fava_protein | proteins | 86% | Sensory profile, Pairings |
+| `fish_sauce` | fish sauce | misc | 93% | Nutrition (vitamins + minerals) |
+| `chicken_stock` | chicken stock | misc | 93% | Nutrition (vitamins + minerals) |
+| `chicken_broth` | chicken broth | misc | 93% | Nutrition (vitamins + minerals) |
+| `beef_stock` | beef stock | misc | 93% | Nutrition (vitamins + minerals) |
+| `beef_broth` | beef broth | misc | 93% | Nutrition (vitamins + minerals) |
+| `dashi_stock` | dashi stock | misc | 93% | Nutrition (vitamins + minerals) |
+| `panko` | panko | misc | 93% | Nutrition (vitamins + minerals) |
+| `brown_rice_syrup` | brown rice syrup | misc | 93% | Nutrition (vitamins + minerals) |
+| `agave_syrup` | agave syrup | misc | 93% | Nutrition (vitamins + minerals) |
+| `sugar` | sugar | misc | 93% | Qualities array (≥3) |
+| `maple_syrup` | maple syrup | misc | 93% | Qualities array (≥3) |
+| `baking_powder` | baking powder | misc | 93% | Qualities array (≥3) |
+| `microgreens` | microgreens | misc | 93% | Qualities array (≥3) |
+| `fresh_herbs` | fresh herbs | misc | 93% | Qualities array (≥3) |
+| `mixed_berries` | mixed berries | misc | 93% | Qualities array (≥3) |
+| `honey` | honey | misc | 93% | Qualities array (≥3) |
+| `granola` | granola | misc | 93% | Qualities array (≥3) |
+| `pumpkin_puree` | pumpkin puree | misc | 93% | Qualities array (≥3) |
+| `pecans` | pecans | misc | 93% | Qualities array (≥3) |
+| `cranberries` | cranberries | misc | 93% | Qualities array (≥3) |
+| `walnuts` | walnuts | misc | 93% | Qualities array (≥3) |
+| `hamburger_buns` | hamburger buns | misc | 93% | Qualities array (≥3) |
+| `ketchup` | ketchup | misc | 93% | Qualities array (≥3) |
+| `mustard` | mustard | misc | 93% | Qualities array (≥3) |
+| `bacon` | bacon | misc | 93% | Qualities array (≥3) |
+| `clams` | clams | misc | 93% | Qualities array (≥3) |
+| `puff_pastry` | puff pastry | misc | 93% | Qualities array (≥3) |
+| `lobster_meat` | lobster meat | misc | 93% | Qualities array (≥3) |
+| `mayonnaise` | mayonnaise | misc | 93% | Qualities array (≥3) |
+| `split_top_buns` | split-top buns | misc | 93% | Qualities array (≥3) |
 
 ## All ingredients by category
 
@@ -435,111 +435,6 @@ Generated: 2026-08-20T13:05:07.823Z
 
 | Slug | Name | % | Missing |
 | --- | --- | --- | --- |
-| `mirin` | mirin | 86% | Nutrition (calories + macros) |
-| `active_dry_yeast` | active dry yeast | 86% | Nutrition (calories + macros) |
-| `cornstarch` | cornstarch | 86% | Nutrition (calories + macros) |
-| `oyster_sauce` | oyster sauce | 86% | Nutrition (calories + macros) |
-| `shaoxing_wine` | shaoxing wine | 86% | Nutrition (calories + macros) |
-| `neutral_oil` | neutral oil | 86% | Nutrition (calories + macros) |
-| `white_vinegar` | white vinegar | 86% | Nutrition (calories + macros) |
-| `corn_tortillas` | corn tortillas | 86% | Nutrition (calories + macros) |
-| `five_spice_powder` | five spice powder | 86% | Nutrition (calories + macros) |
-| `firm_tofu` | firm tofu | 86% | Nutrition (calories + macros) |
-| `cayenne_pepper` | cayenne pepper | 86% | Nutrition (calories + macros) |
-| `queso_fresco` | queso fresco | 86% | Nutrition (calories + macros) |
-| `bird_s_eye_chilies` | bird s eye chilies | 86% | Nutrition (calories + macros) |
-| `white_bread` | white bread | 86% | Nutrition (calories + macros) |
-| `sichuan_peppercorns` | sichuan peppercorns | 86% | Nutrition (calories + macros) |
-| `dried_red_chilies` | dried red chilies | 86% | Nutrition (calories + macros) |
-| `oil` | oil | 86% | Nutrition (calories + macros) |
-| `frying_oil` | frying oil | 86% | Nutrition (calories + macros) |
-| `chili_flakes` | chili flakes | 86% | Nutrition (calories + macros) |
-| `radishes` | radishes | 86% | Nutrition (calories + macros) |
-| `ice` | ice | 86% | Nutrition (calories + macros) |
-| `corn` | corn | 86% | Nutrition (calories + macros) |
-| `allspice` | allspice | 86% | Nutrition (calories + macros) |
-| `raisins` | raisins | 86% | Nutrition (calories + macros) |
-| `worcestershire_sauce` | worcestershire sauce | 86% | Nutrition (calories + macros) |
-| `hoisin_sauce` | hoisin sauce | 86% | Nutrition (calories + macros) |
-| `sauerkraut` | sauerkraut | 86% | Nutrition (calories + macros) |
-| `cloves` | cloves | 86% | Nutrition (calories + macros) |
-| `pepper` | pepper | 86% | Nutrition (calories + macros) |
-| `wasabi` | wasabi | 86% | Nutrition (calories + macros) |
-| `mixed_seafood` | mixed seafood | 86% | Nutrition (calories + macros) |
-| `tahini` | tahini | 86% | Nutrition (calories + macros) |
-| `raw_tahini` | raw tahini | 86% | Nutrition (calories + macros) |
-| `unsliced_white_bread` | unsliced white bread | 86% | Nutrition (calories + macros) |
-| `cornmeal` | cornmeal | 86% | Nutrition (calories + macros) |
-| `fresh_wheat_noodles` | fresh wheat noodles | 86% | Nutrition (calories + macros) |
-| `shellfish` | shellfish | 86% | Nutrition (calories + macros) |
-| `spaghetti` | spaghetti | 86% | Nutrition (calories + macros) |
-| `guanciale` | guanciale | 86% | Nutrition (calories + macros) |
-| `strong_espresso` | strong espresso | 86% | Nutrition (calories + macros) |
-| `yakisoba_sauce` | yakisoba sauce | 86% | Nutrition (calories + macros) |
-| `medium_firm_tofu` | medium firm tofu | 86% | Nutrition (calories + macros) |
-| `lard` | lard | 86% | Nutrition (calories + macros) |
-| `pita_bread` | pita bread | 86% | Nutrition (calories + macros) |
-| `hale_s_blue_boy_syrup` | hale s blue boy syrup | 86% | Nutrition (calories + macros) |
-| `leftover_dry_injera` | leftover dry injera | 86% | Nutrition (calories + macros) |
-| `scotch_bonnet_peppers_ata_rodo` | scotch bonnet peppers ata rodo | 86% | Nutrition (calories + macros) |
-| `macaroni` | macaroni | 86% | Nutrition (calories + macros) |
-| `vermicelli` | vermicelli | 86% | Nutrition (calories + macros) |
-| `crushed_wheat_frik` | crushed wheat frik | 86% | Nutrition (calories + macros) |
-| `harissa` | harissa | 86% | Nutrition (calories + macros) |
-| `collard_greens` | collard greens | 86% | Nutrition (calories + macros) |
-| `couscous` | couscous | 86% | Nutrition (calories + macros) |
-| `watercress` | watercress | 86% | Nutrition (calories + macros) |
-| `top_split_hot_dog_buns` | top split hot dog buns | 86% | Nutrition (calories + macros) |
-| `thick_cut_sourdough` | thick cut sourdough | 86% | Nutrition (calories + macros) |
-| `hoagie_rolls` | hoagie rolls | 86% | Nutrition (calories + macros) |
-| `croissant_au_beurre` | croissant au beurre | 86% | Nutrition (calories + macros) |
-| `jambon_de_paris_high_quality_cooked_ham` | jambon de paris high quality cooked ham | 86% | Nutrition (calories + macros) |
-| `gruyere` | gruyere | 86% | Nutrition (calories + macros) |
-| `ni_u00e7oise_olives` | ni u00e7oise olives | 86% | Nutrition (calories + macros) |
-| `mixed_firm_and_flaky_fish` | mixed firm and flaky fish | 86% | Nutrition (calories + macros) |
-| `small_bony_fish_for_stock` | small bony fish for stock | 86% | Nutrition (calories + macros) |
-| `rouille` | rouille | 86% | Nutrition (calories + macros) |
-| `piperade` | piperade | 86% | Nutrition (calories + macros) |
-| `vegetable_broth` | vegetable broth | 86% | Nutrition (calories + macros) |
-| `stale_bread` | stale bread | 86% | Nutrition (calories + macros) |
-| `stale_white_bread` | stale white bread | 86% | Nutrition (calories + macros) |
-| `pastitsio_pasta` | pastitsio pasta | 86% | Nutrition (calories + macros) |
-| `red_chilies` | red chilies | 86% | Nutrition (calories + macros) |
-| `cooking_oil` | cooking oil | 86% | Nutrition (calories + macros) |
-| `carom_seeds_ajwain` | carom seeds ajwain | 86% | Nutrition (calories + macros) |
-| `crispy_puris` | crispy puris | 86% | Nutrition (calories + macros) |
-| `pav_rolls` | pav rolls | 86% | Nutrition (calories + macros) |
-| `khoya_mawa` | khoya mawa | 86% | Nutrition (calories + macros) |
-| `high_quality_cocoa_powder` | high quality cocoa powder | 86% | Nutrition (calories + macros) |
-| `stale_crusty_bread_ideally_saltless_tuscan_bread` | stale crusty bread ideally saltless tuscan bread | 86% | Nutrition (calories + macros) |
-| `fresh_yeast` | fresh yeast | 86% | Nutrition (calories + macros) |
-| `olives` | olives | 86% | Nutrition (calories + macros) |
-| `vinegar` | vinegar | 86% | Nutrition (calories + macros) |
-| `active_lieveto_madre_stiff_sourdough_starter` | active lieveto madre stiff sourdough starter | 86% | Nutrition (calories + macros) |
-| `shoyu_tare` | shoyu tare | 86% | Nutrition (calories + macros) |
-| `tare_sauce` | tare sauce | 86% | Nutrition (calories + macros) |
-| `cornstarch_slurry` | cornstarch slurry | 86% | Nutrition (calories + macros) |
-| `extra_firm_tofu` | extra firm tofu | 86% | Nutrition (calories + macros) |
-| `stale_corn_tortillas` | stale corn tortillas | 86% | Nutrition (calories + macros) |
-| `chorizo` | chorizo | 86% | Nutrition (calories + macros) |
-| `juice` | juice | 86% | Nutrition (calories + macros) |
-| `bulgur` | bulgur | 86% | Nutrition (calories + macros) |
-| `b_u00e9chamel_sauce` | b u00e9chamel sauce | 86% | Nutrition (calories + macros) |
-| `shrak` | shrak | 86% | Nutrition (calories + macros) |
-| `tvorog_farmer_s_cheese` | tvorog farmer s cheese | 86% | Nutrition (calories + macros) |
-| `kefir` | kefir | 86% | Nutrition (calories + macros) |
-| `small_fish` | small fish | 86% | Nutrition (calories + macros) |
-| `prized_fish` | prized fish | 86% | Nutrition (calories + macros) |
-| `vodka` | vodka | 86% | Nutrition (calories + macros) |
-| `cooked_meat` | cooked meat | 86% | Nutrition (calories + macros) |
-| `cold_kvas` | cold kvas | 86% | Nutrition (calories + macros) |
-| `sriracha` | sriracha | 86% | Nutrition (calories + macros) |
-| `youtiao_quay` | youtiao quay | 86% | Nutrition (calories + macros) |
-| `chao` | chao | 86% | Nutrition (calories + macros) |
-| `nuoc_mau` | nuoc mau | 86% | Nutrition (calories + macros) |
-| `vietnamese_baguettes_banh_mi` | vietnamese baguettes banh mi | 86% | Nutrition (calories + macros) |
-| `cha_lua` | cha lua | 86% | Nutrition (calories + macros) |
-| `mam_ruo_c` | mam ruo c | 86% | Nutrition (calories + macros) |
 | `fish_sauce` | fish sauce | 93% | Nutrition (vitamins + minerals) |
 | `chicken_stock` | chicken stock | 93% | Nutrition (vitamins + minerals) |
 | `chicken_broth` | chicken broth | 93% | Nutrition (vitamins + minerals) |
@@ -673,43 +568,84 @@ Generated: 2026-08-20T13:05:07.823Z
 | `vietnamese_herbs` | Vietnamese herbs | 93% | Qualities array (≥3) |
 | `pickled_vegetables` | pickled vegetables | 93% | Qualities array (≥3) |
 | `pandan_jelly` | pandan jelly | 93% | Qualities array (≥3) |
+| `mirin` | mirin | 100% | — |
+| `active_dry_yeast` | active dry yeast | 100% | — |
+| `cornstarch` | cornstarch | 100% | — |
+| `oyster_sauce` | oyster sauce | 100% | — |
+| `shaoxing_wine` | shaoxing wine | 100% | — |
+| `neutral_oil` | neutral oil | 100% | — |
+| `white_vinegar` | white vinegar | 100% | — |
+| `corn_tortillas` | corn tortillas | 100% | — |
+| `five_spice_powder` | five spice powder | 100% | — |
+| `firm_tofu` | firm tofu | 100% | — |
+| `cayenne_pepper` | cayenne pepper | 100% | — |
+| `queso_fresco` | queso fresco | 100% | — |
+| `bird_s_eye_chilies` | bird s eye chilies | 100% | — |
+| `white_bread` | white bread | 100% | — |
 | `capers` | capers | 100% | — |
+| `sichuan_peppercorns` | sichuan peppercorns | 100% | — |
+| `dried_red_chilies` | dried red chilies | 100% | — |
+| `oil` | oil | 100% | — |
+| `frying_oil` | frying oil | 100% | — |
+| `chili_flakes` | chili flakes | 100% | — |
+| `radishes` | radishes | 100% | — |
 | `black_peppercorns` | black peppercorns | 100% | — |
+| `ice` | ice | 100% | — |
+| `corn` | corn | 100% | — |
 | `limes` | limes | 100% | — |
 | `achiote_paste` | achiote paste | 100% | — |
+| `allspice` | allspice | 100% | — |
 | `red_curry_paste` | red curry paste | 100% | — |
 | `harissa_paste` | harissa paste | 100% | — |
+| `raisins` | raisins | 100% | — |
+| `worcestershire_sauce` | worcestershire sauce | 100% | — |
 | `hot_sauce` | hot sauce | 100% | — |
 | `heavy_whipping_cream` | heavy whipping cream | 100% | — |
+| `hoisin_sauce` | hoisin sauce | 100% | — |
 | `bamboo_shoots` | bamboo shoots | 100% | — |
+| `sauerkraut` | sauerkraut | 100% | — |
+| `cloves` | cloves | 100% | — |
 | `asafoetida_hing` | asafoetida hing | 100% | — |
 | `kasuri_methi` | kasuri methi | 100% | — |
+| `pepper` | pepper | 100% | — |
 | `marsala_wine` | marsala wine | 100% | — |
 | `golden_raisins` | golden raisins | 100% | — |
 | `nori_seaweed` | nori seaweed | 100% | — |
 | `fresh_ramen_noodles` | fresh ramen noodles | 100% | — |
 | `dried_soba_noodles` | dried soba noodles | 100% | — |
+| `wasabi` | wasabi | 100% | — |
+| `mixed_seafood` | mixed seafood | 100% | — |
 | `doenjang` | doenjang | 100% | — |
 | `ancho_chiles` | ancho chiles | 100% | — |
 | `poblano_peppers` | poblano peppers | 100% | — |
+| `tahini` | tahini | 100% | — |
+| `raw_tahini` | raw tahini | 100% | — |
 | `green_curry_paste` | green curry paste | 100% | — |
 | `niter_kibbeh` | niter kibbeh | 100% | — |
 | `scotch_bonnet_pepper` | scotch bonnet pepper | 100% | — |
 | `red_pepper_flakes` | red pepper flakes | 100% | — |
 | `peri_peri_sauce` | peri peri sauce | 100% | — |
+| `unsliced_white_bread` | unsliced white bread | 100% | — |
 | `habanero_pepper` | habanero pepper | 100% | — |
 | `cream_of_tartar` | cream of tartar | 100% | — |
 | `american_cheese` | american cheese | 100% | — |
 | `creole_seasoning` | creole seasoning | 100% | — |
+| `cornmeal` | cornmeal | 100% | — |
 | `wheat_starch` | wheat starch | 100% | — |
 | `silken_tofu` | silken tofu | 100% | — |
+| `fresh_wheat_noodles` | fresh wheat noodles | 100% | — |
+| `shellfish` | shellfish | 100% | — |
 | `toulouse_sausage` | toulouse sausage | 100% | — |
 | `kalamata_olives` | kalamata olives | 100% | — |
 | `biryani_masala` | biryani masala | 100% | — |
 | `cashew_paste` | cashew paste | 100% | — |
+| `spaghetti` | spaghetti | 100% | — |
+| `guanciale` | guanciale | 100% | — |
+| `strong_espresso` | strong espresso | 100% | — |
 | `savoiardi_ladyfingers` | savoiardi ladyfingers | 100% | — |
 | `unsweetened_cocoa_powder` | unsweetened cocoa powder | 100% | — |
 | `yakisoba_noodles` | yakisoba noodles | 100% | — |
+| `yakisoba_sauce` | yakisoba sauce | 100% | — |
 | `ajitsuke_tamago` | ajitsuke tamago | 100% | — |
 | `tentsuyu` | tentsuyu | 100% | — |
 | `tenkasu_tempura_scraps` | tenkasu tempura scraps | 100% | — |
@@ -718,21 +654,33 @@ Generated: 2026-08-20T13:05:07.823Z
 | `shirataki_noodles` | shirataki noodles | 100% | — |
 | `kamaboko` | kamaboko | 100% | — |
 | `somyeon_thin_wheat_noodles` | somyeon thin wheat noodles | 100% | — |
+| `medium_firm_tofu` | medium firm tofu | 100% | — |
 | `gim_roasted_seaweed` | gim roasted seaweed | 100% | — |
 | `dangmyeon` | dangmyeon | 100% | — |
 | `eomuk_fish_cakes` | eomuk fish cakes | 100% | — |
 | `tomatillos` | tomatillos | 100% | — |
 | `crema_mexicana` | crema mexicana | 100% | — |
+| `lard` | lard | 100% | — |
 | `guajillo_chiles` | guajillo chiles | 100% | — |
 | `fresh_epazote` | fresh epazote | 100% | — |
+| `pita_bread` | pita bread | 100% | — |
 | `shawarma_spice_blend` | shawarma spice blend | 100% | — |
 | `pickle_brine` | pickle brine | 100% | — |
 | `nam_prik_pao` | nam prik pao | 100% | — |
 | `massaman_curry_paste` | massaman curry paste | 100% | — |
 | `long_red_chilies` | long red chilies | 100% | — |
+| `hale_s_blue_boy_syrup` | hale s blue boy syrup | 100% | — |
+| `leftover_dry_injera` | leftover dry injera | 100% | — |
+| `scotch_bonnet_peppers_ata_rodo` | scotch bonnet peppers ata rodo | 100% | — |
+| `macaroni` | macaroni | 100% | — |
 | `vegetable_stock` | vegetable stock | 100% | — |
+| `vermicelli` | vermicelli | 100% | — |
+| `crushed_wheat_frik` | crushed wheat frik | 100% | — |
+| `harissa` | harissa | 100% | — |
 | `brick_pastry_sheets` | brick pastry sheets | 100% | — |
 | `ogbono_seeds` | ogbono seeds | 100% | — |
+| `collard_greens` | collard greens | 100% | — |
+| `couscous` | couscous | 100% | — |
 | `durban_curry_masala` | durban curry masala | 100% | — |
 | `mitmita` | mitmita | 100% | — |
 | `kuli_kuli_powder` | kuli kuli powder | 100% | — |
@@ -740,10 +688,14 @@ Generated: 2026-08-20T13:05:07.823Z
 | `leeks` | leeks | 100% | — |
 | `fresh_berries` | fresh berries | 100% | — |
 | `sweet_pickle_relish` | sweet pickle relish | 100% | — |
+| `watercress` | watercress | 100% | — |
+| `top_split_hot_dog_buns` | top split hot dog buns | 100% | — |
+| `thick_cut_sourdough` | thick cut sourdough | 100% | — |
 | `dried_navy_beans` | dried navy beans | 100% | — |
 | `cube_steak` | cube steak | 100% | — |
 | `andouille_sausage` | andouille sausage | 100% | — |
 | `italian_sausage` | italian sausage | 100% | — |
+| `hoagie_rolls` | hoagie rolls | 100% | — |
 | `provolone_cheese` | provolone cheese | 100% | — |
 | `pie_dough` | pie dough | 100% | — |
 | `youtiao_fried_dough` | youtiao fried dough | 100% | — |
@@ -766,45 +718,68 @@ Generated: 2026-08-20T13:05:07.823Z
 | `flank_steak` | flank steak | 100% | — |
 | `thick_fresh_wheat_noodles` | thick fresh wheat noodles | 100% | — |
 | `wonton_wrappers` | wonton wrappers | 100% | — |
+| `croissant_au_beurre` | croissant au beurre | 100% | — |
+| `jambon_de_paris_high_quality_cooked_ham` | jambon de paris high quality cooked ham | 100% | — |
 | `croutons` | croutons | 100% | — |
+| `gruyere` | gruyere | 100% | — |
 | `escargots` | escargots | 100% | — |
+| `ni_u00e7oise_olives` | ni u00e7oise olives | 100% | — |
 | `dover_sole` | dover sole | 100% | — |
 | `sausages` | sausages | 100% | — |
 | `juniper_berries` | juniper berries | 100% | — |
 | `marrow_bone` | marrow bone | 100% | — |
+| `mixed_firm_and_flaky_fish` | mixed firm and flaky fish | 100% | — |
 | `fish_stock` | fish stock | 100% | — |
 | `white_haricot_beans` | white haricot beans | 100% | — |
 | `dried_white_tarbais_beans` | dried white tarbais beans | 100% | — |
 | `red_burgundy_wine` | red burgundy wine | 100% | — |
+| `small_bony_fish_for_stock` | small bony fish for stock | 100% | — |
+| `rouille` | rouille | 100% | — |
+| `piperade` | piperade | 100% | — |
 | `creme_patissiere` | creme patissiere | 100% | — |
 | `greek_pita_bread` | greek pita bread | 100% | — |
 | `kefalotyri_cheese` | kefalotyri cheese | 100% | — |
+| `vegetable_broth` | vegetable broth | 100% | — |
 | `kefalograviera_cheese` | kefalograviera cheese | 100% | — |
 | `orzo_pasta` | orzo pasta | 100% | — |
+| `stale_bread` | stale bread | 100% | — |
 | `dried_currants` | dried currants | 100% | — |
 | `allspice_berries` | allspice berries | 100% | — |
 | `dried_gigantes_beans` | dried gigantes beans | 100% | — |
+| `stale_white_bread` | stale white bread | 100% | — |
 | `phyllo_pastry` | phyllo pastry | 100% | — |
+| `pastitsio_pasta` | pastitsio pasta | 100% | — |
 | `fenugreek_seeds` | fenugreek seeds | 100% | — |
 | `sev` | sev | 100% | — |
 | `mutton` | mutton | 100% | — |
+| `red_chilies` | red chilies | 100% | — |
 | `whole_green_gram_moong_dal` | whole green gram moong dal | 100% | — |
+| `cooking_oil` | cooking oil | 100% | — |
 | `green_chili_paste` | green chili paste | 100% | — |
 | `nihari_masala` | nihari masala | 100% | — |
 | `cashews` | cashews | 100% | — |
 | `chana_masala_powder` | chana masala powder | 100% | — |
+| `carom_seeds_ajwain` | carom seeds ajwain | 100% | — |
 | `amchur` | amchur | 100% | — |
+| `crispy_puris` | crispy puris | 100% | — |
 | `pav_bhaji_masala` | pav bhaji masala | 100% | — |
+| `pav_rolls` | pav rolls | 100% | — |
 | `tiger_prawns` | tiger prawns | 100% | — |
 | `bydagi_chilies` | bydagi chilies | 100% | — |
+| `khoya_mawa` | khoya mawa | 100% | — |
 | `tikka_masala_spice_blend` | tikka masala spice blend | 100% | — |
 | `espresso` | espresso | 100% | — |
+| `high_quality_cocoa_powder` | high quality cocoa powder | 100% | — |
 | `cantuccini_biscotti` | cantuccini biscotti | 100% | — |
+| `stale_crusty_bread_ideally_saltless_tuscan_bread` | stale crusty bread ideally saltless tuscan bread | 100% | — |
 | `cannellini_beans` | cannellini beans | 100% | — |
 | `dried_borlotti` | dried borlotti | 100% | — |
 | `ditalini` | ditalini | 100% | — |
+| `fresh_yeast` | fresh yeast | 100% | — |
+| `olives` | olives | 100% | — |
 | `pici_pasta` | pici pasta | 100% | — |
 | `green_olives` | green olives | 100% | — |
+| `vinegar` | vinegar | 100% | — |
 | `puntarelle` | puntarelle | 100% | — |
 | `taleggio_cheese` | taleggio cheese | 100% | — |
 | `gremolata` | gremolata | 100% | — |
@@ -814,12 +789,14 @@ Generated: 2026-08-20T13:05:07.823Z
 | `instant_yeast` | instant yeast | 100% | — |
 | `dextrose` | dextrose | 100% | — |
 | `locust_bean_gum` | locust bean gum | 100% | — |
+| `active_lieveto_madre_stiff_sourdough_starter` | active lieveto madre stiff sourdough starter | 100% | — |
 | `ham` | ham | 100% | — |
 | `edamame_beans` | edamame beans | 100% | — |
 | `katsuobushi` | katsuobushi | 100% | — |
 | `tsuyu_noodle_sauce` | tsuyu noodle sauce | 100% | — |
 | `toasted_nori` | toasted nori | 100% | — |
 | `wasabi_paste` | wasabi paste | 100% | — |
+| `shoyu_tare` | shoyu tare | 100% | — |
 | `white_miso_paste_shiro_miso` | white miso paste shiro miso | 100% | — |
 | `dried_wakame_seaweed` | dried wakame seaweed | 100% | — |
 | `aonori_dried_green_seaweed_flakes` | aonori dried green seaweed flakes | 100% | — |
@@ -830,6 +807,7 @@ Generated: 2026-08-20T13:05:07.823Z
 | `nori_strips` | nori strips | 100% | — |
 | `shungiku_chrysanthemum_greens` | shungiku chrysanthemum greens | 100% | — |
 | `alkaline_wheat_noodles` | alkaline wheat noodles | 100% | — |
+| `tare_sauce` | tare sauce | 100% | — |
 | `tonkatsu_sauce` | tonkatsu sauce | 100% | — |
 | `mitsuba` | mitsuba | 100% | — |
 | `naengmyeon_noodles` | naengmyeon noodles | 100% | — |
@@ -839,11 +817,13 @@ Generated: 2026-08-20T13:05:07.823Z
 | `garaetteok` | garaetteok | 100% | — |
 | `jajangmyeon_noodles` | jajangmyeon noodles | 100% | — |
 | `chunjang` | chunjang | 100% | — |
+| `cornstarch_slurry` | cornstarch slurry | 100% | — |
 | `danmuji_yellow_pickled_radish` | danmuji yellow pickled radish | 100% | — |
 | `round_mandu_wrappers` | round mandu wrappers | 100% | — |
 | `chili_pepper` | chili pepper | 100% | — |
 | `chestnuts` | chestnuts | 100% | — |
 | `jujubes_dried_dates` | jujubes dried dates | 100% | — |
+| `extra_firm_tofu` | extra firm tofu | 100% | — |
 | `spam` | spam | 100% | — |
 | `instant_ramen_noodles` | instant ramen noodles | 100% | — |
 | `hot_dogs` | hot dogs | 100% | — |
@@ -851,18 +831,21 @@ Generated: 2026-08-20T13:05:07.823Z
 | `fresh_ginseng` | fresh ginseng | 100% | — |
 | `dried_astragalus_root` | dried astragalus root | 100% | — |
 | `mochi` | mochi | 100% | — |
+| `stale_corn_tortillas` | stale corn tortillas | 100% | — |
 | `bolillo_rolls` | bolillo rolls | 100% | — |
 | `refried_beans` | refried beans | 100% | — |
 | `pico_de_gallo` | pico de gallo | 100% | — |
 | `chiltomate_sauce` | chiltomate sauce | 100% | — |
 | `tlayudas` | tlayudas | 100% | — |
 | `oaxaca_cheese` | oaxaca cheese | 100% | — |
+| `chorizo` | chorizo | 100% | — |
 | `roma` | roma | 100% | — |
 | `hass` | hass | 100% | — |
 | `salsa_roja` | salsa roja | 100% | — |
 | `nopales` | nopales | 100% | — |
 | `cotija_cheese` | cotija cheese | 100% | — |
 | `chile_powder` | chile powder | 100% | — |
+| `juice` | juice | 100% | — |
 | `fideo_pasta` | fideo pasta | 100% | — |
 | `mulato_chiles` | mulato chiles | 100% | — |
 | `pasilla_chiles` | pasilla chiles | 100% | — |
@@ -878,26 +861,43 @@ Generated: 2026-08-20T13:05:07.823Z
 | `aleppo_pepper_flakes` | aleppo pepper flakes | 100% | — |
 | `laurel_leaves` | laurel leaves | 100% | — |
 | `sumac` | sumac | 100% | — |
+| `bulgur` | bulgur | 100% | — |
 | `molokhia_leaves` | molokhia leaves | 100% | — |
+| `b_u00e9chamel_sauce` | b u00e9chamel sauce | 100% | — |
+| `shrak` | shrak | 100% | — |
 | `hawaij` | hawaij | 100% | — |
 | `kataifi_pastry` | kataifi pastry | 100% | — |
 | `nabulsi` | nabulsi | 100% | — |
 | `neutral_frying_oil` | neutral frying oil | 100% | — |
 | `tahini_sauce` | tahini sauce | 100% | — |
+| `tvorog_farmer_s_cheese` | tvorog farmer s cheese | 100% | — |
 | `berry_preserves` | berry preserves | 100% | — |
+| `kefir` | kefir | 100% | — |
+| `small_fish` | small fish | 100% | — |
+| `prized_fish` | prized fish | 100% | — |
+| `vodka` | vodka | 100% | — |
 | `black_olives` | black olives | 100% | — |
+| `cooked_meat` | cooked meat | 100% | — |
+| `cold_kvas` | cold kvas | 100% | — |
+| `sriracha` | sriracha | 100% | — |
 | `panang_curry_paste` | panang curry paste | 100% | — |
 | `preserved_radish_chai_poh` | preserved radish chai poh | 100% | — |
 | `canned_bamboo_shoots` | canned bamboo shoots | 100% | — |
+| `youtiao_quay` | youtiao quay | 100% | — |
 | `nuoc_cham` | nuoc cham | 100% | — |
+| `chao` | chao | 100% | — |
+| `nuoc_mau` | nuoc mau | 100% | — |
 | `annatto_oil` | annatto oil | 100% | — |
 | `tapioca_noodles` | tapioca noodles | 100% | — |
 | `catfish_steaks` | catfish steaks | 100% | — |
 | `snakehead_fish` | snakehead fish | 100% | — |
+| `vietnamese_baguettes_banh_mi` | vietnamese baguettes banh mi | 100% | — |
 | `sa_te_chili_paste` | sa te chili paste | 100% | — |
 | `cao_lau_noodles` | cao lau noodles | 100% | — |
 | `red_adzuki_beans` | red adzuki beans | 100% | — |
 | `ndole_leaves_bitterleaf` | ndole leaves bitterleaf | 100% | — |
+| `cha_lua` | cha lua | 100% | — |
+| `mam_ruo_c` | mam ruo c | 100% | — |
 | `liver_pate` | liver pate | 100% | — |
 | `kuzu` | kuzu | 100% | — |
 | `maple_crystals` | maple crystals | 100% | — |

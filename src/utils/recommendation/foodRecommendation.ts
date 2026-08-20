@@ -144,7 +144,7 @@ export function explainRecommendation(
       | ElementalProperties
       | undefined;
     const elementValue =
-      recipeElementalState?.[astrologicalState.dominantElement] || 0;
+      recipeElementalState?.[astrologicalState.dominantElement] ?? 0;
     if (elementValue > 0.3) {
       explanations.push(
         `Strong ${astrologicalState.dominantElement} element alignment`,
@@ -197,7 +197,7 @@ function calculateElementalScore(
   const recipeElementalState = recipe.elementalState as
     | ElementalProperties
     | undefined;
-  const recipeElementValue = recipeElementalState?.[userElement] || 0;
+  const recipeElementValue = recipeElementalState?.[userElement] ?? 0;
   // Higher values indicate better compatibility (following elemental principles)
   return Math.min(1, 0.3 + recipeElementValue * 0.7);
 }
@@ -246,7 +246,7 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
   };
 
   const dayPreferences = weekdayPreferences[day] || [];
-  const recipeQualities = recipe.qualities || [];
+  const recipeQualities = recipe.qualities ?? [];
 
   const matches = safeFilter(dayPreferences, (pref) =>
     // Apply Pattern, H: Safe unknown type array casting
@@ -293,7 +293,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: string): number {
     const recipeElementalState = recipe.elementalState as
       | ElementalProperties
       | undefined;
-    const elementValue = recipeElementalState?.[zodiacElement] || 0;
+    const elementValue = recipeElementalState?.[zodiacElement] ?? 0;
     return Math.min(1, 0.4 + elementValue * 0.4);
   }
 
@@ -401,7 +401,7 @@ export function getDetailedRecipeRecommendations(
         | ElementalProperties
         | undefined;
       const elementValue =
-        recipeElementalState?.[astrologicalState.dominantElement] || 0;
+        recipeElementalState?.[astrologicalState.dominantElement] ?? 0;
       if (elementValue > 0.3) {
         reasons.push(`Strong ${astrologicalState.dominantElement} element`);
       }

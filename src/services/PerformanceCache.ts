@@ -81,7 +81,7 @@ export class PerformanceCache<T> {
    */
   set(key: string, data: T, customTTL?: number): void {
     const now = Date.now();
-    const ttl = customTTL || this.defaultTTL;
+    const ttl = customTTL ?? this.defaultTTL;
 
     // Check if we need to evict items
     if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
@@ -275,12 +275,12 @@ export class PerformanceMonitor {
    */
   snapshot(): PerformanceMetrics {
     const snapshot: PerformanceMetrics = {
-      calculationTime: this.currentMetrics.calculationTime || 0,
-      cacheHitRate: this.currentMetrics.cacheHitRate || 0,
-      memoryUsage: this.currentMetrics.memoryUsage || 0,
-      recommendationCount: this.currentMetrics.recommendationCount || 0,
-      averageResponseTime: this.currentMetrics.averageResponseTime || 0,
-      peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0,
+      calculationTime: this.currentMetrics.calculationTime ?? 0,
+      cacheHitRate: this.currentMetrics.cacheHitRate ?? 0,
+      memoryUsage: this.currentMetrics.memoryUsage ?? 0,
+      recommendationCount: this.currentMetrics.recommendationCount ?? 0,
+      averageResponseTime: this.currentMetrics.averageResponseTime ?? 0,
+      peakMemoryUsage: this.currentMetrics.peakMemoryUsage ?? 0,
     };
 
     this.metrics.push(snapshot);

@@ -33,7 +33,7 @@ export async function PUT(
     return unauthorizedResponse();
   }
 
-  const groups = user.profile.diningGroups || [];
+  const groups = user.profile.diningGroups ?? [];
   const idx = groups.findIndex((g) => g.id === groupId);
   if (idx === -1) {
     return NextResponse.json({ success: false, message: "Dining group not found" }, { status: 404 });
@@ -54,7 +54,7 @@ export async function PUT(
   // legacy profile JSONB (groupMembers) or the modern manual_companion_charts
   // table (written by /api/user/commensals and save-group).
   if (memberIds) {
-    const knownIds = new Set((user.profile.groupMembers || []).map((m) => m.id));
+    const knownIds = new Set((user.profile.groupMembers ?? []).map((m) => m.id));
     try {
       const tableCompanions = await commensalDatabase.getManualCompanionsForUser(user.id);
       for (const m of tableCompanions) knownIds.add(m.id);
@@ -98,7 +98,7 @@ export async function DELETE(
     return unauthorizedResponse();
   }
 
-  const groups = user.profile.diningGroups || [];
+  const groups = user.profile.diningGroups ?? [];
   const filtered = groups.filter((g) => g.id !== groupId);
 
   if (filtered.length === groups.length) {

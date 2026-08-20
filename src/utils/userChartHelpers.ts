@@ -23,7 +23,7 @@ export async function getUserNatalChart(
   userId: string,
 ): Promise<NatalChart | null> {
   const user = await userDatabase.getUserById(userId);
-  return user?.profile.natalChart || null;
+  return user?.profile.natalChart ?? null;
 }
 
 /**
@@ -33,7 +33,7 @@ export async function getUserNatalChartByEmail(
   email: string,
 ): Promise<NatalChart | null> {
   const user = await userDatabase.getUserByEmail(email);
-  return user?.profile.natalChart || null;
+  return user?.profile.natalChart ?? null;
 }
 
 /**

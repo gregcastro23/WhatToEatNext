@@ -62,7 +62,7 @@ function nameHas(ing: RecipeIngredient, ...needles: string[]): boolean {
 }
 
 function categoryIs(ing: RecipeIngredient, ...cats: string[]): boolean {
-  const c = (ing.category || "").toLowerCase();
+  const c = (ing.category ?? "").toLowerCase();
   return cats.some((x) => c === x.toLowerCase());
 }
 

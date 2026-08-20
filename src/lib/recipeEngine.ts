@@ -162,7 +162,7 @@ export class RecipeEngine {
     associatedRecipes?: Recipe[];
     element?: string;
   }) {
-    const associatedRecipes = card.associatedRecipes || [];
+    const associatedRecipes = card.associatedRecipes ?? [];
     const elementBasedRecipes = card.element
       ? this.getRecipesForElement(card.element)
       : [];

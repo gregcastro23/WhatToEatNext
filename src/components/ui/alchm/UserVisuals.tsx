@@ -283,7 +283,7 @@ export function DailyYieldLedger({ width = 720, height = 200, series: inputSerie
     { id: "substance", color: "var(--el-fire)",  data: [.4,.44,.42,.48,.46,.5,.54,.52,.58,.56,.6,.62,.59,.64] },
   ];
   
-  const series = inputSeries || defaultSeries;
+  const series = inputSeries ?? defaultSeries;
   const pad = { l: 8, r: 8, t: 12, b: 22 };
   const W = width - pad.l - pad.r;
   const H = height - pad.t - pad.b;
@@ -346,7 +346,7 @@ export function ImplicitLearning({ items: inputItems }: ImplicitLearningProps) {
     { agent: "Galileo", glyph: "♂", el: "fire",  learned: "tolerates high spice only with dairy fat present", conf: 0.72, n: 15 },
   ];
 
-  const items = inputItems || defaultItems;
+  const items = inputItems ?? defaultItems;
 
   return (
     <div className="flex flex-col gap-2">

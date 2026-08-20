@@ -30,8 +30,8 @@ export async function POST(request: NextRequest) {
 
     // Get natal chart from user profile
     const natalChart =
-      (user as any).profile?.natalChart ||
-      (user as any).profile?.natal_chart ||
+      (user as any).profile?.natalChart ??
+      (user as any).profile?.natal_chart ??
       (user as any).natalChart;
 
     if (!natalChart) {
@@ -41,9 +41,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const hasPositions = !!(
+    const hasPositions = Boolean(
       natalChart.planetaryPositions ||
-      natalChart.planets?.length > 0 ||
+      (natalChart.planets && natalChart.planets.length > 0) ||
       natalChart.Sun
     );
 

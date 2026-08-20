@@ -20,8 +20,8 @@ export interface InboxListProps {
 }
 
 function titleFor(entry: InboxEntry): string {
-  if (entry.conversation.kind === "dm") return entry.otherUser?.name || "Direct message";
-  return entry.conversation.title || (entry.conversation.kind === "table" ? "Table chat" : "Circle");
+  if (entry.conversation.kind === "dm") return entry.otherUser?.name ?? "Direct message";
+  return entry.conversation.title ?? (entry.conversation.kind === "table" ? "Table chat" : "Circle");
 }
 
 export function InboxList({ entries, loading = false, className = "" }: InboxListProps): JSX.Element {
@@ -47,7 +47,7 @@ export function InboxList({ entries, loading = false, className = "" }: InboxLis
     <ul className={`space-y-1 ${className}`}>
       {entries.map((entry) => {
         const title = titleFor(entry);
-        const preview = entry.lastMessage?.body || "No messages yet";
+        const preview = entry.lastMessage?.body ?? "No messages yet";
         return (
           <li key={entry.conversation.id}>
             <Link
@@ -57,7 +57,7 @@ export function InboxList({ entries, loading = false, className = "" }: InboxLis
               <SenderAvatar
                 name={title}
                 src={entry.otherUser?.avatarUrl}
-                element={elementForSender(entry.otherUser?.id || entry.conversation.id)}
+                element={elementForSender(entry.otherUser?.id ?? entry.conversation.id)}
                 size={40}
               />
               <div className="min-w-0 flex-1">

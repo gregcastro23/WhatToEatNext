@@ -108,7 +108,7 @@ function normalizePlanetaryPositions(
 
   for (const planet of planets) {
     const position =
-      contextPositions[planet] || contextPositions[planet.toLowerCase()];
+      contextPositions[planet] ?? contextPositions[planet.toLowerCase()];
     normalized[planet] = extractZodiacSignType(position);
   }
 
@@ -307,8 +307,8 @@ export default function CookingMethodPreview() {
 
         // Use method's thermodynamic properties if available, otherwise calculate from pillar
         // This ensures each method gets unique thermodynamic values based on its pillar
-        const methodThermo = method.thermodynamicProperties ||
-          getCookingMethodThermodynamics(id) || {
+        const methodThermo = method.thermodynamicProperties ??
+          getCookingMethodThermodynamics(id) ?? {
             heat: 0.5,
             entropy: 0.5,
             reactivity: 0.5,
@@ -376,7 +376,7 @@ export default function CookingMethodPreview() {
   };
 
   const formatDuration = (method: MethodData) => {
-    const timeRange = method.duration || method.timeRange;
+    const timeRange = method.duration ?? method.timeRange;
     if (!timeRange) return "Variable";
     if (timeRange.min >= 1440) {
       return `${Math.floor(timeRange.min / 1440)}-${Math.floor(timeRange.max / 1440)} days`;

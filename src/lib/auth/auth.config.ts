@@ -27,7 +27,7 @@ function getAuthSecret(): string | undefined {
     process.env.VERCEL_ENV === "preview" ||
     process.env.NODE_ENV === "development"
   ) {
-    return `placeholder-secret-${process.env.VERCEL_GIT_COMMIT_SHA || "dev"}`;
+    return `placeholder-secret-${process.env.VERCEL_GIT_COMMIT_SHA ?? "dev"}`;
   }
   return undefined;
 }

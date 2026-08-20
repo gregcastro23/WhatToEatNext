@@ -54,10 +54,10 @@ export default function CosmicRecipeWidget() {
                 {sign}
               </div>
               <h3 className="text-xl font-bold text-amber-100">
-                {recipe.name || "Mysterious Dish"}
+                {recipe.name ?? "Mysterious Dish"}
               </h3>
               <p className="text-sm text-indigo-200 mt-2 italic">
-                {recipe.description || "A dish aligned with your stars."}
+                {recipe.description ?? "A dish aligned with your stars."}
               </p>
             </div>
           ))}

@@ -239,14 +239,14 @@ export default function RecipeBrowserPanel({
       case "cook-time":
         results.sort(
           (a, b) =>
-            parseTimeStringToMinutes(a.totalTime || a.prepTime) -
-            parseTimeStringToMinutes(b.totalTime || b.prepTime),
+            parseTimeStringToMinutes(a.totalTime ?? a.prepTime) -
+            parseTimeStringToMinutes(b.totalTime ?? b.prepTime),
         );
         break;
       case "calories":
         results.sort(
           (a, b) =>
-            (a.nutrition?.calories || 999) - (b.nutrition?.calories || 999),
+            (a.nutrition?.calories ?? 999) - (b.nutrition?.calories ?? 999),
         );
         break;
       case "alphabetical":
@@ -255,8 +255,8 @@ export default function RecipeBrowserPanel({
       case "newest":
         results.sort(
           (a, b) =>
-            new Date(b.createdAt || 0).getTime() -
-            new Date(a.createdAt || 0).getTime(),
+            new Date(b.createdAt ?? 0).getTime() -
+            new Date(a.createdAt ?? 0).getTime(),
         );
         break;
     }

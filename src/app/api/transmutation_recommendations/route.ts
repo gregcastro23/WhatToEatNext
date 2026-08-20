@@ -75,7 +75,7 @@ const PLANETARY_INGREDIENT_CUES: Partial<Record<Planet, string[]>> = {
 };
 
 function normalizeScores(input: unknown): AlchemicalScores {
-  const payload = (input || {}) as Record<string, unknown>;
+  const payload = (input ?? {}) as Record<string, unknown>;
   const spirit = Number(payload.spirit_score ?? payload.Spirit ?? 0);
   const essence = Number(payload.essence_score ?? payload.Essence ?? 0);
   const matter = Number(payload.matter_score ?? payload.Matter ?? 0);
@@ -149,8 +149,8 @@ function getLowestKey(scores: AlchemicalScores): AlchemicalKey {
 
 function pickCue(planet: Planet, index: number): string {
   const cues =
-    PLANETARY_INGREDIENT_CUES[planet] ||
-    PLANETARY_INGREDIENT_CUES.Sun ||
+    PLANETARY_INGREDIENT_CUES[planet] ??
+    PLANETARY_INGREDIENT_CUES.Sun ??
     ["fresh herbs"];
   return cues[index % cues.length] || "fresh herbs";
 }

@@ -1531,7 +1531,7 @@ export async function getCurrentAstrologicalState(
         sign: position.sign,
         degree: position.degree,
         minute: position.minute || 0,
-        isRetrograde: position.isRetrograde || false,
+        isRetrograde: position.isRetrograde ?? false,
       };
     });
     // Calculate active planets based on which have special status

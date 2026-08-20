@@ -29,8 +29,8 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
   const alchemicalContext = useAlchemical();
 
   // Get dining groups from user profile
-  const diningGroups = currentUser?.diningGroups || [];
-  const groupMembers = currentUser?.groupMembers || [];
+  const diningGroups = currentUser?.diningGroups ?? [];
+  const groupMembers = currentUser?.groupMembers ?? [];
 
   // Get selected group details
   const _selectedGroup = diningGroups.find((g) => g.id === selectedGroupId);
@@ -41,7 +41,7 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
     void getRecommendations({
       datetime: new Date().toISOString(),
       useBackendInfluence: true,
-      groupId: selectedGroupId || undefined,
+      groupId: selectedGroupId ?? undefined,
     });
   }, [getRecommendations, selectedGroupId]);
 
@@ -361,7 +361,7 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
             </label>
             <select
               id="kalchm-recommendation-mode"
-              value={selectedGroupId || "individual"}
+              value={selectedGroupId ?? "individual"}
               onChange={(e) =>
                 setSelectedGroupId(
                   e.target.value === "individual" ? null : e.target.value,

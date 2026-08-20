@@ -35,7 +35,7 @@ const DebugInfoInner = () => {
       <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
         <p><span className="font-medium">Mounted:</span> {hasRenderedRef.current ? 'true' : 'false'}</p>
         <p><span className="font-medium">Renders:</span> {renderCountRef.current}</p>
-        <p><span className="font-medium">Current Sign:</span> {planetaryPositions?.sun?.sign || 'unknown'}</p>
+        <p><span className="font-medium">Current Sign:</span> {planetaryPositions?.sun?.sign ?? 'unknown'}</p>
         <p><span className="font-medium">Planetary Hour:</span> {state?.planetaryHour || 'Unknown'}</p>
         <p><span className="font-medium">Lunar Phase:</span> {state?.lunarPhase || 'Unknown'}</p>
         

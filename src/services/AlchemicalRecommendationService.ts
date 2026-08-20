@@ -120,16 +120,16 @@ export class AlchemicalRecommendationService {
               name: ingredient.name,
               type: "ingredient" as const,
               elementalProperties: ingredient.elementalProperties,
-              seasonality: (ingredient.seasonality || []).filter(
+              seasonality: (ingredient.seasonality ?? []).filter(
                 (s): s is "spring" | "summer" | "fall" | "winter" =>
                   s === "spring" ||
                   s === "summer" ||
                   s === "fall" ||
                   s === "winter",
               ),
-              planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
-              flavorProfile: (ingredient.flavorProfile || {}),
-              culturalOrigins: (ingredient.regionalOrigins || []) as string[],
+              planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets ?? [],
+              flavorProfile: (ingredient.flavorProfile ?? {}),
+              culturalOrigins: (ingredient.regionalOrigins ?? []) as string[],
             },
           };
 
@@ -355,13 +355,13 @@ export class AlchemicalRecommendationService {
     const t = thermodynamics as WithMonicaKalchm;
     // Simplified mapping from thermodynamics to elemental properties
     const Fire =
-      ((thermodynamics as any)?.heat || 0) * 0.2 +
-      ((thermodynamics as any)?.reactivity || 0) * 0.2;
-    const Water = (t.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
-    const Earth = (t.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
+      ((thermodynamics as any)?.heat ?? 0) * 0.2 +
+      ((thermodynamics as any)?.reactivity ?? 0) * 0.2;
+    const Water = (t.monica ?? 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
+    const Earth = (t.kalchm ?? 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air =
-      ((thermodynamics as any)?.entropy || 0) * 0.2 +
-      ((thermodynamics as any)?.reactivity || 0) * 0.2;
+      ((thermodynamics as any)?.entropy ?? 0) * 0.2 +
+      ((thermodynamics as any)?.reactivity ?? 0) * 0.2;
     // Normalize to ensure values sum to 1
     const total = Fire + Water + Earth + Air;
     return {

@@ -31,7 +31,7 @@ const CUISINES_LIMIT = { window: 60_000, max: 60, bucket: "cuisines-recommend" }
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const RAILWAY_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
+const RAILWAY_URL = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 
 const SIGN_TO_ELEMENT: Record<string, string> = {

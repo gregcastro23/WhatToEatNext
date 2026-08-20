@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     const templateId = searchParams.get("id");
 
     if (templateId) {
-      const template = templates.find((t) => t.id === templateId) || null;
+      const template = templates.find((t) => t.id === templateId) ?? null;
       return NextResponse.json({ success: true, template });
     }
 
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       menu: {
         weekStartDate,
         meals: Array.isArray(body.meals) ? body.meals : [],
-        nutritionalTotals: body.nutritionalTotals || {},
+        nutritionalTotals: body.nutritionalTotals ?? {},
         groceryList: Array.isArray(body.groceryList) ? body.groceryList : [],
         inventory: Array.isArray(body.inventory) ? body.inventory : [],
         weeklyBudget:

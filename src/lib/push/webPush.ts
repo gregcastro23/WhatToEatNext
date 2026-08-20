@@ -21,7 +21,7 @@ function ensureVapid(): boolean {
   if (vapidConfigured !== null) return vapidConfigured;
   const publicKey = process.env.VAPID_PUBLIC_KEY;
   const privateKey = process.env.VAPID_PRIVATE_KEY;
-  const subject = process.env.VAPID_SUBJECT || "mailto:hello@alchm.kitchen";
+  const subject = process.env.VAPID_SUBJECT ?? "mailto:hello@alchm.kitchen";
   if (!publicKey || !privateKey) {
     vapidConfigured = false;
     return false;

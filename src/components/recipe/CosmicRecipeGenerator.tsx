@@ -210,7 +210,7 @@ export default function CosmicRecipeGenerator() {
         setHasShared(true);
         setShowShareModal(false);
       } else {
-        showError(data.message || "Failed to share to feed");
+        showError(data.message ?? "Failed to share to feed");
       }
     } catch (err) {
       showError("Error sharing recipe to feed");
@@ -338,7 +338,7 @@ export default function CosmicRecipeGenerator() {
         } catch (err) {
           console.error("Failed to persist cosmic recipe", err);
         }
-        await generateImage(data.title, data.short_description || "");
+        await generateImage(data.title, data.short_description ?? "");
       }
     } catch (e) {
       console.error(e);
@@ -606,7 +606,7 @@ export default function CosmicRecipeGenerator() {
                </span>
             )}
             <h2 className="text-4xl sm:text-5xl font-black mb-4 text-slate-900 dark:text-white leading-tight">
-              {object.title || "Consulting the Stars..."}
+              {object.title ?? "Consulting the Stars..."}
             </h2>
             <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 font-serif italic max-w-3xl">
               {object.short_description}
@@ -679,7 +679,7 @@ export default function CosmicRecipeGenerator() {
                   <div className="relative group rounded-2xl overflow-hidden shadow-2xl">
 	                     <Image
 	                       src={imageUrl}
-	                       alt={object.title || "Recipe Result"}
+	                       alt={object.title ?? "Recipe Result"}
 	                       fill
 	                       unoptimized
 	                       sizes="100vw"
@@ -705,19 +705,19 @@ export default function CosmicRecipeGenerator() {
                   <div className="grid grid-cols-2 gap-4">
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Time</p>
-                       <p className="font-semibold text-lg">{object.total_time?.toString() || '--'} min</p>
+                       <p className="font-semibold text-lg">{object.total_time?.toString() ?? '--'} min</p>
                      </div>
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Serves</p>
-                       <p className="font-semibold text-lg">{object.yields?.toString() || '--'}</p>
+                       <p className="font-semibold text-lg">{object.yields?.toString() ?? '--'}</p>
                      </div>
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Difficulty</p>
-                       <p className="font-semibold text-lg capitalize">{object.difficulty || '--'}</p>
+                       <p className="font-semibold text-lg capitalize">{object.difficulty ?? '--'}</p>
                      </div>
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Cuisine</p>
-                       <p className="font-semibold text-lg capitalize">{object.cuisine || '--'}</p>
+                       <p className="font-semibold text-lg capitalize">{object.cuisine ?? '--'}</p>
                      </div>
                   </div>
                </div>
@@ -780,7 +780,7 @@ export default function CosmicRecipeGenerator() {
                 <h3 className="text-2xl font-black mb-6 flex items-center gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
                   Ingredients
                   <span className="text-sm font-medium px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500">
-                    {object.ingredients?.length || 0} items
+                    {object.ingredients?.length ?? 0} items
                   </span>
                 </h3>
                 <ul className="grid sm:grid-cols-2 gap-4">

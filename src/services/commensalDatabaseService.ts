@@ -122,7 +122,7 @@ const dbOptionalString = (
 };
 
 const dbIsoString = (value: DbTimestamp, fallback = new Date().toISOString()): string =>
-  value instanceof Date ? value.toISOString() : value || fallback;
+  value instanceof Date ? value.toISOString() : value ?? fallback;
 
 const readJsonColumn = <T>(value: string | T | null | undefined, fallback: T): T => {
   if (typeof value === "string") return safeJsonParse<T>(value, fallback) ?? fallback;
@@ -202,7 +202,7 @@ class CommensalDatabaseService {
 
       // Obscure email for privacy (show first 2 chars + domain)
       return result.rows.map((r: SearchUserRow) => {
-        const email = r.email || "";
+        const email = r.email ?? "";
         const [local, domain] = email.split("@");
         const obscuredEmail = local && domain
           ? `${local.slice(0, 2)}***@${domain}`
@@ -210,7 +210,7 @@ class CommensalDatabaseService {
 
         return {
           id: dbString(r.id),
-          name: r.name || "",
+          name: r.name ?? "",
           email: obscuredEmail,
         };
       });
@@ -361,7 +361,7 @@ class CommensalDatabaseService {
                FROM users WHERE id = $1::uuid`,
             [accepterId],
           );
-          accepterName = res.rows[0]?.name || "Someone";
+          accepterName = res.rows[0]?.name ?? "Someone";
         } catch {
           // keep the generic fallback name
         }
@@ -733,8 +733,8 @@ class CommensalDatabaseService {
         })
         .map((r: LinkedCommensalRow) => {
           const profile = readJsonColumn<LinkedCommensalProfile>(r.profile, {});
-          const birthData = profile.birthData || profile.birth_data;
-          const natalChart = profile.natalChart || profile.natal_chart;
+          const birthData = profile.birthData ?? profile.birth_data;
+          const natalChart = profile.natalChart ?? profile.natal_chart;
           
           return {
             userId: dbString(r.commensal_id),
@@ -789,7 +789,7 @@ class CommensalDatabaseService {
 
   private async getCommensalshipById(id: string): Promise<Commensalship | null> {
     const db = await getDbModule();
-    if (!db) return commensalshipsStore.get(id) || null;
+    if (!db) return commensalshipsStore.get(id) ?? null;
 
     try {
       const result = await db.executeQuery(
@@ -942,7 +942,7 @@ class CommensalDatabaseService {
         dateTime: dbIsoString(row.birth_date, ""),
         latitude: Number(row.birth_latitude ?? 0),
         longitude: Number(row.birth_longitude ?? 0),
-        timezone: row.timezone_str || undefined,
+        timezone: row.timezone_str ?? undefined,
       },
       // No natal chart is stored in prod — callers needing planetary data must
       // recompute from birthData. Empty object preserves the SavedChart shape.
@@ -996,7 +996,7 @@ class CommensalDatabaseService {
         await db.executeQuery(
           `INSERT INTO manual_companion_charts (id, owner_id, name, relationship, birth_data, natal_chart)
            VALUES ($1, $2::uuid, $3, $4, $5, $6)`,
-          [id, data.ownerId, data.name, data.relationship || "friend",
+          [id, data.ownerId, data.name, data.relationship ?? "friend",
            JSON.stringify(data.birthData), JSON.stringify(data.natalChart)],
         );
         return {
@@ -1059,7 +1059,7 @@ class CommensalDatabaseService {
               id,
               ownerId,
               c.name,
-              c.relationship || "friend",
+              c.relationship ?? "friend",
               JSON.stringify(c.birthData),
               JSON.stringify(c.natalChart),
             ],
@@ -1223,8 +1223,8 @@ class CommensalDatabaseService {
         const profile = typeof result.rows[0].profile === "string"
           ? safeJsonParse(result.rows[0].profile)
           : result.rows[0].profile;
-        const natalChart = profile?.natalChart || profile?.natal_chart;
-        const birthData = profile?.birthData || profile?.birth_data;
+        const natalChart = profile?.natalChart ?? profile?.natal_chart;
+        const birthData = profile?.birthData ?? profile?.birth_data;
         if (natalChart) {
           const extracted = this.extractElementalProfile({
             natal_chart: natalChart,
@@ -1293,7 +1293,7 @@ class CommensalDatabaseService {
       addresseeId: dbString(row.addressee_id),
       addresseeName: dbOptionalString(row.addressee_name),
       addresseeEmail: dbOptionalString(row.addressee_email),
-      status: row.status || "pending",
+      status: row.status ?? "pending",
       createdAt: dbIsoString(row.created_at),
       updatedAt: dbIsoString(row.updated_at),
     };

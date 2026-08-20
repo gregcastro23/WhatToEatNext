@@ -37,18 +37,18 @@ const VALID_DB_PROTOCOLS = ["postgresql:", "postgres:"];
 export const databaseConfig = {
   // Database connection
   databaseUrl:
-    process.env.DATABASE_URL ||
+    process.env.DATABASE_URL ??
     "postgresql://user:pass@localhost:5432/alchm_kitchen",
 
   // Individual connection parameters (fallback if DATABASE_URL not provided).
   // Note these are effectively unreachable: `databaseUrl` above always resolves
   // to a truthy default, and getDatabaseConfig() branches on `if (databaseUrl)`.
   // They are left in place because removing them is a separate change.
-  host: process.env.DB_HOST || "localhost",
+  host: process.env.DB_HOST ?? "localhost",
   port: intFromEnv(process.env.DB_PORT, 5432),
-  database: process.env.DB_NAME || "alchm_kitchen",
-  user: process.env.DB_USER || "user",
-  password: process.env.DB_PASSWORD || "pass",
+  database: process.env.DB_NAME ?? "alchm_kitchen",
+  user: process.env.DB_USER ?? "user",
+  password: process.env.DB_PASSWORD ?? "pass",
   ssl: process.env.DB_SSL === "true",
 
   // Connection pool settings — kept small for serverless (each Vercel invocation
@@ -81,7 +81,7 @@ export const databaseConfig = {
   //                   comes from a PgBouncer `connect_query` (recommended) and
   //                   `SET LOCAL` inside withTransaction; client-side bounding
   //                   stays on `query_timeout`. See docs/adr/007.
-  poolerMode: (process.env.DB_POOLER_MODE || "direct").toLowerCase(),
+  poolerMode: (process.env.DB_POOLER_MODE ?? "direct").toLowerCase(),
 
   // Application settings
   environment: process.env.NODE_ENV || "development",
@@ -90,7 +90,7 @@ export const databaseConfig = {
   seedData: process.env.DB_SEED_DATA === "true", // Default false
 
   // Redis (optional)
-  redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
+  redisUrl: process.env.REDIS_URL ?? "redis://localhost:6379",
 };
 
 /**

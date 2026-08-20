@@ -607,14 +607,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     season: ["late summer", "early fall"],
     category: "fruit",
     subCategory: "berry",
-    nutritionalProfile: {
-      serving_size: "1 cup cooked (145g)",
-      calories: 106,
-      macros: { protein: 1.0, carbs: 26.7, fat: 0.7, fiber: 10.2 },
-      vitamins: { C: 0.87, A: 0.12 },
-      minerals: { potassium: 0.12, iron: 0.13 },
-      source: "USDA FoodData Central",
-    },
+    nutritionalProfile: { serving_size: "1/2 cup fresh (72g)", calories: 53, macros: { protein: 0.5, carbs: 13.3, fat: 0.4, fiber: 5 }, vitamins: { C: 0.43, A: 0.09, B6: 0.08 }, minerals: { iron: 0.06, potassium: 0.06 }, source: "USDA FoodData Central" },
     sensoryProfile: {
       taste: {
         sweet: 0.4,

@@ -10,8 +10,8 @@
 const FALLBACK_TAG = "cookingwi03f1-20";
 
 const TAG_ENV =
-  process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ||
-  process.env.AMAZON_PARTNER_TAG ||
+  process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ??
+  process.env.AMAZON_PARTNER_TAG ??
   null;
 
 export const AMAZON_CONFIG = {
@@ -33,16 +33,16 @@ export interface PaapiCredentials {
 export function getPaapiCredentials(): PaapiCredentials | null {
   const accessKey = process.env.AMAZON_PAAPI_ACCESS_KEY;
   const secretKey = process.env.AMAZON_PAAPI_SECRET_KEY;
-  const partnerTag = process.env.AMAZON_PAAPI_PARTNER_TAG || AMAZON_CONFIG.tag;
+  const partnerTag = process.env.AMAZON_PAAPI_PARTNER_TAG ?? AMAZON_CONFIG.tag;
   if (!accessKey || !secretKey || !partnerTag) return null;
 
   return {
     accessKey,
     secretKey,
     partnerTag,
-    marketplace: process.env.AMAZON_PAAPI_MARKETPLACE || "www.amazon.com",
-    region: process.env.AMAZON_PAAPI_REGION || "us-east-1",
-    host: process.env.AMAZON_PAAPI_HOST || "webservices.amazon.com",
+    marketplace: process.env.AMAZON_PAAPI_MARKETPLACE ?? "www.amazon.com",
+    region: process.env.AMAZON_PAAPI_REGION ?? "us-east-1",
+    host: process.env.AMAZON_PAAPI_HOST ?? "webservices.amazon.com",
   };
 }
 

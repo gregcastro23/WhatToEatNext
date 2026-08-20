@@ -50,7 +50,7 @@ class ElementalSystem {
     properties: Partial<ElementalProperties>,
   ): ElementalProperties {
     const total = Object.values(properties).reduce(
-      (sum: number, val) => sum + (val || 0),
+      (sum: number, val) => sum + (val ?? 0),
       0,
     );
 
@@ -67,7 +67,7 @@ class ElementalSystem {
     return _ELEMENTS.reduce(
       (acc, element) => ({
         ...acc,
-        [element]: (properties[element] || 0) / (total || 1),
+        [element]: (properties[element] ?? 0) / (total || 1),
       }),
       {} as ElementalProperties,
     );
@@ -91,10 +91,10 @@ class ElementalSystem {
   calculateAstrologicalInfluence(
     state: AstrologicalState,
   ): ElementalProperties {
-    const zodiacKey = (state.currentZodiac?.toLowerCase() ||
+    const zodiacKey = (state.currentZodiac?.toLowerCase() ??
       "aries") as ZodiacSignType;
     const zodiacElement = _ZODIAC_ELEMENTS[zodiacKey];
-    const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || "";
+    const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign ?? "";
     const moonSign =
       typeof moonSignValue === "string" ? moonSignValue.toLowerCase() : "";
     const moonElement = moonSign

@@ -144,8 +144,8 @@ export class ErrorTrackingEnterpriseSystem {
     const currentErrorCount = TypeScriptErrorAnalyzer.getCurrentErrorCount();
 
     const rankedErrors =
-      analysisResult.distribution?.priorityRanking ||
-      analysisResult.errors ||
+      analysisResult.distribution?.priorityRanking ??
+      analysisResult.errors ??
       [];
     this.updateErrorPatterns(rankedErrors);
 

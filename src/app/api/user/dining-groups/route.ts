@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    diningGroups: user.profile.diningGroups || [],
+    diningGroups: user.profile.diningGroups ?? [],
   });
 }
 
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
   // Validate that all memberIds exist as commensals — in EITHER storage:
   // legacy profile JSONB (groupMembers) or the modern manual_companion_charts
   // table (written by /api/user/commensals and save-group).
-  const knownIds = new Set((user.profile.groupMembers || []).map((m) => m.id));
+  const knownIds = new Set((user.profile.groupMembers ?? []).map((m) => m.id));
   try {
     const tableCompanions = await commensalDatabase.getManualCompanionsForUser(user.id);
     for (const m of tableCompanions) knownIds.add(m.id);
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     updatedAt: now,
   };
 
-  const existing = user.profile.diningGroups || [];
+  const existing = user.profile.diningGroups ?? [];
   try {
     await userDatabase.updateUserProfile(user.id, { diningGroups: [...existing, newGroup] });
     return NextResponse.json({ success: true, diningGroup: newGroup }, { status: 201 });

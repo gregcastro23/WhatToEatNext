@@ -64,8 +64,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   const ingredientFields = ingredient as unknown as Record<string, unknown>;
 
   const rawImageUrl =
-    (ingredientFields.image_url as string | undefined) ||
-    (ingredientFields.imageUrl as string | undefined) ||
+    (ingredientFields.image_url as string | undefined) ??
+    (ingredientFields.imageUrl as string | undefined) ??
     // Note: `image` is not a declared field on Ingredient or RecipeIngredient;
     // this fallback only ever compiled via RecipeIngredient's index signature
     // and is preserved as-is (pre-existing behavior, not a fix target here).
@@ -74,7 +74,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   const imageUrl = getAssetUrl(rawImageUrl);
 
   const description =
-    (ingredientFields.description as string | undefined) ||
+    (ingredientFields.description as string | undefined) ??
     ingredientSummaries[ingredient.name.toLowerCase().replace(/ /g, "_")];
 
   // Hoisted out of the JSX below: TS's contextual ReactNode check for the

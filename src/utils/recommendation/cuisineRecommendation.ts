@@ -141,7 +141,7 @@ export function generateEnhancedCuisineRecommendations(
       score: rec.compatibilityScore,
       reasoning: rec.reasoning.join(", "),
       elementalMatch: rec.scoringFactors.elementalCompatibility,
-      planetaryAlignment: rec.scoringFactors.alchemicalCompatibility || 0,
+      planetaryAlignment: rec.scoringFactors.alchemicalCompatibility ?? 0,
       signatureMatch: rec.scoringFactors.signatureMatch,
       confidence: rec.confidence,
       detailedReasoning: rec.reasoning,

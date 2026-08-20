@@ -120,7 +120,7 @@ export class DegreeAgentMatcher {
       agentName: agent.name,
       natalPlacements,
       dominantDegrees,
-      consciousnessLevel: agent.consciousness?.level || 'Advanced',
+      consciousnessLevel: agent.consciousness?.level ?? 'Advanced',
       specialties: agent.abilities?.wisdomDomains || [agent.abilities?.specialty || 'Wisdom'],
       element: agent.consciousness?.dominantElement || 'Air',
       modality: agent.consciousness?.dominantModality || 'Fixed',
@@ -142,7 +142,7 @@ export class DegreeAgentMatcher {
         placements[planet] = {
           degree: absoluteDegree,
           sign: data.sign,
-          house: data.house || 1,
+          house: data.house ?? 1,
           isDominant: this.isPlanetDominant(planet, data),
         }
       }

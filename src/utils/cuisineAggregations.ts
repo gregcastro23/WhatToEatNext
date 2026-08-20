@@ -107,7 +107,7 @@ export function computeGlobalAverages(
     if (cuisine.averageThermodynamics) {
       Object.keys(thermoSums).forEach((key) => {
         const value =
-          cuisine.averageThermodynamics![key as keyof ThermodynamicMetrics] ||
+          cuisine.averageThermodynamics![key as keyof ThermodynamicMetrics] ??
           0;
         thermoSums[key as keyof typeof thermoSums] += value;
         thermoSqSums[key as keyof typeof thermoSqSums] += value * value;
@@ -149,7 +149,7 @@ export function computeGlobalAverages(
 
   const thermoStdDev = Object.fromEntries(
     Object.entries(thermoSqSums).map(([key, sqSum]) => {
-      const mean = thermoMeans[key as keyof ThermodynamicMetrics] || 0;
+      const mean = thermoMeans[key as keyof ThermodynamicMetrics] ?? 0;
       const variance = sqSum / n - mean * mean;
       return [key, Math.sqrt(Math.max(0, variance))];
     }),
@@ -221,8 +221,8 @@ export function calculateRecipeWeight(
 
     case "popularity": {
       // Weight by view count and rating (if available)
-      const viewCount = recipe.viewCount || 1;
-      const rating = recipe.rating || 3;
+      const viewCount = recipe.viewCount ?? 1;
+      const rating = recipe.rating ?? 3;
       return Math.sqrt(viewCount) * (rating / 5.0);
     }
 

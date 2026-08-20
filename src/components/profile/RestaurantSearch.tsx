@@ -48,12 +48,12 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       }
 
       if (!data.success) {
-        setError(data.message || 'Search failed.');
+        setError(data.message ?? 'Search failed.');
         setResults([]);
         return;
       }
 
-      setResults(data.results || []);
+      setResults(data.results ?? []);
     } catch (_err) {
       setError('Failed to search. Please try again.');
       setResults([]);
@@ -94,7 +94,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       location: place.location?.locality
         ? `${place.location.locality}${place.location.region ? `, ${  place.location.region}` : ''}`
         : undefined,
-      address: place.location?.formatted_address || place.location?.address,
+      address: place.location?.formatted_address ?? place.location?.address,
       menuItems,
       rating: place.rating,
       source: 'foursquare',

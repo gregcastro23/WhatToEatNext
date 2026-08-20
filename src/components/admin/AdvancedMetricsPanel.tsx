@@ -148,7 +148,7 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
       if (data.success) {
         setDigestState({ loading: false, message: "Preview generated (dry run — no email sent)." });
       } else {
-        setDigestState({ loading: false, message: data.message || "Failed to generate preview" });
+        setDigestState({ loading: false, message: data.message ?? "Failed to generate preview" });
       }
     } catch {
       setDigestState({ loading: false, message: "Network error generating preview" });

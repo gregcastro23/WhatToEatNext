@@ -299,7 +299,7 @@ export const LivePlanetaryTracker: React.FC = () => {
               <div className="text-sm text-blue-800">
                 <strong>Live Update: </strong> Last received at{" "}
                 {(
-                  new Date(lastPlanetaryHour.timestamp || Date.now()) as any
+                  new Date(lastPlanetaryHour.timestamp ?? Date.now()) as any
                 ).toLocaleTimeString()}
               </div>
             </div>

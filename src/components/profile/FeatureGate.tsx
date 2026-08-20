@@ -26,5 +26,5 @@ export const FeatureGate: React.FC<FeatureGateProps> = ({ tier, feature, childre
   if (canAccess(tier, feature)) {
     return <>{children}</>;
   }
-  return <>{fallback || <DefaultFallback feature={feature} />}</>;
+  return <>{fallback ?? <DefaultFallback feature={feature} />}</>;
 };

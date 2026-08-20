@@ -741,8 +741,8 @@ export const getRecommendedIngredients = (
     // Apply lunar phase influences with more specific matching
     let lunarScore = 0.5; // Default neutral score
     const phase = (
-      astroState.lunarPhase ||
-      astroState.moonPhase ||
+      astroState.lunarPhase ??
+      astroState.moonPhase ??
       ""
     ).toLowerCase();
 
@@ -780,7 +780,7 @@ export const getRecommendedIngredients = (
           const boosts = modifier.elementalBoost;
           Object.entries(boosts).forEach(([element, boost]) => {
             if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
-              lunarScore += (boost || 0) * 0.1; // Small additional boost
+              lunarScore += (boost ?? 0) * 0.1; // Small additional boost
             }
           });
 
@@ -890,14 +890,14 @@ export const getRecommendedIngredients = (
     ) {
       // Use the specific seasonal adjustments if available
       const adjustment = standardized.seasonalAdjustments[currentSeason];
-      seasonalScore = adjustment.score || 0.8;
+      seasonalScore = adjustment.score ?? 0.8;
 
       // Apply any seasonal elemental boosts
       if (adjustment.elementalBoost) {
         Object.entries(adjustment.elementalBoost).forEach(
           ([element, boost]) => {
             if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
-              seasonalScore = Math.min(1, seasonalScore + (boost || 0) * 0.1);
+              seasonalScore = Math.min(1, seasonalScore + (boost ?? 0) * 0.1);
             }
           },
         );
@@ -1004,7 +1004,7 @@ export const getRecommendedIngredients = (
             // Semi-sextile aspects - minor benefit
             else if (aspect.type === "semi-sextile") multiplier = 1.05;
 
-            totalStrength += (aspect.strength || 0.5) * multiplier;
+            totalStrength += (aspect.strength ?? 0.5) * multiplier;
           });
 
           aspectScore = totalStrength / relevantAspects.length;
@@ -1064,8 +1064,8 @@ export const getRecommendedIngredients = (
     // Get user preferences from the state manager if available
     // instead of using a placeholder assumption
     const astroStateData = astroState as EnhancedAstrologicalState;
-    const userPreferences = astroStateData.userPreferences || {};
-    const tastePreferences = userPreferences.taste || {
+    const userPreferences = astroStateData.userPreferences ?? {};
+    const tastePreferences = userPreferences.taste ?? {
       sweet: 0.5,
       salty: 0.5,
       sour: 0.5,
@@ -1085,7 +1085,7 @@ export const getRecommendedIngredients = (
         // Weight taste dimensions based on user preferences
         Object.entries(sensory.taste).forEach(([taste, value]) => {
           const tasteValue = value;
-          const preference = tastePreferences[taste] || 0.5;
+          const preference = tastePreferences[taste] ?? 0.5;
           tasteScore += tasteValue * preference;
           weightSum += preference;
         });
@@ -1256,7 +1256,7 @@ export const getRecommendedIngredients = (
 
   // Group ingredients by category
   allScoredIngredients.forEach((ingredient) => {
-    const category = ingredient.category?.toLowerCase() || "";
+    const category = ingredient.category?.toLowerCase() ?? "";
 
     // Map to our target categories if needed
     let targetCategory = "";
@@ -1497,7 +1497,7 @@ export const getRecommendedIngredients = (
   });
 
   // Return the results sorted by score
-  return resultIngredients.sort((a, b) => (b.score || 0) - (a.score || 0));
+  return resultIngredients.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 };
 
 /**

@@ -61,10 +61,10 @@ export async function resolveDisplayIdentity(
   for (const row of res.rows) {
     out[row.id] = {
       userId: row.id,
-      name: row.name || "Alchemist",
-      image: row.image || null,
+      name: row.name ?? "Alchemist",
+      image: row.image ?? null,
       isAgent: row.is_agent === true,
-      dominantElement: row.dominant_element || null,
+      dominantElement: row.dominant_element ?? null,
     };
   }
   return out;

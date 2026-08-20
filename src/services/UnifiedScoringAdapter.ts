@@ -60,7 +60,7 @@ export class UnifiedScoringAdapter {
   ): Promise<ScoredItem<UnifiedIngredient>> {
     const context: ScoringContext = {
       dateTime: new Date(),
-      location: options.location || {
+      location: options.location ?? {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: "America/New_York",
@@ -71,11 +71,11 @@ export class UnifiedScoringAdapter {
         type: "ingredient",
         elementalProperties:
           ingredient.elementalProperties || ingredient.elementalPropertiesState,
-        seasonality: (ingredient.seasonality as any) || [],
-        planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
+        seasonality: (ingredient.seasonality as any) ?? [],
+        planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets ?? [],
         flavorProfile:
-          (ingredient.flavorProfile) || {},
-        culturalOrigins: (ingredient.culturalOrigins) || [],
+          (ingredient.flavorProfile) ?? {},
+        culturalOrigins: (ingredient.culturalOrigins) ?? [],
       },
       options: {
         debugMode: options.debugMode,
@@ -122,7 +122,7 @@ export class UnifiedScoringAdapter {
   ): Promise<ScoredItem<Recipe>> {
     const context: ScoringContext = {
       dateTime: new Date(),
-      location: options.location || {
+      location: options.location ?? {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: "America/New_York",
@@ -138,13 +138,13 @@ export class UnifiedScoringAdapter {
           Earth: 0.25,
           Air: 0.25,
         },
-        seasonality: (recipe.seasonality as any) || [],
+        seasonality: (recipe.seasonality as any) ?? [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
         flavorProfile:
           ((recipe as any).flavorProfile as Record<string, number>) || {},
         culturalOrigins:
           ((recipe as unknown as any).culturalOrigins as string[]) ||
-          [String((recipe as unknown as any).cuisine || "")].filter(Boolean),
+          [String((recipe as unknown as any).cuisine ?? "")].filter(Boolean),
       },
       options: {
         debugMode: options.debugMode,
@@ -174,7 +174,7 @@ export class UnifiedScoringAdapter {
   ): Promise<ScoredItem<CookingMethod>> {
     const context: ScoringContext = {
       dateTime: new Date(),
-      location: options.location || {
+      location: options.location ?? {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: "America/New_York",
@@ -190,7 +190,7 @@ export class UnifiedScoringAdapter {
           Earth: 0.25,
           Air: 0.25,
         },
-        seasonality: (method as unknown as any).seasonality || [],
+        seasonality: (method as unknown as any).seasonality ?? [],
         planetaryRulers:
           ((method as unknown as any).planetaryRulers as Planet[]) || [],
         flavorProfile:
@@ -230,7 +230,7 @@ export class UnifiedScoringAdapter {
   ): Promise<ScoredItem<string>> {
     const context: ScoringContext = {
       dateTime: new Date(),
-      location: options.location || {
+      location: options.location ?? {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: "America/New_York",

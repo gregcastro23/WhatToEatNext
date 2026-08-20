@@ -16,7 +16,7 @@ const InsightsTicker = ({ data }: { data: any }) => {
 
   const insights = React.useMemo(() => {
     const list: string[] = [];
-    const placements = data.natalPositions || [];
+    const placements = data.natalPositions ?? [];
     const affinities = data.tasteGraph?.elementalAffinities;
 
     const sun = placements.find((p: any) => p.planet === "Sun");
@@ -43,7 +43,7 @@ const InsightsTicker = ({ data }: { data: any }) => {
       }
     }
 
-    const cuisines = data.tasteGraph?.cuisines || [];
+    const cuisines = data.tasteGraph?.cuisines ?? [];
     if (cuisines.length > 0) {
       list.push(`Your taste graph displays a high implicit compatibility with ${cuisines[0].name} kitchen methods.`);
     }
@@ -95,7 +95,7 @@ function parseRestriction(p: string) {
 
 const DietaryPrefsBlock = ({ data, isOwner }: { data: any, isOwner: boolean }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [prefs, setPrefs] = useState<string[]>(data.dietary_preferences?.restrictions || []);
+  const [prefs, setPrefs] = useState<string[]>(data.dietary_preferences?.restrictions ?? []);
   const [inputValue, setInputValue] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -260,10 +260,10 @@ const DataPrivacyBlock = ({ data, isOwner }: { data: any, isOwner: boolean }) =>
 const DataPrivacyAndLearningBlock = ({ data, isOwner }: { data: any; isOwner: boolean }) => {
   const learningItems = React.useMemo(() => {
     const items: Array<{ agent: string; glyph: string; el: string; learned: string; conf: number; n: number }> = [];
-    const activities = data.recentActivity || [];
+    const activities = data.recentActivity ?? [];
     const mealLogs = activities.filter((a: any) => a.eventType === "cook_recipe" || a.eventType === "log_meal");
-    const affinities = data.tasteGraph?.elementalAffinities || {};
-    const count = mealLogs.length || 5;
+    const affinities = data.tasteGraph?.elementalAffinities ?? {};
+    const count = mealLogs.length ?? 5;
     
     if (affinities.Fire > 0.28) {
       items.push({ agent: "Galileo", glyph: "♂", el: "fire", learned: "noted high spice triggers active metabolic responses", conf: 0.88, n: count + 12 });
@@ -300,7 +300,7 @@ const DataPrivacyAndLearningBlock = ({ data, isOwner }: { data: any; isOwner: bo
 };
 
 const TokenEconomyBlock = ({ data }: { data: any }) => {
-  const balances = data.balances || { spirit: 0, essence: 0, matter: 0, substance: 0 };
+  const balances = data.balances ?? { spirit: 0, essence: 0, matter: 0, substance: 0 };
   const [series, setSeries] = useState<any[] | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
@@ -312,7 +312,7 @@ const TokenEconomyBlock = ({ data }: { data: any }) => {
         const res = await fetch("/api/economy/transactions?limit=100");
         const json = await res.json();
         if (json.success && active) {
-          const txs = json.transactions || [];
+          const txs = json.transactions ?? [];
           
           const dailyTx = Array.from({ length: 14 }, () => ({ Spirit: 0, Essence: 0, Matter: 0, Substance: 0 }));
           const today = new Date();
@@ -403,7 +403,7 @@ const TokenEconomyBlock = ({ data }: { data: any }) => {
           <div key={item.k} className="bg-white/[0.01] p-3 rounded-xl text-center border border-white/5">
             <div className="text-[9px] uppercase tracking-widest text-white/45 mb-1 font-mono">{item.k}</div>
             <div className={`text-xl font-black tabular-nums ${item.color}`}>
-              {(balances[item.k as keyof typeof balances] || 0).toFixed(1)}
+              {(balances[item.k as keyof typeof balances] ?? 0).toFixed(1)}
             </div>
           </div>
         ))}
@@ -430,11 +430,11 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
     render: ({ data, isOwner }) => {
       const affinities = data.tasteGraph?.elementalAffinities;
       const palateValues = affinities ? {
-        spicy: affinities.Fire || 0,
-        sweet: affinities.Air || 0,
-        umami: affinities.Earth || 0,
-        acidic: affinities.Water || 0,
-        bitter: (affinities.Earth || 0) * 0.9 || 0
+        spicy: affinities.Fire ?? 0,
+        sweet: affinities.Air ?? 0,
+        umami: affinities.Earth ?? 0,
+        acidic: affinities.Water ?? 0,
+        bitter: (affinities.Earth ?? 0) * 0.9 || 0
       } : {
         spicy: 0.72,
         sweet: 0.34,
@@ -489,7 +489,7 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
     tab: "Essence",
     visibleTo: "public",
     render: ({ data }) => {
-      const positions = data.natalPositions || [];
+      const positions = data.natalPositions ?? [];
       
       const ZODIAC_SIGNS = [
         "aries", "taurus", "gemini", "cancer",
@@ -507,9 +507,9 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
       };
 
       const planets = positions.map((p: any) => {
-        const signLower = (p.sign || "").toLowerCase();
+        const signLower = (p.sign ?? "").toLowerCase();
         const signIdx = ZODIAC_SIGNS.indexOf(signLower);
-        const lon = ((signIdx >= 0 ? signIdx : 0) * 30 + (p.degree || 0)) % 360;
+        const lon = ((signIdx >= 0 ? signIdx : 0) * 30 + (p.degree ?? 0)) % 360;
         const el = SIGN_TO_ELEMENT[signLower] || "fire";
         const mod = (signLower === "aries" || signLower === "cancer" || signLower === "libra" || signLower === "capricorn")
           ? "cardinal"
@@ -522,7 +522,7 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
           lon,
           sign: p.sign,
           glyph: PLANET_GLYPH[p.planet] || "✦",
-          deg: Math.round(p.degree || 0),
+          deg: Math.round(p.degree ?? 0),
           el,
           mod
         };
@@ -531,7 +531,7 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
       return (
         <div className="p-6 border border-white/10 rounded-2xl bg-white/[0.01] mt-4 flex flex-col md:flex-row gap-6 items-center">
           <div className="flex-1 w-full max-w-[360px]">
-            <NatalWheel planets={planets} size={300} dominantEl={data.dominantElement || "air"} />
+            <NatalWheel planets={planets} size={300} dominantEl={data.dominantElement ?? "air"} />
           </div>
           <div className="flex-1 w-full">
             <h3 className="font-bold text-lg mb-4 text-white/90">Natal Placement Ledger</h3>
@@ -561,14 +561,14 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
     tab: "Essence",
     visibleTo: "public",
     render: ({ data }) => {
-      const affinities = data.tasteGraph?.elementalAffinities || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const affinities = data.tasteGraph?.elementalAffinities ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const elColors: Record<string, string> = {
         Fire: "bg-gradient-to-r from-orange-500 to-red-500",
         Water: "bg-gradient-to-r from-blue-500 to-cyan-500",
         Air: "bg-gradient-to-r from-sky-400 to-purple-500",
         Earth: "bg-gradient-to-r from-emerald-500 to-lime-500"
       };
-      const dominant = data.dominantElement || "Balanced";
+      const dominant = data.dominantElement ?? "Balanced";
       return (
         <div className="p-4 border border-white/10 rounded-lg bg-white/5 mt-4 space-y-4">
           <div className="flex justify-between items-center">
@@ -579,7 +579,7 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
           </div>
           <div className="grid grid-cols-2 gap-4">
             {Object.entries(affinities).map(([el, val]: any) => {
-              const pct = Math.round((val || 0) * 100);
+              const pct = Math.round((val ?? 0) * 100);
               return (
                 <div key={el} className="space-y-1">
                   <div className="flex justify-between text-xs font-mono text-white/70">
@@ -610,7 +610,7 @@ export const PROFILE_BLOCKS: Record<string, ProfileBlockDef> = {
     tab: "Practice",
     visibleTo: "public",
     render: ({ data }) => {
-      const activity = data.recentActivity || [];
+      const activity = data.recentActivity ?? [];
       return (
         <div className="p-4 border border-white/10 rounded-lg bg-white/5 mt-4">
           <h3 className="font-bold text-lg mb-3">Activity Log</h3>

@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     }
 
     const url = new URL(request.url);
-    const category = url.searchParams.get("category") || "feature";
+    const category = url.searchParams.get("category") ?? "feature";
 
     const [balances, items, pricing, ownedRes] = await Promise.all([
       tokenEconomy.getBalances(user.id),

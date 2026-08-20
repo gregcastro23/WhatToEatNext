@@ -84,7 +84,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
     energies?: Record<string, number>;
     [key: string]: unknown;
   };
-  return cardData.associatedRecipes || [];
+  return cardData.associatedRecipes ?? [];
 }
 
 export function getMajorArcanaForDecan(decan: DecanKey) {
@@ -391,8 +391,8 @@ export function getElementalQuantum(card: unknown) {
     energies?: Record<string, number>;
     [key: string]: unknown;
   };
-  const element = cardData.element || "Fire";
-  const quantum = cardData.quantum || 1;
+  const element = cardData.element ?? "Fire";
+  const quantum = cardData.quantum ?? 1;
 
   return {
     Fire: element === "Fire" ? quantum : 0,
@@ -419,7 +419,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
     }
 
     // Add keywords safely
-    filters.keywords.push(...(tarotCards.minorCard.keywords || []));
+    filters.keywords.push(...(tarotCards.minorCard.keywords ?? []));
 
     // Add associated recipes only if they exist
     if (
@@ -498,7 +498,7 @@ export const _getTarotFoodRecommendations = (
         associatedRecipes: [],
       };
 
-  const recommendedRecipes = tarotCard.associatedRecipes || [];
+  const recommendedRecipes = tarotCard.associatedRecipes ?? [];
 
   // Generate flavor profiles based on elemental combinations
   const flavors = getFlavorProfile(element, foodElement);

@@ -154,7 +154,7 @@ export function FollowListSheet({
                       {entry.name}
                     </span>
                     <LabelXS className="text-alchm-fg-dim">
-                      {entry.isAgent ? "AGENT" : entry.dominantElement?.toUpperCase() || "ALCHEMIST"}
+                      {entry.isAgent ? "AGENT" : entry.dominantElement?.toUpperCase() ?? "ALCHEMIST"}
                     </LabelXS>
                   </span>
                 </Link>

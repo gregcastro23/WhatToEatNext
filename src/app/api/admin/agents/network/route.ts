@@ -454,20 +454,20 @@ async function getInteractions(
     const entries: AgentInteractionEntry[] = result.rows.map((row) => {
       const meta = (row.metadata_payload as Record<string, any>) || {};
       const targetName =
-        row.target_resolved_name ||
-        meta.targetName ||
-        meta.withAgent ||
-        meta.partnerName ||
+        row.target_resolved_name ??
+        meta.targetName ??
+        meta.withAgent ??
+        meta.partnerName ??
         "User";
       return {
-        sessionId: meta.sessionId || row.id,
+        sessionId: meta.sessionId ?? row.id,
         agentId1: row.actor_id,
-        agentId2: meta.targetAgentId || "user",
+        agentId2: meta.targetAgentId ?? "user",
         targetUserId: row.target_user_id,
-        agentName1: row.actor_name || "Agent",
+        agentName1: row.actor_name ?? "Agent",
         agentName2: targetName,
         timestamp: new Date(row.createdAt).toISOString(),
-        preview: meta.responsePreview || meta.messagePreview || "Discourse started",
+        preview: meta.responsePreview ?? meta.messagePreview ?? "Discourse started",
       };
     });
 
@@ -643,7 +643,7 @@ async function getReasoning(
 
     const entries: AgentReasoningEntry[] = result.rows.map((row) => ({
       agentId: row.agent_id,
-      agentHandle: row.handle || "agent",
+      agentHandle: row.handle ?? "agent",
       timestamp: new Date(row.created_at).toISOString(),
       preview: row.preview,
     }));

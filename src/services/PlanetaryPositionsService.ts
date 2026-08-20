@@ -29,7 +29,7 @@ function makeKey(
     t: date ? date.toISOString() : "now",
     lat: typeof lat === "number" ? Number(lat.toFixed(3)) : undefined,
     lon: typeof lon === "number" ? Number(lon.toFixed(3)) : undefined,
-    sys: system || "tropical",
+    sys: system ?? "tropical",
   });
 }
 
@@ -48,7 +48,7 @@ function normalizeFromEngine(
   const out: PositionRecord = {};
   Object.entries(raw || {}).forEach(([planet, p]) => {
     out[planet] = {
-      sign: String(p.sign || "aries").toLowerCase() as any,
+      sign: String(p.sign ?? "aries").toLowerCase() as any,
       degree: Number(p.degree || 0),
       minute: 0,
       exactLongitude: Number(p.exactLongitude || 0),

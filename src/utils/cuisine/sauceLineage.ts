@@ -687,7 +687,7 @@ export function getSauceForest(cuisinesData?: Record<string, any>): SauceForest 
   if (_cached && !cuisinesData) return _cached;
   
   // If no data provided, we return the cached one or collect from legacy map (if still populated)
-  const sourceData = cuisinesData || (cuisinesMap as Record<string, any>);
+  const sourceData = cuisinesData ?? (cuisinesMap as Record<string, any>);
   
   const { nodes, nameIndex } = collectNodes(sourceData);
   const { parentOf, childrenOf, variantLeaves, edges } = deriveEdges(nodes, nameIndex, {

@@ -41,10 +41,10 @@ type DbTimestamp = Date | string | null | undefined;
 type Row = any;
 
 const dbIso = (value: DbTimestamp, fallback = new Date().toISOString()): string =>
-  value instanceof Date ? value.toISOString() : value || fallback;
+  value instanceof Date ? value.toISOString() : value ?? fallback;
 
 const dbIsoOrNull = (value: DbTimestamp): string | null =>
-  value instanceof Date ? value.toISOString() : value || null;
+  value instanceof Date ? value.toISOString() : value ?? null;
 
 function readJsonColumn<T>(value: unknown, fallback: T): T {
   if (typeof value === "string") return safeJsonParse<T>(value, fallback) ?? fallback;
@@ -96,8 +96,8 @@ function rowToMessage(row: Row): ChatMessage {
     createdAt: dbIso(row.created_at),
     editedAt: dbIsoOrNull(row.edited_at),
     deletedAt: dbIsoOrNull(row.deleted_at),
-    senderName: row.sender_name || undefined,
-    senderAvatarUrl: row.sender_image || undefined,
+    senderName: row.sender_name ?? undefined,
+    senderAvatarUrl: row.sender_image ?? undefined,
     senderIsAgent: row.sender_is_agent === true,
   };
 }
@@ -465,7 +465,7 @@ class ChatDatabaseService {
             ? {
                 id: String(row.last_msg_id),
                 senderId: String(row.last_msg_sender_id),
-                senderName: row.last_msg_sender_name || undefined,
+                senderName: row.last_msg_sender_name ?? undefined,
                 body: String(row.last_msg_body ?? "").slice(0, 140),
                 createdAt: dbIso(row.last_msg_created_at),
               }
@@ -474,8 +474,8 @@ class ChatDatabaseService {
           otherUser: row.other_id
             ? {
                 id: String(row.other_id),
-                name: row.other_name || undefined,
-                avatarUrl: row.other_image || undefined,
+                name: row.other_name ?? undefined,
+                avatarUrl: row.other_image ?? undefined,
                 isAgent: row.other_is_agent === true,
               }
             : undefined,

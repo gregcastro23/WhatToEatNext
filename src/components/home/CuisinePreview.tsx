@@ -102,12 +102,12 @@ export default function CuisinePreview() {
         return res.json();
       })
       .then((data) => {
-        setCuisines(data.cuisine_recommendations || []);
+        setCuisines(data.cuisine_recommendations ?? []);
         setLastUpdated(new Date());
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message || "Failed to load cuisine recommendations");
+        setError(err.message ?? "Failed to load cuisine recommendations");
         setLoading(false);
       });
   }, []);

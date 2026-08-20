@@ -9,6 +9,7 @@
  */
 
 import Link from "next/link";
+import { FeedAudioPlayer } from "@/components/feed/FeedAudioPlayer";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS, ELEMENT_COLORS_FALLBACK } from "@/lib/elementColors";
 import type {
@@ -250,6 +251,16 @@ export function AgentEventCard({
                 Natal signature: {natal.join(" · ")}
               </p>
             )}
+          </div>
+        )}
+        {item.audioUrl && (
+          <div className="mt-3">
+            <FeedAudioPlayer
+              src={item.audioUrl}
+              title={item.action}
+              author={agent.name}
+              compact={compact}
+            />
           </div>
         )}
       </div>

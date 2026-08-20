@@ -38,7 +38,7 @@ export async function GET() {
       { count: number; issues: Record<string, number> }
     > = {};
     for (const recipe of auditResult.incompleteRecipes) {
-      const cuisine = recipe.cuisine || "Unknown";
+      const cuisine = recipe.cuisine ?? "Unknown";
       if (!byCuisine[cuisine]) {
         byCuisine[cuisine] = { count: 0, issues: {} };
       }

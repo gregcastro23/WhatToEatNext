@@ -29,7 +29,7 @@ export function extractPlanetaryPositions(natalChart: NatalChart): Record<string
   // 3. Try root-level format (e.g., natalChart.Sun)
   const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
   planets.forEach((planet) => {
-    const p = (natalChart as any)[planet] || (natalChart as any)[planet.toLowerCase()];
+    const p = (natalChart as any)[planet] ?? (natalChart as any)[planet.toLowerCase()];
     if (typeof p === "string") {
       positions[planet] = p as ZodiacSignType;
     } else if (p?.sign) {

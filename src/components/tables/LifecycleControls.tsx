@@ -43,7 +43,7 @@ export function LifecycleControls({
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setError(data.message || "That didn't work — try again.");
+        setError(data.message ?? "That didn't work — try again.");
         return;
       }
       setConfirmingCancel(false);

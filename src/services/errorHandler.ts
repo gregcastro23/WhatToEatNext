@@ -124,9 +124,9 @@ class ErrorHandlerService {
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {
-      type: options.type || ErrorType.UNKNOWN,
-      severity: options.severity || ErrorSeverity.ERROR,
-      context: options.context || {},
+      type: options.type ?? ErrorType.UNKNOWN,
+      severity: options.severity ?? ErrorSeverity.ERROR,
+      context: options.context ?? {},
     });
     return error;
   }
@@ -165,7 +165,7 @@ class ErrorHandlerService {
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: (context || "unknown") as any,
+      context: (context ?? "unknown") as any,
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR,
     });

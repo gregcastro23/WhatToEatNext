@@ -25,7 +25,7 @@ export const BRAND = {
   inkSoft: "#6b7280",
   support: "cookingwithcastrollc@gmail.com",
   get appUrl(): string {
-    return process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen";
+    return process.env.NEXT_PUBLIC_APP_URL ?? "https://alchm.kitchen";
   },
 } as const;
 
@@ -68,7 +68,7 @@ export interface EmailLayoutOptions {
 /** Wrap composed body HTML in the shared, email-client-safe shell. */
 export function renderEmailLayout(o: EmailLayoutOptions): string {
   const year = new Date().getFullYear();
-  const accent = o.accentColor || BRAND.accent;
+  const accent = o.accentColor ?? BRAND.accent;
   const preheader = o.preheader
     ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">${esc(o.preheader)}</div>`
     : "";
@@ -142,7 +142,7 @@ export function emailParagraph(html: string, opts: { muted?: boolean; size?: num
 
 /** Primary call-to-action button (centered). */
 export function emailButton(href: string, label: string, opts: { gradient?: string; block?: boolean } = {}): string {
-  const bg = opts.gradient || BRAND.ctaGradient;
+  const bg = opts.gradient ?? BRAND.ctaGradient;
   return `
   <div style="text-align:center;margin:8px 0 26px 0;">
     <a href="${href}" style="display:inline-block;background:${bg};color:#ffffff;text-decoration:none;padding:15px 38px;border-radius:10px;font-weight:700;font-size:16px;letter-spacing:0.3px;">${esc(label)}</a>
@@ -151,8 +151,8 @@ export function emailButton(href: string, label: string, opts: { gradient?: stri
 
 /** Soft accent card (left-bordered callout). */
 export function emailCard(html: string, opts: { accent?: string; bg?: string } = {}): string {
-  const accent = opts.accent || BRAND.accent;
-  const bg = opts.bg || "#faf5ff";
+  const accent = opts.accent ?? BRAND.accent;
+  const bg = opts.bg ?? "#faf5ff";
   return `<div style="background:${bg};border-left:4px solid ${accent};padding:20px 22px;margin:0 0 24px 0;border-radius:0 8px 8px 0;">${html}</div>`;
 }
 

@@ -90,8 +90,8 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
   const natalPositions = extractPlanetaryPositions(natalChart);
   const sunData = currentPositionsRaw?.sun;
   const moonData = currentPositionsRaw?.moon;
-  const transitSunSign = sunData?.sign || natalPositions.Sun || '';
-  const transitMoonSign = moonData?.sign || natalPositions.Moon || '';
+  const transitSunSign = sunData?.sign ?? natalPositions.Sun ?? '';
+  const transitMoonSign = moonData?.sign ?? natalPositions.Moon ?? '';
 
   const sunDeg = sunData?.degree != null ? `${Math.floor(sunData.degree % 30)}\u00B0` : '';
   const moonDeg = moonData?.degree != null ? `${Math.floor(moonData.degree % 30)}\u00B0` : '';
@@ -434,8 +434,8 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     if (mode === 'recommendations') reportQuestEvent('view_insight');
   }, []);
 
-  const email = session?.user?.email || '';
-  const userName = session?.user?.name || 'User';
+  const email = session?.user?.email ?? '';
+  const userName = session?.user?.name ?? 'User';
 
   const tier: UserTier = (profileData?.subscription?.tier as UserTier) || 'free';
 

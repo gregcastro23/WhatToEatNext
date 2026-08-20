@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     // Generate a unique cache key based on the content
     const hash = createHash("sha256")
-      .update(`${title}|${description || ""}`)
+      .update(`${title}|${description ?? ""}`)
       .digest("hex")
       .substring(0, 16);
     const cacheKey = `gen_image:${hash}`;

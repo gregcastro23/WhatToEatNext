@@ -130,7 +130,7 @@ class FeedDatabaseService {
               const payload = {
                 agentEmail,
                 eventType,
-                agentDisplayName: user.actor_name || agentEmail.split("@")[0],
+                agentDisplayName: user.actor_name ?? agentEmail.split("@")[0],
                 metadataPayload: stampedPayload,
               };
 
@@ -202,7 +202,7 @@ class FeedDatabaseService {
             ? row.actor_email.split("@")[0]
             : undefined;
 
-        let actorName = row.actor_name || 'Alchemist';
+        let actorName = row.actor_name ?? 'Alchemist';
         let actorImage = row.actor_image;
 
         // Identity resolution (src/lib/feed/identity.ts): legacy events stay
@@ -278,7 +278,7 @@ class FeedDatabaseService {
             ? row.actor_email.split("@")[0]
             : undefined;
 
-        let actorName = row.actor_name || 'Alchemist';
+        let actorName = row.actor_name ?? 'Alchemist';
         let actorImage = row.actor_image;
 
         // Same resolver as getRecentEvents — see the comment there.

@@ -26,8 +26,8 @@ import type { Pool, PoolClient } from "pg";
  */
 
 // Robustly extract Pool and types from the pg package (handles various bundling scenarios)
-const PoolValue = (pkg as any).Pool || (pkg as any).default?.Pool || (pkg as unknown as any).Pool;
-const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unknown as any).types;
+const PoolValue = (pkg as any).Pool ?? (pkg as any).default?.Pool ?? (pkg as unknown as any).Pool;
+const types = (pkg as any).types ?? (pkg as any).default?.types ?? (pkg as unknown as any).types;
 
 if (!PoolValue) {
   console.error("FATAL: pg.Pool is undefined. Environment might be incompatible with the current pg import strategy.");

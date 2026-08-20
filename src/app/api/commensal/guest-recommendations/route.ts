@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     ]);
 
     const commensalMembers: GroupMember[] = guests.map((guest, i) => ({
-      id: guest.id || `commensal_${i}`,
+      id: guest.id ?? `commensal_${i}`,
       name: guest.name,
       relationship: "friend",
       birthData: guest.birthData,

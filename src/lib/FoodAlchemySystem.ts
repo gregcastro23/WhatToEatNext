@@ -496,7 +496,7 @@ export class FoodAlchemySystem {
         elementalMatch: elementalMatch * 0.45,
         planetaryDayMatch: planetaryDayMatch * 0.35,
         planetaryHourMatch: planetaryHourMatch * 0.2,
-        dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
+        dignityBonus: (dayDignityBonus ?? 0) + (hourDignityBonus ?? 0),
         decanBonus: dayDecanBonus,
         aspectBonus,
       },

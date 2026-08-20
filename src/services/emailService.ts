@@ -35,9 +35,9 @@ class EmailService {
    * Prefers Resend API key; falls back to SMTP/nodemailer.
    */
   initialize() {
-    this.fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
+    this.fromName = process.env.EMAIL_FROM_NAME ?? "alchm.kitchen";
     this.fromAddress =
-      process.env.EMAIL_FROM_ADDRESS || "noreply@alchm.kitchen";
+      process.env.EMAIL_FROM_ADDRESS ?? "noreply@alchm.kitchen";
 
     // 1. Try Resend first
     const resendKey = process.env.RESEND_API_KEY;
@@ -426,7 +426,7 @@ This is an automated login notification from alchm.kitchen.
       ? elementColors[dominantElement] || "#8b5cf6"
       : "#8b5cf6";
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alchm.kitchen";
 
     return `
 <!DOCTYPE html>
@@ -656,7 +656,7 @@ This is an automated login notification from alchm.kitchen.
    * Get plain text version of welcome email — personal note from Greg Castro
    */
   private getWelcomeEmailText(name: string, dominantElement?: string): string {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alchm.kitchen";
     return `
 Welcome to alchm.kitchen — A Personal Note from Greg Castro
 
@@ -803,7 +803,7 @@ You're receiving this email because you joined alchm.kitchen.
       </p>
 
       <div style="text-align: center; margin: 30px 0;">
-        <a href="${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/profile"
+        <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/profile"
            style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">
           View User Profile
         </a>
@@ -846,7 +846,7 @@ ${dominantElement ? `Dominant Element: ${dominantElement}\n` : ""}
 The user has been added to the system and their natal chart has been calculated.
 You can reach them at ${userEmail}.
 
-View Admin Dashboard: ${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin
+View Admin Dashboard: ${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/admin
 
 This is an automated notification from alchm.kitchen.
 

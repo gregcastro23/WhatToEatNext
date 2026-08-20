@@ -160,7 +160,7 @@ export function computeStageCircuit(
   const efficiency = Math.abs(power) > EPS ? Math.max(0, Math.min(1, (power - powerLosses) / power)) : 0;
 
   return {
-    name: stage.name?.trim() || `Stage ${index + 1}`,
+    name: stage.name?.trim() ?? `Stage ${index + 1}`,
     blendedElemental,
     esms,
     heat: finite(thermo.heat),

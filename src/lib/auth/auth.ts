@@ -183,8 +183,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             dbUser = await Promise.race([
               userDatabase.createUser({
                 email: user.email,
-                name: user.name || "",
-                image: user.image || undefined,
+                name: user.name ?? "",
+                image: user.image ?? undefined,
                 roles: isAdmin
                   ? [UserRole.ADMIN, UserRole.USER]
                   : [UserRole.USER],
@@ -333,7 +333,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             await tokenEconomy.grantSignupBonus(dbUser.id);
 
             // 0. Calculate and synchronize natal chart if birth data is present but not computed
-            const profile = (dbUser)?.profile || {};
+            const profile = (dbUser)?.profile ?? {};
             if (profile.birthData && (!profile.natalChart || !profile.onboardingComplete)) {
               try {
                 logger.info(`Calculating missing natal chart for ${user.email}`);
@@ -378,7 +378,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     ownerId: dbUser.id,
                     label: "My Cosmos",
                     chartType: "cosmic_identity",
-                    birthData: profile.natalChart.birthData || profile.birthData,
+                    birthData: profile.natalChart.birthData ?? profile.birthData,
                     natalChart: profile.natalChart
                   });
                 }
@@ -465,7 +465,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const emailService = (await import("@/services/emailService")).default;
             emailService.ensureInitialized();
             if (emailService.isConfigured()) {
-              const userName = user.name || user.email;
+              const userName = user.name ?? user.email;
               const emailPromises = [
                 emailService.sendLoginNotificationEmail(user.email!, userName!, isNewUser)
               ];
@@ -482,7 +482,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               const { notificationDatabase } = await import(
                 "@/services/notificationDatabaseService"
               );
-              const userName = user.name || user.email;
+              const userName = user.name ?? user.email;
 
               if (isNewUser) {
                 notificationDatabase.createNotification(
@@ -503,12 +503,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
               // Daily insight notification — for users with a natal chart
               const natalChart =
-                (dbUser)?.profile?.natalChart ||
+                (dbUser)?.profile?.natalChart ??
                 (dbUser)?.profile?.natal_chart;
 
-              const hasPositions = !!(
+              const hasPositions = Boolean(
                 natalChart?.planetaryPositions ||
-                natalChart?.planets?.length > 0 ||
+                (natalChart?.planets && natalChart.planets.length > 0) ||
                 natalChart?.Sun
               );
 
@@ -616,8 +616,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               dbUser = await Promise.race([
                 userDatabase.createUser({
                   email: token.email,
-                  name: token.name || "",
-                  image: token.picture || undefined,
+                  name: token.name ?? "",
+                  image: token.picture ?? undefined,
                   roles: isAdmin ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
                 }),
                 new Promise<any>((_, reject) => setTimeout(() => reject(new Error("JIT Create User Timeout")), 8000))
@@ -696,7 +696,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   subscriptionService.getUserSubscription(dbUser.id),
                   new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Subscription Timeout")), 3000))
                 ]);
-                token.tier = sub?.tier || "free";
+                token.tier = sub?.tier ?? "free";
               } catch {
                 // Preserve existing tier if DB unavailable or timeout
                 if (!token.tier) token.tier = "free";

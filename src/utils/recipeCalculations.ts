@@ -34,7 +34,7 @@ export const _recipeCalculations = {
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.
     const recipeData = recipe as unknown as { name?: string };
     debugLog(
-      `Cuisine alignment score for ${recipeData.name || "Unknown Recipe"}: ${alignmentScore.toFixed(2)}`,
+      `Cuisine alignment score for ${recipeData.name ?? "Unknown Recipe"}: ${alignmentScore.toFixed(2)}`,
     );
     return alignmentScore;
   },
@@ -56,7 +56,7 @@ export const _recipeCalculations = {
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.
     const recipeWindowData = recipe as unknown as { name?: string };
     debugLog(
-      `Optimal cooking windows for ${recipeWindowData?.name || "Unknown Recipe"}:`,
+      `Optimal cooking windows for ${recipeWindowData?.name ?? "Unknown Recipe"}:`,
       optimalTimes,
     );
     return optimalTimes;
@@ -85,7 +85,7 @@ export const _recipeCalculations = {
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.
     const recipeBoostData = recipe as unknown as { name?: string };
     debugLog(
-      `Elemental boost for ${recipeBoostData?.name || "Unknown Recipe"}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
+      `Elemental boost for ${recipeBoostData?.name ?? "Unknown Recipe"}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
     );
     return boost;
   },

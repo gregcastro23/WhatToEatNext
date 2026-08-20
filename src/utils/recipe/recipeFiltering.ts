@@ -125,7 +125,7 @@ export class RecipeFilter {
 
         // Prep time filter
         if (options.maxPrepTime) {
-          const recipeTime = this.parseTime(String(recipe.timeToMake || ""));
+          const recipeTime = this.parseTime(String(recipe.timeToMake ?? ""));
           if (recipeTime > options.maxPrepTime) return false;
         }
 
@@ -153,7 +153,7 @@ export class RecipeFilter {
           const query = options.searchQuery.toLowerCase();
           const matchesSearch =
             (recipe.name || "").toLowerCase().includes(query) ||
-            (recipe.description || "").toLowerCase().includes(query) ||
+            (recipe.description ?? "").toLowerCase().includes(query) ||
             (recipe.ingredients || []).some(
               (ingredient) => ingredient.name?.toLowerCase().includes(query),
             );
@@ -188,7 +188,7 @@ export class RecipeFilter {
 
         // Temperature filter (based on cooking method)
         if (options.temperature) {
-          const cookingMethods = recipe.cookingMethod || [];
+          const cookingMethods = recipe.cookingMethod ?? [];
           const methodStr = cookingMethods.join(" ").toLowerCase();
           const isHot =
             methodStr.includes("bake") ||
@@ -209,7 +209,7 @@ export class RecipeFilter {
         // Complexity filter (based on ingredient count and techniques)
         if (options.complexity) {
           const ingredientCount = recipe.ingredients.length || 0;
-          const techniqueCount = recipe.cookingTechniques?.length || 0;
+          const techniqueCount = recipe.cookingTechniques?.length ?? 0;
           const isSimple = ingredientCount <= 5 && techniqueCount <= 2;
           const isModerate = ingredientCount <= 10 && techniqueCount <= 4;
           const isComplex = ingredientCount > 10 || techniqueCount > 4;
@@ -221,7 +221,7 @@ export class RecipeFilter {
 
         // Cooking method filter
         if (isNonEmptyArray(options.cookingMethod)) {
-          const recipeMethods = recipe.cookingMethod || [];
+          const recipeMethods = recipe.cookingMethod ?? [];
           const hasMethod = options.cookingMethod.some((method) =>
             recipeMethods.some((recipeMethod) =>
               recipeMethod.toLowerCase().includes(method.toLowerCase()),
@@ -264,7 +264,7 @@ export class RecipeFilter {
 
         // Cooking time range
         if (options.cookingTime) {
-          const totalTime = this.parseTime(String(recipe.timeToMake || ""));
+          const totalTime = this.parseTime(String(recipe.timeToMake ?? ""));
           if (options.cookingTime.min && totalTime < options.cookingTime.min)
             return false;
           if (options.cookingTime.max && totalTime > options.cookingTime.max)
@@ -359,8 +359,8 @@ export class RecipeFilter {
           break;
         case "prepTime":
           comparison =
-            this.parseTime(String(a.timeToMake || "")) -
-            this.parseTime(String(b.timeToMake || ""));
+            this.parseTime(String(a.timeToMake ?? "")) -
+            this.parseTime(String(b.timeToMake ?? ""));
           break;
         case "elementalState":
           comparison = this.getElementalScore(b) - this.getElementalScore(a);
@@ -388,12 +388,12 @@ export class RecipeFilter {
       // Handle various time formats
       if (timeStr.includes("hour")) {
         const hours = parseFloat(
-          timeStr.match(/(\d+(?: \.\d+)?)\s*hour/)?.[1] || "0",
+          timeStr.match(/(\d+(?: \.\d+)?)\s*hour/)?.[1] ?? "0",
         );
-        const minutes = parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] || "0");
+        const minutes = parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] ?? "0");
         return hours * 60 + minutes;
       } else if (timeStr.includes("min")) {
-        return parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] || "0");
+        return parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] ?? "0");
       } else {
         // Try to parse as plain number (assume minutes)
         return parseFloat(timeStr) || 0;
@@ -577,7 +577,7 @@ export class RecipeFilter {
       }
 
       // Description match
-      if ((recipe.description || "").toLowerCase().includes(searchQuery)) {
+      if ((recipe.description ?? "").toLowerCase().includes(searchQuery)) {
         relevanceScore += 0.3;
       }
 
@@ -591,7 +591,7 @@ export class RecipeFilter {
       }
 
       // Cuisine match
-      if ((recipe.cuisine || "").toLowerCase().includes(searchQuery)) {
+      if ((recipe.cuisine ?? "").toLowerCase().includes(searchQuery)) {
         relevanceScore += 0.1;
       }
 
@@ -666,7 +666,7 @@ export class RecipeFilter {
     return recipes.filter((recipe) => {
       try {
         const recipeName = (recipe.name || "").toLowerCase();
-        const recipeCuisine = (recipe.cuisine || "").toLowerCase();
+        const recipeCuisine = (recipe.cuisine ?? "").toLowerCase();
 
         return cuisineTypes.some((cuisineType) => {
           const normalizedCuisine = cuisineType.toLowerCase();
@@ -708,7 +708,7 @@ export class RecipeFilter {
       // Check cuisine property
       if (
         cuisineTypes.some((cuisine) =>
-          (recipe.cuisine || "").toLowerCase().includes(cuisine.toLowerCase()),
+          (recipe.cuisine ?? "").toLowerCase().includes(cuisine.toLowerCase()),
         )
       ) {
         score += 0.3;
@@ -828,7 +828,7 @@ export class RecipeFilter {
       const normalizedCuisine = cuisine.toLowerCase();
       return recipes.filter((recipe) => {
         const recipeName = (recipe.name || "").toLowerCase();
-        const recipeCuisine = (recipe.cuisine || "").toLowerCase();
+        const recipeCuisine = (recipe.cuisine ?? "").toLowerCase();
         return (
           recipeName.includes(normalizedCuisine) ||
           recipeCuisine.includes(normalizedCuisine)

@@ -10,7 +10,7 @@
  * visualization (Air).
  */
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:8000'
 
 export interface PlanetaryPosition {
   longitude: number // Ecliptic longitude in degrees (0-360)
@@ -76,7 +76,7 @@ export class PlanetaryAPIClient {
           date: date.toISOString(),
           latitude,
           longitude,
-          planets: planets || [
+          planets: planets ?? [
             'sun',
             'moon',
             'mercury',
@@ -94,14 +94,14 @@ export class PlanetaryAPIClient {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(
-          `Failed to fetch planetary positions: ${response.statusText} - ${errorData.error || ''}`
+          `Failed to fetch planetary positions: ${response.statusText} - ${errorData.error ?? ''}`
         )
       }
 
       const result: BackendResponse<PlanetaryPositions> = await response.json()
 
       if (!result.success) {
-        throw new Error(result.error || 'Backend returned unsuccessful response')
+        throw new Error(result.error ?? 'Backend returned unsuccessful response')
       }
 
       return result.data
@@ -132,7 +132,7 @@ export class PlanetaryAPIClient {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(
-          `Failed to fetch batch planetary positions: ${response.statusText} - ${errorData.error || ''}`
+          `Failed to fetch batch planetary positions: ${response.statusText} - ${errorData.error ?? ''}`
         )
       }
 
@@ -141,7 +141,7 @@ export class PlanetaryAPIClient {
       > = await response.json()
 
       if (!result.success) {
-        throw new Error(result.error || 'Backend returned unsuccessful response')
+        throw new Error(result.error ?? 'Backend returned unsuccessful response')
       }
 
       return result.data
@@ -176,14 +176,14 @@ export class PlanetaryAPIClient {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(
-          `Failed to fetch house system: ${response.statusText} - ${errorData.error || ''}`
+          `Failed to fetch house system: ${response.statusText} - ${errorData.error ?? ''}`
         )
       }
 
       const result: BackendResponse<HouseSystem> = await response.json()
 
       if (!result.success) {
-        throw new Error(result.error || 'Backend returned unsuccessful response')
+        throw new Error(result.error ?? 'Backend returned unsuccessful response')
       }
 
       return result.data
@@ -213,21 +213,21 @@ export class PlanetaryAPIClient {
             latitude: birthLatitude,
             longitude: birthLongitude,
           },
-          currentDate: (currentDate || new Date()).toISOString(),
+          currentDate: (currentDate ?? new Date()).toISOString(),
         }),
       })
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(
-          `Failed to calculate consciousness: ${response.statusText} - ${errorData.error || ''}`
+          `Failed to calculate consciousness: ${response.statusText} - ${errorData.error ?? ''}`
         )
       }
 
       const result: BackendResponse<ConsciousnessParameters> = await response.json()
 
       if (!result.success) {
-        throw new Error(result.error || 'Backend returned unsuccessful response')
+        throw new Error(result.error ?? 'Backend returned unsuccessful response')
       }
 
       return result.data
@@ -268,7 +268,7 @@ export class PlanetaryAPIClient {
       > = await response.json()
 
       if (!result.success) {
-        throw new Error(result.error || 'Backend returned unsuccessful response')
+        throw new Error(result.error ?? 'Backend returned unsuccessful response')
       }
 
       return result.data

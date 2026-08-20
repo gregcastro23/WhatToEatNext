@@ -52,14 +52,14 @@ export async function POST(request: NextRequest) {
     // Score recipes against the composite chart
     const scoredRecipes = recipes.map((r) => {
         // Simple composite harmony score
-        const rProp: any = r.alchemical_properties || { Spirit: 25, Essence: 25, Matter: 25, Substance: 25 };
+        const rProp: any = r.alchemical_properties ?? { Spirit: 25, Essence: 25, Matter: 25, Substance: 25 };
         const cProp = compositeChart.alchemicalProperties;
         
         const harmony = 100 - (
-            Math.abs((rProp.Spirit || 0) - cProp.Spirit) +
-            Math.abs((rProp.Essence || 0) - cProp.Essence) +
-            Math.abs((rProp.Matter || 0) - cProp.Matter) +
-            Math.abs((rProp.Substance || 0) - cProp.Substance)
+            Math.abs((rProp.Spirit ?? 0) - cProp.Spirit) +
+            Math.abs((rProp.Essence ?? 0) - cProp.Essence) +
+            Math.abs((rProp.Matter ?? 0) - cProp.Matter) +
+            Math.abs((rProp.Substance ?? 0) - cProp.Substance)
         );
         
         return {

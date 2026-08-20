@@ -56,7 +56,7 @@ export function PlanetaryStatusBar({
   hourStart,
   hourEnd,
 }: PlanetaryStatusBarProps) {
-  const planetName = currentPlanet || "Sun";
+  const planetName = currentPlanet ?? "Sun";
   const icon = PLANET_ICONS[planetName] || "\u2609";
   const flavorNote = PLANET_FLAVOR_NOTES[planetName] || "";
   const moonPhase = getMoonPhase();

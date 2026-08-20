@@ -76,7 +76,7 @@ export const _recipeFilter = {
       filteredRecipes = filteredRecipes.filter(
         (recipe) =>
           typeof recipe.prepTime === "number" &&
-          recipe.prepTime <= (filters.maxPrepTime || 0),
+          recipe.prepTime <= (filters.maxPrepTime ?? 0),
       );
     }
 
@@ -85,7 +85,7 @@ export const _recipeFilter = {
       filteredRecipes = filteredRecipes.filter(
         (recipe) =>
           typeof recipe.spiciness === "number" &&
-          recipe.spiciness <= (filters.spiciness || 0),
+          recipe.spiciness <= (filters.spiciness ?? 0),
       );
     }
 
@@ -94,7 +94,7 @@ export const _recipeFilter = {
       filteredRecipes = filteredRecipes.filter(
         (recipe) =>
           typeof recipe.complexity === "number" &&
-          recipe.complexity <= (filters.complexity || 0),
+          recipe.complexity <= (filters.complexity ?? 0),
       );
     }
 

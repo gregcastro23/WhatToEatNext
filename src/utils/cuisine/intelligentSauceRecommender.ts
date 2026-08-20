@@ -237,10 +237,10 @@ export function recommendSauces(
 
       const compatibilityScore =
         (elementalScore * weights.elemental +
-          (alchemicalScore || 0) * weights.alchemical +
-          (thermodynamicScore || 0) * weights.thermodynamic +
-          (kineticScore || 0) * weights.kinetic +
-          (circuitOptimizationScore || 0) * weights.circuit) *
+          (alchemicalScore ?? 0) * weights.alchemical +
+          (thermodynamicScore ?? 0) * weights.thermodynamic +
+          (kineticScore ?? 0) * weights.kinetic +
+          (circuitOptimizationScore ?? 0) * weights.circuit) *
         userPreferenceScore;
 
       // Generate main reason
@@ -635,11 +635,11 @@ function generateSauceReason(
   _alchemicalScore?: number,
 ): string {
   if (overallScore > 0.85) {
-    return `Exceptional ${role} - perfectly balances ${sauce.flavorTags?.join(", ") || "flavors"}`;
+    return `Exceptional ${role} - perfectly balances ${sauce.flavorTags?.join(", ") ?? "flavors"}`;
   } else if (overallScore > 0.7) {
-    return `Strong ${role} - enhances dish with ${sauce.flavorTags?.[0] || "complementary"} notes`;
+    return `Strong ${role} - enhances dish with ${sauce.flavorTags?.[0] ?? "complementary"} notes`;
   } else if (overallScore > 0.55) {
-    return `Good ${role} - adds ${sauce.flavorTags?.[0] || "interesting"} dimension`;
+    return `Good ${role} - adds ${sauce.flavorTags?.[0] ?? "interesting"} dimension`;
   } else {
     return `Moderate ${role} - provides variety`;
   }

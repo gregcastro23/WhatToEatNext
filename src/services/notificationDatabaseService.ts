@@ -44,18 +44,18 @@ interface NotificationRow {
 }
 
 const toIsoString = (value: Date | string | null | undefined): string =>
-  value instanceof Date ? value.toISOString() : value || new Date().toISOString();
+  value instanceof Date ? value.toISOString() : value ?? new Date().toISOString();
 
 const toOptionalIsoString = (
   value: Date | string | null | undefined,
 ): string | undefined =>
-  value instanceof Date ? value.toISOString() : value || undefined;
+  value instanceof Date ? value.toISOString() : value ?? undefined;
 
 const parseNotificationMetadata = (
   value: NotificationRow["metadata"],
 ): NotificationMetadata => {
   if (typeof value === "string") return JSON.parse(value) as NotificationMetadata;
-  return value || {};
+  return value ?? {};
 };
 
 function rowToNotification(row: NotificationRow): UserNotification {
@@ -66,8 +66,8 @@ function rowToNotification(row: NotificationRow): UserNotification {
     title: row.title,
     message: row.message,
     isRead: row.is_read,
-    relatedUserId: row.related_user_id || undefined,
-    relatedUserName: row.related_user_name || undefined,
+    relatedUserId: row.related_user_id ?? undefined,
+    relatedUserName: row.related_user_name ?? undefined,
     metadata: parseNotificationMetadata(row.metadata),
     createdAt: toIsoString(row.created_at),
     expiresAt: toOptionalIsoString(row.expires_at),
@@ -100,7 +100,7 @@ class NotificationDatabaseService {
       message,
       isRead: false,
       relatedUserId: opts?.relatedUserId,
-      metadata: opts?.metadata || {},
+      metadata: opts?.metadata ?? {},
       createdAt: now,
       expiresAt: opts?.expiresAt,
     };
@@ -117,9 +117,9 @@ class NotificationDatabaseService {
             type,
             title,
             message,
-            opts?.relatedUserId || null,
-            JSON.stringify(opts?.metadata || {}),
-            opts?.expiresAt || null,
+            opts?.relatedUserId ?? null,
+            JSON.stringify(opts?.metadata ?? {}),
+            opts?.expiresAt ?? null,
           ],
         );
         if (result.rows.length > 0) {
@@ -510,7 +510,7 @@ class NotificationDatabaseService {
              AND (expires_at IS NULL OR expires_at > NOW())`,
           [userId],
         );
-        return result.rows[0]?.count || 0;
+        return result.rows[0]?.count ?? 0;
       } catch (error) {
         _logger.error("getUnreadCount failed:", error);
         return 0;
@@ -586,7 +586,7 @@ class NotificationDatabaseService {
 
     const n = notificationsStore.get(notificationId);
     if (n?.userId === userId && n.type === "table_join_request") {
-      n.metadata = { ...(n.metadata || {}), status };
+      n.metadata = { ...(n.metadata ?? {}), status };
       n.isRead = true;
       return true;
     }

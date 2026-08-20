@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     // by id, modern table rows winning — so companions saved via either path
     // resolve here.
     if ((commensalIds).length > 0) {
-      const legacyMembers: GroupMember[] = currentUser.profile.groupMembers || [];
+      const legacyMembers: GroupMember[] = currentUser.profile.groupMembers ?? [];
       let tableMembers: GroupMember[] = [];
       try {
         tableMembers = await commensalDatabase.getManualCompanionsForUser(userId);

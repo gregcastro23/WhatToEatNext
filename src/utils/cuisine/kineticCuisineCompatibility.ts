@@ -235,10 +235,10 @@ function calculateForceClassificationMatch(
   reasoning: string[],
 ): number {
   const userForce =
-    userProfile.preferredForceClassification ||
+    userProfile.preferredForceClassification ??
     userProfile.kineticMetrics.forceClassification;
   const cuisineForce =
-    cuisineProfile.dominantForceClassification ||
+    cuisineProfile.dominantForceClassification ??
     cuisineProfile.averageKinetics.forceClassification;
 
   // Exact match
@@ -326,7 +326,7 @@ function calculateThermalDirectionHarmony(
   reasoning: string[],
 ): number {
   const userThermal =
-    userProfile.thermalPreference ||
+    userProfile.thermalPreference ??
     userProfile.kineticMetrics.thermalDirection;
   const cuisineThermal = cuisineProfile.averageKinetics.thermalDirection;
 

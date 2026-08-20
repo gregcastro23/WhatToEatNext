@@ -112,7 +112,7 @@ export type HoroscopeData = GeneratedHoroscope
  */
 function getZodiacSign(month: number, day: number, year?: number): string {
   // Use current year if not provided
-  const currentYear = year || new Date().getFullYear()
+  const currentYear = year ?? new Date().getFullYear()
   const date = new Date(currentYear, month - 1, day, 12, 0, 0) // Noon to avoid timezone issues
 
   try {
@@ -531,7 +531,7 @@ export function generateProfessionalHoroscope(
         enhancedBirthInfo.day,
         enhancedBirthInfo.hour,
         enhancedBirthInfo.minute,
-        enhancedBirthInfo.second || 0
+        enhancedBirthInfo.second ?? 0
       )
     )
 
@@ -558,7 +558,7 @@ export function generateProfessionalHoroscope(
           label: planetName,
           Sign: { label: syncPos.sign },
           degrees: syncPos.degree,
-          retrograde: syncPos.is_retrograde || false,
+          retrograde: syncPos.is_retrograde ?? false,
         }
       } else if (planetName === 'Sun') {
         // Use accurate Sun position from solar ephemeris

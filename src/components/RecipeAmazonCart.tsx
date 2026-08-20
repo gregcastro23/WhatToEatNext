@@ -44,14 +44,14 @@ export async function RecipeAmazonCart({ recipeId }: RecipeAmazonCartProps) {
     if (recipeResult.rows[0]?.read_model?.ingredients) {
       rawIngredients = recipeResult.rows[0].read_model.ingredients.map((ing: any) => ({
         name: typeof ing === 'string' ? ing : ing.name,
-        quantity: typeof ing === 'object' ? (ing.amount || 1) : 1
+        quantity: typeof ing === 'object' ? (ing.amount ?? 1) : 1
       }));
     }
   }
 
   const items = rawIngredients
     .map((row) => ({
-      asin: row.asin || resolveAsin(row.name),
+      asin: row.asin ?? resolveAsin(row.name),
       quantity: getStandardizedQuantity(row.name, row.quantity),
       name: row.name,
     }))

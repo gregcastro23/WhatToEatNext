@@ -121,6 +121,6 @@ export function findRate(
   toToken: TokenType,
 ): SwapRate | null {
   return (
-    context.rates.find((r) => r.fromToken === fromToken && r.toToken === toToken) || null
+    context.rates.find((r) => r.fromToken === fromToken && r.toToken === toToken) ?? null
   );
 }

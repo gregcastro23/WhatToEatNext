@@ -349,10 +349,10 @@ class TokenEconomyService {
           tokenType,
           amount,
           sourceType,
-          sourceId: opts?.sourceId || null,
-          description: opts?.description || null,
-          transactionGroupId: opts?.transactionGroupId || null,
-          idempotencyKey: opts?.idempotencyKey || null,
+          sourceId: opts?.sourceId ?? null,
+          description: opts?.description ?? null,
+          transactionGroupId: opts?.transactionGroupId ?? null,
+          idempotencyKey: opts?.idempotencyKey ?? null,
         });
         const result = await db.executeQuery(query.sql, query.values);
 
@@ -383,13 +383,13 @@ class TokenEconomyService {
 
     memoryTransactions.push({
       id: memoryTxnId++,
-      transactionGroupId: opts?.transactionGroupId || crypto.randomUUID(),
+      transactionGroupId: opts?.transactionGroupId ?? crypto.randomUUID(),
       userId,
       tokenType,
       amount,
       sourceType,
-      sourceId: opts?.sourceId || null,
-      description: opts?.description || null,
+      sourceId: opts?.sourceId ?? null,
+      description: opts?.description ?? null,
       createdAt: new Date().toISOString(),
     });
     if (opts?.idempotencyKey) {
@@ -424,9 +424,9 @@ class TokenEconomyService {
           tokenType,
           amount,
           sourceType,
-          sourceId: opts?.sourceId || null,
-          transactionGroupId: opts?.transactionGroupId || null,
-          description: opts?.description || null,
+          sourceId: opts?.sourceId ?? null,
+          transactionGroupId: opts?.transactionGroupId ?? null,
+          description: opts?.description ?? null,
         });
         const result = await db.executeQuery(query.sql, query.values);
 
@@ -487,12 +487,12 @@ class TokenEconomyService {
         const query = debitAllTokensSql({
           userId,
           amounts,
-          description: opts?.description || null,
+          description: opts?.description ?? null,
           idempotencyKey: idemKey,
           intent: {
             kind: "spend",
             sourceType,
-            sourceId: opts?.sourceId || null,
+            sourceId: opts?.sourceId ?? null,
           },
         });
         const result = await db.executeQuery(query.sql, query.values);
@@ -936,7 +936,7 @@ class TokenEconomyService {
     return {
       spent: { tokenType: fromToken, amount: costAmount },
       received: { tokenType: toToken, amount: targetAmount },
-      newBalances: newBalances || afterDebit,
+      newBalances: newBalances ?? afterDebit,
     };
   }
 
@@ -966,7 +966,7 @@ class TokenEconomyService {
 
         return {
           transactions: txnResult.rows.map(rowToTransaction),
-          total: countResult.rows[0]?.total || 0,
+          total: countResult.rows[0]?.total ?? 0,
         };
       } catch (error) {
         _logger.error("[TokenEconomy] getTransactions failed:", error);
@@ -1045,7 +1045,7 @@ class TokenEconomyService {
           }
         }
 
-        const costs = opts?.overrideCosts || {
+        const costs = opts?.overrideCosts ?? {
           spirit: parseFloat(item.cost_spirit) || 0,
           essence: parseFloat(item.cost_essence) || 0,
           matter: parseFloat(item.cost_matter) || 0,
@@ -1086,7 +1086,7 @@ class TokenEconomyService {
     }
 
     // In-memory fallback
-    const balances = memoryBalances.get(userId) || { ...EMPTY_BALANCES };
+    const balances = memoryBalances.get(userId) ?? { ...EMPTY_BALANCES };
     // Simple affordability check placeholder
     _logger.warn("[TokenEconomy] purchaseShopItem in-memory fallback for:", shopItemSlug);
     return { success: true, balances, transactionGroupId: `mem_${Date.now()}` };
@@ -1193,7 +1193,7 @@ class TokenEconomyService {
         id: row.id,
         slug: row.slug,
         title: row.title,
-        description: row.description || null,
+        description: row.description ?? null,
         category: row.category,
         costSpirit: parseFloat(row.cost_spirit) || 0,
         costEssence: parseFloat(row.cost_essence) || 0,
@@ -1201,7 +1201,7 @@ class TokenEconomyService {
         costSubstance: parseFloat(row.cost_substance) || 0,
         isOneTime: row.is_one_time,
         isActive: row.is_active,
-        sortOrder: row.sort_order || 0,
+        sortOrder: row.sort_order ?? 0,
       }));
     } catch (error) {
       _logger.error("[TokenEconomy] getShopItems failed:", error);

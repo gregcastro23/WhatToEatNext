@@ -124,7 +124,7 @@ export function OnchainEsmsPanel(): JSX.Element | null {
       } else if (json.code === "mint_pending") {
         setNotice({ kind: "ok", text: "Claim submitted — confirming on-chain. Check back in a moment." });
       } else {
-        setNotice({ kind: "err", text: json.error || "Claim failed — try again." });
+        setNotice({ kind: "err", text: json.error ?? "Claim failed — try again." });
       }
     } catch {
       setNotice({ kind: "err", text: "Network error — try again." });

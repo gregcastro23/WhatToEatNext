@@ -28,7 +28,7 @@ import {
   type ZodiacQuality,
 } from "@/utils/planetaryAlchemyMapping";
 
-const Astronomy = (AstronomyModule as any).default || AstronomyModule;
+const Astronomy = (AstronomyModule as any).default ?? AstronomyModule;
 
 // ---------------------------------------------------------------------------
 // Types

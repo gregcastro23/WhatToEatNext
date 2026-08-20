@@ -58,12 +58,12 @@ export default function PossoWidget({
         const allRecipes = await getServerRecipes();
 
         const scored = allRecipes.map((recipe: any) => {
-          const ingredients = recipe.ingredients || [];
+          const ingredients = recipe.ingredients ?? [];
           let matchCount = 0;
 
           ingredients.forEach((ing: any) => {
             const name = (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase();
-            const isMatch = inventory.some((invItem) => name.includes(invItem) || invItem.includes(name));
+            const isMatch = inventory.some((invItem) => name.includes(invItem) ?? invItem.includes(name));
             if (isMatch) matchCount++;
           });
 

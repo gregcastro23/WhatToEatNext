@@ -181,7 +181,7 @@ export default function OnboardingWizard() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Onboarding failed");
+        throw new Error(errorData.detail ?? "Onboarding failed");
       }
 
       // Onboarding successful, redirect to dashboard or home
@@ -189,7 +189,7 @@ export default function OnboardingWizard() {
     } catch (err: any) {
       console.error("Onboarding error:", err);
       setError(
-        err.message || "An unexpected error occurred during onboarding.",
+        err.message ?? "An unexpected error occurred during onboarding.",
       );
     } finally {
       setIsLoading(false);

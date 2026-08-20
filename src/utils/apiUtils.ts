@@ -67,7 +67,7 @@ export async function fetchWithRetry(
     }
   }
 
-  throw lastError || new Error(`Failed to fetch ${url} after ${retries} retries`);
+  throw lastError ?? new Error(`Failed to fetch ${url} after ${retries} retries`);
 }
 
 /**

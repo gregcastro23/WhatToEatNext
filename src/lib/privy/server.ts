@@ -67,7 +67,7 @@ export async function getPrivyWallet(did: string): Promise<string | null> {
   if (!client) return null;
   try {
     const user = await client.getUser(did);
-    const accounts = ((user as { linkedAccounts?: unknown[] }).linkedAccounts || []) as Array<
+    const accounts = ((user as { linkedAccounts?: unknown[] }).linkedAccounts ?? []) as Array<
       Record<string, unknown>
     >;
     const embedded = accounts.find(

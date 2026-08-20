@@ -83,7 +83,7 @@ class AdvancedCache {
    */
   set<T>(key: string, data: T, ttlOverride?: number): void {
     const now = Date.now();
-    const ttl = ttlOverride || this.defaultTTL;
+    const ttl = ttlOverride ?? this.defaultTTL;
 
     // If cache is full, remove least recently used item
     if (this.cache.size >= this.maxSize && !this.cache.has(key)) {

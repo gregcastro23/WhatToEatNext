@@ -802,7 +802,7 @@ function normalizeTripadvisor(d: TripadvisorDetails): NormalizedRestaurant {
   const business: YelpBusiness = {
     id: `ta_${d.locationId}`,
     name: d.name,
-    url: d.webUrl || "https://www.tripadvisor.com/",
+    url: d.webUrl ?? "https://www.tripadvisor.com/",
     phone: "",
     rating: d.rating ?? 0,
     review_count: d.numReviews ?? 0,

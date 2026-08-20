@@ -50,7 +50,7 @@ export function MessageBubble({
         author={
           isSelf
             ? undefined
-            : { name: message.senderName || "Guest", src: message.senderAvatarUrl, element }
+            : { name: message.senderName ?? "Guest", src: message.senderAvatarUrl, element }
         }
         timestamp={timestamp}
       >

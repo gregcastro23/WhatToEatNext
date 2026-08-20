@@ -478,9 +478,9 @@ export class RecipeDataEnricher {
    * Enrich a recipe with comprehensive data
    */
   public enrichRecipe(recipe: Partial<Recipe>): EnrichmentResult {
-    const ingredients = recipe.ingredients || [];
-    const cookingMethods = recipe.cookingMethod || [];
-    const cuisine = recipe.cuisine?.toLowerCase() || "";
+    const ingredients = recipe.ingredients ?? [];
+    const cookingMethods = recipe.cookingMethod ?? [];
+    const cuisine = recipe.cuisine?.toLowerCase() ?? "";
 
     // Calculate elemental properties
     const elementalProperties = this.calculateElementalProperties(
@@ -504,7 +504,7 @@ export class RecipeDataEnricher {
     // Estimate nutrition
     const nutritionEstimate = this.estimateNutrition(
       ingredients,
-      recipe.numberOfServings || 4,
+      recipe.numberOfServings ?? 4,
     );
 
     // Determine meal types
@@ -716,9 +716,9 @@ export class RecipeDataEnricher {
     elementals: ElementalProperties,
   ): string[] {
     const influences: Set<string> = new Set();
-    const recipeName = recipe.name?.toLowerCase() || "";
-    const recipeDesc = recipe.description?.toLowerCase() || "";
-    const ingredients = recipe.ingredients || [];
+    const recipeName = recipe.name?.toLowerCase() ?? "";
+    const recipeDesc = recipe.description?.toLowerCase() ?? "";
+    const ingredients = recipe.ingredients ?? [];
     const ingredientNames = ingredients
       .map((i) => i.name.toLowerCase())
       .join(" ");
@@ -901,7 +901,7 @@ export class RecipeDataEnricher {
     }
 
     // Consider spice level from recipe
-    const spiceLevel = recipe.spiceLevel || 0;
+    const spiceLevel = recipe.spiceLevel ?? 0;
     if (typeof spiceLevel === "number" && spiceLevel >= 3) {
       tasteBalance.spicy += spiceLevel;
       primary.add("spicy");
@@ -992,7 +992,7 @@ export class RecipeDataEnricher {
 
     for (const ingredient of ingredients) {
       const name = ingredient.name.toLowerCase();
-      const category = ingredient.category?.toLowerCase() || "";
+      const category = ingredient.category?.toLowerCase() ?? "";
 
       // Find matching nutrition estimate
       let nutrition = NUTRITION_ESTIMATES.default;
@@ -1051,8 +1051,8 @@ export class RecipeDataEnricher {
     elementals: ElementalProperties,
   ): string[] {
     const mealTypes: Set<string> = new Set();
-    const recipeName = recipe.name?.toLowerCase() || "";
-    const recipeDesc = recipe.description?.toLowerCase() || "";
+    const recipeName = recipe.name?.toLowerCase() ?? "";
+    const recipeDesc = recipe.description?.toLowerCase() ?? "";
 
     // Check name and description for meal type indicators
     const breakfastKeywords = [
@@ -1180,7 +1180,7 @@ export class RecipeDataEnricher {
     const results = new Map<string, EnrichmentResult>();
 
     for (const recipe of recipes) {
-      const id = recipe.id || recipe.name || `recipe-${Date.now()}`;
+      const id = recipe.id ?? recipe.name ?? `recipe-${Date.now()}`;
       try {
         results.set(id, this.enrichRecipe(recipe));
       } catch (error) {

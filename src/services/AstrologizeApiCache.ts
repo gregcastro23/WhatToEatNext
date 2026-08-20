@@ -94,7 +94,7 @@ class AstrologizeApiCache {
     alchemicalResult: StandardizedAlchemicalResult,
   ) {
     const resultData = alchemicalResult as unknown as any;
-    const elementalBalance = resultData.elementalBalance || {};
+    const elementalBalance = resultData.elementalBalance ?? {};
     const Fire = Number(elementalBalance.Fire) || 0;
     const Water = Number(elementalBalance.Water) || 0;
     const Earth = Number(elementalBalance.Earth) || 0;
@@ -177,7 +177,7 @@ class AstrologizeApiCache {
     date: Date,
   ): CachedAstrologicalData | null {
     const key = this.generateKey(lat, lng, date);
-    return this.cache.get(key) || null;
+    return this.cache.get(key) ?? null;
   }
 
   /**
@@ -425,7 +425,7 @@ class AstrologizeApiCache {
     entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
 
     // Remove oldest 10% of entries
-    const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2);
+    const toRemove = Math.floor(((entries as any)?.length ?? 0) * 0.2);
     for (let i = 0; i < toRemove; i++) {
       this.cache.delete(entries[i][0]);
     }

@@ -68,7 +68,7 @@ const alchemize = async (
             Sign: { label: position.sign },
             ChartPosition: {
               Ecliptic: {
-                ArcDegreesInSign: position.degree || 0
+                ArcDegreesInSign: position.degree ?? 0
               }
             }
           };
@@ -116,9 +116,9 @@ const calculateMatchScore = (elements: unknown): number => {
   // More sophisticated calculation that weights the properties differently
   // Heat and reactivity are positive factors, while high entropy is generally a negative factor
   const e = elements as { heat?: number; entropy?: number; reactivity?: number };
-  const heatScore = e.heat || 0;
-  const entropyScore = 1 - (e.entropy || 0); // Invert entropy so lower is better
-  const reactivityScore = e.reactivity || 0;
+  const heatScore = e.heat ?? 0;
+  const entropyScore = 1 - (e.entropy ?? 0); // Invert entropy so lower is better
+  const reactivityScore = e.reactivity ?? 0;
   
   // Calculate weighted average with more weight on heat and reactivity
   const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
@@ -345,7 +345,7 @@ export default function CookingMethods() {
       entropy?: number;
       reactivity?: number;
     };
-    const methodName = (m.name || '').toLowerCase();
+    const methodName = (m.name ?? '').toLowerCase();
 
     // Check if the method has direct thermodynamic properties
     if (typeof m.heat === 'number' && typeof m.entropy === 'number' && typeof m.reactivity === 'number') {
@@ -466,7 +466,7 @@ export default function CookingMethods() {
     
     try {
       culturalMethods.forEach(method => {
-        const culture = method.culturalOrigin || 'Traditional';
+        const culture = method.culturalOrigin ?? 'Traditional';
         if (!map[culture]) {
           map[culture] = [];
         }
@@ -650,12 +650,12 @@ export default function CookingMethods() {
       const sourceData = cookingMethodsMap[method.id];
 
       return {
-        benefits: sourceData?.benefits || [],
-        chemicalChanges: sourceData?.chemicalChanges || {},
-        safetyFeatures: sourceData?.safetyFeatures || [],
-        nutrientRetention: sourceData?.nutrientRetention || {},
-        regionalVariations: sourceData?.regionalVariations || {},
-        astrologicalInfluences: sourceData?.astrologicalInfluences || {}
+        benefits: sourceData?.benefits ?? [],
+        chemicalChanges: sourceData?.chemicalChanges ?? {},
+        safetyFeatures: sourceData?.safetyFeatures ?? [],
+        nutrientRetention: sourceData?.nutrientRetention ?? {},
+        regionalVariations: sourceData?.regionalVariations ?? {},
+        astrologicalInfluences: sourceData?.astrologicalInfluences ?? {}
       };
     }
 
@@ -675,10 +675,10 @@ export default function CookingMethods() {
       if (molecularKey && molecularMethodsMap[molecularKey]) {
         const sourceData = molecularMethodsMap[molecularKey];
         return {
-          benefits: sourceData?.benefits || [],
-          chemicalChanges: sourceData?.chemicalChanges || {},
-          toolsRequired: sourceData?.toolsRequired || [],
-          optimalTemperatures: sourceData?.optimalTemperatures || {}
+          benefits: sourceData?.benefits ?? [],
+          chemicalChanges: sourceData?.chemicalChanges ?? {},
+          toolsRequired: sourceData?.toolsRequired ?? [],
+          optimalTemperatures: sourceData?.optimalTemperatures ?? {}
         };
       }
     }
@@ -692,7 +692,7 @@ export default function CookingMethods() {
     
     // Default values
     let examples: string[] = [];
-    let fullDefinition = method.description || "";
+    let fullDefinition = method.description ?? "";
     
     // Check if we have data from the source first
     const cookingMethodsMap = cookingMethods as Record<string, {
@@ -1351,10 +1351,10 @@ export default function CookingMethods() {
     // If the method has higher Fire/Air values, it's likely Cardinal
     // If it has higher Earth/Water values, it's likely Fixed
     // If it has balanced elements, it's likely Mutable
-    const elementalEffect = (method.elementalEffect || {}) as Partial<ElementalProperties>;
+    const elementalEffect = (method.elementalEffect ?? {}) as Partial<ElementalProperties>;
 
-    const fireAirSum = (elementalEffect.Fire || 0) + (elementalEffect.Air || 0);
-    const earthWaterSum = (elementalEffect.Earth || 0) + (elementalEffect.Water || 0);
+    const fireAirSum = (elementalEffect.Fire ?? 0) + (elementalEffect.Air ?? 0);
+    const earthWaterSum = (elementalEffect.Earth ?? 0) + (elementalEffect.Water ?? 0);
     
     if (fireAirSum > earthWaterSum + 0.2) {
       return 'Cardinal';
@@ -1418,7 +1418,7 @@ export default function CookingMethods() {
             };
             // Calculate transformed alchemical properties
             const alchemized = await alchemize(
-              methodWithElementals.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              methodWithElementals.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
               astroState,
               thermodynamics
             );
@@ -1946,7 +1946,7 @@ export default function CookingMethods() {
         <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>
         <div>Mounted: {isMounted.toString()}</div>
         <div>Renders: {renderCount.current}</div>
-        <div>Current Sign: {currentZodiac || 'unknown'}</div>
+        <div>Current Sign: {currentZodiac ?? 'unknown'}</div>
         <div>Daytime: {String(isDaytime)}</div>
         <div>Lunar Phase: {lunarPhase || 'Unknown'}</div>
         <div>

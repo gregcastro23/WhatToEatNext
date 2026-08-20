@@ -51,7 +51,7 @@ export function MembersPanel({
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setError(data.message || "Could not remove this member.");
+        setError(data.message ?? "Could not remove this member.");
         return;
       }
       onChanged?.();
@@ -78,14 +78,14 @@ export function MembersPanel({
           return (
             <li key={member.id} className="flex items-center gap-3">
               <AvatarCircle
-                name={member.name || member.displayName || "Guest"}
+                name={member.name ?? member.displayName ?? "Guest"}
                 src={member.avatarUrl}
                 element={elementForMember(member, index)}
                 size={36}
               />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-alchm-fg">
-                  {member.name || member.displayName || "Guest"}
+                  {member.name ?? member.displayName ?? "Guest"}
                   {member.role === "host" && (
                     <span className="ml-1.5 text-xs text-alchm-copper-bright">Host</span>
                   )}
@@ -101,7 +101,7 @@ export function MembersPanel({
                   onClick={() => void handleRemove(member.id)}
                   disabled={busyId === member.id}
                   className="text-xs text-alchm-fg-mute hover:text-rose-400 disabled:opacity-40"
-                  aria-label={`Remove ${member.name || "guest"}`}
+                  aria-label={`Remove ${member.name ?? "guest"}`}
                 >
                   {isSelf ? "Leave" : "Remove"}
                 </button>

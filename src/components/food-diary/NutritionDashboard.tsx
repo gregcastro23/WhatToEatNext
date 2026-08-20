@@ -260,7 +260,7 @@ export default function NutritionDashboard({
                   <NutrientBar
                     label="Fiber"
                     value={dailySummary.totalNutrition?.fiber || 0}
-                    max={dailySummary.nutritionGoals?.fiber || 28}
+                    max={dailySummary.nutritionGoals?.fiber ?? 28}
                     unit="g"
                     color="#22c55e"
                   />
@@ -282,7 +282,7 @@ export default function NutritionDashboard({
                   <NutrientBar
                     label="Potassium"
                     value={dailySummary.totalNutrition?.potassium || 0}
-                    max={dailySummary.nutritionGoals?.potassium || 4700}
+                    max={dailySummary.nutritionGoals?.potassium ?? 4700}
                     unit="mg"
                     color="#a855f7"
                   />
@@ -297,7 +297,7 @@ export default function NutritionDashboard({
                   <NutrientBar
                     label="Sodium"
                     value={dailySummary.totalNutrition?.sodium || 0}
-                    max={dailySummary.nutritionGoals?.sodium || 2300}
+                    max={dailySummary.nutritionGoals?.sodium ?? 2300}
                     unit="mg"
                     color="#6b7280"
                     inverse
@@ -315,7 +315,7 @@ export default function NutritionDashboard({
                     (meal) => {
                       const mealEntries = dailySummary.mealBreakdown?.[meal] ?? [];
                       const mealCalories = mealEntries.reduce(
-                        (sum, e) => sum + (e.nutrition.calories || 0),
+                        (sum, e) => sum + (e.nutrition.calories ?? 0),
                         0,
                       );
                       const percentage = dailySummary.nutritionGoals?.calories

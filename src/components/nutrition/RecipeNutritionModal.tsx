@@ -327,19 +327,19 @@ export function RecipeNutritionModal({
                         ? (ingredientNutrition.calories *
                             Number(ing.amount) *
                             servings) /
-                          (masterIngredient?.servingSize || 1)
+                          (masterIngredient?.servingSize ?? 1)
                         : 0;
                       const totalIngredientProtein = ingredientNutrition
                         ? (ingredientNutrition.protein *
                             Number(ing.amount) *
                             servings) /
-                          (masterIngredient?.servingSize || 1)
+                          (masterIngredient?.servingSize ?? 1)
                         : 0;
                       const totalIngredientSodium = ingredientNutrition
                         ? (ingredientNutrition.sodium *
                             Number(ing.amount) *
                             servings) /
-                          (masterIngredient?.servingSize || 1)
+                          (masterIngredient?.servingSize ?? 1)
                         : 0;
 
                       return (

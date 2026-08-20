@@ -15,7 +15,7 @@ export class ThemeManager {
 
   async initializeTheme() {
     try {
-      const savedTheme = localStorage.getItem("theme") || "light";
+      const savedTheme = localStorage.getItem("theme") ?? "light";
       this.updateTheme(savedTheme);
       return savedTheme;
     } catch (error) {
@@ -27,8 +27,8 @@ export class ThemeManager {
 
   getTheme(): ThemeData {
     try {
-      const savedTheme = localStorage.getItem("theme") || "light";
-      const savedAccent = localStorage.getItem("accent-color") || "blue";
+      const savedTheme = localStorage.getItem("theme") ?? "light";
+      const savedAccent = localStorage.getItem("accent-color") ?? "blue";
 
       return {
         mode: savedTheme as "light" | "dark" | "system",
@@ -107,7 +107,7 @@ export async function collectFeedback(
     logger.info("Received user feedback", {
       type: feedback.type,
       title: feedback.title,
-      priority: feedback.priority || "medium",
+      priority: feedback.priority ?? "medium",
     });
 
     // In a real application, you would send this to a server/API endpoint

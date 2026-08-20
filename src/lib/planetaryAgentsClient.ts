@@ -31,7 +31,7 @@ export async function fetchAgentsForDate(date: Date) {
     const res = await fetch(`${PLANETARY_AGENTS_URL}/api/agents/activations?date=${date.toISOString()}`);
     if (!res.ok) return [];
     const data = await res.json();
-    return data.activations || [];
+    return data.activations ?? [];
   } catch (error) {
     console.error("Failed to fetch agents for date:", error);
     return [];

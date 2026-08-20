@@ -45,10 +45,10 @@ export function TableCard({ table, members = [], className = "" }: TableCardProp
   const dominant = table.compositeSnapshot?.compositeChart.dominantElement;
   const venueLabel =
     table.venue.type === "restaurant"
-      ? table.venue.name || "A restaurant"
+      ? table.venue.name ?? "A restaurant"
       : table.venue.type === "home"
-        ? table.venue.name || "Home"
-        : table.venue.name || "Elsewhere";
+        ? table.venue.name ?? "Home"
+        : table.venue.name ?? "Elsewhere";
 
   return (
     <Link href={`/tables/${table.id}`} className={`block ${className}`}>

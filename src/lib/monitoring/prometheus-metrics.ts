@@ -358,12 +358,12 @@ export const errorRates = new client.Gauge({
 export function collectHttpMetrics(serviceName: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const startTime = Date.now();
-    const requestSize = parseInt(req.get("content-length", 10) || "0", 10);
+    const requestSize = parseInt(req.get("content-length", 10) ?? "0", 10);
 
     // Track request size
     if (requestSize > 0) {
       httpRequestSize
-        .labels(req.method, req.route?.path || req.path, serviceName)
+        .labels(req.method, req.route?.path ?? req.path, serviceName)
         .observe(requestSize);
     }
 
@@ -381,7 +381,7 @@ export function collectHttpMetrics(serviceName: string) {
       httpRequestDuration
         .labels(
           req.method,
-          req.route?.path || req.path,
+          req.route?.path ?? req.path,
           res.statusCode.toString(),
           serviceName,
         )
@@ -390,7 +390,7 @@ export function collectHttpMetrics(serviceName: string) {
       httpRequestsTotal
         .labels(
           req.method,
-          req.route?.path || req.path,
+          req.route?.path ?? req.path,
           res.statusCode.toString(),
           serviceName,
         )
@@ -400,7 +400,7 @@ export function collectHttpMetrics(serviceName: string) {
         httpResponseSize
           .labels(
             req.method,
-            req.route?.path || req.path,
+            req.route?.path ?? req.path,
             res.statusCode.toString(),
             serviceName,
           )
@@ -494,8 +494,8 @@ export function trackAuthEvent(
     .labels(
       method,
       success.toString(),
-      userAgent || "unknown",
-      ipCountry || "unknown",
+      userAgent ?? "unknown",
+      ipCountry ?? "unknown",
     )
     .inc();
 }

@@ -208,12 +208,12 @@ class InitializationService {
         Air?: number;
       };
       return {
-        sun: alignmentData?.sun || { sign: "", degree: 0, exactLongitude: 0 },
-        moon: alignmentData?.moon || { sign: "", degree: 0, exactLongitude: 0 },
-        Fire: alignmentData?.Fire || 0.25,
-        Water: alignmentData?.Water || 0.25,
-        Earth: alignmentData?.Earth || 0.25,
-        Air: alignmentData?.Air || 0.25,
+        sun: alignmentData?.sun ?? { sign: "", degree: 0, exactLongitude: 0 },
+        moon: alignmentData?.moon ?? { sign: "", degree: 0, exactLongitude: 0 },
+        Fire: alignmentData?.Fire ?? 0.25,
+        Water: alignmentData?.Water ?? 0.25,
+        Earth: alignmentData?.Earth ?? 0.25,
+        Air: alignmentData?.Air ?? 0.25,
       };
     } catch (error) {
       logger.error("Failed to calculate celestial influences: ", error);
@@ -263,12 +263,12 @@ class InitializationService {
   private formatCelestialData(celestialData: CelestialData) {
     return {
       sun: {
-        sign: celestialData.sun?.sign || "",
+        sign: celestialData.sun?.sign ?? "",
         degree: celestialData.sun?.degree,
         exactLongitude: celestialData.sun?.exactLongitude,
       },
       moon: {
-        sign: celestialData.moon?.sign || "",
+        sign: celestialData.moon?.sign ?? "",
         degree: celestialData.moon?.degree,
         exactLongitude: celestialData.moon?.exactLongitude,
       },
@@ -295,10 +295,10 @@ class InitializationService {
   ): ElementalProperties {
     // Default balanced elemental properties
     return {
-      Fire: celestialData.Fire || 0.25,
-      Water: celestialData.Water || 0.25,
-      Earth: celestialData.Earth || 0.25,
-      Air: celestialData.Air || 0.25,
+      Fire: celestialData.Fire ?? 0.25,
+      Water: celestialData.Water ?? 0.25,
+      Earth: celestialData.Earth ?? 0.25,
+      Air: celestialData.Air ?? 0.25,
     };
   }
 }

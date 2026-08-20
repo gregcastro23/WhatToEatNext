@@ -84,7 +84,7 @@ export async function POST(request: Request) {
   // NOTE: the previous Buffer.from(...).slice(0,64) construction was broken — a userId
   // UUID alone is 72 hex chars, so the slice dropped the slug/nonce and every item the
   // same user bought collided to one orderId (free unlocks after the first burn).
-  const safeNonce = isOneTime ? '' : String(body.nonce || '');
+  const safeNonce = isOneTime ? '' : String(body.nonce ?? '');
   const orderId = keccak256(toHex(`shop:${userId}:${shopItemSlug}:${safeNonce}`));
   
   const amounts = {

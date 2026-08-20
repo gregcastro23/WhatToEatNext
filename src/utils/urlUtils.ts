@@ -35,7 +35,7 @@ export const getApiBaseUrl = (): string => {
   }
 
   // Client-side: use relative URL if backend is proxied, or absolute if explicitly set
-  return process.env.NEXT_PUBLIC_BACKEND_URL || "";
+  return process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 };
 
 /**
@@ -68,7 +68,7 @@ export const getApiUrl = (path: string): string => {
  */
 export const getSelfBaseUrl = (): string => {
   const explicit =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ??
     process.env.SITE_URL?.trim();
   if (explicit) {
     return explicit.replace(/\/+$/, "");
@@ -84,7 +84,7 @@ export const getSelfBaseUrl = (): string => {
     return `https://${deploymentUrl.replace(/^https?:\/\//, "")}`;
   }
 
-  const port = process.env.PORT || "3000";
+  const port = process.env.PORT ?? "3000";
   return `http://localhost:${port}`;
 };
 

@@ -212,7 +212,7 @@ export default function DynamicCuisineRecommender({
           Array.isArray(data.recommendations) ? data.recommendations :
           [];
         
-        const recipeCounts = data.recipeCounts || {};
+        const recipeCounts = data.recipeCounts ?? {};
 
         if (apiCuisines.length === 0) {
           console.warn("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);
@@ -224,15 +224,15 @@ export default function DynamicCuisineRecommender({
 
           for (const def of CUISINE_DEFINITIONS) {
             const nameLower = def.name.toLowerCase();
-            const count = recipeCounts[nameLower] || 0;
+            const count = recipeCounts[nameLower] ?? 0;
 
             const isRecommended = apiCuisines.some(c => {
-              const cName = typeof c === 'string' ? c : (c?.name || c?.cuisine_id || '');
+              const cName = typeof c === 'string' ? c : (c?.name ?? c?.cuisine_id ?? '');
               return typeof cName === 'string' && cName.toLowerCase() === nameLower;
             });
             
             const recommendationIndex = apiCuisines.findIndex(c => {
-              const cName = typeof c === 'string' ? c : (c?.name || c?.cuisine_id || '');
+              const cName = typeof c === 'string' ? c : (c?.name ?? c?.cuisine_id ?? '');
               return typeof cName === 'string' && cName.toLowerCase() === nameLower;
             });
 
@@ -247,8 +247,8 @@ export default function DynamicCuisineRecommender({
             const recommendationObj = recommendationIndex !== -1 ? apiCuisines[recommendationIndex] : null;
             
             // Map nested recipes if available
-            const topRecipes = (recommendationObj?.nested_recipes || []).map((r: any) => ({
-              id: r.recipe_id || r.id,
+            const topRecipes = (recommendationObj?.nested_recipes ?? []).map((r: any) => ({
+              id: r.recipe_id ?? r.id,
               name: r.name,
               matchScore: 95 // Backend recommends these highly
             }));
@@ -257,7 +257,7 @@ export default function DynamicCuisineRecommender({
               cuisine: def.name,
               score: Math.max(score, 1),
               planet: def.planet,
-              reasoning: recommendationObj?.compatibility_reason || CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
+              reasoning: recommendationObj?.compatibility_reason ?? CUISINE_QUALITIES[def.name] ?? `A fine ${def.name} selection.`,
               recipeCount: count,
               optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
               topRecipes,
@@ -317,7 +317,7 @@ export default function DynamicCuisineRecommender({
 
         const scored: DynamicCuisineRecommendation[] = [];
         for (const cuisine of CUISINE_DEFINITIONS) {
-          const count = recipeCountsMap.get(cuisine.name) || 0;
+          const count = recipeCountsMap.get(cuisine.name) ?? 0;
           let sign = "aries";
           let isRetrograde = false;
 

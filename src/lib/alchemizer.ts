@@ -394,7 +394,7 @@ export function alchemize(
   }
 
   // Simplified implementation for UI integration
-  const horoscope = horoscope_dict['tropical'] || horoscope_dict
+  const horoscope = horoscope_dict['tropical'] ?? horoscope_dict
 
   // Determine if time is diurnal or nocturnal
   let diurnalOrNocturnal = 'Diurnal'
@@ -462,7 +462,7 @@ export function alchemize(
   if (horoscope.Ascendant?.Sign?.label) {
     const risingSign = horoscope.Ascendant.Sign.label
     // Set Ascendant element based on rising sign
-    const risingElement = signInfo[risingSign]?.Element || 'Earth'
+    const risingElement = signInfo[risingSign]?.Element ?? 'Earth'
 
     // Update alchmInfo with Ascendant data
     alchmInfo['Planets']['Ascendant']['Diurnal Element'] = risingElement
@@ -481,7 +481,7 @@ export function alchemize(
     if (sunData?.Sign?.label) {
       sunSign = sunData.Sign.label
       alchmInfo['Sun Sign'] = sunSign
-      alchmInfo['Chart Ruler'] = signInfo[sunSign]?.Ruler || ''
+      alchmInfo['Chart Ruler'] = signInfo[sunSign]?.Ruler ?? ''
 
       // Set Major Arcana for Sun if available
       if (signInfo[sunSign]?.['Major Tarot Card']) {
@@ -547,7 +547,7 @@ export function alchemize(
             alchmInfo['Planets'][planet]['Element'] = element
 
             // Calculate planetary dignities and effects
-            const dignityEffect = planetInfo[planet]['Dignity Effect']?.[sign] || 0
+            const dignityEffect = planetInfo[planet]['Dignity Effect']?.[sign] ?? 0
             let totalEffectMultiplier = 1
 
             // Apply dignity effect to total multiplier
@@ -638,8 +638,8 @@ export function alchemize(
           if (planetInfo[planet1]?.['Alchemy'] && planetInfo[planet2]?.['Alchemy']) {
             // Get the average of both planets' alchemical values and apply the aspect multiplier
             for (const key of ['Spirit', 'Essence', 'Matter', 'Substance']) {
-              const value1 = planetInfo[planet1]['Alchemy'][key] || 0
-              const value2 = planetInfo[planet2]['Alchemy'][key] || 0
+              const value1 = planetInfo[planet1]['Alchemy'][key] ?? 0
+              const value2 = planetInfo[planet2]['Alchemy'][key] ?? 0
 
               // Add a small bonus for aspects between planets with matching alchemical properties
               if (value1 > 0 && value2 > 0) {
@@ -682,18 +682,18 @@ export function alchemize(
   }
 
   // Calculate Heat, Entropy, Reactivity and Energy
-  const fire = alchmInfo['Total Effect Value']['Fire'] || 0
-  const water = alchmInfo['Total Effect Value']['Water'] || 0
-  const air = alchmInfo['Total Effect Value']['Air'] || 0
-  const earth = alchmInfo['Total Effect Value']['Earth'] || 0
-  const spirit = alchmInfo['Alchemy Effects']['Total Spirit'] || 0
-  const essence = alchmInfo['Alchemy Effects']['Total Essence'] || 0
-  const matter = alchmInfo['Alchemy Effects']['Total Matter'] || 0
-  const substance = alchmInfo['Alchemy Effects']['Total Substance'] || 0
+  const fire = alchmInfo['Total Effect Value']['Fire'] ?? 0
+  const water = alchmInfo['Total Effect Value']['Water'] ?? 0
+  const air = alchmInfo['Total Effect Value']['Air'] ?? 0
+  const earth = alchmInfo['Total Effect Value']['Earth'] ?? 0
+  const spirit = alchmInfo['Alchemy Effects']['Total Spirit'] ?? 0
+  const essence = alchmInfo['Alchemy Effects']['Total Essence'] ?? 0
+  const matter = alchmInfo['Alchemy Effects']['Total Matter'] ?? 0
+  const substance = alchmInfo['Alchemy Effects']['Total Substance'] ?? 0
 
   // Prevent division by zero in calculations
-  const denominator = substance + essence + matter + water + air + earth || 1
-  const earthWaterDenominator = matter + earth + water || 1
+  const denominator = (substance + essence + matter + water + air + earth) || 1
+  const earthWaterDenominator = (matter + earth + water) || 1
 
   alchmInfo['Heat'] = (spirit ** 2 + fire ** 2) / denominator ** 2 || 0
   alchmInfo['Entropy'] =
@@ -1071,7 +1071,7 @@ export async function generateAlchmForBirthInfo(input: {
       dateObj.setDate(d)
     }
 
-    const time = input.birthTime || '12:00'
+    const time = input.birthTime ?? '12:00'
     const [hhStr, mmStr] = time.split(':')
     const hour = Math.max(0, Math.min(23, parseInt(hhStr || '12', 10)))
     const minute = Math.max(0, Math.min(59, parseInt(mmStr || '0', 10)))

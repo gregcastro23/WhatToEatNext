@@ -46,7 +46,7 @@ export class UnifiedAgentFactory implements AgentFactory {
 
       consciousness: {
         level: agent.consciousness.level!,
-        monicaConstant: agent.consciousness.monicaConstant || 3.5,
+        monicaConstant: agent.consciousness.monicaConstant ?? null,
         dominantElement: agent.consciousness.dominantElement,
         dominantModality: agent.consciousness.dominantModality,
         signature: agent.consciousness.signature,
@@ -78,9 +78,9 @@ export class UnifiedAgentFactory implements AgentFactory {
         color: agent.appearance.color,
         symbol: agent.appearance.symbol,
         aura: {
-          type: agent.appearance.aura?.type || 'shimmering',
-          color: agent.appearance.aura?.color || agent.appearance.color || '#FFFFFF',
-          intensity: agent.appearance.aura?.intensity || 0.5,
+          type: agent.appearance.aura?.type ?? 'shimmering',
+          color: agent.appearance.aura?.color ?? agent.appearance.color ?? '#FFFFFF',
+          intensity: agent.appearance.aura?.intensity ?? 0.5,
         },
       },
 
@@ -96,7 +96,7 @@ export class UnifiedAgentFactory implements AgentFactory {
   createFromPlanetary(config: PlanetaryConfig): UnifiedAgent {
     const planetaryElement = getPlanetaryElement(config.planet) || getSignElement(config.sign)
     const dignity = getPlanetaryDignity(config.planet, config.sign)
-    const moonDegree = config.moonDegree || getMoonDegree()
+    const moonDegree = config.moonDegree ?? getMoonDegree()
     // PlanetaryConfig.moonPersonality is an optional string label that the
     // caller may pass in (e.g., "Pisces dreamer"); we still need the full
     // structured personality for alchemical/illumination math, so always

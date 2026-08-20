@@ -53,21 +53,21 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
 
     if (queryResult.rows.length > 0) {
       const [row] = queryResult.rows
-      const profile = row.profile || {}
-      const birthData = row.birth_data || {}
-      const chart = row.natal_chart || {}
+      const profile = row.profile ?? {}
+      const birthData = row.birth_data ?? {}
+      const chart = row.natal_chart ?? {}
 
       return {
         id: row.user_id,
-        name: row.name || row.email.split('@')[0],
-        title: row.bio || 'Consciousness Mirror',
+        name: row.name ?? row.email.split('@')[0],
+        title: row.bio ?? 'Consciousness Mirror',
         birthData: {
-          date: new Date(birthData.dateTime || birthData.date || new Date()),
-          time: birthData.time || '12:00',
+          date: new Date(birthData.dateTime ?? birthData.date ?? new Date()),
+          time: birthData.time ?? '12:00',
           location: {
             lat: birthData.latitude ?? 0,
             lon: birthData.longitude ?? 0,
-            name: birthData.name || 'Unknown'
+            name: birthData.name ?? 'Unknown'
           }
         },
         consciousness: {
@@ -85,7 +85,7 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
             row.monica_constant === null || row.monica_constant === undefined
               ? null
               : parseFloat(row.monica_constant),
-          dominantElement: row.dominant_element || 'Fire',
+          dominantElement: row.dominant_element ?? 'Fire',
           dominantModality: 'Mutable',
           signature: `DYNAMIC-AGENT-${row.user_id}`
         },
@@ -98,11 +98,11 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
           currentMood: 'contemplative',
           evolutionStage: 1,
         },
-        monicaCreationStory: profile.personalContext?.lifeStory || profile.personalContext?.aboutYourself || '',
+        monicaCreationStory: profile.personalContext?.lifeStory ?? profile.personalContext?.aboutYourself ?? '',
         coreBeliefs: profile.personalContext?.values ? [profile.personalContext.values] : [],
         quotes: profile.personalContext?.poetry ? [profile.personalContext.poetry] : [],
         abilities: {
-          specialty: row.bio || 'Wisdom',
+          specialty: row.bio ?? 'Wisdom',
           wisdomDomains: [],
           teachingStyle: 'Intuitive',
           resonanceType: 'Spirit',

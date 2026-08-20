@@ -84,7 +84,7 @@ export function InvitePanel({
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setError(data.message || "Could not create an invite link.");
+        setError(data.message ?? "Could not create an invite link.");
         return;
       }
       onChanged?.();
@@ -137,7 +137,7 @@ export function InvitePanel({
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setError(data.message || "Could not add this companion.");
+        setError(data.message ?? "Could not add this companion.");
         return;
       }
       onChanged?.();

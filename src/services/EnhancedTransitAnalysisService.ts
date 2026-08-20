@@ -203,7 +203,7 @@ export class EnhancedTransitAnalysisService {
         isRetrograde: Boolean(position.isRetrograde) || false,
         dignity,
         strength,
-        locationInfluence: locationInfluence?.finalInfluence || 1.0,
+        locationInfluence: locationInfluence?.finalInfluence ?? 1.0,
         culinaryRecommendations,
       };
     });
@@ -231,7 +231,7 @@ export class EnhancedTransitAnalysisService {
       );
 
       // Calculate dignity-modified influence
-      let dignityModifiedInfluence: number = aspect.influence || 0;
+      let dignityModifiedInfluence: number = aspect.influence ?? 0;
 
       if (planet1Data && planet2Data) {
         // Modify influence based on planetary dignities

@@ -104,8 +104,8 @@ export class IngredientService implements IngredientServiceInterface {
     const inputNorm = normalize(normalizedName);
     const allIngredients = this.getAllIngredientsFlat();
     return (
-      allIngredients.find((ingredient) => normalize(ingredient.name) === inputNorm) ||
-      allIngredients.find((ingredient) => normalize(ingredient.name).includes(inputNorm)) ||
+      allIngredients.find((ingredient) => normalize(ingredient.name) === inputNorm) ??
+      allIngredients.find((ingredient) => normalize(ingredient.name).includes(inputNorm)) ??
       allIngredients.find((ingredient) => inputNorm.includes(normalize(ingredient.name)))
     );
   }
@@ -114,7 +114,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   getIngredientsByCategory(category: string): UnifiedIngredient[] {
     const normalizedCategory = category.toLowerCase().trim();
-    return this.ingredientCache.get(normalizedCategory) || [];
+    return this.ingredientCache.get(normalizedCategory) ?? [];
   }
   /**
    * Get ingredients by subcategory
@@ -306,7 +306,7 @@ export class IngredientService implements IngredientServiceInterface {
       const influences =
         ((ingredient as Record<string, unknown>).astrologicalInfluences as
           | string[]
-          | undefined) || [];
+          | undefined) ?? [];
       return influences.some((influence: string) =>
         influence.toLowerCase().includes(sign.toLowerCase()),
       );
@@ -515,7 +515,7 @@ export class IngredientService implements IngredientServiceInterface {
         };
       })
       .filter(
-        (item) => item.similarityScore >= (options.similarityThreshold || 0.5),
+        (item) => item.similarityScore >= (options.similarityThreshold ?? 0.5),
       )
       .sort((a, b) => b.similarityScore - a.similarityScore);
     // Apply limit
@@ -552,10 +552,10 @@ export class IngredientService implements IngredientServiceInterface {
     ingredient: Partial<UnifiedIngredient>,
   ): UnifiedIngredient {
     const enhanced = {
-      id: ingredient.id || `ingredient_${Date.now()}`,
-      name: ingredient.name || "Unknown Ingredient",
-      category: ingredient.category || "uncategorized",
-      elementalProperties: ingredient.elementalProperties || {
+      id: ingredient.id ?? `ingredient_${Date.now()}`,
+      name: ingredient.name ?? "Unknown Ingredient",
+      category: ingredient.category ?? "uncategorized",
+      elementalProperties: ingredient.elementalProperties ?? {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -606,7 +606,7 @@ export class IngredientService implements IngredientServiceInterface {
   ): ElementalProperties {
     // Return existing properties or defaults
     return (
-      ingredient.elementalProperties || {
+      ingredient.elementalProperties ?? {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -627,8 +627,8 @@ export class IngredientService implements IngredientServiceInterface {
         entropy: 0.5,
         reactivity: 0.5,
         gregsEnergy: 0,
-        kalchm: ingredient.kalchm || 0,
-        monica: ingredient.monica || 0,
+        kalchm: ingredient.kalchm ?? 0,
+        monica: ingredient.monica ?? 0,
       };
     }
     const {
@@ -650,8 +650,8 @@ export class IngredientService implements IngredientServiceInterface {
       entropy,
       reactivity,
       gregsEnergy,
-      kalchm: ingredient.kalchm || 0,
-      monica: ingredient.monica || 0,
+      kalchm: ingredient.kalchm ?? 0,
+      monica: ingredient.monica ?? 0,
     };
   }
   /**

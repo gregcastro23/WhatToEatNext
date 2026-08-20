@@ -94,19 +94,19 @@ export async function POST(request: NextRequest) {
     const instacartPayload: InstacartRecipeRequest = {
       title: body.title,
       image_url: imageUrl,
-      author: body.author || "Alchm Kitchen",
+      author: body.author ?? "Alchm Kitchen",
       servings: body.servings,
       cooking_time: body.cooking_time,
       external_reference_id: body.external_reference_id,
       content_creator_credit_info:
-        body.content_creator_credit_info ||
+        body.content_creator_credit_info ??
         "Recipe by Alchm Kitchen — alchm.kitchen",
-      expires_in: body.expires_in || 365,
+      expires_in: body.expires_in ?? 365,
       instructions: body.instructions,
       ingredients,
       landing_page_configuration: {
         partner_linkback_url:
-          body.landing_page_configuration?.partner_linkback_url ||
+          body.landing_page_configuration?.partner_linkback_url ??
           "https://alchm.kitchen/menu-planner",
         enable_pantry_items:
           body.landing_page_configuration?.enable_pantry_items ?? true,
