@@ -25,12 +25,12 @@ its `PLANETARY_ALCHEMY` table. Deriving ESMS from Fire/Water/Earth/Air is called
 
 Which planets feed which quantity:
 
-| Quantity | Contributing planets |
-|---|---|
-| Spirit | Sun, Mercury, Jupiter, Saturn |
-| Essence | Moon, Venus, Mars, Jupiter, Uranus, Neptune, Pluto |
-| Matter | Moon, Venus, Mars, Saturn, Uranus, Pluto |
-| Substance | Mercury, Neptune |
+| Quantity  | Contributing planets                               |
+| --------- | -------------------------------------------------- |
+| Spirit    | Sun, Mercury, Jupiter, Saturn                      |
+| Essence   | Moon, Venus, Mars, Jupiter, Uranus, Neptune, Pluto |
+| Matter    | Moon, Venus, Mars, Saturn, Uranus, Pluto           |
+| Substance | Mercury, Neptune                                   |
 
 Consequences worth knowing before designing anything on top of ESMS:
 
@@ -95,6 +95,10 @@ none — not a number synthesized from their elements.
 - **Kalchm / Monica** — thermodynamic derivations that take quantities **and**
   elements as separate inputs. Combining the two axes in a formula is correct;
   deriving one from the other is not.
+- **Canonical ESMS price index** — the dimensionless neutral-participant cost
+  index served by `alchm.kitchen/api/economy/price-index`. Kitchen owns the
+  astronomical quote; Agents owns Solana token identity and consumes the quote
+  unchanged. It is never a synthetic USD or SOL market price (ADR-013).
 
 ## Related
 
