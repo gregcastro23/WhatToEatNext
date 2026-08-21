@@ -32,20 +32,32 @@ import type { PlanetPositionData } from "@/utils/astrology/positions";
 const FIXED_DATE = new Date("2026-07-20T12:00:00.000Z");
 
 const SIGN_INDEX: Record<string, number> = {
-  aries: 0, taurus: 1, gemini: 2, cancer: 3, leo: 4, virgo: 5,
-  libra: 6, scorpio: 7, sagittarius: 8, capricorn: 9, aquarius: 10, pisces: 11,
+  aries: 0,
+  taurus: 1,
+  gemini: 2,
+  cancer: 3,
+  leo: 4,
+  virgo: 5,
+  libra: 6,
+  scorpio: 7,
+  sagittarius: 8,
+  capricorn: 9,
+  aquarius: 10,
+  pisces: 11,
 };
 
 function planetAt(
   sign: string,
   degree: number,
   isRetrograde = false,
-): PlanetPositionData {
+  distance?: number,
+): PlanetPositionData & { distance?: number } {
   return {
     sign: sign as PlanetPositionData["sign"],
     degree,
     exactLongitude: SIGN_INDEX[sign] * 30 + degree,
     isRetrograde,
+    ...(distance === undefined ? {} : { distance }),
   };
 }
 
@@ -65,11 +77,55 @@ function fixtureSky(): Record<string, PlanetPositionData> {
   };
 }
 
+/** Mean-distance fixture: Λ(r̄/r)² is live, but centered at factor 1 per body. */
+function quantizedFieldSky(): Record<
+  string,
+  PlanetPositionData & { distance: number }
+> {
+  const distances: Record<string, number> = {
+    Sun: 1.000151,
+    Moon: 0.00257,
+    Mercury: 1.05278,
+    Venus: 1.01621,
+    Mars: 1.94426,
+    Jupiter: 5.42979,
+    Saturn: 9.48438,
+    Uranus: 19.49877,
+    Neptune: 29.88355,
+    Pluto: 35.52719,
+  };
+  return Object.fromEntries(
+    Object.entries(fixtureSky()).map(([body, position]) => [
+      body,
+      { ...position, distance: distances[body] },
+    ]),
+  ) as Record<string, PlanetPositionData & { distance: number }>;
+}
+
 const constantProvider =
   (sky: Record<string, PlanetPositionData>): PositionsProvider =>
   () => ({ positions: sky, degraded: null });
 
 describe("computeSkySample — the EEI formula", () => {
+  it("prices the once-quantized micro-ESMS state, never display-rounded K", () => {
+    const sample = computeSkySample(quantizedFieldSky(), FIXED_DATE);
+    const tokens = ["Spirit", "Essence", "Matter", "Substance"] as const;
+    const totalMicro = tokens.reduce(
+      (sum, token) => sum + sample.quantizedMicroEsms[token],
+      0,
+    );
+
+    for (const token of tokens) {
+      expect(sample.quantizedMicroEsms[token]).toBe(
+        Math.floor(sample.continuousK[token] * 1_000_000),
+      );
+      expect(sample.weights[token]).toBe(
+        sample.quantizedMicroEsms[token] / totalMicro,
+      );
+    }
+    expect(sample.aNumber).toBeCloseTo(totalMicro / 1_000_000, 4);
+  });
+
   it("round-trips from livePricing's own constants (no copied numbers)", () => {
     const sample = computeSkySample(fixtureSky(), FIXED_DATE);
     const tokens = ["Spirit", "Essence", "Matter", "Substance"] as const;
@@ -100,19 +156,45 @@ describe("computeSkySample — the EEI formula", () => {
   it("THROWS on an empty sky instead of quoting — a broken engine must never price", () => {
     // The prototype's route swallowed this and served $1.0000 under
     // success:true. The throw is the design boundary that forbids it.
-    expect(() => computeSkySample({}, FIXED_DATE)).toThrow(/unusable ESMS total/);
+    expect(() => computeSkySample({}, FIXED_DATE)).toThrow(
+      /unusable ESMS total/,
+    );
   });
 });
 
 describe("buildPriceIndexSnapshot — determinism and honesty", () => {
+  it("publishes the Gaussian-integrated state and calibrated Hamiltonian audit", () => {
+    const snapshot = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(quantizedFieldSky()),
+    );
+
+    expect(snapshot.physics.quantization.unit).toBe("micro-ESMS");
+    expect(snapshot.physics.quantization.rounding).toBe("floor-once");
+    expect(snapshot.physics.gaussian.integralNormalization).toBe(1);
+    expect(snapshot.physics.gaussian.sigmaAffectsGlobalQuote).toBe(false);
+    expect(snapshot.physics.hamiltonian).not.toBeNull();
+    expect(snapshot.physics.hamiltonian?.energy).toBeGreaterThanOrEqual(0);
+    expect(snapshot.physics.hamiltonian?.role).toContain("audit");
+  });
+
   it("is a pure function of (bucket, provider): identical on replay", () => {
-    const a = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
-    const b = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
+    const a = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
+    const b = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
     expect(b).toEqual(a);
   });
 
   it("pins to the minute bucket: +30s identical, +61s a new bucket", () => {
-    const base = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
+    const base = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
     const same = buildPriceIndexSnapshot(
       new Date(FIXED_DATE.getTime() + 30_000),
       constantProvider(fixtureSky()),
@@ -126,26 +208,38 @@ describe("buildPriceIndexSnapshot — determinism and honesty", () => {
   });
 
   it("composite equals the global multiplier (anti-'pinned at 1.175': it MOVES with A)", () => {
-    const snapshot = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
+    const snapshot = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
     // mean(EEI) = m exactly, pre-rounding: the (w − baseline) terms sum to 0
     // over the simplex and the clamps never bind on valid weights.
     const mean =
-      snapshot.tokens.reduce((acc, t) => acc + t.index, 0) / snapshot.tokens.length;
+      snapshot.tokens.reduce((acc, t) => acc + t.index, 0) /
+      snapshot.tokens.length;
     expect(Math.abs(mean - snapshot.multiplier)).toBeLessThan(1e-3);
     // The composite is a function of the sky, not a constant of the model:
     // a different sky with a different A-number moves it.
     const shifted = fixtureSky();
     shifted.Moon = planetAt("virgo", 21.9); // different sign AND degree
-    const other = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(shifted));
+    const other = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(shifted),
+    );
     expect(other.compositeIndex).not.toBe(snapshot.compositeIndex);
   });
 
   it("moves when a planet changes SIGN (the sign-blind collapse is not reintroduced)", () => {
-    const a = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
+    const a = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
     const moved = fixtureSky();
     moved.Moon = planetAt("virgo", 12.4); // same degree, different sign
     const b = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(moved));
-    expect(b.tokens.map((t) => t.index)).not.toEqual(a.tokens.map((t) => t.index));
+    expect(b.tokens.map((t) => t.index)).not.toEqual(
+      a.tokens.map((t) => t.index),
+    );
   });
 
   it("moves WITHIN a sign (degree-level dignity + aspects reach the index)", () => {
@@ -158,7 +252,9 @@ describe("buildPriceIndexSnapshot — determinism and honesty", () => {
     late.Venus = planetAt("gemini", 25.2);
     const a = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(early));
     const b = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(late));
-    expect(b.tokens.map((t) => t.index)).not.toEqual(a.tokens.map((t) => t.index));
+    expect(b.tokens.map((t) => t.index)).not.toEqual(
+      a.tokens.map((t) => t.index),
+    );
   });
 
   it("a frozen sky reports 0.00% — the only intra-window motion is the real sect flip", () => {
@@ -168,10 +264,15 @@ describe("buildPriceIndexSnapshot — determinism and honesty", () => {
     // endpoints, 24h apart at the same wall-clock, share a sect, so the
     // headline change is exactly 0. Decorative motion beyond the sect flip
     // (the prototype's synthetic sines) would fail this test.
-    const snapshot = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
+    const snapshot = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
     for (const token of snapshot.tokens) {
       expect(token.change24hPct).toBe(0);
-      expect(token.sparkline[0]).toBe(token.sparkline[token.sparkline.length - 1]);
+      expect(token.sparkline[0]).toBe(
+        token.sparkline[token.sparkline.length - 1],
+      );
       expect(new Set(token.sparkline).size).toBeLessThanOrEqual(2);
       expect(token.sparkline).toHaveLength(SPARKLINE_POINTS);
     }
@@ -193,8 +294,7 @@ describe("buildPriceIndexSnapshot — determinism and honesty", () => {
       expect(token.sparkline[token.sparkline.length - 1]).toBe(token.index);
       if (token.change24hPct !== 0) anyChange = true;
       // change24h must recompute from the same series' endpoints.
-      const implied =
-        (token.index / token.sparkline[0] - 1) * 100;
+      const implied = (token.index / token.sparkline[0] - 1) * 100;
       expect(Math.abs(token.change24hPct - implied)).toBeLessThan(0.01);
     }
     expect(anyChange).toBe(true);
@@ -210,7 +310,10 @@ describe("buildPriceIndexSnapshot — determinism and honesty", () => {
   });
 
   it("throws (does not quote) when the provider yields an empty sky", () => {
-    const provider: PositionsProvider = () => ({ positions: {}, degraded: null });
+    const provider: PositionsProvider = () => ({
+      positions: {},
+      degraded: null,
+    });
     expect(() => buildPriceIndexSnapshot(FIXED_DATE, provider)).toThrow();
   });
 });
@@ -223,7 +326,10 @@ describe("[GOLDEN] fixture-sky pins", () => {
   // Re-derive by running this suite and reading the received values; never
   // hand-edit one number in isolation.
   it("pins the full quote row for the 2026-07-20 fixture sky", () => {
-    const snapshot = buildPriceIndexSnapshot(FIXED_DATE, constantProvider(fixtureSky()));
+    const snapshot = buildPriceIndexSnapshot(
+      FIXED_DATE,
+      constantProvider(fixtureSky()),
+    );
     // Scarcity polarity, visible in the pins: Spirit carries half the sky
     // (w 0.5029) and is the CHEAPEST quote; Substance is scarcest (w 0.0404)
     // and the DEAREST. compositeIndex is mean(index) — equal to `multiplier`
@@ -235,8 +341,12 @@ describe("[GOLDEN] fixture-sky pins", () => {
     // and did NOT move; only the multiplier-scaled quotes did.
     expect(snapshot.aNumber).toBe(6.3484);
     expect(snapshot.multiplier).toBe(1.0833);
-    expect(snapshot.tokens.map((t) => t.index)).toEqual([1.0149, 1.0483, 1.1302, 1.1401]);
-    expect(snapshot.tokens.map((t) => t.weight)).toEqual([0.5029, 0.3795, 0.0772, 0.0404]);
+    expect(snapshot.tokens.map((t) => t.index)).toEqual([
+      1.0149, 1.0483, 1.1302, 1.1401,
+    ]);
+    expect(snapshot.tokens.map((t) => t.weight)).toEqual([
+      0.5029, 0.3795, 0.0772, 0.0404,
+    ]);
     expect(snapshot.compositeIndex).toBe(1.0834);
     expect(snapshot.sunSign).toBe("cancer");
     expect(snapshot.dominantElement).toBe("Air");
@@ -252,7 +362,9 @@ describe("getLivePriceIndexSnapshot — the per-bucket memo", () => {
     // hit the memo (object identity), which is what makes concurrent polls
     // agree on one instance.
     const a = getLivePriceIndexSnapshot(FIXED_DATE);
-    const b = getLivePriceIndexSnapshot(new Date(FIXED_DATE.getTime() + 10_000));
+    const b = getLivePriceIndexSnapshot(
+      new Date(FIXED_DATE.getTime() + 10_000),
+    );
     expect(b).toBe(a);
     const c = getLivePriceIndexSnapshot(
       new Date(FIXED_DATE.getTime() + ORACLE_BUCKET_MS),

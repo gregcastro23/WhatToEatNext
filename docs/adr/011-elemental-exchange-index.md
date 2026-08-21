@@ -8,11 +8,11 @@
 The economy already carries three live price surfaces, none of which quotes a
 per-token number:
 
-| surface | what it prices | per-token? |
-|---|---|---|
-| `src/lib/economy/livePricing.ts` | global action-cost multiplier `clamp(1 + (A − 20)/100, 0.85, 1.35)`; per-token only *personalized* (natal × transit affinity) | no global per-token value |
-| `src/lib/economy/celestial.ts` | reward mirror; normalized per-coin `transitWeights` from the same sky | weights, not prices |
-| `src/lib/economy/swapRates.ts` | pairwise token↔token rates off the planetary hour/day rulers | pairwise only |
+| surface                          | what it prices                                                                                                                | per-token?                |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `src/lib/economy/livePricing.ts` | global action-cost multiplier `clamp(1 + (A − 20)/100, 0.85, 1.35)`; per-token only _personalized_ (natal × transit affinity) | no global per-token value |
+| `src/lib/economy/celestial.ts`   | reward mirror; normalized per-coin `transitWeights` from the same sky                                                         | weights, not prices       |
+| `src/lib/economy/swapRates.ts`   | pairwise token↔token rates off the planetary hour/day rulers                                                                  | pairwise only             |
 
 The sibling prototype (`AlchmAgentsSolana`, commit `e64c0e2`) shipped a
 "live elemental price index" whose audit found, among other defects: a
@@ -26,7 +26,7 @@ to (0.25 vs 0.35), `success: true` responses carrying fabricated `$1.0000`
 quotes on ephemeris failure, a hardcoded SOL/USD rate of 185.5, and fallback
 UI that renders placeholder mint addresses as live, copyable, explorer-linked
 quotes. This ADR is the flagship replacement, designed so that none of those
-defect classes is *expressible*.
+defect classes is _expressible_.
 
 Two real USD rails already exist in this repo, and they disagree:
 
@@ -57,8 +57,8 @@ EEI_q(t) = clamp( m(t) × (1 − (PERSONALIZATION_SCALE / 2) × (w_q(t) − BASE
 equal to the uniform baseline.** Substituting `natal_q = BASELINE_WEIGHT`
 into livePricing's affinity `(natal_q + w_q)/2 − BASELINE_WEIGHT` yields
 `(w_q − BASELINE_WEIGHT)/2`; the rest is livePricing's own per-token clamp
-formula unchanged. The index is therefore *the price the market as a whole
-faces* — the cost multiplier of a participant with no natal bias. Every
+formula unchanged. The index is therefore _the price the market as a whole
+faces_ — the cost multiplier of a participant with no natal bias. Every
 constant is **imported from `livePricing.ts`**, never copied; a test asserts
 the identity by importing the same symbols.
 
@@ -74,7 +74,7 @@ and `m ∈ [0.85, 1.35]`, so `EEI ∈ [0.690625, 1.434375]` — strictly inside 
 
 **Invariant (the anti-`$1.175` guard):** `mean_q(EEI_q) = m(t)` exactly
 (pre-clamp; the clamps never bind on valid input, above). The composite
-*moves* with the A-number by construction — pinned by test at fixed instants,
+_moves_ with the A-number by construction — pinned by test at fixed instants,
 alongside a negative control proving per-token values differ from each other
 when weights are non-uniform.
 
@@ -103,16 +103,16 @@ not reproducible; the oracle pins to the local engine and names it in
 
 - 24h change is a real recomputation at t−24h (planetary positions are
   deterministic), not stored state and not a waveform.
-- The sparkline is the *same formula* at 25 hourly buckets — it cannot
+- The sparkline is the _same formula_ at 25 hourly buckets — it cannot
   contradict the headline quote.
 - Any node computes bit-identical payloads for the same time bucket
   (`ORACLE_BUCKET_MS = 60_000`), so horizontally-scaled instances agree.
 - Within-sign motion moves the index: aspects enter via `exactLongitude` and
   dignity via the degree-level manifest (ADR-lineage: #721/#722), so the
-  index is not a step function of the sign tuple. Distance modulation
-  (`Λ = M̂(r̄/r)²`) is **deliberately flat** here because the positions util
-  supplies no distances — matching what the live economy paths themselves
-  price with today. Sourcing real `distanceAu` is future work for both.
+  index is not a step function of the sign tuple. **Amended by ADR-013:** the
+  oracle-only adapter now adds `astronomy-engine` geocentric distances, so the
+  ruled `Λ = M̂(r̄/r)²` tensor is live without widening the shared positions
+  module's interface.
 
 ### 4. Failure degrades honestly
 
@@ -144,14 +144,14 @@ the operator can see the gate state.
 
 The four mints are **PDAs**, seeds `["esms_mint", <mint_id 0..3>]` under
 program `5QheuqaicKvPPRFEoEXwaE5xaFp7gauvJCfsjpQv8WzD`, so they are
-*reproducible from their basis* rather than transcribed:
+_reproducible from their basis_ rather than transcribed:
 
-| id | token | mint |
-|---|---|---|
-| 0 | Spirit | `K5kwwomtWYydxJacA7bC5yUEW9TtEuVqBKBoqAWLmhQ` |
-| 1 | Essence | `3FcpToU7bj4sLD687uecbesEjzjxBfqYn2EcBXJKPaCf` |
-| 2 | Matter | `7naJZozLrknDF3dguAdEWn7Z4MviUkXitjhaAt57Vkb4` |
-| 3 | Substance | `6RY6ZG1eJQ2uEvpyA6XK74WyF1MpTYbw97hdhELqDUsa` |
+| id  | token     | mint                                           |
+| --- | --------- | ---------------------------------------------- |
+| 0   | Spirit    | `K5kwwomtWYydxJacA7bC5yUEW9TtEuVqBKBoqAWLmhQ`  |
+| 1   | Essence   | `3FcpToU7bj4sLD687uecbesEjzjxBfqYn2EcBXJKPaCf` |
+| 2   | Matter    | `7naJZozLrknDF3dguAdEWn7Z4MviUkXitjhaAt57Vkb4` |
+| 3   | Substance | `6RY6ZG1eJQ2uEvpyA6XK74WyF1MpTYbw97hdhELqDUsa` |
 
 Derivation reproduced independently (all bump 255), and **existence verified
 against devnet** (`getAccountInfo`, slot 484097582): every account is live and
@@ -163,8 +163,8 @@ program PDA, not a keypair a human holds. Supplies at check:
 
 ⚠️ **The gate is validity-only, by construction.** WTEN makes no Solana RPC
 call — adding one would put a third-party endpoint in the render path of a
-public page for a decorative link. So the gate proves an address is *well
-formed and deliberately configured*, not that it still resolves. The
+public page for a decorative link. So the gate proves an address is _well
+formed and deliberately configured_, not that it still resolves. The
 existence check above is a deploy-time fact recorded here; re-verify it when
 the cluster or program id changes. This is also why the mirror is a link
 only: no balance, supply, or price is ever read from Solana.
@@ -193,7 +193,7 @@ collapses to a static grid under `prefers-reduced-motion`.
   canonical NY observer), and Moon ingress steps. That is the real engine's
   real variability — the ticker must not decorate it.
 - `mean(EEI) = m` means a flat-weights sky shows four equal quotes. Honest:
-  that sky *is* symmetric.
+  that sky _is_ symmetric.
 
 ## Open items
 
@@ -201,8 +201,8 @@ collapses to a static grid under `prefers-reduced-motion`.
   Resolved by **ADR-012**: measured over 17,520 hourly real skies, re-centered
   20 → 5.84 and 100 → 6.1. The oracle inherits this by import, and its golden
   pins were re-derived there.
-- Real distance modulation (shared with livePricing/celestial — they are
-  distance-flat today too).
+- ~~Real distance modulation.~~ Resolved by ADR-013's oracle-only distance
+  adapter and published quantized-field/Hamiltonian audit.
 - Whether `/quantities` and the admin dashboard adopt the same payload
   (they should; the route is public and cached).
 - Consolidating the ~15 inline glyph/color copies onto

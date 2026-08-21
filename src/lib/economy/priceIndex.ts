@@ -20,6 +20,8 @@
  *    engine: the local astronomy-engine positions util. The live debit path's
  *    position source is remote-first and not reproducible; `basis.engine`
  *    names the difference.
+ *  - The integrated ESMS state is quantized once to integer micro-ESMS before
+ *    weights are priced. Display rounding never feeds back into the state.
  *  - Time is quantized to ORACLE_BUCKET_MS buckets and the snapshot is a pure
  *    function of the bucket instant, so horizontally-scaled instances return
  *    identical payloads within a bucket.
@@ -31,11 +33,16 @@
  *
  * The oracle prices the ten ESMS bodies with no Ascendant vessel (the
  * esmsOscillator's OSCILLATOR_BODIES precedent: the Ascendant is an
- * observer-local 24h rotation, not a sky fact) and is distance-flat, matching
- * what the live economy paths themselves price with today (ADR-011 §3).
+ * observer-local 24h rotation, not a sky fact). The production adapter adds
+ * geocentric distance for the ruled Λ(r) tensor and calibrated Hamiltonian;
+ * injected legacy fixtures with no distance retain the mean-distance state.
  */
 
-import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
+import * as Astronomy from "astronomy-engine";
+import {
+  alchemize,
+  type PlanetaryPosition,
+} from "@/services/RealAlchemizeService";
 import type { DegradedInfo } from "@/types/degraded";
 import type { TokenType } from "@/types/economy";
 import { TOKEN_TYPES } from "@/types/economy";
@@ -43,6 +50,15 @@ import {
   getAccuratePlanetaryPositionsWithMeta,
   type PlanetPositionData,
 } from "@/utils/astrology/positions";
+import {
+  OSCILLATOR_BODIES,
+  OSCILLATOR_OMEGA_RAD_PER_DAY,
+  OSCILLATOR_X_BAR,
+  oscillatorCoordinate,
+  oscillatorEnergy,
+  type OscillatorSky,
+} from "@/utils/esmsOscillator";
+import { MICRO_ESMS_PER_K, quantizeEsms } from "./esmsQuantization";
 import {
   BASELINE_WEIGHT,
   PER_TOKEN_MAX,
@@ -95,6 +111,35 @@ export interface PriceIndexSnapshot {
     engine: string;
     constants: string;
   };
+  physics: PriceIndexPhysics;
+}
+
+export interface PriceIndexPhysics {
+  /** The integrated continuous Gaussian field and its one-time ledger state. */
+  state: {
+    continuousK: Record<TokenType, number>;
+    quantizedMicroEsms: Record<TokenType, number>;
+  };
+  quantization: {
+    unit: "micro-ESMS";
+    microEsmsPerK: number;
+    rounding: "floor-once";
+    weights: "q_i / sum(q)";
+  };
+  gaussian: {
+    operator: string;
+    manifold: "S1";
+    integralNormalization: 1;
+    sigmaAffectsGlobalQuote: false;
+  };
+  hamiltonian: {
+    coordinate: number;
+    momentumPerDay: number;
+    energy: number;
+    omegaRadPerDay: number;
+    equilibrium: number;
+    role: string;
+  } | null;
 }
 
 /** Per-axis circulating supply as served beside the quotes (route-attached). */
@@ -120,13 +165,54 @@ export interface PriceIndexApiPayload extends PriceIndexSnapshot {
 }
 
 /** Positions at an instant plus the util's own honesty metadata. */
+type OraclePlanetPositionData = PlanetPositionData & { distance?: number };
+
 export type PositionsProvider = (date: Date) => {
-  positions: Record<string, PlanetPositionData>;
+  positions: Record<string, OraclePlanetPositionData>;
   degraded: DegradedInfo | null;
 };
 
-const defaultProvider: PositionsProvider = (date) =>
-  getAccuratePlanetaryPositionsWithMeta(date);
+const ASTRONOMY_BODY: Record<string, Astronomy.Body> = {
+  Sun: Astronomy.Body.Sun,
+  Moon: Astronomy.Body.Moon,
+  Mercury: Astronomy.Body.Mercury,
+  Venus: Astronomy.Body.Venus,
+  Mars: Astronomy.Body.Mars,
+  Jupiter: Astronomy.Body.Jupiter,
+  Saturn: Astronomy.Body.Saturn,
+  Uranus: Astronomy.Body.Uranus,
+  Neptune: Astronomy.Body.Neptune,
+  Pluto: Astronomy.Body.Pluto,
+};
+
+/**
+ * Oracle-only distance adapter. The shared positions module intentionally has
+ * a smaller interface; the price state additionally needs geocentric range for
+ * Λ(r) and the calibrated oscillator. A failed vector calculation throws — a
+ * distance-flat fallback would silently price a different state.
+ */
+const defaultProvider: PositionsProvider = (date) => {
+  const { positions, degraded } = getAccuratePlanetaryPositionsWithMeta(date);
+  const time = Astronomy.MakeTime(date);
+  const distanceAware: Record<string, OraclePlanetPositionData> = {
+    ...positions,
+  };
+  for (const body of OSCILLATOR_BODIES) {
+    const position = positions[body];
+    if (!position) {
+      throw new Error(`price-index: position engine omitted ${body}`);
+    }
+    const vector = Astronomy.GeoVector(ASTRONOMY_BODY[body], time, true);
+    const distance = Math.hypot(vector.x, vector.y, vector.z);
+    if (!Number.isFinite(distance) || distance <= 0) {
+      throw new Error(
+        `price-index: invalid ${body} distance ${String(distance)}`,
+      );
+    }
+    distanceAware[body] = { ...position, distance };
+  }
+  return { positions: distanceAware, degraded };
+};
 
 function round(value: number, digits: number): number {
   const factor = 10 ** digits;
@@ -151,7 +237,7 @@ function clamp(value: number, min: number, max: number): number {
  * tell the truth: fields may be missing.
  */
 function asPlanetaryPositions(
-  positions: Record<string, Partial<PlanetPositionData>>,
+  positions: Record<string, Partial<OraclePlanetPositionData>>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
   for (const [planet, pos] of Object.entries(positions)) {
@@ -169,20 +255,61 @@ function asPlanetaryPositions(
       // move WITHIN signs rather than only at ingresses.
       exactLongitude:
         typeof pos.exactLongitude === "number" ? pos.exactLongitude : undefined,
+      distance: typeof pos.distance === "number" ? pos.distance : undefined,
     };
   }
   return normalized;
 }
 
-interface SkySample {
+export interface SkySample {
   eei: Record<TokenType, number>;
   weights: Record<TokenType, number>;
+  continuousK: Record<TokenType, number>;
+  quantizedMicroEsms: Record<TokenType, number>;
   aNumber: number;
   multiplier: number;
   dominantElement: string;
   sunSign: string;
   isDiurnal: boolean;
   degradedReasons: string[];
+  oscillatorCoordinates: { diurnal: number; nocturnal: number } | null;
+}
+
+function oscillatorCoordinatesFor(
+  positions: Record<string, OraclePlanetPositionData>,
+): { diurnal: number; nocturnal: number } | null {
+  const withDistance = OSCILLATOR_BODIES.filter(
+    (body) => typeof positions[body]?.distance === "number",
+  );
+  if (withDistance.length === 0) return null;
+  if (withDistance.length !== OSCILLATOR_BODIES.length) {
+    throw new Error(
+      `price-index: oscillator needs ${OSCILLATOR_BODIES.length} distances, got ${withDistance.length}`,
+    );
+  }
+
+  const sky: OscillatorSky = {};
+  for (const body of OSCILLATOR_BODIES) {
+    const position = positions[body];
+    if (
+      !position ||
+      !Number.isFinite(position.distance) ||
+      position.distance === undefined ||
+      position.distance <= 0
+    ) {
+      throw new Error(`price-index: oscillator received invalid ${body} state`);
+    }
+    sky[body] = {
+      sign: position.sign,
+      degree: position.degree,
+      exactLongitude: position.exactLongitude,
+      distanceAu: position.distance,
+    };
+  }
+  return {
+    diurnal: oscillatorCoordinate(sky, true),
+    nocturnal: oscillatorCoordinate(sky, false),
+  };
 }
 
 /**
@@ -193,23 +320,31 @@ interface SkySample {
  * is the defect class this throw exists to make inexpressible).
  */
 export function computeSkySample(
-  positions: Record<string, PlanetPositionData>,
+  positions: Record<string, OraclePlanetPositionData>,
   date: Date,
   incomingDegraded: DegradedInfo | null = null,
 ): SkySample {
   const alch = alchemize(asPlanetaryPositions(positions), null, date, {
     incomingDegraded,
   });
-  const esms = {
+  const continuousK: Record<TokenType, number> = {
     Spirit: Number(alch.esms.Spirit || 0),
     Essence: Number(alch.esms.Essence || 0),
     Matter: Number(alch.esms.Matter || 0),
     Substance: Number(alch.esms.Substance || 0),
   };
-  const total = esms.Spirit + esms.Essence + esms.Matter + esms.Substance;
-  if (!(total > 0) || !Number.isFinite(total)) {
+  const quantizedMicroEsms = {} as Record<TokenType, number>;
+  for (const token of TOKEN_TYPES) {
+    quantizedMicroEsms[token] = quantizeEsms(continuousK[token]);
+  }
+  const totalMicro = TOKEN_TYPES.reduce(
+    (sum, token) => sum + quantizedMicroEsms[token],
+    0,
+  );
+  const total = totalMicro / MICRO_ESMS_PER_K;
+  if (!(totalMicro > 0) || !Number.isFinite(totalMicro)) {
     throw new Error(
-      `price-index: engine returned unusable ESMS total ${String(total)}`,
+      `price-index: engine returned unusable ESMS total after quantization ${String(totalMicro)}`,
     );
   }
 
@@ -217,7 +352,7 @@ export function computeSkySample(
   const weights = {} as Record<TokenType, number>;
   const eei = {} as Record<TokenType, number>;
   for (const token of TOKEN_TYPES) {
-    const w = esms[token] / total;
+    const w = quantizedMicroEsms[token] / totalMicro;
     weights[token] = w;
     // The neutral participant's affinity is (BASELINE + w)/2 − BASELINE
     // = (w − BASELINE)/2; the rest is livePricing's per-token formula.
@@ -235,12 +370,15 @@ export function computeSkySample(
   return {
     eei,
     weights,
+    continuousK,
+    quantizedMicroEsms,
     aNumber: round(total, 4),
     multiplier: round(multiplier, 4),
     dominantElement: alch.metadata.dominantElement,
     sunSign: alch.metadata.sunSign,
     isDiurnal: alch.metadata.isDiurnal,
     degradedReasons: alch.degraded?.reasons ? [...alch.degraded.reasons] : [],
+    oscillatorCoordinates: oscillatorCoordinatesFor(positions),
   };
 }
 
@@ -254,7 +392,8 @@ export function buildPriceIndexSnapshot(
   at: Date,
   provider: PositionsProvider = defaultProvider,
 ): PriceIndexSnapshot {
-  const bucketMs = Math.floor(at.getTime() / ORACLE_BUCKET_MS) * ORACLE_BUCKET_MS;
+  const bucketMs =
+    Math.floor(at.getTime() / ORACLE_BUCKET_MS) * ORACLE_BUCKET_MS;
 
   const samples: SkySample[] = [];
   for (let h = SPARKLINE_HOURS; h >= 0; h--) {
@@ -275,9 +414,39 @@ export function buildPriceIndexSnapshot(
   }));
 
   const mean = (sample: SkySample): number =>
-    (sample.eei.Spirit + sample.eei.Essence + sample.eei.Matter + sample.eei.Substance) / 4;
+    (sample.eei.Spirit +
+      sample.eei.Essence +
+      sample.eei.Matter +
+      sample.eei.Substance) /
+    4;
   const compositeIndex = round(mean(now), INDEX_ROUND_DIGITS);
   const composite24hPct = round((mean(now) / mean(dayAgo) - 1) * 100, 2);
+
+  const previousHour = samples[samples.length - 2];
+  const sect = now.isDiurnal ? "diurnal" : "nocturnal";
+  const coordinate = now.oscillatorCoordinates?.[sect];
+  const previousCoordinate = previousHour.oscillatorCoordinates?.[sect];
+  const hamiltonian =
+    coordinate === undefined || previousCoordinate === undefined
+      ? null
+      : {
+          coordinate: round(coordinate, 8),
+          // Samples are one hour apart; convert dx/hour to dx/day.
+          momentumPerDay: round((coordinate - previousCoordinate) * 24, 8),
+          energy: round(
+            oscillatorEnergy(
+              coordinate,
+              (coordinate - previousCoordinate) * 24,
+              now.isDiurnal,
+            ),
+            8,
+          ),
+          omegaRadPerDay: OSCILLATOR_OMEGA_RAD_PER_DAY,
+          equilibrium: now.isDiurnal
+            ? OSCILLATOR_X_BAR.diurnal
+            : OSCILLATOR_X_BAR.nocturnal,
+          role: "calibrated state audit; not a monetary forcing term or market-value claim",
+        };
 
   const degraded = [
     ...new Set(samples.flatMap((s) => s.degradedReasons)),
@@ -295,10 +464,32 @@ export function buildPriceIndexSnapshot(
     composite24hPct,
     degraded: degraded.length > 0 ? degraded : null,
     basis: {
-      model: "ADR-011 elemental-exchange-index v1",
+      model: "ADR-011/013 canonical-esms-index v2",
       engine:
-        "astronomy-engine (local), 10 ESMS bodies, degree-level dignity + aspects, distance-flat, no Ascendant vessel",
-      constants: "imported from src/lib/economy/livePricing.ts",
+        "astronomy-engine (local), 10 ESMS bodies, geocentric longitude + distance, degree-level dignity + aspects, no Ascendant vessel",
+      constants:
+        "pricing imported from livePricing.ts; quantization from esmsQuantization.ts; Hamiltonian from esmsOscillator.ts",
+    },
+    physics: {
+      state: {
+        continuousK: Object.fromEntries(
+          TOKEN_TYPES.map((token) => [token, round(now.continuousK[token], 8)]),
+        ) as Record<TokenType, number>,
+        quantizedMicroEsms: { ...now.quantizedMicroEsms },
+      },
+      quantization: {
+        unit: "micro-ESMS",
+        microEsmsPerK: MICRO_ESMS_PER_K,
+        rounding: "floor-once",
+        weights: "q_i / sum(q)",
+      },
+      gaussian: {
+        operator: "Psi(theta,t) = S(sect) Lambda(r) g(theta-theta_p)",
+        manifold: "S1",
+        integralNormalization: 1,
+        sigmaAffectsGlobalQuote: false,
+      },
+      hamiltonian,
     },
   };
 }
@@ -307,8 +498,11 @@ export function buildPriceIndexSnapshot(
 // construction, so this memo is a cost optimization, not a consistency risk.
 let memo: { bucketMs: number; snapshot: PriceIndexSnapshot } | null = null;
 
-export function getLivePriceIndexSnapshot(now: Date = new Date()): PriceIndexSnapshot {
-  const bucketMs = Math.floor(now.getTime() / ORACLE_BUCKET_MS) * ORACLE_BUCKET_MS;
+export function getLivePriceIndexSnapshot(
+  now: Date = new Date(),
+): PriceIndexSnapshot {
+  const bucketMs =
+    Math.floor(now.getTime() / ORACLE_BUCKET_MS) * ORACLE_BUCKET_MS;
   if (memo?.bucketMs === bucketMs) return memo.snapshot;
   const snapshot = buildPriceIndexSnapshot(new Date(bucketMs));
   memo = { bucketMs, snapshot };
