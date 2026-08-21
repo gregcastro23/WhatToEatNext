@@ -56,9 +56,7 @@ function isAuthorized(request: NextRequest): boolean {
   const expected =
     process.env.ALCHM_KITCHEN_SYNC_SECRET ?? process.env.INTERNAL_API_SECRET;
   if (!expected) {
-    console.error(
-      "[waitlist] ALCHM_KITCHEN_SYNC_SECRET is not configured — refusing all requests."
-    );
+    process.stderr.write("[waitlist] ALCHM_KITCHEN_SYNC_SECRET is not configured — refusing all requests.\n");
     return false;
   }
 
@@ -111,7 +109,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // do so without spamming anyone.
     const existing = await userDatabase.getUserByEmail(email);
     if (existing) {
-      console.log(`[waitlist] ${email} already on the list (${source})`);
+      process.stdout.write(`[waitlist] ${email} already on the list (${source})\n`);
       return NextResponse.json({
         ok: true,
         created: false,
@@ -156,19 +154,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         welcomeEmailSent = await emailService
           .sendWelcomeEmail(email, name)
           .catch((error: unknown) => {
-            console.error(`[waitlist] welcome email failed for ${email}:`, error);
+            process.stderr.write(`[waitlist] welcome email failed for ${email}: ${String(error)}\n`);
             return false;
           });
       } else {
-        console.warn(
-          "[waitlist] email service not configured — no welcome email sent."
-        );
+        process.stderr.write("[waitlist] email service not configured — no welcome email sent.\n");
       }
     }
 
-    console.log(
-      `[waitlist] ${created ? "created" : "existing"} ${email} via ${source}${event ? ` @ ${event}` : ""}`
-    );
+    process.stdout.write(`[waitlist] ${created ? "created" : "existing"} ${email} via ${source}${event ? ` @ ${event}` : ""}\n`);
 
     return NextResponse.json({
       ok: true,
@@ -177,7 +171,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       welcomeEmailSent,
     });
   } catch (error) {
-    console.error(`[waitlist] enrolment failed for ${email}:`, error);
+    process.stderr.write(`[waitlist] enrolment failed for ${email}: ${String(error)}\n`);
     return NextResponse.json(
       { ok: false, message: "Could not add that address right now" },
       { status: 500 },
