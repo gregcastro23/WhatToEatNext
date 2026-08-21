@@ -17,13 +17,34 @@ import NextAuth from "next-auth";
 import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { logAuthEvent } from "@/services/authEventsService";
+import type { UserWithProfile } from "@/services/userDatabaseService";
 import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
 import { UserRole } from "./roles";
+import type { JWT } from "next-auth/jwt";
 
 const logger = createLogger("auth");
 
 const PROVIDER_GOOGLE = "google";
+
+interface ExtendedJWT extends JWT {
+  userId?: string;
+  role?: "admin" | "user";
+  onboardingComplete?: boolean;
+  tier?: "free" | "premium";
+  recipesGeneratedToday?: number;
+  sessionId?: string;
+  deviceSessionId?: string;
+  provider?: string;
+}
+
+interface DailyLimitRow {
+  recipes_generated: number;
+}
+
+interface UpdateSessionPayload {
+  recipesGeneratedToday?: number;
+}
 
 function describeError(err: unknown): { code: string; message: string } {
   if (err instanceof Error) {
@@ -32,16 +53,20 @@ function describeError(err: unknown): { code: string; message: string } {
   return { code: "UnknownError", message: String(err).slice(0, 500) };
 }
 
+const recordAuthEvent = (params: Parameters<typeof logAuthEvent>[0]): void => {
+  logAuthEvent(params).catch(() => {});
+};
+
 /** 
  * Simple short-lived cache to prevent redundant DB hits during the 
  * multi-step auth handshake (signIn -> jwt -> session).
  * Keys are email addresses, values are UserWithProfile.
  */
-const userCache = new Map<string, { data: any; timestamp: number }>();
-const pendingLookups = new Map<string, Promise<any>>();
+const userCache = new Map<string, { data: UserWithProfile | null | "TIMEOUT_ERROR"; timestamp: number }>();
+const pendingLookups = new Map<string, Promise<UserWithProfile | null>>();
 const CACHE_TTL = 30000; // 30 seconds
 
-async function getCachedUser(email: string) {
+async function getCachedUser(email: string): Promise<UserWithProfile | null> {
   const normalizedEmail = email.toLowerCase().trim();
   const cached = userCache.get(normalizedEmail);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -53,10 +78,10 @@ async function getCachedUser(email: string) {
   
   // Check if there is already a lookup in progress for this email
   if (pendingLookups.has(normalizedEmail)) {
-    return pendingLookups.get(normalizedEmail);
+    return pendingLookups.get(normalizedEmail)!;
   }
   
-  const lookupPromise = (async () => {
+  const lookupPromise = (async (): Promise<UserWithProfile | null> => {
     try {
       const { userDatabase } = await import("@/services/userDatabaseService");
       // 8s timeout: gives Vercel cold-start enough headroom for Railway TLS handshake
@@ -64,7 +89,7 @@ async function getCachedUser(email: string) {
       // still leaves slack for the rest of the handler.
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(normalizedEmail),
-        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
+        new Promise<UserWithProfile | null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
       ]);
       
       // Cache both valid users and null (not found)
@@ -72,7 +97,6 @@ async function getCachedUser(email: string) {
       return dbUser;
     } catch (error) {
       // Cache the timeout/error momentarily so the jwt callback doesn't hang again
-      // Using a string symbol for error caching
       userCache.set(normalizedEmail, { data: "TIMEOUT_ERROR", timestamp: Date.now() });
       throw error;
     } finally {
@@ -84,6 +108,194 @@ async function getCachedUser(email: string) {
   return lookupPromise;
 }
 
+/**
+ * Handle background asynchronous post-sign-in tasks
+ */
+async function runBackgroundSignInTasks(
+  user: { email: string; name?: string | null },
+  dbUser: UserWithProfile,
+  isNewUser: boolean,
+): Promise<void> {
+  try {
+    logger.info(`Starting background tasks for ${user.email}`);
+
+    // Welcome token grant — run FIRST.
+    const { tokenEconomy } = await import("@/services/TokenEconomyService");
+    await tokenEconomy.grantSignupBonus(dbUser.id);
+
+    // 0. Calculate and synchronize natal chart if birth data is present but not computed
+    const { profile } = dbUser;
+    const { birthData, natalChart } = profile;
+
+    if (birthData && (!natalChart || !profile.onboardingComplete)) {
+      try {
+        logger.info(`Calculating missing natal chart for ${user.email}`);
+        const { calculateNatalChart } = await import("@/services/natalChartService");
+        const { userDatabase } = await import("@/services/userDatabaseService");
+        const { commensalDatabase } = await import("@/services/commensalDatabaseService");
+        
+        const newChart = await calculateNatalChart(birthData);
+        await userDatabase.updateUserProfile(dbUser.id, {
+          natalChart: newChart,
+          onboardingComplete: true,
+        });
+        
+        // Store in saved charts (Cosmic Identity registry)
+        try {
+          const existingCharts = await commensalDatabase.getSavedChartsForUser(dbUser.id);
+          const hasCosmicIdentity = existingCharts.some((c) => c.chartType === "cosmic_identity");
+          if (!hasCosmicIdentity) {
+            await commensalDatabase.createSavedChart({
+              ownerId: dbUser.id,
+              label: "My Cosmos",
+              chartType: "cosmic_identity",
+              birthData: newChart.birthData,
+              natalChart: newChart,
+            });
+          }
+        } catch (e) {
+          logger.error("Failed to sync cosmic identity to commensal db:", e);
+        }
+
+        logger.info(`Successfully generated missing natal chart for ${user.email}`);
+      } catch (chartErr) {
+        logger.error(`Failed to generate chart in background for ${user.email}:`, chartErr);
+      }
+    } else if (natalChart) {
+      // Ensure they have it registered in their saved charts even if profile already had it
+      try {
+        const { commensalDatabase } = await import("@/services/commensalDatabaseService");
+        const existingCharts = await commensalDatabase.getSavedChartsForUser(dbUser.id);
+        if (!existingCharts.some((c) => c.chartType === "cosmic_identity")) {
+          await commensalDatabase.createSavedChart({
+            ownerId: dbUser.id,
+            label: "My Cosmos",
+            chartType: "cosmic_identity",
+            birthData: natalChart.birthData ?? birthData,
+            natalChart,
+          });
+        }
+      } catch (_e) {
+        // silent failure for sync
+      }
+    }
+
+    // Agent sync for agentic users
+    if (isNewUser && user.email.endsWith("@agentic.alchm.kitchen")) {
+      const { email } = user;
+      const displayName = user.name ?? undefined;
+      const [agentId] = email.split("@");
+
+      const paSecret = process.env.INTERNAL_API_SECRET;
+      const paBase = getServiceUrlSafe("planetaryAgentsApi");
+
+      if (!paSecret) {
+        logger.warn(`agent-sync skipped for ${email}: missing INTERNAL_API_SECRET or PA base URL`);
+      } else {
+        const executeAgentSync = async (): Promise<void> => {
+          try {
+            const resp = await fetch(`${paBase}/api/internal/agent-sync`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Sync-Secret": paSecret,
+              },
+              body: JSON.stringify({
+                agentId,
+                displayName: displayName ?? agentId,
+                email,
+              }),
+            });
+            if (resp.ok) {
+              logger.info(`agent-sync ok for ${email} → PA`);
+            } else {
+              const text = await resp.text().catch(() => "(unreadable)");
+              logger.warn(`agent-sync HTTP ${resp.status} for ${email} → PA: ${text}`);
+            }
+          } catch (syncErr) {
+            logger.warn(`agent-sync request failed for ${email} → PA (non-blocking):`, syncErr);
+          }
+        };
+        executeAgentSync().catch(() => {});
+      }
+    }
+
+    // 1. Auto-provision admin
+    if (isAdminEmail(user.email)) {
+      const { subscriptionService } = await import("@/services/subscriptionService");
+      const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
+      if (sub.tier !== "premium") {
+        const now = new Date();
+        const yearFromNow = new Date(now);
+        yearFromNow.setFullYear(yearFromNow.getFullYear() + 10);
+        await subscriptionService.updateSubscription(dbUser.id, {
+          tier: "premium",
+          status: "active",
+          currentPeriodStart: now.toISOString(),
+          currentPeriodEnd: yearFromNow.toISOString(),
+        });
+        logger.info(`Auto-provisioned premium for ${user.email}`);
+      }
+    }
+
+    // 2. Send emails
+    const emailService = (await import("@/services/emailService")).default;
+    emailService.ensureInitialized();
+    if (emailService.isConfigured()) {
+      const userName = user.name ?? user.email;
+      const emailPromises = [
+        emailService.sendLoginNotificationEmail(user.email, userName, isNewUser)
+      ];
+      if (isNewUser) {
+        emailPromises.push(emailService.sendWelcomeEmail(user.email, userName));
+      }
+      await Promise.allSettled(emailPromises);
+      logger.info(`Background emails sent for ${user.email}`);
+    }
+
+    // 3. In-app notifications
+    try {
+      const { notificationDatabase } = await import("@/services/notificationDatabaseService");
+      const userName = user.name ?? user.email;
+
+      if (isNewUser) {
+        notificationDatabase.createNotification(
+          dbUser.id,
+          "welcome",
+          "Welcome to Alchm Kitchen!",
+          `Welcome, ${userName}! Your personalized culinary journey begins now. Complete your birth chart to unlock cosmic food recommendations.`,
+        ).catch(() => {});
+      } else {
+        notificationDatabase.createNotification(
+          dbUser.id,
+          "login_greeting",
+          "Welcome Back!",
+          `Good to see you again, ${userName}. Check out your latest cosmic insights.`,
+          { expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() },
+        ).catch(() => {});
+      }
+
+      // Daily insight notification — for users with a natal chart
+      const chartForInsight = profile.natalChart;
+
+      const hasPositions = Boolean(
+        chartForInsight?.planetaryPositions ??
+        (chartForInsight?.planets && chartForInsight.planets.length > 0)
+      );
+
+      if (hasPositions && chartForInsight) {
+        import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
+          generateDailyInsightNotification(dbUser.id, chartForInsight).catch(() => {});
+        }).catch(() => {});
+      }
+    } catch (notifError) {
+      logger.error("Notification creation failed (non-blocking):", notifError);
+    }
+  } catch (bgError) {
+    logger.error("Background task error:", bgError);
+  }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   debug: process.env.NODE_ENV === "development" || process.env.DEBUG === "true",
@@ -91,9 +303,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signOut(message) {
       // In JWT mode NextAuth passes { token } — delete the DB session record so
       // the session slot is freed and can no longer be used to verify revocation.
-      const token = (message as any)?.token as
-        | { sessionId?: string; userId?: string; email?: string }
-        | undefined;
+      const rawToken = "token" in message ? message.token : undefined;
+      const token = rawToken as ExtendedJWT | undefined;
       const sessionId = token?.sessionId;
       if (sessionId) {
         try {
@@ -106,7 +317,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           logger.warn("Session cleanup on signOut failed (non-blocking):", e);
         }
       }
-      void logAuthEvent({
+      recordAuthEvent({
         type: "signout",
         status: "info",
         userId: token?.userId ?? null,
@@ -119,11 +330,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // Preserve the edge-safe authorized and session callbacks
     ...authConfig.callbacks,
 
-    async signIn({ user, account }) {
+    async signIn({ user, account }): Promise<boolean> {
       logger.info(`signIn callback started for ${user.email}`);
       const provider = account?.provider ?? PROVIDER_GOOGLE;
 
-      void logAuthEvent({
+      recordAuthEvent({
         type: "signin_started",
         status: "info",
         email: user.email ?? null,
@@ -132,7 +343,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (!user.email || !account) {
         logger.warn("signIn failed: Missing email or account");
-        void logAuthEvent({
+        recordAuthEvent({
           type: "signin_aborted",
           status: "failure",
           email: user.email ?? null,
@@ -144,10 +355,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       try {
-        let dbUser: any = null;
+        let dbUser: UserWithProfile | null = null;
         try {
           dbUser = await getCachedUser(user.email);
-          void logAuthEvent({
+          recordAuthEvent({
             type: "signin_user_lookup_success",
             status: "success",
             email: user.email,
@@ -157,7 +368,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
         } catch (lookupErr) {
           const { code, message } = describeError(lookupErr);
-          void logAuthEvent({
+          recordAuthEvent({
             type: "signin_user_lookup_failed",
             status: "failure",
             email: user.email,
@@ -177,8 +388,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const { userDatabase } = await import("@/services/userDatabaseService");
           logger.info(`Creating new user. isAdmin: ${isAdmin}`);
 
-          // 8s timeout: createUser opens a transaction with 3+ INSERTs. On cold-start
-          // the connection setup alone can eat 2-3s before the first query runs.
           try {
             dbUser = await Promise.race([
               userDatabase.createUser({
@@ -189,7 +398,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   ? [UserRole.ADMIN, UserRole.USER]
                   : [UserRole.USER],
               }),
-              new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8000))
+              new Promise<UserWithProfile | null>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8000))
             ]);
             if (dbUser) {
               const normEmail = user.email.toLowerCase().trim();
@@ -197,7 +406,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               if (dbUser.email) {
                 userCache.set(dbUser.email.toLowerCase().trim(), { data: dbUser, timestamp: Date.now() });
               }
-              void logAuthEvent({
+              recordAuthEvent({
                 type: "signin_user_created",
                 status: "success",
                 userId: dbUser.id,
@@ -208,7 +417,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           } catch (createErr) {
             const { code, message } = describeError(createErr);
-            void logAuthEvent({
+            recordAuthEvent({
               type: "signin_user_create_failed",
               status: "failure",
               email: user.email,
@@ -219,15 +428,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw createErr;
           }
         } else if (isAdmin && !dbUser.roles.includes(UserRole.ADMIN)) {
-          // Promote existing user to admin if they are in the admin list but don't have the role yet
           logger.info(`Promoting existing user ${user.email} to ADMIN`);
           const { userDatabase } = await import("@/services/userDatabaseService");
           await userDatabase.updateUserRole(dbUser.id, UserRole.ADMIN);
-          // Refresh cache
           dbUser.roles = [UserRole.ADMIN, UserRole.USER];
           const normEmail = user.email.toLowerCase().trim();
           userCache.set(normEmail, { data: dbUser, timestamp: Date.now() });
-          void logAuthEvent({
+          recordAuthEvent({
             type: "signin_role_promoted",
             status: "info",
             userId: dbUser.id,
@@ -236,40 +443,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
         }
 
-        // Bump login_count + last_login_at on every successful sign-in so we
-        // have real "active user" telemetry. Non-blocking — a failure here is
-        // logged but never breaks the sign-in flow.
+        // Bump login_count + last_login_at on every successful sign-in
         if (dbUser?.id) {
-          void (async () => {
+          const targetUserId = dbUser.id;
+          const updateAuthMetrics = async (): Promise<void> => {
             try {
               const { userDatabase } = await import("@/services/userDatabaseService");
-              await userDatabase.updateUserAuth(dbUser.id, { lastLoginAt: new Date() });
-              void logAuthEvent({
+              await userDatabase.updateUserAuth(targetUserId, { lastLoginAt: new Date() });
+              recordAuthEvent({
                 type: "signin_last_login_updated",
                 status: "success",
-                userId: dbUser.id,
-                email: user.email,
+                userId: targetUserId,
+                email: user.email ?? null,
                 provider,
               });
             } catch (updateErr) {
               const { code, message } = describeError(updateErr);
-              void logAuthEvent({
+              recordAuthEvent({
                 type: "signin_last_login_update_failed",
                 status: "failure",
-                userId: dbUser.id,
-                email: user.email,
+                userId: targetUserId,
+                email: user.email ?? null,
                 provider,
                 errorCode: code,
                 errorMessage: message,
               });
             }
-          })();
+          };
+          updateAuthMetrics().catch(() => {});
         }
 
         // Persist OAuth account link so accounts table stays in sync.
-        // Wrapped in a short race to avoid blocking sign-in on DB hiccups.
-        if (account) {
-          void (async () => {
+        if (dbUser && account) {
+          const targetUserId = dbUser.id;
+          const linkAccount = async (): Promise<void> => {
             try {
               const { executeQuery } = await import("@/lib/database");
               await executeQuery(
@@ -281,7 +488,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                    expires_at = EXCLUDED.expires_at,
                    updated_at = NOW()`,
                 [
-                  dbUser.id,
+                  targetUserId,
                   account.type,
                   account.provider,
                   account.providerAccountId,
@@ -294,244 +501,42 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   account.session_state ?? null,
                 ]
               );
-              void logAuthEvent({
+              recordAuthEvent({
                 type: "signin_account_link_success",
                 status: "success",
-                userId: dbUser.id,
-                email: user.email,
+                userId: targetUserId,
+                email: user.email ?? null,
                 provider: account.provider,
               });
             } catch (e) {
               logger.warn("Account link upsert failed (non-blocking):", e);
               const { code, message } = describeError(e);
-              void logAuthEvent({
+              recordAuthEvent({
                 type: "signin_account_link_failed",
                 status: "failure",
-                userId: dbUser.id,
-                email: user.email,
+                userId: targetUserId,
+                email: user.email ?? null,
                 provider: account.provider,
                 errorCode: code,
                 errorMessage: message,
               });
             }
-          })();
+          };
+          linkAccount().catch(() => {});
         }
 
-        // Fire-and-forget non-critical tasks
-        void (async () => {
-          try {
-            if (!dbUser) return;
-            logger.info(`Starting background tasks for ${user.email}`);
-            
-            // Welcome token grant — run FIRST. It's the cheapest, most
-            // user-critical background task, so completing it before the slower
-            // natal-chart calc and emails minimises the chance it's dropped if
-            // this fire-and-forget task is frozen after the sign-in response is
-            // sent. The helper is idempotent + retried internally, and re-runs
-            // on every sign-in, so a once-failed grant self-heals next time.
-            const { tokenEconomy } = await import("@/services/TokenEconomyService");
-            await tokenEconomy.grantSignupBonus(dbUser.id);
-
-            // 0. Calculate and synchronize natal chart if birth data is present but not computed
-            const profile = (dbUser)?.profile ?? {};
-            if (profile.birthData && (!profile.natalChart || !profile.onboardingComplete)) {
-              try {
-                logger.info(`Calculating missing natal chart for ${user.email}`);
-                const { calculateNatalChart } = await import("@/services/natalChartService");
-                const { userDatabase } = await import("@/services/userDatabaseService");
-                const { commensalDatabase } = await import("@/services/commensalDatabaseService");
-                
-                const newChart = await calculateNatalChart(profile.birthData);
-                await userDatabase.updateUserProfile(dbUser.id, {
-                  natalChart: newChart,
-                  onboardingComplete: true,
-                });
-                
-                // Store in saved charts (Cosmic Identity registry)
-                try {
-                  const existingCharts = await commensalDatabase.getSavedChartsForUser(dbUser.id);
-                  const hasCosmicIdentity = existingCharts.some(c => c.chartType === "cosmic_identity");
-                  if (!hasCosmicIdentity) {
-                    await commensalDatabase.createSavedChart({
-                      ownerId: dbUser.id,
-                      label: "My Cosmos",
-                      chartType: "cosmic_identity",
-                      birthData: newChart.birthData,
-                      natalChart: newChart
-                    });
-                  }
-                } catch (e) {
-                   logger.error("Failed to sync cosmic identity to commensal db:", e);
-                }
-
-                logger.info(`Successfully generated missing natal chart for ${user.email}`);
-              } catch (chartErr) {
-                logger.error(`Failed to generate chart in background for ${user.email}:`, chartErr);
-              }
-            } else if (profile.natalChart) {
-              // Ensure they have it registered in their saved charts even if profile already had it
-              try {
-                const { commensalDatabase } = await import("@/services/commensalDatabaseService");
-                const existingCharts = await commensalDatabase.getSavedChartsForUser(dbUser.id);
-                if (!existingCharts.some(c => c.chartType === "cosmic_identity")) {
-                  await commensalDatabase.createSavedChart({
-                    ownerId: dbUser.id,
-                    label: "My Cosmos",
-                    chartType: "cosmic_identity",
-                    birthData: profile.natalChart.birthData ?? profile.birthData,
-                    natalChart: profile.natalChart
-                  });
-                }
-              } catch (_e) {
-                // silent failure for sync
-              }
-            }
-            
-            // On first sign-in for an @agentic.alchm.kitchen email, POST to
-            // PA's /api/internal/agent-sync. PA is the authority for agent
-            // identities and propagates downstream to alchm.kitchen itself
-            // (WTEN → PA → alchm.kitchen). Fire and forget — must never block
-            // sign-in.
-            if (isNewUser && user.email!.endsWith("@agentic.alchm.kitchen")) {
-              const email = user.email!;
-              const displayName = user.name ?? undefined;
-              const [agentId] = email.split("@"); // e.g. "monica-001"
-
-              const paSecret = process.env.INTERNAL_API_SECRET;
-              // PA Python backend is at api.agents.alchm.kitchen — the bare
-              // agents.alchm.kitchen domain is the Next.js UI and would 404.
-              // Safe resolver: never throw inside the sign-in path.
-              const paBase = getServiceUrlSafe("planetaryAgentsApi");
-
-              if (!paSecret) {
-                logger.warn(
-                  `agent-sync skipped for ${email}: missing INTERNAL_API_SECRET or PA base URL`,
-                );
-              } else {
-                void (async () => {
-                  try {
-                    const resp = await fetch(
-                      `${paBase}/api/internal/agent-sync`,
-                      {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                          "X-Sync-Secret": paSecret,
-                        },
-                        body: JSON.stringify({
-                          agentId,
-                          displayName: displayName ?? agentId,
-                          email,
-                        }),
-                      },
-                    );
-                    if (resp.ok) {
-                      logger.info(`agent-sync ok for ${email} → PA`);
-                    } else {
-                      const text = await resp.text().catch(() => "(unreadable)");
-                      logger.warn(
-                        `agent-sync HTTP ${resp.status} for ${email} → PA: ${text}`,
-                      );
-                    }
-                  } catch (syncErr) {
-                    logger.warn(
-                      `agent-sync request failed for ${email} → PA (non-blocking):`,
-                      syncErr,
-                    );
-                  }
-                })();
-              }
-            }
-
-            // 1. Auto-provision admin
-            if (isAdminEmail(user.email)) {
-              const { subscriptionService } = await import("@/services/subscriptionService");
-              const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
-              if (sub.tier !== "premium") {
-                const now = new Date();
-                const yearFromNow = new Date(now);
-                yearFromNow.setFullYear(yearFromNow.getFullYear() + 10);
-                await subscriptionService.updateSubscription(dbUser.id, {
-                  tier: "premium",
-                  status: "active",
-                  currentPeriodStart: now.toISOString(),
-                  currentPeriodEnd: yearFromNow.toISOString(),
-                });
-                logger.info(`Auto-provisioned premium for ${user.email}`);
-              }
-            }
-
-            // 2. Send emails
-            const emailService = (await import("@/services/emailService")).default;
-            emailService.ensureInitialized();
-            if (emailService.isConfigured()) {
-              const userName = user.name ?? user.email;
-              const emailPromises = [
-                emailService.sendLoginNotificationEmail(user.email!, userName!, isNewUser)
-              ];
-              if (isNewUser) {
-                emailPromises.push(emailService.sendWelcomeEmail(user.email!, userName!));
-              }
-              await Promise.allSettled(emailPromises);
-              logger.info(`Background emails sent for ${user.email}`);
-            }
-
-
-            // 3. In-app notifications
-            try {
-              const { notificationDatabase } = await import(
-                "@/services/notificationDatabaseService"
-              );
-              const userName = user.name ?? user.email;
-
-              if (isNewUser) {
-                notificationDatabase.createNotification(
-                  dbUser.id,
-                  "welcome",
-                  "Welcome to Alchm Kitchen!",
-                  `Welcome, ${userName}! Your personalized culinary journey begins now. Complete your birth chart to unlock cosmic food recommendations.`,
-                ).catch(() => {});
-              } else {
-                notificationDatabase.createNotification(
-                  dbUser.id,
-                  "login_greeting",
-                  "Welcome Back!",
-                  `Good to see you again, ${userName}. Check out your latest cosmic insights.`,
-                  { expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() },
-                ).catch(() => {});
-              }
-
-              // Daily insight notification — for users with a natal chart
-              const natalChart =
-                (dbUser)?.profile?.natalChart ??
-                (dbUser)?.profile?.natal_chart;
-
-              const hasPositions = Boolean(
-                natalChart?.planetaryPositions ||
-                (natalChart?.planets && natalChart.planets.length > 0) ||
-                natalChart?.Sun
-              );
-
-              if (hasPositions) {
-                import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
-                  generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
-                }).catch(() => {});
-              }
-            } catch (notifError) {
-              logger.error("Notification creation failed (non-blocking):", notifError);
-            }
-          } catch (bgError) {
-            logger.error("Background task error:", bgError);
-          }
-        })();
+        // Fire-and-forget non-critical background tasks
+        if (dbUser && user.email) {
+          runBackgroundSignInTasks(
+            { email: user.email, name: user.name },
+            dbUser,
+            isNewUser,
+          ).catch(() => {});
+        }
       } catch (error) {
-        // DB failure during sign-in (e.g. Neon cold-start timeout).
-        // Do NOT throw here — throwing inside the NextAuth signIn callback causes
-        // the "Configuration" error page. Instead log the error and return true
-        // so the user can still sign in. The JWT callback will handle missing data.
         logger.error(`DB error during signIn for ${user.email} (non-blocking):`, error);
         const { code, message } = describeError(error);
-        void logAuthEvent({
+        recordAuthEvent({
           type: "signin_aborted",
           status: "failure",
           email: user.email,
@@ -542,7 +547,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       logger.info(`signIn callback completed for ${user.email}`);
-      void logAuthEvent({
+      recordAuthEvent({
         type: "signin_complete",
         status: "success",
         email: user.email,
@@ -551,94 +556,83 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, account, trigger, session }): Promise<JWT | null> {
+      const extToken = token as ExtendedJWT;
       // On initial sign-in, persist user info into the JWT
       if (user) {
-        // NextAuth's user.id is the provider's account ID (e.g., Google sub).
-        // DO NOT set token.userId = user.id here. The DB UUID must come from dbUser.id below.
-        token.email = user.email ?? undefined;
-        token.name = user.name ?? undefined;
-        token.picture = user.image ?? undefined;
+        extToken.email = user.email ?? undefined;
+        extToken.name = user.name ?? undefined;
+        extToken.picture = user.image ?? undefined;
       }
       if (account) {
-        token.provider = account.provider;
+        extToken.provider = account.provider;
       }
 
       // Sync recipesGeneratedToday dynamically from trigger update
       if (trigger === "update" && session && typeof session === "object" && "recipesGeneratedToday" in session) {
-        token.recipesGeneratedToday = session.recipesGeneratedToday;
+        const updatePayload = session as UpdateSessionPayload;
+        extToken.recipesGeneratedToday = updatePayload.recipesGeneratedToday;
       }
 
-      // Soft session revocation: on explicit session updates (e.g. after a
-      // client calls `session.update()`), re-validate the jti against the
-      // revocation store. If revoked, return null so NextAuth invalidates
-      // the cookie. Belt-and-braces with the middleware check; protected
-      // routes are already gated there. The natural updateAge refresh path
-      // is intentionally NOT checked here — API-only users (no protected
-      // page hits) keep a revoked JWT alive until its 30-day expiry, which
-      // is acceptable for the "soft" revocation model.
+      // Soft session revocation check
       if (
         process.env.AUTH_REVOCATION_CHECK === "on" &&
         trigger === "update" &&
-        typeof token.sessionId === "string" &&
-        token.sessionId.length > 0
+        typeof extToken.sessionId === "string" &&
+        extToken.sessionId.length > 0
       ) {
         try {
           const { isJtiRevoked } = await import("./sessionRevocation");
-          if (await isJtiRevoked(token.sessionId)) {
+          if (await isJtiRevoked(extToken.sessionId)) {
             logger.info(
-              `Revoked jti detected on session.update for ${token.email}; clearing token`,
+              `Revoked jti detected on session.update for ${extToken.email}; clearing token`,
             );
             return null;
           }
         } catch (revErr) {
-          // Fail-open consistent with sessionRevocation.ts.
           logger.warn("jwt-callback revocation check errored (non-blocking):", revErr);
         }
       }
 
-      // Resolve role, tier, and onboarding status from DB (on sign-in, session update, or missing userId)
-      if (token.email && (user || trigger === "update" || !token.userId)) {
+      // Resolve role, tier, and onboarding status from DB
+      if (extToken.email && (user || trigger === "update" || !extToken.userId)) {
         try {
-          const normTokenEmail = token.email.toLowerCase().trim();
-          // On explicit session update (e.g. after onboarding), bypass the 30-second
-          // in-process cache so the JWT reflects the freshly-persisted profile data.
+          const normTokenEmail = extToken.email.toLowerCase().trim();
           if (trigger === "update") {
             userCache.delete(normTokenEmail);
           }
           let dbUser = await getCachedUser(normTokenEmail);
 
           // JIT Fallback: If dbUser is missing/null, attempt creation
-          if (!dbUser && token.email) {
+          if (!dbUser && extToken.email) {
             try {
               const { userDatabase } = await import("@/services/userDatabaseService");
-              const isAdmin = isAdminEmail(token.email);
+              const isAdmin = isAdminEmail(extToken.email);
               dbUser = await Promise.race([
                 userDatabase.createUser({
-                  email: token.email,
-                  name: token.name ?? "",
-                  image: token.picture ?? undefined,
+                  email: extToken.email,
+                  name: extToken.name ?? "",
+                  image: extToken.picture ?? undefined,
                   roles: isAdmin ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
                 }),
-                new Promise<any>((_, reject) => setTimeout(() => reject(new Error("JIT Create User Timeout")), 8000))
+                new Promise<UserWithProfile | null>((_, reject) => setTimeout(() => reject(new Error("JIT Create User Timeout")), 8000))
               ]);
               if (dbUser) {
                 userCache.set(normTokenEmail, { data: dbUser, timestamp: Date.now() });
               }
             } catch (jitErr) {
-              logger.warn(`JIT createUser fallback in jwt callback failed for ${token.email}:`, jitErr);
+              logger.warn(`JIT createUser fallback in jwt callback failed for ${extToken.email}:`, jitErr);
             }
           }
 
           if (dbUser) {
-            token.userId = dbUser.id;
+            extToken.userId = dbUser.id;
             const isAdmin = dbUser.roles.includes(UserRole.ADMIN);
-            token.role = isAdmin ? "admin" : "user";
-            token.onboardingComplete = dbUser.profile?.onboardingComplete === true;
+            extToken.role = isAdmin ? "admin" : "user";
+            extToken.onboardingComplete = dbUser.profile.onboardingComplete === true;
 
             // On initial sign-in: write a session record so sessions are revocable.
-            // We use a UUID as the token (not the full JWT) so it fits VARCHAR(255).
-            if (user && !token.sessionId) {
+            if (user && !extToken.sessionId) {
               try {
                 const sessionId = crypto.randomUUID();
                 const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
@@ -648,20 +642,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                    VALUES ($1, $2, $3) ON CONFLICT ("sessionToken") DO NOTHING`,
                   [sessionId, dbUser.id, expiresAt]
                 );
-                token.sessionId = sessionId;
+                extToken.sessionId = sessionId;
               } catch (e) {
                 logger.warn("Session DB write failed (non-blocking):", e);
               }
             }
 
             // Also write a device_sessions row for the /profile/security UI.
-            // The sessionId doubles as the jti so revocation targets the JWT.
-            // Non-blocking: API falls back to JWT introspection if the table
-            // is missing or the write fails.
-            if (user && token.sessionId && !token.deviceSessionId) {
+            if (user && extToken.sessionId && !extToken.deviceSessionId) {
               try {
                 const provider =
-                  account?.provider ?? token.provider ?? "google";
+                  account?.provider ?? extToken.provider ?? "google";
                 const { executeQuery } = await import("@/lib/database");
                 await executeQuery(
                   `INSERT INTO device_sessions (id, user_id, jti, provider, current_for_jti)
@@ -670,23 +661,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                      last_seen_at = NOW(),
                      revoked_at = NULL`,
                   [
-                    token.sessionId,
+                    extToken.sessionId,
                     dbUser.id,
-                    token.sessionId,
+                    extToken.sessionId,
                     provider,
-                    token.sessionId,
+                    extToken.sessionId,
                   ],
                 );
-                token.deviceSessionId = token.sessionId;
+                extToken.deviceSessionId = extToken.sessionId;
               } catch (e) {
                 logger.warn("device_sessions write failed (non-blocking):", e);
               }
             }
 
-            // Embed subscription tier into JWT for instant access everywhere
-            // Admins always get premium regardless of subscription state
+            // Embed subscription tier into JWT
             if (isAdmin) {
-              token.tier = "premium";
+              extToken.tier = "premium";
             } else {
               try {
                 const { subscriptionService } = await import(
@@ -694,61 +684,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 );
                 const sub = await Promise.race([
                   subscriptionService.getUserSubscription(dbUser.id),
-                  new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Subscription Timeout")), 3000))
+                  new Promise<{ tier?: "free" | "premium" } | null>((_, reject) => setTimeout(() => reject(new Error("Subscription Timeout")), 3000))
                 ]);
-                token.tier = sub?.tier ?? "free";
+                extToken.tier = sub?.tier === "premium" ? "premium" : "free";
               } catch {
-                // Preserve existing tier if DB unavailable or timeout
-                if (!token.tier) token.tier = "free";
+                extToken.tier ??= "free";
               }
             }
 
             // Resolve recipesGeneratedToday for free-tier users
-            if (token.tier === "free") {
+            if (extToken.tier === "free") {
               try {
                 const { executeQuery } = await import("@/lib/database");
-                const limitRows = await executeQuery(
+                const limitRows = await executeQuery<DailyLimitRow>(
                   `SELECT recipes_generated FROM user_daily_limits 
                    WHERE user_id = $1 AND date = CURRENT_DATE`,
                   [dbUser.id]
                 );
-                token.recipesGeneratedToday = limitRows.rows[0]?.recipes_generated ?? 0;
+                extToken.recipesGeneratedToday = limitRows.rows[0]?.recipes_generated ?? 0;
               } catch (e) {
                 logger.warn("Failed to fetch recipes_generated for JWT:", e);
-                if (token.recipesGeneratedToday === undefined) {
-                  token.recipesGeneratedToday = 0;
-                }
+                extToken.recipesGeneratedToday ??= 0;
               }
             } else {
-              token.recipesGeneratedToday = 0; // Premium users get unlimited
+              extToken.recipesGeneratedToday = 0;
             }
           } else {
-            token.role = isAdminEmail(token.email) ? "admin" : "user";
-            token.onboardingComplete = false;
-            // Admin emails always get premium tier
-            token.tier = isAdminEmail(token.email) ? "premium" : "free";
-            token.recipesGeneratedToday = 0;
+            extToken.role = isAdminEmail(extToken.email) ? "admin" : "user";
+            extToken.onboardingComplete = false;
+            extToken.tier = isAdminEmail(extToken.email) ? "premium" : "free";
+            extToken.recipesGeneratedToday = 0;
           }
         } catch {
-          // Fallback if DB unavailable
-          if (!token.role) {
-            token.role = isAdminEmail(token.email) ? "admin" : "user";
-          }
-          if (token.onboardingComplete === undefined) {
-            token.onboardingComplete = false;
-          }
-          if (!token.tier) {
-            token.tier = isAdminEmail(token.email) ? "premium" : "free";
-          }
-          if (token.recipesGeneratedToday === undefined) {
-            token.recipesGeneratedToday = 0;
-          }
+          extToken.role ??= isAdminEmail(extToken.email) ? "admin" : "user";
+          extToken.onboardingComplete ??= false;
+          extToken.tier ??= isAdminEmail(extToken.email) ? "premium" : "free";
+          extToken.recipesGeneratedToday ??= 0;
         }
       }
 
-      return token;
+      return extToken;
     },
-
-    // session callback is inherited from authConfig.callbacks
   },
 });

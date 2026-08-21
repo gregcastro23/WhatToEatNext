@@ -127,15 +127,18 @@ export function convertToGrams(name: string, amount: number, unit: string): numb
   const u = unit.toLowerCase().trim();
 
   // 1. Direct Weight
-  if (UNIT_TO_GRAMS[u]) {
-    return amount * UNIT_TO_GRAMS[u];
+  if (Object.prototype.hasOwnProperty.call(UNIT_TO_GRAMS, u)) {
+    const gramsPerUnit = UNIT_TO_GRAMS[u];
+    return amount * gramsPerUnit;
   }
 
   // 2. Volume to Weight via Density
-  if (UNIT_TO_ML[u]) {
-    const ml = amount * UNIT_TO_ML[u];
+  if (Object.prototype.hasOwnProperty.call(UNIT_TO_ML, u)) {
+    const mlPerUnit = UNIT_TO_ML[u];
+    const ml = amount * mlPerUnit;
     return ml * getDensity(n);
   }
+
 
   // 3. Piece to Weight
   if (u === "each" || u === "piece" || u === "" || u === "head" || u === "bulb" || u === "clove") {
@@ -241,3 +244,109 @@ export function splitItemsByInventory<T extends { name: string }>(
 
   return { included, excluded };
 }
+
+export type RetailerFulfillmentType = "instacart_specialty" | "amazon_fresh" | "pantry";
+
+/**
+ * Specialty keywords that suggest routing to local/ethnic grocers via Instacart
+ */
+const SPECIALTY_INGREDIENT_KEYWORDS = [
+  // Asian
+  "mirin", "dashi", "miso", "gochujang", "gochugaru", "lemongrass", "galangal",
+  "kaffir lime", "bok choy", "gai lan", "enoki", "shiitake", "oyster mushroom",
+  "lotus root", "tamarind", "shaoxing", "sake", "chili crisp", "furikake",
+  "bonito", "nori", "wakame", "kombu", "sichuan peppercorn", "black bean sauce",
+  "curry paste", "coconut cream", "fish sauce", "rice vinegar", "toasted sesame oil",
+  "daikon", "edamame", "udon", "ramen noodles", "rice paper", "spring roll wrapper",
+  // Hispanic / Latin
+  "masa harina", "tomatillo", "chipotle", "ancho", "guajillo", "pasilla",
+  "poblano", "serrano", "habanero", "cotija", "queso fresco", "epazote",
+  "achiote", "plantain", "yuca", "mexican oregano", "hominy", "chayote",
+  // Middle Eastern / Mediterranean
+  "sumac", "za'atar", "tahini", "pomegranate molasses", "harissa", "preserved lemon",
+  "labneh", "halloumi", "phyllo", "orange blossom water", "rose water", "ras el hanout",
+  "cardamom pods", "fenugreek", "nigella seed", "mahlab",
+  // Specialty Herbs & Foraged
+  "thai basil", "tarragon", "chervil", "sorrel", "edible flower", "microgreen",
+  "wild mushroom", "chanterelle", "morel", "truffle"
+];
+
+/**
+ * Classifies an ingredient to the optimal fulfillment retailer
+ */
+export function classifyIngredientRetailer(
+  name: string,
+  dietaryFlags: string[] = []
+): RetailerFulfillmentType {
+  if (isPantryItem(name)) return "pantry";
+
+  const n = name.toLowerCase();
+
+  // If specialty keyword matches, route to Instacart (hyperlocal specialty grocers)
+  if (SPECIALTY_INGREDIENT_KEYWORDS.some((kw) => n.includes(kw))) {
+    return "instacart_specialty";
+  }
+
+  // Organic or specialty dietary requests with high perishability can also benefit from Instacart
+  const isOrganic = dietaryFlags.includes("organic") || n.includes("organic");
+  const isSpecialtyProduce = n.includes("fresh") && (n.includes("herb") || n.includes("sprout") || n.includes("berry"));
+
+  if (isOrganic && isSpecialtyProduce) {
+    return "instacart_specialty";
+  }
+
+  // Commodity / standard groceries route efficiently through Amazon Fresh
+  return "amazon_fresh";
+}
+
+export interface SplitCartResult<T extends { name: string; quantity?: number; unit?: string }> {
+  instacartItems: T[];
+  amazonItems: T[];
+  pantryItems: T[];
+  excludedPantryItems: T[];
+  totalItemCount: number;
+  instacartRatio: number;
+  amazonRatio: number;
+}
+
+/**
+ * Splits a list of grocery/recipe items across Instacart and Amazon Fresh
+ * while respecting existing pantry inventory.
+ */
+export function splitCartByRetailer<T extends { name: string; quantity?: number; unit?: string }>(
+  items: T[],
+  inventory: string[] = [],
+  dietaryFlags: string[] = []
+): SplitCartResult<T> {
+  const { included, excluded: excludedPantryItems } = splitItemsByInventory(items, inventory);
+
+  const instacartItems: T[] = [];
+  const amazonItems: T[] = [];
+  const pantryItems: T[] = [];
+
+  included.forEach((item) => {
+    const fulfillment = classifyIngredientRetailer(item.name, dietaryFlags);
+    if (fulfillment === "instacart_specialty") {
+      instacartItems.push(item);
+    } else if (fulfillment === "pantry") {
+      pantryItems.push(item);
+    } else {
+      amazonItems.push(item);
+    }
+  });
+
+  const totalActive = instacartItems.length + amazonItems.length;
+  const instacartRatio = totalActive > 0 ? Number((instacartItems.length / totalActive).toFixed(2)) : 0;
+  const amazonRatio = totalActive > 0 ? Number((amazonItems.length / totalActive).toFixed(2)) : 0;
+
+  return {
+    instacartItems,
+    amazonItems,
+    pantryItems,
+    excludedPantryItems,
+    totalItemCount: items.length,
+    instacartRatio,
+    amazonRatio,
+  };
+}
+

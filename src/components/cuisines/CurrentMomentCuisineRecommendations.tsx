@@ -34,6 +34,7 @@ import {
     FaWater,
     FaWind
 } from "react-icons/fa";
+import { celestialAudio } from "@/lib/audio/celestialAudioSynthesizer";
 
 /**
  * Current Moment Cuisine Recommendations Component
@@ -778,7 +779,18 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                 gap={4}
                 textAlign="center"
               >
-                <VStack>
+                <VStack
+                  cursor="pointer"
+                  onClick={() => {
+                    celestialAudio.playResonance({
+                      planet: "Sun",
+                      aspect: "harmony",
+                      durationSeconds: 1.5,
+                      volume: 0.2,
+                    });
+                  }}
+                  title="Play celestial harmony"
+                >
                   <Icon as={FaMagic} boxSize={8} color="purple.500" />
                   <Text fontSize="sm" color="gray.600">
                     Zodiac Sign

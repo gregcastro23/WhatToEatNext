@@ -93,13 +93,79 @@ function readJsonColumn<T>(value: unknown, fallback: T): T {
   return (value as T) ?? fallback;
 }
 
-// The pooled client surface handed to withTransaction's callback exposes
-// `.query`; row shapes below are read generically (the pg driver returns
-// `any` rows) and mapped by hand — same posture as commensalDatabaseService.
-type Row = any;
+export interface TableRecordRow {
+  id: string | number;
+  host_id: string | number;
+  title: string;
+  description?: string | null;
+  scheduled_at: DbTimestamp;
+  venue_type: TableVenue["type"];
+  venue_restaurant_id?: string | null;
+  venue_name?: string | null;
+  venue_address?: string | null;
+  status: TableStatus;
+  visibility: TableVisibility;
+  composite_snapshot?: unknown;
+  composite_updated_at?: DbTimestamp;
+  menu?: unknown;
+  memory?: unknown;
+  went_live_at?: DbTimestamp;
+  closed_at?: DbTimestamp;
+  feed_event_id?: string | null;
+  seat_cap?: number | string | null;
+  created_at: DbTimestamp;
+  updated_at: DbTimestamp;
+}
+
+export interface TableMemberRow {
+  id: string | number;
+  table_id: string | number;
+  user_id?: string | null;
+  manual_companion_chart_id?: string | null;
+  role: TableMember["role"];
+  rsvp_status: TableMember["rsvpStatus"];
+  joined_via?: TableMember["joinedVia"] | null;
+  invited_by?: string | null;
+  display_name?: string | null;
+  rsvp_at?: DbTimestamp;
+  created_at: DbTimestamp;
+  updated_at: DbTimestamp;
+  user_name?: string | null;
+  user_image?: string | null;
+  user_is_agent?: boolean | null;
+}
+
+export interface TableInviteRow {
+  id: string | number;
+  table_id: string | number;
+  token: string;
+  created_by: string | number;
+  max_uses: number | string;
+  use_count: number | string;
+  expires_at: DbTimestamp;
+  revoked_at?: DbTimestamp;
+  created_at: DbTimestamp;
+}
+
+export interface TablePhotoRow {
+  id: string | number;
+  table_id: string | number;
+  uploader_id: string | number;
+  url: string;
+  created_at: DbTimestamp;
+}
+
+export interface TableCommentRow {
+  id: string | number;
+  table_id: string | number;
+  author_id: string | number;
+  author_name?: string | null;
+  body: string;
+  created_at: DbTimestamp;
+}
 
 class TableDatabaseService {
-  private rowToTableRecord(row: Row): TableRecord {
+  private rowToTableRecord(row: TableRecordRow): TableRecord {
     const venue: TableVenue = {
       type: row.venue_type,
       restaurantId: row.venue_restaurant_id ?? undefined,
@@ -128,7 +194,7 @@ class TableDatabaseService {
     };
   }
 
-  private rowToTableMember(row: Row): TableMember {
+  private rowToTableMember(row: TableMemberRow): TableMember {
     return {
       id: dbString(row.id),
       tableId: dbString(row.table_id),
@@ -148,7 +214,7 @@ class TableDatabaseService {
     };
   }
 
-  private rowToTableInvite(row: Row): TableInvite {
+  private rowToTableInvite(row: TableInviteRow): TableInvite {
     return {
       id: dbString(row.id),
       tableId: dbString(row.table_id),
@@ -163,7 +229,7 @@ class TableDatabaseService {
     };
   }
 
-  private rowToTablePhoto(row: Row): TablePhoto {
+  private rowToTablePhoto(row: TablePhotoRow): TablePhoto {
     return {
       id: dbString(row.id),
       tableId: dbString(row.table_id),
@@ -173,7 +239,7 @@ class TableDatabaseService {
     };
   }
 
-  private rowToTableComment(row: Row): TableComment {
+  private rowToTableComment(row: TableCommentRow): TableComment {
     return {
       id: dbString(row.id),
       tableId: dbString(row.table_id),
@@ -193,7 +259,7 @@ class TableDatabaseService {
 
   private async getMemberById(memberId: string): Promise<TableMember | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TableMemberRow>(
         `${TableDatabaseService.MEMBER_SELECT} WHERE tm.id = $1`,
         [memberId],
       );
@@ -211,7 +277,7 @@ class TableDatabaseService {
     tableId: string,
   ): Promise<{ hostId: string; status: TableStatus } | null> {
     try {
-      const result = await executeQuery(`SELECT host_id, status FROM tables WHERE id = $1`, [
+      const result = await executeQuery<{ host_id: string | number; status: TableStatus }>(`SELECT host_id, status FROM tables WHERE id = $1`, [
         tableId,
       ]);
       if (result.rows.length === 0) return null;
@@ -230,25 +296,25 @@ class TableDatabaseService {
    */
   async getTableDetail(tableId: string, viewerId: string | null): Promise<TableDetail | null> {
     try {
-      const tableResult = await executeQuery(`SELECT * FROM tables WHERE id = $1`, [tableId]);
+      const tableResult = await executeQuery<TableRecordRow>(`SELECT * FROM tables WHERE id = $1`, [tableId]);
       if (tableResult.rows.length === 0) return null;
       const table = this.rowToTableRecord(tableResult.rows[0]);
 
-      const membersResult = await executeQuery(
+      const membersResult = await executeQuery<TableMemberRow>(
         `${TableDatabaseService.MEMBER_SELECT} WHERE tm.table_id = $1 ORDER BY tm.created_at ASC`,
         [tableId],
       );
-      const members = membersResult.rows.map((r: Row) => this.rowToTableMember(r));
+      const members = membersResult.rows.map((r: TableMemberRow) => this.rowToTableMember(r));
 
       const photos = await this.listPhotos(tableId);
 
       let invites: TableInvite[] | undefined;
       if (viewerId && viewerId === table.hostId) {
-        const invitesResult = await executeQuery(
+        const invitesResult = await executeQuery<TableInviteRow>(
           `SELECT * FROM table_invites WHERE table_id = $1 ORDER BY created_at DESC`,
           [tableId],
         );
-        invites = invitesResult.rows.map((r: Row) => this.rowToTableInvite(r));
+        invites = invitesResult.rows.map((r: TableInviteRow) => this.rowToTableInvite(r));
       }
 
       return { ...table, members, photos, invites };
@@ -287,8 +353,8 @@ class TableDatabaseService {
             ORDER BY t.scheduled_at DESC LIMIT 200`;
           break;
       }
-      const result = await executeQuery(query, [userId]);
-      return result.rows.map((r: Row) => this.rowToTableRecord(r));
+      const result = await executeQuery<TableRecordRow>(query, [userId]);
+      return result.rows.map((r: TableRecordRow) => this.rowToTableRecord(r));
     } catch (error) {
       _logger.error("listTablesForUser failed:", error);
       return [];
@@ -399,7 +465,7 @@ class TableDatabaseService {
       const venueLat = isHome ? null : input.venueLat ?? null;
       const venueLng = isHome ? null : input.venueLng ?? null;
       const tableId = await withTransaction(async (client) => {
-        const tableResult = await client.query(
+        const tableResult = await client.query<{ id: string | number }>(
           `INSERT INTO tables
              (host_id, title, description, scheduled_at, venue_type, venue_restaurant_id, venue_name, venue_address, visibility, menu, venue_lat, venue_lng, seat_cap)
            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
@@ -420,7 +486,7 @@ class TableDatabaseService {
             input.seatCap ?? null,
           ],
         );
-        const id = tableResult.rows[0].id as string;
+        const id = String(tableResult.rows[0].id);
         await client.query(
           `INSERT INTO table_members (table_id, user_id, role, rsvp_status, joined_via, rsvp_at)
            VALUES ($1, $2::uuid, 'host', 'joined', 'host', CURRENT_TIMESTAMP)`,
@@ -490,13 +556,13 @@ class TableDatabaseService {
       params.push(patch.seatCap);
     }
     if (patch.visibility !== undefined) {
-      sets.push(`visibility = $${n++}`);
+      sets.push(`visibility = $${n}`);
       params.push(patch.visibility);
     }
     if (sets.length === 0) return null;
 
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TableRecordRow>(
         `UPDATE tables SET ${sets.join(", ")}
           WHERE id = $1 AND host_id = $2::uuid AND status = 'planned'
         RETURNING *`,
@@ -517,7 +583,7 @@ class TableDatabaseService {
     menu: TableMenuItem[],
   ): Promise<TableRecord | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TableRecordRow>(
         `UPDATE tables SET menu = $3
           WHERE id = $1 AND host_id = $2::uuid AND status IN ('planned', 'live')
         RETURNING *`,
@@ -545,7 +611,7 @@ class TableDatabaseService {
   async goLive(tableId: string, hostId: string): Promise<TableRecord | null> {
     try {
       const row = await withTransaction(async (client) => {
-        const result = await client.query(
+        const result = await client.query<TableRecordRow>(
           `UPDATE tables SET status = 'live', went_live_at = CURRENT_TIMESTAMP
             WHERE id = $1 AND host_id = $2::uuid AND status = 'planned'
           RETURNING *`,
@@ -571,7 +637,7 @@ class TableDatabaseService {
 
   async cancelTable(tableId: string, hostId: string): Promise<TableRecord | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TableRecordRow>(
         `UPDATE tables SET status = 'cancelled'
           WHERE id = $1 AND host_id = $2::uuid AND status IN ('planned','live')
         RETURNING *`,
@@ -596,14 +662,14 @@ class TableDatabaseService {
   async closeTable(tableId: string, hostId: string): Promise<TableRecord | null> {
     try {
       const outcome = await withTransaction(async (client) => {
-        const tableResult = await client.query(
+        const tableResult = await client.query<TableRecordRow>(
           `SELECT * FROM tables WHERE id = $1 AND host_id = $2::uuid AND status = 'live' FOR UPDATE`,
           [tableId, hostId],
         );
         if (tableResult.rows.length === 0) return null;
         const [tableRow] = tableResult.rows;
 
-        const membersResult = await client.query(
+        const membersResult = await client.query<TableMemberRow>(
           `SELECT tm.user_id, tm.display_name, COALESCE(up.name, u.name) AS user_name
              FROM table_members tm
              LEFT JOIN users u ON tm.user_id = u.id
@@ -612,12 +678,12 @@ class TableDatabaseService {
           [tableId],
         );
 
-        const photosResult = await client.query(
+        const photosResult = await client.query<TablePhotoRow>(
           `SELECT url FROM table_photos WHERE table_id = $1 ORDER BY created_at ASC LIMIT 6`,
           [tableId],
         );
 
-        const guests = membersResult.rows.map((r: Row) => ({
+        const guests = membersResult.rows.map((r: TableMemberRow) => ({
           name: r.user_name ?? r.display_name ?? "A guest",
           userId: r.user_id ?? undefined,
         }));
@@ -651,19 +717,19 @@ class TableDatabaseService {
           guestCount: guests.length,
           composite,
           menu: readJsonColumn<TableMenuItem[]>(tableRow.menu, []).slice(0, 8),
-          photoUrls: photosResult.rows.map((r: Row) => r.url).slice(0, 6),
+          photoUrls: photosResult.rows.map((r: TablePhotoRow) => r.url).slice(0, 6),
           shareName: true,
         };
 
-        const feedResult = await client.query(
+        const feedResult = await client.query<{ id: string | number }>(
           `INSERT INTO feed_events (actor_id, event_type, metadata_payload)
            VALUES ($1::uuid, 'table_memory', $2)
            RETURNING id`,
           [hostId, JSON.stringify(memory)],
         );
-        const feedEventId = feedResult.rows[0].id;
+        const feedEventId = String(feedResult.rows[0].id);
 
-        const finalResult = await client.query(
+        const finalResult = await client.query<TableRecordRow>(
           `UPDATE tables
               SET status = 'memory', closed_at = $2, memory = $3, feed_event_id = $4
             WHERE id = $1
@@ -688,7 +754,7 @@ class TableDatabaseService {
 
       if (!outcome) return null;
 
-      void this.notifyTableMemoryPosted(outcome.table, outcome.joinedUserIds);
+      await this.notifyTableMemoryPosted(outcome.table, outcome.joinedUserIds);
       return outcome.table;
     } catch (error) {
       _logger.error("closeTable failed:", error);
@@ -749,7 +815,7 @@ class TableDatabaseService {
         return { ok: false, reason: "blocked" };
       }
 
-      const countResult = await executeQuery(
+      const countResult = await executeQuery<{ n: number }>(
         `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1`,
         [tableId],
       );
@@ -762,16 +828,17 @@ class TableDatabaseService {
         : "search";
 
       try {
-        const insertResult = await executeQuery(
+        const insertResult = await executeQuery<{ id: string | number }>(
           `INSERT INTO table_members (table_id, user_id, role, rsvp_status, joined_via, invited_by)
            VALUES ($1, $2::uuid, 'guest', 'invited', $3, $4::uuid)
            RETURNING id`,
           [tableId, targetUserId, joinedVia, hostId],
         );
-        const member = await this.getMemberById(insertResult.rows[0].id);
+        const member = await this.getMemberById(String(insertResult.rows[0].id));
         return member ? { ok: true, member } : { ok: false, reason: "not_found" };
       } catch (insertError) {
-        if ((insertError as { code?: string })?.code === "23505") {
+        const pgError = insertError as { code?: string } | null;
+        if (pgError?.code === "23505") {
           return { ok: false, reason: "duplicate" };
         }
         throw insertError;
@@ -797,13 +864,13 @@ class TableDatabaseService {
         return { ok: false, reason: "not_found" };
       }
 
-      const chartResult = await executeQuery(
+      const chartResult = await executeQuery<{ id: string | number; name: string }>(
         `SELECT id, name FROM manual_companion_charts WHERE id = $1 AND owner_id = $2::uuid`,
         [manualCompanionChartId, hostId],
       );
       if (chartResult.rows.length === 0) return { ok: false, reason: "not_found" };
 
-      const countResult = await executeQuery(
+      const countResult = await executeQuery<{ n: number }>(
         `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1`,
         [tableId],
       );
@@ -812,20 +879,21 @@ class TableDatabaseService {
       }
 
       try {
-        const insertResult = await executeQuery(
+        const insertResult = await executeQuery<{ id: string | number }>(
           `INSERT INTO table_members
              (table_id, manual_companion_chart_id, role, rsvp_status, joined_via, invited_by, display_name, rsvp_at)
            VALUES ($1, $2, 'guest', 'joined', 'manual', $3::uuid, $4, CURRENT_TIMESTAMP)
            RETURNING id`,
           [tableId, manualCompanionChartId, hostId, chartResult.rows[0].name],
         );
-        const member = await this.getMemberById(insertResult.rows[0].id);
+        const member = await this.getMemberById(String(insertResult.rows[0].id));
         if (!member) return { ok: false, reason: "not_found" };
 
         await computeAndStoreTableComposite(tableId);
         return { ok: true, member };
       } catch (insertError) {
-        if ((insertError as { code?: string })?.code === "23505") {
+        const pgError = insertError as { code?: string } | null;
+        if (pgError?.code === "23505") {
           return { ok: false, reason: "duplicate" };
         }
         throw insertError;
@@ -845,7 +913,7 @@ class TableDatabaseService {
     actingUserId: string,
   ): Promise<RemoveMemberResult> {
     try {
-      const memberResult = await executeQuery(
+      const memberResult = await executeQuery<TableMemberRow & { host_id: string | number; status: TableStatus }>(
         `SELECT tm.id, tm.user_id, tm.role, tm.rsvp_status, t.host_id, t.status
            FROM table_members tm
            JOIN tables t ON t.id = tm.table_id
@@ -895,7 +963,7 @@ class TableDatabaseService {
         return { ok: false, reason: "not_found" };
       }
 
-      const updateResult = await executeQuery(
+      const updateResult = await executeQuery<{ id: string | number }>(
         `UPDATE table_members SET rsvp_status = $3, rsvp_at = CURRENT_TIMESTAMP
           WHERE table_id = $1 AND user_id = $2::uuid AND rsvp_status = 'invited'
         RETURNING id`,
@@ -903,14 +971,14 @@ class TableDatabaseService {
       );
       if (updateResult.rows.length === 0) return { ok: false, reason: "not_found" };
 
-      const member = await this.getMemberById(updateResult.rows[0].id);
+      const member = await this.getMemberById(String(updateResult.rows[0].id));
       if (!member) return { ok: false, reason: "not_found" };
 
       if (response === "joined") {
         await computeAndStoreTableComposite(tableId);
       }
 
-      const tableResult = await executeQuery(`SELECT * FROM tables WHERE id = $1`, [tableId]);
+      const tableResult = await executeQuery<TableRecordRow>(`SELECT * FROM tables WHERE id = $1`, [tableId]);
       if (tableResult.rows.length === 0) return { ok: false, reason: "not_found" };
       const tableRecord = this.rowToTableRecord(tableResult.rows[0]);
 
@@ -940,14 +1008,14 @@ class TableDatabaseService {
    */
   async requestToJoin(tableId: string, requesterId: string): Promise<JoinRequestResult> {
     try {
-      const tableResult = await executeQuery(
+      const tableResult = await executeQuery<TableRecordRow>(
         `SELECT host_id, status, visibility, title, seat_cap FROM tables WHERE id = $1`,
         [tableId],
       );
       if (tableResult.rows.length === 0) return { ok: false, reason: "not_found" };
       const [row] = tableResult.rows;
       const hostId = dbString(row.host_id);
-      const tableTitle: string = row.title;
+      const tableTitle = row.title;
 
       if (row.visibility !== "public") return { ok: false, reason: "not_public" };
       if (row.status !== "planned" && row.status !== "live") {
@@ -957,7 +1025,7 @@ class TableDatabaseService {
       if (await this.isBlockedPair(hostId, requesterId)) return { ok: false, reason: "blocked" };
       if (await this.isAnyMember(tableId, requesterId)) return { ok: false, reason: "already_member" };
 
-      const countResult = await executeQuery(
+      const countResult = await executeQuery<{ n: number }>(
         `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1 AND rsvp_status = 'joined'`,
         [tableId],
       );
@@ -999,7 +1067,7 @@ class TableDatabaseService {
       const expiresInHours = opts.expiresInHours ?? 168;
       const maxUses = opts.maxUses ?? 20;
 
-      const result = await executeQuery(
+      const result = await executeQuery<TableInviteRow>(
         `INSERT INTO table_invites (table_id, token, created_by, max_uses, expires_at)
          VALUES ($1, $2, $3::uuid, $4, CURRENT_TIMESTAMP + ($5 || ' hours')::interval)
          RETURNING *`,
@@ -1031,7 +1099,17 @@ class TableDatabaseService {
   /** Public, unauthenticated preview — card-level only, never the member list. */
   async getInvitePreview(token: string): Promise<TableInvitePreview | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<{
+        expires_at: DbTimestamp;
+        revoked_at?: DbTimestamp;
+        use_count: number | string;
+        max_uses: number | string;
+        title: string;
+        scheduled_at: DbTimestamp;
+        venue_name?: string | null;
+        host_name?: string | null;
+        joined_count: number | string;
+      }>(
         `SELECT ti.expires_at, ti.revoked_at, ti.use_count, ti.max_uses,
                 t.title, t.scheduled_at, t.venue_name,
                 COALESCE(up.name, u.name) AS host_name,
@@ -1048,7 +1126,7 @@ class TableDatabaseService {
       const [row] = result.rows;
       const valid =
         !row.revoked_at &&
-        new Date(row.expires_at).getTime() > Date.now() &&
+        new Date(dbIsoString(row.expires_at)).getTime() > Date.now() &&
         Number(row.use_count) < Number(row.max_uses);
 
       return {
@@ -1085,7 +1163,7 @@ class TableDatabaseService {
     via: "link" | "qr",
   ): Promise<RedeemInviteResult> {
     try {
-      const inviteResult = await executeQuery(`SELECT table_id FROM table_invites WHERE token = $1`, [
+      const inviteResult = await executeQuery<{ table_id: string | number }>(`SELECT table_id FROM table_invites WHERE token = $1`, [
         token,
       ]);
       if (inviteResult.rows.length === 0) return { ok: false, reason: "invalid" };
@@ -1100,7 +1178,7 @@ class TableDatabaseService {
         return { ok: false, reason: "blocked" };
       }
 
-      const existing = await executeQuery(
+      const existing = await executeQuery<{ id: string | number; rsvp_status: TableMember["rsvpStatus"] }>(
         `SELECT id, rsvp_status FROM table_members WHERE table_id = $1 AND user_id = $2::uuid`,
         [tableId, userId],
       );
@@ -1119,7 +1197,7 @@ class TableDatabaseService {
       }
 
       const outcome = await withTransaction(async (client) => {
-        const countResult = await client.query(
+        const countResult = await client.query<{ n: number }>(
           `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1`,
           [tableId],
         );
@@ -1127,7 +1205,7 @@ class TableDatabaseService {
           return "cap" as const;
         }
 
-        const consumed = await client.query(
+        const consumed = await client.query<{ table_id: string | number }>(
           `UPDATE table_invites SET use_count = use_count + 1
             WHERE token = $1 AND revoked_at IS NULL AND expires_at > CURRENT_TIMESTAMP
               AND use_count < max_uses
@@ -1145,7 +1223,8 @@ class TableDatabaseService {
         } catch (insertError) {
           // A concurrent redemption for the same user landed first — the
           // member row exists either way, so this is still a success.
-          if ((insertError as { code?: string })?.code !== "23505") throw insertError;
+          const pgError = insertError as { code?: string } | null;
+          if (pgError?.code !== "23505") throw insertError;
         }
         return "ok" as const;
       });
@@ -1165,13 +1244,13 @@ class TableDatabaseService {
 
   async addPhoto(tableId: string, uploaderId: string, url: string): Promise<TablePhoto | null> {
     try {
-      const countResult = await executeQuery(
+      const countResult = await executeQuery<{ n: number }>(
         `SELECT COUNT(*)::int AS n FROM table_photos WHERE table_id = $1`,
         [tableId],
       );
       if ((countResult.rows[0]?.n ?? 0) >= MAX_TABLE_PHOTOS) return null;
 
-      const result = await executeQuery(
+      const result = await executeQuery<TablePhotoRow>(
         `INSERT INTO table_photos (table_id, uploader_id, url) VALUES ($1, $2::uuid, $3) RETURNING *`,
         [tableId, uploaderId, url],
       );
@@ -1184,11 +1263,11 @@ class TableDatabaseService {
 
   async listPhotos(tableId: string): Promise<TablePhoto[]> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TablePhotoRow>(
         `SELECT * FROM table_photos WHERE table_id = $1 ORDER BY created_at ASC`,
         [tableId],
       );
-      return result.rows.map((r: Row) => this.rowToTablePhoto(r));
+      return result.rows.map((r: TablePhotoRow) => this.rowToTablePhoto(r));
     } catch (error) {
       _logger.error("listPhotos failed:", error);
       return [];
@@ -1197,7 +1276,7 @@ class TableDatabaseService {
 
   async addComment(tableId: string, authorId: string, body: string): Promise<TableComment | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TableCommentRow>(
         `INSERT INTO table_comments (table_id, author_id, body) VALUES ($1, $2::uuid, $3) RETURNING *`,
         [tableId, authorId, body],
       );
@@ -1210,7 +1289,7 @@ class TableDatabaseService {
 
   async listComments(tableId: string): Promise<TableComment[]> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<TableCommentRow>(
         `SELECT c.*, COALESCE(up.name, u.name) AS author_name
            FROM table_comments c
            LEFT JOIN users u ON u.id = c.author_id
@@ -1218,7 +1297,7 @@ class TableDatabaseService {
           WHERE c.table_id = $1 ORDER BY c.created_at ASC`,
         [tableId],
       );
-      return result.rows.map((r: Row) => this.rowToTableComment(r));
+      return result.rows.map((r: TableCommentRow) => this.rowToTableComment(r));
     } catch (error) {
       _logger.error("listComments failed:", error);
       return [];

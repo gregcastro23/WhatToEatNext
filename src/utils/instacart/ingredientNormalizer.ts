@@ -162,11 +162,13 @@ export function normalizeIngredient(raw: string): NormalizedIngredient {
   }
 
   // 5. Apply quantity cap based on general units
-  if (QUANTITY_CAPS[unit] !== undefined) {
-    if (quantity > QUANTITY_CAPS[unit]) {
-      quantity = QUANTITY_CAPS[unit];
+  if (Object.prototype.hasOwnProperty.call(QUANTITY_CAPS, unit)) {
+    const cap = QUANTITY_CAPS[unit];
+    if (quantity > cap) {
+      quantity = cap;
     }
   }
+
 
   // 6. Apply special cases (garlic, herbs, whole items)
   if (name.toLowerCase().includes('garlic') && unit === 'clove') {
@@ -269,7 +271,9 @@ export function deduplicateIngredients(
   for (const [, group] of groups.entries()) {
     let finalQty = group.totalQuantity;
     let finalUnit = group.unit;
-    let [finalName] = group.originalNames; // pick first original name as base
+    const [firstOriginalName] = group.originalNames;
+    let finalName = firstOriginalName ?? group.canonicalName;
+
 
     // Special protein deduplication
     // If it's a protein, we don't sum all quantities if it's across multiple meals
@@ -286,8 +290,9 @@ export function deduplicateIngredients(
     }
 
     // Apply strict caps after merging
-    const capInfo = WEEKLY_CAPS_FOR_4_PEOPLE[group.canonicalName];
-    if (capInfo) {
+    const hasWeeklyCap = Object.prototype.hasOwnProperty.call(WEEKLY_CAPS_FOR_4_PEOPLE, group.canonicalName);
+    if (hasWeeklyCap) {
+      const capInfo = WEEKLY_CAPS_FOR_4_PEOPLE[group.canonicalName];
       if (finalQty > capInfo.max) {
         finalQty = capInfo.max;
         finalUnit = capInfo.unit;
@@ -297,11 +302,13 @@ export function deduplicateIngredients(
           finalUnit = capInfo.unit;
         }
       }
-    } else if (QUANTITY_CAPS[finalUnit] !== undefined) {
-      if (finalQty > QUANTITY_CAPS[finalUnit]) {
-        finalQty = QUANTITY_CAPS[finalUnit];
+    } else if (Object.prototype.hasOwnProperty.call(QUANTITY_CAPS, finalUnit)) {
+      const cap = QUANTITY_CAPS[finalUnit];
+      if (finalQty > cap) {
+        finalQty = cap;
       }
     }
+
 
     // Special Garlic formatting
     if (group.canonicalName === 'garlic' && finalUnit === 'clove') {

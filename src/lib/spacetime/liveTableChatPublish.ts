@@ -37,7 +37,7 @@ export function publishLiveTableChatMessage(
   },
 ): void {
   try {
-    void connection.reducers
+    connection.reducers
       .sendTableChatMessage({
         wtenTableId: message.wtenTableId.slice(0, UUID_MAX),
         messageUuid: message.messageUuid.slice(0, UUID_MAX),
@@ -58,8 +58,9 @@ export function publishLiveTableChatDelete(
   chatId: bigint,
 ): void {
   try {
-    void connection.reducers.deleteTableChatMessage({ chatId }).catch(() => {});
+    connection.reducers.deleteTableChatMessage({ chatId }).catch(() => {});
   } catch {
     // Connection raced a disconnect.
   }
 }
+

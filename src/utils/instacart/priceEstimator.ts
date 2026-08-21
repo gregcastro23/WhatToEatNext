@@ -183,8 +183,10 @@ export function estimateWeeklyGroceryCost(
   let totalShoppedCost = 0;
 
   for (const recipe of recipes) {
-    const ingredients = recipe.ingredients || [];
+    const { ingredients } = recipe;
     const breakdown: RecipeCostEstimate["breakdown"] = [];
+
+
     let highConfidence = 0;
 
     for (const ing of ingredients) {

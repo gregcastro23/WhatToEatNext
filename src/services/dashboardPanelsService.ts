@@ -1000,6 +1000,8 @@ export async function getRecentAlerts(
 export interface LivingEconomyMetrics {
   /** Amazon cart handoffs in the trailing 7 days (cart_handoff_intents). */
   affiliateClicksWeek: number;
+  /** Instacart split handoffs in the trailing 7 days. */
+  instacartHandoffsWeek: number;
   /** Cooked-it dish cards posted in the trailing 7 days. */
   cookedPostsWeek: number;
   /** Distinct users whose feed_visit practice fired today. */
@@ -1009,19 +1011,24 @@ export interface LivingEconomyMetrics {
 
 /**
  * The composite scorecard for the Living Economy release: affiliate-funnel
- * top (handoffs), the cook→share flywheel (dish cards), and social pull
- * (feed DAU via the practice ledger). Never throws.
+ * top (handoffs across Amazon & Instacart), the cook→share flywheel (dish cards),
+ * and social pull (feed DAU via the practice ledger). Never throws.
  */
 export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
   try {
     const result = await executeQuery<{
       affiliate_clicks: string;
+      instacart_handoffs: string;
       cooked_posts: string;
       feed_dau: string;
     }>(
       `SELECT
          (SELECT COUNT(*) FROM cart_handoff_intents
            WHERE created_at >= now() - interval '7 days') AS affiliate_clicks,
+         (SELECT COUNT(*) FROM feed_events
+           WHERE event_type = 'cart_handoff'
+             AND (metadata_payload->>'retailer' ILIKE '%instacart%' OR metadata_payload->>'provider' ILIKE '%instacart%')
+             AND created_at >= now() - interval '7 days') AS instacart_handoffs,
          (SELECT COUNT(*) FROM feed_events
            WHERE event_type = 'made_it'
              AND metadata_payload->>'card' = 'cooked'
@@ -1033,13 +1040,14 @@ export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
     const [row] = result.rows;
     return {
       affiliateClicksWeek: Number(row?.affiliate_clicks ?? 0),
+      instacartHandoffsWeek: Number(row?.instacart_handoffs ?? 0),
       cookedPostsWeek: Number(row?.cooked_posts ?? 0),
       feedDauToday: Number(row?.feed_dau ?? 0),
       live: true,
     };
   } catch (error) {
     _logger.warn("[getLivingEconomyMetrics] failed:", error);
-    return { affiliateClicksWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false };
+    return { affiliateClicksWeek: 0, instacartHandoffsWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false };
   }
 }
 

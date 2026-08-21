@@ -18,7 +18,7 @@
  * Ingredients in this system store ONLY elemental properties (Fire, Water, Earth, Air).
  */
 
-import type { IngredientCategory } from "@/data/ingredients/types";
+import type { IngredientCategory, Modality } from "@/data/ingredients/types";
 import type {
   Ingredient,
   RecipeIngredient,
@@ -39,7 +39,7 @@ import { elementalSignature } from "@/utils/elemental/signature";
 export function determineIngredientModality(
   qualities: string[] = [],
   elementalProperties?: ElementalProperties,
-): any {
+): Modality {
   // Ensure qualities is an array
   const qualitiesArray = Array.isArray(qualities) ? qualities : [];
 

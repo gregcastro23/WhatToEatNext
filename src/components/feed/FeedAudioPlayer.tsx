@@ -2,11 +2,16 @@
 
 import { Play, Pause, Volume2, VolumeX, RotateCcw } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { celestialAudio, type AspectType } from "@/lib/audio/celestialAudioSynthesizer";
+
 
 interface FeedAudioPlayerProps {
   src: string;
   title?: string;
   author?: string;
+  planet?: string;
+  element?: string;
+  aspect?: AspectType;
   compact?: boolean;
   className?: string;
 }
@@ -24,9 +29,12 @@ export function FeedAudioPlayer({
   src,
   title,
   author,
+  planet,
+  element,
+  aspect = "harmony",
   compact = false,
   className = "",
-}: FeedAudioPlayerProps) {
+}: FeedAudioPlayerProps): React.JSX.Element | null {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -45,29 +53,29 @@ export function FeedAudioPlayer({
     audio.src = src;
     audioRef.current = audio;
 
-    const onLoadedMetadata = () => {
+    const onLoadedMetadata = (): void => {
       setDuration(audio.duration || 0);
       setIsLoading(false);
       setHasError(false);
     };
 
-    const onTimeUpdate = () => {
+    const onTimeUpdate = (): void => {
       setCurrentTime(audio.currentTime || 0);
     };
 
-    const onEnded = () => {
+    const onEnded = (): void => {
       setIsPlaying(false);
       setCurrentTime(0);
     };
 
-    const onError = () => {
+    const onError = (): void => {
       setHasError(true);
       setIsLoading(false);
       setIsPlaying(false);
     };
 
-    const onWaiting = () => setIsLoading(true);
-    const onPlaying = () => setIsLoading(false);
+    const onWaiting = (): void => setIsLoading(true);
+    const onPlaying = (): void => setIsLoading(false);
 
     audio.addEventListener("loadedmetadata", onLoadedMetadata);
     audio.addEventListener("timeupdate", onTimeUpdate);
@@ -89,7 +97,7 @@ export function FeedAudioPlayer({
     };
   }, [src]);
 
-  const togglePlay = useCallback(() => {
+  const togglePlay = useCallback((): void => {
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -97,6 +105,26 @@ export function FeedAudioPlayer({
       audio.pause();
       setIsPlaying(false);
     } else {
+      // Play celestial harmonic resonance stinger before agent voice
+      if (planet || element) {
+        const targetPlanet =
+          planet ??
+          (element === "fire"
+            ? "Mars"
+            : element === "water"
+              ? "Moon"
+              : element === "earth"
+                ? "Saturn"
+                : "Mercury");
+
+        celestialAudio.playResonance({
+          planet: targetPlanet,
+          aspect,
+          durationSeconds: 0.9,
+          volume: 0.1,
+        });
+      }
+
       audio
         .play()
         .then(() => {
@@ -108,9 +136,10 @@ export function FeedAudioPlayer({
           setIsPlaying(false);
         });
     }
-  }, [isPlaying]);
+  }, [isPlaying, planet, element, aspect]);
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const targetTime = Number(e.target.value);
     setCurrentTime(targetTime);
     if (audioRef.current) {
@@ -118,14 +147,14 @@ export function FeedAudioPlayer({
     }
   };
 
-  const toggleMute = () => {
+  const toggleMute = (): void => {
     if (!audioRef.current) return;
     const nextMuted = !isMuted;
     audioRef.current.muted = nextMuted;
     setIsMuted(nextMuted);
   };
 
-  const cycleRate = () => {
+  const cycleRate = (): void => {
     if (!audioRef.current) return;
     const nextIndex = (playbackRateIndex + 1) % PLAYBACK_RATES.length;
     const rate = PLAYBACK_RATES[nextIndex];
@@ -133,11 +162,12 @@ export function FeedAudioPlayer({
     setPlaybackRateIndex(nextIndex);
   };
 
-  const restart = () => {
+  const restart = (): void => {
     if (!audioRef.current) return;
     audioRef.current.currentTime = 0;
     setCurrentTime(0);
   };
+
 
   if (hasError) {
     return (

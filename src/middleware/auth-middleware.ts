@@ -6,10 +6,41 @@
 import type { TokenPayload } from "@/lib/auth/jwt-auth";
 import { authService, UserRole } from "@/lib/auth/jwt-auth";
 import { logger } from "@/utils/logger";
-// import type { Request, Response, NextFunction } from "express"; // Commented out - express not installed
-type Request = any;
-type Response = any;
-type NextFunction = any;
+
+export interface HttpRequest {
+  headers?: {
+    authorization?: string;
+    [key: string]: string | string[] | undefined;
+  };
+  query?: {
+    token?: string | string[];
+    [key: string]: unknown;
+  };
+  cookies?: {
+    accessToken?: string;
+    [key: string]: string | undefined;
+  };
+  path?: string;
+  method?: string;
+  ip?: string;
+  user?: TokenPayload;
+  authTokens?: {
+    accessToken: string;
+    refreshToken?: string;
+  };
+}
+
+export interface HttpResponse {
+  status: (code: number) => HttpResponse;
+  json: (body: unknown) => HttpResponse | void;
+}
+
+export type HttpNextFunction = (err?: unknown) => void;
+
+// Backwards-compatible aliases
+export type Request = HttpRequest;
+export type Response = HttpResponse;
+export type NextFunction = HttpNextFunction;
 
 // Extend Express Request interface to include user information
 declare global {
@@ -31,19 +62,26 @@ export interface AuthMiddlewareOptions {
   allowGuest?: boolean;
 }
 
+export type MiddlewareHandler = (
+  req: HttpRequest,
+  res: HttpResponse,
+  next: HttpNextFunction,
+) => Promise<void>;
+
 /**
  * Extract JWT token from request headers
  */
-function extractTokenFromRequest(req: Request): string | null {
-  const authHeader = req.headers.authorization;
+function extractTokenFromRequest(req: HttpRequest): string | null {
+  const authHeader = req.headers?.authorization;
 
   if (authHeader?.startsWith("Bearer ")) {
     return authHeader.slice(7); // Remove 'Bearer ' prefix
   }
 
   // Check for token in query parameters (for WebSocket connections)
-  if (req.query.token && typeof req.query.token === "string") {
-    return req.query.token;
+  const queryToken = req.query?.token;
+  if (queryToken && typeof queryToken === "string") {
+    return queryToken;
   }
 
   // Check for token in cookies
@@ -57,11 +95,11 @@ function extractTokenFromRequest(req: Request): string | null {
 /**
  * Main authentication middleware factory
  */
-export function authenticate(options: AuthMiddlewareOptions = {}) {
+export function authenticate(options: AuthMiddlewareOptions = {}): MiddlewareHandler {
   return async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
+    req: HttpRequest,
+    res: HttpResponse,
+    next: HttpNextFunction,
   ): Promise<void> => {
     try {
       const {
@@ -226,7 +264,7 @@ export const optionalAuth = authenticate({
 /**
  * Require specific permissions
  */
-export function requirePermissions(...permissions: string[]) {
+export function requirePermissions(...permissions: string[]): MiddlewareHandler {
   return authenticate({
     required: true,
     permissions,
@@ -244,35 +282,35 @@ export const requireService = authenticate({
 /**
  * Rate limiting based on authentication status
  */
-export function getAuthenticatedUserId(req: Request): string | null {
-  return req.user?.userId || null;
+export function getAuthenticatedUserId(req: HttpRequest): string | null {
+  return req.user?.userId ?? null;
 }
 
 /**
  * Check if user is authenticated
  */
-export function isAuthenticated(req: Request): boolean {
-  return !!req.user;
+export function isAuthenticated(req: HttpRequest): boolean {
+  return Boolean(req.user);
 }
 
 /**
  * Check if user has admin privileges
  */
-export function isAdmin(req: Request): boolean {
-  return req.user?.roles.includes(UserRole.ADMIN) || false;
+export function isAdmin(req: HttpRequest): boolean {
+  return req.user?.roles.includes(UserRole.ADMIN) ?? false;
 }
 
 /**
  * Get user's permission scopes
  */
-export function getUserScopes(req: Request): string[] {
-  return req.user?.scopes || [];
+export function getUserScopes(req: HttpRequest): string[] {
+  return req.user?.scopes ?? [];
 }
 
 /**
  * Authentication status endpoint middleware
  */
-export const authStatus = (req: Request, res: Response): void => {
+export const authStatus = (req: HttpRequest, res: HttpResponse): void => {
   if (!req.user) {
     res.json({
       authenticated: false,

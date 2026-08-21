@@ -25,6 +25,7 @@ import type {
   ConversationKind,
   ConversationMembership,
   ConversationRecord,
+  ConversationRole,
   InboxEntry,
   MessageReport,
   MessageReportReason,
@@ -38,7 +39,82 @@ import type { PoolClient } from "pg";
 // ─── Row → domain mapping helpers ────────────────────────────────────────
 
 type DbTimestamp = Date | string | null | undefined;
-type Row = any;
+
+interface ConversationDbRow {
+  id: string;
+  kind: string;
+  subject_ref?: string | null;
+  title?: string | null;
+  created_by?: string | null;
+  dm_user_lo?: string | null;
+  dm_user_hi?: string | null;
+  last_message_at?: DbTimestamp;
+  archived_at?: DbTimestamp;
+  created_at?: DbTimestamp;
+  updated_at?: DbTimestamp;
+}
+
+interface MembershipDbRow {
+  conversation_id: string;
+  user_id: string;
+  role: ConversationRole;
+  notify_level: NotifyLevel;
+  muted_by_host_until?: DbTimestamp;
+  last_read_at?: DbTimestamp;
+  last_read_message_id?: string | null;
+  joined_at?: DbTimestamp;
+  left_at?: DbTimestamp;
+  banned?: boolean | null;
+}
+
+interface MessageDbRow {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  body?: string | null;
+  attachments?: unknown;
+  reply_to_id?: string | null;
+  client_key?: string | null;
+  created_at?: DbTimestamp;
+  edited_at?: DbTimestamp;
+  deleted_at?: DbTimestamp;
+  sender_name?: string | null;
+  sender_image?: string | null;
+  sender_is_agent?: boolean | null;
+}
+
+interface ReportDbRow {
+  id: string;
+  message_id: string;
+  conversation_id: string;
+  reporter_id: string;
+  reason: string;
+  detail?: string | null;
+  status: string;
+  created_at?: DbTimestamp;
+  resolved_at?: DbTimestamp;
+  resolved_by?: string | null;
+  message_body?: string | null;
+  message_sender_id?: string | null;
+  message_hidden?: boolean | null;
+  conversation_kind?: string | null;
+}
+
+interface InboxDbRow extends ConversationDbRow {
+  my_role: ConversationRole;
+  my_notify_level: NotifyLevel;
+  my_last_read_at?: DbTimestamp;
+  last_msg_id?: string | null;
+  last_msg_sender_id?: string | null;
+  last_msg_sender_name?: string | null;
+  last_msg_body?: string | null;
+  last_msg_created_at?: DbTimestamp;
+  unread_count?: number | null;
+  other_id?: string | null;
+  other_name?: string | null;
+  other_image?: string | null;
+  other_is_agent?: boolean | null;
+}
 
 const dbIso = (value: DbTimestamp, fallback = new Date().toISOString()): string =>
   value instanceof Date ? value.toISOString() : value ?? fallback;
@@ -51,7 +127,7 @@ function readJsonColumn<T>(value: unknown, fallback: T): T {
   return (value as T) ?? fallback;
 }
 
-function rowToConversation(row: Row): ConversationRecord {
+function rowToConversation(row: ConversationDbRow): ConversationRecord {
   return {
     id: String(row.id),
     kind: row.kind as ConversationKind,
@@ -67,7 +143,7 @@ function rowToConversation(row: Row): ConversationRecord {
   };
 }
 
-function rowToMembership(row: Row): ConversationMembership {
+function rowToMembership(row: MembershipDbRow): ConversationMembership {
   return {
     conversationId: String(row.conversation_id),
     userId: String(row.user_id),
@@ -82,7 +158,7 @@ function rowToMembership(row: Row): ConversationMembership {
   };
 }
 
-function rowToMessage(row: Row): ChatMessage {
+function rowToMessage(row: MessageDbRow): ChatMessage {
   const deleted = !!row.deleted_at;
   return {
     id: String(row.id),
@@ -102,7 +178,7 @@ function rowToMessage(row: Row): ChatMessage {
   };
 }
 
-function rowToReport(row: Row): MessageReport {
+function rowToReport(row: ReportDbRow): MessageReport {
   return {
     id: String(row.id),
     messageId: String(row.message_id),
@@ -117,7 +193,7 @@ function rowToReport(row: Row): MessageReport {
     messageBody: row.message_body ?? undefined,
     messageSenderId: row.message_sender_id ?? undefined,
     messageHidden: row.message_hidden === true,
-    conversationKind: (row.conversation_kind as ConversationKind) ?? undefined,
+    conversationKind: (row.conversation_kind as ConversationKind | undefined) ?? undefined,
   };
 }
 
@@ -126,7 +202,7 @@ function rowToReport(row: Row): MessageReport {
  * commensalship with the viewer (either direction — plan §3: "blocked senders
  * excluded for blocker"). $viewer is interpolated as a parameter index.
  */
-const notBlockedForViewerSql = (senderCol: string, viewerParam: string) => `
+const notBlockedForViewerSql = (senderCol: string, viewerParam: string): string => `
   NOT EXISTS (
     SELECT 1 FROM commensalships b
      WHERE b.status = 'blocked'
@@ -204,11 +280,11 @@ class ChatDatabaseService {
        ON CONFLICT (kind, subject_ref) WHERE kind <> 'dm' DO NOTHING`,
       [table.id, table.title, table.hostId],
     );
-    const conv = await client.query(
+    const conv = await client.query<{ id: string }>(
       `SELECT id FROM conversations WHERE kind = 'table' AND subject_ref = $1`,
       [table.id],
     );
-    const conversationId = conv.rows[0].id as string;
+    const conversationId = String(conv.rows[0]?.id);
 
     await client.query(
       `INSERT INTO conversation_members (conversation_id, user_id, role)
@@ -230,7 +306,7 @@ class ChatDatabaseService {
   async ensureTableConversation(tableId: string): Promise<ConversationRecord | null> {
     try {
       const conversationId = await withTransaction(async (client) => {
-        const tableResult = await client.query(
+        const tableResult = await client.query<{ id: string; host_id: string; title: string; status: string }>(
           `SELECT id, host_id, title, status FROM tables WHERE id = $1`,
           [tableId],
         );
@@ -262,7 +338,7 @@ class ChatDatabaseService {
     userId: string,
   ): Promise<ConversationMembership | null> {
     try {
-      const result = await executeQuery(
+      await executeQuery(
         `INSERT INTO conversation_members (conversation_id, user_id, role)
          SELECT $1::uuid, $3::uuid,
                 CASE WHEN t.host_id = $3::uuid THEN 'host' ELSE 'member' END
@@ -275,7 +351,6 @@ class ChatDatabaseService {
          ON CONFLICT (conversation_id, user_id) DO NOTHING`,
         [conversationId, tableId, userId],
       );
-      void result;
       return await this.getMembership(conversationId, userId);
     } catch (error) {
       _logger.error("ensureTableMembership failed:", error);
@@ -309,11 +384,11 @@ class ChatDatabaseService {
            ON CONFLICT (dm_user_lo, dm_user_hi) WHERE kind = 'dm' DO NOTHING`,
           [lo, hi, userA],
         );
-        const conv = await client.query(
+        const conv = await client.query<{ id: string }>(
           `SELECT id FROM conversations WHERE kind = 'dm' AND dm_user_lo = $1::uuid AND dm_user_hi = $2::uuid`,
           [lo, hi],
         );
-        const id = conv.rows[0].id as string;
+        const id = String(conv.rows[0]?.id);
         await client.query(
           `INSERT INTO conversation_members (conversation_id, user_id, role)
            VALUES ($1::uuid, $2::uuid, 'member'), ($1::uuid, $3::uuid, 'member')
@@ -341,13 +416,13 @@ class ChatDatabaseService {
   ): Promise<ConversationRecord | null> {
     try {
       const conversationId = await withTransaction(async (client) => {
-        const conv = await client.query(
+        const conv = await client.query<{ id: string }>(
           `INSERT INTO conversations (kind, subject_ref, title, created_by)
            VALUES ('circle', 'circle:' || uuid_generate_v4()::text, $1, $2::uuid)
            RETURNING id`,
           [title, creatorId],
         );
-        const id = conv.rows[0].id as string;
+        const id = String(conv.rows[0]?.id);
         await client.query(
           `INSERT INTO conversation_members (conversation_id, user_id, role)
            VALUES ($1::uuid, $2::uuid, 'host')
@@ -376,7 +451,7 @@ class ChatDatabaseService {
 
   async getConversationById(conversationId: string): Promise<ConversationRecord | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<ConversationDbRow>(
         `SELECT * FROM conversations WHERE id = $1::uuid`,
         [conversationId],
       );
@@ -393,7 +468,7 @@ class ChatDatabaseService {
     userId: string,
   ): Promise<ConversationMembership | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<MembershipDbRow>(
         `SELECT * FROM conversation_members WHERE conversation_id = $1::uuid AND user_id = $2::uuid`,
         [conversationId, userId],
       );
@@ -413,7 +488,7 @@ class ChatDatabaseService {
    */
   async listInbox(userId: string, limit = 50): Promise<InboxEntry[]> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<InboxDbRow>(
         `SELECT c.*,
                 cm.role AS my_role, cm.notify_level AS my_notify_level, cm.last_read_at AS my_last_read_at,
                 lm.id AS last_msg_id, lm.sender_id AS last_msg_sender_id,
@@ -452,7 +527,7 @@ class ChatDatabaseService {
           LIMIT $2`,
         [userId, limit],
       );
-      return result.rows.map((row: Row): InboxEntry => {
+      return result.rows.map((row): InboxEntry => {
         const conversation = rowToConversation(row);
         return {
           conversation,
@@ -505,7 +580,7 @@ class ChatDatabaseService {
         cursorClause = `AND (m.created_at, m.id) < ($4::timestamptz, $5::uuid)`;
         params.push(opts.before.createdAt, opts.before.id);
       }
-      const result = await executeQuery(
+      const result = await executeQuery<MessageDbRow>(
         `SELECT m.*,
                 COALESCE(up.name, u.name) AS sender_name,
                 u.image AS sender_image,
@@ -546,7 +621,7 @@ class ChatDatabaseService {
   }): Promise<{ message: ChatMessage; replay: boolean } | null> {
     try {
       return await withTransaction(async (client) => {
-        const inserted = await client.query(
+        const inserted = await client.query<MessageDbRow>(
           `INSERT INTO messages (conversation_id, sender_id, body, attachments, reply_to_id, client_key)
            VALUES ($1::uuid, $2::uuid, $3, $4, $5::uuid, $6)
            ON CONFLICT (conversation_id, sender_id, client_key) WHERE client_key IS NOT NULL DO NOTHING
@@ -568,7 +643,7 @@ class ChatDatabaseService {
           return { message: rowToMessage(inserted.rows[0]), replay: false };
         }
         // clientKey replay — return the original.
-        const existing = await client.query(
+        const existing = await client.query<MessageDbRow>(
           `SELECT * FROM messages
             WHERE conversation_id = $1::uuid AND sender_id = $2::uuid AND client_key = $3`,
           [input.conversationId, input.senderId, input.clientKey ?? null],
@@ -585,7 +660,7 @@ class ChatDatabaseService {
   /** Reply target lookup for the enforcement chain's same-conversation rule. */
   async getMessageConversationId(messageId: string): Promise<string | null> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<{ conversation_id: string }>(
         `SELECT conversation_id FROM messages WHERE id = $1::uuid`,
         [messageId],
       );
@@ -608,7 +683,7 @@ class ChatDatabaseService {
     senderId: string,
   ): Promise<Array<{ userId: string; role: string }>> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<{ user_id: string; role: string }>(
         `SELECT cm.user_id, cm.role
            FROM conversation_members cm
           WHERE cm.conversation_id = $1::uuid
@@ -618,7 +693,7 @@ class ChatDatabaseService {
             AND ${notBlockedForViewerSql("$2::uuid", "cm.user_id")}`,
         [conversationId, senderId],
       );
-      return result.rows.map((row: Row) => ({ userId: String(row.user_id), role: row.role }));
+      return result.rows.map((row) => ({ userId: String(row.user_id), role: row.role }));
     } catch (error) {
       _logger.error("getNotifiableRecipients failed:", error);
       return [];
@@ -628,7 +703,7 @@ class ChatDatabaseService {
   /** Distinct senders so the route can recognize dm_thread_started for both parties. */
   async countDistinctSenders(conversationId: string): Promise<number> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<{ n: number }>(
         `SELECT COUNT(DISTINCT sender_id)::int AS n FROM messages
           WHERE conversation_id = $1::uuid AND deleted_at IS NULL`,
         [conversationId],
@@ -757,7 +832,7 @@ class ChatDatabaseService {
     opts?: { isAdmin?: boolean },
   ): Promise<SoftDeleteResult> {
     try {
-      const context = await executeQuery(
+      const context = await executeQuery<{ sender_id: string; deleted_at: DbTimestamp; actor_role: ConversationRole | null }>(
         `SELECT m.sender_id, m.deleted_at, cm.role AS actor_role
            FROM messages m
            LEFT JOIN conversation_members cm
@@ -799,14 +874,14 @@ class ChatDatabaseService {
   ): Promise<ReportResult> {
     try {
       return await withTransaction(async (client) => {
-        const msg = await client.query(
+        const msg = await client.query<{ conversation_id: string }>(
           `SELECT conversation_id FROM messages WHERE id = $1::uuid FOR UPDATE`,
           [messageId],
         );
         if (msg.rows.length === 0) return { ok: false as const, reason: "not_found" as const };
-        const conversationId = msg.rows[0].conversation_id as string;
+        const conversationId = String(msg.rows[0].conversation_id);
 
-        const inserted = await client.query(
+        const inserted = await client.query<{ id: string }>(
           `INSERT INTO message_reports (message_id, conversation_id, reporter_id, reason, detail)
            VALUES ($1::uuid, $2::uuid, $3::uuid, $4, $5)
            ON CONFLICT ON CONSTRAINT uniq_message_report DO NOTHING
@@ -814,7 +889,7 @@ class ChatDatabaseService {
           [messageId, conversationId, reporterId, reason, detail ?? null],
         );
         if (inserted.rows.length === 0) {
-          const current = await client.query(
+          const current = await client.query<{ hidden: boolean }>(
             `SELECT hidden FROM messages WHERE id = $1::uuid`,
             [messageId],
           );
@@ -825,7 +900,7 @@ class ChatDatabaseService {
           };
         }
 
-        const updated = await client.query(
+        const updated = await client.query<{ hidden: boolean }>(
           `UPDATE messages
               SET flagged_count = flagged_count + 1,
                   hidden = hidden OR (flagged_count + 1 >= $2)
@@ -849,7 +924,7 @@ class ChatDatabaseService {
 
   async getUnread(userId: string): Promise<ChatUnread> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<{ conversation_id: string; unread: number }>(
         `SELECT cm.conversation_id, COUNT(m.id)::int AS unread
            FROM conversation_members cm
            JOIN messages m
@@ -865,7 +940,7 @@ class ChatDatabaseService {
       const byConversation: Record<string, number> = {};
       let total = 0;
       for (const row of result.rows) {
-        const n = row.unread ?? 0;
+        const n = row.unread;
         byConversation[String(row.conversation_id)] = n;
         total += n;
       }
@@ -909,7 +984,7 @@ class ChatDatabaseService {
         statusClause = "WHERE r.status = $2";
         params.push(opts.status);
       }
-      const result = await executeQuery(
+      const result = await executeQuery<ReportDbRow>(
         `SELECT r.*,
                 m.body AS message_body, m.sender_id AS message_sender_id, m.hidden AS message_hidden,
                 c.kind AS conversation_kind
@@ -939,7 +1014,7 @@ class ChatDatabaseService {
   ): Promise<MessageReport | null> {
     try {
       return await withTransaction(async (client) => {
-        const updated = await client.query(
+        const updated = await client.query<ReportDbRow>(
           `UPDATE message_reports
               SET status = $2, resolved_at = CURRENT_TIMESTAMP, resolved_by = $3::uuid
             WHERE id = $1::uuid

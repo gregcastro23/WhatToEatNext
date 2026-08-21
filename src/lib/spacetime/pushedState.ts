@@ -26,13 +26,25 @@ export function loadPushedEntries(storageKey: string): Map<string, PushedEntry> 
   if (typeof window === "undefined") return new Map();
   try {
     const raw = window.localStorage.getItem(storageKey);
-    if (!raw) return new Map();
-    const parsed = JSON.parse(raw) as Record<string, PushedEntry>;
-    return new Map(
-      Object.entries(parsed).filter(
-        ([, v]) => v && typeof v.s === "string" && typeof v.t === "number",
-      ),
-    );
+    if (raw === null || raw === "") return new Map();
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const map = new Map<string, PushedEntry>();
+    for (const [k, v] of Object.entries(parsed)) {
+      if (
+        v !== null &&
+        typeof v === "object" &&
+        "s" in v &&
+        "t" in v &&
+        typeof (v as PushedEntry).s === "string" &&
+        typeof (v as PushedEntry).t === "number"
+      ) {
+        map.set(k, v as PushedEntry);
+      }
+    }
+    return map;
+
+
+
   } catch {
     return new Map();
   }

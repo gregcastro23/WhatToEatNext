@@ -122,7 +122,7 @@ interface CelestialData {
 }
 
 class CelestialCalculator {
-  private static instance: CelestialCalculator;
+  private static instance: CelestialCalculator | undefined;
   private readonly CACHE_KEY = "current_celestial_influences";
   private readonly TAROT_CACHE_KEY = "current_tarot_influences";
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
@@ -329,14 +329,14 @@ class CelestialCalculator {
     }
 
     // Add zodiac-related major arcana cards
-    const zodiacCards = TAROT_ZODIAC_MAPPING[zodiacSign] || [];
+    const zodiacCards = TAROT_ZODIAC_MAPPING[zodiacSign];
     zodiacCards.forEach((cardName) => {
       tarotCards.push(this.createTarotCard(cardName, zodiacSign));
     });
 
     // Add planet-related major arcana cards
     dominantPlanets.forEach((planet) => {
-      const planetCards = TAROT_PLANETARY_MAPPING[planet.name] || [];
+      const planetCards = TAROT_PLANETARY_MAPPING[planet.name] ?? [];
       planetCards.forEach((cardName) => {
         tarotCards.push(this.createTarotCard(cardName, undefined, planet.name));
       });
@@ -381,7 +381,7 @@ class CelestialCalculator {
   private ensureCompleteAlignment(
     alignment: Partial<CelestialAlignment>,
   ): CelestialAlignment {
-    if (!alignment) {
+    if (Object.keys(alignment).length === 0) {
       return this.getFallbackAlignment();
     }
 
@@ -544,9 +544,9 @@ class CelestialCalculator {
 
     // Get positions of Jupiter and Saturn
     const jupiterPos =
-      planetaryPositions["jupiter"] || planetaryPositions["Jupiter"];
+      planetaryPositions.jupiter ?? planetaryPositions.Jupiter;
     const saturnPos =
-      planetaryPositions["saturn"] || planetaryPositions["Saturn"];
+      planetaryPositions.saturn ?? planetaryPositions.Saturn;
 
     // Define dignity tables for Jupiter and Saturn
     const jupiterDignities: Record<string, { type: string; strength: number }> =
@@ -570,8 +570,8 @@ class CelestialCalculator {
     // Calculate base influences based on dignities
     if (jupiterPos?.sign) {
       const jupiterSign = jupiterPos.sign.toLowerCase();
-      const dignity = jupiterDignities[jupiterSign];
-      if (dignity) {
+      const dignity = jupiterDignities[jupiterSign] as { type: string; strength: number } | undefined;
+      if (dignity !== undefined) {
         jupiterInfluence = 0.5 + dignity.strength;
 
         // Determine effect based on dignity
@@ -586,8 +586,8 @@ class CelestialCalculator {
     let _saturnDignityName = "";
     if (saturnPos?.sign) {
       const saturnSign = saturnPos.sign.toLowerCase();
-      const dignity = saturnDignities[saturnSign];
-      if (dignity) {
+      const dignity = saturnDignities[saturnSign] as { type: string; strength: number } | undefined;
+      if (dignity !== undefined) {
         saturnInfluence = 0.5 + dignity.strength;
         _saturnDignityName = dignity.type;
 
@@ -737,28 +737,6 @@ class CelestialCalculator {
       { name: hourRuler, influence: 0.5 },
     ];
 
-    // Add Sun sign placement if it exists in planetary positions
-    const sunPos = planetaryPositions["sun"] || planetaryPositions["Sun"];
-    if (sunPos.sign) {
-      // Add the Sun with its sign placement if not already included
-      if (!dominantPlanets.some((p) => p.name === "Sun")) {
-        dominantPlanets.push({
-          name: "Sun",
-          influence: 0.65,
-          effect: `in ${sunPos.sign}`,
-        });
-      } else {
-        // Update existing Sun with sign placement effect
-        const sunIndex = dominantPlanets.findIndex((p) => p.name === "Sun");
-        if (sunIndex >= 0) {
-          dominantPlanets[sunIndex] = {
-            ...dominantPlanets[sunIndex],
-            effect: `in ${sunPos.sign}`,
-          };
-        }
-      }
-    }
-
     // If it's a full moon, add lunar influence
     const now = new Date();
     const lunarPhase = this.calculateLunarPhase(now);
@@ -819,43 +797,91 @@ class CelestialCalculator {
       }
     }
 
-    // Add outer planets based on their actual positions and dignities
+    // Add Sun sign placement if it exists in planetary positions
+    const sunPos = planetaryPositions.sun ?? planetaryPositions.Sun;
+    if (sunPos?.sign) {
+      // Add the Sun with its sign placement if not already included
+      if (!dominantPlanets.some((p) => p.name === "Sun")) {
+        dominantPlanets.push({
+          name: "Sun",
+          influence: 0.65,
+          effect: `in ${sunPos.sign}`,
+        });
+      } else {
+        // Update existing Sun with sign placement effect
+        const sunIndex = dominantPlanets.findIndex((p) => p.name === "Sun");
+        if (sunIndex >= 0) {
+          dominantPlanets[sunIndex] = {
+            ...dominantPlanets[sunIndex],
+            effect: `in ${sunPos.sign}`,
+          };
+        }
+      }
+    }
+
+    // Add Moon sign placement if it exists
+    const moonPos = planetaryPositions.moon ?? planetaryPositions.Moon;
+    if (moonPos?.sign) {
+      if (!dominantPlanets.some((p) => p.name === "Moon")) {
+        dominantPlanets.push({
+          name: "Moon",
+          influence: 0.6,
+          effect: `in ${moonPos.sign}`,
+        });
+      } else {
+        const moonIndex = dominantPlanets.findIndex((p) => p.name === "Moon");
+        if (moonIndex >= 0) {
+          dominantPlanets[moonIndex] = {
+            ...dominantPlanets[moonIndex],
+            effect: `in ${moonPos.sign}`,
+          };
+        }
+      }
+    }
+
+    // Sort dominant planets by influence (highest first)
+    dominantPlanets.sort((a, b) => (b.influence ?? 0) - (a.influence ?? 0));
+
+    // Limit to top 5 planets to avoid overwhelming the alignment
+    const filteredDominantPlanets = dominantPlanets.slice(0, 5);
+
+    // If we have fewer than 3 planets, add outer planets (Uranus, Neptune, Pluto)
+    if (filteredDominantPlanets.length < 3) {
+      return this.addOuterPlanets(filteredDominantPlanets, planetaryPositions);
+    }
+
+    return filteredDominantPlanets;
+  }
+
+  /**
+   * Add outer planets when few traditional planets are dominant
+   */
+  private addOuterPlanets(
+    dominantPlanets: CelestialBody[],
+    planetaryPositions: PlanetaryPositionRecord,
+  ): CelestialBody[] {
     const outerPlanets = ["Uranus", "Neptune", "Pluto"];
     const outerPlanetDignities: Record<string, Record<string, number>> = {
-      Uranus: {
-        aquarius: 0.8, // Modern rulership
-        scorpio: 0.5, // Exaltation
-        leo: 0.3, // Detriment
-      },
-      Neptune: {
-        pisces: 0.8, // Modern rulership
-        cancer: 0.5, // Exaltation
-        virgo: 0.3, // Detriment
-      },
-      Pluto: {
-        scorpio: 0.8, // Modern rulership
-        aquarius: 0.5, // Currently in Aquarius long-term
-        taurus: 0.3, // Detriment
-      },
+      Uranus: { aquarius: 0.4, scorpio: 0.3 }, // Modern rulership/exaltation
+      Neptune: { pisces: 0.4, cancer: 0.3 }, // Modern rulership/exaltation
+      Pluto: { scorpio: 0.4, leo: 0.3 }, // Modern rulership/exaltation
     };
 
     outerPlanets.forEach((planet) => {
       // Get the planet's current position from the passed positions or default values
-      const position = planetaryPositions[planet.toLowerCase()] || {
+      const position = planetaryPositions[planet.toLowerCase()] ?? {
         sign: "",
         degree: 0,
       };
-      const sign = position.sign.toLowerCase() || "";
+      const sign = position.sign.toLowerCase();
 
       // Base influence for outer planets
       let influence = 0.2;
 
       // Increase influence if planet is in a sign it has dignity in
-      if (
-        sign &&
-        outerPlanetDignities[planet]?.[sign]
-      ) {
-        influence = outerPlanetDignities[planet][sign];
+      const planetDignities = outerPlanetDignities[planet];
+      if (sign && planetDignities?.[sign] !== undefined) {
+        influence = planetDignities[sign];
       }
 
       dominantPlanets.push({ name: planet, influence });
@@ -1209,11 +1235,9 @@ class CelestialCalculator {
       );
 
       // Store the calculated energy states and chakra energies in the cache
-      if (alignment && typeof alignment === "object") {
-        alignment.energyStateBalance = energyStateBalance;
-        alignment.chakraEmphasis = chakraEnergies;
-        cache.set(this.CACHE_KEY, alignment, 60 * 60);
-      }
+      alignment.energyStateBalance = energyStateBalance;
+      alignment.chakraEmphasis = chakraEnergies;
+      cache.set(this.CACHE_KEY, alignment, 60 * 60);
 
       // Normalize values again
       const sum = Object.values(balance).reduce((a, b) => a + b, 0);
@@ -1256,10 +1280,8 @@ class CelestialCalculator {
       return energyStateBalance;
     }
 
-    // Modify energy states based on zodiac
-    if (alignment.zodiacSign) {
-      // First, apply zodiac influence
-      const sign = alignment.zodiacSign.toLowerCase();
+    // First, apply zodiac influence
+    const sign = alignment.zodiacSign.toLowerCase();
 
       // Apply elemental influences based on zodiac element
       switch (sign) {
@@ -1367,10 +1389,9 @@ class CelestialCalculator {
           energyStateBalance.Matter += 0.03 * (saturnInfluence ?? 0);
         }
       }
-    }
 
     // Normalize energy state values
-    const total = Object.values(energyStateBalance).reduce(
+    const total = (Object.values(energyStateBalance) as number[]).reduce(
       (sum, val) => sum + val,
       0,
     );
@@ -1459,7 +1480,7 @@ class CelestialCalculator {
     }
 
     // Normalize chakra energy values
-    const total = Object.values(chakraEnergies).reduce(
+    const total = (Object.values(chakraEnergies) as number[]).reduce(
       (sum, val) => sum + val,
       0,
     );
@@ -1513,14 +1534,9 @@ class CelestialCalculator {
         month < endMonth || (month === endMonth && day <= endDay);
 
       // Handle year boundary cases (e.g., Dec 22 - Jan 1)
-      let isInRange = false;
-      if (startMonth > endMonth) {
-        // Range spans the year boundary
-        isInRange = afterStart || beforeEnd;
-      } else {
-        // Regular range within the year
-        isInRange = afterStart && beforeEnd;
-      }
+      const isInRange = startMonth > endMonth
+        ? afterStart || beforeEnd
+        : afterStart && beforeEnd;
 
       if (isInRange) {
         // Parse suit from card name (e.g., 'two_of_wands' -> 'wands')
@@ -1845,11 +1861,9 @@ class CelestialCalculator {
 
     // Return appropriate meanings based on suit, value, and orientation
     const orientation = isUpright ? "upright" : "reversed";
-    return (
-      meanings[suit as keyof typeof meanings][orientation].slice(
-        index * 3,
-        index * 3 + 3,
-      ) || ["Balance", "Harmony", "Connection"]
+    return meanings[suit as keyof typeof meanings][orientation].slice(
+      index * 3,
+      index * 3 + 3,
     );
   }
 }

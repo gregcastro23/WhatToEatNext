@@ -25,7 +25,11 @@ import type {
   InstacartRetailersResponse,
 } from "@/types/instacart";
 import type { GroceryItem } from "@/types/menuPlanner";
-import { splitItemsByInventory } from "@/utils/instacart/ingredientIntelligence";
+import {
+  splitItemsByInventory,
+  splitCartByRetailer,
+  type SplitCartResult,
+} from "@/utils/instacart/ingredientIntelligence";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("InstacartService");
@@ -36,6 +40,7 @@ type InstacartEventType =
   | "instacart_shopping_list_created"
   | "instacart_recipe_page_created"
   | "instacart_retailers_fetched"
+  | "instacart_multi_retailer_split"
   | "instacart_handoff_error";
 
 interface InstacartEvent {
@@ -62,11 +67,10 @@ class InstacartService {
   }
 
   public static getInstance(): InstacartService {
-    if (!InstacartService.instance) {
-      InstacartService.instance = new InstacartService();
-    }
+    InstacartService.instance ??= new InstacartService();
     return InstacartService.instance;
   }
+
 
   // ─── Shopping List ─────────────────────────────────────────────────────
 
@@ -247,6 +251,64 @@ class InstacartService {
   }
 
   /**
+   * Generates a multi-retailer split fulfillment plan across Instacart and Amazon Fresh.
+   * Speciality/ethnic staples route to Instacart; commodities/pantry route to Amazon Fresh.
+   */
+  public async createMultiRetailerSplitHandoff(params: {
+    items: Array<{ name: string; quantity?: number; unit?: string }>;
+    inventory?: string[];
+    dietaryFlags?: string[];
+    postalCode?: string;
+  }): Promise<{
+    split: SplitCartResult<{ name: string; quantity?: number; unit?: string }>;
+    instacartShoppingUrl?: string;
+    nearbyRetailers?: InstacartRetailer[];
+  }> {
+    const split = splitCartByRetailer(params.items, params.inventory ?? [], params.dietaryFlags ?? []);
+
+    let instacartShoppingUrl: string | undefined;
+    if (split.instacartItems.length > 0) {
+      try {
+        const groceryItems: GroceryItem[] = split.instacartItems.map((item, idx) => ({
+          id: `split-${idx}`,
+          ingredient: item.name,
+          quantity: item.quantity ?? 1,
+          unit: item.unit ?? "each",
+          category: "Specialty",
+          purchased: false,
+          inPantry: false,
+          usedInRecipes: [],
+        }));
+        instacartShoppingUrl = await this.createShoppingList(
+          groceryItems,
+          "Specialty & Fresh Ingredients from Alchm Kitchen",
+        );
+      } catch (err) {
+        logger.warn("Failed to create Instacart shopping list for split cart:", err);
+      }
+    }
+
+    let nearbyRetailers: InstacartRetailer[] | undefined;
+    if (params.postalCode) {
+      nearbyRetailers = await this.fetchNearbyRetailers(params.postalCode);
+    }
+
+    this.trackEvent("instacart_multi_retailer_split", {
+      totalItems: split.totalItemCount,
+      instacartItemsCount: split.instacartItems.length,
+      amazonItemsCount: split.amazonItems.length,
+      pantryItemsCount: split.pantryItems.length,
+      instacartRatio: split.instacartRatio,
+    });
+
+    return {
+      split,
+      instacartShoppingUrl,
+      nearbyRetailers,
+    };
+  }
+
+  /**
    * Generates a stable cache key for a recipe + inventory combination.
    */
   private getRecipeCacheKey(recipeId: string, inventory: string[] = []): string {
@@ -276,8 +338,8 @@ class InstacartService {
     );
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const detail = (errorData as Record<string, string>).error || `HTTP ${response.status}`;
+      const errorData = (await response.json().catch(() => ({}))) as Record<string, string | undefined>;
+      const detail = errorData.error ?? `HTTP ${response.status}`;
       this.trackEvent("instacart_handoff_error", {
         endpoint: "retailers",
         postalCode,
@@ -288,10 +350,11 @@ class InstacartService {
       return [];
     }
 
-    const data = (await response.json()) as InstacartRetailersResponse;
-    const retailers = data.retailers || [];
+    const { retailers } = (await response.json()) as InstacartRetailersResponse;
 
     // Cache the results
+
+
     this.retailerCache.set(cacheKey, {
       retailers,
       expiresAt: Date.now() + InstacartService.RETAILER_CACHE_TTL,
@@ -348,7 +411,7 @@ class InstacartService {
     };
 
     const lower = unit.toLowerCase().trim();
-    return map[lower] || lower;
+    return map[lower] ?? lower;
   }
 
   /**

@@ -33,7 +33,7 @@ const isServerWithDB = (): boolean => typeof window === "undefined" && !!process
 
 // Lazy-load database module to avoid build-time issues
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
@@ -333,7 +333,7 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserWithProfileRow>(
           `SELECT u.*, up.name as profile_name, up.birth_data, up.natal_chart,
                   up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
            FROM users u
@@ -366,7 +366,7 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserWithProfileRow>(
           `SELECT u.*, up.name as profile_name, up.birth_data, up.natal_chart,
                   up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
            FROM users u
@@ -499,7 +499,7 @@ class UserDatabaseService {
     const generatedId = randomUUID();
     try {
       await db.withTransaction(async (client) => {
-        const insertUser = await client.query(
+        const insertUser = await client.query<{ id: string }>(
           `INSERT INTO users
              (id, email, password_hash, role, is_active, email_verified, is_agent,
               name, profile, preferences, login_count, created_at, updated_at)
@@ -525,7 +525,7 @@ class UserDatabaseService {
         if (insertUser.rowCount === 0) {
           throw new Error("ensurePlanetaryAgent: upsert returned no row");
         }
-        const finalId = insertUser.rows[0].id as string;
+        const finalId = insertUser.rows[0].id;
 
         // ── Classify at creation (§18) ──────────────────────────────────────
         //
@@ -547,7 +547,7 @@ class UserDatabaseService {
         // from that column. Classifying any other string would report as drift
         // on a row written correctly.
         const resolved = agentMonicaWithMethod(resolvedName, (error) =>
-          console.warn(
+          _logger.warn(
             `[ensurePlanetaryAgent] unclassifiable phase in "${resolvedName}" —` +
               ` left for the nightly backfill to surface. ${String(error)}`,
           ),
@@ -823,7 +823,7 @@ class UserDatabaseService {
     if (db) {
       try {
         const updates: string[] = [];
-        const params: any[] = [userId];
+        const params: unknown[] = [userId];
         let paramIndex = 2;
 
         if (authData.passwordHash) {
@@ -895,7 +895,7 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ onboarding_completed: boolean | null }>(
           `SELECT onboarding_completed FROM user_profiles WHERE user_id = $1`,
           [userId],
         );
@@ -990,10 +990,10 @@ class UserDatabaseService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ count: string | number }>(
           "SELECT COUNT(*) as count FROM users WHERE is_active = true",
         );
-        return parseInt(result.rows[0].count, 10);
+        return parseInt(String(result.rows[0]?.count ?? "0"), 10);
       } catch (error) {
         _logger.warn("PostgreSQL count failed:", error);
       }
@@ -1012,7 +1012,7 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserWithProfileRow>(
           `SELECT u.*, up.name as profile_name, up.birth_data, up.natal_chart,
                   up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
            FROM users u
@@ -1065,7 +1065,7 @@ class UserDatabaseService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserWithProfileRow>(
           `SELECT u.*, up.name as profile_name, up.birth_data, up.natal_chart,
                   up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
            FROM users u
@@ -1196,10 +1196,10 @@ class UserDatabaseService {
     const hasColumnNatalChart = Object.keys(columnNatalChart ?? {}).length > 0;
     const birthData = hasColumnBirthData
       ? columnBirthData
-      : (jsonbProfile?.birthData as UserProfile["birthData"] | undefined);
+      : (jsonbProfile.birthData as UserProfile["birthData"] | undefined);
     const natalChart = hasColumnNatalChart
       ? columnNatalChart
-      : (jsonbProfile?.natalChart as UserProfile["natalChart"] | undefined);
+      : (jsonbProfile.natalChart as UserProfile["natalChart"] | undefined);
     const dietaryPreferences = parseJsonColumn<Record<string, unknown>>(
       row.dietary_preferences,
       {},
@@ -1212,7 +1212,7 @@ class UserDatabaseService {
       {},
     );
     const preferences =
-      Object.keys(rawUserPrefs || {}).length > 0
+      Object.keys(rawUserPrefs).length > 0
         ? rawUserPrefs
         : dietaryPreferences;
     const groupMembers = parseJsonColumn<UserProfile["groupMembers"]>(
@@ -1252,7 +1252,7 @@ class UserDatabaseService {
         // set onboardingComplete in the JSONB but not the column.
         onboardingComplete:
           row.onboarding_completed === true ||
-          jsonbProfile?.onboardingComplete === true,
+          jsonbProfile.onboardingComplete === true,
         birthData:
           Object.keys(birthData ?? {}).length > 0 ? birthData : undefined,
         natalChart:

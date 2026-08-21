@@ -1204,3 +1204,154 @@ pub fn clear_environmental_observation(ctx: &ReducerContext) -> Result<(), Strin
     }
     Ok(())
 }
+
+// ---------------------------------------------------------------------------
+// Table meal voting & cursor presence (Collaborative planning)
+// ---------------------------------------------------------------------------
+
+const COLOR_HEX_MAX_LEN: usize = 16;
+const SLOT_REF_MAX_LEN: usize = 64;
+
+/// Cast or update a vote on a recipe being considered for a table session.
+#[spacetimedb::reducer]
+pub fn vote_table_meal(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    recipe_ref: String,
+    recipe_name: String,
+    vote_score: i8,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    validate_name("recipe_ref", &recipe_ref)?;
+    validate_name("recipe_name", &recipe_name)?;
+
+    if !(-1..=1).contains(&vote_score) {
+        return Err("vote_score must be -1, 0, or 1".to_string());
+    }
+
+    // Require presence to vote
+    let presence = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .find(|p| p.member == ctx.sender())
+        .ok_or("must be present at the table to vote")?;
+
+    let existing = ctx
+        .db
+        .table_meal_vote()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .find(|v| v.voter == ctx.sender() && v.recipe_ref == recipe_ref);
+
+    match existing {
+        Some(vote) => {
+            if vote_score == 0 {
+                ctx.db.table_meal_vote().vote_id().delete(vote.vote_id);
+            } else {
+                ctx.db.table_meal_vote().vote_id().update(TableMealVote {
+                    recipe_name,
+                    vote_score,
+                    updated_at: ctx.timestamp,
+                    ..vote
+                });
+            }
+        }
+        None => {
+            if vote_score != 0 {
+                ctx.db
+                    .table_meal_vote()
+                    .try_insert(TableMealVote {
+                        vote_id: 0,
+                        wten_table_id,
+                        voter: ctx.sender(),
+                        voter_name: presence.display_name,
+                        recipe_ref,
+                        recipe_name,
+                        vote_score,
+                        updated_at: ctx.timestamp,
+                    })
+                    .map_err(|e| e.to_string())?;
+            }
+        }
+    }
+    Ok(())
+}
+
+/// Update caller's live cursor / slot focus for collaborative planning.
+#[spacetimedb::reducer]
+pub fn update_table_cursor(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    current_slot_ref: String,
+    color_hex: String,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    if current_slot_ref.len() > SLOT_REF_MAX_LEN {
+        return Err(format!("current_slot_ref must be <= {SLOT_REF_MAX_LEN} bytes"));
+    }
+    if color_hex.len() > COLOR_HEX_MAX_LEN {
+        return Err(format!("color_hex must be <= {COLOR_HEX_MAX_LEN} bytes"));
+    }
+
+    let presence = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .find(|p| p.member == ctx.sender())
+        .ok_or("must be present at the table to update cursor")?;
+
+    let existing = ctx
+        .db
+        .table_cursor_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .find(|c| c.member == ctx.sender());
+
+    match existing {
+        Some(cursor) => {
+            ctx.db.table_cursor_presence().cursor_id().update(TableCursorPresence {
+                display_name: presence.display_name,
+                current_slot_ref,
+                color_hex,
+                updated_at: ctx.timestamp,
+                ..cursor
+            });
+        }
+        None => {
+            ctx.db
+                .table_cursor_presence()
+                .try_insert(TableCursorPresence {
+                    cursor_id: 0,
+                    wten_table_id,
+                    member: ctx.sender(),
+                    display_name: presence.display_name,
+                    current_slot_ref,
+                    color_hex,
+                    updated_at: ctx.timestamp,
+                })
+                .map_err(|e| e.to_string())?;
+        }
+    }
+    Ok(())
+}
+
+/// Clear caller's cursor when leaving slot or idle.
+#[spacetimedb::reducer]
+pub fn clear_table_cursor(ctx: &ReducerContext, wten_table_id: String) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    let cursors: Vec<TableCursorPresence> = ctx
+        .db
+        .table_cursor_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .filter(|c| c.member == ctx.sender())
+        .collect();
+    for cursor in cursors {
+        ctx.db.table_cursor_presence().cursor_id().delete(cursor.cursor_id);
+    }
+    Ok(())
+}
+

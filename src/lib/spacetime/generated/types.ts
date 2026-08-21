@@ -241,3 +241,27 @@ export const TableSession = __t.object("TableSession", {
 });
 export type TableSession = __Infer<typeof TableSession>;
 
+export const TableMealVote = __t.object("TableMealVote", {
+  voteId: __t.u64(),
+  wtenTableId: __t.string(),
+  voter: __t.identity(),
+  voterName: __t.string(),
+  recipeRef: __t.string(),
+  recipeName: __t.string(),
+  voteScore: __t.i8(),
+  updatedAt: __t.timestamp(),
+});
+export type TableMealVote = __Infer<typeof TableMealVote>;
+
+export const TableCursorPresence = __t.object("TableCursorPresence", {
+  cursorId: __t.u64(),
+  wtenTableId: __t.string(),
+  member: __t.identity(),
+  displayName: __t.string(),
+  currentSlotRef: __t.string(),
+  colorHex: __t.string(),
+  updatedAt: __t.timestamp(),
+});
+export type TableCursorPresence = __Infer<typeof TableCursorPresence>;
+
+

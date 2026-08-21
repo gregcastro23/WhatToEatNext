@@ -7,7 +7,7 @@
  */
 
 import { scoreRecommendation } from "./UnifiedScoringService";
-import type { ScoringContext } from "./UnifiedScoringService";
+import type { ScoringContext, ScoringBreakdown } from "./UnifiedScoringService";
 import type { ElementalProperties } from "../types/alchemy";
 import type { Planet } from "../types/celestial";
 import type { CookingMethod } from "../types/cooking";
@@ -31,7 +31,7 @@ export interface ScoredItem<T> {
   item: T;
   score: number;
   confidence: number;
-  breakdown: Record<string, number>;
+  breakdown: ScoringBreakdown;
   dominantEffects: string[];
   notes: string[];
   warnings: string[];

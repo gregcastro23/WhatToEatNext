@@ -263,7 +263,7 @@ export interface RecipeBuildingCriteria {
   kalchmTolerance?: number;
   targetMonica?: number;
   elementalPreference?: Partial<ElementalProperties>;
-  zodiacSign?: any;
+  zodiacSign?: string;
 
   // Cooking Preferences
   cookingMethods?: string[];
@@ -278,7 +278,7 @@ export interface RecipeBuildingCriteria {
   // Astrological Preferences
   planetaryHour?: PlanetName;
   lunarPhase?: LunarPhase;
-  currentZodiacSignType?: any;
+  currentZodiacSignType?: string;
 }
 
 export interface MonicaOptimizedRecipe extends EnhancedRecipe {
@@ -812,11 +812,11 @@ export class UnifiedRecipeBuildingSystem {
     // Apply all adaptations to create adapted recipe
     const adaptedRecipe = this.applyAdaptationsToRecipe(
       recipe,
-      ingredientSubstitutions as any,
-      cookingMethodAdjustments as any,
+      ingredientSubstitutions,
+      cookingMethodAdjustments,
       timingAdjustments,
       temperatureAdjustments,
-      targetSeason as any,
+      targetSeason,
     );
 
     // Calculate improvement scores
@@ -980,7 +980,7 @@ export class UnifiedRecipeBuildingSystem {
     criteria: RecipeBuildingCriteria & {
       currentPlanetaryHour: PlanetName;
       lunarPhase: LunarPhase;
-      currentZodiacSignType?: any;
+      currentZodiacSignType?: string;
     },
   ): PlanetaryRecipeRecommendation {
     // Generate base recipe
@@ -1004,7 +1004,7 @@ export class UnifiedRecipeBuildingSystem {
     // Calculate energetic profile
     const energeticProfile = this.calculateEnergeticProfile(
       baseRecipe.recipe,
-      planetaryAlignment as any,
+      planetaryAlignment,
     );
 
     return {
@@ -1072,12 +1072,12 @@ export class UnifiedRecipeBuildingSystem {
     let optimalMonica = 1.0;
 
     // Adjust for season with enhanced type safety
-    const seasonCriteria = criteria.currentSeason || criteria.season;
+    const seasonCriteria = criteria.currentSeason ?? criteria.season;
     if (seasonCriteria) {
       const seasonalProfile =
         this.seasonalSystem.getSeasonalRecommendations(seasonCriteria);
       // Type-safe monica optimization access with validation
-      const monicaData = (seasonalProfile as any).monicaOptimization;
+      const monicaData = (seasonalProfile as { monicaOptimization?: unknown })?.monicaOptimization;
       const monicaOptimization =
         typeof monicaData === "number" && monicaData > 0 ? monicaData : 1.0;
       optimalMonica *= monicaOptimization;
@@ -1993,8 +1993,8 @@ export class UnifiedRecipeBuildingSystem {
       try {
         const altCriteria = {
           ...criteria,
-          planetaryHour: altPlanets[i] as any,
-          cuisine: altCuisines[i] || criteria.cuisine,
+          planetaryHour: altPlanets[i] as PlanetName,
+          cuisine: altCuisines[i] ?? criteria.cuisine,
           // Clear required ingredients so the alternative can pick freely
           requiredIngredients: undefined,
         };
@@ -2002,7 +2002,7 @@ export class UnifiedRecipeBuildingSystem {
         const baseRecipe = this.createBaseRecipe(altCriteria);
         const enhanced = RecipeEnhancer.enhanceRecipe(baseRecipe, "alt-generator");
         const monicaOpt = this.calculateMonicaOptimization(enhanced, altCriteria);
-        const seasonCriteria = altCriteria.currentSeason || altCriteria.season;
+        const seasonCriteria = altCriteria.currentSeason ?? altCriteria.season;
         const seasonalAdapt = this.applySeasonalAdaptation(enhanced, seasonCriteria);
         const cuisineInteg = this.applyCuisineIntegration(enhanced, altCriteria.cuisine);
         const nutritionOpt = this.applyNutritionalOptimization(enhanced);
@@ -2044,7 +2044,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Confidence from Monica optimization scores
     confidence +=
-      ((recipe.monicaOptimization as any)?.optimizationScore || 0) * 0.2;
+      (recipe.monicaOptimization.optimizationScore ?? 0) * 0.2;
 
     // Confidence from criteria alignment
     if (
@@ -2141,15 +2141,19 @@ export class UnifiedRecipeBuildingSystem {
       criteriaMatched++;
     criteriaMatched++; // Always count generation success as one criteria
 
+    const alch = recipe.alchemicalProperties as { totalKalchm?: number } | undefined;
+    const monicaOpt = recipe.monicaOptimization as { overallScore?: number } | undefined;
+    const seasonAdapt = recipe.seasonalAdaptation as { seasonalScore?: number } | undefined;
+    const cultInteg = (recipe as { culturalIntegration?: { authenticityScore?: number } | number }).culturalIntegration;
+    const cuisineAuthenticity = typeof cultInteg === "number" ? cultInteg : (cultInteg?.authenticityScore ?? 0);
+
     return {
       criteriaMatched,
       totalCriteria,
-      kalchmAccuracy:
-        (recipe.alchemicalProperties as { totalKalchm?: number }).totalKalchm ||
-        0,
-      monicaOptimization: (recipe.monicaOptimization as any)?.overallScore || 0,
-      seasonalAlignment: (recipe.seasonalAdaptation as any)?.seasonalScore || 0,
-      cuisineAuthenticity: (recipe as any)?.culturalIntegration || 0,
+      kalchmAccuracy: alch?.totalKalchm ?? 0,
+      monicaOptimization: monicaOpt?.overallScore ?? 0,
+      seasonalAlignment: seasonAdapt?.seasonalScore ?? 0,
+      cuisineAuthenticity,
       generatedAt: new Date().toISOString(),
       generationMethod: "unified-recipe-builder",
     };
@@ -2189,7 +2193,7 @@ export class UnifiedRecipeBuildingSystem {
     if (criteria.dietaryRestrictions) {
       const restrictions = new Set(criteria.dietaryRestrictions);
       filteredIngredients = filteredIngredients.filter((i) => {
-        const ingredientTags = new Set(i.tags || []);
+        const ingredientTags = new Set(i.tags ?? []);
         return ![...restrictions].some((r) => ingredientTags.has(r));
       });
     }
@@ -2198,7 +2202,7 @@ export class UnifiedRecipeBuildingSystem {
     if (criteria.allergens) {
       const allergens = new Set(criteria.allergens);
       filteredIngredients = filteredIngredients.filter((i) => {
-        const ingredientAllergens = new Set(i.allergens || []);
+        const ingredientAllergens = new Set(i.allergens ?? []);
         return ![...allergens].some((a) => ingredientAllergens.has(a));
       });
     }
@@ -2302,8 +2306,8 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // ── Derive methods from Moon sign or lunar phase ──
-    const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
-    const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
+    const zodiac = criteria.zodiacSign?.toLowerCase();
+    const lunarPhase = criteria.lunarPhase?.toLowerCase();
 
     // Water signs → slow, moist cooking
     const waterSigns = ["cancer", "scorpio", "pisces"];
@@ -2500,29 +2504,29 @@ export class UnifiedRecipeBuildingSystem {
     methods: string[],
   ): string {
     const primaryIngredient =
-      ingredients.find((i) => i.category === "protein")?.name ||
-      ingredients.find((i) => i.category === "vegetable")?.name ||
-      ingredients[0]?.name ||
+      ingredients.find((i) => i.category === "protein")?.name ??
+      ingredients.find((i) => i.category === "vegetable")?.name ??
+      ingredients[0]?.name ??
       "Harvest";
 
     // ── 1. Template type from Moon sign or lunar phase or dominant element ──
-    const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
-    const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
+    const zodiac = criteria.zodiacSign?.toLowerCase();
+    const lunarPhase = criteria.lunarPhase?.toLowerCase();
     const domEl = dominantElement(
       criteria.elementalPreference,
     );
 
     const templateType =
-      (zodiac && MOON_SIGN_TEMPLATE_MAP[zodiac]) ||
-      (lunarPhase && LUNAR_PHASE_TEMPLATE_MAP[lunarPhase]) ||
-      (domEl && ELEMENT_TEMPLATE_MAP[domEl]) ||
-      methods[0] ||
+      (zodiac ? MOON_SIGN_TEMPLATE_MAP[zodiac] : undefined) ??
+      (lunarPhase ? LUNAR_PHASE_TEMPLATE_MAP[lunarPhase] : undefined) ??
+      (domEl ? ELEMENT_TEMPLATE_MAP[domEl] : undefined) ??
+      methods[0] ??
       "Bowl";
 
     // ── 2. Flavor adjective from planetary hour ──
-    const planetaryHour = criteria.planetaryHour as string | undefined;
+    const { planetaryHour } = criteria;
     const adjectivePool =
-      (planetaryHour && PLANETARY_HOUR_ADJECTIVES[planetaryHour]) ||
+      (planetaryHour ? PLANETARY_HOUR_ADJECTIVES[planetaryHour] : undefined) ??
       DEFAULT_ADJECTIVES;
 
     // Use a seed combining the ingredient name + template so the same recipe
@@ -2543,16 +2547,16 @@ export class UnifiedRecipeBuildingSystem {
     criteria: RecipeBuildingCriteria,
     ingredients: EnhancedRecipeIngredient[],
   ): string {
-    const cuisine = criteria.cuisine || "Fusion";
+    const cuisine = criteria.cuisine ?? "Fusion";
     const primaryIngredient =
-      ingredients.find((i) => i.category === "protein")?.name ||
-      ingredients.find((i) => i.category === "vegetable")?.name ||
-      ingredients[0]?.name ||
+      ingredients.find((i) => i.category === "protein")?.name ??
+      ingredients.find((i) => i.category === "vegetable")?.name ??
+      ingredients[0]?.name ??
       "seasonal ingredients";
 
-    const zodiac = (criteria.zodiacSign as string | undefined) ?? "";
-    const lunarPhase = (criteria.lunarPhase as string | undefined) ?? "";
-    const planetaryHour = (criteria.planetaryHour as string | undefined) ?? "";
+    const zodiac = criteria.zodiacSign ?? "";
+    const lunarPhase = criteria.lunarPhase ?? "";
+    const planetaryHour = criteria.planetaryHour ?? "";
 
     const astroContext = [
       zodiac ? `${zodiac} energy` : "",
@@ -2563,7 +2567,7 @@ export class UnifiedRecipeBuildingSystem {
       .join(", ");
 
     const elementalProfile =
-      Object.keys(criteria.elementalPreference || {}).join(" & ") || "balanced";
+      Object.keys(criteria.elementalPreference ?? {}).join(" & ") || "balanced";
 
     return `An alchemically-tuned ${cuisine} dish featuring ${primaryIngredient}${astroContext ? `, crafted under ${astroContext}` : ""}. Designed for a ${elementalProfile} elemental profile and perfectly timed to the current celestial moment.`;
   }
@@ -2652,8 +2656,8 @@ export class UnifiedRecipeBuildingSystem {
     season: Season,
     _recommendations: SeasonalRecommendations,
   ): Array<{ original: string; substitute: string; reason: string }> {
-    const table = SEASONAL_INGREDIENT_SUBS[season] || [];
-    if (table.length === 0) return [];
+    const table = SEASONAL_INGREDIENT_SUBS[season];
+    if (!table || table.length === 0) return [];
     const ingredientNames = recipeIngredientNames(recipe);
     return table
       .filter(({ from }) =>
@@ -2667,8 +2671,8 @@ export class UnifiedRecipeBuildingSystem {
     season: Season,
     _recommendations: SeasonalRecommendations,
   ): Array<{ method: string; adjustment: string; reason: string }> {
-    const preferred = SEASONAL_METHOD_PREFERENCES[season] || [];
-    if (preferred.length === 0) return [];
+    const preferred = SEASONAL_METHOD_PREFERENCES[season];
+    if (!preferred || preferred.length === 0) return [];
     const methods = recipeCookingMethods(recipe);
     return methods
       .filter((m) => !preferred.some((p) => m.includes(p)))
@@ -2683,7 +2687,7 @@ export class UnifiedRecipeBuildingSystem {
     recipe: EnhancedRecipe,
     season: Season,
   ): { cookingTime: number; restTime: number; reason: string } {
-    const rulingPlanet = SEASON_RULING_PLANETS[season] || "Sun";
+    const rulingPlanet = SEASON_RULING_PLANETS[season] ?? "Sun";
     const factor = PLANETARY_TIME_FACTORS[rulingPlanet] ?? 1.0;
     const base = parseMinutes((recipe as { cookingTime?: unknown }).cookingTime) ?? 30;
     const cookingTime = Math.round(base * factor);
@@ -2715,13 +2719,15 @@ export class UnifiedRecipeBuildingSystem {
 
   private applyAdaptationsToRecipe(
     recipe: EnhancedRecipe,
-    ...adaptations: Array<Record<string, unknown>>
+    ...adaptations: unknown[]
   ): MonicaOptimizedRecipe {
     // Overlay each adaptation on the recipe. Later adaptations win on key
     // conflicts — callers control ordering when needed.
     const adapted: Record<string, unknown> = { ...recipe };
     for (const patch of adaptations) {
-      Object.assign(adapted, patch);
+      if (patch && typeof patch === "object") {
+        Object.assign(adapted, patch);
+      }
     }
     return adapted as unknown as MonicaOptimizedRecipe;
   }
@@ -2793,9 +2799,9 @@ export class UnifiedRecipeBuildingSystem {
       influences?: string[];
       fusionType?: string;
     } | null;
-    const primary = profile?.primaryCuisine || "fusion";
-    const influences = profile?.influences || [];
-    const fusionType = profile?.fusionType || "modern fusion";
+    const primary = profile?.primaryCuisine ?? "fusion";
+    const influences = profile?.influences ?? [];
+    const fusionType = profile?.fusionType ?? "modern fusion";
 
     const primarySig = lookupCuisineSignature(primary);
     const baseElementals: ElementalProperties = primarySig?.averageElementals
@@ -2817,7 +2823,7 @@ export class UnifiedRecipeBuildingSystem {
       cookingTime: `${parseMinutes(criteria.maxCookTime) ?? 35} minutes`,
       elementalProperties: baseElementals,
       mealType: criteria.mealType,
-      season: criteria.currentSeason || criteria.season,
+      season: criteria.currentSeason ?? criteria.season,
     };
     return base;
   }
@@ -2827,7 +2833,7 @@ export class UnifiedRecipeBuildingSystem {
     cuisines: string[],
   ): MonicaOptimizedRecipe["monicaOptimization"] {
     // Calculate fusion Monica optimization with complete interface
-    const originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
+    const originalMonica = recipe.alchemicalProperties?.monicaConstant ?? null;
     const optimizedMonica = this.calculateOptimalMonica(recipe, {
       cuisine: cuisines[0],
     });
@@ -3053,7 +3059,7 @@ export class UnifiedRecipeBuildingSystem {
     recipe: MonicaOptimizedRecipe,
     hour?: PlanetName,
     phase?: LunarPhase,
-    sign?: any,
+    sign?: string,
   ): {
     currentPlanetaryHour: PlanetName;
     planetaryCompatibility: number;
@@ -3061,17 +3067,17 @@ export class UnifiedRecipeBuildingSystem {
     zodiacHarmony: number;
     astrologicalScore: number;
   } {
-    const currentPlanetaryHour = hour || "Sun";
+    const currentPlanetaryHour = hour ?? "Sun";
 
     // Recipe's normalized elemental profile.
     const el =
       (recipe as { elementalProperties?: Record<string, number> })
-        ?.elementalProperties || {};
+        .elementalProperties ?? {};
     const total =
-      (el.Fire || 0) + (el.Water || 0) + (el.Earth || 0) + (el.Air || 0) || 1;
-    const strengthIn = (element: string) => (el[element] || 0) / total;
+      (el.Fire ?? 0) + (el.Water ?? 0) + (el.Earth ?? 0) + (el.Air ?? 0) || 1;
+    const strengthIn = (element: string): number => (el[element] ?? 0) / total;
     // Map a 0..1 element strength to a 0.3..1.0 alignment score.
-    const score = (s: number) => Math.min(1, Math.max(0, 0.3 + s * 1.4));
+    const score = (s: number): number => Math.min(1, Math.max(0, 0.3 + s * 1.4));
 
     const PLANET_ELEMENT: Record<string, string> = {
       Sun: "Fire", Moon: "Water", Mercury: "Air", Venus: "Water",
@@ -3091,13 +3097,13 @@ export class UnifiedRecipeBuildingSystem {
     };
 
     const planetaryCompatibility = score(
-      strengthIn(PLANET_ELEMENT[String(currentPlanetaryHour)] || "Fire"),
+      strengthIn(PLANET_ELEMENT[String(currentPlanetaryHour)] ?? "Fire"),
     );
     const lunarPhaseAlignment = phase
-      ? score(strengthIn(PHASE_ELEMENT[String(phase).toLowerCase()] || "Water"))
+      ? score(strengthIn(PHASE_ELEMENT[String(phase).toLowerCase()] ?? "Water"))
       : 0.5;
     const zodiacHarmony = sign
-      ? score(strengthIn(SIGN_ELEMENT[String(sign).toLowerCase()] || "Fire"))
+      ? score(strengthIn(SIGN_ELEMENT[String(sign).toLowerCase()] ?? "Fire"))
       : 0.6;
     const astrologicalScore =
       (planetaryCompatibility + lunarPhaseAlignment + zodiacHarmony) / 3;
@@ -3121,17 +3127,17 @@ export class UnifiedRecipeBuildingSystem {
     planetaryWindow: string;
     lunarConsiderations: string;
   } {
-    const currentHour = hour || "Sun";
+    const currentHour = hour ?? "Sun";
     // Suggested start time derived from the active planetary hour.
     const PLANET_TIME: Record<string, string> = {
       Sun: "12:00", Moon: "20:00", Mercury: "09:00", Venus: "17:00",
       Mars: "14:00", Jupiter: "11:00", Saturn: "22:00",
       Uranus: "06:00", Neptune: "21:00", Pluto: "23:00",
     };
-    const startTime = PLANET_TIME[String(currentHour)] || "18:00";
+    const startTime = PLANET_TIME[String(currentHour)] ?? "18:00";
     // Duration scales with the recipe's ingredient count (more components → longer).
     const ingredientCount =
-      (recipe as { ingredients?: unknown[] })?.ingredients?.length ?? 8;
+      (recipe as { ingredients?: unknown[] }).ingredients?.length ?? 8;
     const duration = `${Math.min(180, 20 + ingredientCount * 5)} minutes`;
     const planetaryWindow = `Optimal during ${currentHour} hours for enhanced energy`;
     const lunarConsiderations = phase
@@ -3147,8 +3153,9 @@ export class UnifiedRecipeBuildingSystem {
   }
 
   private calculateEnergeticProfile(
-    recipe: MonicaOptimizedRecipe,
+    _recipe: MonicaOptimizedRecipe,
     alignment: {
+      astrologicalScore?: number;
       astrologicalAlignment?: number;
       elementalBalance?: number;
       seasonalCoherence?: number;
@@ -3160,7 +3167,7 @@ export class UnifiedRecipeBuildingSystem {
     mentalClarity: number;
   } {
     // Calculate energetic profile with complete interface
-    const baseEnergy = (alignment as any).astrologicalScore || 0.7;
+    const baseEnergy = alignment.astrologicalScore ?? alignment.astrologicalAlignment ?? 0.7;
     const spiritualEnergy = baseEnergy * 0.9; // Spiritual energy from astrological alignment
     const emotionalResonance = baseEnergy * 0.85; // Emotional resonance from harmony
     const physicalVitality = baseEnergy * 0.8; // Physical vitality from planetary influence
@@ -3208,7 +3215,7 @@ export function generatePlanetaryRecipeRecommendation(
   _criteria: RecipeBuildingCriteria & {
     currentPlanetaryHour: PlanetName;
     lunarPhase: LunarPhase;
-    currentZodiacSignType?: any;
+    currentZodiacSignType?: string;
   },
 ): PlanetaryRecipeRecommendation {
   return unifiedRecipeBuildingSystem.generatePlanetaryRecipeRecommendation(

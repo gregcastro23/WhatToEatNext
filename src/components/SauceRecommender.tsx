@@ -1,7 +1,45 @@
-import { ChevronDown, ChevronUp, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
-import React, { useCallback, useEffect, useState } from 'react';
-import type { Sauce } from '@/data/sauces';
-import type { ElementalProperties } from '@/types/alchemy';
+import { ChevronDown, ChevronUp, Check, Droplet, Flame, Wind, Mountain } from "lucide-react";
+import React, { useCallback, useEffect, useState } from "react";
+import type { Sauce } from "@/data/sauces";
+import type { ElementalProperties } from "@/types/alchemy";
+
+export interface SauceRecommendationItem {
+  id: string;
+  name: string;
+  description?: string;
+  category?: string;
+  forItem?: string;
+  cuisine?: string;
+  base?: string;
+  ingredients?: string[];
+  culinaryUses?: string[];
+  preparationNotes?: string;
+  technicalTips?: string;
+  elementalProperties?: ElementalProperties;
+  matchScore: number;
+  isFusion?: boolean;
+  seasonality?: string;
+  preparationSteps?: string[] | string;
+  procedure?: string[] | string;
+  instructions?: string[] | string;
+  prepTime?: string;
+  cookTime?: string;
+  yield?: string;
+  difficulty?: string;
+  storageInstructions?: string;
+  variants?: string[];
+  usage?: string;
+}
+
+export interface CuisineData {
+  name?: string;
+  traditionalSauces?: Record<string, Sauce>;
+  sauceRecommender?: {
+    forProtein?: Record<string, string[]>;
+    forVegetable?: Record<string, string[]>;
+    forCookingMethod?: Record<string, string[]>;
+  };
+}
 
 interface SauceRecommenderProps {
   currentElementalProfile?: ElementalProperties;
@@ -14,12 +52,136 @@ interface SauceRecommenderProps {
   showByDietary?: boolean;
   maxResults?: number;
   sauces?: Record<string, Sauce>;
-  cuisines?: Record<string, any>;
+  cuisines?: Record<string, CuisineData>;
   className?: string;
 }
 
-export default function SauceRecommender({
-  currentElementalProfile = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+const DEFAULT_PROFILE: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+
+// Helper function to determine if a sauce-cuisine combination should be excluded
+function shouldExcludeSauceCombination(sauceName: string, targetCuisine?: string): boolean {
+  if (!targetCuisine) return false;
+
+  const incompatiblePairs: Record<string, string[]> = {
+    thai: ["marinara", "bolognese", "bechamel", "alfredo", "ragu", "gravy"],
+    italian: ["fish sauce", "soy sauce", "curry paste", "gochujang", "teriyaki"],
+    indian: ["aioli", "bechamel", "hollandaise", "carbonara"],
+    japanese: ["chimichurri", "guacamole", "marinara", "bechamel"],
+    mexican: ["soy sauce", "fish sauce", "oyster sauce", "teriyaki"],
+    french: ["soy sauce", "gochujang", "sweet chili", "curry paste"],
+    korean: ["marinara", "bechamel", "pesto", "carbonara"],
+    chinese: ["guacamole", "chimichurri", "aioli", "hollandaise"],
+  };
+
+  const normalizedCuisine = targetCuisine.toLowerCase();
+  const normalizedSauceName = sauceName.toLowerCase();
+
+  const pairs = incompatiblePairs[normalizedCuisine];
+  if (pairs) {
+    return pairs.some((incompatibleSauce) =>
+      normalizedSauceName.includes(incompatibleSauce),
+    );
+  }
+
+  return false;
+}
+
+// Calculate elemental match between sauce and current profile
+function calculateElementalMatch(
+  sauceElements?: ElementalProperties,
+  userElements: ElementalProperties = DEFAULT_PROFILE,
+): number {
+  if (!sauceElements) return 0.5;
+  const elements: Array<keyof ElementalProperties> = ["Fire", "Water", "Earth", "Air"];
+
+  let sumSquaredDiff = 0;
+  for (const elementKey of elements) {
+    const diff = (sauceElements[elementKey] ?? 0) - (userElements[elementKey] ?? 0);
+    sumSquaredDiff += diff * diff;
+  }
+
+  const distance = Math.sqrt(sumSquaredDiff);
+  const maxDistance = 2; // Maximum theoretical distance (sqrt(4))
+  const similarity = 1 - distance / maxDistance;
+
+  return Math.max(0, Math.min(1, similarity));
+}
+
+// Helper function to determine ingredient amounts
+function getIngredientAmountRange(ingredient: string): string {
+  const ing = ingredient.toLowerCase();
+
+  if (ing.includes("oil")) return "2-4 tbsp";
+  if (ing.includes("olive oil")) return "3-5 tbsp";
+  if (ing.includes("butter")) return "2-4 tbsp";
+  if (ing.includes("cream")) return "3/4-1 cup";
+  if (ing.includes("milk")) return "3/4-1 cup";
+  if (ing.includes("wine")) return "1/3-1/2 cup";
+  if (ing.includes("stock") || ing.includes("broth")) return "3/4-1 1/4 cups";
+  if (ing.includes("garlic")) return "2-5 cloves, minced";
+  if (ing.includes("onion")) return "1/2-1, diced";
+  if (ing.includes("shallot")) return "1-3, minced";
+  if (ing.includes("tomato") && !ing.includes("paste")) return "1-2 cups, chopped";
+  if (ing.includes("tomato paste")) return "1-3 tbsp";
+  if (ing.includes("herb") || ing.includes("basil") || ing.includes("parsley") || ing.includes("cilantro"))
+    return "1-3 tbsp, chopped";
+  if (ing.includes("spice") || ing.includes("pepper") || ing.includes("salt")) return "to taste";
+  if (ing.includes("lemon") || ing.includes("lime")) return "1/2-1, juiced";
+  if (ing.includes("vinegar")) return "1-3 tbsp";
+  if (ing.includes("mustard")) return "1/2-2 tbsp";
+  if (ing.includes("honey") || ing.includes("sugar")) return "1/2-2 tsp";
+  if (ing.includes("cheese")) return "1/4-3/4 cup, grated";
+  if (ing.includes("flour")) return "1-3 tbsp";
+  if (ing.includes("nut")) return "2-4 tbsp, chopped";
+  if (ing.includes("anchovy")) return "3-6 fillets";
+  if (ing.includes("chili")) return "1-2, chopped";
+  if (ing.includes("ginger")) return "1-2 tbsp, minced";
+  if (ing.includes("soy sauce")) return "1-3 tbsp";
+  if (ing.includes("sesame oil")) return "1/2-2 tsp";
+  if (ing.includes("mushroom")) return "3/4-1 1/2 cups, sliced";
+  if (ing.includes("yogurt")) return "1/2-1 cup";
+  if (ing.includes("tahini")) return "2-4 tbsp";
+  if (ing.includes("miso")) return "1-3 tbsp";
+  if (ing.includes("fish sauce")) return "1-3 tbsp";
+  if (ing.includes("coconut milk")) return "3/4-1 cup";
+  if (ing.includes("egg")) return "1-2";
+  if (ing.includes("cornstarch")) return "1-2 tbsp";
+
+  return "to taste, as needed";
+}
+
+// Render match score badge
+function renderMatchBadge(score: number): React.JSX.Element {
+  let colorClass = "";
+  let label = "";
+
+  if (score >= 0.9) {
+    colorClass = "bg-green-100 text-green-700";
+    label = "Perfect Match";
+  } else if (score >= 0.8) {
+    colorClass = "bg-green-50 text-green-600";
+    label = "Great Match";
+  } else if (score >= 0.7) {
+    colorClass = "bg-blue-50 text-blue-600";
+    label = "Good Match";
+  } else if (score >= 0.6) {
+    colorClass = "bg-yellow-50 text-yellow-600";
+    label = "Fair Match";
+  } else {
+    colorClass = "bg-gray-100 text-gray-600";
+    label = "Basic Match";
+  }
+
+  return (
+    <span className={`text-xs px-2 py-0.5 rounded-full flex items-center ${colorClass}`}>
+      <Check className="w-3 h-3 mr-1" />
+      {label}
+    </span>
+  );
+}
+
+export function SauceRecommender({
+  currentElementalProfile = DEFAULT_PROFILE,
   cuisine,
   protein,
   vegetable,
@@ -28,128 +190,44 @@ export default function SauceRecommender({
   showByAstrological: _showByAstrological = true,
   showByDietary: _showByDietary = false,
   maxResults = 16,
-  sauces,
+  sauces: _sauces,
   cuisines,
   className,
-}: SauceRecommenderProps) {
-  const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
+}: SauceRecommenderProps): React.JSX.Element {
+  const [sauceRecommendations, setSauceRecommendations] = useState<SauceRecommendationItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
-  const [filter, setFilter] = useState<string>('all');
+  const [filter, setFilter] = useState<string>("all");
 
-  // Toggle function for sauce card expansion
-  const toggleSauceCard = (sauceId: string) => {
-    setExpandedSauceCards(prev => ({
+  const toggleSauceCard = (sauceId: string): void => {
+    setExpandedSauceCards((prev) => ({
       ...prev,
-      [sauceId]: !prev[sauceId]
+      [sauceId]: !prev[sauceId],
     }));
   };
 
-  // Calculate elemental match between sauce and current profile
-  const calculateElementalMatch = (
-    sauceElements: ElementalProperties,
-    userElements: ElementalProperties
-  ): number => {
-    // Ensure properties exist
-    const elements = ['Fire', 'Water', 'Earth', 'Air'];
-    
-    // Calculate Euclidean distance (lower is better)
-    let sumSquaredDiff = 0;
-    elements.forEach(element => {
-      const elementKey = element as keyof ElementalProperties;
-      const diff = (sauceElements[elementKey] || 0) - (userElements[elementKey] || 0);
-      sumSquaredDiff += diff * diff;
-    });
-    
-    // Convert to similarity score (higher is better)
-    // Distance of 0 = perfect match (1.0)
-    // Maximum possible distance = 2 (sqrt(4)) when opposite elements
-    const distance = Math.sqrt(sumSquaredDiff);
-    const maxDistance = Math.sqrt(4); // Maximum possible distance (theoretical)
-    const similarity = 1 - (distance / maxDistance);
-    
-    // Ensure score is in [0,1]
-    return Math.max(0, Math.min(1, similarity));
-  };
-
-  // Helper function to determine ingredient amounts
-  const getIngredientAmountRange = (ingredient: string): string => {
-    const ing = ingredient.toLowerCase();
-    
-    // Return appropriate range based on ingredient type
-    if (ing.includes('oil')) return "2-4 tbsp";
-    if (ing.includes('olive oil')) return "3-5 tbsp";
-    if (ing.includes('butter')) return "2-4 tbsp";
-    if (ing.includes('cream')) return "3/4-1 cup";
-    if (ing.includes('milk')) return "3/4-1 cup";
-    if (ing.includes('wine')) return "1/3-1/2 cup";
-    if (ing.includes('stock') || ing.includes('broth')) return "3/4-1 1/4 cups";
-    if (ing.includes('garlic')) return "2-5 cloves, minced";
-    if (ing.includes('onion')) return "1/2-1, diced";
-    if (ing.includes('shallot')) return "1-3, minced";
-    if (ing.includes('tomato') && !ing.includes('paste')) return "1-2 cups, chopped";
-    if (ing.includes('tomato paste')) return "1-3 tbsp";
-    if (ing.includes('herb') || ing.includes('basil') || ing.includes('parsley') || ing.includes('cilantro')) return "1-3 tbsp, chopped";
-    if (ing.includes('spice') || ing.includes('pepper') || ing.includes('salt')) return "to taste";
-    if (ing.includes('lemon') || ing.includes('lime')) return "1/2-1, juiced";
-    if (ing.includes('vinegar')) return "1-3 tbsp";
-    if (ing.includes('mustard')) return "1/2-2 tbsp";
-    if (ing.includes('honey') || ing.includes('sugar')) return "1/2-2 tsp";
-    if (ing.includes('cheese')) return "1/4-3/4 cup, grated";
-    if (ing.includes('flour')) return "1-3 tbsp";
-    if (ing.includes('nut')) return "2-4 tbsp, chopped";
-    if (ing.includes('anchovy')) return "3-6 fillets";
-    if (ing.includes('chili')) return "1-2, chopped";
-    if (ing.includes('ginger')) return "1-2 tbsp, minced";
-    if (ing.includes('soy sauce')) return "1-3 tbsp";
-    if (ing.includes('sesame oil')) return "1/2-2 tsp";
-    if (ing.includes('mushroom')) return "3/4-1 1/2 cups, sliced";
-    
-    // Sauce-specific ingredients
-    if (ing.includes('yogurt')) return "1/2-1 cup";
-    if (ing.includes('tahini')) return "2-4 tbsp";
-    if (ing.includes('miso')) return "1-3 tbsp";
-    if (ing.includes('fish sauce')) return "1-3 tbsp";
-    if (ing.includes('coconut milk')) return "3/4-1 cup";
-    if (ing.includes('egg')) return "1-2";
-    if (ing.includes('cornstarch')) return "1-2 tbsp";
-    
-    // Default range for other ingredients
-    return "to taste, as needed";
-  };
-
-  // Generate sauce recommendations based on criteria
-  const generateSauceRecommendations = useCallback(async (): Promise<any[]> => {
-    // Initialize results array
-    const results: unknown[] = [];
-    
-    // Get all available sauces from props or try to import if not provided
-    const _allAvailableSauces: Record<string, Sauce> = sauces ?? {};
-    
-    // Get all available cuisines
+  const generateSauceRecommendations = useCallback((): SauceRecommendationItem[] => {
+    const results: SauceRecommendationItem[] = [];
     const allCuisines = cuisines ?? {};
-    
-    // If we have a specific cuisine, prioritize its sauces
+
     if (cuisine && allCuisines[cuisine.toLowerCase()]?.traditionalSauces) {
       const cuisineData = allCuisines[cuisine.toLowerCase()];
+      const traditionalSauces = cuisineData.traditionalSauces ?? {};
       const sauceRecommender = cuisineData.sauceRecommender ?? {};
-      
-      // Add sauce recommendations based on protein
+
       if (protein && sauceRecommender.forProtein?.[protein]) {
-        sauceRecommender.forProtein[protein].forEach((sauceName: string) => {
-          // Find the sauce data in the traditionalSauces
-          Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+        for (const sauceName of sauceRecommender.forProtein[protein]) {
+          for (const [id, sauceData] of Object.entries(traditionalSauces)) {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
               const matchScore = calculateElementalMatch(
                 sauceData.elementalProperties,
-                currentElementalProfile
+                currentElementalProfile,
               );
-              
               results.push({
                 id: `${cuisine.toLowerCase()}-${id}`,
                 name: sauceData.name,
                 description: sauceData.description ?? "",
-                category: 'forProtein',
+                category: "forProtein",
                 forItem: protein,
                 cuisine,
                 ingredients: sauceData.keyIngredients ?? [],
@@ -157,29 +235,26 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes ?? "",
                 technicalTips: sauceData.technicalTips ?? "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore
+                matchScore,
               });
             }
-          });
-        });
+          }
+        }
       }
-      
-      // Add sauce recommendations based on vegetable
+
       if (vegetable && sauceRecommender.forVegetable?.[vegetable]) {
-        sauceRecommender.forVegetable[vegetable].forEach((sauceName: string) => {
-          // Find the sauce data in the traditionalSauces
-          Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+        for (const sauceName of sauceRecommender.forVegetable[vegetable]) {
+          for (const [id, sauceData] of Object.entries(traditionalSauces)) {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
               const matchScore = calculateElementalMatch(
                 sauceData.elementalProperties,
-                currentElementalProfile
+                currentElementalProfile,
               );
-              
               results.push({
                 id: `${cuisine.toLowerCase()}-${id}`,
                 name: sauceData.name,
                 description: sauceData.description ?? "",
-                category: 'forVegetable',
+                category: "forVegetable",
                 forItem: vegetable,
                 cuisine,
                 ingredients: sauceData.keyIngredients ?? [],
@@ -187,29 +262,26 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes ?? "",
                 technicalTips: sauceData.technicalTips ?? "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore
+                matchScore,
               });
             }
-          });
-        });
+          }
+        }
       }
-      
-      // Add sauce recommendations based on cooking method
+
       if (cookingMethod && sauceRecommender.forCookingMethod?.[cookingMethod]) {
-        sauceRecommender.forCookingMethod[cookingMethod].forEach((sauceName: string) => {
-          // Find the sauce data in the traditionalSauces
-          Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+        for (const sauceName of sauceRecommender.forCookingMethod[cookingMethod]) {
+          for (const [id, sauceData] of Object.entries(traditionalSauces)) {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
               const matchScore = calculateElementalMatch(
                 sauceData.elementalProperties,
-                currentElementalProfile
+                currentElementalProfile,
               );
-              
               results.push({
                 id: `${cuisine.toLowerCase()}-${id}`,
                 name: sauceData.name,
                 description: sauceData.description ?? "",
-                category: 'forCookingMethod',
+                category: "forCookingMethod",
                 forItem: cookingMethod,
                 cuisine,
                 ingredients: sauceData.keyIngredients ?? [],
@@ -217,26 +289,24 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes ?? "",
                 technicalTips: sauceData.technicalTips ?? "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore
+                matchScore,
               });
             }
-          });
-        });
+          }
+        }
       }
-      
-      // If we don't have specific filters, add all sauces from the cuisine
+
       if (!protein && !vegetable && !cookingMethod) {
-        Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+        for (const [id, sauceData] of Object.entries(traditionalSauces)) {
           const matchScore = calculateElementalMatch(
             sauceData.elementalProperties,
-            currentElementalProfile
+            currentElementalProfile,
           );
-          
           results.push({
             id: `${cuisine.toLowerCase()}-${id}`,
             name: sauceData.name,
             description: sauceData.description ?? "",
-            category: 'byCuisine',
+            category: "byCuisine",
             forItem: cuisine,
             cuisine,
             ingredients: sauceData.keyIngredients ?? [],
@@ -244,43 +314,36 @@ export default function SauceRecommender({
             preparationNotes: sauceData.preparationNotes ?? "",
             technicalTips: sauceData.technicalTips ?? "",
             elementalProperties: sauceData.elementalProperties,
-            matchScore
+            matchScore,
           });
-        });
+        }
       }
     }
-    
-    // If we still need more recommendations or don't have a specific cuisine
+
     if (results.length < maxResults) {
-      // Add cross-cultural recommendations based on elemental profile
-      Object.entries(allCuisines).forEach(([cuisineId, cuisineData]: [string, any]) => {
-        // Skip if this is the same as our specific cuisine
+      for (const [cuisineId, cuisineData] of Object.entries(allCuisines)) {
         if (cuisineId.toLowerCase() === cuisine?.toLowerCase()) {
-          return;
+          continue;
         }
-        
-        // Only consider cuisines with traditional sauces
+
         if (cuisineData.traditionalSauces) {
-          Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+          for (const [id, sauceData] of Object.entries(cuisineData.traditionalSauces)) {
             const matchScore = calculateElementalMatch(
               sauceData.elementalProperties,
-              currentElementalProfile
+              currentElementalProfile,
             );
-            
-            // More restrictive filtering for cross-cuisine sauce recommendations
-            // Increased threshold and added exclusion rules based on culinary appropriateness
-            if (matchScore > 0.85) { // Increased from 0.65 for higher quality matches
-              // Skip inappropriate combinations
+
+            if (matchScore > 0.85) {
               if (shouldExcludeSauceCombination(sauceData.name, cuisine)) {
-                return;
+                continue;
               }
-              
+
               results.push({
                 id: `${cuisineId}-${id}`,
                 name: sauceData.name,
                 description: sauceData.description ?? "",
-                category: 'crossCultural',
-                forItem: 'elemental match',
+                category: "crossCultural",
+                forItem: "elemental match",
                 cuisine: cuisineData.name ?? cuisineId,
                 ingredients: sauceData.keyIngredients ?? [],
                 culinaryUses: sauceData.culinaryUses ?? [],
@@ -288,136 +351,56 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips ?? "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore,
-                isFusion: true
+                isFusion: true,
               });
             }
-          });
+          }
         }
-      });
+      }
     }
-    
-    // Remove duplicates and sort by match score
-    const uniqueResults = results.filter((sauce, index, self) =>
-      // @ts-expect-error - Auto-fixed by script
-      index === self.findIndex((s) => s.name === sauce.name)
-    );
-    
+
+    // Deduplicate by name and sort by matchScore descending
+    const seenNames = new Set<string>();
+    const uniqueResults: SauceRecommendationItem[] = [];
+
+    for (const item of results) {
+      if (!seenNames.has(item.name)) {
+        seenNames.add(item.name);
+        uniqueResults.push(item);
+      }
+    }
+
     return uniqueResults
-      // @ts-expect-error - Auto-fixed by script
       .sort((a, b) => b.matchScore - a.matchScore)
       .slice(0, maxResults);
-  }, [cookingMethod, cuisine, cuisines, currentElementalProfile, maxResults, protein, sauces, vegetable]);
+  }, [cookingMethod, cuisine, cuisines, currentElementalProfile, maxResults, protein, vegetable]);
 
   useEffect(() => {
-    // Generate sauce recommendations when component mounts or when inputs change
-    const generateRecommendations = async () => {
-      setLoading(true);
-      try {
-        // Wait for any async data to load
-        const recommendations = await generateSauceRecommendations();
-        setSauceRecommendations(recommendations);
-      } catch (error) {
-        console.error("Error generating sauce recommendations:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void generateRecommendations();
+    setLoading(true);
+    try {
+      const recommendations = generateSauceRecommendations();
+      setSauceRecommendations(recommendations);
+    } finally {
+      setLoading(false);
+    }
   }, [generateSauceRecommendations]);
 
-  // Helper function to determine if a sauce-cuisine combination should be excluded
-  const shouldExcludeSauceCombination = (sauceName: string, targetCuisine?: string): boolean => {
-    if (!targetCuisine) return false;
-    
-    // Define incompatible sauce-cuisine pairs
-    const incompatiblePairs: Record<string, string[]> = {
-      'thai': ['marinara', 'bolognese', 'bechamel', 'alfredo', 'ragu', 'gravy'],
-      'italian': ['fish sauce', 'soy sauce', 'curry paste', 'gochujang', 'teriyaki'],
-      'indian': ['aioli', 'bechamel', 'hollandaise', 'carbonara'],
-      'japanese': ['chimichurri', 'guacamole', 'marinara', 'bechamel'],
-      'mexican': ['soy sauce', 'fish sauce', 'oyster sauce', 'teriyaki'],
-      'french': ['soy sauce', 'gochujang', 'sweet chili', 'curry paste'],
-      'korean': ['marinara', 'bechamel', 'pesto', 'carbonara'],
-      'chinese': ['guacamole', 'chimichurri', 'aioli', 'hollandaise']
-    };
-    
-    // Normalize cuisine and sauce names for comparison
-    const normalizedCuisine = targetCuisine.toLowerCase();
-    const normalizedSauceName = sauceName.toLowerCase();
-    
-    // Check if this cuisine has incompatible sauces defined
-    if (incompatiblePairs[normalizedCuisine]) {
-      // Check if the sauce name contains any of the incompatible terms
-      return incompatiblePairs[normalizedCuisine].some(
-        incompatibleSauce => normalizedSauceName.includes(incompatibleSauce)
-      );
-    }
-    
-    return false;
-  };
-
-  // Helper function to render the sauce element icons
-  const _renderElementIcons = (elementalProps: ElementalProperties) => {
-    const [[dominant]] = Object.entries(elementalProps)
-      .sort(([, a], [, b]) => b - a);
-    
-    return (
-      <div className="flex gap-1">
-        <Flame className={`w-3 h-3 ${dominant === 'Fire' ? 'text-red-500' : 'text-gray-300'}`} />
-        <Droplet className={`w-3 h-3 ${dominant === 'Water' ? 'text-blue-500' : 'text-gray-300'}`} />
-        <Wind className={`w-3 h-3 ${dominant === 'Air' ? 'text-purple-500' : 'text-gray-300'}`} />
-        <Mountain className={`w-3 h-3 ${dominant === 'Earth' ? 'text-amber-500' : 'text-gray-300'}`} />
-      </div>
-    );
-  };
-
-  // Render match score badge
-  const renderMatchBadge = (score: number) => {
-    let colorClass = '';
-    let label = '';
-    
-    if (score >= 0.9) {
-      colorClass = 'bg-green-100 text-green-700';
-      label = 'Perfect Match';
-    } else if (score >= 0.8) {
-      colorClass = 'bg-green-50 text-green-600';
-      label = 'Great Match';
-    } else if (score >= 0.7) {
-      colorClass = 'bg-blue-50 text-blue-600';
-      label = 'Good Match';
-    } else if (score >= 0.6) {
-      colorClass = 'bg-yellow-50 text-yellow-600';
-      label = 'Fair Match';
-    } else {
-      colorClass = 'bg-gray-100 text-gray-600';
-      label = 'Basic Match';
-    }
-    
-    return (
-      <span className={`text-xs px-2 py-0.5 rounded-full flex items-center ${colorClass}`}>
-        <Check className="w-3 h-3 mr-1" />
-        {label}
-      </span>
-    );
-  };
-
-  // Filter sauces based on current filter
-  const filteredSauces = () => {
-    if (filter === 'all') {
+  const filteredSauces = (): SauceRecommendationItem[] => {
+    if (filter === "all") {
       return sauceRecommendations;
     }
-    
-    return sauceRecommendations.filter(sauce => 
-      filter === 'fusion' ? sauce.isFusion : 
-      filter === 'traditional' ? !sauce.isFusion :
-      filter === sauce.category
+    return sauceRecommendations.filter((sauce) =>
+      filter === "fusion"
+        ? sauce.isFusion
+        : filter === "traditional"
+        ? !sauce.isFusion
+        : filter === sauce.category,
     );
   };
 
   if (loading) {
     return (
-      <div className={`bg-white rounded-lg shadow-md p-4 ${className}`}>
+      <div className={`bg-white rounded-lg shadow-md p-4 ${className ?? ""}`}>
         <h3 className="text-lg font-medium mb-2">Sauce Recommendations</h3>
         <div className="animate-pulse space-y-3">
           <div className="h-4 bg-gray-200 rounded w-3/4" />
@@ -428,97 +411,122 @@ export default function SauceRecommender({
     );
   }
 
+  const sauceList = filteredSauces();
+
   return (
-    <div className={`bg-white rounded-lg shadow-md p-4 ${className}`}>
+    <div className={`bg-white rounded-lg shadow-md p-4 ${className ?? ""}`}>
       <h3 className="text-lg font-medium mb-4">Sauce Recommendations</h3>
-      
+
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-4">
-        <button 
-          onClick={() => setFilter('all')}
-          className={`text-xs px-3 py-1 rounded-full ${filter === 'all' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}
+        <button
+          type="button"
+          onClick={() => setFilter("all")}
+          className={`text-xs px-3 py-1 rounded-full ${
+            filter === "all" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700"
+          }`}
         >
           All
         </button>
-        <button 
-          onClick={() => setFilter('traditional')}
-          className={`text-xs px-3 py-1 rounded-full ${filter === 'traditional' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'}`}
+        <button
+          type="button"
+          onClick={() => setFilter("traditional")}
+          className={`text-xs px-3 py-1 rounded-full ${
+            filter === "traditional" ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-700"
+          }`}
         >
           Traditional
         </button>
-        <button 
-          onClick={() => setFilter('fusion')}
-          className={`text-xs px-3 py-1 rounded-full ${filter === 'fusion' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}
+        <button
+          type="button"
+          onClick={() => setFilter("fusion")}
+          className={`text-xs px-3 py-1 rounded-full ${
+            filter === "fusion" ? "bg-purple-100 text-purple-700" : "bg-gray-100 text-gray-700"
+          }`}
         >
           Fusion
         </button>
         {protein && (
-          <button 
-            onClick={() => setFilter('forProtein')}
-            className={`text-xs px-3 py-1 rounded-full ${filter === 'forProtein' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+          <button
+            type="button"
+            onClick={() => setFilter("forProtein")}
+            className={`text-xs px-3 py-1 rounded-full ${
+              filter === "forProtein" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+            }`}
           >
             For {protein}
           </button>
         )}
         {vegetable && (
-          <button 
-            onClick={() => setFilter('forVegetable')}
-            className={`text-xs px-3 py-1 rounded-full ${filter === 'forVegetable' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+          <button
+            type="button"
+            onClick={() => setFilter("forVegetable")}
+            className={`text-xs px-3 py-1 rounded-full ${
+              filter === "forVegetable" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+            }`}
           >
             For {vegetable}
           </button>
         )}
         {cookingMethod && (
-          <button 
-            onClick={() => setFilter('forCookingMethod')}
-            className={`text-xs px-3 py-1 rounded-full ${filter === 'forCookingMethod' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+          <button
+            type="button"
+            onClick={() => setFilter("forCookingMethod")}
+            className={`text-xs px-3 py-1 rounded-full ${
+              filter === "forCookingMethod"
+                ? "bg-green-100 text-green-700"
+                : "bg-gray-100 text-gray-700"
+            }`}
           >
             For {cookingMethod}
           </button>
         )}
       </div>
-      
+
       {/* Sauce cards */}
-      {filteredSauces().length === 0 ? (
+      {sauceList.length === 0 ? (
         <div className="text-center text-gray-500 py-6">
           <p>No sauce recommendations found. Try adjusting your filters.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {filteredSauces().map((sauce, index) => {
-            const isExpanded = expandedSauceCards[sauce.id] || false;
-            
-            // Determine styling based on dominant element
-            const elementalProps = sauce.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-            const [[dominant]] = Object.entries(elementalProps)
-              // @ts-expect-error - Auto-fixed by script
-              .sort(([, a], [, b]) => b - a);
-            const elementClass = dominant.toLowerCase();
-            
+          {sauceList.map((sauce, index) => {
+            const isExpanded = expandedSauceCards[sauce.id] ?? false;
+
+            const elementalProps = sauce.elementalProperties ?? DEFAULT_PROFILE;
+            const entries = Object.entries(elementalProps) as Array<[keyof ElementalProperties, number]>;
+            const sortedEntries = entries.sort(([, a], [, b]) => b - a);
+            const dominant = sortedEntries[0]?.[0] ?? "Fire";
+            const elementClass = String(dominant).toLowerCase();
+
             return (
-              <div 
-                key={sauce.id ?? index} 
-                className={`border rounded-lg shadow-sm hover:shadow-md transition-all duration-300 
-                  ${isExpanded ? 'bg-gray-50' : 'bg-white'} 
-                  ${isExpanded ? '' : 'h-fit'}
-                  ${elementClass === 'fire' ? 'border-l-4 border-red-500' : 
-                    elementClass === 'water' ? 'border-l-4 border-blue-500' : 
-                    elementClass === 'earth' ? 'border-l-4 border-green-500' : 
-                    elementClass === 'air' ? 'border-l-4 border-purple-500' : ''
-                  }`}
+              <div
+                key={sauce.id || `sauce-${index}`}
+                className={`border rounded-lg shadow-sm hover:shadow-md transition-all duration-300 ${
+                  isExpanded ? "bg-gray-50" : "bg-white"
+                } ${isExpanded ? "" : "h-fit"} ${
+                  elementClass === "fire"
+                    ? "border-l-4 border-red-500"
+                    : elementClass === "water"
+                    ? "border-l-4 border-blue-500"
+                    : elementClass === "earth"
+                    ? "border-l-4 border-green-500"
+                    : elementClass === "air"
+                    ? "border-l-4 border-purple-500"
+                    : ""
+                }`}
               >
-                {/* Card Header - Always visible */}
+                {/* Card Header */}
                 <div className="p-3 pb-2">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-base">{sauce.name}</h4>
                     {renderMatchBadge(sauce.matchScore)}
                   </div>
-                  
-                  {/* Compact Description */}
-                  <p className="text-xs text-gray-600 my-1 line-clamp-2">
-                    {sauce.description}
-                  </p>
-                  
+
+                  {sauce.description && (
+                    <p className="text-xs text-gray-600 my-1 line-clamp-2">{sauce.description}</p>
+                  )}
+
                   {/* Cuisine Tags */}
                   <div className="flex flex-wrap gap-1 mb-1">
                     {sauce.cuisine && (
@@ -537,65 +545,76 @@ export default function SauceRecommender({
                       </span>
                     )}
                   </div>
-                  
+
                   {/* Element Display */}
                   <div className="flex justify-between items-center text-xs mt-2">
                     <div className="flex gap-1">
-                      <Flame className={`w-3 h-3 ${elementClass === 'fire' ? 'text-red-500' : 'text-gray-300'}`} />
-                      <Droplet className={`w-3 h-3 ${elementClass === 'water' ? 'text-blue-500' : 'text-gray-300'}`} />
-                      <Wind className={`w-3 h-3 ${elementClass === 'air' ? 'text-purple-500' : 'text-gray-300'}`} />
-                      <Mountain className={`w-3 h-3 ${elementClass === 'earth' ? 'text-green-500' : 'text-gray-300'}`} />
+                      <Flame
+                        className={`w-3 h-3 ${
+                          elementClass === "fire" ? "text-red-500" : "text-gray-300"
+                        }`}
+                      />
+                      <Droplet
+                        className={`w-3 h-3 ${
+                          elementClass === "water" ? "text-blue-500" : "text-gray-300"
+                        }`}
+                      />
+                      <Wind
+                        className={`w-3 h-3 ${
+                          elementClass === "air" ? "text-purple-500" : "text-gray-300"
+                        }`}
+                      />
+                      <Mountain
+                        className={`w-3 h-3 ${
+                          elementClass === "earth" ? "text-green-500" : "text-gray-300"
+                        }`}
+                      />
                     </div>
-                    
-                    {/* Show top 3 ingredients or category */}
+
                     {sauce.ingredients && sauce.ingredients.length > 0 ? (
                       <div className="text-xs text-gray-500">
-                        {sauce.ingredients.slice(0, 3).map((ing: string, idx: number, arr: string[]) => (
+                        {sauce.ingredients.slice(0, 3).map((ing, idx, arr) => (
                           <React.Fragment key={idx}>
-                            <span>{typeof ing === 'string' ? ing : String(ing)}</span>
+                            <span>{ing}</span>
                             {idx < arr.length - 1 && idx < 2 && ", "}
                           </React.Fragment>
                         ))}
-                        {sauce.ingredients.length > 3 && <span> +{sauce.ingredients.length - 3}</span>}
+                        {sauce.ingredients.length > 3 && (
+                          <span> +{sauce.ingredients.length - 3}</span>
+                        )}
                       </div>
-                    ) : (
-                      sauce.category === 'forProtein' ? (
-                        <span className="text-xs text-blue-600">For {sauce.forItem}</span>
-                      ) : sauce.category === 'forVegetable' ? (
-                        <span className="text-xs text-green-600">For {sauce.forItem}</span>
-                      ) : sauce.category === 'forCookingMethod' ? (
-                        <span className="text-xs text-orange-600">For {sauce.forItem}</span>
-                      ) : null
-                    )}
+                    ) : sauce.category === "forProtein" ? (
+                      <span className="text-xs text-blue-600">For {sauce.forItem}</span>
+                    ) : sauce.category === "forVegetable" ? (
+                      <span className="text-xs text-green-600">For {sauce.forItem}</span>
+                    ) : sauce.category === "forCookingMethod" ? (
+                      <span className="text-xs text-orange-600">For {sauce.forItem}</span>
+                    ) : null}
                   </div>
                 </div>
-                
+
                 {/* Expanded Content */}
                 {isExpanded && (
                   <div className="px-3 py-2 border-t border-gray-100">
-                    {/* Detailed Info */}
                     <div className="grid grid-cols-2 gap-3 mb-2">
-                      {/* Key Ingredients Column */}
                       <div>
                         <h5 className="text-xs font-medium mb-1">Key Ingredients:</h5>
                         <ul className="pl-2">
-                          {sauce.ingredients?.map((ing: string, idx: number) => (
+                          {sauce.ingredients?.map((ing, idx) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>
-                                {typeof ing === 'string' ? ing : String(ing)}
-                                {` - ${getIngredientAmountRange(typeof ing === 'string' ? ing : String(ing))}`}
+                                {ing} - {getIngredientAmountRange(ing)}
                               </span>
                             </li>
                           ))}
                         </ul>
                       </div>
-                      
-                      {/* Culinary Uses Column */}
+
                       <div>
                         <h5 className="text-xs font-medium mb-1">Uses:</h5>
                         <ul className="pl-2">
-                          {sauce.culinaryUses?.map((use: string, idx: number) => (
+                          {sauce.culinaryUses?.map((use, idx) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>{use}</span>
@@ -604,13 +623,13 @@ export default function SauceRecommender({
                         </ul>
                       </div>
                     </div>
-                    
-                    {/* Notes */}
-                    {(sauce.preparationNotes ?? sauce.technicalTips) && (
+
+                    {(sauce.preparationNotes || sauce.technicalTips) && (
                       <div className="bg-amber-50 p-2 rounded text-xs mb-2">
                         {sauce.preparationNotes && (
                           <p className="mb-1">
-                            <span className="font-medium">Chef&apos;s Notes:</span> {sauce.preparationNotes}
+                            <span className="font-medium">Chef&apos;s Notes:</span>{" "}
+                            {sauce.preparationNotes}
                           </p>
                         )}
                         {sauce.technicalTips && (
@@ -620,101 +639,104 @@ export default function SauceRecommender({
                         )}
                       </div>
                     )}
-                    
-                    {/* Seasonality */}
+
                     {sauce.seasonality && (
                       <div className="text-xs text-gray-600">
                         <span className="font-medium">Season:</span> {sauce.seasonality}
                       </div>
                     )}
-                    
-                    {/* Consistently display preparation steps using various possible field names */}
+
                     {(sauce.preparationSteps ?? sauce.procedure ?? sauce.instructions) && (
                       <div className="mt-2">
                         <h6 className="font-medium mb-1">Preparation:</h6>
-                        {Array.isArray(sauce.preparationSteps ?? sauce.procedure ?? sauce.instructions) ? (
+                        {Array.isArray(
+                          sauce.preparationSteps ?? sauce.procedure ?? sauce.instructions,
+                        ) ? (
                           <ol className="pl-4 list-decimal">
-                            {(sauce.preparationSteps ?? sauce.procedure ?? sauce.instructions).map((step: string, i: number) => (
+                            {(
+                              (sauce.preparationSteps ??
+                                sauce.procedure ??
+                                sauce.instructions) as string[]
+                            ).map((step, i) => (
                               <li key={i}>{step}</li>
                             ))}
                           </ol>
                         ) : (
-                          <p>{sauce.preparationSteps ?? sauce.procedure ?? sauce.instructions}</p>
+                          <p>
+                            {String(
+                              sauce.preparationSteps ??
+                                sauce.procedure ??
+                                sauce.instructions,
+                            )}
+                          </p>
                         )}
                       </div>
                     )}
-                    
-                    {/* Add additional sauce information */}
+
                     {sauce.prepTime && (
                       <div className="mt-1">
                         <span className="text-gray-500">Prep time: </span>
                         <span>{sauce.prepTime}</span>
                       </div>
                     )}
-                    
+
                     {sauce.cookTime && (
                       <div className="mt-1">
                         <span className="text-gray-500">Cook time: </span>
                         <span>{sauce.cookTime}</span>
                       </div>
                     )}
-                    
+
                     {sauce.yield && (
                       <div className="mt-1">
                         <span className="text-gray-500">Yield: </span>
                         <span>{sauce.yield}</span>
                       </div>
                     )}
-                    
+
                     {sauce.difficulty && (
                       <div className="mt-1">
                         <span className="text-gray-500">Difficulty: </span>
                         <span>{sauce.difficulty}</span>
                       </div>
                     )}
-                    
+
                     {sauce.storageInstructions && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Storage:</h6>
                         <p>{sauce.storageInstructions}</p>
                       </div>
                     )}
-                    
+
                     {sauce.technicalTips && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Technical Tips:</h6>
                         <p>{sauce.technicalTips}</p>
                       </div>
                     )}
-                    
+
                     {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Culinary Uses:</h6>
                         <ul className="pl-4 list-disc">
-                          {Array.isArray(sauce.culinaryUses) ? 
-                            sauce.culinaryUses.map((use: string, i: number) => (
-                              <li key={i}>{use}</li>
-                            )) : 
-                            <li>{sauce.culinaryUses}</li>
-                          }
+                          {sauce.culinaryUses.map((use, i) => (
+                            <li key={i}>{use}</li>
+                          ))}
                         </ul>
                       </div>
                     )}
-                    
+
                     {sauce.variants && sauce.variants.length > 0 && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Variants:</h6>
                         <ul className="pl-4 list-disc">
-                          {Array.isArray(sauce.variants) ? 
-                            sauce.variants.map((variant: string, i: number) => (
-                              <li key={i}>{variant}</li>
-                            )) : 
-                            <li>{sauce.variants}</li>
-                          }
+                          {sauce.variants.map((variant, i) => (
+                            <li key={i}>{variant}</li>
+                          ))}
                         </ul>
                       </div>
                     )}
-                    
+
                     {sauce.usage && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Usage:</h6>
@@ -723,9 +745,10 @@ export default function SauceRecommender({
                     )}
                   </div>
                 )}
-                
+
                 {/* Expand/Collapse button */}
-                <button 
+                <button
+                  type="button"
                   onClick={() => toggleSauceCard(sauce.id)}
                   className="w-full flex items-center justify-center text-xs text-gray-500 hover:text-gray-700 p-1 border-t"
                 >
@@ -746,4 +769,6 @@ export default function SauceRecommender({
       )}
     </div>
   );
-} 
+}
+
+export default SauceRecommender;

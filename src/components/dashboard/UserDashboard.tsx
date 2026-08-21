@@ -63,6 +63,7 @@ interface SessionLike {
 
 interface ProfileDataLike {
   subscription?: { tier?: string } | null;
+  [key: string]: unknown;
 }
 
 interface UserDashboardProps {

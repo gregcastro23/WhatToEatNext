@@ -31,7 +31,7 @@ export type TransactionClient = Pick<PoolClient, "query">;
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
@@ -258,7 +258,11 @@ class CommensalDatabaseService {
         const resolveExisting = async (): Promise<
           Commensalship | null | undefined
         > => {
-          const existing = await db.executeQuery(
+          const existing = await db.executeQuery<{
+            id: string | number;
+            status: CommensalshipStatus;
+            requester_id: string | number;
+          }>(
             `SELECT id, status, requester_id FROM commensalships
              WHERE (requester_id = $1::uuid AND addressee_id = $2::uuid)
                 OR (requester_id = $2::uuid AND addressee_id = $1::uuid)`,
@@ -283,7 +287,7 @@ class CommensalDatabaseService {
             );
             if ((updated.rowCount ?? 0) > 0) {
               // Fire-and-forget: never block the request path on notification.
-              void this.notifyAutoAccepted(
+              await this.notifyAutoAccepted(
                 addresseeId,
                 requesterId,
                 String(row.id),
@@ -303,17 +307,15 @@ class CommensalDatabaseService {
             [id, requesterId, addresseeId],
           );
         } catch (insertError) {
-          // 23505 = unique violation: a concurrent request for this pair won
-          // the race (including the reverse direction, via the unordered-pair
-          // index idx_commensalships_pair). Resolve against what landed.
-          if ((insertError as { code?: string })?.code === "23505") {
-            const raced = await resolveExisting();
-            return raced ?? null;
+          // Unordered-pair unique index: a concurrent row landed first —
+          // re-resolve rather than failing.
+          const pgError = insertError as { code?: string } | null;
+          if (pgError?.code === "23505") {
+            return (await resolveExisting()) ?? null;
           }
           throw insertError;
         }
 
-        // Fetch with names
         return await this.getCommensalshipById(id);
       } catch (error) {
         _logger.error("createCommensalRequest failed:", error);
@@ -356,7 +358,7 @@ class CommensalDatabaseService {
       const db = await getDbModule();
       if (db) {
         try {
-          const res = await db.executeQuery(
+          const res = await db.executeQuery<{ name: string | null }>(
             `SELECT COALESCE(NULLIF(profile->>'name', ''), NULLIF(name, ''), '') AS name
                FROM users WHERE id = $1::uuid`,
             [accepterId],
@@ -398,7 +400,11 @@ class CommensalDatabaseService {
     if (db) {
       try {
         // Verify the acting user is a party to the commensalship
-        const check = await db.executeQuery(
+        const check = await db.executeQuery<{
+          requester_id: string | number;
+          addressee_id: string | number;
+          status: CommensalshipStatus;
+        }>(
           `SELECT requester_id, addressee_id, status FROM commensalships WHERE id = $1`,
           [commensalshipId],
         );
@@ -410,14 +416,14 @@ class CommensalDatabaseService {
           status,
         }] = check.rows;
         const isParty =
-          actingUserId === requesterId.toString() ||
-          actingUserId === addresseeId.toString();
+          actingUserId === String(requesterId) ||
+          actingUserId === String(addresseeId);
         if (!isParty) return null;
 
         // Only addressee can accept
         if (
           newStatus === "accepted" &&
-          actingUserId !== addresseeId.toString()
+          actingUserId !== String(addresseeId)
         ) return null;
         // Can't accept if already blocked
         if (status === "blocked" && newStatus === "accepted") return null;
@@ -443,12 +449,21 @@ class CommensalDatabaseService {
       }
     }
 
-    // In-memory fallback
-    const c = commensalshipsStore.get(commensalshipId);
-    if (!c) return null;
-    c.status = newStatus;
-    c.updatedAt = new Date().toISOString();
-    return c;
+    const commensalship = commensalshipsStore.get(commensalshipId);
+    if (!commensalship) return null;
+    const isParty =
+      actingUserId === commensalship.requesterId ||
+      actingUserId === commensalship.addresseeId;
+    if (!isParty) return null;
+    if (
+      newStatus === "accepted" &&
+      actingUserId !== commensalship.addresseeId
+    ) return null;
+    if (commensalship.status === "blocked" && newStatus === "accepted") return null;
+
+    commensalship.status = newStatus;
+    commensalship.updatedAt = new Date().toISOString();
+    return commensalship;
   }
 
   /**
@@ -534,7 +549,7 @@ class CommensalDatabaseService {
         if (opts.targetUserId) {
           if (opts.targetUserId === actingUserId) return null;
 
-          const existing = await db.executeQuery(
+          const existing = await db.executeQuery<{ id: string | number }>(
             `SELECT id FROM commensalships
              WHERE (requester_id = $1::uuid AND addressee_id = $2::uuid)
                 OR (requester_id = $2::uuid AND addressee_id = $1::uuid)`,
@@ -792,7 +807,7 @@ class CommensalDatabaseService {
     if (!db) return commensalshipsStore.get(id) ?? null;
 
     try {
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<CommensalshipRow>(
         `SELECT c.id, c.requester_id, c.addressee_id, c.status,
                 c.created_at, c.updated_at,
                 COALESCE(u_req.name, '') as requester_name,
@@ -824,7 +839,7 @@ class CommensalDatabaseService {
       try {
         // LIMIT is a safety ceiling, not pagination — a user's saved charts are
         // inherently few; the cap just bounds a pathological/abuse-driven read.
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<SavedChartRow>(
           `SELECT ${CommensalDatabaseService.SAVED_CHART_COLUMNS}
              FROM saved_charts
             WHERE user_id = $1::uuid
@@ -871,7 +886,11 @@ class CommensalDatabaseService {
         // pre-drift prod rows); birth_date is the birth instant (timestamptz
         // normalizes to UTC internally, so the ISO instant is correct).
         const wall = localWallClock(birthDate, data.birthData.timezone);
-        const insert = await db.executeQuery(
+        const insert = await db.executeQuery<{
+          id: string | number;
+          created_at: DbTimestamp;
+          updated_at: DbTimestamp;
+        }>(
           `INSERT INTO saved_charts
              (user_id, chart_name, birth_date, birth_time, birth_latitude,
               birth_longitude, timezone_str, is_primary)
@@ -897,11 +916,11 @@ class CommensalDatabaseService {
           ],
         );
 
-        const [row] = insert.rows;
-        if (!row) {
+        if (insert.rows.length === 0) {
           _logger.error("createSavedChart: upsert returned no row");
           return null;
         }
+        const [row] = insert.rows;
         return {
           id: dbString(row.id),
           ownerId: data.ownerId,
@@ -1133,7 +1152,7 @@ class CommensalDatabaseService {
       params.push(JSON.stringify(patch.birthData));
     }
     if (patch.natalChart !== undefined) {
-      sets.push(`natal_chart = $${n++}`);
+      sets.push(`natal_chart = $${n}`);
       params.push(JSON.stringify(patch.natalChart));
     }
 
@@ -1154,15 +1173,15 @@ class CommensalDatabaseService {
          RETURNING id, name, relationship, birth_data, natal_chart, created_at`,
         params,
       );
+      if (result.rows.length === 0) return null;
       const [row] = result.rows;
-      if (!row) return null;
       return {
         id: row.id,
         name: row.name,
         relationship: (row.relationship ?? undefined) as GroupMember["relationship"],
         birthData: row.birth_data as BirthData,
         natalChart: row.natal_chart as NatalChart,
-        createdAt: row.created_at?.toString() ?? new Date().toISOString(),
+        createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
       };
     } catch (error) {
       _logger.error("updateManualCompanion failed:", error);
@@ -1198,7 +1217,7 @@ class CommensalDatabaseService {
 
     // 1. Canonical: user_profiles structured columns.
     try {
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<{ natal_chart: unknown; birth_data: unknown }>(
         `SELECT natal_chart, birth_data FROM user_profiles WHERE user_id = $1::uuid`,
         [userId],
       );
@@ -1215,14 +1234,15 @@ class CommensalDatabaseService {
 
     // 2. Legacy: users.profile JSONB.
     try {
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<{ profile: string | LinkedCommensalProfile | null }>(
         `SELECT profile FROM users WHERE id = $1::uuid`,
         [userId],
       );
       if (result.rows.length > 0) {
-        const profile = typeof result.rows[0].profile === "string"
-          ? safeJsonParse(result.rows[0].profile)
-          : result.rows[0].profile;
+        const rawProfile = result.rows[0].profile;
+        const profile = typeof rawProfile === "string"
+          ? safeJsonParse<LinkedCommensalProfile>(rawProfile)
+          : (rawProfile ?? undefined);
         const natalChart = profile?.natalChart ?? profile?.natal_chart;
         const birthData = profile?.birthData ?? profile?.birth_data;
         if (natalChart) {

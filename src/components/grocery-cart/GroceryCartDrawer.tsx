@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MultiRetailerCartModal } from "@/components/grocery-cart/MultiRetailerCartModal";
 import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { getAmazonLink, getAmazonButtonText } from "@/lib/amazonUrl";
+
 
 export function GroceryCartDrawer() {
   const {
@@ -23,6 +25,7 @@ export function GroceryCartDrawer() {
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
   const [smartOrderOpen, setSmartOrderOpen] = useState(false);
+  const [splitModalOpen, setSplitModalOpen] = useState(false);
 
   // Escape key handler — closes the drawer for keyboard users
   useEffect(() => {
@@ -315,13 +318,33 @@ export function GroceryCartDrawer() {
               </button>
               <button
                 type="button"
+                onClick={() => setSplitModalOpen(true)}
+                disabled={items.length === 0}
+                className="w-full px-4 py-2.5 rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-purple-500/10 to-transparent text-amber-200 font-bold text-xs hover:bg-amber-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                <span>⚡</span>
+                Split Cart (Instacart Specialty + Amazon Fresh)
+              </button>
+              <button
+                type="button"
                 onClick={() => setSmartOrderOpen(true)}
                 disabled={items.length === 0}
-                className="w-full px-4 py-2.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-200 font-semibold text-xs hover:bg-cyan-500/20 transition-all disabled:opacity-50"
+                className="w-full px-4 py-2 rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-200 font-semibold text-xs hover:bg-cyan-500/20 transition-all disabled:opacity-50"
               >
                 🧺 Smart order list (staples &amp; pantry aware)
               </button>
             </div>
+
+            <MultiRetailerCartModal
+              isOpen={splitModalOpen}
+              onClose={() => setSplitModalOpen(false)}
+              items={items.map((item) => ({
+                name: item.name,
+                quantity: item.quantity,
+                unit: item.unit,
+              }))}
+              title="Cart Split Fulfillment"
+            />
 
             <OrderIngredientsModal
               open={smartOrderOpen}
@@ -336,6 +359,7 @@ export function GroceryCartDrawer() {
               source="grocery_drawer"
               listTarget="cart"
             />
+
             <button
               type="button"
               onClick={clear}

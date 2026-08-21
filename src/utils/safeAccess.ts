@@ -33,7 +33,7 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
         return defaultValue;
       }
 
-      current = (current as any)[key];
+      current = (current as Record<string, unknown>)[key];
     }
 
     return current !== undefined && current !== null
@@ -170,7 +170,7 @@ export function safeProperty<T>(
     return defaultValue;
   }
 
-  const value = (obj as any)[key];
+  const value = (obj as Record<string, unknown>)[key];
 
   if (value === undefined || value === null) {
     return defaultValue;
