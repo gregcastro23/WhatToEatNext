@@ -93,6 +93,13 @@ function getMealTypeColors(mealType: MealType): {
   return colors[mealType];
 }
 
+interface AlchemicalQuantitiesState {
+  spirit_score: number;
+  essence_score: number;
+  matter_score: number;
+  substance_score: number;
+}
+
 /**
  * Empty State Component
  */
@@ -104,7 +111,7 @@ function EmptyMealSlot({
   mealType: MealType;
   onClick: () => void;
   onGenerate?: () => void;
-}) {
+}): React.JSX.Element {
   const colors = getMealTypeColors(mealType);
   const characteristics = getMealTypeCharacteristics(mealType);
 
@@ -157,7 +164,7 @@ function RecipeDisplay({
   onUpdateServings?: (servings: number) => void;
   onCopyMeal?: () => void;
   weeklyNutrition?: WeeklyNutritionResult | null;
-}) {
+}): React.JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showNutritionModal, setShowNutritionModal] = useState(false);
   const [isRitualModalOpen, setIsRitualModalOpen] = useState(false);
@@ -166,10 +173,11 @@ function RecipeDisplay({
   const [totalPotencyScore, setTotalPotencyScore] = useState<number | null>(
     null,
   );
-  const [alchemicalQuantities, setAlchemicalQuantities] = useState<any>(null); // TODO: Define proper type
+  const [alchemicalQuantities, setAlchemicalQuantities] =
+    useState<AlchemicalQuantitiesState | null>(null);
   const colors = getMealTypeColors(mealType);
 
-  const handleEnvironmentalMatchClick = async () => {
+  const handleEnvironmentalMatchClick = async (): Promise<void> => {
     if (!recipe.id) return;
     try {
       const response = await fetch(
@@ -185,14 +193,18 @@ function RecipeDisplay({
       if (!response.ok) {
         throw new Error("Failed to fetch ritual instruction");
       }
-      const data = await response.json();
-      setRitualInstruction(data.ritual_instruction);
-      setDominantTransit(data.dominant_transit);
-      setTotalPotencyScore(data.total_potency_score);
-      setAlchemicalQuantities(data.alchemical_quantities);
+      const data = (await response.json()) as {
+        ritual_instruction?: string;
+        dominant_transit?: string | null;
+        total_potency_score?: number | null;
+        alchemical_quantities?: AlchemicalQuantitiesState | null;
+      };
+      setRitualInstruction(data.ritual_instruction ?? "Cook with mindfulness and enjoy the moment.");
+      setDominantTransit(data.dominant_transit ?? null);
+      setTotalPotencyScore(data.total_potency_score ?? null);
+      setAlchemicalQuantities(data.alchemical_quantities ?? null);
       setIsRitualModalOpen(true);
-    } catch (error) {
-      console.error(error);
+    } catch (_err) {
       // Handle error, e.g., show a default message
       setRitualInstruction("Cook with mindfulness and enjoy the moment.");
       setDominantTransit(null);
@@ -263,10 +275,10 @@ function RecipeDisplay({
       </div>
       {/* Quick Info */}
       <div className="text-xs text-purple-200/60 space-y-1 mb-2">
-        {recipe.prepTime && recipe.prepTime !== "0" && (
+        {Boolean(recipe.prepTime && recipe.prepTime !== "0") && (
           <div className="flex items-center gap-1">
             <span>⏱️</span>
-            <span>{recipe.prepTime}</span>
+            <span>{String(recipe.prepTime)}</span>
           </div>
         )}
       </div>
@@ -279,7 +291,9 @@ function RecipeDisplay({
             recipe.environmentalMatchDetails ??
             "This recipe aligns with current environmental energies!"
           }
-          onClick={() => { void handleEnvironmentalMatchClick(); }}
+          onClick={() => {
+            handleEnvironmentalMatchClick().catch(() => {});
+          }}
         >
           <span>🌍✨</span>
           <span className="font-medium">Environmental Match!</span>
@@ -342,7 +356,7 @@ function RecipeDisplay({
                   Earth: { bg: "bg-amber-400", text: "text-amber-700" },
                   Air: { bg: "bg-sky-400", text: "text-sky-700" },
                 };
-                const color = elementColors[element] || {
+                const color = elementColors[element] ?? {
                   bg: "bg-gray-400",
                   text: "text-gray-700",
                 };
@@ -374,7 +388,7 @@ function RecipeDisplay({
           )}
 
           {/* Ingredients */}
-          {recipe.ingredients && recipe.ingredients.length > 0 && (
+          {recipe.ingredients.length > 0 && (
             <div className="mb-3">
               <p className="font-medium mb-1 text-purple-100">
                 Ingredients ({recipe.ingredients.length}):
@@ -385,7 +399,7 @@ function RecipeDisplay({
                     <span className="text-amber-300/80">•</span>
                     <span className="truncate">
                       {ing.amount
-                        ? `${Number(ing.amount) * servings} ${ing.unit || ""} `
+                        ? `${Number(ing.amount) * servings} ${ing.unit ? `${ing.unit} ` : ""}`
                         : ""}
                       {ing.name}
                     </span>
@@ -401,7 +415,7 @@ function RecipeDisplay({
           )}
 
           {/* Instructions Preview */}
-          {recipe.instructions && recipe.instructions.length > 0 && (
+          {recipe.instructions.length > 0 && (
             <div className="mb-3">
               <p className="font-medium mb-1 text-purple-100">
                 Steps ({recipe.instructions.length}):
@@ -435,6 +449,18 @@ function RecipeDisplay({
   );
 }
 
+interface DragMealSlotPayload {
+  type: "meal-slot";
+  slotId: string;
+  recipe?: unknown;
+  servings?: number;
+}
+interface DragQueueRecipePayload {
+  type: "queue-recipe";
+  recipe: MonicaOptimizedRecipe;
+}
+type DragPayload = DragMealSlotPayload | DragQueueRecipePayload;
+
 /**
  * Main Meal Slot Component
  */
@@ -456,7 +482,7 @@ export default function MealSlot({
   onDragStart,
   onDragEnd,
   weeklyNutrition,
-}: MealSlotProps) {
+}: MealSlotProps): React.JSX.Element {
   const [showRecipeSelector, setShowRecipeSelector] = useState(false);
   const [showSauceSelector, setShowSauceSelector] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -465,13 +491,13 @@ export default function MealSlot({
   const hasSauce = !!mealSlot.sauce;
 
   // Handle recipe selection
-  const handleRecipeSelect = (recipe: Recipe) => {
+  const handleRecipeSelect = (recipe: Recipe): void => {
     onAddRecipe?.(recipe as MonicaOptimizedRecipe);
     setShowRecipeSelector(false);
   };
 
   // Drag handlers
-  const handleDragStart = (e: React.DragEvent) => {
+  const handleDragStart = (e: React.DragEvent): void => {
     if (!hasRecipe) return;
 
     e.dataTransfer.effectAllowed = "move";
@@ -492,23 +518,25 @@ export default function MealSlot({
     onDragStart?.();
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: React.DragEvent): void => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     setIsDragOver(true);
   };
 
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = (e: React.DragEvent): void => {
     e.preventDefault();
     setIsDragOver(false);
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent): void => {
     e.preventDefault();
     setIsDragOver(false);
 
     try {
-      const data = JSON.parse(e.dataTransfer.getData("application/json"));
+      const raw = e.dataTransfer.getData("application/json");
+      if (!raw) return;
+      const data = JSON.parse(raw) as DragPayload;
 
       if (data.type === "meal-slot") {
         // Dropping from another meal slot
@@ -531,8 +559,8 @@ export default function MealSlot({
           // Target slot is empty - move
           onMoveMeal?.(data.slotId);
         }
-      } else if (data.type === "queue-recipe") {
-        // Dropping from recipe queue
+      } else {
+        // Dropping from recipe queue (data.type === "queue-recipe")
         if (!hasRecipe) {
           onAddRecipe?.(data.recipe);
         } else {
@@ -546,12 +574,12 @@ export default function MealSlot({
           }
         }
       }
-    } catch (error) {
-      console.error("Drop failed:", error);
+    } catch (_error) {
+      // Drop failed safely
     }
   };
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (): void => {
     setIsDragOver(false);
     onDragEnd?.();
   };
@@ -692,7 +720,16 @@ export default function MealSlot({
           setShowSauceSelector(false);
         }}
         recipeElementalProperties={mealSlot.recipe?.elementalProperties}
-        recipeAlchemicalProperties={mealSlot.recipe?.alchemicalProperties as any}
+        recipeAlchemicalProperties={
+          mealSlot.recipe?.alchemicalProperties
+            ? {
+                Spirit: mealSlot.recipe.alchemicalProperties.heat ?? 0,
+                Essence: mealSlot.recipe.alchemicalProperties.reactivity ?? 0,
+                Matter: mealSlot.recipe.alchemicalProperties.stability ?? 0,
+                Substance: mealSlot.recipe.alchemicalProperties.entropy ?? 0,
+              }
+            : undefined
+        }
       />
     </div>
   );

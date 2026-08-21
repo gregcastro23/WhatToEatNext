@@ -23,6 +23,42 @@ interface NutritionCoverageStats {
   missingNames: string[];
 }
 
+interface RawCuisineDish {
+  id?: string;
+  name?: string;
+  image?: string;
+  image_url?: string;
+  description?: string;
+  cuisine?: string;
+  ingredients?: unknown[];
+  instructions?: unknown[];
+  servings?: number;
+  numberOfServings?: number;
+  prepTimeMinutes?: number;
+  cookTimeMinutes?: number;
+  isVegetarian?: boolean;
+  isVegan?: boolean;
+  isGlutenFree?: boolean;
+  isDairyFree?: boolean;
+  regionalVariant?: string;
+  alchemicalProfile?: Record<string, unknown>;
+  alchemicalProperties?: Record<string, unknown>;
+  thermodynamicProperties?: Record<string, unknown>;
+  astrologicalAffinities?: Record<string, unknown>;
+  elementalProfile?: Recipe["elementalProperties"];
+  elementalProperties?: Recipe["elementalProperties"];
+  details?: Record<string, unknown>;
+  classifications?: Record<string, unknown>;
+  substitutions?: unknown[];
+  mealType?: string[];
+  season?: string[];
+  monicaScore?: unknown;
+  monicaScoreLabel?: unknown;
+  nutritionPerServing?: unknown;
+  nutrition?: unknown;
+  nutritionalProfile?: unknown;
+}
+
 let _cachedRecipes: IndexedRecipe[] | null = null;
 let _cachedIndex: RecipeIndex | null = null;
 let _nutritionStats: NutritionCoverageStats = {
@@ -161,7 +197,7 @@ function extractRecipesFromCuisines(
   };
 
   for (const { key, cuisine } of cuisines) {
-    if (!cuisine?.dishes) continue;
+    if (!cuisine.dishes) continue;
     const cuisineName =
       typeof cuisine.name === "string" && cuisine.name.trim().length > 0
         ? cuisine.name
@@ -179,27 +215,17 @@ function extractRecipesFromCuisines(
         const dishes = (mealCategory as Record<string, unknown>)[season];
         if (!Array.isArray(dishes)) continue;
 
-        for (const dish of dishes) {
-          if (!dish?.name || typeof dish.name !== "string") continue;
+        for (const rawDish of dishes) {
+          const dish = (rawDish ?? {}) as RawCuisineDish;
+          if (!dish.name || typeof dish.name !== "string") continue;
 
           const key = `${dish.name.toLowerCase().trim()}`;
           if (seen.has(key)) continue;
           seen.add(key);
 
-          const alchemical = (dish.alchemicalProfile ?? {}) as Record<
-            string,
-            unknown
-          >;
-          const details =
-            ((dish as Record<string, unknown>).details as Record<
-              string,
-              unknown
-            > | undefined) ?? {};
-          const classifications =
-            ((dish as Record<string, unknown>).classifications as Record<
-              string,
-              unknown
-            > | undefined) ?? {};
+          const alchemical = dish.alchemicalProfile ?? {};
+          const details = dish.details ?? {};
+          const classifications = dish.classifications ?? {};
           const prepTime = Number(dish.prepTimeMinutes ?? details.prepTimeMinutes ?? 0);
           const cookTime = Number(dish.cookTimeMinutes ?? details.cookTimeMinutes ?? 0);
 
@@ -223,24 +249,15 @@ function extractRecipesFromCuisines(
             if (inferred.isGlutenFree) dietaryTags.push("glutenFree");
           }
 
-          const imageUrl = getAssetUrl((dish.image as string) ?? (dish.image_url as string));
+          const imageUrl = getAssetUrl(dish.image ?? dish.image_url);
 
           // ── Rich fields the cuisine schema carries that earlier
           //    extraction silently dropped (cooking methods, the alchemical
           //    SMES grid, the Monica constant, astrological affinities and
           //    ingredient substitutions). ──
-          const alchemicalProps = (dish.alchemicalProperties ?? {}) as Record<
-            string,
-            unknown
-          >;
-          const thermo = (dish.thermodynamicProperties ?? {}) as Record<
-            string,
-            unknown
-          >;
-          const astro = (dish.astrologicalAffinities ?? {}) as Record<
-            string,
-            unknown
-          >;
+          const alchemicalProps = dish.alchemicalProperties ?? {};
+          const thermo = dish.thermodynamicProperties ?? {};
+          const astro = dish.astrologicalAffinities ?? {};
 
           // Regional variant — e.g. `details.cuisine: "Italian (Sicily)"`
           // surfaces as a "Sicily" badge on the card.
@@ -281,17 +298,16 @@ function extractRecipesFromCuisines(
 
           const recipe: IndexedRecipe = {
             id:
-              (dish.id as string) ??
+              dish.id ??
               `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
             name: dish.name,
             image: imageUrl,
             imageUrl,
-            description: (dish.description as string) ?? "",
+            description: dish.description ?? "",
             cuisine:
-              (dish.cuisine as string) ??
-              (details.cuisine as string) ??
-              ((dish.alchemicalProfile as Record<string, unknown>)
-                ?.cuisine as string) ??
+              dish.cuisine ??
+              (details.cuisine as string | undefined) ??
+              (dish.alchemicalProfile?.cuisine as string | undefined) ??
               cuisineName,
             ingredients: Array.isArray(dish.ingredients)
               ? dish.ingredients.map((ing: unknown) => {
@@ -325,12 +341,12 @@ function extractRecipesFromCuisines(
             totalTime: String(prepTime + cookTime),
             timeToMake: `${prepTime + cookTime} minutes`,
             mealType:
-              (dish.mealType as string[]) ??
-              (classifications.mealType as string[]) ??
+              dish.mealType ??
+              (classifications.mealType as string[] | undefined) ??
               [mealType],
             season:
-              (dish.season as string[]) ??
-              (details.season as string[]) ??
+              dish.season ??
+              (details.season as string[] | undefined) ??
               [season],
             tags: dietaryTags,
             isVegetarian: dietaryTags.includes("vegetarian"),
@@ -339,18 +355,18 @@ function extractRecipesFromCuisines(
             isDairyFree: dietaryTags.includes("dairyFree"),
             numberOfServings:
               Number(
-                (dish as { numberOfServings?: unknown }).numberOfServings ??
-                  (dish as { servings?: unknown }).servings ??
+                dish.numberOfServings ??
+                  dish.servings ??
                   (details.baseServingSize as number | undefined),
               ) || undefined,
             nutrition: undefined,
             elementalProperties:
-              (dish.elementalProfile ?? dish.elementalProperties ?? {
+              dish.elementalProfile ?? dish.elementalProperties ?? {
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,
                 Air: 0.25,
-              }) as Recipe["elementalProperties"],
+              },
             cookingMethod,
             spiceLevel:
               (details.spiceLevel as Recipe["spiceLevel"]) ?? undefined,

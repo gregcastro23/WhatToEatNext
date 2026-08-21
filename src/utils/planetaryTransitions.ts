@@ -46,7 +46,7 @@ const ZODIAC_SIGNS = [
  * Get the next zodiac sign in the cycle
  */
 function getNextSign(currentSign: string): string {
-  const currentIndex = ZODIAC_SIGNS.indexOf(currentSign.toLowerCase() as any);
+  const currentIndex = (ZODIAC_SIGNS as readonly string[]).indexOf(currentSign.toLowerCase());
   if (currentIndex === -1) return "aries";
   const nextIndex = (currentIndex + 1) % ZODIAC_SIGNS.length;
   return ZODIAC_SIGNS[nextIndex];
@@ -56,7 +56,7 @@ function getNextSign(currentSign: string): string {
  * Get the previous zodiac sign in the cycle
  */
 function getPreviousSign(currentSign: string): string {
-  const currentIndex = ZODIAC_SIGNS.indexOf(currentSign.toLowerCase() as any);
+  const currentIndex = (ZODIAC_SIGNS as readonly string[]).indexOf(currentSign.toLowerCase());
   if (currentIndex === -1) return "pisces";
   const prevIndex =
     (currentIndex - 1 + ZODIAC_SIGNS.length) % ZODIAC_SIGNS.length;

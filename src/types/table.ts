@@ -40,10 +40,13 @@ export interface TableVenue {
   address?: string;
 }
 
+export type TableCourseStatus = "upcoming" | "prep" | "cooking" | "served" | "completed";
+
 export interface TableMenuItem {
   name: string;
   recipeRef?: string;
   course?: string;
+  status?: TableCourseStatus | string;
 }
 
 /** A single member row on a table — either a registered user (human or

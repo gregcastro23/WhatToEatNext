@@ -18,7 +18,52 @@ import type {
     GetRecipesForPlanetaryAlignmentParams,
     SearchRecipesParams
 } from "./interfaces/RecipeApiInterfaces";
-import type { RecipeServiceInterface } from "./interfaces/RecipeServiceInterface";
+import type {
+  RecipeRecommendationOptions,
+  RecipeSearchCriteria,
+  RecipeServiceInterface,
+} from "./interfaces/RecipeServiceInterface";
+
+interface InternalRecipeBackend {
+  getAllRecipes(): Promise<Recipe[]>;
+  searchRecipes(
+    criteria?: RecipeSearchCriteria,
+    options?: RecipeRecommendationOptions,
+  ): Promise<Recipe[]>;
+  getRecipesByCuisine(cuisine: string): Promise<Recipe[]>;
+  getRecipesByZodiac(zodiac: string): Promise<Recipe[]>;
+  getRecipesBySeason(season: string): Promise<Recipe[]>;
+  getRecipesByLunarPhase(phase: string): Promise<Recipe[]>;
+  getRecipesByMealType(mealType: string): Promise<Recipe[]>;
+  getRecipesForPlanetaryAlignment(
+    influences: Record<string, number>,
+    minScore?: number,
+  ): Promise<Recipe[]>;
+  getRecipesForFlavorProfile(
+    profile: Record<string, number>,
+    minScore?: number,
+  ): Promise<Recipe[]>;
+  getBestRecipeMatches(
+    criteria: RecipeSearchCriteria,
+    limit?: number,
+  ): Promise<Recipe[]>;
+  generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe>;
+  generateFusionRecipe(
+    cuisines: string[],
+    criteria?: RecipeSearchCriteria,
+  ): Promise<Recipe>;
+  adaptRecipeForSeason(
+    recipe: { id: string },
+    season?: string,
+  ): Promise<Recipe>;
+  calculateElementalProperties(recipe: Partial<Recipe>): ElementalProperties;
+  getDominantElement(recipe: Recipe): {
+    element: keyof ElementalProperties;
+    value: number;
+  };
+  calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number;
+  clearCache(): void;
+}
 
 /**
  * RecipeFinder.ts
@@ -36,21 +81,18 @@ import type { RecipeServiceInterface } from "./interfaces/RecipeServiceInterface
  * Implements the RecipeServiceInterface and adds additional error handling
  */
 export class RecipeFinder implements RecipeServiceInterface {
-  private static instance: RecipeFinder;
-  private readonly recipeService: any;
+  private static readonly instance = new RecipeFinder();
+  private readonly recipeService: InternalRecipeBackend;
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
-    this.recipeService = ConsolidatedRecipeService.getInstance();
+    this.recipeService = ConsolidatedRecipeService.getInstance() as unknown as InternalRecipeBackend;
   }
   /**
    * Get singleton instance
    */
   public static getInstance(): RecipeFinder {
-    if (!RecipeFinder.instance) {
-      RecipeFinder.instance = new RecipeFinder();
-    }
     return RecipeFinder.instance;
   }
   /**

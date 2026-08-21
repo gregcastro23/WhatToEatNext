@@ -34,7 +34,7 @@ export function validateElementalProperties(
     return false;
   }
 
-  const props = properties as any;
+  const props = properties as Record<string, unknown>;
   const REQUIRED_ELEMENTS = ["Fire", "Water", "Earth", "Air"];
 
   // Check for required elements
@@ -89,7 +89,7 @@ export function normalizeElementalProperties(
       value >= 0 &&
       value <= 1
     ) {
-      (normalized as any)[element] = value;
+      (normalized as Record<string, number>)[element] = value;
       hasValidElement = true;
     }
   });
@@ -212,7 +212,7 @@ function getElementalCompatibility(
     },
   };
 
-  return compatibilityMatrix[source][target] || ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY;
+  return compatibilityMatrix[source][target] ?? ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY;
 }
 
 /**

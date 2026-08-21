@@ -19,6 +19,7 @@ import { LiveTableRoom } from "@/components/tables/LiveTableRoom";
 import { MembersPanel } from "@/components/tables/MembersPanel";
 import { PhotoGrid } from "@/components/tables/PhotoGrid";
 import { TableCompositePanel } from "@/components/tables/TableCompositePanel";
+import { TableLiveCollaborativePlanner } from "@/components/tables/TableLiveCollaborativePlanner";
 import {
   ElementChip,
   GlassPanel,
@@ -296,20 +297,15 @@ export default function TableDetailPage() {
               )}
 
               {table.menu.length > 0 && (
-                <GlassPanel className="p-5">
-                  <LabelXS className="text-alchm-fg-dim">The Sequence</LabelXS>
-                  <ul className="mt-3 space-y-2">
-                    {table.menu.map((item, index) => (
-                      <li key={`${item.name}-${index}`}>
-                        <p className="text-lg text-alchm-fg">{item.name}</p>
-                        {item.course && (
-                          <p className="text-xs text-alchm-fg-mute">{item.course}</p>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </GlassPanel>
+                <TableLiveCollaborativePlanner
+                  tableId={table.id}
+                  menu={table.menu}
+                  canVote={isJoined || isHost}
+                  viewerId={viewerId}
+                  isHost={isHost}
+                />
               )}
+
 
               {(table.status === "live" || table.status === "memory") && (
                 <PhotoGrid

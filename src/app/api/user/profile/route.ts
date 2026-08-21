@@ -16,6 +16,7 @@ import { withTimeout } from "@/lib/performance/withTimeout";
 import { UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
+import type { NatalChart, PlanetInfo } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -24,11 +25,81 @@ export const runtime = "nodejs";
 const { HONO_API_URL } = process.env;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 
+interface ProfileApiResponse {
+  success: boolean;
+  profile?: UserProfile;
+  message?: string;
+  details?: Record<string, string[] | undefined>;
+}
+
+interface HonoProfileResponse {
+  success?: boolean;
+  profile?: UserProfile;
+  [key: string]: unknown;
+}
+
+/**
+ * Migrates a natal chart with sub-arcminute planet positions if positions are missing
+ */
+async function maybeMigrateNatalChart(
+  userId: string,
+  userEmail: string | undefined,
+  natalChart: NatalChart,
+): Promise<NatalChart> {
+  if (natalChart.planets.length === 0 || !natalChart.birthData.dateTime) {
+    return natalChart;
+  }
+
+  const needsMigration = natalChart.planets.some(
+    (p) => p.name !== "Ascendant" && (!p.position || p.position === 0),
+  );
+
+  if (!needsMigration) {
+    return natalChart;
+  }
+
+  _logger.info("[api/user/profile] Migrating natal chart with sub-arcminute positions");
+  try {
+    const birthDate = new Date(natalChart.birthData.dateTime);
+    const rawPositions = await withTimeout(
+      getPlanetaryPositionsForDateTime(birthDate, {
+        latitude: natalChart.birthData.latitude,
+        longitude: natalChart.birthData.longitude,
+      }),
+      8000,
+      null,
+      "profile lazy migration",
+    );
+
+    if (rawPositions) {
+      const updatedPlanets: PlanetInfo[] = natalChart.planets.map((p) => {
+        const pos = rawPositions[p.name];
+        return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
+      });
+      const migratedChart: NatalChart = {
+        ...natalChart,
+        planets: updatedPlanets,
+      };
+
+      // Persist the migrated chart asynchronously
+      userDatabase.updateUserProfile(userId, { natalChart: migratedChart }, userEmail).catch((err: unknown) => {
+        _logger.error("[api/user/profile] Failed to persist migrated chart", err);
+      });
+
+      return migratedChart;
+    }
+  } catch (err) {
+    _logger.error("[api/user/profile] Lazy migration failed", err);
+  }
+
+  return natalChart;
+}
+
 /**
  * GET /api/user/profile
  * Get current user's profile (authenticated)
  */
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse<ProfileApiResponse>> {
   try {
     const user = await getDatabaseUserFromRequest(request);
 
@@ -60,91 +131,27 @@ export async function GET(request: NextRequest) {
         });
 
         if (honoResponse.ok) {
-          const data = await honoResponse.json();
-          // Still do lazy migration locally if it's not handled in Hono yet to preserve exact feature parity
+          const data = (await honoResponse.json()) as HonoProfileResponse;
           const { profile } = data;
-          const natalChart = profile?.natalChart;
-          if (natalChart?.planets?.length > 0 && natalChart?.birthData?.dateTime) {
-            const needsMigration = natalChart.planets.some(
-              (p: any) => p.name !== 'Ascendant' && (!p.position || p.position === 0),
-            );
-            if (needsMigration) {
-              _logger.info("[GET /api/user/profile] Migrating natal chart with sub-arcminute positions");
-              try {
-                const birthDate = new Date(natalChart.birthData.dateTime);
-                // 8s ceiling: the fallback ephemeris computation in
-                // getPlanetaryPositionsForDateTime is unbounded server-side
-                // math (no AbortController). Migration is best-effort — if
-                // we time out, return the un-migrated chart; the next call
-                // tries again.
-                const rawPositions = await withTimeout(
-                  getPlanetaryPositionsForDateTime(birthDate, {
-                    latitude: natalChart.birthData.latitude,
-                    longitude: natalChart.birthData.longitude,
-                  }),
-                  8000,
-                  null,
-                  "profile-hono lazy migration",
-                );
-                if (rawPositions) {
-                  const updatedPlanets = natalChart.planets.map((p: any) => {
-                    const pos = rawPositions[p.name];
-                    return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
-                  });
-                  natalChart.planets = updatedPlanets;
-                  void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
-                    _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
-                  );
-                }
-              } catch (err) {
-                _logger.error("[GET /api/user/profile] Lazy migration failed", err);
-              }
-            }
+          if (profile?.natalChart) {
+            const chart = profile.natalChart;
+            profile.natalChart = await maybeMigrateNatalChart(user.id, user.email, chart);
           }
-          return NextResponse.json(data);
+          return NextResponse.json({
+            success: true,
+            profile: data.profile,
+          });
         }
       } catch (err) {
         _logger.error("Hono Gateway proxy failed for user profile:", err);
       }
     }
 
-    // Lazy migration: if natal chart has position:0 for planets, recalculate with sub-arcminute precision
-    const profile = user.profile as any;
-    const natalChart = profile?.natalChart;
-    if (natalChart?.planets?.length > 0 && natalChart?.birthData?.dateTime) {
-      const needsMigration = natalChart.planets.some(
-        (p: any) => p.name !== 'Ascendant' && (!p.position || p.position === 0),
-      );
-      if (needsMigration) {
-        _logger.info("[GET /api/user/profile] Migrating natal chart with sub-arcminute positions");
-        try {
-          const birthDate = new Date(natalChart.birthData.dateTime);
-          // 8s ceiling: see comment in the Hono proxy branch above.
-          const rawPositions = await withTimeout(
-            getPlanetaryPositionsForDateTime(birthDate, {
-              latitude: natalChart.birthData.latitude,
-              longitude: natalChart.birthData.longitude,
-            }),
-            8000,
-            null,
-            "profile-fallback lazy migration",
-          );
-          if (rawPositions) {
-            // Update planet positions with exact longitudes
-            const updatedPlanets = natalChart.planets.map((p: any) => {
-              const pos = rawPositions[p.name];
-              return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
-            });
-            natalChart.planets = updatedPlanets;
-            // Persist the migrated chart asynchronously (don't block response)
-            void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
-              _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
-            );
-          }
-        } catch (err) {
-          _logger.error("[GET /api/user/profile] Lazy migration failed", err);
-        }
-      }
+    // Lazy migration for local database user
+    const { profile } = user;
+    if (profile.natalChart) {
+      const chart = profile.natalChart;
+      profile.natalChart = await maybeMigrateNatalChart(user.id, user.email, chart);
     }
 
     return NextResponse.json({
@@ -167,7 +174,7 @@ export async function GET(request: NextRequest) {
  * PUT /api/user/profile
  * Update user profile (authenticated)
  */
-export async function PUT(request: NextRequest) {
+export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApiResponse>> {
   try {
     const user = await getDatabaseUserFromRequest(request);
 
@@ -182,7 +189,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    let rawBody;
+    let rawBody: unknown;
     try {
       rawBody = await request.json();
     } catch {
@@ -195,7 +202,11 @@ export async function PUT(request: NextRequest) {
     const parsedBody = UserProfileUpdateSchema.safeParse(rawBody);
     if (!parsedBody.success) {
       return NextResponse.json(
-        { success: false, message: "Validation error", details: parsedBody.error.flatten().fieldErrors },
+        {
+          success: false,
+          message: "Validation error",
+          details: parsedBody.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
@@ -223,8 +234,11 @@ export async function PUT(request: NextRequest) {
         });
 
         if (honoResponse.ok) {
-          const data = await honoResponse.json();
-          return NextResponse.json(data);
+          const data = (await honoResponse.json()) as HonoProfileResponse;
+          return NextResponse.json({
+            success: true,
+            profile: data.profile,
+          });
         }
       } catch (err) {
         _logger.error("Hono Gateway proxy failed for user profile update:", err);
@@ -234,7 +248,7 @@ export async function PUT(request: NextRequest) {
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
       profileData as Partial<UserProfile>,
-      user.email
+      user.email,
     );
 
     if (!updatedUser) {
@@ -262,4 +276,3 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
-

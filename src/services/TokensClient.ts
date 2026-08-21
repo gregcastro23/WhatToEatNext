@@ -190,29 +190,20 @@ export class TokensClient {
           // through to the local engine yields a real, complete answer;
           // returning the object anyway would hand callers `undefined` typed
           // as `number`, which renders as one.
-          void (logger.warn as (...args: unknown[]) => Promise<void>)(
-            "TokensClient",
-            "Backend token rates missing required ESMS axes, falling back to local",
+          void logger.warn(
+            "TokensClient: Backend token rates missing required ESMS axes, falling back to local",
             raw,
           );
         } else {
-          // FIXME(types-only): _logger.debug takes (message, data); the extra
-          // "TokensClient" category arg shifts data and drops `result` at runtime.
-          // Preserved as-is — fix arg order in a behavior change, not this pass.
-          void (logger.debug as (...args: unknown[]) => Promise<void>)(
-            "TokensClient",
-            "Backend calculation successful",
+          void logger.debug(
+            "TokensClient: Backend calculation successful",
             result,
           );
           return result;
         }
       } catch (error) {
-        // FIXME(types-only): _logger.warn takes (message, data); the extra
-        // "TokensClient" category arg shifts data and drops `error` at runtime.
-        // Preserved as-is — fix arg order in a behavior change, not this pass.
-        void (logger.warn as (...args: unknown[]) => Promise<void>)(
-          "TokensClient",
-          "Backend calculation failed, falling back to local",
+        void logger.warn(
+          "TokensClient: Backend calculation failed, falling back to local",
           error,
         );
         // Fall through to local

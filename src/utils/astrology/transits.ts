@@ -98,8 +98,10 @@ export function calculateTransitScoreModifier(
 
     if (aspect === 'square') {
       // Check for high protein/energy.
-      const nutritionalProfile = recipe.nutritionalProfile as any;
-      if (nutritionalProfile?.protein && nutritionalProfile.protein > 25) { // e.g., > 25g protein
+      const protein = typeof recipe.nutritionalProfile === "object" && recipe.nutritionalProfile !== null
+        ? (recipe.nutritionalProfile as { protein?: unknown }).protein
+        : undefined;
+      if (typeof protein === "number" && protein > 25) { // e.g., > 25g protein
         modifier += 0.15; // 15% boost
       }
       if (recipe.description && (recipe.description.toLowerCase().includes('energy') || recipe.description.toLowerCase().includes('hearty'))) {

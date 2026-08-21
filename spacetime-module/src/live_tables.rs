@@ -342,3 +342,51 @@ pub struct EnvironmentalObservation {
     pub updated_at: Timestamp,
 }
 
+/// Live collaborative table meal vote.
+///
+/// Enables real-time menu consensus voting among dinner table guests.
+/// Keyed by `wten_table_id`.
+#[spacetimedb::table(accessor = table_meal_vote, public)]
+#[derive(Clone)]
+pub struct TableMealVote {
+    #[primary_key]
+    #[auto_inc]
+    pub vote_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    /// Voter identity — always `ctx.sender`.
+    #[index(btree)]
+    pub voter: Identity,
+    pub voter_name: String,
+    /// Recipe reference / identifier being voted on.
+    #[index(btree)]
+    pub recipe_ref: String,
+    pub recipe_name: String,
+    /// Vote value: +1 (upvote / love), -1 (downvote / allergen/dislike), 0 (neutral / cleared).
+    pub vote_score: i8,
+    pub updated_at: Timestamp,
+}
+
+/// Live cursor and focus presence for collaborative menu planning.
+///
+/// Shows other guests' active viewing / slot focus on the table menu.
+#[spacetimedb::table(accessor = table_cursor_presence, public)]
+#[derive(Clone)]
+pub struct TableCursorPresence {
+    #[primary_key]
+    #[auto_inc]
+    pub cursor_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    /// Member identity — always `ctx.sender`.
+    #[index(btree)]
+    pub member: Identity,
+    pub display_name: String,
+    /// Currently focused slot or recipe ref.
+    pub current_slot_ref: String,
+    /// Color hex code assigned for cursor ring.
+    pub color_hex: String,
+    pub updated_at: Timestamp,
+}

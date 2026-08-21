@@ -1,7 +1,8 @@
 // Alchemizer Engine
 // This module implements the core alchemical calculation system
 
-import { generateAccurateHoroscope } from './monica/horoscope-generator'
+import { _logger } from './logger'
+import { generateAccurateHoroscope, type BirthInfo, type GeneratedHoroscope } from './monica/horoscope-generator'
 import { recordElementalLogicMode } from './observability-legacy'
 import { performanceCache, createBirthInfoHash } from './performance-cache'
 
@@ -24,11 +25,26 @@ export const signs: Record<number, string> = {
 // Reverse mapping for convenience
 export const signIndices: Record<string, number> = Object.entries(signs).reduce(
   (acc, [key, value]) => ({ ...acc, [value]: parseInt(key, 10) }),
-  {}
+  {} as Record<string, number>
 )
 
+export interface PlanetAlchemy {
+  Spirit?: number
+  Essence?: number
+  Matter?: number
+  Substance?: number
+}
+
+export interface PlanetInfoEntry {
+  'Dignity Effect'?: Record<string, number>
+  Elements?: string[]
+  Alchemy?: PlanetAlchemy
+  'Diurnal Element': string
+  'Nocturnal Element': string
+}
+
 // Planet information including dignity effects and elemental properties
-export const planetInfo: Record<string, any> = {
+export const planetInfo: Record<string, PlanetInfoEntry> = {
   Sun: {
     'Dignity Effect': {
       Leo: 1,
@@ -212,8 +228,15 @@ export const planetInfo: Record<string, any> = {
   },
 }
 
+export interface SignInfoEntry {
+  Element: string
+  Ruler: string
+  Modality: string
+  'Major Tarot Card'?: string
+}
+
 // Sign information
-export const signInfo: Record<string, any> = {
+export const signInfo: Record<string, SignInfoEntry> = {
   Aries: {
     Element: 'Fire',
     Ruler: 'Mars',
@@ -297,10 +320,10 @@ export function combineElementObjects(
   element_object_2: Record<string, number>
 ): Record<string, number> {
   const combinedObject = createElementObject()
-  combinedObject['Fire'] = element_object_1['Fire'] + element_object_2['Fire']
-  combinedObject['Water'] = element_object_1['Water'] + element_object_2['Water']
-  combinedObject['Air'] = element_object_1['Air'] + element_object_2['Air']
-  combinedObject['Earth'] = element_object_1['Earth'] + element_object_2['Earth']
+  combinedObject['Fire'] = (element_object_1['Fire'] ?? 0) + (element_object_2['Fire'] ?? 0)
+  combinedObject['Water'] = (element_object_1['Water'] ?? 0) + (element_object_2['Water'] ?? 0)
+  combinedObject['Air'] = (element_object_1['Air'] ?? 0) + (element_object_2['Air'] ?? 0)
+  combinedObject['Earth'] = (element_object_1['Earth'] ?? 0) + (element_object_2['Earth'] ?? 0)
   return combinedObject
 }
 
@@ -339,40 +362,118 @@ export function getElementRanking(
 // Get sum of all element values
 export function getAbsoluteElementValue(element_object: Record<string, number>): number {
   return (
-    element_object['Fire'] +
-    element_object['Water'] +
-    element_object['Air'] +
-    element_object['Earth']
+    (element_object['Fire'] ?? 0) +
+    (element_object['Water'] ?? 0) +
+    (element_object['Air'] ?? 0) +
+    (element_object['Earth'] ?? 0)
   )
 }
 
 // Calculate elemental compatibility according to elementallogic principles
 export function getElementalCompatibility(element1: string, element2: string): number {
-  // Same element has highest compatibility
   if (element1 === element2) {
-    return 0.9 // Same element has high compatibility
+    return 0.9
   }
-
-  // All different element combinations have good compatibility
-  return 0.7 // Different elements have good compatibility
+  return 0.7
 }
 
 // Get the complementary element (according to elementallogic, each element complements itself)
 export function getComplementaryElement(element: string): string {
-  return element // Each element complements itself most strongly
+  return element
+}
+
+export interface AlchemicalInfo {
+  'Sun Sign': string
+  'Major Arcana': { Sun: string; Ascendant: string }
+  'Minor Arcana': { Decan: string; Cusp: string }
+  'Alchemy Effects': {
+    'Total Spirit': number
+    'Total Essence': number
+    'Total Day Essence': number
+    'Total Matter': number
+    'Total Substance': number
+    'Total Night Essence': number
+    'A #'?: number
+  }
+  'Chart Ruler': string
+  'Total Dignity Effect': Record<string, number>
+  'Total Decan Effect': Record<string, number>
+  'Total Degree Effect': Record<string, number>
+  'Total Aspect Effect': Record<string, number>
+  'Total Elemental Effect': Record<string, number>
+  'Total Effect Value': Record<string, number>
+  'Dominant Element': string
+  'Total Chart Absolute Effect': number
+  Heat: number
+  Entropy: number
+  Reactivity: number
+  Energy: number
+  '# Cardinal': number
+  '# Fixed': number
+  '# Mutable': number
+  '% Cardinal': number
+  '% Fixed': number
+  '% Mutable': number
+  'Dominant Modality': string
+  'All Conjunctions': unknown[]
+  'All Trines': unknown[]
+  'All Squares': unknown[]
+  'All Oppositions': unknown[]
+  Stelliums: unknown[]
+  Signs: Record<string, Record<string, unknown>>
+  Planets: Record<string, Record<string, unknown>>
+  [key: string]: unknown
+}
+
+export type AlchemizerBirthInfo =
+  | BirthInfo
+  | {
+      year?: number
+      month?: number
+      day?: number
+      hour?: number
+      minute?: number
+      latitude?: number
+      longitude?: number
+      [key: string]: unknown
+    }
+
+export interface HoroscopeCelestialBody {
+  label?: string
+  Sign?: { label?: string }
+  House?: { label?: string }
+  ChartPosition?: {
+    Ecliptic?: { ArcDegreesFormatted30?: string }
+  }
+}
+
+export interface HoroscopeAspectItem {
+  aspectKey?: string
+  point1Label?: string
+  point2Label?: string
+}
+
+export interface HoroscopeInput {
+  Ascendant?: { Sign?: { label?: string } }
+  CelestialBodies?: {
+    all?: HoroscopeCelestialBody[]
+    [key: string]: unknown
+  }
+  Aspects?: {
+    points?: Record<string, HoroscopeAspectItem[]>
+  }
+  tropical?: HoroscopeInput
+  [key: string]: unknown
 }
 
 // Main alchemizer function
 export function alchemize(
-  birth_info: Record<string, any>,
-  horoscope_dict: Record<string, any>
-): Record<string, any> {
-  // Feature flag: additive-only elemental logic (no negative penalties)
-  // Prefer env var if present; default false to preserve legacy behavior until rollout
-  // Runtime UI override via localStorage if available
+  birth_info: AlchemizerBirthInfo,
+  horoscope_dict: HoroscopeInput | GeneratedHoroscope
+): AlchemicalInfo {
   let uiOverride: boolean | null = null
   try {
-    if (typeof window !== 'undefined' && window?.localStorage) {
+    if (typeof window !== 'undefined') {
       const v = window.localStorage.getItem('additiveOnlyElements')
       if (v === 'true') uiOverride = true
       else if (v === 'false') uiOverride = false
@@ -381,29 +482,28 @@ export function alchemize(
 
   const envFlag =
     (typeof process !== 'undefined' &&
-      process.env?.NEXT_PUBLIC_ADDITIVE_ONLY_ELEMENTS === 'true') ||
+      process.env.NEXT_PUBLIC_ADDITIVE_ONLY_ELEMENTS === 'true') ||
     false
-  const ADDITIVE_ONLY_ELEMENTS = uiOverride !== null ? uiOverride : envFlag
-  // Emit analytics for A/B tracking
+  const ADDITIVE_ONLY_ELEMENTS = uiOverride ?? envFlag
   recordElementalLogicMode(ADDITIVE_ONLY_ELEMENTS ? 'additive' : 'legacy')
-  // Check cache first
+
   const birthInfoHash = createBirthInfoHash(birth_info)
   const cachedResult = performanceCache.getAlchemicalData(birthInfoHash)
   if (cachedResult) {
-    return cachedResult
+    return cachedResult as AlchemicalInfo
   }
 
-  // Simplified implementation for UI integration
-  const horoscope = horoscope_dict['tropical'] ?? horoscope_dict
+  const rawDict = horoscope_dict as Record<string, unknown>
+  const horoscope: HoroscopeInput = (rawDict['tropical'] as HoroscopeInput | undefined) ?? (horoscope_dict as HoroscopeInput)
 
-  // Determine if time is diurnal or nocturnal
   let diurnalOrNocturnal = 'Diurnal'
-  if (birth_info['hour'] < 5 || birth_info['hour'] > 17) {
+  const birthDict = birth_info as Record<string, unknown>
+  const hour = typeof birthDict['hour'] === 'number' ? birthDict['hour'] : 12
+  if (hour < 5 || hour > 17) {
     diurnalOrNocturnal = 'Nocturnal'
   }
 
-  // Initialize the alchemical information object
-  const alchmInfo: Record<string, any> = {
+  const alchmInfo: AlchemicalInfo = {
     'Sun Sign': '',
     'Major Arcana': { Sun: '', Ascendant: '' },
     'Minor Arcana': { Decan: '', Cusp: 'None' },
@@ -444,7 +544,6 @@ export function alchemize(
     Planets: {},
   }
 
-  // Initialize the Signs and Planets objects
   Object.values(signs).forEach(sign => {
     alchmInfo['Signs'][sign] = {}
   })
@@ -453,46 +552,39 @@ export function alchemize(
     alchmInfo['Planets'][planet] = {}
   })
 
-  // Add Ascendant to Planets if not already present
   if (!alchmInfo['Planets']['Ascendant']) {
     alchmInfo['Planets']['Ascendant'] = {}
   }
 
-  // Process Ascendant information first (if available)
-  if (horoscope.Ascendant?.Sign?.label) {
-    const risingSign = horoscope.Ascendant.Sign.label
-    // Set Ascendant element based on rising sign
-    const risingElement = signInfo[risingSign]?.Element ?? 'Earth'
+  const risingSign = horoscope.Ascendant?.Sign?.label
+  if (risingSign && signInfo[risingSign]) {
+    const risingElement = signInfo[risingSign].Element
 
-    // Update alchmInfo with Ascendant data
     alchmInfo['Planets']['Ascendant']['Diurnal Element'] = risingElement
     alchmInfo['Planets']['Ascendant']['Nocturnal Element'] = risingElement
 
-    // Set Major Arcana for Ascendant if available
-    if (signInfo[risingSign]?.['Major Tarot Card']) {
-      alchmInfo['Major Arcana']['Ascendant'] = signInfo[risingSign]['Major Tarot Card']
+    const ascTarot = signInfo[risingSign]['Major Tarot Card']
+    if (ascTarot) {
+      alchmInfo['Major Arcana']['Ascendant'] = ascTarot
     }
   }
 
-  // Process Sun placement to get Sun Sign and Chart Ruler
-  let sunSign = ''
   if (horoscope.CelestialBodies?.all) {
-    const sunData = horoscope.CelestialBodies.all.find((p: any) => p.label === 'Sun')
-    if (sunData?.Sign?.label) {
-      sunSign = sunData.Sign.label
+    const sunData = horoscope.CelestialBodies.all.find((p) => p.label === 'Sun')
+    const sunSign = sunData?.Sign?.label
+    if (sunSign && signInfo[sunSign]) {
       alchmInfo['Sun Sign'] = sunSign
-      alchmInfo['Chart Ruler'] = signInfo[sunSign]?.Ruler ?? ''
+      alchmInfo['Chart Ruler'] = signInfo[sunSign].Ruler
 
-      // Set Major Arcana for Sun if available
-      if (signInfo[sunSign]?.['Major Tarot Card']) {
-        alchmInfo['Major Arcana']['Sun'] = signInfo[sunSign]['Major Tarot Card']
+      const sunTarot = signInfo[sunSign]['Major Tarot Card']
+      if (sunTarot) {
+        alchmInfo['Major Arcana']['Sun'] = sunTarot
       }
     }
   }
 
-  // Calculate elemental values and alchemy effects from planetary positions
   if (horoscope.CelestialBodies?.all) {
-    horoscope.CelestialBodies.all.forEach((planet_data: any) => {
+    horoscope.CelestialBodies.all.forEach((planet_data) => {
       const planet = planet_data.label
       const sign = planet_data.Sign?.label
 
@@ -500,150 +592,126 @@ export function alchemize(
         const element = signInfo[sign].Element
         const modality = signInfo[sign].Modality
 
-        // Update modality counts
         if (modality === 'Cardinal') alchmInfo['# Cardinal'] += 1
         else if (modality === 'Fixed') alchmInfo['# Fixed'] += 1
         else if (modality === 'Mutable') alchmInfo['# Mutable'] += 1
 
-        // Update element values
-        if (element) {
-          alchmInfo['Total Effect Value'][element] += 1
+        alchmInfo['Total Effect Value'][element] = (alchmInfo['Total Effect Value'][element] ?? 0) + 1
 
-          // Add elemental effect from planet-sign affinity (using core alchemizer logic)
-          if (planetInfo[planet]) {
-            let elementalEffectValue = 0
+        const planetMeta = planetInfo[planet]
+        if (planetMeta) {
+          let elementalEffectValue = 0
 
-            // Different logic for Sun/Moon vs other planets
-            if (planet === 'Sun' || planet === 'Moon') {
-              // For Sun/Moon: use time-based diurnal/nocturnal element
-              const planetElement =
-                diurnalOrNocturnal === 'Diurnal'
-                  ? planetInfo[planet]['Diurnal Element']
-                  : planetInfo[planet]['Nocturnal Element']
+          if (planet === 'Sun' || planet === 'Moon') {
+            const planetElement =
+              diurnalOrNocturnal === 'Diurnal'
+                ? planetMeta['Diurnal Element']
+                : planetMeta['Nocturnal Element']
 
-              if (planetElement === element) {
-                elementalEffectValue = 1
-              }
+            if (planetElement === element) {
+              elementalEffectValue = 1
+            }
+          } else {
+            if (planetMeta['Diurnal Element'] === element) {
+              elementalEffectValue = 1
+            } else if (planetMeta['Nocturnal Element'] === element) {
+              elementalEffectValue = 1
             } else {
-              // For other planets: check both diurnal and nocturnal elements
-              if (planetInfo[planet]['Diurnal Element'] === element) {
-                elementalEffectValue = 1
-              } else if (planetInfo[planet]['Nocturnal Element'] === element) {
-                elementalEffectValue = 1
+              elementalEffectValue = ADDITIVE_ONLY_ELEMENTS ? 0 : -1
+            }
+          }
+
+          alchmInfo['Total Effect Value'][element] = (alchmInfo['Total Effect Value'][element] ?? 0) + elementalEffectValue
+
+          alchmInfo['Planets'][planet] ??= {}
+          alchmInfo['Planets'][planet]['Sign'] = sign
+          alchmInfo['Planets'][planet]['Element'] = element
+
+          const dignityEffect = planetMeta['Dignity Effect']?.[sign] ?? 0
+          let totalEffectMultiplier = 1
+
+          if (dignityEffect) {
+            totalEffectMultiplier += Math.abs(dignityEffect) * 0.1
+          }
+
+          alchmInfo['Planets'][planet]['Total Effect Multiplier'] = totalEffectMultiplier
+
+          const baseAlchemyValues = planetMeta['Alchemy']
+          if (baseAlchemyValues) {
+            const alchemyValues: Record<string, unknown> = {}
+
+            if (!alchmInfo['Planets'][planet]['Alchemy Effects']) {
+              alchmInfo['Planets'][planet]['Alchemy Effects'] = {}
+            }
+
+            if (baseAlchemyValues['Spirit']) {
+              const spiritBonus = baseAlchemyValues['Spirit'] * totalEffectMultiplier
+              alchemyValues['Spirit'] = spiritBonus
+              alchmInfo['Alchemy Effects']['Total Spirit'] += spiritBonus
+              alchemyValues['Day Alchemy'] = { Spirit: spiritBonus }
+            }
+
+            if (baseAlchemyValues['Essence']) {
+              const essenceBonus = baseAlchemyValues['Essence'] * totalEffectMultiplier
+              alchemyValues['Essence'] = essenceBonus
+              alchmInfo['Alchemy Effects']['Total Essence'] += essenceBonus
+
+              if (alchemyValues['Spirit']) {
+                alchemyValues['Night Alchemy'] = { Essence: essenceBonus }
+                alchmInfo['Alchemy Effects']['Total Night Essence'] += essenceBonus
               } else {
-                // Elemental logic compliance: if additive-only is enabled, do not penalize mismatches
-                elementalEffectValue = ADDITIVE_ONLY_ELEMENTS ? 0 : -1
+                alchemyValues['Day Alchemy'] = { Essence: essenceBonus }
+                alchmInfo['Alchemy Effects']['Total Day Essence'] += essenceBonus
               }
             }
 
-            // Apply the elemental effect
-            alchmInfo['Total Effect Value'][element] += elementalEffectValue
-
-            // Store the planet's sign and element
-            if (!alchmInfo['Planets'][planet]) {
-              alchmInfo['Planets'][planet] = {}
-            }
-            alchmInfo['Planets'][planet]['Sign'] = sign
-            alchmInfo['Planets'][planet]['Element'] = element
-
-            // Calculate planetary dignities and effects
-            const dignityEffect = planetInfo[planet]['Dignity Effect']?.[sign] ?? 0
-            let totalEffectMultiplier = 1
-
-            // Apply dignity effect to total multiplier
-            if (dignityEffect) {
-              totalEffectMultiplier += Math.abs(dignityEffect) * 0.1
+            if (baseAlchemyValues['Matter']) {
+              const matterBonus = baseAlchemyValues['Matter'] * totalEffectMultiplier
+              alchemyValues['Matter'] = matterBonus
+              alchmInfo['Alchemy Effects']['Total Matter'] += matterBonus
+              alchemyValues['Night Alchemy'] = { Matter: matterBonus }
             }
 
-            // Store the total effect multiplier
-            alchmInfo['Planets'][planet]['Total Effect Multiplier'] = totalEffectMultiplier
-
-            // Calculate alchemical values for this planet (following core alchemizer logic)
-            if (planetInfo[planet]['Alchemy']) {
-              const baseAlchemyValues = planetInfo[planet]['Alchemy']
-              const alchemyValues: Record<string, any> = {}
-
-              // Initialize Day/Night Alchemy tracking for this planet
-              if (!alchmInfo['Planets'][planet]['Alchemy Effects']) {
-                alchmInfo['Planets'][planet]['Alchemy Effects'] = {}
-              }
-
-              // Spirit - goes to Day Alchemy
-              if (baseAlchemyValues['Spirit']) {
-                const spiritBonus = baseAlchemyValues['Spirit'] * totalEffectMultiplier
-                alchemyValues['Spirit'] = spiritBonus
-                alchmInfo['Alchemy Effects']['Total Spirit'] += spiritBonus
-                alchemyValues['Day Alchemy'] = { Spirit: spiritBonus }
-              }
-
-              // Essence - goes to Night if planet has Spirit, Day if not
-              if (baseAlchemyValues['Essence']) {
-                const essenceBonus = baseAlchemyValues['Essence'] * totalEffectMultiplier
-                alchemyValues['Essence'] = essenceBonus
-                alchmInfo['Alchemy Effects']['Total Essence'] += essenceBonus
-
-                if (alchemyValues['Spirit']) {
-                  alchemyValues['Night Alchemy'] = { Essence: essenceBonus }
-                  alchmInfo['Alchemy Effects']['Total Night Essence'] += essenceBonus
-                } else {
-                  alchemyValues['Day Alchemy'] = { Essence: essenceBonus }
-                  alchmInfo['Alchemy Effects']['Total Day Essence'] += essenceBonus
-                }
-              }
-
-              // Matter - goes to Night Alchemy
-              if (baseAlchemyValues['Matter']) {
-                const matterBonus = baseAlchemyValues['Matter'] * totalEffectMultiplier
-                alchemyValues['Matter'] = matterBonus
-                alchmInfo['Alchemy Effects']['Total Matter'] += matterBonus
-                alchemyValues['Night Alchemy'] = { Matter: matterBonus }
-              }
-
-              // Substance - goes to Night Alchemy
-              if (baseAlchemyValues['Substance']) {
-                const substanceBonus = baseAlchemyValues['Substance'] * totalEffectMultiplier
-                alchemyValues['Substance'] = substanceBonus
-                alchmInfo['Alchemy Effects']['Total Substance'] += substanceBonus
-                alchemyValues['Night Alchemy'] = { Substance: substanceBonus }
-              }
-
-              // Store the planet's alchemy effects
-              alchmInfo['Planets'][planet]['Alchemy Effects'] = alchemyValues
+            if (baseAlchemyValues['Substance']) {
+              const substanceBonus = baseAlchemyValues['Substance'] * totalEffectMultiplier
+              alchemyValues['Substance'] = substanceBonus
+              alchmInfo['Alchemy Effects']['Total Substance'] += substanceBonus
+              alchemyValues['Night Alchemy'] = { Substance: substanceBonus }
             }
+
+            alchmInfo['Planets'][planet]['Alchemy Effects'] = alchemyValues
           }
         }
       }
     })
   }
 
-  // Handle aspects to further modify alchemical values
   if (horoscope.Aspects?.points) {
     Object.entries(horoscope.Aspects.points).forEach(([_planetKey, aspects]) => {
       if (Array.isArray(aspects)) {
-        aspects.forEach((aspect: any) => {
+        aspects.forEach((aspect) => {
           const aspectType = aspect.aspectKey
           const planet1 = aspect.point1Label
           const planet2 = aspect.point2Label
 
-          // Apply aspect effects to alchemical values
-          // Conjunctions enhance, squares challenge, trines harmonize, oppositions polarize
           let aspectMultiplier = 1.0
-
           if (aspectType === 'conjunction') aspectMultiplier = 1.2
           else if (aspectType === 'trine') aspectMultiplier = 1.1
           else if (aspectType === 'square') aspectMultiplier = 0.9
           else if (aspectType === 'opposition') aspectMultiplier = 0.8
 
-          // Only apply if both planets have alchemical values
-          if (planetInfo[planet1]?.['Alchemy'] && planetInfo[planet2]?.['Alchemy']) {
-            // Get the average of both planets' alchemical values and apply the aspect multiplier
-            for (const key of ['Spirit', 'Essence', 'Matter', 'Substance']) {
-              const value1 = planetInfo[planet1]['Alchemy'][key] ?? 0
-              const value2 = planetInfo[planet2]['Alchemy'][key] ?? 0
+          const p1Alchemy = planet1 ? planetInfo[planet1]?.['Alchemy'] : undefined
+          const p2Alchemy = planet2 ? planetInfo[planet2]?.['Alchemy'] : undefined
+          if (p1Alchemy && p2Alchemy) {
+            const keys: Array<keyof PlanetAlchemy> = ['Spirit', 'Essence', 'Matter', 'Substance']
+            for (const key of keys) {
+              const value1 = p1Alchemy[key] ?? 0
+              const value2 = p2Alchemy[key] ?? 0
 
-              // Add a small bonus for aspects between planets with matching alchemical properties
               if (value1 > 0 && value2 > 0) {
-                alchmInfo['Alchemy Effects'][`Total ${key}`] += 0.1 * aspectMultiplier
+                const targetKey = `Total ${key}` as keyof AlchemicalInfo['Alchemy Effects']
+                const currentVal = alchmInfo['Alchemy Effects'][targetKey] ?? 0
+                alchmInfo['Alchemy Effects'][targetKey] = currentVal + 0.1 * aspectMultiplier
               }
             }
           }
@@ -652,17 +720,14 @@ export function alchemize(
     })
   }
 
-  // Determine dominant element
   ;({ 1: alchmInfo['Dominant Element'] } = getElementRanking(alchmInfo['Total Effect Value']))
 
-  // Calculate percentages for modalities
   const totalPlanets = alchmInfo['# Cardinal'] + alchmInfo['# Fixed'] + alchmInfo['# Mutable']
   if (totalPlanets > 0) {
     alchmInfo['% Cardinal'] = alchmInfo['# Cardinal'] / totalPlanets
     alchmInfo['% Fixed'] = alchmInfo['# Fixed'] / totalPlanets
     alchmInfo['% Mutable'] = alchmInfo['# Mutable'] / totalPlanets
 
-    // Determine dominant modality
     if (
       alchmInfo['% Cardinal'] >= alchmInfo['% Fixed'] &&
       alchmInfo['% Cardinal'] >= alchmInfo['% Mutable']
@@ -681,17 +746,15 @@ export function alchemize(
     }
   }
 
-  // Calculate Heat, Entropy, Reactivity and Energy
   const fire = alchmInfo['Total Effect Value']['Fire'] ?? 0
   const water = alchmInfo['Total Effect Value']['Water'] ?? 0
   const air = alchmInfo['Total Effect Value']['Air'] ?? 0
   const earth = alchmInfo['Total Effect Value']['Earth'] ?? 0
-  const spirit = alchmInfo['Alchemy Effects']['Total Spirit'] ?? 0
-  const essence = alchmInfo['Alchemy Effects']['Total Essence'] ?? 0
-  const matter = alchmInfo['Alchemy Effects']['Total Matter'] ?? 0
-  const substance = alchmInfo['Alchemy Effects']['Total Substance'] ?? 0
+  const spirit = alchmInfo['Alchemy Effects']['Total Spirit']
+  const essence = alchmInfo['Alchemy Effects']['Total Essence']
+  const matter = alchmInfo['Alchemy Effects']['Total Matter']
+  const substance = alchmInfo['Alchemy Effects']['Total Substance']
 
-  // Prevent division by zero in calculations
   const denominator = (substance + essence + matter + water + air + earth) || 1
   const earthWaterDenominator = (matter + earth + water) || 1
 
@@ -703,245 +766,115 @@ export function alchemize(
       ((matter + earth) ** 2 || 1) || 0
   alchmInfo['Energy'] = alchmInfo['Heat'] - alchmInfo['Reactivity'] * alchmInfo['Entropy'] || 0
 
-  // Calculate A-Number: Total Spirit + Total Essence + Total Matter + Total Substance
   alchmInfo['Alchemy Effects']['A #'] = spirit + essence + matter + substance
 
-  // Cache the result before returning
   performanceCache.setAlchemicalData(birthInfoHash, alchmInfo)
 
   return alchmInfo
 }
 
-// Function to generate alchemical data for the current moment
-// Simple cache for current moment calculations (5-minute TTL)
-const currentMomentCache = new Map<string, { data: any; timestamp: number }>()
+const currentMomentCache = new Map<string, { data: AlchemicalInfo; timestamp: number }>()
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 
-export async function generateAlchmForCurrentMoment(): Promise<Record<string, any>> {
+export async function generateAlchmForCurrentMoment(): Promise<AlchemicalInfo> {
   try {
-    console.log('Generating alchemical data for current moment...')
+    _logger.info('Generating alchemical data for current moment...')
 
-    // Get current date and time
     const now = new Date()
-
-    // Create cache key (rounded to 5-minute intervals for efficiency)
     const roundedTime = Math.floor(now.getTime() / (5 * 60 * 1000)) * (5 * 60 * 1000)
     const cacheKey = `current-moment-${roundedTime}`
 
-    // Check cache first
     const cached = currentMomentCache.get(cacheKey)
     if (cached && now.getTime() - cached.timestamp < CACHE_TTL) {
-      console.log('Using cached alchemical data for current moment')
+      _logger.info('Using cached alchemical data for current moment')
       return cached.data
     }
 
-    // Format date as YYYY-MM-DD
     const year = now.getFullYear()
     const month = String(now.getMonth() + 1).padStart(2, '0')
     const day = String(now.getDate()).padStart(2, '0')
     const dateString = `${year}-${month}-${day}`
 
-    // Format time as HH:MM
     const hour = String(now.getHours()).padStart(2, '0')
     const minute = String(now.getMinutes()).padStart(2, '0')
     const timeString = `${hour}:${minute}`
 
-    console.log(`Current datetime: ${dateString} ${timeString}`)
+    _logger.info(`Current datetime: ${dateString} ${timeString}`)
 
-    // Create birth info object for the current moment
-    const currentMomentInfo = {
+    const currentMomentInfo: AlchemizerBirthInfo = {
       year,
       month: parseInt(month, 10),
       day: parseInt(day, 10),
       hour: parseInt(hour, 10),
       minute: parseInt(minute, 10),
-      latitude: 0, // Using equator as default
-      longitude: 0, // Using prime meridian as default
+      latitude: 0,
+      longitude: 0,
     }
 
-    // Import the getCurrentPlanetaryPositions function to get accurate positions
     const { getCurrentPlanetaryPositions } = await import('./calculate-transits')
 
-    console.log('Fetching current planetary positions...')
+    _logger.info('Fetching current planetary positions...')
     const currentPositions = getCurrentPlanetaryPositions()
 
-    if (!currentPositions || Object.keys(currentPositions).length === 0) {
-      throw new Error('Failed to get current planetary positions')
+    const planetList = [
+      'Sun', 'Moon', 'Mercury', 'Venus', 'Mars',
+      'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
+    ] as const
+
+    const houseMapping: Record<string, string> = {
+      Sun: '10', Moon: '9', Mercury: '11', Venus: '12', Mars: '7',
+      Jupiter: '4', Saturn: '5', Uranus: '6', Neptune: '7', Pluto: '2'
     }
 
-    console.log('Current positions obtained:', Object.keys(currentPositions).join(', '))
-
-    // Ensure all required planets are present
-    const requiredPlanets = [
-      'Sun',
-      'Moon',
-      'Mercury',
-      'Venus',
-      'Mars',
-      'Jupiter',
-      'Saturn',
-      'Uranus',
-      'Neptune',
-      'Pluto',
-      'Ascendant',
-    ]
-    for (const planet of requiredPlanets) {
+    for (const planet of planetList) {
       if (!currentPositions[planet]) {
-        console.error(`Missing position data for ${planet}`)
-        currentPositions[planet] = { sign: 'Aries', degree: 0, retrograde: false } // Fallback only if absolutely necessary
+        currentPositions[planet] = { sign: 'Aries', degree: 0, retrograde: false }
       }
     }
 
-    // Ensure each planet has a sign and degree
-    Object.entries(currentPositions).forEach(([planet, data]) => {
-      if (!data.sign) {
-        console.error(`Missing sign for ${planet}, using fallback`)
-        currentPositions[planet].sign = 'Aries' // Fallback
-      }
-      if (data.degree === undefined) {
-        console.error(`Missing degree for ${planet}, using fallback`)
-        currentPositions[planet].degree = 0 // Fallback
+    const ascSign = currentPositions['Ascendant'] ? currentPositions['Ascendant'].sign : 'Aries'
+    const allCelestialBodies: HoroscopeCelestialBody[] = planetList.map(label => {
+      const pos = currentPositions[label] ?? { sign: 'Aries', degree: 0, retrograde: false }
+      return {
+        label,
+        Sign: { label: pos.sign },
+        House: { label: houseMapping[label] ?? '1' }
       }
     })
 
-    // Log what we're working with
-    console.log('Building horoscope with the following positions:')
-    Object.entries(currentPositions).forEach(([planet, data]) => {
-      console.log(`${planet}: ${data.sign} ${data.degree}°`)
-    })
+    const celestialRecord: Record<string, unknown> = { all: allCelestialBodies }
+    for (const label of planetList) {
+      const pos = currentPositions[label] ?? { sign: 'Aries', degree: 0, retrograde: false }
+      celestialRecord[label.toLowerCase()] = {
+        ChartPosition: {
+          Ecliptic: { ArcDegreesFormatted30: `${pos.degree}°` }
+        }
+      }
+    }
 
-    // Create a horoscope object using the calculated positions
-    const horoscope = {
+    const horoscope: HoroscopeInput = {
       tropical: {
         Ascendant: {
           Sign: {
-            label: currentPositions['Ascendant'].sign,
+            label: ascSign,
           },
         },
-        CelestialBodies: {
-          all: [
-            { label: 'Sun', Sign: { label: currentPositions['Sun'].sign }, House: { label: '10' } },
-            {
-              label: 'Moon',
-              Sign: { label: currentPositions['Moon'].sign },
-              House: { label: '9' },
-            },
-            {
-              label: 'Mercury',
-              Sign: { label: currentPositions['Mercury'].sign },
-              House: { label: '11' },
-            },
-            {
-              label: 'Venus',
-              Sign: { label: currentPositions['Venus'].sign },
-              House: { label: '12' },
-            },
-            {
-              label: 'Mars',
-              Sign: { label: currentPositions['Mars'].sign },
-              House: { label: '7' },
-            },
-            {
-              label: 'Jupiter',
-              Sign: { label: currentPositions['Jupiter'].sign },
-              House: { label: '4' },
-            },
-            {
-              label: 'Saturn',
-              Sign: { label: currentPositions['Saturn'].sign },
-              House: { label: '5' },
-            },
-            {
-              label: 'Uranus',
-              Sign: { label: currentPositions['Uranus'].sign },
-              House: { label: '6' },
-            },
-            {
-              label: 'Neptune',
-              Sign: { label: currentPositions['Neptune'].sign },
-              House: { label: '7' },
-            },
-            {
-              label: 'Pluto',
-              Sign: { label: currentPositions['Pluto'].sign },
-              House: { label: '2' },
-            },
-          ],
-          sun: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Sun'].degree}°` },
-            },
-          },
-          moon: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Moon'].degree}°` },
-            },
-          },
-          mercury: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Mercury'].degree}°` },
-            },
-          },
-          venus: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Venus'].degree}°` },
-            },
-          },
-          mars: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Mars'].degree}°` },
-            },
-          },
-          jupiter: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Jupiter'].degree}°` },
-            },
-          },
-          saturn: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Saturn'].degree}°` },
-            },
-          },
-          uranus: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Uranus'].degree}°` },
-            },
-          },
-          neptune: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Neptune'].degree}°` },
-            },
-          },
-          pluto: {
-            ChartPosition: {
-              Ecliptic: { ArcDegreesFormatted30: `${currentPositions['Pluto'].degree}°` },
-            },
-          },
-        },
+        CelestialBodies: celestialRecord,
         Aspects: {
           points: generateCurrentAspects(currentPositions),
         },
       },
     }
 
-    console.log('Calculating alchemical data...')
-    // Calculate alchemical data using the alchemize function
+    _logger.info('Calculating alchemical data...')
     const alchmData = alchemize(currentMomentInfo, horoscope)
+    _logger.info('Alchemical calculations complete')
 
-    // Log the calculated values
-    console.log('Alchemical calculations complete:')
-    console.log(`Spirit: ${alchmData['Alchemy Effects']['Total Spirit']}`)
-    console.log(`Essence: ${alchmData['Alchemy Effects']['Total Essence']}`)
-    console.log(`Matter: ${alchmData['Alchemy Effects']['Total Matter']}`)
-    console.log(`Substance: ${alchmData['Alchemy Effects']['Total Substance']}`)
-
-    // Cache the result for future requests
     currentMomentCache.set(cacheKey, {
       data: alchmData,
       timestamp: now.getTime(),
     })
 
-    // Clean up old cache entries (keep only last 10)
     if (currentMomentCache.size > 10) {
       const oldestKey = currentMomentCache.keys().next().value
       if (oldestKey !== undefined) {
@@ -951,14 +884,15 @@ export async function generateAlchmForCurrentMoment(): Promise<Record<string, an
 
     return alchmData
   } catch (error) {
-    console.error('Error generating alchemical data:', error)
+    _logger.error('Error generating alchemical data:', error)
     throw error
   }
 }
 
-// Helper function to generate aspects based on current planetary positions
-function generateCurrentAspects(positions: Record<string, any>): Record<string, any> {
-  const aspects: Record<string, any> = {}
+function generateCurrentAspects(
+  positions: Record<string, { sign?: string; degree?: number; retrograde?: boolean }>
+): Record<string, HoroscopeAspectItem[]> {
+  const aspects: Record<string, HoroscopeAspectItem[]> = {}
   const planets = [
     'sun',
     'moon',
@@ -972,34 +906,31 @@ function generateCurrentAspects(positions: Record<string, any>): Record<string, 
     'pluto',
   ]
 
-  // Initialize aspect arrays for each planet
   planets.forEach(planet => {
     aspects[planet] = []
   })
 
-  // Calculate aspects between planets
   for (let i = 0; i < planets.length; i++) {
     const planet1 = planets[i]
+    if (!planet1) continue
     const planet1Cap = planet1.charAt(0).toUpperCase() + planet1.slice(1)
 
     for (let j = i + 1; j < planets.length; j++) {
       const planet2 = planets[j]
+      if (!planet2) continue
       const planet2Cap = planet2.charAt(0).toUpperCase() + planet2.slice(1)
 
-      // Skip if either planet's position is missing
-      if (!positions[planet1Cap] || !positions[planet2Cap]) continue
+      const pos1 = positions[planet1Cap]
+      const pos2 = positions[planet2Cap]
+      if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue
 
-      // Get sign indices (0-11 for Aries-Pisces)
-      const signIndices = getSignIndices()
-      const planet1SignIndex = signIndices[positions[planet1Cap].sign] || 0
-      const planet2SignIndex = signIndices[positions[planet2Cap].sign] || 0
+      const signIndexMap = getSignIndices()
+      const planet1SignIndex = signIndexMap[pos1.sign] ?? 0
+      const planet2SignIndex = signIndexMap[pos2.sign] ?? 0
 
-      // Calculate aspect type based on sign relationship
       const difference = Math.abs(planet1SignIndex - planet2SignIndex)
+      let aspectType: string | undefined
 
-      let aspectType = ''
-
-      // Simple aspect calculation based on sign relationships
       if (difference === 0) {
         aspectType = 'conjunction'
       } else if (difference === 4 || difference === 8) {
@@ -1009,17 +940,16 @@ function generateCurrentAspects(positions: Record<string, any>): Record<string, 
       } else if (difference === 6) {
         aspectType = 'opposition'
       } else {
-        continue // No significant aspect
+        continue
       }
 
-      // Add the aspect to both planets' arrays
-      aspects[planet1].push({
+      aspects[planet1]?.push({
         aspectKey: aspectType,
         point1Label: planet1Cap,
         point2Label: planet2Cap,
       })
 
-      aspects[planet2].push({
+      aspects[planet2]?.push({
         aspectKey: aspectType,
         point1Label: planet2Cap,
         point2Label: planet1Cap,
@@ -1030,7 +960,6 @@ function generateCurrentAspects(positions: Record<string, any>): Record<string, 
   return aspects
 }
 
-// Helper function to get sign indices
 function getSignIndices(): Record<string, number> {
   return {
     Aries: 0,
@@ -1048,24 +977,19 @@ function getSignIndices(): Record<string, number> {
   }
 }
 
-// Export the main alchemizer function
 const alchemizerExport = { alchemize, generateAlchmForCurrentMoment }
 export default alchemizerExport
 
-// Generate alchemical data for a provided birth date/time/location
-// Accepts flexible string inputs and normalizes to BirthInfo used by horoscope generator
 export async function generateAlchmForBirthInfo(input: {
-  birthDate: string // YYYY-MM-DD or any Date-parsable string
-  birthTime?: string // HH:MM
-  birthLocation?: string // Optional (not geocoded in this helper)
-}): Promise<Record<string, any>> {
+  birthDate: string
+  birthTime?: string
+  birthLocation?: string
+}): Promise<AlchemicalInfo> {
   try {
     const dateObj = new Date(input.birthDate)
     if (isNaN(dateObj.getTime())) {
-      // Try manual parse for YYYY-MM-DD
       const [y, m, d] = input.birthDate.split('-').map(v => parseInt(v, 10))
       if (!y || !m || !d) throw new Error('Invalid birthDate format')
-      // month expected 1-12 by horoscope generator
       dateObj.setFullYear(y)
       dateObj.setMonth(m - 1)
       dateObj.setDate(d)
@@ -1077,40 +1001,64 @@ export async function generateAlchmForBirthInfo(input: {
     const minute = Math.max(0, Math.min(59, parseInt(mmStr || '0', 10)))
 
     const year = dateObj.getFullYear()
-    const month = dateObj.getMonth() + 1 // horoscope generator expects 1-12
+    const month = dateObj.getMonth() + 1
     const day = dateObj.getDate()
 
-    const birthInfo = {
+    const birthInfo: BirthInfo = {
       year,
       month,
       day,
       hour,
       minute,
-      // Default coordinates; future enhancement: parse input.birthLocation
       latitude: 0,
       longitude: 0,
     }
 
     const horoscope = generateAccurateHoroscope(birthInfo)
-    const alchmData = alchemize(birthInfo as any, horoscope as any)
-    return alchmData
+    const alchmData = alchemize(birthInfo, horoscope)
+    return await Promise.resolve(alchmData)
   } catch (error) {
-    console.error('generateAlchmForBirthInfo error:', error)
-    // Provide a minimal fallback to avoid breaking callers
+    _logger.error('generateAlchmForBirthInfo error:', error)
     return {
+      'Sun Sign': '',
+      'Major Arcana': { Sun: '', Ascendant: '' },
+      'Minor Arcana': { Decan: '', Cusp: 'None' },
       'Alchemy Effects': {
         'Total Spirit': 0,
         'Total Essence': 0,
+        'Total Day Essence': 0,
         'Total Matter': 0,
         'Total Substance': 0,
+        'Total Night Essence': 0,
         'A #': 0,
       },
+      'Chart Ruler': '',
+      'Total Dignity Effect': createElementObject(),
+      'Total Decan Effect': createElementObject(),
+      'Total Degree Effect': createElementObject(),
+      'Total Aspect Effect': createElementObject(),
+      'Total Elemental Effect': createElementObject(),
       'Total Effect Value': createElementObject(),
       'Dominant Element': 'Fire',
+      'Total Chart Absolute Effect': 0,
       Heat: 0,
       Entropy: 0,
       Reactivity: 0,
       Energy: 0,
+      '# Cardinal': 0,
+      '# Fixed': 0,
+      '# Mutable': 0,
+      '% Cardinal': 0,
+      '% Fixed': 0,
+      '% Mutable': 0,
+      'Dominant Modality': '',
+      'All Conjunctions': [],
+      'All Trines': [],
+      'All Squares': [],
+      'All Oppositions': [],
+      Stelliums: [],
+      Signs: {},
+      Planets: {},
     }
   }
 }

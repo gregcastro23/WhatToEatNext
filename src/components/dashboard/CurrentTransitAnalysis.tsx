@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useActiveTransits } from '@/hooks/useActiveTransits';
 import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
+import { celestialAudio } from '@/lib/audio/celestialAudioSynthesizer';
 import type { NatalChart } from '@/types/natalChart';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
@@ -132,6 +133,14 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
   const { open, pending } = useTransitGroupChat();
 
   const openPlanetCouncil = (planet: string, pos: TransitPosition) => {
+    // Play harmonic audio resonance matching the transiting planet and degree
+    celestialAudio.playResonance({
+      planet,
+      degree: pos.degree,
+      aspect: "conjunction",
+      durationSeconds: 1.5,
+    });
+
     const g = groupForPlanet(planet, { planet, sign: pos.sign, degree: pos.degree });
     if (g) void open(g.participants, g.descriptor, 'current-transit-analysis');
   };
@@ -400,10 +409,20 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
             {transitInsights.slice(0, 6).map((insight, idx) => {
               const style = ASPECT_STYLES[insight.type] || ASPECT_STYLES.conjunction;
               return (
-                <div
+                <button
+                  type="button"
                   key={idx}
-                  className="rounded-xl p-3 border border-white/5"
+                  onClick={() => {
+                    celestialAudio.playResonance({
+                      planet: insight.planet,
+                      aspect: insight.type,
+                      durationSeconds: 1.8,
+                      volume: 0.2,
+                    });
+                  }}
+                  className="w-full text-left rounded-xl p-3 border border-white/5 cursor-pointer transition-all hover:scale-[1.01] hover:border-white/15 active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50"
                   style={{ backgroundColor: style.darkColor }}
+                  title={`Play ${insight.planet} ${getAspectLabel(insight.type)} resonance`}
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm" style={{ color: style.color }}>{PLANET_SYMBOLS[insight.planet]}</span>
@@ -418,7 +437,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
                     </span>
                   </div>
                   <p className="text-xs text-white/40 leading-relaxed">{insight.message}</p>
-                </div>
+                </button>
               );
             })}
           </div>

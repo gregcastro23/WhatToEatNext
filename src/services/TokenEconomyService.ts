@@ -46,7 +46,7 @@ const isServerWithDB = (): boolean =>
   typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
@@ -76,6 +76,7 @@ interface TokenBalanceRow {
   last_daily_claim_at?: DbScalar;
   last_daily_claim_agents_at?: DbScalar;
   updated_at?: DbScalar;
+  txn_group_id?: string;
 }
 
 interface TokenTransactionRow {
@@ -88,6 +89,21 @@ interface TokenTransactionRow {
   source_id?: DbScalar;
   description?: DbScalar;
   created_at?: DbScalar;
+}
+
+interface ShopItemRow {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string | null;
+  category: string;
+  cost_spirit: string;
+  cost_essence: string;
+  cost_matter: string;
+  cost_substance: string;
+  is_one_time: boolean;
+  is_active: boolean;
+  sort_order?: number | null;
 }
 
 const toNumber = (value: unknown, fallback = 0): number => {
@@ -269,7 +285,7 @@ class TokenEconomyService {
     if (db) {
       try {
         const query = getBalancesSql(userId);
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
         }
@@ -303,7 +319,7 @@ class TokenEconomyService {
 
     try {
       const query = getBalancesSql(userId);
-      const result = await db.executeQuery(query.sql, query.values);
+      const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
       if (result.rows.length > 0) {
         return rowToBalances(result.rows[0]);
       }
@@ -354,7 +370,7 @@ class TokenEconomyService {
           transactionGroupId: opts?.transactionGroupId ?? null,
           idempotencyKey: opts?.idempotencyKey ?? null,
         });
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -428,7 +444,7 @@ class TokenEconomyService {
           transactionGroupId: opts?.transactionGroupId ?? null,
           description: opts?.description ?? null,
         });
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -495,7 +511,7 @@ class TokenEconomyService {
             sourceId: opts?.sourceId ?? null,
           },
         });
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<TokenBalanceRow & { txn_group_id: string }>(query.sql, query.values);
 
         if (result.rows.length === 0) {
           return { success: false, reason: "insufficient_funds" };
@@ -506,7 +522,8 @@ class TokenEconomyService {
           transactionGroupId: result.rows[0].txn_group_id,
         };
       } catch (error) {
-        if ((error as { code?: string })?.code === "23505") {
+        const pgError = error as { code?: string } | null;
+        if (pgError?.code === "23505") {
           return { success: false, reason: "already_applied" };
         }
         _logger.error("[TokenEconomy] debitAllTokens failed:", error);
@@ -606,10 +623,10 @@ class TokenEconomyService {
           code?: string;
           constraint?: string;
           message?: string;
-        };
+        } | null;
         if (
           pgError?.code === "23505" &&
-          pgError?.constraint === "uniq_daily_yield_per_user_day"
+          pgError.constraint === "uniq_daily_yield_per_user_day"
         ) {
           _logger.info(
             `[TokenEconomy] daily-yield double-credit prevented by the DB for user ${userId} (${sourceType}); ` +
@@ -878,7 +895,7 @@ class TokenEconomyService {
           creditDescription: `Received from transmutation of ${fromToken}`,
           idempotencyKey: opts?.idempotencyKey ?? null,
         });
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
 
         if (result.rows.length === 0) {
           return null;
@@ -893,7 +910,8 @@ class TokenEconomyService {
         // Unique-violation on idempotency_key: this transmutation already ran.
         // Returning null means the caller reports it as not-applied, which is
         // correct — the point is that the user is NOT debited a second time.
-        if ((error as { code?: string })?.code === "23505") {
+        const pgError = error as { code?: string } | null;
+        if (pgError?.code === "23505") {
           _logger.info(
             "[TokenEconomy] Duplicate transmutation blocked by idempotency key:",
             opts?.idempotencyKey,
@@ -960,8 +978,8 @@ class TokenEconomyService {
         const page = transactionsPageSql({ userId, limit, offset });
         const count = transactionCountSql(userId);
         const [txnResult, countResult] = await Promise.all([
-          db.executeQuery(page.sql, page.values),
-          db.executeQuery(count.sql, count.values),
+          db.executeQuery<TokenTransactionRow>(page.sql, page.values),
+          db.executeQuery<{ total: number }>(count.sql, count.values),
         ]);
 
         return {
@@ -1017,12 +1035,12 @@ class TokenEconomyService {
       try {
         // 1. Look up the shop item
         const lookup = shopItemForPurchaseSql(shopItemSlug);
-        const itemResult = await db.executeQuery(lookup.sql, lookup.values);
-        const [item] = itemResult.rows;
-        if (!item) {
+        const itemResult = await db.executeQuery<ShopItemRow>(lookup.sql, lookup.values);
+        if (itemResult.rows.length === 0) {
           _logger.warn("[TokenEconomy] Shop item not found:", shopItemSlug);
           return { success: false, reason: "item_not_found" };
         }
+        const [item] = itemResult.rows;
 
         // 2. Check if one-time item already purchased
         if (item.is_one_time) {
@@ -1063,7 +1081,7 @@ class TokenEconomyService {
           idempotencyKey: idemKey,
           intent: { kind: "purchase", shopItemId: item.id },
         });
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<TokenBalanceRow & { txn_group_id: string }>(query.sql, query.values);
 
         if (result.rows.length === 0) {
           _logger.info("[TokenEconomy] Insufficient funds for:", shopItemSlug);
@@ -1077,7 +1095,8 @@ class TokenEconomyService {
         };
       } catch (error) {
         // Unique-violation on idempotency_key (race condition) → already_applied
-        if ((error as { code?: string })?.code === "23505") {
+        const pgError = error as { code?: string } | null;
+        if (pgError?.code === "23505") {
           return { success: false, reason: "already_applied" };
         }
         _logger.error("[TokenEconomy] purchaseShopItem failed:", error);
@@ -1141,14 +1160,14 @@ class TokenEconomyService {
     if (db) {
       try {
         const query = shopItemDetailSql(slug);
-        const result = await db.executeQuery(query.sql, query.values);
+        const result = await db.executeQuery<ShopItemRow>(query.sql, query.values);
+        if (result.rows.length === 0) return null;
         const [row] = result.rows;
-        if (!row) return null;
         return {
           id: row.id,
           slug: row.slug,
           title: row.title,
-          description: row.description,
+          description: row.description ?? null,
           category: row.category,
           costSpirit: parseFloat(row.cost_spirit) || 0,
           costEssence: parseFloat(row.cost_essence) || 0,
@@ -1187,7 +1206,7 @@ class TokenEconomyService {
 
     try {
       const query = shopItemsSql(opts);
-      const result = await db.executeQuery(query.sql, query.values);
+      const result = await db.executeQuery<ShopItemRow>(query.sql, query.values);
 
       return result.rows.map(row => ({
         id: row.id,

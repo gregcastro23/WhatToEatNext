@@ -9,6 +9,7 @@
  */
 
 import { useState, useMemo } from "react";
+import { MultiRetailerCartModal } from "@/components/grocery-cart/MultiRetailerCartModal";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import {
@@ -278,6 +279,7 @@ export default function GroceryListModal({
 
   const [showPantryModal, setShowPantryModal] = useState(false);
   const [showAmazonPreview, setShowAmazonPreview] = useState(false);
+  const [showSplitModal, setShowSplitModal] = useState(false);
 
   // Group items by category
   const groupedItems = useMemo(
@@ -672,6 +674,15 @@ export default function GroceryListModal({
             )}
           </button>
           <button
+            onClick={() => setShowSplitModal(true)}
+            disabled={stats.remaining === 0}
+            className="px-4 py-2 bg-gradient-to-r from-amber-500 via-purple-600 to-emerald-600 text-white rounded-lg hover:opacity-90 text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+            title="Split list into Instacart Specialty Grocers & Amazon Fresh Commodities"
+          >
+            <span>⚡</span>
+            Split Fulfillment
+          </button>
+          <button
             onClick={handleAddToGroceryCart}
             disabled={stats.remaining === 0}
             className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
@@ -686,6 +697,7 @@ export default function GroceryListModal({
               ? `In Cart ✓ (${cartSentCount})`
               : "Add to Grocery Cart"}
           </button>
+
 
           <select
             value={groupBy}
@@ -822,7 +834,21 @@ export default function GroceryListModal({
         <PantryModalSimple onClose={() => setShowPantryModal(false)} />
       )}
 
+      {/* Multi-Retailer Split Fulfillment Modal */}
+      <MultiRetailerCartModal
+        isOpen={showSplitModal}
+        onClose={() => setShowSplitModal(false)}
+        items={activeShoppingItems.map((item) => ({
+          name: item.ingredient,
+          quantity: item.quantity,
+          unit: item.unit,
+        }))}
+        inventory={inventory}
+        title="Weekly Menu Split Cart Fulfillment"
+      />
+
       {/* Amazon Handoff Preview Modal */}
+
       {showAmazonPreview && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="alchm-panel rounded-xl max-w-lg w-full overflow-hidden animate-fade-in flex flex-col">

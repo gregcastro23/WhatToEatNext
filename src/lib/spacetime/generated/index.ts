@@ -45,6 +45,7 @@ import CartUpsertItemReducer from "./cart_upsert_item_reducer";
 import ClearEnvironmentalObservationReducer from "./clear_environmental_observation_reducer";
 import ClearMealPlanSlotReducer from "./clear_meal_plan_slot_reducer";
 import ClearMealPlanWeekReducer from "./clear_meal_plan_week_reducer";
+import ClearTableCursorReducer from "./clear_table_cursor_reducer";
 import CloseTableSessionReducer from "./close_table_session_reducer";
 import CreateCommensalSessionReducer from "./create_commensal_session_reducer";
 import CreateRecipeReducer from "./create_recipe_reducer";
@@ -60,8 +61,10 @@ import SendTableChatMessageReducer from "./send_table_chat_message_reducer";
 import SetCommensalSessionStatusReducer from "./set_commensal_session_status_reducer";
 import SetMealPlanSlotLockedReducer from "./set_meal_plan_slot_locked_reducer";
 import SetTableChatMuteReducer from "./set_table_chat_mute_reducer";
+import UpdateTableCursorReducer from "./update_table_cursor_reducer";
 import UpsertEnvironmentalObservationReducer from "./upsert_environmental_observation_reducer";
 import UpsertMealPlanSlotReducer from "./upsert_meal_plan_slot_reducer";
+import VoteTableMealReducer from "./vote_table_meal_reducer";
 
 // Import all procedure arg schemas
 
@@ -81,8 +84,11 @@ import RecipeRow from "./recipe_table";
 import RecipeIngredientRow from "./recipe_ingredient_table";
 import TableChatMessageRow from "./table_chat_message_table";
 import TableChatMuteRow from "./table_chat_mute_table";
+import TableCursorPresenceRow from "./table_cursor_presence_table";
+import TableMealVoteRow from "./table_meal_vote_table";
 import TablePresenceRow from "./table_presence_table";
 import TableSessionRow from "./table_session_table";
+
 
 /** Type-only namespace exports for generated type groups. */
 
@@ -330,6 +336,43 @@ const tablesSchema = __schema({
       { name: 'table_presence_row_id_key', constraint: 'unique', columns: ['rowId'] },
     ],
   }, TablePresenceRow),
+  table_cursor_presence: __table({
+    name: 'table_cursor_presence',
+    indexes: [
+      { accessor: 'cursor_id', name: 'table_cursor_presence_cursor_id_idx_btree', algorithm: 'btree', columns: [
+        'cursorId',
+      ] },
+      { accessor: 'member', name: 'table_cursor_presence_member_idx_btree', algorithm: 'btree', columns: [
+        'member',
+      ] },
+      { accessor: 'wten_table_id', name: 'table_cursor_presence_wten_table_id_idx_btree', algorithm: 'btree', columns: [
+        'wtenTableId',
+      ] },
+    ],
+    constraints: [
+      { name: 'table_cursor_presence_cursor_id_key', constraint: 'unique', columns: ['cursorId'] },
+    ],
+  }, TableCursorPresenceRow),
+  table_meal_vote: __table({
+    name: 'table_meal_vote',
+    indexes: [
+      { accessor: 'recipe_ref', name: 'table_meal_vote_recipe_ref_idx_btree', algorithm: 'btree', columns: [
+        'recipeRef',
+      ] },
+      { accessor: 'vote_id', name: 'table_meal_vote_vote_id_idx_btree', algorithm: 'btree', columns: [
+        'voteId',
+      ] },
+      { accessor: 'voter', name: 'table_meal_vote_voter_idx_btree', algorithm: 'btree', columns: [
+        'voter',
+      ] },
+      { accessor: 'wten_table_id', name: 'table_meal_vote_wten_table_id_idx_btree', algorithm: 'btree', columns: [
+        'wtenTableId',
+      ] },
+    ],
+    constraints: [
+      { name: 'table_meal_vote_vote_id_key', constraint: 'unique', columns: ['voteId'] },
+    ],
+  }, TableMealVoteRow),
   table_session: __table({
     name: 'table_session',
     indexes: [
@@ -363,6 +406,7 @@ const reducersSchema = __reducers(
   __reducerSchema("clear_environmental_observation", ClearEnvironmentalObservationReducer),
   __reducerSchema("clear_meal_plan_slot", ClearMealPlanSlotReducer),
   __reducerSchema("clear_meal_plan_week", ClearMealPlanWeekReducer),
+  __reducerSchema("clear_table_cursor", ClearTableCursorReducer),
   __reducerSchema("close_table_session", CloseTableSessionReducer),
   __reducerSchema("create_commensal_session", CreateCommensalSessionReducer),
   __reducerSchema("create_recipe", CreateRecipeReducer),
@@ -378,9 +422,12 @@ const reducersSchema = __reducers(
   __reducerSchema("set_commensal_session_status", SetCommensalSessionStatusReducer),
   __reducerSchema("set_meal_plan_slot_locked", SetMealPlanSlotLockedReducer),
   __reducerSchema("set_table_chat_mute", SetTableChatMuteReducer),
+  __reducerSchema("update_table_cursor", UpdateTableCursorReducer),
   __reducerSchema("upsert_environmental_observation", UpsertEnvironmentalObservationReducer),
   __reducerSchema("upsert_meal_plan_slot", UpsertMealPlanSlotReducer),
+  __reducerSchema("vote_table_meal", VoteTableMealReducer),
 );
+
 
 /** The schema information for all procedures in this module. This is defined the same way as the procedures would have been defined in the server. */
 const proceduresSchema = __procedures(

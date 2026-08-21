@@ -19,49 +19,26 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
     };
   }
 
-  // Apply safe type casting for property access
-  const inputData = input as any;
+  const defaultCompatibility = { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 };
 
-  // Ensure the primary property exists
-  if (!inputData?.primary && inputData?.element) {
-    return {
-      primary: inputData?.element,
-      secondary: inputData?.secondary,
-      strength: inputData?.strength ?? 0.5,
-      compatibility: inputData?.compatibility ?? {
-        Fire: 1,
-        Water: 0.3,
-        Earth: 0.7,
-        Air: 0.6,
-      },
-    };
-  }
-
-  // If neither primary nor element exists, provide a default
-  if (!inputData?.primary && !inputData?.element) {
+  if (typeof input !== "object" || input === null) {
     return {
       primary: "Fire",
-      secondary: inputData?.secondary,
-      strength: inputData?.strength ?? 0.5,
-      compatibility: inputData?.compatibility ?? {
-        Fire: 1,
-        Water: 0.3,
-        Earth: 0.7,
-        Air: 0.6,
-      },
+      strength: 0.5,
+      compatibility: defaultCompatibility,
     };
   }
 
-  // Ensure all required properties exist
+  const inputData = input as Record<string, unknown>;
+  const primary = (typeof inputData.primary === "string" ? inputData.primary : typeof inputData.element === "string" ? inputData.element : "Fire") as "Fire" | "Water" | "Earth" | "Air";
+  const secondary = typeof inputData.secondary === "string" ? (inputData.secondary as "Fire" | "Water" | "Earth" | "Air") : undefined;
+  const strength = typeof inputData.strength === "number" ? inputData.strength : 0.5;
+  const compatibility = (typeof inputData.compatibility === "object" && inputData.compatibility !== null ? inputData.compatibility : defaultCompatibility) as Record<"Fire" | "Water" | "Earth" | "Air", number>;
+
   return {
-    primary: inputData?.primary ?? "Fire",
-    secondary: inputData?.secondary,
-    strength: inputData?.strength ?? 0.5,
-    compatibility: inputData?.compatibility ?? {
-      Fire: 1,
-      Water: 0.3,
-      Earth: 0.7,
-      Air: 0.6,
-    },
+    primary,
+    secondary,
+    strength,
+    compatibility,
   };
 }

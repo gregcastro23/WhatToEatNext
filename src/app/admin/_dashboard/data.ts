@@ -481,6 +481,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
   recentAlerts: { entries: [], live: false },
   livingEconomy: {
     affiliateClicksWeek: 0,
+    instacartHandoffsWeek: 0,
     cookedPostsWeek: 0,
     feedDauToday: 0,
     live: false,

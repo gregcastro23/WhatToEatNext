@@ -34,7 +34,7 @@ export function publishLiveFeedEvent(
     // Unserializable payload — publish the event type alone.
   }
   try {
-    void connection.reducers
+    connection.reducers
       .postFeedEvent({
         actorName: event.actorName.slice(0, 250),
         actorIsAgent: event.actorIsAgent ?? false,
@@ -45,6 +45,7 @@ export function publishLiveFeedEvent(
         // Live publish is best-effort; the poll remains authoritative.
       });
   } catch {
+
     // Connection raced a disconnect.
   }
 }
