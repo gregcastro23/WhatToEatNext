@@ -57,7 +57,7 @@ function isAuthorized(request: NextRequest): boolean {
   const expected =
     process.env.ALCHM_KITCHEN_SYNC_SECRET ?? process.env.INTERNAL_API_SECRET;
   if (!expected) {
-    logger.error(
+    void logger.error(
       "[waitlist] ALCHM_KITCHEN_SYNC_SECRET is not configured — refusing all requests.",
     );
     return false;
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     // do so without spamming anyone.
     const existing = await userDatabase.getUserByEmail(email);
     if (existing) {
-      logger.info(`[waitlist] ${email} already on the list (${source})`);
+      void logger.info(`[waitlist] ${email} already on the list (${source})`);
       return NextResponse.json({
         ok: true,
         created: false,
@@ -157,19 +157,18 @@ export async function POST(request: NextRequest) {
         welcomeEmailSent = await emailService
           .sendWelcomeEmail(email, name)
           .catch((error: unknown) => {
-            logger.error(`[waitlist] welcome email failed for ${email}:`, error);
+            void logger.error(`[waitlist] welcome email failed for ${email}:`, error);
             return false;
           });
       } else {
-        logger.warn(
+        void logger.warn(
           "[waitlist] email service not configured — no welcome email sent.",
         );
       }
     }
 
-    logger.info(
-      `[waitlist] ${created ? "created" : "existing"} ${email} via ${source}` +
-        (event ? ` @ ${event}` : ""),
+    void logger.info(
+      `[waitlist] ${created ? "created" : "existing"} ${email} via ${source}${event ? ` @ ${event}` : ""}`,
     );
 
     return NextResponse.json({
@@ -179,7 +178,7 @@ export async function POST(request: NextRequest) {
       welcomeEmailSent,
     });
   } catch (error) {
-    logger.error(`[waitlist] enrolment failed for ${email}:`, error);
+    void logger.error(`[waitlist] enrolment failed for ${email}:`, error);
     return NextResponse.json(
       { ok: false, message: "Could not add that address right now" },
       { status: 500 },
