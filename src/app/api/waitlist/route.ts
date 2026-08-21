@@ -74,7 +74,7 @@ function isAuthorized(request: NextRequest): boolean {
   );
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorized(request)) {
     return NextResponse.json(
       { ok: false, message: "Unauthorized" },
