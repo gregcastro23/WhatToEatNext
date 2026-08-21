@@ -166,9 +166,10 @@ export interface PriceIndexApiPayload extends PriceIndexSnapshot {
 
 /** Positions at an instant plus the util's own honesty metadata. */
 type OraclePlanetPositionData = PlanetPositionData & { distance?: number };
+type OraclePositions = Partial<Record<string, OraclePlanetPositionData>>;
 
 export type PositionsProvider = (date: Date) => {
-  positions: Record<string, OraclePlanetPositionData>;
+  positions: OraclePositions;
   degraded: DegradedInfo | null;
 };
 
@@ -192,9 +193,11 @@ const ASTRONOMY_BODY: Record<string, Astronomy.Body> = {
  * distance-flat fallback would silently price a different state.
  */
 const defaultProvider: PositionsProvider = (date) => {
-  const { positions, degraded } = getAccuratePlanetaryPositionsWithMeta(date);
+  const { positions: enginePositions, degraded } =
+    getAccuratePlanetaryPositionsWithMeta(date);
+  const positions: OraclePositions = enginePositions;
   const time = Astronomy.MakeTime(date);
-  const distanceAware: Record<string, OraclePlanetPositionData> = {
+  const distanceAware: OraclePositions = {
     ...positions,
   };
   for (const body of OSCILLATOR_BODIES) {
@@ -237,7 +240,7 @@ function clamp(value: number, min: number, max: number): number {
  * tell the truth: fields may be missing.
  */
 function asPlanetaryPositions(
-  positions: Record<string, Partial<OraclePlanetPositionData>>,
+  positions: Partial<Record<string, Partial<OraclePlanetPositionData>>>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
   for (const [planet, pos] of Object.entries(positions)) {
@@ -245,7 +248,7 @@ function asPlanetaryPositions(
     // this is a no-op here — which is exactly why it belongs: the ten-body
     // claim in this module's header is now enforced, not merely true by
     // accident of which util answered. See PRICED_BODIES (ADR-012).
-    if (!isPricedBody(planet)) continue;
+    if (!pos || !isPricedBody(planet)) continue;
     normalized[planet] = {
       sign: String(pos.sign ?? "").toLowerCase(),
       degree: Number(pos.degree ?? 0),
@@ -276,7 +279,7 @@ export interface SkySample {
 }
 
 function oscillatorCoordinatesFor(
-  positions: Record<string, OraclePlanetPositionData>,
+  positions: OraclePositions,
 ): { diurnal: number; nocturnal: number } | null {
   const withDistance = OSCILLATOR_BODIES.filter(
     (body) => typeof positions[body]?.distance === "number",
@@ -320,7 +323,7 @@ function oscillatorCoordinatesFor(
  * is the defect class this throw exists to make inexpressible).
  */
 export function computeSkySample(
-  positions: Record<string, OraclePlanetPositionData>,
+  positions: OraclePositions,
   date: Date,
   incomingDegraded: DegradedInfo | null = null,
 ): SkySample {
