@@ -313,6 +313,59 @@ const nextConfig = {
         destination: "/vault",
         permanent: true,
       },
+
+      // ── The Lab split ────────────────────────────────────────────────────
+      // A single "Lab" section held eight routes spanning kitchen
+      // thermodynamics, celestial mechanics, the alchm quantity system and
+      // the token economy. It is now /kitchen-lab and /celestial-lab, split
+      // by SUBJECT, with real-physics and alchm quantities on separate
+      // subpages inside each.
+      //
+      // These six sources must stay byte-identical to LEGACY_LAB_REDIRECTS in
+      // src/config/navigation.ts — this file is CommonJS and cannot import the
+      // TS table, so the two are cross-checked by a test
+      // (src/config/__tests__/navigation.redirects.test.ts) rather than by the
+      // compiler. Edit both or the test fails.
+      //
+      // `permanent: false` (307), NOT 308, on purpose. A 308 is cached by the
+      // browser indefinitely: if this tree is tuned again — and a
+      // freshly-landed IA usually is — every user who touched a legacy URL
+      // once is pinned to a stale destination with no server-side way to
+      // release them. Promote these to `permanent: true` once the tree has
+      // settled and the paths have stopped moving.
+      //
+      // /grimoire and /vault are deliberately absent: they changed SECTION,
+      // not path, so they need no redirect.
+      {
+        source: "/lab",
+        destination: "/kitchen-lab",
+        permanent: false,
+      },
+      {
+        source: "/lab-book",
+        destination: "/kitchen-lab/lab-book",
+        permanent: false,
+      },
+      {
+        source: "/planetary-chart",
+        destination: "/celestial-lab/mechanics",
+        permanent: false,
+      },
+      {
+        source: "/current-chart",
+        destination: "/celestial-lab/current-chart",
+        permanent: false,
+      },
+      {
+        source: "/birth-chart",
+        destination: "/celestial-lab/standing-chart",
+        permanent: false,
+      },
+      {
+        source: "/quantities",
+        destination: "/celestial-lab/alchm",
+        permanent: false,
+      },
     ];
   },
 

@@ -21,14 +21,10 @@ import {
   type SauceLineageNode,
   type ThermoValues,
 } from "@/components/ui/alchm";
+import { SystemBadge } from "@/components/lab/SystemBadge";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
 import { getAssetUrl } from "@/utils/urlUtils";
-import { BoundariesPanel } from "./_solver/BoundariesPanel";
-import { ComparisonPanel } from "./_solver/ComparisonPanel";
-import { SolverPanel } from "./_solver/SolverPanel";
-import { VolumetricsPanel } from "./_solver/VolumetricsPanel";
-import "./_solver/solver.css";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
 // floating-point values between server and client, tripping hydration warnings.
@@ -365,15 +361,22 @@ function useHealthTelemetry(): PipelineService[] {
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 
 /**
- * Tabs on `/lab`, mirroring the `/cooking-methods` Physics/Reactions/Conditions
- * split. Ruling 7 was explicit that this is a tab and not a new route: the
- * thermal solver belongs to the lab, and splitting it off would have made it a
- * second destination competing with the one it extends.
+ * `/kitchen-lab/alchm` — the ALCHM model applied to your kitchen.
+ *
+ * Ruling 7 originally made the thermal solver a TAB here rather than its own
+ * route, on the reasoning that it "belongs to the lab" and a separate
+ * destination would compete with the one it extends. That reasoning held while
+ * there was one lab. It stopped holding once the audit showed what the tab bar
+ * was actually doing: putting Spirit/Essence/Matter/Substance one click from
+ * W\u00b7m\u207b\u00b2\u00b7K\u207b\u00b9 with nothing telling the reader the two are
+ * different KINDS of number.
+ *
+ * The solver now lives at /kitchen-lab/physics. Both pages carry a persistent
+ * SystemBadge, so "which model is this?" is answered before the numbers are
+ * read rather than inferred from a tab label.
  */
-type LabTab = "dashboard" | "solver" | "compare" | "boundaries" | "volumetrics";
 
 export default function LaboratoryDashboardPage(): JSX.Element {
-  const [tab, setTab] = useState<LabTab>("dashboard");
   const { currentUser } = useUser();
   const alch = useAlchemicalSafe();
   const services = useHealthTelemetry();
@@ -533,14 +536,25 @@ export default function LaboratoryDashboardPage(): JSX.Element {
         <div className="alchm-rule" />
 
         <div>
+          {/*
+            Was titled "THERMODYNAMICS". It renders Spirit/Essence/Matter/
+            Substance — alchm quantities — while the real thermodynamics (Biot,
+            Fourier, W\u00b7m\u207b\u00b2\u00b7K\u207b\u00b9) lives at /kitchen-lab/physics.
+            One word meaning two different kinds of number, 300 lines apart in
+            what used to be the same file, is the single most misleading label
+            the lab audit found. The component is still named ThermoQuartet;
+            renaming it is a cross-layer change (the API field is literally
+            `thermo`), so the LABEL is corrected here and the rename tracked
+            separately.
+          */}
           <div className="t-tag" style={{ marginBottom: 10 }}>
-            THERMODYNAMICS
+            ESMS QUARTET
           </div>
           {thermo ? (
             <ThermoQuartet values={thermo} />
           ) : (
             <AwaitingBackend
-              title="THERMODYNAMICS"
+              title="ESMS QUARTET"
               endpoint="user.stats"
               note={noStatsNote}
             />
@@ -756,59 +770,15 @@ export default function LaboratoryDashboardPage(): JSX.Element {
 
   return (
     <>
-      <nav className="alchm-lab-tabs" aria-label="lab sections">
-        {(
-          [
-            ["dashboard", "Dashboard"],
-            ["solver", "Thermal solver"],
-            ["compare", "Compare"],
-            ["boundaries", "Boundaries"],
-            ["volumetrics", "Volumetrics"],
-          ] as Array<[LabTab, string]>
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => setTab(id)}
-            aria-current={tab === id ? "page" : undefined}
-            className={tab === id ? "is-active" : undefined}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-      <style>{`
-        .alchm-lab-tabs {
-          display: flex;
-          gap: 2px;
-          border-bottom: 1px solid var(--line);
-          padding: 0 22px;
-          background: var(--bg);
-        }
-        .alchm-lab-tabs button {
-          appearance: none;
-          background: none;
-          border: 0;
-          border-bottom: 2px solid transparent;
-          padding: 12px 14px;
-          font: inherit;
-          font-size: 11px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: var(--fg-mute);
-          cursor: pointer;
-        }
-        .alchm-lab-tabs button.is-active {
-          color: var(--accent);
-          border-bottom-color: var(--accent);
-        }
-        .alchm-lab-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-      `}</style>
-      {tab === "dashboard" ? dashboard : null}
-      {tab === "solver" ? <SolverPanel /> : null}
-      {tab === "compare" ? <ComparisonPanel /> : null}
-      {tab === "boundaries" ? <BoundariesPanel /> : null}
-      {tab === "volumetrics" ? <VolumetricsPanel /> : null}
+      <div className="px-5 pt-5 sm:px-6">
+        <SystemBadge
+          system="alchm"
+          variant="banner"
+          counterpartHref="/kitchen-lab/physics"
+          counterpartLabel="Real physics for the same pan"
+        />
+      </div>
+      {dashboard}
     </>
   );
 }

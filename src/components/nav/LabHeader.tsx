@@ -33,7 +33,7 @@ const NAV: Array<{ id: LabHeaderNavId; label: string; href: string }> = [
   { id: "meal-plan", label: "Meal Plan", href: "/meal-plan" },
   { id: "recipes", label: "Recipes", href: "/recipes" },
   { id: "profile", label: "Profile", href: "/profile" },
-  { id: "lab", label: "Lab", href: "/lab" },
+  { id: "lab", label: "Lab", href: "/kitchen-lab" },
 ];
 
 function activeFromPathname(pathname: string | null): LabHeaderNavId {
@@ -51,6 +51,8 @@ function activeFromPathname(pathname: string | null): LabHeaderNavId {
     return "recipes";
   if (pathname.startsWith("/profile")) return "profile";
   if (
+    pathname.startsWith("/kitchen-lab") ||
+    pathname.startsWith("/celestial-lab") ||
     pathname.startsWith("/lab") ||
     pathname.startsWith("/planetary-chart") ||
     pathname.startsWith("/birth-chart") ||

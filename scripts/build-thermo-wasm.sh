@@ -106,6 +106,14 @@ echo
 echo "Verifying the compiled module against the golden vectors..."
 node scripts/verify-thermo-wasm-parity.mjs
 
+# Second verifier: the TypeScript DECODE of the flat boundary buffer, A/B'd
+# against the TypeScript solver. The check above proves the module agrees with
+# the fixture; it says nothing about whether the browser reads the buffer at the
+# right offsets, and a wrong offset is a full panel of plausible numbers.
+echo ""
+echo "Verifying the boundary-buffer decode against the TypeScript solver..."
+bun "$ROOT/scripts/verify-boundary-solver-parity.mjs"
+
 # The generated directory is gitignored: it is a build product, and a checkout
 # that has never run this script must still typecheck and still render, because
 # src/lib/wasm/thermoEngine.ts falls back to its TypeScript implementation.

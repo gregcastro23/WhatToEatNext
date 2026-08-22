@@ -167,6 +167,12 @@ export const AIR_MAX_C = 800 - 273.15;
 /**
  * Saturated liquid water: `[K, ρ, cp, μ, k, σ N·m⁻¹, h_fg J·kg⁻¹]`.
  *
+ * ⚠️ The h_fg column here (2257e3 at 373.15 K) intentionally DISAGREES with
+ * `latentHeatVaporisation()` in latentHeat.ts by 0.6848 %. That is two
+ * independent sources corroborating each other, not a bug — see the
+ * RECONCILIATION block at the top of latentHeat.ts before "fixing" either.
+ * Editing this column also breaks the Prandtl closure check below.
+ *
  * BASIS: Incropera & DeWitt Table A.6 (thermophysical properties of saturated
  * water). Density is `1/v_f`; the rest are as printed.
  *

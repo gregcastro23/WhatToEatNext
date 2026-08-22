@@ -76,8 +76,8 @@ const RegisteredHeader: React.FC<{ userName: string; email: string }> = ({ userN
 
 const RegisteredQuickLinksGrid: React.FC = () => {
   const links = [
-    { label: "Birth Chart", href: "/birth-chart", icon: "🌌", desc: "Natal positions" },
-    { label: "Current Chart", href: "/current-chart", icon: "⚡", desc: "Live transits" },
+    { label: "Birth Chart", href: "/celestial-lab/standing-chart", icon: "🌌", desc: "Natal positions" },
+    { label: "Current Chart", href: "/celestial-lab/current-chart", icon: "⚡", desc: "Live transits" },
     { label: "Grimoire", href: "/grimoire", icon: "📖", desc: "Practices & feats" },
     { label: "Token Vault", href: "/vault", icon: "⚗️", desc: "ESMS balance" },
     { label: "Menu Planner", href: "/menu-planner", icon: "🍽️", desc: "Cosmic meals" },
@@ -156,7 +156,7 @@ const RegisteredEconomyTab: React.FC = () => (
           <Link href="/account" className="text-[10px] font-black text-emerald-400 hover:text-emerald-300 uppercase tracking-[0.3em] transition-colors">
             Wallet Vault →
           </Link>
-          <Link href="/quantities" className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors">
+          <Link href="/celestial-lab/alchm" className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors">
             Open Ledger →
           </Link>
         </div>

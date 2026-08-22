@@ -34,6 +34,11 @@
  */
 
 import type { MethodPhysicsProfile } from "@/data/cooking/methodPhysics";
+import type {
+  BoundaryLink,
+  BoundaryNetworkInput,
+  BoundaryNetworkResult,
+} from "@/lib/cooking/boundaryNetwork";
 import type { MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
 
 /** f32 narrowing. Aliased because it appears on nearly every line below. */
@@ -474,6 +479,59 @@ interface ThermoWasmModule {
     free(): void;
   };
   floats_per_particle: () => number;
+
+  // Scalar physics added alongside the particle engine. Declared STRUCTURALLY,
+  // like everything above, because public/wasm is gitignored and there is no
+  // generated .d.ts to import on a fresh checkout. Every one of these is
+  // optional at runtime: a browser may hold a CACHED older bundle that predates
+  // them, and reading an undefined export would throw inside the render path.
+  // `createThermoScalars` feature-detects each before use.
+  latent_heat_vaporisation?: (celsius: number) => number;
+  water_fusion_j_kg?: () => number;
+  food_fusion_enthalpy?: (waterMassFraction: number) => number;
+  food_vaporisation_enthalpy?: (waterMassFraction: number, celsius: number) => number;
+  latent_as_temperature_rise?: (latentJkg: number, cpJkgK: number) => number;
+  lid_balance_fields?: () => number;
+  lid_heat_balance?: (
+    lidAreaM2: number,
+    lidPerimeterM: number,
+    lidThicknessM: number,
+    lidKWmK: number,
+    headspaceC: number,
+    ambientC: number,
+    latentHeatJkg: number,
+    emissivity: number,
+  ) => Float64Array;
+
+  // Boundary network. Returns a FLAT f64 buffer, not a struct — thermo-core is
+  // dependency-free (it is also linked into the SpacetimeDB module) so there is
+  // no serde on either side of this boundary.
+  //
+  // ⚠️ Memory: the generated glue does `getArrayF64FromWasm0(ptr, len).slice()`
+  // and then frees the Rust allocation. The array handed to JS is therefore a
+  // COPY, not a view into linear memory. That is the opposite of the particle
+  // buffer contract — a `Float64Array` from here is safe to retain across
+  // frames and cannot be detached by a later allocation, and there is nothing
+  // for the caller to free.
+  solve_boundary_network?: (
+    sourceC: number,
+    sinkC: number,
+    hasVessel: boolean,
+    vesselSourceHWm2K: number,
+    vesselAreaM2: number,
+    vesselKWmK: number,
+    vesselThicknessM: number,
+    vesselMediumHWm2K: number,
+    hasFood: boolean,
+    foodMediumHWm2K: number,
+    foodGeometry: number,
+    foodHalfDimensionM: number,
+    foodKWmK: number,
+    foodAreaM2: number,
+  ) => Float64Array;
+  boundary_network_link_ids?: (hasVessel: boolean, hasFood: boolean) => string;
+  boundary_link_fields?: () => number;
+  boundary_header_fields?: () => number;
 }
 
 class WasmThermoEngine implements ThermoEngineHandle {
@@ -653,5 +711,474 @@ export function simulationInputs(metrics: MethodPhysicsMetrics): {
     ovenTempC: metrics.medium.celsius,
     hWm2K: metrics.transfer?.typical ?? 25,
     radiantSourceK: metrics.physics.radiantSourceK ?? 505,
+  };
+}
+
+// ============================================================================
+// Scalar physics — dual runtime
+// ============================================================================
+
+/**
+ * A value or a stated refusal.
+ *
+ * Structurally identical to `Reading<T>` in src/lib/cooking/labSolver.ts, and
+ * declared here rather than imported so this module keeps its one-way
+ * dependency on nothing under src/lib/cooking. TypeScript is structural, so the
+ * two are interchangeable at every call site.
+ */
+export type ScalarReading<T> =
+  | { available: true; value: T }
+  | { available: false; reason: string };
+
+const got = <T,>(value: T): ScalarReading<T> => ({ available: true, value });
+const declined = <T,>(reason: string): ScalarReading<T> => ({
+  available: false,
+  reason,
+});
+
+/**
+ * Convert the WASM boundary's NaN refusal into a stated one.
+ *
+ * ⚠️ This is the ONLY place a NaN from the module is allowed to exist. A NaN
+ * that escapes into a component renders as "NaN" in the DOM, which reads as a
+ * broken page rather than as "the correlation declined" — and worse, `NaN > 0`
+ * is false, so a guard written the obvious way silently takes the wrong branch.
+ */
+function fromWasm(value: number, reason: string): ScalarReading<number> {
+  return Number.isFinite(value) ? got(value) : declined(reason);
+}
+
+/**
+ * Run a TypeScript kernel and convert its throw into a stated refusal.
+ *
+ * The kernels under src/lib/cooking throw `RangeError` with messages written
+ * to be read by a person; that message is surfaced rather than replaced.
+ */
+function fromThrowing<T>(fn: () => T, context: string): ScalarReading<T> {
+  try {
+    const value = fn();
+    if (typeof value === "number" && !Number.isFinite(value)) {
+      return declined(`${context}: produced a non-finite value`);
+    }
+    return got(value);
+  } catch (error) {
+    return declined(
+      error instanceof Error ? error.message : `${context}: refused`,
+    );
+  }
+}
+
+export interface LidBalanceReading {
+  lidC: number;
+  convectiveLossW: number;
+  radiativeLossW: number;
+  totalLossW: number;
+  condensationCapacityKgS: number;
+}
+
+/**
+ * Latent-heat and lid scalars, backed by whichever engine is actually present.
+ *
+ * `engine` is the engine that RAN, never a hopeful constant — the same rule the
+ * particle canvas follows. A panel that labels itself "WASM" while running the
+ * TypeScript path is the precise failure this pipeline was built to remove.
+ */
+export interface ThermoScalars {
+  readonly engine: "wasm" | "typescript";
+  latentHeatVaporisation(celsius: number): ScalarReading<number>;
+  waterFusionJKg(): number;
+  foodFusionEnthalpy(waterMassFraction: number): ScalarReading<number>;
+  foodVaporisationEnthalpy(
+    waterMassFraction: number,
+    celsius: number,
+  ): ScalarReading<number>;
+  latentAsTemperatureRise(
+    latentJkg: number,
+    specificHeatJkgK: number,
+  ): ScalarReading<number>;
+  lidHeatBalance(input: {
+    lidAreaM2: number;
+    lidPerimeterM: number;
+    lidThicknessM: number;
+    lidKWmK: number;
+    headspaceC: number;
+    ambientC: number;
+    latentHeatJkg: number;
+    emissivity?: number;
+  }): ScalarReading<LidBalanceReading>;
+}
+
+/**
+ * The TypeScript half.
+ *
+ * Delegates to src/lib/cooking/* rather than transliterating the physics a
+ * third time. There are already exactly two implementations under a byte-parity
+ * contract pinned by one golden fixture; a third copy here would be a third
+ * thing to keep in step, and nothing would notice when it fell behind.
+ *
+ * Imported lazily so a caller that only ever gets the WASM path does not pull
+ * the whole cooking kernel into its bundle.
+ */
+async function typescriptScalars(): Promise<ThermoScalars> {
+  const [latent, boundary] = await Promise.all([
+    import("@/lib/cooking/latentHeat"),
+    import("@/lib/cooking/boundaryNetwork"),
+  ]);
+
+  return {
+    engine: "typescript",
+    latentHeatVaporisation: (celsius) =>
+      fromThrowing(
+        () => latent.latentHeatVaporisation(celsius),
+        "latentHeatVaporisation",
+      ),
+    waterFusionJKg: () => latent.WATER_FUSION_J_KG,
+    foodFusionEnthalpy: (w) =>
+      fromThrowing(() => latent.foodFusionEnthalpy(w), "foodFusionEnthalpy"),
+    foodVaporisationEnthalpy: (w, c) =>
+      fromThrowing(
+        () => latent.foodVaporisationEnthalpy(w, c),
+        "foodVaporisationEnthalpy",
+      ),
+    latentAsTemperatureRise: (j, cp) =>
+      fromThrowing(
+        () => latent.latentAsTemperatureRise(j, cp),
+        "latentAsTemperatureRise",
+      ),
+    lidHeatBalance: (input) =>
+      fromThrowing(() => {
+        const r = boundary.lidHeatBalance({
+          lidAreaM2: input.lidAreaM2,
+          lidPerimeterM: input.lidPerimeterM,
+          lidThicknessM: input.lidThicknessM,
+          lidKWmK: input.lidKWmK,
+          headspaceC: input.headspaceC,
+          ambientC: input.ambientC,
+          latentHeatJkg: input.latentHeatJkg,
+          emissivity: input.emissivity ?? 0.9,
+        });
+        return {
+          lidC: r.lidC,
+          convectiveLossW: r.convectiveLossW,
+          radiativeLossW: r.radiativeLossW,
+          totalLossW: r.totalLossW,
+          condensationCapacityKgS: r.condensationCapacityKgS,
+        };
+      }, "lidHeatBalance"),
+  };
+}
+
+/**
+ * Create the best available scalar engine.
+ *
+ * Falls back to TypeScript whenever the module is absent OR predates these
+ * exports. The per-export feature detection matters: a browser holding a cached
+ * bundle from before this change has `ThermoEngine` but not
+ * `latent_heat_vaporisation`, and calling the missing one throws inside render.
+ * Detecting the whole set together keeps a single engine label honest rather
+ * than mixing runtimes call by call.
+ */
+export async function createThermoScalars(): Promise<ThermoScalars> {
+  const mod = await loadModule();
+
+  const complete =
+    !!mod &&
+    typeof mod.latent_heat_vaporisation === "function" &&
+    typeof mod.water_fusion_j_kg === "function" &&
+    typeof mod.food_fusion_enthalpy === "function" &&
+    typeof mod.food_vaporisation_enthalpy === "function" &&
+    typeof mod.latent_as_temperature_rise === "function" &&
+    typeof mod.lid_heat_balance === "function" &&
+    typeof mod.lid_balance_fields === "function";
+
+  if (!mod || !complete) return typescriptScalars();
+
+  try {
+    await mod.default();
+  } catch {
+    return typescriptScalars();
+  }
+
+  // Stride check, same reasoning as floats_per_particle: if the module and this
+  // file disagree about the buffer shape, every field is read from the wrong
+  // index and the result is wrong numbers rather than an error.
+  const LID_FIELDS = 5;
+  if (mod.lid_balance_fields?.() !== LID_FIELDS) return typescriptScalars();
+
+  return {
+    engine: "wasm",
+    latentHeatVaporisation: (celsius) =>
+      fromWasm(
+        mod.latent_heat_vaporisation!(celsius),
+        `latent heat of vaporisation is fitted for 0–100 °C; ${celsius} °C is outside it`,
+      ),
+    waterFusionJKg: () => mod.water_fusion_j_kg!(),
+    foodFusionEnthalpy: (w) =>
+      fromWasm(
+        mod.food_fusion_enthalpy!(w),
+        `water mass fraction must be within 0–1; received ${w}`,
+      ),
+    foodVaporisationEnthalpy: (w, c) =>
+      fromWasm(
+        mod.food_vaporisation_enthalpy!(w, c),
+        `composition or temperature outside the correlation range (w=${w}, ${c} °C)`,
+      ),
+    latentAsTemperatureRise: (j, cp) =>
+      fromWasm(
+        mod.latent_as_temperature_rise!(j, cp),
+        `specific heat must be positive; received ${cp}`,
+      ),
+    lidHeatBalance: (input) => {
+      const buf = mod.lid_heat_balance!(
+        input.lidAreaM2,
+        input.lidPerimeterM,
+        input.lidThicknessM,
+        input.lidKWmK,
+        input.headspaceC,
+        input.ambientC,
+        input.latentHeatJkg,
+        input.emissivity ?? 0.9,
+      );
+      // A refusal is a length-1 array. Checking LENGTH rather than NaN means a
+      // caller never reads an element that does not exist.
+      if (buf.length !== LID_FIELDS) {
+        return declined(
+          "lid heat balance refused: headspace must be above ambient and every geometry term positive",
+        );
+      }
+      return got({
+        lidC: buf[0],
+        convectiveLossW: buf[1],
+        radiativeLossW: buf[2],
+        totalLossW: buf[3],
+        condensationCapacityKgS: buf[4],
+      });
+    },
+  };
+}
+
+// ============================================================================
+// Boundary network — dual runtime
+// ============================================================================
+
+/**
+ * Geometry discriminants, shared with `FoodGeometry` in thermo-core.
+ *
+ * ⚠️ A WIRE FORMAT. These integers cross the wasm boundary, so a stale cached
+ * bundle paired with a newer page must still agree about them. Renumbering or
+ * inserting a member silently changes which geometry the Bessel eigenvalue is
+ * taken for — a wrong number that still looks like a number. The Rust side
+ * REFUSES an unrecognised discriminant rather than defaulting to slab, which is
+ * what turns a desync into a visible refusal instead of a quiet lie.
+ */
+const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number>> = {
+  slab: 0,
+  cylinder: 1,
+  sphere: 2,
+};
+
+/**
+ * Link labels, keyed by the id the core emits.
+ *
+ * The Rust buffer carries no strings — `&'static str` cannot live in an f64
+ * array — so the ids come from `boundary_network_link_ids` and the human labels
+ * are attached here, matching the TypeScript implementation's wording exactly so
+ * the two engines produce an identical `BoundaryNetworkResult`.
+ */
+const LINK_LABELS: Readonly<Record<string, string>> = {
+  "source-to-vessel": "source → vessel outside",
+  "vessel-wall": "through the vessel wall",
+  "vessel-to-medium": "vessel inside → medium",
+  "medium-to-food": "medium → food surface",
+  "food-interior": "food surface → core",
+};
+
+export interface BoundarySolver {
+  readonly engine: "wasm" | "typescript";
+  /**
+   * Solve the chain, or return null when the inputs fall outside the
+   * correlations. Null is a REFUSAL, never a zeroed result — the panels render
+   * it as an em dash with a reason.
+   */
+  solve(input: BoundaryNetworkInput): BoundaryNetworkResult | null;
+}
+
+/**
+ * Decode the flat buffer into the same shape the TypeScript solver returns.
+ *
+ * Exported for `scripts/verify-boundary-solver-parity.mjs`, which A/Bs it
+ * against the TypeScript solver. That script cannot go through
+ * `createBoundarySolver` because the loader fetches public/wasm over HTTP and
+ * the script has no browser — and a verifier that re-implements the decode
+ * would be checking a copy, which is exactly how the link-id mirror in the Rust
+ * crate drifted (`food-internal` vs the core's `food-interior`). Exporting the
+ * real function is cheaper than maintaining a second one.
+ */
+export function decodeBoundaryBuffer(
+  buf: Float64Array,
+  ids: string[],
+  headerFields: number,
+  linkFields: number,
+  sourceC: number,
+): BoundaryNetworkResult | null {
+  // A refusal is a length-1 array. Checking LENGTH rather than NaN means we
+  // never index past the end of a buffer that was never populated.
+  if (buf.length <= 1) return null;
+
+  // Header, in the order documented on the Rust export. Destructured rather
+  // than indexed so the field order is stated once and reads as a contract.
+  const [
+    totalResistanceKperW,
+    uaWperK,
+    heatFlowW,
+    controllingIndex,
+    foodBiotRaw,
+    linkCount,
+    nodeCount,
+  ] = buf;
+
+  // Guard the decode against a stale bundle whose layout differs. Without this
+  // a shorter buffer reads undefined values as NaN and renders a full panel of
+  // plausible-looking blanks instead of falling back to a working engine.
+  const expected = headerFields + linkCount * linkFields + nodeCount;
+  if (
+    !Number.isInteger(linkCount) ||
+    linkCount !== ids.length ||
+    buf.length !== expected
+  ) {
+    return null;
+  }
+
+  const links: BoundaryLink[] = [];
+  for (let i = 0; i < linkCount; i += 1) {
+    const o = headerFields + i * linkFields;
+    const id = ids[i];
+    const h = buf[o + 2];
+    links.push({
+      id,
+      label: LINK_LABELS[id] ?? id,
+      resistanceKperW: buf[o + 0],
+      areaM2: buf[o + 1],
+      // NaN is how the core says "this link has no coefficient" — a pure
+      // conduction leg. The TypeScript shape spells that as null.
+      hWm2K: Number.isFinite(h) ? h : null,
+      share: buf[o + 3],
+      dropK: buf[o + 4],
+    });
+  }
+
+  const controlling = links[controllingIndex];
+  if (!controlling) return null;
+
+  const nodeStart = headerFields + linkCount * linkFields;
+  const nodes: Array<{ id: string; celsius: number }> = [];
+  for (let i = 0; i < nodeCount; i += 1) {
+    // Node 0 is the source; every later node is named for the link that
+    // produced it, matching the TypeScript solver's `nodes` construction.
+    nodes.push({
+      id: i === 0 ? "source" : (ids[i - 1] ?? `node-${i}`),
+      celsius: buf[nodeStart + i],
+    });
+  }
+  if (nodes.length > 0) nodes[0].celsius = sourceC;
+
+  return {
+    links,
+    totalResistanceKperW,
+    uaWperK,
+    heatFlowW,
+    controlling,
+    nodes,
+    foodBiot: Number.isFinite(foodBiotRaw) ? foodBiotRaw : null,
+  };
+}
+
+/**
+ * Create the best available boundary solver.
+ *
+ * The two engines are under a byte-parity contract pinned by one golden
+ * fixture, so this is NOT a choice between a good answer and a worse one —
+ * they agree to a handful of ULP. It matters because the compiled engine is the
+ * one the rest of the lab runs, and a panel silently on a different engine than
+ * it claims is the failure this whole pipeline exists to prevent.
+ */
+export async function createBoundarySolver(): Promise<BoundarySolver> {
+  const mod = await loadModule();
+
+  const usable =
+    !!mod &&
+    typeof mod.solve_boundary_network === "function" &&
+    typeof mod.boundary_network_link_ids === "function" &&
+    typeof mod.boundary_link_fields === "function" &&
+    typeof mod.boundary_header_fields === "function";
+
+  if (!mod || !usable) return typescriptBoundarySolver();
+
+  try {
+    await mod.default();
+  } catch {
+    return typescriptBoundarySolver();
+  }
+
+  const linkFields = mod.boundary_link_fields!();
+  const headerFields = mod.boundary_header_fields!();
+  // Stride check: same reasoning as floats_per_particle. A disagreement here
+  // means every field is read from the wrong index.
+  if (linkFields !== 5 || headerFields !== 7) return typescriptBoundarySolver();
+
+  return {
+    engine: "wasm",
+    solve(input) {
+      const v = input.vessel;
+      const f = input.food;
+      const geometry = f ? GEOMETRY_DISCRIMINANT[f.geometry] : 0;
+      // An unmapped geometry string would otherwise arrive as NaN and be
+      // coerced by wasm-bindgen; refuse in JS instead of guessing.
+      if (f && geometry === undefined) return null;
+
+      const buf = mod.solve_boundary_network!(
+        input.sourceC,
+        input.sinkC,
+        !!v,
+        v?.sourceToVesselHWm2K ?? 0,
+        v?.areaM2 ?? 0,
+        v?.kWmK ?? 0,
+        v?.thicknessM ?? 0,
+        v?.vesselToMediumHWm2K ?? 0,
+        !!f,
+        f?.mediumToFoodHWm2K ?? 0,
+        geometry,
+        f?.halfDimensionM ?? 0,
+        f?.kWmK ?? 0,
+        f?.areaM2 ?? 0,
+      );
+
+      const ids = mod.boundary_network_link_ids!(!!v, !!f);
+      return decodeBoundaryBuffer(
+        buf,
+        ids.length > 0 ? ids.split(",") : [],
+        headerFields,
+        linkFields,
+        input.sourceC,
+      );
+    },
+  };
+}
+
+/** The TypeScript half — delegates to the existing kernel, refusal and all. */
+async function typescriptBoundarySolver(): Promise<BoundarySolver> {
+  const boundary = await import("@/lib/cooking/boundaryNetwork");
+  return {
+    engine: "typescript",
+    solve(input) {
+      try {
+        return boundary.solveBoundaryNetwork(input);
+      } catch {
+        // The kernel throws outside its envelope; the WASM half returns a
+        // refusal. Normalise so a caller cannot tell the engines apart by how
+        // they decline.
+        return null;
+      }
+    },
   };
 }
