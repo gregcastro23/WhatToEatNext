@@ -1103,6 +1103,24 @@ export function decodeBoundaryBuffer(
  * it claims is the failure this whole pipeline exists to prevent.
  */
 export async function createBoundarySolver(): Promise<BoundarySolver> {
+  // NEVER REJECTS — same contract as `loadModule`, and for the same reason.
+  // Callers await this inside an effect and set state from it; an unhandled
+  // rejection there is an unhandled promise rejection AND a component wedged
+  // on "loading" for the life of the page. `typescriptBoundarySolver` performs
+  // a dynamic import, which is a real rejection path, so the guarantee has to
+  // be enforced here rather than assumed.
+  try {
+    return await createBoundarySolverInner();
+  } catch {
+    try {
+      return await typescriptBoundarySolver();
+    } catch {
+      return unavailableBoundarySolver();
+    }
+  }
+}
+
+async function createBoundarySolverInner(): Promise<BoundarySolver> {
   const mod = await loadModule();
 
   const usable =
@@ -1120,8 +1138,12 @@ export async function createBoundarySolver(): Promise<BoundarySolver> {
     return typescriptBoundarySolver();
   }
 
-  const linkFields = mod.boundary_link_fields!();
-  const headerFields = mod.boundary_header_fields!();
+  // Bound to a non-null local: the narrowing from the guard above does not
+  // reach into the hoisted helper below, and re-asserting `mod!` inside it
+  // would be re-stating a fact the compiler already proved here.
+  const m = mod;
+  const linkFields = m.boundary_link_fields!();
+  const headerFields = m.boundary_header_fields!();
   // Stride check: same reasoning as floats_per_particle. A disagreement here
   // means every field is read from the wrong index.
   if (linkFields !== 5 || headerFields !== 7) return typescriptBoundarySolver();
@@ -1129,6 +1151,24 @@ export async function createBoundarySolver(): Promise<BoundarySolver> {
   return {
     engine: "wasm",
     solve(input) {
+      // ⚠️ try/catch is NOT belt-and-braces here. The release profile sets
+      // `panic = "abort"`, so a panic inside the module TRAPS and wasm-bindgen
+      // re-throws it as a JS exception. Unwrapped, that propagates out of the
+      // useMemo a component calls this from and blanks the whole panel — the
+      // same render-time failure class we just removed from ComparisonPanel.
+      // The TypeScript half already normalises its kernel throws to null; this
+      // makes the two engines fail the same way, which is the only reason a
+      // caller can treat them as interchangeable.
+      try {
+        return solveViaWasm(input);
+      } catch {
+        return null;
+      }
+    },
+  };
+
+  function solveViaWasm(input: BoundaryNetworkInput): BoundaryNetworkResult | null {
+    {
       const v = input.vessel;
       const f = input.food;
       const geometry = f ? GEOMETRY_DISCRIMINANT[f.geometry] : 0;
@@ -1136,7 +1176,7 @@ export async function createBoundarySolver(): Promise<BoundarySolver> {
       // coerced by wasm-bindgen; refuse in JS instead of guessing.
       if (f && geometry === undefined) return null;
 
-      const buf = mod.solve_boundary_network!(
+      const buf = m.solve_boundary_network!(
         input.sourceC,
         input.sinkC,
         !!v,
@@ -1153,7 +1193,7 @@ export async function createBoundarySolver(): Promise<BoundarySolver> {
         f?.areaM2 ?? 0,
       );
 
-      const ids = mod.boundary_network_link_ids!(!!v, !!f);
+      const ids = m.boundary_network_link_ids!(!!v, !!f);
       return decodeBoundaryBuffer(
         buf,
         ids.length > 0 ? ids.split(",") : [],
@@ -1161,7 +1201,23 @@ export async function createBoundarySolver(): Promise<BoundarySolver> {
         linkFields,
         input.sourceC,
       );
-    },
+    }
+  }
+}
+
+/**
+ * Last resort: no engine at all.
+ *
+ * Reached only when even the TypeScript kernel fails to import. Every solve is
+ * a refusal, which is the honest answer — the alternative is a promise that
+ * never settles, leaving every caller on its loading state forever with no
+ * error anywhere. A stuck spinner is indistinguishable from a slow network and
+ * is the hardest kind of failure to diagnose from a bug report.
+ */
+function unavailableBoundarySolver(): BoundarySolver {
+  return {
+    engine: "typescript",
+    solve: () => null,
   };
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type JSX } from "react";
+import { BoundaryTransferCanvas } from "@/components/lab/BoundaryTransferCanvas";
 import { LatentHeatPanel } from "@/components/lab/LatentHeatPanel";
 import { SystemBadge } from "@/components/lab/SystemBadge";
 import { BoundariesPanel } from "../_solver/BoundariesPanel";
@@ -37,7 +38,13 @@ import "../_solver/solver.css";
  * @file src/app/(alchm)/kitchen-lab/physics/page.tsx
  */
 
-type PhysicsTab = "solver" | "compare" | "boundaries" | "volumetrics" | "latent";
+type PhysicsTab =
+  | "solver"
+  | "compare"
+  | "boundaries"
+  | "volumetrics"
+  | "latent"
+  | "transfer";
 
 const TABS: ReadonlyArray<[PhysicsTab, string, string]> = [
   ["solver", "Thermal solver", "One arrangement, solved end to end"],
@@ -45,6 +52,7 @@ const TABS: ReadonlyArray<[PhysicsTab, string, string]> = [
   ["boundaries", "Boundaries", "Property tables and correlations"],
   ["volumetrics", "Volumetrics", "Measured mass per volume"],
   ["latent", "Latent heat", "Phase-change energy, through the Rust engine"],
+  ["transfer", "Medium transfer", "Heat crossing atmosphere → vessel → solution → food"],
 ];
 
 export default function KitchenLabPhysicsPage(): JSX.Element {
@@ -114,6 +122,9 @@ export default function KitchenLabPhysicsPage(): JSX.Element {
       {tab === "boundaries" ? <BoundariesPanel /> : null}
       {tab === "volumetrics" ? <VolumetricsPanel /> : null}
       {tab === "latent" ? <LatentHeatPanel className="px-5 py-6 sm:px-6" /> : null}
+      {tab === "transfer" ? (
+        <BoundaryTransferCanvas className="px-5 py-6 sm:px-6" />
+      ) : null}
     </div>
   );
 }

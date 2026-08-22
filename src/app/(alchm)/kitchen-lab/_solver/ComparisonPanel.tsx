@@ -80,6 +80,20 @@ const REFUSED_REASON =
  * `useMemo`, with no error boundary above it, so a registry edit would blank
  * the whole tab instead of the two cards that depend on the pot.
  */
+/**
+ * Thickness of the pot base as a display string, or null when the registry has
+ * no pot.
+ *
+ * Read from the SAME field the solve consumes (`baseThicknessMm`), so a label
+ * and the resistance printed next to it cannot disagree. They did: the bar was
+ * captioned "3 mm" while its resistance came from the registry's 4 mm base.
+ */
+function stockpotWallLabel(): string | null {
+  const pot = getVessel("stockpot_8qt");
+  if (!pot) return null;
+  return `${pot.baseThicknessMm} mm`;
+}
+
 function stockpotLeg(): VesselLeg | null {
   const pot = getVessel("stockpot_8qt");
   if (!pot) return null;
@@ -180,6 +194,10 @@ export function ComparisonPanel(): React.JSX.Element {
   const airLink = oven.network?.links.find((l) => l.id === "medium-to-food") ?? null;
   // The strip reads one link out of each of two columns, so it can lose either.
   const stripReason = !wallLink ? boiling.reason : !airLink ? oven.reason : null;
+  // Falls back to the neutral "vessel wall" rather than inventing a thickness:
+  // if the registry is gone there is no thickness to state, and a guessed one
+  // would be exactly the defect this replaced.
+  const wallThicknessLabel = stockpotWallLabel() ?? "base";
 
   return (
     <div className="ma-solver ma-compare">
@@ -253,7 +271,14 @@ export function ComparisonPanel(): React.JSX.Element {
         {wallLink && airLink ? (
           <div className="ma-compare__bars">
             <Bar
-              label="vessel wall, 3 mm"
+              // DERIVED from the registry, not written down. This label read
+              // "3 mm" while the resistance beside it was solved from the
+              // registry's 4 mm base — and the docblock at the top of this file
+              // already called that exact figure out as wrong, which is how a
+              // caption ends up contradicting its own picture. Reading the
+              // thickness from the same object the solve uses means the two
+              // cannot disagree again.
+              label={`vessel wall, ${wallThicknessLabel}`}
               value={wallLink.resistanceKperW}
               max={airLink.resistanceKperW}
               accent
@@ -314,8 +339,13 @@ function EngineBadge({ engine }: { engine: "wasm" | "typescript" }): React.JSX.E
 
 /**
  * A proportional bar. The cast-iron case renders as a hairline against the air
- * case, which is the entire finding — so the width is NOT floored the way the
- * chain blocks are. Here being nearly invisible is the message.
+ * case, which is the entire finding — being nearly invisible IS the message.
+ *
+ * Floored at 0.15 %, an order of magnitude below the 1.6 % floor the chain
+ * blocks use: enough that a 0.23 % share still draws a visible line rather than
+ * vanishing into the track, and far too small to read as a meaningful width.
+ * The PRINTED value is never floored, so the number beside the bar is always
+ * the true resistance even when the bar itself has bottomed out.
  */
 function Bar({
   label, value, max, accent,

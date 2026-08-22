@@ -602,6 +602,12 @@ function drawFrame(
   ctx.textAlign = "left";
   const rowY = [labelTop + 12, labelTop + 24];
   const rowCursor = [padL, padL];
+  // Per-label budget: the busier row holds ceil(n/2) labels, so that is what a
+  // full label has to fit inside. Testing against innerW/2 instead let the last
+  // label in a three-label row run into its neighbour — `[MEASURED 2026-08-21]`
+  // at a 346 px canvas "…→ medium 4.1%" and "food surface → core 77.3%" met
+  // with no gap.
+  const labelBudget = innerW / Math.max(1, Math.ceil(links.length / 2));
   for (let i = 0; i < links.length; i += 1) {
     // Stagger, so a narrow band's label does not have to fit inside the band.
     // Every link gets a label on every layout — dropping one because the lane
@@ -612,12 +618,15 @@ function drawFrame(
     const full = `${links[i].label} ${pct}`;
     const fullW = ctx.measureText(full).width;
     const pctW = ctx.measureText(pct).width;
-    const text = fullW + 6 <= innerW / 2 ? full : pct;
+    const text = fullW + 8 <= labelBudget ? full : pct;
     const textW = text === full ? fullW : pctW;
 
     let x = centre - textW / 2;
-    if (x < rowCursor[row]) x = rowCursor[row];
+    // Right edge first, then the running cursor — in the other order the edge
+    // clamp pulls a label back on top of the one before it, which is exactly
+    // the collision the cursor exists to prevent.
     if (x + textW > padL + innerW) x = padL + innerW - textW;
+    if (x < rowCursor[row]) x = rowCursor[row];
     rowCursor[row] = x + textW + 8;
 
     const controlling = i === plan.controllingIndex;
@@ -749,6 +758,18 @@ export function BoundaryTransferCanvas({
         if (p >= traverse) p -= Math.floor(p / traverse) * traverse;
         phases[n] = p;
       }
+      // Also re-measure here, not only in the observer.
+      //
+      // `[MEASURED 2026-08-21]` ResizeObserver notifications are delivered in
+      // the "update the rendering" step, so an environment that does not run
+      // that step never delivers them — a hidden tab, or the preview pane this
+      // was verified in, where a freshly constructed observer did not even fire
+      // its initial callback. Without this the backing store keeps the size it
+      // had at mount and the picture is stretched across a box it no longer
+      // fits: `canvas.width / rect.width` was measured at 4.382 against a
+      // device ratio of 2. `resize` only touches the canvas when the numbers
+      // actually differ, so the steady-state cost is one `clientWidth` read.
+      resize();
       paint();
       animId = requestAnimationFrame(step);
     };
