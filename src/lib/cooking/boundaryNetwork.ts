@@ -54,11 +54,24 @@
  *
  * @file src/lib/cooking/boundaryNetwork.ts
  */
+
 import {
   biotNumber,
   characteristicLengthRatio,
   type FoodGeometry,
 } from "@/lib/cooking/thermo";
+import { VESSEL_LAYER_IDS, wallPlies } from "@/lib/cooking/wallPlies";
+import type { WallLayer } from "@/lib/cooking/wallPlies";
+
+// The ply model lives in its own module so the wasm bridge can import it
+// without dragging this kernel in — see the header of wallPlies.ts. Re-exported
+// so existing importers of `boundaryNetwork` keep working unchanged.
+export {
+  MAX_WALL_LAYERS,
+  VESSEL_LAYER_IDS,
+  wallPlies,
+  type WallLayer,
+} from "@/lib/cooking/wallPlies";
 
 // ============================================================================
 // Physical constants
@@ -1026,12 +1039,27 @@ export interface BoundaryNetworkInput {
   vessel?: {
     /** Source → vessel outside, W·m⁻²·K⁻¹. */
     sourceToVesselHWm2K: number;
-    /** Contact area for all three vessel links — usually the base, m². */
+    /** Contact area for all vessel links — usually the base, m². */
     areaM2: number;
-    /** Wall conductivity, W·m⁻¹·K⁻¹. */
-    kWmK: number;
-    /** Wall thickness on this path, m. */
-    thicknessM: number;
+    /**
+     * Wall conductivity, W·m⁻¹·K⁻¹. Single-layer form.
+     *
+     * Supply EITHER this pair or `layers`, never both. Optional only so the
+     * composite form does not have to carry a redundant representative pair
+     * that could drift from the plies it claims to summarise.
+     */
+    kWmK?: number;
+    /** Wall thickness on this path, m. Single-layer form. */
+    thicknessM?: number;
+    /**
+     * A composite wall, OUTSIDE FACE FIRST.
+     *
+     * Real cookware is rarely one material, and modelling tri-ply as a solid
+     * wall has to pick one conductivity — there is no honest choice, since
+     * stainless overstates the wall's resistance several-fold and aluminium
+     * understates it. See `MAX_WALL_LAYERS`.
+     */
+    layers?: readonly WallLayer[];
     /** Vessel inside → medium, W·m⁻²·K⁻¹. */
     vesselToMediumHWm2K: number;
   };
@@ -1096,9 +1124,9 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
     const v = input.vessel;
     positive("vessel.areaM2", v.areaM2);
     positive("vessel.sourceToVesselHWm2K", v.sourceToVesselHWm2K);
-    positive("vessel.kWmK", v.kWmK);
-    positive("vessel.thicknessM", v.thicknessM);
     positive("vessel.vesselToMediumHWm2K", v.vesselToMediumHWm2K);
+
+    const plies = wallPlies(v);
     raw.push({
       id: "source-to-vessel",
       label: "source → vessel outside",
@@ -1106,13 +1134,33 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
       areaM2: v.areaM2,
       hWm2K: v.sourceToVesselHWm2K,
     });
-    raw.push({
-      id: "vessel-wall",
-      label: "through the vessel wall",
-      resistanceKperW: v.thicknessM / (v.kWmK * v.areaM2),
-      areaM2: v.areaM2,
-      hWm2K: null,
-    });
+    // ⚠️ One ply keeps the id `vessel-wall`, byte-for-byte the behaviour before
+    // composites existed. The golden vectors pin that id, and keeping it is
+    // what lets them go on proving this change is inert for a simple wall.
+    if (plies.length === 1) {
+      const [only] = plies;
+      positive("vessel.thicknessM", only.thicknessM);
+      positive("vessel.kWmK", only.kWmK);
+      raw.push({
+        id: "vessel-wall",
+        label: "through the vessel wall",
+        resistanceKperW: only.thicknessM / (only.kWmK * v.areaM2),
+        areaM2: v.areaM2,
+        hWm2K: null,
+      });
+    } else {
+      plies.forEach((ply, i) => {
+        positive(`vessel.layers[${i}].thicknessM`, ply.thicknessM);
+        positive(`vessel.layers[${i}].kWmK`, ply.kWmK);
+        raw.push({
+          id: VESSEL_LAYER_IDS[i],
+          label: ply.name || `wall ply ${i + 1}`,
+          resistanceKperW: ply.thicknessM / (ply.kWmK * v.areaM2),
+          areaM2: v.areaM2,
+          hWm2K: null,
+        });
+      });
+    }
     raw.push({
       id: "vessel-to-medium",
       label: "vessel inside → medium",

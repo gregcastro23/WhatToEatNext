@@ -2252,14 +2252,145 @@ pub struct BoundaryLink {
     pub drop_k: f64,
 }
 
+/// One isotropic layer of a vessel wall.
+///
+/// Real cookware is rarely one material. A tri-ply pan is stainless / aluminium
+/// / stainless, and the whole point of the construction is that the core does
+/// the spreading while the faces do the cooking and the cleaning. Modelling it
+/// as a single homogeneous wall has to pick ONE conductivity, and there is no
+/// honest choice: stainless understates the pan by an order of magnitude,
+/// aluminium overstates it.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct WallLayer {
+    /// Human name for the ply. Rust-side only — see `VESSEL_LAYER_IDS` for why
+    /// this does not cross the wasm boundary.
+    pub name: &'static str,
+    pub thickness_m: f64,
+    pub k_w_m_k: f64,
+}
+
+impl WallLayer {
+    /// The padding element. `layer_count` decides what is real; this is what
+    /// sits past it so the struct can stay `Copy` without an allocation.
+    pub const EMPTY: WallLayer = WallLayer {
+        name: "",
+        thickness_m: 0.0,
+        k_w_m_k: 0.0,
+    };
+
+    pub const fn new(name: &'static str, thickness_m: f64, k_w_m_k: f64) -> WallLayer {
+        WallLayer {
+            name,
+            thickness_m,
+            k_w_m_k,
+        }
+    }
+}
+
+/// Most plies any real cookware carries.
+///
+/// Five covers the deepest construction sold: stainless / aluminium / copper /
+/// aluminium / stainless. A fixed array rather than a `Vec` keeps `VesselLeg`
+/// `Copy` and keeps this crate allocation-free on the hot path, which matters
+/// because it is linked into the SpacetimeDB module as well as the browser.
+pub const MAX_WALL_LAYERS: usize = 5;
+
+/// Link ids for the plies of a COMPOSITE wall.
+///
+/// ⚠️ Generated positionally, not taken from `WallLayer::name`. Ids are
+/// `&'static str` and cross the wasm boundary as a comma-joined list, so they
+/// cannot carry a name that originated in TypeScript data — which is where the
+/// real material names live (`src/data/cooking/cookwareMaterials.ts`). The
+/// caller owns the labelling; this owns the ordering.
+pub const VESSEL_LAYER_IDS: [&str; MAX_WALL_LAYERS] = [
+    "vessel-layer-0",
+    "vessel-layer-1",
+    "vessel-layer-2",
+    "vessel-layer-3",
+    "vessel-layer-4",
+];
+
 /// The vessel half of a chain. Omitted for a roast on a rack.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct VesselLeg {
     pub source_to_vessel_h_w_m2_k: f64,
     pub area_m2: f64,
-    pub k_w_m_k: f64,
-    pub thickness_m: f64,
     pub vessel_to_medium_h_w_m2_k: f64,
+    /// Outside face first, inside face last. Only the first `layer_count` are
+    /// real; the rest are [`WallLayer::EMPTY`].
+    pub layers: [WallLayer; MAX_WALL_LAYERS],
+    pub layer_count: usize,
+}
+
+impl VesselLeg {
+    /// A single homogeneous wall — the shape this struct had before composites.
+    ///
+    /// Kept as a constructor rather than a second struct so every existing call
+    /// site reads the same and, more importantly, so the single-layer case still
+    /// emits the link id `vessel-wall`. The golden vectors pin that id; a
+    /// composite-only rewrite would have invalidated every one of them and
+    /// destroyed the evidence that the composite change is inert for simple
+    /// walls.
+    pub fn single(
+        source_to_vessel_h_w_m2_k: f64,
+        area_m2: f64,
+        k_w_m_k: f64,
+        thickness_m: f64,
+        vessel_to_medium_h_w_m2_k: f64,
+    ) -> VesselLeg {
+        let mut layers = [WallLayer::EMPTY; MAX_WALL_LAYERS];
+        layers[0] = WallLayer::new("wall", thickness_m, k_w_m_k);
+        VesselLeg {
+            source_to_vessel_h_w_m2_k,
+            area_m2,
+            vessel_to_medium_h_w_m2_k,
+            layers,
+            layer_count: 1,
+        }
+    }
+
+    /// A composite wall, outside face first.
+    ///
+    /// Returns `None` for an empty stack or one deeper than [`MAX_WALL_LAYERS`]
+    /// — a refusal rather than a silent truncation, which would quietly solve a
+    /// different pan than the caller asked about.
+    pub fn composite(
+        source_to_vessel_h_w_m2_k: f64,
+        area_m2: f64,
+        vessel_to_medium_h_w_m2_k: f64,
+        plies: &[WallLayer],
+    ) -> Option<VesselLeg> {
+        if plies.is_empty() || plies.len() > MAX_WALL_LAYERS {
+            return None;
+        }
+        let mut layers = [WallLayer::EMPTY; MAX_WALL_LAYERS];
+        layers[..plies.len()].copy_from_slice(plies);
+        Some(VesselLeg {
+            source_to_vessel_h_w_m2_k,
+            area_m2,
+            vessel_to_medium_h_w_m2_k,
+            layers,
+            layer_count: plies.len(),
+        })
+    }
+
+    /// The real plies, without the padding.
+    pub fn plies(&self) -> &[WallLayer] {
+        &self.layers[..self.layer_count]
+    }
+
+    /// Series conduction resistance of the whole wall, K·W⁻¹.
+    ///
+    /// `R = Σ Lᵢ / (kᵢ · A)` — the layers share one area, because a pan wall is
+    /// a plane slab stack, not a set of nested cylinders. That is exact for a
+    /// flat base and the standard thin-wall approximation for the sides.
+    pub fn wall_resistance_k_per_w(&self) -> f64 {
+        let mut total = 0.0;
+        for layer in self.plies() {
+            total += layer.thickness_m / (layer.k_w_m_k * self.area_m2);
+        }
+        total
+    }
 }
 
 /// The food half of a chain.
@@ -2304,26 +2435,55 @@ pub fn solve_boundary_network(
     let mut coefficients: Vec<Option<f64>> = Vec::new();
 
     if let Some(v) = vessel {
+        // A stack outside 1..=MAX_WALL_LAYERS is a caller error, not a pan.
+        if v.layer_count == 0 || v.layer_count > MAX_WALL_LAYERS {
+            return Err(ThermoError::NonPositiveThickness);
+        }
         for value in [
             v.area_m2,
             v.source_to_vessel_h_w_m2_k,
-            v.k_w_m_k,
-            v.thickness_m,
             v.vessel_to_medium_h_w_m2_k,
         ] {
             if !(value > 0.0) || !value.is_finite() {
                 return Err(ThermoError::NonPositiveThickness);
             }
         }
+        // Every ply is validated, not just the stack as a whole. A 0 mm or
+        // zero-k ply would contribute an infinite resistance and swallow the
+        // whole chain, and it would do it while every other number still looked
+        // reasonable.
+        for layer in v.plies() {
+            for value in [layer.thickness_m, layer.k_w_m_k] {
+                if !(value > 0.0) || !value.is_finite() {
+                    return Err(ThermoError::NonPositiveThickness);
+                }
+            }
+        }
+
         ids.push("source-to-vessel");
         resistances.push(1.0 / (v.source_to_vessel_h_w_m2_k * v.area_m2));
         areas.push(v.area_m2);
         coefficients.push(Some(v.source_to_vessel_h_w_m2_k));
 
-        ids.push("vessel-wall");
-        resistances.push(v.thickness_m / (v.k_w_m_k * v.area_m2));
-        areas.push(v.area_m2);
-        coefficients.push(None);
+        // ⚠️ A single ply keeps the id `vessel-wall`, byte-for-byte the
+        // behaviour before composites existed. That is what lets the existing
+        // golden vectors go on asserting this path unchanged — if composites
+        // had renamed it, every fixture would have needed regenerating and the
+        // proof that this change is inert for simple walls would be gone.
+        if v.layer_count == 1 {
+            let layer = v.layers[0];
+            ids.push("vessel-wall");
+            resistances.push(layer.thickness_m / (layer.k_w_m_k * v.area_m2));
+            areas.push(v.area_m2);
+            coefficients.push(None);
+        } else {
+            for (i, layer) in v.plies().iter().enumerate() {
+                ids.push(VESSEL_LAYER_IDS[i]);
+                resistances.push(layer.thickness_m / (layer.k_w_m_k * v.area_m2));
+                areas.push(v.area_m2);
+                coefficients.push(None);
+            }
+        }
 
         ids.push("vessel-to-medium");
         resistances.push(1.0 / (v.vessel_to_medium_h_w_m2_k * v.area_m2));

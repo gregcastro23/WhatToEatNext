@@ -178,7 +178,7 @@ for (const outside of [-5, 105]) {
 // slab. Length is the discriminator; a length-1 buffer is the refusal.
 {
   const refused = mod.solve_boundary_network(
-    200, 20, false, 0, 0, 0, 0, 0, true, 500, 9, 0.025, 0.55, 0.008,
+    200, 20, false, 0, 0, 0, new Float64Array(0), true, 500, 9, 0.025, 0.55, 0.008,
   );
   checks += 1;
   if (refused.length !== 1 || !Number.isNaN(refused[0])) {
@@ -215,10 +215,16 @@ for (const [name, got, expected] of [
   const potato = { h: 15.0, geom: SPHERE, half: 0.025, k: 0.55, area: 4 * Math.PI * 0.025 * 0.025 };
   const pot = { srcH: 60.0, area: 0.05, k: 15.0, thick: 0.003, medH: 5000.0 };
 
+  // v2 wire format: the wall crosses as a flat [thicknessM, kWmK] ply slice
+  // rather than two scalars. The golden fixtures are all SINGLE-ply, which is
+  // the point — they go on asserting the pre-composite numbers unchanged.
+  const wall = new Float64Array([pot.thick, pot.k]);
+  const none = new Float64Array(0);
+
   const cases = {
-    "oven-rack": [200, 20, false, 0, 0, 0, 0, 0, true, potato.h, potato.geom, potato.half, potato.k, potato.area],
-    "boiling-pot": [250, 20, true, pot.srcH, pot.area, pot.k, pot.thick, pot.medH, true, 1500.0, potato.geom, potato.half, potato.k, potato.area],
-    "empty-pot": [250, 100, true, pot.srcH, pot.area, pot.k, pot.thick, pot.medH, false, 0, 0, 0, 0, 0],
+    "oven-rack": [200, 20, false, 0, 0, 0, none, true, potato.h, potato.geom, potato.half, potato.k, potato.area],
+    "boiling-pot": [250, 20, true, pot.srcH, pot.area, pot.medH, wall, true, 1500.0, potato.geom, potato.half, potato.k, potato.area],
+    "empty-pot": [250, 100, true, pot.srcH, pot.area, pot.medH, wall, false, 0, 0, 0, 0, 0],
   };
 
   for (const row of golden.boundaryNetwork.network) {

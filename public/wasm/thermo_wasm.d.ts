@@ -90,7 +90,7 @@ export function boundary_link_fields(): number;
  * fetch them once and reuse them across every re-solve while dragging a slider.
  * Returns an empty string for an unsolvable combination.
  */
-export function boundary_network_link_ids(has_vessel: boolean, has_food: boolean): string;
+export function boundary_network_link_ids(has_vessel: boolean, has_food: boolean, vessel_layer_count: number): string;
 
 /**
  * Layout version of the boundary-network wire format.
@@ -178,6 +178,11 @@ export function lid_balance_fields(): number;
 export function lid_heat_balance(lid_area_m2: number, lid_perimeter_m: number, lid_thickness_m: number, lid_k_w_m_k: number, headspace_c: number, ambient_c: number, latent_heat_j_kg: number, emissivity: number): Float64Array;
 
 /**
+ * Deepest wall stack the core accepts.
+ */
+export function max_wall_layers(): number;
+
+/**
  * ISA station pressure at elevation, kPa.
  */
 export function pressure_from_elevation(elevation_m: number): number;
@@ -211,8 +216,15 @@ export function slab_core_time_minutes(thickness_mm: number, medium_c: number, i
  * from [`boundary_network_link_ids`] with the same leg flags.
  *
  * A REFUSAL is a length-1 array whose single element is NaN.
+ *
+ * `vessel_layers` is flat `[thickness_m, k_w_m_k]` pairs, OUTSIDE FACE FIRST —
+ * a slice rather than more scalars because a wall is 1..=5 plies, and ten more
+ * positional f64s would be a transposition waiting to happen. Its length must
+ * be even and at most `2 * max_wall_layers()`; anything else is a refusal,
+ * never a truncation, since a silently shortened stack solves a different pan
+ * than the caller asked about.
  */
-export function solve_boundary_network(source_c: number, sink_c: number, has_vessel: boolean, vessel_source_h_w_m2_k: number, vessel_area_m2: number, vessel_k_w_m_k: number, vessel_thickness_m: number, vessel_medium_h_w_m2_k: number, has_food: boolean, food_medium_h_w_m2_k: number, food_geometry: number, food_half_dimension_m: number, food_k_w_m_k: number, food_area_m2: number): Float64Array;
+export function solve_boundary_network(source_c: number, sink_c: number, has_vessel: boolean, vessel_source_h_w_m2_k: number, vessel_area_m2: number, vessel_medium_h_w_m2_k: number, vessel_layers: Float64Array, has_food: boolean, food_medium_h_w_m2_k: number, food_geometry: number, food_half_dimension_m: number, food_k_w_m_k: number, food_area_m2: number): Float64Array;
 
 /**
  * Latent heat of fusion of PURE water, J·kg⁻¹. Infallible.
@@ -230,7 +242,7 @@ export interface InitOutput {
     readonly altitude_time_multiplier: (a: number, b: number) => number;
     readonly boiling_point_at_elevation: (a: number) => number;
     readonly boiling_point_c: (a: number) => number;
-    readonly boundary_network_link_ids: (a: number, b: number, c: number) => void;
+    readonly boundary_network_link_ids: (a: number, b: number, c: number, d: number) => void;
     readonly food_fusion_enthalpy: (a: number) => number;
     readonly food_vaporisation_enthalpy: (a: number, b: number) => number;
     readonly latent_heat_vaporisation: (a: number) => number;
@@ -253,9 +265,11 @@ export interface InitOutput {
     readonly boundary_schema_version: () => number;
     readonly floats_per_particle: () => number;
     readonly lid_balance_fields: () => number;
+    readonly max_wall_layers: () => number;
     readonly water_fusion_j_kg: () => number;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;
+    readonly __wbindgen_export2: (a: number, b: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

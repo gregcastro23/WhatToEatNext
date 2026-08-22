@@ -705,13 +705,7 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
         k_w_m_k: 0.55,
         area_m2: 4.0 * core::f64::consts::PI * 0.025 * 0.025,
     };
-    let pot_leg = VesselLeg {
-        source_to_vessel_h_w_m2_k: 60.0,
-        area_m2: 0.05,
-        k_w_m_k: 15.0,
-        thickness_m: 0.003,
-        vessel_to_medium_h_w_m2_k: 5000.0,
-    };
+    let pot_leg = VesselLeg::single(60.0, 0.05, 15.0, 0.003, 5000.0);
     let net_cases: [(&str, f64, f64, Option<VesselLeg>, Option<FoodLeg>); 3] = [
         ("oven-rack", 200.0, 20.0, None, Some(potato)),
         (

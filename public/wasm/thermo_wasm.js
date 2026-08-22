@@ -160,14 +160,15 @@ export function boundary_link_fields() {
  * Returns an empty string for an unsolvable combination.
  * @param {boolean} has_vessel
  * @param {boolean} has_food
+ * @param {number} vessel_layer_count
  * @returns {string}
  */
-export function boundary_network_link_ids(has_vessel, has_food) {
+export function boundary_network_link_ids(has_vessel, has_food, vessel_layer_count) {
     let deferred1_0;
     let deferred1_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.boundary_network_link_ids(retptr, has_vessel, has_food);
+        wasm.boundary_network_link_ids(retptr, has_vessel, has_food, vessel_layer_count);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         deferred1_0 = r0;
@@ -328,6 +329,15 @@ export function lid_heat_balance(lid_area_m2, lid_perimeter_m, lid_thickness_m, 
 }
 
 /**
+ * Deepest wall stack the core accepts.
+ * @returns {number}
+ */
+export function max_wall_layers() {
+    const ret = wasm.max_wall_layers();
+    return ret >>> 0;
+}
+
+/**
  * ISA station pressure at elevation, kPa.
  * @param {number} elevation_m
  * @returns {number}
@@ -386,14 +396,20 @@ export function slab_core_time_minutes(thickness_mm, medium_c, initial_c, target
  * from [`boundary_network_link_ids`] with the same leg flags.
  *
  * A REFUSAL is a length-1 array whose single element is NaN.
+ *
+ * `vessel_layers` is flat `[thickness_m, k_w_m_k]` pairs, OUTSIDE FACE FIRST —
+ * a slice rather than more scalars because a wall is 1..=5 plies, and ten more
+ * positional f64s would be a transposition waiting to happen. Its length must
+ * be even and at most `2 * max_wall_layers()`; anything else is a refusal,
+ * never a truncation, since a silently shortened stack solves a different pan
+ * than the caller asked about.
  * @param {number} source_c
  * @param {number} sink_c
  * @param {boolean} has_vessel
  * @param {number} vessel_source_h_w_m2_k
  * @param {number} vessel_area_m2
- * @param {number} vessel_k_w_m_k
- * @param {number} vessel_thickness_m
  * @param {number} vessel_medium_h_w_m2_k
+ * @param {Float64Array} vessel_layers
  * @param {boolean} has_food
  * @param {number} food_medium_h_w_m2_k
  * @param {number} food_geometry
@@ -402,15 +418,17 @@ export function slab_core_time_minutes(thickness_mm, medium_c, initial_c, target
  * @param {number} food_area_m2
  * @returns {Float64Array}
  */
-export function solve_boundary_network(source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_k_w_m_k, vessel_thickness_m, vessel_medium_h_w_m2_k, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2) {
+export function solve_boundary_network(source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_medium_h_w_m2_k, vessel_layers, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.solve_boundary_network(retptr, source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_k_w_m_k, vessel_thickness_m, vessel_medium_h_w_m2_k, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2);
+        const ptr0 = passArrayF64ToWasm0(vessel_layers, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.solve_boundary_network(retptr, source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_medium_h_w_m2_k, ptr0, len0, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-        var v1 = getArrayF64FromWasm0(r0, r1).slice();
+        var v2 = getArrayF64FromWasm0(r0, r1).slice();
         wasm.__wbindgen_export(r0, r1 * 8, 8);
-        return v1;
+        return v2;
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
     }
@@ -477,6 +495,13 @@ function getUint8ArrayMemory0() {
     return cachedUint8ArrayMemory0;
 }
 
+function passArrayF64ToWasm0(arg, malloc) {
+    const ptr = malloc(arg.length * 8, 8) >>> 0;
+    getFloat64ArrayMemory0().set(arg, ptr / 8);
+    WASM_VECTOR_LEN = arg.length;
+    return ptr;
+}
+
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 cachedTextDecoder.decode();
 const MAX_SAFARI_DECODE_BYTES = 2146435072;
@@ -490,6 +515,8 @@ function decodeText(ptr, len) {
     }
     return cachedTextDecoder.decode(getUint8ArrayMemory0().subarray(ptr, ptr + len));
 }
+
+let WASM_VECTOR_LEN = 0;
 
 let wasmModule, wasmInstance, wasm;
 function __wbg_finalize_init(instance, module) {

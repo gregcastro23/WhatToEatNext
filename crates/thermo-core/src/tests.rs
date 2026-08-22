@@ -438,3 +438,147 @@ fn no_two_regimes_render_the_same_motion() {
         }
     }
 }
+
+// ── Composite vessel walls ──────────────────────────────────────────────────
+//
+// `[BASIS]` Conductivities are the alloy-class values already carried by
+// `src/data/cooking/cookwareMaterials.ts` (Incropera & DeWitt, *Fundamentals of
+// Heat and Mass Transfer*, Table A.1), so the two runtimes cite one source
+// rather than two. Nothing here introduces a new constant.
+
+/// A tri-ply base: 0.5 mm 304 stainless / 2.0 mm aluminium / 0.5 mm 304.
+fn tri_ply() -> [WallLayer; 3] {
+    [
+        WallLayer::new("stainless outer", 0.0005, 15.0),
+        WallLayer::new("aluminium core", 0.0020, 205.0),
+        WallLayer::new("stainless inner", 0.0005, 15.0),
+    ]
+}
+
+#[test]
+fn a_composite_wall_is_the_sum_of_its_plies() {
+    let v = VesselLeg::composite(500.0, 0.05, 1200.0, &tri_ply()).unwrap();
+    let expected: f64 = tri_ply()
+        .iter()
+        .map(|l| l.thickness_m / (l.k_w_m_k * 0.05))
+        .sum();
+    assert!((v.wall_resistance_k_per_w() - expected).abs() < EPS);
+}
+
+#[test]
+fn splitting_one_layer_into_identical_plies_changes_nothing() {
+    // Additivity, proven BEFORE relying on the decomposition anywhere else.
+    // One 3 mm layer must equal three 1 mm layers of the same material; if that
+    // does not hold, every composite number downstream is built on sand.
+    let single = VesselLeg::single(500.0, 0.05, 15.0, 0.003, 1200.0);
+    let split = VesselLeg::composite(
+        500.0,
+        0.05,
+        1200.0,
+        &[
+            WallLayer::new("a", 0.001, 15.0),
+            WallLayer::new("b", 0.001, 15.0),
+            WallLayer::new("c", 0.001, 15.0),
+        ],
+    )
+    .unwrap();
+    assert!(
+        (single.wall_resistance_k_per_w() - split.wall_resistance_k_per_w()).abs() < EPS,
+        "additivity broken: {} vs {}",
+        single.wall_resistance_k_per_w(),
+        split.wall_resistance_k_per_w()
+    );
+
+    // And end to end, through the solver.
+    let a = solve_boundary_network(200.0, 20.0, Some(single), None).unwrap();
+    let b = solve_boundary_network(200.0, 20.0, Some(split), None).unwrap();
+    assert!((a.total_resistance_k_per_w - b.total_resistance_k_per_w).abs() < EPS);
+    assert!((a.heat_flow_w - b.heat_flow_w).abs() < 1e-9);
+}
+
+#[test]
+fn the_core_is_not_the_pan_a_single_layer_would_model() {
+    // The reason composites exist at all. Modelling tri-ply as solid stainless
+    // has to pick one k, and both available choices are wrong in a direction
+    // that matters: stainless overstates the wall's resistance several-fold,
+    // aluminium understates it.
+    let area = 0.05;
+    let composite = VesselLeg::composite(500.0, area, 1200.0, &tri_ply()).unwrap();
+    let all_steel = VesselLeg::single(500.0, area, 15.0, 0.003, 1200.0);
+    let all_alu = VesselLeg::single(500.0, area, 205.0, 0.003, 1200.0);
+
+    let r_comp = composite.wall_resistance_k_per_w();
+    assert!(
+        r_comp < all_steel.wall_resistance_k_per_w(),
+        "tri-ply must conduct better than solid stainless"
+    );
+    assert!(
+        r_comp > all_alu.wall_resistance_k_per_w(),
+        "tri-ply must conduct worse than solid aluminium"
+    );
+}
+
+#[test]
+fn a_single_ply_still_reports_the_original_link_id() {
+    // The compatibility guarantee the golden vectors depend on.
+    let v = VesselLeg::single(500.0, 0.05, 15.0, 0.003, 1200.0);
+    let solved = solve_boundary_network(200.0, 20.0, Some(v), None).unwrap();
+    let ids: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
+    assert_eq!(ids, vec!["source-to-vessel", "vessel-wall", "vessel-to-medium"]);
+}
+
+#[test]
+fn a_composite_reports_one_link_per_ply() {
+    let v = VesselLeg::composite(500.0, 0.05, 1200.0, &tri_ply()).unwrap();
+    let solved = solve_boundary_network(200.0, 20.0, Some(v), None).unwrap();
+    let ids: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
+    assert_eq!(
+        ids,
+        vec![
+            "source-to-vessel",
+            "vessel-layer-0",
+            "vessel-layer-1",
+            "vessel-layer-2",
+            "vessel-to-medium",
+        ]
+    );
+    // The shares must still close, exactly as for a simple wall.
+    let sum: f64 = solved.links.iter().map(|l| l.share).sum();
+    assert!((sum - 1.0).abs() < 1e-12, "shares sum to {sum}, not 1");
+}
+
+#[test]
+fn a_stack_that_is_empty_or_too_deep_is_refused() {
+    assert!(VesselLeg::composite(500.0, 0.05, 1200.0, &[]).is_none());
+    let too_many = [WallLayer::new("x", 0.001, 15.0); MAX_WALL_LAYERS + 1];
+    assert!(VesselLeg::composite(500.0, 0.05, 1200.0, &too_many).is_none());
+    // Exactly at the limit is fine — an off-by-one here would silently drop a
+    // five-ply pan to a refusal.
+    let at_limit = [WallLayer::new("x", 0.001, 15.0); MAX_WALL_LAYERS];
+    assert!(VesselLeg::composite(500.0, 0.05, 1200.0, &at_limit).is_some());
+}
+
+#[test]
+fn a_zero_thickness_or_zero_k_ply_is_refused_not_absorbed() {
+    // A zero-k ply is an infinite resistance. Without the per-ply check it
+    // would swallow the entire chain while every other input still looked sane.
+    for bad in [
+        WallLayer::new("zero k", 0.001, 0.0),
+        WallLayer::new("zero L", 0.0, 15.0),
+        WallLayer::new("nan k", 0.001, f64::NAN),
+        WallLayer::new("neg L", -0.001, 15.0),
+    ] {
+        let v = VesselLeg::composite(
+            500.0,
+            0.05,
+            1200.0,
+            &[WallLayer::new("ok", 0.001, 15.0), bad],
+        )
+        .unwrap();
+        assert!(
+            solve_boundary_network(200.0, 20.0, Some(v), None).is_err(),
+            "ply {:?} must be refused",
+            bad.name
+        );
+    }
+}

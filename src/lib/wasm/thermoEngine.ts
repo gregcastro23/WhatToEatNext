@@ -40,6 +40,8 @@ import type {
   BoundaryNetworkResult,
 } from "@/lib/cooking/boundaryNetwork";
 import type { MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
+import { VESSEL_LAYER_IDS, wallPlies as boundaryPlies } from "@/lib/cooking/wallPlies";
+import type { WallLayer } from "@/lib/cooking/wallPlies";
 
 /** f32 narrowing. Aliased because it appears on nearly every line below. */
 const f = Math.fround;
@@ -531,9 +533,9 @@ interface ThermoWasmModule {
     hasVessel: boolean,
     vesselSourceHWm2K: number,
     vesselAreaM2: number,
-    vesselKWmK: number,
-    vesselThicknessM: number,
     vesselMediumHWm2K: number,
+    /** Flat [thicknessM, kWmK] pairs, outside face first. */
+    vesselLayers: Float64Array,
     hasFood: boolean,
     foodMediumHWm2K: number,
     foodGeometry: number,
@@ -542,7 +544,13 @@ interface ThermoWasmModule {
     foodAreaM2: number,
   ) => Float64Array;
   /* eslint-enable max-params */
-  boundary_network_link_ids?: (hasVessel: boolean, hasFood: boolean) => string;
+  boundary_network_link_ids?: (
+    hasVessel: boolean,
+    hasFood: boolean,
+    vesselLayerCount: number,
+  ) => string;
+  /** Deepest wall stack the core accepts. Absent in pre-v2 bundles. */
+  max_wall_layers?: () => number;
   boundary_link_fields?: () => number;
   boundary_header_fields?: () => number;
   /** Wire-format version of the boundary buffer. Absent in bundles built
@@ -1029,13 +1037,36 @@ export const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number | undefined>>
  * are attached here, matching the TypeScript implementation's wording exactly so
  * the two engines produce an identical `BoundaryNetworkResult`.
  */
-const LINK_LABELS: Readonly<Record<string, string>> = {
+// Null-prototype and `| undefined`, for the same two reasons as
+// GEOMETRY_DISCRIMINANT: `Record<string, string>` claims every key yields a
+// string, which is false for an unmapped link id, and a plain object literal
+// resolves `constructor`/`toString` up the prototype chain — so an unmapped id
+// would render a FUNCTION as a link label rather than falling through to the id.
+const LINK_LABELS: Readonly<Record<string, string | undefined>> = Object.assign(
+  Object.create(null) as Record<string, string | undefined>,
+  {
   "source-to-vessel": "source → vessel outside",
   "vessel-wall": "through the vessel wall",
   "vessel-to-medium": "vessel inside → medium",
   "medium-to-food": "medium → food surface",
   "food-interior": "food surface → core",
-};
+  // Composite plies. Generic on purpose: the material name lives in the
+  // caller's registry, and `decodeBoundaryBuffer` only ever sees the id.
+  "vessel-layer-0": "wall ply 1 (outside)",
+  "vessel-layer-1": "wall ply 2",
+  "vessel-layer-2": "wall ply 3",
+  "vessel-layer-3": "wall ply 4",
+  "vessel-layer-4": "wall ply 5 (inside)",
+  },
+);
+
+/** The caller-supplied name for `vessel-layer-N`, when there is one. */
+function plyLabel(id: string, plyNames: readonly string[]): string | undefined {
+  const at = VESSEL_LAYER_IDS.indexOf(id);
+  if (at === -1) return undefined;
+  const name = plyNames[at];
+  return name && name.length > 0 ? name : undefined;
+}
 
 export interface BoundarySolver {
   readonly engine: "wasm" | "typescript";
@@ -1064,6 +1095,18 @@ export function decodeBoundaryBuffer(
   headerFields: number,
   linkFields: number,
   sourceC: number,
+  /**
+   * Ply names, in wall order, for a COMPOSITE wall.
+   *
+   * ⚠️ Needed because names cannot cross the wasm boundary. Rust link ids are
+   * `&'static str`, so a composite arrives as `vessel-layer-0..N` and the
+   * material name — which lives in this repo's TypeScript data — has to be
+   * reattached on this side. Without it the two engines return identical
+   * numbers under different labels, which the parity verifier reports as
+   * drift, correctly: a panel captioned "wall ply 2" where the other engine
+   * says "aluminium core" is a real difference to a reader.
+   */
+  plyNames: readonly string[] = [],
 ): BoundaryNetworkResult | null {
   // A refusal is a length-1 array. Checking LENGTH rather than NaN means we
   // never index past the end of a buffer that was never populated.
@@ -1100,7 +1143,7 @@ export function decodeBoundaryBuffer(
     const h = buf[o + 2];
     links.push({
       id,
-      label: LINK_LABELS[id] ?? id,
+      label: plyLabel(id, plyNames) ?? LINK_LABELS[id] ?? id,
       resistanceKperW: buf[o + 0],
       areaM2: buf[o + 1],
       // NaN is how the core says "this link has no coefficient" — a pure
@@ -1167,8 +1210,13 @@ export function decodeBoundaryBuffer(
  * Must equal `boundary_schema_version()` in crates/thermo-wasm/src/lib.rs.
  * Bump BOTH together, in the same commit, whenever a header slot or link field
  * changes meaning — including changes that keep the field count identical.
+ *
+ * v2 (2026-08-22): composite walls. `solve_boundary_network` dropped two scalar
+ * wall params for a flat ply slice and `boundary_network_link_ids` gained a ply
+ * count — positional changes the stride check cannot see, which is precisely
+ * what this version guards.
  */
-export const BOUNDARY_SCHEMA_VERSION = 1;
+export const BOUNDARY_SCHEMA_VERSION = 2;
 
 export async function createBoundarySolver(): Promise<BoundarySolver> {
   // NEVER REJECTS — same contract as `loadModule`, and for the same reason.
@@ -1268,15 +1316,31 @@ async function createBoundarySolverInner(): Promise<BoundarySolver> {
       // the value reaching the call below is a number.
       if (geometry === undefined) return null;
 
+      // Resolve the plies HERE, not in the panel, so both engines read the
+      // wall the same way. `wallPlies` throws on both-or-neither; a throw
+      // inside a solver is a blanked panel, so it is normalised to a refusal.
+      let plies: readonly WallLayer[] = [];
+      if (v) {
+        try {
+          plies = boundaryPlies(v);
+        } catch {
+          return null;
+        }
+      }
+      const flatLayers = new Float64Array(plies.length * 2);
+      for (let i = 0; i < plies.length; i += 1) {
+        flatLayers[2 * i] = plies[i].thicknessM;
+        flatLayers[2 * i + 1] = plies[i].kWmK;
+      }
+
       const buf = m.solve_boundary_network!(
         input.sourceC,
         input.sinkC,
         !!v,
         v?.sourceToVesselHWm2K ?? 0,
         v?.areaM2 ?? 0,
-        v?.kWmK ?? 0,
-        v?.thicknessM ?? 0,
         v?.vesselToMediumHWm2K ?? 0,
+        flatLayers,
         !!f,
         f?.mediumToFoodHWm2K ?? 0,
         geometry,
@@ -1285,13 +1349,14 @@ async function createBoundarySolverInner(): Promise<BoundarySolver> {
         f?.areaM2 ?? 0,
       );
 
-      const ids = m.boundary_network_link_ids!(!!v, !!f);
+      const ids = m.boundary_network_link_ids!(!!v, !!f, plies.length);
       return decodeBoundaryBuffer(
         buf,
         ids.length > 0 ? ids.split(",") : [],
         headerFields,
         linkFields,
         input.sourceC,
+        plies.map((ply) => ply.name),
       );
     }
   }

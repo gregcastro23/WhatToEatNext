@@ -47,24 +47,33 @@ const { solveBoundaryNetwork } = await import("../src/lib/cooking/boundaryNetwor
 // would only prove the copy agrees with itself — the failure mode that already
 // bit the link-id mirror inside the Rust crate.
 const { decodeBoundaryBuffer } = await import("../src/lib/wasm/thermoEngine.ts");
+const { wallPlies } = await import("../src/lib/cooking/wallPlies.ts");
 
 const GEOM = { slab: 0, cylinder: 1, sphere: 2 };
 
 function solveViaWasm(input) {
   const v = input.vessel;
   const f = input.food;
+  // v2 wire format: the two scalar wall params became a flat ply slice.
+  const plies = v ? wallPlies(v) : [];
+  const flat = new Float64Array(plies.length * 2);
+  plies.forEach((ply, i) => {
+    flat[2 * i] = ply.thicknessM;
+    flat[2 * i + 1] = ply.kWmK;
+  });
   const buf = mod.solve_boundary_network(
     input.sourceC, input.sinkC,
-    !!v, v?.sourceToVesselHWm2K ?? 0, v?.areaM2 ?? 0, v?.kWmK ?? 0, v?.thicknessM ?? 0, v?.vesselToMediumHWm2K ?? 0,
+    !!v, v?.sourceToVesselHWm2K ?? 0, v?.areaM2 ?? 0, v?.vesselToMediumHWm2K ?? 0, flat,
     !!f, f?.mediumToFoodHWm2K ?? 0, f ? GEOM[f.geometry] : 0, f?.halfDimensionM ?? 0, f?.kWmK ?? 0, f?.areaM2 ?? 0,
   );
-  const ids = mod.boundary_network_link_ids(!!v, !!f).split(",").filter(Boolean);
+  const ids = mod.boundary_network_link_ids(!!v, !!f, plies.length).split(",").filter(Boolean);
   return decodeBoundaryBuffer(
     buf,
     ids,
     mod.boundary_header_fields(),
     mod.boundary_link_fields(),
     input.sourceC,
+    plies.map((ply) => ply.name),
   );
 }
 
@@ -80,10 +89,34 @@ const POT = {
   thicknessM: 0.003, vesselToMediumHWm2K: 5000.0,
 };
 
+// A tri-ply clad base. `[BASIS]` conductivities are the alloy-class values in
+// src/data/cooking/cookwareMaterials.ts (Incropera & DeWitt Table A.1).
+const CLAD_POT = {
+  sourceToVesselHWm2K: 60.0, areaM2: 0.05, vesselToMediumHWm2K: 5000.0,
+  layers: [
+    { name: "stainless outer", thicknessM: 0.0005, kWmK: 15.0 },
+    { name: "aluminium core", thicknessM: 0.0020, kWmK: 205.0 },
+    { name: "stainless inner", thicknessM: 0.0005, kWmK: 15.0 },
+  ],
+};
+// Three identical plies summing to POT's single 3 mm wall. Must decode to the
+// SAME totals as POT — additivity across the wasm boundary, not just in Rust.
+const SPLIT_POT = {
+  sourceToVesselHWm2K: 60.0, areaM2: 0.05, vesselToMediumHWm2K: 5000.0,
+  layers: [
+    { name: "a", thicknessM: 0.001, kWmK: 15.0 },
+    { name: "b", thicknessM: 0.001, kWmK: 15.0 },
+    { name: "c", thicknessM: 0.001, kWmK: 15.0 },
+  ],
+};
+
 const CASES = [
   ["oven-rack", { sourceC: 200, sinkC: 20, food: POTATO }],
   ["boiling-pot", { sourceC: 250, sinkC: 20, vessel: POT, food: { ...POTATO, mediumToFoodHWm2K: 1500 } }],
   ["empty-pot", { sourceC: 250, sinkC: 100, vessel: POT }],
+  ["clad-pot", { sourceC: 250, sinkC: 100, vessel: CLAD_POT }],
+  ["clad-pot-with-food", { sourceC: 250, sinkC: 20, vessel: CLAD_POT, food: { ...POTATO, mediumToFoodHWm2K: 1500 } }],
+  ["split-pot", { sourceC: 250, sinkC: 100, vessel: SPLIT_POT }],
 ];
 
 const MAX_REL = 1e-12;
