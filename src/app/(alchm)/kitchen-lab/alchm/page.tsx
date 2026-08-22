@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState, type JSX, type ReactNode } from "react";
+import { SystemBadge } from "@/components/lab/SystemBadge";
 import {
   AstrologicalClockPanel,
   CuisineExplorerPanel,
@@ -21,7 +22,6 @@ import {
   type SauceLineageNode,
   type ThermoValues,
 } from "@/components/ui/alchm";
-import { SystemBadge } from "@/components/lab/SystemBadge";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
 import { getAssetUrl } from "@/utils/urlUtils";

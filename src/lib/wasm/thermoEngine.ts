@@ -492,6 +492,14 @@ interface ThermoWasmModule {
   food_vaporisation_enthalpy?: (waterMassFraction: number, celsius: number) => number;
   latent_as_temperature_rise?: (latentJkg: number, cpJkgK: number) => number;
   lid_balance_fields?: () => number;
+  /* eslint-disable max-params --
+   * These two mirror the arity of the Rust exports exactly, and that arity is
+   * a consequence of a deliberate constraint rather than a style slip:
+   * thermo-core is dependency-free (it is also linked into the SpacetimeDB
+   * module), so there is no serde on either side and a struct has to cross the
+   * boundary as positional scalars. Bundling them into an options object here
+   * would hide the fact that the wire format IS positional, which is the one
+   * property a reader of this interface most needs to know. */
   lid_heat_balance?: (
     lidAreaM2: number,
     lidPerimeterM: number,
@@ -529,6 +537,7 @@ interface ThermoWasmModule {
     foodKWmK: number,
     foodAreaM2: number,
   ) => Float64Array;
+  /* eslint-enable max-params */
   boundary_network_link_ids?: (hasVessel: boolean, hasFood: boolean) => string;
   boundary_link_fields?: () => number;
   boundary_header_fields?: () => number;

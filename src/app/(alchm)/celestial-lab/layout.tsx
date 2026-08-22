@@ -1,5 +1,5 @@
-import type { ReactNode, JSX } from "react";
 import { LabShell } from "@/components/lab/LabShell";
+import type { ReactNode, JSX } from "react";
 
 /**
  * Celestial Lab chrome.

@@ -774,13 +774,30 @@ export function BoundaryTransferCanvas({
       animId = requestAnimationFrame(step);
     };
 
+    /**
+     * Whether this environment can animate at all.
+     *
+     * Guarded for the same reason `matchMedia` is a few lines above: a bare
+     * call throws where the API is absent, and here that throw happens INSIDE
+     * the effect, after the static frame has already been painted — so the
+     * picture is correct and the component is broken, which is the hardest
+     * combination to diagnose. Every browser has rAF; jsdom does not, which is
+     * exactly why this component was previously untestable.
+     *
+     * Without it the component still shows a correct static frame, so the
+     * degradation is the same one `prefers-reduced-motion` asks for.
+     */
+    const canAnimate =
+      typeof requestAnimationFrame === "function" &&
+      typeof cancelAnimationFrame === "function";
+
     const start = (): void => {
-      if (disposed || animId !== 0) return;
+      if (disposed || animId !== 0 || !canAnimate) return;
       last = typeof performance === "undefined" ? 0 : performance.now();
       animId = requestAnimationFrame(step);
     };
     const stop = (): void => {
-      if (animId !== 0) cancelAnimationFrame(animId);
+      if (animId !== 0 && canAnimate) cancelAnimationFrame(animId);
       animId = 0;
     };
 

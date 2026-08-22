@@ -1,6 +1,6 @@
+import { LabOverview } from "@/components/lab/LabOverview";
 import type { Metadata } from "next";
 import type { JSX } from "react";
-import { LabOverview } from "@/components/lab/LabOverview";
 
 export const metadata: Metadata = {
   title: "Kitchen Lab",

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { JSX, ReactNode } from "react";
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import {
   NAV_IA,
@@ -10,6 +9,7 @@ import {
   type PrimaryKey,
 } from "@/config/navigation";
 import { SystemBadge } from "./SystemBadge";
+import type { JSX, ReactNode } from "react";
 
 /**
  * Chrome shared by both labs: the lab switcher, the subpage rail, and the

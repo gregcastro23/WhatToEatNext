@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { JSX } from "react";
 import { NAV_IA, type PrimaryKey } from "@/config/navigation";
 import { SYSTEM_DESCRIPTORS } from "./systems";
+import type { JSX } from "react";
 
 /**
  * The one page in each lab that shows both models at once.

@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import type { JSX } from "react";
 import type { ComputationalSystem } from "@/config/navigation";
 import { SYSTEM_DESCRIPTORS as DESCRIPTORS } from "./systems";
+import type { JSX } from "react";
 
 /**
  * The persistent "which model am I reading?" indicator.
