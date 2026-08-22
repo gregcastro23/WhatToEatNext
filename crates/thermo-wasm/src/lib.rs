@@ -386,6 +386,30 @@ pub fn boundary_header_fields() -> usize {
     BOUNDARY_HEADER_FIELDS
 }
 
+/// Layout version of the boundary-network wire format.
+///
+/// ⚠️ BUMP THIS ON ANY CHANGE TO THE BUFFER'S MEANING — a reordered header
+/// slot, a repurposed link field, a changed unit — not merely when the field
+/// COUNT changes.
+///
+/// The count is already guarded: the loader reads `boundary_link_fields` and
+/// `boundary_header_fields` and refuses a module that disagrees. That check is
+/// blind to the case where the layout changes but the arithmetic does not, e.g.
+/// swapping `share` and `dropK` inside the same five slots. Both engines would
+/// still return five floats per link and every value would parse; the panel
+/// would show a plausible, wrong picture, which is the failure this whole
+/// pipeline exists to prevent.
+///
+/// This became reachable when public/wasm/ started being committed (2026-08-22).
+/// The .wasm is served from a stable, unhashed URL, so a returning browser can
+/// hold a CACHED older module while running freshly deployed app JS. Revalidation
+/// makes that window small — `next.config.js` sets max-age=0, must-revalidate —
+/// but small is not zero, and an offline or proxied client can widen it.
+#[wasm_bindgen]
+pub fn boundary_schema_version() -> u32 {
+    1
+}
+
 /// Map a JS geometry discriminant onto `FoodGeometry`.
 ///
 /// Refuses anything outside 0..=2 rather than defaulting to Slab. A silent

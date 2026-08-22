@@ -7,9 +7,9 @@
  *
  * `scripts/verify-boundary-solver-parity.mjs` A/Bs the decode against the
  * TypeScript solver using the REAL compiled module. It is the stronger check
- * and it is the one that catches a physics or offset regression. But it needs
- * `public/wasm` — which is gitignored — so it cannot run in CI on a fresh
- * checkout, and it cannot exercise the paths where the module is ABSENT.
+ * and it is the one that catches a physics or offset regression. Since
+ * 2026-08-22 `public/wasm` is committed, so it DOES run in CI — but it still
+ * cannot exercise the paths where the module is absent or unusable.
  *
  * This file covers exactly what that script cannot:
  *   - the TypeScript fallback arm, which is what a fresh checkout actually runs
@@ -21,7 +21,11 @@
  * point, not a limitation.
  */
 
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import {
+  BOUNDARY_SCHEMA_VERSION,
   createBoundarySolver,
   decodeBoundaryBuffer,
 } from "@/lib/wasm/thermoEngine";
@@ -188,5 +192,56 @@ describe("decodeBoundaryBuffer", () => {
       200,
     );
     expect(r!.foodBiot).toBeNull();
+  });
+});
+
+/**
+ * The wire-format version is stated in two languages and must agree.
+ *
+ * Nothing else enforces it, and the runtime consequence of a mismatch is
+ * SILENT: `createBoundarySolverInner` sees the disagreement and returns the
+ * TypeScript solver. The panel keeps working, the numbers stay right, and the
+ * compiled engine simply stops being used — with the badge honestly reporting
+ * "TypeScript fallback" that nobody is reading. That is precisely how the WASM
+ * module went unused in production for months before 2026-08-22, so it is worth
+ * a test rather than a comment.
+ *
+ * Parsed out of the Rust source rather than read from the module: this suite
+ * runs in jsdom, which cannot load the wasm at all.
+ */
+describe("boundary schema version", () => {
+  const RUST = join(
+    __dirname, "..", "..", "..", "..",
+    "crates", "thermo-wasm", "src", "lib.rs",
+  );
+
+  /** The integer literal returned by `boundary_schema_version()`. */
+  function rustSchemaVersion(): number {
+    const src = readFileSync(RUST, "utf8");
+    const fn = src.indexOf("pub fn boundary_schema_version()");
+    if (fn === -1) {
+      throw new Error("thermo-wasm: boundary_schema_version() is gone");
+    }
+    const close = src.indexOf("}", fn);
+    const body = src.slice(fn, close);
+    const literal = body.match(/\n\s*(\d+)\s*\n/);
+    if (!literal) {
+      throw new Error(
+        "thermo-wasm: could not read the version literal — parser is broken",
+      );
+    }
+    return Number(literal[1]);
+  }
+
+  it("reads a real literal out of the Rust source", () => {
+    // Instrument check. Without it, a parser that always returned NaN would
+    // make the assertion below fail for the wrong reason, and one that always
+    // returned the TS constant would make it pass for the wrong reason.
+    expect(Number.isInteger(rustSchemaVersion())).toBe(true);
+    expect(rustSchemaVersion()).toBeGreaterThan(0);
+  });
+
+  it("matches the constant the decoder checks against", () => {
+    expect(rustSchemaVersion()).toBe(BOUNDARY_SCHEMA_VERSION);
   });
 });

@@ -28,6 +28,14 @@
  * Usage: node scripts/verify-thermo-wasm-parity.mjs
  */
 import { readFileSync, existsSync } from "fs";
+import { resolve, dirname } from "node:path";
+import { pathToFileURL, fileURLToPath } from "node:url";
+
+// Anchor relative paths to the REPO ROOT, not the caller's cwd. These scripts
+// are invoked from the build script (which cds to root) and from CI (which may
+// not), and a path that silently means two different directories is how a
+// verifier ends up proving something about a build nobody ships.
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 /**
  * Budget in units in the last place.
@@ -40,7 +48,11 @@ import { readFileSync, existsSync } from "fs";
 const MAX_ULP = 8;
 
 const FIXTURE = "crates/thermo-core/tests/thermo_golden_vectors.json";
-const GENERATED = "public/wasm";
+// Which build to check. Defaults to the committed public/wasm, but CI points
+// this at a snapshot taken BEFORE the rebuild, so the verification runs against
+// the exact bytes in git rather than against freshly-produced ones. Verifying a
+// rebuild proves the source is good and says nothing about what ships.
+const GENERATED = resolve(REPO_ROOT, process.env.THERMO_WASM_DIR || "public/wasm");
 
 if (!existsSync(`${GENERATED}/thermo_wasm.js`)) {
   console.error(`error: ${GENERATED} not built. Run: bun run build:wasm`);
@@ -48,7 +60,7 @@ if (!existsSync(`${GENERATED}/thermo_wasm.js`)) {
 }
 
 const golden = JSON.parse(readFileSync(FIXTURE, "utf8"));
-const mod = await import(`../${GENERATED}/thermo_wasm.js`);
+const mod = await import(pathToFileURL(resolve(GENERATED, "thermo_wasm.js")).href);
 const wasm = mod.initSync({ module: readFileSync(`${GENERATED}/thermo_wasm_bg.wasm`) });
 
 const view = new DataView(new ArrayBuffer(8));

@@ -460,8 +460,12 @@ const WASM_MODULE_URL = "/wasm/thermo_wasm.js";
  * Shape of the wasm-bindgen `--target web` output we depend on.
  *
  * Declared structurally rather than imported, because the generated module is
- * gitignored: it is a build product of `bun run build:wasm`, and a checkout
- * that has not run that step must still typecheck and still render.
+ * a build product. public/wasm/ is committed as of 2026-08-22, so it is
+ * normally present — but importing its .d.ts would make `bun run typecheck`
+ * depend on a generated file, and the structural declaration also covers the
+ * case this loader really has to survive: a BROWSER holding a cached older
+ * bundle whose export set predates the current app JS. Every export added
+ * after the particle engine is therefore optional and feature-detected.
  */
 interface ThermoWasmModule {
   default: (input?: unknown) => Promise<{ memory: WebAssembly.Memory }>;
@@ -481,8 +485,8 @@ interface ThermoWasmModule {
   floats_per_particle: () => number;
 
   // Scalar physics added alongside the particle engine. Declared STRUCTURALLY,
-  // like everything above, because public/wasm is gitignored and there is no
-  // generated .d.ts to import on a fresh checkout. Every one of these is
+  // like everything above, so that typecheck never depends on a build product
+  // and a cached older bundle cannot break the render. Every one of these is
   // optional at runtime: a browser may hold a CACHED older bundle that predates
   // them, and reading an undefined export would throw inside the render path.
   // `createThermoScalars` feature-detects each before use.
@@ -541,6 +545,9 @@ interface ThermoWasmModule {
   boundary_network_link_ids?: (hasVessel: boolean, hasFood: boolean) => string;
   boundary_link_fields?: () => number;
   boundary_header_fields?: () => number;
+  /** Wire-format version of the boundary buffer. Absent in bundles built
+   *  before 2026-08-22 — see BOUNDARY_SCHEMA_VERSION below. */
+  boundary_schema_version?: () => number;
 }
 
 class WasmThermoEngine implements ThermoEngineHandle {
@@ -599,8 +606,18 @@ async function loadModule(): Promise<ThermoWasmModule | null> {
 
   modulePromise = (async (): Promise<ThermoWasmModule | null> => {
     try {
-      // Probe before importing. A missing bundle is the NORMAL state of a
-      // checkout that has not run `bun run build:wasm`, and Next's dev overlay
+      // Probe before importing.
+      //
+      // ⚠️ A 404 HERE IS NO LONGER NORMAL. It was, while public/wasm/ was
+      // gitignored — and that is exactly how production ran the TypeScript
+      // engine unnoticed from the day this loader shipped: Vercel's build never
+      // ran build:wasm, so alchm.kitchen answered 404 for the module and this
+      // catch swallowed it into the fallback, honestly reporting
+      // `engine: "typescript"` that nobody was reading. The artifact is
+      // committed now, so a 404 means something is actually wrong — a broken
+      // deploy or a stripped public/. The fallback still exists because
+      // degrading to correct-but-slower physics beats a blank panel, but do not
+      // read a fallback as expected. Next's dev overlay
       // surfaces a failed dynamic import as an error toast even when it is
       // caught. A 404 here is quiet and equally conclusive.
       const probe = await fetch(WASM_MODULE_URL, { method: "HEAD" });
@@ -1111,6 +1128,15 @@ export function decodeBoundaryBuffer(
  * one the rest of the lab runs, and a panel silently on a different engine than
  * it claims is the failure this whole pipeline exists to prevent.
  */
+/**
+ * The boundary wire format this decoder understands.
+ *
+ * Must equal `boundary_schema_version()` in crates/thermo-wasm/src/lib.rs.
+ * Bump BOTH together, in the same commit, whenever a header slot or link field
+ * changes meaning — including changes that keep the field count identical.
+ */
+export const BOUNDARY_SCHEMA_VERSION = 1;
+
 export async function createBoundarySolver(): Promise<BoundarySolver> {
   // NEVER REJECTS — same contract as `loadModule`, and for the same reason.
   // Callers await this inside an effect and set state from it; an unhandled
@@ -1153,6 +1179,25 @@ async function createBoundarySolverInner(): Promise<BoundarySolver> {
   const m = mod;
   const linkFields = m.boundary_link_fields!();
   const headerFields = m.boundary_header_fields!();
+
+  // Layout version, checked BEFORE the stride numbers because it is the
+  // stricter test. A module may agree on 7 and 5 and still mean something
+  // different by them — the count cannot distinguish "5 fields" from "the same
+  // 5 fields in a different order", and a transposed pair decodes into a full
+  // panel of plausible, wrong numbers rather than into an error.
+  //
+  // Feature-detected, not required: `boundary_schema_version` did not exist
+  // before 2026-08-22, and a browser can hold a CACHED module from before then
+  // while running today's app JS, because /wasm/thermo_wasm_bg.wasm is a stable
+  // unhashed URL. A bundle that cannot state its version is a bundle whose
+  // layout this decoder cannot vouch for, so it takes the TypeScript arm —
+  // correct physics from the reference implementation, one engine label
+  // different. Refusing is the honest reading of "I don't know".
+  const version =
+    typeof m.boundary_schema_version === "function"
+      ? m.boundary_schema_version()
+      : null;
+  if (version !== BOUNDARY_SCHEMA_VERSION) return typescriptBoundarySolver();
   // Stride check: same reasoning as floats_per_particle. A disagreement here
   // means every field is read from the wrong index.
   if (linkFields !== 5 || headerFields !== 7) return typescriptBoundarySolver();

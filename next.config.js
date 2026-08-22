@@ -269,6 +269,28 @@ const nextConfig = {
         headers: getSecurityHeaders(),
       },
       {
+        // The compiled physics engine. public/wasm/ is committed, so these are
+        // real files with STABLE, UNHASHED names — /wasm/thermo_wasm.js is the
+        // same URL for every build, and its contents change whenever the Rust
+        // does.
+        //
+        // ⚠️ NEVER `immutable` HERE, however tempting it looks for a binary.
+        // `max-age=31536000, immutable` tells the browser not to revalidate for
+        // a year, and on a mutable URL that pins returning visitors to an old
+        // engine indefinitely — worse, it can pair a stale cached .wasm with
+        // freshly deployed app JS that decodes its buffers at different
+        // offsets. Immutable caching is safe only for content-hashed
+        // filenames, which wasm-bindgen does not emit.
+        //
+        // This restates Vercel's default for public/ rather than changing it.
+        // It is written down so the next person to "optimise" static assets
+        // sees the reason before editing.
+        source: "/wasm/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        ],
+      },
+      {
         source: "/api/alchm-quantities",
         headers: corsHeaders,
       },
