@@ -18,12 +18,14 @@
  * table-chat bodies after a Postgres 200 (src/lib/spacetime/liveTableChatPublish.ts).
  */
 
+import { parseImageDataUrl } from "@/lib/media/imageDataUrl";
 import type {
   ChatAttachment,
   ConversationKind,
   ConversationMembership,
   ConversationRecord,
 } from "@/types/chat";
+
 
 export const MAX_BODY_CHARS = 2000;
 export const MAX_ATTACHMENTS = 1;
@@ -96,9 +98,14 @@ export function checkBody(body: string, hasAttachment: boolean): SendDecision {
  * base64 length bounds the byte size (bytes ≈ chars * 3/4).
  */
 export function checkPhotoDataUrl(dataUrl: string): boolean {
-  const match = /^data:image\/(?:jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
-  if (!match) return false;
-  const approxBytes = (match[1].length * 3) / 4;
+  // ⚠️ The regex this replaced defeated the very point of the docblock above.
+  // It avoided DECODING the payload, then spent the saving backtracking
+  // `([A-Za-z0-9+/=]+)$` across ~6.99 MB of base64 — which threw RangeError on
+  // Linux rather than returning false. This gate runs on every chat message
+  // carrying a photo. See src/lib/media/imageDataUrl.ts.
+  const parsed = parseImageDataUrl(dataUrl);
+  if (!parsed) return false;
+  const approxBytes = (parsed.b64.length * 3) / 4;
   return approxBytes > 0 && approxBytes <= MAX_PHOTO_BYTES;
 }
 

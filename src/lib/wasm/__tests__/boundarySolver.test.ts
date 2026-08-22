@@ -26,6 +26,7 @@ import { join } from "node:path";
 
 import {
   BOUNDARY_SCHEMA_VERSION,
+  GEOMETRY_DISCRIMINANT,
   createBoundarySolver,
   decodeBoundaryBuffer,
 } from "@/lib/wasm/thermoEngine";
@@ -243,5 +244,41 @@ describe("boundary schema version", () => {
 
   it("matches the constant the decoder checks against", () => {
     expect(rustSchemaVersion()).toBe(BOUNDARY_SCHEMA_VERSION);
+  });
+});
+
+/**
+ * The geometry lookup, pinned where coverage can actually reach it.
+ *
+ * The refusal that uses it (`if (geometry === undefined) return null`) lives in
+ * the WASM arm, which jsdom cannot load — mutation-testing confirmed that guard
+ * survives deletion with every test still green. The dictionary is the half a
+ * unit test can hold, so it is held here.
+ */
+describe("GEOMETRY_DISCRIMINANT", () => {
+  it("maps the three real geometries", () => {
+    expect(GEOMETRY_DISCRIMINANT.slab).toBe(0);
+    expect(GEOMETRY_DISCRIMINANT.cylinder).toBe(1);
+    expect(GEOMETRY_DISCRIMINANT.sphere).toBe(2);
+  });
+
+  it("returns undefined for an unmapped geometry", () => {
+    expect(GEOMETRY_DISCRIMINANT.torus).toBeUndefined();
+    expect(GEOMETRY_DISCRIMINANT[""]).toBeUndefined();
+  });
+
+  it.each(["constructor", "toString", "valueOf", "hasOwnProperty", "__proto__"])(
+    "does not leak Object.prototype through %s",
+    (key) => {
+      // As a plain object literal every one of these returned something
+      // non-undefined, so `geometry === undefined` passed them through and a
+      // FUNCTION reached solve_boundary_network, where wasm-bindgen coerces it
+      // to NaN. Null-prototype makes the refusal do its job in JS.
+      expect(GEOMETRY_DISCRIMINANT[key]).toBeUndefined();
+    },
+  );
+
+  it("has no prototype at all", () => {
+    expect(Object.getPrototypeOf(GEOMETRY_DISCRIMINANT)).toBeNull();
   });
 });

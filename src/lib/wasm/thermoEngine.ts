@@ -1001,11 +1001,25 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
 // number>` claims every string key yields a number, which is false for an
 // unmapped geometry and is exactly what the refusal below exists to catch;
 // with `noUncheckedIndexedAccess: false` nothing else would tell the compiler.
-const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number | undefined>> = {
-  slab: 0,
-  cylinder: 1,
-  sphere: 2,
-};
+//
+// ⚠️ NULL PROTOTYPE, NOT AN OBJECT LITERAL. `[MEASURED 2026-08-22]` as a plain
+// literal this leaked its prototype into the lookup: `constructor`,
+// `toString`, `valueOf`, `hasOwnProperty` and `__proto__` all returned
+// something non-undefined, so the refusal below PASSED them and handed a
+// function to `solve_boundary_network`, where wasm-bindgen coerces it to NaN.
+// The Rust side would still refuse an unrecognised discriminant, so this was
+// never a wrong ANSWER — but it turned a clean JS-side refusal into a round
+// trip that depends on the far side's guard, which is the sort of layering the
+// rest of this file exists to avoid.
+//
+// Exported for the test that pins it: the refusal itself lives in the WASM arm,
+// which jsdom cannot reach, so the dictionary is the piece coverage can hold.
+export const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number | undefined>> =
+  Object.assign(Object.create(null) as Record<string, number | undefined>, {
+    slab: 0,
+    cylinder: 1,
+    sphere: 2,
+  });
 
 /**
  * Link labels, keyed by the id the core emits.
