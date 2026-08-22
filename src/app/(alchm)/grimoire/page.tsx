@@ -255,7 +255,7 @@ export default function GrimoirePage(): JSX.Element {
             </div>
             <p style={{ fontSize: 11.5, color: "var(--fg-mute, #718096)", margin: "16px 0 0", lineHeight: 1.6 }}>
               The daily Cosmic Yield remains the one open ritual —{" "}
-              <Link href="/quantities?tab=economy" style={{ color: "#a78bfa" }}>
+              <Link href="/celestial-lab/alchm?tab=economy" style={{ color: "#a78bfa" }}>
                 collect it here
               </Link>
               .

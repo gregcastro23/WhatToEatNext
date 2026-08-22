@@ -133,6 +133,28 @@ describe("property tables reproduce their own printed redundancy", () => {
     const fitted = latentHeatVaporisation(100);
     expect(Math.abs(table - fitted) / table).toBeLessThan(0.01);
   });
+
+  it("keeps the two h_fg sources INDEPENDENT — neither drifting nor unified", () => {
+    // Two-sided on purpose. The one-sided bound above catches drift but would
+    // happily pass if someone "resolved the discrepancy" by pointing both at
+    // one constant — and that would silently delete the corroboration, because
+    // a single source can only ever agree with itself.
+    //
+    // `[MEASURED]` the gap is 0.6848 % (2 272 456.9 vs 2 257 000 J·kg⁻¹): the
+    // Fleagle linear fit sits above the Incropera steam-table row at the
+    // boiling point, which is the documented behaviour of that fit at the top
+    // of its 0–100 °C range.
+    const table = saturatedWaterProperties(100).hfgJkg;
+    const fitted = latentHeatVaporisation(100);
+    const gap = (fitted - table) / table;
+
+    // Signed: the fit is ABOVE the table, and a sign flip means one of them moved.
+    expect(gap).toBeGreaterThan(0.005);
+    expect(gap).toBeLessThan(0.009);
+
+    // And they must remain two distinct numbers.
+    expect(fitted).not.toBe(table);
+  });
 });
 
 describe("Antoine, in both directions", () => {

@@ -75,10 +75,48 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # rust-toolchain.toml is the single source of truth for the version, and
+      # it has to be, because the compiled artifact embeds the rustc commit hash
+      # and public/wasm/ is committed. Naming a version here as well would be a
+      # second copy to drift.
+      #
+      # ⚠️ NOT dtolnay/rust-toolchain@stable, which this used to be. That action
+      # exports RUSTUP_TOOLCHAIN, and an env var BEATS a rust-toolchain.toml
+      # directory override — so the pin would appear to be in place and quietly
+      # not apply, surfacing later as an unexplained rustc line in a manifest
+      # diff. `rustup show` reads the file and installs what it names, targets
+      # included; rustup is preinstalled on the GitHub ubuntu images.
+      # `[MEASURED 2026-08-22]` build-thermo-wasm.sh ends by running
+      # scripts/verify-boundary-solver-parity.mjs under BUN, which is required
+      # because that script imports .ts sources directly (node cannot). This
+      # job had no bun, so the very first CI run of the committed artifact died
+      # with `bun: command not found` AFTER the golden vectors had already
+      # passed — the failure looked like a wasm problem and was a missing
+      # interpreter. No `bun install`: the script's whole import closure is
+      # relative/`@/` with no npm package in it.
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          targets: wasm32-unknown-unknown
+          bun-version: latest
+
+      - name: Install the pinned Rust toolchain
+        run: |
+          rustup show active-toolchain || rustup toolchain install
+          rustup show active-toolchain
+          rustc --version
+
+      - name: Assert the active toolchain is the pinned one
+        # Fails loudly and immediately if the pin did not take, instead of
+        # letting it reappear downstream as a confusing manifest mismatch.
+        run: |
+          pinned="$(awk -F'"' '/^channel/ {print $2}' rust-toolchain.toml)"
+          actual="$(rustc --version | awk '{print $2}')"
+          echo "pinned=$pinned active=$actual"
+          if [ "$pinned" != "$actual" ]; then
+            echo "::error::rust-toolchain.toml pins $pinned but rustc is $actual." \
+                 "public/wasm/ is committed and its bytes depend on the rustc version."
+            exit 1
+          fi
       - name: Cache cargo registry and target
         uses: Swatinem/rust-cache@v2
       - name: cargo test (workspace, all 3 crates)
@@ -86,8 +124,66 @@ jobs:
         # cargo stops at the first failing binary and the remaining crates'
         # suites never run at all (observed on this job's first-ever red run).
         run: cargo test --workspace --locked --no-fail-fast
-      - name: Build the browser wasm and verify it against the golden vectors
+      # ── The committed artifact ──────────────────────────────────────────
+      #
+      # public/wasm/ is COMMITTED as of 2026-08-22, because Vercel's build
+      # command is `next build` and nothing in it runs build:wasm — so the
+      # artifact reached CI and every developer machine but NO deploy, and
+      # alchm.kitchen served 404 for /wasm/thermo_wasm.js while the loader
+      # silently fell back to TypeScript. Committing it is what puts the
+      # compiled engine in front of users.
+      #
+      # ⚠️ ORDER IS LOAD-BEARING BELOW. build-thermo-wasm.sh OVERWRITES
+      # public/wasm/, manifest included. Checking freshness after it runs would
+      # compare regenerated inputs against a regenerated manifest — always
+      # equal, never able to fail. The snapshot is taken FIRST so the check
+      # reads the bytes that are actually in git.
+      - name: Snapshot the committed artifact before anything rebuilds it
+        run: |
+          cp -R public/wasm "$RUNNER_TEMP/committed-wasm"
+          cp scripts/thermo-wasm.manifest.txt "$RUNNER_TEMP/committed.manifest.txt"
+
+      - name: Build from source and verify against the golden vectors
         run: bash scripts/build-thermo-wasm.sh
+
+      - name: The COMMITTED artifact must match the source it claims to come from
+        # Runs after the build only because the build installs the pinned
+        # wasm-bindgen CLI, whose version is part of the manifest. Compares
+        # against the pre-build snapshot, so it can genuinely fail.
+        run: bash scripts/thermo-wasm-manifest.sh --check "$RUNNER_TEMP/committed.manifest.txt"
+
+      - name: The COMMITTED bytes must compute the right physics
+        # Not implied by the step above: the manifest proves the INPUTS match,
+        # this proves the binary in git actually produces the golden vectors.
+        # A hand-edited or truncated commit passes the first and fails this.
+        env:
+          THERMO_WASM_DIR: ${{ runner.temp }}/committed-wasm
+        run: |
+          node scripts/verify-thermo-wasm-parity.mjs
+          bun scripts/verify-boundary-solver-parity.mjs
+
+      # ── Probe, not a gate ───────────────────────────────────────────────
+      #
+      # Is the wasm build byte-reproducible across hosts? Locally it is (clean
+      # rebuild -> identical sha256, once RUSTFLAGS remaps the cargo/workspace
+      # paths and rust-toolchain.toml pins rustc). macOS-host vs linux-host was
+      # NOT testable on the machine this was written on — no docker, no linux
+      # box — so it is measured here instead of assumed.
+      #
+      # Deliberately non-fatal: the real freshness gate is the manifest above,
+      # which does not care about byte identity. If this reports "identical"
+      # across a few runs it can be promoted to a hard `git diff --exit-code`.
+      # If it reports differences, that is the answer to a question nobody had
+      # data for, and the manifest gate was the right design.
+      - name: 'Probe: is the artifact byte-identical to a linux rebuild?'
+        continue-on-error: true
+        run: |
+          if git diff --quiet -- public/wasm/; then
+            echo "identical — macOS-committed bytes match this linux rebuild"
+          else
+            echo "DIFFERENT — cross-host reproducibility does NOT hold:"
+            git diff --stat -- public/wasm/
+          fi
 
   # NOTE: frontend prod deploys are handled by Vercel's native Git integration
   # (auto-deploys on master merge — see CLAUDE.md + the "Vercel" status check).

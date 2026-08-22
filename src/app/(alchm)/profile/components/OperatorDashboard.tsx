@@ -76,10 +76,10 @@ const OperatorHeader: React.FC<{ userName: string; email: string }> = ({ userNam
 
 const OperatorQuickLinksGrid: React.FC = () => {
   const links = [
-    { label: "Birth Chart", href: "/birth-chart", icon: "🌌", desc: "Natal positions" },
-    { label: "Current Chart", href: "/current-chart", icon: "⚡", desc: "Live transits" },
+    { label: "Birth Chart", href: "/celestial-lab/standing-chart", icon: "🌌", desc: "Natal positions" },
+    { label: "Current Chart", href: "/celestial-lab/current-chart", icon: "⚡", desc: "Live transits" },
     { label: "Grimoire", href: "/grimoire", icon: "📖", desc: "Practices & feats" },
-    { label: "Token Economy", href: "/quantities", icon: "⚗️", desc: "ESMS ledger" },
+    { label: "Token Economy", href: "/celestial-lab/alchm", icon: "⚗️", desc: "ESMS ledger" },
     { label: "Menu Planner", href: "/menu-planner", icon: "🍽️", desc: "Cosmic meals" },
     { label: "Your Agents", href: "https://agents.alchm.kitchen/me", icon: "🤖", desc: "Planetary agents" },
     { label: "Identity & Wallet", href: "/account", icon: "🔗", desc: "Privy · Base wallet" },
@@ -156,7 +156,7 @@ const OperatorEconomyTab: React.FC = () => (
           <Link href="/account" className="text-[10px] font-black text-emerald-400 hover:text-emerald-300 uppercase tracking-[0.3em] transition-colors">
             Wallet Vault →
           </Link>
-          <Link href="/quantities" className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors">
+          <Link href="/celestial-lab/alchm" className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors">
             Open Ledger →
           </Link>
         </div>

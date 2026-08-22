@@ -85,6 +85,20 @@ export const config = {
     "/recipe-generator/:path*",
     // /planetary-chart is deliberately absent: the planetary-ecosystem surface
     // is fully public (the current sky is the same for everyone).
+    //
+    // ── Celestial Lab ────────────────────────────────────────────────────
+    // The two legacy paths above now redirect into /celestial-lab/*. Matchers
+    // are path-prefixed, so the old entries do NOT follow them: without these
+    // two lines /celestial-lab/standing-chart would serve a natal chart with
+    // no middleware check at all.
+    //
+    // ⚠️ These MUST stay per-leaf. A blanket "/celestial-lab/:path*" would
+    // also swallow /celestial-lab/mechanics, which is the new home of the
+    // deliberately-public /planetary-chart — gating it would be a regression
+    // in the opposite direction, and a silent one, since a signed-in developer
+    // never sees the redirect.
+    "/celestial-lab/standing-chart/:path*",
+    "/celestial-lab/current-chart/:path*",
     "/restaurant-creator/:path*",
     "/premium-table/:path*",
   ],

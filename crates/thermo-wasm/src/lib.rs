@@ -28,8 +28,8 @@
 
 use thermo_core as core_physics;
 use thermo_core::{
-    seeded_particles, AltitudeRegime, ConvectionParticle, HeatRegime, SlabCookInput,
-    FLOATS_PER_PARTICLE,
+    seeded_particles, AltitudeRegime, ConvectionParticle, FoodGeometry, FoodLeg, HeatRegime,
+    SlabCookInput, VesselLeg, FLOATS_PER_PARTICLE,
 };
 use wasm_bindgen::prelude::*;
 
@@ -250,9 +250,369 @@ pub fn contact_temperature_c(
     core_physics::contact_temperature_c(pan_c, food_c, pan_effusivity, food_effusivity)
 }
 
+
+// ============================================================================
+// Latent heat — scalars
+// ============================================================================
+//
+// The core already owned all of this; none of it was reachable from the
+// browser, so the Kitchen Lab's latent-heat panel had no way to ask the same
+// engine the oven canvas uses. These are thin `unwrap_or(NAN)` skins following
+// the refusal convention documented above.
+
+/// Latent heat of vaporisation of water at `celsius`, J·kg⁻¹.
+///
+/// BASIS: the Fleagle & Andreas linear fit (*Atmospheric Dynamics*), valid
+/// 0–100 °C. Outside that band the core returns `OutsideCorrelationRange` and
+/// this returns NaN — it does NOT extrapolate the line, which would keep
+/// producing plausible-looking numbers well past where the fit means anything.
+#[wasm_bindgen]
+pub fn latent_heat_vaporisation(celsius: f64) -> f64 {
+    core_physics::latent_heat_vaporisation(celsius).unwrap_or(f64::NAN)
+}
+
+/// Latent heat of fusion of PURE water, J·kg⁻¹. Infallible.
+///
+/// BASIS: 1998 ASHRAE Refrigeration Handbook Ch. 8, `Lo = 143.4 Btu/lb`,
+/// converted in the core from its own stated basis rather than transcribed.
+#[wasm_bindgen]
+pub fn water_fusion_j_kg() -> f64 {
+    core_physics::water_fusion_j_kg()
+}
+
+/// Energy to freeze the freezable water in 1 kg of food, J·kg⁻¹.
+///
+/// ⚠️ This is NOT `water_fraction × 333 550`. The core discounts bound water,
+/// which does not freeze at ordinary freezer temperatures; omitting that
+/// overstates the freezing load by about 25 %.
+#[wasm_bindgen]
+pub fn food_fusion_enthalpy(water_mass_fraction: f64) -> f64 {
+    core_physics::food_fusion_enthalpy(water_mass_fraction).unwrap_or(f64::NAN)
+}
+
+/// Energy to evaporate ALL water out of 1 kg of food, J·kg⁻¹. A ceiling.
+#[wasm_bindgen]
+pub fn food_vaporisation_enthalpy(water_mass_fraction: f64, celsius: f64) -> f64 {
+    core_physics::food_vaporisation_enthalpy(water_mass_fraction, celsius).unwrap_or(f64::NAN)
+}
+
+/// Latent load re-expressed as the temperature rise the same energy would buy.
+#[wasm_bindgen]
+pub fn latent_as_temperature_rise(latent_j_kg: f64, specific_heat_j_kg_k: f64) -> f64 {
+    core_physics::latent_as_temperature_rise(latent_j_kg, specific_heat_j_kg_k)
+        .unwrap_or(f64::NAN)
+}
+
+// ============================================================================
+// Lid heat balance — flattened
+// ============================================================================
+
+/// Number of f64s in a `lid_heat_balance` result. Exported so JS never
+/// hard-codes the stride, same discipline as `floats_per_particle`.
+pub const LID_BALANCE_FIELDS: usize = 5;
+
+/// Field count of the `lid_heat_balance` buffer.
+#[wasm_bindgen]
+pub fn lid_balance_fields() -> usize {
+    LID_BALANCE_FIELDS
+}
+
+/// How hot a lid runs and how much steam it can condense back.
+///
+/// Returns `[lid_c, convective_loss_w, radiative_loss_w, total_loss_w,
+/// condensation_capacity_kg_s]`.
+///
+/// A REFUSAL is a length-1 array whose single element is NaN. Length is the
+/// discriminator, not the value: a caller that only checks `Number.isNaN` on
+/// element 0 still behaves correctly, but one that checks length gets the
+/// refusal without reading any element.
+///
+/// Flattened to `Box<[f64]>` (a `Float64Array` in JS) rather than returned as
+/// a struct because `thermo-core` is deliberately dependency-free — it is also
+/// linked into the SpacetimeDB module — so pulling in `serde` to serialise a
+/// 5-field record would be paid for twice and would violate the crate's rule.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn lid_heat_balance(
+    lid_area_m2: f64,
+    lid_perimeter_m: f64,
+    lid_thickness_m: f64,
+    lid_k_w_m_k: f64,
+    headspace_c: f64,
+    ambient_c: f64,
+    latent_heat_j_kg: f64,
+    emissivity: f64,
+) -> Box<[f64]> {
+    match core_physics::lid_heat_balance(
+        lid_area_m2,
+        lid_perimeter_m,
+        lid_thickness_m,
+        lid_k_w_m_k,
+        headspace_c,
+        ambient_c,
+        latent_heat_j_kg,
+        emissivity,
+    ) {
+        Ok(r) => Box::new([
+            r.lid_c,
+            r.convective_loss_w,
+            r.radiative_loss_w,
+            r.total_loss_w,
+            r.condensation_capacity_kg_s,
+        ]),
+        Err(_) => Box::new([f64::NAN]),
+    }
+}
+
+// ============================================================================
+// Boundary network — flattened
+// ============================================================================
+
+/// f64s per link in a `solve_boundary_network` result.
+pub const BOUNDARY_LINK_FIELDS: usize = 5;
+
+/// Fixed header length preceding the per-link block.
+pub const BOUNDARY_HEADER_FIELDS: usize = 7;
+
+/// Per-link stride of the boundary-network buffer.
+#[wasm_bindgen]
+pub fn boundary_link_fields() -> usize {
+    BOUNDARY_LINK_FIELDS
+}
+
+/// Header length of the boundary-network buffer.
+#[wasm_bindgen]
+pub fn boundary_header_fields() -> usize {
+    BOUNDARY_HEADER_FIELDS
+}
+
+/// Layout version of the boundary-network wire format.
+///
+/// ⚠️ BUMP THIS ON ANY CHANGE TO THE BUFFER'S MEANING — a reordered header
+/// slot, a repurposed link field, a changed unit — not merely when the field
+/// COUNT changes.
+///
+/// The count is already guarded: the loader reads `boundary_link_fields` and
+/// `boundary_header_fields` and refuses a module that disagrees. That check is
+/// blind to the case where the layout changes but the arithmetic does not, e.g.
+/// swapping `share` and `dropK` inside the same five slots. Both engines would
+/// still return five floats per link and every value would parse; the panel
+/// would show a plausible, wrong picture, which is the failure this whole
+/// pipeline exists to prevent.
+///
+/// This became reachable when public/wasm/ started being committed (2026-08-22).
+/// The .wasm is served from a stable, unhashed URL, so a returning browser can
+/// hold a CACHED older module while running freshly deployed app JS. Revalidation
+/// makes that window small — `next.config.js` sets max-age=0, must-revalidate —
+/// but small is not zero, and an offline or proxied client can widen it.
+#[wasm_bindgen]
+pub fn boundary_schema_version() -> u32 {
+    1
+}
+
+/// Map a JS geometry discriminant onto `FoodGeometry`.
+///
+/// Refuses anything outside 0..=2 rather than defaulting to Slab. A silent
+/// default here would answer a question the caller did not ask, and the wrong
+/// geometry changes the Biot denominator — the answer would be wrong in a way
+/// that still looks like a number.
+fn geometry_from_u8(d: u8) -> Option<FoodGeometry> {
+    match d {
+        0 => Some(FoodGeometry::Slab),
+        1 => Some(FoodGeometry::Cylinder),
+        2 => Some(FoodGeometry::Sphere),
+        _ => None,
+    }
+}
+
+/// Solve the series resistance chain and report which link controls.
+///
+/// ## Buffer layout
+///
+/// Header (`BOUNDARY_HEADER_FIELDS` = 7):
+/// `[0]` total_resistance_k_per_w, `[1]` ua_w_per_k, `[2]` heat_flow_w,
+/// `[3]` controlling link index, `[4]` food_biot (NaN when absent),
+/// `[5]` link_count, `[6]` node_count.
+///
+/// Then `link_count × BOUNDARY_LINK_FIELDS` floats:
+/// `[resistance_k_per_w, area_m2, h_w_m2_k (NaN when absent), share, drop_k]`.
+///
+/// Then `node_count` node temperatures in °C.
+///
+/// Link IDs are `&'static str` and cannot live in an f64 buffer; fetch them
+/// from [`boundary_network_link_ids`] with the same leg flags.
+///
+/// A REFUSAL is a length-1 array whose single element is NaN.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn solve_boundary_network(
+    source_c: f64,
+    sink_c: f64,
+    has_vessel: bool,
+    vessel_source_h_w_m2_k: f64,
+    vessel_area_m2: f64,
+    vessel_k_w_m_k: f64,
+    vessel_thickness_m: f64,
+    vessel_medium_h_w_m2_k: f64,
+    has_food: bool,
+    food_medium_h_w_m2_k: f64,
+    food_geometry: u8,
+    food_half_dimension_m: f64,
+    food_k_w_m_k: f64,
+    food_area_m2: f64,
+) -> Box<[f64]> {
+    let refusal: Box<[f64]> = Box::new([f64::NAN]);
+
+    let vessel = if has_vessel {
+        Some(VesselLeg {
+            source_to_vessel_h_w_m2_k: vessel_source_h_w_m2_k,
+            area_m2: vessel_area_m2,
+            k_w_m_k: vessel_k_w_m_k,
+            thickness_m: vessel_thickness_m,
+            vessel_to_medium_h_w_m2_k: vessel_medium_h_w_m2_k,
+        })
+    } else {
+        None
+    };
+
+    let food = if has_food {
+        let geometry = match geometry_from_u8(food_geometry) {
+            Some(g) => g,
+            None => return refusal,
+        };
+        Some(FoodLeg {
+            medium_to_food_h_w_m2_k: food_medium_h_w_m2_k,
+            geometry,
+            half_dimension_m: food_half_dimension_m,
+            k_w_m_k: food_k_w_m_k,
+            area_m2: food_area_m2,
+        })
+    } else {
+        None
+    };
+
+    let solved = match core_physics::solve_boundary_network(source_c, sink_c, vessel, food) {
+        Ok(r) => r,
+        Err(_) => return refusal,
+    };
+
+    let mut out =
+        Vec::with_capacity(BOUNDARY_HEADER_FIELDS + solved.links.len() * BOUNDARY_LINK_FIELDS
+            + solved.node_celsius.len());
+
+    out.push(solved.total_resistance_k_per_w);
+    out.push(solved.ua_w_per_k);
+    out.push(solved.heat_flow_w);
+    out.push(solved.controlling as f64);
+    out.push(solved.food_biot.unwrap_or(f64::NAN));
+    out.push(solved.links.len() as f64);
+    out.push(solved.node_celsius.len() as f64);
+
+    for link in &solved.links {
+        out.push(link.resistance_k_per_w);
+        out.push(link.area_m2);
+        out.push(link.h_w_m2_k.unwrap_or(f64::NAN));
+        out.push(link.share);
+        out.push(link.drop_k);
+    }
+    out.extend_from_slice(&solved.node_celsius);
+
+    out.into_boxed_slice()
+}
+
+/// Link IDs for a chain with the given legs, comma-separated in buffer order.
+///
+/// Kept as a separate call because the IDs are a pure function of which legs
+/// are present — they do not depend on any of the numeric inputs — so a UI can
+/// fetch them once and reuse them across every re-solve while dragging a slider.
+/// Returns an empty string for an unsolvable combination.
+#[wasm_bindgen]
+pub fn boundary_network_link_ids(has_vessel: bool, has_food: bool) -> String {
+    // Mirrors the push order inside `core_physics::solve_boundary_network`.
+    let mut ids: Vec<&'static str> = Vec::new();
+    if has_vessel {
+        ids.extend_from_slice(&[
+            "source-to-vessel",
+            "vessel-wall",
+            "vessel-to-medium",
+        ]);
+    }
+    if has_food {
+        ids.extend_from_slice(&["medium-to-food", "food-interior"]);
+    }
+    ids.join(",")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// `boundary_network_link_ids` hand-mirrors the push order inside the
+    /// core's solver. A mirror drifts: this caught `food-internal` vs the
+    /// core's actual `food-interior` on the first run. Assert against the real
+    /// solve for every leg combination rather than against a second copy of
+    /// the same guess.
+    #[test]
+    fn link_ids_match_the_real_solver() {
+        let vessel = VesselLeg {
+            source_to_vessel_h_w_m2_k: 60.0,
+            area_m2: 0.045,
+            k_w_m_k: 45.0,
+            thickness_m: 0.003,
+            vessel_to_medium_h_w_m2_k: 1000.0,
+        };
+        let food = FoodLeg {
+            medium_to_food_h_w_m2_k: 500.0,
+            geometry: FoodGeometry::Sphere,
+            half_dimension_m: 0.025,
+            k_w_m_k: 0.55,
+            area_m2: 4.0 * std::f64::consts::PI * 0.025 * 0.025,
+        };
+
+        for (has_vessel, has_food) in [(true, true), (true, false), (false, true)] {
+            let solved = thermo_core::solve_boundary_network(
+                200.0,
+                20.0,
+                if has_vessel { Some(vessel) } else { None },
+                if has_food { Some(food) } else { None },
+            )
+            .expect("fixture should solve");
+
+            let actual: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
+            let mirrored = boundary_network_link_ids(has_vessel, has_food);
+            assert_eq!(
+                actual.join(","),
+                mirrored,
+                "link id mirror drifted for vessel={has_vessel} food={has_food}"
+            );
+        }
+    }
+
+    /// A refusal must be distinguishable by LENGTH, not only by NaN, so a
+    /// caller that checks length never reads a garbage element.
+    #[test]
+    fn refusals_are_length_one() {
+        // Unknown geometry discriminant must refuse rather than default.
+        let bad = solve_boundary_network(
+            200.0, 20.0, false, 0.0, 0.0, 0.0, 0.0, 0.0, true, 500.0, 9, 0.025, 0.55, 0.008,
+        );
+        assert_eq!(bad.len(), 1);
+        assert!(bad[0].is_nan());
+
+        // headspace <= ambient is an documented lid refusal.
+        let lid = lid_heat_balance(0.05, 0.8, 0.0015, 15.0, 20.0, 20.0, 2.26e6, 0.3);
+        assert_eq!(lid.len(), 1);
+        assert!(lid[0].is_nan());
+    }
+
+    /// Out-of-band latent heat must be NaN, never an extrapolated line.
+    #[test]
+    fn latent_heat_refuses_outside_the_fit() {
+        assert!(latent_heat_vaporisation(-5.0).is_nan());
+        assert!(latent_heat_vaporisation(105.0).is_nan());
+        assert!(latent_heat_vaporisation(100.0).is_finite());
+        assert!(latent_heat_vaporisation(0.0).is_finite());
+    }
 
     #[test]
     fn engine_buffer_is_stride_consistent() {

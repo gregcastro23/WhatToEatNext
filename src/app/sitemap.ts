@@ -19,7 +19,15 @@ const STATIC_ROUTES: Array<{
   { path: "/recipes", changeFrequency: "daily", priority: 0.85 },
   { path: "/cuisines", changeFrequency: "weekly", priority: 0.85 },
   { path: "/cooking-methods", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/quantities", changeFrequency: "daily", priority: 0.8 },
+  { path: "/celestial-lab/alchm", changeFrequency: "daily", priority: 0.8 },
+  // The two labs and their public leaves. The standing chart and current chart
+  // are deliberately ABSENT: both are auth-gated, so listing them would point
+  // crawlers at a login redirect.
+  { path: "/kitchen-lab", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/kitchen-lab/physics", changeFrequency: "weekly", priority: 0.75 },
+  { path: "/kitchen-lab/alchm", changeFrequency: "daily", priority: 0.7 },
+  { path: "/celestial-lab", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/celestial-lab/mechanics", changeFrequency: "hourly", priority: 0.8 },
   { path: "/cosmic-recipe", changeFrequency: "daily", priority: 0.7 },
   { path: "/commensal", changeFrequency: "weekly", priority: 0.7 },
   { path: "/pantry", changeFrequency: "weekly", priority: 0.7 },

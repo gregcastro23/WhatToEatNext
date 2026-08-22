@@ -321,7 +321,7 @@ export default function AlchmKitchenHome(): JSX.Element {
           }}
         >
           <Link
-            href="/lab"
+            href="/kitchen-lab"
             className="t-mono"
             style={{
               fontSize: 10,

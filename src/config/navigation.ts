@@ -8,6 +8,21 @@
  * Do not import this from server-only modules; the constants are intended
  * for client components.
  *
+ * ## The Lab split (Kitchen Lab / Celestial Lab)
+ *
+ * A single `lab` section used to hold eight routes spanning four unrelated
+ * concerns: kitchen thermodynamics (`/lab`), celestial mechanics
+ * (`/planetary-chart`, `/current-chart`, `/birth-chart`), the alchm quantity
+ * system (`/quantities`) and the token economy (`/vault`). Users could not
+ * tell which computational model they were looking at, because the IA itself
+ * did not distinguish them.
+ *
+ * It is now two sections along the axis that actually matters — the SUBJECT
+ * being modelled (a pan of food vs the sky) — and every leaf declares which
+ * COMPUTATIONAL SYSTEM produces its numbers via `system`. That field is what
+ * drives the persistent badges in the lab layouts, so a page can never
+ * disagree with the nav about which model it is running.
+ *
  * @file src/config/navigation.ts
  */
 
@@ -18,7 +33,23 @@ export type PrimaryKey =
   | "discover"
   | "plan"
   | "commensal"
-  | "lab";
+  | "kitchenLab"
+  | "celestialLab";
+
+/**
+ * Which computational model produces the numbers on a route.
+ *
+ * - `real`  — SI-unit physics. Reproducible against cited literature or an
+ *             ephemeris; a physicist would recognise every quantity.
+ * - `alchm` — the alchm model (ESMS, kalchm, monica, elemental values).
+ *             Internally consistent and load-bearing for the economy, but not
+ *             a claim about measurable reality.
+ *
+ * Deliberately has no "mixed" member. A surface that renders both is a
+ * surface to SPLIT, not to label — the whole point of the split is that a
+ * reader always knows which system they are reading.
+ */
+export type ComputationalSystem = "real" | "alchm";
 
 export interface NavRoute {
   label: string;
@@ -27,6 +58,8 @@ export interface NavRoute {
   hint: string;
   external?: boolean;
   premium?: boolean;
+  /** Present on lab leaves; absent on ordinary product routes. */
+  system?: ComputationalSystem;
 }
 
 export interface NavSection {
@@ -44,7 +77,8 @@ export const PRIMARY_KEYS: readonly PrimaryKey[] = [
   "discover",
   "plan",
   "commensal",
-  "lab",
+  "kitchenLab",
+  "celestialLab",
 ] as const;
 
 export const NAV_IA: NavIA = {
@@ -100,44 +134,89 @@ export const NAV_IA: NavIA = {
       { label: "Restaurant Creator", path: "/restaurant-creator", glyph: "atom", hint: "Concept menus · ESMS tokens" },
     ],
   },
-  lab: {
-    label: "Lab",
-    path: "/lab",
-    glyph: "orbital",
-    sub: "Engine internals & ESMS token vault",
+  kitchenLab: {
+    label: "Kitchen Lab",
+    path: "/kitchen-lab",
+    glyph: "flask",
+    sub: "Thermodynamics of a pan of food — measured, then alchemized",
     routes: [
-      { label: "Recommendation Engine", path: "/lab", glyph: "orbital", hint: "Live signal flow · weights · overrides" },
-      { label: "Lab Book", path: "/lab-book", glyph: "bookmark", hint: "Scan or paste recipes into your cookbook" },
-      { label: "Grimoire", path: "/grimoire", glyph: "bookmark", hint: "The practices · today's resonance · your feats" },
-      { label: "Planetary Chart", path: "/planetary-chart", glyph: "ring", hint: "Free-body diagrams of the current sky" },
-      { label: "Current Chart", path: "/current-chart", glyph: "wave", hint: "Live sky × your natal" },
-      { label: "Alchm Quantities", path: "/quantities", glyph: "crosshair", hint: "ESMS · Monica constants · P=IV" },
-      { label: "Standing Chart", path: "/birth-chart", glyph: "diamond", hint: "Your natal · stored encrypted" },
-      { label: "ESMS Vault", path: "/vault", glyph: "diamond", hint: "Token balances · daily Cosmic Yield" },
+      { label: "Lab Overview", path: "/kitchen-lab", glyph: "flask", hint: "Both models side by side · what each answers" },
+      { label: "Real Physics", path: "/kitchen-lab/physics", glyph: "triangle-up-bar", hint: "Heat transfer · latent heat · medium boundaries", system: "real" },
+      { label: "Alchm Physics", path: "/kitchen-lab/alchm", glyph: "spiral", hint: "Ingredient ESMS · kalchm · monica", system: "alchm" },
+      { label: "Lab Book", path: "/kitchen-lab/lab-book", glyph: "bookmark", hint: "Scan or paste recipes into your cookbook", system: "alchm" },
+      { label: "Grimoire", path: "/grimoire", glyph: "mortar", hint: "The practices · today's resonance · your feats", system: "alchm" },
+    ],
+  },
+  celestialLab: {
+    label: "Celestial Lab",
+    path: "/celestial-lab",
+    glyph: "orbital",
+    sub: "Mechanics of the sky — ephemeris, then ESMS",
+    routes: [
+      { label: "Lab Overview", path: "/celestial-lab", glyph: "orbital", hint: "Both models side by side · what each answers" },
+      { label: "Celestial Mechanics", path: "/celestial-lab/mechanics", glyph: "ring", hint: "Free-body diagrams of the current sky", system: "real" },
+      { label: "Current Transits", path: "/celestial-lab/current-chart", glyph: "wave", hint: "Live sky × your natal", system: "real" },
+      { label: "Standing Chart", path: "/celestial-lab/standing-chart", glyph: "diamond", hint: "Your natal · stored encrypted", system: "real" },
+      { label: "Alchm Quantities", path: "/celestial-lab/alchm", glyph: "crosshair", hint: "ESMS · Monica constants · P=IV", system: "alchm" },
+      { label: "ESMS Vault", path: "/vault", glyph: "diamond", hint: "Token balances · daily Cosmic Yield", system: "alchm" },
     ],
   },
 };
 
 /**
+ * Legacy lab paths and where they now live.
+ *
+ * Exported because three consumers need the SAME mapping and must not drift:
+ * the `redirects()` block in next.config.js (server-side 307s), any client
+ * component still holding a hardcoded legacy href, and the tests that prove
+ * every legacy path still resolves. Keeping it here means a future move edits
+ * one table.
+ */
+export const LEGACY_LAB_REDIRECTS: Readonly<Record<string, string>> = {
+  "/lab": "/kitchen-lab",
+  "/lab-book": "/kitchen-lab/lab-book",
+  "/planetary-chart": "/celestial-lab/mechanics",
+  "/current-chart": "/celestial-lab/current-chart",
+  "/birth-chart": "/celestial-lab/standing-chart",
+  "/quantities": "/celestial-lab/alchm",
+};
+
+/**
  * Resolve the active primary key from a Next.js pathname. Lives here
  * because every nav surface needs the same mapping.
+ *
+ * Legacy lab paths still map to their new section. A 307 fires before most
+ * users ever render a header on one, but an in-flight client transition can
+ * evaluate this against the OLD path, and highlighting nothing for one frame
+ * reads as a broken header.
  */
 export function activePrimaryFromPathname(pathname: string | null | undefined): PrimaryKey {
   if (!pathname || pathname === "/") return "kitchen";
 
-  // Lab cluster
+  // Kitchen Lab cluster — thermodynamics of food, plus the practice surfaces.
   if (
-    pathname.startsWith("/lab") ||
+    pathname.startsWith("/kitchen-lab") ||
+    pathname.startsWith("/lab-book") ||
     pathname.startsWith("/grimoire") ||
+    // `/lab` must be tested AFTER `/lab-book`; a bare startsWith("/lab")
+    // swallows it. Both land in kitchenLab today, so the order is currently
+    // unobservable — it stops being unobservable the moment one of them moves.
+    pathname.startsWith("/lab")
+  ) {
+    return "kitchenLab";
+  }
+
+  // Celestial Lab cluster — the sky, the alchm quantity system, the vault.
+  if (
+    pathname.startsWith("/celestial-lab") ||
     pathname.startsWith("/planetary-chart") ||
-    pathname.startsWith("/birth-chart") ||
     pathname.startsWith("/current-chart") ||
+    pathname.startsWith("/birth-chart") ||
     pathname.startsWith("/quantities") ||
     pathname.startsWith("/vault") ||
-    pathname.startsWith("/profile") ||
     pathname.startsWith("/alchm")
   ) {
-    return "lab";
+    return "celestialLab";
   }
 
   // Commensal cluster (relabeled "Tables") — the Table entity + its landing
@@ -180,6 +259,41 @@ export function activePrimaryFromPathname(pathname: string | null | undefined): 
   }
 
   return "kitchen";
+}
+
+/**
+ * Resolve which computational system a lab pathname is running, or null when
+ * the route is not a lab leaf (an overview, or an ordinary product route).
+ *
+ * Reads NAV_IA rather than re-listing paths, so a badge can never claim a
+ * system the nav disagrees with. Longest-match wins, because a nested leaf
+ * must beat any shorter ancestor that also declares a system.
+ *
+ * `ia` exists for tests. With today's NAV_IA no two system-bearing routes
+ * overlap — the overviews carry no `system` and are skipped — so the
+ * longest-match branch is UNREACHABLE against the real data, and a test
+ * written against NAV_IA passes identically if the tie-break is deleted
+ * (verified: mutating it to first-match left all assertions green). The
+ * parameter lets the test inject an IA where two system-bearing routes really
+ * do collide, which is the only way to prove the tie-break does anything.
+ */
+export function systemFromPathname(
+  pathname: string | null | undefined,
+  ia: NavIA = NAV_IA,
+): ComputationalSystem | null {
+  if (!pathname) return null;
+
+  let best: { len: number; system: ComputationalSystem } | null = null;
+  for (const key of PRIMARY_KEYS) {
+    for (const route of ia[key].routes) {
+      if (!route.system) continue;
+      if (pathname !== route.path && !pathname.startsWith(`${route.path}/`)) continue;
+      if (!best || route.path.length > best.len) {
+        best = { len: route.path.length, system: route.system };
+      }
+    }
+  }
+  return best?.system ?? null;
 }
 
 export type FlatNavEntry = NavRoute & {
