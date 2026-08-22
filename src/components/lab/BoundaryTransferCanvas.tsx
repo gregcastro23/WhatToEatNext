@@ -224,7 +224,7 @@ function Scalar({
     <div className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2">
       <div className="text-[10px] uppercase tracking-wider text-white/40">{label}</div>
       <div className="mt-0.5 font-mono text-sm tabular-nums text-white/90">
-        {value === null ? <Refused reason={reason} /> : value}
+        {value ?? <Refused reason={reason} />}
         {value === null ? null : (
           <span className="ml-1 text-[10px] font-normal text-white/40">{unit}</span>
         )}
@@ -677,10 +677,21 @@ export function BoundaryTransferCanvas({
 
   useEffect(() => {
     let disposed = false;
-    void createBoundarySolver().then((s) => {
-      if (!disposed) setSolver(s);
-    });
-    return () => {
+    // Two-argument `then` rather than `void ...`: the second handler is what
+    // keeps this from being a floating promise without the `void` operator.
+    // `createBoundarySolver` is contracted never to reject (see its docblock),
+    // so the handler is unreachable — but "unreachable by contract" is not
+    // something the compiler can check, and a silently dropped rejection here
+    // wedges the component on its loading state forever.
+    createBoundarySolver().then(
+      (s) => {
+        if (!disposed) setSolver(s);
+      },
+      () => {
+        if (!disposed) setSolver(null);
+      },
+    );
+    return (): void => {
       disposed = true;
     };
   }, []);
@@ -826,7 +837,7 @@ export function BoundaryTransferCanvas({
           });
     observer?.observe(canvas);
 
-    return () => {
+    return (): void => {
       disposed = true;
       stop();
       observer?.disconnect();

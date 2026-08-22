@@ -954,7 +954,7 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
         mod.latent_as_temperature_rise!(j, cp),
         `specific heat must be positive; received ${cp}`,
       ),
-    lidHeatBalance: (input) => {
+    lidHeatBalance: (input): ScalarReading<LidBalanceReading> => {
       const buf = mod.lid_heat_balance!(
         input.lidAreaM2,
         input.lidPerimeterM,
@@ -997,7 +997,11 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
  * REFUSES an unrecognised discriminant rather than defaulting to slab, which is
  * what turns a desync into a visible refusal instead of a quiet lie.
  */
-const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number>> = {
+// `number | undefined` is the type indexing ACTUALLY has. `Record<string,
+// number>` claims every string key yields a number, which is false for an
+// unmapped geometry and is exactly what the refusal below exists to catch;
+// with `noUncheckedIndexedAccess: false` nothing else would tell the compiler.
+const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number | undefined>> = {
   slab: 0,
   cylinder: 1,
   sphere: 2,
@@ -1093,8 +1097,23 @@ export function decodeBoundaryBuffer(
     });
   }
 
+  // Range-check the index itself rather than truthiness of the element.
+  //
+  // `controllingIndex` arrives from the WASM buffer and is not trusted. Two
+  // things make the obvious `if (!links[i])` the wrong guard here:
+  //
+  //   - `tsconfig.json` sets `noUncheckedIndexedAccess: false`, so `links[i]`
+  //     is typed as always present. The check reads as dead code to both the
+  //     compiler and eslint, and annotating the variable `| undefined` does not
+  //     help — TypeScript narrows straight back from the initializer.
+  //   - `links.at(i)` would type correctly and behave WRONG: `.at(-1)` returns
+  //     the LAST element, so a negative index from a malformed buffer would
+  //     silently select a real link instead of being refused.
+  //
+  // An explicit numeric bound has neither problem, and says what it means.
+  // Pinned by src/lib/wasm/__tests__/boundarySolver.test.ts.
+  if (controllingIndex < 0 || controllingIndex >= links.length) return null;
   const controlling = links[controllingIndex];
-  if (!controlling) return null;
 
   const nodeStart = headerFields + linkCount * linkFields;
   const nodes: Array<{ id: string; celsius: number }> = [];
@@ -1204,7 +1223,7 @@ async function createBoundarySolverInner(): Promise<BoundarySolver> {
 
   return {
     engine: "wasm",
-    solve(input) {
+    solve(input): BoundaryNetworkResult | null {
       // ⚠️ try/catch is NOT belt-and-braces here. The release profile sets
       // `panic = "abort"`, so a panic inside the module TRAPS and wasm-bindgen
       // re-throws it as a JS exception. Unwrapped, that propagates out of the
@@ -1228,7 +1247,12 @@ async function createBoundarySolverInner(): Promise<BoundarySolver> {
       const geometry = f ? GEOMETRY_DISCRIMINANT[f.geometry] : 0;
       // An unmapped geometry string would otherwise arrive as NaN and be
       // coerced by wasm-bindgen; refuse in JS instead of guessing.
-      if (f && geometry === undefined) return null;
+      //
+      // `f &&` was redundant and blocked narrowing: without food, `geometry`
+      // is the literal 0 and can never be undefined, so this tests exactly the
+      // unmapped-geometry case either way — and now the compiler can see that
+      // the value reaching the call below is a number.
+      if (geometry === undefined) return null;
 
       const buf = m.solve_boundary_network!(
         input.sourceC,
@@ -1280,7 +1304,7 @@ async function typescriptBoundarySolver(): Promise<BoundarySolver> {
   const boundary = await import("@/lib/cooking/boundaryNetwork");
   return {
     engine: "typescript",
-    solve(input) {
+    solve(input): BoundaryNetworkResult | null {
       try {
         return boundary.solveBoundaryNetwork(input);
       } catch {

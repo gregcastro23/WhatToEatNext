@@ -127,10 +127,17 @@ export function ComparisonPanel(): React.JSX.Element {
 
   useEffect(() => {
     let disposed = false;
-    void createBoundarySolver().then((s) => {
-      if (!disposed) setSolver(s);
-    });
-    return () => {
+    // See BoundaryTransferCanvas: two-argument `then` keeps this off the
+    // floating-promise path without reaching for the `void` operator.
+    createBoundarySolver().then(
+      (s) => {
+        if (!disposed) setSolver(s);
+      },
+      () => {
+        if (!disposed) setSolver(null);
+      },
+    );
+    return (): void => {
       disposed = true;
     };
   }, []);

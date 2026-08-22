@@ -86,6 +86,19 @@ jobs:
       # not apply, surfacing later as an unexplained rustc line in a manifest
       # diff. `rustup show` reads the file and installs what it names, targets
       # included; rustup is preinstalled on the GitHub ubuntu images.
+      # `[MEASURED 2026-08-22]` build-thermo-wasm.sh ends by running
+      # scripts/verify-boundary-solver-parity.mjs under BUN, which is required
+      # because that script imports .ts sources directly (node cannot). This
+      # job had no bun, so the very first CI run of the committed artifact died
+      # with `bun: command not found` AFTER the golden vectors had already
+      # passed — the failure looked like a wasm problem and was a missing
+      # interpreter. No `bun install`: the script's whole import closure is
+      # relative/`@/` with no npm package in it.
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Install the pinned Rust toolchain
         run: |
           rustup show active-toolchain || rustup toolchain install

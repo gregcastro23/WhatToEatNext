@@ -75,10 +75,17 @@ export function LatentHeatPanel({
 
   useEffect(() => {
     let disposed = false;
-    void createThermoScalars().then((s) => {
-      if (!disposed) setScalars(s);
-    });
-    return () => {
+    // See BoundaryTransferCanvas: two-argument `then` keeps this off the
+    // floating-promise path without reaching for the `void` operator.
+    createThermoScalars().then(
+      (s) => {
+        if (!disposed) setScalars(s);
+      },
+      () => {
+        if (!disposed) setScalars(null);
+      },
+    );
+    return (): void => {
       disposed = true;
     };
   }, []);

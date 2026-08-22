@@ -50,9 +50,38 @@ function r2(): S3Client {
  */
 export async function storeAvatar(userId: string, dataUrl: string): Promise<string | null> {
   if (!avatarStorageConfigured()) return null;
-  const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
-  if (!match) return null;
-  const [, mime, b64] = match;
+  // ⚠️ SPLIT IN TWO ON PURPOSE — do not recombine into one pattern.
+  //
+  // `[MEASURED 2026-08-22]` this was a single regex ending in
+  // `([A-Za-z0-9+/=]+)$`, and on the Linux CI runner it threw
+  //
+  //     RangeError: Maximum call stack size exceeded
+  //         at RegExp.exec
+  //
+  // against an oversized upload — a 5 MB payload is ~6.99 MB of base64, and a
+  // greedy quantifier over that much input exhausts the regex backtrack stack.
+  // It does not reproduce on macOS at any stack size, which is why it stood
+  // green locally for months.
+  //
+  // The throw also broke this function's contract: the docblock promises null
+  // for a malformed or oversized payload, and the route turns that into a
+  // client error. A RangeError escaping instead surfaces as a 500 — so a big
+  // enough avatar was a way to make the upload route throw.
+  //
+  // A length pre-check cannot fix it: MAX_BYTES and MAX_BYTES + 1 encode to
+  // the SAME base64 length (6990508 either way), so size is undecidable before
+  // decoding. The fix is to stop backtracking at all. The header pattern is
+  // anchored and fixed-width, and the body is validated by searching for the
+  // first INVALID character — a negated class with no quantifier, which has no
+  // backtrack stack to exhaust and scans linearly.
+  //
+  // Semantics are unchanged: header, then at least one base64 character, and
+  // nothing that is not a base64 character through to the end.
+  const header = /^data:(image\/(?:jpeg|png|webp));base64,/.exec(dataUrl);
+  if (!header) return null;
+  const [, mime] = header;
+  const b64 = dataUrl.slice(header[0].length);
+  if (b64.length === 0 || /[^A-Za-z0-9+/=]/.test(b64)) return null;
   const buf = Buffer.from(b64, "base64");
   if (buf.length === 0 || buf.length > MAX_BYTES) return null;
 
