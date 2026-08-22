@@ -1,0 +1,23 @@
+# Pins the Rust toolchain for the whole workspace.
+#
+# ⚠️ THIS FILE IS LOAD-BEARING FOR public/wasm/, WHICH IS COMMITTED.
+#
+# `[MEASURED 2026-08-22]` The compiled artifact embeds the rustc commit hash in
+# its panic-location strings:
+#
+#     /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/str.rs
+#
+# so a different rustc produces a different binary from identical source. CI
+# used `dtolnay/rust-toolchain@stable`, and "stable" moves — without this pin
+# the committed artifact would drift out of agreement with CI on whatever
+# Tuesday rustc ships a release, for no change any human made.
+#
+# rustup applies this file as a directory override regardless of the installed
+# default, so it governs local builds and CI alike.
+#
+# Bumping it is a deliberate act: raise the version here, run `bun run
+# build:wasm`, and commit the regenerated public/wasm/ in the same change.
+[toolchain]
+channel = "1.95.0"
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"

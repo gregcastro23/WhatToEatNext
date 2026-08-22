@@ -335,7 +335,7 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
   const findPlanet = (name: string) => natalChart.planets?.find(p => p.name === name);
 
   return (
-    <Link href="/birth-chart" className="block bg-gray-950 rounded-3xl p-6 border border-white/5 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-900/20 transition-all cursor-pointer group">
+    <Link href="/celestial-lab/standing-chart" className="block bg-gray-950 rounded-3xl p-6 border border-white/5 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-900/20 transition-all cursor-pointer group">
       <div className="flex justify-between items-start mb-5">
         <div>
           <h3 className="text-sm font-bold text-white uppercase tracking-widest">Birth Chart</h3>

@@ -34,6 +34,11 @@
  */
 
 import type { MethodPhysicsProfile } from "@/data/cooking/methodPhysics";
+import type {
+  BoundaryLink,
+  BoundaryNetworkInput,
+  BoundaryNetworkResult,
+} from "@/lib/cooking/boundaryNetwork";
 import type { MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
 
 /** f32 narrowing. Aliased because it appears on nearly every line below. */
@@ -455,8 +460,12 @@ const WASM_MODULE_URL = "/wasm/thermo_wasm.js";
  * Shape of the wasm-bindgen `--target web` output we depend on.
  *
  * Declared structurally rather than imported, because the generated module is
- * gitignored: it is a build product of `bun run build:wasm`, and a checkout
- * that has not run that step must still typecheck and still render.
+ * a build product. public/wasm/ is committed as of 2026-08-22, so it is
+ * normally present — but importing its .d.ts would make `bun run typecheck`
+ * depend on a generated file, and the structural declaration also covers the
+ * case this loader really has to survive: a BROWSER holding a cached older
+ * bundle whose export set predates the current app JS. Every export added
+ * after the particle engine is therefore optional and feature-detected.
  */
 interface ThermoWasmModule {
   default: (input?: unknown) => Promise<{ memory: WebAssembly.Memory }>;
@@ -474,6 +483,71 @@ interface ThermoWasmModule {
     free(): void;
   };
   floats_per_particle: () => number;
+
+  // Scalar physics added alongside the particle engine. Declared STRUCTURALLY,
+  // like everything above, so that typecheck never depends on a build product
+  // and a cached older bundle cannot break the render. Every one of these is
+  // optional at runtime: a browser may hold a CACHED older bundle that predates
+  // them, and reading an undefined export would throw inside the render path.
+  // `createThermoScalars` feature-detects each before use.
+  latent_heat_vaporisation?: (celsius: number) => number;
+  water_fusion_j_kg?: () => number;
+  food_fusion_enthalpy?: (waterMassFraction: number) => number;
+  food_vaporisation_enthalpy?: (waterMassFraction: number, celsius: number) => number;
+  latent_as_temperature_rise?: (latentJkg: number, cpJkgK: number) => number;
+  lid_balance_fields?: () => number;
+  /* eslint-disable max-params --
+   * These two mirror the arity of the Rust exports exactly, and that arity is
+   * a consequence of a deliberate constraint rather than a style slip:
+   * thermo-core is dependency-free (it is also linked into the SpacetimeDB
+   * module), so there is no serde on either side and a struct has to cross the
+   * boundary as positional scalars. Bundling them into an options object here
+   * would hide the fact that the wire format IS positional, which is the one
+   * property a reader of this interface most needs to know. */
+  lid_heat_balance?: (
+    lidAreaM2: number,
+    lidPerimeterM: number,
+    lidThicknessM: number,
+    lidKWmK: number,
+    headspaceC: number,
+    ambientC: number,
+    latentHeatJkg: number,
+    emissivity: number,
+  ) => Float64Array;
+
+  // Boundary network. Returns a FLAT f64 buffer, not a struct — thermo-core is
+  // dependency-free (it is also linked into the SpacetimeDB module) so there is
+  // no serde on either side of this boundary.
+  //
+  // ⚠️ Memory: the generated glue does `getArrayF64FromWasm0(ptr, len).slice()`
+  // and then frees the Rust allocation. The array handed to JS is therefore a
+  // COPY, not a view into linear memory. That is the opposite of the particle
+  // buffer contract — a `Float64Array` from here is safe to retain across
+  // frames and cannot be detached by a later allocation, and there is nothing
+  // for the caller to free.
+  solve_boundary_network?: (
+    sourceC: number,
+    sinkC: number,
+    hasVessel: boolean,
+    vesselSourceHWm2K: number,
+    vesselAreaM2: number,
+    vesselKWmK: number,
+    vesselThicknessM: number,
+    vesselMediumHWm2K: number,
+    hasFood: boolean,
+    foodMediumHWm2K: number,
+    foodGeometry: number,
+    foodHalfDimensionM: number,
+    foodKWmK: number,
+    foodAreaM2: number,
+  ) => Float64Array;
+  /* eslint-enable max-params */
+  boundary_network_link_ids?: (hasVessel: boolean, hasFood: boolean) => string;
+  boundary_link_fields?: () => number;
+  boundary_header_fields?: () => number;
+  /** Wire-format version of the boundary buffer. Absent in bundles built
+   *  before 2026-08-22 — see BOUNDARY_SCHEMA_VERSION below. */
+  boundary_schema_version?: () => number;
 }
 
 class WasmThermoEngine implements ThermoEngineHandle {
@@ -532,8 +606,18 @@ async function loadModule(): Promise<ThermoWasmModule | null> {
 
   modulePromise = (async (): Promise<ThermoWasmModule | null> => {
     try {
-      // Probe before importing. A missing bundle is the NORMAL state of a
-      // checkout that has not run `bun run build:wasm`, and Next's dev overlay
+      // Probe before importing.
+      //
+      // ⚠️ A 404 HERE IS NO LONGER NORMAL. It was, while public/wasm/ was
+      // gitignored — and that is exactly how production ran the TypeScript
+      // engine unnoticed from the day this loader shipped: Vercel's build never
+      // ran build:wasm, so alchm.kitchen answered 404 for the module and this
+      // catch swallowed it into the fallback, honestly reporting
+      // `engine: "typescript"` that nobody was reading. The artifact is
+      // committed now, so a 404 means something is actually wrong — a broken
+      // deploy or a stripped public/. The fallback still exists because
+      // degrading to correct-but-slower physics beats a blank panel, but do not
+      // read a fallback as expected. Next's dev overlay
       // surfaces a failed dynamic import as an error toast even when it is
       // caught. A 404 here is quiet and equally conclusive.
       const probe = await fetch(WASM_MODULE_URL, { method: "HEAD" });
@@ -653,5 +737,596 @@ export function simulationInputs(metrics: MethodPhysicsMetrics): {
     ovenTempC: metrics.medium.celsius,
     hWm2K: metrics.transfer?.typical ?? 25,
     radiantSourceK: metrics.physics.radiantSourceK ?? 505,
+  };
+}
+
+// ============================================================================
+// Scalar physics — dual runtime
+// ============================================================================
+
+/**
+ * A value or a stated refusal.
+ *
+ * Structurally identical to `Reading<T>` in src/lib/cooking/labSolver.ts, and
+ * declared here rather than imported so this module keeps its one-way
+ * dependency on nothing under src/lib/cooking. TypeScript is structural, so the
+ * two are interchangeable at every call site.
+ */
+export type ScalarReading<T> =
+  | { available: true; value: T }
+  | { available: false; reason: string };
+
+const got = <T,>(value: T): ScalarReading<T> => ({ available: true, value });
+const declined = <T,>(reason: string): ScalarReading<T> => ({
+  available: false,
+  reason,
+});
+
+/**
+ * Convert the WASM boundary's NaN refusal into a stated one.
+ *
+ * ⚠️ This is the ONLY place a NaN from the module is allowed to exist. A NaN
+ * that escapes into a component renders as "NaN" in the DOM, which reads as a
+ * broken page rather than as "the correlation declined" — and worse, `NaN > 0`
+ * is false, so a guard written the obvious way silently takes the wrong branch.
+ */
+function fromWasm(value: number, reason: string): ScalarReading<number> {
+  return Number.isFinite(value) ? got(value) : declined(reason);
+}
+
+/**
+ * Run a TypeScript kernel and convert its throw into a stated refusal.
+ *
+ * The kernels under src/lib/cooking throw `RangeError` with messages written
+ * to be read by a person; that message is surfaced rather than replaced.
+ */
+function fromThrowing<T>(fn: () => T, context: string): ScalarReading<T> {
+  try {
+    const value = fn();
+    if (typeof value === "number" && !Number.isFinite(value)) {
+      return declined(`${context}: produced a non-finite value`);
+    }
+    return got(value);
+  } catch (error) {
+    return declined(
+      error instanceof Error ? error.message : `${context}: refused`,
+    );
+  }
+}
+
+export interface LidBalanceReading {
+  lidC: number;
+  convectiveLossW: number;
+  radiativeLossW: number;
+  totalLossW: number;
+  condensationCapacityKgS: number;
+}
+
+/**
+ * Latent-heat and lid scalars, backed by whichever engine is actually present.
+ *
+ * `engine` is the engine that RAN, never a hopeful constant — the same rule the
+ * particle canvas follows. A panel that labels itself "WASM" while running the
+ * TypeScript path is the precise failure this pipeline was built to remove.
+ */
+export interface ThermoScalars {
+  readonly engine: "wasm" | "typescript";
+  latentHeatVaporisation(celsius: number): ScalarReading<number>;
+  waterFusionJKg(): number;
+  foodFusionEnthalpy(waterMassFraction: number): ScalarReading<number>;
+  foodVaporisationEnthalpy(
+    waterMassFraction: number,
+    celsius: number,
+  ): ScalarReading<number>;
+  latentAsTemperatureRise(
+    latentJkg: number,
+    specificHeatJkgK: number,
+  ): ScalarReading<number>;
+  lidHeatBalance(input: {
+    lidAreaM2: number;
+    lidPerimeterM: number;
+    lidThicknessM: number;
+    lidKWmK: number;
+    headspaceC: number;
+    ambientC: number;
+    latentHeatJkg: number;
+    emissivity?: number;
+  }): ScalarReading<LidBalanceReading>;
+}
+
+/**
+ * The TypeScript half.
+ *
+ * Delegates to src/lib/cooking/* rather than transliterating the physics a
+ * third time. There are already exactly two implementations under a byte-parity
+ * contract pinned by one golden fixture; a third copy here would be a third
+ * thing to keep in step, and nothing would notice when it fell behind.
+ *
+ * Imported lazily so a caller that only ever gets the WASM path does not pull
+ * the whole cooking kernel into its bundle.
+ */
+async function typescriptScalars(): Promise<ThermoScalars> {
+  const [latent, boundary] = await Promise.all([
+    import("@/lib/cooking/latentHeat"),
+    import("@/lib/cooking/boundaryNetwork"),
+  ]);
+
+  return {
+    engine: "typescript",
+    latentHeatVaporisation: (celsius) =>
+      fromThrowing(
+        () => latent.latentHeatVaporisation(celsius),
+        "latentHeatVaporisation",
+      ),
+    waterFusionJKg: () => latent.WATER_FUSION_J_KG,
+    foodFusionEnthalpy: (w) =>
+      fromThrowing(() => latent.foodFusionEnthalpy(w), "foodFusionEnthalpy"),
+    foodVaporisationEnthalpy: (w, c) =>
+      fromThrowing(
+        () => latent.foodVaporisationEnthalpy(w, c),
+        "foodVaporisationEnthalpy",
+      ),
+    latentAsTemperatureRise: (j, cp) =>
+      fromThrowing(
+        () => latent.latentAsTemperatureRise(j, cp),
+        "latentAsTemperatureRise",
+      ),
+    lidHeatBalance: (input) =>
+      fromThrowing(() => {
+        const r = boundary.lidHeatBalance({
+          lidAreaM2: input.lidAreaM2,
+          lidPerimeterM: input.lidPerimeterM,
+          lidThicknessM: input.lidThicknessM,
+          lidKWmK: input.lidKWmK,
+          headspaceC: input.headspaceC,
+          ambientC: input.ambientC,
+          latentHeatJkg: input.latentHeatJkg,
+          emissivity: input.emissivity ?? 0.9,
+        });
+        return {
+          lidC: r.lidC,
+          convectiveLossW: r.convectiveLossW,
+          radiativeLossW: r.radiativeLossW,
+          totalLossW: r.totalLossW,
+          condensationCapacityKgS: r.condensationCapacityKgS,
+        };
+      }, "lidHeatBalance"),
+  };
+}
+
+/**
+ * Create the best available scalar engine.
+ *
+ * Falls back to TypeScript whenever the module is absent OR predates these
+ * exports. The per-export feature detection matters: a browser holding a cached
+ * bundle from before this change has `ThermoEngine` but not
+ * `latent_heat_vaporisation`, and calling the missing one throws inside render.
+ * Detecting the whole set together keeps a single engine label honest rather
+ * than mixing runtimes call by call.
+ */
+export async function createThermoScalars(): Promise<ThermoScalars> {
+  const mod = await loadModule();
+
+  const complete =
+    !!mod &&
+    typeof mod.latent_heat_vaporisation === "function" &&
+    typeof mod.water_fusion_j_kg === "function" &&
+    typeof mod.food_fusion_enthalpy === "function" &&
+    typeof mod.food_vaporisation_enthalpy === "function" &&
+    typeof mod.latent_as_temperature_rise === "function" &&
+    typeof mod.lid_heat_balance === "function" &&
+    typeof mod.lid_balance_fields === "function";
+
+  if (!mod || !complete) return typescriptScalars();
+
+  try {
+    await mod.default();
+  } catch {
+    return typescriptScalars();
+  }
+
+  // Stride check, same reasoning as floats_per_particle: if the module and this
+  // file disagree about the buffer shape, every field is read from the wrong
+  // index and the result is wrong numbers rather than an error.
+  const LID_FIELDS = 5;
+  if (mod.lid_balance_fields?.() !== LID_FIELDS) return typescriptScalars();
+
+  return {
+    engine: "wasm",
+    latentHeatVaporisation: (celsius) =>
+      fromWasm(
+        mod.latent_heat_vaporisation!(celsius),
+        `latent heat of vaporisation is fitted for 0–100 °C; ${celsius} °C is outside it`,
+      ),
+    waterFusionJKg: () => mod.water_fusion_j_kg!(),
+    foodFusionEnthalpy: (w) =>
+      fromWasm(
+        mod.food_fusion_enthalpy!(w),
+        `water mass fraction must be within 0–1; received ${w}`,
+      ),
+    foodVaporisationEnthalpy: (w, c) =>
+      fromWasm(
+        mod.food_vaporisation_enthalpy!(w, c),
+        `composition or temperature outside the correlation range (w=${w}, ${c} °C)`,
+      ),
+    latentAsTemperatureRise: (j, cp) =>
+      fromWasm(
+        mod.latent_as_temperature_rise!(j, cp),
+        `specific heat must be positive; received ${cp}`,
+      ),
+    lidHeatBalance: (input): ScalarReading<LidBalanceReading> => {
+      const buf = mod.lid_heat_balance!(
+        input.lidAreaM2,
+        input.lidPerimeterM,
+        input.lidThicknessM,
+        input.lidKWmK,
+        input.headspaceC,
+        input.ambientC,
+        input.latentHeatJkg,
+        input.emissivity ?? 0.9,
+      );
+      // A refusal is a length-1 array. Checking LENGTH rather than NaN means a
+      // caller never reads an element that does not exist.
+      if (buf.length !== LID_FIELDS) {
+        return declined(
+          "lid heat balance refused: headspace must be above ambient and every geometry term positive",
+        );
+      }
+      return got({
+        lidC: buf[0],
+        convectiveLossW: buf[1],
+        radiativeLossW: buf[2],
+        totalLossW: buf[3],
+        condensationCapacityKgS: buf[4],
+      });
+    },
+  };
+}
+
+// ============================================================================
+// Boundary network — dual runtime
+// ============================================================================
+
+/**
+ * Geometry discriminants, shared with `FoodGeometry` in thermo-core.
+ *
+ * ⚠️ A WIRE FORMAT. These integers cross the wasm boundary, so a stale cached
+ * bundle paired with a newer page must still agree about them. Renumbering or
+ * inserting a member silently changes which geometry the Bessel eigenvalue is
+ * taken for — a wrong number that still looks like a number. The Rust side
+ * REFUSES an unrecognised discriminant rather than defaulting to slab, which is
+ * what turns a desync into a visible refusal instead of a quiet lie.
+ */
+// `number | undefined` is the type indexing ACTUALLY has. `Record<string,
+// number>` claims every string key yields a number, which is false for an
+// unmapped geometry and is exactly what the refusal below exists to catch;
+// with `noUncheckedIndexedAccess: false` nothing else would tell the compiler.
+//
+// ⚠️ NULL PROTOTYPE, NOT AN OBJECT LITERAL. `[MEASURED 2026-08-22]` as a plain
+// literal this leaked its prototype into the lookup: `constructor`,
+// `toString`, `valueOf`, `hasOwnProperty` and `__proto__` all returned
+// something non-undefined, so the refusal below PASSED them and handed a
+// function to `solve_boundary_network`, where wasm-bindgen coerces it to NaN.
+// The Rust side would still refuse an unrecognised discriminant, so this was
+// never a wrong ANSWER — but it turned a clean JS-side refusal into a round
+// trip that depends on the far side's guard, which is the sort of layering the
+// rest of this file exists to avoid.
+//
+// Exported for the test that pins it: the refusal itself lives in the WASM arm,
+// which jsdom cannot reach, so the dictionary is the piece coverage can hold.
+export const GEOMETRY_DISCRIMINANT: Readonly<Record<string, number | undefined>> =
+  Object.assign(Object.create(null) as Record<string, number | undefined>, {
+    slab: 0,
+    cylinder: 1,
+    sphere: 2,
+  });
+
+/**
+ * Link labels, keyed by the id the core emits.
+ *
+ * The Rust buffer carries no strings — `&'static str` cannot live in an f64
+ * array — so the ids come from `boundary_network_link_ids` and the human labels
+ * are attached here, matching the TypeScript implementation's wording exactly so
+ * the two engines produce an identical `BoundaryNetworkResult`.
+ */
+const LINK_LABELS: Readonly<Record<string, string>> = {
+  "source-to-vessel": "source → vessel outside",
+  "vessel-wall": "through the vessel wall",
+  "vessel-to-medium": "vessel inside → medium",
+  "medium-to-food": "medium → food surface",
+  "food-interior": "food surface → core",
+};
+
+export interface BoundarySolver {
+  readonly engine: "wasm" | "typescript";
+  /**
+   * Solve the chain, or return null when the inputs fall outside the
+   * correlations. Null is a REFUSAL, never a zeroed result — the panels render
+   * it as an em dash with a reason.
+   */
+  solve(input: BoundaryNetworkInput): BoundaryNetworkResult | null;
+}
+
+/**
+ * Decode the flat buffer into the same shape the TypeScript solver returns.
+ *
+ * Exported for `scripts/verify-boundary-solver-parity.mjs`, which A/Bs it
+ * against the TypeScript solver. That script cannot go through
+ * `createBoundarySolver` because the loader fetches public/wasm over HTTP and
+ * the script has no browser — and a verifier that re-implements the decode
+ * would be checking a copy, which is exactly how the link-id mirror in the Rust
+ * crate drifted (`food-internal` vs the core's `food-interior`). Exporting the
+ * real function is cheaper than maintaining a second one.
+ */
+export function decodeBoundaryBuffer(
+  buf: Float64Array,
+  ids: string[],
+  headerFields: number,
+  linkFields: number,
+  sourceC: number,
+): BoundaryNetworkResult | null {
+  // A refusal is a length-1 array. Checking LENGTH rather than NaN means we
+  // never index past the end of a buffer that was never populated.
+  if (buf.length <= 1) return null;
+
+  // Header, in the order documented on the Rust export. Destructured rather
+  // than indexed so the field order is stated once and reads as a contract.
+  const [
+    totalResistanceKperW,
+    uaWperK,
+    heatFlowW,
+    controllingIndex,
+    foodBiotRaw,
+    linkCount,
+    nodeCount,
+  ] = buf;
+
+  // Guard the decode against a stale bundle whose layout differs. Without this
+  // a shorter buffer reads undefined values as NaN and renders a full panel of
+  // plausible-looking blanks instead of falling back to a working engine.
+  const expected = headerFields + linkCount * linkFields + nodeCount;
+  if (
+    !Number.isInteger(linkCount) ||
+    linkCount !== ids.length ||
+    buf.length !== expected
+  ) {
+    return null;
+  }
+
+  const links: BoundaryLink[] = [];
+  for (let i = 0; i < linkCount; i += 1) {
+    const o = headerFields + i * linkFields;
+    const id = ids[i];
+    const h = buf[o + 2];
+    links.push({
+      id,
+      label: LINK_LABELS[id] ?? id,
+      resistanceKperW: buf[o + 0],
+      areaM2: buf[o + 1],
+      // NaN is how the core says "this link has no coefficient" — a pure
+      // conduction leg. The TypeScript shape spells that as null.
+      hWm2K: Number.isFinite(h) ? h : null,
+      share: buf[o + 3],
+      dropK: buf[o + 4],
+    });
+  }
+
+  // Range-check the index itself rather than truthiness of the element.
+  //
+  // `controllingIndex` arrives from the WASM buffer and is not trusted. Two
+  // things make the obvious `if (!links[i])` the wrong guard here:
+  //
+  //   - `tsconfig.json` sets `noUncheckedIndexedAccess: false`, so `links[i]`
+  //     is typed as always present. The check reads as dead code to both the
+  //     compiler and eslint, and annotating the variable `| undefined` does not
+  //     help — TypeScript narrows straight back from the initializer.
+  //   - `links.at(i)` would type correctly and behave WRONG: `.at(-1)` returns
+  //     the LAST element, so a negative index from a malformed buffer would
+  //     silently select a real link instead of being refused.
+  //
+  // An explicit numeric bound has neither problem, and says what it means.
+  // Pinned by src/lib/wasm/__tests__/boundarySolver.test.ts.
+  if (controllingIndex < 0 || controllingIndex >= links.length) return null;
+  const controlling = links[controllingIndex];
+
+  const nodeStart = headerFields + linkCount * linkFields;
+  const nodes: Array<{ id: string; celsius: number }> = [];
+  for (let i = 0; i < nodeCount; i += 1) {
+    // Node 0 is the source; every later node is named for the link that
+    // produced it, matching the TypeScript solver's `nodes` construction.
+    nodes.push({
+      id: i === 0 ? "source" : (ids[i - 1] ?? `node-${i}`),
+      celsius: buf[nodeStart + i],
+    });
+  }
+  if (nodes.length > 0) nodes[0].celsius = sourceC;
+
+  return {
+    links,
+    totalResistanceKperW,
+    uaWperK,
+    heatFlowW,
+    controlling,
+    nodes,
+    foodBiot: Number.isFinite(foodBiotRaw) ? foodBiotRaw : null,
+  };
+}
+
+/**
+ * Create the best available boundary solver.
+ *
+ * The two engines are under a byte-parity contract pinned by one golden
+ * fixture, so this is NOT a choice between a good answer and a worse one —
+ * they agree to a handful of ULP. It matters because the compiled engine is the
+ * one the rest of the lab runs, and a panel silently on a different engine than
+ * it claims is the failure this whole pipeline exists to prevent.
+ */
+/**
+ * The boundary wire format this decoder understands.
+ *
+ * Must equal `boundary_schema_version()` in crates/thermo-wasm/src/lib.rs.
+ * Bump BOTH together, in the same commit, whenever a header slot or link field
+ * changes meaning — including changes that keep the field count identical.
+ */
+export const BOUNDARY_SCHEMA_VERSION = 1;
+
+export async function createBoundarySolver(): Promise<BoundarySolver> {
+  // NEVER REJECTS — same contract as `loadModule`, and for the same reason.
+  // Callers await this inside an effect and set state from it; an unhandled
+  // rejection there is an unhandled promise rejection AND a component wedged
+  // on "loading" for the life of the page. `typescriptBoundarySolver` performs
+  // a dynamic import, which is a real rejection path, so the guarantee has to
+  // be enforced here rather than assumed.
+  try {
+    return await createBoundarySolverInner();
+  } catch {
+    try {
+      return await typescriptBoundarySolver();
+    } catch {
+      return unavailableBoundarySolver();
+    }
+  }
+}
+
+async function createBoundarySolverInner(): Promise<BoundarySolver> {
+  const mod = await loadModule();
+
+  const usable =
+    !!mod &&
+    typeof mod.solve_boundary_network === "function" &&
+    typeof mod.boundary_network_link_ids === "function" &&
+    typeof mod.boundary_link_fields === "function" &&
+    typeof mod.boundary_header_fields === "function";
+
+  if (!mod || !usable) return typescriptBoundarySolver();
+
+  try {
+    await mod.default();
+  } catch {
+    return typescriptBoundarySolver();
+  }
+
+  // Bound to a non-null local: the narrowing from the guard above does not
+  // reach into the hoisted helper below, and re-asserting `mod!` inside it
+  // would be re-stating a fact the compiler already proved here.
+  const m = mod;
+  const linkFields = m.boundary_link_fields!();
+  const headerFields = m.boundary_header_fields!();
+
+  // Layout version, checked BEFORE the stride numbers because it is the
+  // stricter test. A module may agree on 7 and 5 and still mean something
+  // different by them — the count cannot distinguish "5 fields" from "the same
+  // 5 fields in a different order", and a transposed pair decodes into a full
+  // panel of plausible, wrong numbers rather than into an error.
+  //
+  // Feature-detected, not required: `boundary_schema_version` did not exist
+  // before 2026-08-22, and a browser can hold a CACHED module from before then
+  // while running today's app JS, because /wasm/thermo_wasm_bg.wasm is a stable
+  // unhashed URL. A bundle that cannot state its version is a bundle whose
+  // layout this decoder cannot vouch for, so it takes the TypeScript arm —
+  // correct physics from the reference implementation, one engine label
+  // different. Refusing is the honest reading of "I don't know".
+  const version =
+    typeof m.boundary_schema_version === "function"
+      ? m.boundary_schema_version()
+      : null;
+  if (version !== BOUNDARY_SCHEMA_VERSION) return typescriptBoundarySolver();
+  // Stride check: same reasoning as floats_per_particle. A disagreement here
+  // means every field is read from the wrong index.
+  if (linkFields !== 5 || headerFields !== 7) return typescriptBoundarySolver();
+
+  return {
+    engine: "wasm",
+    solve(input): BoundaryNetworkResult | null {
+      // ⚠️ try/catch is NOT belt-and-braces here. The release profile sets
+      // `panic = "abort"`, so a panic inside the module TRAPS and wasm-bindgen
+      // re-throws it as a JS exception. Unwrapped, that propagates out of the
+      // useMemo a component calls this from and blanks the whole panel — the
+      // same render-time failure class we just removed from ComparisonPanel.
+      // The TypeScript half already normalises its kernel throws to null; this
+      // makes the two engines fail the same way, which is the only reason a
+      // caller can treat them as interchangeable.
+      try {
+        return solveViaWasm(input);
+      } catch {
+        return null;
+      }
+    },
+  };
+
+  function solveViaWasm(input: BoundaryNetworkInput): BoundaryNetworkResult | null {
+    {
+      const v = input.vessel;
+      const f = input.food;
+      const geometry = f ? GEOMETRY_DISCRIMINANT[f.geometry] : 0;
+      // An unmapped geometry string would otherwise arrive as NaN and be
+      // coerced by wasm-bindgen; refuse in JS instead of guessing.
+      //
+      // `f &&` was redundant and blocked narrowing: without food, `geometry`
+      // is the literal 0 and can never be undefined, so this tests exactly the
+      // unmapped-geometry case either way — and now the compiler can see that
+      // the value reaching the call below is a number.
+      if (geometry === undefined) return null;
+
+      const buf = m.solve_boundary_network!(
+        input.sourceC,
+        input.sinkC,
+        !!v,
+        v?.sourceToVesselHWm2K ?? 0,
+        v?.areaM2 ?? 0,
+        v?.kWmK ?? 0,
+        v?.thicknessM ?? 0,
+        v?.vesselToMediumHWm2K ?? 0,
+        !!f,
+        f?.mediumToFoodHWm2K ?? 0,
+        geometry,
+        f?.halfDimensionM ?? 0,
+        f?.kWmK ?? 0,
+        f?.areaM2 ?? 0,
+      );
+
+      const ids = m.boundary_network_link_ids!(!!v, !!f);
+      return decodeBoundaryBuffer(
+        buf,
+        ids.length > 0 ? ids.split(",") : [],
+        headerFields,
+        linkFields,
+        input.sourceC,
+      );
+    }
+  }
+}
+
+/**
+ * Last resort: no engine at all.
+ *
+ * Reached only when even the TypeScript kernel fails to import. Every solve is
+ * a refusal, which is the honest answer — the alternative is a promise that
+ * never settles, leaving every caller on its loading state forever with no
+ * error anywhere. A stuck spinner is indistinguishable from a slow network and
+ * is the hardest kind of failure to diagnose from a bug report.
+ */
+function unavailableBoundarySolver(): BoundarySolver {
+  return {
+    engine: "typescript",
+    solve: () => null,
+  };
+}
+
+/** The TypeScript half — delegates to the existing kernel, refusal and all. */
+async function typescriptBoundarySolver(): Promise<BoundarySolver> {
+  const boundary = await import("@/lib/cooking/boundaryNetwork");
+  return {
+    engine: "typescript",
+    solve(input): BoundaryNetworkResult | null {
+      try {
+        return boundary.solveBoundaryNetwork(input);
+      } catch {
+        // The kernel throws outside its envelope; the WASM half returns a
+        // refusal. Normalise so a caller cannot tell the engines apart by how
+        // they decline.
+        return null;
+      }
+    },
   };
 }

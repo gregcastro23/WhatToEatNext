@@ -173,7 +173,8 @@
     "fetch:composition": "node scripts/fetch-usda-composition.mjs",
     "apply:composition": "node scripts/apply-usda-composition.mjs",
     "fetch:portions": "node scripts/fetch-usda-portions.mjs",
-    "test:parity:rust": "cargo test -p thermo-core"
+    "test:parity:rust": "cargo test -p thermo-core",
+    "test:parity:boundary": "bun scripts/verify-boundary-solver-parity.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1045.0",

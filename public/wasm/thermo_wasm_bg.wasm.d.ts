@@ -1,0 +1,33 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export const __wbg_thermoengine_free: (a: number, b: number) => void;
+export const altitude_time_multiplier: (a: number, b: number) => number;
+export const boiling_point_at_elevation: (a: number) => number;
+export const boiling_point_c: (a: number) => number;
+export const boundary_network_link_ids: (a: number, b: number, c: number) => void;
+export const food_fusion_enthalpy: (a: number) => number;
+export const food_vaporisation_enthalpy: (a: number, b: number) => number;
+export const latent_heat_vaporisation: (a: number) => number;
+export const lid_heat_balance: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
+export const pressure_from_elevation: (a: number) => number;
+export const slab_core_time_minutes: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => number;
+export const solve_boundary_network: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number) => void;
+export const thermoengine_buffer_len: (a: number) => number;
+export const thermoengine_buffer_ptr: (a: number) => number;
+export const thermoengine_new: (a: number) => number;
+export const thermoengine_particle_count: (a: number) => number;
+export const thermoengine_resize: (a: number, b: number) => void;
+export const thermoengine_step: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
+export const contact_temperature_c: (a: number, b: number, c: number, d: number) => number;
+export const biot_number: (a: number, b: number, c: number) => number;
+export const latent_as_temperature_rise: (a: number, b: number) => number;
+export const radiant_flux_kw_m2: (a: number, b: number, c: number, d: number) => number;
+export const boundary_header_fields: () => number;
+export const boundary_link_fields: () => number;
+export const boundary_schema_version: () => number;
+export const floats_per_particle: () => number;
+export const lid_balance_fields: () => number;
+export const water_fusion_j_kg: () => number;
+export const __wbindgen_add_to_stack_pointer: (a: number) => number;
+export const __wbindgen_export: (a: number, b: number, c: number) => void;

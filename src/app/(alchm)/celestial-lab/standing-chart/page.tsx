@@ -143,7 +143,7 @@ export default async function BirthChartPage() {
                 bearings, sign and sect pulls on the element compass, dignity boosts and drags, and
                 the violet ESMS resultant. A stored chart carries no daily motions, so
                 applying/separating dynamics and momentum are shown only on the live sky
-                (<Link href="/planetary-chart" className="underline decoration-white/20 hover:text-white/70">planetary ecosystem</Link>).
+                (<Link href="/celestial-lab/mechanics" className="underline decoration-white/20 hover:text-white/70">planetary ecosystem</Link>).
               </p>
             </div>
             {natalFBDs ? (

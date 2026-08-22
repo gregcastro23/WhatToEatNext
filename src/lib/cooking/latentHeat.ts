@@ -30,6 +30,42 @@
 // ============================================================================
 
 /**
+ * ── RECONCILIATION: the two h_fg values in this repo ───────────────────────
+ *
+ * There are deliberately TWO enthalpies of vaporisation, and they disagree by
+ * 0.6848 % at their single overlap point:
+ *
+ *   this file          `latentHeatVaporisation(100)` → 2 272 456.9 J·kg⁻¹
+ *   boundaryNetwork.ts  WATER_TABLE h_fg @ 373.15 K  → 2 257 000   J·kg⁻¹
+ *
+ * THIS IS NOT DUPLICATION AND MUST NOT BE UNIFIED. They are different
+ * quantities with different bases and different validity domains:
+ *
+ *   - WATER_TABLE's value is a TRANSCRIBED ROW of Incropera & DeWitt Table A.6
+ *     at the normal boiling point (373.15 K, 101.325 kPa). It is the steam-table
+ *     ground truth AT THAT ONE STATE, and it is the value every boiling,
+ *     condensation and lid-balance correlation uses — those correlations were
+ *     fitted against the same tables.
+ *   - This file's value is a LINEAR FIT in kelvin, valid 0–100 °C. It exists
+ *     because evaporation happens at arbitrary sub-boiling surface temperatures
+ *     where the table has no row, and interpolating a 2-point table would be a
+ *     worse fit than the published one.
+ *
+ * Collapsing them breaks something real in BOTH directions. Forcing this
+ * function to return 2 257 000 at 100 °C stops it reproducing from its stated
+ * basis, which is the repo's provenance rule. Editing the table row corrupts a
+ * transcription that is load-bearing in the Prandtl closure check — the same
+ * check that already caught a bad viscosity transcription on that exact row.
+ *
+ * More importantly, the disagreement is a FEATURE. Two independent sources
+ * landing within 1 % of each other is corroboration; one source can only ever
+ * agree with itself. `cookingBoundaryNetwork.test.ts` pins the gap from both
+ * sides, so a silent drift AND a well-meant unification both fail.
+ *
+ * WHICH TO USE: at or about the boiling point, or inside any correlation drawn
+ * from the steam tables, use `saturatedWaterProperties(t).hfgJkg`. For
+ * evaporation at a surface temperature below boiling, use this function.
+ *
  * Enthalpy of vaporisation of water, J·kg⁻¹.
  *
  * BASIS: Fleagle & Andreas, *Atmospheric Dynamics*, as the linear fit

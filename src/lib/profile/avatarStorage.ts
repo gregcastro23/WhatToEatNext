@@ -10,6 +10,7 @@
 
 import { createHash } from "crypto";
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { parseImageDataUrl } from "@/lib/media/imageDataUrl";
 
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 const { R2_ACCESS_KEY_ID } = process.env;
@@ -50,9 +51,13 @@ function r2(): S3Client {
  */
 export async function storeAvatar(userId: string, dataUrl: string): Promise<string | null> {
   if (!avatarStorageConfigured()) return null;
-  const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
-  if (!match) return null;
-  const [, mime, b64] = match;
+  // Shared parser — see src/lib/media/imageDataUrl.ts for why this is not a
+  // single regex. The short version: the pattern this replaced ended in
+  // `([A-Za-z0-9+/=]+)$` and threw RangeError on the Linux runner for a 5 MB
+  // upload, which broke this function's contract of returning null.
+  const parsed = parseImageDataUrl(dataUrl);
+  if (!parsed) return null;
+  const { mime, b64 } = parsed;
   const buf = Buffer.from(b64, "base64");
   if (buf.length === 0 || buf.length > MAX_BYTES) return null;
 

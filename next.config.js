@@ -269,6 +269,28 @@ const nextConfig = {
         headers: getSecurityHeaders(),
       },
       {
+        // The compiled physics engine. public/wasm/ is committed, so these are
+        // real files with STABLE, UNHASHED names — /wasm/thermo_wasm.js is the
+        // same URL for every build, and its contents change whenever the Rust
+        // does.
+        //
+        // ⚠️ NEVER `immutable` HERE, however tempting it looks for a binary.
+        // `max-age=31536000, immutable` tells the browser not to revalidate for
+        // a year, and on a mutable URL that pins returning visitors to an old
+        // engine indefinitely — worse, it can pair a stale cached .wasm with
+        // freshly deployed app JS that decodes its buffers at different
+        // offsets. Immutable caching is safe only for content-hashed
+        // filenames, which wasm-bindgen does not emit.
+        //
+        // This restates Vercel's default for public/ rather than changing it.
+        // It is written down so the next person to "optimise" static assets
+        // sees the reason before editing.
+        source: "/wasm/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        ],
+      },
+      {
         source: "/api/alchm-quantities",
         headers: corsHeaders,
       },
@@ -312,6 +334,59 @@ const nextConfig = {
         source: "/upgrade",
         destination: "/vault",
         permanent: true,
+      },
+
+      // ── The Lab split ────────────────────────────────────────────────────
+      // A single "Lab" section held eight routes spanning kitchen
+      // thermodynamics, celestial mechanics, the alchm quantity system and
+      // the token economy. It is now /kitchen-lab and /celestial-lab, split
+      // by SUBJECT, with real-physics and alchm quantities on separate
+      // subpages inside each.
+      //
+      // These six sources must stay byte-identical to LEGACY_LAB_REDIRECTS in
+      // src/config/navigation.ts — this file is CommonJS and cannot import the
+      // TS table, so the two are cross-checked by a test
+      // (src/config/__tests__/navigation.redirects.test.ts) rather than by the
+      // compiler. Edit both or the test fails.
+      //
+      // `permanent: false` (307), NOT 308, on purpose. A 308 is cached by the
+      // browser indefinitely: if this tree is tuned again — and a
+      // freshly-landed IA usually is — every user who touched a legacy URL
+      // once is pinned to a stale destination with no server-side way to
+      // release them. Promote these to `permanent: true` once the tree has
+      // settled and the paths have stopped moving.
+      //
+      // /grimoire and /vault are deliberately absent: they changed SECTION,
+      // not path, so they need no redirect.
+      {
+        source: "/lab",
+        destination: "/kitchen-lab",
+        permanent: false,
+      },
+      {
+        source: "/lab-book",
+        destination: "/kitchen-lab/lab-book",
+        permanent: false,
+      },
+      {
+        source: "/planetary-chart",
+        destination: "/celestial-lab/mechanics",
+        permanent: false,
+      },
+      {
+        source: "/current-chart",
+        destination: "/celestial-lab/current-chart",
+        permanent: false,
+      },
+      {
+        source: "/birth-chart",
+        destination: "/celestial-lab/standing-chart",
+        permanent: false,
+      },
+      {
+        source: "/quantities",
+        destination: "/celestial-lab/alchm",
+        permanent: false,
       },
     ];
   },

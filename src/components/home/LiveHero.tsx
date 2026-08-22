@@ -123,7 +123,7 @@ const TILES: readonly HeroTile[] = [
       "See which planets are contributing which quantities right now",
       "Every recommender on this page re-ranks as the sky moves",
     ],
-    href: "/quantities",
+    href: "/celestial-lab/alchm",
     linkLabel: "See tonight's reading",
   },
   {
@@ -630,7 +630,7 @@ export function LiveHero() {
               Build tonight&apos;s recipe <span aria-hidden="true">→</span>
             </Link>
             {chartOn ? (
-              <Link href="/lab" className="alchm-lh-cta is-secondary">
+              <Link href="/kitchen-lab" className="alchm-lh-cta is-secondary">
                 Open my chart
               </Link>
             ) : (

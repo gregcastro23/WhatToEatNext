@@ -66,13 +66,21 @@ const FEATURED_TILE: Record<PrimaryKey, {
     glyph: "ring",
     href: "/commensal",
   },
-  lab: {
-    tag: "PRACTITIONER · ENGINE",
-    title: "Engine internals",
-    sub: "Recommendation weights, planetary chart, standing chart, quantities.",
-    cta: "Open lab",
+  kitchenLab: {
+    tag: "PRACTITIONER · MEASURED",
+    title: "The physics of a pan",
+    sub: "Heat transfer, latent heat and medium boundaries — in SI units, with sources.",
+    cta: "Open Kitchen Lab",
+    glyph: "flask",
+    href: "/kitchen-lab",
+  },
+  celestialLab: {
+    tag: "PRACTITIONER · EPHEMERIS",
+    title: "The mechanics of the sky",
+    sub: "Free-body diagrams and live transits, kept separate from the alchm quantities they feed.",
+    cta: "Open Celestial Lab",
     glyph: "orbital",
-    href: "/lab",
+    href: "/celestial-lab",
   },
 };
 
@@ -92,9 +100,16 @@ const MENU_GROUPS: Partial<
     { label: "Calendar", paths: ["/menu-planner", "/cosmic-recipe"] },
     { label: "Day to day", paths: ["/pantry", "/grocery-cart", "/food-tracking"] },
   ],
-  lab: [
-    { label: "Engine", paths: ["/lab", "/quantities"] },
-    { label: "Charts & Vault", paths: ["/planetary-chart", "/current-chart", "/birth-chart", "/premium"] },
+  // Both labs group by COMPUTATIONAL SYSTEM, not by topic. The grouping is the
+  // first place a user learns the two models are different things, so it has
+  // to say so before they have clicked anything.
+  kitchenLab: [
+    { label: "Real physics", paths: ["/kitchen-lab/physics"] },
+    { label: "Alchm model", paths: ["/kitchen-lab/alchm", "/kitchen-lab/lab-book", "/grimoire"] },
+  ],
+  celestialLab: [
+    { label: "Real mechanics", paths: ["/celestial-lab/mechanics", "/celestial-lab/current-chart", "/celestial-lab/standing-chart"] },
+    { label: "Alchm model", paths: ["/celestial-lab/alchm", "/vault"] },
   ],
 };
 
@@ -110,7 +125,7 @@ const ACCOUNT_LINKS: ReadonlyArray<{
 }> = [
   { href: "/profile", label: "Profile", glyph: "user" },
   { href: "/profile/preferences", label: "Preferences", glyph: "settings" },
-  { href: "/premium", label: "ESMS Vault", glyph: "diamond" },
+  { href: "/vault", label: "ESMS Vault", glyph: "diamond" },
   { href: "/profile/security", label: "Account & sessions", glyph: "shield" },
 ];
 
@@ -120,7 +135,7 @@ export interface RedesignedHeaderProps {
 }
 
 /**
- * The redesigned alchm.kitchen header: 5 primary nav slots, mega-menus,
+ * The redesigned alchm.kitchen header: 6 primary nav slots, mega-menus,
  * a ⌘K trigger, the live planetary chip, notifications, and the user chip.
  *
  * Sticky and present on every route. NAV_IA is the single source of truth.

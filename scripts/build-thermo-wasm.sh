@@ -39,6 +39,27 @@ cd "$ROOT"
 OUT_DIR="public/wasm"
 WASM="target/wasm32-unknown-unknown/release/thermo_wasm.wasm"
 
+# ── 0. Make the artifact reproducible ───────────────────────────────────────
+#
+# public/wasm/ is COMMITTED, so every developer who runs this script must get
+# the SAME bytes out of the same source. Without the remaps below they do not.
+#
+# `[MEASURED 2026-08-22]` the compiled .wasm embeds absolute build-host paths in
+# its panic-location strings — the local checkout showed
+#
+#     /Users/<user>/.cargo/registry/src/index.crates.io-<hash>/wasm-bindgen-0.2.127/src/externref.rs
+#
+# which means two developers on two machines produce two different binaries from
+# identical source, and every rebuild is a spurious diff in review. Remapping
+# CARGO_HOME and the workspace root to fixed sentinels removes the only
+# host-dependent bytes; rustc already normalises its own stdlib paths to
+# /rustc/<hash>/ (pinned by rust-toolchain.toml) and dlmalloc to /rust/deps/.
+#
+# Verified after this change: no /Users, /home, or username strings survive in
+# the binary.
+CARGO_HOME_PATH="${CARGO_HOME:-$HOME/.cargo}"
+export RUSTFLAGS="--remap-path-prefix=${CARGO_HOME_PATH}=/cargo --remap-path-prefix=${ROOT}=/w ${RUSTFLAGS:-}"
+
 # ── 1. Resolve the required CLI version from Cargo.lock ─────────────────────
 if [ ! -f Cargo.lock ]; then
   echo "Cargo.lock missing — running cargo metadata to generate it..."
@@ -89,6 +110,14 @@ rm -rf "$OUT_DIR"
 mkdir -p "$OUT_DIR"
 wasm-bindgen "$WASM" --out-dir "$OUT_DIR" --target web
 
+# ── 5b. Record what produced it ─────────────────────────────────────────────
+#
+# The freshness gate for a committed build product. See the header of
+# scripts/thermo-wasm-manifest.sh for why this hashes inputs instead of
+# diffing the output bytes.
+echo "Writing the source manifest..."
+bash "$ROOT/scripts/thermo-wasm-manifest.sh" > "$ROOT/scripts/thermo-wasm.manifest.txt"
+
 # ── 6. Report, and prove the artifact is real ───────────────────────────────
 SIZE="$(wc -c < "$OUT_DIR/thermo_wasm_bg.wasm" | tr -d ' ')"
 echo
@@ -106,8 +135,25 @@ echo
 echo "Verifying the compiled module against the golden vectors..."
 node scripts/verify-thermo-wasm-parity.mjs
 
-# The generated directory is gitignored: it is a build product, and a checkout
-# that has never run this script must still typecheck and still render, because
-# src/lib/wasm/thermoEngine.ts falls back to its TypeScript implementation.
+# Second verifier: the TypeScript DECODE of the flat boundary buffer, A/B'd
+# against the TypeScript solver. The check above proves the module agrees with
+# the fixture; it says nothing about whether the browser reads the buffer at the
+# right offsets, and a wrong offset is a full panel of plausible numbers.
+echo ""
+echo "Verifying the boundary-buffer decode against the TypeScript solver..."
+bun "$ROOT/scripts/verify-boundary-solver-parity.mjs"
+
+# ⚠️ $OUT_DIR IS COMMITTED — it was gitignored until 2026-08-22, and the change
+# is the whole reason WASM reaches production at all. Vercel's build command is
+# `next build`; it never ran this script, so public/wasm/ did not exist in any
+# deploy and /wasm/thermo_wasm.js answered 404. The loader treats a 404 as
+# "not built" and falls back, silently and by design — so production ran the
+# TypeScript engine from the day the loader shipped, while every parity proof in
+# CI guarded a path no visitor executed.
+#
+# Committing the ~68 KB output fixes that with zero deploy cost. The price is
+# drift: STAGE THE RESULT. CI fails if the manifest above disagrees with the
+# source.
 echo
-echo "Note: $OUT_DIR is gitignored. The app runs without it via the TS fallback."
+echo "Note: $OUT_DIR is COMMITTED. Stage it with your Rust change:"
+echo "        git add public/wasm"

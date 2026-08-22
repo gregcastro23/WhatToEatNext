@@ -140,13 +140,27 @@ export const authConfig = {
     async authorized({ auth: session, request }) {
       const { pathname } = request.nextUrl;
 
-      // Protected routes requiring authentication
+      // Protected routes requiring authentication.
+      //
+      // ⚠️ The chart routes are listed TWICE on purpose: once at their legacy
+      // path and once under /celestial-lab. The legacy paths 307 to the new
+      // ones, but a redirect is not a guarantee — it can be removed, and a
+      // client-side transition can evaluate this against the pre-redirect URL.
+      // Keeping both means neither the old nor the new path is ever the
+      // unprotected one.
+      //
+      // ⚠️ Per-leaf, never `/celestial-lab` wholesale: /celestial-lab/mechanics
+      // is the new home of the deliberately-public planetary surface. Gating
+      // the whole lab would break it, and a signed-in developer would never
+      // notice. Pinned by src/config/__tests__/middleware.matcher.test.ts.
       const isProtected =
         pathname.startsWith("/profile") ||
         pathname.startsWith("/onboarding") ||
         pathname.startsWith("/admin") ||
         pathname.startsWith("/birth-chart") ||
-        pathname.startsWith("/current-chart");
+        pathname.startsWith("/current-chart") ||
+        pathname.startsWith("/celestial-lab/standing-chart") ||
+        pathname.startsWith("/celestial-lab/current-chart");
 
       // Not authenticated -> redirect to login for protected routes
       if (isProtected && !session?.user) {
