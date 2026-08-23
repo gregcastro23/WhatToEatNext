@@ -54,7 +54,7 @@ const TABS: ReadonlyArray<[PhysicsTab, string, string]> = [
   ["boundaries", "Boundaries", "Property tables and correlations"],
   ["volumetrics", "Volumetrics", "Measured mass per volume"],
   ["latent", "Latent heat", "Phase-change energy, through the Rust engine"],
-  ["reduction", "Reduction", "How long a boiling pot takes to come down, and what it concentrates"],
+  ["reduction", "Reduction & Live Pot", "Simmer reduction, glaze milestones, and collaborative kitchen pot sync"],
   ["transfer", "Medium transfer", "Heat crossing atmosphere → vessel → solution → food"],
 ];
 

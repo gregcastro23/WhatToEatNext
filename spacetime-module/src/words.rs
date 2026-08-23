@@ -331,4 +331,187 @@ mod tests {
         assert_eq!(first_missing_ingredient(&[1, 3, 5], &known), None);
         assert_eq!(first_missing_ingredient(&[], &known), None);
     }
+
+    #[test]
+    fn pot_simmer_step_1000w_halves_in_about_18_minutes() {
+        // At 18.0 min (1080 s), remaining is ~0.5007 L; at 18.1 min (1086 s), it passes 0.5 L and triggers alarm
+        let out_18min = compute_pot_simmer_step(1.0, 1.0, 1000.0, 0, 0.5, 18.0 * 60.0).unwrap();
+        assert!((0.49..=0.51).contains(&out_18min.current_vol_l), "got {}", out_18min.current_vol_l);
+        assert!((1.95..=2.05).contains(&out_18min.concentration_ratio), "got {}", out_18min.concentration_ratio);
+        assert!(out_18min.is_boiling);
+
+        let out_triggered = compute_pot_simmer_step(1.0, 1.0, 1000.0, 0, 0.5, 18.1 * 60.0).unwrap();
+        assert!(out_triggered.alarm_triggered);
+    }
+
+    #[test]
+    fn pot_simmer_seals_are_strictly_monotonic() {
+        let dt = 600.0; // 10 minutes
+        let remaining: Vec<f64> = (0..=3)
+            .map(|seal| compute_pot_simmer_step(2.0, 2.0, 1200.0, seal, 0.5, dt).unwrap().current_vol_l)
+            .collect();
+        // None loses the most, tight loses the least: remaining volume must strictly increase with seal tightness
+        for pair in remaining.windows(2) {
+            assert!(pair[1] > pair[0], "tight seal must preserve more volume: {:?}", remaining);
+        }
+    }
+
+    #[test]
+    fn pot_simmer_dry_boil_clamps_at_zero() {
+        let out = compute_pot_simmer_step(1.0, 1.0, 2000.0, 0, 0.5, 100_000.0).unwrap();
+        assert_eq!(out.current_vol_l, 0.0);
+        assert_eq!(out.concentration_ratio, f64::INFINITY);
+        assert!(!out.is_boiling);
+        assert!(out.alarm_triggered);
+    }
+
+    #[test]
+    fn pot_ownership_check_enforces_identity_match() {
+        let id1 = [1u8; 32];
+        let id2 = [2u8; 32];
+        assert!(check_pot_ownership(&id1, &id1).is_ok());
+        assert!(check_pot_ownership(&id1, &id2).is_err());
+    }
 }
+
+// ---------------------------------------------------------------------------
+// Simmer reduction constants & helpers
+// ---------------------------------------------------------------------------
+
+/// Share of free-surface evaporation that escapes, graded by seal state.
+///
+/// Index:
+/// - 0 = none (1.00)
+/// - 1 = cracked (0.55)
+/// - 2 = loose (0.25)
+/// - 3 = tight (0.08)
+pub const VAPOUR_ESCAPE_FRACTIONS: [f64; 4] = [1.0, 0.55, 0.25, 0.08];
+
+/// Latent heat of vaporisation at 100 °C boiling saturation, J/kg.
+///
+/// Cited from Incropera & DeWitt Table A.6 (saturated water).
+pub const LATENT_HEAT_SATURATION_100C_J_KG: f64 = 2_257_000.0;
+
+/// Output of a simulated simmer reduction step.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct SimmerStepOutput {
+    pub current_vol_l: f64,
+    pub concentration_ratio: f64,
+    pub is_boiling: bool,
+    pub alarm_triggered: bool,
+    pub net_loss_kg_s: f64,
+}
+
+/// Validate input parameters when creating a LivePot.
+pub fn validate_live_pot_params(
+    session_id: &str,
+    recipe_ref: &str,
+    vessel_name: &str,
+    initial_vol_l: f64,
+    burner_power_w: f64,
+    lid_seal: u8,
+    target_reduction_pct: f64,
+) -> Result<(), String> {
+    if session_id.trim().is_empty() {
+        return Err("session_id must not be empty".to_string());
+    }
+    if session_id.len() > 320 {
+        return Err("session_id must be <= 320 bytes".to_string());
+    }
+    if recipe_ref.len() > 256 {
+        return Err("recipe_ref must be <= 256 bytes".to_string());
+    }
+    if vessel_name.trim().is_empty() {
+        return Err("vessel_name must not be empty".to_string());
+    }
+    if vessel_name.len() > 256 {
+        return Err("vessel_name must be <= 256 bytes".to_string());
+    }
+    if !initial_vol_l.is_finite() || initial_vol_l <= 0.0 || initial_vol_l > 100.0 {
+        return Err("initial_vol_l must be a positive finite number <= 100 L".to_string());
+    }
+    if !burner_power_w.is_finite() || burner_power_w <= 0.0 || burner_power_w > 50_000.0 {
+        return Err("burner_power_w must be a positive finite number <= 50000 W".to_string());
+    }
+    if lid_seal as usize >= VAPOUR_ESCAPE_FRACTIONS.len() {
+        return Err("lid_seal must be 0..=3 (0=none, 1=cracked, 2=loose, 3=tight)".to_string());
+    }
+    if !target_reduction_pct.is_finite() || target_reduction_pct < 0.0 || target_reduction_pct >= 1.0 {
+        return Err("target_reduction_pct must be in [0.0, 1.0)".to_string());
+    }
+    Ok(())
+}
+
+/// Compute a simulation step for pot simmer reduction.
+pub fn compute_pot_simmer_step(
+    initial_vol_l: f64,
+    current_vol_l: f64,
+    burner_power_w: f64,
+    lid_seal: u8,
+    target_reduction_pct: f64,
+    dt_s: f64,
+) -> Result<SimmerStepOutput, String> {
+    if !initial_vol_l.is_finite() || initial_vol_l <= 0.0 {
+        return Err("initial_vol_l must be a positive finite number".to_string());
+    }
+    if !current_vol_l.is_finite() || current_vol_l < 0.0 {
+        return Err("current_vol_l must be a non-negative finite number".to_string());
+    }
+    if !burner_power_w.is_finite() || burner_power_w <= 0.0 {
+        return Err("burner_power_w must be a positive finite number".to_string());
+    }
+    if lid_seal as usize >= VAPOUR_ESCAPE_FRACTIONS.len() {
+        return Err("lid_seal must be 0..=3 (0=none, 1=cracked, 2=loose, 3=tight)".to_string());
+    }
+    if !dt_s.is_finite() || dt_s < 0.0 {
+        return Err("dt_s must be a non-negative finite number".to_string());
+    }
+
+    if current_vol_l <= 0.0 {
+        return Ok(SimmerStepOutput {
+            current_vol_l: 0.0,
+            concentration_ratio: f64::INFINITY,
+            is_boiling: false,
+            alarm_triggered: true,
+            net_loss_kg_s: 0.0,
+        });
+    }
+
+    let escape_frac = VAPOUR_ESCAPE_FRACTIONS[lid_seal as usize];
+    let step = thermo_core::simmer_trajectory_step(
+        current_vol_l,
+        burner_power_w,
+        LATENT_HEAT_SATURATION_100C_J_KG,
+        escape_frac,
+        100.0,
+        dt_s,
+    ).map_err(|e| format!("thermo error: {:?}", e))?;
+
+    let remaining_vol_l = step[1].max(0.0);
+    let net_loss_kg_s = step[3];
+    let is_boiling = remaining_vol_l > 0.0;
+    let concentration_ratio = if remaining_vol_l > 0.0 {
+        initial_vol_l / remaining_vol_l
+    } else {
+        f64::INFINITY
+    };
+    let target_remaining_vol_l = (1.0 - target_reduction_pct.clamp(0.0, 1.0)) * initial_vol_l;
+    let alarm_triggered = remaining_vol_l <= target_remaining_vol_l;
+
+    Ok(SimmerStepOutput {
+        current_vol_l: remaining_vol_l,
+        concentration_ratio,
+        is_boiling,
+        alarm_triggered,
+        net_loss_kg_s,
+    })
+}
+
+/// Refuse mutation if the caller is not the row owner.
+pub fn check_pot_ownership(owner_bytes: &[u8], sender_bytes: &[u8]) -> Result<(), String> {
+    if owner_bytes != sender_bytes {
+        return Err("unauthorized: caller does not own this live pot".to_string());
+    }
+    Ok(())
+}
+

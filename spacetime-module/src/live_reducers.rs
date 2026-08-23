@@ -11,6 +11,7 @@ use crate::live_tables::*;
 // Brings the culinary accessor traits (e.g. `ctx.db.recipe()`) into scope so
 // meal slots can fail closed on dangling in-module recipe references.
 use crate::tables::*;
+use crate::words::*;
 
 /// Generous free-text bounds (mirrors `crate::reducers`): real values are far
 /// smaller; these only reject abuse.
@@ -1354,4 +1355,132 @@ pub fn clear_table_cursor(ctx: &ReducerContext, wten_table_id: String) -> Result
     }
     Ok(())
 }
+
+// ---------------------------------------------------------------------------
+// Live Pot Collaborative Simmer Reduction
+// ---------------------------------------------------------------------------
+
+/// Create a new collaborative LivePot tracker.
+///
+/// Sets owner to `ctx.sender()`, initializes `current_vol_l` to `initial_vol_l`,
+/// `concentration_ratio` to 1.0, and sets `start_time` and `last_tick` to `ctx.timestamp`.
+#[allow(clippy::too_many_arguments)]
+#[spacetimedb::reducer]
+pub fn create_live_pot(
+    ctx: &ReducerContext,
+    session_id: String,
+    recipe_ref: String,
+    vessel_name: String,
+    initial_vol_l: f64,
+    burner_power_w: f64,
+    lid_seal: u8,
+    target_reduction_pct: f64,
+) -> Result<(), String> {
+    validate_live_pot_params(
+        &session_id,
+        &recipe_ref,
+        &vessel_name,
+        initial_vol_l,
+        burner_power_w,
+        lid_seal,
+        target_reduction_pct,
+    )?;
+
+    ctx.db.live_pot().insert(LivePot {
+        pot_id: 0,
+        owner: ctx.sender(),
+        session_id,
+        recipe_ref,
+        vessel_name,
+        initial_vol_l,
+        current_vol_l: initial_vol_l,
+        concentration_ratio: 1.0,
+        burner_power_w,
+        lid_seal,
+        target_reduction_pct,
+        is_boiling: true,
+        alarm_triggered: false,
+        start_time: ctx.timestamp,
+        last_tick: ctx.timestamp,
+    });
+
+    Ok(())
+}
+
+/// Update burner power and lid seal state on an active pot.
+///
+/// Only the owner of the pot may mutate controls.
+#[spacetimedb::reducer]
+pub fn set_pot_controls(
+    ctx: &ReducerContext,
+    pot_id: u64,
+    burner_power_w: f64,
+    lid_seal: u8,
+) -> Result<(), String> {
+    if !burner_power_w.is_finite() || burner_power_w <= 0.0 || burner_power_w > 50_000.0 {
+        return Err("burner_power_w must be a positive finite number <= 50000 W".to_string());
+    }
+    if lid_seal as usize >= VAPOUR_ESCAPE_FRACTIONS.len() {
+        return Err("lid_seal must be 0..=3 (0=none, 1=cracked, 2=loose, 3=tight)".to_string());
+    }
+
+    let Some(mut pot) = ctx.db.live_pot().pot_id().find(pot_id) else {
+        return Err(format!("pot {pot_id} not found"));
+    };
+
+    if pot.owner != ctx.sender() {
+        return Err(format!("unauthorized: caller does not own pot {pot_id}"));
+    }
+
+    pot.burner_power_w = burner_power_w;
+    pot.lid_seal = lid_seal;
+    pot.last_tick = ctx.timestamp;
+
+    ctx.db.live_pot().pot_id().update(pot);
+    Ok(())
+}
+
+/// Step the physical simmer reduction simulation forward.
+///
+/// Advances volume reduction by delta t (seconds) using Incropera Table A.6 latent heat
+/// and the active lid seal vapor escape fraction. Sets alarm_triggered when reduction target is reached.
+#[spacetimedb::reducer]
+pub fn tick_pot_simulation(
+    ctx: &ReducerContext,
+    pot_id: u64,
+    current_time: spacetimedb::Timestamp,
+) -> Result<(), String> {
+    let Some(mut pot) = ctx.db.live_pot().pot_id().find(pot_id) else {
+        return Err(format!("pot {pot_id} not found"));
+    };
+
+    // Calculate delta t in seconds between current_time and pot.last_tick
+    let dt_micros = current_time.to_micros_since_unix_epoch() - pot.last_tick.to_micros_since_unix_epoch();
+    let dt_s = if dt_micros > 0 {
+        dt_micros as f64 / 1_000_000.0
+    } else {
+        0.0
+    };
+
+    if dt_s > 0.0 && pot.is_boiling {
+        let step = compute_pot_simmer_step(
+            pot.initial_vol_l,
+            pot.current_vol_l,
+            pot.burner_power_w,
+            pot.lid_seal,
+            pot.target_reduction_pct,
+            dt_s,
+        )?;
+
+        pot.current_vol_l = step.current_vol_l;
+        pot.concentration_ratio = step.concentration_ratio;
+        pot.is_boiling = step.is_boiling;
+        pot.alarm_triggered = step.alarm_triggered;
+    }
+
+    pot.last_tick = current_time;
+    ctx.db.live_pot().pot_id().update(pot);
+    Ok(())
+}
+
 

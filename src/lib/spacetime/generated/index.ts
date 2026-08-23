@@ -48,6 +48,7 @@ import ClearMealPlanWeekReducer from "./clear_meal_plan_week_reducer";
 import ClearTableCursorReducer from "./clear_table_cursor_reducer";
 import CloseTableSessionReducer from "./close_table_session_reducer";
 import CreateCommensalSessionReducer from "./create_commensal_session_reducer";
+import CreateLivePotReducer from "./create_live_pot_reducer";
 import CreateRecipeReducer from "./create_recipe_reducer";
 import DeleteTableChatMessageReducer from "./delete_table_chat_message_reducer";
 import EnsureTableSessionReducer from "./ensure_table_session_reducer";
@@ -60,7 +61,9 @@ import PostFeedEventReducer from "./post_feed_event_reducer";
 import SendTableChatMessageReducer from "./send_table_chat_message_reducer";
 import SetCommensalSessionStatusReducer from "./set_commensal_session_status_reducer";
 import SetMealPlanSlotLockedReducer from "./set_meal_plan_slot_locked_reducer";
+import SetPotControlsReducer from "./set_pot_controls_reducer";
 import SetTableChatMuteReducer from "./set_table_chat_mute_reducer";
+import TickPotSimulationReducer from "./tick_pot_simulation_reducer";
 import UpdateTableCursorReducer from "./update_table_cursor_reducer";
 import UpsertEnvironmentalObservationReducer from "./upsert_environmental_observation_reducer";
 import UpsertMealPlanSlotReducer from "./upsert_meal_plan_slot_reducer";
@@ -78,6 +81,7 @@ import EnvironmentalObservationRow from "./environmental_observation_table";
 import FeedEventRow from "./feed_event_table";
 import GroceryCartItemRow from "./grocery_cart_item_table";
 import IngredientRow from "./ingredient_table";
+import LivePotRow from "./live_pot_table";
 import MealPlanSlotRow from "./meal_plan_slot_table";
 import MethodPhysicsRow from "./method_physics_table";
 import RecipeRow from "./recipe_table";
@@ -225,6 +229,23 @@ const tablesSchema = __schema({
       { name: 'ingredient_ingredient_id_key', constraint: 'unique', columns: ['ingredientId'] },
     ],
   }, IngredientRow),
+  live_pot: __table({
+    name: 'live_pot',
+    indexes: [
+      { accessor: 'owner', name: 'live_pot_owner_idx_btree', algorithm: 'btree', columns: [
+        'owner',
+      ] },
+      { accessor: 'pot_id', name: 'live_pot_pot_id_idx_btree', algorithm: 'btree', columns: [
+        'potId',
+      ] },
+      { accessor: 'session_id', name: 'live_pot_session_id_idx_btree', algorithm: 'btree', columns: [
+        'sessionId',
+      ] },
+    ],
+    constraints: [
+      { name: 'live_pot_pot_id_key', constraint: 'unique', columns: ['potId'] },
+    ],
+  }, LivePotRow),
   meal_plan_slot: __table({
     name: 'meal_plan_slot',
     indexes: [
@@ -409,6 +430,7 @@ const reducersSchema = __reducers(
   __reducerSchema("clear_table_cursor", ClearTableCursorReducer),
   __reducerSchema("close_table_session", CloseTableSessionReducer),
   __reducerSchema("create_commensal_session", CreateCommensalSessionReducer),
+  __reducerSchema("create_live_pot", CreateLivePotReducer),
   __reducerSchema("create_recipe", CreateRecipeReducer),
   __reducerSchema("delete_table_chat_message", DeleteTableChatMessageReducer),
   __reducerSchema("ensure_table_session", EnsureTableSessionReducer),
@@ -421,7 +443,9 @@ const reducersSchema = __reducers(
   __reducerSchema("send_table_chat_message", SendTableChatMessageReducer),
   __reducerSchema("set_commensal_session_status", SetCommensalSessionStatusReducer),
   __reducerSchema("set_meal_plan_slot_locked", SetMealPlanSlotLockedReducer),
+  __reducerSchema("set_pot_controls", SetPotControlsReducer),
   __reducerSchema("set_table_chat_mute", SetTableChatMuteReducer),
+  __reducerSchema("tick_pot_simulation", TickPotSimulationReducer),
   __reducerSchema("update_table_cursor", UpdateTableCursorReducer),
   __reducerSchema("upsert_environmental_observation", UpsertEnvironmentalObservationReducer),
   __reducerSchema("upsert_meal_plan_slot", UpsertMealPlanSlotReducer),

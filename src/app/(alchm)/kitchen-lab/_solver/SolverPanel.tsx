@@ -1,27 +1,19 @@
 "use client";
 
 /**
- * The guided solver — ruling 2's "procedure" is the tool's own input sequence.
+ * The Guided Culinary Solver — Accessible Real-Physics Kitchen Lab
  *
- * Five steps, all open and editable at once, with a result rail that recomputes
- * on every keystroke. Not a wizard: there is no Next button, because the engine
- * answers in well under a millisecond and pacing a user through a form would be
- * theatre.
+ * Combines Choi-Okos food thermophysics, Rohsenow boiling, and Biot boundary-layer
+ * solutions with accessible culinary guidance:
+ *  - Default Fahrenheit (°F) with instant °C toggle
+ *  - Estimated cook duration & target doneness
+ *  - Recommended pull temperature & resting carryover heat rise
+ *  - Plain-English heat bottleneck and browning takeaways
  *
- * ── Where the honesty lives ─────────────────────────────────────────────────
- *
- * `solveArrangement` returns every output as a `Reading<T>` — a value, or a
- * sentence saying why not. This component renders the reason. There is one
- * helper, {@link Value}, and it is the only path to the screen for a solver
- * output, so a refusal cannot be turned into a number by an inattentive edit.
- *
- * The ingredient picker lists ONLY what can be solved. `[MEASURED 2026-08-18]`
- * that is 40 of 931; the count is printed, because a picker that listed 931 and
- * failed on 891 would be this codebase's recurring defect in a new costume.
- *
- * @file src/app/(alchm)/lab/_solver/SolverPanel.tsx
+ * @file src/app/(alchm)/kitchen-lab/_solver/SolverPanel.tsx
  */
 import { useMemo, useState } from "react";
+import { TemperatureUnitToggle } from "@/components/lab/TemperatureUnitToggle";
 import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
 import { VESSELS_DERIVED } from "@/data/cooking/vessels";
 import type { LidSeal } from "@/data/cooking/vessels";
@@ -34,6 +26,12 @@ import {
   type Reading,
   type SolverIngredient,
 } from "@/lib/cooking/labSolver";
+import {
+  celsiusToFahrenheit,
+  fahrenheitToCelsius,
+  getCarryoverRestGuidance,
+  useTemperatureUnit,
+} from "@/lib/cooking/temperatureUnits";
 import type { FoodGeometry } from "@/lib/cooking/thermo";
 import { ResistanceChain } from "./ResistanceChain";
 
@@ -41,19 +39,16 @@ import { ResistanceChain } from "./ResistanceChain";
 const METHOD_IDS = Object.keys(METHOD_PHYSICS).sort();
 
 const GEOMETRIES: Array<{ id: FoodGeometry; label: string; dimension: string }> = [
-  { id: "slab", label: "slab", dimension: "half-thickness" },
-  { id: "cylinder", label: "cylinder", dimension: "radius" },
-  { id: "sphere", label: "sphere", dimension: "radius" },
+  { id: "slab", label: "slab / cutlet", dimension: "half-thickness" },
+  { id: "cylinder", label: "cylinder / tenderloin", dimension: "radius" },
+  { id: "sphere", label: "sphere / meatball", dimension: "radius" },
 ];
 
 const LID_SEALS: LidSeal[] = ["none", "cracked", "loose", "tight"];
 
 /**
  * The ONLY way a solver output reaches the screen.
- *
- * Funnelling every reading through one component is what makes the honesty
- * rule enforceable rather than aspirational: there is no second path where
- * someone could write `reading.value` without having handled the other branch.
+ * Funnels every reading through one component to enforce honesty contracts.
  */
 function Value<T>({
   reading,
@@ -69,12 +64,16 @@ function Value<T>({
 }
 
 export function SolverPanel(): React.JSX.Element {
+  const { unit, formatTemp } = useTemperatureUnit();
+
   const [ingredientId, setIngredientId] = useState("chicken");
   const [geometry, setGeometry] = useState<FoodGeometry>("slab");
   const [halfDimensionMm, setHalfDimensionMm] = useState(20);
   const [massG, setMassG] = useState(250);
-  const [startC, setStartC] = useState(5);
-  const [targetC, setTargetC] = useState(74);
+
+  // Store temperatures internally in Celsius for physics engine
+  const [startC, setStartC] = useState(5); // 41°F fridge temp
+  const [targetC, setTargetC] = useState(74); // 165°F chicken core doneness
   const [methodId, setMethodId] = useState("roasting");
   const [airC, setAirC] = useState(DEFAULT_AMBIENT.airC);
   const [rhPct, setRhPct] = useState(DEFAULT_AMBIENT.relativeHumidityPct);
@@ -104,8 +103,6 @@ export function SolverPanel(): React.JSX.Element {
         }),
       };
     } catch (error) {
-      // An unknown id is a bug in this component, not a fact about the world.
-      // Surfacing it plainly beats an empty board that looks like a valid answer.
       return { ok: false as const, message: error instanceof Error ? error.message : String(error) };
     }
   }, [
@@ -117,9 +114,40 @@ export function SolverPanel(): React.JSX.Element {
     return <p className="ma-refusal">{solved.message}</p>;
   }
   const s = solved.result;
+  const carryover = getCarryoverRestGuidance(targetC, massG / 1000, geometry);
+
+  // Input helpers converted to active unit
+  const displayedStartTemp = unit === "fahrenheit" ? Math.round(celsiusToFahrenheit(startC)) : startC;
+  const displayedTargetTemp = unit === "fahrenheit" ? Math.round(celsiusToFahrenheit(targetC)) : targetC;
+  const displayedAirTemp = unit === "fahrenheit" ? Math.round(celsiusToFahrenheit(airC)) : airC;
+
+  const handleStartTempChange = (val: number): void => {
+    setStartC(unit === "fahrenheit" ? fahrenheitToCelsius(val) : val);
+  };
+
+  const handleTargetTempChange = (val: number): void => {
+    setTargetC(unit === "fahrenheit" ? fahrenheitToCelsius(val) : val);
+  };
+
+  const handleAirTempChange = (val: number): void => {
+    setAirC(unit === "fahrenheit" ? fahrenheitToCelsius(val) : val);
+  };
 
   return (
     <div className="ma-solver">
+      {/* ── Top Header with Unit Switcher ──────────────────────────────── */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+        <div>
+          <h2 className="text-sm font-semibold tracking-wide text-white">
+            Thermal Cooking Solver &amp; Doneness Calculator
+          </h2>
+          <p className="text-xs text-white/50">
+            Real boundary layer physics translated to chef cook times, resting carryover, and heat flow.
+          </p>
+        </div>
+        <TemperatureUnitToggle />
+      </div>
+
       {/* ── Input rail ──────────────────────────────────────────────────── */}
       <section className="ma-rail" aria-label="arrangement">
         <fieldset className="ma-step">
@@ -130,15 +158,15 @@ export function SolverPanel(): React.JSX.Element {
             ))}
           </select>
           <p className="ma-coverage">
-            {SOLVABLE_INGREDIENT_COUNT} of {TOTAL_INGREDIENT_COUNT} ingredients carry a proximate
-            composition. The rest cannot be solved at all — Choi–Okos needs water and ash.
+            {SOLVABLE_INGREDIENT_COUNT} of {TOTAL_INGREDIENT_COUNT} ingredients carry a USDA proximate
+            composition (water, protein, fat, ash).
           </p>
           <CompositionBar ingredient={s.ingredient} />
           {s.compositionWarning ? <p className="ma-warn">{s.compositionWarning}</p> : null}
         </fieldset>
 
         <fieldset className="ma-step">
-          <legend><span>02</span> geometry &amp; state</legend>
+          <legend><span>02</span> geometry &amp; temperatures</legend>
           <div className="ma-tiles">
             {GEOMETRIES.map((g) => (
               <button
@@ -157,47 +185,45 @@ export function SolverPanel(): React.JSX.Element {
             <Field label={GEOMETRIES.find((g) => g.id === geometry)!.dimension} unit="mm"
               value={halfDimensionMm} onChange={setHalfDimensionMm} min={1} />
             <Field label="mass" unit="g" value={massG} onChange={setMassG} min={1} />
-            <Field label="start" unit="°C" value={startC} onChange={setStartC} />
-            <Field label="target" unit="°C" value={targetC} onChange={setTargetC} />
+            <Field label="start temp" unit={`°${unit === "fahrenheit" ? "F" : "C"}`} value={displayedStartTemp} onChange={handleStartTempChange} />
+            <Field label="target doneness" unit={`°${unit === "fahrenheit" ? "F" : "C"}`} value={displayedTargetTemp} onChange={handleTargetTempChange} />
           </div>
           <Derived label="surface area to volume" value={`${s.surfaceAreaToVolumePerM.toFixed(1)} m⁻¹`} />
         </fieldset>
 
         <fieldset className="ma-step">
-          <legend><span>03</span> environment</legend>
+          <legend><span>03</span> cooking method &amp; environment</legend>
           <select value={methodId} onChange={(e) => setMethodId(e.target.value)}>
             {METHOD_IDS.map((id) => <option key={id} value={id}>{id.replace(/_/g, " ")}</option>)}
           </select>
-          <p className="ma-chip">standard atmosphere · editable · not weather</p>
+          <p className="ma-chip">standard atmosphere · editable</p>
           <div className="ma-fields">
-            <Field label="kitchen air" unit="°C" value={airC} onChange={setAirC} />
+            <Field label="ambient / medium temp" unit={`°${unit === "fahrenheit" ? "F" : "C"}`} value={displayedAirTemp} onChange={handleAirTempChange} />
             <Field label="humidity" unit="%" value={rhPct} onChange={setRhPct} min={0} max={100} />
             <Field label="elevation" unit="m" value={elevationM} onChange={setElevationM} />
           </div>
           <Derived
-            label="local water ceiling"
-            value={`${s.ceilingC.toFixed(1)} °C`}
-            note={s.ceilingClamped ? "pressure clamped to the Antoine limit" : undefined}
+            label="local boiling ceiling"
+            value={formatTemp(s.ceilingC, 1)}
+            note={s.ceilingClamped ? "pressure clamped to Antoine limit" : undefined}
           />
         </fieldset>
 
         <fieldset className="ma-step">
-          <legend><span>04</span> vessel &amp; lid</legend>
+          <legend><span>04</span> cookware vessel &amp; lid</legend>
           <select value={vesselId} onChange={(e) => { setVesselId(e.target.value); setLidSeal(""); }}>
-            <option value="">no vessel — on a rack, in the air</option>
+            <option value="">no vessel — in the oven air / rack</option>
             {VESSELS_DERIVED.map((v) => (
               <option key={v.id} value={v.id}>{v.name}</option>
             ))}
           </select>
           {vessel ? (
             <dl className="ma-vessel">
-              <div><dt>internal ⌀</dt><dd>{vessel.internalDiameterMm} mm</dd></div>
-              <div><dt>capacity</dt><dd>{vessel.capacityLitres.toFixed(2)} L</dd></div>
-              <div><dt>thermal mass</dt><dd>{vessel.thermalMassJperK.toFixed(0)} J·K⁻¹</dd></div>
+              <div><dt>diameter</dt><dd>{(vessel.internalDiameterMm / 25.4).toFixed(1)} in ({vessel.internalDiameterMm} mm)</dd></div>
+              <div><dt>capacity</dt><dd>{(vessel.capacityLitres * 1.0567).toFixed(1)} qt ({vessel.capacityLitres.toFixed(1)} L)</dd></div>
               <div><dt>material</dt><dd>{vessel.material.name}</dd></div>
             </dl>
           ) : null}
-          {/* A lidless vessel gets no lid control at all — the absence is real. */}
           {vessel?.lid ? (
             <>
               <div className="ma-seg" role="group" aria-label="lid seal">
@@ -207,44 +233,50 @@ export function SolverPanel(): React.JSX.Element {
                     onClick={() => setLidSeal(seal)}>{seal}</button>
                 ))}
               </div>
-              <Field label="power into contents" unit="W" value={burnerW} onChange={setBurnerW} min={0} />
-              <p className="ma-note">
-                A lid&rsquo;s water loss is set by the burner, not by the seal alone — the seal
-                fractions in the registry are a coarse index, kept only for callers with no power.
-              </p>
+              <Field label="burner power" unit="W" value={burnerW} onChange={setBurnerW} min={0} />
             </>
           ) : vessel ? (
-            <p className="ma-note">This vessel has no lid, so there is no seal to set.</p>
+            <p className="ma-note">Open pan (no lid fitted).</p>
           ) : null}
         </fieldset>
 
         <fieldset className="ma-step">
-          <legend><span>05</span> solve</legend>
+          <legend><span>05</span> solve summary</legend>
           <p className="ma-summary">
             {s.ingredient.name} · {halfDimensionMm} mm {geometry} · {massG} g ·{" "}
-            {methodId.replace(/_/g, " ")} · {vessel ? vessel.name : "no vessel"}
+            {methodId.replace(/_/g, " ")} · {vessel ? vessel.name : "direct air"}
           </p>
-          <p className="ma-note">Recomputed on every change. There is nothing to press.</p>
+          <p className="ma-note">Recomputed in real time on every input change.</p>
         </fieldset>
       </section>
 
       {/* ── Result rail ─────────────────────────────────────────────────── */}
       <section className="ma-results" aria-label="results">
+        {/* Time to Core & Doneness Card */}
         <article className="ma-card">
-          <h3>time to core</h3>
+          <h3>estimated cook time to core</h3>
           <Value reading={s.coreTime}>
             {(t) => (
               <>
                 <p className="ma-headline">{t.minutes.toFixed(0)}<em>min</em></p>
-                <dl className="ma-stats">
-                  <div><dt>coefficient</dt><dd>{t.hWm2K.toPrecision(2)} W·m⁻²·K⁻¹ <em>±25 %</em></dd></div>
-                  <div><dt>Biot</dt><dd>{t.biot.toPrecision(3)}</dd></div>
-                  <div><dt>Fourier</dt><dd>{t.fourier.toPrecision(3)}</dd></div>
+                <div className="mt-3 rounded-md bg-white/5 p-2.5 text-xs text-white/80 border border-white/10">
+                  <div className="font-semibold text-amber-300 mb-1 flex items-center gap-1.5">
+                    <span>⏱️</span> Resting Carryover Advice
+                  </div>
+                  <p className="text-white/70 leading-relaxed">
+                    {unit === "fahrenheit"
+                      ? carryover.restAdvice
+                      : `Pull at ${Math.round(carryover.pullTempC)}°C. Carryover heat will rise to ${Math.round(targetC)}°C during a ${carryover.restMinutes}-minute rest.`}
+                  </p>
+                </div>
+                <dl className="ma-stats mt-3">
+                  <div><dt>target core</dt><dd>{formatTemp(targetC)}</dd></div>
+                  <div><dt>pull temp</dt><dd>{unit === "fahrenheit" ? `${carryover.pullTempF}°F` : `${Math.round(carryover.pullTempC)}°C`}</dd></div>
+                  <div><dt>carryover rise</dt><dd>+{unit === "fahrenheit" ? `${carryover.carryoverRiseF}°F` : `${(carryover.carryoverRiseF * 5 / 9).toFixed(1)}°C`}</dd></div>
                 </dl>
                 {!t.oneTermValid ? (
-                  <p className="ma-warn">
-                    Fo ≤ 0.2: the one-term series understates the early transient, so this time
-                    is optimistic for a piece this thin.
+                  <p className="ma-warn mt-2">
+                    Thin cutlet: Transient heating is fast; check internal temperature early with an instant-read probe.
                   </p>
                 ) : null}
               </>
@@ -252,63 +284,69 @@ export function SolverPanel(): React.JSX.Element {
           </Value>
         </article>
 
+        {/* Surface Searing & Browning State */}
         <article className="ma-card">
-          <h3>water loss</h3>
-          <Value reading={s.waterLoss}>
-            {(w) => (
-              <>
-                <p className="ma-headline">
-                  {w.gramsPerHour.toFixed(0)}<em>g·h⁻¹</em>
-                </p>
-                <dl className="ma-stats">
-                  <div><dt>as latent heat</dt><dd>{w.latentWatts.toFixed(0)} W</dd></div>
-                  {w.covered ? (
-                    <>
-                      <div><dt>lid returns</dt><dd>{w.covered.returnedGramsPerHour.toFixed(0)} g·h⁻¹</dd></div>
-                      <div><dt>returned share</dt><dd>{(w.covered.returnFraction * 100).toFixed(0)} %</dd></div>
-                    </>
-                  ) : null}
-                </dl>
-                {w.covered?.holding ? (
-                  <p className="ma-note">
-                    The lid condenses everything this power raises: the pot is holding and loses
-                    no water at all.
-                  </p>
-                ) : null}
-              </>
-            )}
-          </Value>
-        </article>
-
-        <article className="ma-card">
-          <h3>surface state</h3>
+          <h3>surface browning &amp; sear</h3>
           <Value reading={s.surfaceState}>
             {(v) => (
               <>
                 <p className="ma-headline">
-                  ≥&nbsp;{v.lowerBoundC.toFixed(0)}<em>°C</em>
+                  ≥&nbsp;{formatTemp(v.lowerBoundC)}
                 </p>
                 <p className="ma-note">
-                  A lower bound — free water evaporating. Real food, once its surface dries, sits
-                  above this.
+                  Minimum surface temperature while moisture evaporates. Once dried, crust heats to medium temperature.
                 </p>
                 <dl className="ma-stats">
-                  <div><dt>water ceiling</dt><dd>{v.ceilingC.toFixed(1)} °C</dd></div>
-                  <div><dt>at the ceiling</dt><dd>{v.saturated ? "yes" : "no"}</dd></div>
+                  <div><dt>water boil ceiling</dt><dd>{formatTemp(v.ceilingC, 1)}</dd></div>
+                  <div><dt>browning possible</dt><dd>{v.canBrown ? "Yes (≥ 285°F / 140°C)" : "No (wet surface)"}</dd></div>
                 </dl>
-                <p className={v.canBrown ? "ma-note" : "ma-warn"}>{v.browningNote}</p>
+                <p className={v.canBrown ? "ma-note font-medium text-amber-200 mt-2" : "ma-warn mt-2"}>
+                  {v.browningNote}
+                </p>
               </>
             )}
           </Value>
         </article>
 
+        {/* Water Evaporation Loss Card */}
+        <article className="ma-card">
+          <h3>moisture evaporation</h3>
+          <Value reading={s.waterLoss}>
+            {(w) => (
+              <>
+                <p className="ma-headline">
+                  {w.gramsPerHour.toFixed(0)}<em>g/h</em>
+                </p>
+                <p className="text-xs text-white/50 mb-2">
+                  ≈ {(w.gramsPerHour * 0.033814).toFixed(1)} fl oz per hour evaporation loss
+                </p>
+                <dl className="ma-stats">
+                  <div><dt>latent heat loss</dt><dd>{w.latentWatts.toFixed(0)} W</dd></div>
+                  {w.covered ? (
+                    <>
+                      <div><dt>lid moisture return</dt><dd>{w.covered.returnedGramsPerHour.toFixed(0)} g/h</dd></div>
+                      <div><dt>retained moisture</dt><dd>{(w.covered.returnFraction * 100).toFixed(0)} %</dd></div>
+                    </>
+                  ) : null}
+                </dl>
+                {w.covered?.holding ? (
+                  <p className="ma-note mt-2 text-emerald-300">
+                    Lid condenses all generated steam: zero net moisture loss (braising mode).
+                  </p>
+                ) : null}
+              </>
+            )}
+          </Value>
+        </article>
+
+        {/* Heat Bottleneck & Technique Breakdown */}
         <article className="ma-card ma-card--wide">
-          <h3>where the bottleneck is</h3>
+          <h3>heat flow bottleneck breakdown</h3>
           <Value reading={s.bottleneck}>
             {(n) => (
               <ResistanceChain
                 network={n}
-                caption={`${n.controlling.label} holds ${(n.controlling.share * 100).toFixed(0)} % of the total resistance.`}
+                caption={`Primary heat bottleneck: ${n.controlling.label} (${(n.controlling.share * 100).toFixed(0)}% of total delay).`}
               />
             )}
           </Value>
@@ -318,7 +356,7 @@ export function SolverPanel(): React.JSX.Element {
   );
 }
 
-/** Stacked composition bar. Widths are the mass fractions, nothing else. */
+/** Stacked composition bar */
 function CompositionBar({ ingredient }: { ingredient: SolverIngredient }): React.JSX.Element {
   const parts = [
     ["water", ingredient.composition.water],
@@ -347,7 +385,7 @@ function CompositionBar({ ingredient }: { ingredient: SolverIngredient }): React
         ) : (
           <span className="ma-absent">no source recorded</span>
         )}
-        {" · sums to "}{sum.toFixed(3)}
+        {" · proximate sum "}{sum.toFixed(3)}
       </p>
     </div>
   );
