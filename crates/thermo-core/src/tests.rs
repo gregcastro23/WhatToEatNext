@@ -438,3 +438,265 @@ fn no_two_regimes_render_the_same_motion() {
         }
     }
 }
+
+// ── Composite vessel walls ──────────────────────────────────────────────────
+//
+// `[BASIS]` Conductivities are the alloy-class values already carried by
+// `src/data/cooking/cookwareMaterials.ts` (Incropera & DeWitt, *Fundamentals of
+// Heat and Mass Transfer*, Table A.1), so the two runtimes cite one source
+// rather than two. Nothing here introduces a new constant.
+
+/// A tri-ply base: 0.5 mm 304 stainless / 2.0 mm aluminium / 0.5 mm 304.
+fn tri_ply() -> [WallLayer; 3] {
+    [
+        WallLayer::new("stainless outer", 0.0005, 15.0),
+        WallLayer::new("aluminium core", 0.0020, 205.0),
+        WallLayer::new("stainless inner", 0.0005, 15.0),
+    ]
+}
+
+#[test]
+fn a_composite_wall_is_the_sum_of_its_plies() {
+    let v = VesselLeg::composite(500.0, 0.05, 1200.0, &tri_ply()).unwrap();
+    let expected: f64 = tri_ply()
+        .iter()
+        .map(|l| l.thickness_m / (l.k_w_m_k * 0.05))
+        .sum();
+    assert!((v.wall_resistance_k_per_w() - expected).abs() < EPS);
+}
+
+#[test]
+fn splitting_one_layer_into_identical_plies_changes_nothing() {
+    // Additivity, proven BEFORE relying on the decomposition anywhere else.
+    // One 3 mm layer must equal three 1 mm layers of the same material; if that
+    // does not hold, every composite number downstream is built on sand.
+    let single = VesselLeg::single(500.0, 0.05, 15.0, 0.003, 1200.0);
+    let split = VesselLeg::composite(
+        500.0,
+        0.05,
+        1200.0,
+        &[
+            WallLayer::new("a", 0.001, 15.0),
+            WallLayer::new("b", 0.001, 15.0),
+            WallLayer::new("c", 0.001, 15.0),
+        ],
+    )
+    .unwrap();
+    assert!(
+        (single.wall_resistance_k_per_w() - split.wall_resistance_k_per_w()).abs() < EPS,
+        "additivity broken: {} vs {}",
+        single.wall_resistance_k_per_w(),
+        split.wall_resistance_k_per_w()
+    );
+
+    // And end to end, through the solver.
+    let a = solve_boundary_network(200.0, 20.0, Some(single), None).unwrap();
+    let b = solve_boundary_network(200.0, 20.0, Some(split), None).unwrap();
+    assert!((a.total_resistance_k_per_w - b.total_resistance_k_per_w).abs() < EPS);
+    assert!((a.heat_flow_w - b.heat_flow_w).abs() < 1e-9);
+}
+
+#[test]
+fn the_core_is_not_the_pan_a_single_layer_would_model() {
+    // The reason composites exist at all. Modelling tri-ply as solid stainless
+    // has to pick one k, and both available choices are wrong in a direction
+    // that matters: stainless overstates the wall's resistance several-fold,
+    // aluminium understates it.
+    let area = 0.05;
+    let composite = VesselLeg::composite(500.0, area, 1200.0, &tri_ply()).unwrap();
+    let all_steel = VesselLeg::single(500.0, area, 15.0, 0.003, 1200.0);
+    let all_alu = VesselLeg::single(500.0, area, 205.0, 0.003, 1200.0);
+
+    let r_comp = composite.wall_resistance_k_per_w();
+    assert!(
+        r_comp < all_steel.wall_resistance_k_per_w(),
+        "tri-ply must conduct better than solid stainless"
+    );
+    assert!(
+        r_comp > all_alu.wall_resistance_k_per_w(),
+        "tri-ply must conduct worse than solid aluminium"
+    );
+}
+
+#[test]
+fn a_single_ply_still_reports_the_original_link_id() {
+    // The compatibility guarantee the golden vectors depend on.
+    let v = VesselLeg::single(500.0, 0.05, 15.0, 0.003, 1200.0);
+    let solved = solve_boundary_network(200.0, 20.0, Some(v), None).unwrap();
+    let ids: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
+    assert_eq!(ids, vec!["source-to-vessel", "vessel-wall", "vessel-to-medium"]);
+}
+
+#[test]
+fn a_composite_reports_one_link_per_ply() {
+    let v = VesselLeg::composite(500.0, 0.05, 1200.0, &tri_ply()).unwrap();
+    let solved = solve_boundary_network(200.0, 20.0, Some(v), None).unwrap();
+    let ids: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
+    assert_eq!(
+        ids,
+        vec![
+            "source-to-vessel",
+            "vessel-layer-0",
+            "vessel-layer-1",
+            "vessel-layer-2",
+            "vessel-to-medium",
+        ]
+    );
+    // The shares must still close, exactly as for a simple wall.
+    let sum: f64 = solved.links.iter().map(|l| l.share).sum();
+    assert!((sum - 1.0).abs() < 1e-12, "shares sum to {sum}, not 1");
+}
+
+#[test]
+fn a_stack_that_is_empty_or_too_deep_is_refused() {
+    assert!(VesselLeg::composite(500.0, 0.05, 1200.0, &[]).is_none());
+    let too_many = [WallLayer::new("x", 0.001, 15.0); MAX_WALL_LAYERS + 1];
+    assert!(VesselLeg::composite(500.0, 0.05, 1200.0, &too_many).is_none());
+    // Exactly at the limit is fine — an off-by-one here would silently drop a
+    // five-ply pan to a refusal.
+    let at_limit = [WallLayer::new("x", 0.001, 15.0); MAX_WALL_LAYERS];
+    assert!(VesselLeg::composite(500.0, 0.05, 1200.0, &at_limit).is_some());
+}
+
+#[test]
+fn a_zero_thickness_or_zero_k_ply_is_refused_not_absorbed() {
+    // A zero-k ply is an infinite resistance. Without the per-ply check it
+    // would swallow the entire chain while every other input still looked sane.
+    for bad in [
+        WallLayer::new("zero k", 0.001, 0.0),
+        WallLayer::new("zero L", 0.0, 15.0),
+        WallLayer::new("nan k", 0.001, f64::NAN),
+        WallLayer::new("neg L", -0.001, 15.0),
+    ] {
+        let v = VesselLeg::composite(
+            500.0,
+            0.05,
+            1200.0,
+            &[WallLayer::new("ok", 0.001, 15.0), bad],
+        )
+        .unwrap();
+        assert!(
+            solve_boundary_network(200.0, 20.0, Some(v), None).is_err(),
+            "ply {:?} must be refused",
+            bad.name
+        );
+    }
+}
+
+// ── Simmer reduction ────────────────────────────────────────────────────────
+
+/// Latent heat at the boiling point, from the cited table rather than a constant.
+fn hfg_100c() -> f64 {
+    saturated_water_properties(100.0).unwrap().hfg_j_kg
+}
+
+#[test]
+fn a_kilowatt_halves_a_litre_in_about_eighteen_minutes() {
+    // External sanity anchor, reasoned independently of the implementation:
+    // ~2.26 MJ/kg to boil water off, so 1 kW evaporates ~0.44 g/s. Half a litre
+    // is ~479 g, which is ~1080 s. A cook knows a litre does not halve in two
+    // minutes or in three hours, and this is the assertion that would catch a
+    // unit slip of 1000× in either direction.
+    let t = reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, 0.5).unwrap();
+    assert!(
+        (17.0 * 60.0..=19.0 * 60.0).contains(&t),
+        "expected ~18 min, got {:.1} min",
+        t / 60.0
+    );
+}
+
+#[test]
+fn the_closed_form_and_the_trajectory_agree() {
+    // Two independent expressions of the same physics: `reduction_time_seconds`
+    // solves for t, `simmer_trajectory_step` marches it. If the closed form's
+    // constant-rate argument were wrong, they would part company here.
+    for target in [0.1, 0.25, 0.5, 0.75, 0.9] {
+        let t = reduction_time_seconds(2.0, 800.0, hfg_100c(), 0.55, 100.0, target).unwrap();
+        let step = simmer_trajectory_step(2.0, 800.0, hfg_100c(), 0.55, 100.0, t).unwrap();
+        let expected_remaining = 2.0 * (1.0 - target);
+        assert!(
+            (step[1] - expected_remaining).abs() < 1e-9,
+            "target {target}: marched to {} L, closed form says {} L",
+            step[1],
+            expected_remaining
+        );
+    }
+}
+
+#[test]
+fn a_tighter_seal_takes_strictly_longer() {
+    // The graded seal model is only worth having if it is monotonic. These are
+    // the four VAPOUR_ESCAPE_FRACTION values from src/data/cooking/vessels.ts.
+    let times: Vec<f64> = [1.0, 0.55, 0.25, 0.08]
+        .iter()
+        .map(|&escape| {
+            reduction_time_seconds(1.5, 1200.0, hfg_100c(), escape, 100.0, 0.5).unwrap()
+        })
+        .collect();
+    for pair in times.windows(2) {
+        assert!(
+            pair[1] > pair[0],
+            "a tighter seal must take longer: {:?}",
+            times
+        );
+    }
+    // And the spread must be large enough to be worth modelling at all.
+    assert!(times[3] / times[0] > 10.0, "tight vs open: {:?}", times);
+}
+
+#[test]
+fn concentration_is_the_inverse_of_what_remains() {
+    // Non-volatile solutes only — halving the volume doubles the salt.
+    let t = reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, 0.5).unwrap();
+    let step = simmer_trajectory_step(1.0, 1000.0, hfg_100c(), 1.0, 100.0, t).unwrap();
+    assert!((step[2] - 2.0).abs() < 1e-9, "expected 2×, got {}", step[2]);
+}
+
+#[test]
+fn a_lid_that_holds_is_refused_not_reported_as_infinite() {
+    // Zero escape is a different regime, not a very slow reduction. Returning
+    // inf would let a panel print "∞ min" as though it were a measurement.
+    assert!(reduction_time_seconds(1.0, 1000.0, hfg_100c(), 0.0, 100.0, 0.5).is_err());
+    // Zero power, likewise.
+    assert!(reduction_time_seconds(1.0, 0.0, hfg_100c(), 1.0, 100.0, 0.5).is_err());
+}
+
+#[test]
+fn a_target_of_everything_or_nothing_is_refused() {
+    for bad in [0.0, 1.0, 1.5, -0.2, f64::NAN] {
+        assert!(
+            reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, bad).is_err(),
+            "target {bad} must be refused"
+        );
+    }
+    // Just inside the boundary must still solve — an off-by-one here would
+    // refuse a legitimate 99 % reduction.
+    assert!(reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, 0.99).is_ok());
+}
+
+#[test]
+fn an_escape_fraction_outside_zero_to_one_is_refused() {
+    for bad in [-0.1, 1.1, f64::INFINITY] {
+        assert!(simmer_net_loss_kg_s(1000.0, hfg_100c(), bad).is_err(), "{bad}");
+    }
+}
+
+#[test]
+fn boiling_dry_clamps_rather_than_going_negative() {
+    // Marched well past the end. Volume must stop at zero, not run negative and
+    // hand a caller a nonsensical concentration.
+    let far = simmer_trajectory_step(0.5, 2000.0, hfg_100c(), 1.0, 100.0, 100_000.0).unwrap();
+    assert_eq!(far[1], 0.0);
+    assert!(far[2].is_infinite());
+    assert!(far[3] > 0.0, "the loss rate itself stays finite");
+}
+
+#[test]
+fn density_comes_from_the_table_not_a_rounded_constant() {
+    // The commonly quoted 0.958 kg/L is close to Table A.6 but not equal to it.
+    // If this crate had hardcoded it, the two would differ by ~0.1 % and this
+    // is where that would show.
+    let rho = saturated_water_properties(100.0).unwrap().fluid.rho_kg_m3;
+    assert!((rho - 957.9).abs() < 1.0, "table density {rho}");
+    assert_ne!(rho, 958.0, "density must be looked up, not assumed");
+}

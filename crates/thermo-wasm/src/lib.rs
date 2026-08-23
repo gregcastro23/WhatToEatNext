@@ -380,6 +380,12 @@ pub fn boundary_link_fields() -> usize {
     BOUNDARY_LINK_FIELDS
 }
 
+/// Deepest wall stack the core accepts.
+#[wasm_bindgen]
+pub fn max_wall_layers() -> usize {
+    core_physics::MAX_WALL_LAYERS
+}
+
 /// Header length of the boundary-network buffer.
 #[wasm_bindgen]
 pub fn boundary_header_fields() -> usize {
@@ -407,7 +413,12 @@ pub fn boundary_header_fields() -> usize {
 /// but small is not zero, and an offline or proxied client can widen it.
 #[wasm_bindgen]
 pub fn boundary_schema_version() -> u32 {
-    1
+    // v2 (2026-08-22): composite walls. `solve_boundary_network` dropped
+    // `vessel_k_w_m_k`/`vessel_thickness_m` for a flat ply slice, and
+    // `boundary_network_link_ids` gained a ply count — both are positional
+    // changes a stride check cannot see, which is exactly the case this
+    // version exists for.
+    2
 }
 
 /// Map a JS geometry discriminant onto `FoodGeometry`.
@@ -443,6 +454,13 @@ fn geometry_from_u8(d: u8) -> Option<FoodGeometry> {
 /// from [`boundary_network_link_ids`] with the same leg flags.
 ///
 /// A REFUSAL is a length-1 array whose single element is NaN.
+///
+/// `vessel_layers` is flat `[thickness_m, k_w_m_k]` pairs, OUTSIDE FACE FIRST —
+/// a slice rather than more scalars because a wall is 1..=5 plies, and ten more
+/// positional f64s would be a transposition waiting to happen. Its length must
+/// be even and at most `2 * max_wall_layers()`; anything else is a refusal,
+/// never a truncation, since a silently shortened stack solves a different pan
+/// than the caller asked about.
 #[wasm_bindgen]
 #[allow(clippy::too_many_arguments)]
 pub fn solve_boundary_network(
@@ -451,9 +469,8 @@ pub fn solve_boundary_network(
     has_vessel: bool,
     vessel_source_h_w_m2_k: f64,
     vessel_area_m2: f64,
-    vessel_k_w_m_k: f64,
-    vessel_thickness_m: f64,
     vessel_medium_h_w_m2_k: f64,
+    vessel_layers: &[f64],
     has_food: bool,
     food_medium_h_w_m2_k: f64,
     food_geometry: u8,
@@ -464,13 +481,27 @@ pub fn solve_boundary_network(
     let refusal: Box<[f64]> = Box::new([f64::NAN]);
 
     let vessel = if has_vessel {
-        Some(VesselLeg {
-            source_to_vessel_h_w_m2_k: vessel_source_h_w_m2_k,
-            area_m2: vessel_area_m2,
-            k_w_m_k: vessel_k_w_m_k,
-            thickness_m: vessel_thickness_m,
-            vessel_to_medium_h_w_m2_k: vessel_medium_h_w_m2_k,
-        })
+        if vessel_layers.is_empty()
+            || vessel_layers.len() % 2 != 0
+            || vessel_layers.len() > 2 * core_physics::MAX_WALL_LAYERS
+        {
+            return refusal;
+        }
+        let mut plies = [core_physics::WallLayer::EMPTY; core_physics::MAX_WALL_LAYERS];
+        let count = vessel_layers.len() / 2;
+        for i in 0..count {
+            // The name is not carried across the boundary — see VESSEL_LAYER_IDS.
+            plies[i] = core_physics::WallLayer::new("", vessel_layers[2 * i], vessel_layers[2 * i + 1]);
+        }
+        match VesselLeg::composite(
+            vessel_source_h_w_m2_k,
+            vessel_area_m2,
+            vessel_medium_h_w_m2_k,
+            &plies[..count],
+        ) {
+            Some(v) => Some(v),
+            None => return refusal,
+        }
     } else {
         None
     };
@@ -527,20 +558,131 @@ pub fn solve_boundary_network(
 /// fetch them once and reuse them across every re-solve while dragging a slider.
 /// Returns an empty string for an unsolvable combination.
 #[wasm_bindgen]
-pub fn boundary_network_link_ids(has_vessel: bool, has_food: bool) -> String {
-    // Mirrors the push order inside `core_physics::solve_boundary_network`.
+pub fn boundary_network_link_ids(
+    has_vessel: bool,
+    has_food: bool,
+    vessel_layer_count: usize,
+) -> String {
+    // Mirrors the push order inside `core_physics::solve_boundary_network`,
+    // INCLUDING its single-ply special case: one layer is still `vessel-wall`,
+    // so a caller that never uses composites sees exactly the ids it always saw.
     let mut ids: Vec<&'static str> = Vec::new();
     if has_vessel {
-        ids.extend_from_slice(&[
-            "source-to-vessel",
-            "vessel-wall",
-            "vessel-to-medium",
-        ]);
+        if vessel_layer_count > core_physics::MAX_WALL_LAYERS {
+            return String::new();
+        }
+        ids.push("source-to-vessel");
+        if vessel_layer_count <= 1 {
+            ids.push("vessel-wall");
+        } else {
+            for id in core_physics::VESSEL_LAYER_IDS.iter().take(vessel_layer_count) {
+                ids.push(id);
+            }
+        }
+        ids.push("vessel-to-medium");
     }
     if has_food {
         ids.extend_from_slice(&["medium-to-food", "food-interior"]);
     }
     ids.join(",")
+}
+
+/// Latent heat of vaporisation from the SATURATED-WATER TABLE, J·kg⁻¹.
+///
+/// ⚠️ NOT THE SAME NUMBER AS [`latent_heat_vaporisation`], and the difference
+/// is deliberate. That one is the Fleagle & Andreas fit, valid for evaporation
+/// at arbitrary sub-boiling surface temperatures; this one is Incropera &
+/// DeWitt Table A.6, the saturation value. They differ by 0.6848 % at 100 °C,
+/// and `src/lib/cooking/latentHeat.ts` explains at length why they are kept
+/// apart rather than reconciled — two independent sources agreeing to within a
+/// percent is corroboration, and collapsing them would destroy it.
+///
+/// A BOILING pot is at saturation, so reduction work wants THIS one. Feeding
+/// the fit instead is a 0.68 % error in every reduction time — which is exactly
+/// how `scripts/verify-thermo-wasm-parity.mjs` caught it being used here.
+#[wasm_bindgen]
+pub fn saturated_water_hfg_j_kg(celsius: f64) -> f64 {
+    core_physics::saturated_water_properties(celsius)
+        .map(|w| w.hfg_j_kg)
+        .unwrap_or(f64::NAN)
+}
+
+/// Net water loss from a boiling pot, kg·s⁻¹. NaN when refused.
+///
+/// `escape_fraction` is the caller's, from `VAPOUR_ESCAPE_FRACTION` in
+/// src/data/cooking/vessels.ts — a graded ORDERING of seal states, not a fitted
+/// coefficient, which is why no version of it is hardcoded on either side of
+/// this boundary.
+#[wasm_bindgen]
+pub fn simmer_net_loss_kg_s(
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+) -> f64 {
+    core_physics::simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction)
+        .unwrap_or(f64::NAN)
+}
+
+/// Time to reduce a liquid by `target_fraction`, seconds. NaN when refused.
+///
+/// Refuses a held pot rather than reporting an infinite time — see the core.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn reduction_time_seconds(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    target_fraction: f64,
+) -> f64 {
+    core_physics::reduction_time_seconds(
+        initial_volume_l,
+        power_into_contents_w,
+        latent_heat_j_kg,
+        escape_fraction,
+        liquid_c,
+        target_fraction,
+    )
+    .unwrap_or(f64::NAN)
+}
+
+/// f64s per `simmer_trajectory_step` result.
+pub const SIMMER_STEP_FIELDS: usize = 4;
+
+/// Stride of the trajectory buffer.
+#[wasm_bindgen]
+pub fn simmer_step_fields() -> usize {
+    SIMMER_STEP_FIELDS
+}
+
+/// One sample of a reduction trajectory.
+///
+/// `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+/// A REFUSAL is a length-1 array whose single element is NaN — the same
+/// discriminator the boundary buffer uses, so a caller that checks length never
+/// reads past the end of a buffer that was never populated.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn simmer_trajectory_step(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    elapsed_s: f64,
+) -> Box<[f64]> {
+    match core_physics::simmer_trajectory_step(
+        initial_volume_l,
+        power_into_contents_w,
+        latent_heat_j_kg,
+        escape_fraction,
+        liquid_c,
+        elapsed_s,
+    ) {
+        Ok(step) => Box::new(step),
+        Err(_) => Box::new([f64::NAN]),
+    }
 }
 
 #[cfg(test)]
@@ -554,13 +696,21 @@ mod tests {
     /// the same guess.
     #[test]
     fn link_ids_match_the_real_solver() {
-        let vessel = VesselLeg {
-            source_to_vessel_h_w_m2_k: 60.0,
-            area_m2: 0.045,
-            k_w_m_k: 45.0,
-            thickness_m: 0.003,
-            vessel_to_medium_h_w_m2_k: 1000.0,
-        };
+        let vessel = VesselLeg::single(60.0, 0.045, 45.0, 0.003, 1000.0);
+        // A composite, so the mirror is checked for BOTH id shapes. The
+        // single-ply case alone would leave `vessel-layer-N` unverified — and
+        // that is the branch composites actually added.
+        let clad = VesselLeg::composite(
+            60.0,
+            0.045,
+            1000.0,
+            &[
+                core_physics::WallLayer::new("out", 0.0005, 15.0),
+                core_physics::WallLayer::new("core", 0.002, 205.0),
+                core_physics::WallLayer::new("in", 0.0005, 15.0),
+            ],
+        )
+        .expect("3 plies is within the cap");
         let food = FoodLeg {
             medium_to_food_h_w_m2_k: 500.0,
             geometry: FoodGeometry::Sphere,
@@ -569,22 +719,29 @@ mod tests {
             area_m2: 4.0 * std::f64::consts::PI * 0.025 * 0.025,
         };
 
-        for (has_vessel, has_food) in [(true, true), (true, false), (false, true)] {
-            let solved = thermo_core::solve_boundary_network(
-                200.0,
-                20.0,
-                if has_vessel { Some(vessel) } else { None },
-                if has_food { Some(food) } else { None },
-            )
-            .expect("fixture should solve");
+        for leg in [vessel, clad] {
+            for (has_vessel, has_food) in [(true, true), (true, false), (false, true)] {
+                let solved = thermo_core::solve_boundary_network(
+                    200.0,
+                    20.0,
+                    if has_vessel { Some(leg) } else { None },
+                    if has_food { Some(food) } else { None },
+                )
+                .expect("fixture should solve");
 
-            let actual: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
-            let mirrored = boundary_network_link_ids(has_vessel, has_food);
-            assert_eq!(
-                actual.join(","),
-                mirrored,
-                "link id mirror drifted for vessel={has_vessel} food={has_food}"
-            );
+                let actual: Vec<&str> = solved.links.iter().map(|l| l.id).collect();
+                let mirrored = boundary_network_link_ids(
+                    has_vessel,
+                    has_food,
+                    if has_vessel { leg.layer_count } else { 0 },
+                );
+                assert_eq!(
+                    actual.join(","),
+                    mirrored,
+                    "link id mirror drifted for vessel={has_vessel} food={has_food} plies={}",
+                    leg.layer_count
+                );
+            }
         }
     }
 
@@ -594,10 +751,23 @@ mod tests {
     fn refusals_are_length_one() {
         // Unknown geometry discriminant must refuse rather than default.
         let bad = solve_boundary_network(
-            200.0, 20.0, false, 0.0, 0.0, 0.0, 0.0, 0.0, true, 500.0, 9, 0.025, 0.55, 0.008,
+            200.0, 20.0, false, 0.0, 0.0, 0.0, &[], true, 500.0, 9, 0.025, 0.55, 0.008,
         );
         assert_eq!(bad.len(), 1);
         assert!(bad[0].is_nan());
+
+        // A malformed ply slice is a refusal too: odd length, empty, too deep.
+        for plies in [
+            vec![0.001],                                  // odd
+            vec![],                                       // empty with a vessel
+            vec![0.001, 15.0].repeat(core_physics::MAX_WALL_LAYERS + 1), // deeper than the cap
+        ] {
+            let r = solve_boundary_network(
+                200.0, 20.0, true, 60.0, 0.045, 1000.0, &plies, false, 0.0, 0, 0.0, 0.0, 0.0,
+            );
+            assert_eq!(r.len(), 1, "plies {plies:?} must refuse");
+            assert!(r[0].is_nan());
+        }
 
         // headspace <= ambient is an documented lid refusal.
         let lid = lid_heat_balance(0.05, 0.8, 0.0015, 15.0, 20.0, 20.0, 2.26e6, 0.3);

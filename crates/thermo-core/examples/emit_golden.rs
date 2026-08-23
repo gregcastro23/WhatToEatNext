@@ -705,13 +705,7 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
         k_w_m_k: 0.55,
         area_m2: 4.0 * core::f64::consts::PI * 0.025 * 0.025,
     };
-    let pot_leg = VesselLeg {
-        source_to_vessel_h_w_m2_k: 60.0,
-        area_m2: 0.05,
-        k_w_m_k: 15.0,
-        thickness_m: 0.003,
-        vessel_to_medium_h_w_m2_k: 5000.0,
-    };
+    let pot_leg = VesselLeg::single(60.0, 0.05, 15.0, 0.003, 5000.0);
     let net_cases: [(&str, f64, f64, Option<VesselLeg>, Option<FoodLeg>); 3] = [
         ("oven-rack", 200.0, 20.0, None, Some(potato)),
         (
@@ -796,6 +790,40 @@ src/__tests__/cookingThermoCrossRuntimeParity.test.ts. Both must reproduce every
         })
         .collect();
     out.push_str(&loss_rows.join(",\n"));
+    out.push_str("\n    ],\n");
+
+    // Simmer reduction. The seal sweep is the load-bearing one: the four
+    // VAPOUR_ESCAPE_FRACTION states must produce a strictly increasing time,
+    // and the trajectory must land exactly where the closed form says it will.
+    out.push_str("    \"reduction\": [\n");
+    let reduction_cases: [(&str, f64, f64, f64, f64); 7] = [
+        // name, volume L, power W, escape fraction, target fraction
+        ("open-1kw-half", 1.0, 1000.0, 1.0, 0.5),
+        ("cracked-1kw-half", 1.0, 1000.0, 0.55, 0.5),
+        ("loose-1kw-half", 1.0, 1000.0, 0.25, 0.5),
+        ("tight-1kw-half", 1.0, 1000.0, 0.08, 0.5),
+        ("open-2kw-quarter", 2.0, 2000.0, 1.0, 0.25),
+        ("open-500w-demi", 3.0, 500.0, 1.0, 0.75),
+        ("cracked-1200w-tenth", 1.5, 1200.0, 0.55, 0.1),
+    ];
+    let reduction_rows: Vec<String> = reduction_cases
+        .iter()
+        .map(|(name, vol, power, escape, target)| {
+            let t = reduction_time_seconds(*vol, *power, hfg100, *escape, 100.0, *target).unwrap();
+            let net = simmer_net_loss_kg_s(*power, hfg100, *escape).unwrap();
+            // Marched to the closed form's answer: remaining must be exactly
+            // (1 - target) * V0, which is what ties the two together.
+            let step = simmer_trajectory_step(*vol, *power, hfg100, *escape, 100.0, t).unwrap();
+            format!(
+                "      {{ \"case\": \"{}\", \"volumeL\": {}, \"powerW\": {}, \
+\"escape\": {}, \"target\": {}, \"timeS\": {}, \"netKgS\": {}, \
+\"remainingL\": {}, \"concentration\": {} }}",
+                name, j(*vol), j(*power), j(*escape), j(*target),
+                j(t), j(net), j(step[1]), j(step[2])
+            )
+        })
+        .collect();
+    out.push_str(&reduction_rows.join(",\n"));
     out.push_str("\n    ]\n  }\n}\n");
 
     print!("{out}");

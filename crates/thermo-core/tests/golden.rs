@@ -1118,13 +1118,7 @@ fn boundary_network_matches_fixture() {
         k_w_m_k: 0.55,
         area_m2: 4.0 * core::f64::consts::PI * 0.025 * 0.025,
     };
-    let pot_leg = VesselLeg {
-        source_to_vessel_h_w_m2_k: 60.0,
-        area_m2: 0.05,
-        k_w_m_k: 15.0,
-        thickness_m: 0.003,
-        vessel_to_medium_h_w_m2_k: 5000.0,
-    };
+    let pot_leg = VesselLeg::single(60.0, 0.05, 15.0, 0.003, 5000.0);
     for row in bn["network"].as_array().unwrap() {
         let (src, sink, vessel, food) = match row["case"].as_str().unwrap() {
             "oven-rack" => (200.0, 20.0, None, Some(potato)),
@@ -1285,6 +1279,42 @@ fn lid_balance_matches_fixture() {
         assert_bits_eq(l.net_loss_kg_s, f(&row["netKgS"]), "net water loss");
         assert_bits_eq(l.return_fraction, f(&row["returnFraction"]), "return fraction");
         assert_eq!(l.holding, row["holding"].as_bool().unwrap());
+    }
+
+    // Simmer reduction. Asserted bit-for-bit rather than within a tolerance,
+    // like everything else in this fixture: the two runtimes evaluate the same
+    // expression on the same f64s, so anything but equality is a real divergence.
+    for row in bn["reduction"].as_array().unwrap() {
+        let name = row["case"].as_str().unwrap();
+        let t = reduction_time_seconds(
+            f(&row["volumeL"]),
+            f(&row["powerW"]),
+            hfg100,
+            f(&row["escape"]),
+            100.0,
+            f(&row["target"]),
+        )
+        .unwrap();
+        assert_bits_eq(t, f(&row["timeS"]), name);
+
+        let net =
+            simmer_net_loss_kg_s(f(&row["powerW"]), hfg100, f(&row["escape"])).unwrap();
+        assert_bits_eq(net, f(&row["netKgS"]), name);
+
+        // Marched to the closed form's own answer: the remaining volume must be
+        // what it predicted. This is the assertion that would catch the closed
+        // form and the integrator parting company.
+        let step = simmer_trajectory_step(
+            f(&row["volumeL"]),
+            f(&row["powerW"]),
+            hfg100,
+            f(&row["escape"]),
+            100.0,
+            t,
+        )
+        .unwrap();
+        assert_bits_eq(step[1], f(&row["remainingL"]), name);
+        assert_bits_eq(step[2], f(&row["concentration"]), name);
     }
 }
 

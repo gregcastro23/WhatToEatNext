@@ -2252,14 +2252,145 @@ pub struct BoundaryLink {
     pub drop_k: f64,
 }
 
+/// One isotropic layer of a vessel wall.
+///
+/// Real cookware is rarely one material. A tri-ply pan is stainless / aluminium
+/// / stainless, and the whole point of the construction is that the core does
+/// the spreading while the faces do the cooking and the cleaning. Modelling it
+/// as a single homogeneous wall has to pick ONE conductivity, and there is no
+/// honest choice: stainless understates the pan by an order of magnitude,
+/// aluminium overstates it.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct WallLayer {
+    /// Human name for the ply. Rust-side only — see `VESSEL_LAYER_IDS` for why
+    /// this does not cross the wasm boundary.
+    pub name: &'static str,
+    pub thickness_m: f64,
+    pub k_w_m_k: f64,
+}
+
+impl WallLayer {
+    /// The padding element. `layer_count` decides what is real; this is what
+    /// sits past it so the struct can stay `Copy` without an allocation.
+    pub const EMPTY: WallLayer = WallLayer {
+        name: "",
+        thickness_m: 0.0,
+        k_w_m_k: 0.0,
+    };
+
+    pub const fn new(name: &'static str, thickness_m: f64, k_w_m_k: f64) -> WallLayer {
+        WallLayer {
+            name,
+            thickness_m,
+            k_w_m_k,
+        }
+    }
+}
+
+/// Most plies any real cookware carries.
+///
+/// Five covers the deepest construction sold: stainless / aluminium / copper /
+/// aluminium / stainless. A fixed array rather than a `Vec` keeps `VesselLeg`
+/// `Copy` and keeps this crate allocation-free on the hot path, which matters
+/// because it is linked into the SpacetimeDB module as well as the browser.
+pub const MAX_WALL_LAYERS: usize = 5;
+
+/// Link ids for the plies of a COMPOSITE wall.
+///
+/// ⚠️ Generated positionally, not taken from `WallLayer::name`. Ids are
+/// `&'static str` and cross the wasm boundary as a comma-joined list, so they
+/// cannot carry a name that originated in TypeScript data — which is where the
+/// real material names live (`src/data/cooking/cookwareMaterials.ts`). The
+/// caller owns the labelling; this owns the ordering.
+pub const VESSEL_LAYER_IDS: [&str; MAX_WALL_LAYERS] = [
+    "vessel-layer-0",
+    "vessel-layer-1",
+    "vessel-layer-2",
+    "vessel-layer-3",
+    "vessel-layer-4",
+];
+
 /// The vessel half of a chain. Omitted for a roast on a rack.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct VesselLeg {
     pub source_to_vessel_h_w_m2_k: f64,
     pub area_m2: f64,
-    pub k_w_m_k: f64,
-    pub thickness_m: f64,
     pub vessel_to_medium_h_w_m2_k: f64,
+    /// Outside face first, inside face last. Only the first `layer_count` are
+    /// real; the rest are [`WallLayer::EMPTY`].
+    pub layers: [WallLayer; MAX_WALL_LAYERS],
+    pub layer_count: usize,
+}
+
+impl VesselLeg {
+    /// A single homogeneous wall — the shape this struct had before composites.
+    ///
+    /// Kept as a constructor rather than a second struct so every existing call
+    /// site reads the same and, more importantly, so the single-layer case still
+    /// emits the link id `vessel-wall`. The golden vectors pin that id; a
+    /// composite-only rewrite would have invalidated every one of them and
+    /// destroyed the evidence that the composite change is inert for simple
+    /// walls.
+    pub fn single(
+        source_to_vessel_h_w_m2_k: f64,
+        area_m2: f64,
+        k_w_m_k: f64,
+        thickness_m: f64,
+        vessel_to_medium_h_w_m2_k: f64,
+    ) -> VesselLeg {
+        let mut layers = [WallLayer::EMPTY; MAX_WALL_LAYERS];
+        layers[0] = WallLayer::new("wall", thickness_m, k_w_m_k);
+        VesselLeg {
+            source_to_vessel_h_w_m2_k,
+            area_m2,
+            vessel_to_medium_h_w_m2_k,
+            layers,
+            layer_count: 1,
+        }
+    }
+
+    /// A composite wall, outside face first.
+    ///
+    /// Returns `None` for an empty stack or one deeper than [`MAX_WALL_LAYERS`]
+    /// — a refusal rather than a silent truncation, which would quietly solve a
+    /// different pan than the caller asked about.
+    pub fn composite(
+        source_to_vessel_h_w_m2_k: f64,
+        area_m2: f64,
+        vessel_to_medium_h_w_m2_k: f64,
+        plies: &[WallLayer],
+    ) -> Option<VesselLeg> {
+        if plies.is_empty() || plies.len() > MAX_WALL_LAYERS {
+            return None;
+        }
+        let mut layers = [WallLayer::EMPTY; MAX_WALL_LAYERS];
+        layers[..plies.len()].copy_from_slice(plies);
+        Some(VesselLeg {
+            source_to_vessel_h_w_m2_k,
+            area_m2,
+            vessel_to_medium_h_w_m2_k,
+            layers,
+            layer_count: plies.len(),
+        })
+    }
+
+    /// The real plies, without the padding.
+    pub fn plies(&self) -> &[WallLayer] {
+        &self.layers[..self.layer_count]
+    }
+
+    /// Series conduction resistance of the whole wall, K·W⁻¹.
+    ///
+    /// `R = Σ Lᵢ / (kᵢ · A)` — the layers share one area, because a pan wall is
+    /// a plane slab stack, not a set of nested cylinders. That is exact for a
+    /// flat base and the standard thin-wall approximation for the sides.
+    pub fn wall_resistance_k_per_w(&self) -> f64 {
+        let mut total = 0.0;
+        for layer in self.plies() {
+            total += layer.thickness_m / (layer.k_w_m_k * self.area_m2);
+        }
+        total
+    }
 }
 
 /// The food half of a chain.
@@ -2304,26 +2435,55 @@ pub fn solve_boundary_network(
     let mut coefficients: Vec<Option<f64>> = Vec::new();
 
     if let Some(v) = vessel {
+        // A stack outside 1..=MAX_WALL_LAYERS is a caller error, not a pan.
+        if v.layer_count == 0 || v.layer_count > MAX_WALL_LAYERS {
+            return Err(ThermoError::NonPositiveThickness);
+        }
         for value in [
             v.area_m2,
             v.source_to_vessel_h_w_m2_k,
-            v.k_w_m_k,
-            v.thickness_m,
             v.vessel_to_medium_h_w_m2_k,
         ] {
             if !(value > 0.0) || !value.is_finite() {
                 return Err(ThermoError::NonPositiveThickness);
             }
         }
+        // Every ply is validated, not just the stack as a whole. A 0 mm or
+        // zero-k ply would contribute an infinite resistance and swallow the
+        // whole chain, and it would do it while every other number still looked
+        // reasonable.
+        for layer in v.plies() {
+            for value in [layer.thickness_m, layer.k_w_m_k] {
+                if !(value > 0.0) || !value.is_finite() {
+                    return Err(ThermoError::NonPositiveThickness);
+                }
+            }
+        }
+
         ids.push("source-to-vessel");
         resistances.push(1.0 / (v.source_to_vessel_h_w_m2_k * v.area_m2));
         areas.push(v.area_m2);
         coefficients.push(Some(v.source_to_vessel_h_w_m2_k));
 
-        ids.push("vessel-wall");
-        resistances.push(v.thickness_m / (v.k_w_m_k * v.area_m2));
-        areas.push(v.area_m2);
-        coefficients.push(None);
+        // ⚠️ A single ply keeps the id `vessel-wall`, byte-for-byte the
+        // behaviour before composites existed. That is what lets the existing
+        // golden vectors go on asserting this path unchanged — if composites
+        // had renamed it, every fixture would have needed regenerating and the
+        // proof that this change is inert for simple walls would be gone.
+        if v.layer_count == 1 {
+            let layer = v.layers[0];
+            ids.push("vessel-wall");
+            resistances.push(layer.thickness_m / (layer.k_w_m_k * v.area_m2));
+            areas.push(v.area_m2);
+            coefficients.push(None);
+        } else {
+            for (i, layer) in v.plies().iter().enumerate() {
+                ids.push(VESSEL_LAYER_IDS[i]);
+                resistances.push(layer.thickness_m / (layer.k_w_m_k * v.area_m2));
+                areas.push(v.area_m2);
+                coefficients.push(None);
+            }
+        }
 
         ids.push("vessel-to-medium");
         resistances.push(1.0 / (v.vessel_to_medium_h_w_m2_k * v.area_m2));
@@ -2549,4 +2709,149 @@ pub fn covered_water_loss(
             condensate_returned_kg_s / steam_generated_kg_s
         },
     })
+}
+
+// ============================================================================
+// Simmer reduction — time integration
+// ============================================================================
+
+/// Net water loss from a boiling pot, kg·s⁻¹.
+///
+/// `escape_fraction` is the share of generated steam that actually leaves,
+/// which is what `VAPOUR_ESCAPE_FRACTION` in `src/data/cooking/vessels.ts`
+/// grades by seal state (`none` 1.0, `cracked` 0.55, `loose` 0.25,
+/// `tight` 0.08). It is deliberately a caller argument rather than a constant
+/// here: those four values are an ORDERING of seal states, not a fitted
+/// coefficient, and burying one of them in this crate would turn a stated
+/// approximation into an invisible one.
+///
+/// ⚠️ POWER-LIMITED REGIME ONLY. This is `P / h_fg`, which does not depend on
+/// the liquid surface at all — correct once the pot is boiling, because every
+/// joule that arrives goes into phase change. It is NOT the sub-boiling case,
+/// where loss is a flux across a surface: see [`evaporative_flux`], and note
+/// that a bowl's surface SHRINKS as its level falls, so that regime has no
+/// closed form.
+pub fn simmer_net_loss_kg_s(
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+) -> Result<f64, ThermoError> {
+    if !power_into_contents_w.is_finite()
+        || !latent_heat_j_kg.is_finite()
+        || !escape_fraction.is_finite()
+    {
+        return Err(ThermoError::NonFinite);
+    }
+    if power_into_contents_w < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if !(latent_heat_j_kg > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    if !(0.0..=1.0).contains(&escape_fraction) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok((power_into_contents_w / latent_heat_j_kg) * escape_fraction)
+}
+
+/// Time to reduce a liquid by `target_fraction` of its volume, seconds.
+///
+/// ## Why this is a closed form and not an integration
+///
+/// In the power-limited regime the loss rate is constant: `P / h_fg` has no
+/// area term, and the liquid sits at its boiling point so its density does not
+/// move either. A constant `dV/dt` makes `V(t)` linear and the answer exact —
+/// `t = α · V₀ · ρ / ṁ`. Stepping it numerically would add rounding, not
+/// accuracy.
+///
+/// That reasoning is also the boundary of its validity. It does NOT apply to
+/// sub-boiling evaporation, where the rate follows the liquid surface and a
+/// bowl's surface shrinks as it empties. [`simmer_trajectory_step`] exists for
+/// that case.
+///
+/// `liquid_c` is used only to look up density from the saturated-water table
+/// (Incropera & DeWitt Table A.6) rather than assuming a value — at 100 °C that
+/// is ~957.9 kg·m⁻³, close to but not identical to the 0.958 kg·L⁻¹ commonly
+/// quoted.
+///
+/// Refuses `target_fraction` outside `(0, 1)`: at 1 the pot boils dry and the
+/// answer is not a time but the end of the process, and at 0 nothing was asked.
+/// Refuses a zero net loss — a lid tight enough to hold is not a slow
+/// reduction, it is a different regime, and returning `inf` would let a UI
+/// print "∞ min" as though it were a measurement.
+pub fn reduction_time_seconds(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    target_fraction: f64,
+) -> Result<f64, ThermoError> {
+    if !initial_volume_l.is_finite() || !target_fraction.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if !(initial_volume_l > 0.0) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if !(target_fraction > 0.0) || target_fraction >= 1.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let net_loss_kg_s =
+        simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction)?;
+    if !(net_loss_kg_s > 0.0) {
+        return Err(ThermoError::TargetUnreachable);
+    }
+
+    let rho_kg_m3 = saturated_water_properties(liquid_c)?.fluid.rho_kg_m3;
+    // litres → m³ → kg
+    let mass_to_lose_kg = target_fraction * (initial_volume_l / 1000.0) * rho_kg_m3;
+    Ok(mass_to_lose_kg / net_loss_kg_s)
+}
+
+/// One sample of a reduction trajectory.
+///
+/// `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+///
+/// A fixed array rather than a struct so it crosses the wasm boundary without
+/// serde and without a heap allocation — the same constraint that shapes the
+/// boundary-network buffer, and the reason this function drops straight into
+/// the SpacetimeDB module's tick reducer.
+///
+/// `concentration_ratio` is `V₀ / V(t)`: how much more concentrated every
+/// NON-VOLATILE solute has become. Salt, gelatin and glutamates follow it.
+/// Anything aromatic does not — it leaves with the steam, which is why a sauce
+/// reduced hard tastes saltier but not more of what it smelled like.
+///
+/// Clamps the remaining volume at zero and reports the concentration at that
+/// point as the last finite value rather than dividing by zero.
+pub fn simmer_trajectory_step(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    elapsed_s: f64,
+) -> Result<[f64; 4], ThermoError> {
+    if !initial_volume_l.is_finite() || !elapsed_s.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if !(initial_volume_l > 0.0) || elapsed_s < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let net_loss_kg_s =
+        simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction)?;
+    let rho_kg_m3 = saturated_water_properties(liquid_c)?.fluid.rho_kg_m3;
+
+    let lost_l = (net_loss_kg_s * elapsed_s / rho_kg_m3) * 1000.0;
+    let remaining_l = (initial_volume_l - lost_l).max(0.0);
+    // Boiled dry: the ratio is unbounded, so report the last defined state
+    // rather than an infinity that a caller would render as a number.
+    let concentration_ratio = if remaining_l > 0.0 {
+        initial_volume_l / remaining_l
+    } else {
+        f64::INFINITY
+    };
+    Ok([elapsed_s, remaining_l, concentration_ratio, net_loss_kg_s])
 }

@@ -160,14 +160,15 @@ export function boundary_link_fields() {
  * Returns an empty string for an unsolvable combination.
  * @param {boolean} has_vessel
  * @param {boolean} has_food
+ * @param {number} vessel_layer_count
  * @returns {string}
  */
-export function boundary_network_link_ids(has_vessel, has_food) {
+export function boundary_network_link_ids(has_vessel, has_food, vessel_layer_count) {
     let deferred1_0;
     let deferred1_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.boundary_network_link_ids(retptr, has_vessel, has_food);
+        wasm.boundary_network_link_ids(retptr, has_vessel, has_food, vessel_layer_count);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         deferred1_0 = r0;
@@ -328,6 +329,15 @@ export function lid_heat_balance(lid_area_m2, lid_perimeter_m, lid_thickness_m, 
 }
 
 /**
+ * Deepest wall stack the core accepts.
+ * @returns {number}
+ */
+export function max_wall_layers() {
+    const ret = wasm.max_wall_layers();
+    return ret >>> 0;
+}
+
+/**
  * ISA station pressure at elevation, kPa.
  * @param {number} elevation_m
  * @returns {number}
@@ -348,6 +358,100 @@ export function pressure_from_elevation(elevation_m) {
 export function radiant_flux_kw_m2(source_k, surface_k, emissivity, view_factor) {
     const ret = wasm.radiant_flux_kw_m2(source_k, surface_k, emissivity, view_factor);
     return ret;
+}
+
+/**
+ * Time to reduce a liquid by `target_fraction`, seconds. NaN when refused.
+ *
+ * Refuses a held pot rather than reporting an infinite time — see the core.
+ * @param {number} initial_volume_l
+ * @param {number} power_into_contents_w
+ * @param {number} latent_heat_j_kg
+ * @param {number} escape_fraction
+ * @param {number} liquid_c
+ * @param {number} target_fraction
+ * @returns {number}
+ */
+export function reduction_time_seconds(initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, target_fraction) {
+    const ret = wasm.reduction_time_seconds(initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, target_fraction);
+    return ret;
+}
+
+/**
+ * Latent heat of vaporisation from the SATURATED-WATER TABLE, J·kg⁻¹.
+ *
+ * ⚠️ NOT THE SAME NUMBER AS [`latent_heat_vaporisation`], and the difference
+ * is deliberate. That one is the Fleagle & Andreas fit, valid for evaporation
+ * at arbitrary sub-boiling surface temperatures; this one is Incropera &
+ * DeWitt Table A.6, the saturation value. They differ by 0.6848 % at 100 °C,
+ * and `src/lib/cooking/latentHeat.ts` explains at length why they are kept
+ * apart rather than reconciled — two independent sources agreeing to within a
+ * percent is corroboration, and collapsing them would destroy it.
+ *
+ * A BOILING pot is at saturation, so reduction work wants THIS one. Feeding
+ * the fit instead is a 0.68 % error in every reduction time — which is exactly
+ * how `scripts/verify-thermo-wasm-parity.mjs` caught it being used here.
+ * @param {number} celsius
+ * @returns {number}
+ */
+export function saturated_water_hfg_j_kg(celsius) {
+    const ret = wasm.saturated_water_hfg_j_kg(celsius);
+    return ret;
+}
+
+/**
+ * Net water loss from a boiling pot, kg·s⁻¹. NaN when refused.
+ *
+ * `escape_fraction` is the caller's, from `VAPOUR_ESCAPE_FRACTION` in
+ * src/data/cooking/vessels.ts — a graded ORDERING of seal states, not a fitted
+ * coefficient, which is why no version of it is hardcoded on either side of
+ * this boundary.
+ * @param {number} power_into_contents_w
+ * @param {number} latent_heat_j_kg
+ * @param {number} escape_fraction
+ * @returns {number}
+ */
+export function simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction) {
+    const ret = wasm.simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction);
+    return ret;
+}
+
+/**
+ * Stride of the trajectory buffer.
+ * @returns {number}
+ */
+export function simmer_step_fields() {
+    const ret = wasm.simmer_step_fields();
+    return ret >>> 0;
+}
+
+/**
+ * One sample of a reduction trajectory.
+ *
+ * `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+ * A REFUSAL is a length-1 array whose single element is NaN — the same
+ * discriminator the boundary buffer uses, so a caller that checks length never
+ * reads past the end of a buffer that was never populated.
+ * @param {number} initial_volume_l
+ * @param {number} power_into_contents_w
+ * @param {number} latent_heat_j_kg
+ * @param {number} escape_fraction
+ * @param {number} liquid_c
+ * @param {number} elapsed_s
+ * @returns {Float64Array}
+ */
+export function simmer_trajectory_step(initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, elapsed_s) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.simmer_trajectory_step(retptr, initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, elapsed_s);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var v1 = getArrayF64FromWasm0(r0, r1).slice();
+        wasm.__wbindgen_export(r0, r1 * 8, 8);
+        return v1;
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
 }
 
 /**
@@ -386,14 +490,20 @@ export function slab_core_time_minutes(thickness_mm, medium_c, initial_c, target
  * from [`boundary_network_link_ids`] with the same leg flags.
  *
  * A REFUSAL is a length-1 array whose single element is NaN.
+ *
+ * `vessel_layers` is flat `[thickness_m, k_w_m_k]` pairs, OUTSIDE FACE FIRST —
+ * a slice rather than more scalars because a wall is 1..=5 plies, and ten more
+ * positional f64s would be a transposition waiting to happen. Its length must
+ * be even and at most `2 * max_wall_layers()`; anything else is a refusal,
+ * never a truncation, since a silently shortened stack solves a different pan
+ * than the caller asked about.
  * @param {number} source_c
  * @param {number} sink_c
  * @param {boolean} has_vessel
  * @param {number} vessel_source_h_w_m2_k
  * @param {number} vessel_area_m2
- * @param {number} vessel_k_w_m_k
- * @param {number} vessel_thickness_m
  * @param {number} vessel_medium_h_w_m2_k
+ * @param {Float64Array} vessel_layers
  * @param {boolean} has_food
  * @param {number} food_medium_h_w_m2_k
  * @param {number} food_geometry
@@ -402,15 +512,17 @@ export function slab_core_time_minutes(thickness_mm, medium_c, initial_c, target
  * @param {number} food_area_m2
  * @returns {Float64Array}
  */
-export function solve_boundary_network(source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_k_w_m_k, vessel_thickness_m, vessel_medium_h_w_m2_k, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2) {
+export function solve_boundary_network(source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_medium_h_w_m2_k, vessel_layers, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.solve_boundary_network(retptr, source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_k_w_m_k, vessel_thickness_m, vessel_medium_h_w_m2_k, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2);
+        const ptr0 = passArrayF64ToWasm0(vessel_layers, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.solve_boundary_network(retptr, source_c, sink_c, has_vessel, vessel_source_h_w_m2_k, vessel_area_m2, vessel_medium_h_w_m2_k, ptr0, len0, has_food, food_medium_h_w_m2_k, food_geometry, food_half_dimension_m, food_k_w_m_k, food_area_m2);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-        var v1 = getArrayF64FromWasm0(r0, r1).slice();
+        var v2 = getArrayF64FromWasm0(r0, r1).slice();
         wasm.__wbindgen_export(r0, r1 * 8, 8);
-        return v1;
+        return v2;
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
     }
@@ -477,6 +589,13 @@ function getUint8ArrayMemory0() {
     return cachedUint8ArrayMemory0;
 }
 
+function passArrayF64ToWasm0(arg, malloc) {
+    const ptr = malloc(arg.length * 8, 8) >>> 0;
+    getFloat64ArrayMemory0().set(arg, ptr / 8);
+    WASM_VECTOR_LEN = arg.length;
+    return ptr;
+}
+
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 cachedTextDecoder.decode();
 const MAX_SAFARI_DECODE_BYTES = 2146435072;
@@ -490,6 +609,8 @@ function decodeText(ptr, len) {
     }
     return cachedTextDecoder.decode(getUint8ArrayMemory0().subarray(ptr, ptr + len));
 }
+
+let WASM_VECTOR_LEN = 0;
 
 let wasmModule, wasmInstance, wasm;
 function __wbg_finalize_init(instance, module) {

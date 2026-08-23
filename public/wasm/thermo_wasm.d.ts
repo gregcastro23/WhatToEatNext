@@ -90,7 +90,7 @@ export function boundary_link_fields(): number;
  * fetch them once and reuse them across every re-solve while dragging a slider.
  * Returns an empty string for an unsolvable combination.
  */
-export function boundary_network_link_ids(has_vessel: boolean, has_food: boolean): string;
+export function boundary_network_link_ids(has_vessel: boolean, has_food: boolean, vessel_layer_count: number): string;
 
 /**
  * Layout version of the boundary-network wire format.
@@ -178,6 +178,11 @@ export function lid_balance_fields(): number;
 export function lid_heat_balance(lid_area_m2: number, lid_perimeter_m: number, lid_thickness_m: number, lid_k_w_m_k: number, headspace_c: number, ambient_c: number, latent_heat_j_kg: number, emissivity: number): Float64Array;
 
 /**
+ * Deepest wall stack the core accepts.
+ */
+export function max_wall_layers(): number;
+
+/**
  * ISA station pressure at elevation, kPa.
  */
 export function pressure_from_elevation(elevation_m: number): number;
@@ -186,6 +191,55 @@ export function pressure_from_elevation(elevation_m: number): number;
  * Net radiant flux, kW·m⁻².
  */
 export function radiant_flux_kw_m2(source_k: number, surface_k: number, emissivity: number, view_factor: number): number;
+
+/**
+ * Time to reduce a liquid by `target_fraction`, seconds. NaN when refused.
+ *
+ * Refuses a held pot rather than reporting an infinite time — see the core.
+ */
+export function reduction_time_seconds(initial_volume_l: number, power_into_contents_w: number, latent_heat_j_kg: number, escape_fraction: number, liquid_c: number, target_fraction: number): number;
+
+/**
+ * Latent heat of vaporisation from the SATURATED-WATER TABLE, J·kg⁻¹.
+ *
+ * ⚠️ NOT THE SAME NUMBER AS [`latent_heat_vaporisation`], and the difference
+ * is deliberate. That one is the Fleagle & Andreas fit, valid for evaporation
+ * at arbitrary sub-boiling surface temperatures; this one is Incropera &
+ * DeWitt Table A.6, the saturation value. They differ by 0.6848 % at 100 °C,
+ * and `src/lib/cooking/latentHeat.ts` explains at length why they are kept
+ * apart rather than reconciled — two independent sources agreeing to within a
+ * percent is corroboration, and collapsing them would destroy it.
+ *
+ * A BOILING pot is at saturation, so reduction work wants THIS one. Feeding
+ * the fit instead is a 0.68 % error in every reduction time — which is exactly
+ * how `scripts/verify-thermo-wasm-parity.mjs` caught it being used here.
+ */
+export function saturated_water_hfg_j_kg(celsius: number): number;
+
+/**
+ * Net water loss from a boiling pot, kg·s⁻¹. NaN when refused.
+ *
+ * `escape_fraction` is the caller's, from `VAPOUR_ESCAPE_FRACTION` in
+ * src/data/cooking/vessels.ts — a graded ORDERING of seal states, not a fitted
+ * coefficient, which is why no version of it is hardcoded on either side of
+ * this boundary.
+ */
+export function simmer_net_loss_kg_s(power_into_contents_w: number, latent_heat_j_kg: number, escape_fraction: number): number;
+
+/**
+ * Stride of the trajectory buffer.
+ */
+export function simmer_step_fields(): number;
+
+/**
+ * One sample of a reduction trajectory.
+ *
+ * `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+ * A REFUSAL is a length-1 array whose single element is NaN — the same
+ * discriminator the boundary buffer uses, so a caller that checks length never
+ * reads past the end of a buffer that was never populated.
+ */
+export function simmer_trajectory_step(initial_volume_l: number, power_into_contents_w: number, latent_heat_j_kg: number, escape_fraction: number, liquid_c: number, elapsed_s: number): Float64Array;
 
 /**
  * Minutes for the centre of a slab to reach `target_c`.
@@ -211,8 +265,15 @@ export function slab_core_time_minutes(thickness_mm: number, medium_c: number, i
  * from [`boundary_network_link_ids`] with the same leg flags.
  *
  * A REFUSAL is a length-1 array whose single element is NaN.
+ *
+ * `vessel_layers` is flat `[thickness_m, k_w_m_k]` pairs, OUTSIDE FACE FIRST —
+ * a slice rather than more scalars because a wall is 1..=5 plies, and ten more
+ * positional f64s would be a transposition waiting to happen. Its length must
+ * be even and at most `2 * max_wall_layers()`; anything else is a refusal,
+ * never a truncation, since a silently shortened stack solves a different pan
+ * than the caller asked about.
  */
-export function solve_boundary_network(source_c: number, sink_c: number, has_vessel: boolean, vessel_source_h_w_m2_k: number, vessel_area_m2: number, vessel_k_w_m_k: number, vessel_thickness_m: number, vessel_medium_h_w_m2_k: number, has_food: boolean, food_medium_h_w_m2_k: number, food_geometry: number, food_half_dimension_m: number, food_k_w_m_k: number, food_area_m2: number): Float64Array;
+export function solve_boundary_network(source_c: number, sink_c: number, has_vessel: boolean, vessel_source_h_w_m2_k: number, vessel_area_m2: number, vessel_medium_h_w_m2_k: number, vessel_layers: Float64Array, has_food: boolean, food_medium_h_w_m2_k: number, food_geometry: number, food_half_dimension_m: number, food_k_w_m_k: number, food_area_m2: number): Float64Array;
 
 /**
  * Latent heat of fusion of PURE water, J·kg⁻¹. Infallible.
@@ -230,12 +291,16 @@ export interface InitOutput {
     readonly altitude_time_multiplier: (a: number, b: number) => number;
     readonly boiling_point_at_elevation: (a: number) => number;
     readonly boiling_point_c: (a: number) => number;
-    readonly boundary_network_link_ids: (a: number, b: number, c: number) => void;
+    readonly boundary_network_link_ids: (a: number, b: number, c: number, d: number) => void;
     readonly food_fusion_enthalpy: (a: number) => number;
     readonly food_vaporisation_enthalpy: (a: number, b: number) => number;
     readonly latent_heat_vaporisation: (a: number) => number;
     readonly lid_heat_balance: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => void;
     readonly pressure_from_elevation: (a: number) => number;
+    readonly reduction_time_seconds: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
+    readonly saturated_water_hfg_j_kg: (a: number) => number;
+    readonly simmer_net_loss_kg_s: (a: number, b: number, c: number) => number;
+    readonly simmer_trajectory_step: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
     readonly slab_core_time_minutes: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => number;
     readonly solve_boundary_network: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number) => void;
     readonly thermoengine_buffer_len: (a: number) => number;
@@ -253,9 +318,12 @@ export interface InitOutput {
     readonly boundary_schema_version: () => number;
     readonly floats_per_particle: () => number;
     readonly lid_balance_fields: () => number;
+    readonly max_wall_layers: () => number;
+    readonly simmer_step_fields: () => number;
     readonly water_fusion_j_kg: () => number;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;
+    readonly __wbindgen_export2: (a: number, b: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

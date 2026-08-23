@@ -246,3 +246,109 @@ export function panTemperatureDropC(
   const energyDemanded = foodMassKg * foodCJkgK * deltaTC;
   return energyDemanded / panCapacity;
 }
+
+// ── Composite constructions ─────────────────────────────────────────────────
+
+/**
+ * One ply of a clad construction, as a reference into {@link COOKWARE_MATERIALS}.
+ *
+ * Thickness is stated here rather than in the material because the same alloy
+ * appears at different gauges in different layups — a tri-ply face is 0.5 mm of
+ * the same 304 that a stockpot uses at 1.2 mm.
+ */
+export interface ConstructionPly {
+  materialId: string;
+  thicknessMm: number;
+  /** What this ply is for, in the layup. */
+  roleNote: string;
+}
+
+export interface CookwareConstruction {
+  id: string;
+  name: string;
+  /** Outside face first — the order heat actually crosses them. */
+  plies: readonly ConstructionPly[];
+  basisNote: string;
+}
+
+/**
+ * Clad layups, outside face first.
+ *
+ * `[BASIS]` Conductivities are NOT restated here — each ply names a material id
+ * and the number comes from {@link COOKWARE_MATERIALS} above, which cites
+ * Incropera & DeWitt Table A.1. That indirection is the point: a layup that
+ * carried its own copy of `k` could drift from the material it claims to be
+ * made of, and nothing would notice. Pinned by
+ * `src/lib/cooking/__tests__/compositeWall.test.ts`.
+ *
+ * Gauges are the published sandwich breakdown for the named example. They are
+ * representative of the construction class, not a specification.
+ *
+ * ⚠️ ENAMELLED CAST IRON IS DELIBERATELY ABSENT. A two-material model of it
+ * needs a conductivity for vitreous enamel, and this repo carries none it can
+ * cite. A plausible number would put an invented constant underneath every
+ * Dutch-oven figure the lab prints, so enamelled cast iron stays a single
+ * cast-iron layer until a cited enamel conductivity lands.
+ */
+export const COOKWARE_CONSTRUCTIONS: readonly CookwareConstruction[] = [
+  {
+    id: "tri_ply_stainless",
+    name: "Tri-ply stainless",
+    plies: [
+      {
+        materialId: "stainless_304",
+        thicknessMm: 0.5,
+        roleNote: "Exterior face — induction-compatible, takes the burner.",
+      },
+      {
+        materialId: "aluminium",
+        thicknessMm: 2.0,
+        roleNote: "Core — does all the spreading; the reason the pan is clad.",
+      },
+      {
+        materialId: "stainless_304",
+        thicknessMm: 0.5,
+        roleNote: "Cooking face — non-reactive, takes the food.",
+      },
+    ],
+    basisNote: "All-Clad D3 sandwich: 0.5 mm / 2.0 mm / 0.5 mm, 3 mm total.",
+  },
+  {
+    id: "copper_core_5ply",
+    name: "Copper-core 5-ply",
+    plies: [
+      { materialId: "stainless_304", thicknessMm: 0.4, roleNote: "Exterior face." },
+      { materialId: "aluminium", thicknessMm: 0.8, roleNote: "Bonding/spreading layer." },
+      { materialId: "copper", thicknessMm: 1.0, roleNote: "Core — the fastest spreader available." },
+      { materialId: "aluminium", thicknessMm: 0.8, roleNote: "Bonding/spreading layer." },
+      { materialId: "stainless_304", thicknessMm: 0.4, roleNote: "Cooking face." },
+    ],
+    basisNote: "All-Clad Copper Core 5-ply: 3.4 mm total, 1 mm copper.",
+  },
+];
+
+/**
+ * Resolve a construction into the ply list the solver takes.
+ *
+ * Returns `null` for an unknown construction or an unknown material rather than
+ * substituting a default — a silently defaulted ply is a pan the caller did not
+ * ask about, reported with full confidence.
+ */
+export function constructionPlies(
+  constructionId: string,
+): Array<{ name: string; thicknessM: number; kWmK: number }> | null {
+  const construction = COOKWARE_CONSTRUCTIONS.find((c) => c.id === constructionId);
+  if (!construction) return null;
+
+  const out: Array<{ name: string; thicknessM: number; kWmK: number }> = [];
+  for (const ply of construction.plies) {
+    const material = COOKWARE_MATERIALS.find((m) => m.id === ply.materialId);
+    if (!material) return null;
+    out.push({
+      name: material.name,
+      thicknessM: ply.thicknessMm / 1000,
+      kWmK: material.kWmK,
+    });
+  }
+  return out;
+}

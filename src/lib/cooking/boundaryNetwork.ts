@@ -54,11 +54,24 @@
  *
  * @file src/lib/cooking/boundaryNetwork.ts
  */
+
 import {
   biotNumber,
   characteristicLengthRatio,
   type FoodGeometry,
 } from "@/lib/cooking/thermo";
+import { VESSEL_LAYER_IDS, wallPlies } from "@/lib/cooking/wallPlies";
+import type { WallLayer } from "@/lib/cooking/wallPlies";
+
+// The ply model lives in its own module so the wasm bridge can import it
+// without dragging this kernel in — see the header of wallPlies.ts. Re-exported
+// so existing importers of `boundaryNetwork` keep working unchanged.
+export {
+  MAX_WALL_LAYERS,
+  VESSEL_LAYER_IDS,
+  wallPlies,
+  type WallLayer,
+} from "@/lib/cooking/wallPlies";
 
 // ============================================================================
 // Physical constants
@@ -1026,12 +1039,27 @@ export interface BoundaryNetworkInput {
   vessel?: {
     /** Source → vessel outside, W·m⁻²·K⁻¹. */
     sourceToVesselHWm2K: number;
-    /** Contact area for all three vessel links — usually the base, m². */
+    /** Contact area for all vessel links — usually the base, m². */
     areaM2: number;
-    /** Wall conductivity, W·m⁻¹·K⁻¹. */
-    kWmK: number;
-    /** Wall thickness on this path, m. */
-    thicknessM: number;
+    /**
+     * Wall conductivity, W·m⁻¹·K⁻¹. Single-layer form.
+     *
+     * Supply EITHER this pair or `layers`, never both. Optional only so the
+     * composite form does not have to carry a redundant representative pair
+     * that could drift from the plies it claims to summarise.
+     */
+    kWmK?: number;
+    /** Wall thickness on this path, m. Single-layer form. */
+    thicknessM?: number;
+    /**
+     * A composite wall, OUTSIDE FACE FIRST.
+     *
+     * Real cookware is rarely one material, and modelling tri-ply as a solid
+     * wall has to pick one conductivity — there is no honest choice, since
+     * stainless overstates the wall's resistance several-fold and aluminium
+     * understates it. See `MAX_WALL_LAYERS`.
+     */
+    layers?: readonly WallLayer[];
     /** Vessel inside → medium, W·m⁻²·K⁻¹. */
     vesselToMediumHWm2K: number;
   };
@@ -1096,9 +1124,9 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
     const v = input.vessel;
     positive("vessel.areaM2", v.areaM2);
     positive("vessel.sourceToVesselHWm2K", v.sourceToVesselHWm2K);
-    positive("vessel.kWmK", v.kWmK);
-    positive("vessel.thicknessM", v.thicknessM);
     positive("vessel.vesselToMediumHWm2K", v.vesselToMediumHWm2K);
+
+    const plies = wallPlies(v);
     raw.push({
       id: "source-to-vessel",
       label: "source → vessel outside",
@@ -1106,13 +1134,33 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
       areaM2: v.areaM2,
       hWm2K: v.sourceToVesselHWm2K,
     });
-    raw.push({
-      id: "vessel-wall",
-      label: "through the vessel wall",
-      resistanceKperW: v.thicknessM / (v.kWmK * v.areaM2),
-      areaM2: v.areaM2,
-      hWm2K: null,
-    });
+    // ⚠️ One ply keeps the id `vessel-wall`, byte-for-byte the behaviour before
+    // composites existed. The golden vectors pin that id, and keeping it is
+    // what lets them go on proving this change is inert for a simple wall.
+    if (plies.length === 1) {
+      const [only] = plies;
+      positive("vessel.thicknessM", only.thicknessM);
+      positive("vessel.kWmK", only.kWmK);
+      raw.push({
+        id: "vessel-wall",
+        label: "through the vessel wall",
+        resistanceKperW: only.thicknessM / (only.kWmK * v.areaM2),
+        areaM2: v.areaM2,
+        hWm2K: null,
+      });
+    } else {
+      plies.forEach((ply, i) => {
+        positive(`vessel.layers[${i}].thicknessM`, ply.thicknessM);
+        positive(`vessel.layers[${i}].kWmK`, ply.kWmK);
+        raw.push({
+          id: VESSEL_LAYER_IDS[i],
+          label: ply.name || `wall ply ${i + 1}`,
+          resistanceKperW: ply.thicknessM / (ply.kWmK * v.areaM2),
+          areaM2: v.areaM2,
+          hWm2K: null,
+        });
+      });
+    }
     raw.push({
       id: "vessel-to-medium",
       label: "vessel inside → medium",
@@ -1428,5 +1476,155 @@ export function coveredWaterLoss(
     netLossKgS,
     holding: netLossKgS === 0,
     returnFraction: steamGeneratedKgS === 0 ? 1 : condensateReturnedKgS / steamGeneratedKgS,
+  };
+}
+
+// ============================================================================
+// Simmer reduction — time integration
+// ============================================================================
+
+/**
+ * Net water loss from a boiling pot, kg·s⁻¹.
+ *
+ * `escapeFraction` is the share of generated steam that actually leaves, which
+ * is what `VAPOUR_ESCAPE_FRACTION` in `src/data/cooking/vessels.ts` grades by
+ * seal state. It is a caller argument, never a constant here: those four values
+ * are an ORDERING of seal states rather than a fitted coefficient, and burying
+ * one of them in this module would turn a stated approximation into an
+ * invisible one.
+ *
+ * ⚠️ POWER-LIMITED REGIME ONLY. This is `P / h_fg`, with no area term — correct
+ * once the pot is boiling, because every joule arriving goes into phase change.
+ * It is NOT the sub-boiling case, where loss is a flux across a surface; see
+ * {@link evaporativeFlux}, and note that a bowl's surface shrinks as its level
+ * falls, so that regime has no closed form.
+ *
+ * Transliterated from `simmer_net_loss_kg_s` in crates/thermo-core. All f64 —
+ * there is no f32 anywhere on this path, so no `Math.fround` discipline
+ * applies.
+ */
+export function simmerNetLossKgS(
+  powerIntoContentsW: number,
+  latentHeatJkg: number,
+  escapeFraction: number,
+): number {
+  if (
+    !Number.isFinite(powerIntoContentsW) ||
+    !Number.isFinite(latentHeatJkg) ||
+    !Number.isFinite(escapeFraction)
+  ) {
+    throw new RangeError("simmerNetLossKgS: every argument must be finite");
+  }
+  if (powerIntoContentsW < 0) {
+    throw new RangeError(`powerIntoContentsW must be ≥ 0, received ${powerIntoContentsW}`);
+  }
+  if (!(latentHeatJkg > 0)) {
+    throw new RangeError(`latentHeatJkg must be positive, received ${latentHeatJkg}`);
+  }
+  if (escapeFraction < 0 || escapeFraction > 1) {
+    throw new RangeError(`escapeFraction must lie in [0, 1], received ${escapeFraction}`);
+  }
+  return (powerIntoContentsW / latentHeatJkg) * escapeFraction;
+}
+
+/**
+ * Time to reduce a liquid by `targetFraction` of its volume, seconds.
+ *
+ * A closed form, not an integration, and for a reason worth stating: in the
+ * power-limited regime the loss rate is constant — `P / h_fg` has no area term,
+ * and the liquid sits at its boiling point so its density does not move either.
+ * A constant `dV/dt` makes `V(t)` linear and the answer exact. Stepping it
+ * numerically would add rounding, not accuracy.
+ *
+ * That is also the boundary of its validity: it does NOT describe sub-boiling
+ * evaporation, where the rate follows the liquid surface and a bowl's surface
+ * shrinks as it empties.
+ *
+ * `liquidC` only picks the density row out of the saturated-water table
+ * (Incropera & DeWitt Table A.6). At 100 °C that is ~957.9 kg·m⁻³, close to but
+ * not the same as the 0.958 kg·L⁻¹ usually quoted — which is exactly why it is
+ * looked up rather than assumed.
+ */
+export function reductionTimeSeconds(
+  initialVolumeL: number,
+  powerIntoContentsW: number,
+  latentHeatJkg: number,
+  escapeFraction: number,
+  liquidC: number,
+  targetFraction: number,
+): number {
+  if (!Number.isFinite(initialVolumeL) || !Number.isFinite(targetFraction)) {
+    throw new RangeError("reductionTimeSeconds: volume and target must be finite");
+  }
+  if (!(initialVolumeL > 0)) {
+    throw new RangeError(`initialVolumeL must be positive, received ${initialVolumeL}`);
+  }
+  if (!(targetFraction > 0) || targetFraction >= 1) {
+    // 1 is boiling dry — the end of the process, not a time to reach.
+    throw new RangeError(`targetFraction must lie in (0, 1), received ${targetFraction}`);
+  }
+
+  const netLossKgS = simmerNetLossKgS(powerIntoContentsW, latentHeatJkg, escapeFraction);
+  if (!(netLossKgS > 0)) {
+    // A lid tight enough to hold is a different regime, not a slow reduction.
+    // Returning Infinity would let a panel print "∞ min" as a measurement.
+    throw new RangeError("reductionTimeSeconds: no net loss — the pot is holding, not reducing");
+  }
+
+  const { rhoKgM3 } = saturatedWaterProperties(liquidC);
+  const massToLoseKg = targetFraction * (initialVolumeL / 1000) * rhoKgM3;
+  return massToLoseKg / netLossKgS;
+}
+
+/** One sample of a reduction trajectory. */
+export interface SimmerTrajectoryStep {
+  elapsedS: number;
+  remainingVolumeL: number;
+  /**
+   * `V₀ / V(t)` — how much more concentrated every NON-VOLATILE solute has
+   * become. Salt, gelatin and glutamates follow it; anything aromatic does not,
+   * because it leaves with the steam. That is why a hard-reduced sauce tastes
+   * saltier but not more of what it smelled like.
+   */
+  concentrationRatio: number;
+  netLossKgS: number;
+}
+
+/**
+ * March a reduction to `elapsedS` and report where it is.
+ *
+ * Clamps the remaining volume at zero rather than running negative, and reports
+ * an infinite concentration at that point rather than dividing by zero — a
+ * boiled-dry pot has no concentration, and a large finite number would read as
+ * one.
+ */
+export function simmerTrajectoryStep(
+  initialVolumeL: number,
+  powerIntoContentsW: number,
+  latentHeatJkg: number,
+  escapeFraction: number,
+  liquidC: number,
+  elapsedS: number,
+): SimmerTrajectoryStep {
+  if (!Number.isFinite(initialVolumeL) || !Number.isFinite(elapsedS)) {
+    throw new RangeError("simmerTrajectoryStep: volume and elapsed must be finite");
+  }
+  if (!(initialVolumeL > 0) || elapsedS < 0) {
+    throw new RangeError(
+      `simmerTrajectoryStep: volume must be positive and elapsed ≥ 0, received ${initialVolumeL} L, ${elapsedS} s`,
+    );
+  }
+
+  const netLossKgS = simmerNetLossKgS(powerIntoContentsW, latentHeatJkg, escapeFraction);
+  const { rhoKgM3 } = saturatedWaterProperties(liquidC);
+
+  const lostL = ((netLossKgS * elapsedS) / rhoKgM3) * 1000;
+  const remainingVolumeL = Math.max(0, initialVolumeL - lostL);
+  return {
+    elapsedS,
+    remainingVolumeL,
+    concentrationRatio:
+      remainingVolumeL > 0 ? initialVolumeL / remainingVolumeL : Number.POSITIVE_INFINITY,
+    netLossKgS,
   };
 }

@@ -107,6 +107,9 @@ import {
   vapourDensityKgM3,
   type BoilingSurface,
   type ConvectiveSurface,
+  reductionTimeSeconds,
+  simmerNetLossKgS,
+  simmerTrajectoryStep,
 } from "@/lib/cooking/boundaryNetwork";
 import { pressureFromElevation, SEA_LEVEL_PRESSURE_KPA } from "@/lib/environment/isa";
 import {
@@ -156,6 +159,7 @@ interface Golden {
     }>;
     lid: Array<{ case: string } & Record<string, number>>;
     coveredLoss: Array<{ holding: boolean } & Record<string, number>>;
+    reduction: Array<{ case: string } & Record<string, number>>;
   };
   latentHeat: {
     waterFusionJkg: number;
@@ -1099,6 +1103,54 @@ describe("lid balance parity", () => {
       expect(b.totalLossW).toBe(row.totalW);
       expect(b.condensationCapacityKgS).toBe(row.condKgS);
     }
+  });
+
+  it("reproduces the simmer reduction sweep bit for bit", () => {
+    // Bit equality, not a tolerance. Both runtimes evaluate the same expression
+    // over the same f64s — there is no f32 anywhere on this path, so no
+    // `Math.fround` discipline applies and anything but equality is a genuine
+    // divergence rather than accumulated rounding.
+    for (const row of bn.reduction) {
+      const t = reductionTimeSeconds(
+        row.volumeL,
+        row.powerW,
+        hfg100,
+        row.escape,
+        100,
+        row.target,
+      );
+      expect(t).toBe(row.timeS);
+      expect(simmerNetLossKgS(row.powerW, hfg100, row.escape)).toBe(row.netKgS);
+
+      // Marched to the closed form's own answer. This is the assertion that
+      // catches the closed form and the integrator parting company.
+      const step = simmerTrajectoryStep(
+        row.volumeL,
+        row.powerW,
+        hfg100,
+        row.escape,
+        100,
+        t,
+      );
+      expect(step.remainingVolumeL).toBe(row.remainingL);
+      expect(step.concentrationRatio).toBe(row.concentration);
+    }
+  });
+
+  it("orders the four seal states monotonically", () => {
+    // The graded seal model is only worth carrying if tighter is strictly
+    // slower. These four cases are the VAPOUR_ESCAPE_FRACTION states at a fixed
+    // power and volume, so the ONLY thing varying is the seal.
+    const sweep = ["open-1kw-half", "cracked-1kw-half", "loose-1kw-half", "tight-1kw-half"]
+      .map((name) => bn.reduction.find((r) => r.case === name)!)
+      .map((r) => r.timeS);
+    for (let i = 1; i < sweep.length; i += 1) {
+      expect(sweep[i]).toBeGreaterThan(sweep[i - 1]);
+    }
+    // And an open pot must halve a litre at 1 kW in roughly a quarter hour —
+    // the external sanity anchor, independent of either implementation.
+    expect(sweep[0]).toBeGreaterThan(17 * 60);
+    expect(sweep[0]).toBeLessThan(19 * 60);
   });
 
   it("reproduces the covered-pot water balance across the power sweep", () => {
