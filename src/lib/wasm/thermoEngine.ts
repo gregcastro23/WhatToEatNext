@@ -38,6 +38,7 @@ import type {
   BoundaryLink,
   BoundaryNetworkInput,
   BoundaryNetworkResult,
+  SimmerTrajectoryStep,
 } from "@/lib/cooking/boundaryNetwork";
 import type { MethodPhysicsMetrics } from "@/lib/cooking/methodMetrics";
 import { VESSEL_LAYER_IDS, wallPlies as boundaryPlies } from "@/lib/cooking/wallPlies";
@@ -556,6 +557,25 @@ interface ThermoWasmModule {
   /** Wire-format version of the boundary buffer. Absent in bundles built
    *  before 2026-08-22 — see BOUNDARY_SCHEMA_VERSION below. */
   boundary_schema_version?: () => number;
+  saturated_water_hfg_j_kg?: (celsius: number) => number;
+  simmer_net_loss_kg_s?: (powerW: number, hfgJkg: number, escape: number) => number;
+  reduction_time_seconds?: (
+    volumeL: number,
+    powerW: number,
+    hfgJkg: number,
+    escape: number,
+    liquidC: number,
+    target: number,
+  ) => number;
+  simmer_trajectory_step?: (
+    volumeL: number,
+    powerW: number,
+    hfgJkg: number,
+    escape: number,
+    liquidC: number,
+    elapsedS: number,
+  ) => Float64Array;
+  simmer_step_fields?: () => number;
 }
 
 class WasmThermoEngine implements ThermoEngineHandle {
@@ -830,6 +850,35 @@ export interface ThermoScalars {
     latentJkg: number,
     specificHeatJkgK: number,
   ): ScalarReading<number>;
+  /**
+   * Latent heat from the SATURATED-WATER TABLE, J·kg⁻¹.
+   *
+   * ⚠️ A different number from {@link latentHeatVaporisation}, on purpose. That
+   * is the Fleagle & Andreas fit for sub-boiling evaporation; this is Incropera
+   * Table A.6 at saturation. They differ by 0.6848 % at 100 °C and are kept
+   * apart as mutual corroboration — see src/lib/cooking/latentHeat.ts.
+   *
+   * A BOILING pot is at saturation, so reduction work wants this one.
+   */
+  saturatedWaterHfgJkg(celsius: number): ScalarReading<number>;
+  /** Time to reduce a liquid by `targetFraction` of its volume, seconds. */
+  reductionTimeSeconds(input: {
+    initialVolumeL: number;
+    powerIntoContentsW: number;
+    latentHeatJkg: number;
+    escapeFraction: number;
+    liquidC: number;
+    targetFraction: number;
+  }): ScalarReading<number>;
+  /** Where a reduction has got to after `elapsedS`. */
+  simmerTrajectoryStep(input: {
+    initialVolumeL: number;
+    powerIntoContentsW: number;
+    latentHeatJkg: number;
+    escapeFraction: number;
+    liquidC: number;
+    elapsedS: number;
+  }): ScalarReading<SimmerTrajectoryStep>;
   lidHeatBalance(input: {
     lidAreaM2: number;
     lidPerimeterM: number;
@@ -879,6 +928,37 @@ async function typescriptScalars(): Promise<ThermoScalars> {
         () => latent.latentAsTemperatureRise(j, cp),
         "latentAsTemperatureRise",
       ),
+    saturatedWaterHfgJkg: (c) =>
+      fromThrowing(
+        () => boundary.saturatedWaterProperties(c).hfgJkg,
+        "saturatedWaterHfgJkg",
+      ),
+    reductionTimeSeconds: (i) =>
+      fromThrowing(
+        () =>
+          boundary.reductionTimeSeconds(
+            i.initialVolumeL,
+            i.powerIntoContentsW,
+            i.latentHeatJkg,
+            i.escapeFraction,
+            i.liquidC,
+            i.targetFraction,
+          ),
+        "reductionTimeSeconds",
+      ),
+    simmerTrajectoryStep: (i) =>
+      fromThrowing(
+        () =>
+          boundary.simmerTrajectoryStep(
+            i.initialVolumeL,
+            i.powerIntoContentsW,
+            i.latentHeatJkg,
+            i.escapeFraction,
+            i.liquidC,
+            i.elapsedS,
+          ),
+        "simmerTrajectoryStep",
+      ),
     lidHeatBalance: (input) =>
       fromThrowing(() => {
         const r = boundary.lidHeatBalance({
@@ -923,7 +1003,16 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
     typeof mod.food_vaporisation_enthalpy === "function" &&
     typeof mod.latent_as_temperature_rise === "function" &&
     typeof mod.lid_heat_balance === "function" &&
-    typeof mod.lid_balance_fields === "function";
+    typeof mod.lid_balance_fields === "function" &&
+    // Added with the simmer work (2026-08-22). Listed here rather than
+    // feature-detected per call for the reason the file's header gives: a
+    // browser can hold a CACHED older bundle, and a scalars object that
+    // silently lacked half its methods would throw inside a render. Missing
+    // any one of them takes the whole TypeScript arm, which is correct physics
+    // and one label different.
+    typeof mod.saturated_water_hfg_j_kg === "function" &&
+    typeof mod.reduction_time_seconds === "function" &&
+    typeof mod.simmer_trajectory_step === "function";
 
   if (!mod || !complete) return typescriptScalars();
 
@@ -962,6 +1051,50 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
         mod.latent_as_temperature_rise!(j, cp),
         `specific heat must be positive; received ${cp}`,
       ),
+    saturatedWaterHfgJkg: (c) =>
+      fromWasm(
+        mod.saturated_water_hfg_j_kg!(c),
+        `outside the saturated-water table (${c} °C)`,
+      ),
+    reductionTimeSeconds: (i) =>
+      fromWasm(
+        mod.reduction_time_seconds!(
+          i.initialVolumeL,
+          i.powerIntoContentsW,
+          i.latentHeatJkg,
+          i.escapeFraction,
+          i.liquidC,
+          i.targetFraction,
+        ),
+        `no reduction to time — the pot is holding, or the target is outside (0, 1)`,
+      ),
+    simmerTrajectoryStep: (i): ScalarReading<SimmerTrajectoryStep> => {
+      const buf = mod.simmer_trajectory_step!(
+        i.initialVolumeL,
+        i.powerIntoContentsW,
+        i.latentHeatJkg,
+        i.escapeFraction,
+        i.liquidC,
+        i.elapsedS,
+      );
+      // Length is the refusal discriminator, exactly as for the boundary
+      // buffer: a length-1 array is a refusal and must never be indexed past.
+      if (buf.length !== 4) {
+        return {
+          available: false,
+          reason: `simmer trajectory refused for ${i.initialVolumeL} L at ${i.elapsedS} s`,
+        };
+      }
+      return {
+        available: true,
+        value: {
+          elapsedS: buf[0],
+          remainingVolumeL: buf[1],
+          concentrationRatio: buf[2],
+          netLossKgS: buf[3],
+        },
+      };
+    },
     lidHeatBalance: (input): ScalarReading<LidBalanceReading> => {
       const buf = mod.lid_heat_balance!(
         input.lidAreaM2,

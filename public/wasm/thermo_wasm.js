@@ -361,6 +361,100 @@ export function radiant_flux_kw_m2(source_k, surface_k, emissivity, view_factor)
 }
 
 /**
+ * Time to reduce a liquid by `target_fraction`, seconds. NaN when refused.
+ *
+ * Refuses a held pot rather than reporting an infinite time — see the core.
+ * @param {number} initial_volume_l
+ * @param {number} power_into_contents_w
+ * @param {number} latent_heat_j_kg
+ * @param {number} escape_fraction
+ * @param {number} liquid_c
+ * @param {number} target_fraction
+ * @returns {number}
+ */
+export function reduction_time_seconds(initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, target_fraction) {
+    const ret = wasm.reduction_time_seconds(initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, target_fraction);
+    return ret;
+}
+
+/**
+ * Latent heat of vaporisation from the SATURATED-WATER TABLE, J·kg⁻¹.
+ *
+ * ⚠️ NOT THE SAME NUMBER AS [`latent_heat_vaporisation`], and the difference
+ * is deliberate. That one is the Fleagle & Andreas fit, valid for evaporation
+ * at arbitrary sub-boiling surface temperatures; this one is Incropera &
+ * DeWitt Table A.6, the saturation value. They differ by 0.6848 % at 100 °C,
+ * and `src/lib/cooking/latentHeat.ts` explains at length why they are kept
+ * apart rather than reconciled — two independent sources agreeing to within a
+ * percent is corroboration, and collapsing them would destroy it.
+ *
+ * A BOILING pot is at saturation, so reduction work wants THIS one. Feeding
+ * the fit instead is a 0.68 % error in every reduction time — which is exactly
+ * how `scripts/verify-thermo-wasm-parity.mjs` caught it being used here.
+ * @param {number} celsius
+ * @returns {number}
+ */
+export function saturated_water_hfg_j_kg(celsius) {
+    const ret = wasm.saturated_water_hfg_j_kg(celsius);
+    return ret;
+}
+
+/**
+ * Net water loss from a boiling pot, kg·s⁻¹. NaN when refused.
+ *
+ * `escape_fraction` is the caller's, from `VAPOUR_ESCAPE_FRACTION` in
+ * src/data/cooking/vessels.ts — a graded ORDERING of seal states, not a fitted
+ * coefficient, which is why no version of it is hardcoded on either side of
+ * this boundary.
+ * @param {number} power_into_contents_w
+ * @param {number} latent_heat_j_kg
+ * @param {number} escape_fraction
+ * @returns {number}
+ */
+export function simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction) {
+    const ret = wasm.simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction);
+    return ret;
+}
+
+/**
+ * Stride of the trajectory buffer.
+ * @returns {number}
+ */
+export function simmer_step_fields() {
+    const ret = wasm.simmer_step_fields();
+    return ret >>> 0;
+}
+
+/**
+ * One sample of a reduction trajectory.
+ *
+ * `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+ * A REFUSAL is a length-1 array whose single element is NaN — the same
+ * discriminator the boundary buffer uses, so a caller that checks length never
+ * reads past the end of a buffer that was never populated.
+ * @param {number} initial_volume_l
+ * @param {number} power_into_contents_w
+ * @param {number} latent_heat_j_kg
+ * @param {number} escape_fraction
+ * @param {number} liquid_c
+ * @param {number} elapsed_s
+ * @returns {Float64Array}
+ */
+export function simmer_trajectory_step(initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, elapsed_s) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.simmer_trajectory_step(retptr, initial_volume_l, power_into_contents_w, latent_heat_j_kg, escape_fraction, liquid_c, elapsed_s);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var v1 = getArrayF64FromWasm0(r0, r1).slice();
+        wasm.__wbindgen_export(r0, r1 * 8, 8);
+        return v1;
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
  * Minutes for the centre of a slab to reach `target_c`.
  * @param {number} thickness_mm
  * @param {number} medium_c

@@ -587,6 +587,104 @@ pub fn boundary_network_link_ids(
     ids.join(",")
 }
 
+/// Latent heat of vaporisation from the SATURATED-WATER TABLE, J·kg⁻¹.
+///
+/// ⚠️ NOT THE SAME NUMBER AS [`latent_heat_vaporisation`], and the difference
+/// is deliberate. That one is the Fleagle & Andreas fit, valid for evaporation
+/// at arbitrary sub-boiling surface temperatures; this one is Incropera &
+/// DeWitt Table A.6, the saturation value. They differ by 0.6848 % at 100 °C,
+/// and `src/lib/cooking/latentHeat.ts` explains at length why they are kept
+/// apart rather than reconciled — two independent sources agreeing to within a
+/// percent is corroboration, and collapsing them would destroy it.
+///
+/// A BOILING pot is at saturation, so reduction work wants THIS one. Feeding
+/// the fit instead is a 0.68 % error in every reduction time — which is exactly
+/// how `scripts/verify-thermo-wasm-parity.mjs` caught it being used here.
+#[wasm_bindgen]
+pub fn saturated_water_hfg_j_kg(celsius: f64) -> f64 {
+    core_physics::saturated_water_properties(celsius)
+        .map(|w| w.hfg_j_kg)
+        .unwrap_or(f64::NAN)
+}
+
+/// Net water loss from a boiling pot, kg·s⁻¹. NaN when refused.
+///
+/// `escape_fraction` is the caller's, from `VAPOUR_ESCAPE_FRACTION` in
+/// src/data/cooking/vessels.ts — a graded ORDERING of seal states, not a fitted
+/// coefficient, which is why no version of it is hardcoded on either side of
+/// this boundary.
+#[wasm_bindgen]
+pub fn simmer_net_loss_kg_s(
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+) -> f64 {
+    core_physics::simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction)
+        .unwrap_or(f64::NAN)
+}
+
+/// Time to reduce a liquid by `target_fraction`, seconds. NaN when refused.
+///
+/// Refuses a held pot rather than reporting an infinite time — see the core.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn reduction_time_seconds(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    target_fraction: f64,
+) -> f64 {
+    core_physics::reduction_time_seconds(
+        initial_volume_l,
+        power_into_contents_w,
+        latent_heat_j_kg,
+        escape_fraction,
+        liquid_c,
+        target_fraction,
+    )
+    .unwrap_or(f64::NAN)
+}
+
+/// f64s per `simmer_trajectory_step` result.
+pub const SIMMER_STEP_FIELDS: usize = 4;
+
+/// Stride of the trajectory buffer.
+#[wasm_bindgen]
+pub fn simmer_step_fields() -> usize {
+    SIMMER_STEP_FIELDS
+}
+
+/// One sample of a reduction trajectory.
+///
+/// `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+/// A REFUSAL is a length-1 array whose single element is NaN — the same
+/// discriminator the boundary buffer uses, so a caller that checks length never
+/// reads past the end of a buffer that was never populated.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn simmer_trajectory_step(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    elapsed_s: f64,
+) -> Box<[f64]> {
+    match core_physics::simmer_trajectory_step(
+        initial_volume_l,
+        power_into_contents_w,
+        latent_heat_j_kg,
+        escape_fraction,
+        liquid_c,
+        elapsed_s,
+    ) {
+        Ok(step) => Box::new(step),
+        Err(_) => Box::new([f64::NAN]),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

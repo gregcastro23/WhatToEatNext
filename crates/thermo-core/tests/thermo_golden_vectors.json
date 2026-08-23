@@ -373,6 +373,15 @@
       { "powerW": 800.0, "steamKgS": 0.0003544528134692069, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.00032515387369724607, "holding": false, "returnFraction": 0.08265963383164462 },
       { "powerW": 1500.0, "steamKgS": 0.000664599025254763, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.0006353000854828021, "holding": false, "returnFraction": 0.0440851380435438 },
       { "powerW": 2500.0, "steamKgS": 0.0011076650420912715, "returnedKgS": 2.929893977196088e-5, "netKgS": 0.0010783661023193107, "holding": false, "returnFraction": 0.026451082826126283 }
+    ],
+    "reduction": [
+      { "case": "open-1kw-half", "volumeL": 1.0, "powerW": 1000.0, "escape": 1.0, "target": 0.5, "timeS": 1080.933725, "netKgS": 0.00044306601683650863, "remainingL": 0.5, "concentration": 2.0 },
+      { "case": "cracked-1kw-half", "volumeL": 1.0, "powerW": 1000.0, "escape": 0.55, "target": 0.5, "timeS": 1965.3340454545455, "netKgS": 0.00024368630926007977, "remainingL": 0.5, "concentration": 2.0 },
+      { "case": "loose-1kw-half", "volumeL": 1.0, "powerW": 1000.0, "escape": 0.25, "target": 0.5, "timeS": 4323.7349, "netKgS": 0.00011076650420912716, "remainingL": 0.5, "concentration": 2.0 },
+      { "case": "tight-1kw-half", "volumeL": 1.0, "powerW": 1000.0, "escape": 0.08, "target": 0.5, "timeS": 13511.671562500002, "netKgS": 3.544528134692069e-05, "remainingL": 0.4999999999999999, "concentration": 2.0000000000000004 },
+      { "case": "open-2kw-quarter", "volumeL": 2.0, "powerW": 2000.0, "escape": 1.0, "target": 0.25, "timeS": 540.4668625, "netKgS": 0.0008861320336730173, "remainingL": 1.5, "concentration": 1.3333333333333333 },
+      { "case": "open-500w-demi", "volumeL": 3.0, "powerW": 500.0, "escape": 1.0, "target": 0.75, "timeS": 9728.403525000002, "netKgS": 0.00022153300841825432, "remainingL": 0.7499999999999996, "concentration": 4.000000000000003 },
+      { "case": "cracked-1200w-tenth", "volumeL": 1.5, "powerW": 1200.0, "escape": 0.55, "target": 0.1, "timeS": 491.33351136363643, "netKgS": 0.0002924235711120957, "remainingL": 1.35, "concentration": 1.111111111111111 }
     ]
   }
 }

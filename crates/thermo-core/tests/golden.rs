@@ -1280,6 +1280,42 @@ fn lid_balance_matches_fixture() {
         assert_bits_eq(l.return_fraction, f(&row["returnFraction"]), "return fraction");
         assert_eq!(l.holding, row["holding"].as_bool().unwrap());
     }
+
+    // Simmer reduction. Asserted bit-for-bit rather than within a tolerance,
+    // like everything else in this fixture: the two runtimes evaluate the same
+    // expression on the same f64s, so anything but equality is a real divergence.
+    for row in bn["reduction"].as_array().unwrap() {
+        let name = row["case"].as_str().unwrap();
+        let t = reduction_time_seconds(
+            f(&row["volumeL"]),
+            f(&row["powerW"]),
+            hfg100,
+            f(&row["escape"]),
+            100.0,
+            f(&row["target"]),
+        )
+        .unwrap();
+        assert_bits_eq(t, f(&row["timeS"]), name);
+
+        let net =
+            simmer_net_loss_kg_s(f(&row["powerW"]), hfg100, f(&row["escape"])).unwrap();
+        assert_bits_eq(net, f(&row["netKgS"]), name);
+
+        // Marched to the closed form's own answer: the remaining volume must be
+        // what it predicted. This is the assertion that would catch the closed
+        // form and the integrator parting company.
+        let step = simmer_trajectory_step(
+            f(&row["volumeL"]),
+            f(&row["powerW"]),
+            hfg100,
+            f(&row["escape"]),
+            100.0,
+            t,
+        )
+        .unwrap();
+        assert_bits_eq(step[1], f(&row["remainingL"]), name);
+        assert_bits_eq(step[2], f(&row["concentration"]), name);
+    }
 }
 
 /// The finding that killed the promised derivation, pinned so it cannot be

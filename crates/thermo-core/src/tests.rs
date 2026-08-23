@@ -582,3 +582,121 @@ fn a_zero_thickness_or_zero_k_ply_is_refused_not_absorbed() {
         );
     }
 }
+
+// ── Simmer reduction ────────────────────────────────────────────────────────
+
+/// Latent heat at the boiling point, from the cited table rather than a constant.
+fn hfg_100c() -> f64 {
+    saturated_water_properties(100.0).unwrap().hfg_j_kg
+}
+
+#[test]
+fn a_kilowatt_halves_a_litre_in_about_eighteen_minutes() {
+    // External sanity anchor, reasoned independently of the implementation:
+    // ~2.26 MJ/kg to boil water off, so 1 kW evaporates ~0.44 g/s. Half a litre
+    // is ~479 g, which is ~1080 s. A cook knows a litre does not halve in two
+    // minutes or in three hours, and this is the assertion that would catch a
+    // unit slip of 1000× in either direction.
+    let t = reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, 0.5).unwrap();
+    assert!(
+        (17.0 * 60.0..=19.0 * 60.0).contains(&t),
+        "expected ~18 min, got {:.1} min",
+        t / 60.0
+    );
+}
+
+#[test]
+fn the_closed_form_and_the_trajectory_agree() {
+    // Two independent expressions of the same physics: `reduction_time_seconds`
+    // solves for t, `simmer_trajectory_step` marches it. If the closed form's
+    // constant-rate argument were wrong, they would part company here.
+    for target in [0.1, 0.25, 0.5, 0.75, 0.9] {
+        let t = reduction_time_seconds(2.0, 800.0, hfg_100c(), 0.55, 100.0, target).unwrap();
+        let step = simmer_trajectory_step(2.0, 800.0, hfg_100c(), 0.55, 100.0, t).unwrap();
+        let expected_remaining = 2.0 * (1.0 - target);
+        assert!(
+            (step[1] - expected_remaining).abs() < 1e-9,
+            "target {target}: marched to {} L, closed form says {} L",
+            step[1],
+            expected_remaining
+        );
+    }
+}
+
+#[test]
+fn a_tighter_seal_takes_strictly_longer() {
+    // The graded seal model is only worth having if it is monotonic. These are
+    // the four VAPOUR_ESCAPE_FRACTION values from src/data/cooking/vessels.ts.
+    let times: Vec<f64> = [1.0, 0.55, 0.25, 0.08]
+        .iter()
+        .map(|&escape| {
+            reduction_time_seconds(1.5, 1200.0, hfg_100c(), escape, 100.0, 0.5).unwrap()
+        })
+        .collect();
+    for pair in times.windows(2) {
+        assert!(
+            pair[1] > pair[0],
+            "a tighter seal must take longer: {:?}",
+            times
+        );
+    }
+    // And the spread must be large enough to be worth modelling at all.
+    assert!(times[3] / times[0] > 10.0, "tight vs open: {:?}", times);
+}
+
+#[test]
+fn concentration_is_the_inverse_of_what_remains() {
+    // Non-volatile solutes only — halving the volume doubles the salt.
+    let t = reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, 0.5).unwrap();
+    let step = simmer_trajectory_step(1.0, 1000.0, hfg_100c(), 1.0, 100.0, t).unwrap();
+    assert!((step[2] - 2.0).abs() < 1e-9, "expected 2×, got {}", step[2]);
+}
+
+#[test]
+fn a_lid_that_holds_is_refused_not_reported_as_infinite() {
+    // Zero escape is a different regime, not a very slow reduction. Returning
+    // inf would let a panel print "∞ min" as though it were a measurement.
+    assert!(reduction_time_seconds(1.0, 1000.0, hfg_100c(), 0.0, 100.0, 0.5).is_err());
+    // Zero power, likewise.
+    assert!(reduction_time_seconds(1.0, 0.0, hfg_100c(), 1.0, 100.0, 0.5).is_err());
+}
+
+#[test]
+fn a_target_of_everything_or_nothing_is_refused() {
+    for bad in [0.0, 1.0, 1.5, -0.2, f64::NAN] {
+        assert!(
+            reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, bad).is_err(),
+            "target {bad} must be refused"
+        );
+    }
+    // Just inside the boundary must still solve — an off-by-one here would
+    // refuse a legitimate 99 % reduction.
+    assert!(reduction_time_seconds(1.0, 1000.0, hfg_100c(), 1.0, 100.0, 0.99).is_ok());
+}
+
+#[test]
+fn an_escape_fraction_outside_zero_to_one_is_refused() {
+    for bad in [-0.1, 1.1, f64::INFINITY] {
+        assert!(simmer_net_loss_kg_s(1000.0, hfg_100c(), bad).is_err(), "{bad}");
+    }
+}
+
+#[test]
+fn boiling_dry_clamps_rather_than_going_negative() {
+    // Marched well past the end. Volume must stop at zero, not run negative and
+    // hand a caller a nonsensical concentration.
+    let far = simmer_trajectory_step(0.5, 2000.0, hfg_100c(), 1.0, 100.0, 100_000.0).unwrap();
+    assert_eq!(far[1], 0.0);
+    assert!(far[2].is_infinite());
+    assert!(far[3] > 0.0, "the loss rate itself stays finite");
+}
+
+#[test]
+fn density_comes_from_the_table_not_a_rounded_constant() {
+    // The commonly quoted 0.958 kg/L is close to Table A.6 but not equal to it.
+    // If this crate had hardcoded it, the two would differ by ~0.1 % and this
+    // is where that would show.
+    let rho = saturated_water_properties(100.0).unwrap().fluid.rho_kg_m3;
+    assert!((rho - 957.9).abs() < 1.0, "table density {rho}");
+    assert_ne!(rho, 958.0, "density must be looked up, not assumed");
+}

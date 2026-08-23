@@ -1478,3 +1478,153 @@ export function coveredWaterLoss(
     returnFraction: steamGeneratedKgS === 0 ? 1 : condensateReturnedKgS / steamGeneratedKgS,
   };
 }
+
+// ============================================================================
+// Simmer reduction — time integration
+// ============================================================================
+
+/**
+ * Net water loss from a boiling pot, kg·s⁻¹.
+ *
+ * `escapeFraction` is the share of generated steam that actually leaves, which
+ * is what `VAPOUR_ESCAPE_FRACTION` in `src/data/cooking/vessels.ts` grades by
+ * seal state. It is a caller argument, never a constant here: those four values
+ * are an ORDERING of seal states rather than a fitted coefficient, and burying
+ * one of them in this module would turn a stated approximation into an
+ * invisible one.
+ *
+ * ⚠️ POWER-LIMITED REGIME ONLY. This is `P / h_fg`, with no area term — correct
+ * once the pot is boiling, because every joule arriving goes into phase change.
+ * It is NOT the sub-boiling case, where loss is a flux across a surface; see
+ * {@link evaporativeFlux}, and note that a bowl's surface shrinks as its level
+ * falls, so that regime has no closed form.
+ *
+ * Transliterated from `simmer_net_loss_kg_s` in crates/thermo-core. All f64 —
+ * there is no f32 anywhere on this path, so no `Math.fround` discipline
+ * applies.
+ */
+export function simmerNetLossKgS(
+  powerIntoContentsW: number,
+  latentHeatJkg: number,
+  escapeFraction: number,
+): number {
+  if (
+    !Number.isFinite(powerIntoContentsW) ||
+    !Number.isFinite(latentHeatJkg) ||
+    !Number.isFinite(escapeFraction)
+  ) {
+    throw new RangeError("simmerNetLossKgS: every argument must be finite");
+  }
+  if (powerIntoContentsW < 0) {
+    throw new RangeError(`powerIntoContentsW must be ≥ 0, received ${powerIntoContentsW}`);
+  }
+  if (!(latentHeatJkg > 0)) {
+    throw new RangeError(`latentHeatJkg must be positive, received ${latentHeatJkg}`);
+  }
+  if (escapeFraction < 0 || escapeFraction > 1) {
+    throw new RangeError(`escapeFraction must lie in [0, 1], received ${escapeFraction}`);
+  }
+  return (powerIntoContentsW / latentHeatJkg) * escapeFraction;
+}
+
+/**
+ * Time to reduce a liquid by `targetFraction` of its volume, seconds.
+ *
+ * A closed form, not an integration, and for a reason worth stating: in the
+ * power-limited regime the loss rate is constant — `P / h_fg` has no area term,
+ * and the liquid sits at its boiling point so its density does not move either.
+ * A constant `dV/dt` makes `V(t)` linear and the answer exact. Stepping it
+ * numerically would add rounding, not accuracy.
+ *
+ * That is also the boundary of its validity: it does NOT describe sub-boiling
+ * evaporation, where the rate follows the liquid surface and a bowl's surface
+ * shrinks as it empties.
+ *
+ * `liquidC` only picks the density row out of the saturated-water table
+ * (Incropera & DeWitt Table A.6). At 100 °C that is ~957.9 kg·m⁻³, close to but
+ * not the same as the 0.958 kg·L⁻¹ usually quoted — which is exactly why it is
+ * looked up rather than assumed.
+ */
+export function reductionTimeSeconds(
+  initialVolumeL: number,
+  powerIntoContentsW: number,
+  latentHeatJkg: number,
+  escapeFraction: number,
+  liquidC: number,
+  targetFraction: number,
+): number {
+  if (!Number.isFinite(initialVolumeL) || !Number.isFinite(targetFraction)) {
+    throw new RangeError("reductionTimeSeconds: volume and target must be finite");
+  }
+  if (!(initialVolumeL > 0)) {
+    throw new RangeError(`initialVolumeL must be positive, received ${initialVolumeL}`);
+  }
+  if (!(targetFraction > 0) || targetFraction >= 1) {
+    // 1 is boiling dry — the end of the process, not a time to reach.
+    throw new RangeError(`targetFraction must lie in (0, 1), received ${targetFraction}`);
+  }
+
+  const netLossKgS = simmerNetLossKgS(powerIntoContentsW, latentHeatJkg, escapeFraction);
+  if (!(netLossKgS > 0)) {
+    // A lid tight enough to hold is a different regime, not a slow reduction.
+    // Returning Infinity would let a panel print "∞ min" as a measurement.
+    throw new RangeError("reductionTimeSeconds: no net loss — the pot is holding, not reducing");
+  }
+
+  const { rhoKgM3 } = saturatedWaterProperties(liquidC);
+  const massToLoseKg = targetFraction * (initialVolumeL / 1000) * rhoKgM3;
+  return massToLoseKg / netLossKgS;
+}
+
+/** One sample of a reduction trajectory. */
+export interface SimmerTrajectoryStep {
+  elapsedS: number;
+  remainingVolumeL: number;
+  /**
+   * `V₀ / V(t)` — how much more concentrated every NON-VOLATILE solute has
+   * become. Salt, gelatin and glutamates follow it; anything aromatic does not,
+   * because it leaves with the steam. That is why a hard-reduced sauce tastes
+   * saltier but not more of what it smelled like.
+   */
+  concentrationRatio: number;
+  netLossKgS: number;
+}
+
+/**
+ * March a reduction to `elapsedS` and report where it is.
+ *
+ * Clamps the remaining volume at zero rather than running negative, and reports
+ * an infinite concentration at that point rather than dividing by zero — a
+ * boiled-dry pot has no concentration, and a large finite number would read as
+ * one.
+ */
+export function simmerTrajectoryStep(
+  initialVolumeL: number,
+  powerIntoContentsW: number,
+  latentHeatJkg: number,
+  escapeFraction: number,
+  liquidC: number,
+  elapsedS: number,
+): SimmerTrajectoryStep {
+  if (!Number.isFinite(initialVolumeL) || !Number.isFinite(elapsedS)) {
+    throw new RangeError("simmerTrajectoryStep: volume and elapsed must be finite");
+  }
+  if (!(initialVolumeL > 0) || elapsedS < 0) {
+    throw new RangeError(
+      `simmerTrajectoryStep: volume must be positive and elapsed ≥ 0, received ${initialVolumeL} L, ${elapsedS} s`,
+    );
+  }
+
+  const netLossKgS = simmerNetLossKgS(powerIntoContentsW, latentHeatJkg, escapeFraction);
+  const { rhoKgM3 } = saturatedWaterProperties(liquidC);
+
+  const lostL = ((netLossKgS * elapsedS) / rhoKgM3) * 1000;
+  const remainingVolumeL = Math.max(0, initialVolumeL - lostL);
+  return {
+    elapsedS,
+    remainingVolumeL,
+    concentrationRatio:
+      remainingVolumeL > 0 ? initialVolumeL / remainingVolumeL : Number.POSITIVE_INFINITY,
+    netLossKgS,
+  };
+}

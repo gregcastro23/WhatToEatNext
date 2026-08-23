@@ -188,6 +188,64 @@ for (const outside of [-5, 105]) {
   }
 }
 
+// h_fg at the boiling point, from the SATURATED TABLE — the source the fixture
+// was generated with.
+//
+// ⚠️ NOT `latent_heat_vaporisation(100)`. That is the Fleagle & Andreas fit for
+// sub-boiling evaporation, and it sits 0.6848 % above the table value. Using it
+// here made every reduction row fail by exactly that margin — the verifier
+// working precisely as intended, and a reminder that "the latent heat" is two
+// numbers in this codebase, on purpose.
+const hfg100 = mod.saturated_water_hfg_j_kg(100);
+
+// Simmer reduction. The compiled module must reproduce the fixture the two
+// host runtimes already agree on — a third executable of the same arithmetic,
+// with a different target and a different libm.
+for (const row of golden.boundaryNetwork.reduction) {
+  const t = mod.reduction_time_seconds(
+    row.volumeL, row.powerW, hfg100, row.escape, 100, row.target,
+  );
+  check(`reduction(${row.case}).timeS`, t, row.timeS);
+  check(
+    `reduction(${row.case}).netKgS`,
+    mod.simmer_net_loss_kg_s(row.powerW, hfg100, row.escape),
+    row.netKgS,
+  );
+
+  const step = mod.simmer_trajectory_step(
+    row.volumeL, row.powerW, hfg100, row.escape, 100, t,
+  );
+  checks += 1;
+  if (step.length !== mod.simmer_step_fields()) {
+    failures.push(
+      `reduction(${row.case}): expected ${mod.simmer_step_fields()} fields, got ${step.length}`,
+    );
+    continue;
+  }
+  check(`reduction(${row.case}).remainingL`, step[1], row.remainingL);
+  check(`reduction(${row.case}).concentration`, step[2], row.concentration);
+}
+
+// A held pot must REFUSE, not report an infinite time. NaN is the scalar
+// refusal; a length-1 buffer is the array one.
+{
+  checks += 1;
+  const held = mod.reduction_time_seconds(1.0, 1000.0, hfg100, 0.0, 100.0, 0.5);
+  if (!Number.isNaN(held)) {
+    failures.push(`reduction(held lid): expected NaN, received ${held}`);
+  }
+  checks += 1;
+  const badTarget = mod.reduction_time_seconds(1.0, 1000.0, hfg100, 1.0, 100.0, 1.0);
+  if (!Number.isNaN(badTarget)) {
+    failures.push(`reduction(target=1): expected NaN, received ${badTarget}`);
+  }
+  checks += 1;
+  const badStep = mod.simmer_trajectory_step(0, 1000.0, hfg100, 1.0, 100.0, 10.0);
+  if (badStep.length !== 1 || !Number.isNaN(badStep[0])) {
+    failures.push(`simmer_trajectory_step(0 L): expected a length-1 NaN refusal`);
+  }
+}
+
 // Buffer strides. If the module and the loader disagree about these, every
 // field is read from the wrong index and the numbers are wrong without erroring.
 for (const [name, got, expected] of [

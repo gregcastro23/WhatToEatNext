@@ -2710,3 +2710,148 @@ pub fn covered_water_loss(
         },
     })
 }
+
+// ============================================================================
+// Simmer reduction — time integration
+// ============================================================================
+
+/// Net water loss from a boiling pot, kg·s⁻¹.
+///
+/// `escape_fraction` is the share of generated steam that actually leaves,
+/// which is what `VAPOUR_ESCAPE_FRACTION` in `src/data/cooking/vessels.ts`
+/// grades by seal state (`none` 1.0, `cracked` 0.55, `loose` 0.25,
+/// `tight` 0.08). It is deliberately a caller argument rather than a constant
+/// here: those four values are an ORDERING of seal states, not a fitted
+/// coefficient, and burying one of them in this crate would turn a stated
+/// approximation into an invisible one.
+///
+/// ⚠️ POWER-LIMITED REGIME ONLY. This is `P / h_fg`, which does not depend on
+/// the liquid surface at all — correct once the pot is boiling, because every
+/// joule that arrives goes into phase change. It is NOT the sub-boiling case,
+/// where loss is a flux across a surface: see [`evaporative_flux`], and note
+/// that a bowl's surface SHRINKS as its level falls, so that regime has no
+/// closed form.
+pub fn simmer_net_loss_kg_s(
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+) -> Result<f64, ThermoError> {
+    if !power_into_contents_w.is_finite()
+        || !latent_heat_j_kg.is_finite()
+        || !escape_fraction.is_finite()
+    {
+        return Err(ThermoError::NonFinite);
+    }
+    if power_into_contents_w < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if !(latent_heat_j_kg > 0.0) {
+        return Err(ThermoError::NonPositiveThickness);
+    }
+    if !(0.0..=1.0).contains(&escape_fraction) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    Ok((power_into_contents_w / latent_heat_j_kg) * escape_fraction)
+}
+
+/// Time to reduce a liquid by `target_fraction` of its volume, seconds.
+///
+/// ## Why this is a closed form and not an integration
+///
+/// In the power-limited regime the loss rate is constant: `P / h_fg` has no
+/// area term, and the liquid sits at its boiling point so its density does not
+/// move either. A constant `dV/dt` makes `V(t)` linear and the answer exact —
+/// `t = α · V₀ · ρ / ṁ`. Stepping it numerically would add rounding, not
+/// accuracy.
+///
+/// That reasoning is also the boundary of its validity. It does NOT apply to
+/// sub-boiling evaporation, where the rate follows the liquid surface and a
+/// bowl's surface shrinks as it empties. [`simmer_trajectory_step`] exists for
+/// that case.
+///
+/// `liquid_c` is used only to look up density from the saturated-water table
+/// (Incropera & DeWitt Table A.6) rather than assuming a value — at 100 °C that
+/// is ~957.9 kg·m⁻³, close to but not identical to the 0.958 kg·L⁻¹ commonly
+/// quoted.
+///
+/// Refuses `target_fraction` outside `(0, 1)`: at 1 the pot boils dry and the
+/// answer is not a time but the end of the process, and at 0 nothing was asked.
+/// Refuses a zero net loss — a lid tight enough to hold is not a slow
+/// reduction, it is a different regime, and returning `inf` would let a UI
+/// print "∞ min" as though it were a measurement.
+pub fn reduction_time_seconds(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    target_fraction: f64,
+) -> Result<f64, ThermoError> {
+    if !initial_volume_l.is_finite() || !target_fraction.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if !(initial_volume_l > 0.0) {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+    if !(target_fraction > 0.0) || target_fraction >= 1.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let net_loss_kg_s =
+        simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction)?;
+    if !(net_loss_kg_s > 0.0) {
+        return Err(ThermoError::TargetUnreachable);
+    }
+
+    let rho_kg_m3 = saturated_water_properties(liquid_c)?.fluid.rho_kg_m3;
+    // litres → m³ → kg
+    let mass_to_lose_kg = target_fraction * (initial_volume_l / 1000.0) * rho_kg_m3;
+    Ok(mass_to_lose_kg / net_loss_kg_s)
+}
+
+/// One sample of a reduction trajectory.
+///
+/// `[elapsed_s, remaining_volume_l, concentration_ratio, net_loss_kg_s]`.
+///
+/// A fixed array rather than a struct so it crosses the wasm boundary without
+/// serde and without a heap allocation — the same constraint that shapes the
+/// boundary-network buffer, and the reason this function drops straight into
+/// the SpacetimeDB module's tick reducer.
+///
+/// `concentration_ratio` is `V₀ / V(t)`: how much more concentrated every
+/// NON-VOLATILE solute has become. Salt, gelatin and glutamates follow it.
+/// Anything aromatic does not — it leaves with the steam, which is why a sauce
+/// reduced hard tastes saltier but not more of what it smelled like.
+///
+/// Clamps the remaining volume at zero and reports the concentration at that
+/// point as the last finite value rather than dividing by zero.
+pub fn simmer_trajectory_step(
+    initial_volume_l: f64,
+    power_into_contents_w: f64,
+    latent_heat_j_kg: f64,
+    escape_fraction: f64,
+    liquid_c: f64,
+    elapsed_s: f64,
+) -> Result<[f64; 4], ThermoError> {
+    if !initial_volume_l.is_finite() || !elapsed_s.is_finite() {
+        return Err(ThermoError::NonFinite);
+    }
+    if !(initial_volume_l > 0.0) || elapsed_s < 0.0 {
+        return Err(ThermoError::OutsideCorrelationRange);
+    }
+
+    let net_loss_kg_s =
+        simmer_net_loss_kg_s(power_into_contents_w, latent_heat_j_kg, escape_fraction)?;
+    let rho_kg_m3 = saturated_water_properties(liquid_c)?.fluid.rho_kg_m3;
+
+    let lost_l = (net_loss_kg_s * elapsed_s / rho_kg_m3) * 1000.0;
+    let remaining_l = (initial_volume_l - lost_l).max(0.0);
+    // Boiled dry: the ratio is unbounded, so report the last defined state
+    // rather than an infinity that a caller would render as a number.
+    let concentration_ratio = if remaining_l > 0.0 {
+        initial_volume_l / remaining_l
+    } else {
+        f64::INFINITY
+    };
+    Ok([elapsed_s, remaining_l, concentration_ratio, net_loss_kg_s])
+}
