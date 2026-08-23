@@ -14,7 +14,7 @@
 //! tracked follow-up rather than a decorative filter. Clients filter by
 //! identity; nothing sensitive lives in these rows.
 
-use spacetimedb::{Identity, Timestamp};
+use spacetimedb::{Identity, SpacetimeType, Timestamp};
 
 /// One meal slot in a user's weekly plan.
 ///
@@ -390,3 +390,45 @@ pub struct TableCursorPresence {
     pub color_hex: String,
     pub updated_at: Timestamp,
 }
+
+/// One sample point in a simmer reduction trajectory.
+///
+/// Models the simulation result as a named product struct compatible with
+/// SpacetimeDB SATS 2.4.1 (which does not implement SpacetimeType for fixed-size arrays).
+#[derive(SpacetimeType, Clone, Copy, Debug, PartialEq)]
+pub struct SimmerTrajectoryPoint {
+    pub time_s: f64,
+    pub remaining_vol_l: f64,
+    pub concentration_ratio: f64,
+    pub net_loss_kg_s: f64,
+}
+
+/// Live collaborative pot simmer reduction tracker.
+///
+/// Enables real-time synchronization of pot reduction, power input, lid seal states,
+/// and target doneness/reduction alarms across chef and line cook devices.
+#[spacetimedb::table(accessor = live_pot, public)]
+#[derive(Clone)]
+pub struct LivePot {
+    #[primary_key]
+    #[auto_inc]
+    pub pot_id: u64,
+    #[index(btree)]
+    pub owner: Identity,
+    #[index(btree)]
+    pub session_id: String,
+    pub recipe_ref: String,
+    pub vessel_name: String,
+    pub initial_vol_l: f64,
+    pub current_vol_l: f64,
+    pub concentration_ratio: f64,
+    pub burner_power_w: f64,
+    /// 0 = none (1.00), 1 = cracked (0.55), 2 = loose (0.25), 3 = tight (0.08).
+    pub lid_seal: u8,
+    pub target_reduction_pct: f64,
+    pub is_boiling: bool,
+    pub alarm_triggered: bool,
+    pub start_time: Timestamp,
+    pub last_tick: Timestamp,
+}
+

@@ -95,5 +95,18 @@ export function isLiveEnvironmentEnabled(): boolean {
   return process.env.NEXT_PUBLIC_SPACETIME_LIVE_ENVIRONMENT === "1";
 }
 
+/**
+ * Live collaborative pot simmer reduction tracker via `live_pot`.
+ *
+ * Synchronizes reduction progress, power input, lid seal state and doneness alarms
+ * in real-time across chef and line cook devices.
+ */
+export function isLivePotEnabled(): boolean {
+  return (
+    process.env.NEXT_PUBLIC_SPACETIME_LIVE_POT === "1" ||
+    process.env.NEXT_PUBLIC_SPACETIME_LIVE_POT === "true"
+  );
+}
+
 /** localStorage key for the SpacetimeDB identity token. */
 export const SPACETIME_TOKEN_STORAGE_KEY = "alchm:spacetime:token";

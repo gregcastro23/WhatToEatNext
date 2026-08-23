@@ -264,4 +264,32 @@ export const TableCursorPresence = __t.object("TableCursorPresence", {
 });
 export type TableCursorPresence = __Infer<typeof TableCursorPresence>;
 
+export const SimmerTrajectoryPoint = __t.object("SimmerTrajectoryPoint", {
+  timeS: __t.f64(),
+  remainingVolL: __t.f64(),
+  concentrationRatio: __t.f64(),
+  netLossKgS: __t.f64(),
+});
+export type SimmerTrajectoryPoint = __Infer<typeof SimmerTrajectoryPoint>;
+
+export const LivePot = __t.object("LivePot", {
+  potId: __t.u64(),
+  owner: __t.identity(),
+  sessionId: __t.string(),
+  recipeRef: __t.string(),
+  vesselName: __t.string(),
+  initialVolL: __t.f64(),
+  currentVolL: __t.f64(),
+  concentrationRatio: __t.f64(),
+  burnerPowerW: __t.f64(),
+  lidSeal: __t.u8(),
+  targetReductionPct: __t.f64(),
+  isBoiling: __t.bool(),
+  alarmTriggered: __t.bool(),
+  startTime: __t.timestamp(),
+  lastTick: __t.timestamp(),
+});
+export type LivePot = __Infer<typeof LivePot>;
+
+
 
