@@ -37,6 +37,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
+          lfs: true
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -75,6 +76,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
+          lfs: true
       # rust-toolchain.toml is the single source of truth for the version, and
       # it has to be, because the compiled artifact embeds the rustc commit hash
       # and public/wasm/ is committed. Naming a version here as well would be a
