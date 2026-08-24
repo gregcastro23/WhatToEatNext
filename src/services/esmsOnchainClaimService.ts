@@ -26,6 +26,7 @@ export interface EsmsOnchainClaim {
   userId: string;
   walletAddress: string;
   claimId: Hex;
+  targetChain: string;
   amounts: EsmsClaimAmounts;
   status: "pending" | "minted" | "refunded";
   txHash: string | null;
@@ -39,6 +40,7 @@ interface ClaimRow {
   user_id: string;
   wallet_address: string;
   claim_id: string;
+  target_chain: string;
   spirit: string;
   essence: string;
   matter: string;
@@ -56,6 +58,7 @@ function rowToClaim(row: ClaimRow): EsmsOnchainClaim {
     userId: row.user_id,
     walletAddress: row.wallet_address,
     claimId: row.claim_id as Hex,
+    targetChain: row.target_chain,
     amounts: {
       spirit: parseFloat(row.spirit) || 0,
       essence: parseFloat(row.essence) || 0,
@@ -78,27 +81,29 @@ export function deriveClaimId(claimRowId: string): Hex {
 export const esmsOnchainClaimService = {
   /**
    * Open a new pending claim. Returns null on DB error — including the partial
-   * unique index rejecting a second in-flight claim for the same user (the
+   * unique index rejecting a second in-flight claim for the same user and rail (the
    * caller should reconcile the existing pending claim instead).
    */
   async createPending(input: {
     userId: string;
     walletAddress: string;
     amounts: EsmsClaimAmounts;
+    targetChain: string;
   }): Promise<EsmsOnchainClaim | null> {
     const id = randomUUID();
     const claimId = deriveClaimId(id);
     try {
       const res = await executeQuery<ClaimRow>(
         `INSERT INTO esms_onchain_claims
-           (id, user_id, wallet_address, claim_id, spirit, essence, matter, substance)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+           (id, user_id, wallet_address, claim_id, target_chain, spirit, essence, matter, substance)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
          RETURNING *`,
         [
           id,
           input.userId,
           input.walletAddress,
           claimId,
+          input.targetChain,
           input.amounts.spirit,
           input.amounts.essence,
           input.amounts.matter,
@@ -113,18 +118,19 @@ export const esmsOnchainClaimService = {
   },
 
   /**
-   * All in-flight claims older than `minAgeMinutes`, oldest first — the
+   * All in-flight claims for a target chain older than `minAgeMinutes`, oldest first — the
    * reconcile cron's worklist. Fresh claims are skipped so the cron never
    * races a request that is still confirming its own mint.
    */
-  async listStalePending(minAgeMinutes = 30, limit = 25): Promise<EsmsOnchainClaim[]> {
+  async listStalePending(minAgeMinutes: number, limit: number, targetChain: string): Promise<EsmsOnchainClaim[]> {
     try {
       const res = await executeQuery<ClaimRow>(
         `SELECT * FROM esms_onchain_claims
          WHERE status = 'pending'
-           AND updated_at < now() - ($1 || ' minutes')::interval
-         ORDER BY created_at ASC LIMIT $2`,
-        [String(Math.max(1, minAgeMinutes)), Math.min(Math.max(limit, 1), 100)],
+           AND target_chain = $1
+           AND updated_at < now() - ($2 || ' minutes')::interval
+         ORDER BY created_at ASC LIMIT $3`,
+        [targetChain, String(Math.max(1, minAgeMinutes)), Math.min(Math.max(limit, 1), 100)],
       );
       return res.rows.map(rowToClaim);
     } catch (err) {
@@ -133,14 +139,14 @@ export const esmsOnchainClaimService = {
     }
   },
 
-  /** The user's single in-flight claim, if any. */
-  async findPending(userId: string): Promise<EsmsOnchainClaim | null> {
+  /** The user's in-flight claim for a specific target chain, if any. */
+  async findPending(userId: string, targetChain: string): Promise<EsmsOnchainClaim | null> {
     try {
       const res = await executeQuery<ClaimRow>(
         `SELECT * FROM esms_onchain_claims
-         WHERE user_id = $1 AND status = 'pending'
+         WHERE user_id = $1 AND target_chain = $2 AND status = 'pending'
          ORDER BY created_at DESC LIMIT 1`,
-        [userId],
+        [userId, targetChain],
       );
       return res.rows[0] ? rowToClaim(res.rows[0]) : null;
     } catch (err) {
@@ -149,14 +155,14 @@ export const esmsOnchainClaimService = {
     }
   },
 
-  /** Recent claim history for the wallet panel. */
-  async listRecent(userId: string, limit = 10): Promise<EsmsOnchainClaim[]> {
+  /** Recent claim history for the wallet panel on a specific target chain. */
+  async listRecent(userId: string, limit: number, targetChain: string): Promise<EsmsOnchainClaim[]> {
     try {
       const res = await executeQuery<ClaimRow>(
         `SELECT * FROM esms_onchain_claims
-         WHERE user_id = $1
-         ORDER BY created_at DESC LIMIT $2`,
-        [userId, Math.min(Math.max(limit, 1), 50)],
+         WHERE user_id = $1 AND target_chain = $2
+         ORDER BY created_at DESC LIMIT $3`,
+        [userId, targetChain, Math.min(Math.max(limit, 1), 50)],
       );
       return res.rows.map(rowToClaim);
     } catch (err) {

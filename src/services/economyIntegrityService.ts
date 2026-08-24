@@ -25,6 +25,7 @@
 
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
+import { esmsCaip2 } from "@/lib/esms-chain/contract";
 import { _logger } from "@/lib/logger";
 import {
   ledgerDriftSql,
@@ -156,7 +157,8 @@ async function checkWelcomeGrantCoverage(): Promise<WelcomeGrantCoverage> {
 
 async function checkOnchainClaimBacklog(): Promise<OnchainClaimBacklog> {
   try {
-    const { sql, values } = onchainClaimBacklogSql();
+    const rail = esmsCaip2();
+    const { sql, values } = onchainClaimBacklogSql(rail);
     const res = await executeQuery(sql, values);
     const row = res.rows[0] as
       | { pending: number; oldest_pending_hours: number | null }
