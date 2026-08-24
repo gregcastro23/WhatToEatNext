@@ -263,6 +263,15 @@ const nextConfig = {
       { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" },
     ];
 
+    // Dedicated static CORS headers for read-only metadata and icon assets.
+    // Wildcard origin (*) must NOT be paired with Access-Control-Allow-Credentials: true
+    // per W3C CORS specifications, and only read-only methods (GET, OPTIONS) apply.
+    const staticCorsHeaders = [
+      { key: "Access-Control-Allow-Origin", value: "*" },
+      { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS" },
+      { key: "Access-Control-Allow-Headers", value: "Accept, Content-Type" },
+    ];
+
     return [
       {
         source: "/(.*)",
@@ -288,6 +297,25 @@ const nextConfig = {
         source: "/wasm/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        ],
+      },
+      {
+        // Static Token-2022 ESMS metadata documents.
+        // Note: Kept at max-age=3600, must-revalidate during pre-upload staging
+        // (where image is null); will flip to immutable once permanent Arweave
+        // hashes land in ASOL Phase 4.
+        source: "/metadata/esms/:path*",
+        headers: [
+          ...staticCorsHeaders,
+          { key: "Cache-Control", value: "public, max-age=3600, must-revalidate" },
+        ],
+      },
+      {
+        // Static Token-2022 ESMS SVG icon assets.
+        source: "/icons/esms/:path*",
+        headers: [
+          ...staticCorsHeaders,
+          { key: "Cache-Control", value: "public, max-age=3600, must-revalidate" },
         ],
       },
       {
