@@ -28,6 +28,7 @@ import {
   readEsmsRedeemed,
 } from "@/lib/esms-chain/contract";
 import { mintEsmsClaim, minterConfigured } from "@/lib/esms-chain/minter";
+import { _logger } from "@/lib/logger";
 import { recipeNftEnabled } from "@/lib/recipe-nft/contract";
 import { defaultRecipient, mintRecipeOnChain } from "@/lib/recipe-nft/minter";
 import { esmsOnchainClaimService } from "@/services/esmsOnchainClaimService";
@@ -205,7 +206,7 @@ export async function checkWalletInvariants(rail: string, maxWallets = 20): Prom
     const totalCountRes = await executeQuery<{ total: number }>(walletInvariantsTotalCountSql().sql);
     summary.walletsTotal = Number(totalCountRes.rows[0]?.total ?? 0);
   } catch (err) {
-    console.error("[chainReconcile] wallet total count failed:", err);
+    _logger.error("[chainReconcile] wallet total count failed:", err);
   }
 
   let rows: Array<{
