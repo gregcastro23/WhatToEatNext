@@ -56,10 +56,12 @@ import {
 } from "@/data/unified/alchemicalCalculations";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
 import { buildMethodMetrics } from "@/lib/cooking/methodMetrics";
+import { logger as _logger } from "@/lib/logger";
 import type {
   AlchemicalProperties,
   ElementalProperties,
-} from "@/types/celestial";
+} from "@/types/alchemy";
+
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
@@ -179,8 +181,16 @@ interface CurrentMomentPayload {
   };
 }
 
+interface AlignedRecipe {
+  id: string;
+  name: string;
+  matchScore: number;
+  cuisine?: string;
+  elementalProperties?: Record<string, number>;
+}
 
 const categories: CategoryConfig[] = [
+
   { id: "dry", name: "Dry Heat", icon: "🔥", methods: dryCookingMethods as Record<string, MethodData> },
   { id: "wet", name: "Wet Heat", icon: "💧", methods: wetCookingMethods as Record<string, MethodData> },
   { id: "molecular", name: "Molecular", icon: "🧪", methods: molecularCookingMethods as Record<string, MethodData> },
@@ -217,7 +227,7 @@ const INTENT_OPTIONS: Array<{ key: UserIntent; label: string; icon: string }> = 
 function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
-  if (typeof position === "object" && position !== null) {
+  if (typeof position === "object") {
     const posObj = position as Record<string, unknown>;
     if (typeof posObj.sign === "string") {
       return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
@@ -294,7 +304,7 @@ function formatKalchm(kalchm: number | null): { display: string; lnK: string | n
  * surface going light. `accent` is unchanged: it is consumed as a raw SVG
  * stroke, where it was already dark-safe.
  */
-function getPillarColors(pillarId: number) {
+function getPillarColors(pillarId: number): { bg: string; text: string; border: string; accent: string } {
   const map: Record<number, { bg: string; text: string; border: string; accent: string }> = {
     1: { bg: "bg-blue-500/10", text: "text-blue-300", border: "border-blue-400/35", accent: "#3b82f6" },
     2: { bg: "bg-cyan-500/10", text: "text-cyan-300", border: "border-cyan-400/35", accent: "#06b6d4" },
@@ -311,7 +321,7 @@ function getPillarColors(pillarId: number) {
     13: { bg: "bg-violet-500/10", text: "text-violet-300", border: "border-violet-400/35", accent: "#8b5cf6" },
     14: { bg: "bg-amber-500/10", text: "text-amber-300", border: "border-amber-400/35", accent: "#f59e0b" },
   };
-  return map[pillarId] || { bg: "bg-white/[0.03]", text: "text-alchm-fg-dim", border: "border-alchm-line-hi", accent: "#6E6884" };
+  return map[pillarId] ?? { bg: "bg-white/[0.03]", text: "text-alchm-fg-dim", border: "border-alchm-line-hi", accent: "#6E6884" };
 }
 
 // ============================================================================
@@ -328,7 +338,7 @@ function getPillarColors(pillarId: number) {
 const CHART_RING = "rgba(255,255,255,0.14)";
 const CHART_SPOKE = "rgba(255,255,255,0.22)";
 
-function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number>; size?: number }) {
+function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number>; size?: number }): React.ReactElement {
   const cx = size / 2;
   const cy = size / 2;
   const r = size * 0.38;
@@ -414,9 +424,9 @@ function ElementalSpiderCompare({
   const cy = size / 2;
   const r = size * 0.36;
   const angleStep = (2 * Math.PI) / SPIDER_AXES.length;
-  const angleAt = (i: number) => -Math.PI / 2 + i * angleStep;
+  const angleAt = (i: number): number => -Math.PI / 2 + i * angleStep;
 
-  const trace = (effect: Record<string, number>) =>
+  const trace = (effect: Record<string, number>): string =>
     SPIDER_AXES.map((key, i) => {
       const value = effect[key] || 0;
       return `${cx + r * value * Math.cos(angleAt(i))},${cy + r * value * Math.sin(angleAt(i))}`;
@@ -458,7 +468,7 @@ function ElementalSpiderCompare({
 // SVG Radar Chart for Kinetic Profile
 // ============================================================================
 
-function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; current: number; resistance: number; velocityFactor: number; momentumRetention: number; forceImpact: number }; size?: number }) {
+function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; current: number; resistance: number; velocityFactor: number; momentumRetention: number; forceImpact: number }; size?: number }): React.ReactElement {
   const cx = size / 2;
   const cy = size / 2;
   const r = size * 0.38;
@@ -519,7 +529,7 @@ function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; cur
 // Volatility Badge
 // ============================================================================
 
-function VolatilityBadge({ monica }: { monica: number | null }) {
+function VolatilityBadge({ monica }: { monica: number | null }): React.ReactElement {
   const cls = classifyMonica(monica);
   return (
     <span
@@ -543,7 +553,7 @@ interface EnhancedCookingMethodRecommenderProps {
 // Main Component
 // ============================================================================
 
-export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }: EnhancedCookingMethodRecommenderProps = {}) {
+export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }: EnhancedCookingMethodRecommenderProps = {}): React.ReactElement {
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [expandedTab, setExpandedTab] = useState<ExpandedTab>("overview");
@@ -559,17 +569,15 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const [compareSelections, setCompareSelections] = useState<string[]>([]);
   const [currentMoment, setCurrentMoment] = useState<CurrentMomentPayload | null>(null);
   const [momentStatus, setMomentStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [alignedRecipes, setAlignedRecipes] = useState<any[]>([]);
+  const [alignedRecipes, setAlignedRecipes] = useState<AlignedRecipe[]>([]);
   const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
-  const [fetchedMethodRecipes, setFetchedMethodRecipes] = useState<Record<string, any[]>>({});
+  const [fetchedMethodRecipes, setFetchedMethodRecipes] = useState<Record<string, AlignedRecipe[] | undefined>>({});
 
   // Get planetary positions from AlchemicalContext
-  const alchemicalContext = useAlchemical();
-  const contextPlanetaryPositions = alchemicalContext?.planetaryPositions;
-  const refreshPlanetaryPositions = alchemicalContext?.refreshPlanetaryPositions;
+  const { planetaryPositions: contextPlanetaryPositions, refreshPlanetaryPositions } = useAlchemical();
 
   useEffect(() => {
-    if (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) {
+    if (Object.keys(contextPlanetaryPositions).length > 0) {
       const normalized = normalizePlanetaryPositions(contextPlanetaryPositions);
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
@@ -580,28 +588,27 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // minutes, so we don't need to re-fetch on every context change (which was
   // previously thrashing /api/astrologize).
   useEffect(() => {
-    if (!refreshPlanetaryPositions) return;
     refreshPlanetaryPositions()
       .then((positions) => {
-        if (positions && Object.keys(positions).length > 0) {
+        if (Object.keys(positions).length > 0) {
           setPlanetaryPositions(normalizePlanetaryPositions(positions));
           setPositionsSource("real");
         }
       })
       .catch(() => {
-        console.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
+        _logger.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
       });
   }, [refreshPlanetaryPositions]);
 
   useEffect(() => {
     let cancelled = false;
 
-    const fetchCurrentMoment = async () => {
+    const fetchCurrentMoment = async (): Promise<void> => {
       try {
         const response = await fetch("/api/alchm-quantities", { cache: "no-store" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = (await response.json()) as CurrentMomentPayload;
-        if (!cancelled && data?.success) {
+        if (!cancelled && data.success) {
           setCurrentMoment(data);
           setMomentStatus("ready");
         }
@@ -610,16 +617,17 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       }
     };
 
-    void fetchCurrentMoment();
+    fetchCurrentMoment().catch(() => {});
     const interval = setInterval(() => {
-      void fetchCurrentMoment();
+      fetchCurrentMoment().catch(() => {});
     }, 60000);
 
-    return () => {
+    return (): void => {
       cancelled = true;
       clearInterval(interval);
     };
   }, []);
+
 
   // ── Compute all methods with full metrics + Harmony Index ──
   const currentMethods = useMemo(() => {
@@ -627,7 +635,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     if (!category) return [];
 
     const esmsPositions: AlchemicalPlanetPositions =
-      contextPlanetaryPositions &&
       Object.keys(contextPlanetaryPositions).length > 0
         ? (Object.fromEntries(
             Object.entries(contextPlanetaryPositions).filter(
@@ -673,10 +680,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       const pillar = getCookingMethodPillar(id);
       const baseESMS = {
-        Spirit: baseAlchemicalProperties?.Spirit ?? 4,
-        Essence: baseAlchemicalProperties?.Essence ?? 4,
-        Matter: baseAlchemicalProperties?.Matter ?? 4,
-        Substance: baseAlchemicalProperties?.Substance ?? 2,
+        Spirit: baseAlchemicalProperties.Spirit,
+        Essence: baseAlchemicalProperties.Essence,
+        Matter: baseAlchemicalProperties.Matter,
+        Substance: baseAlchemicalProperties.Substance,
       };
       const transformedESMS = pillar
         ? {
@@ -696,35 +703,37 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       const kalchm = calculateKalchm(transformedESMS);
       const { reactivity } = methodThermo;
-      const monica = gregsEnergy !== null && kalchm ? calculateMonica(gregsEnergy, reactivity, kalchm) : null;
+      const monica = kalchm ? calculateMonica(gregsEnergy, reactivity, kalchm) : null;
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;
 
+      const methodKineticProfile = (method as unknown as { kineticProfile?: Parameters<typeof calculateMethodSpecificKinetics>[0]['kineticProfile'] }).kineticProfile;
       let kinetics: KineticMetrics | null = null;
       try {
         kinetics = calculateMethodSpecificKinetics({
           methodId: id,
-          elementalEffect: method.elementalEffect as unknown as Record<string, number>,
+          elementalEffect: method.elementalEffect,
           transformedESMS,
           thermodynamics: methodThermo,
           gregsEnergy,
           monica,
-          kineticProfile: (method as any).kineticProfile,
-          planetaryPositions: (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) ? contextPlanetaryPositions : planetaryPositions,
+          kineticProfile: methodKineticProfile,
+          planetaryPositions: Object.keys(contextPlanetaryPositions).length > 0 ? contextPlanetaryPositions : planetaryPositions,
         });
       } catch { /* skip */ }
 
       const monicaScoreResult = calculateMonicaOptimizationScore(
         [id],
-        baseAlchemicalProperties ?? { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 },
-        method.elementalEffect as any,
+        baseAlchemicalProperties,
+        method.elementalEffect,
       );
 
-      const kProfile = getKineticProfile(id, (method as any).kineticProfile);
+      const kProfile = getKineticProfile(id, methodKineticProfile);
       const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
       // Physical behaviour — independent of everything above it. Null only when
       // a method has no physics profile, which a coverage test forbids.
       const physicsMetrics = buildMethodMetrics(id);
+
 
       // `thermoAlignmentScore` and `kineticAlignmentScore` were computed here
       // and returned on every method object, and NOTHING ever read either one
@@ -782,9 +791,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   }, [selectedCategory, planetaryPositions, contextPlanetaryPositions, focusMode, userIntent, currentMoment, userBias]);
 
 
-  const loadAlignedRecipes = useCallback(async (methodId: string) => {
-    if (fetchedMethodRecipes[methodId]) {
-      setAlignedRecipes(fetchedMethodRecipes[methodId]);
+  const loadAlignedRecipes = useCallback(async (methodId: string): Promise<void> => {
+    const existing = fetchedMethodRecipes[methodId];
+    if (existing) {
+      setAlignedRecipes(existing);
       return;
     }
     setIsLoadingRecipes(true);
@@ -793,13 +803,13 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const entropy = currentMoment?.entropy ?? 0.5;
       const reactivity = currentMoment?.reactivity ?? 0.5;
       const res = await fetch(`/api/recommendations/recipes?method=${methodId}&heat=${heat}&entropy=${entropy}&reactivity=${reactivity}`);
-      const data = await res.json();
-      if (data.success) {
+      const data = (await res.json()) as { success?: boolean; recipes?: AlignedRecipe[] };
+      if (data.success && Array.isArray(data.recipes)) {
         setAlignedRecipes(data.recipes);
-        setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: data.recipes }));
+        setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: data.recipes! }));
       }
     } catch (err) {
-      console.warn("Failed to fetch aligned recipes", err);
+      _logger.warn("Failed to fetch aligned recipes", err);
     } finally {
       setIsLoadingRecipes(false);
     }
@@ -822,7 +832,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     }
   }, [compareMode, expandedMethod]);
 
-  const formatDuration = (method: MethodData) => {
+  const formatDuration = (method: MethodData): string => {
     const t = method.duration ?? method.time_range;
     if (!t) return "Variable";
     if (t.min >= 1440) return `${Math.floor(t.min / 1440)}-${Math.floor(t.max / 1440)} days`;
@@ -846,9 +856,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
   useEffect(() => {
     if (expandedTab === "recipes" && expandedMethod) {
-      void loadAlignedRecipes(expandedMethod);
+      loadAlignedRecipes(expandedMethod).catch(() => {});
     }
   }, [expandedTab, expandedMethod, loadAlignedRecipes]);
+
 
   const tabs: Array<{ key: ExpandedTab; label: string; icon: string }> = [
     { key: "overview", label: "Overview", icon: "📋" },
@@ -860,7 +871,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     { key: "recipes", label: "Aligned Recipes", icon: "🍱" },
   ];
 
-  const renderRecipesTab = (method: (typeof currentMethods)[0]) => (
+  const renderRecipesTab = (method: (typeof currentMethods)[0]): React.ReactElement => (
       <div className="space-y-4">
         <div className="rounded-xl border border-white/10 bg-transparent/5 p-5 shadow-sm">
           <h4 className="text-sm font-bold text-gray-200 mb-2 flex items-center gap-2">
@@ -908,9 +919,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // ============================================================================
   // RENDER: Overview Tab
   // ============================================================================
-  const renderOverviewTab = (method: (typeof currentMethods)[0]) => {
+  const renderOverviewTab = (method: (typeof currentMethods)[0]): React.ReactElement => {
     const { pillar, harmony, physicsMetrics: physics } = method;
     const pillarColors = pillar ? getPillarColors(pillar.id) : null;
+
 
     return (
       <div className="space-y-4">
@@ -1062,7 +1074,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // load-bearing for that — they are simply not statements about heat, and are
   // no longer presented next to numbers a cook would act on.
   // ============================================================================
-  const renderAlchemyTab = (method: (typeof currentMethods)[0]) => {
+  const renderAlchemyTab = (method: (typeof currentMethods)[0]): React.ReactElement => {
     const { gregsEnergy, kalchm, monica, monicaClass, kinetics, kProfile, optimalConditions } = method;
     const thermo = method.thermodynamicProperties;
     const kalchmFmt = formatKalchm(kalchm);
@@ -1321,20 +1333,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     );
   };
 
-  // ============================================================================
-  // RENDER: Conditions Tab
-  //
-  // `[FIXED 2026-08-16]` This tab used to lead with a computed "optimal
-  // temperature" of `200 + heat × 300 + monicaAdjustment`, where `heat` is an
-  // elemental scalar and the adjustment is a step function of the Monica
-  // constant. Across all 26 servable methods that put 23 of them OUTSIDE the
-  // published envelope printed directly beneath it — cryogenic cooking at
-  // +240 °F against a −321…32 °F envelope, fermentation at +285 °F against
-  // 55–95 °F. The envelope, the per-ingredient targets and the environmental
-  // corrections are now the whole tab; nothing alchemical sets a temperature.
-  // Reproduce the old behaviour with `scripts/audit-cooking-method-physics.ts`.
-  // ============================================================================
-  const renderConditionsTab = (method: (typeof currentMethods)[0]) => {
+  const renderConditionsTab = (method: (typeof currentMethods)[0]): React.ReactElement => {
     const reference = method.referenceProfile as MethodPhysicalReference | undefined;
     if (!method.physicsMetrics) {
       return (
@@ -1352,21 +1351,13 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     );
   };
 
-  // ============================================================================
-  // RENDER: Heat Transfer, Reactions, Equipment
-  //
-  // All three read only from `src/lib/cooking/*`. A missing physics profile is
-  // reported as missing rather than filled with defaults — a coverage test
-  // (`cookingMethodPhysicsCoverage.test.ts`) asserts every servable method has
-  // one, so this branch means a genuine registry gap.
-  // ============================================================================
-  const renderMissingPhysics = (name: string) => (
+  const renderMissingPhysics = (name: string): React.ReactElement => (
     <p className="py-8 text-center text-sm text-gray-500">
       No physics profile registered for {name}.
     </p>
   );
 
-  const renderPhysicsTab = (method: (typeof currentMethods)[0]) =>
+  const renderPhysicsTab = (method: (typeof currentMethods)[0]): React.ReactElement =>
     method.physicsMetrics ? (
       <div className="space-y-4">
         <PhysicsTab metrics={method.physicsMetrics} />
@@ -1376,7 +1367,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       renderMissingPhysics(method.name)
     );
 
-  const renderReactionsTab = (method: (typeof currentMethods)[0]) =>
+  const renderReactionsTab = (method: (typeof currentMethods)[0]): React.ReactElement =>
     method.physicsMetrics ? (
       <ReactionsTab
         metrics={method.physicsMetrics}
@@ -1386,7 +1377,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       renderMissingPhysics(method.name)
     );
 
-  const renderEquipmentTab = (method: (typeof currentMethods)[0]) => (
+  const renderEquipmentTab = (method: (typeof currentMethods)[0]): React.ReactElement => (
     <div className="space-y-4">
       {method.physicsMetrics ? (
         <EquipmentPhysicsPanel metrics={method.physicsMetrics} />
@@ -1409,10 +1400,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     </div>
   );
 
-  // ============================================================================
-  // RENDER: Compare Delta View
-  // ============================================================================
-  const renderCompareView = () => {
+  const renderCompareView = (): React.ReactElement | null => {
     if (!compareData) {
       return (
         <div className="rounded-alchm border border-dashed border-alchm-line-hi bg-white/[0.02] p-8 text-center">
@@ -1426,39 +1414,16 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
     const { a, b } = compareData;
 
-    /**
-     * One comparison row.
-     *
-     * ⚠️ NULL IS NOT ZERO HERE, AND IT USED TO BE.
-     *
-     * `[FIXED]` Every row was written `a.monica ?? 0` / `a.kalchm ?? 0` /
-     * `a.kinetics?.power ?? 0`. A method with no kinetic profile therefore
-     * rendered "0.000" — a real, readable, wrong measurement — and the delta
-     * column then subtracted the other method from that fabricated zero and
-     * printed the difference as though the comparison had been made. The `??`
-     * chain stops at the first non-nullish value, so an absent quantity became
-     * the most confident number in the row.
-     *
-     * Absence now propagates: either side missing renders an em dash on that
-     * side and suppresses the delta entirely, because there is no delta.
-     */
     const deltaRow = (
       label: string,
       aVal: number | null | undefined,
       bVal: number | null | undefined,
       fmt: (v: number) => string = (v) => v.toFixed(3),
       absentNote = "not registered",
-    ) => {
+    ): React.ReactElement => {
       const aOk = typeof aVal === "number" && Number.isFinite(aVal);
       const bOk = typeof bVal === "number" && Number.isFinite(bVal);
       const diff = aOk && bOk ? bVal - aVal : null;
-
-      // ⚠️ The delta chip is deliberately ONE colour for every non-zero delta.
-      // A green/amber pair was tried and is wrong here: it reads as good/bad,
-      // and on the "to core" row a green +9 min would be asserting that slower
-      // is better. Whether faster is better is exactly what the Intent control
-      // above lets the cook decide — "Tender" wants the slow one. The sign
-      // carries the direction; the colour must not smuggle in a verdict.
 
       return (
         <div key={label} className="grid grid-cols-[1fr_96px_1fr] items-center gap-3 border-b border-alchm-line py-2.5 last:border-0">
@@ -1492,8 +1457,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       );
     };
 
-    /** Categorical rows have no arithmetic delta — they either match or they don't. */
-    const matchRow = (label: string, aText: string, bText: string) => (
+    const matchRow = (label: string, aText: string, bText: string): React.ReactElement => (
       <div key={label} className="grid grid-cols-[1fr_96px_1fr] items-center gap-3 border-b border-alchm-line py-2.5 last:border-0">
         <span className="flex items-baseline justify-between gap-2">
           <InstrumentLabel>{label}</InstrumentLabel>
@@ -1524,7 +1488,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </button>
         </div>
 
-        {/* Column heads */}
         <div className="grid grid-cols-[1fr_96px_1fr] gap-3">
           <div className="border-b-2 pb-2 text-center" style={{ borderColor: accentA }}>
             <h3 className="font-display text-2xl capitalize leading-none text-alchm-fg">{a.name.replace(/_/g, " ")}</h3>
@@ -1537,7 +1500,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
         </div>
 
-        {/* Physical behaviour first — the numbers a cook acts on. */}
         <div>
           <InstrumentLabel className="text-sky-300">Physical</InstrumentLabel>
           <div className="mt-2">
@@ -1557,7 +1519,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
         </div>
 
-        {/* Then the correspondence layer, named as such. */}
         <div>
           <InstrumentLabel className="text-alchm-violet-bright">
             Alchemical — dimensionless, sets nothing physical
@@ -1566,7 +1527,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             {deltaRow("Harmony", a.harmony.harmonyIndex, b.harmony.harmonyIndex, v => `${Math.round(v)}%`)}
             {deltaRow("Monica", a.monica, b.monica)}
             {deltaRow("Greg's energy", a.gregsEnergy, b.gregsEnergy)}
-            {deltaRow("ln Kalchm", a.kalchm !== null && a.kalchm > 0 ? Math.log(a.kalchm) : null, b.kalchm !== null && b.kalchm > 0 ? Math.log(b.kalchm) : null, v => v.toFixed(2))}
+            {deltaRow("ln Kalchm", a.kalchm > 0 ? Math.log(a.kalchm) : null, b.kalchm > 0 ? Math.log(b.kalchm) : null, v => v.toFixed(2))}
             {deltaRow("Heat", a.thermodynamicProperties?.heat, b.thermodynamicProperties?.heat)}
             {deltaRow("Entropy", a.thermodynamicProperties?.entropy, b.thermodynamicProperties?.entropy)}
             {deltaRow("Reactivity", a.thermodynamicProperties?.reactivity, b.thermodynamicProperties?.reactivity)}
@@ -1574,13 +1535,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
         </div>
 
-        {/* One chart, two traces — a shared graticule is what makes the shapes
-            comparable. Two separate spiders side by side left the reader
-            measuring across a gap. */}
         <div className="flex flex-col items-center gap-3 pt-2">
           <ElementalSpiderCompare
-            a={a.elementalEffect as unknown as Record<string, number>}
-            b={b.elementalEffect as unknown as Record<string, number>}
+            a={a.elementalEffect}
+            b={b.elementalEffect}
             accentA={accentA}
             accentB={accentB}
             size={180}
@@ -1809,7 +1767,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       {/* Methods */}
       <div className="space-y-4">
         {currentMethods.map((method, idx) => {
-          if (!method) return null;
           const isExpanded = expandedMethod === method.id;
           const isCompareSelected = compareSelections.includes(method.id);
           const pillarColors = method.pillar ? getPillarColors(method.pillar.id) : null;
@@ -1846,6 +1803,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                 tabIndex={0}
                 aria-expanded={isExpanded}
               >
+
                 <div className="flex items-start gap-4">
                   <span className="font-mono text-2xl font-bold tabular-nums leading-none text-alchm-fg-faint">
                     {String(idx + 1).padStart(2, "0")}
@@ -1941,7 +1899,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   </div>
 
                   <div className="hidden shrink-0 md:block">
-                    <ElementalSpider effect={method.elementalEffect as unknown as Record<string, number>} size={80} />
+                    <ElementalSpider effect={method.elementalEffect} size={80} />
                   </div>
                 </div>
               </div>

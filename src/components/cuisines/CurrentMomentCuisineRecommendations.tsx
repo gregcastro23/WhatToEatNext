@@ -43,20 +43,13 @@ import { celestialAudio } from "@/lib/audio/celestialAudioSynthesizer";
  * Displays cuisine recommendations based on current astrological moment
  * with nested recipes and sauce recommendations
  */
-// Intentionally any: `Card` resolves to the Chakra v3 namespace object (Card.Root/Card.Body/...),
-// not a renderable component; this file uses the removed v2 single-component Card API.
-// Casting preserves the existing (broken-if-ever-rendered) behavior -- this component is
-// currently unreferenced/dead so the mismatch never executes at runtime.
-const Card = _Card as any;
-// Intentionally any: `Tooltip` resolves to the Chakra v3 namespace object (Tooltip.Root/Trigger/...),
-// not a renderable component; this file uses the removed v2 `<Tooltip label={...}>` API.
-const Tooltip = _Tooltip as any;
-// Intentionally any: `Progress` resolves to the Chakra v3 namespace object (Progress.Root/Track/...),
-// not a renderable component; this file uses the removed v2 `<Progress value=.../>` API.
-const Progress = _Progress as any;
+const Card = _Card as unknown as React.ComponentType<Record<string, unknown>>;
+const Tooltip = _Tooltip as unknown as React.ComponentType<Record<string, unknown>>;
+const Progress = _Progress as unknown as React.ComponentType<Record<string, unknown>>;
 const AccordionItem = _AccordionItem;
 const AccordionItemTrigger = _AccordionItemTrigger;
 const AccordionItemContent = _AccordionItemContent;
+
 interface CurrentMoment {
   zodiac_sign: string;
   season: string;
@@ -203,19 +196,19 @@ const ZODIAC_ELEMENTS = {
   Aquarius: "Air",
   Pisces: "Water",
 };
-const SEASON_ICONS = {
+const SEASON_ICONS: Record<string, React.ComponentType<{ className?: string }> | undefined> = {
   Spring: FaSeedling,
   Summer: FaSun,
   Autumn: FaLeaf,
   Winter: FaSnowflake,
 };
-const ELEMENT_ICONS = {
+const ELEMENT_ICONS: Record<string, React.ComponentType<{ className?: string }> | undefined> = {
   Fire: FaFire,
   Water: FaWater,
   Earth: FaSeedling,
   Air: FaWind,
 };
-const ELEMENT_COLORS = {
+const ELEMENT_COLORS: Record<string, string | undefined> = {
   Fire: "red",
   Water: "blue",
   Earth: "green",
@@ -235,7 +228,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to fetch cuisine recommendations");
       }
-      const cuisineData = await response.json();
+      const cuisineData = (await response.json()) as CuisineResponse;
       setData(cuisineData);
     } catch (err) {
       setError(
@@ -248,29 +241,34 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     }
   }, []);
   useEffect(() => {
-    void fetchCuisineRecommendations();
+    fetchCuisineRecommendations().catch(() => {});
   }, [fetchCuisineRecommendations]);
-  const getElementIcon = (element: string) =>
-    ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] || FaStar;
-  const getElementColor = (element: string) =>
-    ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || "gray";
+  const getElementIcon = (element: string): React.ComponentType<{ className?: string }> =>
+    ELEMENT_ICONS[element] ?? FaStar;
+  const getElementColor = (element: string): string =>
+    ELEMENT_COLORS[element] ?? "gray";
   // Get top flavors from flavor profile
-  const getTopFlavors = (flavorProfile?: FlavorProfile, count = 3) => {
+  const getTopFlavors = (flavorProfile?: FlavorProfile, count = 3): [string, number][] => {
     if (!flavorProfile) return [];
-    return Object.entries(flavorProfile)
+    return (Object.entries(flavorProfile) as [string, number][])
       .sort((a, b) => b[1] - a[1])
       .slice(0, count)
       .filter(([, value]) => value > 0.1); // Only include flavors > 10%
   };
+
   // Get score color based on match percentage
-  const getScoreColor = (score: number) => {
+  const getScoreColor = (score: number): string => {
     if (score >= 0.8) return "green";
     if (score >= 0.6) return "purple";
     if (score >= 0.4) return "orange";
     return "red";
   };
   // Categorize cuisines into tiers based on compatibility score
-  const categorizeCuisines = (cuisines: CuisineRecommendation[]) => {
+  const categorizeCuisines = (cuisines: CuisineRecommendation[]): {
+    topMatches: CuisineRecommendation[];
+    goodMatches: CuisineRecommendation[];
+    otherOptions: CuisineRecommendation[];
+  } => {
     const topMatches = cuisines.filter((c) => c.astrological_score >= 0.7);
     const goodMatches = cuisines.filter(
       (c) => c.astrological_score >= 0.5 && c.astrological_score < 0.7,
@@ -279,7 +277,12 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     return { topMatches, goodMatches, otherOptions };
   };
   // Get tier label with appropriate styling
-  const getTierInfo = (tier: "top" | "good" | "other") => {
+  const getTierInfo = (tier: "top" | "good" | "other"): {
+    label: string;
+    color: string;
+    icon: React.ComponentType<{ className?: string }>;
+    description: string;
+  } => {
     switch (tier) {
       case "top":
         return {
@@ -309,7 +312,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     Water: number;
     Earth: number;
     Air: number;
-  }) => (
+  }): React.ReactNode => (
     <HStack gap={2} wrap="wrap">
       {Object.entries(properties).map(([element, value]) => (
         <Tooltip
@@ -337,12 +340,13 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     </HStack>
   );
   // Render compact flavor profile display
-  const renderFlavorProfileCompact = (flavorProfile?: FlavorProfile) => {
+  const renderFlavorProfileCompact = (flavorProfile?: FlavorProfile): React.ReactNode => {
     if (!flavorProfile) return null;
     const topFlavors = getTopFlavors(flavorProfile, 3);
     if (topFlavors.length === 0) return null;
     return (
       <HStack gap={2} wrap="wrap">
+
         <Text fontSize="xs" color="gray.600" fontWeight="medium">
           Flavors:
         </Text>
@@ -370,7 +374,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </HStack>
     );
   };
-  const renderRecipeCard = (recipe: NestedRecipe) => (
+  const renderRecipeCard = (recipe: NestedRecipe): React.ReactNode => (
     <Card
       key={recipe.recipe_id}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -384,6 +388,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       borderWidth="2px"
       borderColor="purple.100"
     >
+
       <CardHeader pb={2}>
         <Flex justify="space-between" align="start">
           <Box>
@@ -649,7 +654,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </CardBody>
     </Card>
   );
-  const renderSauceCard = (sauce: SauceRecommendation) => (
+  const renderSauceCard = (sauce: SauceRecommendation): React.ReactNode => (
     <Card
       key={sauce.sauce_name}
       size="sm"
@@ -658,6 +663,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       borderWidth="1px"
       borderColor="orange.100"
     >
+
       <CardBody>
         <VStack align="start" gap={3}>
           <Flex justify="space-between" width="100%" align="start">
@@ -749,9 +755,10 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               size="sm"
               mt={2}
               onClick={() => {
-                void fetchCuisineRecommendations();
+                fetchCuisineRecommendations().catch(() => {});
               }}
             >
+
               Try Again
             </Button>
           </Box>
@@ -811,9 +818,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                 <VStack>
                   <Icon
                     as={
-                      SEASON_ICONS[
-                        data.current_moment.season as keyof typeof SEASON_ICONS
-                      ] || FaLeaf
+                      SEASON_ICONS[data.current_moment.season] ?? FaLeaf
                     }
                     boxSize={8}
                     color="green.500"
@@ -858,11 +863,12 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             </Text>
           </VStack>
           {/* Tier-based display of all cuisines */}
-          {(() => {
+          {((): React.ReactNode => {
             // Ensure data.cuisine_recommendations is an array before processing
-            const validCuisines = Array.isArray(data?.cuisine_recommendations)
+            const validCuisines = Array.isArray(data.cuisine_recommendations)
               ? data.cuisine_recommendations.filter(Boolean) // Filter out any null/undefined items
               : [];
+
             const { topMatches, goodMatches, otherOptions } =
               categorizeCuisines(validCuisines);
             const topTier = getTierInfo("top");
@@ -989,9 +995,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                       gap={4}
                                     >
                                       {cuisine.nested_recipes.map((recipe) =>
-                                        recipe
-                                          ? renderRecipeCard(recipe)
-                                          : null,
+                                        renderRecipeCard(recipe)
                                       )}
                                     </SimpleGrid>
                                   </AccordionItemContent>
@@ -1020,9 +1024,10 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     >
                                       {cuisine.recommended_sauces.map(
                                         (sauce) =>
-                                          sauce ? renderSauceCard(sauce) : null,
+                                          renderSauceCard(sauce)
                                       )}
                                     </SimpleGrid>
+
                                   </AccordionItemContent>
                                 </AccordionItem>
                                 {/* Thermodynamic Metrics - NEW */}
@@ -1064,9 +1069,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="orange.700"
                                           >
-                                            {cuisine.thermodynamic_metrics?.heat?.toFixed(
+                                            {cuisine.thermodynamic_metrics.heat.toFixed(
                                               3,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1086,9 +1091,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="purple.700"
                                           >
-                                            {cuisine.thermodynamic_metrics?.entropy?.toFixed(
+                                            {cuisine.thermodynamic_metrics.entropy.toFixed(
                                               3,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1108,9 +1113,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="red.700"
                                           >
-                                            {cuisine.thermodynamic_metrics?.reactivity?.toFixed(
+                                            {cuisine.thermodynamic_metrics.reactivity.toFixed(
                                               3,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1130,9 +1135,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="green.700"
                                           >
-                                            {cuisine.thermodynamic_metrics?.gregsEnergy?.toFixed(
+                                            {cuisine.thermodynamic_metrics.gregsEnergy.toFixed(
                                               4,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1152,9 +1157,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="blue.700"
                                           >
-                                            {cuisine.thermodynamic_metrics?.kalchm?.toFixed(
+                                            {cuisine.thermodynamic_metrics.kalchm.toFixed(
                                               3,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1174,9 +1179,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="pink.700"
                                           >
-                                            {cuisine.thermodynamic_metrics?.monica?.toFixed(
+                                            {cuisine.thermodynamic_metrics.monica.toFixed(
                                               3,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                       </SimpleGrid>
@@ -1219,9 +1224,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="cyan.700"
                                           >
-                                            {cuisine.kinetic_properties?.charge?.toFixed(
+                                            {cuisine.kinetic_properties.charge.toFixed(
                                               2,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1241,9 +1246,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="blue.700"
                                           >
-                                            {cuisine.kinetic_properties?.potentialDifference?.toFixed(
+                                            {cuisine.kinetic_properties.potentialDifference.toFixed(
                                               4,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1263,9 +1268,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="purple.700"
                                           >
-                                            {cuisine.kinetic_properties?.currentFlow?.toFixed(
+                                            {cuisine.kinetic_properties.currentFlow.toFixed(
                                               4,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1285,9 +1290,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="pink.700"
                                           >
-                                            {cuisine.kinetic_properties?.power?.toFixed(
+                                            {cuisine.kinetic_properties.power.toFixed(
                                               6,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1307,9 +1312,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="orange.700"
                                           >
-                                            {cuisine.kinetic_properties?.forceMagnitude?.toFixed(
+                                            {cuisine.kinetic_properties.forceMagnitude.toFixed(
                                               4,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1329,9 +1334,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             fontWeight="bold"
                                             color="green.700"
                                           >
-                                            {cuisine.kinetic_properties?.inertia?.toFixed(
+                                            {cuisine.kinetic_properties.inertia.toFixed(
                                               2,
-                                            ) ?? "N/A"}
+                                            )}
                                           </Text>
                                         </Box>
                                         <Box
@@ -1353,20 +1358,18 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                           <Badge
                                             colorScheme={
                                               cuisine.kinetic_properties
-                                                ?.forceClassification ===
+                                                .forceClassification ===
                                               "accelerating"
                                                 ? "green"
                                                 : cuisine.kinetic_properties
-                                                      ?.forceClassification ===
-                                                    "decelerating"
-                                                  ? "red"
-                                                  : "yellow"
+                                                    .forceClassification ===
+                                                  "decelerating"
+                                                ? "red"
+                                                : "yellow"
                                             }
                                             fontSize="md"
                                           >
-                                            {cuisine.kinetic_properties
-                                              ?.forceClassification ??
-                                              "balanced"}
+                                            {cuisine.kinetic_properties.forceClassification}
                                           </Badge>
                                         </Box>
                                       </SimpleGrid>
@@ -1832,11 +1835,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             columns={{ base: 1, lg: 2 }}
                                             gap={3}
                                           >
-                                            {cuisine.nested_recipes.map(
-                                              (recipe) =>
-                                                recipe
-                                                  ? renderRecipeCard(recipe)
-                                                  : null,
+                                            {cuisine.nested_recipes.map((recipe) =>
+                                              renderRecipeCard(recipe)
                                             )}
                                           </SimpleGrid>
                                         </AccordionItemContent>
@@ -1870,9 +1870,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                           >
                                             {cuisine.recommended_sauces.map(
                                               (sauce) =>
-                                                sauce
-                                                  ? renderSauceCard(sauce)
-                                                  : null,
+                                                renderSauceCard(sauce),
                                             )}
                                           </SimpleGrid>
                                         </AccordionItemContent>
@@ -2067,8 +2065,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             colorScheme="purple"
             variant="outline"
             onClick={() => {
-              void fetchCuisineRecommendations();
+              fetchCuisineRecommendations().catch(() => {});
             }}
+
             loading={loading}
             loadingText="Refreshing cosmic alignment..."
           >

@@ -10,6 +10,10 @@ import type {
   DeployHistoryEntry,
   FeatureFlagEntry,
   CohortRetentionEntry,
+  EnginePerformanceData,
+  CommerceSummaryData,
+  PractitionerCohortsData,
+  PageTelemetryData,
 } from "@/services/dashboardPanelsService";
 import type { ActivityEvent } from "@/services/liveActivityService";
 import type { SystemStatusPayload } from "@/services/systemStatusService";
@@ -26,7 +30,8 @@ const STATUS_COLOR: Record<string, string> = {
   UNKNOWN: "var(--fg-mute)",
 };
 
-export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayload }) {
+export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayload }): React.ReactElement {
+
   const items: Array<{
     id: string;
     name: string;
@@ -41,8 +46,9 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
       tier: "Flow" as const,
       status: f.status,
       summary: f.summary,
-      metrics: f.metrics?.slice(0, 2),
+      metrics: f.metrics.slice(0, 2),
     })),
+
     ...systemStatus.dependencies.map((d) => ({
       id: d.id,
       name: d.label,
@@ -147,7 +153,7 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
   );
 }
 
-function SvcHeader({ label, right }: { label: string; right?: boolean }) {
+function SvcHeader({ label, right }: { label: string; right?: boolean }): React.ReactElement {
   return (
     <div
       className="t-tag"
@@ -163,7 +169,7 @@ function SvcHeader({ label, right }: { label: string; right?: boolean }) {
   );
 }
 
-function SvcCell({ children, right }: { children: React.ReactNode; right?: boolean }) {
+function SvcCell({ children, right }: { children: React.ReactNode; right?: boolean }): React.ReactElement {
   return (
     <div
       style={{
@@ -202,7 +208,7 @@ export function LiveEventStream({
   liveActivity,
 }: {
   liveActivity: { entries: ActivityEvent[]; live: boolean };
-}) {
+}): React.ReactElement {
   const events = liveActivity.entries;
   return (
     <Card
@@ -232,7 +238,7 @@ export function LiveEventStream({
           </div>
         ) : (
           events.map((e, i) => {
-            const dot = STATUS_TINT[e.status] ?? CATEGORY_COLOR[e.category] ?? "var(--fg-mute)";
+            const dot = STATUS_TINT[e.status] ?? "var(--fg-mute)";
             const cat = CATEGORY_COLOR[e.category] ?? "var(--accent)";
             const time = new Date(e.at).toISOString().slice(11, 19);
             return (
@@ -268,7 +274,7 @@ export function LiveEventStream({
                 </span>
                 <span style={{ display: "flex", gap: 8, minWidth: 0 }}>
                   <span style={{ color: "var(--fg)", whiteSpace: "nowrap" }}>
-                    {e.actor?.name || e.actor?.email || "system"}
+                    {e.actor?.name ?? e.actor?.email ?? "system"}
                   </span>
                   <span style={{ color: "var(--fg-mute)" }}>·</span>
                   <span
@@ -290,6 +296,7 @@ export function LiveEventStream({
     </Card>
   );
 }
+
 
 // ============================================================
 // INCIDENTS — wired to alert_events (from alertService dispatch)
@@ -316,7 +323,7 @@ export function IncidentsPanel({
   recentAlerts,
 }: {
   recentAlerts: RecentAlertsData;
-}) {
+}): React.ReactElement {
   const alerts = recentAlerts.entries;
   const errorCount = alerts.filter((a) => a.severity === "error").length;
   const warnCount = alerts.filter((a) => a.severity === "warn").length;
@@ -464,9 +471,10 @@ export function IncidentsPanel({
 
 // ============================================================
 // ELEMENTAL TRAFFIC
+
 // ============================================================
-export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
-  const breakdownData = cohorts?.elementalBreakdown || [];
+export function ElementalTraffic({ cohorts }: { cohorts?: PractitionerCohortsData }): React.ReactElement {
+  const breakdownData = cohorts?.elementalBreakdown ?? [];
   
   let fireCount = 0;
   let earthCount = 0;
@@ -485,9 +493,6 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
   }
 
   const hasData = total > 0;
-  // Only badge as live when the service actually fetched (every other panel
-  // gates on `live`). Prevents a future stale-but-nonzero payload from being
-  // mislabelled "● LIVE LEDGER".
   const isLive = (cohorts?.live ?? false) && hasData;
   const displayTotal = total;
   const fPct = hasData ? fireCount / total : 0;
@@ -500,23 +505,23 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
   const wCountStr = `${waterCount.toLocaleString()} charts`;
   const aCountStr = `${airCount.toLocaleString()} charts`;
 
+  const breakdown = [
+    { label: "Fire · Ignis", v: `${(fPct * 100).toFixed(1)}%`, n: fCountStr, color: "var(--el-fire)" },
+    { label: "Water · Aqua", v: `${(wPct * 100).toFixed(1)}%`, n: wCountStr, color: "var(--el-water)" },
+    { label: "Earth · Terra", v: `${(ePct * 100).toFixed(1)}%`, n: eCountStr, color: "var(--el-earth)" },
+    { label: "Air · Aer", v: `${(aPct * 100).toFixed(1)}%`, n: aCountStr, color: "var(--el-air)" },
+  ];
+
   const meterValues = {
     fire: fPct,
     water: wPct,
     earth: ePct,
-    air: aPct
+    air: aPct,
   };
-
-  const breakdown = [
-    { label: "Fire · spice + bold", v: `${(fPct * 100).toFixed(1)}%`, n: fCountStr, color: "var(--el-fire)" },
-    { label: "Earth · root + slow", v: `${(ePct * 100).toFixed(1)}%`, n: eCountStr, color: "var(--el-earth)" },
-    { label: "Water · stew + sea", v: `${(wPct * 100).toFixed(1)}%`, n: wCountStr, color: "var(--el-water)" },
-    { label: "Air · raw + bright", v: `${(aPct * 100).toFixed(1)}%`, n: aCountStr, color: "var(--el-air)" },
-  ];
 
   return (
     <Card
-      title="Practitioner Elemental Affinity"
+      title="Elemental Breakdown · Registered Charts"
       subtitle={hasData ? `${displayTotal.toLocaleString()} birth charts registered` : "no birth charts registered yet"}
       right={
         <span
@@ -573,14 +578,12 @@ export function PractitionersCohort({
   retention,
 }: {
   realFunnel?: Array<{ stage: string; count: number; pct: number }>;
-  /** practitionerCohorts.live — the funnel and retention halves degrade
-   *  independently, so each carries its own badge. */
   funnelLive?: boolean;
   retention?: {
     cohorts: CohortRetentionEntry[];
     live: boolean;
   };
-}) {
+}): React.ReactElement {
   const funnel =
     realFunnel ??
     [
@@ -693,10 +696,11 @@ export function PractitionersCohort({
                 const w2Pct = c.cohortSize > 0 ? c.w2Active / c.cohortSize : 0;
                 const w4Pct = c.cohortSize > 0 ? c.w4Active / c.cohortSize : 0;
 
-                const getCellBg = (pct: number) => {
+                const getCellBg = (pct: number): string => {
                   if (pct === 0) return "rgba(255,255,255,0.02)";
                   return `color-mix(in oklch, var(--accent), transparent ${(1 - pct) * 90}%)`;
                 };
+
 
                 return (
                   <div
@@ -771,14 +775,14 @@ export function PractitionersCohort({
 // are shown — NDCG/MAP eval pipeline isn't wired yet, so we
 // label the slots honestly instead of fabricating numbers.
 // ============================================================
-export function EngineHealth({ enginePerformance }: { enginePerformance: any }) {
-  const perf = enginePerformance || {
+export function EngineHealth({ enginePerformance }: { enginePerformance?: EnginePerformanceData }): React.ReactElement {
+  const perf = enginePerformance ?? {
     clickToCookRate: 0,
     totalCalculations: 0,
     averageLatencyMs: 0,
     live: false,
   };
-  const live = perf.live ?? false;
+  const { live } = perf;
   return (
     <Card
       title="Recommendation Engine · Performance & Metrics"
@@ -844,7 +848,7 @@ export function CatalogState({
 }: {
   realCards: Array<{ label: string; value: string; delta: string; icon: string }>;
   trending?: CatalogTrendingData;
-}) {
+}): React.ReactElement {
   const cards = realCards;
   const recipes = trending?.recipes ?? [];
   return (
@@ -863,80 +867,57 @@ export function CatalogState({
                 style={{ color: "var(--fg-mute)" }}
               />
             </div>
-            <div className="t-num" style={{ fontSize: 18 }}>{c.value}</div>
-            <div className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>{c.delta}</div>
+            <div className="t-num" style={{ fontSize: 18, color: "var(--fg)" }}>{c.value}</div>
+            <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", marginTop: 2 }}>{c.delta}</div>
           </div>
         ))}
       </div>
       <div className="t-tag" style={{ marginBottom: 6 }}>
-        TOP RECIPES · BY POPULARITY{trending && !trending.live ? " · CACHED" : ""}
+        TRENDING DISHES · BY POPULARITY
       </div>
       <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "24px 1fr 64px 64px 48px",
+            gridTemplateColumns: "1.2fr 0.8fr 0.8fr 0.6fr",
             padding: "6px 10px",
             borderBottom: "1px solid var(--line-hi)",
             background: "rgba(255,255,255,0.02)",
           }}
         >
-          {["#", "Recipe", "Cuisine", "Rating", "Pop"].map((h, i) => (
-            <span key={h} className="t-tag" style={{ fontSize: 8.5, textAlign: i >= 3 ? "right" : "left" }}>{h}</span>
+          {["Recipe", "Cuisine", "Rating", "Popularity"].map((h) => (
+            <span key={h} className="t-tag" style={{ fontSize: 8.5 }}>{h}</span>
           ))}
         </div>
-        {recipes.length === 0 && (
+        {recipes.length === 0 ? (
           <div style={{ padding: "10px", textAlign: "center" }}>
             <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-              no recipe data
+              {trending?.live ? "no trending recipes" : "catalog trending offline"}
             </span>
           </div>
+        ) : (
+          recipes.map((r) => (
+            <div
+              key={r.name}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1.2fr 0.8fr 0.8fr 0.6fr",
+                padding: "8px 10px",
+                borderBottom: "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 10.5,
+                color: "var(--fg-dim)",
+              }}
+            >
+              <span style={{ color: "var(--fg)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {r.name}
+              </span>
+              <span>{r.cuisine}</span>
+              <span style={{ color: "var(--el-fire)" }}>{r.rating.toFixed(1)} ★</span>
+              <span className="t-num" style={{ color: "var(--accent)" }}>{(r.popularity * 100).toFixed(0)}%</span>
+            </div>
+          ))
         )}
-        {recipes.map((r, i) => (
-          <div
-            key={`${i}-${r.name}`}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "24px 1fr 64px 64px 48px",
-              padding: "8px 10px",
-              borderBottom: "1px solid var(--line)",
-              fontSize: 11.5,
-              alignItems: "center",
-            }}
-          >
-            <span className="t-num" style={{ color: "var(--fg-mute)", fontSize: 10 }}>
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span
-              style={{
-                color: "var(--fg)",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {r.name}
-            </span>
-            <span
-              className="t-mono"
-              style={{
-                fontSize: 9.5,
-                color: "var(--fg-mute)",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {r.cuisine}
-            </span>
-            <span className="t-num" style={{ textAlign: "right", color: "var(--el-earth)", fontSize: 11 }}>
-              ★ {r.rating.toFixed(1)}
-            </span>
-            <span className="t-num" style={{ textAlign: "right", color: "var(--fg-dim)", fontSize: 11 }}>
-              {Math.round(r.popularity * 100)}
-            </span>
-          </div>
-        ))}
       </div>
     </Card>
   );
@@ -945,7 +926,7 @@ export function CatalogState({
 // ============================================================
 // COMMERCE PANEL — MRR + orders
 // ============================================================
-export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: number; cookedPostsWeek: number; feedDauToday: number; live: boolean } }) {
+export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: number; cookedPostsWeek: number; feedDauToday: number; live: boolean } }): React.ReactElement {
   const d = data ?? { affiliateClicksWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false };
   return (
     <Card
@@ -962,9 +943,10 @@ export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: num
   );
 }
 
-export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
-  const summary = commerceSummary || { mrr: 0, paidSubs: 0, provisionedSubs: 0, recentOrders: [], live: false };
-  const live = summary.live ?? false;
+export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceSummaryData }): React.ReactElement {
+  const summary = commerceSummary ?? { mrr: 0, paidSubs: 0, provisionedSubs: 0, recentOrders: [], live: false };
+  const { live } = summary;
+
   const stateColor: Record<string, string> = {
     fulfilled: "var(--el-earth)",
     charged: "var(--accent)",
@@ -979,7 +961,7 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
       title="Commerce & Conversion"
       subtitle={
         live
-          ? `${summary.paidSubs ?? 0} paying · $${summary.mrr.toLocaleString()} MRR${(summary.provisionedSubs ?? 0) > 0 ? ` · ${summary.provisionedSubs} provisioned` : ""}`
+          ? `${summary.paidSubs} paying · $${summary.mrr.toLocaleString()} MRR${summary.provisionedSubs > 0 ? ` · ${summary.provisionedSubs} provisioned` : ""}`
           : "billing telemetry offline"
       }
       right={
@@ -1043,8 +1025,8 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
                 </span>
               </div>
             ) : (
-              summary.recentOrders.map((o: any) => {
-                const sColor = stateColor[o.status.toLowerCase()] || "var(--accent)";
+              summary.recentOrders.map((o) => {
+                const sColor = stateColor[o.status.toLowerCase()] ?? "var(--accent)";
                 return (
                   <div
                     key={o.id}
@@ -1087,7 +1069,7 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
 // an honest snapshot of the row counts when commensals exist and
 // an empty state otherwise.
 // ============================================================
-export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: any }) {
+export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: PageTelemetryData & { live?: boolean } }): React.ReactElement {
   const count = pageTelemetry?.commensals ?? 0;
   const live = pageTelemetry?.live ?? false;
   const mealPlans = pageTelemetry?.mealPlans ?? 0;
@@ -1145,7 +1127,7 @@ export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: any }) {
   );
 }
 
-function MetricTile({ label, v, sub }: { label: string; v: string; sub: string }) {
+function MetricTile({ label, v, sub }: { label: string; v: string; sub: string }): React.ReactElement {
   return (
     <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "10px 12px" }}>
       <div className="t-tag" style={{ fontSize: 8.5 }}>{label}</div>
@@ -1161,8 +1143,8 @@ function MetricTile({ label, v, sub }: { label: string; v: string; sub: string }
 // empty state with a hint about how to wire them up. We avoid fake
 // SHAs and fake flags that look real but aren't.
 // ============================================================
-export function DeploysPanel({ data }: { data?: { entries: DeployHistoryEntry[]; live: boolean } }) {
-  const { entries = [], live = false } = data || {};
+export function DeploysPanel({ data }: { data?: { entries: DeployHistoryEntry[]; live: boolean } }): React.ReactElement {
+  const { entries = [], live = false } = data ?? {};
   return (
     <Card
       title="Deploys"
@@ -1228,8 +1210,8 @@ export function DeploysPanel({ data }: { data?: { entries: DeployHistoryEntry[];
   );
 }
 
-export function FeatureFlagsPanel({ data }: { data?: { flags: FeatureFlagEntry[]; live: boolean } }) {
-  const { flags = [], live = false } = data || {};
+export function FeatureFlagsPanel({ data }: { data?: { flags: FeatureFlagEntry[]; live: boolean } }): React.ReactElement {
+  const { flags = [], live = false } = data ?? {};
   return (
     <Card
       title="Feature Flags"
@@ -1299,7 +1281,7 @@ export function FeatureFlagsPanel({ data }: { data?: { flags: FeatureFlagEntry[]
   );
 }
 
-export function AuditLogPanel({ data }: { data: AuditEventsData }) {
+export function AuditLogPanel({ data }: { data: AuditEventsData }): React.ReactElement {
   const { events, live } = data;
   return (
     <Card
@@ -1389,7 +1371,7 @@ function ModerationRow({
   href: string;
   count: string;
   alert: boolean;
-}) {
+}): React.ReactElement {
   return (
     <a
       href={href}
@@ -1418,7 +1400,7 @@ function ModerationRow({
 // Wired to the two live report queues: reported chat messages and reported feed
 // comments. Both endpoints are admin-guarded and return report arrays; we count
 // the open set (capped display) and deep-link to the full moderation screens.
-export function ModerationQueue() {
+export function ModerationQueue(): React.ReactElement {
   const [counts, setCounts] = React.useState<{
     chat: number | null;
     comment: number | null;
@@ -1492,7 +1474,7 @@ export function ModerationQueue() {
   );
 }
 
-export function SecurityPanel({ security }: { security: SecuritySummaryData }) {
+export function SecurityPanel({ security }: { security: SecuritySummaryData }): React.ReactElement {
   const maxHourly = Math.max(...security.hourlyAttempts, 1);
   const items = [
     {
@@ -1586,3 +1568,4 @@ export function SecurityPanel({ security }: { security: SecuritySummaryData }) {
     </Card>
   );
 }
+

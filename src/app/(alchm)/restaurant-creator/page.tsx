@@ -82,8 +82,7 @@ export default function RestaurantCreatorPage() {
 
     // Use current planetary data to generate a thematic restaurant name
     const planetaryDay = astroState?.currentPlanetaryHour || "Sun";
-    const zodiacRaw = astroState?.currentZodiac;
-    const zodiac = (typeof zodiacRaw === "string" ? zodiacRaw : zodiacRaw?.sign) || "Aries";
+    const zodiac = astroState?.currentZodiac || "Aries";
 
     const namePrefix = {
       Sun: "Solaris", Moon: "Lunara", Mercury: "Mercurio", Venus: "Venusia",

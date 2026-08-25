@@ -15,11 +15,13 @@ import {
 import type { AlchemicalProfile } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { ChartComparison } from "@/services/ChartComparisonService";
+import type { AlchemicalProperties, Season } from "@/types/alchemy";
 import type { LunarPhase } from "@/types/celestial";
 import type { IndexedRecipe } from "@/types/indexedRecipe";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
 import type { ElementalProperties, Recipe } from "@/types/recipe";
+
 import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
 import {
   getRecipeKAlchm,
@@ -337,13 +339,11 @@ function calculatePersonalizationBoost(
   let boost = 1.0;
 
   // 1. Elemental alignment with user's dominant element (±15%)
-  if (recipe.elementalProperties && natalChart.elementalBalance) {
-    const { dominantElement } = natalChart;
-    const recipeElementValue = recipe.elementalProperties[dominantElement] || 0;
+  const { dominantElement } = natalChart;
+  const recipeElementValue = recipe.elementalProperties[dominantElement] || 0;
 
-    // Higher recipe value for user's dominant element = higher boost
-    boost += (recipeElementValue - 0.25) * 0.6; // -0.15 to +0.45 range compressed to ±0.15
-  }
+  // Higher recipe value for user's dominant element = higher boost
+  boost += (recipeElementValue - 0.25) * 0.6; // -0.15 to +0.45 range compressed to ±0.15
 
   // 2. Chart comparison harmony (if available) (±10%)
   if (chartComparison) {
@@ -351,14 +351,11 @@ function calculatePersonalizationBoost(
     boost += harmonyBoost;
 
     // Extra boost for favorable elements
-    if (
-      chartComparison.insights?.favorableElements &&
-      recipe.elementalProperties
-    ) {
+    if (chartComparison.insights.favorableElements.length > 0) {
       const favorableMatch = chartComparison.insights.favorableElements.some(
         (el) => {
           const elementKey = el as keyof ElementalProperties;
-          return (recipe.elementalProperties?.[elementKey] || 0) > 0.3;
+          return (recipe.elementalProperties[elementKey] || 0) > 0.3;
         },
       );
       if (favorableMatch) {
@@ -368,9 +365,12 @@ function calculatePersonalizationBoost(
   }
 
   // 3. Alchemical property alignment (±5%)
-  if (natalChart.alchemicalProperties && (recipe as any).alchemicalProperties) {
-    const recipeAlch = (recipe as any).alchemicalProperties;
+  const recipeAlch = "alchemicalProperties" in recipe
+    ? (recipe.alchemicalProperties as AlchemicalProperties | undefined)
+    : undefined;
+  if (recipeAlch) {
     const userAlch = natalChart.alchemicalProperties;
+
 
     // Simple dot product similarity for alchemical properties
     let similarity = 0;
@@ -379,9 +379,9 @@ function calculatePersonalizationBoost(
     let recipeTotal = 0;
 
     for (const prop of props) {
-      similarity += (userAlch[prop] || 0) * (recipeAlch[prop] ?? 0);
-      userTotal += (userAlch[prop] || 0) ** 2;
-      recipeTotal += (recipeAlch[prop] ?? 0) ** 2;
+      similarity += userAlch[prop] * recipeAlch[prop];
+      userTotal += userAlch[prop] ** 2;
+      recipeTotal += recipeAlch[prop] ** 2;
     }
 
     if (userTotal > 0 && recipeTotal > 0) {
@@ -396,6 +396,7 @@ function calculatePersonalizationBoost(
 }
 
 /**
+
  * Generate recommendations for a specific meal
  *
  * @param dayOfWeek - Day of week
@@ -471,10 +472,11 @@ async function generateMealRecommendations(
       if (selected.length >= options.maxRecipes) break;
 
       // Identify the recipe's primary protein
-      const proteinIng = rec.recipe.ingredients?.find(
-        (ing: any) => ing.category === "protein",
+      const proteinIng = rec.recipe.ingredients.find(
+        (ing) => ing.category === "protein",
       );
-      const proteinKey = proteinIng?.name?.toLowerCase() ?? "";
+      const proteinKey = proteinIng?.name.toLowerCase() ?? "";
+
 
       // Prefer recipes with a protein we haven't used yet
       if (proteinKey && selectedProteins.has(proteinKey)) continue;
@@ -507,7 +509,8 @@ const PLANET_CULINARY_PROFILES: Record<string, {
   cookingMethods: string[];
   elementalEmphasis: Partial<ElementalProperties>;
   proteinAffinity: string[];
-}> = {
+} | undefined> = {
+
   Sun: {
     flavorBias: ["bold", "warm", "citrusy", "golden"],
     cookingMethods: ["Roast", "Grill"],
@@ -591,9 +594,12 @@ function getCurrentSeason(): string {
  * Uses stub metadata since the recipe is already a real, curated recipe.
  */
 function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
+  const alchemicalProperties = "alchemicalProperties" in recipe
+    ? (recipe.alchemicalProperties as AlchemicalProperties | undefined)
+    : undefined;
   return {
     ...recipe,
-    alchemicalProperties: (recipe as any).alchemicalProperties ?? undefined,
+    alchemicalProperties: alchemicalProperties as unknown as MonicaOptimizedRecipe['alchemicalProperties'],
     cookingOptimization: undefined,
     monicaOptimization: {
       originalMonica: null,
@@ -605,7 +611,7 @@ function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
       planetaryTimingRecommendations: [],
     },
     seasonalAdaptation: {
-      currentSeason: getCurrentSeason() as any,
+      currentSeason: getCurrentSeason() as Season,
       seasonalScore: 0.7,
       seasonalIngredientSubstitutions: [],
       seasonalCookingMethodAdjustments: [],
@@ -664,7 +670,7 @@ function containsExcludedIngredient(
   if (excludeIngredients.length === 0) return false;
   const excluded = new Set(excludeIngredients.map((i) => i.toLowerCase()));
   return recipe.ingredients.some((ing) => {
-    const name = (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase();
+    const name = (typeof ing === "string" ? ing : ing.name).toLowerCase();
     return excluded.has(name) || [...excluded].some((e) => name.includes(e));
   });
 }
@@ -672,9 +678,8 @@ function containsExcludedIngredient(
 function getRecipeComplexity(
   recipe: Recipe,
 ): "simple" | "moderate" | "complex" | undefined {
-  const raw = String(
-    (recipe as any).complexity ?? (recipe as any).difficulty ?? "",
-  ).toLowerCase();
+  const r = recipe as { complexity?: string; difficulty?: string };
+  const raw = (r.complexity ?? r.difficulty ?? "").toLowerCase();
   if (!raw) return undefined;
   if (raw === "simple" || raw === "easy" || raw === "beginner") {
     return "simple";
@@ -692,11 +697,12 @@ function getRecipeComplexity(
  * Get the primary protein from a recipe's ingredients.
  */
 function getPrimaryProtein(recipe: Recipe): string | undefined {
-  const proteinIng = recipe.ingredients?.find(
-    (ing: any) => ing.category === "protein",
+  const proteinIng = recipe.ingredients.find(
+    (ing) => ing.category === "protein",
   );
-  return proteinIng ? (proteinIng as any).name?.toLowerCase() : undefined;
+  return proteinIng ? proteinIng.name.toLowerCase() : undefined;
 }
+
 
 /**
  * Search for recipes from the curated database appropriate for a specific day and meal type.
@@ -754,8 +760,8 @@ async function searchRecipesForDay(
     ];
 
     const planetProfile =
-      PLANET_CULINARY_PROFILES[dayChar.planet] ||
-      PLANET_CULINARY_PROFILES["Sun"];
+      PLANET_CULINARY_PROFILES[dayChar.planet] ??
+      PLANET_CULINARY_PROFILES["Sun"]!;
 
     // ── Step 1: Filter pipeline ──
     //
@@ -797,7 +803,7 @@ async function searchRecipesForDay(
       if (options.requiredIngredients && options.requiredIngredients.length > 0) {
         const required = options.requiredIngredients.map((i) => i.toLowerCase());
         const recipeIngNames = recipe.ingredients.map((ing) =>
-          (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase(),
+          (typeof ing === "string" ? ing : ing.name).toLowerCase(),
         );
         const hasRequired = required.some((req) =>
           recipeIngNames.some((name) => name.includes(req)),
@@ -808,11 +814,11 @@ async function searchRecipesForDay(
       // Max prep time filter
       if (options.maxPrepTimeMinutes) {
         const maxTime = options.maxPrepTimeMinutes;
-        const recipeTime = (recipe as any).prepTime
-          ?? parseInt(String((recipe as any).timeToMake ?? "0"), 10)
-          ?? 0;
+        const recipeTime =
+          parseInt(recipe.prepTime ?? recipe.timeToMake ?? "0", 10) || 0;
         if (recipeTime > 0 && recipeTime > maxTime) return false;
       }
+
 
       return true;
     });
@@ -883,13 +889,11 @@ async function searchRecipesForDay(
       let score = 0;
 
       // Elemental alignment (weight: 0.4)
-      if (recipe.elementalProperties) {
-        const elementalScore = calculateDayFoodCompatibility(
-          dayChar,
-          recipe.elementalProperties,
-        );
-        score += elementalScore * 0.4;
-      }
+      const elementalScore = calculateDayFoodCompatibility(
+        dayChar,
+        recipe.elementalProperties,
+      );
+      score += elementalScore * 0.4;
 
       // Cuisine match with day's recommended cuisines (weight: 0.2)
       const recipeCuisine = recipe._lcCuisine ?? recipe.cuisine?.toLowerCase() ?? "";
@@ -934,7 +938,7 @@ async function searchRecipesForDay(
 
       // Learned ingredient preferences (soft boosts/penalties)
       const recipeIngredientNames = recipe.ingredients.map((ing) =>
-        (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase(),
+        (typeof ing === "string" ? ing : ing.name).toLowerCase(),
       );
       if (favoriteIngredientsLc.length > 0) {
         const favoriteMatches = favoriteIngredientsLc.filter((favorite) =>
@@ -989,10 +993,10 @@ async function searchRecipesForDay(
       // loop when pricing is enabled.
       let costPerServing = 0;
       if (budgetEnabled) {
-        const ingredients = recipe.ingredients.map((ing: any) => ({
-          name: typeof ing === "string" ? ing : ing.name ?? "",
-          amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
-          unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
+        const ingredients = recipe.ingredients.map((ing) => ({
+          name: typeof ing === "string" ? ing : ing.name,
+          amount: typeof ing === "string" ? 1 : ing.amount,
+          unit: typeof ing === "string" ? "each" : ing.unit,
           category: typeof ing === "string" ? undefined : ing.category,
           optional: typeof ing === "string" ? false : ing.optional,
         }));
@@ -1002,7 +1006,7 @@ async function searchRecipesForDay(
         );
         ({ costPerServing } = estimate);
 
-        const budgetRatio = costPerServing / (budget);
+        const budgetRatio = costPerServing / budget;
 
         if (budgetRatio > 1.5) {
           // Way over budget → heavy penalty
@@ -1012,13 +1016,14 @@ async function searchRecipesForDay(
           score -= (0.15 * (budgetRatio - 1.0)) / 0.5;
         } else if (budgetRatio < 0.6) {
           // Well under budget → bonus for value
-          const nutrition =
-            (recipe as any).nutrition ??
-            (recipe as any).nutritionalProfile;
+          const { nutrition } = recipe;
           const bfb = calculateBangForBuck(nutrition, costPerServing);
           score += Math.min(0.2, bfb.score / 500);
         }
       }
+
+
+
 
       return { recipe, score, protein, costPerServing };
     });
@@ -1101,16 +1106,14 @@ function scoreRecipeForDay(
   };
 
   // 1. Elemental alignment
-  if (recipe.elementalProperties) {
-    const elementalScore = calculateDayFoodCompatibility(
-      dayChar,
-      recipe.elementalProperties,
-    );
-    score += elementalScore * weights.elemental;
+  const elementalScore = calculateDayFoodCompatibility(
+    dayChar,
+    recipe.elementalProperties,
+  );
+  score += elementalScore * weights.elemental;
 
-    if (elementalScore > 0.7) {
-      reasons.push(`Strong elemental alignment with ${dayChar.planet} energy`);
-    }
+  if (elementalScore > 0.7) {
+    reasons.push(`Strong elemental alignment with ${dayChar.planet} energy`);
   }
 
   // 2. Cuisine match
@@ -1133,7 +1136,7 @@ function scoreRecipeForDay(
     const cuisineDominant = getDominantElementForCuisine(recipe.cuisine);
     if (cuisineDominant && cuisineDominant === dayChar.element) {
       const entry = getCuisineEntry(recipe.cuisine);
-      const signatureCount = entry?.signatures?.length ?? 0;
+      const signatureCount = entry?.signatures.length ?? 0;
       if (signatureCount > 0) {
         const boost = Math.min(0.1, 0.03 + signatureCount * 0.015);
         score += boost;
@@ -1183,11 +1186,12 @@ function scoreRecipeForDay(
   score += planetaryScore * weights.planetary;
 
   // 6. Flavor preference alignment (bonus, not weighted against others)
-  if (astroState.activePlanets && astroState.activePlanets.length > 0) {
+  if (astroState.activePlanets.length > 0) {
     const activeFlavors = astroState.activePlanets.flatMap(
-      (p) => PLANET_CULINARY_PROFILES[p]?.flavorBias || [],
+      (p) => PLANET_CULINARY_PROFILES[p]?.flavorBias ?? [],
     );
-    const recipeQualities = ((recipe as any).qualities ?? []) as string[];
+    const recipeQualities = (recipe as { qualities?: string[] }).qualities ?? [];
+
     const flavorOverlap = recipeQualities.filter((q: string) =>
       activeFlavors.some((f) => q.toLowerCase().includes(f.toLowerCase())),
     ).length;
@@ -1277,11 +1281,12 @@ function scoreNutritionalAlignment(
 ): number {
   if (!recipe.nutritionalProfile) return 0.5;
 
-  const nutritionProfile = recipe.nutritionalProfile as any;
+  const nutritionProfile = recipe.nutritionalProfile as Record<string, number | undefined>;
   const protein = nutritionProfile.protein ?? 0;
   const carbs = nutritionProfile.carbs ?? 0;
   const fat = nutritionProfile.fat ?? 0;
   const total = protein + carbs + fat;
+
 
   if (total === 0) return 0.5;
 

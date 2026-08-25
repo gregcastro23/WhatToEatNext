@@ -25,6 +25,12 @@ import {
 } from "../src/utils/liveEphemeris";
 import { UnifiedIngredientService } from "../src/services/UnifiedIngredientService";
 
+import {
+  calculateFlavorCompatibility,
+  calculateCuisineFlavorMatch,
+  calculatePlanetaryFlavorMatch,
+} from "../src/data/unified/flavorCompatibilityLayer";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = resolve(__dirname, "fixtures/snapshot-witness-baseline.json");
 
@@ -103,7 +109,7 @@ export function generateSnapshot() {
 
   const diurnals = dates.map((d) => isDiurnalSect(d, 37.7749, -122.4194));
 
-  // 4. Static Ingredient Catalog Domain Distribution
+  // 4. Static Ingredient Catalog Domain Distribution & Rich Sampling
   const ingredientService = UnifiedIngredientService.getInstance();
   const allIngredients = ingredientService.getAllIngredients();
   const categoryCounts: Record<string, number> = {};
@@ -111,7 +117,7 @@ export function generateSnapshot() {
     categoryCounts[cat] = list.length;
   }
 
-  // Sample 10 canonical ingredients across categories
+  // Sample 10 canonical ingredients across categories with real varying fields
   const sampleNames = [
     "garlic",
     "ginger",
@@ -121,7 +127,7 @@ export function generateSnapshot() {
     "rice",
     "black pepper",
     "salmon",
-    "chicken breast",
+    "chicken",
     "lemon",
   ];
   const sampleItems = sampleNames.map((name) => {
@@ -130,11 +136,37 @@ export function generateSnapshot() {
       name,
       found: Boolean(item),
       category: item?.category ?? null,
-      element: item?.element ?? null,
-      season: item?.season ?? null,
-      tasteProfile: item?.tasteProfile ?? null,
+      elementalProperties: item?.elementalProperties ?? null,
+      qualities: item?.qualities ?? [],
+      tasteProfile: item?.sensoryProfile?.tasteProfile ?? null,
     };
   });
+
+  // 5. Flavor Compatibility & Resonance Engine
+  const sampleProfiles = [
+    { sweet: 0.8, sour: 0.2, salty: 0.1, bitter: 0.0, umami: 0.3, spicy: 0.0 },
+    { sweet: 0.1, sour: 0.1, salty: 0.7, bitter: 0.2, umami: 0.8, spicy: 0.4 },
+    { sweet: 0.0, sour: 0.4, salty: 0.2, bitter: 0.5, umami: 0.1, spicy: 0.8 },
+  ];
+
+  const flavorCompatibility = {
+    pairScores: sampleProfiles.map((p1, idx1) =>
+      sampleProfiles.map((p2, idx2) => ({
+        pair: `${idx1}-${idx2}`,
+        result: calculateFlavorCompatibility(p1, p2),
+      })),
+    ),
+    cuisineMatches: ["Italian", "Mexican", "Japanese", "Indian"].map((cuisine) => ({
+      cuisine,
+      scores: sampleProfiles.map((p) => calculateCuisineFlavorMatch(p, cuisine)),
+    })),
+    planetaryMatches: ["Mars", "Venus", "Jupiter", "Saturn"].map((planet) => ({
+      planet,
+      scores: sampleProfiles.map((p) =>
+        calculatePlanetaryFlavorMatch(p, { [planet]: 0.9, Sun: 0.3 }),
+      ),
+    })),
+  };
 
   return {
     serverPlanetary,
@@ -147,6 +179,7 @@ export function generateSnapshot() {
       totalIngredients: Object.values(categoryCounts).reduce((a, b) => a + b, 0),
       samples: sampleItems,
     },
+    flavorCompatibility,
   };
 }
 

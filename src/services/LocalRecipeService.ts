@@ -7,10 +7,47 @@ import type {
   ElementalProperties,
   Recipe,
   RecipeIngredient,
+  RecipeNutrition,
 } from "@/types/recipe";
 import { publicCuisine } from "@/utils/internalCuisineCodes";
 import { logger } from "@/utils/logger";
 import { getAssetUrl } from "@/utils/urlUtils";
+
+interface RecipeReadModelContext {
+  seasonal?: string[];
+  timeOfDay?: string[];
+  [key: string]: unknown;
+}
+
+interface RecipeReadModelElementalProperties {
+  fire?: number;
+  Fire?: number;
+  water?: number;
+  Water?: number;
+  earth?: number;
+  Earth?: number;
+  air?: number;
+  Air?: number;
+}
+
+interface RecipeReadModel {
+  id?: string;
+  name?: string;
+  description?: string | null;
+  cuisine?: string | null;
+  category?: string | null;
+  dietary_tags?: string[] | null;
+  allergens?: string[] | null;
+  contexts?: RecipeReadModelContext[] | null;
+  image_url?: string | null;
+  ingredients?: unknown;
+  instructions?: unknown;
+  prep_time_minutes?: number | null;
+  cook_time_minutes?: number | null;
+  servings?: number | null;
+  elemental_properties?: RecipeReadModelElementalProperties | null;
+  nutritional_profile?: RecipeNutrition | null;
+}
 
 interface DbRecipeRow {
   id: string;
@@ -33,6 +70,7 @@ interface DbRecipeRow {
   image_url?: string | null;
   created_at?: string | Date | null;
   updated_at?: string | Date | null;
+  read_model?: RecipeReadModel | null;
 }
 
 const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
@@ -148,7 +186,7 @@ function hasDietaryTag(tags: string[] | null | undefined, tag: string): boolean 
   );
 }
 
-function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
+function mapRowToRecipe(row: DbRecipeRow): Recipe {
   // Prefer the denormalized read_model for performance and data consistency
   if (row.read_model) {
     const rm = row.read_model;
@@ -157,13 +195,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
     // Extract seasons from nested contexts if available
     let seasons: string[] = [];
     if (Array.isArray(rm.contexts)) {
-      seasons = rm.contexts.flatMap((c: any) => c.seasonal ?? []);
+      seasons = rm.contexts.flatMap((c) => c.seasonal ?? []);
     }
     
     // Extract meal types from nested contexts (timeOfDay)
     let mealTypes: string[] = [];
     if (Array.isArray(rm.contexts)) {
-      mealTypes = rm.contexts.flatMap((c: any) => c.timeOfDay ?? []);
+      mealTypes = rm.contexts.flatMap((c) => c.timeOfDay ?? []);
     }
     if (mealTypes.length === 0 && rm.category) {
       mealTypes = [rm.category];
@@ -199,7 +237,7 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
       isVegan: hasDietaryTag(dietaryTags, "vegan"),
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
       isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
-      nutrition: rm.nutritional_profile ?? row.nutritional_profile ?? undefined,
+      nutrition: (rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined) : undefined)) as unknown as Recipe['nutrition'],
       tags: dietaryTags,
       createdAt: row.created_at ? new Date(row.created_at).toISOString() : undefined,
       updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : undefined,
@@ -236,15 +274,16 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
     isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree"),
     isDairyFree: hasDietaryTag(dietaryTags, "dairyfree"),
-    nutrition: parseJsonValue<any>(
+    nutrition: parseJsonValue<RecipeNutrition | undefined>(
       row.nutritional_profile,
       undefined,
-    ),
+    ) as unknown as Recipe['nutrition'],
     tags: dietaryTags,
     createdAt: row.created_at ? new Date(row.created_at).toISOString() : undefined,
     updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : undefined,
   };
 }
+
 
 const REDIS_CATALOG_KEY = "recipes:catalog:all";
 const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
@@ -307,7 +346,7 @@ export class LocalRecipeService {
     );
   }
 
-  private static async fetchRecipes(where = "", params: unknown[] = []) {
+  private static async fetchRecipes(where = "", params: unknown[] = []): Promise<Recipe[]> {
     const query = `${RECIPE_QUERY} ${where}`;
     const result = await executeQuery<DbRecipeRow>(query, params);
     return result.rows.map(mapRowToRecipe);
@@ -367,12 +406,12 @@ export class LocalRecipeService {
   /**
    * Asynchronously warms the Redis cache for all recipe images.
    */
-  private static warmImageAssetCache(recipes: Recipe[]) {
+  private static warmImageAssetCache(recipes: Recipe[]): void {
     // Process in small batches to avoid Redis/Network congestion
     const batchSize = 20;
     const recipesWithImages = recipes.filter((r) => r.imageUrl && !r.imageUrl.startsWith("http"));
 
-    void (async () => {
+    const warmPromise = (async (): Promise<void> => {
       for (let i = 0; i < recipesWithImages.length; i += batchSize) {
         const batch = recipesWithImages.slice(i, i + batchSize);
         await Promise.allSettled(batch.map((r) => getValidatedAssetUrl(r.imageUrl)));
@@ -381,7 +420,11 @@ export class LocalRecipeService {
       }
       logger.debug(`[AssetCache] Warmed ${recipesWithImages.length} image paths`);
     })();
+    warmPromise.catch((err: unknown) => {
+      logger.warn("[AssetCache] Failed warming asset cache:", err);
+    });
   }
+
 
   static async getRecipeById(recipeId: string): Promise<Recipe | null> {
     if (!recipeId) {
@@ -447,9 +490,10 @@ export class LocalRecipeService {
       const recipes = await this.getAllRecipes();
 
       return recipes.filter((recipe) => {
-        if (recipe.name?.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.name.toLowerCase().includes(normalizedQuery)) {
           return true;
         }
+
 
         if (recipe.description?.toLowerCase().includes(normalizedQuery)) {
           return true;

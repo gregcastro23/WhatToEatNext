@@ -1239,9 +1239,19 @@
         "name": "garlic",
         "found": true,
         "category": "vegetable",
-        "element": null,
-        "season": [
-          "year-round"
+        "elementalProperties": {
+          "Fire": 0.45,
+          "Water": 0.1,
+          "Earth": 0.3,
+          "Air": 0.15
+        },
+        "qualities": [
+          "pungent",
+          "aromatic",
+          "medicinal",
+          "transformative",
+          "foundational",
+          "powerful"
         ],
         "tasteProfile": null
       },
@@ -1249,10 +1259,16 @@
         "name": "ginger",
         "found": true,
         "category": "spice",
-        "element": null,
-        "season": [
-          "fall",
-          "winter"
+        "elementalProperties": {
+          "Fire": 0.6,
+          "Water": 0.1,
+          "Earth": 0.2,
+          "Air": 0.1
+        },
+        "qualities": [
+          "warming",
+          "spicy",
+          "aromatic"
         ],
         "tasteProfile": null
       },
@@ -1260,9 +1276,17 @@
         "name": "olive oil",
         "found": true,
         "category": "fruit",
-        "element": null,
-        "season": [
-          "all"
+        "elementalProperties": {
+          "Fire": 0.3,
+          "Water": 0.1,
+          "Earth": 0.4,
+          "Air": 0.2
+        },
+        "qualities": [
+          "rich",
+          "fruity",
+          "versatile",
+          "healthy"
         ],
         "tasteProfile": null
       },
@@ -1270,9 +1294,21 @@
         "name": "tomato",
         "found": true,
         "category": "vegetable",
-        "element": null,
-        "season": [
-          "summer"
+        "elementalProperties": {
+          "Fire": 0.25,
+          "Water": 0.5,
+          "Earth": 0.15,
+          "Air": 0.1
+        },
+        "qualities": [
+          "umami-rich",
+          "acidic",
+          "juicy",
+          "versatile",
+          "sweet",
+          "seasonal",
+          "nutritious",
+          "fresh"
         ],
         "tasteProfile": null
       },
@@ -1280,17 +1316,33 @@
         "name": "basil",
         "found": true,
         "category": "culinary_herb",
-        "element": null,
-        "season": null,
+        "elementalProperties": {
+          "Fire": 0.22,
+          "Water": 0.27,
+          "Earth": 0.08,
+          "Air": 0.43
+        },
+        "qualities": [
+          "aromatic",
+          "sweet",
+          "peppery"
+        ],
         "tasteProfile": null
       },
       {
         "name": "rice",
         "found": true,
         "category": "grain",
-        "element": null,
-        "season": [
-          "all"
+        "elementalProperties": {
+          "Fire": 0.1,
+          "Water": 0.2,
+          "Earth": 0.5,
+          "Air": 0.2
+        },
+        "qualities": [
+          "carbohydrate-rich",
+          "sustaining",
+          "versatile"
         ],
         "tasteProfile": null
       },
@@ -1298,37 +1350,314 @@
         "name": "black pepper",
         "found": true,
         "category": "spice",
-        "element": null,
-        "season": null,
+        "elementalProperties": {
+          "Fire": 0.55,
+          "Water": 0.05,
+          "Earth": 0.1,
+          "Air": 0.3
+        },
+        "qualities": [
+          "pungent",
+          "warming",
+          "aromatic",
+          "sharp",
+          "penetrating",
+          "universal"
+        ],
         "tasteProfile": null
       },
       {
         "name": "salmon",
         "found": true,
         "category": "protein",
-        "element": null,
-        "season": [
-          "spring",
-          "summer",
-          "fall"
+        "elementalProperties": {
+          "Fire": 0.1,
+          "Water": 0.6,
+          "Earth": 0.2,
+          "Air": 0.1
+        },
+        "qualities": [
+          "omega-rich",
+          "flaky",
+          "buttery",
+          "mild",
+          "versatile",
+          "nutrient-dense"
         ],
         "tasteProfile": null
       },
       {
-        "name": "chicken breast",
-        "found": false,
-        "category": null,
-        "element": null,
-        "season": null,
+        "name": "chicken",
+        "found": true,
+        "category": "protein",
+        "elementalProperties": {
+          "Fire": 0.2,
+          "Water": 0.3,
+          "Earth": 0.2,
+          "Air": 0.3
+        },
+        "qualities": [
+          "adaptable",
+          "mild",
+          "versatile",
+          "light",
+          "neutral",
+          "balancing"
+        ],
         "tasteProfile": null
       },
       {
         "name": "lemon",
         "found": true,
         "category": "fruit",
-        "element": null,
-        "season": null,
+        "elementalProperties": {
+          "Fire": 0.3,
+          "Water": 0.15,
+          "Earth": 0.1,
+          "Air": 0.45
+        },
+        "qualities": [
+          "acidic",
+          "bright",
+          "aromatic",
+          "versatile",
+          "cleansing",
+          "essential"
+        ],
         "tasteProfile": null
+      }
+    ]
+  },
+  "flavorCompatibility": {
+    "pairScores": [
+      [
+        {
+          "pair": "0-0",
+          "result": {
+            "compatibility": 0.9133333333333334,
+            "elementalHarmony": 0.8333333333333331,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Strong elemental harmony - flavors will complement each other naturally",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "pair": "0-1",
+          "result": {
+            "compatibility": 0.9031884057971015,
+            "elementalHarmony": 0.7927536231884056,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "pair": "0-2",
+          "result": {
+            "compatibility": 0.8940350877192983,
+            "elementalHarmony": 0.7561403508771928,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      [
+        {
+          "pair": "1-0",
+          "result": {
+            "compatibility": 0.9031884057971015,
+            "elementalHarmony": 0.7927536231884056,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "pair": "1-1",
+          "result": {
+            "compatibility": 0.9036842105263158,
+            "elementalHarmony": 0.7947368421052632,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "pair": "1-2",
+          "result": {
+            "compatibility": 0.8964835164835164,
+            "elementalHarmony": 0.7659340659340658,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      [
+        {
+          "pair": "2-0",
+          "result": {
+            "compatibility": 0.8940350877192983,
+            "elementalHarmony": 0.756140350877193,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "pair": "2-1",
+          "result": {
+            "compatibility": 0.8964835164835167,
+            "elementalHarmony": 0.765934065934066,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "pair": "2-2",
+          "result": {
+            "compatibility": 0.908,
+            "elementalHarmony": 0.8120000000000003,
+            "kalchmResonance": 1,
+            "monicaOptimization": 1,
+            "seasonalAlignment": 1,
+            "recommendations": [
+              "Excellent compatibility - these flavors will work beautifully together",
+              "Strong elemental harmony - flavors will complement each other naturally",
+              "Excellent Kalchm resonance - alchemical properties align perfectly",
+              "Great seasonal alignment - perfect timing for these flavors",
+              "Strong cultural harmony - authentic traditional pairing"
+            ],
+            "warnings": []
+          }
+        }
+      ]
+    ],
+    "cuisineMatches": [
+      {
+        "cuisine": "Italian",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "cuisine": "Mexican",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "cuisine": "Japanese",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "cuisine": "Indian",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    ],
+    "planetaryMatches": [
+      {
+        "planet": "Mars",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "planet": "Venus",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "planet": "Jupiter",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "planet": "Saturn",
+        "scores": [
+          0.5,
+          0.5,
+          0.5
+        ]
       }
     ]
   }

@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import type { LunarPhase } from "@/constants/planetaryFoodAssociations";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import type { ZodiacSign } from "@/types/alchemy";
 import type { CelestialPosition } from "@/types/celestial";
 import type { PlanetaryAlignment } from "@/types/common";
 import { logger } from "@/utils/logger";
 
 // Interface for hook return value
 export interface AstrologyHookData {
-  currentZodiac: any;
+  currentZodiac: ZodiacSign | string;
   currentPlanetaryAlignment: PlanetaryAlignment;
   lunarPhase: LunarPhase;
   activePlanets: string[];
@@ -21,10 +22,11 @@ export interface AstrologyHookData {
 
 // Helper function to create a celestial position with defaults
 function _createCelestialPosition(
-  sign: any,
+  sign: string,
   longOffset = 0,
   options?: { planetName?: string },
 ): CelestialPosition {
+
   // Calculate a reasonable longitude based on the zodiac sign
   const signIndex = [
     "aries",
@@ -280,9 +282,10 @@ export function useAstrologicalState(): AstrologyHookData {
     isDaytime,
     renderCount,
     currentPlanetaryHour: planetaryHour,
-    currentZodiac: (astroState.currentZodiac || "aries") as any,
+    currentZodiac: astroState.currentZodiac || "aries",
     currentPlanetaryAlignment:
       astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
-    lunarPhase: (lunarPhase || astroState.lunarPhase) as any,
+    lunarPhase: (lunarPhase || astroState.lunarPhase) as LunarPhase,
   };
+
 }

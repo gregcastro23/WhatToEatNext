@@ -11,13 +11,16 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { logger as _logger } from '@/lib/logger';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
-import { getCulturalCookingMethods } from '@/utils/culturalMethodsAggregator';
+import { getTechnicalTips as _getMethodTips } from '@/utils/cookingMethodTips';
+import { getCulturalCookingMethods, type CulturalCookingMethod } from '@/utils/culturalMethodsAggregator';
 import { elementalSignature } from '@/utils/elemental/signature';
 import { _getLunarMultiplier as getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 import styles from './CookingMethods.module.css';
+
 
 // Implement the alchemize function using staticAlchemize
 interface AstroStateShape {
@@ -32,7 +35,7 @@ interface ThermodynamicsInput {
   energy?: number;
 }
 
-const alchemize = async (
+const alchemize = (
   elements: ElementalProperties | Record<string, number>,
   astroState: unknown,
   thermodynamics: unknown
@@ -63,7 +66,7 @@ const alchemize = async (
     const astro = astroState as AstroStateShape | null | undefined;
     if (astro?.planetaryPositions) {
       Object.entries(astro.planetaryPositions).forEach(([planet, position]) => {
-        if (position?.sign) {
+        if (position.sign) {
           horoscopeDict.tropical.CelestialBodies[planet] = {
             Sign: { label: position.sign },
             ChartPosition: {
@@ -81,7 +84,7 @@ const alchemize = async (
     // not elemental balance — the elemental values pass through from `elements`.
     const alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
 
-    return {
+    return Promise.resolve({
       ...alchemicalResult,
       elementalProperties: elements,
       transformedElementalProperties: {
@@ -90,23 +93,23 @@ const alchemize = async (
         Earth: elementsRecord.Earth || 0,
         Air: elementsRecord.Air || 0
       },
-      heat: thermo.heat ?? alchemicalResult.heat ?? 0.5,
-      entropy: thermo.entropy ?? alchemicalResult.entropy ?? 0.5,
-      reactivity: thermo.reactivity ?? alchemicalResult.reactivity ?? 0.5,
-      energy: thermo.energy ?? alchemicalResult.gregsEnergy ?? 0.5
-    };
+      heat: thermo.heat ?? alchemicalResult.heat,
+      entropy: thermo.entropy ?? alchemicalResult.entropy,
+      reactivity: thermo.reactivity ?? alchemicalResult.reactivity,
+      energy: thermo.energy ?? alchemicalResult.gregsEnergy
+    });
   } catch (error) {
-    console.error('Error in alchemize function:', error);
+    _logger.error('Error in alchemize function:', error);
     // Fallback to simple implementation if there's an error
-    return {
+    return Promise.resolve({
       ...elements,
       alchemicalProperties: {},
       transformedElementalProperties: elements,
       heat: thermo.heat ?? 0.5,
       entropy: thermo.entropy ?? 0.5,
       reactivity: thermo.reactivity ?? 0.5,
-      energy: 0.5
-    };
+      energy: thermo.energy ?? 0.5
+    });
   }
 };
 
@@ -176,12 +179,13 @@ interface MolecularGastronomyDetails {
 // Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
 const _ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
   .reduce((acc, [methodName, methodData]) => {
-    const thermo = (methodData as unknown as { thermodynamicProperties?: ThermodynamicProperties })?.thermodynamicProperties;
+    const thermo = (methodData as unknown as { thermodynamicProperties?: ThermodynamicProperties }).thermodynamicProperties;
     if (thermo) {
       acc[methodName] = thermo;
     }
     return acc;
   }, {} as Record<string, ThermodynamicProperties>);
+
 
 // Merge with your existing COOKING_METHOD_THERMODYNAMICS constant
 
@@ -297,7 +301,7 @@ const DEFAULT_TAROT_DATA = {
   }
 };
 
-export default function CookingMethods() {
+export default function CookingMethods(): React.ReactElement | null {
   // Add renderCount ref for debugging
   const renderCount = useRef(0);
   // Use ref for tracking component mounted state
@@ -392,42 +396,44 @@ export default function CookingMethods() {
   // Add these near the top with other state variables
   const [searchIngredient, setSearchIngredient] = useState<string>('');
   const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
-  const [culturalMethods, setCulturalMethods] = useState<any[]>([]);
+  const [culturalMethods, setCulturalMethods] = useState<CulturalCookingMethod[]>([]);
 
   useEffect(() => {
     let isMounted = true;
-    void getCulturalCookingMethods().then(methods => {
-      if (isMounted) {
-        setCulturalMethods(methods);
-      }
-    });
-    return () => { isMounted = false; };
+    getCulturalCookingMethods()
+      .then((methods) => {
+        if (isMounted) {
+          setCulturalMethods(methods);
+        }
+      })
+      .catch(() => {});
+    return (): void => {
+      isMounted = false;
+    };
   }, []);
 
   // Add this function to calculate ingredient compatibility with methods
-  const calculateIngredientCompatibility = (ingredient: string) => {
+  const calculateIngredientCompatibility = (ingredient: string): void => {
     if (!ingredient.trim()) return;
     
     // Create a compatibility map
     const compatibilityMap: Record<string, number> = {};
     
     recommendedMethods.forEach(method => {
-      if (method.elementalProperties) {
-        // Create basic compatibility score based on elemental properties
-        // This is a simplified version - you would use your actual compatibility calculation
-        let compatibilityScore = 0.5; // Default medium compatibility
+      // Create basic compatibility score based on elemental properties
+      // This is a simplified version - you would use your actual compatibility calculation
+      let compatibilityScore = 0.5; // Default medium compatibility
 
-        // Check if ingredient is in the method's suitable_for list
-        const suitableFor = (method as { suitable_for?: string[] }).suitable_for;
-        if (suitableFor?.some(item =>
-          item.toLowerCase().includes(ingredient.toLowerCase())
-        )) {
-          compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
-        }
-
-        // Store the compatibility score
-        compatibilityMap[method.id || method.name] = Math.min(1.0, compatibilityScore);
+      // Check if ingredient is in the method's suitable_for list
+      const suitableFor = (method as { suitable_for?: string[] }).suitable_for;
+      if (suitableFor?.some(item =>
+        item.toLowerCase().includes(ingredient.toLowerCase())
+      )) {
+        compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
       }
+
+      // Store the compatibility score
+      compatibilityMap[method.id || method.name] = Math.min(1.0, compatibilityScore);
     });
     
     // Update state with the compatibility scores
@@ -466,19 +472,20 @@ export default function CookingMethods() {
     
     try {
       culturalMethods.forEach(method => {
-        const culture = method.culturalOrigin ?? 'Traditional';
-        if (!map[culture]) {
-          map[culture] = [];
-        }
-        map[culture].push(method.id);
+        const culture = method.culturalOrigin;
+        const list = map[culture] ?? [];
+        list.push(method.id);
+        map[culture] = list;
       });
       
       return map;
     } catch (error) {
-      console.error("Error initializing culture map:", error);
+
+      _logger.error("Error initializing culture map:", error);
       return map;
     }
   }, [culturalMethods]);
+
 
   // Get global astrological adjustment info
   const _globalAstrologicalAdjustment = useMemo(() => {
@@ -642,21 +649,22 @@ export default function CookingMethods() {
   };
 
   // Add this function to extract additional properties from source data
-  const _getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
-    const cookingMethodsMap = cookingMethods as Record<string, Record<string, unknown>>;
-    const molecularMethodsMap = molecularCookingMethods as Record<string, Record<string, unknown>>;
+  const _getMethodSpecificData = (method: ExtendedAlchemicalItem): Record<string, unknown> | null => {
+    const cookingMethodsMap = cookingMethods as Record<string, Record<string, unknown> | undefined>;
+    const molecularMethodsMap = molecularCookingMethods as Record<string, Record<string, unknown> | undefined>;
 
-    if (method.id && cookingMethodsMap[method.id]) {
+    if (method.id) {
       const sourceData = cookingMethodsMap[method.id];
-
-      return {
-        benefits: sourceData?.benefits ?? [],
-        chemicalChanges: sourceData?.chemicalChanges ?? {},
-        safetyFeatures: sourceData?.safetyFeatures ?? [],
-        nutrientRetention: sourceData?.nutrientRetention ?? {},
-        regionalVariations: sourceData?.regionalVariations ?? {},
-        astrologicalInfluences: sourceData?.astrologicalInfluences ?? {}
-      };
+      if (sourceData) {
+        return {
+          benefits: sourceData.benefits ?? [],
+          chemicalChanges: sourceData.chemicalChanges ?? {},
+          safetyFeatures: sourceData.safetyFeatures ?? [],
+          nutrientRetention: sourceData.nutrientRetention ?? {},
+          regionalVariations: sourceData.regionalVariations ?? {},
+          astrologicalInfluences: sourceData.astrologicalInfluences ?? {}
+        };
+      }
     }
 
     // Check if it's a molecular method
@@ -672,34 +680,37 @@ export default function CookingMethods() {
         key => key.toLowerCase().includes(methodName.split(' ')[0].toLowerCase())
       );
 
-      if (molecularKey && molecularMethodsMap[molecularKey]) {
+      if (molecularKey) {
         const sourceData = molecularMethodsMap[molecularKey];
-        return {
-          benefits: sourceData?.benefits ?? [],
-          chemicalChanges: sourceData?.chemicalChanges ?? {},
-          toolsRequired: sourceData?.toolsRequired ?? [],
-          optimalTemperatures: sourceData?.optimalTemperatures ?? {}
-        };
+        if (sourceData) {
+          return {
+            benefits: sourceData.benefits ?? [],
+            chemicalChanges: sourceData.chemicalChanges ?? {},
+            toolsRequired: sourceData.toolsRequired ?? [],
+            optimalTemperatures: sourceData.optimalTemperatures ?? {}
+          };
+        }
       }
     }
 
     return null;
-  }
+  };
 
   // First, add this new helper function to get detailed examples for each cooking method
   const _getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
     const methodName = method.name.toLowerCase();
     
     // Default values
-    let examples: string[] = [];
+    let examples: string[];
     let fullDefinition = method.description ?? "";
+
     
     // Check if we have data from the source first
     const cookingMethodsMap = cookingMethods as Record<string, {
       description?: string;
       suitable_for?: string[];
-    }>;
-    if (method.id && cookingMethodsMap[method.id]) {
+    } | undefined>;
+    if (method.id) {
       const sourceMethod = cookingMethodsMap[method.id];
       // Expand definition if needed
       if (
@@ -712,6 +723,7 @@ export default function CookingMethods() {
       // Use existing suitable_for as examples if available
       if (sourceMethod?.suitable_for && sourceMethod.suitable_for.length > 0) {
         examples = sourceMethod.suitable_for.map(item => {
+
           // Transform "pasta" to "Pasta dishes (spaghetti, lasagna)"
           if (item === "pasta") return "Pasta dishes (spaghetti, lasagna, ravioli)";
           if (item === "rice") return "Rice dishes (risotto, paella, biryani)";
@@ -1068,8 +1080,8 @@ export default function CookingMethods() {
     avoidCharacteristics: string[]
   } => {
     const methodName = method.name.toLowerCase();
-    let compatibility = "";
-    let idealCharacteristics: string[] = [];
+    let compatibility: string;
+    let idealCharacteristics: string[];
     let avoidCharacteristics: string[] = [];
     
     // Method-specific information with expanded coverage
@@ -1082,6 +1094,7 @@ export default function CookingMethods() {
           "Ingredients where subtle flavors should be preserved",
           "Foods that might dry out with other cooking methods"
         ];
+
         avoidCharacteristics = [
           "Ingredients requiring browning or caramelization",
           "Foods that need to develop a crust",
@@ -1301,17 +1314,17 @@ export default function CookingMethods() {
   };
 
   // Add this function to generate method-specific elemental properties
-  const _getMethodElementalProperties = (method: ExtendedAlchemicalItem) => {
+  const _getMethodElementalProperties = (method: ExtendedAlchemicalItem): ElementalProperties => {
     const methodName = method.name.toLowerCase();
     
     // If the method already has valid elemental properties, use those
-    if (method.elementalProperties && 
-        Object.values(method.elementalProperties).some(val => val > 0)) {
+    if (Object.values(method.elementalProperties).some(val => val > 0)) {
       return method.elementalProperties;
     }
+
     
     // Generate method-specific elemental properties
-    const properties = {
+    const properties: ElementalProperties = {
       Fire: 0,
       Water: 0,
       Earth: 0,
@@ -1343,8 +1356,6 @@ export default function CookingMethods() {
     return properties;
   };
 
-  // Add import for our utility function at the top of the component
-  const { getTechnicalTips: _getMethodTips } = require('../utils/cookingMethodTips');
 
   // Add a function to determine which modality a cooking method best complements
   const _getMethodModalityAffinity = (method: ExtendedAlchemicalItem): Modality => {
@@ -1372,8 +1383,8 @@ export default function CookingMethods() {
   
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
-    console.log("Running cooking method recommendations test...");
-    void testCookingMethodRecommendations();
+    _logger.info("Running cooking method recommendations test...");
+    testCookingMethodRecommendations().catch(() => {});
   }, []);
   
   // Update the fetchMethods function to use isMountedRef
@@ -1383,11 +1394,26 @@ export default function CookingMethods() {
       
       const astroState = normalizeAstroState();
       
+      interface RawCookingMethod {
+        name?: string;
+        description?: string;
+        elementalProperties?: ElementalProperties;
+        elementalEffect?: ElementalProperties;
+        astrologicalInfluences?: {
+          favorableZodiac?: ZodiacSign[];
+          unfavorableZodiac?: ZodiacSign[];
+          dominantPlanets?: string[];
+        };
+        suitable_for?: string[];
+        [key: string]: unknown;
+      }
+
       // Get the cooking methods with default thermodynamic properties
-      const baseMethods = Object.entries(cookingMethods).map(([key, method]) => ({
+      const baseMethods = (Object.entries(cookingMethods) as [string, RawCookingMethod][]).map(([key, method]) => ({
           ...method,
           id: key,
-          name: key.replace(/_/g, ' '),
+          name: method.name ?? key.replace(/_/g, ' '),
+          elementalProperties: method.elementalProperties ?? method.elementalEffect ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           gregsEnergy: 0.5, // Default value, will be updated below
           matchReason: ''
         }));
@@ -1408,17 +1434,9 @@ export default function CookingMethods() {
           };
           
           try {
-            const methodWithElementals = method as typeof method & {
-              elementalProperties?: ElementalProperties;
-              astrologicalInfluences?: {
-                favorableZodiac?: ZodiacSign[];
-                unfavorableZodiac?: ZodiacSign[];
-                dominantPlanets?: string[];
-              };
-            };
             // Calculate transformed alchemical properties
             const alchemized = await alchemize(
-              methodWithElementals.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              method.elementalProperties,
               astroState,
               thermodynamics
             );
@@ -1432,8 +1450,8 @@ export default function CookingMethods() {
             // Add zodiac sign affinity bonus/penalty - larger bonus for better differentiation.
             // The astro state exposes the zodiac under `currentZodiac` from useAstrologicalState.
             const activeZodiac = astroState.currentZodiac as ZodiacSign | undefined;
-            const favorableZodiac = methodWithElementals.astrologicalInfluences?.favorableZodiac;
-            const unfavorableZodiac = methodWithElementals.astrologicalInfluences?.unfavorableZodiac;
+            const favorableZodiac = method.astrologicalInfluences?.favorableZodiac;
+            const unfavorableZodiac = method.astrologicalInfluences?.unfavorableZodiac;
             if (activeZodiac && favorableZodiac?.includes(activeZodiac)) {
               adjustedScore += 0.2; // Increased from 0.15 for better differentiation
             } else if (activeZodiac && unfavorableZodiac?.includes(activeZodiac)) {
@@ -1441,11 +1459,9 @@ export default function CookingMethods() {
             }
 
             // Add lunar phase adjustment with stronger effect
-            if (astroState.lunarPhase) {
-              const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase);
-              // Apply a more significant adjustment
-              adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
-            }
+            const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase);
+            // Apply a more significant adjustment
+            adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
 
             // Add random variation to break up methods that would otherwise get the same score
             // But only during initial calculation, not on re-renders
@@ -1459,9 +1475,8 @@ export default function CookingMethods() {
             // so the per-method reason is informational only.
             const matchReason = activeZodiac && favorableZodiac?.includes(activeZodiac)
               ? `Favorable for ${activeZodiac}`
-              : astroState.lunarPhase
-                ? `Aligned with ${astroState.lunarPhase}`
-                : 'No specific cosmic alignment';
+              : `Aligned with ${astroState.lunarPhase}`;
+
 
             return {
               ...methodWithThermodynamics,
@@ -1474,8 +1489,9 @@ export default function CookingMethods() {
               gregsEnergy: finalScore,
               matchReason
             };
+
           } catch (err) {
-            console.error(`Error processing method ${method.name}:`, err);
+            _logger.error(`Error processing method ${method.name}:`, err);
             return {
               ...methodWithThermodynamics,
               gregsEnergy: 0.5, // Fallback
@@ -1526,7 +1542,7 @@ export default function CookingMethods() {
         setLoading(false);
       }
     } catch (error) {
-      console.error('Error fetching cooking methods:', error);
+      _logger.error('Error fetching cooking methods:', error);
       // Only update loading state if component is still mounted
       if (isMountedRef.current) {
         setLoading(false);
@@ -1540,13 +1556,15 @@ export default function CookingMethods() {
     setIsMounted(true);
 
     // Fetch methods when component mounts
-    void fetchMethods();
+    fetchMethods().catch(() => {});
 
-    return () => {
+    return (): void => {
       isMountedRef.current = false;
       setIsMounted(false);
     };
+
   }, [fetchMethods]);
+
 
   if (loading) {
     return (
@@ -1560,7 +1578,7 @@ export default function CookingMethods() {
   renderCount.current += 1;
 
   // Add this at the end of the component, just before the final return
-  const _renderDebugPanel = () => {
+  const _renderDebugPanel = (): React.ReactNode => {
     if (process.env.NODE_ENV !== 'development') return null;
     
     return (
@@ -1593,11 +1611,11 @@ export default function CookingMethods() {
   };
   
   // Update the culture selector handler
-  const handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const newCulture = e.target.value;
     setSelectedCulture(newCulture);
     // Refetch methods with the new culture filter
-    void fetchMethods();
+    fetchMethods().catch(() => {});
   };
   
   // In your return statement, add the debug panel at the end
@@ -1623,58 +1641,53 @@ export default function CookingMethods() {
         </div>
       </div>
 
-      {loading ? (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner} />
-          <p>Analyzing cosmic cooking alignments...</p>
-        </div>
-      ) : (
-        <div className={styles.cookingMethodsContent}>
-          <div className={styles.filterControls}>
-            <div>
-              <button 
-                className={styles.filterButton}
-                onClick={() => setShowAllMethods(!showAllMethods)}
-              >
-                {showAllMethods ? 'Show Top Methods' : 'Show All Methods'}
-              </button>
-            </div>
-            
-            <select 
-              className={styles.cultureSelector}
-              value={selectedCulture}
-              onChange={handleCultureChange}
+      <div className={styles.cookingMethodsContent}>
+        <div className={styles.filterControls}>
+          <div>
+            <button 
+              className={styles.filterButton}
+              onClick={() => setShowAllMethods(!showAllMethods)}
             >
-              <option value="">All Cultures</option>
-              {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
-                <option key={culture} value={culture}>{culture}</option>
-              ))}
-            </select>
+              {showAllMethods ? 'Show Top Methods' : 'Show All Methods'}
+            </button>
           </div>
           
-          <div className={styles.ingredientSearchContainer}>
-            <div className={styles.searchForm}>
-              <input
-                type="text"
-                placeholder="Search for ingredient compatibility..."
-                value={searchIngredient}
-                onChange={(e) => setSearchIngredient(e.target.value)}
-                className={styles.searchInput}
-              />
-              <button 
-                onClick={() => calculateIngredientCompatibility(searchIngredient)}
-                className={styles.searchButton}
-              >
-                Check Compatibility
-              </button>
-            </div>
-            
-            {ingredientCompatibility && Object.keys(ingredientCompatibility).length > 0 && (
-              <div className={styles.compatibilityInfo}>
-                <p>Showing compatibility for: <strong>{searchIngredient}</strong></p>
-              </div>
-            )}
+          <select 
+            className={styles.cultureSelector}
+            value={selectedCulture}
+            onChange={handleCultureChange}
+          >
+            <option value="">All Cultures</option>
+            {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
+              <option key={culture} value={culture}>{culture}</option>
+            ))}
+          </select>
+        </div>
+        
+        <div className={styles.ingredientSearchContainer}>
+          <div className={styles.searchForm}>
+            <input
+              type="text"
+              placeholder="Search for ingredient compatibility..."
+              value={searchIngredient}
+              onChange={(e) => setSearchIngredient(e.target.value)}
+              className={styles.searchInput}
+            />
+            <button 
+              onClick={() => calculateIngredientCompatibility(searchIngredient)}
+              className={styles.searchButton}
+            >
+              Check Compatibility
+            </button>
           </div>
+          
+          {Object.keys(ingredientCompatibility).length > 0 && (
+            <div className={styles.compatibilityInfo}>
+              <p>Showing compatibility for: <strong>{searchIngredient}</strong></p>
+            </div>
+          )}
+        </div>
+
           
           <div className={styles.methodsContainer}>
             {recommendedMethods.length > 0 ? (
@@ -1686,7 +1699,7 @@ export default function CookingMethods() {
                 // Canonical dominant for the method tag — consistent tie-break.
                 // Lowercased to match the CSS-module element classes.
                 const dominantElement = elementalSignature(
-                  method.elementalProperties ?? null,
+                  method.elementalProperties,
                 ).dominant.toLowerCase();
                 
                 // Use the score from our state with a more reliable key (method.id or name)
@@ -1785,7 +1798,7 @@ export default function CookingMethods() {
                       <div className={styles.expandedDetails}>
                         <h4>Properties</h4>
                         <div className={styles.elementalTags}>
-                          {Object.entries(method.elementalProperties || {}).map(([element, value]) => (
+                          {Object.entries(method.elementalProperties).map(([element, value]) => (
                             <span 
                               key={element} 
                               className={`${styles.elementTag} ${styles[element.toLowerCase()]}`}
@@ -1794,6 +1807,7 @@ export default function CookingMethods() {
                             </span>
                           ))}
                         </div>
+
                         
                         {method.bestFor && method.bestFor.length > 0 && (
                           <div className={styles.methodDetailSection}>
@@ -1883,7 +1897,7 @@ export default function CookingMethods() {
                       </div>
                     )}
 
-                    {ingredientCompatibility[method.id || method.name] !== undefined && (
+                    {typeof ingredientCompatibility[method.id || method.name] === 'number' && (
                       <div className={styles.ingredientCompatibility}>
                         <span>Ingredient Compatibility: </span>
                         <span>{Math.round(ingredientCompatibility[method.id || method.name] * 100)}%</span>
@@ -1921,7 +1935,6 @@ export default function CookingMethods() {
             </button>
           )}
         </div>
-      )}
       
       {Object.keys(planetaryCookingMethods).length > 0 && (
         <div className={styles.methodDetailSection} style={{ marginTop: '16px' }}>
@@ -1946,18 +1959,20 @@ export default function CookingMethods() {
         <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>
         <div>Mounted: {isMounted.toString()}</div>
         <div>Renders: {renderCount.current}</div>
-        <div>Current Sign: {currentZodiac ?? 'unknown'}</div>
+        <div>Current Sign: {currentZodiac}</div>
+
         <div>Daytime: {String(isDaytime)}</div>
-        <div>Lunar Phase: {lunarPhase || 'Unknown'}</div>
+        <div>Lunar Phase: {lunarPhase}</div>
         <div>
           <div>Active Planets:</div>
           <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
-            {(activePlanets || []).map(planet => (
+            {activePlanets.map(planet => (
               <li key={planet}>⦿ {planet}</li>
             ))}
           </ul>
         </div>
       </div>
     </div>
+
   );
 } // End of CookingMethods component

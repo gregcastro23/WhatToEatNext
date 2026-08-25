@@ -28,7 +28,9 @@ import {
   type ZodiacQuality,
 } from "@/utils/planetaryAlchemyMapping";
 
-const Astronomy = (AstronomyModule as any).default ?? AstronomyModule;
+const Astronomy: typeof AstronomyModule =
+  (AstronomyModule as unknown as { default?: typeof AstronomyModule }).default ??
+  AstronomyModule;
 
 // ---------------------------------------------------------------------------
 // Types
@@ -151,7 +153,7 @@ export function isDiurnalSect(
 // Planet definitions
 // ---------------------------------------------------------------------------
 
-const PLANET_BODIES = [
+const PLANET_BODIES: Array<{ name: string; body: AstronomyModule.Body }> = [
   { name: "Sun", body: Astronomy.Body.Sun },
   { name: "Moon", body: Astronomy.Body.Moon },
   { name: "Mercury", body: Astronomy.Body.Mercury },
@@ -177,7 +179,7 @@ const PLANET_BODIES = [
 export function calculateLivePositions(
   date: Date = new Date(),
 ): Record<string, PlanetPosition> {
-  const positions: Record<string, PlanetPosition> = {};
+  const positions: Partial<Record<string, PlanetPosition>> = {};
   const astroTime = new Astronomy.AstroTime(date);
 
   for (const planet of PLANET_BODIES) {
@@ -231,7 +233,7 @@ export function calculateLivePositions(
     }
   }
 
-  return positions;
+  return positions as Record<string, PlanetPosition>;
 }
 
 // ---------------------------------------------------------------------------
@@ -264,14 +266,14 @@ export function getLiveSkySnapshot(
   const planets: LivePlanetData[] = [];
 
   for (const { name } of PLANET_BODIES) {
-    const pos = positions[name];
+    const pos = (positions as Partial<Record<string, PlanetPosition>>)[name];
     if (!pos) continue;
 
     const alchemy =
       PLANETARY_ALCHEMY[name as keyof typeof PLANETARY_ALCHEMY];
-    if (!alchemy) continue;
 
     const signElement: AlchemicalElement =
+
       SIGN_ELEMENTS[pos.sign] ?? "Air";
 
     const sectElement = getPlanetarySectElement(name, diurnal);
@@ -328,9 +330,10 @@ export function getCachedPositions(
   // Evict oldest entries if cache is too large
   if (positionCache.size >= CACHE_MAX) {
     const oldest = positionCache.keys().next().value;
-    if (oldest) positionCache.delete(oldest);
+    if (oldest !== undefined) positionCache.delete(oldest);
   }
 
   positionCache.set(key, positions);
   return positions;
 }
+

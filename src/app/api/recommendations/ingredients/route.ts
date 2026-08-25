@@ -16,6 +16,7 @@ import { calculatePlanetaryHoursInfluence } from "@/calculations/core/planetaryI
 import { unifiedIngredients } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
   RecommendedIngredientsResponseSchema,
@@ -23,26 +24,12 @@ import {
 } from "@/lib/schemas/dashboard";
 import type { ElementalProperties } from "@/types/alchemy";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { calculateElementalInfluences } from "@/utils/recommendation/ingredientRecommendation";
 
 export const dynamic = "force-dynamic";
 
 const ELEMENT_KEYS = ["Fire", "Water", "Earth", "Air"] as const;
-type ElementKey = (typeof ELEMENT_KEYS)[number];
-
-function dominantElement(props: ElementalProperties | undefined): ElementKey {
-  if (!props) return "Fire";
-  let best: ElementKey = "Fire";
-  let bestVal = -Infinity;
-  for (const k of ELEMENT_KEYS) {
-    const v = (props as Record<string, number>)[k] ?? 0;
-    if (v > bestVal) {
-      bestVal = v;
-      best = k;
-    }
-  }
-  return best;
-}
 
 function dotElemental(
   sky: ElementalProperties,
@@ -51,7 +38,7 @@ function dotElemental(
   if (!ing) return 0;
   let sum = 0;
   for (const k of ELEMENT_KEYS) {
-    sum += (sky[k] ?? 0) * ((ing as Record<string, number>)[k] ?? 0);
+    sum += sky[k] * ing[k];
   }
   return sum;
 }
@@ -78,7 +65,7 @@ function pickPlanet(ingredient: UnifiedIngredient): string {
   return typeof planet === "string" && planet.length > 0 ? planet : "Sun";
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse> {
   const rl = await rateLimit(request, {
     window: 60_000,
     max: 60,
@@ -97,12 +84,12 @@ export async function GET(request: Request) {
     // calculateElementalInfluences expects {sign, degree} per planet
     const alignment: Record<string, { sign: string; degree: number }> = {};
     for (const [planet, data] of Object.entries(positions)) {
-      if (!data) continue;
       alignment[planet] = {
-        sign: String((data as { sign?: string }).sign ?? "aries"),
-        degree: Number((data as { degree?: number }).degree ?? 0),
+        sign: data.sign,
+        degree: data.degree,
       };
     }
+
 
     const skyWeights = calculateElementalInfluences(alignment);
     const { hourRuler } = calculatePlanetaryHoursInfluence(now);
@@ -116,12 +103,7 @@ export async function GET(request: Request) {
     const scored = Object.values(unifiedIngredients)
       .filter((ing) => !isBoilerplateCoverageIngredient(ing))
       .map((ing) => {
-      const elemental: ElementalProperties = ing.elementalProperties ?? {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
+      const elemental: ElementalProperties = ing.elementalProperties;
 
       // Dot product is in [0,1] when both vectors are probability distributions
       // (max ~1.0 when both put all weight on the same element).
@@ -140,13 +122,8 @@ export async function GET(request: Request) {
     scored.sort((a, b) => b.match - a.match);
 
     const items: RecommendedIngredient[] = scored.slice(0, limit).map(({ ing, match }) => {
-      const dom = dominantElement(ing.elementalProperties);
-      const alch = ing.alchemicalProperties ?? {
-        Spirit: 0.25,
-        Essence: 0.25,
-        Matter: 0.25,
-        Substance: 0.25,
-      };
+      const dom = elementalSignature(ing.elementalProperties).dominant;
+      const alch = ing.alchemicalProperties;
       const rawImage =
         (ing as { image_url?: unknown }).image_url ??
         (ing as { imageUrl?: unknown }).imageUrl ??
@@ -154,16 +131,16 @@ export async function GET(request: Request) {
       return {
         id: slugify(ing.name),
         name: ing.name,
-        category: ing.category ?? "other",
+        category: ing.category,
         elemental_affinity: dom.toLowerCase() as RecommendedIngredient["elemental_affinity"],
         planet: pickPlanet(ing),
         hue: hueFromName(ing.name),
         match_score: Number(match.toFixed(4)),
         thermo: {
-          spirit: Number((alch.Spirit ?? 0).toFixed(4)),
-          essence: Number((alch.Essence ?? 0).toFixed(4)),
-          matter: Number((alch.Matter ?? 0).toFixed(4)),
-          substance: Number((alch.Substance ?? 0).toFixed(4)),
+          spirit: Number(alch.Spirit.toFixed(4)),
+          essence: Number(alch.Essence.toFixed(4)),
+          matter: Number(alch.Matter.toFixed(4)),
+          substance: Number(alch.Substance.toFixed(4)),
         },
         image_url: typeof rawImage === "string" && rawImage.trim().length > 0 ? rawImage : undefined,
       };
@@ -177,10 +154,11 @@ export async function GET(request: Request) {
 
     return NextResponse.json(body);
   } catch (error) {
-    console.error("[recommendations/ingredients] Error:", error);
+    _logger.error("[recommendations/ingredients] Error:", error);
     return NextResponse.json(
       { error: "Failed to compute ingredient recommendations" },
       { status: 500 },
     );
   }
 }
+

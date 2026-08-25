@@ -6,11 +6,13 @@
  * planetary hours, critical degrees, and retrograde modifiers.
  */
 
+import { _logger } from "@/lib/logger";
 import type {
   Planet,
   ZodiacSignType,
   PlanetaryPosition,
 } from "@/types/celestial";
+import type { PlanetPositionData } from "@/utils/astrology/positions";
 import type { Recipe } from "@/types/recipe";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
@@ -52,6 +54,10 @@ export interface BirthChart {
   planets: BirthChartPlanet[];
 }
 
+export interface ScoredPlanetaryPosition extends PlanetaryPosition {
+  planet: Planet;
+}
+
 // Zodiac signs in order for longitude-to-sign conversion
 const ZODIAC_SIGNS: ZodiacSignType[] = [
   "aries",
@@ -69,9 +75,11 @@ const ZODIAC_SIGNS: ZodiacSignType[] = [
 ];
 
 // Planetary dignities
-const DIGNITIES: Record<
-  string,
-  { domicile: ZodiacSignType[]; exaltation: ZodiacSignType[] }
+const DIGNITIES: Partial<
+  Record<
+    Planet,
+    { domicile: ZodiacSignType[]; exaltation: ZodiacSignType[] }
+  >
 > = {
   Sun: { domicile: ["leo"], exaltation: ["aries"] },
   Moon: { domicile: ["cancer"], exaltation: ["taurus"] },
@@ -83,7 +91,7 @@ const DIGNITIES: Record<
 };
 
 // Chaldean decan rulers
-const DECAN_RULERS: Record<ZodiacSignType, [Planet, Planet, Planet]> = {
+const DECAN_RULERS: Partial<Record<ZodiacSignType, [Planet, Planet, Planet]>> = {
   aries: ["Mars", "Sun", "Venus"],
   taurus: ["Mercury", "Moon", "Saturn"],
   gemini: ["Jupiter", "Mars", "Sun"],
@@ -99,7 +107,7 @@ const DECAN_RULERS: Record<ZodiacSignType, [Planet, Planet, Planet]> = {
 };
 
 // Planetary friendships
-const FRIENDSHIPS: Record<string, Planet[]> = {
+const FRIENDSHIPS: Partial<Record<Planet, Planet[]>> = {
   Sun: ["Moon", "Mars", "Jupiter"],
   Moon: ["Sun", "Mercury", "Venus"],
   Mercury: ["Sun", "Venus"],
@@ -110,7 +118,7 @@ const FRIENDSHIPS: Record<string, Planet[]> = {
 };
 
 // Retrograde effects per planet
-const RETROGRADE_EFFECTS: Record<string, number> = {
+const RETROGRADE_EFFECTS: Partial<Record<Planet, number>> = {
   Sun: 1.0,
   Moon: 1.0,
   Mercury: 0.7,
@@ -166,7 +174,7 @@ const ELEMENT_TO_PLANET: Record<Element, Planet> = {
 
 // Cooking method → planetary affinity. Hits keep recipes that match their
 // ruling planet's energy scored higher; non-matches still score 0.4 baseline.
-const METHOD_PLANET: Record<string, Planet> = {
+const METHOD_PLANET: Record<string, Planet | undefined> = {
   grilling: "Mars", searing: "Mars", frying: "Mars", broiling: "Mars",
   roasting: "Sun", caramelizing: "Sun",
   baking: "Saturn", braising: "Saturn", smoking: "Saturn", curing: "Saturn",
@@ -180,22 +188,20 @@ const METHOD_PLANET: Record<string, Planet> = {
 };
 
 export class PlanetaryScoringService {
-  private static instance: PlanetaryScoringService;
-  private cachedPositions: PlanetaryPosition[] | null = null;
+  private static instance: PlanetaryScoringService | undefined;
+  private cachedPositions: ScoredPlanetaryPosition[] | null = null;
   private lastCalculation: Date | null = null;
   private readonly CACHE_DURATION_MS = 15 * 60 * 1000;
 
   static getInstance(): PlanetaryScoringService {
-    if (!this.instance) {
-      this.instance = new PlanetaryScoringService();
-    }
+    this.instance ??= new PlanetaryScoringService();
     return this.instance;
   }
 
   /**
    * Fetch current planetary positions, with caching.
    */
-  async getCurrentPlanetaryPositions(): Promise<PlanetaryPosition[]> {
+  async getCurrentPlanetaryPositions(): Promise<ScoredPlanetaryPosition[]> {
     const now = new Date();
     if (
       this.cachedPositions &&
@@ -220,7 +226,7 @@ export class PlanetaryScoringService {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, unknown>;
         const positions = this.extractPositions(data);
         this.cachedPositions = positions;
         this.lastCalculation = now;
@@ -247,7 +253,7 @@ export class PlanetaryScoringService {
     const positions = await this.getCurrentPlanetaryPositions();
     const rulingPlanet = this.determineRulingPlanet(recipe);
     const rulingPosition = positions.find(
-      (p) => (p as any).planet === rulingPlanet,
+      (p) => p.planet === rulingPlanet,
     );
 
     if (!rulingPosition) {
@@ -255,7 +261,7 @@ export class PlanetaryScoringService {
     }
 
     const sign = this.normalizeSign(rulingPosition.sign);
-    const degree = rulingPosition.degree ?? 0;
+    const { degree } = rulingPosition;
     const minute = rulingPosition.minute ?? rulingPosition.minutes ?? 0;
     const exactLong =
       rulingPosition.exactLongitude ??
@@ -448,7 +454,7 @@ export class PlanetaryScoringService {
 
   determineRulingPlanet(recipe: Recipe): Planet {
     // Check explicit planetary influences
-    if (recipe.planetaryInfluences?.favorable?.length) {
+    if (recipe.planetaryInfluences?.favorable && recipe.planetaryInfluences.favorable.length > 0) {
       const [planet] = recipe.planetaryInfluences.favorable;
       if (SCORING_PLANETS.includes(planet as Planet)) {
         return planet as Planet;
@@ -494,9 +500,16 @@ export class PlanetaryScoringService {
     )
       return "Saturn";
     if (
-      tags.includes("breakfast") ||
-      name.includes("citrus") ||
-      name.includes("orange")
+      tags.includes("quick") ||
+      name.includes("snack") ||
+      name.includes("dip")
+    )
+      return "Mercury";
+    if (
+      tags.includes("showstopper") ||
+      tags.includes("citrus") ||
+      name.includes("orange") ||
+      name.includes("lemon")
     )
       return "Sun";
 
@@ -504,25 +517,21 @@ export class PlanetaryScoringService {
     // planet. Keeps a cuisine with similar keyword shapes from collapsing onto
     // a single planet (which is what produced the uniform-match-percentage bug).
     const ep = recipe.elementalProperties;
-    if (ep) {
-      let dom: Element = "Fire";
-      let max = -Infinity;
-      for (const e of ELEMENTS) {
-        const v = typeof ep[e] === "number" ? ep[e] : 0;
-        if (v > max) {
-          max = v;
-          dom = e;
-        }
+    let dom: Element = "Fire";
+    let max = -Infinity;
+    for (const e of ELEMENTS) {
+      const v = typeof ep[e] === "number" ? ep[e] : 0;
+      if (v > max) {
+        max = v;
+        dom = e;
       }
-      return ELEMENT_TO_PLANET[dom];
     }
-
-    return "Moon";
+    return ELEMENT_TO_PLANET[dom];
   }
 
   // --- Helpers ---
 
-  private normalizeSign(sign: any): ZodiacSignType {
+  private normalizeSign(sign: unknown): ZodiacSignType {
     if (typeof sign !== "string") return "aries";
     const lower = sign.toLowerCase() as ZodiacSignType;
     return ZODIAC_SIGNS.includes(lower) ? lower : "aries";
@@ -638,7 +647,7 @@ export class PlanetaryScoringService {
 
   /** Aggregate the current sky's elemental balance from planet positions. */
   private computeSkyElementalBalance(
-    positions: PlanetaryPosition[],
+    positions: ScoredPlanetaryPosition[],
   ): Record<Element, number> {
     // Luminaries weigh more than the personal planets; outers count for less.
     const PLANET_WEIGHT: Partial<Record<Planet, number>> = {
@@ -648,11 +657,10 @@ export class PlanetaryScoringService {
     };
     const balance: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     for (const p of positions) {
-      const sign = this.normalizeSign((p as any).sign);
+      const sign = this.normalizeSign(p.sign);
       const element = SIGN_ELEMENT[sign];
-      const planet = (p as any).planet as Planet | undefined;
-      if (!element) continue;
-      balance[element] += PLANET_WEIGHT[planet ?? "Sun"] ?? 1;
+      const { planet } = p;
+      balance[element] += PLANET_WEIGHT[planet] ?? 1;
     }
     const total = balance.Fire + balance.Water + balance.Earth + balance.Air;
     if (total > 0) {
@@ -667,13 +675,12 @@ export class PlanetaryScoringService {
     sky: Record<Element, number>,
   ): number {
     const ep = recipe.elementalProperties;
-    if (!ep) return 0.5;
     let dot = 0;
     let rMag = 0;
     let sMag = 0;
     for (const e of ELEMENTS) {
       const rv = typeof ep[e] === "number" ? ep[e] : 0;
-      const sv = sky[e] ?? 0;
+      const sv = sky[e];
       dot += rv * sv;
       rMag += rv * rv;
       sMag += sv * sv;
@@ -685,20 +692,21 @@ export class PlanetaryScoringService {
   /** Mean dignity of the recipe's favorable planets in the current sky. */
   private calculateFavorablePlanetsScore(
     favorable: string[] | undefined,
-    positions: PlanetaryPosition[],
+    positions: ScoredPlanetaryPosition[],
   ): number {
     if (!favorable?.length) return 0.5;
     const dignities: number[] = [];
     for (const name of favorable) {
       const planet = name as Planet;
       if (!SCORING_PLANETS.includes(planet)) continue;
-      const pos = positions.find((p) => (p as any).planet === planet);
+      const pos = positions.find((p) => p.planet === planet);
       if (!pos) continue;
-      const sign = this.normalizeSign((pos as any).sign);
+      const sign = this.normalizeSign(pos.sign);
       dignities.push(this.calculateDignityScore(planet, sign));
     }
-    if (dignities.length === 0) return 0.5;
-    return dignities.reduce((a, b) => a + b, 0) / dignities.length;
+    return dignities.length > 0
+      ? dignities.reduce((a, b) => a + b, 0) / dignities.length
+      : 0.5;
   }
 
   /** Cooking method × ruling planet affinity. */
@@ -719,7 +727,7 @@ export class PlanetaryScoringService {
       else total += 0.4;
       count++;
     }
-    return count === 0 ? 0.5 : total / count;
+    return count > 0 ? total / count : 0.5;
   }
 
   /**
@@ -736,43 +744,42 @@ export class PlanetaryScoringService {
     return norm;
   }
 
-  private extractPositions(data: any): PlanetaryPosition[] {
-    const positions: PlanetaryPosition[] = [];
-    
-    // The API response structure: { success: true, _celestialBodies: { all: [...], sun: {...}, ... } }
-    // Fallback/Legacy structure might be: { planetaryPositions: { ... } } or just { Sun: { ... } }
-    const planetaryData =
-      data?._celestialBodies ??
-      data?.planetaryPositions ??
-      data?.positions ??
-      data ?? {};
+  private extractPositions(data: unknown): ScoredPlanetaryPosition[] {
+    const positions: ScoredPlanetaryPosition[] = [];
+    const record = (typeof data === "object" && data !== null ? data : {}) as Record<string, unknown>;
+    const planetaryData = (
+      record._celestialBodies ??
+      record.planetaryPositions ??
+      record.positions ??
+      record
+    ) as Record<string, unknown>;
 
     for (const planet of SCORING_PLANETS) {
-      // Try capitalized (fallback) and lowercase (API)
-      const pos = planetaryData[planet] ?? planetaryData[planet.toLowerCase()];
+      const pos = (planetaryData[planet] ?? planetaryData[planet.toLowerCase()]) as Record<string, unknown> | undefined;
       if (pos) {
-        // Extract properties carefully as structure varies between astronomy-engine and backend
-        const ecliptic = pos.ChartPosition?.Ecliptic ?? pos;
-        const arcDegrees = ecliptic.ArcDegrees ?? pos;
+        const chartPos = pos.ChartPosition as Record<string, unknown> | undefined;
+        const ecliptic = (chartPos?.Ecliptic ?? pos) as Record<string, unknown>;
+        const arcDegrees = (ecliptic.ArcDegrees ?? pos) as Record<string, unknown>;
+        const signData = pos.Sign as Record<string, unknown> | undefined;
         
         positions.push({
           planet,
-          sign: pos.Sign?.key ?? pos.sign ?? "aries",
-          degree: arcDegrees.degrees ?? pos.degree ?? 0,
-          minute: arcDegrees.minutes ?? pos.minute ?? 0,
-          exactLongitude: ecliptic.DecimalDegrees ?? pos.exactLongitude ?? 0,
-          isRetrograde: pos.isRetrograde ?? false,
-        } as any);
+          sign: signData?.key ?? pos.sign ?? "aries",
+          degree: Number(arcDegrees.degrees ?? pos.degree ?? 0),
+          minute: Number(arcDegrees.minutes ?? pos.minute ?? 0),
+          exactLongitude: Number(ecliptic.DecimalDegrees ?? pos.exactLongitude ?? 0),
+          isRetrograde: Boolean(pos.isRetrograde ?? false),
+        });
       }
     }
     return positions;
   }
 
-  private estimatePositions(date: Date): PlanetaryPosition[] {
+  private estimatePositions(date: Date): ScoredPlanetaryPosition[] {
     try {
       const accuratePositions = getAccuratePlanetaryPositions(date);
       return SCORING_PLANETS.map((planet) => {
-        const pos = accuratePositions[planet];
+        const pos = accuratePositions[planet] as PlanetPositionData | undefined;
         if (pos) {
           const degreeInt = Math.floor(pos.degree);
           const minuteInt = Math.floor((pos.degree - degreeInt) * 60);
@@ -783,7 +790,7 @@ export class PlanetaryScoringService {
             exactLongitude: pos.exactLongitude,
             isRetrograde: pos.isRetrograde,
             planet,
-          } as any;
+          };
         }
         
         // Should not happen, but safe fallback
@@ -794,10 +801,10 @@ export class PlanetaryScoringService {
           exactLongitude: 0,
           isRetrograde: false,
           planet,
-        } as any;
+        };
       });
     } catch (e) {
-      console.error("Error calculating local accurate positions: ", e);
+      _logger.error("Error calculating local accurate positions: ", e);
       // Absolute worst case fallback to Aries 0
       return SCORING_PLANETS.map((planet) => ({
         sign: "aries",
@@ -806,7 +813,7 @@ export class PlanetaryScoringService {
         exactLongitude: 0,
         isRetrograde: false,
         planet,
-      } as any));
+      }));
     }
   }
 }
