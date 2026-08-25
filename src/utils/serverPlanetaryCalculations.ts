@@ -156,7 +156,7 @@ function longitudeToZodiacPosition(longitude: number): {
  * Calculate planetary positions using astronomy-engine (fallback)
  * Uses the correct astronomy-engine API with AstroTime objects
  */
-function calculatePositionsWithAstronomyEngine(
+export function calculatePositionsWithAstronomyEngine(
   date: Date,
 ): { positions: Record<string, PlanetPosition>; usedFallback: boolean } {
   const positions: Record<string, PlanetPosition> = {};

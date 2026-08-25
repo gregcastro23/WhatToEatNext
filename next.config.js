@@ -189,6 +189,13 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  typescript: {
+    // Bypass TypeScript checking during production build on Vercel to dramatically
+    // reduce build CPU minutes and prevent high-tier Elastic build machine escalation.
+    // Strict type-safety is enforced locally via `bun run verify` and git pre-commit hooks.
+    ignoreBuildErrors: true,
+  },
+
   // Move serverExternalPackages out of experimental for Next.js 15
   serverExternalPackages: ["pg", "astronomy-engine"],
 
