@@ -16,6 +16,7 @@ import {
   unifiedVinegars,
 } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { _logger } from "@/lib/logger";
 import type { IngredientRecommendationOptions } from "@/services/interfaces/IngredientServiceInterface";
 import type {
   Element,
@@ -26,6 +27,10 @@ import type {
   ZodiacSignType,
 } from "@/types/alchemy";
 import { alchemicalEngine } from "@/utils/alchemyInitializer";
+import {
+  classifyIngredientDiet,
+  readAllergenAttestation,
+} from "@/utils/ingredientDietaryClassification";
 import { resolveIngredientByName } from "@/utils/ingredientResolution";
 import type { Recipe } from "../types/recipe";
 
@@ -988,69 +993,94 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   }
 
   /**
-   * Apply dietary filter
+   * Apply dietary filter.
+   *
+   * This used to read a `dietaryFlags` object off each record and `return true`
+   * when it was absent. No ingredient in the catalog defines `dietaryFlags`
+   * (0 of 1,158), so every constraint was a passthrough and
+   * `{ dietary: { isVegan: true } }` returned the entire catalog, meat and
+   * dairy included.
+   *
+   * Constraints are now evaluated in two modes, because they carry different
+   * consequences when the catalog is silent:
+   *
+   * - **Preferences** (vegan, vegetarian) are derived by
+   *   `classifyIngredientDiet`, which excludes on a curated animal-product
+   *   term list, the record's attestations, and the catalog's own taxonomy.
+   * - **Allergen and medical claims** (nut-free, gluten-free, dairy-free) are
+   *   never derived - deriving "nut-free" from a name is how someone gets
+   *   hurt. They require a positive attestation on the record and otherwise
+   *   exclude it.
+   *
+   * Constraints the catalog cannot support at all exclude everything and say
+   * so once per call, rather than silently returning results that do not meet
+   * them.
    */
   private applyDietaryFilter(
     ingredients: UnifiedIngredient[],
     filter: DietaryFilter,
   ): UnifiedIngredient[] {
+    // Constraints with no backing data anywhere in the catalog. `sugar` is
+    // absent from every nutritionalProfile, and the 98 records carrying a
+    // sodium value give it in unstated units, so no threshold is defensible.
+    const unsupported: string[] = [];
+    if (filter.isLowSodium) unsupported.push("isLowSodium");
+    if (filter.isLowSugar) unsupported.push("isLowSugar");
+    if (filter.allergies && filter.allergies.length > 0) {
+      unsupported.push(`allergies[${filter.allergies.join(",")}]`);
+    }
+
+    if (unsupported.length > 0) {
+      // Logged at error level so it is visible in production: silently
+      // ignoring an allergen constraint is the failure mode being fixed here.
+      _logger.error(
+        `UnifiedIngredientService dietary filter cannot verify ${unsupported.join(", ")} - ` +
+          "the ingredient catalog carries no data for these constraints. " +
+          "Excluding all ingredients rather than returning results that may violate them.",
+      );
+      return [];
+    }
+
     return (ingredients || []).filter((_ingredient) => {
-      // `dietaryFlags` is not a declared UnifiedIngredient field; narrow it
-      // once here to the shape actually read below.
-      const dietary = _ingredient.dietaryFlags as
-        | {
-            isVegetarian?: boolean;
-            isVegan?: boolean;
-            isGlutenFree?: boolean;
-            isDAiryFree?: boolean;
-            isNutFree?: boolean;
-            isLowSodium?: boolean;
-            isLowSugar?: boolean;
-          }
-        | undefined;
-      if (!dietary) return true; // Skip if no dietary data
-
-      // Extract filter data with safe property access for dietary properties
-      const { isVegetarian } = filter;
-      const { isVegan } = filter;
-      const { isGlutenFree } = filter;
-      const { isDAiryFree } = filter;
-      const { isNutFree } = filter;
-      const { isLowSodium } = filter;
-      const { isLowSugar } = filter;
-
-      // Check vegetarian
-      if (isVegetarian && !dietary?.isVegetarian) {
-        return false;
+      // Preference constraints: derived, exclusion-list based.
+      if (filter.isVegan || filter.isVegetarian) {
+        const classification = classifyIngredientDiet(
+          _ingredient,
+        );
+        if (filter.isVegan && classification.isVegan !== "compliant") {
+          return false;
+        }
+        if (filter.isVegetarian && classification.isVegetarian !== "compliant") {
+          return false;
+        }
       }
 
-      // Check vegan
-      if (isVegan && !dietary?.isVegan) {
+      // Allergen / medical constraints: attestation required, never derived.
+      // `isDAiryFree` keeps its existing (misspelled) name so callers of the
+      // published DietaryFilter interface keep working.
+      if (
+        filter.isNutFree &&
+        readAllergenAttestation(_ingredient, "isNutFree") !==
+          "compliant"
+      ) {
         return false;
       }
-
-      // Check gluten-free
-      if (isGlutenFree && !dietary?.isGlutenFree) {
+      if (
+        filter.isGlutenFree &&
+        readAllergenAttestation(
+          _ingredient,
+          "isGlutenFree",
+        ) !== "compliant"
+      ) {
         return false;
       }
-
-      // Check dairy-free
-      if (isDAiryFree && !dietary?.isDAiryFree) {
-        return false;
-      }
-
-      // Check nut-free
-      if (isNutFree && !dietary?.isNutFree) {
-        return false;
-      }
-
-      // Check low-sodium
-      if (isLowSodium && !dietary?.isLowSodium) {
-        return false;
-      }
-
-      // Check low-sugar
-      if (isLowSugar && !dietary?.isLowSugar) {
+      if (
+        filter.isDAiryFree &&
+        readAllergenAttestation(
+          _ingredient,
+          "isDairyFree",
+        ) !== "compliant"
+      ) {
         return false;
       }
 
