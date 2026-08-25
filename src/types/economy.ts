@@ -80,15 +80,16 @@ export type TransactionSourceType =
   | "mint_refund"
   /**
    * Debit that moves a snapshot of the user's off-chain balance on-chain: the
-   * four coins are debited atomically and EsmsToken.claimMint mints the same
-   * amounts (18-dp scaled) to the user's linked wallet. source_id is the
-   * esms_onchain_claims row id; idempotency key shape: `onchain_claim:<claimRowId>`.
+   * four coins are debited atomically and on-chain claims are recorded per target
+   * CAIP-2 chain (`eip155:8453`, `eip155:84532`, `solana:mainnet-beta`, `solana:devnet`).
+   * Scaled to 18 decimals on EVM / Base contracts and 4 decimals on Solana SPL tokens.
+   * source_id is the esms_onchain_claims row id; idempotency key shape: `onchain_claim:<claimRowId>`.
    * See src/app/api/economy/claim-onchain/route.ts.
    */
   | "onchain_claim"
   /**
    * Re-credit of an `onchain_claim` debit when the claim could not be minted
-   * and was verified never-claimed on-chain. Idempotency key shape:
+   * and was verified never-claimed on-chain on its target chain rail. Idempotency key shape:
    * `onchain_claim_refund:<claimRowId>`.
    */
   | "onchain_claim_refund"

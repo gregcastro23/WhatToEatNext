@@ -12,6 +12,7 @@
 
 import { NextResponse } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
+import { esmsCaip2 } from "@/lib/esms-chain/contract";
 import { _logger } from "@/lib/logger";
 import { dispatchAlert } from "@/services/alertService";
 import {
@@ -33,12 +34,13 @@ export async function GET(request: NextRequest) {
   }
 
   const startedAt = new Date();
+  const rail = esmsCaip2();
   try {
     // Sequential on purpose: shared RPC + one signer wallet — parallel jobs
     // would race nonces on the retry mints.
-    const claims = await settleStaleClaims(25);
+    const claims = await settleStaleClaims(rail, 25);
     const shop = await healBurnedPurchases(40);
-    const invariants = await checkWalletInvariants(20);
+    const invariants = await checkWalletInvariants(rail, 20);
     const nfts = await backfillPendingNfts(3);
 
     const alerts: string[] = [];
@@ -50,8 +52,8 @@ export async function GET(request: NextRequest) {
         previous: "OK",
         current: "DEGRADED",
         severity: "warn",
-        title: `${claims.failures} stuck ESMS claim(s) failed to settle`,
-        message: `Scanned ${claims.scanned} stale claims: ${claims.reconciled} reconciled, ${claims.retried} re-sent, ${claims.failures} failed. See esms_onchain_claims.error for details.`,
+        title: `${claims.failures} stuck ESMS claim(s) on ${rail} failed to settle`,
+        message: `Scanned ${claims.scanned} stale claims on ${rail}: ${claims.reconciled} reconciled, ${claims.retried} re-sent, ${claims.failures} failed. See esms_onchain_claims.error for details.`,
       });
       alerts.push("chain-claims");
     }
@@ -81,7 +83,7 @@ export async function GET(request: NextRequest) {
         previous: "OK",
         current: "INCIDENT",
         severity: "error",
-        title: `On-chain ESMS exceeds ledger mints for ${invariants.violations.length} wallet/coin pair(s)`,
+        title: `On-chain ESMS exceeds ledger mints on ${rail} for ${invariants.violations.length} wallet/coin pair(s)`,
         message: invariants.violations
           .map((v) => `${v.wallet} ${v.coin}: chain=${v.onchain} ledger=${v.ledger}`)
           .join("; ")
@@ -106,12 +108,15 @@ export async function GET(request: NextRequest) {
     await recordCronRun("chain-reconcile", { status: "success", startedAt });
     return NextResponse.json({
       success: true,
+      rail,
       claims,
       shop,
       invariants: {
         walletsChecked: invariants.walletsChecked,
+        walletsTotal: invariants.walletsTotal,
         violations: invariants.violations,
         failures: invariants.failures,
+        ...(invariants.notConfigured ? { notConfigured: true } : {}),
       },
       nfts,
       alertsDispatched: alerts,

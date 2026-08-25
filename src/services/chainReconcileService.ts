@@ -28,9 +28,14 @@ import {
   readEsmsRedeemed,
 } from "@/lib/esms-chain/contract";
 import { mintEsmsClaim, minterConfigured } from "@/lib/esms-chain/minter";
+import { _logger } from "@/lib/logger";
 import { recipeNftEnabled } from "@/lib/recipe-nft/contract";
 import { defaultRecipient, mintRecipeOnChain } from "@/lib/recipe-nft/minter";
 import { esmsOnchainClaimService } from "@/services/esmsOnchainClaimService";
+import {
+  walletInvariantsSql,
+  walletInvariantsTotalCountSql,
+} from "@/services/tokenEconomyQueries";
 import { getSelfBaseUrl } from "@/utils/urlUtils";
 import type { Address, Hex } from "viem";
 
@@ -53,9 +58,11 @@ export interface BurnHealSummary {
 
 export interface InvariantSummary {
   walletsChecked: number;
+  walletsTotal: number;
   violations: Array<{ wallet: string; coin: string; onchain: number; ledger: number }>;
   failures: number;
   firstError?: string;
+  notConfigured?: boolean;
 }
 
 export interface NftBackfillSummary {
@@ -65,12 +72,16 @@ export interface NftBackfillSummary {
   firstError?: string;
 }
 
-/** 1. Settle in-flight ESMS claims the request path lost track of. */
-export async function settleStaleClaims(limit = 25): Promise<ClaimSettlerSummary> {
+/** 1. Settle in-flight ESMS claims the request path lost track of on a specific rail. */
+export async function settleStaleClaims(rail: string, limit = 25): Promise<ClaimSettlerSummary> {
   const summary: ClaimSettlerSummary = { scanned: 0, reconciled: 0, retried: 0, failures: 0 };
-  if (!esmsOnchainConfigured()) return summary;
+  if (rail.startsWith("eip155:") && !esmsOnchainConfigured()) return summary;
+  if (rail.startsWith("solana:")) {
+    // Solana settlement is handled by ASOL worker; WTEN does not hold Solana signing keys.
+    return summary;
+  }
 
-  const stale = await esmsOnchainClaimService.listStalePending(30, limit);
+  const stale = await esmsOnchainClaimService.listStalePending(30, limit, rail);
   for (const claim of stale) {
     summary.scanned++;
     try {
@@ -173,10 +184,30 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
   return summary;
 }
 
-/** 3. On-chain balance must never exceed what the claim ledger minted. */
-export async function checkWalletInvariants(maxWallets = 20): Promise<InvariantSummary> {
-  const summary: InvariantSummary = { walletsChecked: 0, violations: [], failures: 0 };
-  if (!esmsOnchainConfigured()) return summary;
+/**
+ * 3. On-chain balance must never exceed what the claim ledger minted.
+ *
+ * Scoped to EVM/Base contracts (`readEsmsBalances` with 18-dp `formatUnits` and
+ * EPSILON = 0.0001 for sub-quantum dust tolerance).
+ * Solana rails return `notConfigured: true` (on-chain reading is unconfigured /
+ * managed by sibling authority and checked under K4 supply invariants).
+ */
+export async function checkWalletInvariants(rail: string, maxWallets = 20): Promise<InvariantSummary> {
+  const summary: InvariantSummary = { walletsChecked: 0, walletsTotal: 0, violations: [], failures: 0 };
+  if (rail.startsWith("eip155:") && !esmsOnchainConfigured()) {
+    return { ...summary, notConfigured: true };
+  }
+  if (rail.startsWith("solana:")) {
+    // Solana on-chain reading is unconfigured / owned by sibling authority.
+    return { ...summary, notConfigured: true };
+  }
+
+  try {
+    const totalCountRes = await executeQuery<{ total: number }>(walletInvariantsTotalCountSql().sql);
+    summary.walletsTotal = Number(totalCountRes.rows[0]?.total ?? 0);
+  } catch (err) {
+    _logger.error("[chainReconcile] wallet total count failed:", err);
+  }
 
   let rows: Array<{
     wallet_address: string;
@@ -186,20 +217,8 @@ export async function checkWalletInvariants(maxWallets = 20): Promise<InvariantS
     substance: string;
   }> = [];
   try {
-    const res = await executeQuery<(typeof rows)[number]>(
-      `SELECT u.wallet_address,
-              COALESCE(SUM(c.spirit), 0) AS spirit,
-              COALESCE(SUM(c.essence), 0) AS essence,
-              COALESCE(SUM(c.matter), 0) AS matter,
-              COALESCE(SUM(c.substance), 0) AS substance
-       FROM users u
-       LEFT JOIN esms_onchain_claims c
-         ON c.user_id = u.id AND c.status = 'minted'
-       WHERE u.wallet_address IS NOT NULL
-       GROUP BY u.wallet_address
-       LIMIT $1`,
-      [Math.min(Math.max(maxWallets, 1), 100)],
-    );
+    const { sql, values } = walletInvariantsSql({ rail, maxWallets });
+    const res = await executeQuery<(typeof rows)[number]>(sql, values);
     ({ rows } = res);
   } catch (err) {
     console.error("[chainReconcile] invariant enumeration failed:", err);
@@ -208,8 +227,8 @@ export async function checkWalletInvariants(maxWallets = 20): Promise<InvariantS
   }
 
   const EPSILON = 0.0001;
+
   for (const row of rows) {
-    if (!EVM_ADDRESS.test(row.wallet_address)) continue;
     summary.walletsChecked++;
     try {
       const onchain = await readEsmsBalances(row.wallet_address as Address);

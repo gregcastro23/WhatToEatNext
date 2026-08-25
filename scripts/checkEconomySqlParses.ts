@@ -300,9 +300,26 @@ statements.push({
 });
 
 statements.push({
-  label: "onchainClaimBacklog",
+  label: "onchainClaimBacklog(all)",
   sql: queries.onchainClaimBacklogSql().sql,
   builder: "onchainClaimBacklogSql",
+});
+statements.push({
+  label: "onchainClaimBacklog(rail)",
+  sql: queries.onchainClaimBacklogSql("eip155:84532").sql,
+  builder: "onchainClaimBacklogSql",
+});
+
+statements.push({
+  label: "walletInvariants(Base)",
+  sql: queries.walletInvariantsSql({ rail: "eip155:84532", maxWallets: 20 }).sql,
+  builder: "walletInvariantsSql",
+});
+
+statements.push({
+  label: "walletInvariantsTotalCount",
+  sql: queries.walletInvariantsTotalCountSql().sql,
+  builder: "walletInvariantsTotalCountSql",
 });
 
 statements.push({
@@ -324,8 +341,8 @@ statements.push({
 });
 
 // 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
-// statements, plus 14 reads/bookkeeping and 7 dashboard aggregates.
-const EXPECTED_TOTAL = 44;
+// statements, plus 14 reads/bookkeeping and 10 dashboard/reconciliation aggregates.
+const EXPECTED_TOTAL = 47;
 
 const client = new pg.Client({
   connectionString: url,

@@ -965,14 +965,68 @@ export function welcomeGrantMissingUsersSql(
  * Claims stuck in `pending` — debited off-chain with no confirmed mint.
  * `MIN(created_at)` over zero rows is NULL, so `oldest_pending_hours` is NULL
  * (not 0) when nothing is pending; the reader must preserve that distinction.
+ * Optionally scoped to a specific target chain.
  */
-export function onchainClaimBacklogSql(): BuiltQuery {
+export function onchainClaimBacklogSql(targetChain?: string): BuiltQuery {
+  const p = new QueryParams();
+  const where = [`status = 'pending'`];
+  if (targetChain) {
+    where.push(`target_chain = ${p.add(targetChain)}`);
+  }
   return {
     sql: `SELECT
             COUNT(*)::int AS pending,
             (EXTRACT(EPOCH FROM (NOW() - MIN(created_at))) / 3600)::float8 AS oldest_pending_hours
           FROM esms_onchain_claims
-          WHERE status = 'pending'`,
+          WHERE ${where.join(" AND ")}`,
+    values: p.values,
+  };
+}
+
+/**
+ * Per-wallet invariant audit query: on-chain balances must not exceed the sum of
+ * minted claim ledger rows on the given rail.
+ *
+ * Scoped strictly to `c.target_chain = $rail` and `c.status = 'minted'`.
+ * Groups by `u.wallet_address` (to preserve unified balance coverage for shared wallets),
+ * filters for canonical EVM address shape, and rotates deterministically each UTC hour on
+ * `md5(u.wallet_address || hour)`.
+ */
+export function walletInvariantsSql(opts: {
+  rail: string;
+  maxWallets?: number;
+}): BuiltQuery {
+  const p = new QueryParams();
+  const rail = p.add(opts.rail);
+  const limit = p.add(Math.min(Math.max(opts.maxWallets ?? 20, 1), 100));
+  return {
+    sql: `SELECT u.wallet_address,
+              COALESCE(SUM(c.spirit), 0) AS spirit,
+              COALESCE(SUM(c.essence), 0) AS essence,
+              COALESCE(SUM(c.matter), 0) AS matter,
+              COALESCE(SUM(c.substance), 0) AS substance
+       FROM users u
+       LEFT JOIN esms_onchain_claims c
+         ON c.user_id = u.id AND c.status = 'minted' AND c.target_chain = ${rail}
+       WHERE u.wallet_address IS NOT NULL
+         AND u.wallet_address ~ '^0x[0-9a-fA-F]{40}$'
+       GROUP BY u.wallet_address
+       ORDER BY md5(u.wallet_address || to_char(now(), 'YYYY-MM-DD-HH24'))
+       LIMIT ${limit}`,
+    values: p.values,
+  };
+}
+
+/**
+ * Denominator for the wallet invariant audit: total distinct EVM wallets holding
+ * an address in the users table.
+ */
+export function walletInvariantsTotalCountSql(): BuiltQuery {
+  return {
+    sql: `SELECT COUNT(DISTINCT wallet_address)::int AS total
+          FROM users
+          WHERE wallet_address IS NOT NULL
+            AND wallet_address ~ '^0x[0-9a-fA-F]{40}$'`,
     values: [],
   };
 }

@@ -21,6 +21,7 @@ import { formatUnits } from "viem";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import {
+  esmsCaip2,
   esmsChain,
   esmsContractAddress,
   esmsOnchainConfigured,
@@ -96,10 +97,11 @@ export async function GET(request: NextRequest) {
 
   const configured = esmsOnchainConfigured() && minterConfigured();
   const wallet = await resolveWallet(user);
+  const rail = esmsCaip2();
   const [offchain, pending, recent, onchain] = await Promise.all([
     tokenEconomy.getBalances(user.id),
-    esmsOnchainClaimService.findPending(user.id),
-    esmsOnchainClaimService.listRecent(user.id, 10),
+    esmsOnchainClaimService.findPending(user.id, rail),
+    esmsOnchainClaimService.listRecent(user.id, 10, rail),
     wallet && esmsOnchainConfigured() ? readOnchainOrNull(wallet) : Promise.resolve(null),
   ]);
 
@@ -210,8 +212,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const rail = esmsCaip2();
+
   // ── Reconcile any in-flight claim before opening a new one ────────────────
-  const pending = await esmsOnchainClaimService.findPending(user.id);
+  const pending = await esmsOnchainClaimService.findPending(user.id, rail);
   if (pending) {
     let alreadyClaimed = false;
     try {
@@ -310,6 +314,7 @@ export async function POST(request: NextRequest) {
     userId: user.id,
     walletAddress: wallet,
     amounts,
+    targetChain: rail,
   });
   if (!claim) {
     // Most likely the one-pending-claim-per-user index raced — reconcile next call.

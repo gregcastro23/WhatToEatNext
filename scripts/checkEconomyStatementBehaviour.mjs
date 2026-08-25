@@ -30,10 +30,12 @@ import {
   transactionsPageSql,
   transmuteSql,
   userOwnsItemSql,
+  walletInvariantsSql,
+  walletInvariantsTotalCountSql,
 } from "../src/services/tokenEconomyQueries.ts";
 
 const c = new pg.Client({
-  connectionString: process.env.DATABASE_PUBLIC_URL,
+  connectionString: process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 await c.connect();
@@ -612,6 +614,68 @@ try {
     Number(r.rows[0].bal) === Number(r.rows[0].ledger)
       ? ok(`purchaser ${token}: ledger === balance (${r.rows[0].ledger})`)
       : no(`purchaser ${token}: ledger ${r.rows[0].ledger} !== balance ${r.rows[0].bal}`);
+  }
+
+  // ── walletInvariants dual-rail isolation & rotation ──────────────────────
+  console.log("\nwalletInvariants (dual-rail ledger isolation and hourly scan rotation)");
+  {
+    const wUser = await mkUser("wallet-user");
+    const walletAddress = `0x${randomUUID().replace(/-/g, "")}00000000`;
+    await c.query(
+      `UPDATE users SET wallet_address = $1 WHERE id = $2`,
+      [walletAddress, wUser],
+    );
+
+    // Insert 10 Base claim and 50 Solana claim
+    await c.query(
+      `INSERT INTO esms_onchain_claims
+        (user_id, wallet_address, claim_id, spirit, essence, matter, substance, status, target_chain, created_at, updated_at)
+       VALUES
+        ($1, $2, $3, 10, 0, 0, 0, 'minted', 'eip155:84532', now(), now()),
+        ($1, $2, $4, 50, 0, 0, 0, 'minted', 'solana:mainnet-beta', now(), now())`,
+      [wUser, walletAddress, `claim-base-${randomUUID()}`, `claim-sol-${randomUUID()}`],
+    );
+
+    // Scoped Base query must sum only Base claims (10 Spirit)
+    const baseQuery = walletInvariantsSql({ rail: "eip155:84532", maxWallets: 100 });
+    const baseRes = await c.query(baseQuery.sql, baseQuery.values);
+    const userBaseRow = baseRes.rows.find((r) => r.wallet_address === walletAddress);
+    Number(userBaseRow?.spirit) === 10
+      ? ok("scoped Base invariant query sums only Base claims (10 Spirit)")
+      : no(`scoped Base invariant query returned spirit=${userBaseRow?.spirit} (expected 10)`);
+
+    // Scoped Solana query must sum only Solana claims (50 Spirit)
+    const solQuery = walletInvariantsSql({ rail: "solana:mainnet-beta", maxWallets: 100 });
+    const solRes = await c.query(solQuery.sql, solQuery.values);
+    const userSolRow = solRes.rows.find((r) => r.wallet_address === walletAddress);
+    Number(userSolRow?.spirit) === 50
+      ? ok("scoped Solana invariant query sums only Solana claims (50 Spirit)")
+      : no(`scoped Solana invariant query returned spirit=${userSolRow?.spirit} (expected 50)`);
+
+    // Unscoped comparison (defect demonstration)
+    const unscopedRes = await c.query(
+      `SELECT u.wallet_address, COALESCE(SUM(c.spirit), 0) AS spirit
+       FROM users u
+       LEFT JOIN esms_onchain_claims c ON c.user_id = u.id AND c.status = 'minted'
+       WHERE u.wallet_address = $1
+       GROUP BY u.wallet_address`,
+      [walletAddress],
+    );
+    Number(unscopedRes.rows[0]?.spirit) === 60
+      ? ok("control: unscoped query counts all rails indiscriminately (60 Spirit)")
+      : no(`control: unscoped query returned ${unscopedRes.rows[0]?.spirit}`);
+
+    // Verify rotation expression is present in rendered SQL
+    baseQuery.sql.includes("md5(u.wallet_address || to_char(now(), 'YYYY-MM-DD-HH24'))")
+      ? ok("walletInvariantsSql contains deterministic hourly rotation expression")
+      : no("walletInvariantsSql missing hourly rotation expression");
+
+    // Check wallet count
+    const totalCountQuery = walletInvariantsTotalCountSql();
+    const countRes = await c.query(totalCountQuery.sql, totalCountQuery.values);
+    Number(countRes.rows[0]?.total) >= 1
+      ? ok(`walletInvariantsTotalCount returns positive count (${countRes.rows[0]?.total})`)
+      : no(`walletInvariantsTotalCount returned ${countRes.rows[0]?.total}`);
   }
 
   // ── the unification changed no SQL ───────────────────────────────────────
