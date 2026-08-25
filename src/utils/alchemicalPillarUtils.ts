@@ -548,8 +548,8 @@ const getMethodCompatibility = (
 
     // Primary element match (case insensitive)
     if (
-      String(primaryElement || "").toLowerCase() ===
-      String(itemWithProps.element || "").toLowerCase()
+      primaryElement.toLowerCase() ===
+      itemWithProps.element.toLowerCase()
     ) {
       const bonus = 20;
       compatibility += bonus;
@@ -564,9 +564,8 @@ const getMethodCompatibility = (
 
     // Secondary element match (if defined)
     if (
-      elementalAssociations.secondary &&
-      String(elementalAssociations.secondary || "").toLowerCase() ===
-        String(itemWithProps.element || "").toLowerCase()
+      elementalAssociations.secondary?.toLowerCase() ===
+      itemWithProps.element.toLowerCase()
     ) {
       const bonus = 10;
       compatibility += bonus;
@@ -581,27 +580,23 @@ const getMethodCompatibility = (
   }
 
   // Check for complementary elements
-  const complementaryPairs: Record<string, string[]> = {
+  const complementaryPairs: Record<string, string[] | undefined> = {
     fire: ["air"],
     water: ["earth"],
     air: ["fire"],
     earth: ["water"],
   };
 
+
   if (
     itemWithProps.element &&
     pillar.elementalAssociations
   ) {
     const { elementalAssociations } = pillar;
-    const primaryElement = String(
-      elementalAssociations.primary || "",
-    ).toLowerCase();
+    const primaryElement = elementalAssociations.primary.toLowerCase();
+    const pair = complementaryPairs[itemWithProps.element.toLowerCase()];
 
-    if (
-      complementaryPairs[
-        String(itemWithProps.element || "").toLowerCase()
-      ]?.includes(primaryElement)
-    ) {
+    if (pair?.includes(primaryElement)) {
       const bonus = 10;
       compatibility += bonus;
       logger.debug(
@@ -611,6 +606,8 @@ const getMethodCompatibility = (
       logger.debug(`✗ No complementary elements relationship detected`);
     }
   }
+
+
 
   // Check for alchemical property alignment
   // If method enhances the ingredient's strongest property
@@ -776,7 +773,7 @@ export const _getHolisticCookingRecommendations = async (
       // Add elemental associations
       if (pillar.elementalAssociations) {
         const { elementalAssociations } = pillar;
-        const elements = [String(elementalAssociations.primary || "")];
+        const elements: string[] = [elementalAssociations.primary];
         if (elementalAssociations.secondary) {
           elements.push(String(elementalAssociations.secondary));
         }
@@ -839,10 +836,8 @@ export function getRecommendedCookingMethods(
           .map((method) => {
             if (typeof method === "string") {
               return method;
-            } else if (method && typeof method === "object" && "name" in method) {
-              return String(method.name || "");
             }
-            return "";
+            return method.name;
           })
           .filter(Boolean)
       : [];
@@ -858,85 +853,29 @@ export function getRecommendedCookingMethods(
       .sort((a, b) => b.compatibility - a.compatibility)
       .slice(0, count);
   } catch (error) {
-    logger.error("Error getting recommended cooking methods: ", error);
+    logger.error("Error in getRecommendedCookingMethods: ", error);
     return [];
   }
 }
 
 /**
- * Calculate a single score representing the overall alchemical quality of an item
+ * Get enhanced cooking method recommendations with sustainability, complexity, and astrological factors
  *
- * @param item The AlchemicalItem to score
- * @returns Score from 0-1 representing alchemical quality
- */
-function _calculateAlchemicalScore(item: AlchemicalItem): number {
-  let score = 0;
-  let count = 0;
-
-  // Add spirit, essence, matter, substance if they exist
-  if ("spirit" in item && typeof item.spirit === "number") {
-    score += item.spirit;
-    count++;
-  }
-
-  if ("essence" in item && typeof item.essence === "number") {
-    score += item.essence;
-    count++;
-  }
-
-  if ("matter" in item && typeof item.matter === "number") {
-    score += item.matter;
-    count++;
-  }
-
-  if ("substance" in item && typeof item.substance === "number") {
-    score += item.substance;
-    count++;
-  }
-
-  // If thermodynamic properties exist, include them
-  if ("heat" in item && typeof item.heat === "number") {
-    score += item.heat;
-    count++;
-  }
-
-  if ("entropy" in item && typeof item.entropy === "number") {
-    score += item.entropy;
-    count++;
-  }
-
-  if ("reactivity" in item && typeof item.reactivity === "number") {
-    score += item.reactivity;
-    count++;
-  }
-
-  // Calculate average score
-  return count > 0 ? score / count : 0.5;
-}
-
-/**
- * Get enhanced cooking recommendations that consider additional factors beyond basic
- * alchemical compatibility, including astrological influences, timing, and ingredient specifics
- *
- * @param item The AlchemicalItem to analyze
+ * @param item The AlchemicalItem to find compatible cooking methods for
  * @param availableMethods List of available cooking methods
- * @param count Number of recommendations to return
- * @param options Additional options for recommendation filtering
- * @returns Array of recommended cooking methods with compatibility scores and detailed reasoning
+ * @param options Additional options for calculation
+ * @returns Array of enhanced cooking method recommendations
  */
 export function getEnhancedCookingRecommendations(
   item: AlchemicalItem,
   availableMethods: Array<string | CookingMethod>,
-  count = 5,
   options: {
     zodiacSign?: ZodiacSignType;
     lunarPhase?: string;
-    timeConstraint?: number; // maximum cooking time in minutes
-    healthFocus?: boolean;
-    sustainabilityFocus?: boolean;
-    equipmentComplexity?: number; // 0-1 scale of acceptable complexity
-    selectedPlanet?: string;
-    availableTools?: string[];
+    planetaryDay?: string;
+    sustainabilityWeight?: number;
+    complexityWeight?: number;
+    count?: number;
   } = {},
 ): Array<{
   method: string;
@@ -954,10 +893,8 @@ export function getEnhancedCookingRecommendations(
           .map((method) => {
             if (typeof method === "string") {
               return method;
-            } else if (method && typeof method === "object" && "name" in method) {
-              return String(method.name || "");
             }
-            return "";
+            return method.name;
           })
           .filter(Boolean)
       : [];
@@ -975,16 +912,16 @@ export function getEnhancedCookingRecommendations(
       );
       const equipmentComplexity = Number(methodData.equipmentComplexity ?? 0.5);
       const astrologicalInfluences =
-        (methodData.astrologicalInfluences as Record<string, unknown>) || {};
-      const duration = (methodData.duration as Record<string, unknown>) || {};
-      const _toolsRequired = (methodData.toolsRequired as string[]) || [];
+        (methodData.astrologicalInfluences as Record<string, unknown> | undefined) ?? {};
+      const duration = (methodData.duration as Record<string, unknown> | undefined) ?? {};
+      const _toolsRequired = (methodData.toolsRequired as string[] | undefined) ?? [];
 
       // Calculate base compatibility
       const baseCompatibility = calculateMethodCompatibility(item, methodName);
 
       // Apply astrological modifiers if available
       let astrologicalModifier = 1.0;
-      if (options.zodiacSign && astrologicalInfluences) {
+      if (options.zodiacSign && methodData.astrologicalInfluences) {
         const zodiacInfluence = astrologicalInfluences[
           options.zodiacSign
         ] as number;
@@ -995,7 +932,7 @@ export function getEnhancedCookingRecommendations(
 
       // Apply lunar phase modifiers
       let lunarModifier = 1.0;
-      if (options.lunarPhase && astrologicalInfluences) {
+      if (options.lunarPhase && methodData.astrologicalInfluences) {
         const lunarInfluence = astrologicalInfluences[
           options.lunarPhase
         ] as number;
@@ -1032,9 +969,11 @@ export function getEnhancedCookingRecommendations(
     });
 
     // Sort by compatibility and return top results
+    const resultCount = options.count ?? 5;
     return enhancedRecommendations
       .sort((a, b) => b.compatibility - a.compatibility)
-      .slice(0, count);
+      .slice(0, resultCount);
+
   } catch (error) {
     logger.error("Error getting enhanced cooking recommendations: ", error);
     return [];

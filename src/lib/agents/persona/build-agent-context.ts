@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import type { CraftedAgent } from '@/lib/agent-types'
 import { executeQuery } from '@/lib/database'
 import { DEMO_AGENTS, MONICA_AS_CRAFTED_AGENT } from '@/lib/demo-agents-data'
+import { _logger } from '@/lib/logger'
 import { formatPersonaBlock } from './format-persona-block'
 
 export interface AgentContext {
@@ -9,6 +10,36 @@ export interface AgentContext {
   personaBlock: string
   /** Stable hash of the persona content — use as a prompt-cache breakpoint key. */
   cacheKey: string
+}
+
+interface AgentDbRow {
+  user_id: string
+  email: string | null
+  profile: {
+    personalContext?: {
+      lifeStory?: string
+      aboutYourself?: string
+      values?: string
+      poetry?: string
+    }
+  } | null
+  name: string | null
+  bio: string | null
+  birth_data: {
+    dateTime?: string | Date
+    date?: string | Date
+    time?: string
+    latitude?: number
+    longitude?: number
+    name?: string
+  } | null
+  natal_chart: {
+    planets?: Record<string, { sign?: string; degree?: number } | undefined>
+    ascendant?: { sign?: string; degree?: number }
+    [key: string]: unknown
+  } | null
+  monica_constant: string | null
+  dominant_element: 'Fire' | 'Water' | 'Earth' | 'Air' | null
 }
 
 const cache = new Map<string, AgentContext>()
@@ -25,7 +56,7 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(agentId)
     let queryResult;
     if (isUuid) {
-      queryResult = await executeQuery<any>(
+      queryResult = await executeQuery<AgentDbRow>(
         // §18o: monica_constant is single-body ONLY now. COALESCE across the
         // per-construction columns so two-body/full-chart agents (584 rows)
         // still surface their real value here instead of falling through to
@@ -40,7 +71,7 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
         [agentId]
       )
     } else {
-      queryResult = await executeQuery<any>(
+      queryResult = await executeQuery<AgentDbRow>(
         `SELECT u.id AS user_id, u.email, u.profile, up.name, up.bio, up.birth_data, up.natal_chart,
                 COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) AS monica_constant,
                 up.dominant_element
@@ -57,12 +88,26 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
       const birthData = row.birth_data ?? {}
       const chart = row.natal_chart ?? {}
 
+      const rawEmail = row.email ?? ''
+      const emailFallback = rawEmail.includes('@') ? rawEmail.split('@')[0] : rawEmail || 'Agent'
+      const name = row.name ?? emailFallback
+
+      const birthDateVal = birthData.dateTime ?? birthData.date
+      const birthDate = birthDateVal ? new Date(birthDateVal) : new Date()
+
+      const monicaVal =
+        row.monica_constant === null
+          ? null
+          : parseFloat(row.monica_constant)
+
+
+
       return {
         id: row.user_id,
-        name: row.name ?? row.email.split('@')[0],
+        name,
         title: row.bio ?? 'Consciousness Mirror',
         birthData: {
-          date: new Date(birthData.dateTime ?? birthData.date ?? new Date()),
+          date: birthDate,
           time: birthData.time ?? '12:00',
           location: {
             lat: birthData.latitude ?? 0,
@@ -71,7 +116,7 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
           }
         },
         consciousness: {
-          natalChart: chart,
+          natalChart: chart as unknown as import('@/lib/agent-types').NatalChart,
           // No `: 3.5` fallback, and no `? :` truthiness test.
           //
           // The truthiness test was wrong twice over. It fabricated 3.5 whenever
@@ -81,19 +126,16 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
           // monica is exactly 0, had pg not happened to hand NUMERIC back as the
           // truthy string "0.000000". That second bug was live and invisible,
           // waiting for someone to switch the column to double precision.
-          monicaConstant:
-            row.monica_constant === null || row.monica_constant === undefined
-              ? null
-              : parseFloat(row.monica_constant),
+          monicaConstant: monicaVal,
           dominantElement: row.dominant_element ?? 'Fire',
           dominantModality: 'Mutable',
           signature: `DYNAMIC-AGENT-${row.user_id}`
         },
         personality: {
           core: {
-            essence: chart.planets?.Sun ? `Sun in ${chart.planets.Sun.sign}` : 'Universal Essence',
+            essence: chart.planets?.Sun?.sign ? `Sun in ${chart.planets.Sun.sign}` : 'Universal Essence',
             expression: chart.ascendant?.sign ? `Ascendant in ${chart.ascendant.sign}` : 'Cosmic Expression',
-            emotion: chart.planets?.Moon ? `Moon in ${chart.planets.Moon.sign}` : 'Emotional Depth',
+            emotion: chart.planets?.Moon?.sign ? `Moon in ${chart.planets.Moon.sign}` : 'Emotional Depth',
           },
           currentMood: 'contemplative',
           evolutionStage: 1,
@@ -140,7 +182,7 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
       }
     }
   } catch (error) {
-    console.error('[build-agent-context] findAgent DB error:', error)
+    _logger.error('[build-agent-context] findAgent DB error:', error)
   }
 
   return undefined

@@ -30,11 +30,13 @@ import type {
   ElementalProperties,
 } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
+import { logger as _logger } from "@/lib/logger";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
+
 
 // Pagination constant - items shown before expansion
 const ITEMS_PER_PAGE = 21;
@@ -732,20 +734,20 @@ const ELEMENT_CARD_TONES: Record<
  * for reuse across the render functions.
  */
 interface SensoryProfileLike {
-  taste?: unknown;
-  aroma?: unknown;
-  texture?: unknown;
+  taste?: Record<string, number> | unknown;
+  aroma?: Record<string, number> | unknown;
+  texture?: Record<string, number> | unknown;
 }
 
 interface CulinaryProfileLike {
-  cookingMethods?: unknown;
-  cuisineAffinity?: unknown;
-  preparationTips?: unknown;
+  cookingMethods?: string[];
+  cuisineAffinity?: string[];
+  preparationTips?: string[];
 }
 
 interface CulinaryApplicationsLike {
-  commonUses?: unknown;
-  uses?: unknown;
+  commonUses?: string[];
+  uses?: string[];
 }
 
 interface SmokePointLike {
@@ -761,14 +763,15 @@ interface StorageLike {
 }
 
 interface PreparationLike {
-  methods?: unknown;
+  methods?: string[];
   washing?: boolean;
   peeling?: string;
   cutting?: string;
   selection?: string;
   notes?: string;
-  tips?: unknown;
+  tips?: string[];
 }
+
 
 interface TimingLike {
   notes?: string;
@@ -835,7 +838,7 @@ export const EnhancedIngredientRecommender: React.FC<
     name: string,
     category: string | undefined,
     e: React.MouseEvent,
-  ) => {
+  ): void => {
     e.stopPropagation();
     const normalizedName = formatIngredientName(name);
     if (pantry.hasItem(name)) {
@@ -867,7 +870,7 @@ export const EnhancedIngredientRecommender: React.FC<
         .filter((ing) => !isBoilerplateCoverageIngredient(ing));
       setIngredients(allIngredients);
     } catch (error) {
-      console.error("Error loading ingredients:", error);
+      _logger.error("Error loading ingredients:", error);
     } finally {
       setLoading(false);
     }
@@ -880,9 +883,7 @@ export const EnhancedIngredientRecommender: React.FC<
   // Get current elemental properties from alchemical context, personalized
   // by the visitor's bias when present (70/30 moment/user, renormalized).
   const currentElementals: ElementalProperties = useMemo(() => {
-    const base: ElementalProperties = alchemicalContext?.state?.elementalState
-      ? alchemicalContext.state.elementalState
-      : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const base: ElementalProperties = alchemicalContext.state.elementalState;
     if (!userBias) return base;
     return normalizeForDisplay({
       Fire: base.Fire * 0.7 + userBias.Fire * 0.3,
@@ -970,14 +971,14 @@ export const EnhancedIngredientRecommender: React.FC<
     // scored against the same current moment, so the sky's quantities (which
     // require an aspect pass) are derived here rather than per ingredient.
     const astroCtx: AstroContext = {
-      zodiacSign: alchemicalContext?.zodiacSign,
-      lunarPhase: alchemicalContext?.lunarPhase,
-      planetaryPositions: alchemicalContext?.planetaryPositions,
-      isDaytime: alchemicalContext?.isDaytime,
+      zodiacSign: alchemicalContext.zodiacSign,
+      lunarPhase: alchemicalContext.lunarPhase,
+      planetaryPositions: alchemicalContext.planetaryPositions,
+      isDaytime: alchemicalContext.isDaytime,
       alchemical:
         deriveLiveSkyQuantities(
-          alchemicalContext?.planetaryPositions,
-          alchemicalContext?.isDaytime,
+          alchemicalContext.planetaryPositions,
+          alchemicalContext.isDaytime,
         ) ?? undefined,
     };
 
@@ -987,42 +988,26 @@ export const EnhancedIngredientRecommender: React.FC<
         // Use seasonality or fall back to season field (some data uses one or the other)
         const seasonData = ing.seasonality ?? ing.season;
 
-        const result = ing.elementalProperties
-          ? calculateCompatibilityScore(
-              ing.elementalProperties,
-              currentElementals,
-              seasonData,
-              ing.alchemicalProperties,
-              {
-                astrologicalProfile: ing.astrologicalProfile,
-                qualities: ing.qualities,
-                kineticsImpact: ing.kineticsImpact as
-                  | KineticsImpactLike
-                  | undefined,
-              },
-              astroCtx,
-            )
-          : {
-              score: 0.5,
-              breakdown: {
-                elemental: 0.5,
-                thermodynamic: 0.5,
-                kinetic: 0.5,
-                seasonal: 0.5,
-                astrological: 0.5,
-                lunar: 0.5,
-                diurnal: 0.5,
-                final: 0.5,
-              },
-            };
+        const result = calculateCompatibilityScore(
+          ing.elementalProperties,
+          currentElementals,
+          seasonData,
+          ing.alchemicalProperties,
+          {
+            astrologicalProfile: ing.astrologicalProfile,
+            qualities: ing.qualities,
+            kineticsImpact: ing.kineticsImpact as
+              | KineticsImpactLike
+              | undefined,
+          },
+          astroCtx,
+        );
 
         return {
           ...ing,
           compatibilityScore: result.score,
           scoreBreakdown: result.breakdown,
-          dominantElement: ing.elementalProperties
-            ? getDominantElement(ing.elementalProperties)
-            : "Unknown",
+          dominantElement: getDominantElement(ing.elementalProperties),
           isInSeason: isIngredientInSeason(seasonData, getCurrentSeason()),
         };
       })
@@ -1032,14 +1017,14 @@ export const EnhancedIngredientRecommender: React.FC<
     selectedCategory,
     searchQuery,
     currentElementals,
-    alchemicalContext?.zodiacSign,
-    alchemicalContext?.lunarPhase,
-    alchemicalContext?.planetaryPositions,
-    alchemicalContext?.isDaytime,
+    alchemicalContext.zodiacSign,
+    alchemicalContext.lunarPhase,
+    alchemicalContext.planetaryPositions,
+    alchemicalContext.isDaytime,
   ]);
 
   // Handlers
-  const handleCategorySelect = (categoryId: string) => {
+  const handleCategorySelect = (categoryId: string): void => {
     setSelectedCategory(categoryId);
     setSelectedIngredient(null);
     // Reset expanded state for this category when selecting
@@ -1051,25 +1036,25 @@ export const EnhancedIngredientRecommender: React.FC<
     onCategoryChange?.(categoryId);
   };
 
-  const handleClearCategory = () => {
+  const handleClearCategory = (): void => {
     setSelectedCategory(null);
     setSelectedIngredient(null);
   };
 
-  const handleClearFilters = () => {
+  const handleClearFilters = (): void => {
     setSelectedCategory(null);
     setSelectedIngredient(null);
     setSearchQuery("");
   };
 
-  const handleIngredientSelect = (ingredientName: string) => {
+  const handleIngredientSelect = (ingredientName: string): void => {
     setSelectedIngredient(
       selectedIngredient === ingredientName ? null : ingredientName,
     );
     onIngredientSelect?.(ingredientName);
   };
 
-  const handleToggleExpand = (categoryId: string) => {
+  const handleToggleExpand = (categoryId: string): void => {
     setExpandedCategories((prev) => {
       const next = new Set(prev);
       if (next.has(categoryId)) {
@@ -1080,6 +1065,7 @@ export const EnhancedIngredientRecommender: React.FC<
       return next;
     });
   };
+
 
   // Determine if current category is expanded
   // Also track "all ingredients" expansion state with special key
@@ -1128,7 +1114,7 @@ export const EnhancedIngredientRecommender: React.FC<
     : "";
 
   // Render category grid
-  const renderCategoryGrid = () => (
+  const renderCategoryGrid = (): React.ReactElement => (
     <div className="mb-6">
       <div className="mb-3 flex items-center justify-between gap-2 flex-wrap">
         <h3 className="text-lg font-semibold text-slate-100">
@@ -1165,7 +1151,7 @@ export const EnhancedIngredientRecommender: React.FC<
   );
 
   // Render search bar
-  const renderSearchBar = () => (
+  const renderSearchBar = (): React.ReactElement => (
     <div className="relative mb-6">
       <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
       <input
@@ -1178,7 +1164,7 @@ export const EnhancedIngredientRecommender: React.FC<
     </div>
   );
 
-  const renderCompactCategorySelector = () => (
+  const renderCompactCategorySelector = (): React.ReactElement => (
     <div className="mb-4">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <div className="t-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
@@ -1230,7 +1216,7 @@ export const EnhancedIngredientRecommender: React.FC<
   );
 
   // Render elemental properties
-  const renderElementalProperties = (elementals: ElementalProperties) => {
+  const renderElementalProperties = (elementals: ElementalProperties): React.ReactElement => {
     const elements = [
       { name: "Fire", icon: "🔥", colorClass: "bg-red-500" },
       { name: "Water", icon: "💧", colorClass: "bg-blue-500" },
@@ -1272,7 +1258,7 @@ export const EnhancedIngredientRecommender: React.FC<
   };
 
   // Render score breakdown tooltip
-  const renderScoreBreakdown = (breakdown: ScoreBreakdown) => {
+  const renderScoreBreakdown = (breakdown: ScoreBreakdown): React.ReactElement => {
     const Row = ({
       label,
       value,
@@ -1281,7 +1267,7 @@ export const EnhancedIngredientRecommender: React.FC<
       label: string;
       value: number;
       icon: string;
-    }) => (
+    }): React.ReactElement => (
       <div className="flex justify-between">
         <span className="text-gray-600 dark:text-slate-300">
           <span aria-hidden="true">{icon}</span> {label}:
@@ -1327,8 +1313,7 @@ export const EnhancedIngredientRecommender: React.FC<
   };
 
   // Render ingredient card
-  const renderIngredientCard = (ingredient: (typeof scoredIngredients)[0]) => {
-    if (!ingredient) return null; // Defensive check
+  const renderIngredientCard = (ingredient: (typeof scoredIngredients)[0]): React.ReactElement => {
     const isSelected = selectedIngredient === ingredient.name;
     const displayName = formatIngredientName(ingredient.name);
     const imageUrl = getIngredientImageUrl(ingredient);
@@ -1337,8 +1322,9 @@ export const EnhancedIngredientRecommender: React.FC<
         ? cleanDescription(ingredient.description)
         : "";
     const tone =
-      ELEMENT_CARD_TONES[ingredient.dominantElement] ||
+      ELEMENT_CARD_TONES[ingredient.dominantElement] ??
       ELEMENT_CARD_TONES.Unknown;
+
 
     return (
       <motion.div
@@ -1411,7 +1397,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 <span className="text-xs capitalize text-slate-400">
                   {formatIngredientName(ingredient.category)}
                 </span>
-                {(() => {
+                {((): React.ReactElement | null => {
                   const categoryLabel = formatIngredientName(
                     ingredient.category,
                   );
@@ -1500,7 +1486,7 @@ export const EnhancedIngredientRecommender: React.FC<
           )}
 
           {/* Composite elements — what an aromatic base / blend is built from */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const composite = (ingredient as Record<string, unknown>)
               .compositeElements;
             if (!Array.isArray(composite) || composite.length === 0)
@@ -1546,7 +1532,7 @@ export const EnhancedIngredientRecommender: React.FC<
             )}
 
           {/* ── TASTE PROFILE ─────────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const sensoryProfile = (ingredient as Record<string, unknown>)
               .sensoryProfile as SensoryProfileLike | undefined;
             let taste: unknown = sensoryProfile?.taste;
@@ -1601,7 +1587,7 @@ export const EnhancedIngredientRecommender: React.FC<
           })()}
 
           {/* ── NUTRITION SNAPSHOT ────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const n = extractNutrition(ingredient.nutritionalProfile);
             if (!n) return null;
             return (
@@ -1638,7 +1624,7 @@ export const EnhancedIngredientRecommender: React.FC<
           })()}
 
           {/* ── SMOKE POINT (oils) ────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const smokePoint = (ingredient as Record<string, unknown>)
               .smokePoint as SmokePointLike | undefined;
             if (!smokePoint) return null;
@@ -1662,7 +1648,7 @@ export const EnhancedIngredientRecommender: React.FC<
           })()}
 
           {/* ── CULINARY USES ─────────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const culinaryApplications = (ingredient as Record<string, unknown>)
               .culinaryApplications as CulinaryApplicationsLike | undefined;
             const culinaryProfile = (ingredient as Record<string, unknown>)
@@ -1705,7 +1691,7 @@ export const EnhancedIngredientRecommender: React.FC<
           })()}
 
           {/* ── HOW TO PREP ───────────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const tips: string[] = [];
             const cp = (ingredient as Record<string, unknown>)
               .culinaryProfile as CulinaryProfileLike | undefined;
@@ -1740,7 +1726,7 @@ export const EnhancedIngredientRecommender: React.FC<
           })()}
 
           {/* ── BEST COOKING METHODS ──────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const culinaryProfile = (ingredient as Record<string, unknown>)
               .culinaryProfile as CulinaryProfileLike | undefined;
             const methods: unknown =
@@ -1759,8 +1745,9 @@ export const EnhancedIngredientRecommender: React.FC<
             );
           })()}
 
+
           {/* ── PAIRS WELL WITH ───────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const pr = ingredient.pairingRecommendations as unknown as
               | string[]
               | PairingRecommendationsLike
@@ -1809,7 +1796,7 @@ export const EnhancedIngredientRecommender: React.FC<
           })()}
 
           {/* ── STORAGE ───────────────────────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const s = ingredient.storage as StorageLike | undefined;
             if (!s || typeof s !== "object") return null;
             const temperature =
@@ -1836,7 +1823,7 @@ export const EnhancedIngredientRecommender: React.FC<
             {ingredient.origin && ingredient.origin.length > 0 && (
               <span>📍 {ingredient.origin.slice(0, 2).join(", ")}</span>
             )}
-            {(() => {
+            {((): React.ReactElement | null => {
               const seasonData = ingredient.seasonality ?? ingredient.season;
               const normalizedSeasons = normalizeSeasonality(seasonData);
               if (normalizedSeasons.length === 0) return null;
@@ -1849,7 +1836,7 @@ export const EnhancedIngredientRecommender: React.FC<
           </div>
 
           {/* ── HERB / SPICE TIMING TIP ───────────────────────── */}
-          {(() => {
+          {((): React.ReactElement | null => {
             const timing = (ingredient as Record<string, unknown>).timing as
               | TimingLike
               | undefined;
@@ -1873,8 +1860,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 className="mt-4 space-y-4 overflow-hidden border-t border-white/10 pt-4 text-slate-200"
               >
                 {/* Score Breakdown */}
-                {ingredient.scoreBreakdown &&
-                  renderScoreBreakdown(ingredient.scoreBreakdown)}
+                {renderScoreBreakdown(ingredient.scoreBreakdown)}
 
                 {/* Origin */}
                 {ingredient.origin && ingredient.origin.length > 0 && (
@@ -1889,7 +1875,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 )}
 
                 {/* Sensory Profile */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const sensoryProfile = (ingredient as Record<string, unknown>)
                     .sensoryProfile as SensoryProfileLike | undefined;
                   if (!sensoryProfile || typeof sensoryProfile !== "object")
@@ -2040,7 +2026,7 @@ export const EnhancedIngredientRecommender: React.FC<
                             </span>
                           </div>
                         )}
-                      {(() => {
+                      {((): React.ReactElement | null => {
                         const { seasonalAffinity } = (ingredient.astrologicalProfile as AstroProfileLike);
                         if (!seasonalAffinity || !Array.isArray(seasonalAffinity))
                           return null;
@@ -2088,7 +2074,7 @@ export const EnhancedIngredientRecommender: React.FC<
                     <div className="mb-2 text-sm font-semibold text-gray-800 dark:text-slate-100">
                       Pairings
                     </div>
-                    {(() => {
+                    {((): React.ReactElement | null => {
                       const pr = ingredient.pairingRecommendations as unknown as
                         | string[]
                         | PairingRecommendationsLike;
@@ -2111,7 +2097,7 @@ export const EnhancedIngredientRecommender: React.FC<
                       const prObj = pr as PairingRecommendationsLike;
                       return (
                         <div className="space-y-1 text-sm">
-                          {prObj?.complementary &&
+                          {prObj.complementary &&
                             Array.isArray(prObj.complementary) && (
                               <div>
                                 <span className="font-medium text-green-700 dark:text-green-300">
@@ -2122,7 +2108,7 @@ export const EnhancedIngredientRecommender: React.FC<
                                 </span>
                               </div>
                             )}
-                          {prObj?.contrasting &&
+                          {prObj.contrasting &&
                             Array.isArray(prObj.contrasting) && (
                               <div>
                                 <span className="font-medium text-orange-700 dark:text-orange-300">
@@ -2133,7 +2119,7 @@ export const EnhancedIngredientRecommender: React.FC<
                                 </span>
                               </div>
                             )}
-                          {prObj?.toAvoid && Array.isArray(prObj.toAvoid) && (
+                          {prObj.toAvoid && Array.isArray(prObj.toAvoid) && (
                             <div>
                               <span className="font-medium text-red-700 dark:text-red-300">
                                 Avoid:{" "}
@@ -2150,66 +2136,63 @@ export const EnhancedIngredientRecommender: React.FC<
                 )}
 
                 {/* Elemental Properties */}
-                {ingredient.elementalProperties && (
-                  <div>
-                    <div className="mb-2 text-sm font-semibold text-gray-800 dark:text-slate-100">
-                      Elemental Balance
-                    </div>
-                    {renderElementalProperties(ingredient.elementalProperties)}
+                <div>
+                  <div className="mb-2 text-sm font-semibold text-gray-800 dark:text-slate-100">
+                    Elemental Balance
                   </div>
-                )}
+                  {renderElementalProperties(ingredient.elementalProperties)}
+                </div>
 
                 {/* Alchemical Properties + KAlchm */}
-                {ingredient.alchemicalProperties && (
-                  <div>
-                    <div className="mb-2 text-sm font-semibold text-gray-800 dark:text-slate-100">
-                      Alchemical Properties
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      {Object.entries(ingredient.alchemicalProperties).map(
-                        ([prop, value]) => (
-                          <div key={prop} className="flex justify-between">
-                            <span className="font-medium text-gray-700 dark:text-slate-200">
-                              {prop}:
-                            </span>
-                            <span className="text-gray-600 dark:text-slate-300">
-                              {Number(value).toFixed(3)}
-                            </span>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                    {/* KAlchm value */}
-                    {(() => {
-                      const alch: AlchemicalPropertiesType =
-                        ingredient.alchemicalProperties;
-                      const kalchmValue =
-                        ingredient.kalchm ??
-                        (alch?.Spirit
-                          ? calculateKalchm({
-                              Spirit: alch.Spirit,
-                              Essence: alch.Essence,
-                              Matter: alch.Matter,
-                              Substance: alch.Substance,
-                            })
-                          : null);
-                      if (kalchmValue == null) return null;
-                      return (
-                        <div className="mt-2 flex items-center justify-between rounded-md bg-indigo-50 dark:bg-indigo-950/40 px-3 py-2">
-                          <span className="text-sm font-semibold text-indigo-800 dark:text-indigo-200">
-                            K<sub>alchm</sub>
+                <div>
+                  <div className="mb-2 text-sm font-semibold text-gray-800 dark:text-slate-100">
+                    Alchemical Properties
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    {Object.entries(ingredient.alchemicalProperties).map(
+                      ([prop, value]) => (
+                        <div key={prop} className="flex justify-between">
+                          <span className="font-medium text-gray-700 dark:text-slate-200">
+                            {prop}:
                           </span>
-                          <span className="text-sm font-bold text-indigo-700 dark:text-indigo-300">
-                            {Number(kalchmValue).toFixed(4)}
+                          <span className="text-gray-600 dark:text-slate-300">
+                            {Number(value).toFixed(3)}
                           </span>
                         </div>
-                      );
-                    })()}
+                      ),
+                    )}
                   </div>
-                )}
+                  {/* KAlchm value */}
+                  {((): React.ReactElement | null => {
+                    const alch: AlchemicalPropertiesType =
+                      ingredient.alchemicalProperties;
+                    const kalchmValue =
+                      ingredient.kalchm ??
+                      (alch.Spirit
+                        ? calculateKalchm({
+                            Spirit: alch.Spirit,
+                            Essence: alch.Essence,
+                            Matter: alch.Matter,
+                            Substance: alch.Substance,
+                          })
+                        : null);
+                    if (kalchmValue == null) return null;
+                    return (
+                      <div className="mt-2 flex items-center justify-between rounded-md bg-indigo-50 dark:bg-indigo-950/40 px-3 py-2">
+                        <span className="text-sm font-semibold text-indigo-800 dark:text-indigo-200">
+                          K<sub>alchm</sub>
+                        </span>
+                        <span className="text-sm font-bold text-indigo-700 dark:text-indigo-300">
+                          {Number(kalchmValue).toFixed(4)}
+                        </span>
+                      </div>
+                    );
+                  })()}
+                </div>
+
 
                 {/* Recommended Cooking Methods (expanded - all methods) */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const culinaryProfile = (ingredient as Record<string, unknown>)
                     .culinaryProfile as CulinaryProfileLike | undefined;
                   const methods = (culinaryProfile?.cookingMethods ??
@@ -2242,7 +2225,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Storage Info */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const storageInfo = ingredient.storage as
                     | StorageLike
                     | undefined;
@@ -2289,7 +2272,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Preparation Info */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const prepInfo = ingredient.preparation as
                     | PreparationLike
                     | undefined;
@@ -2348,7 +2331,7 @@ export const EnhancedIngredientRecommender: React.FC<
                                       Tips:{" "}
                                     </span>
                                     <ul className="ml-4 list-disc text-xs text-gray-500 dark:text-slate-400">
-                                      {(prepInfo.tips as string[])
+                                      {prepInfo.tips
                                         .slice(0, 3)
                                         .map((tip: string, idx: number) => (
                                           <li key={idx}>{tip}</li>
@@ -2364,7 +2347,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Nutritional Profile (expanded - full details) */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const np = ingredient.nutritionalProfile as
                     | NutritionalProfileLike
                     | undefined;
@@ -2465,7 +2448,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Thermodynamic Properties */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const thermoProps = (ingredient as Record<string, unknown>)
                     .thermodynamicProperties as Record<string, unknown> | undefined;
                   if (!thermoProps) return null;
@@ -2493,7 +2476,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Parts Used (medicinal / botanical ingredients) */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const partsUsed = (ingredient as Record<string, unknown>)
                     .parts_used;
                   if (!Array.isArray(partsUsed) || partsUsed.length === 0)
@@ -2520,7 +2503,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Medicinal / Herbal Properties */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const medicinalProps = (ingredient as Record<string, unknown>)
                     .properties;
                   if (
@@ -2577,7 +2560,7 @@ export const EnhancedIngredientRecommender: React.FC<
                   )}
 
                 {/* Flavor / Description text */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const desc =
                     (ingredient as Record<string, unknown>).flavor ??
                     ingredient.description ??
@@ -2596,7 +2579,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Culinary Uses (flat array format used by some herbs) */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const culinaryApplications = (ingredient as Record<string, unknown>)
                     .culinaryApplications as CulinaryApplicationsLike | undefined;
                   const uses = ((ingredient as Record<string, unknown>)
@@ -2625,7 +2608,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 })()}
 
                 {/* Varieties */}
-                {(() => {
+                {((): React.ReactElement | null => {
                   const { varieties } = (ingredient as Record<string, unknown>);
                   if (
                     !varieties ||
@@ -2663,8 +2646,7 @@ export const EnhancedIngredientRecommender: React.FC<
 
   const renderCompactIngredientCard = (
     ingredient: (typeof scoredIngredients)[0],
-  ) => {
-    if (!ingredient) return null;
+  ): React.ReactElement => {
     const displayName = formatIngredientName(ingredient.name);
     const imageUrl = getIngredientImageUrl(ingredient);
     const description =
@@ -2672,7 +2654,7 @@ export const EnhancedIngredientRecommender: React.FC<
         ? cleanDescription(ingredient.description)
         : "";
     const tone =
-      ELEMENT_CARD_TONES[ingredient.dominantElement] ||
+      ELEMENT_CARD_TONES[ingredient.dominantElement] ??
       ELEMENT_CARD_TONES.Unknown;
 
     return (
@@ -2758,6 +2740,7 @@ export const EnhancedIngredientRecommender: React.FC<
       </motion.article>
     );
   };
+
 
   // Loading state
   if (loading) {

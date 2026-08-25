@@ -21,6 +21,7 @@ import {
   Archive,
 } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
+import type { ChangeEvent, KeyboardEvent, ReactNode } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -33,6 +34,7 @@ import { MONICA_EQUILIBRIUM } from '@/data/unified/alchemicalCalculations'
 import { downloadManifest, downloadIgnitionBundle } from '@/lib/agents/ignition-bundle-generator'
 import { calculateAllPlanets } from '@/lib/enhanced-astronomical-calculator'
 import type { EnhancedBirthInfo } from '@/lib/enhanced-astronomical-calculator'
+import { _logger } from '@/lib/logger'
 import { parseBirthData, formatBirthData } from '@/lib/monica/birth-data-parser'
 import {
   type Sacred7Stats,
@@ -40,7 +42,6 @@ import {
   deriveStatsFromChart,
   calculateAverage,
 } from '@/lib/sacred-7-stats'
-import type { ChangeEvent, KeyboardEvent } from 'react'
 
 interface AgentCreationData {
   name: string
@@ -55,7 +56,7 @@ interface AgentCreationData {
   }
   purpose: string
   stats: Sacred7Stats
-  calculatedChart?: any
+  calculatedChart?: ReturnType<typeof calculateAllPlanets>
   monicaConstant?: number
   personalContext?: {
     aboutYourself?: string
@@ -65,7 +66,7 @@ interface AgentCreationData {
   }
 }
 
-const STAT_ICONS: Record<string, any> = {
+const STAT_ICONS: Record<string, React.ComponentType<{ className?: string }> | undefined> = {
   power: Zap,
   resonance: Radio,
   wisdom: BookOpen,
@@ -87,7 +88,7 @@ const STAT_ICONS: Record<string, any> = {
   kineticAlignment: Activity,
 }
 
-export default function ModernPhilosophersStone() {
+export default function ModernPhilosophersStone(): ReactNode {
   const [step, setStep] = useState(1)
   const [agentData, setAgentData] = useState<AgentCreationData>({
     name: '',
@@ -160,10 +161,10 @@ export default function ModernPhilosophersStone() {
               year: parsed.year,
               month: parsed.month,
               day: parsed.day,
-              hour: parsed.hour ?? 12,
-              minute: parsed.minute ?? 0,
-              latitude: parsed.latitude ?? 40.7128,
-              longitude: parsed.longitude ?? -73.9352,
+              hour: parsed.hour,
+              minute: parsed.minute,
+              latitude: parsed.latitude,
+              longitude: parsed.longitude,
             },
           }))
           setStep(2) // Move directly to Step 2
@@ -176,7 +177,7 @@ export default function ModernPhilosophersStone() {
     setMonicaMessages(prev => [...prev, { role: 'monica', content }])
   }, [])
 
-  const calculateChart = useCallback(async () => {
+  const calculateChart = useCallback(() => {
     setIsCalculating(true)
     try {
       const birthInfo: EnhancedBirthInfo = {
@@ -193,9 +194,9 @@ export default function ModernPhilosophersStone() {
 
       const sunLongitude = chartResult.planets.Sun.longitude
       const moonLongitude = chartResult.planets.Moon.longitude
-      const mercuryLongitude = chartResult.planets.Mercury?.longitude || 180
-      const venusLongitude = chartResult.planets.Venus?.longitude || 180
-      const marsLongitude = chartResult.planets.Mars?.longitude || 180
+      const mercuryLongitude = chartResult.planets.Mercury.longitude
+      const venusLongitude = chartResult.planets.Venus.longitude
+      const marsLongitude = chartResult.planets.Mars.longitude
       const ascLongitude = chartResult.ascendant.longitude
 
       // §18e — this preview no longer fabricates a monica. The old
@@ -228,7 +229,7 @@ export default function ModernPhilosophersStone() {
         `Beautiful! Chart calculated: Sun in ${chartResult.planets.Sun.sign}, Moon in ${chartResult.planets.Moon.sign}, Ascendant in ${chartResult.ascendant.sign}. Your Monica Constant is computed when the agent is forged. I've derived initial stats from the chart - you can adjust them in Step 3!`
       )
     } catch (error) {
-      console.error('Chart calculation error:', error)
+      _logger.error('Chart calculation error:', error)
       addMonicaMessage(
         'I encountered an issue calculating the chart. Please verify the birth data.'
       )
@@ -244,11 +245,11 @@ export default function ModernPhilosophersStone() {
       agentData.birthInfo.month > 0 &&
       agentData.birthInfo.day > 0
     ) {
-      void calculateChart()
+      calculateChart()
     }
   }, [agentData.birthInfo, calculateChart])
 
-  const handleBirthInput = () => {
+  const handleBirthInput = (): void => {
     const parsed = parseBirthData(birthInput)
     if (parsed) {
       setAgentData(prev => ({
@@ -257,10 +258,11 @@ export default function ModernPhilosophersStone() {
           year: parsed.year,
           month: parsed.month,
           day: parsed.day,
-          hour: parsed.hour ?? 12,
-          minute: parsed.minute ?? 0,
-          latitude: parsed.latitude ?? 40.7128,
-          longitude: parsed.longitude ?? -73.9352,
+          hour: parsed.hour,
+          minute: parsed.minute,
+          latitude: parsed.latitude,
+          longitude: parsed.longitude,
+
         },
       }))
       addMonicaMessage(
@@ -272,7 +274,7 @@ export default function ModernPhilosophersStone() {
     }
   }
 
-  const handleUserMessage = async () => {
+  const handleUserMessage = async (): Promise<void> => {
     if (!userInput.trim()) return
 
     setMonicaMessages(prev => [...prev, { role: 'user', content: userInput }])
@@ -289,8 +291,8 @@ export default function ModernPhilosophersStone() {
         }),
       })
 
-      const data = await response.json()
-      addMonicaMessage(data.response || data.message || 'Let me help you with that...')
+      const data = (await response.json()) as { response?: string; message?: string }
+      addMonicaMessage(data.response ?? data.message ?? 'Let me help you with that...')
     } catch (_error) {
       addMonicaMessage('I apologize, I encountered an error. Please try again.')
     }
@@ -298,7 +300,7 @@ export default function ModernPhilosophersStone() {
     setUserInput('')
   }
 
-  const handleSendAgentMessage = async () => {
+  const handleSendAgentMessage = async (): Promise<void> => {
     if (!chatInput.trim() || !createdAgent || isChatLoading) return
     const userMsg = chatInput.trim()
     setChatInput('')
@@ -318,9 +320,9 @@ export default function ModernPhilosophersStone() {
           },
         }),
       })
-      const resJson = await response.json()
+      const resJson = (await response.json()) as { success?: boolean; data?: { text?: string } }
       if (resJson.success && resJson.data?.text) {
-        setChatMessages(prev => [...prev, { role: 'agent', content: resJson.data.text }])
+        setChatMessages(prev => [...prev, { role: 'agent', content: resJson.data?.text ?? '' }])
       } else {
         setChatMessages(prev => [
           ...prev,
@@ -328,7 +330,7 @@ export default function ModernPhilosophersStone() {
         ])
       }
     } catch (e) {
-      console.error(e)
+      _logger.error('Failed to send chat message:', e)
       setChatMessages(prev => [
         ...prev,
         { role: 'agent', content: `My celestial link was temporarily interrupted by local transits.` },
@@ -338,7 +340,7 @@ export default function ModernPhilosophersStone() {
     }
   }
 
-  const renderStep = () => {
+  const renderStep = (): ReactNode => {
     switch (step) {
       case 1:
         return (
@@ -358,9 +360,9 @@ export default function ModernPhilosophersStone() {
                   placeholder="e.g., June 23, 1991 at 10:24 AM in Brooklyn, New York"
                   value={birthInput}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setBirthInput(e.target.value)}
-                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
-                    e.key === 'Enter' && handleBirthInput()
-                  }
+                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter') handleBirthInput()
+                  }}
                 />
                 <p className="text-sm text-slate-500">
                   Format: [Month Day, Year] at [Time] in [City, State]
@@ -465,7 +467,7 @@ export default function ModernPhilosophersStone() {
             </CardHeader>
             <CardContent className="space-y-6">
               {SACRED_STATS_METADATA.map(stat => {
-                const Icon = STAT_ICONS[stat.key] || Zap
+                const Icon = STAT_ICONS[stat.key] ?? Zap
                 return (
                   <div key={stat.key} className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -604,7 +606,7 @@ export default function ModernPhilosophersStone() {
                   <Textarea
                     id="aboutYourself"
                     placeholder="Tell your agent who you are... your passions, dreams, what makes you unique..."
-                    value={agentData.personalContext?.aboutYourself || ''}
+                    value={agentData.personalContext?.aboutYourself ?? ''}
                     onChange={e =>
                       setAgentData(prev => ({
                         ...prev,
@@ -624,7 +626,7 @@ export default function ModernPhilosophersStone() {
                   <Textarea
                     id="lifeStory"
                     placeholder="Share formative experiences, pivotal moments, your journey..."
-                    value={agentData.personalContext?.lifeStory || ''}
+                    value={agentData.personalContext?.lifeStory ?? ''}
                     onChange={e =>
                       setAgentData(prev => ({
                         ...prev,
@@ -644,7 +646,7 @@ export default function ModernPhilosophersStone() {
                   <Textarea
                     id="poetry"
                     placeholder="Share a poem, song lyrics, or creative writing that resonates with your soul..."
-                    value={agentData.personalContext?.poetry || ''}
+                    value={agentData.personalContext?.poetry ?? ''}
                     onChange={e =>
                       setAgentData(prev => ({
                         ...prev,
@@ -664,7 +666,7 @@ export default function ModernPhilosophersStone() {
                   <Textarea
                     id="values"
                     placeholder="What matters most to you? Your guiding principles and philosophy..."
-                    value={agentData.personalContext?.values || ''}
+                    value={agentData.personalContext?.values ?? ''}
                     onChange={e =>
                       setAgentData(prev => ({
                         ...prev,
@@ -690,7 +692,7 @@ export default function ModernPhilosophersStone() {
               <div className="flex flex-col gap-3">
                 <Button
                   onClick={() => {
-                    void (async () => {
+                    const createAgent = async (): Promise<void> => {
                       setIsCalculating(true)
                       try {
                         const response = await fetch('/api/agents/unified', {
@@ -701,8 +703,12 @@ export default function ModernPhilosophersStone() {
                             parameters: agentData,
                           }),
                         })
-                        const resJson = await response.json()
-                        if (resJson.success) {
+                        const resJson = (await response.json()) as {
+                          success?: boolean
+                          data?: { id: string; name: string; dominantElement: string; monicaConstant: number }
+                          error?: string
+                        }
+                        if (resJson.success && resJson.data) {
                           const newAgent = resJson.data
                           setCreatedAgent(newAgent)
                           setChatSessionId(Math.random().toString(36).substring(7))
@@ -717,15 +723,16 @@ export default function ModernPhilosophersStone() {
                           )
                           setStep(6)
                         } else {
-                          addMonicaMessage(`There was an issue creating the agent: ${resJson.error || 'Please try again.'}`)
+                          addMonicaMessage(`There was an issue creating the agent: ${resJson.error ?? 'Please try again.'}`)
                         }
                       } catch (_error) {
-                        console.error(_error)
+                        _logger.error('Failed to create agent:', _error)
                         addMonicaMessage('There was an issue creating the agent. Please try again.')
                       } finally {
                         setIsCalculating(false)
                       }
-                    })()
+                    }
+                    createAgent()
                   }}
                   className="w-full relative group overflow-hidden"
                   disabled={isCalculating}
@@ -764,7 +771,7 @@ export default function ModernPhilosophersStone() {
                   </CardDescription>
                 </div>
                 <Badge variant="outline" className="border-purple-500/40 text-purple-300">
-                  Monica Constant: {createdAgent.monicaConstant?.toFixed(2)}
+                  Monica Constant: {createdAgent.monicaConstant.toFixed(2)}
                 </Badge>
               </div>
             </CardHeader>
@@ -803,13 +810,15 @@ export default function ModernPhilosophersStone() {
                   placeholder={`Converse with ${createdAgent.name}...`}
                   value={chatInput}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setChatInput(e.target.value)}
-                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
-                    e.key === 'Enter' && !isChatLoading && void handleSendAgentMessage()
-                  }
+                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter' && !isChatLoading) {
+                      handleSendAgentMessage()
+                    }
+                  }}
                   disabled={isChatLoading}
                   className="bg-slate-900 border-slate-800 focus:border-purple-500/50"
                 />
-                <Button onClick={() => { void handleSendAgentMessage() }} disabled={isChatLoading || !chatInput.trim()}>
+                <Button onClick={() => { handleSendAgentMessage() }} disabled={isChatLoading || !chatInput.trim()}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
@@ -830,8 +839,11 @@ export default function ModernPhilosophersStone() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    void downloadIgnitionBundle(agentData)
-                    addMonicaMessage("Ollama Bundle downloaded!")
+                    downloadIgnitionBundle(agentData).then(() => {
+                      addMonicaMessage("Ollama Bundle downloaded!")
+                    }).catch(() => {
+                      addMonicaMessage("Failed to download Ollama bundle.")
+                    })
                   }}
                   className="text-xs group hover:border-emerald-500/50"
                 >
@@ -922,11 +934,11 @@ export default function ModernPhilosophersStone() {
                   placeholder="Ask Monica about stats or agent creation..."
                   value={userInput}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value)}
-                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
-                    e.key === 'Enter' && void handleUserMessage()
-                  }
+                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter') handleUserMessage()
+                  }}
                 />
-                <Button onClick={() => { void handleUserMessage() }} size="icon">
+                <Button onClick={() => { handleUserMessage() }} size="icon">
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>

@@ -44,6 +44,37 @@ export interface LegacyCuisineProfile {
   description?: string;
 }
 
+export interface LegacyProfileObject {
+  name?: string;
+  sweet?: number;
+  sour?: number;
+  salty?: number;
+  bitter?: number;
+  umami?: number;
+  spicy?: number;
+  flavorProfiles?: Partial<Record<string, number>>;
+  elementalState?: ElementalProperties;
+  elementalFlavors?: ElementalProperties;
+  elementalProperties?: ElementalProperties;
+  intensity?: number;
+  complexity?: number;
+  kalchm?: number;
+  monicaOptimization?: number;
+  alchemicalProperties?: Record<string, number>;
+  seasonalPeak?: string[];
+  seasonalModifiers?: Record<string, number>;
+  culturalOrigins?: string[];
+  pairingRecommendations?: string[];
+  signatureIngredients?: string[];
+  signatureTechniques?: string[];
+  preparationMethods?: string[];
+  nutritionalSynergy?: number;
+  temperatureOptimal?: number;
+  description?: string;
+  tags?: string[];
+  [key: string]: unknown;
+}
+
 /**
  * What the legacy compatibility helpers actually accept: an object carrying
  * flavor notes and/or elemental data. Deliberately NOT `{}` - that type admits
@@ -53,7 +84,7 @@ export interface LegacyCuisineProfile {
 export type LegacyFlavorProfileInput =
   | Partial<LegacyFlavorProfile>
   | LegacyCuisineProfile
-  | Record<string, unknown>;
+  | LegacyProfileObject;
 
 /** Keys that mark a value as carrying real flavor/elemental content. */
 const FLAVOR_PROFILE_KEYS = [
@@ -169,10 +200,10 @@ export function calculateFlavorCompatibility(
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
 export function calculateFlavorMatch(
-  profile1: unknown,
-  profile2: unknown,
+  profile1: LegacyFlavorProfileInput,
+  profile2: LegacyFlavorProfileInput,
 ): number {
-  const result = calculateFlavorCompatibility(profile1 as any, profile2 as any);
+  const result = calculateFlavorCompatibility(profile1, profile2);
   return result.compatibility;
 }
 
@@ -230,11 +261,13 @@ export function calculatePlanetaryFlavorMatch(
     );
 
     // Find strongest planetary influence
-    const [strongestPlanet] = Object.entries(planetaryInfluences).sort(
+    const entries = Object.entries(planetaryInfluences);
+    if (entries.length === 0) return 0.5;
+
+    const [strongestPlanet] = entries.sort(
       (a, b) => b[1] - a[1],
     );
 
-    if (!strongestPlanet) return 0.5;
     const planetProfile = unifiedFlavorEngine.getProfile(
       `planetary-${strongestPlanet[0].toLowerCase()}`,
     );
@@ -300,7 +333,7 @@ export function getFlavorProfileForIngredient(
  * @deprecated Use findCompatibleProfiles from unifiedFlavorEngine instead
  */
 export function findCompatibleProfiles(
-  targetProfile: {},
+  targetProfile: LegacyFlavorProfileInput,
   minCompatibility = 0.7,
 ): Array<{ profile: unknown; compatibility: number }> {
   try {
@@ -310,7 +343,7 @@ export function findCompatibleProfiles(
     );
     const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility);
 
-    return (results || []).map((result) => ({
+    return results.map((result) => ({
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall,
     }));
@@ -404,7 +437,7 @@ export function calculateElementalCompatibility(
  */
 function fingerprintProfileContent(profile: Record<string, unknown>): string {
   const stable = (value: unknown): string => {
-    if (value === null || typeof value !== "object") return JSON.stringify(value) ?? "null";
+    if (value === null || typeof value !== "object") return JSON.stringify(value);
     if (Array.isArray(value)) return `[${value.map(stable).join(",")}]`;
     const entries = Object.entries(value as Record<string, unknown>)
       .filter(([key]) => key !== "lastUpdated" && key !== "id")
@@ -423,65 +456,73 @@ function fingerprintProfileContent(profile: Record<string, unknown>): string {
 }
 
 function convertLegacyToUnified(
-  legacyProfile: any,
+  legacyProfileInput: LegacyFlavorProfileInput,
   id: string,
 ): UnifiedFlavorProfile {
+  const legacyProfile = legacyProfileInput as LegacyProfileObject;
   // Extract base notes from various legacy formats
   const baseNotes: BaseFlavorNotes = {
-    sweet: legacyProfile.sweet || legacyProfile.flavorProfiles?.sweet || 0,
-    sour: legacyProfile.sour || legacyProfile.flavorProfiles?.sour || 0,
-    salty: legacyProfile.salty || legacyProfile.flavorProfiles?.salty || 0,
-    bitter: legacyProfile.bitter || legacyProfile.flavorProfiles?.bitter || 0,
-    umami: legacyProfile.umami || legacyProfile.flavorProfiles?.umami || 0,
-    spicy: legacyProfile.spicy || legacyProfile.flavorProfiles?.spicy || 0,
+    sweet: Number(legacyProfile.sweet ?? legacyProfile.flavorProfiles?.sweet ?? 0),
+    sour: Number(legacyProfile.sour ?? legacyProfile.flavorProfiles?.sour ?? 0),
+    salty: Number(legacyProfile.salty ?? legacyProfile.flavorProfiles?.salty ?? 0),
+    bitter: Number(legacyProfile.bitter ?? legacyProfile.flavorProfiles?.bitter ?? 0),
+    umami: Number(legacyProfile.umami ?? legacyProfile.flavorProfiles?.umami ?? 0),
+    spicy: Number(legacyProfile.spicy ?? legacyProfile.flavorProfiles?.spicy ?? 0),
   };
 
   // Extract or estimate elemental properties
   const elementalFlavors: ElementalProperties =
-    legacyProfile.elementalState ||
-    legacyProfile.elementalFlavors ||
+    legacyProfile.elementalState ??
+    legacyProfile.elementalFlavors ??
+    legacyProfile.elementalProperties ??
     estimateElementalFromFlavors(baseNotes);
 
   const profile = {
     id,
-    name: legacyProfile.name || id,
-    category: "elemental",
+    name: legacyProfile.name ?? id,
+    category: "elemental" as const,
 
     baseNotes,
     elementalFlavors,
-    intensity: legacyProfile.intensity || calculateIntensity(baseNotes),
-    complexity: legacyProfile.complexity || calculateComplexity(baseNotes),
+    intensity: legacyProfile.intensity ?? calculateIntensity(baseNotes),
+    complexity: legacyProfile.complexity ?? calculateComplexity(baseNotes),
 
-    kalchm: legacyProfile.kalchm || 1.0,
-    monicaOptimization: legacyProfile.monicaOptimization || 1.0,
-    alchemicalProperties: legacyProfile.alchemicalProperties || {
+    kalchm: legacyProfile.kalchm ?? 1.0,
+    monicaOptimization: legacyProfile.monicaOptimization ?? 1.0,
+    alchemicalProperties: legacyProfile.alchemicalProperties ?? {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25,
     },
 
-    seasonalPeak: legacyProfile.seasonalPeak || [
+    seasonalPeak: legacyProfile.seasonalPeak ?? [
       "spring",
       "summer",
       "autumn",
       "winter",
     ],
-    seasonalModifiers: legacyProfile.seasonalModifiers || {
+    seasonalModifiers: (legacyProfile.seasonalModifiers as Record<"spring" | "summer" | "autumn" | "winter", number> | undefined) ?? {
       spring: 0.5,
       summer: 0.5,
       autumn: 0.5,
       winter: 0.5,
     },
-    culturalOrigins: legacyProfile.culturalOrigins || ["Universal"],
-    pairingRecommendations: legacyProfile.pairingRecommendations || [],
+    culturalOrigins: legacyProfile.culturalOrigins ?? ["Universal"],
+    pairingRecommendations:
+      legacyProfile.pairingRecommendations ??
+      legacyProfile.signatureIngredients ??
+      [],
 
-    preparationMethods: legacyProfile.preparationMethods || [],
-    nutritionalSynergy: legacyProfile.nutritionalSynergy || 0.7,
-    temperatureOptimal: legacyProfile.temperatureOptimal || 20,
+    preparationMethods:
+      legacyProfile.preparationMethods ??
+      legacyProfile.signatureTechniques ??
+      [],
+    nutritionalSynergy: legacyProfile.nutritionalSynergy ?? 0.7,
+    temperatureOptimal: legacyProfile.temperatureOptimal ?? 20,
 
-    description: legacyProfile.description || "Legacy profile",
-    tags: legacyProfile.tags || ["legacy"],
+    description: legacyProfile.description ?? "Legacy profile",
+    tags: legacyProfile.tags ?? ["legacy"],
     lastUpdated: new Date(),
   };
 
@@ -584,12 +625,12 @@ function estimateElementalFromFlavors(
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
   const values = Object.values(baseNotes);
-  return values.reduce((sum, val) => sum + val, 0) / (values || []).length;
+  return values.reduce((sum: number, val: number) => sum + val, 0) / values.length;
 }
 
 function calculateComplexity(baseNotes: BaseFlavorNotes): number {
-  const nonZeroFlavors = Object.values(baseNotes || {}).filter(
-    (val) => val > 0.1,
+  const nonZeroFlavors = Object.values(baseNotes).filter(
+    (val: number) => val > 0.1,
   ).length;
   return Math.min(1, nonZeroFlavors / 6);
 }

@@ -10,7 +10,9 @@ import type { DegradedInfo } from "@/types/degraded";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
-const Astronomy = (AstronomyModule as any).default ?? AstronomyModule;
+const Astronomy: typeof AstronomyModule =
+  (AstronomyModule as unknown as { default?: typeof AstronomyModule }).default ??
+  AstronomyModule;
 const logger = createLogger("ServerPlanetaryCalculations");
 
 // Backend URL configuration
@@ -84,15 +86,32 @@ async function calculatePlanetaryPositionsBackend(
       throw new Error(`Backend returned ${response.status}`);
     }
 
-    const data = await response.json();
+    interface BackendPlanetPosition {
+      sign: ZodiacSignType;
+      degree: number;
+      minute: number;
+      exactLongitude: number;
+      isRetrograde: boolean;
+      longitudeSpeed?: number;
+      eclipticLatitude?: number;
+      latitudeSpeed?: number;
+      distance?: number;
+      distanceSpeed?: number;
+    }
+
+    interface BackendResponse {
+      planetary_positions?: Record<string, BackendPlanetPosition>;
+      metadata?: { source?: string };
+    }
+
+    const data = (await response.json()) as BackendResponse;
     const positions: Record<string, PlanetPosition> = {};
 
-    for (const [planetName, position] of Object.entries(
+    for (const [planetName, pos] of Object.entries(
       data.planetary_positions ?? {},
     )) {
-      const pos = position as any;
       positions[planetName] = {
-        sign: pos.sign as ZodiacSignType,
+        sign: pos.sign,
         degree: pos.degree,
         minute: pos.minute,
         exactLongitude: pos.exactLongitude,
@@ -146,7 +165,7 @@ function longitudeToZodiacPosition(longitude: number): {
   ];
 
   return {
-    sign: signs[signIndex],
+    sign: signs[signIndex] ?? "aries",
     degree,
     minute,
   };
@@ -159,12 +178,12 @@ function longitudeToZodiacPosition(longitude: number): {
 export function calculatePositionsWithAstronomyEngine(
   date: Date,
 ): { positions: Record<string, PlanetPosition>; usedFallback: boolean } {
-  const positions: Record<string, PlanetPosition> = {};
+  const positions: Partial<Record<string, PlanetPosition>> = {};
   // True when any planet's value came from the static fallback rather than a
   // live astronomy-engine computation — surfaced as `astronomy-engine-fallback`.
   let usedFallback = false;
 
-  const planets = [
+  const planets: Array<{ name: string; body: AstronomyModule.Body }> = [
     { name: "Sun", body: Astronomy.Body.Sun },
     { name: "Moon", body: Astronomy.Body.Moon },
     { name: "Mercury", body: Astronomy.Body.Mercury },
@@ -197,8 +216,8 @@ export function calculatePositionsWithAstronomyEngine(
   // Moon: GeoMoon(t) returns equatorial geocentric (AU); convert via Ecliptic().
   // Planets: GeoVector → Ecliptic, distance is the geocentric range in AU.
   const geoEcliptic = (
-    body: any,
-    at: any,
+    body: AstronomyModule.Body,
+    at: AstronomyModule.AstroTime,
   ): { elon: number; elat: number; r: number } | null => {
     try {
       if (body === Astronomy.Body.Moon) {
@@ -210,7 +229,7 @@ export function calculatePositionsWithAstronomyEngine(
             moonVec.y * moonVec.y +
             moonVec.z * moonVec.z,
         );
-        return { elon: ecl.elon, elat: ecl.elat ?? 0, r };
+        return { elon: ecl.elon, elat: ecl.elat, r };
       }
       // Sun and planets: aberration-corrected geocentric vector → ecliptic.
       const geoVec = Astronomy.GeoVector(body, at, true);
@@ -218,7 +237,7 @@ export function calculatePositionsWithAstronomyEngine(
       const r = Math.sqrt(
         geoVec.x * geoVec.x + geoVec.y * geoVec.y + geoVec.z * geoVec.z,
       );
-      return { elon: ecl.elon, elat: ecl.elat ?? 0, r };
+      return { elon: ecl.elon, elat: ecl.elat, r };
     } catch {
       return null;
     }
@@ -269,10 +288,8 @@ export function calculatePositionsWithAstronomyEngine(
       );
       // Use fallback position for this planet
       const fallback = getFallbackPlanetaryPositions();
-      if (fallback[planet.name]) {
-        positions[planet.name] = fallback[planet.name];
-        usedFallback = true;
-      }
+      positions[planet.name] = fallback[planet.name];
+      usedFallback = true;
     }
   }
 
@@ -280,7 +297,7 @@ export function calculatePositionsWithAstronomyEngine(
   if (Object.keys(positions).length < planets.length) {
     const fallback = getFallbackPlanetaryPositions();
     for (const planet of planets) {
-      if (!positions[planet.name] && fallback[planet.name]) {
+      if (!positions[planet.name]) {
         positions[planet.name] = fallback[planet.name];
         usedFallback = true;
       }
@@ -290,8 +307,9 @@ export function calculatePositionsWithAstronomyEngine(
   logger.info(
     `Calculated ${Object.keys(positions).length} planetary positions using astronomy-engine`,
   );
-  return { positions, usedFallback };
+  return { positions: positions as Record<string, PlanetPosition>, usedFallback };
 }
+
 
 /**
  * Calculate planetary positions AND report whether the result is degraded.
@@ -341,7 +359,7 @@ export async function calculatePlanetaryPositionsWithMeta(
     );
     const { positions: astronomyPositions, usedFallback } =
       calculatePositionsWithAstronomyEngine(date);
-    if (astronomyPositions && Object.keys(astronomyPositions).length > 0) {
+    if (Object.keys(astronomyPositions).length > 0) {
       return {
         positions: astronomyPositions,
         degraded: usedFallback
@@ -349,6 +367,7 @@ export async function calculatePlanetaryPositionsWithMeta(
           : null,
       };
     }
+
   } catch (astronomyError) {
     logger.error("astronomy-engine calculation failed:", astronomyError);
   }
