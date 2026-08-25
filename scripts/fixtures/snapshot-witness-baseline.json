@@ -1,0 +1,1335 @@
+{
+  "serverPlanetary": [
+    {
+      "usedFallback": false,
+      "planets": [
+        "Jupiter",
+        "Mars",
+        "Mercury",
+        "Moon",
+        "Neptune",
+        "Pluto",
+        "Saturn",
+        "Sun",
+        "Uranus",
+        "Venus"
+      ],
+      "details": {
+        "Sun": {
+          "sign": "aries",
+          "degree": 0,
+          "minute": 0,
+          "exactLongitude": 0.000299,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.993956
+        },
+        "Moon": {
+          "sign": "aries",
+          "degree": 20,
+          "minute": 30,
+          "exactLongitude": 20.516362,
+          "isRetrograde": false,
+          "longitudeSpeed": 14.342868
+        },
+        "Mercury": {
+          "sign": "pisces",
+          "degree": 8,
+          "minute": 29,
+          "exactLongitude": 338.493224,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.017803
+        },
+        "Venus": {
+          "sign": "aries",
+          "degree": 17,
+          "minute": 35,
+          "exactLongitude": 17.585601,
+          "isRetrograde": false,
+          "longitudeSpeed": 1.237944
+        },
+        "Mars": {
+          "sign": "pisces",
+          "degree": 14,
+          "minute": 11,
+          "exactLongitude": 344.189175,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.786007
+        },
+        "Jupiter": {
+          "sign": "cancer",
+          "degree": 15,
+          "minute": 13,
+          "exactLongitude": 105.231942,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.030621
+        },
+        "Saturn": {
+          "sign": "aries",
+          "degree": 4,
+          "minute": 7,
+          "exactLongitude": 4.12524,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.124656
+        },
+        "Uranus": {
+          "sign": "taurus",
+          "degree": 28,
+          "minute": 18,
+          "exactLongitude": 58.304699,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.036375
+        },
+        "Neptune": {
+          "sign": "aries",
+          "degree": 1,
+          "minute": 46,
+          "exactLongitude": 1.776673,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.037903
+        },
+        "Pluto": {
+          "sign": "aquarius",
+          "degree": 5,
+          "minute": 0,
+          "exactLongitude": 305.005103,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.02071
+        }
+      }
+    },
+    {
+      "usedFallback": false,
+      "planets": [
+        "Jupiter",
+        "Mars",
+        "Mercury",
+        "Moon",
+        "Neptune",
+        "Pluto",
+        "Saturn",
+        "Sun",
+        "Uranus",
+        "Venus"
+      ],
+      "details": {
+        "Sun": {
+          "sign": "gemini",
+          "degree": 29,
+          "minute": 59,
+          "exactLongitude": 89.999245,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.954445
+        },
+        "Moon": {
+          "sign": "virgo",
+          "degree": 23,
+          "minute": 16,
+          "exactLongitude": 173.271771,
+          "isRetrograde": false,
+          "longitudeSpeed": 12.992674
+        },
+        "Mercury": {
+          "sign": "cancer",
+          "degree": 23,
+          "minute": 36,
+          "exactLongitude": 113.608228,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.6157
+        },
+        "Venus": {
+          "sign": "leo",
+          "degree": 9,
+          "minute": 9,
+          "exactLongitude": 129.157499,
+          "isRetrograde": false,
+          "longitudeSpeed": 1.152582
+        },
+        "Mars": {
+          "sign": "taurus",
+          "degree": 24,
+          "minute": 38,
+          "exactLongitude": 54.646926,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.721276
+        },
+        "Jupiter": {
+          "sign": "cancer",
+          "degree": 28,
+          "minute": 7,
+          "exactLongitude": 118.121627,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.208194
+        },
+        "Saturn": {
+          "sign": "aries",
+          "degree": 13,
+          "minute": 41,
+          "exactLongitude": 13.698109,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.057536
+        },
+        "Uranus": {
+          "sign": "gemini",
+          "degree": 3,
+          "minute": 12,
+          "exactLongitude": 63.206567,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.053575
+        },
+        "Neptune": {
+          "sign": "aries",
+          "degree": 4,
+          "minute": 21,
+          "exactLongitude": 4.350488,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.008722
+        },
+        "Pluto": {
+          "sign": "aquarius",
+          "degree": 5,
+          "minute": 3,
+          "exactLongitude": 305.062534,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.018158
+        }
+      }
+    },
+    {
+      "usedFallback": false,
+      "planets": [
+        "Jupiter",
+        "Mars",
+        "Mercury",
+        "Moon",
+        "Neptune",
+        "Pluto",
+        "Saturn",
+        "Sun",
+        "Uranus",
+        "Venus"
+      ],
+      "details": {
+        "Sun": {
+          "sign": "virgo",
+          "degree": 29,
+          "minute": 57,
+          "exactLongitude": 179.958787,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.978144
+        },
+        "Moon": {
+          "sign": "aquarius",
+          "degree": 15,
+          "minute": 12,
+          "exactLongitude": 315.204422,
+          "isRetrograde": false,
+          "longitudeSpeed": 12.381958
+        },
+        "Mercury": {
+          "sign": "libra",
+          "degree": 19,
+          "minute": 24,
+          "exactLongitude": 199.41348,
+          "isRetrograde": false,
+          "longitudeSpeed": 1.473375
+        },
+        "Venus": {
+          "sign": "scorpio",
+          "degree": 6,
+          "minute": 33,
+          "exactLongitude": 216.553952,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.357488
+        },
+        "Mars": {
+          "sign": "cancer",
+          "degree": 26,
+          "minute": 56,
+          "exactLongitude": 116.94166,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.597942
+        },
+        "Jupiter": {
+          "sign": "leo",
+          "degree": 18,
+          "minute": 6,
+          "exactLongitude": 138.108586,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.18945
+        },
+        "Saturn": {
+          "sign": "aries",
+          "degree": 12,
+          "minute": 11,
+          "exactLongitude": 12.196859,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.07579
+        },
+        "Uranus": {
+          "sign": "gemini",
+          "degree": 5,
+          "minute": 38,
+          "exactLongitude": 65.634121,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.010254
+        },
+        "Neptune": {
+          "sign": "aries",
+          "degree": 3,
+          "minute": 5,
+          "exactLongitude": 3.088224,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.02769
+        },
+        "Pluto": {
+          "sign": "aquarius",
+          "degree": 3,
+          "minute": 11,
+          "exactLongitude": 303.192308,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.010417
+        }
+      }
+    },
+    {
+      "usedFallback": false,
+      "planets": [
+        "Jupiter",
+        "Mars",
+        "Mercury",
+        "Moon",
+        "Neptune",
+        "Pluto",
+        "Saturn",
+        "Sun",
+        "Uranus",
+        "Venus"
+      ],
+      "details": {
+        "Sun": {
+          "sign": "sagittarius",
+          "degree": 29,
+          "minute": 59,
+          "exactLongitude": 269.999835,
+          "isRetrograde": false,
+          "longitudeSpeed": 1.018021
+        },
+        "Moon": {
+          "sign": "taurus",
+          "degree": 28,
+          "minute": 59,
+          "exactLongitude": 58.998915,
+          "isRetrograde": false,
+          "longitudeSpeed": 14.856728
+        },
+        "Mercury": {
+          "sign": "sagittarius",
+          "degree": 23,
+          "minute": 53,
+          "exactLongitude": 263.889134,
+          "isRetrograde": false,
+          "longitudeSpeed": 1.561346
+        },
+        "Venus": {
+          "sign": "scorpio",
+          "degree": 13,
+          "minute": 47,
+          "exactLongitude": 223.797545,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.907744
+        },
+        "Mars": {
+          "sign": "virgo",
+          "degree": 8,
+          "minute": 10,
+          "exactLongitude": 158.178014,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.216089
+        },
+        "Jupiter": {
+          "sign": "leo",
+          "degree": 26,
+          "minute": 53,
+          "exactLongitude": 146.896569,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.028839
+        },
+        "Saturn": {
+          "sign": "aries",
+          "degree": 8,
+          "minute": 2,
+          "exactLongitude": 8.036677,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.01993
+        },
+        "Uranus": {
+          "sign": "gemini",
+          "degree": 2,
+          "minute": 38,
+          "exactLongitude": 62.639141,
+          "isRetrograde": true,
+          "longitudeSpeed": -0.035839
+        },
+        "Neptune": {
+          "sign": "aries",
+          "degree": 1,
+          "minute": 38,
+          "exactLongitude": 1.639321,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.00522
+        },
+        "Pluto": {
+          "sign": "aquarius",
+          "degree": 4,
+          "minute": 3,
+          "exactLongitude": 304.06263,
+          "isRetrograde": false,
+          "longitudeSpeed": 0.027329
+        }
+      }
+    }
+  ],
+  "ascendants": [
+    {
+      "sign": "aries",
+      "degree": 11,
+      "minute": 48,
+      "exactLongitude": 11.809618
+    },
+    {
+      "sign": "aries",
+      "degree": 5,
+      "minute": 8,
+      "exactLongitude": 5.139705
+    },
+    {
+      "sign": "capricorn",
+      "degree": 26,
+      "minute": 27,
+      "exactLongitude": 296.455639
+    },
+    {
+      "sign": "aries",
+      "degree": 17,
+      "minute": 5,
+      "exactLongitude": 17.089558
+    }
+  ],
+  "livePositions": [
+    {
+      "Sun": {
+        "sign": "aries",
+        "degree": 0,
+        "minute": 0,
+        "exactLongitude": 0.000299
+      },
+      "Moon": {
+        "sign": "virgo",
+        "degree": 29,
+        "minute": 57,
+        "exactLongitude": 179.956308
+      },
+      "Mercury": {
+        "sign": "pisces",
+        "degree": 8,
+        "minute": 29,
+        "exactLongitude": 338.493224
+      },
+      "Venus": {
+        "sign": "aries",
+        "degree": 17,
+        "minute": 35,
+        "exactLongitude": 17.585601
+      },
+      "Mars": {
+        "sign": "pisces",
+        "degree": 14,
+        "minute": 11,
+        "exactLongitude": 344.189175
+      },
+      "Jupiter": {
+        "sign": "cancer",
+        "degree": 15,
+        "minute": 13,
+        "exactLongitude": 105.231942
+      },
+      "Saturn": {
+        "sign": "aries",
+        "degree": 4,
+        "minute": 7,
+        "exactLongitude": 4.12524
+      },
+      "Uranus": {
+        "sign": "taurus",
+        "degree": 28,
+        "minute": 18,
+        "exactLongitude": 58.304699
+      },
+      "Neptune": {
+        "sign": "aries",
+        "degree": 1,
+        "minute": 46,
+        "exactLongitude": 1.776673
+      },
+      "Pluto": {
+        "sign": "aquarius",
+        "degree": 5,
+        "minute": 0,
+        "exactLongitude": 305.005103
+      }
+    },
+    {
+      "Sun": {
+        "sign": "gemini",
+        "degree": 29,
+        "minute": 59,
+        "exactLongitude": 89.999245
+      },
+      "Moon": {
+        "sign": "sagittarius",
+        "degree": 29,
+        "minute": 51,
+        "exactLongitude": 269.860709
+      },
+      "Mercury": {
+        "sign": "cancer",
+        "degree": 23,
+        "minute": 36,
+        "exactLongitude": 113.608228
+      },
+      "Venus": {
+        "sign": "leo",
+        "degree": 9,
+        "minute": 9,
+        "exactLongitude": 129.157499
+      },
+      "Mars": {
+        "sign": "taurus",
+        "degree": 24,
+        "minute": 38,
+        "exactLongitude": 54.646926
+      },
+      "Jupiter": {
+        "sign": "cancer",
+        "degree": 28,
+        "minute": 7,
+        "exactLongitude": 118.121627
+      },
+      "Saturn": {
+        "sign": "aries",
+        "degree": 13,
+        "minute": 41,
+        "exactLongitude": 13.698109
+      },
+      "Uranus": {
+        "sign": "gemini",
+        "degree": 3,
+        "minute": 12,
+        "exactLongitude": 63.206567
+      },
+      "Neptune": {
+        "sign": "aries",
+        "degree": 4,
+        "minute": 21,
+        "exactLongitude": 4.350488
+      },
+      "Pluto": {
+        "sign": "aquarius",
+        "degree": 5,
+        "minute": 3,
+        "exactLongitude": 305.062534
+      }
+    },
+    {
+      "Sun": {
+        "sign": "virgo",
+        "degree": 29,
+        "minute": 57,
+        "exactLongitude": 179.958787
+      },
+      "Moon": {
+        "sign": "pisces",
+        "degree": 29,
+        "minute": 51,
+        "exactLongitude": 359.858369
+      },
+      "Mercury": {
+        "sign": "libra",
+        "degree": 19,
+        "minute": 24,
+        "exactLongitude": 199.41348
+      },
+      "Venus": {
+        "sign": "scorpio",
+        "degree": 6,
+        "minute": 33,
+        "exactLongitude": 216.553952
+      },
+      "Mars": {
+        "sign": "cancer",
+        "degree": 26,
+        "minute": 56,
+        "exactLongitude": 116.94166
+      },
+      "Jupiter": {
+        "sign": "leo",
+        "degree": 18,
+        "minute": 6,
+        "exactLongitude": 138.108586
+      },
+      "Saturn": {
+        "sign": "aries",
+        "degree": 12,
+        "minute": 11,
+        "exactLongitude": 12.196859
+      },
+      "Uranus": {
+        "sign": "gemini",
+        "degree": 5,
+        "minute": 38,
+        "exactLongitude": 65.634121
+      },
+      "Neptune": {
+        "sign": "aries",
+        "degree": 3,
+        "minute": 5,
+        "exactLongitude": 3.088224
+      },
+      "Pluto": {
+        "sign": "aquarius",
+        "degree": 3,
+        "minute": 11,
+        "exactLongitude": 303.192308
+      }
+    },
+    {
+      "Sun": {
+        "sign": "sagittarius",
+        "degree": 29,
+        "minute": 59,
+        "exactLongitude": 269.999835
+      },
+      "Moon": {
+        "sign": "gemini",
+        "degree": 29,
+        "minute": 55,
+        "exactLongitude": 89.93333
+      },
+      "Mercury": {
+        "sign": "sagittarius",
+        "degree": 23,
+        "minute": 53,
+        "exactLongitude": 263.889134
+      },
+      "Venus": {
+        "sign": "scorpio",
+        "degree": 13,
+        "minute": 47,
+        "exactLongitude": 223.797545
+      },
+      "Mars": {
+        "sign": "virgo",
+        "degree": 8,
+        "minute": 10,
+        "exactLongitude": 158.178014
+      },
+      "Jupiter": {
+        "sign": "leo",
+        "degree": 26,
+        "minute": 53,
+        "exactLongitude": 146.896569
+      },
+      "Saturn": {
+        "sign": "aries",
+        "degree": 8,
+        "minute": 2,
+        "exactLongitude": 8.036677
+      },
+      "Uranus": {
+        "sign": "gemini",
+        "degree": 2,
+        "minute": 38,
+        "exactLongitude": 62.639141
+      },
+      "Neptune": {
+        "sign": "aries",
+        "degree": 1,
+        "minute": 38,
+        "exactLongitude": 1.639321
+      },
+      "Pluto": {
+        "sign": "aquarius",
+        "degree": 4,
+        "minute": 3,
+        "exactLongitude": 304.06263
+      }
+    }
+  ],
+  "skySnapshots": [
+    {
+      "isDiurnal": true,
+      "planetCount": 10,
+      "planets": [
+        {
+          "name": "Sun",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Fire",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Moon",
+          "sign": "virgo",
+          "signElement": "Earth",
+          "sectElement": "Water",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mercury",
+          "sign": "pisces",
+          "signElement": "Water",
+          "sectElement": "Air",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Venus",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mars",
+          "sign": "pisces",
+          "signElement": "Water",
+          "sectElement": "Fire",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Jupiter",
+          "sign": "cancer",
+          "signElement": "Water",
+          "sectElement": "Air",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Saturn",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Air",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Uranus",
+          "sign": "taurus",
+          "signElement": "Earth",
+          "sectElement": "Water",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Neptune",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Pluto",
+          "sign": "aquarius",
+          "signElement": "Air",
+          "sectElement": "Earth",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        }
+      ]
+    },
+    {
+      "isDiurnal": true,
+      "planetCount": 10,
+      "planets": [
+        {
+          "name": "Sun",
+          "sign": "gemini",
+          "signElement": "Air",
+          "sectElement": "Fire",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Moon",
+          "sign": "sagittarius",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mercury",
+          "sign": "cancer",
+          "signElement": "Water",
+          "sectElement": "Air",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Venus",
+          "sign": "leo",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mars",
+          "sign": "taurus",
+          "signElement": "Earth",
+          "sectElement": "Fire",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Jupiter",
+          "sign": "cancer",
+          "signElement": "Water",
+          "sectElement": "Air",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Saturn",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Air",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Uranus",
+          "sign": "gemini",
+          "signElement": "Air",
+          "sectElement": "Water",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Neptune",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Pluto",
+          "sign": "aquarius",
+          "signElement": "Air",
+          "sectElement": "Earth",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        }
+      ]
+    },
+    {
+      "isDiurnal": false,
+      "planetCount": 10,
+      "planets": [
+        {
+          "name": "Sun",
+          "sign": "virgo",
+          "signElement": "Earth",
+          "sectElement": "Fire",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Moon",
+          "sign": "pisces",
+          "signElement": "Water",
+          "sectElement": "Water",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mercury",
+          "sign": "libra",
+          "signElement": "Air",
+          "sectElement": "Earth",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Venus",
+          "sign": "scorpio",
+          "signElement": "Water",
+          "sectElement": "Earth",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mars",
+          "sign": "cancer",
+          "signElement": "Water",
+          "sectElement": "Water",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Jupiter",
+          "sign": "leo",
+          "signElement": "Fire",
+          "sectElement": "Fire",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Saturn",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Earth",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Uranus",
+          "sign": "gemini",
+          "signElement": "Air",
+          "sectElement": "Air",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Neptune",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Pluto",
+          "sign": "aquarius",
+          "signElement": "Air",
+          "sectElement": "Water",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        }
+      ]
+    },
+    {
+      "isDiurnal": false,
+      "planetCount": 10,
+      "planets": [
+        {
+          "name": "Sun",
+          "sign": "sagittarius",
+          "signElement": "Fire",
+          "sectElement": "Fire",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Moon",
+          "sign": "gemini",
+          "signElement": "Air",
+          "sectElement": "Water",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mercury",
+          "sign": "sagittarius",
+          "signElement": "Fire",
+          "sectElement": "Earth",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Venus",
+          "sign": "scorpio",
+          "signElement": "Water",
+          "sectElement": "Earth",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Mars",
+          "sign": "virgo",
+          "signElement": "Earth",
+          "sectElement": "Water",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Jupiter",
+          "sign": "leo",
+          "signElement": "Fire",
+          "sectElement": "Fire",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Saturn",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Earth",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 1,
+            "Essence": 0,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Uranus",
+          "sign": "gemini",
+          "signElement": "Air",
+          "sectElement": "Air",
+          "signQuality": "Mutable",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        },
+        {
+          "name": "Neptune",
+          "sign": "aries",
+          "signElement": "Fire",
+          "sectElement": "Water",
+          "signQuality": "Cardinal",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 0,
+            "Substance": 1
+          }
+        },
+        {
+          "name": "Pluto",
+          "sign": "aquarius",
+          "signElement": "Air",
+          "sectElement": "Water",
+          "signQuality": "Fixed",
+          "esms": {
+            "Spirit": 0,
+            "Essence": 1,
+            "Matter": 1,
+            "Substance": 0
+          }
+        }
+      ]
+    }
+  ],
+  "diurnals": [
+    true,
+    false,
+    true,
+    true
+  ],
+  "catalog": {
+    "categoryCounts": {
+      "beverages": 14,
+      "dairy": 45,
+      "fruits": 95,
+      "grains": 51,
+      "herbs": 51,
+      "misc": 475,
+      "oils": 48,
+      "proteins": 76,
+      "seasonings": 106,
+      "spices": 42,
+      "staples": 69,
+      "vegetables": 75,
+      "vinegars": 11
+    },
+    "totalIngredients": 1158,
+    "samples": [
+      {
+        "name": "garlic",
+        "found": true,
+        "category": "vegetable",
+        "element": null,
+        "season": [
+          "year-round"
+        ],
+        "tasteProfile": null
+      },
+      {
+        "name": "ginger",
+        "found": true,
+        "category": "spice",
+        "element": null,
+        "season": [
+          "fall",
+          "winter"
+        ],
+        "tasteProfile": null
+      },
+      {
+        "name": "olive oil",
+        "found": true,
+        "category": "fruit",
+        "element": null,
+        "season": [
+          "all"
+        ],
+        "tasteProfile": null
+      },
+      {
+        "name": "tomato",
+        "found": true,
+        "category": "vegetable",
+        "element": null,
+        "season": [
+          "summer"
+        ],
+        "tasteProfile": null
+      },
+      {
+        "name": "basil",
+        "found": true,
+        "category": "culinary_herb",
+        "element": null,
+        "season": null,
+        "tasteProfile": null
+      },
+      {
+        "name": "rice",
+        "found": true,
+        "category": "grain",
+        "element": null,
+        "season": [
+          "all"
+        ],
+        "tasteProfile": null
+      },
+      {
+        "name": "black pepper",
+        "found": true,
+        "category": "spice",
+        "element": null,
+        "season": null,
+        "tasteProfile": null
+      },
+      {
+        "name": "salmon",
+        "found": true,
+        "category": "protein",
+        "element": null,
+        "season": [
+          "spring",
+          "summer",
+          "fall"
+        ],
+        "tasteProfile": null
+      },
+      {
+        "name": "chicken breast",
+        "found": false,
+        "category": null,
+        "element": null,
+        "season": null,
+        "tasteProfile": null
+      },
+      {
+        "name": "lemon",
+        "found": true,
+        "category": "fruit",
+        "element": null,
+        "season": null,
+        "tasteProfile": null
+      }
+    ]
+  }
+}
