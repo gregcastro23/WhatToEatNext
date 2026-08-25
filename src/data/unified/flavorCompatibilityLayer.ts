@@ -44,6 +44,57 @@ export interface LegacyCuisineProfile {
   description?: string;
 }
 
+/**
+ * What the legacy compatibility helpers actually accept: an object carrying
+ * flavor notes and/or elemental data. Deliberately NOT `{}` - that type admits
+ * strings and numbers, which is how ingredient names silently reached
+ * `convertLegacyToUnified` and produced all-zero profiles.
+ */
+export type LegacyFlavorProfileInput =
+  | Partial<LegacyFlavorProfile>
+  | LegacyCuisineProfile
+  | Record<string, unknown>;
+
+/** Keys that mark a value as carrying real flavor/elemental content. */
+const FLAVOR_PROFILE_KEYS = [
+  "sweet",
+  "sour",
+  "salty",
+  "bitter",
+  "umami",
+  "spicy",
+  "flavorProfiles",
+  "elementalState",
+  "elementalFlavors",
+  "elementalProperties",
+  "baseNotes",
+] as const;
+
+/**
+ * True when `value` is an object carrying at least one recognised flavor or
+ * elemental field. A string, number, array, null, or empty object is not a
+ * profile - converting one yields an all-zero profile indistinguishable from
+ * every other, which is the defect this guard exists to surface.
+ */
+function isFlavorProfileLike(value: unknown): boolean {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+  return FLAVOR_PROFILE_KEYS.some(
+    (key) => (value as Record<string, unknown>)[key] !== undefined,
+  );
+}
+
+/** Short, log-safe description of a rejected argument. */
+function describeInput(value: unknown): string {
+  if (value === null) return "null";
+  if (Array.isArray(value)) return `array(length ${value.length})`;
+  if (typeof value === "object") {
+    return `object(keys: ${Object.keys(value).slice(0, 6).join("|") || "none"})`;
+  }
+  return `${typeof value}(${JSON.stringify(value)})`;
+}
+
 // ===== BACKWARD COMPATIBILITY FUNCTIONS =====;
 
 /**
@@ -51,9 +102,40 @@ export interface LegacyCuisineProfile {
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
 export function calculateFlavorCompatibility(
-  profile1: {},
-  profile2: {},
+  profile1: LegacyFlavorProfileInput,
+  profile2: LegacyFlavorProfileInput,
 ): LegacyFlavorCompatibilityResult {
+  // These take flavor *profiles*, never ingredient names. The parameters used
+  // to be typed `{}`, which accepts strings (every non-nullish value is
+  // assignable to `{}`), so `calculateFlavorCompatibility("garlic", "ginger")`
+  // type-checked and then read `.sweet`/`.umami`/... off a string. Every note
+  // came back undefined, so both arguments collapsed to the same all-zero
+  // profile and the result was meaningless but plausible-looking. Reject that
+  // input loudly instead. To score by name, resolve the profile first with
+  // `getFlavorProfileForIngredient(name)`.
+  const invalid = [profile1, profile2].filter((p) => !isFlavorProfileLike(p));
+  if (invalid.length > 0) {
+    _logger.error(
+      "calculateFlavorCompatibility received input that is not a flavor profile; " +
+        "expected an object with flavor notes (sweet/sour/salty/bitter/umami/spicy), " +
+        "elementalState/elementalFlavors, or flavorProfiles. Received: " +
+        `${describeInput(profile1)}, ${describeInput(profile2)}. ` +
+        "Use getFlavorProfileForIngredient(name) to resolve an ingredient name first.",
+    );
+    return {
+      compatibility: 0.5,
+      elementalHarmony: 0.5,
+      kalchmResonance: 0.5,
+      monicaOptimization: 0.5,
+      seasonalAlignment: 0.5,
+      recommendations: [],
+      warnings: [
+        "Input was not a flavor profile - no compatibility was computed. " +
+          "Resolve ingredient names via getFlavorProfileForIngredient() before comparing.",
+      ],
+    };
+  }
+
   try {
     // Convert legacy profiles to unified format
     const unifiedProfile1 = convertLegacyToUnified(profile1, "legacy-1");
@@ -305,6 +387,41 @@ export function calculateElementalCompatibility(
 
 // ===== CONVERSION HELPERS =====;
 
+/**
+ * Stable, order-independent fingerprint of the scoring-relevant content of a
+ * synthesized profile.
+ *
+ * `unifiedFlavorEngine.calculateCompatibility` caches on
+ * `${profile1.id}-${profile2.id}-${context}`, which assumes an id uniquely
+ * determines a profile's content. That holds for profiles registered with the
+ * engine, but every converter call site here passes a *constant* id
+ * ("legacy-1", "recipe-temp", ...). Without a content-derived suffix the first
+ * result computed in a process is cached under that constant key and returned
+ * for every later pair, so unrelated inputs yield byte-identical scores.
+ *
+ * `lastUpdated` is deliberately excluded: it is `new Date()` per call and would
+ * make every key unique, defeating the cache instead of correcting it.
+ */
+function fingerprintProfileContent(profile: Record<string, unknown>): string {
+  const stable = (value: unknown): string => {
+    if (value === null || typeof value !== "object") return JSON.stringify(value) ?? "null";
+    if (Array.isArray(value)) return `[${value.map(stable).join(",")}]`;
+    const entries = Object.entries(value as Record<string, unknown>)
+      .filter(([key]) => key !== "lastUpdated" && key !== "id")
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+    return `{${entries.map(([k, v]) => `${k}:${stable(v)}`).join(",")}}`;
+  };
+
+  // FNV-1a (32-bit) — deterministic across runs, no crypto dependency.
+  let hash = 0x811c9dc5;
+  const serialized = stable(profile);
+  for (let i = 0; i < serialized.length; i++) {
+    hash ^= serialized.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash.toString(36);
+}
+
 function convertLegacyToUnified(
   legacyProfile: any,
   id: string,
@@ -325,7 +442,7 @@ function convertLegacyToUnified(
     legacyProfile.elementalFlavors ||
     estimateElementalFromFlavors(baseNotes);
 
-  return {
+  const profile = {
     id,
     name: legacyProfile.name || id,
     category: "elemental",
@@ -366,6 +483,13 @@ function convertLegacyToUnified(
     description: legacyProfile.description || "Legacy profile",
     tags: legacyProfile.tags || ["legacy"],
     lastUpdated: new Date(),
+  };
+
+  // Suffix the caller-supplied constant id with a content fingerprint so the
+  // engine's id-keyed compatibility cache distinguishes different inputs.
+  return {
+    ...profile,
+    id: `${id}-${fingerprintProfileContent(profile)}`,
   } as unknown as UnifiedFlavorProfile;
 }
 

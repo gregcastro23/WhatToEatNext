@@ -18,6 +18,11 @@ import {
 import { getCurrentSeason } from "../../data/integrations/seasonal";
 import { culturalCookingMethods } from "../culturalMethodsAggregator";
 import { isElementalProperties } from "../elemental/elementalUtils";
+import {
+  dominantElementOf,
+  isElement,
+  resolveIngredientElement,
+} from "../elemental/ingredientElement";
 
 function getAstrologicalElementalProfile(
   astroState: unknown,
@@ -991,9 +996,16 @@ export function getRecommendedCookingMethodsForIngredient(
 ): Array<{ method: string; compatibility: number }> {
   try {
     // Extract elemental properties from ingredient
-    // Note: Ingredient/UnifiedIngredient type these fields via an index
-    // signature ([key: string]: unknown), so an explicit annotation is
-    // needed here to keep them usable as numbers below.
+    // Ingredient/UnifiedIngredient type these fields via an index signature
+    // ([key: string]: unknown), so an explicit annotation is needed here to
+    // keep them usable as numbers below.
+    //
+    // Note: these four channels are read off the ingredient's TOP LEVEL, where
+    // they are defined on 0 of the 1,158 catalog records — every one takes its
+    // `|| 0.25` fallback. The real vector is `ingredient.elementalProperties`.
+    // Left as-is because the only consumers of `elementalProps` are the four
+    // capitalized-literal branches below, which can never run either (see
+    // there); sourcing it correctly while those stay dead would change nothing.
     const elementalProps: {
       Fire: number;
       Water: number;
@@ -1006,16 +1018,42 @@ export function getRecommendedCookingMethodsForIngredient(
       Air: (ingredient.Air as number) || 0.25,
     };
 
+    // Derived once per ingredient rather than per method. The scalar
+    // `ingredient.element` this used to compare against is defined on 0 of the
+    // 1,158 catalog records — and so is a method's `element`, so the old
+    // comparison was `String(undefined ?? "")` on BOTH sides: `"" === ""`, true
+    // for every pair. The bonus was not dead, it was universal; measured over
+    // the catalog every ingredient scored 80 on all 27 methods (31,266 of
+    // 31,266). `resolveIngredientElement` ranks the record's own
+    // `elementalProperties` instead and returns null only when there is no
+    // elemental basis at all — in which case nothing can match it.
+    const ingredientElement = resolveIngredientElement(
+      ingredient,
+      "getRecommendedCookingMethodsForIngredient",
+    );
+
     // Calculate compatibility for each method
     const scoredMethods = (cookingMethods as unknown[]).map((method) => {
       const methodData = method as Record<string, unknown>;
       const methodElement = String(methodData.element ?? "").toLowerCase();
 
+      // The method side has the same defect as the ingredient side: `element`
+      // is defined on 0 of the 27 cooking methods, which carry their vector
+      // under `elementalEffect`. Resolving only the ingredient would have made
+      // it worse — a real element on one side and `""` on the other never
+      // matches, so the bonus would have gone from universal to unreachable.
+      // A declared scalar still wins, so a caller with its own shape is
+      // unaffected. Comparing `Element | null` values also removes the
+      // empty-string equality that caused the original defect.
+      const resolvedMethodElement = isElement(methodData.element)
+        ? methodData.element
+        : dominantElementOf(methodData.elementalEffect);
+
       // Simple compatibility based on elemental harmony
       let compatibility = 0.5; // Base score
 
       // Boost score for matching element
-      if (methodElement === String(ingredient.element ?? "").toLowerCase()) {
+      if (ingredientElement && resolvedMethodElement === ingredientElement) {
         compatibility += 0.3;
       }
 

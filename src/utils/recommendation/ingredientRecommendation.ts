@@ -3,6 +3,8 @@ import { _logger } from "@/lib/logger";
 import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 import type { ScoredItem } from "@/types/common";
 import type { Element } from "@/types/unified";
+import { resolveIngredientElement } from "@/utils/elemental/ingredientElement";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type {
   KineticMetrics as _KineticMetrics,
@@ -576,20 +578,37 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 function standardizeIngredient(
   ingredient: EnhancedIngredient,
 ): EnhancedIngredient {
+  // Resolved before `element` below so the scalar is derived from the exact
+  // vector this record ends up carrying — the two can never disagree.
+  const elementalProperties =
+    ingredient.elementalProperties ||
+    createElementalProperties({
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    });
+
   const standardized: EnhancedIngredient = {
     name: ingredient.name,
     amount: ingredient.amount || 0,
     unit: ingredient.unit || "",
-    element: ingredient.element || "Fire",
+    // Was `ingredient.element || "Fire"`. That scalar is defined on 0 of the
+    // 1,158 catalog records, so the fallback fired for every ingredient and
+    // stamped the whole catalog Fire. Derived from `elementalProperties`, the
+    // 193 records that clear the filter above read Water 82 / Earth 57 /
+    // Fire 38 / Air 16 — measured with that filter made null-safe, since as
+    // written it throws before reaching here on the real data.
+    //
+    // `resolveIngredientElement` returns null only when a record carries no
+    // elemental basis at all, and reports that at error level before it does.
+    // The vector resolved above is this record's own, so ranking it is the
+    // same derivation rather than a second silent default.
+    element:
+      resolveIngredientElement(ingredient, "standardizeIngredient") ??
+      elementalSignature(elementalProperties).dominant,
     category: ingredient.category ?? "",
-    elementalProperties:
-      ingredient.elementalProperties ||
-      createElementalProperties({
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      }),
+    elementalProperties,
     astrologicalProfile: ingredient.astrologicalProfile,
   };
 
