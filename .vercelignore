@@ -60,3 +60,5 @@ backend/data/json
 !scripts/
 !scripts/check-version.cjs
 !scripts/check-route-sizes.cjs
+!scripts/vercel-ignore-build-step.sh
+!scripts/vercel-ignore-build-step.cjs
