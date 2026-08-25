@@ -623,7 +623,13 @@ export class UnifiedFlavorEngine {
     const intersection = new Set([...methods1].filter((x) => methods2.has(x)));
     const union = new Set([...methods1, ...methods2]);
 
-    const baseCompatibility = intersection.size / Math.max(union.size);
+    // Guard the empty-union case: when neither profile declares preparation
+    // methods the union is empty and `intersection.size / union.size` is 0/0,
+    // i.e. NaN. That NaN then flows into the weighted `overall` score and
+    // poisons it for every caller. Treat "no declared methods" as no evidence
+    // of overlap (0) and let the neutral default below apply.
+    const baseCompatibility =
+      union.size === 0 ? 0 : intersection.size / union.size;
 
     // Context enhancement
     if (_contextMethod) {
