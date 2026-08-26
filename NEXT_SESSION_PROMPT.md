@@ -1,6 +1,6 @@
 # Next Session: Phase 4 TypeScript Lint Debt Remediation & Architecture Verification
 
-**Context & Status:** Phase 3 of the TypeScript Lint Debt Remediation Campaign and Calculation Behavioral Witness is complete and fully verified. Tracked lint debt stands at **11,990** (**−998 tracked warnings** eliminated from the 12,988 baseline across 28 target files with zero suppressions added). The baseline in `.lint-debt-baseline.json` has been auto-ratcheted down to **11,990**.
+**Context & Status:** Phase 3 of the TypeScript Lint Debt Remediation Campaign and Calculation Behavioral Witness is complete and fully verified. Tracked lint debt stands at **11,990** (**−998 tracked warnings** eliminated from the 12,988 baseline across 28 target files with zero suppressions added). The work is open as **PR [#806](https://github.com/gregcastro23/WhatToEatNext/pull/806)** against `master`. The baseline in `.lint-debt-baseline.json` has been auto-ratcheted down to **11,990**.
 
 ---
 
