@@ -10,8 +10,7 @@ import * as safeAstrology from "@/utils/safeAstrology";
 const logger = createLogger("useAstrology");
 
 // Track active API requests to prevent duplicate calls
-
-const activeRequests = new Map<string, Promise<any>>();
+const activeRequests = new Map<string, Promise<unknown>>();
 
 interface AstrologyOptions {
   latitude?: number | null;
@@ -34,6 +33,58 @@ interface AstrologyState {
   lastUpdated: number | null;
 }
 
+interface AstrologyApiResponseData {
+  positions: Record<string, PlanetaryPosition>;
+  currentSign: ZodiacSignType;
+  lunarPhase: LunarPhase;
+  elementalBalance?: Record<string, number>;
+  aspectsInfluence?: number;
+}
+
+interface AstrologyApiResponse {
+  success: boolean;
+  data?: AstrologyApiResponseData;
+  error?: string;
+}
+
+interface ElementalBalanceApiResponse {
+  success: boolean;
+  data?: Record<string, number>;
+  error?: string;
+}
+
+interface AstrologicalProfileResponseData {
+  positions?: Record<string, { sign: string; degree: number; isRetrograde?: boolean }>;
+  currentSign: ZodiacSignType;
+  lunarPhase: LunarPhase;
+}
+
+interface AstrologicalProfileApiResponse {
+  success: boolean;
+  data?: AstrologicalProfileResponseData;
+  error?: string;
+}
+
+export interface AstrologicalProfile {
+  zodiac: [ZodiacSignType | null];
+  lunar: [LunarPhase | null];
+  planetary: Array<{
+    planet: string;
+    sign: string;
+    degree: number;
+    isRetrograde?: boolean;
+  }>;
+}
+
+export interface UseAstrologyReturn extends AstrologyState {
+  fetchAstrologyData: (lat: number, lng: number, targetDate?: Date) => Promise<AstrologyApiResponseData | null>;
+  calculateElementalBalance: (lat?: number, lng?: number, targetDate?: Date) => Promise<Record<string, number> | null>;
+  getAstrologicalProfile: (profileDate?: Date, calcLatitude?: number, calcLongitude?: number) => Promise<AstrologicalProfile | null>;
+  getDominantElement: () => string;
+  refreshData: () => void;
+  isClient: boolean;
+}
+
 const initialAstrologyState: AstrologyState = {
   loading: false,
   error: null,
@@ -52,7 +103,7 @@ const initialAstrologyState: AstrologyState = {
  * Provides an easy interface for components to get planetary positions;
  * elemental balance, and other astrological information
  */
-export function useAstrology(options: AstrologyOptions = {}) {
+export function useAstrology(options: AstrologyOptions = {}): UseAstrologyReturn {
   const {
     latitude = null,
     longitude = null,
@@ -62,7 +113,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
   } = options;
 
   // Use ref for date to prevent recreating on each render
-  const dateRef = useRef(options.date || new Date());
+  const dateRef = useRef(options.date ?? new Date());
   const [state, setState] = useState<AstrologyState>(initialAstrologyState);
   const [isClient, setIsClient] = useState(false);
 
@@ -72,7 +123,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
   // Ensure we only run client-side code in the browser
   useEffect(() => {
     setIsClient(true);
-    return () => {
+    return (): void => {
       isMountedRef.current = false;
     };
   }, []);
@@ -90,7 +141,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
    * Fetch astrological data from the API
    */
   const fetchAstrologyData = useCallback(
-    async (lat: number, lng: number, targetDate: Date = dateRef.current) => {
+    async (lat: number, lng: number, targetDate: Date = dateRef.current): Promise<AstrologyApiResponseData | null> => {
       // Safety checks to prevent redundant calls
       if (!isClient || !isMountedRef.current) return null;
       if (state.loading) {
@@ -99,7 +150,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       }
 
       // Validate inputs before proceeding
-      if (lat === null || lng === null) {
+      if (typeof lat !== "number" || typeof lng !== "number" || Number.isNaN(lat) || Number.isNaN(lng)) {
         const error = "Latitude and longitude are required";
         setState((prev) => ({ ...prev, error, loading: false }));
         return null;
@@ -119,7 +170,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
       // Check cache for active requests with the same parameters
       const cacheKey = createCacheKey(lat, lng, targetDate);
-      const existingRequest = activeRequests.get(cacheKey);
+      const existingRequest = activeRequests.get(cacheKey) as Promise<AstrologyApiResponseData | null> | undefined;
 
       if (existingRequest) {
         logger.debug("Using existing API request from cache");
@@ -129,7 +180,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       setState((prev) => ({ ...prev, loading: true, error: null }));
 
       // Create the request promise
-      const requestPromise = (async () => {
+      const requestPromise = (async (): Promise<AstrologyApiResponseData | null> => {
         try {
           // Format date as ISO string for API
           const dateParam = targetDate.toISOString();
@@ -147,7 +198,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
               if (response.ok) break;
 
               // Only retry server errors, not client errors
-              if (response && response.status < 500) break;
+              if (response.status < 500) break;
 
               // Exponential backoff
               const delay = Math.pow(2, retryCount) * 300;
@@ -162,18 +213,16 @@ export function useAstrology(options: AstrologyOptions = {}) {
           }
 
           if (!response?.ok) {
-            const errorData = (await response?.json()) || {
-              error: `API error: ${response?.status || "Network error"}`,
-            };
+            const errorData = (await response?.json().catch(() => null)) as { error?: string } | null;
             throw new Error(
-              errorData.error || `API error: ${response?.status || "Unknown"}`,
+              errorData?.error ?? `API error: ${response?.status ?? "Network error"}`,
             );
           }
 
-          const data = await response.json();
+          const data = (await response.json()) as AstrologyApiResponse;
 
-          if (!data.success) {
-            throw new Error(data.error || "Unknown error occurred");
+          if (!data.success || !data.data) {
+            throw new Error(data.error ?? "Unknown error occurred");
           }
 
           // Only update state if component is still mounted
@@ -184,13 +233,13 @@ export function useAstrology(options: AstrologyOptions = {}) {
               error: null,
               lastUpdated: Date.now(),
               data: {
-                planetaryPositions: data.data.positions,
-                currentSign: data.data.currentSign,
-                lunarPhase: data.data.lunarPhase,
+                planetaryPositions: data.data?.positions ?? null,
+                currentSign: data.data?.currentSign ?? null,
+                lunarPhase: data.data?.lunarPhase ?? null,
                 elementalBalance:
-                  data.data.elementalBalance || prev.data.elementalBalance,
+                  data.data?.elementalBalance ?? prev.data.elementalBalance,
                 aspectsInfluence:
-                  data.data.aspectsInfluence || prev.data.aspectsInfluence,
+                  data.data?.aspectsInfluence ?? prev.data.aspectsInfluence,
               },
             }));
           }
@@ -212,13 +261,13 @@ export function useAstrology(options: AstrologyOptions = {}) {
             // Use fallback if specified
             if (useFallback) {
               try {
-                const positions = safeAstrology.getReliablePlanetaryPositions();
+                const positions = safeAstrology.getReliablePlanetaryPositions() as unknown as Record<string, PlanetaryPosition>;
                 const lunarPhase = safeAstrology.getLunarPhaseName(
                   safeAstrology.calculateLunarPhase(),
                 ) as LunarPhase;
-                const currentSign = safeAstrology.calculateSunSign();
+                const currentSign = safeAstrology.calculateSunSign() as ZodiacSignType;
 
-                setState((prev: any) => ({
+                setState((prev) => ({
                   ...prev,
                   loading: false,
                   error: "Using fallback data due to API error",
@@ -255,14 +304,14 @@ export function useAstrology(options: AstrologyOptions = {}) {
    * Calculate elemental balance based on planetary positions
    */
   const calculateElementalBalance = useCallback(
-    async (lat?: number, lng?: number, targetDate: Date = dateRef.current) => {
+    async (lat?: number, lng?: number, targetDate: Date = dateRef.current): Promise<Record<string, number> | null> => {
       if (!isClient || !isMountedRef.current) return null;
       if (state.loading) return null; // Prevent concurrent requests
 
       try {
         // Use provided coordinates or fall back to the ones in options
-        const calcLat = lat !== undefined ? lat : latitude;
-        const calcLng = lng !== undefined ? lng : longitude;
+        const calcLat = lat ?? latitude;
+        const calcLng = lng ?? longitude;
 
         if (calcLat === null || calcLng === null) {
           throw new Error("Latitude and longitude are required");
@@ -270,13 +319,13 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
         // Create cache key for this request
         const cacheKey = `elemBalance_${calcLat}_${calcLng}_${targetDate.getTime()}`;
-        const existingRequest = activeRequests.get(cacheKey);
+        const existingRequest = activeRequests.get(cacheKey) as Promise<Record<string, number> | null> | undefined;
 
         if (existingRequest) {
           return existingRequest;
         }
 
-        const requestPromise = (async () => {
+        const requestPromise = (async (): Promise<Record<string, number> | null> => {
           try {
             const response = await fetch("/api/astrology", {
               method: "POST",
@@ -295,10 +344,10 @@ export function useAstrology(options: AstrologyOptions = {}) {
               throw new Error(`API error: ${response.status}`);
             }
 
-            const data = await response.json();
+            const data = (await response.json()) as ElementalBalanceApiResponse;
 
-            if (!data.success) {
-              throw new Error(data.error || "Unknown error occurred");
+            if (!data.success || !data.data) {
+              throw new Error(data.error ?? "Unknown error occurred");
             }
 
             if (isMountedRef.current) {
@@ -306,7 +355,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
                 ...prev,
                 data: {
                   ...prev.data,
-                  elementalBalance: data.data,
+                  elementalBalance: data.data ?? null,
                 },
               }));
             }
@@ -355,8 +404,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
                 Object.entries(positions).forEach(([planet, data]) => {
                   const planetName = planet.toLowerCase();
-                  const weight = weights[planetName] || 0.5;
-                  const sign = (data.sign || "aries").toLowerCase();
+                  const weight = weights[planetName] ?? 0.5;
+                  const sign = (data.sign ?? "aries").toLowerCase();
                   const element = signElements[sign];
 
                   if (element) {
@@ -418,28 +467,23 @@ export function useAstrology(options: AstrologyOptions = {}) {
   const getAstrologicalProfile = useCallback(
     async (
       profileDate: Date = dateRef.current,
-      calcLatitude: number = latitude || 0,
-      calcLongitude: number = longitude || 0,
-    ) => {
-      if (
-        !isClient ||
-        !isMountedRef.current ||
-        calcLatitude === null ||
-        calcLongitude === null
-      ) {
+      calcLatitude: number = latitude ?? 0,
+      calcLongitude: number = longitude ?? 0,
+    ): Promise<AstrologicalProfile | null> => {
+      if (!isClient || !isMountedRef.current) {
         return null;
       }
 
       if (state.loading) return null; // Prevent concurrent requests
 
       const cacheKey = `profile_${calcLatitude}_${calcLongitude}_${profileDate.getTime()}`;
-      const existingRequest = activeRequests.get(cacheKey);
+      const existingRequest = activeRequests.get(cacheKey) as Promise<AstrologicalProfile | null> | undefined;
 
       if (existingRequest) {
         return existingRequest;
       }
 
-      const requestPromise = (async () => {
+      const requestPromise = (async (): Promise<AstrologicalProfile | null> => {
         try {
           const response = await fetch("/api/astrology", {
             method: "POST",
@@ -457,23 +501,23 @@ export function useAstrology(options: AstrologyOptions = {}) {
             throw new Error(`API error: ${response.status}`);
           }
 
-          const data = await response.json();
+          const data = (await response.json()) as AstrologicalProfileApiResponse;
 
-          if (!data.success) {
-            throw new Error(data.error || "Unknown error occurred");
+          if (!data.success || !data.data) {
+            throw new Error(data.error ?? "Unknown error occurred");
           }
 
           // Transform API data to AstrologicalProfile format
           const planetaryPositions = Object.entries(
-            data.data.positions || {},
-          ).map(([planet, position]: [string, any]) => ({
+            data.data.positions ?? {},
+          ).map(([planet, position]) => ({
             planet,
             sign: position.sign,
             degree: position.degree,
             isRetrograde: position.isRetrograde,
           }));
 
-          const profile = {
+          const profile: AstrologicalProfile = {
             zodiac: [data.data.currentSign],
             lunar: [data.data.lunarPhase],
             planetary: planetaryPositions,
@@ -532,7 +576,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
       const THROTTLE_TIME = 5000; // 5 seconds
 
       if (!state.lastUpdated || now - state.lastUpdated > THROTTLE_TIME) {
-        void fetchAstrologyData(latitude, longitude, dateRef.current);
+        fetchAstrologyData(latitude, longitude, dateRef.current).catch((err: unknown) => {
+          logger.error("Failed to auto-fetch astrology data:", err);
+        });
       }
     }
   }, [
@@ -545,9 +591,11 @@ export function useAstrology(options: AstrologyOptions = {}) {
   ]);
 
   // Force refresh data method
-  const refreshData = useCallback(() => {
+  const refreshData = useCallback((): void => {
     if (latitude !== null && longitude !== null) {
-      void fetchAstrologyData(latitude, longitude, dateRef.current);
+      fetchAstrologyData(latitude, longitude, dateRef.current).catch((err: unknown) => {
+        logger.error("Failed to refresh astrology data:", err);
+      });
     }
   }, [latitude, longitude, fetchAstrologyData]);
 

@@ -14,6 +14,7 @@ import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import { _logger } from "@/lib/logger";
 import type {
   DayOfWeek,
   MealType,
@@ -41,7 +42,7 @@ function DayNutritionStrip({
   daily,
 }: {
   daily: DailyNutritionResult | undefined;
-}) {
+}): React.JSX.Element {
   if (!daily || daily.meals.length === 0) {
     return (
       <div className="px-3 py-2 border-t border-muted text-[10px] text-on-surface-variant/50 italic font-mono">
@@ -52,7 +53,7 @@ function DayNutritionStrip({
 
   const { totals, goals, compliance } = daily;
   const calPct = goals.calories > 0
-    ? Math.min(150, Math.round(((totals.calories ?? 0) / goals.calories) * 100))
+    ? Math.min(150, Math.round((totals.calories / goals.calories) * 100))
     : 0;
   const barColor =
     calPct < 60
@@ -65,7 +66,7 @@ function DayNutritionStrip({
     <div className="px-3 py-2 border-t border-muted bg-surface-container-lowest/80 text-[11px] font-mono">
       <div className="flex items-center justify-between mb-1">
         <span className="font-semibold text-primary">
-          {Math.round(totals.calories ?? 0)}/{Math.round(goals.calories)} kcal
+          {Math.round(totals.calories)}/{Math.round(goals.calories)} kcal
         </span>
         <span
           className={`font-medium ${
@@ -86,9 +87,9 @@ function DayNutritionStrip({
         />
       </div>
       <div className="flex gap-2 mt-1 text-on-surface-variant">
-        <span>P {Math.round(totals.protein ?? 0)}g</span>
-        <span>C {Math.round(totals.carbs ?? 0)}g</span>
-        <span>F {Math.round(totals.fat ?? 0)}g</span>
+        <span>P {Math.round(totals.protein)}g</span>
+        <span>C {Math.round(totals.carbs)}g</span>
+        <span>F {Math.round(totals.fat)}g</span>
       </div>
     </div>
   );
@@ -127,7 +128,7 @@ function DayColumn({
   currentPlanetaryHour?: string | null;
   dailyNutrition?: DailyNutritionResult;
   isSelectedForHero?: boolean;
-}) {
+}): React.JSX.Element {
   const {
     addMealToSlot,
     removeMealFromSlot,
@@ -150,84 +151,88 @@ function DayColumn({
     (type) => meals.find((m) => m.mealType === type)!,
   );
 
-  const highlight = isToday || isSelectedForHero;
-
   return (
     <div
-      className={`
-        flex flex-col rounded-xl overflow-hidden transition-all duration-300
-        ${highlight 
-          ? "border-2 border-active-violet bg-surface-container-high/90 shadow-[0_0_15px_rgba(184,90,240,0.15)]" 
-          : "border border-muted bg-surface/40 hover:bg-surface/60"}
-        ${isExpanded ? "ring-1 ring-active-violet" : ""}
-      `}
+      className={`alchm-panel flex flex-col h-[640px] rounded-xl overflow-hidden transition-all duration-200 ${
+        isSelectedForHero
+          ? "border-2 border-gold-accent shadow-[0_0_15px_rgba(230,175,46,0.25)]"
+          : isToday
+            ? "border-2 border-active-violet shadow-[0_0_15px_rgba(184,90,240,0.3)]"
+            : isExpanded
+              ? "border-2 border-primary"
+              : "border border-muted hover:border-muted-highlight"
+      }`}
     >
-      {/* Day Header - clickable to expand */}
-      <button
-        type="button"
+      {/* Day Header — clickable to expand inline */}
+      <div
+        role="button"
+        tabIndex={0}
         onClick={onToggleExpand}
-        className={`
-          text-left p-3 border-b border-muted w-full transition-all duration-200
-          ${highlight ? "bg-active-violet/10 hover:bg-active-violet/15" : "bg-surface-container-low/30 hover:bg-surface-container-low/50"}
-        `}
-        aria-expanded={isExpanded}
-        aria-label={`${isExpanded ? "Collapse" : "Expand"} ${getDayName(dayOfWeek)}`}
+        onKeyDown={(e): void => {
+          if (e.key === "Enter" || e.key === " ") {
+            onToggleExpand?.();
+          }
+        }}
+        className={`p-3 border-b border-muted transition-colors cursor-pointer select-none ${
+          isToday
+            ? "bg-gradient-to-r from-active-violet/20 via-surface-container-high/40 to-active-violet/10"
+            : isExpanded
+              ? "bg-surface-container-high/60"
+              : "bg-surface-container-low/50 hover:bg-surface-container-high/40"
+        }`}
       >
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className={`text-2xl ${highlight ? "text-gold-accent" : "text-active-violet/70"}`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-xl text-gold-accent" title={`${characteristics.planet} rules this day`}>
               {PLANET_GLYPHS[characteristics.planet]}
             </span>
-            <div className="min-w-0">
-              <h3 className="font-headline-md text-headline-md font-bold text-primary truncate">
+            <div>
+              <div className="text-xs font-mono uppercase tracking-wider text-on-surface-variant flex items-center gap-1">
+                <span>{characteristics.planet}</span>
+                {isToday && (
+                  <span className="bg-active-violet text-background text-[9px] px-1.5 py-0.2 rounded-full font-bold">
+                    TODAY
+                  </span>
+                )}
+              </div>
+              <h3 className="text-base font-headline-md font-bold text-primary">
                 {getDayName(dayOfWeek)}
               </h3>
-              <p className="font-mono text-[9px] text-on-surface-variant uppercase tracking-wider truncate">
-                {formatDateForDisplay(date)}
-              </p>
             </div>
           </div>
-          <div className="flex items-center gap-1">
-            {isToday && (
-              <span className="px-2 py-0.5 text-[9px] font-bold font-mono bg-active-violet text-background rounded uppercase">
-                Today
-              </span>
+          <div className="text-right">
+            <div className="text-xs font-mono text-on-surface-variant">
+              {formatDateForDisplay(date)}
+            </div>
+            {currentPlanetaryHour && isToday && (
+              <div className="text-[10px] text-active-violet font-mono mt-0.5">
+                {currentPlanetaryHour} hr
+              </div>
             )}
-            <span className="text-on-surface-variant text-xs select-none" aria-hidden>
-              {isExpanded ? "▼" : "▶"}
-            </span>
           </div>
         </div>
-        <p className="text-[11px] text-on-surface-variant font-body-sm italic line-clamp-2 mt-1">
+
+        {/* Guidance snippet */}
+        <p className="text-[11px] text-on-surface-variant/80 mt-1.5 italic line-clamp-1">
           {characteristics.mealGuidance}
         </p>
+      </div>
 
-        {/* Planetary Hour Indicator (only for today) */}
-        {isToday && currentPlanetaryHour && (
-          <div className="mt-2 flex items-center gap-2 bg-active-violet/10 border border-active-violet/20 rounded-lg px-2 py-1">
-            <span className="text-active-violet font-semibold text-[10px] font-mono uppercase">
-              Hour:
-            </span>
-            <span className="text-primary font-bold text-xs truncate font-mono">
-              {currentPlanetaryHour}
-            </span>
-          </div>
-        )}
-      </button>
-
-      {/* Quick Actions - separate row, non-clickable header area */}
-      <div className="flex gap-1 px-2 py-1.5 bg-surface-container-lowest/50 border-b border-muted">
+      {/* Action Strip: Focus, Auto-recommend, Clear */}
+      <div className="px-2 py-1.5 bg-surface-container-lowest/60 border-b border-muted flex items-center justify-between gap-1">
         <button
-          onClick={(e) => { e.stopPropagation(); onFocusDay?.(); }}
+          onClick={(e): void => { e.stopPropagation(); onFocusDay?.(); }}
           className="text-[10px] font-mono uppercase px-2 py-1 rounded bg-water-essence/10 text-water-essence hover:bg-water-essence/20 border border-water-essence/20 transition-all flex-1"
           title={`Focus on ${getDayName(dayOfWeek)} with suggestions`}
         >
           Focus
         </button>
         <button
-          onClick={(e) => {
+          onClick={(e): void => {
             e.stopPropagation();
-            void generateMealsForDay(dayOfWeek);
+            generateMealsForDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] generateMealsForDay failed:", err);
+            });
           }}
           className="text-[10px] font-mono uppercase px-2 py-1 rounded bg-gold-accent/10 text-gold-accent hover:bg-gold-accent/20 border border-gold-accent/20 transition-all flex-1"
           title={`Recommend meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
@@ -235,9 +240,11 @@ function DayColumn({
           Rec
         </button>
         <button
-          onClick={(e) => {
+          onClick={(e): void => {
             e.stopPropagation();
-            void clearDay(dayOfWeek);
+            clearDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] clearDay failed:", err);
+            });
           }}
           className="text-[10px] px-2 py-1 rounded bg-error/10 text-error hover:bg-error/20 border border-error/20 transition-colors"
           title="Clear all meals for this day"
@@ -258,33 +265,45 @@ function DayColumn({
             )}
             <MealSlot
               mealSlot={mealSlot}
-              onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
-                void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
+              onAddRecipe={(recipe: MonicaOptimizedRecipe): void => {
+                addMealToSlot(dayOfWeek, mealSlot.mealType, recipe).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] addMealToSlot failed:", err);
+                });
               }}
-              onRemoveRecipe={() => {
-                void removeMealFromSlot(mealSlot.id);
+              onRemoveRecipe={(): void => {
+                removeMealFromSlot(mealSlot.id).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] removeMealFromSlot failed:", err);
+                });
               }}
-              onUpdateServings={(servings: number) => {
-                void updateMealServings(mealSlot.id, servings);
+              onUpdateServings={(servings: number): void => {
+                updateMealServings(mealSlot.id, servings).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] updateMealServings failed:", err);
+                });
               }}
-              onMoveMeal={(sourceSlotId: string) => {
-                void moveMeal(sourceSlotId, mealSlot.id);
+              onMoveMeal={(sourceSlotId: string): void => {
+                moveMeal(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] moveMeal failed:", err);
+                });
               }}
-              onSwapMeals={(sourceSlotId: string) => {
-                void swapMeals(sourceSlotId, mealSlot.id);
+              onSwapMeals={(sourceSlotId: string): void => {
+                swapMeals(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] swapMeals failed:", err);
+                });
               }}
-              onCopyMeal={() => onCopyMealClick?.(mealSlot)}
-              onGenerateMeal={() => {
-                void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
+              onCopyMeal={(): void => onCopyMealClick?.(mealSlot)}
+              onGenerateMeal={(): void => {
+                generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] }).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] generateMealsForDay slot failed:", err);
+                });
               }}
-              onAddSauce={(sauceId: string, servings?: number) => {
-                void addSauceToMeal(mealSlot.id, sauceId, servings);
+              onAddSauce={(sauceId: string, servings?: number): void => {
+                addSauceToMeal(mealSlot.id, sauceId, servings);
               }}
-              onRemoveSauce={() => {
-                void removeSauceFromMeal(mealSlot.id);
+              onRemoveSauce={(): void => {
+                removeSauceFromMeal(mealSlot.id);
               }}
-              onUpdateSauceServings={(servings: number) => {
-                void updateSauceServings(mealSlot.id, servings);
+              onUpdateSauceServings={(servings: number): void => {
+                updateSauceServings(mealSlot.id, servings);
               }}
             />
           </React.Fragment>
@@ -317,7 +336,7 @@ function TodayHeroCard({
   onFocusDay?: () => void;
   currentPlanetaryHour?: string | null;
   dailyNutrition?: DailyNutritionResult;
-}) {
+}): React.JSX.Element {
   const {
     addMealToSlot,
     removeMealFromSlot,
@@ -377,7 +396,7 @@ function TodayHeroCard({
               Calories
             </div>
             <div className="font-bold text-primary">
-              {Math.round(dailyNutrition.totals.calories ?? 0)}
+              {Math.round(dailyNutrition.totals.calories)}
               <span className="text-xs font-normal text-on-surface-variant">
                 {" "}/ {Math.round(dailyNutrition.goals.calories)}
               </span>
@@ -388,7 +407,7 @@ function TodayHeroCard({
               Protein
             </div>
             <div className="font-bold text-fire-spirit">
-              {Math.round(dailyNutrition.totals.protein ?? 0)}g
+              {Math.round(dailyNutrition.totals.protein)}g
             </div>
           </div>
           <div>
@@ -396,7 +415,7 @@ function TodayHeroCard({
               Carbs
             </div>
             <div className="font-bold text-air-substance">
-              {Math.round(dailyNutrition.totals.carbs ?? 0)}g
+              {Math.round(dailyNutrition.totals.carbs)}g
             </div>
           </div>
           <div>
@@ -404,7 +423,7 @@ function TodayHeroCard({
               Fat
             </div>
             <div className="font-bold text-earth-matter">
-              {Math.round(dailyNutrition.totals.fat ?? 0)}g
+              {Math.round(dailyNutrition.totals.fat)}g
             </div>
           </div>
           <div>
@@ -435,13 +454,21 @@ function TodayHeroCard({
           🔍 Focus mode
         </button>
         <button
-          onClick={() => { void generateMealsForDay(dayOfWeek); }}
+          onClick={(): void => {
+            generateMealsForDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] hero generateMealsForDay failed:", err);
+            });
+          }}
           className="text-xs px-3 py-1.5 rounded-lg bg-active-violet text-background hover:bg-white transition-all font-mono uppercase font-bold"
         >
           ✨ Auto-fill day
         </button>
         <button
-          onClick={() => { void clearDay(dayOfWeek); }}
+          onClick={(): void => {
+            clearDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] hero clearDay failed:", err);
+            });
+          }}
           className="text-xs px-3 py-1.5 rounded-lg bg-error/10 text-error hover:bg-error/20 border border-error/20 transition-colors font-mono uppercase font-bold"
         >
           Clear
@@ -454,33 +481,45 @@ function TodayHeroCard({
           <MealSlot
             key={mealSlot.id}
             mealSlot={mealSlot}
-            onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
-              void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
+            onAddRecipe={(recipe: MonicaOptimizedRecipe): void => {
+              addMealToSlot(dayOfWeek, mealSlot.mealType, recipe).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero addMealToSlot failed:", err);
+              });
             }}
-            onRemoveRecipe={() => {
-              void removeMealFromSlot(mealSlot.id);
+            onRemoveRecipe={(): void => {
+              removeMealFromSlot(mealSlot.id).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero removeMealFromSlot failed:", err);
+              });
             }}
-            onUpdateServings={(servings: number) => {
-              void updateMealServings(mealSlot.id, servings);
+            onUpdateServings={(servings: number): void => {
+              updateMealServings(mealSlot.id, servings).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero updateMealServings failed:", err);
+              });
             }}
-            onMoveMeal={(sourceSlotId: string) => {
-              void moveMeal(sourceSlotId, mealSlot.id);
+            onMoveMeal={(sourceSlotId: string): void => {
+              moveMeal(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero moveMeal failed:", err);
+              });
             }}
-            onSwapMeals={(sourceSlotId: string) => {
-              void swapMeals(sourceSlotId, mealSlot.id);
+            onSwapMeals={(sourceSlotId: string): void => {
+              swapMeals(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero swapMeals failed:", err);
+              });
             }}
-            onCopyMeal={() => onCopyMealClick?.(mealSlot)}
-            onGenerateMeal={() => {
-              void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
+            onCopyMeal={(): void => onCopyMealClick?.(mealSlot)}
+            onGenerateMeal={(): void => {
+              generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] }).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero generateMealsForDay slot failed:", err);
+              });
             }}
-            onAddSauce={(sauceId: string, servings?: number) => {
-              void addSauceToMeal(mealSlot.id, sauceId, servings);
+            onAddSauce={(sauceId: string, servings?: number): void => {
+              addSauceToMeal(mealSlot.id, sauceId, servings);
             }}
-            onRemoveSauce={() => {
-              void removeSauceFromMeal(mealSlot.id);
+            onRemoveSauce={(): void => {
+              removeSauceFromMeal(mealSlot.id);
             }}
-            onUpdateSauceServings={(servings: number) => {
-              void updateSauceServings(mealSlot.id, servings);
+            onUpdateSauceServings={(servings: number): void => {
+              updateSauceServings(mealSlot.id, servings);
             }}
           />
         ))}
@@ -492,7 +531,7 @@ function TodayHeroCard({
 /**
  * Main Weekly Calendar Component
  */
-export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalendarProps) {
+export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalendarProps): React.JSX.Element {
   const {
     currentMenu,
     navigation,
@@ -504,7 +543,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   const { currentPlanetaryHour } = useAstrologicalState();
   const weeklyNutrition = useNutritionTracking(
     currentMenu,
-    generationPreferences?.nutritionalTargets ?? null,
+    generationPreferences.nutritionalTargets,
   );
   const [copyMealModalState, setCopyMealModalState] = useState<{
     isOpen: boolean;
@@ -526,12 +565,12 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
     dayOfWeek: 0 as DayOfWeek,
   });
 
-  const toggleExpandDay = (day: DayOfWeek) => {
+  const toggleExpandDay = (day: DayOfWeek): void => {
     setExpandedDay((prev) => (prev === day ? null : day));
   };
 
   // Handle opening focused day view
-  const handleOpenFocusedDay = (dayOfWeek: DayOfWeek) => {
+  const handleOpenFocusedDay = (dayOfWeek: DayOfWeek): void => {
     setFocusedDayState({
       isOpen: true,
       dayOfWeek,
@@ -539,7 +578,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   };
 
   // Handle day change in focused view
-  const handleFocusedDayChange = (direction: "prev" | "next") => {
+  const handleFocusedDayChange = (direction: "prev" | "next"): void => {
     setFocusedDayState((prev) => ({
       ...prev,
       dayOfWeek: (direction === "prev"
@@ -563,9 +602,6 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
     if (!currentMenu) return grouped;
 
     currentMenu.meals.forEach((meal) => {
-      if (!grouped[meal.dayOfWeek]) {
-        grouped[meal.dayOfWeek] = [];
-      }
       grouped[meal.dayOfWeek].push(meal);
     });
 
@@ -584,7 +620,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   }, [navigation.currentWeekStart]);
 
   // Handle copy/move meal click
-  const handleCopyMealClick = (mealSlot: MealSlotType) => {
+  const handleCopyMealClick = (mealSlot: MealSlotType): void => {
     if (!mealSlot.recipe) return;
     setCopyMealModalState({
       isOpen: true,
@@ -593,16 +629,20 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   };
 
   // Handle copy operation
-  const handleCopy = (targetSlotIds: string[], servings?: number) => {
+  const handleCopy = (targetSlotIds: string[], servings?: number): void => {
     if (!copyMealModalState.sourceMeal) return;
-    void copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
+    copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings).catch((err: unknown) => {
+      _logger.error("[WeeklyCalendar] copyMealToSlots failed:", err);
+    });
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 
   // Handle move operation
-  const handleMove = (targetSlotIds: string[], servings?: number) => {
+  const handleMove = (targetSlotIds: string[], servings?: number): void => {
     if (!copyMealModalState.sourceMeal) return;
-    void moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
+    moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings).catch((err: unknown) => {
+      _logger.error("[WeeklyCalendar] moveMealToSlots failed:", err);
+    });
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 
@@ -628,7 +668,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   }
 
   // Calculate total meal count for progressive messaging
-  const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
+  const totalMeals = currentMenu.meals.filter((m) => m.recipe).length;
 
   // Determine whether today falls within the currently-displayed week.
   // If yes, surface the Today hero card and highlight that column.
@@ -747,11 +787,11 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
           <TodayHeroCard
             dayOfWeek={todayDayOfWeek}
             date={weekDates[todayDayOfWeek]}
-            meals={mealsByDay[todayDayOfWeek] || []}
+            meals={mealsByDay[todayDayOfWeek]}
             onCopyMealClick={handleCopyMealClick}
-            onFocusDay={() => handleOpenFocusedDay(todayDayOfWeek)}
+            onFocusDay={(): void => handleOpenFocusedDay(todayDayOfWeek)}
             currentPlanetaryHour={currentPlanetaryHour}
-            dailyNutrition={weeklyNutrition?.days?.[todayDayOfWeek]}
+            dailyNutrition={weeklyNutrition?.days[todayDayOfWeek]}
           />
         </div>
       )}
@@ -764,14 +804,14 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
               key={day}
               dayOfWeek={day}
               date={weekDates[day]}
-              meals={mealsByDay[day] || []}
+              meals={mealsByDay[day]}
               onMealClick={onMealClick}
               onCopyMealClick={handleCopyMealClick}
-              onFocusDay={() => handleOpenFocusedDay(day)}
-              onToggleExpand={() => toggleExpandDay(day)}
+              onFocusDay={(): void => handleOpenFocusedDay(day)}
+              onToggleExpand={(): void => toggleExpandDay(day)}
               isExpanded={expandedDay === day}
               currentPlanetaryHour={currentPlanetaryHour}
-              dailyNutrition={weeklyNutrition?.days?.[day]}
+              dailyNutrition={weeklyNutrition?.days[day]}
               isSelectedForHero={day === todayDayOfWeek}
             />
           ))}
@@ -782,11 +822,11 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
             <TodayHeroCard
               dayOfWeek={expandedDay}
               date={weekDates[expandedDay]}
-              meals={mealsByDay[expandedDay] || []}
+              meals={mealsByDay[expandedDay]}
               onCopyMealClick={handleCopyMealClick}
-              onFocusDay={() => handleOpenFocusedDay(expandedDay)}
+              onFocusDay={(): void => handleOpenFocusedDay(expandedDay)}
               currentPlanetaryHour={null}
-              dailyNutrition={weeklyNutrition?.days?.[expandedDay]}
+              dailyNutrition={weeklyNutrition?.days[expandedDay]}
             />
           </div>
         )}
@@ -800,14 +840,14 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
               key={day}
               dayOfWeek={day}
               date={weekDates[day]}
-              meals={mealsByDay[day] || []}
+              meals={mealsByDay[day]}
               onMealClick={onMealClick}
               onCopyMealClick={handleCopyMealClick}
-              onFocusDay={() => handleOpenFocusedDay(day)}
-              onToggleExpand={() => toggleExpandDay(day)}
+              onFocusDay={(): void => handleOpenFocusedDay(day)}
+              onToggleExpand={(): void => toggleExpandDay(day)}
               isExpanded={expandedDay === day}
               currentPlanetaryHour={currentPlanetaryHour}
-              dailyNutrition={weeklyNutrition?.days?.[day]}
+              dailyNutrition={weeklyNutrition?.days[day]}
               isSelectedForHero={day === todayDayOfWeek}
             />
           ))}
@@ -818,14 +858,14 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
               key={day}
               dayOfWeek={day}
               date={weekDates[day]}
-              meals={mealsByDay[day] || []}
+              meals={mealsByDay[day]}
               onMealClick={onMealClick}
               onCopyMealClick={handleCopyMealClick}
-              onFocusDay={() => handleOpenFocusedDay(day)}
-              onToggleExpand={() => toggleExpandDay(day)}
+              onFocusDay={(): void => handleOpenFocusedDay(day)}
+              onToggleExpand={(): void => toggleExpandDay(day)}
               isExpanded={expandedDay === day}
               currentPlanetaryHour={currentPlanetaryHour}
-              dailyNutrition={weeklyNutrition?.days?.[day]}
+              dailyNutrition={weeklyNutrition?.days[day]}
               isSelectedForHero={day === todayDayOfWeek}
             />
           ))}
@@ -835,11 +875,11 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
             <TodayHeroCard
               dayOfWeek={expandedDay}
               date={weekDates[expandedDay]}
-              meals={mealsByDay[expandedDay] || []}
+              meals={mealsByDay[expandedDay]}
               onCopyMealClick={handleCopyMealClick}
-              onFocusDay={() => handleOpenFocusedDay(expandedDay)}
+              onFocusDay={(): void => handleOpenFocusedDay(expandedDay)}
               currentPlanetaryHour={null}
-              dailyNutrition={weeklyNutrition?.days?.[expandedDay]}
+              dailyNutrition={weeklyNutrition?.days[expandedDay]}
             />
           </div>
         )}
@@ -869,23 +909,23 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
       {copyMealModalState.sourceMeal && (
         <CopyMealModal
           isOpen={copyMealModalState.isOpen}
-          onClose={() =>
+          onClose={(): void =>
             setCopyMealModalState({ isOpen: false, sourceMeal: null })
           }
           sourceMeal={copyMealModalState.sourceMeal}
-          allMeals={currentMenu?.meals || []}
+          allMeals={currentMenu.meals}
           onCopy={handleCopy}
           onMove={handleMove}
         />
       )}
 
       {/* Focused Day View Modal */}
-      {focusedDayState.isOpen && currentMenu && (
+      {focusedDayState.isOpen && (
         <FocusedDayView
           dayOfWeek={focusedDayState.dayOfWeek}
           date={weekDates[focusedDayState.dayOfWeek]}
-          meals={mealsByDay[focusedDayState.dayOfWeek] || []}
-          onClose={() =>
+          meals={mealsByDay[focusedDayState.dayOfWeek]}
+          onClose={(): void =>
             setFocusedDayState({ isOpen: false, dayOfWeek: 0 as DayOfWeek })
           }
           onDayChange={handleFocusedDayChange}

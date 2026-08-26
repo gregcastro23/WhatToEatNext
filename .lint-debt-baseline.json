@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 13942,
+  "trackedTotal": 12988,
   "declined": {
     "rules": {
       "complexity": 376,
@@ -10,15 +10,15 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 2405,
+      "count": 2315,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 1089,
+      "count": 1076,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 826,
+      "count": 751,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -26,31 +26,31 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 3443,
+      "count": 3278,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 451,
+      "count": 410,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1238,
+      "count": 1084,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 222,
+      "count": 205,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1831,
+      "count": 1611,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 166,
+      "count": 152,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 604,
+      "count": 539,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -62,7 +62,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 154,
+      "count": 151,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -70,7 +70,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 366,
+      "count": 363,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -94,7 +94,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2112,
+      "count": 2113,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -102,7 +102,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 729,
+      "count": 692,
       "autoFixable": 0
     },
     "no-useless-assignment": {
@@ -110,7 +110,7 @@
       "autoFixable": 0
     },
     "no-void": {
-      "count": 700,
+      "count": 640,
       "autoFixable": 0
     },
     "prefer-destructuring": {

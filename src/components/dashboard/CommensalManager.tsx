@@ -6,7 +6,8 @@ import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnerg
 import { CompositeEnergySkeleton } from '@/components/commensal/skeletons';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { useGroupRecommendations } from '@/hooks/useCommensalRecommendations';
-import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
+import { _logger } from '@/lib/logger';
+import type { GroupMember, ExtendedDiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -52,7 +53,7 @@ const RELATIONSHIP_OPTIONS: Array<GroupMember['relationship']> = [
 
 /* ─── Helpers ───────────────────────────────────────────── */
 
-function ScoreBar({ value, color = 'purple' }: { value: number; color?: string }) {
+function ScoreBar({ value, color = 'purple' }: { value: number; color?: string }): React.JSX.Element {
   const pct = Math.round(value * 100);
   const colorClass =
     color === 'purple' ? 'bg-purple-500' :
@@ -71,7 +72,7 @@ function ScoreBar({ value, color = 'purple' }: { value: number; color?: string }
 
 type AddMode = 'manual' | 'email';
 
-function AddModeToggle({ mode, onModeChange }: { mode: AddMode; onModeChange: (m: AddMode) => void }) {
+function AddModeToggle({ mode, onModeChange }: { mode: AddMode; onModeChange: (m: AddMode) => void }): React.JSX.Element {
   return (
     <div className="flex rounded-lg border border-gray-200 overflow-hidden mb-4">
       <button
@@ -108,7 +109,7 @@ function AddByEmailForm({
 }: {
   onRequestSent: () => void;
   onCancel: () => void;
-}) {
+}): React.JSX.Element {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState(false);
@@ -128,7 +129,7 @@ function AddByEmailForm({
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Search failed');
-      const data = await res.json();
+      const data = (await res.json()) as { success: boolean; users?: SearchResult[] };
       if (data.success) setResults(data.users ?? []);
     } catch {
       setMessage({ type: 'error', text: 'Search failed. Please check your connection.' });
@@ -139,13 +140,20 @@ function AddByEmailForm({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (query.length >= 3) void handleSearch();
-      else setResults([]);
+      if (query.length >= 3) {
+        handleSearch().catch((err: unknown) => {
+          _logger.error("[CommensalManager] handleSearch failed:", err);
+        });
+      } else {
+        setResults([]);
+      }
     }, 400);
-    return () => clearTimeout(timer);
+    return (): void => {
+      clearTimeout(timer);
+    };
   }, [query, handleSearch]);
 
-  const handleSendRequest = async (userEmail: string) => {
+  const handleSendRequest = async (userEmail: string): Promise<void> => {
     setSending(userEmail);
     setMessage(null);
     try {
@@ -158,7 +166,7 @@ function AddByEmailForm({
       });
 
       if (!res.ok) throw new Error('Failed to send request');
-      const data = await res.json();
+      const data = (await res.json()) as { success: boolean; message?: string };
       if (data.success) {
         setMessage({ type: 'success', text: `Commensal request sent to ${userEmail}` });
         setSentTo((prev) => new Set(prev).add(userEmail));
@@ -221,7 +229,11 @@ function AddByEmailForm({
                   <div className="text-xs text-gray-400 truncate">{u.email}</div>
                 </div>
                 <button
-                  onClick={() => { void handleSendRequest(u.email); }}
+                  onClick={() => {
+                    handleSendRequest(u.email).catch((err: unknown) => {
+                      _logger.error("[CommensalManager] handleSendRequest failed:", err);
+                    });
+                  }}
                   disabled={sending === u.email || alreadySent}
                   className={`ml-2 px-3 py-1.5 text-xs rounded-lg font-medium transition-colors flex-shrink-0 ${
                     alreadySent
@@ -263,7 +275,7 @@ function AddCommensalForm({
 }: {
   onAdded: (c: GroupMember) => void;
   onCancel: () => void;
-}) {
+}): React.JSX.Element {
   const [name, setName] = useState('');
   const [relationship, setRelationship] = useState<GroupMember['relationship']>('friend');
   const [dateTime, setDateTime] = useState('');
@@ -273,7 +285,7 @@ function AddCommensalForm({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError(null);
 
@@ -302,14 +314,14 @@ function AddCommensalForm({
       let data: { success: boolean; message?: string; commensal?: GroupMember };
       const contentType = res.headers.get('content-type') ?? '';
       if (contentType.includes('application/json')) {
-        data = await res.json();
+        data = (await res.json()) as { success: boolean; message?: string; commensal?: GroupMember };
       } else {
         const raw = await res.text();
-        console.error('Non-JSON response from /api/user/commensals:', res.status, raw);
+        _logger.error(`Non-JSON response from /api/user/commensals (${res.status}):`, raw);
         throw new Error(`Server error (${res.status}): ${raw.slice(0, 200)}`);
       }
-      if (!res.ok || !data.success) throw new Error(data.message ?? 'Failed to add commensal');
-      onAdded(data.commensal!);
+      if (!res.ok || !data.success || !data.commensal) throw new Error(data.message ?? 'Failed to add commensal');
+      onAdded(data.commensal);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add commensal');
     } finally {
@@ -318,7 +330,14 @@ function AddCommensalForm({
   };
 
   return (
-    <form onSubmit={(event) => { void handleSubmit(event); }} className="space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-4">
+    <form
+      onSubmit={(event) => {
+        handleSubmit(event).catch((err: unknown) => {
+          _logger.error("[CommensalManager] handleSubmit failed:", err);
+        });
+      }}
+      className="space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-4"
+    >
       <h4 className="text-sm font-semibold text-gray-800">New Manual Chart</h4>
       <p className="text-xs text-gray-500">
         For friends/family who do NOT have an alchm.kitchen account.
@@ -495,6 +514,8 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
 
 /* ─── Group Recommendations Panel ────────────────────────── */
 
+/* ─── Group Recommendations Panel ────────────────────────── */
+
 function GroupRecommendationsPanel({
   commensalIds,
   linkedUserIds,
@@ -505,7 +526,7 @@ function GroupRecommendationsPanel({
   linkedUserIds: string[];
   allMembers: GroupMember[];
   linkedCommensals: LinkedCommensal[];
-}) {
+}): React.JSX.Element | null {
   const [strategy, setStrategy] = useState<'average' | 'minimum' | 'consensus'>('average');
   const { result, loading, refetch } = useGroupRecommendations({
     commensalIds,
@@ -549,7 +570,9 @@ function GroupRecommendationsPanel({
             <option value="consensus">Consensus</option>
           </select>
           <button
-            onClick={() => void refetch()}
+            onClick={() => {
+              refetch().catch(() => {});
+            }}
             disabled={loading}
             className="px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
@@ -586,7 +609,7 @@ function GroupRecommendationsPanel({
           </div>
 
           {/* Per-member score breakdown */}
-          {result.recommendations.length > 0 && result.recommendations[0].memberScores?.length > 0 && (
+          {result.recommendations.length > 0 && result.recommendations[0].memberScores.length > 0 && (
             <div className="space-y-2">
               <h5 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                 Member Harmony Breakdown (Top Pick)
@@ -619,13 +642,13 @@ function DiningGroupSection({
   onGroupDeleted,
   onGetRecs,
 }: {
-  groups: DiningGroup[];
+  groups: ExtendedDiningGroup[];
   members: GroupMember[];
   linkedCommensals: LinkedCommensal[];
-  onGroupCreated: (g: DiningGroup) => void;
+  onGroupCreated: (g: ExtendedDiningGroup) => void;
   onGroupDeleted: (id: string) => void;
   onGetRecs: (manualIds: string[], linkedIds: string[]) => void;
-}) {
+}): React.JSX.Element {
   const [showCreate, setShowCreate] = useState(false);
   const [groupName, setGroupName] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -633,14 +656,15 @@ function DiningGroupSection({
   const [error, setError] = useState<string | null>(null);
 
   const allCompanions = [
-    ...members.map((m) => ({ id: m.id, name: m.name, element: m.natalChart?.dominantElement, isLinked: false })),
-    ...linkedCommensals.map((f) => ({ id: f.userId, name: f.name, element: f.natalChart?.dominantElement, isLinked: true })),
+    ...members.map((m) => ({ id: m.id, name: m.name, element: m.natalChart.dominantElement, isLinked: false })),
+    ...linkedCommensals.map((f) => ({ id: f.userId, name: f.name, element: f.natalChart.dominantElement, isLinked: true })),
   ];
 
-  const toggleMember = (id: string) =>
+  const toggleMember = (id: string): void => {
     setSelectedIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  };
 
-  const handleCreate = async () => {
+  const handleCreate = async (): Promise<void> => {
     if (!groupName.trim() || selectedIds.length === 0) {
       setError('Group name and at least one member are required.');
       return;
@@ -665,8 +689,8 @@ function DiningGroupSection({
         }),
       });
       if (!res.ok) throw new Error(`Server error (${res.status})`);
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message);
+      const data = (await res.json()) as { success: boolean; message?: string; diningGroup?: ExtendedDiningGroup };
+      if (!data.success || !data.diningGroup) throw new Error(data.message ?? 'Failed to create group');
       onGroupCreated(data.diningGroup);
       setGroupName('');
       setSelectedIds([]);
@@ -678,7 +702,7 @@ function DiningGroupSection({
     }
   };
 
-  const handleDelete = async (groupId: string) => {
+  const handleDelete = async (groupId: string): Promise<void> => {
     try {
       await fetch(`/api/user/dining-groups/${groupId}`, {
         method: 'DELETE',
@@ -738,7 +762,9 @@ function DiningGroupSection({
             ))}
           </div>
           <button
-            onClick={() => { void handleCreate(); }}
+            onClick={() => {
+              handleCreate().catch(() => {});
+            }}
             disabled={saving}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
@@ -758,7 +784,7 @@ function DiningGroupSection({
           .filter((m) => group.memberIds.includes(m.id))
           .map((m) => m.name);
         const groupLinkedNames = linkedCommensals
-          .filter((f) => ((group as any).linkedUserIds ?? []).includes(f.userId))
+          .filter((f) => (group.linkedUserIds ?? []).includes(f.userId))
           .map((f) => f.name);
         const allNames = [...groupMemberNames, ...groupLinkedNames];
 
@@ -773,13 +799,15 @@ function DiningGroupSection({
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => onGetRecs(group.memberIds, (group as any).linkedUserIds ?? [])}
+                  onClick={() => onGetRecs(group.memberIds, group.linkedUserIds ?? [])}
                   className="px-3 py-1.5 text-xs bg-orange-50 text-orange-700 border border-orange-200 rounded-lg font-medium hover:bg-orange-100 transition-colors"
                 >
                   Recommend
                 </button>
                 <button
-                  onClick={() => { void handleDelete(group.id); }}
+                  onClick={() => {
+                    handleDelete(group.id).catch(() => {});
+                  }}
                   className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -800,7 +828,7 @@ function DiningGroupSection({
 export const CommensalManager: React.FC = () => {
   const [commensals, setCommensals] = useState<GroupMember[]>([]);
   const [linkedCommensals, setLinkedCommensals] = useState<LinkedCommensal[]>([]);
-  const [groups, setGroups] = useState<DiningGroup[]>([]);
+  const [groups, setGroups] = useState<ExtendedDiningGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [addMode, setAddMode] = useState<AddMode>('manual');
@@ -811,7 +839,7 @@ export const CommensalManager: React.FC = () => {
 
   // Load commensals + groups + linked friends
   useEffect(() => {
-    const load = async () => {
+    const load = async (): Promise<void> => {
       try {
         const [cRes, gRes, lcRes] = await Promise.all([
           fetch('/api/user/commensals', { credentials: 'include' }),
@@ -819,7 +847,15 @@ export const CommensalManager: React.FC = () => {
           fetch('/api/commensals', { credentials: 'include' }),
         ]);
         if (!cRes.ok || !gRes.ok) throw new Error('Failed to load data');
-        const [cData, gData, lcData] = await Promise.all([cRes.json(), gRes.json(), lcRes.ok ? lcRes.json() : Promise.resolve({ success: false })]);
+        const [cData, gData, lcData] = (await Promise.all([
+          cRes.json(),
+          gRes.json(),
+          lcRes.ok ? lcRes.json() : Promise.resolve({ success: false }),
+        ])) as [
+          { success: boolean; commensals?: GroupMember[] },
+          { success: boolean; diningGroups?: ExtendedDiningGroup[] },
+          { success: boolean; linkedCommensals?: LinkedCommensal[] },
+        ];
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
         if (lcData.success) setLinkedCommensals(lcData.linkedCommensals ?? []);
@@ -829,21 +865,21 @@ export const CommensalManager: React.FC = () => {
         setLoading(false);
       }
     };
-    void load();
+    load().catch(() => {});
   }, []);
 
-  const refreshLinkedCommensals = async () => {
+  const refreshLinkedCommensals = async (): Promise<void> => {
     try {
       const res = await fetch('/api/commensals', { credentials: 'include' });
       if (!res.ok) return;
-      const data = await res.json();
+      const data = (await res.json()) as { success: boolean; linkedCommensals?: LinkedCommensal[] };
       if (data.success) setLinkedCommensals(data.linkedCommensals ?? []);
     } catch {
       // ignore
     }
   };
 
-  const handleDeleteCommensal = async (commensalId: string) => {
+  const handleDeleteCommensal = async (commensalId: string): Promise<void> => {
     try {
       await fetch(`/api/user/commensals/${commensalId}`, {
         method: 'DELETE',
@@ -856,11 +892,13 @@ export const CommensalManager: React.FC = () => {
     }
   };
 
-  const toggleManualSelect = (id: string) =>
+  const toggleManualSelect = (id: string): void => {
     setSelectedManualIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  };
 
-  const toggleLinkedSelect = (id: string) =>
+  const toggleLinkedSelect = (id: string): void => {
     setSelectedLinkedIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  };
 
   // IDs for recommendation panel
   const recManualIds = activeManualIds.length > 0 ? activeManualIds : selectedManualIds;
@@ -916,7 +954,9 @@ export const CommensalManager: React.FC = () => {
           ) : (
             <AddByEmailForm
               key="email-form"
-              onRequestSent={() => { void refreshLinkedCommensals(); }}
+              onRequestSent={() => {
+                refreshLinkedCommensals().catch(() => {});
+              }}
               onCancel={() => setShowAddForm(false)}
             />
           )}
@@ -962,13 +1002,15 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={m.id}
                 name={m.name}
-                element={m.natalChart?.dominantElement ?? 'Fire'}
-                modality={m.natalChart?.dominantModality}
-                ascendant={m.natalChart?.ascendant}
+                element={m.natalChart.dominantElement}
+                modality={m.natalChart.dominantModality}
+                ascendant={m.natalChart.ascendant}
                 relationship={m.relationship}
                 selected={selectedManualIds.includes(m.id)}
                 onToggle={() => { toggleManualSelect(m.id); }}
-                onDelete={() => { void handleDeleteCommensal(m.id); }}
+                onDelete={() => {
+                  handleDeleteCommensal(m.id).catch(() => {});
+                }}
               />
             ))}
 
@@ -977,9 +1019,9 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={f.userId}
                 name={f.name}
-                element={f.natalChart?.dominantElement ?? 'Fire'}
-                modality={f.natalChart?.dominantModality}
-                ascendant={f.natalChart?.ascendant}
+                element={f.natalChart.dominantElement}
+                modality={f.natalChart.dominantModality}
+                ascendant={f.natalChart.ascendant}
                 isLinked
                 selected={selectedLinkedIds.includes(f.userId)}
                 onToggle={() => { toggleLinkedSelect(f.userId); }}

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
 import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { FutureRecipeSkeleton } from "@/components/premium/FutureRecipeSkeleton";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
@@ -20,9 +20,10 @@ import { TechniqueModal } from "@/components/recipes/TechniqueModal";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
-import type { Recipe } from "@/types/recipe";
-import { adaptRecipe, type DietaryMode } from "@/utils/dietaryAdaptation";
-import { analyzeTimeShortcuts, type TimeBudget } from "@/utils/timeShortcuts";
+import { _logger } from "@/lib/logger";
+import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
+import { adaptRecipe, type DietaryMode, type AdaptationResult } from "@/utils/dietaryAdaptation";
+import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
 
 // ===== Constants =====
 
@@ -66,18 +67,57 @@ const SPICE_LEVEL_DISPLAY: Record<string, { label: string; color: string; dots: 
   "Very Hot": { label: "Very Hot", color: "text-red-400", dots: 4 },
 };
 
+interface ExtendedRecipeDetails {
+  baseServingSize?: number;
+  servings?: number;
+  details?: {
+    prepTimeMinutes?: number;
+    cookTimeMinutes?: number;
+    spiceLevel?: string | number;
+  };
+  cookingMethods?: string[];
+}
+
+interface ExtendedNutrition {
+  calories?: number;
+  protein?: number;
+  proteinG?: number;
+  carbs?: number;
+  carbsG?: number;
+  fat?: number;
+  fatG?: number;
+  fiber?: number;
+  fiberG?: number;
+  sodium?: number;
+  sodiumMg?: number;
+  sugar?: number;
+  sugarG?: number;
+  vitamins?: string[];
+  minerals?: string[];
+}
+
+interface ExtendedSubstitution {
+  original?: string;
+  originalIngredient?: string;
+  alternatives?: string[];
+  substituteOptions?: string[];
+}
+
 // ===== Helpers =====
 
 function getBaseServings(recipe: Recipe): number {
-  return (recipe as { baseServingSize?: number }).baseServingSize
-    || recipe.servingSize
-    || recipe.numberOfServings
-    || (recipe as { servings?: number }).servings
-    || 1;
+  const ext = recipe as unknown as ExtendedRecipeDetails;
+  return (
+    ext.baseServingSize ??
+    recipe.servingSize ??
+    recipe.numberOfServings ??
+    ext.servings ??
+    1
+  );
 }
 
 function formatTime(minutes: number | undefined): string {
-  if (!minutes) return "";
+  if (!minutes || minutes <= 0) return "";
   if (minutes < 60) return `${minutes} min`;
   const hrs = Math.floor(minutes / 60);
   const mins = minutes % 60;
@@ -92,9 +132,9 @@ function stripStepPrefix(text: string): string {
 }
 
 function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
-  const { details } = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } });
-  if (details?.prepTimeMinutes != null) {
-    return { prep: details.prepTimeMinutes, cook: details.cookTimeMinutes || 0 };
+  const ext = recipe as unknown as ExtendedRecipeDetails;
+  if (ext.details?.prepTimeMinutes != null) {
+    return { prep: ext.details.prepTimeMinutes, cook: ext.details.cookTimeMinutes ?? 0 };
   }
   // Fallback: parse string times
   const parseTime = (t?: string): number => {
@@ -106,9 +146,10 @@ function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
 }
 
 function getCookingMethods(recipe: Recipe): string[] {
-  const methods = (recipe as { cookingMethods?: string[] }).cookingMethods || recipe.cookingMethod || [];
+  const ext = recipe as unknown as ExtendedRecipeDetails;
+  const methods = ext.cookingMethods ?? recipe.cookingMethod ?? [];
   const arr = Array.isArray(methods) ? methods : [methods];
-  return arr.map((m) => (typeof m === "string" ? m : (m as { name?: string })?.name || "")).filter(Boolean);
+  return arr.map((m) => (typeof m === "string" ? m : (m as { name?: string }).name ?? "")).filter(Boolean);
 }
 
 function getMealTypes(recipe: Recipe): string[] {
@@ -122,7 +163,8 @@ function getSeasons(recipe: Recipe): string[] {
 }
 
 function getSpiceLevel(recipe: Recipe): string {
-  const level = recipe.spiceLevel ?? (recipe as { details?: { spiceLevel?: string | number } }).details?.spiceLevel;
+  const ext = recipe as unknown as ExtendedRecipeDetails;
+  const level = recipe.spiceLevel ?? ext.details?.spiceLevel;
   if (typeof level === "number") {
     if (level === 0) return "None";
     if (level <= 2) return "Mild";
@@ -130,15 +172,16 @@ function getSpiceLevel(recipe: Recipe): string {
     if (level <= 6) return "Hot";
     return "Very Hot";
   }
-  return level || "";
+  return level ?? "";
 }
 
 function getPlanetaryInfluences(recipe: Recipe): string[] {
   const pi = recipe.planetaryInfluences;
   if (pi && typeof pi === "object" && !Array.isArray(pi)) {
-    return [...(pi.favorable || []), ...(pi.neutral || [])];
+    const { favorable, neutral = [] } = pi;
+    return [...favorable, ...neutral];
   }
-  if (Array.isArray(pi)) return pi as string[];
+  if (Array.isArray(pi)) return pi;
   const astro = recipe.astrologicalInfluences;
   if (Array.isArray(astro)) return astro;
   return [];
@@ -146,7 +189,7 @@ function getPlanetaryInfluences(recipe: Recipe): string[] {
 
 function getZodiacInfluences(recipe: Recipe): string[] {
   const zi = recipe.zodiacInfluences;
-  if (Array.isArray(zi)) return zi.map((z) => typeof z === "string" ? z : (z as { name?: string })?.name || "").filter(Boolean);
+  if (Array.isArray(zi)) return zi.map((z) => (typeof z === "string" ? z : (z as { name?: string }).name ?? "")).filter(Boolean);
   return [];
 }
 
@@ -169,18 +212,18 @@ interface NormalizedNutrition {
 }
 
 function getNutrition(recipe: Recipe): NormalizedNutrition | null {
-  const n = recipe.nutrition;
+  const n = recipe.nutrition as unknown as ExtendedNutrition | undefined;
   if (!n) return null;
   return {
     calories: n.calories,
-    protein: (n as any).protein ?? (n as any).proteinG,
-    carbs: (n as any).carbs ?? (n as any).carbsG,
-    fat: (n as any).fat ?? (n as any).fatG,
-    fiber: (n as any).fiber ?? (n as any).fiberG,
-    sodium: (n as any).sodium ?? (n as any).sodiumMg,
-    sugar: (n as any).sugar ?? (n as any).sugarG,
-    vitamins: (n as { vitamins?: string[] }).vitamins,
-    minerals: (n as { minerals?: string[] }).minerals,
+    protein: n.protein ?? n.proteinG,
+    carbs: n.carbs ?? n.carbsG,
+    fat: n.fat ?? n.fatG,
+    fiber: n.fiber ?? n.fiberG,
+    sodium: n.sodium ?? n.sodiumMg,
+    sugar: n.sugar ?? n.sugarG,
+    vitamins: n.vitamins,
+    minerals: n.minerals,
   };
 }
 
@@ -188,10 +231,13 @@ function getSubstitutions(recipe: Recipe): Array<{ original: string; alternative
   const subs = recipe.substitutions;
   if (!subs) return [];
   if (Array.isArray(subs)) {
-    return subs.map((s) => ({
-      original: s.original || (s as any).originalIngredient || "",
-      alternatives: s.alternatives || (s as any).substituteOptions || [],
-    }));
+    return subs.map((s) => {
+      const ext = s as unknown as ExtendedSubstitution;
+      return {
+        original: s.original.trim() !== "" ? s.original : (ext.originalIngredient ?? ""),
+        alternatives: s.alternatives.length > 0 ? s.alternatives : (ext.substituteOptions ?? []),
+      };
+    });
   }
   // Object format fallback
   return Object.entries(subs).map(([key, value]) => ({
@@ -235,7 +281,7 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
     text += `${recipe.description}\n\n`;
   }
 
-  text += `Cuisine: ${recipe.cuisine || "N/A"}\n`;
+  text += `Cuisine: ${recipe.cuisine ?? "N/A"}\n`;
   text += `Servings: ${servings}\n`;
   if (times.prep) text += `Prep Time: ${formatTime(times.prep)}\n`;
   if (times.cook) text += `Cook Time: ${formatTime(times.cook)}\n`;
@@ -248,7 +294,7 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
   text += `--- INGREDIENTS (${servings} servings) ---\n\n`;
   recipe.ingredients.forEach((ing) => {
     const amount = ing.amount ? (Math.round(ing.amount * scale * 100) / 100) : "";
-    text += `- ${amount} ${ing.unit || ""} ${ing.name}`.trim();
+    text += `- ${amount} ${ing.unit} ${ing.name}`.trim();
     if (ing.notes) text += ` (${ing.notes})`;
     text += "\n";
   });
@@ -288,7 +334,7 @@ function SectionCard({ title, icon, children, className = "" }: {
   icon?: string;
   children: React.ReactNode;
   className?: string;
-}) {
+}): JSX.Element {
   return (
     <div className={`glass-card-premium rounded-2xl border border-white/8 p-6 ${className}`}>
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
@@ -300,12 +346,12 @@ function SectionCard({ title, icon, children, className = "" }: {
   );
 }
 
-function ElementalBar({ element, value }: { element: string; value: number }) {
-  const colors = ELEMENT_COLORS[element] || { bar: "bg-white/10", text: "text-white/60", bg: "bg-white/10/10" };
+function ElementalBar({ element, value }: { element: string; value: number }): JSX.Element {
+  const colors = ELEMENT_COLORS[element] ?? { bar: "bg-white/10", text: "text-white/60", bg: "bg-white/10/10" };
   const pct = Math.round(value * 100);
   return (
     <div className="flex items-center gap-3">
-      <span className="w-6 text-center text-lg">{ELEMENT_ICONS[element] || ""}</span>
+      <span className="w-6 text-center text-lg">{ELEMENT_ICONS[element] ?? ""}</span>
       <span className={`w-14 text-sm font-medium ${colors.text}`}>{element}</span>
       <div className="flex-1 h-3 bg-white/5 rounded-full overflow-hidden">
         <div
@@ -318,8 +364,8 @@ function ElementalBar({ element, value }: { element: string; value: number }) {
   );
 }
 
-function SpiceMeter({ level }: { level: string }) {
-  const config = SPICE_LEVEL_DISPLAY[level] || { label: level, color: "text-white/60", dots: 0 };
+function SpiceMeter({ level }: { level: string }): JSX.Element {
+  const config = SPICE_LEVEL_DISPLAY[level] ?? { label: level, color: "text-white/60", dots: 0 };
   return (
     <div className="flex items-center gap-2">
       <span className={`text-sm font-medium ${config.color}`}>{config.label}</span>
@@ -361,7 +407,7 @@ function SegmentedDonut({
   segments: DonutSegment[];
   centerLabel: string;
   centerSublabel?: string;
-}) {
+}): JSX.Element | null {
   // r = 15.9155 → circumference ≈ 100, convenient for percentage math
   const r = 15.9155;
   const total = segments.reduce((s, seg) => s + seg.value, 0);
@@ -399,7 +445,7 @@ function SegmentedDonut({
   );
 }
 
-function DonutLegend({ segments, total }: { segments: DonutSegment[]; total: number }) {
+function DonutLegend({ segments, total }: { segments: DonutSegment[]; total: number }): JSX.Element {
   return (
     <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mt-3">
       {segments.map((seg) => (
@@ -428,7 +474,7 @@ function computeMonicaComponents(
     earth: number;
     air: number;
   },
-) {
+): { Heat: number; Entropy: number; Reactivity: number } {
   const { spirit, essence, matter, substance } = alchemical;
   const { fire, water, earth, air } = elements;
   const denomHeat = Math.max(0.0001, substance + essence + matter + water + air + earth);
@@ -443,17 +489,97 @@ function computeMonicaComponents(
   return { Heat, Entropy, Reactivity };
 }
 
-function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
+interface ASharpBlockProps {
+  ingAlch?: IngredientAlchemicalSummary;
+  aSharp: number;
+  ingTotalASharp: number;
+  aSharpSegments: DonutSegment[];
+  ingASharpSegments: DonutSegment[];
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+}
+
+function ASharpBlock({
+  ingAlch,
+  aSharp,
+  ingTotalASharp,
+  aSharpSegments,
+  ingASharpSegments,
+  spirit,
+  essence,
+  matter,
+  substance,
+}: ASharpBlockProps): JSX.Element {
+  const useSummary = ingTotalASharp > 0 && Boolean(ingAlch);
+  const value = useSummary ? ingTotalASharp : aSharp;
+  const segments = useSummary ? ingASharpSegments : aSharpSegments;
+  const componentValue = (prop: "Spirit" | "Essence" | "Matter" | "Substance"): number => {
+    if (useSummary && ingAlch) {
+      return prop === "Spirit" ? ingAlch.totalSpirit
+        : prop === "Essence" ? ingAlch.totalEssence
+        : prop === "Matter" ? ingAlch.totalMatter
+        : ingAlch.totalSubstance;
+    }
+    return prop === "Spirit" ? spirit
+      : prop === "Essence" ? essence
+      : prop === "Matter" ? matter
+      : substance;
+  };
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-sm font-semibold text-white/80">
+          A<sup className="text-amber-400">#</sup>
+        </span>
+        <span className="text-xs text-white/60 font-mono">
+          Σ ingredients ={" "}
+          <span className="text-amber-300 font-bold">{value.toFixed(2)}</span>
+        </span>
+      </div>
+
+      <SegmentedDonut
+        segments={segments}
+        centerLabel={value.toFixed(1)}
+        centerSublabel="A#"
+      />
+
+      <div className="grid grid-cols-2 gap-1.5 mt-3">
+        {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
+          const val = componentValue(prop);
+          const cfg = ESMS_CONFIG[prop];
+          if (val === 0) return null;
+          return (
+            <div key={prop} className="flex items-center gap-1.5 text-xs">
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
+              <span className="text-white/60">{cfg.label}</span>
+              <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {useSummary && ingAlch && ingAlch.matchRate < 1 && (
+        <p className="text-xs text-white/60 mt-2">
+          {Math.round(ingAlch.matchRate * 100)}% of ingredients matched in alchemical database
+        </p>
+      )}
+    </div>
+  );
+}
+
+function AlchemicalScoreSection({ recipe }: { recipe: Recipe }): JSX.Element | null {
   const spirit    = recipe.spirit    ?? 0;
   const essence   = recipe.essence   ?? 0;
   const matter    = recipe.matter    ?? 0;
   const substance = recipe.substance ?? 0;
   const aSharp    = spirit + essence + matter + substance;
 
-  const fire  = recipe.elementalProperties?.Fire  ?? 0;
-  const water = recipe.elementalProperties?.Water ?? 0;
-  const earth = recipe.elementalProperties?.Earth ?? 0;
-  const air   = recipe.elementalProperties?.Air   ?? 0;
+  const fire  = recipe.elementalProperties.Fire;
+  const water = recipe.elementalProperties.Water;
+  const earth = recipe.elementalProperties.Earth;
+  const air   = recipe.elementalProperties.Air;
 
   const { Heat, Entropy, Reactivity } = computeMonicaComponents(
     { spirit, essence, matter, substance },
@@ -484,7 +610,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
 
   const { monicaScore } = recipe;
   const monicaLabel  = recipe.monicaScoreLabel;
-  const rawMonica    = recipe.monicaOptimization?.optimizedMonica as number | null | undefined;
+  const rawMonica    = recipe.monicaOptimization?.optimizedMonica;
 
   // Ingredient-summed alchemical quantities
   const ingAlch = recipe.ingredientAlchemicalSummary;
@@ -511,72 +637,19 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
   return (
     <SectionCard title="Alchemical Scores" icon={"\u2697\uFE0F"}>
       <div className="space-y-6">
-
-        {/* ── A# (Spirit + Essence + Matter + Substance) ──
-         *
-         * One number. Recipe ESMS is the sum of its ingredients' ESMS, so
-         * the recipe-level fields and `ingredientAlchemicalSummary.total*`
-         * are the same quantity — we prefer the summary source because it
-         * carries the per-ingredient match rate, falling back to the
-         * recipe-level fields when (e.g. a DB-sourced recipe) the summary
-         * isn't present. */}
-        {(hasASharp || hasIngASharp) && (() => {
-          const useSummary = hasIngASharp && !!ingAlch;
-          const value = useSummary ? ingTotalASharp : aSharp;
-          const segments = useSummary ? ingASharpSegments : aSharpSegments;
-          const componentValue = (prop: "Spirit" | "Essence" | "Matter" | "Substance") => {
-            if (useSummary && ingAlch) {
-              return prop === "Spirit" ? ingAlch.totalSpirit
-                : prop === "Essence" ? ingAlch.totalEssence
-                : prop === "Matter" ? ingAlch.totalMatter
-                : ingAlch.totalSubstance;
-            }
-            return prop === "Spirit" ? spirit
-              : prop === "Essence" ? essence
-              : prop === "Matter" ? matter
-              : substance;
-          };
-          return (
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-white/80">
-                  A<sup className="text-amber-400">#</sup>
-                </span>
-                <span className="text-xs text-white/60 font-mono">
-                  Σ ingredients ={" "}
-                  <span className="text-amber-300 font-bold">{value.toFixed(2)}</span>
-                </span>
-              </div>
-
-              <SegmentedDonut
-                segments={segments}
-                centerLabel={value.toFixed(1)}
-                centerSublabel="A#"
-              />
-
-              <div className="grid grid-cols-2 gap-1.5 mt-3">
-                {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
-                  const val = componentValue(prop);
-                  const cfg = ESMS_CONFIG[prop];
-                  if (val === 0) return null;
-                  return (
-                    <div key={prop} className="flex items-center gap-1.5 text-xs">
-                      <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
-                      <span className="text-white/60">{cfg.label}</span>
-                      <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {useSummary && ingAlch && ingAlch.matchRate < 1 && (
-                <p className="text-xs text-white/60 mt-2">
-                  {Math.round(ingAlch.matchRate * 100)}% of ingredients matched in alchemical database
-                </p>
-              )}
-            </div>
-          );
-        })()}
+        {(hasASharp || hasIngASharp) && (
+          <ASharpBlock
+            ingAlch={ingAlch}
+            aSharp={aSharp}
+            ingTotalASharp={ingTotalASharp}
+            aSharpSegments={aSharpSegments}
+            ingASharpSegments={ingASharpSegments}
+            spirit={spirit}
+            essence={essence}
+            matter={matter}
+            substance={substance}
+          />
+        )}
 
         {(hasASharp || hasIngASharp) && hasMonicaDisplay && (
           <div className="border-t border-white/10" />
@@ -615,7 +688,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
                     cx="18" cy="18" r={15.9155}
                     fill="none" stroke="#f59e0b" strokeWidth="3.5"
                     strokeDasharray={`${monicaScore} ${100 - monicaScore}`}
-                    strokeDashoffset="100"
+                    strokeDashoffset={100}
                     strokeLinecap="round"
                   />
                 </svg>
@@ -631,7 +704,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
               <div className="grid grid-cols-3 gap-1.5 mt-3">
                 {(["Heat", "Entropy", "Reactivity"] as const).map((comp) => {
                   const val = comp === "Heat" ? Heat : comp === "Entropy" ? Entropy : Reactivity;
-                  const cfg = MONICA_COMPONENT_CONFIG[comp];
+                  const cfg = MON_CONFIG[comp];
                   return (
                     <div key={comp} className="glass-card-premium rounded-lg border border-white/8 p-2 text-center">
                       <div className={`text-sm font-bold ${cfg.text}`}>{val.toFixed(3)}</div>
@@ -649,27 +722,31 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
             )}
           </div>
         )}
+
       </div>
     </SectionCard>
   );
 }
 
+const MON_CONFIG = MONICA_COMPONENT_CONFIG;
+
 // ===== Main Component =====
 
-export interface RecipeClientProps {
+interface RecipeClientProps {
   recipe: Recipe;
   recommendedSauces: string[];
   recommendedRecipes: Recipe[];
 }
 
-export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps) {
+export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps): JSX.Element {
   const { data: session } = useSession();
 
-  const dailyLimitReached = useMemo(() => {
-    if (!session) return false;
-    const isPremium = session.user?.tier === "premium" || session.user?.role === "ADMIN";
+  const dailyLimitReached = useMemo((): boolean => {
+    const user = session?.user;
+    if (!user) return false;
+    const isPremium = user.tier === "premium" || user.role === "ADMIN";
     if (isPremium) return false;
-    const count = session.user?.recipesGeneratedToday ?? 0;
+    const count = user.recipesGeneratedToday ?? 0;
     return count >= 1;
   }, [session]);
 
@@ -687,17 +764,17 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
     setHeroImageFailed(false);
   }, [recipe.id]);
 
-  const adaptation = useMemo(() => {
-    if (!recipe || !dietaryMode) return null;
+  const adaptation = useMemo((): AdaptationResult | null => {
+    if (!dietaryMode) return null;
     return adaptRecipe(recipe, dietaryMode);
   }, [recipe, dietaryMode]);
 
-  const timeAnalysis = useMemo(() => {
-    if (!recipe || !timeBudget) return null;
+  const timeAnalysis = useMemo((): TimeShortcutResult | null => {
+    if (!timeBudget) return null;
     return analyzeTimeShortcuts(recipe, timeBudget);
   }, [recipe, timeBudget]);
 
-  const baseServings = useMemo(() => getBaseServings(recipe), [recipe]);
+  const baseServings = useMemo((): number => getBaseServings(recipe), [recipe]);
   const scale = servings / baseServings;
 
   const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
@@ -706,22 +783,22 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const [orderOpen, setOrderOpen] = useState(false);
 
   const handleAddToGroceryCart = useCallback(() => {
-    if (!recipe?.ingredients || recipe.ingredients.length === 0) {
+    if (recipe.ingredients.length === 0) {
       showToast("This recipe has no ingredients to add.", "warning");
       return;
     }
     const normalized = recipe.ingredients
-      .filter((ing) => ing?.name)
+      .filter((ing) => Boolean(ing.name))
       .map((ing) => ({
         name: ing.name,
         amount: typeof ing.amount === "number" ? ing.amount : 1,
-        unit: ing.unit || "each",
+        unit: ing.unit,
         category: ing.category,
         notes: ing.notes,
       }));
     addRecipeToGroceryCart(
       {
-        id: String(recipe.id || recipe.name),
+        id: String(recipe.id),
         name: recipe.name,
         baseServings,
         ingredients: normalized,
@@ -737,8 +814,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
     );
   }, [recipe, baseServings, servings, addRecipeToGroceryCart, openGroceryCart, showToast]);
 
-  const handleCopyRecipe = useCallback(async () => {
-    if (!recipe) return;
+  const handleCopyRecipe = useCallback(async (): Promise<void> => {
     const text = buildPlainTextRecipe(recipe, servings);
     try {
       await navigator.clipboard.writeText(text);
@@ -756,8 +832,8 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
         document.execCommand("copy");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("Fallback copy failed", err);
+      } catch (err: unknown) {
+        _logger.error("[RecipeClient] Fallback copy failed", err);
       }
       document.body.removeChild(textarea);
     }
@@ -778,9 +854,11 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const pairings = getPairingRecommendations(recipe);
 
   const heroImageUrl =
-    (typeof recipe.image === "string" && recipe.image) ||
-    (typeof recipe.imageUrl === "string" && recipe.imageUrl) ||
-    "";
+    (typeof recipe.image === "string" && recipe.image)
+      ? recipe.image
+      : (typeof recipe.imageUrl === "string" && recipe.imageUrl)
+        ? recipe.imageUrl
+        : "";
   const showHeroImage = heroImageUrl.length > 0 && !heroImageFailed;
 
   return (
@@ -931,7 +1009,9 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
 
             <button
               onClick={() => {
-                void handleCopyRecipe();
+                handleCopyRecipe().catch((err: unknown) => {
+                  _logger.error("[RecipeClient] copy failed", err);
+                });
               }}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                 copied
@@ -1091,7 +1171,12 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             </SectionCard>
 
             {/* Chef's Tips & Variations */}
-            {(recipe.tips?.length || recipe.chefNotes?.length || recipe.variations?.length || recipe.commonMistakes?.length || recipe.technicalTips?.length || recipe.presentationTips?.length) && (
+            {((recipe.tips?.length ?? 0) > 0 ||
+              (recipe.chefNotes?.length ?? 0) > 0 ||
+              (recipe.variations?.length ?? 0) > 0 ||
+              (recipe.commonMistakes?.length ?? 0) > 0 ||
+              (recipe.technicalTips?.length ?? 0) > 0 ||
+              (recipe.presentationTips?.length ?? 0) > 0) && (
               <SectionCard title="Chef's Notes & Tips" icon="&#x1F468;&#x200D;&#x1F373;">
                 <div className="space-y-4">
                   {recipe.chefNotes && recipe.chefNotes.length > 0 && (
@@ -1227,19 +1312,17 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             </SectionCard>
 
             {/* Elemental Properties */}
-            {recipe.elementalProperties && (
-              <SectionCard title="Elemental Properties" icon="&#x2697;">
-                <div className="space-y-3">
-                  {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
-                    <ElementalBar
-                      key={element}
-                      element={element}
-                      value={recipe.elementalProperties[element] || 0}
-                    />
-                  ))}
-                </div>
-              </SectionCard>
-            )}
+            <SectionCard title="Elemental Properties" icon="&#x2697;">
+              <div className="space-y-3">
+                {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
+                  <ElementalBar
+                    key={element}
+                    element={element}
+                    value={recipe.elementalProperties[element]}
+                  />
+                ))}
+              </div>
+            </SectionCard>
 
             {/* Alchemical Scores: A# and Monica */}
             <AlchemicalScoreSection recipe={recipe} />
@@ -1254,7 +1337,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
                       <div className="flex flex-wrap gap-2">
                         {planets.map((planet) => (
                           <span key={planet} className="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-sm text-indigo-300">
-                            <span className="text-base">{PLANET_ICONS[planet] || ""}</span> {planet}
+                            <span className="text-base">{PLANET_ICONS[planet] ?? ""}</span> {planet}
                           </span>
                         ))}
                       </div>
@@ -1345,25 +1428,25 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             {recipe.sensoryIndicators && (
               <SectionCard title="Sensory Indicators" icon="&#x1F440;">
                 <div className="space-y-3 text-sm">
-                  {recipe.sensoryIndicators.visual?.length && recipe.sensoryIndicators.visual.length > 0 && (
+                  {recipe.sensoryIndicators.visual.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Visual</h3>
                       <p className="text-white/60">{recipe.sensoryIndicators.visual.join("; ")}</p>
                     </div>
                   )}
-                  {recipe.sensoryIndicators.aroma?.length && recipe.sensoryIndicators.aroma.length > 0 && (
+                  {recipe.sensoryIndicators.aroma.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Aroma</h3>
                       <p className="text-white/60">{recipe.sensoryIndicators.aroma.join("; ")}</p>
                     </div>
                   )}
-                  {recipe.sensoryIndicators.texture?.length && recipe.sensoryIndicators.texture.length > 0 && (
+                  {recipe.sensoryIndicators.texture.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Texture</h3>
                       <p className="text-white/60">{recipe.sensoryIndicators.texture.join("; ")}</p>
                     </div>
                   )}
-                  {recipe.sensoryIndicators.sound?.length && recipe.sensoryIndicators.sound.length > 0 && (
+                  {recipe.sensoryIndicators.sound.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Sound</h3>
                       <p className="text-white/60">{recipe.sensoryIndicators.sound.join("; ")}</p>
@@ -1418,7 +1501,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             )}
 
             {/* Dietary Tags */}
-            {(recipe.isVegetarian || recipe.isVegan || recipe.isGlutenFree || recipe.isDairyFree || recipe.isNutFree || recipe.isKeto || recipe.isPaleo || recipe.isLowCarb) && (
+            {[recipe.isVegetarian, recipe.isVegan, recipe.isGlutenFree, recipe.isDairyFree, recipe.isNutFree, recipe.isKeto, recipe.isPaleo, recipe.isLowCarb].some(Boolean) && (
               <SectionCard title="Dietary" icon="&#x1F96C;">
                 <div className="flex flex-wrap gap-2">
                   {recipe.isVegetarian && <span className="px-2.5 py-1 bg-green-500/10 border border-green-500/30 rounded-full text-xs text-green-400">Vegetarian</span>}
@@ -1453,10 +1536,10 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               open={orderOpen}
               onClose={() => setOrderOpen(false)}
               title={recipe.name}
-              inputs={(recipe.ingredients || []).map((ing) => ({
+              inputs={recipe.ingredients.map((ing) => ({
                 name: ing.name,
                 amount: typeof ing.amount === "number" ? ing.amount : 1,
-                unit: ing.unit || "each",
+                unit: ing.unit,
                 category: ing.category,
                 optional: ing.optional,
               }))}
@@ -1468,9 +1551,9 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
         </div>
 
         {/* ===== Ingredient Drawer ===== */}
-          {(() => {
-            const sel = selectedIngredientIndex != null ? recipe.ingredients[selectedIngredientIndex] : null;
-            const scaledAmount = sel?.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
+        {(() : JSX.Element => {
+          const sel = selectedIngredientIndex != null ? recipe.ingredients[selectedIngredientIndex] : null;
+          const scaledAmount = sel?.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
           return (
             <IngredientDrawer
               ingredientName={sel?.name ?? null}

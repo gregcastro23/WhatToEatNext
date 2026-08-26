@@ -10,7 +10,8 @@ import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { isDiurnalAt } from "@/utils/astrology/positions";
 import { natalPositionsFromChart, statesALongitude } from "@/utils/fullChartMonica";
-import type { NextRequest} from "next/server";
+import { logger } from "@/utils/logger";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -20,7 +21,29 @@ const RATE_LIMIT = { window: 60_000, max: 20, bucket: "agents-unified" };
 
 interface UnifiedAgentRequest {
   action: string;
-  parameters?: any;
+  parameters?: Record<string, unknown>;
+}
+
+interface AgentListRow {
+  user_id: string;
+  email: string;
+  name: string | null;
+  bio: string | null;
+  dominant_element: string | null;
+  monica_constant: string | null;
+}
+
+interface BirthInfoInput {
+  year?: number | string;
+  month?: number | string;
+  day?: number | string;
+  hour?: number | string;
+  minute?: number | string;
+  latitude?: number | string;
+  longitude?: number | string;
+  timezone?: string;
+  locationName?: string;
+  location?: { name?: string };
 }
 
 /**
@@ -78,21 +101,21 @@ function ascendantPoint(
   return { sign: ascendant.sign, degree: ascendant.position % 30 };
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   try {
     const session = await auth();
-    const userId = session?.user?.id;
+    const userId = session?.user.id;
 
-    const body: UnifiedAgentRequest = await request.json();
+    const body = (await request.json()) as UnifiedAgentRequest;
     const { action, parameters = {} } = body;
     const timestamp = new Date().toISOString();
 
     switch (action) {
       case "list": {
-        const result = await executeQuery<any>(
+        const result = await executeQuery<AgentListRow>(
           // §18o: monica_constant is single-body only; COALESCE the other two
           // constructions so the list still shows a value for those agents.
           `SELECT u.id AS user_id, u.email, up.name, up.bio, up.dominant_element,
@@ -110,7 +133,7 @@ export async function POST(request: NextRequest) {
           // Explicit null test, not truthiness: a real monica of 0 (284 agents)
           // is falsy, so `? :` would report those agents as having no monica.
           monicaConstant:
-            row.monica_constant === null || row.monica_constant === undefined
+            row.monica_constant === null
               ? null
               : parseFloat(row.monica_constant)
         }));
@@ -137,7 +160,15 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        const { name, birthInfo, purpose, stats, personalContext } = parameters;
+        const {
+          name,
+          birthInfo: rawBirthInfo,
+          purpose,
+          stats,
+          personalContext,
+        } = parameters;
+        const birthInfo = rawBirthInfo as BirthInfoInput | undefined;
+
         if (!name || !birthInfo || !purpose) {
           return NextResponse.json(
             { success: false, error: "name, birthInfo, and purpose are required.", timestamp },
@@ -208,7 +239,7 @@ export async function POST(request: NextRequest) {
           name: birthInfo.locationName ?? birthInfo.location?.name ?? "Unknown"
         };
 
-        console.log(`[unified-api] Calculating natal chart on create for agent: ${name}`);
+        logger.info(`[unified-api] Calculating natal chart on create for agent: ${name}`);
         const serverChart = await calculateNatalChart(birthData);
 
         // These are the chart's ELEMENTS (from the signs the planets occupy), used
@@ -229,7 +260,7 @@ export async function POST(request: NextRequest) {
         const formattedChart = {
           planets: {} as Record<string, { sign: string; degree: number; retrograde: boolean; longitude: number }>,
           houses: {} as Record<string, number>,
-          aspects: [] as any[],
+          aspects: [] as Array<Record<string, unknown>>,
           // A real angle or null, never a placeholder — see ascendantPoint().
           // ⚠️ `{ sign, degree }`, NOT a bare number: a scalar cannot state its
           // unit, and every stored scalar turned out to be a degree-within-sign
@@ -340,7 +371,7 @@ export async function POST(request: NextRequest) {
           [agentId]
         );
 
-        console.log(`[unified-api] Successfully created agent: ${name} (ID: ${agentId})`);
+        logger.info(`[unified-api] Successfully created agent: ${name} (ID: ${agentId})`);
 
         return NextResponse.json({
           success: true,
@@ -364,13 +395,21 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        const { agentId, message, userMessage, sessionId, context, modelTier } = parameters;
+        const {
+          agentId,
+          message,
+          userMessage,
+          sessionId,
+          context,
+          modelTier,
+        } = parameters;
+
         if (!agentId || typeof agentId !== "string" || agentId.trim().length === 0) {
           return NextResponse.json({ success: false, error: "Invalid or missing agentId", timestamp }, { status: 400 });
         }
 
-        const msgContent = message ?? userMessage;
-        if (!msgContent || typeof msgContent !== "string" || msgContent.trim().length === 0 || msgContent.length > 5000) {
+        const msgContent = typeof message === "string" ? message : typeof userMessage === "string" ? userMessage : undefined;
+        if (!msgContent || msgContent.trim().length === 0 || msgContent.length > 5000) {
           return NextResponse.json({ success: false, error: "Invalid or missing message (max 5000 characters)", timestamp }, { status: 400 });
         }
 
@@ -397,7 +436,7 @@ export async function POST(request: NextRequest) {
             body: JSON.stringify({
               agentId,
               message: msgContent,
-              sessionId: sessionId ?? randomUUID(),
+              sessionId: typeof sessionId === "string" ? sessionId : randomUUID(),
               userId,
               context,
               systemPromptOverride: personaCtx.personaBlock,
@@ -414,15 +453,15 @@ export async function POST(request: NextRequest) {
             throw new Error(`Planetary Agents API returned status ${res.status}: ${errText}`);
           }
 
-          const chatData = await res.json();
+          const chatData = (await res.json()) as Record<string, unknown>;
           return NextResponse.json({
             success: true,
             data: chatData,
             timestamp
           });
-        } catch (fetchErr: any) {
+        } catch (fetchErr: unknown) {
           clearTimeout(timeoutId);
-          console.error("[unified-api] Planetary Agents chat fetch failed:", fetchErr);
+          logger.error("[unified-api] Planetary Agents chat fetch failed:", fetchErr);
           
           const defaultResponse = `I hear you, seeker. My cosmic resonance is currently aligning with the celestial transits, and my voice is quiet. Let us contemplate this moment of silent transformation.`;
           return NextResponse.json({
@@ -430,9 +469,9 @@ export async function POST(request: NextRequest) {
             data: {
               text: defaultResponse,
               agentId,
-              sessionId: sessionId ?? randomUUID(),
+              sessionId: typeof sessionId === "string" ? sessionId : randomUUID(),
               degraded: true,
-              error: fetchErr.message
+              error: fetchErr instanceof Error ? fetchErr.message : String(fetchErr)
             },
             timestamp
           });
@@ -442,10 +481,10 @@ export async function POST(request: NextRequest) {
       default:
         return NextResponse.json({ success: false, error: `Unknown action: ${action}`, timestamp }, { status: 400 });
     }
-  } catch (err: any) {
-    console.error("[unified-api] Handler error:", err);
+  } catch (err: unknown) {
+    logger.error("[unified-api] Handler error:", err);
     return NextResponse.json(
-      { success: false, error: err.message ?? "Internal Server Error", timestamp: new Date().toISOString() },
+      { success: false, error: err instanceof Error ? err.message : "Internal Server Error", timestamp: new Date().toISOString() },
       { status: 500 }
     );
   }

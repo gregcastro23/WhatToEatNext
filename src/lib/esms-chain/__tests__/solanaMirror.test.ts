@@ -147,4 +147,38 @@ describe("solanaMirror gate", () => {
       expect(new Set(all).size).toBe(4);
     });
   });
+
+  describe("zero-signer runtime custody boundary (ADR-014)", () => {
+    it("package.json runtime dependencies contains zero @solana/* or @coral-xyz/* packages", () => {
+      const pkgJson = JSON.parse(
+        readFileSync(join(process.cwd(), "package.json"), "utf8"),
+      ) as { dependencies?: Record<string, string> };
+
+      const runtimeDeps = Object.keys(pkgJson.dependencies ?? {});
+      const solanaDeps = runtimeDeps.filter(
+        (dep) => dep.startsWith("@solana/") || dep.startsWith("@coral-xyz/"),
+      );
+
+      expect(solanaDeps).toEqual([]);
+    });
+
+    it("solanaMirror transitive closure introduces zero network calls, dynamic imports, or key material", () => {
+      const mirrorSource = readFileSync(
+        join(process.cwd(), "src/lib/esms-chain/solanaMirror.ts"),
+        "utf8",
+      );
+
+      // Verify zero imports in solanaMirror.ts
+      const importStatements = mirrorSource.match(/import\s+.*?from\s+['"].*?['"]/g);
+      expect(importStatements).toBeNull();
+
+      // Verify no dynamic import, fetch, XHR, or key material identifiers
+      expect(mirrorSource).not.toMatch(/\bimport\s*\(/);
+      expect(mirrorSource).not.toMatch(/\bfetch\s*\(/);
+      expect(mirrorSource).not.toMatch(/\bXMLHttpRequest\b/);
+      expect(mirrorSource).not.toMatch(/\bKeypair\b/);
+      expect(mirrorSource).not.toMatch(/\bPrivateKey\b/);
+      expect(mirrorSource).not.toMatch(/\bSigner\b/);
+    });
+  });
 });
