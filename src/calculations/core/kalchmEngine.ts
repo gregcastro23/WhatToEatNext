@@ -12,7 +12,6 @@ import {
 } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
-import { getCachedCalculation } from "../../utils/calculationCache";
 
 export type { AlchemicalProperties };
 
@@ -245,7 +244,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
   // Planetary to alchemical property mappings
   const planetaryMappings = {
     Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-    moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
+    Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
     Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
     Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 },
     Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
@@ -359,12 +358,48 @@ export function calculateElementalValues(planetaryPositions: {
  */
 function getDignityModifier(planet: string, sign: string): number {
   const dignities: Record<string, Record<string, number>> = {
-    Sun: {},
-    moon: {},
-    Mercury: {},
-    Venus: {},
-    Mars: {},
-    Jupiter: {},
+    Sun: {
+      leo: 1.5,
+      aries: 1.3,
+      aquarius: 0.7,
+      libra: 0.5,
+    },
+    Moon: {
+      cancer: 1.5,
+      taurus: 1.3,
+      capricorn: 0.7,
+      scorpio: 0.5,
+    },
+    Mercury: {
+      gemini: 1.5,
+      virgo: 1.5,
+      sagittarius: 0.7,
+      pisces: 0.5,
+    },
+    Venus: {
+      taurus: 1.5,
+      libra: 1.5,
+      pisces: 1.3,
+      scorpio: 0.7,
+      aries: 0.7,
+      virgo: 0.5,
+    },
+    Mars: {
+      aries: 1.5,
+      scorpio: 1.5,
+      capricorn: 1.3,
+      libra: 0.7,
+      taurus: 0.7,
+      cancer: 0.5,
+    },
+    Jupiter: {
+      sagittarius: 1.5,
+      pisces: 1.5,
+      cancer: 1.3,
+      gemini: 0.7,
+      virgo: 0.7,
+      capricorn: 0.5,
+    },
     Saturn: {
       capricorn: 1.5,
       aquarius: 1.5,
@@ -378,7 +413,7 @@ function getDignityModifier(planet: string, sign: string): number {
   const planetKey =
     planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
   const signKey = sign.toLowerCase();
-  return dignities[planetKey][signKey] || 1.0;
+  return dignities[planetKey]?.[signKey] ?? 1.0;
 }
 
 /**
@@ -388,86 +423,76 @@ function getDignityModifier(planet: string, sign: string): number {
 export function calculateKalchmResults(planetaryPositions: {
   [key: string]: PlanetaryPosition;
 }): KalchmResult {
-  const cacheKey = `kalchm_${JSON.stringify(planetaryPositions)}`;
+  // Calculate alchemical properties
+  const alchemicalProperties =
+    calculateAlchemicalProperties(planetaryPositions);
 
-  return getCachedCalculation(
-    cacheKey,
-    { positions: planetaryPositions },
-    () => {
-      // Calculate alchemical properties
-      const alchemicalProperties =
-        calculateAlchemicalProperties(planetaryPositions);
+  // Calculate elemental values
+  const elementalValues = calculateElementalValues(planetaryPositions);
 
-      // Calculate elemental values
-      const elementalValues = calculateElementalValues(planetaryPositions);
+  // Calculate thermodynamic properties
+  const thermodynamicInputs = {
+    Spirit: alchemicalProperties.Spirit,
+    Substance: alchemicalProperties.Substance,
+    Essence: alchemicalProperties.Essence,
+    Matter: alchemicalProperties.Matter,
+    Fire: elementalValues.Fire,
+    Water: elementalValues.Water,
+    Air: elementalValues.Air,
+    Earth: elementalValues.Earth,
+  };
 
-      // Calculate thermodynamic properties
-      const thermodynamicInputs = {
-        Spirit: alchemicalProperties.Spirit,
-        Substance: alchemicalProperties.Substance,
-        Essence: alchemicalProperties.Essence,
-        Matter: alchemicalProperties.Matter,
-        Fire: elementalValues.Fire,
-        Water: elementalValues.Water,
-        Air: elementalValues.Air,
-        Earth: elementalValues.Earth,
-      };
+  const heat = calculateHeat(thermodynamicInputs);
+  const entropy = calculateEntropy(thermodynamicInputs);
+  const reactivity = calculateReactivity(thermodynamicInputs);
+  const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
+  const kalchm = calculateKAlchm(
+    alchemicalProperties.Spirit,
+    alchemicalProperties.Essence,
+    alchemicalProperties.Matter,
+    alchemicalProperties.Substance,
+  );
+  const monicaConstant = calculateMonicaConstant(
+    gregsEnergy,
+    reactivity,
+    kalchm,
+  );
 
-      const heat = calculateHeat(thermodynamicInputs);
+  // Determine dominant element and property
+  const dominantElement = Object.entries(elementalValues).reduce((a, b) =>
+    elementalValues[a[0] as keyof ElementalValues] >
+    elementalValues[b[0] as keyof ElementalValues]
+      ? a
+      : b,
+  )[0] as keyof ElementalValues;
 
-      const entropy = calculateEntropy(thermodynamicInputs);
+  const dominantProperty = Object.entries(alchemicalProperties).reduce(
+    (a, b) =>
+      alchemicalProperties[a[0] as keyof AlchemicalProperties] >
+      alchemicalProperties[b[0] as keyof AlchemicalProperties]
+        ? a
+        : b,
+  )[0] as keyof AlchemicalProperties;
 
-      const reactivity = calculateReactivity(thermodynamicInputs);
+  const thermoResults: ThermodynamicResults = {
+    heat,
+    entropy,
+    reactivity,
+    gregsEnergy,
+    kalchm,
+    monicaConstant,
+  };
 
-      const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
-
-      const kalchm = calculateKAlchm(
-        alchemicalProperties.Spirit,
-        alchemicalProperties.Essence,
-        alchemicalProperties.Matter,
-        alchemicalProperties.Substance,
-      );
-
-      const monicaConstant = calculateMonicaConstant(
-        gregsEnergy,
-        reactivity,
-        kalchm,
-      );
-
-      // Determine dominant element and property
-      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>
-        elementalValues[a[0] as keyof ElementalValues] >
-        elementalValues[b[0] as keyof ElementalValues]
-          ? a
-          : b,
-      )[0] as keyof ElementalValues;
-
-      const dominantProperty = Object.entries(alchemicalProperties).reduce(
-        (a, b) =>
-          alchemicalProperties[a[0] as keyof AlchemicalProperties] >
-          alchemicalProperties[b[0] as keyof AlchemicalProperties]
-            ? a
-            : b,
-      )[0] as keyof AlchemicalProperties;
-
-      return {
-        alchemicalProperties,
-        elementalValues,
-        thermodynamics: {
-          heat,
-          entropy,
-          reactivity,
-          gregsEnergy,
-          kalchm,
-          monicaConstant,
-        },
-        dominantElement,
-        dominantProperty,
-        timestamp: new Date().toISOString(),
-      };
-    },
-    300000, // 5 minute cache
-  ) as any;
+  return {
+    alchemicalProperties,
+    alchemicalCounts: alchemicalProperties,
+    elementalValues,
+    thermodynamics: thermoResults,
+    thermodynamicResults: thermoResults,
+    dominantElement,
+    dominantProperty,
+    timestamp: new Date().toISOString(),
+  };
 }
 
 /**

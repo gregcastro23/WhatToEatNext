@@ -1,8 +1,9 @@
 'use client';
+
 import React, { useMemo, useState, useCallback, useRef } from 'react';
+import { calculateElementalSimilarity } from '@/services/RecipeElementalService';
 import type { ElementalProperties } from '@/types/alchemy';
 import { elementalSignature } from '@/utils/elemental/signature';
-import { calculateElementalCompatibility } from '@/utils/elementalCompatibility';
 
 interface ElementalVisualizerProps {
   elementalProperties: ElementalProperties;
@@ -18,6 +19,20 @@ interface ElementalVisualizerProps {
   showComparison?: boolean;
   animated?: boolean;
   className?: string;
+}
+
+interface VisualizerRecommendations {
+  flavorProfile: string[];
+  cuisineAffinity: string[];
+  wellnessProperties: string[];
+}
+
+interface VisualizerCalculationResult {
+  normalizedValues: Record<string, number>;
+  dominantElement: string;
+  compatibility: number | null;
+  sortedElements: string[];
+  recommendations: VisualizerRecommendations | null;
 }
 
 // Constants defined outside component to prevent recreation on each render
@@ -42,7 +57,7 @@ const SIZE_CONFIG = {
 };
 
 // Create a module-level cache to limit expensive calculations
-const calculationCache = new Map<string, any>();
+const calculationCache = new Map<string, VisualizerCalculationResult>();
 const MAX_CACHE_SIZE = 20; // Limit the number of cached results
 
 // Helper function to generate a cache key
@@ -53,7 +68,7 @@ function generateCacheKey(elementalProps: ElementalProperties, userProps?: Eleme
 }
 
 // Helper function to manage cache size
-function addToCache(key: string, value: any): void {
+function addToCache(key: string, value: VisualizerCalculationResult): void {
   if (calculationCache.size >= MAX_CACHE_SIZE) {
     // Remove the oldest entry (first inserted)
     const firstKey = calculationCache.keys().next().value;
@@ -84,9 +99,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   const isMountedRef = useRef(true);
   
   // Cleanup on unmount
-  React.useEffect(() => () => {
-      isMountedRef.current = false;
-    }, []);
+  React.useEffect(() => (): void => {
+    isMountedRef.current = false;
+  }, []);
   
   // Determine styles based on dark mode
   const styles = useMemo(() => ({
@@ -114,7 +129,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     compatibility,
     sortedElements,
     recommendations
-  } = useMemo(() => {
+  } = useMemo<VisualizerCalculationResult>(() => {
     // Return cached value if available
     if (cachedResults) {
       return cachedResults;
@@ -124,9 +139,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     const totalCalc = Object.values(elementalProperties).reduce((sum, value) => sum + value, 0);
     
     // Calculate normalized values (percentages)
-    const normalizedValues: Record<string, number> = {};
+    const normValues: Record<string, number> = {};
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      normalizedValues[element] = totalCalc > 0 ? (value / totalCalc) * 100 : 0;
+      normValues[element] = totalCalc > 0 ? (value / totalCalc) * 100 : 0;
     });
     
     // Calculate dominant element
@@ -141,17 +156,17 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     });
     
     // Calculate compatibility if userProperties is provided
-    const compatibility = showComparison && userProperties 
-      ? calculateElementalCompatibility(elementalProperties, userProperties)
+    const compScore = showComparison && userProperties 
+      ? calculateElementalSimilarity(elementalProperties, userProperties)
       : null;
     
     // Sorted elements by value (descending)
-    const sortedElements = Object.entries(elementalProperties)
+    const sorted = Object.entries(elementalProperties)
       .sort((a, b) => b[1] - a[1])
       .map(([element]) => element);
     
     // Recommendations based on elemental properties
-    let recommendations: { flavorProfile: string[]; cuisineAffinity: string[]; wellnessProperties: string[] } | null = null;
+    let recs: VisualizerRecommendations | null = null;
     
     if (showRecommendations) {
       const flavorProfiles: Record<string, string[]> = {
@@ -176,20 +191,20 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
       };
       
       // Get recommendations based on dominant element
-      recommendations = {
-        flavorProfile: flavorProfiles[dominantElement] || [],
-        cuisineAffinity: cuisineAffinities[dominantElement] || [],
-        wellnessProperties: wellnessProperties[dominantElement] || []
+      recs = {
+        flavorProfile: flavorProfiles[dominantElement] ?? [],
+        cuisineAffinity: cuisineAffinities[dominantElement] ?? [],
+        wellnessProperties: wellnessProperties[dominantElement] ?? []
       };
     }
     
     // Create the result object
-    const result = {
-      normalizedValues,
+    const result: VisualizerCalculationResult = {
+      normalizedValues: normValues,
       dominantElement,
-      compatibility,
-      sortedElements,
-      recommendations
+      compatibility: compScore,
+      sortedElements: sorted,
+      recommendations: recs
     };
     
     // Cache the result
@@ -199,14 +214,14 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   }, [elementalProperties, userProperties, showComparison, showRecommendations, cacheKey, cachedResults]);
 
   // Toggle details event handler
-  const handleToggleDetails = useCallback(() => {
+  const handleToggleDetails = useCallback((): void => {
     if (isMountedRef.current) {
       setShowDetails(prev => !prev);
     }
   }, []);
   
   // Render bar chart visualization
-  const renderBarChart = useCallback(() => {
+  const renderBarChart = useCallback((): React.JSX.Element => {
     const barHeight = 30;
     const barSpacing = 10;
     const chartWidth = sizeConfig.width - (sizeConfig.padding * 2);
@@ -284,7 +299,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Render radar chart visualization
-  const renderRadarChart = useCallback(() => {
+  const renderRadarChart = useCallback((): React.JSX.Element => {
     const centerX = sizeConfig.width / 2;
     const centerY = sizeConfig.height / 2;
     const radius = Math.min(centerX, centerY) - sizeConfig.padding;
@@ -396,7 +411,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Render pie chart visualization
-  const renderPieChart = useCallback(() => {
+  const renderPieChart = useCallback((): React.JSX.Element => {
     const centerX = sizeConfig.width / 2;
     const centerY = sizeConfig.height / 2;
     const radius = Math.min(centerX, centerY) - sizeConfig.padding;
@@ -455,7 +470,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
         {slices.map(slice => (
           <g key={`slice-${slice.element}`}>
             <path
-            d={slice.path}
+              d={slice.path}
               fill={ELEMENT_COLORS[slice.element as keyof typeof ELEMENT_COLORS]}
               stroke={darkMode ? '#333333' : '#FFFFFF'}
               strokeWidth={1}
@@ -464,9 +479,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
             {/* Labels for slices with enough space */}
             {showLabels && slice.percentage > 5 && (
               <text
-            x={slice.labelX}
-            y={slice.labelY}
-            fontSize={sizeConfig.fontSize}
+                x={slice.labelX}
+                y={slice.labelY}
+                fontSize={sizeConfig.fontSize}
                 fontWeight="bold"
                 fill="#FFFFFF"
                 textAnchor="middle"
@@ -490,7 +505,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Render interactive visualization
-  const renderInteractiveVisualization = useCallback(() => {
+  const renderInteractiveVisualization = useCallback((): React.JSX.Element => {
     const containerSize = {
       width: sizeConfig.width,
       height: sizeConfig.height * 1.5 // Extra space for controls
@@ -559,8 +574,11 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
-              , width: '100%', background: 'none', border: 0, padding: 0
+              justifyContent: 'space-between',
+              width: '100%',
+              background: 'none',
+              border: 0,
+              padding: 0
             }}
             onClick={handleToggleDetails}
             aria-expanded={showDetails}
@@ -587,7 +605,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
                   margin: '4px 0'
                 }}>
                   <span style={{ marginRight: '8px' }}>{ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS]}</span>
-                  <span>{element}: {Math.round(normalizedValues[element])}%</span>
+                  <span>{element}: {Math.round(normalizedValues[element] ?? 0)}%</span>
                 </div>
               ))}
               
@@ -631,7 +649,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Main render logic
-  const renderVisualization = useCallback(() => {
+  const renderVisualization = useCallback((): React.JSX.Element => {
     switch (visualizationType) {
       case 'bar':
         return renderBarChart();
@@ -653,7 +671,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Legend component
-  const Legend = useCallback(() => {
+  const Legend = useCallback((): React.JSX.Element | null => {
     if (!showLegend) return null;
     
     return (

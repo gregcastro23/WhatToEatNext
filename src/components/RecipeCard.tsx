@@ -11,6 +11,19 @@ import type { Recipe } from "@/types/recipe";
 import { getAssetUrl } from "@/utils/urlUtils";
 import { AddToDiaryModal } from "./food-diary/AddToDiaryModal";
 
+interface ExtendedRecipeCardData extends Partial<Recipe> {
+  cookingTime?: string | number;
+  Spirit?: number;
+  Essence?: number;
+  Matter?: number;
+  Substance?: number;
+  spirit?: number;
+  essence?: number;
+  matter?: number;
+  substance?: number;
+  rating?: number | string;
+}
+
 interface RecipeCardProps {
   recipe: Recipe;
   onClick?: () => void;
@@ -18,22 +31,29 @@ interface RecipeCardProps {
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const extRecipe = recipe as unknown as ExtendedRecipeCardData;
 
   // Extract elemental properties for display
-  const elements = recipe.elementalProperties || {
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
-  };
+  const elements = recipe.elementalProperties;
 
-  const handleSelect = (target: EventTarget | null) => {
+  const handleSelect = (target: EventTarget | null): void => {
     if (onClick && !(target instanceof HTMLElement && target.closest(".add-diary-btn"))) {
       onClick();
     }
   };
 
   const displayImage = getAssetUrl(recipe.image);
+  const cookingTimeDisplay = extRecipe.cookingTime ?? recipe.cookTime;
+
+  const spiritVal = extRecipe.spirit ?? extRecipe.Spirit;
+  const essenceVal = extRecipe.essence ?? extRecipe.Essence;
+  const matterVal = extRecipe.matter ?? extRecipe.Matter;
+  const substanceVal = extRecipe.substance ?? extRecipe.Substance;
+  const hasAlchemicalStats =
+    spiritVal !== undefined ||
+    essenceVal !== undefined ||
+    matterVal !== undefined ||
+    substanceVal !== undefined;
 
   return (
     <>
@@ -70,9 +90,9 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
                 {recipe.cuisine}
               </span>
             )}
-            {(recipe as any).cookingTime && (
+            {cookingTimeDisplay !== undefined && (
               <span className="bg-black/60 backdrop-blur-md text-purple-400 text-[10px] font-bold px-2 py-1 rounded-full border border-purple-500/30 uppercase tracking-wider">
-                {(recipe as any).cookingTime} MIN
+                {cookingTimeDisplay} MIN
               </span>
             )}
           </div>
@@ -101,13 +121,13 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
           )}
 
           {/* Alchemical Metrics (ESMS) */}
-          {(recipe.spirit !== undefined || (recipe as any).Spirit !== undefined) && (
+          {hasAlchemicalStats && (
             <div className="grid grid-cols-4 gap-2 mb-4 bg-white/5 rounded-xl p-3 border border-white/5">
               {[
-                { label: "SPI", val: recipe.spirit ?? (recipe as any).Spirit },
-                { label: "ESS", val: recipe.essence ?? (recipe as any).Essence },
-                { label: "MAT", val: recipe.matter ?? (recipe as any).Matter },
-                { label: "SUB", val: recipe.substance ?? (recipe as any).Substance },
+                { label: "SPI", val: spiritVal },
+                { label: "ESS", val: essenceVal },
+                { label: "MAT", val: matterVal },
+                { label: "SUB", val: substanceVal },
               ].map((stat, i) => (
                 <div key={i} className="text-center">
                   <div className="text-[9px] uppercase tracking-tighter text-gray-500 font-bold">
@@ -129,10 +149,10 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
 
           {/* Footer Info */}
           <div className="flex items-center justify-between">
-            {Boolean(recipe.rating) && (
+            {Boolean(extRecipe.rating) && (
               <div className="flex items-center gap-1">
                 <span className="text-amber-400 text-xs">★</span>
-                <span className="text-white text-xs font-bold">{Number(recipe.rating).toFixed(1)}</span>
+                <span className="text-white text-xs font-bold">{Number(extRecipe.rating).toFixed(1)}</span>
               </div>
             )}
             <div className="flex gap-2">

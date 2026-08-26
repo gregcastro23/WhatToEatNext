@@ -1,60 +1,18 @@
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import type {
-  AlchemicalProperties,
   ElementalProperties,
   Season,
 } from "@/types/alchemy";
 import * as flavorProfileMigration from "./flavorProfileMigration";
+import type {
+  BaseFlavorNotes,
+  UnifiedFlavorProfile,
+} from "./unifiedTypes";
+
+export type { BaseFlavorNotes, UnifiedFlavorProfile };
 
 // ===== UNIFIED INTERFACES =====;
-
-export interface BaseFlavorNotes {
-  sweet: number;
-  sour: number;
-  salty: number;
-  bitter: number;
-  umami: number;
-  spicy: number;
-}
-
-export interface UnifiedFlavorProfile {
-  // Core identification,
-  id: string;
-  name: string;
-  category:
-    | "ingredient"
-    | "cuisine"
-    | "planetary"
-    | "elemental"
-    | "cooking-method";
-  // Flavor characteristics,
-  baseNotes: BaseFlavorNotes;
-  elementalFlavors: ElementalProperties;
-  intensity: number; // 0-1 scale,
-  complexity: number; // 0-1 scale;
-
-  // Alchemical integration,
-  kalchm: number;
-  monicaOptimization: number;
-  alchemicalProperties: AlchemicalProperties;
-
-  // Contextual data,
-  seasonalPeak: Season[];
-  seasonalModifiers: Record<Season, number>;
-  culturalOrigins: string[];
-  pairingRecommendations: string[];
-
-  // Advanced properties,
-  preparationMethods: string[];
-  nutritionalSynergy: number;
-  temperatureOptimal: number; // Celsius,
-
-  // Metadata,
-  description: string;
-  tags: string[];
-  lastUpdated: Date;
-}
 
 export interface UnifiedFlavorCompatibility {
   overall: number; // 0-1 scale (primary score),
@@ -121,16 +79,18 @@ declare global {
 }
 
 if (typeof window !== "undefined") {
-  if (!window.__FLAVOR_ENGINE_INSTANCE__) {
-    window.__FLAVOR_ENGINE_INSTANCE__ = {
-      instance: null,
-      initializing: false,
-      initialized: false,
-    };
-  }
+  window.__FLAVOR_ENGINE_INSTANCE__ ??= {
+    instance: null,
+    initializing: false,
+    initialized: false,
+  };
 }
 
-function getGlobalState() {
+function getGlobalState(): {
+  instance: UnifiedFlavorEngine | null;
+  initializing: boolean;
+  initialized: boolean;
+} {
   if (typeof window !== "undefined") {
     return window.__FLAVOR_ENGINE_INSTANCE__ as {
       instance: UnifiedFlavorEngine | null;
@@ -149,7 +109,7 @@ function setGlobalState(
   instance: UnifiedFlavorEngine | null,
   initializing: boolean,
   initialized: boolean,
-) {
+): void {
   if (typeof window !== "undefined") {
     window.__FLAVOR_ENGINE_INSTANCE__ = {
       instance,
@@ -171,7 +131,7 @@ export class UnifiedFlavorEngine {
   // Phase 8: Enhanced caching and performance monitoring
   private readonly profileCache: Map<string, UnifiedFlavorProfile> = new Map();
 
-  private readonly memoizedCalculations: Map<string, any> = new Map();
+  private readonly memoizedCalculations: Map<string, unknown> = new Map();
   private readonly performanceMetrics: {
     totalCalculations: number;
     totalCacheHits: number;
@@ -221,22 +181,19 @@ export class UnifiedFlavorEngine {
 
           // Add profiles to our map
           for (const profile of profiles) {
-            this.profiles.set(profile.id, profile as any);
+            this.profiles.set(profile.id, profile);
           }
 
           // Log successful initialization
           log.info(
-            "🚀 Unified Flavor Engine initialized with",
-            (profiles || []).length as any,
-            "profiles",
+            `🚀 Unified Flavor Engine initialized with ${profiles.length} profiles`,
           );
 
           // Log category stats
-          const categoryStats = (profiles as any).reduce(
-            (acc: Record<string, number>, profile: Record<string, unknown>) => {
-              const category =
-                (profile as { category?: string }).category ?? "unknown";
-              acc[category] = (acc[category] || 0) + 1;
+          const categoryStats = profiles.reduce(
+            (acc: Record<string, number>, profile: UnifiedFlavorProfile) => {
+              const { category } = profile;
+              acc[category] = (acc[category] ?? 0) + 1;
               return acc;
             },
             {},
@@ -273,15 +230,12 @@ export class UnifiedFlavorEngine {
     },
   ): UnifiedFlavorCompatibility {
     const startTime = performance.now();
-    const cacheKey = `${_profile1.id}-${_profile2.id}-${JSON.stringify(_context || {})}`;
+    const cacheKey = `${_profile1.id}-${_profile2.id}-${JSON.stringify(_context ?? {})}`;
 
     // Phase 8: Enhanced cache checking with performance tracking
     if (this.compatibilityCache.has(cacheKey)) {
-      if (this.performanceMetrics) {
-        this.performanceMetrics.totalCacheHits =
-          (this.performanceMetrics.totalCacheHits ?? 0) + 1;
-      }
-      const result = this.compatibilityCache.get(cacheKey) ?? undefined;
+      this.performanceMetrics.totalCacheHits += 1;
+      const result = this.compatibilityCache.get(cacheKey);
 
       // Update cache access time for LRU tracking
       this.compatibilityCache.delete(cacheKey);
@@ -407,10 +361,7 @@ export class UnifiedFlavorEngine {
 
     // Phase, 8: Enhanced caching with performance tracking
     this.compatibilityCache.set(cacheKey, result);
-    if (this.performanceMetrics) {
-      this.performanceMetrics.totalCalculations =
-        (this.performanceMetrics.totalCalculations ?? 0) + 1;
-    }
+    this.performanceMetrics.totalCalculations += 1;
 
     // Track calculation time
     const calculationTime = performance.now() - startTime;
@@ -520,14 +471,14 @@ export class UnifiedFlavorEngine {
     _contextSeason?: Season,
   ): number {
     // Base seasonal compatibility
-    const commonSeasons = (_profile1.seasonalPeak || []).filter((season) =>
-      (_profile2.seasonalPeak || []).includes(season),
+    const commonSeasons = _profile1.seasonalPeak.filter((season) =>
+      _profile2.seasonalPeak.includes(season),
     );
     const baseAlignment =
       commonSeasons.length /
       Math.max(
-        (_profile1.seasonalPeak || []).length,
-        (_profile2.seasonalPeak || []).length,
+        _profile1.seasonalPeak.length,
+        _profile2.seasonalPeak.length,
       );
 
     // Context-aware enhancement
@@ -554,10 +505,10 @@ export class UnifiedFlavorEngine {
     _culturalPreference?: string,
   ): number {
     const origins1 = new Set(
-      (_profile1.culturalOrigins || []).map((o) => o.toLowerCase()),
+      _profile1.culturalOrigins.map((o) => o.toLowerCase()),
     );
     const origins2 = new Set(
-      (_profile2.culturalOrigins || []).map((o) => o.toLowerCase()),
+      _profile2.culturalOrigins.map((o) => o.toLowerCase()),
     );
 
     // Calculate overlap
@@ -601,7 +552,7 @@ export class UnifiedFlavorEngine {
     // Estimate based on elemental balance and complexity
     const elementalBalance =
       Object.values(_profile.elementalFlavors).reduce((a, b) => a + b, 0) / 4;
-    const complexityBonus = ((_profile as any)?.complexity || 0) * 0.2;
+    const complexityBonus = (_profile.complexity || 0) * 0.2;
     return Math.min(1, elementalBalance + complexityBonus);
   }
 
@@ -612,11 +563,13 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
     _contextMethod?: string,
   ): number {
+    const prep1 = _profile1.preparationMethods ?? [];
+    const prep2 = _profile2.preparationMethods ?? [];
     const methods1 = new Set(
-      (_profile1.preparationMethods || []).map((m) => m.toLowerCase()),
+      prep1.map((m) => m.toLowerCase()),
     );
     const methods2 = new Set(
-      (_profile2.preparationMethods || []).map((m) => m.toLowerCase()),
+      prep2.map((m) => m.toLowerCase()),
     );
 
     // Calculate method overlap
@@ -671,7 +624,7 @@ export class UnifiedFlavorEngine {
       totalHarmony += similarity;
     }
 
-    return totalHarmony / (flavors || []).length;
+    return totalHarmony / flavors.length;
   }
 
   // ===== DETAILED BREAKDOWN METHODS =====
@@ -724,7 +677,7 @@ export class UnifiedFlavorEngine {
       "spicy",
     ];
 
-    const breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
+    const breakdown = {} as Record<keyof BaseFlavorNotes, number>;
 
     for (const flavor of flavors) {
       const value1 = notes1[flavor];
@@ -741,7 +694,7 @@ export class UnifiedFlavorEngine {
   ): Record<Season, number> {
     const seasons: Season[] = ["spring", "summer", "autumn", "winter"];
 
-    const breakdown: Record<Season, number> = {} as any;
+    const breakdown = {} as Record<Season, number>;
 
     for (const season of seasons) {
       const modifier1 = _profile1.seasonalModifiers[season] || 0.5;
@@ -757,10 +710,10 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
   ): string[] {
     const origins1 = new Set(
-      (_profile1.culturalOrigins || []).map((o) => o.toLowerCase()),
+      _profile1.culturalOrigins.map((o) => o.toLowerCase()),
     );
     const origins2 = new Set(
-      (_profile2.culturalOrigins || []).map((o) => o.toLowerCase()),
+      _profile2.culturalOrigins.map((o) => o.toLowerCase()),
     );
 
     return [...new Set([...origins1].filter((x) => origins2.has(x)))];
@@ -860,29 +813,28 @@ export class UnifiedFlavorEngine {
 
   searchProfiles(criteria: FlavorSearchCriteria): UnifiedFlavorProfile[] {
     const cacheKey = JSON.stringify(criteria);
-    if (this.searchCache.has(cacheKey)) {
-      return this.searchCache.get(cacheKey) || [];
+    const cached = this.searchCache.get(cacheKey);
+    if (cached) {
+      return cached;
     }
 
     let results = this.getAllProfiles();
 
     // Apply filters
     if (criteria.category) {
-      results = (results || []).filter((p) => p.category === criteria.category);
+      results = results.filter((p) => p.category === criteria.category);
     }
 
     if (criteria.elementalFocus) {
       const { elementalFocus } = criteria;
-      if (elementalFocus) {
-        results = (results || []).filter(
-          (p) => (p.elementalFlavors[elementalFocus] || 0) > 0.3,
-        );
-      }
+      results = results.filter(
+        (p) => (p.elementalFlavors[elementalFocus] || 0) > 0.3,
+      );
     }
 
     if (criteria.intensityRange) {
       const { intensityRange } = criteria;
-      results = (results || []).filter(
+      results = results.filter(
         (p) =>
           p.intensity >= intensityRange.min &&
           p.intensity <= intensityRange.max,
@@ -891,7 +843,7 @@ export class UnifiedFlavorEngine {
 
     if (criteria.complexityRange) {
       const { complexityRange } = criteria;
-      results = (results || []).filter(
+      results = results.filter(
         (p) =>
           p.complexity >= complexityRange.min &&
           p.complexity <= complexityRange.max,
@@ -900,50 +852,46 @@ export class UnifiedFlavorEngine {
 
     if (criteria.seasonalAlignment) {
       const { seasonalAlignment } = criteria;
-      if (seasonalAlignment) {
-        results = results.filter((p) =>
-          p.seasonalPeak.includes(seasonalAlignment),
-        );
-      }
+      results = results.filter((p) =>
+        p.seasonalPeak.includes(seasonalAlignment),
+      );
     }
 
     if (criteria.culturalOrigin) {
-      results = (results || []).filter((p) =>
-        (p.culturalOrigins || []).some((origin) =>
-          origin
-            .toLowerCase()
-            .includes((criteria.culturalOrigin || "").toLowerCase()),
+      const culturalOriginLower = criteria.culturalOrigin.toLowerCase();
+      results = results.filter((p) =>
+        p.culturalOrigins.some((origin) =>
+          origin.toLowerCase().includes(culturalOriginLower),
         ),
       );
     }
 
     if (criteria.preparationMethod) {
-      results = (results || []).filter((p) =>
-        (p.preparationMethods || []).some((method) =>
-          method
-            .toLowerCase()
-            .includes((criteria.preparationMethod || "").toLowerCase()),
+      const prepMethodLower = criteria.preparationMethod.toLowerCase();
+      results = results.filter((p) =>
+        (p.preparationMethods ?? []).some((method) =>
+          method.toLowerCase().includes(prepMethodLower),
         ),
       );
     }
 
     if (criteria.minKalchm !== undefined) {
-      results = (results || []).filter(
-        (p) => p.kalchm >= (criteria.minKalchm || 0),
-      );
+      const { minKalchm } = criteria;
+      results = results.filter((p) => p.kalchm >= minKalchm);
     }
 
     if (criteria.maxKalchm !== undefined) {
-      results = (results || []).filter(
-        (p) => p.kalchm <= (criteria.maxKalchm || 1),
-      );
+      const { maxKalchm } = criteria;
+      results = results.filter((p) => p.kalchm <= maxKalchm);
     }
 
     if (criteria.tags && criteria.tags.length > 0) {
-      results = (results || []).filter((p) =>
-        (criteria.tags || []).some((tag) =>
-          p.tags.some((pTag) => pTag.toLowerCase().includes(tag.toLowerCase())),
-        ),
+      const searchTags = criteria.tags;
+      results = results.filter((p) =>
+        searchTags.some((tag) => {
+          const tagLower = tag.toLowerCase();
+          return (p.tags ?? []).some((pTag) => pTag.toLowerCase().includes(tagLower));
+        }),
       );
     }
 
@@ -1048,7 +996,7 @@ export class UnifiedFlavorEngine {
    */
   private memoize<T>(key: string, calculation: () => T): T {
     if (this.memoizedCalculations.has(key)) {
-      return this.memoizedCalculations.get(key);
+      return this.memoizedCalculations.get(key) as T;
     }
 
     const result = calculation();
@@ -1125,22 +1073,15 @@ export class UnifiedFlavorEngine {
   /**
    * Warm up cache with common profile combinations
    */
-  async warmupCache(): Promise<void> {
+  warmupCache(): void {
     log.info("🔥 Warming up UnifiedFlavorEngine cache...");
 
     const profiles = Array.from(this.profiles.values());
-    const commonProfiles = profiles.slice(
-      0,
-      Math.min(20, (profiles || []).length),
-    );
+    const commonProfiles = profiles.slice(0, Math.min(20, profiles.length));
 
     // Pre-calculate common combinations
-    for (let i = 0; i < (commonProfiles || []).length; i++) {
-      for (
-        let j = i + 1;
-        j < Math.min(i + 5, (commonProfiles || []).length);
-        j++
-      ) {
+    for (let i = 0; i < commonProfiles.length; i++) {
+      for (let j = i + 1; j < Math.min(i + 5, commonProfiles.length); j++) {
         this.calculateCompatibility(commonProfiles[i], commonProfiles[j]);
       }
     }

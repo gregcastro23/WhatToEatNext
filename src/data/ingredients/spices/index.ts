@@ -10,7 +10,7 @@ import type { Ingredient } from "../types";
 
 // Normalize elemental properties to sum to 1
 const normalizeElementalProperties = (
-  properties: Record<string, number>,
+  properties?: Record<string, number>,
 ): Record<string, number> => {
   if (!properties) {
     // Spice default: Fire-dominant (warming, pungent aromatic compounds)
@@ -75,7 +75,7 @@ export const _addHeatLevels = (
 // as literal keys spread after enhancedSpicesIngredients they wholesale-replaced
 // the USDA-sourced cards, shipping cumin/cinnamon/cayenne/paprika/turmeric with
 // no description and no nutrition.
-const inlineSpiceOverrides: Record<string, any> = {
+const inlineSpiceOverrides: Record<string, Record<string, unknown>> = {
   cumin: {
     image_url: "ingredients/cumin.png",
     culinaryProfile: {
@@ -380,26 +380,30 @@ const inlineSpiceOverrides: Record<string, any> = {
 
 // Combine all spice categories with heat levels
 // Enhanced spices take precedence (spread first, then legacy data can override if needed)
-const combinedSpices: Record<string, any> = {
-  ...(spicesIngredients as any), // Base spices extracted from cuisine files
-  ...warmSpices, // Warm spices (cardamom, star anise, etc.)
-  ...wholeSpices,
-  ...groundSpices,
-  ...(spiceBlends as any),
-  ...enhancedSpicesIngredients, // Add our enhanced spices with full data
+const combinedSpices: Record<string, IngredientMapping> = {
+  ...(spicesIngredients as unknown as Record<string, IngredientMapping>),
+  ...(warmSpices as unknown as Record<string, IngredientMapping>),
+  ...(wholeSpices as unknown as Record<string, IngredientMapping>),
+  ...(groundSpices as unknown as Record<string, IngredientMapping>),
+  ...(spiceBlends as unknown as Record<string, IngredientMapping>),
+  ...(enhancedSpicesIngredients as unknown as Record<string, IngredientMapping>),
 };
 for (const [key, patch] of Object.entries(inlineSpiceOverrides)) {
-  combinedSpices[key] = { ...(combinedSpices[key] ?? {}), ...patch };
+  combinedSpices[key] = {
+    ...(combinedSpices[key] ?? {}),
+    ...patch,
+  } as unknown as IngredientMapping;
 }
 
 export const spices = fixIngredientMappings(combinedSpices);
 
 // Validate spice heat levels
 Object.values(spices).forEach((spice) => {
-  const spiceData = spice as any;
+  const spiceData = spice as unknown as Record<string, unknown>;
+  const elementalProps = spice.elementalProperties as unknown as Record<string, number>;
   if (
     Number(spiceData.heatLevel) > 5 &&
-    Number(spiceData.elementalProperties.Fire) < 0.3
+    Number(elementalProps.Fire) < 0.3
   ) {
     // console.error(`Fire element too low for heat in ${spice.name}`);
   }
@@ -413,7 +417,7 @@ export const _getSpicesBySubCategory = (
   subCategory: string,
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
-    .filter(([_, value]) => (value as any).subCategory === subCategory)
+    .filter(([_, value]) => (value as unknown as Record<string, unknown>).subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const _getSpicesByOrigin = (
@@ -421,7 +425,7 @@ export const _getSpicesByOrigin = (
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
     .filter(([_, value]) => {
-      const valueData = value as any;
+      const valueData = value as unknown as Record<string, unknown>;
       return Array.isArray(valueData.origin)
         ? (valueData.origin as string[]).includes(origin)
         : valueData.origin === origin;
@@ -433,28 +437,31 @@ export const _getSpicesByElementalProperty = (
   minStrength = 0.3,
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
-    .filter(([_, value]) => value.elementalProperties[element] >= minStrength)
+    .filter(([_, value]) => (value.elementalProperties as unknown as Record<string, number>)[element] >= minStrength)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const _getSpiceBlendComponents = (blendName: string): string[] => {
-  const blend = spiceBlends[blendName];
-  return blend ? (blend.baseIngredients as string[]) : [];
+  const blend = spiceBlends[blendName] as unknown as Record<string, unknown> | undefined;
+  return Array.isArray(blend?.baseIngredients) ? (blend.baseIngredients as string[]) : [];
 };
 
 export const _getCompatibleSpices = (spiceName: string): string[] => {
-  const spice = spices[spiceName];
+  const allSpices = spices as Record<string, IngredientMapping | undefined>;
+  const spice = allSpices[spiceName];
   if (!spice) return [];
 
-  const spiceData = spice as any;
+  const spiceData = spice as unknown as Record<string, unknown>;
+  const spiceAffinities = Array.isArray(spiceData.affinities) ? (spiceData.affinities as string[]) : [];
+  if (spiceAffinities.length === 0) return [];
+
   return Object.entries(spices)
     .filter(([key, value]) => {
-      const valueData = value as any;
+      const valueData = value as unknown as Record<string, unknown>;
       return (
         key !== spiceName &&
         Array.isArray(valueData.affinities) &&
-        Array.isArray(spiceData.affinities) &&
         (valueData.affinities as string[]).some((affinity: string) =>
-          (spiceData.affinities as string[]).includes(affinity),
+          spiceAffinities.includes(affinity),
         )
       );
     })
@@ -462,25 +469,27 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {
 };
 
 export const _getSubstitutions = (spiceName: string): string[] => {
-  const spice = spices[spiceName];
+  const allSpices = spices as Record<string, IngredientMapping | undefined>;
+  const spice = allSpices[spiceName];
   if (!spice) return [];
 
-  const spiceData = spice as any;
+  const spiceData = spice as unknown as Record<string, unknown>;
+  const spiceQualities = Array.isArray(spiceData.qualities) ? (spiceData.qualities as string[]) : [];
+  if (spiceQualities.length === 0) return [];
+  const [dominantElement] = Object.keys(spice.elementalProperties);
+  if (!dominantElement) return [];
+
   return Object.entries(spices)
     .filter(([key, value]) => {
-      const valueData = value as any;
+      const valueData = value as unknown as Record<string, unknown>;
+      const valueElemental = value.elementalProperties as unknown as Record<string, number>;
       return (
         key !== spiceName &&
         Array.isArray(valueData.qualities) &&
-        Array.isArray(spiceData.qualities) &&
         (valueData.qualities as string[]).some((quality: string) =>
-          (spiceData.qualities as string[]).includes(quality),
+          spiceQualities.includes(quality),
         ) &&
-        Number(
-          (value as any).elementalProperties[
-            Object.keys(spice.elementalProperties)[0]
-          ],
-        ) >= 0.3
+        Number(valueElemental[dominantElement]) >= 0.3
       );
     })
     .map(([key]) => key);
@@ -491,10 +500,10 @@ export const _getSpicesByPreparationMethod = (
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
     .filter(([_, value]) => {
-      const valueData = value as any;
-      return (
+      const valueData = value as unknown as { preparation?: Record<string, unknown> };
+      return Boolean(
         valueData.preparation &&
-        Object.keys(valueData.preparation).includes(method)
+        Object.keys(valueData.preparation).includes(method),
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -504,17 +513,14 @@ export const _getTraditionalBlends = (
 ): Record<string, IngredientMapping> =>
   Object.entries(spiceBlends)
     .filter(([_, value]) => {
-      // `regionalVariations` isn't a named field on `IngredientMapping`, so
-      // it's typed `unknown` via that interface's catch-all index signature.
-      // Actual spice-blend data (see spiceBlends.ts) always stores it as a
-      // region-name-keyed object, so this narrows it for the lookup below.
-      const regionalVariations = value.regionalVariations as
+      const val = value as unknown as Record<string, unknown>;
+      const regionalVariations = val.regionalVariations as
         | Record<string, unknown>
         | undefined;
       return (
-        (Array.isArray(value.origin)
-          ? value.origin.includes(region)
-          : value.origin === region) || regionalVariations?.[region]
+        (Array.isArray(val.origin)
+          ? (val.origin as string[]).includes(region)
+          : val.origin === region) || Boolean(regionalVariations?.[region])
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -523,14 +529,12 @@ export const _getSpiceConversionRatio = (
   fromSpice: string,
   toSpice: string,
 ): string | null => {
-  const source = spices[fromSpice];
-  const target = spices[toSpice];
+  const source = spices[fromSpice] as unknown as Record<string, unknown> | undefined;
+  const target = spices[toSpice] as unknown as Record<string, unknown> | undefined;
 
   if (
-    !source ||
-    !target ||
-    !source.conversionRatio ||
-    !target.conversionRatio
+    !source?.conversionRatio ||
+    !target?.conversionRatio
   ) {
     return null;
   }

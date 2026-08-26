@@ -13,7 +13,8 @@
  */
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { _logger } from "@/lib/logger";
 
 const ECHO_PLANETS = ["Pluto", "Neptune", "Uranus", "Saturn", "Jupiter"] as const;
 type EchoPlanet = (typeof ECHO_PLANETS)[number];
@@ -147,7 +148,7 @@ function fmt(n: number, digits = 4): string {
   return n.toFixed(digits);
 }
 
-export default function HistoricalEchoes() {
+export default function HistoricalEchoes(): React.JSX.Element {
   const [planet, setPlanet] = useState<EchoPlanet>("Pluto");
   const [data, setData] = useState<EchoResponse["echo"] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -155,7 +156,7 @@ export default function HistoricalEchoes() {
 
   useEffect(() => {
     let cancelled = false;
-    const fetchEcho = async () => {
+    const fetchEcho = async (): Promise<void> => {
       setLoading(true);
       setError(null);
       try {
@@ -171,11 +172,11 @@ export default function HistoricalEchoes() {
       }
     };
     
-    fetchEcho().catch((err) => {
-      console.error("Unhandled error in fetchEcho:", err);
+    fetchEcho().catch((err: unknown) => {
+      _logger.error("Unhandled error in fetchEcho:", err);
     });
     
-    return () => {
+    return (): void => {
       cancelled = true;
     };
   }, [planet]);
@@ -414,7 +415,7 @@ function ChartPanel({
   snapshot: PlanetSnapshot[];
   highlightPlanet: string;
   accent: "amber" | "purple";
-}) {
+}): React.JSX.Element {
   const accentBorder = accent === "amber" ? "border-amber-500/20" : "border-purple-500/20";
   const accentText = accent === "amber" ? "text-amber-400" : "text-purple-400";
   return (

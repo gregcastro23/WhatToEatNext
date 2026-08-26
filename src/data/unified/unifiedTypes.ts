@@ -23,7 +23,7 @@ type CuisineFlavorCompatibility = unknown;
 export interface UnifiedFlavorProfile {
   id: string;
   name: string;
-  category: "cuisine" | "planetary" | "elemental" | "ingredient" | "fusion";
+  category: "cuisine" | "planetary" | "elemental" | "ingredient" | "fusion" | "cooking-method";
   baseNotes: BaseFlavorNotes;
   elementalFlavors: ElementalProperties;
   intensity: number;
@@ -37,11 +37,15 @@ export interface UnifiedFlavorProfile {
   pairingRecommendations: string[];
   nutritionalSynergy: number;
   description: string;
-  planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>;
-  cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility };
-  cookingMethodAffinity: Record<string, number>;
-  temperatureRange: { min: number; max: number };
-  avoidCombinations: string[];
+  planetaryResonance?: Record<PlanetName, PlanetaryFlavorInfluence>;
+  cuisineCompatibility?: { [key: string]: CuisineFlavorCompatibility };
+  cookingMethodAffinity?: Record<string, number>;
+  preparationMethods?: string[];
+  temperatureOptimal?: number;
+  temperatureRange?: { min: number; max: number };
+  avoidCombinations?: string[];
+  tags?: string[];
+  lastUpdated?: Date;
 }
 
 export interface BaseFlavorNotes {

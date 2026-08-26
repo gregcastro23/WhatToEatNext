@@ -20,8 +20,7 @@ import {
   Download,
   Archive,
 } from 'lucide-react'
-import { useState, useEffect, useCallback } from 'react'
-import type { ChangeEvent, KeyboardEvent, ReactNode } from 'react'
+import { useState, useEffect, useCallback, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'

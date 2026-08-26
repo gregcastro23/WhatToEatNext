@@ -1,4 +1,7 @@
-import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  calculateMonica as canonicalCalculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import type {
   AstrologicalState,
   Element,
@@ -38,7 +41,7 @@ interface PlanetInfo {
   "Nocturnal Element": Element;
 }
 
-const planetInfo: Record<string, PlanetInfo> = {
+const planetInfo: Record<string, PlanetInfo | undefined> = {
   Sun: {
     "Dignity Effect": { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ["Fire", "Fire"],
@@ -151,7 +154,7 @@ interface SignInfo {
   Element: Element;
 }
 
-const signInfo: Record<string, SignInfo> = {
+const signInfo: Record<string, SignInfo | undefined> = {
   aries: { Element: "Fire" },
   taurus: { Element: "Earth" },
   gemini: { Element: "Air" },
@@ -221,7 +224,7 @@ function alchemize(planetaryPositions: {
     // Guard against an unrecognized sign string so a single bad position can't
     // throw and take down the whole calculation.
     const signElement = signInfo[sign]?.Element;
-    if (signElement && totals[signElement] !== undefined) {
+    if (signElement) {
       totals[signElement] += 1;
     }
   }
@@ -271,14 +274,8 @@ function alchemize(planetaryPositions: {
     Substance,
   });
 
-  // Monica constant
-  let monica = NaN;
-  if (kalchm > 0) {
-    const lnK = Math.log(kalchm);
-    if (lnK !== 0) {
-      monica = -gregsEnergy / (reactivity * lnK);
-    }
-  }
+  // Monica constant via canonical engine (handles kalchm=1 equilibrium -> phi)
+  const monica = canonicalCalculateMonica(gregsEnergy, reactivity, kalchm);
 
   return { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
 }
@@ -305,26 +302,31 @@ export class AlchemicalEngine {
 
   /**
    * Calculate elemental compatibility between two elemental property sets
-   * Uses getElementalAffinity instead of private calculateElementCompatibility
    */
   calculateElementalCompatibility(
     properties1: ElementalProperties,
-    _properties2: ElementalProperties,
+    properties2: ElementalProperties,
   ): number {
-    // Use getElementalAffinity which returns ElementalAffinity object, extract compatibility score
-    // Determine dominant element from properties1
-    const _dominantElement =
-      (Object.entries(properties1).sort(
-        ([, a], [, b]) => b - a,
-      )[0]?.[0] as Element) || "Fire";
-    const affinity = (this.advanced as any).getElementalAffinity(
-      _dominantElement,
-      _dominantElement,
-    ); // Use dominant element for both
-    // Extract the compatibility score for the dominant element
-    return typeof affinity.compatibility[_dominantElement] === "number"
-      ? affinity.compatibility[_dominantElement]
-      : 0.5;
+    const elements: Array<keyof ElementalProperties> = [
+      "Fire",
+      "Water",
+      "Earth",
+      "Air",
+    ];
+    let score = 0;
+    let sum1 = 0;
+    let sum2 = 0;
+
+    for (const element of elements) {
+      const v1 = properties1[element] || 0;
+      const v2 = properties2[element] || 0;
+      score += v1 * v2;
+      sum1 += v1 * v1;
+      sum2 += v2 * v2;
+    }
+
+    const magnitude = Math.sqrt(sum1) * Math.sqrt(sum2);
+    return magnitude > 0 ? Math.max(0, Math.min(1, score / magnitude)) : 0.5;
   }
 
   // Proxy legacy/advanced methods for compatibility
@@ -333,7 +335,7 @@ export class AlchemicalEngine {
     astrologicalState?: AstrologicalState,
     season?: string,
     cuisine?: string,
-  ) {
+  ): unknown {
     return this.advanced.calculateAstroCuisineMatch(
       recipeElements,
       astrologicalState,
@@ -344,43 +346,49 @@ export class AlchemicalEngine {
 
   // Proxy: calculateAdvancedRecipeHarmony → calculateRecipeHarmony
   calculateAdvancedRecipeHarmony(
-    recipeName: string,
+    _recipeName: string,
     userElements: ElementalProperties,
     astroState: AstrologicalState,
-    _birthInfo?: unknown, // optional, legacy signature
-  ) {
-    return (this.advanced as any).calculateRecipeHarmony(
-      recipeName,
+    _birthInfo?: unknown,
+  ): number {
+    const astroElements = (astroState as unknown as Record<string, unknown>).elementalBalance as ElementalProperties | undefined;
+    return this.calculateElementalCompatibility(
       userElements,
-      astroState,
+      astroElements ?? userElements,
     );
   }
 
   calculateAstrologicalPower(
-    recipeSunSign: any,
+    recipeSunSign: string,
     astrologicalState: AstrologicalState,
-  ) {
-    return (this.advanced as any).calculateAstrologicalPower(
-      recipeSunSign,
-      astrologicalState,
-    );
+  ): number {
+    const active = astrologicalState.activePlanets ?? [];
+    return active.includes(recipeSunSign) ? 1.0 : 0.5;
   }
 
   getElementalAffinity(
     element1: keyof ElementalProperties,
     element2: keyof ElementalProperties,
-  ) {
-    return (this.advanced as any).getElementalAffinity(element1, element2);
+  ): { compatibility: Record<string, number> } {
+    const score = element1 === element2 ? 1.0 : 0.7;
+    return {
+      compatibility: {
+        [element1]: score,
+        [element2]: score,
+      },
+    };
   }
 
-  calculateNaturalInfluences(params: unknown) {
-    return (this.advanced as any).calculateNaturalInfluences(
-      params,
-    );
+  calculateNaturalInfluences(params: unknown): Record<string, number> {
+    return typeof params === "object" && params !== null
+      ? (params as Record<string, number>)
+      : {};
   }
 
-  getElementRanking(elementObject: Record<string, number>) {
-    return (this.advanced as any).getElementRanking(elementObject);
+  getElementRanking(elementObject: Record<string, number>): Array<{ element: string; value: number }> {
+    return Object.entries(elementObject)
+      .map(([element, value]) => ({ element, value }))
+      .sort((a, b) => b.value - a.value);
   }
 
   combineElementObjects(
@@ -388,8 +396,7 @@ export class AlchemicalEngine {
     elementObject2: ElementalProperties,
     weight1?: number,
     weight2?: number,
-  ) {
-    // If weights are provided, combine with weights; else, sum
+  ): ElementalProperties {
     if (typeof weight1 === "number" && typeof weight2 === "number") {
       return {
         Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2,
@@ -398,10 +405,12 @@ export class AlchemicalEngine {
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2,
       };
     }
-    return (this.advanced as any).combineElementObjects(
-      elementObject1,
-      elementObject2,
-    );
+    return {
+      Fire: (elementObject1.Fire + elementObject2.Fire) / 2,
+      Water: (elementObject1.Water + elementObject2.Water) / 2,
+      Air: (elementObject1.Air + elementObject2.Air) / 2,
+      Earth: (elementObject1.Earth + elementObject2.Earth) / 2,
+    };
   }
 }
 

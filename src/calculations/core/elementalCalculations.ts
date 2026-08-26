@@ -10,7 +10,7 @@ import type { CelestialPosition } from "@/types/celestial";
 import { getCurrentPlanetaryPositions } from "../../utils/streamlinedPlanetaryPositions";
 
 // Zodiac to Element mapping (exported for reuse)
-export const ZODIAC_ELEMENTS: Record<string, Element> = {
+export const ZODIAC_ELEMENTS: Record<string, Element | undefined> = {
   aries: "Fire",
   taurus: "Earth",
   gemini: "Air",
@@ -57,16 +57,17 @@ export function calculateBaseElementalProperties(planetaryPositions: {
   // Use the exported ZODIAC_ELEMENTS mapping
   // Calculate elemental influence from each planet
   for (const [planetName, position] of Object.entries(planetaryPositions)) {
-    const sign = position.sign || "";
+    const sign = position.sign?.toLowerCase();
+    if (!sign) continue;
     const signElement = ZODIAC_ELEMENTS[sign];
-    if (signElement && elements[signElement] !== undefined) {
+    if (signElement) {
       // Base influence of 1.0 for each planet in its sign
       elements[signElement] += 1.0;
 
       // Additional influence based on planetary dignity
       const dignityBonus = calculatePlanetaryDignity(
         planetName,
-        position.sign || "",
+        sign,
       );
       elements[signElement] += dignityBonus;
     }
@@ -80,7 +81,7 @@ export function calculateBaseElementalProperties(planetaryPositions: {
  */
 function calculatePlanetaryDignity(planetName: string, sign: string): number {
   // Simplified dignity calculation - can be expanded
-  const dignityMap: Record<string, Record<string, number>> = {
+  const dignityMap: Record<string, Record<string, number | undefined> | undefined> = {
     Sun: { leo: 0.5, aries: 0.3 },
     Moon: { cancer: 0.5, taurus: 0.3 },
     Mercury: { gemini: 0.5, virgo: 0.4 },
@@ -93,7 +94,10 @@ function calculatePlanetaryDignity(planetName: string, sign: string): number {
     Pluto: { scorpio: 0.5, leo: 0.3 },
   };
 
-  return dignityMap[planetName][sign] || 0;
+  const planetKey =
+    planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
+  const signKey = sign.toLowerCase();
+  return dignityMap[planetKey]?.[signKey] ?? 0;
 }
 
 /**
@@ -112,7 +116,13 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     planetaryPositions: { [key: string]: CelestialPosition },
     context = "general",
     preferences: Record<string, unknown> = {},
-  ) => {
+  ): {
+    baseProperties: ElementalProperties;
+    adjustedProperties: ElementalProperties;
+    context: string;
+    multipliers: ElementalProperties;
+    preferences: Record<string, unknown>;
+  } => {
     // Calculate base elemental properties
     const baseProperties = calculateBaseElementalProperties(planetaryPositions);
 
@@ -157,7 +167,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     };
 
     const elementalMultipliers =
-      contextElementalMultipliers[context] ||
+      contextElementalMultipliers[context] ??
       contextElementalMultipliers.general;
     const preferenceMultiplier =
       hasProperty(preferences, "intensity") &&

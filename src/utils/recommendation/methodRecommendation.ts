@@ -10,7 +10,6 @@ import type {
   PlanetaryAspect,
   Season,
 } from "@/types/alchemy";
-
 import type { AstrologicalState } from "@/types/celestial";
 import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
 import {

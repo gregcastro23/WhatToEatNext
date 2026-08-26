@@ -280,7 +280,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
  * Safely import a function using any string path
  */
 export async function safeImportFunction<
-  T extends (...args: unknown[]) => unknown,
+  T extends (...args: any[]) => any,
 >(path: string, functionName: string): Promise<T | null> {
   try {
     // For known paths, use the typed version
@@ -323,8 +323,8 @@ export async function dynamicImport<T, F = null>(
 }
 
 export async function dynamicImportFunction<
-  T extends (...args: unknown[]) => unknown,
-  F extends (...args: unknown[]) => unknown = T,
+  T extends (...args: any[]) => any,
+  F extends (...args: any[]) => any = T,
 >(
   path: string,
   functionName: string,

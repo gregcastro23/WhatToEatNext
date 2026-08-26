@@ -1,8 +1,8 @@
-// @ts-nocheck
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { _logger } from '@/lib/logger';
 import type { PlanetInfo } from '@/utils/planetInfoUtils';
 import { getPlanetInfo, getDignityDescription, getAspectDescription } from '@/utils/planetInfoUtils';
 
@@ -12,7 +12,37 @@ interface PlanetInfoModalProps {
   onClose: () => void;
 }
 
-export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModalProps) {
+// Helper function to get tarot card symbol
+function getTarotSymbol(cardName: string): string {
+  const symbols: Record<string, string> = {
+    'The Fool': '0',
+    'The Magician': 'I',
+    'The High Priestess': 'II',
+    'The Empress': 'III',
+    'The Emperor': 'IV',
+    'The Hierophant': 'V',
+    'The Lovers': 'VI',
+    'The Chariot': 'VII',
+    'Strength': 'VIII',
+    'The Hermit': 'IX',
+    'Wheel of Fortune': 'X',
+    'Justice': 'XI',
+    'The Hanged Man': 'XII',
+    'Death': 'XIII',
+    'Temperance': 'XIV',
+    'The Devil': 'XV',
+    'The Tower': 'XVI',
+    'The Star': 'XVII',
+    'The Moon': 'XVIII',
+    'The Sun': 'XIX',
+    'Judgement': 'XX',
+    'The World': 'XXI',
+  };
+
+  return symbols[cardName] ?? '?';
+}
+
+export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModalProps): React.JSX.Element | null {
   const { planetaryPositions } = useAlchemical();
   const [planetInfo, setPlanetInfo] = useState<PlanetInfo | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,20 +54,19 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
       setError(null);
       
       try {
-        console.log(`Processing planet info for ${planetName}:`, planetaryPositions[planetName.toLowerCase()]);
+        _logger.info(`Processing planet info for ${planetName}`);
         const info = await getPlanetInfo(planetName, planetaryPositions);
         
         if (!info) {
           setError(`Could not retrieve information for ${planetName}`);
-          console.error(`Failed to get planet info for ${planetName}`);
+          _logger.error(`Failed to get planet info for ${planetName}`);
         } else {
-          console.log(`Successfully processed info for ${planetName}:`, info);
+          _logger.info(`Successfully processed info for ${planetName}`);
         }
         
-        // @ts-expect-error - Auto-fixed by script
         setPlanetInfo(info);
       } catch (err) {
-        console.error(`Error in PlanetInfoModal for ${planetName}:`, err);
+        _logger.error(`Error in PlanetInfoModal for ${planetName}:`, err);
         setError(`Error loading planet information: ${err instanceof Error ? err.message : String(err)}`);
       } finally {
         setLoading(false);
@@ -46,7 +75,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
   }, [isOpen, planetName, planetaryPositions]);
 
   useEffect(() => {
-    void processPlanetInfo();
+    processPlanetInfo().catch(() => {});
   }, [processPlanetInfo]);
 
   if (!isOpen) return null;
@@ -74,7 +103,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
           </h2>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:white"
           >
             ✕
           </button>
@@ -137,7 +166,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                     style={{ 
                       width: `${Math.abs(planetInfo.dignity.strength) * 25}%`,
                       marginLeft: planetInfo.dignity.strength === 0 ? '50%' : planetInfo.dignity.strength > 0 ? '50%' : '',
-                      marginRight: planetInfo.dignity.strength < 0 ? '50%' : ''
+                      marginRight: planetInfo.dignity.strength < 0 ? '50%' : '',
                     }}
                    />
                 </div>
@@ -155,17 +184,15 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                   <ul className="space-y-2">
                     {planetInfo.aspects.map((aspect, idx) => (
                       <li key={idx} className="flex items-start">
-                        // @ts-expect-error - Auto-fixed by script
-                        <span className={`inline-block w-2 h-2 mt-1.5 mr-2 rounded-full ${getAspectColor(aspect.type)}`} />
+                        <span className={`inline-block w-2 h-2 mt-1.5 mr-2 rounded-full ${getAspectColor(aspect.type ?? '')}`} />
                         <div>
                           <p className="font-medium capitalize">
-                            {aspect.type} to {aspect.planet.charAt(0).toUpperCase() + aspect.planet.slice(1)}
+                            {aspect.type ?? 'Aspect'} to {aspect.planet.charAt(0).toUpperCase() + aspect.planet.slice(1)}
                             <span className="ml-1 text-xs text-gray-500 dark:text-gray-400">
                               ({aspect.orb.toFixed(1)}° orb)
                             </span>
                           </p>
-                          // @ts-expect-error - Auto-fixed by script
-                          <p className="text-xs text-gray-600 dark:text-gray-300">{getAspectDescription(aspect.type)}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-300">{getAspectDescription(aspect.type ?? '')}</p>
                         </div>
                       </li>
                     ))}
@@ -265,33 +292,3 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
     </div>
   );
 }
-
-// Helper function to get tarot card symbol
-function getTarotSymbol(cardName: string): string {
-  const symbols: Record<string, string> = {
-    'The Fool': '0',
-    'The Magician': 'I',
-    'The High Priestess': 'II',
-    'The Empress': 'III',
-    'The Emperor': 'IV',
-    'The Hierophant': 'V',
-    'The Lovers': 'VI',
-    'The Chariot': 'VII',
-    'Strength': 'VIII',
-    'The Hermit': 'IX',
-    'Wheel of Fortune': 'X',
-    'Justice': 'XI',
-    'The Hanged Man': 'XII',
-    'Death': 'XIII',
-    'Temperance': 'XIV',
-    'The Devil': 'XV',
-    'The Tower': 'XVI',
-    'The Star': 'XVII',
-    'The Moon': 'XVIII',
-    'The Sun': 'XIX',
-    'Judgement': 'XX',
-    'The World': 'XXI'
-  };
-
-  return symbols[cardName] || '?';
-} '?';

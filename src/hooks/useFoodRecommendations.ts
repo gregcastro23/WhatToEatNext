@@ -6,9 +6,15 @@ import type { ZodiacSignType, LunarPhase, Planet } from "@/types/alchemy";
 import type {
   AstrologicalState,
   CelestialPosition,
+  PlanetaryAlignment,
   PlanetaryAspect,
 } from "@/types/celestial";
 import type { Season } from "@/types/common";
+import type {
+  KineticsEnhancedRecommendation,
+  KineticsResponse,
+  TemporalFoodRecommendation,
+} from "@/types/kinetics";
 import type { EnhancedIngredient } from "@/utils/foodRecommender";
 import { getRecommendedIngredients } from "@/utils/foodRecommender";
 import { calculateKineticAlignment } from "@/utils/kineticsFoodMatcher";
@@ -26,9 +32,32 @@ export interface FoodRecommendationOptions {
   userIds?: string[]; // For group recommendations
 }
 
+export interface UseFoodRecommendationsReturn {
+  recommendations: EnhancedIngredient[];
+  loading: boolean;
+  error: string | null;
+  refreshRecommendations: () => void;
+  currentSeason: Season;
+  currentZodiac: string;
+  lunarPhase: string;
+  activePlanets: string[];
+  isKineticsEnabled: boolean;
+  temporalRecommendations: TemporalFoodRecommendation | null;
+  elementalRecommendations: string[];
+  aspectEnhancedRecommendations: KineticsEnhancedRecommendation | null;
+  currentPowerLevel: number;
+  dominantElement: string;
+  aspectPhase: "applying" | "exact" | "separating" | null;
+  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[];
+  getGroupRecommendations: (userIds: string[]) => Promise<EnhancedIngredient[]>;
+  fetchGroupDynamics: (userIds: string[]) => Promise<void>;
+  kineticsData: KineticsResponse | null;
+  isKineticsOnline: boolean;
+}
+
 export const useFoodRecommendations = (
   options: FoodRecommendationOptions = {},
-) => {
+): UseFoodRecommendationsReturn => {
   const { state, planetaryPositions } = useAlchemical();
   const [recommendations, setRecommendations] = useState<EnhancedIngredient[]>(
     [],
@@ -54,51 +83,32 @@ export const useFoodRecommendations = (
   });
 
   // Memoize the astrological state to prevent unnecessary re-renders
-  const astroState = useMemo<AstrologicalState>(
-    () =>
-      // Provide fallback values to ensure the object is always complete
-      ({
-        // Required fields from the type definition
-        currentZodiac:
-          (state.astrologicalState?.zodiacSign as ZodiacSignType) || "aries",
-        moonPhase:
-          (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
-        currentPlanetaryAlignment:
-          state.astrologicalState?.currentPlanetaryAlignment || {},
-        activePlanets: state.astrologicalState?.activePlanets || [
-          "sun",
-          "moon",
-        ],
-        planetaryPositions: (planetaryPositions || {}) as Record<
-          string,
-          CelestialPosition
-        >,
-        lunarPhase:
-          (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
-        zodiacSign:
-          (state.astrologicalState?.zodiacSign as ZodiacSignType) || "aries",
-        planetaryHours: (state.planetaryHour as unknown as Planet) || "Sun",
-        aspects: (state.astrologicalState?.aspects || []) as PlanetaryAspect[],
-        tarotElementBoosts: (state.astrologicalState?.tarotElementBoosts ||
-          {}) as Record<string, number>,
-        tarotPlanetaryBoosts: (state.astrologicalState?.tarotPlanetaryBoosts ||
-          {}) as Record<string, number>,
-      }),
-    [
-      state.astrologicalState?.zodiacSign,
-      state.astrologicalState?.lunarPhase,
-      state.astrologicalState?.currentPlanetaryAlignment,
-      state.astrologicalState?.activePlanets,
-      state.planetaryHour,
-      state.astrologicalState?.aspects,
-      state.astrologicalState?.tarotElementBoosts,
-      state.astrologicalState?.tarotPlanetaryBoosts,
-      planetaryPositions,
-    ],
-  );
+  const astroState = useMemo<AstrologicalState>(() => {
+    const rawState = state.astrologicalState;
+    return {
+      currentZodiac: (rawState.zodiacSign as ZodiacSignType | undefined) ?? "aries",
+      moonPhase: (rawState.lunarPhase as LunarPhase | undefined) ?? "new moon",
+      currentPlanetaryAlignment: rawState.currentPlanetaryAlignment as PlanetaryAlignment | undefined,
+      activePlanets: rawState.activePlanets,
+      planetaryPositions: planetaryPositions as Record<
+        string,
+        CelestialPosition
+      >,
+      lunarPhase: (rawState.lunarPhase as LunarPhase | undefined) ?? "new moon",
+      zodiacSign: (rawState.zodiacSign as ZodiacSignType | undefined) ?? "aries",
+      planetaryHours: (state.planetaryHour as unknown as Planet | undefined) ?? "Sun",
+      aspects: rawState.aspects as PlanetaryAspect[],
+      tarotElementBoosts: rawState.tarotElementBoosts as Record<string, number>,
+      tarotPlanetaryBoosts: rawState.tarotPlanetaryBoosts as Record<string, number>,
+    };
+  }, [
+    state.astrologicalState,
+    state.planetaryHour,
+    planetaryPositions,
+  ]);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = (): void => {
       try {
         setLoading(true);
         setError(null);
@@ -114,16 +124,13 @@ export const useFoodRecommendations = (
               {
                 id: ingredient.name,
                 name: ingredient.name,
-                tags: (ingredient.tags as string[]) || [],
-                elementalProfile: ingredient.elementalProperties || {
-                  Fire: 0,
-                  Water: 0,
-                  Air: 0,
-                  Earth: 0,
-                },
+                tags: Array.isArray(ingredient.tags) ? (ingredient.tags as string[]) : [],
+                elementalProfile: ingredient.elementalProperties,
                 basePortionSize: 1,
                 nutritionalDensity:
-                  (ingredient.nutritionalScore as number) || 0.5,
+                  typeof ingredient.nutritionalScore === "number"
+                    ? ingredient.nutritionalScore
+                    : 0.5,
               },
               kinetics,
             );
@@ -137,7 +144,7 @@ export const useFoodRecommendations = (
                   : currentPowerLevel < 0.4
                     ? "grounding"
                     : "balanced",
-              aspectPhase,
+              aspectPhase: aspectPhase ?? undefined,
               dominantElement,
               powerLevel: currentPowerLevel,
             };
@@ -146,8 +153,8 @@ export const useFoodRecommendations = (
           // Sort by kinetic alignment for temporal optimization
           enhancedResults.sort(
             (a, b) =>
-              ((b.kineticScore as number) || 0) -
-              ((a.kineticScore as number) || 0),
+              Number((b as { kineticScore?: number }).kineticScore ?? 0) -
+              Number((a as { kineticScore?: number }).kineticScore ?? 0),
           );
         }
 
@@ -171,8 +178,7 @@ export const useFoodRecommendations = (
       }
     };
 
-    // Always try to fetch recommendations, even with fallback data
-    void fetchRecommendations();
+    fetchRecommendations();
   }, [
     astroState,
     kinetics,
@@ -196,7 +202,7 @@ export const useFoodRecommendations = (
   }, []);
 
   // Enhanced refresh function with kinetics support
-  const refreshRecommendations = useCallback(async () => {
+  const refreshRecommendations = useCallback(() => {
     try {
       setLoading(true);
 
@@ -210,17 +216,14 @@ export const useFoodRecommendations = (
             {
               id: ingredient.name,
               name: ingredient.name,
-              tags: ingredient.tags || [],
-              elementalProfile: ingredient.elementalProperties || {
-                Fire: 0,
-                Water: 0,
-                Air: 0,
-                Earth: 0,
-              },
+              tags: Array.isArray(ingredient.tags) ? (ingredient.tags as string[]) : [],
+              elementalProfile: ingredient.elementalProperties,
               basePortionSize: 1,
-              nutritionalDensity: (ingredient.nutritionalScore ||
-                0.5) as number,
-            } as any,
+              nutritionalDensity:
+                typeof ingredient.nutritionalScore === "number"
+                  ? ingredient.nutritionalScore
+                  : 0.5,
+            },
             kinetics,
           );
 
@@ -233,7 +236,7 @@ export const useFoodRecommendations = (
                 : currentPowerLevel < 0.4
                   ? "grounding"
                   : "balanced",
-            aspectPhase,
+            aspectPhase: aspectPhase ?? undefined,
             dominantElement,
             powerLevel: currentPowerLevel,
           };
@@ -241,8 +244,8 @@ export const useFoodRecommendations = (
 
         enhancedResults.sort(
           (a, b) =>
-            ((b.kineticScore as number) || 0) -
-            ((a.kineticScore as number) || 0),
+            Number((b as { kineticScore?: number }).kineticScore ?? 0) -
+            Number((a as { kineticScore?: number }).kineticScore ?? 0),
         );
       }
 
@@ -301,9 +304,9 @@ export const useFoodRecommendations = (
 
     // Astrological data
     currentSeason,
-    currentZodiac: astroState.zodiacSign || "aries",
-    lunarPhase: astroState.lunarPhase,
-    activePlanets: astroState.activePlanets || [],
+    currentZodiac: typeof astroState.zodiacSign === "string" ? astroState.zodiacSign : "aries",
+    lunarPhase: astroState.lunarPhase ?? "new moon",
+    activePlanets: astroState.activePlanets ?? [],
 
     // Kinetics enhancement
     isKineticsEnabled: options.enableKinetics !== false && isKineticsOnline,
@@ -317,6 +320,7 @@ export const useFoodRecommendations = (
     // Advanced features
     calculatePortions,
     getGroupRecommendations,
+    fetchGroupDynamics,
 
     // Kinetics status
     kineticsData: kinetics,

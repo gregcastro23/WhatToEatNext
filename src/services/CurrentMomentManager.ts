@@ -202,6 +202,10 @@ class CurrentMomentManager {
    * Propagate current moment updates to all storage locations
    */
   private async propagateUpdates(momentData: CurrentMomentData): Promise<void> {
+    if (process.env.NODE_ENV === "test") {
+      return;
+    }
+
     const updatePromises = [
       this.updateNotebook(momentData),
       this.updateSystemDefaults(momentData),

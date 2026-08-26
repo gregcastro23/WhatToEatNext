@@ -285,6 +285,79 @@ export class PlanetaryHourCalculator {
     return this.getPlanetaryHour(date).planet;
   }
 
+  /**
+   * Get the next transition time to the following planetary hour
+   */
+  getNextPlanetaryHourTransition(date: Date = new Date()): Date {
+    const times = SunCalc.getTimes(
+      new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+      this.coordinates.latitude,
+      this.coordinates.longitude,
+    );
+    const { sunrise, sunset } = times;
+    if (!sunrise || !sunset) {
+      const nextHour = new Date(date);
+      nextHour.setHours(date.getHours() + 1, 0, 0, 0);
+      return nextHour;
+    }
+
+    const isDaytime = date >= sunrise && date <= sunset;
+    const dayLength = sunset.getTime() - sunrise.getTime();
+    const nightLength = sunrise.getTime() + 24 * 60 * 60 * 1000 - sunset.getTime();
+    const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
+    const timeSinceStart = isDaytime
+      ? date.getTime() - sunrise.getTime()
+      : date.getTime() >= sunset.getTime()
+        ? date.getTime() - sunset.getTime()
+        : date.getTime() + 24 * 60 * 60 * 1000 - sunset.getTime();
+
+    let hourIndex = Math.floor(timeSinceStart / hourLength);
+    if (hourIndex < 0) hourIndex = 0;
+    if (hourIndex > 11) hourIndex = 11;
+
+    const startPeriod = isDaytime
+      ? sunrise.getTime()
+      : date.getTime() >= sunset.getTime()
+        ? sunset.getTime()
+        : sunset.getTime() - 24 * 60 * 60 * 1000;
+
+    return new Date(startPeriod + (hourIndex + 1) * hourLength);
+  }
+
+  /**
+   * Get full planetary hour details including boundaries and next planet
+   */
+  getDetailedPlanetaryHour(date: Date = new Date()): {
+    planet: Planet;
+    hourNumber: number;
+    isDaytime: boolean;
+    start: Date;
+    end: Date;
+    nextPlanet: Planet;
+  } {
+    const hourInfo = this.getPlanetaryHour(date);
+    const nextTransition = this.getNextPlanetaryHourTransition(date);
+    const nextPlanetHour = this.getPlanetaryHour(new Date(nextTransition.getTime() + 60000));
+
+    const times = SunCalc.getTimes(
+      new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+      this.coordinates.latitude,
+      this.coordinates.longitude,
+    );
+    const { sunrise, sunset } = times;
+    const dayLength = sunrise && sunset ? sunset.getTime() - sunrise.getTime() : 12 * 60 * 60 * 1000;
+    const nightLength = 24 * 60 * 60 * 1000 - dayLength;
+    const hourLength = hourInfo.isDaytime ? dayLength / 12 : nightLength / 12;
+    const start = new Date(nextTransition.getTime() - hourLength);
+
+    return {
+      ...hourInfo,
+      start,
+      end: nextTransition,
+      nextPlanet: nextPlanetHour.planet,
+    };
+  }
+
   // Fallback calculation in case SunCalc fails
   private getFallbackPlanetaryHour(date: Date): {
     planet: Planet;

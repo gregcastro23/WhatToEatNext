@@ -1,28 +1,23 @@
-// @ts-nocheck
 'use client';
 
 import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { AstrologicalService } from '@/services/AstrologicalService';
+import { _logger } from '@/lib/logger';
 import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
 
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // Debug logging disabled in production
 };
 
 /**
  * A utility function for logging errors
- * This is a safe replacement for console.error that can be disabled in production
  */
 const errorLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.error to avoid linting warnings
-  // console.error(message, ...args);
+  // Error logging
 };
 
 // Helper function to get moon phase description
@@ -38,7 +33,7 @@ const getLunarPhaseDescription = (phase: string): string => {
     'waning_crescent': 'Rest, reflection, and preparation for renewal.'
   };
   
-  return descriptions[phase] || 'A time of cosmic energy and lunar influence.';
+  return descriptions[phase] ?? 'A time of cosmic energy and lunar influence.';
 };
 
 // Add proper type for moon times
@@ -62,6 +57,13 @@ interface Coordinates {
   longitude: number;
 }
 
+interface PlanetPosition {
+  sign?: string;
+  degree?: number;
+  exactLongitude?: number;
+  isRetrograde?: boolean;
+}
+
 // Helper function to format moon time
 const formatMoonTime = (time: Date | undefined): string => {
   if (!time) return 'Unknown';
@@ -76,13 +78,8 @@ const formatMoonTime = (time: Date | undefined): string => {
 };
 
 const MoonDisplay: React.FC = () => {
-  // Improve typing of useAlchemical hook
-  interface AlchemicalHookResult {
-    planetaryPositions: Record<string, unknown>;
-    state: unknown;
-  }
-  
-  const { planetaryPositions } = useAlchemical() as AlchemicalHookResult;
+  const alchemical = useAlchemical() as { planetaryPositions?: Record<string, unknown> };
+  const planetaryPositions = alchemical.planetaryPositions ?? {};
   const [expanded, setExpanded] = useState(false);
   const [moonPhase, setMoonPhase] = useState<MoonPhase>({
     phase: 'new_moon',
@@ -101,79 +98,59 @@ const MoonDisplay: React.FC = () => {
   });
 
   // Extract moon info directly from planetaryPositions rather than calculating it separately
-  // Fall back to using the moon position from planetaryPositions if available
-  const moon = planetaryPositions?.moon ?? { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
+  const moon = (planetaryPositions.moon as PlanetPosition | undefined) ?? { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
   
   // Simplified lunar node handling - ensure we have default values if northNode or southNode are missing
-  const northNode = useMemo(() => {
-    if (!planetaryPositions?.northnode && !planetaryPositions?.northNode) {
-      // If north node is missing completely, provide a default
+  const northNode = useMemo<PlanetPosition>(() => {
+    const node = (planetaryPositions.northnode ?? planetaryPositions.northNode) as PlanetPosition | undefined;
+    if (!node) {
       return { sign: 'virgo', degree: 15, exactLongitude: 165, isRetrograde: true };
     }
     
-    // Try both possible property names
-    const node = planetaryPositions?.northnode ?? planetaryPositions?.northNode;
-    
-    // Ensure all required properties are present
     return {
-      // @ts-expect-error - Auto-fixed by script
-      sign: node?.sign ?? 'virgo',
-      // @ts-expect-error - Auto-fixed by script
-      degree: node?.degree ?? 15,
-      // @ts-expect-error - Auto-fixed by script
-      exactLongitude: node?.exactLongitude ?? 165,
-      // @ts-expect-error - Auto-fixed by script
-      isRetrograde: node?.isRetrograde ?? true
+      sign: node.sign ?? 'virgo',
+      degree: node.degree ?? 15,
+      exactLongitude: node.exactLongitude ?? 165,
+      isRetrograde: node.isRetrograde ?? true
     };
   }, [planetaryPositions]);
   
-  const southNode = useMemo(() => {
-    if (!planetaryPositions?.southnode && !planetaryPositions?.southNode) {
-      // If south node is missing completely, provide a default
+  const southNode = useMemo<PlanetPosition>(() => {
+    const node = (planetaryPositions.southnode ?? planetaryPositions.southNode) as PlanetPosition | undefined;
+    if (!node) {
       return { sign: 'pisces', degree: 15, exactLongitude: 345, isRetrograde: true };
     }
     
-    // Try both possible property names
-    const node = planetaryPositions?.southnode ?? planetaryPositions?.southNode;
-    
-    // Ensure all required properties are present
     return {
-      // @ts-expect-error - Auto-fixed by script
-      sign: node?.sign ?? 'pisces',
-      // @ts-expect-error - Auto-fixed by script
-      degree: node?.degree ?? 15,
-      // @ts-expect-error - Auto-fixed by script
-      exactLongitude: node?.exactLongitude ?? 345,
-      // @ts-expect-error - Auto-fixed by script
-      isRetrograde: node?.isRetrograde ?? true
+      sign: node.sign ?? 'pisces',
+      degree: node.degree ?? 15,
+      exactLongitude: node.exactLongitude ?? 345,
+      isRetrograde: node.isRetrograde ?? true
     };
   }, [planetaryPositions]);
 
   // Get user's location
   useEffect(() => {
-    const getLocation = async () => {
-      try {
-        // @ts-expect-error - Auto-fixed by script
-        const coords = await AstrologicalService.requestLocation();
-        if (coords) {
+    if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
           setCoordinates({
-            latitude: coords.latitude,
-            longitude: coords.longitude
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude
           });
-        }
-      } catch (error) {
-        errorLog('Failed to get location, using default:', error);
-      }
-    };
-    
-    void getLocation();
+        },
+        (error) => {
+          errorLog('Failed to get location, using default:', error);
+        },
+        { timeout: 10000 }
+      );
+    }
   }, []);
 
   // Dynamic import for moon time calculations
   useEffect(() => {
-    const calculateTimes = async () => {
+    const calculateTimes = async (): Promise<void> => {
       try {
-        // Use the safe import and execute function
         const times = await safeImportAndExecute<{ rise?: Date; set?: Date }>(
           '@/utils/moonTimes',
           'calculateMoonTimes',
@@ -187,22 +164,19 @@ const MoonDisplay: React.FC = () => {
             calculating: false
           });
         } else {
-          // If calculation fails, use a fallback
           debugLog('Moon times calculation failed, using fallback values');
           const now = new Date();
           const tomorrow = new Date(now);
           tomorrow.setDate(tomorrow.getDate() + 1);
           
-          // Simple fallback calculation (not accurate but better than nothing)
           setMoonTimes({
-            rise: new Date(now.setHours(18, 30, 0, 0)), // Rough estimate for evening
-            set: new Date(tomorrow.setHours(6, 30, 0, 0)), // Rough estimate for morning
+            rise: new Date(now.setHours(18, 30, 0, 0)),
+            set: new Date(tomorrow.setHours(6, 30, 0, 0)),
             calculating: false
           });
         }
       } catch (error: unknown) {
         errorLog('Error in calculateTimes:', error);
-        // Even in case of error, set calculating to false to avoid endless loading
         setMoonTimes({
           calculating: false,
           rise: undefined,
@@ -211,20 +185,19 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    void calculateTimes();
+    calculateTimes().catch(() => {});
     
     // Update moon times every 30 minutes
     const interval = setInterval(() => {
-      void calculateTimes();
+      calculateTimes().catch(() => {});
     }, 30 * 60 * 1000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, [coordinates.latitude, coordinates.longitude]);
 
   // Safely import and calculate lunar phase
   useEffect(() => {
-    const getLunarPhaseData = async () => {
+    const getLunarPhaseData = async (): Promise<void> => {
       try {
-        // Get all the lunar phase functions at once to avoid multiple imports
         const [calculatePhase, getPhaseName, getIllumination] = await Promise.all([
           safeImportFunction<(date?: Date) => Promise<number>>('@/utils/astrologyUtils', 'calculateLunarPhase'),
           safeImportFunction<(phase: number) => string>('@/utils/astrologyUtils', 'getLunarPhaseName'),
@@ -232,11 +205,8 @@ const MoonDisplay: React.FC = () => {
         ]);
         
         if (calculatePhase && getPhaseName && getIllumination) {
-          // Calculate current lunar phase (0-1)
           const currentPhase = await calculatePhase(new Date());
-          // Get phase name
           const phaseName = getPhaseName(currentPhase);
-          // Get illumination percentage
           const illuminationPct = await getIllumination(new Date());
           
           debugLog('Lunar phase calculation:', {
@@ -245,14 +215,11 @@ const MoonDisplay: React.FC = () => {
             illuminationPct
           });
           
-          // Sometimes the illumination percentage can be inconsistent with phase
-          // For waning crescent, ensure illumination is at least 1%
           let correctedIllumination = illuminationPct;
           if (phaseName === 'waning_crescent' && illuminationPct < 1) {
             correctedIllumination = Math.max(1, Math.min(25, illuminationPct || 12));
           }
           
-          // Update state with phase data
           setMoonPhase({
             phase: phaseName,
             phaseValue: currentPhase,
@@ -262,22 +229,20 @@ const MoonDisplay: React.FC = () => {
         }
       } catch (error) {
         errorLog('Error calculating lunar phase:', error);
-        // Don't use fallback values, but require proper calculation
         throw new Error('Failed to calculate lunar phase. Please check the implementation.');
       }
     };
     
-    void getLunarPhaseData();
+    getLunarPhaseData().catch(() => {});
     
     // Run calculation every minute to ensure accuracy
     const interval = setInterval(() => {
-      void getLunarPhaseData();
+      getLunarPhaseData().catch(() => {});
     }, 60 * 1000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, [planetaryPositions.moon]);
 
   const formatDegree = (degree: number): string => {
-    if (degree === undefined) return '0°0\'';
     const wholeDegree = Math.floor(degree);
     const minutes = Math.floor((degree - wholeDegree) * 60);
     return `${wholeDegree}°${minutes}'`;
@@ -296,7 +261,7 @@ const MoonDisplay: React.FC = () => {
       'waning_crescent': '🌘'
     };
     
-    return phases[phase] || '🌑';
+    return phases[phase] ?? '🌑';
   };
 
   // Helper function to capitalize the first letter of each word
@@ -311,42 +276,23 @@ const MoonDisplay: React.FC = () => {
 
   // Add useEffect to log data for debugging
   useEffect(() => {
-    // Debug logging to help diagnose issues
     debugLog('Planetary positions debug:', {
       moon: planetaryPositions.moon,
       northNode: planetaryPositions.northNode,
       southNode: planetaryPositions.southNode,
       phase: moonPhase
     });
-    
-    // If the moon position is available and has proper sign information
-    // @ts-expect-error - Auto-fixed by script
-    if (planetaryPositions.moon?.sign) {
-      // No need for additional calculations - the context already has the sign and degree
-      debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
-    }
-    
-    // Only run this on component mount or when planetary positions change
   }, [planetaryPositions, moonPhase]);
 
-  // Only log north node warning once when positions are loaded, not on every render
+  // Only log north node warning once when positions are loaded
   useEffect(() => {
-    // Skip if planetary positions are empty
-    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
+    if (Object.keys(planetaryPositions).length === 0) {
       return;
     }
     
-    // Check for north node data only once when positions are available
-    const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
-    const northNodeIncomplete = 
-      // @ts-expect-error - Auto-fixed by script
-      (planetaryPositions.northNode && !planetaryPositions.northNode.sign) ?? 
-      // @ts-expect-error - Auto-fixed by script
-      (planetaryPositions.northnode && !planetaryPositions.northnode.sign);
-    
-    if (northNodeMissing || northNodeIncomplete) {
-      // Log only once
-      console.warn('North Node data missing or incomplete:', {
+    const northNodeObj = (planetaryPositions.northNode ?? planetaryPositions.northnode) as PlanetPosition | undefined;
+    if (!northNodeObj?.sign) {
+      _logger.warn('North Node data missing or incomplete:', {
         northNodeData: planetaryPositions.northNode ?? planetaryPositions.northnode ?? 'undefined',
         availableKeys: Object.keys(planetaryPositions)
       });
@@ -375,13 +321,10 @@ const MoonDisplay: React.FC = () => {
         <div>
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
-            // @ts-expect-error - Auto-fixed by script
-            {moon?.sign 
-              // @ts-expect-error - Auto-fixed by script
-              ? `Moon in ${capitalizeFirstLetter(moon.sign)} ${formatDegree(moon.degree)}` 
+            {moon.sign 
+              ? `Moon in ${capitalizeFirstLetter(moon.sign)} ${formatDegree(moon.degree ?? 0)}` 
               : 'Loading...'}
-            // @ts-expect-error - Auto-fixed by script
-            {moon?.isRetrograde ? ' ℞' : ''}
+            {moon.isRetrograde ? ' ℞' : ''}
           </p>
           <p className="text-xs text-gray-400">{moonPhase.illumination}% illuminated</p>
         </div>
@@ -441,10 +384,10 @@ const MoonDisplay: React.FC = () => {
               <div className="bg-gray-800 rounded p-3">
                 <div className="text-xs text-gray-400">North Node (☊)</div>
                 <div className="font-medium">
-                  {northNode?.sign 
-                    ? `${capitalizeFirstLetter(northNode.sign)} ${formatDegree(northNode.degree)}` 
+                  {northNode.sign 
+                    ? `${capitalizeFirstLetter(northNode.sign)} ${formatDegree(northNode.degree ?? 0)}` 
                     : 'Calculating...'}
-                  {northNode?.isRetrograde ? ' ℞' : ''}
+                  {northNode.isRetrograde ? ' ℞' : ''}
                 </div>
                 <div className="text-xs text-gray-400 mt-1">Karma you&apos;re growing toward</div>
               </div>
@@ -452,10 +395,10 @@ const MoonDisplay: React.FC = () => {
               <div className="bg-gray-800 rounded p-3">
                 <div className="text-xs text-gray-400">South Node (☋)</div>
                 <div className="font-medium">
-                  {southNode?.sign 
-                    ? `${capitalizeFirstLetter(southNode.sign)} ${formatDegree(southNode.degree)}` 
+                  {southNode.sign 
+                    ? `${capitalizeFirstLetter(southNode.sign)} ${formatDegree(southNode.degree ?? 0)}` 
                     : 'Calculating...'}
-                  {southNode?.isRetrograde ? ' ℞' : ''}
+                  {southNode.isRetrograde ? ' ℞' : ''}
                 </div>
                 <div className="text-xs text-gray-400 mt-1">Past life expertise</div>
               </div>

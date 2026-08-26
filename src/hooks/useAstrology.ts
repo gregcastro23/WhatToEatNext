@@ -261,7 +261,19 @@ export function useAstrology(options: AstrologyOptions = {}): UseAstrologyReturn
             // Use fallback if specified
             if (useFallback) {
               try {
-                const positions = safeAstrology.getReliablePlanetaryPositions() as unknown as Record<string, PlanetaryPosition>;
+                const rawPositions = safeAstrology.getReliablePlanetaryPositions();
+                const positions: Record<string, PlanetaryPosition> = {};
+                for (const [planet, pos] of Object.entries(rawPositions)) {
+                  positions[planet] = {
+                    planet,
+                    sign: pos.sign ?? "aries",
+                    degree: pos.degree ?? 0,
+                    minute: pos.minute ?? pos.minutes,
+                    exactLongitude: pos.exactLongitude,
+                    isRetrograde: pos.isRetrograde,
+                    longitudeSpeed: pos.longitudeSpeed,
+                  };
+                }
                 const lunarPhase = safeAstrology.getLunarPhaseName(
                   safeAstrology.calculateLunarPhase(),
                 ) as LunarPhase;
