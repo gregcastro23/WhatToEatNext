@@ -14,6 +14,7 @@ import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import { _logger } from "@/lib/logger";
 import type {
   DayOfWeek,
   MealType,
@@ -229,7 +230,9 @@ function DayColumn({
         <button
           onClick={(e): void => {
             e.stopPropagation();
-            generateMealsForDay(dayOfWeek).catch(() => undefined);
+            generateMealsForDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] generateMealsForDay failed:", err);
+            });
           }}
           className="text-[10px] font-mono uppercase px-2 py-1 rounded bg-gold-accent/10 text-gold-accent hover:bg-gold-accent/20 border border-gold-accent/20 transition-all flex-1"
           title={`Recommend meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
@@ -239,7 +242,9 @@ function DayColumn({
         <button
           onClick={(e): void => {
             e.stopPropagation();
-            clearDay(dayOfWeek).catch(() => undefined);
+            clearDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] clearDay failed:", err);
+            });
           }}
           className="text-[10px] px-2 py-1 rounded bg-error/10 text-error hover:bg-error/20 border border-error/20 transition-colors"
           title="Clear all meals for this day"
@@ -261,23 +266,35 @@ function DayColumn({
             <MealSlot
               mealSlot={mealSlot}
               onAddRecipe={(recipe: MonicaOptimizedRecipe): void => {
-                addMealToSlot(dayOfWeek, mealSlot.mealType, recipe).catch(() => undefined);
+                addMealToSlot(dayOfWeek, mealSlot.mealType, recipe).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] addMealToSlot failed:", err);
+                });
               }}
               onRemoveRecipe={(): void => {
-                removeMealFromSlot(mealSlot.id).catch(() => undefined);
+                removeMealFromSlot(mealSlot.id).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] removeMealFromSlot failed:", err);
+                });
               }}
               onUpdateServings={(servings: number): void => {
-                updateMealServings(mealSlot.id, servings).catch(() => undefined);
+                updateMealServings(mealSlot.id, servings).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] updateMealServings failed:", err);
+                });
               }}
               onMoveMeal={(sourceSlotId: string): void => {
-                moveMeal(sourceSlotId, mealSlot.id).catch(() => undefined);
+                moveMeal(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] moveMeal failed:", err);
+                });
               }}
               onSwapMeals={(sourceSlotId: string): void => {
-                swapMeals(sourceSlotId, mealSlot.id).catch(() => undefined);
+                swapMeals(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] swapMeals failed:", err);
+                });
               }}
               onCopyMeal={(): void => onCopyMealClick?.(mealSlot)}
               onGenerateMeal={(): void => {
-                generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] }).catch(() => undefined);
+                generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] }).catch((err: unknown) => {
+                  _logger.error("[WeeklyCalendar] generateMealsForDay slot failed:", err);
+                });
               }}
               onAddSauce={(sauceId: string, servings?: number): void => {
                 addSauceToMeal(mealSlot.id, sauceId, servings);
@@ -437,13 +454,21 @@ function TodayHeroCard({
           🔍 Focus mode
         </button>
         <button
-          onClick={(): void => { generateMealsForDay(dayOfWeek).catch(() => undefined); }}
+          onClick={(): void => {
+            generateMealsForDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] hero generateMealsForDay failed:", err);
+            });
+          }}
           className="text-xs px-3 py-1.5 rounded-lg bg-active-violet text-background hover:bg-white transition-all font-mono uppercase font-bold"
         >
           ✨ Auto-fill day
         </button>
         <button
-          onClick={(): void => { clearDay(dayOfWeek).catch(() => undefined); }}
+          onClick={(): void => {
+            clearDay(dayOfWeek).catch((err: unknown) => {
+              _logger.error("[WeeklyCalendar] hero clearDay failed:", err);
+            });
+          }}
           className="text-xs px-3 py-1.5 rounded-lg bg-error/10 text-error hover:bg-error/20 border border-error/20 transition-colors font-mono uppercase font-bold"
         >
           Clear
@@ -457,23 +482,35 @@ function TodayHeroCard({
             key={mealSlot.id}
             mealSlot={mealSlot}
             onAddRecipe={(recipe: MonicaOptimizedRecipe): void => {
-              addMealToSlot(dayOfWeek, mealSlot.mealType, recipe).catch(() => undefined);
+              addMealToSlot(dayOfWeek, mealSlot.mealType, recipe).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero addMealToSlot failed:", err);
+              });
             }}
             onRemoveRecipe={(): void => {
-              removeMealFromSlot(mealSlot.id).catch(() => undefined);
+              removeMealFromSlot(mealSlot.id).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero removeMealFromSlot failed:", err);
+              });
             }}
             onUpdateServings={(servings: number): void => {
-              updateMealServings(mealSlot.id, servings).catch(() => undefined);
+              updateMealServings(mealSlot.id, servings).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero updateMealServings failed:", err);
+              });
             }}
             onMoveMeal={(sourceSlotId: string): void => {
-              moveMeal(sourceSlotId, mealSlot.id).catch(() => undefined);
+              moveMeal(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero moveMeal failed:", err);
+              });
             }}
             onSwapMeals={(sourceSlotId: string): void => {
-              swapMeals(sourceSlotId, mealSlot.id).catch(() => undefined);
+              swapMeals(sourceSlotId, mealSlot.id).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero swapMeals failed:", err);
+              });
             }}
             onCopyMeal={(): void => onCopyMealClick?.(mealSlot)}
             onGenerateMeal={(): void => {
-              generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] }).catch(() => undefined);
+              generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] }).catch((err: unknown) => {
+                _logger.error("[WeeklyCalendar] hero generateMealsForDay slot failed:", err);
+              });
             }}
             onAddSauce={(sauceId: string, servings?: number): void => {
               addSauceToMeal(mealSlot.id, sauceId, servings);
@@ -594,14 +631,18 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   // Handle copy operation
   const handleCopy = (targetSlotIds: string[], servings?: number): void => {
     if (!copyMealModalState.sourceMeal) return;
-    copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings).catch(() => undefined);
+    copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings).catch((err: unknown) => {
+      _logger.error("[WeeklyCalendar] copyMealToSlots failed:", err);
+    });
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 
   // Handle move operation
   const handleMove = (targetSlotIds: string[], servings?: number): void => {
     if (!copyMealModalState.sourceMeal) return;
-    moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings).catch(() => undefined);
+    moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings).catch((err: unknown) => {
+      _logger.error("[WeeklyCalendar] moveMealToSlots failed:", err);
+    });
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 

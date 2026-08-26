@@ -371,7 +371,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
         saveInFlightRef.current = false;
         if (pendingSaveRef.current) {
           pendingSaveRef.current = false;
-          persistMenu().catch(() => undefined);
+          persistMenu().catch((err: unknown) => {
+            logger.error("Failed to run pending persistMenu:", err);
+          });
         }
       }
     },
@@ -381,7 +383,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
   const setWeeklyBudget = useCallback(
     (budget: number | null): void => {
       setWeeklyBudgetRaw(budget);
-      persistMenu({ weeklyBudget: budget }).catch(() => undefined);
+      persistMenu({ weeklyBudget: budget }).catch((err: unknown) => {
+        logger.error("Failed to persist weekly budget:", err);
+      });
     },
     [persistMenu],
   );
@@ -389,7 +393,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
   const setInventoryAndPersist = useCallback(
     (inv: string[]): void => {
       setInventory(inv);
-      persistMenu({ inventory: inv }).catch(() => undefined);
+      persistMenu({ inventory: inv }).catch((err: unknown) => {
+        logger.error("Failed to persist inventory:", err);
+      });
     },
     [setInventory, persistMenu],
   );
@@ -469,7 +475,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
       }
     };
 
-    initializeMenu().catch(() => undefined);
+    initializeMenu().catch((err: unknown) => {
+      logger.error("Failed to initialize menu:", err);
+    });
 
     return (): void => {
       isMountedRef.current = false;
@@ -480,7 +488,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
   useEffect(() => {
     if (!currentMenu || isLoading || !currentUser?.userId) return;
     const timeoutId = setTimeout(() => {
-      persistMenu().catch(() => undefined);
+      persistMenu().catch((err: unknown) => {
+        logger.error("Failed to auto-persist menu:", err);
+      });
     }, 250);
     return (): void => clearTimeout(timeoutId);
   }, [currentMenu, groceryList, isLoading, persistMenu, currentUser?.userId]);
@@ -506,7 +516,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
         logger.error("Failed to calculate chart comparison:", err);
       }
     };
-    updateChartComparison().catch(() => undefined);
+    updateChartComparison().catch((err: unknown) => {
+      logger.error("Failed to update chart comparison:", err);
+    });
   }, [natalChart]);
 
   // -------------------------------------------------------------------------
@@ -801,7 +813,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
         const next = prev.map((item) =>
           item.id === itemId ? { ...item, ...updates } : item,
         );
-        persistMenu({ groceryList: next }).catch(() => undefined);
+        persistMenu({ groceryList: next }).catch((err: unknown) => {
+          logger.error("Failed to persist updated grocery list:", err);
+        });
         return next;
       });
     },
@@ -989,7 +1003,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
   useEffect(() => {
     if (currentMenu && isMountedRef.current) {
       const timeoutId = setTimeout(() => {
-        refreshCircuitMetrics().catch(() => undefined);
+        refreshCircuitMetrics().catch((err: unknown) => {
+          logger.error("Failed to refresh circuit metrics:", err);
+        });
       }, 500);
       return (): void => clearTimeout(timeoutId);
     }

@@ -10,9 +10,8 @@ import { alchemize } from "@/services/RealAlchemizeService";
 import type {
   ElementalProperties,
 } from "@/types/alchemy";
-import type { CelestialPosition, PlanetaryPosition } from "@/types/celestial";
+import type { CelestialPosition } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
-import type { Recipe } from "@/types/recipe";
 import { Cache } from "@/utils/cache";
 import { createLogger } from "@/utils/logger";
 import {
@@ -132,6 +131,65 @@ export interface RecipeOptimizationResult {
 
 // ============================================================================
 // 🎯 MAIN UNIFIED CALCULATION ENGINE
+function toZodiacSign(sign?: string): import("@/types/celestial").ZodiacSignType {
+  const normalized = (sign ?? "aries").toLowerCase();
+  const validSigns: Array<import("@/types/celestial").ZodiacSignType> = [
+    "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+    "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
+  ];
+  return validSigns.includes(normalized as import("@/types/celestial").ZodiacSignType)
+    ? (normalized as import("@/types/celestial").ZodiacSignType)
+    : "aries";
+}
+
+function toRealAlchemizePositions(
+  positions: Record<string, CelestialPosition>,
+): Record<string, import("@/services/RealAlchemizeService").PlanetaryPosition> {
+  const mapped: Record<string, import("@/services/RealAlchemizeService").PlanetaryPosition> = {};
+  for (const [planet, pos] of Object.entries(positions)) {
+    mapped[planet] = {
+      sign: pos.sign ?? "aries",
+      degree: pos.degree ?? 0,
+      minute: pos.minutes ?? 0,
+      isRetrograde: Boolean(pos.isRetrograde),
+      exactLongitude: pos.exactLongitude,
+    };
+  }
+  return mapped;
+}
+
+function toAlchemyPlanetaryPositions(
+  positions: Record<string, CelestialPosition>,
+): Record<string, import("@/types/alchemy").PlanetaryPosition> {
+  const mapped: Record<string, import("@/types/alchemy").PlanetaryPosition> = {};
+  for (const [planet, pos] of Object.entries(positions)) {
+    mapped[planet] = {
+      sign: toZodiacSign(pos.sign),
+      degree: pos.degree ?? 0,
+      minute: pos.minutes,
+      isRetrograde: pos.isRetrograde,
+      longitude: pos.exactLongitude,
+    };
+  }
+  return mapped;
+}
+
+function toAstrologyUtilsPlanetPositions(
+  positions: Record<string, CelestialPosition>,
+): Record<string, import("@/utils/astrologyUtils").PlanetPosition> {
+  const mapped: Record<string, import("@/utils/astrologyUtils").PlanetPosition> = {};
+  for (const [planet, pos] of Object.entries(positions)) {
+    mapped[planet] = {
+      sign: toZodiacSign(pos.sign),
+      degree: pos.degree ?? 0,
+      minute: pos.minutes ?? 0,
+      exactLongitude: pos.exactLongitude ?? 0,
+      isRetrograde: Boolean(pos.isRetrograde),
+    };
+  }
+  return mapped;
+}
+
 // ============================================================================
 /**
  * 🌟 Unified Alchemical Calculation Engine
@@ -180,7 +238,9 @@ export class UnifiedCalculationEngine {
             )
           : await getCurrentPlanetaryPositions());
 
-      const positionsRecord = planetaryPositions as unknown as Record<string, PlanetaryPosition>;
+      const alchemizePositions = toRealAlchemizePositions(planetaryPositions);
+      const alchemyPositions = toAlchemyPlanetaryPositions(planetaryPositions);
+      const astrologyPositions = toAstrologyUtilsPlanetPositions(planetaryPositions);
       const stringPositionsRecord: Record<string, string> = Object.fromEntries(
         Object.entries(planetaryPositions).map(([k, v]) => [
           k,
@@ -189,14 +249,14 @@ export class UnifiedCalculationEngine {
       );
 
       // Calculate core alchemical properties
-      alchemize(positionsRecord as unknown as Parameters<typeof alchemize>[0]);
-      const kalchmResult = calculateKalchmResults(positionsRecord as unknown as Parameters<typeof calculateKalchmResults>[0]);
+      alchemize(alchemizePositions);
+      const kalchmResult = calculateKalchmResults(alchemyPositions);
 
       // Calculate elemental properties
-      const elementalProperties = calculateBaseElementalProperties(positionsRecord as unknown as Parameters<typeof calculateBaseElementalProperties>[0]);
+      const elementalProperties = calculateBaseElementalProperties(planetaryPositions);
 
       // Calculate planetary influences
-      const planetaryInfluence = calculatePlanetaryInfluences(positionsRecord as unknown as Parameters<typeof calculatePlanetaryInfluences>[0]);
+      const planetaryInfluence = calculatePlanetaryInfluences(alchemyPositions);
 
       // Calculate kinetics
       const kinetics = calculateKinetics({
@@ -217,7 +277,7 @@ export class UnifiedCalculationEngine {
       updateCurrentMoment(input.dateTime, input.location);
 
       // Log API call
-      onAlchemizeApiCall(positionsRecord as unknown as Parameters<typeof onAlchemizeApiCall>[0]);
+      onAlchemizeApiCall(astrologyPositions);
 
       const [dominantPlanetObj] = planetaryInfluence.dominantPlanets;
       const result: SMESCalculationResult = {
@@ -291,11 +351,11 @@ export class UnifiedCalculationEngine {
           name: recipeName,
           ingredients: [],
           instructions: [],
-          prepTime: 0,
-          cookTime: 0,
-          servings: 1,
+          prepTime: "0 min",
+          cookTime: "0 min",
+          numberOfServings: 1,
           elementalProperties: recipeElements,
-        } as unknown as Recipe,
+        },
         {
           zodiacSign: "aries",
           lunarPhase: "new moon",

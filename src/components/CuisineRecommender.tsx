@@ -744,10 +744,14 @@ export default function CuisineRecommender(): React.JSX.Element {
               key={cuisine.id}
               className={`rounded border p-2 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedCuisine === cuisine.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200'}`}
               onClick={() => {
-                handleCuisineSelect(cuisine.id).catch(() => {});
+                handleCuisineSelect(cuisine.id).catch((err: unknown) => {
+                  _logger.error("[CuisineRecommender] handleCuisineSelect failed:", err);
+                });
               }}
               onKeyDown={activateOnKey(() => {
-                handleCuisineSelect(cuisine.id).catch(() => {});
+                handleCuisineSelect(cuisine.id).catch((err: unknown) => {
+                  _logger.error("[CuisineRecommender] handleCuisineSelect key failed:", err);
+                });
               })}
               role="button"
               tabIndex={0}

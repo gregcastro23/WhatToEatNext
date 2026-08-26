@@ -192,7 +192,7 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
     quoteRecipeMint(object).then((q) => {
       if (!cancelled) setMintQuote(q);
     }).catch((err: unknown) => {
-      _logger.warn("[CosmicRecipeGenerator] mint quote failed:", err);
+      _logger.error("[CosmicRecipeGenerator] mint quote failed:", err);
     });
     return (): void => {
       cancelled = true;

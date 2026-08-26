@@ -246,7 +246,7 @@ export default function DynamicCuisineRecommender({
         const recipeCounts = data.recipeCounts ?? {};
 
         if (apiCuisines.length === 0) {
-          _logger.warn("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);
+          _logger.error("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);
         }
 
         // If we got a valid response with cuisines, use it
@@ -310,7 +310,7 @@ export default function DynamicCuisineRecommender({
       throw new Error("API response lacked usable cuisine data or success=false");
 
     } catch (error) {
-      _logger.warn("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
+      _logger.error("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
 
       try {
         const service = PlanetaryScoringService.getInstance();
@@ -334,7 +334,7 @@ export default function DynamicCuisineRecommender({
         try {
           positions = await service.getCurrentPlanetaryPositions();
         } catch (posError) {
-          _logger.warn("DynamicCuisineRecommender: Fallback positions unavailable", posError);
+          _logger.error("DynamicCuisineRecommender: Fallback positions unavailable", posError);
         }
 
         // Calculate fallback scores

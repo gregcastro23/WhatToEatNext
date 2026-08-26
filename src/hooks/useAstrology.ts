@@ -576,7 +576,9 @@ export function useAstrology(options: AstrologyOptions = {}): UseAstrologyReturn
       const THROTTLE_TIME = 5000; // 5 seconds
 
       if (!state.lastUpdated || now - state.lastUpdated > THROTTLE_TIME) {
-        fetchAstrologyData(latitude, longitude, dateRef.current).catch(() => undefined);
+        fetchAstrologyData(latitude, longitude, dateRef.current).catch((err: unknown) => {
+          logger.error("Failed to auto-fetch astrology data:", err);
+        });
       }
     }
   }, [
@@ -591,7 +593,9 @@ export function useAstrology(options: AstrologyOptions = {}): UseAstrologyReturn
   // Force refresh data method
   const refreshData = useCallback((): void => {
     if (latitude !== null && longitude !== null) {
-      fetchAstrologyData(latitude, longitude, dateRef.current).catch(() => undefined);
+      fetchAstrologyData(latitude, longitude, dateRef.current).catch((err: unknown) => {
+        logger.error("Failed to refresh astrology data:", err);
+      });
     }
   }, [latitude, longitude, fetchAstrologyData]);
 

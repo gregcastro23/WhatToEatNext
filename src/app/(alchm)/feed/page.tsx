@@ -21,6 +21,7 @@ import { firePractice } from "@/lib/economy/practiceClient";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
+import { _logger } from "@/lib/logger";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
 import type { TableMemoryPayload } from "@/types/table";
@@ -333,7 +334,9 @@ export default function FeedPage(): React.JSX.Element {
   // rates (which have no live table yet) and is the degraded fallback for
   // the feed itself when the SpacetimeDB subscription below isn't live.
   useEffect(() => {
-    refreshAll().catch(() => undefined);
+    refreshAll().catch((err: unknown) => {
+      _logger.error("[FeedPage] initial refreshAll failed:", err);
+    });
     // Jittered ~30–40s poll (not a fixed setInterval): spreading each client's
     // tick over a 10s window stops thousands of tabs from hitting /api/feed and
     // its companion tickers in lockstep, which would spike DB connections at
@@ -343,7 +346,9 @@ export default function FeedPage(): React.JSX.Element {
       const delay = 30_000 + Math.floor(Math.random() * 10_000);
       timer = window.setTimeout(() => {
         if (document.visibilityState === "visible") {
-          refreshAll().catch(() => undefined);
+          refreshAll().catch((err: unknown) => {
+            _logger.error("[FeedPage] scheduled refreshAll failed:", err);
+          });
         }
         schedule();
       }, delay);
@@ -488,7 +493,9 @@ export default function FeedPage(): React.JSX.Element {
             <button
               type="button"
               onClick={(): void => {
-                refreshAll(true).catch(() => undefined);
+                refreshAll(true).catch((err: unknown) => {
+                  _logger.error("[FeedPage] manual refreshAll failed:", err);
+                });
               }}
               disabled={isRefreshing}
               className="min-h-10 rounded-full border border-white/10 bg-white/[0.03] px-3 text-[9px] font-black uppercase tracking-widest text-white/55 transition hover:border-white/20 hover:text-white disabled:cursor-wait disabled:opacity-50"
@@ -573,7 +580,9 @@ export default function FeedPage(): React.JSX.Element {
                 context={swapContext}
                 loading={loading.swap}
                 onSwapComplete={(): void => {
-                  refreshAll().catch(() => undefined);
+                  refreshAll().catch((err: unknown) => {
+                    _logger.error("[FeedPage] onSwapComplete refreshAll failed:", err);
+                  });
                 }}
               />
             </motion.div>
@@ -1291,7 +1300,9 @@ function SwapTab({
         {authStatus === "authenticated" ? (
           <button
             onClick={(): void => {
-              handleSwap().catch(() => undefined);
+              handleSwap().catch((err: unknown) => {
+                _logger.error("[FeedPage] handleSwap failed:", err);
+              });
             }}
             disabled={submitting || numericAmount <= 0}
             className="mt-6 w-full px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 disabled:bg-white/10 disabled:text-white/40 text-white font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-purple-900/40 transition-all"

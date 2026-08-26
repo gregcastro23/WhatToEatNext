@@ -141,7 +141,9 @@ function AddByEmailForm({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (query.length >= 3) {
-        handleSearch().catch(() => {});
+        handleSearch().catch((err: unknown) => {
+          _logger.error("[CommensalManager] handleSearch failed:", err);
+        });
       } else {
         setResults([]);
       }
@@ -228,7 +230,9 @@ function AddByEmailForm({
                 </div>
                 <button
                   onClick={() => {
-                    handleSendRequest(u.email).catch(() => {});
+                    handleSendRequest(u.email).catch((err: unknown) => {
+                      _logger.error("[CommensalManager] handleSendRequest failed:", err);
+                    });
                   }}
                   disabled={sending === u.email || alreadySent}
                   className={`ml-2 px-3 py-1.5 text-xs rounded-lg font-medium transition-colors flex-shrink-0 ${
@@ -328,7 +332,9 @@ function AddCommensalForm({
   return (
     <form
       onSubmit={(event) => {
-        handleSubmit(event).catch(() => {});
+        handleSubmit(event).catch((err: unknown) => {
+          _logger.error("[CommensalManager] handleSubmit failed:", err);
+        });
       }}
       className="space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-4"
     >
