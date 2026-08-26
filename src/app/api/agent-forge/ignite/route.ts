@@ -21,7 +21,7 @@ import { executeQuery } from "@/lib/database";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { geocodeLocationSingle } from "@/services/geocodingService";
 import { calculateNatalChart } from "@/services/natalChartService";
-import { alchemize } from "@/services/RealAlchemizeService";
+import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
 import {
@@ -29,6 +29,7 @@ import {
   isCurrentSkyDiurnal,
 } from "@/utils/astrology/positions";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
+import { logger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
@@ -42,19 +43,24 @@ export const dynamic = "force-dynamic";
  */
 const RECIPE_GEN_TIMEOUT_MS = 20_000;
 
-export async function POST(req: Request) {
+interface IgniteRequestBody {
+  dob?: string;
+  city?: string;
+}
+
+export async function POST(req: Request): Promise<NextResponse> {
   try {
     // 1. Authenticate user from active NextAuth session
     const session = await auth();
-    let userId = session?.user?.id;
-    if (!userId && session?.user?.email) {
+    let userId = session?.user.id;
+    if (!userId && session?.user.email) {
       try {
         const dbUser = await userDatabase.getUserByEmail(session.user.email);
         if (dbUser?.id) {
           userId = dbUser.id;
         }
       } catch (lookupErr) {
-        console.warn("[ignite] Fallback email lookup failed:", lookupErr);
+        logger.warn("[ignite] Fallback email lookup failed:", lookupErr);
       }
     }
     if (!userId) {
@@ -65,7 +71,7 @@ export async function POST(req: Request) {
     }
 
     // 2. Parse request payload
-    const body = await req.json().catch(() => null);
+    const body = (await req.json().catch(() => null)) as IgniteRequestBody | null;
     if (!body?.dob || !body.city) {
       return NextResponse.json(
         { success: false, error: "bad_request", message: "Date of Birth (dob) and City (city) are required." },
@@ -108,7 +114,7 @@ export async function POST(req: Request) {
       timezone: geocoded.timezone ?? undefined,
     };
 
-    console.log(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);
+    logger.info(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);
     const chart = await calculateNatalChart(birthData);
 
     // 5. Token Translation (ESMS reserves 0-100)
@@ -136,10 +142,10 @@ export async function POST(req: Request) {
     const diurnal = isSectDiurnalForBirth(birthData);
     const { dominantToken, baseArchetype } = selectArchetype(shares, diurnal);
 
-    console.log(`[ignite] Dominant token: ${dominantToken}, Archetype: ${baseArchetype}`);
+    logger.info(`[ignite] Dominant token: ${dominantToken}, Archetype: ${baseArchetype}`);
 
     // 7. Database Persistence (Raw PostgreSQL insert/upsert using executeQuery)
-    console.log(`[ignite] Persisting alchemical constitution in DB...`);
+    logger.info(`[ignite] Persisting alchemical constitution in DB...`);
     await executeQuery(`
       INSERT INTO alchemical_constitutions (
         user_id,
@@ -175,22 +181,22 @@ export async function POST(req: Request) {
       await userDatabase.updateUserProfile(
         userId,
         { birthData, natalChart: chart, onboardingComplete: true },
-        session?.user?.email ?? undefined,
+        session?.user.email ?? undefined,
       );
-      console.log(`[ignite] Persisted natal profile + marked onboarding complete (user_profiles synced).`);
+      logger.info(`[ignite] Persisted natal profile + marked onboarding complete (user_profiles synced).`);
     } catch (err) {
       // Non-blocking, to preserve the "never 500 a successful ignition" contract
       // (the constitution is already stored above). But log at error level: a
       // failure here means the user onboarded yet will NOT appear in the funnel
       // or /lab stats, so it must surface in logs/alerts rather than fail silently.
-      console.error(
+      logger.error(
         "[ignite] CRITICAL: profile persistence failed — onboarding will not be reflected in user_profiles/funnel/lab:",
         err,
       );
     }
 
     // 8. Recipe Generation (free-tier Groq/Gemini fallback)
-    let cosmicRecipe: any = null;
+    let cosmicRecipe: Record<string, unknown> | null = null;
     let fallbackUsed = false;
 
     try {
@@ -198,7 +204,7 @@ export async function POST(req: Request) {
         ? `https://${process.env.VERCEL_URL}`
         : `http://localhost:${process.env.PORT ?? 3000}`;
 
-      console.log(`[ignite] Invoking server-side recipe generation at: ${baseUrl}/api/generate-cosmic-recipe`);
+      logger.info(`[ignite] Invoking server-side recipe generation at: ${baseUrl}/api/generate-cosmic-recipe`);
       const generateRes = await fetch(`${baseUrl}/api/generate-cosmic-recipe`, {
         method: "POST",
         headers: {
@@ -217,16 +223,16 @@ export async function POST(req: Request) {
       });
 
       if (generateRes.ok) {
-        const payload = await generateRes.json();
+        const payload = (await generateRes.json()) as { recipe?: Record<string, unknown> } & Record<string, unknown>;
         cosmicRecipe = payload.recipe ?? payload;
-        console.log(`[ignite] Recipe generated successfully via local endpoint proxy.`);
+        logger.info(`[ignite] Recipe generated successfully via local endpoint proxy.`);
       } else {
         const text = await generateRes.text();
-        console.warn(`[ignite] Local endpoint returned status ${generateRes.status}:`, text);
+        logger.warn(`[ignite] Local endpoint returned status ${generateRes.status}:`, text);
         fallbackUsed = true;
       }
     } catch (error) {
-      console.warn("[ignite] Local endpoint invocation failed, using direct fallback:", error);
+      logger.warn("[ignite] Local endpoint invocation failed, using direct fallback:", error);
       fallbackUsed = true;
     }
 
@@ -238,7 +244,7 @@ export async function POST(req: Request) {
     // onboarding reveal renders a graceful "couldn't compile your recipe" state.
     if (fallbackUsed || !cosmicRecipe) {
       try {
-        console.log(`[ignite] Initiating direct fallback fetch to planetary agents API...`);
+        logger.info(`[ignite] Initiating direct fallback fetch to planetary agents API...`);
         const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
         const skyDate = new Date();
@@ -250,23 +256,21 @@ export async function POST(req: Request) {
           isCurrentSkyDiurnal(skyDate),
         );
 
-        const alchemizedResult = alchemize(
-          Object.entries(raw).reduce((acc, [planet, pos]) => {
-            acc[planet] = {
-              sign: String((pos as any).sign ?? "").toLowerCase(),
-              degree: Number((pos as any).degree) || 0,
-              minute: Number((pos as any).minute) || 0,
-              isRetrograde: Boolean((pos as any).isRetrograde),
-              // getAccuratePlanetaryPositions supplies this; aspects need real
-              // angular separations, so don't drop it.
-              exactLongitude:
-                typeof (pos as any).exactLongitude === "number"
-                  ? (pos as any).exactLongitude
-                  : undefined,
-            };
-            return acc;
-          }, {} as any)
-        );
+        const planetaryPositions: Record<string, PlanetaryPosition> = {};
+        for (const [planet, pos] of Object.entries(raw)) {
+          planetaryPositions[planet] = {
+            sign: String(pos.sign).toLowerCase(),
+            degree: Number(pos.degree) || 0,
+            minute: 0,
+            isRetrograde: Boolean(pos.isRetrograde),
+            exactLongitude:
+              typeof pos.exactLongitude === "number"
+                ? pos.exactLongitude
+                : undefined,
+          };
+        }
+
+        const alchemizedResult = alchemize(planetaryPositions);
 
         const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
           method: "POST",
@@ -277,7 +281,7 @@ export async function POST(req: Request) {
             birthData,
             dietPreference: "omnivore",
             alchemicalState: esms,
-            thermodynamicProperties: alchemizedResult?.thermodynamicProperties,
+            thermodynamicProperties: alchemizedResult.thermodynamicProperties,
             userId,
             tier: "free", // Strictly free-tier Groq/Gemini
           }),
@@ -288,7 +292,7 @@ export async function POST(req: Request) {
           throw new Error(`Planetary agents direct fallback failed with status ${agentResponse.status}`);
         }
 
-        const payload = await agentResponse.json();
+        const payload = (await agentResponse.json()) as { recipe?: Record<string, unknown> } & Record<string, unknown>;
         cosmicRecipe = payload.recipe ?? payload;
 
         // Since we bypassed the endpoint proxy, record the limit directly in PostgreSQL for consistency
@@ -299,13 +303,13 @@ export async function POST(req: Request) {
             ON CONFLICT (user_id, date)
             DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
           `, [userId]);
-          console.log(`[ignite] Manually incremented user_daily_limits counter.`);
+          logger.info(`[ignite] Manually incremented user_daily_limits counter.`);
         } catch (err) {
-          console.warn("[ignite] Failed to update user_daily_limits:", err);
+          logger.warn("[ignite] Failed to update user_daily_limits:", err);
         }
       } catch (err) {
         // Non-fatal: onboarding already succeeded — return without a recipe.
-        console.warn(
+        logger.warn(
           "[ignite] Complimentary recipe generation failed; completing onboarding without it:",
           err
         );
@@ -327,10 +331,10 @@ export async function POST(req: Request) {
       },
       cosmicRecipe,
     });
-  } catch (error: any) {
-    console.error("[ignite] Ignition process failed:", error);
+  } catch (error: unknown) {
+    logger.error("[ignite] Ignition process failed:", error);
     return NextResponse.json(
-      { success: false, error: "internal_server_error", message: error.message ?? "An unexpected error occurred during ignition." },
+      { success: false, error: "internal_server_error", message: error instanceof Error ? error.message : "An unexpected error occurred during ignition." },
       { status: 500 }
     );
   }

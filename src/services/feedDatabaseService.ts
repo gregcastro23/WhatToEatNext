@@ -22,7 +22,7 @@ export interface FeedEvent {
   id: string;
   actorId: string;
   eventType: 'claim_daily' | 'transit_attunement' | 'commensal_request' | 'recipe_generation' | 'insight' | 'lab_entry' | 'made_it' | 'table_memory' | 'other';
-  metadataPayload: any;
+  metadataPayload: Record<string, unknown>;
   createdAt: Date;
   actorName: string;
   actorImage?: string;
@@ -50,6 +50,28 @@ export interface FeedEvent {
   actorRevealed: boolean;
 }
 
+interface UserLookupRow {
+  email?: string;
+  is_agent?: boolean;
+  actor_name?: string;
+  share_identity?: boolean | null;
+}
+
+interface FeedEventRow {
+  id: string;
+  actor_id: string;
+  event_type: FeedEvent['eventType'];
+  metadata_payload: Record<string, unknown>;
+  created_at: string | Date;
+  is_agent?: boolean;
+  actor_email?: string;
+  actor_image?: string;
+  actor_name?: string;
+  actor_share_identity?: boolean | null;
+  reaction_by_kind?: Record<string, number> | string;
+  comment_count?: number | string;
+}
+
 class FeedDatabaseService {
 
   /**
@@ -64,7 +86,7 @@ class FeedDatabaseService {
   async createEvent(
     actorId: string,
     eventType: string,
-    metadataPayload: any = {},
+    metadataPayload: Record<string, unknown> = {},
     skipWebhook = false,
     identity?: { share?: boolean; explicit?: boolean },
   ): Promise<boolean> {
@@ -77,21 +99,21 @@ class FeedDatabaseService {
       // One indexed lookup serves both the identity stamp and the PA webhook.
       // On failure the stamp falls back to CONCEALED unless the caller chose
       // explicitly — a DB blip must never reveal someone who opted out.
-      let user: { email?: string; is_agent?: boolean; actor_name?: string; share_identity?: boolean | null } | null = null;
+      let user: UserLookupRow | null = null;
       try {
-        const result = await executeQuery(
+        const result = await executeQuery<UserLookupRow>(
           `SELECT u.email, u.is_agent, up.name as actor_name, up.share_identity
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.id = $1`,
           [actorId]
         );
-        user = result?.rows?.[0] ?? null;
+        user = result.rows[0] ?? null;
       } catch (lookupError) {
         _logger.warn("[feed] actor lookup failed — stamping privacy-safe:", lookupError);
       }
 
-      let stampedPayload = metadataPayload ?? {};
+      let stampedPayload = metadataPayload;
       if (!readIdentityStamp(stampedPayload)) {
         const stamp =
           identity?.share === undefined && !user
@@ -148,7 +170,7 @@ class FeedDatabaseService {
                 } else {
                   _logger.info(`[Webhook PA] Successfully pushed event ${eventType} to PA for agent ${agentEmail}`);
                 }
-              }).catch((err) => {
+              }).catch((err: unknown) => {
                 _logger.error("[Webhook PA] Error pushing to PA feed:", err);
               });
             } else {
@@ -170,7 +192,7 @@ class FeedDatabaseService {
    */
   async getRecentEvents(limit = 50, offset = 0): Promise<FeedEvent[]> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<FeedEventRow>(
         `SELECT f.*, u.is_agent, u.email as actor_email,
                 COALESCE(up.avatar_url, u.image) as actor_image,
                 up.name as actor_name, up.share_identity as actor_share_identity,
@@ -193,7 +215,7 @@ class FeedDatabaseService {
         [limit, offset]
       );
 
-      return result.rows.map(row => {
+      return result.rows.map((row): FeedEvent => {
         const isAgent = row.is_agent === true;
         // Agent slug is the email local-part — only for agents. Human emails
         // are never surfaced through this public endpoint.
@@ -225,7 +247,7 @@ class FeedDatabaseService {
         const byKind: Record<string, number> =
           typeof rawByKind === "string"
             ? (JSON.parse(rawByKind) as Record<string, number>)
-            : (rawByKind as Record<string, number>) || {};
+            : rawByKind ?? {};
         const reactionTotal = Object.values(byKind).reduce(
           (sum, n) => sum + (Number(n) || 0),
           0,
@@ -258,7 +280,7 @@ class FeedDatabaseService {
    */
   async getEventsByActor(actorId: string, limit = 20, offset = 0): Promise<FeedEvent[]> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<FeedEventRow>(
         `SELECT f.*, u.is_agent, u.email as actor_email,
                 COALESCE(up.avatar_url, u.image) as actor_image,
                 up.name as actor_name, up.share_identity as actor_share_identity
@@ -271,7 +293,7 @@ class FeedDatabaseService {
         [actorId, limit, offset]
       );
 
-      return result.rows.map(row => {
+      return result.rows.map((row): FeedEvent => {
         const isAgent = row.is_agent === true;
         const actorSlug =
           isAgent && typeof row.actor_email === "string" && row.actor_email.includes("@")

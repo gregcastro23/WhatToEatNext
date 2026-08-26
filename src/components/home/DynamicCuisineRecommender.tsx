@@ -1,12 +1,37 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
 import { getServerRecipes } from "@/actions/recipes";
 import { biasQueryParam, useUserElementalBias } from "@/hooks/useUserElementalBias";
+import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { fetchWithRetry } from "@/utils/apiUtils";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
+
+interface ApiCuisineItem {
+  name?: string;
+  cuisine_id?: string;
+  compatibility_reason?: string;
+  nested_recipes?: Array<{
+    recipe_id?: string;
+    id?: string;
+    name?: string;
+  }>;
+}
+
+interface ApiResponseData {
+  success: boolean;
+  source?: string;
+  personalized?: boolean;
+  recipeCounts?: Record<string, number>;
+  recommendations?: {
+    cuisines?: Array<string | ApiCuisineItem>;
+  } | Array<string | ApiCuisineItem>;
+  cuisines?: Array<string | ApiCuisineItem>;
+  topCuisines?: Array<string | ApiCuisineItem>;
+  cuisineRecommendations?: Array<string | ApiCuisineItem>;
+}
 
 // Cuisine definitions with planetary rulerships
 // These must match the 14 actual cuisine data files in src/data/cuisines/
@@ -94,9 +119,9 @@ const DIGNITIES: Record<string, { domicile: string[]; exaltation: string[] }> =
 };
 
 function calculateDignity(planet: string, sign: string): number {
-  const dignity = DIGNITIES[planet];
+  const dignity = DIGNITIES[planet] as { domicile: string[]; exaltation: string[] } | undefined;
   if (!dignity) return 0.6;
-  const s = (sign || "").toLowerCase();
+  const s = sign.toLowerCase();
   if (dignity.domicile.includes(s)) return 1.0;
   if (dignity.exaltation.includes(s)) return 0.9;
   return 0.6;
@@ -162,7 +187,7 @@ export default function DynamicCuisineRecommender({
   selectedCuisine,
   onSelectCuisine,
   onDoubleClickCuisine,
-}: DynamicCuisineRecommenderProps = {}) {
+}: DynamicCuisineRecommenderProps = {}): JSX.Element {
   const [recommendations, setRecommendations] = useState<
     DynamicCuisineRecommendation[]
   >([]);
@@ -176,9 +201,9 @@ export default function DynamicCuisineRecommender({
   const { bias, source: biasSource, hydrated: biasHydrated } = useUserElementalBias();
   const biasParam = useMemo(() => biasQueryParam(bias), [bias]);
 
-  const loadRecommendations = useCallback(async () => {
+  const loadRecommendations = useCallback(async (): Promise<void> => {
     setIsLoading(true);
-    console.log("DynamicCuisineRecommender: Starting to load recommendations from unified API...");
+    _logger.info("DynamicCuisineRecommender: Starting to load recommendations from unified API...");
     try {
       // Phase 1: Call the unified API endpoint (which handles backend + local fallback)
       const response = await fetchWithRetry(
@@ -197,25 +222,31 @@ export default function DynamicCuisineRecommender({
         throw new Error(`API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("DynamicCuisineRecommender: API response received:", data.source);
+      const data = (await response.json()) as ApiResponseData;
+      _logger.info("DynamicCuisineRecommender: API response received:", data.source);
 
       if (data.success) {
         setPersonalized(Boolean(data.personalized));
         // Map API response to our component's format
         // The backend might return cuisines in several possible fields depending on the engine
-        const apiCuisines: any[] =
-          Array.isArray(data.recommendations?.cuisines) ? data.recommendations.cuisines :
-          Array.isArray(data.cuisines) ? data.cuisines :
-          Array.isArray(data.topCuisines) ? data.topCuisines :
-          Array.isArray(data.cuisineRecommendations) ? data.cuisineRecommendations :
-          Array.isArray(data.recommendations) ? data.recommendations :
-          [];
+        const rawRecs = data.recommendations;
+        const apiCuisines: Array<string | ApiCuisineItem> =
+          rawRecs && typeof rawRecs === "object" && "cuisines" in rawRecs && Array.isArray(rawRecs.cuisines)
+            ? rawRecs.cuisines
+            : Array.isArray(data.cuisines)
+              ? data.cuisines
+              : Array.isArray(data.topCuisines)
+                ? data.topCuisines
+                : Array.isArray(data.cuisineRecommendations)
+                  ? data.cuisineRecommendations
+                  : Array.isArray(data.recommendations)
+                    ? data.recommendations
+                    : [];
         
         const recipeCounts = data.recipeCounts ?? {};
 
         if (apiCuisines.length === 0) {
-          console.warn("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);
+          _logger.warn("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);
         }
 
         // If we got a valid response with cuisines, use it
@@ -226,14 +257,14 @@ export default function DynamicCuisineRecommender({
             const nameLower = def.name.toLowerCase();
             const count = recipeCounts[nameLower] ?? 0;
 
-            const isRecommended = apiCuisines.some(c => {
-              const cName = typeof c === 'string' ? c : (c?.name ?? c?.cuisine_id ?? '');
-              return typeof cName === 'string' && cName.toLowerCase() === nameLower;
+            const isRecommended = apiCuisines.some((c) => {
+              const cName = typeof c === "string" ? c : (c.name ?? c.cuisine_id ?? "");
+              return cName.toLowerCase() === nameLower;
             });
             
-            const recommendationIndex = apiCuisines.findIndex(c => {
-              const cName = typeof c === 'string' ? c : (c?.name ?? c?.cuisine_id ?? '');
-              return typeof cName === 'string' && cName.toLowerCase() === nameLower;
+            const recommendationIndex = apiCuisines.findIndex((c) => {
+              const cName = typeof c === "string" ? c : (c.name ?? c.cuisine_id ?? "");
+              return cName.toLowerCase() === nameLower;
             });
 
             let score = 70; // Default
@@ -244,12 +275,13 @@ export default function DynamicCuisineRecommender({
             }
 
             // Get the actual recommendation object from the API response
-            const recommendationObj = recommendationIndex !== -1 ? apiCuisines[recommendationIndex] : null;
+            const rawRecItem = recommendationIndex !== -1 ? apiCuisines[recommendationIndex] : null;
+            const recommendationObj = typeof rawRecItem === "object" && rawRecItem !== null ? rawRecItem : null;
             
             // Map nested recipes if available
-            const topRecipes = (recommendationObj?.nested_recipes ?? []).map((r: any) => ({
-              id: r.recipe_id ?? r.id,
-              name: r.name,
+            const topRecipes = (recommendationObj?.nested_recipes ?? []).map((r) => ({
+              id: r.recipe_id ?? r.id ?? "",
+              name: r.name ?? "",
               matchScore: 95 // Backend recommends these highly
             }));
 
@@ -257,7 +289,7 @@ export default function DynamicCuisineRecommender({
               cuisine: def.name,
               score: Math.max(score, 1),
               planet: def.planet,
-              reasoning: recommendationObj?.compatibility_reason ?? CUISINE_QUALITIES[def.name] ?? `A fine ${def.name} selection.`,
+              reasoning: recommendationObj?.compatibility_reason ?? (CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`),
               recipeCount: count,
               optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
               topRecipes,
@@ -268,7 +300,7 @@ export default function DynamicCuisineRecommender({
           mapped.sort((a, b) => b.score - a.score);
           setRecommendations(mapped);
           setLastUpdated(new Date());
-          console.log(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API (${data.source})`);
+          _logger.info(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API (${data.source ?? "unknown"})`);
           setIsLoading(false);
           return;
         }
@@ -278,7 +310,7 @@ export default function DynamicCuisineRecommender({
       throw new Error("API response lacked usable cuisine data or success=false");
 
     } catch (error) {
-      console.warn("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
+      _logger.warn("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
 
       try {
         const service = PlanetaryScoringService.getInstance();
@@ -288,8 +320,8 @@ export default function DynamicCuisineRecommender({
         const recipeCountsMap = new Map<string, number>();
         for (const cuisine of CUISINE_DEFINITIONS) {
           try {
-            const cuisineRecipes = allRecipes.filter((r: any) =>
-              r.cuisine?.toLowerCase().includes(cuisine.name.toLowerCase())
+            const cuisineRecipes = allRecipes.filter((r) =>
+              typeof r.cuisine === "string" && r.cuisine.toLowerCase().includes(cuisine.name.toLowerCase())
             );
             recipeCountsMap.set(cuisine.name, cuisineRecipes.length);
           } catch {
@@ -298,11 +330,11 @@ export default function DynamicCuisineRecommender({
         }
 
         // Fallback Phase 2: Fetch positions
-        let positions: any[] = [];
+        let positions: Array<{ planet: string; sign: string; isRetrograde?: boolean }> = [];
         try {
           positions = await service.getCurrentPlanetaryPositions();
         } catch (posError) {
-          console.warn("DynamicCuisineRecommender: Fallback positions unavailable", posError);
+          _logger.warn("DynamicCuisineRecommender: Fallback positions unavailable", posError);
         }
 
         // Calculate fallback scores
@@ -321,7 +353,7 @@ export default function DynamicCuisineRecommender({
           let sign = "aries";
           let isRetrograde = false;
 
-          const planetPos = positions.find((p: any) => p.planet === cuisine.planet);
+          const planetPos = positions.find((p) => p.planet === cuisine.planet);
           if (planetPos) {
             sign = typeof planetPos.sign === "string" ? planetPos.sign : "aries";
             isRetrograde = planetPos.isRetrograde === true;
@@ -351,7 +383,7 @@ export default function DynamicCuisineRecommender({
         setRecommendations(scored);
         setLastUpdated(new Date());
       } catch (innerError) {
-        console.error("DynamicCuisineRecommender: CRITICAL ERROR in fallback logic:", innerError);
+        _logger.error("DynamicCuisineRecommender: CRITICAL ERROR in fallback logic:", innerError);
 
         // Final emergency fallback
         const fallback: DynamicCuisineRecommendation[] = CUISINE_DEFINITIONS.map((c, i) => ({
@@ -376,9 +408,13 @@ export default function DynamicCuisineRecommender({
     // Wait for the bias to hydrate from localStorage so the first request
     // already carries the visitor's table instead of double-fetching.
     if (!biasHydrated) return;
-    void loadRecommendations();
-    const interval = setInterval(() => { void loadRecommendations(); }, 15 * 60 * 1000);
-    return () => clearInterval(interval);
+    loadRecommendations().catch(() => {});
+    const interval = setInterval(() => {
+      loadRecommendations().catch(() => {});
+    }, 15 * 60 * 1000);
+    return (): void => {
+      clearInterval(interval);
+    };
   }, [loadRecommendations, biasHydrated]);
 
   const topCuisines = recommendations.slice(0, 6);
@@ -476,7 +512,9 @@ export default function DynamicCuisineRecommender({
       {/* Refresh Button */}
       <div className="text-center mt-8">
         <button
-          onClick={() => { void loadRecommendations(); }}
+          onClick={() => {
+            loadRecommendations().catch(() => {});
+          }}
           disabled={isLoading}
           className="px-6 py-3 bg-purple-700 hover:bg-purple-600 disabled:bg-slate-700 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-2"
         >

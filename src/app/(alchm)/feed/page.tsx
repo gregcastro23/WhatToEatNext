@@ -23,6 +23,7 @@ import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
+import type { TableMemoryPayload } from "@/types/table";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -34,7 +35,7 @@ interface FeedEvent {
   actorIsAgent: boolean;
   actorSlug?: string;
   eventType: string;
-  metadataPayload: any;
+  metadataPayload: Record<string, unknown>;
   createdAt: string;
   reactionCount?: number;
   /** Per-kind reaction counts (lowercase keys) — viewer-independent (PR 5). */
@@ -83,6 +84,30 @@ interface SwapRate {
 }
 
 interface SwapRateContext {
+  rulingHourPlanet: string;
+  rulingDayPlanet: string;
+  rates: SwapRate[];
+  generatedAt: string;
+  validUntil: string;
+}
+
+interface FeedApiResponse {
+  success: boolean;
+  events?: FeedEvent[];
+}
+
+interface AgentsApiResponse {
+  success: boolean;
+  agents?: AgentSummary[];
+}
+
+interface TransactionsApiResponse {
+  success: boolean;
+  transactions?: NetworkTransaction[];
+}
+
+interface SwapRatesApiResponse {
+  success: boolean;
   rulingHourPlanet: string;
   rulingDayPlanet: string;
   rates: SwapRate[];
@@ -164,13 +189,13 @@ function formatRelativeTime(iso: string): string {
   return `${Math.floor(diffSec / 86_400)}d ago`;
 }
 
-function getEventNarration(event: FeedEvent) {
+function getEventNarration(event: FeedEvent): ReturnType<typeof narrateFeedEvent> {
   return narrateFeedEvent(event.eventType, event.metadataPayload);
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function FeedPage() {
+export default function FeedPage(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<TabId>("feed");
   const [events, setEvents] = useState<FeedEvent[]>([]);
   const [historicalItems, setHistoricalItems] = useState<
@@ -191,7 +216,7 @@ export default function FeedPage() {
   const [viewerKinds, setViewerKinds] = useState<Record<string, string[]>>({});
   const requestInFlight = useRef(false);
 
-  const refreshAll = useCallback(async (manual = false) => {
+  const refreshAll = useCallback(async (manual = false): Promise<void> => {
     if (requestInFlight.current) return;
     requestInFlight.current = true;
     if (manual) setIsRefreshing(true);
@@ -208,9 +233,9 @@ export default function FeedPage() {
       let failedSources = 0;
 
       if (feedRes.status === "fulfilled" && feedRes.value.ok) {
-        const data = await feedRes.value.json();
-        if (data.success) {
-          const nextEvents: FeedEvent[] = data.events || [];
+        const data = (await feedRes.value.json()) as FeedApiResponse;
+        if (data.success && data.events) {
+          const nextEvents: FeedEvent[] = data.events;
           setEvents(nextEvents);
           // Per-viewer reaction bootstrap: one call with the visible UUID event
           // ids (per-viewer state can't ride the shared-cached /api/feed). Silent
@@ -221,10 +246,10 @@ export default function FeedPage() {
             .slice(0, 100);
           if (uuidIds.length > 0) {
             fetch(`/api/feed/reactions?eventIds=${uuidIds.join(",")}`)
-              .then((res) => (res.ok ? res.json() : null))
+              .then(async (res) => (res.ok ? ((await res.json()) as { success?: boolean; viewerKinds?: Record<string, string[]> }) : null))
               .then((body) => {
                 if (body?.success && body.viewerKinds) {
-                  setViewerKinds(body.viewerKinds as Record<string, string[]>);
+                  setViewerKinds(body.viewerKinds);
                 }
               })
               .catch(() => {
@@ -243,23 +268,23 @@ export default function FeedPage() {
       setLoading((prev) => ({ ...prev, feed: false }));
 
       if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-        const data = await agentsRes.value.json();
-        if (data.success) setAgents(data.agents || []);
+        const data = (await agentsRes.value.json()) as AgentsApiResponse;
+        if (data.success) setAgents(data.agents ?? []);
       } else {
         failedSources += 1;
       }
       setLoading((prev) => ({ ...prev, agents: false }));
 
       if (txnRes.status === "fulfilled" && txnRes.value.ok) {
-        const data = await txnRes.value.json();
-        if (data.success) setTransactions(data.transactions || []);
+        const data = (await txnRes.value.json()) as TransactionsApiResponse;
+        if (data.success) setTransactions(data.transactions ?? []);
       } else {
         failedSources += 1;
       }
       setLoading((prev) => ({ ...prev, transactions: false }));
 
       if (ratesRes.status === "fulfilled" && ratesRes.value.ok) {
-        const data = await ratesRes.value.json();
+        const data = (await ratesRes.value.json()) as SwapRatesApiResponse;
         if (data.success) {
           setSwapContext({
             rulingHourPlanet: data.rulingHourPlanet,
@@ -308,21 +333,23 @@ export default function FeedPage() {
   // rates (which have no live table yet) and is the degraded fallback for
   // the feed itself when the SpacetimeDB subscription below isn't live.
   useEffect(() => {
-    void refreshAll();
+    refreshAll().catch(() => undefined);
     // Jittered ~30–40s poll (not a fixed setInterval): spreading each client's
     // tick over a 10s window stops thousands of tabs from hitting /api/feed and
     // its companion tickers in lockstep, which would spike DB connections at
     // influx. Re-jitter every tick so clients don't re-converge over time.
     let timer = 0;
-    const schedule = () => {
+    const schedule = (): void => {
       const delay = 30_000 + Math.floor(Math.random() * 10_000);
       timer = window.setTimeout(() => {
-        if (document.visibilityState === "visible") void refreshAll();
+        if (document.visibilityState === "visible") {
+          refreshAll().catch(() => undefined);
+        }
         schedule();
       }, delay);
     };
     schedule();
-    return () => window.clearTimeout(timer);
+    return (): void => window.clearTimeout(timer);
   }, [refreshAll]);
 
   // Real-time feed events pushed over the SpacetimeDB WebSocket (the
@@ -330,9 +357,20 @@ export default function FeedPage() {
   // Live events come from a separate store than the Postgres-backed
   // /api/feed rows, so a plain prepend cannot duplicate entries.
   const liveEvents = useLiveFeedEvents();
+  const mappedLiveEvents = useMemo<FeedEvent[] | null>(() => {
+    if (liveEvents === null) return null;
+    return liveEvents.map((e) => ({
+      ...e,
+      metadataPayload:
+        e.metadataPayload && typeof e.metadataPayload === "object"
+          ? (e.metadataPayload as Record<string, unknown>)
+          : {},
+    }));
+  }, [liveEvents]);
+
   const mergedEvents = useMemo(
-    () => (liveEvents === null ? events : [...liveEvents, ...events]),
-    [liveEvents, events],
+    () => (mappedLiveEvents === null ? events : [...mappedLiveEvents, ...events]),
+    [mappedLiveEvents, events],
   );
 
   const visibleActivityCount = useMemo(
@@ -401,7 +439,7 @@ export default function FeedPage() {
                   Ruling hour
                 </span>
                 <span className="text-white/75">
-                  {PLANET_GLYPH[swapContext.rulingHourPlanet] || "✨"}{" "}
+                  {PLANET_GLYPH[swapContext.rulingHourPlanet] ?? "✨"}{" "}
                   {swapContext.rulingHourPlanet}
                 </span>
               </div>
@@ -449,8 +487,8 @@ export default function FeedPage() {
             </span>
             <button
               type="button"
-              onClick={() => {
-                void refreshAll(true);
+              onClick={(): void => {
+                refreshAll(true).catch(() => undefined);
               }}
               disabled={isRefreshing}
               className="min-h-10 rounded-full border border-white/10 bg-white/[0.03] px-3 text-[9px] font-black uppercase tracking-widest text-white/55 transition hover:border-white/20 hover:text-white disabled:cursor-wait disabled:opacity-50"
@@ -534,8 +572,8 @@ export default function FeedPage() {
               <SwapTab
                 context={swapContext}
                 loading={loading.swap}
-                onSwapComplete={() => {
-                  void refreshAll();
+                onSwapComplete={(): void => {
+                  refreshAll().catch(() => undefined);
                 }}
               />
             </motion.div>
@@ -547,7 +585,7 @@ export default function FeedPage() {
   );
 }
 
-function PulseMetric({ value, label }: { value: number; label: string }) {
+function PulseMetric({ value, label }: { value: number; label: string }): React.JSX.Element {
   return (
     <div>
       <p className="font-mono text-xl tabular-nums text-white">{value}</p>
@@ -581,7 +619,7 @@ function FeedTab({
   events: FeedEvent[];
   historicalItems: HistoricalAgentFeedItem[];
   loading: boolean;
-}) {
+}): React.JSX.Element {
   const [filter, setFilter] = useState<FeedFilter>("all");
   const reduceMotion = useReducedMotion();
 
@@ -685,7 +723,7 @@ function FeedTab({
             <button
               key={option.id}
               type="button"
-              onClick={() => setFilter(option.id)}
+              onClick={(): void => setFilter(option.id)}
               aria-pressed={filter === option.id}
               aria-label={`${option.label} (${filterCounts[option.id]})`}
               className={`min-h-10 shrink-0 rounded-full border px-3 text-[9px] font-black uppercase tracking-widest transition ${
@@ -710,7 +748,7 @@ function FeedTab({
           </p>
           <button
             type="button"
-            onClick={() => setFilter("all")}
+            onClick={(): void => setFilter("all")}
             className="mt-3 text-[10px] font-bold uppercase tracking-widest text-purple-300 hover:text-purple-200"
           >
             Show everything
@@ -743,7 +781,7 @@ function FeedTab({
   );
 }
 
-function HumanFeedRow({ event }: { event: FeedEvent }) {
+function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
   const narration = getEventNarration(event);
   const actorHref = `/profile/${event.actorId}`;
   const viewerKindsMap = React.useContext(ViewerKindsContext);
@@ -754,7 +792,7 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
   // Cooked-it dish cards render as a full card, not a narration row. When
   // the actor is revealed (identity resolver, PR 4) the real name + avatar
   // head the card; concealed cards keep the pure chart-persona identity.
-  if (event.metadataPayload?.card === "cooked") {
+  if (event.metadataPayload.card === "cooked") {
     const revealed = event.actorRevealed === true;
     return (
       <CookedDishCard
@@ -773,10 +811,10 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
 
   // Table memories are frozen social artifacts (real guest roster, composite
   // badge, photos) — also a full card.
-  if (event.metadataPayload?.card === "table_memory") {
+  if (event.metadataPayload.card === "table_memory") {
     return (
       <TableMemoryCard
-        meta={event.metadataPayload}
+        meta={event.metadataPayload as unknown as TableMemoryPayload}
         createdAtLabel={formatRelativeTime(event.createdAt)}
         actorName={event.actorName}
         eventId={engageable ? event.id : undefined}
@@ -847,7 +885,7 @@ function AgentsTab({
 }: {
   agents: AgentSummary[];
   loading: boolean;
-}) {
+}): React.JSX.Element {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"active" | "name">("active");
   const visibleAgents = useMemo(() => {
@@ -858,13 +896,13 @@ function AgentsTab({
           !normalizedQuery ||
           agent.name.toLowerCase().includes(normalizedQuery) ||
           agent.handle.toLowerCase().includes(normalizedQuery) ||
-          agent.dominantElement?.toLowerCase().includes(normalizedQuery),
+          (agent.dominantElement?.toLowerCase().includes(normalizedQuery) ?? false),
       )
       .sort((a, b) =>
         sort === "name"
           ? a.name.localeCompare(b.name)
-          : (Date.parse(b.lastActionAt || "") || 0) -
-            (Date.parse(a.lastActionAt || "") || 0),
+          : (Date.parse(b.lastActionAt ?? "") || 0) -
+            (Date.parse(a.lastActionAt ?? "") || 0),
       );
   }, [agents, query, sort]);
 
@@ -902,7 +940,7 @@ function AgentsTab({
             <input
               type="search"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event): void => setQuery(event.target.value)}
               placeholder="Search agents"
               className="min-h-11 w-full rounded-full border border-white/10 bg-white/[0.035] px-4 text-sm text-white outline-none placeholder:text-white/25 focus:border-purple-300/35"
             />
@@ -911,7 +949,7 @@ function AgentsTab({
             <span className="sr-only">Sort agents</span>
             <select
               value={sort}
-              onChange={(event) =>
+              onChange={(event): void =>
                 setSort(event.target.value as "active" | "name")
               }
               className="min-h-11 rounded-full border border-white/10 bg-[#13101b] px-3 text-xs text-white/65 outline-none focus:border-purple-300/35"
@@ -981,7 +1019,7 @@ function TransactionsTab({
 }: {
   transactions: NetworkTransaction[];
   loading: boolean;
-}) {
+}): React.JSX.Element {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
@@ -1055,7 +1093,7 @@ function TransactionsTab({
           </thead>
           <tbody>
             {transactions.map((txn) => {
-              const visual = TOKEN_VISUAL[txn.tokenType] || TOKEN_VISUAL.Spirit;
+              const visual = TOKEN_VISUAL[txn.tokenType] ?? TOKEN_VISUAL.Spirit;
               const isCredit = txn.amount >= 0;
               return (
                 <tr
@@ -1111,7 +1149,7 @@ function SwapTab({
   context: SwapRateContext | null;
   loading: boolean;
   onSwapComplete: () => void;
-}) {
+}): React.JSX.Element {
   const [fromToken, setFromToken] = useState<TokenType>("Spirit");
   const [toToken, setToToken] = useState<TokenType>("Essence");
   const [amount, setAmount] = useState<string>("1");
@@ -1135,14 +1173,14 @@ function SwapTab({
     return (
       context.rates.find(
         (r) => r.fromToken === fromToken && r.toToken === toToken,
-      ) || null
+      ) ?? null
     );
   }, [context, fromToken, toToken]);
 
   const numericAmount = parseFloat(amount) || 0;
   const cost = activeRate ? numericAmount * activeRate.rate : 0;
 
-  const handleSwap = async () => {
+  const handleSwap = async (): Promise<void> => {
     setResultMessage(null);
     if (!activeRate || numericAmount <= 0) {
       setResultMessage({ kind: "error", text: "Enter a positive amount." });
@@ -1156,16 +1194,16 @@ function SwapTab({
         credentials: "include",
         body: JSON.stringify({ fromToken, toToken, amount: numericAmount }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
         setResultMessage({
           kind: "error",
-          text: data.message || "Swap failed.",
+          text: data.message ?? "Swap failed.",
         });
       } else {
         setResultMessage({
           kind: "ok",
-          text: data.message || "Swap complete.",
+          text: data.message ?? "Swap complete.",
         });
         onSwapComplete();
       }
@@ -1214,7 +1252,7 @@ function SwapTab({
             min={0}
             step={0.01}
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e): void => setAmount(e.target.value)}
             className="mt-2 w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-lg tabular-nums focus:outline-none focus:border-purple-400/40"
           />
         </label>
@@ -1252,8 +1290,8 @@ function SwapTab({
 
         {authStatus === "authenticated" ? (
           <button
-            onClick={() => {
-              void handleSwap();
+            onClick={(): void => {
+              handleSwap().catch(() => undefined);
             }}
             disabled={submitting || numericAmount <= 0}
             className="mt-6 w-full px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 disabled:bg-white/10 disabled:text-white/40 text-white font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-purple-900/40 transition-all"
@@ -1302,7 +1340,7 @@ function SwapTab({
             return (
               <button
                 key={`${rate.fromToken}-${rate.toToken}`}
-                onClick={() => {
+                onClick={(): void => {
                   setFromToken(rate.fromToken);
                   setToToken(rate.toToken);
                 }}
@@ -1349,7 +1387,7 @@ function TokenSelect({
   value: TokenType;
   onChange: (t: TokenType) => void;
   disabled: TokenType;
-}) {
+}): React.JSX.Element {
   return (
     <div>
       <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
@@ -1363,7 +1401,9 @@ function TokenSelect({
           return (
             <button
               key={t}
-              onClick={() => !isDisabled && onChange(t)}
+              onClick={(): void => {
+                if (!isDisabled) onChange(t);
+              }}
               disabled={isDisabled}
               className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all ${
                 isActive

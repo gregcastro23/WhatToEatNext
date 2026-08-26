@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type JSX, useEffect, useMemo, useRef, useState } from 'react';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useToast } from '@/components/common/Toast';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
@@ -10,13 +10,43 @@ import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 import { useShareIdentityDefault } from '@/hooks/useShareIdentityDefault';
 import { shareIdentityForPost } from '@/lib/feed/identity';
+import { _logger } from '@/lib/logger';
 import { mintRecipe as submitRecipeMint, mintResultMessage, quoteRecipeMint, type MintQuoteResult } from '@/lib/recipe-nft/mintClient';
 import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
+import type { RecipeIngredient } from '@/types/recipe';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
 import type { z } from 'zod';
 
 type CosmicRecipe = z.infer<typeof cosmicRecipeSchema>;
+
+interface BirthDataPayload {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  latitude: number;
+  longitude: number;
+}
+
+interface CosmicRecipeSubmitPayload {
+  prompt: string;
+  diet: string;
+  ingredients_main: string[];
+  disallowed_ingredients: string[];
+  birthData?: BirthDataPayload;
+  preferredCuisine?: string;
+}
+
+interface ShareResponseData {
+  success: boolean;
+  message?: string;
+  completedQuests?: Array<{
+    tokenRewardAmount: number;
+    tokenRewardType: string;
+  }>;
+}
 
 /**
  * Adapts a streamed `CosmicRecipe` into the `MonicaOptimizedRecipe` shape
@@ -29,62 +59,59 @@ function mapCosmicToStoreRecipe(
   cuisineHint?: string,
 ): MonicaOptimizedRecipe {
   const id = `cosmic-${Date.now()}-${Math.floor(Math.random() * 1e6).toString(36)}`;
-  const elementalRaw = cosmic.elementalBalance ?? {};
-  const normalize = (v: unknown) => {
+  const elementalRaw = cosmic.elementalBalance;
+  const normalize = (v: number | undefined): number => {
     const n = Number(v ?? 0);
     if (!Number.isFinite(n)) return 0;
     return n > 1 ? n / 100 : n;
   };
   const elementalProperties = {
-    Fire: normalize((elementalRaw as any).fire),
-    Water: normalize((elementalRaw as any).water),
-    Earth: normalize((elementalRaw as any).earth),
-    Air: normalize((elementalRaw as any).air),
+    Fire: normalize(elementalRaw.fire),
+    Water: normalize(elementalRaw.water),
+    Earth: normalize(elementalRaw.earth),
+    Air: normalize(elementalRaw.air),
   };
 
-  const ingredients = (cosmic.ingredients ?? []).map((ing) => {
-    const rawQty = ing?.quantity;
+  const ingredients: RecipeIngredient[] = cosmic.ingredients.map((ing) => {
+    const rawQty = ing.quantity;
     const numeric = Number(rawQty);
     return {
-      name: ing?.name ?? "",
-      amount: Number.isFinite(numeric) ? numeric : (rawQty ?? 0),
-      unit: ing?.unit ?? "",
-      notes: ing?.household_description ?? undefined,
+      name: ing.name,
+      amount: Number.isFinite(numeric) ? numeric : (Number(rawQty) || 0),
+      unit: ing.unit,
+      notes: ing.household_description,
     };
   });
 
-  const instructions = (cosmic.steps ?? [])
+  const instructions: string[] = cosmic.steps
     .slice()
-    .sort((a, b) => (a?.step_number ?? 0) - (b?.step_number ?? 0))
-    .map((step) => step?.instruction ?? "")
+    .sort((a, b) => a.step_number - b.step_number)
+    .map((step) => step.instruction)
     .filter(Boolean);
 
-  const cuisine = cosmic.cuisine ?? cuisineHint ?? "Fusion";
+  const cuisine = cosmic.cuisine.trim() !== "" ? cosmic.cuisine : (cuisineHint ?? "Fusion");
+  const totalMinutes = cosmic.total_time;
 
-  const totalMinutes = cosmic.total_time ?? undefined;
-
-  const nutrition = cosmic.nutrition
-    ? {
-        calories: cosmic.nutrition.calories,
-        protein: cosmic.nutrition.protein,
-        carbs: cosmic.nutrition.carbohydrates,
-        fat: cosmic.nutrition.fat,
-      }
-    : undefined;
+  const nutrition = {
+    calories: cosmic.nutrition.calories,
+    protein: cosmic.nutrition.protein,
+    carbs: cosmic.nutrition.carbohydrates,
+    fat: cosmic.nutrition.fat,
+  };
 
   return {
     id,
-    name: cosmic.title ?? "Cosmic Recipe",
-    description: cosmic.short_description ?? "",
+    name: cosmic.title,
+    description: cosmic.short_description,
     cuisine,
-    mealType: cosmic.tags?.meal_type ? [cosmic.tags.meal_type] : [],
-    prepTime: totalMinutes ? `${totalMinutes} min` : undefined,
+    mealType: cosmic.tags.meal_type ? [cosmic.tags.meal_type] : [],
+    prepTime: `${totalMinutes} min`,
     cookTime: undefined,
-    numberOfServings: cosmic.yields ?? undefined,
-    ingredients: ingredients as any,
-    instructions: instructions as any,
-    elementalProperties: elementalProperties as any,
-    nutrition: nutrition as any,
+    numberOfServings: cosmic.yields,
+    ingredients,
+    instructions,
+    elementalProperties,
+    nutrition,
     monicaOptimization: {
       originalMonica: null,
       optimizedMonica: 0,
@@ -92,10 +119,10 @@ function mapCosmicToStoreRecipe(
       temperatureAdjustments: [],
       timingAdjustments: [],
       intensityModifications: [],
-      planetaryTimingRecommendations: cosmic.astro_explanation?.correspondences ?? [],
+      planetaryTimingRecommendations: cosmic.astro_explanation.correspondences,
     },
     seasonalAdaptation: {
-      currentSeason: "spring" as any,
+      currentSeason: "spring",
       seasonalScore: 0,
       seasonalIngredientSubstitutions: [],
       seasonalCookingMethodAdjustments: [],
@@ -103,14 +130,25 @@ function mapCosmicToStoreRecipe(
     cuisineIntegration: {
       authenticity: 0,
       fusionPotential: 0,
-      culturalNotes: cosmic.astro_explanation?.summary
-        ? [cosmic.astro_explanation.summary]
-        : [],
-    } as any,
-  } as unknown as MonicaOptimizedRecipe;
+      culturalNotes: [cosmic.astro_explanation.summary],
+      traditionalVariations: [],
+      modernAdaptations: [],
+    },
+    nutritionalOptimization: {
+      alchemicalNutrition: {
+        spiritNutrients: [],
+        essenceNutrients: [],
+        matterNutrients: [],
+        substanceNutrients: [],
+      },
+      elementalNutrition: elementalProperties,
+      kalchmNutritionalBalance: 0,
+      monicaNutritionalHarmony: 0,
+    },
+  };
 }
 
-export default function CosmicRecipeGenerator() {
+export default function CosmicRecipeGenerator(): React.JSX.Element {
   const { currentUser } = useUser();
   const builder = useRecipeBuilder();
 
@@ -121,7 +159,7 @@ export default function CosmicRecipeGenerator() {
   const [preferredCuisine, setPreferredCuisine] = useState<string>("");
   const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
   const [storedRecipe, setStoredRecipe] = useState<MonicaOptimizedRecipe | null>(null);
-  const [object, setObject] = useState<Partial<CosmicRecipe> | undefined>(undefined);
+  const [object, setObject] = useState<CosmicRecipe | null>(null);
   const [isLikingRecipe, setIsLikingRecipe] = useState(false);
   const [likedRecipe, setLikedRecipe] = useState(false);
 
@@ -151,22 +189,24 @@ export default function CosmicRecipeGenerator() {
       return;
     }
     let cancelled = false;
-    void quoteRecipeMint(object).then((q) => {
+    quoteRecipeMint(object).then((q) => {
       if (!cancelled) setMintQuote(q);
+    }).catch((err: unknown) => {
+      _logger.warn("[CosmicRecipeGenerator] mint quote failed:", err);
     });
-    return () => {
+    return (): void => {
       cancelled = true;
     };
   }, [object, savedRecipeId]);
 
-  const mintCostLabel = (() => {
+  const mintCostLabel = useMemo((): string | null => {
     if (!mintQuote?.enabled) return null;
     const c = mintQuote.quote.liveCost;
-    const total = (c.spirit || 0) + (c.essence || 0) + (c.matter || 0) + (c.substance || 0);
+    const total = Number(c.spirit || 0) + Number(c.essence || 0) + Number(c.matter || 0) + Number(c.substance || 0);
     return total > 0 ? `${Math.round(total * 10) / 10} ESMS` : null;
-  })();
+  }, [mintQuote]);
 
-  const handleMintNft = async () => {
+  const handleMintNft = async (): Promise<void> => {
     if (!object) return;
     setIsMinting(true);
     try {
@@ -183,7 +223,7 @@ export default function CosmicRecipeGenerator() {
     }
   };
 
-  const handleShareToFeed = async () => {
+  const handleShareToFeed = async (): Promise<void> => {
     if (!object || !savedRecipeId) return;
     setIsSharing(true);
     try {
@@ -199,7 +239,7 @@ export default function CosmicRecipeGenerator() {
           },
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as ShareResponseData;
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
@@ -212,15 +252,15 @@ export default function CosmicRecipeGenerator() {
       } else {
         showError(data.message ?? "Failed to share to feed");
       }
-    } catch (err) {
+    } catch (err: unknown) {
       showError("Error sharing recipe to feed");
-      console.error(err);
+      _logger.error("[CosmicRecipeGenerator] Error sharing recipe to feed", err);
     } finally {
       setIsSharing(false);
     }
   };
 
-  const cuisineOptions = useMemo(() => {
+  const cuisineOptions = useMemo((): string[] => {
     const names = getAllCuisineNames();
     return names.length > 0
       ? names
@@ -249,7 +289,7 @@ export default function CosmicRecipeGenerator() {
     }
   }, [builder.selectedCuisines, preferredCuisine]);
 
-  const handleUseBuilderSelections = () => {
+  const handleUseBuilderSelections = (): void => {
     if (builder.selectedIngredients.length > 0) {
       setIngredientsMain(
         builder.selectedIngredients.map((i) => i.name).join(", "),
@@ -266,37 +306,57 @@ export default function CosmicRecipeGenerator() {
 
   // Parse birthData from UserContext if available
   const bd = currentUser?.birthData;
-  const birthData = bd?.dateTime ? (() => {
-      const dt = new Date(bd.dateTime);
-      return {
-        year: dt.getFullYear(),
-        month: dt.getMonth() + 1,
-        day: dt.getDate(),
-        hour: dt.getHours(),
-        minute: dt.getMinutes(),
-        latitude: bd.latitude ?? 40.7128,
-        longitude: bd.longitude ?? -74.0060,
-      };
-  })() : undefined;
+  const birthData: BirthDataPayload | undefined = bd?.dateTime
+    ? {
+        year: new Date(bd.dateTime).getFullYear(),
+        month: new Date(bd.dateTime).getMonth() + 1,
+        day: new Date(bd.dateTime).getDate(),
+        hour: new Date(bd.dateTime).getHours(),
+        minute: new Date(bd.dateTime).getMinutes(),
+        latitude: typeof bd.latitude === "number" ? bd.latitude : 40.7128,
+        longitude: typeof bd.longitude === "number" ? bd.longitude : -74.006,
+      }
+    : undefined;
 
-  const preferences = currentUser?.preferences;
-  const dietArray = (preferences?.dietaryRestrictions ?? []) as string[];
-  const diet = dietArray.length ? dietArray.join(", ") : "no-restrictions";
+  const rawRestrictions = currentUser?.preferences?.dietaryRestrictions;
+  const dietArray: string[] = Array.isArray(rawRestrictions)
+    ? rawRestrictions.filter((r): r is string => typeof r === "string")
+    : [];
+  const diet = dietArray.length > 0 ? dietArray.join(", ") : "no-restrictions";
 
   const preferredCuisineRef = useRef<string>("");
   preferredCuisineRef.current = preferredCuisine;
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [lastPayload, setLastPayload] = useState<unknown>(null);
+  const [lastPayload, setLastPayload] = useState<CosmicRecipeSubmitPayload | null>(null);
 
-  const submit = async (payload: any) => {
+  const generateImage = async (title: string, description: string): Promise<void> => {
+    try {
+      setIsGeneratingImage(true);
+      const res = await fetch('/api/nanobanana/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description })
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { url?: string };
+        if (data.url) setImageUrl(data.url);
+      }
+    } catch (e: unknown) {
+      _logger.error("[CosmicRecipeGenerator] Nanobanana 2 Image Generation failed", e);
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
+  const submit = async (payload: CosmicRecipeSubmitPayload): Promise<void> => {
     setIsLoading(true);
-    setObject(undefined);
+    setObject(null);
     setErrorMessage(null);
     setLastPayload(payload);
     const requestId =
-      typeof crypto !== "undefined" && crypto.randomUUID
+      typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
         ? crypto.randomUUID()
         : `req_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
     try {
@@ -315,59 +375,65 @@ export default function CosmicRecipeGenerator() {
         else if (res.status === 429) message = "You're generating recipes faster than the cosmos can keep up. Please wait a moment.";
         else if (res.status >= 500) message = "The recipe service is temporarily unavailable. Please try again shortly.";
         try {
-          const data = await res.json();
-          if (typeof data?.message === "string") ({ message } = data);
-          else if (typeof data?.error === "string") message = data.error;
+          const data = (await res.json()) as { message?: string; error?: string };
+          if (typeof data.message === "string") ({ message } = data);
+          else if (typeof data.error === "string") message = data.error;
         } catch {
           /* keep default message */
         }
         setErrorMessage(message);
         return;
       }
-      const data = await res.json();
+      const data = (await res.json()) as CosmicRecipe;
       setObject(data);
-      if (data?.title) {
+      if (data.title) {
         try {
           const stored = mapCosmicToStoreRecipe(
-            data as CosmicRecipe,
+            data,
             preferredCuisineRef.current || undefined,
           );
           saveRecipeToStore(stored);
           setStoredRecipe(stored);
           setSavedRecipeId(stored.id);
-        } catch (err) {
-          console.error("Failed to persist cosmic recipe", err);
+        } catch (err: unknown) {
+          _logger.error("[CosmicRecipeGenerator] Failed to persist cosmic recipe", err);
         }
-        await generateImage(data.title, data.short_description ?? "");
+        await generateImage(data.title, data.short_description);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: unknown) {
+      _logger.error("[CosmicRecipeGenerator] Network error", e);
       setErrorMessage("Network error while generating your recipe. Check your connection and try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const retryLastGeneration = () => {
-    if (lastPayload) void submit(lastPayload);
+  const retryLastGeneration = (): void => {
+    if (lastPayload) {
+      submit(lastPayload).catch((err: unknown) => {
+        _logger.error("[CosmicRecipeGenerator] retry failed", err);
+      });
+    }
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = (): void => {
     setImageUrl(null);
     setSavedRecipeId(null);
     setStoredRecipe(null);
     setLikedRecipe(false);
-    void submit({
+    submit({
       prompt: prompt || "A nourishing, restorative meal",
       diet,
       ingredients_main: ingredientsMain.split(',').map(i => i.trim()).filter(Boolean),
       disallowed_ingredients: disallowedIngredients.split(',').map(i => i.trim()).filter(Boolean),
       birthData,
       preferredCuisine: preferredCuisine || undefined,
+    }).catch((err: unknown) => {
+      _logger.error("[CosmicRecipeGenerator] generation failed", err);
     });
   };
 
-  const handleLikeRecipe = async () => {
+  const handleLikeRecipe = async (): Promise<void> => {
     if (!storedRecipe) return;
     saveRecipeToStore(storedRecipe);
     if (!currentUser) {
@@ -399,31 +465,12 @@ export default function CosmicRecipeGenerator() {
       if (!res.ok) throw new Error("Failed to like recipe");
       setLikedRecipe(true);
       showSuccess("Recipe liked and saved to your cookbook.");
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      _logger.error("[CosmicRecipeGenerator] Error liking recipe", err);
       setLikedRecipe(true);
       showError("Liked locally, but cookbook sync failed.");
     } finally {
       setIsLikingRecipe(false);
-    }
-  };
-
-  const generateImage = async (title: string, description: string) => {
-    try {
-      setIsGeneratingImage(true);
-      const res = await fetch('/api/nanobanana/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.url) setImageUrl(data.url);
-      }
-    } catch (e) {
-      console.error("Nanobanana 2 Image Generation failed", e);
-    } finally {
-      setIsGeneratingImage(false);
     }
   };
 
@@ -557,13 +604,13 @@ export default function CosmicRecipeGenerator() {
                   <span className="font-bold text-purple-600">Active Profile:</span>
                   <span>{birthData ? `Birth Chart Attached` : `No Chart Provided`}</span>
                   <span className="mx-2">|</span>
-                  <span className="capitalize text-slate-600 font-medium">Diet: {diet || 'None'}</span>
-                  {preferredCuisine && (
+                  <span className="capitalize text-slate-600 font-medium">Diet: {diet}</span>
+                  {preferredCuisine ? (
                     <>
                       <span className="mx-2">|</span>
                       <span className="text-slate-600 font-medium">Cuisine: {preferredCuisine}</span>
                     </>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -600,13 +647,13 @@ export default function CosmicRecipeGenerator() {
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Header Section */}
           <div className="border-b border-slate-200 dark:border-slate-800 pb-8 text-center sm:text-left">
-            {object.tags?.meal_type && (
+            {object.tags.meal_type ? (
                <span className="inline-block px-3 py-1 mb-4 bg-purple-100 text-purple-800 text-xs font-bold uppercase tracking-wide rounded-full">
                  {object.tags.meal_type}
                </span>
-            )}
+            ) : null}
             <h2 className="text-4xl sm:text-5xl font-black mb-4 text-slate-900 dark:text-white leading-tight">
-              {object.title ?? "Consulting the Stars..."}
+              {object.title}
             </h2>
             <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 font-serif italic max-w-3xl">
               {object.short_description}
@@ -620,7 +667,11 @@ export default function CosmicRecipeGenerator() {
                   View full recipe page
                 </Link>
                 <button
-                  onClick={() => { void handleLikeRecipe(); }}
+                  onClick={() => {
+                    handleLikeRecipe().catch((err: unknown) => {
+                      _logger.error("[CosmicRecipeGenerator] like failed", err);
+                    });
+                  }}
                   disabled={likedRecipe || isLikingRecipe}
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
                     likedRecipe
@@ -652,7 +703,11 @@ export default function CosmicRecipeGenerator() {
                   {hasShared ? "✓ Shared to Feed" : "📢 Share to Feed"}
                 </button>
                 <button
-                  onClick={() => { void handleMintNft(); }}
+                  onClick={() => {
+                    handleMintNft().catch((err: unknown) => {
+                      _logger.error("[CosmicRecipeGenerator] mint failed", err);
+                    });
+                  }}
                   disabled={isMinting || hasMinted}
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
                     hasMinted
@@ -679,7 +734,7 @@ export default function CosmicRecipeGenerator() {
                   <div className="relative group rounded-2xl overflow-hidden shadow-2xl">
 	                     <Image
 	                       src={imageUrl}
-	                       alt={object.title ?? "Recipe Result"}
+	                       alt={object.title}
 	                       fill
 	                       unoptimized
 	                       sizes="100vw"
@@ -705,72 +760,68 @@ export default function CosmicRecipeGenerator() {
                   <div className="grid grid-cols-2 gap-4">
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Time</p>
-                       <p className="font-semibold text-lg">{object.total_time?.toString() ?? '--'} min</p>
+                       <p className="font-semibold text-lg">{`${object.total_time} min`}</p>
                      </div>
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Serves</p>
-                       <p className="font-semibold text-lg">{object.yields?.toString() ?? '--'}</p>
+                       <p className="font-semibold text-lg">{String(object.yields)}</p>
                      </div>
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Difficulty</p>
-                       <p className="font-semibold text-lg capitalize">{object.difficulty ?? '--'}</p>
+                       <p className="font-semibold text-lg capitalize">{object.difficulty}</p>
                      </div>
                      <div>
                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Cuisine</p>
-                       <p className="font-semibold text-lg capitalize">{object.cuisine ?? '--'}</p>
+                       <p className="font-semibold text-lg capitalize">{object.cuisine}</p>
                      </div>
                   </div>
                </div>
 
               {/* Elemental Balance Bar */}
-              {object.elementalBalance && (
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                  <h3 className="text-sm font-bold uppercase tracking-wider mb-5 flex items-center gap-2 text-slate-800 dark:text-slate-200">
-                    <span className="text-amber-500">✧</span> Elemental Profile
-                  </h3>
-                  <div className="space-y-4">
-                    {[
-                      { name: 'Fire', val: object.elementalBalance.fire, color: 'bg-red-500', icon: '🔥' },
-                      { name: 'Earth', val: object.elementalBalance.earth, color: 'bg-emerald-600', icon: '🌍' },
-                      { name: 'Air', val: object.elementalBalance.air, color: 'bg-amber-400', icon: '💨' },
-                      { name: 'Water', val: object.elementalBalance.water, color: 'bg-blue-500', icon: '💧' }
-                    ].map((el) => (
-                      <div key={el.name} className="space-y-1.5">
-                        <div className="flex justify-between text-sm">
-                          <span className="font-semibold flex items-center gap-2">{el.icon} {el.name}</span>
-                          <span className="text-slate-500 font-medium">{el.val || 0}%</span>
-                        </div>
-                        <div className="h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                          <div 
-                            className={`h-full ${el.color} transition-all duration-1000 ease-out`} 
-                            style={{ width: `${Math.min(100, el.val || 0)}%` }}
-                          />
-                        </div>
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                <h3 className="text-sm font-bold uppercase tracking-wider mb-5 flex items-center gap-2 text-slate-800 dark:text-slate-200">
+                  <span className="text-amber-500">✧</span> Elemental Profile
+                </h3>
+                <div className="space-y-4">
+                  {[
+                    { name: 'Fire', val: object.elementalBalance.fire, color: 'bg-red-500', icon: '🔥' },
+                    { name: 'Earth', val: object.elementalBalance.earth, color: 'bg-emerald-600', icon: '🌍' },
+                    { name: 'Air', val: object.elementalBalance.air, color: 'bg-amber-400', icon: '💨' },
+                    { name: 'Water', val: object.elementalBalance.water, color: 'bg-blue-500', icon: '💧' }
+                  ].map((el): JSX.Element => (
+                    <div key={el.name} className="space-y-1.5">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-semibold flex items-center gap-2">{el.icon} {el.name}</span>
+                        <span className="text-slate-500 font-medium">{Number(el.val || 0)}%</span>
                       </div>
-                    ))}
-                  </div>
+                      <div className="h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full ${el.color} transition-all duration-1000 ease-out`} 
+                          style={{ width: `${Math.min(100, Number(el.val || 0))}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
 
               {/* Astro Details */}
-              {object.astro_explanation && (
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/40 dark:to-purple-950/40 p-6 rounded-2xl border border-indigo-100 dark:border-purple-900/50">
-                  <h3 className="text-sm font-bold uppercase tracking-wider mb-3 text-indigo-900 dark:text-indigo-200">
-                    Cosmic Mapping
-                  </h3>
-                  <p className="mb-4 text-indigo-800 dark:text-indigo-300 text-sm leading-relaxed font-medium">
-                    {object.astro_explanation.summary}
-                  </p>
-                  <ul className="space-y-2.5">
-                    {object.astro_explanation.correspondences?.map((item, i) => (
-                      <li key={i} className="flex gap-2.5 text-indigo-700 dark:text-indigo-400 text-sm">
-                        <span className="text-indigo-400 shrink-0">✦</span> 
-                        <span className="leading-snug">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/40 dark:to-purple-950/40 p-6 rounded-2xl border border-indigo-100 dark:border-purple-900/50">
+                <h3 className="text-sm font-bold uppercase tracking-wider mb-3 text-indigo-900 dark:text-indigo-200">
+                  Cosmic Mapping
+                </h3>
+                <p className="mb-4 text-indigo-800 dark:text-indigo-300 text-sm leading-relaxed font-medium">
+                  {object.astro_explanation.summary}
+                </p>
+                <ul className="space-y-2.5">
+                  {object.astro_explanation.correspondences.map((item, i): JSX.Element => (
+                    <li key={i} className="flex gap-2.5 text-indigo-700 dark:text-indigo-400 text-sm">
+                      <span className="text-indigo-400 shrink-0">✦</span> 
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* Right Column (Ingredients & Methods) */}
@@ -780,21 +831,21 @@ export default function CosmicRecipeGenerator() {
                 <h3 className="text-2xl font-black mb-6 flex items-center gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
                   Ingredients
                   <span className="text-sm font-medium px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500">
-                    {object.ingredients?.length ?? 0} items
+                    {object.ingredients.length} items
                   </span>
                 </h3>
                 <ul className="grid sm:grid-cols-2 gap-4">
-                  {object.ingredients?.map((ing, i) => (
+                  {object.ingredients.map((ing, i): JSX.Element => (
                     <li key={i} className="bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
                       <div className="flex justify-between items-start mb-1">
-                        <span className="font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight">{ing?.name}</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight">{ing.name}</span>
                         <span className="text-purple-600 dark:text-purple-400 font-semibold whitespace-nowrap ml-4">
-                          {ing?.quantity} {ing?.unit}
+                          {ing.quantity} {ing.unit}
                         </span>
                       </div>
-                      {ing?.household_description && (
+                      {ing.household_description ? (
                         <span className="text-sm text-slate-500 block">{ing.household_description}</span>
-                      )}
+                      ) : null}
                     </li>
                   ))}
                 </ul>
@@ -806,25 +857,25 @@ export default function CosmicRecipeGenerator() {
                   Alchemical Process
                 </h3>
                 <div className="space-y-6">
-                  {object.steps?.sort((a,b)=>((a?.step_number || 0) - (b?.step_number || 0))).map((step, i) => (
+                  {object.steps.slice().sort((a, b) => a.step_number - b.step_number).map((step, i): JSX.Element => (
                     <div key={i} className="flex gap-5 group">
                       <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 flex items-center justify-center font-black text-lg border-2 border-white dark:border-slate-900 shadow-sm shadow-purple-200 dark:shadow-none group-hover:scale-110 transition-transform">
-                        {step?.step_number}
+                        {step.step_number}
                       </div>
                       <div className="flex-1 pt-1.5 border-b border-slate-100 dark:border-slate-800/50 pb-6 last:border-0 last:pb-0">
                         <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
-                          {step?.instruction}
+                          {step.instruction}
                         </p>
-                        {step?.tips && step.tips.length > 0 && (
+                        {step.tips.length > 0 ? (
                           <div className="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-xl text-sm text-amber-900 dark:text-amber-200 border border-amber-100 dark:border-amber-900/30">
                             <div className="font-bold flex items-center gap-2 mb-2 uppercase tracking-wide text-[11px]">
                               <span>💡</span> Chef&apos;s Insight
                             </div>
                             <ul className="space-y-1.5 ml-1">
-                               {step.tips.map((t, index) => <li key={index} className="flex gap-2"><span className="opacity-50">•</span> {t}</li>)}
+                               {step.tips.map((t, index): JSX.Element => <li key={index} className="flex gap-2"><span className="opacity-50">•</span> {t}</li>)}
                             </ul>
                           </div>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   ))}
@@ -871,7 +922,11 @@ export default function CosmicRecipeGenerator() {
                 Cancel
               </button>
               <button
-                onClick={() => { void handleShareToFeed(); }}
+                onClick={() => {
+                  handleShareToFeed().catch((err: unknown) => {
+                    _logger.error("[CosmicRecipeGenerator] share failed", err);
+                  });
+                }}
                 disabled={isSharing}
                 className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-all font-semibold"
               >

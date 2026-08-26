@@ -107,7 +107,7 @@ function createEmptyMealSlot(
 
 function createInitialMenu(weekStartDate: Date): WeeklyMenu {
   const meals: MealSlot[] = [];
-  const nutritionalTotals: Record<DayOfWeek, DailyNutritionTotals> = {} as any;
+  const nutritionalTotals = {} as Record<DayOfWeek, DailyNutritionTotals>;
 
   for (let day = 0; day < 7; day++) {
     const dayOfWeek = day as DayOfWeek;
@@ -169,13 +169,13 @@ function hydrateMenuDates(menu: WeeklyMenu): WeeklyMenu {
     weekEndDate: toDate(menu.weekEndDate),
     createdAt: toDate(menu.createdAt),
     updatedAt: toDate(menu.updatedAt),
-    meals: (menu.meals || []).map((meal) => ({
+    meals: menu.meals.map((meal) => ({
       ...meal,
       createdAt: toDate(meal.createdAt),
       updatedAt: toDate(meal.updatedAt),
       planetarySnapshot: {
         ...meal.planetarySnapshot,
-        timestamp: toDate(meal.planetarySnapshot?.timestamp),
+        timestamp: toDate(meal.planetarySnapshot.timestamp),
       },
     })),
   };
@@ -205,7 +205,14 @@ export function useMenuPlanner(): MenuPlannerContextType {
 // Provider
 // ---------------------------------------------------------------------------
 
-export function MenuPlannerProvider({ children }: { children: ReactNode }) {
+interface SavedMenuApiData {
+  menu?: WeeklyMenu & {
+    weeklyBudget?: number | null;
+    inventory?: string[];
+  };
+}
+
+export function MenuPlannerProvider({ children }: { children: ReactNode }): React.JSX.Element {
   // -- Core state --
   const [currentMenu, setCurrentMenu] = useState<WeeklyMenu | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -240,7 +247,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   // -- Participants --
   const [participants, setParticipants] = useState<Participant[]>([]);
   const addParticipant = useCallback(
-    (participant: Omit<Participant, "id">, id?: string) => {
+    (participant: Omit<Participant, "id">, id?: string): void => {
       const newId = id ?? `participant-${Date.now()}`;
       setParticipants((prev) =>
         prev.some((p) => p.id === newId)
@@ -250,7 +257,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     },
     [],
   );
-  const removeParticipant = useCallback((id: string) => {
+  const removeParticipant = useCallback((id: string): void => {
     setParticipants((prev) => prev.filter((p) => p.id !== id));
   }, []);
 
@@ -259,7 +266,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     useState<WeeklyMenuCircuitMetrics | null>(null);
   const [dayCircuitMetrics, setDayCircuitMetrics] = useState<
     Record<DayOfWeek, DayCircuitMetrics | null>
-  >({} as any);
+  >({
+    0: null,
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+  });
   const [mealCircuitMetrics, setMealCircuitMetrics] = useState<
     Record<string, MealCircuitMetrics | null>
   >({});
@@ -283,7 +298,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const setInventory = useCallback((inv: string[]) => {
+  const setInventory = useCallback((inv: string[]): void => {
     setInventoryRaw(inv);
     try {
       const currentPantry = PantryManager.getPantry();
@@ -320,7 +335,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       groceryList?: GroceryItem[];
       inventory?: string[];
       weeklyBudget?: number | null;
-    }) => {
+    }): Promise<void> => {
       const activeMenu = overrides?.menu ?? currentMenu;
       if (!activeMenu || !currentUser?.userId) return;
 
@@ -356,7 +371,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         saveInFlightRef.current = false;
         if (pendingSaveRef.current) {
           pendingSaveRef.current = false;
-          void persistMenu();
+          persistMenu().catch(() => undefined);
         }
       }
     },
@@ -364,22 +379,22 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   );
 
   const setWeeklyBudget = useCallback(
-    (budget: number | null) => {
+    (budget: number | null): void => {
       setWeeklyBudgetRaw(budget);
-      void persistMenu({ weeklyBudget: budget });
+      persistMenu({ weeklyBudget: budget }).catch(() => undefined);
     },
     [persistMenu],
   );
 
   const setInventoryAndPersist = useCallback(
-    (inv: string[]) => {
+    (inv: string[]): void => {
       setInventory(inv);
-      void persistMenu({ inventory: inv });
+      persistMenu({ inventory: inv }).catch(() => undefined);
     },
     [setInventory, persistMenu],
   );
 
-  const toggleSyncWithLunarCycle = useCallback(() => {
+  const toggleSyncWithLunarCycle = useCallback((): void => {
     setSyncWithLunarCycle((prev) => !prev);
   }, []);
 
@@ -396,7 +411,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     isMountedRef.current = true;
 
-    const initializeMenu = async () => {
+    const initializeMenu = async (): Promise<void> => {
       setIsLoading(true);
       setError(null);
       try {
@@ -408,20 +423,20 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           if (!response.ok) {
             throw new Error(`Load failed with status ${response.status}`);
           }
-          const data = await response.json();
-          const savedMenu = data?.menu
-            ? hydrateMenuDates(data.menu as WeeklyMenu)
+          const data = (await response.json()) as SavedMenuApiData;
+          const savedMenu = data.menu
+            ? hydrateMenuDates(data.menu)
             : null;
           if (savedMenu && isMountedRef.current) {
             setCurrentMenu(savedMenu);
-            setGroceryList(savedMenu.groceryList || []);
+            setGroceryList(savedMenu.groceryList);
             setWeeklyBudgetRaw(
-              typeof data.menu.weeklyBudget === "number"
+              typeof data.menu?.weeklyBudget === "number"
                 ? data.menu.weeklyBudget
                 : null,
             );
             setInventoryRaw(
-              Array.isArray(data.menu.inventory)
+              Array.isArray(data.menu?.inventory)
                 ? data.menu.inventory.map((item: string) => item.toLowerCase())
                 : [],
             );
@@ -454,9 +469,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    void initializeMenu();
+    initializeMenu().catch(() => undefined);
 
-    return () => {
+    return (): void => {
       isMountedRef.current = false;
     };
   }, [currentWeekStart, currentUser?.userId]);
@@ -465,9 +480,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!currentMenu || isLoading || !currentUser?.userId) return;
     const timeoutId = setTimeout(() => {
-      void persistMenu();
+      persistMenu().catch(() => undefined);
     }, 250);
-    return () => clearTimeout(timeoutId);
+    return (): void => clearTimeout(timeoutId);
   }, [currentMenu, groceryList, isLoading, persistMenu, currentUser?.userId]);
 
   // -------------------------------------------------------------------------
@@ -479,7 +494,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     useState<ChartComparison | null>(null);
 
   useEffect(() => {
-    const updateChartComparison = async () => {
+    const updateChartComparison = async (): Promise<void> => {
       if (!natalChart) {
         setChartComparison(null);
         return;
@@ -491,7 +506,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         logger.error("Failed to calculate chart comparison:", err);
       }
     };
-    void updateChartComparison();
+    updateChartComparison().catch(() => undefined);
   }, [natalChart]);
 
   // -------------------------------------------------------------------------
@@ -513,7 +528,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         useCurrentPlanetary?: boolean;
         usePersonalization?: boolean;
       } = {},
-    ) => {
+    ): Promise<void> => {
       if (!currentMenu) return;
 
       try {
@@ -554,35 +569,30 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         });
 
         const astroState: AstrologicalState = {
-          currentZodiac: astrologicalState.currentZodiac || "",
-          lunarPhase: astrologicalState.lunarPhase || "waxing crescent",
-          activePlanets: astrologicalState.activePlanets || [],
-          domElements: astrologicalState.domElements || {
-            Fire: 0,
-            Water: 0,
-            Earth: 0,
-            Air: 0,
-          },
-          currentPlanetaryHour: astrologicalState.currentPlanetaryHour || undefined,
+          currentZodiac: astrologicalState.currentZodiac,
+          lunarPhase: astrologicalState.lunarPhase,
+          activePlanets: astrologicalState.activePlanets,
+          domElements: astrologicalState.domElements,
+          currentPlanetaryHour: astrologicalState.currentPlanetaryHour ?? undefined,
         };
 
         const userContext: UserPersonalizationContext | undefined =
-          hasPersonalization && natalChart
-            ? { natalChart, chartComparison: chartComparison || undefined, prioritizeHarmony: true }
+          hasPersonalization
+            ? { natalChart, chartComparison: chartComparison ?? undefined, prioritizeHarmony: true }
             : undefined;
 
         const existingMeals = currentMenu.meals
           .filter((m) => m.recipe && m.dayOfWeek !== dayOfWeek)
           .map((m) => ({
             recipeId: m.recipe!.id,
-            recipeName: m.recipe!.name ?? "",
+            recipeName: m.recipe!.name,
             cuisine: m.recipe!.cuisine,
-            primaryProtein: (() => {
-              const proteinIng = m.recipe!.ingredients?.find(
-                (i: any) => typeof i !== "string" && i.category === "protein",
+            primaryProtein: ((): string | undefined => {
+              const proteinIng = m.recipe!.ingredients.find(
+                (i) => typeof i !== "string" && (i as { category?: string }).category === "protein",
               );
               return proteinIng && typeof proteinIng !== "string"
-                ? (proteinIng as any).name
+                ? (proteinIng as { name?: string }).name
                 : undefined;
             })(),
           }));
@@ -646,7 +656,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
                 new Date(),
               );
               for (const entry of todaysEntries) {
-                const n = entry.nutrition as Record<string, number | undefined>;
+                const n = entry.nutrition as Record<string, number | undefined> | undefined;
                 eatenCals += n?.calories ?? 0;
                 eatenProtein += n?.protein ?? 0;
                 eatenCarbs += n?.carbs ?? 0;
@@ -712,8 +722,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             personalized: hasPersonalization,
             recommendations: recommendations.map((r) => ({
               mealType: r.mealType,
-              score: r.personalizedScore || r.score,
-              recipeName: r.recipe?.name || "N/A",
+              score: r.personalizedScore ?? r.score,
+              recipeName: r.recipe.name,
               isPersonalized: r.isPersonalized,
             })),
           },
@@ -763,7 +773,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   );
 
   const regenerateDay = useCallback(
-    async (dayOfWeek: DayOfWeek) => {
+    async (dayOfWeek: DayOfWeek): Promise<void> => {
       if (!currentMenu) return;
       try {
         await clearDay(dayOfWeek);
@@ -786,19 +796,19 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   // -------------------------------------------------------------------------
 
   const updateGroceryItem = useCallback(
-    (itemId: string, updates: Partial<GroceryItem>) => {
+    (itemId: string, updates: Partial<GroceryItem>): void => {
       setGroceryList((prev) => {
         const next = prev.map((item) =>
           item.id === itemId ? { ...item, ...updates } : item,
         );
-        void persistMenu({ groceryList: next });
+        persistMenu({ groceryList: next }).catch(() => undefined);
         return next;
       });
     },
     [persistMenu],
   );
 
-  const regenerateGroceryList = useCallback(() => {
+  const regenerateGroceryList = useCallback((): void => {
     if (!currentMenu) return;
     try {
       const newGroceryList = generateGroceryList(
@@ -837,11 +847,11 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   });
 
   const weeklyStats = useMenuStats(currentMenu);
-  const refreshStats = useCallback(() => {
+  const refreshStats = useCallback((): void => {
     // Stats are computed eagerly via useMenuStats — no-op for backward compat
   }, []);
 
-  const saveMenu = useCallback(async () => {
+  const saveMenu = useCallback(async (): Promise<void> => {
     await persistMenu();
   }, [persistMenu]);
 
@@ -849,7 +859,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const estimatedCostState = useCostEstimation({ currentMenu, inventory });
 
   const loadMenu = useCallback(
-    async (menuId: string) => {
+    async (menuId: string): Promise<void> => {
       try {
         await loadTemplate(menuId);
       } catch (err) {
@@ -865,10 +875,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   // -------------------------------------------------------------------------
 
   const calculateMealCircuitMetrics = useCallback(
-    async (mealSlotId: string): Promise<MealCircuitMetrics | null> => {
-      if (!currentMenu) return null;
+    (mealSlotId: string): Promise<MealCircuitMetrics | null> => {
+      if (!currentMenu) return Promise.resolve(null);
       const mealSlot = currentMenu.meals.find((m) => m.id === mealSlotId);
-      if (!mealSlot) return null;
+      if (!mealSlot) return Promise.resolve(null);
       try {
         const metrics = calculateMealCircuit(
           mealSlot,
@@ -877,18 +887,18 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         if (metrics) {
           setMealCircuitMetrics((prev) => ({ ...prev, [mealSlotId]: metrics }));
         }
-        return metrics;
+        return Promise.resolve(metrics);
       } catch (err) {
         logger.error(`Failed to calculate meal circuit for ${mealSlotId}:`, err);
-        return null;
+        return Promise.resolve(null);
       }
     },
     [currentMenu],
   );
 
   const calculateDayCircuitMetrics = useCallback(
-    async (dayOfWeek: DayOfWeek): Promise<DayCircuitMetrics | null> => {
-      if (!currentMenu) return null;
+    (dayOfWeek: DayOfWeek): Promise<DayCircuitMetrics | null> => {
+      if (!currentMenu) return Promise.resolve(null);
       try {
         const dayMeals = getMealsForDay(currentMenu.meals, dayOfWeek);
         const metrics = calculateDayCircuit(
@@ -897,43 +907,41 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           dayMeals[0]?.planetarySnapshot.planetaryPositions,
         );
         setDayCircuitMetrics((prev) => ({ ...prev, [dayOfWeek]: metrics }));
-        return metrics;
+        return Promise.resolve(metrics);
       } catch (err) {
         logger.error(`Failed to calculate day circuit for day ${dayOfWeek}:`, err);
-        return null;
+        return Promise.resolve(null);
       }
     },
     [currentMenu],
   );
 
   const calculateWeeklyCircuitMetrics =
-    useCallback(async (): Promise<WeeklyMenuCircuitMetrics | null> => {
-      if (!currentMenu) return null;
+    useCallback((): Promise<WeeklyMenuCircuitMetrics | null> => {
+      if (!currentMenu) return Promise.resolve(null);
       try {
         const metrics = calculateWeeklyCircuit(
           currentMenu,
           currentMenu.meals[0]?.planetarySnapshot.planetaryPositions,
         );
         setWeeklyCircuitMetrics(metrics);
-        if (metrics) {
-          setDayCircuitMetrics({
-            0: metrics.days.sunday,
-            1: metrics.days.monday,
-            2: metrics.days.tuesday,
-            3: metrics.days.wednesday,
-            4: metrics.days.thursday,
-            5: metrics.days.friday,
-            6: metrics.days.saturday,
-          });
-        }
-        return metrics;
+        setDayCircuitMetrics({
+          0: metrics.days.sunday,
+          1: metrics.days.monday,
+          2: metrics.days.tuesday,
+          3: metrics.days.wednesday,
+          4: metrics.days.thursday,
+          5: metrics.days.friday,
+          6: metrics.days.saturday,
+        });
+        return Promise.resolve(metrics);
       } catch (err) {
         logger.error("Failed to calculate weekly circuit:", err);
-        return null;
+        return Promise.resolve(null);
       }
     }, [currentMenu]);
 
-  const refreshCircuitMetrics = useCallback(async () => {
+  const refreshCircuitMetrics = useCallback(async (): Promise<void> => {
     if (!currentMenu) return;
     try {
       await calculateWeeklyCircuitMetrics();
@@ -944,7 +952,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   }, [currentMenu, calculateWeeklyCircuitMetrics]);
 
   const findBottlenecks = useCallback((): CircuitBottleneck[] => {
-    if (!currentMenu || !dayCircuitMetrics) return [];
+    if (!currentMenu) return [];
     const validDayCircuits = Object.values(dayCircuitMetrics).filter(
       (d): d is DayCircuitMetrics => d !== null,
     );
@@ -961,7 +969,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   }, [currentMenu, dayCircuitMetrics]);
 
   const getSuggestions = useCallback((): CircuitImprovementSuggestion[] => {
-    if (!currentMenu || !dayCircuitMetrics) return [];
+    if (!currentMenu) return [];
     const validDayCircuits = Object.values(dayCircuitMetrics).filter(
       (d): d is DayCircuitMetrics => d !== null,
     );
@@ -981,9 +989,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (currentMenu && isMountedRef.current) {
       const timeoutId = setTimeout(() => {
-        void refreshCircuitMetrics();
+        refreshCircuitMetrics().catch(() => undefined);
       }, 500);
-      return () => clearTimeout(timeoutId);
+      return (): void => clearTimeout(timeoutId);
     }
   }, [currentMenu, refreshCircuitMetrics]);
 
