@@ -1,4 +1,4 @@
-import { logger } from "../logger";
+import { _logger } from "../logger";
 import { recordSlowQuery, type PoolGauges } from "../observability/slowQueryLog";
 import { databaseConfig } from "./config";
 import { getDatabasePool, initializeDatabase, closeDatabase } from "./rawPool";
@@ -39,14 +39,14 @@ const SLOW_QUERY_METRIC_MIN_INTERVAL_MS = 2000;
 export function readPoolGauges(): PoolGauges | undefined {
   try {
     const pool = getDatabasePool() as unknown as {
-      waitingCount?: number;
-      totalCount?: number;
-      idleCount?: number;
+      waitingCount: number;
+      totalCount: number;
+      idleCount: number;
     };
     if (
-      typeof pool?.waitingCount !== "number" ||
-      typeof pool?.totalCount !== "number" ||
-      typeof pool?.idleCount !== "number"
+      typeof pool.waitingCount !== "number" ||
+      typeof pool.totalCount !== "number" ||
+      typeof pool.idleCount !== "number"
     ) {
       return undefined;
     }
@@ -112,7 +112,7 @@ export async function withTransaction<T>(
     return result;
   } catch (error) {
     await client.query("ROLLBACK");
-    void logger.error("Database transaction failed, rolled back", {
+    _logger.error("Database transaction failed, rolled back", {
       error: error instanceof Error ? error.message : "Unknown error",
     });
     throw error;
@@ -123,7 +123,7 @@ export async function withTransaction<T>(
 // Query execution with error handling and logging
 export async function executeQuery<T extends QueryResultRow = any>(
   query: string,
-  params: any[] = [],
+  params: unknown[] = [],
   options: {
     logQuery?: boolean;
     timeout?: number;
@@ -145,12 +145,12 @@ export async function executeQuery<T extends QueryResultRow = any>(
   const startTime = Date.now();
   try {
     if (logQuery) {
-      void logger.debug("Executing database query", {
+      _logger.debug("Executing database query", {
         query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
         paramCount: params.length,
       });
     }
-    const result = await (options.client ?? getDatabasePool()).query(query, params);
+    const result = await (options.client ?? getDatabasePool()).query<T>(query, params);
     const executionTime = Date.now() - startTime;
     // Push to the in-memory slow-query ring (threshold defaults to 200ms).
     // The admin observability endpoint reads this; production traffic should
@@ -182,14 +182,14 @@ export async function executeQuery<T extends QueryResultRow = any>(
           "ms",
           { query: query.substring(0, 500), rowCount: result.rowCount }
         ]
-      ).catch(err => {
-        console.warn("Failed to write slow query to system_metrics:", err.message);
+      ).catch((err: Error) => {
+        _logger.error("Failed to write slow query to system_metrics:", err.message);
       });
     }
 
     if (executionTime > 1000) {
       // Log slow queries (>1s)
-      void logger.warn("Slow database query detected", {
+      _logger.warn("Slow database query detected", {
         executionTime,
         query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
         rowCount: result.rowCount,
@@ -203,13 +203,13 @@ export async function executeQuery<T extends QueryResultRow = any>(
     // identical to "real" errors in the log unless we distinguish them, and
     // they're the operational signal that the pool-storm cap is firing.
     if (err.code === "57014") {
-      void logger.warn("Database query exceeded statement_timeout (57014)", {
+      _logger.warn("Database query exceeded statement_timeout (57014)", {
         executionTime,
         query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
         paramCount: params.length,
       });
     } else {
-      void logger.error("Database query failed", {
+      _logger.error("Database query failed", {
         error: err.message,
         stack: err.stack,
         executionTime,
@@ -218,8 +218,11 @@ export async function executeQuery<T extends QueryResultRow = any>(
       });
     }
     // Rethrow with better context if it's an ErrorEvent-like object
-    if ((error as any).type === 'error') {
-      throw new Error(`DB ErrorEvent: ${(error as any).message ?? 'Unknown connection error'}`);
+    if (error && typeof error === "object" && "type" in error && (error as { type?: string }).type === "error") {
+      const msg = "message" in error && typeof (error as { message?: string }).message === "string"
+        ? (error as { message: string }).message
+        : "Unknown connection error";
+      throw new Error(`DB ErrorEvent: ${msg}`);
     }
     throw error;
   }
@@ -234,7 +237,7 @@ export async function executeQuery<T extends QueryResultRow = any>(
 // idempotency (e.g. an idempotency key) and call executeQuery directly.
 export async function executeQueryWithRetry<T extends QueryResultRow = any>(
   query: string,
-  params: any[] = [],
+  params: unknown[] = [],
   maxRetries = 3,
   retryDelay = 1000,
 ): Promise<QueryResult<T>> {
@@ -249,7 +252,7 @@ export async function executeQueryWithRetry<T extends QueryResultRow = any>(
     return executeQuery<T>(query, params);
   }
 
-  let lastError: Error;
+  let lastError: Error | undefined;
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await executeQuery<T>(query, params);
@@ -265,7 +268,7 @@ export async function executeQueryWithRetry<T extends QueryResultRow = any>(
         throw lastError;
       }
       if (attempt < maxRetries) {
-        void logger.warn(
+        _logger.warn(
           `Database query attempt ${attempt} failed, retrying...`,
           {
             error: lastError.message,
@@ -281,5 +284,5 @@ export async function executeQueryWithRetry<T extends QueryResultRow = any>(
       }
     }
   }
-  throw lastError!;
+  throw lastError ?? new Error("Unknown database error");
 }

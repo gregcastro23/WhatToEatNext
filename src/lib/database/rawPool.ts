@@ -1,5 +1,5 @@
-import pkg from 'pg';
-import { logger } from "../logger";
+import pkg, { Pool, type PoolClient } from 'pg';
+import { _logger } from "../logger";
 import {
   databaseConfig,
   assertRuntimeDatabaseConfig,
@@ -10,7 +10,9 @@ import {
   resolvePooledStatementTimeoutSql,
   resolveClientQueryTimeout,
 } from "./config";
-import type { Pool, PoolClient } from "pg";
+
+type TypeId = number;
+type CustomTypeParser = (value: string) => unknown;
 
 /**
  * Raw database pool singleton.
@@ -25,21 +27,43 @@ import type { Pool, PoolClient } from "pg";
  * import them from connection.ts are unaffected.
  */
 
+interface PgTypesModule {
+  builtins: {
+    NUMERIC: TypeId;
+    INT8: TypeId;
+    [key: string]: TypeId;
+  };
+  setTypeParser: (type: TypeId, parser: CustomTypeParser) => void;
+}
+
+interface PgModuleShape {
+  Pool?: typeof Pool;
+  default?: {
+    Pool?: typeof Pool;
+    types?: PgTypesModule;
+  };
+  types?: PgTypesModule;
+}
+
 // Robustly extract Pool and types from the pg package (handles various bundling scenarios)
-const PoolValue = (pkg as any).Pool ?? (pkg as any).default?.Pool ?? (pkg as unknown as any).Pool;
-const types = (pkg as any).types ?? (pkg as any).default?.types ?? (pkg as unknown as any).types;
+const pgModule = pkg as unknown as PgModuleShape;
+const PoolValue: (typeof Pool) | undefined = pgModule.Pool ?? pgModule.default?.Pool;
+const ResolvedPool: typeof Pool = PoolValue ?? Pool;
+const typesValue: PgTypesModule | undefined = pgModule.types ?? pgModule.default?.types;
 
 if (!PoolValue) {
-  console.error("FATAL: pg.Pool is undefined. Environment might be incompatible with the current pg import strategy.");
+  _logger.error("FATAL: pg.Pool is undefined on pgModule root. Environment might be incompatible with the current pg import strategy.");
 }
 
 // Configure PostgreSQL type parsers for better type safety
-types.setTypeParser(types.builtins.NUMERIC, (value: string) =>
-  parseFloat(value),
-);
-types.setTypeParser(types.builtins.INT8, (value: string) =>
-  parseInt(value, 10),
-);
+if (typesValue) {
+  typesValue.setTypeParser(typesValue.builtins.NUMERIC, (value: string): number =>
+    parseFloat(value),
+  );
+  typesValue.setTypeParser(typesValue.builtins.INT8, (value: string): number =>
+    parseInt(value, 10),
+  );
+}
 
 // Database configuration interface
 export interface DatabaseConfig {
@@ -156,7 +180,7 @@ export function initializeDatabase(): Pool {
 
   // The resolved config, before it can throw — so a rejected configuration is
   // still legible in the runtime logs rather than only in the exception.
-  void logger.info("Database configuration resolved", databaseConfigSummary());
+  _logger.info("Database configuration resolved", databaseConfigSummary());
 
   // This validation used to run at module scope and was commented out because
   // module-level work hung the Next build. Pool creation is the right place: it
@@ -166,7 +190,7 @@ export function initializeDatabase(): Pool {
   // pool that connects and then misbehaves under load.
   const validation = validateDatabaseConfig();
   if (!validation.valid) {
-    void logger.error("Database configuration validation failed", {
+    _logger.error("Database configuration validation failed", {
       errors: validation.errors,
     });
     throw new Error(
@@ -176,9 +200,10 @@ export function initializeDatabase(): Pool {
 
   const config = getDatabaseConfig();
 
-  pool = new PoolValue(config);
-
-  if (!pool) {
+  try {
+    pool = new ResolvedPool(config);
+  } catch (err: unknown) {
+    _logger.error("Failed to construct database pool", { err });
     throw new Error("Failed to initialize database pool");
   }
 
@@ -204,24 +229,24 @@ export function initializeDatabase(): Pool {
   // Connection event handlers
   pool.on("connect", (client: PoolClient) => {
     if (pooledStatementTimeoutSql) {
-      void client.query(pooledStatementTimeoutSql).catch((err: Error) => {
+      client.query(pooledStatementTimeoutSql).catch((err: Error) => {
         // Log rather than throw: the connection is already checked out, and a
         // request served without the floor beats a request that fails outright.
         // A persistent failure here means the floor is silently off, so it is
         // logged at error level to be greppable.
-        void logger.error("Failed to apply pooled statement_timeout", {
+        _logger.error("Failed to apply pooled statement_timeout", {
           error: err.message,
           statement: pooledStatementTimeoutSql,
         });
       });
     }
-    void logger.info("New database connection established", {
+    _logger.info("New database connection established", {
       database: config.database,
       host: config.host,
     });
   });
   pool.on("error", (err: Error, _client: PoolClient) => {
-    void logger.error("Unexpected database pool error", {
+    _logger.error("Unexpected database pool error", {
       error: err.message,
       stack: err.stack,
       database: config.database,
@@ -230,21 +255,29 @@ export function initializeDatabase(): Pool {
 
   // Graceful shutdown handling
   process.on("SIGINT", () => {
-    void (async () => {
-      void logger.info("Received SIGINT, closing database pool...");
+    const handleSigint = async (): Promise<void> => {
+      _logger.info("Received SIGINT, closing database pool...");
       await closeDatabase();
       process.exit(0);
-    })();
+    };
+    handleSigint().catch((err: unknown) => {
+      _logger.error("Error during SIGINT database pool close", { err });
+      process.exit(1);
+    });
   });
   process.on("SIGTERM", () => {
-    void (async () => {
-      void logger.info("Received SIGTERM, closing database pool...");
+    const handleSigterm = async (): Promise<void> => {
+      _logger.info("Received SIGTERM, closing database pool...");
       await closeDatabase();
       process.exit(0);
-    })();
+    };
+    handleSigterm().catch((err: unknown) => {
+      _logger.error("Error during SIGTERM database pool close", { err });
+      process.exit(1);
+    });
   });
 
-  void logger.info("Database connection pool initialized", {
+  _logger.info("Database connection pool initialized", {
     database: config.database,
     host: config.host,
     port: config.port,
@@ -264,9 +297,9 @@ export function getDatabasePool(): Pool {
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {
   if (pool) {
-    void logger.info("Closing database connection pool...");
+    _logger.info("Closing database connection pool...");
     await pool.end();
     pool = null;
-    void logger.info("Database connection pool closed");
+    _logger.info("Database connection pool closed");
   }
 }

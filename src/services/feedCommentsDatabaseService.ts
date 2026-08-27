@@ -103,12 +103,13 @@ class FeedCommentsDatabaseService {
    * real name or the "the cook" marker.
    */
   async getEventActorReveal(eventId: string): Promise<{ actorId: string; revealed: boolean } | null> {
-    const res = await executeQuery<{
+    interface ActorRevealRow {
       actor_id: string;
       is_agent: boolean;
       share_identity: boolean | null;
       metadata_payload: unknown;
-    }>(
+    }
+    const res = await executeQuery<ActorRevealRow>(
       `SELECT f.actor_id,
               COALESCE(u.is_agent, false) AS is_agent,
               up.share_identity,
@@ -119,7 +120,7 @@ class FeedCommentsDatabaseService {
         WHERE f.id = $1::uuid`,
       [eventId],
     );
-    const [row] = res.rows;
+    const [row] = res.rows as (ActorRevealRow | undefined)[];
     if (!row) return null;
     return {
       actorId: row.actor_id,
@@ -179,7 +180,8 @@ class FeedCommentsDatabaseService {
       );
 
       const { rows } = res;
-      const identities = await resolveDisplayIdentity(rows.map((r) => r.author_id));
+      const identities: Record<string, import("@/lib/social/identity").DisplayIdentity | undefined> =
+        await resolveDisplayIdentity(rows.map((r) => r.author_id));
 
       const descending: FeedComment[] = rows.map((row) => {
         const identity = identities[row.author_id];
@@ -200,7 +202,7 @@ class FeedCommentsDatabaseService {
         };
       });
 
-      const last = rows[rows.length - 1];
+      const last: CommentRow | undefined = rows[rows.length - 1];
       const nextCursor = rows.length === limit && last ? encodeCursor(last.created_at, last.id) : null;
 
       // Render oldest→newest; the cursor still points at the oldest fetched row.
@@ -213,25 +215,30 @@ class FeedCommentsDatabaseService {
 
   /** Insert a comment and return its canonical, identity-resolved form. */
   async createComment(eventId: string, authorId: string, body: string): Promise<FeedComment | null> {
-    const ins = await executeQuery<{ id: string; created_at: Date | string }>(
+    interface InsertCommentRow {
+      id: string;
+      created_at: Date | string;
+    }
+    const ins = await executeQuery<InsertCommentRow>(
       `INSERT INTO feed_comments (event_id, author_id, body)
        VALUES ($1::uuid, $2::uuid, $3)
        RETURNING id, created_at`,
       [eventId, authorId, body],
     );
-    const [row] = ins.rows;
+    const [row] = ins.rows as (InsertCommentRow | undefined)[];
     if (!row) return null;
 
-    const [identities, eventReveal] = await Promise.all([
+    const [identitiesMap, eventReveal] = await Promise.all([
       resolveDisplayIdentity([authorId]),
       this.getEventActorReveal(eventId),
     ]);
+    const identities: Record<string, import("@/lib/social/identity").DisplayIdentity | undefined> = identitiesMap;
     const identity = identities[authorId];
 
     const isActor = authorId === eventReveal?.actorId;
     // The author's own comment inherits the post's anonymity (privacy parity
     // with listComments): concealed event → no real name, no avatar, no marker.
-    const conceal = isActor && eventReveal?.revealed === false;
+    const conceal = isActor && eventReveal.revealed === false;
 
     return {
       id: row.id,
@@ -324,7 +331,20 @@ class FeedCommentsDatabaseService {
     const params: unknown[] = [limit, offset];
     if (status) params.push(status);
 
-    const res = await executeQuery(
+    interface ReportRow {
+      id: string;
+      comment_id: string;
+      reporter_id: string;
+      reason: string;
+      detail: string | null;
+      status: string;
+      created_at: Date | string;
+      comment_body: string | null;
+      comment_hidden: boolean | null;
+      comment_deleted: boolean;
+    }
+
+    const res = await executeQuery<ReportRow>(
       `SELECT r.id, r.comment_id, r.reporter_id, r.reason, r.detail, r.status, r.created_at,
               c.body AS comment_body, c.hidden AS comment_hidden,
               (c.deleted_at IS NOT NULL) AS comment_deleted
@@ -335,17 +355,17 @@ class FeedCommentsDatabaseService {
         LIMIT $1 OFFSET $2`,
       params,
     );
-    return res.rows.map((row: any) => ({
+    return res.rows.map((row) => ({
       id: row.id,
       commentId: row.comment_id,
       reporterId: row.reporter_id,
       reason: row.reason,
-      detail: row.detail ?? null,
+      detail: row.detail,
       status: row.status,
       createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
-      commentBody: row.comment_body ?? null,
-      commentHidden: row.comment_hidden ?? null,
-      commentDeleted: row.comment_deleted === true,
+      commentBody: row.comment_body,
+      commentHidden: row.comment_hidden,
+      commentDeleted: row.comment_deleted,
     }));
   }
 

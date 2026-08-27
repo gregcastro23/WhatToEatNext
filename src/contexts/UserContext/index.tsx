@@ -103,7 +103,7 @@ function parseServerProfile(
   // Server doesn't persist `stats` — derive from natalChart on load so the
   // lab page (and any other consumer of user.stats) hydrates immediately.
   let stats = serverStats;
-  if (!stats && natalChart?.planets?.length) {
+  if (!stats && natalChart?.planets) {
     try {
       stats = calculateAlchemicalProfile(natalChart);
     } catch (err) {
@@ -111,7 +111,7 @@ function parseServerProfile(
     }
   }
   return {
-    userId: (data.userId || data.id || fallbackUserId || "") as string,
+    userId: (data.userId ?? data.id ?? fallbackUserId ?? "") as string,
     name: data.name as string | undefined,
     email: data.email as string | undefined,
     preferences: data.preferences as Record<string, unknown> | undefined,
@@ -121,10 +121,10 @@ function parseServerProfile(
     onboardingComplete: data.onboardingComplete as boolean | undefined,
     birthData: data.birthData as BirthData | undefined,
     natalChart,
-    groupMembers: (data.groupMembers || []) as GroupMember[],
-    diningGroups: (data.diningGroups || []) as DiningGroup[],
+    groupMembers: (data.groupMembers ?? []) as GroupMember[],
+    diningGroups: (data.diningGroups ?? []) as DiningGroup[],
     stats,
-    savedCharts: (data.savedCharts || []) as SavedChart[],
+    savedCharts: (data.savedCharts ?? []) as SavedChart[],
     tokenEconomy: data.tokenEconomy as UserProfile["tokenEconomy"],
   };
 }
@@ -141,7 +141,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const pendingUpdatesRef = useRef<PendingUpdate[]>([]);
 
   // Check if the profile is missing essential information
-  const checkProfileCompleteness = (profile: UserProfile | null) => {
+  const checkProfileCompleteness = (profile: UserProfile | null): void => {
     if (!profile?.birthData) {
       setIsProfileIncomplete(true);
     } else {
@@ -153,18 +153,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const handleAuthError = useCallback(() => {
     logger.warn("Session expired, redirecting to sign in");
     // Don't clear localStorage — preserve profile for fast reload after re-auth
-    void signIn(undefined, { callbackUrl: window.location.href });
+    signIn(undefined, { callbackUrl: window.location.href }).catch((err: unknown) => {
+      logger.error("Sign in failed", err);
+    });
   }, []);
 
   /** Flush queued updates that were made while offline */
-  const flushPendingUpdates = useCallback(async () => {
+  const flushPendingUpdates = useCallback(async (): Promise<void> => {
     if (typeof window === "undefined") return;
 
     try {
       const raw = localStorage.getItem(PENDING_UPDATES_KEY);
       if (!raw) return;
 
-      const pending: PendingUpdate[] = JSON.parse(raw);
+      const pending = JSON.parse(raw) as PendingUpdate[];
       if (pending.length === 0) return;
 
       logger.info(`Flushing ${pending.length} pending profile updates`);
@@ -238,7 +240,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           });
 
           if (response.ok) {
-            const data = await response.json();
+            interface ServerProfileResponse {
+              success?: boolean;
+              profile?: Record<string, unknown>;
+            }
+            const data = (await response.json()) as ServerProfileResponse;
             if (data.success && data.profile) {
               const profile = parseServerProfile(data.profile);
               setCurrentUser(profile);
@@ -272,7 +278,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [status]);
 
   // Refresh profile from server (for manual sync)
-  const refreshFromServer = useCallback(async () => {
+  const refreshFromServer = useCallback(async (): Promise<void> => {
     if (!currentUser?.userId) return;
 
     try {
@@ -287,7 +293,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
 
       if (response.ok) {
-        const data = await response.json();
+        interface ServerProfileResponse {
+          success?: boolean;
+          profile?: Record<string, unknown>;
+        }
+        const data = (await response.json()) as ServerProfileResponse;
         if (data.success && data.profile) {
           const profile = parseServerProfile(
             data.profile,
@@ -312,7 +322,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setError(null);
     try {
       // For a new user, create a basic profile structure
-      const baseProfile = currentUser || {
+      const baseProfile: Partial<UserProfile> = currentUser ?? {
         userId: `local-${new Date().getTime()}`,
       };
 
@@ -320,7 +330,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const updatedProfile: UserProfile = {
         ...baseProfile,
         ...data,
-      };
+      } as UserProfile;
 
       // If birthData is being updated, and we have a natal chart, recalculate stats
       if (data.birthData && updatedProfile.natalChart) {
@@ -344,7 +354,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
 
         if (response.ok) {
-          const result = await response.json();
+          interface ServerProfileResponse {
+            success?: boolean;
+            profile?: Record<string, unknown>;
+          }
+          const result = (await response.json()) as ServerProfileResponse;
           if (result.success && result.profile) {
             const serverProfile = parseServerProfile(
               result.profile,
@@ -398,7 +412,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = (): void => {
     setCurrentUser(null);
     setIsNewUser(false);
     setIsProfileIncomplete(false);
@@ -416,25 +430,31 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const goOnline = () => {
+    const goOnline = (): void => {
       setIsOffline(false);
       // Flush pending updates when coming back online
-      void flushPendingUpdates();
+      flushPendingUpdates().catch((err: unknown) => {
+        logger.error("Flush pending updates failed on goOnline", err);
+      });
     };
-    const goOffline = () => setIsOffline(true);
+    const goOffline = (): void => {
+      setIsOffline(true);
+    };
 
     window.addEventListener("online", goOnline);
     window.addEventListener("offline", goOffline);
     setIsOffline(!navigator.onLine);
 
-    return () => {
+    return (): void => {
       window.removeEventListener("online", goOnline);
       window.removeEventListener("offline", goOffline);
     };
   }, [flushPendingUpdates]);
 
   useEffect(() => {
-    void loadProfile();
+    loadProfile().catch((err: unknown) => {
+      logger.error("Load profile failed in useEffect", err);
+    });
   }, [loadProfile]);
 
   const value = {
