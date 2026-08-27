@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 6658,
+  "trackedTotal": 6513,
   "declined": {
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 2013,
@@ -12,7 +12,7 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 2009,
+      "count": 2008,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
@@ -20,7 +20,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 511,
+      "count": 500,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -28,31 +28,31 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2518,
+      "count": 2522,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 237,
+      "count": 228,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 675,
+      "count": 647,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 88,
+      "count": 79,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 883,
+      "count": 817,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 111,
+      "count": 110,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 355,
+      "count": 345,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -96,7 +96,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2116,
+      "count": 2117,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -104,7 +104,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 579,
+      "count": 577,
       "autoFixable": 0
     },
     "no-useless-assignment": {
@@ -112,7 +112,7 @@
       "autoFixable": 0
     },
     "no-void": {
-      "count": 522,
+      "count": 509,
       "autoFixable": 0
     },
     "prefer-destructuring": {

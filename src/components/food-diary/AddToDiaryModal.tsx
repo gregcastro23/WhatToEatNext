@@ -3,11 +3,34 @@
 import React, { useState } from "react";
 import { useFoodDiary } from "@/hooks/useFoodDiary";
 import type { Ingredient, RecipeIngredient } from "@/types";
+import type { ElementalProperties } from "@/types/alchemy";
+import type { ServingUnit } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 
+export interface RestaurantItem {
+  name?: string;
+  business: {
+    id: string;
+    name: string;
+    [key: string]: unknown;
+  };
+  elementalProperties?: ElementalProperties;
+  [key: string]: unknown;
+}
+
+export type AddToDiaryItem =
+  | Ingredient
+  | RecipeIngredient
+  | Recipe
+  | Partial<Ingredient>
+  | Partial<RecipeIngredient>
+  | Partial<Recipe>
+  | RestaurantItem
+  | Record<string, unknown>;
+
 interface AddToDiaryModalProps {
-  item: Ingredient | RecipeIngredient | Recipe | any;
+  item: AddToDiaryItem;
   itemType: "ingredient" | "recipe" | "restaurant";
   onClose: () => void;
 }
@@ -22,6 +45,15 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
   const [quality, setQuality] = useState("");
   const [notes, setNotes] = useState("");
 
+  const rawItemName =
+    "name" in item && typeof item.name === "string" ? item.name : undefined;
+  const restaurantBusinessName =
+    itemType === "restaurant"
+      ? (item as RestaurantItem).business?.name ?? rawItemName
+      : undefined;
+
+  const displayName: string = restaurantBusinessName ?? rawItemName ?? "Food Item";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const now = new Date();
@@ -32,27 +64,84 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
     if (itemType === "restaurant") foodSource = "restaurant";
 
     // Infer serving info
+    const itemObj = item as Record<string, unknown>;
+    const defaultServing =
+      itemObj.defaultServing && typeof itemObj.defaultServing === "object"
+        ? (itemObj.defaultServing as Record<string, unknown>)
+        : {};
+
+    const rawUnit =
+      typeof itemObj.unit === "string"
+        ? itemObj.unit
+        : typeof defaultServing.unit === "string"
+          ? defaultServing.unit
+          : "serving";
+    const validUnits: Set<string> = new Set([
+      "g",
+      "oz",
+      "cup",
+      "tbsp",
+      "tsp",
+      "piece",
+      "slice",
+      "serving",
+      "ml",
+      "fl_oz",
+    ]);
+    const unit: ServingUnit = validUnits.has(rawUnit)
+      ? (rawUnit as ServingUnit)
+      : "serving";
+
     const serving = {
-      amount: item.servingSize ?? item.defaultServing?.amount ?? 1,
-      unit: item.unit ?? item.defaultServing?.unit ?? "serving",
-      grams: item.grams ?? item.defaultServing?.grams ?? 100,
-      description: item.description ?? item.defaultServing?.description ?? "1 serving",
+      amount:
+        typeof itemObj.servingSize === "number"
+          ? itemObj.servingSize
+          : typeof defaultServing.amount === "number"
+            ? defaultServing.amount
+            : 1,
+      unit,
+      grams:
+        typeof itemObj.grams === "number"
+          ? itemObj.grams
+          : typeof defaultServing.grams === "number"
+            ? defaultServing.grams
+            : 100,
+      description:
+        typeof itemObj.description === "string"
+          ? itemObj.description
+          : typeof defaultServing.description === "string"
+            ? defaultServing.description
+            : "1 serving",
     };
 
+    const sourceId =
+      itemType === "restaurant"
+        ? (item as RestaurantItem).business?.id
+        : "id" in item && typeof item.id === "string"
+          ? item.id
+          : undefined;
+
+    const elementalProperties =
+      "elementalProperties" in item &&
+      item.elementalProperties &&
+      typeof item.elementalProperties === "object"
+        ? (item.elementalProperties as ElementalProperties)
+        : undefined;
+
     await addEntry({
-      foodName: itemType === "restaurant" ? item.business.name : item.name,
+      foodName: displayName,
       foodSource,
-      sourceId: itemType === "restaurant" ? item.business.id : (item.id ?? undefined),
+      sourceId,
       date: new Date(),
       mealType,
       time,
       serving,
       quantity: Number(quantity) || 1,
       price: price === "" ? undefined : Number(price),
-      store: store || (itemType === "restaurant" ? item.business.name : undefined),
+      store: store || restaurantBusinessName,
       quality: quality || undefined,
       notes: notes || undefined,
-      elementalProperties: item.elementalProperties,
+      elementalProperties,
     });
     onClose();
   };
@@ -72,10 +161,15 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
         </div>
 
         <p className="text-sm text-gray-600 mb-4 font-medium italic">
-          {itemType === "restaurant" ? item.business.name : item.name}
+          {displayName}
         </p>
 
-        <form onSubmit={(e) => { void handleSubmit(e); }} className="space-y-4 text-left">
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e).catch(() => {});
+          }}
+          className="space-y-4 text-left"
+        >
           <div>
             <label htmlFor="mealType" className="block text-xs font-bold text-gray-500 uppercase mb-1">Meal Type</label>
             <select
@@ -128,7 +222,7 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
                   type="text"
                   value={store}
                   onChange={(e) => setStore(e.target.value)}
-                  placeholder={itemType === "restaurant" ? item.business.name : "e.g. Whole Foods, Local Market"}
+                  placeholder={restaurantBusinessName ?? "e.g. Whole Foods, Local Market"}
                   className="w-full border border-gray-300 rounded-lg p-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
                 />
               </div>

@@ -84,9 +84,16 @@ export default function AdminUsersPage() {
 
       const response = await fetch(`/api/admin/users?${params}`);
       if (!response.ok) throw new Error(`Server error (${response.status})`);
-      const data = await response.json();
+      const data = (await response.json()) as {
+        success?: boolean;
+        message?: string;
+        users?: AdminUser[];
+        counts?: UserCounts;
+        pagination?: Pagination;
+        degraded?: boolean;
+      };
 
-      if (data.success) {
+      if (data.success && data.users) {
         setUsers(data.users);
         if (data.counts) setCounts(data.counts);
         setPagination(data.pagination ?? null);
@@ -95,7 +102,7 @@ export default function AdminUsersPage() {
         setDegraded(data.degraded === true);
         setError(null);
       } else {
-        setError(data.message || "Failed to load users");
+        setError(data.message ?? "Failed to load users");
       }
     } catch (_err) {
       setError("Failed to connect to server");
@@ -105,12 +112,12 @@ export default function AdminUsersPage() {
   }, [search, statusFilter, userType, page]);
 
   useEffect(() => {
-    void fetchUsers();
+    fetchUsers().catch(() => {});
   }, [fetchUsers]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    void fetchUsers();
+    fetchUsers().catch(() => {});
   };
 
   const handleStatusChange = async (userId: string, isActive: boolean) => {
@@ -131,7 +138,7 @@ export default function AdminUsersPage() {
         body: JSON.stringify({ isActive }),
       });
       if (!response.ok) throw new Error(`Server error (${response.status})`);
-      const data = await response.json();
+      const data = (await response.json()) as { success?: boolean; message?: string };
 
       if (data.success) {
         setUsers((prev) =>
@@ -140,11 +147,9 @@ export default function AdminUsersPage() {
         if (selectedUser?.id === userId) {
           setSelectedUser({ ...selectedUser, isActive });
         }
-      } else {
-        console.warn(data.message || "Failed to update status");
       }
-    } catch (_err) {
-      console.warn("Failed to update status");
+    } catch {
+      // Ignored
     } finally {
       setActionLoading(false);
     }
@@ -307,7 +312,7 @@ export default function AdminUsersPage() {
           <p className="text-red-700">{error}</p>
           <button
             onClick={() => {
-              void fetchUsers();
+              fetchUsers().catch(() => {});
             }}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
           >
@@ -398,7 +403,7 @@ export default function AdminUsersPage() {
                           <div>
                             <div className="flex items-center gap-2">
                               <p className="font-medium text-gray-800">
-                                {user.name || "No name"}
+                                {user.name ?? "No name"}
                               </p>
                               {user.isAgent && (
                                 <span className="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-800">
@@ -527,7 +532,7 @@ export default function AdminUsersPage() {
                           {!user.roles.includes("admin") && (
                             <button
                               onClick={() => {
-                                void handleStatusChange(user.id, !user.isActive);
+                                handleStatusChange(user.id, !user.isActive).catch(() => {});
                               }}
                               disabled={actionLoading}
                               className={`text-sm ${
@@ -624,7 +629,7 @@ export default function AdminUsersPage() {
               </button>
             </div>
             <div className="p-6 space-y-4">
-              <DetailField label="Name" value={selectedUser.name || "No name"} />
+              <DetailField label="Name" value={selectedUser.name ?? "No name"} />
               <DetailField label="Email" value={selectedUser.email} mono />
               {selectedUser.isAgent && selectedUser.bio && (
                 <DetailField label="Bio" value={selectedUser.bio} />
@@ -638,17 +643,12 @@ export default function AdminUsersPage() {
                       className={`px-2 py-1 rounded text-sm font-medium ${
                         role === "admin"
                           ? "bg-purple-100 text-purple-800"
-                          : "bg-gray-100 text-gray-800"
+                          : "bg-gray-100 text-gray-700"
                       }`}
                     >
                       {role}
                     </span>
                   ))}
-                  {selectedUser.isAgent && (
-                    <span className="px-2 py-1 rounded text-sm font-medium bg-indigo-100 text-indigo-800">
-                      agent
-                    </span>
-                  )}
                 </div>
               </div>
               <div>
@@ -776,7 +776,7 @@ export default function AdminUsersPage() {
           target={grantTarget}
           onClose={() => setGrantTarget(null)}
           onGranted={() => {
-            void fetchUsers();
+            fetchUsers().catch(() => {});
           }}
         />
       )}
