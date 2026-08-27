@@ -10,8 +10,32 @@ import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateReques
 import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken } from "../shared";
 import type { NextRequest } from "next/server";
 
+interface FoodLabEntryDbRow extends Record<string, unknown> {
+  id: string;
+  user_id: string;
+  is_public: boolean;
+  share_token: string | null;
+}
+
+interface UpdateFoodLabEntryBody {
+  dishName?: string;
+  description?: string;
+  notes?: string;
+  recipeName?: string;
+  cuisineType?: string;
+  cookingMethod?: string;
+  cookedAt?: string;
+  photos?: Array<{ dataUrl: string; caption?: string; uploadedAt: string }>;
+  elementalTags?: Record<string, number>;
+  alchemicalTags?: Record<string, number>;
+  planetaryContext?: Record<string, unknown>;
+  rating?: number;
+  tags?: string[];
+  isPublic?: boolean;
+}
+
 let _dbMod: typeof import("@/lib/database") | null = null;
-async function getDbModule() {
+async function getDbModule(): Promise<typeof import("@/lib/database") | null> {
   if (!_dbMod && typeof window === "undefined" && process.env.DATABASE_URL) {
     try { _dbMod = await import("@/lib/database"); } catch { /* unavailable */ }
   }
@@ -25,7 +49,7 @@ export const runtime = "nodejs";
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ entryId: string }> },
-) {
+): Promise<NextResponse> {
   const { entryId } = await params;
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
@@ -36,7 +60,7 @@ export async function GET(
 
   if (db) {
     try {
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<FoodLabEntryDbRow>(
         `SELECT * FROM food_lab_entries WHERE id = $1 AND user_id = $2`,
         [entryId, userId],
       );
@@ -59,13 +83,13 @@ export async function GET(
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ entryId: string }> },
-) {
+): Promise<NextResponse> {
   const { entryId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
 
   const { userId } = authResult.user;
-  const body = await request.json();
+  const body = (await request.json()) as UpdateFoodLabEntryBody;
   const now = new Date().toISOString();
 
   const {
@@ -88,7 +112,7 @@ export async function PUT(
   const db = await getDbModule();
   if (db) {
     try {
-      const existing = await db.executeQuery(
+      const existing = await db.executeQuery<FoodLabEntryDbRow>(
         `SELECT is_public, share_token FROM food_lab_entries WHERE id = $1 AND user_id = $2`,
         [entryId, userId],
       );
@@ -138,7 +162,7 @@ export async function PUT(
         ],
       );
 
-      const updated = await db.executeQuery(
+      const updated = await db.executeQuery<FoodLabEntryDbRow>(
         `SELECT * FROM food_lab_entries WHERE id = $1`,
         [entryId],
       );
@@ -180,13 +204,11 @@ export async function PUT(
   }
 }
 
-
-
 /** DELETE /api/food-lab/[entryId] */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ entryId: string }> },
-) {
+): Promise<NextResponse> {
   const { entryId } = await params;
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
@@ -196,7 +218,7 @@ export async function DELETE(
   const db = await getDbModule();
   if (db) {
     try {
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<{ id: string }>(
         `DELETE FROM food_lab_entries WHERE id = $1 AND user_id = $2 RETURNING id`,
         [entryId, userId],
       );

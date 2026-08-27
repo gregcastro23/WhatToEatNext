@@ -45,6 +45,14 @@ import type {
   UserFoodFavorite,
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
+import { createLogger } from "@/utils/logger";
+
+const _logger = createLogger("use-food-diary");
+
+interface FoodDiaryApiResponse {
+  entries?: FoodDiaryEntry[];
+  summary?: (Omit<DailyFoodDiarySummary, "entries"> & { entries?: FoodDiaryEntry[] }) | null;
+}
 
 /**
  * Hook state interface
@@ -114,7 +122,7 @@ interface UseFoodDiaryReturn extends UseFoodDiaryState {
  */
 export function useFoodDiary(): UseFoodDiaryReturn {
   const { currentUser } = useUser();
-  const userId = currentUser?.userId || "guest";
+  const userId = currentUser?.userId ?? "guest";
 
   // State
   const [state, setState] = useState<UseFoodDiaryState>({
@@ -147,13 +155,13 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         { credentials: "include" },
       );
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as FoodDiaryApiResponse;
         const entries = data.entries ?? [];
         // The /api/food-diary GET returns a partial summary (totals only, no
         // `entries`/`mealBreakdown`). Merge the entries the API did return so
         // NutritionDashboard's `dailySummary.entries.length` check doesn't crash
         // and users with logged food see their data rather than the empty state.
-        const summary = data.summary
+        const summary: DailyFoodDiarySummary | null = data.summary
           ? { ...data.summary, entries: data.summary.entries ?? entries }
           : null;
         const [stats, favorites] = await Promise.all([
@@ -201,7 +209,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         loadWeeklySummary()
           .then((weeklySummary) => ({ weeklySummary }))
           .catch((error) => {
-            console.error("Failed to load weekly summary:", error);
+            _logger.error("Failed to load weekly summary:", error);
             return { weeklySummary: null };
           }),
       ]);
@@ -226,7 +234,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
 
   // Load data on mount and when date changes
   useEffect(() => {
-    void loadData();
+    loadData().catch(() => {});
   }, [loadData]);
 
   /**
@@ -256,10 +264,10 @@ export function useFoodDiary(): UseFoodDiaryReturn {
             body: JSON.stringify(parsedInput.data),
           });
           if (!res.ok) throw new Error(`Server error (${res.status})`);
-          const data = await res.json();
+          const data = (await res.json()) as { entry?: FoodDiaryEntry };
           entry = data.entry ?? null;
         } else {
-          entry = await createServerEntry(userId, parsedInput.data as any);
+          entry = await createServerEntry(userId, parsedInput.data as CreateFoodDiaryEntryInput);
         }
 
         await loadData();
@@ -375,7 +383,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         date: selectedDate,
         mealType,
         time:
-          time ||
+          time ??
           `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
         serving: preset.defaultServing,
         quantity,
@@ -491,13 +499,13 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       const insights = await generateServerInsights(userId);
       setState((prev) => ({ ...prev, insights }));
     } catch (error) {
-      console.error("Failed to load insights:", error);
+      _logger.error("Failed to load insights:", error);
     }
   }, [userId]);
 
   // Load insights on mount
   useEffect(() => {
-    void refreshInsights();
+    refreshInsights().catch(() => {});
   }, [refreshInsights]);
 
   return {
@@ -524,10 +532,27 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   };
 }
 
+export interface UseQuickFoodEntryReturn {
+  presets: QuickFoodPreset[];
+  searchQuery: string;
+  searchResults: FoodSearchResult[];
+  selectedCategory?: QuickFoodCategory;
+  selectedDate: Date;
+  isLoading: boolean;
+  setSelectedCategory: (category?: QuickFoodCategory) => void;
+  handleSearch: (query: string) => Promise<void>;
+  addQuickFood: (
+    presetId: string,
+    mealType: MealType,
+    quantity?: number,
+    time?: string,
+  ) => Promise<FoodDiaryEntry | null>;
+}
+
 /**
  * Simplified hook for quick food entry
  */
-export function useQuickFoodEntry() {
+export function useQuickFoodEntry(): UseQuickFoodEntryReturn {
   const {
     addQuickFood,
     getQuickFoodPresets,
@@ -545,7 +570,7 @@ export function useQuickFoodEntry() {
   const [presets, setPresets] = useState<QuickFoodPreset[]>([]);
 
   useEffect(() => {
-    void getQuickFoodPresets(selectedCategory).then(setPresets);
+    getQuickFoodPresets(selectedCategory).then(setPresets).catch(() => {});
   }, [getQuickFoodPresets, selectedCategory]);
 
   const handleSearch = useCallback(
@@ -574,18 +599,29 @@ export function useQuickFoodEntry() {
   };
 }
 
+export interface UseFoodDiaryInsightsReturn {
+  stats: FoodDiaryStats | null;
+  insights: FoodInsight[];
+  priorityInsights: FoodInsight[];
+  topFoods: Array<{ name: string; count: number; averageRating?: number }>;
+  topRatedFoods: Array<{ name: string; rating: number; count: number }>;
+  goalCompliance: { overall: number; byNutrient: Record<string, number> };
+  isLoading: boolean;
+  refreshInsights: () => Promise<void>;
+}
+
 /**
  * Hook for food diary statistics and insights
  */
-export function useFoodDiaryInsights() {
+export function useFoodDiaryInsights(): UseFoodDiaryInsightsReturn {
   const { stats, insights, weeklySummary, refreshInsights, isLoading } =
     useFoodDiary();
 
-  const topFoods = useMemo(() => weeklySummary?.patterns.topFoods || [], [weeklySummary]);
+  const topFoods = useMemo(() => weeklySummary?.patterns.topFoods ?? [], [weeklySummary]);
 
-  const topRatedFoods = useMemo(() => weeklySummary?.patterns.topRatedFoods || [], [weeklySummary]);
+  const topRatedFoods = useMemo(() => weeklySummary?.patterns.topRatedFoods ?? [], [weeklySummary]);
 
-  const goalCompliance = useMemo(() => weeklySummary?.goalCompliance || { overall: 0, byNutrient: {} }, [weeklySummary]);
+  const goalCompliance = useMemo(() => weeklySummary?.goalCompliance ?? { overall: 0, byNutrient: {} }, [weeklySummary]);
 
   const priorityInsights = useMemo(() => insights.filter((i) => i.priority === "high"), [insights]);
 

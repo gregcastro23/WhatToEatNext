@@ -12,7 +12,7 @@
 
 import { Lock, LockOpen, Plus, Sparkles, Utensils, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
@@ -27,12 +27,27 @@ const MEAL_LABEL: Record<MealType, string> = {
   snack: "Snack",
 };
 
-function recipeImage(r: any): string | null {
+interface RecipeLike {
+  id?: string;
+  name?: string;
+  image?: string;
+  imageUrl?: string;
+  image_url?: string;
+  nutrition?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  elementalProperties?: Record<string, number>;
+}
+
+function recipeImage(r?: RecipeLike | null): string | null {
   return r?.image ?? r?.imageUrl ?? r?.image_url ?? null;
 }
 
 /** Per-serving nutrition scaled to the slot's servings, as a mono read-out. */
-function macroLine(r: any, servings: number): string {
+function macroLine(r?: RecipeLike | null, servings = 1): string {
   const n = r?.nutrition;
   const kcal = Math.round((n?.calories ?? 0) * servings);
   if (!kcal) return servings > 1 ? `x${servings} servings` : "";
@@ -49,7 +64,7 @@ export default function MealRowCard({
   mealSlot: MealSlotType;
   /** Render an empty snack slot as a slim ghost affordance instead of a full row. */
   ghost?: boolean;
-}) {
+}): React.ReactElement {
   const {
     addMealToSlot,
     removeMealFromSlot,
@@ -59,7 +74,7 @@ export default function MealRowCard({
   } = useMenuPlanner();
   const [showSelector, setShowSelector] = useState(false);
 
-  const recipe = mealSlot.recipe as any;
+  const recipe = mealSlot.recipe as RecipeLike | undefined;
   const label = MEAL_LABEL[mealSlot.mealType];
   const locked = mealSlot.isLocked ?? false;
   const el = dominantElement(recipe?.elementalProperties);
@@ -70,11 +85,11 @@ export default function MealRowCard({
       isOpen={showSelector}
       onClose={() => setShowSelector(false)}
       onSelectRecipe={(r: Recipe) => {
-        void addMealToSlot(
+        addMealToSlot(
           mealSlot.dayOfWeek,
           mealSlot.mealType,
           r as unknown as MonicaOptimizedRecipe,
-        );
+        ).catch(() => {});
         setShowSelector(false);
       }}
       filters={{
@@ -122,9 +137,9 @@ export default function MealRowCard({
           <button
             type="button"
             onClick={() => {
-              void generateMealsForDay(mealSlot.dayOfWeek, {
+              generateMealsForDay(mealSlot.dayOfWeek, {
                 mealTypes: [mealSlot.mealType],
-              });
+              }).catch(() => {});
             }}
             title={`Suggest a planetary-aligned ${label.toLowerCase()}`}
             className="shrink-0 p-3 rounded-lg border border-gold-accent/20 text-gold-accent/80 hover:bg-gold-accent/10 transition-all"
@@ -137,6 +152,9 @@ export default function MealRowCard({
     );
   }
 
+  const recipeName = recipe.name ?? "Unnamed Recipe";
+  const recipeId = recipe.id ?? encodeURIComponent(recipeName);
+
   // Filled slot → data-forward row
   return (
     <>
@@ -146,7 +164,7 @@ export default function MealRowCard({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={img}
-              alt={recipe.name}
+              alt={recipeName}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
@@ -156,10 +174,10 @@ export default function MealRowCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <Link
-              href={`/recipes/${recipe.id ?? encodeURIComponent(recipe.name)}`}
+              href={`/recipes/${recipeId}`}
               className="font-body-md text-[15px] font-medium text-primary truncate hover:underline"
             >
-              {recipe.name}
+              {recipeName}
             </Link>
             <button
               type="button"
@@ -194,7 +212,7 @@ export default function MealRowCard({
             <button
               type="button"
               onClick={() => {
-                void removeMealFromSlot(mealSlot.id);
+                removeMealFromSlot(mealSlot.id).catch(() => {});
               }}
               title="Remove meal"
               className="ml-auto shrink-0 text-on-surface-variant/40 hover:text-error transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
