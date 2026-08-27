@@ -1,7 +1,7 @@
-// Comprehensive Galileo Logger implementation
-// Follows proper spans, traces, and sessions structure
-
+import { createLogger } from '@/utils/logger'
 import { ANumberCalculator } from './core-energy-rules'
+
+const logger = createLogger('galileo-logger')
 
 // Environment variables for Galileo configuration
 const { GALILEO_API_KEY } = process.env
@@ -91,7 +91,7 @@ class GalileoLogger {
       ),
     }
 
-    console.log(`Started Galileo session: ${sessionName} (${sessionId})`)
+    logger.info(`Started Galileo session: ${sessionName} (${sessionId})`)
     return sessionId
   }
 
@@ -114,7 +114,7 @@ class GalileoLogger {
       ),
     }
 
-    console.log(`Started Galileo trace: ${traceName} (${traceId})`)
+    logger.info(`Started Galileo trace: ${traceName} (${traceId})`)
     return traceId
   }
 
@@ -148,7 +148,7 @@ class GalileoLogger {
     }
 
     this.spans.set(spanId, span)
-    console.log(`Started span: ${spanName} (${spanId}) of type ${type}`)
+    logger.info(`Started span: ${spanName} (${spanId}) of type ${type}`)
     return spanId
   }
 
@@ -158,7 +158,7 @@ class GalileoLogger {
   endSpan(spanId: string, output: unknown = {}, status: 'success' | 'error' = 'success'): void {
     const span = this.spans.get(spanId)
     if (!span) {
-      console.warn(`Span ${spanId} not found`)
+      logger.warn(`Span ${spanId} not found`)
       return
     }
 
@@ -173,7 +173,7 @@ class GalileoLogger {
       this.currentTrace.spans.push({ ...span })
     }
 
-    console.log(`Ended span: ${span.name} (${spanId}) - ${status}`)
+    logger.info(`Ended span: ${span.name} (${spanId}) - ${status}`)
   }
 
   /**
@@ -181,7 +181,7 @@ class GalileoLogger {
    */
   endTrace(): void {
     if (!this.currentTrace) {
-      console.warn('No active trace to end')
+      logger.warn('No active trace to end')
       return
     }
 
@@ -194,7 +194,7 @@ class GalileoLogger {
       this.currentSession.traces.push({ ...this.currentTrace })
     }
 
-    console.log(`Ended trace: ${this.currentTrace.name} (${this.currentTrace.id})`)
+    logger.info(`Ended trace: ${this.currentTrace.name} (${this.currentTrace.id})`)
     this.currentTrace = null
   }
 
@@ -203,7 +203,7 @@ class GalileoLogger {
    */
   async endSession(): Promise<boolean> {
     if (!this.currentSession) {
-      console.warn('No active session to end')
+      logger.warn('No active session to end')
       return false
     }
 
@@ -213,7 +213,7 @@ class GalileoLogger {
     // Send session data to Galileo
     const success = await this.sendToGalileo(this.currentSession)
 
-    console.log(`Ended session: ${this.currentSession.name} (${this.currentSession.id})`)
+    logger.info(`Ended session: ${this.currentSession.name} (${this.currentSession.id})`)
     this.currentSession = null
     this.spans.clear()
 
@@ -225,10 +225,10 @@ class GalileoLogger {
    */
   private async sendToGalileo(session: GalileoSession): Promise<boolean> {
     if (!GALILEO_API_KEY) {
-      console.warn('Galileo API key not configured - logging session to console instead')
-      console.log('====== GALILEO SESSION LOG ======')
-      console.log('Session:', JSON.stringify(session, null, 2))
-      console.log('===================================')
+      logger.warn('Galileo API key not configured - logging session to console instead')
+      logger.info('====== GALILEO SESSION LOG ======')
+      logger.info('Session:', JSON.stringify(session, null, 2))
+      logger.info('===================================')
       return false
     }
 
@@ -289,7 +289,7 @@ class GalileoLogger {
           const hint =
             'Hint: Configure GALILEO_PROJECT as an Observe project or set GALILEO_FAIL_SILENTLY=true'
           const message = `Galileo API error: ${response.status} ${response.statusText} - ${errorText}\n${hint}`
-          if (GALILEO_VERBOSE_FALLBACK) console.warn(message)
+          if (GALILEO_VERBOSE_FALLBACK) logger.warn(message)
           // fall through to fallback logging below
           if (!GALILEO_FAIL_SILENTLY) {
             throw new Error(message)
@@ -298,7 +298,7 @@ class GalileoLogger {
           return false
         }
         const message = `Galileo API error: ${response.status} ${response.statusText} - ${errorText}`
-        if (GALILEO_VERBOSE_FALLBACK) console.warn(message)
+        if (GALILEO_VERBOSE_FALLBACK) logger.warn(message)
         if (!GALILEO_FAIL_SILENTLY) {
           throw new Error(message)
         }
@@ -306,25 +306,25 @@ class GalileoLogger {
         return false
       }
 
-      const result = await response.json()
-      console.log(`Successfully logged session to Galileo: ${session.name}`, result)
+      const result = (await response.json()) as unknown
+      logger.info(`Successfully logged session to Galileo: ${session.name}`, result)
       return true
     } catch (error) {
-      if (GALILEO_VERBOSE_FALLBACK) console.error('Error logging session to Galileo:', error)
+      if (GALILEO_VERBOSE_FALLBACK) logger.error('Error logging session to Galileo:', error)
 
       // Fallback: log to console with structured format (non-fatal)
-      console.log('====== GALILEO SESSION LOG (FALLBACK) ======')
-      console.log('Project:', GALILEO_PROJECT)
-      console.log('Stream:', QUANTITIES_STREAM)
-      console.log('Session:', session.name)
-      console.log('Traces:', session.traces.length)
-      console.log(
+      logger.info('====== GALILEO SESSION LOG (FALLBACK) ======')
+      logger.info('Project:', GALILEO_PROJECT)
+      logger.info('Stream:', QUANTITIES_STREAM)
+      logger.info('Session:', session.name)
+      logger.info('Traces:', session.traces.length)
+      logger.info(
         'Total Spans:',
         session.traces.reduce((acc, trace) => acc + trace.spans.length, 0)
       )
-      console.log('Session Data:', JSON.stringify(session, null, 2))
-      console.log('Error:', error instanceof Error ? error.message : String(error))
-      console.log('=============================================')
+      logger.info('Session Data:', JSON.stringify(session, null, 2))
+      logger.info('Error:', error instanceof Error ? error.message : String(error))
+      logger.info('=============================================')
 
       // Never throw; optionally signal success to avoid UX degradation
       return GALILEO_FAIL_SILENTLY ? true : false
@@ -475,7 +475,7 @@ export async function logQuantitiesToGalileo(
 
     return success
   } catch (error) {
-    console.error('Error in logQuantitiesToGalileo:', error)
+    logger.error('Error in logQuantitiesToGalileo:', error)
     return false
   }
 }
@@ -490,7 +490,13 @@ export function isQuantitiesTrackingConfigured(): boolean {
 /**
  * Get configuration status for debugging
  */
-export function getGalileoConfig() {
+export function getGalileoConfig(): {
+  hasApiKey: boolean
+  project: string
+  quantitiesStream: string
+  baseUrl: string
+  loggerInitialized: boolean
+} {
   return {
     hasApiKey: !!GALILEO_API_KEY,
     project: GALILEO_PROJECT,
@@ -532,7 +538,7 @@ export async function testGalileoConnection(): Promise<{
       }
     }
 
-    const healthcheck = await response.json()
+    const healthcheck = (await response.json()) as unknown
     return {
       success: true,
       message: 'Galileo API connection successful',

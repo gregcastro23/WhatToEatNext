@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 6513,
+  "trackedTotal": 6346,
   "declined": {
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 2013,
@@ -12,15 +12,15 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 2008,
+      "count": 2004,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 953,
+      "count": 951,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 500,
+      "count": 495,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -28,23 +28,23 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2522,
+      "count": 2482,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 228,
+      "count": 225,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 647,
+      "count": 641,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 79,
+      "count": 77,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 817,
+      "count": 806,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -52,7 +52,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 345,
+      "count": 279,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -64,7 +64,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 118,
+      "count": 117,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -104,11 +104,11 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 577,
+      "count": 546,
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 61,
+      "count": 59,
       "autoFixable": 0
     },
     "no-void": {
