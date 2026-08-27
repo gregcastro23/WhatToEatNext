@@ -352,11 +352,25 @@ export const errorRates = new client.Gauge({
 // MIDDLEWARE FUNCTIONS
 // =============================================================================
 
+export interface AlchemicalCalculationTracker {
+  end: (success: boolean, cacheHit?: boolean) => void;
+}
+
+export interface RecipeRecommendationTracker {
+  end: (success: boolean, resultCount: number, scores?: number[]) => void;
+}
+
+export interface DatabaseOperationTracker {
+  end: (success: boolean) => void;
+}
+
 /**
  * Express middleware to collect HTTP metrics
  */
-export function collectHttpMetrics(serviceName: string) {
-  return (req: Request, res: Response, next: NextFunction) => {
+export function collectHttpMetrics(
+  serviceName: string,
+): (req: Request, res: Response, next: NextFunction) => void {
+  return (req: Request, res: Response, next: NextFunction): void => {
     const startTime = Date.now();
     const requestSize = parseInt(req.get("content-length", 10) ?? "0", 10);
 
@@ -373,7 +387,7 @@ export function collectHttpMetrics(serviceName: string) {
       this: Response,
       chunk?: string | Buffer,
       encoding?: BufferEncoding,
-    ) {
+    ): unknown {
       const duration = (Date.now() - startTime) / 1000;
       const responseSize = chunk ? Buffer.byteLength(chunk, encoding) : 0;
 
@@ -418,7 +432,7 @@ export function collectHttpMetrics(serviceName: string) {
         });
       }
 
-      originalEnd.call(this, chunk, encoding);
+      return originalEnd.call(this, chunk, encoding);
     };
 
     next();
@@ -431,14 +445,14 @@ export function collectHttpMetrics(serviceName: string) {
 export function trackAlchemicalCalculation(
   calculationType: string,
   complexity = "medium",
-) {
+): AlchemicalCalculationTracker {
   const timer = alchemicalCalculationDuration.startTimer({
     calculation_type: calculationType,
     complexity,
   });
 
   return {
-    end: (success: boolean, cacheHit = false) => {
+    end: (success: boolean, cacheHit = false): void => {
       timer();
       alchemicalCalculationsTotal
         .labels(calculationType, success.toString(), cacheHit.toString())
@@ -454,14 +468,14 @@ export function trackRecipeRecommendation(
   cuisine: string,
   dietaryRestrictions: string[] = [],
   algorithmVersion = "1.0",
-) {
+): RecipeRecommendationTracker {
   const timer = recipeRecommendationDuration.startTimer({
     algorithm_version: algorithmVersion,
     result_count: "0",
   });
 
   return {
-    end: (success: boolean, resultCount: number, scores: number[] = []) => {
+    end: (success: boolean, resultCount: number, scores: number[] = []): void => {
       const duration = timer();
 
       recipeRecommendationsTotal
@@ -489,7 +503,7 @@ export function trackAuthEvent(
   success: boolean,
   userAgent?: string,
   ipCountry?: string,
-) {
+): void {
   authAttemptsTotal
     .labels(
       method,
@@ -503,11 +517,14 @@ export function trackAuthEvent(
 /**
  * Track database operations
  */
-export function trackDatabaseOperation(operation: string, table: string) {
+export function trackDatabaseOperation(
+  operation: string,
+  table: string,
+): DatabaseOperationTracker {
   const timer = databaseQueryDuration.startTimer({ operation, table });
 
   return {
-    end: (success: boolean) => {
+    end: (success: boolean): void => {
       timer();
       databaseQueries.labels(operation, table, success.toString()).inc();
     },
@@ -521,21 +538,21 @@ export function trackCacheOperation(
   operation: string,
   result: "hit" | "miss" | "set" | "delete",
   cacheType = "redis",
-) {
+): void {
   cacheOperations.labels(operation, result, cacheType).inc();
 }
 
 /**
  * Update cache hit ratio
  */
-export function updateCacheHitRatio(hitRatio: number, cacheType = "redis") {
+export function updateCacheHitRatio(hitRatio: number, cacheType = "redis"): void {
   cacheHitRatio.labels(cacheType).set(hitRatio);
 }
 
 /**
  * Track WebSocket connections
  */
-export function trackWebSocketConnection(userType: string, connected: boolean) {
+export function trackWebSocketConnection(userType: string, connected: boolean): void {
   if (connected) {
     websocketConnections.labels(userType).inc();
   } else {
@@ -550,14 +567,14 @@ export function updateServiceHealth(
   serviceName: string,
   instanceId: string,
   isHealthy: boolean,
-) {
+): void {
   serviceHealth.labels(serviceName, instanceId).set(isHealthy ? 1 : 0);
 }
 
 /**
  * Get metrics endpoint handler
  */
-export async function getMetrics(req: Request, res: Response) {
+export async function getMetrics(req: Request, res: Response): Promise<void> {
   try {
     res.set("Content-Type", client.register.contentType);
     const metrics = await client.register.metrics();
@@ -571,7 +588,7 @@ export async function getMetrics(req: Request, res: Response) {
 /**
  * Clear all metrics (for testing)
  */
-export function clearMetrics() {
+export function clearMetrics(): void {
   client.register.clear();
 }
 
@@ -581,7 +598,7 @@ export function clearMetrics() {
 export function initializeServiceMetrics(
   serviceName: string,
   instanceId: string,
-) {
+): void {
   // Set initial service health
   updateServiceHealth(serviceName, instanceId, true);
 

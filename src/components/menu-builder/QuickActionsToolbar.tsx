@@ -53,7 +53,7 @@ interface QuickActionsToolbarProps {
   onTogglePreferences?: () => void;
 }
 
-export default function QuickActionsToolbar({ onTogglePreferences }: QuickActionsToolbarProps) {
+export default function QuickActionsToolbar({ onTogglePreferences }: QuickActionsToolbarProps): React.JSX.Element {
   const {
     currentMenu,
     addMealToSlot,
@@ -85,7 +85,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   );
 
   React.useEffect(() => {
-    if (weeklyBudget !== null && weeklyBudget !== undefined) {
+    if (weeklyBudget !== null) {
       setBudgetInputValue(weeklyBudget.toString());
       setBudgetInputVisible(true);
     }
@@ -124,7 +124,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
    * Generate Day - fills empty meal slots for the next day that needs it
    * Uses user's natal chart for personalized recommendations if available
    */
-  const handleGenerateDay = async () => {
+  const handleGenerateDay = async (): Promise<void> => {
     if (!currentMenu || nextEmptyDay === null) return;
     setIsGenerating(true);
     setCurrentGeneratingDay(nextEmptyDay);
@@ -168,7 +168,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
    * using the same planetary + personalized recommendation pipeline as
    * Recommend Day, then rewards the Master Planner quest on completion.
    */
-  const handleGenerateFullWeek = async () => {
+  const handleGenerateFullWeek = async (): Promise<void> => {
     if (!currentMenu) return;
     setIsGeneratingWeek(true);
 
@@ -266,7 +266,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     // Exclude ingredients
     if (generationPreferences.excludeIngredients.length > 0) {
       filtered = filtered.filter((r) => {
-        const ingNames = (r.ingredients || []).map((i) =>
+        const ingNames = r.ingredients.map((i) =>
           (typeof i === "string" ? i : (i as NamedIngredientLike).name ?? "").toLowerCase(),
         );
         return !generationPreferences.excludeIngredients.some((excl) =>
@@ -302,13 +302,13 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   /**
    * Fallback: fill a single day using UnifiedRecipeService
    */
-  const fillDayWithRecipeService = async (day: DayOfWeek) => {
+  const fillDayWithRecipeService = async (day: DayOfWeek): Promise<void> => {
     if (!currentMenu) return;
 
     try {
       const rawRecipes = await getServerRecipes();
 
-      if (!rawRecipes || rawRecipes.length === 0) {
+      if (rawRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
         return;
       }
@@ -358,13 +358,13 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   /**
    * Fallback: fill slots using UnifiedRecipeService
    */
-  const _fillWithRecipeService = async () => {
+  const _fillWithRecipeService = async (): Promise<void> => {
     if (!currentMenu) return;
 
     try {
       const allRecipes = await getServerRecipes();
 
-      if (!allRecipes || allRecipes.length === 0) {
+      if (allRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
         return;
       }
@@ -416,14 +416,14 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   /**
    * Balance Nutrition - swap low-scoring recipes with better alternatives
    */
-  const handleBalanceNutrition = async () => {
+  const handleBalanceNutrition = async (): Promise<void> => {
     if (!currentMenu) return;
     setIsBalancing(true);
 
     try {
       const allRecipes = await getServerRecipes();
 
-      if (!allRecipes || allRecipes.length === 0) {
+      if (allRecipes.length === 0) {
         logger.info("No recipes available for balancing");
         setIsBalancing(false);
         return;
@@ -447,7 +447,6 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
       for (let i = 0; i < swapCount; i++) {
         const meal = filledMeals[i];
-        if (!meal) break;
 
         const betterRecipes = allRecipes
           .filter(
@@ -483,14 +482,14 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   /**
    * Maximize Variety - replace repeated ingredients with diverse alternatives
    */
-  const handleMaximizeVariety = async () => {
+  const handleMaximizeVariety = async (): Promise<void> => {
     if (!currentMenu) return;
     setIsDiversifying(true);
 
     try {
       const allRecipes = await getServerRecipes();
 
-      if (!allRecipes || allRecipes.length === 0) {
+      if (allRecipes.length === 0) {
         setIsDiversifying(false);
         return;
       }
@@ -503,7 +502,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
         .filter((m) => m.recipe)
         .forEach((m) => {
           const recipeIngs = new Set<string>();
-          (m.recipe!.ingredients || []).forEach((ing) => {
+          m.recipe!.ingredients.forEach((ing) => {
             const name = (typeof ing === 'string' ? ing : (ing as NamedIngredientLike).name ?? '').toLowerCase();
             ingredientCounts.set(name, (ingredientCounts.get(name) ?? 0) + 1);
             recipeIngs.add(name);
@@ -533,14 +532,13 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
       for (let i = 0; i < swapCount; i++) {
         const meal = filledMeals[i];
-        if (!meal) break;
 
         // Find recipes with ingredients not currently in the menu
         const currentIngs = new Set(ingredientCounts.keys());
         const diverseRecipes = allRecipes
           .filter((r) => !usedIds.has(r.id) && isSuitableForMealType(r, meal.slot.mealType))
           .map((r) => {
-            const recipeIngs = (r.ingredients || []).map((ing) =>
+            const recipeIngs = r.ingredients.map((ing) =>
               (typeof ing === 'string' ? ing : (ing as NamedIngredientLike).name ?? '').toLowerCase()
             );
             const newIngCount = recipeIngs.filter(
@@ -612,7 +610,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           : "";
 
   // Determine button text based on state
-  const getGenerateButtonText = () => {
+  const getGenerateButtonText = (): string => {
     if (isGenerating && currentGeneratingDay !== null) {
       return hasNatalChart
         ? `Recommending personalized ${dayNames[currentGeneratingDay]}...`
@@ -672,7 +670,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
         <div className="flex flex-wrap gap-3">
           <button
-            onClick={() => { void handleGenerateFullWeek(); }}
+            onClick={() => { handleGenerateFullWeek().catch(() => {}); }}
             disabled={isAnyLoading || nextEmptyDay === null}
             className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               hasNatalChart
@@ -694,7 +692,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           </button>
 
           <button
-            onClick={() => { void handleGenerateDay(); }}
+            onClick={() => { handleGenerateDay().catch(() => {}); }}
             disabled={isGenerating || isGeneratingWeek || nextEmptyDay === null}
             className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               hasNatalChart
@@ -717,7 +715,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           </button>
 
           <button
-            onClick={() => { void handleBalanceNutrition(); }}
+            onClick={() => { handleBalanceNutrition().catch(() => {}); }}
             disabled={isBalancing || totalMeals < 3}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             title={
@@ -731,7 +729,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           </button>
 
           <button
-            onClick={() => { void handleMaximizeVariety(); }}
+            onClick={() => { handleMaximizeVariety().catch(() => {}); }}
             disabled={isDiversifying || totalMeals < 3}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             title={
@@ -748,7 +746,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             onClick={() => {
               // eslint-disable-next-line no-alert
               if (window.confirm("Clear entire week? This cannot be undone.")) {
-                void clearWeek();
+                clearWeek().catch(() => {});
               }
             }}
             disabled={totalMeals === 0}

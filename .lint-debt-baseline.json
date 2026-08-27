@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 5591,
+  "trackedTotal": 5524,
   "declined": {
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 2013,
@@ -12,15 +12,15 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1959,
+      "count": 1895,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 935,
+      "count": 910,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 444,
+      "count": 443,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -28,15 +28,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2152,
+      "count": 2129,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 195,
+      "count": 193,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 535,
+      "count": 531,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -44,7 +44,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 660,
+      "count": 654,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -104,7 +104,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 523,
+      "count": 519,
       "autoFixable": 0
     },
     "no-useless-assignment": {
@@ -112,7 +112,7 @@
       "autoFixable": 0
     },
     "no-void": {
-      "count": 488,
+      "count": 461,
       "autoFixable": 0
     },
     "prefer-destructuring": {
