@@ -43,7 +43,6 @@ export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
-  if (!positions || typeof positions !== "object") return normalized;
   for (const key of Object.keys(positions)) {
     let planet = key;
     // Capitalize first letter, lowercase rest (e.g., Sun, Moon, Mercury...)
@@ -107,7 +106,8 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
 export async function calculateActivePlanets(
   positions: Record<string, unknown>,
 ): Promise<string[]> {
-  if (!positions || typeof positions !== "object") {
+  await Promise.resolve();
+  if (Object.keys(positions).length === 0) {
     return [];
   }
   // List of planets we want to check
@@ -127,7 +127,7 @@ export async function calculateActivePlanets(
   try {
     // Add ruling planet of current sun sign
     const sunPos = (positions.sun ?? positions.Sun) as PlanetaryPosition | undefined;
-    const sunSign = sunPos?.sign?.toLowerCase();
+    const sunSign = typeof sunPos?.sign === "string" ? sunPos.sign.toLowerCase() : undefined;
     if (sunSign) {
       // Map signs to their ruling planets
       const signRulers: Record<string, string> = {
@@ -145,8 +145,9 @@ export async function calculateActivePlanets(
         pisces: "jupiter", // Traditional ruler
       };
       // Add the ruler of the current sun sign
-      if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
-        activePlanets.push(signRulers[sunSign]);
+      const ruler = (signRulers as Record<string, string | undefined>)[sunSign];
+      if (ruler && !activePlanets.includes(ruler)) {
+        activePlanets.push(ruler);
       }
     }
     Object.entries(positions).forEach(([planet, position]) => {
@@ -154,7 +155,7 @@ export async function calculateActivePlanets(
         return;
       }
       const planetLower = planet.toLowerCase();
-      const signLower = position.sign.toLowerCase();
+      const signLower = typeof position.sign === "string" ? position.sign.toLowerCase() : "";
       // Simple planet-sign dignity mapping
       const dignities: Record<string, string[]> = {
         sun: ["leo", "aries"],
@@ -169,7 +170,8 @@ export async function calculateActivePlanets(
         pluto: ["scorpio", "leo"],
       };
       // Check if planet is in a powerful sign position
-      if (dignities[planetLower].includes(signLower)) {
+      const planetDignities = (dignities as Record<string, string[] | undefined>)[planetLower];
+      if (planetDignities?.includes(signLower)) {
         activePlanets.push(planetLower);
       }
       // Add special rulerships based on degree
@@ -182,7 +184,10 @@ export async function calculateActivePlanets(
       }
     });
   } catch (error) {
-    errorLog("Error calculating active planets", error);
+    errorLog(
+      "Error calculating active planets: ",
+      error instanceof Error ? error.message : String(error),
+    );
   }
   // Ensure uniqueness
   return [...new Set(activePlanets)];
@@ -225,7 +230,7 @@ export function getZodiacElement(sign: ZodiacSignType | string): ElementalCharac
     scorpio: "Water",
     pisces: "Water",
   };
-  return elements[sign.toLowerCase()] || "Fire";
+  return (elements as Record<string, Element | undefined>)[sign.toLowerCase()] ?? "Fire";
 }
 /**
  * Calculate lunar phase more accurately using astronomy-engine data
@@ -235,16 +240,20 @@ export function getZodiacElement(sign: ZodiacSignType | string): ElementalCharac
 export async function calculateLunarPhase(
   date: Date = new Date(),
 ): Promise<number> {
+  await Promise.resolve();
   try {
     // Get and normalize positions
     const rawPositions = getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
-    if (!positions.Sun || !positions.Moon) {
+    const posRecord = positions as Record<string, PlanetaryPosition | undefined>;
+    const sunPos = posRecord["Sun"] ?? posRecord["sun"];
+    const moonPos = posRecord["Moon"] ?? posRecord["moon"];
+    if (!sunPos || !moonPos) {
       throw new Error("Sun or Moon position missing");
     }
     // Calculate the angular distance between Sun and Moon
-    const moonLong = positions.Moon.longitude ?? 0;
-    const sunLong = positions.Sun.longitude ?? 0;
+    const moonLong = moonPos.longitude ?? 0;
+    const sunLong = sunPos.longitude ?? 0;
     let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
@@ -342,11 +351,14 @@ export function calculateSunSign(date: Date = new Date()): ZodiacSignType {
 export async function calculatemoonSign(
   date: Date = new Date(),
 ): Promise<ZodiacSignType> {
+  await Promise.resolve();
   try {
     const rawPositions = getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
-    if (positions.Moon?.sign) {
-      return positions.Moon.sign;
+    const posRecord = positions as Record<string, PlanetaryPosition | undefined>;
+    const moonPos = posRecord["Moon"] ?? posRecord["moon"];
+    if (moonPos?.sign) {
+      return (typeof moonPos.sign === "string" ? moonPos.sign.toLowerCase() : "cancer") as ZodiacSignType;
     }
     throw new Error("Moon position not available");
   } catch (error) {
@@ -402,10 +414,15 @@ export async function getCurrentAstrologicalState(
     const hourCalculator = new PlanetaryHourCalculator();
     const planetaryHour = hourCalculator.calculatePlanetaryHour(date);
     // Get Sun and Moon signs
-    const sunSign = (positions.Sun.sign.toLowerCase() ??
-      "aries") as ZodiacSignType;
-    const moonSign = (positions.moon.sign.toLowerCase() ??
-      "taurus") as ZodiacSignType;
+    const posRecord = positions as Record<string, PlanetaryPosition | undefined>;
+    const sunPos = posRecord["Sun"] ?? posRecord["sun"];
+    const sunSign = (typeof sunPos?.sign === "string"
+      ? sunPos.sign.toLowerCase()
+      : "aries") as ZodiacSignType;
+    const moonPos = posRecord["Moon"] ?? posRecord["moon"];
+    const moonSign = (typeof moonPos?.sign === "string"
+      ? moonPos.sign.toLowerCase()
+      : "taurus") as ZodiacSignType;
     // Get active planets
     const activePlanets = await calculateActivePlanets(positions);
     // Calculate aspects between planets
@@ -496,7 +513,7 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
     Neptune: "Water",
     Pluto: "Water",
   };
-  return planetElements[planet.toLowerCase()] || "Fire";
+  return (planetElements as Record<string, Element | undefined>)[planet.toLowerCase()] ?? "Fire";
 }
 /**
  * Get zodiac elemental influence
@@ -535,6 +552,7 @@ export async function calculateDominantElement(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
 ): Promise<Element> {
+  await Promise.resolve();
   const elementCounts: Record<Element, number> = {
     Fire: 0,
     Earth: 0,
@@ -543,7 +561,7 @@ export async function calculateDominantElement(
   };
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
-    Object.entries(astroState.planetaryPositions || []).forEach(
+    Object.entries(astroState.planetaryPositions).forEach(
       ([planet, position]) => {
         const element = getZodiacElementalInfluence(position.sign ?? "aries");
         // Weight by planet importance
@@ -557,7 +575,7 @@ export async function calculateDominantElement(
   // Find dominant element
   let dominantElement: Element = "Fire";
   let maxCount = 0;
-  Object.entries(elementCounts || {}).forEach(([element, count]) => {
+  Object.entries(elementCounts).forEach(([element, count]) => {
     if (count > maxCount) {
       maxCount = count;
       dominantElement = element as Element;
@@ -575,6 +593,7 @@ export async function calculateElementalProfile(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
 ): Promise<Record<Element, number>> {
+  await Promise.resolve();
   const elementCounts: Record<Element, number> = {
     Fire: 0,
     Earth: 0,
@@ -583,7 +602,7 @@ export async function calculateElementalProfile(
   };
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
-    Object.entries(astroState.planetaryPositions || []).forEach(
+    Object.entries(astroState.planetaryPositions).forEach(
       ([planet, position]) => {
         const element = getZodiacElementalInfluence(position.sign ?? "aries");
         // Weight by planet importance
@@ -604,7 +623,7 @@ export async function calculateElementalProfile(
     return { Fire: 0.25, Earth: 0.25, Air: 0.25, Water: 0.25 };
   }
   const profile: Record<Element, number> = {} as Record<Element, number>;
-  Object.entries(elementCounts || {}).forEach(([element, count]) => {
+  Object.entries(elementCounts).forEach(([element, count]) => {
     profile[element as Element] = count / total;
   });
   return profile;
@@ -622,6 +641,7 @@ export async function calculateAspects(
   aspects: PlanetaryAspect[];
   elementalEffects: ElementalProperties;
 }> {
+  await Promise.resolve();
   const aspects: PlanetaryAspect[] = [];
   const elementalEffects: ElementalProperties = {
     Fire: 0,
@@ -652,7 +672,7 @@ export async function calculateAspects(
   };
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: { sign: string; degree: number }): number => {
-    if (!position?.sign) {
+    if (typeof position.sign !== "string" || position.sign.length === 0) {
       debugLog("Invalid position object encountered: ", position);
       return 0;
     }
@@ -677,12 +697,12 @@ export async function calculateAspects(
   };
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions);
-  for (let i = 0; i < (planets || []).length; i++) {
-    for (let j = i + 1; j < (planets || []).length; j++) {
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
-      const pos1 = positions[planet1];
-      const pos2 = positions[planet2];
+      const pos1 = (positions as Record<string, { sign: string; degree: number } | undefined>)[planet1];
+      const pos2 = (positions as Record<string, { sign: string; degree: number } | undefined>)[planet2];
       // Skip if missing position data
       if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
       const long1 = getLongitude(pos1);

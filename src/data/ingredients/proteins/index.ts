@@ -142,16 +142,19 @@ export const _getProteinsByRegionalCuisine = (
     );
 
 export const _getCompatibleProteins = (_proteinName: string): string[] => {
-  const protein = _proteins[_proteinName];
+  const protein = (_proteins as Record<string, IngredientMapping | undefined>)[_proteinName];
   if (!protein) return [];
+
+  const proteinMethods = Array.isArray(protein.cookingMethods) ? protein.cookingMethods : [];
 
   return Object.entries(_proteins)
     .filter(
       ([key, value]) =>
         key !== _proteinName &&
         value.category === protein.category &&
-        (value.cookingMethods as any)?.some((method: any) =>
-          (protein.cookingMethods as any)?.includes(method),
+        Array.isArray(value.cookingMethods) &&
+        value.cookingMethods.some((method: string) =>
+          proteinMethods.includes(method),
         ),
     )
     .map(([key]) => key);

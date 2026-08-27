@@ -8,15 +8,15 @@ import { wholeGrains } from "./wholeGrains";
 // Create a comprehensive collection of all grain types
 export const allGrains: Record<string, IngredientMapping> =
   fixIngredientMappings({
-    ...(grainsIngredients as any), // Base grains from cuisine files
+    ...grainsIngredients,
     ...wholeGrains,
     ...refinedGrains,
     ..._pseudoGrains,
   });
 
 // Fix the raw grains object with proper ingredient mapping structure
-const rawGrains = {
-  ...(grainsIngredients as any), // Base grains from cuisine files
+const rawGrains: Record<string, Record<string, unknown>> = {
+  ...grainsIngredients,
   ...wholeGrains,
   ...refinedGrains,
   ..._pseudoGrains,

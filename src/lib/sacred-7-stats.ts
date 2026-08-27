@@ -629,8 +629,17 @@ export function enhanceWithAlchemy(
  * Calculate average stat value
  */
 export function calculateAverage(stats: Sacred7Stats): number {
-  const values = Object.values(stats)
-  return Math.round(values.reduce((sum, val) => sum + val, 0) / values.length)
+  const values = [
+    stats.power,
+    stats.resonance,
+    stats.wisdom,
+    stats.charisma,
+    stats.intuition,
+    stats.adaptability,
+    stats.vitality,
+    stats.solarAgency,
+  ];
+  return Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
 }
 
 /**
@@ -744,16 +753,17 @@ export function formatStats(stats: Sacred7Stats): string {
 // TYPE GUARDS
 // ============================================================================
 
-export function isValidSacred7Stats(obj: any): obj is Sacred7Stats {
+export function isValidSacred7Stats(obj: unknown): obj is Sacred7Stats {
+  if (typeof obj !== 'object' || obj === null) return false;
+  const candidate = obj as Record<string, unknown>;
   return (
-    typeof obj === 'object' &&
-    typeof obj.power === 'number' &&
-    typeof obj.resonance === 'number' &&
-    typeof obj.wisdom === 'number' &&
-    typeof obj.charisma === 'number' &&
-    typeof obj.intuition === 'number' &&
-    typeof obj.adaptability === 'number' &&
-    typeof obj.vitality === 'number' &&
-    typeof obj.solarAgency === 'number'
-  )
+    typeof candidate.power === 'number' &&
+    typeof candidate.resonance === 'number' &&
+    typeof candidate.wisdom === 'number' &&
+    typeof candidate.charisma === 'number' &&
+    typeof candidate.intuition === 'number' &&
+    typeof candidate.adaptability === 'number' &&
+    typeof candidate.vitality === 'number' &&
+    typeof candidate.solarAgency === 'number'
+  );
 }

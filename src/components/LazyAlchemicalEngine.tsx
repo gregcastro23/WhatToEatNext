@@ -8,7 +8,13 @@
 import React, { Suspense, useState } from "react";
 import { createLazyComponent } from "@/utils/lazyLoading";
 
-const LazyEngineFallback = (_props: any) => (
+interface AlchemicalCalculatorProps {
+  ingredients?: string[];
+  calculationType?: "energy" | "elemental" | "thermodynamic";
+  onComplete?: (result: unknown) => void;
+}
+
+const LazyEngineFallback: React.FC<AlchemicalCalculatorProps> = () => (
   <div className="alchemical-calculator">
     <h3>Alchemical Calculation Engine</h3>
     <p>Performing complex elemental calculations...</p>
@@ -18,7 +24,7 @@ const LazyEngineFallback = (_props: any) => (
 LazyEngineFallback.displayName = "LazyEngineFallback";
 
 // Lazy load the alchemical calculation engine
-const AlchemicalCalculator = createLazyComponent(
+const AlchemicalCalculator = createLazyComponent<AlchemicalCalculatorProps>(
   () =>
     import("@/calculations/alchemicalEngine").then((_module) => ({
       default: React.memo(LazyEngineFallback),

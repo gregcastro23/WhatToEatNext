@@ -5,8 +5,12 @@ import { getServerRecipes } from "@/actions/recipes";
 import { useToast } from "@/components/common/Toast";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import type { Recipe } from "@/types/recipe";
+import type { DayOfWeek } from "@/types/menuPlanner";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { calculateRecipeEstimatedCost } from "@/utils/instacart/priceEstimator";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("PossoWidget");
 
 interface ScoredRecipe extends Recipe {
   matchCount: number;
@@ -21,14 +25,14 @@ export default function PossoWidget({
   onClose,
 }: {
   onClose: () => void;
-}) {
+}): React.JSX.Element {
   const { inventory, setInventory, addMealToSlot } = useMenuPlanner();
   const [newItem, setNewItem] = useState("");
   const [scoredRecipes, setScoredRecipes] = useState<ScoredRecipe[]>([]);
   const [loading, setLoading] = useState(false);
   const { showSuccess, showInfo: _showInfo } = useToast();
 
-  const handleAddItem = (e: React.FormEvent) => {
+  const handleAddItem = (e: React.FormEvent): void => {
     e.preventDefault();
     if (!newItem.trim()) return;
     const items = newItem
@@ -42,12 +46,12 @@ export default function PossoWidget({
     setNewItem("");
   };
 
-  const handleRemoveItem = (itemToRemove: string) => {
+  const handleRemoveItem = (itemToRemove: string): void => {
     setInventory(inventory.filter((item) => item !== itemToRemove));
   };
 
   useEffect(() => {
-    async function loadAndScoreRecipes() {
+    async function loadAndScoreRecipes(): Promise<void> {
       if (inventory.length === 0) {
         setScoredRecipes([]);
         return;
@@ -55,29 +59,29 @@ export default function PossoWidget({
 
       setLoading(true);
       try {
-        const allRecipes = await getServerRecipes();
+        const allRecipes: Recipe[] = await getServerRecipes();
 
-        const scored = allRecipes.map((recipe: any) => {
-          const ingredients = recipe.ingredients ?? [];
+        const scored = allRecipes.map((recipe: Recipe): ScoredRecipe => {
+          const { ingredients } = recipe;
           let matchCount = 0;
 
-          ingredients.forEach((ing: any) => {
-            const name = (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase();
-            const isMatch = inventory.some((invItem) => name.includes(invItem) ?? invItem.includes(name));
+          ingredients.forEach((ing: RecipeIngredient | string) => {
+            const name = (typeof ing === "string" ? ing : ing.name).toLowerCase();
+            const isMatch = inventory.some((invItem) => name.includes(invItem) || invItem.includes(name));
             if (isMatch) matchCount++;
           });
 
-          const normalizedIngs = ingredients.map((ing: any) => ({
-            name: typeof ing === "string" ? ing : ing.name ?? "",
-            amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
-            unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
+          const normalizedIngs: RecipeIngredient[] = ingredients.map((ing: RecipeIngredient | string): RecipeIngredient => ({
+            name: typeof ing === "string" ? ing : ing.name,
+            amount: typeof ing === "string" ? 1 : ing.amount,
+            unit: typeof ing === "string" ? "each" : ing.unit,
             optional: typeof ing === "string" ? false : ing.optional,
           }));
 
           const originalEstimate = calculateRecipeEstimatedCost(normalizedIngs, 4, []);
           // Posso cost = only what the user still needs to buy (exclude inventory items)
           const possoIngs = normalizedIngs.filter(
-            (ing: { name: string; amount: number; unit: string; optional?: boolean }) => !inventory.some((invItem) => {
+            (ing: RecipeIngredient) => !inventory.some((invItem) => {
               const ingLower = ing.name.toLowerCase();
               const invLower = invItem.toLowerCase();
               return ingLower.includes(invLower) || invLower.includes(ingLower);
@@ -93,7 +97,7 @@ export default function PossoWidget({
             originalCost: originalEstimate.totalCost,
             possoCost: possoEstimate.totalCost,
             savings: originalEstimate.totalCost - possoEstimate.totalCost,
-          } as ScoredRecipe;
+          };
         });
 
         // Filter for recipes that use at least 1 inventory item, sort by highest match percentage then savings
@@ -108,13 +112,13 @@ export default function PossoWidget({
 
         setScoredRecipes(relevant.slice(0, 20)); // Top 20 best savings
       } catch (err) {
-        console.error("Failed to score Posso recipes", err);
+        logger.error("Failed to score Posso recipes", err);
       } finally {
         setLoading(false);
       }
     }
 
-    void loadAndScoreRecipes();
+    loadAndScoreRecipes().catch(() => {});
   }, [inventory]);
 
   return (
@@ -249,9 +253,11 @@ export default function PossoWidget({
                       onClick={() => {
                         // Very naive auto-placement (for demo). A better UX would be drag-and-drop.
                         // Try placing it on the next empty dinner slot
-                        const days = [0, 1, 2, 3, 4, 5, 6] as any[];
+                        const days: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6];
                         for (const day of days) {
-                          void addMealToSlot(day, "dinner", recipe as MonicaOptimizedRecipe);
+                          addMealToSlot(day, "dinner", recipe as unknown as MonicaOptimizedRecipe).catch((err: unknown) => {
+                            logger.error("Failed to add meal to slot", err);
+                          });
                           showSuccess(`Added to ${day} Dinner`);
                           break;
                         }

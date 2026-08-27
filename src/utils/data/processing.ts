@@ -53,7 +53,7 @@ export function standardizeElementalAffinity(
     };
   }
 
-  if (value && typeof value === "object" && "base" in value) {
+  if ("base" in value) {
     return {
       primary: (value.base || "Fire") as "Fire" | "Water" | "Earth" | "Air",
       strength: 1.0,
@@ -91,15 +91,15 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     season: standardizeSeasons(raw.currentSeason),
     description: raw.description ? String(raw.description) : undefined,
     qualities: Array.isArray(raw.qualities)
-      ? raw.qualities || [].map(String)
+      ? raw.qualities.map(String)
       : [],
     cookingMethods: Array.isArray(raw.cookingMethods)
-      ? raw.cookingMethods || [].map(String)
+      ? raw.cookingMethods.map(String)
       : [],
-    pairings: Array.isArray(raw.pairings) ? raw.pairings || [].map(String) : [],
+    pairings: Array.isArray(raw.pairings) ? raw.pairings.map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
     preparationTips: Array.isArray(raw.preparationTips)
-      ? raw.preparationTips || [].map(String)
+      ? raw.preparationTips.map(String)
       : [],
   } as Ingredient;
 }
@@ -122,7 +122,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     description: raw.description ? String(raw.description) : undefined,
     cuisine: String(raw.cuisine ?? "international"),
     mealType: Array.isArray(raw.mealType)
-      ? raw.mealType || [].map(String)
+      ? raw.mealType.map(String)
       : ["dinner"],
     servings: typeof raw.servings === "number" ? raw.servings : 4,
     prepTime:
@@ -140,19 +140,19 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     difficulty: validateDifficulty(raw.difficulty) ? raw.difficulty : "medium",
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions)
-      ? raw.instructions || [].map(String)
+      ? raw.instructions.map(String)
       : [],
     elementalProperties: standardizeElementalProperties(raw.elementalState),
     astrologicalInfluences: Array.isArray(raw.astrologicalInfluences)
-      ? raw.astrologicalInfluences || [].map(String)
+      ? raw.astrologicalInfluences.map(String)
       : [],
     seasons: standardizeSeasons(raw.seasons),
-    tags: Array.isArray(raw.tags) ? raw.tags || [].map(String) : [],
+    tags: Array.isArray(raw.tags) ? raw.tags.map(String) : [],
     nutritionalInfo: standardizeNutritionalInfo(raw.nutritionalInfo),
     equipment: Array.isArray(raw.equipment)
-      ? raw.equipment || [].map(String)
+      ? raw.equipment.map(String)
       : [],
-    tips: Array.isArray(raw.tips) ? raw.tips || [].map(String) : [],
+    tips: Array.isArray(raw.tips) ? raw.tips.map(String) : [],
   };
 }
 
@@ -210,7 +210,7 @@ export function validateIngredient(
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: errors.length === 0,
     errors,
     warnings,
   };
@@ -288,7 +288,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: errors.length === 0,
     errors,
     warnings,
   };
@@ -331,9 +331,9 @@ export function cleanupIngredientsDatabase(
           );
         }
 
-        if (validation.warnings && (validation.warnings?.length ?? 0) > 0) {
+        if (validation.warnings && validation.warnings.length > 0) {
           result.warnings.push(
-            `Ingredient ${index} warnings: ${validation.warnings?.join(", ")}`,
+            `Ingredient ${index} warnings: ${validation.warnings.join(", ")}`,
           );
         }
       } catch (error) {
@@ -472,10 +472,10 @@ function _standardizeAstrologicalProfile(
       ),
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets)
-      ? (prof.rulingPlanets || []).map(String)
+      ? prof.rulingPlanets.map(String)
       : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac)
-      ? (prof.favorableZodiac || []).map(String)
+      ? prof.favorableZodiac.map(String)
       : [],
   } as unknown as AstrologicalProfile;
 }
@@ -495,7 +495,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   const result: { [key: string]: number } = {};
   const prof = profile as Record<string, unknown>;
 
-  Object.entries(prof || {}).forEach(([key, value]) => {
+  Object.entries(prof).forEach(([key, value]) => {
     if (typeof value === "number" && value >= 0 && value <= 1) {
       result[key] = value;
     }
@@ -516,7 +516,7 @@ function standardizeNutritionalProfile(
 
 function standardizeSeasons(seasons: unknown): string[] {
   if (Array.isArray(seasons)) {
-    return (seasons || []).map(String);
+    return seasons.map(String);
   }
 
   if (typeof seasons === "string") {
@@ -533,7 +533,7 @@ function standardizeRecipeIngredients(
     return [];
   }
 
-  return (ingredients || []).map((ingredient) => {
+  return ingredients.map((ingredient) => {
     if (typeof ingredient === "string") {
       return {
         name: ingredient,
@@ -543,7 +543,7 @@ function standardizeRecipeIngredients(
     }
 
     if (ingredient && typeof ingredient === "object") {
-      const ing = ingredient;
+      const ing = ingredient as Record<string, unknown>;
       return {
         name: String(ing.name ?? "Unknown"),
         amount: typeof ing.amount === "number" ? ing.amount : 1,
@@ -584,21 +584,22 @@ function validateElementalProperties(
 ): ValidationResult {
   const errors: string[] = [];
 
-  if (!properties || typeof properties !== "object") {
+  const rawProps = properties as unknown;
+  if (!rawProps || typeof rawProps !== "object") {
     errors.push("Elemental properties must be an object");
     return { isValid: false, errors };
   }
 
-  const requiredElements = ["Fire", "Water", "Earth", "Air"];
+  const requiredElements = ["Fire", "Water", "Earth", "Air"] as const;
 
-  (requiredElements || []).forEach((element) => {
+  requiredElements.forEach((element) => {
     if (
-      typeof properties[element as "Fire" | "Water" | "Earth" | "Air"] !==
+      typeof properties[element] !==
       "number"
     ) {
       errors.push(`${element} must be a number`);
     } else {
-      const value = properties[element as "Fire" | "Water" | "Earth" | "Air"];
+      const value = properties[element];
       if (value < 0 || value > 1) {
         errors.push(`${element} must be between 0 and 1`);
       }
@@ -606,7 +607,7 @@ function validateElementalProperties(
   });
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: errors.length === 0,
     errors,
   };
 }
@@ -616,7 +617,8 @@ function validateAstrologicalProfile(
 ): ValidationResult {
   const errors: string[] = [];
 
-  if (!profile || typeof profile !== "object") {
+  const rawProf = profile as unknown;
+  if (!rawProf || typeof rawProf !== "object") {
     errors.push("Astrological profile must be an object");
     return { isValid: false, errors };
   }
@@ -640,7 +642,7 @@ function validateAstrologicalProfile(
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: errors.length === 0,
     errors,
   };
 }
@@ -668,7 +670,7 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: errors.length === 0,
     errors,
   };
 }

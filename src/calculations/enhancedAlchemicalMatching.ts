@@ -2,12 +2,53 @@ import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { ZodiacSignType } from "@/types/unified";
 import { createLogger } from "@/utils/logger";
 
-// Type imports
-// import { signs } from "@/data/astrology";
-const signs: any = null; // Commented out non-existent export
-// Internal imports
-// Logger
 const logger = createLogger("EnhancedAlchemicalMatching");
+
+const SIGN_ELEMENT: Record<string, string> = {
+  aries: "Fire",
+  leo: "Fire",
+  sagittarius: "Fire",
+  taurus: "Earth",
+  virgo: "Earth",
+  capricorn: "Earth",
+  gemini: "Air",
+  libra: "Air",
+  aquarius: "Air",
+  cancer: "Water",
+  scorpio: "Water",
+  pisces: "Water",
+};
+
+const SIGN_MODALITY: Record<string, string> = {
+  aries: "Cardinal",
+  cancer: "Cardinal",
+  libra: "Cardinal",
+  capricorn: "Cardinal",
+  taurus: "Fixed",
+  leo: "Fixed",
+  scorpio: "Fixed",
+  aquarius: "Fixed",
+  gemini: "Mutable",
+  virgo: "Mutable",
+  sagittarius: "Mutable",
+  pisces: "Mutable",
+};
+
+const SIGN_RULER: Record<string, string> = {
+  aries: "Mars",
+  taurus: "Venus",
+  gemini: "Mercury",
+  cancer: "Moon",
+  leo: "Sun",
+  virgo: "Mercury",
+  libra: "Venus",
+  scorpio: "Mars",
+  sagittarius: "Jupiter",
+  capricorn: "Saturn",
+  aquarius: "Saturn",
+  pisces: "Jupiter",
+};
+
 /**
  * Calculate astrological affinity between two signs
  * This integrates multiple data sources including:
@@ -27,12 +68,15 @@ export function calculateAstrologicalAffinity(
   _planets?: Record<string, PlanetaryPosition>,
 ): number {
   try {
+    const keyA = String(signA).toLowerCase();
+    const keyB = String(signB).toLowerCase();
+
     // Base elemental compatibility
-    const elementA = signs[signA]?.Element;
-    const elementB = signs[signB]?.Element;
+    const elementA = SIGN_ELEMENT[keyA] ?? "";
+    const elementB = SIGN_ELEMENT[keyB] ?? "";
     // Get modalities
-    const modalityA = signs[signA]?.Modality;
-    const modalityB = signs[signB]?.Modality;
+    const modalityA = SIGN_MODALITY[keyA] ?? "";
+    const modalityB = SIGN_MODALITY[keyB] ?? "";
     // Start with base elemental compatibility score
     let baseScore = 0.5; // Neutral starting point
     // Elemental compatibility matrix
@@ -58,20 +102,11 @@ export function calculateAstrologicalAffinity(
       }
     }
     // Calculate decanic compatibility
-    const decanCompat = compareDecanRulers(
-      signs[signA]?.["Decan Effects"] || {},
-      signs[signB]?.["Decan Effects"] || {},
-    );
+    const decanCompat = compareDecanRulers({}, {});
     // Calculate degree-specific influences
-    const degreeCompat = calculateDegreeOverlap(
-      signs[signA]?.["Degree Effects"] || {},
-      signs[signB]?.["Degree Effects"] || {},
-    );
+    const degreeCompat = calculateDegreeOverlap({}, {});
     // Calculate tarot correspondences influence
-    const tarotCompat = compareTarotArcana(
-      signs[signA]?.["Major Tarot Card"] || "",
-      signs[signB]?.["Major Tarot Card"] || "",
-    );
+    const tarotCompat = compareTarotArcana("", "");
     // Calculate modality compatibility with elements
     const modalityCompat =
       modalityA && modalityB
@@ -79,8 +114,8 @@ export function calculateAstrologicalAffinity(
         : 0.5;
     // Calculate rulership compatibility
     const rulerCompat = compareRulers(
-      signs[signA]?.Ruler || "",
-      signs[signB]?.Ruler || "",
+      SIGN_RULER[keyA] ?? "",
+      SIGN_RULER[keyB] ?? "",
     );
     // Weight components based on their relative importance
     return (

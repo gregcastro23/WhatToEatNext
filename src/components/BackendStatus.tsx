@@ -139,12 +139,17 @@ export const BackendStatus: React.FC = () => {
       const recData = (await recRes.json()) as RecipeApiResponse;
       const recTime = performance.now() - recStart;
 
+      const getElementValue = (balance: Record<string, number | undefined>, key: string): number => {
+        const val = balance[key];
+        return typeof val === "number" && Number.isFinite(val) ? val : 0.25;
+      };
+
       setDemoResults({
         elements: {
-          Fire: elementsBalance.Fire ?? 0.25,
-          Water: elementsBalance.Water ?? 0.25,
-          Earth: elementsBalance.Earth ?? 0.25,
-          Air: elementsBalance.Air ?? 0.25,
+          Fire: getElementValue(elementsBalance, "Fire"),
+          Water: getElementValue(elementsBalance, "Water"),
+          Earth: getElementValue(elementsBalance, "Earth"),
+          Air: getElementValue(elementsBalance, "Air"),
           responseTime: elementsTime,
         },
         planetary: {
