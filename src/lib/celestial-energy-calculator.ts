@@ -6,7 +6,10 @@
  * Integrates A#, SMES, Kinetic, and Thermodynamic metrics with real planetary positions
  */
 
+import { createLogger } from '@/utils/logger'
 import { generateAccurateHoroscope, type HoroscopeData } from './monica/horoscope-generator'
+
+const _logger = createLogger('celestial-energy-calculator')
 
 export interface ElementVector {
   Fire: number
@@ -38,11 +41,11 @@ interface AlchmSample {
   totals: ElementVector
 }
 
-async function sampleHourlyAlchm(
+function sampleHourlyAlchm(
   _location: Location,
   _timestamp: Date,
   _options: Record<string, unknown>
-): Promise<AlchmSample[]> {
+): AlchmSample[] {
   return [
     {
       spirit: 50,
@@ -118,13 +121,29 @@ export interface CelestialTimeSeries {
     duration: number // milliseconds
     totalMoments: number
     peakEnergy: CelestialMoment
-    averageValues: Partial<CelestialMoment>
+    averageValues: {
+      alchemical: {
+        A_number: number
+        spirit: number
+        matter: number
+        essence: number
+        substance: number
+      }
+      kinetic: {
+        power: number
+        inertia: number
+      }
+      consciousness: {
+        resonanceLevel: number
+        spiritualAmplitude: number
+      }
+    }
     trends: {
       alchemical: 'rising' | 'falling' | 'stable'
       kinetic: 'accelerating' | 'decelerating' | 'stable'
       consciousness: 'evolving' | 'stabilizing' | 'transforming'
     }
-  }
+  } | null
   patterns: Array<{
     type: string
     description: string
@@ -143,7 +162,7 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate celestial energy for a specific moment
    */
-  async calculateMoment(timestamp: Date, location: Location): Promise<CelestialMoment> {
+  calculateMoment(timestamp: Date, location: Location): CelestialMoment {
     const cacheKey = `${timestamp.getTime()}-${location.lat}-${location.lon}`
 
     // Check cache first
@@ -166,15 +185,8 @@ export class CelestialEnergyCalculator {
         longitude: location.lon,
       })
 
-      // Validate horoscope data
-      const planets = horoscope?.tropical?.CelestialBodies?.all
-      if (!horoscope || !planets) {
-        console.error('Invalid horoscope generated:', horoscope)
-        throw new Error('Failed to generate valid horoscope data')
-      }
-
       // Sample alchemical data
-      const alchemicalSample = await sampleHourlyAlchm(
+      const alchemicalSample = sampleHourlyAlchm(
         {
           lat: location.lat,
           lon: location.lon,
@@ -188,11 +200,7 @@ export class CelestialEnergyCalculator {
         }
       )
 
-      const [sample] = alchemicalSample // Get the single sample for this moment
-
-      if (!sample) {
-        throw new Error('Failed to generate alchemical sample')
-      }
+      const [sample] = alchemicalSample
 
       // Calculate planetary degrees
       const planetaryDegrees = this.extractPlanetaryDegrees(horoscope)
@@ -241,7 +249,7 @@ export class CelestialEnergyCalculator {
 
       return moment
     } catch (error) {
-      console.error('Error calculating celestial moment:', error)
+      _logger.error('Error calculating celestial moment:', error)
       throw new Error(
         `Failed to calculate celestial energy: ${error instanceof Error ? error.message : 'Unknown error'}`
       )
@@ -251,23 +259,21 @@ export class CelestialEnergyCalculator {
   /**
    * Generate time series of celestial energy
    */
-  async generateTimeSeries(options: TimeSeriesOptions): Promise<CelestialTimeSeries> {
+  generateTimeSeries(options: TimeSeriesOptions): CelestialTimeSeries {
     const moments: CelestialMoment[] = []
     const timeSteps = this.generateTimeSteps(options.startDate, options.endDate, options.interval)
 
-    // Calculate moments in parallel for performance
-    const batchSize = 10 // Process in batches to avoid overwhelming the system
+    // Calculate moments in batches to avoid overwhelming the system
+    const batchSize = 10
     for (let i = 0; i < timeSteps.length; i += batchSize) {
       const batch = timeSteps.slice(i, i + batchSize)
-      const batchPromises = batch.map(timestamp =>
-        this.calculateMoment(timestamp, options.location)
-      )
-
       try {
-        const batchResults = await Promise.all(batchPromises)
+        const batchResults = batch.map(timestamp =>
+          this.calculateMoment(timestamp, options.location)
+        )
         moments.push(...batchResults)
       } catch (error) {
-        console.error(`Error processing batch ${i}-${i + batchSize}:`, error)
+        _logger.error(`Error processing batch ${i}-${i + batchSize}:`, error)
         // Continue with other batches
       }
     }
@@ -295,12 +301,7 @@ export class CelestialEnergyCalculator {
     const degrees: Record<string, number> = {}
 
     // Extract planets from horoscope structure
-    const planets = horoscope?.tropical?.CelestialBodies?.all
-
-    if (!horoscope || !planets) {
-      console.error('Invalid horoscope data: planets is null or undefined')
-      return degrees
-    }
+    const planets = horoscope.tropical.CelestialBodies.all
 
     // Handle array format
     if (Array.isArray(planets)) {
@@ -312,12 +313,12 @@ export class CelestialEnergyCalculator {
     }
 
     // Add angles
-    if (horoscope.tropical?.Ascendant?.degrees) {
+    if (typeof horoscope.tropical.Ascendant.degrees === 'number') {
       degrees['Ascendant'] = horoscope.tropical.Ascendant.degrees
     }
 
     // Add midheaven if available
-    if (horoscope.tropical?.Houses?.[10]?.degree) {
+    if (horoscope.tropical.Houses?.[10]?.degree !== undefined) {
       degrees['Midheaven'] = horoscope.tropical.Houses[10].degree
     }
 
@@ -436,8 +437,9 @@ export class CelestialEnergyCalculator {
     // rather than fixed, since deriving this from `tropical.CelestialBodies.all` would
     // change what this method (and downstream consciousness/evolution-phase calculations)
     // actually returns.
-    if (!horoscope || !(horoscope as unknown as Record<string, unknown>).planets) {
-      console.error('Invalid horoscope data: planets is null or undefined')
+    const rawPlanets = (horoscope as unknown as { planets?: Record<string, unknown> }).planets
+    if (!rawPlanets) {
+      _logger.error('Invalid horoscope data: planets is null or undefined')
       return {
         dominantPlanet: 'Sun',
         dominantSign: 'Aries',
@@ -446,9 +448,7 @@ export class CelestialEnergyCalculator {
       }
     }
 
-    const planets = Object.entries(
-      (horoscope as unknown as Record<string, unknown>).planets as Record<string, unknown>
-    )
+    const planets = Object.entries(rawPlanets)
 
     // Find dominant planet (most aspects or strongest dignity)
     let dominantPlanet = 'Sun' // default
@@ -498,7 +498,7 @@ export class CelestialEnergyCalculator {
     alchemical: CelestialMoment['alchemical'],
     kinetic: CelestialMoment['kinetic'],
     planetary: CelestialMoment['planetary']
-  ) {
+  ): CelestialMoment['consciousness'] {
     // Resonance level based on A# and elemental harmony
     const resonanceLevel =
       Math.min(1.0, alchemical.A_number / 100) * (1 + (kinetic.power / 10) * 0.1)
@@ -518,49 +518,55 @@ export class CelestialEnergyCalculator {
   }
 
   /**
-   * Determine evolution phase based on planetary and alchemical factors
+   * Determine evolution phase based on planetary context
    */
   private determineEvolutionPhase(
     planetary: CelestialMoment['planetary'],
     alchemical: CelestialMoment['alchemical']
   ): string {
     const phases = [
-      'Initiation',
-      'Development',
-      'Integration',
-      'Mastery',
-      'Transcendence',
-      'Illumination',
-      'Unity',
+      'Calcination',
+      'Dissolution',
+      'Separation',
+      'Conjunction',
+      'Fermentation',
+      'Distillation',
+      'Coagulation',
     ]
 
-    // Base phase on A# level
-    const basePhase = Math.floor((alchemical.A_number / 20) % phases.length)
+    // Use moon phase and dominant element to determine phase
+    const phaseIndex = Math.floor(planetary.moonPhase * phases.length)
+    const basePhase = phases[phaseIndex] || 'Calcination'
 
-    // Modify based on planetary factors
-    let phaseModifier = 0
-    if (planetary.dominantPlanet === 'Jupiter') phaseModifier += 1
-    if (planetary.dominantPlanet === 'Saturn') phaseModifier -= 1
-    if (planetary.retrogradeCount > 3) phaseModifier += 1
-
-    const finalPhase = Math.max(0, Math.min(phases.length - 1, basePhase + phaseModifier))
-    return phases[finalPhase]
+    // Modify based on A#
+    if (alchemical.A_number > 80) {
+      return `${basePhase} (Transcendent)`
+    } else if (alchemical.A_number > 60) {
+      return `${basePhase} (Harmonious)`
+    } else if (alchemical.A_number > 40) {
+      return `${basePhase} (Active)`
+    } else {
+      return `${basePhase} (Nascent)`
+    }
   }
 
   /**
-   * Generate time steps for the specified interval
+   * Generate time steps for time series
    */
-  private generateTimeSteps(startDate: Date, endDate: Date, interval: string): Date[] {
+  private generateTimeSteps(
+    startDate: Date,
+    endDate: Date,
+    interval: TimeSeriesOptions['interval']
+  ): Date[] {
     const steps: Date[] = []
     const current = new Date(startDate)
 
-    const intervalMs =
-      {
-        minute: 60 * 1000,
-        hour: 60 * 60 * 1000,
-        day: 24 * 60 * 60 * 1000,
-        week: 7 * 24 * 60 * 60 * 1000,
-      }[interval] ?? 60 * 60 * 1000
+    const intervalMs = {
+      minute: 60 * 1000,
+      hour: 60 * 60 * 1000,
+      day: 24 * 60 * 60 * 1000,
+      week: 7 * 24 * 60 * 60 * 1000,
+    }[interval]
 
     while (current <= endDate) {
       steps.push(new Date(current))
@@ -571,17 +577,19 @@ export class CelestialEnergyCalculator {
   }
 
   /**
-   * Apply smoothing to time series data
+   * Apply smoothing to moment series
    */
-  private applySmoothing(moments: CelestialMoment[], window: number): CelestialMoment[] {
-    if (window <= 1 || moments.length < window) return moments
+  private applySmoothing(moments: CelestialMoment[], windowSize: number): CelestialMoment[] {
+    if (windowSize <= 1 || moments.length < windowSize) {
+      return moments
+    }
 
     return moments.map((moment, index) => {
-      const start = Math.max(0, index - Math.floor(window / 2))
-      const end = Math.min(moments.length, start + window)
+      const start = Math.max(0, index - Math.floor(windowSize / 2))
+      const end = Math.min(moments.length, start + windowSize)
       const subset = moments.slice(start, end)
 
-      // Calculate smoothed values
+      // Create smoothed copy
       const smoothed = { ...moment }
 
       // Smooth alchemical values
@@ -604,7 +612,7 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate comprehensive statistics
    */
-  private calculateStatistics(moments: CelestialMoment[]) {
+  private calculateStatistics(moments: CelestialMoment[]): NonNullable<CelestialTimeSeries['statistics']> {
     if (moments.length === 0) {
       throw new Error('Cannot calculate statistics for empty moment series')
     }
@@ -645,23 +653,18 @@ export class CelestialEnergyCalculator {
       peakEnergy,
       averageValues,
       trends,
-      // Intentionally any: this return value is assigned (via a `... ? ... : null` ternary
-      // at the generateTimeSeries call site) into CelestialTimeSeries.statistics, which is a
-      // non-nullable field. Giving this method a precise return type would surface a new
-      // null-assignability typecheck error there; keeping this cast preserves the current
-      // passing typecheck state without changing the public interface or runtime behavior.
-    } as any
+    }
   }
 
   /**
    * Analyze trends in the time series
    */
-  private analyzeTrends(moments: CelestialMoment[]) {
+  private analyzeTrends(moments: CelestialMoment[]): NonNullable<CelestialTimeSeries['statistics']>['trends'] {
     if (moments.length < 3) {
       return {
-        alchemical: 'stable' as const,
-        kinetic: 'stable' as const,
-        consciousness: 'stable' as const,
+        alchemical: 'stable',
+        kinetic: 'stable',
+        consciousness: 'stabilizing',
       }
     }
 
@@ -698,7 +701,7 @@ export class CelestialEnergyCalculator {
   /**
    * Detect patterns in the time series
    */
-  private detectPatterns(moments: CelestialMoment[]) {
+  private detectPatterns(moments: CelestialMoment[]): CelestialTimeSeries['patterns'] {
     const patterns: CelestialTimeSeries['patterns'] = []
 
     // Peak detection
@@ -740,11 +743,9 @@ export class CelestialEnergyCalculator {
   private calculatePlanetaryStrength(_planet: string, data: Record<string, unknown>): number {
     // Simplified strength calculation with null checks
     let strength = 1
-    if (data && typeof data === 'object') {
-      const dignity = data.dignity as number | undefined
-      if (dignity && dignity > 0) strength += dignity
-      if (data.retrograde === false) strength += 0.5
-    }
+    const dignity = typeof data.dignity === 'number' ? data.dignity : undefined
+    if (dignity && dignity > 0) strength += dignity
+    if (data.retrograde === false) strength += 0.5
     return strength
   }
 

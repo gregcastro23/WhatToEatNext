@@ -5,7 +5,7 @@ import type {
     ElementalProperties,
     LunarPhase
 } from "@/types/alchemy";
-import type { ZodiacSignType as ZodiacSign } from "@/types/celestial";
+import type { Planet, ZodiacSignType as ZodiacSign } from "@/types/celestial";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
@@ -45,7 +45,7 @@ interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
  * - Recipe recommendations based on various criteria
  */
 export class RecipeService {
-  private static instance: RecipeService;
+  private static instance: RecipeService | null = null;
   private static _allRecipes: Recipe[] | null = null;
   private readonly recipeCache: Map<string, Recipe[]> = new Map();
   /**
@@ -58,9 +58,7 @@ export class RecipeService {
    * Get singleton instance
    */
   public static getInstance(): RecipeService {
-    if (!RecipeService.instance) {
-      RecipeService.instance = new RecipeService();
-    }
+    RecipeService.instance ??= new RecipeService();
     return RecipeService.instance;
   }
   /**
@@ -263,7 +261,7 @@ export class RecipeService {
       const scoredRecipes = allRecipes.map(recipe => {
         const score = calculateEnhancedElementalCompatibility(
           skyElemental,
-          recipe.elementalProperties || skyElemental
+          recipe.elementalProperties
         );
         return { recipe, score };
       });
@@ -285,7 +283,7 @@ export class RecipeService {
 
       const allRecipes = await this.getAllRecipes();
       const scoredRecipes = allRecipes.map(recipe => {
-        const recipeFlavor = (recipe as any).flavorProfile ?? { sweet: 0.5, savory: 0.5, spicy: 0, salty: 0.5 };
+        const recipeFlavor = (recipe as unknown as { flavorProfile?: Record<string, number> }).flavorProfile ?? { sweet: 0.5, savory: 0.5, spicy: 0, salty: 0.5 };
         const match = calculateFlavorCompatibility(flavorProfile, recipeFlavor);
         return { recipe, score: match.compatibility };
       });
@@ -320,7 +318,7 @@ export class RecipeService {
                 name: recipe.name,
                 type: "recipe",
                 elementalProperties: recipe.elementalProperties,
-                planetaryRulers: recipe.astrologicalInfluences as any,
+                planetaryRulers: recipe.astrologicalInfluences as Planet[] | undefined,
               }
             });
             return {
@@ -342,15 +340,15 @@ export class RecipeService {
   /**
    * Get recipes from a specific cuisine object
    */
-  private async getRecipesFromCuisine(
+  private getRecipesFromCuisine(
     cuisine: ExtendedCuisine,
-  ): Promise<Recipe[]> {
+  ): Recipe[] {
     try {
       const recipes: Recipe[] = [];
       const rawDishes = cuisine.dishes ?? [];
       const dishes = Array.isArray(rawDishes) ? rawDishes : Object.values(rawDishes).flat();
       for (const dish of dishes) {
-        const recipe = await this.convertDishToRecipe(
+        const recipe = this.convertDishToRecipe(
           dish as Record<string, unknown>,
           cuisine,
         );
@@ -367,10 +365,10 @@ export class RecipeService {
   /**
    * Convert dish data to Recipe format
    */
-  private async convertDishToRecipe(
+  private convertDishToRecipe(
     dish: Record<string, unknown>,
     cuisine: ExtendedCuisine,
-  ): Promise<Recipe | null> {
+  ): Recipe | null {
     try {
       // Generate unique ID
       const dishName = String(dish.name ?? "Unknown Dish");
@@ -378,20 +376,26 @@ export class RecipeService {
       const id = `${cuisineName.toLowerCase().replace(/\s+/g, "-")}-${dishName.toLowerCase().replace(/\s+/g, "-")}`;
       // Convert ingredients
       const ingredients = Array.isArray(dish.ingredients)
-        ? dish.ingredients.map((ing: any) => ({
-            name: String(ing.name ?? ""),
-            amount: typeof ing.amount === "number" ? ing.amount : 1,
-            unit: String(ing.unit ?? "unit"),
-            optional: Boolean(ing.optional),
-            preparation: String(ing.preparation ?? ""),
-            category: String(ing.category ?? ""),
-          }))
+        ? dish.ingredients.map((ing) => {
+            const item =
+              typeof ing === "object" && ing !== null
+                ? (ing as Record<string, unknown>)
+                : {};
+            return {
+              name: String(item.name ?? ""),
+              amount: typeof item.amount === "number" ? item.amount : 1,
+              unit: String(item.unit ?? "unit"),
+              optional: Boolean(item.optional),
+              preparation: String(item.preparation ?? ""),
+              category: String(item.category ?? ""),
+            };
+          })
         : [];
       // Convert instructions
       const instructions = Array.isArray(dish.instructions)
-        ? dish.instructions.map((inst: any) => String(inst))
+        ? dish.instructions.map((inst) => String(inst))
         : Array.isArray(dish.preparationSteps)
-          ? dish.preparationSteps.map((step: any) => String(step))
+          ? dish.preparationSteps.map((step) => String(step))
           : [String(dish.instructions ?? dish.preparationSteps ?? "")];
       // Parse time
       const timeToMake = this.parseTime(
@@ -409,13 +413,13 @@ export class RecipeService {
               : 2;
       // Elemental properties
       const elementalProperties =
-        (dish.elementalProperties as ElementalProperties) ||
-          (dish.elementalState as ElementalProperties) || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25,
-          };
+        (dish.elementalProperties as ElementalProperties | undefined) ??
+        (dish.elementalState as ElementalProperties | undefined) ?? {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        };
       const recipe: Recipe = {
         id,
         name: dishName,
@@ -427,10 +431,10 @@ export class RecipeService {
         numberOfServings,
         elementalProperties,
         season: Array.isArray(dish.season)
-          ? dish.season.map((s: any) => String(s))
+          ? dish.season.map((s) => String(s))
           : ["all"],
         mealType: Array.isArray(dish.mealType)
-          ? dish.mealType.map((m: any) => String(m))
+          ? dish.mealType.map((m) => String(m))
           : ["dinner"],
         cuisine: cuisineName,
         isVegetarian: Boolean(dish.isVegetarian),
@@ -438,7 +442,7 @@ export class RecipeService {
         isGlutenFree: Boolean(dish.isGlutenFree),
         isDairyFree: Boolean(dish.isDairyFree),
         astrologicalInfluences: Array.isArray(dish.astrologicalInfluences)
-          ? dish.astrologicalInfluences.map((inf: any) => String(inf))
+          ? dish.astrologicalInfluences.map((inf) => String(inf))
           : [],
       };
       return recipe;

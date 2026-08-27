@@ -5,28 +5,30 @@
  * Follows the same pattern as socialDatabaseService (lazy DB import, in-memory fallback).
  */
 
-import { _logger } from "@/lib/logger";
 import type {
   NotificationMetadata,
   NotificationType,
   UserNotification,
 } from "@/types/notification";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("notification-database-service");
 
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
     } catch {
-      _logger.warn("Database module not available for notification service");
+      logger.warn("Database module not available for notification service");
     }
   }
   return dbModule;
 };
 
-// ─── In-memory fallback ─────────────────────────────────
+// â”€â”€â”€ In-memory fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const notificationsStore: Map<string, UserNotification> = new Map();
 
 interface NotificationRow {
@@ -75,7 +77,7 @@ function rowToNotification(row: NotificationRow): UserNotification {
 }
 
 class NotificationDatabaseService {
-  // ─── Create ─────────────────────────────────────────────
+  // â”€â”€â”€ Create â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   async createNotification(
     userId: string,
@@ -84,7 +86,7 @@ class NotificationDatabaseService {
     message: string,
     opts?: {
       relatedUserId?: string;
-      metadata?: Record<string, any>;
+      metadata?: Record<string, unknown>;
       expiresAt?: string;
     },
   ): Promise<UserNotification | null> {
@@ -107,7 +109,7 @@ class NotificationDatabaseService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<NotificationRow>(
           `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata, expires_at)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
            RETURNING *`,
@@ -123,23 +125,24 @@ class NotificationDatabaseService {
           ],
         );
         if (result.rows.length > 0) {
-          return rowToNotification(result.rows[0]);
+          const [row] = result.rows;
+          return rowToNotification(row);
         }
       } catch (error) {
-        // FK violation (23503) means user_id doesn't exist in users — silently
+        // FK violation (23503) means user_id doesn't exist in users â€” silently
         // skip rather than logging at error level. This happens for legitimate
         // edge cases like demo-flow callers passing synthetic IDs or sessions
         // outliving the underlying user row, and it pollutes the error stream
         // when it's safe to ignore.
-        const code = (error as { code?: string })?.code;
+        const code = (error as { code?: string } | undefined)?.code;
         if (code === "23503") {
-          _logger.warn(
-            "[Notification] FK violation on createNotification — user_id missing, skipping",
+          logger.warn(
+            "[Notification] FK violation on createNotification â€” user_id missing, skipping",
             { userId, type },
           );
           return null;
         }
-        _logger.error("createNotification failed:", error);
+        logger.error("createNotification failed:", error);
         return null;
       }
     }
@@ -150,12 +153,12 @@ class NotificationDatabaseService {
   }
 
   /**
-   * Create OR bump an event-scoped notification — at most ONE unread row per
+   * Create OR bump an event-scoped notification â€” at most ONE unread row per
    * (recipient, event, type). The first actor INSERTs `firstMessage`; each
    * later actor bumps that row's count + lastActorName instead of adding a new
    * bell entry, and rewrites the message from `bumpTemplate`. Sibling to
    * `createOrBumpConversationNotification` below (same dedup principle,
-   * conversation-scoped instead of event-scoped — PR 3 and PR 5 converged on
+   * conversation-scoped instead of event-scoped â€” PR 3 and PR 5 converged on
    * the pattern independently with different keys/mechanisms; kept as two
    * named methods rather than one generic function so neither's reviewed
    * concurrency strategy — this one's partial unique index + ON CONFLICT,
@@ -204,7 +207,8 @@ class NotificationDatabaseService {
           n.metadata?.eventId === args.eventId,
       );
       if (existing) {
-        const prior = (existing.metadata?.count as number) ?? 1;
+        const countVal = existing.metadata?.count;
+        const prior = typeof countVal === "number" ? countVal : 1;
         existing.metadata = { ...existing.metadata, count: prior + 1, lastActorName: args.lastActorName };
         existing.message = renderBump(prior); // "others" = the pre-increment count
         return existing;
@@ -228,7 +232,7 @@ class NotificationDatabaseService {
       // The bump template with __ACTOR__ resolved in JS; __OTHERS__ resolved in
       // SQL to the pre-increment count so the message stays truthful under races.
       const actorResolvedTemplate = args.bumpTemplate.replace(/__ACTOR__/g, args.lastActorName);
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<NotificationRow>(
         `WITH bumped AS (
            UPDATE notifications
               SET metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object(
@@ -248,9 +252,9 @@ class NotificationDatabaseService {
            INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
            SELECT $1, $2, $4::notification_type, $8, $9, $3, $10
            WHERE NOT EXISTS (SELECT 1 FROM bumped)
-           -- Concurrency backstop (review §3): if a racing txn already inserted
+           -- Concurrency backstop (review Â§3): if a racing txn already inserted
            -- the unread row for this (recipient, type, event), the partial unique
-           -- index uniq_unread_event_notification makes this INSERT conflict —
+           -- index uniq_unread_event_notification makes this INSERT conflict â€”
            -- bump that row instead of double-inserting.
            ON CONFLICT (user_id, type, (metadata->>'eventId')) WHERE is_read = false
            DO UPDATE SET
@@ -274,7 +278,7 @@ class NotificationDatabaseService {
           args.type, // $4
           args.eventId, // $5
           args.lastActorName, // $6
-          actorResolvedTemplate, // $7 — SQL substitutes __OTHERS__
+          actorResolvedTemplate, // $7 â€” SQL substitutes __OTHERS__
           args.title, // $8
           args.firstMessage, // $9 (count = 1 on fresh insert)
           JSON.stringify(baseMetadata), // $10
@@ -283,25 +287,25 @@ class NotificationDatabaseService {
       const [row] = result.rows;
       return row ? rowToNotification(row) : null;
     } catch (error) {
-      const code = (error as { code?: string })?.code;
+      const code = (error as { code?: string } | undefined)?.code;
       if (code === "23503") {
-        _logger.warn(
-          "[Notification] FK violation on createOrBumpEventNotification — recipient missing, skipping",
+        logger.warn(
+          "[Notification] FK violation on createOrBumpEventNotification â€” recipient missing, skipping",
           { recipientId: args.recipientId, type: args.type },
         );
         return null;
       }
-      _logger.error("createOrBumpEventNotification failed:", error);
+      logger.error("createOrBumpEventNotification failed:", error);
       return null;
     }
   }
 
   /**
-   * Chat dedup upsert (docs/plans/pr3-messaging-plan.md §6): keep AT MOST ONE
+   * Chat dedup upsert (docs/plans/pr3-messaging-plan.md Â§6): keep AT MOST ONE
    * unread notification row per (recipient, conversation). If an unread row of
    * a chat type already exists for this conversation, bump its folded unread
    * count + refresh the preview/timestamp; otherwise insert a fresh row. Table
-   * chat emits NO notification (its badge is /api/chat/unread) — only
+   * chat emits NO notification (its badge is /api/chat/unread) â€” only
    * dm_message / circle_message / table_chat_mention flow through here.
    *
    * All work runs on ONE transaction client (the SELECT ... FOR UPDATE guards
@@ -315,7 +319,7 @@ class NotificationDatabaseService {
       title: string;
       message: string;
       relatedUserId?: string;
-      metadata?: Record<string, any>;
+      metadata?: Record<string, unknown>;
     },
   ): Promise<UserNotification | null> {
     const db = await getDbModule();
@@ -343,13 +347,13 @@ class NotificationDatabaseService {
 
     try {
       const { withTransaction } = await import("@/lib/database/connection");
-      const result = await withTransaction(async (client) => {
+      const result = await withTransaction<NotificationRow | null>(async (client) => {
         // Serialize concurrent first-messages for the SAME (recipient,
         // conversation): SELECT ... FOR UPDATE locks NOTHING on an empty
         // result, so two racing inserts would both find no row and each
         // INSERT, violating the one-unread-row invariant. A transaction-scoped
         // advisory lock keyed on (user, type, conversation) makes the loser
-        // wait until the winner commits — then its SELECT sees the winner's row
+        // wait until the winner commits â€” then its SELECT sees the winner's row
         // and takes the UPDATE branch. hashtextextended(text, 0) -> bigint
         // feeds the single-arg lock; collisions only serialize unrelated pairs,
         // never miss.
@@ -358,7 +362,7 @@ class NotificationDatabaseService {
           [`${userId}:${type}:${conversationId}`],
         );
 
-        const found = await client.query(
+        const found = await client.query<NotificationRow>(
           `SELECT id, metadata FROM notifications
             WHERE user_id = $1::uuid AND type = $2 AND is_read = false
               AND metadata->>'conversationId' = $3
@@ -379,14 +383,14 @@ class NotificationDatabaseService {
             unreadCount: nextCount,
             messagePreview: opts.message,
           };
-          const updated = await client.query(
+          const updated = await client.query<NotificationRow>(
             `UPDATE notifications
                 SET message = $2, metadata = $3, created_at = CURRENT_TIMESTAMP, is_read = false
               WHERE id = $1
               RETURNING *`,
             [row.id, opts.message, JSON.stringify(nextMeta)],
           );
-          return updated.rows[0];
+          return updated.rows[0] ?? null;
         }
 
         const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
@@ -396,31 +400,31 @@ class NotificationDatabaseService {
           unreadCount: 1,
           messagePreview: opts.message,
         };
-        const inserted = await client.query(
+        const inserted = await client.query<NotificationRow>(
           `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
            VALUES ($1, $2, $3, $4, $5, $6, $7)
            RETURNING *`,
           [id, userId, type, opts.title, opts.message, opts.relatedUserId ?? null, JSON.stringify(meta)],
         );
-        return inserted.rows[0];
+        return inserted.rows[0] ?? null;
       });
       return result ? rowToNotification(result) : null;
     } catch (error) {
-      const code = (error as { code?: string })?.code;
+      const code = (error as { code?: string } | undefined)?.code;
       if (code === "23503") {
-        _logger.warn("[Notification] FK violation on createOrBumpConversationNotification — skipping", {
+        logger.warn("[Notification] FK violation on createOrBumpConversationNotification â€” skipping", {
           userId,
           type,
         });
         return null;
       }
-      _logger.error("createOrBumpConversationNotification failed:", error);
+      logger.error("createOrBumpConversationNotification failed:", error);
       return null;
     }
   }
 
   /**
-   * Mark a conversation's chat notifications read for a recipient — called
+   * Mark a conversation's chat notifications read for a recipient â€” called
    * when they open/read the conversation (the deduped row is cleared so the
    * bell count drops). Table chat has no rows here; this is a no-op for it.
    */
@@ -428,7 +432,7 @@ class NotificationDatabaseService {
     const db = await getDbModule();
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ id: string }>(
           `UPDATE notifications SET is_read = true
             WHERE user_id = $1::uuid AND is_read = false
               AND type IN ('dm_message','circle_message','table_chat_mention')
@@ -436,9 +440,9 @@ class NotificationDatabaseService {
             RETURNING id`,
           [userId, conversationId],
         );
-        return result.rows?.length || 0;
+        return result.rows.length;
       } catch (error) {
-        _logger.error("clearChatNotifications failed:", error);
+        logger.error("clearChatNotifications failed:", error);
         return 0;
       }
     }
@@ -458,7 +462,7 @@ class NotificationDatabaseService {
     return count;
   }
 
-  // ─── Read ───────────────────────────────────────────────
+  // â”€â”€â”€ Read â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   async getNotificationsForUser(
     userId: string,
@@ -471,7 +475,7 @@ class NotificationDatabaseService {
     if (db) {
       try {
         const unreadClause = opts?.unreadOnly ? "AND n.is_read = false" : "";
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<NotificationRow>(
           `SELECT n.*,
                   COALESCE(up.name, ru.name, '') AS related_user_name
            FROM notifications n
@@ -486,7 +490,7 @@ class NotificationDatabaseService {
         );
         return result.rows.map(rowToNotification);
       } catch (error) {
-        _logger.error("getNotificationsForUser failed:", error);
+        logger.error("getNotificationsForUser failed:", error);
         return [];
       }
     }
@@ -504,15 +508,15 @@ class NotificationDatabaseService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ count: number }>(
           `SELECT COUNT(*)::int AS count FROM notifications
            WHERE user_id = $1 AND is_read = false
              AND (expires_at IS NULL OR expires_at > NOW())`,
           [userId],
         );
-        return result.rows[0]?.count ?? 0;
+        return Number(result.rows[0]?.count ?? 0);
       } catch (error) {
-        _logger.error("getUnreadCount failed:", error);
+        logger.error("getUnreadCount failed:", error);
         return 0;
       }
     }
@@ -522,22 +526,22 @@ class NotificationDatabaseService {
     ).length;
   }
 
-  // ─── Update ─────────────────────────────────────────────
+  // â”€â”€â”€ Update â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   async markAsRead(notificationId: string, userId: string): Promise<boolean> {
     const db = await getDbModule();
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ id: string }>(
           `UPDATE notifications SET is_read = true
            WHERE id = $1 AND user_id = $2
            RETURNING id`,
           [notificationId, userId],
         );
-        return (result.rows?.length || 0) > 0;
+        return result.rows.length > 0;
       } catch (error) {
-        _logger.error("markAsRead failed:", error);
+        logger.error("markAsRead failed:", error);
         return false;
       }
     }
@@ -552,7 +556,7 @@ class NotificationDatabaseService {
 
   /**
    * Flip a `table_join_request` notification's own lifecycle status
-   * (pending → actioned | dismissed) — deliberately independent of `is_read`.
+   * (pending â†’ actioned | dismissed) â€” deliberately independent of `is_read`.
    * A host merely opening the notification panel marks the row read via
    * `markAsRead`; that must never itself grant/revoke actionability or defeat
    * `tableDatabaseService.requestToJoin`'s dedupe, which reads this same
@@ -569,7 +573,7 @@ class NotificationDatabaseService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ id: string }>(
           `UPDATE notifications
               SET metadata = jsonb_set(COALESCE(metadata, '{}'::jsonb), '{status}', to_jsonb($3::text)),
                   is_read = true
@@ -577,9 +581,9 @@ class NotificationDatabaseService {
             RETURNING id`,
           [notificationId, userId, status],
         );
-        return (result.rows?.length || 0) > 0;
+        return result.rows.length > 0;
       } catch (error) {
-        _logger.error("updateJoinRequestStatus failed:", error);
+        logger.error("updateJoinRequestStatus failed:", error);
         return false;
       }
     }
@@ -598,15 +602,15 @@ class NotificationDatabaseService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ id: string }>(
           `UPDATE notifications SET is_read = true
            WHERE user_id = $1 AND is_read = false
            RETURNING id`,
           [userId],
         );
-        return result.rows?.length || 0;
+        return result.rows.length;
       } catch (error) {
-        _logger.error("markAllAsRead failed:", error);
+        logger.error("markAllAsRead failed:", error);
         return 0;
       }
     }
@@ -621,14 +625,14 @@ class NotificationDatabaseService {
     return count;
   }
 
-  // ─── Check for existing daily insight today ─────────────
+  // â”€â”€â”€ Check for existing daily insight today â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   async hasDailyInsightToday(userId: string): Promise<boolean> {
     const db = await getDbModule();
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ id: string }>(
           // "Today" = the current New York calendar day (domain timezone), not the
           // DB session's CURRENT_DATE (UTC), so the once-per-day dedupe rolls over
           // at ET midnight rather than UTC midnight.
@@ -638,9 +642,9 @@ class NotificationDatabaseService {
            LIMIT 1`,
           [userId],
         );
-        return (result.rows?.length || 0) > 0;
+        return result.rows.length > 0;
       } catch (error) {
-        _logger.error("hasDailyInsightToday failed:", error);
+        logger.error("hasDailyInsightToday failed:", error);
         return false;
       }
     }
@@ -651,19 +655,19 @@ class NotificationDatabaseService {
     );
   }
 
-  // ─── Cleanup ────────────────────────────────────────────
+  // â”€â”€â”€ Cleanup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   async deleteExpired(): Promise<number> {
     const db = await getDbModule();
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ id: string }>(
           `DELETE FROM notifications WHERE expires_at IS NOT NULL AND expires_at < NOW() RETURNING id`,
         );
-        return result.rows?.length || 0;
+        return result.rows.length;
       } catch (error) {
-        _logger.error("deleteExpired failed:", error);
+        logger.error("deleteExpired failed:", error);
         return 0;
       }
     }

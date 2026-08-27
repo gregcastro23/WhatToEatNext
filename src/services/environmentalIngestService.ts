@@ -32,7 +32,6 @@ import {
   type EnvironmentSample,
 } from "@/lib/environment/openMeteoClient";
 import { robustStat } from "@/lib/environment/robustStats";
-import { _logger } from "@/lib/logger";
 import {
   buildCountObservations,
   buildInsertObservation,
@@ -43,6 +42,47 @@ import {
   buildSummarizeBaselines,
   buildUpsertBaseline,
 } from "@/services/environmentalQueries";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("environmental-ingest-service");
+
+interface DbWindowObservationRow {
+  surface_pressure_kpa: number | string;
+  dew_point_c: number | string;
+  observed_at: Date | string;
+}
+
+interface DbBaselineRow {
+  geohash5: string;
+  elevation_m: string | number;
+  elevation_basis: string;
+  pressure_median_kpa: string | number;
+  pressure_mad_sigma_kpa: string | number;
+  dew_point_median_c: string | number;
+  dew_point_mad_sigma_c: string | number;
+  sample_days: string | number;
+  archive_seeded: boolean;
+  last_computed_at: string | Date;
+}
+
+interface DbArchiveCountRow {
+  archive_count: string | number;
+}
+
+interface DbGeohashDueRow {
+  geohash5: string;
+  elevation_m: number | string;
+}
+
+interface DbSummaryRow {
+  geohash_count?: string | number;
+  archive_seeded_count?: string | number;
+  mature_count?: string | number;
+  min_sample_days?: string | number;
+  max_sample_days?: string | number;
+  observation_count?: string | number;
+  last_computed_at?: string | Date | null;
+}
 
 /** Trailing window the robust statistics are computed over. */
 export const BASELINE_WINDOW_DAYS = 30;
@@ -103,14 +143,14 @@ export async function recomputeBaseline(
   elevationBasis: string,
   archiveSeeded: boolean,
 ): Promise<BaselineRow | null> {
-  const { rows } = await executeQuery(buildSelectWindowObservations(), [
+  const { rows } = await executeQuery<DbWindowObservationRow>(buildSelectWindowObservations(), [
     geohash5,
     BASELINE_WINDOW_DAYS,
   ]);
   if (rows.length === 0) return null;
 
-  const pressures = rows.map((r: { surface_pressure_kpa: number }) => Number(r.surface_pressure_kpa));
-  const dewPoints = rows.map((r: { dew_point_c: number }) => Number(r.dew_point_c));
+  const pressures = rows.map((r) => Number(r.surface_pressure_kpa));
+  const dewPoints = rows.map((r) => Number(r.dew_point_c));
 
   const pressureStat = robustStat(pressures);
   const dewPointStat = robustStat(dewPoints);
@@ -119,7 +159,7 @@ export async function recomputeBaseline(
   // hours per day, and counting rows would overstate how much independent
   // history actually stands behind the statistic.
   const distinctDays = new Set(
-    rows.map((r: { observed_at: Date | string }) =>
+    rows.map((r) =>
       new Date(r.observed_at).toISOString().slice(0, 10),
     ),
   ).size;
@@ -151,7 +191,7 @@ export async function recomputeBaseline(
 }
 
 export async function getBaseline(geohash5: string): Promise<BaselineRow | null> {
-  const { rows } = await executeQuery(buildSelectBaseline(), [geohash5]);
+  const { rows } = await executeQuery<DbBaselineRow>(buildSelectBaseline(), [geohash5]);
   if (rows.length === 0) return null;
   const [r] = rows;
   return {
@@ -180,7 +220,7 @@ export async function seedFromArchive(
 ): Promise<BaselineRow | null> {
   const geohash5 = encodeGeohash(latitude, longitude, ENVIRONMENT_GEOHASH_PRECISION);
 
-  const { rows: counts } = await executeQuery(buildCountObservations(), [
+  const { rows: counts } = await executeQuery<DbArchiveCountRow>(buildCountObservations(), [
     geohash5,
     BASELINE_WINDOW_DAYS,
   ]);
@@ -218,9 +258,7 @@ export async function seedFromArchive(
   const daily = reduceToDailyAtHour(hourly, sampleHourForGeohash(geohash5));
   const written = await insertSamples(geohash5, daily);
 
-  // No `void` operator: this `_logger.info` already returns void, so discarding
-  // it was a no-op that only read as though a promise were being dropped.
-  _logger.info("Seeded environmental baseline from archive", {
+  logger.info("Seeded environmental baseline from archive", {
     geohash5,
     elevationM,
     daysWritten: written,
@@ -258,8 +296,8 @@ export async function getGeohashesDueForSampling(
   utcHour: number,
   limit: number,
 ): Promise<Array<{ geohash5: string; elevationM: number }>> {
-  const { rows } = await executeQuery(buildSelectGeohashesDueForSampling(), [utcHour, limit]);
-  return rows.map((r: { geohash5: string; elevation_m: number }) => ({
+  const { rows } = await executeQuery<DbGeohashDueRow>(buildSelectGeohashesDueForSampling(), [utcHour, limit]);
+  return rows.map((r) => ({
     geohash5: r.geohash5,
     elevationM: Number(r.elevation_m),
   }));
@@ -283,7 +321,7 @@ export interface IngestionSummary {
 
 /** Fleet-wide ingestion health. Reports what is in the tables, never a shape. */
 export async function summarizeIngestion(): Promise<IngestionSummary> {
-  const { rows } = await executeQuery(buildSummarizeBaselines(), []);
+  const { rows } = await executeQuery<DbSummaryRow>(buildSummarizeBaselines(), []);
   const r = rows[0] ?? {};
   const geohashCount = Number(r.geohash_count ?? 0);
   return {

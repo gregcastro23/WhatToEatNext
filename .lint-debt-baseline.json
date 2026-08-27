@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 6177,
+  "trackedTotal": 6031,
   "declined": {
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 2013,
@@ -12,7 +12,7 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 2001,
+      "count": 1996,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
@@ -20,7 +20,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 494,
+      "count": 481,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -28,15 +28,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2326,
+      "count": 2269,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 224,
+      "count": 214,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 639,
+      "count": 624,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -44,11 +44,11 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 806,
+      "count": 767,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 110,
+      "count": 106,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
@@ -64,7 +64,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 111,
+      "count": 109,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -72,7 +72,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 355,
+      "count": 354,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -104,11 +104,11 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 546,
+      "count": 541,
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 57,
+      "count": 56,
       "autoFixable": 0
     },
     "no-void": {
