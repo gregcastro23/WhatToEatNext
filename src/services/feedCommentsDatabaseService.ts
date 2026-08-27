@@ -120,7 +120,7 @@ class FeedCommentsDatabaseService {
         WHERE f.id = $1::uuid`,
       [eventId],
     );
-    const [row] = res.rows as (ActorRevealRow | undefined)[];
+    const [row] = res.rows as Array<ActorRevealRow | undefined>;
     if (!row) return null;
     return {
       actorId: row.actor_id,
@@ -225,7 +225,7 @@ class FeedCommentsDatabaseService {
        RETURNING id, created_at`,
       [eventId, authorId, body],
     );
-    const [row] = ins.rows as (InsertCommentRow | undefined)[];
+    const [row] = ins.rows as Array<InsertCommentRow | undefined>;
     if (!row) return null;
 
     const [identitiesMap, eventReveal] = await Promise.all([

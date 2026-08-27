@@ -1,8 +1,20 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import type { WeeklyMenu, GroceryItem } from "@/types/menuPlanner";
+import type { WeeklyMenu, GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { logger } from "@/utils/logger";
+
+interface MenuTemplateData {
+  name: string;
+  meals: MealSlot[];
+  groceryList?: GroceryItem[];
+  inventory?: string[];
+  weeklyBudget?: number | null;
+}
+
+interface MenuTemplateResponse {
+  template?: MenuTemplateData;
+}
 
 interface UseMenuPersistenceArgs {
   currentMenu: WeeklyMenu | null;
@@ -99,26 +111,29 @@ export function useMenuPersistence({
         if (!response.ok) {
           throw new Error(`Template load failed with status ${response.status}`);
         }
-        const data = await response.json();
-        const template = data?.template;
+        const { template } = (await response.json()) as MenuTemplateResponse;
 
         if (!template) {
           throw new Error("Template not found");
         }
 
         const newMenu = createInitialMenu(currentWeekStart);
-        newMenu.meals = template.meals.map((m: any, index: number) => ({
-          ...m,
-          id: `${m.dayOfWeek}-${m.mealType}-${Date.now()}-${index}`,
-          planetarySnapshot: newMenu.meals.find(
+        newMenu.meals = template.meals.map((m, index) => {
+          const defaultSnapshot = newMenu.meals.find(
             (nm) => nm.dayOfWeek === m.dayOfWeek && nm.mealType === m.mealType,
-          )!.planetarySnapshot,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }));
+          )?.planetarySnapshot ?? m.planetarySnapshot;
+
+          return {
+            ...m,
+            id: `${m.dayOfWeek}-${m.mealType}-${Date.now()}-${index}`,
+            planetarySnapshot: defaultSnapshot,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+        });
 
         setCurrentMenu(newMenu);
-        setGroceryList(template.groceryList || []);
+        setGroceryList(template.groceryList ?? []);
         setInventoryRaw(
           Array.isArray(template.inventory) ? template.inventory : [],
         );
@@ -127,9 +142,9 @@ export function useMenuPersistence({
             ? template.weeklyBudget
             : null,
         );
-        void persistMenu({
+        persistMenu({
           menu: newMenu,
-          groceryList: template.groceryList || [],
+          groceryList: template.groceryList ?? [],
           inventory: Array.isArray(template.inventory)
             ? template.inventory
             : [],
@@ -137,6 +152,8 @@ export function useMenuPersistence({
             typeof template.weeklyBudget === "number"
               ? template.weeklyBudget
               : null,
+        }).catch((err: unknown) => {
+          logger.error("Failed to persist menu after loading template:", err);
         });
         logger.info(`Loaded template: ${template.name}`);
       } catch (err) {

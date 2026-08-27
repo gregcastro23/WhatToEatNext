@@ -148,9 +148,9 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
    * @returns Enhanced mantra analysis with vibrational insights
    */
   analyzeMantraVibrations: (
-    mantras: typeof CHAKRA_BIJA_MANTRAS,
+    _mantras: typeof CHAKRA_BIJA_MANTRAS,
     context: Record<string, unknown> = {},
-  ) => {
+  ): Record<string, unknown> => {
     const mantraAnalysis = {
       // Vibrational frequency analysis
       vibrationalFrequencies: {
@@ -199,40 +199,34 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
    * @param analysis - The mantra analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: Record<string, unknown>) => {
+  generateRecommendations: (analysis: Record<string, unknown>): string[] => {
     const recommendations: string[] = [];
 
+    const eff = (analysis as { effectiveness?: { pronunciationAccuracy?: number; vibrationalResonance?: number } }).effectiveness;
     if (
-      (analysis as unknown as any)?.effectiveness?.pronunciationAccuracy < 0.85
+      eff?.pronunciationAccuracy !== undefined &&
+      eff.pronunciationAccuracy < 0.85
     ) {
       recommendations.push(
         "Enhance mantra pronunciation training for improved vibrational accuracy",
       );
     }
 
-    const { effectiveness } = analysis as {
-      effectiveness?: { vibrationalResonance?: number };
-    };
     if (
-      effectiveness?.vibrationalResonance !== undefined &&
-      effectiveness.vibrationalResonance < 0.8
+      eff?.vibrationalResonance !== undefined &&
+      eff.vibrationalResonance < 0.8
     ) {
       recommendations.push(
         "Optimize mantra vibrational frequencies for enhanced resonance",
       );
     }
 
+    const adv = (analysis as {
+      advancedVibrations?: { harmonicResonance?: { fundamental?: number } };
+    }).advancedVibrations;
     if (
-      (
-        analysis as unknown as {
-          advancedVibrations?: { harmonicResonance?: { fundamental?: number } };
-        }
-      ).advancedVibrations?.harmonicResonance?.fundamental !== undefined &&
-      ((
-        analysis as unknown as {
-          advancedVibrations?: { harmonicResonance?: { fundamental?: number } };
-        }
-      ).advancedVibrations?.harmonicResonance?.fundamental as number) < 0.85
+      adv?.harmonicResonance?.fundamental !== undefined &&
+      adv.harmonicResonance.fundamental < 0.85
     ) {
       recommendations.push(
         "Strengthen fundamental frequency alignment for better harmonic resonance",
@@ -258,7 +252,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
   analyzeVisualSymbols: (
     _symbols: typeof CHAKRA_SYMBOLS,
     _colors: typeof CHAKRA_BG_COLORS,
-  ) => {
+  ): Record<string, unknown> => {
     const visualAnalysis = {
       // Symbolic effectiveness metrics
       symbolicEffectiveness: {
@@ -303,36 +297,35 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
    * @param analysis - The visual analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: Record<string, unknown>) => {
+  generateRecommendations: (analysis: Record<string, unknown>): string[] => {
     const recommendations: string[] = [];
 
+    const sym = (analysis as { symbolicEffectiveness?: { visualClarity?: number } })
+      .symbolicEffectiveness;
     if (
-      (analysis as { symbolicEffectiveness?: { visualClarity?: number } })
-        .symbolicEffectiveness?.visualClarity !== undefined &&
-      ((analysis as { symbolicEffectiveness?: { visualClarity?: number } })
-        .symbolicEffectiveness?.visualClarity as number) < 0.85
+      sym?.visualClarity !== undefined &&
+      sym.visualClarity < 0.85
     ) {
       recommendations.push(
         "Enhance visual symbol clarity for improved energy transmission",
       );
     }
 
+    const col = (analysis as { colorAnalysis?: { colorHarmony?: number } }).colorAnalysis;
     if (
-      (analysis as { colorAnalysis?: { colorHarmony?: number } }).colorAnalysis
-        ?.colorHarmony !== undefined &&
-      ((analysis as { colorAnalysis?: { colorHarmony?: number } }).colorAnalysis
-        ?.colorHarmony as number) < 0.9
+      col?.colorHarmony !== undefined &&
+      col.colorHarmony < 0.9
     ) {
       recommendations.push(
         "Optimize color harmony for enhanced visual resonance",
       );
     }
 
-    const advancedVisual = analysis.advancedVisual as {
-      geometricAnalysis?: { symmetry?: number };
+    const { advancedVisual } = analysis as {
+      advancedVisual?: { geometricAnalysis?: { symmetry?: number } };
     };
     if (
-      advancedVisual.geometricAnalysis?.symmetry !== undefined &&
+      advancedVisual?.geometricAnalysis?.symmetry !== undefined &&
       advancedVisual.geometricAnalysis.symmetry < 0.85
     ) {
       recommendations.push(
@@ -357,7 +350,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
    */
   analyzeNutritionalCorrelations: (
     _: typeof CHAKRA_NUTRITIONAL_CORRELATIONS,
-  ) => {
+  ): Record<string, unknown> => {
     const nutritionalAnalysis = {
       // Nutritional effectiveness metrics
       nutritionalEffectiveness: {
@@ -402,34 +395,25 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
    * @param analysis - The nutritional analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: Record<string, unknown>) => {
+  generateRecommendations: (analysis: Record<string, unknown>): string[] => {
     const recommendations: string[] = [];
 
-    if (
-      ((analysis.nutritionalEffectiveness as { dietaryAlignment?: number })
-        ?.dietaryAlignment ?? 1) < 0.85
-    ) {
+    const eff = analysis.nutritionalEffectiveness as { dietaryAlignment?: number } | undefined;
+    if (eff?.dietaryAlignment !== undefined && eff.dietaryAlignment < 0.85) {
       recommendations.push(
         "Enhance dietary alignment for improved chakra support",
       );
     }
 
-    if (
-      ((analysis.dietaryAnalysis as { foodCompatibility?: number })
-        ?.foodCompatibility ?? 1) < 0.85
-    ) {
+    const dietary = analysis.dietaryAnalysis as { foodCompatibility?: number } | undefined;
+    if (dietary?.foodCompatibility !== undefined && dietary.foodCompatibility < 0.85) {
       recommendations.push(
         "Optimize food compatibility for enhanced nutritional balance",
       );
     }
 
-    if (
-      ((
-        analysis.advancedNutritional as {
-          energeticAnalysis?: { pranicValue?: number };
-        }
-      )?.energeticAnalysis?.pranicValue ?? 1) < 0.9
-    ) {
+    const adv = analysis.advancedNutritional as { energeticAnalysis?: { pranicValue?: number } } | undefined;
+    if (adv?.energeticAnalysis?.pranicValue !== undefined && adv.energeticAnalysis.pranicValue < 0.9) {
       recommendations.push(
         "Strengthen pranic value for better energetic resonance",
       );
@@ -454,7 +438,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
   analyzeFunctionalOperations: (
     _herbs: typeof CHAKRA_HERBS,
     _sanskritNames: typeof CHAKRA_SANSKRIT_NAMES,
-  ) => {
+  ): Record<string, unknown> => {
     const functionalAnalysis = {
       // Functional effectiveness metrics
       functionalEffectiveness: {
@@ -499,34 +483,25 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
    * @param analysis - The functional analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: Record<string, unknown>) => {
+  generateRecommendations: (analysis: Record<string, unknown>): string[] => {
     const recommendations: string[] = [];
 
-    if (
-      ((analysis.functionalEffectiveness as { operationalEfficiency?: number })
-        ?.operationalEfficiency ?? 1) < 0.85
-    ) {
+    const eff = analysis.functionalEffectiveness as { operationalEfficiency?: number } | undefined;
+    if (eff?.operationalEfficiency !== undefined && eff.operationalEfficiency < 0.85) {
       recommendations.push(
         "Enhance operational efficiency for improved system performance",
       );
     }
 
-    if (
-      ((analysis.herbalAnalysis as { herbEffectiveness?: number })
-        ?.herbEffectiveness ?? 1) < 0.85
-    ) {
+    const herbal = analysis.herbalAnalysis as { herbEffectiveness?: number } | undefined;
+    if (herbal?.herbEffectiveness !== undefined && herbal.herbEffectiveness < 0.85) {
       recommendations.push(
         "Optimize herb effectiveness for enhanced chakra support",
       );
     }
 
-    if (
-      ((
-        analysis.advancedFunctional as {
-          operationalAnalysis?: { systemEfficiency?: number };
-        }
-      )?.operationalAnalysis?.systemEfficiency ?? 1) < 0.85
-    ) {
+    const adv = analysis.advancedFunctional as { operationalAnalysis?: { systemEfficiency?: number } } | undefined;
+    if (adv?.operationalAnalysis?.systemEfficiency !== undefined && adv.operationalAnalysis.systemEfficiency < 0.85) {
       recommendations.push(
         "Strengthen system efficiency for better operational balance",
       );
@@ -553,7 +528,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
     mantras?: Record<string, string>;
     correlations?: Record<string, string[]>;
     herbs?: Record<string, string[]>;
-  }) => {
+  }): Record<string, unknown> => {
     const platformAnalysis = {
       // Platform effectiveness metrics
       platformEffectiveness: {
@@ -598,34 +573,25 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
    * @param analysis - The platform analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: Record<string, unknown>) => {
+  generateRecommendations: (analysis: Record<string, unknown>): string[] => {
     const recommendations: string[] = [];
 
-    if (
-      ((analysis.platformEffectiveness as { demonstrationClarity?: number })
-        ?.demonstrationClarity ?? 1) < 0.85
-    ) {
+    const eff = analysis.platformEffectiveness as { demonstrationClarity?: number } | undefined;
+    if (eff?.demonstrationClarity !== undefined && eff.demonstrationClarity < 0.85) {
       recommendations.push(
         "Enhance demonstration clarity for improved user experience",
       );
     }
 
-    if (
-      ((analysis.systemAnalysis as { systemCoherence?: number })
-        ?.systemCoherence ?? 1) < 0.85
-    ) {
+    const sys = analysis.systemAnalysis as { systemCoherence?: number } | undefined;
+    if (sys?.systemCoherence !== undefined && sys.systemCoherence < 0.85) {
       recommendations.push(
         "Optimize system coherence for enhanced platform integration",
       );
     }
 
-    if (
-      ((
-        analysis.advancedPlatform as {
-          demonstrationAnalysis?: { clarityEffectiveness?: number };
-        }
-      )?.demonstrationAnalysis?.clarityEffectiveness ?? 1) < 0.85
-    ) {
+    const adv = analysis.advancedPlatform as { demonstrationAnalysis?: { clarityEffectiveness?: number } } | undefined;
+    if (adv?.demonstrationAnalysis?.clarityEffectiveness !== undefined && adv.demonstrationAnalysis.clarityEffectiveness < 0.85) {
       recommendations.push(
         "Strengthen clarity effectiveness for better platform balance",
       );
@@ -645,7 +611,7 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
    * Generate comprehensive chakra intelligence summary
    * @returns Complete summary of all chakra intelligence systems
    */
-  generateComprehensiveSummary: () => ({
+  generateComprehensiveSummary: (): Record<string, unknown> => ({
     // System overview
     systemOverview: {
       totalSystems: 5,

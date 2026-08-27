@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { _logger } from '@/lib/logger';
-import type { Session } from 'next-auth';
 import type { NatalChart } from '@/types/natalChart';
+import type { Session } from 'next-auth';
 
 export interface UserPreferences {
   dietaryRestrictions: string[];
