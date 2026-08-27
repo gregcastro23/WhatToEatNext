@@ -140,8 +140,8 @@ export function aggregateElementalProperties(
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
-  const defaultWeights =
-    weights ?? new Array(recipes.length).fill(1 / recipes.length);
+  const defaultWeights: number[] =
+    weights ?? new Array<number>(recipes.length).fill(1 / recipes.length);
 
   const fireValues = recipes.map((r) => r.elementalProperties.Fire);
   const waterValues = recipes.map((r) => r.elementalProperties.Water);
@@ -180,9 +180,11 @@ export function aggregateAlchemicalProperties(
     return undefined;
   }
 
-  const defaultWeights =
+  const defaultWeights: number[] =
     weights ??
-    new Array(recipesWithAlchemy.length).fill(1 / recipesWithAlchemy.length);
+    new Array<number>(recipesWithAlchemy.length).fill(
+      1 / recipesWithAlchemy.length,
+    );
 
   const spiritValues = recipesWithAlchemy.map(
     (r) => r.alchemicalProperties.Spirit,
@@ -224,9 +226,9 @@ export function aggregateThermodynamicProperties(
     return undefined;
   }
 
-  const defaultWeights =
+  const defaultWeights: number[] =
     weights ??
-    new Array(recipesWithThermodynamics.length).fill(
+    new Array<number>(recipesWithThermodynamics.length).fill(
       1 / recipesWithThermodynamics.length,
     );
 
@@ -243,10 +245,10 @@ export function aggregateThermodynamicProperties(
     (r) => r.thermodynamicProperties.gregsEnergy,
   );
   const kalchmValues = recipesWithThermodynamics.map(
-    (r) => r.thermodynamicProperties.kalchm,
+    (r) => Number(r.thermodynamicProperties.kalchm) || 1,
   );
   const monicaValues = recipesWithThermodynamics.map(
-    (r) => r.thermodynamicProperties.monica,
+    (r) => Number(r.thermodynamicProperties.monica) || 1,
   );
 
   return {
@@ -254,8 +256,8 @@ export function aggregateThermodynamicProperties(
     entropy: calculateWeightedAverage(entropyValues, defaultWeights),
     reactivity: calculateWeightedAverage(reactivityValues, defaultWeights),
     gregsEnergy: calculateWeightedAverage(gregsEnergyValues, defaultWeights),
-    kalchm: calculateWeightedAverage(kalchmValues as any, defaultWeights),
-    monica: calculateWeightedAverage(monicaValues as any, defaultWeights),
+    kalchm: calculateWeightedAverage(kalchmValues, defaultWeights),
+    monica: calculateWeightedAverage(monicaValues, defaultWeights),
   };
 }
 
@@ -335,7 +337,7 @@ export function calculateRepresentativenessWeights(
     { Fire: 0, Water: 0, Earth: 0, Air: 0 },
   );
   const n = recipes.length;
-  const mean: ElementalProperties = {
+  const mean: Required<ElementalProperties> = {
     Fire: sum.Fire / n,
     Water: sum.Water / n,
     Earth: sum.Earth / n,
@@ -344,11 +346,15 @@ export function calculateRepresentativenessWeights(
   const meanMag = Math.sqrt(
     mean.Fire ** 2 + mean.Water ** 2 + mean.Earth ** 2 + mean.Air ** 2,
   );
-  if (meanMag === 0) return new Array(n).fill(1);
+  if (meanMag === 0) return new Array<number>(n).fill(1);
 
-  return recipes.map((r) => {
+  return recipes.map((r): number => {
     const e = r.elementalProperties;
-    const dot = e.Fire * mean.Fire + e.Water * mean.Water + e.Earth * mean.Earth + e.Air * mean.Air;
+    const dot =
+      e.Fire * mean.Fire +
+      e.Water * mean.Water +
+      e.Earth * mean.Earth +
+      e.Air * mean.Air;
     const mag = Math.sqrt(e.Fire ** 2 + e.Water ** 2 + e.Earth ** 2 + e.Air ** 2);
     if (mag === 0) return 0;
     return dot / (mag * meanMag);

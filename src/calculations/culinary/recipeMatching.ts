@@ -57,31 +57,32 @@ function deriveStateElements(
   state: AstrologicalState | null | undefined,
 ): ElementalProperties {
   if (!state) return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  const anyState = state as AstrologicalState & {
-    elementalInfluence?: ElementalProperties;
-  };
-  if (anyState.domElements) {
-    const d = anyState.domElements as unknown as Record<string, number>;
+  const stateRec = state as Record<string, unknown>;
+  const domElements = stateRec.domElements as Record<string, number> | undefined;
+  if (domElements && typeof domElements === "object") {
     return normalizeElementalProperties({
-      Fire: d.Fire,
-      Water: d.Water,
-      Earth: d.Earth,
-      Air: d.Air,
+      Fire: typeof domElements.Fire === "number" ? domElements.Fire : 0.25,
+      Water: typeof domElements.Water === "number" ? domElements.Water : 0.25,
+      Earth: typeof domElements.Earth === "number" ? domElements.Earth : 0.25,
+      Air: typeof domElements.Air === "number" ? domElements.Air : 0.25,
     });
   }
-  if (anyState.elementalInfluence) {
-    const d = anyState.elementalInfluence as unknown as Record<string, number>;
+  const elementalInfluence = stateRec.elementalInfluence as Record<string, number> | undefined;
+  if (elementalInfluence && typeof elementalInfluence === "object") {
     return normalizeElementalProperties({
-      Fire: d.Fire,
-      Water: d.Water,
-      Earth: d.Earth,
-      Air: d.Air,
+      Fire: typeof elementalInfluence.Fire === "number" ? elementalInfluence.Fire : 0.25,
+      Water: typeof elementalInfluence.Water === "number" ? elementalInfluence.Water : 0.25,
+      Earth: typeof elementalInfluence.Earth === "number" ? elementalInfluence.Earth : 0.25,
+      Air: typeof elementalInfluence.Air === "number" ? elementalInfluence.Air : 0.25,
     });
   }
-  const zodiac =
-    (anyState.currentZodiac ?? (anyState as { zodiacSign?: string }).zodiacSign ?? "")
-      .toString()
-      .toLowerCase();
+  const zodiac = (
+    typeof state.currentZodiac === "string"
+      ? state.currentZodiac
+      : typeof stateRec.zodiacSign === "string"
+        ? stateRec.zodiacSign
+        : ""
+  ).toLowerCase();
   if (zodiac && ZODIAC_ELEMENT[zodiac]) {
     const el = ZODIAC_ELEMENT[zodiac];
     return normalizeElementalProperties({ [el]: 1 });
@@ -104,15 +105,15 @@ function calculateTemporalScore(recipe: Recipe, now: Date = new Date()): number 
           ? "autumn"
           : "winter";
 
-  const seasons = (recipe as Recipe & {
-    season?: string | string[];
-    currentSeason?: string | string[];
-  }).season
-    ?? (recipe as Recipe & { currentSeason?: string | string[] }).currentSeason;
+  const recipeRec = recipe as Record<string, unknown>;
+  const seasons = (recipeRec.season ?? recipeRec.currentSeason) as
+    | string
+    | string[]
+    | undefined;
   if (!seasons) return 0.7; // neutral-positive when unlabeled
 
   const list = Array.isArray(seasons) ? seasons : [seasons];
-  const normalized = list.map((s) => s?.toString().toLowerCase());
+  const normalized = list.map((s) => String(s).toLowerCase());
   if (normalized.includes(currentSeason) || normalized.includes("all")) {
     return 1.0;
   }
@@ -138,21 +139,37 @@ function calculateAstrologicalScore(
   state: AstrologicalState | null | undefined,
 ): number {
   if (!state) return 0.5;
-  const recipeZodiac: string[] = (
-    (recipe as Recipe & { zodiacInfluences?: string[] }).zodiacInfluences ?? []
-  ).map((z) => z?.toString().toLowerCase());
-  const recipePlanets: string[] = (
-    (recipe as Recipe & { planetaryInfluences?: string[] | { favorable?: string[] } })
-      .planetaryInfluences as string[]
-      ?? []
-  ).map?.((p: string) => p?.toString().toLowerCase()) ?? [];
+  const recipeRec = recipe as Record<string, unknown>;
+  const rawZodiac = Array.isArray(recipeRec.zodiacInfluences)
+    ? recipeRec.zodiacInfluences
+    : [];
+  const recipeZodiac: string[] = rawZodiac
+    .map((z) => (typeof z === "string" ? z.toLowerCase() : ""))
+    .filter(Boolean);
 
-  const stateZodiac = (state.currentZodiac ?? (state as { zodiacSign?: string }).zodiacSign ?? "")
-    .toString()
-    .toLowerCase();
-  const statePlanets: string[] = (state.activePlanets ?? []).map((p) =>
-    p.toString().toLowerCase(),
-  );
+  const rawPlanets = Array.isArray(recipeRec.planetaryInfluences)
+    ? recipeRec.planetaryInfluences
+    : typeof recipeRec.planetaryInfluences === "object" &&
+        recipeRec.planetaryInfluences !== null &&
+        "favorable" in recipeRec.planetaryInfluences &&
+        Array.isArray((recipeRec.planetaryInfluences as { favorable: unknown[] }).favorable)
+      ? (recipeRec.planetaryInfluences as { favorable: unknown[] }).favorable
+      : [];
+  const recipePlanets: string[] = rawPlanets
+    .map((p) => (typeof p === "string" ? p.toLowerCase() : ""))
+    .filter(Boolean);
+
+  const stateRec = state as unknown as Record<string, unknown>;
+  const stateZodiac = (
+    typeof state.currentZodiac === "string"
+      ? state.currentZodiac
+      : typeof stateRec.zodiacSign === "string"
+        ? stateRec.zodiacSign
+        : ""
+  ).toLowerCase();
+  const statePlanets: string[] = Array.isArray(state.activePlanets)
+    ? state.activePlanets.map((p) => String(p).toLowerCase())
+    : [];
 
   let score = 0.5;
   let signals = 0;

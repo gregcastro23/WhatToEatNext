@@ -275,23 +275,30 @@ export const COOKING_METHOD_KINETIC_PROFILES: Record<string, CookingMethodKineti
 // Method-Specific Kinetics Calculator
 // ============================================================================
 
-interface MethodKineticsInput {
-  /** Cooking method identifier (e.g., "roasting", "frying") */
+export interface CookingMethodPlanetaryPosition {
+  sign?: string;
+  isRetrograde?: boolean;
+  longitudeSpeed?: number;
+  arcminutesPerDay?: number;
+  [key: string]: unknown;
+}
+
+export interface MethodKineticsInput {
   methodId: string;
-  /** Method's elemental effects (Fire, Water, Earth, Air) */
   elementalEffect: Record<string, number>;
-  /** Transformed ESMS from planetary positions + pillar effects */
-  transformedESMS: { Spirit: number; Essence: number; Matter: number; Substance: number };
-  /** Method's thermodynamic properties */
   thermodynamics: { heat: number; entropy: number; reactivity: number };
-  /** Greg's Energy for this method */
   gregsEnergy: number;
-  /** Monica constant for this method (null if uncalculated) */
+  transformedESMS: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
   monica: number | null;
   /** Optional kinetic profile from method data (overrides default mapping) */
   kineticProfile?: CookingMethodKineticProfile;
   /** Current planetary positions for astrological modulation */
-  planetaryPositions?: Record<string, any>;
+  planetaryPositions?: Record<string, CookingMethodPlanetaryPosition | string | unknown>;
 }
 
 /**
@@ -342,7 +349,7 @@ const SIGN_ELEMENT: Record<string, string> = {
  */
 function getPlanetaryElementBoost(
   elementalEffect: Record<string, number>,
-  planetaryPositions?: Record<string, any>,
+  planetaryPositions?: Record<string, CookingMethodPlanetaryPosition | string | unknown>,
 ): number {
   if (!planetaryPositions) return 1.0;
 
@@ -350,7 +357,12 @@ function getPlanetaryElementBoost(
   const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   for (const planet of Object.keys(planetaryPositions)) {
     const data = planetaryPositions[planet];
-    const sign = typeof data === 'string' ? data : data?.sign;
+    const sign =
+      typeof data === "string"
+        ? data
+        : typeof data === "object" && data !== null && "sign" in data && typeof (data as CookingMethodPlanetaryPosition).sign === "string"
+          ? (data as CookingMethodPlanetaryPosition).sign
+          : undefined;
     if (!sign) continue;
 
     // Normalize sign (some data comes capitalized, some camelCase)
@@ -427,10 +439,16 @@ export function calculateMethodSpecificKinetics(
 
     for (const key of Object.keys(planetaryPositions)) {
       const p = planetaryPositions[key];
-      if (typeof p === 'object' && p !== null) {
+      if (typeof p === "object" && p !== null) {
+        const pos = p as CookingMethodPlanetaryPosition;
         validCount++;
-        if (p.isRetrograde) retroCount++;
-        const speed = p.longitudeSpeed ?? (p.arcminutesPerDay ? p.arcminutesPerDay / 60 : 0);
+        if (pos.isRetrograde) retroCount++;
+        const speed =
+          typeof pos.longitudeSpeed === "number"
+            ? pos.longitudeSpeed
+            : typeof pos.arcminutesPerDay === "number"
+              ? pos.arcminutesPerDay / 60
+              : 0;
         speedSum += Math.abs(speed);
       }
     }
@@ -439,7 +457,7 @@ export function calculateMethodSpecificKinetics(
       // Increase kinetic resistance gently linearly as planetary bodies turn retrograde (max ~0.25+ at high retrograde loads)
       retrogradeResistance = (retroCount / validCount) * 0.4;
       // Multiply velocity slightly based on cumulative planetary speeds, increasing fast methods when transits fly by.
-      velocityMultiplier = 1.0 + (speedSum * 0.003);
+      velocityMultiplier = 1.0 + speedSum * 0.003;
     }
   }
 
