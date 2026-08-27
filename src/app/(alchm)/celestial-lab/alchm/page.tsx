@@ -168,7 +168,7 @@ const TABS: Array<{ id: Tab; label: string; icon: string }> = [
 
 // ─── Spinner ──────────────────────────────────────────────────────────────────
 
-function Spinner() {
+function Spinner(): React.JSX.Element {
   return (
     <div className="flex justify-center items-center h-48">
       <div className="relative">
@@ -229,7 +229,7 @@ function TokenHeroCard({
   liveValue: number;
   isDebitFlashing: boolean;
   alchData: AlchemyData | null;
-}) {
+}): React.JSX.Element {
   const total = alchData
     ? (alchData.quantities.Spirit || 0) +
     (alchData.quantities.Essence || 0) +
@@ -344,7 +344,7 @@ function TokenHeroCard({
 
 // ─── Momentum Indicator Component ─────────────────────────────────────────────
 
-function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | undefined }) {
+function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | undefined }): React.JSX.Element | null {
   if (!momentum) return null;
 
   const sortedPlanets = Object.entries(momentum).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]));
@@ -392,13 +392,26 @@ function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | 
 
 // ─── Economy Tab ──────────────────────────────────────────────────────────────
 
+interface BalanceApiResponse {
+  success: boolean;
+  balances: TokenBalances;
+  streak: UserStreak;
+  canClaimDaily: boolean;
+}
+
+interface ClaimDailyApiResponse {
+  success: boolean;
+  yield?: DailyYieldResult;
+  message?: string;
+}
+
 interface EconomyTabProps {
   autoClaim?: boolean;
   onAutoClaimHandled?: () => void;
   onSplash?: () => void;
 }
 
-function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: EconomyTabProps) {
+function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: EconomyTabProps): React.JSX.Element {
 
   const [balances, setBalances] = useState<TokenBalances | null>(null);
   const prevBalances = useRef<TokenBalances | null>(null);
@@ -414,11 +427,11 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
   const [alchLoading, setAlchLoading] = useState(true);
 
   // Fetch token balances
-  const fetchBalances = useCallback(async () => {
+  const fetchBalances = useCallback(async (): Promise<void> => {
     try {
       const res = await fetch("/api/economy/balance", { credentials: "include" });
       if (!res.ok) return;
-      const data = await res.json();
+      const data = (await res.json()) as BalanceApiResponse;
       if (data.success) {
         setBalances(data.balances);
         setStreak(data.streak);
@@ -430,12 +443,12 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
   }, []);
 
   // Fetch live ESMS quantities
-  const fetchAlchData = useCallback(async () => {
+  const fetchAlchData = useCallback(async (): Promise<void> => {
     try {
       setAlchLoading(true);
       const res = await fetch("/api/alchm-quantities");
       if (!res.ok) return;
-      const data = await res.json();
+      const data = (await res.json()) as AlchemyData;
       setAlchData(data);
     } catch {
       // Non-critical
@@ -450,9 +463,11 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
       const keys: Array<keyof Pick<TokenBalances, "spirit" | "essence" | "matter" | "substance">> =
         ["spirit", "essence", "matter", "substance"];
       for (const k of keys) {
-        if ((balances[k] || 0) < (prevBalances.current[k] || 0)) {
+        if (balances[k] < prevBalances.current[k]) {
           setDebitFlash(k);
-          navigator.vibrate?.(15);
+          if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+            navigator.vibrate(15);
+          }
           setTimeout(() => setDebitFlash(null), 1000);
           break;
         }
@@ -462,17 +477,17 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
   }, [balances]);
 
   useEffect(() => {
-    void fetchBalances();
-    void fetchAlchData();
+    fetchBalances().catch(() => {});
+    fetchAlchData().catch(() => {});
     const interval = setInterval(() => {
-      void fetchBalances();
-      void fetchAlchData();
+      fetchBalances().catch(() => {});
+      fetchAlchData().catch(() => {});
     }, 30000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, [fetchBalances, fetchAlchData]);
 
   // Claim daily
-  const handleClaim = useCallback(async () => {
+  const handleClaim = useCallback(async (): Promise<void> => {
     setClaiming(true);
     setEconomyError(null);
     try {
@@ -480,22 +495,24 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
         method: "POST",
         credentials: "include",
       });
-      const data = await res.json();
-      if (data.success) {
+      const data = (await res.json()) as ClaimDailyApiResponse;
+      if (data.success && data.yield) {
         setClaimResult(data.yield);
-        navigator.vibrate?.([10, 30, 10]);
+        if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+          navigator.vibrate([10, 30, 10]);
+        }
         setCanClaim(false);
         await fetchBalances();
         // Fire the token rain splash and broadcast to the rest of the app.
         onSplash?.();
         emitTokenEconomyUpdate({
           source: "claim",
-          credits: data.yield?.distribution,
+          credits: data.yield.distribution,
           yield: data.yield,
         });
         setTimeout(() => setClaimResult(null), 5000);
       } else {
-        setEconomyError(data.message);
+        setEconomyError(data.message ?? "Failed to claim daily yield");
       }
     } catch {
       setEconomyError("Failed to claim daily yield");
@@ -511,7 +528,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
     if (balances === null) return;
     autoClaimFiredRef.current = true;
     if (canClaim && !claiming) {
-      void handleClaim();
+      handleClaim().catch(() => {});
     }
     // Regardless of whether we claimed, strip the flag so a nav-back doesn't retrigger.
     onAutoClaimHandled?.();
@@ -629,7 +646,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => { void handleClaim(); }}
+              onClick={() => { handleClaim().catch(() => {}); }}
               disabled={claiming}
               className="relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-gradient-to-r from-amber-500 to-purple-600 text-white shadow-[0_0_25px_rgba(251,191,36,0.3)] hover:shadow-[0_0_40px_rgba(251,191,36,0.5)] transition-all duration-300 disabled:opacity-50 overflow-hidden alchm-shimmer"
             >
@@ -733,12 +750,12 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-white/30 font-medium">{label}</span>
                     <span className={`text-sm font-mono font-bold ${color} tabular-nums`}>
-                      {(val ?? 0).toFixed(4)}
+                      {val.toFixed(4)}
                     </span>
                   </div>
                   <QuantityContextStrip
                     path={path}
-                    value={val ?? 0}
+                    value={val}
                     stroke={stroke}
                     showRange={false}
                     showBadgeCompact={false}
@@ -751,12 +768,12 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] text-white/30 font-medium">K<sub>alchm</sub></span>
                   <span className="text-sm font-mono font-bold text-amber-400 tabular-nums">
-                    {(alchData.kalchm ?? 0).toFixed(4)}
+                    {alchData.kalchm.toFixed(4)}
                   </span>
                 </div>
                 <QuantityContextStrip
                   path="thermo.kalchm"
-                  value={alchData.kalchm ?? 0}
+                  value={alchData.kalchm}
                   stroke="#fbbf24"
                   showRange={false}
                   showBadgeCompact={false}
@@ -767,12 +784,12 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] text-white/30 font-medium">Monica</span>
                   <span className="text-sm font-mono font-bold text-pink-400 tabular-nums">
-                    {(alchData.monica ?? 0).toFixed(4)}
+                    {alchData.monica.toFixed(4)}
                   </span>
                 </div>
                 <QuantityContextStrip
                   path="thermo.monica"
-                  value={alchData.monica ?? 0}
+                  value={alchData.monica}
                   stroke="#f472b6"
                   showRange={false}
                   showBadgeCompact={false}
@@ -801,7 +818,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
           </div>
           <div className="flex-1 h-px bg-white/5" />
           <button
-            onClick={() => { void fetchAlchData(); void fetchBalances(); }}
+            onClick={() => { fetchAlchData().catch(() => {}); fetchBalances().catch(() => {}); }}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold text-white/30 border border-white/5 hover:border-white/10 hover:text-white/60 transition-all uppercase tracking-widest"
           >
             <FaSyncAlt className="w-3 h-3" />
@@ -875,7 +892,7 @@ function SectionCard({
   gradientTo: string;
   borderColor: string;
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return (
     <div
       className={`rounded-3xl border ${borderColor} backdrop-blur-xl overflow-hidden`}
@@ -899,7 +916,7 @@ function SectionCard({
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-export default function QuantitiesPage() {
+export default function QuantitiesPage(): React.JSX.Element {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#09090f]" />}>
       <AlchemicalStatisticsProvider defaultPeriod="month">
@@ -909,7 +926,7 @@ export default function QuantitiesPage() {
   );
 }
 
-function QuantitiesPageContent() {
+function QuantitiesPageContent(): React.JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlTab = searchParams?.get("tab") as Tab | null;
@@ -1099,8 +1116,8 @@ function QuantitiesPageContent() {
                   <PlanetaryAgentsView
                     userId="demo-user"
                     selectedDate={new Date()}
-                    onAgentChat={(id, name) => console.log('Chat with', id, name)}
-                    onGroupChat={() => console.log('Group chat triggered')}
+                    onAgentChat={(_id, _name) => {}}
+                    onGroupChat={() => {}}
                   />
                 </Suspense>
               </SectionCard>

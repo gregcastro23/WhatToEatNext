@@ -67,6 +67,10 @@ class CurrentMomentManager {
     updateFrequency: {},
   };
 
+  private isUpdateInProgress(): boolean {
+    return this.updateInProgress;
+  }
+
   /**
    * Get current moment data with automatic updates
    */
@@ -86,9 +90,9 @@ class CurrentMomentManager {
     customLocation?: { latitude: number; longitude: number },
   ): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
-      void logger.info("Update already in progress, waiting...");
+      logger.info("Update already in progress, waiting...");
       // Wait for current update to complete
-      while (this.updateInProgress) {
+      while (this.isUpdateInProgress()) {
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
       return this.currentMoment!;
@@ -104,7 +108,7 @@ class CurrentMomentManager {
     this.performanceMetrics.totalUpdates++;
 
     try {
-      void logger.info("Starting current moment update...");
+      logger.info("Starting current moment update...");
 
       const targetDate = customDateTime ?? new Date();
       const location = customLocation ?? DEFAULT_LOCATION;
@@ -123,11 +127,11 @@ class CurrentMomentManager {
           planetaryPositions = await getCurrentPlanetaryPositions(location);
         }
         source = "api";
-        void logger.info(
+        logger.info(
           "Successfully retrieved positions from astrologize API",
         );
       } catch (error) {
-        void logger.warn(
+        logger.warn(
           "Failed to get positions from API, attempting local calculation fallback",
           error,
         );
@@ -136,9 +140,9 @@ class CurrentMomentManager {
           // Try local calculation fallback
           planetaryPositions = await calculateLocalPlanetaryPositions(targetDate);
           source = "calculated";
-          void logger.info("Successfully calculated positions locally as fallback");
+          logger.info("Successfully calculated positions locally as fallback");
         } catch (localError) {
-          void logger.error("Local calculation fallback failed, using static fallback", localError);
+          logger.error("Local calculation fallback failed, using static fallback", localError);
           planetaryPositions = this.getFallbackPositions();
           source = "fallback";
         }
@@ -181,7 +185,7 @@ class CurrentMomentManager {
           responseTime) /
         this.performanceMetrics.successfulUpdates;
 
-      void logger.info("Current moment update completed successfully", {
+      logger.info("Current moment update completed successfully", {
         responseTime,
       });
 
@@ -191,7 +195,7 @@ class CurrentMomentManager {
       this.performanceMetrics.failedUpdates++;
       this.performanceMetrics.lastError =
         error instanceof Error ? error.message : "Unknown error";
-      void logger.error("Current moment update failed", error);
+      logger.error("Current moment update failed", error);
       throw error;
     } finally {
       this.updateInProgress = false;
@@ -223,7 +227,7 @@ class CurrentMomentManager {
           "streamlinedPositions",
           "accurateAstronomy",
         ];
-        void logger.warn(
+        logger.warn(
           `Failed to update ${updateNames[index]}:`,
           result.reason,
         );
@@ -243,12 +247,25 @@ class CurrentMomentManager {
 
       // Read existing notebook
       const notebookContent = await fs.readFile(notebookPath, "utf-8");
-      const notebook = JSON.parse(notebookContent);
+      
+      interface JupyterCell {
+        cell_type: string;
+        source: string[];
+        [key: string]: unknown;
+      }
+
+      interface JupyterNotebook {
+        cells: JupyterCell[];
+        [key: string]: unknown;
+      }
+
+      const notebook = JSON.parse(notebookContent) as JupyterNotebook;
 
       // Find the cell with live_positions and update it
       const codeCell = notebook.cells.find(
-        (cell: any) =>
+        (cell) =>
           cell.cell_type === "code" &&
+          Array.isArray(cell.source) &&
           cell.source.some((line: string) => line.includes("live_positions")),
       );
 
@@ -303,10 +320,10 @@ class CurrentMomentManager {
 
         // Write updated notebook
         await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2));
-        void logger.info("Updated current-moment-chart.ipynb successfully");
+        logger.info("Updated current-moment-chart.ipynb successfully");
       }
     } catch (error) {
-      void logger.error("Failed to update notebook: ", error);
+      logger.error("Failed to update notebook: ", error);
       throw error;
     }
   }
@@ -337,9 +354,9 @@ class CurrentMomentManager {
       );
 
       await fs.writeFile(defaultsPath, updatedContent);
-      void logger.info("Updated systemDefaults.ts successfully");
+      logger.info("Updated systemDefaults.ts successfully");
     } catch (error) {
-      void logger.error("Failed to update systemDefaults: ", error);
+      logger.error("Failed to update systemDefaults: ", error);
       throw error;
     }
   }
@@ -370,9 +387,9 @@ class CurrentMomentManager {
       );
 
       await fs.writeFile(streamlinedPath, updatedContent);
-      void logger.info("Updated streamlinedPlanetaryPositions.ts successfully");
+      logger.info("Updated streamlinedPlanetaryPositions.ts successfully");
     } catch (error) {
-      void logger.error(
+      logger.error(
         "Failed to update streamlinedPlanetaryPositions: ",
         error,
       );
@@ -408,9 +425,9 @@ class CurrentMomentManager {
         );
 
       await fs.writeFile(astronomyPath, updatedContent);
-      void logger.info("Updated accurateAstronomy.ts successfully");
+      logger.info("Updated accurateAstronomy.ts successfully");
     } catch (error) {
-      void logger.error("Failed to update accurateAstronomy: ", error);
+      logger.error("Failed to update accurateAstronomy: ", error);
       throw error;
     }
   }
@@ -699,21 +716,26 @@ class CurrentMomentManager {
 export const currentMomentManager = new CurrentMomentManager();
 
 // Export convenience functions
-export const getCurrentMoment = (forceRefresh = false) =>
+export const getCurrentMoment = (forceRefresh = false): Promise<CurrentMomentData> =>
   currentMomentManager.getCurrentMoment(forceRefresh);
+
 export const updateCurrentMoment = (
   date?: Date,
   location?: { latitude: number; longitude: number },
-) => {
-  void currentMomentManager.updateCurrentMoment(date, location);
-};
+): Promise<CurrentMomentData> => currentMomentManager.updateCurrentMoment(date, location);
+
 export const onAlchemizeApiCall = (
   positions?: Record<string, PlanetPosition>,
-) => {
-  void currentMomentManager.onAlchemizeApiCall(positions);
+): void => {
+  currentMomentManager.onAlchemizeApiCall(positions).catch((err: unknown) => {
+    logger.error("onAlchemizeApiCall error", err);
+  });
 };
+
 export const onAstrologizeApiCall = (
   positions?: Record<string, PlanetPosition>,
-) => {
-  void currentMomentManager.onAstrologizeApiCall(positions);
+): void => {
+  currentMomentManager.onAstrologizeApiCall(positions).catch((err: unknown) => {
+    logger.error("onAstrologizeApiCall error", err);
+  });
 };
