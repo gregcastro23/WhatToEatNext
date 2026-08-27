@@ -145,19 +145,19 @@ export function generateRecipeId(
  * Standardize a single recipe during load.
  */
 export function standardizeRecipe(
-  recipe: any,
+  recipe: unknown,
   cuisineName: string,
   mealType: string,
   season: string,
 ): { standardizedRecipe: Recipe; wasOriginallyEnhanced: boolean } {
   if (!recipe || typeof recipe !== "object") {
-    return { standardizedRecipe: recipe, wasOriginallyEnhanced: false };
+    return { standardizedRecipe: recipe as Recipe, wasOriginallyEnhanced: false };
   }
 
-  const standardized: Record<string, unknown> = { ...recipe };
+  const standardized: Record<string, unknown> = { ...(recipe as Record<string, unknown>) };
   let wasOriginallyEnhanced = false;
 
-  let canonicalName = (standardized.name as string) || "unnamed";
+  let canonicalName = typeof standardized.name === "string" ? standardized.name : "unnamed";
   if (canonicalName.includes("(Monica Enhanced)")) {
     canonicalName = canonicalName.replace(/\s*\(Monica Enhanced\)\s*/g, "").trim();
     wasOriginallyEnhanced = true;
@@ -167,8 +167,8 @@ export function standardizeRecipe(
 
   if (!standardized.cuisine) {
     standardized.cuisine = cuisineName.toLowerCase();
-  } else {
-    const rawCuisine = (standardized.cuisine as string);
+  } else if (typeof standardized.cuisine === "string") {
+    const rawCuisine = standardized.cuisine;
     const regionMatch = rawCuisine.match(/\(([^)]+)\)/);
     if (regionMatch) {
       standardized.regionalVariant = regionMatch[1].trim();
@@ -246,22 +246,23 @@ export function standardizeRecipe(
   if (!Array.isArray(standardized.ingredients)) {
     standardized.ingredients = [];
   } else {
-    standardized.ingredients = standardized.ingredients.map((ing: any) => {
+    standardized.ingredients = standardized.ingredients.map((ing: unknown) => {
       if (!ing || typeof ing !== "object") return ing;
+      const ingRec = ing as Record<string, unknown>;
 
       return {
-        ...ing,
+        ...ingRec,
         amount:
-          typeof ing.amount === "number"
-            ? ing.amount
-            : typeof ing.amount === "string"
-              ? parseFloat(ing.amount) || 1
+          typeof ingRec.amount === "number"
+            ? ingRec.amount
+            : typeof ingRec.amount === "string"
+              ? parseFloat(ingRec.amount) || 1
               : 1,
-        unit: ing.unit ?? "piece",
+        unit: typeof ingRec.unit === "string" ? ingRec.unit : "piece",
         name:
-          typeof ing.name === "string"
-            ? ing.name.toLowerCase()
-            : String(ing.name ?? ""),
+          typeof ingRec.name === "string"
+            ? ingRec.name.toLowerCase()
+            : String(ingRec.name ?? ""),
       };
     });
   }
@@ -323,75 +324,91 @@ export const PRIMARY_CUISINE_KEYS = [
   "HSCA",
 ] as const;
 
+interface CuisineDishesEntry {
+  dishes?: Record<string, Record<string, unknown[]>>;
+  [key: string]: unknown;
+}
+
 /**
  * Create a flattened, deduplicated list of all recipes from cuisines data.
  */
-export const flattenCuisineRecipes = (cuisinesData: Record<string, any>): Recipe[] => {
+export const flattenCuisineRecipes = (cuisinesData: Record<string, unknown>): Recipe[] => {
   const recipeMap = new Map<string, Recipe>();
   const enhancedFlags = new Map<string, boolean>();
 
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
-    const cuisine = cuisinesData[cuisineName] ?? cuisinesData[cuisineName.toLowerCase()] ?? cuisinesData[cuisineName.toUpperCase()];
+    const rawCuisine =
+      cuisinesData[cuisineName] ??
+      cuisinesData[cuisineName.toLowerCase()] ??
+      cuisinesData[cuisineName.toUpperCase()];
 
-    if (cuisine?.dishes) {
-      Object.entries(cuisine.dishes).forEach(
-        ([mealType, mealTypeData]: [string, unknown]) => {
-          if (mealTypeData && typeof mealTypeData === "object") {
-            Object.entries(mealTypeData as Record<string, unknown>).forEach(
-              ([season, recipes]: [string, unknown]) => {
-                if (Array.isArray(recipes)) {
-                  recipes.forEach((recipe: any) => {
-                    if (!recipe || typeof recipe !== "object" || !recipe.name) {
-                      return;
-                    }
+    if (rawCuisine && typeof rawCuisine === "object") {
+      const cuisine = rawCuisine as CuisineDishesEntry;
+      if (cuisine.dishes && typeof cuisine.dishes === "object") {
+        Object.entries(cuisine.dishes).forEach(
+          ([mealType, mealTypeData]) => {
+            if (mealTypeData && typeof mealTypeData === "object") {
+              Object.entries(mealTypeData as Record<string, unknown>).forEach(
+                ([season, recipes]) => {
+                  if (Array.isArray(recipes)) {
+                    recipes.forEach((recipe: unknown) => {
+                      if (!recipe || typeof recipe !== "object") {
+                        return;
+                      }
+                      const rec = recipe as Record<string, unknown>;
+                      if (!rec.name) {
+                        return;
+                      }
 
-                    const rawName = String(recipe.name);
-                    const isEnhanced = rawName.includes("(Monica Enhanced)");
-                    const normalizedKey = normalizeRecipeName(rawName);
+                      const rawName = String(rec.name);
+                      const isEnhanced = rawName.includes("(Monica Enhanced)");
+                      const normalizedKey = normalizeRecipeName(rawName);
 
-                    const { standardizedRecipe } =
-                      standardizeRecipe(
-                        recipe,
-                        cuisineName,
-                        mealType,
-                        season,
-                      );
+                      const { standardizedRecipe } =
+                        standardizeRecipe(
+                          recipe,
+                          cuisineName,
+                          mealType,
+                          season,
+                        );
 
-                    const existingEntry = recipeMap.get(normalizedKey);
+                      const existingEntry = recipeMap.get(normalizedKey);
 
-                    if (!existingEntry) {
-                      recipeMap.set(normalizedKey, standardizedRecipe);
-                      enhancedFlags.set(normalizedKey, isEnhanced);
-                    } else {
-                      const existingIsEnhanced = enhancedFlags.get(normalizedKey) ?? false;
-
-                      if (existingIsEnhanced && !isEnhanced) {
+                      if (!existingEntry) {
                         recipeMap.set(normalizedKey, standardizedRecipe);
-                        enhancedFlags.set(normalizedKey, false);
-                      } else if (!existingIsEnhanced && isEnhanced) {
-                        // Skip
+                        enhancedFlags.set(normalizedKey, isEnhanced);
                       } else {
-                        const existingFields = countPopulatedFields(
-                          existingEntry,
-                        );
-                        const newFields = countPopulatedFields(
-                          standardizedRecipe,
-                        );
-                        if (newFields > existingFields) {
+                        const existingIsEnhanced = enhancedFlags.get(normalizedKey) ?? false;
+
+                        if (existingIsEnhanced && !isEnhanced) {
                           recipeMap.set(normalizedKey, standardizedRecipe);
-                          enhancedFlags.set(normalizedKey, isEnhanced);
+                          enhancedFlags.set(normalizedKey, false);
+                        } else if (!existingIsEnhanced && isEnhanced) {
+                          // Skip
+                        } else {
+                          const existingFields = countPopulatedFields(
+                            existingEntry,
+                          );
+                          const newFields = countPopulatedFields(
+                            standardizedRecipe,
+                          );
+                          if (newFields > existingFields) {
+                            recipeMap.set(normalizedKey, standardizedRecipe);
+                            enhancedFlags.set(normalizedKey, isEnhanced);
+                          }
                         }
                       }
-                    }
-                  });
-                }
-              },
-            );
-          }
-        },
-      );
+                    });
+                  }
+                },
+              );
+            }
+          },
+        );
+      }
     }
   });
 
   return Array.from(recipeMap.values());
 };
+

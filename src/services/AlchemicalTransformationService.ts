@@ -72,7 +72,7 @@ export class AlchemicalTransformationService {
     Pluto: 0,
   };
   private isDaytime = true;
-  private currentZodiac: any | null = null;
+  private currentZodiac: string | null = null;
   private lunarPhase: LunarPhase | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
   private tarotPlanetaryBoosts?: Record<string, number>;
@@ -108,7 +108,7 @@ export class AlchemicalTransformationService {
   /**
    * Set current zodiac sign
    */
-  setCurrentZodiac(zodiac: any | null): void {
+  setCurrentZodiac(zodiac: string | null): void {
     this.currentZodiac = zodiac;
   }
 
@@ -306,10 +306,14 @@ export class AlchemicalTransformationService {
       let methodMatch = 0;
       let methodCount = 0;
 
-      const recipeData = recipe as unknown as any;
-      const cookingMethods = (recipeData.cookingMethods as string[]) || [];
-      cookingMethods.forEach((method: string) => {
-        const methodName = method.toLowerCase();
+      const rawRecipe = recipe as Record<string, unknown>;
+      const cookingMethods = Array.isArray(recipe.cookingMethods)
+        ? recipe.cookingMethods
+        : Array.isArray(rawRecipe.cookingMethod)
+          ? (rawRecipe.cookingMethod as string[])
+          : [];
+      cookingMethods.forEach((method) => {
+        const methodName = typeof method === "string" ? method.toLowerCase() : "";
         const alchemicalMethod = methodMap.get(methodName);
         if (alchemicalMethod) {
           methodCount++;
@@ -491,9 +495,11 @@ export class AlchemicalTransformationService {
 
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
-    const recipeData = recipe as unknown as any;
-    const { astrologicalAffinities } = recipeData;
-    const lunarPhases = (astrologicalAffinities.lunarPhases as string[]) || [];
+    const rawRecipe = recipe as Record<string, unknown>;
+    const affinities = (rawRecipe.astrologicalAffinities ?? {}) as Record<string, unknown>;
+    const lunarPhases = Array.isArray(affinities.lunarPhases)
+      ? (affinities.lunarPhases as string[])
+      : [];
 
     if (lunarPhases.length === 0 || !this.lunarPhase) {
       return 0.5;
@@ -503,7 +509,7 @@ export class AlchemicalTransformationService {
 
     // Check if the recipe's lunar phases include the current lunar phase
     const lunarPhasesLower = lunarPhases.map((phase: string) =>
-      phase.toLowerCase(),
+      String(phase).toLowerCase(),
     );
 
     if (lunarPhasesLower.includes(lunarPhaseLower)) {
@@ -515,9 +521,11 @@ export class AlchemicalTransformationService {
 
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
-    const recipeData = recipe as unknown as any;
-    const { astrologicalAffinities } = recipeData;
-    const signs = (astrologicalAffinities.signs as string[]) || [];
+    const rawRecipe = recipe as Record<string, unknown>;
+    const affinities = (rawRecipe.astrologicalAffinities ?? {}) as Record<string, unknown>;
+    const signs = Array.isArray(affinities.signs)
+      ? (affinities.signs as string[])
+      : [];
 
     if (signs.length === 0 || !this.currentZodiac) {
       return 0.5;
@@ -526,7 +534,7 @@ export class AlchemicalTransformationService {
     const zodiacLower = this.currentZodiac.toLowerCase();
 
     // Check if the recipe's zodiac signs include the current zodiac sign
-    const zodiacSigns = signs.map((sign: string) => sign.toLowerCase());
+    const zodiacSigns = signs.map((sign: string) => String(sign).toLowerCase());
 
     if (zodiacSigns.includes(zodiacLower)) {
       return 0.8;

@@ -3,6 +3,22 @@ import type {
   PlanetaryPosition,
   StandardizedAlchemicalResult,
 } from "@/types/alchemy";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("AstrologizeApiCache");
+
+interface AlchemicalResultInput extends StandardizedAlchemicalResult {
+  elementalBalance?: Record<string, number>;
+  heat?: number;
+  entropy?: number;
+  reactivity?: number;
+  energy?: number;
+  Spirit?: number;
+  Essence?: number;
+  Matter?: number;
+  Substance?: number;
+  [key: string]: unknown;
+}
 
 /**
  * Astrologize API Cache Service
@@ -93,8 +109,8 @@ class AstrologizeApiCache {
   private calculateElementalValues(
     alchemicalResult: StandardizedAlchemicalResult,
   ) {
-    const resultData = alchemicalResult as unknown as any;
-    const elementalBalance = resultData.elementalBalance ?? {};
+    const resultData = alchemicalResult as AlchemicalResultInput;
+    const elementalBalance = resultData.elementalBalance ?? resultData.elementalProperties ?? {};
     const Fire = Number(elementalBalance.Fire) || 0;
     const Water = Number(elementalBalance.Water) || 0;
     const Earth = Number(elementalBalance.Earth) || 0;
@@ -136,7 +152,8 @@ class AstrologizeApiCache {
       this.calculateElementalValues(alchemicalResult);
 
     // Safe access to alchemical result properties
-    const resultData = alchemicalResult as unknown as any;
+    const resultData = alchemicalResult as AlchemicalResultInput;
+    const thermo = resultData.thermodynamicProperties;
 
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
@@ -148,12 +165,12 @@ class AstrologizeApiCache {
       elementalAbsolutes,
       elementalRelatives,
       thermodynamics: {
-        heat: Number(resultData.heat) || 0,
-        entropy: Number(resultData.entropy) || 0,
-        reactivity: Number(resultData.reactivity) || 0,
-        gregsEnergy: Number(resultData.energy) || 0,
-        kalchm: Number(resultData.kalchm) || 1,
-        monica: Number(resultData.monica) || 1,
+        heat: typeof thermo?.heat === "number" ? thermo.heat : Number(resultData.heat) || 0,
+        entropy: typeof thermo?.entropy === "number" ? thermo.entropy : Number(resultData.entropy) || 0,
+        reactivity: typeof thermo?.reactivity === "number" ? thermo.reactivity : Number(resultData.reactivity) || 0,
+        gregsEnergy: typeof thermo?.gregsEnergy === "number" ? thermo.gregsEnergy : Number(resultData.energy) || 0,
+        kalchm: typeof resultData.kalchm === "number" ? resultData.kalchm : 1,
+        monica: typeof resultData.monica === "number" ? resultData.monica : 1,
       },
       quality: this.assessDataQuality(alchemicalResult),
     };
@@ -260,11 +277,10 @@ class AstrologizeApiCache {
     for (const [planet, position] of Object.entries(
       baseData.planetaryPositions,
     )) {
-      const planetData = position as unknown as any;
       predictedPositions[planet] = {
-        sign: (String(planetData.sign) || "aries") as any,
-        degree: Number(planetData.degree) || 0,
-        isRetrograde: Boolean(planetData.isRetrograde) || false,
+        sign: position.sign || "aries",
+        degree: typeof position.degree === "number" ? position.degree : 0,
+        isRetrograde: Boolean(position.isRetrograde),
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
     }
@@ -425,7 +441,7 @@ class AstrologizeApiCache {
     entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
 
     // Remove oldest 10% of entries
-    const toRemove = Math.floor(((entries as any)?.length ?? 0) * 0.2);
+    const toRemove = Math.floor(entries.length * 0.2);
     for (let i = 0; i < toRemove; i++) {
       this.cache.delete(entries[i][0]);
     }
@@ -437,7 +453,7 @@ class AstrologizeApiCache {
       const data = Array.from(this.cache.entries());
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
     } catch (error) {
-      console.warn("Failed to save astrologize cache to localStorage: ", error);
+      logger.warn("Failed to save astrologize cache to localStorage", { error });
     }
   }
 
@@ -446,14 +462,13 @@ class AstrologizeApiCache {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
-        const data = JSON.parse(stored);
-        this.cache = new Map(data);
+        const data = JSON.parse(stored) as unknown;
+        if (Array.isArray(data)) {
+          this.cache = new Map(data as Array<[string, CachedAstrologicalData]>);
+        }
       }
     } catch (error) {
-      console.warn(
-        "Failed to load astrologize cache from localStorage: ",
-        error,
-      );
+      logger.warn("Failed to load astrologize cache from localStorage", { error });
     }
   }
 
