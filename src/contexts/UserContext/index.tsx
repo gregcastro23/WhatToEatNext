@@ -103,9 +103,9 @@ function parseServerProfile(
   // Server doesn't persist `stats` — derive from natalChart on load so the
   // lab page (and any other consumer of user.stats) hydrates immediately.
   let stats = serverStats;
-  if (!stats && natalChart?.planets) {
+  if (!stats && (natalChart?.planets.length ?? 0) > 0) {
     try {
-      stats = calculateAlchemicalProfile(natalChart);
+      stats = calculateAlchemicalProfile(natalChart as NatalChart);
     } catch (err) {
       logger.warn("Failed to derive AlchemicalProfile from natalChart", err);
     }

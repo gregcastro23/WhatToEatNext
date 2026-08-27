@@ -82,8 +82,8 @@ export function useProfile(): UseProfileReturn {
         try {
           const stored = getStorageItem('userProfile');
           if (stored) {
-            const parsed = JSON.parse(stored) as ProfileRecord;
-            if (parsed.natalChart) {
+            const parsed = JSON.parse(stored) as ProfileRecord | null;
+            if (parsed && typeof parsed === 'object' && parsed.natalChart) {
               profile = {
                 ...parsed,
                 userId: parsed.userId ?? session.user.id,
@@ -104,8 +104,12 @@ export function useProfile(): UseProfileReturn {
       const storedPrefs = getStorageItem('userFoodPreferences');
       if (storedPrefs) {
         try {
-          const loadedPrefs = JSON.parse(storedPrefs) as UserPreferences;
-          setPreferences(loadedPrefs);
+          const loadedPrefs = JSON.parse(storedPrefs) as UserPreferences | null;
+          if (loadedPrefs && typeof loadedPrefs === 'object') {
+            setPreferences(loadedPrefs);
+          } else {
+            setPreferences(DEFAULT_PREFERENCES);
+          }
         } catch {
           setPreferences(DEFAULT_PREFERENCES);
         }

@@ -38,12 +38,16 @@ const SLOW_QUERY_METRIC_MIN_INTERVAL_MS = 2000;
  */
 export function readPoolGauges(): PoolGauges | undefined {
   try {
-    const pool = getDatabasePool() as unknown as {
-      waitingCount: number;
-      totalCount: number;
-      idleCount: number;
-    };
+    const pool = getDatabasePool() as unknown as
+      | {
+          waitingCount?: number;
+          totalCount?: number;
+          idleCount?: number;
+        }
+      | null
+      | undefined;
     if (
+      !pool ||
       typeof pool.waitingCount !== "number" ||
       typeof pool.totalCount !== "number" ||
       typeof pool.idleCount !== "number"
