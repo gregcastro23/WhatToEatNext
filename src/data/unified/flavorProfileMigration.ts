@@ -263,7 +263,7 @@ export class FlavorProfileMigration {
       seasonalPeak: this.extractCuisineSeasonalPeak(cuisineData),
       seasonalModifiers: this.getDefaultSeasonalModifiers(),
       culturalOrigins: [cuisineName],
-      pairingRecommendations: cuisineData.signatureIngredients ?? [],
+      pairingRecommendations: [...cuisineData.signatureIngredients],
       nutritionalSynergy: 0.7,
       description:
         cuisineData.description ?? `${cuisineName} cuisine flavor profile`,
@@ -404,16 +404,12 @@ export class FlavorProfileMigration {
   // ===== INGREDIENT FLAVOR PROFILES MIGRATION =====
   private migrateIngredientFlavorProfiles(): void {
     log.info("🥬 Migrating ingredient flavor profiles...");
-    const ingredientFlavorMap: Record<string, RawProfileInput> | null = null;
-    if (!ingredientFlavorMap) {
-      this.migrationWarnings.push(
-        "ingredientFlavorMap is not available - skipping ingredient migration",
-      );
-      log.info(
-        "⚠️ Skipping ingredient migration - ingredientFlavorMap not available",
-      );
-      return;
-    }
+    this.migrationWarnings.push(
+      "ingredientFlavorMap is not available - skipping ingredient migration",
+    );
+    log.info(
+      "⚠️ Skipping ingredient migration - ingredientFlavorMap not available",
+    );
   }
 
   // ===== DATA EXTRACTION HELPERS =====
@@ -469,27 +465,14 @@ export class FlavorProfileMigration {
   private extractCuisineBaseNotes(
     cuisineData: CuisineFlavorProfile,
   ): BaseFlavorNotes {
-    if (cuisineData.flavorProfiles) {
-      return {
-        sweet: cuisineData.flavorProfiles.sweet ?? 0,
-        sour: cuisineData.flavorProfiles.sour ?? 0,
-        salty: cuisineData.flavorProfiles.salty ?? 0,
-        bitter: cuisineData.flavorProfiles.bitter ?? 0,
-        umami: cuisineData.flavorProfiles.umami ?? 0,
-        spicy: cuisineData.flavorProfiles.spicy ?? 0,
-      };
-    }
-    if (cuisineData.flavorIntensities) {
-      return {
-        sweet: cuisineData.flavorIntensities.sweet ?? 0,
-        sour: cuisineData.flavorIntensities.sour ?? 0,
-        salty: cuisineData.flavorIntensities.salty ?? 0,
-        bitter: cuisineData.flavorIntensities.bitter ?? 0,
-        umami: cuisineData.flavorIntensities.umami ?? 0,
-        spicy: cuisineData.flavorIntensities.spicy ?? 0,
-      };
-    }
-    return this.getDefaultBaseNotes();
+    return {
+      sweet: cuisineData.flavorProfiles.sweet,
+      sour: cuisineData.flavorProfiles.sour,
+      salty: cuisineData.flavorProfiles.salty,
+      bitter: cuisineData.flavorProfiles.bitter,
+      umami: cuisineData.flavorProfiles.umami,
+      spicy: cuisineData.flavorProfiles.spicy,
+    };
   }
 
   private calculateCuisineIntensity(cuisineData: CuisineFlavorProfile): number {
@@ -498,7 +481,7 @@ export class FlavorProfileMigration {
     if (cuisineData.flavorIntensities) {
       const values = Object.values(cuisineData.flavorIntensities);
       if (values.length > 0) {
-        return values.reduce((sum, val) => sum + (val ?? 0), 0) / values.length;
+        return values.reduce((sum, val) => sum + val, 0) / values.length;
       }
     }
     return 0.5;
@@ -509,8 +492,8 @@ export class FlavorProfileMigration {
   ): number {
     const rawData = cuisineData as unknown as RawProfileInput;
     if (typeof rawData.complexity === "number") return rawData.complexity;
-    const ingredientCount = cuisineData.signatureIngredients?.length ?? 0;
-    const techniqueCount = cuisineData.signatureTechniques?.length ?? 0;
+    const ingredientCount = cuisineData.signatureIngredients.length;
+    const techniqueCount = cuisineData.signatureTechniques.length;
     return Math.min(1, (ingredientCount + techniqueCount) / 20);
   }
 
@@ -528,7 +511,7 @@ export class FlavorProfileMigration {
     flavorData: RawProfileInput,
   ): BaseFlavorNotes {
     const baseNotes = this.getDefaultBaseNotes();
-    const flavorMap: Record<string, keyof BaseFlavorNotes> = {
+    const flavorMap: Record<string, keyof BaseFlavorNotes | undefined> = {
       sweet: "sweet",
       sour: "sour",
       salty: "salty",
@@ -657,14 +640,12 @@ export class FlavorProfileMigration {
   ): void {
     const existingProfile = this.migratedProfiles.get(profileId);
     if (!existingProfile) return;
-    if (cuisineData.signatureIngredients) {
-      existingProfile.pairingRecommendations = [
-        ...new Set([
-          ...existingProfile.pairingRecommendations,
-          ...cuisineData.signatureIngredients,
-        ]),
-      ];
-    }
+    existingProfile.pairingRecommendations = [
+      ...new Set([
+        ...existingProfile.pairingRecommendations,
+        ...cuisineData.signatureIngredients,
+      ]),
+    ];
     this.migratedProfiles.set(profileId, existingProfile);
   }
 
@@ -732,9 +713,7 @@ export class FlavorProfileMigration {
  * Returns statistics about the migration
  */
 export async function runFlavorProfileMigration(): Promise<MigrationStats> {
-  if (!_migrationInstance) {
-    _migrationInstance = new FlavorProfileMigration();
-  }
+  _migrationInstance ??= new FlavorProfileMigration();
   if (_cachedMigrationStats && !_isMigrationRunning) {
     return { ..._cachedMigrationStats };
   }

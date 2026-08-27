@@ -72,14 +72,14 @@ function buildDayRows(summary: WeeklyFoodDiarySummary): DayRow[] {
 // Weekly macro trend line chart
 // ---------------------------------------------------------------------
 
-function WeeklyTrendChart({ rows }: { rows: DayRow[] }) {
+function WeeklyTrendChart({ rows }: { rows: DayRow[] }): React.ReactElement {
   const data = useMemo(
     () =>
       rows.map((r) => ({
         day: r.label,
-        Calories: Math.round(r.day.totalNutrition?.calories ?? 0),
-        Protein: Math.round(r.day.totalNutrition?.protein ?? 0),
-        Fiber: Math.round(r.day.totalNutrition?.fiber ?? 0),
+        Calories: Math.round(r.day.totalNutrition.calories),
+        Protein: Math.round(r.day.totalNutrition.protein),
+        Fiber: Math.round(r.day.totalNutrition.fiber),
       })),
     [rows],
   );
@@ -158,20 +158,20 @@ function WeeklyTrendChart({ rows }: { rows: DayRow[] }) {
 // Elemental balance stacked area over the week
 // ---------------------------------------------------------------------
 
-function ElementalTrendChart({ rows }: { rows: DayRow[] }) {
+function ElementalTrendChart({ rows }: { rows: DayRow[] }): React.ReactElement {
   const data = useMemo(
     () =>
       rows.map((r) => {
         const b = r.day.elementalBalance;
-        const total = (b?.Fire ?? 0) + (b?.Water ?? 0) + (b?.Earth ?? 0) + (b?.Air ?? 0);
+        const total = b.Fire + b.Water + b.Earth + b.Air;
         // Normalize to percentages so bars stack predictably
         const scale = total === 0 ? 0 : 100 / total;
         return {
           day: r.label,
-          Fire: Math.round((b?.Fire ?? 0) * scale * 10) / 10,
-          Water: Math.round((b?.Water ?? 0) * scale * 10) / 10,
-          Earth: Math.round((b?.Earth ?? 0) * scale * 10) / 10,
-          Air: Math.round((b?.Air ?? 0) * scale * 10) / 10,
+          Fire: Math.round(b.Fire * scale * 10) / 10,
+          Water: Math.round(b.Water * scale * 10) / 10,
+          Earth: Math.round(b.Earth * scale * 10) / 10,
+          Air: Math.round(b.Air * scale * 10) / 10,
         };
       }),
     [rows],
@@ -291,7 +291,7 @@ function complianceText(pct: number): string {
   return "text-gray-400";
 }
 
-function ComplianceHeatmap({ rows }: { rows: DayRow[] }) {
+function ComplianceHeatmap({ rows }: { rows: DayRow[] }): React.ReactElement {
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-4">
       <div className="flex items-baseline justify-between mb-3">
@@ -326,7 +326,7 @@ function ComplianceHeatmap({ rows }: { rows: DayRow[] }) {
               {label}
             </div>
             {rows.map((r, i) => {
-              const actual = r.day.totalNutrition?.[key] ?? 0;
+              const actual = r.day.totalNutrition[key];
               const target = r.day.nutritionGoals?.[key] ?? 0;
               const pct = target > 0 ? Math.round((actual / target) * 100) : 0;
               const hasEntry = r.day.entries.length > 0;
@@ -370,7 +370,9 @@ function ComplianceHeatmap({ rows }: { rows: DayRow[] }) {
 // Composite export
 // ---------------------------------------------------------------------
 
-export default function DiaryAnalytics({ weeklySummary }: AnalyticsProps) {
+export default function DiaryAnalytics({
+  weeklySummary,
+}: AnalyticsProps): React.ReactElement {
   if (!weeklySummary || weeklySummary.totalEntries === 0) {
     return (
       <div className="text-center py-8">

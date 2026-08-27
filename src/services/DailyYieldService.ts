@@ -13,7 +13,6 @@
  * @file src/services/DailyYieldService.ts
  */
 
-import { _logger } from "@/lib/logger";
 import type { AlchemicalProperties } from "@/types/celestial";
 import type { DailyYieldClaim, TokenType } from "@/types/economy";
 import {
@@ -24,6 +23,7 @@ import {
   getStreakMultiplier,
 } from "@/types/economy";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import { createLogger } from "@/utils/logger";
 import {
   calculateAlchemicalFromPlanets,
   type AlchemicalPlanetPositions,
@@ -32,13 +32,29 @@ import { reportQuestEventBestEffort } from "./questEventReporter";
 import { streakService } from "./StreakService";
 import { tokenEconomy } from "./TokenEconomyService";
 
+const _logger = createLogger("daily-yield-service");
+
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
+
+interface EphemerisRow {
+  planet_positions: string | AlchemicalPlanetPositions;
+  transit_esms: string | AlchemicalProperties;
+}
+
+interface UserYieldProfileRow {
+  spirit_weight: string;
+  essence_weight: string;
+  matter_weight: string;
+  substance_weight: string;
+  natal_chart_hash: string;
+  weight_scale_version: string;
+}
 
 const isServerWithDB = (): boolean =>
   typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
@@ -80,7 +96,7 @@ export const YIELD_WEIGHT_SCALE_VERSION = "inertial-v1";
  */
 async function hashNatalChart(positions: Record<string, string>): Promise<string> {
   const text = JSON.stringify(positions, Object.keys(positions).sort());
-  if (typeof globalThis.crypto?.subtle !== "undefined") {
+  if (typeof globalThis.crypto.subtle !== "undefined") {
     const msgBuffer = new TextEncoder().encode(text);
     const hashBuffer = await globalThis.crypto.subtle.digest("SHA-256", msgBuffer);
     return Array.from(new Uint8Array(hashBuffer))
@@ -135,17 +151,17 @@ class DailyYieldService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<EphemerisRow>(
           `SELECT planet_positions, transit_esms FROM daily_ephemeris_cache WHERE cache_date = $1`,
           [todayStr],
         );
         if (result.rows.length > 0) {
           const [row] = result.rows;
-          const positions = typeof row.planet_positions === "string"
-            ? JSON.parse(row.planet_positions)
+          const positions: AlchemicalPlanetPositions = typeof row.planet_positions === "string"
+            ? (JSON.parse(row.planet_positions) as AlchemicalPlanetPositions)
             : row.planet_positions;
-          const transitESMS = typeof row.transit_esms === "string"
-            ? JSON.parse(row.transit_esms)
+          const transitESMS: AlchemicalProperties = typeof row.transit_esms === "string"
+            ? (JSON.parse(row.transit_esms) as AlchemicalProperties)
             : row.transit_esms;
           return { positions, transitESMS };
         }
@@ -206,7 +222,7 @@ class DailyYieldService {
     // Check cached yield profile
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserYieldProfileRow>(
           `SELECT spirit_weight, essence_weight, matter_weight, substance_weight, natal_chart_hash, weight_scale_version
            FROM user_yield_profiles WHERE user_id = $1`,
           [userId],
@@ -219,11 +235,12 @@ class DailyYieldService {
           result.rows[0].natal_chart_hash === chartHash &&
           result.rows[0].weight_scale_version === YIELD_WEIGHT_SCALE_VERSION
         ) {
+          const [row] = result.rows;
           return {
-            spirit: parseFloat(result.rows[0].spirit_weight),
-            essence: parseFloat(result.rows[0].essence_weight),
-            matter: parseFloat(result.rows[0].matter_weight),
-            substance: parseFloat(result.rows[0].substance_weight),
+            spirit: parseFloat(row.spirit_weight),
+            essence: parseFloat(row.essence_weight),
+            matter: parseFloat(row.matter_weight),
+            substance: parseFloat(row.substance_weight),
           };
         }
       } catch (error) {

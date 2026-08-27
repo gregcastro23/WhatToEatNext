@@ -139,7 +139,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}): MiddlewareHan
       }
 
       // Validate token
-      const payload = await authService.validateToken(token);
+      const payload = authService.validateToken(token);
 
       if (!payload) {
         logger.warn("Invalid or expired token", {
