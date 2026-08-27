@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 6346,
+  "trackedTotal": 6177,
   "declined": {
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 2013,
@@ -12,7 +12,7 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 2004,
+      "count": 2001,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
@@ -20,7 +20,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 495,
+      "count": 494,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -28,15 +28,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2482,
+      "count": 2326,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 225,
+      "count": 224,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 641,
+      "count": 639,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -52,7 +52,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 279,
+      "count": 278,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -64,7 +64,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 117,
+      "count": 111,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -72,7 +72,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 357,
+      "count": 355,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -96,7 +96,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2117,
+      "count": 2114,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -108,7 +108,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 59,
+      "count": 57,
       "autoFixable": 0
     },
     "no-void": {

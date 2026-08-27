@@ -185,21 +185,25 @@ export interface CuisineSauceResult {
  */
 function resolveCuisine(key: string, cuisinesMapData?: Record<string, Cuisine>): { cuisine: Cuisine; canonicalKey: string } | null {
   if (!key) return null;
-  const map = cuisinesMapData ?? cuisinesMap;
+  const map = (cuisinesMapData ?? cuisinesMap) as Record<string, Cuisine | undefined>;
 
-  if (map[key]) return { cuisine: map[key], canonicalKey: key };
+  const direct = map[key];
+  if (direct) return { cuisine: direct, canonicalKey: key };
 
   const titled = key
     .split(/\s+/)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
     .join(" ");
-  if (map[titled]) return { cuisine: map[titled], canonicalKey: titled };
+  const titledMatch = map[titled];
+  if (titledMatch) return { cuisine: titledMatch, canonicalKey: titled };
 
   const lower = key.toLowerCase();
-  if (map[lower]) return { cuisine: map[lower], canonicalKey: lower };
+  const lowerMatch = map[lower];
+  if (lowerMatch) return { cuisine: lowerMatch, canonicalKey: lower };
 
   const collapsed = key.replace(/\s+/g, "");
-  if (map[collapsed]) return { cuisine: map[collapsed], canonicalKey: collapsed };
+  const collapsedMatch = map[collapsed];
+  if (collapsedMatch) return { cuisine: collapsedMatch, canonicalKey: collapsed };
 
   return null;
 }
@@ -216,34 +220,41 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
 
   const regionalEntries = cuisine.regionalCuisines
     ? Array.isArray(cuisine.regionalCuisines)
-      ? cuisine.regionalCuisines.map((r: RegionalCuisineEntry, i: number) => ({
+      ? (cuisine.regionalCuisines as RegionalCuisineEntry[]).map((r, i: number) => ({
         key: String(i),
-        name: r?.name ?? String(i),
-        description: r?.description,
-        signature: r?.signature ?? r?.signatureDishes,
+        name: r.name ?? String(i),
+        description: r.description,
+        signature: r.signature ?? r.signatureDishes,
       }))
-      : Object.entries(cuisine.regionalCuisines).map(([k, r]: [string, RegionalCuisineEntry]) => ({
+      : Object.entries(cuisine.regionalCuisines as Record<string, RegionalCuisineEntry>).map(([k, r]) => ({
         key: k,
-        name: r?.name ?? k,
-        description: r?.description,
-        signature: r?.signature ?? r?.signatureDishes,
+        name: r.name ?? k,
+        description: r.description,
+        signature: r.signature ?? r.signatureDishes,
       }))
     : [];
 
-  const sr = cuisine.sauceRecommender ?? {
+  const sr = (cuisine.sauceRecommender ?? {
     forProtein: {},
     forVegetable: {},
     forCookingMethod: {},
     byAstrological: {},
     byRegion: {},
     byDietary: {},
+  }) as {
+    forProtein?: Record<string, string[] | undefined>;
+    forVegetable?: Record<string, string[] | undefined>;
+    forCookingMethod?: Record<string, string[] | undefined>;
+    byAstrological?: Record<string, string[] | undefined>;
+    byRegion?: Record<string, string[] | undefined>;
+    byDietary?: Record<string, string[] | undefined>;
   };
 
   return {
     key: canonicalKey,
     name: cuisine.name || canonicalKey,
     description: cuisine.description,
-    elementalProperties: (cuisine.elementalProperties as ElementalProperties) ?? {
+    elementalProperties: (cuisine.elementalProperties as ElementalProperties | undefined) ?? {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -270,20 +281,20 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
 }
 
 export function listCuisines(cuisinesMapData?: Record<string, Cuisine>): Array<{ key: string; name: string }> {
-  const map = cuisinesMapData ?? cuisinesMap;
+  const map = (cuisinesMapData ?? cuisinesMap) as Record<string, Cuisine | undefined>;
   return [
     "Italian", "French", "Japanese", "Mexican", "Thai", "Chinese", "Indian",
     "Greek", "Korean", "Vietnamese", "Middle Eastern", "American", "African", "Russian",
   ]
-    .filter((k) => map[k])
-    .map((k) => ({ key: k, name: map[k].name || k }));
+    .filter((k) => Boolean(map[k]))
+    .map((k) => ({ key: k, name: map[k]?.name ?? k }));
 }
 
 // ============================================================================
 // Sauce pool construction
 // ============================================================================
 
-const norm = (s: string) =>
+const norm = (s: string): string =>
   s
     .toLowerCase()
     .normalize("NFD")
@@ -291,7 +302,10 @@ const norm = (s: string) =>
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
 
-function buildAllSauceIndex() {
+function buildAllSauceIndex(): {
+  byName: Map<string, { key: string; sauce: DataSauce }>;
+  byKey: Map<string, { key: string; sauce: DataSauce }>;
+} {
   const byName = new Map<string, { key: string; sauce: DataSauce }>();
   const byKey = new Map<string, { key: string; sauce: DataSauce }>();
   for (const [key, s] of Object.entries(allSauces)) {
@@ -435,9 +449,13 @@ export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Reco
     const sr = cuisine.sauceRecommender;
     if (sr) {
       const allNamedRefs = new Set<string>();
-      const collect = (m: Record<string, string[]> | undefined) => {
+      const collect = (m: Record<string, string[] | undefined> | undefined): void => {
         if (!m) return;
-        Object.values(m).forEach((arr) => arr.forEach((n) => allNamedRefs.add(n)));
+        Object.values(m).forEach((arr) => {
+          if (Array.isArray(arr)) {
+            arr.forEach((n) => allNamedRefs.add(n));
+          }
+        });
       };
       collect(sr.forProtein);
       collect(sr.forVegetable);
@@ -484,8 +502,8 @@ const ZODIAC_TO_ELEMENT: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {
 };
 
 function cosineSimilarity(a: ElementalProperties, b: ElementalProperties): number {
-  const ax = [a.Fire ?? 0, a.Water ?? 0, a.Earth ?? 0, a.Air ?? 0];
-  const bx = [b.Fire ?? 0, b.Water ?? 0, b.Earth ?? 0, b.Air ?? 0];
+  const ax = [a.Fire, a.Water, a.Earth, a.Air];
+  const bx = [b.Fire, b.Water, b.Earth, b.Air];
   const dot = ax.reduce((s, v, i) => s + v * bx[i], 0);
   const magA = Math.sqrt(ax.reduce((s, v) => s + v * v, 0));
   const magB = Math.sqrt(bx.reduce((s, v) => s + v * v, 0));
@@ -547,7 +565,11 @@ function authenticityScore(sauce: UnifiedSauce, ctx: CuisineSauceContext): numbe
 
 function dishPairingScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisine: Cuisine | null): { score: number; matches: string[] } {
   if (!cuisine?.sauceRecommender) return { score: 0, matches: [] };
-  const sr = cuisine.sauceRecommender;
+  const sr = cuisine.sauceRecommender as {
+    forProtein?: Record<string, string[] | undefined>;
+    forVegetable?: Record<string, string[] | undefined>;
+    forCookingMethod?: Record<string, string[] | undefined>;
+  };
   const matches: string[] = [];
   let hits = 0, total = 0;
   if (ctx.protein) {
