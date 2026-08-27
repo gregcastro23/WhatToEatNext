@@ -98,12 +98,12 @@ function parseServerProfile(
   data: Record<string, unknown>,
   fallbackUserId?: string,
 ): UserProfile {
-  const natalChart = data.natalChart as NatalChart | undefined;
+  const natalChart = data.natalChart as Partial<NatalChart> | undefined;
   const serverStats = data.stats as AlchemicalProfile | undefined;
   // Server doesn't persist `stats` — derive from natalChart on load so the
   // lab page (and any other consumer of user.stats) hydrates immediately.
   let stats = serverStats;
-  if (!stats && (natalChart?.planets.length ?? 0) > 0) {
+  if (!stats && (natalChart?.planets?.length ?? 0) > 0) {
     try {
       stats = calculateAlchemicalProfile(natalChart as NatalChart);
     } catch (err) {
@@ -120,7 +120,7 @@ function parseServerProfile(
       | undefined,
     onboardingComplete: data.onboardingComplete as boolean | undefined,
     birthData: data.birthData as BirthData | undefined,
-    natalChart,
+    natalChart: natalChart as NatalChart | undefined,
     groupMembers: (data.groupMembers ?? []) as GroupMember[],
     diningGroups: (data.diningGroups ?? []) as DiningGroup[],
     stats,

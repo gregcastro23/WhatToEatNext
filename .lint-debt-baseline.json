@@ -1,7 +1,9 @@
 {
-  "trackedTotal": 9944,
+  "trackedTotal": 6973,
   "declined": {
     "rules": {
+      "@typescript-eslint/explicit-function-return-type": 2013,
+      "@typescript-eslint/explicit-module-boundary-types": 958,
       "complexity": 376,
       "max-depth": 99,
       "max-lines": 633,
