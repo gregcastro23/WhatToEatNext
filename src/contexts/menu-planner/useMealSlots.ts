@@ -12,6 +12,7 @@
  */
 
 import { useCallback } from "react";
+import { allSauces } from "@/data/sauces";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type {
   WeeklyMenu,
@@ -114,7 +115,7 @@ export function useMealSlots({
       recipe: MonicaOptimizedRecipe,
       servings = 1,
       locked?: boolean,
-    ) => {
+    ): Promise<void> => {
       if (!currentMenu) return;
       try {
         setCurrentMenu((prevMenu) => {
@@ -123,7 +124,7 @@ export function useMealSlots({
             if (meal.dayOfWeek === dayOfWeek && meal.mealType === mealType) {
               return {
                 ...meal,
-                recipe,
+                recipe: recipe as unknown as (typeof meal)["recipe"],
                 servings,
                 // `locked` set in the same update as the recipe (remote-slot
                 // materialization) — a follow-up lockMeal() would clobber the
@@ -134,8 +135,9 @@ export function useMealSlots({
             }
             return meal;
           });
-          return { ...prevMenu, meals: updatedMeals, updatedAt: new Date() } as any;
+          return { ...prevMenu, meals: updatedMeals, updatedAt: new Date() };
         });
+        await Promise.resolve();
         logger.info(`Added ${recipe.name} to ${mealType} on day ${dayOfWeek}`);
       } catch (err) {
         logger.error("Failed to add meal:", err);
@@ -146,7 +148,7 @@ export function useMealSlots({
   );
 
   const removeMealFromSlot = useCallback(
-    async (mealSlotId: string) => {
+    async (mealSlotId: string): Promise<void> => {
       if (!currentMenu) return;
       try {
         setCurrentMenu((prevMenu) => {
@@ -160,6 +162,7 @@ export function useMealSlots({
           });
           return { ...prevMenu, meals: updatedMeals, updatedAt: new Date() };
         });
+        await Promise.resolve();
         logger.info(`Removed meal from slot ${mealSlotId}`);
       } catch (err) {
         logger.error("Failed to remove meal:", err);
@@ -170,7 +173,7 @@ export function useMealSlots({
   );
 
   const updateMealServings = useCallback(
-    async (mealSlotId: string, servings: number) => {
+    async (mealSlotId: string, servings: number): Promise<void> => {
       if (!currentMenu) return;
       try {
         const updatedMeals = currentMenu.meals.map((meal) =>
@@ -179,6 +182,7 @@ export function useMealSlots({
             : meal,
         );
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
+        await Promise.resolve();
         logger.info(`Updated servings for meal ${mealSlotId} to ${servings}`);
       } catch (err) {
         logger.error("Failed to update servings:", err);
@@ -197,12 +201,17 @@ export function useMealSlots({
       sourceMealSlotId: string,
       targetDay: DayOfWeek,
       targetMealType: MealType,
-    ) => {
+    ): Promise<void> => {
       if (!currentMenu) return;
       try {
         const sourceMeal = currentMenu.meals.find((m) => m.id === sourceMealSlotId);
         if (!sourceMeal?.recipe) throw new Error("Source meal not found or has no recipe");
-        await addMealToSlot(targetDay, targetMealType, sourceMeal.recipe as any, sourceMeal.servings);
+        await addMealToSlot(
+          targetDay,
+          targetMealType,
+          sourceMeal.recipe as unknown as MonicaOptimizedRecipe,
+          sourceMeal.servings,
+        );
         logger.info(`Copied meal from ${sourceMealSlotId} to ${targetDay}-${targetMealType}`);
       } catch (err) {
         logger.error("Failed to copy meal:", err);
@@ -213,7 +222,7 @@ export function useMealSlots({
   );
 
   const moveMeal = useCallback(
-    async (sourceMealSlotId: string, targetMealSlotId: string) => {
+    async (sourceMealSlotId: string, targetMealSlotId: string): Promise<void> => {
       if (!currentMenu) return;
       try {
         const sourceMeal = currentMenu.meals.find((m) => m.id === sourceMealSlotId);
@@ -236,6 +245,7 @@ export function useMealSlots({
           });
           return { ...prevMenu, meals: updatedMeals, updatedAt: new Date() };
         });
+        await Promise.resolve();
         logger.info(`Moved meal from ${sourceMealSlotId} to ${targetMealSlotId}`);
       } catch (err) {
         logger.error("Failed to move meal:", err);
@@ -246,7 +256,7 @@ export function useMealSlots({
   );
 
   const swapMeals = useCallback(
-    async (mealSlotId1: string, mealSlotId2: string) => {
+    async (mealSlotId1: string, mealSlotId2: string): Promise<void> => {
       if (!currentMenu) return;
       try {
         const meal1 = currentMenu.meals.find((m) => m.id === mealSlotId1);
@@ -263,6 +273,7 @@ export function useMealSlots({
           return meal;
         });
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
+        await Promise.resolve();
         logger.info(`Swapped meals between ${mealSlotId1} and ${mealSlotId2}`);
       } catch (err) {
         logger.error("Failed to swap meals:", err);
@@ -273,7 +284,7 @@ export function useMealSlots({
   );
 
   const copyMealToSlots = useCallback(
-    async (sourceMealSlotId: string, targetSlotIds: string[], servings?: number) => {
+    async (sourceMealSlotId: string, targetSlotIds: string[], servings?: number): Promise<void> => {
       if (!currentMenu) return;
       try {
         const sourceMeal = currentMenu.meals.find((m) => m.id === sourceMealSlotId);
@@ -285,6 +296,7 @@ export function useMealSlots({
             : meal,
         );
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
+        await Promise.resolve();
         logger.info(`Copied meal from ${sourceMealSlotId} to ${targetSlotIds.length} slots`);
       } catch (err) {
         logger.error("Failed to copy meal to slots:", err);
@@ -295,7 +307,7 @@ export function useMealSlots({
   );
 
   const moveMealToSlots = useCallback(
-    async (sourceMealSlotId: string, targetSlotIds: string[], servings?: number) => {
+    async (sourceMealSlotId: string, targetSlotIds: string[], servings?: number): Promise<void> => {
       if (!currentMenu) return;
       try {
         const sourceMeal = currentMenu.meals.find((m) => m.id === sourceMealSlotId);
@@ -312,6 +324,7 @@ export function useMealSlots({
           return meal;
         });
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
+        await Promise.resolve();
         logger.info(`Moved meal from ${sourceMealSlotId} to ${targetSlotIds.length} slots`);
       } catch (err) {
         logger.error("Failed to move meal to slots:", err);
@@ -326,7 +339,7 @@ export function useMealSlots({
   // -------------------------------------------------------------------------
 
   const clearDay = useCallback(
-    async (dayOfWeek: DayOfWeek) => {
+    async (dayOfWeek: DayOfWeek): Promise<void> => {
       if (!currentMenu) return;
       try {
         const updatedMeals = currentMenu.meals.map((meal) => {
@@ -337,6 +350,7 @@ export function useMealSlots({
           return meal;
         });
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
+        await Promise.resolve();
         logger.info(`Cleared all meals for day ${dayOfWeek}`);
       } catch (err) {
         logger.error("Failed to clear day:", err);
@@ -346,7 +360,7 @@ export function useMealSlots({
     [currentMenu, setCurrentMenu],
   );
 
-  const clearWeek = useCallback(async () => {
+  const clearWeek = useCallback(async (): Promise<void> => {
     if (!currentMenu) return;
     try {
       const updatedMeals = currentMenu.meals.map((meal) => {
@@ -358,6 +372,7 @@ export function useMealSlots({
         return { ...prevMenu, meals: updatedMeals, groceryList: [], updatedAt: new Date() };
       });
       setGroceryList([]);
+      await Promise.resolve();
       logger.info("Cleared entire week");
     } catch (err) {
       logger.error("Failed to clear week:", err);
@@ -370,11 +385,9 @@ export function useMealSlots({
   // -------------------------------------------------------------------------
 
   const addSauceToMeal = useCallback(
-    (mealSlotId: string, sauceId: string, servings = 1) => {
+    (mealSlotId: string, sauceId: string, servings = 1): void => {
       if (!currentMenu) return;
-      // Dynamic import to avoid circular deps at module level
-      const { allSauces } = require("@/data/sauces");
-      const sauceData = allSauces[sauceId];
+      const sauceData = (allSauces as Record<string, (typeof allSauces)[string] | undefined>)[sauceId];
       if (!sauceData) {
         logger.warn(`Sauce not found: ${sauceId}`);
         return;

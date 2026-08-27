@@ -1,19 +1,47 @@
-// @ts-nocheck
 "use client";
 
 import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'lucide-react';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
-// @ts-expect-error - Auto-fixed by script
 import type { PlanetaryPosition } from '@/types/alchemy';
+import { createLogger } from '@/utils/logger';
 import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '@/utils/tarotMappings';
+
+const logger = createLogger('TarotFoodDisplay');
 
 export interface AlchemicalValues {
   Spirit: number;
   Essence: number;
   Matter: number;
   Substance: number;
+}
+
+export interface MinorCard {
+  name: string;
+  suit?: string;
+  number?: number;
+  keywords?: string[];
+  description?: string;
+  energy?: number;
+}
+
+export interface MajorCard {
+  name: string;
+  planet?: string;
+  keywords?: string[];
+  element?: string;
+}
+
+export interface PlanetaryCard {
+  name: string;
+  energy?: number;
+}
+
+export interface TarotCardsResult {
+  minorCard: MinorCard;
+  majorCard: MajorCard;
+  planetaryCards?: Record<string, PlanetaryCard>;
 }
 
 export interface TarotFoodDisplayProps {
@@ -25,8 +53,8 @@ export interface TarotFoodDisplayProps {
   }) => void;
 }
 
-export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProps) {
-  const [tarotCards, setTarotCards] = useState<{ minorCard: unknown, majorCard: unknown, planetaryCards?: Record<string, unknown> } | null>(null);
+export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProps): React.JSX.Element {
+  const [tarotCards, setTarotCards] = useState<TarotCardsResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentPeriod, setCurrentPeriod] = useState<string>('');
   const onTarotLoadedRef = useRef(onTarotLoaded);
@@ -35,15 +63,37 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   const { currentPlanetaryAlignment, loading: _astroLoading } = useAstrologicalState();
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
-  const hasSunPosition = (alignment: Record<string, unknown>): alignment is { sun: PlanetaryPosition } => 
-    // @ts-expect-error - Auto-fixed by script
-     alignment && 
-           typeof alignment === 'object' && 
-           'sun' in alignment && 
-           alignment.sun && 
-           typeof alignment.sun === 'object' &&
-           'sign' in alignment.sun
-  ;
+  const hasSunPosition = (alignment: unknown): alignment is { sun: PlanetaryPosition } => {
+    if (!alignment || typeof alignment !== 'object') return false;
+    const alignObj = alignment as Record<string, unknown>;
+    return (
+      'sun' in alignObj &&
+      typeof alignObj.sun === 'object' &&
+      alignObj.sun !== null &&
+      'sign' in alignObj.sun
+    );
+  };
+
+  // Function to compute alchemical values from tarot card
+  const getAlchemicalValues = useCallback((card: MinorCard | unknown): AlchemicalValues => {
+    if (!card || typeof card !== 'object') return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+    
+    const cardObj = card as Partial<MinorCard>;
+    const name = cardObj.name ?? '';
+    const [, suit] = name.split(' of ');
+    const number = cardObj.number ?? 0;
+    
+    // Create base object with all values at 0
+    const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+    
+    // Map suit to alchemical value
+    if (suit === 'Wands') values.Spirit = number;
+    else if (suit === 'Cups') values.Essence = number;
+    else if (suit === 'Pentacles') values.Matter = number;
+    else if (suit === 'Swords') values.Substance = number;
+    
+    return values;
+  }, []);
 
   // Update the ref when onTarotLoaded changes
   useEffect(() => {
@@ -64,19 +114,18 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       // Format the date range for this period
       const periodStart = new Date(currentDate.getFullYear(), 0, biWeeklyPeriod * 14 - 13);
       const periodEnd = new Date(currentDate.getFullYear(), 0, biWeeklyPeriod * 14);
-      const formatDate = (date: Date) => {
+      const formatDate = (date: Date): string => {
         const month = date.toLocaleString('default', { month: 'short' });
         return `${month} ${date.getDate()}`;
       };
       setCurrentPeriod(`${formatDate(periodStart)} - ${formatDate(periodEnd)}`);
       
       // Get sun position from planetary alignment if available
-      let sunPosition;
-      // @ts-expect-error - Auto-fixed by script
+      let sunPosition: { sign: string; degree: number } | undefined;
       if (hasSunPosition(currentPlanetaryAlignment)) {
         sunPosition = {
-          sign: currentPlanetaryAlignment.sun.sign,
-          degree: currentPlanetaryAlignment.sun.degree || 0
+          sign: String(currentPlanetaryAlignment.sun.sign),
+          degree: currentPlanetaryAlignment.sun.degree
         };
       }
       
@@ -92,7 +141,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       });
       
       // Use ref for callback to prevent re-renders
-      if (onTarotLoadedRef.current && cards) {
+      if (onTarotLoadedRef.current) {
         // Calculate alchemical values
         const alchemicalValues = getAlchemicalValues(cards.minorCard);
         
@@ -103,47 +152,19 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           planetaryCards: {} // Will be populated by the parent component
         });
       }
+      await Promise.resolve();
     } catch (err) {
       setError('Failed to load tarot cards');
-      console.error(err);
+      logger.error('Failed to load tarot cards:', err);
     }
   }, [currentPlanetaryAlignment, getAlchemicalValues]);
 
   useEffect(() => {
-    let isMounted = true;
-    
-    if (isMounted) {
-      void loadTarotCards();
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    loadTarotCards().catch(() => {});
   }, [loadTarotCards]);
 
-  // Function to compute alchemical values from tarot card
-  const getAlchemicalValues = useCallback((card: unknown) => {
-    if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
-    
-    // @ts-expect-error - Auto-fixed by script
-    const suit = card.name?.split(' of ')[1];
-    // @ts-expect-error - Auto-fixed by script
-    const number = card.number ?? 0;
-    
-    // Create base object with all values at 0
-    const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
-    
-    // Map suit to alchemical value
-    if (suit === 'Wands') values.Spirit = number;
-    else if (suit === 'Cups') values.Essence = number;
-    else if (suit === 'Pentacles') values.Matter = number;
-    else if (suit === 'Swords') values.Substance = number;
-    
-    return values;
-  }, []);
-
-  const getElementIcon = (element: string) => {
-    switch (element?.toLowerCase()) {
+  const getElementIcon = (element: string): React.JSX.Element | null => {
+    switch (element.toLowerCase()) {
       case 'fire': return <Flame className="w-4 h-4 text-orange-400" />;
       case 'water': return <Droplets className="w-4 h-4 text-blue-400" />;
       case 'earth': return <Mountain className="w-4 h-4 text-green-400" />;
@@ -152,8 +173,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     }
   };
 
-  const getElementColor = (element: string) => {
-    switch (element?.toLowerCase()) {
+  const getElementColor = (element: string): string => {
+    switch (element.toLowerCase()) {
       case 'fire': return 'bg-gradient-to-br from-orange-800 to-red-900 text-white';
       case 'water': return 'bg-gradient-to-br from-blue-800 to-indigo-900 text-white';
       case 'earth': return 'bg-gradient-to-br from-green-800 to-emerald-900 text-white';
@@ -165,12 +186,10 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   if (error) return <div className="text-red-400 mb-4">Tarot unavailable: {error}</div>;
   if (!tarotCards) return <div className="text-purple-300 mb-4">Divining celestial cards...</div>;
 
-  // @ts-expect-error - Auto-fixed by script
-  const suit = tarotCards.minorCard?.name?.split(' ')[2];
-  const element = suit ? (SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown') : 'Unknown';
-  const token = suit ? (SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum') : 'Quantum';
-  // @ts-expect-error - Auto-fixed by script
-  const value = tarotCards.minorCard?.number ?? 0;
+  const [, , suit] = tarotCards.minorCard.name.split(' ');
+  const element = (suit && suit in SUIT_TO_ELEMENT ? SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] : undefined) ?? 'Unknown';
+  const token = (suit && suit in SUIT_TO_TOKEN ? SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] : undefined) ?? 'Quantum';
+  const value = tarotCards.minorCard.number ?? 0;
 
   return (
     <div className="mb-6 mt-2">
@@ -181,10 +200,9 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Biweekly Period: {currentPeriod}</span>
         <Clock className="w-3 h-3 ml-3 mr-1" />
         <span>Updated daily with planetary positions</span>
-        // @ts-expect-error - Auto-fixed by script
         {hasSunPosition(currentPlanetaryAlignment) && (
           <span className="ml-3">
-            • Sun: {currentPlanetaryAlignment.sun.sign} {Math.floor(currentPlanetaryAlignment.sun.degree || 0)}°
+            • Sun: {currentPlanetaryAlignment.sun.sign} {Math.floor(currentPlanetaryAlignment.sun.degree)}°
           </span>
         )}
       </div>
@@ -193,8 +211,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element)}`}>
           <div className="flex justify-between items-start">
             <div>
-              // @ts-expect-error - Auto-fixed by script
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name ?? 'Minor Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard.name || 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 {getElementIcon(element)}
                 <span className="ml-1 text-sm font-medium">{element}</span>
@@ -208,8 +225,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              // @ts-expect-error - Auto-fixed by script
-              {tarotCards.minorCard?.keywords?.join(', ') ?? 'No keywords available'}
+              {tarotCards.minorCard.keywords?.join(', ') ?? 'No keywords available'}
             </div>
             <p className="mt-2 text-sm opacity-90 bg-black bg-opacity-20 p-2 rounded-md text-white">
               This card influences your ingredient selections by enhancing their {element.toLowerCase()} properties.
@@ -220,24 +236,20 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="rounded-lg p-4 bg-purple-900 bg-opacity-30 shadow-lg">
           <div className="flex justify-between items-start">
             <div>
-              // @ts-expect-error - Auto-fixed by script
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard?.name ?? 'Major Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard.name || 'Major Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <span className="text-yellow-300 mr-1">✧</span>
-                // @ts-expect-error - Auto-fixed by script
-                <span className="text-sm font-medium text-white">{tarotCards.majorCard?.planet ?? 'Unknown Planet'}</span>
+                <span className="text-sm font-medium text-white">{tarotCards.majorCard.planet ?? 'Unknown Planet'}</span>
               </div>
             </div>
           </div>
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              // @ts-expect-error - Auto-fixed by script
-              {tarotCards.majorCard?.keywords?.join(', ') ?? 'No keywords available'}
+              {tarotCards.majorCard.keywords?.join(', ') ?? 'No keywords available'}
             </div>
             <p className="mt-2 text-sm opacity-90 bg-black bg-opacity-20 p-2 rounded-md text-white">
-              // @ts-expect-error - Auto-fixed by script
-              This card heightens the influence of {tarotCards.majorCard?.planet ?? 'planetary'} energies on today&apos;s recommended foods.
+              This card heightens the influence of {tarotCards.majorCard.planet ?? 'planetary'} energies on today&apos;s recommended foods.
             </p>
           </div>
         </div>
@@ -250,17 +262,14 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
             {Object.entries(tarotCards.planetaryCards).map(([planet, card]) => (
               <div key={planet} className="rounded-lg p-2 bg-gray-800 bg-opacity-40 text-xs">
                 <div className="font-medium text-purple-300">{planet}</div>
-                // @ts-expect-error - Auto-fixed by script
                 <div className="text-gray-400 mt-1">{card.name}</div>
                 <div className="flex items-center mt-1">
                   <div className="h-1 bg-gray-700 flex-grow rounded-full overflow-hidden">
                     <div 
                       className="h-1 bg-purple-500" 
-                      // @ts-expect-error - Auto-fixed by script
                       style={{ width: `${(card.energy ?? 0.5) * 100}%` }}
                      />
                   </div>
-                  // @ts-expect-error - Auto-fixed by script
                   <span className="ml-1 text-xs text-gray-500">{Math.round((card.energy ?? 0.5) * 100)}%</span>
                 </div>
               </div>

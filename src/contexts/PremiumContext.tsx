@@ -26,6 +26,9 @@ import type {
   UserSubscription,
 } from "@/types/subscription";
 import { TIER_LIMITS } from "@/types/subscription";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("PremiumContext");
 
 const CACHE_KEY = "alchm_subscription_cache";
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
@@ -34,6 +37,15 @@ const BROADCAST_CHANNEL = "alchm_subscription_sync";
 interface CachedSubscription {
   subscription: UserSubscription;
   cachedAt: number;
+}
+
+interface SubscriptionApiResponse {
+  subscription?: UserSubscription;
+  [key: string]: unknown;
+}
+
+interface PortalApiResponse {
+  url?: string;
 }
 
 interface PremiumContextValue {
@@ -72,7 +84,7 @@ function readCache(): CachedSubscription | null {
   try {
     const raw = sessionStorage.getItem(CACHE_KEY);
     if (!raw) return null;
-    const cached: CachedSubscription = JSON.parse(raw);
+    const cached = JSON.parse(raw) as CachedSubscription;
     if (Date.now() - cached.cachedAt > CACHE_TTL_MS) {
       sessionStorage.removeItem(CACHE_KEY);
       return null;
@@ -84,7 +96,7 @@ function readCache(): CachedSubscription | null {
 }
 
 /** Write subscription to sessionStorage cache */
-function writeCache(subscription: UserSubscription) {
+function writeCache(subscription: UserSubscription): void {
   if (typeof window === "undefined") return;
   try {
     const cached: CachedSubscription = {
@@ -97,13 +109,14 @@ function writeCache(subscription: UserSubscription) {
   }
 }
 
-export function PremiumProvider({ children }: { children: ReactNode }) {
+export function PremiumProvider({ children }: { children: ReactNode }): React.JSX.Element {
   const { data: session, status } = useSession();
 
   // Optimistic tier from JWT (available instantly, no API call needed)
+  const user = session?.user as Record<string, unknown> | undefined;
   const jwtTier: SubscriptionTier =
-    (session?.user as Record<string, unknown>)?.tier as SubscriptionTier || "free";
-  const isAdmin = (session?.user as Record<string, unknown>)?.role === "admin";
+    (typeof user?.tier === "string" ? (user.tier as SubscriptionTier) : null) ?? "free";
+  const isAdmin = user?.role === "admin";
 
   const [subscription, setSubscription] = useState<UserSubscription | null>(
     null,
@@ -116,7 +129,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   // Admins always get premium.
   const tier: SubscriptionTier = isAdmin
     ? "premium"
-    : subscription?.tier || jwtTier;
+    : (subscription?.tier ?? jwtTier);
   const isPremium = tier === "premium";
 
   // Cross-tab synchronization via BroadcastChannel
@@ -127,27 +140,24 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       const channel = new BroadcastChannel(BROADCAST_CHANNEL);
       broadcastRef.current = channel;
 
-      channel.onmessage = (event) => {
-        const data = event.data as {
-          type: string;
-          subscription?: UserSubscription;
-        };
+      channel.onmessage = (event: MessageEvent<{ type: string; subscription?: UserSubscription }>): void => {
+        const { data } = event;
         if (data.type === "subscription_updated" && data.subscription) {
           setSubscription(data.subscription);
           writeCache(data.subscription);
         }
       };
 
-      return () => {
+      return (): void => {
         channel.close();
         broadcastRef.current = null;
       };
     } catch {
       // BroadcastChannel not supported — fall back to storage events
-      const handleStorage = (e: StorageEvent) => {
-        if (e.key === CACHE_KEY && e.newValue) {
+      const handleStorage = (e: StorageEvent): void => {
+        if (e.key === CACHE_KEY && typeof e.newValue === "string") {
           try {
-            const cached: CachedSubscription = JSON.parse(e.newValue);
+            const cached = JSON.parse(e.newValue) as CachedSubscription;
             setSubscription(cached.subscription);
           } catch {
             // Ignore parse errors
@@ -155,13 +165,15 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
         }
       };
       window.addEventListener("storage", handleStorage);
-      return () => window.removeEventListener("storage", handleStorage);
+      return (): void => {
+        window.removeEventListener("storage", handleStorage);
+      };
     }
   }, []);
 
   /** Broadcast subscription update to other tabs */
   const broadcastUpdate = useCallback(
-    (sub: UserSubscription) => {
+    (sub: UserSubscription): void => {
       try {
         broadcastRef.current?.postMessage({
           type: "subscription_updated",
@@ -174,8 +186,8 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  const fetchSubscription = useCallback(async () => {
-    if (status !== "authenticated" || !session?.user) {
+  const fetchSubscription = useCallback(async (): Promise<void> => {
+    if (status !== "authenticated") {
       setIsLoading(false);
       return;
     }
@@ -194,24 +206,23 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
     try {
       const res = await fetch("/api/user/subscription", {
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       // Session expired — the subscription API now returns a fallback
       // shape even on server errors, but handle 401 for re-auth
       if (res.status === 401) {
         // Don't redirect immediately — the JWT tier is still usable
-        console.warn("[PremiumContext] Session expired, using JWT tier");
+        logger.warn("[PremiumContext] Session expired, using JWT tier");
         setIsLoading(false);
         return;
       }
 
-      const data = await res.json();
+      const data = (await res.json()) as SubscriptionApiResponse;
 
       if (res.ok) {
-        setSubscription(data.subscription);
-        // Cache for fast subsequent loads
         if (data.subscription) {
+          setSubscription(data.subscription);
           writeCache(data.subscription);
           broadcastUpdate(data.subscription);
         }
@@ -221,21 +232,21 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
           setSubscription(data.subscription);
         }
       }
-    } catch (error: any) {
-      if (error.name === "AbortError") {
-        console.warn("[PremiumContext] Subscription fetch timed out after 8s");
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === "AbortError") {
+        logger.warn("[PremiumContext] Subscription fetch timed out after 8s");
       } else {
-        console.error("[PremiumContext] Failed to fetch subscription:", error);
+        logger.error("[PremiumContext] Failed to fetch subscription:", error);
       }
       // If cache was loaded or JWT tier is available, we still have data
     } finally {
       clearTimeout(timeoutId);
       setIsLoading(false);
     }
-  }, [status, session?.user, broadcastUpdate]);
+  }, [status, broadcastUpdate]);
 
   useEffect(() => {
-    void fetchSubscription();
+    fetchSubscription().catch(() => {});
   }, [fetchSubscription]);
 
   const hasFeature = useCallback(
@@ -258,15 +269,15 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  const openPortal = useCallback(async () => {
+  const openPortal = useCallback(async (): Promise<void> => {
     try {
       const res = await fetch("/api/stripe/portal", { method: "POST" });
       if (res.ok) {
-        const { url } = await res.json();
-        if (url) window.location.href = url;
+        const data = (await res.json()) as PortalApiResponse;
+        if (data.url) window.location.href = data.url;
       }
-    } catch (error) {
-      console.error("[PremiumContext] Portal failed:", error);
+    } catch (error: unknown) {
+      logger.error("[PremiumContext] Portal failed:", error);
     }
   }, []);
 

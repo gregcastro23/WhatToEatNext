@@ -8,12 +8,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { logger } from "@/lib/logger";
 import { userLearning } from "@/lib/personalization/user-learning";
 import type { ElementalProperties } from "@/types/alchemy";
+import { createLogger } from "@/utils/logger";
 import { usePerformanceMonitoring } from "./usePerformanceMonitoring";
 
-interface PersonalizationData {
+const logger = createLogger("usePersonalization");
+
+export interface PersonalizationData {
   userId: string;
   preferences: {
     cuisines: string[];
@@ -27,8 +29,8 @@ interface PersonalizationData {
   };
   recommendations: {
     scores: Array<{
-      id: string;
-      score: number;
+      recipeId: string;
+      personalizedScore: number;
       reasons: string[];
       confidence: number;
     }>;
@@ -42,11 +44,53 @@ interface PersonalizationData {
   isLoading: boolean;
 }
 
-interface PersonalizationConfig {
+export interface PersonalizationConfig {
   autoLearn: boolean;
   trackViews: boolean;
   cacheRecommendations: boolean;
   updateInterval: number;
+}
+
+export interface BaseRecommendation {
+  id: string;
+  score?: number;
+  [key: string]: unknown;
+}
+
+export interface PersonalizationInsights {
+  learningStage: "early" | "developing" | "mature";
+  topCuisines: string[];
+  topIngredients: string[];
+  dominantElement: string;
+  topPlanets: string[];
+  uiRecommendations: string[];
+}
+
+export interface UsePersonalizationReturn {
+  data: PersonalizationData;
+  isLoading: boolean;
+  trackRecipeInteraction: (
+    recipeData: {
+      id: string;
+      ingredients: string[];
+      cuisine: string;
+      cookingMethod: string;
+      complexity: string;
+      elementalBalance: ElementalProperties;
+    },
+    interactionType: "view" | "save" | "cook",
+  ) => Promise<void>;
+  trackIngredientPreferences: (selected: string[], rejected?: string[]) => Promise<void>;
+  trackPlanetaryInterest: (planetaryHour: string, engagement: number) => Promise<void>;
+  getPersonalizedRecommendations: <T extends BaseRecommendation>(
+    baseRecommendations: T[],
+    context?: { planetaryHour?: string; timeOfDay?: string },
+  ) => Promise<Array<T & { personalizedScore: number; reasons: string[]; confidence: number }>>;
+  getPersonalizationInsights: () => PersonalizationInsights;
+  refreshPreferences: () => Promise<void>;
+  hasPersonalizationData: boolean;
+  personalizationStrength: number;
+  isPersonalizationMature: boolean;
 }
 
 export function usePersonalization(
@@ -57,11 +101,11 @@ export function usePersonalization(
     cacheRecommendations: true,
     updateInterval: 60000, // 1 minute
   },
-) {
+): UsePersonalizationReturn {
   const { trackApiCall } = usePerformanceMonitoring();
 
   const [data, setData] = useState<PersonalizationData>({
-    userId: userId || "anonymous",
+    userId: userId ?? "anonymous",
     preferences: {
       cuisines: [],
       ingredients: { favorites: [], dislikes: [] },
@@ -82,7 +126,7 @@ export function usePersonalization(
   });
 
   // Load user preferences
-  const loadPreferences = useCallback(async () => {
+  const loadPreferences = useCallback(async (): Promise<void> => {
     if (!userId) return;
 
     const startTime = performance.now();
@@ -115,13 +159,13 @@ export function usePersonalization(
       const responseTime = performance.now() - startTime;
       trackApiCall("personalization/preferences", responseTime);
 
-      void logger.debug("User preferences loaded", {
+      logger.debug("User preferences loaded", {
         userId,
         confidence: preferences.learningConfidence,
         responseTime,
       });
     } catch (error) {
-      void logger.error("Failed to load user preferences", { userId, error });
+      logger.error("Failed to load user preferences", { userId, error });
       setData((prev) => ({ ...prev, isLoading: false }));
     }
   }, [userId, trackApiCall]);
@@ -138,22 +182,22 @@ export function usePersonalization(
         elementalBalance: ElementalProperties;
       },
       interactionType: "view" | "save" | "cook",
-    ) => {
+    ): Promise<void> => {
       if (!userId || !config.autoLearn) return;
 
       try {
-        void userLearning.learnFromRecipe(userId, recipeData, interactionType);
+        userLearning.learnFromRecipe(userId, recipeData, interactionType);
 
         // Update local preferences after learning
         await loadPreferences();
 
-        void logger.debug("Recipe interaction tracked", {
+        logger.debug("Recipe interaction tracked", {
           userId,
           recipeId: recipeData.id,
           type: interactionType,
         });
       } catch (error) {
-        void logger.error("Failed to track recipe interaction", {
+        logger.error("Failed to track recipe interaction", {
           userId,
           error,
         });
@@ -164,20 +208,20 @@ export function usePersonalization(
 
   // Track ingredient preferences
   const trackIngredientPreferences = useCallback(
-    async (selected: string[], rejected: string[] = []) => {
+    async (selected: string[], rejected: string[] = []): Promise<void> => {
       if (!userId || !config.autoLearn) return;
 
       try {
-        void userLearning.learnFromIngredients(userId, selected, rejected);
+        userLearning.learnFromIngredients(userId, selected, rejected);
         await loadPreferences();
 
-        void logger.debug("Ingredient preferences tracked", {
+        logger.debug("Ingredient preferences tracked", {
           userId,
           selected: selected.length,
           rejected: rejected.length,
         });
       } catch (error) {
-        void logger.error("Failed to track ingredient preferences", {
+        logger.error("Failed to track ingredient preferences", {
           userId,
           error,
         });
@@ -188,24 +232,24 @@ export function usePersonalization(
 
   // Track planetary interest
   const trackPlanetaryInterest = useCallback(
-    async (planetaryHour: string, engagement: number) => {
+    async (planetaryHour: string, engagement: number): Promise<void> => {
       if (!userId || !config.autoLearn) return;
 
       try {
-        void userLearning.learnFromPlanetaryQuery(
+        userLearning.learnFromPlanetaryQuery(
           userId,
           planetaryHour,
           engagement,
         );
         await loadPreferences();
 
-        void logger.debug("Planetary interest tracked", {
+        logger.debug("Planetary interest tracked", {
           userId,
           planet: planetaryHour,
           engagement,
         });
       } catch (error) {
-        void logger.error("Failed to track planetary interest", {
+        logger.error("Failed to track planetary interest", {
           userId,
           error,
         });
@@ -216,14 +260,14 @@ export function usePersonalization(
 
   // Get personalized recommendations
   const getPersonalizedRecommendations = useCallback(
-    async (
-      baseRecommendations: any[],
+    async <T extends BaseRecommendation>(
+      baseRecommendations: T[],
       context?: { planetaryHour?: string; timeOfDay?: string },
-    ) => {
+    ): Promise<Array<T & { personalizedScore: number; reasons: string[]; confidence: number }>> => {
       if (!userId) {
         return baseRecommendations.map((rec) => ({
           ...rec,
-          personalizedScore: rec.score || 0.5,
+          personalizedScore: rec.score ?? 0.5,
           reasons: ["No personalization data available"],
           confidence: 0,
         }));
@@ -242,7 +286,7 @@ export function usePersonalization(
         const responseTime = performance.now() - startTime;
         trackApiCall("personalization/recommendations", responseTime);
 
-        setData((prev: any) => ({
+        setData((prev) => ({
           ...prev,
           recommendations: {
             scores: personalizedScores,
@@ -250,7 +294,7 @@ export function usePersonalization(
           },
         }));
 
-        void logger.debug("Personalized recommendations generated", {
+        logger.debug("Personalized recommendations generated", {
           userId,
           count: personalizedScores.length,
           avgConfidence:
@@ -259,28 +303,36 @@ export function usePersonalization(
           responseTime,
         });
 
-        return personalizedScores.map((score) => ({
-          ...baseRecommendations.find((rec) => rec.id === score.recipeId),
-          personalizedScore: score.personalizedScore,
-          reasons: score.reasons,
-          confidence: score.confidence,
-        }));
+        return personalizedScores.map((score) => {
+          const matched = baseRecommendations.find((rec) => rec.id === score.recipeId);
+          return {
+            ...(matched ?? ({} as T)),
+            personalizedScore: score.personalizedScore,
+            reasons: score.reasons,
+            confidence: score.confidence,
+          };
+        });
       } catch (error) {
-        void logger.error("Failed to generate personalized recommendations", {
+        logger.error("Failed to generate personalized recommendations", {
           userId,
           error,
         });
-        return baseRecommendations;
+        return baseRecommendations.map((rec) => ({
+          ...rec,
+          personalizedScore: rec.score ?? 0.5,
+          reasons: ["Error generating personalization"],
+          confidence: 0,
+        }));
       }
     },
     [userId, trackApiCall],
   );
 
   // Get personalization insights for UI
-  const getPersonalizationInsights = useCallback(() => {
+  const getPersonalizationInsights = useCallback((): PersonalizationInsights => {
     const { preferences, learningStats } = data;
 
-    const insights = {
+    const insights: PersonalizationInsights = {
       // Learning progress
       learningStage:
         learningStats.confidence < 0.3
@@ -297,7 +349,7 @@ export function usePersonalization(
       dominantElement:
         Object.entries(preferences.elementalAffinities).sort(
           ([, a], [, b]) => b - a,
-        )[0]?.[0] || "balanced",
+        )[0]?.[0] ?? "balanced",
 
       // Planetary preferences
       topPlanets: Object.entries(preferences.planetaryPreferences)
@@ -326,7 +378,7 @@ export function usePersonalization(
   useEffect(() => {
     if (!config.trackViews || !userId) return;
 
-    const handleVisibilityChange = () => {
+    const handleVisibilityChange = (): void => {
       if (document.visibilityState === "visible") {
         // Track general engagement
         userLearning.trackInteraction(userId, {
@@ -338,8 +390,9 @@ export function usePersonalization(
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
+    return (): void => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [userId, config.trackViews]);
 
   // Periodic preference refresh
@@ -347,15 +400,19 @@ export function usePersonalization(
     if (!userId || !config.updateInterval) return;
 
     const interval = setInterval(
-      () => void loadPreferences(),
+      () => {
+        loadPreferences().catch(() => {});
+      },
       config.updateInterval,
     );
-    return () => clearInterval(interval);
+    return (): void => {
+      clearInterval(interval);
+    };
   }, [userId, config.updateInterval, loadPreferences]);
 
   // Initial load
   useEffect(() => {
-    void loadPreferences();
+    loadPreferences().catch(() => {});
   }, [loadPreferences]);
 
   return {
