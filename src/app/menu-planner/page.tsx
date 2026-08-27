@@ -11,7 +11,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import WeeklyInsights from "@/components/menu-planner/redesign/WeeklyInsights";
@@ -35,6 +35,18 @@ import { isLiveFeedEnabled } from "@/lib/spacetime/config";
 import { publishLiveFeedEvent } from "@/lib/spacetime/liveFeedPublish";
 import type { SavedChart } from "@/types/natalChart";
 import type { Recipe } from "@/types/recipe";
+import { createLogger } from "@/utils/logger";
+
+const _logger = createLogger("menu-planner-page");
+
+interface FeedShareResponse {
+  success: boolean;
+  message?: string;
+  completedQuests?: Array<{
+    tokenRewardAmount: number;
+    tokenRewardType: string;
+  }>;
+}
 
 const GenerationPreferencesPanel = dynamic(
   () => import("@/components/menu-planner/GenerationPreferencesPanel"),
@@ -81,7 +93,7 @@ function chartToParticipant(chart: SavedChart): Omit<Participant, "id"> | null {
 /**
  * Menu Planner Content (inner component with context access)
  */
-function MenuPlannerContent() {
+function MenuPlannerContent(): React.ReactElement {
   const menuPlannerActions = useMenuPlanner();
   const {
     currentMenu,
@@ -154,7 +166,7 @@ function MenuPlannerContent() {
   );
 
   useEffect(() => {
-    const fetchSavedCharts = async () => {
+    const fetchSavedCharts = async (): Promise<void> => {
       try {
         setLoadingSavedCharts(true);
         setErrorSavedCharts(null);
@@ -171,9 +183,10 @@ function MenuPlannerContent() {
           throw new Error(json.message ?? "Failed to load charts");
         }
         setSavedCharts(json.charts ?? []);
-      } catch (error: any) {
-        setErrorSavedCharts(error.message);
-        console.error("Failed to fetch saved charts:", error);
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Failed to load charts";
+        setErrorSavedCharts(message);
+        _logger.error("Failed to fetch saved charts:", error);
       } finally {
         setLoadingSavedCharts(false);
       }
@@ -181,11 +194,11 @@ function MenuPlannerContent() {
 
     if (showParticipantSelection) {
       // Only fetch when the selection UI is active
-      void fetchSavedCharts();
+      fetchSavedCharts().catch(() => {});
     }
   }, [showParticipantSelection]); // Re-fetch when UI visibility changes
 
-  const handleSaveTemplate = async () => {
+  const handleSaveTemplate = async (): Promise<void> => {
     if (!templateName.trim()) {
       showError("Please enter a template name");
       return;
@@ -198,11 +211,11 @@ function MenuPlannerContent() {
       setShowSaveTemplate(false);
     } catch (err) {
       showError("Failed to save template");
-      console.error(err);
+      _logger.error("Failed to save template:", err);
     }
   };
 
-  const handleShareToFeed = async () => {
+  const handleShareToFeed = async (): Promise<void> => {
     if (!currentMenu) return;
     setIsSharing(true);
     try {
@@ -220,7 +233,7 @@ function MenuPlannerContent() {
           },
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as FeedShareResponse;
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
@@ -231,7 +244,7 @@ function MenuPlannerContent() {
         // instantly (Postgres via /api/feed/share stays the source of truth).
         if (isLiveFeedEnabled() && stdbConnection && stdbStatus === "connected") {
           publishLiveFeedEvent(stdbConnection, {
-            actorName: postAnonymously ? "" : (authSession?.user?.name ?? ""),
+            actorName: postAnonymously ? "" : (authSession?.user.name ?? ""),
             eventType: "shared_menu",
             payload: {
               menuTitle: shareTitle.trim() || "a weekly menu",
@@ -243,11 +256,11 @@ function MenuPlannerContent() {
         showSuccess(`Successfully shared to community feed!${questMessage}`);
         setShowShareModal(false);
       } else {
-        showError(data.message || "Failed to share to feed");
+        showError(data.message ?? "Failed to share to feed");
       }
     } catch (err) {
       showError("Error sharing menu to feed");
-      console.error(err);
+      _logger.error("Error sharing menu to feed:", err);
     } finally {
       setIsSharing(false);
     }
@@ -443,7 +456,7 @@ function MenuPlannerContent() {
             </button>
 
             <button
-              onClick={() => { void toggleSyncWithLunarCycle(); }}
+              onClick={() => { toggleSyncWithLunarCycle(); }}
               className={`flex items-center gap-2 px-4 py-2 border transition-all font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95 ${
                 syncWithLunarCycle
                   ? "border-active-violet text-active-violet bg-active-violet/10 shadow-[0_0_10px_rgba(184,90,240,0.1)]"
@@ -548,11 +561,11 @@ function MenuPlannerContent() {
               weekPlan={currentMenu}
               onAddRecipe={(dayOfWeek, mealType, recipe) => {
                 const { addMealToSlot } = menuPlannerActions;
-                void addMealToSlot(dayOfWeek, mealType, recipe);
+                addMealToSlot(dayOfWeek, mealType, recipe).catch(() => {});
               }}
               onRecommendMeal={(dayOfWeek, mealType) => {
                 const { generateMealsForDay } = menuPlannerActions;
-                void generateMealsForDay(dayOfWeek, { mealTypes: [mealType] });
+                generateMealsForDay(dayOfWeek, { mealTypes: [mealType] }).catch(() => {});
               }}
             />
           </div>
@@ -849,7 +862,7 @@ function MenuPlannerContent() {
                   Cancel
                 </button>
                 <button
-                  onClick={() => { void handleSaveTemplate(); }}
+                  onClick={() => { handleSaveTemplate().catch(() => {}); }}
                   className="flex-1 px-4 py-2 border border-active-violet text-active-violet bg-active-violet/10 hover:bg-active-violet/20 transition-all font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
                 >
                   Save Template
@@ -906,7 +919,7 @@ function MenuPlannerContent() {
                   Cancel
                 </button>
                 <button
-                  onClick={() => { void handleShareToFeed(); }}
+                  onClick={() => { handleShareToFeed().catch(() => {}); }}
                   disabled={isSharing}
                   className="flex-1 px-4 py-2 border border-active-violet text-active-violet bg-active-violet/10 hover:bg-active-violet/20 transition-all font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
                 >
@@ -938,7 +951,7 @@ function MenuPlannerContent() {
 /**
  * Main Page Export (wrapped in providers)
  */
-export default function MenuPlannerPage() {
+export default function MenuPlannerPage(): React.ReactElement {
   return (
     <RecipeQueueProvider>
       <MenuPlannerProvider>

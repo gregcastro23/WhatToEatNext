@@ -22,6 +22,20 @@ export interface DiscoverTablesQuery {
   limit?: number;
 }
 
+interface DiscoverTablesApiResponse {
+  success?: boolean;
+  message?: string;
+  tables?: DiscoverTableCard[];
+  nextCursor?: string | null;
+}
+
+interface DiscoverPeopleApiResponse {
+  success?: boolean;
+  message?: string;
+  people?: DiscoverPersonCard[];
+  nextCursor?: string | null;
+}
+
 function buildQuery(params: Record<string, unknown>): string {
   const sp = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
@@ -39,9 +53,18 @@ interface PagedState<T> {
   nextCursor: string | null;
 }
 
+export interface UseDiscoverTablesReturn {
+  tables: DiscoverTableCard[];
+  loading: boolean;
+  error: string | null;
+  hasMore: boolean;
+  loadMore: () => void;
+  reload: () => Promise<void>;
+}
+
 /** Discover tables (auth optional). Reloads when the query changes; loadMore
  * appends the next keyset page. */
-export function useDiscoverTables(query: DiscoverTablesQuery) {
+export function useDiscoverTables(query: DiscoverTablesQuery): UseDiscoverTablesReturn {
   const [state, setState] = useState<PagedState<DiscoverTableCard>>({
     items: [],
     loading: true,
@@ -60,7 +83,7 @@ export function useDiscoverTables(query: DiscoverTablesQuery) {
         const res = await fetch(`/api/discover/tables${buildQuery({ ...query, cursor })}`, {
           credentials: "include",
         });
-        const data = await res.json();
+        const data = (await res.json()) as DiscoverTablesApiResponse;
         if (reqId !== reqIdRef.current) return; // a newer request superseded this
         if (!res.ok || data.success === false) {
           setState((s) => ({ ...s, loading: false, error: data.message ?? "Failed to load tables" }));
@@ -82,11 +105,13 @@ export function useDiscoverTables(query: DiscoverTablesQuery) {
   );
 
   useEffect(() => {
-    void fetchPage(null, false);
+    fetchPage(null, false).catch(() => {});
   }, [fetchPage]);
 
-  const loadMore = useCallback(() => {
-    if (state.nextCursor && !state.loading) void fetchPage(state.nextCursor, true);
+  const loadMore = useCallback((): void => {
+    if (state.nextCursor && !state.loading) {
+      fetchPage(state.nextCursor, true).catch(() => {});
+    }
   }, [state.nextCursor, state.loading, fetchPage]);
 
   return {
@@ -95,7 +120,7 @@ export function useDiscoverTables(query: DiscoverTablesQuery) {
     error: state.error,
     hasMore: Boolean(state.nextCursor),
     loadMore,
-    reload: () => fetchPage(null, false),
+    reload: async (): Promise<void> => { await fetchPage(null, false); },
   };
 }
 
@@ -107,8 +132,18 @@ export interface DiscoverPeopleQuery {
   limit?: number;
 }
 
+export interface UseDiscoverPeopleReturn {
+  people: DiscoverPersonCard[];
+  loading: boolean;
+  error: string | null;
+  needsAuth: boolean;
+  hasMore: boolean;
+  loadMore: () => void;
+  reload: () => Promise<void>;
+}
+
 /** Discover people (auth required — a 401 surfaces as `needsAuth`). */
-export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true) {
+export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true): UseDiscoverPeopleReturn {
   const [state, setState] = useState<PagedState<DiscoverPersonCard>>({
     items: [],
     loading: enabled,
@@ -134,7 +169,7 @@ export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true) {
           setState((s) => ({ ...s, loading: false }));
           return;
         }
-        const data = await res.json();
+        const data = (await res.json()) as DiscoverPeopleApiResponse;
         if (reqId !== reqIdRef.current) return;
         if (!res.ok || data.success === false) {
           setState((s) => ({ ...s, loading: false, error: data.message ?? "Failed to load people" }));
@@ -157,11 +192,13 @@ export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true) {
   );
 
   useEffect(() => {
-    void fetchPage(null, false);
+    fetchPage(null, false).catch(() => {});
   }, [fetchPage]);
 
-  const loadMore = useCallback(() => {
-    if (state.nextCursor && !state.loading) void fetchPage(state.nextCursor, true);
+  const loadMore = useCallback((): void => {
+    if (state.nextCursor && !state.loading) {
+      fetchPage(state.nextCursor, true).catch(() => {});
+    }
   }, [state.nextCursor, state.loading, fetchPage]);
 
   return {
@@ -171,6 +208,6 @@ export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true) {
     needsAuth,
     hasMore: Boolean(state.nextCursor),
     loadMore,
-    reload: () => fetchPage(null, false),
+    reload: async (): Promise<void> => { await fetchPage(null, false); },
   };
 }

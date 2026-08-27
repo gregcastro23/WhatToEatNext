@@ -6,7 +6,7 @@
  * Provides real-time consciousness activation notifications and wisdom insights
  */
 
-import type { CraftedAgent } from './agent-types'
+import type { CraftedAgent, PlanetPosition } from './agent-types'
 import type { CelestialMoment } from './celestial-energy-calculator'
 
 export interface AgentDegreeProfile {
@@ -83,7 +83,7 @@ export class DegreeAgentMatcher {
   /**
    * Initialize agent profiles with natal data
    */
-  private initializeAgentProfiles() {
+  private initializeAgentProfiles(): void {
     const { DEMO_AGENTS } = require('./demo-agents-data') as { DEMO_AGENTS: CraftedAgent[] }
     const ids = [
       'leonardo-da-vinci',
@@ -120,10 +120,10 @@ export class DegreeAgentMatcher {
       agentName: agent.name,
       natalPlacements,
       dominantDegrees,
-      consciousnessLevel: agent.consciousness?.level ?? 'Advanced',
-      specialties: agent.abilities?.wisdomDomains || [agent.abilities?.specialty || 'Wisdom'],
-      element: agent.consciousness?.dominantElement || 'Air',
-      modality: agent.consciousness?.dominantModality || 'Fixed',
+      consciousnessLevel: agent.consciousness.level ?? 'Advanced',
+      specialties: agent.abilities.wisdomDomains.length > 0 ? agent.abilities.wisdomDomains : [agent.abilities.specialty || 'Wisdom'],
+      element: agent.consciousness.dominantElement,
+      modality: agent.consciousness.dominantModality,
     }
   }
 
@@ -134,7 +134,7 @@ export class DegreeAgentMatcher {
     let placements: AgentDegreeProfile['natalPlacements'] = {}
 
     // If agent has natal chart data, use it
-    if (agent.consciousness?.natalChart?.planets) {
+    if (Object.keys(agent.consciousness.natalChart.planets).length > 0) {
       for (const [planet, data] of Object.entries(agent.consciousness.natalChart.planets)) {
         const signIndex = this.getSignIndex(data.sign)
         const absoluteDegree = signIndex * 30 + data.degree
@@ -147,7 +147,7 @@ export class DegreeAgentMatcher {
         }
       }
     } else {
-      // Generate based on agent characteristics and historical data
+      // Generate placements based on historical/characteristic data
       placements = this.generateNatalPlacements(agent)
     }
 
@@ -155,7 +155,7 @@ export class DegreeAgentMatcher {
   }
 
   /**
-   * Generate natal placements based on agent characteristics
+   * Generate realistic natal placements for historical agents based on their life/work
    */
   private generateNatalPlacements(agent: CraftedAgent): AgentDegreeProfile['natalPlacements'] {
     const placements: AgentDegreeProfile['natalPlacements'] = {}
@@ -163,7 +163,7 @@ export class DegreeAgentMatcher {
     // Use agent's birth data if available, otherwise use characteristic-based generation
     const seed = agent.id.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0)
 
-    const planetaryCharacteristics = {
+    const planetaryCharacteristics: Partial<Record<string, Record<string, { degree: number; sign: string; house: number }>>> = {
       'leonardo-da-vinci': {
         Sun: { degree: 15, sign: 'Aries', house: 10 }, // Innovation and leadership
         Moon: { degree: 22, sign: 'Gemini', house: 3 }, // Curiosity and communication
@@ -256,8 +256,7 @@ export class DegreeAgentMatcher {
       },
     }
 
-    const agentCharacteristics =
-      planetaryCharacteristics[agent.id as keyof typeof planetaryCharacteristics]
+    const agentCharacteristics = planetaryCharacteristics[agent.id]
 
     if (agentCharacteristics) {
       for (const [planet, data] of Object.entries(agentCharacteristics)) {
@@ -274,29 +273,30 @@ export class DegreeAgentMatcher {
     } else {
       // Fallback: generate pseudo-random but consistent placements
       const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn']
-      const signs = [
-        'Aries',
-        'Taurus',
-        'Gemini',
-        'Cancer',
-        'Leo',
-        'Virgo',
-        'Libra',
-        'Scorpio',
-        'Sagittarius',
-        'Capricorn',
-        'Aquarius',
-        'Pisces',
-      ]
 
       planets.forEach((planet, index) => {
-        const planetSeed = seed + planet.length + index
-        const degree = (planetSeed * 37) % 30
-        const signIndex = (planetSeed * 73) % 12
-        const house = ((planetSeed * 11) % 12) + 1
+        const planetSeed = seed + index * 137
+        const absoluteDegree = planetSeed % 360
+        const signIndex = Math.floor(absoluteDegree / 30)
+        const house = ((planetSeed % 12) + 1)
+
+        const signs = [
+          'Aries',
+          'Taurus',
+          'Gemini',
+          'Cancer',
+          'Leo',
+          'Virgo',
+          'Libra',
+          'Scorpio',
+          'Sagittarius',
+          'Capricorn',
+          'Aquarius',
+          'Pisces',
+        ]
 
         placements[planet] = {
-          degree: signIndex * 30 + degree,
+          degree: absoluteDegree,
           sign: signs[signIndex],
           house,
           isDominant: index < 3,
@@ -308,30 +308,34 @@ export class DegreeAgentMatcher {
   }
 
   /**
-   * Calculate dominant degrees for an agent
+   * Calculate dominant degrees based on natal placements
    */
-  private calculateDominantDegrees(placements: AgentDegreeProfile['natalPlacements']): number[] {
+  private calculateDominantDegrees(
+    natalPlacements: AgentDegreeProfile['natalPlacements']
+  ): number[] {
     const degrees: number[] = []
 
-    // Add exact natal degrees
-    Object.values(placements).forEach(placement => {
+    // Add exact degrees of all placements
+    for (const placement of Object.values(natalPlacements)) {
       degrees.push(placement.degree)
 
-      // Add harmonic degrees (aspects)
-      degrees.push((placement.degree + 60) % 360) // Sextile
-      degrees.push((placement.degree + 90) % 360) // Square
-      degrees.push((placement.degree + 120) % 360) // Trine
-      degrees.push((placement.degree + 180) % 360) // Opposition
-    })
+      // Add harmonic degrees (trines and sextiles) for dominant planets
+      if (placement.isDominant) {
+        degrees.push((placement.degree + 60) % 360) // Sextile
+        degrees.push((placement.degree + 120) % 360) // Trine
+        degrees.push((placement.degree + 240) % 360) // Trine
+        degrees.push((placement.degree + 300) % 360) // Sextile
+      }
+    }
 
     // Remove duplicates and sort
-    return [...new Set(degrees)].sort((a, b) => a - b)
+    return Array.from(new Set(degrees)).sort((a, b) => a - b)
   }
 
   /**
    * Find agent activations for current celestial moment
    */
-  async findActivations(moment: CelestialMoment): Promise<DegreeActivation[]> {
+  findActivations(moment: CelestialMoment): DegreeActivation[] {
     const cacheKey = `${moment.timestamp.getTime()}`
 
     if (this.degreeCache.has(cacheKey)) {
@@ -342,7 +346,7 @@ export class DegreeAgentMatcher {
 
     // Check each planetary degree for agent activations
     for (const [planet, degree] of Object.entries(moment.planetaryDegrees)) {
-      const planetActivation = await this.findPlanetActivations(planet, degree, moment)
+      const planetActivation = this.findPlanetActivations(planet, degree, moment)
 
       if (planetActivation.activatedAgents.length > 0) {
         activations.push(planetActivation)
@@ -352,20 +356,17 @@ export class DegreeAgentMatcher {
     // Cache results
     this.degreeCache.set(cacheKey, activations)
 
-    // Clean up old cache entries
-    this.cleanupCache()
-
     return activations
   }
 
   /**
    * Find activations for a specific planet at a degree
    */
-  private async findPlanetActivations(
+  private findPlanetActivations(
     planet: string,
     degree: number,
     moment: CelestialMoment
-  ): Promise<DegreeActivation> {
+  ): DegreeActivation {
     const activatedAgents: AgentActivationDetail[] = []
 
     // Check each agent for activations
@@ -403,7 +404,7 @@ export class DegreeAgentMatcher {
   }
 
   /**
-   * Check if an agent is activated by a planet at a degree
+   * Check if a specific agent is activated by a planetary degree
    */
   private checkAgentActivation(
     profile: AgentDegreeProfile,
@@ -411,66 +412,155 @@ export class DegreeAgentMatcher {
     degree: number,
     moment: CelestialMoment
   ): AgentActivationDetail | null {
-    let bestActivation: AgentActivationDetail | null = null
-    let smallestOrb = Infinity
+    // Find closest natal placement
+    let closestPlacement: {
+      planet: string
+      distance: number
+      placement: AgentDegreeProfile['natalPlacements'][string]
+    } | null = null
 
-    // Check all natal placements for activations
     for (const [natalPlanet, placement] of Object.entries(profile.natalPlacements)) {
-      const orb = this.calculateOrb(degree, placement.degree)
+      const distance = this.calculateDegreeDistance(degree, placement.degree)
 
-      let activationType: AgentActivationDetail['activationType'] | null = null
-      let resonanceStrength = 0
-
-      if (orb <= this.ORB_EXACT) {
-        activationType = 'exact'
-        resonanceStrength = 1.0 - (orb / this.ORB_EXACT) * 0.1
-      } else if (orb <= this.ORB_CLOSE) {
-        activationType = 'close'
-        resonanceStrength = 0.8 - (orb / this.ORB_CLOSE) * 0.3
-      } else if (orb <= this.ORB_HARMONIC) {
-        activationType = 'harmonic'
-        resonanceStrength = 0.5 - (orb / this.ORB_HARMONIC) * 0.2
-      } else {
-        // Check for opposition (180° aspect)
-        const oppositionOrb = this.calculateOrb(degree, (placement.degree + 180) % 360)
-        if (oppositionOrb <= this.ORB_CLOSE) {
-          activationType = 'opposition'
-          resonanceStrength = 0.6 - (oppositionOrb / this.ORB_CLOSE) * 0.2
-        }
-      }
-
-      if (activationType && orb < smallestOrb) {
-        smallestOrb = orb
-
-        // Enhance resonance based on planetary importance and consciousness level
-        if (placement.isDominant) resonanceStrength *= 1.2
-        if (['Sun', 'Moon', 'Mercury'].includes(natalPlanet)) resonanceStrength *= 1.1
-        if (planet === natalPlanet) resonanceStrength *= 1.3 // Same planet activation
-
-        bestActivation = {
-          agentId: profile.agentId,
-          agentName: profile.agentName,
-          activationType,
-          orb,
-          resonanceStrength: Math.min(1.0, resonanceStrength),
-          natalPlanet,
-          wisdom: this.generateAgentWisdom(profile, planet, degree, moment, activationType),
-          deepInsight: this.generateDeepInsight(profile, planet, degree, moment, activationType),
-          consciousnessLevel: profile.consciousnessLevel,
-          recommendedActions: this.generateRecommendedActions(profile, planet, degree, moment),
-          elementalAlignment: this.calculateElementalAlignment(profile, moment),
-        }
+      if (!closestPlacement || distance < closestPlacement.distance) {
+        closestPlacement = { planet: natalPlanet, distance, placement }
       }
     }
 
-    return bestActivation
+    if (!closestPlacement || closestPlacement.distance > 8) {
+      return null // No significant activation
+    }
+
+    // Determine activation type and strength
+    const { activationType, strengthMultiplier } = this.classifyActivation(
+      closestPlacement.distance,
+      closestPlacement.placement.isDominant
+    )
+
+    // Calculate resonance strength based on A# and planetary harmony
+    const resonanceStrength = this.calculateResonanceStrength(
+      profile,
+      planet,
+      closestPlacement.planet,
+      strengthMultiplier,
+      moment
+    )
+
+    if (resonanceStrength < 0.3) {
+      return null // Below activation threshold
+    }
+
+    // Generate agent wisdom and deep insight
+    const wisdom = this.generateAgentWisdom(profile, planet, degree, moment, activationType)
+    const deepInsight = this.generateDeepInsight(
+      profile,
+      planet,
+      degree,
+      moment,
+      activationType
+    )
+    const recommendedActions = this.generateRecommendedActions(
+      profile,
+      planet,
+      degree,
+      moment,
+      activationType
+    )
+
+    return {
+      agentId: profile.agentId,
+      agentName: profile.agentName,
+      activationType,
+      orb: closestPlacement.distance,
+      resonanceStrength: Math.min(1.0, resonanceStrength),
+      natalPlanet: closestPlacement.planet,
+      wisdom,
+      deepInsight,
+      consciousnessLevel: profile.consciousnessLevel,
+      recommendedActions,
+      elementalAlignment: this.calculateElementalAlignment(profile, moment),
+    }
   }
 
   /**
-   * Calculate orb (angular distance) between two degrees
+   * Classify activation based on orb distance and placement dominance
    */
-  private calculateOrb(degree1: number, degree2: number): number {
-    const diff = Math.abs(degree1 - degree2)
+  private classifyActivation(
+    distance: number,
+    isDominant: boolean
+  ): { activationType: AgentActivationDetail['activationType']; strengthMultiplier: number } {
+    if (distance <= 1) {
+      return {
+        activationType: 'exact',
+        strengthMultiplier: isDominant ? 1.0 : 0.85,
+      }
+    } else if (distance <= 3) {
+      return {
+        activationType: 'close',
+        strengthMultiplier: isDominant ? 0.8 : 0.65,
+      }
+    } else if (distance <= 6) {
+      return {
+        activationType: 'harmonic',
+        strengthMultiplier: isDominant ? 0.6 : 0.45,
+      }
+    } else {
+      return {
+        activationType: 'opposition',
+        strengthMultiplier: isDominant ? 0.4 : 0.25,
+      }
+    }
+  }
+
+  /**
+   * Calculate resonance strength between transit planet and natal placement
+   */
+  private calculateResonanceStrength(
+    profile: AgentDegreeProfile,
+    transitPlanet: string,
+    natalPlanet: string,
+    multiplier: number,
+    moment: CelestialMoment
+  ): number {
+    let baseStrength = 0.5
+
+    // Same planet activation (e.g., transit Mars activating natal Mars)
+    if (transitPlanet === natalPlanet) {
+      baseStrength += 0.3
+    }
+
+    // Harmonic planet pairs
+    const harmonicPairs = [
+      ['Sun', 'Jupiter'],
+      ['Moon', 'Venus'],
+      ['Mercury', 'Uranus'],
+      ['Venus', 'Neptune'],
+      ['Mars', 'Pluto'],
+    ]
+
+    const isHarmonic = harmonicPairs.some(
+      pair =>
+        (pair[0] === transitPlanet && pair[1] === natalPlanet) ||
+        (pair[1] === transitPlanet && pair[0] === natalPlanet)
+    )
+
+    if (isHarmonic) {
+      baseStrength += 0.2
+    }
+
+    // Modulate by A# energy
+    const aNumberModulation = moment.alchemical.A_number / 100 // Normalize A#
+    baseStrength *= 0.7 + aNumberModulation * 0.6
+
+    // Apply distance/dominance multiplier
+    return Math.min(1, Math.max(0, baseStrength * multiplier))
+  }
+
+  /**
+   * Calculate degree distance (shortest path)
+   */
+  private calculateDegreeDistance(d1: number, d2: number): number {
+    const diff = Math.abs(d1 - d2)
     return Math.min(diff, 360 - diff)
   }
 
@@ -484,7 +574,7 @@ export class DegreeAgentMatcher {
     moment: CelestialMoment,
     activationType: string
   ): string {
-    const wisdomTemplates = {
+    const wisdomTemplates: Partial<Record<string, Record<string, string>>> = {
       'leonardo-da-vinci': {
         exact: `At ${degree}°, the divine proportion reveals itself through ${planet}'s geometry. A# energy of ${moment.alchemical.A_number.toFixed(2)} illuminates the golden ratio in cosmic design.`,
         close: `Near ${degree}°, I observe ${planet}'s influence creating harmonic resonance. The celestial mechanics suggest innovation flows at A# ${moment.alchemical.A_number.toFixed(2)}.`,
@@ -529,10 +619,10 @@ export class DegreeAgentMatcher {
       },
     }
 
-    const agentWisdom = wisdomTemplates[profile.agentId as keyof typeof wisdomTemplates]
+    const agentWisdom = wisdomTemplates[profile.agentId]
 
-    if (agentWisdom?.[activationType as keyof typeof agentWisdom]) {
-      return agentWisdom[activationType as keyof typeof agentWisdom]
+    if (agentWisdom?.[activationType]) {
+      return agentWisdom[activationType]
     }
 
     // Fallback wisdom
@@ -556,42 +646,43 @@ export class DegreeAgentMatcher {
       opposition: `The opposition aspect to ${degree}° creates dynamic tension that can catalyze transformation. A# ${moment.alchemical.A_number.toFixed(2)} indicates powerful potential for growth through challenge.`,
     }
 
-    return `${
-      insights[activationType as keyof typeof insights]
-    } The ${moment.consciousness.evolutionPhase} phase enhances this activation, creating opportunities for consciousness expansion in the domain of ${profile.specialties[0]}.`
+    return (
+      insights[activationType as keyof typeof insights] ||
+      `At ${degree}°, ${planet} creates significant resonance with my consciousness, opening pathways for deeper understanding.`
+    )
   }
 
   /**
-   * Generate recommended actions
+   * Generate recommended actions during activation
    */
   private generateRecommendedActions(
     profile: AgentDegreeProfile,
     planet: string,
     degree: number,
-    moment: CelestialMoment
+    moment: CelestialMoment,
+    _activationType: string
   ): string[] {
     const baseActions = [
-      `Meditate on the ${planet} energy at ${degree}°`,
-      `Focus on ${profile.specialties[0]} during this activation`,
-      `Work with ${profile.element} element practices`,
-      `Channel the ${moment.consciousness.evolutionPhase} energy constructively`,
+      `Channel ${planet}'s energy at ${degree}° into creative work`,
+      `Engage with ${profile.agentName}'s wisdom domain: ${profile.specialties[0]}`,
+      `Utilize high A# resonance (${moment.alchemical.A_number.toFixed(2)}) for breakthrough thinking`,
     ]
 
-    const agentSpecificActions = {
+    const agentSpecificActions: Record<string, string[]> = {
       'leonardo-da-vinci': [
-        'Engage in artistic creation or invention',
-        'Study geometric patterns and proportions',
-        'Combine science and art in new ways',
+        'Sketch interconnected ideas and systems',
+        'Study natural proportions and sacred geometry',
+        'Bridge art and scientific observation',
       ],
       'william-shakespeare': [
-        'Write poetry or dramatic works',
-        'Explore human emotions and relationships',
-        'Practice with language and wordplay',
+        'Write expressive dialogue or poetry',
+        'Explore complex human emotions and motivations',
+        'Observe the theatrical nature of current events',
       ],
       'albert-einstein': [
-        'Contemplate unified field theories',
-        'Use thought experiments for insight',
-        'Connect physics with philosophy',
+        'Question fundamental assumptions about reality',
+        'Conduct thought experiments on complex problems',
+        'Seek elegant, simple solutions to difficult challenges',
       ],
       'carl-jung': [
         'Explore dreams and unconscious material',
@@ -615,8 +706,7 @@ export class DegreeAgentMatcher {
       ],
     }
 
-    const specificActions =
-      agentSpecificActions[profile.agentId as keyof typeof agentSpecificActions] || []
+    const specificActions = agentSpecificActions[profile.agentId] ?? []
 
     return [...baseActions, ...specificActions].slice(0, 5)
   }
@@ -631,9 +721,9 @@ export class DegreeAgentMatcher {
     const baseAlignment = { ...moment.elemental }
 
     // Enhance agent's dominant element
-    const dominantElement = profile.element as keyof typeof baseAlignment
-    if (baseAlignment[dominantElement] !== undefined) {
-      baseAlignment[dominantElement] *= 1.2
+    const dominantElement = profile.element
+    if (dominantElement in baseAlignment) {
+      (baseAlignment as Record<string, number>)[dominantElement] *= 1.2
     }
 
     return baseAlignment
@@ -659,8 +749,8 @@ export class DegreeAgentMatcher {
       })
     })
 
-    const skyWeight = Math.max(0, moment.kinetic?.power ?? 0)
-    Object.entries(moment.elemental ?? {}).forEach(([element, value]) => {
+    const skyWeight = Math.max(0, moment.kinetic.power)
+    Object.entries(moment.elemental).forEach(([element, value]) => {
       if (element in elementCounts) {
         elementCounts[element as keyof typeof elementCounts] += value * skyWeight
       }
@@ -890,8 +980,11 @@ export class DegreeAgentMatcher {
     return signs.indexOf(sign)
   }
 
-  private isPlanetDominant(planet: string, data: any): boolean {
-    return ['Sun', 'Moon', 'Mercury'].includes(planet) || data.dignity > 0
+  private isPlanetDominant(
+    planet: string,
+    _data?: PlanetPosition
+  ): boolean {
+    return ['Sun', 'Moon', 'Mercury'].includes(planet)
   }
 
   private cleanupCache(): void {
