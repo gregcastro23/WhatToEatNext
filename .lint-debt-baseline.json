@@ -2,12 +2,12 @@
   "trackedTotal": 5447,
   "declined": {
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 2013,
-      "@typescript-eslint/explicit-module-boundary-types": 958,
-      "complexity": 376,
-      "max-depth": 99,
-      "max-lines": 633,
-      "max-lines-per-function": 2086
+      "@typescript-eslint/explicit-function-return-type": 1864,
+      "@typescript-eslint/explicit-module-boundary-types": 885,
+      "complexity": 354,
+      "max-depth": 100,
+      "max-lines": 653,
+      "max-lines-per-function": 2116
     }
   },
   "rules": {

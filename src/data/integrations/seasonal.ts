@@ -1,7 +1,7 @@
 // Keep this file focused on seasonal data only, removing any elemental balance references
 import type { Season } from "@/types/alchemy";
 import { seasonalPatterns } from "./seasonalPatterns";
-import { seasonalUsage } from "./seasonalUsage";
+import { seasonalUsage, type SeasonUsageData } from "./seasonalUsage";
 
 export interface SeasonalData {
   availability: number; // 0-1 scale for ingredient availability
@@ -51,10 +51,16 @@ export function getSeasonalData(
   season: Season = getCurrentSeason(),
 ): SeasonalData {
   const availability = getSeasonalScore(ingredientName, season);
-  const usageData = seasonalUsage[season];
-  const traditionalUse = Array.isArray(usageData?.[ingredientName])
-    ? (usageData[ingredientName] as string[])
-    : (usageData?.growing ?? []);
+  // `Season` includes "fall", for which `seasonalUsage` has no key, so this is
+  // undefined at runtime however the object literal's own type reads.
+  const usageData: SeasonUsageData | undefined = seasonalUsage[season];
+  // An ingredient with no entry for this season has no recorded traditional use.
+  // `growing` is the season's own crop list, not this ingredient's -- falling
+  // back to it would attribute one constant list to every ingredient.
+  const usageEntry: unknown = usageData?.[ingredientName];
+  const traditionalUse: string[] = Array.isArray(usageEntry)
+    ? usageEntry.filter((v): v is string => typeof v === "string")
+    : [];
 
   // Get complementary flavors for the season
   // Add type assertion to handle the unknown type
