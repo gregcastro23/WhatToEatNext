@@ -82,7 +82,7 @@ export class JWTAuthService {
       user.lastLoginAt = new Date();
 
       // Generate tokens
-      const tokens = await this.generateTokens(user);
+      const tokens = this.generateTokens(user);
 
       logger.info("User authenticated successfully", {
         userId: user.id,
@@ -100,27 +100,27 @@ export class JWTAuthService {
   /**
    * Generate access and refresh tokens for user
    */
-  async generateTokens(user: User): Promise<AuthTokens> {
+  generateTokens(user: User): AuthTokens {
     const scopes = this.getRoleScopes(user.roles);
 
-    const payload: Omit<TokenPayload, "iat" | "exp" | "iss"> = {
+    const payload = {
       userId: user.id,
       email: user.email,
       roles: user.roles,
       scopes,
     };
 
-    const accessToken = (jwt.sign as any)(payload, this.config.jwtSecret, {
-      expiresIn: this.config.tokenExpiry,
+    const accessToken = jwt.sign(payload, this.config.jwtSecret, {
+      expiresIn: this.config.tokenExpiry as jwt.SignOptions["expiresIn"],
       issuer: this.config.issuer,
       audience: "alchm.kitchen",
     });
 
-    const refreshToken = (jwt.sign as any)(
+    const refreshToken = jwt.sign(
       { userId: user.id, type: "refresh" },
       this.config.jwtSecret,
       {
-        expiresIn: this.config.refreshTokenExpiry,
+        expiresIn: this.config.refreshTokenExpiry as jwt.SignOptions["expiresIn"],
         issuer: this.config.issuer,
         audience: "alchm.kitchen",
       },
@@ -136,12 +136,12 @@ export class JWTAuthService {
   /**
    * Validate JWT token and return payload
    */
-  async validateToken(token: string): Promise<TokenPayload | null> {
+  validateToken(token: string): TokenPayload | null {
     try {
       const decoded = jwt.verify(token, this.config.jwtSecret, {
         issuer: this.config.issuer,
         audience: "alchm.kitchen",
-      }) as TokenPayload;
+      }) as unknown as TokenPayload;
 
       // Verify user still exists and is active
       const user = Array.from(this.users.values()).find(
@@ -166,14 +166,14 @@ export class JWTAuthService {
   /**
    * Refresh access token using refresh token
    */
-  async refreshToken(refreshToken: string): Promise<AuthTokens | null> {
+  refreshToken(refreshToken: string): AuthTokens | null {
     try {
       const decoded = jwt.verify(refreshToken, this.config.jwtSecret, {
         issuer: this.config.issuer,
         audience: "alchm.kitchen",
-      }) as any;
+      }) as unknown as { userId?: string; type?: string };
 
-      if (decoded.type !== "refresh") {
+      if (decoded.type !== "refresh" || !decoded.userId) {
         logger.warn("Invalid refresh token type");
         return null;
       }
@@ -189,7 +189,7 @@ export class JWTAuthService {
         return null;
       }
 
-      return await this.generateTokens(user);
+      return this.generateTokens(user);
     } catch (error) {
       logger.warn("Refresh token validation failed", {
         error: error instanceof Error ? error.message : "Unknown error",
@@ -298,7 +298,7 @@ export class JWTAuthService {
   /**
    * Deactivate user (admin only)
    */
-  async deactivateUser(userId: string): Promise<boolean> {
+  deactivateUser(userId: string): boolean {
     try {
       const user = Array.from(this.users.values()).find((u) => u.id === userId);
       if (!user) {
@@ -348,22 +348,23 @@ function getJWTSecret(): string {
 }
 
 function getAuthService(): JWTAuthService {
-  if (!_authService) {
-    _authService = new JWTAuthService({
-      jwtSecret: getJWTSecret(),
-      tokenExpiry: "1h",
-      refreshTokenExpiry: "7d",
-      issuer: "alchm.kitchen",
-    });
-  }
+  _authService ??= new JWTAuthService({
+    jwtSecret: getJWTSecret(),
+    tokenExpiry: "1h",
+    refreshTokenExpiry: "7d",
+    issuer: "alchm.kitchen",
+  });
   return _authService;
 }
 
 export const authService = new Proxy({} as JWTAuthService, {
-  get(target, prop) {
+  get(_target, prop, receiver): unknown {
     const service = getAuthService();
-    const value = (service as any)[prop];
-    return typeof value === "function" ? value.bind(service) : value;
+    const value = Reflect.get(service, prop, receiver) as unknown;
+    if (typeof value === "function") {
+      return (value as (...args: unknown[]) => unknown).bind(service);
+    }
+    return value;
   },
 });
 

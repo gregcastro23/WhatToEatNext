@@ -19,9 +19,12 @@ import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { WeeklyMenu, MealType, DayOfWeek, MealSlot } from "@/types/menuPlanner";
 import { PLANETARY_DAY_RULERS, getDayName } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
+import { createLogger } from "@/utils/logger";
 import { deductRecipeFromPantry } from "@/utils/pantryManager";
 import RecipeCollisionModal from "./RecipeCollisionModal";
 import RecipeSelector from "./RecipeSelector";
+
+const logger = createLogger("todays-meals-widget");
 
 interface TodaysMealsWidgetProps {
   weekPlan: WeeklyMenu | null;
@@ -160,7 +163,7 @@ export default function TodaysMealsWidget({
   onScrollToDay,
   onAddRecipe,
   onRecommendMeal,
-}: TodaysMealsWidgetProps) {
+}: TodaysMealsWidgetProps): React.JSX.Element | null {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [recipeSelectorMealType, setRecipeSelectorMealType] = useState<MealType | null>(null);
   const [collisionState, setCollisionState] = useState<{
@@ -210,20 +213,12 @@ export default function TodaysMealsWidget({
 
   // Today's assigned meals — full slot references so we can "Log from Plan"
   const todaysMeals = useMemo(() => {
-    const result: Record<MealType, MealSlot | null> = {
-      breakfast: null,
-      lunch: null,
-      snack: null,
-      dinner: null,
-    };
-    if (!weekPlan) return result;
-    weekPlan.meals
-      .filter((m) => m.dayOfWeek === todayDow && m.recipe)
-      .forEach((m) => {
-        result[m.mealType] = m;
-      });
-    return result;
-  }, [weekPlan, todayDow]);
+    const map: Partial<Record<MealType, MealSlot>> = {};
+    todayMealSlots.forEach((slot) => {
+      map[slot.mealType] = slot;
+    });
+    return map;
+  }, [todayMealSlots]);
 
   const plannedCount = Object.values(todaysMeals).filter(Boolean).length;
 
@@ -234,7 +229,7 @@ export default function TodaysMealsWidget({
   );
   const [loggingMealType, setLoggingMealType] = useState<MealType | null>(null);
 
-  const handleLogMeal = async (mealType: MealType) => {
+  const handleLogMeal = async (mealType: MealType): Promise<void> => {
     const slot = todaysMeals[mealType];
     if (!slot?.recipe) return;
     const userId = currentUser?.userId;
@@ -252,8 +247,14 @@ export default function TodaysMealsWidget({
       });
 
       // Best-effort pantry deduction — localStorage only, never throws.
-      const ingredients = slot.recipe.ingredients?.map((ing: any) => ({
-        name: typeof ing === "string" ? ing : ing.name,
+      interface IngredientLike {
+        name?: string;
+        amount?: number;
+        unit?: string;
+      }
+      const rawIngredients = slot.recipe.ingredients as Array<string | IngredientLike> | undefined;
+      const ingredients = rawIngredients?.map((ing) => ({
+        name: typeof ing === "string" ? ing : (ing.name ?? ""),
         amount: typeof ing === "string" ? undefined : ing.amount,
         unit: typeof ing === "string" ? undefined : ing.unit,
       }));
@@ -268,10 +269,10 @@ export default function TodaysMealsWidget({
       }
 
       showSuccess(
-        `Logged ${slot.recipe.name ?? mealType} to your diary.${pantrySuffix}`,
+        `Logged ${slot.recipe.name} to your diary.${pantrySuffix}`,
       );
     } catch (err) {
-      console.error("Log from plan failed:", err);
+      logger.error("Log from plan failed:", { error: err });
       showError("Couldn't log that meal. Please try again.");
     } finally {
       setLoggingMealType(null);
@@ -295,7 +296,7 @@ export default function TodaysMealsWidget({
   };
 
   // Handle clicking a meal row to open recipe selector
-  const handleMealClick = (mealType: MealType) => {
+  const handleMealClick = (mealType: MealType): void => {
     if (todaysMeals[mealType]) {
       // Already has a recipe - scroll to day on calendar for editing
       if (onScrollToDay) onScrollToDay(todayDow);
@@ -306,7 +307,7 @@ export default function TodaysMealsWidget({
   };
 
   // Handle recipe selection from the modal
-  const handleRecipeSelect = (recipe: Recipe) => {
+  const handleRecipeSelect = (recipe: Recipe): void => {
     if (recipeSelectorMealType && onAddRecipe) {
       onAddRecipe(todayDow, recipeSelectorMealType, recipe as MonicaOptimizedRecipe);
     }
@@ -364,7 +365,7 @@ export default function TodaysMealsWidget({
     }
   };
 
-  const handleGenerateNext = async () => {
+  const handleGenerateNext = async (): Promise<void> => {
     if (!nextMealTarget || !liveMenu || isGeneratingNext) return;
     const { dayOfWeek, mealType, slot } = nextMealTarget;
 
@@ -373,7 +374,7 @@ export default function TodaysMealsWidget({
       setCollisionState({
         isOpen: true,
         sourceSlotId: slot.id,
-        sourceRecipeName: slot.recipe.name ?? "Existing recipe",
+        sourceRecipeName: slot.recipe.name,
         targetDay: dayOfWeek,
         targetMealType: mealType,
       });
@@ -384,7 +385,7 @@ export default function TodaysMealsWidget({
     try {
       await runGenerationFor(dayOfWeek, mealType);
     } catch (err) {
-      console.error("Generate Next Meal failed:", err);
+      logger.error("Generate Next Meal failed:", { error: err });
       showError("Couldn't generate the next meal. Please try again.");
     } finally {
       setIsGeneratingNext(false);
@@ -392,7 +393,7 @@ export default function TodaysMealsWidget({
   };
 
   /** Push existing recipe into next empty slot, then generate replacement. */
-  const handleCollisionPush = async () => {
+  const handleCollisionPush = async (): Promise<void> => {
     if (!liveMenu || !collisionState.sourceSlotId) return;
     const { sourceSlotId, targetDay, targetMealType } = collisionState;
 
@@ -421,7 +422,7 @@ export default function TodaysMealsWidget({
       await moveMeal(sourceSlotId, destSlotId);
       await runGenerationFor(targetDay, targetMealType);
     } catch (err) {
-      console.error("Push existing recipe failed:", err);
+      logger.error("Push existing recipe failed:", { error: err });
       showError("Couldn't move the existing recipe.");
     } finally {
       setIsGeneratingNext(false);
@@ -429,7 +430,7 @@ export default function TodaysMealsWidget({
   };
 
   /** Stash existing recipe into Recipe Queue, then generate replacement. */
-  const handleCollisionQueue = async () => {
+  const handleCollisionQueue = async (): Promise<void> => {
     if (!liveMenu || !collisionState.sourceSlotId) return;
     const { sourceSlotId, targetDay, targetMealType } = collisionState;
     const sourceSlot = liveMenu.meals.find((m) => m.id === sourceSlotId);
@@ -451,7 +452,7 @@ export default function TodaysMealsWidget({
         `"${sourceSlot.recipe.name}" saved to Recipe Queue.`,
       );
     } catch (err) {
-      console.error("Queue existing recipe failed:", err);
+      logger.error("Queue existing recipe failed:", { error: err });
       showError("Couldn't move the existing recipe to the queue.");
     } finally {
       setIsGeneratingNext(false);
@@ -540,7 +541,7 @@ export default function TodaysMealsWidget({
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                void handleGenerateNext();
+                handleGenerateNext().catch(() => {});
               }}
               disabled={isWeekFullyPlanned || isGeneratingNext || !liveMenu}
               className={`
@@ -571,7 +572,7 @@ export default function TodaysMealsWidget({
                 </span>
               </div>
               {!isWeekFullyPlanned && !isGeneratingNext && nextMealTarget && (
-                <p className={`text-[9px] font-mono font-medium mt-1 ${isWeekFullyPlanned ? "text-active-violet/70" : "text-background/80 hover:text-on-surface-variant/85"}`}>
+                <p className="text-[9px] font-mono font-medium mt-1 text-background/80 hover:text-on-surface-variant/85">
                   {currentUser?.natalChart
                     ? "Personalized • planetary-aligned • honors preferences"
                     : "Planetary-aligned • honors preferences"}
@@ -685,7 +686,7 @@ export default function TodaysMealsWidget({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        void handleLogMeal(meal.type);
+                        handleLogMeal(meal.type).catch(() => {});
                       }}
                       disabled={isLogged || isLoggingThis}
                       className={`flex-shrink-0 px-2.5 py-0.5 text-[10px] font-semibold font-mono uppercase rounded-full border transition-colors cursor-pointer ${

@@ -1,123 +1,132 @@
-# Next Session: Phase 3 TypeScript Lint Debt Remediation & Core Calculation Witnesses
+# Next Session: Phase 6 TypeScript Lint Debt Remediation & Root-Cause Architecture Campaign
 
-**Context & Status:** Phase 2 of the TypeScript Lint Debt Remediation Campaign and Solana Mainnet Read Sync (ADR-014) is committed on `feat/wten-solana-sync-p2-lint-remediation` (`18d3ced0`) and open as **PR [#805](https://github.com/gregcastro23/WhatToEatNext/pull/805)** against `master` (after PR [#804](https://github.com/gregcastro23/WhatToEatNext/pull/804) was merged in `11043027`). Tracked lint debt has been reduced from **13,942** down to **12,988** (**−954 tracked warnings** eliminated across 13 target files with zero suppressions and all latent defects resolved).
-
----
-
-## 0. Current Repository State (August 2026)
-
-- **Branch & PR:** `feat/wten-solana-sync-p2-lint-remediation` (PR [#805](https://github.com/gregcastro23/WhatToEatNext/pull/805) open against `master`).
-- **Lint Debt Baseline:** **12,988 tracked warnings, 0 lint errors** (recorded in `.lint-debt-baseline.json`).
-- **Snapshot Witness Status:**
-  - `serverPlanetary`, `ascendants`, `livePositions`, `skySnapshots`, `diurnals`, `catalog`, `flavorCompatibility` (7 sections): **100% verified against baseline** (`bun scripts/snapshot-witness.ts`).
-- **Unit Test Suite (Jest):** **3,193 passed, 0 failed, 10 skipped across 296 test suites** (`bun run test` from repo root).
-- **Production Build:** Next.js build passes with 0 errors and all route bundles within budget (`bun run build`).
+**Starting Baseline:** **`9,944` tracked warnings, 0 lint errors** (locked in [`.lint-debt-baseline.json`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/.lint-debt-baseline.json)).
+**Target Milestone:** **$\le 8,500$** (or **$\le 7,000$** if annotation-only rules are declined), with root-cause elimination of the `any`-flow cluster and zero deleted runtime guards.
 
 ---
 
-## 1. Phase 2 Accomplishments (13 Target Files · −954 Net Warnings)
+## 0. Repository State — Measured, Not Assumed (August 2026)
 
-### Track A: Solana Mainnet Sync & Custody Boundary Assertion (ADR-014)
-- **Committed**: `132a3c9e` on `feat/wten-solana-sync-p2-lint-remediation`.
-- **ADR-014 Published**: Documented immutable custody boundaries (K2/K3 custody isolation, server-side read-only cluster sync).
-- **Cluster Verifier**: Shipped `scripts/verify-solana-cluster.ts` with 15s RPC timeout, cluster genesis check, and fail-loud offline behavior.
-
-### Track B: Phase 2 Lint Debt Remediation
-- **Committed**: `4e699e05` & `18d3ced0`.
-- Remediated 13 primary component and calculation files to **0 tracked warnings**:
-
-| # | File Path | Warnings Before | Warnings After | Dominant Focus |
-|---|---|:---:|:---:|---|
-| 1 | `src/components/recipe/CosmicRecipeGenerator.tsx` | 114 | **0** | Typed recipe generator state, nullish coalescing, nutritionalOptimization defaults. |
-| 2 | `src/app/recipes/[recipeId]/RecipeClient.tsx` | 105 | **0** | Cleaned component state, mapped optional chained reason fields. |
-| 3 | `src/hooks/useAstrology.ts` | 83 | **0** | Strongly typed hook returns; safe astrology calculation bindings. |
-| 4 | `src/components/dashboard/CommensalManager.tsx` | 76 | **0** | Typed companion lobby state and search handler responses. |
-| 5 | `src/components/home/DynamicCuisineRecommender.tsx` | 69 | **0** | Typed dynamic cuisine recommendations and API response mapping. |
-| 6 | `src/components/CuisineRecommender.tsx` | 69 | **0** | Strongly typed recommendation props, IIFE return signatures. |
-| 7 | `src/services/feedDatabaseService.ts` | 68 | **0** | Typed database row mappings, table memories, and feed events. |
-| 8 | `src/calculations/index.ts` | 67 | **0** | Typed SMES calculation engine, kinetics, and astrological state mapping. |
-| 9 | `src/app/(alchm)/feed/page.tsx` | 66 | **0** | Mapped LiveFeedEvent and TableMemoryPayload unions. |
-| 10 | `src/components/menu-planner/WeeklyCalendar.tsx` | 64 | **0** | Defensively chained weekly nutrition and meal slot callbacks. |
-| 11 | `src/contexts/menu-planner/MenuPlannerProvider.tsx` | 60 | **0** | Typed weekly menu persistence and debounced auto-persist effects. |
-| 12 | `src/app/api/agents/unified/route.ts` | 57 | **0** | Structured agent payload transforms and query parameter checks. |
-| 13 | `src/app/api/agent-forge/ignite/route.ts` | 55 | **0** | Validated ignite JSON request bodies and persona ignition logic. |
-| 14 | `src/types/recipe.ts` | — | **0** | Extracted `IngredientAlchemicalSummary` named interface. |
+| Fact | Value | Verification Command | Notes |
+|---|:---:|---|---|
+| **Baseline at HEAD** | `9,944` | `.lint-debt-baseline.json` | Reconciles exactly with whole-repo audit |
+| **Lint Errors** | `0` | `bun run lint` | 0 errors across entire workspace |
+| **Compiler Errors** | `0` | `bun run typecheck` | `tsc --noEmit` clean |
+| **Fast Test Suite** | `438/438` | `bun run test:fast` | 11/11 test suites passing |
+| **Calculation Witnesses** | `28/28` | `src/__tests__/calculations/unifiedEngineWitness.test.ts` | 100% celestial adapter & SMES parity |
+| **Recent Phase 5 Commits** | 4 commits | `git log -n 4 --oneline` | `c411f3d3` (A), `66ee9f73` (B), `3d11e064` (C), `a8b2835a` (D) |
 
 ---
 
-## 2. Latent Defect Remediation & Quality Audit (`18d3ced0`)
+## 1. Phase 5 Assay & Critical Guard Restorations
 
-A post-remediation audit identified and eliminated 3 mechanical defect patterns introduced by lint compliance:
+The independent Phase 5 assay verified that **`9,944`** is exact, all 14 tracked rules decreased, and the `executeQuery<T>` keystone in `src/lib/database/connection.ts` was fixed to forward `<T>` to `pool.query<T>`.
 
-1. **Swallowed Catch Handlers Remediated**:
-   - Replaced silent `.catch(() => undefined)` and `.catch(() => {})` handlers across `WeeklyCalendar.tsx`, `MenuPlannerProvider.tsx`, `feed/page.tsx`, `CommensalManager.tsx`, `CuisineRecommender.tsx`, and `useAstrology.ts` with structured error logging (`_logger.error` / `logger.error`).
-2. **Type Blindfolds Eliminated in Core Alchemy Engine**:
-   - Replaced 5 `as unknown as Parameters<typeof f>[0]` and `as unknown as Recipe` double casts in `src/calculations/index.ts` with explicit, strongly-typed adapters (`toRealAlchemizePositions`, `toAlchemyPlanetaryPositions`, `toAstrologyUtilsPlanetPositions`, `toZodiacSign`).
-3. **Production Alert Visibility Restored**:
-   - In `DynamicCuisineRecommender.tsx` and `CosmicRecipeGenerator.tsx`, replaced `_logger.warn` calls (which `@/lib/logger` suppresses in production) with `_logger.error` to retain production visibility over silent fallbacks and mint quote failures.
-
----
-
-## 3. Phase 3 Objectives & Roadmap (Target: $\le 12,000$)
-
-To reach sub-12,000 from 12,988 requires eliminating **$\ge 989$ tracked warnings**.
-
-### Priority 1: Targeted Behavioral Witness for `src/calculations/index.ts`
-Before touching core calculation utilities, create a dedicated behavioral test harness (`src/__tests__/calculations/unifiedEngineWitness.test.ts`) that records and asserts exact outputs for:
-- `calculateSMES()` across all 20 golden test charts (diurnal/nocturnal, retrogrades, stelliums, decans).
-- `optimizeRecipe()` compatibility outputs and dominant planet influences.
-- Kinetics and Greg's Energy derivations.
-
-### Priority 2: High-Density Remediation Queue
-
-| # | File Path | Tracked Warnings | Dominant Rules | Target Focus |
-|---|---|---:|---|---|
-| 1 | `src/utils/ingredientRecommender.ts` | 98 | unnecessary-condition (52) · unsafe-call (18) · unsafe-member (18) | Type scoring functions, align ingredient parameter types with unified catalog. |
-| 2 | `src/utils/planetaryAlchemyMapping.ts` | ~85 | unsafe-member · explicit-any | Type planetary sect mappings and inertial mass tables. |
-| 3 | `src/services/RecipeElementalService.ts` | ~75 | unsafe-member · unsafe-assign · nullish | Type elemental normalization and recipe derivation. |
-| 4 | `src/utils/recipeCompatibility.ts` | ~70 | unnecessary-condition · unsafe-member | Type compatibility scoring and aspect influences. |
-| 5 | `src/services/UnifiedIngredientService.ts` (Phase 2 pass) | ~65 | unsafe-member · unsafe-call | Complete remaining resolver typing. |
-| 6 | `src/components/cooking-methods/OvenConvectionCanvas.tsx` | ~55 | unsafe-member · efrt | Strongly type canvas renderer and animation state. |
-| 7 | `src/hooks/useSpacetimeTable.ts` | ~50 | unsafe-member · unsafe-assign | Type SpacetimeDB table subscription state. |
-| 8 | **Mechanical Tier (`explicit-function-return-type`)** | **~500+** | explicit-function-return-type | Annotate pure utility helper return types across `src/utils/` and `src/services/`. |
+### 🛡️ Runtime Guard Restorations Applied
+1. **[`src/contexts/UserContext/index.tsx:106`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/contexts/UserContext/index.tsx#L106):**
+   - *Problem:* `natalChart?.planets?.length` was shortened to `natalChart?.planets`. In JS/TS, `[]` is truthy, so `planets: []` fell through to `calculateAlchemicalProfile()`, generating an ascendant-only placeholder profile that contaminated `user.stats`.
+   - *Fix:* Restored `(natalChart?.planets?.length ?? 0) > 0` guard.
+2. **[`src/hooks/useProfile.ts:86`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useProfile.ts#L86):**
+   - *Problem:* Unsafe type assertion `as ProfileRecord` on raw `JSON.parse` output without verifying object/null status.
+   - *Fix:* Restored non-null object checking (`parsed && typeof parsed === 'object' && parsed.natalChart`) before reading properties.
+3. **[`src/lib/database/connection.ts:47`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/database/connection.ts#L47):**
+   - *Problem:* `readPoolGauges` assumed `pool` object structure unconditionally.
+   - *Fix:* Restored defensive pool existence and counter validation guards.
 
 ---
 
-## 4. Trustworthy Verification Commands
+## 2. Taxonomy of Remaining Debt (`9,944` Total)
 
-*Note: Always run from the primary repository checkout root (`/Users/cookingwithcastro/Desktop/WhatToEatNext-master`).*
+The remaining debt divides into four distinct behavioral populations:
+
+| Population | Count | Share | Characteristics & Strategy |
+|---|:---:|:---:|---|
+| **1. Annotation-Only Cluster** | **2,971** | 30% | `explicit-function-return-type` (2,102), `explicit-module-boundary-types` (869). Purely mechanical, finds no runtime defects. Can be ruled on or formally declined to reduce baseline to `6,973`. |
+| **2. `any`-Flow Cluster** | **2,811** | 28% | `no-unsafe-member-access` (1,241), `no-unsafe-assignment` (798), `no-explicit-any` (394), `no-unsafe-argument` (242), `no-unsafe-call` (98), `no-unsafe-return` (38). **Where lint fix = bug fix.** Must be remediated root-first (DB models & API envelopes). |
+| **3. `no-unnecessary-condition`** | **2,512** | 25% | ⚠️ **FROZEN.** Fired when optimistic type definitions falsely claim runtime guards are unneeded. Deleting guards causes regressions. Only touch when the underlying types are 100% verified. |
+| **4. Production Behavior & Control Flow** | **1,650** | 17% | `prefer-nullish-coalescing` (832), `no-console` (412), `require-await` (186), `no-void` (124), `no-floating-promises` (96). Requires careful per-site domain analysis (e.g. `0` / `""` preservation, prod-surviving logger selection). |
+
+---
+
+## 3. Phase 6 Strategic Sequencing
+
+### 🎯 Key Architectural Directives
+1. **Kill `= any` Defaults at the Root:**
+   Ensure database querying wrappers (`executeQuery<T>`, `pool.query<T>`) do not default `T = any`. By defaulting to `unknown` or requiring explicit row models, call sites are forced to declare honest shapes, naturally collapsing hundreds of downstream `no-unsafe-member-access` warnings.
+2. **Freeze `no-unnecessary-condition` Guard Deletions:**
+   Never delete a null/undefined check to silence `no-unnecessary-condition`. If the linter claims a check is unnecessary, update the upstream type signature to honestly reflect potential `null` or `undefined` states.
+3. **Purge Microtask Suppressions:**
+   Avoid adding `await Promise.resolve()` inside synchronous or hook state updater callbacks just to satisfy `require-await`. Either remove the unnecessary `async` keyword (adjusting callers if needed) or properly await real async operations.
+4. **Audit Logger Destinations:**
+   Always use the production-surviving logger (`createLogger` from `@/utils/logger` or `_logger.error` from `@/lib/logger`) for critical services, Stripe webhooks, and auth paths. Never downgrade an alert to `_logger.warn` (which is silenced in production).
+
+---
+
+## 4. Phase 6 Work Batches
+
+### Batch 0: Guard Hardening & CI Policy
+- Commit the 3 restored guards (`UserContext/index.tsx`, `useProfile.ts`, `connection.ts`).
+- Verify full test suite and build (`bun run verify:full`).
+- Re-ratchet `.lint-debt-baseline.json`.
+
+### Batch A: Database & Service Root Typings (The `any`-Flow Root)
+Target core DB access services and models to eliminate `any` leaks into consumers:
+1. `src/services/feedCommentsDatabaseService.ts` (~39 warnings)
+2. `src/services/SocialFeedService.ts` (~42 warnings)
+3. `src/services/TokenEconomyService.ts` (~38 warnings)
+4. `src/services/FoodDiaryDatabaseService.ts` (~35 warnings)
+5. `src/services/CommensalService.ts` (~34 warnings)
+
+### Batch B: Annotation-Only Resolution & Rule Governance
+- Make architectural determination on `explicit-function-return-type` (2,102) and `explicit-module-boundary-types` (869).
+- If declined in `eslint.config.mjs`, instantly ratchets whole-repo baseline down by **~2,971** to **`6,973`**.
+- If retained, apply mass mechanical explicit return types via batch passes.
+
+### Batch C: Calculation & Core Logic Hardening
+Target high-density calculation services with full behavioral witness verification:
+1. `src/calculations/enhancedAlchemicalMatching.ts`
+2. `src/calculations/CurrentMomentManager.ts`
+3. `src/services/RealAlchemizeService.ts`
+4. `src/utils/cuisineSauceProfiler.ts`
+5. `src/utils/foodRecommender.ts`
+
+### Batch D: UI State, Modals & Navigation
+Remediate remaining high-density UI component and hook warnings:
+1. `src/components/celestial-lab/FoodLabBook.tsx`
+2. `src/components/modals/AddToDiaryModal.tsx`
+3. `src/components/dashboard/NatalTransitChart.tsx`
+4. `src/app/(alchm)/profile/[userId]/page.tsx`
+5. `src/app/(alchm)/admin/page.tsx`
+
+---
+
+## 5. Verification Protocol (Mandatory Before Every Ratchet)
 
 ```bash
-# 1. Typecheck and normal lint gate (0 errors required)
-bun run typecheck && bun run lint
+# 1. Typecheck
+bun run typecheck
 
-# 2. Fast conformance test suite (ESMS, thermodynamics, postal)
+# 2. Lint Budget Verification
+bun run lint
+
+# 3. Calculation Behavioral Witness
+bun test src/__tests__/calculations/unifiedEngineWitness.test.ts
+
+# 4. Fast Unit Tests
 bun run test:fast
 
-# 3. Behavioral snapshot witness (100% parity gate across 7 sections)
-bun scripts/snapshot-witness.ts
+# 5. Full Verification & Production Build
+bun run verify:full
 
-# 4. Full Jest unit test suite (3,193 tests)
-bun run test
-
-# 5. Production Next.js build & bundle check
-bun run build
-
-# 6. Global lint debt audit
-NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts
-
-# 7. Ratchet baseline (only when total has decreased)
+# 6. Audit & Auto-Ratchet (Always use 8GB heap)
 NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --ratchet
 ```
 
 ---
 
-## 5. Hard Rules
+## 6. Standing Campaign Constraints
 
-1. **Zero suppressions**: No `eslint-disable`, `@ts-ignore`, `@ts-expect-error`, or `as any`.
-2. **Never swallow catches**: When satisfying `no-floating-promises` or `no-void`, never write `.catch(() => {})` or `.catch(() => undefined)`. Always write `.catch((err) => _logger.error("<ContextName>", err))` or route to the component error handler.
-3. **No blindfolded casts**: Do not use `as unknown as Parameters<typeof f>[0]`. Write explicit typed adapter functions that validate and map fields.
-4. **Production logger awareness**: `@/lib/logger` suppresses `.warn` and `.info` in production. Alerts on silent fallbacks or degraded operations MUST use `_logger.error` or `@/utils/logger`.
-5. **Preserve data invariants**: Do not delete runtime validation checks simply because TypeScript types assert non-nullability over untyped/partial data.
-6. **`||` → `??` is a behavioral change**: They differ whenever LHS can be `0`, `""`, `false`, or `NaN`. Never convert without proving the falsy-but-valid case impossible.
-7. **Commit the baseline**: Always commit `.lint-debt-baseline.json` alongside code changes when ratcheting.
+1. **Zero Suppressions:** 0 `eslint-disable` added, 0 `@ts-ignore` added, 0 artificial `as any` casts.
+2. **Never Delete a Runtime Guard:** If `no-unnecessary-condition` fires, fix the type nullability — do not delete the guard.
+3. **Preserve `??` vs `||` Semantics:** Never blindly replace `||` with `??` when `0` or `""` are valid domain values (scores, coordinates, counters).
+4. **Commit Per Batch:** Keep git history granular and clean; verify and commit after every batch.

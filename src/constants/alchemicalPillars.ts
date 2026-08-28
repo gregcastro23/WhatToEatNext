@@ -555,7 +555,7 @@ export function getPlanetaryAlchemicalEffect(
   planet: string,
   isDaytime = true,
 ): Record<AlchemicalProperty, number> | null {
-  const planetEffects = PLANETARY_ALCHEMICAL_EFFECTS[planet];
+  const planetEffects = (PLANETARY_ALCHEMICAL_EFFECTS as Record<string, { diurnal: Record<AlchemicalProperty, number>; nocturnal: Record<AlchemicalProperty, number> } | undefined>)[planet];
   if (!planetEffects) return null;
 
   return isDaytime ? planetEffects.diurnal : planetEffects.nocturnal;
@@ -571,7 +571,7 @@ export function getTarotCardAlchemicalEffect(
 ): Record<AlchemicalProperty, number> | null {
   const lower = cardName.toLowerCase();
   const pillar = ALCHEMICAL_PILLARS.find((p) =>
-    (p.tarotAssociations || []).some(
+    p.tarotAssociations?.some(
       (t) => t.toLowerCase().includes(lower) || lower.includes(t.toLowerCase()),
     ),
   );
@@ -644,7 +644,7 @@ function esmsAlignment(
   axisSpan: number,
 ): DerivedScore {
   const distance = ALCHEMICAL_AXES.reduce(
-    (sum, axis) => sum + Math.abs((a[axis] ?? 0) - (b[axis] ?? 0)),
+    (sum, axis) => sum + Math.abs(a[axis] - b[axis]),
     0,
   );
   const maxDistance = axisSpan * ALCHEMICAL_AXES.length;
@@ -688,9 +688,9 @@ function seasonalCompatibility(
   season: string,
   element: Element,
 ): DerivedScore | null {
-  const affinity = seasonalElements[season.toLowerCase() as Season];
+  const affinity = (seasonalElements as Record<string, { compatibility: Record<Element, number> } | undefined>)[season.toLowerCase()];
   if (!affinity) return null;
-  const value = affinity.compatibility?.[element];
+  const value = affinity.compatibility[element];
   if (typeof value !== "number") return null;
   return {
     value: clamp01(value),
@@ -700,11 +700,11 @@ function seasonalCompatibility(
 
 /** The element a zodiac sign belongs to, or null if the sign is unrecognised. */
 function zodiacElement(sign: string): Element | null {
-  const key = sign.toLowerCase() as keyof typeof zodiacElements;
+  const key = sign.toLowerCase();
   // zodiacElements is a total Record over the 12 signs, so the index type is
   // already Element; the runtime `?? null` is what handles a sign that is not
   // one of the 12, which the type cannot express.
-  return zodiacElements[key] ?? null;
+  return (zodiacElements as Record<string, Element | undefined>)[key] ?? null;
 }
 
 /**
@@ -729,7 +729,7 @@ function preferenceAlignment(
   if (totalWeight === 0) return null;
 
   const weighted = named.reduce((sum, [axis, weight]) => {
-    const normalised = (effects[axis as AlchemicalProperty] ?? 0) / axisSpan;
+    const normalised = effects[axis as AlchemicalProperty] / axisSpan;
     return sum + normalised * weight;
   }, 0);
 
@@ -766,7 +766,14 @@ export const cookingMethodPillarAnalysis = {
       /** Planetary effects are diurnal by default. */
       isDaytime?: boolean;
     },
-  ) => {
+  ): {
+    pillar: AlchemicalPillar;
+    analysis: {
+      seasonalOptimization: Array<{ season: string; element: Element; score: DerivedScore }>;
+      planetaryEnhancement: Array<{ planet: string; phase: "diurnal" | "nocturnal"; score: DerivedScore }>;
+      userCustomization: DerivedScore | null;
+    };
+  } | null => {
     const basePillar = getCookingMethodPillar(cookingMethod);
     if (!basePillar) return null;
 
@@ -783,7 +790,7 @@ export const cookingMethodPillarAnalysis = {
             const score = pillarElement
               ? seasonalCompatibility(season, pillarElement)
               : null;
-            return score ? { season, element: pillarElement, score } : null;
+            return score && pillarElement ? { season, element: pillarElement, score } : null;
           })
           .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
 
@@ -826,7 +833,17 @@ export const cookingMethodPillarAnalysis = {
       skillLevel?: string;
       availableEquipment?: string[];
     },
-  ) => {
+  ): {
+    recommendations: Array<{ pillar: AlchemicalPillar; compatibility: DerivedScore }>;
+    constraints: {
+      skillLevel: string | null;
+      availableEquipment: string[] | null;
+    };
+    analysis: {
+      totalOptions: number;
+      meanCompatibility: DerivedScore | null;
+    };
+  } => {
     const ranked = ALCHEMICAL_PILLARS.filter(
       (pillar) =>
         Math.abs(pillar.effects.Spirit - targetPillar.effects.Spirit) <= 1 &&
@@ -882,7 +899,14 @@ export const cookingMethodPillarAnalysis = {
       seasonalFactors?: string[];
       userIntent?: string;
     },
-  ) => {
+  ): {
+    pillar: AlchemicalPillar;
+    effects: Record<AlchemicalProperty, number>;
+    analysis: {
+      seasonalOptimization: Array<{ season: string; element: Element; score: DerivedScore }>;
+      userIntent: string | null;
+    };
+  } => {
     const pillarElement = pillar.elementalAssociations?.primary;
 
     return {
@@ -894,7 +918,7 @@ export const cookingMethodPillarAnalysis = {
             const score = pillarElement
               ? seasonalCompatibility(season, pillarElement)
               : null;
-            return score ? { season, element: pillarElement, score } : null;
+            return score && pillarElement ? { season, element: pillarElement, score } : null;
           })
           .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
 
@@ -925,7 +949,20 @@ export const elementalThermodynamicAnalysis = {
       cookingMethod?: string;
       isDaytime?: boolean;
     },
-  ) => {
+  ): {
+    element: Element;
+    baseProperties: (typeof ELEMENTAL_THERMODYNAMIC_PROPERTIES)[Element];
+    analysis: {
+      seasonalOptimization: Array<{ season: string; score: DerivedScore }>;
+      planetaryEnhancement: Array<{ planet: string; phase: "diurnal" | "nocturnal"; score: DerivedScore }>;
+      cookingMethodIntegration: {
+        method: string;
+        pillar: string | null;
+        methodElement: Element;
+        compatibility: DerivedScore;
+      } | null;
+    };
+  } => {
     const baseProperties = ELEMENTAL_THERMODYNAMIC_PROPERTIES[element];
     const isDaytime = context?.isDaytime ?? true;
 
@@ -959,7 +996,7 @@ export const elementalThermodynamicAnalysis = {
             });
             if (contributing.length === 0) return null;
             const total = contributing.reduce(
-              (sum, axis) => sum + (effect[axis] ?? 0),
+              (sum, axis) => sum + effect[axis],
               0,
             );
             return {
@@ -982,7 +1019,7 @@ export const elementalThermodynamicAnalysis = {
           context?.cookingMethod && methodElement
             ? {
                 method: context.cookingMethod,
-                pillar: methodPillar?.name ?? null,
+                pillar: methodPillar.name,
                 methodElement,
                 compatibility: elementalCompatibility(element, methodElement),
               }
@@ -1003,7 +1040,21 @@ export const elementalThermodynamicAnalysis = {
       skillLevel?: string;
       availableEquipment?: string[];
     },
-  ) => {
+  ): {
+    recommendations: Array<{
+      element: Element;
+      properties: (typeof ELEMENTAL_THERMODYNAMIC_PROPERTIES)[Element];
+      compatibility: DerivedScore;
+    }>;
+    constraints: {
+      skillLevel: string | null;
+      availableEquipment: string[] | null;
+    };
+    analysis: {
+      totalOptions: number;
+      meanCompatibility: DerivedScore | null;
+    };
+  } => {
     const target = ELEMENTAL_THERMODYNAMIC_PROPERTIES[targetElement];
 
     const ranked = (
@@ -1064,7 +1115,20 @@ export const planetaryAlchemyAnalysis = {
       cookingMethod?: string;
       isDaytime?: boolean;
     },
-  ) => {
+  ): {
+    planet: string;
+    phase: "diurnal" | "nocturnal";
+    baseEffects: Record<AlchemicalProperty, number>;
+    analysis: {
+      seasonalOptimization: Array<{ season: string; viaAxis: AlchemicalProperty; element: Element; score: DerivedScore }>;
+      zodiacEnhancement: Array<{ sign: string; signElement: Element; score: DerivedScore }>;
+      cookingMethodIntegration: {
+        method: string | null;
+        pillar: string;
+        compatibility: DerivedScore;
+      } | null;
+    };
+  } | null => {
     const isDaytime = context?.isDaytime ?? true;
     const baseEffects = getPlanetaryAlchemicalEffect(planet, isDaytime);
     // Null rather than a zeroed ESMS vector: the scaffold defaulted an unknown
@@ -1083,9 +1147,9 @@ export const planetaryAlchemyAnalysis = {
       analysis: {
         // A planet has no element of its own here, so season is scored against
         // the element the planet's dominant alchemical axis underpins.
-        seasonalOptimization: (() => {
+        seasonalOptimization: ((): Array<{ season: string; viaAxis: AlchemicalProperty; element: Element; score: DerivedScore }> => {
           const dominantAxis = ALCHEMICAL_AXES.reduce((best, axis) =>
-            (baseEffects[axis] ?? 0) > (baseEffects[best] ?? 0) ? axis : best,
+            baseEffects[axis] > baseEffects[best] ? axis : best,
           );
           const element = _ALCHEMICAL_PROPERTY_ELEMENTS[dominantAxis]
             .primary as Element;
@@ -1104,7 +1168,7 @@ export const planetaryAlchemyAnalysis = {
             const element = zodiacElement(sign);
             if (!element) return null;
             const dominantAxis = ALCHEMICAL_AXES.reduce((best, axis) =>
-              (baseEffects[axis] ?? 0) > (baseEffects[best] ?? 0) ? axis : best,
+              baseEffects[axis] > baseEffects[best] ? axis : best,
             );
             const planetElement = _ALCHEMICAL_PROPERTY_ELEMENTS[dominantAxis]
               .primary as Element;
@@ -1136,7 +1200,22 @@ export const planetaryAlchemyAnalysis = {
   generatePlanetaryRecommendations: (
     targetPlanet: string,
     options?: { isDaytime?: boolean },
-  ) => {
+  ): {
+    target: { planet: string; effects: Record<AlchemicalProperty, number> };
+    phase: "diurnal" | "nocturnal";
+    recommendations: Array<{
+      planet: string;
+      effects: Record<AlchemicalProperty, number>;
+      compatibility: DerivedScore;
+    }>;
+    analysis: {
+      totalOptions: number;
+      meanCompatibility: {
+        value: number;
+        derivation: string;
+      };
+    };
+  } | null => {
     const isDaytime = options?.isDaytime ?? true;
     const target = getPlanetaryAlchemicalEffect(targetPlanet, isDaytime);
     if (!target) return null;
@@ -1188,12 +1267,26 @@ export const tarotAlchemyAnalysis = {
       zodiacInfluences?: string[];
       cookingMethod?: string;
     },
-  ) => {
+  ): {
+    cardName: string;
+    baseEffects: Record<AlchemicalProperty, number>;
+    dominantAxis: AlchemicalProperty;
+    cardElement: Element;
+    analysis: {
+      seasonalOptimization: Array<{ season: string; score: DerivedScore }>;
+      zodiacEnhancement: Array<{ sign: string; signElement: Element; score: DerivedScore }>;
+      cookingMethodIntegration: {
+        method: string | null;
+        pillar: string;
+        compatibility: DerivedScore;
+      } | null;
+    };
+  } | null => {
     const baseEffects = getTarotCardAlchemicalEffect(cardName);
     if (!baseEffects) return null;
 
     const dominantAxis = ALCHEMICAL_AXES.reduce((best, axis) =>
-      (baseEffects[axis] ?? 0) > (baseEffects[best] ?? 0) ? axis : best,
+      baseEffects[axis] > baseEffects[best] ? axis : best,
     );
     const cardElement = _ALCHEMICAL_PROPERTY_ELEMENTS[dominantAxis]
       .primary as Element;
@@ -1246,7 +1339,17 @@ export const tarotAlchemyAnalysis = {
    * every one, including the majority that have no pillar association and
    * therefore no alchemical data in this system at all.
    */
-  generateTarotRecommendations: (targetCard: string) => {
+  generateTarotRecommendations: (targetCard: string): {
+    target: { card: string; effects: Record<AlchemicalProperty, number> };
+    recommendations: Array<{ card: string; effects: Record<AlchemicalProperty, number>; compatibility: DerivedScore }>;
+    analysis: {
+      totalOptions: number;
+      meanCompatibility: {
+        value: number;
+        derivation: string;
+      } | null;
+    };
+  } | null => {
     const target = getTarotCardAlchemicalEffect(targetCard);
     if (!target) return null;
 
@@ -1310,7 +1413,7 @@ export interface EnhancedRecipeIngredient {
 
   // Astrological associations (from original EnhancedRecipeIngredient in alchemicalPillars.ts)
   cuisine?: string;
-  zodiacInfluences?: any[];
+  zodiacInfluences?: string[];
   planetaryInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
 

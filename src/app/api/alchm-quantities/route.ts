@@ -38,6 +38,26 @@ type EsmsKey = "Spirit" | "Essence" | "Matter" | "Substance";
 
 const ESMS_KEYS: EsmsKey[] = ["Spirit", "Essence", "Matter", "Substance"];
 
+interface RawPositionInput {
+  sign?: string;
+  degree?: number;
+  minute?: number;
+  isRetrograde?: boolean;
+  exactLongitude?: number;
+  longitudeSpeed?: number;
+  [key: string]: unknown;
+}
+
+interface CrossVerificationResult {
+  success: boolean;
+  backendUrl: string;
+  localQuantities: Record<EsmsKey, number>;
+  backendQuantities: Record<EsmsKey, number>;
+  discrepancy: Record<EsmsKey, number>;
+  status: "verified" | "rectified" | "discrepant" | "failed";
+  error?: string;
+}
+
 function toFinite(value: unknown, fallback = 0): number {
   const n = typeof value === "number" ? value : Number(value);
   return Number.isFinite(n) ? n : fallback;
@@ -49,20 +69,21 @@ function round(value: number, digits = 4): number {
 }
 
 function asPlanetaryPositions(
-  positions: Record<string, any>,
+  positions: Record<string, RawPositionInput | undefined>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
 
   Object.entries(positions).forEach(([planet, pos]) => {
+    if (!pos) return;
     normalized[planet] = {
-      sign: String(pos?.sign ?? "").toLowerCase(),
-      degree: toFinite(pos?.degree),
-      minute: toFinite(pos?.minute),
-      isRetrograde: Boolean(pos?.isRetrograde),
+      sign: String(pos.sign ?? "").toLowerCase(),
+      degree: toFinite(pos.degree),
+      minute: toFinite(pos.minute),
+      isRetrograde: Boolean(pos.isRetrograde),
       // Carried through so aspects get real angular separations; dropping it
       // forces a reconstruction from sign + degree.
       exactLongitude:
-        typeof pos?.exactLongitude === "number" ? pos.exactLongitude : undefined,
+        typeof pos.exactLongitude === "number" ? pos.exactLongitude : undefined,
     };
   });
 
@@ -107,7 +128,7 @@ function buildMomentum(
   };
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse | Response> {
   const rl = await rateLimit(request, ALCHM_QUANTITIES_LIMIT);
   if (!rl.allowed) return rl.response!;
 
@@ -116,25 +137,25 @@ export async function GET(request: Request) {
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
 
-    let nowPositions: Record<string, any>;
-    let prevPositions: Record<string, any>;
-    let prev2Positions: Record<string, any>;
+    let nowPositions: Record<string, RawPositionInput | undefined>;
+    let prevPositions: Record<string, RawPositionInput | undefined>;
+    let prev2Positions: Record<string, RawPositionInput | undefined>;
     // Degradation of the *current* sky is what the response headlines. prev/prev2
     // only feed velocity/acceleration deltas, so their fallbacks don't flag the payload.
     let positionsDegraded: DegradedInfo | null = null;
     try {
       const nowMeta = await calculatePlanetaryPositionsWithMeta(now);
-      nowPositions = nowMeta.positions;
+      nowPositions = nowMeta.positions as Record<string, RawPositionInput | undefined>;
       positionsDegraded = nowMeta.degraded;
-      prevPositions = await calculatePlanetaryPositions(oneHourAgo);
-      prev2Positions = await calculatePlanetaryPositions(twoHoursAgo);
+      prevPositions = (await calculatePlanetaryPositions(oneHourAgo)) as Record<string, RawPositionInput | undefined>;
+      prev2Positions = (await calculatePlanetaryPositions(twoHoursAgo)) as Record<string, RawPositionInput | undefined>;
     } catch (error) {
       logger.warn("Using fallback planetary positions for /api/alchm-quantities", {
         error: error instanceof Error ? error.message : String(error),
       });
-      nowPositions = getFallbackPlanetaryPositions();
-      prevPositions = getFallbackPlanetaryPositions();
-      prev2Positions = getFallbackPlanetaryPositions();
+      nowPositions = getFallbackPlanetaryPositions() as Record<string, RawPositionInput | undefined>;
+      prevPositions = getFallbackPlanetaryPositions() as Record<string, RawPositionInput | undefined>;
+      prev2Positions = getFallbackPlanetaryPositions() as Record<string, RawPositionInput | undefined>;
       positionsDegraded = { reasons: ["astronomy-engine-fallback"] };
     }
 
@@ -274,8 +295,11 @@ export async function GET(request: Request) {
       Substance: { ...ZERO_VEC },
     };
 
+    const planetaryAlchemyMap = PLANETARY_ALCHEMY as Record<string, Record<string, number> | undefined>;
+
     for (const [planet, pos] of Object.entries(nowPositions)) {
-      const alch = (PLANETARY_ALCHEMY as any)[planet];
+      if (!pos) continue;
+      const alch = planetaryAlchemyMap[planet];
       if (!alch) continue;
       const { r, v } = positionVec(planet, pos);
       // Force magnitude scales with 1/r² (inverse-square coupling),
@@ -295,8 +319,8 @@ export async function GET(request: Request) {
       "aries","taurus","gemini","cancer","leo","virgo",
       "libra","scorpio","sagittarius","capricorn","aquarius","pisces",
     ];
-    const longitudeOf = (pos: any): number => {
-      if (pos?.exactLongitude !== undefined) return toFinite(pos.exactLongitude);
+    const longitudeOf = (pos: RawPositionInput | undefined): number => {
+      if (typeof pos?.exactLongitude === "number") return toFinite(pos.exactLongitude);
       const idx = SIGN_LIST.indexOf(String(pos?.sign ?? "").toLowerCase());
       return Math.max(0, idx) * 30 + toFinite(pos?.degree) + toFinite(pos?.minute) / 60;
     };
@@ -337,9 +361,7 @@ export async function GET(request: Request) {
     let relAngVelMagSum = 0;
     let aspectCount = 0;
     const DT_DAYS = 1 / 24;
-    const planetNames = Object.keys(nowPositions).filter(
-      (n) => (PLANETARY_ALCHEMY as any)[n],
-    );
+    const planetNames = Object.keys(nowPositions).filter((n) => Boolean(planetaryAlchemyMap[n]));
     for (let i = 0; i < planetNames.length; i++) {
       for (let j = i + 1; j < planetNames.length; j++) {
         const p1 = planetNames[i];
@@ -481,7 +503,7 @@ export async function GET(request: Request) {
     };
 
     // Cross-backend verification of quantities
-    let crossVerification: any = undefined;
+    let crossVerification: CrossVerificationResult | undefined = undefined;
     const isVerificationEnabled =
       process.env.CROSS_BACKEND_SYNC_ENABLED === "true" ||
       process.env.CROSS_BACKEND_RECTIFICATION_ENABLED === "true";
@@ -506,37 +528,37 @@ export async function GET(request: Request) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${internalSecret}`
+              "Authorization": `Bearer ${internalSecret}`,
             },
             body: JSON.stringify({
               recipe: {
                 elementalProperties: nowAlch.elementalProperties,
-                nutritional_profile: {}
+                nutritional_profile: {},
               },
               kinetic_rating: round(power, 4),
               planetary_hour_ruler: isDiurnalNow ? "Sun" : "Moon",
-              thermo_rating: round(heat, 4)
+              thermo_rating: round(heat, 4),
             }),
-            signal: controller.signal
+            signal: controller.signal,
           });
         } finally {
           clearTimeout(timeoutId);
         }
 
         if (response.ok) {
-          const backendData = await response.json();
+          const backendData = (await response.json()) as Record<string, unknown>;
           const backendQuantities = {
-            Spirit: round(backendData.spirit_score ?? 0),
-            Essence: round(backendData.essence_score ?? 0),
-            Matter: round(backendData.matter_score ?? 0),
-            Substance: round(backendData.substance_score ?? 0)
+            Spirit: round(typeof backendData.spirit_score === "number" ? backendData.spirit_score : 0),
+            Essence: round(typeof backendData.essence_score === "number" ? backendData.essence_score : 0),
+            Matter: round(typeof backendData.matter_score === "number" ? backendData.matter_score : 0),
+            Substance: round(typeof backendData.substance_score === "number" ? backendData.substance_score : 0),
           };
 
           const discrepancy = {
             Spirit: round(Math.abs(quantities.Spirit - backendQuantities.Spirit)),
             Essence: round(Math.abs(quantities.Essence - backendQuantities.Essence)),
             Matter: round(Math.abs(quantities.Matter - backendQuantities.Matter)),
-            Substance: round(Math.abs(quantities.Substance - backendQuantities.Substance))
+            Substance: round(Math.abs(quantities.Substance - backendQuantities.Substance)),
           };
 
           const maxDiscrepancy = Math.max(discrepancy.Spirit, discrepancy.Essence, discrepancy.Matter, discrepancy.Substance);
@@ -572,7 +594,7 @@ export async function GET(request: Request) {
             localQuantities: originalLocalQuantities,
             backendQuantities,
             discrepancy,
-            status
+            status,
           };
         } else {
           crossVerification = {
@@ -582,10 +604,11 @@ export async function GET(request: Request) {
             backendQuantities: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
             discrepancy: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
             status: "failed" as const,
-            error: `Backend returned HTTP ${response.status}`
+            error: `Backend returned HTTP ${response.status}`,
           };
         }
-      } catch (err: any) {
+      } catch (err) {
+        const errMsg = err instanceof Error ? err.message : String(err);
         crossVerification = {
           success: false,
           backendUrl,
@@ -593,7 +616,7 @@ export async function GET(request: Request) {
           backendQuantities: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
           discrepancy: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
           status: "failed" as const,
-          error: err.message ?? String(err)
+          error: errMsg,
         };
       }
     }
@@ -690,6 +713,6 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse | Response> {
   return GET(request);
 }

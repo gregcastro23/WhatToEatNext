@@ -21,7 +21,6 @@ import type { IndexedRecipe } from "@/types/indexedRecipe";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
 import type { ElementalProperties, Recipe } from "@/types/recipe";
-
 import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
 import {
   getRecipeKAlchm,

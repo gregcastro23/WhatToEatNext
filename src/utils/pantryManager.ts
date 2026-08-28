@@ -36,6 +36,17 @@ export interface PantryStats {
   categoryCounts: Record<string, number>;
 }
 
+interface StoredPantryItem {
+  id?: string;
+  name: string;
+  quantity: number;
+  unit: string;
+  category: string;
+  addedDate: string | number | Date;
+  expirationDate?: string | number | Date;
+  notes?: string;
+}
+
 /**
  * Get all pantry items from localStorage
  *
@@ -46,11 +57,12 @@ export function getPantry(): PantryItem[] {
     const stored = localStorage.getItem(PANTRY_STORAGE_KEY);
     if (!stored) return [];
 
-    const items = JSON.parse(stored);
+    const items = JSON.parse(stored) as StoredPantryItem[];
 
     // Convert date strings back to Date objects
-    return items.map((item: any) => ({
+    return items.map((item) => ({
       ...item,
+      id: item.id ?? generateId(),
       addedDate: new Date(item.addedDate),
       expirationDate: item.expirationDate
         ? new Date(item.expirationDate)
@@ -369,14 +381,14 @@ export function importPantryJSON(
   merge = false,
 ): void {
   try {
-    const imported = JSON.parse(jsonString);
+    const imported = JSON.parse(jsonString) as unknown;
 
     if (!Array.isArray(imported)) {
       throw new Error("Invalid pantry data: expected array");
     }
 
     // Validate items
-    const items: PantryItem[] = imported.map((item: any) => ({
+    const items: PantryItem[] = (imported as StoredPantryItem[]).map((item) => ({
       ...item,
       id: item.id ?? generateId(),
       addedDate: new Date(item.addedDate),
@@ -482,7 +494,7 @@ export function deductRecipeFromPantry(
     unitMismatch: [],
     notInPantry: [],
   };
-  if (!ingredients || ingredients.length === 0) return result;
+  if (ingredients.length === 0) return result;
 
   try {
     let pantry = getPantry();

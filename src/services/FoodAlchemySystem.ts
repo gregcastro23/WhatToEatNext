@@ -1,4 +1,3 @@
-import { normalizePlanetaryPositions } from "@/utils/astrology/core";
 import type { ThermodynamicMetrics } from "../calculations/gregsEnergy";
 import type { ElementalCharacter } from "../constants/planetaryElements";
 import type { RulingPlanet } from "../constants/planets";
@@ -376,11 +375,6 @@ export class FoodAlchemySystem {
     planetaryPositions?: Record<string, { sign: string; degree: number }>,
     aspects?: Array<{ type: string; planets: [string, string] }>,
   ): CompatibilityScore {
-    // Normalize planetary positions for robust, type-safe access
-    const normalizedPositions = normalizePlanetaryPositions(
-      planetaryPositions ?? {},
-    );
-    // Use normalizedPositions in all downstream logic
     // Calculate elemental match (45% weight)
     const elementalMatch = this.calculateElementalMatch(chart, food);
 
@@ -392,7 +386,7 @@ export class FoodAlchemySystem {
     } = this.calculatePlanetaryDayInfluence(
       food,
       planetaryDay,
-      normalizedPositions,
+      planetaryPositions,
     );
 
     // Calculate planetary hour influence with enhanced dignity and aspect effects (20% weight)
@@ -404,7 +398,7 @@ export class FoodAlchemySystem {
       food,
       planetaryHour,
       isDaytime,
-      normalizedPositions,
+      planetaryPositions,
       aspects,
     );
 
@@ -431,10 +425,10 @@ export class FoodAlchemySystem {
         planetaryDay,
         planetaryHour,
         isDaytime,
-        normalizedPositions,
+        planetaryPositions,
         aspects,
       ),
-      warnings: this.identifyConflicts(food, chart, normalizedPositions),
+      warnings: this.identifyConflicts(food, chart, planetaryPositions),
       scoreDetails: {
         elementalMatch: elementalMatch * 0.45,
         planetaryDayMatch: planetaryDayMatch * 0.35,
@@ -469,11 +463,8 @@ export class FoodAlchemySystem {
     planetaryDay: string,
     planetaryPositions?: Record<string, { sign: string; degree: number }>,
   ): { score: number; dignityBonus?: number; decanBonus?: number } {
-    const normalizedPositions = normalizePlanetaryPositions(
-      planetaryPositions ?? {},
-    );
     // Get the elements associated with the current planetary day
-    const dayElements = planetaryElements[planetaryDay];
+    const dayElements = (planetaryElements as Record<string, typeof planetaryElements[string] | undefined>)[planetaryDay];
     if (!dayElements) return { score: 0.5 }; // Unknown planet
 
     // For planetary day, BOTH diurnal and nocturnal elements influence all day
@@ -490,9 +481,9 @@ export class FoodAlchemySystem {
     let decanBonus = 0;
 
     // Apply dignity effects if we have planet positions
-    if (normalizedPositions[planetaryDay]) {
-      const planetSign = normalizedPositions[planetaryDay].sign;
-      const planetDegree = normalizedPositions[planetaryDay].degree;
+    if (planetaryPositions?.[planetaryDay]) {
+      const { sign: planetSign, degree: planetDegree } =
+        planetaryPositions[planetaryDay];
 
       // Dignity effect bonus/penalty
       if (dayElements.dignityEffect?.[planetSign]) {
@@ -508,9 +499,10 @@ export class FoodAlchemySystem {
       if (planetDegree > 10 && planetDegree <= 20) decan = "2nd Decan";
       else if (planetDegree > 20) decan = "3rd Decan";
 
+      const signData = (signInfo as Record<string, typeof signInfo[string] | undefined>)[planetSign];
       // Apply decan effects if the planet is in its own decan
       if (
-        signInfo[planetSign]?.decanEffects[decan]?.includes(planetaryDay)
+        signData?.decanEffects[decan]?.includes(planetaryDay)
       ) {
         decanBonus = 0.15;
         elementalScore = Math.min(1.0, elementalScore + decanBonus);
@@ -518,10 +510,10 @@ export class FoodAlchemySystem {
 
       // Apply degree effects
       if (
-        signInfo[planetSign]?.degreeEffects[planetaryDay]?.length === 2
+        signData?.degreeEffects[planetaryDay]?.length === 2
       ) {
         const [minDegree, maxDegree] =
-          signInfo[planetSign].degreeEffects[planetaryDay];
+          signData.degreeEffects[planetaryDay];
         if (planetDegree >= minDegree && planetDegree <= maxDegree) {
           const degreeBonus = 0.2;
           elementalScore = Math.min(1.0, elementalScore + degreeBonus);
@@ -556,7 +548,7 @@ export class FoodAlchemySystem {
     aspects?: Array<{ type: string; planets: [string, string] }>,
   ): { score: number; dignityBonus?: number; aspectBonus?: number } {
     // Get the elements associated with the current planetary hour
-    const hourElements = planetaryElements[planetaryHour];
+    const hourElements = (planetaryElements as Record<string, typeof planetaryElements[string] | undefined>)[planetaryHour];
     if (!hourElements) return { score: 0.5 }; // Unknown planet
 
     // For planetary hour, use diurnal element during day, nocturnal at night
@@ -574,7 +566,7 @@ export class FoodAlchemySystem {
 
     // Apply dignity effects if we have planet positions
     if (planetaryPositions?.[planetaryHour]) {
-      const planetSign = planetaryPositions[planetaryHour].sign;
+      const { sign: planetSign } = planetaryPositions[planetaryHour];
 
       // Dignity effect bonus/penalty
       if (
@@ -600,7 +592,7 @@ export class FoodAlchemySystem {
           aspect.planets[0] === planetaryHour
             ? aspect.planets[1]
             : aspect.planets[0];
-        let aspectModifier = 0;
+        let aspectModifier: number;
 
         // Apply different modifier based on aspect type
         switch (aspect.type) {
@@ -659,8 +651,8 @@ export class FoodAlchemySystem {
     const recommendations: string[] = [];
 
     // Get elements for current planetary influences
-    const dayElements = planetaryElements[planetaryDay];
-    const hourElements = planetaryElements[planetaryHour];
+    const dayElements = (planetaryElements as Record<string, typeof planetaryElements[string] | undefined>)[planetaryDay];
+    const hourElements = (planetaryElements as Record<string, typeof planetaryElements[string] | undefined>)[planetaryHour];
 
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
@@ -682,10 +674,7 @@ export class FoodAlchemySystem {
         recommendations.push(
           `${food.name} performs well with light cooking methods or raw preparations today.`,
         );
-      } else if (
-        dayElements.diurnal === "Earth" ||
-        dayElements.nocturnal === "Earth"
-      ) {
+      } else {
         recommendations.push(
           `Slow, methodical cooking methods like baking are ideal for ${food.name} today.`,
         );
@@ -707,7 +696,7 @@ export class FoodAlchemySystem {
         recommendations.push(
           `The current ${isDaytime ? "day" : "night"} hours favor highlighting ${food.name}'s delicate flavors.`,
         );
-      } else if (hourElement === "Earth") {
+      } else {
         recommendations.push(
           `These ${isDaytime ? "day" : "night"} hours are perfect for enhancing ${food.name}'s grounding properties.`,
         );
@@ -730,12 +719,11 @@ export class FoodAlchemySystem {
       if (planetaryPositions) {
         // Check day planet dignity
         if (
-          planetaryElements[planetaryDay].dignityEffect &&
           planetaryPositions[planetaryDay]
         ) {
-          const daySign = planetaryPositions[planetaryDay].sign;
+          const { sign: daySign } = planetaryPositions[planetaryDay];
           const dayDignity =
-            planetaryElements[planetaryDay].dignityEffect?.[daySign];
+            dayElements.dignityEffect?.[daySign];
 
           if (
             dayDignity &&
@@ -758,12 +746,11 @@ export class FoodAlchemySystem {
 
         // Check hour planet dignity
         if (
-          planetaryElements[planetaryHour].dignityEffect &&
           planetaryPositions[planetaryHour]
         ) {
-          const hourSign = planetaryPositions[planetaryHour].sign;
+          const { sign: hourSign } = planetaryPositions[planetaryHour];
           const hourDignity =
-            planetaryElements[planetaryHour].dignityEffect?.[hourSign];
+            hourElements.dignityEffect?.[hourSign];
 
           if (
             hourDignity &&
@@ -777,15 +764,15 @@ export class FoodAlchemySystem {
         }
 
         // Check food's ruling planet dignity
-        if (
-          planetaryElements[food.planetaryRuler].dignityEffect &&
-          planetaryPositions[food.planetaryRuler]
-        ) {
-          const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
-          const foodPlanetDignity =
-            planetaryElements[food.planetaryRuler].dignityEffect?.[
-              foodPlanetSign
-            ];
+        const foodPlanetElements = (planetaryElements as Record<string, typeof planetaryElements[string] | undefined>)[food.planetaryRuler];
+        const rulerPos = planetaryPositions[food.planetaryRuler];
+        if (rulerPos) {
+          const foodPlanetSign: string = rulerPos.sign;
+          const dignityMap: Record<string, number> | undefined =
+            foodPlanetElements?.dignityEffect;
+          const foodPlanetDignity = dignityMap
+            ? dignityMap[foodPlanetSign]
+            : undefined;
 
           if (foodPlanetDignity && foodPlanetDignity > 1) {
             recommendations.push(
@@ -800,17 +787,17 @@ export class FoodAlchemySystem {
 
         // Check decan effects
         if (planetaryPositions[planetaryDay]) {
-          const planetSign = planetaryPositions[planetaryDay].sign;
-          const planetDegree = planetaryPositions[planetaryDay].degree;
+          const { sign: planetSign, degree: planetDegree } = planetaryPositions[planetaryDay];
 
           // Calculate decan
           let decan = "1st Decan";
           if (planetDegree > 10 && planetDegree <= 20) decan = "2nd Decan";
           else if (planetDegree > 20) decan = "3rd Decan";
 
+          const signData = (signInfo as Record<string, typeof signInfo[string] | undefined>)[planetSign];
           // If food's planet rules the decan
           if (
-            signInfo[planetSign].decanEffects[decan].includes(
+            signData?.decanEffects[decan]?.includes(
               food.planetaryRuler,
             )
           ) {
@@ -884,10 +871,15 @@ export class FoodAlchemySystem {
     }
 
     // Check for dignity challenges
-    if (planetaryPositions?.[food.planetaryRuler]) {
-      const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
-      const foodPlanetDignity =
-        planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
+    const foodRulerPos = planetaryPositions?.[food.planetaryRuler];
+    if (foodRulerPos) {
+      const foodPlanetSign: string = foodRulerPos.sign;
+      const foodPlanetElements = (planetaryElements as Record<string, typeof planetaryElements[string] | undefined>)[food.planetaryRuler];
+      const dignityMap: Record<string, number> | undefined =
+        foodPlanetElements?.dignityEffect;
+      const foodPlanetDignity = dignityMap
+        ? dignityMap[foodPlanetSign]
+        : undefined;
 
       if (foodPlanetDignity && foodPlanetDignity < -1) {
         warnings.push(

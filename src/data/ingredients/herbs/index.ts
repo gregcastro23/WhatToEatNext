@@ -61,7 +61,7 @@ function createIngredientMapping(
 ): IngredientMapping {
   // Default elemental properties if none provided.
   // Herbs are Air-dominant (aromatic volatiles), with secondary Earth grounding.
-  const elementalProps = properties.elementalProperties || {
+  const elementalProps = properties.elementalProperties ?? {
     Fire: 0.1,
     Water: 0.2,
     Earth: 0.25,
@@ -71,14 +71,14 @@ function createIngredientMapping(
   return {
     name: id,
     elementalProperties: elementalProps,
-    category: properties.category || "",
+    category: properties.category ?? "",
     ...properties,
   } as IngredientMapping;
 }
 
 // Combine all herbs into one record
 export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...(herbsIngredients as any), // Base herbs from cuisine files
+  ...herbsIngredients,
   ...freshHerbs,
   ...driedHerbs,
   ..._aromaticHerbs,
@@ -314,7 +314,7 @@ export {
 
 // Create a comprehensive herb collection that includes all herb variants
 export const allHerbs = fixIngredientMappings({
-  ...(herbsIngredients as any), // Base herbs from cuisine files
+  ...herbsIngredients,
   ...freshHerbs,
   ...driedHerbs,
   ..._aromaticHerbs,

@@ -16,15 +16,15 @@ import type {
 } from "@/types/recipe";
 import { createElementalProperties } from "../elemental/elementalUtils";
 // import { isNonEmptyArray } from "../typeGuards";
-const isNonEmptyArray = (arr: any): boolean =>
+const isNonEmptyArray = <T>(arr: T[] | unknown): arr is T[] =>
   Array.isArray(arr) && arr.length > 0; // Fallback function
 
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
-  const ingredients = adaptIngredients(recipeData.ingredients ?? []);
+  const ingredients = adaptIngredients(recipeData.ingredients);
 
   const recipe: Recipe = {
     id: ensureRecipeId(recipeData.id),
-    name: recipeData.name ?? "Unnamed Recipe",
+    name: recipeData.name,
     ingredients,
     instructions: Array.isArray(recipeData.instructions)
       ? recipeData.instructions
@@ -77,24 +77,24 @@ function adaptIngredients(
   ingredients: RecipeData["ingredients"],
 ): RecipeIngredient[] {
   return ingredients.map((ingredient) => {
-    const ingredientData = ingredient as any;
+    const raw = ingredient as unknown as Record<string, unknown>;
     const recipeIngredient: RecipeIngredient = {
-      name: ingredientData.name ?? "Unknown Ingredient",
-      amount: Number(ingredientData.amount ?? 0),
-      unit: ingredientData.unit ?? "",
+      name: typeof raw.name === "string" ? raw.name : "Unknown Ingredient",
+      amount: Number(raw.amount ?? 0),
+      unit: typeof raw.unit === "string" ? raw.unit : "",
     };
 
-    if (ingredientData.optional !== undefined) {
-      recipeIngredient.optional = Boolean(ingredientData.optional);
+    if (raw.optional !== undefined) {
+      recipeIngredient.optional = Boolean(raw.optional);
     }
-    if (ingredientData.preparation) {
-      recipeIngredient.preparation = ingredientData.preparation;
+    if (typeof raw.preparation === "string") {
+      recipeIngredient.preparation = raw.preparation;
     }
-    if (ingredientData.category) {
-      recipeIngredient.category = ingredientData.category;
+    if (typeof raw.category === "string") {
+      recipeIngredient.category = raw.category;
     }
-    if (ingredientData.notes) {
-      recipeIngredient.notes = ingredientData.notes;
+    if (typeof raw.notes === "string") {
+      recipeIngredient.notes = raw.notes;
     }
 
     return recipeIngredient;
@@ -257,7 +257,7 @@ function extractSeason(value: Season | Season[] | string): Season | string {
   if (Array.isArray(value)) {
     return String(value[0] ?? "").toLowerCase();
   }
-  return String(value ?? "").toLowerCase();
+  return String(value).toLowerCase();
 }
 
 function normalizePlanetaryInfluences(
@@ -270,7 +270,7 @@ function normalizePlanetaryInfluences(
     };
   }
 
-  const entries = Object.entries(source ?? {});
+  const entries = Object.entries(source);
   const favorable: string[] = [];
   const unfavorable: string[] = [];
 

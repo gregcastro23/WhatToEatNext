@@ -10,9 +10,42 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { subscriptionService } from "@/services/subscriptionService";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("user-subscription");
+
+interface AuthUser {
+  id?: string;
+  role?: string;
+  tier?: string;
+  [key: string]: unknown;
+}
+
+interface AuthSession {
+  user?: AuthUser;
+  [key: string]: unknown;
+}
 
 /** Minimal fallback response so the frontend always has valid data */
-function fallbackResponse(tier = "free") {
+function fallbackResponse(tier = "free"): {
+  isPremium: boolean;
+  tier: string;
+  expiresAt: string;
+  status: "active";
+  subscription: {
+    id: string;
+    userId: string;
+    tier: string;
+    status: string;
+    stripeCustomerId: string | null;
+    stripeSubscriptionId: string | null;
+    currentPeriodStart: string;
+    currentPeriodEnd: string;
+    cancelAtPeriodEnd: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+} {
   const now = new Date();
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
   return {
@@ -36,7 +69,7 @@ function fallbackResponse(tier = "free") {
   };
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse> {
   // Use a controller to abort downstream work if the request is canceled
   const controller = new AbortController();
   const { signal } = controller;
@@ -46,13 +79,13 @@ export async function GET(request: Request) {
 
   try {
     // 1. Get session with defensive error handling and timeout
-    const session = await Promise.race([
+    const session = (await Promise.race([
       auth(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Auth timeout")), 5000))
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Auth timeout")), 5000))
     ]).catch(err => {
-      console.error("[api/user/subscription] Auth failed or timed out:", err);
+      logger.error("Auth failed or timed out:", err);
       return null;
-    }) as any;
+    })) as AuthSession | null;
 
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -62,13 +95,13 @@ export async function GET(request: Request) {
     const shouldSync = searchParams.get("sync") === "true";
 
     // Use JWT tier as the fallback tier
-    const jwtTier = (session.user as Record<string, unknown>).tier as string || "free";
+    const jwtTier = session.user.tier ?? "free";
     // Case-insensitive admin check
-    const isAdmin = (session.user as Record<string, unknown>).role?.toString().toLowerCase() === "admin";
+    const isAdmin = session.user.role?.toString().toLowerCase() === "admin";
     const _effectiveFallbackTier = isAdmin ? "premium" : jwtTier;
 
     if (shouldSync) {
-      console.log(`[api/user/subscription] Syncing status for user: ${session.user.id}`);
+      logger.info(`Syncing status for user: ${session.user.id}`);
     }
 
     // 2. Fetch subscription with timeout/abort signal.
@@ -99,19 +132,23 @@ export async function GET(request: Request) {
         status: "active",
       },
     });
-  } catch (error: any) {
-    if (error.name === "AbortError" || error.message === "Request timed out") {
-      console.warn("[api/user/subscription] Request timed out - returning fallback");
+  } catch (error: unknown) {
+    const isTimeout =
+      error instanceof Error &&
+      (error.name === "AbortError" || error.message === "Request timed out");
+
+    if (isTimeout) {
+      logger.warn("Request timed out - returning fallback");
     } else {
-      console.error("[api/user/subscription] Error:", error);
+      logger.error("Error:", error);
     }
-    
+
     // Fallback logic
-    const session = await auth().catch(() => null) as any;
+    const session = (await auth().catch(() => null)) as AuthSession | null;
     const isAdmin = session?.user?.role?.toString().toLowerCase() === "admin";
     const jwtTier = session?.user?.tier ?? "free";
     const fallbackTier = isAdmin ? "premium" : jwtTier;
-    
+
     return NextResponse.json(fallbackResponse(fallbackTier));
   } finally {
     clearTimeout(timeoutId);

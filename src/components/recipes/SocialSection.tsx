@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { revealPracticeReward } from "@/lib/economy/practiceClient";
+import { type PracticeReward, revealPracticeReward } from "@/lib/economy/practiceClient";
+import { createLogger } from "@/utils/logger";
 
+const logger = createLogger("SocialSection");
 const STORAGE_PREFIX = "alchm:recipe-social:v1:";
 
 interface LocalSocialState {
@@ -21,6 +23,27 @@ interface CommunityTip {
   postedAt: string;
 }
 
+interface ShareResponse {
+  success?: boolean;
+}
+
+interface RecipeSocialResponse {
+  authenticated?: boolean;
+  madeIt?: boolean;
+  rating?: number;
+  review?: string;
+  madeCount?: number;
+}
+
+interface CommunityTipsResponse {
+  tips?: CommunityTip[];
+}
+
+interface PersistResponse {
+  madeCount?: number;
+  reward?: PracticeReward;
+}
+
 const DEFAULT: LocalSocialState = { madeIt: false, rating: 0, review: "" };
 
 function readLocalState(recipeId: string): LocalSocialState {
@@ -33,11 +56,11 @@ function readLocalState(recipeId: string): LocalSocialState {
   }
 }
 
-function writeLocalState(recipeId: string, state: LocalSocialState) {
+function writeLocalState(recipeId: string, state: LocalSocialState): void {
   try {
     window.localStorage.setItem(STORAGE_PREFIX + recipeId, JSON.stringify(state));
   } catch (err) {
-    console.warn("social state write failed:", err);
+    logger.warn("social state write failed:", err);
   }
 }
 
@@ -47,7 +70,7 @@ interface Props {
   recipeName?: string;
 }
 
-export function SocialSection({ recipeId, recipeName }: Props) {
+export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Element {
   const { data: session, status } = useSession();
   const isAuthed = status === "authenticated";
 
@@ -68,7 +91,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
 
   // The moment of pride: cooked + photographed → one-tap offer to post the
   // dish card (chart-persona identity, never a real name) to the commons.
-  const shareToCommons = async () => {
+  const shareToCommons = async (): Promise<void> => {
     if (!recipeName || !state.photoDataUrl || shareState !== "idle") return;
     setShareState("sharing");
     try {
@@ -85,7 +108,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
           },
         }),
       });
-      const json = await res.json();
+      const json = (await res.json()) as ShareResponse;
       if (json.success) {
         setShareState("shared");
         try {
@@ -107,7 +130,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
   // Initial load: pull remote state when authed; otherwise localStorage.
   useEffect(() => {
     let cancelled = false;
-    async function load() {
+    async function load(): Promise<void> {
       // Always keep a local snapshot as instant fallback.
       const local = readLocalState(recipeId);
       if (!cancelled) setState(local);
@@ -119,7 +142,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
           cache: "no-store",
         });
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = await res.json();
+        const data = (await res.json()) as RecipeSocialResponse;
         if (cancelled) return;
         if (data.authenticated) {
           const remote: LocalSocialState = {
@@ -133,13 +156,13 @@ export function SocialSection({ recipeId, recipeName }: Props) {
         }
         if (typeof data.madeCount === "number") setMadeCount(data.madeCount);
       } catch (err) {
-        console.warn("social load failed, using localStorage:", err);
+        logger.warn("social load failed, using localStorage:", err);
       } finally {
         if (!cancelled) setHydrated(true);
       }
     }
-    void load();
-    return () => {
+    load().catch(() => {});
+    return (): void => {
       cancelled = true;
     };
   }, [recipeId, status]);
@@ -147,25 +170,25 @@ export function SocialSection({ recipeId, recipeName }: Props) {
   // Community tips
   useEffect(() => {
     let cancelled = false;
-    async function loadTips() {
+    async function loadTips(): Promise<void> {
       try {
         const res = await fetch(`/api/recipes/${encodeURIComponent(recipeId)}/community-tips`, {
           cache: "no-store",
         });
         if (!res.ok) return;
-        const data = await res.json();
+        const data = (await res.json()) as CommunityTipsResponse;
         if (!cancelled && Array.isArray(data.tips)) setTips(data.tips);
       } catch {
         // silent — community tips are non-critical
       }
     }
-    void loadTips();
-    return () => {
+    loadTips().catch(() => {});
+    return (): void => {
       cancelled = true;
     };
   }, [recipeId]);
 
-  async function persistRemote(next: LocalSocialState) {
+  async function persistRemote(next: LocalSocialState): Promise<void> {
     if (!isAuthed) return;
     setSaving(true);
     try {
@@ -179,21 +202,21 @@ export function SocialSection({ recipeId, recipeName }: Props) {
         }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
-      const data = await res.json();
+      const data = (await res.json()) as PersistResponse;
       if (typeof data.madeCount === "number") setMadeCount(data.madeCount);
       // A genuine first "I made this" quietly earns — the server decides; we
       // just hand the moment to the global delight host.
-      if (data.reward?.amount > 0) {
+      if (data.reward && typeof data.reward.amount === "number" && data.reward.amount > 0) {
         revealPracticeReward(data.reward);
       }
     } catch (err) {
-      console.warn("social save failed (cached locally):", err);
+      logger.warn("social save failed (cached locally):", err);
     } finally {
       setSaving(false);
     }
   }
 
-  const update = (partial: Partial<LocalSocialState>, opts?: { debounceRemote?: boolean }) => {
+  const update = (partial: Partial<LocalSocialState>, opts?: { debounceRemote?: boolean }): void => {
     setState((curr) => {
       const next = { ...curr, ...partial };
       writeLocalState(recipeId, next);
@@ -202,10 +225,10 @@ export function SocialSection({ recipeId, recipeName }: Props) {
         if (opts?.debounceRemote) {
           if (reviewDebounce.current) clearTimeout(reviewDebounce.current);
           reviewDebounce.current = setTimeout(() => {
-            void persistRemote(next);
+            persistRemote(next).catch(() => {});
           }, 600);
         } else {
-          void persistRemote(next);
+          persistRemote(next).catch(() => {});
         }
       }
       return next;
@@ -213,17 +236,17 @@ export function SocialSection({ recipeId, recipeName }: Props) {
   };
 
   // Optimistic made-count adjustment for unauthed users so they see +1 feedback.
-  const displayedMadeCount = useMemo(() => {
+  const displayedMadeCount = useMemo((): number => {
     if (isAuthed) return madeCount;
     return madeCount + (state.madeIt ? 1 : 0);
   }, [isAuthed, madeCount, state.madeIt]);
 
-  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = (): void => {
       update({ photoDataUrl: typeof reader.result === "string" ? reader.result : undefined });
     };
     reader.readAsDataURL(file);
@@ -252,7 +275,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
         </div>
         <button
           type="button"
-          onClick={() => update({ madeIt: !state.madeIt })}
+          onClick={() => { update({ madeIt: !state.madeIt }); }}
           disabled={saving}
           className={`px-4 py-2 rounded-xl text-sm font-medium border transition-colors disabled:opacity-60 ${
             state.madeIt
@@ -285,7 +308,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
                 type="button"
                 role="radio"
                 aria-checked={state.rating === star}
-                onClick={() => update({ rating: state.rating === star ? 0 : star })}
+                onClick={() => { update({ rating: state.rating === star ? 0 : star }); }}
                 className={`text-2xl transition-transform hover:scale-110 ${filled ? "text-amber-400" : "text-white/20 hover:text-amber-500/60"}`}
               >
                 {"\u2605"}
@@ -304,7 +327,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
         <textarea
           id="review"
           value={state.review}
-          onChange={(e) => update({ review: e.target.value.slice(0, 500) }, { debounceRemote: true })}
+          onChange={(e) => { update({ review: e.target.value.slice(0, 500) }, { debounceRemote: true }); }}
           placeholder={isAuthed ? "How did it turn out?" : "How did it turn out? (stored locally)"}
           rows={3}
           className="w-full glass-card-premium border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-amber-500/50 resize-none"
@@ -321,7 +344,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
             <img src={state.photoDataUrl} alt="Your upload" className="rounded-lg max-h-48 border border-white/10" />
             <button
               type="button"
-              onClick={() => update({ photoDataUrl: undefined })}
+              onClick={() => { update({ photoDataUrl: undefined }); }}
               className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white/80 hover:text-rose-300 text-xs"
               aria-label="Remove photo"
             >
@@ -336,7 +359,7 @@ export function SocialSection({ recipeId, recipeName }: Props) {
             ) : (
               <button
                 type="button"
-                onClick={() => void shareToCommons()}
+                onClick={() => { shareToCommons().catch(() => {}); }}
                 disabled={shareState === "sharing"}
                 className="px-4 py-2 rounded-xl text-sm font-medium border bg-purple-500/10 border-purple-500/30 text-purple-200 hover:bg-purple-500/20 transition-colors disabled:opacity-60"
               >
@@ -382,11 +405,11 @@ export function SocialSection({ recipeId, recipeName }: Props) {
         )}
       </div>
 
-      {session?.user?.email && (
+      {session?.user.email ? (
         <p className="text-[11px] text-white/30">
           Signed in as {session.user.email}. Changes sync to your account.
         </p>
-      )}
+      ) : null}
     </div>
   );
 }

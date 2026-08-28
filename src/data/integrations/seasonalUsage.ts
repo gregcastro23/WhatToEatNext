@@ -1,5 +1,20 @@
 import type { Season } from "@/types/seasons";
 
+export interface TarotAssociations {
+  cookingRecommendations?: string[];
+  minorArcana?: string[];
+  majorArcana?: string[];
+  [key: string]: unknown;
+}
+
+export interface SeasonUsageData {
+  growing: string[];
+  herbs: string[];
+  vegetables: string[];
+  tarotAssociations?: TarotAssociations;
+  [key: string]: unknown;
+}
+
 // Define cuisine type directly as an object to avoid import issues
 const _CuisineType = {
   GREEK: "greek",
@@ -202,14 +217,17 @@ export const seasonalUsage = {
         "Draw on the nurturing energy of the Queens for comforting dishes",
         "Use the mastery of the Kings for perfecting signature dishes",
         "Embrace the cyclical nature of The World for seasonal adaptations",
-        "Trust intuition with High Priestess energy for experimental cooking",
       ],
     },
   },
-} as any as Record<Season, any>;
+} as unknown as Record<Season, SeasonUsageData>;
 
 // Helper functions if needed
-export function getSeasonalUsageData(ingredient: string, season: Season) {
+export function getSeasonalUsageData(ingredient: string, season: Season): {
+  inGrowing: boolean;
+  inHerbs: boolean;
+  inVegetables: boolean;
+} {
   const seasonData = seasonalUsage[season];
   return {
     inGrowing: seasonData.growing.includes(ingredient),
@@ -218,14 +236,14 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
   };
 }
 
-export function getTarotRecommendationsForSeason(season: Season) {
-  return seasonalUsage[season]?.tarotAssociations?.cookingRecommendations || [];
+export function getTarotRecommendationsForSeason(season: Season): string[] {
+  return seasonalUsage[season].tarotAssociations?.cookingRecommendations ?? [];
 }
 
-export function getMinorArcanaForSeason(season: Season) {
-  return seasonalUsage[season]?.tarotAssociations?.minorArcana || [];
+export function getMinorArcanaForSeason(season: Season): string[] {
+  return seasonalUsage[season].tarotAssociations?.minorArcana ?? [];
 }
 
-export function getMajorArcanaForSeason(season: Season) {
-  return seasonalUsage[season]?.tarotAssociations?.majorArcana || [];
+export function getMajorArcanaForSeason(season: Season): string[] {
+  return seasonalUsage[season].tarotAssociations?.majorArcana ?? [];
 }

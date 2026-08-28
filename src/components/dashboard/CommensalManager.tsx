@@ -131,7 +131,8 @@ function AddByEmailForm({
       if (!res.ok) throw new Error('Search failed');
       const data = (await res.json()) as { success: boolean; users?: SearchResult[] };
       if (data.success) setResults(data.users ?? []);
-    } catch {
+    } catch (err: unknown) {
+      _logger.error("[CommensalManager] handleSearch failed:", err);
       setMessage({ type: 'error', text: 'Search failed. Please check your connection.' });
     } finally {
       setSearching(false);
@@ -142,7 +143,7 @@ function AddByEmailForm({
     const timer = setTimeout(() => {
       if (query.length >= 3) {
         handleSearch().catch((err: unknown) => {
-          _logger.error("[CommensalManager] handleSearch failed:", err);
+          _logger.error("[CommensalManager] handleSearch invocation failed:", err);
         });
       } else {
         setResults([]);
@@ -174,7 +175,8 @@ function AddByEmailForm({
       } else {
         setMessage({ type: 'error', text: data.message ?? 'Failed to send request' });
       }
-    } catch {
+    } catch (err: unknown) {
+      _logger.error("[CommensalManager] handleSendRequest failed:", err);
       setMessage({ type: 'error', text: 'Failed to send request' });
     } finally {
       setSending(null);
@@ -571,7 +573,9 @@ function GroupRecommendationsPanel({
           </select>
           <button
             onClick={() => {
-              refetch().catch(() => {});
+              refetch().catch((err: unknown) => {
+                _logger.error("[CommensalManager] refetch energy failed:", err);
+              });
             }}
             disabled={loading}
             className="px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
@@ -709,8 +713,8 @@ function DiningGroupSection({
         credentials: 'include',
       });
       onGroupDeleted(groupId);
-    } catch {
-      // ignore
+    } catch (err: unknown) {
+      _logger.error("[CommensalManager] handleDelete group failed:", err);
     }
   };
 
@@ -763,7 +767,9 @@ function DiningGroupSection({
           </div>
           <button
             onClick={() => {
-              handleCreate().catch(() => {});
+              handleCreate().catch((err: unknown) => {
+                _logger.error("[CommensalManager] handleCreate group failed:", err);
+              });
             }}
             disabled={saving}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
@@ -806,7 +812,9 @@ function DiningGroupSection({
                 </button>
                 <button
                   onClick={() => {
-                    handleDelete(group.id).catch(() => {});
+                    handleDelete(group.id).catch((err: unknown) => {
+                      _logger.error("[CommensalManager] handleDelete group failed:", err);
+                    });
                   }}
                   className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                 >
@@ -859,13 +867,15 @@ export const CommensalManager: React.FC = () => {
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
         if (lcData.success) setLinkedCommensals(lcData.linkedCommensals ?? []);
-      } catch {
-        // ignore
+      } catch (err: unknown) {
+        _logger.error("[CommensalManager] initial load failed:", err);
       } finally {
         setLoading(false);
       }
     };
-    load().catch(() => {});
+    load().catch((err: unknown) => {
+      _logger.error("[CommensalManager] unhandled initial load rejection:", err);
+    });
   }, []);
 
   const refreshLinkedCommensals = async (): Promise<void> => {
@@ -874,8 +884,8 @@ export const CommensalManager: React.FC = () => {
       if (!res.ok) return;
       const data = (await res.json()) as { success: boolean; linkedCommensals?: LinkedCommensal[] };
       if (data.success) setLinkedCommensals(data.linkedCommensals ?? []);
-    } catch {
-      // ignore
+    } catch (err: unknown) {
+      _logger.error("[CommensalManager] refreshLinkedCommensals failed:", err);
     }
   };
 
@@ -887,8 +897,8 @@ export const CommensalManager: React.FC = () => {
       });
       setCommensals((prev) => prev.filter((m) => m.id !== commensalId));
       setSelectedManualIds((prev) => prev.filter((id) => id !== commensalId));
-    } catch {
-      // ignore
+    } catch (err: unknown) {
+      _logger.error("[CommensalManager] handleDeleteCommensal failed:", err);
     }
   };
 
@@ -955,7 +965,9 @@ export const CommensalManager: React.FC = () => {
             <AddByEmailForm
               key="email-form"
               onRequestSent={() => {
-                refreshLinkedCommensals().catch(() => {});
+                refreshLinkedCommensals().catch((err: unknown) => {
+                  _logger.error("[CommensalManager] refreshLinkedCommensals failed:", err);
+                });
               }}
               onCancel={() => setShowAddForm(false)}
             />
@@ -1009,7 +1021,9 @@ export const CommensalManager: React.FC = () => {
                 selected={selectedManualIds.includes(m.id)}
                 onToggle={() => { toggleManualSelect(m.id); }}
                 onDelete={() => {
-                  handleDeleteCommensal(m.id).catch(() => {});
+                  handleDeleteCommensal(m.id).catch((err: unknown) => {
+                    _logger.error("[CommensalManager] handleDeleteCommensal failed:", err);
+                  });
                 }}
               />
             ))}

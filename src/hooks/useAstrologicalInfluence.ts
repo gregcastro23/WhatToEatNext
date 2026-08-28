@@ -1,7 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
-import { _logger } from "@/lib/logger";
+import type { AstrologicalState } from "@/types/celestial";
 import { getCurrentAstrologicalState } from "@/utils/astrologyUtils";
+import { createLogger } from "@/utils/logger";
 import { useAlchemical } from "./useAlchemical";
+
+const _logger = createLogger("use-astrological-influence");
 
 export interface AstrologicalInfluence {
   planetaryDay: string | null;
@@ -12,47 +15,52 @@ export interface AstrologicalInfluence {
   overallInfluence: number | null;
 }
 
-export function useAstrologicalInfluence() {
+export interface UseAstrologicalInfluenceReturn extends AstrologicalInfluence {
+  isLoading: boolean;
+  error: string | null;
+  astrologicalState: AstrologicalState | null;
+}
+
+export function useAstrologicalInfluence(): UseAstrologicalInfluenceReturn {
   const {
     planetaryPositions,
     isLoading: alchemicalIsLoading,
     error: alchemicalError,
   } = useAlchemical();
 
-  const [astrologicalState, setAstrologicalState] = useState<any>(null);
+  const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchAstrologicalState() {
+    async function fetchAstrologicalState(): Promise<void> {
       setIsLoading(true);
       try {
         const state = await getCurrentAstrologicalState();
         setAstrologicalState(state);
-      } catch (error) {
-        _logger.error("Failed to get astrological state: ", error);
+      } catch (err) {
+        _logger.error("Failed to get astrological state: ", err);
         setError("Failed to fetch astrological state.");
       } finally {
         setIsLoading(false);
       }
     }
 
-    void fetchAstrologicalState();
+    fetchAstrologicalState().catch(() => {});
   }, []);
 
   const influence = useMemo((): AstrologicalInfluence | null => {
     if (
       isLoading ||
       alchemicalIsLoading ||
-      !astrologicalState ||
-      !planetaryPositions
+      !astrologicalState
     ) {
       return null;
     }
 
     // Calculate dominant element from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementCounts: Record<"Fire" | "Water" | "Earth" | "Air", number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementMap: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -66,27 +74,21 @@ export function useAstrologicalInfluence() {
       scorpio: "Water",
       pisces: "Water",
     };
-    Object.values(planetaryPositions || {}).forEach((position) => {
-      const element =
-        elementMap[(position as any)?.sign as keyof typeof elementMap];
-      if (element) {
-        elementCounts[element as keyof typeof elementCounts]++;
-      }
+    Object.values(planetaryPositions).forEach((position) => {
+      const element = elementMap[position.sign.toLowerCase()];
+      elementCounts[element]++;
     });
 
-    const dominantElement =
-      Object.keys(elementCounts).length > 0
-        ? Object.entries(elementCounts).reduce((a, b) =>
-            elementCounts[a[0] as keyof typeof elementCounts] >
-            elementCounts[b[0] as keyof typeof elementCounts]
-              ? a
-              : b,
-          )[0]
-        : null;
+    const [dominantElement] = Object.entries(elementCounts).reduce((a, b) =>
+      elementCounts[a[0] as keyof typeof elementCounts] >
+      elementCounts[b[0] as keyof typeof elementCounts]
+        ? a
+        : b,
+    );
 
     // Calculate aspect strength (simplified)
     const aspectStrength = astrologicalState.aspects
-      ? Math.min(1, astrologicalState.aspects?.length / 10)
+      ? Math.min(1, astrologicalState.aspects.length / 10)
       : 0;
 
     // Calculate overall influence
@@ -99,10 +101,12 @@ export function useAstrologicalInfluence() {
 
     const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6;
 
+    const stateRecord = astrologicalState as Record<string, unknown>;
+
     return {
-      planetaryDay: astrologicalState.planetaryDay || null,
-      planetaryHour: astrologicalState.planetaryHour || null,
-      lunarPhase: astrologicalState.lunarPhase || null,
+      planetaryDay: typeof stateRecord.planetaryDay === "string" ? stateRecord.planetaryDay : null,
+      planetaryHour: typeof astrologicalState.planetaryHour === "string" ? astrologicalState.planetaryHour : null,
+      lunarPhase: astrologicalState.lunarPhase ? String(astrologicalState.lunarPhase) : null,
       dominantElement,
       aspectStrength,
       overallInfluence,
@@ -110,10 +114,15 @@ export function useAstrologicalInfluence() {
   }, [astrologicalState, planetaryPositions, isLoading, alchemicalIsLoading]);
 
   const combinedIsLoading = isLoading || alchemicalIsLoading;
-  const combinedError = error || alchemicalError;
+  const combinedError = error ?? alchemicalError;
 
   return {
-    ...influence,
+    planetaryDay: influence?.planetaryDay ?? null,
+    planetaryHour: influence?.planetaryHour ?? null,
+    lunarPhase: influence?.lunarPhase ?? null,
+    dominantElement: influence?.dominantElement ?? null,
+    aspectStrength: influence?.aspectStrength ?? null,
+    overallInfluence: influence?.overallInfluence ?? null,
     isLoading: combinedIsLoading,
     error: combinedError,
     astrologicalState,

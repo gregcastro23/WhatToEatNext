@@ -2,6 +2,9 @@
 
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createLogger } from "@/utils/logger";
+
+const _logger = createLogger("use-meal-plan");
 
 const STORAGE_KEY = "alchm:meal-plan:v1";
 const SYNC_FLAG_PREFIX = "alchm:meal-plan:synced:";
@@ -14,6 +17,14 @@ export interface MealPlanEntry {
   mealType?: string;   // "breakfast" | "lunch" | "dinner" | "snack"
   servings?: number;
   addedAt: number;
+}
+
+interface MealPlanApiResponse {
+  authenticated?: boolean;
+  entries?: MealPlanEntry[];
+  entry?: MealPlanEntry;
+  success?: boolean;
+  message?: string;
 }
 
 type Listener = (plan: MealPlanEntry[]) => void;
@@ -32,17 +43,17 @@ function readLocal(): MealPlanEntry[] {
   return cached;
 }
 
-function writeLocal(next: MealPlanEntry[]) {
+function writeLocal(next: MealPlanEntry[]): void {
   cached = next;
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   } catch (err) {
-    console.warn("meal-plan write failed:", err);
+    _logger.warn("meal-plan write failed:", err);
   }
   listeners.forEach((l) => l(next));
 }
 
-function clearLocal() {
+function clearLocal(): void {
   cached = [];
   try {
     window.localStorage.removeItem(STORAGE_KEY);
@@ -52,9 +63,18 @@ function clearLocal() {
   listeners.forEach((l) => l([]));
 }
 
-export function useMealPlan() {
+export interface UseMealPlanReturn {
+  plan: MealPlanEntry[];
+  addEntry: (entry: Omit<MealPlanEntry, "id" | "addedAt">) => MealPlanEntry;
+  removeEntry: (id: string) => void;
+  clearAll: () => void;
+  entriesForRecipe: (recipeId: string) => MealPlanEntry[];
+}
+
+export function useMealPlan(): UseMealPlanReturn {
   const { data: session, status } = useSession();
-  const userKey = session?.user?.id || session?.user?.email || "";
+  const user = session?.user;
+  const userKey = user?.id ?? user?.email ?? "";
   const isAuthed = status === "authenticated";
 
   const [plan, setPlan] = useState<MealPlanEntry[]>(() => readLocal());
@@ -62,16 +82,16 @@ export function useMealPlan() {
 
   // Listener registration + cross-tab sync
   useEffect(() => {
-    const listener: Listener = (next) => setPlan(next);
+    const listener: Listener = (next) => { setPlan(next); };
     listeners.add(listener);
-    const onStorage = (e: StorageEvent) => {
+    const onStorage = (e: StorageEvent): void => {
       if (e.key === STORAGE_KEY) {
         cached = null;
         setPlan(readLocal());
       }
     };
     window.addEventListener("storage", onStorage);
-    return () => {
+    return (): void => {
       listeners.delete(listener);
       window.removeEventListener("storage", onStorage);
     };
@@ -84,7 +104,7 @@ export function useMealPlan() {
     if (syncRan.current) return;
     syncRan.current = true;
 
-    async function syncAndLoad() {
+    async function syncAndLoad(): Promise<void> {
       const syncFlagKey = SYNC_FLAG_PREFIX + userKey;
       const alreadySynced =
         typeof window !== "undefined" &&
@@ -123,23 +143,25 @@ export function useMealPlan() {
 
         const res = await fetch("/api/users/me/meal-plan", { cache: "no-store" });
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = await res.json();
+        const data = (await res.json()) as MealPlanApiResponse;
         if (data.authenticated && Array.isArray(data.entries)) {
           // Remote is source of truth when authed. Mirror into cache for
           // instant render, but do NOT persist to localStorage — we cleared it.
-          cached = data.entries as MealPlanEntry[];
-          listeners.forEach((l) => l(cached!));
+          cached = data.entries;
+          listeners.forEach((l) => {
+            if (cached) l(cached);
+          });
         }
       } catch (err) {
-        console.warn("meal-plan sync failed, staying local:", err);
+        _logger.warn("meal-plan sync failed, staying local:", err);
       }
     }
 
-    void syncAndLoad();
+    syncAndLoad().catch(() => {});
   }, [isAuthed, userKey]);
 
   const addEntry = useCallback(
-    (entry: Omit<MealPlanEntry, "id" | "addedAt">) => {
+    (entry: Omit<MealPlanEntry, "id" | "addedAt">): MealPlanEntry => {
       const optimistic: MealPlanEntry = {
         ...entry,
         id: `${entry.recipeId}-${entry.date}-${Date.now()}`,
@@ -150,9 +172,11 @@ export function useMealPlan() {
         // Optimistic insert, then reconcile with server id.
         const current = readLocal();
         cached = [...current, optimistic];
-        listeners.forEach((l) => l(cached!));
+        listeners.forEach((l) => {
+          if (cached) l(cached);
+        });
 
-        void (async () => {
+        const syncRemote = async (): Promise<void> => {
           try {
             const res = await fetch("/api/users/me/meal-plan", {
               method: "POST",
@@ -166,18 +190,22 @@ export function useMealPlan() {
               }),
             });
             if (!res.ok) throw new Error(`status ${res.status}`);
-            const data = await res.json();
-            if (data?.entry?.id) {
-              const reconciled = (cached || []).map((e) =>
+            const data = (await res.json()) as MealPlanApiResponse;
+            if (data.entry?.id) {
+              const reconciled = (cached ?? []).map((e) =>
                 e.id === optimistic.id ? (data.entry as MealPlanEntry) : e,
               );
               cached = reconciled;
-              listeners.forEach((l) => l(cached!));
+              listeners.forEach((l) => {
+                if (cached) l(cached);
+              });
             }
           } catch (err) {
-            console.warn("meal-plan remote add failed:", err);
+            _logger.warn("meal-plan remote add failed:", err);
           }
-        })();
+        };
+
+        syncRemote().catch(() => {});
         return optimistic;
       }
 
@@ -189,13 +217,17 @@ export function useMealPlan() {
   );
 
   const removeEntry = useCallback(
-    (id: string) => {
+    (id: string): void => {
       if (isAuthed) {
-        cached = (cached || []).filter((e) => e.id !== id);
-        listeners.forEach((l) => l(cached!));
-        void fetch(`/api/users/me/meal-plan?id=${encodeURIComponent(id)}`, {
+        cached = (cached ?? []).filter((e) => e.id !== id);
+        listeners.forEach((l) => {
+          if (cached) l(cached);
+        });
+        fetch(`/api/users/me/meal-plan?id=${encodeURIComponent(id)}`, {
           method: "DELETE",
-        }).catch((err) => console.warn("meal-plan remote delete failed:", err));
+        }).catch((err: unknown) => {
+          _logger.warn("meal-plan remote delete failed:", err);
+        });
         return;
       }
       writeLocal(readLocal().filter((e) => e.id !== id));
@@ -203,25 +235,25 @@ export function useMealPlan() {
     [isAuthed],
   );
 
-  const clearAll = useCallback(() => {
+  const clearAll = useCallback((): void => {
     if (isAuthed) {
-      const ids = (cached || []).map((e) => e.id);
+      const ids = (cached ?? []).map((e) => e.id);
       cached = [];
-      listeners.forEach((l) => l([]));
-      void Promise.all(
+      listeners.forEach((l) => { l([]); });
+      Promise.all(
         ids.map((id) =>
           fetch(`/api/users/me/meal-plan?id=${encodeURIComponent(id)}`, {
             method: "DELETE",
           }).catch(() => undefined),
         ),
-      );
+      ).catch(() => {});
       return;
     }
     writeLocal([]);
   }, [isAuthed]);
 
   const entriesForRecipe = useCallback(
-    (recipeId: string) => plan.filter((e) => e.recipeId === recipeId),
+    (recipeId: string): MealPlanEntry[] => plan.filter((e) => e.recipeId === recipeId),
     [plan],
   );
 

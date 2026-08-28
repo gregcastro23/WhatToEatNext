@@ -46,22 +46,32 @@ function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element
   const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   Object.values(positions).forEach((sign) => {
     const el = SIGN_TO_ELEMENT[sign];
-    if (el) counts[el]++;
+    counts[el]++;
   });
   return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Element;
 }
 
 function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
-  const counts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
+  const counts: Record<Modality, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
   Object.values(positions).forEach((sign) => {
     const m = SIGN_TO_MODALITY[sign];
-    if (m) counts[m]++;
+    counts[m]++;
   });
   return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality;
 }
 
-function hasMissingPlanetPrecision(chart: SavedChart): boolean {
-  const planets = chart.natalChart?.planets || [];
+/**
+ * A chart as `saved_charts` actually returns it. Prod rows carry structured birth
+ * fields only, so the stored jsonb may hold no `planets` array — `NatalChart`
+ * declares `planets` required, which overstates what the database gives back.
+ * `SavedChart` is assignable to this, so callers holding one need no change.
+ */
+type StoredChart = Omit<SavedChart, "natalChart"> & {
+  natalChart: Omit<NatalChart, "planets"> & { planets?: PlanetInfo[] };
+};
+
+function hasMissingPlanetPrecision(chart: StoredChart): boolean {
+  const planets = chart.natalChart.planets ?? [];
   // Charts loaded from the prod saved_charts table carry NO stored planets
   // (structured birth fields only) — an empty list means "rebuild", not
   // "nothing missing".
@@ -73,7 +83,7 @@ function hasMissingPlanetPrecision(chart: SavedChart): boolean {
   );
 }
 
-async function ensureSubArcminutePrecision(chart: SavedChart): Promise<SavedChart> {
+async function ensureSubArcminutePrecision(chart: StoredChart): Promise<StoredChart> {
   if (!hasMissingPlanetPrecision(chart)) return chart;
 
   try {
@@ -85,24 +95,23 @@ async function ensureSubArcminutePrecision(chart: SavedChart): Promise<SavedChar
       longitude: chart.birthData.longitude,
     });
 
-    const existingPlanets = chart.natalChart?.planets || [];
+    const existingPlanets = chart.natalChart.planets ?? [];
     const updatedPlanets: PlanetInfo[] =
       existingPlanets.length > 0
         ? existingPlanets.map((planet) => {
             const raw = rawPositions[planet.name];
-            if (!raw || typeof raw.exactLongitude !== "number") return planet;
+            if (typeof raw.exactLongitude !== "number") return planet;
             return {
               ...planet,
               position: raw.exactLongitude,
-              sign: raw.sign || planet.sign,
+              sign: raw.sign,
             };
           })
         : // DB-loaded chart with no stored planets — build the full array from
           // the computed positions so GET never returns planet-less charts.
           Object.entries(rawPositions)
             .filter(
-              ([, value]) =>
-                !!value?.sign && typeof value.exactLongitude === "number",
+              ([, value]) => typeof value.exactLongitude === "number",
             )
             .map(([planetName, value]) => ({
               name: planetName as Planet,
@@ -112,9 +121,7 @@ async function ensureSubArcminutePrecision(chart: SavedChart): Promise<SavedChar
 
     const updatedPlanetaryPositions = { ...chart.natalChart.planetaryPositions };
     Object.entries(rawPositions).forEach(([planetName, value]) => {
-      if (value?.sign) {
-        updatedPlanetaryPositions[planetName as Planet] = value.sign;
-      }
+      updatedPlanetaryPositions[planetName as Planet] = value.sign;
     });
 
     return {
@@ -147,7 +154,7 @@ function toManualSavedChart(ownerId: string, member: GroupMember): SavedChart {
 
 
 /** GET /api/user/charts */
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
@@ -160,11 +167,12 @@ export async function GET(request: NextRequest) {
   ]);
 
   // Backward-compatible support for legacy charts still stored in profile JSON.
-  const legacySavedCharts = Array.isArray((user?.profile as any)?.savedCharts)
-    ? ((user?.profile as any).savedCharts as SavedChart[])
+  const userProfile = user?.profile as { savedCharts?: SavedChart[]; groupMembers?: GroupMember[] } | undefined;
+  const legacySavedCharts = Array.isArray(userProfile?.savedCharts)
+    ? userProfile.savedCharts
     : [];
-  const legacyManualMembers = Array.isArray((user?.profile as any)?.groupMembers)
-    ? ((user?.profile as any).groupMembers as GroupMember[])
+  const legacyManualMembers = Array.isArray(userProfile?.groupMembers)
+    ? userProfile.groupMembers
     : [];
 
   const combined = [
@@ -184,7 +192,7 @@ export async function GET(request: NextRequest) {
 
   // Primary first, then cosmic identities, then manual charts, newest first.
   hydratedCharts.sort((a, b) => {
-    const score = (chart: SavedChart) =>
+    const score = (chart: StoredChart): number =>
       (chart.isPrimary ? 100 : 0) +
       (chart.chartType === "cosmic_identity" ? 10 : 0) +
       new Date(chart.updatedAt).getTime() / 1e12;
@@ -195,7 +203,7 @@ export async function GET(request: NextRequest) {
 }
 
 /** POST /api/user/charts - Create a new cosmic identity */
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
@@ -203,7 +211,7 @@ export async function POST(request: NextRequest) {
 
   let body: Record<string, unknown>;
   try {
-    body = await request.json();
+    body = (await request.json()) as Record<string, unknown>;
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid JSON in request body" },
@@ -212,7 +220,7 @@ export async function POST(request: NextRequest) {
   }
   const { label, birthData } = body as {
     label?: string;
-    birthData?: BirthData;
+    birthData?: Partial<BirthData>;
   };
 
   if (!label || !birthData?.dateTime || birthData.latitude === undefined || birthData.longitude === undefined) {
@@ -263,11 +271,18 @@ export async function POST(request: NextRequest) {
   }
   const { positions, planets } = bodies;
 
+  const completeBirthData: BirthData = {
+    dateTime: birthData.dateTime,
+    latitude: birthData.latitude,
+    longitude: birthData.longitude,
+    timezone: birthData.timezone,
+  };
+
   // Whole birthData — sect is the Sun's altitude at the birthplace.
-  const diurnal = isSectDiurnalForBirth(birthData);
+  const diurnal = isSectDiurnalForBirth(completeBirthData);
 
   const natalChart: NatalChart = {
-    birthData: { dateTime: birthData.dateTime, latitude: birthData.latitude, longitude: birthData.longitude, timezone: birthData.timezone },
+    birthData: completeBirthData,
     planets,
     ascendant: positions.Ascendant,
     planetaryPositions: positions,

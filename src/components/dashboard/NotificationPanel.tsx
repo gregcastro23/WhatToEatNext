@@ -13,7 +13,7 @@ type NotificationFilter = 'all' | 'unread';
  * NotificationPanel — full notification list for the user dashboard.
  * Includes filtering, quick actions, and direct commensal request handling.
  */
-export function NotificationPanel() {
+export function NotificationPanel(): React.JSX.Element {
   const {
     notifications,
     unreadNotifications,
@@ -40,7 +40,7 @@ export function NotificationPanel() {
     [filter, notifications, unreadNotifications],
   );
 
-  const handleGenerateInsight = async () => {
+  const handleGenerateInsight = async (): Promise<void> => {
     setGeneratingInsight(true);
     setStatusMessage(null);
 
@@ -60,7 +60,7 @@ export function NotificationPanel() {
   const handleCommensalAction = async (
     notification: UserNotification,
     action: 'accept' | 'reject',
-  ) => {
+  ): Promise<void> => {
     setBusyNotificationId(notification.id);
     setStatusMessage(null);
 
@@ -81,7 +81,7 @@ export function NotificationPanel() {
   const handleTableInviteAction = async (
     notification: UserNotification,
     response: 'joined' | 'declined',
-  ) => {
+  ): Promise<void> => {
     setBusyNotificationId(notification.id);
     setStatusMessage(null);
 
@@ -100,7 +100,7 @@ export function NotificationPanel() {
   const handleJoinRequestAction = async (
     notification: UserNotification,
     action: 'invite' | 'dismiss',
-  ) => {
+  ): Promise<void> => {
     setBusyNotificationId(notification.id);
     setStatusMessage(null);
 
@@ -127,7 +127,7 @@ export function NotificationPanel() {
     setBusyNotificationId(null);
   };
 
-  const handleClaimQuest = async (notification: UserNotification) => {
+  const handleClaimQuest = async (notification: UserNotification): Promise<void> => {
     if (!notification.metadata?.questSlug) return;
     
     setBusyNotificationId(notification.id);
@@ -139,10 +139,14 @@ export function NotificationPanel() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questSlug: notification.metadata.questSlug })
       });
-      const data = await res.json();
+      interface ClaimResponse {
+        success?: boolean;
+        message?: string;
+      }
+      const data = (await res.json()) as ClaimResponse;
       if (data.success) {
         setStatusMessage(data.message ?? 'Reward claimed!');
-        void markAsRead(notification.id);
+        markAsRead(notification.id).catch(() => {});
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event(TOKEN_ECONOMY_EVENT));
         }
@@ -188,7 +192,7 @@ export function NotificationPanel() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
-              void fetchNotifications();
+              fetchNotifications().catch(() => {});
             }}
             className="text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-white px-3 py-1.5 rounded-lg border border-white/5 hover:border-white/10 transition-all"
           >
@@ -198,7 +202,7 @@ export function NotificationPanel() {
           {unreadCount > 0 && (
             <button
               onClick={() => {
-                void markAllRead();
+                markAllRead().catch(() => {});
               }}
               className="text-[9px] font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 px-3 py-1.5 rounded-lg border border-purple-500/10 hover:border-purple-500/30 transition-all"
             >
@@ -208,7 +212,7 @@ export function NotificationPanel() {
 
           <button
             onClick={() => {
-              void handleGenerateInsight();
+              handleGenerateInsight().catch(() => {});
             }}
             disabled={generatingInsight}
             className="text-[9px] font-black uppercase tracking-widest text-amber-400 hover:text-amber-300 px-3 py-1.5 rounded-lg border border-amber-500/10 hover:border-amber-500/30 disabled:opacity-30 transition-all flex items-center gap-2"
@@ -238,7 +242,7 @@ export function NotificationPanel() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {displayedNotifications.map((n) => {
-            const style = NOTIFICATION_STYLES[n.type] || NOTIFICATION_STYLES.welcome;
+            const style = NOTIFICATION_STYLES[n.type];
             const isDailyInsight = n.type === 'daily_insight';
             const isCommensalRequest = n.type === 'commensal_request';
             const isQuestCompleted = n.type === 'quest_completed';
@@ -260,20 +264,20 @@ export function NotificationPanel() {
               isTableJoinRequest &&
               joinRequestStatus === 'pending' &&
               typeof n.metadata?.tableId === 'string' &&
-              (typeof n.metadata?.requesterId === 'string' || typeof n.relatedUserId === 'string');
+              (typeof n.metadata.requesterId === 'string' || typeof n.relatedUserId === 'string');
 
             return (
               <div
                 key={n.id}
                 onClick={() => {
                   if (!n.isRead) {
-                    void markAsRead(n.id);
+                    markAsRead(n.id).catch(() => {});
                   }
                 }}
                 onKeyDown={(event) => {
                   if ((event.key === 'Enter' || event.key === ' ') && !n.isRead) {
                     event.preventDefault();
-                    void markAsRead(n.id);
+                    markAsRead(n.id).catch(() => {});
                   }
                 }}
                 className={`group relative p-6 rounded-[1.75rem] cursor-pointer transition-all duration-500 hover:translate-y-[-4px] overflow-hidden ${
@@ -325,7 +329,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleCommensalAction(n, 'accept');
+                            handleCommensalAction(n, 'accept').catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white border border-emerald-500/20 transition-all disabled:opacity-30"
@@ -335,7 +339,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleCommensalAction(n, 'reject');
+                            handleCommensalAction(n, 'reject').catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border border-rose-500/20 transition-all disabled:opacity-30"
@@ -362,7 +366,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleTableInviteAction(n, 'joined');
+                            handleTableInviteAction(n, 'joined').catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white border border-emerald-500/20 transition-all disabled:opacity-30"
@@ -372,7 +376,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleTableInviteAction(n, 'declined');
+                            handleTableInviteAction(n, 'declined').catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border border-rose-500/20 transition-all disabled:opacity-30"
@@ -387,7 +391,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleJoinRequestAction(n, 'invite');
+                            handleJoinRequestAction(n, 'invite').catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-white border border-amber-500/20 transition-all disabled:opacity-30"
@@ -397,7 +401,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleJoinRequestAction(n, 'dismiss');
+                            handleJoinRequestAction(n, 'dismiss').catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/80 border border-white/10 transition-all disabled:opacity-30"
@@ -412,7 +416,7 @@ export function NotificationPanel() {
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
-                            void handleClaimQuest(n);
+                            handleClaimQuest(n).catch(() => {});
                           }}
                           disabled={busyNotificationId === n.id}
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-white border border-amber-500/20 transition-all disabled:opacity-30"

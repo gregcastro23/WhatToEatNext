@@ -38,7 +38,7 @@ const ELEMENT_COLORS: Record<string, string> = {
 
 // ===== Loading skeleton =====
 
-function CarouselSkeleton() {
+function CarouselSkeleton(): React.ReactNode {
   return (
     <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-100 p-6 mx-6 animate-pulse">
       <div className="h-6 bg-gray-200 rounded w-3/4 mb-3" />
@@ -102,7 +102,7 @@ export default function RecipeSuggestionCarousel({
   isLoading,
   isPersonalized = false,
   onSaveToQueue,
-}: RecipeSuggestionCarouselProps) {
+}: RecipeSuggestionCarouselProps): React.ReactNode {
   const [direction, setDirection] = React.useState<number>(0);
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-3, 3]);
@@ -110,7 +110,7 @@ export default function RecipeSuggestionCarousel({
   // Expandable sections state
   const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({});
 
-  const toggleSection = (section: string) => {
+  const toggleSection = (section: string): void => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
@@ -120,13 +120,13 @@ export default function RecipeSuggestionCarousel({
   }, [currentIndex, x]);
 
   // ---- Navigation ----
-  const handlePrev = () => {
+  const handlePrev = (): void => {
     if (currentIndex > 0) {
       setDirection(-1);
       onIndexChange(currentIndex - 1);
     }
   };
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (currentIndex < suggestions.length - 1) {
       setDirection(1);
       onIndexChange(currentIndex + 1);
@@ -134,7 +134,7 @@ export default function RecipeSuggestionCarousel({
   };
 
   // ---- Drag swipe handler ----
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (_event: unknown, info: { offset: { x: number }; velocity: { x: number } }): void => {
     const swipeThreshold = 80;
     const offset = info.offset.x;
     const velocity = info.velocity.x;
@@ -180,8 +180,8 @@ export default function RecipeSuggestionCarousel({
   const displayScore = current.personalizedScore ?? current.score;
   const scorePercent = Math.round(displayScore * 100);
 
-  const handleSave = () => {
-    if (recipe?.id) {
+  const handleSave = (): void => {
+    if (recipe.id) {
       saveRecipeToStore(recipe);
       logger.info(`Saved recipe to store: ${recipe.name}`);
     }
@@ -304,7 +304,7 @@ export default function RecipeSuggestionCarousel({
               </div>
               <div className="grid grid-cols-4 gap-2">
                 {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
-                  const val = recipe.elementalProperties?.[el] ?? 0;
+                  const val = recipe.elementalProperties[el];
                   const pct = Math.round(val * 100);
                   return (
                     <div key={el} className="space-y-1">
@@ -350,10 +350,10 @@ export default function RecipeSuggestionCarousel({
                 <div className="text-[10px] text-pink-400">Chart boost</div>
               </div>
             )}
-            {(recipe as any).alchemicalProperties?.monicaConstant != null && (
+            {typeof (recipe as { alchemicalProperties?: { monicaConstant?: number } }).alchemicalProperties?.monicaConstant === "number" && (
               <div className="px-2.5 py-1 bg-amber-50 rounded-lg text-center">
                 <div className="text-xs font-semibold text-amber-600">
-                  {Number((recipe as any).alchemicalProperties.monicaConstant).toFixed(2)}
+                  {((recipe as { alchemicalProperties: { monicaConstant: number } }).alchemicalProperties.monicaConstant).toFixed(2)}
                 </div>
                 <div className="text-[10px] text-amber-400">Monica</div>
               </div>
@@ -448,7 +448,7 @@ export default function RecipeSuggestionCarousel({
           )}
 
           {/* Seasonal adaptation notes */}
-          {recipe.seasonalAdaptation?.seasonalIngredientSubstitutions &&
+          {recipe.seasonalAdaptation &&
             recipe.seasonalAdaptation.seasonalIngredientSubstitutions.length > 0 && (
               <div className="mx-5 mb-3 p-3 bg-green-50 rounded-xl">
                 <div className="text-xs font-semibold text-green-700 mb-1">

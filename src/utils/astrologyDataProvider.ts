@@ -19,6 +19,13 @@ import * as safeAstrology from "@/utils/safeAstrology";
 // Create a component-specific logger
 const logger = createLogger("AstrologyDataProvider");
 
+interface ApiPositionObject {
+  sign?: string;
+  degree?: number | string;
+  exactLongitude?: number | string;
+  isRetrograde?: boolean;
+}
+
 // Cache system for API responses
 interface CacheEntry {
   data: { [key: string]: CelestialPosition };
@@ -56,40 +63,43 @@ async function getPositionsFromAPI(): Promise<Record<
       throw new Error(`API returned status ${response.status}`);
     }
 
-    const data = await response.json();
+    const rawData: unknown = await response.json();
 
     // Validate the data
     if (
-      !data ||
-      typeof data !== "object" ||
-      Object.keys(data ?? {}).length === 0
+      !rawData ||
+      typeof rawData !== "object" ||
+      Array.isArray(rawData) ||
+      Object.keys(rawData).length === 0
     ) {
       throw new Error("Invalid data format received from API");
     }
 
-    // Process and normalize the API response
-    const positions: { [key: string]: CelestialPosition } = {};
+    const dataRecord = rawData as Record<string, unknown>;
 
-    Object.entries(data ?? {}).forEach(([planet, position]) => {
+    // Process and normalize the API response
+    const positions: Record<string, CelestialPosition> = {};
+
+    Object.entries(dataRecord).forEach(([planet, val]) => {
       if (
-        typeof position === "object" &&
-        position !== null &&
-        "sign" in position
+        typeof val === "object" &&
+        val !== null &&
+        "sign" in val
       ) {
+        const pos = val as ApiPositionObject;
         positions[planet.toLowerCase()] = {
           sign:
-            typeof (position as any).sign === "string"
-              ? (position as any).sign.toLowerCase()
+            typeof pos.sign === "string"
+              ? pos.sign.toLowerCase()
               : "aries",
-          degree: Number((position as any).degree) || 0,
-          exactLongitude: Number((position as any).exactLongitude) || 0,
-          isRetrograde: !!(position as Record<string, Record<string, number>>)
-            .isRetrograde,
+          degree: Number(pos.degree) || 0,
+          exactLongitude: Number(pos.exactLongitude) || 0,
+          isRetrograde: Boolean(pos.isRetrograde),
         };
       }
     });
 
-    if (Object.keys(positions || {}).length === 0) {
+    if (Object.keys(positions).length === 0) {
       throw new Error("No valid planetary positions in API response");
     }
 
@@ -170,22 +180,9 @@ export async function getPlanetaryPositions(): Promise<
  * @returns Dominant element (Fire, Water, Earth or Air)
  */
 export async function getDominantElement(): Promise<string> {
-  const positions = await getPlanetaryPositions();
-  // Apply surgical type casting with variable extraction
-  const safeAstrologyData = safeAstrology as any;
-  const getDominantElementMethod = safeAstrologyData.getDominantElement;
-  const countElementsMethod = safeAstrologyData.countElements;
-
-  if (
-    getDominantElementMethod &&
-    countElementsMethod &&
-    typeof getDominantElementMethod === "function" &&
-    typeof countElementsMethod === "function"
-  ) {
-    return getDominantElementMethod(countElementsMethod(positions));
-  }
-
-  return "Fire"; // Default fallback
+  await getPlanetaryPositions();
+  const state = safeAstrology.getCurrentAstrologicalState();
+  return state.dominantElement ?? "Fire";
 }
 
 /**

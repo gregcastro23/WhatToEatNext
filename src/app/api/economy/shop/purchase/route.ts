@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { keccak256, toHex } from 'viem'
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import {
@@ -13,6 +13,7 @@ import {
   toOnchainAmounts,
   verifyRedeem,
 } from '@/lib/esms-chain/redeemer'
+import { _logger } from "@/lib/logger";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Address, Hex } from 'viem'
 
@@ -22,19 +23,27 @@ export const maxDuration = 60
 
 const TX_PATTERN = /^0x[0-9a-f]{64}$/i
 
-export async function POST(request: Request) {
-  const user = await getDatabaseUserFromRequest(request as any);
+interface PurchaseRequestBody {
+  itemId?: string;
+  nonce?: string | number;
+  txHash?: string;
+  signature?: string;
+  deadline?: string | number | bigint;
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  const user = await getDatabaseUserFromRequest(request);
   const userId = user?.id;
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  let body: any;
+  let body: PurchaseRequestBody;
   try {
-    body = await request.json()
+    body = (await request.json()) as PurchaseRequestBody;
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const shopItemSlug = body.itemId;
+  const shopItemSlug = typeof body.itemId === "string" ? body.itemId : "";
   if (!shopItemSlug) return NextResponse.json({ error: 'Unknown item' }, { status: 404 })
 
   const item = await tokenEconomy.getShopItem(shopItemSlug);
@@ -42,7 +51,7 @@ export async function POST(request: Request) {
 
   const isOneTime = item.isOneTime ?? true;
 
-  if (isOneTime && await tokenEconomy.hasActivePurchase(userId, shopItemSlug)) {
+  if (isOneTime && (await tokenEconomy.hasActivePurchase(userId, shopItemSlug))) {
     return NextResponse.json({ ok: true, alreadyOwned: true, itemId: shopItemSlug })
   }
 
@@ -56,14 +65,14 @@ export async function POST(request: Request) {
   // Find user's privy wallet address
   // In WTEN, the `user` object might not have `privyWalletAddress` mapped cleanly
   // If not, we will fallback to query token_balances / user table
-  let wallet = (user as any).walletAddress as Address | undefined;
+  let wallet = (user as { walletAddress?: Address }).walletAddress;
   if (!wallet) {
-    const dbModule = await import("@/lib/database");
-    const db = dbModule;
-    if(db && typeof db.executeQuery === 'function') {
+    const db = await import("@/lib/database");
+    if (typeof db.executeQuery === 'function') {
       const uRes = await db.executeQuery("SELECT wallet_address FROM users WHERE id = $1", [userId]);
-      if(uRes?.rows?.[0]) {
-        wallet = uRes.rows[0].wallet_address as Address;
+      if (uRes.rows.length > 0) {
+        const row = uRes.rows[0] as { wallet_address?: Address };
+        wallet = row.wallet_address;
       }
     }
   }
@@ -103,11 +112,10 @@ export async function POST(request: Request) {
   //
   // NOTE: the previous insert passed the tx hash (or null) into a UUID NOT NULL column,
   // so the entitlement write threw on every path and the unlock never persisted.
-  const grantPurchase = async () => {
+  const grantPurchase = async (): Promise<void> => {
     try {
-      const dbModule = await import("@/lib/database");
-      const db = dbModule;
-      if (db && typeof db.executeQuery === 'function') {
+      const db = await import("@/lib/database");
+      if (typeof db.executeQuery === 'function') {
         await db.executeQuery(
           `INSERT INTO user_purchases (user_id, shop_item_id, transaction_group_id)
            SELECT $1, $2, uuid_generate_v4()
@@ -118,7 +126,7 @@ export async function POST(request: Request) {
         );
       }
     } catch (err) {
-      console.error('[api/shop/purchase] grantPurchase failed:', err);
+      _logger.error('[api/shop/purchase] grantPurchase failed:', err);
     }
   };
 
@@ -128,7 +136,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, itemId: shopItemSlug, orderId, reconciled: true })
     }
   } catch (err) {
-    console.warn('[api/shop/purchase] redeemedOrders read failed:', err)
+    _logger.warn('[api/shop/purchase] redeemedOrders read failed:', err)
   }
 
   const txHash = typeof body.txHash === 'string' && TX_PATTERN.test(body.txHash) ? (body.txHash as Hex) : null
@@ -181,7 +189,7 @@ export async function POST(request: Request) {
     await grantPurchase();
     return NextResponse.json({ ok: true, itemId: shopItemSlug, orderId, txHash: burnTx })
   } catch (err) {
-    console.error('[api/shop/purchase] sponsored burn failed:', err)
+    _logger.error('[api/shop/purchase] sponsored burn failed:', err)
     return NextResponse.json({ error: 'On-chain ESMS burn failed.', code: 'burn_failed', retryable: true }, { status: 502 })
   }
 }

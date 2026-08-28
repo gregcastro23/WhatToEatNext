@@ -35,17 +35,17 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
  * Apply seasonal adjustments to elemental properties
  */
 export function applySeasonalAdjustments(
-  baseProperties: ElementalProperties,
+  baseProperties: Partial<ElementalProperties>,
   season = "spring",
 ): ElementalProperties {
   const seasonKey = season.toLowerCase();
-  const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
+  const modifier = SEASONAL_MODIFIERS[seasonKey] ?? SEASONAL_MODIFIERS.spring;
 
   return {
-    Fire: (baseProperties?.Fire || 0) * 0.2 + (modifier?.Fire || 0) * 0.2,
-    Water: (baseProperties?.Water || 0) * 0.2 + (modifier?.Water || 0) * 0.2,
-    Air: (baseProperties?.Air || 0) * 0.2 + (modifier?.Air || 0) * 0.2,
-    Earth: (baseProperties?.Earth || 0) * 0.2 + (modifier?.Earth || 0) * 0.2,
+    Fire: (baseProperties.Fire ?? 0) * 0.2 + modifier.Fire * 0.2,
+    Water: (baseProperties.Water ?? 0) * 0.2 + modifier.Water * 0.2,
+    Air: (baseProperties.Air ?? 0) * 0.2 + modifier.Air * 0.2,
+    Earth: (baseProperties.Earth ?? 0) * 0.2 + modifier.Earth * 0.2,
   };
 }
 
@@ -53,18 +53,18 @@ export function applySeasonalAdjustments(
  * Apply lunar phase adjustments to elemental properties
  */
 export function applyLunarPhaseAdjustments(
-  baseProperties: ElementalProperties,
+  baseProperties: Partial<ElementalProperties>,
   lunarPhase = "full moon",
 ): ElementalProperties {
   const phaseKey = lunarPhase.toLowerCase();
   const modifier =
-    LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS["full moon"];
+    LUNAR_PHASE_MODIFIERS[phaseKey] ?? LUNAR_PHASE_MODIFIERS["full moon"];
 
   return {
-    Fire: (baseProperties?.Fire || 0) * 0.2 + (modifier?.Fire || 0) * 0.2,
-    Water: (baseProperties?.Water || 0) * 0.2 + (modifier?.Water || 0) * 0.2,
-    Air: (baseProperties?.Air || 0) * 0.2 + (modifier?.Air || 0) * 0.2,
-    Earth: (baseProperties?.Earth || 0) * 0.2 + (modifier?.Earth || 0) * 0.2,
+    Fire: (baseProperties.Fire ?? 0) * 0.2 + modifier.Fire * 0.2,
+    Water: (baseProperties.Water ?? 0) * 0.2 + modifier.Water * 0.2,
+    Air: (baseProperties.Air ?? 0) * 0.2 + modifier.Air * 0.2,
+    Earth: (baseProperties.Earth ?? 0) * 0.2 + modifier.Earth * 0.2,
   };
 }
 
@@ -72,22 +72,22 @@ export function applyLunarPhaseAdjustments(
  * Calculate time-of-day adjustments
  */
 export function applyTimeOfDayAdjustments(
-  baseProperties: ElementalProperties,
+  baseProperties: Partial<ElementalProperties>,
   isDaytime = true,
 ): ElementalProperties {
   if (isDaytime) {
     return {
-      Fire: baseProperties.Fire * 1.2,
-      Water: (baseProperties?.Water || 0) * 0.2,
-      Air: baseProperties.Air * 1.1,
-      Earth: (baseProperties?.Earth || 0) * 0.2,
+      Fire: (baseProperties.Fire ?? 0) * 1.2,
+      Water: (baseProperties.Water ?? 0) * 0.2,
+      Air: (baseProperties.Air ?? 0) * 1.1,
+      Earth: (baseProperties.Earth ?? 0) * 0.2,
     };
   } else {
     return {
-      Fire: (baseProperties?.Fire || 0) * 0.2,
-      Water: baseProperties.Water * 1.2,
-      Air: (baseProperties?.Air || 0) * 0.2,
-      Earth: baseProperties.Earth * 1.1,
+      Fire: (baseProperties.Fire ?? 0) * 0.2,
+      Water: (baseProperties.Water ?? 0) * 1.2,
+      Air: (baseProperties.Air ?? 0) * 0.2,
+      Earth: (baseProperties.Earth ?? 0) * 1.1,
     };
   }
 }
@@ -173,7 +173,7 @@ export function getSeasonalCookingRecommendations(season: string): {
     },
   };
 
-  return recommendations[seasonKey] || recommendations.spring;
+  return recommendations[seasonKey] ?? recommendations.spring;
 }
 
 /**
@@ -194,7 +194,7 @@ export function calculateSeasonalEffectiveness(
 } {
   const seasonKey = season.toLowerCase();
   const seasonalModifier =
-    SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
+    SEASONAL_MODIFIERS[seasonKey] ?? SEASONAL_MODIFIERS.spring;
 
   // Calculate seasonal alignment
   const seasonalAlignment = calculateElementalAlignment(
@@ -207,7 +207,7 @@ export function calculateSeasonalEffectiveness(
   if (lunarPhase) {
     const phaseKey = lunarPhase.toLowerCase();
     const lunarModifier =
-      LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS["full moon"];
+      LUNAR_PHASE_MODIFIERS[phaseKey] ?? LUNAR_PHASE_MODIFIERS["full moon"];
     lunarAlignment = calculateElementalAlignment(recipeElements, lunarModifier);
   }
 

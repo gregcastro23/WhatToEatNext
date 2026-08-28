@@ -1,5 +1,7 @@
+import * as Astronomy from "astronomy-engine";
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
+import type { ZodiacSignType } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
@@ -8,14 +10,15 @@ import { getSelfBaseUrl } from "@/utils/urlUtils";
 // Use relative API endpoints so they hit the Next.js routes
 // The Next.js /api/... routes will securely proxy to the appropriate backend
 
-const getAstrologizeApiUrl = () => {
+const getAstrologizeApiUrl = (): string => {
   if (typeof window === "undefined") {
     return `${getSelfBaseUrl()}/api/astrologize`;
   }
   return `/api/astrologize`;
 };
 
-const getRecipeRecommendationsApiUrl = () => `/api/astrological/recipe-recommendations-by-chart`;
+const getRecipeRecommendationsApiUrl = (): string =>
+  `/api/astrological/recipe-recommendations-by-chart`;
 
 // Interface for the local API request
 interface LocalAstrologizeRequest {
@@ -53,20 +56,27 @@ interface AstrologizePlanetData {
 
 // Interface for the API response (updated to match actual astrologize API structure)
 interface AstrologizeResponse {
-  _celestialBodies: {
+  _celestialBodies?: {
     all: AstrologizePlanetData[];
-    sun: AstrologizePlanetData;
-    moon: AstrologizePlanetData;
-    mercury: AstrologizePlanetData;
-    venus: AstrologizePlanetData;
-    mars: AstrologizePlanetData;
-    jupiter: AstrologizePlanetData;
-    saturn: AstrologizePlanetData;
-    uranus: AstrologizePlanetData;
-    neptune: AstrologizePlanetData;
-    pluto: AstrologizePlanetData;
+    sun?: AstrologizePlanetData;
+    moon?: AstrologizePlanetData;
+    mercury?: AstrologizePlanetData;
+    venus?: AstrologizePlanetData;
+    mars?: AstrologizePlanetData;
+    jupiter?: AstrologizePlanetData;
+    saturn?: AstrologizePlanetData;
+    uranus?: AstrologizePlanetData;
+    neptune?: AstrologizePlanetData;
+    pluto?: AstrologizePlanetData;
   };
-  birth_info: {
+  ascendant?: {
+    sign: string;
+    degree?: number;
+    minute?: number;
+    exactLongitude?: number;
+  };
+  error?: string;
+  birth_info?: {
     year: number;
     month: number;
     date: number;
@@ -74,7 +84,7 @@ interface AstrologizeResponse {
     minute: number;
     latitude: number;
     longitude: number;
-    ayanamsa: string;
+    ayanamsa?: string;
   };
 }
 
@@ -90,7 +100,7 @@ const DEFAULT_LOCATION = {
 function getCurrentDateTimeLocation(customLocation?: {
   latitude: number;
   longitude: number;
-}) {
+}): LocalAstrologizeRequest {
   const now = new Date();
   return {
     year: now.getUTCFullYear(),
@@ -107,8 +117,8 @@ function getCurrentDateTimeLocation(customLocation?: {
 /**
  * Convert sign name from API to our format
  */
-function normalizeSignName(signName: string): any {
-  const signMap: { [key: string]: any } = {
+function normalizeSignName(signName: string): ZodiacSignType {
+  const signMap: Record<string, ZodiacSignType | undefined> = {
     aries: "aries",
     taurus: "taurus",
     gemini: "gemini",
@@ -122,7 +132,7 @@ function normalizeSignName(signName: string): any {
     aquarius: "aquarius",
     pisces: "pisces",
   };
-  const normalized = signName.toLowerCase() as any;
+  const normalized = signName.toLowerCase();
   return signMap[normalized] ?? "aries";
 }
 
@@ -151,10 +161,6 @@ function calculateApproximateAscendant(
   // straight to `Date.UTC(year, month - 1, day, hour, minute)` below, so reading
   // them with LOCAL getters shifted "now" by the caller's UTC offset and then
   // reinterpreted the shifted wall clock as UTC — a double-counted offset.
-  //
-  // This path is worse than the natal one because it also runs in the BROWSER,
-  // where the offset is the visitor's own zone rather than the server's. A user
-  // in UTC+13 got an Ascendant computed for an instant 13 hours off, silently.
   const now = new Date();
   const year = requestData.year ?? now.getUTCFullYear();
   const month = requestData.month ?? (now.getUTCMonth() + 1);
@@ -165,10 +171,9 @@ function calculateApproximateAscendant(
   const latitude = requestData.latitude ?? DEFAULT_LOCATION.latitude;
 
   // Using accurate math via astronomy-engine
-  let lstRad = 0;
-  let oblRad = 0;
+  let lstRad: number;
+  let oblRad: number;
   try {
-    const Astronomy = require("astronomy-engine");
     const astroTime = new Astronomy.AstroTime(new Date(Date.UTC(year, month - 1, day, hour, minute)));
     const gmst = Astronomy.SiderealTime(astroTime);
     // Convert LST to hours, then to radians
@@ -237,10 +242,10 @@ export async function fetchPlanetaryPositions(
       ),
     );
     const accurate = getAccuratePlanetaryPositions(fallbackDate);
-    const positions: Record<string, PlanetPosition> = {};
+    const positions: Record<string, PlanetPosition | undefined> = {};
     for (const [planet, data] of Object.entries(accurate)) {
       positions[planet] = {
-        sign: data.sign || "aries",
+        sign: data.sign,
         degree: Math.floor(data.degree),
         minute: Math.floor((data.degree - Math.floor(data.degree)) * 60),
         exactLongitude: data.exactLongitude,
@@ -248,10 +253,8 @@ export async function fetchPlanetaryPositions(
       };
     }
     // Add Ascendant from approximate calculation if not present
-    if (!positions.Ascendant) {
-      positions.Ascendant = calculateApproximateAscendant(requestData);
-    }
-    return positions;
+    positions["Ascendant"] ??= calculateApproximateAscendant(requestData);
+    return positions as Record<string, PlanetPosition>;
   };
 
   return astrologizeApiCircuitBreaker.call(async () => {
@@ -300,7 +303,7 @@ export async function fetchPlanetaryPositions(
       );
     }
 
-    const data: AstrologizeResponse = await response.json();
+    const data = (await response.json()) as AstrologizeResponse;
 
     // Extract planetary positions from the new API structure;
     const celestialBodies = data._celestialBodies;
@@ -311,20 +314,18 @@ export async function fetchPlanetaryPositions(
 
     // If the API returned a graceful-degradation error response with empty bodies,
     // throw so the circuit breaker activates the local fallback positions.
-    const hasError = (data as any).error;
-    const hasNoPlanets =
-      !celestialBodies.all ||
-      celestialBodies.all.length === 0;
+    const hasError = Boolean(data.error);
+    const hasNoPlanets = celestialBodies.all.length === 0;
     if (hasError && hasNoPlanets) {
       throw new Error(
-        `API returned error: ${(data as any).error ?? "Calculations unavailable"}`,
+        `API returned error: ${data.error ?? "Calculations unavailable"}`,
       );
     }
 
-    const positions: { [key: string]: PlanetPosition } = {};
+    const positions: Record<string, PlanetPosition> = {};
 
     // Process each planet from the celestial bodies
-    const planetMap = {
+    const planetMap: Record<string, string> = {
       sun: "Sun",
       moon: "Moon",
       mercury: "Mercury",
@@ -338,7 +339,7 @@ export async function fetchPlanetaryPositions(
     };
 
     Object.entries(planetMap).forEach(([apiKey, planetName]) => {
-      const planetData = celestialBodies[apiKey as keyof typeof planetMap];
+      const planetData = celestialBodies[apiKey as keyof typeof celestialBodies] as AstrologizePlanetData | undefined;
       if (planetData) {
         const sign = normalizeSignName(planetData.Sign.key);
         const decimalDegrees = planetData.ChartPosition.Ecliptic.DecimalDegrees;
@@ -349,14 +350,14 @@ export async function fetchPlanetaryPositions(
           degree: arcDegrees.degrees,
           minute: arcDegrees.minutes,
           exactLongitude: calculateExactLongitude(decimalDegrees),
-          isRetrograde: planetData.isRetrograde || false,
+          isRetrograde: Boolean(planetData.isRetrograde),
         };
       }
     });
 
     // Use server-computed Ascendant when available (uses Astronomy.SiderealTime —
     // accurate to sub-arcsecond). Fall back to local approximate calculation.
-    const serverAscendant = (data as any).ascendant;
+    const serverAscendant = data.ascendant;
     if (
       serverAscendant?.sign &&
       typeof serverAscendant.exactLongitude === "number"
@@ -381,7 +382,7 @@ export async function fetchPlanetaryPositions(
       Object.keys(positions),
     );
     log.info("🌟 Using zodiac system: ", {
-      system: data.birth_info?.ayanamsa || "TROPICAL",
+      system: data.birth_info?.ayanamsa ?? "TROPICAL",
     });
     return positions;
   }, fallbackPositions);
@@ -425,7 +426,7 @@ export async function getPlanetaryPositionsForDateTime(
 export async function testAstrologizeApi(): Promise<boolean> {
   try {
     const positions = await fetchPlanetaryPositions();
-    return Object.keys(positions || {}).length > 0;
+    return Object.keys(positions).length > 0;
   } catch (error) {
     _logger.error("Astrologize API test failed: ", error);
     return false;

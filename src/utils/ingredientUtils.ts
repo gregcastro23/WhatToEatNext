@@ -20,10 +20,11 @@
 
 import type { IngredientCategory, Modality } from "@/data/ingredients/types";
 import type {
-  Ingredient,
   RecipeIngredient,
   IngredientMappingType,
- ElementalProperties } from "@/types/alchemy";
+  ElementalProperties,
+} from "@/types/alchemy";
+import type { Ingredient } from "@/types/ingredient";
 import { elementalSignature } from "@/utils/elemental/signature";
 
 /**
@@ -148,9 +149,11 @@ export function determineIngredientModality(
 export function isRecipeIngredient(
   ingredient: unknown,
 ): ingredient is RecipeIngredient {
-  const ingredientData = ingredient as any;
+  if (!ingredient || typeof ingredient !== "object") {
+    return false;
+  }
+  const ingredientData = ingredient as Record<string, unknown>;
   return (
-    Boolean(ingredient) &&
     typeof ingredientData.name === "string" &&
     typeof ingredientData.amount === "number" &&
     typeof ingredientData.unit === "string"
@@ -163,15 +166,17 @@ export function isRecipeIngredient(
 export function isFullIngredient(
   ingredient: unknown,
 ): ingredient is Ingredient {
-  const ingredientData = ingredient as any;
-  return Boolean(
-    ingredient &&
+  if (!ingredient || typeof ingredient !== "object") {
+    return false;
+  }
+  const ingredientData = ingredient as Record<string, unknown>;
+  return (
     typeof ingredientData.name === "string" &&
     typeof ingredientData.category === "string" &&
-    ingredientData.elementalProperties &&
+    Boolean(ingredientData.elementalProperties) &&
     Array.isArray(ingredientData.qualities) &&
-    ingredientData.storage &&
-    typeof ingredientData.storage === "object",
+    Boolean(ingredientData.storage) &&
+    typeof ingredientData.storage === "object"
   );
 }
 
@@ -326,44 +331,19 @@ export function getDominantElement(
  * Converts an ingredient mapping to a full ingredient
  */
 export function mapToIngredient(mapping: IngredientMappingType): Ingredient {
-  // Set default values for required properties
-  const ingredient = {
-    name: (mapping.name as unknown) ?? "",
-    category:
-      (mapping.category as unknown as IngredientCategory) || "culinary_herb",
-    elementalProperties:
-      (mapping.elementalProperties) || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      },
-    qualities: (mapping.qualities) || [],
-    storage: (mapping.storage as unknown) ?? {
-      duration: "unknown",
-    },
-    // Add missing required properties for Ingredient interface
-    amount: (mapping as unknown as any).amount ?? 1,
-    astrologicalProfile: (mapping as unknown as any).astrologicalProfile ?? {
+  const ingredient: Ingredient = {
+    name: mapping.name,
+    category: (mapping.category as IngredientCategory) || "culinary_herb",
+    elementalProperties: mapping.elementalProperties,
+    qualities: mapping.qualities,
+    cookingMethods: mapping.cookingMethods,
+    affinities: mapping.affinities,
+    astrologicalProfile: {
       elementalAffinity: { base: "Earth" },
       rulingPlanets: [],
       zodiacAffinity: [],
     },
-  } as unknown as Ingredient;
-
-  // Add any additional properties from the mapping
-  for (const key in mapping) {
-    if (
-      key !== "name" &&
-      key !== "category" &&
-      key !== "elementalProperties" &&
-      key !== "qualities"
-    ) {
-      // `key` ranges only over `mapping`'s own enumerable keys, all of which
-      // are literal keys of `IngredientMappingType`.
-      (ingredient as any)[key] = mapping[key as keyof IngredientMappingType];
-    }
-  }
+  };
 
   return ingredient;
 }
@@ -376,17 +356,23 @@ export function ingredientToRecipeIngredient(
   amount = 1,
   unit = "item",
 ): RecipeIngredient {
+  const ingredientRec = ingredient as unknown as Record<string, unknown>;
+  const qualities = Array.isArray(ingredientRec.qualities)
+    ? (ingredientRec.qualities as string[])
+    : [];
+  const origin = typeof ingredientRec.origin === "string" ? ingredientRec.origin : undefined;
+  const seasonality = ingredientRec.seasonality as RecipeIngredient["seasonality"];
+
   return {
     name: ingredient.name,
     amount,
     unit,
     category: ingredient.category || "culinary_herb",
     elementalProperties: ingredient.elementalProperties,
-    qualities: (ingredient as any).qualities ?? [],
+    qualities,
     astrologicalProfile: ingredient.astrologicalProfile,
-    // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as any).origin ?? undefined,
-    seasonality: (ingredient as any).seasonality ?? undefined,
+    origin,
+    seasonality,
   };
 }
 

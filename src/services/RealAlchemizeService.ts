@@ -107,7 +107,7 @@ function isExcludedAspectBody(planet: string): boolean {
  */
 // Types
 export interface PlanetaryPosition {
-  sign: any;
+  sign: string;
   degree: number;
   minute: number;
   isRetrograde?: boolean;
@@ -166,25 +166,28 @@ function toCanonicalESMSPositions(
   return positions;
 }
 
+const VALID_SIGNS = [
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
+] as const;
+
+export type ZodiacSign = (typeof VALID_SIGNS)[number];
+
 // Utility functions
-function normalizeSign(sign: string): any {
-  const normalized = sign.toLowerCase();
-  const validSigns: any[] = [
-    "aries",
-    "taurus",
-    "gemini",
-    "cancer",
-    "leo",
-    "virgo",
-    "libra",
-    "scorpio",
-    "sagittarius",
-    "capricorn",
-    "aquarius",
-    "pisces",
-  ];
-  if (validSigns.includes(normalized as any)) {
-    return normalized as any;
+function normalizeSign(sign: string): ZodiacSign {
+  const normalized = sign.toLowerCase() as ZodiacSign;
+  if (VALID_SIGNS.includes(normalized)) {
+    return normalized;
   }
   throw new Error(`Invalid zodiac sign: ${sign}`);
 }
@@ -664,17 +667,22 @@ export function loadPlanetaryPositionsWithMeta(): {
       "extracted-planetary-positions.json",
       "utf8",
     );
-    const positions = JSON.parse(rawData);
+    const parsed = JSON.parse(rawData) as unknown;
+    const positions =
+      parsed && typeof parsed === "object"
+        ? (parsed as Record<string, Record<string, unknown>>)
+        : {};
     // Convert to the format expected by alchemize
     const convertedPositions: Record<string, PlanetaryPosition> = {};
     for (const [planetName, planetData] of Object.entries(positions)) {
-      const data = planetData as any;
-      convertedPositions[planetName] = {
-        sign: normalizeSign(String(data.sign ?? "")),
-        degree: Number(data.degree) || 0,
-        minute: Number(data.minute) || 0,
-        isRetrograde: Boolean(data.isRetrograde) || false,
-      };
+      if (planetData && typeof planetData === "object") {
+        convertedPositions[planetName] = {
+          sign: normalizeSign(String(planetData.sign ?? "")),
+          degree: Number(planetData.degree) || 0,
+          minute: Number(planetData.minute) || 0,
+          isRetrograde: Boolean(planetData.isRetrograde),
+        };
+      }
     }
     return { positions: convertedPositions, degraded: null };
   } catch (error) {

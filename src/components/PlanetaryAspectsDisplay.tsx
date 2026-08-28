@@ -74,7 +74,7 @@ function formatDays(days: number): string {
 
 // ── Strength bar ─────────────────────────────────────────────────────────────
 
-function StrengthBar({ strength, applying, type }: { strength: number; applying: boolean; type: string }) {
+function StrengthBar({ strength, applying, type }: { strength: number; applying: boolean; type: string }): React.JSX.Element {
   const _style = aspectStyle(type);
   const pct = `${(strength * 100).toFixed(0)}%`;
   return (
@@ -98,7 +98,7 @@ function AspectCard({
   aspect: AspectEntry;
   onOpen: (a: AspectEntry) => void;
   pending: boolean;
-}) {
+}): React.JSX.Element {
   const style = aspectStyle(aspect.type);
   const glyph1 = PLANET_GLYPHS[aspect.planet1] ?? "🪐";
   const glyph2 = PLANET_GLYPHS[aspect.planet2] ?? "🪐";
@@ -171,7 +171,7 @@ function AspectCard({
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function PlanetaryAspectsDisplay() {
+export default function PlanetaryAspectsDisplay(): React.JSX.Element {
   const [data, setData] = useState<AspectsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -179,21 +179,23 @@ export default function PlanetaryAspectsDisplay() {
   const questFired = useRef(false);
   const { open, pending } = useTransitGroupChat();
 
-  const openCouncil = (a: AspectEntry) => {
+  const openCouncil = (a: AspectEntry): void => {
     const g = groupForAspect(
       { planet: a.planet1, sign: a.sign1 ?? "", degree: a.degree1 ?? 0 },
       { planet: a.planet2, sign: a.sign2 ?? "", degree: a.degree2 ?? 0 },
       a.type,
     );
-    if (g) void open(g.participants, g.descriptor, "aspects-display");
+    if (g) {
+      open(g.participants, g.descriptor, "aspects-display").catch(() => {});
+    }
   };
 
-  const fetchData = async () => {
+  const fetchData = async (): Promise<void> => {
     try {
       setLoading(true);
       const res = await fetch("/api/alchm-quantities/aspects");
       if (!res.ok) throw new Error("Failed to fetch aspects");
-      const json = await res.json();
+      const json = (await res.json()) as AspectsData;
       setData(json);
       setError(null);
       if (!questFired.current) {
@@ -208,10 +210,12 @@ export default function PlanetaryAspectsDisplay() {
   };
 
   useEffect(() => {
-    void fetchData();
+    fetchData().catch(() => {});
     // Aspects change slowly — refresh every 2 minutes
-    const iv = setInterval(() => { void fetchData(); }, 300_000);
-    return () => clearInterval(iv);
+    const iv = setInterval(() => {
+      fetchData().catch(() => {});
+    }, 300_000);
+    return (): void => clearInterval(iv);
   }, []);
 
   if (loading) {
@@ -264,7 +268,9 @@ export default function PlanetaryAspectsDisplay() {
           ))}
         </div>
         <button
-          onClick={() => { void fetchData(); }}
+          onClick={() => {
+            fetchData().catch(() => {});
+          }}
           className="p-1.5 rounded-lg bg-gray-800/40 hover:bg-indigo-900/30 border border-gray-700/40 hover:border-indigo-500/30 text-gray-400 hover:text-indigo-300 transition-colors"
           title="Refresh aspects"
         >

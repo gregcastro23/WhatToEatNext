@@ -24,13 +24,13 @@ import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { usePantry } from "@/hooks/usePantry";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
 import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
+import { logger as _logger } from "@/lib/logger";
 import { IngredientService } from "@/services/IngredientService";
 import type {
   AlchemicalPropertiesType,
   ElementalProperties,
 } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
-import { logger as _logger } from "@/lib/logger";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";

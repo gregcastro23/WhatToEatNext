@@ -57,13 +57,13 @@ const unifiedSeasonalProfiles: Record<
 // this map existed and was removed 2026-08-13; note this file does NOT import
 // the real `unifiedIngredients` catalog from `@/data/unified/ingredients`, so
 // nothing here resolves ingredients yet.
-const unifiedIngredientsByName: Record<string, UnifiedIngredient> = {};
+const unifiedIngredientsByName: Record<string, UnifiedIngredient | undefined> = {};
 // Import existing cuisine data
 // ===== ENHANCED CUISINE INTEGRATION INTERFACES =====;
 export interface CuisineMonicaProfile {
   baseMonicaConstant: number; // Base Monica constant for cuisine
   seasonalModifiers: Record<Season, number>; // Seasonal Monica adjustments
-  cookingMethodOptimization: { [key: string]: number }; // Method-specific Monica optimization
+  cookingMethodOptimization: { [key: string]: number | undefined }; // Method-specific Monica optimization
   temperaturePreferences: {
     // Temperature preferences for Monica optimization
     optimal: number;
@@ -213,61 +213,41 @@ export interface UnifiedCuisineIntegration {
 }
 // ===== CONSOLIDATED CUISINE DATA =====;
 // Enhanced cuisine matrix that includes all ingredient categories
-export const enhancedCuisineMatrix: Record<string, Record<string, string[]>> = {
-  // Consolidate existing matrices (with fallbacks in case imports fail)
-  // Fallback shape mirrors the real `grainCuisineMatrix` (flat cuisine-name
-  // arrays); `grainCuisineMatrix` is a statically-imported const so it is
-  // always truthy and this branch never actually executes.
-  grain: grainCuisineMatrix || {
-    white_rice: ["japanese", "chinese", "korean", "indian", "thai"],
-    brown_rice: ["american", "macrobiotic", "health_focused"],
-    quinoa: ["peruvian", "bolivian", "health_focused"],
-    semolina: ["italian", "north_african", "indian"],
-  },
-  herb: herbCuisineMatrix || {
-    basil: ["italian", "thai", "mediterranean"],
-    cilantro: ["mexican", "indian", "thai", "vietnamese"],
-    parsley: ["middle-eastern", "european", "american"],
-    oregano: ["italian", "greek", "mexican"],
-  },
+export const enhancedCuisineMatrix: Record<string, Record<string, string[] | undefined>> = {
+  grain: grainCuisineMatrix,
+  herb: herbCuisineMatrix,
   // Extended matrices for comprehensive coverage
   spice: {
     cumin: ["indian", "middle-eastern", "mexican", "african"],
-    cinnamon: ["indian", "middle-eastern", "mexican", "american"],
-    paprika: ["hungarian", "spanish", "american", "african"],
-    turmeric: ["indian", "thai", "middle-eastern"],
-    garam_masala: ["indian"],
-    five_spice: ["chinese", "vietnamese"],
-    za_atar: ["middle-eastern", "greek"],
-    berbere: ["african", "ethiopian"],
-    chili_powder: ["mexican", "american", "indian"],
-    saffron: ["spanish", "indian", "middle-eastern", "french"],
-  },
-  protein: {
-    beef: ["american", "french", "italian", "mexican", "korean"],
-    chicken: ["american", "french", "italian", "indian", "chinese", "thai"],
-    pork: ["american", "chinese", "korean", "german", "italian"],
-    lamb: ["middle-eastern", "greek", "indian", "african"],
-    fish: ["japanese", "scandinavian", "mediterranean", "chinese"],
-    tofu: ["chinese", "japanese", "korean", "vietnamese", "thai"],
-    paneer: ["indian"],
-    seafood: ["japanese", "italian", "spanish", "thai", "chinese"],
+    coriander: ["indian", "middle-eastern", "mexican", "thai"],
+    turmeric: ["indian", "southeast-asian", "middle-eastern"],
+    paprika: ["spanish", "hungarian", "mexican", "american"],
+    cinnamon: ["middle-eastern", "indian", "mexican", "moroccan"],
+    cardamom: ["indian", "middle-eastern", "scandinavian"],
+    ginger: ["chinese", "japanese", "indian", "thai", "korean"],
+    garlic: ["italian", "chinese", "french", "korean", "mediterranean"],
+    chili: ["mexican", "thai", "indian", "sichuan", "korean"],
+    black_pepper: ["universal", "french", "italian", "american"],
+    saffron: ["spanish", "persian", "indian", "italian"],
+    sumac: ["middle-eastern", "mediterranean", "turkish"],
+    star_anise: ["chinese", "vietnamese"],
+    fennel: ["italian", "indian", "french"],
+    clove: ["indian", "indonesian", "middle-eastern"],
   },
   vegetable: {
-    tomato: ["italian", "mexican", "american", "spanish", "greek"],
-    onion: ["french", "indian", "american", "italian", "chinese"],
-    garlic: ["italian", "chinese", "korean", "french", "spanish"],
-    ginger: ["chinese", "indian", "thai", "japanese", "korean"],
-    bell_pepper: ["mexican", "american", "hungarian", "chinese"],
-    eggplant: ["italian", "middle-eastern", "indian", "chinese"],
-    mushroom: ["french", "italian", "chinese", "japanese"],
-    cabbage: ["korean", "german", "chinese", "american"],
+    tomato: ["italian", "mexican", "spanish", "indian", "american"],
+    onion: ["universal", "french", "italian", "indian", "mexican"],
+    bell_pepper: ["mexican", "cajun", "chinese", "mediterranean"],
+    eggplant: ["mediterranean", "middle-eastern", "italian", "chinese"],
+    zucchini: ["italian", "french", "mediterranean"],
+    cabbage: ["korean", "chinese", "german", "eastern-european"],
+    mushroom: ["japanese", "french", "chinese", "italian"],
     spinach: ["indian", "greek", "italian", "middle-eastern"],
     carrot: ["french", "american", "chinese", "indian"],
   },
 };
 // Cuisine Monica constants (estimated based on cooking methods and complexity)
-export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
+export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile | undefined } = {
   italian: {
     baseMonicaConstant: 1.15,
     seasonalModifiers: {
@@ -542,7 +522,7 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
 // ===== UNIFIED CUISINE INTEGRATION SYSTEM CLASS =====;
 export class UnifiedCuisineIntegrationSystem {
   private readonly enhancedCookingMethods: {
-    [key: string]: EnhancedCookingMethod;
+    [key: string]: EnhancedCookingMethod | undefined;
   };
   private readonly cuisineCompatibilityCache: Map<
     string,
@@ -811,8 +791,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Check each ingredient category
     for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredient, cuisines] of Object.entries(ingredientMap)) {
-        const list = cuisines;
-        if (list.includes(cuisine1) && list.includes(cuisine2)) {
+        if (cuisines && cuisines.includes(cuisine1) && cuisines.includes(cuisine2)) {
           sharedIngredients.push(ingredient);
         }
       }
@@ -842,7 +821,7 @@ export class UnifiedCuisineIntegrationSystem {
   ): number {
     // This would integrate with existing cuisine elemental properties
     // For now, using estimated elemental profiles
-    const elementalProfiles: { [key: string]: ElementalProperties } = {
+    const elementalProfiles: { [key: string]: ElementalProperties | undefined } = {
       italian: createElementalProperties({
         Fire: 0.25,
         Water: 0.25,
@@ -899,8 +878,8 @@ export class UnifiedCuisineIntegrationSystem {
       Earth: 0.4,
       Air: 0.4,
     });
-    const profile1 = elementalProfiles[cuisine1] || defaultElemental;
-    const profile2 = elementalProfiles[cuisine2] || defaultElemental;
+    const profile1 = elementalProfiles[cuisine1] ?? defaultElemental;
+    const profile2 = elementalProfiles[cuisine2] ?? defaultElemental;
     // Calculate elemental compatibility using self-reinforcement principles
     let compatibility = 0;
     let totalWeight = 0;
@@ -944,14 +923,9 @@ export class UnifiedCuisineIntegrationSystem {
     if (!monica1 || !monica2) return seasonalCompatibility;
     // Calculate compatibility for each season based on Monica modifiers
     for (const season of ["spring", "summer", "autumn", "winter"] as Season[]) {
-      // Get modifiers from the appropriate season (handle both 'autumn' and 'fall')
-      const modifier1 =
-        monica1.seasonalModifiers[season] ??
-        (season === "autumn" ? monica1.seasonalModifiers["fall" as Season] : 0);
-      const modifier2 =
-        monica2.seasonalModifiers[season] ??
-        (season === "autumn" ? monica2.seasonalModifiers["fall" as Season] : 0);
-      const modifierDifference = Math.abs(modifier1 - modifier2);
+      const modifierDifference = Math.abs(
+        monica1.seasonalModifiers[season] - monica2.seasonalModifiers[season],
+      );
       seasonalCompatibility[season] = Math.max(
         0.71 - modifierDifference * 0.5,
         0,
@@ -965,8 +939,8 @@ export class UnifiedCuisineIntegrationSystem {
    * Calculate cooking method compatibility
    */
   private calculateCookingMethodCompatibility(
-    methods1: { [key: string]: number },
-    methods2: { [key: string]: number },
+    methods1: { [key: string]: number | undefined },
+    methods2: { [key: string]: number | undefined },
   ): number {
     const sharedMethods = Object.keys(methods1).filter((method) =>
       Object.keys(methods2).includes(method),
@@ -974,7 +948,7 @@ export class UnifiedCuisineIntegrationSystem {
     if (sharedMethods.length === 0) return 0.5;
     let totalCompatibility = 0;
     for (const method of sharedMethods) {
-      const diff = Math.abs(methods1[method] - methods2[method]);
+      const diff = Math.abs((methods1[method] ?? 0) - (methods2[method] ?? 0));
       totalCompatibility += Math.max(0.51 - diff, 0);
     }
     return totalCompatibility / sharedMethods.length;
@@ -1114,7 +1088,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Get ingredients from enhanced cuisine matrix
     for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredientName, cuisines] of Object.entries(ingredientMap)) {
-        if (cuisines.includes(cuisine)) {
+        if (cuisines?.includes(cuisine)) {
           const ingredient = unifiedIngredientsByName[ingredientName];
           if (ingredient) {
             ingredients.push(ingredient);
@@ -1177,7 +1151,7 @@ export class UnifiedCuisineIntegrationSystem {
     blendRatio: number,
   ): ElementalProperties {
     // Get elemental profiles (using estimated profiles for now)
-    const elementalProfiles: { [key: string]: ElementalProperties } = {
+    const elementalProfiles: { [key: string]: ElementalProperties | undefined } = {
       italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
       chinese: { Fire: 0.25, Water: 0.3, Earth: 0.25, Air: 0.2 },
       indian: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
@@ -1194,8 +1168,8 @@ export class UnifiedCuisineIntegrationSystem {
       Earth: 0.25,
       Air: 0.25,
     };
-    const profile1 = elementalProfiles[cuisine1] || defaultProfile;
-    const profile2 = elementalProfiles[cuisine2] || defaultProfile;
+    const profile1 = elementalProfiles[cuisine1] ?? defaultProfile;
+    const profile2 = elementalProfiles[cuisine2] ?? defaultProfile;
     // Blend elemental profiles
     return {
       Fire: profile1.Fire * blendRatio + profile2.Fire * (1 - blendRatio),
@@ -1212,7 +1186,7 @@ export class UnifiedCuisineIntegrationSystem {
     cuisine2: string,
     blendRatio: number,
   ): number {
-    const kalchmEstimates: { [key: string]: number } = {
+    const kalchmEstimates: { [key: string]: number | undefined } = {
       italian: 1.15,
       chinese: 1.25,
       indian: 1.35,
@@ -1228,8 +1202,8 @@ export class UnifiedCuisineIntegrationSystem {
       spanish: 1.17,
       african: 1.08,
     };
-    const kalchm1 = kalchmEstimates[cuisine1] || 1.0;
-    const kalchm2 = kalchmEstimates[cuisine2] || 1.0;
+    const kalchm1 = kalchmEstimates[cuisine1] ?? 1.0;
+    const kalchm2 = kalchmEstimates[cuisine2] ?? 1.0;
     return kalchm1 * blendRatio + kalchm2 * (1 - blendRatio);
   }
   /**
@@ -1263,7 +1237,7 @@ export class UnifiedCuisineIntegrationSystem {
    * Generate fusion dishes
    */
   generateFusionDishes(cuisine1: string, cuisine2: string): string[] {
-    const dishCombinations: Record<string, Record<string, string[]>> = {
+    const dishCombinations: Record<string, Record<string, string[] | undefined> | undefined> = {
       italian: {
         chinese: [
           "Ramen Carbonara",
@@ -1305,40 +1279,6 @@ export class UnifiedCuisineIntegrationSystem {
       Season,
       CuisineSeasonalAdaptation
     >;
-    // Safety, check: ensure seasonal system is available
-    if (!unifiedSeasonalSystem || !unifiedSeasonalProfiles) {
-      // Return empty adaptations if seasonal system is not available
-      for (const season of [
-        "spring",
-        "summer",
-        "autumn",
-        "fall",
-        "winter",
-      ] as Season[]) {
-        adaptations[season] = {
-          season,
-          adaptedIngredients: fusionIngredients,
-          adaptedCookingMethods:
-            fusionCookingMethods as unknown as CookingMethod[],
-          seasonalModifiers: {
-            temperatureAdjustment: 0,
-            timingAdjustment: 0,
-            intensityModifier: "normal",
-          },
-          traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(
-            cuisine1,
-            cuisine2,
-            season,
-          ),
-          monicaOptimization: 0.5,
-          kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(
-            cuisine1,
-            cuisine2,
-          ),
-        };
-      }
-      return adaptations;
-    }
     for (const season of [
       "spring",
       "summer",
@@ -1477,7 +1417,7 @@ export class UnifiedCuisineIntegrationSystem {
     if (cuisine1 !== cuisine2 && cuisines?.[cuisine2]) {
       dishes.push(...cuisines[cuisine2].dishes);
     }
-    return (dishes || []).filter(
+    return dishes.filter(
       (dish, index, self) => self.indexOf(dish) === index,
     );
   }
@@ -1486,16 +1426,12 @@ export class UnifiedCuisineIntegrationSystem {
    * Get cuisine seasonal compatibility
    */
   getCuisineSeasonalCompatibility(cuisine: string, season: Season): number {
-    // If unified system or seasonal data is not available, return default
-    if (!unifiedSeasonalSystem || !unifiedSeasonalProfiles) {
-      return 0.5;
-    }
     const elementalBonus = this.calculateSeasonalElementalBonus(
       cuisine,
       season,
     );
     const monicaConstant =
-      cuisineMonicaConstants[cuisine].seasonalModifiers[season] || 0.5;
+      cuisineMonicaConstants[cuisine]?.seasonalModifiers[season] ?? 0.5;
     // Calculate score
     return monicaConstant * 0.6 + elementalBonus * 0.4;
   }
@@ -1514,7 +1450,7 @@ export class UnifiedCuisineIntegrationSystem {
       const elementalDominance = profileData.elementalDominance as
         | Record<string, number>
         | undefined;
-      const elementWeight = elementalDominance?.[element] || 0;
+      const elementWeight = elementalDominance?.[element] ?? 0;
       if (elementWeight > 0) {
         const match = cuisineElements[element] * elementWeight;
         score += match;
@@ -1529,7 +1465,7 @@ export class UnifiedCuisineIntegrationSystem {
    * Get cuisine elemental profile
    */
   private getCuisineElementalProfile(cuisine: string): ElementalProperties {
-    const elementalProfiles: { [key: string]: ElementalProperties } = {
+    const elementalProfiles: { [key: string]: ElementalProperties | undefined } = {
       italian: createElementalProperties({
         Fire: 0.25,
         Water: 0.25,
@@ -1580,7 +1516,7 @@ export class UnifiedCuisineIntegrationSystem {
       }),
     };
     return (
-      elementalProfiles[cuisine] ||
+      elementalProfiles[cuisine] ??
       createElementalProperties({
         Fire: 0.25,
         Water: 0.25,
@@ -1595,7 +1531,7 @@ export class UnifiedCuisineIntegrationSystem {
   getSeasonalCuisineRecommendations(season: Season): string[] {
     const cuisines = Object.keys(cuisineMonicaConstants);
     // Calculate seasonal compatibility for each cuisine
-    const compatibilityScores = (cuisines || []).map((cuisine) => ({
+    const compatibilityScores = cuisines.map((cuisine) => ({
       cuisine,
       compatibility: this.getCuisineSeasonalCompatibility(cuisine, season),
     }));
@@ -1912,10 +1848,8 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalProfile = unifiedSeasonalProfiles[season];
     const profileData = seasonalProfile as unknown as Record<string, unknown>;
     const { optimalCookingMethods } = profileData;
-    const seasonalCookingMethods = (
-      fusionProfile.fusionCookingMethods || []
-    ).filter((method) => {
-      if (!seasonalProfile || !optimalCookingMethods) {
+    const seasonalCookingMethods = fusionProfile.fusionCookingMethods.filter((method) => {
+      if (!optimalCookingMethods) {
         return false; // Skip if seasonal profile is missing
       }
       return Array.isArray(optimalCookingMethods)
@@ -1974,7 +1908,7 @@ export class UnifiedCuisineIntegrationSystem {
   analyzeCuisineIngredients(cuisine: string): CuisineIngredientAnalysis {
     const ingredients = this.getCuisineIngredients(cuisine);
     // Categorize ingredients;
-    const categorizedIngredients: Record<string, UnifiedIngredient[]> = {
+    const categorizedIngredients: Record<string, UnifiedIngredient[] | undefined> = {
       spices: [],
       herbs: [],
       vegetables: [],
@@ -1985,17 +1919,17 @@ export class UnifiedCuisineIntegrationSystem {
       other: [],
     };
     for (const ingredient of ingredients) {
-      const category = ingredient.category || "other";
-      if (categorizedIngredients[category]) {
-        categorizedIngredients[category].push(ingredient);
+      const catList = categorizedIngredients[ingredient.category];
+      if (catList) {
+        catList.push(ingredient);
       } else {
-        categorizedIngredients.other.push(ingredient);
+        categorizedIngredients.other?.push(ingredient);
       }
     }
     // Calculate Kalchm profile
-    const kalchmValues = (ingredients || [])
+    const kalchmValues = ingredients
       .map((ing) => ing.kalchm)
-      .filter((v) => v !== undefined);
+      .filter((v): v is number => v !== undefined);
     const kalchmProfile = {
       averageKalchm:
         kalchmValues.length > 0
@@ -2023,15 +1957,16 @@ export class UnifiedCuisineIntegrationSystem {
         }
       }
     }
-    const commonIngredients = (ingredients || []).filter((ing) =>
+    const commonIngredients = ingredients.filter((ing) =>
       allCuisineIngredients.has(ing.name),
     );
-    const uniqueIngredients = (ingredients || []).filter(
+    const uniqueIngredients = ingredients.filter(
       (ing) => !allCuisineIngredients.has(ing.name),
     );
     return {
-      totalIngredients: (ingredients || []).length,
-      categorizedIngredients,
+      totalIngredients: ingredients.length,
+      categorizedIngredients:
+        categorizedIngredients as Record<string, UnifiedIngredient[]>,
       kalchmProfile,
       elementalProfile,
       seasonalAvailability,
@@ -2060,7 +1995,7 @@ export class UnifiedCuisineIntegrationSystem {
       else distribution["high (1.5+)"]++;
     }
     // Convert to percentages
-    const total = (kalchmValues || []).length;
+    const total = kalchmValues.length;
     for (const range in distribution) {
       distribution[range] = distribution[range] / total;
     }
@@ -2085,7 +2020,7 @@ export class UnifiedCuisineIntegrationSystem {
       aggregate.Air += ingredient.elementalProperties.Air;
     }
     // Normalize
-    const total = (ingredients || []).length;
+    const total = ingredients.length || 1;
     aggregate.Fire /= total;
     aggregate.Water /= total;
     aggregate.Earth /= total;

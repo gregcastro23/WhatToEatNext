@@ -44,6 +44,7 @@ jest.mock("pg", () => {
 
 jest.mock("@/lib/logger", () => ({
   logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn() },
+  _logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn(), debug: jest.fn() },
 }));
 
 const DB_ENV_KEYS = [
@@ -194,10 +195,10 @@ describe("the summary logged before validation", () => {
   it("reports the resolved topology and carries no credentials", () => {
     const { initializeDatabase } = withEnv({});
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { logger } = require("@/lib/logger");
+    const { _logger } = require("@/lib/logger");
     initializeDatabase();
 
-    const call = (logger.info as jest.Mock).mock.calls.find(
+    const call = (_logger.info as jest.Mock).mock.calls.find(
       ([msg]: [string]) => msg === "Database configuration resolved",
     );
     expect(call).toBeDefined();
@@ -214,10 +215,10 @@ describe("the summary logged before validation", () => {
     // beyond the exception, and the resolved values stay unobservable.
     const { initializeDatabase } = withEnv({ DB_POOLER_MODE: "sesion" });
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { logger } = require("@/lib/logger");
+    const { _logger } = require("@/lib/logger");
     expect(() => initializeDatabase()).toThrow();
 
-    expect(logger.info).toHaveBeenCalledWith(
+    expect(_logger.info).toHaveBeenCalledWith(
       "Database configuration resolved",
       expect.objectContaining({ poolerMode: "sesion" }),
     );

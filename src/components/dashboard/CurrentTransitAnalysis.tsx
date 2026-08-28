@@ -142,7 +142,9 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
     });
 
     const g = groupForPlanet(planet, { planet, sign: pos.sign, degree: pos.degree });
-    if (g) void open(g.participants, g.descriptor, 'current-transit-analysis');
+    if (g) {
+      open(g.participants, g.descriptor, 'current-transit-analysis').catch(() => {});
+    }
   };
 
   useEffect(() => {
@@ -150,15 +152,21 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
 
     const parsed: Record<string, TransitPosition> = {};
     for (const [planet, data] of Object.entries(currentPositionsRaw)) {
-      if (planet === 'ascendant' || !data) continue;
-      const pd = data as any;
-      if (pd.sign) {
+      if (planet === 'ascendant' || !data || typeof data !== 'object') continue;
+      const pd = data as Record<string, unknown>;
+      if (typeof pd.sign === 'string') {
         const key = planet.charAt(0).toUpperCase() + planet.slice(1);
+        const exactLong = typeof pd.exactLongitude === 'number' ? pd.exactLongitude : 0;
+        const degree = typeof pd.degree === 'number' ? pd.degree : Math.floor(exactLong);
+        const minute =
+          typeof pd.minute === 'number'
+            ? pd.minute
+            : Math.floor((exactLong - Math.floor(exactLong)) * 60);
         parsed[key] = {
-          sign: typeof pd.sign === 'string' ? pd.sign.toLowerCase() : '',
-          degree: pd.degree ?? Math.floor(pd.exactLongitude ?? 0),
-          minute: pd.minute ?? Math.floor(((pd.exactLongitude ?? 0) - Math.floor(pd.exactLongitude ?? 0)) * 60),
-          isRetrograde: pd.isRetrograde ?? false,
+          sign: pd.sign.toLowerCase(),
+          degree,
+          minute,
+          isRetrograde: Boolean(pd.isRetrograde),
         };
       }
     }

@@ -129,11 +129,9 @@ function formatGroceryListAsText(items: GroceryItem[]): string {
 
     const info = CATEGORY_INFO[category as GroceryCategory];
     text += `${info.icon} ${info.name}\n`;
-    text += `${"-".repeat(30)}\n`;
-
     categoryItems.forEach((item) => {
       text += `☐ ${item.quantity} ${item.unit} ${item.ingredient}\n`;
-      if (item.usedInRecipes && item.usedInRecipes.length > 0) {
+      if (item.usedInRecipes.length > 0) {
         text += `   (Used in: ${item.usedInRecipes.length} recipe${item.usedInRecipes.length > 1 ? "s" : ""})\n`;
       }
     });
@@ -186,7 +184,7 @@ function formatGroceryListAsHTML(items: GroceryItem[]): string {
     categoryItems.forEach((item) => {
       html += `<div class="item">`;
       html += `<input type="checkbox"> <strong>${item.quantity} ${item.unit}</strong> ${item.ingredient}`;
-      if (item.usedInRecipes && item.usedInRecipes.length > 0) {
+      if (item.usedInRecipes.length > 0) {
         html += `<div class="item-details">Used in ${item.usedInRecipes.length} recipe${item.usedInRecipes.length > 1 ? "s" : ""}</div>`;
       }
       html += `</div>`;
@@ -250,7 +248,7 @@ interface AmazonSearchApiResult {
 export default function GroceryListModal({
   isOpen,
   onClose,
-}: GroceryListModalProps) {
+}: GroceryListModalProps): React.JSX.Element | null {
   const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu, inventory, setInventory } =
     useMenuPlanner();
   const groceryCart = useGroceryCart();
@@ -303,12 +301,12 @@ export default function GroceryListModal({
   );
 
   // Toggle category expansion
-  const toggleCategory = (category: GroceryCategory) => {
+  const toggleCategory = (category: GroceryCategory): void => {
     setExpandedCategories((prev) => ({ ...prev, [category]: !prev[category] }));
   };
 
   // Mark all in category as purchased
-  const markCategoryPurchased = (category: GroceryCategory) => {
+  const markCategoryPurchased = (category: GroceryCategory): void => {
     groupedItems[category].forEach((item) => {
       if (!item.inPantry) {
         updateGroceryItem(item.id, { purchased: true });
@@ -317,7 +315,7 @@ export default function GroceryListModal({
   };
 
   // Handle export
-  const handleExport = async (format: "clipboard" | "email" | "print") => {
+  const handleExport = async (format: "clipboard" | "email" | "print"): Promise<void> => {
     try {
       await exportGroceryList(groceryList, format);
 
@@ -331,7 +329,7 @@ export default function GroceryListModal({
 
   // Push the week's active shopping items into the app-wide grocery cart
   // (shared with recipe pages; persists, auto-resolves ASINs, unified checkout).
-  const handleAddToGroceryCart = () => {
+  const handleAddToGroceryCart = (): void => {
     if (activeShoppingItems.length === 0) return;
     const weekKey = currentMenu?.weekStartDate
       ? new Date(currentMenu.weekStartDate).toISOString().slice(0, 10)
@@ -431,8 +429,8 @@ export default function GroceryListModal({
   const openAmazonSearchFallback = (
     unresolved: AmazonUnresolvedItem[],
     cartType: "fresh" | "standard" = "fresh",
-  ) => {
-    const [firstUnresolved] = unresolved;
+  ): void => {
+    const firstUnresolved = unresolved[0] as AmazonUnresolvedItem | undefined;
     if (!firstUnresolved) {
       setAmazonError("No unresolved grocery item is available to search.");
       return;
@@ -463,7 +461,7 @@ export default function GroceryListModal({
     setShowAmazonPreview(false);
   };
 
-  const handleOrderOnAmazon = () => {
+  const handleOrderOnAmazon = (): void => {
     // Conjuring the week's order list quietly counts (deduped per menu per day).
     firePractice("list_conjured", `menu:${currentMenu?.id ?? "week"}`);
     setShowAmazonPreview(true);
@@ -480,7 +478,7 @@ export default function GroceryListModal({
       .finally(() => setAmazonLoading(false));
   };
 
-  const confirmUpdateCart = async (cartType: "fresh" | "standard" = "fresh") => {
+  const confirmUpdateCart = async (cartType: "fresh" | "standard" = "fresh"): Promise<void> => {
     setAmazonLoading(true);
     setAmazonError(null);
     try {
@@ -561,10 +559,10 @@ export default function GroceryListModal({
   };
 
   // Check if item is in pantry
-  const checkPantryStatus = (itemName: string) => PantryManager.hasItem(itemName);
+  const checkPantryStatus = (itemName: string): boolean => PantryManager.hasItem(itemName);
 
   // Add item to pantry and sync with context for Posso
-  const addToPantry = (item: GroceryItem) => {
+  const addToPantry = (item: GroceryItem): void => {
     PantryManager.addItem({
       name: item.ingredient,
       quantity: item.quantity,
@@ -632,19 +630,19 @@ export default function GroceryListModal({
         {/* Actions */}
         <div className="p-4 border-b border-muted bg-surface-container-low flex gap-2 flex-wrap">
           <button
-            onClick={() => { void handleExport("clipboard"); }}
+            onClick={() => { handleExport("clipboard").catch(() => {}); }}
             className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
           >
             📋 Copy
           </button>
           <button
-            onClick={() => { void handleExport("email"); }}
+            onClick={() => { handleExport("email").catch(() => {}); }}
             className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
           >
             ✉️ Email
           </button>
           <button
-            onClick={() => { void handleExport("print"); }}
+            onClick={() => { handleExport("print").catch(() => {}); }}
             className="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
           >
             🖨️ Print
@@ -1016,14 +1014,14 @@ export default function GroceryListModal({
               ) : amazonResolution?.resolved.length === 0 ? (
                 <>
                   <button
-                    onClick={() => { void confirmUpdateCart("fresh"); }}
+                    onClick={() => { confirmUpdateCart("fresh").catch(() => {}); }}
                     disabled={stats.remaining === 0}
                     className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
                   >
                     Search Fresh
                   </button>
                   <button
-                    onClick={() => { void confirmUpdateCart("standard"); }}
+                    onClick={() => { confirmUpdateCart("standard").catch(() => {}); }}
                     disabled={stats.remaining === 0}
                     className="px-5 py-2 bg-[#FF9900] hover:bg-[#FFB347] text-black font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
                   >
@@ -1033,14 +1031,14 @@ export default function GroceryListModal({
               ) : (
                 <>
                   <button
-                    onClick={() => { void confirmUpdateCart("fresh"); }}
+                    onClick={() => { confirmUpdateCart("fresh").catch(() => {}); }}
                     disabled={stats.remaining === 0}
                     className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
                   >
                     Send to Fresh Cart ({amazonResolution?.resolved.length ?? 0})
                   </button>
                   <button
-                    onClick={() => { void confirmUpdateCart("standard"); }}
+                    onClick={() => { confirmUpdateCart("standard").catch(() => {}); }}
                     disabled={stats.remaining === 0}
                     className="px-5 py-2 bg-[#FF9900] hover:bg-[#FFB347] text-black font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
                   >
@@ -1069,7 +1067,7 @@ function GroceryItemRow({
   isInPantry: boolean;
   onTogglePurchased: (purchased: boolean) => void;
   onAddToPantry: () => void;
-}) {
+}): React.JSX.Element {
   return (
     <div
       className={`bg-surface-container-low border border-muted rounded-lg p-3 ${item.purchased
@@ -1093,7 +1091,7 @@ function GroceryItemRow({
             <div className={`font-bold text-slate-800 ${item.purchased ? "line-through" : ""}`}>
               <span className="text-indigo-600 mr-1">{item.quantity} {item.unit}</span> {item.ingredient}
             </div>
-            {item.usedInRecipes && item.usedInRecipes.length > 0 && (
+            {item.usedInRecipes.length > 0 && (
               <div className="text-[10px] text-slate-500 font-medium uppercase tracking-wide mt-0.5">
                 Needed for {item.usedInRecipes.length} recipe{item.usedInRecipes.length > 1 ? "s" : ""}
               </div>
@@ -1138,7 +1136,7 @@ function RecipeGroupedView({
   updateGroceryItem: (id: string, updates: Partial<GroceryItem>) => void;
   checkPantryStatus: (name: string) => boolean;
   addToPantry: (item: GroceryItem) => void;
-}) {
+}): React.JSX.Element {
   // Build a map from recipe ID -> recipe name
   const recipeNames = useMemo(() => {
     const map = new Map<string, string>();
@@ -1156,7 +1154,7 @@ function RecipeGroupedView({
     const groups = new Map<string, GroceryItem[]>();
 
     groceryList.forEach((item) => {
-      if (item.usedInRecipes && item.usedInRecipes.length > 0) {
+      if (item.usedInRecipes.length > 0) {
         item.usedInRecipes.forEach((recipeId) => {
           if (!groups.has(recipeId)) {
             groups.set(recipeId, []);
@@ -1218,7 +1216,7 @@ function RecipeGroupedView({
 /**
  * Simple Pantry View Modal
  */
-function PantryModalSimple({ onClose }: { onClose: () => void }) {
+function PantryModalSimple({ onClose }: { onClose: () => void }): React.JSX.Element {
   const pantryItems = PantryManager.getPantry();
 
   return (

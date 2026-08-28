@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
+import type { Planet } from "@/types/celestial";
 
 interface Props {
   latitude?: number;
@@ -7,48 +8,49 @@ interface Props {
   className?: string;
 }
 
-export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
+interface PlanetaryHourState {
+  planet: Planet;
+  isDaytime: boolean;
+  timeRemainingMs: number;
+  nextPlanet: Planet;
+  start: Date;
+  end: Date;
+}
+
+export function PlanetaryHourCard({
+  latitude,
+  longitude,
+  className,
+}: Props): React.ReactElement {
   const calculator = useMemo(
     () => new PlanetaryHourCalculator(latitude, longitude),
     [latitude, longitude],
   );
 
-  const [state, setState] = useState(() => {
+  const [state, setState] = useState<PlanetaryHourState>(() => {
     const now = new Date();
-    const detailed = (calculator.getCurrentPlanetaryHour as any)(now);
-    const next = (calculator as any).getNextPlanetaryHourTransition(now);
-    const schedule = calculator.getDailyPlanetaryHours(now) as unknown as any[];
-    const idx = schedule.findIndex((s) => now >= s.start && now < s.end);
-    const nextPlanet =
-      schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
+    const detailed = calculator.getDetailedPlanetaryHour(now);
 
     return {
       planet: detailed.planet,
       isDaytime: detailed.isDaytime,
-      timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
-      nextPlanet,
+      timeRemainingMs: Math.max(0, detailed.end.getTime() - now.getTime()),
+      nextPlanet: detailed.nextPlanet,
       start: detailed.start,
       end: detailed.end,
     };
   });
 
   useEffect(() => {
-    const tick = () => {
+    const tick = (): void => {
       const now = new Date();
-      const detailed = (calculator.getCurrentPlanetaryHour as any)(now);
-      const next = (calculator as any).getNextPlanetaryHourTransition(now);
-      const schedule = calculator.getDailyPlanetaryHours(
-        now,
-      ) as unknown as any[];
-      const idx = schedule.findIndex((s) => now >= s.start && now < s.end);
-      const nextPlanet =
-        schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
+      const detailed = calculator.getDetailedPlanetaryHour(now);
 
       setState({
         planet: detailed.planet,
         isDaytime: detailed.isDaytime,
-        timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
-        nextPlanet,
+        timeRemainingMs: Math.max(0, detailed.end.getTime() - now.getTime()),
+        nextPlanet: detailed.nextPlanet,
         start: detailed.start,
         end: detailed.end,
       });
@@ -56,7 +58,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
 
     tick();
     const interval = setInterval(tick, 1000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, [calculator]);
 
   const minutes = Math.floor(state.timeRemainingMs / 60000);

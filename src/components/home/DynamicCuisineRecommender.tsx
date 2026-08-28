@@ -324,7 +324,8 @@ export default function DynamicCuisineRecommender({
               typeof r.cuisine === "string" && r.cuisine.toLowerCase().includes(cuisine.name.toLowerCase())
             );
             recipeCountsMap.set(cuisine.name, cuisineRecipes.length);
-          } catch {
+          } catch (countErr: unknown) {
+            _logger.error(`DynamicCuisineRecommender: Failed to count recipes for ${cuisine.name}:`, countErr);
             recipeCountsMap.set(cuisine.name, 0);
           }
         }
@@ -408,9 +409,13 @@ export default function DynamicCuisineRecommender({
     // Wait for the bias to hydrate from localStorage so the first request
     // already carries the visitor's table instead of double-fetching.
     if (!biasHydrated) return;
-    loadRecommendations().catch(() => {});
+    loadRecommendations().catch((err: unknown) => {
+      _logger.error("[DynamicCuisineRecommender] initial load failed:", err);
+    });
     const interval = setInterval(() => {
-      loadRecommendations().catch(() => {});
+      loadRecommendations().catch((err: unknown) => {
+        _logger.error("[DynamicCuisineRecommender] interval refresh failed:", err);
+      });
     }, 15 * 60 * 1000);
     return (): void => {
       clearInterval(interval);
@@ -513,7 +518,9 @@ export default function DynamicCuisineRecommender({
       <div className="text-center mt-8">
         <button
           onClick={() => {
-            loadRecommendations().catch(() => {});
+            loadRecommendations().catch((err: unknown) => {
+              _logger.error("[DynamicCuisineRecommender] manual refresh failed:", err);
+            });
           }}
           disabled={isLoading}
           className="px-6 py-3 bg-purple-700 hover:bg-purple-600 disabled:bg-slate-700 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-2"

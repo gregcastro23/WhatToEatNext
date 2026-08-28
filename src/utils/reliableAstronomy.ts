@@ -56,7 +56,7 @@ export async function getReliablePlanetaryPositions(
     try {
       logger.debug("Fetching planetary positions from NASA JPL Horizons API");
       const positions = await fetchHorizonsData(date);
-      if (positions && Object.keys(positions).length > 0) {
+      if (Object.keys(positions).length > 0) {
         // Cache the successful result
         positionsCache = {
           positions,
@@ -75,7 +75,7 @@ export async function getReliablePlanetaryPositions(
     try {
       logger.debug("Fetching planetary positions from public astronomy API");
       const positions = await fetchPublicApiData(date);
-      if (positions && Object.keys(positions).length > 0) {
+      if (Object.keys(positions).length > 0) {
         // Cache the successful result
         positionsCache = {
           positions,
@@ -95,7 +95,7 @@ export async function getReliablePlanetaryPositions(
       try {
         logger.debug("Fetching planetary positions from TimeAndDate.com API");
         const positions = await fetchTimeAndDateData(date);
-        if (positions && Object.keys(positions).length > 0) {
+        if (Object.keys(positions).length > 0) {
           // Cache the successful result
           positionsCache = {
             positions,
@@ -178,7 +178,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
           throw new Error(`HTTP error ${response.status}`);
         }
 
-        const data = await response.json();
+        const data = (await response.json()) as { result?: string } | null;
 
         // Process and extract the ecliptic longitude from the response
         if (data?.result) {
@@ -482,7 +482,7 @@ async function fetchPublicApiData(
         throw new Error(`Public API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as unknown;
 
       // Process the response;
       const positions: Record<string, unknown> = {};
@@ -504,16 +504,21 @@ async function fetchPublicApiData(
       };
 
       // Process each planet
-      if (data && Array.isArray(data)) {
-        data.forEach((planet: unknown) => {
-          const planetData = planet as any;
+      interface PublicApiPlanetItem {
+        name?: string;
+        longitude?: string | number;
+        isRetrograde?: boolean;
+      }
+      if (Array.isArray(data)) {
+        (data as PublicApiPlanetItem[]).forEach((planetData) => {
+          const rawName = planetData.name?.toLowerCase();
           if (
-            planetData?.name &&
-            planetData?.longitude !== undefined &&
-            planetNameMap[planetData.name.toLowerCase()]
+            rawName &&
+            planetData.longitude !== undefined &&
+            planetNameMap[rawName]
           ) {
-            const standardName = planetNameMap[planetData.name.toLowerCase()];
-            const exactLongitude = parseFloat(planetData.longitude);
+            const standardName = planetNameMap[rawName];
+            const exactLongitude = typeof planetData.longitude === "number" ? planetData.longitude : parseFloat(String(planetData.longitude));
             const { sign, degree } =
               getLongitudeToZodiacSignType(exactLongitude);
 
@@ -521,7 +526,7 @@ async function fetchPublicApiData(
               sign,
               degree,
               exactLongitude,
-              isRetrograde: planetData?.isRetrograde === true,
+              isRetrograde: planetData.isRetrograde === true,
             };
           }
         });
@@ -629,18 +634,27 @@ async function fetchTimeAndDateData(
         throw new Error(`TimeAndDate API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      interface TimeAndDateObject {
+        name?: string;
+        position?: {
+          eclipticLongitude?: number;
+          isRetrograde?: boolean;
+        };
+      }
+      interface TimeAndDateResponse {
+        objects?: TimeAndDateObject[];
+      }
+      const data = (await response.json()) as TimeAndDateResponse | null;
 
       // Process the response
       const positions: Record<string, unknown> = {};
 
-      if (data?.objects && Array.isArray(data.objects)) {
-        data.objects.forEach((obj: unknown) => {
-          const objData = obj as any;
+      if (Array.isArray(data?.objects)) {
+        data.objects.forEach((objData) => {
           if (
-            objData?.name &&
-            objData?.position &&
-            typeof objData.position?.eclipticLongitude === "number"
+            objData.name &&
+            objData.position &&
+            typeof objData.position.eclipticLongitude === "number"
           ) {
             const planetName =
               objData.name.charAt(0).toUpperCase() + objData.name.slice(1);
@@ -652,7 +666,7 @@ async function fetchTimeAndDateData(
               sign,
               degree,
               exactLongitude: objData.position.eclipticLongitude,
-              isRetrograde: objData.position?.isRetrograde === true,
+              isRetrograde: objData.position.isRetrograde === true,
             };
           }
         });

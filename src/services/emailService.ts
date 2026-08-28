@@ -11,12 +11,26 @@
 // Pure (string-only) template modules — safe to import anywhere.
 import { renderBulletinEmail } from "@/lib/email/templates/bulletin";
 import type { NatalChart } from "@/types/natalChart";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("emailService");
 
 interface EmailOptions {
   to: string;
   subject: string;
   html: string;
   text?: string;
+}
+
+interface SmtpTransporter {
+  sendMail: (options: {
+    from: string;
+    to: string;
+    subject: string;
+    html: string;
+    text?: string;
+  }) => Promise<{ messageId: string }>;
+  verify: () => Promise<boolean | void>;
 }
 
 // Module-level flag: log Resend 403 (unverified-domain) once per process at
@@ -26,7 +40,7 @@ let resend403Logged = false;
 
 class EmailService {
   private resendApiKey: string | null = null;
-  private smtpTransporter: any | null = null; // Use any for Transporter to avoid type issues with dynamic import
+  private smtpTransporter: SmtpTransporter | null = null;
   private fromName = "alchm.kitchen";
   private fromAddress = "noreply@alchm.kitchen";
 
@@ -34,7 +48,7 @@ class EmailService {
    * Initialize the email service.
    * Prefers Resend API key; falls back to SMTP/nodemailer.
    */
-  initialize() {
+  initialize(): void {
     this.fromName = process.env.EMAIL_FROM_NAME ?? "alchm.kitchen";
     this.fromAddress =
       process.env.EMAIL_FROM_ADDRESS ?? "noreply@alchm.kitchen";
@@ -43,7 +57,7 @@ class EmailService {
     const resendKey = process.env.RESEND_API_KEY;
     if (resendKey) {
       this.resendApiKey = resendKey;
-      console.log(
+      logger.info(
         `Email service initialized with Resend (from: ${this.fromAddress})`,
       );
       return;
@@ -60,23 +74,23 @@ class EmailService {
       
       // Dynamic import nodemailer only when SMTP is needed
       // Note: This will still fail at runtime on Edge, but won't crash the BUILD for Edge routes
-      void import("nodemailer").then((nodemailer) => {
+      import("nodemailer").then((nodemailer) => {
         this.smtpTransporter = nodemailer.createTransport({
           host,
           port: portNum,
           secure: portNum === 465,
           auth: { user, pass },
         });
-        console.log(
+        logger.info(
           `Email service initialized with SMTP (${host}:${port}, from: ${this.fromAddress})`,
         );
       }).catch((err) => {
-        console.error("Failed to load nodemailer for SMTP fallback:", err);
+        logger.error("Failed to load nodemailer for SMTP fallback:", err);
       });
       return;
     }
 
-    console.warn(
+    logger.warn(
       "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
     );
   }
@@ -86,7 +100,7 @@ class EmailService {
    * Useful in serverless environments where env vars may not be available
    * at initial module load time but are available when the function runs.
    */
-  ensureInitialized() {
+  ensureInitialized(): void {
     if (!this.isConfigured()) {
       this.initialize();
     }
@@ -109,7 +123,7 @@ class EmailService {
     if (this.smtpTransporter) {
       return this.sendViaSMTP(options);
     }
-    console.error("Email service not configured. Cannot send email.");
+    logger.error("Email service not configured. Cannot send email.");
     return false;
   }
 
@@ -140,26 +154,26 @@ class EmailService {
         // doesn't flood the error stream with 24 duplicates per day.
         if (response.status === 403) {
           if (!resend403Logged) {
-            console.error(
+            logger.error(
               `Resend API 403 — sender domain "${this.fromAddress}" not verified in Resend. ` +
                 `Verify the domain at https://resend.com/domains or set EMAIL_FROM_ADDRESS to a verified address. ` +
                 `Suppressing further duplicates this process. Body: ${body}`,
             );
             resend403Logged = true;
           } else {
-            console.warn(`Resend API 403 (suppressed, see earlier log): ${body.slice(0, 200)}`);
+            logger.warn(`Resend API 403 (suppressed, see earlier log): ${body.slice(0, 200)}`);
           }
         } else {
-          console.error(`Resend API error (${response.status}): ${body}`);
+          logger.error(`Resend API error (${response.status}): ${body}`);
         }
         return false;
       }
 
-      const result = await response.json();
-      console.log("Email sent via Resend:", result.id);
+      const result = (await response.json()) as { id?: string };
+      logger.info("Email sent via Resend:", result.id);
       return true;
     } catch (error) {
-      console.error("Error sending email via Resend:", error);
+      logger.error("Error sending email via Resend:", error);
       return false;
     }
   }
@@ -174,10 +188,10 @@ class EmailService {
         html: options.html,
         text: options.text,
       });
-      console.log("Email sent via SMTP:", info.messageId);
+      logger.info("Email sent via SMTP:", info.messageId);
       return true;
     } catch (error) {
-      console.error("Error sending email via SMTP:", error);
+      logger.error("Error sending email via SMTP:", error);
       return false;
     }
   }
@@ -256,9 +270,9 @@ class EmailService {
     );
     if (!allSucceeded) {
       const failed = results
-        .map((r, i) => (r.status === "rejected" || (r.status === "fulfilled" && !r.value)) ? notificationRecipients[i] : null)
+        .map((r, i) => (r.status === "rejected" || !r.value ? notificationRecipients[i] : null))
         .filter(Boolean);
-      console.warn(`Registration notification failed for: ${failed.join(", ")}`);
+      logger.warn(`Registration notification failed for: ${failed.join(", ")}`);
     }
 
     return allSucceeded;
@@ -303,9 +317,9 @@ class EmailService {
     );
     if (!allSucceeded) {
       const failed = results
-        .map((r, i) => (r.status === "rejected" || (r.status === "fulfilled" && !r.value)) ? notificationRecipients[i] : null)
+        .map((r, i) => (r.status === "rejected" || !r.value ? notificationRecipients[i] : null))
         .filter(Boolean);
-      console.warn(`Login notification failed for: ${failed.join(", ")}`);
+      logger.warn(`Login notification failed for: ${failed.join(", ")}`);
     }
 
     return allSucceeded;
@@ -863,14 +877,14 @@ This is an automated notification from alchm.kitchen.
         const res = await fetch("https://api.resend.com/domains", {
           headers: { Authorization: `Bearer ${this.resendApiKey}` },
         });
-        console.log(
+        logger.info(
           res.ok
             ? "Resend API connection verified"
             : `Resend API verification failed (${res.status})`,
         );
         return res.ok;
       } catch (error) {
-        console.error("Resend API verification failed:", error);
+        logger.error("Resend API verification failed:", error);
         return false;
       }
     }
@@ -878,15 +892,15 @@ This is an automated notification from alchm.kitchen.
     if (this.smtpTransporter) {
       try {
         await this.smtpTransporter.verify();
-        console.log("SMTP connection verified successfully");
+        logger.info("SMTP connection verified successfully");
         return true;
       } catch (error) {
-        console.error("SMTP connection verification failed:", error);
+        logger.error("SMTP connection verification failed:", error);
         return false;
       }
     }
 
-    console.error("Email service not configured");
+    logger.error("Email service not configured");
     return false;
   }
 }

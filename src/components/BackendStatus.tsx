@@ -10,17 +10,59 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
-
-// Simple logger fallback
-const _logger = {
-  info: (message: string) => console.log(`[INFO] ${message}`),
-};
+import { log } from "@/services/LoggingService";
 
 interface ServiceStatus {
   service: string;
   status: "healthy" | "unhealthy" | "offline" | "loading";
   responseTime?: number;
   lastCheck?: string;
+}
+
+interface ElementalDemoResult {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  responseTime?: number;
+  fallback?: boolean;
+}
+
+interface PlanetaryDemoResult {
+  dominant_planet: string;
+  influence_strength: number;
+  responseTime?: number;
+  fallback?: boolean;
+}
+
+interface RecommendationsDemoResult {
+  total_count: number;
+  responseTime?: number;
+  fallback?: boolean;
+}
+
+interface DemoResults {
+  elements?: ElementalDemoResult;
+  planetary?: PlanetaryDemoResult;
+  recommendations?: RecommendationsDemoResult;
+}
+
+interface HealthApiResponse {
+  services?: {
+    database?: string;
+  };
+  timestamp?: string;
+}
+
+interface PlanetaryApiResponse {
+  metadata?: {
+    dominant_planet?: string;
+    influence_strength?: number;
+  };
+}
+
+interface RecipeApiResponse {
+  recipes?: unknown[];
 }
 
 export const BackendStatus: React.FC = () => {
@@ -31,48 +73,44 @@ export const BackendStatus: React.FC = () => {
     { service: "Rune Agent", status: "loading" },
   ]);
 
-  const [demoResults, setDemoResults] = useState<{
-    elements?: any;
-    planetary?: any;
-    recommendations?: any;
-  }>({});
+  const [demoResults, setDemoResults] = useState<DemoResults>({});
 
   // Check backend health
   const checkHealth = useCallback(async () => {
     try {
       const backendUrl = getServiceUrlSafe("wtenBackend");
-      
+
       const [nextRes, pyRes] = await Promise.allSettled([
         fetch("/api/health"),
-        fetch(`${backendUrl}/health`)
+        fetch(`${backendUrl}/health`),
       ]);
 
       const newServices: ServiceStatus[] = [
-        { 
-          service: "Alchemical Core (Vercel)", 
+        {
+          service: "Alchemical Core (Vercel)",
           status: nextRes.status === "fulfilled" && nextRes.value.ok ? "healthy" : "offline",
-          lastCheck: new Date().toISOString()
+          lastCheck: new Date().toISOString(),
         },
-        { 
-          service: "Kitchen Intelligence (Railway)", 
+        {
+          service: "Kitchen Intelligence (Railway)",
           status: pyRes.status === "fulfilled" && pyRes.value.ok ? "healthy" : "offline",
-          lastCheck: new Date().toISOString()
-        }
+          lastCheck: new Date().toISOString(),
+        },
       ];
 
       // Add database status if Next.js reported it
       if (nextRes.status === "fulfilled" && nextRes.value.ok) {
-        const data = await nextRes.value.json();
+        const data = (await nextRes.value.json()) as HealthApiResponse;
         newServices.push({
           service: "Neon Database",
           status: data.services?.database === "healthy" ? "healthy" : "offline",
-          lastCheck: data.timestamp
+          lastCheck: data.timestamp,
         });
       }
 
       setServices(newServices);
     } catch (_error) {
-      _logger.info("Backend status check failed");
+      log.info("Backend status check failed");
       setServices((prev) =>
         prev.map((s) => ({ ...s, status: "offline" as const })),
       );
@@ -83,38 +121,49 @@ export const BackendStatus: React.FC = () => {
   const runDemoCalculations = useCallback(async () => {
     try {
       const backendUrl = getServiceUrlSafe("wtenBackend");
-      
+
       // Real elemental calculation check
       const elementsStart = performance.now();
-      const elements = alchemicalContext?.getCurrentElementalBalance?.() || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elementsBalance = alchemicalContext.getCurrentElementalBalance();
       const elementsTime = performance.now() - elementsStart;
 
       // Real planetary data check
       const planetaryStart = performance.now();
       const planRes = await fetch(`${backendUrl}/api/planetary/positions`);
-      const planData = await planRes.json();
+      const planData = (await planRes.json()) as PlanetaryApiResponse;
       const planetaryTime = performance.now() - planetaryStart;
 
       // Real recipe recommendations check (using a common method as anchor)
       const recStart = performance.now();
       const recRes = await fetch("/api/recommendations/recipes?method=sauteing");
-      const recData = await recRes.json();
+      const recData = (await recRes.json()) as RecipeApiResponse;
       const recTime = performance.now() - recStart;
 
+      const getElementValue = (balance: Record<string, number | undefined>, key: string): number => {
+        const val = balance[key];
+        return typeof val === "number" && Number.isFinite(val) ? val : 0.25;
+      };
+
       setDemoResults({
-        elements: { ...elements, responseTime: elementsTime },
-        planetary: { 
+        elements: {
+          Fire: getElementValue(elementsBalance, "Fire"),
+          Water: getElementValue(elementsBalance, "Water"),
+          Earth: getElementValue(elementsBalance, "Earth"),
+          Air: getElementValue(elementsBalance, "Air"),
+          responseTime: elementsTime,
+        },
+        planetary: {
           dominant_planet: planData.metadata?.dominant_planet ?? "Unknown",
           influence_strength: planData.metadata?.influence_strength ?? 0,
-          responseTime: planetaryTime 
+          responseTime: planetaryTime,
         },
-        recommendations: { 
-          total_count: recData.recipes?.length ?? 0, 
-          responseTime: recTime 
+        recommendations: {
+          total_count: recData.recipes?.length ?? 0,
+          responseTime: recTime,
         },
       });
     } catch (err) {
-      _logger.info(`Demo calculations failed: ${(err as Error).message}`);
+      log.info(`Demo calculations failed: ${(err as Error).message}`);
       setDemoResults({
         elements: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25, responseTime: 0, fallback: true },
         planetary: { dominant_planet: "Sun", influence_strength: 0.5, responseTime: 0, fallback: true },
@@ -124,15 +173,20 @@ export const BackendStatus: React.FC = () => {
   }, [alchemicalContext]);
 
   useEffect(() => {
-    void checkHealth();
-    void runDemoCalculations();
+    const init = async (): Promise<void> => {
+      await checkHealth();
+      await runDemoCalculations();
+    };
+    init().catch(() => {});
 
     // Periodic health checks
-    const interval = setInterval(() => void checkHealth(), 30000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      checkHealth().catch(() => {});
+    }, 30000);
+    return (): void => clearInterval(interval);
   }, [checkHealth, runDemoCalculations]);
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: ServiceStatus["status"]): string => {
     switch (status) {
       case "healthy":
         return "text-green-600 bg-green-50";
@@ -292,7 +346,7 @@ export const BackendStatus: React.FC = () => {
         <div className="space-y-3">
           <button
             onClick={() => {
-              void checkHealth();
+              checkHealth().catch(() => {});
             }}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
@@ -300,7 +354,7 @@ export const BackendStatus: React.FC = () => {
           </button>
           <button
             onClick={() => {
-              void runDemoCalculations();
+              runDemoCalculations().catch(() => {});
             }}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors ml-3"
           >

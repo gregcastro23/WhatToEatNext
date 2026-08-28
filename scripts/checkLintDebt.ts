@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { ESLint } from "eslint";
@@ -37,12 +38,37 @@ const counts: Record<string, number> = Object.fromEntries(
 );
 let lintErrors = 0;
 
+const declinedRules = new Set(Object.keys(baseline.declined.rules));
+
+interface FileDebt {
+  filePath: string;
+  trackedCount: number;
+  byRule: Record<string, number>;
+}
+
+const fileDebts: FileDebt[] = [];
+
 for (const result of results) {
   lintErrors += result.errorCount;
+  let fileTrackedCount = 0;
+  const fileByRule: Record<string, number> = {};
+
   for (const message of result.messages) {
     if (message.ruleId && Object.hasOwn(counts, message.ruleId)) {
       counts[message.ruleId] = (counts[message.ruleId] ?? 0) + 1;
+      if (!declinedRules.has(message.ruleId)) {
+        fileTrackedCount += 1;
+        fileByRule[message.ruleId] = (fileByRule[message.ruleId] ?? 0) + 1;
+      }
     }
+  }
+
+  if (fileTrackedCount > 0) {
+    fileDebts.push({
+      filePath: path.relative(repoRoot, result.filePath),
+      trackedCount: fileTrackedCount,
+      byRule: fileByRule,
+    });
   }
 }
 
@@ -53,7 +79,6 @@ if (lintErrors > 0) {
   process.exit(1);
 }
 
-const declinedRules = new Set(Object.keys(baseline.declined.rules));
 const trackedTotal = Object.entries(counts).reduce(
   (total, [rule, count]) => total + (declinedRules.has(rule) ? 0 : count),
   0,
@@ -61,6 +86,30 @@ const trackedTotal = Object.entries(counts).reduce(
 const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 
 console.log(trackedTotal);
+
+fileDebts.sort((a, b) => b.trackedCount - a.trackedCount);
+
+// Check if --top or --ranking flag was requested
+const topArgIdx = process.argv.findIndex((arg) => arg === "--top" || arg === "--ranking");
+const showTop = topArgIdx !== -1 || process.argv.includes("--files");
+let topN = 25;
+if (topArgIdx !== -1 && process.argv[topArgIdx + 1] && /^\d+$/.test(process.argv[topArgIdx + 1])) {
+  topN = parseInt(process.argv[topArgIdx + 1], 10);
+}
+
+if (showTop) {
+  console.log(`\n=== TOP ${Math.min(topN, fileDebts.length)} FILES BY TRACKED DEBT (${trackedTotal} total tracked) ===`);
+  for (const item of fileDebts.slice(0, topN)) {
+    const topRules = Object.entries(item.byRule)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([r, c]) => `${r.replace("@typescript-eslint/", "")}: ${c}`)
+      .join(", ");
+    console.log(`${item.trackedCount.toString().padStart(4)} warnings: ${item.filePath}`);
+    console.log(`     (${topRules})`);
+  }
+  console.log("");
+}
 
 if (comparison.exceedsBaseline) {
   console.error(
@@ -105,3 +154,4 @@ if (trackedTotal < baseline.trackedTotal) {
     console.log(`🔒 Baseline auto-ratcheted down to ${trackedTotal}.`);
   }
 }
+

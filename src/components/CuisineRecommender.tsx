@@ -4,7 +4,7 @@ import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect, useCallback, useRef, type JSX } from 'react';
-import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import type { AlchemicalItem, ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useToast } from '@/components/ToastProvider';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
@@ -12,39 +12,19 @@ import { useGroceryCart } from '@/contexts/GroceryCartContext';
 import { resolveAsin, AMAZON_ASSOCIATE_TAG, getStandardizedQuantity } from '@/data/amazon';
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { _logger } from '@/lib/logger';
-import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
+import type { ZodiacSign, LunarPhase, ElementalProperties, ElementalCharacter } from '@/types/alchemy';
 import { _transformCuisines as transformCuisines, _sortByAlchemicalCompatibility as sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
-import styles from './CuisineRecommender.module.css';
 
 // Keep the interface exports for any code that depends on them
-export interface Cuisine {
+export interface Cuisine extends ElementalItem {
   id: string;
   name: string;
   description: string;
-  elementalProperties: Record<string, number | undefined>;
+  elementalProperties: Record<ElementalCharacter, number>;
   astrologicalInfluences: string[];
   zodiacInfluences?: ZodiacSign[];
   lunarPhaseInfluences?: LunarPhase[];
-}
-
-interface CuisineStyles {
-  container: string;
-  title: string;
-  cuisineList: string;
-  cuisineCard: string;
-  cuisineName: string;
-  description: string;
-  alchemicalProperties: string;
-  subtitle: string;
-  propertyList: string;
-  property: string;
-  propertyName: string;
-  propertyValue: string;
-  astrologicalInfluences: string;
-  influenceList: string;
-  influence: string;
-  loading: string;
-  error: string;
+  [key: string]: unknown;
 }
 
 // Local boundary views over untyped recipe/sauce JSON blobs; only fields read below are declared.
@@ -407,8 +387,6 @@ export default function CuisineRecommender(): React.JSX.Element {
     }
   }, [astrologicalState.elementalState, currentZodiac, lunarPhase, calculateElementalProfileFromZodiac]);
 
-  const _cssStyles = styles as unknown as CuisineStyles;
-
   /**
    * Calculate elemental match score between two elemental property sets
    */
@@ -544,8 +522,8 @@ export default function CuisineRecommender(): React.JSX.Element {
       setCuisines(cuisinesArray);
       
       const transformed = transformCuisines(
-        cuisinesArray as unknown as Parameters<typeof transformCuisines>[0],
-        planetaryPositions as unknown as Record<string, number>,
+        cuisinesArray,
+        planetaryPositions,
         isDaytime,
         currentZodiac,
         lunarPhase as LunarPhase
@@ -592,7 +570,7 @@ export default function CuisineRecommender(): React.JSX.Element {
       Object.entries(cuisineTraditional).forEach(([id, sauceData]) => {
         const matchScore = calculateElementalMatch(
           sauceData.elementalProperties as ElementalProperties | undefined,
-          cuisine.elementalProperties as unknown as ElementalProperties
+          cuisine.elementalProperties
         );
         
         traditionalSauces.push({
@@ -607,7 +585,7 @@ export default function CuisineRecommender(): React.JSX.Element {
     const saucesWithMatches: SauceLike[] = saucesArray.map((sauce) => {
       const matchScore = calculateElementalMatch(
         sauce.elementalProperties as ElementalProperties | undefined,
-        cuisine.elementalProperties as unknown as ElementalProperties
+        cuisine.elementalProperties
       );
       
       return {
@@ -766,10 +744,10 @@ export default function CuisineRecommender(): React.JSX.Element {
               
               {/* Only show elemental icons as a simple visual */}
               <div className="flex space-x-1">
-                {(cuisineData.elementalProperties.Fire ?? 0) >= 0.3 && <Flame size={14} className="text-red-500" />}
-                {(cuisineData.elementalProperties.Water ?? 0) >= 0.3 && <Droplets size={14} className="text-blue-500" />}
-                {(cuisineData.elementalProperties.Earth ?? 0) >= 0.3 && <Mountain size={14} className="text-green-500" />}
-                {(cuisineData.elementalProperties.Air ?? 0) >= 0.3 && <Wind size={14} className="text-yellow-500" />}
+                {cuisineData.elementalProperties.Fire >= 0.3 && <Flame size={14} className="text-red-500" />}
+                {cuisineData.elementalProperties.Water >= 0.3 && <Droplets size={14} className="text-blue-500" />}
+                {cuisineData.elementalProperties.Earth >= 0.3 && <Mountain size={14} className="text-green-500" />}
+                {cuisineData.elementalProperties.Air >= 0.3 && <Wind size={14} className="text-yellow-500" />}
               </div>
             </div>
           );

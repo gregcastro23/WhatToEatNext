@@ -117,6 +117,9 @@ export interface PlanetaryPosition {
   sign: string;
   degree: number;
   isRetrograde?: boolean;
+  minute?: number;
+  exactLongitude?: number;
+  longitudeSpeed?: number;
 }
 
 /**

@@ -78,6 +78,7 @@ export interface CelestialPosition {
   exactLongitude?: number; // Used extensively in astronomy calculations
   isRetrograde?: boolean;
   retrogradeSymbol?: string; // "℞" if retrograde, "" otherwise
+  minute?: number;
   minutes?: number;
   speed?: number; // Deprecated: use longitudeSpeed or arcminutesPerDay
   longitudeSpeed?: number; // Degrees per day (precise)

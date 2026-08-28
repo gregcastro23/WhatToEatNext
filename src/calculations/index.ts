@@ -142,7 +142,7 @@ function toZodiacSign(sign?: string): import("@/types/celestial").ZodiacSignType
     : "aries";
 }
 
-function toRealAlchemizePositions(
+export function toRealAlchemizePositions(
   positions: Record<string, CelestialPosition>,
 ): Record<string, import("@/services/RealAlchemizeService").PlanetaryPosition> {
   const mapped: Record<string, import("@/services/RealAlchemizeService").PlanetaryPosition> = {};
@@ -150,7 +150,7 @@ function toRealAlchemizePositions(
     mapped[planet] = {
       sign: pos.sign ?? "aries",
       degree: pos.degree ?? 0,
-      minute: pos.minutes ?? 0,
+      minute: pos.minute ?? pos.minutes ?? 0,
       isRetrograde: Boolean(pos.isRetrograde),
       exactLongitude: pos.exactLongitude,
     };
@@ -158,7 +158,7 @@ function toRealAlchemizePositions(
   return mapped;
 }
 
-function toAlchemyPlanetaryPositions(
+export function toAlchemyPlanetaryPositions(
   positions: Record<string, CelestialPosition>,
 ): Record<string, import("@/types/alchemy").PlanetaryPosition> {
   const mapped: Record<string, import("@/types/alchemy").PlanetaryPosition> = {};
@@ -166,7 +166,7 @@ function toAlchemyPlanetaryPositions(
     mapped[planet] = {
       sign: toZodiacSign(pos.sign),
       degree: pos.degree ?? 0,
-      minute: pos.minutes,
+      minute: pos.minute ?? pos.minutes,
       isRetrograde: pos.isRetrograde,
       longitude: pos.exactLongitude,
     };
@@ -174,7 +174,7 @@ function toAlchemyPlanetaryPositions(
   return mapped;
 }
 
-function toAstrologyUtilsPlanetPositions(
+export function toAstrologyUtilsPlanetPositions(
   positions: Record<string, CelestialPosition>,
 ): Record<string, import("@/utils/astrologyUtils").PlanetPosition> {
   const mapped: Record<string, import("@/utils/astrologyUtils").PlanetPosition> = {};
@@ -182,7 +182,7 @@ function toAstrologyUtilsPlanetPositions(
     mapped[planet] = {
       sign: toZodiacSign(pos.sign),
       degree: pos.degree ?? 0,
-      minute: pos.minutes ?? 0,
+      minute: pos.minute ?? pos.minutes ?? 0,
       exactLongitude: pos.exactLongitude ?? 0,
       isRetrograde: Boolean(pos.isRetrograde),
     };

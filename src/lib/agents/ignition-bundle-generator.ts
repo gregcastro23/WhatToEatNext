@@ -5,12 +5,55 @@ export function sanitizePromptString(str: string | undefined | null): string {
   return str.replace(/"""/g, '" " "')
 }
 
+export interface AgentSacredStats {
+  wisdom?: number
+  intuition?: number
+  charisma?: number
+  power?: number
+  resonance?: number
+  adaptability?: number
+  vitality?: number
+}
+
+export interface AgentBirthInfo {
+  date?: string
+  time?: string
+  place?: string
+  latitude?: number
+  longitude?: number
+  timezone?: string
+  [key: string]: unknown
+}
+
+export interface AgentElements {
+  spirit: number
+  essence: number
+  matter: number
+  substance: number
+}
+
+export interface AgentPersonalContext {
+  lifeStory?: string
+  aboutYourself?: string
+  values?: string
+}
+
+export interface AgentInputData {
+  name: string
+  monicaConstant?: number | null
+  birthInfo?: AgentBirthInfo
+  elements?: AgentElements
+  stats: AgentSacredStats
+  purpose: string
+  personalContext?: AgentPersonalContext
+}
+
 export interface ExportManifest {
   name: string
   monicaConstant: number | null
-  birthInfo: any
-  elements?: { spirit: number; essence: number; matter: number; substance: number }
-  stats: any
+  birthInfo: AgentBirthInfo | undefined
+  elements?: AgentElements
+  stats: AgentSacredStats
   linguisticContext: {
     purpose: string
     autobiography?: string
@@ -18,7 +61,7 @@ export interface ExportManifest {
   }
 }
 
-export function generateManifest(data: any): ExportManifest {
+export function generateManifest(data: AgentInputData): ExportManifest {
   return {
     name: data.name,
     monicaConstant: data.monicaConstant ?? null,
@@ -202,7 +245,7 @@ If you prefer to run our lightweight chat interface that reads your manifest dir
 `
 }
 
-export async function downloadIgnitionBundle(agentData: any) {
+export async function downloadIgnitionBundle(agentData: AgentInputData): Promise<void> {
   const zip = new JSZip()
   const manifest = generateManifest(agentData)
 
@@ -224,7 +267,7 @@ export async function downloadIgnitionBundle(agentData: any) {
   window.URL.revokeObjectURL(url)
 }
 
-export function downloadManifest(agentData: any) {
+export function downloadManifest(agentData: AgentInputData): void {
   const manifest = generateManifest(agentData)
   const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' })
   const url = window.URL.createObjectURL(blob)

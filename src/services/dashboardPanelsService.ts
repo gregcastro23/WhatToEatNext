@@ -141,14 +141,16 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
           }),
       ]);
 
-    const minted = Number(flowRes.rows[0]?.minted ?? 0);
-    const burned = Number(flowRes.rows[0]?.burned ?? 0);
+    const flowRow = flowRes.rows[0] as { minted?: unknown; burned?: unknown } | undefined;
+    const circRow = circulationRes.rows[0] as { total?: unknown } | undefined;
+    const minted = Number(flowRow?.minted ?? 0);
+    const burned = Number(flowRow?.burned ?? 0);
     const sinkRows = sinksRes.rows as Array<{ source_type: string; amount: number }>;
     const sourceRows = sourcesRes.rows as Array<{ source_type: string; amount: number }>;
     const holderRows = holdersRes.rows as Array<{ email: string; balance: number }>;
 
     return {
-      inCirculation: Number(circulationRes.rows[0]?.total ?? 0),
+      inCirculation: Number(circRow?.total ?? 0),
       minted30d: minted,
       burned30d: burned,
       netFlow30d: minted - burned,
@@ -295,9 +297,9 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
   const pool = { total: 0, idle: 0, waiting: 0, max: 0 };
   try {
     const pgPool = getDatabasePool();
-    pool.total = pgPool.totalCount ?? 0;
-    pool.idle = pgPool.idleCount ?? 0;
-    pool.waiting = pgPool.waitingCount ?? 0;
+    pool.total = pgPool.totalCount;
+    pool.idle = pgPool.idleCount;
+    pool.waiting = pgPool.waitingCount;
     pool.max = Number(
       (pgPool as unknown as { options?: { max?: number } }).options?.max ?? 0,
     );
@@ -344,8 +346,9 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       ),
     ]);
 
-    const dbSlowQueries = (slowRes.rows || []).map((r) => ({
-      query: String(r.query ?? "").trim(),
+    const slowRows = slowRes.rows as Array<{ query?: unknown; duration_ms?: unknown }>;
+    const dbSlowQueries = slowRows.map((r) => ({
+      query: String(r.query).trim(),
       durationMs: Math.round(Number(r.duration_ms ?? 0)),
     }));
 
@@ -368,16 +371,19 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       size_bytes: number;
     }>;
 
+    const sizeRow = sizeRes.rows[0] as { bytes?: unknown } | undefined;
+    const connRow = connRes.rows[0] as { count?: unknown } | undefined;
+
     return {
       pool,
-      dbSizeBytes: Number(sizeRes.rows[0]?.bytes ?? 0),
-      activeConnections: Number(connRes.rows[0]?.count ?? 0),
+      dbSizeBytes: Number(sizeRow?.bytes ?? 0),
+      activeConnections: Number(connRow?.count ?? 0),
       slowQueries: finalSlowQueries,
       slowQueryThresholdMs,
       tables: tableRows.map((r) => ({
         name: String(r.name),
-        rows: Math.round(Number(r.rows ?? 0)),
-        sizeBytes: Number(r.size_bytes ?? 0),
+        rows: Math.round(Number(r.rows)),
+        sizeBytes: Number(r.size_bytes),
       })),
       live: true,
     };
@@ -448,9 +454,9 @@ export async function getCatalogTrending(): Promise<CatalogTrendingData> {
       recipes: rows.map((r) => ({
         name: String(r.name),
         cuisine: String(r.cuisine),
-        rating: Number(r.rating ?? 0),
-        ratingCount: Number(r.rating_count ?? 0),
-        popularity: Number(r.popularity ?? 0),
+        rating: Number(r.rating),
+        ratingCount: Number(r.rating_count),
+        popularity: Number(r.popularity),
       })),
       live: true,
     };
@@ -548,7 +554,7 @@ export interface PlatformPulse {
 export async function getPlatformPulse(): Promise<PlatformPulse> {
   const summary = summarizeRecent();
 
-  let dbHealthy = false;
+  let dbHealthy: boolean;
   try {
     const dbHealth = await checkDatabaseHealth();
     dbHealthy = dbHealth.healthy;
@@ -673,12 +679,12 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
       `),
     ]);
 
-    const cookCount = Number(interactionsRes.rows[0]?.cook_count ?? 0);
-    const viewCount = Number(interactionsRes.rows[0]?.view_count ?? 0);
+    const cookCount = Number((interactionsRes.rows[0] as { cook_count?: unknown } | undefined)?.cook_count ?? 0);
+    const viewCount = Number((interactionsRes.rows[0] as { view_count?: unknown } | undefined)?.view_count ?? 0);
     const clickToCookRate = viewCount > 0 ? cookCount / viewCount : 0;
 
-    const totalCalculations = Number(calculationsRes.rows[0]?.count ?? 0);
-    const averageLatencyMs = Math.round(Number(calculationsRes.rows[0]?.avg_latency ?? 0));
+    const totalCalculations = Number((calculationsRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
+    const averageLatencyMs = Math.round(Number((calculationsRes.rows[0] as { avg_latency?: unknown } | undefined)?.avg_latency ?? 0));
 
     // Report real values — including zero — never a fabricated placeholder.
     return {
@@ -724,11 +730,11 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
       `),
     ]);
 
-    const signup = Number(totalUsersRes.rows[0]?.count ?? 0);
-    const onboarded = Number(onboardedRes.rows[0]?.count ?? 0);
-    const active = Number(activeRes.rows[0]?.count ?? 0);
-    const firstCook = Number(firstCookRes.rows[0]?.count ?? 0);
-    const paidPro = Number(revenue.paidSubs ?? 0);
+    const signup = Number((totalUsersRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
+    const onboarded = Number((onboardedRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
+    const active = Number((activeRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
+    const firstCook = Number((firstCookRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
+    const paidPro = Number(revenue.paidSubs);
 
     const elementalBreakdown = (elementalRes.rows as Array<{ element: string; count: number }>).map((r) => ({
       element: String(r.element),
@@ -770,14 +776,13 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
   try {
     // Any sub-source failure must flip `live` — a caught-to-zero MRR or a
     // caught-to-[] order list under `live: true` is fabricated data.
-    let revenueLive = true;
-    let ordersLive = true;
     const [revenue, ordersRes] = await Promise.all([
-      getSubscriptionRevenueBreakdown().catch((err) => {
-        revenueLive = false;
-        _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
-        return { paidSubs: 0, provisionedSubs: 0, mrr: 0 };
-      }),
+      getSubscriptionRevenueBreakdown()
+        .then((res) => ({ ...res, live: true }))
+        .catch((err) => {
+          _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
+          return { paidSubs: 0, provisionedSubs: 0, mrr: 0, live: false };
+        }),
       // Coded to the DEPLOYED cart_handoff_intents schema, which has drifted
       // from database/init/24: the live table has a real `status` column and
       // NO estimated_total (the init file has the inverse), so the previous
@@ -810,11 +815,12 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
         LEFT JOIN users u ON u.id::text = r.user_id
         ORDER BY created_at DESC
         LIMIT 5;
-      `).catch((err) => {
-        ordersLive = false;
-        _logger.warn("[getCommerceTelemetry] order-intents query failed:", err);
-        return { rows: [] };
-      }),
+      `)
+        .then((res) => ({ rows: res.rows, live: true }))
+        .catch((err) => {
+          _logger.warn("[getCommerceTelemetry] order-intents query failed:", err);
+          return { rows: [], live: false };
+        }),
     ]);
 
     const { paidSubs, provisionedSubs, mrr } = revenue;
@@ -842,7 +848,7 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       paidSubs,
       provisionedSubs,
       recentOrders,
-      live: revenueLive && ordersLive,
+      live: revenue.live && ordersRes.live,
     };
   } catch (error) {
     _logger.error("[getCommerceTelemetry] failed:", error);
@@ -862,7 +868,7 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
   let allLive = true;
   const countOf = (sql: string, label: string): Promise<number> =>
     executeQuery(sql)
-      .then((res) => Number(res.rows[0]?.count ?? 0))
+      .then((res) => Number((res.rows[0] as { count?: unknown } | undefined)?.count ?? 0))
       .catch((err) => {
         allLive = false;
         _logger.warn(`[getPageTelemetry] ${label} count failed:`, err);
@@ -1037,7 +1043,12 @@ export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
            WHERE practice_type = 'feed_visit'
              AND created_at >= CURRENT_DATE) AS feed_dau`,
     );
-    const [row] = result.rows;
+    const row = result.rows[0] as {
+      affiliate_clicks?: unknown;
+      instacart_handoffs?: unknown;
+      cooked_posts?: unknown;
+      feed_dau?: unknown;
+    } | undefined;
     return {
       affiliateClicksWeek: Number(row?.affiliate_clicks ?? 0),
       instacartHandoffsWeek: Number(row?.instacart_handoffs ?? 0),
@@ -1173,7 +1184,11 @@ export async function getSecuritySummary(): Promise<SecuritySummaryData> {
       ),
     ]);
 
-    const [countsRow] = counts.rows;
+    const countsRow = counts.rows[0] as {
+      success?: number;
+      failure?: number;
+      unique_ips?: number;
+    } | undefined;
     for (const row of hourly.rows) {
       const idx = 23 - row.hour_bucket;
       if (idx >= 0 && idx < 24) {

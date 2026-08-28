@@ -5,6 +5,7 @@
  * Builds on existing alchemizer patterns while adding seasonal and timing validation.
  */
 
+import { createLogger } from '@/utils/logger'
 import {
   computeElementalVelocity,
   computeElementalMomentum,
@@ -14,15 +15,11 @@ import {
   type PlanetaryHour,
   type ForceVector,
 } from './alchemical-kinetics'
-import { alchemize } from './alchemizer'
+import { alchemize, type AlchemicalInfo } from './alchemizer'
 import { generateAccurateHoroscope } from './monica/horoscope-generator'
-// Adaptation: the source repo's `./planetary-hour` is part of the deliberately
-// severed alchemical-trainer chain (see WTEN_MIGRATION_PLAN.md). The target
-// already ships an equivalent `PlanetaryHourCalculator` — same constructor
-// `(latitude, longitude)` and `getPlanetaryHour(date) -> { planet, isDaytime }`
-// shape the sampler relies on — so we redirect to it rather than port the
-// severed module.
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator'
+
+const logger = createLogger('AlchemicalKineticsSampler')
 
 export interface HourlyAlchemicalSample {
   t: Date
@@ -44,7 +41,7 @@ export interface HourlyAlchemicalSample {
 
 export class AlchemicalKineticsSampler {
   static async sampleRange(options: SamplerOptions): Promise<HourlyAlchemicalSample[]> {
-    return sampleHourlyAlchm({ latitude: 0, longitude: 0 }, new Date(), options)
+    return Promise.resolve(sampleHourlyAlchm({ latitude: 0, longitude: 0 }, new Date(), options))
   }
 }
 
@@ -89,7 +86,7 @@ function getSeasonalExpectations(phase: string): string {
 }
 
 // Convert alchemizer output to our kinetics-friendly format
-function convertAlchemizerOutput(alchmData: any): {
+function convertAlchemizerOutput(alchmData: Partial<AlchemicalInfo>): {
   totals: ElementVector
   Heat: number
   Entropy: number
@@ -101,24 +98,27 @@ function convertAlchemizerOutput(alchmData: any): {
   spirit: number
   essence: number
 } {
+  const effectValues = alchmData['Total Effect Value'] ?? {}
   const totals: ElementVector = {
-    Fire: alchmData['Total Effect Value']?.['Fire'] ?? 0,
-    Water: alchmData['Total Effect Value']?.['Water'] ?? 0,
-    Air: alchmData['Total Effect Value']?.['Air'] ?? 0,
-    Earth: alchmData['Total Effect Value']?.['Earth'] ?? 0,
+    Fire: effectValues['Fire'] ?? 0,
+    Water: effectValues['Water'] ?? 0,
+    Air: effectValues['Air'] ?? 0,
+    Earth: effectValues['Earth'] ?? 0,
   }
+
+  const alchemyEffects = alchmData['Alchemy Effects']
 
   return {
     totals,
-    Heat: alchmData['Heat'] ?? 0,
-    Entropy: alchmData['Entropy'] ?? 0,
-    Reactivity: alchmData['Reactivity'] ?? 0,
-    Energy: alchmData['Energy'] ?? 0,
-    matter: alchmData['Alchemy Effects']?.['Total Matter'] ?? 0,
+    Heat: alchmData.Heat ?? 0,
+    Entropy: alchmData.Entropy ?? 0,
+    Reactivity: alchmData.Reactivity ?? 0,
+    Energy: alchmData.Energy ?? 0,
+    matter: alchemyEffects?.['Total Matter'] ?? 0,
     earth: totals.Earth, // Earth element from totals
-    substance: alchmData['Alchemy Effects']?.['Total Substance'] ?? 0,
-    spirit: alchmData['Alchemy Effects']?.['Total Spirit'] ?? 0,
-    essence: alchmData['Alchemy Effects']?.['Total Essence'] ?? 0,
+    substance: alchemyEffects?.['Total Substance'] ?? 0,
+    spirit: alchemyEffects?.['Total Spirit'] ?? 0,
+    essence: alchemyEffects?.['Total Essence'] ?? 0,
   }
 }
 
@@ -179,11 +179,11 @@ export function attachForceToSamples(samples: HourlyAlchemicalSample[]): void {
  * Sample hourly alchemical data with planetary timing context
  * Ensures proper astrological timing for kinetic calculations
  */
-export async function sampleHourlyAlchm(
+export function sampleHourlyAlchm(
   location: { latitude: number; longitude: number },
   date: Date,
   options: SamplerOptions = {}
-): Promise<HourlyAlchemicalSample[]> {
+): HourlyAlchemicalSample[] {
   // `validateTiming` / `timeZone` are part of SamplerOptions but consumed by
   // other functions (e.g. sampleDateRange); this sampler doesn't read them.
   const {
@@ -250,7 +250,7 @@ export async function sampleHourlyAlchm(
 
       samples.push(sample)
     } catch (error) {
-      console.error(`Error processing hour ${hour}:`, error)
+      logger.error(`Error processing hour ${hour}`, { error })
       // Add a minimal sample to maintain time series continuity
       samples.push({
         t: hourDate,
@@ -366,12 +366,12 @@ export function validateTimingPatterns(samples: HourlyAlchemicalSample[]): Timin
  * Quick sampler for current moment (single sample)
  * Useful for real-time applications
  */
-export async function sampleCurrentMoment(
+export function sampleCurrentMoment(
   location: { latitude: number; longitude: number },
   options: Pick<SamplerOptions, 'includePlanetaryHours' | 'timeZone'> = {}
-): Promise<HourlyAlchemicalSample> {
+): HourlyAlchemicalSample {
   const now = new Date()
-  const samples = await sampleHourlyAlchm(location, now, {
+  const samples = sampleHourlyAlchm(location, now, {
     ...options,
     hoursToSample: 1,
     startHour: now.getHours(),
@@ -388,20 +388,20 @@ export async function sampleCurrentMoment(
  * Sample a date range with validation
  * For multi-day kinetic analysis
  */
-export async function sampleDateRange(
+export function sampleDateRange(
   location: { latitude: number; longitude: number },
   startDate: Date,
   endDate: Date,
   options: SamplerOptions = {}
-): Promise<{
+): {
   samples: HourlyAlchemicalSample[]
   validation: TimingValidationResult
-}> {
+} {
   const allSamples: HourlyAlchemicalSample[] = []
 
   const currentDate = new Date(startDate)
   while (currentDate <= endDate) {
-    const dailySamples = await sampleHourlyAlchm(location, currentDate, options)
+    const dailySamples = sampleHourlyAlchm(location, currentDate, options)
     allSamples.push(...dailySamples)
 
     // Move to next day
@@ -417,3 +417,4 @@ export async function sampleDateRange(
     validation,
   }
 }
+

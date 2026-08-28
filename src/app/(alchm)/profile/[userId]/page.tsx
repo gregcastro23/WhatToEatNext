@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import AgentProfileWeekCard from "@/components/menu-planner/redesign/AgentProfileWeekCard";
+import type { DietaryPreferencesData } from "@/components/profile/blocks/types";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
@@ -16,6 +17,7 @@ import { ProfileIdentityPanel } from "@/components/profile/tables/ProfileIdentit
 import { ProfileStatsPanel } from "@/components/profile/tables/ProfileStatsPanel";
 import { TableMemoriesGallery } from "@/components/profile/tables/TableMemoriesGallery";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
+import type { AgentAction, AgentArtifact, AgentInteraction } from "@/lib/agents/fetchAgentProfile";
 import type { ProfileSocialBlock } from "@/types/social";
 import AgentProfile from "./AgentProfile";
 
@@ -39,24 +41,27 @@ interface PublicProfile {
   isAgent: boolean;
   agentSlug: string | null;
   agentProfile: CraftedAgentProfile | null;
-  agentInteractions?: any[];
-  agentActions?: any[];
-  agentArtifacts?: any[];
+  agentInteractions?: AgentInteraction[];
+  agentActions?: AgentAction[];
+  agentArtifacts?: AgentArtifact[];
   bio: string | null;
   dominantElement: string | null;
   avatarUrl: string | null;
   social: ProfileSocialBlock;
   /** Owner-only: the "post anonymously by default" toggle state. */
   shareIdentity?: boolean;
-  natalChart: any;
+  natalChart: unknown;
   natalPositions: NatalPosition[];
   birthData: { date?: string; time?: string; location?: string } | null;
   createdAt: string;
   balances: { spirit: number; essence: number; matter: number; substance: number };
   recentActivity: RecentActivity[];
-  dietary_preferences?: any;
+  dietary_preferences?: DietaryPreferencesData;
   profile_layout?: string[];
-  tasteGraph?: any;
+  tasteGraph?: {
+    elementalAffinities?: Record<string, number>;
+    [key: string]: unknown;
+  };
 }
 
 const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
@@ -99,24 +104,38 @@ export default function PublicProfilePage() {
   useEffect(() => {
     if (!userId) return;
     let cancelled = false;
-    async function load() {
+    async function load(): Promise<void> {
       try {
         const res = await fetch(`/api/users/${userId}`);
-        const data = await res.json();
+        const data = (await res.json()) as {
+          success?: boolean;
+          message?: string;
+          profile?: Partial<PublicProfile>;
+        };
         if (cancelled) return;
-        if (!res.ok || !data.success) {
-          setError(data.message || "Profile unavailable");
+        if (!res.ok || !data.success || !data.profile) {
+          setError(data.message ?? "Profile unavailable");
         } else {
-          setProfile({ social: EMPTY_SOCIAL, ...data.profile });
-          setLayout(data.profile.profile_layout || ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
+          setProfile({ ...(data.profile as PublicProfile), social: data.profile.social ?? EMPTY_SOCIAL });
+          setLayout(
+            data.profile.profile_layout ?? [
+              "natalChart",
+              "alchemicalConstitution",
+              "tasteGraph",
+              "dietaryPrefs",
+              "insightsTicker",
+              "tokenEconomy",
+              "recentActivity",
+            ],
+          );
         }
-      } catch (_err) {
+      } catch {
         if (!cancelled) setError("Network error");
       } finally {
         if (!cancelled) setLoading(false);
       }
     }
-    void load();
+    load().catch(() => {});
     return () => {
       cancelled = true;
     };
@@ -173,16 +192,16 @@ export default function PublicProfilePage() {
           </div>
         ) : error || !profile ? (
           <div className="glass-card-premium rounded-3xl p-12 border-white/8 text-center">
-            <p className="text-white/40 text-sm">{error || "Profile not found."}</p>
+            <p className="text-white/40 text-sm">{error ?? "Profile not found."}</p>
           </div>
         ) : hasEnrichedAgent ? (
           <AgentProfile
             agent={profile.agentProfile!}
             balances={profile.balances}
             handle={profile.handle}
-            interactions={profile.agentInteractions || []}
-            actions={profile.agentActions || []}
-            artifacts={profile.agentArtifacts || []}
+            interactions={profile.agentInteractions ?? []}
+            actions={profile.agentActions ?? []}
+            artifacts={profile.agentArtifacts ?? []}
             userId={profile.userId}
             viewer={social.viewer}
           />

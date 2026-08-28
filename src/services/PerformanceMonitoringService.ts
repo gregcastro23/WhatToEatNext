@@ -31,6 +31,17 @@ export interface PerformanceAlert {
   threshold?: number;
 }
 
+export interface PerformanceSummary {
+  totalComponents: number;
+  slowComponents: number;
+  errorProneComponents: number;
+  averageRenderTime: number;
+  totalErrors: number;
+  memoryUsage: number;
+  uptime: number;
+  healthScore: number;
+}
+
 class PerformanceMonitoringService {
   private readonly componentMetrics: Map<string, ComponentMetrics> = new Map();
   private systemMetrics: SystemMetrics;
@@ -58,7 +69,7 @@ class PerformanceMonitoringService {
     this.startMonitoring();
   }
 
-  private startMonitoring() {
+  private startMonitoring(): void {
     // Update system metrics every 5 seconds
     setInterval(() => {
       this.updateSystemMetrics();
@@ -67,7 +78,7 @@ class PerformanceMonitoringService {
     }, 5000);
   }
 
-  private updateSystemMetrics() {
+  private updateSystemMetrics(): void {
     const now = Date.now();
 
     // Calculate memory usage;
@@ -76,7 +87,7 @@ class PerformanceMonitoringService {
       memory?: { usedJSHeapSize?: number };
     };
     const perf = performance as PerformanceWithMemory;
-    if (perf?.memory && typeof perf.memory.usedJSHeapSize === "number") {
+    if (perf.memory && typeof perf.memory.usedJSHeapSize === "number") {
       totalMemory = perf.memory.usedJSHeapSize / 1024 / 1024; // MB
     }
 
@@ -94,7 +105,7 @@ class PerformanceMonitoringService {
     };
   }
 
-  private checkThresholds() {
+  private checkThresholds(): void {
     // Check component performance
     this.componentMetrics.forEach((metrics, componentName) => {
       // Check render time
@@ -157,7 +168,7 @@ class PerformanceMonitoringService {
     }
   }
 
-  private addAlert(alert: PerformanceAlert) {
+  private addAlert(alert: PerformanceAlert): void {
     this.alerts.push(alert);
 
     // Keep only last 50 alerts
@@ -173,7 +184,7 @@ class PerformanceMonitoringService {
     }
   }
 
-  private notifySubscribers() {
+  private notifySubscribers(): void {
     const data = {
       componentMetrics: Array.from(this.componentMetrics.entries()),
       systemMetrics: this.systemMetrics,
@@ -191,7 +202,7 @@ class PerformanceMonitoringService {
   }
 
   // Public methods
-  public trackComponentRender(componentName: string, renderTime: number) {
+  public trackComponentRender(componentName: string, renderTime: number): void {
     const existing = this.componentMetrics.get(componentName);
 
     if (existing) {
@@ -219,7 +230,7 @@ class PerformanceMonitoringService {
     }
   }
 
-  public trackComponentError(componentName: string, _error: Error | string) {
+  public trackComponentError(componentName: string, _error: Error | string): void {
     const existing = this.componentMetrics.get(componentName);
     if (existing) {
       this.componentMetrics.set(componentName, {
@@ -243,7 +254,7 @@ class PerformanceMonitoringService {
     this.systemMetrics.totalErrors += 1;
   }
 
-  public subscribe(callback: (data: unknown) => void) {
+  public subscribe(callback: (data: unknown) => void): () => void {
     this.subscribers.add(callback);
 
     // Return unsubscribe function
@@ -252,29 +263,29 @@ class PerformanceMonitoringService {
     };
   }
 
-  public getComponentMetrics(componentName?: string) {
+  public getComponentMetrics(componentName?: string): ComponentMetrics | undefined | Array<[string, ComponentMetrics]> {
     if (componentName) {
       return this.componentMetrics.get(componentName);
     }
     return Array.from(this.componentMetrics.entries());
   }
 
-  public getSystemMetrics() {
+  public getSystemMetrics(): SystemMetrics {
     return this.systemMetrics;
   }
 
-  public getAlerts(type?: "warning" | "error" | "info") {
+  public getAlerts(type?: "warning" | "error" | "info"): PerformanceAlert[] {
     if (type) {
       return this.alerts.filter((alert) => alert.type === type);
     }
     return this.alerts;
   }
 
-  public clearAlerts() {
+  public clearAlerts(): void {
     this.alerts = [];
   }
 
-  public getPerformanceSummary() {
+  public getPerformanceSummary(): PerformanceSummary {
     const components = Array.from(this.componentMetrics.values());
     const slowComponents = components.filter(
       (c) => c.averageRenderTime > this.RENDER_TIME_WARNING,
@@ -322,7 +333,7 @@ class PerformanceMonitoringService {
     return Math.max(0, Math.min(100, score));
   }
 
-  public reset() {
+  public reset(): void {
     this.componentMetrics.clear();
     this.alerts = [];
     this.systemMetrics = {

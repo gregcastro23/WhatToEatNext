@@ -126,18 +126,20 @@ export class EnhancedAstrologyService {
       .slice(0, 4); // Return next 4 eclipses
 
     // Get major transits from transit database
-    const yearlyData = COMPREHENSIVE_TRANSIT_DATABASE[currentYear];
-    const majorTransits = yearlyData?.majorTransits
+    const yearlyData = COMPREHENSIVE_TRANSIT_DATABASE[currentYear] as { majorTransits?: unknown[] } | undefined;
+    const majorTransits = Array.isArray(yearlyData?.majorTransits)
       ? (yearlyData.majorTransits as unknown as Season[])
       : [];
+
+    await Promise.resolve();
 
     return {
       currentSeason: currentSeason as unknown as Season,
       upcomingTransits:
-        (upcomingAnalysis.seasons as unknown as Element[]) || [],
-      dominantElements: seasonalAnalysis.dominantElements || {},
-      keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]) || [],
-      retrogradePlanets: seasonalAnalysis.retrogradePlanets || [],
+        (upcomingAnalysis.seasons as unknown as Element[]),
+      dominantElements: seasonalAnalysis.dominantElements,
+      keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]),
+      retrogradePlanets: seasonalAnalysis.retrogradePlanets,
       eclipseSeasons: futureEclipses,
       majorTransits,
     };
@@ -157,7 +159,7 @@ export class EnhancedAstrologyService {
     const transitAnalysis = await this.getTransitAnalysis(date);
     const { currentSeason } = transitAnalysis;
 
-    if (!currentSeason) {
+    if (typeof currentSeason === "undefined") {
       // Fallback to basic seasonal analysis
       const month = date.getMonth();
       const basicSeasonalData = this.getBasicSeasonalData(month);
@@ -171,24 +173,15 @@ export class EnhancedAstrologyService {
       };
     }
 
+    const transitSeason = currentSeason as unknown as TransitSeason;
+
     return {
-      seasonalThemes:
-        (currentSeason as unknown as TransitSeason).seasonalThemes || [],
-      culinaryInfluences:
-        (currentSeason as unknown as TransitSeason).culinaryInfluences || [],
-      dominantElements:
-        (currentSeason as unknown as TransitSeason).dominantElements || {},
-      recommendedCuisines:
-        this.getRecommendedCuisines(
-          (currentSeason as unknown as TransitSeason).dominantElements,
-        ) || {},
-      recommendedCookingMethods:
-        this.getRecommendedCookingMethods(
-          (currentSeason as unknown as TransitSeason).dominantElements,
-        ) || {},
-      alchemicalProperties:
-        (currentSeason as unknown as TransitSeason).alchemicalProperties ||
-        {},
+      seasonalThemes: transitSeason.seasonalThemes,
+      culinaryInfluences: transitSeason.culinaryInfluences,
+      dominantElements: transitSeason.dominantElements,
+      recommendedCuisines: this.getRecommendedCuisines(transitSeason.dominantElements),
+      recommendedCookingMethods: this.getRecommendedCookingMethods(transitSeason.dominantElements),
+      alchemicalProperties: transitSeason.alchemicalProperties,
     };
   }
 
@@ -198,20 +191,12 @@ export class EnhancedAstrologyService {
   private async calculateEnhancedPositions(
     date: Date,
   ): Promise<EnhancedAstrologicalData> {
-    let primaryPositions: Record<string, CelestialPosition> | null = null;
-    let dataSource: EnhancedAstrologicalData["dataSource"] = "fallback";
-    let confidence = 0.5;
+    let primaryPositions: Record<string, CelestialPosition>;
+    let dataSource: EnhancedAstrologicalData["dataSource"];
+    let confidence: number;
 
     // Unified positions service
     try {
-      // PlanetaryPositionsService.ts only exports `_planetaryPositionsService`
-      // (underscore-prefixed); the property access below (`.planetaryPositionsService`,
-      // no underscore) is a pre-existing latent bug — that property is always undefined,
-      // so calling `.getForDate(date)` on it always throws a TypeError, which is caught
-      // below and falls through to the Swiss/fallback chain. Preserved as-is (types-only
-      // pass): the boundary type intentionally types this as an optional/unknown-shaped
-      // property (not the real, nonexistent shape) so the throw-on-access behavior is
-      // unchanged — using `?.` here would swallow the throw and silently change behavior.
       const positionsModule = (await import(
         "@/services/PlanetaryPositionsService"
       )) as Record<string, unknown>;
@@ -223,11 +208,7 @@ export class EnhancedAstrologyService {
         }
       ).getForDate(date);
       primaryPositions = servicePositions;
-      // "positions-service" is not a member of EnhancedAstrologicalData["dataSource"]
-      // ("astrologize" | "swiss-ephemeris" | "fallback" | "composite"). Unreachable in
-      // practice given the throw above, but preserved exactly rather than corrected.
-      // Intentionally any: literal is intentionally outside the declared dataSource union.
-      dataSource = "positions-service" as any;
+      dataSource = "composite";
       confidence = 0.95;
     } catch (_error) {
       logger.warn(
@@ -240,7 +221,7 @@ export class EnhancedAstrologyService {
         dataSource = "swiss-ephemeris";
         confidence = 0.9;
       } catch (_e) {
-        primaryPositions = {}; // getFallbackPlanetaryPositions(date);
+        primaryPositions = {};
         dataSource = "fallback";
         confidence = 0.7;
       }
@@ -254,11 +235,11 @@ export class EnhancedAstrologyService {
 
     // Calculate dominant elements from positions
     const dominantElements = this.calculateDominantElements(
-      primaryPositions || {},
+      primaryPositions,
     );
 
     // Get retrograde planets
-    const retrogradePlanets = Object.entries(primaryPositions || {})
+    const retrogradePlanets = Object.entries(primaryPositions)
       .filter(([_, position]) => position.isRetrograde)
       .map(([planet]) => planet);
 
@@ -267,10 +248,10 @@ export class EnhancedAstrologyService {
 
     // Get key aspects from seasonal transit
     const keyAspects =
-      (seasonalTransit?.keyAspects as unknown as Planet[]) || [];
+      seasonalTransit ? (seasonalTransit.keyAspects as unknown as Planet[]) : [];
 
     return {
-      planetaryPositions: primaryPositions || {},
+      planetaryPositions: primaryPositions,
       dataSource,
       confidence,
       siderealTime: siderealTime ?? undefined,
@@ -496,7 +477,7 @@ export class EnhancedAstrologyService {
       // Add more months as needed...
     };
 
-    return seasonalData[month as keyof typeof seasonalData] || seasonalData[0];
+    return (month in seasonalData ? seasonalData[month as keyof typeof seasonalData] : undefined) ?? seasonalData[0];
   }
 
   /**
@@ -540,6 +521,7 @@ export class EnhancedAstrologyService {
     this.lastAstrologizeCheck = 0;
     this.cache.clear();
     logger.info("Forced refresh of Astrologize API data");
+    await Promise.resolve();
   }
 }
 
@@ -547,13 +529,35 @@ export class EnhancedAstrologyService {
 export const enhancedAstrologyService = new EnhancedAstrologyService();
 
 // Export convenience functions
-export const getEnhancedPlanetaryPositions = (_date?: Date) =>
+export const getEnhancedPlanetaryPositions = (
+  _date?: Date,
+): Promise<EnhancedAstrologicalData> =>
   enhancedAstrologyService.getEnhancedPlanetaryPositions(_date);
-export const getTransitAnalysis = (_date?: Date) =>
+
+export const getTransitAnalysis = (
+  _date?: Date,
+): Promise<TransitAnalysis> =>
   enhancedAstrologyService.getTransitAnalysis(_date);
-export const getSeasonalRecommendations = (_date?: Date) =>
+
+export const getSeasonalRecommendations = (
+  _date?: Date,
+): Promise<{
+  seasonalThemes: string[];
+  culinaryInfluences: string[];
+  dominantElements: Record<string, number>;
+  recommendedCuisines: string[];
+  recommendedCookingMethods: string[];
+  alchemicalProperties: Record<string, number>;
+}> =>
   enhancedAstrologyService.getSeasonalRecommendations(_date);
-export const getDataSourceInfo = () =>
+
+export const getDataSourceInfo = (): {
+  astrologizeAvailable: boolean;
+  swissEphemerisAvailable: boolean;
+  transitDatabaseAvailable: boolean;
+  lastAstrologizeCheck: Date;
+} =>
   enhancedAstrologyService.getDataSourceInfo();
-export const forceRefreshAstrologize = () =>
+
+export const forceRefreshAstrologize = (): Promise<void> =>
   enhancedAstrologyService.forceRefreshAstrologize();

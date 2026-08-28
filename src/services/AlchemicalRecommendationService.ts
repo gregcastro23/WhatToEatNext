@@ -28,7 +28,7 @@ export interface AlchemicalRecommendation {
  * Uses the AlchemicalEngine as its core calculation engine
  */
 export class AlchemicalRecommendationService {
-  private static instance: AlchemicalRecommendationService;
+  private static instance: AlchemicalRecommendationService | undefined;
   private readonly engine: AlchemicalEngine;
 
   private constructor() {
@@ -39,7 +39,7 @@ export class AlchemicalRecommendationService {
    * Get the singleton instance
    */
   public static getInstance(): AlchemicalRecommendationService {
-    if (!AlchemicalRecommendationService.instance) {
+    if (typeof AlchemicalRecommendationService.instance === "undefined") {
       AlchemicalRecommendationService.instance =
         new AlchemicalRecommendationService();
     }
@@ -92,8 +92,8 @@ export class AlchemicalRecommendationService {
     return {
       dominantElement,
       thermodynamics: _thermodynamics,
-      recommendedIngredients: (compatibleIngredients || []).map((i) => i.name),
-      recommendedCookingMethods: compatibleMethods || [],
+      recommendedIngredients: compatibleIngredients.map((i) => i.name),
+      recommendedCookingMethods: compatibleMethods,
       recommendations,
       warnings,
     };
@@ -171,19 +171,27 @@ export class AlchemicalRecommendationService {
     _thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
-      .map((method) => ({
-        method,
-        score: this.engine.calculateElementalCompatibility(
-          elementalProperties,
-          ((method as unknown as any)
-            .elementalState as ElementalProperties) || {
+      .map((method) => {
+        const methodRecord = method as unknown as {
+          elementalState?: ElementalProperties;
+          elementalProperties?: ElementalProperties;
+        };
+        const methodState: ElementalProperties =
+          methodRecord.elementalState ??
+          methodRecord.elementalProperties ?? {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
-          },
-        ),
-      }))
+          };
+        return {
+          method,
+          score: this.engine.calculateElementalCompatibility(
+            elementalProperties,
+            methodState,
+          ),
+        };
+      })
       .filter(({ score }) => score > 0.7)
       .sort((a, b) => b.score - a.score)
       .slice(0, 5)
@@ -243,9 +251,7 @@ export class AlchemicalRecommendationService {
       );
     }
 
-    // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
-    const thermodynamicsData = thermodynamics as unknown as any;
-    if (thermodynamicsData.kalchm > 2.0) {
+    if (typeof thermodynamics.kalchm === "number" && thermodynamics.kalchm > 2.0) {
       recommendations.push(
         "Exceptional transformation potential - fermentation and aging processes are enhanced.",
       );
@@ -292,51 +298,24 @@ export class AlchemicalRecommendationService {
   private getDominantElement(
     properties: ElementalProperties,
   ): keyof ElementalProperties {
-    // Initialize with Fire element
     let maxElement: keyof ElementalProperties = "Fire";
+    let maxValue = properties.Fire;
 
-    // Get the value for Fire - try lowercase first, then capitalized
-    let maxValue =
-      properties.Fire !== undefined
-        ? properties.Fire
-        : properties.Fire !== undefined
-          ? properties.Fire
-          : 0;
-
-    // Check Water
-    const waterValue =
-      properties.Water !== undefined
-        ? properties.Water
-        : properties.Water !== undefined
-          ? properties.Water
-          : 0;
+    const waterValue = properties.Water;
     if (waterValue > maxValue) {
       maxElement = "Water";
       maxValue = waterValue;
     }
 
-    // Check Earth
-    const earthValue =
-      properties.Earth !== undefined
-        ? properties.Earth
-        : properties.Earth !== undefined
-          ? properties.Earth
-          : 0;
+    const earthValue = properties.Earth;
     if (earthValue > maxValue) {
       maxElement = "Earth";
       maxValue = earthValue;
     }
 
-    // Check Air
-    const AirValue =
-      properties.Air !== undefined
-        ? properties.Air
-        : properties.Air !== undefined
-          ? properties.Air
-          : 0;
-    if (AirValue > maxValue) {
+    const airValue = properties.Air;
+    if (airValue > maxValue) {
       maxElement = "Air";
-      maxValue = AirValue;
     }
 
     return maxElement;
@@ -355,15 +334,15 @@ export class AlchemicalRecommendationService {
     const t = thermodynamics as WithMonicaKalchm;
     // Simplified mapping from thermodynamics to elemental properties
     const Fire =
-      ((thermodynamics as any)?.heat ?? 0) * 0.2 +
-      ((thermodynamics as any)?.reactivity ?? 0) * 0.2;
+      thermodynamics.heat * 0.2 +
+      thermodynamics.reactivity * 0.2;
     const Water = (t.monica ?? 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
     const Earth = (t.kalchm ?? 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air =
-      ((thermodynamics as any)?.entropy ?? 0) * 0.2 +
-      ((thermodynamics as any)?.reactivity ?? 0) * 0.2;
+      thermodynamics.entropy * 0.2 +
+      thermodynamics.reactivity * 0.2;
     // Normalize to ensure values sum to 1
-    const total = Fire + Water + Earth + Air;
+    const total = Fire + Water + Earth + Air || 1;
     return {
       Fire: Fire / total,
       Water: Water / total,
@@ -393,13 +372,12 @@ export class AlchemicalRecommendationService {
       this.deriveElementalProperties(_thermodynamics);
 
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties =
-      (recipe.elementalState as ElementalProperties) || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
+    const recipeRecord = recipe as unknown as {
+      elementalState?: ElementalProperties;
+    };
+    const recipeElementalProperties: ElementalProperties =
+      recipeRecord.elementalState ??
+      recipe.elementalProperties;
 
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(

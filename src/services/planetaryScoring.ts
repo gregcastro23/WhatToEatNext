@@ -12,8 +12,8 @@ import type {
   ZodiacSignType,
   PlanetaryPosition,
 } from "@/types/celestial";
-import type { PlanetPositionData } from "@/utils/astrology/positions";
 import type { Recipe } from "@/types/recipe";
+import type { PlanetPositionData } from "@/utils/astrology/positions";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 

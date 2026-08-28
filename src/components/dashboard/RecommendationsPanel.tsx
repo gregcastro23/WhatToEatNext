@@ -165,7 +165,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
   const currentPrefs = (currentUser?.preferences as UserPreferences | undefined) ?? preferences;
   const savedRestaurants = currentPrefs.savedRestaurants ?? [];
 
-  const handleSaveRestaurant = async (restaurant: SavedRestaurant) => {
+  const handleSaveRestaurant = async (restaurant: SavedRestaurant): Promise<void> => {
     const newSaved = [...savedRestaurants, restaurant];
     
     // Update local storage for ProfilePage fallback
@@ -173,7 +173,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       const stored = localStorage.getItem('userFoodPreferences');
       if (stored) {
         try {
-          const parsed = JSON.parse(stored);
+          const parsed = JSON.parse(stored) as { savedRestaurants?: SavedRestaurant[] };
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
         } catch (err) {
@@ -191,14 +191,14 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
     reportQuestEvent('save_restaurant');
   };
 
-  const handleRemoveRestaurant = async (restaurantId: string) => {
+  const handleRemoveRestaurant = async (restaurantId: string): Promise<void> => {
     const newSaved = savedRestaurants.filter(r => r.id !== restaurantId);
 
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('userFoodPreferences');
       if (stored) {
         try {
-          const parsed = JSON.parse(stored);
+          const parsed = JSON.parse(stored) as { savedRestaurants?: SavedRestaurant[] };
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
         } catch (err) {
@@ -215,7 +215,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
     });
   };
 
-  const handleUpdateRestaurant = async (updatedRestaurant: SavedRestaurant) => {
+  const handleUpdateRestaurant = async (updatedRestaurant: SavedRestaurant): Promise<void> => {
     const newSaved = savedRestaurants.map(r =>
       r.id === updatedRestaurant.id ? updatedRestaurant : r
     );
@@ -224,7 +224,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       const stored = localStorage.getItem('userFoodPreferences');
       if (stored) {
         try {
-          const parsed = JSON.parse(stored);
+          const parsed = JSON.parse(stored) as { savedRestaurants?: SavedRestaurant[] };
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
         } catch (err) {
@@ -242,12 +242,12 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
   };
 
   useEffect(() => {
-    if (!natalChart || !email) {
+    if (!email) {
       setIsLoading(false);
       return;
     }
 
-    async function loadRecommendations() {
+    async function loadRecommendations(): Promise<void> {
       setIsLoading(true);
       setError(null);
 
@@ -262,7 +262,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
         ]);
 
         if (personalRes.ok) {
-          const personalResult = await personalRes.json();
+          const personalResult = (await personalRes.json()) as { success?: boolean; data?: PersonalizedData };
           if (personalResult.success && personalResult.data) {
             setPersonalData(personalResult.data);
           }
@@ -272,7 +272,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const cuisineResult: unknown = await cuisineRes.json();
           let parsed = parseCuisineResponse(cuisineResult);
           if (preferences.preferredCuisines.length > 0) {
-            const matchesPreference = (c: CuisineRecommendation) =>
+            const matchesPreference = (c: CuisineRecommendation): boolean =>
               preferences.preferredCuisines.some((p) =>
                 c.name.toLowerCase().includes(p.toLowerCase())
               );
@@ -284,22 +284,20 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           setCuisines(parsed);
         }
       } catch (err) {
-        console.error('Failed to load recommendations:', err);
+        logger.error('Failed to load recommendations:', err);
         setError('Unable to load recommendations. Please try again.');
       } finally {
         setIsLoading(false);
       }
     }
 
-    void loadRecommendations();
+    loadRecommendations().catch(() => {});
   }, [email, natalChart, preferences.preferredCuisines]);
 
   // Derive natal chart info for inline display
-  const dominantElement = natalChart.dominantElement || 'Fire';
-  const elementalBalance = natalChart.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const { dominantElement, elementalBalance, alchemicalProperties: alchemical } = natalChart;
   const sortedElements = Object.entries(elementalBalance)
-    .sort(([, a], [, b]) => (b as number) - (a as number));
-  const alchemical = natalChart.alchemicalProperties || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+    .sort(([, a], [, b]) => b - a);
 
   if (isLoading) {
     return (
@@ -327,7 +325,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
             <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Your Constitution:</span>
             <div className="flex gap-2">
               {sortedElements.map(([el, val]) => {
-                const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
+                const colors = ELEMENT_COLORS[el];
                 return (
                   <span
                     key={el}
@@ -434,7 +432,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                               .sort(([, a], [, b]) => (b) - (a))
                               .slice(0, 2)
                               .map(([el]) => {
-                                const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
+                                const colors = ELEMENT_COLORS[el];
                                 return (
                                   <span
                                     key={el}
@@ -562,9 +560,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 >
                   <RestaurantBuilder
                     savedRestaurants={savedRestaurants}
-                    onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
-                    onRemove={(restaurantId) => { void handleRemoveRestaurant(restaurantId); }}
-                    onUpdate={(updatedRestaurant) => { void handleUpdateRestaurant(updatedRestaurant); }}
+                    onSave={(restaurant) => { handleSaveRestaurant(restaurant).catch(() => {}); }}
+                    onRemove={(restaurantId) => { handleRemoveRestaurant(restaurantId).catch(() => {}); }}
+                    onUpdate={(updatedRestaurant) => { handleUpdateRestaurant(updatedRestaurant).catch(() => {}); }}
                   />
                 </TokenGate>
               </>
@@ -575,7 +573,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 </p>
                 <RestaurantSearch
                   savedRestaurants={savedRestaurants}
-                  onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
+                  onSave={(restaurant) => { handleSaveRestaurant(restaurant).catch(() => {}); }}
                 />
               </>
             )}
@@ -587,16 +585,16 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       {activeSubTab === 'methods' && (
         <div className="space-y-4">
           {/* Personalized methods from chart comparison */}
-          {personalData?.recommendations.suggestedCookingMethods && personalData.recommendations.suggestedCookingMethods.length > 0 && (
+          {personalData && personalData.recommendations.suggestedCookingMethods.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm p-5">
               <h3 className="text-base font-bold text-gray-800 mb-2">Recommended for Your Chart</h3>
               <p className="text-xs text-gray-500 mb-3">
-                Based on your harmonic planets ({personalData.recommendations.harmonicPlanets.map(p => `${PLANET_SYMBOLS[p] || ''} ${p}`).join(', ')})
+                Based on your harmonic planets ({personalData.recommendations.harmonicPlanets.map(p => `${PLANET_SYMBOLS[p] ?? ''} ${p}`).join(', ')})
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {personalData.recommendations.suggestedCookingMethods.map((method) => {
                   const detail = COOKING_METHOD_DETAILS[method];
-                  const elColors = detail ? ELEMENT_COLORS[detail.element] || ELEMENT_COLORS.Fire : ELEMENT_COLORS.Fire;
+                  const elColors = ELEMENT_COLORS[detail.element];
                   return (
                     <div
                       key={method}
@@ -604,20 +602,14 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className={`text-sm font-semibold ${elColors.text}`}>{method}</span>
-                        {detail && (
-                          <span className={`text-xs px-1.5 py-0.5 rounded ${elColors.bg} ${elColors.text} font-medium`}>
-                            {detail.element}
-                          </span>
-                        )}
+                        <span className={`text-xs px-1.5 py-0.5 rounded ${elColors.bg} ${elColors.text} font-medium`}>
+                          {detail.element}
+                        </span>
                       </div>
-                      {detail && (
-                        <>
-                          <p className="text-xs text-gray-600 mt-1">{detail.description}</p>
-                          <p className="text-xs text-gray-500 mt-1.5">
-                            <span className="font-medium">Try with:</span> {detail.bestFor}
-                          </p>
-                        </>
-                      )}
+                      <p className="text-xs text-gray-600 mt-1">{detail.description}</p>
+                      <p className="text-xs text-gray-500 mt-1.5">
+                        <span className="font-medium">Try with:</span> {detail.bestFor}
+                      </p>
                     </div>
                   );
                 })}
@@ -638,7 +630,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 .filter(([, d]) => d.element === dominantElement)
                 .slice(0, 6)
                 .map(([method, detail]) => {
-                  const elColors = ELEMENT_COLORS[detail.element] || ELEMENT_COLORS.Fire;
+                  const elColors = ELEMENT_COLORS[detail.element] ?? ELEMENT_COLORS.Fire;
                   return (
                     <div
                       key={method}
@@ -669,7 +661,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                   .filter(([, d]) => d.element === sortedElements[1][0])
                   .slice(0, 4)
                   .map(([method, detail]) => {
-                    const elColors = ELEMENT_COLORS[detail.element] || ELEMENT_COLORS.Fire;
+                    const elColors = ELEMENT_COLORS[detail.element] ?? ELEMENT_COLORS.Fire;
                     return (
                       <div
                         key={method}
@@ -693,7 +685,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       {activeSubTab === 'ingredients' && (
         <div className="space-y-4">
           {/* Chart insights */}
-          {personalData?.recommendations.insights && personalData.recommendations.insights.length > 0 && (
+          {personalData && personalData.recommendations.insights.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm p-5">
               <h3 className="text-base font-bold text-gray-800 mb-2">Chart Insights</h3>
               <ul className="space-y-1.5">
@@ -708,10 +700,10 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           )}
 
           {/* Primary element ingredients */}
-          {personalData?.recommendations.favorableElements && personalData.recommendations.favorableElements.length > 0 ? (
+          {personalData && personalData.recommendations.favorableElements.length > 0 ? (
             personalData.recommendations.favorableElements.map((el) => {
-              const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
-              const ingredients = ELEMENT_INGREDIENT_DATA[el] || [];
+              const colors = ELEMENT_COLORS[el] ?? ELEMENT_COLORS.Fire;
+              const ingredients = ELEMENT_INGREDIENT_DATA[el] ?? [];
               return (
                 <div key={el} className="bg-white rounded-xl shadow-sm p-5">
                   <div className="flex items-center gap-2 mb-1">
@@ -738,10 +730,10 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
             /* Fallback: show ingredients for dominant element from natal chart */
             <div className="bg-white rounded-xl shadow-sm p-5">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className={`text-base font-bold ${(ELEMENT_COLORS[dominantElement] || ELEMENT_COLORS.Fire).text}`}>
+                <h3 className={`text-base font-bold ${(ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire).text}`}>
                   {dominantElement} Ingredients
                 </h3>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${(ELEMENT_COLORS[dominantElement] || ELEMENT_COLORS.Fire).bg} ${(ELEMENT_COLORS[dominantElement] || ELEMENT_COLORS.Fire).text} font-medium`}>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${(ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire).bg} ${(ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire).text} font-medium`}>
                   Dominant
                 </span>
               </div>
@@ -749,8 +741,8 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 Ingredients that resonate with your dominant {dominantElement} energy
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {(ELEMENT_INGREDIENT_DATA[dominantElement] || []).map((ing) => {
-                  const colors = ELEMENT_COLORS[dominantElement] || ELEMENT_COLORS.Fire;
+                {(ELEMENT_INGREDIENT_DATA[dominantElement] ?? []).map((ing) => {
+                  const colors = ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire;
                   return (
                     <div key={ing.name} className={`p-3 ${colors.bg} rounded-lg border ${colors.border}`}>
                       <span className={`text-sm font-semibold ${colors.text}`}>{ing.name}</span>

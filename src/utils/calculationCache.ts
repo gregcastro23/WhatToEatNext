@@ -16,19 +16,40 @@ import { log } from "@/services/LoggingService";
 // Default TTL is 60 seconds - adjust based on how quickly data changes
 const DEFAULT_CACHE_TTL = 60 * 1000;
 
+interface BrowserCacheEntry<T = unknown> {
+  data: T;
+  timestamp: number;
+  inputHash: string;
+}
+
 // In-memory cache for browser environment
-const browserCache = new Map<
-  string,
-  { data: any; timestamp: number; inputHash: string }
->();
+const browserCache = new Map<string, BrowserCacheEntry>();
+
+export interface CacheServiceRecord {
+  result_data: string;
+  created_at: Date;
+}
+
+export interface CacheServiceInterface {
+  get: (cacheKey: string, inputHash: string) => Promise<CacheServiceRecord | null>;
+  set: (
+    cacheKey: string,
+    inputHash: string,
+    resultData: string,
+    ttl: number,
+  ) => Promise<void>;
+  delete: (cacheKey: string) => Promise<void>;
+  clearExpired: () => Promise<void>;
+  getStats: () => Promise<{ total: number; active: number; expired: number }>;
+}
 
 // CacheService injection for server environments (optional)
 // To prevent Next.js from tracing the import and failing client builds,
 // the server must inject the cache service explicitly if DB caching is desired.
-let CacheService: any = null;
+let cacheServiceInstance: CacheServiceInterface | null = null;
 
-export function injectCacheService(service: any) {
-  CacheService = service;
+export function injectCacheService(service: CacheServiceInterface): void {
+  cacheServiceInstance = service;
 }
 
 /**
@@ -52,7 +73,7 @@ export async function getCachedCalculation<T>(
 
   // Browser environment - use in-memory cache
   if (typeof window !== "undefined") {
-    const cached = browserCache.get(cacheKey);
+    const cached = browserCache.get(cacheKey) as BrowserCacheEntry<T> | undefined;
 
     if (
       cached?.inputHash === inputHash &&
@@ -76,14 +97,14 @@ export async function getCachedCalculation<T>(
   // Server environment - use database cache
   try {
     // CacheService might be null if database is unavailable
-    if (CacheService) {
-      const cachedResult = await (CacheService.get)(cacheKey, inputHash);
+    if (cacheServiceInstance) {
+      const cachedResult = await cacheServiceInstance.get(cacheKey, inputHash);
 
       if (cachedResult) {
         log.info(
           `🔄 Database cache hit for ${cacheKey} (age: ${Math.round((now - cachedResult.created_at.getTime()) / 1000)}s)`,
         );
-        return JSON.parse(cachedResult.result_data);
+        return JSON.parse(cachedResult.result_data) as T;
       }
     }
 
@@ -93,8 +114,8 @@ export async function getCachedCalculation<T>(
     const result = await calculationFn();
 
     // Store in database cache if available
-    if (CacheService) {
-      await (CacheService.set)(
+    if (cacheServiceInstance) {
+      await cacheServiceInstance.set(
         cacheKey,
         inputHash,
         JSON.stringify(result),
@@ -104,13 +125,19 @@ export async function getCachedCalculation<T>(
 
     return result;
   } catch (error) {
-    log.error(`Error in cached calculation for ${cacheKey}:`, error as any);
+    log.error(
+      `Error in cached calculation for ${cacheKey}:`,
+      error instanceof Error ? error : new Error(String(error)),
+    );
 
     // Fallback to direct calculation if caching fails
     try {
       return await calculationFn();
     } catch (calcError) {
-      log.error(`Calculation also failed for ${cacheKey}:`, calcError as any);
+      log.error(
+        `Calculation also failed for ${cacheKey}:`,
+        calcError instanceof Error ? calcError : new Error(String(calcError)),
+      );
       throw calcError;
     }
   }
@@ -135,18 +162,20 @@ export async function clearCalculationCache(cacheKey?: string): Promise<void> {
 
   // Server environment - clear database cache
   try {
-    if (CacheService) {
-      const cache = CacheService;
+    if (cacheServiceInstance) {
       if (cacheKey) {
-        await cache.delete(cacheKey);
+        await cacheServiceInstance.delete(cacheKey);
         log.info(`Database cache cleared for ${cacheKey}`);
       } else {
-        await cache.clearExpired(); // Clear expired entries
+        await cacheServiceInstance.clearExpired(); // Clear expired entries
         log.info("Database cache cleared (expired entries)");
       }
     }
   } catch (error) {
-    log.error("Failed to clear database cache:", error as any);
+    log.error(
+      "Failed to clear database cache:",
+      error instanceof Error ? error : new Error(String(error)),
+    );
   }
 }
 
@@ -170,9 +199,8 @@ export async function getCacheStats(): Promise<{
 
   // Server environment - return database cache stats
   try {
-    if (CacheService) {
-      const cache = CacheService;
-      const stats = await cache.getStats();
+    if (cacheServiceInstance) {
+      const stats = await cacheServiceInstance.getStats();
       return {
         totalEntries: stats.total,
         activeEntries: stats.active,
@@ -180,7 +208,10 @@ export async function getCacheStats(): Promise<{
       };
     }
   } catch (error) {
-    log.error("Failed to get database cache stats:", error as any);
+    log.error(
+      "Failed to get database cache stats:",
+      error instanceof Error ? error : new Error(String(error)),
+    );
   }
 
   return {

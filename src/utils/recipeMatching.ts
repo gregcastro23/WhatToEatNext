@@ -209,7 +209,7 @@ export async function findBestMatches(
     matchFilters.excludeIngredients.length > 0
   ) {
     filteredRecipes = filteredRecipes.filter((recipe) => {
-      if (!recipe.ingredients) return true;
+      if (!Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) return true;
       // Check if any of the excluded ingredients are in the recipe
       const hasExcludedIngredient = matchFilters.excludeIngredients?.some(
         (excluded) => {
@@ -217,14 +217,12 @@ export async function findBestMatches(
           return recipe.ingredients.some((ingredient: string | RecipeIngredient) => {
             if (typeof ingredient === "string") {
               return ingredient.toLowerCase().includes(lowerExcluded);
-            } else if (ingredient && typeof ingredient === "object" && "name" in ingredient) {
-              const { name } = ingredient;
-              return (
-                typeof name === "string" &&
-                name.toLowerCase().includes(lowerExcluded)
-              );
             }
-            return false;
+            const { name } = ingredient;
+            return (
+              typeof name === "string" &&
+              name.toLowerCase().includes(lowerExcluded)
+            );
           });
         },
       );
@@ -272,62 +270,55 @@ export async function findBestMatches(
   }
 
   // Calculate match scores for each recipe
-  const matchResults = await Promise.all(
-    filteredRecipes.map(async (recipe) => {
-      // Calculate base elemental properties
-      const elements = recipe.elementalProperties || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
+  const matchResults = filteredRecipes.map((recipe) => {
+    // Calculate base elemental properties
+    const elements = recipe.elementalProperties;
 
-      // Calculate dominant elements
-      const dominantElements = Object.entries(elements)
-        .map(([element, value]) => [element, value || 0] as [string, number])
-        .sort(([, a], [, b]) => b - a);
+    // Calculate dominant elements
+    const dominantElements = Object.entries(elements)
+      .map(([element, value]) => [element, value || 0] as [string, number])
+      .sort(([, a], [, b]) => b - a);
 
-      // Calculate match score
-      let score = 0;
+    // Calculate match score
+    let score = 0;
 
-      if (currentEnergy) {
-        // Calculate elemental alignment
-        const elementalScore = calculateElementalAlignment(
-          recipe,
-          currentEnergy,
-        );
-        score += elementalScore * 0.4; // 40% weight for elemental alignment
-
-        // Calculate nutritional alignment
-        const nutritionalScore = calculateNutritionalAlignment(
-          recipe,
-          currentEnergy,
-        );
-        score += nutritionalScore * 0.3; // 30% weight for nutritional alignment
-
-        // Calculate astrological alignment
-        const astrologicalScore = await _calculateRecipeEnergyMatch(
-          recipe,
-          currentEnergy,
-        );
-        score += astrologicalScore * 0.3; // 30% weight for astrological alignment
-      } else {
-        // Fallback scoring without current energy
-        score = Math.random() * 0.5 + 0.5; // Random score between 0.5 and 1.0
-      }
-
-      // Connect ingredients to mappings
-      const matchedIngredients = connectIngredientsToMappings(recipe);
-
-      return {
+    if (currentEnergy) {
+      // Calculate elemental alignment
+      const elementalScore = calculateElementalAlignment(
         recipe,
-        score,
-        elements,
-        dominantElements,
-        matchedIngredients,
-      };
-    }),
-  );
+        currentEnergy,
+      );
+      score += elementalScore * 0.4; // 40% weight for elemental alignment
+
+      // Calculate nutritional alignment
+      const nutritionalScore = calculateNutritionalAlignment(
+        recipe,
+        currentEnergy,
+      );
+      score += nutritionalScore * 0.3; // 30% weight for nutritional alignment
+
+      // Calculate astrological alignment
+      const astrologicalScore = _calculateRecipeEnergyMatch(
+        recipe,
+        currentEnergy,
+      );
+      score += astrologicalScore * 0.3; // 30% weight for astrological alignment
+    } else {
+      // Fallback scoring without current energy
+      score = Math.random() * 0.5 + 0.5; // Random score between 0.5 and 1.0
+    }
+
+    // Connect ingredients to mappings
+    const matchedIngredients = connectIngredientsToMappings(recipe);
+
+    return {
+      recipe,
+      score,
+      elements,
+      dominantElements,
+      matchedIngredients,
+    };
+  });
 
   // Sort by score (highest first) and limit results
   const sortedResults = matchResults
@@ -343,9 +334,9 @@ export async function findBestMatches(
   return sortedResults;
 }
 
-const _calculateBaseElements = async (
+const _calculateBaseElements = (
   recipe: Recipe,
-): Promise<ElementalProperties> => {
+): ElementalProperties => {
   const baseElements: ElementalProperties = {
     Fire: 0,
     Water: 0,
@@ -353,7 +344,7 @@ const _calculateBaseElements = async (
     Air: 0,
   };
 
-  if (!recipe.ingredients) {
+  if (!Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) {
     return baseElements;
   }
 
@@ -361,16 +352,15 @@ const _calculateBaseElements = async (
     let ingredientName: string;
     if (typeof ingredient === "string") {
       ingredientName = ingredient;
-    } else if (ingredient && typeof ingredient === "object" && "name" in ingredient) {
-      ingredientName = ingredient.name || "unknown";
     } else {
-      ingredientName = "unknown";
+      const { name } = ingredient;
+      ingredientName = typeof name === "string" ? name : "unknown";
     }
 
     // Get ingredient mapping
-    const ingredientMapping = ingredientsMap[ingredientName.toLowerCase()];
+    const ingredientMapping = (ingredientsMap as Record<string, IngredientMapping | undefined>)[ingredientName.toLowerCase()];
 
-    if (ingredientMapping.elementalProperties) {
+    if (ingredientMapping?.elementalProperties) {
       const properties = ingredientMapping.elementalProperties;
       baseElements.Fire += properties.Fire || 0;
       baseElements.Water += properties.Water || 0;
@@ -407,7 +397,7 @@ interface EnergyData {
 const calculateEnergyMatch = (
   recipeEnergy: EnergyData,
   currentEnergy: EnergyData,
-) => {
+): number => {
   let score = 0;
 
   // Check if we're in Aries season
@@ -487,25 +477,20 @@ const _calculateDominantElements = (
 ): Array<[string, number]> =>
   // Filter out any invalid entries to prevent NaN issues
   Object.entries(elements)
-    .filter(([, value]) => !isNaN(value) && value !== undefined)
+    .filter(([, value]) => !Number.isNaN(value))
     .sort(([, a], [, b]) => (b || 0) - (a || 0))
     .slice(0, 2)
     .map(([element, value]) => [element, value || 0]);
 
-async function _calculateRecipeEnergyMatch(
+function _calculateRecipeEnergyMatch(
   recipe: Recipe,
   currentEnergy: MatchingEnergyState,
-): Promise<number> {
+): number {
   // Base score starts at 0.5 (neutral match)
   let score = 0.5;
 
   // Get dominant elements for the recipe
-  const recipeElements = recipe.elementalProperties || {
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
-  };
+  const recipeElements = recipe.elementalProperties;
   const recipeDominantElements = Object.entries(recipeElements)
     .map(([element, value]) => [element, value || 0] as [string, number])
     .sort(([, a], [, b]) => b - a);
@@ -693,7 +678,7 @@ function calculateModalityScore(
   qualities: string[],
   preferredModality?: "cardinal" | "fixed" | "mutable",
 ): number {
-  if (!preferredModality || !qualities || qualities.length === 0) {
+  if (!preferredModality || qualities.length === 0) {
     return 0.5; // Neutral score if no modality preference or recipe qualities
   }
 
@@ -956,9 +941,9 @@ function levenshteinDistance(str1: string, str2: string): number {
   const n = str2.length;
 
   // Create matrix
-  const matrix = Array(m + 1)
+  const matrix: number[][] = Array(m + 1)
     .fill(null)
-    .map(() => Array(n + 1).fill(null));
+    .map(() => Array<number>(n + 1).fill(0));
 
   // Fill first row and column
   for (let i = 0; i <= m; i++) matrix[i][0] = i;
@@ -993,7 +978,7 @@ export const connectIngredientsToMappings = (
   matchedTo?: IngredientMapping;
   confidence: number;
 }> => {
-  if (!recipe.ingredients || recipe.ingredients.length === 0) {
+  if (recipe.ingredients.length === 0) {
     return [];
   }
 
@@ -1015,12 +1000,21 @@ export const connectIngredientsToMappings = (
   // Check for cached results
   if (cached) {
     try {
-      const parsedCache = JSON.parse(cached);
+      const parsedCache = JSON.parse(cached) as {
+        timestamp?: number;
+        ingredientCount?: number;
+        matches?: Array<{
+          name: string;
+          matchedTo?: IngredientMapping;
+          confidence: number;
+        }>;
+      };
       // Verify the cache is still valid (ingredients haven't changed)
       if (
         parsedCache.timestamp &&
         Date.now() - parsedCache.timestamp < 3600000 && // 1 hour cache
-        parsedCache.ingredientCount === recipe.ingredients.length
+        parsedCache.ingredientCount === recipe.ingredients.length &&
+        parsedCache.matches
       ) {
         return parsedCache.matches;
       }
@@ -1041,9 +1035,9 @@ export const connectIngredientsToMappings = (
 
     // 1. Try exact match first
     // Apply Pattern GG-6: Enhanced property access with type guards (use existing variables)
-    const exactMatch = ingredientsMap[ingredientName.toLowerCase()];
+    const exactMatch = (ingredientsMap as Record<string, IngredientMapping | undefined>)[ingredientName.toLowerCase()];
     if (exactMatch) {
-      result.matchedTo = exactMatch as IngredientMapping;
+      result.matchedTo = exactMatch;
       result.confidence = 1.0;
       return result;
     }
@@ -1053,9 +1047,9 @@ export const connectIngredientsToMappings = (
     for (const part of nameParts) {
       if (part.length < 3) continue; // Skip short parts like 'of', 'and', etc.
 
-      const partMatch = ingredientsMap[part];
+      const partMatch = (ingredientsMap as Record<string, IngredientMapping | undefined>)[part];
       if (partMatch) {
-        result.matchedTo = partMatch as IngredientMapping;
+        result.matchedTo = partMatch;
         result.confidence = 0.8;
         return result;
       }
@@ -1102,9 +1096,9 @@ export const connectIngredientsToMappings = (
     const swaps = recipeIngredient["swaps"] as string[] | undefined;
     if (swaps && Array.isArray(swaps) && swaps.length > 0) {
       for (const swap of swaps) {
-        const swapMatch = ingredientsMap[swap.toLowerCase()];
+        const swapMatch = (ingredientsMap as Record<string, IngredientMapping | undefined>)[swap.toLowerCase()];
         if (swapMatch) {
-          result.matchedTo = swapMatch as IngredientMapping;
+          result.matchedTo = swapMatch;
           result.confidence = 0.7;
           return result;
         }
@@ -1137,8 +1131,8 @@ export const connectIngredientsToMappings = (
  * Calculate how well a recipe's nutritional profile matches the user's goals
  */
 function _calculateNutritionalMatch(
-  recipeProfile: Record<string, number | string>,
-  userGoals: Record<string, number | string>,
+  recipeProfile?: Record<string, number | string | undefined>,
+  userGoals?: Record<string, number | string | undefined>,
 ): number {
   if (!recipeProfile || !userGoals) return 0.5; // Neutral score if either is missing
 
@@ -1159,46 +1153,48 @@ function _calculateNutritionalMatch(
 
   // Calculate match for each factor that exists in both profiles
   factors.forEach((factor) => {
+    const recipeFactor = recipeProfile[factor];
+    const userGoal = userGoals[factor];
     if (
-      recipeProfile[factor] !== undefined &&
-      userGoals[factor] !== undefined
+      recipeFactor !== undefined &&
+      userGoal !== undefined
     ) {
       // For 'low' goals (e.g., 'low carbs'), a lower value is better
-      if (userGoals[factor] === "low") {
+      if (userGoal === "low") {
         // Scale from 0-1 where 0 is high and 1 is low
         const recipeValue =
-          typeof recipeProfile[factor] === "number"
-            ? (recipeProfile[factor])
-            : parseFloat(recipeProfile[factor]) || 5;
+          typeof recipeFactor === "number"
+            ? recipeFactor
+            : parseFloat(recipeFactor) || 5;
 
         const normalizedValue = 1 - Math.min(recipeValue / 5, 1);
         matchScore += normalizedValue;
       }
       // For 'high' goals (e.g., 'high protein'), a higher value is better
-      else if (userGoals[factor] === "high") {
+      else if (userGoal === "high") {
         // Scale from 0-1 where 1 is high and 0 is low
         const recipeValue =
-          typeof recipeProfile[factor] === "number"
-            ? (recipeProfile[factor])
-            : parseFloat(recipeProfile[factor]) || 0;
+          typeof recipeFactor === "number"
+            ? recipeFactor
+            : parseFloat(recipeFactor) || 0;
 
         const normalizedValue = Math.min(recipeValue / 5, 1);
         matchScore += normalizedValue;
       }
       // For exact targets (e.g., specific calorie count)
       else if (
-        typeof userGoals[factor] === "number" ||
-        !isNaN(Number(userGoals[factor]))
+        typeof userGoal === "number" ||
+        !isNaN(Number(userGoal))
       ) {
         const goalValue =
-          typeof userGoals[factor] === "number"
-            ? (userGoals[factor])
-            : parseFloat(userGoals[factor]);
+          typeof userGoal === "number"
+            ? userGoal
+            : parseFloat(userGoal);
 
         const recipeValue =
-          typeof recipeProfile[factor] === "number"
-            ? (recipeProfile[factor])
-            : parseFloat(recipeProfile[factor]);
+          typeof recipeFactor === "number"
+            ? recipeFactor
+            : parseFloat(recipeFactor);
 
         if (!isNaN(goalValue) && !isNaN(recipeValue)) {
           // Calculate how close the recipe is to the target (1 = exact match)
@@ -1232,8 +1228,8 @@ interface AstrologicalInfluence {
 }
 
 function _calculateAstrologicalMatch(
-  recipeInfluence: AstrologicalInfluence,
-  userSign: string,
+  recipeInfluence?: AstrologicalInfluence,
+  userSign?: string,
 ): number {
   if (!recipeInfluence || !userSign) return 0.5; // Default to neutral if no data
 

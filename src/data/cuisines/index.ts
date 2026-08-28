@@ -1,29 +1,32 @@
 import type { Cuisine } from "@/types/cuisine";
+import { createLogger } from "@/utils/logger";
 import { standardizeRecipe } from "@/utils/recipe/recipeStandardization";
 import cuisineImagesRaw from "./images.json";
+
+const logger = createLogger("data:cuisines");
 
 const cuisineImages = cuisineImagesRaw as Record<string, string>;
 
 // Define a type for the dynamic import functions
-type CuisineImport = () => Promise<{ [key: string]: any }>;
+type CuisineImport = () => Promise<Record<string, unknown>>;
 
 // Map of dynamic import functions for each cuisine
 const cuisineImports: Record<string, CuisineImport> = {
-  African: () => import("./african").then(m => m.african),
-  American: () => import("./american").then(m => m.american),
-  Chinese: () => import("./chinese").then(m => m.chinese),
-  French: () => import("./french").then(m => m.french),
-  Greek: () => import("./greek").then(m => m.greek),
-  Indian: () => import("./indian").then(m => m.indian),
-  Italian: () => import("./italian").then(m => m.italian),
-  Japanese: () => import("./japanese").then(m => m.japanese),
-  Korean: () => import("./korean").then(m => m.korean),
-  Mexican: () => import("./mexican").then(m => m.mexican),
-  MiddleEastern: () => import("./middle-eastern").then(m => m.middleEastern),
-  Russian: () => import("./russian").then(m => m.russian),
-  Thai: () => import("./thai").then(m => m.thai),
-  Vietnamese: () => import("./vietnamese").then(m => m.vietnamese),
-  HSCA: () => import("./hsca").then(m => m.cuisine),
+  African: () => import("./african").then(m => m.african as unknown as Record<string, unknown>),
+  American: () => import("./american").then(m => m.american as unknown as Record<string, unknown>),
+  Chinese: () => import("./chinese").then(m => m.chinese as unknown as Record<string, unknown>),
+  French: () => import("./french").then(m => m.french as unknown as Record<string, unknown>),
+  Greek: () => import("./greek").then(m => m.greek as unknown as Record<string, unknown>),
+  Indian: () => import("./indian").then(m => m.indian as unknown as Record<string, unknown>),
+  Italian: () => import("./italian").then(m => m.italian as unknown as Record<string, unknown>),
+  Japanese: () => import("./japanese").then(m => m.japanese as unknown as Record<string, unknown>),
+  Korean: () => import("./korean").then(m => m.korean as unknown as Record<string, unknown>),
+  Mexican: () => import("./mexican").then(m => m.mexican as unknown as Record<string, unknown>),
+  MiddleEastern: () => import("./middle-eastern").then(m => m.middleEastern as unknown as Record<string, unknown>),
+  Russian: () => import("./russian").then(m => m.russian as unknown as Record<string, unknown>),
+  Thai: () => import("./thai").then(m => m.thai as unknown as Record<string, unknown>),
+  Vietnamese: () => import("./vietnamese").then(m => m.vietnamese as unknown as Record<string, unknown>),
+  HSCA: () => import("./hsca").then(m => m.cuisine as unknown as Record<string, unknown>),
 };
 
 // Metadata is kept synchronous to avoid placeholders and allow immediate UI render
@@ -119,37 +122,68 @@ export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
   // through cuisineImports for the static recipe payload.
 };
 
-/**
- * Process a cuisine object to ensure consistent structure and standardize recipes.
- */
-export function processCuisineRecipes(cuisine: any): Cuisine {
-  if (!cuisine) return null as any;
+type MealKey = keyof NonNullable<Cuisine["dishes"]>;
+type SeasonKey = "spring" | "summer" | "autumn" | "winter";
 
-  const name = cuisine.name || "Unknown";
-  const dishes: any = {
+function extractSeasonDishes(
+  rawDishes: Record<string, Record<string, unknown[]>>,
+  cuisineName: string,
+): NonNullable<Cuisine["dishes"]> {
+  const dishes: NonNullable<Cuisine["dishes"]> = {
     breakfast: { spring: [], summer: [], autumn: [], winter: [] },
     lunch: { spring: [], summer: [], autumn: [], winter: [] },
     dinner: { spring: [], summer: [], autumn: [], winter: [] },
     dessert: { spring: [], summer: [], autumn: [], winter: [] },
   };
 
-  if (cuisine.dishes) {
-    Object.entries(cuisine.dishes).forEach(([mealType, mealTypeData]: [string, any]) => {
-      if (mealTypeData && dishes[mealType]) {
-        Object.entries(mealTypeData).forEach(([season, recipes]: [string, any]) => {
-          if (Array.isArray(recipes)) {
-            dishes[mealType][season] = recipes.map(r => standardizeRecipe(r, name, mealType, season).standardizedRecipe);
-          }
-        });
+  const mealKeys: MealKey[] = ["breakfast", "lunch", "dinner", "dessert"];
+  const seasonKeys: SeasonKey[] = ["spring", "summer", "autumn", "winter"];
+
+  for (const mealKey of mealKeys) {
+    const mealTypeData = rawDishes[mealKey] as Record<string, unknown[]> | undefined;
+    if (!mealTypeData || typeof mealTypeData !== "object") continue;
+
+    const targetMeal = dishes[mealKey];
+    if (!targetMeal) continue;
+    for (const seasonKey of seasonKeys) {
+      const recipes = mealTypeData[seasonKey];
+      if (Array.isArray(recipes)) {
+        targetMeal[seasonKey] = recipes.map(
+          (r) => standardizeRecipe(r, cuisineName, mealKey, seasonKey).standardizedRecipe,
+        );
       }
-    });
+    }
   }
 
+  return dishes;
+}
+
+/**
+ * Process a cuisine object to ensure consistent structure and standardize recipes.
+ */
+export function processCuisineRecipes(cuisine: unknown): Cuisine | null {
+  if (!cuisine || typeof cuisine !== "object") return null;
+
+  const rawCuisine = cuisine as Record<string, unknown>;
+  const name = typeof rawCuisine.name === "string" ? rawCuisine.name : "Unknown";
+  const dishes =
+    rawCuisine.dishes && typeof rawCuisine.dishes === "object"
+      ? extractSeasonDishes(
+          rawCuisine.dishes as Record<string, Record<string, unknown[]>>,
+          name,
+        )
+      : {
+          breakfast: { spring: [], summer: [], autumn: [], winter: [] },
+          lunch: { spring: [], summer: [], autumn: [], winter: [] },
+          dinner: { spring: [], summer: [], autumn: [], winter: [] },
+          dessert: { spring: [], summer: [], autumn: [], winter: [] },
+        };
+
   const normalizedKey = name === "Middle Eastern" ? "MiddleEastern" : name;
-  const imageUrl = cuisineImages[normalizedKey] || undefined;
+  const imageUrl = cuisineImages[normalizedKey] ?? undefined;
 
   return {
-    ...cuisine,
+    ...(rawCuisine as unknown as Cuisine),
     imageUrl,
     dishes,
   };
@@ -167,7 +201,7 @@ export async function getCuisineData(key: string): Promise<Cuisine | null> {
     const rawData = await loader();
     return processCuisineRecipes(rawData);
   } catch (error) {
-    console.error(`Failed to load cuisine data for ${key}:`, error);
+    logger.error(`Failed to load cuisine data for ${key}:`, error);
     return null;
   }
 }
@@ -181,9 +215,12 @@ const cuisinesMapBase: Record<string, Cuisine> = {};
 PRIMARY_CUISINE_KEYS.forEach(key => {
   const meta = CUISINES_METADATA[key];
   if (!meta) return; // internal collections (HSCA) have no public metadata
-  (cuisinesMapBase as any)[key] = {
+  cuisinesMapBase[key] = {
     ...meta,
     id: key.toLowerCase(),
+    name: meta.name ?? key,
+    elementalProperties: meta.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    description: meta.description ?? "",
     imageUrl: meta.imageUrl,
     dishes: {
       breakfast: { spring: [], summer: [], autumn: [], winter: [] },
@@ -209,11 +246,8 @@ PRIMARY_CUISINE_KEYS.forEach(key => {
 
 // Proxy to provide warnings and handle both capitalized and lowercase keys
 export const cuisinesMap = new Proxy(cuisinesMapBase, {
-  get(target, prop: string) {
-    const key = Object.keys(target).find(k => k.toLowerCase() === prop.toLowerCase()) || prop;
-    if (prop !== "then" && prop !== "toJSON" && typeof prop === "string") {
-      // console.warn(`Accessing cuisinesMap.${prop} synchronously. For full data including recipes, use getCuisineData('${key}').`);
-    }
+  get(target, prop: string): Cuisine | undefined {
+    const key = Object.keys(target).find(k => k.toLowerCase() === prop.toLowerCase()) ?? prop;
     return target[key];
   }
 });

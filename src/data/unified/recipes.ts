@@ -44,6 +44,7 @@ export interface EnhancedRecipe extends Recipe {
       contribution: number;
       elementalContribution: ElementalProperties;
     }>;
+    elementalBalance: ElementalProperties;
     alchemicalClassification: string;
   };
   // ===== NEW COOKING OPTIMIZATION (ADDITIVE) =====
@@ -84,7 +85,7 @@ export class RecipeEnhancer {
     }>;
     matchedIngredients: number;
   } {
-    if (!ingredients || !Array.isArray(ingredients)) {
+    if (ingredients.length === 0) {
       return {
         totalKalchm: 1.0,
         breakdown: [],
@@ -145,14 +146,14 @@ export class RecipeEnhancer {
       breakdown.push({
         name: ingredientDisplayName,
         kalchm,
-        contribution: kalchm / (ingredients || []).length,
+        contribution: kalchm / ingredients.length,
         elementalContribution,
       });
     }
     return {
       totalKalchm:
-        (ingredients || []).length > 0
-          ? totalKalchm / (ingredients || []).length
+        ingredients.length > 0
+          ? totalKalchm / ingredients.length
           : 1.0,
       breakdown,
       matchedIngredients,
@@ -166,7 +167,7 @@ export class RecipeEnhancer {
   ): UnifiedIngredient | null {
     if (!ingredientName) return null;
     // Direct lookup
-    const direct = unifiedIngredients[ingredientName];
+    const direct = (unifiedIngredients as Record<string, UnifiedIngredient | undefined>)[ingredientName];
     if (direct) return direct;
     // Fuzzy matching
     const normalizedName = ingredientName
@@ -187,14 +188,14 @@ export class RecipeEnhancer {
    * Convert single element to elemental properties
    */
   static elementToElementalProperties(element: Element): ElementalProperties {
-    const elementMap: { [key: string]: ElementalProperties } = {
-      Fire: { Fire: 0.8, Water: 0.05, Earth: 0.1, Air: 0.05 },
-      Water: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
-      Earth: { Fire: 0.05, Water: 0.1, Earth: 0.8, Air: 0.05 },
-      Air: { Fire: 0.05, Water: 0.05, Earth: 0.1, Air: 0.8 },
+    const elementMap: Record<string, ElementalProperties> = {
+      fire: { Fire: 0.8, Water: 0.05, Earth: 0.1, Air: 0.05 },
+      water: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
+      earth: { Fire: 0.05, Water: 0.1, Earth: 0.8, Air: 0.05 },
+      air: { Fire: 0.05, Water: 0.05, Earth: 0.1, Air: 0.8 },
     };
     return (
-      elementMap[element.toLowerCase()] || {
+      elementMap[String(element).toLowerCase()] ?? {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -206,19 +207,19 @@ export class RecipeEnhancer {
    * Estimate Kalchm from element
    */
   static estimateKalchmFromElement(element: Element): number {
-    const elementKalchm: { [key: string]: number } = {
-      Fire: 1.15,
-      Water: 0.95,
-      Earth: 0.85,
-      Air: 1.05,
+    const elementKalchm: Record<string, number> = {
+      fire: 1.15,
+      water: 0.95,
+      earth: 0.85,
+      air: 1.05,
     };
-    return elementKalchm[element.toLowerCase()] || 1.0;
+    return elementKalchm[String(element).toLowerCase()] ?? 1.0;
   }
   /**
    * Calculate elemental balance from ingredient breakdown
    */
   static calculateElementalBalance(breakdown: unknown[]): ElementalProperties {
-    if (!breakdown || breakdown.length === 0) {
+    if (breakdown.length === 0) {
       throw new Error(
         "Cannot calculate elemental balance with no ingredient breakdown data",
       );
@@ -324,9 +325,13 @@ export class RecipeEnhancer {
    * Calculate optimal cooking temperature based on thermodynamic properties
    */
   static calculateOptimalTemperature(thermodynamics: unknown): number {
-    // Use safe type casting for thermodynamics property access
-    const thermoData = thermodynamics as any;
-    const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
+    let heat = 0.5;
+    let reactivity = 0.5;
+    if (isValidObject(thermodynamics)) {
+      const { heat: rawHeat, reactivity: rawReactivity } = thermodynamics;
+      if (typeof rawHeat === "number") heat = rawHeat;
+      if (typeof rawReactivity === "number") reactivity = rawReactivity;
+    }
     // Base temperature (350°F) adjusted by thermodynamic properties
     return Math.round(350 + heat * 50 - reactivity * 25);
   }
@@ -349,94 +354,71 @@ export class RecipeEnhancer {
   static generateThermodynamicRecommendations(
     thermodynamics: unknown,
     elementalBalance: ElementalProperties,
-    monica: number | null,
+    monicaConstant: number | null,
   ): string[] {
     const recommendations: string[] = [];
-    // Safe access to thermodynamics properties
-    const thermo = isValidObject(thermodynamics) ? thermodynamics : {};
-    const heat =
-      hasProperty(thermo, "heat") && typeof thermo.heat === "number"
-        ? thermo.heat
-        : 0;
-    const entropy =
-      hasProperty(thermo, "entropy") && typeof thermo.entropy === "number"
-        ? thermo.entropy
-        : 0;
-    const reactivity =
-      hasProperty(thermo, "reactivity") && typeof thermo.reactivity === "number"
-        ? thermo.reactivity
-        : 0;
+    const { Fire, Water, Earth, Air } = elementalBalance;
+    const { heat, reactivity, gregsEnergy } =
+      thermodynamics as {
+        heat: number;
+        entropy: number;
+        reactivity: number;
+        gregsEnergy: number;
+      };
     // Heat-based recommendations
-    if (heat > 0.7) {
-      recommendations.push(
-        "Use high-heat cooking methods for optimal energy release",
-      );
+    if (heat > 0.8) {
+      recommendations.push("High internal heat: Use gentle cooking methods");
     } else if (heat < 0.3) {
-      recommendations.push(
-        "Gentle, low-heat cooking preserves delicate properties",
-      );
-    }
-    // Entropy-based recommendations
-    if (entropy > 0.6) {
-      recommendations.push("Quick cooking prevents energy dispersion");
-    } else {
-      recommendations.push("Slow cooking allows flavors to develop");
+      recommendations.push("Low internal heat: Apply direct, intense heat");
     }
     // Reactivity-based recommendations
-    if (reactivity > 0.8) {
-      recommendations.push("Monitor carefully - highly reactive ingredients");
+    if (reactivity > 1.5) {
+      recommendations.push("High reactivity: Add ingredients gradually");
+    } else if (reactivity < 0.5) {
+      recommendations.push(
+        "Low reactivity: Allow longer cooking time for flavors to develop",
+      );
     }
-    // Monica constant recommendations
-    if (monica !== null) {
-      if (monica > 0) {
-        recommendations.push("Increase cooking intensity for optimal results");
-      } else {
-        recommendations.push("Reduce cooking intensity to maintain balance");
+    // Greg's Energy recommendations
+    if (gregsEnergy > 0) {
+      recommendations.push(
+        "Positive Greg's Energy: Excellent alchemical stability",
+      );
+    } else {
+      recommendations.push(
+        "Negative Greg's Energy: Requires careful temperature control",
+      );
+    }
+    // Elemental-specific recommendations
+    if (Fire > 0.5) recommendations.push("Fire-heavy: Balance with cooling side dishes");
+    if (Water > 0.5) recommendations.push("Water-heavy: Reduce liquids during cooking");
+    if (Earth > 0.5) recommendations.push("Earth-heavy: Add acidic elements to lighten");
+    if (Air > 0.5) recommendations.push("Air-heavy: Incorporate grounding fats or oils");
+    // Monica-based recommendations
+    if (monicaConstant !== null) {
+      if (Math.abs(monicaConstant) > 2.0) {
+        recommendations.push(
+          "Extreme Monica value: Highly responsive to cooking technique changes",
+        );
       }
-    }
-    // Elemental recommendations
-    const [dominant] = Object.entries(elementalBalance).reduce((a, b) =>
-      elementalBalance[a[0] as keyof ElementalProperties] >
-      elementalBalance[b[0] as keyof ElementalProperties]
-        ? a
-        : b,
-    );
-    switch (dominant) {
-      case "Fire":
-        recommendations.push("Fire-dominant: Best with direct heat methods");
-        break;
-      case "Water":
-        recommendations.push(
-          "Water-dominant: Excellent for moist heat cooking",
-        );
-        break;
-      case "Earth":
-        recommendations.push(
-          "Earth-dominant: Perfect for slow, steady cooking",
-        );
-        break;
-      case "Air":
-        recommendations.push(
-          "Air-dominant: Benefits from aeration and light cooking",
-        );
-        break;
     }
     return recommendations;
   }
   /**
    * Calculate Monica adjustments
    */
-  static calculateMonicaAdjustments(monica: number | null): {
+  static calculateMonicaAdjustments(monicaConstant: number | null): {
     temperatureAdjustment?: number;
     timingAdjustment?: number;
     intensityModifier?: string;
   } {
-    if (monica === null) {
+    if (monicaConstant === null) {
       return {};
     }
+    const monica = monicaConstant;
     return {
-      temperatureAdjustment: Math.round(monica * 10),
-      timingAdjustment: Math.round(monica * 5),
+      temperatureAdjustment: Math.round(monica * 10), // ±10°F per Monica unit
+      timingAdjustment: Math.round(monica * 2), // ±2 minutes per Monica unit
       intensityModifier: monica > 0 ? "increase" : "decrease",
     };
   }
@@ -444,21 +426,24 @@ export class RecipeEnhancer {
    * Calculate planetary timing
    */
   static calculatePlanetaryTiming(recipe: unknown): string | null {
-    // Use safe type casting for recipe property access
-    const recipeData = recipe as any;
+    if (!isValidObject(recipe)) return null;
+    const recipeData = recipe as {
+      astrologicalAffinities?: { planets?: string[] };
+      zodiacInfluences?: string[];
+    };
     // Use existing astrological data if available
     if (
-      recipeData?.astrologicalAffinities?.planets &&
+      recipeData.astrologicalAffinities?.planets &&
       recipeData.astrologicalAffinities.planets.length > 0
     ) {
       return `${recipeData.astrologicalAffinities.planets[0]} hour`;
     }
     if (
-      recipeData?.zodiacInfluences &&
+      recipeData.zodiacInfluences &&
       recipeData.zodiacInfluences.length > 0
     ) {
       // Map zodiac to planetary rulers
-      const zodiacPlanets: { [key: string]: string } = {
+      const zodiacPlanets: Record<string, string> = {
         aries: "Mars",
         taurus: "Venus",
         gemini: "Mercury",
@@ -472,8 +457,8 @@ export class RecipeEnhancer {
         aquarius: "Saturn",
         pisces: "Jupiter",
       };
-      const planet =
-        zodiacPlanets[recipeData?.zodiacInfluences?.[0].toLowerCase()];
+      const [firstZodiac] = recipeData.zodiacInfluences;
+      const planet = firstZodiac ? zodiacPlanets[firstZodiac.toLowerCase()] : undefined;
       return planet ? `${planet} hour` : null;
     }
     return null;
@@ -481,9 +466,13 @@ export class RecipeEnhancer {
   /**
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceRecipe(recipe: any, sourceFile = "unknown"): EnhancedRecipe {
+  static enhanceRecipe(
+    recipe: Recipe | (Record<string, unknown> & { ingredients?: unknown[] }),
+    sourceFile = "unknown",
+  ): EnhancedRecipe {
+    const rawIngredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
     // Calculate recipe Kalchm from ingredients
-    const kalchmResult = this.calculateRecipeKalchm(recipe.ingredients || []);
+    const kalchmResult = this.calculateRecipeKalchm(rawIngredients);
     // Calculate elemental balance
     const elementalBalance = this.calculateElementalBalance(
       kalchmResult.breakdown,
@@ -514,7 +503,7 @@ export class RecipeEnhancer {
       );
     // Create enhanced recipe (PRESERVES ALL EXISTING DATA)
     const enhancedRecipe: EnhancedRecipe = {
-      ...recipe, // Preserve ALL existing properties
+      ...(recipe as Recipe), // Preserve ALL existing properties
       // ADD new alchemical properties
       alchemicalProperties: {
         totalKalchm: kalchmResult.totalKalchm,
@@ -540,7 +529,7 @@ export class RecipeEnhancer {
         enhancedAt: new Date().toISOString(),
         sourceFile,
         ingredientsMatched: kalchmResult.matchedIngredients,
-        ingredientsTotal: (recipe.ingredients || []).length,
+        ingredientsTotal: rawIngredients.length,
       },
     };
     return enhancedRecipe;
@@ -555,8 +544,8 @@ export class RecipeAnalyzer {
     recipe1: EnhancedRecipe,
     recipe2: EnhancedRecipe,
   ): number {
-    const kalchm1 = recipe1.alchemicalProperties?.totalKalchm || 1.0;
-    const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
+    const kalchm1 = recipe1.alchemicalProperties?.totalKalchm ?? 1.0;
+    const kalchm2 = recipe2.alchemicalProperties?.totalKalchm ?? 1.0;
     // Self-reinforcement principle: similar Kalchm = higher compatibility
     const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2);
     return 0.7 + ratio * 0.3; // Minimum 0.7 compatibility
@@ -569,9 +558,9 @@ export class RecipeAnalyzer {
     recipePool: EnhancedRecipe[],
     tolerance = 0.2,
   ): EnhancedRecipe[] {
-    const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
+    const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm ?? 1.0;
     return recipePool.filter((recipe) => {
-      const recipeKalchm = recipe.alchemicalProperties?.totalKalchm || 1.0;
+      const recipeKalchm = recipe.alchemicalProperties?.totalKalchm ?? 1.0;
       return Math.abs(recipeKalchm - targetKalchm) <= tolerance;
     });
   }
@@ -584,10 +573,8 @@ export class RecipeAnalyzer {
     threshold = 0.4,
   ): EnhancedRecipe[] {
     return recipes.filter((recipe) => {
-      // Use safe type casting for alchemical properties access
-      const alchemicalData = recipe.alchemicalProperties as any;
-      const elementalBalance = alchemicalData?.elementalBalance;
-      return elementalBalance && elementalBalance[element] >= threshold;
+      const elementalBalance = recipe.alchemicalProperties?.elementalBalance;
+      return elementalBalance && (elementalBalance[element] ?? 0) >= threshold;
     });
   }
   /**
@@ -606,12 +593,12 @@ export class RecipeAnalyzer {
     );
     const kalchmValues = enhanced
       .map((r) => r.alchemicalProperties?.totalKalchm)
-      .filter((k) => k !== undefined);
+      .filter((k): k is number => typeof k === "number" && Number.isFinite(k));
     const monicaCalculated = enhanced.filter(
       (r) => r.enhancementMetadata?.monicaCalculated,
     ).length;
     // Elemental distribution
-    const elementalDistribution: { [key: string]: number } = {
+    const elementalDistribution: Record<string, number> = {
       "Fire-dominant": 0,
       "Water-dominant": 0,
       "Earth-dominant": 0,
@@ -619,11 +606,11 @@ export class RecipeAnalyzer {
       balanced: 0,
     };
     // Alchemical classifications
-    const alchemicalClassifications: { [key: string]: number } = {};
+    const alchemicalClassifications: Record<string, number> = {};
     enhanced.forEach((recipe) => {
       const cookingMethod = recipe.cookingOptimization?.elementalCookingMethod;
-      if (cookingMethod && elementalDistribution[cookingMethod] !== undefined) {
-        elementalDistribution[cookingMethod]++;
+      if (cookingMethod && cookingMethod in elementalDistribution) {
+        elementalDistribution[cookingMethod] = (elementalDistribution[cookingMethod] ?? 0) + 1;
       }
       const classification =
         recipe.alchemicalProperties?.alchemicalClassification;

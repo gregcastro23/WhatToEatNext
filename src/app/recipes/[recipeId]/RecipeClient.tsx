@@ -106,7 +106,7 @@ interface ExtendedSubstitution {
 // ===== Helpers =====
 
 function getBaseServings(recipe: Recipe): number {
-  const ext = recipe as unknown as ExtendedRecipeDetails;
+  const ext = recipe as Recipe & ExtendedRecipeDetails;
   return (
     ext.baseServingSize ??
     recipe.servingSize ??
@@ -132,7 +132,7 @@ function stripStepPrefix(text: string): string {
 }
 
 function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
-  const ext = recipe as unknown as ExtendedRecipeDetails;
+  const ext = recipe as Recipe & ExtendedRecipeDetails;
   if (ext.details?.prepTimeMinutes != null) {
     return { prep: ext.details.prepTimeMinutes, cook: ext.details.cookTimeMinutes ?? 0 };
   }
@@ -146,7 +146,7 @@ function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
 }
 
 function getCookingMethods(recipe: Recipe): string[] {
-  const ext = recipe as unknown as ExtendedRecipeDetails;
+  const ext = recipe as Recipe & ExtendedRecipeDetails;
   const methods = ext.cookingMethods ?? recipe.cookingMethod ?? [];
   const arr = Array.isArray(methods) ? methods : [methods];
   return arr.map((m) => (typeof m === "string" ? m : (m as { name?: string }).name ?? "")).filter(Boolean);
@@ -163,7 +163,7 @@ function getSeasons(recipe: Recipe): string[] {
 }
 
 function getSpiceLevel(recipe: Recipe): string {
-  const ext = recipe as unknown as ExtendedRecipeDetails;
+  const ext = recipe as Recipe & ExtendedRecipeDetails;
   const level = recipe.spiceLevel ?? ext.details?.spiceLevel;
   if (typeof level === "number") {
     if (level === 0) return "None";
@@ -212,7 +212,7 @@ interface NormalizedNutrition {
 }
 
 function getNutrition(recipe: Recipe): NormalizedNutrition | null {
-  const n = recipe.nutrition as unknown as ExtendedNutrition | undefined;
+  const n = recipe.nutrition as ExtendedNutrition | undefined;
   if (!n) return null;
   return {
     calories: n.calories,
@@ -232,7 +232,7 @@ function getSubstitutions(recipe: Recipe): Array<{ original: string; alternative
   if (!subs) return [];
   if (Array.isArray(subs)) {
     return subs.map((s) => {
-      const ext = s as unknown as ExtendedSubstitution;
+      const ext = s as (typeof s & ExtendedSubstitution);
       return {
         original: s.original.trim() !== "" ? s.original : (ext.originalIngredient ?? ""),
         alternatives: s.alternatives.length > 0 ? s.alternatives : (ext.substituteOptions ?? []),

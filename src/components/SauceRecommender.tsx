@@ -62,9 +62,9 @@ const DEFAULT_PROFILE: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0
 function shouldExcludeSauceCombination(sauceName: string, targetCuisine?: string): boolean {
   if (!targetCuisine) return false;
 
-  const incompatiblePairs: Record<string, string[]> = {
+  const incompatiblePairs: Record<string, string[] | undefined> = {
     thai: ["marinara", "bolognese", "bechamel", "alfredo", "ragu", "gravy"],
-    italian: ["fish sauce", "soy sauce", "curry paste", "gochujang", "teriyaki"],
+    italian: ["soy sauce", "teriyaki", "sweet chili", "fish sauce"],
     indian: ["aioli", "bechamel", "hollandaise", "carbonara"],
     japanese: ["chimichurri", "guacamole", "marinara", "bechamel"],
     mexican: ["soy sauce", "fish sauce", "oyster sauce", "teriyaki"],
@@ -152,18 +152,15 @@ function getIngredientAmountRange(ingredient: string): string {
 
 // Render match score badge
 function renderMatchBadge(score: number): React.JSX.Element {
-  let colorClass = "";
-  let label = "";
+  let colorClass: string;
+  let label: string;
 
   if (score >= 0.9) {
     colorClass = "bg-green-100 text-green-700";
     label = "Perfect Match";
-  } else if (score >= 0.8) {
-    colorClass = "bg-green-50 text-green-600";
+  } else if (score >= 0.75) {
+    colorClass = "bg-blue-100 text-blue-700";
     label = "Great Match";
-  } else if (score >= 0.7) {
-    colorClass = "bg-blue-50 text-blue-600";
-    label = "Good Match";
   } else if (score >= 0.6) {
     colorClass = "bg-yellow-50 text-yellow-600";
     label = "Fair Match";
@@ -209,11 +206,10 @@ export function SauceRecommender({
   const generateSauceRecommendations = useCallback((): SauceRecommendationItem[] => {
     const results: SauceRecommendationItem[] = [];
     const allCuisines = cuisines ?? {};
+    const cuisineData = cuisine ? allCuisines[cuisine.toLowerCase()] : undefined;
 
-    if (cuisine && allCuisines[cuisine.toLowerCase()]?.traditionalSauces) {
-      const cuisineData = allCuisines[cuisine.toLowerCase()];
-      const traditionalSauces = cuisineData.traditionalSauces ?? {};
-      const sauceRecommender = cuisineData.sauceRecommender ?? {};
+    if (cuisine && cuisineData?.traditionalSauces) {
+      const { traditionalSauces, sauceRecommender = {} } = cuisineData;
 
       if (protein && sauceRecommender.forProtein?.[protein]) {
         for (const sauceName of sauceRecommender.forProtein[protein]) {
@@ -226,14 +222,14 @@ export function SauceRecommender({
               results.push({
                 id: `${cuisine.toLowerCase()}-${id}`,
                 name: sauceData.name,
-                description: sauceData.description ?? "",
+                description: sauceData.description,
                 category: "forProtein",
                 forItem: protein,
                 cuisine,
-                ingredients: sauceData.keyIngredients ?? [],
-                culinaryUses: sauceData.culinaryUses ?? [],
-                preparationNotes: sauceData.preparationNotes ?? "",
-                technicalTips: sauceData.technicalTips ?? "",
+                ingredients: sauceData.keyIngredients,
+                culinaryUses: sauceData.culinaryUses,
+                preparationNotes: sauceData.preparationNotes,
+                technicalTips: sauceData.technicalTips,
                 elementalProperties: sauceData.elementalProperties,
                 matchScore,
               });
@@ -253,14 +249,14 @@ export function SauceRecommender({
               results.push({
                 id: `${cuisine.toLowerCase()}-${id}`,
                 name: sauceData.name,
-                description: sauceData.description ?? "",
+                description: sauceData.description,
                 category: "forVegetable",
                 forItem: vegetable,
                 cuisine,
-                ingredients: sauceData.keyIngredients ?? [],
-                culinaryUses: sauceData.culinaryUses ?? [],
-                preparationNotes: sauceData.preparationNotes ?? "",
-                technicalTips: sauceData.technicalTips ?? "",
+                ingredients: sauceData.keyIngredients,
+                culinaryUses: sauceData.culinaryUses,
+                preparationNotes: sauceData.preparationNotes,
+                technicalTips: sauceData.technicalTips,
                 elementalProperties: sauceData.elementalProperties,
                 matchScore,
               });
@@ -280,14 +276,14 @@ export function SauceRecommender({
               results.push({
                 id: `${cuisine.toLowerCase()}-${id}`,
                 name: sauceData.name,
-                description: sauceData.description ?? "",
+                description: sauceData.description,
                 category: "forCookingMethod",
                 forItem: cookingMethod,
                 cuisine,
-                ingredients: sauceData.keyIngredients ?? [],
-                culinaryUses: sauceData.culinaryUses ?? [],
-                preparationNotes: sauceData.preparationNotes ?? "",
-                technicalTips: sauceData.technicalTips ?? "",
+                ingredients: sauceData.keyIngredients,
+                culinaryUses: sauceData.culinaryUses,
+                preparationNotes: sauceData.preparationNotes,
+                technicalTips: sauceData.technicalTips,
                 elementalProperties: sauceData.elementalProperties,
                 matchScore,
               });
@@ -305,14 +301,14 @@ export function SauceRecommender({
           results.push({
             id: `${cuisine.toLowerCase()}-${id}`,
             name: sauceData.name,
-            description: sauceData.description ?? "",
+            description: sauceData.description,
             category: "byCuisine",
             forItem: cuisine,
             cuisine,
-            ingredients: sauceData.keyIngredients ?? [],
-            culinaryUses: sauceData.culinaryUses ?? [],
-            preparationNotes: sauceData.preparationNotes ?? "",
-            technicalTips: sauceData.technicalTips ?? "",
+            ingredients: sauceData.keyIngredients,
+            culinaryUses: sauceData.culinaryUses,
+            preparationNotes: sauceData.preparationNotes,
+            technicalTips: sauceData.technicalTips,
             elementalProperties: sauceData.elementalProperties,
             matchScore,
           });
@@ -341,14 +337,14 @@ export function SauceRecommender({
               results.push({
                 id: `${cuisineId}-${id}`,
                 name: sauceData.name,
-                description: sauceData.description ?? "",
+                description: sauceData.description,
                 category: "crossCultural",
                 forItem: "elemental match",
                 cuisine: cuisineData.name ?? cuisineId,
-                ingredients: sauceData.keyIngredients ?? [],
-                culinaryUses: sauceData.culinaryUses ?? [],
-                preparationNotes: sauceData.preparationNotes ?? "",
-                technicalTips: sauceData.technicalTips ?? "",
+                ingredients: sauceData.keyIngredients,
+                culinaryUses: sauceData.culinaryUses,
+                preparationNotes: sauceData.preparationNotes,
+                technicalTips: sauceData.technicalTips,
                 elementalProperties: sauceData.elementalProperties,
                 matchScore,
                 isFusion: true,
@@ -624,7 +620,7 @@ export function SauceRecommender({
                       </div>
                     </div>
 
-                    {(sauce.preparationNotes || sauce.technicalTips) && (
+                    {Boolean(sauce.preparationNotes ?? sauce.technicalTips) && (
                       <div className="bg-amber-50 p-2 rounded text-xs mb-2">
                         {sauce.preparationNotes && (
                           <p className="mb-1">

@@ -14,7 +14,7 @@ import { getDominantElement } from "@/utils/elemental/elementalUtils";
  */
 export function determineModalityFromElements(
   elementalProperties: ElementalProperties,
-): any {
+): Modality {
   const { Fire, Water, Earth, Air } = elementalProperties;
 
   // Determine dominant element

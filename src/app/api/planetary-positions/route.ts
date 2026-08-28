@@ -9,8 +9,10 @@ import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
+const logger = createLogger("planetary-positions");
 const PLANETARY_LIMIT = { window: 60_000, max: 60, bucket: "planetary-positions" };
 
 export const dynamic = "force-dynamic";
@@ -38,6 +40,22 @@ interface PlanetaryRequestBody {
   longitude?: number;
 }
 
+interface RawPositionObject {
+  exactLongitude?: number | string;
+  longitude?: number | string;
+  eclipticLongitude?: number | string;
+  sign?: string;
+  degree?: number | string;
+  minute?: number | string;
+  isRetrograde?: boolean;
+  retrograde?: boolean;
+}
+
+interface RawBackendPayload {
+  planetary_positions?: Record<string, RawPositionObject>;
+  positions?: Record<string, RawPositionObject>;
+}
+
 function parsePlanetaryRequest(request: NextRequest): PlanetaryRequestBody {
   const { searchParams } = new URL(request.url);
   const parseOptionalInt = (value: string | null): number | undefined => {
@@ -63,41 +81,43 @@ function parsePlanetaryRequest(request: NextRequest): PlanetaryRequestBody {
   };
 }
 
-function normalizeBackendPositions(backendPayload: any): Record<string, NormalizedPlanetPosition> {
-  const rawPositions = backendPayload?.planetary_positions ?? backendPayload?.positions ?? backendPayload ?? {};
+function normalizeBackendPositions(backendPayload: unknown): Record<string, NormalizedPlanetPosition> {
+  const payloadObj = typeof backendPayload === "object" && backendPayload !== null ? (backendPayload as RawBackendPayload & Record<string, unknown>) : {};
+  const rawPositions = payloadObj.planetary_positions ?? payloadObj.positions ?? payloadObj;
   const positions: Record<string, NormalizedPlanetPosition> = {};
 
   for (const [planet, raw] of Object.entries(rawPositions)) {
-    const value = raw as any;
-    if (!value || typeof value !== "object") continue;
+      if (!raw || typeof raw !== "object") continue;
+      const value = raw as RawPositionObject;
 
-    const longitude = Number(
-      value.exactLongitude ?? value.longitude ?? value.eclipticLongitude ?? 0,
-    );
+      const longitude = Number(
+        value.exactLongitude ?? value.longitude ?? value.eclipticLongitude ?? 0,
+      );
 
-    const hasSign = typeof value.sign === "string" && value.sign.trim() !== "";
-    const signInfo = hasSign ? null : getSignFromLongitude(longitude);
-    const degreeInSign = hasSign
-      ? Number(value.degree ?? 0)
-      : Number(signInfo?.degree ?? 0);
+      const hasSign = typeof value.sign === "string" && value.sign.trim() !== "";
+      const signInfo = hasSign ? null : getSignFromLongitude(longitude);
+      const degreeInSign = hasSign
+        ? Number(value.degree ?? 0)
+        : Number(signInfo?.degree ?? 0);
 
-    const normalizedSign = hasSign
-      ? String(value.sign).toLowerCase()
-      : String(signInfo?.sign ?? "aries");
+      const normalizedSign = hasSign
+        ? String(value.sign).toLowerCase()
+        : String(signInfo?.sign ?? "aries");
 
-    const degree = Number.isFinite(degreeInSign) ? Math.floor(degreeInSign) : 0;
-    const minute = Number.isFinite(value.minute)
-      ? Math.floor(Number(value.minute))
-      : Math.floor((degreeInSign - Math.floor(degreeInSign)) * 60);
+      const degree = Number.isFinite(degreeInSign) ? Math.floor(degreeInSign) : 0;
+      const parsedMinute = typeof value.minute === "string" ? parseFloat(value.minute) : value.minute;
+      const minute = typeof parsedMinute === "number" && Number.isFinite(parsedMinute)
+        ? Math.floor(parsedMinute)
+        : Math.floor((degreeInSign - Math.floor(degreeInSign)) * 60);
 
-    positions[planet] = {
-      sign: normalizedSign,
-      degree,
-      minute: Number.isFinite(minute) ? minute : 0,
-      exactLongitude: Number.isFinite(longitude) ? longitude : 0,
-      isRetrograde: Boolean(value.isRetrograde ?? value.retrograde),
-    };
-  }
+      positions[planet] = {
+        sign: normalizedSign,
+        degree,
+        minute: Number.isFinite(minute) ? minute : 0,
+        exactLongitude: Number.isFinite(longitude) ? longitude : 0,
+        isRetrograde: Boolean(value.isRetrograde ?? value.retrograde),
+      };
+    }
 
   return positions;
 }
@@ -130,7 +150,7 @@ async function fetchFromBackend(
     });
 
     if (!response.ok) return null;
-    const json = await response.json();
+    const json = (await response.json()) as unknown;
     const normalized = normalizeBackendPositions(json);
     return Object.keys(normalized).length > 0 ? normalized : null;
   } catch {
@@ -159,7 +179,7 @@ function calculateLocalPositions(date = new Date()): Record<string, NormalizedPl
 function toResponse(
   positions: Record<string, NormalizedPlanetPosition>,
   source: "backend-pyswisseph" | "local-astronomy-engine",
-) {
+): NextResponse {
   // Compatibility:
   // - `positions` for hooks/services expecting wrapped response
   // - spread root keys for legacy callers expecting raw object map
@@ -170,7 +190,7 @@ function toResponse(
   });
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, PLANETARY_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
@@ -190,17 +210,17 @@ export async function GET(request: NextRequest) {
     try {
       const cached = await redisGet<unknown>(cacheKey);
       if (cached) {
-        console.debug("[PlanetaryPos] Serving cached positions");
+        logger.debug("[PlanetaryPos] Serving cached positions");
         return NextResponse.json(cached);
       }
     } catch (err) {
-      console.warn("[PlanetaryPos] Redis read failed:", err);
+      logger.warn("[PlanetaryPos] Redis read failed:", err);
     }
 
     const backendPositions = await fetchFromBackend(params);
     if (backendPositions) {
       const resp = toResponse(backendPositions, "backend-pyswisseph");
-      const data = await resp.json();
+      const data = (await resp.json()) as Record<string, unknown>;
       await redisSet(cacheKey, data, 3600).catch(() => {});
       return NextResponse.json(data);
     }
@@ -218,26 +238,26 @@ export async function GET(request: NextRequest) {
       : new Date();
     const fallbackPositions = calculateLocalPositions(fallbackDate);
     const resp = toResponse(fallbackPositions, "local-astronomy-engine");
-    const data = await resp.json();
+    const data = (await resp.json()) as Record<string, unknown>;
     await redisSet(cacheKey, data, 3600).catch(() => {});
     return NextResponse.json(data);
   } catch (error) {
-    console.error("[planetary-positions] Error:", error);
+    logger.error("[planetary-positions] Error:", error);
     return NextResponse.json({ error: "Failed to compute planetary positions" }, { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, PLANETARY_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
-    const body = (await request.json()) as PlanetaryRequestBody;
-    const backendPositions = await fetchFromBackend(body || {});
+    const body = ((await request.json().catch(() => ({}))) ?? {}) as PlanetaryRequestBody;
+    const backendPositions = await fetchFromBackend(body);
     if (backendPositions) {
       return toResponse(backendPositions, "backend-pyswisseph");
     }
 
-    const fallbackDate = body?.year && body?.month && (body?.day || body?.date)
+    const fallbackDate = body.year && body.month && (body.day || body.date)
       ? new Date(
         Date.UTC(
           body.year,

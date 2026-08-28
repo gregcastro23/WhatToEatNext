@@ -11,6 +11,7 @@ import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { _logger } from "@/lib/logger";
 
 interface RecentUser {
   id: string;
@@ -61,10 +62,25 @@ interface PaIntegration {
   telemetry: AgentTelemetry | null;
 }
 
+interface AdminDashboardResponse {
+  success?: boolean;
+  recentUsers?: RecentUser[];
+  recentUsersLive?: boolean;
+  paIntegration?: PaIntegration | null;
+}
+
+interface PlanetarySyncResponse {
+  success: boolean;
+  statusCode?: number;
+  affectedCount?: number;
+  failures?: string[];
+  timestamp?: string;
+}
+
 /**
  * Admin Dashboard - Overview of system statistics & integration observability
  */
-export default function AdminDashboardPage() {
+export default function AdminDashboardPage(): React.JSX.Element {
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   // null = no fetch has completed yet; false = the fetch failed or the
   // server-side user query degraded; true = the list is a live fact, so an
@@ -91,13 +107,13 @@ export default function AdminDashboardPage() {
         setRecentUsersLive(false);
         return { ok: false };
       }
-      const data = await response.json();
+      const data = (await response.json()) as AdminDashboardResponse;
       if (data.success) {
         setRecentUsers(Array.isArray(data.recentUsers) ? data.recentUsers : []);
         // recentUsersLive is the server's own signal that the user query ran;
         // without it an empty list is indistinguishable from a failure.
         setRecentUsersLive(data.recentUsersLive === true);
-        setPaIntegration(data.paIntegration || null);
+        setPaIntegration(data.paIntegration ?? null);
         return { ok: true };
       }
       setRecentUsersLive(false);
@@ -114,7 +130,7 @@ export default function AdminDashboardPage() {
   // visibility-aware with error backoff. Replaces a single mount fetch.
   useHardenedPolling(fetchDashboardData, { baseIntervalMs: 30_000 });
 
-  const handleSyncAll = async () => {
+  const handleSyncAll = async (): Promise<void> => {
     try {
       setSyncing(true);
       setSyncResult(null);
@@ -123,14 +139,14 @@ export default function AdminDashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "sync-all" }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as PlanetarySyncResponse;
       setSyncResult({
         success: data.success,
-        statusCode: data.statusCode || res.status,
-        affectedCount: data.affectedCount || 0,
-        failures: data.failures || [],
+        statusCode: data.statusCode ?? res.status,
+        affectedCount: data.affectedCount ?? 0,
+        failures: data.failures ?? [],
         action: "SYNC ALL",
-        timestamp: data.timestamp || new Date().toISOString(),
+        timestamp: data.timestamp ?? new Date().toISOString(),
       });
       // Refresh stats after sync
       await fetchDashboardData();
@@ -148,7 +164,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleSyncOne = async () => {
+  const handleSyncOne = async (): Promise<void> => {
     if (!syncEmail.trim()) {
       setSyncResult({
         success: false,
@@ -171,14 +187,14 @@ export default function AdminDashboardPage() {
           agentEmail: syncEmail.trim()
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as PlanetarySyncResponse;
       setSyncResult({
         success: data.success,
-        statusCode: data.statusCode || res.status,
-        affectedCount: data.affectedCount || 0,
-        failures: data.failures || [],
+        statusCode: data.statusCode ?? res.status,
+        affectedCount: data.affectedCount ?? 0,
+        failures: data.failures ?? [],
         action: "SYNC ONE",
-        timestamp: data.timestamp || new Date().toISOString(),
+        timestamp: data.timestamp ?? new Date().toISOString(),
       });
       // Refresh stats after sync
       await fetchDashboardData();
@@ -196,7 +212,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const getElementColor = (element: string | null) => {
+  const getElementColor = (element: string | null): string => {
     switch (element?.toLowerCase()) {
       case "fire":
         return "text-red-600 bg-red-100";
@@ -211,7 +227,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const getHealthBadge = (health: string | undefined) => {
+  const getHealthBadge = (health: string | undefined): React.JSX.Element => {
     switch (health?.toLowerCase()) {
       case "healthy":
       case "online":
@@ -362,7 +378,7 @@ export default function AdminDashboardPage() {
                   <p className="text-xs text-gray-500">PA Backend Registered Agents: <span className="font-semibold text-gray-800">{paIntegration?.agentCount ?? "—"}</span></p>
                 </div>
                 <button
-                  onClick={() => { void handleSyncAll(); }}
+                  onClick={() => { handleSyncAll().catch((err: unknown) => { _logger.error("Sync all failed:", err); }); }}
                   disabled={syncing}
                   className="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 active:scale-95 disabled:bg-gray-300 disabled:scale-100 transition"
                 >
@@ -380,7 +396,7 @@ export default function AdminDashboardPage() {
                   className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-indigo-400 disabled:bg-gray-100 text-gray-800"
                 />
                 <button
-                  onClick={() => { void handleSyncOne(); }}
+                  onClick={() => { handleSyncOne().catch((err: unknown) => { _logger.error("Sync one failed:", err); }); }}
                   disabled={syncing}
                   className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg active:scale-95 disabled:bg-gray-300 disabled:scale-100 transition"
                 >
@@ -568,7 +584,7 @@ function TelemetryMetricTile({
 }: {
   label: string;
   metric: TelemetryMetric | undefined;
-}) {
+}): React.JSX.Element {
   const live = metric?.live ?? false;
   return (
     <div
@@ -604,7 +620,7 @@ function TelemetryMetricTile({
  * source, amber "Degraded" when a source fell back, neutral "Awaiting" before
  * the first payload arrives.
  */
-function TelemetryPanel({ telemetry }: { telemetry: AgentTelemetry | null }) {
+function TelemetryPanel({ telemetry }: { telemetry: AgentTelemetry | null }): React.JSX.Element {
   const hasTelemetry = telemetry !== null;
   const allLive = telemetry?.allLive ?? false;
 

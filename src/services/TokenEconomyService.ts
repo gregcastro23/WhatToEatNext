@@ -101,7 +101,7 @@ interface ShopItemRow {
   cost_essence: string;
   cost_matter: string;
   cost_substance: string;
-  is_one_time: boolean;
+  is_one_time: boolean | null;
   is_active: boolean;
   sort_order?: number | null;
 }
@@ -1152,7 +1152,7 @@ class TokenEconomyService {
     costEssence: number;
     costMatter: number;
     costSubstance: number;
-    isOneTime: boolean;
+    isOneTime: boolean | null;
     isActive: boolean;
   } | null> {
     const db = await getDbModule();
@@ -1197,7 +1197,7 @@ class TokenEconomyService {
     costEssence: number;
     costMatter: number;
     costSubstance: number;
-    isOneTime: boolean;
+    isOneTime: boolean | null;
     isActive: boolean;
     sortOrder: number;
   }>> {

@@ -10,18 +10,25 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import {
   agentSlugFromEmail,
   fetchAgentProfile,
   fetchAgentInteractions,
   fetchAgentActions,
   fetchAgentArtifacts,
+  type AgentInteraction,
+  type AgentAction,
+  type AgentArtifact,
 } from "@/lib/agents/fetchAgentProfile";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { followDatabase } from "@/services/followDatabaseService";
 import { computeTasteGraph } from "@/services/userInteractionsService";
 import type { ProfileSocialBlock } from "@/types/social";
+import { createLogger } from "@/utils/logger";
+
+const _logger = createLogger("users-api");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -32,12 +39,12 @@ interface ProfileRow {
   is_agent: boolean;
   name: string | null;
   bio: string | null;
-  natal_chart: any;
-  natal_positions: any;
+  natal_chart: unknown;
+  natal_positions: unknown;
   dominant_element: string | null;
-  birth_data: any;
-  dietary_preferences: any;
-  profile_layout: any;
+  birth_data: unknown;
+  dietary_preferences: unknown;
+  profile_layout: unknown;
   avatar_url: string | null;
   share_identity: boolean | null;
   created_at: string;
@@ -46,7 +53,7 @@ interface ProfileRow {
 interface FeedRow {
   id: string;
   event_type: string;
-  metadata_payload: any;
+  metadata_payload: unknown;
   created_at: string;
 }
 
@@ -147,7 +154,7 @@ async function viewerState(
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ userId: string }> },
-) {
+): Promise<NextResponse> {
   const { userId } = await params;
   if (!userId || typeof userId !== "string") {
     return NextResponse.json(
@@ -230,25 +237,25 @@ export async function GET(
     ] as const);
 
     if (feedSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] feed_events query failed:", feedSettled.reason);
+      _logger.warn("[GET /api/users/:userId] feed_events query failed:", feedSettled.reason);
     }
     if (balanceSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] token_balances query failed:", balanceSettled.reason);
+      _logger.warn("[GET /api/users/:userId] token_balances query failed:", balanceSettled.reason);
     }
     if (tasteGraphSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] computeTasteGraph failed:", tasteGraphSettled.reason);
+      _logger.warn("[GET /api/users/:userId] computeTasteGraph failed:", tasteGraphSettled.reason);
     }
     if (followCountsSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] follow counts failed:", followCountsSettled.reason);
+      _logger.warn("[GET /api/users/:userId] follow counts failed:", followCountsSettled.reason);
     }
     if (commensalsSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] commensal count failed:", commensalsSettled.reason);
+      _logger.warn("[GET /api/users/:userId] commensal count failed:", commensalsSettled.reason);
     }
     if (tablesSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] table counts failed:", tablesSettled.reason);
+      _logger.warn("[GET /api/users/:userId] table counts failed:", tablesSettled.reason);
     }
     if (viewerSettled.status === "rejected") {
-      console.warn("[GET /api/users/:userId] viewer state failed:", viewerSettled.reason);
+      _logger.warn("[GET /api/users/:userId] viewer state failed:", viewerSettled.reason);
     }
 
     const feedResult = feedSettled.status === "fulfilled"
@@ -295,10 +302,10 @@ export async function GET(
     // actions, and artifacts from planetary_agents-main in parallel.
     const slug = row.is_agent ? agentSlugFromEmail(row.email) : null;
     
-    let agentProfile: any = null;
-    let agentInteractions: any[] = [];
-    let agentActions: any[] = [];
-    let agentArtifacts: any[] = [];
+    let agentProfile: CraftedAgentProfile | null = null;
+    let agentInteractions: AgentInteraction[] = [];
+    let agentActions: AgentAction[] = [];
+    let agentArtifacts: AgentArtifact[] = [];
 
     if (slug) {
       const [profileRes, interactionsRes, actionsRes, artifactsRes] = await Promise.allSettled([
@@ -309,9 +316,9 @@ export async function GET(
       ]);
 
       if (profileRes.status === "fulfilled") agentProfile = profileRes.value;
-      if (interactionsRes.status === "fulfilled") agentInteractions = interactionsRes.value || [];
-      if (actionsRes.status === "fulfilled") agentActions = actionsRes.value || [];
-      if (artifactsRes.status === "fulfilled") agentArtifacts = artifactsRes.value || [];
+      if (interactionsRes.status === "fulfilled") agentInteractions = interactionsRes.value;
+      if (actionsRes.status === "fulfilled") agentActions = actionsRes.value;
+      if (artifactsRes.status === "fulfilled") agentArtifacts = artifactsRes.value;
     }
 
     return NextResponse.json({
@@ -359,12 +366,9 @@ export async function GET(
       },
     });
   } catch (error) {
-    // Surface the actual failure cause in logs — the previous bare
-    // console.error truncated `error` to "[GET /api/users/:userId] er..."
-    // in Vercel, hiding the underlying message + stack.
     const message = error instanceof Error ? error.message : String(error);
     const stack = error instanceof Error ? error.stack : undefined;
-    console.error(
+    _logger.error(
       `[GET /api/users/:userId] userId=${userId} message=${message}`,
       stack ?? error,
     );

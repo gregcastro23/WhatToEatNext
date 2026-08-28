@@ -1,14 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import type { ElementalItem } from '@/calculations/alchemicalTransformation';
-import type { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import type { Modality } from '@/data/ingredients/types';
-import { LunarPhase as _LunarPhase } from '@/types/alchemy';
-import type { ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
 import { _transformCuisines } from '@/utils/alchemicalTransformationUtils';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
-import { getRecipesForCuisine as _getRecipesForCuisine } from '@/utils/recipeFilters';
 
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;
@@ -20,7 +17,21 @@ interface CuisineSelectorProps {
   currentLunarPhase?: LunarPhaseWithSpaces | null;
 }
 
-function CuisineSelector({ 
+interface CuisineDignity {
+  favorableZodiacSigns?: string[];
+  favorableZodiacSignTypes?: string[];
+}
+
+interface CuisineItem extends ElementalItem {
+  name: string;
+  modality?: Modality;
+  gregsEnergy?: number;
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, CuisineDignity>;
+  [key: string]: unknown;
+}
+
+export function CuisineSelector({ 
   onRecipesChange, 
   selectedCuisine, 
   onCuisineChange,
@@ -28,26 +39,30 @@ function CuisineSelector({
   isDaytime = true,
   currentZodiac = null,
   currentLunarPhase = null
-}: CuisineSelectorProps) {
+}: CuisineSelectorProps): React.JSX.Element {
   const { cuisines, loading: dataLoading } = useAlchemicalData();
   const [modalityFilter, setModalityFilter] = useState<string>('all');
   const [zodiacFilter, setZodiacFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
   
   // Get all cuisines
-  const cuisineList = useMemo(() => {
+  const cuisineList = useMemo<CuisineItem[]>(() => {
     if (!cuisines || dataLoading) return [];
 
+    const safeCuisines: Record<string, Record<string, unknown> | undefined> = cuisines;
     // Map dynamic cuisines into the selector array format
-    const baseCuisines: ElementalItem[] = ['italian', 'french', 'thai', 'middleEastern'].map(key => {
+    const baseCuisines: CuisineItem[] = ['italian', 'french', 'thai', 'middleEastern'].map((key) => {
       const dbKey = key === 'middleEastern' ? 'Middle Eastern' : key.charAt(0).toUpperCase() + key.slice(1);
-      const c = cuisines[dbKey] ?? cuisines[key] ?? {};
+      const c = safeCuisines[dbKey] ?? safeCuisines[key] ?? {};
+      const elementalProperties = (c.elementalState as ElementalProperties | undefined) ??
+        (c.elementalProperties as ElementalProperties | undefined) ?? { 
+          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
+        };
       return {
         id: key,
+        name: typeof c.name === 'string' ? c.name : key,
         ...c,
-        elementalProperties: c.elementalState ?? c.elementalProperties ?? { 
-          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
-        },
+        elementalProperties,
       };
     });
     
@@ -66,18 +81,15 @@ function CuisineSelector({
   }, [planetaryPositions, isDaytime, currentZodiac, currentLunarPhase, cuisines, dataLoading]);
   
   // Sort cuisines when sort preference changes
-  const sortedCuisines = useMemo(() => {
+  const sortedCuisines = useMemo<CuisineItem[]>(() => {
     const sorted = [...cuisineList];
     
     if (sortBy === 'alchemical' && Object.keys(planetaryPositions).length > 0) {
       // Sort by gregsEnergy or planetary boost if available
       sorted.sort((a, b) => {
-        // If alchemical properties are available, sort by them
-        if ('gregsEnergy' in a && 'gregsEnergy' in b) {
-          return (b.gregsEnergy as number) - (a.gregsEnergy as number);
+        if (typeof a.gregsEnergy === 'number' && typeof b.gregsEnergy === 'number') {
+          return b.gregsEnergy - a.gregsEnergy;
         }
-        
-        // Fallback to default sorting
         return 0;
       });
     }
@@ -86,55 +98,46 @@ function CuisineSelector({
   }, [cuisineList, sortBy, planetaryPositions]);
   
   // Function to determine cuisine modality
-  const getCuisineModality = (cuisine: unknown): Modality => {
-    // If cuisine already has modality defined, use it
-    // @ts-expect-error - Auto-fixed by script
+  const getCuisineModality = (cuisine: CuisineItem): Modality => {
     if (cuisine.modality) return cuisine.modality;
-    
-    // Otherwise determine from elemental state
-    // @ts-expect-error - Auto-fixed by script
-    return determineModalityFromElements(cuisine.elementalState ?? cuisine.elementalProperties ?? {
-      Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    });
+    const elementalState = (cuisine.elementalState as ElementalProperties | undefined) ??
+      cuisine.elementalProperties;
+    return determineModalityFromElements(elementalState);
   };
   
   // Filter cuisines by modality and zodiac influence
-  const filteredCuisines = useMemo(() => sortedCuisines.filter(c => {
-      const cuisine = c as any;
-      // Apply modality filter
-      if (modalityFilter !== 'all' && getCuisineModality(cuisine) !== modalityFilter) {
-        return false;
-      }
-      
-      // Apply zodiac filter
-      if (zodiacFilter !== 'all') {
-        // Check if cuisine has zodiac influences and includes the selected zodiac
-        const zodiacInfluences = cuisine.zodiacInfluences ?? [];
-        if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
-          // Also check for planetary dignities if cuisines were transformed
-          if ('planetaryDignities' in cuisine) {
-            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities ?? {}).some(
-              // @ts-expect-error - Auto-fixed by script
-              (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(zodiacFilter)
-            );
-            
-            if (!hasPlanetaryMatch) {
-              return false;
-            }
-          } else {
+  const filteredCuisines = useMemo<CuisineItem[]>(() => sortedCuisines.filter((cuisine) => {
+    // Apply modality filter
+    if (modalityFilter !== 'all' && getCuisineModality(cuisine) !== modalityFilter) {
+      return false;
+    }
+    
+    // Apply zodiac filter
+    if (zodiacFilter !== 'all') {
+      const zodiacInfluences = Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences : [];
+      if (!zodiacInfluences.includes(zodiacFilter)) {
+        if (cuisine.planetaryDignities && typeof cuisine.planetaryDignities === 'object') {
+          const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities).some(
+            (dignity) => {
+              const signs = dignity.favorableZodiacSignTypes ?? dignity.favorableZodiacSigns;
+              return Array.isArray(signs) && signs.includes(zodiacFilter);
+            },
+          );
+          if (!hasPlanetaryMatch) {
             return false;
           }
+        } else {
+          return false;
         }
       }
-      
-      return true;
-    }), [sortedCuisines, modalityFilter, zodiacFilter]);
+    }
+    
+    return true;
+  }), [sortedCuisines, modalityFilter, zodiacFilter]);
 
-  const handleCuisineSelect = (cuisineName: string) => {
-    // Just notify the parent component about the cuisine change
-    // and let it handle getting the recipes
-    onRecipesChange([]);  // Pass empty array initially
-    onCuisineChange(cuisineName);  // Let parent component fetch recipes based on cuisine
+  const handleCuisineSelect = (cuisineName: string): void => {
+    onRecipesChange([]);
+    onCuisineChange(cuisineName);
   };
 
   // Get the zodiac signs for filtering
@@ -206,23 +209,29 @@ function CuisineSelector({
       )}
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {filteredCuisines.map((c) => {
-          const cuisine = c as any;
+        {filteredCuisines.map((cuisine) => {
+          const cuisineName = cuisine.name || cuisine.id;
+          const zodiacInfluences = Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences : [];
+          const dignities = cuisine.planetaryDignities && typeof cuisine.planetaryDignities === 'object'
+            ? Object.values(cuisine.planetaryDignities)
+            : [];
           // Determine if current zodiac is favorable for this cuisine
-          const isZodiacFavorable = currentZodiac && 
-            (cuisine.zodiacInfluences?.includes(currentZodiac) ??
-             Object.values(cuisine.planetaryDignities ?? {}).some(
-               // @ts-expect-error - Auto-fixed by script
-               (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(currentZodiac)
-             ));
+          const isZodiacFavorable = Boolean(
+            currentZodiac && 
+            (zodiacInfluences.includes(currentZodiac) ||
+             dignities.some((dignity) => {
+               const signs = dignity.favorableZodiacSignTypes ?? dignity.favorableZodiacSigns;
+               return Array.isArray(signs) && signs.includes(currentZodiac);
+             })),
+          );
           
           return (
             <button
               key={cuisine.id}
-              onClick={() => handleCuisineSelect(cuisine.name)}
+              onClick={() => handleCuisineSelect(cuisineName)}
               className={`
                 p-4 rounded-lg shadow-md transition-all
-                ${selectedCuisine === cuisine.name
+                ${selectedCuisine === cuisineName
                   ? 'bg-primary text-white'
                   : isZodiacFavorable
                     ? 'bg-blue-50 hover:bg-blue-100'
@@ -230,7 +239,7 @@ function CuisineSelector({
                 }
               `}
             >
-              <span className="text-lg font-medium">{cuisine.name}</span>
+              <span className="text-lg font-medium">{cuisineName}</span>
               
               <div className="cuisine-modality flex justify-between items-center mt-2">
                 <span className={`modality-badge ${getCuisineModality(cuisine).toLowerCase()}`}>
@@ -238,9 +247,9 @@ function CuisineSelector({
                 </span>
                 
                 {/* Display alchemical compatibility if available */}
-                {'gregsEnergy' in cuisine && (
+                {typeof cuisine.gregsEnergy === 'number' && (
                   <span className="alchemical-score text-sm">
-                    Compatibility: {Math.round((cuisine.gregsEnergy as number) * 100)}%
+                    Compatibility: {Math.round(cuisine.gregsEnergy * 100)}%
                   </span>
                 )}
               </div>
@@ -252,7 +261,7 @@ function CuisineSelector({
                   {cuisine.zodiacInfluences.map((sign: string, i: number) => (
                     <span key={sign} className={`${currentZodiac === sign ? 'font-bold' : ''}`}>
                       {sign.charAt(0).toUpperCase() + sign.slice(1)}
-                      {i < cuisine.zodiacInfluences.length - 1 ? ', ' : ''}
+                      {i < (cuisine.zodiacInfluences?.length ?? 0) - 1 ? ', ' : ''}
                     </span>
                   ))}
                 </div>
@@ -271,4 +280,4 @@ function CuisineSelector({
   );
 }
 
-export default CuisineSelector; 
+export default CuisineSelector;

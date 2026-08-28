@@ -6,28 +6,43 @@ import type {
 } from "@/types/alchemy";
 import { CUISINES_METADATA, getCuisineData } from "./cuisines/index";
 
+interface AlchemicalSignature {
+  targetKAlchm: number;
+  tolerance: number;
+}
+
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props as any;
   if (
-    propsData &&
-    typeof propsData === "object" &&
-    Object.prototype.hasOwnProperty.call(propsData, "Fire")
+    props &&
+    typeof props === "object" &&
+    "Fire" in props
   ) {
-    return propsData as ElementalProperties;
+    const p = props as Record<string, unknown>;
+    return {
+      Fire: Number(p.Fire) || 0,
+      Water: Number(p.Water) || 0,
+      Earth: Number(p.Earth) || 0,
+      Air: Number(p.Air) || 0,
+    };
   }
   return {
-    Fire: propsData?.Fire || 0,
-    Water: propsData?.Water || 0,
-    Earth: propsData?.Earth || 0,
-    Air: propsData?.Air || 0,
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
   };
 }
 
-function adaptCuisine(cuisine: unknown, alchemicalSignature: { targetKAlchm: number, tolerance: number }): AlchemyCuisine {
-  const cuisineData = cuisine as any;
+function adaptCuisine(
+  cuisine: unknown,
+  alchemicalSignature: AlchemicalSignature,
+): AlchemyCuisine {
+  const cuisineData = (
+    cuisine && typeof cuisine === "object" ? cuisine : {}
+  ) as Record<string, unknown>;
   return {
-    ...cuisineData,
+    ...(cuisineData as unknown as AlchemyCuisine),
     alchemicalSignature,
     elementalProperties: cuisineData.elementalProperties
       ? adaptElementalProperties(cuisineData.elementalProperties)
@@ -52,31 +67,32 @@ export const cuisines: Record<string, AlchemyCuisine> = {
   russian: adaptCuisine(CUISINES_METADATA.Russian, { targetKAlchm: 0.9, tolerance: 0.3 }),
 };
 
+const SIGNATURES: Record<string, AlchemicalSignature> = {
+  american: { targetKAlchm: 1.2, tolerance: 0.3 },
+  greek: { targetKAlchm: 1.5, tolerance: 0.4 },
+  indian: { targetKAlchm: 2.5, tolerance: 0.6 },
+  italian: { targetKAlchm: 1.8, tolerance: 0.5 },
+  middleeastern: { targetKAlchm: 2.0, tolerance: 0.5 },
+  thai: { targetKAlchm: 2.8, tolerance: 0.7 },
+  vietnamese: { targetKAlchm: 2.2, tolerance: 0.6 },
+  african: { targetKAlchm: 2.3, tolerance: 0.6 },
+  russian: { targetKAlchm: 0.9, tolerance: 0.3 },
+};
+
 export async function getFullCuisine(name: string): Promise<AlchemyCuisine | null> {
-    const raw = await getCuisineData(name);
-    if (!raw) return null;
-    const signatures: Record<string, any> = {
-        american: { targetKAlchm: 1.2, tolerance: 0.3 },
-        greek: { targetKAlchm: 1.5, tolerance: 0.4 },
-        indian: { targetKAlchm: 2.5, tolerance: 0.6 },
-        italian: { targetKAlchm: 1.8, tolerance: 0.5 },
-        middleEastern: { targetKAlchm: 2.0, tolerance: 0.5 },
-        thai: { targetKAlchm: 2.8, tolerance: 0.7 },
-        vietnamese: { targetKAlchm: 2.2, tolerance: 0.6 },
-        african: { targetKAlchm: 2.3, tolerance: 0.6 },
-        russian: { targetKAlchm: 0.9, tolerance: 0.3 },
-    };
-    const key = name.toLowerCase().replace(/\s+/g, "");
-    const sig = signatures[key] || { targetKAlchm: 1.0, tolerance: 0.5 };
-    return adaptCuisine(raw, sig);
+  const raw = await getCuisineData(name);
+  if (!raw) return null;
+  const key = name.toLowerCase().replace(/\s+/g, "");
+  const sig = SIGNATURES[key] ?? { targetKAlchm: 1.0, tolerance: 0.5 };
+  return adaptCuisine(raw, sig);
 }
 
-export function getCuisineKAlchm(cuisineName: string): { targetKAlchm: number, tolerance: number } {
-    const cuisine = cuisines[cuisineName.toLowerCase()];
-    if (cuisine?.alchemicalSignature) {
-        return cuisine.alchemicalSignature;
-    }
-    return { targetKAlchm: 1.0, tolerance: 0.5 };
+export function getCuisineKAlchm(cuisineName: string): AlchemicalSignature {
+  const cuisine = cuisines[cuisineName.toLowerCase()];
+  if (cuisine?.alchemicalSignature) {
+    return cuisine.alchemicalSignature;
+  }
+  return { targetKAlchm: 1.0, tolerance: 0.5 };
 }
 
 export type { CuisineType };

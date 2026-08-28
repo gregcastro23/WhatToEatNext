@@ -1,9 +1,39 @@
-// @ts-nocheck
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
-import { useIngredientMapping } from '@/hooks/useIngredientMapping';
+import React, { useState } from "react";
+import { useAlchemicalData } from "@/contexts/AlchemicalDataContext";
+import { useIngredientMapping } from "@/hooks/useIngredientMapping";
+
+interface MatchedIngredientInfo {
+  name: string;
+  matchedTo?: string;
+  confidence: number;
+}
+
+interface MappedRecipeResult {
+  recipe: {
+    name: string;
+    cuisine?: string;
+  };
+  matchQuality: string;
+  score: number;
+  matchedIngredients: MatchedIngredientInfo[];
+}
+
+interface AlternativeIngredient {
+  name: string;
+  similarity: number;
+  mapping: {
+    category?: string;
+  };
+}
+
+interface CompatibilityResult {
+  success: boolean;
+  type?: string;
+  compatibility?: number;
+  message?: string;
+}
 
 /**
  * Component that demonstrates the universal ingredient mapping functionality
@@ -12,39 +42,38 @@ export default function IngredientMapper() {
   const {
     isLoading,
     error,
-    mapRecipeIngredients: _mapRecipeIngredients,
     findMatchingRecipes,
     suggestAlternatives,
-    calculateCompatibility
+    calculateCompatibility,
   } = useIngredientMapping();
 
-  const { cuisines, loading: _cuisinesLoading } = useAlchemicalData();
+  const { cuisines } = useAlchemicalData();
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCuisine, setSelectedCuisine] = useState('');
-  const [selectedIngredient, setSelectedIngredient] = useState('');
-  const [mappedRecipes, setMappedRecipes] = useState<any[]>([]);
-  const [alternatives, setAlternatives] = useState<any[]>([]);
-  const [compatibilityResult, setCompatibilityResult] = useState<any>(null);
-  const [secondIngredient, setSecondIngredient] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCuisine, setSelectedCuisine] = useState("");
+  const [selectedIngredient, setSelectedIngredient] = useState("");
+  const [mappedRecipes, setMappedRecipes] = useState<MappedRecipeResult[]>([]);
+  const [alternatives, setAlternatives] = useState<AlternativeIngredient[]>([]);
+  const [compatibilityResult, setCompatibilityResult] = useState<CompatibilityResult | null>(null);
+  const [secondIngredient, setSecondIngredient] = useState("");
 
   // Find recipes with good ingredient mappings
-  const handleFindRecipes = () => {
+  const handleFindRecipes = async () => {
     const elementalTarget = {
       // Can be customized based on user preferences or context
-      Fire: 0.3, 
+      Fire: 0.3,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     };
 
-    const results = findMatchingRecipes({
+    const results = await findMatchingRecipes({
       elementalTarget,
       requiredIngredients: searchTerm ? [searchTerm] : undefined,
-      cuisineType: selectedCuisine || undefined
+      cuisineType: selectedCuisine || undefined,
     });
 
-    setMappedRecipes(results);
+    setMappedRecipes(results as unknown as MappedRecipeResult[]);
   };
 
   // Find alternative ingredients
@@ -102,13 +131,15 @@ export default function IngredientMapper() {
           </div>
         </div>
         <button
-          onClick={handleFindRecipes}
+          onClick={() => {
+            handleFindRecipes().catch(() => {});
+          }}
           disabled={isLoading}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300"
         >
-          {isLoading ? 'Loading...' : 'Find Recipes'}
+          {isLoading ? "Loading..." : "Find Recipes"}
         </button>
-        
+
         {/* Display Results */}
         {mappedRecipes.length > 0 && (
           <div className="mt-4">
@@ -117,18 +148,16 @@ export default function IngredientMapper() {
               {mappedRecipes.map((result, index) => (
                 <div key={index} className="p-3 border rounded">
                   <div className="font-medium">{result.recipe.name}</div>
-                  <div className="text-sm text-gray-600">{result.recipe.cuisine ?? 'Unknown Cuisine'}</div>
+                  <div className="text-sm text-gray-600">{result.recipe.cuisine ?? "Unknown Cuisine"}</div>
                   <div className="text-sm">Match Quality: <span className="font-semibold">{result.matchQuality}</span></div>
                   <div className="text-sm">Score: {(result.score * 100).toFixed(0)}%</div>
                   <div className="mt-2">
                     <div className="text-sm font-medium">Mapped Ingredients:</div>
                     <div className="grid grid-cols-2 gap-2 mt-1">
                       {result.matchedIngredients
-                        // @ts-expect-error - Auto-fixed by script
-                        .filter((ing: unknown) => ing.matchedTo)
-                        .map((ing: unknown, i: number) => (
+                        .filter((ing) => ing.matchedTo)
+                        .map((ing, i) => (
                           <div key={i} className="text-xs p-1 bg-green-100 rounded">
-                            // @ts-expect-error - Auto-fixed by script
                             {ing.name} ({(ing.confidence * 100).toFixed(0)}%)
                           </div>
                         ))}
@@ -140,7 +169,7 @@ export default function IngredientMapper() {
           </div>
         )}
       </div>
-      
+
       {/* Alternative Ingredients Section */}
       <div className="mb-8 p-4 border rounded">
         <h2 className="text-xl font-semibold mb-2">Find Alternative Ingredients</h2>
@@ -160,9 +189,9 @@ export default function IngredientMapper() {
           disabled={isLoading || !selectedIngredient}
           className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-green-300"
         >
-          {isLoading ? 'Loading...' : 'Find Alternatives'}
+          {isLoading ? "Loading..." : "Find Alternatives"}
         </button>
-        
+
         {/* Display Results */}
         {alternatives.length > 0 && (
           <div className="mt-4">
@@ -172,7 +201,7 @@ export default function IngredientMapper() {
                 <div key={index} className="p-2 border rounded flex justify-between items-center">
                   <div>
                     <div className="font-medium">{alt.name}</div>
-                    <div className="text-xs text-gray-600">{alt.mapping.category ?? 'Unknown Category'}</div>
+                    <div className="text-xs text-gray-600">{alt.mapping.category ?? "Unknown Category"}</div>
                   </div>
                   <div className="text-sm font-semibold">
                     {(alt.similarity * 100).toFixed(0)}% Similar
@@ -183,7 +212,7 @@ export default function IngredientMapper() {
           </div>
         )}
       </div>
-      
+
       {/* Compatibility Calculator Section */}
       <div className="p-4 border rounded">
         <h2 className="text-xl font-semibold mb-2">Ingredient Compatibility</h2>
@@ -218,23 +247,26 @@ export default function IngredientMapper() {
         >
           Calculate Compatibility
         </button>
-        
+
         {/* Display Result */}
         {compatibilityResult && (
           <div className="mt-4">
             {compatibilityResult.success ? (
               <div className="p-3 border rounded">
                 <div className="text-lg font-semibold mb-1">
-                  {compatibilityResult.type.charAt(0).toUpperCase() + compatibilityResult.type.slice(1)} Compatibility
+                  {compatibilityResult.type
+                    ? compatibilityResult.type.charAt(0).toUpperCase() + compatibilityResult.type.slice(1)
+                    : "General"}{" "}
+                  Compatibility
                 </div>
                 <div className="relative h-4 bg-gray-200 rounded-full overflow-hidden mt-2">
-                  <div 
+                  <div
                     className="absolute top-0 left-0 h-full bg-blue-500"
-                    style={{ width: `${compatibilityResult.compatibility * 100}%` }}
-                   />
+                    style={{ width: `${(compatibilityResult.compatibility ?? 0) * 100}%` }}
+                  />
                 </div>
                 <div className="text-right text-sm mt-1">
-                  {(compatibilityResult.compatibility * 100).toFixed(0)}%
+                  {((compatibilityResult.compatibility ?? 0) * 100).toFixed(0)}%
                 </div>
               </div>
             ) : (

@@ -241,7 +241,7 @@ export class UnifiedNutritionalSystem {
   constructor() {
     this.initializeProfiles();
   }
-  private initializeProfiles() {
+  private initializeProfiles(): void {
     // Initialize with basic profiles - would be expanded with actual data
     this.seasonalProfiles = {} as Record<Season, SeasonalNutritionalProfile>;
     this.planetaryProfiles = {} as Record<
@@ -260,25 +260,22 @@ export class UnifiedNutritionalSystem {
     const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     profiles.forEach((profile) => {
       const nutrients = profile.elementalNutrients;
-      if (nutrients) {
-        const nutrientData = nutrients;
-        const fireNutrients = nutrientData.Fire;
-        const waterNutrients = nutrientData.Water;
-        const earthNutrients = nutrientData.Earth;
-        const airNutrients = nutrientData.Air;
-        totalElementalValues.Fire += Number(
-          fireNutrients.totalElementalValue || 0,
-        );
-        totalElementalValues.Water += Number(
-          waterNutrients.totalElementalValue || 0,
-        );
-        totalElementalValues.Earth += Number(
-          earthNutrients.totalElementalValue || 0,
-        );
-        totalElementalValues.Air += Number(
-          airNutrients.totalElementalValue || 0,
-        );
-      }
+      const fireNutrients = nutrients.Fire;
+      const waterNutrients = nutrients.Water;
+      const earthNutrients = nutrients.Earth;
+      const airNutrients = nutrients.Air;
+      totalElementalValues.Fire += Number(
+        fireNutrients.totalElementalValue || 0,
+      );
+      totalElementalValues.Water += Number(
+        waterNutrients.totalElementalValue || 0,
+      );
+      totalElementalValues.Earth += Number(
+        earthNutrients.totalElementalValue || 0,
+      );
+      totalElementalValues.Air += Number(
+        airNutrients.totalElementalValue || 0,
+      );
     });
     // Calculate balance as inverse of standard deviation
     const values = Object.values(totalElementalValues);
@@ -294,21 +291,19 @@ export class UnifiedNutritionalSystem {
     profiles: AlchemicalNutritionalProfile[],
     season: Season,
   ): number {
-    if (!profiles || profiles.length === 0) return 0.5;
+    if (profiles.length === 0) return 0.5;
     let totalAlignment = 0;
     let validProfiles = 0;
     profiles.forEach((profile) => {
       const astroData = profile.astrologicalProfile;
-      if (astroData?.seasonalPeak) {
-        validProfiles++;
-        if (
-          Array.isArray(astroData.seasonalPeak) &&
-          astroData.seasonalPeak.includes(season)
-        ) {
-          totalAlignment += 1.0;
-        } else {
-          totalAlignment += 0.3; // Partial alignment
-        }
+      validProfiles++;
+      if (
+        Array.isArray(astroData.seasonalPeak) &&
+        astroData.seasonalPeak.includes(season)
+      ) {
+        totalAlignment += 1.0;
+      } else {
+        totalAlignment += 0.3; // Partial alignment
       }
     });
     return validProfiles > 0 ? totalAlignment / validProfiles : 0.5;
@@ -317,21 +312,19 @@ export class UnifiedNutritionalSystem {
     profiles: AlchemicalNutritionalProfile[],
     planet: PlanetName,
   ): number {
-    if (!profiles || profiles.length === 0) return 0.5;
+    if (profiles.length === 0) return 0.5;
     let totalResonance = 0;
     let validProfiles = 0;
     profiles.forEach((profile) => {
       const astroData = profile.astrologicalProfile;
-      if (astroData?.rulingPlanets) {
-        validProfiles++;
-        if (
-          Array.isArray(astroData.rulingPlanets) &&
-          astroData.rulingPlanets.includes(planet)
-        ) {
-          totalResonance += 1.0;
-        } else {
-          totalResonance += 0.2; // Minimal resonance
-        }
+      validProfiles++;
+      if (
+        Array.isArray(astroData.rulingPlanets) &&
+        astroData.rulingPlanets.includes(planet)
+      ) {
+        totalResonance += 1.0;
+      } else {
+        totalResonance += 0.2; // Minimal resonance
       }
     });
     return validProfiles > 0 ? totalResonance / validProfiles : 0.5;
@@ -340,35 +333,32 @@ export class UnifiedNutritionalSystem {
     kalchmHarmony: number,
     seasonalAlignment: number,
     planetaryResonance: number,
-    elementalBalance = 0.5,
+    elementalBalance: number,
   ): string[] {
     const recommendations: string[] = [];
-    if (kalchmHarmony < 0.6) {
+    if (kalchmHarmony < 0.7) {
       recommendations.push(
-        "Consider adjusting ingredient proportions to improve alchemical harmony",
+        "Consider adjusting ingredient proportions for better Kalchm balance",
       );
     }
-    if (seasonalAlignment < 0.5) {
+    if (seasonalAlignment < 0.6) {
       recommendations.push(
-        "Incorporate more seasonal ingredients for better nutritional timing",
+        "Incorporate more seasonal ingredients for optimal nutritional resonance",
       );
     }
-    if (planetaryResonance < 0.4) {
+    if (planetaryResonance < 0.6) {
       recommendations.push(
-        "Add ingredients with stronger planetary correspondences",
+        "Enhance with planetary-aligned herbs and spices",
       );
     }
     if (elementalBalance < 0.6) {
       recommendations.push(
-        "Balance elemental nutrients more evenly across all four elements",
+        "Balance the four elemental nutrient groups for comprehensive nutrition",
       );
     }
-    if (recommendations.length === 0) {
-      recommendations.push(
-        "Excellent nutritional harmony - maintain current approach",
-      );
-    }
-    return recommendations;
+    return recommendations.length > 0
+      ? recommendations
+      : ["Nutritional combination shows excellent alchemical harmony"];
   }
   getNutritionalRecommendations(_: {
     season?: Season;
@@ -446,10 +436,10 @@ export class UnifiedNutritionalSystem {
     const baseData = baseProfile as unknown as Record<string, unknown>;
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
-      Spirit: Number(baseData.volatileCompounds || 0.2),
-      Essence: Number(baseData.activeCompounds || 0.3),
-      Matter: Number(baseData.structuralNutrients || 0.3),
-      Substance: Number(baseData.stableNutrients || 0.2),
+      Spirit: Number(baseData.volatileCompounds ?? 0.2),
+      Essence: Number(baseData.activeCompounds ?? 0.3),
+      Matter: Number(baseData.structuralNutrients ?? 0.3),
+      Substance: Number(baseData.stableNutrients ?? 0.2),
     };
     // Calculate Kalchm value
     const kalchm = calculateKalchm(alchemicalProperties);
@@ -496,7 +486,7 @@ export class UnifiedNutritionalSystem {
 export const _calculateNutritionalBalance = (
   _ingredients: unknown[],
 ): NutritionalProfile => {
-  if (!_ingredients || _ingredients.length === 0) {
+  if (_ingredients.length === 0) {
     return {
       calories: 0,
       protein: 0,
@@ -516,29 +506,29 @@ export const _calculateNutritionalBalance = (
         carbohydrates: number;
         fat: number;
         fiber: number;
-        vitamins: Record<string, unknown>;
-        minerals: Record<string, unknown>;
+        vitamins: Record<string, number>;
+        minerals: Record<string, number>;
       },
       ingredient,
     ) => {
       const ingredientData = ingredient as Record<string, unknown>;
       const nutritionData = (
-        ingredientData?.nutrition ? ingredientData.nutrition : {}
+        ingredientData.nutrition ?? {}
       ) as Record<string, unknown>;
       return {
-        calories: acc.calories + Number(nutritionData.calories || 0),
-        protein: acc.protein + Number(nutritionData.protein || 0),
+        calories: acc.calories + Number(nutritionData.calories ?? 0),
+        protein: acc.protein + Number(nutritionData.protein ?? 0),
         carbohydrates:
-          acc.carbohydrates + Number(nutritionData.carbohydrates || 0),
-        fat: acc.fat + Number(nutritionData.fat || 0),
-        fiber: acc.fiber + Number(nutritionData.fiber || 0),
+          acc.carbohydrates + Number(nutritionData.carbohydrates ?? 0),
+        fat: acc.fat + Number(nutritionData.fat ?? 0),
+        fiber: acc.fiber + Number(nutritionData.fiber ?? 0),
         vitamins: {
           ...acc.vitamins,
-          ...(nutritionData.vitamins || {}),
+          ...(typeof nutritionData.vitamins === "object" && nutritionData.vitamins !== null ? (nutritionData.vitamins as Record<string, number>) : {}),
         },
         minerals: {
           ...acc.minerals,
-          ...(nutritionData.minerals || {}),
+          ...(typeof nutritionData.minerals === "object" && nutritionData.minerals !== null ? (nutritionData.minerals as Record<string, number>) : {}),
         },
       };
     },
@@ -559,17 +549,17 @@ export const nutritionalToElemental = (
 ): ElementalProperties => {
   const profileData = profile as unknown as Record<string, unknown>;
   // Map nutritional components to elemental properties
-  const protein = Number(profileData.protein || 0);
-  const carbs = Number(profileData.carbohydrates || 0);
-  const fat = Number(profileData.fat || 0);
-  const fiber = Number(profileData.fiber || 0);
+  const protein = Number(profileData.protein ?? 0);
+  const carbs = Number(profileData.carbohydrates ?? 0);
+  const fat = Number(profileData.fat ?? 0);
+  const fiber = Number(profileData.fiber ?? 0);
   // Normalize to total of 1.0
   const total = protein + carbs + fat + fiber || 1;
   return {
     Fire: (protein * 0.6 + carbs * 0.4) / total, // Energizing nutrients
-    Water: Number(profileData.waterContent || 0.3) / total, // Hydrating elements
+    Water: Number(profileData.waterContent ?? 0.3) / total, // Hydrating elements
     Earth: (fiber * 0.8 + fat * 0.2) / total, // Grounding nutrients
-    Air: Number(profileData.volatiles || 0.1) / total, // Light, dispersing elements
+    Air: Number(profileData.volatiles ?? 0.1) / total, // Light, dispersing elements
   };
 };
 export const _getZodiacNutritionalRecommendations = (

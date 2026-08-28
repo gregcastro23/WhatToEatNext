@@ -61,7 +61,6 @@ import type {
   AlchemicalProperties,
   ElementalProperties,
 } from "@/types/alchemy";
-
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {

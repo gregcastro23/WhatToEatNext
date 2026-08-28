@@ -26,7 +26,7 @@ import type {
  */
 export const _transformIngredients = (
   ingredients: ElementalItem[],
-  planetPositions: Record<string, number>,
+  planetPositions: Record<string, CelestialPosition | number | undefined | unknown>,
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
@@ -34,7 +34,7 @@ export const _transformIngredients = (
   ingredients.map((ingredient) =>
     transformItemWithPlanetaryPositions(
       ingredient,
-      planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
+      planetPositions as Record<string, CelestialPosition>,
       isDaytime,
       currentZodiac,
       lunarPhase,
@@ -54,16 +54,15 @@ export const _transformIngredients = (
  */
 export const _transformCookingMethods = (
   methods: ElementalItem[],
-  planetPositions: Record<string, number>,
+  planetPositions: Record<string, CelestialPosition | number | undefined | unknown>,
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
-  // First, apply the standard transformations - Pattern, TTT: Record Type Conversion
   const transformedItems = methods.map((method) =>
     transformItemWithPlanetaryPositions(
       method,
-      planetPositions as unknown as Record<string, CelestialPosition>,
+      planetPositions as Record<string, CelestialPosition>,
       isDaytime,
       currentZodiac,
       lunarPhase,
@@ -71,7 +70,7 @@ export const _transformCookingMethods = (
   );
 
   // Then apply alchemical pillar transformations based on method names
-  return transformedItems.map((method: any) => {
+  return transformedItems.map((method: AlchemicalItem) => {
     const methodName = method.name.toLowerCase();
     // Apply pillar-based transformations to the method;
     return applyPillarTransformation(method, methodName);
@@ -90,7 +89,7 @@ export const _transformCookingMethods = (
  */
 export const _transformCuisines = (
   cuisines: ElementalItem[],
-  planetPositions: Record<string, number>,
+  planetPositions: Record<string, CelestialPosition | number | undefined | unknown>,
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
@@ -98,7 +97,7 @@ export const _transformCuisines = (
   cuisines.map((cuisine) =>
     transformItemWithPlanetaryPositions(
       cuisine,
-      planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
+      planetPositions as Record<string, CelestialPosition>,
       isDaytime,
       currentZodiac,
       lunarPhase,

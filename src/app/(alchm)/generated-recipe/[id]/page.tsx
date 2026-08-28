@@ -19,10 +19,13 @@ import React, { useEffect, useState, useCallback } from "react";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { elementalSignature } from "@/utils/elemental/signature";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("GeneratedRecipePage");
 
 // ─── Element helpers ─────────────────────────────────────────────────────────
 
-function elementIcon(el: string) {
+function elementIcon(el: string): string {
   switch (el) {
     case "Fire":
       return "🔥";
@@ -37,7 +40,7 @@ function elementIcon(el: string) {
   }
 }
 
-function elementColor(el: string) {
+function elementColor(el: string): string {
   switch (el) {
     case "Fire":
       return "bg-red-500";
@@ -54,7 +57,7 @@ function elementColor(el: string) {
 
 // ─── Score badge ─────────────────────────────────────────────────────────────
 
-function ScoreBadge({ label, value, color }: { label: string; value: string | number; color: string }) {
+function ScoreBadge({ label, value, color }: { label: string; value: string | number; color: string }): React.JSX.Element {
   return (
     <div className={`flex flex-col items-center px-4 py-2 rounded-xl ${color} text-white`}>
       <span className="text-xl font-bold">{value}</span>
@@ -72,7 +75,7 @@ interface IngredientRowProps {
   elementalProperties?: Record<string, number>;
 }
 
-function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRowProps) {
+function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRowProps): React.JSX.Element {
   const [showProps, setShowProps] = useState(false);
   // Canonical dominant for the row icon — consistent tie-break with the rest
   // of the app (this is a single-glyph affordance, so it stays single-element).
@@ -134,10 +137,16 @@ function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRo
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-export default function GeneratedRecipePage() {
+interface CustomRecipeResponse {
+  success?: boolean;
+  recipe?: MonicaOptimizedRecipe;
+}
+
+export default function GeneratedRecipePage(): React.JSX.Element {
   const params = useParams();
   const router = useRouter();
-  const id = typeof params?.id === "string" ? params.id : Array.isArray(params?.id) ? params.id[0] : "";
+  const idParam = params?.id;
+  const id = typeof idParam === "string" ? idParam : Array.isArray(idParam) ? idParam[0] : "";
 
   const [recipe, setRecipe] = useState<MonicaOptimizedRecipe | null>(null);
   const [hasCheckedStore, setHasCheckedStore] = useState(false);
@@ -159,16 +168,16 @@ export default function GeneratedRecipePage() {
       fetch(`/api/recipes/custom?id=${id}`)
         .then((res) => {
           if (!res.ok) throw new Error("Not found");
-          return res.json();
+          return res.json() as Promise<CustomRecipeResponse>;
         })
         .then((data) => {
-          if (data?.success && data.recipe) {
+          if (data.success && data.recipe) {
             setRecipe(data.recipe);
           }
           setHasCheckedStore(true);
         })
-        .catch((err) => {
-          console.warn("[GeneratedRecipePage] DB fallback fetch failed:", err);
+        .catch((err: unknown) => {
+          logger.warn("[GeneratedRecipePage] DB fallback fetch failed:", err);
           setHasCheckedStore(true);
         });
     }
@@ -183,18 +192,18 @@ export default function GeneratedRecipePage() {
     const lines: string[] = [
       recipe.name,
       "",
-      `Cuisine: ${recipe.cuisine || "Fusion"}`,
+      `Cuisine: ${recipe.cuisine ?? "Fusion"}`,
       recipe.prepTime ? `Prep: ${recipe.prepTime}` : "",
       recipe.cookTime ? `Cook: ${recipe.cookTime}` : "",
       "",
       "INGREDIENTS",
-      ...(recipe.ingredients || []).map(
-        (i) => `- ${i.amount ?? ""} ${i.unit ?? ""} ${i.name}`.trim(),
+      ...recipe.ingredients.map(
+        (i) => `- ${i.amount} ${i.unit} ${i.name}`.trim(),
       ),
       "",
       "INSTRUCTIONS",
-      ...(recipe.instructions || []).map((step, idx) => `${idx + 1}. ${step}`),
-    ].filter((l) => l !== undefined);
+      ...recipe.instructions.map((step, idx) => `${idx + 1}. ${step}`),
+    ];
 
     navigator.clipboard
       .writeText(lines.join("\n"))
@@ -215,10 +224,10 @@ export default function GeneratedRecipePage() {
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         body: JSON.stringify({
-          name: recipe.name ?? "Untitled",
-          cuisine: recipe.cuisine ?? undefined,
+          name: recipe.name,
+          cuisine: recipe.cuisine,
           source: "generator",
-          sourceRecipeId: String(recipe.id ?? id),
+          sourceRecipeId: String(recipe.id),
           payload: recipe,
           action: "like",
         }),
@@ -244,7 +253,7 @@ export default function GeneratedRecipePage() {
     } finally {
       setIsLiking(false);
     }
-  }, [id, recipe]);
+  }, [recipe]);
 
   // ── Loading / Not Found ───────────────────────────────────────────────────
 
@@ -265,30 +274,26 @@ export default function GeneratedRecipePage() {
 
   // ── Derived data ──────────────────────────────────────────────────────────
 
-  const monicaScore = recipe.alchemicalProperties?.monicaConstant;
-  const monicaDisplay =
-    monicaScore !== undefined && monicaScore !== null
-      ? Math.round(monicaScore)
-      : null;
+  // An absent monica must read as absent, not as a fabricated 0 (see §18, PR #637).
+  const monicaScore = recipe.alchemicalProperties?.monicaConstant ?? null;
+  const monicaDisplay = monicaScore === null ? "—" : Math.round(monicaScore);
+  const monicaOptimized = recipe.monicaOptimization.optimizedMonica;
+  const monicaOptDisplay = Math.round(monicaOptimized);
 
-  const monicaOptimized = recipe.monicaOptimization?.optimizedMonica;
-  const monicaOptDisplay =
-    monicaOptimized !== undefined ? Math.round(monicaOptimized) : null;
-
-  const ingredients = recipe.ingredients ?? [];
-  const instructions = recipe.instructions ?? [];
+  const { ingredients } = recipe;
+  const { instructions } = recipe;
 
   const planetaryReasons: string[] = [
-    ...(recipe.monicaOptimization?.planetaryTimingRecommendations ?? []),
-    ...(recipe.monicaOptimization?.intensityModifications?.map(
+    ...(recipe.monicaOptimization.planetaryTimingRecommendations),
+    ...(recipe.monicaOptimization.intensityModifications.map(
       (m) => `Intensity modification: ${m.replace(/-/g, " ")}`,
-    ) ?? []),
-    ...(recipe.seasonalAdaptation?.seasonalCookingMethodAdjustments?.map(
+    )),
+    ...(recipe.seasonalAdaptation.seasonalCookingMethodAdjustments.map(
       (a) => `${a.method}: ${a.adjustment} — ${a.reason}`,
-    ) ?? []),
+    )),
   ];
 
-  const culturalNotes = recipe.cuisineIntegration?.culturalNotes ?? [];
+  const { culturalNotes } = recipe.cuisineIntegration;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-orange-50 print:bg-white">
@@ -348,20 +353,16 @@ export default function GeneratedRecipePage() {
 
             {/* Score badges */}
             <div className="flex gap-2 shrink-0">
-              {monicaDisplay !== null && (
-                <ScoreBadge
-                  label="Monica"
-                  value={monicaDisplay}
-                  color="bg-purple-600"
-                />
-              )}
-              {monicaOptDisplay !== null && (
-                <ScoreBadge
-                  label="Optimized"
-                  value={monicaOptDisplay}
-                  color="bg-amber-500"
-                />
-              )}
+              <ScoreBadge
+                label="Monica"
+                value={monicaDisplay}
+                color="bg-purple-600"
+              />
+              <ScoreBadge
+                label="Optimized"
+                value={monicaOptDisplay}
+                color="bg-amber-500"
+              />
             </div>
           </div>
         </div>
@@ -369,7 +370,7 @@ export default function GeneratedRecipePage() {
         {/* ── ACTION BAR ── */}
         <div className="flex flex-wrap gap-3 print:hidden">
           <button
-            onClick={() => { void handleLikeRecipe(); }}
+            onClick={() => { handleLikeRecipe().catch(() => {}); }}
             disabled={saved || isLiking}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60 transition-colors font-medium text-sm"
           >
@@ -416,7 +417,7 @@ export default function GeneratedRecipePage() {
                   return (
                     <IngredientRow
                       key={ingExt.id ?? i}
-                      name={String(ingExt.name ?? "Ingredient")}
+                      name={String(ingExt.name)}
                       amount={ingExt.amount}
                       unit={ingExt.unit}
                       elementalProperties={ingExt.elementalProperties}
@@ -427,31 +428,29 @@ export default function GeneratedRecipePage() {
             )}
 
             {/* Elemental profile */}
-            {recipe.elementalProperties && (
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                  Elemental Profile
-                </p>
-                {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
-                  const val =
-                    (recipe.elementalProperties as Record<string, number>)[el] ?? 0;
-                  return (
-                    <div key={el} className="flex items-center gap-2 mb-1.5">
-                      <span className="text-sm w-4">{elementIcon(el)}</span>
-                      <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${elementColor(el)}`}
-                          style={{ width: `${val * 100}%` }}
-                        />
-                      </div>
-                      <span className="text-xs text-gray-400 w-8 text-right">
-                        {Math.round(val * 100)}%
-                      </span>
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                Elemental Profile
+              </p>
+              {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
+                const val =
+                  (recipe.elementalProperties as Record<string, number>)[el] ?? 0;
+                return (
+                  <div key={el} className="flex items-center gap-2 mb-1.5">
+                    <span className="text-sm w-4">{elementIcon(el)}</span>
+                    <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${elementColor(el)}`}
+                        style={{ width: `${val * 100}%` }}
+                      />
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                    <span className="text-xs text-gray-400 w-8 text-right">
+                      {Math.round(val * 100)}%
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Instructions – 3 cols */}
@@ -483,30 +482,22 @@ export default function GeneratedRecipePage() {
                   Nutrition (per serving)
                 </p>
                 <div className="flex flex-wrap gap-4 text-sm">
-                  {recipe.nutrition.calories !== undefined && (
-                    <span>
-                      <strong>{recipe.nutrition.calories}</strong>{" "}
-                      <span className="text-gray-400">kcal</span>
-                    </span>
-                  )}
-                  {recipe.nutrition.protein !== undefined && (
-                    <span>
-                      <strong>{recipe.nutrition.protein}g</strong>{" "}
-                      <span className="text-gray-400">protein</span>
-                    </span>
-                  )}
-                  {recipe.nutrition.carbs !== undefined && (
-                    <span>
-                      <strong>{recipe.nutrition.carbs}g</strong>{" "}
-                      <span className="text-gray-400">carbs</span>
-                    </span>
-                  )}
-                  {recipe.nutrition.fat !== undefined && (
-                    <span>
-                      <strong>{recipe.nutrition.fat}g</strong>{" "}
-                      <span className="text-gray-400">fat</span>
-                    </span>
-                  )}
+                  <span>
+                    <strong>{recipe.nutrition.calories}</strong>{" "}
+                    <span className="text-gray-400">kcal</span>
+                  </span>
+                  <span>
+                    <strong>{recipe.nutrition.protein}g</strong>{" "}
+                    <span className="text-gray-400">protein</span>
+                  </span>
+                  <span>
+                    <strong>{recipe.nutrition.carbs}g</strong>{" "}
+                    <span className="text-gray-400">carbs</span>
+                  </span>
+                  <span>
+                    <strong>{recipe.nutrition.fat}g</strong>{" "}
+                    <span className="text-gray-400">fat</span>
+                  </span>
                 </div>
               </div>
             )}

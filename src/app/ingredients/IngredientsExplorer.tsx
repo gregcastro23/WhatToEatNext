@@ -54,8 +54,11 @@ import type {
 } from "@/types/amazon";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { elementalSignature } from "@/utils/elemental/signature";
+import { createLogger } from "@/utils/logger";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
+
+const logger = createLogger("IngredientsExplorer");
 
 type ElementKey = "Fire" | "Water" | "Earth" | "Air";
 
@@ -172,10 +175,10 @@ const SIGN_ELEMENT: Record<string, ElementKey> = {
 function dominantElement(props: Ingredient["elementalProperties"]): ElementKey {
   // Canonical dominant — consistent tie-break with every other surface.
   return elementalSignature({
-    Fire: Number(props?.Fire) || 0,
-    Water: Number(props?.Water) || 0,
-    Earth: Number(props?.Earth) || 0,
-    Air: Number(props?.Air) || 0,
+    Fire: Number(props.Fire) || 0,
+    Water: Number(props.Water) || 0,
+    Earth: Number(props.Earth) || 0,
+    Air: Number(props.Air) || 0,
   }).dominant;
 }
 
@@ -228,7 +231,7 @@ function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
   const flavorString =
     typeof root.flavorProfile === "string" ? root.flavorProfile : null;
 
-  const flavorTags = (() => {
+  const flavorTags = ((): string[] => {
     if (flavorObj) {
       const primary = asStringArray(flavorObj.primary);
       const secondary = asStringArray(flavorObj.secondary);
@@ -259,7 +262,7 @@ function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
       : undefined) ??
     (typeof root.notes === "string" ? root.notes : undefined);
 
-  const commonUses = (() => {
+  const commonUses = ((): string[] => {
     if (apps?.commonUses) return asStringArray(apps.commonUses);
     const direct =
       asStringArray(root.culinaryUses).length > 0
@@ -268,7 +271,7 @@ function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
     return direct;
   })();
 
-  const cookingMethods = (() => {
+  const cookingMethods = ((): string[] => {
     const fromProfile = asStringArray(profile?.cookingMethods);
     if (fromProfile.length) return fromProfile;
     const fromRoot = asStringArray(root.cookingMethods);
@@ -279,13 +282,13 @@ function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
     return [];
   })();
 
-  const cuisines = (() => {
+  const cuisines = ((): string[] => {
     const fromProfile = asStringArray(profile?.cuisineAffinity);
     if (fromProfile.length) return fromProfile;
     return asStringArray(root.cuisineAffinity);
   })();
 
-  const pairings = (() => {
+  const pairings = ((): string[] => {
     const pairingsObj = asObject(apps?.pairingRecommendations);
     const complementary = asStringArray(pairingsObj?.complementary);
     if (complementary.length) return complementary;
@@ -297,7 +300,7 @@ function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
     return asStringArray(root.affinities);
   })();
 
-  const prepTips = (() => {
+  const prepTips = ((): string[] => {
     const fromProfile = asStringArray(profile?.preparationTips);
     if (fromProfile.length) return fromProfile;
     return asStringArray(root.preparationTips);
@@ -318,7 +321,7 @@ interface DerivedIngredient {
   lookupPending: boolean;
 }
 
-export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[] }) {
+export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[] }): React.JSX.Element {
   const { planetaryPositions, isLoading: alchemyLoading } = useAlchemical();
 
   const [search, setSearch] = useState("");
@@ -366,13 +369,13 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
       Earth: 0,
       Air: 0,
     };
-    for (const [planet, pos] of Object.entries(planetaryPositions || {})) {
+    for (const [planet, pos] of Object.entries(planetaryPositions)) {
       const planetEl = PLANET_ELEMENT[planet];
-      if (planetEl) weights[planetEl] += 0.4;
+      weights[planetEl] += 0.4;
       const sign = (pos as { sign?: string } | undefined)?.sign;
       if (sign) {
         const signEl = SIGN_ELEMENT[String(sign).toLowerCase()];
-        if (signEl) weights[signEl] += 0.6;
+        weights[signEl] += 0.6;
       }
     }
     const sum = Object.values(weights).reduce((a, b) => a + b, 0);
@@ -390,15 +393,10 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
   const derived = useMemo<DerivedIngredient[]>(() => ingredients.map((ing) => {
       const lookupKey = normalizeAmazonIngredientKey(ing.name || "");
       const staticAsin = resolveAsin(ing.name || "");
-      const liveLookup = amazonLookups[lookupKey];
+      const liveLookup = amazonLookups[lookupKey] as AmazonSearchResult | undefined;
       const asin = staticAsin ?? liveLookup?.asin ?? null;
       const amazon = getAmazonFreshMapping(ing, asin);
-      const props = ing.elementalProperties || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
+      const props = ing.elementalProperties;
       const dom = dominantElement(props);
       // Personalization score: dot product with current resonance weights.
       const score =
@@ -455,10 +453,11 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
       .slice(0, 96)
       .filter((d) => !d.asin)
       .map((d) => d.ingredient.name)
-      .filter(Boolean)
+      .filter((name): name is string => Boolean(name))
       .filter((name) => {
         const key = normalizeAmazonIngredientKey(name);
-        return !amazonLookups[key] && !requestedLookups.current.has(key);
+        const live = amazonLookups[key] as AmazonSearchResult | undefined;
+        return !live && !requestedLookups.current.has(key);
       })
       .slice(0, 50);
 
@@ -496,7 +495,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
         if (!cancelled) setLookupStatus("error");
       });
 
-    return () => {
+    return (): void => {
       cancelled = true;
     };
   }, [amazonLookups, filteredCandidates]);
@@ -533,7 +532,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
 
   const sendVisibleToFreshCart = useCallback(
     (cartType: "fresh" | "standard" = "fresh") => {
-      void preflightAndSubmitAmazonCart({
+      preflightAndSubmitAmazonCart({
         source: "ingredients_storefront",
         cartType,
         items: cartReadyItems.map((item) => ({
@@ -550,7 +549,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
           estimatedCartTotal,
         },
       }).catch((error) => {
-        console.error("[ingredients] Fresh cart preflight failed:", error);
+        logger.error("[ingredients] Fresh cart preflight failed:", error);
       });
     },
     [cartReadyItems, estimatedCartTotal, filtered.length, visibleCount],
@@ -802,7 +801,7 @@ function getCardAmazonState(data: DerivedIngredient): {
   return {
     brand: substitutedBrand ?? data.lookup?.primaryBrandSelected ?? data.amazon.primaryBrand,
     searchString,
-    substituted: Boolean(data.lookup?.substituted || suggestFallbackBrand),
+    substituted: Boolean(data.lookup?.substituted ?? suggestFallbackBrand),
     substitutedBrand,
     confidence:
       data.asinSource === "verified_static_asin_map"
@@ -830,7 +829,7 @@ function Tag({
 }: {
   tone: keyof typeof TAG_TONES;
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return (
     <span
       className={`text-[11px] px-2 py-0.5 rounded-md border capitalize ${TAG_TONES[tone]}`}
@@ -840,7 +839,7 @@ function Tag({
   );
 }
 
-function SectionLabel({ icon, label }: { icon: string; label: string }) {
+function SectionLabel({ icon, label }: { icon: string; label: string }): React.JSX.Element {
   return (
     <div className="text-[11px] uppercase tracking-wider text-white/45 mb-1.5 flex items-center gap-1.5">
       <span>{icon}</span>
@@ -857,7 +856,7 @@ function CulinarySection({
   icon: string;
   label: string;
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return (
     <div>
       <SectionLabel icon={icon} label={label} />
@@ -872,7 +871,7 @@ function FilterRow({
 }: {
   label: string;
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-2">
       <span className="text-xs uppercase tracking-wider text-white/40 sm:w-20 shrink-0">
@@ -891,7 +890,7 @@ function Pill({
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return (
     <button
       onClick={onClick}
@@ -916,7 +915,7 @@ function StatTile({
   value: string | number;
   accent: "purple" | "amber" | "emerald";
   loading?: boolean;
-}) {
+}): React.JSX.Element {
   const accents: Record<string, string> = {
     purple: "from-purple-500/20 to-purple-700/10 border-purple-400/20",
     amber: "from-amber-500/20 to-orange-700/10 border-amber-400/20",
@@ -934,7 +933,7 @@ function StatTile({
   );
 }
 
-function IngredientGridSkeleton() {
+function IngredientGridSkeleton(): React.JSX.Element {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
       {Array.from({ length: 8 }).map((_, index) => (
@@ -966,7 +965,7 @@ function ChakraCartBar({
   estimatedTotal: number;
   loading: boolean;
   onCheckout: (cartType: "fresh" | "standard") => void;
-}) {
+}): React.JSX.Element {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#07070c]/85 backdrop-blur-2xl">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between md:px-8">
@@ -1032,7 +1031,7 @@ function ConfidenceBadge({
 }: {
   confidence: AmazonMatchConfidence;
   pending: boolean;
-}) {
+}): React.JSX.Element {
   if (pending) {
     return (
       <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white/50">
@@ -1083,7 +1082,7 @@ function IngredientCard({
   onToggle: () => void;
   inPantry: boolean;
   onPantryToggle: () => void;
-}) {
+}): React.JSX.Element {
   const { ingredient, dominant, asin, asinSource, amazon, seasons } = data;
   const meta = ELEMENT_META[dominant];
   const culinary = getCulinaryDetails(ingredient);
@@ -1097,14 +1096,9 @@ function IngredientCard({
         ? (ingredient as { imageUrl: string }).imageUrl
         : undefined
   );
-  const displayImageUrl = ingredientImageUrl || cardAmazon.productImageUrl;
+  const displayImageUrl = ingredientImageUrl ?? cardAmazon.productImageUrl;
   const normalized = normalizeForDisplay(
-    ingredient.elementalProperties || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    },
+    ingredient.elementalProperties,
   );
 
   return (
@@ -1424,7 +1418,7 @@ function AsinFeedback({
 }: {
   ingredientName: string;
   hasAsin: boolean;
-}) {
+}): React.JSX.Element | null {
   const [open, setOpen] = useState(false);
   const [asin, setAsin] = useState("");
   const [status, setStatus] = useState<"idle" | "saving" | "ok" | "err">("idle");
@@ -1434,7 +1428,7 @@ function AsinFeedback({
     return null;
   }
 
-  async function submit() {
+  async function submit(): Promise<void> {
     setStatus("saving");
     setMessage(null);
     try {
@@ -1445,7 +1439,7 @@ function AsinFeedback({
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(body.error || `Request failed (${res.status})`);
+        throw new Error(body.error ?? `Request failed (${res.status})`);
       }
       setStatus("ok");
       setMessage("Thanks — ASIN submitted for review.");
@@ -1482,7 +1476,7 @@ function AsinFeedback({
           className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white placeholder-white/30 focus:outline-none focus:ring-1 focus:ring-purple-400/40"
         />
         <button
-          onClick={() => { void submit(); }}
+          onClick={() => { submit().catch(() => {}); }}
           disabled={status === "saving" || asin.trim().length !== 10}
           className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-purple-500/30 border border-purple-400/40 text-white hover:bg-purple-500/40 disabled:opacity-40 disabled:cursor-not-allowed"
         >

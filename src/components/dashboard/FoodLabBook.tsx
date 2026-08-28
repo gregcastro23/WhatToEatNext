@@ -41,15 +41,31 @@ const ELEMENT_COLORS: Record<string, string> = {
   Air: 'bg-purple-100 text-purple-700',
 };
 
-const CUISINE_OPTIONS = [
-  'Italian', 'Japanese', 'Mexican', 'Indian', 'French', 'Chinese',
-  'Greek', 'Thai', 'American', 'Korean', 'Vietnamese', 'Middle-Eastern', 'Other',
-];
-
 const COOKING_METHOD_OPTIONS = [
   'Baking', 'Boiling', 'Braising', 'Fermenting', 'Frying', 'Grilling',
   'Raw', 'Roasting', 'Smoking', 'Steaming', 'Stewing', 'Sautéing', 'Other',
 ];
+
+/* ─── Star Rating ────────────────────────────────────────── */
+
+interface FoodLabSingleResponse {
+  success: boolean;
+  entry: FoodLabEntry;
+  message?: string;
+}
+
+interface FoodLabUploadResponse {
+  success: boolean;
+  dataUrl: string;
+  uploadedAt: string;
+  message?: string;
+}
+
+interface FoodLabListResponse {
+  success: boolean;
+  entries?: FoodLabEntry[];
+  message?: string;
+}
 
 /* ─── Star Rating ────────────────────────────────────────── */
 
@@ -61,7 +77,7 @@ function StarRating({
   value?: number;
   onChange?: (v: number) => void;
   readonly?: boolean;
-}) {
+}): React.JSX.Element {
   return (
     <div className="flex gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -85,7 +101,7 @@ function StarRating({
 
 /* ─── Share Panel ────────────────────────────────────────── */
 
-function SharePanel({ entry }: { entry: FoodLabEntry }) {
+function SharePanel({ entry }: { entry: FoodLabEntry }): React.JSX.Element {
   const [copied, setCopied] = useState(false);
   const [enabling, setEnabling] = useState(false);
   const [localEntry, setLocalEntry] = useState(entry);
@@ -95,7 +111,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
       ? `${typeof window !== 'undefined' ? window.location.origin : ''}/lab/share/${localEntry.shareToken}`
       : null;
 
-  const enableSharing = async () => {
+  const enableSharing = async (): Promise<void> => {
     setEnabling(true);
     try {
       const res = await fetch(`/api/food-lab/${localEntry.id}`, {
@@ -105,19 +121,19 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
         body: JSON.stringify({ isPublic: true }),
       });
       if (!res.ok) return;
-      const data = await res.json();
+      const data = (await res.json()) as FoodLabSingleResponse;
       if (data.success) setLocalEntry(data.entry);
     } finally {
       setEnabling(false);
     }
   };
 
-  const copyLink = () => {
+  const copyLink = (): void => {
     if (!shareUrl) return;
-    void navigator.clipboard.writeText(shareUrl).then(() => {
+    navigator.clipboard.writeText(shareUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    });
+    }).catch(() => {});
   };
 
   const twitterText = encodeURIComponent(
@@ -134,11 +150,11 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
   }#WhatToEatNext #AlchemicalCooking #${(localEntry.cookingMethod ?? 'Cooking').replace(/\s/g, '')}`;
 
   const [igCopied, setIgCopied] = useState(false);
-  const copyIgCaption = () => {
-    void navigator.clipboard.writeText(instagramCaption).then(() => {
+  const copyIgCaption = (): void => {
+    navigator.clipboard.writeText(instagramCaption).then(() => {
       setIgCopied(true);
       setTimeout(() => setIgCopied(false), 2000);
-    });
+    }).catch(() => {});
   };
 
   return (
@@ -151,7 +167,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
             Make this entry public to generate a shareable link.
           </p>
           <button
-            onClick={() => { void enableSharing(); }}
+            onClick={() => { enableSharing().catch(() => {}); }}
             disabled={enabling}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
@@ -239,7 +255,7 @@ function EntryCard({
 }: {
   entry: FoodLabEntry;
   onClick: () => void;
-}) {
+}): React.JSX.Element {
   const cover = entry.photos[0]?.dataUrl;
   return (
     <div
@@ -326,12 +342,12 @@ function EntryDetail({
   entry: FoodLabEntry;
   onClose: () => void;
   onDeleted: (id: string) => void;
-}) {
+}): React.JSX.Element {
   const [activePhoto, setActivePhoto] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     // eslint-disable-next-line no-alert
     if (!window.confirm(`Delete "${entry.dishName}"?`)) return;
     setDeleting(true);
@@ -504,7 +520,7 @@ function EntryDetail({
               {showShare ? 'Hide Share' : 'Share'}
             </button>
             <button
-              onClick={() => { void handleDelete(); }}
+              onClick={() => { handleDelete().catch(() => {}); }}
               disabled={deleting}
               className="px-4 py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium hover:bg-red-100 disabled:opacity-60 transition-colors"
             >
@@ -525,7 +541,7 @@ function NewEntryForm({
 }: {
   onSaved: (entry: FoodLabEntry) => void;
   onCancel: () => void;
-}) {
+}): React.JSX.Element {
   const fileRef = useRef<HTMLInputElement>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -561,7 +577,7 @@ function NewEntryForm({
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
+  ): void => {
     const { name, value, type } = e.target;
     setForm((prev) => ({
       ...prev,
@@ -569,7 +585,7 @@ function NewEntryForm({
     }));
   };
 
-  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingPhoto(true);
@@ -583,8 +599,8 @@ function NewEntryForm({
         body: fd,
       });
       if (!res.ok) throw new Error(`Upload failed (${res.status})`);
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message);
+      const data = (await res.json()) as FoodLabUploadResponse;
+      if (!data.success) throw new Error(data.message ?? 'Photo upload failed');
       setPhotos((prev) => [
         ...prev,
         { dataUrl: data.dataUrl, uploadedAt: data.uploadedAt },
@@ -598,10 +614,10 @@ function NewEntryForm({
     }
   };
 
-  const removePhoto = (idx: number) =>
+  const removePhoto = (idx: number): void =>
     setPhotos((prev) => prev.filter((_, i) => i !== idx));
 
-  const toggleElement = (el: string) => {
+  const toggleElement = (el: string): void => {
     setForm((prev) => {
       const tags = { ...prev.elementalTags };
       if (tags[el]) {
@@ -613,7 +629,7 @@ function NewEntryForm({
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     if (!form.dishName.trim()) {
       setError('Dish name is required.');
@@ -642,8 +658,8 @@ function NewEntryForm({
         }),
       });
       if (!res.ok) throw new Error(`Server error (${res.status})`);
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message);
+      const data = (await res.json()) as FoodLabSingleResponse;
+      if (!data.success) throw new Error(data.message ?? 'Failed to save entry');
       onSaved(data.entry);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save entry');
@@ -664,7 +680,7 @@ function NewEntryForm({
         </button>
       </div>
 
-      <form onSubmit={(event) => { void handleSubmit(event); }} className="space-y-4">
+      <form onSubmit={(event) => { handleSubmit(event).catch(() => {}); }} className="space-y-4">
         {error && (
           <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
             {error}
@@ -707,103 +723,103 @@ function NewEntryForm({
                 <>
                   <span className="text-2xl text-gray-300">+</span>
                   <span className="text-xs text-gray-400">Photo</span>
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => { handlePhotoUpload(event).catch(() => {}); }}
+                    className="hidden"
+                  />
                 </>
               )}
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/*"
-                onChange={(e) => { void handlePhotoUpload(e); }}
-                className="hidden"
-                disabled={uploadingPhoto}
-              />
             </label>
           </div>
-          <p className="text-xs text-gray-400 mt-1">JPEG, PNG, WebP up to 5 MB each</p>
         </div>
 
-        {/* Core fields */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="sm:col-span-2">
-            <label htmlFor="dishName" className="block text-xs text-gray-500 mb-1">Dish Name *</label>
-            <input
-              type="text"
-              name="dishName"
-              value={form.dishName}
-              onChange={handleChange}
-              placeholder="e.g. Saffron Risotto"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-            />
-          </div>
+        {/* Dish Name */}
+        <div>
+          <label htmlFor="dishName" className="block text-xs font-medium text-gray-700 mb-1">
+            Dish Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="dishName"
+            id="dishName"
+            value={form.dishName}
+            onChange={handleChange}
+            placeholder="e.g. Solar Fire Shakshuka"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+          />
+        </div>
+
+        {/* Recipe / Link Name */}
+        <div>
+          <label htmlFor="recipeName" className="block text-xs text-gray-500 mb-1">
+            Recipe (optional)
+          </label>
+          <input
+            type="text"
+            name="recipeName"
+            id="recipeName"
+            value={form.recipeName}
+            onChange={handleChange}
+            placeholder="e.g. Classic Shakshuka with Feta"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+          />
+        </div>
+
+        {/* Cuisine & Cooking Method */}
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="cuisineType" className="block text-xs text-gray-500 mb-1">Cuisine</label>
-            <select
+            <input
+              type="text"
               name="cuisineType"
+              id="cuisineType"
               value={form.cuisineType}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
-            >
-              <option value="">Select…</option>
-              {CUISINE_OPTIONS.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
+              placeholder="e.g. Middle Eastern"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+            />
           </div>
           <div>
             <label htmlFor="cookingMethod" className="block text-xs text-gray-500 mb-1">Cooking Method</label>
             <select
               name="cookingMethod"
+              id="cookingMethod"
               value={form.cookingMethod}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
             >
-              <option value="">Select…</option>
+              <option value="">Select method…</option>
               {COOKING_METHOD_OPTIONS.map((m) => (
                 <option key={m} value={m}>{m}</option>
               ))}
             </select>
           </div>
-          <div>
-            <label htmlFor="recipeName" className="block text-xs text-gray-500 mb-1">Recipe Name</label>
-            <input
-              type="text"
-              name="recipeName"
-              value={form.recipeName}
-              onChange={handleChange}
-              placeholder="Optional recipe reference"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-            />
-          </div>
-          <div>
-            <label htmlFor="cookedAt" className="block text-xs text-gray-500 mb-1">Cooked On</label>
-            <input
-              type="datetime-local"
-              name="cookedAt"
-              value={form.cookedAt}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-            />
-          </div>
         </div>
 
-        {/* Description */}
+        {/* Cooked At */}
         <div>
-          <label htmlFor="description" className="block text-xs text-gray-500 mb-1">Description</label>
-          <textarea
-            name="description"
-            value={form.description}
+          <label htmlFor="cookedAt" className="block text-xs text-gray-500 mb-1">Date & Time Cooked</label>
+          <input
+            type="datetime-local"
+            name="cookedAt"
+            id="cookedAt"
+            value={form.cookedAt}
             onChange={handleChange}
-            rows={2}
-            placeholder="Brief description of the dish…"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
 
-        {/* Lab Notes */}
+        {/* Notes */}
         <div>
-          <label htmlFor="notes" className="block text-xs text-gray-500 mb-1">Lab Notes</label>
+          <label htmlFor="notes" className="block text-xs text-gray-500 mb-1">
+            Lab Notes & Observations
+          </label>
           <textarea
             name="notes"
+            id="notes"
             value={form.notes}
             onChange={handleChange}
             rows={4}
@@ -816,21 +832,24 @@ function NewEntryForm({
         <div role="group" aria-labelledby="food-lab-elements-label">
           <span id="food-lab-elements-label" className="block text-xs text-gray-500 mb-2">Elemental Properties (select all that apply)</span>
           <div className="flex gap-2 flex-wrap">
-            {(['Fire', 'Water', 'Earth', 'Air'] as const).map((el) => (
-              <button
-                key={el}
-                type="button"
-                onClick={() => toggleElement(el)}
-                aria-pressed={form.elementalTags[el] !== undefined}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                  form.elementalTags[el] !== undefined
-                    ? ELEMENT_COLORS[el]
-                    : 'bg-gray-50 text-gray-500 border-gray-200 hover:border-gray-400'
-                }`}
-              >
-                {el}
-              </button>
-            ))}
+            {(['Fire', 'Water', 'Earth', 'Air'] as const).map((el) => {
+              const isSelected = el in form.elementalTags;
+              return (
+                <button
+                  key={el}
+                  type="button"
+                  onClick={() => toggleElement(el)}
+                  aria-pressed={isSelected}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                    isSelected
+                      ? ELEMENT_COLORS[el]
+                      : 'bg-gray-50 text-gray-500 border-gray-200 hover:border-gray-400'
+                  }`}
+                >
+                  {el}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -849,6 +868,7 @@ function NewEntryForm({
           <input
             type="text"
             name="tags"
+            id="tags"
             value={form.tags}
             onChange={handleChange}
             placeholder="e.g. spicy, weeknight, special-occasion"
@@ -899,12 +919,12 @@ export const FoodLabBook: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<FoodLabEntry | null>(null);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
       const res = await fetch('/api/food-lab', { credentials: 'include' });
       if (!res.ok) return;
-      const data = await res.json();
+      const data = (await res.json()) as FoodLabListResponse;
       if (data.success) setEntries(data.entries ?? []);
     } catch {
       // ignore
@@ -913,14 +933,14 @@ export const FoodLabBook: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => { load().catch(() => {}); }, [load]);
 
-  const handleSaved = (entry: FoodLabEntry) => {
+  const handleSaved = (entry: FoodLabEntry): void => {
     setEntries((prev) => [entry, ...prev]);
     setShowForm(false);
   };
 
-  const handleDeleted = (id: string) => {
+  const handleDeleted = (id: string): void => {
     setEntries((prev) => prev.filter((e) => e.id !== id));
   };
 

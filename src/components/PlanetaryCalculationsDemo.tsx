@@ -206,11 +206,20 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
         throw new Error(`API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const rawData = (await response.json()) as unknown;
+      const data =
+        rawData && typeof rawData === "object"
+          ? (rawData as Record<string, unknown>)
+          : {};
 
       // Extract planetary positions
       const positions: Record<string, PlanetaryPosition> = {};
       const planetaryPositionsMap: Record<string, string> = {};
+
+      const celestialBodies =
+        data._celestialBodies && typeof data._celestialBodies === "object"
+          ? (data._celestialBodies as Record<string, Record<string, unknown>>)
+          : {};
 
       const planets = [
         "sun",
@@ -226,26 +235,40 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
       ];
 
       for (const planetKey of planets) {
-        const planetData = data._celestialBodies?.[planetKey];
-        if (planetData) {
+        const planetData = celestialBodies[planetKey];
+        if (planetData && typeof planetData === "object") {
           const planetName =
             planetKey.charAt(0).toUpperCase() + planetKey.slice(1);
-          const signKey = planetData.Sign?.key ?? planetData.Sign?.zodiac;
+          const signObj =
+            planetData.Sign && typeof planetData.Sign === "object"
+              ? (planetData.Sign as Record<string, unknown>)
+              : {};
+          const signKey = String(signObj.key ?? signObj.zodiac ?? "").toLowerCase();
+
+          const chartPos =
+            planetData.ChartPosition && typeof planetData.ChartPosition === "object"
+              ? (planetData.ChartPosition as Record<string, unknown>)
+              : {};
+          const ecliptic =
+            chartPos.Ecliptic && typeof chartPos.Ecliptic === "object"
+              ? (chartPos.Ecliptic as Record<string, unknown>)
+              : {};
+          const arcDegrees =
+            ecliptic.ArcDegrees && typeof ecliptic.ArcDegrees === "object"
+              ? (ecliptic.ArcDegrees as Record<string, unknown>)
+              : {};
 
           positions[planetName] = {
             sign: signKey as ZodiacSignType,
-            degree:
-              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
-            minute:
-              planetData.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
-            exactLongitude:
-              planetData.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
-            isRetrograde: planetData.isRetrograde ?? false,
+            degree: Number(arcDegrees.degrees) || 0,
+            minute: Number(arcDegrees.minutes) || 0,
+            exactLongitude: Number(ecliptic.DecimalDegrees) || 0,
+            isRetrograde: Boolean(planetData.isRetrograde),
           };
 
           // Capitalize the sign for the mapping (Aries, Taurus, etc.)
           const capitalizedSign =
-            signKey.charAt(0).toUpperCase() + signKey.slice(1);
+            signKey ? signKey.charAt(0).toUpperCase() + signKey.slice(1) : "";
           planetaryPositionsMap[planetName] = capitalizedSign;
         }
       }
@@ -280,14 +303,14 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
 
       setIsLoading(false);
     } catch (err) {
-      void logger.error("Error fetching planetary positions:", err);
+      logger.error("Error fetching planetary positions:", err);
       setError(err instanceof Error ? err.message : "Unknown error");
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    void fetchPlanetaryPositions();
+    fetchPlanetaryPositions().catch(() => {});
   }, []);
 
   // Auto-refresh every 5 minutes
@@ -296,7 +319,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
 
     const interval = setInterval(
       () => {
-        void fetchPlanetaryPositions();
+        fetchPlanetaryPositions().catch(() => {});
       },
       5 * 60 * 1000,
     );
@@ -352,7 +375,9 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
             <h2 className="text-xl font-bold mb-2">Error Loading Data</h2>
             <p>{error}</p>
             <button
-              onClick={() => void fetchPlanetaryPositions()}
+              onClick={() => {
+                fetchPlanetaryPositions().catch(() => {});
+              }}
               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Retry
@@ -383,7 +408,9 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={() => void fetchPlanetaryPositions()}
+              onClick={() => {
+                fetchPlanetaryPositions().catch(() => {});
+              }}
               className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg font-medium transition-colors"
               title="Refresh planetary data"
             >
