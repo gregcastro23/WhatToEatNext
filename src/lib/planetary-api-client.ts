@@ -133,12 +133,16 @@ async function readBackendData<T>(
     throw new Error("Backend response did not match the expected envelope");
   }
   if (!payload.success) {
-    throw new Error(readPayloadError(payload) ?? "Backend returned unsuccessful response");
+    throw new Error(
+      readPayloadError(payload) ?? "Backend returned unsuccessful response",
+    );
   }
 
   const parsed = schema.safeParse(payload.data);
   if (!parsed.success) {
-    throw new Error("Backend response data did not match the expected contract");
+    throw new Error(
+      "Backend response data did not match the expected contract",
+    );
   }
   return parsed.data;
 }
@@ -162,23 +166,23 @@ export class PlanetaryAPIClient {
   ): Promise<PlanetaryPositions> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/positions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           date: date.toISOString(),
           latitude,
           longitude,
           planets: planets ?? [
-            'sun',
-            'moon',
-            'mercury',
-            'venus',
-            'mars',
-            'jupiter',
-            'saturn',
-            'uranus',
-            'neptune',
-            'pluto',
+            "sun",
+            "moon",
+            "mercury",
+            "venus",
+            "mars",
+            "jupiter",
+            "saturn",
+            "uranus",
+            "neptune",
+            "pluto",
           ],
         }),
       });
@@ -202,18 +206,23 @@ export class PlanetaryAPIClient {
    */
   async getBatchPlanetaryPositions(
     requests: Array<{ date: Date; planet: string }>,
-  ): Promise<Array<{ date: string; planet: string; position: PlanetaryPosition | null }>> {
+  ): Promise<
+    Array<{ date: string; planet: string; position: PlanetaryPosition | null }>
+  > {
     try {
-      const response = await fetch(`${this.baseUrl}/api/planets/batch-positions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          requests: requests.map((req) => ({
-            date: req.date.toISOString(),
-            planet: req.planet,
-          })),
-        }),
-      });
+      const response = await fetch(
+        `${this.baseUrl}/api/planets/batch-positions`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            requests: requests.map((req) => ({
+              date: req.date.toISOString(),
+              planet: req.planet,
+            })),
+          }),
+        },
+      );
 
       if (!response.ok) {
         const errorMessage = await readResponseError(response);
@@ -251,8 +260,8 @@ export class PlanetaryAPIClient {
   ): Promise<HouseSystem> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/houses`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           date: date.toISOString(),
           latitude,
@@ -287,8 +296,8 @@ export class PlanetaryAPIClient {
   ): Promise<ConsciousnessParameters> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/calculate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           birthData: {
             date: birthDate.toISOString(),
@@ -319,8 +328,8 @@ export class PlanetaryAPIClient {
   async getAvailablePlanets(): Promise<AvailablePlanet[]> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/available`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (!response.ok) {
@@ -342,8 +351,8 @@ export class PlanetaryAPIClient {
   async healthCheck(): Promise<boolean> {
     try {
       const response = await fetch(`${this.baseUrl}/api/health`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       });
 
       return response.ok;

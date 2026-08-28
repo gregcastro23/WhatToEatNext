@@ -6,10 +6,19 @@
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import {
+  validateRequest,
+  getUserIdFromRequest,
+} from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
-import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
+import {
+  rowToEntry,
+  getUserEntries,
+  saveUserEntries,
+  generateShareToken,
+  type FoodLabEntry,
+} from "./shared";
 import type { NextRequest } from "next/server";
 
 const foodLabEntryBodySchema = z.object({
@@ -40,7 +49,11 @@ const foodLabEntryBodySchema = z.object({
 let _dbMod: typeof import("@/lib/database") | null = null;
 async function getDbModule() {
   if (!_dbMod && typeof window === "undefined" && process.env.DATABASE_URL) {
-    try { _dbMod = await import("@/lib/database"); } catch { /* unavailable */ }
+    try {
+      _dbMod = await import("@/lib/database");
+    } catch {
+      /* unavailable */
+    }
   }
   return _dbMod;
 }
@@ -87,7 +100,10 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
-    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   // Bound the read. The default is a generous safety ceiling (not a small page)
@@ -98,7 +114,10 @@ export async function GET(request: NextRequest) {
     Math.max(parseInt(searchParams.get("limit") ?? "500", 10) || 500, 1),
     1000,
   );
-  const offset = Math.max(parseInt(searchParams.get("offset") ?? "0", 10) || 0, 0);
+  const offset = Math.max(
+    parseInt(searchParams.get("offset") ?? "0", 10) || 0,
+    0,
+  );
 
   const db = await getDbModule();
   if (db) {
@@ -108,7 +127,11 @@ export async function GET(request: NextRequest) {
         [userId, limit, offset],
       );
       const entries = result.rows.map(rowToEntry);
-      return NextResponse.json({ success: true, entries, count: entries.length });
+      return NextResponse.json({
+        success: true,
+        entries,
+        count: entries.length,
+      });
     } catch (err) {
       // Reads are safe to fall back from — worst case the user sees a stale
       // in-memory view. But still log so an operator can see persistent
@@ -133,8 +156,16 @@ export async function POST(request: NextRequest) {
   const body: unknown = await request.json().catch(() => null);
   const parsedBody = foodLabEntryBodySchema.safeParse(body);
   if (!parsedBody.success) {
+    const dishNameIsInvalid = parsedBody.error.issues.some(
+      (issue) => issue.path[0] === "dishName",
+    );
     return NextResponse.json(
-      { success: false, message: "Invalid food lab entry payload" },
+      {
+        success: false,
+        message: dishNameIsInvalid
+          ? "dishName is required"
+          : "Invalid food lab entry payload",
+      },
       { status: 400 },
     );
   }
@@ -192,11 +223,25 @@ export async function POST(request: NextRequest) {
            planetary_context, rating, tags, is_public, share_token, created_at, updated_at)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)`,
         [
-          id, userId, dishName, description ?? null, notes ?? null,
-          recipeName ?? null, cuisineType ?? null, cookingMethod ?? null,
-          entry.cookedAt, JSON.stringify(photos), JSON.stringify(elementalTags),
-          JSON.stringify(alchemicalTags), JSON.stringify(planetaryContext),
-          rating ?? null, tags, isPublic, shareToken ?? null, now, now,
+          id,
+          userId,
+          dishName,
+          description ?? null,
+          notes ?? null,
+          recipeName ?? null,
+          cuisineType ?? null,
+          cookingMethod ?? null,
+          entry.cookedAt,
+          JSON.stringify(photos),
+          JSON.stringify(elementalTags),
+          JSON.stringify(alchemicalTags),
+          JSON.stringify(planetaryContext),
+          rating ?? null,
+          tags,
+          isPublic,
+          shareToken ?? null,
+          now,
+          now,
         ],
       );
       await reportQuestEventBestEffort(userId, "cook_recipe");

@@ -35,7 +35,12 @@ function extractDishes(cuisine: { dishes?: Cuisine["dishes"] }): string[] {
       const recipes = seasons[season as keyof typeof seasons];
       if (Array.isArray(recipes)) {
         for (const r of recipes) {
-          if (r && typeof r === "object" && "name" in r && typeof r.name === "string") {
+          if (
+            r &&
+            typeof r === "object" &&
+            "name" in r &&
+            typeof r.name === "string"
+          ) {
             list.push(r.name);
           } else if (r && typeof r === "string") {
             list.push(r);
@@ -57,7 +62,10 @@ function readElementalProperties(cuisine: {
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user) {
-    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   const rl = await rateLimit(req, RATE_LIMIT);
@@ -67,18 +75,28 @@ export async function POST(req: NextRequest) {
     const body: unknown = await req.json();
     const parsedBody = requestSchema.safeParse(body);
     if (!parsedBody.success) {
-      return NextResponse.json({ error: "Missing cuisine name." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing cuisine name." },
+        { status: 400 },
+      );
     }
     const cuisineInput = parsedBody.data.cuisine;
 
     // Match input with our CUISINES_METADATA keys case-insensitively
     const cuisineKey = Object.keys(CUISINES_METADATA).find(
-      (k) => k.toLowerCase() === cuisineInput.toLowerCase() ||
-             k.replace(/\s+/g, "").toLowerCase() === cuisineInput.replace(/\s+/g, "").toLowerCase()
+      (k) =>
+        k.toLowerCase() === cuisineInput.toLowerCase() ||
+        k.replace(/\s+/g, "").toLowerCase() ===
+          cuisineInput.replace(/\s+/g, "").toLowerCase(),
     );
 
     if (!cuisineKey) {
-      return NextResponse.json({ error: `Cuisine '${cuisineInput}' is not a recognized cosmic cuisine.` }, { status: 404 });
+      return NextResponse.json(
+        {
+          error: `Cuisine '${cuisineInput}' is not a recognized cosmic cuisine.`,
+        },
+        { status: 404 },
+      );
     }
 
     const metadata = CUISINES_METADATA[cuisineKey];
@@ -87,7 +105,10 @@ export async function POST(req: NextRequest) {
     // Load full cuisine data dynamically (contains dishes list)
     const cuisineData = await getCuisineData(cuisineKey);
     if (!cuisineData) {
-      return NextResponse.json({ error: `Failed to load cuisine data for ${cuisineName}` }, { status: 500 });
+      return NextResponse.json(
+        { error: `Failed to load cuisine data for ${cuisineName}` },
+        { status: 500 },
+      );
     }
 
     const dishesList = extractDishes(cuisineData);
@@ -99,20 +120,26 @@ export async function POST(req: NextRequest) {
 
     let elementalLighting = "";
     if (fire > 0.35) {
-      elementalLighting = "The banquet table is bathed in warm, glowing amber light, with dramatic shadows and a lively, energetic dining atmosphere. Carved meats and caramelized surfaces glisten beautifully under the ambient heat.";
+      elementalLighting =
+        "The banquet table is bathed in warm, glowing amber light, with dramatic shadows and a lively, energetic dining atmosphere. Carved meats and caramelized surfaces glisten beautifully under the ambient heat.";
     } else if (water > 0.35) {
-      elementalLighting = "The setting has a cool, refreshing, and serene atmosphere, with soft morning light reflecting off elegant glass carafes and fresh, dew-kissed seafood platters.";
+      elementalLighting =
+        "The setting has a cool, refreshing, and serene atmosphere, with soft morning light reflecting off elegant glass carafes and fresh, dew-kissed seafood platters.";
     } else if (earth > 0.35) {
-      elementalLighting = "The dining scene is grounded and rustic, using textured hand-thrown ceramic tableware on a solid dark oak banquet table. Hearty whole grains, roasted root vegetables, and deep forest-green accents enrich the presentation.";
+      elementalLighting =
+        "The dining scene is grounded and rustic, using textured hand-thrown ceramic tableware on a solid dark oak banquet table. Hearty whole grains, roasted root vegetables, and deep forest-green accents enrich the presentation.";
     } else if (air > 0.35) {
-      elementalLighting = "The composition is light, airy, and expansive, featuring delicate fresh herb garnishes and high-key, natural diffused sunlight casting soft, bright highlights across the feast.";
+      elementalLighting =
+        "The composition is light, airy, and expansive, featuring delicate fresh herb garnishes and high-key, natural diffused sunlight casting soft, bright highlights across the feast.";
     } else {
-      elementalLighting = "The table is balanced and harmonious, lit with even, naturalistic daylight that gives equal weight to every dish — neither dramatic nor stark, a poised culinary still life.";
+      elementalLighting =
+        "The table is balanced and harmonious, lit with even, naturalistic daylight that gives equal weight to every dish — neither dramatic nor stark, a poised culinary still life.";
     }
 
-    const dishesSection = dishesList.length > 0 
-      ? `Staple traditional dishes are featured prominently, including: ${dishesList.slice(0, 4).join(", ") || ""}.` 
-      : "";
+    const dishesSection =
+      dishesList.length > 0
+        ? `Staple traditional dishes are featured prominently, including: ${dishesList.slice(0, 4).join(", ") || ""}.`
+        : "";
 
     const imagePrompt = [
       `A magnificent, high-end food photography feast representing authentic ${cuisineName} cuisine.`,
@@ -120,13 +147,18 @@ export async function POST(req: NextRequest) {
       dishesSection,
       cuisineData.description ? `${cuisineData.description}` : "",
       elementalLighting,
-      "Beautifully plated, restaurant-quality, professional food styling, natural lighting, macro details, shallow depth of field, sharp focus, 8k resolution. No text, labels, or watermarks."
-    ].filter(Boolean).join(" ");
+      "Beautifully plated, restaurant-quality, professional food styling, natural lighting, macro details, shallow depth of field, sharp focus, 8k resolution. No text, labels, or watermarks.",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     // Content-address the cache by the generated prompt: when the dishes, elemental
     // lighting, or description change, the hash changes and the image regenerates
     // instead of serving a stale 7-day entry keyed only by cuisine name.
-    const promptHash = createHash("sha256").update(imagePrompt).digest("hex").slice(0, 16);
+    const promptHash = createHash("sha256")
+      .update(imagePrompt)
+      .digest("hex")
+      .slice(0, 16);
     const cacheKey = `gen_image_cuisine:${cuisineKey.toLowerCase()}:${promptHash}`;
 
     // Try to get cached result
@@ -163,7 +195,9 @@ export async function POST(req: NextRequest) {
     const responseBody: unknown = await response.json();
     const parsedResponse = generatedImageSchema.safeParse(responseBody);
     if (!parsedResponse.success) {
-      throw new Error("Image backend response did not match the expected contract");
+      throw new Error(
+        "Image backend response did not match the expected contract",
+      );
     }
     const { data } = parsedResponse;
 
@@ -177,6 +211,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(data);
   } catch (_err) {
     _logger.error("[NanoBanana-Cuisine] Generation failed", _err);
-    return NextResponse.json({ error: "Failed to generate cuisine image" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate cuisine image" },
+      { status: 500 },
+    );
   }
 }

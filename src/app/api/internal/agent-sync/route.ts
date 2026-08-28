@@ -21,12 +21,16 @@ import {
 } from "@/utils/fullChartMonica";
 
 /** `{}` and `[]` mean "absent" here, exactly as jsonbOrNull treats them. */
-const nonEmpty = <T,>(v: T): T | undefined => (jsonbOrNull(v) === null ? undefined : v);
+const nonEmpty = <T>(v: T): T | undefined =>
+  jsonbOrNull(v) === null ? undefined : v;
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const ALLOWED_AGENT_DOMAINS = ["@agentic.alchm.kitchen", "@agents.alchm.kitchen"];
+const ALLOWED_AGENT_DOMAINS = [
+  "@agentic.alchm.kitchen",
+  "@agents.alchm.kitchen",
+];
 
 const syncBodySchema = z.object({
   email: z.string().min(1),
@@ -70,14 +74,14 @@ export async function POST(req: NextRequest) {
       );
       return NextResponse.json(
         { success: false, message: "Sync service misconfigured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     if (!clientSecret || clientSecret !== syncSecret) {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -91,22 +95,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: emailIsInvalid ? "email is required" : "Invalid sync payload",
+          message: emailIsInvalid
+            ? "email is required"
+            : "Invalid sync payload",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const body = parsedBody.data;
 
     const email = body.email.toLowerCase().trim();
-    const isDomainAllowed = ALLOWED_AGENT_DOMAINS.some(domain => email.endsWith(domain));
+    const isDomainAllowed = ALLOWED_AGENT_DOMAINS.some((domain) =>
+      email.endsWith(domain),
+    );
     if (!isDomainAllowed) {
       return NextResponse.json(
         {
           success: false,
-          message: `Invalid email domain. Sync is restricted to agentic namespaces: ${ALLOWED_AGENT_DOMAINS.join(", ")}`
+          message: `Invalid email domain. Sync is restricted to agentic namespaces: ${ALLOWED_AGENT_DOMAINS.join(", ")}`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -118,12 +126,16 @@ export async function POST(req: NextRequest) {
       birthLocation,
       natalChart,
       natalPositions,
-      dominantElement
+      dominantElement,
     } = body;
 
     // 3. Map & Reconstruct Birth Data
     let birthData: SyncedBirthData | null = null;
-    if (birthDate && birthLocation?.latitude !== undefined && birthLocation.longitude !== undefined) {
+    if (
+      birthDate &&
+      birthLocation?.latitude !== undefined &&
+      birthLocation.longitude !== undefined
+    ) {
       const timeStr = birthTime ?? "12:00";
       try {
         const parsedDate = new Date(`${birthDate}T${timeStr}`);
@@ -133,7 +145,7 @@ export async function POST(req: NextRequest) {
             latitude: Number(birthLocation.latitude),
             longitude: Number(birthLocation.longitude),
             timezone: birthLocation.timezone ?? undefined,
-            name: birthLocation.name ?? birthLocation.displayName ?? undefined
+            name: birthLocation.name ?? birthLocation.displayName ?? undefined,
           };
         }
       } catch (err) {
@@ -234,7 +246,7 @@ export async function POST(req: NextRequest) {
       // Check if user already exists
       const existingUserResult = await client.query<{ id: string }>(
         "SELECT id FROM users WHERE email = $1",
-        [email]
+        [email],
       );
 
       if (existingUserResult.rows.length > 0) {
@@ -249,7 +261,7 @@ export async function POST(req: NextRequest) {
                   profile = COALESCE(profile, '{}'::jsonb) || $3::jsonb,
                   updated_at = now()
             WHERE id = $1`,
-          [wtenUserId, resolvedName, JSON.stringify(userProfilePayload)]
+          [wtenUserId, resolvedName, JSON.stringify(userProfilePayload)],
         );
 
         // Upsert user profile
@@ -293,8 +305,8 @@ export async function POST(req: NextRequest) {
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
             resolved?.method ?? null,
-            dominantElement ?? null
-          ]
+            dominantElement ?? null,
+          ],
         );
       } else {
         // User does not exist: create user & profile
@@ -309,12 +321,7 @@ export async function POST(req: NextRequest) {
              $1, $2, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true,
              $3, $4::jsonb, '{}'::jsonb, 0, now(), now()
            )`,
-          [
-            wtenUserId,
-            email,
-            resolvedName,
-            JSON.stringify(userProfilePayload)
-          ]
+          [wtenUserId, email, resolvedName, JSON.stringify(userProfilePayload)],
         );
 
         await client.query(
@@ -343,18 +350,18 @@ export async function POST(req: NextRequest) {
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
             resolved?.method ?? null,
-            dominantElement ?? null
-          ]
+            dominantElement ?? null,
+          ],
         );
 
         // Seed wallet balance & tracking streaks for agentic user
         await client.query(
           `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
-          [wtenUserId]
+          [wtenUserId],
         );
         await client.query(
           `INSERT INTO user_streaks (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
-          [wtenUserId]
+          [wtenUserId],
         );
       }
     });
@@ -362,7 +369,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       wtenUserId,
-      created
+      created,
     });
   } catch (error) {
     _logger.error(
@@ -371,7 +378,7 @@ export async function POST(req: NextRequest) {
     );
     return NextResponse.json(
       { success: false, message: "Internal transactional server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

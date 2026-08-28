@@ -122,6 +122,17 @@ export type {
 } from "./apiResponses";
 export type { BirthData, CompositeNatalChart, NatalChart } from "./natalChart";
 
+export { LUNAR_PHASES, ZODIAC_SIGNS } from "./constants";
+
+export type {
+  DailyNutritionTotals,
+  DayOfWeek,
+  GroceryItem,
+  MealSlot,
+  MealSlotSauce,
+  PlanetarySnapshot,
+} from "./menuPlanner";
+
 // Re-export types from recipe.ts, excluding types already exported by alchemy.ts
 export type {
   RecipeIngredient,
@@ -144,4 +155,5 @@ export type {
   RecipeSeason,
   RecipeNutrition,
   RecipePlanetaryInfluences,
+  EnhancedRecipe,
 } from "./recipe";

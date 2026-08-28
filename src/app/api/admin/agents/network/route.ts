@@ -135,7 +135,11 @@ export interface AgentNetworkPayload {
    * that step-level chain-of-thought traces are not captured yet — the panel
    * surfaces these previews as a proxy, not as full reasoning traces.
    */
-  reasoning: { entries: AgentReasoningEntry[]; live: boolean; instrumented: boolean };
+  reasoning: {
+    entries: AgentReasoningEntry[];
+    live: boolean;
+    instrumented: boolean;
+  };
   /**
    * Active astrological aspects, framed as signed influences on agent
    * interaction velocity. Derived from the live ephemeris via
@@ -233,7 +237,14 @@ async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
     return { ...row, live_source: true };
   } catch (error) {
     _logger.error("[admin/agents/network] totals query failed", error);
-    return { total: 0, live: 0, idle: 0, warn: 0, draining: 0, live_source: false };
+    return {
+      total: 0,
+      live: 0,
+      idle: 0,
+      warn: 0,
+      draining: 0,
+      live_source: false,
+    };
   }
 }
 
@@ -296,7 +307,9 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
   }
 }
 
-async function getDispatch(limit: number): Promise<AgentNetworkPayload["dispatch"]> {
+async function getDispatch(
+  limit: number,
+): Promise<AgentNetworkPayload["dispatch"]> {
   try {
     const result = await executeQuery<{
       id: string;
@@ -503,7 +516,11 @@ async function getInteractions(
  * honest empty state rather than fabricated activity. The `mandate` is a
  * description of intent, not telemetry.
  */
-const ROLE_OPS_DEFS: ReadonlyArray<{ id: string; label: string; mandate: string }> = [
+const ROLE_OPS_DEFS: ReadonlyArray<{
+  id: string;
+  label: string;
+  mandate: string;
+}> = [
   { id: "sous-chef", label: "Sous-Chef", mandate: "prep & mise-en-place" },
   { id: "galileo", label: "Galileo", mandate: "vision & image rendering" },
   { id: "substitution", label: "Substitution", mandate: "ingredient swaps" },
@@ -681,18 +698,28 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const dispatchLimit = Math.min(
-    Math.max(parseInt(searchParams.get("dispatch") ?? "0", 10) || DEFAULT_DISPATCH_LIMIT, 1),
+    Math.max(
+      parseInt(searchParams.get("dispatch") ?? "0", 10) ||
+        DEFAULT_DISPATCH_LIMIT,
+      1,
+    ),
     MAX_LIMIT,
   );
   const leaderboardLimit = Math.min(
-    Math.max(parseInt(searchParams.get("leaderboard") ?? "0", 10) || DEFAULT_LEADERBOARD_LIMIT, 1),
+    Math.max(
+      parseInt(searchParams.get("leaderboard") ?? "0", 10) ||
+        DEFAULT_LEADERBOARD_LIMIT,
+      1,
+    ),
     MAX_LIMIT,
   );
   // Trim+lower so cache keys are stable regardless of input casing/padding.
   // Empty strings collapse to null so the route still hits the full-history
   // cache slot when the operator clears the search bar.
-  const withFilter = (searchParams.get("with") ?? "").trim().toLowerCase() || null;
-  const topicFilter = (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
+  const withFilter =
+    (searchParams.get("with") ?? "").trim().toLowerCase() || null;
+  const topicFilter =
+    (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
 
   // Cache key includes limits + filters so two callers with different
   // ?dispatch=N / ?with= / ?topic= values don't share each other's payload.
@@ -717,7 +744,10 @@ export async function GET(request: NextRequest) {
           live: r.live,
         }))
         .catch((error) => {
-          _logger.error("[admin/agents/network] cosmic modifiers failed", error);
+          _logger.error(
+            "[admin/agents/network] cosmic modifiers failed",
+            error,
+          );
           return { entries: [], netVelocity: 0, live: false };
         });
 
