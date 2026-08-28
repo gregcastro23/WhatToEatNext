@@ -6,18 +6,23 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { usePremium } from "@/contexts/PremiumContext";
-import type { Recipe } from "@/types/recipe";
+import { _logger } from "@/lib/logger";
+import {
+  parseTablePercentage,
+  readTableRitualResponse,
+} from "@/lib/tableRitualClient";
+import type { CompositeNatalChart, Recipe } from "@/types";
 
 function AdeptTableContent() {
   const { isPremium } = usePremium();
   const searchParams = useSearchParams();
   const isInvite = searchParams?.get("invite") === "true";
-  
+
   const [link, setLink] = useState("");
   const [copied, setCopied] = useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
-  const [composite, setComposite] = useState<any>(null);
+  const [composite, setComposite] = useState<CompositeNatalChart | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Friend's inputs
@@ -28,7 +33,9 @@ function AdeptTableContent() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLink(`${window.location.origin}/premium-table?invite=true&host_fire=30&host_water=20&host_earth=10&host_air=40`);
+      setLink(
+        `${window.location.origin}/premium-table?invite=true&host_fire=30&host_water=20&host_earth=10&host_air=40`,
+      );
     }
   }, []);
 
@@ -44,41 +51,62 @@ function AdeptTableContent() {
     try {
       // Host values arrive via URL query (invite link) — clamp to 0–100 so a
       // crafted link can't skew the midpoint with out-of-range numbers.
-      const clampPct = (v: string | null | undefined) =>
-        Math.max(0, Math.min(100, Number(v) || 25));
-      const hostFire = clampPct(searchParams?.get("host_fire"));
-      const hostWater = clampPct(searchParams?.get("host_water"));
-      const hostEarth = clampPct(searchParams?.get("host_earth"));
-      const hostAir = clampPct(searchParams?.get("host_air"));
+      const hostFire = parseTablePercentage(searchParams?.get("host_fire"));
+      const hostWater = parseTablePercentage(searchParams?.get("host_water"));
+      const hostEarth = parseTablePercentage(searchParams?.get("host_earth"));
+      const hostAir = parseTablePercentage(searchParams?.get("host_air"));
 
       const hostData = {
-        elementalBalance: { Fire: hostFire, Water: hostWater, Earth: hostEarth, Air: hostAir },
-        alchemicalProperties: { Spirit: hostFire, Essence: hostWater, Matter: hostEarth, Substance: hostAir },
+        elementalBalance: {
+          Fire: hostFire,
+          Water: hostWater,
+          Earth: hostEarth,
+          Air: hostAir,
+        },
+        alchemicalProperties: {
+          Spirit: hostFire,
+          Essence: hostWater,
+          Matter: hostEarth,
+          Substance: hostAir,
+        },
         dominantElement: "Fire",
-        dominantModality: "Cardinal"
+        dominantModality: "Cardinal",
       };
 
       const friendData = {
-        elementalBalance: { Fire: friendFire, Water: friendWater, Earth: friendEarth, Air: friendAir },
-        alchemicalProperties: { Spirit: friendFire, Essence: friendWater, Matter: friendEarth, Substance: friendAir },
+        elementalBalance: {
+          Fire: friendFire,
+          Water: friendWater,
+          Earth: friendEarth,
+          Air: friendAir,
+        },
+        alchemicalProperties: {
+          Spirit: friendFire,
+          Essence: friendWater,
+          Matter: friendEarth,
+          Substance: friendAir,
+        },
         dominantElement: "Water",
-        dominantModality: "Fixed"
+        dominantModality: "Fixed",
       };
 
       const res = await fetch("/api/premium-table", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ hostData, friendData })
+        body: JSON.stringify({ hostData, friendData }),
       });
-      const data = await res.json();
+      const data = await readTableRitualResponse(res);
       if (res.ok && data.success) {
         setComposite(data.compositeChart);
         setRecipes(data.recipes);
       } else {
-        setError(data.message || "Couldn't calculate the midpoint. Please try again.");
+        const message = data.success ? undefined : (data.message ?? data.error);
+        setError(
+          message ?? "Couldn't calculate the midpoint. Please try again.",
+        );
       }
     } catch (err) {
-      console.error(err);
+      _logger.error("[premium-table] Failed to join table", err);
       setError("Something went wrong reaching the Table. Please try again.");
     } finally {
       setLoading(false);
@@ -89,8 +117,13 @@ function AdeptTableContent() {
     return (
       <main className="min-h-screen bg-[#08080e] flex items-center justify-center p-6">
         <div className="glass-card-premium rounded-3xl p-8 max-w-md text-center border-amber-500/30">
-          <h1 className="text-2xl font-black text-amber-400 mb-4">Premium Status Required</h1>
-          <p className="text-white/60 mb-6">Group Rituals and the Alchemical Midpoint table are exclusive to Premium users.</p>
+          <h1 className="text-2xl font-black text-amber-400 mb-4">
+            Premium Status Required
+          </h1>
+          <p className="text-white/60 mb-6">
+            Group Rituals and the Alchemical Midpoint table are exclusive to
+            Premium users.
+          </p>
           <Link
             href="/upgrade?from=/premium-table"
             className="inline-block px-6 py-2 rounded-full bg-amber-500 text-black font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors"
@@ -114,17 +147,29 @@ function AdeptTableContent() {
             Premium Group Rituals
           </h1>
           <p className="text-white/50 max-w-2xl mx-auto">
-            Invite a friend to your Table. We calculate the Alchemical Midpoint between your natal charts to recommend the perfect harmonizing meal.
+            Invite a friend to your Table. We calculate the Alchemical Midpoint
+            between your natal charts to recommend the perfect harmonizing meal.
           </p>
         </header>
 
         {!isInvite ? (
           <div className="glass-card-premium rounded-3xl p-8 max-w-xl mx-auto border-white/10 text-center">
             <h2 className="text-xl font-bold mb-4">Invite to your Table</h2>
-            <p className="text-sm text-white/40 mb-6">Share this link with your dining partner. Once they enter their data, your harmonized menu will be revealed.</p>
+            <p className="text-sm text-white/40 mb-6">
+              Share this link with your dining partner. Once they enter their
+              data, your harmonized menu will be revealed.
+            </p>
             <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg p-2 mb-4">
-              <input type="text" readOnly value={link} className="bg-transparent border-none outline-none flex-1 text-xs text-white/70 px-2" />
-              <button onClick={copyLink} className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded text-xs font-bold transition-colors">
+              <input
+                type="text"
+                readOnly
+                value={link}
+                className="bg-transparent border-none outline-none flex-1 text-xs text-white/70 px-2"
+              />
+              <button
+                onClick={copyLink}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded text-xs font-bold transition-colors"
+              >
                 {copied ? "Copied!" : "Copy"}
               </button>
             </div>
@@ -132,61 +177,132 @@ function AdeptTableContent() {
         ) : (
           <div className="space-y-8">
             {!composite ? (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card-premium rounded-3xl p-8 max-w-md mx-auto border-white/10">
-                <h2 className="text-2xl font-bold mb-6 text-center text-purple-400">Join the Table</h2>
-                <p className="text-sm text-white/50 mb-6 text-center">Enter your elemental resonance to calculate the group&apos;s Alchemical Midpoint.</p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="glass-card-premium rounded-3xl p-8 max-w-md mx-auto border-white/10"
+              >
+                <h2 className="text-2xl font-bold mb-6 text-center text-purple-400">
+                  Join the Table
+                </h2>
+                <p className="text-sm text-white/50 mb-6 text-center">
+                  Enter your elemental resonance to calculate the group&apos;s
+                  Alchemical Midpoint.
+                </p>
                 <div className="space-y-4 mb-8">
                   {[
-                    { label: "Fire", val: friendFire, set: setFriendFire, color: "text-amber-400" },
-                    { label: "Water", val: friendWater, set: setFriendWater, color: "text-blue-400" },
-                    { label: "Earth", val: friendEarth, set: setFriendEarth, color: "text-emerald-400" },
-                    { label: "Air", val: friendAir, set: setFriendAir, color: "text-purple-400" },
+                    {
+                      label: "Fire",
+                      val: friendFire,
+                      set: setFriendFire,
+                      color: "text-amber-400",
+                    },
+                    {
+                      label: "Water",
+                      val: friendWater,
+                      set: setFriendWater,
+                      color: "text-blue-400",
+                    },
+                    {
+                      label: "Earth",
+                      val: friendEarth,
+                      set: setFriendEarth,
+                      color: "text-emerald-400",
+                    },
+                    {
+                      label: "Air",
+                      val: friendAir,
+                      set: setFriendAir,
+                      color: "text-purple-400",
+                    },
                   ].map((el) => (
                     <div key={el.label} className="flex items-center gap-4">
-                      <span className={`w-16 text-sm font-bold ${el.color}`}>{el.label}</span>
-                      <input type="range" min="0" max="100" value={el.val} onChange={(e) => el.set(Number(e.target.value))} className="flex-1" />
-                      <span className="w-8 text-right font-mono text-sm">{el.val}</span>
+                      <span className={`w-16 text-sm font-bold ${el.color}`}>
+                        {el.label}
+                      </span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={el.val}
+                        onChange={(e) => el.set(Number(e.target.value))}
+                        className="flex-1"
+                      />
+                      <span className="w-8 text-right font-mono text-sm">
+                        {el.val}
+                      </span>
                     </div>
                   ))}
                 </div>
                 <button
-                  onClick={() => { void handleJoin(); }}
+                  onClick={() => {
+                    void handleJoin();
+                  }}
                   disabled={loading}
                   className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-amber-500 text-white font-black uppercase tracking-widest hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {loading ? "Calculating Midpoint..." : "Calculate Harmony"}
                 </button>
                 {error && (
-                  <p className="mt-4 text-center text-sm text-red-400">{error}</p>
+                  <p className="mt-4 text-center text-sm text-red-400">
+                    {error}
+                  </p>
                 )}
               </motion.div>
             ) : (
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="space-y-8"
+              >
                 <div className="glass-card-premium rounded-3xl p-8 text-center border-purple-500/30">
-                  <h2 className="text-xl font-bold text-purple-400 mb-2">Alchemical Midpoint Achieved</h2>
-                  <p className="text-white/60 mb-6">Your combined resonance is {composite.dominantElement} dominant.</p>
+                  <h2 className="text-xl font-bold text-purple-400 mb-2">
+                    Alchemical Midpoint Achieved
+                  </h2>
+                  <p className="text-white/60 mb-6">
+                    Your combined resonance is {composite.dominantElement}{" "}
+                    dominant.
+                  </p>
                   <div className="flex justify-center gap-8 mb-4">
                     <div className="text-center">
-                      <div className="text-2xl font-black text-amber-400">{composite.alchemicalProperties.Spirit.toFixed(1)}</div>
-                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">Spirit</div>
+                      <div className="text-2xl font-black text-amber-400">
+                        {composite.alchemicalProperties.Spirit.toFixed(1)}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">
+                        Spirit
+                      </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-black text-blue-400">{composite.alchemicalProperties.Essence.toFixed(1)}</div>
-                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">Essence</div>
+                      <div className="text-2xl font-black text-blue-400">
+                        {composite.alchemicalProperties.Essence.toFixed(1)}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">
+                        Essence
+                      </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-black text-emerald-400">{composite.alchemicalProperties.Matter.toFixed(1)}</div>
-                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">Matter</div>
+                      <div className="text-2xl font-black text-emerald-400">
+                        {composite.alchemicalProperties.Matter.toFixed(1)}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">
+                        Matter
+                      </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-black text-purple-400">{composite.alchemicalProperties.Substance.toFixed(1)}</div>
-                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">Substance</div>
+                      <div className="text-2xl font-black text-purple-400">
+                        {composite.alchemicalProperties.Substance.toFixed(1)}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-widest text-white/40 mt-1">
+                        Substance
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-2xl font-bold mb-6 text-center">Harmonized Menu</h3>
+                  <h3 className="text-2xl font-bold mb-6 text-center">
+                    Harmonized Menu
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {recipes.map((recipe) => (
                       <RecipeCard key={recipe.id} recipe={recipe} />
@@ -204,11 +320,13 @@ function AdeptTableContent() {
 
 export default function AdeptTablePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-500 rounded-full animate-spin" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-500 rounded-full animate-spin" />
+        </div>
+      }
+    >
       <AdeptTableContent />
     </Suspense>
   );

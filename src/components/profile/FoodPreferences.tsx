@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useToast } from '@/components/common/Toast';
-import { useShareIdentityDefault } from '@/hooks/useShareIdentityDefault';
-import { shareIdentityForPost } from '@/lib/feed/identity';
+import React, { useEffect, useState } from "react";
+import { useToast } from "@/components/common/Toast";
+import { useShareIdentityDefault } from "@/hooks/useShareIdentityDefault";
+import { shareIdentityForPost } from "@/lib/feed/identity";
+import { _logger } from "@/lib/logger";
+import { isPreferenceActionResponse } from "@/types";
+import type { PreferenceActionResponse } from "@/types";
 
 interface UserPreferences {
   dietaryRestrictions: string[];
   preferredCuisines: string[];
   dislikedIngredients: string[];
-  spicePreference: 'mild' | 'medium' | 'hot';
-  complexity: 'simple' | 'moderate' | 'complex';
+  spicePreference: "mild" | "medium" | "hot";
+  complexity: "simple" | "moderate" | "complex";
 }
 
 interface FoodPreferencesProps {
@@ -19,35 +22,42 @@ interface FoodPreferencesProps {
   onBack?: () => void;
 }
 
+function questRewardMessage(response: PreferenceActionResponse): string {
+  const reward = response.completedQuests?.[0];
+  return reward
+    ? ` 🏆 Quest completed! Earned ${reward.tokensAwarded} ${reward.tokenType}!`
+    : "";
+}
+
 const DIETARY_OPTIONS = [
-  'Vegetarian',
-  'Vegan',
-  'Pescatarian',
-  'Gluten-Free',
-  'Dairy-Free',
-  'Nut-Free',
-  'Keto',
-  'Paleo',
-  'Low-Carb',
-  'Halal',
-  'Kosher',
+  "Vegetarian",
+  "Vegan",
+  "Pescatarian",
+  "Gluten-Free",
+  "Dairy-Free",
+  "Nut-Free",
+  "Keto",
+  "Paleo",
+  "Low-Carb",
+  "Halal",
+  "Kosher",
 ];
 
 const CUISINE_OPTIONS = [
-  'Italian',
-  'Mexican',
-  'Chinese',
-  'Japanese',
-  'Indian',
-  'Thai',
-  'French',
-  'Greek',
-  'Mediterranean',
-  'American',
-  'Korean',
-  'Vietnamese',
-  'Middle-Eastern',
-  'Spanish',
+  "Italian",
+  "Mexican",
+  "Chinese",
+  "Japanese",
+  "Indian",
+  "Thai",
+  "French",
+  "Greek",
+  "Mediterranean",
+  "American",
+  "Korean",
+  "Vietnamese",
+  "Middle-Eastern",
+  "Spanish",
 ];
 
 export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
@@ -56,8 +66,10 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
   onBack,
 }) => {
   const { toast, showSuccess, showError } = useToast();
-  const [localPrefs, setLocalPrefs] = useState<UserPreferences>({ ...preferences });
-  const [dislikedInput, setDislikedInput] = useState('');
+  const [localPrefs, setLocalPrefs] = useState<UserPreferences>({
+    ...preferences,
+  });
+  const [dislikedInput, setDislikedInput] = useState("");
   const [saved, setSaved] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [hasSharedFeed, setHasSharedFeed] = useState(false);
@@ -85,13 +97,12 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           },
         }),
       });
-      const data = await res.json();
-      if (data.success) {
-        let questMessage = "";
-        if (data.completedQuests && data.completedQuests.length > 0) {
-          const [rewardQuest] = data.completedQuests;
-          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
-        }
+      const data: unknown = await res.json();
+      if (!isPreferenceActionResponse(data)) {
+        throw new Error("Share response did not match the expected contract");
+      }
+      if (res.ok && data.success) {
+        const questMessage = questRewardMessage(data);
         showSuccess(`Shared to feed successfully!${questMessage}`);
         setHasSharedFeed(true);
       } else {
@@ -99,17 +110,18 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
       }
     } catch (err) {
       showError("Error sharing to feed");
-      console.error(err);
+      _logger.error("[FoodPreferences] Failed to share preferences", err);
     } finally {
       setIsSharing(false);
     }
   };
 
   const handleShareSocial = async () => {
-    const restrictionsText = localPrefs.dietaryRestrictions.join(', ') || 'None';
-    const cuisinesText = localPrefs.preferredCuisines.join(', ') || 'Any';
-    const dislikesText = localPrefs.dislikedIngredients.join(', ') || 'None';
-    
+    const restrictionsText =
+      localPrefs.dietaryRestrictions.join(", ") || "None";
+    const cuisinesText = localPrefs.preferredCuisines.join(", ") || "Any";
+    const dislikesText = localPrefs.dislikedIngredients.join(", ") || "None";
+
     const svgText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
       <defs>
         <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -142,33 +154,32 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
       <text x="650" y="455" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#34d399" text-anchor="middle">ALCHEMICAL</text>
       <text x="650" y="475" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#34d399" text-anchor="middle">HARMONY</text>
     </svg>`;
-    
-    const blob = new Blob([svgText], { type: 'image/svg+xml' });
+
+    const blob = new Blob([svgText], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'alchm-kitchen-profile.svg';
+    a.download = "alchm-kitchen-profile.svg";
     a.click();
     URL.revokeObjectURL(url);
-    
+
     try {
       const res = await fetch("/api/quests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ event: "share_preferences_social" }),
       });
-      const data = await res.json();
-      if (data.success) {
-        let questMessage = "";
-        if (data.completedQuests && data.completedQuests.length > 0) {
-          const [rewardQuest] = data.completedQuests;
-          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
-        }
+      const data: unknown = await res.json();
+      if (!isPreferenceActionResponse(data)) {
+        throw new Error("Quest response did not match the expected contract");
+      }
+      if (res.ok && data.success) {
+        const questMessage = questRewardMessage(data);
         showSuccess(`Preferences Card downloaded successfully!${questMessage}`);
         setHasSharedSocial(true);
       }
     } catch (err) {
-      console.error("Failed to complete social preferences quest", err);
+      _logger.error("Failed to complete social preferences quest", err);
     }
   };
 
@@ -197,7 +208,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         ...prev,
         dislikedIngredients: [...prev.dislikedIngredients, trimmed],
       }));
-      setDislikedInput('');
+      setDislikedInput("");
     }
   };
 
@@ -222,8 +233,12 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
       <div className="space-y-8">
         {/* Dietary Restrictions */}
         <section className="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-1">Dietary Restrictions</h3>
-          <p className="text-sm text-slate-500 mb-5 font-medium">Select any that apply to you.</p>
+          <h3 className="text-xl font-bold text-slate-800 mb-1">
+            Dietary Restrictions
+          </h3>
+          <p className="text-sm text-slate-500 mb-5 font-medium">
+            Select any that apply to you.
+          </p>
           <div className="flex flex-wrap gap-2.5">
             {DIETARY_OPTIONS.map((item) => (
               <button
@@ -232,8 +247,8 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
                 onClick={() => toggleDietary(item)}
                 className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 active:scale-95 ${
                   localPrefs.dietaryRestrictions.includes(item)
-                    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border border-emerald-400'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
+                    ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border border-emerald-400"
+                    : "bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200"
                 }`}
               >
                 {item}
@@ -244,8 +259,12 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
 
         {/* Cuisine Preferences */}
         <section className="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-1">Preferred Cuisines</h3>
-          <p className="text-sm text-slate-500 mb-5 font-medium">Select cuisines you enjoy most.</p>
+          <h3 className="text-xl font-bold text-slate-800 mb-1">
+            Preferred Cuisines
+          </h3>
+          <p className="text-sm text-slate-500 mb-5 font-medium">
+            Select cuisines you enjoy most.
+          </p>
           <div className="flex flex-wrap gap-2.5">
             {CUISINE_OPTIONS.map((item) => (
               <button
@@ -254,8 +273,8 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
                 onClick={() => toggleCuisine(item)}
                 className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 active:scale-95 ${
                   localPrefs.preferredCuisines.includes(item)
-                    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border border-emerald-400'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
+                    ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border border-emerald-400"
+                    : "bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200"
                 }`}
               >
                 {item}
@@ -266,21 +285,31 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
 
         {/* Spice Preference */}
         <section className="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-1">Spice Tolerance</h3>
-          <p className="text-sm text-slate-500 mb-5 font-medium">How spicy do you like your food?</p>
+          <h3 className="text-xl font-bold text-slate-800 mb-1">
+            Spice Tolerance
+          </h3>
+          <p className="text-sm text-slate-500 mb-5 font-medium">
+            How spicy do you like your food?
+          </p>
           <div className="grid grid-cols-3 gap-3">
-            {(['mild', 'medium', 'hot'] as const).map((level) => (
+            {(["mild", "medium", "hot"] as const).map((level) => (
               <button
                 key={level}
                 type="button"
-                onClick={() => setLocalPrefs((prev) => ({ ...prev, spicePreference: level }))}
+                onClick={() =>
+                  setLocalPrefs((prev) => ({ ...prev, spicePreference: level }))
+                }
                 className={`px-4 py-4 rounded-xl text-base font-bold transition-all duration-300 active:scale-95 border ${
                   localPrefs.spicePreference === level
-                    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border-emerald-400'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200'
+                    ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border-emerald-400"
+                    : "bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200"
                 }`}
               >
-                {level === 'mild' ? 'Mild\n&#x1F33F;' : level === 'medium' ? 'Medium\n&#x1F336;&#xFE0F;' : 'Hot\n&#x1F525;'}
+                {level === "mild"
+                  ? "Mild\n&#x1F33F;"
+                  : level === "medium"
+                    ? "Medium\n&#x1F336;&#xFE0F;"
+                    : "Hot\n&#x1F525;"}
               </button>
             ))}
           </div>
@@ -288,18 +317,24 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
 
         {/* Recipe Complexity */}
         <section className="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-1">Recipe Complexity</h3>
-          <p className="text-sm text-slate-500 mb-5 font-medium">What level of cooking effort do you prefer?</p>
+          <h3 className="text-xl font-bold text-slate-800 mb-1">
+            Recipe Complexity
+          </h3>
+          <p className="text-sm text-slate-500 mb-5 font-medium">
+            What level of cooking effort do you prefer?
+          </p>
           <div className="grid grid-cols-3 gap-3">
-            {(['simple', 'moderate', 'complex'] as const).map((level) => (
+            {(["simple", "moderate", "complex"] as const).map((level) => (
               <button
                 key={level}
                 type="button"
-                onClick={() => setLocalPrefs((prev) => ({ ...prev, complexity: level }))}
+                onClick={() =>
+                  setLocalPrefs((prev) => ({ ...prev, complexity: level }))
+                }
                 className={`px-4 py-4 rounded-xl text-base font-bold transition-all duration-300 active:scale-95 border ${
                   localPrefs.complexity === level
-                    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border-emerald-400'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200'
+                    ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 border-emerald-400"
+                    : "bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200"
                 }`}
               >
                 {level.charAt(0).toUpperCase() + level.slice(1)}
@@ -310,14 +345,20 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
 
         {/* Disliked Ingredients */}
         <section className="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-1">Ingredients to Avoid</h3>
-          <p className="text-sm text-slate-500 mb-5 font-medium">Add any ingredients you dislike or want to avoid.</p>
+          <h3 className="text-xl font-bold text-slate-800 mb-1">
+            Ingredients to Avoid
+          </h3>
+          <p className="text-sm text-slate-500 mb-5 font-medium">
+            Add any ingredients you dislike or want to avoid.
+          </p>
           <div className="flex gap-3 mb-5">
             <input
               type="text"
               value={dislikedInput}
               onChange={(e) => setDislikedInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addDisliked())}
+              onKeyDown={(e) =>
+                e.key === "Enter" && (e.preventDefault(), addDisliked())
+              }
               placeholder="e.g., cilantro, olives..."
               className="flex-1 px-5 py-3 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all outline-none font-medium text-slate-800 shadow-sm"
             />
@@ -346,7 +387,9 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
               </span>
             ))}
             {localPrefs.dislikedIngredients.length === 0 && (
-              <p className="text-slate-400 text-sm font-medium italic">No ingredients blocked.</p>
+              <p className="text-slate-400 text-sm font-medium italic">
+                No ingredients blocked.
+              </p>
             )}
           </div>
         </section>
@@ -355,8 +398,13 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
       {/* Sharing Panel */}
       <div className="bg-emerald-50/50 p-6 rounded-3xl border border-emerald-100 flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
         <div>
-          <h4 className="font-bold text-slate-800 text-lg">Showcase Your Constitution</h4>
-          <p className="text-sm text-slate-500 font-medium">Share your culinary settings or download your alchemical profile card.</p>
+          <h4 className="font-bold text-slate-800 text-lg">
+            Showcase Your Constitution
+          </h4>
+          <p className="text-sm text-slate-500 font-medium">
+            Share your culinary settings or download your alchemical profile
+            card.
+          </p>
           <label className="mt-2 flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
             <input
               type="checkbox"
@@ -370,7 +418,9 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         <div className="flex gap-3 w-full md:w-auto">
           <button
             type="button"
-            onClick={() => { void handleShareToFeed(); }}
+            onClick={() => {
+              void handleShareToFeed();
+            }}
             disabled={hasSharedFeed || isSharing}
             className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-bold shadow-sm transition-all ${
               hasSharedFeed
@@ -382,7 +432,9 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           </button>
           <button
             type="button"
-            onClick={() => { void handleShareSocial(); }}
+            onClick={() => {
+              void handleShareSocial();
+            }}
             disabled={hasSharedSocial}
             className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-bold shadow-sm transition-all ${
               hasSharedSocial
@@ -405,7 +457,9 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           >
             Cancel
           </button>
-        ) : <div />}
+        ) : (
+          <div />
+        )}
         <button
           type="button"
           onClick={() => {
@@ -415,11 +469,11 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           }}
           className={`flex-none px-8 py-4 rounded-xl font-black transition-all duration-300 shadow-md active:scale-95 ${
             saved
-              ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
-              : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30'
+              ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+              : "bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30"
           }`}
         >
-          {saved ? '✓ Saved Successfully!' : 'Save & Optimize Algorithm'}
+          {saved ? "✓ Saved Successfully!" : "Save & Optimize Algorithm"}
         </button>
       </div>
       {toast}

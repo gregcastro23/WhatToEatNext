@@ -1,18 +1,19 @@
 {
-  "trackedTotal": 5445,
+  "trackedTotal": 4889,
   "declined": {
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1864,
+      "@typescript-eslint/explicit-function-return-type": 1862,
       "@typescript-eslint/explicit-module-boundary-types": 885,
       "complexity": 354,
       "max-depth": 100,
-      "max-lines": 653,
-      "max-lines-per-function": 2116
+      "max-lines": 655,
+      "max-lines-per-function": 2118,
+      "no-void": 458
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1864,
+      "count": 1862,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
@@ -20,7 +21,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 424,
+      "count": 420,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -32,27 +33,27 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 189,
+      "count": 176,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 520,
+      "count": 507,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 67,
+      "count": 59,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 638,
+      "count": 589,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 93,
+      "count": 91,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 257,
+      "count": 255,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -92,11 +93,11 @@
       "autoFixable": 0
     },
     "max-lines": {
-      "count": 653,
+      "count": 655,
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2116,
+      "count": 2118,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -104,7 +105,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 519,
+      "count": 512,
       "autoFixable": 0
     },
     "no-useless-assignment": {
