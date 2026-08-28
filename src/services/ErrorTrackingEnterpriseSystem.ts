@@ -109,7 +109,7 @@ export class ErrorTrackingEnterpriseSystem {
             // NOTE: `error` is intentionally passed in the LogContext slot (not the Error slot) to preserve existing behavior.
             log.error(
               "Error during automated analysis: ",
-              error as Record<string, unknown>,
+              error,
             );
           }
         })();
@@ -583,7 +583,7 @@ export class ErrorTrackingEnterpriseSystem {
         JSON.stringify(patternsData, null, 2),
       );
     } catch (error) {
-      log.error("Failed to persist data: ", error as Record<string, unknown>);
+      log.error("Failed to persist data: ", error);
     }
   }
 
@@ -612,7 +612,7 @@ export class ErrorTrackingEnterpriseSystem {
     } catch (error) {
       log.error(
         "Failed to load persisted data: ",
-        error as Record<string, unknown>,
+        error,
       );
     }
   }
@@ -704,7 +704,7 @@ export class ErrorTrackingEnterpriseSystem {
     } catch (error) {
       log.error(
         "Failed to delete persisted files: ",
-        error as Record<string, unknown>,
+        error,
       );
     }
     log.info("All tracking data reset");

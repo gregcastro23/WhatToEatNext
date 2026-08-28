@@ -129,7 +129,7 @@ export function initializeChromeApis(): void {
       sendMessage(message: unknown): Promise<{ _success: boolean }> {
         log.info(
           "[ChromeAPI] Mocked chrome.runtime.sendMessage called: ",
-          message as Record<string, unknown>,
+          message,
         );
         return Promise.resolve({ _success: true });
       },

@@ -1,4 +1,4 @@
-import { log, type LogContext } from "@/services/LoggingService";
+import { log } from "@/services/LoggingService";
 import { normalizeProperties } from "@/utils/elementalUtils";
 import { createLogger } from "@/utils/logger";
 import { DEFAULT_ELEMENTAL_PROPERTIES } from "../constants/elementalConstants";
@@ -189,7 +189,7 @@ export class ElementalCalculator {
     if (this.debugMode) {
       log.info(
         "[ElementalCalculator] Calculating elemental state from: ",
-        positions as LogContext,
+        positions,
       );
     }
 

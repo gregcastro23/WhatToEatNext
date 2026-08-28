@@ -15,7 +15,7 @@ import { alchemicalApi } from "@/services/AlchemicalApiClient";
 import type { ElementalProperties } from "@/types/alchemy";
 
 // Cache for frequently used calculations
-const calculationCache = new Map<string, { data: any; timestamp: number }>();
+const calculationCache = new Map<string, { data: unknown; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /**
@@ -24,7 +24,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
   const cached = calculationCache.get(key);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    return Promise.resolve(cached.data);
+    return Promise.resolve(cached.data as T);
   }
 
   return apiCall().then((data) => {
@@ -51,7 +51,9 @@ export const calculateElementalBalance = async (
  * KALCHM ENGINE ADAPTER
  * Replaces src/calculations/core/kalchmEngine.ts (457 lines)
  */
-export const calculateKalchmMetrics = async (elements: ElementalProperties) => {
+export const calculateKalchmMetrics = async (
+  elements: ElementalProperties,
+): Promise<unknown> => {
   const cacheKey = `kalchm_${JSON.stringify(elements)}`;
   return withCache(cacheKey, () =>
     alchemicalApi.calculateThermodynamics(elements),
@@ -69,12 +71,12 @@ export const calculateMonicaConstant = async (
 ): Promise<number> => {
   const cacheKey = `monica_${gregsEnergy}_${reactivity}_${kalchm}`;
   return withCache(cacheKey, async () => {
-    const esmsResult = await alchemicalApi.calculateESMS(
+    const esmsResult = (await alchemicalApi.calculateESMS(
       kalchm,
       gregsEnergy,
       reactivity,
       0.5,
-    );
+    )) as { monica?: number };
     return esmsResult.monica ?? gregsEnergy * reactivity * kalchm * 0.1;
   });
 };
@@ -83,7 +85,7 @@ export const calculateMonicaConstant = async (
  * PLANETARY INFLUENCES ADAPTER
  * Replaces src/calculations/core/planetaryInfluences.ts (467 lines)
  */
-export const getCurrentPlanetaryInfluences = async () => {
+export const getCurrentPlanetaryInfluences = async (): Promise<unknown> => {
   const cacheKey = `planetary_${Math.floor(Date.now() / 60000)}`; // 1-minute cache
   return withCache(cacheKey, () => alchemicalApi.getCurrentPlanetaryHour());
 };
@@ -95,7 +97,7 @@ export const getCurrentPlanetaryInfluences = async () => {
 export const optimizeAlchemicalBalance = async (
   currentElements: ElementalProperties,
   targetElements?: ElementalProperties,
-) => {
+): Promise<unknown> => {
   const cacheKey = `optimize_${JSON.stringify(currentElements)}_${JSON.stringify(targetElements)}`;
   return withCache(cacheKey, () =>
     alchemicalApi.optimizeElementalBalance(currentElements, targetElements),
@@ -130,7 +132,7 @@ export const getElementalProperties = (
   };
 
   return (
-    elementalMap[ingredient.toLowerCase()] || {
+    elementalMap[ingredient.toLowerCase()] ?? {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -158,17 +160,14 @@ export const calculateGregsEnergy = (
  * Lightweight seasonal calculations
  */
 export const getSeasonalModifier = (season: string): ElementalProperties => {
-  const modifiers = {
+  const modifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 },
     summer: { Fire: 0.5, Water: 0.2, Earth: 0.1, Air: 0.2 },
     autumn: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     winter: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
   };
 
-  return (
-    modifiers[season.toLowerCase() as keyof typeof modifiers] ||
-    modifiers.spring
-  );
+  return modifiers[season.toLowerCase()] ?? modifiers.spring;
 };
 
 /**
@@ -181,7 +180,7 @@ export const getPersonalizedRecommendations = async (preferences: {
   dietaryRestrictions?: string[];
   maxPrepTime?: number;
   limit?: number;
-}) => {
+}): Promise<unknown> => {
   const request = {
     current_time: new Date().toISOString(),
     location: { latitude: 40.7128, longitude: -74.006 }, // Default to NYC
@@ -203,32 +202,33 @@ export const getPersonalizedRecommendations = async (preferences: {
  * WebSocket connection for live data
  */
 export const connectToRealtimeUpdates = (
-  onPlanetaryUpdate?: (data: any) => void,
+  onPlanetaryUpdate?: (data: unknown) => void,
   onEnergyUpdate?: (energy: number) => void,
-) =>
+): (() => void) | WebSocket | null =>
   alchemicalApi.createRealtimeConnection((planetaryData) => {
     if (onPlanetaryUpdate) {
       onPlanetaryUpdate(planetaryData);
     }
 
-    if (onEnergyUpdate && planetaryData.gregsEnergy) {
-      onEnergyUpdate(planetaryData.gregsEnergy);
+    const data = planetaryData as { gregsEnergy?: number };
+    if (onEnergyUpdate && typeof data.gregsEnergy === "number") {
+      onEnergyUpdate(data.gregsEnergy);
     }
   });
 
 /**
  * HEALTH CHECK FOR BACKEND SERVICES
  */
-export const checkBackendHealth = async () => alchemicalApi.checkHealth();
+export const checkBackendHealth = async (): Promise<unknown> => alchemicalApi.checkHealth();
 
 /**
  * CACHE MANAGEMENT
  */
-export const clearCalculationCache = () => {
+export const clearCalculationCache = (): void => {
   calculationCache.clear();
 };
 
-export const getCacheStats = () => ({
+export const getCacheStats = (): { size: number; entries: string[] } => ({
   size: calculationCache.size,
   entries: Array.from(calculationCache.keys()),
 });

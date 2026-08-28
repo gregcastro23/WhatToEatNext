@@ -77,30 +77,30 @@ interface UserDashboardProps {
 
 /* ─── Live Transit Status Bar ──────────────────────────────── */
 
-function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
+function LiveTransitBar({ natalChart }: { natalChart: NatalChart }): React.ReactNode {
   const { planetaryPositions: currentPositionsRaw } = useAlchemical();
   const { groupForPlanet } = useActiveTransits();
   const { open, pending } = useTransitGroupChat();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 60000);
+    const interval = setInterval((): void => { setNow(new Date()); }, 60000);
     return () => clearInterval(interval);
   }, []);
 
   const natalPositions = extractPlanetaryPositions(natalChart);
-  const sunData = currentPositionsRaw?.sun;
-  const moonData = currentPositionsRaw?.moon;
-  const transitSunSign = sunData?.sign ?? natalPositions.Sun ?? '';
-  const transitMoonSign = moonData?.sign ?? natalPositions.Moon ?? '';
+  const sunData = currentPositionsRaw.sun;
+  const moonData = currentPositionsRaw.moon;
+  const transitSunSign = sunData?.sign ?? natalPositions.Sun;
+  const transitMoonSign = moonData?.sign ?? natalPositions.Moon;
 
   const sunDeg = sunData?.degree != null ? `${Math.floor(sunData.degree % 30)}\u00B0` : '';
   const moonDeg = moonData?.degree != null ? `${Math.floor(moonData.degree % 30)}\u00B0` : '';
 
-  const openLuminaryCouncil = (planet: 'Sun' | 'Moon', sign: string, degree: number) => {
+  const openLuminaryCouncil = (planet: 'Sun' | 'Moon', sign: string, degree: number): void => {
     if (!sign) return;
     const g = groupForPlanet(planet, { planet, sign, degree });
-    if (g) void open(g.participants, g.descriptor, 'live-transit-bar');
+    if (g) open(g.participants, g.descriptor, 'live-transit-bar').catch(() => {});
   };
 
   return (
@@ -173,7 +173,7 @@ function CollapsibleSection({
   defaultOpen?: boolean;
   badge?: number;
   children: React.ReactNode;
-}) {
+}): React.ReactNode {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
@@ -232,8 +232,8 @@ function SettingsPanel({
   preferences: UserPreferences;
   onEditBirthData: () => void;
   onEditPreferences: () => void;
-}) {
-  const chartDate = natalChart?.birthData?.dateTime
+}): React.ReactNode {
+  const chartDate = natalChart.birthData.dateTime
     ? new Date(natalChart.birthData.dateTime).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -271,11 +271,11 @@ function SettingsPanel({
           </button>
         </div>
         {chartDate && <p className="text-sm text-white/90 font-medium mb-1.5">{chartDate}</p>}
-        {natalChart.birthData && (
+        {natalChart.birthData ? (
           <p className="text-[10px] text-white/30 font-mono tracking-tighter">
             {natalChart.birthData.latitude.toFixed(4)}, {natalChart.birthData.longitude.toFixed(4)}
           </p>
-        )}
+        ) : null}
       </div>
 
       <div className="glass-card-premium rounded-[2.5rem] p-8 border-white/10">
@@ -314,7 +314,7 @@ function SettingsPanel({
 
       <div className="flex justify-center pt-4">
         <button
-          onClick={() => { void signOut({ callbackUrl: '/' }); }}
+          onClick={() => { signOut({ callbackUrl: '/' }).catch(() => {}); }}
           className="px-8 py-3 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500/20 transition-all text-[10px] font-bold uppercase tracking-[0.2em] border border-red-500/20"
         >
           Initiate Logout
@@ -326,13 +326,14 @@ function SettingsPanel({
 
 /* ─── Birth Chart Section ────────────────────────────────── */
 
-function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
+function BirthChartSection({ natalChart }: { natalChart: NatalChart }): React.ReactNode {
   const natalPositions = extractPlanetaryPositions(natalChart);
-  const sunSign = (natalPositions.Sun || '') as string;
-  const moonSign = (natalPositions.Moon || '') as string;
-  const rising = (natalChart.ascendant || '') as string;
+  const sunSign = natalPositions.Sun ?? '';
+  const moonSign = natalPositions.Moon ?? '';
+  const rising = natalChart.ascendant ?? '';
 
-  const findPlanet = (name: string) => natalChart.planets?.find(p => p.name === name);
+  const findPlanet = (name: string) =>
+    (natalChart.planets ?? []).find(p => p.name === name);
 
   return (
     <Link href="/celestial-lab/standing-chart" className="block bg-gray-950 rounded-3xl p-6 border border-white/5 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-900/20 transition-all cursor-pointer group">
@@ -356,31 +357,30 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
           { label: 'Sun', sign: sunSign, color: 'amber', planet: findPlanet('Sun') },
           { label: 'Moon', sign: moonSign, color: 'blue', planet: findPlanet('Moon') },
           { label: 'Rising', sign: rising, color: 'purple', planet: findPlanet('Ascendant') },
-        ].map(({ label, sign, color, planet }) => sign && (
+        ].map(({ label, sign, color, planet }) => sign ? (
           <div key={label} className="flex-1 bg-white/[0.03] rounded-2xl p-3 border border-white/5 text-center">
             <div className={`text-${color}-400 text-xl mb-1`}>{SIGN_SYMBOLS[sign.toLowerCase()] || ''}</div>
             <div className="text-white/30 text-[9px] uppercase tracking-widest">{label}</div>
             <div className="text-white font-bold capitalize text-sm mt-0.5">{sign}</div>
-            {planet && formatDegreeMinute(planet.position) && (
+            {planet && formatDegreeMinute(planet.position) ? (
               <div className="text-white/20 text-[10px] font-mono mt-0.5">{formatDegreeMinute(planet.position)}</div>
-            )}
+            ) : null}
           </div>
-        ))}
+        ) : null)}
       </div>
 
       {/* Remaining planets */}
       <div className="grid grid-cols-4 gap-2">
         {(['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
           const sign = natalPositions[planet];
-          if (!sign) return null;
-          const signStr = typeof sign === 'string' ? sign : '';
+          if (typeof sign !== 'string' || !sign) return null;
           const pos = formatDegreeMinute(findPlanet(planet)?.position);
           return (
             <div key={planet} className="text-center p-2 bg-white/[0.02] rounded-xl border border-white/5">
               <div className="text-white/50 text-sm mb-0.5">{PLANET_SYMBOLS[planet] || ''}</div>
               <div className="text-[9px] text-white/20 uppercase tracking-wider">{planet}</div>
-              <div className="text-xs font-semibold text-white/70 capitalize mt-0.5">{signStr}</div>
-              {pos && <div className="text-[9px] font-mono text-white/20 mt-0.5">{pos}</div>}
+              <div className="text-xs font-semibold text-white/70 capitalize mt-0.5">{sign}</div>
+              {pos ? <div className="text-[9px] font-mono text-white/20 mt-0.5">{pos}</div> : null}
             </div>
           );
         })}
@@ -395,19 +395,19 @@ function usePendingRequestCount(): number {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    async function fetchCount() {
+    async function fetchCount(): Promise<void> {
       try {
         const res = await fetch('/api/commensals', { credentials: 'include' });
         if (!res.ok) return;
-        const data = await res.json();
-        if (data.success) {
-          setCount(data.pendingReceived?.length ?? 0);
+        const data = (await res.json()) as { success?: boolean; pendingReceived?: unknown[] };
+        if (data.success && Array.isArray(data.pendingReceived)) {
+          setCount(data.pendingReceived.length);
         }
       } catch {
         // ignore
       }
     }
-    void fetchCount();
+    fetchCount().catch(() => {});
   }, []);
 
   return count;
@@ -429,7 +429,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   const pendingRequests = usePendingRequestCount();
 
   // Fire quest events when navigating to specific views
-  const handleViewMode = useCallback((mode: ViewMode) => {
+  const handleViewMode = useCallback((mode: ViewMode): void => {
     setViewMode(mode);
     if (mode === 'chart-detail') reportQuestEvent('view_chart');
     if (mode === 'recommendations') reportQuestEvent('view_insight');
@@ -438,9 +438,9 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   const email = session?.user?.email ?? '';
   const userName = session?.user?.name ?? 'User';
 
-  const tier: UserTier = (profileData?.subscription?.tier as UserTier) || 'free';
+  const tier: UserTier = (profileData?.subscription?.tier as UserTier | undefined) ?? 'free';
 
-  const BackButton = () => (
+  const BackButton = (): React.ReactNode => (
     <motion.button
       initial={{ x: -10, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
@@ -681,7 +681,7 @@ function NavCard({
   onClick: () => void;
   badge?: number;
   delay?: number;
-}) {
+}): React.ReactNode {
   return (
     <motion.button
       initial={{ y: 15, opacity: 0 }}

@@ -222,7 +222,7 @@ export class EphemerisParser {
           });
         }
       } catch (error) {
-        log.warn(`Error parsing line ${index + 1} ${line}`, error as any);
+        log.warn(`Error parsing line ${index + 1} ${line}`, error);
       }
     });
 

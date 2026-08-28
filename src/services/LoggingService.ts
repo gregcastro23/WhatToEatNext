@@ -16,18 +16,7 @@ export enum LogLevel {
   SILENT = 4,
 }
 
-export interface LogContext {
-  component?: string;
-  service?: string;
-  function?: string;
-  userId?: string;
-  sessionId?: string;
-  requestId?: string;
-
-  // Intentionally any: Logging context needs flexibility for various metadata
-
-  [key: string]: any;
-}
+export type LogContext = Record<string, unknown> | unknown;
 
 export interface LogEntry {
   timestamp: Date;
@@ -35,14 +24,11 @@ export interface LogEntry {
   message: string;
   context?: LogContext;
   error?: Error;
-
-  // Intentionally, any: Log data can be of any type for debugging purposes
-
-  data?: any;
+  data?: unknown;
 }
 
 class LoggingService {
-  private static instance: LoggingService;
+  private static instance: LoggingService | undefined;
   private logLevel: LogLevel = LogLevel.INFO;
   private readonly isDevelopment: boolean;
   private logBuffer: LogEntry[] = [];
@@ -62,9 +48,7 @@ class LoggingService {
   }
 
   public static getInstance(): LoggingService {
-    if (!LoggingService.instance) {
-      LoggingService.instance = new LoggingService();
-    }
+    LoggingService.instance ??= new LoggingService();
     return LoggingService.instance;
   }
 
@@ -72,15 +56,15 @@ class LoggingService {
     this.logLevel = level;
   }
 
-  public debug(message: string, context?: LogContext, data?: any): void {
+  public debug(message: string, context?: LogContext, data?: unknown): void {
     this.log(LogLevel.DEBUG, message, context, undefined, data);
   }
 
-  public info(message: string, context?: LogContext, data?: any): void {
+  public info(message: string, context?: LogContext, data?: unknown): void {
     this.log(LogLevel.INFO, message, context, undefined, data);
   }
 
-  public warn(message: string, context?: LogContext, data?: any): void {
+  public warn(message: string, context?: LogContext, data?: unknown): void {
     this.log(LogLevel.WARN, message, context, undefined, data);
   }
 
@@ -88,7 +72,7 @@ class LoggingService {
     message: string,
     context?: LogContext,
     error?: Error,
-    data?: any,
+    data?: unknown,
   ): void {
     this.log(LogLevel.ERROR, message, context, error, data);
   }
@@ -156,18 +140,20 @@ class LoggingService {
     }
   }
 
-  private formatContext(context: LogContext): string {
+  private formatContext(context: unknown): string {
+    if (!context || typeof context !== "object") return "";
+    const ctx = context as Record<string, unknown>;
     const parts: string[] = [];
 
-    if (context.component) parts.push(`component=${context.component}`);
-    if (context.service) parts.push(`service=${context.service}`);
-    if (context.function) parts.push(`function=${context.function}`);
-    if (context.userId) parts.push(`user=${context.userId}`);
-    if (context.sessionId) parts.push(`session=${context.sessionId}`);
-    if (context.requestId) parts.push(`request=${context.requestId}`);
+    if (typeof ctx.component === "string") parts.push(`component=${ctx.component}`);
+    if (typeof ctx.service === "string") parts.push(`service=${ctx.service}`);
+    if (typeof ctx.function === "string") parts.push(`function=${ctx.function}`);
+    if (typeof ctx.userId === "string") parts.push(`user=${ctx.userId}`);
+    if (typeof ctx.sessionId === "string") parts.push(`session=${ctx.sessionId}`);
+    if (typeof ctx.requestId === "string") parts.push(`request=${ctx.requestId}`);
 
     // Add other context properties
-    Object.keys(context).forEach((key) => {
+    Object.keys(ctx).forEach((key) => {
       if (
         ![
           "component",
@@ -178,7 +164,7 @@ class LoggingService {
           "requestId",
         ].includes(key)
       ) {
-        parts.push(`${key}=${context[key]}`);
+        parts.push(`${key}=${String(ctx[key])}`);
       }
     });
 
@@ -216,17 +202,21 @@ const logger = LoggingService.getInstance();
 // Export convenience functions
 
 export const log = {
-  debug: (message: string, context?: LogContext, data?: any) =>
-    logger.debug(message, context, data),
+  debug: (message: string, context?: LogContext, data?: unknown): void => {
+    logger.debug(message, context, data);
+  },
 
-  info: (message: string, context?: LogContext, data?: any) =>
-    logger.info(message, context, data),
+  info: (message: string, context?: LogContext, data?: unknown): void => {
+    logger.info(message, context, data);
+  },
 
-  warn: (message: string, context?: LogContext, data?: any) =>
-    logger.warn(message, context, data),
+  warn: (message: string, context?: LogContext, data?: unknown): void => {
+    logger.warn(message, context, data);
+  },
 
-  error: (message: string, context?: LogContext, error?: Error, data?: any) =>
-    logger.error(message, context, error, data),
+  error: (message: string, context?: LogContext, error?: Error, data?: unknown): void => {
+    logger.error(message, context, error, data);
+  },
 };
 
 // Export service for advanced usage
