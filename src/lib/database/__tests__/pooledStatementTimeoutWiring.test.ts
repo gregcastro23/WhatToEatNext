@@ -45,6 +45,7 @@ jest.mock("pg", () => {
 
 jest.mock("@/lib/logger", () => ({
   logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn() },
+  _logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn(), debug: jest.fn() },
 }));
 
 /** A client that records the order in which statements were handed to it. */
@@ -152,7 +153,7 @@ describe("pooled statement_timeout wiring", () => {
     // but it must be logged, not swallowed.
     const { onConnect } = buildPool("session");
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { logger } = require("@/lib/logger");
+    const { _logger } = require("@/lib/logger");
     const client = {
       query: jest.fn(() => Promise.reject(new Error("connection terminated"))),
     };
@@ -161,7 +162,7 @@ describe("pooled statement_timeout wiring", () => {
     await Promise.resolve();
     await Promise.resolve();
 
-    expect(logger.error).toHaveBeenCalledWith(
+    expect(_logger.error).toHaveBeenCalledWith(
       "Failed to apply pooled statement_timeout",
       expect.objectContaining({ error: "connection terminated" }),
     );

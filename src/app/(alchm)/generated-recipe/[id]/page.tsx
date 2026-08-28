@@ -274,8 +274,9 @@ export default function GeneratedRecipePage(): React.JSX.Element {
 
   // ── Derived data ──────────────────────────────────────────────────────────
 
-  const monicaScore = recipe.alchemicalProperties?.monicaConstant ?? 0;
-  const monicaDisplay = Math.round(monicaScore);
+  // An absent monica must read as absent, not as a fabricated 0 (see §18, PR #637).
+  const monicaScore = recipe.alchemicalProperties?.monicaConstant ?? null;
+  const monicaDisplay = monicaScore === null ? "—" : Math.round(monicaScore);
   const monicaOptimized = recipe.monicaOptimization.optimizedMonica;
   const monicaOptDisplay = Math.round(monicaOptimized);
 

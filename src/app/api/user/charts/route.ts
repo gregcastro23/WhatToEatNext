@@ -60,8 +60,18 @@ function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modali
   return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality;
 }
 
-function hasMissingPlanetPrecision(chart: SavedChart): boolean {
-  const { planets } = chart.natalChart;
+/**
+ * A chart as `saved_charts` actually returns it. Prod rows carry structured birth
+ * fields only, so the stored jsonb may hold no `planets` array — `NatalChart`
+ * declares `planets` required, which overstates what the database gives back.
+ * `SavedChart` is assignable to this, so callers holding one need no change.
+ */
+type StoredChart = Omit<SavedChart, "natalChart"> & {
+  natalChart: Omit<NatalChart, "planets"> & { planets?: PlanetInfo[] };
+};
+
+function hasMissingPlanetPrecision(chart: StoredChart): boolean {
+  const planets = chart.natalChart.planets ?? [];
   // Charts loaded from the prod saved_charts table carry NO stored planets
   // (structured birth fields only) — an empty list means "rebuild", not
   // "nothing missing".
@@ -73,7 +83,7 @@ function hasMissingPlanetPrecision(chart: SavedChart): boolean {
   );
 }
 
-async function ensureSubArcminutePrecision(chart: SavedChart): Promise<SavedChart> {
+async function ensureSubArcminutePrecision(chart: StoredChart): Promise<StoredChart> {
   if (!hasMissingPlanetPrecision(chart)) return chart;
 
   try {
@@ -85,7 +95,7 @@ async function ensureSubArcminutePrecision(chart: SavedChart): Promise<SavedChar
       longitude: chart.birthData.longitude,
     });
 
-    const existingPlanets = chart.natalChart.planets;
+    const existingPlanets = chart.natalChart.planets ?? [];
     const updatedPlanets: PlanetInfo[] =
       existingPlanets.length > 0
         ? existingPlanets.map((planet) => {
@@ -182,7 +192,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   // Primary first, then cosmic identities, then manual charts, newest first.
   hydratedCharts.sort((a, b) => {
-    const score = (chart: SavedChart): number =>
+    const score = (chart: StoredChart): number =>
       (chart.isPrimary ? 100 : 0) +
       (chart.chartType === "cosmic_identity" ? 10 : 0) +
       new Date(chart.updatedAt).getTime() / 1e12;

@@ -1,8 +1,11 @@
 name: CI
 
 on:
+  # Feature branches are covered by the pull_request trigger; running push on
+  # every branch doubled every check, since the two land in different
+  # concurrency groups and neither cancels the other.
   push:
-    branches: ["**"]
+    branches: ["master"]
   pull_request:
     branches: ["**"]
 
