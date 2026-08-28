@@ -124,16 +124,18 @@ export const _sortByAlchemicalCompatibility = (
 
   // Calculate compatibility scores for each item based on elemental properties
   const itemsWithScores = items.map((item) => {
+    if (!item) return item;
     // Calculate cosine similarity between item's elements and target elements
     let dotProduct = 0;
     let itemNorm = 0;
     let targetNorm = 0;
     // Get the element names (Fire, Water, Earth, Air)
     const elements: ElementalCharacter[] = ["Fire", "Water", "Earth", "Air"];
+    const itemProps = item.elementalProperties || item.transformedElementalProperties || {};
 
     for (const element of elements) {
-      const itemValue = item.elementalProperties[element] || 0;
-      const targetValue = targetElementalProperties[element] || 0;
+      const itemValue = itemProps[element] || 0;
+      const targetValue = targetElementalProperties?.[element] || 0;
 
       dotProduct += itemValue * targetValue;
       itemNorm += itemValue * itemValue;

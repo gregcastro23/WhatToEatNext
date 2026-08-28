@@ -145,26 +145,27 @@ export function calculateAlchemicalTransformation(
 ): AlchemicalResults {
   try {
     // Convert elemental properties to counts
+    const ep = elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     const elementalCounts: Record<string, number> = {
-      Fire: elementalProperties.Fire || 0,
-      Water: elementalProperties.Water || 0,
-      Earth: elementalProperties.Earth || 0,
-      Air: elementalProperties.Air || 0,
+      Fire: ep.Fire || 0,
+      Water: ep.Water || 0,
+      Earth: ep.Earth || 0,
+      Air: ep.Air || 0,
     };
     // Calculate alchemical properties (simplified)
     const alchemicalCounts: Record<string, number> = {
       Spirit: Math.max(
-        elementalProperties.Fire || 0,
-        elementalProperties.Air || 0,
+        ep.Fire || 0,
+        ep.Air || 0,
       ),
       Essence: Math.max(
-        elementalProperties.Water || 0,
-        elementalProperties.Earth || 0,
+        ep.Water || 0,
+        ep.Earth || 0,
       ),
       Matter:
-        (elementalProperties.Earth || 0 + elementalProperties.Water || 0) / 2,
+        ((ep.Earth || 0) + (ep.Water || 0)) / 2,
       Substance:
-        (elementalProperties.Fire || 0 + elementalProperties.Air || 0) / 2,
+        ((ep.Fire || 0) + (ep.Air || 0)) / 2,
     };
     // Calculate thermodynamic properties
     const heat =

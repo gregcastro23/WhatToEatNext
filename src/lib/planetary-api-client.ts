@@ -10,52 +10,144 @@
  * visualization (Air).
  */
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:8000'
+import { z } from "zod";
+import { _logger } from "@/lib/logger";
+
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
 
 export interface PlanetaryPosition {
-  longitude: number // Ecliptic longitude in degrees (0-360)
-  latitude: number // Ecliptic latitude in degrees
-  distance: number // Distance from Earth in AU
-  speed: number // Degrees per day (negative = retrograde)
+  longitude: number; // Ecliptic longitude in degrees (0-360)
+  latitude: number; // Ecliptic latitude in degrees
+  distance: number; // Distance from Earth in AU
+  speed: number; // Degrees per day (negative = retrograde)
 }
 
 export interface PlanetaryPositions {
-  [planet: string]: PlanetaryPosition
+  [planet: string]: PlanetaryPosition;
 }
 
 export interface HouseSystem {
-  houses: number[] // 12 house cusps in degrees
-  ascendant: number // Rising sign degree
-  mc: number // Midheaven degree
+  houses: number[]; // 12 house cusps in degrees
+  ascendant: number; // Rising sign degree
+  mc: number; // Midheaven degree
 }
 
 export interface ConsciousnessParameters {
-  spirit: number // Fire element (0-1)
-  essence: number // Air element (0-1)
-  matter: number // Water element (0-1)
-  substance: number // Earth element (0-1)
-  monicaConstant: number // (Spirit × φ + Essence) / (Matter + Substance + 1)
-  planetaryInfluences: Record<string, { element: string; strength: number }>
+  spirit: number; // Fire element (0-1)
+  essence: number; // Air element (0-1)
+  matter: number; // Water element (0-1)
+  substance: number; // Earth element (0-1)
+  monicaConstant: number; // (Spirit × φ + Essence) / (Matter + Substance + 1)
+  planetaryInfluences: Record<string, { element: string; strength: number }>;
 }
 
 export interface BackendResponse<T> {
-  success: boolean
-  data: T
+  success: boolean;
+  data: T;
   metadata?: {
-    computeTime?: number
-    requestDate?: string
-    totalPlanets?: number
-    coordinates?: { latitude: number; longitude: number } | null
-    [key: string]: unknown
+    computeTime?: number;
+    requestDate?: string;
+    totalPlanets?: number;
+    coordinates?: { latitude: number; longitude: number } | null;
+    [key: string]: unknown;
+  };
+  error?: string;
+}
+
+export interface AvailablePlanet {
+  id: string;
+  name: string;
+  element: string;
+  alchemy: {
+    spirit: number;
+    essence: number;
+    matter: number;
+    substance: number;
+  };
+}
+
+const planetaryPositionSchema: z.ZodType<PlanetaryPosition> = z.object({
+  longitude: z.number().finite(),
+  latitude: z.number().finite(),
+  distance: z.number().finite(),
+  speed: z.number().finite(),
+});
+
+const planetaryPositionsSchema: z.ZodType<PlanetaryPositions> = z.record(
+  z.string(),
+  planetaryPositionSchema,
+);
+
+const houseSystemSchema: z.ZodType<HouseSystem> = z.object({
+  houses: z.array(z.number().finite()).length(12),
+  ascendant: z.number().finite(),
+  mc: z.number().finite(),
+});
+
+const consciousnessParametersSchema: z.ZodType<ConsciousnessParameters> =
+  z.object({
+    spirit: z.number().finite(),
+    essence: z.number().finite(),
+    matter: z.number().finite(),
+    substance: z.number().finite(),
+    monicaConstant: z.number().finite(),
+    planetaryInfluences: z.record(
+      z.string(),
+      z.object({ element: z.string(), strength: z.number().finite() }),
+    ),
+  });
+
+const availablePlanetSchema: z.ZodType<AvailablePlanet> = z.object({
+  id: z.string(),
+  name: z.string(),
+  element: z.string(),
+  alchemy: z.object({
+    spirit: z.number().finite(),
+    essence: z.number().finite(),
+    matter: z.number().finite(),
+    substance: z.number().finite(),
+  }),
+});
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function readPayloadError(payload: unknown): string | undefined {
+  if (!isRecord(payload)) return undefined;
+  return typeof payload.error === "string" ? payload.error : undefined;
+}
+
+async function readResponseError(response: Response): Promise<string> {
+  const payload: unknown = await response.json().catch(() => null);
+  return readPayloadError(payload) ?? "";
+}
+
+async function readBackendData<T>(
+  response: Response,
+  schema: z.ZodType<T>,
+): Promise<T> {
+  const payload: unknown = await response.json();
+  if (!isRecord(payload) || typeof payload.success !== "boolean") {
+    throw new Error("Backend response did not match the expected envelope");
   }
-  error?: string
+  if (!payload.success) {
+    throw new Error(readPayloadError(payload) ?? "Backend returned unsuccessful response");
+  }
+
+  const parsed = schema.safeParse(payload.data);
+  if (!parsed.success) {
+    throw new Error("Backend response data did not match the expected contract");
+  }
+  return parsed.data;
 }
 
 export class PlanetaryAPIClient {
-  private readonly baseUrl: string
+  private readonly baseUrl: string;
 
   constructor(baseUrl: string = BACKEND_URL) {
-    this.baseUrl = baseUrl
+    this.baseUrl = baseUrl;
   }
 
   /**
@@ -66,7 +158,7 @@ export class PlanetaryAPIClient {
     date: Date,
     latitude?: number,
     longitude?: number,
-    planets?: string[]
+    planets?: string[],
   ): Promise<PlanetaryPositions> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/positions`, {
@@ -89,25 +181,19 @@ export class PlanetaryAPIClient {
             'pluto',
           ],
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = await readResponseError(response);
         throw new Error(
-          `Failed to fetch planetary positions: ${response.statusText} - ${errorData.error ?? ''}`
-        )
+          `Failed to fetch planetary positions: ${response.statusText} - ${errorMessage}`,
+        );
       }
 
-      const result: BackendResponse<PlanetaryPositions> = await response.json()
-
-      if (!result.success) {
-        throw new Error(result.error ?? 'Backend returned unsuccessful response')
-      }
-
-      return result.data
+      return await readBackendData(response, planetaryPositionsSchema);
     } catch (error) {
-      console.error('[PlanetaryAPIClient] getPlanetaryPositions error:', error)
-      throw error
+      _logger.error("[PlanetaryAPIClient] getPlanetaryPositions error", error);
+      throw error;
     }
   }
 
@@ -115,39 +201,41 @@ export class PlanetaryAPIClient {
    * Get planetary positions in batch
    */
   async getBatchPlanetaryPositions(
-    requests: Array<{ date: Date; planet: string }>
+    requests: Array<{ date: Date; planet: string }>,
   ): Promise<Array<{ date: string; planet: string; position: PlanetaryPosition | null }>> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/batch-positions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          requests: requests.map(req => ({
+          requests: requests.map((req) => ({
             date: req.date.toISOString(),
             planet: req.planet,
           })),
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = await readResponseError(response);
         throw new Error(
-          `Failed to fetch batch planetary positions: ${response.statusText} - ${errorData.error ?? ''}`
-        )
+          `Failed to fetch batch planetary positions: ${response.statusText} - ${errorMessage}`,
+        );
       }
 
-      const result: BackendResponse<
-        Array<{ date: string; planet: string; position: PlanetaryPosition | null }>
-      > = await response.json()
-
-      if (!result.success) {
-        throw new Error(result.error ?? 'Backend returned unsuccessful response')
-      }
-
-      return result.data
+      const batchSchema = z.array(
+        z.object({
+          date: z.string(),
+          planet: z.string(),
+          position: planetaryPositionSchema.nullable(),
+        }),
+      );
+      return await readBackendData(response, batchSchema);
     } catch (error) {
-      console.error('[PlanetaryAPIClient] getBatchPlanetaryPositions error:', error)
-      throw error
+      _logger.error(
+        "[PlanetaryAPIClient] getBatchPlanetaryPositions error",
+        error,
+      );
+      throw error;
     }
   }
 
@@ -159,7 +247,7 @@ export class PlanetaryAPIClient {
     date: Date,
     latitude: number,
     longitude: number,
-    houseSystem = 'P' // Placidus
+    houseSystem = "P", // Placidus
   ): Promise<HouseSystem> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/houses`, {
@@ -171,25 +259,19 @@ export class PlanetaryAPIClient {
           longitude,
           houseSystem,
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = await readResponseError(response);
         throw new Error(
-          `Failed to fetch house system: ${response.statusText} - ${errorData.error ?? ''}`
-        )
+          `Failed to fetch house system: ${response.statusText} - ${errorMessage}`,
+        );
       }
 
-      const result: BackendResponse<HouseSystem> = await response.json()
-
-      if (!result.success) {
-        throw new Error(result.error ?? 'Backend returned unsuccessful response')
-      }
-
-      return result.data
+      return await readBackendData(response, houseSystemSchema);
     } catch (error) {
-      console.error('[PlanetaryAPIClient] getHouseSystem error:', error)
-      throw error
+      _logger.error("[PlanetaryAPIClient] getHouseSystem error", error);
+      throw error;
     }
   }
 
@@ -201,7 +283,7 @@ export class PlanetaryAPIClient {
     birthDate: Date,
     birthLatitude?: number,
     birthLongitude?: number,
-    currentDate?: Date
+    currentDate?: Date,
   ): Promise<ConsciousnessParameters> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/calculate`, {
@@ -215,66 +297,42 @@ export class PlanetaryAPIClient {
           },
           currentDate: (currentDate ?? new Date()).toISOString(),
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = await readResponseError(response);
         throw new Error(
-          `Failed to calculate consciousness: ${response.statusText} - ${errorData.error ?? ''}`
-        )
+          `Failed to calculate consciousness: ${response.statusText} - ${errorMessage}`,
+        );
       }
 
-      const result: BackendResponse<ConsciousnessParameters> = await response.json()
-
-      if (!result.success) {
-        throw new Error(result.error ?? 'Backend returned unsuccessful response')
-      }
-
-      return result.data
+      return await readBackendData(response, consciousnessParametersSchema);
     } catch (error) {
-      console.error('[PlanetaryAPIClient] calculateConsciousness error:', error)
-      throw error
+      _logger.error("[PlanetaryAPIClient] calculateConsciousness error", error);
+      throw error;
     }
   }
 
   /**
    * Get available planets for calculation
    */
-  async getAvailablePlanets(): Promise<
-    Array<{
-      id: string
-      name: string
-      element: string
-      alchemy: { spirit: number; essence: number; matter: number; substance: number }
-    }>
-  > {
+  async getAvailablePlanets(): Promise<AvailablePlanet[]> {
     try {
       const response = await fetch(`${this.baseUrl}/api/planets/available`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-      })
+      });
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch available planets: ${response.statusText}`)
+        throw new Error(
+          `Failed to fetch available planets: ${response.statusText}`,
+        );
       }
 
-      const result: BackendResponse<
-        Array<{
-          id: string
-          name: string
-          element: string
-          alchemy: { spirit: number; essence: number; matter: number; substance: number }
-        }>
-      > = await response.json()
-
-      if (!result.success) {
-        throw new Error(result.error ?? 'Backend returned unsuccessful response')
-      }
-
-      return result.data
+      return await readBackendData(response, z.array(availablePlanetSchema));
     } catch (error) {
-      console.error('[PlanetaryAPIClient] getAvailablePlanets error:', error)
-      throw error
+      _logger.error("[PlanetaryAPIClient] getAvailablePlanets error", error);
+      throw error;
     }
   }
 
@@ -286,15 +344,15 @@ export class PlanetaryAPIClient {
       const response = await fetch(`${this.baseUrl}/api/health`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-      })
+      });
 
-      return response.ok
+      return response.ok;
     } catch (error) {
-      console.error('[PlanetaryAPIClient] Health check failed:', error)
-      return false
+      _logger.error("[PlanetaryAPIClient] Health check failed", error);
+      return false;
     }
   }
 }
 
 // Export singleton instance
-export const planetaryAPI = new PlanetaryAPIClient()
+export const planetaryAPI = new PlanetaryAPIClient();

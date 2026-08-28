@@ -5,11 +5,37 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
-import { logger } from "@/utils/logger";
 import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
 import type { NextRequest } from "next/server";
+
+const foodLabEntryBodySchema = z.object({
+  dishName: z.string().trim().min(1),
+  description: z.string().optional(),
+  notes: z.string().optional(),
+  recipeName: z.string().optional(),
+  cuisineType: z.string().optional(),
+  cookingMethod: z.string().optional(),
+  cookedAt: z.string().datetime().optional(),
+  photos: z
+    .array(
+      z.object({
+        dataUrl: z.string(),
+        caption: z.string().optional(),
+        uploadedAt: z.string().datetime(),
+      }),
+    )
+    .default([]),
+  elementalTags: z.record(z.string(), z.number().finite()).default({}),
+  alchemicalTags: z.record(z.string(), z.number().finite()).default({}),
+  planetaryContext: z.record(z.string(), z.unknown()).default({}),
+  rating: z.number().finite().optional(),
+  tags: z.array(z.string()).default([]),
+  isPublic: z.boolean().default(false),
+});
 
 let _dbMod: typeof import("@/lib/database") | null = null;
 async function getDbModule() {
@@ -87,7 +113,7 @@ export async function GET(request: NextRequest) {
       // Reads are safe to fall back from — worst case the user sees a stale
       // in-memory view. But still log so an operator can see persistent
       // outages instead of silently degraded reads.
-      logger.warn(
+      _logger.error(
         `[food-lab] GET DB read failed (${classifyDbError(err)}); serving in-memory fallback for user ${userId}`,
         err,
       );
@@ -104,7 +130,14 @@ export async function POST(request: NextRequest) {
   if ("error" in authResult) return authResult.error;
 
   const { userId } = authResult.user;
-  const body = await request.json();
+  const body: unknown = await request.json().catch(() => null);
+  const parsedBody = foodLabEntryBodySchema.safeParse(body);
+  if (!parsedBody.success) {
+    return NextResponse.json(
+      { success: false, message: "Invalid food lab entry payload" },
+      { status: 400 },
+    );
+  }
 
   const {
     dishName,
@@ -121,11 +154,7 @@ export async function POST(request: NextRequest) {
     rating,
     tags = [],
     isPublic = false,
-  } = body;
-
-  if (!dishName) {
-    return NextResponse.json({ success: false, message: "dishName is required" }, { status: 400 });
-  }
+  } = parsedBody.data;
 
   const id = `lab_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const now = new Date().toISOString();
@@ -181,7 +210,7 @@ export async function POST(request: NextRequest) {
         // The DB answered "no" — the row is bad. Don't pretend success by
         // falling back to RAM; the user's data would be lost on restart and
         // they'd never know.
-        logger.error(
+        _logger.error(
           `[food-lab] POST DB rejected entry for user ${userId}`,
           err,
         );
@@ -194,7 +223,7 @@ export async function POST(request: NextRequest) {
         );
       }
       // DB unreachable — fall back to in-memory but log so it's visible.
-      logger.warn(
+      _logger.error(
         `[food-lab] POST DB unavailable (${kind}); writing to in-memory fallback for user ${userId}`,
         err,
       );

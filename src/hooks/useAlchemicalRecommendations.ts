@@ -242,29 +242,29 @@ export const useAlchemicalRecommendations = ({
         if (recs.topIngredients.length > 0) {
           recs.topIngredients.forEach((item) => {
             profile.elementalBalance.Fire +=
-              item.elementalProperties.Fire /
+              (item.elementalProperties?.Fire ?? 0.25) /
               recs.topIngredients.length;
             profile.elementalBalance.Water +=
-              item.elementalProperties.Water /
+              (item.elementalProperties?.Water ?? 0.25) /
               recs.topIngredients.length;
             profile.elementalBalance.Earth +=
-              item.elementalProperties.Earth /
+              (item.elementalProperties?.Earth ?? 0.25) /
               recs.topIngredients.length;
             profile.elementalBalance.Air +=
-              item.elementalProperties.Air /
+              (item.elementalProperties?.Air ?? 0.25) /
               recs.topIngredients.length;
 
             profile.alchemicalProperties.Spirit +=
-              item.alchemicalProperties.Spirit /
+              (item.alchemicalProperties?.Spirit ?? 0.25) /
               recs.topIngredients.length;
             profile.alchemicalProperties.Essence +=
-              item.alchemicalProperties.Essence /
+              (item.alchemicalProperties?.Essence ?? 0.25) /
               recs.topIngredients.length;
             profile.alchemicalProperties.Matter +=
-              item.alchemicalProperties.Matter /
+              (item.alchemicalProperties?.Matter ?? 0.25) /
               recs.topIngredients.length;
             profile.alchemicalProperties.Substance +=
-              item.alchemicalProperties.Substance /
+              (item.alchemicalProperties?.Substance ?? 0.25) /
               recs.topIngredients.length;
           });
         }

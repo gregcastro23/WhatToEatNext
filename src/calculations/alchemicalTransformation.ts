@@ -59,10 +59,11 @@ export const transformItemWithPlanetaryPositions = (
 ): AlchemicalItem => {
   try {
     // Validate and sanitize input values
+    const rawProps = item?.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     const sanitizedItem = {
       ...item,
       elementalProperties: Object.fromEntries(
-        Object.entries(item.elementalProperties).map(([key, value]) => [
+        Object.entries(rawProps).map(([key, value]) => [
           key,
           Number.isFinite(value) ? value : 0.1,
         ]),

@@ -130,11 +130,12 @@ interface ElementalIndicatorProps {
 }
 
 function ElementalIndicator({ balance }: ElementalIndicatorProps) {
+  const safeBalance = balance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const elements = [
-    { name: "Fire", value: balance.Fire, color: "#ef4444", emoji: "🔥" },
-    { name: "Water", value: balance.Water, color: "#3b82f6", emoji: "💧" },
-    { name: "Earth", value: balance.Earth, color: "#84cc16", emoji: "🌿" },
-    { name: "Air", value: balance.Air, color: "#a855f7", emoji: "💨" },
+    { name: "Fire", value: safeBalance.Fire ?? 0, color: "#ef4444", emoji: "🔥" },
+    { name: "Water", value: safeBalance.Water ?? 0, color: "#3b82f6", emoji: "💧" },
+    { name: "Earth", value: safeBalance.Earth ?? 0, color: "#84cc16", emoji: "🌿" },
+    { name: "Air", value: safeBalance.Air ?? 0, color: "#a855f7", emoji: "💨" },
   ];
 
   const total = elements.reduce((sum, el) => sum + el.value, 0);

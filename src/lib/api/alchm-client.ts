@@ -208,15 +208,17 @@ export class AlchmAPIClient {
 
   async getCuisines(): Promise<Record<string, any>> {
     if (!this._cache.cuisines) {
+      if (!this.endpoints.alchemical || typeof window !== "undefined") {
+        const { cuisines } = await import("@/data/cuisines");
+        return cuisines;
+      }
       const url = `${this.endpoints.alchemical}/api/v1/cuisines`;
       this._cache.cuisines = this.request<Record<string, any>>(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });
-      // Don't cache rejected promises — a single transient failure would
-      // permanently break the call site otherwise.
-      this._cache.cuisines.catch(() => {
-        this._cache.cuisines = undefined;
+      }).catch(async () => {
+        const { cuisines } = await import("@/data/cuisines");
+        return cuisines;
       });
     }
     return this._cache.cuisines;
@@ -224,10 +226,17 @@ export class AlchmAPIClient {
 
   async getCuisine(id: string): Promise<any> {
     if (this._cache.cuisineDetails[id] === undefined) {
+      if (!this.endpoints.alchemical || typeof window !== "undefined") {
+        const { cuisines } = await import("@/data/cuisines");
+        return cuisines[id];
+      }
       const url = `${this.endpoints.alchemical}/api/v1/cuisines/${id}`;
       this._cache.cuisineDetails[id] = this.request<any>(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
+      }).catch(async () => {
+        const { cuisines } = await import("@/data/cuisines");
+        return cuisines[id];
       });
     }
     return this._cache.cuisineDetails[id];
@@ -235,13 +244,17 @@ export class AlchmAPIClient {
 
   async getSauces(): Promise<Record<string, any>> {
     if (!this._cache.sauces) {
+      if (!this.endpoints.alchemical || typeof window !== "undefined") {
+        const { allSauces } = await import("@/data/sauces");
+        return allSauces;
+      }
       const url = `${this.endpoints.alchemical}/api/v1/sauces`;
       this._cache.sauces = this.request<Record<string, any>>(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });
-      this._cache.sauces.catch(() => {
-        this._cache.sauces = undefined;
+      }).catch(async () => {
+        const { allSauces } = await import("@/data/sauces");
+        return allSauces;
       });
     }
     return this._cache.sauces;
@@ -249,13 +262,17 @@ export class AlchmAPIClient {
 
   async getIngredients(): Promise<Record<string, any>> {
     if (!this._cache.ingredients) {
+      if (!this.endpoints.alchemical || typeof window !== "undefined") {
+        const { allIngredients } = await import("@/data/ingredients/index");
+        return allIngredients;
+      }
       const url = `${this.endpoints.alchemical}/api/v1/ingredients`;
       this._cache.ingredients = this.request<Record<string, any>>(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });
-      this._cache.ingredients.catch(() => {
-        this._cache.ingredients = undefined;
+      }).catch(async () => {
+        const { allIngredients } = await import("@/data/ingredients/index");
+        return allIngredients;
       });
     }
     return this._cache.ingredients;

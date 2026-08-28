@@ -3,14 +3,15 @@ import type { ElementalCharacter } from "@/constants/planetaryElements";
 import type { Modality } from "@/data/ingredients/types";
 import { determineIngredientModality } from "@/utils/ingredientUtils";
 
-function normalizeElementalMap(map: Record<ElementalCharacter, number>): Record<ElementalCharacter, number> {
-  const total = map.Fire + map.Water + map.Earth + map.Air;
+function normalizeElementalMap(map?: Record<ElementalCharacter, number>): Record<ElementalCharacter, number> {
+  if (!map) return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const total = (map.Fire ?? 0) + (map.Water ?? 0) + (map.Earth ?? 0) + (map.Air ?? 0);
   if (total > 0) {
     return {
-      Fire: map.Fire / total,
-      Water: map.Water / total,
-      Earth: map.Earth / total,
-      Air: map.Air / total,
+      Fire: (map.Fire ?? 0) / total,
+      Water: (map.Water ?? 0) / total,
+      Earth: (map.Earth ?? 0) / total,
+      Air: (map.Air ?? 0) / total,
     };
   }
   return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

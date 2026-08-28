@@ -251,9 +251,10 @@ export function getCuisineRecommendations(
 
 // calculateElementalMatch function (causing errors in multiple components)
 export function calculateElementalMatch(
-  profile1: ElementalProperties,
-  profile2: ElementalProperties,
+  profile1?: ElementalProperties | null,
+  profile2?: ElementalProperties | null,
 ): number {
+  if (!profile1 || !profile2) return 0.5;
   let totalMatch = 0;
   const elements = ["Fire", "Water", "Earth", "Air"] as const;
 

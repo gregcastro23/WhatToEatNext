@@ -10,7 +10,9 @@
 
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
+import { z } from "zod";
 import { withTransaction } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { jsonbOrNull } from "@/services/userDatabaseService";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import {
@@ -26,23 +28,34 @@ export const runtime = "nodejs";
 
 const ALLOWED_AGENT_DOMAINS = ["@agentic.alchm.kitchen", "@agents.alchm.kitchen"];
 
-interface SyncBody {
-  email: string;
-  displayName?: string;
-  bio?: string;
-  birthDate?: string;
-  birthTime?: string;
-  birthLocation?: {
-    name?: string;
-    displayName?: string;
-    latitude: number;
-    longitude: number;
-    timezone?: string;
-  };
-  natalChart?: any;
-  natalPositions?: any;
-  monicaConstant?: string | number;
-  dominantElement?: string;
+const syncBodySchema = z.object({
+  email: z.string().min(1),
+  displayName: z.string().optional(),
+  bio: z.string().optional(),
+  birthDate: z.string().optional(),
+  birthTime: z.string().optional(),
+  birthLocation: z
+    .object({
+      name: z.string().optional(),
+      displayName: z.string().optional(),
+      latitude: z.number().finite().optional(),
+      longitude: z.number().finite().optional(),
+      timezone: z.string().optional(),
+    })
+    .optional(),
+  natalChart: z.unknown().optional(),
+  natalPositions: z.unknown().optional(),
+  // Accepted for backward compatibility, but never trusted for persistence.
+  monicaConstant: z.union([z.string(), z.number()]).optional(),
+  dominantElement: z.string().optional(),
+});
+
+interface SyncedBirthData {
+  dateTime: string;
+  latitude: number;
+  longitude: number;
+  timezone?: string;
+  name?: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -52,7 +65,9 @@ export async function POST(req: NextRequest) {
     const clientSecret = req.headers.get("X-Sync-Secret");
 
     if (!syncSecret) {
-      console.error("[agent-sync] ALCHM_KITCHEN_SYNC_SECRET is not configured in the host environment.");
+      _logger.error(
+        "[agent-sync] ALCHM_KITCHEN_SYNC_SECRET is not configured in the host environment",
+      );
       return NextResponse.json(
         { success: false, message: "Sync service misconfigured" },
         { status: 500 }
@@ -67,13 +82,21 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Parse and Validate Request Body
-    const body = (await req.json().catch(() => null)) as SyncBody | null;
-    if (!body?.email) {
+    const rawBody: unknown = await req.json().catch(() => null);
+    const parsedBody = syncBodySchema.safeParse(rawBody);
+    if (!parsedBody.success) {
+      const emailIsInvalid = parsedBody.error.issues.some(
+        (issue) => issue.path[0] === "email",
+      );
       return NextResponse.json(
-        { success: false, message: "email is required" },
+        {
+          success: false,
+          message: emailIsInvalid ? "email is required" : "Invalid sync payload",
+        },
         { status: 400 }
       );
     }
+    const body = parsedBody.data;
 
     const email = body.email.toLowerCase().trim();
     const isDomainAllowed = ALLOWED_AGENT_DOMAINS.some(domain => email.endsWith(domain));
@@ -95,17 +118,16 @@ export async function POST(req: NextRequest) {
       birthLocation,
       natalChart,
       natalPositions,
-      monicaConstant,
       dominantElement
     } = body;
 
     // 3. Map & Reconstruct Birth Data
-    let birthData: any = null;
+    let birthData: SyncedBirthData | null = null;
     if (birthDate && birthLocation?.latitude !== undefined && birthLocation.longitude !== undefined) {
       const timeStr = birthTime ?? "12:00";
       try {
         const parsedDate = new Date(`${birthDate}T${timeStr}`);
-        if (!isNaN(parsedDate.getTime())) {
+        if (!Number.isNaN(parsedDate.getTime())) {
           birthData = {
             dateTime: parsedDate.toISOString(),
             latitude: Number(birthLocation.latitude),
@@ -115,7 +137,11 @@ export async function POST(req: NextRequest) {
           };
         }
       } catch (err) {
-        console.warn("[agent-sync] Failed to map birthDate and time:", birthDate, birthTime, err);
+        _logger.error("[agent-sync] Failed to map birthDate and time", {
+          birthDate,
+          birthTime,
+          error: err,
+        });
       }
     }
 
@@ -134,11 +160,11 @@ export async function POST(req: NextRequest) {
     // sync-debit, latent here but identical in kind. It is also writer-safe: the
     // two-body resolver THROWS for an unclassifiable phase, which must not turn a
     // sync into a 500.
-    void monicaConstant; // intentionally ignored — see comment above
     const resolved = agentMonicaWithMethod(resolvedName, (error) =>
-      console.warn(
+      _logger.error(
         `[agent-sync] phase agent with an unclassifiable phase: ${resolvedName} —` +
-          ` left for the nightly backfill to surface. ${String(error)}`,
+          " left for the nightly backfill to surface",
+        error,
       ),
     );
     const resolvedMonica = resolved?.monica ?? null;
@@ -182,7 +208,7 @@ export async function POST(req: NextRequest) {
       ? suppliedPositions
       : derivedPositions;
     if (derivedPositions?.length) {
-      console.warn(
+      _logger.error(
         `[agent-sync] ${email} sent a chart with no usable positions —` +
           ` derived ${derivedPositions.length} bodies from the chart itself.`,
       );
@@ -206,7 +232,7 @@ export async function POST(req: NextRequest) {
     // 4. Transactional Upsert
     await withTransaction(async (client) => {
       // Check if user already exists
-      const existingUserResult = await client.query(
+      const existingUserResult = await client.query<{ id: string }>(
         "SELECT id FROM users WHERE email = $1",
         [email]
       );
@@ -339,7 +365,10 @@ export async function POST(req: NextRequest) {
       created
     });
   } catch (error) {
-    console.error("[POST /api/internal/agent-sync] Transactional sync failed:", error);
+    _logger.error(
+      "[POST /api/internal/agent-sync] Transactional sync failed",
+      error,
+    );
     return NextResponse.json(
       { success: false, message: "Internal transactional server error" },
       { status: 500 }

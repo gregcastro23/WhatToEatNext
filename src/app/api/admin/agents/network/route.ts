@@ -23,6 +23,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import {
   getCosmicModifiers,
   type CosmicModifier,
@@ -161,6 +162,20 @@ function roleFromEventType(eventType: string): string {
   return dot > 0 ? eventType.slice(0, dot) : eventType;
 }
 
+function readMetadataString(
+  metadata: Record<string, unknown>,
+  key: string,
+): string | undefined {
+  const value = metadata[key];
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function readInteractionMetadata(value: unknown): Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+}
+
 async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
   try {
     const result = await executeQuery<{
@@ -217,7 +232,7 @@ async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
     };
     return { ...row, live_source: true };
   } catch (error) {
-    console.error("[admin/agents/network] totals query failed:", error);
+    _logger.error("[admin/agents/network] totals query failed", error);
     return { total: 0, live: 0, idle: 0, warn: 0, draining: 0, live_source: false };
   }
 }
@@ -276,7 +291,7 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] roles query failed:", error);
+    _logger.error("[admin/agents/network] roles query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -319,7 +334,7 @@ async function getDispatch(limit: number): Promise<AgentNetworkPayload["dispatch
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] dispatch query failed:", error);
+    _logger.error("[admin/agents/network] dispatch query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -369,7 +384,7 @@ async function getLeaderboard(
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] leaderboard query failed:", error);
+    _logger.error("[admin/agents/network] leaderboard query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -392,7 +407,7 @@ async function getInteractions(
     const result = await executeQuery<{
       id: string;
       createdAt: Date;
-      metadata_payload: any;
+      metadata_payload: unknown;
       actor_id: string;
       actor_name: string | null;
       target_user_id: string | null;
@@ -452,28 +467,31 @@ async function getInteractions(
     );
 
     const entries: AgentInteractionEntry[] = result.rows.map((row) => {
-      const meta = (row.metadata_payload as Record<string, any>) || {};
+      const meta = readInteractionMetadata(row.metadata_payload);
       const targetName =
         row.target_resolved_name ??
-        meta.targetName ??
-        meta.withAgent ??
-        meta.partnerName ??
+        readMetadataString(meta, "targetName") ??
+        readMetadataString(meta, "withAgent") ??
+        readMetadataString(meta, "partnerName") ??
         "User";
       return {
-        sessionId: meta.sessionId ?? row.id,
+        sessionId: readMetadataString(meta, "sessionId") ?? row.id,
         agentId1: row.actor_id,
-        agentId2: meta.targetAgentId ?? "user",
+        agentId2: readMetadataString(meta, "targetAgentId") ?? "user",
         targetUserId: row.target_user_id,
         agentName1: row.actor_name ?? "Agent",
         agentName2: targetName,
         timestamp: new Date(row.createdAt).toISOString(),
-        preview: meta.responsePreview ?? meta.messagePreview ?? "Discourse started",
+        preview:
+          readMetadataString(meta, "responsePreview") ??
+          readMetadataString(meta, "messagePreview") ??
+          "Discourse started",
       };
     });
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] interactions query failed:", error);
+    _logger.error("[admin/agents/network] interactions query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -584,7 +602,7 @@ async function getRoleOps(): Promise<AgentNetworkPayload["roleOps"]> {
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] roleOps query failed:", error);
+    _logger.error("[admin/agents/network] roleOps query failed", error);
     // Still hand back the canonical role shells so the panels render an honest
     // "telemetry offline" state instead of disappearing.
     const entries: AgentRoleOpsEntry[] = ROLE_OPS_DEFS.map((def) => ({
@@ -650,7 +668,7 @@ async function getReasoning(
 
     return { entries, live: true, instrumented: false };
   } catch (error) {
-    console.error("[admin/agents/network] reasoning query failed:", error);
+    _logger.error("[admin/agents/network] reasoning query failed", error);
     return { entries: [], live: false, instrumented: false };
   }
 }
@@ -699,10 +717,7 @@ export async function GET(request: NextRequest) {
           live: r.live,
         }))
         .catch((error) => {
-          console.error(
-            "[admin/agents/network] cosmic modifiers failed:",
-            error,
-          );
+          _logger.error("[admin/agents/network] cosmic modifiers failed", error);
           return { entries: [], netVelocity: 0, live: false };
         });
 

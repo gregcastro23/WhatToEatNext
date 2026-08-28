@@ -1,7 +1,9 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { getCuisineData, CUISINES_METADATA } from "@/data/cuisines/index";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
 import { getServiceUrl } from "@/lib/serviceUrls";
@@ -10,9 +12,20 @@ import type { NextRequest } from "next/server";
 
 const RATE_LIMIT = { window: 60_000, max: 10, bucket: "nanobanana-generate" };
 const CACHE_TTL = 60 * 60 * 24 * 7; // 7 days
+const requestSchema = z.object({ cuisine: z.string().trim().min(1) });
+const generatedImageSchema = z
+  .object({ url: z.string().min(1).optional() })
+  .passthrough();
+
+const DEFAULT_ELEMENTS = {
+  Fire: 0.25,
+  Earth: 0.25,
+  Water: 0.25,
+  Air: 0.25,
+};
 
 // Extractor helper to gather traditional dishes to feed into our image generator
-function extractDishes(cuisine: Cuisine): string[] {
+function extractDishes(cuisine: { dishes?: Cuisine["dishes"] }): string[] {
   const list: string[] = [];
   if (!cuisine.dishes) return list;
   for (const mealType of ["breakfast", "lunch", "dinner", "dessert"]) {
@@ -35,6 +48,12 @@ function extractDishes(cuisine: Cuisine): string[] {
   return list;
 }
 
+function readElementalProperties(cuisine: {
+  elementalProperties?: Cuisine["elementalProperties"];
+}): Partial<Cuisine["elementalProperties"]> {
+  return cuisine.elementalProperties ?? DEFAULT_ELEMENTS;
+}
+
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user) {
@@ -45,12 +64,12 @@ export async function POST(req: NextRequest) {
   if (!rl.allowed) return rl.response!;
 
   try {
-    const body = await req.json();
-    const { cuisine: cuisineInput } = body;
-
-    if (!cuisineInput) {
+    const body: unknown = await req.json();
+    const parsedBody = requestSchema.safeParse(body);
+    if (!parsedBody.success) {
       return NextResponse.json({ error: "Missing cuisine name." }, { status: 400 });
     }
+    const cuisineInput = parsedBody.data.cuisine;
 
     // Match input with our CUISINES_METADATA keys case-insensitively
     const cuisineKey = Object.keys(CUISINES_METADATA).find(
@@ -72,7 +91,7 @@ export async function POST(req: NextRequest) {
     }
 
     const dishesList = extractDishes(cuisineData);
-    const elements = cuisineData.elementalProperties || { Fire: 0.25, Earth: 0.25, Water: 0.25, Air: 0.25 };
+    const elements = readElementalProperties(cuisineData);
     const fire = elements.Fire ?? 0;
     const water = elements.Water ?? 0;
     const earth = elements.Earth ?? 0;
@@ -114,16 +133,21 @@ export async function POST(req: NextRequest) {
     try {
       const cached = await redisGet<{ url: string }>(cacheKey);
       if (cached) {
-        console.debug(`[NanoBanana-Cuisine] Serving cached image result for ${cuisineName}`);
+        _logger.debug(
+          `[NanoBanana-Cuisine] Serving cached image result for ${cuisineName}`,
+        );
         return NextResponse.json(cached);
       }
     } catch (err) {
-      console.warn("[NanoBanana-Cuisine] Redis read failed:", err);
+      _logger.warn("[NanoBanana-Cuisine] Redis read failed", err);
     }
 
     const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
-    console.log(`[NanoBanana-Cuisine] Calling PA image generation with prompt: ${imagePrompt}`);
+    _logger.debug("[NanoBanana-Cuisine] Calling PA image generation", {
+      cuisineName,
+      promptHash,
+    });
 
     const response = await fetch(`${agentBaseUrl}/api/generate-image`, {
       method: "POST",
@@ -136,18 +160,23 @@ export async function POST(req: NextRequest) {
       throw new Error(`Backend error ${response.status}: ${errText}`);
     }
 
-    const data = await response.json();
+    const responseBody: unknown = await response.json();
+    const parsedResponse = generatedImageSchema.safeParse(responseBody);
+    if (!parsedResponse.success) {
+      throw new Error("Image backend response did not match the expected contract");
+    }
+    const { data } = parsedResponse;
 
     // Cache the successful result
     if (data.url) {
       await redisSet(cacheKey, data, CACHE_TTL).catch((err) =>
-        console.warn("[NanoBanana-Cuisine] Redis write failed:", err),
+        _logger.warn("[NanoBanana-Cuisine] Redis write failed", err),
       );
     }
 
     return NextResponse.json(data);
   } catch (_err) {
-    console.error("[NanoBanana-Cuisine] Generation failed:", _err);
+    _logger.error("[NanoBanana-Cuisine] Generation failed", _err);
     return NextResponse.json({ error: "Failed to generate cuisine image" }, { status: 500 });
   }
 }

@@ -116,36 +116,37 @@ function calculateNutritionGaps(
 }
 
 function calculateElementalGaps(
-  currentBalance: ElementalGaps,
+  currentBalance?: ElementalGaps,
   targetBalance: ElementalGaps = { Fire: 7, Water: 7, Earth: 7, Air: 7 },
 ): ElementalGaps {
+  const cur = currentBalance ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   return {
-    Fire: Math.max(0, targetBalance.Fire - currentBalance.Fire),
-    Water: Math.max(0, targetBalance.Water - currentBalance.Water),
-    Earth: Math.max(0, targetBalance.Earth - currentBalance.Earth),
-    Air: Math.max(0, targetBalance.Air - currentBalance.Air),
+    Fire: Math.max(0, targetBalance.Fire - (cur.Fire ?? 0)),
+    Water: Math.max(0, targetBalance.Water - (cur.Water ?? 0)),
+    Earth: Math.max(0, targetBalance.Earth - (cur.Earth ?? 0)),
+    Air: Math.max(0, targetBalance.Air - (cur.Air ?? 0)),
   };
 }
 
-function getDominantElement(elementals: {
+function getDominantElement(elementals?: {
   Fire: number;
   Water: number;
   Earth: number;
   Air: number;
 }): string {
-  return Object.entries(elementals).reduce(
+  return Object.entries(elementals ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 }).reduce(
     (max, [key, value]) => (value > max[1] ? [key, value] : max),
     ["Fire", 0],
   )[0];
 }
 
-function getWeakestElement(elementals: {
+function getWeakestElement(elementals?: {
   Fire: number;
   Water: number;
   Earth: number;
   Air: number;
 }): string {
-  return Object.entries(elementals).reduce(
+  return Object.entries(elementals ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 }).reduce(
     (min, [key, value]) => (value < min[1] ? [key, value] : min),
     ["Fire", Infinity],
   )[0];

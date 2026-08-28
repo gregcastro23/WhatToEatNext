@@ -520,13 +520,13 @@ export class FoodAlchemySystem {
     food: FoodCorrespondence,
     state: SystemState,
   ): number {
-    const foodElement = food.element;
-    if (!state.elements[foodElement]) {
+    const foodElement = food?.element;
+    if (!state?.elements || !foodElement || !state.elements[foodElement]) {
       return 0.5; // Default if missing data
     }
 
     // Get the current elemental balance
-    const { Fire, Water, Air, Earth } = state.elements;
+    const { Fire = 0.25, Water = 0.25, Air = 0.25, Earth = 0.25 } = state.elements;
 
     // Calculate the dominant and weakest elements
     const elementValues = [
