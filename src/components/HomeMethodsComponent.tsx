@@ -11,8 +11,7 @@ import {
   transformationMethods
 } from '@/data/cooking/methods';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import type { LunarPhase } from '@/types/alchemy';
-import type { CelestialPosition } from '@/types/celestial';
+import type { LunarPhaseWithSpaces } from '@/types';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { createLogger } from '@/utils/logger';
@@ -31,19 +30,11 @@ interface FormattedMethod {
   variations: FormattedMethod[];
 }
 
-// The runtime alignment shape from useAstrologicalState uses lowercase planet keys
-// (see useAstrologicalState.ts:124-135), which is why we can't rely on the exported
-// PlanetaryAlignment type directly — it declares uppercase keys. Narrow locally.
-type RuntimeMoonPosition = CelestialPosition & { phase?: string };
-interface RuntimePlanetaryAlignment extends Record<string, CelestialPosition | RuntimeMoonPosition | undefined> {
-  moon?: RuntimeMoonPosition;
-}
-
 const fireSigns = ['Aries', 'Leo', 'Sagittarius'];
 const waterSigns = ['Cancer', 'Scorpio', 'Pisces'];
 const earthSigns = ['Taurus', 'Virgo', 'Capricorn'];
 const airSigns = ['Gemini', 'Libra', 'Aquarius'];
-const lunarPhases: LunarPhase[] = [
+const lunarPhases: LunarPhaseWithSpaces[] = [
   'new moon',
   'waxing crescent',
   'first quarter',
@@ -54,7 +45,7 @@ const lunarPhases: LunarPhase[] = [
   'waning crescent',
 ];
 
-function normalizeLunarPhase(phase: string | undefined): LunarPhase {
+function normalizeLunarPhase(phase: string | undefined): LunarPhaseWithSpaces {
   const normalized = phase?.toLowerCase();
   return lunarPhases.find((item) => item === normalized) ?? 'new moon';
 }
@@ -66,7 +57,7 @@ export default function HomeMethodsComponent() {
 
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
-      const alignment = currentPlanetaryAlignment as unknown as RuntimePlanetaryAlignment;
+      const alignment = currentPlanetaryAlignment;
       const sunSign = alignment.sun?.sign ?? 'Aries';
       const moonPhase = normalizeLunarPhase(alignment.moon?.phase);
 

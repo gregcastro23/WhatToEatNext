@@ -47,18 +47,12 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       const astroState = {
-        // @ts-expect-error - Auto-fixed by script
         zodiacSign: currentPlanetaryAlignment.sun?.sign ?? 'Aries',
-        // @ts-expect-error - Auto-fixed by script
         lunarPhase: currentPlanetaryAlignment.moon?.phase ?? 'New Moon',
         elementalState: {
-          // @ts-expect-error - Auto-fixed by script
           Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
-          // @ts-expect-error - Auto-fixed by script
           Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
-          // @ts-expect-error - Auto-fixed by script
           Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
-          // @ts-expect-error - Auto-fixed by script
           Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2
         },
         planets: currentPlanetaryAlignment

@@ -80,7 +80,7 @@ export default function CosmicAlignmentPreview() {
       }
       return "Fire";
     }
-    return getDominantElementFromPositions(alignment as any);
+    return getDominantElementFromPositions(alignment);
   }, [astroState.currentPlanetaryAlignment, astroState.domElements]);
 
   const dayChar = useMemo(() => {

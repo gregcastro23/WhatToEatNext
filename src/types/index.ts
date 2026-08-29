@@ -107,6 +107,14 @@ export type {
   EngineElementalAffinity,
 } from "./alchemicalAdapters";
 
+export type {
+  AstrologicalPosition,
+  AstrologicalPositionMap,
+  TarotElementBoostModifiers,
+  TarotPlanetPosition,
+  TarotPlanetaryAlignment,
+} from "./astrologyRuntime";
+
 // Re-export types from celestial.ts
 export type { CelestialPosition } from "./celestial";
 
@@ -126,6 +134,13 @@ export type {
   TableRitualResponse,
 } from "./apiResponses";
 export type { BirthData, CompositeNatalChart, NatalChart } from "./natalChart";
+
+export type {
+  DailyYieldResult,
+  TokenBalances,
+  TokenType,
+  UserStreak,
+} from "./economy";
 
 export { ELEMENT_TYPES, LUNAR_PHASES, ZODIAC_SIGNS } from "./constants";
 
