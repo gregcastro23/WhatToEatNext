@@ -1,6 +1,9 @@
 # alchm.kitchen (WTEN) — Solana Mainnet Sync Roadmap & Prompt-by-Prompt Execution Blueprint
 
-**Document Version:** `2.0.0-PROD`  
+**Document Version:** `2.0.2-PROD`
+
+**Last Progress Update:** `2026-08-29`
+
 **Companion Document:** `AlchmAgentsSolana/docs/SOLANA_MAINNET_MIGRATION_ROADMAP.md` (v2.0.0-PROD)  
 **Program ID (sibling authority):** `5QheuqaicKvPPRFEoEXwaE5xaFp7gauvJCfsjpQv8WzD`  
 **Runtime & Toolchain:** Bun `1.3.13` | Next.js | Jest | raw SQL via `@/lib/database`  
@@ -102,6 +105,39 @@ Under the expanded `cryptoPromo` doctrine, WTEN must never advertise a utility o
 | **K3** | Cluster Verification Prover | 5-extension verifier script & PDA derivation | **QUEUED** | `scripts/verify-spl-mirror-cluster.ts` |
 | **K4** | Supply Invariant & Value Disclosure | Aggregate supply invariant check & token disclosures | **VALUE GUARANTEE** | [src/services/economyIntegrityService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/economyIntegrityService.ts) |
 | **K5** | Identity Parity & Mainnet Cutover | Local fixture parity & ordered cutover runbook | **QUEUED** | `docs/deployment/SPL_MIRROR_CUTOVER_RUNBOOK.md` |
+
+---
+
+### Phase 7 Type-Safety Readiness Progress — 2026-08-29
+
+This is a supporting reliability workstream for the Solana program. It hardens shared API and sync boundaries but does not change the K0–K5 completion states above.
+
+| Lint Batch | Status | Measured Result |
+| :--- | :--- | :--- |
+| **Batch 0 — Governance** | **COMPLETE** | Declined `no-void` and established the honest `4,987` starting baseline. |
+| **Batch A — Tables & Feed Boundaries** | **COMPLETE** | Removed `98` tracked warnings; repository baseline ratcheted to `4,889`. |
+| **Batch B — API & Agent Communication** | **COMPLETE** | Removed all `109` tracked warnings from the six named files; each target now reports `0` tracked warnings. |
+| **Batch C — Calculations, Recipes & Grocery Adapters** | **COMPLETE** | Removed all `118` tracked warnings from the six named files; each target now reports `0` tracked warnings. |
+
+Batch B added validated request/response boundaries for cuisine generation, menu persistence, Food Lab persistence, planetary API responses, admin agent-network metadata, and internal agent synchronization. Production-critical failure paths now use `_logger.error`, while non-critical cache degradation remains explicitly lower severity. Unified menu recipes without a display title are normalized at the boundary, and nested planetary positions are structurally validated before persistence.
+
+Batch C added validated cuisine/recipe deserialization, runtime-safe extended-recipe ingredient normalization, lossless alchemical affinity adapters, canonical and legacy grocery ingredient normalization, typed astronomical orbital and midheaven boundaries, and canonical elemental/zodiac steering calculations. Valid siblings are preserved when malformed boundary entries are skipped, and adapter provenance plus engine metadata now survives round trips through the canonical affinity model.
+
+The repository-wide baseline is ratcheted to `4,761`, an exact `118`-warning decrease from the pre-Batch-C baseline of `4,879` and a net decrease of `226` from the governed `4,987` starting point. The earlier net `99` warnings introduced outside Batch B remain part of milestone arithmetic. Reaching the `<= 4,500` milestone now requires `261` additional tracked-warning removals.
+
+Verification evidence:
+
+- `bun run typecheck` passes; `bun run lint` passes with `0` errors and `22` pre-existing warnings outside Batch C.
+- Unified-engine witness: `28/28` tests pass; snapshot parity is `100%`.
+- Batch C focused gate: `23/23` tests pass across the six new boundary suites plus the existing persona suite.
+- Full test gate: `308/308` suites pass (`3,265` active tests passed, `10` skipped).
+- Standards and specification reviews found no remaining Batch C correctness or hard-governance violations after remediation. The duplicated recipe/sauce accumulation flow in `groceryListGenerator.ts` remains a nonblocking architecture cleanup candidate.
+
+Next steps:
+
+1. Begin Phase 7 Batch D with a fresh per-file audit of its named files; do not rely on stale plan estimates, and keep every target at `0` tracked warnings after remediation.
+2. Reconcile the earlier net `99` warnings introduced outside Batch B while planning the remaining `261`-warning path to the `<= 4,500` milestone.
+3. Continue the Solana execution sequence with K0 metadata hosting resolution, followed by K1 dual-rail isolation and schema hardening.
 
 ---
 

@@ -6,8 +6,15 @@
  * principles enforcement, and cultural sensitivity guidelines.
  */
 
+import {
+  ELEMENT_TYPES,
+  type Element,
+  type ElementalProperties,
+} from "@/types";
 import { logger } from "@/utils/logger";
 import { getReliablePlanetaryPositions } from "@/utils/reliableAstronomy";
+
+export type { Element, ElementalProperties } from "@/types";
 
 // Elemental principles from project guidance
 export interface ElementalCompatibilityMatrix {
@@ -25,12 +32,59 @@ export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
   Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
 };
 
-export type Element = "Fire" | "Water" | "Earth" | "Air";
-export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+const ZODIAC_ELEMENT_MAP: Record<string, Element> = {
+  aries: "Fire",
+  leo: "Fire",
+  sagittarius: "Fire",
+  taurus: "Earth",
+  virgo: "Earth",
+  capricorn: "Earth",
+  gemini: "Air",
+  libra: "Air",
+  aquarius: "Air",
+  cancer: "Water",
+  scorpio: "Water",
+  pisces: "Water",
+};
+
+function createElementCounts(): Record<Element, number> {
+  return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+}
+
+function readPositionElement(position: unknown): Element | undefined {
+  if (
+    typeof position !== "object" ||
+    position === null ||
+    Array.isArray(position)
+  ) {
+    return undefined;
+  }
+
+  const { sign } = position as Record<string, unknown>;
+  return typeof sign === "string"
+    ? ZODIAC_ELEMENT_MAP[sign.toLowerCase()]
+    : undefined;
+}
+
+function countPlanetaryElements(
+  planetaryPositions: Record<string, unknown>,
+): Record<Element, number> {
+  const counts = createElementCounts();
+
+  for (const position of Object.values(planetaryPositions)) {
+    const element = readPositionElement(position);
+    if (element) counts[element]++;
+  }
+
+  return counts;
+}
+
+function selectDominantElement(
+  properties: Record<Element, number>,
+): Element {
+  return ELEMENT_TYPES.reduce((dominant, element) =>
+    properties[dominant] > properties[element] ? dominant : element,
+  );
 }
 
 export interface AstrologicalGuidance {
@@ -59,7 +113,7 @@ export interface PerformanceGuidance {
  * Core steering file intelligence class that provides guidance for component development
  */
 export class SteeringFileIntelligence {
-  private static instance: SteeringFileIntelligence;
+  private static instance: SteeringFileIntelligence | undefined;
   private cachedGuidance: AstrologicalGuidance | null = null;
   private lastUpdate = 0;
   private readonly CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
@@ -67,9 +121,7 @@ export class SteeringFileIntelligence {
   private constructor() {}
 
   public static getInstance(): SteeringFileIntelligence {
-    if (!SteeringFileIntelligence.instance) {
-      SteeringFileIntelligence.instance = new SteeringFileIntelligence();
-    }
+    SteeringFileIntelligence.instance ??= new SteeringFileIntelligence();
     return SteeringFileIntelligence.instance;
   }
 
@@ -153,11 +205,9 @@ export class SteeringFileIntelligence {
    * Validate elemental properties according to steering file principles
    */
   public validateElementalProperties(properties: ElementalProperties): boolean {
-    const elements: Element[] = ["Fire", "Water", "Earth", "Air"];
-
     // Check all elements are present and non-negative
-    for (const element of elements) {
-      if (typeof properties[element] !== "number" || properties[element] < 0) {
+    for (const element of ELEMENT_TYPES) {
+      if (!Number.isFinite(properties[element]) || properties[element] < 0) {
         logger.warn(
           `Invalid elemental property for ${element}: ${properties[element]}`,
         );
@@ -166,7 +216,10 @@ export class SteeringFileIntelligence {
     }
 
     // Check total doesn't exceed reasonable bounds (allow for strong elemental, presence)
-    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+    const total = ELEMENT_TYPES.reduce(
+      (sum, element) => sum + properties[element],
+      0,
+    );
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`);
       return false;
@@ -290,66 +343,17 @@ export class SteeringFileIntelligence {
   private calculateDominantElement(
     planetaryPositions: Record<string, unknown>,
   ): Element {
-    // Calculate dominant element based on planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-
-    const zodiacElementMap: Record<string, Element> = {
-      aries: "Fire",
-      leo: "Fire",
-      sagittarius: "Fire",
-      taurus: "Earth",
-      virgo: "Earth",
-      capricorn: "Earth",
-      gemini: "Air",
-      libra: "Air",
-      aquarius: "Air",
-      cancer: "Water",
-      scorpio: "Water",
-      pisces: "Water",
-    };
-
-    // Count elements from planetary positions
-    Object.values(planetaryPositions).forEach((position: unknown) => {
-      const posData = position as any;
-      if (posData?.sign && zodiacElementMap[posData.sign]) {
-        elementCounts[zodiacElementMap[posData.sign]]++;
-      }
-    });
-
-    // Return the element with the highest count
-    return Object.entries(elementCounts).reduce((a, b) =>
-      elementCounts[a[0] as Element] > elementCounts[b[0] as Element] ? a : b,
-    )[0] as Element;
+    return selectDominantElement(countPlanetaryElements(planetaryPositions));
   }
 
   private calculateElementalBalance(
     planetaryPositions: Record<string, unknown>,
   ): ElementalProperties {
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const totalPlanets = Object.keys(planetaryPositions).length;
-
-    const zodiacElementMap: Record<string, Element> = {
-      aries: "Fire",
-      leo: "Fire",
-      sagittarius: "Fire",
-      taurus: "Earth",
-      virgo: "Earth",
-      capricorn: "Earth",
-      gemini: "Air",
-      libra: "Air",
-      aquarius: "Air",
-      cancer: "Water",
-      scorpio: "Water",
-      pisces: "Water",
-    };
-
-    // Count elements from planetary positions
-    Object.values(planetaryPositions).forEach((position: unknown) => {
-      const posData = position as any;
-      if (posData?.sign && zodiacElementMap[posData.sign]) {
-        elementCounts[zodiacElementMap[posData.sign]]++;
-      }
-    });
+    const elementCounts = countPlanetaryElements(planetaryPositions);
+    const totalPlanets = ELEMENT_TYPES.reduce(
+      (total, element) => total + elementCounts[element],
+      0,
+    );
 
     // Normalize to proportions
     return {
@@ -361,9 +365,7 @@ export class SteeringFileIntelligence {
   }
 
   private getDominantElement(properties: ElementalProperties): Element {
-    return Object.entries(properties).reduce((a, b) =>
-      properties[a[0] as Element] > properties[b[0] as Element] ? a : b,
-    )[0] as Element;
+    return selectDominantElement(properties);
   }
 
   private getCulturalGuidance(): CulturalGuidance {

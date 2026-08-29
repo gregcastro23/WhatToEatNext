@@ -9,7 +9,8 @@
  * @created 2026-01-29
  */
 
-import type { Recipe} from "@/types/recipe";
+import { z } from "zod";
+import type { Recipe } from "@/types";
 import { createLogger } from "../logger";
 import {
   RecipeDataEnricher,
@@ -52,6 +53,71 @@ export interface BatchEnrichmentOptions {
   validateAfter?: boolean;
   includeDefaultElementals?: boolean;
   logProgress?: boolean;
+}
+
+const elementalPropertiesSchema = z
+  .object({
+    Fire: z.number().finite(),
+    Water: z.number().finite(),
+    Earth: z.number().finite(),
+    Air: z.number().finite(),
+  })
+  .catchall(z.number().finite());
+
+const recipeIngredientSchema = z
+  .object({
+    name: z.string(),
+    amount: z.number().finite(),
+    unit: z.string(),
+  })
+  .passthrough();
+
+const enrichmentRecipeSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string().optional(),
+    description: z.string().optional(),
+    cuisine: z.string().optional(),
+    ingredients: z.array(recipeIngredientSchema).optional(),
+    cookingMethod: z.array(z.string()).optional(),
+    elementalProperties: elementalPropertiesSchema.optional(),
+    mealType: z.union([z.string(), z.array(z.string())]).optional(),
+    season: z.union([z.string(), z.array(z.string())]).optional(),
+    astrologicalInfluences: z.array(z.string()).optional(),
+    numberOfServings: z.number().finite().optional(),
+    spiceLevel: z
+      .union([
+        z.number().finite(),
+        z.enum(["mild", "medium", "hot", "very hot"]),
+      ])
+      .optional(),
+  })
+  .passthrough();
+
+type EnrichmentRecipeInput = z.infer<typeof enrichmentRecipeSchema>;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseEnrichmentRecipe(value: unknown): EnrichmentRecipeInput | null {
+  const parsed = enrichmentRecipeSchema.safeParse(value);
+  return parsed.success ? parsed.data : null;
+}
+
+function addCuisineDefaults(
+  value: unknown,
+  cuisine: string,
+  mealType?: string,
+): EnrichmentRecipeInput | null {
+  const recipe = parseEnrichmentRecipe(value);
+  if (!recipe) return null;
+
+  return {
+    ...recipe,
+    cuisine: recipe.cuisine ?? cuisine,
+    mealType: recipe.mealType ?? (mealType ? [mealType] : undefined),
+  };
 }
 
 // ============================================================================
@@ -280,36 +346,40 @@ export function applyBatchEnrichment(
 /**
  * Extract recipes from a cuisine object structure
  */
-export function extractRecipesFromCuisine(cuisineData: any): Array<Partial<Recipe>> {
+export function extractRecipesFromCuisine(
+  cuisineData: unknown,
+): Array<Partial<Recipe>> {
+  if (!isRecord(cuisineData)) return [];
+
   const recipes: Array<Partial<Recipe>> = [];
-  const cuisineName = cuisineData.name ?? cuisineData.id ?? "Unknown";
+  const cuisineName =
+    typeof cuisineData.name === "string"
+      ? cuisineData.name
+      : typeof cuisineData.id === "string"
+        ? cuisineData.id
+        : "Unknown";
 
   // Handle dishes object structure (breakfast, lunch, dinner, etc.)
-  if (cuisineData.dishes) {
+  if (isRecord(cuisineData.dishes)) {
     for (const [mealType, mealData] of Object.entries(cuisineData.dishes)) {
-      if (mealData && typeof mealData === "object") {
-        // Handle 'all' array or direct array
-        const dishArray = (mealData as any).all ?? mealData;
-        if (Array.isArray(dishArray)) {
-          for (const dish of dishArray) {
-            recipes.push({
-              ...dish,
-              cuisine: dish.cuisine ?? cuisineName,
-              mealType: dish.mealType ?? [mealType],
-            });
-          }
-        }
+      const dishArray =
+        isRecord(mealData) && Array.isArray(mealData.all)
+          ? mealData.all
+          : mealData;
+      if (!Array.isArray(dishArray)) continue;
+
+      for (const dish of dishArray) {
+        const recipe = addCuisineDefaults(dish, cuisineName, mealType);
+        if (recipe) recipes.push(recipe);
       }
     }
   }
 
   // Handle direct recipes array
   if (Array.isArray(cuisineData.recipes)) {
-    for (const recipe of cuisineData.recipes) {
-      recipes.push({
-        ...recipe,
-        cuisine: recipe.cuisine ?? cuisineName,
-      });
+    for (const recipeData of cuisineData.recipes) {
+      const recipe = addCuisineDefaults(recipeData, cuisineName);
+      if (recipe) recipes.push(recipe);
     }
   }
 
@@ -322,7 +392,7 @@ export function extractRecipesFromCuisine(cuisineData: any): Array<Partial<Recip
 export function convertToDisheFormat(
   recipe: Recipe,
   enrichment: EnrichmentResult,
-): Record<string, any> {
+): Record<string, unknown> {
   return {
     name: recipe.name,
     description: recipe.description,

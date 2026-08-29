@@ -102,6 +102,11 @@ export type {
   BaseIngredient,
 } from "./alchemy";
 
+export type {
+  AdaptedElementalAffinity,
+  EngineElementalAffinity,
+} from "./alchemicalAdapters";
+
 // Re-export types from celestial.ts
 export type { CelestialPosition } from "./celestial";
 
@@ -122,7 +127,7 @@ export type {
 } from "./apiResponses";
 export type { BirthData, CompositeNatalChart, NatalChart } from "./natalChart";
 
-export { LUNAR_PHASES, ZODIAC_SIGNS } from "./constants";
+export { ELEMENT_TYPES, LUNAR_PHASES, ZODIAC_SIGNS } from "./constants";
 
 export type {
   DailyNutritionTotals,

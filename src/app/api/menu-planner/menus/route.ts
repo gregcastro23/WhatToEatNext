@@ -8,6 +8,8 @@ import {
   ZODIAC_SIGNS,
   type DailyNutritionTotals,
   type DayOfWeek,
+  type CelestialPosition,
+  ELEMENT_TYPES,
   type ElementalProperties,
   type EnhancedRecipe,
   type GroceryItem,
@@ -15,10 +17,7 @@ import {
   type MealSlotSauce,
   type PlanetarySnapshot,
 } from "@/types";
-import type { CelestialPosition } from "@/types/celestial";
-import type {
-  NextRequest,
-} from "next/server";
+import type { NextRequest } from "next/server";
 
 const isoDateSchema = z
   .string()
@@ -69,21 +68,9 @@ const celestialPositionSchema: z.ZodType<CelestialPosition> = z.object({
   longitudeSpeed: z.number().finite().optional(),
   arcminutesPerDay: z.number().finite().optional(),
   speedDisplay: z.string().optional(),
-  element: z.enum(["Fire", "Water", "Earth", "Air"]).optional(),
+  element: z.enum(ELEMENT_TYPES).optional(),
   dignity: z
-    .enum([
-      "domicile",
-      "exaltation",
-      "detriment",
-      "fall",
-      "neutral",
-      "exalted",
-      "debilitated",
-      "ownSign",
-      "moolatrikona",
-      "friendly",
-      "enemy",
-    ])
+    .enum(["Domicile", "Exaltation", "Detriment", "Fall", "Neutral"])
     .optional(),
 });
 

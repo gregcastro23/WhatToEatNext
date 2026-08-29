@@ -7,6 +7,8 @@
  * Aims for ±0.1° precision vs ±2-5° of current system
  */
 
+import { ZODIAC_SIGNS as CANONICAL_ZODIAC_SIGNS } from '@/types'
+
 export interface EnhancedPlanetPosition {
   planet: string
   longitude: number // 0-360 degrees absolute longitude
@@ -24,6 +26,12 @@ export interface EnhancedAscendant {
   signDegree: number
   rightAscension: number
   declination: number
+}
+
+export interface EnhancedMidheaven {
+  longitude: number
+  sign: string
+  signDegree: number
 }
 
 export interface EnhancedBirthInfo {
@@ -51,11 +59,7 @@ export interface HouseSystemResult {
   system: HouseSystem
   houses: EnhancedHousePosition[]
   ascendant: EnhancedAscendant
-  midheaven: {
-    longitude: number
-    sign: string
-    signDegree: number
-  }
+  midheaven: EnhancedMidheaven
 }
 
 // J2000.0 epoch reference (January 1, 2000, 12:00 TT)
@@ -204,20 +208,22 @@ const ENHANCED_ORBITAL_ELEMENTS = {
 }
 
 // Zodiac signs array
-const ZODIAC_SIGNS = [
-  'Aries',
-  'Taurus',
-  'Gemini',
-  'Cancer',
-  'Leo',
-  'Virgo',
-  'Libra',
-  'Scorpio',
-  'Sagittarius',
-  'Capricorn',
-  'Aquarius',
-  'Pisces',
-]
+const ZODIAC_SIGN_LABELS = CANONICAL_ZODIAC_SIGNS.map(
+  (sign) => `${sign[0].toUpperCase()}${sign.slice(1)}`,
+)
+
+type OrbitalPlanet = Exclude<
+  keyof typeof ENHANCED_ORBITAL_ELEMENTS,
+  'Sun' | 'Moon'
+>
+
+function isOrbitalPlanet(planet: string): planet is OrbitalPlanet {
+  return (
+    planet !== 'Sun' &&
+    planet !== 'Moon' &&
+    Object.prototype.hasOwnProperty.call(ENHANCED_ORBITAL_ELEMENTS, planet)
+  )
+}
 
 /**
  * Convert calendar date to Julian Day Number with enhanced precision
@@ -313,7 +319,7 @@ export function longitudeToSignDegree(longitude: number): { sign: string; degree
   const signDegree = normalizedLon % 30
 
   return {
-    sign: ZODIAC_SIGNS[signIndex],
+    sign: ZODIAC_SIGN_LABELS[signIndex],
     degree: signDegree,
   }
 }
@@ -456,19 +462,19 @@ function calculateMoonPosition(T: number): EnhancedPlanetPosition {
  * Calculate planetary positions using VSOP87-like methods
  */
 function calculatePlanetPositionVSOP(planet: string, T: number): EnhancedPlanetPosition {
-  const elements: any = ENHANCED_ORBITAL_ELEMENTS[planet as keyof typeof ENHANCED_ORBITAL_ELEMENTS]
-  if (!elements) {
+  if (!isOrbitalPlanet(planet)) {
     throw new Error(`No orbital elements found for planet: ${planet}`)
   }
+  const elements = ENHANCED_ORBITAL_ELEMENTS[planet]
 
   // Mean longitude
-  const L = elements.L0 + elements.L1 * T + (elements.L2 ?? 0) * T * T
+  const L = elements.L0 + elements.L1 * T + elements.L2 * T * T
 
   // Eccentricity
-  const e = elements.e + (elements.e1 ?? 0) * T
+  const e = elements.e + elements.e1 * T
 
   // Mean anomaly
-  const M = normalizeDegrees(L - elements.w - (elements.w1 ?? 0) * T)
+  const M = normalizeDegrees(L - elements.w - elements.w1 * T)
   const MRad = (M * Math.PI) / 180
 
   // Solve Kepler's equation (simplified)
@@ -481,7 +487,7 @@ function calculatePlanetPositionVSOP(planet: string, T: number): EnhancedPlanetP
   const nu = 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(E / 2))
 
   // True longitude
-  const trueLongitude = normalizeDegrees((nu * 180) / Math.PI + elements.w + (elements.w1 ?? 0) * T)
+  const trueLongitude = normalizeDegrees((nu * 180) / Math.PI + elements.w + elements.w1 * T)
 
   // Calculate speed
   const speed = elements.L1 / 365.25
@@ -495,7 +501,7 @@ function calculatePlanetPositionVSOP(planet: string, T: number): EnhancedPlanetP
     planet,
     longitude: trueLongitude,
     latitude: 0, // Simplified
-    distance: elements.a ?? 1, // Semi-major axis
+    distance: elements.a, // Semi-major axis
     speed: Math.abs(speed),
     retrograde,
     sign: position.sign,
@@ -620,7 +626,7 @@ export function calculateAllPlanets(birthInfo: EnhancedBirthInfo): {
  */
 export function accuracyComparison(
   _birthInfo: EnhancedBirthInfo,
-  _existingPositions: any
+  _existingPositions: unknown
 ): {
   improvements: Record<string, number>
   averageImprovement: number
@@ -655,7 +661,7 @@ export function accuracyComparison(
 function calculateMidheaven(
   birthInfo: EnhancedBirthInfo,
   jd: number
-): { longitude: number; sign: string; signDegree: number } {
+): EnhancedMidheaven {
   // Calculate Greenwich Mean Sidereal Time
 
   const jd0 = Math.floor(jd - 0.5) + 0.5
@@ -737,7 +743,7 @@ export function calculateProfessionalHouses(
 function calculatePlacidusHouses(
   _birthInfo: EnhancedBirthInfo,
   _ascendant: EnhancedAscendant,
-  _midheaven: any,
+  _midheaven: EnhancedMidheaven,
   _jd: number
 ): EnhancedHousePosition[] {
   return []
@@ -745,7 +751,7 @@ function calculatePlacidusHouses(
 function calculateKochHouses(
   _birthInfo: EnhancedBirthInfo,
   _ascendant: EnhancedAscendant,
-  _midheaven: any,
+  _midheaven: EnhancedMidheaven,
   _jd: number
 ): EnhancedHousePosition[] {
   return []
@@ -753,14 +759,14 @@ function calculateKochHouses(
 function calculateCampanusHouses(
   _birthInfo: EnhancedBirthInfo,
   _ascendant: EnhancedAscendant,
-  _midheaven: any
+  _midheaven: EnhancedMidheaven
 ): EnhancedHousePosition[] {
   return []
 }
 function calculateRegiomontanusHouses(
   _birthInfo: EnhancedBirthInfo,
   _ascendant: EnhancedAscendant,
-  _midheaven: any
+  _midheaven: EnhancedMidheaven
 ): EnhancedHousePosition[] {
   return []
 }
