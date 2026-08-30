@@ -12,7 +12,8 @@
  */
 
 import Google from "next-auth/providers/google";
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthConfig, Session } from "next-auth";
+import type { Provider } from "next-auth/providers";
 
 /**
  * Resolve the auth secret. In preview/development environments where AUTH_SECRET
@@ -32,8 +33,14 @@ function getAuthSecret(): string | undefined {
   return undefined;
 }
 
-function buildProviders() {
-  const providers: any[] = [
+interface AmazonProfile {
+  user_id: string;
+  name: string;
+  email: string;
+}
+
+function buildProviders(): Provider[] {
+  const providers: Provider[] = [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
@@ -53,7 +60,7 @@ function buildProviders() {
       },
       token: "https://api.amazon.com/auth/o2/token",
       userinfo: "https://api.amazon.com/user/profile",
-      profile(profile: any) {
+      profile(profile: AmazonProfile) {
         return {
           id: profile.user_id,
           name: profile.name,
@@ -62,7 +69,7 @@ function buildProviders() {
         };
       },
       style: { bg: "#FF9900", text: "#000" },
-    } as any);
+    });
   }
 
   return providers;
@@ -109,7 +116,7 @@ export const authConfig = {
      * By default, NextAuth blocks redirects to origins other than baseUrl.
      * This allows redirects back to agents.alchm.kitchen or other subdomains.
      */
-    async redirect({ url, baseUrl }) {
+    redirect({ url, baseUrl }): string {
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
 
@@ -137,7 +144,7 @@ export const authConfig = {
      * Server-only modules must still be dynamically imported so this file
      * stays loadable from any context that imports authConfig.
      */
-    async authorized({ auth: session, request }) {
+    async authorized({ auth: session, request }): Promise<Response | boolean> {
       const { pathname } = request.nextUrl;
 
       // Protected routes requiring authentication.
@@ -222,23 +229,21 @@ export const authConfig = {
      * This is edge-safe (no Node.js APIs) and is included here so
      * the middleware's authorized() callback can read custom fields.
      */
-    session({ session, token }) {
-      if (session.user) {
-        // Use DB-backed userId only. token.sub can be OAuth provider subject,
-        // which causes UUID mismatches in DB-backed API routes.
-        session.user.id = token.userId || "";
-        session.user.email = token.email || "";
-        session.user.name = token.name || "";
-        session.user.image = token.picture || "";
-        session.user.role = token.role || "user";
-        session.user.tier = token.tier || "free";
-        session.user.onboardingComplete =
-          token.onboardingComplete ?? false;
-        // Surface the JWT id so middleware can look up revocation state
-        // without re-decoding the token.
-        session.user.sessionId = token.deviceSessionId ?? token.sessionId;
-        session.user.recipesGeneratedToday = token.recipesGeneratedToday ?? 0;
-      }
+    session({ session, token }): Session {
+      // Use DB-backed userId only. token.sub can be OAuth provider subject,
+      // which causes UUID mismatches in DB-backed API routes.
+      session.user.id = token.userId ?? "";
+      session.user.email = token.email ?? "";
+      session.user.name = token.name ?? "";
+      session.user.image = token.picture ?? "";
+      session.user.role = token.role ?? "user";
+      session.user.tier = token.tier ?? "free";
+      session.user.onboardingComplete =
+        token.onboardingComplete ?? false;
+      // Surface the JWT id so middleware can look up revocation state
+      // without re-decoding the token.
+      session.user.sessionId = token.deviceSessionId ?? token.sessionId;
+      session.user.recipesGeneratedToday = token.recipesGeneratedToday ?? 0;
       return session;
     },
   },

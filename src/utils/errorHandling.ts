@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { logger } from "@/utils/logger";
 
 // Error types for better categorization
@@ -176,7 +176,7 @@ export class ErrorHandler {
   private readonly maxQueueSize = 50;
 
   // Add recovery strategy
-  addRecoveryStrategy(strategy: ErrorRecoveryStrategy) {
+  addRecoveryStrategy(strategy: ErrorRecoveryStrategy): void {
     this.recoveryStrategies.push(strategy);
   }
 
@@ -224,12 +224,12 @@ export class ErrorHandler {
     error: EnhancedError,
   ): Promise<{ success: boolean; data?: unknown }> {
     for (const strategy of this.recoveryStrategies) {
-      if ((strategy.canRecover as any)(error)) {
+      if (strategy.canRecover(error)) {
         try {
           const result = await strategy.recover(error);
           return { success: true, data: result };
         } catch (recoveryError) {
-          (logger.warn as any)(
+          logger.warn(
             `Recovery strategy failed for error ${error.errorId}:`,
             recoveryError,
           );
@@ -275,7 +275,7 @@ export class ErrorHandler {
   }
 
   // Log error with appropriate level
-  private logError(error: EnhancedError) {
+  private logError(error: EnhancedError): void {
     const logData = {
       errorId: error.errorId,
       type: error.type,
@@ -304,7 +304,7 @@ export class ErrorHandler {
   }
 
   // Add error to queue for analysis
-  private addToQueue(error: EnhancedError) {
+  private addToQueue(error: EnhancedError): void {
     this.errorQueue.push(error);
 
     // Maintain queue size
@@ -337,7 +337,7 @@ export class ErrorHandler {
   }
 
   // Clear error queue
-  clearErrorQueue() {
+  clearErrorQueue(): void {
     this.errorQueue = [];
   }
 }
@@ -348,16 +348,16 @@ export const globalErrorHandler = new ErrorHandler();
 // Default recovery strategies
 globalErrorHandler.addRecoveryStrategy({
   canRecover: (error) => error.type === ErrorType.ASTROLOGICAL_CALCULATION,
-  recover: async (error) => {
+  recover: (error): Promise<unknown> => {
     logger.info(
       `Attempting to recover from astrological calculation error: ${error.errorId}`,
     );
     // Return cached astrological data
     const cachedData = localStorage.getItem("cachedAstrologicalData");
     if (cachedData) {
-      return JSON.parse(cachedData);
+      return Promise.resolve(JSON.parse(cachedData) as unknown);
     }
-    throw new Error("No cached astrological data available");
+    return Promise.reject(new Error("No cached astrological data available"));
   },
   fallback: () =>
     // Return default astrological state
@@ -370,28 +370,33 @@ globalErrorHandler.addRecoveryStrategy({
 
 globalErrorHandler.addRecoveryStrategy({
   canRecover: (error) => error.type === ErrorType.NETWORK,
-  recover: async (error) => {
+  recover: (error): Promise<unknown> => {
     logger.info(`Attempting to recover from network error: ${error.errorId}`);
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
-    if (cacheKey) {
-      const cachedData = localStorage.getItem(cacheKey as string);
+    if (typeof cacheKey === "string") {
+      const cachedData = localStorage.getItem(cacheKey);
       if (cachedData) {
-        return JSON.parse(cachedData);
+        return Promise.resolve(JSON.parse(cachedData) as unknown);
       }
     }
-    throw new Error("No cached data available for network recovery");
+    return Promise.reject(new Error("No cached data available for network recovery"));
   },
 });
 
 // Utility functions for common error scenarios
-export function handleAsyncError<T>(
+export async function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>,
 ): Promise<T> {
-  return promise.catch((error) =>
-    globalErrorHandler.handleError(error, context),
-  ) as Promise<T>;
+  try {
+    return await promise;
+  } catch (error) {
+    return (await globalErrorHandler.handleError(
+      error instanceof Error ? error : new Error(String(error)),
+      context,
+    )) as T;
+  }
 }
 
 export function handleSyncError<T>(
@@ -401,14 +406,31 @@ export function handleSyncError<T>(
   try {
     return fn();
   } catch (error) {
-    throw globalErrorHandler.handleError(error as Error, context);
+    throw globalErrorHandler.handleError(
+      error instanceof Error ? error : new Error(String(error)),
+      context,
+    );
   }
 }
 
+export interface UseErrorHandlerReturn {
+  handleError: (
+    error: Error | EnhancedError,
+    context?: Record<string, unknown>,
+  ) => Promise<unknown>;
+  getErrorStats: () => {
+    total: number;
+    byType: Record<ErrorType, number>;
+    bySeverity: Record<ErrorSeverity, number>;
+    recent: EnhancedError[];
+  };
+}
+
 // React hook for error handling
-export function useErrorHandler() {
+export function useErrorHandler(): UseErrorHandlerReturn {
   const handleError = React.useCallback(
-    async (error: Error, context?: Record<string, unknown>) => await globalErrorHandler.handleError(error, context),
+    async (error: Error | EnhancedError, context?: Record<string, unknown>): Promise<unknown> =>
+      await globalErrorHandler.handleError(error, context),
     [],
   );
 
@@ -421,21 +443,21 @@ export function useErrorHandler() {
 }
 
 // Error boundary helper for specific error types
-export function createErrorBoundaryForType(errorType: ErrorType) {
+export function createErrorBoundaryForType(errorType: ErrorType): React.ComponentType<{ children: React.ReactNode }> {
   return function ErrorBoundaryForType({
     children,
   }: {
     children: React.ReactNode;
-  }) {
+  }): React.ReactElement {
     return React.createElement(
       ErrorBoundary,
       {
-        fallback: ((error: Error, errorInfo: React.ErrorInfo) => {
+        fallbackRender: ({ error }: FallbackProps): React.ReactElement => {
+          const errorMessage = error instanceof Error ? error.message : String(error);
           const enhancedError = createEnhancedError(
-            error.message,
+            errorMessage,
             errorType,
             ErrorSeverity.MEDIUM,
-            { componentStack: errorInfo.componentStack },
           );
 
           return React.createElement(
@@ -444,36 +466,34 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
               className:
                 "bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2",
             },
-            [
-              React.createElement(
-                "h4",
-                {
-                  key: "title",
-                  className: "text-yellow-800 font-medium mb-2",
-                },
-                `${errorType} Error`,
-              ),
-              React.createElement(
-                "p",
-                {
-                  key: "message",
-                  className: "text-yellow-700 text-sm mb-3",
-                },
-                enhancedError.userMessage,
-              ),
-              React.createElement(
-                "button",
-                {
-                  key: "button",
-                  onClick: () => window.location.reload(),
-                  className:
-                    "bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors",
-                },
-                "Reload Page",
-              ),
-            ],
+            React.createElement(
+              "h4",
+              {
+                key: "title",
+                className: "text-yellow-800 font-medium mb-2",
+              },
+              `${errorType} Error`,
+            ),
+            React.createElement(
+              "p",
+              {
+                key: "message",
+                className: "text-yellow-700 text-sm mb-3",
+              },
+              enhancedError.userMessage,
+            ),
+            React.createElement(
+              "button",
+              {
+                key: "button",
+                onClick: () => { window.location.reload(); },
+                className:
+                  "bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors",
+              },
+              "Reload Page",
+            ),
           );
-        }) as any,
+        },
       },
       children,
     );

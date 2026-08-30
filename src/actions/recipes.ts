@@ -5,6 +5,7 @@ import type { Cuisine } from "@/types/cuisine";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
+import { createLogger } from "@/utils/logger";
 import {
   calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients,
@@ -14,6 +15,8 @@ import {
   normalizeRecipeNutrition,
 } from "@/utils/recipeNutrition";
 import { getAssetUrl } from "@/utils/urlUtils";
+
+const log = createLogger("ServerRecipes");
 
 interface NutritionCoverageStats {
   total: number;
@@ -197,7 +200,7 @@ function extractRecipesFromCuisines(
   };
 
   for (const { key, cuisine } of cuisines) {
-    if (!cuisine.dishes) continue;
+    if (!(cuisine as Partial<Cuisine>).dishes) continue;
     const cuisineName =
       typeof cuisine.name === "string" && cuisine.name.trim().length > 0
         ? cuisine.name
@@ -316,11 +319,11 @@ function extractRecipesFromCuisines(
                   }
                   const i = ing as Record<string, unknown>;
                   return {
-                    name: (i.name as string) ?? "",
+                    name: typeof i.name === "string" ? i.name : "",
                     amount: Number(i.amount ?? i.quantity ?? 0),
-                    unit: (i.unit as string) ?? "",
-                    optional: (i.optional as boolean) ?? false,
-                    notes: (i.notes as string) ?? undefined,
+                    unit: typeof i.unit === "string" ? i.unit : "",
+                    optional: Boolean(i.optional),
+                    notes: typeof i.notes === "string" ? i.notes : undefined,
                   };
                 })
               : [],
@@ -328,12 +331,8 @@ function extractRecipesFromCuisines(
               ? dish.instructions.map((step: unknown) => {
                   if (typeof step === "string") return step;
                   const s = step as Record<string, unknown>;
-                  return (
-                    (s.instruction as string) ??
-                    (s.text as string) ??
-                    (s.step as string) ??
-                    String(step)
-                  );
+                  const text = s.instruction ?? s.text ?? s.step;
+                  return typeof text === "string" ? text : String(step);
                 })
               : [],
             prepTime: String(prepTime),
@@ -485,7 +484,7 @@ function extractRecipesFromCuisines(
   // Dev-only visibility for any recipes that couldn't be filled by either
   // path. Silent in production to avoid flooding logs.
   if (process.env.NODE_ENV !== "production" && stats.missing > 0) {
-    console.warn(
+    log.warn(
       `[getServerRecipes] ${stats.missing}/${stats.total} recipes have no usable nutrition. ` +
         `Sample: ${stats.missingNames.slice(0, 5).join(", ")}`,
     );
@@ -555,13 +554,13 @@ export async function getServerRecipes(): Promise<Recipe[]> {
     const recipes = extractRecipesFromCuisines(cuisines);
     _cachedRecipes = recipes;
     _cachedIndex = buildRecipeIndex(recipes);
-    console.log(
+    log.info(
       `[getServerRecipes] Loaded ${recipes.length} recipes from static cuisine data ` +
         `(nutrition: ${_nutritionStats.fromSource} from source, ${_nutritionStats.fromIngredients} computed, ${_nutritionStats.missing} missing)`,
     );
     return recipes;
   } catch (error) {
-    console.error("Failed to load recipes from cuisine data:", error);
+    log.error("Failed to load recipes from cuisine data:", error);
     return [];
   }
 }

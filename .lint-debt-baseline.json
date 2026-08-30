@@ -1,27 +1,27 @@
 {
-  "trackedTotal": 3884,
+  "trackedTotal": 3796,
   "declined": {
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1814,
-      "@typescript-eslint/explicit-module-boundary-types": 864,
+      "@typescript-eslint/explicit-function-return-type": 1792,
+      "@typescript-eslint/explicit-module-boundary-types": 856,
       "complexity": 354,
       "max-depth": 99,
       "max-lines": 659,
       "max-lines-per-function": 2121,
-      "no-void": 457
+      "no-void": 455
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1814,
+      "count": 1792,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 864,
+      "count": 856,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 299,
+      "count": 279,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -29,31 +29,31 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1833,
+      "count": 1814,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 122,
+      "count": 117,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 352,
+      "count": 345,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 44,
+      "count": 42,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 366,
+      "count": 358,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 67,
+      "count": 60,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 227,
+      "count": 214,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -65,7 +65,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 93,
+      "count": 89,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -105,7 +105,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 426,
+      "count": 423,
       "autoFixable": 0
     },
     "no-useless-assignment": {
@@ -113,7 +113,7 @@
       "autoFixable": 0
     },
     "no-void": {
-      "count": 457,
+      "count": 455,
       "autoFixable": 0
     },
     "prefer-destructuring": {
