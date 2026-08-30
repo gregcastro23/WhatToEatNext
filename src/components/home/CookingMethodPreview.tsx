@@ -21,6 +21,7 @@ import {
   calculateKalchm,
   calculateMonica,
 } from "@/data/unified/alchemicalCalculations";
+import { logger as _logger } from "@/lib/logger";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
@@ -73,7 +74,7 @@ const DEFAULT_PLANETARY_POSITIONS = {
 function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
-  if (typeof position === "object" && position !== null) {
+  if (typeof position === "object") {
     const posObj = position as Record<string, unknown>;
     if (typeof posObj.sign === "string") {
       return (
@@ -223,14 +224,16 @@ export default function CookingMethodPreview() {
   );
 
   // Get current alchemical context — called unconditionally (Rules of Hooks)
-  const alchemicalContext = useAlchemical();
-  const contextPlanetaryPositions = alchemicalContext?.planetaryPositions;
-  const refreshPlanetaryPositions = alchemicalContext?.refreshPlanetaryPositions;
-  const contextElementalState = alchemicalContext?.state?.elementalState;
+  const {
+    planetaryPositions: contextPlanetaryPositions,
+    refreshPlanetaryPositions,
+    state,
+  } = useAlchemical();
+  const contextElementalState = state.elementalState;
 
   // Update planetary positions from context
   useEffect(() => {
-    if (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) {
+    if (Object.keys(contextPlanetaryPositions).length > 0) {
       const normalized = normalizePlanetaryPositions(contextPlanetaryPositions);
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
@@ -240,32 +243,27 @@ export default function CookingMethodPreview() {
   // Refresh once on mount; the provider polls every 30 min so we don't need
   // to call /api/astrologize on every context change.
   useEffect(() => {
-    if (!refreshPlanetaryPositions) return;
-    refreshPlanetaryPositions()
+    void refreshPlanetaryPositions()
       .then((positions) => {
-        if (positions && Object.keys(positions).length > 0) {
+        if (Object.keys(positions).length > 0) {
           setPlanetaryPositions(normalizePlanetaryPositions(positions));
           setPositionsSource("real");
         }
       })
       .catch(() => {
-        console.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
+        void _logger.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
       });
   }, [refreshPlanetaryPositions]);
 
   // Get current elemental properties from alchemical context
-  const currentElementals = useMemo(() => {
-    if (contextElementalState) {
-      return contextElementalState;
-    }
-    // Default balanced elementals
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  }, [contextElementalState]);
+  const currentElementals = useMemo(
+    () => contextElementalState,
+    [contextElementalState],
+  );
 
   // Calculate BASE ESMS from real planetary positions (calculated once per planetary change)
   const baseESMS = useMemo(() => {
     const positions: AlchemicalPlanetPositions =
-      contextPlanetaryPositions &&
       Object.keys(contextPlanetaryPositions).length > 0
         ? (Object.fromEntries(
             Object.entries(contextPlanetaryPositions).filter(
@@ -287,10 +285,10 @@ export default function CookingMethodPreview() {
 
         // Base ESMS from planetary positions
         const safeBaseESMS = {
-          Spirit: baseESMS?.Spirit ?? 4,
-          Essence: baseESMS?.Essence ?? 4,
-          Matter: baseESMS?.Matter ?? 4,
-          Substance: baseESMS?.Substance ?? 2,
+          Spirit: baseESMS.Spirit,
+          Essence: baseESMS.Essence,
+          Matter: baseESMS.Matter,
+          Substance: baseESMS.Substance,
         };
 
         // Apply pillar transformation effects to get METHOD-SPECIFIC ESMS
@@ -338,7 +336,7 @@ export default function CookingMethodPreview() {
         // Use method-specific reactivity for Monica calculation
         const { reactivity } = methodThermo;
         const monica =
-          gregsEnergy !== null && kalchm
+          kalchm
             ? calculateMonica(gregsEnergy, reactivity, kalchm)
             : null;
 
@@ -677,7 +675,7 @@ export default function CookingMethodPreview() {
                       </span>
                     </div>
                   )}
-                  {method.kalchm !== null && !isNaN(method.kalchm) && (
+                  {typeof method.kalchm === "number" && !isNaN(method.kalchm) && (
                     <div className="bg-teal-50 border border-teal-200 rounded-lg px-4 py-2 flex items-center gap-2">
                       <span className="text-lg">⚖️</span>
                       <span className="text-sm text-gray-700">

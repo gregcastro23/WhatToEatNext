@@ -581,14 +581,14 @@ export class RecommendationAdapter {
     boosts: Record<string, number>,
   ): TransformedItem {
     const boost = boosts[item.id] || 1;
-    const rawProps = item?.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const rawProps = item.elementalProperties;
     return {
       ...item,
       elementalProperties: {
-        Fire: (rawProps.Fire ?? 0.25) * boost,
-        Water: (rawProps.Water ?? 0.25) * boost,
-        Earth: (rawProps.Earth ?? 0.25) * boost,
-        Air: (rawProps.Air ?? 0.25) * boost,
+        Fire: rawProps.Fire * boost,
+        Water: rawProps.Water * boost,
+        Earth: rawProps.Earth * boost,
+        Air: rawProps.Air * boost,
       },
     };
   }
@@ -597,26 +597,26 @@ export class RecommendationAdapter {
     tarotEnergyBoosts: Record<string, number>,
   ): AlchemicalItem {
     // Calculate alchemical properties from elemental properties if they don't exist
-    const elementalProps = ingredient?.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementalProps = ingredient.elementalProperties;
     // Calculate spirit, essence, matter, substance based on elemental properties if not already present
     // This follows the same relationships as in the alchemical system:
     // - Spirit is related to Fire (transformation)
     // - Essence is related to Water (fluidity)
     // - Matter is related to Earth (stability)
     // - Substance is related to Air (connection)
-    const ingredientData = (ingredient ?? {}) as unknown as Record<string, unknown>;
+    const ingredientData = ingredient as unknown as Record<string, unknown>;
     const calculatedSpirit =
       this.safeGetNumber(ingredientData.spirit) ||
-      (elementalProps.Fire ?? 0) * 0.2 + (elementalProps.Air ?? 0) * 0.2;
+      elementalProps.Fire * 0.2 + elementalProps.Air * 0.2;
     const calculatedEssence =
       this.safeGetNumber(ingredientData.essence) ||
-      (elementalProps.Water ?? 0) * 0.2 + (elementalProps.Fire ?? 0) * 0.2;
+      elementalProps.Water * 0.2 + elementalProps.Fire * 0.2;
     const calculatedMatter =
       this.safeGetNumber(ingredientData.matter) ||
-      (elementalProps.Earth ?? 0) * 0.2 + (elementalProps.Water ?? 0) * 0.2;
+      elementalProps.Earth * 0.2 + elementalProps.Water * 0.2;
     const calculatedSubstance =
       this.safeGetNumber(ingredientData.substance) ||
-      (elementalProps.Air ?? 0) * 0.2 + (elementalProps.Earth ?? 0) * 0.2;
+      elementalProps.Air * 0.2 + elementalProps.Earth * 0.2;
     // Apply tarot boosts to calculated values
     const boostedSpirit = Math.min(
       Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1),
@@ -635,10 +635,10 @@ export class RecommendationAdapter {
       1.0,
     );
     // Calculate energy metrics using the formulas with safety checks
-    const fire = Math.max(elementalProps.Fire ?? 0.1, 0.1);
-    const water = Math.max(elementalProps.Water ?? 0.1, 0.1);
-    const air = Math.max(elementalProps.Air ?? 0.1, 0.1);
-    const earth = Math.max(elementalProps.Earth ?? 0.1, 0.1);
+    const fire = Math.max(elementalProps.Fire, 0.1);
+    const water = Math.max(elementalProps.Water, 0.1);
+    const air = Math.max(elementalProps.Air, 0.1);
+    const earth = Math.max(elementalProps.Earth, 0.1);
     // Heat formula: (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2
     // Add safety checks to prevent division by zero and ensure positive results
     const denominatorHeat = Math.max(
