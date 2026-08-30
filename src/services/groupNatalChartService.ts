@@ -167,7 +167,12 @@ export function calculateElementalHarmony(
   const { elementalBalance } = compositeChart;
 
   // Calculate standard deviation of elemental values
-  const values = Object.values(elementalBalance);
+  const values: number[] = [
+    elementalBalance.Fire,
+    elementalBalance.Water,
+    elementalBalance.Earth,
+    elementalBalance.Air,
+  ];
   const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
   const variance =
     values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /

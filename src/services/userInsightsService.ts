@@ -9,6 +9,7 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 
 export interface SignupTrendPoint {
   day: string;
@@ -240,7 +241,7 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
       // empty rows (logged) instead of rejecting the whole insights payload.
       // Consumers below already handle empty rows (e.g. `?? emptyRollup()`).
       p.catch((e) => {
-        console.warn(
+        _logger.error(
           "[userInsights] sub-query failed, degrading to empty rows:",
           e,
         );
