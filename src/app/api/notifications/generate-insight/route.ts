@@ -1,18 +1,16 @@
-/**
- * Generate Daily Insight API Route
- * POST /api/notifications/generate-insight - Generate personalized daily insight (premium only)
- */
-
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { generateDailyInsightNotification } from "@/services/dailyInsightService";
+import type { NatalChart } from "@/types/natalChart";
+import { isObject } from "@/utils/typeGuards";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const user = await getDatabaseUserFromRequest(request);
     if (!user) {
@@ -29,10 +27,9 @@ export async function POST(request: NextRequest) {
     // The rate limit above (5/min) is the real protection here.
 
     // Get natal chart from user profile
-    const natalChart =
-      (user as any).profile?.natalChart ??
-      (user as any).profile?.natal_chart ??
-      (user as any).natalChart;
+    const profile = isObject(user.profile) ? (user.profile as Record<string, unknown>) : null;
+    const rawChart = profile?.natalChart ?? profile?.natal_chart ?? (isObject(user) && "natalChart" in user ? user.natalChart : null);
+    const natalChart = isObject(rawChart) ? (rawChart as unknown as NatalChart) : null;
 
     if (!natalChart) {
       return NextResponse.json(
@@ -41,11 +38,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const hasPositions = Boolean(
-      natalChart.planetaryPositions ||
-      (natalChart.planets && natalChart.planets.length > 0) ||
-      natalChart.Sun
-    );
+    const hasPositions =
+      Object.keys(natalChart.planetaryPositions).length > 0 ||
+      (Array.isArray(natalChart.planets) && natalChart.planets.length > 0);
 
     if (!hasPositions) {
       return NextResponse.json(
@@ -64,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, notification }, { status: 201 });
   } catch (error) {
-    console.error("[notifications/generate-insight] Error:", error);
+    _logger.error("[notifications/generate-insight] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to generate daily insight" },
       { status: 500 },

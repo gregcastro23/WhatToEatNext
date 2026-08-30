@@ -1,27 +1,27 @@
 {
-  "trackedTotal": 4332,
+  "trackedTotal": 4202,
   "declined": {
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1860,
-      "@typescript-eslint/explicit-module-boundary-types": 882,
-      "complexity": 358,
+      "@typescript-eslint/explicit-function-return-type": 1844,
+      "@typescript-eslint/explicit-module-boundary-types": 871,
+      "complexity": 356,
       "max-depth": 99,
-      "max-lines": 658,
+      "max-lines": 660,
       "max-lines-per-function": 2120,
       "no-void": 457
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1860,
+      "count": 1844,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 882,
+      "count": 871,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 329,
+      "count": 315,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -29,15 +29,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2097,
+      "count": 2062,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 134,
+      "count": 128,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 376,
+      "count": 359,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -45,15 +45,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 408,
+      "count": 380,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 79,
+      "count": 78,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 233,
+      "count": 231,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -65,7 +65,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 105,
+      "count": 104,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -73,7 +73,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 358,
+      "count": 356,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -93,7 +93,7 @@
       "autoFixable": 0
     },
     "max-lines": {
-      "count": 658,
+      "count": 660,
       "autoFixable": 0
     },
     "max-lines-per-function": {
@@ -105,7 +105,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 468,
+      "count": 442,
       "autoFixable": 0
     },
     "no-useless-assignment": {
