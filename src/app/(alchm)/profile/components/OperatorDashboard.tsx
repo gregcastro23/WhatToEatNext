@@ -240,8 +240,8 @@ const OperatorTabContent: React.FC<DashboardProps & {
 export const OperatorDashboard: React.FC<DashboardProps> = (props) => {
   const { session } = props;
   const [activeTab, setActiveTab] = useState<OperatorTab>("overview");
-  const userName = session?.user.name ?? "Operator";
-  const email = session?.user.email ?? "";
+  const userName = session?.user?.name ?? "Operator";
+  const email = session?.user?.email ?? "";
 
   return (
     <div className="min-h-screen bg-[#08080e]">

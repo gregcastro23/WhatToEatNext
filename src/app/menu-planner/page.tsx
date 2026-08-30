@@ -244,7 +244,7 @@ function MenuPlannerContent(): React.ReactElement {
         // instantly (Postgres via /api/feed/share stays the source of truth).
         if (isLiveFeedEnabled() && stdbConnection && stdbStatus === "connected") {
           publishLiveFeedEvent(stdbConnection, {
-            actorName: postAnonymously ? "" : (authSession?.user.name ?? ""),
+            actorName: postAnonymously ? "" : (authSession?.user?.name ?? ""),
             eventType: "shared_menu",
             payload: {
               menuTitle: shareTitle.trim() || "a weekly menu",

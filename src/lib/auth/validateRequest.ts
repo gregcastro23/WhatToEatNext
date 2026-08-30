@@ -398,7 +398,7 @@ export async function getDatabaseUserFromRequest(
       const auth = await getAuth();
       if (auth) {
         const session = await auth();
-        if (session?.user.email) {
+        if (session?.user?.email) {
           try {
             user = await userDb.getUserByEmail(session.user.email);
           } catch (lookupError) {

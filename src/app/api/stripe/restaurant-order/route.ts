@@ -458,7 +458,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   // (who arrived via the Bazaar "Food" tab) can pay without re-logging in.
   let effectiveUser:
     | { id: string; email: string | null; name: string | null }
-    | null = session?.user.id
+    | null = session?.user?.id
     ? {
         id: session.user.id,
         email: session.user.email ?? null,

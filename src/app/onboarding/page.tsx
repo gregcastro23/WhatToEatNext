@@ -155,8 +155,8 @@ export default function OnboardingPage() {
         "userProfile",
         JSON.stringify({
           userId: data.alchemical_constitution.userId,
-          email: session.user.email,
-          name: session.user.name,
+          email: session?.user?.email ?? "",
+          name: session?.user?.name ?? "",
           birthData: {
             dateTime: new Date(birthDateTime).toISOString(),
             latitude: birthLocation.latitude,

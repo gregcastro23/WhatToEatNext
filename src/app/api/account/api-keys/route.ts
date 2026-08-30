@@ -25,8 +25,7 @@ const MINT_LIMIT = { window: 60_000, max: 10, bucket: "api-keys:mint" };
 
 async function resolveUserId(request: Request): Promise<string | null> {
   const session = await auth();
-  const user = session?.user as { id?: string } | undefined;
-  if (user?.id) return user.id;
+  if (session?.user?.id) return session.user.id;
 
   // Bearer JWT fallback so headless API clients (and tests) can hit the
   // route without a NextAuth cookie. Cookie path stays primary for real users.

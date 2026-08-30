@@ -112,7 +112,7 @@ export function AuthHandshake({ redirectTo }: AuthHandshakeProps = {}): JSX.Elem
         /* swallow */
       }
 
-      const user = session?.user as { onboardingComplete?: boolean } | undefined;
+      const user = session?.user;
       const dest =
         redirectTo ??
         (user?.onboardingComplete === false ? "/onboarding" : "/profile");
@@ -1216,8 +1216,8 @@ export function AccountSessions({
   const userName = user?.name ?? "Practitioner";
   const userInitial = userName[0]?.toUpperCase() ?? "G";
   const userId =
-    (user as { id?: string } | undefined)?.id?.slice(0, 8).toUpperCase() ?? "ALCH-LOCAL";
-  const tier = ((user as { tier?: string } | undefined)?.tier ?? "free").toUpperCase();
+    user?.id?.slice(0, 8).toUpperCase() ?? "ALCH-LOCAL";
+  const tier = (user?.tier ?? "free").toUpperCase();
 
   const defaultScopes: Array<{ d: string; v: boolean; icon: GlyphName }> = scopes ?? [
     { d: "kitchen", v: true, icon: "flask" },
@@ -1301,7 +1301,7 @@ export function AccountSessions({
             />
             <IdRow
               k="ROLE"
-              v={(user as { role?: string } | undefined)?.role?.toUpperCase() ?? "USER"}
+              v={user?.role?.toUpperCase() ?? "USER"}
             />
             <IdRow k="TIER" v={tier} />
           </div>

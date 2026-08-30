@@ -50,7 +50,7 @@ async function requireOwnUserId(userId: string): Promise<string> {
 
   const session = await auth();
   const sessionUserId =
-    typeof session?.user.id === "string" ? session.user.id : "";
+    typeof session?.user?.id === "string" ? session.user.id : "";
 
 
   if (!sessionUserId || sessionUserId !== userId) {

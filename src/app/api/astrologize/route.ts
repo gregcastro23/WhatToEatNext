@@ -461,7 +461,7 @@ async function trackAstrologyQuery(data: AstrologizeResponse): Promise<void> {
   try {
     const { auth } = await import("@/lib/auth/auth");
     const session = await auth();
-    if (session?.user.id) {
+    if (session?.user?.id) {
       const { recordInteraction } = await import("@/services/userInteractionsService");
       // Record engagement with the sun/ascendant as proxies for planetary interest
       const dominantPlanet = "sun" in data._celestialBodies ? "Sun" : "Planets";
