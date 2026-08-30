@@ -708,11 +708,11 @@ function assembleForest(
 let _cached: SauceForest | null = null;
 
 /** Build (or return cached) sauce forest. Idempotent across calls. */
-export function getSauceForest(cuisinesData?: Record<string, RawCuisineEntry | undefined>): SauceForest {
+export function getSauceForest(cuisinesData?: Record<string, unknown>): SauceForest {
   if (_cached && !cuisinesData) return _cached;
   
   // If no data provided, we return the cached one or collect from legacy map (if still populated)
-  const sourceData = cuisinesData ?? (cuisinesMap as unknown as Record<string, RawCuisineEntry | undefined>);
+  const sourceData = (cuisinesData ?? cuisinesMap) as unknown as Record<string, RawCuisineEntry | undefined>;
   
   const { nodes, nameIndex } = collectNodes(sourceData);
   const { parentOf, childrenOf, variantLeaves, edges } = deriveEdges(nodes, nameIndex, {

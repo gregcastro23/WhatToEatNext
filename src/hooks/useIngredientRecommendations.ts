@@ -30,12 +30,37 @@ export interface RecommendationCriteria {
   servings?: number;
 }
 
-// Type alias for compatibility
-type IngredientRecommendation = Ingredient;
+export interface EnhancedIngredientRecommendation {
+  ingredient: {
+    id: string;
+    name: string;
+    category: string;
+    elementalProperties: { Fire: number; Water: number; Earth: number; Air: number };
+    nutritionalContent?: unknown;
+  };
+  matchScore: number;
+  elementalCompatibility: number;
+  nutritionalScore: number;
+  seasonalScore: number;
+  reason: string;
+  category: string;
+  alternatives: string[];
+}
+
+export type IngredientRecommendation = EnhancedIngredientRecommendation;
+
+export interface UseIngredientRecommendationsReturn extends IngredientRecommendationsData {
+  recommendations: EnhancedIngredientRecommendation[];
+  updateFilters: (
+    newFilters: Partial<IngredientRecommendationsData["filters"]>,
+  ) => void;
+  currentElementalProfile: { Fire: number; Water: number; Earth: number; Air: number };
+  refreshRecommendations: () => void;
+}
 
 export function useIngredientRecommendations(
   _criteria?: RecommendationCriteria,
-) {
+): UseIngredientRecommendationsReturn {
   const [recommendations, setRecommendations] = useState<
     IngredientRecommendation[]
   >([]);
@@ -53,22 +78,19 @@ export function useIngredientRecommendations(
 
   const { planetaryPositions, isDaytime } = useAlchemical();
 
-  useEffect(() => () => {
-      isMountedRef.current = false;
-    }, []);
+  useEffect((): (() => void) => () => {
+    isMountedRef.current = false;
+  }, []);
 
   const currentElementalProfile = useMemo(() => {
-    if (
-      !planetaryPositions ||
-      Object.keys(planetaryPositions || {}).length === 0
-    ) {
+    if (Object.keys(planetaryPositions).length === 0) {
       // Return balanced defaults instead of throwing - prevents component crash
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementMap: Partial<Record<string, "Fire" | "Earth" | "Air" | "Water">> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -82,11 +104,13 @@ export function useIngredientRecommendations(
       scorpio: "Water",
       pisces: "Water",
     };
-    Object.values(planetaryPositions || {}).forEach((position) => {
-      const element =
-        elementMap[(position as any)?.sign as keyof typeof elementMap];
+    Object.values(planetaryPositions).forEach((position) => {
+      const sign = typeof (position as { sign?: unknown } | undefined)?.sign === "string"
+        ? (position as { sign: string }).sign.toLowerCase()
+        : "";
+      const element = elementMap[sign];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++;
+        elementCounts[element]++;
       }
     });
 
@@ -108,9 +132,7 @@ export function useIngredientRecommendations(
     };
   }, [planetaryPositions]);
 
-  const fetchIngredients = useCallback(async () => {
-    if (!isMountedRef.current) return;
-
+  const fetchIngredients = useCallback(() => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -167,16 +189,13 @@ export function useIngredientRecommendations(
       ];
 
       // Calculate compatibility scores
-      const ingredientsWithScores = (sampleIngredients || []).map(
-        (ingredient) => {
-          const score = calculateElementalCompatibility(
-            (ingredient as any)?.elementalPropertiesProfile ||
-              ingredient.elementalProfile,
-            currentElementalProfile,
-          );
-          return { ...ingredient, score };
-        },
-      );
+      const ingredientsWithScores = sampleIngredients.map((ingredient) => {
+        const score = calculateElementalCompatibility(
+          ingredient.elementalProfile,
+          currentElementalProfile,
+        );
+        return { ...ingredient, score };
+      });
 
       // Apply filters
       let filteredIngredients = ingredientsWithScores;
@@ -189,11 +208,11 @@ export function useIngredientRecommendations(
 
       // Sort by score and limit results
       filteredIngredients = filteredIngredients
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, state.filters.maxResults || 15);
+        .sort((a, b) => b.score - a.score)
+        .slice(0, state.filters.maxResults ?? 15);
 
       // Generate enhanced recommendations based on filtered ingredients
-      const enhancedRecommendations = filteredIngredients.map(
+      const enhancedRecommendations: EnhancedIngredientRecommendation[] = filteredIngredients.map(
         (ingredient) => ({
           ingredient: {
             id: ingredient.id,
@@ -202,7 +221,7 @@ export function useIngredientRecommendations(
             elementalProperties: ingredient.elementalProfile,
             nutritionalContent: undefined,
           },
-          matchScore: ingredient.score || 0,
+          matchScore: ingredient.score,
           elementalCompatibility: calculateElementalCompatibility(
             ingredient.elementalProfile,
             currentElementalProfile,
@@ -219,33 +238,29 @@ export function useIngredientRecommendations(
         }),
       );
 
-      if (isMountedRef.current) {
-        setRecommendations(enhancedRecommendations as any);
-        setState((prev) => ({
-          ...prev,
-          ingredients: filteredIngredients,
-          isLoading: false,
-        }));
-      }
+      setRecommendations(enhancedRecommendations);
+      setState((prev) => ({
+        ...prev,
+        ingredients: filteredIngredients,
+        isLoading: false,
+      }));
     } catch (error) {
-      if (isMountedRef.current) {
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: error instanceof Error ? error.message : "Unknown error",
-        }));
-      }
+      setState((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      }));
     }
   }, [currentElementalProfile, state.filters, isDaytime]);
 
   // Run fetch when dependencies change or refresh is requested
   useEffect(() => {
-    void fetchIngredients();
+    fetchIngredients();
   }, [fetchIngredients, refreshCounter]);
 
   const updateFilters = (
     newFilters: Partial<IngredientRecommendationsData["filters"]>,
-  ) => {
+  ): void => {
     setState((prev) => ({
       ...prev,
       filters: { ...prev.filters, ...newFilters },
@@ -257,7 +272,7 @@ export function useIngredientRecommendations(
     recommendations,
     updateFilters,
     currentElementalProfile,
-    refreshRecommendations: () => setRefreshCounter((c) => c + 1),
+    refreshRecommendations: (): void => { setRefreshCounter((c) => c + 1); },
   };
 }
 

@@ -183,7 +183,7 @@ export interface CuisineSauceResult {
 /**
  * Look up a cuisine by user-facing name (case-insensitive).
  */
-function resolveCuisine(key: string, cuisinesMapData?: Record<string, Cuisine>): { cuisine: Cuisine; canonicalKey: string } | null {
+function resolveCuisine(key: string, cuisinesMapData?: Record<string, unknown>): { cuisine: Cuisine; canonicalKey: string } | null {
   if (!key) return null;
   const map = (cuisinesMapData ?? cuisinesMap) as Record<string, Cuisine | undefined>;
 
@@ -208,7 +208,7 @@ function resolveCuisine(key: string, cuisinesMapData?: Record<string, Cuisine>):
   return null;
 }
 
-export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Record<string, Cuisine>): CuisineFingerprint | null {
+export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Record<string, unknown>): CuisineFingerprint | null {
   const resolved = resolveCuisine(cuisineKey, cuisinesMapData);
   if (!resolved) return null;
   const { cuisine, canonicalKey } = resolved;
@@ -280,7 +280,7 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
   };
 }
 
-export function listCuisines(cuisinesMapData?: Record<string, Cuisine>): Array<{ key: string; name: string }> {
+export function listCuisines(cuisinesMapData?: Record<string, unknown>): Array<{ key: string; name: string }> {
   const map = (cuisinesMapData ?? cuisinesMap) as Record<string, Cuisine | undefined>;
   return [
     "Italian", "French", "Japanese", "Mexican", "Thai", "Chinese", "Indian",
@@ -421,7 +421,7 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
   };
 }
 
-export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Record<string, Cuisine>): UnifiedSauce[] {
+export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Record<string, unknown>): UnifiedSauce[] {
   const resolved = resolveCuisine(cuisineKey, cuisinesMapData);
   const pool = new Map<string, UnifiedSauce>();
 
@@ -692,7 +692,7 @@ export interface RecommendOptions {
 export function recommendForCuisineContext(
   ctx: CuisineSauceContext,
   options: RecommendOptions = {},
-  cuisinesMapData?: Record<string, Cuisine>,
+  cuisinesMapData?: Record<string, unknown>,
 ): CuisineSauceResult[] {
   const resolved = resolveCuisine(ctx.cuisine, cuisinesMapData);
   const cuisine = resolved?.cuisine ?? null;
