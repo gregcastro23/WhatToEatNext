@@ -11,15 +11,12 @@ const logger = createLogger("ElementalCalculator");
  * ElementalCalculator class for managing and calculating elemental state
  */
 export class ElementalCalculator {
-  private static instance: ElementalCalculator;
+  private static instance?: ElementalCalculator;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
   private constructor() {}
   static getInstance(): ElementalCalculator {
-    if (!ElementalCalculator.instance) {
-      ElementalCalculator.instance = new ElementalCalculator();
-    }
-    return ElementalCalculator.instance;
+    return (ElementalCalculator.instance ??= new ElementalCalculator());
   }
   static initialize(): void {
     const instance = ElementalCalculator.getInstance();
@@ -44,20 +41,32 @@ export class ElementalCalculator {
     season: string,
   ): number {
     try {
-      const recipeData = recipe as any;
-      if (!recipeData?.elementalProperties) {
+      if (
+        !recipe ||
+        typeof recipe !== "object" ||
+        !("elementalProperties" in recipe) ||
+        !recipe.elementalProperties ||
+        typeof recipe.elementalProperties !== "object"
+      ) {
         return 0;
       }
+      const recipeData = recipe as {
+        elementalProperties: Partial<ElementalProperties>;
+        season?: string | string[];
+      };
       const seasonalModifiers = this.getSeasonalModifiers(season as Season);
       let score = 0;
       // Calculate base seasonal alignment
-      Object.entries(recipeData.elementalProperties).forEach(
-        ([element, value]) => {
-          const modifier =
-            seasonalModifiers[element as keyof ElementalProperties] || 0;
-          score += (value as number) * modifier * 100;
-        },
-      );
+      const entries: Array<[keyof ElementalProperties, number]> =
+        Object.entries(recipeData.elementalProperties) as Array<[
+          keyof ElementalProperties,
+          number,
+        ]>;
+      entries.forEach(([element, value]) => {
+        const modifier = seasonalModifiers[element] ?? 0;
+        const numValue = typeof value === "number" ? value : 0;
+        score += numValue * modifier * 100;
+      });
       // Apply seasonal bonuses/penalties
       if (recipeData.season) {
         const seasons = Array.isArray(recipeData.season)
@@ -65,7 +74,7 @@ export class ElementalCalculator {
           : [recipeData.season];
         if (
           seasons
-            .map((s: string) => s.toLowerCase())
+            .map((s) => (typeof s === "string" ? s.toLowerCase() : ""))
             .includes(season.toLowerCase())
         ) {
           score += 20;
@@ -133,12 +142,17 @@ export class ElementalCalculator {
    * @param properties Elemental properties to evaluate
    * @returns Harmony score between 0 and 1
    */
-  static calculateHarmony(properties: ElementalProperties): number {
+  static calculateHarmony(
+    properties: ElementalProperties | Partial<ElementalProperties> | null | undefined,
+  ): number {
     if (!properties) {
       return 0;
     }
     // Check if properties are balanced
-    const values = Object.values(properties);
+    const values: number[] = Object.values(properties).map((val) =>
+      typeof val === "number" ? val : 0,
+    );
+    if (values.length === 0) return 0;
     const average = values.reduce((sum, val) => sum + val, 0) / values.length;
     // Calculate variance from the ideal (perfect balance would be 0 variance)
     const variance =

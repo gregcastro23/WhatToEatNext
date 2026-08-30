@@ -277,7 +277,7 @@ export function useAstrology(options: AstrologyOptions = {}): UseAstrologyReturn
                 const lunarPhase = safeAstrology.getLunarPhaseName(
                   safeAstrology.calculateLunarPhase(),
                 ) as LunarPhase;
-                const currentSign = safeAstrology.calculateSunSign() as ZodiacSignType;
+                const currentSign = safeAstrology.calculateSunSign();
 
                 setState((prev) => ({
                   ...prev,

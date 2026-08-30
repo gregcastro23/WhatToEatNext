@@ -25,6 +25,7 @@ import {
   type ManifestPlanet,
 } from "@/calculations/dignityManifest";
 import { PLANET_WEIGHTS } from "@/data/planets";
+import { _logger } from "@/lib/logger";
 import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { buildAspectsWithStrength } from "./aspectCalculator";
@@ -147,6 +148,8 @@ export const PLANETARY_SECTARIAN_ESMS = {
  * Used to aggregate elemental properties from planetary positions.
  * Each planet's sign contributes its element to the total.
  */
+export type AlchemicalElement = "Fire" | "Water" | "Earth" | "Air";
+
 export const ZODIAC_ELEMENTS = {
   Aries: "Fire",
   Taurus: "Earth",
@@ -160,11 +163,10 @@ export const ZODIAC_ELEMENTS = {
   Capricorn: "Earth",
   Aquarius: "Air",
   Pisces: "Water",
-} as const;
+} as const satisfies Record<string, AlchemicalElement>;
 
 export type ZodiacSignType = keyof typeof ZODIAC_ELEMENTS;
 export type PlanetName = keyof typeof PLANETARY_ALCHEMY;
-export type AlchemicalElement = "Fire" | "Water" | "Earth" | "Air";
 export type ZodiacQuality = "Cardinal" | "Fixed" | "Mutable";
 
 /**
@@ -332,7 +334,7 @@ export function inertialMassWeight(planet: string): number {
  */
 export function getGravitationalInertia(planet: string, distanceAu?: number): number {
   const mass = inertialMassWeight(planet);
-  const rBar = PLANET_MEAN_GEOCENTRIC_AU[planet];
+  const rBar = (PLANET_MEAN_GEOCENTRIC_AU as Record<string, number | undefined>)[planet];
   if (rBar === undefined) return mass; // Ascendant / unknown: no distance concept, factor 1
   const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : rBar;
   return mass * (rBar / r) * (rBar / r);
@@ -343,7 +345,7 @@ export function getGravitationalInertia(planet: string, distanceAu?: number): nu
  */
 export function getTidalPull(planet: string, distanceAu?: number): number {
   const mass = inertialMassWeight(planet);
-  const rBar = PLANET_MEAN_GEOCENTRIC_AU[planet];
+  const rBar = (PLANET_MEAN_GEOCENTRIC_AU as Record<string, number | undefined>)[planet];
   if (rBar === undefined) return mass;
   const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : rBar;
   return mass * (rBar / r) * (rBar / r) * (rBar / r);
@@ -356,7 +358,8 @@ export function getTidalPull(planet: string, distanceAu?: number): number {
  */
 export function calculatePositionalAscendantVessel(sign: string, degree = 0): AlchemicalProperties {
   const signClean = sign.trim().charAt(0).toUpperCase() + sign.trim().slice(1).toLowerCase();
-  const element = ZODIAC_ELEMENTS[signClean as ZodiacSignType] ?? "Earth";
+  const element: AlchemicalElement =
+    (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[signClean] ?? "Earth";
 
   const deg = Math.max(0.0, Math.min(29.999, Number(degree) || 0));
   const decanIndex = Math.floor(deg / 10); // 0, 1, or 2
@@ -372,7 +375,7 @@ export function calculatePositionalAscendantVessel(sign: string, degree = 0): Al
   } else if (element === "Water") {
     vessel.Essence += 0.5;
     vessel.Matter += 0.25;
-  } else if (element === "Air") {
+  } else {
     vessel.Spirit += 0.25;
     vessel.Substance += 0.5;
   }
@@ -489,17 +492,23 @@ export function isSectDiurnalForBirth(birth: Date | BirthSectInput): boolean {
 }
 
 /**
- * Get the sectarian element for a planet given the current sect.
+ * Get the element a planet expresses under a given sect.
  *
- * @param planet - Planet name (capitalised: "Sun", "Moon", etc.)
- * @param diurnal - true if the current sect is diurnal (day), false for nocturnal
- * @returns The element the planet expresses under the current sect
+ * In traditional astrology, diurnal planets are at peak dignity by day,
+ * nocturnal planets by night. Their element shifts accordingly.
+ *
+ * @param planet   - Planet name (e.g. "Saturn", "Venus")
+ * @param diurnal  - true = Day sect, false = Night sect
+ * @returns The active AlchemicalElement ("Fire" | "Water" | "Earth" | "Air")
  */
 export function getPlanetarySectElement(
   planet: string,
   diurnal: boolean,
 ): AlchemicalElement {
-  const entry = PLANETARY_SECTARIAN_ELEMENTS[planet as keyof typeof PLANETARY_SECTARIAN_ELEMENTS];
+  const entry = (PLANETARY_SECTARIAN_ELEMENTS as Record<
+    string,
+    { diurnal: AlchemicalElement; nocturnal: AlchemicalElement } | undefined
+  >)[planet];
   if (!entry) return "Air"; // safe fallback
   return diurnal ? entry.diurnal : entry.nocturnal;
 }
@@ -678,17 +687,13 @@ export function calculateAlchemicalFromPlanetsDetailed(
   };
   const perPlanet: Record<string, EnhancedPlanetContribution> = {};
 
-  // Normalize at the engine boundary. The astronomy adapters are not uniform:
-  // astrology/positions emits `Sun`, while accurateAstronomy emits `sun`.
-  // Python already title-cases body keys, so accepting both here is also part of
-  // the cross-runtime contract.
   const canonicalPositions: AlchemicalPlanetPositions = {};
   for (const [rawBody, position] of Object.entries(planetaryPositions)) {
     const body = canonicalESMSBodyName(rawBody);
     if (body) {
       canonicalPositions[body] = position;
     } else if (!IGNORED_ALCHEMICAL_BODY_KEYS.has(compactBodyKey(rawBody))) {
-      console.warn(`Unknown planet in alchemical calculation: ${rawBody}`);
+      _logger.error(`Unknown planet in alchemical calculation: ${rawBody}`);
     }
   }
 
@@ -699,14 +704,13 @@ export function calculateAlchemicalFromPlanetsDetailed(
     ? { ...canonicalPositions, Ascendant: { sign: "aries", degree: 0 } }
     : canonicalPositions;
 
-  // LAYER 1 & 2: Base ESMS with sect and dignity modifications
   for (const planet in positions) {
     const rawPosition = positions[planet];
     const position =
       typeof rawPosition === "string" ? { sign: rawPosition } : rawPosition;
-    const sign = position?.sign;
+    const { sign } = position;
     if (!sign) {
-      console.warn(`Planet has no sign in alchemical calculation: ${planet}`);
+      _logger.error(`Planet has no sign in alchemical calculation: ${planet}`);
       continue;
     }
 
@@ -723,19 +727,17 @@ export function calculateAlchemicalFromPlanetsDetailed(
     const distance = position.distance ?? position.distanceAu;
     const inertia = getGravitationalInertia(body, distance);
 
-    // LAYER 2: Apply dignity modifications.
-    //
-    // Degree-level 5-fold dignity from the manifest, superseding the sign-level
-    // +10/+7/0/−7/−10 scale. Resolution is chosen by what the position actually
-    // carries — never by defaulting a missing degree to 0, which would mint
-    // Jupiter's Aries term and face 1 across every legacy sign-only chart (the
-    // failure aspectCalculator.ts:288 already guards against).
-    const longitude = resolveDignityLongitude(position, sign);
-    const dignityFolds = isManifestBody(body)
-      ? longitude === null
-        ? dignityFoldsForSign(body, sign, diurnal ? "diurnal" : "nocturnal")
-        : dignityFoldsAtLongitude(body, longitude, diurnal ? "diurnal" : "nocturnal")
-      : NO_DIGNITY_FOLDS;
+    let dignityFolds: DignityFoldSummary;
+    if (!isManifestBody(body)) {
+      dignityFolds = NO_DIGNITY_FOLDS;
+    } else {
+      const longitude = resolveDignityLongitude(position, sign);
+      dignityFolds =
+        longitude !== null
+          ? dignityFoldsAtLongitude(body, longitude, diurnal ? "diurnal" : "nocturnal")
+          : dignityFoldsForSign(body, sign, diurnal ? "diurnal" : "nocturnal");
+    }
+
     const dignityMultiplier = dignityFolds.multiplier;
 
     const contribution: AlchemicalProperties = {
@@ -744,9 +746,10 @@ export function calculateAlchemicalFromPlanetsDetailed(
       Matter: baseESMS.Matter * inertia * dignityMultiplier,
       Substance: baseESMS.Substance * inertia * dignityMultiplier,
     };
-    totals.Spirit    += contribution.Spirit;
-    totals.Essence   += contribution.Essence;
-    totals.Matter    += contribution.Matter;
+
+    totals.Spirit += contribution.Spirit;
+    totals.Essence += contribution.Essence;
+    totals.Matter += contribution.Matter;
     totals.Substance += contribution.Substance;
 
     perPlanet[body] = {
@@ -761,19 +764,18 @@ export function calculateAlchemicalFromPlanetsDetailed(
     };
   }
 
-  // LAYER 3: Apply aspect modifications
   const aspectModifications: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
     Substance: 0,
   };
-  const aspectPositions = Object.fromEntries(
-    Object.entries(canonicalPositions).filter(
-      ([, position]) =>
-        typeof position === "object" && position !== null,
-    ),
-  );
+  const aspectPositions: Record<string, AlchemicalPlanetPosition> = {};
+  for (const [key, pos] of Object.entries(canonicalPositions)) {
+    if (typeof pos === "object") {
+      aspectPositions[key] = pos;
+    }
+  }
   const aspects = buildAspectsWithStrength(aspectPositions);
   if (aspects.length > 0) {
     const aspectMods = calculateAspectESMSModifications(aspects);
@@ -827,7 +829,7 @@ export function calculateAlchemicalFromPlanets(
 export function aggregateZodiacElementals(planetaryPositions: {
   [planet: string]: string;
 }): ElementalProperties {
-  const totals = {
+  const totals: Record<AlchemicalElement, number> = {
     Fire: 0,
     Water: 0,
     Earth: 0,
@@ -837,32 +839,20 @@ export function aggregateZodiacElementals(planetaryPositions: {
   let count = 0;
 
   for (const planet in planetaryPositions) {
-    const sign = planetaryPositions[planet] as ZodiacSignType;
-    const element = ZODIAC_ELEMENTS[sign];
+    const sign = planetaryPositions[planet];
+    const element = (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
 
     if (!element) {
-      console.warn(`Unknown zodiac sign in elemental aggregation: ${sign}`);
+      _logger.error(`Unknown zodiac sign in elemental aggregation: ${sign}`);
       continue;
     }
 
-    // Weight elemental contribution by the planet's inertial mass — the SAME
-    // scale the ESMS half of this module uses (ADR-009). This was
-    // `normalizePlanetWeight`, which anchors AT Pluto and so gave Pluto a weight
-    // of exactly 0: it was in the chart and contributed nothing, and a
-    // Pluto-only positions map fell through the `count === 0` guard below to a
-    // flat 0.25 vector. The Ascendant fared no better — it has no mass entry, so
-    // `?? 1.0` handed it EARTH's mass (0.3249) rather than the ruled vessel
-    // weight. `inertialMassWeight` fixes both: it takes the body NAME, pins the
-    // Ascendant to 1.0, and anchors its zero one decade below the lightest
-    // charted body so no member is annihilated.
     const w = inertialMassWeight(planet);
     totals[element] += w;
     count += w;
   }
 
-  // Normalize to sum = 1.0
   if (count === 0) {
-    // Default to balanced if no valid positions
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
@@ -883,7 +873,7 @@ export function aggregateEnhancedZodiacElementals(
   planetaryPositions: Record<string, string>,
   isDiurnal = true
 ): ElementalProperties {
-  const totals = {
+  const totals: Record<AlchemicalElement, number> = {
     Fire: 0,
     Water: 0,
     Earth: 0,
@@ -893,10 +883,13 @@ export function aggregateEnhancedZodiacElementals(
   let count = 0;
 
   for (const planet in planetaryPositions) {
-    const sign = planetaryPositions[planet] as ZodiacSignType;
-    const signElement = ZODIAC_ELEMENTS[sign];
+    const sign = planetaryPositions[planet] ?? "";
+    const signElement = (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
 
-    const sectInfo = PLANETARY_SECTARIAN_ELEMENTS[planet as PlanetName];
+    const sectInfo = (PLANETARY_SECTARIAN_ELEMENTS as Record<
+      string,
+      { diurnal: AlchemicalElement; nocturnal: AlchemicalElement } | undefined
+    >)[planet];
     let sectElement = signElement;
     if (sectInfo) {
       sectElement = isDiurnal ? sectInfo.diurnal : sectInfo.nocturnal;
@@ -906,19 +899,13 @@ export function aggregateEnhancedZodiacElementals(
       continue;
     }
 
-    // Inertial mass — same scale as the ESMS half of this module (ADR-009).
-    // See the note in `aggregateZodiacElementals` above for what the previous
-    // `normalizePlanetWeight` did to Pluto (exactly 0) and the Ascendant
-    // (Earth's mass, 0.3249, by fallback accident).
     const w = inertialMassWeight(planet);
 
-    // Blended elemental property
     totals[signElement] += w * 0.6;
     totals[sectElement] += w * 0.4;
     count += w;
   }
 
-  // Normalize to sum = 1.0
   if (count === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
@@ -986,8 +973,14 @@ export function getCurrentPlanetaryContribution(
   sectElement: AlchemicalElement;
   signElement: AlchemicalElement | null;
 } {
-  const entry = PLANETARY_SECTARIAN_ALCHEMICAL[planet as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL];
-  const legacyAlchemy = PLANETARY_ALCHEMY[planet as PlanetName];
+  const entry = (PLANETARY_SECTARIAN_ALCHEMICAL as Record<
+    string,
+    { diurnal: AlchemicalProperties; nocturnal: AlchemicalProperties } | undefined
+  >)[planet];
+  const legacyAlchemy = (PLANETARY_ALCHEMY as Record<
+    string,
+    AlchemicalProperties | undefined
+  >)[planet];
   const resolvedAlchemy = entry ? (diurnal ? entry.diurnal : entry.nocturnal) : legacyAlchemy;
 
   const esms: AlchemicalProperties = resolvedAlchemy
@@ -999,7 +992,7 @@ export function getCurrentPlanetaryContribution(
   let signElement: AlchemicalElement | null = null;
   if (sign) {
     const normalised = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
-    signElement = ZODIAC_ELEMENTS[normalised as ZodiacSignType] ?? null;
+    signElement = (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[normalised] ?? null;
   }
 
   return { esms, sectElement, signElement };

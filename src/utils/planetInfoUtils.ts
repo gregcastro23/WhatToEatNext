@@ -59,12 +59,12 @@ export async function getPlanetInfo(
       ? { currentPlanetaryAlignment: planetaryPositions }
       : await getCurrentAstrologicalState();
 
-    const positions = state.currentPlanetaryAlignment as Record<
+    const rawPositions = (state.currentPlanetaryAlignment ?? {}) as Record<
       string,
       unknown
     >;
     const planetKey = planetName.toLowerCase();
-    const planetPosition = positions[planetKey];
+    const planetPosition = rawPositions[planetKey];
 
     if (!planetPosition) {
       log.info(`No position data found for planet ${planetName}`);
@@ -75,6 +75,17 @@ export async function getPlanetInfo(
     const planetSign = String(positionData.sign ?? "Unknown").toLowerCase();
     const planetDegree = Number(positionData.degree ?? 0);
     const planetIsRetrograde = Boolean(positionData.isRetrograde);
+
+    const positions: Record<string, { sign: string; degree: number }> = {};
+    for (const [key, val] of Object.entries(rawPositions)) {
+      if (val && typeof val === "object") {
+        const obj = val as Record<string, unknown>;
+        positions[key] = {
+          sign: String(obj.sign ?? "aries"),
+          degree: Number(obj.degree ?? 0),
+        };
+      }
+    }
 
     let normalizedPlanetName: string;
     if (planetName === "north_node" || planetName === "northnode") {
@@ -105,7 +116,7 @@ export async function getPlanetInfo(
     if (
       ["Ascendant", "NorthNode", "SouthNode"].includes(normalizedPlanetName)
     ) {
-      const signToCard: Record<string, string> = {
+      const signToCard: Record<string, string | undefined> = {
         aries: "The Emperor",
         taurus: "The Hierophant",
         gemini: "The Lovers",
@@ -119,11 +130,11 @@ export async function getPlanetInfo(
         aquarius: "The Star",
         pisces: "The Moon",
       };
-      const cardName = signToCard[planetSign] || "The Fool";
+      const cardName = signToCard[planetSign] ?? "The Fool";
       tarotCard = {
         name: cardName,
         element: isMajorArcanaCard(cardName)
-          ? _MAJOR_ARCANA[cardName]?.element || "Unknown"
+          ? _MAJOR_ARCANA[cardName].element
           : "Unknown",
       };
     } else if (isArcanaPlanetKey(normalizedPlanetName)) {
@@ -131,7 +142,7 @@ export async function getPlanetInfo(
       tarotCard = {
         name: cardName,
         element: isMajorArcanaCard(cardName)
-          ? _MAJOR_ARCANA[cardName]?.element || "Unknown"
+          ? _MAJOR_ARCANA[cardName].element
           : "Unknown",
       };
     }
@@ -139,7 +150,7 @@ export async function getPlanetInfo(
     let planetAspects: Array<{ planet: string; type?: string; orb: number }> =
       [];
     try {
-      const { aspects } = calculateAspects(positions as any, 0);
+      const { aspects } = calculateAspects(positions, 0);
       planetAspects = aspects
         .filter(
           (aspect) =>
@@ -159,7 +170,7 @@ export async function getPlanetInfo(
     if (
       ["Ascendant", "NorthNode", "SouthNode"].includes(normalizedPlanetName)
     ) {
-      const signToElement: Record<string, keyof typeof elementalInfluence> = {
+      const signToElement: Record<string, keyof typeof elementalInfluence | undefined> = {
         aries: "fire",
         leo: "fire",
         sagittarius: "fire",
@@ -177,7 +188,10 @@ export async function getPlanetInfo(
       const strength = normalizedPlanetName === "SouthNode" ? 0.2 : 0.3;
       if (element) elementalInfluence[element] = strength;
     } else {
-      const modifiers = planetaryModifiers[normalizedPlanetName];
+      const modifiers = (planetaryModifiers as Record<
+        string,
+        { Fire?: number; Water?: number; Air?: number; Earth?: number } | undefined
+      >)[normalizedPlanetName];
       if (modifiers) {
         elementalInfluence = {
           fire: modifiers.Fire ?? 0,
@@ -194,7 +208,7 @@ export async function getPlanetInfo(
     if (
       ["Ascendant", "NorthNode", "SouthNode"].includes(normalizedPlanetName)
     ) {
-      const signToToken: Record<string, keyof typeof tokenInfluence> = {
+      const signToToken: Record<string, keyof typeof tokenInfluence | undefined> = {
         aries: "spirit",
         leo: "spirit",
         sagittarius: "spirit",
@@ -212,7 +226,10 @@ export async function getPlanetInfo(
       const strength = normalizedPlanetName === "SouthNode" ? 0.15 : 0.25;
       if (token) tokenInfluence[token] = strength;
     } else {
-      const modifiers = planetaryModifiers[normalizedPlanetName];
+      const modifiers = (planetaryModifiers as Record<
+        string,
+        { Spirit?: number; Essence?: number; Matter?: number; Substance?: number } | undefined
+      >)[normalizedPlanetName];
       if (modifiers) {
         tokenInfluence = {
           spirit: modifiers.Spirit ?? 0,

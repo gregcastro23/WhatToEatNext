@@ -172,13 +172,15 @@ export class AlchemicalEngineAdvanced {
   ): AlchemicalCalculationResult {
     try {
       // Get dominant element
-      const baseElements = recipeElements || DEFAULT_ELEMENTAL_PROPERTIES;
+      const baseElements = recipeElements ?? DEFAULT_ELEMENTAL_PROPERTIES;
       const entries = Object.entries(baseElements).filter(
         ([, v]) => typeof v === "number",
       );
-      const [dominantElement] = (entries.reduce((max, current) =>
-        current[1] > max[1] ? current : max,
-      ) || ["Fire", DEFAULT_ELEMENT_VALUE]);
+      const [dominantElement] = (entries.length > 0
+        ? entries.reduce((max, current) =>
+            current[1] > max[1] ? current : max,
+          )
+        : ["Fire", DEFAULT_ELEMENT_VALUE]);
       // Validate season
       const validSeason = this.getValidSeason(season);
       // Function to check if string is a valid RulingPlanet
@@ -205,11 +207,13 @@ export class AlchemicalEngineAdvanced {
             reactivity: 0,
             gregsEnergy: 0,
           },
+          kalchm: 0,
+          monica: 0,
           score: totalScore,
-        } as any,
-        dominantElement: dominantElement as keyof ElementalProperties,
-        season: validSeason,
-      } as any;
+        },
+        confidence: 0.8,
+        factors: [validSeason, dominantElement],
+      };
     } catch (error) {
       logger.error("Error in calculateAstroCuisineMatch", {
         error: error instanceof Error ? error.message : String(error),
@@ -223,11 +227,13 @@ export class AlchemicalEngineAdvanced {
             reactivity: 0,
             gregsEnergy: 0,
           },
+          kalchm: 0,
+          monica: 0,
           score: 0,
-        } as any,
-        dominantElement: "Fire",
-        season: "winter",
-      } as any;
+        },
+        confidence: 0.5,
+        factors: ["winter", "Fire"],
+      };
     }
   }
   /**
@@ -261,18 +267,19 @@ export class AlchemicalEngineAdvanced {
  * Main alchemize function for birth chart calculations
  */
 export function alchemize(
-  birthInfo: BirthInfo,
-  horoscopeDict: HoroscopeData,
+  birthInfo: BirthInfo | unknown,
+  horoscopeDict: HoroscopeData | unknown,
 ): AlchemicalResult {
   try {
     // Validate inputs
     if (!birthInfo || typeof birthInfo !== "object") {
       throw new TypeError("Invalid birth info: expected an object");
     }
+    const typedHoroscope = horoscopeDict as Partial<HoroscopeData> | null | undefined;
     if (
-      !horoscopeDict ||
-      typeof horoscopeDict !== "object" ||
-      !horoscopeDict.tropical
+      !typedHoroscope ||
+      typeof typedHoroscope !== "object" ||
+      !typedHoroscope.tropical
     ) {
       throw new TypeError("Invalid horoscope data: missing tropical data");
     }
@@ -291,16 +298,17 @@ export function alchemize(
         reactivity: 0,
         gregsEnergy: 0,
       },
-      zodiacSign: "aries",
-      planetaryPositions: {},
-      aspects: [],
-      houses: [],
+      kalchm: 0,
+      monica: 0,
+      score: 0,
+      normalized: true,
+      confidence: 1,
       metadata: {
         name: "Alchemical Chart",
         description: "Generated alchemical chart",
         attributes: [],
       },
-    } as any;
+    };
   } catch (error) {
     logger.error("Error in alchemize", {
       error: error instanceof Error ? error.message : String(error),
@@ -342,8 +350,8 @@ export function calculateChakraEnergies(
  * Safe alchemize wrapper
  */
 export function safeAlchemize(
-  birthInfo: BirthInfo,
-  horoscopeDict: HoroscopeData,
+  birthInfo: BirthInfo | unknown,
+  horoscopeDict: HoroscopeData | unknown,
 ): AlchemicalResult {
   try {
     return alchemize(birthInfo, horoscopeDict);
@@ -360,24 +368,25 @@ export function safeAlchemize(
         reactivity: 0,
         gregsEnergy: 0,
       },
-      zodiacSign: "aries",
-      planetaryPositions: {},
-      aspects: [],
-      houses: [],
+      kalchm: 0,
+      monica: 0,
+      score: 0,
+      normalized: true,
+      confidence: 0.5,
       metadata: {
         name: "Default Chart",
         description: "Fallback alchemical chart",
         attributes: [],
       },
-    } as any;
+    };
   }
 }
 /**
  * Alchemize with safety wrapper
  */
 export function alchemizeWithSafety(
-  birthInfo: BirthInfo,
-  horoscopeDict: HoroscopeData,
+  birthInfo: BirthInfo | unknown,
+  horoscopeDict: HoroscopeData | unknown,
 ): AlchemicalResult {
   return safeAlchemize(birthInfo, horoscopeDict);
 }
