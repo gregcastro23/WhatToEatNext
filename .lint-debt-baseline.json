@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 4112,
+  "trackedTotal": 4110,
   "declined": {
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1819,
@@ -45,7 +45,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 368,
+      "count": 366,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
