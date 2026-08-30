@@ -205,8 +205,8 @@ function hasExcludedIngredients(
   recipe: Recipe,
   excludeList: string[],
 ): boolean {
-  if (!excludeList || excludeList.length === 0) return false;
-  if (!recipe.ingredients || recipe.ingredients.length === 0) return false;
+  if (excludeList.length === 0) return false;
+  if (recipe.ingredients.length === 0) return false;
 
   return recipe.ingredients.some((ingredient) =>
     excludeList.some((excluded) => looseIncludes(ingredient.name, excluded)),
@@ -251,7 +251,7 @@ function calculateRecipeScore(
     ) {
       details.nameMatch = 42;
     } else if (
-      recipe.ingredients?.some((ing) => looseIncludes(ing.name, options.query))
+      recipe.ingredients.some((ing) => looseIncludes(ing.name, options.query))
     ) {
       details.nameMatch = 40;
     } else if (looseIncludes(recipe.description, options.query)) {
@@ -265,7 +265,7 @@ function calculateRecipeScore(
   // 2. Ingredient match (0-50 points)
   if (options.includeIngredients && options.includeIngredients.length > 0) {
     let matchCount = 0;
-    recipe.ingredients?.forEach((ingredient) => {
+    recipe.ingredients.forEach((ingredient) => {
       if (
         options.includeIngredients!.some((included) =>
           looseIncludes(ingredient.name, included),
@@ -275,14 +275,17 @@ function calculateRecipeScore(
       }
     });
 
-    details.ingredientMatch =
-      (matchCount / options.includeIngredients.length) * 50;
+    const matchRatio = matchCount / options.includeIngredients.length;
+    details.ingredientMatch = matchRatio * 50;
   }
 
   // 3. Cuisine match (0-40 points)
   if (options.cuisine && options.cuisine.length > 0) {
-    const matchesCuisine = options.cuisine.some((c) =>
-      looseIncludes(recipe.cuisine, c),
+    const matchesCuisine = options.cuisine.some(
+      (c) =>
+        looseIncludes(recipe.cuisine, c) ||
+        (Array.isArray(recipe.tags) &&
+          recipe.tags.some((tag) => looseIncludes(tag, c))),
     );
     details.cuisineMatch = matchesCuisine ? 40 : 0;
   }
@@ -302,7 +305,6 @@ function calculateRecipeScore(
   // 5. Elemental match (0-50 points)
   if (
     options.elementalMatch &&
-    recipe.elementalProperties &&
     Object.keys(options.elementalMatch).length > 0
   ) {
     const similarity = calculateElementalSimilarity(
@@ -320,9 +322,9 @@ function calculateRecipeScore(
     const { planet } = dayCharacteristics;
 
     // Check if recipe has favorable planetary influences
-    if (recipe.planetaryInfluences?.favorable?.includes(planet)) {
+    if (recipe.planetaryInfluences?.favorable.includes(planet)) {
       details.planetaryMatch = 30;
-    } else if (!recipe.planetaryInfluences?.unfavorable?.includes(planet)) {
+    } else if (!recipe.planetaryInfluences?.unfavorable.includes(planet)) {
       details.planetaryMatch = 15;
     }
   }
@@ -598,7 +600,7 @@ export function searchRecipesByIngredients(
 
   // Filter recipes by ingredient match
   const filteredRecipes = recipes.filter((recipe) => {
-    if (!recipe.ingredients || recipe.ingredients.length === 0) return false;
+    if (recipe.ingredients.length === 0) return false;
 
     // Check excluded ingredients first
     if (excludeIngredients.length > 0) {
@@ -618,7 +620,7 @@ export function searchRecipesByIngredients(
   // Score recipes by number of matching ingredients
   const scoredRecipes: ScoredRecipe[] = filteredRecipes.map((recipe) => {
     const matchedIngredients = new Set<string>();
-    recipe.ingredients?.forEach((ing) => {
+    recipe.ingredients.forEach((ing) => {
       searchTerms.forEach((searchIng) => {
         if (looseIncludes(ing.name, searchIng)) {
           matchedIngredients.add(searchIng);
@@ -661,7 +663,7 @@ export function getAllUniqueIngredients(recipes: Recipe[]): string[] {
   const ingredientSet = new Set<string>();
 
   recipes.forEach((recipe) => {
-    recipe.ingredients?.forEach((ing) => {
+    recipe.ingredients.forEach((ing) => {
       // Normalize ingredient name (lowercase, trim)
       const normalized = ing.name.toLowerCase().trim();
       if (normalized.length > 0) {
@@ -742,11 +744,11 @@ export interface RecipeIssue {
 }
 
 /**
- * Audit recipes for data completeness
+ * Audit recipes for missing/incomplete data
  * Checks for:
- * - ingredients array with name, amount, unit
- * - instructions array
- * - nutrition object with calories, protein, carbs, fat, fiber
+ * - ingredients array (not empty, valid items)
+ * - instructions array (not empty)
+ * - nutrition (calories, protein, carbs, fat, fiber)
  * - prepTime or timeToMake
  * - description
  */
@@ -770,7 +772,7 @@ export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
     const issues: string[] = [];
 
     // Check ingredients
-    if (!recipe.ingredients || recipe.ingredients.length === 0) {
+    if (recipe.ingredients.length === 0) {
       issues.push("Missing ingredients array");
       stats.missingIngredients++;
     } else {
@@ -784,7 +786,7 @@ export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
     }
 
     // Check instructions
-    if (!recipe.instructions || recipe.instructions.length === 0) {
+    if (recipe.instructions.length === 0) {
       issues.push("Missing instructions array");
       stats.missingInstructions++;
     }
@@ -799,23 +801,24 @@ export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
       stats.missingFat++;
       stats.missingFiber++;
     } else {
-      if (recipe.nutrition.calories === undefined) {
+      const nutrition = recipe.nutrition as Partial<typeof recipe.nutrition>;
+      if (nutrition.calories === undefined) {
         issues.push("Missing calories");
         stats.missingCalories++;
       }
-      if (recipe.nutrition.protein === undefined) {
+      if (nutrition.protein === undefined) {
         issues.push("Missing protein");
         stats.missingProtein++;
       }
-      if (recipe.nutrition.carbs === undefined) {
+      if (nutrition.carbs === undefined) {
         issues.push("Missing carbs");
         stats.missingCarbs++;
       }
-      if (recipe.nutrition.fat === undefined) {
+      if (nutrition.fat === undefined) {
         issues.push("Missing fat");
         stats.missingFat++;
       }
-      if (recipe.nutrition.fiber === undefined) {
+      if (nutrition.fiber === undefined) {
         issues.push("Missing fiber");
         stats.missingFiber++;
       }

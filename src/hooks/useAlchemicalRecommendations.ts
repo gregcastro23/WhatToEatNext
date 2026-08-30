@@ -240,32 +240,25 @@ export const useAlchemicalRecommendations = ({
 
         // Calculate average elemental values from top ingredients
         if (recs.topIngredients.length > 0) {
+          const total = recs.topIngredients.length;
           recs.topIngredients.forEach((item) => {
             profile.elementalBalance.Fire +=
-              (item.elementalProperties?.Fire ?? 0.25) /
-              recs.topIngredients.length;
+              item.elementalProperties.Fire / total;
             profile.elementalBalance.Water +=
-              (item.elementalProperties?.Water ?? 0.25) /
-              recs.topIngredients.length;
+              item.elementalProperties.Water / total;
             profile.elementalBalance.Earth +=
-              (item.elementalProperties?.Earth ?? 0.25) /
-              recs.topIngredients.length;
+              item.elementalProperties.Earth / total;
             profile.elementalBalance.Air +=
-              (item.elementalProperties?.Air ?? 0.25) /
-              recs.topIngredients.length;
+              item.elementalProperties.Air / total;
 
             profile.alchemicalProperties.Spirit +=
-              (item.alchemicalProperties?.Spirit ?? 0.25) /
-              recs.topIngredients.length;
+              item.alchemicalProperties.Spirit / total;
             profile.alchemicalProperties.Essence +=
-              (item.alchemicalProperties?.Essence ?? 0.25) /
-              recs.topIngredients.length;
+              item.alchemicalProperties.Essence / total;
             profile.alchemicalProperties.Matter +=
-              (item.alchemicalProperties?.Matter ?? 0.25) /
-              recs.topIngredients.length;
+              item.alchemicalProperties.Matter / total;
             profile.alchemicalProperties.Substance +=
-              (item.alchemicalProperties?.Substance ?? 0.25) /
-              recs.topIngredients.length;
+              item.alchemicalProperties.Substance / total;
           });
         }
 
