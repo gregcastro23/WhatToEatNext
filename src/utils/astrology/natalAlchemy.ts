@@ -193,7 +193,7 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
   const quantities = resolveNatalQuantities(chart, planets);
   const quantityTotal =
     quantities.Spirit + quantities.Essence + quantities.Matter + quantities.Substance;
-  const share = (value: number) => (quantityTotal > 0 ? value / quantityTotal : 0);
+  const share = (value: number): number => (quantityTotal > 0 ? value / quantityTotal : 0);
 
   const alchemicalState: AlchemicalState = {
       fire: elementalScores.Fire,
@@ -209,12 +209,21 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
   return alchemicalState;
 }
 
+export interface NatalAlchemicalProfile extends AlchemicalState {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kAlchm: number;
+  monicaConstant: number;
+}
+
 /**
  * Calculates the full alchemical profile from a natal chart.
  * @param chart - The user's natal chart.
  * @returns The user's alchemical profile.
  */
-export function calculateAlchemicalProfile(chart: NatalChart) {
+export function calculateAlchemicalProfile(chart: NatalChart): NatalAlchemicalProfile {
     const alchemicalState = calculateAlchemicalState(chart);
 
     const elementalProps: ElementalProperties = {

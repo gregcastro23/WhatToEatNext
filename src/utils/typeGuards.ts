@@ -34,7 +34,7 @@ export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
   if (typeof obj !== "object" || obj === null) return false;
 
   // Check all keys and values are valid
-  return Object.entries(obj as any).every(
+  return Object.entries(obj as Record<string, unknown>).every(
     ([key, value]) => isChakraKey(key) && isNumber(value),
   );
 }
@@ -106,7 +106,7 @@ export function safeGetArray<T = unknown>(
   value: unknown,
   defaultValue: T[] = [],
 ): T[] {
-  return Array.isArray(value) ? value : defaultValue;
+  return Array.isArray(value) ? (value as T[]) : defaultValue;
 }
 
 /**
@@ -120,7 +120,7 @@ export function safeGet<T>(
   if (!isObject(obj)) return defaultValue;
 
   const keys = path.split(".");
-  let current: any = obj;
+  let current: unknown = obj;
 
   for (const key of keys) {
     if (!isObject(current) || !(key in current)) {
@@ -180,6 +180,6 @@ export function asRecord(value: unknown): Record<string, unknown> {
 /**
  * Safe cast for test mocks
  */
-export function asMock(value: unknown): any {
-  return value;
+export function asMock<T = unknown>(value: unknown): T {
+  return value as T;
 }

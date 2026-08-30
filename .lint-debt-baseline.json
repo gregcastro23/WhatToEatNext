@@ -1,9 +1,9 @@
 {
-  "trackedTotal": 4179,
+  "trackedTotal": 4170,
   "declined": {
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1823,
-      "@typescript-eslint/explicit-module-boundary-types": 867,
+      "@typescript-eslint/explicit-function-return-type": 1820,
+      "@typescript-eslint/explicit-module-boundary-types": 865,
       "complexity": 356,
       "max-depth": 99,
       "max-lines": 660,
@@ -13,15 +13,15 @@
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1823,
+      "count": 1820,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 867,
+      "count": 865,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 311,
+      "count": 306,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -33,7 +33,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 124,
+      "count": 123,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
@@ -49,7 +49,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 73,
+      "count": 70,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
