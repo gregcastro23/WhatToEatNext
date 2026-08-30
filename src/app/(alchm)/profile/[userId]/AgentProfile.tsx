@@ -115,7 +115,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
   const accent = agent.appearance?.color ?? "#7c3aed";
   const slug = handle ? handle.split("@")[0] : null;
   const { data: session } = useSession();
-  const currentUserId = session?.user.id;
+  const currentUserId = session?.user?.id;
 
   const relational = useAgentRelationalData(agent.name, slug, currentUserId);
   const recipeViewer = useAgentRecipeViewer();

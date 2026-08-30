@@ -28,8 +28,7 @@ interface Params {
 
 async function resolveUserId(request: Request): Promise<string | null> {
   const session = await auth();
-  const user = session?.user as { id?: string } | undefined;
-  if (user?.id) return user.id;
+  if (session?.user?.id) return session.user.id;
 
   const authHeader = request.headers.get("authorization") ?? "";
   if (authHeader.startsWith("Bearer ")) {

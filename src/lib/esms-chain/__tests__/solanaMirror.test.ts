@@ -8,6 +8,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  ESMS_SPL_UTILITY,
   esmsSplCluster,
   esmsSplExplorerUrl,
   esmsSplMintAddress,
@@ -52,6 +53,16 @@ describe("solanaMirror gate", () => {
 
   it("is OFF with no configuration", () => {
     expect(esmsSplMirrorEnabled()).toBe(false);
+  });
+
+  it("publishes the closed-loop, non-transferable utility doctrine", () => {
+    expect(ESMS_SPL_UTILITY).toEqual({
+      soulbound: true,
+      closedLoop: true,
+      decimals: 4,
+      disclosure:
+        "Non-transferable culinary alchemy units for closed-loop use in alchm.kitchen.",
+    });
   });
 
   it('requires the literal "true" — "TRUE" and "1" are both false', () => {

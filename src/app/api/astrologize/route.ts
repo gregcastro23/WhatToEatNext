@@ -9,6 +9,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
   parseRailwayResponse,
@@ -39,9 +40,9 @@ async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeRespo
       body: JSON.stringify(params),
       signal: AbortSignal.timeout(15000),
     });
-    if (response.ok) return await response.json();
+    if (response.ok) return (await response.json()) as AstrologizeResponse;
   } catch (err) {
-    console.error("Hono Gateway proxy failed:", err instanceof Error ? err.message : "Unknown error");
+    _logger.error("Hono Gateway proxy failed:", err instanceof Error ? err.message : "Unknown error");
   }
   return null;
 }
@@ -116,14 +117,14 @@ async function fetchFromRailway(params: PlanetaryRequest): Promise<RailwayPositi
     });
 
     if (!response.ok) {
-      console.error(`Railway backend error: ${response.status}`);
+      _logger.error(`Railway backend error: ${response.status}`);
       return null;
     }
 
     const raw: unknown = await response.json();
     return parseRailwayResponse(raw);
   } catch (error) {
-    console.error(
+    _logger.error(
       "Railway backend unavailable:",
       error instanceof Error ? error.message : error,
     );
@@ -159,7 +160,7 @@ function formatRailwayResponse(
     const planetData =
       (positionsData)[key] ??
       (positionsData)[capitalizedKey];
-    if (!planetData || typeof planetData !== "object") continue;
+    if (!planetData) continue;
 
     const pd = planetData;
 
@@ -209,7 +210,7 @@ function formatRailwayResponse(
   }
 
   if (unusableBodies.length > 0) {
-    console.warn(
+    _logger.error(
       `[astrologize] dropped ${unusableBodies.length} body/bodies with no usable ` +
         `longitude: ${unusableBodies.join(", ")}`,
     );
@@ -233,7 +234,7 @@ function formatRailwayResponse(
       // `{sign: "aries", exactLongitude: 0}` SATISFIES that test and suppresses the
       // local sidereal-time derivation that would otherwise produce a real sign.
       // Leaving it absent hands the question to that derivation instead.
-      console.warn(
+      _logger.error(
         "[astrologize] backend returned an Ascendant with no usable longitude; " +
           "omitting it so the local derivation runs instead of storing 0° Aries",
       );
@@ -374,13 +375,13 @@ function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
     minute: parseOptionalInt(searchParams.get("minute")) ?? now.getUTCMinutes(),
     latitude: parseOptionalFloat(searchParams.get("latitude")),
     longitude: parseOptionalFloat(searchParams.get("longitude")),
-    zodiacSystem: (searchParams.get("zodiacSystem") as "tropical" | "sidereal") || "tropical",
+    zodiacSystem: (searchParams.get("zodiacSystem") as "tropical" | "sidereal" | null) ?? "tropical",
   });
 }
 
 // ─── Route handlers ───────────────────────────────────────────────────────────
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
   if (!rl.allowed) return rl.response!;
   const { searchParams } = new URL(request.url);
@@ -404,7 +405,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(localData);
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
   if (!rl.allowed) return rl.response!;
   try {
@@ -441,7 +442,7 @@ export async function POST(request: NextRequest) {
     void trackAstrologyQuery(localData);
     return NextResponse.json(localData);
   } catch (error) {
-    console.error("Astrologize API error:", error);
+    _logger.error("Astrologize API error:", error);
     return NextResponse.json(
       {
         success: false,
@@ -456,14 +457,14 @@ export async function POST(request: NextRequest) {
 /**
  * Best-effort interaction tracking for astrology queries
  */
-async function trackAstrologyQuery(data: AstrologizeResponse) {
+async function trackAstrologyQuery(data: AstrologizeResponse): Promise<void> {
   try {
     const { auth } = await import("@/lib/auth/auth");
     const session = await auth();
     if (session?.user?.id) {
       const { recordInteraction } = await import("@/services/userInteractionsService");
       // Record engagement with the sun/ascendant as proxies for planetary interest
-      const dominantPlanet = data._celestialBodies.sun ? "Sun" : "Planets";
+      const dominantPlanet = "sun" in data._celestialBodies ? "Sun" : "Planets";
       await recordInteraction({
         userId: session.user.id,
         type: "planetary_query",
@@ -476,6 +477,6 @@ async function trackAstrologyQuery(data: AstrologizeResponse) {
       });
     }
   } catch (err) {
-    console.warn("Astrology interaction tracking failed:", err);
+    _logger.error("Astrology interaction tracking failed:", err);
   }
 }

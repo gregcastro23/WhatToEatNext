@@ -52,8 +52,8 @@ export async function POST(req: Request): Promise<NextResponse> {
   try {
     // 1. Authenticate user from active NextAuth session
     const session = await auth();
-    let userId = session?.user.id;
-    if (!userId && session?.user.email) {
+    let userId = session?.user?.id;
+    if (!userId && session?.user?.email) {
       try {
         const dbUser = await userDatabase.getUserByEmail(session.user.email);
         if (dbUser?.id) {
@@ -181,7 +181,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       await userDatabase.updateUserProfile(
         userId,
         { birthData, natalChart: chart, onboardingComplete: true },
-        session?.user.email ?? undefined,
+        session?.user?.email ?? undefined,
       );
       logger.info(`[ignite] Persisted natal profile + marked onboarding complete (user_profiles synced).`);
     } catch (err) {

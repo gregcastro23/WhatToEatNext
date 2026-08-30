@@ -1,3 +1,5 @@
+import { _logger } from "@/lib/logger";
+
 /**
  * Olo Service Interface
  *
@@ -7,8 +9,8 @@ export const oloService = {
   isConfigured(): boolean {
     return !!process.env.OLO_API_KEY;
   },
-  async getMenu(oloRestaurantId: string): Promise<any> {
-    console.warn(`[OloService] getMenu called for ${oloRestaurantId} but integration is not active.`);
+  async getMenu(oloRestaurantId: string): Promise<unknown> {
+    _logger.error(`[OloService] getMenu called for ${oloRestaurantId} but integration is not active.`);
     return null;
   }
 };

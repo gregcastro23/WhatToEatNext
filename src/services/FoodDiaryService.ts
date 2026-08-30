@@ -44,7 +44,7 @@ const isServerWithDB = (): boolean => typeof window === "undefined" && !!process
 
 // Lazy-load database module to avoid build-time issues
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
@@ -2791,7 +2791,7 @@ class FoodDiaryService {
     // Try PostgreSQL first
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<FoodDiaryEntryRow>(
           `SELECT * FROM food_diary_entries WHERE id = $1`,
           [entryId],
         );
@@ -3026,7 +3026,7 @@ class FoodDiaryService {
     if (db) {
       try {
         let query = `SELECT * FROM food_diary_entries WHERE user_id = $1`;
-        const params: any[] = [userId];
+        const params: unknown[] = [userId];
         let paramIndex = 2;
 
         // Build filter conditions
@@ -3245,7 +3245,7 @@ class FoodDiaryService {
     }
 
     try {
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<QuickFoodIngredientRow>(
         `SELECT id, name, common_name, category, calories, protein, carbohydrates, fat, fiber, sugar
          FROM ingredients
          WHERE is_active = true AND id = $1

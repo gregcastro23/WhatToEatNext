@@ -13,7 +13,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
-import type { TokenBalances, UserStreak, DailyYieldResult, TokenType } from '@/types/economy';
+import {
+  claimDailyResponseSchema,
+  economyBalanceResponseSchema,
+  economyErrorResponseSchema,
+} from '@/lib/economy/clientSchemas';
+import type { TokenBalances, UserStreak, DailyYieldResult, TokenType } from '@/types';
 import { PlanetaryInfluenceTooltip } from './PlanetaryInfluenceTooltip';
 
 // ─── Token Config ─────────────────────────────────────────────────────
@@ -24,6 +29,8 @@ const TOKEN_CONFIG = {
   Matter: { symbol: '🝙', color: 'emerald', gradient: 'from-emerald-400 to-green-400', glow: 'rgba(52,211,153,0.4)' },
   Substance: { symbol: '🝉', color: 'purple', gradient: 'from-purple-400 to-fuchsia-400', glow: 'rgba(192,132,252,0.4)' },
 } as const;
+
+const BALANCE_KEYS = ['spirit', 'essence', 'matter', 'substance'] as const;
 
 // ─── Component ────────────────────────────────────────────────────────
 
@@ -50,11 +57,12 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
     try {
       const res = await fetch('/api/economy/balance', { credentials: 'include' });
       if (!res.ok) return;
-      const data = await res.json();
-      if (data.success) {
-        setBalances(data.balances);
-        setStreak(data.streak);
-        setCanClaim(data.canClaimDaily);
+      const payload: unknown = await res.json();
+      const parsed = economyBalanceResponseSchema.safeParse(payload);
+      if (parsed.success) {
+        setBalances(parsed.data.balances);
+        setStreak(parsed.data.streak);
+        setCanClaim(parsed.data.canClaimDaily);
       }
     } catch {
       // Silently fail — economy is non-critical
@@ -65,20 +73,19 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
     if (balances) {
       // Check for debits/credits to trigger animation
       if (prevBalances.current) {
-        const types: Array<keyof TokenBalances> = ['spirit', 'essence', 'matter', 'substance'];
-        for (const t of types) {
-          const cur = Number(balances[t] ?? 0);
-          const prev = Number(prevBalances.current[t] ?? 0);
+        for (const t of BALANCE_KEYS) {
+          const cur = balances[t];
+          const prev = prevBalances.current[t];
           if (cur < prev) {
             setDebitFlash(t);
-            if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-              navigator.vibrate?.(15);
+            if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+              navigator.vibrate(15);
             }
             setTimeout(() => setDebitFlash(null), 1000);
           } else if (cur > prev) {
             setCreditFlash(t);
-            if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-              navigator.vibrate?.([8, 20, 8]);
+            if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+              navigator.vibrate([8, 20, 8]);
             }
             setTimeout(() => setCreditFlash(null), 1200);
           }
@@ -111,11 +118,12 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
         method: 'POST',
         credentials: 'include',
       });
-      const data = await res.json();
-      if (data.success) {
-        setClaimResult(data.yield);
-        if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-          navigator.vibrate?.([10, 30, 10]);
+      const payload: unknown = await res.json();
+      const parsed = claimDailyResponseSchema.safeParse(payload);
+      if (parsed.success) {
+        setClaimResult(parsed.data.yield);
+        if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+          navigator.vibrate([10, 30, 10]);
         }
         setCanClaim(false);
         // Refresh balances
@@ -123,7 +131,12 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
         // Clear animation after 5s
         setTimeout(() => setClaimResult(null), 5000);
       } else {
-        setError(data.message);
+        const errorResponse = economyErrorResponseSchema.safeParse(payload);
+        setError(
+          errorResponse.success
+            ? (errorResponse.data.message ?? 'Failed to claim daily yield')
+            : 'Invalid claim response',
+        );
       }
     } catch {
       setError('Failed to claim daily yield');

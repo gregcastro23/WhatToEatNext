@@ -22,8 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   const session = await auth();
-  const user = session?.user as { id?: string } | undefined;
-  if (!user?.id) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -52,7 +51,7 @@ export async function POST(request: Request) {
           AND revoked_at IS NULL
           AND ($2::text IS NULL OR id <> $2)
         RETURNING id`,
-      [user.id, currentJti ?? null],
+      [session.user.id, currentJti ?? null],
     );
     return NextResponse.json({
       revoked: result.rowCount ?? 0,

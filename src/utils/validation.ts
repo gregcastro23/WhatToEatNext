@@ -47,7 +47,9 @@ export const recipeSchema = z.object({
   _popularity: z.number().optional(),
 });
 
-export function validateRecipe(recipe: Recipe) {
+export function validateRecipe(
+  recipe: Recipe,
+): ReturnType<typeof recipeSchema.safeParse> {
   return recipeSchema.safeParse(recipe);
 }
 

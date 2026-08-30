@@ -242,8 +242,8 @@ const RegisteredTabContent: React.FC<DashboardProps & {
 export const RegisteredDashboard: React.FC<DashboardProps> = (props) => {
   const { session } = props;
   const [activeTab, setActiveTab] = useState<RegisteredTab>("overview");
-  const userName = session?.user.name ?? "Practitioner";
-  const email = session?.user.email ?? "";
+  const userName = session?.user?.name ?? "Practitioner";
+  const email = session?.user?.email ?? "";
 
   return (
     <div className="min-h-screen bg-[#08080e]">

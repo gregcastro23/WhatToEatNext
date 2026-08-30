@@ -107,7 +107,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const session = await auth();
-    const userId = session?.user.id;
+    const userId = session?.user?.id;
 
     const body = (await request.json()) as UnifiedAgentRequest;
     const { action, parameters = {} } = body;

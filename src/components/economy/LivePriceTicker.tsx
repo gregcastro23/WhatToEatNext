@@ -33,6 +33,7 @@ import type {
 } from "@/lib/economy/priceIndex";
 import { TOKEN_VISUALS, tokenVisualFor } from "@/lib/economy/tokenVisual";
 import {
+  ESMS_SPL_UTILITY,
   esmsSplCluster,
   esmsSplExplorerUrl,
   esmsSplMintAddress,
@@ -370,7 +371,7 @@ function QuoteCard({ quote }: { quote: TokenIndexQuote }): React.JSX.Element {
           href={esmsSplExplorerUrl(mint)}
           target="_blank"
           rel="noreferrer"
-          title={mint}
+          title={`${ESMS_SPL_UTILITY.disclosure} Mint: ${mint}`}
         >
           SPL {shortAddress(mint)} ↗
         </a>
@@ -461,7 +462,7 @@ function Cards({ data }: { data: TickerSnapshot }): React.JSX.Element {
           </span>
         ) : null}
         {splEnabled ? (
-          <span title="Token-2022 mirror mints — links only; no price or supply is read from Solana">
+          <span title={`${ESMS_SPL_UTILITY.disclosure} Supply monitoring is read-only; WTEN holds no Solana signer.`}>
             SPL mirror · {esmsSplCluster()}
           </span>
         ) : null}

@@ -226,14 +226,14 @@ export const authConfig = {
       if (session.user) {
         // Use DB-backed userId only. token.sub can be OAuth provider subject,
         // which causes UUID mismatches in DB-backed API routes.
-        session.user.id = (token.userId as string) || "";
-        session.user.email = (token.email as string) || "";
-        session.user.name = (token.name as string) || "";
-        session.user.image = (token.picture as string) || "";
-        session.user.role = (token.role as string) || "user";
-        session.user.tier = (token.tier as "free" | "premium") || "free";
+        session.user.id = token.userId || "";
+        session.user.email = token.email || "";
+        session.user.name = token.name || "";
+        session.user.image = token.picture || "";
+        session.user.role = token.role || "user";
+        session.user.tier = token.tier || "free";
         session.user.onboardingComplete =
-          (token.onboardingComplete as boolean) ?? false;
+          token.onboardingComplete ?? false;
         // Surface the JWT id so middleware can look up revocation state
         // without re-decoding the token.
         session.user.sessionId = token.deviceSessionId ?? token.sessionId;

@@ -28,6 +28,7 @@ import { useEffect, useRef, useState } from "react";
 import { GlassPanel, LabelXS, PresenceAvatar } from "@/components/tables/ui";
 import type { Element } from "@/components/tables/ui/elements";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
+import { _logger } from "@/lib/logger";
 import { isLiveTablesEnabled } from "@/lib/spacetime/config";
 import type {
   TablePresence as PresenceRow,
@@ -153,7 +154,7 @@ export function LiveTableRoom({
           displayName,
         })
         .catch((error: unknown) =>
-          console.warn("[tables] ensure session failed:", error),
+          _logger.error("[tables] ensure session failed:", error),
         );
       return;
     }
@@ -166,7 +167,7 @@ export function LiveTableRoom({
           wtenUserId: viewerId ?? "",
           displayName,
         })
-        .catch((error: unknown) => console.warn("[tables] join failed:", error));
+        .catch((error: unknown) => _logger.error("[tables] join failed:", error));
     }
   }, [
     enabled,

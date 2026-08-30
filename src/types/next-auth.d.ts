@@ -12,14 +12,14 @@ import type { SubscriptionTier } from "@/types/subscription";
 
 declare module "next-auth" {
   interface Session {
-    user: {
-      id: string;
-      email: string;
-      name: string;
-      image: string;
-      role: string;
-      tier: SubscriptionTier;
-      onboardingComplete: boolean;
+    user?: {
+      id?: string;
+      email?: string | null;
+      name?: string | null;
+      image?: string | null;
+      role?: string;
+      tier?: SubscriptionTier;
+      onboardingComplete?: boolean;
       /** JWT id (jti) — used by middleware to look up revocation state. */
       sessionId?: string;
       recipesGeneratedToday?: number;
@@ -27,6 +27,10 @@ declare module "next-auth" {
   }
 
   interface User {
+    id?: string;
+    email?: string | null;
+    name?: string | null;
+    image?: string | null;
     role?: string;
     tier?: SubscriptionTier;
     onboardingComplete?: boolean;

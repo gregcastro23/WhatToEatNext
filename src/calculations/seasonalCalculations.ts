@@ -1,6 +1,6 @@
 import { SEASONAL_MODIFIERS } from "@/constants/seasonalModifiers";
 import { getZodiacSignTypeForDate } from "@/data/zodiacSeasons";
-import type { ElementalProperties, Season } from "@/types/alchemy";
+import type { ElementalProperties, Season, ZodiacSignType } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
 export interface SeasonalEffectiveness {
@@ -32,20 +32,21 @@ export function calculateSeasonalEffectiveness(
   const seasonLower = season.toLowerCase();
 
   // 1. Calculate Elemental Alignment (50% of total)
-  const elementalScore = Object.entries(
-    recipe.elementalProperties || {},
-  ).reduce((score, [element, value]: [string, number]) => {
-    // Get modifier from SEASONAL_MODIFIERS using lowercase season
-    // Using proper type access with fallback
-    const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};
-    const seasonalModifier = seasonModifiers[element as any] || 0.25;
+  const seasonModifiers =
+    (SEASONAL_MODIFIERS[seasonLower] as Partial<ElementalProperties> | undefined) ??
+    {};
+  const elementalEntries = Object.entries(
+    recipe.elementalProperties,
+  ) as Array<[keyof ElementalProperties, number]>;
+  const elementalScore = elementalEntries.reduce((score, [element, value]) => {
+    const seasonalModifier = seasonModifiers[element] ?? 0.25;
     return score + value * seasonalModifier;
   }, 0);
   breakdown.elementalAlignment = elementalScore * 50;
   totalScore += breakdown.elementalAlignment;
 
   // 2. Calculate Ingredient Seasonality (30% of total)
-  if (recipe.ingredients.length) {
+  if (recipe.ingredients.length > 0) {
     // Count ingredients that have this season in their seasonality array
     let seasonalCount = 0;
     for (const ingredient of recipe.ingredients) {
@@ -102,18 +103,23 @@ export function calculateSeasonalElements(
   season: string,
 ): ElementalProperties {
   const normalizedSeason = season.toLowerCase();
-  const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {};
+  const modifier =
+    (SEASONAL_MODIFIERS[normalizedSeason] as Partial<ElementalProperties> | undefined) ??
+    {};
 
-  return Object.fromEntries(
-    Object.entries(baseElements).map(([element, value]) => {
-      const adjusted = value + (modifier[element as any] || 0);
-      return [element, Math.max(0, Math.min(1, adjusted))];
-    }),
-  ) as ElementalProperties;
+  const entries = (
+    Object.entries(baseElements) as Array<[keyof ElementalProperties, number]>
+  ).map(([element, value]) => {
+    const modValue = modifier[element] ?? 0;
+    const adjusted = value + modValue;
+    return [String(element), Math.max(0, Math.min(1, adjusted))] as const;
+  });
+
+  return Object.fromEntries(entries) as unknown as ElementalProperties;
 }
 
 export function calculateSeasonalScores(
-  recipeElements: ElementalProperties,
+  _recipeElements: ElementalProperties,
   zodiacSign?: string,
 ): {
   seasonalScore: number;
@@ -121,7 +127,7 @@ export function calculateSeasonalScores(
 } {
   // Get current zodiac sign if none provided
   const currentZodiac =
-    zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase();
+    zodiacSign?.toLowerCase() ?? getCurrentZodiacSeason().toLowerCase();
 
   // Calculate seasonal alignment - direct check with current zodiac
   const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase();
@@ -135,7 +141,7 @@ export function calculateSeasonalScores(
 }
 
 // Helper function to get current season as a zodiac sign
-function getCurrentZodiacSeason(): any {
+function getCurrentZodiacSeason(): ZodiacSignType {
   return getZodiacSignTypeForDate(new Date());
 }
 
@@ -143,11 +149,11 @@ function getCurrentZodiacSeason(): any {
 function _getCurrentSeason(): Season {
   const zodiacSign = getCurrentZodiacSeason();
   // Map zodiac sign to a season
-  if (["aries", "taurus", "gemini"].includes(zodiacSign)) {
+  if (zodiacSign === "aries" || zodiacSign === "taurus" || zodiacSign === "gemini") {
     return "spring";
-  } else if (["cancer", "leo", "virgo"].includes(zodiacSign)) {
+  } else if (zodiacSign === "cancer" || zodiacSign === "leo" || zodiacSign === "virgo") {
     return "summer";
-  } else if (["libra", "scorpio", "sagittarius"].includes(zodiacSign)) {
+  } else if (zodiacSign === "libra" || zodiacSign === "scorpio" || zodiacSign === "sagittarius") {
     return "autumn";
   } else {
     return "winter";

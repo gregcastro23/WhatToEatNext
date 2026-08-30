@@ -8,9 +8,12 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
+import type { CelestialPosition } from "@/types/celestial";
+import type { NatalChart } from "@/types/natalChart";
 import {
   extractAlchemicalPlanetPositions,
   extractPlanetaryPositions,
@@ -23,6 +26,7 @@ import {
   calculateAlchemicalFromPlanets,
   isSectDiurnalForBirth,
 } from "@/utils/planetaryAlchemyMapping";
+import { isObject } from "@/utils/typeGuards";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -51,7 +55,128 @@ const ELEMENT_METHODS: Record<string, string[]> = {
   Air:   ["Sautéing", "Wok-frying", "Smoking", "Dehydrating"],
 };
 
-async function handlePost(request: NextRequest) {
+interface RecommendationRequestBody {
+  includeChartAnalysis?: boolean;
+}
+
+interface ChartComparisonResult {
+  overallHarmony: number;
+  elementalHarmony: number;
+  alchemicalAlignment: number;
+  planetaryResonance: number;
+  insights: {
+    favorableElements: string[];
+    challengingElements: string[];
+    harmonicPlanets: string[];
+    recommendations: string[];
+  };
+}
+
+interface ChartComparisonContext {
+  natalChart: NatalChart;
+  natalPositions: Record<string, string>;
+  currentRaw: Record<string, CelestialPosition>;
+  currentPositions: Record<string, string>;
+  currentElementCounts: Record<string, number>;
+  total: number;
+  favorableElements: string[];
+  challengingElements: string[];
+  harmonicPlanets: string[];
+  insights: string[];
+}
+
+function computeChartComparison(ctx: ChartComparisonContext): ChartComparisonResult {
+  const {
+    natalChart,
+    natalPositions,
+    currentRaw,
+    currentPositions,
+    currentElementCounts,
+    total,
+    favorableElements,
+    challengingElements,
+    harmonicPlanets,
+    insights,
+  } = ctx;
+
+  const natalDiurnal = natalChart.birthData.dateTime
+    ? isSectDiurnalForBirth(natalChart.birthData)
+    : true;
+  const currentDiurnal = isCurrentSkyDiurnal(new Date());
+
+  const currentAlchPositions: Record<string, { sign: string; degree?: number; exactLongitude?: number }> = {};
+  for (const [k, v] of Object.entries(currentRaw)) {
+    if (v.sign) {
+      currentAlchPositions[k] = {
+        sign: v.sign,
+        degree: v.degree,
+        exactLongitude: v.exactLongitude,
+      };
+    }
+  }
+
+  const natalAlch = calculateAlchemicalFromPlanets(
+    extractAlchemicalPlanetPositions(natalChart),
+    natalDiurnal,
+  );
+  const currentAlch = calculateAlchemicalFromPlanets(
+    currentAlchPositions,
+    currentDiurnal,
+  );
+
+  const natalTotal = Object.values(natalAlch).reduce((a, b) => a + Number(b), 0) || 1;
+  const currentTotal = Object.values(currentAlch).reduce((a, b) => a + Number(b), 0) || 1;
+
+  // Cosine-like similarity for alchemical alignment
+  const keys = ["Spirit", "Essence", "Matter", "Substance"] as const;
+  let dot = 0;
+  let magN = 0;
+  let magC = 0;
+  keys.forEach((k) => {
+    const n = natalAlch[k] / natalTotal;
+    const c = currentAlch[k] / currentTotal;
+    dot += n * c;
+    magN += n * n;
+    magC += c * c;
+  });
+  const alchemicalAlignment = magN > 0 && magC > 0 ? dot / (Math.sqrt(magN) * Math.sqrt(magC)) : 0.5;
+
+  // Elemental harmony — overlap between natal and current
+  const natalEl: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  Object.values(natalPositions).forEach((sign) => {
+    const el = SIGN_TO_ELEMENT[sign];
+    if (el) natalEl[el]++;
+  });
+  const natalElTotal = Object.values(natalEl).reduce((a, b) => a + b, 0) || 1;
+  let elementalOverlap = 0;
+  Object.keys(natalEl).forEach((el) => {
+    elementalOverlap += Math.min(natalEl[el] / natalElTotal, currentElementCounts[el] / total);
+  });
+  const elementalHarmony = Math.min(elementalOverlap, 1);
+
+  // Planetary resonance — planets in same sign natal vs current
+  const sharedSigns = Object.keys(natalPositions).filter(
+    (p) => natalPositions[p] === currentPositions[p],
+  ).length;
+  const planetaryResonance = Math.min(sharedSigns / Math.max(Object.keys(natalPositions).length, 1), 1);
+
+  const overallHarmony = (alchemicalAlignment * 0.4 + elementalHarmony * 0.35 + planetaryResonance * 0.25);
+
+  return {
+    overallHarmony,
+    elementalHarmony,
+    alchemicalAlignment,
+    planetaryResonance,
+    insights: {
+      favorableElements,
+      challengingElements,
+      harmonicPlanets,
+      recommendations: insights,
+    },
+  };
+}
+
+async function handlePost(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, RECS_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
@@ -59,11 +184,12 @@ async function handlePost(request: NextRequest) {
     const user = await getDatabaseUserFromRequest(request).catch(() => null);
 
     // Parse request body for any extra hints
-    const body = await request.json().catch(() => ({}));
-    const includeChartAnalysis = body?.includeChartAnalysis ?? false;
+    const body = (await request.json().catch(() => ({}))) as RecommendationRequestBody;
+    const includeChartAnalysis = body.includeChartAnalysis ?? false;
 
     // Get natal chart from user profile if available
-    const natalChart = (user?.profile as any)?.natalChart ?? null;
+    const userProfile = isObject(user?.profile) ? (user.profile as Record<string, unknown>) : null;
+    const natalChart = (userProfile?.natalChart as NatalChart | undefined) ?? null;
     const natalPositions: Record<string, string> = {};
 
     if (natalChart) {
@@ -77,7 +203,7 @@ async function handlePost(request: NextRequest) {
     const currentRaw = getAccuratePlanetaryPositions(new Date());
     const currentPositions: Record<string, string> = {};
     Object.entries(currentRaw).forEach(([planet, pos]) => {
-      if (pos?.sign) currentPositions[planet] = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
+      currentPositions[planet] = pos.sign;
     });
 
     // Elemental counts for current sky
@@ -121,78 +247,20 @@ async function handlePost(request: NextRequest) {
     ];
 
     // Chart comparison (only if natal chart available and requested)
-    let chartComparison: {
-      overallHarmony: number;
-      elementalHarmony: number;
-      alchemicalAlignment: number;
-      planetaryResonance: number;
-      insights: {
-        favorableElements: string[];
-        challengingElements: string[];
-        harmonicPlanets: string[];
-        recommendations: string[];
-      };
-    } | null = null;
-    if (includeChartAnalysis && Object.keys(natalPositions).length > 0) {
-      const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnalForBirth(natalChart.birthData) : true;
-      const currentDiurnal = isCurrentSkyDiurnal(new Date());
-
-      const natalAlch = calculateAlchemicalFromPlanets(
-        extractAlchemicalPlanetPositions(natalChart),
-        natalDiurnal,
-      );
-      const currentAlch = calculateAlchemicalFromPlanets(
+    let chartComparison: ChartComparisonResult | null = null;
+    if (includeChartAnalysis && natalChart && Object.keys(natalPositions).length > 0) {
+      chartComparison = computeChartComparison({
+        natalChart,
+        natalPositions,
         currentRaw,
-        currentDiurnal,
-      );
-
-      const natalTotal = Object.values(natalAlch).reduce((a, b) => a + Number(b), 0) || 1;
-      const currentTotal = Object.values(currentAlch).reduce((a, b) => a + Number(b), 0) || 1;
-
-      // Cosine-like similarity for alchemical alignment
-      const keys = ["Spirit", "Essence", "Matter", "Substance"] as const;
-      let dot = 0, magN = 0, magC = 0;
-      keys.forEach((k) => {
-        const n = (natalAlch[k] ?? 0) / natalTotal;
-        const c = (currentAlch[k] ?? 0) / currentTotal;
-        dot += n * c;
-        magN += n * n;
-        magC += c * c;
+        currentPositions,
+        currentElementCounts,
+        total,
+        favorableElements,
+        challengingElements,
+        harmonicPlanets,
+        insights,
       });
-      const alchemicalAlignment = magN > 0 && magC > 0 ? dot / (Math.sqrt(magN) * Math.sqrt(magC)) : 0.5;
-
-      // Elemental harmony — overlap between natal and current
-      const natalEl: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-      Object.values(natalPositions).forEach((sign) => {
-        const el = SIGN_TO_ELEMENT[sign]; if (el) natalEl[el]++;
-      });
-      const natalElTotal = Object.values(natalEl).reduce((a, b) => a + b, 0) || 1;
-      let elementalOverlap = 0;
-      Object.keys(natalEl).forEach((el) => {
-        elementalOverlap += Math.min(natalEl[el] / natalElTotal, currentElementCounts[el] / total);
-      });
-      const elementalHarmony = Math.min(elementalOverlap, 1);
-
-      // Planetary resonance — planets in same sign natal vs current
-      const sharedSigns = Object.keys(natalPositions).filter(
-        (p) => natalPositions[p] === currentPositions[p]
-      ).length;
-      const planetaryResonance = Math.min(sharedSigns / Math.max(Object.keys(natalPositions).length, 1), 1);
-
-      const overallHarmony = (alchemicalAlignment * 0.4 + elementalHarmony * 0.35 + planetaryResonance * 0.25);
-
-      chartComparison = {
-        overallHarmony,
-        elementalHarmony,
-        alchemicalAlignment,
-        planetaryResonance,
-        insights: {
-          favorableElements,
-          challengingElements,
-          harmonicPlanets,
-          recommendations: insights,
-        },
-      };
     }
 
     // Today's real alchemical signature from the canonical engine: kalchm and
@@ -217,7 +285,7 @@ async function handlePost(request: NextRequest) {
         ...(live.degraded ? { degraded: true } : {}),
       };
     } catch (alchemyError) {
-      console.error("[personalized-recommendations] live alchemy unavailable:", alchemyError);
+      _logger.error("[personalized-recommendations] live alchemy unavailable:", alchemyError);
     }
 
     return NextResponse.json({
@@ -236,15 +304,15 @@ async function handlePost(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[personalized-recommendations] Error:", error);
+    _logger.error("[personalized-recommendations] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to compute recommendations" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-function handleGet() {
+function handleGet(): NextResponse {
   return NextResponse.json({ message: "Use POST with optional { includeChartAnalysis: true }" });
 }
 

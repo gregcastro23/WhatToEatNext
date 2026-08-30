@@ -27,6 +27,45 @@ const _CuisineType = {
   MEXICAN: "mexican",
 };
 
+const autumnData: SeasonUsageData = {
+  growing: ["sage", "rosemary", "thyme"],
+  cuisines: {
+    greek: {
+      combinations: ["spinach + feta", "lamb + herbs"],
+      dishes: ["moussaka", "stuffed peppers", "roasted lamb"],
+    },
+    french: {
+      combinations: ["mushroom + thyme", "apple + cinnamon"],
+      dishes: ["ratatouille", "mushroom soup", "apple tart"],
+    },
+  },
+  herbs: ["sage", "rosemary", "thyme", "bay leaf"],
+  vegetables: ["pumpkin", "squash", "mushrooms", "cauliflower"],
+  tarotAssociations: {
+    minorArcana: [
+      "2 of Swords",
+      "3 of Swords",
+      "4 of Swords",
+      "5 of Cups",
+      "6 of Cups",
+      "7 of Cups",
+      "8 of Wands",
+      "9 of Wands",
+      "10 of Wands",
+    ],
+    majorArcana: ["Justice", "The Hanged Man", "Death"],
+    zodiacSigns: ["libra", "scorpio", "sagittarius"],
+    cookingRecommendations: [
+      "Balance Air elements (libra) with harmonious flavor combinations",
+      "Use Water elements (scorpio) for deep, transformative dishes with complex flavors",
+      "Incorporate Fire elements (sagittarius) for bold, exploratory cooking",
+      "Find equilibrium in dish components (2 of Swords)",
+      "Create nostalgic comfort food (6 of Cups)",
+      "Balance workload with efficient meal preparation (10 of Wands)",
+    ],
+  },
+};
+
 export const seasonalUsage = {
   spring: {
     growing: ["basil", "oregano", "thyme"],
@@ -58,28 +97,29 @@ export const seasonalUsage = {
       majorArcana: ["The Emperor", "The Hierophant", "The Lovers"],
       zodiacSigns: ["aries", "taurus", "gemini"],
       cookingRecommendations: [
-        "Use energetic Fire elements (aries) for quick cooking methods like stir-frying and grilling",
-        "Incorporate Earth elements (taurus) for grounding dishes with root vegetables",
-        "Experiment with Air elements (gemini) for dishes with variety and contrast",
-        "Balance bold flavors (2 of Wands) with fresh spring ingredients",
-        "Consider fermentation and pickling for slower transformations (7 of Pentacles)",
+        "Use Fire elements (aries) to ignite passion in cooking with spicy, energizing dishes",
+        "Incorporate Earth elements (taurus) for rich, grounding, slow-cooked meals",
+        "Balance with Air elements (gemini) through light, varied, multi-course experiences",
+        "Begin new culinary projects with enthusiasm (2 of Wands)",
+        "Plan your seasonal garden and ingredient sourcing (3 of Wands)",
+        "Celebrate seasonal milestones with community meals (4 of Wands)",
       ],
     },
   },
   summer: {
-    growing: ["basil", "rosemary", "cilantro"],
+    growing: ["mint", "chives", "parsley"],
     cuisines: {
-      greek: {
-        combinations: ["cucumber + mint", "tomato + feta"],
-        dishes: ["tzatziki", "greek salad", "souvlaki"],
-      },
       italian: {
-        combinations: ["tomato + basil", "zucchini + mint"],
-        dishes: ["caprese salad", "summer pasta", "grilled vegetables"],
+        combinations: ["basil + tomato", "oregano + garlic"],
+        dishes: ["caprese", "grilled vegetables", "pasta al pomodoro"],
+      },
+      mexican: {
+        combinations: ["cilantro + lime", "chili + oregano"],
+        dishes: ["ceviche", "fresh salsa", "grilled fish tacos"],
       },
     },
-    herbs: ["basil", "oregano", "tarragon", "cilantro"],
-    vegetables: ["tomatoes", "zucchini", "eggplant", "peppers"],
+    herbs: ["basil", "cilantro", "mint", "tarragon"],
+    vegetables: ["tomatoes", "peppers", "zucchini", "eggplant", "corn"],
     tarotAssociations: {
       minorArcana: [
         "2 of Cups",
@@ -104,44 +144,8 @@ export const seasonalUsage = {
       ],
     },
   },
-  autumn: {
-    growing: ["sage", "rosemary", "thyme"],
-    cuisines: {
-      greek: {
-        combinations: ["spinach + feta", "lamb + herbs"],
-        dishes: ["moussaka", "stuffed peppers", "roasted lamb"],
-      },
-      french: {
-        combinations: ["mushroom + thyme", "apple + cinnamon"],
-        dishes: ["ratatouille", "mushroom soup", "apple tart"],
-      },
-    },
-    herbs: ["sage", "rosemary", "thyme", "bay leaf"],
-    vegetables: ["pumpkin", "squash", "mushrooms", "cauliflower"],
-    tarotAssociations: {
-      minorArcana: [
-        "2 of Swords",
-        "3 of Swords",
-        "4 of Swords",
-        "5 of Cups",
-        "6 of Cups",
-        "7 of Cups",
-        "8 of Wands",
-        "9 of Wands",
-        "10 of Wands",
-      ],
-      majorArcana: ["Justice", "The Hanged Man", "Death"],
-      zodiacSigns: ["libra", "scorpio", "sagittarius"],
-      cookingRecommendations: [
-        "Balance Air elements (libra) with harmonious flavor combinations",
-        "Use Water elements (scorpio) for deep, transformative dishes with complex flavors",
-        "Incorporate Fire elements (sagittarius) for bold, exploratory cooking",
-        "Find equilibrium in dish components (2 of Swords)",
-        "Create nostalgic comfort food (6 of Cups)",
-        "Balance workload with efficient meal preparation (10 of Wands)",
-      ],
-    },
-  },
+  autumn: autumnData,
+  fall: autumnData,
   winter: {
     growing: ["rosemary", "thyme", "sage"],
     cuisines: {
@@ -181,21 +185,33 @@ export const seasonalUsage = {
     },
   },
   all: {
-    growing: ["basil", "rosemary", "thyme", "sage", "oregano"],
+    growing: ["bay leaf", "parsley"],
     cuisines: {
-      global: {
-        combinations: ["garlic + herbs", "lemon + herbs"],
-        dishes: ["roasted meats", "soups", "stews"],
+      french: {
+        combinations: ["tarragon + shallot", "chervil + butter"],
+        dishes: ["quiche", "herb butter", "roast chicken"],
+      },
+      indian: {
+        combinations: ["coriander + cumin", "turmeric + ginger"],
+        dishes: ["curry", "dal", "tandoori"],
       },
     },
-    herbs: ["parsley", "thyme", "rosemary", "bay leaf", "oregano"],
-    vegetables: ["onions", "garlic", "carrots", "potatoes"],
+    herbs: ["parsley", "thyme", "bay leaf"],
+    vegetables: ["onions", "garlic", "carrots", "celery"],
     tarotAssociations: {
       minorArcana: [
         "Ace of Wands",
         "Ace of Cups",
         "Ace of Swords",
         "Ace of Pentacles",
+        "Page of Wands",
+        "Page of Cups",
+        "Page of Swords",
+        "Page of Pentacles",
+        "Knight of Wands",
+        "Knight of Cups",
+        "Knight of Swords",
+        "Knight of Pentacles",
         "Queen of Wands",
         "Queen of Cups",
         "Queen of Swords",
@@ -222,13 +238,18 @@ export const seasonalUsage = {
   },
 } as unknown as Record<Season, SeasonUsageData>;
 
+// Safe season data resolver
+function getSeasonData(season: Season): SeasonUsageData {
+  return seasonalUsage[season];
+}
+
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season): {
   inGrowing: boolean;
   inHerbs: boolean;
   inVegetables: boolean;
 } {
-  const seasonData = seasonalUsage[season];
+  const seasonData = getSeasonData(season);
   return {
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
@@ -237,13 +258,13 @@ export function getSeasonalUsageData(ingredient: string, season: Season): {
 }
 
 export function getTarotRecommendationsForSeason(season: Season): string[] {
-  return seasonalUsage[season].tarotAssociations?.cookingRecommendations ?? [];
+  return getSeasonData(season).tarotAssociations?.cookingRecommendations ?? [];
 }
 
 export function getMinorArcanaForSeason(season: Season): string[] {
-  return seasonalUsage[season].tarotAssociations?.minorArcana ?? [];
+  return getSeasonData(season).tarotAssociations?.minorArcana ?? [];
 }
 
 export function getMajorArcanaForSeason(season: Season): string[] {
-  return seasonalUsage[season].tarotAssociations?.majorArcana ?? [];
+  return getSeasonData(season).tarotAssociations?.majorArcana ?? [];
 }

@@ -1,45 +1,12 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-
-interface ShopItem {
-  id: string;
-  slug: string;
-  title: string;
-  description: string | null;
-  category: string;
-  isOneTime: boolean;
-  baseCost: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  };
-  liveCost: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  };
-  canAfford: boolean;
-}
-
-interface ShopResponse {
-  success: boolean;
-  balances: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  };
-  pricing: {
-    multiplier: number;
-    aNumber: number;
-    dominantElement: string;
-    timestamp: string;
-  };
-  items: ShopItem[];
-}
+import {
+  economyErrorResponseSchema,
+  purchaseResponseSchema,
+  shopResponseSchema,
+  type ShopResponse,
+} from "@/lib/economy/clientSchemas";
 
 const TOKEN_CONFIG = {
   spirit: { symbol: "🝇", color: "text-amber-300" },
@@ -67,12 +34,18 @@ export default function TokenShopModal() {
         setOpen(false);
         return;
       }
-      const data = await res.json();
-      if (!res.ok || !data?.success) {
-        setError(data?.message ?? "Failed to load shop");
+      const payload: unknown = await res.json();
+      const parsed = shopResponseSchema.safeParse(payload);
+      if (!res.ok || !parsed.success) {
+        const errorResponse = economyErrorResponseSchema.safeParse(payload);
+        setError(
+          errorResponse.success
+            ? (errorResponse.data.message ?? "Failed to load shop")
+            : "Invalid shop response",
+        );
         return;
       }
-      setShop(data);
+      setShop(parsed.data);
     } catch {
       setError("Failed to load live token shop");
     } finally {
@@ -134,14 +107,19 @@ export default function TokenShopModal() {
         credentials: "include",
         body: JSON.stringify({ shopItemSlug: slug }),
       });
-      const data = await res.json();
+      const payload: unknown = await res.json();
       if (res.status === 401) {
         window.dispatchEvent(new Event("open-signin-modal"));
         setOpen(false);
         return;
       }
-      if (!res.ok || !data?.success) {
-        setError(data?.message ?? "Purchase failed");
+      const parsed = purchaseResponseSchema.safeParse(payload);
+      if (!res.ok || !parsed.success || !parsed.data.success) {
+        setError(
+          parsed.success && !parsed.data.success
+            ? (parsed.data.message ?? "Purchase failed")
+            : "Invalid purchase response",
+        );
       }
       await fetchShop();
     } catch {
@@ -152,7 +130,7 @@ export default function TokenShopModal() {
   }, [fetchShop]);
 
   const pricePulse = useMemo(() => {
-    if (!shop?.pricing) return "x1.00";
+    if (!shop) return "x1.00";
     return `x${shop.pricing.multiplier.toFixed(2)}`;
   }, [shop]);
 
@@ -205,11 +183,11 @@ export default function TokenShopModal() {
           {(["spirit", "essence", "matter", "substance"] as const).map((k) => (
             <div key={k} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-white/80">
               <span className={`${TOKEN_CONFIG[k].color} mr-1.5`}>{TOKEN_CONFIG[k].symbol}</span>
-              {(shop?.balances?.[k] ?? 0).toFixed(2)}
+              {(shop?.balances[k] ?? 0).toFixed(2)}
             </div>
           ))}
           <div className="px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/25 text-xs font-semibold text-amber-200">
-            A# {(shop?.pricing?.aNumber ?? 0).toFixed(2)} · {shop?.pricing?.dominantElement ?? "—"}
+            A# {(shop?.pricing.aNumber ?? 0).toFixed(2)} · {shop?.pricing.dominantElement ?? "—"}
           </div>
         </div>
 

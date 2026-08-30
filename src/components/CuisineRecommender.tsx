@@ -392,9 +392,9 @@ export default function CuisineRecommender(): React.JSX.Element {
    */
   const calculateElementalMatch = (
     recipeElements: ElementalProperties | undefined,
-    userElements: ElementalProperties
+    userElements: ElementalProperties | undefined
   ): number => {
-    if (!recipeElements) return 0.5;
+    if (!recipeElements || !userElements) return 0.5;
     const elements = Object.keys(recipeElements) as Array<keyof ElementalProperties>;
     
     let dotProduct = 0;
@@ -569,8 +569,8 @@ export default function CuisineRecommender(): React.JSX.Element {
     if (cuisineTraditional) {
       Object.entries(cuisineTraditional).forEach(([id, sauceData]) => {
         const matchScore = calculateElementalMatch(
-          sauceData.elementalProperties as ElementalProperties | undefined,
-          cuisine.elementalProperties
+          sauceData?.elementalProperties as ElementalProperties | undefined,
+          cuisine?.elementalProperties
         );
         
         traditionalSauces.push({
@@ -584,8 +584,8 @@ export default function CuisineRecommender(): React.JSX.Element {
     
     const saucesWithMatches: SauceLike[] = saucesArray.map((sauce) => {
       const matchScore = calculateElementalMatch(
-        sauce.elementalProperties as ElementalProperties | undefined,
-        cuisine.elementalProperties
+        sauce?.elementalProperties as ElementalProperties | undefined,
+        cuisine?.elementalProperties
       );
       
       return {
@@ -744,10 +744,10 @@ export default function CuisineRecommender(): React.JSX.Element {
               
               {/* Only show elemental icons as a simple visual */}
               <div className="flex space-x-1">
-                {cuisineData.elementalProperties.Fire >= 0.3 && <Flame size={14} className="text-red-500" />}
-                {cuisineData.elementalProperties.Water >= 0.3 && <Droplets size={14} className="text-blue-500" />}
-                {cuisineData.elementalProperties.Earth >= 0.3 && <Mountain size={14} className="text-green-500" />}
-                {cuisineData.elementalProperties.Air >= 0.3 && <Wind size={14} className="text-yellow-500" />}
+                {(cuisineData.elementalProperties?.Fire ?? 0) >= 0.3 && <Flame size={14} className="text-red-500" />}
+                {(cuisineData.elementalProperties?.Water ?? 0) >= 0.3 && <Droplets size={14} className="text-blue-500" />}
+                {(cuisineData.elementalProperties?.Earth ?? 0) >= 0.3 && <Mountain size={14} className="text-green-500" />}
+                {(cuisineData.elementalProperties?.Air ?? 0) >= 0.3 && <Wind size={14} className="text-yellow-500" />}
               </div>
             </div>
           );

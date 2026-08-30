@@ -86,9 +86,9 @@ export function useProfile(): UseProfileReturn {
             if (parsed && typeof parsed === 'object' && parsed.natalChart) {
               profile = {
                 ...parsed,
-                userId: parsed.userId ?? session.user.id,
-                name: parsed.name ?? (session.user.name ? session.user.name : undefined),
-                email: parsed.email ?? (session.user.email ? session.user.email : undefined),
+                userId: parsed.userId ?? (session?.user?.id ?? ""),
+                name: parsed.name ?? (session?.user?.name ? session.user.name : undefined),
+                email: parsed.email ?? (session?.user?.email ? session.user.email : undefined),
               };
             }
           }

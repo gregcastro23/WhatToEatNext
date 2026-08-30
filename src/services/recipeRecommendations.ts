@@ -1,4 +1,4 @@
-import { createEnhancedError } from "../utils/errorHandling";
+import { createEnhancedError, ErrorType } from "../utils/errorHandling";
 import { logger } from "../utils/logger";
 import { _celestialCalculator } from "./celestialCalculations";
 import type { ElementalProperties } from "../types/alchemy";
@@ -35,7 +35,7 @@ export class RecipeRecommender {
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
-        throw createEnhancedError("Empty recipe list", "VALIDATION" as any);
+        throw createEnhancedError("Empty recipe list", ErrorType.VALIDATION);
       }
 
       // Get current celestial influences if not provided
@@ -143,15 +143,21 @@ export class RecipeRecommender {
     const getNames = (methods: Recipe["cookingMethods"]): string[] => {
       if (!methods) return [];
       if (Array.isArray(methods)) {
-        return methods.map((m) =>
-          typeof m === "string" ? m : (m).name,
-        );
+        return methods
+          .map((m) =>
+            typeof m === "string"
+              ? m
+              : m && typeof m === "object" && "name" in m
+                ? String((m as { name: unknown }).name)
+                : "",
+          )
+          .filter(Boolean);
       }
       if (typeof methods === "string") {
         return [methods];
       }
       if (typeof methods === "object" && "name" in methods) {
-        return [(methods as any).name];
+        return [String(methods.name)];
       }
       return [];
     };
@@ -349,7 +355,7 @@ export class RecipeRecommender {
 
   private aggregateIngredients(
     ingredients: Array<{ elementalProperties?: ElementalProperties }>,
-  ) {
+  ): ElementalProperties {
     return ingredients.reduce(
       (acc, ingredient) => ({
         Fire: acc.Fire + (ingredient.elementalProperties?.Fire ?? 0),
@@ -492,13 +498,12 @@ export class RecipeRecommender {
 
   // NEW: Convenience / Prep Time scorer for daily human use
   private calculateConvenienceScore(recipe: Recipe): number {
-    let totalMinutes = 0;
-    
     // Parse timeToMake, totalTime, prepTime
     const timeStr = recipe.totalTime ?? recipe.timeToMake ?? recipe.prepTime ?? "";
     if (!timeStr) return 0.5; // Neutral if no time specified
     
     const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
+    let totalMinutes: number;
     if (timeMatch) {
       const val = parseInt(timeMatch[1], 10);
       if (timeMatch[2].toLowerCase().startsWith("h")) {

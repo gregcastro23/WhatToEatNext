@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { _logger } from "@/lib/logger";
 import type { GeocodingResult } from "@/services/geocodingService";
-
 
 interface LocationData {
   displayName: string;
@@ -54,7 +54,7 @@ function formatDisplayName(raw: string): { primary: string; secondary: string } 
   const secondary = [parts[1], parts[parts.length - 1]]
     .filter(Boolean)
     .join(", ");
-  return { primary, secondary };
+  return { primary: secondary ? secondary : primary, secondary: secondary ? primary : "" };
 }
 
 /**
@@ -68,7 +68,7 @@ export function LocationSearch({
   compact = false,
   showCoordinates = true,
   placeholder = "Search for your birth city...",
-}: LocationSearchProps) {
+}: LocationSearchProps): React.JSX.Element {
   const [query, setQuery] = useState(defaultValue);
   const [results, setResults] = useState<GeocodingResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -76,12 +76,12 @@ export function LocationSearch({
   const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(
     null
   );
-  const searchTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle click outside to close results
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent): void {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
@@ -91,11 +91,11 @@ export function LocationSearch({
     }
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return (): void => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // Search with debounce
-  const performSearch = useCallback(async (searchQuery: string) => {
+  const performSearch = useCallback(async (searchQuery: string): Promise<void> => {
     if (searchQuery.length < 2) {
       setResults([]);
       setShowResults(false);
@@ -108,14 +108,17 @@ export function LocationSearch({
         `/api/geocoding?q=${encodeURIComponent(searchQuery)}`
       );
       if (!response.ok) throw new Error("Geocoding failed");
-      const data = await response.json();
+      const data = (await response.json()) as {
+        success?: boolean;
+        results?: GeocodingResult[];
+      };
 
-      if (data.success) {
+      if (data.success && Array.isArray(data.results)) {
         setResults(data.results);
         setShowResults(true);
       }
     } catch (error) {
-      console.error("Location search error:", error);
+      _logger.error("Location search error:", error);
       setResults([]);
     } finally {
       setIsLoading(false);
@@ -136,14 +139,14 @@ export function LocationSearch({
       void performSearch(query);
     }, 400);
 
-    return () => {
+    return (): void => {
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current);
       }
     };
   }, [query, performSearch, selectedLocation]);
 
-  const handleSelectLocation = (result: GeocodingResult) => {
+  const handleSelectLocation = (result: GeocodingResult): void => {
     const locationData: LocationData = {
       displayName: result.displayName,
       latitude: result.latitude,
@@ -159,7 +162,7 @@ export function LocationSearch({
     onLocationSelect(locationData);
   };
 
-  const handleClear = () => {
+  const handleClear = (): void => {
     setQuery("");
     setSelectedLocation(null);
     setResults([]);

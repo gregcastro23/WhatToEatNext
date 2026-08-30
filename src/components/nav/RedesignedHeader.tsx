@@ -227,9 +227,7 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
 
   const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "G";
   const userName = session?.user?.name ?? "Guest";
-  const userId =
-    (session?.user as { id?: string } | undefined)?.id?.slice(0, 8).toUpperCase() ??
-    "VISITOR";
+  const userId = session?.user?.id?.slice(0, 8).toUpperCase() ?? "VISITOR";
 
   return (
     <div

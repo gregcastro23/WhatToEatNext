@@ -1,6 +1,9 @@
 # alchm.kitchen (WTEN) — Solana Mainnet Sync Roadmap & Prompt-by-Prompt Execution Blueprint
 
-**Document Version:** `2.0.0-PROD`  
+**Document Version:** `2.1.0-PROD`
+
+**Last Progress Update:** `2026-08-30`
+
 **Companion Document:** `AlchmAgentsSolana/docs/SOLANA_MAINNET_MIGRATION_ROADMAP.md` (v2.0.0-PROD)  
 **Program ID (sibling authority):** `5QheuqaicKvPPRFEoEXwaE5xaFp7gauvJCfsjpQv8WzD`  
 **Runtime & Toolchain:** Bun `1.3.13` | Next.js | Jest | raw SQL via `@/lib/database`  
@@ -16,9 +19,9 @@ A rigorous audit of the WhatToEatNext (WTEN) repository and the sibling `AlchmAg
 
 - **C1: The Premise Correction (Cross-Repo Architecture)**  
   ASOL does not share direct database access to WTEN's `esms_onchain_claims` table. ASOL maintains its own Prisma database (`bridge_transfer(source_chain, target_chain, ...)`, `verified_solana_wallet`, `solana_sync_outbox`), with cross-site synchronization executing over authenticated HTTP endpoints (`/api/economy/sync-{credit,debit,event}`) touching `token_balances`.  
-  The unscoped join in [src/services/chainReconcileService.ts:196](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/chainReconcileService.ts#L196) remains a real defect: it fires when WTEN grows a second rail or reconciles multi-chain entries.
+  The former unscoped join was resolved by K1: claim aggregation and stale settlement now require an explicit CAIP-2 rail.
 - **C2: Shipped Capabilities vs. New Scope**  
-  The `esms-spl-mirror` subsystem already exists in [src/services/launchReadinessService.ts:204-214](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/launchReadinessService.ts#L204-L214), and [src/lib/esms-chain/__tests__/solanaMirror.test.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/esms-chain/__tests__/solanaMirror.test.ts) already pins literal-"true", 3-of-4 failure, base58 rejection, devnet defaults, explorer cluster suffixes, and `.env.example` validity. The genuine new work is surfacing the distinct `misconfigured` state and asserting the runtime zero-signer boundary.
+  The `esms-spl-mirror` subsystem, distinct `PARTIAL` readiness state, literal-"true" gate, 3-of-4 failure, base58 validation, and zero-runtime-SDK custody assertion are now pinned by K2 tests and ADR-014.
 - **C3: Five Extensions Define the Mint (Ground Truth)**  
   Per ASOL's on-chain `validate_existing_mint` ([programs/asol_program/src/instructions/esms.rs:388-399](file:///Users/cookingwithcastro/Desktop/AlchmAgentsSolana/programs/asol_program/src/instructions/esms.rs)), the Token-2022 mints require five extensions:
   1. `NonTransferable`
@@ -28,7 +31,7 @@ A rigorous audit of the WhatToEatNext (WTEN) repository and the sibling `AlchmAg
   5. `PermissionedBurn`  
   plus `decimals == 4`, `mint_authority == program authority PDA`, and `freeze_authority == None`.
 - **C4: The Metadata URI 404 Blocker (WTEN Blocks ASOL)**  
-  All live Devnet mints carry `uri = https://alchm.kitchen/metadata/esms/*.json`. WTEN currently serves no route, file, or rewrite at this path, returning 404s. Because `TokenMetadata` has no on-chain update instruction in `asol_program` and the Devnet mints lack `CloseAuthority`, WTEN must either host these files or coordinate the permanent Arweave freeze in ASOL Phase 4.
+  All live Devnet mints carry `uri = https://alchm.kitchen/metadata/esms/*.json`. K0 resolved the former 404 with digest-pinned static manifests and icons; ADR-015 rules that Mainnet freezes permanent Arweave URIs before initialization.
 - **C5: Reconciler Job Scoping**  
   Only Jobs 1 (`settleStaleClaims`) and 3 (`checkWalletInvariants`) in [src/services/chainReconcileService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/chainReconcileService.ts) touch claims. Job 2 (`healBurnedPurchases`) audits shop purchases, and Job 4 (`backfillPendingNfts`) handles recipe NFTs.
 
@@ -87,21 +90,70 @@ Under the expanded `cryptoPromo` doctrine, WTEN must never advertise a utility o
 │                              REVISED WTEN SYNC PIPELINE (K0–K5)                        │
 ├───────────────────────────────┬──────────────────────────────┬─────────────────────────┤
 │ K0: Metadata URI Ruling       │ K1: Dual-Rail Isolation      │ K2: Custody & Readiness │
-│ [STATUS: IMMEDIATE / BLOCKS]  │ [STATUS: CRITICAL]           │ [STATUS: READY]         │
+│ [STATUS: COMPLETE]            │ [STATUS: COMPLETE]           │ [STATUS: COMPLETE]      │
 ├───────────────────────────────┼──────────────────────────────┼─────────────────────────┤
 │ K3: Cluster Verification      │ K4: Supply Invariant & Value │ K5: Parity & Cutover    │
-│ [STATUS: QUEUED]              │ [STATUS: VALUE GUARANTEE]    │ [STATUS: QUEUED]        │
+│ [STATUS: COMPLETE]            │ [STATUS: COMPLETE]           │ [STATUS: READY/BLOCKED] │
 └───────────────────────────────┴──────────────────────────────┴─────────────────────────┘
 ```
 
 | Phase | Title | Focus | Status | Primary Surface |
 | :--- | :--- | :--- | :--- | :--- |
-| **K0** | Token Metadata URI Ruling | Resolve 404 vs. Arweave permanent freeze | **IMMEDIATE (BLOCKS ASOL)** | `public/metadata/esms/` or Arweave config |
-| **K1** | Dual-Rail Ledger Isolation & Schema | Widen columns, split pending index, rail-scope jobs | **CRITICAL** | [src/services/chainReconcileService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/chainReconcileService.ts) |
-| **K2** | Custody Boundary & Readiness | Misconfiguration reporting & zero-runtime-signer test | **READY** | [src/services/launchReadinessService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/launchReadinessService.ts) |
-| **K3** | Cluster Verification Prover | 5-extension verifier script & PDA derivation | **QUEUED** | `scripts/verify-spl-mirror-cluster.ts` |
-| **K4** | Supply Invariant & Value Disclosure | Aggregate supply invariant check & token disclosures | **VALUE GUARANTEE** | [src/services/economyIntegrityService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/economyIntegrityService.ts) |
-| **K5** | Identity Parity & Mainnet Cutover | Local fixture parity & ordered cutover runbook | **QUEUED** | `docs/deployment/SPL_MIRROR_CUTOVER_RUNBOOK.md` |
+| **K0** | Token Metadata URI Ruling | Resolve 404 vs. Arweave permanent freeze | **COMPLETE** (`9b656d66`) | `public/metadata/esms/` + ADR-015 |
+| **K1** | Dual-Rail Ledger Isolation & Schema | Widen columns, split pending index, rail-scope jobs | **COMPLETE** (`7e85fdf0`) | [src/services/chainReconcileService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/chainReconcileService.ts) |
+| **K2** | Custody Boundary & Readiness | Misconfiguration reporting & zero-runtime-signer test | **COMPLETE** (`132a3c9e`) | [src/services/launchReadinessService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/launchReadinessService.ts) |
+| **K3** | Cluster Verification Prover | 5-extension verifier script & PDA derivation | **COMPLETE** (`132a3c9e`); Devnet measurement recorded | `scripts/verify-spl-mirror-cluster.ts` |
+| **K4** | Supply Invariant & Value Disclosure | Exact aggregate supply invariant & honest utility disclosure | **IMPLEMENTATION COMPLETE** | [src/services/economyIntegrityService.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/economyIntegrityService.ts) |
+| **K5** | Identity Parity & Mainnet Cutover | Local fixture parity & ordered cutover runbook | **IMPLEMENTATION COMPLETE — CUTOVER BLOCKED ON ASOL MAINNET** | `docs/deployment/SPL_MIRROR_CUTOVER_RUNBOOK.md` |
+
+### K0–K5 execution update — 2026-08-30
+
+- K0's static metadata, icon, CORS, digest, and hosting-authority gates pass (`21/21` focused tests).
+- K1's dual-rail service gate passes (`7/7` focused tests). The SQL PREPARE and behaviour commands are correctly wired at `48` statements, but this restricted workspace could not resolve the configured database hostname; they remain mandatory release-environment gates.
+- K2's zero-signer/runtime-dependency and partial-readiness assertions pass. WTEN still contains no runtime Solana SDK or signer.
+- K3's prover and recorded Devnet 4/4 measurement remain the last authoritative live witness. A fresh run on 2026-08-30 was blocked by workspace network policy, so no new slot was fabricated.
+- K4 now compares raw 4-decimal atoms from read-only `getTokenSupply` responses against rail-scoped `minted` claim aggregates. A one-atom (`0.0001`) excess is a violation; disabled mirrors make no database or RPC call. The UI identifies ESMS as non-transferable, closed-loop culinary alchemy units.
+- K5 pins names, symbols, and decimals locally (`5/5` tests) and provides a strict verify → commit measurement → validate backing → enable sequence with an immediate presentation-only rollback switch.
+- Operational Mainnet activation is intentionally not marked complete: ASOL must deploy/initialize Mainnet mints and WTEN must record a live 4/4 slot before `NEXT_PUBLIC_ESMS_SPL_ENABLED=true`.
+
+---
+
+### Phase 7 Type-Safety Readiness Progress — 2026-08-30
+
+This supporting reliability workstream hardened shared API and sync boundaries and is now complete at the governed milestone.
+
+| Lint Batch | Status | Measured Result |
+| :--- | :--- | :--- |
+| **Batch 0 — Governance** | **COMPLETE** | Declined `no-void` and established the honest `4,987` starting baseline. |
+| **Batch A — Tables & Feed Boundaries** | **COMPLETE** | Removed `98` tracked warnings; repository baseline ratcheted to `4,889`. |
+| **Batch B — API & Agent Communication** | **COMPLETE** | Removed all `109` tracked warnings from the six named files; each target now reports `0` tracked warnings. |
+| **Batch C — Calculations, Recipes & Grocery Adapters** | **COMPLETE** | Removed all `118` tracked warnings from the six named files; each target now reports `0` tracked warnings. |
+| **Batch D — Custom Hooks & State Contexts** | **COMPLETE** | Removed all `93` freshly measured tracked warnings from the five named files; each target now reports `0` tracked warnings. The honest shared astrology contract also removed `14` downstream unsafe-access warnings, for a `107`-warning repository-wide reduction. |
+| **Batch E — Interactive UI & Admin Metrics** | **COMPLETE** | Removed exactly `154` tracked warnings across the seven planned files (`126`) and four explicitly named adjacent UI extensions (`28`); every target now reports `0` tracked warnings and the `<= 4,500` milestone is met exactly. |
+
+Batch B added validated request/response boundaries for cuisine generation, menu persistence, Food Lab persistence, planetary API responses, admin agent-network metadata, and internal agent synchronization. Production-critical failure paths now use `_logger.error`, while non-critical cache degradation remains explicitly lower severity. Unified menu recipes without a display title are normalized at the boundary, and nested planetary positions are structurally validated before persistence.
+
+Batch C added validated cuisine/recipe deserialization, runtime-safe extended-recipe ingredient normalization, lossless alchemical affinity adapters, canonical and legacy grocery ingredient normalization, typed astronomical orbital and midheaven boundaries, and canonical elemental/zodiac steering calculations. Valid siblings are preserved when malformed boundary entries are skipped, and adapter provenance plus engine metadata now survives round trips through the canonical affinity model.
+
+Batch D added runtime-validated token balance and daily-claim responses, finite planetary-position normalization for the current-chart boundary, canonical lunar-phase and tarot adapters, an honest lowercase astrology position-map contract, and schema-validated recipe-queue persistence/import. Malformed siblings are skipped without discarding valid entries, zero-valued coordinates are preserved, additive tarot boosts are explicitly distinguished from normalized elemental balances, and malformed browser vibration capabilities cannot convert a successful token claim into a failure.
+
+Batch E added schema-validated admin, economy, shop, mint-ledger, astrology-recommendation, and planetary-chat boundaries. It removed the recipe builder's `@ts-nocheck`, corrected a reversed `determineIngredientModality` call, preserved zero-valued scores, and replaced a Chakra slot-context misuse with honest local card primitives. The governed extension files were `HomeMethodsComponent.tsx` (`8`), `MethodsRecommender.tsx` (`4`), `CosmicAlignmentPreview.tsx` (`4`), and `TokenShopModal.tsx` (`12`), with no unnamed quota filler.
+
+The repository-wide baseline is ratcheted to exactly `4,500`, an exact `154`-warning decrease from the pre-Batch-E baseline of `4,654` and a net decrease of `487` from the governed `4,987` starting point. This closes the Phase 7 milestone without changing the declined-rule governance set.
+
+Verification evidence:
+
+- `bun run typecheck` passes; `bun run lint` passes with `0` errors and `22` pre-existing warnings outside Batch E.
+- Unified-engine witness: `28/28` tests pass; snapshot parity is `100%`.
+- Batch E focused gate: `9/9` tests pass across runtime-boundary and component-wiring suites.
+- Full test gate: `315/315` suites pass (`3,287` active tests passed, `10` skipped). In the restricted workspace, the same `bun run test` gate uses the established no-IPC `bunx tsx` wrapper so the determinism subprocess checks can run without a sandbox socket error.
+- The standards review's component-wiring findings were remediated with focused tests; a final spec audit found no remaining Batch E governance or correctness gap. Consolidating the balance bar onto the shared economy hook remains a nonblocking deep-module cleanup candidate.
+
+Next steps:
+
+1. Execute K0 metadata hosting resolution and record the immutable Mainnet URI authority decision.
+2. Execute K1 dual-rail isolation and schema hardening, including SQL parse/behaviour gates.
+3. Continue through K2–K5 only after each preceding rail and custody gate is green.
 
 ---
 
@@ -466,7 +518,7 @@ Define the exact cutover runbook for transitioning the mirror from Devnet to Mai
 # 1. Full workspace verification
 bun run typecheck
 bun run lint
-bun run test:fast
+bun run test
 
 # 2. Targeted test suites (included in CI full run)
 bun run test -- src/lib/esms-chain
@@ -482,18 +534,16 @@ bun scripts/verify-spl-mirror-cluster.ts --cluster devnet
 | **cryptoPromo Doctrine** | Presence-gated rendering | Partial config $\rightarrow$ `PARTIAL` status in admin, UI rendered absent. |
 | **Custody Boundary** | Zero runtime Solana dependencies | Zero `@solana/*` in `dependencies`; `solanaMirror.ts` has 0 imports. |
 | **Cluster Verification** | Measured on-chain existence | 5 extensions verified (`NonTransferable`, `PermanentDelegate`, `MetadataPointer`, `TokenMetadata`, `PermissionedBurn`). |
-| **Dual-Rail Isolation** | `target_chain` on every claim | Base ceiling counts Base claims only; 0.0001 Solana over-mint caught. |
+| **Dual-Rail Isolation** | `target_chain` on every claim | Base ceiling counts Base claims only; Solana aggregate uses its own rail. |
 | **Scan Coverage** | Hourly rotation | `checkWalletInvariants` rotates scanned cohort every hour via md5 hash. |
-| **Cross-Rail Supply** | Aggregate ledger backing | Total Solana supply $\le \sum \text{claims}(\text{solana:*})$ verified periodically. |
+| **Cross-Rail Supply** | Aggregate ledger backing | Total Solana supply $\le \sum \text{minted claims}(\text{solana:*})$; a one-atom excess fails. |
 | **Cutover Ordering** | Verify-then-flip sequence | `NEXT_PUBLIC_ESMS_SPL_CLUSTER` flips only after committed on-chain proof. |
 
 ---
 
-## 5. Open Architectural Decisions for the Owner
+## 5. Resolved Decisions & Remaining External Gate
 
-1. **Metadata URI Scheme**:
-   - **Recommendation**: Mainnet freezes permanent Arweave URIs (`ESMS_METADATA_URIS`), while Devnet mints are retired in place. WTEN serves placeholder metadata at `public/metadata/esms/*.json` for Devnet explorer compatibility.
-2. **Solana `claim_id` Format**:
-   - Adopt the program's `CLAIM_RECEIPT_SEED` PDA derivation for Solana claims, stored in the widened `VARCHAR(66)` / `VARCHAR(128)` `claim_id` column.
-3. **WTEN Solana Settlement Role**:
-   - WTEN remains an off-chain ledger authority and read-only identity mirror. Solana wallet bindings and settlement execution remain exclusively owned by ASOL via authenticated HTTP sync endpoints.
+1. **Metadata URI Scheme — RESOLVED:** ADR-015 selects permanent Arweave URIs for Mainnet and best-effort digest-pinned `alchm.kitchen` hosting for Devnet.
+2. **Solana claim identity — RESOLVED:** Solana claims use the program's receipt-PDA identity; Migration 81's text address/signature columns and rail-scoped pending index support the shape without conflating it with Base.
+3. **WTEN Solana role — RESOLVED:** WTEN is the authoritative off-chain ledger, read-only identity/supply observer, and presentation gate. All Solana state changes remain in ASOL's KMS boundary.
+4. **External gate — OPEN:** ASOL Mainnet deployment, initialization, and a live WTEN 4/4 verification slot are prerequisites to the final environment flip. See `docs/deployment/SPL_MIRROR_CUTOVER_RUNBOOK.md`.

@@ -22,8 +22,7 @@ interface Params {
 
 export async function DELETE(request: Request, { params }: Params) {
   const session = await auth();
-  const user = session?.user as { id?: string } | undefined;
-  if (!user?.id) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -57,7 +56,7 @@ export async function DELETE(request: Request, { params }: Params) {
           SET revoked_at = NOW()
         WHERE id = $1 AND user_id = $2 AND revoked_at IS NULL
         RETURNING id`,
-      [id, user.id],
+      [id, session.user.id],
     );
     if (result.rowCount === 0) {
       return NextResponse.json(

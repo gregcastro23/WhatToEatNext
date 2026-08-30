@@ -42,7 +42,9 @@ const CATEGORY_PATTERNS: Record<GroceryCategory, RegExp> = {
 /**
  * Unit conversion mappings (convert to base units)
  */
-const UNIT_CONVERSIONS: Record<string, { baseUnit: string; factor: number }> = {
+const UNIT_CONVERSIONS: Partial<
+  Record<string, { baseUnit: string; factor: number }>
+> = {
   // Volume
   tsp: { baseUnit: "ml", factor: 4.929 },
   teaspoon: { baseUnit: "ml", factor: 4.929 },
@@ -205,6 +207,40 @@ function roundAmount(amount: number): number {
   return Math.round(amount); // Whole number
 }
 
+interface GroceryIngredientInput {
+  name: string;
+  amount: number;
+  unit: string;
+}
+
+function normalizeGroceryIngredient(
+  rawIngredient: unknown,
+): GroceryIngredientInput | null {
+  if (typeof rawIngredient === "string") {
+    const name = rawIngredient.trim();
+    return name ? { name, amount: 1, unit: "unit" } : null;
+  }
+  if (
+    typeof rawIngredient !== "object" ||
+    rawIngredient === null ||
+    Array.isArray(rawIngredient)
+  ) {
+    return null;
+  }
+
+  const data = rawIngredient as Record<string, unknown>;
+  if (typeof data.name !== "string" || !data.name.trim()) return null;
+
+  const amount = data.amount === undefined ? 1 : Number(data.amount);
+  if (!Number.isFinite(amount)) return null;
+
+  return {
+    name: data.name,
+    amount,
+    unit: typeof data.unit === "string" && data.unit.trim() ? data.unit : "unit",
+  };
+}
+
 /**
  * Generation options
  */
@@ -248,23 +284,25 @@ export function generateGroceryList(
     >();
 
     meals.forEach((meal) => {
-      if (!meal.recipe?.ingredients) return;
+      const { recipe } = meal;
+      if (!recipe) return;
 
-      meal.recipe.ingredients.forEach((rawIngredient: any) => {
-        // Handle both string ingredients and object ingredients
-        const ingredient = typeof rawIngredient === 'string'
-          ? { name: rawIngredient, amount: 1, unit: 'unit' }
-          : rawIngredient;
+      const rawIngredients: unknown = recipe.ingredients;
+      if (!Array.isArray(rawIngredients)) return;
 
-        const normalizedName = normalizeIngredientName(ingredient.name ?? String(rawIngredient));
+      rawIngredients.forEach((rawIngredient: unknown) => {
+        const ingredient = normalizeGroceryIngredient(rawIngredient);
+        if (!ingredient) return;
+
+        const normalizedName = normalizeIngredientName(ingredient.name);
         const key =
           consolidateBy === "ingredient"
             ? normalizedName
-            : `${normalizedName}-${meal.recipe!.id}`;
+            : `${normalizedName}-${recipe.id}`;
 
         // Convert to base unit if requested
-        let amount = Number(ingredient.amount ?? 1) * meal.servings;
-        let unit = ingredient.unit ?? 'unit';
+        let amount = ingredient.amount * meal.servings;
+        let { unit } = ingredient;
 
         if (convertUnits) {
           const converted = convertToBaseUnit(amount, unit);
@@ -277,7 +315,7 @@ export function generateGroceryList(
           // Only consolidate if units match
           if (existing.baseUnit === unit) {
             existing.baseAmount += amount;
-            existing.usedInRecipes.push(meal.recipe!.id);
+            existing.usedInRecipes.push(recipe.id);
             if (!existing.originalUnits.includes(ingredient.unit)) {
               existing.originalUnits.push(ingredient.unit);
             }
@@ -290,7 +328,7 @@ export function generateGroceryList(
               baseUnit: unit,
               originalUnits: [ingredient.unit],
               category: detectCategory(normalizedName),
-              usedInRecipes: [meal.recipe!.id],
+              usedInRecipes: [recipe.id],
             });
           }
         } else {
@@ -300,7 +338,7 @@ export function generateGroceryList(
             baseUnit: unit,
             originalUnits: [ingredient.unit],
             category: detectCategory(normalizedName),
-            usedInRecipes: [meal.recipe!.id],
+            usedInRecipes: [recipe.id],
           });
         }
       });
@@ -313,7 +351,7 @@ export function generateGroceryList(
       const sauceServings = meal.sauce.servings || 1;
 
       meal.sauce.ingredients.forEach((rawIngredient: string) => {
-        const ingredient = { name: rawIngredient, amount: 1, unit: 'unit' };
+        const ingredient = { name: rawIngredient, amount: 1, unit: "unit" };
         const normalizedName = normalizeIngredientName(ingredient.name);
         const key =
           consolidateBy === "ingredient"

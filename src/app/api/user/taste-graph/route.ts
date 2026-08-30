@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import {
   computeTasteGraph,
   fetchUserInteractions,
   recordInteraction,
   type InteractionType,
 } from "@/services/userInteractionsService";
+import { isObject } from "@/utils/typeGuards";
 
 const VALID_TYPES: InteractionType[] = [
   "recipe_view",
@@ -18,6 +20,13 @@ const VALID_TYPES: InteractionType[] = [
   "food_rating",
 ];
 
+interface TasteGraphPostBody {
+  type?: unknown;
+  payload?: unknown;
+  context?: unknown;
+  weight?: unknown;
+}
+
 /**
  * GET /api/user/taste-graph
  *
@@ -26,7 +35,7 @@ const VALID_TYPES: InteractionType[] = [
  * user is always the authenticated session user — the client never passes an
  * id, so one user can't read another's graph.
  */
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -39,7 +48,7 @@ export async function GET() {
     ]);
     return NextResponse.json({ interactions, tasteGraph });
   } catch (error) {
-    console.error("[GET /api/user/taste-graph] failed:", error);
+    _logger.error("[GET /api/user/taste-graph] failed:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -54,15 +63,16 @@ export async function GET() {
  * client learning store's writes (learnFromRecipe / trackInteraction) with the
  * canonical `user_interactions` event log.
  */
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const type = body?.type as InteractionType;
+    const rawBody: unknown = await request.json();
+    const body = (isObject(rawBody) ? rawBody : {}) as TasteGraphPostBody;
+    const type = typeof body.type === "string" ? (body.type as InteractionType) : ("" as InteractionType);
     if (!VALID_TYPES.includes(type)) {
       return NextResponse.json(
         { error: "Invalid interaction type" },
@@ -74,11 +84,11 @@ export async function POST(request: Request) {
       userId: session.user.id,
       type,
       payload:
-        body.payload && typeof body.payload === "object"
+        body.payload && typeof body.payload === "object" && !Array.isArray(body.payload)
           ? (body.payload as Record<string, unknown>)
           : {},
       context:
-        body.context && typeof body.context === "object"
+        body.context && typeof body.context === "object" && !Array.isArray(body.context)
           ? (body.context as Record<string, unknown>)
           : {},
       weight: typeof body.weight === "number" ? body.weight : undefined,
@@ -86,7 +96,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("[POST /api/user/taste-graph] failed:", error);
+    _logger.error("[POST /api/user/taste-graph] failed:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

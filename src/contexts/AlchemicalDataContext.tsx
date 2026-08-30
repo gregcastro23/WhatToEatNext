@@ -1,7 +1,10 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { cuisines as staticCuisines } from '@/data/cuisines';
+import { allIngredients as staticIngredients } from '@/data/ingredients/index';
 import { flattenCuisineRecipes } from '@/data/recipes/index';
+import { allSauces as staticSauces } from '@/data/sauces';
 import { alchmAPI } from '@/lib/api/alchm-client';
 import type { Recipe } from '@/types/recipe';
 
@@ -14,12 +17,14 @@ interface AlchemicalDataContextType {
   error: string | null;
 }
 
+const defaultStaticRecipes = flattenCuisineRecipes(staticCuisines);
+
 const AlchemicalDataContext = createContext<AlchemicalDataContextType>({
-  cuisines: null,
-  sauces: null,
-  ingredients: null,
-  recipes: null,
-  loading: true,
+  cuisines: staticCuisines,
+  sauces: staticSauces,
+  ingredients: staticIngredients,
+  recipes: defaultStaticRecipes,
+  loading: false,
   error: null,
 });
 
@@ -27,11 +32,11 @@ export const useAlchemicalData = () => useContext(AlchemicalDataContext);
 
 export function AlchemicalDataProvider({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState<AlchemicalDataContextType>({
-    cuisines: null,
-    sauces: null,
-    ingredients: null,
-    recipes: null,
-    loading: true,
+    cuisines: staticCuisines,
+    sauces: staticSauces,
+    ingredients: staticIngredients,
+    recipes: defaultStaticRecipes,
+    loading: false,
     error: null,
   });
 
@@ -45,13 +50,16 @@ export function AlchemicalDataProvider({ children }: { children: React.ReactNode
           alchmAPI.getIngredients(),
         ]);
         
-        const recipes = flattenCuisineRecipes(cuisines);
+        const effectiveCuisines = cuisines || staticCuisines;
+        const effectiveSauces = sauces || staticSauces;
+        const effectiveIngredients = ingredients || staticIngredients;
+        const recipes = flattenCuisineRecipes(effectiveCuisines) || defaultStaticRecipes;
         
         if (isMounted) {
           setData({
-            cuisines,
-            sauces,
-            ingredients,
+            cuisines: effectiveCuisines,
+            sauces: effectiveSauces,
+            ingredients: effectiveIngredients,
             recipes,
             loading: false,
             error: null,
@@ -61,6 +69,10 @@ export function AlchemicalDataProvider({ children }: { children: React.ReactNode
         if (isMounted) {
           setData(prev => ({
             ...prev,
+            cuisines: prev.cuisines || staticCuisines,
+            sauces: prev.sauces || staticSauces,
+            ingredients: prev.ingredients || staticIngredients,
+            recipes: prev.recipes || defaultStaticRecipes,
             loading: false,
             error: err.message || 'Failed to load alchemical data',
           }));

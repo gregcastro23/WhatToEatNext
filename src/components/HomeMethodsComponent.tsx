@@ -11,8 +11,7 @@ import {
   transformationMethods
 } from '@/data/cooking/methods';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import type { LunarPhase } from '@/types/alchemy';
-import type { CelestialPosition } from '@/types/celestial';
+import type { LunarPhaseWithSpaces } from '@/types';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { createLogger } from '@/utils/logger';
@@ -31,19 +30,11 @@ interface FormattedMethod {
   variations: FormattedMethod[];
 }
 
-// The runtime alignment shape from useAstrologicalState uses lowercase planet keys
-// (see useAstrologicalState.ts:124-135), which is why we can't rely on the exported
-// PlanetaryAlignment type directly — it declares uppercase keys. Narrow locally.
-type RuntimeMoonPosition = CelestialPosition & { phase?: string };
-interface RuntimePlanetaryAlignment extends Record<string, CelestialPosition | RuntimeMoonPosition | undefined> {
-  moon?: RuntimeMoonPosition;
-}
-
 const fireSigns = ['Aries', 'Leo', 'Sagittarius'];
 const waterSigns = ['Cancer', 'Scorpio', 'Pisces'];
 const earthSigns = ['Taurus', 'Virgo', 'Capricorn'];
 const airSigns = ['Gemini', 'Libra', 'Aquarius'];
-const lunarPhases: LunarPhase[] = [
+const lunarPhases: LunarPhaseWithSpaces[] = [
   'new moon',
   'waxing crescent',
   'first quarter',
@@ -54,7 +45,7 @@ const lunarPhases: LunarPhase[] = [
   'waning crescent',
 ];
 
-function normalizeLunarPhase(phase: string | undefined): LunarPhase {
+function normalizeLunarPhase(phase: string | undefined): LunarPhaseWithSpaces {
   const normalized = phase?.toLowerCase();
   return lunarPhases.find((item) => item === normalized) ?? 'new moon';
 }
@@ -65,8 +56,8 @@ export default function HomeMethodsComponent() {
   const [selectedMethod, setSelectedMethod] = useState<FormattedMethod | null>(null);
 
   useEffect(() => {
-    if (!loading && currentPlanetaryAlignment) {
-      const alignment = currentPlanetaryAlignment as unknown as RuntimePlanetaryAlignment;
+    if (!loading) {
+      const alignment = currentPlanetaryAlignment;
       const sunSign = alignment.sun?.sign ?? 'Aries';
       const moonPhase = normalizeLunarPhase(alignment.moon?.phase);
 
@@ -105,11 +96,7 @@ export default function HomeMethodsComponent() {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
 
-          const elementalEffect = method.elementalEffect ?? method.elementalProperties ?? {
-            Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.3
-          };
-
-          const duration = method.duration ?? { min: 10, max: 30 };
+          const { duration, elementalEffect } = method;
 
           const variations: FormattedMethod[] = Array.isArray(method.variations)
             ? method.variations.map((v, i) => ({
@@ -117,7 +104,7 @@ export default function HomeMethodsComponent() {
                 name: typeof v === 'string' ? v : v.name,
                 description: typeof v === 'string'
                   ? `A variation of ${name} with different characteristics.`
-                  : (v.description ?? `A variation of ${name}.`),
+                  : v.description,
                 elementalEffect,
                 score: Math.max(0.1, score - 0.1),
                 duration,
@@ -130,12 +117,12 @@ export default function HomeMethodsComponent() {
           return {
             id: key,
             name,
-            description: method.description ?? '',
+            description: method.description,
             elementalEffect,
             score,
             duration,
-            suitable_for: method.suitable_for ?? [],
-            benefits: method.benefits ?? [],
+            suitable_for: method.suitable_for,
+            benefits: method.benefits,
             variations
           };
         }

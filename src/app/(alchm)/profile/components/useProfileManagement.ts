@@ -39,12 +39,12 @@ function useProfileDataLoader(): {
       localStorage.removeItem("userProfile");
     }
 
-    if (!serverLoaded) {
+    if (!serverLoaded && session?.user) {
       profile = parseStoredProfile(
         getStorageItem("userProfile"),
-        session.user.id,
-        session.user.name,
-        session.user.email,
+        session.user.id ?? "",
+        session.user.name ?? "",
+        session.user.email ?? "",
       );
     }
 
@@ -66,7 +66,7 @@ async function handleOnboardingFlow(
   birthDateTime: string,
   updateSession: () => Promise<unknown>,
 ): Promise<{ success: boolean; message?: string }> {
-  if (!session?.user.email || !session.user.name) {
+  if (!session?.user?.email || !session.user.name) {
     return { success: false, message: "Session missing user info. Please log out and log in again." };
   }
   const res = await executeOnboarding(session.user.email, session.user.name, birthLocation, birthDateTime);
@@ -163,7 +163,7 @@ export interface ProfileManagementState {
 
 export function useProfileManagement(): ProfileManagementState {
   const { data: session, status, update: updateSession } = useSession();
-  const isOperator = (session?.user as { role?: string } | undefined)?.role === "admin";
+  const isOperator = session?.user?.role === "admin";
   const { profileData, preferences, isFetchingProfile, setPreferences } = useProfileDataLoader();
   const [currentStep, setCurrentStep] = useState<ProfileStep>("birth-data");
   const [isLoading, setIsLoading] = useState(false);

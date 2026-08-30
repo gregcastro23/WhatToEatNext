@@ -22,6 +22,7 @@ import {
   type PracticeDefinition,
   type PracticeType,
 } from "@/lib/economy/practices";
+import { _logger } from "@/lib/logger";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { TokenBalances } from "@/types/economy";
 
@@ -155,7 +156,7 @@ export const practiceRewardService = {
 
       return { rewarded: true, tokenType: def.tokenType, amount, hint, balances };
     } catch (err) {
-      console.error("[practiceRewardService] recognize failed:", err);
+      _logger.error("[practiceRewardService] recognize failed:", err);
       return { rewarded: false, reason: "error" };
     }
   },

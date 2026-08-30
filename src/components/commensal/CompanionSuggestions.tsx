@@ -11,26 +11,9 @@ import {
   Loader2,
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import type { BirthData, NatalChart } from "@/types/natalChart";
-
-interface Companion {
-  userId: string;
-  email: string;
-  name: string;
-  bio: string;
-  dominantElement: "Fire" | "Water" | "Air" | "Earth" | string;
-  monicaConstant: number | null;
-  birthData: BirthData;
-  natalChart: NatalChart | null;
-  activation?: {
-    strength: number;
-    dignity: string;
-    element: string;
-    planetaryRuler: string;
-    description: string;
-  };
-  lastActionAt?: string;
-}
+import { _logger } from "@/lib/logger";
+import { isCompanionsResponse } from "@/types";
+import type { BirthData, CompanionSuggestion, NatalChart } from "@/types";
 
 interface CompanionSuggestionsProps {
   onInvite: (
@@ -73,10 +56,14 @@ export function CompanionSuggestions({
   refreshTrigger = 0,
   inviteDisabled = false,
 }: CompanionSuggestionsProps) {
-  const [activeAgents, setActiveAgents] = useState<Companion[]>([]);
-  const [historicalAgents, setHistoricalAgents] = useState<Companion[]>([]);
-  const [cosmicRoster, setCosmicRoster] = useState<Companion[]>([]);
-  const [savedCompanions, setSavedCompanions] = useState<Companion[]>([]);
+  const [activeAgents, setActiveAgents] = useState<CompanionSuggestion[]>([]);
+  const [historicalAgents, setHistoricalAgents] = useState<
+    CompanionSuggestion[]
+  >([]);
+  const [cosmicRoster, setCosmicRoster] = useState<CompanionSuggestion[]>([]);
+  const [savedCompanions, setSavedCompanions] = useState<CompanionSuggestion[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [degraded, setDegraded] = useState(false);
@@ -95,19 +82,31 @@ export function CompanionSuggestions({
         const res = await fetch("/api/commensal/companions", {
           signal: controller.signal,
         });
-        const data = await res.json().catch(() => ({}));
+        const rawData: unknown = await res
+          .json()
+          .catch(() => ({ success: false }));
+        if (!isCompanionsResponse(rawData)) {
+          throw new Error(
+            "Companion response did not match the expected contract",
+          );
+        }
+        const data = rawData;
         if (!res.ok) {
-          throw new Error(data.message ?? "Failed to load dining companions");
+          throw new Error(
+            data.success
+              ? "Failed to load dining companions"
+              : (data.message ?? "Failed to load dining companions"),
+          );
         }
 
         if (data.success) {
-          setActiveAgents(data.activeAgents ?? []);
-          setHistoricalAgents(data.historicalAgents ?? []);
-          setCosmicRoster(data.cosmicRoster ?? []);
-          setSavedCompanions(data.savedCompanions ?? []);
+          setActiveAgents(data.activeAgents);
+          setHistoricalAgents(data.historicalAgents);
+          setCosmicRoster(data.cosmicRoster);
+          setSavedCompanions(data.savedCompanions);
           setDegraded(data.degraded === true);
 
-          if (data.savedCompanions && data.savedCompanions.length > 0) {
+          if (data.savedCompanions.length > 0) {
             setActiveTab("saved");
           }
         } else {
@@ -115,7 +114,7 @@ export function CompanionSuggestions({
         }
       } catch (err) {
         if (controller.signal.aborted) return;
-        console.error("Error loading companions:", err);
+        _logger.error("Error loading companions", err);
         setError(
           "Unable to retrieve planetary companions. Check back shortly.",
         );

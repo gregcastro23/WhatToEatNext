@@ -135,11 +135,11 @@ describe("calculateAlchemicalFromPlanets", () => {
   });
 
   it("skips unknown planet names without crashing", () => {
-    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
     const result = calculateAlchemicalFromPlanets({ Vulcan: "Aries" });
     expect(result).toEqual({ Spirit: 0, Essence: 0, Matter: 0, Substance: 0 });
-    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("Vulcan"));
-    warnSpy.mockRestore();
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("Vulcan"), "");
+    errorSpy.mockRestore();
   });
 
   it("produces higher Spirit from Sun-heavy charts", () => {
@@ -199,12 +199,12 @@ describe("aggregateZodiacElementals", () => {
   });
 
   it("warns and skips unknown zodiac signs", () => {
-    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
     const result = aggregateZodiacElementals({ Sun: "InvalidSign" });
-    expect(warnSpy).toHaveBeenCalled();
+    expect(errorSpy).toHaveBeenCalled();
     // Falls back to balanced
     expect(result).toEqual({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
-    warnSpy.mockRestore();
+    errorSpy.mockRestore();
   });
 });
 

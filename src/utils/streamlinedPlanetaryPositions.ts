@@ -45,10 +45,20 @@ export function getCurrentPlanetaryPositions(): {
     const convertedPositions: { [key: string]: CelestialPosition } = {};
 
     for (const [planetName, position] of Object.entries(apiPositions)) {
-      if (position && typeof position === "object" && "sign" in position) {
-        const posData = position as any;
+      if (
+        position &&
+        typeof position === "object" &&
+        "sign" in position &&
+        typeof position.sign === "string"
+      ) {
+        const posData = position as {
+          sign: string;
+          degree?: number;
+          exactLongitude?: number;
+          isRetrograde?: boolean;
+        };
         convertedPositions[planetName] = {
-          sign: posData.sign as string,
+          sign: posData.sign,
           degree: posData.degree ?? 0,
           exactLongitude: posData.exactLongitude ?? 0,
           isRetrograde: posData.isRetrograde ?? false,
@@ -393,7 +403,7 @@ export function validatePositionsStructure(_positions: {
       return false;
     }
 
-    const pos = position as any;
+    const pos = position as Partial<CelestialPosition>;
     if (!pos.sign || typeof pos.degree !== "number") {
       logger.warn(`Invalid position structure for ${planet}`, pos);
       return false;
@@ -413,7 +423,7 @@ export function getPositionsSummary(): string {
   for (const [planet, position] of Object.entries(positions)) {
     const retrograde = position.isRetrograde ? " (R)" : "";
     const degrees = Math.floor(position.degree ?? 0);
-    const minutes = Math.floor((position.degree ?? 0 - degrees) * 60);
+    const minutes = Math.floor(((position.degree ?? 0) - degrees) * 60);
     lines.push(
       `${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`,
     );
@@ -437,7 +447,7 @@ export function clearPositionsCache(): void {
 /**
  * Placeholder function for API integration
  */
-function getAstrologizePositions(): any {
+function getAstrologizePositions(): Record<string, unknown> {
   // This should be implemented to call the actual API
   // For now, return empty object to trigger fallback
   return {};

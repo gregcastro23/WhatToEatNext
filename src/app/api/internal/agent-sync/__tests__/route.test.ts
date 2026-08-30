@@ -24,7 +24,8 @@ jest.mock("@/lib/database", () => ({
 function makeRequest(body: unknown, headers: Record<string, string>): any {
   return {
     headers: {
-      get: (name: string) => headers[name] || headers[name.toLowerCase()] || null,
+      get: (name: string) =>
+        headers[name] || headers[name.toLowerCase()] || null,
     },
     json: async () => body,
   } as unknown as any;
@@ -39,7 +40,9 @@ describe("POST /api/internal/agent-sync", () => {
   });
 
   it("returns 401 when sync secret header is missing", async () => {
-    const res = await POST(makeRequest({ email: "hildegard@agentic.alchm.kitchen" }, {}));
+    const res = await POST(
+      makeRequest({ email: "hildegard@agentic.alchm.kitchen" }, {}),
+    );
     const data = await res.json();
 
     expect(res.status).toBe(401);
@@ -52,8 +55,8 @@ describe("POST /api/internal/agent-sync", () => {
     const res = await POST(
       makeRequest(
         { email: "hildegard@agentic.alchm.kitchen" },
-        { "X-Sync-Secret": "wrong_secret" }
-      )
+        { "X-Sync-Secret": "wrong_secret" },
+      ),
     );
     const data = await res.json();
 
@@ -66,8 +69,8 @@ describe("POST /api/internal/agent-sync", () => {
     const res = await POST(
       makeRequest(
         { displayName: "Monica" },
-        { "X-Sync-Secret": mockSyncSecret }
-      )
+        { "X-Sync-Secret": mockSyncSecret },
+      ),
     );
     const data = await res.json();
 
@@ -80,14 +83,31 @@ describe("POST /api/internal/agent-sync", () => {
     const res = await POST(
       makeRequest(
         { email: "hildegard@gmail.com" },
-        { "X-Sync-Secret": mockSyncSecret }
-      )
+        { "X-Sync-Secret": mockSyncSecret },
+      ),
     );
     const data = await res.json();
 
     expect(res.status).toBe(400);
     expect(data.success).toBe(false);
     expect(data.message).toContain("Sync is restricted to agentic namespaces");
+  });
+
+  it("rejects malformed birth coordinates before opening a transaction", async () => {
+    const res = await POST(
+      makeRequest(
+        {
+          email: "hildegard@agentic.alchm.kitchen",
+          birthLocation: { latitude: "49.79", longitude: 8.12 },
+        },
+        { "X-Sync-Secret": mockSyncSecret },
+      ),
+    );
+    const data = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(data.message).toBe("Invalid sync payload");
+    expect(withTransaction).not.toHaveBeenCalled();
   });
 
   it("creates a new user and profile on first sync (idempotent, created: true)", async () => {
@@ -120,7 +140,9 @@ describe("POST /api/internal/agent-sync", () => {
       dominantElement: "Water",
     };
 
-    const res = await POST(makeRequest(body, { "X-Sync-Secret": mockSyncSecret }));
+    const res = await POST(
+      makeRequest(body, { "X-Sync-Secret": mockSyncSecret }),
+    );
     const data = await res.json();
 
     expect(res.status).toBe(200);
@@ -131,16 +153,16 @@ describe("POST /api/internal/agent-sync", () => {
     // Verify INSERT queries are triggered
     expect(mockClient.query).toHaveBeenCalledWith(
       expect.stringContaining("INSERT INTO users"),
-      expect.any(Array)
+      expect.any(Array),
     );
     expect(mockClient.query).toHaveBeenCalledWith(
       expect.stringContaining("INSERT INTO user_profiles"),
-      expect.any(Array)
+      expect.any(Array),
     );
     // Verify wallet and streak seeding
     expect(mockClient.query).toHaveBeenCalledWith(
       expect.stringContaining("INSERT INTO token_balances"),
-      expect.any(Array)
+      expect.any(Array),
     );
   });
 
@@ -165,7 +187,9 @@ describe("POST /api/internal/agent-sync", () => {
       bio: "Updated bio description",
     };
 
-    const res = await POST(makeRequest(body, { "X-Sync-Secret": mockSyncSecret }));
+    const res = await POST(
+      makeRequest(body, { "X-Sync-Secret": mockSyncSecret }),
+    );
     const data = await res.json();
 
     expect(res.status).toBe(200);
@@ -176,12 +200,12 @@ describe("POST /api/internal/agent-sync", () => {
     // Verify UPDATE users is triggered
     expect(mockClient.query).toHaveBeenCalledWith(
       expect.stringContaining("UPDATE users"),
-      expect.any(Array)
+      expect.any(Array),
     );
     // Verify user_profiles upsert/ON CONFLICT DO UPDATE is triggered
     expect(mockClient.query).toHaveBeenCalledWith(
       expect.stringContaining("INSERT INTO user_profiles"),
-      expect.any(Array)
+      expect.any(Array),
     );
   });
 
@@ -191,9 +215,11 @@ describe("POST /api/internal/agent-sync", () => {
   // agent's own name, the same way sync-debit and agents/unified do — WTEN
   // owns the truth regardless of what the payload claims.
   describe("monica is computed server-side, not trusted from the payload", () => {
-    function captureUserProfilesParams(mockClient: { query: jest.Mock }): unknown[] {
+    function captureUserProfilesParams(mockClient: {
+      query: jest.Mock;
+    }): unknown[] {
       const call = mockClient.query.mock.calls.find(([sql]: [string]) =>
-        sql.includes("INSERT INTO user_profiles")
+        sql.includes("INSERT INTO user_profiles"),
       );
       if (!call) throw new Error("INSERT INTO user_profiles was never called");
       return call[1];
@@ -221,7 +247,9 @@ describe("POST /api/internal/agent-sync", () => {
         monicaConstant: "999.999",
       };
 
-      const res = await POST(makeRequest(body, { "X-Sync-Secret": mockSyncSecret }));
+      const res = await POST(
+        makeRequest(body, { "X-Sync-Secret": mockSyncSecret }),
+      );
       expect((await res.json()).ok).toBe(true);
 
       const params = captureUserProfilesParams(mockClient);
@@ -256,7 +284,9 @@ describe("POST /api/internal/agent-sync", () => {
         monicaConstant: "1.618033", // must not pass through either
       };
 
-      const res = await POST(makeRequest(body, { "X-Sync-Secret": mockSyncSecret }));
+      const res = await POST(
+        makeRequest(body, { "X-Sync-Secret": mockSyncSecret }),
+      );
       expect((await res.json()).ok).toBe(true);
 
       const params = captureUserProfilesParams(mockClient);
@@ -276,9 +306,11 @@ describe("POST /api/internal/agent-sync", () => {
    * `natal_positions` is parameter index 5 on the profile INSERT.
    */
   describe("natal_positions comes from the shared chart core when the caller omits it", () => {
-    function captureUserProfilesParams(mockClient: { query: jest.Mock }): unknown[] {
+    function captureUserProfilesParams(mockClient: {
+      query: jest.Mock;
+    }): unknown[] {
       const call = mockClient.query.mock.calls.find(([sql]: [string]) =>
-        sql.includes("INSERT INTO user_profiles")
+        sql.includes("INSERT INTO user_profiles"),
       );
       if (!call) throw new Error("INSERT INTO user_profiles was never called");
       return call[1];
@@ -334,8 +366,8 @@ describe("POST /api/internal/agent-sync", () => {
             displayName: "Hildegard of Bingen",
             natalChart: { planets: BODIES.slice(0, MIN_CHART_BODIES - 1) },
           },
-          { "X-Sync-Secret": mockSyncSecret }
-        )
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
       );
       expect((await res.json()).ok).toBe(true);
 
@@ -356,18 +388,28 @@ describe("POST /api/internal/agent-sync", () => {
             natalChart: CHART,
             // natalPositions deliberately absent — the case this guards
           },
-          { "X-Sync-Secret": mockSyncSecret }
-        )
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
       );
       expect((await res.json()).ok).toBe(true);
 
-      const stored = JSON.parse(String(captureUserProfilesParams(mockClient)[5]));
+      const stored = JSON.parse(
+        String(captureUserProfilesParams(mockClient)[5]),
+      );
       expect(stored).toHaveLength(BODIES.length);
       expect(stored).toEqual(
         expect.arrayContaining([
-          expect.objectContaining({ planet: "Sun", sign: "leo", position: 132.5 }),
-          expect.objectContaining({ planet: "Moon", sign: "taurus", position: 42.25 }),
-        ])
+          expect.objectContaining({
+            planet: "Sun",
+            sign: "leo",
+            position: 132.5,
+          }),
+          expect.objectContaining({
+            planet: "Moon",
+            sign: "taurus",
+            position: 42.25,
+          }),
+        ]),
       );
     });
 
@@ -382,12 +424,14 @@ describe("POST /api/internal/agent-sync", () => {
             natalChart: CHART,
             natalPositions: [], // the shape `[]` column default also has
           },
-          { "X-Sync-Secret": mockSyncSecret }
-        )
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
       );
       expect((await res.json()).ok).toBe(true);
 
-      const stored = JSON.parse(String(captureUserProfilesParams(mockClient)[5]));
+      const stored = JSON.parse(
+        String(captureUserProfilesParams(mockClient)[5]),
+      );
       expect(stored).toHaveLength(BODIES.length);
     });
 
@@ -396,7 +440,9 @@ describe("POST /api/internal/agent-sync", () => {
 
       // Deliberately disagrees with CHART: if derivation overrode the caller,
       // this would come back as the chart's two bodies instead of this one.
-      const supplied = [{ planet: "Mars", sign: "aries", degree: 3, position: 3 }];
+      const supplied = [
+        { planet: "Mars", sign: "aries", degree: 3, position: 3 },
+      ];
 
       const res = await POST(
         makeRequest(
@@ -406,12 +452,14 @@ describe("POST /api/internal/agent-sync", () => {
             natalChart: CHART,
             natalPositions: supplied,
           },
-          { "X-Sync-Secret": mockSyncSecret }
-        )
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
       );
       expect((await res.json()).ok).toBe(true);
 
-      const stored = JSON.parse(String(captureUserProfilesParams(mockClient)[5]));
+      const stored = JSON.parse(
+        String(captureUserProfilesParams(mockClient)[5]),
+      );
       expect(stored).toHaveLength(1);
       expect(stored[0]).toMatchObject({ planet: "Mars", sign: "aries" });
     });
@@ -426,8 +474,8 @@ describe("POST /api/internal/agent-sync", () => {
             displayName: "Mercury Leo 7",
             // No chart at all: the 6,240-agent majority measured in production.
           },
-          { "X-Sync-Secret": mockSyncSecret }
-        )
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
       );
       expect((await res.json()).ok).toBe(true);
 

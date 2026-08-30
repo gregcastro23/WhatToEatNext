@@ -102,8 +102,56 @@ export type {
   BaseIngredient,
 } from "./alchemy";
 
+export type {
+  AdaptedElementalAffinity,
+  EngineElementalAffinity,
+} from "./alchemicalAdapters";
+
+export type {
+  AstrologicalPosition,
+  AstrologicalPositionMap,
+  TarotElementBoostModifiers,
+  TarotPlanetPosition,
+  TarotPlanetaryAlignment,
+} from "./astrologyRuntime";
+
 // Re-export types from celestial.ts
 export type { CelestialPosition } from "./celestial";
+
+export {
+  isCompanionsResponse,
+  isPreferenceActionResponse,
+  isProfileFeedResponse,
+  isTableRitualResponse,
+} from "./apiResponses";
+export type {
+  CompanionSuggestion,
+  CompletedQuestResponse,
+  CompanionsResponse,
+  PreferenceActionResponse,
+  ProfileFeedEvent,
+  ProfileFeedResponse,
+  TableRitualResponse,
+} from "./apiResponses";
+export type { BirthData, CompositeNatalChart, NatalChart } from "./natalChart";
+
+export type {
+  DailyYieldResult,
+  TokenBalances,
+  TokenType,
+  UserStreak,
+} from "./economy";
+
+export { ELEMENT_TYPES, LUNAR_PHASES, ZODIAC_SIGNS } from "./constants";
+
+export type {
+  DailyNutritionTotals,
+  DayOfWeek,
+  GroceryItem,
+  MealSlot,
+  MealSlotSauce,
+  PlanetarySnapshot,
+} from "./menuPlanner";
 
 // Re-export types from recipe.ts, excluding types already exported by alchemy.ts
 export type {
@@ -127,4 +175,5 @@ export type {
   RecipeSeason,
   RecipeNutrition,
   RecipePlanetaryInfluences,
+  EnhancedRecipe,
 } from "./recipe";

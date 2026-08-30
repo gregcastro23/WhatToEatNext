@@ -14,6 +14,25 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
+
+interface AdminStatsRow {
+  total_users: unknown;
+  active_users: unknown;
+  new_users_today: unknown;
+  completed_onboarding: unknown;
+  agent_users: unknown;
+  human_users: unknown;
+}
+
+interface RecentUserRow {
+  id: unknown;
+  email: unknown;
+  name: unknown;
+  created_at: unknown;
+  dominant_element: unknown;
+  is_active: unknown;
+}
 
 export interface AdminUserStats {
   /** Every row in `users`, active or not, human or agent. */
@@ -76,21 +95,57 @@ const RECENT_USERS_SQL = `
   LIMIT 5
 `;
 
+function readCount(value: unknown): number {
+  const count =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number(value)
+        : 0;
+  return Number.isFinite(count) && count >= 0 ? count : 0;
+}
+
+function readNullableString(value: unknown): string | null {
+  return typeof value === "string" ? value : null;
+}
+
+function normalizeRecentUser(row: RecentUserRow): AdminRecentUser | null {
+  if (typeof row.id !== "string" || typeof row.email !== "string") {
+    return null;
+  }
+  const createdAt =
+    row.created_at instanceof Date
+      ? row.created_at
+      : typeof row.created_at === "string" || typeof row.created_at === "number"
+        ? new Date(row.created_at)
+        : null;
+  if (!createdAt || !Number.isFinite(createdAt.getTime())) return null;
+
+  return {
+    id: row.id,
+    email: row.email,
+    name: readNullableString(row.name),
+    createdAt: createdAt.toISOString(),
+    dominantElement: readNullableString(row.dominant_element),
+    isActive: row.is_active === true,
+  };
+}
+
 export async function getAdminUserStats(): Promise<AdminUserStats> {
   try {
-    const result = await executeQuery(STATS_SQL);
-    const row = result.rows[0] ?? {};
+    const result = await executeQuery<AdminStatsRow>(STATS_SQL);
+    const row = result.rows.at(0);
     return {
-      totalUsers: Number(row.total_users ?? 0),
-      activeUsers: Number(row.active_users ?? 0),
-      newUsersToday: Number(row.new_users_today ?? 0),
-      completedOnboarding: Number(row.completed_onboarding ?? 0),
-      agentUsers: Number(row.agent_users ?? 0),
-      humanUsers: Number(row.human_users ?? 0),
+      totalUsers: readCount(row?.total_users),
+      activeUsers: readCount(row?.active_users),
+      newUsersToday: readCount(row?.new_users_today),
+      completedOnboarding: readCount(row?.completed_onboarding),
+      agentUsers: readCount(row?.agent_users),
+      humanUsers: readCount(row?.human_users),
       live: true,
     };
   } catch (error) {
-    console.error("[adminStatsService] stats query failed:", error);
+    _logger.error("[adminStatsService] stats query failed:", error);
     return {
       totalUsers: 0,
       activeUsers: 0,
@@ -105,21 +160,16 @@ export async function getAdminUserStats(): Promise<AdminUserStats> {
 
 export async function getRecentHumanSignups(): Promise<AdminRecentUsersData> {
   try {
-    const result = await executeQuery(RECENT_USERS_SQL);
+    const result = await executeQuery<RecentUserRow>(RECENT_USERS_SQL);
     return {
-      users: result.rows.map((row) => ({
-        id: String(row.id),
-        email: String(row.email),
-        name: row.name != null ? String(row.name) : null,
-        createdAt: new Date(row.created_at as string).toISOString(),
-        dominantElement:
-          row.dominant_element != null ? String(row.dominant_element) : null,
-        isActive: Boolean(row.is_active),
-      })),
+      users: result.rows.flatMap((row) => {
+        const user = normalizeRecentUser(row);
+        return user ? [user] : [];
+      }),
       live: true,
     };
   } catch (error) {
-    console.error("[adminStatsService] recent-signups query failed:", error);
+    _logger.error("[adminStatsService] recent-signups query failed:", error);
     return { users: [], live: false };
   }
 }

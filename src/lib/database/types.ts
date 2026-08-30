@@ -81,8 +81,8 @@ export interface User {
   roles: UserRole[];
   is_active: boolean;
   email_verified: boolean;
-  profile: Record<string, any>; // JSONB
-  preferences: Record<string, any>; // JSONB
+  profile: Record<string, unknown>; // JSONB
+  preferences: Record<string, unknown>; // JSONB
   privy_did?: string;
   wallet_address?: string;
   created_at: Date;
@@ -173,7 +173,7 @@ export interface Ingredient {
   sugar?: number; // DECIMAL(5,2)
 
   // Flavor profile
-  flavor_profile: Record<string, any>; // JSONB
+  flavor_profile: Record<string, unknown>; // JSONB
   preparation_methods: string[]; // TEXT[]
 
   // Metadata
@@ -212,7 +212,7 @@ export interface Recipe {
   category: string; // 'appetizer', 'main', 'dessert', etc.
 
   // Instructions and timing
-  instructions: Record<string, any>; // JSONB - Array of step objects
+  instructions: Record<string, unknown>; // JSONB - Array of step objects
   prep_time_minutes: number; // INTEGER >= 0
   cook_time_minutes: number; // INTEGER >= 0
   servings: number; // INTEGER > 0
@@ -221,7 +221,7 @@ export interface Recipe {
   // Dietary information
   dietary_tags: DietaryRestriction[]; // ARRAY
   allergens: string[]; // TEXT[]
-  nutritional_profile: Record<string, any>; // JSONB
+  nutritional_profile: Record<string, unknown>; // JSONB
 
   // Scoring and popularity
   popularity_score: number; // DECIMAL(3,2)
@@ -269,8 +269,8 @@ export interface CalculationCache {
   id: string; // UUID
   cache_key: string; // UNIQUE
   calculation_type: string;
-  input_data: Record<string, any>; // JSONB
-  result_data: Record<string, any>; // JSONB
+  input_data: Record<string, unknown>; // JSONB
+  result_data: Record<string, unknown>; // JSONB
   expires_at: Date;
   hit_count: number;
   created_at: Date;
@@ -281,8 +281,8 @@ export interface UserCalculation {
   id: string; // UUID
   user_id: string; // UUID (references users.id)
   calculation_type: string;
-  input_data: Record<string, any>; // JSONB
-  result_data: Record<string, any>; // JSONB
+  input_data: Record<string, unknown>; // JSONB
+  result_data: Record<string, unknown>; // JSONB
   execution_time_ms?: number;
   created_at: Date;
 }
@@ -290,11 +290,11 @@ export interface UserCalculation {
 export interface Recommendation {
   id: string; // UUID
   user_id: string; // UUID (references users.id)
-  request_context: Record<string, any>; // JSONB
+  request_context: Record<string, unknown>; // JSONB
   recommended_recipes: string[]; // UUID[]
-  recipe_scores: Record<string, any>; // JSONB - Array of {recipe_id, score, reasons}
+  recipe_scores: Record<string, unknown>; // JSONB - Array of {recipe_id, score, reasons}
   algorithm_version: string;
-  user_feedback?: Record<string, any>; // JSONB - User ratings, selections, etc.
+  user_feedback?: Record<string, unknown>; // JSONB - User ratings, selections, etc.
   created_at: Date;
 }
 
@@ -303,7 +303,7 @@ export interface SystemMetric {
   metric_name: string;
   metric_value: number; // DECIMAL(15,4)
   metric_unit?: string;
-  tags: Record<string, any>; // JSONB
+  tags: Record<string, unknown>; // JSONB
   timestamp: Date;
 }
 
@@ -348,15 +348,15 @@ export interface UserYieldProfileRecord {
   matter_weight: number; // DECIMAL(5,4)
   substance_weight: number; // DECIMAL(5,4)
   natal_chart_hash?: string;
-  last_transit_bonus?: Record<string, any>; // JSONB
+  last_transit_bonus?: Record<string, unknown>; // JSONB
   yield_cache_date?: Date;
   calculated_at: Date;
 }
 
 export interface DailyEphemerisCacheRecord {
   cache_date: Date;
-  planet_positions: Record<string, any>; // JSONB
-  transit_esms: Record<string, any>; // JSONB
+  planet_positions: Record<string, unknown>; // JSONB
+  transit_esms: Record<string, unknown>; // JSONB
   fetched_at: Date;
   source?: string;
 }

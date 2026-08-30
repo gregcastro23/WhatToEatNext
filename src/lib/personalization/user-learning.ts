@@ -924,13 +924,14 @@ class UserLearningSystem {
   }
 
   private calculateElementalMatch(
-    recipeBalance: ElementalProperties,
-    userAffinities: ElementalProperties,
+    recipeBalance?: ElementalProperties,
+    userAffinities?: ElementalProperties,
   ): number {
+    if (!recipeBalance || !userAffinities) return 0.5;
     let similarity = 0;
     Object.keys(recipeBalance).forEach((element) => {
       const key = element as keyof ElementalProperties;
-      similarity += Math.abs(recipeBalance[key] - userAffinities[key]);
+      similarity += Math.abs((recipeBalance[key] ?? 0) - (userAffinities[key] ?? 0));
     });
 
     return 1 - similarity / 4; // Normalize to 0-1, where 1 is perfect match

@@ -41,6 +41,17 @@ export interface AlchemicalItem extends ElementalItem {
 }
 
 /**
+ * Context structure for alchemical transformation calculations
+ */
+export interface AlchemicalTransformationContext {
+  alchemicalCounts: Record<AlchemicalProperty, number>;
+  elementalCounts: Record<ElementalCharacter, number>;
+  heat: number;
+  entropy: number;
+  reactivity: number;
+}
+
+/**
  * Transform an item with elemental data using current planetary positions
  *
  * @param item The original item with elemental data
@@ -51,7 +62,7 @@ export interface AlchemicalItem extends ElementalItem {
  * @returns Item transformed with alchemical properties
  */
 export const transformItemWithPlanetaryPositions = (
-  item: ElementalItem,
+  item: ElementalItem | Partial<ElementalItem> | null | undefined,
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
   currentZodiac?: string | null,
@@ -59,10 +70,13 @@ export const transformItemWithPlanetaryPositions = (
 ): AlchemicalItem => {
   try {
     // Validate and sanitize input values
+    const rawProps = item?.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     const sanitizedItem = {
-      ...item,
+      ...(item ?? {}),
+      id: item?.id ?? "unknown",
+      name: item?.name ?? "Unknown Item",
       elementalProperties: Object.fromEntries(
-        Object.entries(item.elementalProperties).map(([key, value]) => [
+        Object.entries(rawProps).map(([key, value]) => [
           key,
           Number.isFinite(value) ? value : 0.1,
         ]),
@@ -78,8 +92,9 @@ export const transformItemWithPlanetaryPositions = (
       planetPositions: planetPositions as unknown,
       isDaytime,
     });
-    const alchemicalResults = {
+    const alchemicalResults: AlchemicalTransformationContext = {
       alchemicalCounts: alchemizeResult.alchemicalProperties,
+      elementalCounts: alchemizeResult.elementalValues,
       heat: alchemizeResult.thermodynamics.heat,
       entropy: alchemizeResult.thermodynamics.entropy,
       reactivity: alchemizeResult.thermodynamics.reactivity,
@@ -93,8 +108,8 @@ export const transformItemWithPlanetaryPositions = (
     } = calculatePlanetaryBoost(
       sanitizedItem,
       planetPositions,
-      currentZodiac || "aries",
-      lunarPhase || null,
+      currentZodiac ?? "aries",
+      lunarPhase ?? null,
     );
 
     // Transform elemental properties based on planetary influences
@@ -103,7 +118,7 @@ export const transformItemWithPlanetaryPositions = (
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
-      (currentZodiac || "aries").toLowerCase() as ZodiacSignType,
+      (currentZodiac ?? "aries").toLowerCase() as ZodiacSignType,
     );
 
     // Calculate dominant element and alchemical property
@@ -144,7 +159,7 @@ export const transformItemWithPlanetaryPositions = (
       elementalModifier = 0.2 * (transformedElementalProperties.Water - 0.25);
     } else if (dominantElement === "Earth") {
       elementalModifier = 0.18 * (transformedElementalProperties.Earth - 0.25);
-    } else if (dominantElement === "Air") {
+    } else {
       elementalModifier = 0.15 * (transformedElementalProperties.Air - 0.25);
     }
 
@@ -159,7 +174,7 @@ export const transformItemWithPlanetaryPositions = (
     } else if (dominantAlchemicalProperty === "Matter") {
       alchemicalModifier =
         0.18 * (alchemicalResults.alchemicalCounts.Matter - 0.25);
-    } else if (dominantAlchemicalProperty === "Substance") {
+    } else {
       alchemicalModifier =
         0.15 * (alchemicalResults.alchemicalCounts.Substance - 0.25);
     }
@@ -167,9 +182,9 @@ export const transformItemWithPlanetaryPositions = (
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
     const zodiacSign = (
-      currentZodiac || "aries"
+      currentZodiac ?? "aries"
     ).toLowerCase() as ZodiacSignType;
-    const zodiacElementMap: Record<ZodiacSignType, ElementalCharacter> = {
+    const zodiacElementMap: Partial<Record<ZodiacSignType, ElementalCharacter>> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -251,22 +266,31 @@ export const transformItemWithPlanetaryPositions = (
       planetaryDignities,
     };
   } catch (error) {
-    logger.error(`Error transforming item ${item.name}:`, error);
+    logger.error(`Error transforming item ${item?.name ?? "unknown"}:`, error);
     // Return a safe fallback with original values preserved
+    const fallbackElemental: Record<ElementalCharacter, number> = {
+      Fire: item?.elementalProperties?.Fire ?? 0.25,
+      Earth: item?.elementalProperties?.Earth ?? 0.25,
+      Air: item?.elementalProperties?.Air ?? 0.25,
+      Water: item?.elementalProperties?.Water ?? 0.25,
+    };
     return {
-      ...item,
+      ...(item ?? {}),
+      id: item?.id ?? "fallback-item",
+      name: item?.name ?? "Fallback Item",
+      elementalProperties: fallbackElemental,
       alchemicalProperties: {
         Spirit: 0.25,
         Essence: 0.25,
         Matter: 0.25,
         Substance: 0.25,
       },
-      transformedElementalProperties: { ...item.elementalProperties },
+      transformedElementalProperties: fallbackElemental,
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: 0.5,
-      dominantElement: getDominantElement(item.elementalProperties),
+      dominantElement: getDominantElement(fallbackElemental),
       dominantAlchemicalProperty: "Essence",
       planetaryBoost: 1.0,
       dominantPlanets: [],
@@ -291,7 +315,7 @@ export const _transformItemsWithPlanetaryPositions = (
         item,
         planetPositions,
         isDaytime,
-        currentZodiac || "aries",
+        currentZodiac ?? "aries",
         lunarPhase,
       ),
     );
@@ -326,7 +350,7 @@ export const _transformItemsWithPlanetaryPositions = (
  */
 const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
-  alchemicalResults: any, // AlchemicalResults,
+  alchemicalResults: AlchemicalTransformationContext,
   planetaryBoost = 1.0,
   zodiacSign?: ZodiacSignType,
 ): Record<ElementalCharacter, number> => {
@@ -410,7 +434,7 @@ const applyZodiacBoost = (
   zodiacSign: ZodiacSignType,
 ): void => {
   try {
-    const zodiacElementMap: Record<ZodiacSignType, ElementalCharacter> = {
+    const zodiacElementMap: Partial<Record<ZodiacSignType, ElementalCharacter>> = {
       aries: "Fire",
       taurus: "Earth",
       gemini: "Air",

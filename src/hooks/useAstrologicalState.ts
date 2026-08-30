@@ -1,16 +1,31 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import type { LunarPhase } from "@/constants/planetaryFoodAssociations";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import type { ZodiacSign } from "@/types/alchemy";
-import type { CelestialPosition } from "@/types/celestial";
-import type { PlanetaryAlignment } from "@/types/common";
+import {
+  ELEMENT_TYPES,
+  LUNAR_PHASES,
+  type AstrologicalPosition,
+  type AstrologicalPositionMap,
+  type DignityType,
+  type Element,
+  type LunarPhaseWithSpaces,
+  type ZodiacSignType,
+} from "@/types";
 import { logger } from "@/utils/logger";
+
+interface AstroState {
+  currentZodiac: string;
+  currentPlanetaryAlignment: AstrologicalPositionMap;
+  lunarPhase: LunarPhaseWithSpaces;
+  activePlanets: string[];
+  domElements: { Fire: number; Water: number; Earth: number; Air: number };
+  loading: boolean;
+}
 
 // Interface for hook return value
 export interface AstrologyHookData {
-  currentZodiac: ZodiacSign | string;
-  currentPlanetaryAlignment: PlanetaryAlignment;
-  lunarPhase: LunarPhase;
+  currentZodiac: ZodiacSignType | string;
+  currentPlanetaryAlignment: AstrologicalPositionMap;
+  lunarPhase: LunarPhaseWithSpaces;
   activePlanets: string[];
   domElements: { Fire: number; Water: number; Earth: number; Air: number };
   loading: boolean;
@@ -20,60 +35,79 @@ export interface AstrologyHookData {
   currentPlanetaryHour: string | null;
 }
 
-// Helper function to create a celestial position with defaults
-function _createCelestialPosition(
-  sign: string,
-  longOffset = 0,
-  options?: { planetName?: string },
-): CelestialPosition {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
-  // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [
-    "aries",
-    "taurus",
-    "gemini",
-    "cancer",
-    "leo",
-    "virgo",
-    "libra",
-    "scorpio",
-    "sagittarius",
-    "capricorn",
-    "aquarius",
-    "pisces",
-  ].indexOf(sign);
+function readOptionalString(value: unknown): string | undefined {
+  return typeof value === "string" ? value : undefined;
+}
 
-  const baseLongitude = signIndex * 30 + longOffset;
+function readOptionalNumber(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value)
+    ? value
+    : undefined;
+}
 
-  // Determine default speed based on planet traits
-  // Moon moves fastest, inner planets medium, outer planets slow
-  const getPlanetSpeed = (planetName?: string): number => {
-    if (!planetName) return 0.5; // Default
+function readOptionalElement(value: unknown): Element | undefined {
+  return typeof value === "string"
+    ? ELEMENT_TYPES.find((element) => element === value)
+    : undefined;
+}
 
-    const planetSpeeds: Record<string, number> = {
-      moon: 13.2,
-      sun: 1.0,
-      mercury: 1.4,
-      venus: 1.2,
-      mars: 0.5,
-      jupiter: 0.1,
-      saturn: 0.03,
-      uranus: 0.01,
-      neptune: 0.005,
-      pluto: 0.002,
-    };
+const DIGNITIES: readonly DignityType[] = [
+  "Domicile",
+  "Exaltation",
+  "Detriment",
+  "Fall",
+  "Neutral",
+];
 
-    return planetSpeeds[planetName.toLowerCase()] || 0.5;
-  };
+function readOptionalDignity(value: unknown): DignityType | undefined {
+  return typeof value === "string"
+    ? DIGNITIES.find((dignity) => dignity === value)
+    : undefined;
+}
 
+function normalizeCelestialPosition(
+  value: unknown,
+): AstrologicalPosition | undefined {
+  if (!isRecord(value)) return undefined;
   return {
-    sign,
-    degree: Math.floor(longOffset),
-    exactLongitude: baseLongitude,
-    isRetrograde: false,
-    minutes: Math.floor((longOffset % 1) * 60),
-    speed: getPlanetSpeed(options?.planetName),
+    ...value,
+    sign: readOptionalString(value.sign),
+    degree: readOptionalNumber(value.degree),
+    exactLongitude: readOptionalNumber(value.exactLongitude),
+    isRetrograde:
+      typeof value.isRetrograde === "boolean" ? value.isRetrograde : undefined,
+    retrogradeSymbol: readOptionalString(value.retrogradeSymbol),
+    minute: readOptionalNumber(value.minute),
+    minutes: readOptionalNumber(value.minutes),
+    speed: readOptionalNumber(value.speed),
+    longitudeSpeed: readOptionalNumber(value.longitudeSpeed),
+    arcminutesPerDay: readOptionalNumber(value.arcminutesPerDay),
+    speedDisplay: readOptionalString(value.speedDisplay),
+    phase: readOptionalString(value.phase),
+    element: readOptionalElement(value.element),
+    dignity: readOptionalDignity(value.dignity),
   };
+}
+
+function normalizePlanetaryPositions(value: unknown): AstrologicalPositionMap {
+  if (!isRecord(value)) return {};
+
+  return Object.fromEntries(
+    Object.entries(value).flatMap(([planet, position]) => {
+      const normalized = normalizeCelestialPosition(position);
+      return normalized ? [[planet, normalized]] : [];
+    }),
+  );
+}
+
+function readLunarPhase(value: unknown): LunarPhaseWithSpaces | undefined {
+  return typeof value === "string"
+    ? LUNAR_PHASES.find((phase) => phase === value)
+    : undefined;
 }
 
 export function useAstrologicalState(): AstrologyHookData {
@@ -91,18 +125,11 @@ export function useAstrologicalState(): AstrologyHookData {
   }, [renderCount]); // Added renderCount to deps
 
   // Initial state
-  const [astroState, setAstroState] = useState<{
-    currentZodiac: string;
-    currentPlanetaryAlignment: Record<string, CelestialPosition>;
-    lunarPhase: LunarPhase;
-    activePlanets: string[];
-    domElements: { Fire: number; Water: number; Earth: number; Air: number };
-    loading: boolean;
-  }>({
+  const [astroState, setAstroState] = useState<AstroState>({
     currentZodiac: "",
     currentPlanetaryAlignment: {},
-    lunarPhase: "waxing crescent" as LunarPhase, // More reasonable default based on current actual phase
-    activePlanets: [] as string[],
+    lunarPhase: "waxing crescent",
+    activePlanets: [],
     domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     loading: true,
   });
@@ -110,18 +137,8 @@ export function useAstrologicalState(): AstrologyHookData {
   // Calculate active planets based on their positions and dignities
   const getActivePlanets = useCallback(
     (
-      positions: Record<
-        string,
-        { sign?: string; degree?: number; exactLongitude?: number }
-      >,
+      positions: AstrologicalPositionMap,
     ): string[] => {
-      if (!positions || typeof positions !== "object") {
-        logger.warn(
-          "Invalid planetary positions for calculating active planets",
-        );
-        return [];
-      }
-
       // List of planets we want to check
       const planetKeys = [
         "sun",
@@ -142,7 +159,7 @@ export function useAstrologicalState(): AstrologyHookData {
         const sunSign = positions.sun?.sign?.toLowerCase();
         if (sunSign) {
           // Map signs to their ruling planets
-          const signRulers: Record<string, string> = {
+          const signRulers: Partial<Record<string, string>> = {
             aries: "mars",
             taurus: "venus",
             gemini: "mercury",
@@ -158,11 +175,9 @@ export function useAstrologicalState(): AstrologyHookData {
           };
 
           // Add the ruler of the current sun sign
-          if (
-            signRulers[sunSign] &&
-            !activePlanets.includes(signRulers[sunSign])
-          ) {
-            activePlanets.push(signRulers[sunSign]);
+          const ruler = signRulers[sunSign];
+          if (ruler && !activePlanets.includes(ruler)) {
+            activePlanets.push(ruler);
           }
         }
 
@@ -178,7 +193,7 @@ export function useAstrologicalState(): AstrologyHookData {
           const signLower = position.sign.toLowerCase();
 
           // Simple planet-sign dignity mapping
-          const dignities: Record<string, string[]> = {
+          const dignities: Partial<Record<string, string[]>> = {
             sun: ["leo", "aries"],
             moon: ["cancer", "taurus"],
             mercury: ["gemini", "virgo"],
@@ -192,12 +207,12 @@ export function useAstrologicalState(): AstrologyHookData {
           };
 
           // Check if planet is in a powerful sign position
-          if (dignities[planetLower].includes(signLower)) {
+          if (dignities[planetLower]?.includes(signLower)) {
             activePlanets.push(planetLower);
           }
 
           // Add special rulerships based on degree
-          const degree = position.degree || 0;
+          const degree = position.degree ?? 0;
           if (degree >= 0 && degree <= 15) {
             // Planets in early degrees are more powerful
             if (!activePlanets.includes(planetLower)) {
@@ -217,7 +232,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Memoize key values to prevent unnecessary updates
   const memoizedPlanetaryPositions = useMemo(
-    () => planetaryPositions,
+    () => normalizePlanetaryPositions(planetaryPositions),
     [planetaryPositions],
   );
 
@@ -225,15 +240,10 @@ export function useAstrologicalState(): AstrologyHookData {
   useEffect(() => {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
-        const activePlanets = getActivePlanets(
-          memoizedPlanetaryPositions as unknown as Record<
-            string,
-            CelestialPosition
-          >,
-        );
-        const currentZodiac = (
-          (memoizedPlanetaryPositions as any).sun?.sign || ""
-        ).toLowerCase();
+        const activePlanets = getActivePlanets(memoizedPlanetaryPositions);
+        const sunSign = memoizedPlanetaryPositions.sun?.sign;
+        const currentZodiac =
+          typeof sunSign === "string" ? sunSign.toLowerCase() : "";
 
         logger.debug("Updating astrological state: ", {
           currentZodiac,
@@ -241,7 +251,7 @@ export function useAstrologicalState(): AstrologyHookData {
           time: new Date().toISOString(),
         });
 
-        setAstroState((prev: any) => {
+        setAstroState((prev) => {
           // Skip update if nothing changed to prevent unnecessary re-renders
           if (
             prev.currentZodiac === currentZodiac &&
@@ -269,12 +279,6 @@ export function useAstrologicalState(): AstrologyHookData {
     }
   }, [memoizedPlanetaryPositions, getActivePlanets]);
 
-  // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const _currentPlanetaryAlignment = useMemo(
-    () => astroState.currentPlanetaryAlignment,
-    [astroState.currentPlanetaryAlignment],
-  );
-
   // Return the astro state with isReady flag
   return {
     ...astroState,
@@ -282,10 +286,9 @@ export function useAstrologicalState(): AstrologyHookData {
     isDaytime,
     renderCount,
     currentPlanetaryHour: planetaryHour,
-    currentZodiac: astroState.currentZodiac || "aries",
-    currentPlanetaryAlignment:
-      astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
-    lunarPhase: (lunarPhase || astroState.lunarPhase) as LunarPhase,
+    currentZodiac:
+      astroState.currentZodiac.length > 0 ? astroState.currentZodiac : "aries",
+    currentPlanetaryAlignment: astroState.currentPlanetaryAlignment,
+    lunarPhase: readLunarPhase(lunarPhase) ?? astroState.lunarPhase,
   };
-
 }

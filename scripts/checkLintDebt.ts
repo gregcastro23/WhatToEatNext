@@ -149,6 +149,19 @@ if (trackedTotal < baseline.trackedTotal) {
           },
         ]),
       ),
+      ...(baseline.declined
+        ? {
+            declined: {
+              ...baseline.declined,
+              rules: Object.fromEntries(
+                Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
+                  rule,
+                  counts[rule] ?? prevCount,
+                ]),
+              ),
+            },
+          }
+        : {}),
     };
     await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
     console.log(`🔒 Baseline auto-ratcheted down to ${trackedTotal}.`);

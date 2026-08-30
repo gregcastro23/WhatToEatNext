@@ -113,9 +113,8 @@ export function PremiumProvider({ children }: { children: ReactNode }): React.JS
   const { data: session, status } = useSession();
 
   // Optimistic tier from JWT (available instantly, no API call needed)
-  const user = session?.user as Record<string, unknown> | undefined;
-  const jwtTier: SubscriptionTier =
-    (typeof user?.tier === "string" ? (user.tier as SubscriptionTier) : null) ?? "free";
+  const user = session?.user;
+  const jwtTier: SubscriptionTier = user?.tier ?? "free";
   const isAdmin = user?.role === "admin";
 
   const [subscription, setSubscription] = useState<UserSubscription | null>(

@@ -16,12 +16,25 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
+import { z } from "zod";
+import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeQueueContext");
 
 const STORAGE_KEY = "alchm-recipe-queue";
+
+const queuedRecipeEnvelopeSchema = z
+  .object({
+    id: z.string().min(1),
+    recipe: z.unknown(),
+    addedAt: z.union([z.string(), z.number(), z.date()]).optional(),
+    notes: z.string().optional(),
+    suggestedMealTypes: z.array(z.string()).optional(),
+    suggestedDays: z.array(z.number().finite()).optional(),
+  })
+  .passthrough();
 
 /**
  * Queue item with metadata
@@ -64,6 +77,55 @@ const RecipeQueueContext = createContext<RecipeQueueContextType | undefined>(
   undefined,
 );
 
+function normalizeStoredRecipe(value: unknown): Recipe | null {
+  const parsed = RecipeSchema.safeParse(value);
+  if (!parsed.success) return null;
+
+  const { cookingMethod, ...recipe } = parsed.data;
+  return {
+    ...recipe,
+    cookingMethod:
+      typeof cookingMethod === "string" ? [cookingMethod] : cookingMethod,
+  };
+}
+
+function restoreDate(value: unknown): Date {
+  const date =
+    value instanceof Date
+      ? new Date(value.getTime())
+      : new Date(
+          typeof value === "string" || typeof value === "number"
+            ? value
+            : Date.now(),
+        );
+  return Number.isFinite(date.getTime()) ? date : new Date();
+}
+
+function normalizeStoredQueue(value: unknown): QueuedRecipe[] | null {
+  if (!Array.isArray(value)) return null;
+
+  return value.flatMap((item) => {
+    const parsed = queuedRecipeEnvelopeSchema.safeParse(item);
+    if (!parsed.success) return [];
+
+    const recipe = normalizeStoredRecipe(parsed.data.recipe);
+    if (!recipe) return [];
+
+    const { recipe: _storedRecipe, addedAt, ...metadata } = parsed.data;
+    return [
+      {
+        ...metadata,
+        id: parsed.data.id,
+        recipe,
+        addedAt: restoreDate(addedAt),
+        notes: parsed.data.notes,
+        suggestedMealTypes: parsed.data.suggestedMealTypes,
+        suggestedDays: parsed.data.suggestedDays,
+      },
+    ];
+  });
+}
+
 /**
  * Recipe Queue Provider Component
  */
@@ -80,12 +142,11 @@ export function RecipeQueueProvider({
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        // Restore dates
-        const restoredQueue = parsed.map((item: any) => ({
-          ...item,
-          addedAt: new Date(item.addedAt),
-        }));
+        const parsed: unknown = JSON.parse(stored);
+        const restoredQueue = normalizeStoredQueue(parsed);
+        if (!restoredQueue) {
+          throw new Error("Invalid recipe queue storage payload");
+        }
         setQueue(restoredQueue);
         logger.info(`Loaded ${restoredQueue.length} items from queue storage`);
       }
@@ -254,17 +315,12 @@ export function RecipeQueueProvider({
    */
   const importQueue = useCallback((jsonData: string): boolean => {
     try {
-      const parsed = JSON.parse(jsonData);
-      if (!Array.isArray(parsed)) {
+      const parsed: unknown = JSON.parse(jsonData);
+      const imported = normalizeStoredQueue(parsed);
+      if (!imported) {
         logger.error("Invalid queue data: not an array");
         return false;
       }
-
-      // Restore dates and validate structure
-      const imported = parsed.map((item: any) => ({
-        ...item,
-        addedAt: new Date(item.addedAt || Date.now()),
-      }));
 
       setQueue(imported);
       logger.info(`Imported ${imported.length} items to queue`);

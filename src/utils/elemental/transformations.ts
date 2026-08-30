@@ -256,16 +256,16 @@ export function applyPlanetaryInfluence(
   // ✅ Pattern KK-9: Safe arithmetic operations for elemental transformation
   const transformedElemental = normalizeProperties({
     Fire:
-      Number(item.elementalProperties.Fire || 0) +
+      Number(item.elementalProperties?.Fire || 0) +
       Number(elementalBoost.Fire || 0),
     Water:
-      Number(item.elementalProperties.Water || 0) +
+      Number(item.elementalProperties?.Water || 0) +
       Number(elementalBoost.Water || 0),
     Earth:
-      Number(item.elementalProperties.Earth || 0) +
+      Number(item.elementalProperties?.Earth || 0) +
       Number(elementalBoost.Earth || 0),
     Air:
-      Number(item.elementalProperties.Air || 0) +
+      Number(item.elementalProperties?.Air || 0) +
       Number(elementalBoost.Air || 0),
   });
 
@@ -550,19 +550,19 @@ function calculateAlchemicalProperties(
 
   // Base contributions from elemental properties
   alchemicalProps.Spirit +=
-    (elementalProperties.Fire || 0) * 0.2 +
-    (elementalProperties.Air || 0) * 0.2;
+    (elementalProperties?.Fire || 0) * 0.2 +
+    (elementalProperties?.Air || 0) * 0.2;
   alchemicalProps.Essence +=
-    (elementalProperties.Water || 0) * 0.2 +
-    (elementalProperties.Fire || 0) * 0.2 +
-    (elementalProperties.Air || 0) * 0.2;
+    (elementalProperties?.Water || 0) * 0.2 +
+    (elementalProperties?.Fire || 0) * 0.2 +
+    (elementalProperties?.Air || 0) * 0.2;
   alchemicalProps.Matter +=
-    (elementalProperties.Earth || 0) * 0.2 +
-    (elementalProperties.Water || 0) * 0.2;
+    (elementalProperties?.Earth || 0) * 0.2 +
+    (elementalProperties?.Water || 0) * 0.2;
   alchemicalProps.Substance +=
-    (elementalProperties.Earth || 0) * 0.2 +
-    (elementalProperties.Water || 0) * 0.2 +
-    (elementalProperties.Air || 0) * 0.2;
+    (elementalProperties?.Earth || 0) * 0.2 +
+    (elementalProperties?.Water || 0) * 0.2 +
+    (elementalProperties?.Air || 0) * 0.2;
 
   // Contributions from planetary influences
   for (const [planet, influence] of Object.entries(planetaryInfluences)) {

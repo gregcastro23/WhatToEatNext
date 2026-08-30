@@ -108,7 +108,7 @@ const getSecurityHeaders = () => {
     `connect-src ${connectSrcParts.join(" ")}`,
     "media-src 'self' https:",
     "object-src 'none'",
-    "frame-src 'self' https://accounts.google.com",
+    "frame-src 'self' https://accounts.google.com https://vercel.live https://*.vercel.live",
     "frame-ancestors 'none'",
     "upgrade-insecure-requests",
   ].join("; ");

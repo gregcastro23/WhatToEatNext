@@ -26,6 +26,33 @@ export interface ChartData {
   >;
 }
 
+type ChartPlanet = ChartData["planets"][string];
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function normalizeChartPlanet(value: unknown): ChartPlanet {
+  const data = isRecord(value) ? value : {};
+  return {
+    sign:
+      typeof data.sign === "string" && data.sign.length > 0
+        ? data.sign
+        : "Aries",
+    degree:
+      typeof data.degree === "number" && Number.isFinite(data.degree)
+        ? data.degree
+        : 0,
+    isRetrograde:
+      typeof data.isRetrograde === "boolean" ? data.isRetrograde : false,
+    exactLongitude:
+      typeof data.exactLongitude === "number" &&
+      Number.isFinite(data.exactLongitude)
+        ? data.exactLongitude
+        : 0,
+  };
+}
+
 /**
  * Standalone hook to access current astrological chart data
  */
@@ -41,7 +68,7 @@ export function useCurrentChart() {
     if (Object.keys(planetaryPositions).length > 0) {
       try {
         // Convert planetary positions to chart format
-        const planets: Record<string, unknown> = {};
+        const planets: ChartData["planets"] = {};
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
@@ -59,30 +86,17 @@ export function useCurrentChart() {
             planetName = "SouthNode";
           }
 
-          const planetData = data as any;
-          planets[planetName] = {
-            sign: planetData?.sign || "Aries",
-            degree: planetData?.degree || 0,
-            isRetrograde: planetData?.isRetrograde || false,
-            exactLongitude: planetData?.exactLongitude || 0,
-          };
+          planets[planetName] = normalizeChartPlanet(data);
         });
 
         // Set ascendant if available
         const newChartData: ChartData = {
-          planets: planets as Record<
-            string,
-            {
-              sign: string;
-              degree: number;
-              isRetrograde?: boolean;
-              exactLongitude?: number;
-            }
-          >,
+          planets,
         };
 
-        if (planetaryPositions.ascendant) {
-          newChartData.ascendant = (planetaryPositions.ascendant as any)?.sign;
+        const ascendant = normalizeChartPlanet(planetaryPositions.ascendant);
+        if (planetaryPositions.ascendant && ascendant.sign.length > 0) {
+          newChartData.ascendant = ascendant.sign;
         }
 
         setChartData(newChartData);
@@ -99,7 +113,7 @@ export function useCurrentChart() {
 
   const createChartSvg = () => {
     // Map of planet names to their astronomical symbols
-    const planetSymbols: Record<string, string> = {
+    const planetSymbols: Partial<Record<string, string>> = {
       Sun: "🝇",
       Moon: "🝑",
       Mercury: "🝉",
@@ -117,7 +131,7 @@ export function useCurrentChart() {
     };
 
     // Map of zodiac signs to their symbols
-    const zodiacSymbols: Record<string, string> = {
+    const zodiacSymbols: Partial<Record<string, string>> = {
       aries: "♈",
       taurus: "♉",
       gemini: "♊",
@@ -133,7 +147,7 @@ export function useCurrentChart() {
     };
 
     // Map colors for each sign based on their element
-    const signColors: Record<string, string> = {
+    const signColors: Partial<Record<string, string>> = {
       aries: "#ff5757", // Fire,
       leo: "#ff8c33", // Fire,
       sagittarius: "#ffb84d", // Fire,
@@ -149,7 +163,7 @@ export function useCurrentChart() {
     };
 
     // Map planet colors
-    const planetColors: Record<string, string> = {
+    const planetColors: Partial<Record<string, string>> = {
       Sun: "#ff9500",
       Moon: "#b8b8b8",
       Mercury: "#a6a6a6",
@@ -165,19 +179,19 @@ export function useCurrentChart() {
     // Calculate actual positions based on exact longitude
     const planetPositions = Object.entries(chartData.planets).map(
       ([planet, data]) => {
-        const exactLong = data.exactLongitude || 0;
+        const exactLong = data.exactLongitude ?? 0;
         const angle = (exactLong * Math.PI) / 180; // Convert to radians
         return {
           planet,
-          symbol: planetSymbols[planet] || planet,
+          symbol: planetSymbols[planet] ?? planet,
           sign: data.sign,
-          signSymbol: zodiacSymbols[data.sign] || data.sign,
+          signSymbol: zodiacSymbols[data.sign] ?? data.sign,
           degree: data.degree,
           isRetrograde: data.isRetrograde,
           angle,
           x: 150 + 100 * Math.sin(angle), // Use sine for x,
           y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
-          color: planetColors[planet] || "#555555",
+          color: planetColors[planet] ?? "#555555",
         };
       },
     );
@@ -185,7 +199,10 @@ export function useCurrentChart() {
     // Create a more attractive circular chart with signs in the outer ring
     return {
       planetPositions: chartData.planets,
-      ascendantSign: chartData.ascendant || "Libra",
+      ascendantSign:
+        chartData.ascendant && chartData.ascendant.length > 0
+          ? chartData.ascendant
+          : "Libra",
       svgContent: `
       <svg width='320' height='320' viewBox='0 0 320 320'>
         <defs>
@@ -212,7 +229,7 @@ export function useCurrentChart() {
             .map((_, i) => {
               const _angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
-              const color = signColors[sign] || "#999";
+              const color = signColors[sign] ?? "#999";
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;
               const endAngle = (((i + 1) * 30 - 90) * Math.PI) / 180;
 
@@ -346,9 +363,14 @@ export function useCurrentChart() {
     createChartSvg,
     isLoading,
     error,
-    refreshChart: async () => {
+    refreshChart: () => {
       setIsLoading(true);
-      setTimeout(() => setIsLoading(false), 500);
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          setIsLoading(false);
+          resolve();
+        }, 500);
+      });
     },
     // Add the chart property for CookingMethods.tsx,
     chart: chartObj,

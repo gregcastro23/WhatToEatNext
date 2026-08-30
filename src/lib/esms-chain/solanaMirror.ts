@@ -21,6 +21,15 @@ const BASE58_ADDRESS = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
 
 export type SplCoinKey = "spirit" | "essence" | "matter" | "substance";
 
+/** Public utility doctrine shared by every SPL mirror surface. */
+export const ESMS_SPL_UTILITY = Object.freeze({
+  soulbound: true,
+  closedLoop: true,
+  decimals: 4,
+  disclosure:
+    "Non-transferable culinary alchemy units for closed-loop use in alchm.kitchen.",
+});
+
 function validated(value: string | undefined): string | undefined {
   return value && BASE58_ADDRESS.test(value) ? value : undefined;
 }

@@ -23,6 +23,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import {
   getCosmicModifiers,
   type CosmicModifier,
@@ -134,7 +135,11 @@ export interface AgentNetworkPayload {
    * that step-level chain-of-thought traces are not captured yet — the panel
    * surfaces these previews as a proxy, not as full reasoning traces.
    */
-  reasoning: { entries: AgentReasoningEntry[]; live: boolean; instrumented: boolean };
+  reasoning: {
+    entries: AgentReasoningEntry[];
+    live: boolean;
+    instrumented: boolean;
+  };
   /**
    * Active astrological aspects, framed as signed influences on agent
    * interaction velocity. Derived from the live ephemeris via
@@ -159,6 +164,20 @@ function roleFromEventType(eventType: string): string {
   if (!eventType) return "general";
   const dot = eventType.indexOf(".");
   return dot > 0 ? eventType.slice(0, dot) : eventType;
+}
+
+function readMetadataString(
+  metadata: Record<string, unknown>,
+  key: string,
+): string | undefined {
+  const value = metadata[key];
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function readInteractionMetadata(value: unknown): Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
 }
 
 async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
@@ -217,8 +236,15 @@ async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
     };
     return { ...row, live_source: true };
   } catch (error) {
-    console.error("[admin/agents/network] totals query failed:", error);
-    return { total: 0, live: 0, idle: 0, warn: 0, draining: 0, live_source: false };
+    _logger.error("[admin/agents/network] totals query failed", error);
+    return {
+      total: 0,
+      live: 0,
+      idle: 0,
+      warn: 0,
+      draining: 0,
+      live_source: false,
+    };
   }
 }
 
@@ -276,12 +302,14 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] roles query failed:", error);
+    _logger.error("[admin/agents/network] roles query failed", error);
     return { entries: [], live: false };
   }
 }
 
-async function getDispatch(limit: number): Promise<AgentNetworkPayload["dispatch"]> {
+async function getDispatch(
+  limit: number,
+): Promise<AgentNetworkPayload["dispatch"]> {
   try {
     const result = await executeQuery<{
       id: string;
@@ -319,7 +347,7 @@ async function getDispatch(limit: number): Promise<AgentNetworkPayload["dispatch
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] dispatch query failed:", error);
+    _logger.error("[admin/agents/network] dispatch query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -369,7 +397,7 @@ async function getLeaderboard(
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] leaderboard query failed:", error);
+    _logger.error("[admin/agents/network] leaderboard query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -392,7 +420,7 @@ async function getInteractions(
     const result = await executeQuery<{
       id: string;
       createdAt: Date;
-      metadata_payload: any;
+      metadata_payload: unknown;
       actor_id: string;
       actor_name: string | null;
       target_user_id: string | null;
@@ -452,28 +480,31 @@ async function getInteractions(
     );
 
     const entries: AgentInteractionEntry[] = result.rows.map((row) => {
-      const meta = (row.metadata_payload as Record<string, any>) || {};
+      const meta = readInteractionMetadata(row.metadata_payload);
       const targetName =
         row.target_resolved_name ??
-        meta.targetName ??
-        meta.withAgent ??
-        meta.partnerName ??
+        readMetadataString(meta, "targetName") ??
+        readMetadataString(meta, "withAgent") ??
+        readMetadataString(meta, "partnerName") ??
         "User";
       return {
-        sessionId: meta.sessionId ?? row.id,
+        sessionId: readMetadataString(meta, "sessionId") ?? row.id,
         agentId1: row.actor_id,
-        agentId2: meta.targetAgentId ?? "user",
+        agentId2: readMetadataString(meta, "targetAgentId") ?? "user",
         targetUserId: row.target_user_id,
         agentName1: row.actor_name ?? "Agent",
         agentName2: targetName,
         timestamp: new Date(row.createdAt).toISOString(),
-        preview: meta.responsePreview ?? meta.messagePreview ?? "Discourse started",
+        preview:
+          readMetadataString(meta, "responsePreview") ??
+          readMetadataString(meta, "messagePreview") ??
+          "Discourse started",
       };
     });
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] interactions query failed:", error);
+    _logger.error("[admin/agents/network] interactions query failed", error);
     return { entries: [], live: false };
   }
 }
@@ -485,7 +516,11 @@ async function getInteractions(
  * honest empty state rather than fabricated activity. The `mandate` is a
  * description of intent, not telemetry.
  */
-const ROLE_OPS_DEFS: ReadonlyArray<{ id: string; label: string; mandate: string }> = [
+const ROLE_OPS_DEFS: ReadonlyArray<{
+  id: string;
+  label: string;
+  mandate: string;
+}> = [
   { id: "sous-chef", label: "Sous-Chef", mandate: "prep & mise-en-place" },
   { id: "galileo", label: "Galileo", mandate: "vision & image rendering" },
   { id: "substitution", label: "Substitution", mandate: "ingredient swaps" },
@@ -584,7 +619,7 @@ async function getRoleOps(): Promise<AgentNetworkPayload["roleOps"]> {
 
     return { entries, live: true };
   } catch (error) {
-    console.error("[admin/agents/network] roleOps query failed:", error);
+    _logger.error("[admin/agents/network] roleOps query failed", error);
     // Still hand back the canonical role shells so the panels render an honest
     // "telemetry offline" state instead of disappearing.
     const entries: AgentRoleOpsEntry[] = ROLE_OPS_DEFS.map((def) => ({
@@ -650,7 +685,7 @@ async function getReasoning(
 
     return { entries, live: true, instrumented: false };
   } catch (error) {
-    console.error("[admin/agents/network] reasoning query failed:", error);
+    _logger.error("[admin/agents/network] reasoning query failed", error);
     return { entries: [], live: false, instrumented: false };
   }
 }
@@ -663,18 +698,28 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const dispatchLimit = Math.min(
-    Math.max(parseInt(searchParams.get("dispatch") ?? "0", 10) || DEFAULT_DISPATCH_LIMIT, 1),
+    Math.max(
+      parseInt(searchParams.get("dispatch") ?? "0", 10) ||
+        DEFAULT_DISPATCH_LIMIT,
+      1,
+    ),
     MAX_LIMIT,
   );
   const leaderboardLimit = Math.min(
-    Math.max(parseInt(searchParams.get("leaderboard") ?? "0", 10) || DEFAULT_LEADERBOARD_LIMIT, 1),
+    Math.max(
+      parseInt(searchParams.get("leaderboard") ?? "0", 10) ||
+        DEFAULT_LEADERBOARD_LIMIT,
+      1,
+    ),
     MAX_LIMIT,
   );
   // Trim+lower so cache keys are stable regardless of input casing/padding.
   // Empty strings collapse to null so the route still hits the full-history
   // cache slot when the operator clears the search bar.
-  const withFilter = (searchParams.get("with") ?? "").trim().toLowerCase() || null;
-  const topicFilter = (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
+  const withFilter =
+    (searchParams.get("with") ?? "").trim().toLowerCase() || null;
+  const topicFilter =
+    (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
 
   // Cache key includes limits + filters so two callers with different
   // ?dispatch=N / ?with= / ?topic= values don't share each other's payload.
@@ -699,8 +744,8 @@ export async function GET(request: NextRequest) {
           live: r.live,
         }))
         .catch((error) => {
-          console.error(
-            "[admin/agents/network] cosmic modifiers failed:",
+          _logger.error(
+            "[admin/agents/network] cosmic modifiers failed",
             error,
           );
           return { entries: [], netVelocity: 0, live: false };

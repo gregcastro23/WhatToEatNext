@@ -44,21 +44,15 @@ export default function MethodsRecommender() {
   
   // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
-    if (!loading && currentPlanetaryAlignment) {
+    if (!loading) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       const astroState = {
-        // @ts-expect-error - Auto-fixed by script
         zodiacSign: currentPlanetaryAlignment.sun?.sign ?? 'Aries',
-        // @ts-expect-error - Auto-fixed by script
         lunarPhase: currentPlanetaryAlignment.moon?.phase ?? 'New Moon',
         elementalState: {
-          // @ts-expect-error - Auto-fixed by script
           Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
-          // @ts-expect-error - Auto-fixed by script
           Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
-          // @ts-expect-error - Auto-fixed by script
           Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2,
-          // @ts-expect-error - Auto-fixed by script
           Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign ?? '') ? 0.8 : 0.2
         },
         planets: currentPlanetaryAlignment
@@ -88,12 +82,12 @@ export default function MethodsRecommender() {
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: methodData.description,
             score: adjustedScore,
-            elementalEffect: methodData.elementalEffect || methodData.elementalProperties,
+            elementalEffect: methodData.elementalEffect,
             duration: methodData.duration,
-            suitable_for: methodData.suitable_for || [],
-            benefits: methodData.benefits || [],
+            suitable_for: methodData.suitable_for,
+            benefits: methodData.benefits,
             astrologicalInfluences: methodData.astrologicalInfluences,
             toolsRequired: methodData.toolsRequired
           };

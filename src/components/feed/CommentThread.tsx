@@ -59,8 +59,8 @@ export interface CommentThreadProps {
 
 export function CommentThread({ eventId, open, onCountChange }: CommentThreadProps): JSX.Element | null {
   const { data: session } = useSession();
-  const viewerId = (session?.user as { id?: string } | undefined)?.id ?? null;
-  const isAdmin = (session?.user as { role?: string } | undefined)?.role === "admin";
+  const viewerId = session?.user?.id ?? null;
+  const isAdmin = session?.user?.role === "admin";
 
   const [comments, setComments] = useState<FeedComment[]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);

@@ -5,6 +5,7 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import type { RecipeNftCommitments } from "@/lib/recipe-nft/content";
 import type { RecipeProvenance } from "@/lib/recipe-nft/mintableRecipe";
 import type { MintOnChainResult } from "@/lib/recipe-nft/minter";
@@ -34,11 +35,23 @@ export interface RecordMintInput {
   imageUrl?: string | null;
 }
 
+interface MintIdRow { id: unknown }
+interface MintStatusRow { id: unknown; status: unknown }
+interface MintPayloadRow {
+  recipe_json: unknown;
+  content_json: unknown;
+  image_url: unknown;
+}
+
+function readString(value: unknown): string | null {
+  return typeof value === "string" && value.length > 0 ? value : null;
+}
+
 export const recipeNftMintService = {
   /** Insert a mint record; null on DB error or duplicate content_hash. */
   async recordMint(input: RecordMintInput): Promise<{ id: string } | null> {
     try {
-      const res = await executeQuery(
+      const res = await executeQuery<MintIdRow>(
         `INSERT INTO recipe_nft_mints
            (user_id, recipe_id, title, source, content_hash, computation_hash,
             ingredient_catalog_root, engine_version, aggregation_mode, a_sharp,
@@ -75,10 +88,10 @@ export const recipeNftMintService = {
           input.imageUrl ?? null,
         ],
       );
-      const id = res.rows?.[0]?.id;
+      const id = readString(res.rows.at(0)?.id);
       return id ? { id } : null;
     } catch (err) {
-      console.error("recordMint failed", err);
+      _logger.error("[recipeNftMintService] recordMint failed", err);
       return null;
     }
   },
@@ -86,13 +99,16 @@ export const recipeNftMintService = {
   /** Has this exact recipe content already been minted? */
   async findByContentHash(contentHash: string): Promise<{ id: string; status: string } | null> {
     try {
-      const res = await executeQuery(
+      const res = await executeQuery<MintStatusRow>(
         `SELECT id, status FROM recipe_nft_mints WHERE content_hash = $1 LIMIT 1`,
         [contentHash],
       );
-      const row = res.rows?.[0];
-      return row ? { id: row.id, status: row.status } : null;
-    } catch {
+      const row = res.rows.at(0);
+      const id = readString(row?.id);
+      const status = readString(row?.status);
+      return id && status ? { id, status } : null;
+    } catch (error) {
+      _logger.error("[recipeNftMintService] findByContentHash failed", error);
       return null;
     }
   },
@@ -102,20 +118,21 @@ export const recipeNftMintService = {
     contentHash: string,
   ): Promise<{ recipeJson: unknown; contentJson: unknown; imageUrl: string | null } | null> {
     try {
-      const res = await executeQuery(
+      const res = await executeQuery<MintPayloadRow>(
         `SELECT recipe_json, content_json, image_url FROM recipe_nft_mints WHERE content_hash = $1 LIMIT 1`,
         [contentHash],
       );
-      const row = res.rows?.[0];
-      if (!row?.recipe_json) return null;
+      const row = res.rows.at(0);
+      if (row?.recipe_json == null) return null;
       return {
         recipeJson: row.recipe_json,
         contentJson: row.content_json ?? null,
         // `|| null` deliberately: a legacy "" must read as absent so the
         // metadata route regenerates instead of serving a blank image forever.
-        imageUrl: row.image_url ?? null,
+        imageUrl: readString(row.image_url),
       };
-    } catch {
+    } catch (error) {
+      _logger.error("[recipeNftMintService] getByContentHash failed", error);
       return null;
     }
   },

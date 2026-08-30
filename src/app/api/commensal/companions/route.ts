@@ -10,6 +10,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
 import { rateLimit } from "@/lib/rateLimit";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
@@ -22,13 +23,13 @@ export const runtime = "nodejs";
 interface LocalAgentRow {
   user_id: string;
   email: string;
-  profile: any;
+  profile: unknown;
   name: string | null;
   bio: string | null;
   dominant_element: string | null;
   monica_constant: string | null;
-  birth_data: any;
-  natal_chart: any;
+  birth_data: unknown;
+  natal_chart: unknown;
 }
 
 interface CompanionView {
@@ -58,13 +59,13 @@ interface PlanetaryActivation {
   planetaryRuler?: string;
 }
 
-function parseObject(value: unknown): Record<string, any> | null {
+function parseObject(value: unknown): Record<string, unknown> | null {
   const parsed =
     typeof value === "string"
-      ? safeJsonParse<Record<string, any>>(value)
+      ? safeJsonParse<Record<string, unknown>>(value)
       : value;
   return parsed && typeof parsed === "object" && !Array.isArray(parsed)
-    ? (parsed as Record<string, any>)
+    ? (parsed as Record<string, unknown>)
     : null;
 }
 
@@ -81,6 +82,57 @@ function errorSummary(error: unknown): string {
   return "unavailable";
 }
 
+function extractBirthData(row: LocalAgentRow, profile: Record<string, unknown>): Record<string, unknown> | null {
+  const chartFromProfile = parseObject(profile.natalChart) ?? parseObject(profile.natal_chart);
+  return (
+    parseObject(row.birth_data) ??
+    parseObject(profile.birthData) ??
+    parseObject(profile.birth_data) ??
+    (chartFromProfile?.birthData ? parseObject(chartFromProfile.birthData) : null)
+  );
+}
+
+function extractNatalChart(row: LocalAgentRow, profile: Record<string, unknown>): Record<string, unknown> | null {
+  return (
+    parseObject(row.natal_chart) ??
+    parseObject(profile.natalChart) ??
+    parseObject(profile.natal_chart)
+  );
+}
+
+function hydrateAgentRow(row: LocalAgentRow): CompanionView | null {
+  const profile = parseObject(row.profile) ?? {};
+  const birthData = extractBirthData(row, profile);
+  const natalChart = extractNatalChart(row, profile);
+  const email = typeof row.email === "string" ? row.email : "";
+
+  if (!email || !birthData) return null;
+
+  const chartObj = parseObject(natalChart);
+  const dominantElement =
+    typeof row.dominant_element === "string" && row.dominant_element
+      ? row.dominant_element
+      : typeof chartObj?.dominantElement === "string"
+        ? chartObj.dominantElement
+        : "Fire";
+
+  return {
+    userId: row.user_id,
+    email,
+    name: row.name ?? email.split("@")[0],
+    bio:
+      row.bio ??
+      (typeof profile.bio === "string" ? profile.bio : undefined) ??
+      "Planetary sage guiding alchemical balance.",
+    dominantElement,
+    monicaConstant: row.monica_constant
+      ? parseFloat(row.monica_constant)
+      : null,
+    birthData: birthData as unknown as BirthData,
+    natalChart: (natalChart as unknown as NatalChart | null) ?? null,
+  };
+}
+
 // Unauthenticated and fans out to the external PA API — moderate per-IP cap.
 const COMPANIONS_LIMIT = {
   window: 60_000,
@@ -88,7 +140,7 @@ const COMPANIONS_LIMIT = {
   bucket: "commensal-companions",
 } as const;
 
-export async function GET(_req: NextRequest) {
+export async function GET(_req: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(_req, COMPANIONS_LIMIT);
   if (!rl.allowed) return rl.response!;
 
@@ -100,7 +152,7 @@ export async function GET(_req: NextRequest) {
     (fetchAgentsForDate(new Date()) as Promise<PlanetaryActivation[]>).catch(
       (error) => {
         warnings.push("planetary-activations");
-        console.warn(
+        _logger.error(
           "[companions] Planetary activations unavailable:",
           errorSummary(error),
         );
@@ -125,10 +177,10 @@ export async function GET(_req: NextRequest) {
           AND u.is_active = true`,
       [],
     )
-      .then((result) => result.rows || [])
+      .then((result) => result.rows)
       .catch((error) => {
         warnings.push("cosmic-roster");
-        console.warn(
+        _logger.error(
           "[companions] Local agent roster unavailable:",
           errorSummary(error),
         );
@@ -138,39 +190,7 @@ export async function GET(_req: NextRequest) {
 
   // Parse and normalize birth data + charts with defensive fallback structures.
   const hydratedAgents = localAgents
-    .map((row): CompanionView | null => {
-      const profile = parseObject(row.profile) ?? {};
-      const birthData =
-        parseObject(row.birth_data) ??
-        parseObject(profile.birthData) ??
-        parseObject(profile.birth_data) ??
-        parseObject(profile.natalChart)?.birthData ??
-        parseObject(profile.natal_chart)?.birthData;
-      const natalChart =
-        parseObject(row.natal_chart) ??
-        parseObject(profile.natalChart) ??
-        parseObject(profile.natal_chart);
-      const email = typeof row.email === "string" ? row.email : "";
-
-      if (!email || !birthData) return null;
-
-      return {
-        userId: row.user_id,
-        email,
-        name: row.name ?? email.split("@")[0],
-        bio:
-          row.bio ??
-          profile.bio ??
-          "Planetary sage guiding alchemical balance.",
-        dominantElement:
-          row.dominant_element ?? natalChart?.dominantElement ?? "Fire",
-        monicaConstant: row.monica_constant
-          ? parseFloat(row.monica_constant)
-          : null,
-        birthData: birthData as BirthData,
-        natalChart: (natalChart as NatalChart | null) ?? null,
-      };
-    })
+    .map(hydrateAgentRow)
     .filter((agent): agent is CompanionView => agent !== null);
 
   // Historical activity is optional. If it is unavailable, the roster and
@@ -189,10 +209,10 @@ export async function GET(_req: NextRequest) {
         LIMIT 30`,
     [],
   )
-    .then((result) => result.rows || [])
+    .then((result) => result.rows)
     .catch((error) => {
       warnings.push("historical-feed");
-      console.warn(
+      _logger.error(
         "[companions] Historical feed unavailable:",
         errorSummary(error),
       );
@@ -262,7 +282,7 @@ export async function GET(_req: NextRequest) {
           email: "",
           name: companion.name,
           bio: `Saved companion chart (${companion.relationship ?? "friend"})`,
-          dominantElement: companion.natalChart.dominantElement || "Fire",
+          dominantElement: companion.natalChart.dominantElement,
           monicaConstant: null,
           birthData: companion.birthData,
           natalChart: companion.natalChart,
@@ -272,7 +292,7 @@ export async function GET(_req: NextRequest) {
           email: companion.email,
           name: companion.name || companion.email.split("@")[0],
           bio: "Linked dining companion",
-          dominantElement: companion.natalChart.dominantElement || "Fire",
+          dominantElement: companion.natalChart.dominantElement,
           monicaConstant: null,
           birthData: companion.birthData,
           natalChart: companion.natalChart,
@@ -281,7 +301,7 @@ export async function GET(_req: NextRequest) {
     }
   } catch (error) {
     warnings.push("saved-companions");
-    console.warn(
+    _logger.error(
       "[companions] Saved companions unavailable:",
       errorSummary(error),
     );

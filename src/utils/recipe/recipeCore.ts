@@ -114,9 +114,10 @@ export function isAppropriateForTimeOfDay(
 }
 
 export function calculateElementalMatch(
-  recipeElements: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air">,
-  targetElements: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air">,
+  recipeElements?: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air"> | null,
+  targetElements?: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air"> | null,
 ): number {
+  if (!recipeElements || !targetElements) return 0.6;
   let total = 0;
   let count = 0;
 

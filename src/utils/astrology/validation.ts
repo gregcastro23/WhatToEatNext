@@ -435,9 +435,9 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase,
       activePlanets,
       dominantElement,
-      _planetaryPositions: positions as Record<string, CelestialPosition>,
-      _isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
-    } as any;
+      planetaryPositions: positions,
+      isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
+    };
   } catch (error) {
     errorLog(
       "Error in getCurrentAstrologicalState: ",
@@ -451,8 +451,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase: "new moon",
       activePlanets: ["Sun", "Moon", "Jupiter"],
       dominantElement: "Fire",
-      _loading: false,
-    } as any;
+      loading: false,
+    };
   }
 }
 

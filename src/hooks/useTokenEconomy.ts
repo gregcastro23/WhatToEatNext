@@ -20,12 +20,17 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+import {
+  claimDailyResponseSchema,
+  economyBalanceResponseSchema,
+  economyErrorResponseSchema,
+} from '@/lib/economy/clientSchemas';
 import type {
   DailyYieldResult,
   TokenBalances,
   TokenType,
   UserStreak,
-} from '@/types/economy';
+} from '@/types';
 
 // ─── Types ────────────────────────────────────────────────────────────
 
@@ -56,9 +61,11 @@ export interface UseTokenEconomyResult {
 
 // ─── Helpers ──────────────────────────────────────────────────────────
 
-function dispatchEconomyEvent(detail: TokenEconomyEventDetail) {
+function dispatchEconomyEvent(detail: TokenEconomyEventDetail): void {
   if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent<TokenEconomyEventDetail>(TOKEN_ECONOMY_EVENT, { detail }));
+  window.dispatchEvent(
+    new CustomEvent<TokenEconomyEventDetail>(TOKEN_ECONOMY_EVENT, { detail }),
+  );
 }
 
 // ─── Hook ─────────────────────────────────────────────────────────────
@@ -78,12 +85,15 @@ export function useTokenEconomy(): UseTokenEconomyResult {
         setLoading(false);
         return;
       }
-      const data = await res.json();
-      if (data.success) {
-        setBalances(data.balances);
-        setStreak(data.streak);
-        setCanClaimDaily(!!data.canClaimDaily);
+      const payload: unknown = await res.json();
+      const parsed = economyBalanceResponseSchema.safeParse(payload);
+      if (parsed.success) {
+        setBalances(parsed.data.balances);
+        setStreak(parsed.data.streak);
+        setCanClaimDaily(parsed.data.canClaimDaily);
         setError(null);
+      } else {
+        setError('Invalid economy response');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load economy');
@@ -101,10 +111,10 @@ export function useTokenEconomy(): UseTokenEconomyResult {
         if (!prev) return prev;
         return {
           ...prev,
-          spirit: (prev.spirit ?? 0) + (credits.spirit ?? 0),
-          essence: (prev.essence ?? 0) + (credits.essence ?? 0),
-          matter: (prev.matter ?? 0) + (credits.matter ?? 0),
-          substance: (prev.substance ?? 0) + (credits.substance ?? 0),
+          spirit: prev.spirit + (credits.spirit ?? 0),
+          essence: prev.essence + (credits.essence ?? 0),
+          matter: prev.matter + (credits.matter ?? 0),
+          substance: prev.substance + (credits.substance ?? 0),
         };
       });
       dispatchEconomyEvent({ source, credits });
@@ -118,12 +128,18 @@ export function useTokenEconomy(): UseTokenEconomyResult {
         method: 'POST',
         credentials: 'include',
       });
-      const data = await res.json();
-      if (!data.success) {
-        setError(data.message || 'Claim failed');
+      const payload: unknown = await res.json();
+      const parsed = claimDailyResponseSchema.safeParse(payload);
+      if (!parsed.success) {
+        const errorResponse = economyErrorResponseSchema.safeParse(payload);
+        setError(
+          errorResponse.success
+            ? (errorResponse.data.message ?? 'Claim failed')
+            : 'Invalid claim response',
+        );
         return null;
       }
-      const yieldResult: DailyYieldResult = data.yield;
+      const yieldResult: DailyYieldResult = parsed.data.yield;
       // Optimistic merge of the returned balances.
       setBalances(yieldResult.newBalances);
       setCanClaimDaily(false);
@@ -133,8 +149,11 @@ export function useTokenEconomy(): UseTokenEconomyResult {
         yield: yieldResult,
       });
       // Light vibration for tactile feedback.
-      if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-        navigator.vibrate?.([10, 30, 10]);
+      if (
+        typeof navigator !== 'undefined' &&
+        typeof navigator.vibrate === 'function'
+      ) {
+        navigator.vibrate([10, 30, 10]);
       }
       return yieldResult;
     } catch (err) {

@@ -6,6 +6,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS } from "@/lib/elementColors";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
+import { _logger } from "@/lib/logger";
+import { isProfileFeedResponse } from "@/types";
+import type { ProfileFeedEvent } from "@/types";
+import { isObject } from "@/utils/typeGuards";
 
 function formatRelativeTime(iso: string): string {
   const then = new Date(iso).getTime();
@@ -32,27 +36,64 @@ interface PlanetarySignature {
   natalPositions?: SignaturePlacement[];
 }
 
-function getPlanetarySignature(metadata: any): PlanetarySignature | null {
+function optionalString(value: unknown): string | undefined {
+  return typeof value === "string" ? value : undefined;
+}
+
+function isSignaturePlacement(value: unknown): value is SignaturePlacement {
+  return (
+    isObject(value) &&
+    (value.planet === undefined || typeof value.planet === "string") &&
+    (value.sign === undefined || typeof value.sign === "string") &&
+    (value.degree === undefined || typeof value.degree === "number")
+  );
+}
+
+function getPlanetarySignature(
+  metadata: Record<string, unknown> | null,
+): PlanetarySignature | null {
   const signature = metadata?.planetarySignature;
-  return signature && typeof signature === "object" ? signature : null;
+  if (!isObject(signature)) return null;
+
+  return {
+    planetaryHour: optionalString(signature.planetaryHour),
+    planetaryDay: optionalString(signature.planetaryDay),
+    dominantPlanet: optionalString(signature.dominantPlanet),
+    dominantSign: optionalString(signature.dominantSign),
+    dominantElement: optionalString(signature.dominantElement),
+    sacredStat: optionalString(signature.sacredStat),
+    natalPositions: Array.isArray(signature.natalPositions)
+      ? signature.natalPositions.filter(isSignaturePlacement)
+      : undefined,
+  };
 }
 
 function formatPlacement(placement: SignaturePlacement): string | null {
   if (!placement.planet) return null;
-  const degree = typeof placement.degree === "number" ? `${placement.degree.toFixed(1)}°` : "";
+  const degree =
+    typeof placement.degree === "number"
+      ? `${placement.degree.toFixed(1)}°`
+      : "";
   const sign = placement.sign ? ` ${placement.sign}` : "";
   return `${placement.planet} ${degree}${sign}`.trim();
 }
 
-interface FeedEvent {
-  id: string;
-  eventType: string;
-  metadataPayload: any;
-  createdAt: string;
-  actorIsAgent?: boolean;
-  actorName?: string;
-  actorSlug?: string;
-  actorImage?: string;
+async function fetchProfileFeedEvents(
+  url: string,
+): Promise<ProfileFeedEvent[]> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Feed request failed with status ${response.status}`);
+  }
+
+  const data: unknown = await response.json();
+  if (!isProfileFeedResponse(data)) {
+    throw new Error("Feed response did not match the expected contract");
+  }
+  if (!data.success) {
+    throw new Error(data.message ?? "Feed request failed");
+  }
+  return data.events;
 }
 
 export function LiveAgentFeed({
@@ -60,24 +101,21 @@ export function LiveAgentFeed({
   initialEvents,
 }: {
   userId: string;
-  initialEvents: FeedEvent[];
+  initialEvents: ProfileFeedEvent[];
 }) {
-  const [events, setEvents] = useState<FeedEvent[]>(initialEvents);
+  const [events, setEvents] = useState<ProfileFeedEvent[]>(initialEvents);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(initialEvents.length >= 20); // rough heuristic
 
   const refreshEvents = useCallback(async () => {
     try {
-      const res = await fetch(`/api/users/${userId}/feed?limit=20`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success) {
-          setEvents(data.events ?? []);
-          setHasMore(data.events.length >= 20);
-        }
-      }
+      const nextEvents = await fetchProfileFeedEvents(
+        `/api/users/${userId}/feed?limit=20`,
+      );
+      setEvents(nextEvents);
+      setHasMore(nextEvents.length >= 20);
     } catch (e) {
-      console.error(e);
+      _logger.error("[LiveAgentFeed] Failed to refresh events", e);
     }
   }, [userId]);
 
@@ -85,18 +123,17 @@ export function LiveAgentFeed({
     if (loadingMore) return;
     setLoadingMore(true);
     try {
-      const res = await fetch(`/api/users/${userId}/feed?limit=20&offset=${events.length}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && data.events.length > 0) {
-          setEvents((prev) => [...prev, ...data.events]);
-          setHasMore(data.events.length >= 20);
-        } else {
-          setHasMore(false);
-        }
+      const nextEvents = await fetchProfileFeedEvents(
+        `/api/users/${userId}/feed?limit=20&offset=${events.length}`,
+      );
+      if (nextEvents.length > 0) {
+        setEvents((prev) => [...prev, ...nextEvents]);
+        setHasMore(nextEvents.length >= 20);
+      } else {
+        setHasMore(false);
       }
     } catch (e) {
-      console.error(e);
+      _logger.error("[LiveAgentFeed] Failed to load more events", e);
     } finally {
       setLoadingMore(false);
     }
@@ -122,14 +159,22 @@ export function LiveAgentFeed({
     <div className="space-y-4">
       <AnimatePresence>
         {events.map((event) => {
-          const signature = event.actorIsAgent ? getPlanetarySignature(event.metadataPayload) : null;
+          const signature = event.actorIsAgent
+            ? getPlanetarySignature(event.metadataPayload)
+            : null;
           const natalPlacements =
-            signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) ?? [];
-          const narration = narrateFeedEvent(event.eventType, event.metadataPayload);
-          
+            signature?.natalPositions
+              ?.map(formatPlacement)
+              .filter(Boolean)
+              .slice(0, 4) ?? [];
+          const narration = narrateFeedEvent(
+            event.eventType,
+            event.metadataPayload,
+          );
+
           // Use event-level actorName if available (from API), fallback to static "This user" context
           const displayName = event.actorName ?? "They";
-          
+
           return (
             <motion.div
               key={event.id}
@@ -190,12 +235,22 @@ export function LiveAgentFeed({
                     }`}
                   >
                     <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-wider">
-                      {(signature.planetaryHour ?? signature.dominantPlanet) && (
-                        <span>Hour {signature.planetaryHour ?? signature.dominantPlanet}</span>
+                      {(signature.planetaryHour ??
+                        signature.dominantPlanet) && (
+                        <span>
+                          Hour{" "}
+                          {signature.planetaryHour ?? signature.dominantPlanet}
+                        </span>
                       )}
-                      {signature.planetaryDay && <span>Day {signature.planetaryDay}</span>}
-                      {signature.sacredStat && <span>{signature.sacredStat}</span>}
-                      {signature.dominantElement && <span>{signature.dominantElement}</span>}
+                      {signature.planetaryDay && (
+                        <span>Day {signature.planetaryDay}</span>
+                      )}
+                      {signature.sacredStat && (
+                        <span>{signature.sacredStat}</span>
+                      )}
+                      {signature.dominantElement && (
+                        <span>{signature.dominantElement}</span>
+                      )}
                     </div>
                     {natalPlacements.length > 0 && (
                       <p className="mt-1.5 text-xs leading-relaxed opacity-80">

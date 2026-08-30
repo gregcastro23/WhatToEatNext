@@ -405,7 +405,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
         )}
       </div>
 
-      {session?.user.email ? (
+      {session?.user?.email ? (
         <p className="text-[11px] text-white/30">
           Signed in as {session.user.email}. Changes sync to your account.
         </p>

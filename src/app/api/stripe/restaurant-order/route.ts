@@ -13,6 +13,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { resolveAgentsBridgeUser } from "@/lib/auth/agentsBridge";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import {
   esmsRestaurantCentsPerToken,
   esmsRestaurantPaymentsEnabled,
@@ -320,7 +321,7 @@ async function recordOrderIntent(input: {
     );
     return true;
   } catch (error) {
-    console.warn(
+    _logger.error(
       "[api/stripe/restaurant-order] Order intent was not persisted:",
       error instanceof Error ? error.message : error,
     );
@@ -336,7 +337,7 @@ async function updateEsmsOrderSettlement(input: {
   paymentStatus: string;
   completed?: boolean;
   metadata?: Record<string, unknown>;
-}) {
+}): Promise<void> {
   const { executeQuery } = await import("@/lib/database/connection");
   await executeQuery(
     `UPDATE restaurant_order_intents
@@ -398,7 +399,7 @@ function externalOrderFallback(input: {
   reason: string;
   orderId: string;
   status?: number;
-}) {
+}): NextResponse {
   return NextResponse.json(
     {
       mode: "external",
@@ -410,7 +411,7 @@ function externalOrderFallback(input: {
   );
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   const rl = await rateLimit(request, {
     window: 60_000,
     max: 10,
@@ -482,7 +483,7 @@ export async function POST(request: Request) {
           };
         }
       } catch (err) {
-        console.error(
+        _logger.error(
           "[api/stripe/restaurant-order] agents bridge lookup failed:",
           err,
         );
@@ -754,7 +755,7 @@ export async function POST(request: Request) {
       try {
         await triggerOrderFulfillment(orderId);
       } catch (error) {
-        console.error(
+        _logger.error(
           `[api/stripe/restaurant-order] ESMS order fulfillment failed: ${orderId}`,
           error,
         );
@@ -773,7 +774,7 @@ export async function POST(request: Request) {
         },
       });
     } catch (error) {
-      console.error(
+      _logger.error(
         `[api/stripe/restaurant-order] ESMS settlement pending: ${orderId}`,
         error,
       );
@@ -986,7 +987,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error("[api/stripe/restaurant-order] Error:", error);
+    _logger.error("[api/stripe/restaurant-order] Error:", error);
     await recordOrderIntent({
       ...baseIntent,
       status: "checkout_failed",
