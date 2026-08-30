@@ -190,7 +190,7 @@ async function readIdentity(
        LIMIT 1`,
       [userId],
     );
-    const [row] = result.rows;
+    const row = result.rows[0] as IdentityRow | undefined;
     if (!row) return null;
 
     const isAdmin = (row.role || "").toUpperCase() === "ADMIN";
@@ -225,7 +225,7 @@ async function readIdentity(
       onboardingCompletedAt: row.onboarding_completed_at
         ? new Date(row.onboarding_completed_at).toISOString()
         : null,
-      activeSessions: row.active_sessions ?? 0,
+      activeSessions: row.active_sessions,
     };
 
     const subscription: UserSubscription | null = row.sub_tier
@@ -301,17 +301,29 @@ async function readLifetimeStats(userId: string): Promise<{
          (SELECT evt FROM feed) AS agent_events`,
       [userId],
     );
-    const [row] = result.rows;
+    const row = result.rows[0] as
+      | {
+          signins: number;
+          signin_failures: number;
+          recipes_viewed: number;
+          recipes_cooked: number;
+          diary_entries: number;
+          tokens_earned: string;
+          tokens_spent: string;
+          agent_events: number;
+        }
+      | undefined;
+
     return {
       stats: {
-        signIns: row?.signins ?? 0,
-        signInFailures: row?.signin_failures ?? 0,
-        recipesViewed: row?.recipes_viewed ?? 0,
-        recipesCooked: row?.recipes_cooked ?? 0,
-        diaryEntries: row?.diary_entries ?? 0,
-        tokensEarned: toNum(row?.tokens_earned ?? "0"),
-        tokensSpent: toNum(row?.tokens_spent ?? "0"),
-        agentEvents: row?.agent_events ?? 0,
+        signIns: row ? row.signins : 0,
+        signInFailures: row ? row.signin_failures : 0,
+        recipesViewed: row ? row.recipes_viewed : 0,
+        recipesCooked: row ? row.recipes_cooked : 0,
+        diaryEntries: row ? row.diary_entries : 0,
+        tokensEarned: toNum(row ? row.tokens_earned : "0"),
+        tokensSpent: toNum(row ? row.tokens_spent : "0"),
+        agentEvents: row ? row.agent_events : 0,
       },
       live: true,
     };

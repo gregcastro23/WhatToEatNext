@@ -55,7 +55,14 @@ interface CookingMethod {
   };
 }
 
-export function useCookingMethods() {
+export interface UseCookingMethodsReturn {
+  methods: CookingMethod[];
+  isLoading: boolean;
+  error: string | null;
+  selectMethod: (methodId: string) => void;
+}
+
+export function useCookingMethods(): UseCookingMethodsReturn {
   const [methods, setMethods] = useState<CookingMethod[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,22 +77,22 @@ export function useCookingMethods() {
 
         return {
           id: key,
-          name: data.name || key.replace(/_/g, " "),
-          description: data.description || `Cooking method: ${key}`,
-          score: data.score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0,
-          elementalEffect: data.elementalEffect || {
+          name: data.name ?? key.replace(/_/g, " "),
+          description: data.description ?? `Cooking method: ${key}`,
+          score: data.score ?? Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0,
+          elementalEffect: data.elementalEffect ?? {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
           },
-          duration: data.duration || {
+          duration: data.duration ?? {
             min: 10,
             max: 60,
           },
-          suitable_for: data.suitable_for || ["various ingredients"],
-          benefits: data.benefits || ["cooking"],
-          alchemicalProperties: data.alchemicalProperties || {
+          suitable_for: data.suitable_for ?? ["various ingredients"],
+          benefits: data.benefits ?? ["cooking"],
+          alchemicalProperties: data.alchemicalProperties ?? {
             Spirit: 0.5,
             Essence: 0.5,
             Matter: 0.5,
@@ -102,22 +109,22 @@ export function useCookingMethods() {
 
         return {
           id: key,
-          name: data.name || key.replace(/_/g, " "),
-          description: data.description || `Cooking method: ${key}`,
-          score: data.score || Math.random() * 0.5 + 0.5,
-          elementalEffect: data.elementalEffect || {
+          name: data.name ?? key.replace(/_/g, " "),
+          description: data.description ?? `Cooking method: ${key}`,
+          score: data.score ?? Math.random() * 0.5 + 0.5,
+          elementalEffect: data.elementalEffect ?? {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
           },
-          duration: data.duration || {
+          duration: data.duration ?? {
             min: 10,
             max: 60,
           },
-          suitable_for: data.suitable_for || ["various ingredients"],
-          benefits: data.benefits || ["cooking"],
-          alchemicalProperties: data.alchemicalProperties || {
+          suitable_for: data.suitable_for ?? ["various ingredients"],
+          benefits: data.benefits ?? ["cooking"],
+          alchemicalProperties: data.alchemicalProperties ?? {
             Spirit: 0.5,
             Essence: 0.5,
             Matter: 0.5,
@@ -143,7 +150,7 @@ export function useCookingMethods() {
     }
   }, []);
 
-  const selectMethod = (methodId: string) => {
+  const selectMethod = (methodId: string): void => {
     // This could be used to track selected methods or trigger other actions
     log.info("Selected cooking method: ", { methodId });
   };

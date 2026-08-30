@@ -31,7 +31,7 @@ const ZODIAC_SIGNS = [
   "sagittarius", "capricorn", "aquarius", "pisces",
 ] as const;
 
-const SIGN_TO_ELEMENT: Record<string, "fire" | "earth" | "air" | "water"> = {
+const SIGN_TO_ELEMENT: Record<string, "fire" | "earth" | "air" | "water" | undefined> = {
   aries: "fire", leo: "fire", sagittarius: "fire",
   taurus: "earth", virgo: "earth", capricorn: "earth",
   gemini: "air", libra: "air", aquarius: "air",
@@ -105,20 +105,24 @@ interface NatalChartInput {
   midheaven?: number | NatalPlanetInput;
 }
 
-interface AgentInput {
-  id: string;
-  natalChart: NatalChartInput;
-}
-
 export interface SynastryArgs {
-  agentA?: AgentInput;
-  agentB?: AgentInput;
+  agentA?: {
+    id?: string;
+    natalChart?: NatalChartInput;
+  };
+  agentB?: {
+    id?: string;
+    natalChart?: NatalChartInput;
+  };
   focusPlanets?: string[];
   cacheStrategy?: "read" | "write" | "bypass";
 }
 
 export interface TransitOverlayArgs {
-  agent?: AgentInput;
+  agent?: {
+    id?: string;
+    natalChart?: NatalChartInput;
+  };
   transitTime?: string;
   latitude?: number;
   longitude?: number;
@@ -197,8 +201,10 @@ function hasTransitPosition(value: unknown): value is TransitPlanetInput {
 
 function flattenNatalChart(chart: NatalChartInput): PlanetPoint[] {
   const out: PlanetPoint[] = [];
-  for (const [planet, position] of Object.entries(chart.planets || {})) {
-    if (!position || typeof position !== "object") continue;
+  for (const [planet, position] of Object.entries(chart.planets) as Array<
+    [string, NatalPlanetInput | undefined]
+  >) {
+    if (!position) continue;
     const sign = normalizeSign(position.sign);
     if (!SIGN_TO_ELEMENT[sign]) continue;
     out.push({
@@ -232,9 +238,8 @@ function flattenNatalChart(chart: NatalChartInput): PlanetPoint[] {
    * form carries an explicit `sign`, which removes the ambiguity permanently
    * rather than guessing at it. `api/agents/unified/route.ts` writes that form.
    */
-  const extra = (label: string, input: number | NatalPlanetInput | undefined) => {
-    if (input === undefined || input === null) return;
-    if (typeof input === "number") {
+  const extra = (label: string, input: number | NatalPlanetInput | undefined): void => {
+    if (input === undefined || typeof input === "number") {
       // Refused deliberately — see the note above. Skipping is the same
       // behaviour this function already gives an absent angle, and it is the
       // only option that does not invent a sign.
@@ -329,18 +334,20 @@ async function readCachedScores(
   if (!db) return null;
   const [a, b] = [agentA, agentB].sort();
   try {
-    const result = await db.executeQuery<{
-      tension_score: number;
-      harmony_score: number;
-      intensification_score: number;
-      aspect_count: number;
-    }>(
+    const result = await db.executeQuery(
       `SELECT tension_score, harmony_score, intensification_score, aspect_count
          FROM synastry_scores
         WHERE agent_a = $1 AND agent_b = $2`,
       [a, b],
     );
-    const row = result.rows?.[0];
+    const row = result.rows[0] as
+      | {
+          tension_score: number;
+          harmony_score: number;
+          intensification_score: number;
+          aspect_count: number;
+        }
+      | undefined;
     if (!row) return null;
     return {
       tension: Number(row.tension_score) || 0,
@@ -376,7 +383,7 @@ function computeInterAspects(
   focus: string[],
 ): InterAspect[] {
   const focusSet = new Set(focus.map((p) => p.toLowerCase()));
-  const inFocus = (p: PlanetPoint) => focusSet.has(p.planet.toLowerCase());
+  const inFocus = (p: PlanetPoint): boolean => focusSet.has(p.planet.toLowerCase());
   const aspects: InterAspect[] = [];
 
   for (const a of pointsA.filter(inFocus)) {
@@ -414,7 +421,7 @@ function scoreAspects(aspects: InterAspect[]): Scores {
   for (const a of aspects) {
     if (a.harmonic === "friction") tension += a.exactness;
     else if (a.harmonic === "harmony") harmony += a.exactness;
-    else if (a.harmonic === "intensification") intensification += a.exactness;
+    else intensification += a.exactness;
   }
   return { tension, harmony, intensification, aspectCount: aspects.length };
 }
@@ -455,8 +462,8 @@ export async function computeSynastryOverlay(
       ok: false,
       data: null,
       errorCode: "INVALID_ARGS",
-      errorMessage: "agentA.id and agentB.id must differ",
-      summary: { reason: "self-pair" },
+      errorMessage: "agentA and agentB must be distinct agents",
+      summary: { reason: "same-agent" },
     };
   }
 
@@ -488,8 +495,8 @@ export async function computeSynastryOverlay(
   if (cacheStrategy !== "bypass") {
     // Fire-and-forget — the upsert below blocks briefly but failure
     // here must not block the duel.
-    void upsertNatalPositions(agentA.id, pointsA);
-    void upsertNatalPositions(agentB.id, pointsB);
+    upsertNatalPositions(agentA.id, pointsA).catch(() => {});
+    upsertNatalPositions(agentB.id, pointsB).catch(() => {});
   }
 
   const stance = decideStance(scores);
@@ -587,10 +594,10 @@ export async function getTransitNatalOverlay(
 
   // Convert the WTEN-side PlanetInfo[] (with absolute `position` lng) to
   // our PlanetPoint shape for symmetric aspect detection.
-  const transitPoints: PlanetPoint[] = (transitChart.planets || [])
+  const transitPoints: PlanetPoint[] = transitChart.planets
     .filter(hasTransitPosition)
     .map((p) => {
-      const sign = normalizeSign(String(p.sign || ""));
+      const sign = normalizeSign(p.sign);
       return {
         planet: String(p.name),
         longitude: ((Number(p.position) % 360) + 360) % 360,
@@ -602,7 +609,7 @@ export async function getTransitNatalOverlay(
 
   const natalPoints = flattenNatalChart(agent.natalChart);
   const focusSet = new Set(focus.map((p) => p.toLowerCase()));
-  const inFocus = (p: PlanetPoint) => focusSet.has(p.planet.toLowerCase());
+  const inFocus = (p: PlanetPoint): boolean => focusSet.has(p.planet.toLowerCase());
 
   const activations: TransitActivation[] = [];
   for (const t of transitPoints.filter(inFocus)) {
@@ -619,7 +626,7 @@ export async function getTransitNatalOverlay(
         type: detected.type,
         orb: detected.orb,
         exactness: detected.exactness,
-        natalElement: SIGN_TO_ELEMENT[n.sign] || "fire",
+        natalElement: SIGN_TO_ELEMENT[n.sign] ?? "fire",
         valence: PLANET_VALENCE[t.planet] || "neutral",
       });
     }
@@ -632,8 +639,7 @@ export async function getTransitNatalOverlay(
   const harmonicWeight = (a: TransitActivation): number => {
     if (a.type === "conjunction") return 1.0;
     if (a.type === "trine" || a.type === "sextile") return 0.8;
-    if (a.type === "square" || a.type === "opposition") return 0.7;
-    return 0.5;
+    return 0.7;
   };
   const elementVotes: Record<string, number> = {
     fire: 0, earth: 0, air: 0, water: 0,
@@ -669,7 +675,7 @@ export async function getTransitNatalOverlay(
     }
   }
 
-  const [headline] = activations;
+  const headline = activations[0] as TransitActivation | undefined;
   const boostSuffix = boostElement
     ? ` → ${Math.round(boostMagnitude * 100)}% ${boostElement} boost`
     : "";
