@@ -34,7 +34,7 @@ interface IngredientFilters {
 function matchesCategory(ing: UnifiedIngredient, categories?: string[]): boolean {
   if (!categories || categories.length === 0) return true;
   return categories.some(
-    (c) => c.toLowerCase() === (ing.category ?? "").toLowerCase(),
+    (c) => c.toLowerCase() === ing.category.toLowerCase(),
   );
 }
 
@@ -49,7 +49,7 @@ function hasPlanetaryRuler(ing: UnifiedIngredient, planet: string): boolean {
 }
 
 export class ConsolidatedIngredientService {
-  private static instance: ConsolidatedIngredientService;
+  private static instance: ConsolidatedIngredientService | undefined;
   private readonly core: IngredientService;
 
   private constructor() {
@@ -57,40 +57,40 @@ export class ConsolidatedIngredientService {
   }
 
   public static getInstance(): ConsolidatedIngredientService {
-    if (!ConsolidatedIngredientService.instance) {
-      ConsolidatedIngredientService.instance =
-        new ConsolidatedIngredientService();
-    }
+    ConsolidatedIngredientService.instance ??=
+      new ConsolidatedIngredientService();
     return ConsolidatedIngredientService.instance;
   }
 
   /**
    * Return the full unified ingredient registry as a flat array.
    */
-  async getIngredients(): Promise<UnifiedIngredient[]> {
+  getIngredients(): Promise<UnifiedIngredient[]> {
     try {
-      return this.core.getAllIngredientsFlat();
+      return Promise.resolve(this.core.getAllIngredientsFlat());
     } catch {
-      return [];
+      return Promise.resolve([]);
     }
   }
 
-  async searchIngredients(query: string): Promise<UnifiedIngredient[]> {
+  searchIngredients(query: string): Promise<UnifiedIngredient[]> {
     try {
       const all = this.core.getAllIngredientsFlat();
-      if (!query?.trim()) return all;
+      if (!query.trim()) return Promise.resolve(all);
       const q = query.toLowerCase().trim();
-      return all.filter((ing) => {
-        if (ing.name?.toLowerCase().includes(q)) return true;
-        if (ing.category?.toLowerCase().includes(q)) return true;
-        if (ing.subcategory?.toLowerCase().includes(q)) return true;
-        if (ing.description?.toLowerCase().includes(q)) return true;
-        if (ing.qualities?.some((t) => t.toLowerCase().includes(q))) return true;
-        if (ing.tags?.some((t) => t.toLowerCase().includes(q))) return true;
-        return false;
-      });
+      return Promise.resolve(
+        all.filter((ing) => {
+          if (ing.name.toLowerCase().includes(q)) return true;
+          if (ing.category.toLowerCase().includes(q)) return true;
+          if (ing.subcategory?.toLowerCase().includes(q)) return true;
+          if (ing.description?.toLowerCase().includes(q)) return true;
+          if (ing.qualities?.some((t) => t.toLowerCase().includes(q))) return true;
+          if (ing.tags?.some((t) => t.toLowerCase().includes(q))) return true;
+          return false;
+        }),
+      );
     } catch {
-      return [];
+      return Promise.resolve([]);
     }
   }
 
@@ -99,7 +99,7 @@ export class ConsolidatedIngredientService {
    * elemental match, optional planetary ruler match, and flavor profile
    * similarity.
    */
-  async getRecommendedIngredients(
+  getRecommendedIngredients(
     /**
      * Accepts either a criteria object OR a bare ElementalProperties map.
      * The latter is how `IngredientServiceAdapter` calls into this service.
@@ -131,7 +131,7 @@ export class ConsolidatedIngredientService {
             elementalPreference:
               criteriaOrElements as Partial<ElementalProperties>,
           }
-        : ((criteriaOrElements as IngredientCriteria) ?? {});
+        : (criteriaOrElements as IngredientCriteria | null | undefined) ?? {};
 
       const preferredPlanets = (criteria.rulingPlanets ?? []).map((p) =>
         p.toLowerCase(),
@@ -143,7 +143,7 @@ export class ConsolidatedIngredientService {
           if (!criteria.searchQuery) return true;
           const q = criteria.searchQuery.toLowerCase();
           return (
-            (ing.name ?? "").toLowerCase().includes(q) ||
+            ing.name.toLowerCase().includes(q) ||
             (ing.description ?? "").toLowerCase().includes(q)
           );
         })
@@ -184,9 +184,9 @@ export class ConsolidatedIngredientService {
         });
 
       scored.sort((a, b) => b.score - a.score);
-      return scored.slice(0, limit).map((s) => s.ing);
+      return Promise.resolve(scored.slice(0, limit).map((s) => s.ing));
     } catch {
-      return [];
+      return Promise.resolve([]);
     }
   }
 
@@ -194,16 +194,16 @@ export class ConsolidatedIngredientService {
    * Return ingredients whose astrological profile or `planetaryRuler` matches
    * the given planet.
    */
-  async getIngredientsByPlanet(
+  getIngredientsByPlanet(
     planet: PlanetName | string,
   ): Promise<UnifiedIngredient[]> {
     try {
-      const target = planet?.toString().toLowerCase();
-      if (!target) return [];
+      const target = planet.toString().toLowerCase();
+      if (!target) return Promise.resolve([]);
       const all = this.core.getAllIngredientsFlat();
-      return all.filter((ing) => hasPlanetaryRuler(ing, target));
+      return Promise.resolve(all.filter((ing) => hasPlanetaryRuler(ing, target)));
     } catch {
-      return [];
+      return Promise.resolve([]);
     }
   }
 
@@ -211,7 +211,7 @@ export class ConsolidatedIngredientService {
    * Find ingredients that pair well with the supplied one. Uses elemental
    * similarity (compressed) + shared planetary ruler as the signal.
    */
-  async findComplementaryIngredients(
+  findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
     maxResults = 10,
   ): Promise<UnifiedIngredient[]> {
@@ -221,7 +221,7 @@ export class ConsolidatedIngredientService {
         typeof ingredient === "string"
           ? this.core.getIngredientByName(ingredient)
           : ingredient;
-      if (!base) return [];
+      if (!base) return Promise.resolve([]);
 
       const baseElements = normalizeElementalProperties(base.elementalProperties);
       const basePlanets = (base.astrologicalProfile?.rulingPlanets ?? []).map((p) =>
@@ -248,13 +248,13 @@ export class ConsolidatedIngredientService {
           return { ing, score };
         })
         .sort((a, b) => b.score - a.score);
-      return scored.slice(0, maxResults).map((s) => s.ing);
+      return Promise.resolve(scored.slice(0, maxResults).map((s) => s.ing));
     } catch {
-      return [];
+      return Promise.resolve([]);
     }
   }
 
-  async filterIngredients(
+  filterIngredients(
     filters: IngredientFilters,
   ): Promise<UnifiedIngredient[]> {
     try {
@@ -263,13 +263,13 @@ export class ConsolidatedIngredientService {
       if (filters.categories && filters.categories.length > 0) {
         const wanted = filters.categories.map((c) => c.toLowerCase());
         list = list.filter((ing) =>
-          wanted.includes((ing.category ?? "").toLowerCase()),
+          wanted.includes(ing.category.toLowerCase()),
         );
       }
       if (filters.excludeCategories && filters.excludeCategories.length > 0) {
         const excluded = filters.excludeCategories.map((c) => c.toLowerCase());
         list = list.filter(
-          (ing) => !excluded.includes((ing.category ?? "").toLowerCase()),
+          (ing) => !excluded.includes(ing.category.toLowerCase()),
         );
       }
       if (typeof filters.minKalchm === "number") {
@@ -282,9 +282,9 @@ export class ConsolidatedIngredientService {
         const p = filters.rulingPlanet.toLowerCase();
         list = list.filter((ing) => hasPlanetaryRuler(ing, p));
       }
-      return list;
+      return Promise.resolve(list);
     } catch {
-      return [];
+      return Promise.resolve([]);
     }
   }
 }

@@ -23,9 +23,14 @@ export interface RecipeRecommendationsData {
   };
 }
 
+export interface UseRecipeRecommendationsReturn extends RecipeRecommendationsData {
+  updateFilters: (newFilters: Partial<RecipeRecommendationsData["filters"]>) => void;
+  currentElementalProfile: { Fire: number; Water: number; Earth: number; Air: number };
+}
+
 export function useRecipeRecommendations(
   initialFilters?: Partial<RecipeRecommendationsData["filters"]>,
-) {
+): UseRecipeRecommendationsReturn {
   const { planetaryPositions, isLoading: astroLoading } = useAlchemical();
 
   const [state, setState] = useState<RecipeRecommendationsData>({
@@ -39,10 +44,7 @@ export function useRecipeRecommendations(
   });
 
   const currentElementalProfile = useMemo(() => {
-    if (
-      !planetaryPositions ||
-      Object.keys(planetaryPositions || {}).length === 0
-    ) {
+    if (Object.keys(planetaryPositions).length === 0) {
       throw new Error(
         "Cannot calculate elemental profile without planetary positions",
       );
@@ -64,10 +66,10 @@ export function useRecipeRecommendations(
       scorpio: "Water",
       pisces: "Water",
     };
-    Object.values(planetaryPositions || {}).forEach((position) => {
+    Object.values(planetaryPositions).forEach((position) => {
       // Safe property access with type checking
-      const positionData = position as any;
-      const sign = positionData?.sign || positionData?.Sign || "";
+      const positionData = position as { sign?: string; Sign?: string } | undefined;
+      const sign = positionData?.sign ?? positionData?.Sign ?? "";
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
@@ -94,7 +96,7 @@ export function useRecipeRecommendations(
   }, [planetaryPositions]);
 
   useEffect(() => {
-    async function fetchRecipes() {
+    function fetchRecipes(): void {
       if (astroLoading) return;
 
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
@@ -132,7 +134,7 @@ export function useRecipeRecommendations(
         ];
 
         // Calculate compatibility scores
-        const recipesWithScores = (sampleRecipes || []).map((recipe) => {
+        const recipesWithScores = sampleRecipes.map((recipe) => {
           const score = calculateElementalCompatibility(
             recipe.elementalProfile,
             currentElementalProfile,
@@ -157,8 +159,8 @@ export function useRecipeRecommendations(
 
         // Sort by score and limit results
         filteredRecipes = filteredRecipes
-          .sort((a, b) => (b.score || 0) - (a.score || 0))
-          .slice(0, state.filters.maxResults || 10);
+          .sort((a, b) => b.score - a.score)
+          .slice(0, state.filters.maxResults ?? 10);
 
         setState((prev) => ({
           ...prev,
@@ -174,12 +176,12 @@ export function useRecipeRecommendations(
       }
     }
 
-    void fetchRecipes();
+    fetchRecipes();
   }, [astroLoading, currentElementalProfile, state.filters]);
 
   const updateFilters = (
     newFilters: Partial<RecipeRecommendationsData["filters"]>,
-  ) => {
+  ): void => {
     setState((prev) => ({
       ...prev,
       filters: { ...prev.filters, ...newFilters },

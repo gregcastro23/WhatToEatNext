@@ -1,4 +1,8 @@
 import { culinaryTraditions } from "@/data/cuisines/culinaryTraditions";
+import type { ElementalProperties } from "@/types/alchemy";
+import { createLogger } from "@/utils/logger";
+
+const _logger = createLogger("cuisineCalculations");
 
 export interface CuisineRecommendation {
   id: string;
@@ -11,14 +15,23 @@ export interface CuisineRecommendation {
   elementalAlignment: Record<string, number>;
 }
 
-interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+interface AstrologicalProfile {
+  influences?: string[];
+  rulingPlanets?: string[];
 }
 
-export async function getCuisineRecommendations(): Promise<
+interface TraditionData {
+  description?: string;
+  elementalAlignment?: ElementalProperties;
+  authenticity?: number;
+  regions?: unknown[];
+  seasonality?: unknown;
+  astrologicalProfile?: AstrologicalProfile;
+  regionalCuisines?: Record<string, { astrologicalInfluences?: string[] }>;
+  [key: string]: unknown;
+}
+
+export function getCuisineRecommendations(): Promise<
   CuisineRecommendation[]
 > {
   try {
@@ -26,21 +39,7 @@ export async function getCuisineRecommendations(): Promise<
     const recommendations: CuisineRecommendation[] = Object.entries(
       culinaryTraditions,
     ).map(([id, tradition]) => {
-      const traditionData = tradition as unknown as {
-        description?: string;
-        elementalAlignment?: {
-          Fire: number;
-          Water: number;
-          Earth: number;
-          Air: number;
-        };
-        authenticity?: number;
-        regions?: unknown[];
-        seasonality?: unknown;
-        astrologicalProfile?: unknown;
-        regionalCuisines?: unknown;
-        [key: string]: unknown;
-      };
+      const traditionData = tradition as unknown as TraditionData;
 
       return {
         id,
@@ -69,60 +68,41 @@ export async function getCuisineRecommendations(): Promise<
       };
     });
 
-    return recommendations;
+    return Promise.resolve(recommendations);
   } catch (error) {
-    console.error("Error getting cuisine recommendations: ", error);
-    return [];
+    _logger.error("Error getting cuisine recommendations: ", error);
+    return Promise.resolve([]);
   }
 }
 
 // Helper function to derive meaningful astrological influences from regional cuisines
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
-  const traditionData = tradition as {
-    description?: string;
-    elementalAlignment?: {
-      Fire: number;
-      Water: number;
-      Earth: number;
-      Air: number;
-    };
-    regions?: unknown[];
-    astrologicalProfile?: any;
-    regionalCuisines?: any;
-    [key: string]: unknown;
-  };
+  const traditionData = tradition as TraditionData;
 
   // If the tradition explicitly has astrological influences, use those
   const astroProfile = traditionData.astrologicalProfile;
   if (
     astroProfile?.influences &&
-    astroProfile?.influences.length > 0 &&
-    !astroProfile?.influences.includes("Universal")
+    astroProfile.influences.length > 0 &&
+    !astroProfile.influences.includes("Universal")
   ) {
-    return astroProfile?.influences;
+    return astroProfile.influences;
   }
 
   // Otherwise, use ruling planets from astrologicalProfile if available
-  if (astroProfile?.rulingPlanets && astroProfile?.rulingPlanets.length > 0) {
-    return astroProfile?.rulingPlanets;
+  if (astroProfile?.rulingPlanets && astroProfile.rulingPlanets.length > 0) {
+    return astroProfile.rulingPlanets;
   }
 
   // Collect influences from regional cuisines if available
   const influences = new Set<string>();
 
   const { regionalCuisines } = traditionData;
-  if (regionalCuisines) {
-    Object.values(regionalCuisines).forEach((region: unknown) => {
-      const regionData = region as {
-        name?: string;
-        characteristics?: string[];
-        seasonality?: unknown;
-        astrologicalInfluences?: string[];
-        [key: string]: unknown;
-      };
-      const regionInfluences = regionData.astrologicalInfluences;
+  if (regionalCuisines && typeof regionalCuisines === "object") {
+    Object.values(regionalCuisines).forEach((region) => {
+      const regionInfluences = region.astrologicalInfluences;
 
-      if (regionInfluences && Array.isArray(regionInfluences)) {
+      if (Array.isArray(regionInfluences)) {
         regionInfluences.forEach((influence: string) => {
           influences.add(influence);
         });
