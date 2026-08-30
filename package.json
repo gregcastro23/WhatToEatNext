@@ -50,7 +50,7 @@
     "prebuild": "bun scripts/check-version.cjs",
     "dev": "next dev",
     "start": "next start",
-    "typecheck": "next typegen && tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit --incremental false",
     "verify": "bun run typecheck && bun run lint && bun run test:fast",
     "verify:full": "bun run verify && bun run build && bun run test --passWithNoTests",
     "lint": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache --cache-strategy content src --max-warnings=10000",
