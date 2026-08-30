@@ -47,6 +47,15 @@ bun scripts/verify-spl-mirror-cluster.ts --cluster mainnet-beta --rpc <rpc-url>
 | **MATTER** | ✅ Enabled | ✅ Program PDA | ✅ Pointer Active | ✅ Verified (`matter.json`) | ✅ Program PDA | **VERIFIED** |
 | **SUBSTANCE** | ✅ Enabled | ✅ Program PDA | ✅ Pointer Active | ✅ Verified (`substance.json`) | ✅ Program PDA | **VERIFIED** |
 
+### Re-verification attempt — 2026-08-30
+
+The prover was invoked again from the restricted Codex workspace. DNS/network
+policy prevented a connection to `https://api.devnet.solana.com` before any
+account response or slot was observed. This is recorded as **NO MEASUREMENT**,
+not a failed mint verification; the 2026-08-25 slot above remains the latest
+authoritative witness. Release operators must rerun the same command from a
+network-enabled shell.
+
 ---
 
 ## 3. Metadata URIs & Content Resolution

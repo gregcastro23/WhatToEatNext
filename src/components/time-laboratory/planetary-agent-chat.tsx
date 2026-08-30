@@ -23,6 +23,46 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { _logger } from '@/lib/logger'
+
+interface PlanetaryPositionSummary {
+  sign?: string
+}
+
+type PlanetaryPositionMap = Record<string, PlanetaryPositionSummary | undefined>
+
+interface AstrologicalChatContext {
+  currentPlanets: PlanetaryPositionMap
+  userNatalChart?: unknown
+  transitInfluence: string
+}
+
+interface ConversationContext {
+  messageCount: number
+  evolutionPoints: number
+  insightsGained: string[]
+  currentConsciousness: string
+}
+
+interface InitialAgentContext {
+  degree?: number
+  sign?: string
+  date?: Date
+}
+
+interface AgentEvolution {
+  evolutionPoints: number
+  newLevel: string
+  insights: string[]
+}
+
+interface AgentResponse {
+  content: string
+  astrologicalContext: AstrologicalChatContext
+  newConsciousnessLevel: string
+  evolutionGain: number
+  insights: string[]
+}
 
 // Types for the chat system
 interface PlanetaryAgent {
@@ -43,11 +83,7 @@ interface ChatMessage {
   content: string
   timestamp: Date
   type: 'user' | 'agent'
-  astrologicalContext?: {
-    currentPlanets: Record<string, any>
-    userNatalChart?: any
-    transitInfluence: string
-  }
+  astrologicalContext?: AstrologicalChatContext
   consciousness: {
     level: string
     evolution: number
@@ -58,13 +94,9 @@ interface ChatMessage {
 interface PlanetaryAgentChatProps {
   agent: PlanetaryAgent
   userId?: string
-  initialContext?: {
-    degree?: number
-    sign?: string
-    date?: Date
-  }
+  initialContext?: InitialAgentContext
   onClose?: () => void
-  onAgentEvolution?: (agentId: string, evolution: any) => void
+  onAgentEvolution?: (agentId: string, evolution: AgentEvolution) => void
 }
 
 const getElementIcon = (element: string) => {
@@ -139,24 +171,20 @@ const AstrologicalContext: React.FC<{ context: ChatMessage['astrologicalContext'
         Current Astrological Context
       </div>
 
-      {context.currentPlanets && (
-        <div className="grid grid-cols-2 gap-2 text-xs">
-          {Object.entries(context.currentPlanets)
-            .slice(0, 6)
-            .map(([planet, position]: [string, any]) => (
-              <div key={planet} className="flex justify-between">
-                <span className="text-purple-400">{planet}:</span>
-                <span className="text-purple-200">{position?.sign ?? 'Unknown'}</span>
-              </div>
-            ))}
-        </div>
-      )}
+      <div className="grid grid-cols-2 gap-2 text-xs">
+        {Object.entries(context.currentPlanets)
+          .slice(0, 6)
+          .map(([planet, position]) => (
+            <div key={planet} className="flex justify-between">
+              <span className="text-purple-400">{planet}:</span>
+              <span className="text-purple-200">{position?.sign ?? 'Unknown'}</span>
+            </div>
+          ))}
+      </div>
 
-      {context.transitInfluence && (
-        <div className="text-xs text-purple-300">
-          <strong>Influence:</strong> {context.transitInfluence}
-        </div>
-      )}
+      <div className="text-xs text-purple-300">
+        <strong>Influence:</strong> {context.transitInfluence}
+      </div>
     </div>
   )
 }
@@ -191,7 +219,7 @@ const MessageBubble: React.FC<{ message: ChatMessage }> = ({ message }) => {
           </div>
         )}
 
-        {!isUser && message.consciousness && (
+        {!isUser && (
           <div className="mt-2 flex items-center gap-2">
             <ConsciousnessIndicator
               level={message.consciousness.level}
@@ -225,7 +253,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputMessage, setInputMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [conversationContext, setConversationContext] = useState({
+  const [conversationContext, setConversationContext] = useState<ConversationContext>({
     messageCount: 0,
     evolutionPoints: 0,
     insightsGained: [] as string[],
@@ -332,7 +360,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
         })
       }
     } catch (error) {
-      console.error('Error generating agent response:', error)
+      _logger.error('Error generating planetary agent response:', error)
       const errorMessage: ChatMessage = {
         id: `error-${Date.now()}`,
         agentId: agent.id,
@@ -501,15 +529,9 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
 async function generateAgentResponse(
   userMessage: string,
   agent: PlanetaryAgent,
-  context: any,
-  initialContext?: any
-): Promise<{
-  content: string
-  astrologicalContext: any
-  newConsciousnessLevel: string
-  evolutionGain: number
-  insights: string[]
-}> {
+  context: ConversationContext,
+  initialContext?: InitialAgentContext
+): Promise<AgentResponse> {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000))
 
@@ -520,7 +542,7 @@ async function generateAgentResponse(
     `From the vantage point of ${agent.dignity} dignity, I observe that your question aligns with the deeper rhythms of the cosmos. The planetary intelligence of ${agent.planetaryRuler} suggests embracing ${agent.element.toLowerCase()} qualities.`,
   ]
 
-  const content = responses[Math.floor(Math.random() * responses.length)]
+  const content = responses.at(Math.floor(Math.random() * responses.length)) ?? responses[0]
 
   return {
     content,

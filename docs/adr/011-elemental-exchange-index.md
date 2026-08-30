@@ -161,17 +161,33 @@ owned by Token-2022, `decimals: 4` (parity with the off-chain
 program PDA, not a keypair a human holds. Supplies at check:
 989.0007 / 478.0014 / 217.0021 / 81.0028.
 
-⚠️ **The gate is validity-only, by construction.** WTEN makes no Solana RPC
-call — adding one would put a third-party endpoint in the render path of a
-public page for a decorative link. So the gate proves an address is _well
-formed and deliberately configured_, not that it still resolves. The
-existence check above is a deploy-time fact recorded here; re-verify it when
-the cluster or program id changes. This is also why the mirror is a link
-only: no balance, supply, or price is ever read from Solana.
+⚠️ **The presentation gate is validity-only, by construction.** The public
+ticker makes no Solana RPC call, so a third-party endpoint can never enter its
+render path for a decorative link. K4 separately performs a server-side,
+read-only `getTokenSupply` audit on the integrity cadence; it imports no Solana
+SDK and holds no signer. The ticker still reads no wallet balance or price from
+Solana and does not depend on the supply audit to render.
 
 ⚠️ **The ticker's `supply` block is the OFF-CHAIN ledger** (`token_balances`),
 which is a different quantity from the SPL mints' on-chain supply. It is
 labelled as such in the UI; the two must never be presented as one number.
+
+#### Mainnet verification ledger — required before cutover
+
+The PDA addresses reproduce across clusters, but an address derivation is not
+proof that its account exists. Mainnet stays disabled until the K3 prover
+records one measured slot with every row `VERIFIED` in
+`docs/solana/SPL_MIRROR_VERIFICATION.md`.
+
+| Token | Derived Mainnet PDA | Measured slot | Five extensions | Cutover state |
+| :--- | :--- | :---: | :---: | :--- |
+| Spirit | `K5kwwomtWYydxJacA7bC5yUEW9TtEuVqBKBoqAWLmhQ` | — | — | **NOT VERIFIED** |
+| Essence | `3FcpToU7bj4sLD687uecbesEjzjxBfqYn2EcBXJKPaCf` | — | — | **NOT VERIFIED** |
+| Matter | `7naJZozLrknDF3dguAdEWn7Z4MviUkXitjhaAt57Vkb4` | — | — | **NOT VERIFIED** |
+| Substance | `6RY6ZG1eJQ2uEvpyA6XK74WyF1MpTYbw97hdhELqDUsa` | — | — | **NOT VERIFIED** |
+
+This table must be replaced with measured slot evidence—not inferred values—as
+part of the ordered cutover runbook.
 
 ### 7. Client discipline
 

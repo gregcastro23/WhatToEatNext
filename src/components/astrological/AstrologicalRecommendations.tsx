@@ -11,63 +11,75 @@ import {
     AlertIndicator, AlertRoot, Badge,
     Box,
     Button,
-    Card as _Card,
-    CardBody,
-    CardHeader,
     ChakraProvider,
     defaultSystem,
     Flex, Heading, HStack, Icon,
-    Select as _Select,
     SimpleGrid,
     Spinner,
     Text,
-    Tooltip as _Tooltip,
     VStack
 } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import {
-    FaFire,
     FaLeaf,
     FaSnowflake,
     FaStar,
     FaSun,
     FaUtensils
 } from "react-icons/fa";
+import { z } from "zod";
 
-// Intentionally any: Chakra v3's Card/Select/Tooltip exports are compound-component
-// namespaces (Card.Root/Card.Body, Select.Root/Select.Trigger/Select.Item,
-// Tooltip.Root/Tooltip.Trigger/Tooltip.Content), not renderable JSX components like in
-// v2. This file uses the v2-style API (<Card>, <Select onChange> with native <option>
-// children, <Tooltip label=...>). The component is unreferenced anywhere in src (only
-// re-exported by the barrel at src/components/astrological/index.ts, never imported or
-// mounted), so it is never exercised against real Chakra v3 at runtime. Fixing properly
-// requires a full v2->v3 rewrite of the JSX structure, which is a behavior/structure
-// change out of scope for a types-only pass.
-const Card = _Card as any;
-const Select = _Select as any;
-const Tooltip = _Tooltip as any;
+type CardProps = React.ComponentProps<typeof Box>;
 
-interface AstrologicalRecommendation {
-  recipe_id: string;
-  name: string;
-  description: string;
-  cuisine: string;
-  zodiac_affinity_score?: number;
-  seasonal_score?: number;
-  matching_ingredients?: number;
-  seasonal_ingredients?: number;
-  reason: string;
-  type?: string;
-  priority?: string;
+function Card({ children, ...props }: CardProps): React.JSX.Element {
+  return (
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" {...props}>
+      {children}
+    </Box>
+  );
 }
 
-interface CookingPlan {
-  zodiac_sign?: string;
-  season?: string;
-  preferences?: string;
-  recommendations: AstrologicalRecommendation[];
-  insights: string[];
+function CardHeader({ children, ...props }: CardProps): React.JSX.Element {
+  return <Box px={6} pt={6} {...props}>{children}</Box>;
 }
+
+function CardBody({ children, ...props }: CardProps): React.JSX.Element {
+  return <Box px={6} pb={6} {...props}>{children}</Box>;
+}
+
+function Tooltip({
+  children,
+  label,
+}: {
+  children: React.ReactNode;
+  label: string;
+}): React.JSX.Element {
+  return <span title={label}>{children}</span>;
+}
+
+const recommendationSchema = z.object({
+  recipe_id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  cuisine: z.string(),
+  zodiac_affinity_score: z.number().finite().optional(),
+  seasonal_score: z.number().finite().optional(),
+  matching_ingredients: z.number().finite().optional(),
+  seasonal_ingredients: z.number().finite().optional(),
+  reason: z.string(),
+  type: z.string().optional(),
+  priority: z.string().optional(),
+});
+
+const cookingPlanSchema = z.object({
+  zodiac_sign: z.string().optional(),
+  season: z.string().optional(),
+  preferences: z.string().optional(),
+  recommendations: z.array(recommendationSchema),
+  insights: z.array(z.string()),
+});
+
+type CookingPlan = z.infer<typeof cookingPlanSchema>;
 
 const ZODIAC_SIGNS = [
   "Aries",
@@ -82,11 +94,11 @@ const ZODIAC_SIGNS = [
   "Capricorn",
   "Aquarius",
   "Pisces",
-];
+] as const;
 
-const SEASONS = ["spring", "summer", "autumn", "winter"];
+const SEASONS = ["spring", "summer", "autumn", "winter"] as const;
 
-const ZODIAC_ELEMENTS = {
+const ZODIAC_ELEMENTS: Record<(typeof ZODIAC_SIGNS)[number], string> = {
   Aries: "Fire",
   Taurus: "Earth",
   Gemini: "Air",
@@ -101,7 +113,7 @@ const ZODIAC_ELEMENTS = {
   Pisces: "Water",
 };
 
-const SEASON_ICONS = {
+const SEASON_ICONS: Partial<Record<string, typeof FaLeaf>> = {
   spring: FaLeaf,
   summer: FaSun,
   autumn: FaLeaf,
@@ -136,8 +148,12 @@ export const AstrologicalRecommendations: React.FC = () => {
         throw new Error("Failed to fetch cooking recommendations");
       }
 
-      const data = await response.json();
-      setCookingPlan(data);
+      const payload: unknown = await response.json();
+      const parsed = cookingPlanSchema.safeParse(payload);
+      if (!parsed.success) {
+        throw new Error("Invalid cooking recommendation response");
+      }
+      setCookingPlan(parsed.data);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to load recommendations",
@@ -150,21 +166,6 @@ export const AstrologicalRecommendations: React.FC = () => {
   useEffect(() => {
     void fetchCookingPlan();
   }, [fetchCookingPlan]);
-
-  const _getElementIcon = (element: string) => {
-    switch (element) {
-      case "Fire":
-        return FaFire;
-      case "Water":
-        return FaSnowflake;
-      case "Earth":
-        return FaLeaf;
-      case "Air":
-        return FaSun;
-      default:
-        return FaStar;
-    }
-  };
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
@@ -182,13 +183,7 @@ export const AstrologicalRecommendations: React.FC = () => {
   return (
     <ChakraProvider value={defaultSystem}>
       <Box maxW="1200px" mx="auto" p={6}>
-        {/* Intentionally any (this file): Chakra v3's VStack/HStack/SimpleGrid no longer
-            accept v2 props like `spacing`/`columns` (renamed to `gap`/templateColumns);
-            this file's spread props use the v2 shape. Same unreachable-component
-            reasoning as the Card/Select/Tooltip casts above — preserved as-is at every
-            spread site below rather than changed to `gap`, which would alter behavior
-            of this (never-mounted) render path. */}
-        <VStack {...({ spacing: 6, align: "stretch" } as any)}>
+        <VStack gap={6} align="stretch">
           {/* Header */}
           <Box textAlign="center">
             <Heading size="lg" mb={2} color="purple.600">
@@ -206,46 +201,45 @@ export const AstrologicalRecommendations: React.FC = () => {
               <Heading size="md">Personalize Your Recommendations</Heading>
             </CardHeader>
             <CardBody>
-              <SimpleGrid
-                {...({ columns: { base: 1, md: 2 }, spacing: 4 } as any)}
-              >
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
                 <Box>
                   <Text mb={2} fontWeight="medium">
                     Your Zodiac Sign
                   </Text>
-                  <Select
-                    placeholder="Select your zodiac sign"
+                  <select
+                    aria-label="Select your zodiac sign"
                     value={zodiacSign}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                       setZodiacSignType(e.target.value)
                     }
                   >
+                    <option value="">Select your zodiac sign</option>
                     {ZODIAC_SIGNS.map((sign) => (
                       <option key={sign} value={sign}>
-                        {sign} (
-                        {ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS]})
+                        {sign} ({ZODIAC_ELEMENTS[sign]})
                       </option>
                     ))}
-                  </Select>
+                  </select>
                 </Box>
 
                 <Box>
                   <Text mb={2} fontWeight="medium">
                     Current Season
                   </Text>
-                  <Select
-                    placeholder="Select current season"
+                  <select
+                    aria-label="Select current season"
                     value={season}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                       setSeason(e.target.value)
                     }
                   >
+                    <option value="">Select current season</option>
                     {SEASONS.map((seasonName) => (
                       <option key={seasonName} value={seasonName}>
                         {seasonName}
                       </option>
                     ))}
-                  </Select>
+                  </select>
                 </Box>
               </SimpleGrid>
 
@@ -282,7 +276,7 @@ export const AstrologicalRecommendations: React.FC = () => {
 
           {/* Cooking Plan Results */}
           {cookingPlan && !loading && (
-            <VStack {...({ spacing: 6, align: "stretch" } as any)}>
+            <VStack gap={6} align="stretch">
               {/* Insights */}
               {cookingPlan.insights.length > 0 && (
                 <Card bg={cardBg} shadow="md">
@@ -293,7 +287,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                     </Heading>
                   </CardHeader>
                   <CardBody>
-                    <VStack {...({ align: "start", spacing: 2 } as any)}>
+                    <VStack align="start" gap={2}>
                       {cookingPlan.insights.map((insight, index) => (
                         <Text key={index} fontStyle="italic" color="purple.600">
                           ✨ {insight}
@@ -310,9 +304,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                   <Heading size="md" mb={4}>
                     Your Personalized Recipe Recommendations
                   </Heading>
-                  <SimpleGrid
-                    {...({ columns: { base: 1, lg: 2 }, spacing: 4 } as any)}
-                  >
+                  <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>
                     {cookingPlan.recommendations.map((rec, index) => (
                       <Card
                         key={rec.recipe_id || index}
@@ -335,14 +327,14 @@ export const AstrologicalRecommendations: React.FC = () => {
                         </CardHeader>
 
                         <CardBody pt={0}>
-                          <VStack {...({ align: "start", spacing: 3 } as any)}>
+                          <VStack align="start" gap={3}>
                             <Text fontSize="sm" color="gray.700">
                               {rec.description}
                             </Text>
 
                             {/* Score Display */}
-                            <HStack {...({ spacing: 4 } as any)}>
-                              {rec.zodiac_affinity_score && (
+                            <HStack gap={4}>
+                              {rec.zodiac_affinity_score !== undefined && (
                                 <Tooltip
                                   label={`Zodiac affinity: ${(rec.zodiac_affinity_score * 100).toFixed(0)}%`}
                                 >
@@ -355,16 +347,14 @@ export const AstrologicalRecommendations: React.FC = () => {
                                 </Tooltip>
                               )}
 
-                              {rec.seasonal_score && (
+                              {rec.seasonal_score !== undefined && (
                                 <Tooltip
                                   label={`Seasonal compatibility: ${(rec.seasonal_score * 100).toFixed(0)}%`}
                                 >
                                   <HStack>
                                     <Icon
                                       as={
-                                        SEASON_ICONS[
-                                          season as keyof typeof SEASON_ICONS
-                                        ] || FaLeaf
+                                        SEASON_ICONS[season] ?? FaLeaf
                                       }
                                       color="green.500"
                                     />
@@ -377,14 +367,14 @@ export const AstrologicalRecommendations: React.FC = () => {
                             </HStack>
 
                             {/* Ingredient Match Info */}
-                            {(rec.matching_ingredients ??
-                              rec.seasonal_ingredients) && (
-                              <HStack {...({ spacing: 2 } as any)}>
+                            {(rec.matching_ingredients !== undefined ||
+                              rec.seasonal_ingredients !== undefined) && (
+                              <HStack gap={2}>
                                 <Icon as={FaUtensils} color="blue.500" />
                                 <Text fontSize="sm" color="gray.600">
-                                  {rec.matching_ingredients
+                                  {rec.matching_ingredients !== undefined
                                     ? `${rec.matching_ingredients} zodiac-aligned ingredients`
-                                    : rec.seasonal_ingredients
+                                    : rec.seasonal_ingredients !== undefined
                                       ? `${rec.seasonal_ingredients} seasonal ingredients`
                                       : ""}
                                 </Text>
@@ -419,17 +409,15 @@ export const AstrologicalRecommendations: React.FC = () => {
                   </SimpleGrid>
                 </Box>
               ) : (
-                cookingPlan && (
-                  <Card bg={cardBg} shadow="md">
-                    <CardBody textAlign="center" py={8}>
-                      <Icon as={FaStar} boxSize={12} color="gray.400" mb={4} />
-                      <Text fontSize="lg" color="gray.600">
-                        No recipes found for your current selections. Try
-                        adjusting your zodiac sign or season preferences.
-                      </Text>
-                    </CardBody>
-                  </Card>
-                )
+                <Card bg={cardBg} shadow="md">
+                  <CardBody textAlign="center" py={8}>
+                    <Icon as={FaStar} boxSize={12} color="gray.400" mb={4} />
+                    <Text fontSize="lg" color="gray.600">
+                      No recipes found for your current selections. Try
+                      adjusting your zodiac sign or season preferences.
+                    </Text>
+                  </CardBody>
+                </Card>
               )}
             </VStack>
           )}
@@ -438,7 +426,7 @@ export const AstrologicalRecommendations: React.FC = () => {
           {!cookingPlan && !loading && (
             <Card bg={bgColor} border="2px dashed" borderColor="purple.200">
               <CardBody textAlign="center" py={8}>
-                <VStack {...({ spacing: 4 } as any)}>
+                <VStack gap={4}>
                   <Icon as={FaStar} boxSize={16} color="purple.300" />
                   <Box>
                     <Heading size="md" mb={2}>

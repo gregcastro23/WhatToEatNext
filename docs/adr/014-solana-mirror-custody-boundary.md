@@ -66,3 +66,7 @@ This architectural decision is permanently enforced by automated CI test suites:
 ### Operational Responsibilities
 - On-chain Solana administrative tasks, mint creations, and supply adjustments must be performed through ASOL's Cloud KMS pipeline or audited developer CLI scripts.
 - Cluster verification is conducted out-of-band via developer verification scripts (`scripts/verify-spl-mirror-cluster.ts`).
+- K4 aggregate supply monitoring may issue read-only `getTokenSupply` JSON-RPC
+  requests. It imports no Solana SDK, exposes no transaction surface, and holds
+  no signer; all state-changing instructions remain exclusively in ASOL's KMS
+  pipeline.

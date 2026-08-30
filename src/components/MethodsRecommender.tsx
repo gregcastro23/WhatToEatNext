@@ -44,7 +44,7 @@ export default function MethodsRecommender() {
   
   // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
-    if (!loading && currentPlanetaryAlignment) {
+    if (!loading) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       const astroState = {
         zodiacSign: currentPlanetaryAlignment.sun?.sign ?? 'Aries',
@@ -82,12 +82,12 @@ export default function MethodsRecommender() {
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: methodData.description,
             score: adjustedScore,
-            elementalEffect: methodData.elementalEffect || methodData.elementalProperties,
+            elementalEffect: methodData.elementalEffect,
             duration: methodData.duration,
-            suitable_for: methodData.suitable_for || [],
-            benefits: methodData.benefits || [],
+            suitable_for: methodData.suitable_for,
+            benefits: methodData.benefits,
             astrologicalInfluences: methodData.astrologicalInfluences,
             toolsRequired: methodData.toolsRequired
           };

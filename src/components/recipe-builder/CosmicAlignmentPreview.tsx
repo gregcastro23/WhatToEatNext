@@ -61,24 +61,21 @@ export default function CosmicAlignmentPreview() {
 
   const dominantElement = useMemo<ClassicalElement>(() => {
     const alignment = astroState.currentPlanetaryAlignment;
-    if (!alignment || Object.keys(alignment).length === 0) {
+    if (Object.keys(alignment).length === 0) {
       // Fall back to the domElement totals the hook produces so we never
       // render a blank slate on first paint.
       const dom = astroState.domElements;
-      if (dom) {
-        const order: ClassicalElement[] = ["Fire", "Water", "Earth", "Air"];
-        let best: ClassicalElement = "Fire";
-        let high = -Infinity;
-        for (const el of order) {
-          const v = Number(dom[el] ?? 0);
-          if (v > high) {
-            high = v;
-            best = el;
-          }
+      const order: ClassicalElement[] = ["Fire", "Water", "Earth", "Air"];
+      let best: ClassicalElement = "Fire";
+      let high = -Infinity;
+      for (const el of order) {
+        const v = dom[el];
+        if (v > high) {
+          high = v;
+          best = el;
         }
-        return best;
       }
-      return "Fire";
+      return best;
     }
     return getDominantElementFromPositions(alignment);
   }, [astroState.currentPlanetaryAlignment, astroState.domElements]);
@@ -95,7 +92,7 @@ export default function CosmicAlignmentPreview() {
         cuisine,
         dominant,
         aligned: dominant === dominantElement,
-        signatureCount: entry?.signatures?.length ?? 0,
+        signatureCount: entry?.signatures.length ?? 0,
       };
     }), [selectedCuisines, dominantElement]);
 

@@ -26,10 +26,17 @@
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
 import { esmsCaip2 } from "@/lib/esms-chain/contract";
+import {
+  esmsSplCluster,
+  esmsSplMintAddress,
+  esmsSplMirrorEnabled,
+  type SplCoinKey,
+} from "@/lib/esms-chain/solanaMirror";
 import { _logger } from "@/lib/logger";
 import {
   ledgerDriftSql,
   onchainClaimBacklogSql,
+  solanaMintedSupplySql,
   welcomeGrantCoverageSql,
   welcomeGrantMissingUsersSql,
 } from "@/services/tokenEconomyQueries";
@@ -80,11 +87,169 @@ export interface OnchainClaimBacklog {
   live: boolean;
 }
 
+export type SolanaCluster = "devnet" | "mainnet-beta";
+export type SupplyAtoms = Record<SplCoinKey, bigint>;
+
+export interface SolanaSupplyViolation {
+  token: SplCoinKey;
+  onchainAtoms: string;
+  ledgerAtoms: string;
+}
+
+export interface SolanaSupplyInvariant {
+  cluster: SolanaCluster;
+  enabled: boolean;
+  live: boolean;
+  onchainAtoms: Record<SplCoinKey, string> | null;
+  ledgerAtoms: Record<SplCoinKey, string> | null;
+  violations: SolanaSupplyViolation[];
+}
+
 export interface EconomyIntegrityData {
   drift: LedgerDriftStatus;
   welcomeGrant: WelcomeGrantCoverage;
   onchainClaims: OnchainClaimBacklog;
+  solanaSupply: SolanaSupplyInvariant;
   generatedAt: string;
+}
+
+const SPL_COINS: readonly SplCoinKey[] = [
+  "spirit",
+  "essence",
+  "matter",
+  "substance",
+];
+
+const SOLANA_RPC_URLS: Record<SolanaCluster, string> = {
+  devnet: "https://api.devnet.solana.com",
+  "mainnet-beta": "https://api.mainnet-beta.solana.com",
+};
+
+type SolanaSupplyReader = (
+  cluster: SolanaCluster,
+  mints: Record<SplCoinKey, string>,
+) => Promise<SupplyAtoms>;
+
+function decimalToAtoms(value: unknown): bigint {
+  const text = typeof value === "string" || typeof value === "number"
+    ? String(value)
+    : "0";
+  if (!/^\d+(?:\.\d{1,4})?$/.test(text)) {
+    throw new Error(`invalid 4-decimal ledger supply: ${text}`);
+  }
+  const separator = text.indexOf(".");
+  const whole = separator === -1 ? text : text.slice(0, separator);
+  const fraction = separator === -1 ? "" : text.slice(separator + 1);
+  return BigInt(whole) * 10_000n + BigInt(fraction.padEnd(4, "0") || "0");
+}
+
+async function readSolanaSupplies(
+  cluster: SolanaCluster,
+  mints: Record<SplCoinKey, string>,
+): Promise<SupplyAtoms> {
+  const configuredUrl = cluster === "mainnet-beta"
+    ? process.env.SOLANA_MAINNET_RPC_URL
+    : process.env.SOLANA_DEVNET_RPC_URL;
+  const rpcUrl = configuredUrl ?? SOLANA_RPC_URLS[cluster];
+  const entries = await Promise.all(
+    SPL_COINS.map(async (coin) => {
+      const response = await fetch(rpcUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: `wten-supply-${coin}`,
+          method: "getTokenSupply",
+          params: [mints[coin]],
+        }),
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (!response.ok) throw new Error(`Solana RPC returned HTTP ${response.status}`);
+      const payload: unknown = await response.json();
+      if (typeof payload !== "object" || payload === null) {
+        throw new Error("Solana RPC returned a non-object supply payload");
+      }
+      const { result } = payload as { result?: unknown };
+      if (typeof result !== "object" || result === null) {
+        throw new Error("Solana RPC supply result is missing");
+      }
+      const { value } = result as { value?: unknown };
+      if (typeof value !== "object" || value === null) {
+        throw new Error("Solana RPC supply value is missing");
+      }
+      const { amount, decimals } = value as {
+        amount?: unknown;
+        decimals?: unknown;
+      };
+      if (typeof amount !== "string" || !/^\d+$/.test(amount) || decimals !== 4) {
+        throw new Error("Solana RPC supply is not an exact 4-decimal atom count");
+      }
+      return [coin, BigInt(amount)] as const;
+    }),
+  );
+  return Object.fromEntries(entries) as SupplyAtoms;
+}
+
+/** Exact aggregate upper-bound check: one Solana atom over ledger is a violation. */
+export async function checkSolanaSupplyInvariants(
+  cluster: SolanaCluster,
+  readSupply: SolanaSupplyReader = readSolanaSupplies,
+): Promise<SolanaSupplyInvariant> {
+  const empty: SolanaSupplyInvariant = {
+    cluster,
+    enabled: false,
+    live: true,
+    onchainAtoms: null,
+    ledgerAtoms: null,
+    violations: [],
+  };
+  if (!esmsSplMirrorEnabled() || esmsSplCluster() !== cluster) return empty;
+
+  const mintEntries = SPL_COINS.map((coin) => [coin, esmsSplMintAddress(coin)] as const);
+  if (mintEntries.some(([, mint]) => mint === undefined)) return empty;
+  const mints = Object.fromEntries(mintEntries) as Record<SplCoinKey, string>;
+
+  try {
+    const { sql, values } = solanaMintedSupplySql(`solana:${cluster}`);
+    const [ledgerResult, onchain] = await Promise.all([
+      executeQuery(sql, values),
+      readSupply(cluster, mints),
+    ]);
+    const row = ledgerResult.rows.at(0) as Record<string, unknown> | undefined;
+    const ledger = Object.fromEntries(
+      SPL_COINS.map((coin) => [coin, decimalToAtoms(row?.[coin])]),
+    ) as SupplyAtoms;
+    const violations = SPL_COINS.flatMap((token) =>
+      onchain[token] > ledger[token]
+        ? [{
+            token,
+            onchainAtoms: onchain[token].toString(),
+            ledgerAtoms: ledger[token].toString(),
+          }]
+        : [],
+    );
+    if (violations.length > 0) {
+      _logger.error("[economyIntegrity] Solana supply exceeds ledger backing", {
+        cluster,
+        violations,
+      });
+    }
+    return {
+      cluster,
+      enabled: true,
+      live: true,
+      onchainAtoms: Object.fromEntries(
+        SPL_COINS.map((coin) => [coin, onchain[coin].toString()]),
+      ) as Record<SplCoinKey, string>,
+      ledgerAtoms: Object.fromEntries(
+        SPL_COINS.map((coin) => [coin, ledger[coin].toString()]),
+      ) as Record<SplCoinKey, string>,
+      violations,
+    };
+  } catch (error) {
+    _logger.error("[economyIntegrity] Solana supply invariant failed:", error);
+    return { ...empty, enabled: true, live: false };
+  }
 }
 
 async function checkLedgerDrift(): Promise<LedgerDriftStatus> {
@@ -140,7 +305,7 @@ async function checkWelcomeGrantCoverage(): Promise<WelcomeGrantCoverage> {
         id: String(r.id),
         email: r.email ?? null,
         createdAt:
-          r.created_at === null || r.created_at === undefined
+          r.created_at === null
             ? null
             : new Date(r.created_at).toISOString(),
       })),
@@ -193,18 +358,25 @@ const INTEGRITY_CACHE_TTL_MS = 10 * 60 * 1000;
  */
 export async function getEconomyIntegrity(): Promise<EconomyIntegrityData> {
   return memoize("economy-integrity", INTEGRITY_CACHE_TTL_MS, async () => {
-    const [drift, welcomeGrant, onchainClaims] = await Promise.all([
+    const [drift, welcomeGrant, onchainClaims, solanaSupply] = await Promise.all([
       checkLedgerDrift(),
       checkWelcomeGrantCoverage(),
       checkOnchainClaimBacklog(),
+      checkSolanaSupplyInvariants(esmsSplCluster()),
     ]);
     const payload: EconomyIntegrityData = {
       drift,
       welcomeGrant,
       onchainClaims,
+      solanaSupply,
       generatedAt: new Date().toISOString(),
     };
-    if (!drift.live || !welcomeGrant.live || !onchainClaims.live) {
+    if (
+      !drift.live ||
+      !welcomeGrant.live ||
+      !onchainClaims.live ||
+      (solanaSupply.enabled && !solanaSupply.live)
+    ) {
       // Degraded payloads must not be pinned for the TTL — surface once and
       // let the next poll retry the real queries.
       throw new DegradedIntegrityPayload(payload);

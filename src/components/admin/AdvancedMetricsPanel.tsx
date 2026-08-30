@@ -14,6 +14,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
 import GrantTokensModal, {
   type GrantTarget,
 } from "@/app/admin/users/_components/GrantTokensModal";
@@ -22,79 +23,123 @@ import { Metric } from "@/components/admin/kit/Metric";
 import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 
-interface UsersStats {
-  users: {
-    total: number;
-    active: number;
-    onboarded: number;
-    premium: number;
-    agents: number;
-    signups: { last24h: number; last7d: number };
-    activity: { loggedIn24h: number; loggedIn7d: number; loggedIn30d: number };
-  };
-  sessions: { active: number };
-  authEvents: {
-    last24h: {
-      total: number;
-      successes: number;
-      failures: number;
-      byType: Array<{ type: string; status: string; count: number }>;
-    };
-    last7d: {
-      total: number;
-      successes: number;
-      failures: number;
-      byType: Array<{ type: string; status: string; count: number }>;
-    };
-  };
-  recentLogins: Array<{
-    userId: string;
-    email: string;
-    lastLoginAt: string | null;
-    loginCount: number;
-  }>;
+const countSchema = z.number().finite();
+const authWindowSchema = z.object({
+  total: countSchema,
+  successes: countSchema,
+  failures: countSchema,
+  byType: z.array(
+    z.object({ type: z.string(), status: z.string(), count: countSchema }),
+  ),
+});
+const usersStatsSchema = z.object({
+  success: z.literal(true),
+  users: z.object({
+    total: countSchema,
+    active: countSchema,
+    onboarded: countSchema,
+    premium: countSchema,
+    agents: countSchema,
+    signups: z.object({ last24h: countSchema, last7d: countSchema }),
+    activity: z.object({
+      loggedIn24h: countSchema,
+      loggedIn7d: countSchema,
+      loggedIn30d: countSchema,
+    }),
+  }),
+  sessions: z.object({ active: countSchema }),
+  authEvents: z.object({
+    last24h: authWindowSchema,
+    last7d: authWindowSchema,
+  }),
+  recentLogins: z.array(
+    z.object({
+      userId: z.string(),
+      email: z.string(),
+      lastLoginAt: z.string().nullable(),
+      loginCount: countSchema,
+    }),
+  ),
+});
+const abuseSchema = z.object({
+  success: z.literal(true),
+  window: z.string(),
+  suspiciousIps: z.array(
+    z.object({
+      ipHash: z.string(),
+      failures: countSchema,
+      successes: countSchema,
+      emailsTargeted: countSchema,
+      lastSeen: z.string(),
+    }),
+  ),
+  targetedEmails: z.array(
+    z.object({
+      email: z.string().nullable(),
+      failures: countSchema,
+      distinctIps: countSchema,
+      lastSeen: z.string(),
+    }),
+  ),
+});
+const observabilitySchema = z.object({
+  success: z.literal(true),
+  requests: z.object({
+    summary: z.object({
+      count: countSchema,
+      p50LatencyMs: countSchema,
+      p95LatencyMs: countSchema,
+      p99LatencyMs: countSchema,
+      errorRate: countSchema,
+      topPaths: z.array(z.object({ path: z.string(), count: countSchema })),
+    }),
+    recentFailures: z.array(
+      z.object({
+        id: countSchema,
+        at: z.string(),
+        method: z.string(),
+        path: z.string(),
+        status: countSchema,
+        latencyMs: countSchema,
+      }),
+    ),
+  }),
+  slowQueries: z.object({
+    summary: z.object({
+      count: countSchema,
+      thresholdMs: countSchema,
+      slowestMs: countSchema,
+    }),
+    recent: z.array(
+      z.object({
+        id: countSchema,
+        at: z.string(),
+        ms: countSchema,
+        preview: z.string(),
+        rowCount: countSchema.nullable(),
+      }),
+    ),
+  }),
+});
+const digestResponseSchema = z.object({
+  success: z.boolean(),
+  message: z.string().optional(),
+});
+const errorResponseSchema = z.object({ message: z.string() });
+
+type UsersStats = z.infer<typeof usersStatsSchema>;
+type Abuse = z.infer<typeof abuseSchema>;
+type Observability = z.infer<typeof observabilitySchema>;
+
+async function fetchJson(input: RequestInfo | URL, init?: RequestInit): Promise<unknown> {
+  const response = await fetch(input, init);
+  const payload: unknown = await response.json();
+  return payload;
 }
 
-interface Abuse {
-  window: string;
-  suspiciousIps: Array<{
-    ipHash: string;
-    failures: number;
-    successes: number;
-    emailsTargeted: number;
-    lastSeen: string;
-  }>;
-  targetedEmails: Array<{
-    email: string | null;
-    failures: number;
-    distinctIps: number;
-    lastSeen: string;
-  }>;
-}
-
-interface Observability {
-  requests: {
-    summary: {
-      count: number;
-      p50LatencyMs: number;
-      p95LatencyMs: number;
-      p99LatencyMs: number;
-      errorRate: number;
-      topPaths: Array<{ path: string; count: number }>;
-    };
-    recentFailures: Array<{
-      id: number;
-      at: string;
-      method: string;
-      path: string;
-      status: number;
-      latencyMs: number;
-    }>;
-  };
-  slowQueries: {
-    summary: { count: number; thresholdMs: number; slowestMs: number };
-    recent: Array<{ id: number; at: string; ms: number; preview: string; rowCount: number | null }>;
-  };
+function readResponseError(payload: unknown): string {
+  const parsed = errorResponseSchema.safeParse(payload);
+  return parsed.success ? parsed.data.message : "Invalid endpoint response";
 }
 
 export default function AdvancedMetricsPanel(): React.JSX.Element {
@@ -112,25 +157,31 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
   const load = useCallback(async () => {
     setRefreshing(true);
     const [statsRes, abuseRes, obsRes] = await Promise.allSettled([
-      fetch("/api/admin/users/stats", { cache: "no-store" }).then((r) => r.json()),
-      fetch("/api/admin/abuse?window=1h", { cache: "no-store" }).then((r) => r.json()),
-      fetch("/api/admin/observability", { cache: "no-store" }).then((r) => r.json()),
+      fetchJson("/api/admin/users/stats", { cache: "no-store" }),
+      fetchJson("/api/admin/abuse?window=1h", { cache: "no-store" }),
+      fetchJson("/api/admin/observability", { cache: "no-store" }),
     ]);
     const nextErrors: typeof errors = {};
-    if (statsRes.status === "fulfilled" && statsRes.value?.success) {
-      setStats(statsRes.value);
+    if (statsRes.status === "fulfilled") {
+      const parsed = usersStatsSchema.safeParse(statsRes.value);
+      if (parsed.success) setStats(parsed.data);
+      else nextErrors.stats = readResponseError(statsRes.value);
     } else {
-      nextErrors.stats = statsRes.status === "fulfilled" ? statsRes.value?.message : "Failed to load";
+      nextErrors.stats = "Failed to load";
     }
-    if (abuseRes.status === "fulfilled" && abuseRes.value?.success) {
-      setAbuse(abuseRes.value);
+    if (abuseRes.status === "fulfilled") {
+      const parsed = abuseSchema.safeParse(abuseRes.value);
+      if (parsed.success) setAbuse(parsed.data);
+      else nextErrors.abuse = readResponseError(abuseRes.value);
     } else {
-      nextErrors.abuse = abuseRes.status === "fulfilled" ? abuseRes.value?.message : "Failed to load";
+      nextErrors.abuse = "Failed to load";
     }
-    if (obsRes.status === "fulfilled" && obsRes.value?.success) {
-      setObs(obsRes.value);
+    if (obsRes.status === "fulfilled") {
+      const parsed = observabilitySchema.safeParse(obsRes.value);
+      if (parsed.success) setObs(parsed.data);
+      else nextErrors.obs = readResponseError(obsRes.value);
     } else {
-      nextErrors.obs = obsRes.status === "fulfilled" ? obsRes.value?.message : "Failed to load";
+      nextErrors.obs = "Failed to load";
     }
     setErrors(nextErrors);
     setRefreshing(false);
@@ -144,11 +195,18 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
     setDigestState({ loading: true, message: null });
     try {
       const res = await fetch("/api/admin/digest?dryRun=true", { method: "POST" });
-      const data = await res.json();
-      if (data.success) {
+      const payload: unknown = await res.json();
+      const parsed = digestResponseSchema.safeParse(payload);
+      if (parsed.success && parsed.data.success) {
         setDigestState({ loading: false, message: "Preview generated (dry run — no email sent)." });
       } else {
-        setDigestState({ loading: false, message: data.message ?? "Failed to generate preview" });
+        setDigestState({
+          loading: false,
+          message:
+            parsed.success
+              ? (parsed.data.message ?? "Failed to generate preview")
+              : "Invalid digest response",
+        });
       }
     } catch {
       setDigestState({ loading: false, message: "Network error generating preview" });

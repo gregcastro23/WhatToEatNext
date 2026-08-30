@@ -160,7 +160,7 @@ function MissingGrantRoster({
                   whiteSpace: "nowrap",
                 }}
               >
-                {u.email || u.id}
+                {u.email ?? u.id}
               </Link>
               <span style={{ flexShrink: 0, color: "var(--fg-mute)" }}>
                 {u.createdAt ? relativeTime(u.createdAt) : "age unknown"}
@@ -348,7 +348,7 @@ export function EconomyIntegrityPanel({
   integrity: EconomyIntegrityData;
   cosmicYield: CosmicYieldData;
 }) {
-  const { drift, welcomeGrant, onchainClaims } = integrity;
+  const { drift, welcomeGrant, onchainClaims, solanaSupply } = integrity;
 
   const driftTile = !drift.live
     ? {
@@ -417,33 +417,56 @@ export function EconomyIntegrityPanel({
           tone: (claimsStuck ? "alarm" : "warn") as IntegrityTone,
         };
 
-  const liveChecks = [drift.live, welcomeGrant.live, onchainClaims.live].filter(
+  const supplyTile = !solanaSupply.live
+    ? {
+        value: "—",
+        sub: "Solana supply unreadable",
+        tone: "none" as IntegrityTone,
+      }
+    : solanaSupply.violations.length > 0
+      ? {
+          value: `${solanaSupply.violations.length} OVER`,
+          sub: "on-chain supply exceeds ledger",
+          tone: "alarm" as IntegrityTone,
+        }
+      : {
+          value: "BACKED",
+          sub: `${solanaSupply.cluster} exact-atom check`,
+          tone: "ok" as IntegrityTone,
+        };
+
+  const baseLiveChecks = [drift.live, welcomeGrant.live, onchainClaims.live].filter(
     Boolean,
   ).length;
-  const anyAlarm = driftTile.tone === "alarm" || claimsTile.tone === "alarm";
+  const totalChecks = solanaSupply.enabled ? 4 : 3;
+  const liveChecks = baseLiveChecks + Number(solanaSupply.enabled && solanaSupply.live);
+  const anyAlarm =
+    driftTile.tone === "alarm" ||
+    claimsTile.tone === "alarm" ||
+    (solanaSupply.enabled && supplyTile.tone === "alarm");
   const badgeColor = anyAlarm
     ? "#FF5252"
-    : liveChecks === 3
+    : liveChecks === totalChecks
       ? "var(--el-earth)"
       : "var(--fg-mute)";
 
   return (
     <Card
       title="Ledger Integrity"
-      subtitle="balance drift · welcome grants · on-chain claims"
+      subtitle="balance drift · welcome grants · claims · Solana backing"
       right={
         <span
           className="t-mono"
           style={{ fontSize: 9, color: badgeColor, letterSpacing: "0.14em" }}
         >
-          {liveChecks === 3 ? "●" : "○"} {liveChecks}/3 CHECKS
+          {liveChecks === totalChecks ? "●" : "○"} {liveChecks}/{totalChecks} CHECKS
         </span>
       }
     >
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+          gridTemplateColumns: `repeat(${totalChecks}, minmax(0, 1fr))`,
           gap: 8,
           marginBottom: 12,
         }}
@@ -451,6 +474,9 @@ export function EconomyIntegrityPanel({
         <IntegrityTile label="Balance drift" {...driftTile} />
         <IntegrityTile label="Welcome grants" {...grantTile} />
         <IntegrityTile label="On-chain claims" {...claimsTile} />
+        {solanaSupply.enabled && (
+          <IntegrityTile label="Solana backing" {...supplyTile} />
+        )}
       </div>
       {welcomeGrant.live && welcomeGrant.humansWithoutGrant > 0 && (
         <MissingGrantRoster
@@ -593,7 +619,7 @@ export function RecentSignupsPanel({
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {u.name || u.email}
+                    {u.name ?? u.email}
                   </span>
                   {u.name && (
                     <span

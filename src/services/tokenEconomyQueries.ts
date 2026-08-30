@@ -1032,6 +1032,23 @@ export function walletInvariantsTotalCountSql(): BuiltQuery {
 }
 
 /**
+ * Aggregate ledger backing for one Solana rail. Values stay as NUMERIC text so
+ * the caller can convert them to 4-decimal atoms without a floating-point hop.
+ */
+export function solanaMintedSupplySql(targetChain: string): BuiltQuery {
+  return {
+    sql: `SELECT
+            COALESCE(SUM(spirit), 0)::text AS spirit,
+            COALESCE(SUM(essence), 0)::text AS essence,
+            COALESCE(SUM(matter), 0)::text AS matter,
+            COALESCE(SUM(substance), 0)::text AS substance
+          FROM esms_onchain_claims
+          WHERE target_chain = $1 AND status = 'minted'`,
+    values: [targetChain],
+  };
+}
+
+/**
  * Daily mint/burn over the trailing 30 days, oldest day first. Buckets are
  * UTC days (`AT TIME ZONE 'UTC'` before truncating) so the series cannot
  * shift with the server's session timezone, and the day is emitted as a

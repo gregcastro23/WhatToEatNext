@@ -323,6 +323,12 @@ statements.push({
 });
 
 statements.push({
+  label: "solanaMintedSupply",
+  sql: queries.solanaMintedSupplySql("solana:devnet").sql,
+  builder: "solanaMintedSupplySql",
+});
+
+statements.push({
   label: "tokenFlowSeries",
   sql: queries.tokenFlowSeriesSql().sql,
   builder: "tokenFlowSeriesSql",
@@ -341,8 +347,8 @@ statements.push({
 });
 
 // 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
-// statements, plus 14 reads/bookkeeping and 10 dashboard/reconciliation aggregates.
-const EXPECTED_TOTAL = 47;
+// statements, plus 14 reads/bookkeeping and 11 dashboard/reconciliation aggregates.
+const EXPECTED_TOTAL = 48;
 
 const client = new pg.Client({
   connectionString: url,

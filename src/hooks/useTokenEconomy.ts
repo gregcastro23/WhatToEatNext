@@ -20,7 +20,11 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { z } from 'zod';
+import {
+  claimDailyResponseSchema,
+  economyBalanceResponseSchema,
+  economyErrorResponseSchema,
+} from '@/lib/economy/clientSchemas';
 import type {
   DailyYieldResult,
   TokenBalances,
@@ -54,66 +58,6 @@ export interface UseTokenEconomyResult {
   ) => void;
   claimDaily: () => Promise<DailyYieldResult | null>;
 }
-
-const tokenBalancesSchema = z.object({
-  spirit: z.number().finite(),
-  essence: z.number().finite(),
-  matter: z.number().finite(),
-  substance: z.number().finite(),
-  lastDailyClaimAt: z.string().nullable(),
-  lastDailyClaimAgentsAt: z.string().nullable(),
-  updatedAt: z.string(),
-});
-
-const userStreakSchema = z.object({
-  currentStreak: z.number().finite(),
-  longestStreak: z.number().finite(),
-  lastActivityDate: z.string().nullable(),
-  streakFrozenUntil: z.string().nullable(),
-  updatedAt: z.string(),
-});
-
-const tokenDistributionSchema = z.object({
-  spirit: z.number().finite(),
-  essence: z.number().finite(),
-  matter: z.number().finite(),
-  substance: z.number().finite(),
-});
-
-const dailyYieldSchema = z.object({
-  baseTokens: z.number().finite(),
-  streakMultiplier: z.number().finite(),
-  holdingsMultiplier: z.number().finite(),
-  totalTokens: z.number().finite(),
-  distribution: tokenDistributionSchema,
-  transitBonus: tokenDistributionSchema,
-  newBalances: tokenBalancesSchema,
-  streakCount: z.number().finite(),
-  milestoneBonus: z
-    .object({
-      days: z.number().finite(),
-      totalTokens: z.number().finite(),
-    })
-    .optional(),
-});
-
-const economyBalanceResponseSchema = z.object({
-  success: z.literal(true),
-  balances: tokenBalancesSchema,
-  streak: userStreakSchema,
-  canClaimDaily: z.boolean(),
-});
-
-const claimDailyResponseSchema = z.object({
-  success: z.literal(true),
-  yield: dailyYieldSchema,
-  message: z.string(),
-});
-
-const economyErrorResponseSchema = z.object({
-  success: z.literal(false),
-  message: z.string().optional(),
-});
 
 // ─── Helpers ──────────────────────────────────────────────────────────
 

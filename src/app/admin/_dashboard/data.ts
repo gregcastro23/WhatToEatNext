@@ -453,6 +453,14 @@ export const FALLBACK_DATA: AdminDashboardData = {
     drift: { driftedUsers: 0, maxAbsDelta: 0, checkedUsers: 0, live: false },
     welcomeGrant: { humansWithoutGrant: 0, missing: [], live: false },
     onchainClaims: { pending: 0, oldestPendingHours: null, live: false },
+    solanaSupply: {
+      cluster: "devnet",
+      enabled: false,
+      live: true,
+      onchainAtoms: null,
+      ledgerAtoms: null,
+      violations: [],
+    },
     generatedAt: new Date(0).toISOString(),
   },
   maintenance: {

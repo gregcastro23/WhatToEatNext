@@ -56,7 +56,7 @@ export default function HomeMethodsComponent() {
   const [selectedMethod, setSelectedMethod] = useState<FormattedMethod | null>(null);
 
   useEffect(() => {
-    if (!loading && currentPlanetaryAlignment) {
+    if (!loading) {
       const alignment = currentPlanetaryAlignment;
       const sunSign = alignment.sun?.sign ?? 'Aries';
       const moonPhase = normalizeLunarPhase(alignment.moon?.phase);
@@ -96,11 +96,7 @@ export default function HomeMethodsComponent() {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
 
-          const elementalEffect = method.elementalEffect ?? method.elementalProperties ?? {
-            Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.3
-          };
-
-          const duration = method.duration ?? { min: 10, max: 30 };
+          const { duration, elementalEffect } = method;
 
           const variations: FormattedMethod[] = Array.isArray(method.variations)
             ? method.variations.map((v, i) => ({
@@ -108,7 +104,7 @@ export default function HomeMethodsComponent() {
                 name: typeof v === 'string' ? v : v.name,
                 description: typeof v === 'string'
                   ? `A variation of ${name} with different characteristics.`
-                  : (v.description ?? `A variation of ${name}.`),
+                  : v.description,
                 elementalEffect,
                 score: Math.max(0.1, score - 0.1),
                 duration,
@@ -121,12 +117,12 @@ export default function HomeMethodsComponent() {
           return {
             id: key,
             name,
-            description: method.description ?? '',
+            description: method.description,
             elementalEffect,
             score,
             duration,
-            suitable_for: method.suitable_for ?? [],
-            benefits: method.benefits ?? [],
+            suitable_for: method.suitable_for,
+            benefits: method.benefits,
             variations
           };
         }
