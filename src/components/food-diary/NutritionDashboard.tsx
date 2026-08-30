@@ -59,7 +59,7 @@ export default function NutritionDashboard({
 
   const macroPercentages = useMemo(() => {
     if (!dailySummary) return null;
-    const { protein, carbs, fat } = dailySummary.totalNutrition || {};
+    const { protein, carbs, fat } = dailySummary.totalNutrition;
     const total = (protein || 0) * 4 + (carbs || 0) * 4 + (fat || 0) * 9;
     if (total === 0) return null;
 
@@ -98,7 +98,7 @@ export default function NutritionDashboard({
       {/* Today Tab */}
       {activeTab === "today" && (
         <div className="p-4">
-          {!dailySummary || (dailySummary.entries?.length ?? 0) === 0 ? (
+          {!dailySummary || dailySummary.entries.length === 0 ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -132,7 +132,7 @@ export default function NutritionDashboard({
                       dailySummary.nutritionGoals?.calories
                         ? Math.min(
                           100,
-                          ((dailySummary.totalNutrition?.calories || 0) /
+                          ((dailySummary.totalNutrition.calories || 0) /
                             dailySummary.nutritionGoals.calories) *
                           100,
                         )
@@ -148,7 +148,7 @@ export default function NutritionDashboard({
                       dailySummary.nutritionGoals?.protein
                         ? Math.min(
                           100,
-                          ((dailySummary.totalNutrition?.protein || 0) /
+                          ((dailySummary.totalNutrition.protein || 0) /
                             dailySummary.nutritionGoals.protein) *
                           100,
                         )
@@ -164,7 +164,7 @@ export default function NutritionDashboard({
                       dailySummary.nutritionGoals?.carbs
                         ? Math.min(
                           100,
-                          ((dailySummary.totalNutrition?.carbs || 0) /
+                          ((dailySummary.totalNutrition.carbs || 0) /
                             dailySummary.nutritionGoals.carbs) *
                           100,
                         )
@@ -180,7 +180,7 @@ export default function NutritionDashboard({
                       dailySummary.nutritionGoals?.fat
                         ? Math.min(
                           100,
-                          ((dailySummary.totalNutrition?.fat || 0) /
+                          ((dailySummary.totalNutrition.fat || 0) /
                             dailySummary.nutritionGoals.fat) *
                           100,
                         )
@@ -196,7 +196,7 @@ export default function NutritionDashboard({
                       dailySummary.nutritionGoals?.sodium
                         ? Math.min(
                           100,
-                          ((dailySummary.totalNutrition?.sodium || 0) /
+                          ((dailySummary.totalNutrition.sodium || 0) /
                             dailySummary.nutritionGoals.sodium) *
                           100,
                         )
@@ -259,14 +259,14 @@ export default function NutritionDashboard({
                 <div className="grid grid-cols-2 gap-3">
                   <NutrientBar
                     label="Fiber"
-                    value={dailySummary.totalNutrition?.fiber || 0}
+                    value={dailySummary.totalNutrition.fiber || 0}
                     max={dailySummary.nutritionGoals?.fiber ?? 28}
                     unit="g"
                     color="#22c55e"
                   />
                   <NutrientBar
                     label="Sugar"
-                    value={dailySummary.totalNutrition?.sugar || 0}
+                    value={dailySummary.totalNutrition.sugar || 0}
                     max={50}
                     unit="g"
                     color="#ec4899"
@@ -274,21 +274,21 @@ export default function NutritionDashboard({
                   />
                   <NutrientBar
                     label="Vitamin C"
-                    value={dailySummary.totalNutrition?.vitaminC || 0}
+                    value={dailySummary.totalNutrition.vitaminC || 0}
                     max={90}
                     unit="mg"
                     color="#f97316"
                   />
                   <NutrientBar
                     label="Potassium"
-                    value={dailySummary.totalNutrition?.potassium || 0}
+                    value={dailySummary.totalNutrition.potassium || 0}
                     max={dailySummary.nutritionGoals?.potassium ?? 4700}
                     unit="mg"
                     color="#a855f7"
                   />
                   <NutrientBar
                     label="Sat. Fat"
-                    value={dailySummary.totalNutrition?.saturatedFat || 0}
+                    value={dailySummary.totalNutrition.saturatedFat || 0}
                     max={20}
                     unit="g"
                     color="#f43f5e"
@@ -296,7 +296,7 @@ export default function NutritionDashboard({
                   />
                   <NutrientBar
                     label="Sodium"
-                    value={dailySummary.totalNutrition?.sodium || 0}
+                    value={dailySummary.totalNutrition.sodium || 0}
                     max={dailySummary.nutritionGoals?.sodium ?? 2300}
                     unit="mg"
                     color="#6b7280"
@@ -313,7 +313,7 @@ export default function NutritionDashboard({
                 <div className="space-y-2">
                   {(["breakfast", "lunch", "dinner", "snack"] as const).map(
                     (meal) => {
-                      const mealEntries = dailySummary.mealBreakdown?.[meal] ?? [];
+                      const mealEntries = dailySummary.mealBreakdown[meal];
                       const mealCalories = mealEntries.reduce(
                         (sum, e) => sum + (e.nutrition.calories ?? 0),
                         0,
@@ -407,11 +407,11 @@ export default function NutritionDashboard({
                   {weeklySummary.dailySummaries.map((day, index) => {
                     const maxCal = Math.max(
                       ...weeklySummary.dailySummaries.map(
-                        (d) => d.totalNutrition?.calories || 0,
+                        (d) => d.totalNutrition.calories || 0,
                       ),
                       1,
                     );
-                    const height = ((day.totalNutrition?.calories || 0) / maxCal) * 100;
+                    const height = ((day.totalNutrition.calories || 0) / maxCal) * 100;
                     const dayName = new Date(day.date).toLocaleDateString(
                       "en-US",
                       { weekday: "short" },
@@ -440,7 +440,7 @@ export default function NutritionDashboard({
                         </div>
                         <div className="text-xs text-gray-400">
                           {day.entries.length > 0
-                            ? Math.round(day.totalNutrition?.calories || 0)
+                            ? Math.round(day.totalNutrition.calories || 0)
                             : "-"}
                         </div>
                       </div>

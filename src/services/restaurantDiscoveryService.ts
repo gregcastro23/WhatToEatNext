@@ -238,9 +238,9 @@ export function buildAstrologicalState(now: Date = new Date()): CosmicComputatio
   }
 
   const sunSignRaw =
-    typeof positions.Sun?.sign === "string" ? positions.Sun.sign : null;
+    typeof positions.Sun.sign === "string" ? positions.Sun.sign : null;
   const moonSignRaw =
-    typeof positions.Moon?.sign === "string" ? positions.Moon.sign : null;
+    typeof positions.Moon.sign === "string" ? positions.Moon.sign : null;
   if (!sunSignRaw || !moonSignRaw) return null;
 
   const sunSign = sunSignRaw.toLowerCase();
@@ -248,7 +248,7 @@ export function buildAstrologicalState(now: Date = new Date()): CosmicComputatio
 
   const positionMap: Record<string, string> = {};
   for (const [planet, data] of Object.entries(positions)) {
-    if (typeof data?.sign === "string" && data.sign.length > 0) {
+    if (typeof data.sign === "string" && data.sign.length > 0) {
       positionMap[planet] = capitalizeSign(data.sign);
     }
   }
@@ -889,7 +889,7 @@ async function loadPartners(
     );
     return new Map(result.rows.map((row) => [row.external_id, row]));
   } catch (err) {
-    console.warn(
+    logger.warn(
       `[restaurant-discovery] Partner lookup failed for ${provider}:`,
       err instanceof Error ? err.message : err,
     );
@@ -1005,7 +1005,7 @@ export async function discoverRestaurants(
         try {
           const scored = scoreCuisineAgainstMoment(
             business,
-            input.cuisine || r.cuisineLabel || "",
+            input.cuisine || (r.cuisineLabel ?? ""),
             cosmic.state,
             cosmic.alchemicalProperties,
             cosmic.diurnal,
@@ -1121,7 +1121,7 @@ export async function discoverRestaurants(
         try {
           const scored = scoreCuisineAgainstMoment(
             business,
-            input.cuisine || r.cuisineLabel || "",
+            input.cuisine || (r.cuisineLabel ?? ""),
             cosmic.state,
             cosmic.alchemicalProperties,
             cosmic.diurnal,
@@ -1258,8 +1258,8 @@ function withDistance(
   if (typeof business.distance === "number" && Number.isFinite(business.distance)) {
     return business;
   }
-  const lat = business.coordinates?.latitude ?? 0;
-  const lng = business.coordinates?.longitude ?? 0;
+  const lat = business.coordinates.latitude;
+  const lng = business.coordinates.longitude;
   if (!lat && !lng) return business; // unknown coordinates (e.g. {0,0})
   return { ...business, distance: haversineMeters(centerLat, centerLng, lat, lng) };
 }
@@ -1270,11 +1270,11 @@ function normalizeYelpBusiness(b: YelpBusiness): NormalizedRestaurant {
     externalId: b.id,
     name: b.name,
     address:
-      b.location?.display_address?.join(", ") || b.location?.address1 || "",
+      b.location.display_address.join(", ") || b.location.address1 || "",
     rating: b.rating,
     imageUrl: b.image_url,
     business: b,
-    cuisineLabel: b.categories?.[0]?.title,
+    cuisineLabel: b.categories[0]?.title,
   };
 }
 
@@ -1342,7 +1342,7 @@ function sortRestaurants(
     case "rating":
       out.sort(
         (a, b) =>
-          (b.business.rating ?? 0) - (a.business.rating ?? 0) ||
+          b.business.rating - a.business.rating ||
           b.alchmScore - a.alchmScore,
       );
       break;
@@ -1358,7 +1358,7 @@ function sortRestaurants(
       out.sort(
         (a, b) =>
           b.alchmScore - a.alchmScore ||
-          (b.business.rating ?? 0) - (a.business.rating ?? 0) ||
+          b.business.rating - a.business.rating ||
           distanceOf(a) - distanceOf(b),
       );
       break;
@@ -1493,7 +1493,7 @@ export async function bestMatchRestaurants(
       try {
         const scored = scoreCuisineAgainstMoment(
           business,
-          input.cuisine || r.cuisineLabel || "",
+          input.cuisine || (r.cuisineLabel ?? ""),
           cosmic.state,
           cosmic.alchemicalProperties,
           cosmic.diurnal,

@@ -73,7 +73,7 @@ const VALIDATION_TOLERANCES = {
 /**
  * Main validation function for ingredient data
  */
-export async function validateIngredientData(): Promise<IngredientValidationResult> {
+export function validateIngredientData(): Promise<IngredientValidationResult> {
   const startTime = Date.now();
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
@@ -82,33 +82,33 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
     logger.info("Starting comprehensive ingredient data validation");
 
     // 1. Validate elemental properties
-    const elementalValidation = await validateElementalProperties();
+    const elementalValidation = validateElementalProperties();
     errors.push(...elementalValidation.errors);
     warnings.push(...elementalValidation.warnings);
 
     // 2. Check compatibility scores
-    const compatibilityValidation = await validateCompatibilityScores();
+    const compatibilityValidation = validateCompatibilityScores();
     errors.push(...compatibilityValidation.errors);
     warnings.push(...compatibilityValidation.warnings);
 
     // 3. Verify alchemical mappings
-    const alchemicalValidation = await validateAlchemicalMappings();
+    const alchemicalValidation = validateAlchemicalMappings();
     errors.push(...alchemicalValidation.errors);
     warnings.push(...alchemicalValidation.warnings);
 
     // 4. Run ingredient tests
-    const testResults = await runIngredientTests();
+    const testResults = runIngredientTests();
     const testValidation = analyzeIngredientTestResults(testResults);
     errors.push(...testValidation.errors);
     warnings.push(...testValidation.warnings);
 
     // 5. Validate data completeness
-    const completenessValidation = await validateDataCompleteness();
+    const completenessValidation = validateDataCompleteness();
     errors.push(...completenessValidation.errors);
     warnings.push(...completenessValidation.warnings);
 
     // 6. Validate kinetics integration
-    const kineticsValidation = await validateKineticsIntegration();
+    const kineticsValidation = validateKineticsIntegration();
     errors.push(...kineticsValidation.errors);
     warnings.push(...kineticsValidation.warnings);
 
@@ -128,16 +128,16 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
     );
 
     // Calculate kinetics validation metrics
-    const kineticsMetrics = await calculateKineticsValidationMetrics();
+    const kineticsMetrics = calculateKineticsValidationMetrics();
 
-    return {
+    return Promise.resolve({
       isValid,
       errors,
       warnings,
       summary,
       timestamp: new Date(),
       kineticsValidation: kineticsMetrics,
-    };
+    });
   } catch (error) {
     const criticalError: IngredientValidationError = {
       type: "DATA_INCOMPLETE",
@@ -146,23 +146,23 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       timestamp: new Date(),
     };
 
-    return {
+    return Promise.resolve({
       isValid: false,
       errors: [criticalError],
       warnings,
       summary: "Critical validation failure - process could not complete",
       timestamp: new Date(),
-    };
+    });
   }
 }
 
 /**
  * Validate elemental properties for all ingredients
  */
-async function validateElementalProperties(): Promise<{
+function validateElementalProperties(): {
   errors: IngredientValidationError[];
   warnings: IngredientValidationWarning[];
-}> {
+} {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -212,7 +212,8 @@ function validateIngredientElementalProperties(
   const warnings: IngredientValidationWarning[] = [];
 
   try {
-    if (!ingredient.elementalProperties) {
+    const rawProps = (ingredient as Partial<Ingredient>).elementalProperties;
+    if (!rawProps) {
       errors.push({
         type: "ELEMENTAL_INVALID",
         severity: "HIGH",
@@ -224,7 +225,7 @@ function validateIngredientElementalProperties(
       return { errors, warnings };
     }
 
-    const props = ingredient.elementalProperties;
+    const props = rawProps;
     const elements = ["Fire", "Water", "Earth", "Air"];
 
     // Check that all elements are present and numeric
@@ -331,10 +332,10 @@ function calculateElementalPropertiesCompatibility(
 /**
  * Validate compatibility scores follow self-reinforcement principles
  */
-async function validateCompatibilityScores(): Promise<{
+function validateCompatibilityScores(): {
   errors: IngredientValidationError[];
   warnings: IngredientValidationWarning[];
-}> {
+} {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -345,11 +346,12 @@ async function validateCompatibilityScores(): Promise<{
     // Test self-compatibility for each ingredient
     for (const ingredient of ingredientList) {
       try {
-        if (!ingredient.elementalProperties) continue;
+        const rawProps = (ingredient as Partial<Ingredient>).elementalProperties;
+        if (!rawProps) continue;
 
         const selfCompatibility = calculateElementalPropertiesCompatibility(
-          ingredient.elementalProperties,
-          ingredient.elementalProperties,
+          rawProps,
+          rawProps,
         );
 
         // Self-reinforcement: same ingredient should have high compatibility (≥0.9)
@@ -386,16 +388,19 @@ async function validateCompatibilityScores(): Promise<{
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
 
+        const rawProps1 = (ingredient1 as Partial<Ingredient>).elementalProperties;
+        const rawProps2 = (ingredient2 as Partial<Ingredient>).elementalProperties;
+
         if (
-          !ingredient1.elementalProperties ||
-          !ingredient2.elementalProperties
+          !rawProps1 ||
+          !rawProps2
         )
           continue;
 
         try {
           const crossCompatibility = calculateElementalPropertiesCompatibility(
-            ingredient1.elementalProperties,
-            ingredient2.elementalProperties,
+            rawProps1,
+            rawProps2,
           );
 
           // Cross-compatibility should be at least 0.7 (no opposing elements)
@@ -439,10 +444,10 @@ async function validateCompatibilityScores(): Promise<{
 /**
  * Validate alchemical mappings are consistent with elemental properties
  */
-async function validateAlchemicalMappings(): Promise<{
+function validateAlchemicalMappings(): {
   errors: IngredientValidationError[];
   warnings: IngredientValidationWarning[];
-}> {
+} {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -513,15 +518,16 @@ function validateAlchemicalConsistency(
         substance?: number;
       };
     };
+    const rawElemental = (ingredient as Partial<Ingredient>).elementalProperties;
     if (
       !ingredientData.alchemicalProperties ||
-      !ingredient.elementalProperties
+      !rawElemental
     ) {
       return { errors, warnings };
     }
 
     const alchemical = ingredientData.alchemicalProperties;
-    const elemental = ingredient.elementalProperties;
+    const elemental = rawElemental;
 
     // Check that alchemical properties are numeric and in valid range
     const alchemicalProps: Array<keyof typeof alchemical> = [
@@ -595,10 +601,10 @@ function validateAlchemicalConsistency(
 /**
  * Validate data completeness for ingredients
  */
-async function validateDataCompleteness(): Promise<{
+function validateDataCompleteness(): {
   errors: IngredientValidationError[];
   warnings: IngredientValidationWarning[];
-}> {
+} {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -680,30 +686,30 @@ async function validateDataCompleteness(): Promise<{
 /**
  * Run comprehensive ingredient tests
  */
-async function runIngredientTests(): Promise<IngredientTestResult[]> {
+function runIngredientTests(): IngredientTestResult[] {
   const testResults: IngredientTestResult[] = [];
 
   // Test 1: Ingredient data loading
-  testResults.push(await testIngredientDataLoading());
+  testResults.push(testIngredientDataLoading());
 
   // Test 2: Elemental properties validation
-  testResults.push(await testElementalPropertiesValidation());
+  testResults.push(testElementalPropertiesValidation());
 
   // Test 3: Compatibility calculations
-  testResults.push(await testCompatibilityCalculations());
+  testResults.push(testCompatibilityCalculations());
 
   // Test 4: Alchemical mappings
-  testResults.push(await testAlchemicalMappings());
+  testResults.push(testAlchemicalMappings());
 
   // Test 5: Category consistency
-  testResults.push(await testCategoryConsistency());
+  testResults.push(testCategoryConsistency());
   return testResults;
 }
 
 /**
  * Test ingredient data loading
  */
-async function testIngredientDataLoading(): Promise<IngredientTestResult> {
+function testIngredientDataLoading(): IngredientTestResult {
   const startTime = Date.now();
 
   try {
@@ -735,7 +741,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
 /**
  * Test elemental properties validation
  */
-async function testElementalPropertiesValidation(): Promise<IngredientTestResult> {
+function testElementalPropertiesValidation(): IngredientTestResult {
   const startTime = Date.now();
 
   try {
@@ -745,11 +751,12 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
 
     for (const ingredient of Object.values(ingredients)) {
       totalCount++;
-      if (ingredient.elementalProperties) {
+      const rawProps = (ingredient as Partial<Ingredient>).elementalProperties;
+      if (rawProps) {
         const elements = ["Fire", "Water", "Earth", "Air"];
         const hasValidElements = elements.every((el) => {
           const value =
-            ingredient.elementalProperties[el as keyof ElementalProperties];
+            rawProps[el as keyof ElementalProperties];
           return (
             typeof value === "number" &&
             !isNaN(value) &&
@@ -790,7 +797,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
 /**
  * Test compatibility calculations
  */
-async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
+function testCompatibilityCalculations(): IngredientTestResult {
   const startTime = Date.now();
 
   try {
@@ -799,16 +806,17 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
     let totalCalculations = 0;
 
     for (const ingredient of ingredients) {
-      if (!ingredient.elementalProperties) continue;
+      const rawProps = (ingredient as Partial<Ingredient>).elementalProperties;
+      if (!rawProps) continue;
 
       try {
         totalCalculations++;
         const selfCompatibility = calculateElementalPropertiesCompatibility(
-          ingredient.elementalProperties,
-          ingredient.elementalProperties,
+          rawProps,
+          rawProps,
         );
 
-        // Self-compatibility should be high (≥0.9)
+        // Self-reinforcement: same ingredient should have high compatibility (≥0.9)
         if (selfCompatibility >= 0.9) {
           validCalculations++;
         }
@@ -847,7 +855,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 /**
  * Test alchemical mappings
  */
-async function testAlchemicalMappings(): Promise<IngredientTestResult> {
+function testAlchemicalMappings(): IngredientTestResult {
   const startTime = Date.now();
 
   try {
@@ -915,7 +923,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
 /**
  * Test category consistency
  */
-async function testCategoryConsistency(): Promise<IngredientTestResult> {
+function testCategoryConsistency(): IngredientTestResult {
   const startTime = Date.now();
 
   try {
@@ -1087,10 +1095,10 @@ export function shouldRollbackIngredients(
 /**
  * Validate kinetics integration and power conservation
  */
-async function validateKineticsIntegration(): Promise<{
+function validateKineticsIntegration(): {
   errors: IngredientValidationError[];
   warnings: IngredientValidationWarning[];
-}> {
+} {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -1099,11 +1107,12 @@ async function validateKineticsIntegration(): Promise<{
 
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
-        if (!ingredient.elementalProperties) continue;
+        const rawProps = (ingredient as Partial<Ingredient>).elementalProperties;
+        if (!rawProps) continue;
 
         // Validate force magnitude based on element dominance
         const forceMagnitude = calculateForceMagnitude(
-          ingredient.elementalProperties,
+          rawProps,
         );
         if (forceMagnitude > 5.0) {
           errors.push({
@@ -1127,17 +1136,17 @@ async function validateKineticsIntegration(): Promise<{
 
         // Validate thermal direction consistency
         const thermalDirection = determineThermalDirection(
-          ingredient.elementalProperties,
+          rawProps,
         );
         if (
           thermalDirection === "heating" &&
-          ingredient.elementalProperties.Water > 0.6
+          rawProps.Water > 0.6
         ) {
           warnings.push({
             type: "MINOR_INCONSISTENCY",
             ingredient: name,
             property: "kinetics-thermal-direction",
-            message: `Heating direction conflicts with high water content (${(ingredient.elementalProperties.Water * 100).toFixed(1)}%) for ${name}`,
+            message: `Heating direction conflicts with high water content (${(rawProps.Water * 100).toFixed(1)}%) for ${name}`,
             timestamp: new Date(),
           });
         }
@@ -1207,12 +1216,12 @@ function determineThermalDirection(
 /**
  * Calculate overall kinetics validation metrics
  */
-async function calculateKineticsValidationMetrics(): Promise<{
+function calculateKineticsValidationMetrics(): {
   powerConservationEfficiency: number;
   circuitStability: number;
   forceMagnitude: number;
   thermalDirection: "heating" | "cooling" | "neutral";
-}> {
+} {
   try {
     const ingredients = Object.values(allIngredients);
     let totalPowerEfficiency = 0;
@@ -1223,7 +1232,8 @@ async function calculateKineticsValidationMetrics(): Promise<{
     let neutralCount = 0;
 
     for (const ingredient of ingredients) {
-      if (!ingredient.elementalProperties) continue;
+      const rawProps = (ingredient as Partial<Ingredient>).elementalProperties;
+      if (!rawProps) continue;
 
       // Calculate power conservation (simulate P=IV)
       const charge =

@@ -13,10 +13,12 @@
 import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import type {
+  Planet,
+  ZodiacSignType,
+  Element,
   ElementalProperties,
   AlchemicalProperties,
-} from "@/types/alchemy";
-import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
+} from "@/types/celestial";
 import type { NatalChart } from "@/types/natalChart";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { isDiurnalAt } from "@/utils/astrology/positions";
@@ -95,18 +97,17 @@ export async function calculateMomentChart(
 
     // Convert to Record<Planet, ZodiacSignType>
     const planetaryPositions: Record<Planet, ZodiacSignType> = {
-      Sun: planetaryPositionsRaw.Sun?.sign,
-      Moon: planetaryPositionsRaw.Moon?.sign,
-      Mercury: planetaryPositionsRaw.Mercury?.sign,
-      Venus: planetaryPositionsRaw.Venus?.sign,
-      Mars: planetaryPositionsRaw.Mars?.sign,
-      Jupiter: planetaryPositionsRaw.Jupiter?.sign,
-      Saturn: planetaryPositionsRaw.Saturn?.sign,
-      Uranus: planetaryPositionsRaw.Uranus?.sign,
-      Neptune: planetaryPositionsRaw.Neptune?.sign,
-      Pluto: planetaryPositionsRaw.Pluto?.sign,
-      Ascendant:
-        (planetaryPositionsRaw.Ascendant?.sign) || "aries",
+      Sun: planetaryPositionsRaw.Sun.sign,
+      Moon: planetaryPositionsRaw.Moon.sign,
+      Mercury: planetaryPositionsRaw.Mercury.sign,
+      Venus: planetaryPositionsRaw.Venus.sign,
+      Mars: planetaryPositionsRaw.Mars.sign,
+      Jupiter: planetaryPositionsRaw.Jupiter.sign,
+      Saturn: planetaryPositionsRaw.Saturn.sign,
+      Uranus: planetaryPositionsRaw.Uranus.sign,
+      Neptune: planetaryPositionsRaw.Neptune.sign,
+      Pluto: planetaryPositionsRaw.Pluto.sign,
+      Ascendant: planetaryPositionsRaw.Ascendant.sign,
     };
 
     // Calculate elemental balance from zodiac positions
@@ -244,8 +245,8 @@ function calculateAlchemicalAlignment(
  * Considers which planets are in harmonious signs
  */
 function calculatePlanetaryResonance(
-  natalPositions: Record<Planet, ZodiacSignType>,
-  momentPositions: Record<Planet, ZodiacSignType>,
+  natalPositions: Partial<Record<Planet, ZodiacSignType>>,
+  momentPositions: Partial<Record<Planet, ZodiacSignType>>,
 ): number {
   const planets: Planet[] = [
     "Sun",
@@ -323,8 +324,8 @@ function calculatePlanetaryResonance(
  * Identify which planets are in harmonic positions
  */
 function getHarmonicPlanets(
-  natalPositions: Record<Planet, ZodiacSignType>,
-  momentPositions: Record<Planet, ZodiacSignType>,
+  natalPositions: Partial<Record<Planet, ZodiacSignType>>,
+  momentPositions: Partial<Record<Planet, ZodiacSignType>>,
 ): Planet[] {
   const planets: Planet[] = [
     "Sun",
@@ -388,8 +389,8 @@ export async function compareCharts(
   // Safely extract planetary positions from legacy formats if needed
   const safePlanetaryPositions = extractPlanetaryPositions(natalChart);
 
-  const safeElementalBalance = (natalChart.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as ElementalProperties;
-  const safeAlchemicalProperties = natalChart.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 } as any;
+  const safeElementalBalance = natalChart.elementalBalance;
+  const safeAlchemicalProperties = natalChart.alchemicalProperties;
 
   // Calculate individual harmony scores (cast to align ElementalProperties types)
   const elementalHarmony = calculateElementalHarmony(
