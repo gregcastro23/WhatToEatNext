@@ -1,7 +1,11 @@
-# Next Session: Phase 9 TypeScript Lint Debt Remediation & Systematic Quality Campaign
+# Next Session: Phase 10 TypeScript Quality Campaign — Cast Surface Gating & Non-Regression
 
-**Starting Baseline:** **`4,110` tracked warnings, 0 lint errors, 0 compiler errors** (locked in [`.lint-debt-baseline.json`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/.lint-debt-baseline.json)).  
-**Target Milestone:** **$\le 3,750$** tracked warnings (a net reduction of $\ge 360$ warnings), prioritizing the remaining `any`-flow clusters in alchemical calculations, route handlers, recommender service pipelines, and shared contexts with zero deleted runtime guards.
+**Starting Baseline:** **`3,715` tracked warnings, `6,327` declined warnings (10,042 total lint surface), `868` total type casts (187 `as any`, 681 `as unknown as`), 0 lint errors, 0 compiler errors** (locked in [`.lint-debt-baseline.json`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/.lint-debt-baseline.json)).  
+**Target Milestone:**
+1. **Gate Cast Surface**: Enforce cast ratchet on `as any` + `as unknown as` (fail on increase, ratchet down).
+2. **Freeze Declined Pool**: Fail if declined pool (`6,327`) increases.
+3. **Mechanical Per-Rule Non-Regression**: Fail if any individual tracked rule increases.
+4. **Targeted Maintenance**: Remediate casts on state objects, context defaults, and registry adapters first, driving tracked debt to $\le 3,400$ second.
 
 ---
 
@@ -9,89 +13,113 @@
 
 | Fact | Value | Verification Command | Notes |
 |---|:---:|---|---|
-| **Baseline at HEAD** | **`4,110`** | `bun run lint:debt` | Reconciles exactly across audited rules (Batches 0–F + auth typing committed) |
-| **Declined Rules Baseline** | **`6,430`** | `bun scripts/checkLintDebt.ts` | Synchronized; `no-void` declined to protect floating promises |
-| **Lint Errors** | `0` | `bun run lint` | 0 errors across entire workspace |
+| **Tracked Baseline at HEAD** | **`3,715`** | `bun run lint:debt` | Reconciles exactly across audited rules (Batches 0–D committed at `b5ab18c0`) |
+| **Declined Rules Baseline** | **`6,327`** | `bun scripts/checkLintDebt.ts` | Frozen; 7 declined rules totaling 6,327 |
+| **Cast Surface Baseline** | **`868`** | `bun scripts/checkLintDebt.ts` | 187 `as any` + 681 `as unknown as` |
+| **Lint Errors** | `0` | `bun run lint` | 0 errors across workspace |
 | **Compiler Errors** | `0` | `bun run typecheck` | `tsc --noEmit` clean |
-| **Fast Test Suite** | `489/489` | `bun run test:fast` | 17/17 test suites passing (includes DB suites) |
-| **Full Test Suite** | `3,297/3,297` | `bun run test --passWithNoTests` | 317/317 suites passing (10 skipped, exit 0) |
-| **Calculation Witnesses** | `28/28` | `bun run jest src/__tests__/calculations/unifiedEngineWitness.test.ts` | 100% celestial adapter & SMES parity |
+| **Fast Test Suite** | `19/19 suites (494/494)` | `bun run test:fast` | 100% passing (includes alchemical defaultState integrity & smoke test) |
+| **Full Test Suite** | `319/319 suites (3,302/3,302)` | `bun run test --passWithNoTests` | 100% passing (10 skipped, exit 0) |
 | **Behavioral Snapshot Witness** | 100% parity | `bun scripts/snapshot-witness.ts` | 100% parity with baseline |
-| **Monica Integrity** | Clean | `scripts/checkNoFabricatedMonicaFallback.ts` | 0 fabricated fallbacks |
-| **Recent Phase 8 Commits** | 8 commits | `git log -n 8 --oneline` | Auth typing (`f9e734ff`), Batch F (`52013de3`), Batch E (`fe01e191`), Batch D (`a3ab69e5`), Batch C (`a9894e90`), Batch B (`f91ec319`), Batch A (`a77cf178`), Batch 0 (`b0ba2949`) |
+| **Monica Integrity** | Clean | `bun scripts/checkNoFabricatedMonicaFallback.ts` | 0 unprincipled agent fallbacks |
+| **Production Deployment** | Verified | Vercel (`b5ab18c0`) | Seeded guest test confirmed live recommender mounting & scoring |
 
 ---
 
-## 1. Phase 8 Progress & Keystone Safeguards Landed
+## 1. Phase 9 Progress & Campaign Ledger
 
-1. **Governance Target Progress (`4,497` $\rightarrow$ `4,110`):**
-   - Reduced baseline from `4,497` down to **`4,110`** across Batches 0 through F plus honest NextAuth typing (net reduction of **387 tracked warnings** eliminated across 35+ files with zero regressions).
-   - Maximum debt density per file dropped from 22 warnings down to $\le 21$ warnings across the repository.
-
-2. **Honest NextAuth Type Augmentation & Guard Restoration:**
-   - Augmented `Session.user?:` with nullable fields (`name`, `email`, `image: string | null`), restoring four defensive `session?.user?.id` guards (including checkout at `stripe/restaurant-order:461`).
-   - Cleaned redundant `as Record<string, unknown>` type assertions across 10 components and route files.
-
-3. **Production Logger Asymmetry Rule Maintained:**
-   - Enforced `_logger.error` on all critical services, payments, auth, and ordering stubs (`oloService.ts:13`).
+1. **Governance Target Progress (`4,110` $\rightarrow$ `3,715`):**
+   - Reduced baseline from `4,110` down to **`3,715`** across Batches 0, A, B, C, and D (net reduction of **395 tracked debt warnings eliminated** across 23 files, beating the $\le 3,750$ target by 35).
+   - Zero regressions of any kind across every tracked and declined rule.
+2. **Production Crash Remediated & End-to-End Verified:**
+   - Initialized complete, honest `defaultState` in `AlchemicalContext/context.tsx` and `defaults.ts`.
+   - Verified in production by seeding guest table state and confirming 17 real ingredient scores rendered.
+3. **Omission Precedent Maintained:**
+   - Applied strict omission policy on `method.elementalEffect` without fabricated fallbacks.
 
 ---
 
-## 2. Taxonomy of Remaining Debt (`4,110` Total)
+## 2. Top 40 Files by Tracked Debt (`3,715` Total Tracked)
 
-| Population | Count | Share | Characteristics & Strategy |
-|---|:---:|:---:|---|
-| **1. `no-unnecessary-condition`** | **2,018** | 49.1% | ⚠️ **FROZEN UNLESS TYPE IS HONEST.** Fires when optimistic interfaces declare fields non-null that are optional at runtime. Clear `any`-flow first, then type honest boundary shapes; never delete runtime guards. |
-| **2. `any`-Flow Cluster** | **957** | 23.3% | `no-unsafe-member-access` (368), `no-unsafe-assignment` (354), `no-unsafe-argument` (123), `no-unsafe-return` (68), `no-unsafe-call` (44). **Where lint fix = bug fix.** Remediate by strongly typing function parameters, return boundaries, and calculation adapters. |
-| **3. Production Logging** | **428** | 10.4% | `no-console` (428). Route through `createLogger` or `_logger.error` (safe in production). |
-| **4. Explicit `any` Leaks** | **304** | 7.4% | `no-explicit-any` (304). Replace with `unknown`, generics, or explicit domain interfaces. |
-| **5. Control Flow & Semantics** | **405** | 9.8% | `prefer-nullish-coalescing` (246), `require-await` (104), `no-useless-assignment` (55). Preserve `??` vs `||` domain semantics when `0` or `""` are valid. |
-| **6. Annotation-Only (Declined)** | *(6,430)* | *(N/A)* | `explicit-function-return-type` (1,819), `explicit-module-boundary-types` (865), `max-lines-per-function` (2,121), `max-lines` (660), `no-void` (457), `complexity` (356), `max-depth` (99). |
+*Generated from `bun scripts/checkLintDebt.ts --top 40`:*
 
----
-
-## 3. Targeted Work Batches (Target $\le 3,750$, ~360 Warnings to Eliminate)
-
-### 📦 Batch A: Recommender Adapters & Search Validation (~120 Warnings)
-Target remaining recommender bridges and search validation modules:
-1. `src/components/home/CookingMethodPreview.tsx` (21 warnings: 20 unnecessary condition, 1 console)
-2. `src/services/RecommendationAdapter.ts` (21 warnings: 21 unnecessary condition)
-3. `src/utils/ingredientValidation.ts` (20 warnings: 11 require-await, 9 unnecessary condition)
-4. `src/components/food-diary/NutritionDashboard.tsx` (19 warnings: 19 unnecessary condition)
-5. `src/services/restaurantDiscoveryService.ts` (19 warnings: 15 unnecessary condition, 3 nullish coalescing, 1 console)
-6. `src/services/ChartComparisonService.ts` (19 warnings: 18 unnecessary condition, 1 explicit any)
-
-### 📦 Batch B: Timeline, Quality & Elemental Services (~100 Warnings)
-Target timeline feeds, recipe-builder subpages, and elemental transformations:
-1. `src/services/userTimelineService.ts` (18 warnings: 18 unnecessary condition)
-2. `src/app/recipe-builder/page.tsx` (17 warnings: 5 unnecessary condition, 5 unsafe member, 3 nullish coalescing)
-3. `src/utils/buildQualityMonitor.ts` (17 warnings: 9 require-await, 3 unsafe assignment, 2 unsafe call)
-4. `src/utils/elemental/core.ts` (17 warnings: 9 unnecessary condition, 3 require-await, 2 unsafe member)
-5. `src/components/recipes/LabBookIngest.tsx` (17 warnings: 8 unsafe member, 4 unnecessary condition, 3 unsafe argument)
-6. `src/lib/cuisineCalculations.ts` (17 warnings: 7 unsafe member, 2 explicit any, 2 unsafe assignment)
-7. `src/services/QualityMetricsService.ts` (17 warnings: 17 unnecessary condition)
-
-### 📦 Batch C: Search Engines, Hooks & Dashboards (~95 Warnings)
-Target search engines, custom hooks, and dashboard overviews:
-1. `src/utils/recipeSearchEngine.ts` (16 warnings: 16 unnecessary condition)
-2. `src/components/dashboard/DashboardOverview.tsx` (16 warnings: 9 unnecessary condition, 3 unsafe member, 1 explicit any)
-3. `src/hooks/useCookingMethods.ts` (16 warnings: 16 prefer-nullish-coalescing)
-4. `src/hooks/useAlchemicalRecommendations.ts` (16 warnings: 16 unnecessary condition)
-5. `src/hooks/useIngredientRecommendations.ts` (16 warnings: 6 unnecessary condition, 3 explicit any, 2 unsafe member)
-6. `src/lib/mcp/synastryTools.ts` (16 warnings: 16 unnecessary condition)
-
-### 📦 Batch D: Ingredients, Pooler Saturation & Core State (~95 Warnings)
-Target static ingredient datasets, pooler health monitor, and data contexts:
-1. `src/data/ingredients/seasonings/vinegars.ts` (16 warnings: 10 unsafe assignment, 2 unsafe member, 2 nullish coalescing)
-2. `src/services/poolerSaturationHealth.ts` (16 warnings: 7 unsafe member, 5 unsafe call, 3 unsafe assignment)
-3. `src/services/ConsolidatedIngredientService.ts` (16 warnings: 10 unnecessary condition, 6 require-await)
-4. `src/services/AlchemicalApiClient.ts` (16 warnings: 7 explicit any, 4 unsafe return, 2 unsafe argument)
-5. `src/services/RealAlchemizeService.ts` (16 warnings: 16 unnecessary condition)
-6. `src/contexts/AlchemicalDataContext.tsx` (15 warnings: 5 nullish coalescing, 4 explicit any, 4 unnecessary condition)
+1. `src/app/recipe-builder/page.tsx` (17 warnings: no-unnecessary-condition 5, no-unsafe-member-access 5, prefer-nullish-coalescing 3)
+2. `src/utils/buildQualityMonitor.ts` (17 warnings: require-await 9, no-unsafe-assignment 3, no-unsafe-call 2)
+3. `src/components/recipes/LabBookIngest.tsx` (17 warnings: no-unsafe-member-access 8, no-unnecessary-condition 4, no-unsafe-argument 3)
+4. `src/components/dashboard/DashboardOverview.tsx` (16 warnings: no-unnecessary-condition 9, no-unsafe-member-access 3, no-explicit-any 1)
+5. `src/data/ingredients/seasonings/vinegars.ts` (16 warnings: no-unsafe-assignment 10, no-unsafe-member-access 2, prefer-nullish-coalescing 2)
+6. `src/services/poolerSaturationHealth.ts` (16 warnings: no-unsafe-member-access 7, no-unsafe-call 5, no-unsafe-assignment 3)
+7. `src/app/onboarding/page.tsx` (15 warnings: no-explicit-any 3, no-unsafe-assignment 3, no-unnecessary-condition 3)
+8. `src/components/SunDisplay.tsx` (15 warnings: no-unsafe-call 4, no-console 4, no-unsafe-assignment 3)
+9. `src/contexts/menu-planner/useCostEstimation.ts` (14 warnings: no-unsafe-assignment 6, no-unsafe-member-access 6, no-unnecessary-condition 1)
+10. `src/app/(alchm)/kitchen-lab/alchm/page.tsx` (14 warnings: no-unsafe-member-access 6, no-unnecessary-condition 4, no-unsafe-assignment 3)
+11. `src/app/api/recipes/route.ts` (14 warnings: no-unsafe-assignment 4, no-console 4, no-unnecessary-condition 3)
+12. `src/app/api/generate-cosmic-recipe/route.ts` (14 warnings: no-console 6, no-unsafe-assignment 3, no-unnecessary-condition 3)
+13. `src/utils/elemental/transformations.ts` (14 warnings: no-unnecessary-condition 14)
+14. `src/components/LivePlanetaryTracker.tsx` (14 warnings: no-unsafe-member-access 5, no-unnecessary-condition 2, no-explicit-any 2)
+15. `src/components/menu-planner/SmartRecommendations.tsx` (14 warnings: no-unnecessary-condition 10, no-explicit-any 2, no-unsafe-member-access 2)
+16. `src/hooks/usePlanetaryKinetics.ts` (14 warnings: no-unnecessary-condition 12, prefer-nullish-coalescing 2)
+17. `src/calculations/culinaryAstrology.ts` (14 warnings: no-unnecessary-condition 8, prefer-nullish-coalescing 6)
+18. `src/lib/tables/composite.ts` (14 warnings: no-unsafe-member-access 6, no-unnecessary-condition 6, no-unsafe-assignment 1)
+19. `src/lib/elemental-reinforcement.ts` (14 warnings: no-unsafe-assignment 4, no-unnecessary-condition 4, no-unsafe-return 3)
+20. `src/lib/alchemizer.ts` (14 warnings: no-unnecessary-condition 13, prefer-nullish-coalescing 1)
+21. `src/services/ConfigurationService.ts` (14 warnings: no-unnecessary-condition 6, no-unsafe-assignment 2, no-unsafe-argument 2)
+22. `src/services/UnifiedRecipeService.ts` (14 warnings: no-unsafe-member-access 4, no-unnecessary-condition 3, no-unsafe-assignment 2)
+23. `src/app/api/transmutation_recommendations/route.ts` (13 warnings: no-unnecessary-condition 4, no-explicit-any 3, no-unsafe-member-access 3)
+24. `src/constants/planetaryFoodAssociations.ts` (13 warnings: prefer-nullish-coalescing 5, no-unnecessary-condition 3, no-explicit-any 2)
+25. `src/components/auth/OnboardingWizard.tsx` (13 warnings: no-unsafe-assignment 4, no-unsafe-argument 3, no-explicit-any 2)
+26. `src/components/recipe-builder/GenerateRecipeButton.tsx` (13 warnings: no-unsafe-member-access 5, no-unnecessary-condition 4, no-unsafe-assignment 3)
+27. `src/components/profile/ProfileHeroCard.tsx` (13 warnings: no-unnecessary-condition 13)
+28. `src/components/alchm-kinetics.tsx` (13 warnings: no-unsafe-member-access 5, no-unsafe-assignment 4, no-unnecessary-condition 3)
+29. `src/components/time-laboratory/planetary-agents-view.tsx` (13 warnings: no-unnecessary-condition 7, no-explicit-any 2, no-unsafe-assignment 2)
+30. `src/hooks/useAstrologize.ts` (13 warnings: no-unsafe-assignment 6, no-unsafe-member-access 4, no-explicit-any 2)
+31. `src/lib/monica/horoscope-generator.ts` (13 warnings: no-unsafe-assignment 4, no-unsafe-member-access 3, no-console 2)
+32. `src/lib/recipe-nft/mintClient.ts` (13 warnings: no-unsafe-assignment 7, no-unsafe-member-access 6)
+33. `src/lib/agents/persona/format-persona-block.ts` (13 warnings: no-unnecessary-condition 13)
+34. `src/lib/api/alchm-client.ts` (13 warnings: no-explicit-any 12, no-unnecessary-condition 1)
+35. `src/data/recipes/elementalMappings.ts` (13 warnings: prefer-nullish-coalescing 6, no-unsafe-assignment 3, no-explicit-any 3)
+36. `src/services/QuestService.ts` (13 warnings: no-unsafe-member-access 7, no-unsafe-assignment 4, no-unsafe-call 2)
+37. `src/services/EnhancedRecommendationService.ts` (13 warnings: no-unnecessary-condition 10, no-useless-assignment 3)
+38. `src/services/ElementalCalculator.ts` (13 warnings: no-unnecessary-condition 13)
+39. `src/services/PlanetaryHoursClient.ts` (13 warnings: no-unsafe-assignment 6, no-unsafe-member-access 5, no-unsafe-call 1)
+40. `src/app/(alchm)/commensal/page.tsx` (12 warnings: no-unsafe-member-access 3, prefer-nullish-coalescing 3, no-unsafe-argument 2)
 
 ---
 
-## 4. Verification Protocol (Mandatory Before Every Ratchet)
+## 3. Targeted Work Batches for Phase 10
+
+### 📦 Batch A: Cast Surface on State, Context Defaults & Recommenders
+Prioritize type laundering elimination (`as any` / `as unknown as`) across contexts, hooks, and adapters:
+1. `src/app/recipe-builder/page.tsx` (17 tracked warnings + eliminate cast surface)
+2. `src/components/recipes/LabBookIngest.tsx` (17 tracked warnings + eliminate cast surface)
+3. `src/components/dashboard/DashboardOverview.tsx` (16 tracked warnings + eliminate cast surface)
+4. `src/contexts/menu-planner/useCostEstimation.ts` (14 tracked warnings)
+5. `src/app/onboarding/page.tsx` (15 tracked warnings)
+
+### 📦 Batch B: Server Routes, Pooler Health & Monitoring
+1. `src/utils/buildQualityMonitor.ts` (17 tracked warnings)
+2. `src/services/poolerSaturationHealth.ts` (16 tracked warnings)
+3. `src/app/api/recipes/route.ts` (14 tracked warnings)
+4. `src/app/api/generate-cosmic-recipe/route.ts` (14 tracked warnings)
+5. `src/app/api/transmutation_recommendations/route.ts` (13 tracked warnings)
+
+### 📦 Batch C: Kinetics, Elemental Calculations & Alchemical Services
+1. `src/utils/elemental/transformations.ts` (14 tracked warnings)
+2. `src/hooks/usePlanetaryKinetics.ts` (14 tracked warnings)
+3. `src/calculations/culinaryAstrology.ts` (14 tracked warnings)
+4. `src/lib/tables/composite.ts` (14 tracked warnings)
+5. `src/lib/alchemizer.ts` (14 tracked warnings)
+
+### 📦 Batch D: Datasets, Recipe Services & Client Bridges
+1. `src/data/ingredients/seasonings/vinegars.ts` (16 tracked warnings)
+2. `src/services/ConfigurationService.ts` (14 tracked warnings)
+3. `src/services/UnifiedRecipeService.ts` (14 tracked warnings)
+4. `src/constants/planetaryFoodAssociations.ts` (13 tracked warnings)
+5. `src/lib/api/alchm-client.ts` (13 tracked warnings)
+
+---
+
+## 4. Verification Protocol (Mandatory Per Batch)
 
 ```bash
 # 1. Typecheck
@@ -100,14 +128,14 @@ bun run typecheck
 # 2. Lint Verification
 bun run lint
 
-# 3. Fast Unit Test Suite (17 suites, 489 tests)
+# 3. Fast Unit Test Suite (19 suites, 494 tests)
 bun run test:fast
 
-# 4. Calculation & Behavioral Snapshot Witnesses (Always use Jest)
-bun run jest src/__tests__/calculations/unifiedEngineWitness.test.ts
+# 4. Calculation & Behavioral Snapshot Witnesses
 bun scripts/snapshot-witness.ts
+bun scripts/checkNoFabricatedMonicaFallback.ts
 
-# 5. Full Unit & Integration Test Suite (Mandatory per batch gate)
+# 5. Full Unit & Integration Test Suite
 bun run test --passWithNoTests
 
 # 6. Production Next.js Build
@@ -116,14 +144,3 @@ bun run build
 # 7. Audit & Auto-Ratchet (Always use 8GB heap)
 NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --ratchet
 ```
-
----
-
-## 5. Standing Campaign Constraints
-
-1. **Zero Suppressions:** 0 `eslint-disable` added, 0 `@ts-ignore` added, 0 artificial `as any` casts.
-2. **Never Delete a Runtime Guard:** If `no-unnecessary-condition` fires, fix the type nullability honestly — do not delete defensive guards.
-3. **Preserve `??` vs `||` Domain Semantics:** Never blindly replace `||` with `??` when `0` or `""` are valid domain values (e.g. scores, coordinates, counts).
-4. **Production Logger Discipline:** `_logger.error` is ungated in production; `_logger.warn` is gated. Use `_logger.error` (or `createLogger`) on all critical services, payments, auth, and settlement paths.
-5. **Always Use Jest Test Runner:** Never run Bun's native test runner (`bun test`) as it bypasses `jest.config.js` and custom setup. Always use `bun run test` or `bun run jest`.
-6. **Commit Per Batch:** Keep git commits granular, staging only touched files by name after verification passes.

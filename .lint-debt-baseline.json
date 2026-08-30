@@ -1,6 +1,7 @@
 {
   "trackedTotal": 3715,
   "declined": {
+    "total": 6327,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1787,
       "@typescript-eslint/explicit-module-boundary-types": 855,
@@ -124,5 +125,10 @@
       "count": 0,
       "autoFixable": 0
     }
+  },
+  "casts": {
+    "total": 868,
+    "asAny": 187,
+    "asUnknownAs": 681
   }
 }
