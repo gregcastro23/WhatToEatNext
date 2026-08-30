@@ -8,6 +8,7 @@
  */
 
 import { randomUUID } from "crypto";
+import { _logger } from "@/lib/logger";
 import type {
   SubscriptionTier as _SubscriptionTier,
   SubscriptionStatus as _SubscriptionStatus,
@@ -18,12 +19,12 @@ import type {
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
-const getDbModule = async () => {
+const getDbModule = async (): Promise<typeof import("@/lib/database") | null> => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
     } catch {
-      console.warn("[subscriptionService] DB not available, using in-memory");
+      _logger.error("[subscriptionService] DB not available, using in-memory");
     }
   }
   return dbModule;
@@ -48,7 +49,7 @@ class SubscriptionService {
     const db = await getDbModule();
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserSubscription>(
           `SELECT id, user_id as "userId", tier, status,
                   stripe_customer_id as "stripeCustomerId",
                   stripe_subscription_id as "stripeSubscriptionId",
@@ -60,9 +61,9 @@ class SubscriptionService {
            FROM user_subscriptions WHERE user_id = $1`,
           [userId],
         );
-        sub = (result.rows[0] as UserSubscription) || null;
+        sub = result.rows[0] || null;
       } catch (error) {
-        console.error("[subscriptionService] DB query failed:", error);
+        _logger.error("[subscriptionService] DB query failed:", error);
       }
     }
     if (!sub) {
@@ -75,14 +76,21 @@ class SubscriptionService {
         status: "active",
       };
     }
-    return sub;
+    // Auto-provision standard free tier for new users
+    return this.createDefaultSubscription(userId);
   }
 
   async getOrCreateSubscription(userId: string): Promise<UserSubscription> {
     const existing = await this.getUserSubscription(userId);
     if (existing) return existing;
+    return this.createDefaultSubscription(userId);
+  }
 
+  private async createDefaultSubscription(
+    userId: string,
+  ): Promise<UserSubscription> {
     const period = getCurrentPeriod();
+    const now = new Date().toISOString();
     const sub: UserSubscription = {
       id: randomUUID(),
       userId,
@@ -93,33 +101,34 @@ class SubscriptionService {
       currentPeriodStart: period.start,
       currentPeriodEnd: period.end,
       cancelAtPeriodEnd: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
     };
 
     const db = await getDbModule();
     if (db) {
       try {
         await db.executeQuery(
-          `INSERT INTO user_subscriptions
-            (id, user_id, tier, status, stripe_customer_id, stripe_subscription_id,
-             current_period_start, current_period_end, cancel_at_period_end)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-           ON CONFLICT (user_id) DO NOTHING`,
+          `INSERT INTO user_subscriptions (
+            id, user_id, tier, status,
+            current_period_start, current_period_end,
+            cancel_at_period_end, created_at, updated_at
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          ON CONFLICT (user_id) DO NOTHING`,
           [
             sub.id,
-            userId,
+            sub.userId,
             sub.tier,
             sub.status,
-            sub.stripeCustomerId,
-            sub.stripeSubscriptionId,
             sub.currentPeriodStart,
             sub.currentPeriodEnd,
             sub.cancelAtPeriodEnd,
+            sub.createdAt,
+            sub.updatedAt,
           ],
         );
       } catch (error) {
-        console.error("[subscriptionService] Insert failed:", error);
+        _logger.error("[subscriptionService] Insert failed:", error);
       }
     }
     memorySubscriptions.set(userId, sub);
@@ -178,7 +187,7 @@ class SubscriptionService {
         }
 
         values.push(userId);
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserSubscription>(
           `UPDATE user_subscriptions SET ${setClauses.join(", ")}
            WHERE user_id = $${idx}
            RETURNING id, user_id as "userId", tier, status,
@@ -191,9 +200,9 @@ class SubscriptionService {
                      updated_at as "updatedAt"`,
           values,
         );
-        return (result.rows[0] as UserSubscription) || null;
+        return result.rows[0] || null;
       } catch (error) {
-        console.error("[subscriptionService] Update failed:", error);
+        _logger.error("[subscriptionService] Update failed:", error);
       }
     }
 
@@ -220,14 +229,14 @@ class SubscriptionService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ count: number }>(
           `SELECT count FROM usage_records
            WHERE user_id = $1 AND feature = $2 AND period_start = $3`,
           [userId, feature, period.start],
         );
         return result.rows[0]?.count ?? 0;
       } catch (error) {
-        console.error("[subscriptionService] Usage query failed:", error);
+        _logger.error("[subscriptionService] Usage query failed:", error);
       }
     }
 
@@ -244,7 +253,7 @@ class SubscriptionService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<{ count: number }>(
           `INSERT INTO usage_records (user_id, feature, count, period_start, period_end)
            VALUES ($1, $2, 1, $3, $4)
            ON CONFLICT (user_id, feature, period_start)
@@ -254,7 +263,7 @@ class SubscriptionService {
         );
         return result.rows[0]?.count ?? 1;
       } catch (error) {
-        console.error("[subscriptionService] Increment failed:", error);
+        _logger.error("[subscriptionService] Increment failed:", error);
       }
     }
 
@@ -298,7 +307,7 @@ class SubscriptionService {
     const db = await getDbModule();
     if (db) {
       try {
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserSubscription>(
           `SELECT id, user_id as "userId", tier, status,
                   stripe_customer_id as "stripeCustomerId",
                   stripe_subscription_id as "stripeSubscriptionId",
@@ -310,9 +319,9 @@ class SubscriptionService {
            FROM user_subscriptions WHERE stripe_customer_id = $1`,
           [stripeCustomerId],
         );
-        return (result.rows[0] as UserSubscription) || null;
+        return result.rows[0] || null;
       } catch (error) {
-        console.error("[subscriptionService] Stripe lookup failed:", error);
+        _logger.error("[subscriptionService] Stripe lookup failed:", error);
       }
     }
     return null;

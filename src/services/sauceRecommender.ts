@@ -1,5 +1,13 @@
-// src/services/sauceRecommender.ts
 import { alchmAPI } from "@/lib/api/alchm-client";
+import { _logger } from "@/lib/logger";
+
+interface CuisineSauceMapping {
+  sauceRecommender?: {
+    forProtein?: Record<string, string[]>;
+    forVegetable?: Record<string, string[]>;
+    forCookingMethod?: Record<string, string[]>;
+  };
+}
 
 export class SauceRecommender {
   private static instance: SauceRecommender;
@@ -21,11 +29,14 @@ export class SauceRecommender {
       cookingMethod?: string;
     },
   ): Promise<string[]> {
-    let cuisinesMap: Record<string, any>;
+    let cuisinesMap: Record<string, CuisineSauceMapping>;
     try {
-      cuisinesMap = await alchmAPI.getCuisines();
+      cuisinesMap = (await alchmAPI.getCuisines()) as Record<
+        string,
+        CuisineSauceMapping
+      >;
     } catch (err) {
-      console.warn("[SauceRecommender] cuisines fetch failed, skipping:", err);
+      _logger.error("[SauceRecommender] cuisines fetch failed, skipping:", err);
       return [];
     }
     const cuisine = cuisinesMap[cuisineName];

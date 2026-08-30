@@ -1,19 +1,19 @@
 {
-  "trackedTotal": 4170,
+  "trackedTotal": 4137,
   "declined": {
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1820,
+      "@typescript-eslint/explicit-function-return-type": 1819,
       "@typescript-eslint/explicit-module-boundary-types": 865,
       "complexity": 356,
       "max-depth": 99,
       "max-lines": 660,
-      "max-lines-per-function": 2120,
+      "max-lines-per-function": 2121,
       "no-void": 457
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1820,
+      "count": 1819,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
@@ -21,7 +21,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 306,
+      "count": 304,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -29,7 +29,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2062,
+      "count": 2060,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -37,19 +37,19 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 358,
+      "count": 354,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 47,
+      "count": 44,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 376,
+      "count": 366,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 70,
+      "count": 68,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
@@ -97,7 +97,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2120,
+      "count": 2121,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -105,7 +105,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 438,
+      "count": 428,
       "autoFixable": 0
     },
     "no-useless-assignment": {
