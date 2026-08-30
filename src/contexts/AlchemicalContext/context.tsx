@@ -8,14 +8,21 @@
 "use client";
 
 import _React, { createContext } from "react";
+import { DEFAULT_ALCHEMICAL_VALUES } from "@/constants/defaults";
+import { DEFAULT_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
 import type { AlchemicalState, AlchemicalContextType } from "./types";
 
 // Define default state
 export const defaultState: AlchemicalState = {
+  elementalState: { ...DEFAULT_ELEMENTAL_PROPERTIES },
   currentSeason: "spring",
   timeOfDay: "morning",
   astrologicalState: {
     currentZodiac: "aries",
+    sunSign: "aries",
+    lunarPhase: "new moon",
+    moonPhase: "new moon",
+    activePlanets: ["Sun", "Moon"],
     planetaryInfluences: {
       Sun: 0.7,
       Moon: 0.5,
@@ -44,7 +51,7 @@ export const defaultState: AlchemicalState = {
       enthalpy: 0.5,
     },
     timestamp: Date.now(),
-  } as any,
+  },
   lunarPhase: "new moon",
   currentTime: new Date(),
   lastUpdated: new Date(),
@@ -54,12 +61,20 @@ export const defaultState: AlchemicalState = {
   dominantElement: "Fire",
   planetaryHour: "Sun",
   svgRepresentation: null,
-} as any;
+  alchemicalValues: { ...DEFAULT_ALCHEMICAL_VALUES },
+  errors: [],
+};
 
 // Create the context with default values
 export const _AlchemicalContext = createContext<AlchemicalContextType>({
   state: defaultState,
   dispatch: () => {},
+  astrologicalState: defaultState.astrologicalState,
+  elementalState: defaultState.elementalState,
+  alchemicalValues: defaultState.alchemicalValues,
+  planetaryHour: "Sun",
+  lunarPhase: "new moon",
+  zodiacSign: "aries",
   planetaryPositions: {},
   historicalPositions: {},
   normalizedPositions: {},
@@ -86,7 +101,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
   refreshPlanetaryPositions: async () => ({}),
   setDaytime: () => {},
   updateState: () => {},
-} as any);
+});
 
 // Export without underscore for compatibility
 export const AlchemicalContext = _AlchemicalContext;

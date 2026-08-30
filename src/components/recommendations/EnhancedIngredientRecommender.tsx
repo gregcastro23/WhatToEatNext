@@ -883,6 +883,10 @@ export const EnhancedIngredientRecommender: React.FC<
   // Get current elemental properties from alchemical context, personalized
   // by the visitor's bias when present (70/30 moment/user, renormalized).
   const currentElementals: ElementalProperties = useMemo(() => {
+    // `defaultState` now seeds `elementalState`, and
+    // alchemicalDefaultStateIntegrity.test.ts fails if it stops doing so.
+    // A `??` here would read as unnecessary to the type checker and invite
+    // a future lint batch to delete it, so the test carries the guarantee.
     const base: ElementalProperties = alchemicalContext.state.elementalState;
     if (!userBias) return base;
     return normalizeForDisplay({

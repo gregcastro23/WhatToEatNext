@@ -91,7 +91,7 @@ interface MethodData {
   description: string;
   shortDescription?: string;
   culinaryArchetype?: string;
-  elementalEffect: ElementalProperties;
+  elementalEffect?: ElementalProperties;
   alchemicalProperties?: AlchemicalProperties;
   thermodynamicProperties?: {
     heat: number;
@@ -693,11 +693,14 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         }
         : baseESMS;
 
+      if (!method.elementalEffect) return [];
+      const { elementalEffect } = method;
+
       const { gregsEnergy } = calculateGregsEnergy({
         Spirit: transformedESMS.Spirit, Essence: transformedESMS.Essence,
         Matter: transformedESMS.Matter, Substance: transformedESMS.Substance,
-        Fire: method.elementalEffect.Fire, Water: method.elementalEffect.Water,
-        Air: method.elementalEffect.Air, Earth: method.elementalEffect.Earth,
+        Fire: elementalEffect.Fire, Water: elementalEffect.Water,
+        Air: elementalEffect.Air, Earth: elementalEffect.Earth,
       });
 
       const kalchm = calculateKalchm(transformedESMS);
@@ -711,7 +714,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       try {
         kinetics = calculateMethodSpecificKinetics({
           methodId: id,
-          elementalEffect: method.elementalEffect,
+          elementalEffect,
           transformedESMS,
           thermodynamics: methodThermo,
           gregsEnergy,
@@ -724,7 +727,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const monicaScoreResult = calculateMonicaOptimizationScore(
         [id],
         baseAlchemicalProperties,
-        method.elementalEffect,
+        elementalEffect,
       );
 
       const kProfile = getKineticProfile(id, methodKineticProfile);
@@ -748,7 +751,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const harmony = calculateHarmonyIndex(
         {
           transformedESMS,
-          elementalEffect: method.elementalEffect,
+          elementalEffect,
           thermodynamics: methodThermo,
           gregsEnergy,
           kalchm,
@@ -768,6 +771,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       return [{
         id, ...method,
+        elementalEffect,
         alchemicalProperties: transformedESMS,
         baseESMS,
         pillar,

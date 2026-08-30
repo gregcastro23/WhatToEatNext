@@ -20,13 +20,13 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
 };
 
 /**
- * Default alchemical values with standard distribution
+ * Default alchemical values with balanced neutral distribution (0.25 across all 4 axes)
  */
 export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {
-  Spirit: 0.29,
-  Essence: 0.28,
-  Matter: 0.21,
-  Substance: 0.22,
+  Spirit: 0.25,
+  Essence: 0.25,
+  Matter: 0.25,
+  Substance: 0.25,
 };
 
 /**
