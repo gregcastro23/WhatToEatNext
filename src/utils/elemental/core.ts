@@ -122,7 +122,7 @@ export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> =
 export function validateElementalProperties(
   properties: ElementalProperties,
 ): boolean {
-  if (!properties || typeof properties !== "object") {
+  if (typeof properties !== "object") {
     return false;
   }
 
@@ -190,7 +190,7 @@ export function calculateDominantElement(
 ): keyof ElementalProperties {
   let dominantElement: keyof ElementalProperties = "Fire";
   let maxValue = 0;
-  Object.entries(elementalState || {}).forEach(([element, value]) => {
+  Object.entries(elementalState).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value;
       dominantElement = element;
@@ -210,10 +210,10 @@ export function getElementalColor(
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = "text",
 ): string {
-  if (!element || !ELEMENTAL_COLORS[element]) {
+  if (!element || !(element in ELEMENTAL_COLORS)) {
     return ELEMENTAL_COLORS.Fire[type]; // Default to Fire
   }
-  return ELEMENTAL_COLORS[element][type];
+  return ELEMENTAL_COLORS[element as Element][type];
 }
 
 /**
@@ -233,40 +233,34 @@ export function getElementalSymbol(element: keyof ElementalProperties): string {
 export function getElementalDescription(
   element: keyof ElementalProperties,
 ): string {
-  return ELEMENTAL_DESCRIPTIONS[element] || "Energizing and transformative";
+  return (
+    ELEMENTAL_DESCRIPTIONS[element] ||
+    "Dynamic and transformative elemental energy"
+  );
 }
 
 /**
- * Calculate elemental compatibility between two elements
- * @param element1 First element
- * @param element2 Second element
- * @returns Compatibility description
+ * Calculate basic elemental compatibility between two elements
+ * Following elemental principles: like reinforces like (no oppositions)
+ * @param a First element
+ * @param b Second element
+ * @returns Compatibility score (0-1)
  */
-export function getElementalCompatibility(
-  element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties,
-): "highly-compatible" | "compatible" | "neutral" {
-  // Same element has highest compatibility
-  if (element1 === element2) {
-    return "highly-compatible";
-  }
-
-  // All different element combinations have good compatibility
-  return "compatible";
+export function getElementalCompatibility(a: Element, b: Element): number {
+  return calculateElementalCompatibility(a, b);
 }
 
 /**
- * Calculate numerical elemental compatibility score
- * @param element1 First element
- * @param element2 Second element
+ * Calculate elemental compatibility (following elemental principles)
+ * @param a First element
+ * @param b Second element
  * @returns Compatibility score (0-1)
  */
 export function calculateElementalCompatibility(
-  element1: Element,
-  element2: Element,
+  a: Element,
+  b: Element,
 ): number {
-  // Following the elemental principles: all elements work well together
-  if (element1 === element2) {
+  if (a === b) {
     return 0.9; // Same element has highest compatibility
   }
 
@@ -280,10 +274,10 @@ export function calculateElementalCompatibility(
  * @param userElemental User elemental properties
  * @returns Detailed compatibility analysis
  */
-export async function calculateDetailalCompatibility(
+export function calculateDetailalCompatibility(
   recipeElemental: ElementalProperties,
   userElemental?: ElementalProperties,
-): Promise<ElementalCompatibility> {
+): ElementalCompatibility {
   const userProps = userElemental ?? {
     Fire: 0.25,
     Water: 0.25,
@@ -393,7 +387,7 @@ export function calculateElementalState(
   }
 
   // Calculate from ingredients if available
-  if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+  if (Array.isArray(recipe.ingredients)) {
     return calculateElementalStateFromIngredients(recipe.ingredients);
   }
 
@@ -412,7 +406,7 @@ function calculateElementalStateFromIngredients(
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
-  (ingredients || []).forEach((ingredient) => {
+  ingredients.forEach((ingredient) => {
     const category = ingredient.category?.toLowerCase() ?? "";
     const amount = Number(ingredient.amount) || 1; // Explicitly cast to Number
 
@@ -437,7 +431,7 @@ function calculateElementalStateFromIngredients(
     }
 
     // Add weighted contribution
-    Object.keys(elementContribution || {}).forEach((element) => {
+    Object.keys(elementContribution).forEach((element) => {
       elementalState[element as "Fire" | "Water" | "Earth" | "Air"] +=
         elementContribution[element as "Fire" | "Water" | "Earth" | "Air"] *
         amount;
@@ -448,7 +442,7 @@ function calculateElementalStateFromIngredients(
 
   // Normalize
   if (totalWeight > 0) {
-    Object.keys(elementalState || {}).forEach((element) => {
+    Object.keys(elementalState).forEach((element) => {
       elementalState[element as "Fire" | "Water" | "Earth" | "Air"] /=
         totalWeight;
     });
@@ -543,13 +537,13 @@ function calculateBalanceScore(
     "Air",
   ];
 
-  (elements || []).forEach((element) => {
+  elements.forEach((element) => {
     const difference = Math.abs(recipeProps[element] - userProps[element]);
     totalDifference += difference;
   });
 
   // Convert difference to balance score (lower difference = higher balance)
-  const averageDifference = totalDifference / (elements || []).length;
+  const averageDifference = totalDifference / elements.length;
   return Math.max(0, 1 - averageDifference);
 }
 
@@ -577,7 +571,7 @@ function generateCompatibilityRecommendation(
  * @returns Default balanced elemental properties
  */
 export async function getDefaultElementalProperties(): Promise<ElementalProperties> {
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  return Promise.resolve({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 }
 
 /**
@@ -595,15 +589,15 @@ export async function standardizeRecipeElements<T>(
   }
 
   // Use safe type casting for property access
-  const recipeData = recipe as any;
+  const recipeData = recipe as { elementalState?: Partial<ElementalProperties> };
   const elementalProperties = recipeData.elementalState
     ? normalizeProperties(recipeData.elementalState)
     : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
-  return {
+  return Promise.resolve({
     ...recipe,
     elementalProperties,
-  };
+  });
 }
 
 export default {

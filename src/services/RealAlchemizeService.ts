@@ -35,14 +35,16 @@ function computeDominantModality(
     Fixed: 0,
     Mutable: 0,
   };
-  for (const pos of Object.values(positions || {})) {
-    const modality = SIGN_MODALITY[(pos?.sign ?? "").toLowerCase()];
-    if (modality) tally[modality] += 1;
+  for (const pos of Object.values(positions)) {
+    const signKey = (pos.sign ?? "").toLowerCase();
+    if (signKey in SIGN_MODALITY) {
+      tally[SIGN_MODALITY[signKey]] += 1;
+    }
   }
   const [top] = (
     Object.entries(tally) as Array<["Cardinal" | "Fixed" | "Mutable", number]>
   ).sort((a, b) => b[1] - a[1]);
-  return top && top[1] > 0 ? top[0] : "Cardinal";
+  return top[1] > 0 ? top[0] : "Cardinal";
 }
 
 // REMOVED (ADR-009 decision 5): this module's PRIVATE copy of
@@ -68,15 +70,10 @@ function computeDominantModality(
  * carry no planetaryAlchemy/dignity entry and must not seed Layer-3 aspects.
  *
  * Matched case- and whitespace-insensitively. The Swiss-Ephemeris backend and
- * the local astronomy-engine fallback disagree on spelling for the very same
- * body ("North Node" vs "NorthNode"), and a literal `===` list silently
- * admits whichever spelling it forgets to list. That happened here: "South
- * Node" was excluded but "North Node" was not, so whenever backend positions
- * were live, node aspects leaked into Layer 3 for one node but not the other.
- * Normalizing closes this gap and any future one in the same shape, rather
- * than chasing spellings one at a time.
+ * the static backup use slightly different casing/spacing for node and angle
+ * names, so we strip both before matching.
  */
-const EXCLUDED_ASPECT_BODIES = new Set([
+const EXCLUDED_ASPECT_BODIES = new Set<string>([
   "northnode",
   "southnode",
   "truenode",
@@ -139,9 +136,10 @@ export interface StandardizedAlchemicalResult {
     isDiurnal: boolean;
   };
   /**
-   * Present only when the result is not fully live — e.g. positions fell back to
-   * interpolated/static data, or monica fell back to its equilibrium value (φ).
-   * Absent on healthy results so existing consumers are unaffected.
+   * Non-null when this result was produced under degraded conditions:
+   *   - "stale-positions": static fallback positions were used instead of live ephemeris
+   *   - "monica-degenerate": ln(kalchm) ≈ 0, so monica collapsed to the φ fallback
+   *   - "single-point-gradient": gradient calculated from only 1 moment
    */
   degraded?: DegradedInfo;
 }
@@ -152,7 +150,7 @@ function toCanonicalESMSPositions(
   const positions: AlchemicalPlanetPositions = {};
   for (const [planet, position] of Object.entries(planetaryPositions)) {
     if (isExcludedAspectBody(planet)) continue;
-    const sign = String(position.sign ?? "");
+    const sign = String(position.sign);
     positions[planet] = {
       sign,
       degree: position.degree,
@@ -292,7 +290,7 @@ export function alchemize(
     // Sectarian element: the planet's own elemental nature under the current sect.
     const sectElement = getPlanetarySectElement(canonicalPlanet, diurnal);
     // Apply both weights (total weight per planet remains 1.0)
-    const addElement = (el: string, weight: number) => {
+    const addElement = (el: string, weight: number): void => {
       if (el === "Fire") totals.Fire += weight;
       else if (el === "Water") totals.Water += weight;
       else if (el === "Air") totals.Air += weight;
@@ -404,6 +402,7 @@ export function alchemize(
       (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20,
     ),
   );
+  const sunPos = planetaryPositions["Sun"] as PlanetaryPosition | undefined;
   return {
     elementalProperties: {
       Fire: Fire / Math.max(1, Fire + Water + Air + Earth),
@@ -428,8 +427,8 @@ export function alchemize(
       source: "alchemize",
       dominantElement,
       dominantModality: computeDominantModality(planetaryPositions),
-      sunSign: planetaryPositions["Sun"]?.sign ?? "",
-      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign ?? "aries"),
+      sunSign: sunPos?.sign ?? "",
+      chartRuler: getZodiacElement(sunPos?.sign ?? "aries"),
       isDiurnal: diurnal,
     },
     ...(degraded ? { degraded } : {}),
@@ -522,7 +521,7 @@ export function alchemizeDetailed(
     const signElement = getZodiacElement(position.sign);
     const sectElement = getPlanetarySectElement(canonicalPlanet, diurnal);
     const planetElements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const addElement = (el: string, weight: number) => {
+    const addElement = (el: string, weight: number): void => {
       if (el === "Fire") {
         totals.Fire += weight;
         planetElements.Fire += weight;
@@ -540,6 +539,8 @@ export function alchemizeDetailed(
     addElement(signElement, SIGN_WEIGHT);
     addElement(sectElement, SECT_WEIGHT);
 
+    // Momentum Calculation: (Current Longitude - Historical Longitude) * Mass
+    // Using decimalDegrees for arc-minute precise difference.
     if (historicalPositions?.[planet]) {
       const histPos = historicalPositions[planet];
       let delta =
@@ -555,7 +556,7 @@ export function alchemizeDetailed(
     perPlanet[canonicalPlanet] = {
       esms: contribution.esms,
       elements: planetElements,
-      sign: String(position.sign ?? "").toLowerCase(),
+      sign: String(position.sign).toLowerCase(),
       signElement,
       sectElement,
       alchmWeight: contribution.alchmWeight,
@@ -586,13 +587,11 @@ export function alchemizeDetailed(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
-  // Canonical (Matter + Earth)² form — see the alchemize() site above and §14a.
+  // Canonical (Matter + Earth)² form — see §14a.
   const reactivity =
     reactivityNum / Math.max(Math.pow(Matter + Earth, 2), 0.01);
   const gregsEnergy = heat - entropy * reactivity;
-  // Kalchm via THE canonical engine (second of the two sites in this file;
-  // mirrors alchemize() above, which is exactly why neither should hold its own
-  // copy of the formula).
+  // Kalchm via THE canonical engine (first of the two sites in this file).
   const kalchm = calculateKalchm({ Spirit, Essence, Matter, Substance });
   // Monica via the canonical engine (§17c): always finite, and returns φ at the
   // equilibrium point (kalchm ≈ 1) instead of the old 1.0 placeholder. The
@@ -616,6 +615,7 @@ export function alchemizeDetailed(
   );
   const elementalSum = Math.max(1, Fire + Water + Air + Earth);
 
+  const sunPos = planetaryPositions["Sun"] as PlanetaryPosition | undefined;
   return {
     elementalProperties: {
       Fire: Fire / elementalSum,
@@ -635,8 +635,8 @@ export function alchemizeDetailed(
       source: "alchemizeDetailed",
       dominantElement,
       dominantModality: computeDominantModality(planetaryPositions),
-      sunSign: planetaryPositions["Sun"]?.sign ?? "",
-      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign ?? "aries"),
+      sunSign: sunPos?.sign ?? "",
+      chartRuler: getZodiacElement(sunPos?.sign ?? "aries"),
       isDiurnal: diurnal,
     },
     perPlanet,
@@ -675,7 +675,7 @@ export function loadPlanetaryPositionsWithMeta(): {
     // Convert to the format expected by alchemize
     const convertedPositions: Record<string, PlanetaryPosition> = {};
     for (const [planetName, planetData] of Object.entries(positions)) {
-      if (planetData && typeof planetData === "object") {
+      if (typeof planetData === "object") {
         convertedPositions[planetName] = {
           sign: normalizeSign(String(planetData.sign ?? "")),
           degree: Number(planetData.degree) || 0,
@@ -696,7 +696,7 @@ export function loadPlanetaryPositionsWithMeta(): {
       const convertedPositions: Record<string, PlanetaryPosition> = {};
       for (const [planetName, planetData] of Object.entries(accurate)) {
         convertedPositions[planetName] = {
-          sign: normalizeSign(String(planetData.sign || "")),
+          sign: normalizeSign(String(planetData.sign)),
           degree: Math.floor(planetData.degree),
           minute: Math.floor((planetData.degree - Math.floor(planetData.degree)) * 60),
           isRetrograde: planetData.isRetrograde,
