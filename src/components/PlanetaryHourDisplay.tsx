@@ -36,7 +36,7 @@ const PLANET_SYMBOLS = {
 export function PlanetaryHourDisplay({
   showDetails = true,
   className = "",
-}: PlanetaryHourProps) {
+}: PlanetaryHourProps): React.JSX.Element {
   const [currentTime, setCurrentTime] = React.useState(new Date());
   const [planetaryData, setPlanetaryData] = React.useState({
     currentPlanet: "Sun" as keyof typeof PLANET_COLORS,
@@ -47,7 +47,10 @@ export function PlanetaryHourDisplay({
   });
 
   // Mock WebSocket hook
-  const useAlchmWebSocket = () => ({
+  const useAlchmWebSocket = (): {
+    isConnected: boolean;
+    lastPlanetaryHour: null;
+  } => ({
     isConnected: false,
     lastPlanetaryHour: null,
   });
@@ -60,7 +63,7 @@ export function PlanetaryHourDisplay({
       setCurrentTime(new Date());
     }, 60000);
 
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, []);
 
   // Update planetary data when WebSocket data arrives
@@ -101,7 +104,11 @@ export function PlanetaryHourDisplay({
     return `${remainingMinutes}m`;
   };
 
-  const getCurrentPlanetInfo = () => {
+  const getCurrentPlanetInfo = (): {
+    name: keyof typeof PLANET_COLORS;
+    symbol: string;
+    color: string;
+  } => {
     const planet = planetaryData.currentPlanet;
     return {
       name: planet,
@@ -110,7 +117,11 @@ export function PlanetaryHourDisplay({
     };
   };
 
-  const getNextPlanetInfo = () => {
+  const getNextPlanetInfo = (): {
+    name: keyof typeof PLANET_COLORS;
+    symbol: string;
+    color: string;
+  } => {
     const planet = planetaryData.nextPlanet;
     return {
       name: planet,

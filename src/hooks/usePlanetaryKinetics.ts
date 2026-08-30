@@ -253,7 +253,7 @@ export function usePlanetaryKinetics(
     if (!enableAutoUpdate) return;
 
     const interval = setInterval(() => void refreshKinetics(), updateInterval);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, [refreshKinetics, updateInterval, enableAutoUpdate]);
 
   // Computed values

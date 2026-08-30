@@ -24,7 +24,7 @@ interface QuickFoodInputProps {
     price?: number,
     store?: string,
     quality?: string,
-  ) => Promise<any>;
+  ) => Promise<unknown>;
   onSearch: (query: string) => Promise<FoodSearchResult[]>;
   selectedDate: Date;
   isLoading?: boolean;
@@ -57,7 +57,7 @@ export default function QuickFoodInput({
   onSearch,
   selectedDate,
   isLoading = false,
-}: QuickFoodInputProps) {
+}: QuickFoodInputProps): React.JSX.Element {
   const [selectedCategory, setSelectedCategory] = useState<
     QuickFoodCategory | "all"
   >("all");
@@ -70,8 +70,8 @@ export default function QuickFoodInput({
   );
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState<string>("");
-  const [store, setStore] = useState("");
-  const [quality, setQuality] = useState("");
+  const [store, setStore] = useState<string>("");
+  const [quality, setQuality] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState(false);
 
   const filteredPresets = useMemo(() => {
@@ -84,7 +84,7 @@ export default function QuickFoodInput({
     return Array.from(cats);
   }, [presets]);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (query: string): Promise<void> => {
     setSearchQuery(query);
     if (query.length >= 2) {
       setIsSearching(true);
@@ -96,7 +96,7 @@ export default function QuickFoodInput({
     }
   };
 
-  const handleSelectFood = (preset: QuickFoodPreset) => {
+  const handleSelectFood = (preset: QuickFoodPreset): void => {
     setSelectedFood(preset);
     setQuantity(1);
     setPrice("");
@@ -105,7 +105,7 @@ export default function QuickFoodInput({
     setShowAddModal(true);
   };
 
-  const handleAddFood = async () => {
+  const handleAddFood = async (): Promise<void> => {
     if (!selectedFood) return;
 
     await onAddFood(

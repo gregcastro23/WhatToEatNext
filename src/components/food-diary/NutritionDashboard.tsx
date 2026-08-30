@@ -52,7 +52,7 @@ export default function NutritionDashboard({
   stats,
   insights,
   onRefreshInsights,
-}: NutritionDashboardProps) {
+}: NutritionDashboardProps): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<
     "today" | "week" | "trends" | "insights"
   >("today");
@@ -595,7 +595,7 @@ function NutrientBar({
   unit: string;
   color: string;
   inverse?: boolean;
-}) {
+}): React.JSX.Element {
   const percentage = Math.min((value / max) * 100, 100);
   const isOver = value > max;
 
@@ -629,7 +629,7 @@ function NutrientBar({
 /**
  * Insight card component
  */
-function InsightCard({ insight }: { insight: FoodInsight }) {
+function InsightCard({ insight }: { insight: FoodInsight }): React.JSX.Element {
   const priorityColors = {
     high: "border-red-200 bg-red-50",
     medium: "border-amber-200 bg-amber-50",
