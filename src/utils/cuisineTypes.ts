@@ -558,10 +558,10 @@ export function getCuisineCompatibilityRecommendations(
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),
-      _ingredientMatches: getCommonIngredients(cuisine, targetCuisine),
-      _regionalVariations: getRegionalVariations(cuisine, targetCuisine),
+      ingredientMatches: getCommonIngredients(cuisine, targetCuisine),
+      regionalVariations: getRegionalVariations(cuisine, targetCuisine),
     }))
-    .sort((a, b) => b.score - a.score) as any;
+    .sort((a, b) => b.score - a.score);
 }
 
 /**
