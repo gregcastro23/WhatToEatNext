@@ -12,6 +12,7 @@ import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { resolveAgentsBridgeUser } from "@/lib/auth/agentsBridge";
 import { UserRole } from "@/lib/auth/roles";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import { _logger } from "@/lib/logger";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -73,11 +74,9 @@ function getJWTSecret(): Uint8Array {
   if (_jwtSecret) return _jwtSecret;
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        "JWT_SECRET environment variable is not set. This may cause authentication issues in development/preview environments.",
-      );
-    }
+    _logger.error(
+      "JWT_SECRET environment variable is not set. This may cause authentication issues in development/preview environments.",
+    );
     // Return a dummy secret to prevent immediate crash if not required
     return new TextEncoder().encode("dummy-secret-not-for-production");
   }
@@ -205,7 +204,8 @@ export async function validateRequest(
       // Passing the request object does NOT work reliably in NextAuth v5 beta.
       const session = await auth();
       if (session?.user) {
-        const sessionRole = (session.user as any).role ?? "user";
+        const sessionUser = session.user as { role?: unknown };
+        const sessionRole = typeof sessionUser.role === "string" ? sessionUser.role : "user";
         const roles =
           sessionRole === "admin" ? ["admin", "user"] : ["user"];
         return {
@@ -222,7 +222,7 @@ export async function validateRequest(
       }
     }
   } catch (err) {
-    console.error(`[validateRequest] NextAuth session check failed for ${request.nextUrl.pathname}:`, err);
+    _logger.error(`[validateRequest] NextAuth session check failed for ${request.nextUrl.pathname}:`, err);
     // NextAuth session check failed, fall through to JWT
   }
 
@@ -319,7 +319,7 @@ export async function getUserIdFromRequest(
             }
           }
         } catch (dbError) {
-          console.error("[getUserIdFromRequest] Database resolution failed:", dbError);
+          _logger.error("[getUserIdFromRequest] Database resolution failed:", dbError);
           // Continue to edge/no-DB fallback
         }
 
@@ -330,7 +330,7 @@ export async function getUserIdFromRequest(
       }
     }
   } catch (err) {
-    console.error(`[getUserIdFromRequest] NextAuth error for ${request.nextUrl.pathname}:`, err);
+    _logger.error(`[getUserIdFromRequest] NextAuth error for ${request.nextUrl.pathname}:`, err);
   }
 
   // Try token
@@ -360,7 +360,7 @@ export async function getUserIdFromRequest(
       }
     }
   } catch (err) {
-    console.error(
+    _logger.error(
       `[getUserIdFromRequest] agents bridge failed for ${request.nextUrl.pathname}:`,
       err,
     );
@@ -380,11 +380,11 @@ export async function getDatabaseUserFromRequest(
   applyRequestAuthOrigin(request);
 
   const userId = await getUserIdFromRequest(request);
-  let user: any = null;
+  let user: UserWithProfile | null = null;
 
   const userDb = await getUserDatabase();
   if (!userDb) {
-    console.warn("[getDatabaseUserFromRequest] userDatabase unavailable");
+    _logger.error("[getDatabaseUserFromRequest] userDatabase unavailable");
     return null;
   }
 
@@ -398,15 +398,15 @@ export async function getDatabaseUserFromRequest(
       const auth = await getAuth();
       if (auth) {
         const session = await auth();
-        if (session?.user?.email) {
+        if (session?.user.email) {
           try {
             user = await userDb.getUserByEmail(session.user.email);
           } catch (lookupError) {
-            console.warn("[getDatabaseUserFromRequest] Database lookup failed, attempting JIT creation:", lookupError);
+            _logger.error("[getDatabaseUserFromRequest] Database lookup failed, attempting JIT creation:", lookupError);
           }
 
           if (!user) {
-            console.warn("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing or lookup failed in Postgres. JIT healing sequence initiated.", { path: request.nextUrl.pathname, email: session.user.email });
+            _logger.error("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing or lookup failed in Postgres. JIT healing sequence initiated.", { path: request.nextUrl.pathname, email: session.user.email });
             try {
               user = await userDb.createUser({
                 email: session.user.email,
@@ -417,19 +417,19 @@ export async function getDatabaseUserFromRequest(
             } catch (createError) {
               // Re-throw so the calling route can return 503 instead of silently
               // proceeding with a null user, which would produce a misleading 401.
-              console.error("[getDatabaseUserFromRequest] JIT creation failed — DB unavailable:", { path: request.nextUrl.pathname, email: session.user.email, error: createError instanceof Error ? createError.message : String(createError) });
+              _logger.error("[getDatabaseUserFromRequest] JIT creation failed — DB unavailable:", { path: request.nextUrl.pathname, email: session.user.email, error: createError instanceof Error ? createError.message : String(createError) });
               throw createError;
             }
           }
         }
       }
     } catch (err) {
-      console.error("[getDatabaseUserFromRequest] Auth session check failed:", err);
+      _logger.error("[getDatabaseUserFromRequest] Auth session check failed:", err);
     }
   }
 
   if (!user) {
-    console.warn(`[getDatabaseUserFromRequest] Failed to resolve user for ${request.nextUrl.pathname}`);
+    _logger.error(`[getDatabaseUserFromRequest] Failed to resolve user for ${request.nextUrl.pathname}`);
   }
 
   return user;
