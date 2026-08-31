@@ -141,6 +141,40 @@ lint hits plus an unknown number of real bugs sit downstream of that one flag.
 
 Approved shape: **allowlist ratchet gate + risk-first first tranche.**
 
+### 2.0 Start here — session order
+
+Do these in order. Steps 1 and 2 are unfinished business from Phase 12 and both
+must complete **before** any gate code is written.
+
+1. **Push the five local commits.** `6bbd157a`, `0d849e32`, `df458a09`,
+   `1d5afd04`, `8755b284` are **local only** — verified against the network,
+   `origin/feat/phase-11-as-any-eradication` is still at `920987b3`. This repo
+   has 158 branches that exist on one disk only; secure the verified baseline
+   before opening any new work. Push, then confirm with
+   `git ls-remote origin refs/heads/feat/phase-11-as-any-eradication` — the
+   remote-tracking ref alone is not evidence (it can be stale, and
+   `git branch -r --contains` prints nothing rather than failing loudly).
+
+2. **Trap the ghost writer.** Do not delete the 19 duplicate files until the
+   process that creates them is named. In a dedicated pane:
+
+   ```bash
+   sudo fs_usage -w -f filesys | grep -i ' 2\.ts'
+   ```
+
+   Then edit and save several files under `src/` to provoke it, and capture the
+   **PID and process name**. Expect one of three verdicts, each with a different
+   fix: an iCloud/sync daemon (fix system config — move the checkout out of the
+   synced folder), a local file watcher (fix editor/tooling config), or a repo
+   codegen script (patch the script). ⚠️ `fs_usage` needs `sudo` and emits a
+   great deal of traffic; the grep is essential. If nothing appears, the writer
+   may not be running — try provoking it the way Phase 12 did, by editing files
+   that already have duplicates. **Only after the writer is named** should the
+   19 files be deleted, otherwise the symptom clears and the cause remains.
+
+3. Build the gate (§2.2), instrument-only, its own commit, per Rule 1.
+4. Burn down tranche 1 (§2.3) in separate commits.
+
 ### 2.1 Reproduce the probe
 
 `noUncheckedIndexedAccess` is **program-wide** — TypeScript cannot enable it for
@@ -188,8 +222,22 @@ Concentration: **60 files carry 50%; 176 carry 80%.**
    `noUncheckedIndexedAccess: true`, `noEmit: true`. Main `tsconfig.json` and
    `bun run typecheck` are **not** touched, so nothing breaks today.
 2. **`.strict-index-baseline.json`** — `{ total: 2336, files: 433, allowlist: [] }`.
-3. **`scripts/checkStrictIndex.ts`** — runs tsc against that config, parses with
-   the two rules above, then:
+3. **`scripts/checkStrictIndex.ts`** — drives the TypeScript compiler API
+   directly: read the base `tsconfig.json` via `ts.readConfigFile` +
+   `ts.parseJsonConfigFileContent`, then **force-override**
+   `noUncheckedIndexedAccess: true` on the resulting `options` before
+   `ts.createProgram`. Do not rely on `extends` at runtime — overriding the
+   parsed options is what keeps the probe and the gate provably identical.
+   ⚠️ Load `typescript` with bare `require`, never `import`: `import` resolves
+   to an unrelated copy under bun (its global cache, 7.0.2 not the repo's
+   5.9.3), and `createRequire(import.meta.url)` is a *syntax error* under
+   ts-jest, which compiles `scripts/lib/**` to CJS. This already bit the
+   assertion-site scanner.
+
+   Collect diagnostics with `getPreEmitDiagnostics`, resolve each to a
+   repo-relative path from `diagnostic.file.fileName` (the structured field —
+   **prefer it over re-parsing formatted text**; only the text path needs the
+   Rule 11 last-paren and multi-line handling). Then:
    - **hard gate:** any error in an **allowlisted** file → fail;
    - **ratchet:** `total > baseline.total` → fail;
    - auto-ratchet the baseline down when the total drops, mirroring
@@ -222,9 +270,23 @@ number* instead of a crash — everywhere else it throws or renders nothing.
 Full list: rerun §2.1 and filter to
 `^src/(calculations|lib/alchemical|lib/wasm|lib/cooking|lib/celestial|data/unified|utils/astrolog|utils/elemental|utils/alchemical)`.
 
-**This tranche is exactly the code the witness gates cover.** Every commit must
-hold 100% snapshot parity and 12/12 + 3/3 sensitivity — that is the strongest
-correctness signal available anywhere in this repo, and it is free here.
+**This tranche is exactly the code the 15 witness gates cover** (12 load + 3
+perturbation). Every commit must hold 100% snapshot parity and 12/12 + 3/3 —
+that is the strongest correctness signal available anywhere in this repo, and it
+is free here. Per Rule 6, a parity break is fixed in implementation code; the
+golden fixture is never regenerated.
+
+**Remediation doctrine for this tranche.** When mapping planetary positions to
+continuous thermodynamic properties, an `undefined` index read is not noise — it
+means a real gap in the ephemeris data or the coordinate model, and it is
+load-bearing information. Resolve each one by **tightening the upstream type**
+(make the map total, or make the accessor return `T | undefined` and force the
+caller to decide) or by an **explicit algebraic bounds check that throws or
+returns a typed failure**. Never coerce a fallback. A defaulted body silently
+produces a *plausible wrong number* that every downstream gate will accept — the
+`?? 0` that faked 710/710 longitudes is precisely this edit. If a value truly
+has no defensible default, the correct outcome is a thrown error naming the
+missing body, not a substituted one.
 
 ### 2.4 Loose ends carried into Phase 13
 
@@ -289,8 +351,10 @@ Rules 1–8 carry forward from Phase 12 unchanged. 9–13 are new, each earned.
 9. **Never fix a `noUncheckedIndexedAccess` error with `!` or `?? 0`.** Both
    re-hide the exact state the flag exposed and reintroduce the fabricated-value
    failure class. Use a real guard, an early return, or a typed accessor that
-   returns `T | undefined` and forces the caller to decide. **A tranche whose
-   diff is mostly `!` has done negative work.**
+   returns `T | undefined` and forces the caller to decide. In ESMS/physics
+   code specifically, prefer a throw that names the missing body over any
+   substituted value — see the remediation doctrine in §2.3.
+   **A tranche whose diff is mostly `!` has done negative work.**
 10. **`tsc` clean is necessary, not sufficient.** Every remediation batch needs
     the per-rule lint delta too — Phase 12 had three files typecheck clean while
     leaking `any` (+21 unsafe-* hits).
