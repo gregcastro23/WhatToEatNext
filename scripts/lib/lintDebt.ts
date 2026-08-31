@@ -146,6 +146,20 @@ export interface FileCastDebt {
   isTest: boolean;
 }
 
+/**
+ * Editor/sync duplicates — `foo 2.ts`, `bar 3.tsx`, `mechanics 2/page.tsx` —
+ * are excluded by tsconfig (its "* 2.*" and "* 2/" exclude patterns) and by
+ * .gitignore, so they are never compiled and never shipped. They still sit on
+ * disk, and a scanner that walks the filesystem counts their casts, which makes
+ * the debt numbers depend on local Finder/sync cruft rather than on the
+ * repository. Skip them so the gate measures the same source everywhere.
+ */
+export function isDuplicateArtifactPath(relativePath: string): boolean {
+  return relativePath
+    .split(path.sep)
+    .some((segment) => / \d+(\.[^.]+)*$/.test(segment));
+}
+
 export function stripComments(code: string): string {
   return code.replace(
     /("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\/\*[\s\S]*?\*\/|\/\/[^\r\n]*)/g,
@@ -168,7 +182,10 @@ export function scanFileCasts(
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         walk(fullPath);
-      } else if (/\.(ts|tsx|mts|cts|js|jsx)$/.test(entry.name)) {
+      } else if (
+        /\.(ts|tsx|mts|cts|js|jsx)$/.test(entry.name) &&
+        !isDuplicateArtifactPath(path.relative(targetDir, fullPath))
+      ) {
         filePaths.push(fullPath);
       }
     }
@@ -366,7 +383,10 @@ export function scanAssertionSites(
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         walk(fullPath);
-      } else if (/\.(ts|tsx|mts|cts|js|jsx)$/.test(entry.name)) {
+      } else if (
+        /\.(ts|tsx|mts|cts|js|jsx)$/.test(entry.name) &&
+        !isDuplicateArtifactPath(path.relative(targetDir, fullPath))
+      ) {
         filePaths.push(fullPath);
       }
     }

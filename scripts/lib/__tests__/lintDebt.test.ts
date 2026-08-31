@@ -8,6 +8,7 @@ import {
   countAssertionSitesInSource,
   countTypeCasts,
   findPerRuleRegressions,
+  isDuplicateArtifactPath,
   scanAssertionSites,
 } from "../lintDebt";
 
@@ -355,5 +356,22 @@ describe("scanAssertionSites", () => {
     expect(sites.summary.total).toBe(
       sites.summary.production + sites.summary.test,
     );
+  });
+});
+
+describe("isDuplicateArtifactPath", () => {
+  it("skips Finder/sync duplicates that tsconfig and .gitignore already exclude", () => {
+    expect(isDuplicateArtifactPath("services/AstrologicalService 2.ts")).toBe(true);
+    expect(isDuplicateArtifactPath("calculations/culinaryAstrology 3.ts")).toBe(true);
+    expect(isDuplicateArtifactPath("lib/auth/auth 2.config.ts")).toBe(true);
+    expect(isDuplicateArtifactPath("app/celestial-lab/mechanics 2/page.tsx")).toBe(true);
+  });
+
+  it("keeps real source files, including names that merely contain digits", () => {
+    expect(isDuplicateArtifactPath("services/AstrologicalService.ts")).toBe(false);
+    expect(isDuplicateArtifactPath("utils/base64.ts")).toBe(false);
+    expect(isDuplicateArtifactPath("components/Panel2.tsx")).toBe(false);
+    expect(isDuplicateArtifactPath("app/api/v2/route.ts")).toBe(false);
+    expect(isDuplicateArtifactPath("__tests__/phase7BatchEComponents.test.tsx")).toBe(false);
   });
 });
