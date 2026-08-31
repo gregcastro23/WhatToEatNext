@@ -93,7 +93,7 @@ export function countDiagnosticsFromText(
  */
 export function runStrictIndexCheck(
   repoRoot: string,
-  configFileName: string = "tsconfig.json",
+  configFileName: string = "tsconfig.strict-index.json",
 ): StrictIndexSummary {
   const configPath = path.resolve(repoRoot, configFileName);
   const readResult = ts.readConfigFile(configPath, ts.sys.readFile);

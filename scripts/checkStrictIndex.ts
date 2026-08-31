@@ -16,7 +16,7 @@ const baselineRaw = await readFile(baselinePath, "utf8");
 const baseline = strictIndexBaselineSchema.parse(JSON.parse(baselineRaw));
 
 console.log("Running noUncheckedIndexedAccess strict index check...");
-const summary = runStrictIndexCheck(repoRoot, "tsconfig.json");
+const summary = runStrictIndexCheck(repoRoot, "tsconfig.strict-index.json");
 
 console.log(`\n=== STRICT INDEX ERRORS: ${summary.total} total across ${summary.files} files ===`);
 console.log(`Baseline: ${baseline.total} total errors across ${baseline.files} files (${baseline.allowlist.length} allowlisted)`);

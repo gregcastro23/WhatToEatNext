@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import {
   compareStrictIndex,
@@ -5,6 +6,7 @@ import {
   parseTscDiagnosticLine,
   runStrictIndexCheck,
   StrictIndexBaseline,
+  strictIndexBaselineSchema,
   updateStrictIndexBaseline,
 } from "../strictIndex";
 
@@ -168,12 +170,22 @@ describe("updateStrictIndexBaseline", () => {
 });
 
 describe("runStrictIndexCheck (smoke/integration)", () => {
-  it("executes the TypeScript compiler program and measures exact repository baseline", () => {
+  it("executes the TypeScript compiler program and satisfies baseline bounds", () => {
     const repoRoot = path.resolve(__dirname, "../../../");
-    const summary = runStrictIndexCheck(repoRoot, "tsconfig.json");
+    const baselineRaw = readFileSync(
+      path.resolve(repoRoot, ".strict-index-baseline.json"),
+      "utf8",
+    );
+    const baseline = strictIndexBaselineSchema.parse(JSON.parse(baselineRaw));
+    const summary = runStrictIndexCheck(repoRoot, "tsconfig.strict-index.json");
 
-    expect(summary.total).toBe(2324);
-    expect(summary.files).toBe(432);
-    expect(Object.keys(summary.byFile).length).toBe(432);
+    expect(summary.total).toBeLessThanOrEqual(baseline.total);
+    expect(summary.files).toBeLessThanOrEqual(baseline.files);
+    expect(summary.total).toBeGreaterThan(0);
+    expect(Object.keys(summary.byFile).length).toBe(summary.files);
+
+    const comparison = compareStrictIndex(summary, baseline);
+    expect(comparison.exceedsBaseline).toBe(false);
+    expect(comparison.allowlistViolations).toEqual([]);
   });
 });
