@@ -1,14 +1,19 @@
 {
-  "trackedTotal": 3715,
+  "trackedTotal": 3706,
+  "casts": {
+    "total": 618,
+    "asAny": 186,
+    "asUnknownAs": 432
+  },
   "declined": {
-    "total": 6327,
+    "total": 6323,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1787,
       "@typescript-eslint/explicit-module-boundary-types": 855,
-      "complexity": 354,
+      "complexity": 351,
       "max-depth": 99,
       "max-lines": 659,
-      "max-lines-per-function": 2119,
+      "max-lines-per-function": 2118,
       "no-void": 454
     }
   },
@@ -30,7 +35,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1775,
+      "count": 1766,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -74,7 +79,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 354,
+      "count": 351,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -98,7 +103,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2119,
+      "count": 2118,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -125,10 +130,5 @@
       "count": 0,
       "autoFixable": 0
     }
-  },
-  "casts": {
-    "total": 868,
-    "asAny": 187,
-    "asUnknownAs": 681
   }
 }
