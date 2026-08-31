@@ -1,9 +1,16 @@
 {
-  "total": 2185,
-  "files": 429,
+  "total": 2057,
+  "files": 422,
   "allowlist": [
+    "src/calculations/dignityManifest.ts",
     "src/lib/alchemical-kinetics.ts",
+    "src/lib/celestial-energy-calculator.ts",
     "src/lib/cooking/boundaryNetwork.ts",
-    "src/lib/wasm/thermoEngine.ts"
+    "src/lib/wasm/thermoEngine.ts",
+    "src/utils/alchemicalSampleLookup.ts",
+    "src/utils/astrology/birthChartSignEstimator.ts",
+    "src/utils/astrology/transitValidation.ts",
+    "src/utils/astrology/validation.ts",
+    "src/utils/astrologyUtils.ts"
   ]
 }

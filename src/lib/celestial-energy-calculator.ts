@@ -201,6 +201,9 @@ export class CelestialEnergyCalculator {
       )
 
       const [sample] = alchemicalSample
+      if (!sample) {
+        throw new Error('No alchemical sample available for celestial moment')
+      }
 
       // Calculate planetary degrees
       const planetaryDegrees = this.extractPlanetaryDegrees(horoscope)
@@ -358,8 +361,9 @@ export class CelestialEnergyCalculator {
     let aNumber = Spirit + Matter + Essence + Substance
 
     // Planetary amplifications
-    const sunDegree = this.extractPlanetaryDegrees(horoscope)['Sun']
-    const moonDegree = this.extractPlanetaryDegrees(horoscope)['Moon']
+    const degrees = this.extractPlanetaryDegrees(horoscope)
+    const sunDegree = degrees['Sun'] ?? 0
+    const moonDegree = degrees['Moon'] ?? 0
 
     // Solar amplification (fire principle)
     const solarAmplification = 1 + Math.sin((sunDegree * Math.PI) / 180) * 0.1
@@ -613,12 +617,13 @@ export class CelestialEnergyCalculator {
    * Calculate comprehensive statistics
    */
   private calculateStatistics(moments: CelestialMoment[]): NonNullable<CelestialTimeSeries['statistics']> {
-    if (moments.length === 0) {
+    const [firstMoment] = moments
+    const lastMoment = moments[moments.length - 1]
+    if (!firstMoment || !lastMoment) {
       throw new Error('Cannot calculate statistics for empty moment series')
     }
 
-    const duration =
-      moments[moments.length - 1].timestamp.getTime() - moments[0].timestamp.getTime()
+    const duration = lastMoment.timestamp.getTime() - firstMoment.timestamp.getTime()
 
     // Find peak energy moment
     const peakEnergy = moments.reduce((peak, current) =>
@@ -670,6 +675,13 @@ export class CelestialEnergyCalculator {
 
     const [first] = moments
     const last = moments[moments.length - 1]
+    if (!first || !last) {
+      return {
+        alchemical: 'stable',
+        kinetic: 'stable',
+        consciousness: 'stabilizing',
+      }
+    }
 
     // Alchemical trend
     const alchemicalChange = last.alchemical.A_number - first.alchemical.A_number
@@ -707,30 +719,40 @@ export class CelestialEnergyCalculator {
     // Peak detection
     const peaks = this.findPeaks(moments.map(m => m.alchemical.A_number))
     if (peaks.length > 0) {
-      patterns.push({
-        type: 'A# Peaks',
-        description: `Detected ${peaks.length} significant alchemical peaks`,
-        timeWindow: {
-          start: moments[Math.min(...peaks)].timestamp,
-          end: moments[Math.max(...peaks)].timestamp,
-        },
-        significance: peaks.length / moments.length,
-      })
+      const minPeakIdx = Math.min(...peaks)
+      const maxPeakIdx = Math.max(...peaks)
+      const minPeakMoment = moments[minPeakIdx]
+      const maxPeakMoment = moments[maxPeakIdx]
+      if (minPeakMoment && maxPeakMoment) {
+        patterns.push({
+          type: 'A# Peaks',
+          description: `Detected ${peaks.length} significant alchemical peaks`,
+          timeWindow: {
+            start: minPeakMoment.timestamp,
+            end: maxPeakMoment.timestamp,
+          },
+          significance: peaks.length / moments.length,
+        })
+      }
     }
 
     // Consciousness evolution patterns
     const evolutionPhases = moments.map(m => m.consciousness.evolutionPhase)
     const uniquePhases = [...new Set(evolutionPhases)]
     if (uniquePhases.length > 1) {
-      patterns.push({
-        type: 'Consciousness Evolution',
-        description: `Progression through phases: ${uniquePhases.join(' → ')}`,
-        timeWindow: {
-          start: moments[0].timestamp,
-          end: moments[moments.length - 1].timestamp,
-        },
-        significance: uniquePhases.length / 7, // 7 total phases
-      })
+      const [startMoment] = moments
+      const endMoment = moments[moments.length - 1]
+      if (startMoment && endMoment) {
+        patterns.push({
+          type: 'Consciousness Evolution',
+          description: `Progression through phases: ${uniquePhases.join(' → ')}`,
+          timeWindow: {
+            start: startMoment.timestamp,
+            end: endMoment.timestamp,
+          },
+          significance: uniquePhases.length / 7, // 7 total phases
+        })
+      }
     }
 
     return patterns
@@ -758,7 +780,17 @@ export class CelestialEnergyCalculator {
     const threshold = this.average(values) * 1.2 // 20% above average
 
     for (let i = 1; i < values.length - 1; i++) {
-      if (values[i] > values[i - 1] && values[i] > values[i + 1] && values[i] > threshold) {
+      const vCurr = values[i]
+      const vPrev = values[i - 1]
+      const vNext = values[i + 1]
+      if (
+        vCurr !== undefined &&
+        vPrev !== undefined &&
+        vNext !== undefined &&
+        vCurr > vPrev &&
+        vCurr > vNext &&
+        vCurr > threshold
+      ) {
         peaks.push(i)
       }
     }

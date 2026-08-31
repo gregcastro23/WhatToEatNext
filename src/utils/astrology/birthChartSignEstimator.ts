@@ -317,7 +317,8 @@ function getSignsInRange(centerSign: string, range: number): string[] {
   const center = signIndex(centerSign);
   const signs: string[] = [];
   for (let i = -range; i <= range; i++) {
-    signs.push(ZODIAC_ORDER[((center + i) % 12 + 12) % 12]);
+    const sign = ZODIAC_ORDER[((center + i) % 12 + 12) % 12];
+    if (sign) signs.push(sign);
   }
   return [...new Set(signs)];
 }
@@ -363,13 +364,15 @@ function lookupSignForDate(
       cuspSigns.add(entry.sign);
       // Also add the previous sign (the one ending at this boundary)
       const prevIdx = (signIndex(entry.sign) - 1 + 12) % 12;
-      cuspSigns.add(ZODIAC_ORDER[prevIdx]);
+      const prevSign = ZODIAC_ORDER[prevIdx];
+      if (prevSign) cuspSigns.add(prevSign);
     }
     if (daysBetween(date, end) <= cuspToleranceDays) {
       cuspSigns.add(entry.sign);
       // Also add the next sign
       const nextIdx = (signIndex(entry.sign) + 1) % 12;
-      cuspSigns.add(ZODIAC_ORDER[nextIdx]);
+      const nextSign = ZODIAC_ORDER[nextIdx];
+      if (nextSign) cuspSigns.add(nextSign);
     }
   }
 
@@ -378,7 +381,7 @@ function lookupSignForDate(
 
   return {
     signs: [...allSigns],
-    primarySign: matchingSigns.length > 0 ? matchingSigns[0] : null,
+    primarySign: matchingSigns[0] ?? null,
   };
 }
 
@@ -417,7 +420,7 @@ export function estimateBirthChartSigns(
     // Moon calculation (moves ~13° per day)
     const moonLong = Astronomy.EclipticLongitude(Astronomy.Body.Moon, astroTime);
     const moonSignIndex = Math.floor((((moonLong % 360) + 360) % 360) / 30);
-    const moonSign = ZODIAC_ORDER[moonSignIndex];
+    const moonSign = ZODIAC_ORDER[moonSignIndex] ?? "aries";
     
     estimates.Moon = {
       expectedSign: moonSign,
@@ -432,7 +435,7 @@ export function estimateBirthChartSigns(
       Astronomy.GeoVector(Astronomy.Body.Mars, astroTime, true),
     ).elon;
     const marsSignIndex = Math.floor((((marsLong % 360) + 360) % 360) / 30);
-    const marsSign = ZODIAC_ORDER[marsSignIndex];
+    const marsSign = ZODIAC_ORDER[marsSignIndex] ?? "aries";
     
     estimates.Mars = {
       expectedSign: marsSign,

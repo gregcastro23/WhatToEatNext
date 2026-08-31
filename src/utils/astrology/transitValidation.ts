@@ -248,6 +248,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     for (let i = 0; i < transitPeriods.length - 1; i++) {
       const current = transitPeriods[i];
       const next = transitPeriods[i + 1];
+      if (!current || !next) continue;
 
       // Check for gaps (more than 1 day)
       const daysBetween =

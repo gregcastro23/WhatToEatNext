@@ -208,7 +208,7 @@ export type SignName = (typeof SIGNS)[number]
 const ELEMENT_CYCLE: readonly ZodiacElement[] = ['Fire', 'Earth', 'Air', 'Water']
 
 export function elementOfSign(signIndex: number): ZodiacElement {
-  return ELEMENT_CYCLE[signIndex % 4]
+  return ELEMENT_CYCLE[((signIndex % 4) + 4) % 4] ?? 'Fire'
 }
 
 /**
@@ -336,7 +336,7 @@ const CHALDEAN_START_OFFSET = 2
  */
 const FACE_RULERS: readonly ClassicalPlanet[] = Array.from(
   { length: 36 },
-  (_unused, i) => CHALDEAN_ORDER[(i + CHALDEAN_START_OFFSET) % CHALDEAN_ORDER.length]
+  (_unused, i) => CHALDEAN_ORDER[(i + CHALDEAN_START_OFFSET) % CHALDEAN_ORDER.length] ?? 'Mars'
 )
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -349,7 +349,7 @@ function signIndexOf(sign: SignName): number {
 
 /** The sign 180° away. Detriment opposes domicile; fall opposes exaltation. */
 function opposingSign(sign: SignName): SignName {
-  return SIGNS[(signIndexOf(sign) + 6) % 12]
+  return SIGNS[(signIndexOf(sign) + 6) % 12] ?? 'aries'
 }
 
 /** Signs a planet rules. Mercury and Venus rule two; the outers rule one. */
@@ -398,7 +398,7 @@ export function scoreDignity(
 ): DignityBreakdown {
   const norm = ((longitude % 360) + 360) % 360
   const signIdx = Math.floor(norm / 30)
-  const sign = SIGNS[signIdx]
+  const sign = SIGNS[signIdx] ?? 'aries'
   const degInSign = norm - signIdx * 30
   const element = elementOfSign(signIdx)
 
@@ -456,12 +456,14 @@ export function scoreDignity(
     }
   }
 
+  const [firstComponent] = components
+  const initialBest = firstComponent ? firstComponent.points : 0
   const score =
     components.length === 0
       ? 0
       : aggregation === 'sum'
         ? components.reduce((acc, c) => acc + c.points, 0)
-        : components.reduce((best, c) => (c.points > best ? c.points : best), components[0].points)
+        : components.reduce((best, c) => (c.points > best ? c.points : best), initialBest)
 
   return {
     planet,
@@ -511,6 +513,7 @@ export function buildDignityManifest(
 
   for (let p = 0; p < n; p++) {
     const planet = MANIFEST_PLANETS[p]
+    if (!planet) continue
     for (let d = 0; d < MANIFEST_STRIDE; d++) {
       const i = manifestIndex(p, d)
       const day = scoreDignity(planet, d, 'diurnal', aggregation).multiplier
@@ -710,7 +713,7 @@ export function getDignityMultiplier(
   const p = manifest.planets.indexOf(planet)
   if (p < 0) return 1.0 // unknown body contributes no dignity, rather than a fabricated one
   const plane = sect === 'diurnal' ? manifest.diurnal : manifest.nocturnal
-  return plane[manifestIndex(p, longitude)]
+  return plane[manifestIndex(p, longitude)] ?? 1.0
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
