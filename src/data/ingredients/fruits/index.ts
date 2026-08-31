@@ -27,24 +27,7 @@ export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
 // Export individual categories
 export { berries, citrus, melons, pome, _stoneFruit as stoneFruit, tropical };
 
-/**
- * Local boundary view for the fruit-helper filters below. Captures only the
- * fields these functions actually read off each IngredientMapping value; all
- * optional/unknown because which fields are present varies per fruit entry.
- * `affinities` is intentionally kept even though IngredientMapping doesn't
- * declare it — see findCompatibleFruits (the Array.isArray guard is
- * effectively always false at runtime; preserved, not "fixed").
- */
-interface FruitDataLike {
-  subCategory?: unknown;
-  season?: unknown;
-  preparation?: Record<string, unknown>;
-  affinities?: unknown;
-  astrologicalProfile?: {
-    rulingPlanets?: unknown;
-    elementalAffinity?: string | { base?: unknown };
-  };
-}
+
 
 /**
  * Boundary views for the demonstrateAllFruitSystems / _PHASE_34 summary block
@@ -66,22 +49,16 @@ interface OptimizationResultLike {
 export const getFruitsBySubCategory = (
   subCategory: string,
 ): Record<string, IngredientMapping> =>
-  // ✅ Pattern MM-1: Safe type assertion for subcategory filtering
   Object.entries(fruits)
-    .filter(([_, value]) => {
-      const fruitData = value as unknown as FruitDataLike;
-      return String(fruitData.subCategory ?? "") === subCategory;
-    })
+    .filter(([_, value]) => String(value.subCategory ?? "") === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const getSeasonalFruits = (
   season: string,
 ): Record<string, IngredientMapping> =>
-  // ✅ Pattern MM-1: Safe type assertion for seasonal filtering
   Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as FruitDataLike;
-      const seasonData = fruitData.season;
+      const seasonData = (value as { season?: string[] }).season;
       return (
         Array.isArray(seasonData) && seasonData.includes(season)
       );
@@ -91,22 +68,18 @@ export const getSeasonalFruits = (
 export const getFruitsByPreparation = (
   method: string,
 ): Record<string, IngredientMapping> =>
-  // ✅ Pattern MM-1: Safe type assertion for preparation filtering
   Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as FruitDataLike;
-      const preparationData = fruitData.preparation;
+      const preparationData = (value as { preparation?: Record<string, unknown> }).preparation;
       return preparationData?.[method];
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const findCompatibleFruits = (ingredientName: string): string[] => {
-  // ✅ Pattern MM-1: Safe type assertion for fruit data access
-  const fruit = (fruits as Record<string, unknown>)[ingredientName];
+  const fruit = fruits[ingredientName];
   if (!fruit) return [];
-  const fruitData = fruit as unknown as FruitDataLike;
-  const affinitiesData = fruitData.affinities;
-  return Array.isArray(affinitiesData) ? (affinitiesData as string[]) : [];
+  const affinitiesData = (fruit as { affinities?: string[] }).affinities;
+  return Array.isArray(affinitiesData) ? affinitiesData : [];
 };
 
 // Types
@@ -137,15 +110,12 @@ export interface FruitAstrologicalProfile {
 export const getFruitsByRulingPlanet = (
   planet: string,
 ): Record<string, IngredientMapping> =>
-  // ✅ Pattern MM-1: Safe type assertion for astrological filtering
   Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as FruitDataLike;
-      const rulingPlanets =
-        fruitData.astrologicalProfile?.rulingPlanets;
+      const rulingPlanets = value.astrologicalProfile?.rulingPlanets;
       return (
         Array.isArray(rulingPlanets) &&
-        rulingPlanets.includes(planet)
+        (rulingPlanets as string[]).includes(planet)
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -153,13 +123,11 @@ export const getFruitsByRulingPlanet = (
 export const getFruitsByElementalAffinity = (
   element: string,
 ): Record<string, IngredientMapping> =>
-  // ✅ Pattern MM-1: Safe type assertion for elemental affinity filtering
   Object.entries(fruits)
     .filter(([_, value]) => {
-      const fruitData = value as unknown as FruitDataLike;
       // Non-null assertion (not ?.) preserves the original unconditional access:
       // reading .elementalAffinity throws if astrologicalProfile is missing, as before.
-      const astroProfile = fruitData.astrologicalProfile!;
+      const astroProfile = value.astrologicalProfile!;
       const affinity = astroProfile.elementalAffinity;
       if (!affinity) return false;
       if (typeof affinity === "string") {

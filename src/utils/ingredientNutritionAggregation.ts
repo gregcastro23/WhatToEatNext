@@ -49,8 +49,8 @@ export function parseServingSizeGrams(
   const leading = servingSize.match(/^\s*(\d+(?:\.\d+)?)\s*([a-z ]+?)\b/i);
   if (leading) {
     const amount = Number(leading[1]);
-    const unit = leading[2]?.toLowerCase().trim();
-    const grams = convertToGrams(amount, unit ?? "");
+    const unit = leading[2].toLowerCase().trim();
+    const grams = convertToGrams(amount, unit);
     if (grams != null && grams > 0) return grams;
   }
 
@@ -96,6 +96,51 @@ function readNum(value: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+type MicronutrientKey =
+  | "vitaminA"
+  | "vitaminC"
+  | "vitaminD"
+  | "vitaminE"
+  | "vitaminK"
+  | "thiamin"
+  | "riboflavin"
+  | "niacin"
+  | "vitaminB6"
+  | "vitaminB12"
+  | "folate"
+  | "calcium"
+  | "iron"
+  | "magnesium"
+  | "phosphorus"
+  | "potassium"
+  | "zinc"
+  | "copper"
+  | "manganese"
+  | "selenium";
+
+const microKeys: readonly MicronutrientKey[] = [
+  "vitaminA",
+  "vitaminC",
+  "vitaminD",
+  "vitaminE",
+  "vitaminK",
+  "thiamin",
+  "riboflavin",
+  "niacin",
+  "vitaminB6",
+  "vitaminB12",
+  "folate",
+  "calcium",
+  "iron",
+  "magnesium",
+  "phosphorus",
+  "potassium",
+  "zinc",
+  "copper",
+  "manganese",
+  "selenium",
+];
+
 function emptyNutrition(): NormalizedRecipeNutrition {
   return {
     calories: 0,
@@ -126,34 +171,11 @@ function addNutrition(
   if (b.saturatedFat != null) {
     a.saturatedFat = (a.saturatedFat ?? 0) + b.saturatedFat;
   }
-  const microKeys: Array<keyof NormalizedRecipeNutrition> = [
-    "vitaminA",
-    "vitaminC",
-    "vitaminD",
-    "vitaminE",
-    "vitaminK",
-    "thiamin",
-    "riboflavin",
-    "niacin",
-    "vitaminB6",
-    "vitaminB12",
-    "folate",
-    "calcium",
-    "iron",
-    "magnesium",
-    "phosphorus",
-    "potassium",
-    "zinc",
-    "copper",
-    "manganese",
-    "selenium",
-  ];
   for (const k of microKeys) {
-    const bv = (b as unknown as Record<string, unknown>)[k];
+    const bv = b[k];
     if (typeof bv === "number" && Number.isFinite(bv)) {
-      const prev = (a as unknown as Record<string, unknown>)[k];
-      (a as unknown as Record<string, unknown>)[k] =
-        (typeof prev === "number" ? prev : 0) + bv;
+      const prev = a[k];
+      a[k] = (typeof prev === "number" ? prev : 0) + bv;
     }
   }
 }
@@ -174,32 +196,10 @@ function scaleNutrition(
   };
   if (n.saturatedFat != null) out.saturatedFat = n.saturatedFat * factor;
 
-  const microKeys: Array<keyof NormalizedRecipeNutrition> = [
-    "vitaminA",
-    "vitaminC",
-    "vitaminD",
-    "vitaminE",
-    "vitaminK",
-    "thiamin",
-    "riboflavin",
-    "niacin",
-    "vitaminB6",
-    "vitaminB12",
-    "folate",
-    "calcium",
-    "iron",
-    "magnesium",
-    "phosphorus",
-    "potassium",
-    "zinc",
-    "copper",
-    "manganese",
-    "selenium",
-  ];
   for (const k of microKeys) {
-    const v = (n as unknown as Record<string, unknown>)[k];
+    const v = n[k];
     if (typeof v === "number" && Number.isFinite(v)) {
-      (out as unknown as Record<string, unknown>)[k] = v * factor;
+      out[k] = v * factor;
     }
   }
   return out;
@@ -241,12 +241,12 @@ function profileToNutrition(
   if (profile.vitamins && !Array.isArray(profile.vitamins)) {
     const vits = profile.vitamins;
     const pick = (
-      target: keyof NormalizedRecipeNutrition,
+      target: MicronutrientKey,
       ...keys: string[]
-    ) => {
+    ): void => {
       for (const k of keys) {
         if (typeof vits[k] === "number") {
-          (out as unknown as Record<string, unknown>)[target] = vits[k];
+          out[target] = vits[k];
           return;
         }
       }
@@ -277,7 +277,7 @@ function profileToNutrition(
       "selenium",
     ] as const) {
       if (typeof min[key] === "number") {
-        (out as unknown as Record<string, unknown>)[key] = min[key];
+        out[key] = min[key];
       }
     }
   }
@@ -343,12 +343,12 @@ export function computeRecipeNutritionFromIngredients(
   let resolved = 0;
 
   for (const ing of ingredients) {
-    if (!ing?.name) continue;
+    if (!ing.name) continue;
     const found = resolveIngredientByName(ing.name);
     if (!found) continue;
 
     const amount = Number(ing.amount) || 1;
-    const unit = (ing.unit ?? "").toString();
+    const unit = ing.unit.toString();
     const contribution = computeIngredientNutrition(found, amount, unit);
     if (!contribution) continue;
 

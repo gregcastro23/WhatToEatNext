@@ -22,7 +22,7 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 };
 
 // Define interfaces for known modules
-interface AstrologyUtilsModule {
+interface _AstrologyUtilsModule {
   calculateLunarPhase: (date?: Date) => Promise<number>;
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: (date?: Date) => Promise<number>;
@@ -43,11 +43,11 @@ interface AstrologyUtilsModule {
   };
 }
 
-interface AccurateAstronomyModule {
+interface _AccurateAstronomyModule {
   _getAccuratePlanetaryPositions: (date?: Date) => Record<string, unknown>;
 }
 
-interface SafeAstrologyModule {
+interface _SafeAstrologyModule {
   _getReliablePlanetaryPositions: () => Record<string, unknown>;
   calculateLunarPhase: () => Promise<number>;
   getLunarPhaseName: (phase: number) => string;
@@ -60,7 +60,7 @@ interface SafeAstrologyModule {
   };
 }
 
-interface MoonTimesModule {
+interface _MoonTimesModule {
   _calculateMoonTimes: (
     date: Date,
     latitude: number,
@@ -68,7 +68,7 @@ interface MoonTimesModule {
   ) => { rise?: Date; set?: Date };
 }
 
-interface CuisineCalculationsModule {
+interface _CuisineCalculationsModule {
   _getCuisineRecommendations: (
     zodiacSign?: string,
     lunarPhase?: string,
@@ -76,7 +76,7 @@ interface CuisineCalculationsModule {
   ) => unknown[];
 }
 
-interface SolarPositionsModule {
+interface _SolarPositionsModule {
   getSunPosition: (
     date: Date,
     latitude: number,
@@ -89,25 +89,21 @@ interface SolarPositionsModule {
 
 // Module map for type-safe imports
 const MODULE_MAP = {
-  "@/utils/astrologyUtils": (): Promise<AstrologyUtilsModule> =>
-    import("@/utils/astrologyUtils") as unknown as Promise<AstrologyUtilsModule>,
-  "@/utils/accurateAstronomy": (): Promise<AccurateAstronomyModule> =>
-    import("@/utils/accurateAstronomy") as unknown as Promise<AccurateAstronomyModule>,
-  "@/utils/safeAstrology": (): Promise<SafeAstrologyModule> =>
-    import("@/utils/safeAstrology") as unknown as Promise<SafeAstrologyModule>,
-  "@/utils/moonTimes": (): Promise<MoonTimesModule> =>
-    import("@/utils/moonTimes") as unknown as Promise<MoonTimesModule>,
-  "@/lib/cuisineCalculations": (): Promise<CuisineCalculationsModule> =>
-    import("@/lib/cuisineCalculations") as unknown as Promise<CuisineCalculationsModule>,
-  // "@/utils/sunTimes": () =>
-  //   import("@/utils/sunTimes") as unknown as Promise<SunTimesModule>,
-  "@/utils/solarPositions": (): Promise<SolarPositionsModule> =>
-    import("@/utils/solarPositions") as unknown as Promise<SolarPositionsModule>,
-  "@/calculations/alchemicalCalculations": (): Promise<typeof alchemicalCalculations> =>
+  "@/utils/astrologyUtils": (): Promise<unknown> =>
+    import("@/utils/astrologyUtils"),
+  "@/utils/accurateAstronomy": (): Promise<unknown> =>
+    import("@/utils/accurateAstronomy"),
+  "@/utils/safeAstrology": (): Promise<unknown> =>
+    import("@/utils/safeAstrology"),
+  "@/utils/moonTimes": (): Promise<unknown> => import("@/utils/moonTimes"),
+  "@/lib/cuisineCalculations": (): Promise<unknown> =>
+    import("@/lib/cuisineCalculations"),
+  "@/utils/solarPositions": (): Promise<unknown> =>
+    import("@/utils/solarPositions"),
+  "@/calculations/alchemicalCalculations": (): Promise<unknown> =>
     import("@/calculations/alchemicalCalculations"),
-  "@/calculations/gregsEnergy": (): Promise<typeof gregsEnergy> =>
+  "@/calculations/gregsEnergy": (): Promise<unknown> =>
     import("@/calculations/gregsEnergy"),
-  // astronomia removed from dependencies
 };
 
 // Type for known module paths
@@ -261,7 +257,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
         _Substance: 0.22,
       };
 
-      return calculatedResults as unknown as R;
+      return calculatedResults as R;
     }
 
     return null;
@@ -325,7 +321,7 @@ export async function dynamicImportFunction<
   debugLog(
     "dynamicImportFunction is deprecated, use safeImportFunction instead",
   );
-  return (safeImportFunction(path, functionName) as unknown) as Promise<T | F | null>;
+  return safeImportFunction<T>(path, functionName);
 }
 
 export async function dynamicImportAndExecute<

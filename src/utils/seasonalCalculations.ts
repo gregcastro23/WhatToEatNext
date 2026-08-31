@@ -205,9 +205,7 @@ const _calculateIngredientSuitability = (
   let suitabilityScore = 30; // Base score
   let seasonalIngredientCount = 0;
   recipe.ingredients.forEach((ingredient) => {
-    const { seasonality } = ingredient as unknown as {
-      seasonality?: Season[];
-    };
+    const { seasonality } = ingredient;
     if (
       seasonality &&
       Array.isArray(seasonality) &&
@@ -229,8 +227,7 @@ const _calculateSeasonalBonus = (
   _season: Season,
 ): number => {
   let bonus = 15; // Base bonus
-  const recipeSeasonsRaw = (recipe as unknown as { season?: Season | Season[] })
-    .season;
+  const recipeSeasonsRaw = recipe.season;
   if (recipeSeasonsRaw) {
     const recipeSeasons = Array.isArray(recipeSeasonsRaw)
       ? recipeSeasonsRaw
@@ -258,9 +255,7 @@ const _calculateZodiacAlignment = (
     alignmentScore += 15; // Bonus for matching element
   }
 
-  const { zodiacInfluences } = recipe as unknown as {
-    zodiacInfluences?: ZodiacSignType[];
-  };
+  const { zodiacInfluences } = recipe;
   if (
     zodiacInfluences &&
     Array.isArray(zodiacInfluences) &&
@@ -291,17 +286,14 @@ const _calculateLunarPhaseAlignment = (
   alignmentScore += Math.round(phaseAlignmentScore * 10);
 
   // Explicit lunar phase influence
-  const lunarInfluences = (
-    recipe as unknown as { lunarPhaseInfluences?: LunarPhaseWithSpaces[] }
-  ).lunarPhaseInfluences;
+  const lunarInfluences = recipe.lunarPhaseInfluences;
   if (
     lunarInfluences &&
     Array.isArray(lunarInfluences) &&
     lunarInfluences.includes(lunarKey)
   ) {
-    alignmentScore += 25;
+    alignmentScore += 25; // Bonus for explicit lunar match
   }
-
   return alignmentScore;
 };
 
@@ -375,9 +367,9 @@ function _calculateSeasonalScores(
 
   // Base seasonal score (20% of total)
   const recipeSeason = ((): Season[] => {
-    const value = (recipe as unknown as { season?: Season | Season[] }).season;
+    const value = recipe.season;
     if (!value) return [];
-    return Array.isArray(value) ? value : [value];
+    return (Array.isArray(value) ? value : [value]) as Season[];
   })();
   recipeSeason.forEach((season) => {
     if (season in scores) scores[season] += 20;
@@ -385,7 +377,7 @@ function _calculateSeasonalScores(
 
   // Ingredient seasonality (20% of total)
   recipe.ingredients.forEach((ingredient) => {
-    const { seasonality } = ingredient as unknown as { seasonality?: Season[] };
+    const { seasonality } = ingredient;
     if (seasonality && Array.isArray(seasonality)) {
       seasonality.forEach((season) => {
         if (season in scores)
@@ -546,8 +538,7 @@ export function calculateLunarPhaseCompatibility(
   // Recipe type alignment (heuristic based on keywords)
   let recipeTypeAlignment = 0;
   const lunarRecipeTypes = LUNAR_FOOD_ASSOCIATIONS[lunarKey];
-  const mealTypesRaw = (recipe as unknown as { mealType?: string | string[] })
-    .mealType;
+  const mealTypesRaw = recipe.mealType;
   if (mealTypesRaw) {
     const recipeMealTypes = Array.isArray(mealTypesRaw)
       ? mealTypesRaw
@@ -564,13 +555,11 @@ export function calculateLunarPhaseCompatibility(
   }
 
   // Explicit lunar phase influence
-  const lunarInfluences = (
-    recipe as unknown as { lunarPhaseInfluences?: LunarPhaseWithSpaces[] }
-  ).lunarPhaseInfluences;
+  const lunarInfluences = recipe.lunarPhaseInfluences;
   if (
     lunarInfluences &&
     Array.isArray(lunarInfluences) &&
-    lunarInfluences.includes(lunarKey)
+    (lunarInfluences as string[]).includes(lunarKey)
   ) {
     recipeTypeAlignment += 25;
   }

@@ -90,7 +90,6 @@ interface RawSauce {
   name?: string;
   description?: string;
   elementalProperties?: Record<string, number | undefined>;
-  [key: string]: unknown;
 }
 
 interface AmazonCartItem {

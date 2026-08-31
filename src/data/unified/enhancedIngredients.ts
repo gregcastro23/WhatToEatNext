@@ -1,6 +1,5 @@
 import type {
   AlchemicalProperties,
-  CookingMethod,
   Element,
   ElementalProperties,
   FlavorProfile,
@@ -36,7 +35,7 @@ export interface EnhancedIngredient {
   unifiedFlavorProfile?: UnifiedFlavorProfile;
   // Enhanced Culinary Properties
   culinaryProperties: {
-    cookingMethods: CookingMethod[];
+    cookingMethods: string[];
     pairings: string[];
     substitutions: string[];
     storage: {
@@ -290,9 +289,7 @@ export class EnhancedIngredientsSystem {
     if (criteria.cookingMethods && criteria.cookingMethods.length > 0) {
       results = results.filter((ingredient) =>
         criteria.cookingMethods!.some((method) =>
-          ingredient.culinaryProperties.cookingMethods.includes(
-            method as unknown as CookingMethod,
-          ),
+          ingredient.culinaryProperties.cookingMethods.includes(method),
         ),
       );
     }
@@ -354,6 +351,7 @@ export class EnhancedIngredientsSystem {
           tolerance,
         );
       }
+      targetIngredient.unifiedFlavorProfile = flavorProfile;
     }
     // Get the target flavor profile
     const targetProfile = targetIngredient.unifiedFlavorProfile;
@@ -367,59 +365,19 @@ export class EnhancedIngredientsSystem {
         // Calculate compatibility
         const compatibility =
           this.flavorProfileSystem.calculateFlavorCompatibility(
-            targetProfile ??
-              ({
-                sweet: 0,
-                sour: 0,
-                salty: 0,
-                bitter: 0,
-                umami: 0,
-                spicy: 0,
-              } as unknown as UnifiedFlavorProfile),
+            targetProfile,
             ingredient.unifiedFlavorProfile,
           );
         return compatibility.compatibility >= tolerance;
       })
       .sort((a, b) => {
         const compatA = this.flavorProfileSystem.calculateFlavorCompatibility(
-          targetProfile ??
-            ({
-              sweet: 0,
-              sour: 0,
-              salty: 0,
-              bitter: 0,
-              umami: 0,
-              spicy: 0,
-            } as unknown as UnifiedFlavorProfile),
-          a.unifiedFlavorProfile ??
-            ({
-              sweet: 0,
-              sour: 0,
-              salty: 0,
-              bitter: 0,
-              umami: 0,
-              spicy: 0,
-            } as unknown as UnifiedFlavorProfile),
+          targetProfile,
+          a.unifiedFlavorProfile!,
         ).compatibility;
         const compatB = this.flavorProfileSystem.calculateFlavorCompatibility(
-          targetProfile ??
-            ({
-              sweet: 0,
-              sour: 0,
-              salty: 0,
-              bitter: 0,
-              umami: 0,
-              spicy: 0,
-            } as unknown as UnifiedFlavorProfile),
-          b.unifiedFlavorProfile ??
-            ({
-              sweet: 0,
-              sour: 0,
-              salty: 0,
-              bitter: 0,
-              umami: 0,
-              spicy: 0,
-            } as unknown as UnifiedFlavorProfile),
+          targetProfile,
+          b.unifiedFlavorProfile!,
         ).compatibility;
         return compatB - compatA;
       });
@@ -735,7 +693,7 @@ export class EnhancedIngredientsSystem {
       cookingMethods: this.getCookingMethodsForCategory(
         category,
         elementalProps,
-      ) as unknown as CookingMethod[],
+      ),
       pairings: ingredient.pairingRecommendations ?? [],
       substitutions: ingredient.swaps ?? [],
       storage: this.getStorageForCategory(category),
@@ -757,10 +715,8 @@ export class EnhancedIngredientsSystem {
       ["Fire", 0],
     )[0] as Element;
     return {
-      planetaryRuler: (ingredient.planetaryRuler ??
-        this.getPlanetaryRulerForElement(
-          dominantElement,
-        )) as unknown as import("@/types/celestial").Planet,
+      planetaryRuler: ingredient.planetaryRuler ??
+        (this.getPlanetaryRulerForElement(dominantElement) as PlanetName),
       zodiacRuler: this.getZodiacRulerForElement(dominantElement),
       element: dominantElement,
       energyType: this.getEnergyTypeForElement(dominantElement),
@@ -783,30 +739,31 @@ export class EnhancedIngredientsSystem {
   ): EnhancedIngredient["nutritionalProfile"] {
     // Use existing nutritional profile if available
     if (ingredient.nutritionalProfile) {
-      const existingProfile = ingredient.nutritionalProfile as unknown as {
-        servingSize?: unknown;
-        calories?: unknown;
-        macros: {
-          protein?: unknown;
-          carbs?: unknown;
-          fat?: unknown;
-          fiber?: unknown;
+      const existingProfile = ingredient.nutritionalProfile as {
+        servingSize?: string;
+        serving_size?: string;
+        calories?: number;
+        macros?: {
+          protein?: number;
+          carbs?: number;
+          fat?: number;
+          fiber?: number;
         };
-        vitamins?: unknown;
-        minerals?: unknown;
-        source?: unknown;
+        vitamins?: Record<string, number>;
+        minerals?: Record<string, number>;
+        source?: string;
       };
       return {
-        serving_size: String(existingProfile.servingSize ?? "100g"),
+        serving_size: String(existingProfile.servingSize ?? existingProfile.serving_size ?? "100g"),
         calories: Number(existingProfile.calories ?? 0),
         macros: {
-          protein: Number(existingProfile.macros.protein ?? 0),
-          carbs: Number(existingProfile.macros.carbs ?? 0),
-          fat: Number(existingProfile.macros.fat ?? 0),
-          fiber: Number(existingProfile.macros.fiber ?? 0),
+          protein: Number(existingProfile.macros?.protein ?? 0),
+          carbs: Number(existingProfile.macros?.carbs ?? 0),
+          fat: Number(existingProfile.macros?.fat ?? 0),
+          fiber: Number(existingProfile.macros?.fiber ?? 0),
         },
-        vitamins: (existingProfile.vitamins as Record<string, number> | undefined) ?? {},
-        minerals: (existingProfile.minerals as Record<string, number> | undefined) ?? {},
+        vitamins: existingProfile.vitamins ?? {},
+        minerals: existingProfile.minerals ?? {},
         benefits: Array.isArray(ingredient.healthBenefits)
           ? ingredient.healthBenefits
           : [],
@@ -847,13 +804,8 @@ export class EnhancedIngredientsSystem {
     }
     // Check for additional data
     if (ingredient.nutritionalProfile) qualityPoints += 1;
-    if (
-      (
-        (ingredient as unknown as Record<string, unknown>)
-          .astrologicalPropertiesProfile as { rulingPlanets?: unknown[] } | undefined
-      )?.rulingPlanets?.length
-    )
-      qualityPoints += 1;
+    const astroProfile = ingredient.astrologicalPropertiesProfile as { rulingPlanets?: unknown[] } | undefined;
+    if (astroProfile?.rulingPlanets?.length) qualityPoints += 1;
     if (ingredient.qualities?.length) qualityPoints += 1;
     if (ingredient.seasonality?.length) qualityPoints += 1;
     if (ingredient.pairingRecommendations?.length) qualityPoints += 1;
@@ -911,12 +863,10 @@ export class EnhancedIngredientsSystem {
         }
       });
       // Index by planetary ruler
-      const planetaryRuler = (
-        (ingredient as unknown as Record<string, unknown>)
-          .astrologicalPropertiesProfile as
-          | { planetaryRuler?: string }
-          | undefined
-      )?.planetaryRuler;
+      const astroData = ingredient.astrologicalPropertiesProfile as
+        | { planetaryRuler?: string }
+        | undefined;
+      const planetaryRuler = astroData?.planetaryRuler;
       if (planetaryRuler) {
         const planetaryIngredients =
           this.planetaryIndex.get(planetaryRuler) ?? [];
