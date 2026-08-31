@@ -12,7 +12,7 @@ export type CastsBaseline = z.infer<typeof castsBaselineSchema>;
 
 export const lintDebtBaselineSchema = z.object({
   trackedTotal: z.number().int().nonnegative(),
-  casts: castsBaselineSchema.optional(),
+  casts: castsBaselineSchema,
   declined: z.object({
     total: z.number().int().nonnegative().optional(),
     rules: z.record(z.string(), z.number().int().nonnegative()),
@@ -45,15 +45,29 @@ export const compareLintDebt = (
   };
 };
 
+export interface CastsComparison {
+  exceedsBaseline: boolean;
+  totalIncreasedBy: number;
+  asAnyIncreasedBy: number;
+  asUnknownAsIncreasedBy: number;
+}
+
 export const compareCasts = (
   current: CastsBaseline,
   baseline: CastsBaseline,
-): LintDebtComparison => {
-  const delta = current.total - baseline.total;
+): CastsComparison => {
+  const deltaTotal = current.total - baseline.total;
+  const deltaAsAny = current.asAny - baseline.asAny;
+  const deltaAsUnknownAs = current.asUnknownAs - baseline.asUnknownAs;
+
+  // Fail if overall total increased OR if asAny increased independently
+  const exceedsBaseline = deltaTotal > 0 || deltaAsAny > 0;
 
   return {
-    exceedsBaseline: delta > 0,
-    increasedBy: Math.max(delta, 0),
+    exceedsBaseline,
+    totalIncreasedBy: Math.max(deltaTotal, 0),
+    asAnyIncreasedBy: Math.max(deltaAsAny, 0),
+    asUnknownAsIncreasedBy: Math.max(deltaAsUnknownAs, 0),
   };
 };
 
@@ -100,8 +114,22 @@ export const findPerRuleRegressions = (
   return regressions.sort((a, b) => b.delta - a.delta);
 };
 
-export function countTypeCasts(targetDir: string): CastsBaseline {
-  const files: string[] = [];
+export interface FileCastDebt {
+  filePath: string;
+  total: number;
+  asAny: number;
+  asUnknownAs: number;
+  isTest: boolean;
+}
+
+export function scanFileCasts(
+  targetDir: string,
+  repoRoot: string,
+): {
+  summary: CastsBaseline;
+  files: FileCastDebt[];
+} {
+  const filePaths: string[] = [];
 
   function walk(dir: string): void {
     const entries = readdirSync(dir, { withFileTypes: true });
@@ -110,28 +138,53 @@ export function countTypeCasts(targetDir: string): CastsBaseline {
       if (entry.isDirectory()) {
         walk(fullPath);
       } else if (/\.(ts|tsx|mts|cts|js|jsx)$/.test(entry.name)) {
-        files.push(fullPath);
+        filePaths.push(fullPath);
       }
     }
   }
 
   walk(targetDir);
 
-  let asAny = 0;
-  let asUnknownAs = 0;
+  let totalAsAny = 0;
+  let totalAsUnknownAs = 0;
+  const files: FileCastDebt[] = [];
 
-  for (const file of files) {
+  for (const file of filePaths) {
     const content = readFileSync(file, "utf8");
     const anyMatches = content.match(/\bas\s+any\b/g);
-    if (anyMatches) asAny += anyMatches.length;
     const unknownMatches = content.match(/\bas\s+unknown\s+as\b/g);
-    if (unknownMatches) asUnknownAs += unknownMatches.length;
+    const asAny = anyMatches ? anyMatches.length : 0;
+    const asUnknownAs = unknownMatches ? unknownMatches.length : 0;
+    const total = asAny + asUnknownAs;
+
+    totalAsAny += asAny;
+    totalAsUnknownAs += asUnknownAs;
+
+    if (total > 0) {
+      const isTest = /(\b__tests__\b|\.test\.|\.spec\.)/.test(file);
+      files.push({
+        filePath: path.relative(repoRoot, file),
+        total,
+        asAny,
+        asUnknownAs,
+        isTest,
+      });
+    }
   }
 
+  files.sort((a, b) => b.total - a.total);
+
   return {
-    total: asAny + asUnknownAs,
-    asAny,
-    asUnknownAs,
+    summary: {
+      total: totalAsAny + totalAsUnknownAs,
+      asAny: totalAsAny,
+      asUnknownAs: totalAsUnknownAs,
+    },
+    files,
   };
+}
+
+export function countTypeCasts(targetDir: string): CastsBaseline {
+  return scanFileCasts(targetDir, targetDir).summary;
 }
 

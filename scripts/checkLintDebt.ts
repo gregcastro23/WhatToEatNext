@@ -13,6 +13,7 @@ import {
   countTypeCasts,
   findPerRuleRegressions,
   lintDebtBaselineSchema,
+  scanFileCasts,
 } from "./lib/lintDebt";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
@@ -100,8 +101,14 @@ const baselineDeclinedTotal =
   Object.values(baseline.declined.rules).reduce((a, b) => a + b, 0);
 
 // Scan and count type casts (as any, as unknown as) in src/
-const currentCasts = countTypeCasts(path.join(repoRoot, "src"));
-const baselineCasts = baseline.casts ?? currentCasts;
+const castScan = scanFileCasts(path.join(repoRoot, "src"), repoRoot);
+const currentCasts = castScan.summary;
+const baselineCasts = baseline.casts;
+
+if (!baselineCasts) {
+  console.error("❌ Baseline is missing the required `casts` section; aborting audit.");
+  process.exit(1);
+}
 
 const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 const declinedComparison = compareDeclinedDebt(declinedTotal, baselineDeclinedTotal);
@@ -112,12 +119,19 @@ console.log(trackedTotal);
 
 fileDebts.sort((a, b) => b.trackedCount - a.trackedCount);
 
-// Check if --top or --ranking flag was requested
+// Check if --top, --ranking, or --casts flag was requested
 const topArgIdx = process.argv.findIndex((arg) => arg === "--top" || arg === "--ranking");
 const showTop = topArgIdx !== -1 || process.argv.includes("--files");
 let topN = 25;
 if (topArgIdx !== -1 && process.argv[topArgIdx + 1] && /^\d+$/.test(process.argv[topArgIdx + 1])) {
   topN = parseInt(process.argv[topArgIdx + 1], 10);
+}
+
+const showCasts = process.argv.includes("--casts") || process.argv.includes("--top-casts");
+const castArgIdx = process.argv.findIndex((arg) => arg === "--top-casts");
+let topCastsN = 25;
+if (castArgIdx !== -1 && process.argv[castArgIdx + 1] && /^\d+$/.test(process.argv[castArgIdx + 1])) {
+  topCastsN = parseInt(process.argv[castArgIdx + 1], 10);
 }
 
 if (showTop) {
@@ -130,6 +144,15 @@ if (showTop) {
       .join(", ");
     console.log(`${item.trackedCount.toString().padStart(4)} warnings: ${item.filePath}`);
     console.log(`     (${topRules})`);
+  }
+  console.log("");
+}
+
+if (showCasts) {
+  console.log(`\n=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES BY TYPE CASTS (${currentCasts.total} total: ${currentCasts.asAny} as any, ${currentCasts.asUnknownAs} as unknown as) ===`);
+  for (const item of castScan.files.slice(0, topCastsN)) {
+    const tag = item.isTest ? "[TEST] " : "       ";
+    console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as) ${tag}: ${item.filePath}`);
   }
   console.log("");
 }
@@ -162,11 +185,19 @@ if (declinedComparison.exceedsBaseline) {
 
 if (castComparison.exceedsBaseline) {
   hasError = true;
-  console.error(
-    `❌ Type casts increased by ${castComparison.increasedBy}: ` +
-      `${currentCasts.total} exceeds baseline of ${baselineCasts.total} ` +
-      `(as any: ${currentCasts.asAny} vs ${baselineCasts.asAny}, as unknown as: ${currentCasts.asUnknownAs} vs ${baselineCasts.asUnknownAs}).`,
-  );
+  if (castComparison.totalIncreasedBy > 0) {
+    console.error(
+      `❌ Type casts increased by ${castComparison.totalIncreasedBy}: ` +
+        `${currentCasts.total} exceeds baseline of ${baselineCasts.total} ` +
+        `(as any: ${currentCasts.asAny} vs ${baselineCasts.asAny}, as unknown as: ${currentCasts.asUnknownAs} vs ${baselineCasts.asUnknownAs}).`,
+    );
+  }
+  if (castComparison.asAnyIncreasedBy > 0 && castComparison.totalIncreasedBy === 0) {
+    console.error(
+      `❌ \`as any\` casts increased by ${castComparison.asAnyIncreasedBy}: ` +
+        `${currentCasts.asAny} exceeds baseline of ${baselineCasts.asAny} (total casts remained ${currentCasts.total}).`,
+    );
+  }
 }
 
 if (hasError) {
@@ -178,6 +209,7 @@ const shouldRatchet = process.argv.includes("--ratchet") || process.env.LINT_DEB
 if (
   trackedTotal < baseline.trackedTotal ||
   currentCasts.total < baselineCasts.total ||
+  currentCasts.asAny < baselineCasts.asAny ||
   declinedTotal < baselineDeclinedTotal
 ) {
   if (trackedTotal < baseline.trackedTotal) {
@@ -186,10 +218,10 @@ if (
       `🎉 Lint debt decreased by ${decreasedBy}: ${trackedTotal} (down from ${baseline.trackedTotal}).`,
     );
   }
-  if (currentCasts.total < baselineCasts.total) {
+  if (currentCasts.total < baselineCasts.total || currentCasts.asAny < baselineCasts.asAny) {
     const castsDecreasedBy = baselineCasts.total - currentCasts.total;
     console.log(
-      `🎉 Type casts decreased by ${castsDecreasedBy}: ${currentCasts.total} (down from ${baselineCasts.total}; as any: ${currentCasts.asAny}, as unknown as: ${currentCasts.asUnknownAs}).`,
+      `🎉 Type casts decreased: ${currentCasts.total} (down ${castsDecreasedBy >= 0 ? castsDecreasedBy : 0} from ${baselineCasts.total}; as any: ${currentCasts.asAny} vs baseline ${baselineCasts.asAny}, as unknown as: ${currentCasts.asUnknownAs} vs baseline ${baselineCasts.asUnknownAs}).`,
     );
   }
   if (declinedTotal < baselineDeclinedTotal) {
@@ -203,7 +235,11 @@ if (
     const updatedBaseline = {
       ...baseline,
       trackedTotal,
-      casts: currentCasts,
+      casts: {
+        total: Math.min(currentCasts.total, baselineCasts.total),
+        asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
+        asUnknownAs: currentCasts.asUnknownAs,
+      },
       declined: {
         total: declinedTotal,
         rules: Object.fromEntries(
@@ -224,26 +260,8 @@ if (
       ),
     };
     await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${currentCasts.total}.`);
+    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}).`);
   }
-} else if (shouldRatchet && !baseline.casts) {
-  // First time ratcheting to write casts and declined total into baseline
-  const updatedBaseline = {
-    ...baseline,
-    trackedTotal,
-    casts: currentCasts,
-    declined: {
-      total: declinedTotal,
-      rules: Object.fromEntries(
-        Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
-          rule,
-          counts[rule] ?? prevCount,
-        ]),
-      ),
-    },
-  };
-  await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-  console.log(`🔒 Baseline updated with cast surface (${currentCasts.total}) and declined pool (${declinedTotal}).`);
 }
 
 
