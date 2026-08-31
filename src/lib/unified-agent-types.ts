@@ -29,14 +29,16 @@ export interface PlanetaryConfig {
   planet: string
   sign: string
   degree: string
-  dignity: string
-  element: Element
-  color: string
-  symbol: string
+  dignity?: string
+  element?: Element
+  color?: string
+  symbol?: string
   moonPhase?: string
   moonPersonality?: string
   moonDegree?: number
   liveSkySync?: boolean
+  isDiurnal?: boolean
+  retrograde?: boolean
 }
 
 export interface AgentCapabilities {

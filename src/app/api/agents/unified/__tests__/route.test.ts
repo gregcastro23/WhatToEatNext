@@ -104,11 +104,12 @@ const CREATE_BODY = {
   },
 };
 
-function makeRequest(body: unknown): any {
-  return {
-    headers: { get: () => null },
-    json: async () => body,
-  } as unknown as any;
+function makeRequest(body: unknown): Request {
+  return new Request("http://localhost:3000/api/agents/unified", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 }
 
 /** The parameter array of the `INSERT INTO user_profiles` the route just ran. */

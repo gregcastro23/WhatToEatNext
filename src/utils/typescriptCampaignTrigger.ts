@@ -271,15 +271,15 @@ async function getTypeScriptErrors(): Promise<string> {
     return output;
   } catch (error: unknown) {
     // tsc returns non-zero exit code when there are errors, which is expected
-    const err = error as { stdout?: string; stderr?: string };
+    const err = error as { stdout?: string; stderr?: string; message?: string };
     if (err.stdout) {
       return err.stdout;
     }
 
     // If there's no stdout, this might be a real failure
-    if ((error as any)?.stderr || (error as any)?.message) {
+    if (err.stderr || err.message) {
       throw new Error(
-        `TypeScript compilation failed: ${(error as any)?.stderr ?? (error as any)?.message}`,
+        `TypeScript compilation failed: ${err.stderr ?? err.message}`,
         { cause: error },
       );
     }

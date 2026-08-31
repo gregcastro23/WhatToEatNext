@@ -14,23 +14,23 @@ export const _createAstrologicalBridge = (): AstrologicalBridge => ({
   },
 
   modernToLegacy<T>(modern: T): Record<string, unknown> {
-    return modern as any;
+    return modern && typeof modern === "object" ? (modern as Record<string, unknown>) : {};
   },
 
   safeAccess<T>(obj: unknown, path: string): T | undefined {
     if (!obj || typeof obj !== "object") return undefined;
     const keys = path.split(".");
-    let current: any = obj as any;
+    let current: unknown = obj;
     for (const key of keys) {
-      if (current[key] === undefined) return undefined;
-      current = current[key] as Record<string, unknown>;
+      if (!current || typeof current !== "object" || (current as Record<string, unknown>)[key] === undefined) return undefined;
+      current = (current as Record<string, unknown>)[key];
     }
     return current as T;
   },
 
   validateElementalProperties(obj: unknown): obj is ElementalProperties {
     if (!obj || typeof obj !== "object") return false;
-    const props = obj as any;
+    const props = obj as Record<string, unknown>;
     return ["Fire", "Water", "Earth", "Air"].every(
       (element) => typeof props[element] === "number",
     );

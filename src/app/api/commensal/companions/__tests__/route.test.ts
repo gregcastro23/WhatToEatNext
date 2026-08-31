@@ -2,15 +2,19 @@
  * Tests for /api/commensal/companions
  */
 
-jest.mock("next/server", () => ({
-  NextResponse: {
-    json: jest.fn((body, init) => ({
-      status: init?.status ?? 200,
-      json: async () => body,
-      headers: init?.headers ?? {},
-    })),
-  },
-}));
+jest.mock("next/server", () => {
+  class MockNextRequest extends Request {}
+  return {
+    NextRequest: MockNextRequest,
+    NextResponse: {
+      json: jest.fn((body, init) => ({
+        status: init?.status ?? 200,
+        json: async () => body,
+        headers: init?.headers ?? {},
+      })),
+    },
+  };
+});
 
 // Force the rate limiter onto its in-memory fallback (no Redis in tests).
 jest.mock("@/lib/redis", () => ({
@@ -36,6 +40,7 @@ jest.mock("@/services/commensalDatabaseService", () => ({
   },
 }));
 
+import { NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
@@ -49,16 +54,12 @@ let ipCounter = 0;
 function makeRequest(
   url = "http://localhost/api/commensal/companions",
   ip?: string,
-): any {
+): NextRequest {
   const addr = ip ?? `10.8.${Math.floor(++ipCounter / 250)}.${ipCounter % 250}`;
-  return {
-    url,
+  return new NextRequest(url, {
     method: "GET",
-    headers: {
-      get: (key: string) =>
-        key.toLowerCase() === "x-forwarded-for" ? addr : null,
-    },
-  } as unknown as any;
+    headers: { "x-forwarded-for": addr },
+  });
 }
 
 const mockLocalAgents = {

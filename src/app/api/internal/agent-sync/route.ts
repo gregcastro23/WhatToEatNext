@@ -62,7 +62,7 @@ interface SyncedBirthData {
   name?: string;
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest | Request) {
   try {
     // 1. Authorize: Validate X-Sync-Secret matches ALCHM_KITCHEN_SYNC_SECRET
     const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;

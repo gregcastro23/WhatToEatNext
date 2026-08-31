@@ -92,11 +92,12 @@ function normalizeScores(input: unknown): AlchemicalScores {
 function normalizeLocation(
   payload: Record<string, unknown>,
 ): { latitude?: number; longitude?: number } {
+  const loc = (payload.location && typeof payload.location === "object") ? (payload.location as Record<string, unknown>) : undefined;
   const latitude = Number(
-    payload.latitude ?? payload.lat ?? (payload.location as any)?.latitude,
+    payload.latitude ?? payload.lat ?? loc?.latitude,
   );
   const longitude = Number(
-    payload.longitude ?? payload.lng ?? (payload.location as any)?.longitude,
+    payload.longitude ?? payload.lng ?? loc?.longitude,
   );
 
   return {
@@ -194,7 +195,8 @@ async function getRecommendations(request: NextRequest): Promise<TransmutationRe
     payload = {};
   }
 
-  const scores = normalizeScores((payload as any)?.alchemicalQuantities ?? payload);
+  const quantities = (payload.alchemicalQuantities && typeof payload.alchemicalQuantities === "object") ? (payload.alchemicalQuantities as Record<string, unknown>) : payload;
+  const scores = normalizeScores(quantities);
   const location = normalizeLocation(payload);
   const weakest = getLowestKey(scores);
 

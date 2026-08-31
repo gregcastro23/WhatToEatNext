@@ -43,8 +43,12 @@ const serverChart = {
   elementalBalance: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
 };
 
-const makeRequest = (body: unknown): any =>
-  ({ headers: { get: () => null }, json: async () => body }) as unknown as any;
+const makeRequest = (body: unknown): Request =>
+  new Request("http://localhost:3000/api/agents/unified", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 
 const create = (year: number, month = 9, day = 17, hour = 12, minute = 0) =>
   POST(

@@ -3,24 +3,9 @@
  * Phase 5: Frontend Integration - Reusable Zodiac Selection
  */
 
-import { Box, HStack, Icon, Select as _Select, Text } from "@chakra-ui/react";
+import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaFire, FaLeaf, FaSnowflake, FaSun } from "react-icons/fa";
-
-// Chakra v2-style API preserved verbatim; component is dead code (never mounted), typed via minimal local views rather than a v2->v3 rewrite (out of scope for types-only pass).
-interface ZodiacSelectProps {
-  value: string;
-  onChange: (e: { target: { value: string } }) => void;
-  placeholder?: string;
-  size?: "sm" | "md" | "lg";
-  bg?: string;
-  borderColor?: string;
-  _hover?: Record<string, unknown>;
-  _focus?: Record<string, unknown>;
-  children?: React.ReactNode;
-}
-type ChakraFnComponent = (props: Record<string, unknown>) => React.ReactNode;
-const Select = _Select as unknown as React.FC<ZodiacSelectProps>;
 
 interface ZodiacSelectorProps {
   value: string;
@@ -82,66 +67,60 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
   size = "md",
 }) => {
   const bgColor = "white";
-  const borderColor = "gray.200";
+  const borderColor = "#E2E8F0";
 
   return (
     <Box>
       <Text mb={2} fontWeight="medium" fontSize="sm">
         Zodiac Sign
       </Text>
-      <Select
+      <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        size={size}
-        bg={bgColor}
-        borderColor={borderColor}
-        _hover={{ borderColor: "purple.300" }}
-        _focus={{
-          borderColor: "purple.500",
-          boxShadow: "0 0 0 1px purple.500",
+        style={{
+          width: "100%",
+          padding:
+            size === "sm"
+              ? "4px 8px"
+              : size === "lg"
+                ? "12px 16px"
+                : "8px 12px",
+          backgroundColor: bgColor,
+          borderColor,
+          borderRadius: "6px",
+          borderWidth: "1px",
         }}
       >
+        <option value="">{placeholder}</option>
         {ZODIAC_SIGNS.map((sign) => {
           const element = ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS];
-          const _ElementIcon =
-            ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS];
-          const _elementColor =
-            ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS];
-
           return (
             <option key={sign} value={sign}>
               {sign} {showElement && `(${element})`}
             </option>
           );
         })}
-      </Select>
+      </select>
 
       {value && showElement && (
         <Box mt={2}>
-          {(HStack as unknown as ChakraFnComponent)({
-            spacing: 2,
-            children: [
-              (Icon as unknown as ChakraFnComponent)({
-                as: ELEMENT_ICONS[
+          <HStack gap={2}>
+            <Icon
+              as={
+                ELEMENT_ICONS[
                   ZODIAC_ELEMENTS[
                     value as keyof typeof ZODIAC_ELEMENTS
                   ] as keyof typeof ELEMENT_ICONS
-                ],
-                color: `${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`,
-                boxSize: 4,
-              }),
-              (Text as unknown as ChakraFnComponent)({
-                fontSize: "xs",
-                color: "gray.600",
-                children: [
-                  `${value} is a `,
-                  ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS],
-                  " sign",
-                ],
-              }),
-            ],
-          })}
+                ]
+              }
+              color={`${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`}
+              boxSize={4}
+            />
+            <Text fontSize="xs" color="gray.600">
+              {value} is a{" "}
+              {ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS]} sign
+            </Text>
+          </HStack>
         </Box>
       )}
     </Box>

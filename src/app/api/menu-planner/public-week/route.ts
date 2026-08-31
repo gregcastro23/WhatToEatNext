@@ -28,16 +28,17 @@ const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 
 /** Strip a persisted MealSlot down to the public, display-only fields. */
 function toPublicMeal(meal: MealSlot) {
+  const r = meal.recipe;
   return {
     dayOfWeek: meal.dayOfWeek,
     mealType: meal.mealType,
     servings: meal.servings,
     isLocked: meal.isLocked ?? false,
-    recipe: meal.recipe
+    recipe: r
       ? {
-          id: (meal.recipe as any).id,
-          name: (meal.recipe as any).name,
-          elementalProperties: (meal.recipe as any).elementalProperties ?? null,
+          id: r.id,
+          name: r.name,
+          elementalProperties: r.elementalProperties ?? null,
         }
       : undefined,
   };

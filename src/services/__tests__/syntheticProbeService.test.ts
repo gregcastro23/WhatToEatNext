@@ -31,11 +31,12 @@ describe("runOnboardingSkipProbe", () => {
   });
 
   it("returns success when /api/onboarding responds 200 + success:true", async () => {
-    const fetchSpy = jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: async () => ({ success: true, onboardingComplete: true }),
-    } as Response);
+    const fetchSpy = jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, onboardingComplete: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
 
     const result = await runOnboardingSkipProbe({
       baseUrl: "http://localhost:3000",
@@ -57,11 +58,12 @@ describe("runOnboardingSkipProbe", () => {
   });
 
   it("returns failure when the endpoint returns a non-success body", async () => {
-    jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: async () => ({ success: false, message: "rate limited" }),
-    } as Response);
+    jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: false, message: "rate limited" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
 
     const result = await runOnboardingSkipProbe({
       baseUrl: "http://localhost:3000",
@@ -74,11 +76,12 @@ describe("runOnboardingSkipProbe", () => {
   });
 
   it("returns failure when the endpoint returns a 5xx", async () => {
-    jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: false,
-      status: 503,
-      json: async () => ({ success: false, message: "DB unavailable" }),
-    } as Response);
+    jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: false, message: "DB unavailable" }), {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
 
     const result = await runOnboardingSkipProbe({
       baseUrl: "http://localhost:3000",
@@ -92,7 +95,7 @@ describe("runOnboardingSkipProbe", () => {
 
   it("returns failure with a network error message when fetch rejects", async () => {
     jest
-      .spyOn(globalThis, "fetch" as any)
+      .spyOn(globalThis, "fetch")
       .mockRejectedValue(new Error("ECONNREFUSED"));
 
     const result = await runOnboardingSkipProbe({
@@ -108,7 +111,7 @@ describe("runOnboardingSkipProbe", () => {
   it("returns timeout when fetch is aborted", async () => {
     const abortError = new Error("aborted");
     abortError.name = "AbortError";
-    jest.spyOn(globalThis, "fetch" as any).mockRejectedValue(abortError);
+    jest.spyOn(globalThis, "fetch").mockRejectedValue(abortError);
 
     const result = await runOnboardingSkipProbe({
       baseUrl: "http://localhost:3000",
@@ -126,11 +129,12 @@ describe("runCosmicRecipeProbe", () => {
   });
 
   it("returns success when generation responds 200 + success:true", async () => {
-    jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: async () => ({ success: true, data: { recipe: {} } }),
-    } as Response);
+    jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, data: { recipe: {} } }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
 
     const result = await runCosmicRecipeProbe({
       baseUrl: "http://localhost:3000",
@@ -143,14 +147,18 @@ describe("runCosmicRecipeProbe", () => {
   });
 
   it("treats a 402 (daily free-generation quota spent) as success — the endpoint is healthy and token-gating is working", async () => {
-    jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: false,
-      status: 402,
-      json: async () => ({
-        success: false,
-        message: "You have generated your free recipe for today.",
-      }),
-    } as Response);
+    jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          success: false,
+          message: "You have generated your free recipe for today.",
+        }),
+        {
+          status: 402,
+          headers: { "Content-Type": "application/json" },
+        },
+      ),
+    );
 
     const result = await runCosmicRecipeProbe({
       baseUrl: "http://localhost:3000",
@@ -163,11 +171,12 @@ describe("runCosmicRecipeProbe", () => {
   });
 
   it("still fails on a 5xx (genuine generation breakage)", async () => {
-    jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: false,
-      status: 502,
-      json: async () => ({ success: false, message: "backend down" }),
-    } as Response);
+    jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: false, message: "backend down" }), {
+        status: 502,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
 
     const result = await runCosmicRecipeProbe({
       baseUrl: "http://localhost:3000",
@@ -180,11 +189,12 @@ describe("runCosmicRecipeProbe", () => {
   });
 
   it("still fails on 200 + success:false (endpoint reachable but generation failed)", async () => {
-    jest.spyOn(globalThis, "fetch" as any).mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: async () => ({ success: false, message: "generation failed" }),
-    } as Response);
+    jest.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: false, message: "generation failed" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
 
     const result = await runCosmicRecipeProbe({
       baseUrl: "http://localhost:3000",
@@ -215,40 +225,33 @@ describe("runAuthSigninProbe", () => {
   // can be stubbed independently.
   function mockFlow(opts: { location: string; tokenError?: string }) {
     return jest
-      .spyOn(globalThis, "fetch" as any)
-      .mockImplementation(async (input: any) => {
+      .spyOn(globalThis, "fetch")
+      .mockImplementation(async (input: RequestInfo | URL) => {
         const url = String(input);
         if (url.includes("/api/auth/csrf")) {
-          return {
-            ok: true,
+          const headers = new Headers();
+          headers.append("set-cookie", "authjs.csrf-token=test-csrf%7Cabc; Path=/; HttpOnly");
+          return new Response(JSON.stringify({ csrfToken: "test-csrf" }), {
             status: 200,
-            json: async () => ({ csrfToken: "test-csrf" }),
-            headers: {
-              get: () => null,
-              getSetCookie: () => [
-                "authjs.csrf-token=test-csrf%7Cabc; Path=/; HttpOnly",
-              ],
-            },
-          } as unknown as Response;
+            headers,
+          });
         }
         if (url.includes("/api/auth/signin/google")) {
-          return {
+          const headers = new Headers();
+          headers.set("location", opts.location);
+          return new Response(JSON.stringify({}), {
             status: 302,
-            json: async () => ({}),
-            headers: {
-              get: (k: string) =>
-                k.toLowerCase() === "location" ? opts.location : null,
-              getSetCookie: () => [],
-            },
-          } as unknown as Response;
+            headers,
+          });
         }
         if (url.includes("oauth2.googleapis.com/token")) {
-          return {
-            ok: false,
-            status: 400,
-            json: async () => ({ error: opts.tokenError ?? "invalid_grant" }),
-            headers: { get: () => null },
-          } as unknown as Response;
+          return new Response(
+            JSON.stringify({ error: opts.tokenError ?? "invalid_grant" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
         }
         throw new Error(`unexpected fetch: ${url}`);
       });

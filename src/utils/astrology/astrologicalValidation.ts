@@ -30,11 +30,11 @@ export interface PlanetaryPosition {
 /**
  * Validation result structure
  */
-export interface ValidationResult {
+export interface ValidationResult<T = unknown> {
   isValid: boolean;
   errors: string[];
   warnings: string[];
-  correctedData?: unknown;
+  correctedData?: T;
 }
 
 /**
@@ -51,9 +51,9 @@ export interface ValidationOptions {
  * Validate a complete planetary positions object
  */
 export function validatePlanetaryPositions(
-  positions: Record<string, unknown>,
+  positions: unknown,
   options: ValidationOptions = {},
-): ValidationResult {
+): ValidationResult<Record<string, PlanetaryPosition>> {
   const {
     strictMode = false,
     autoCorrect = false,
@@ -68,6 +68,7 @@ export function validatePlanetaryPositions(
       errors.push("Planetary positions must be an object");
       return { isValid: false, errors, warnings };
     }
+    const posRecord = positions as Record<string, unknown>;
 
     const requiredPlanets = [
       "sun",
@@ -89,12 +90,12 @@ export function validatePlanetaryPositions(
 
     // Check for required planets
     for (const planet of requiredPlanets) {
-      if (!(planet in positions)) {
+      if (!(planet in posRecord)) {
         errors.push(`Missing required planet: ${planet}`);
         continue;
       }
 
-      const position = positions[planet];
+      const position = posRecord[planet];
       const validation = validateSinglePlanetaryPosition(
         planet,
         position,
@@ -109,14 +110,14 @@ export function validatePlanetaryPositions(
       warnings.push(...validation.warnings);
 
       if (validation.correctedData && autoCorrect) {
-        correctedData[planet] = validation.correctedData as PlanetaryPosition;
+        correctedData[planet] = validation.correctedData;
       }
     }
 
     // Check optional planets
     for (const planet of optionalPlanets) {
-      if (planet in positions) {
-        const position = positions[planet];
+      if (planet in posRecord) {
+        const position = posRecord[planet];
         const validation = validateSinglePlanetaryPosition(
           planet,
           position,
@@ -135,14 +136,14 @@ export function validatePlanetaryPositions(
         warnings.push(...validation.warnings);
 
         if (validation.correctedData && autoCorrect) {
-          correctedData[planet] = validation.correctedData as PlanetaryPosition;
+          correctedData[planet] = validation.correctedData;
         }
       }
     }
 
     // Relational Sanity Checks (Proximity to Sun)
-    if ("sun" in positions && typeof positions.sun === "object" && positions.sun !== null) {
-      const sun = positions.sun as PlanetaryPosition;
+    if ("sun" in posRecord && typeof posRecord.sun === "object" && posRecord.sun !== null) {
+      const sun = posRecord.sun as PlanetaryPosition;
       
       const getSignDistance = (s1: string, s2: string) => {
         const signs = ["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"];
@@ -164,8 +165,8 @@ export function validatePlanetaryPositions(
         }
       }
 
-      if ("venus" in positions && typeof positions.venus === "object" && positions.venus !== null) {
-        const venus = positions.venus as PlanetaryPosition;
+      if ("venus" in posRecord && typeof posRecord.venus === "object" && posRecord.venus !== null) {
+        const venus = posRecord.venus as PlanetaryPosition;
         if (sun.sign && venus.sign) {
           const dist = getSignDistance(sun.sign, venus.sign);
           if (dist > 2) { // Venus MaxSignsFromSun restriction
@@ -177,7 +178,7 @@ export function validatePlanetaryPositions(
     }
 
     // Check for unknown planets
-    const unknownPlanets = Object.keys(positions).filter(
+    const unknownPlanets = Object.keys(posRecord).filter(
       (planet) => !allPlanets.includes(planet),
     );
     if (unknownPlanets.length > 0) {
@@ -215,7 +216,7 @@ function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
   strictMode = false,
-): ValidationResult {
+): ValidationResult<PlanetaryPosition> {
   const errors: string[] = [];
   const warnings: string[] = [];
   let correctedData: PlanetaryPosition | undefined;
@@ -434,49 +435,35 @@ export function validateAstrologicalElementalProperties(
  * Validate mathematical constants used in calculations
  */
 export function validateMathematicalConstants(
-  _constants: Record<string, number>,
+  _constants: unknown,
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   try {
-    const expectedConstants = {
-      DEGREES_PER_SIGN: 30,
-      SIGNS_PER_CIRCLE: 12,
-      MAX_LONGITUDE: 360,
-      MIN_ELEMENT_VALUE: 0.05,
-      MAX_ELEMENT_VALUE: 1.0,
-      SELF_REINFORCEMENT_THRESHOLD: 0.3,
-      HARMONY_THRESHOLD: 0.7,
+    if (!_constants || typeof _constants !== "object") {
+      return { isValid: false, errors: ["Constants must be an object"], warnings: [] };
+    }
+    const constantsObj = _constants as Record<string, number>;
+    const expectedConstants: Record<string, number> = {
+      DEGREES_PER_SIGN: 30, SIGNS_PER_CIRCLE: 12, MAX_LONGITUDE: 360,
+      MIN_ELEMENT_VALUE: 0.05, MAX_ELEMENT_VALUE: 1.0,
+      SELF_REINFORCEMENT_THRESHOLD: 0.3, HARMONY_THRESHOLD: 0.7,
     };
 
-    Object.entries(expectedConstants).forEach(([name, expectedValue]) => {
-      if (name in _constants) {
-        const actualValue = _constants[name];
-        if (Math.abs(actualValue - expectedValue) > 0.001) {
-          warnings.push(
-            `Constant ${name} has unexpected value: ${actualValue} (expected: ${expectedValue})`,
-          );
-        }
+    Object.entries(expectedConstants).forEach(([name, expected]) => {
+      if (name in constantsObj && Math.abs(constantsObj[name] - expected) > 0.001) {
+        warnings.push(`Constant ${name} has unexpected value: ${constantsObj[name]} (expected: ${expected})`);
       }
     });
 
-    // Check for NaN or infinite values
-    Object.entries(_constants).forEach(([name, value]) => {
-      if (!Number.isFinite(value)) {
-        errors.push(`Constant ${name} has invalid value: ${value}`);
-      }
+    Object.entries(constantsObj).forEach(([name, value]) => {
+      if (!Number.isFinite(value)) errors.push(`Constant ${name} has invalid value: ${value}`);
     });
 
-    return {
-      isValid: errors.length === 0,
-      errors,
-      warnings,
-    };
+    return { isValid: errors.length === 0, errors, warnings };
   } catch (error) {
-    errors.push(
-      `Constants validation error: ${error instanceof Error ? error.message : "Unknown error"}`,
-    );
+    errors.push(`Constants validation error: ${error instanceof Error ? error.message : "Unknown error"}`);
     return { isValid: false, errors, warnings };
   }
 }
@@ -586,13 +573,11 @@ export function quickValidate(
   try {
     switch (type) {
       case "planetary":
-        return validatePlanetaryPositions(data as Record<string, unknown>)
-          .isValid;
+        return validatePlanetaryPositions(data).isValid;
       case "elemental":
         return validateElementalProperties(data);
       case "constants":
-        return validateMathematicalConstants(data as Record<string, number>)
-          .isValid;
+        return validateMathematicalConstants(data).isValid;
       default:
         return false;
     }

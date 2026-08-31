@@ -51,13 +51,15 @@ const MEASURED = {
   Ascendant: { sign: "leo", degree: 15.03, exactLongitude: 135.0341 },
 };
 
-const request = (): any =>
-  ({
-    json: async () => ({
+const request = (): Request =>
+  new Request("http://localhost:3000/api/user/charts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
       label: "Cosmic identity",
       birthData: { dateTime: "1984-09-17T12:00:00.000Z", latitude: 49.79, longitude: 8.12 },
     }),
-  }) as unknown as any;
+  });
 
 describe("POST /api/user/charts — a fabricated chart is never saved", () => {
   beforeEach(() => {

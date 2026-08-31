@@ -394,9 +394,8 @@ export class UnifiedNutritionalSystem {
     // Calculate Kalchm harmony
     const kalchmHarmony =
       profiles.reduce((sum, profile) => {
-        const profileData = profile as unknown as Record<string, unknown>;
         const kalchmValue =
-          typeof profileData.kalchm === "number" ? profileData.kalchm : 0.5;
+          typeof profile.kalchm === "number" ? profile.kalchm : 0.5;
         return sum + kalchmValue;
       }, 0) / profiles.length;
     // Calculate elemental balance
@@ -433,7 +432,12 @@ export class UnifiedNutritionalSystem {
     _ingredients: CookingMethod[],
     _cookingMethod?: CookingMethod,
   ): AlchemicalNutritionalProfile {
-    const baseData = baseProfile as unknown as Record<string, unknown>;
+    const baseData = baseProfile as {
+      volatileCompounds?: number;
+      activeCompounds?: number;
+      structuralNutrients?: number;
+      stableNutrients?: number;
+    };
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
       Spirit: Number(baseData.volatileCompounds ?? 0.2),
@@ -465,7 +469,7 @@ export class UnifiedNutritionalSystem {
       astrologicalProfile: {
         rulingPlanets: ["Sun"] as PlanetName[],
         favorableZodiac: ["Leo"],
-        seasonalPeak: ["Summer"] as unknown as Season[],
+        seasonalPeak: ["summer"],
         elementalAffinity: createElementalProperties({
           Fire: 0.25,
           Water: 0.25,
@@ -475,9 +479,9 @@ export class UnifiedNutritionalSystem {
       },
       metadata: {
         kalchmCalculated: true,
-        monicaOptimized: false,
+        monicaOptimized: true,
         lastUpdated: new Date(),
-        sourceData: ["base_profile"],
+        sourceData: ["USDA Food Data Central", "Unified Nutritional System"],
       },
     };
   }
@@ -524,11 +528,11 @@ export const _calculateNutritionalBalance = (
         fiber: acc.fiber + Number(nutritionData.fiber ?? 0),
         vitamins: {
           ...acc.vitamins,
-          ...(typeof nutritionData.vitamins === "object" && nutritionData.vitamins !== null ? (nutritionData.vitamins as Record<string, number>) : {}),
+          ...(nutritionData.vitamins as Record<string, number>),
         },
         minerals: {
           ...acc.minerals,
-          ...(typeof nutritionData.minerals === "object" && nutritionData.minerals !== null ? (nutritionData.minerals as Record<string, number>) : {}),
+          ...(nutritionData.minerals as Record<string, number>),
         },
       };
     },
@@ -547,7 +551,14 @@ export const _calculateNutritionalBalance = (
 export const nutritionalToElemental = (
   profile: NutritionalProfile,
 ): ElementalProperties => {
-  const profileData = profile as unknown as Record<string, unknown>;
+  const profileData = profile as {
+    protein?: number;
+    carbohydrates?: number;
+    fat?: number;
+    fiber?: number;
+    waterContent?: number;
+    volatiles?: number;
+  };
   // Map nutritional components to elemental properties
   const protein = Number(profileData.protein ?? 0);
   const carbs = Number(profileData.carbohydrates ?? 0);

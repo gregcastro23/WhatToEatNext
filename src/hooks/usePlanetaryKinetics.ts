@@ -84,7 +84,7 @@ export function usePlanetaryKinetics(
     location = { lat: 40.7128, lon: -74.006 }, // Default to NYC
     updateInterval = 300000, // 5 minutes
     enableAutoUpdate = true,
-    kineticsOptions = {},
+    kineticsOptions: _kineticsOptions = {},
   } = options;
 
   // State
@@ -108,16 +108,17 @@ export function usePlanetaryKinetics(
       setIsLoading(true);
       setError(null);
 
+      const clientLocation: ClientKineticsLocation = {
+        latitude: location.lat,
+        longitude: location.lon,
+      };
+      const clientOptions: ClientKineticsOptions = {
+        useCache: true,
+      };
+
       const data = await planetaryKineticsClient.getEnhancedKinetics(
-        // Hook's KineticsLocation ({lat, lon}) differs from the client's own
-        // KineticsLocation ({latitude, longitude}); preserved as-is (latent
-        // mismatch, not fixed here) via unknown-cast.
-        location as unknown as ClientKineticsLocation,
-        // Hook's KineticsOptions (agent/power-prediction/resonance flags) has
-        // no field overlap with the client's own KineticsOptions
-        // (includeThermodynamics/useCache/cacheTimeout); preserved as-is via
-        // unknown-cast.
-        kineticsOptions as unknown as ClientKineticsOptions,
+        clientLocation,
+        clientOptions,
       );
 
       // Get accurate planetary positions utilizing our robust astronomy-engine wrapper
@@ -137,20 +138,42 @@ export function usePlanetaryKinetics(
 
       const kineticsInput: KineticsCalculationInput = {
         currentPlanetaryPositions,
-        previousPlanetaryPositions: previousPlanetaryPositions || undefined,
+        previousPlanetaryPositions: previousPlanetaryPositions ?? undefined,
         timeInterval,
         currentPlanet: "Sun", // Default to Sun, can be enhanced
-        previousMetrics: kineticsMetrics || undefined,
+        previousMetrics: kineticsMetrics ?? undefined,
       };
 
       const metrics = calculateKinetics(kineticsInput);
 
-      // The client's real KineticsResponse ({success, data?: KineticMetrics,
-      // error?, timestamp, cacheHit?}) is structurally different from the
-      // @/types/kinetics KineticsResponse that `kinetics` state and this
-      // hook's memos (currentPowerLevel, dominantElement, etc.) assume.
-      // Preserved as-is (latent mismatch, not fixed here) via unknown-cast.
-      setKinetics(data as unknown as KineticsResponse);
+      const normalizedKinetics: KineticsResponse = {
+        success: data.success,
+        computeTimeMs: 0,
+        cacheHit: Boolean(data.cacheHit),
+        metadata: {
+          timestamp: data.timestamp,
+        },
+        data: {
+          base: {
+            power: [
+              {
+                hour: new Date().getHours(),
+                power: data.data?.power ?? 0.5,
+                planetary: "Sun",
+              },
+            ],
+            timing: {
+              planetaryHours: [],
+              seasonalInfluence: "Spring",
+            },
+            elemental: {
+              totals: { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+            },
+          },
+        },
+      };
+
+      setKinetics(normalizedKinetics);
       setKineticsMetrics(metrics);
       setPreviousPlanetaryPositions(currentPlanetaryPositions);
       setLastKineticsTime(currentTime);
@@ -158,14 +181,7 @@ export function usePlanetaryKinetics(
       setLastUpdate(new Date());
 
       _logger.debug("usePlanetaryKinetics: Kinetics data updated", {
-        // data.data has no `.base` field on the client's real KineticMetrics
-        // shape; this only "works" via the upstream any-cast reinterpretation.
-        // Preserved exactly (including the throw-to-catch-fallback behavior
-        // when data.data is undefined) via a narrow object-shape cast instead
-        // of optional chaining.
-        powerLevel: (
-          data.data as unknown as { base: { power: Array<{ power: number }> } }
-        ).base.power[0]?.power,
+        powerLevel: data.data?.power ?? 0.5,
         forceMagnitude: metrics.forceMagnitude,
         cacheHit: data.cacheHit,
       });
@@ -181,7 +197,6 @@ export function usePlanetaryKinetics(
     }
   }, [
     location,
-    kineticsOptions,
     previousPlanetaryPositions,
     lastKineticsTime,
     kineticsMetrics,
@@ -191,12 +206,13 @@ export function usePlanetaryKinetics(
   const fetchGroupDynamics = useCallback(
     async (userIds: string[]) => {
       try {
+        const clientLocation: ClientKineticsLocation = {
+          latitude: location.lat,
+          longitude: location.lon,
+        };
         const data = await planetaryKineticsClient.getGroupDynamics(
           userIds,
-          // Same shape mismatch as above; the client's getGroupDynamics
-          // ignores this param entirely (`_location`, unused), so this cast
-          // is currently inert but preserved for consistency/safety.
-          location as unknown as ClientKineticsLocation,
+          clientLocation,
         );
         setGroupDynamics(data);
 
@@ -258,7 +274,7 @@ export function usePlanetaryKinetics(
 
   // Computed values
   const currentPowerLevel = useMemo(() => {
-    if (!kinetics?.data?.base?.power) return 0.5;
+    if (!kinetics?.data.base.power) return 0.5;
 
     const currentHour = new Date().getHours();
     const powerData = kinetics.data.base.power.find(
@@ -268,7 +284,7 @@ export function usePlanetaryKinetics(
   }, [kinetics]);
 
   const dominantElement = useMemo(() => {
-    if (!kinetics?.data?.base?.elemental?.totals) return "Earth";
+    if (!kinetics?.data.base.elemental.totals) return "Earth";
 
     const { totals } = kinetics.data.base.elemental;
     const entries = Object.entries(totals);
@@ -298,7 +314,7 @@ export function usePlanetaryKinetics(
   }, [kinetics, currentPowerLevel]);
 
   const seasonalInfluence = useMemo(
-    () => kinetics?.data?.base?.timing?.seasonalInfluence ?? "Spring",
+    () => kinetics?.data.base.timing.seasonalInfluence ?? "Spring",
     [kinetics],
   );
 
@@ -323,7 +339,7 @@ export function usePlanetaryKinetics(
     }, [kinetics]);
 
   const elementalRecommendations = useMemo((): string[] => {
-    if (!kinetics?.data?.base?.elemental?.totals) return [];
+    if (!kinetics?.data.base.elemental.totals) return [];
 
     try {
       return getElementalFoodRecommendations(

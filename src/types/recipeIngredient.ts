@@ -4,7 +4,7 @@ import type {
 } from "./recipe";
 
 // Type not exported from index
-type QuantityScaledProperties = any;
+type QuantityScaledProperties = Record<string, unknown>;
 
 /**
  * Recipe ingredient interface that extends the base Ingredient
@@ -88,11 +88,12 @@ export interface SimpleIngredient {
  * Validates that an object conforms to the RecipeIngredient interface
  */
 export function validateIngredient(obj: unknown): obj is RecipeIngredient {
-  return Boolean(
-    obj &&
-    typeof (obj as any).name === "string" &&
-    typeof (obj as any).amount === "number" &&
-    typeof (obj as any).unit === "string",
+  if (!obj || typeof obj !== "object") return false;
+  const item = obj as Record<string, unknown>;
+  return (
+    typeof item.name === "string" &&
+    typeof item.amount === "number" &&
+    typeof item.unit === "string"
   );
 }
 

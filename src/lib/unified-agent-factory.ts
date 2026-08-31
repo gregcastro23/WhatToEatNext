@@ -13,6 +13,7 @@ import {
   getLunarDegreePersonality,
   getMoonPhaseEmoji,
 } from './moon-phase-calculator'
+import { PLANET_COLORS, PLANET_SYMBOLS } from './planetary-config-helper'
 import type { CraftedAgent, ConsciousnessLevel } from './agent-types'
 import type {
   UnifiedAgent,
@@ -173,12 +174,12 @@ export class UnifiedAgentFactory implements AgentFactory {
       capabilities,
       memory: blankMemory(),
       appearance: {
-        avatar: `${moonEmoji}${config.symbol}`,
-        color: config.color,
-        symbol: config.symbol,
+        avatar: `${moonEmoji}${config.symbol ?? '●'}`,
+        color: config.color ?? PLANET_COLORS[config.planet] ?? '#8b5cf6',
+        symbol: config.symbol ?? PLANET_SYMBOLS[config.planet] ?? '●',
         aura: {
           type: this.getPlanetaryAuraType(config.planet),
-          color: config.color,
+          color: config.color ?? PLANET_COLORS[config.planet] ?? '#8b5cf6',
           intensity: 0.7,
         },
       },
