@@ -149,7 +149,18 @@ if (showTop) {
 }
 
 if (showCasts) {
-  console.log(`\n=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES BY TYPE CASTS (${currentCasts.total} total: ${currentCasts.asAny} as any, ${currentCasts.asUnknownAs} as unknown as) ===`);
+  const prodCasts = castScan.files.filter((f) => !f.isTest);
+  const testCasts = castScan.files.filter((f) => f.isTest);
+  const prodTotal = prodCasts.reduce((s, f) => s + f.total, 0);
+  const prodAsAny = prodCasts.reduce((s, f) => s + f.asAny, 0);
+  const prodAsUnknownAs = prodCasts.reduce((s, f) => s + f.asUnknownAs, 0);
+  const testTotal = testCasts.reduce((s, f) => s + f.total, 0);
+  const testAsAny = testCasts.reduce((s, f) => s + f.asAny, 0);
+  const testAsUnknownAs = testCasts.reduce((s, f) => s + f.asUnknownAs, 0);
+
+  console.log(`\n=== TYPE CAST SURFACE: ${currentCasts.total} total (${currentCasts.asAny} as any, ${currentCasts.asUnknownAs} as unknown as) ===`);
+  console.log(`  Production: ${prodTotal} (${prodAsAny} as any, ${prodAsUnknownAs} as unknown as) | Test: ${testTotal} (${testAsAny} as any, ${testAsUnknownAs} as unknown as)`);
+  console.log(`=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES ===`);
   for (const item of castScan.files.slice(0, topCastsN)) {
     const tag = item.isTest ? "[TEST] " : "       ";
     console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as) ${tag}: ${item.filePath}`);
@@ -238,7 +249,7 @@ if (
       casts: {
         total: Math.min(currentCasts.total, baselineCasts.total),
         asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
-        asUnknownAs: currentCasts.asUnknownAs,
+        asUnknownAs: Math.min(currentCasts.asUnknownAs, baselineCasts.asUnknownAs),
       },
       declined: {
         total: declinedTotal,

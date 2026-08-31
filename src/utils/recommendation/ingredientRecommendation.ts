@@ -554,17 +554,17 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   const validIngredients = allIngredients.filter(
     (ing) =>
       ing.astrologicalProfile &&
-      // Preserved as-is (non-null assertion, not `?.`): the original `any`-cast
-      // access here was unconditional, so it threw for ingredients whose
-      // astrologicalProfile omits elementalAffinity entirely (common in real
-      // ingredient data) and returned `undefined` (not a throw) when
-      // elementalAffinity is stored as a plain string rather than the
-      // {base,...} object form. Both are pre-existing latent filtering bugs —
-      // not fixed here, since fixing the missing-field case would silently
-      // exclude those ingredients instead of throwing, changing which
-      // ingredients pass validation.
-      (ing.astrologicalProfile.elementalAffinity! as { base?: string }).base &&
-      ing.astrologicalProfile.rulingPlanets,
+      (typeof ing.astrologicalProfile.elementalAffinity === "object"
+        ? Boolean(
+            (
+              ing.astrologicalProfile.elementalAffinity as
+                | { base?: string }
+                | null
+                | undefined
+            )?.base,
+          )
+        : Boolean(ing.astrologicalProfile.elementalAffinity)) &&
+      Boolean(ing.astrologicalProfile.rulingPlanets),
   );
 
   // Standardize all ingredients
