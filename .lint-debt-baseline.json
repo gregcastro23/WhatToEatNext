@@ -8,6 +8,16 @@
     "test": 77,
     "untrackedSingleAsT": 2852
   },
+  "assertionSites": {
+    "total": 4638,
+    "asAny": 103,
+    "chained": 294,
+    "single": 4241,
+    "production": 3985,
+    "test": 653,
+    "asConst": 632,
+    "nonNull": 666
+  },
   "declined": {
     "total": 6318,
     "rules": {

@@ -7,12 +7,14 @@ import { ESLint } from "eslint";
 
 import { AUDITED_RULES } from "../eslint.config.audit.mjs";
 import {
+  compareAssertionSites,
   compareCasts,
   compareDeclinedDebt,
   compareLintDebt,
   countTypeCasts,
   findPerRuleRegressions,
   lintDebtBaselineSchema,
+  scanAssertionSites,
   scanFileCasts,
 } from "./lib/lintDebt";
 
@@ -110,9 +112,24 @@ if (!baselineCasts) {
   process.exit(1);
 }
 
+// Distinct assertion sites (AST). A chain counts once, so relabelling
+// `as unknown as T` into `as T` cannot move this number — only deleting an
+// assertion can. See Operating Rule 8.
+const siteScan = scanAssertionSites(path.join(repoRoot, "src"), repoRoot);
+const currentSites = { ...siteScan.summary };
+const baselineSites = baseline.assertionSites;
+
+if (!baselineSites) {
+  console.error(
+    "❌ Baseline is missing the required `assertionSites` section; aborting audit.",
+  );
+  process.exit(1);
+}
+
 const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 const declinedComparison = compareDeclinedDebt(declinedTotal, baselineDeclinedTotal);
 const castComparison = compareCasts(currentCasts, baselineCasts);
+const siteComparison = compareAssertionSites(currentSites, baselineSites);
 const ruleRegressions = findPerRuleRegressions(counts, baseline.rules, declinedRules);
 
 console.log(trackedTotal);
@@ -160,8 +177,24 @@ if (showCasts) {
 
   console.log(`\n=== TYPE CAST SURFACE: ${currentCasts.total} total (${currentCasts.asAny} as any, ${currentCasts.asUnknownAs} as unknown as) ===`);
   console.log(`  Production: ${prodTotal} (${prodAsAny} as any, ${prodAsUnknownAs} as unknown as) | Test: ${testTotal} (${testAsAny} as any, ${testAsUnknownAs} as unknown as)`);
-  console.log(`  Untracked single \`as T\` assertions: ${currentCasts.untrackedSingleAsT ?? 0}`);
-  console.log(`=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES ===`);
+  console.log(`  Untracked single \`as T\` assertions (regex, uppercase-only): ${currentCasts.untrackedSingleAsT ?? 0}`);
+  console.log(
+    `\n=== ASSERTION SITES (AST): ${currentSites.total} distinct ` +
+      `(${currentSites.asAny} as any, ${currentSites.chained} chained, ${currentSites.single} single) ===`,
+  );
+  console.log(
+    `  Production: ${currentSites.production} | Test: ${currentSites.test}` +
+      `  [monitored: ${currentSites.asConst} \`as const\`, ${currentSites.nonNull} non-null \`!\`]`,
+  );
+  console.log(`=== TOP ${Math.min(topCastsN, siteScan.files.length)} FILES BY ASSERTION SITES ===`);
+  for (const item of siteScan.files.slice(0, topCastsN)) {
+    const tag = item.isTest ? "[TEST] " : "       ";
+    console.log(
+      `${item.total.toString().padStart(4)} sites (${item.asAny.toString().padStart(2)} any, ` +
+        `${item.chained.toString().padStart(2)} chained, ${item.single.toString().padStart(3)} single) ${tag}: ${item.filePath}`,
+    );
+  }
+  console.log(`\n=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES BY GATED CASTS ===`);
   for (const item of castScan.files.slice(0, topCastsN)) {
     const tag = item.isTest ? "[TEST] " : "       ";
     console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as, ${(item.untrackedSingleAsT ?? 0).toString().padStart(3)} as T) ${tag}: ${item.filePath}`);
@@ -218,6 +251,29 @@ if (castComparison.exceedsBaseline) {
   }
 }
 
+if (siteComparison.exceedsBaseline) {
+  hasError = true;
+  if (siteComparison.totalIncreasedBy > 0) {
+    console.error(
+      `❌ Assertion sites increased by ${siteComparison.totalIncreasedBy}: ` +
+        `${currentSites.total} exceeds baseline of ${baselineSites.total} ` +
+        `(as any: ${currentSites.asAny} vs ${baselineSites.asAny}, chained: ${currentSites.chained} vs ${baselineSites.chained}, single: ${currentSites.single} vs ${baselineSites.single}).`,
+    );
+  }
+  if (siteComparison.asAnyIncreasedBy > 0 && siteComparison.totalIncreasedBy === 0) {
+    console.error(
+      `❌ \`as any\` assertion sites increased by ${siteComparison.asAnyIncreasedBy}: ` +
+        `${currentSites.asAny} exceeds baseline of ${baselineSites.asAny} (site total remained ${currentSites.total}).`,
+    );
+  }
+  if (siteComparison.productionIncreasedBy > 0 && siteComparison.totalIncreasedBy === 0) {
+    console.error(
+      `❌ Production assertion sites increased by ${siteComparison.productionIncreasedBy}: ` +
+        `${currentSites.production} exceeds baseline of ${baselineSites.production}.`,
+    );
+  }
+}
+
 if (hasError) {
   process.exit(1);
 }
@@ -229,6 +285,9 @@ if (
   currentCasts.total < baselineCasts.total ||
   currentCasts.asAny < baselineCasts.asAny ||
   (baselineCasts.production !== undefined && (currentCasts.production ?? 0) < baselineCasts.production) ||
+  currentSites.total < baselineSites.total ||
+  currentSites.asAny < baselineSites.asAny ||
+  currentSites.production < baselineSites.production ||
   declinedTotal < baselineDeclinedTotal
 ) {
   if (trackedTotal < baseline.trackedTotal) {
@@ -241,6 +300,20 @@ if (
     const castsDecreasedBy = baselineCasts.total - currentCasts.total;
     console.log(
       `🎉 Type casts decreased: ${currentCasts.total} (down ${castsDecreasedBy >= 0 ? castsDecreasedBy : 0} from ${baselineCasts.total}; as any: ${currentCasts.asAny} vs baseline ${baselineCasts.asAny}, as unknown as: ${currentCasts.asUnknownAs} vs baseline ${baselineCasts.asUnknownAs}).`,
+    );
+  }
+  if (currentSites.total < baselineSites.total) {
+    console.log(
+      `🎉 Assertion sites decreased by ${baselineSites.total - currentSites.total}: ` +
+        `${currentSites.total} (down from ${baselineSites.total}).`,
+    );
+  } else if (
+    currentSites.chained < baselineSites.chained &&
+    currentSites.total === baselineSites.total
+  ) {
+    console.log(
+      `ℹ️  ${baselineSites.chained - currentSites.chained} chained assertion(s) became single ` +
+        `assertions but the site total held at ${currentSites.total}: that is relabelling, not remediation (Rule 8).`,
     );
   }
   if (declinedTotal < baselineDeclinedTotal) {
@@ -262,6 +335,16 @@ if (
         test: Math.min(currentCasts.test ?? 0, baselineCasts.test ?? (currentCasts.test ?? 0)),
         untrackedSingleAsT: currentCasts.untrackedSingleAsT ?? 0,
       },
+      assertionSites: {
+        total: Math.min(currentSites.total, baselineSites.total),
+        asAny: Math.min(currentSites.asAny, baselineSites.asAny),
+        chained: currentSites.chained,
+        single: currentSites.single,
+        production: Math.min(currentSites.production, baselineSites.production),
+        test: currentSites.test,
+        asConst: currentSites.asConst,
+        nonNull: currentSites.nonNull,
+      },
       declined: {
         total: declinedTotal,
         rules: Object.fromEntries(
@@ -282,7 +365,7 @@ if (
       ),
     };
     await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}).`);
+    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production}).`);
   }
 }
 
