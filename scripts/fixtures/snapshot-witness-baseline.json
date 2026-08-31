@@ -1713,8 +1713,34 @@
     ]
   },
   "recommenderCookingMethods": {
-    "asyncCount": 0,
-    "asyncTop": [],
+    "asyncCount": 25,
+    "asyncTop": [
+      {
+        "name": "Marinating",
+        "score": 0.2636,
+        "heat": null
+      },
+      {
+        "name": "Dehydrating",
+        "score": 0.2614,
+        "heat": null
+      },
+      {
+        "name": "sous_vide",
+        "score": 0.2451,
+        "heat": null
+      },
+      {
+        "name": "braising",
+        "score": 0.2424,
+        "heat": null
+      },
+      {
+        "name": "tilt-skillet",
+        "score": 0.2424,
+        "heat": null
+      }
+    ],
     "syncCount": 10,
     "syncTop": [
       {
@@ -1805,24 +1831,31 @@
   },
   "recommenderRecipeBuilding": {
     "recipeName": "Balanced Italian Sauté with Chicken Breast",
-    "overallScore": null,
-    "monicaOptimization": "object"
+    "ingredientCount": 6,
+    "monicaOptimizationScore": 0.5766,
+    "seasonalScore": 0.604,
+    "criteriaMatched": null,
+    "kalchmAccuracy": null
   },
   "recommenderFiltering": {
-    "veganProteinCount": 0,
-    "veganVegetableCount": 0
+    "springVegetableCount": 75,
+    "springHerbCount": 51,
+    "fireSpiceCount": 42,
+    "fireProteinCount": 76
   },
   "recommenderCuisines": {
     "italianFound": true,
     "italianDishCount": {
-      "breakfast": 0,
-      "dinner": 0
+      "breakfast": null,
+      "dinner": null
     },
     "japaneseFound": true,
-    "monicaCompatibility": 0.7,
-    "kalchmHarmony": 1,
+    "monicaCompatibility": 0.5953,
+    "kalchmHarmony": 0.987,
     "culturalSynergy": 0.7,
-    "sharedMethods": [],
+    "sharedMethods": [
+      "grilling"
+    ],
     "italianKalchmAnalysis": {
       "totalKalchm": 1.0711,
       "averageRecipeKalchm": 1.075,
@@ -1835,6 +1868,26 @@
     "entropyIndex": 0,
     "reactivityIndex": 0,
     "gregsEnergyIndex": 0,
-    "transformedCount": 2
+    "transformedCount": 2,
+    "transformedSample": [
+      {
+        "name": "garlic",
+        "spirit": 0,
+        "essence": 0,
+        "matter": 0,
+        "substance": 0,
+        "heat": 0,
+        "gregsEnergy": 0
+      },
+      {
+        "name": "tomato",
+        "spirit": 0,
+        "essence": 0,
+        "matter": 0,
+        "substance": 0,
+        "heat": 0,
+        "gregsEnergy": 0
+      }
+    ]
   }
 }

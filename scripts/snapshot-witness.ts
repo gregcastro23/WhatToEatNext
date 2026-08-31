@@ -47,7 +47,10 @@ import {
 } from "../src/data/unified/seasonal";
 import { spices } from "../src/data/ingredients/spices";
 import { buildRecipe } from "../src/data/unified/recipeBuilding";
-import { IngredientFilterService } from "../src/services/IngredientFilterService";
+import {
+  IngredientFilterService,
+  INGREDIENT_GROUPS,
+} from "../src/services/IngredientFilterService";
 import { getCuisineData } from "../src/data/cuisines/index";
 import { unifiedCuisineIntegrationSystem } from "../src/data/unified/cuisineIntegrations";
 import { CuisineEnhancer } from "../src/data/unified/cuisines";
@@ -247,7 +250,6 @@ export async function generateSnapshot() {
     "Aries",
     ["Sun", "Mars"],
     "spring",
-    "Italian",
   );
   const syncMethods = getRecommendedCookingMethodsSync(
     testElements,
@@ -308,34 +310,42 @@ export async function generateSnapshot() {
   const recommenderRecipeBuilding = {
     success: builtRecipe.success,
     recipeName: builtRecipe.recipe?.name ?? null,
-    overallScore:
-      typeof builtRecipe.recipe?.overallScore === "number"
-        ? Number(builtRecipe.recipe.overallScore.toFixed(4))
+    ingredientCount: builtRecipe.recipe?.ingredients?.length ?? null,
+    monicaOptimizationScore:
+      typeof builtRecipe.recipe?.monicaOptimization?.optimizationScore === "number"
+        ? Number(builtRecipe.recipe.monicaOptimization.optimizationScore.toFixed(4))
         : null,
-    monicaOptimization:
-      typeof builtRecipe.recipe?.monicaOptimization === "number"
-        ? Number(builtRecipe.recipe.monicaOptimization.toFixed(4))
-        : builtRecipe.recipe?.monicaOptimization
-          ? "object"
-          : null,
+    seasonalScore:
+      typeof builtRecipe.recipe?.seasonalAdaptation?.seasonalScore === "number"
+        ? Number(builtRecipe.recipe.seasonalAdaptation.seasonalScore.toFixed(4))
+        : null,
+    criteriaMatched: builtRecipe.metrics?.criteriaMatched ?? null,
+    kalchmAccuracy:
+      typeof builtRecipe.metrics?.kalchmAccuracy === "number"
+        ? Number(builtRecipe.metrics.kalchmAccuracy.toFixed(4))
+        : null,
   };
 
   // 11. Ingredient Filtering (Exercises IngredientFilterService.ts)
   const filterService = IngredientFilterService.getInstance();
-  const veganFiltered = filterService.filterIngredients({
-    dietary: { isVegan: true },
+  const springFiltered = filterService.filterIngredients({
+    season: ["spring"],
+  });
+  const elementalFiltered = filterService.filterIngredients({
+    elemental: { Fire: 0.3 },
   });
   const recommenderFiltering = {
-    veganProteinCount: veganFiltered.proteins?.length ?? 0,
-    veganVegetableCount: veganFiltered.vegetables?.length ?? 0,
+    springVegetableCount: springFiltered[INGREDIENT_GROUPS.VEGETABLES]?.length ?? null,
+    springHerbCount: springFiltered[INGREDIENT_GROUPS.HERBS]?.length ?? null,
+    fireSpiceCount: elementalFiltered[INGREDIENT_GROUPS.SPICES]?.length ?? null,
+    fireProteinCount: elementalFiltered[INGREDIENT_GROUPS.PROTEINS]?.length ?? null,
   };
 
-  // 12. Cuisine Data & Integrations (Exercises cuisines/index.ts, cuisineIntegrations.ts, cuisines.ts)
   const italianCuisine = await getCuisineData("Italian");
   const japaneseCuisine = await getCuisineData("Japanese");
   const compatibility = unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(
-    "Italian",
-    "Japanese",
+    "italian",
+    "japanese",
   );
   const cuisineKalchm = italianCuisine
     ? CuisineEnhancer.calculateCuisineKalchm(italianCuisine)
@@ -344,14 +354,14 @@ export async function generateSnapshot() {
   const recommenderCuisines = {
     italianFound: Boolean(italianCuisine),
     italianDishCount: {
-      breakfast: italianCuisine?.dishes?.breakfast?.spring?.length ?? 0,
-      dinner: italianCuisine?.dishes?.dinner?.spring?.length ?? 0,
+      breakfast: italianCuisine?.dishes?.breakfast?.all?.length ?? null,
+      dinner: italianCuisine?.dishes?.dinner?.all?.length ?? null,
     },
     japaneseFound: Boolean(japaneseCuisine),
-    monicaCompatibility: Number(compatibility.monicaCompatibility.toFixed(4)),
-    kalchmHarmony: Number(compatibility.kalchmHarmony.toFixed(4)),
-    culturalSynergy: Number(compatibility.culturalSynergy.toFixed(4)),
-    sharedMethods: compatibility.sharedCookingMethods,
+    monicaCompatibility: Number((compatibility?.monicaCompatibility ?? 0).toFixed(4)),
+    kalchmHarmony: Number((compatibility?.kalchmHarmony ?? 0).toFixed(4)),
+    culturalSynergy: Number((compatibility?.culturalSynergy ?? 0).toFixed(4)),
+    sharedMethods: compatibility?.sharedCookingMethods ?? [],
     italianKalchmAnalysis: cuisineKalchm
       ? {
           totalKalchm: Number(cuisineKalchm.totalKalchm.toFixed(4)),
@@ -374,23 +384,32 @@ export async function generateSnapshot() {
   ];
   const adapter = new RecommendationAdapter(adapterItems, [], []);
   const samplePositions = {
-    Sun: { sign: "aries", degree: 0.5, isRetrograde: false },
-    Moon: { sign: "cancer", degree: 14.2, isRetrograde: false },
-    Mercury: { sign: "pisces", degree: 28.1, isRetrograde: false },
-    Venus: { sign: "taurus", degree: 8.0, isRetrograde: false },
-    Mars: { sign: "scorpio", degree: 22.1, isRetrograde: false },
-    Jupiter: { sign: "gemini", degree: 15.3, isRetrograde: false },
-    Saturn: { sign: "pisces", degree: 12.4, isRetrograde: false },
-    Uranus: { sign: "taurus", degree: 27.9, isRetrograde: false },
-    Neptune: { sign: "pisces", degree: 29.5, isRetrograde: false },
-    Pluto: { sign: "aquarius", degree: 2.1, isRetrograde: false },
+    sun: { sign: "aries", degree: 0.5, isRetrograde: false },
+    moon: { sign: "cancer", degree: 14.2, isRetrograde: false },
+    mercury: { sign: "pisces", degree: 28.1, isRetrograde: false },
+    venus: { sign: "taurus", degree: 8.0, isRetrograde: false },
+    mars: { sign: "scorpio", degree: 22.1, isRetrograde: false },
+    jupiter: { sign: "gemini", degree: 15.3, isRetrograde: false },
+    saturn: { sign: "pisces", degree: 12.4, isRetrograde: false },
+    uranus: { sign: "taurus", degree: 27.9, isRetrograde: false },
+    neptune: { sign: "pisces", degree: 29.5, isRetrograde: false },
+    pluto: { sign: "aquarius", degree: 2.1, isRetrograde: false },
   };
   adapter.initialize(
     samplePositions,
     true,
-    "Aries",
+    "aries",
     "Full Moon",
   );
+  const transformedSample = adapter.getAllTransformedIngredients().map((item) => ({
+    name: item.name,
+    spirit: Number((item.alchemicalProperties?.Spirit ?? 0).toFixed(4)),
+    essence: Number((item.alchemicalProperties?.Essence ?? 0).toFixed(4)),
+    matter: Number((item.alchemicalProperties?.Matter ?? 0).toFixed(4)),
+    substance: Number((item.alchemicalProperties?.Substance ?? 0).toFixed(4)),
+    heat: Number((item.alchemicalProperties?.heat ?? 0).toFixed(4)),
+    gregsEnergy: Number((item.alchemicalProperties?.gregsEnergy ?? 0).toFixed(4)),
+  }));
   const recommenderAdapter = {
     dominantProperty: adapter.getDominantAlchemicalProperty(),
     heatIndex: Number(adapter.getHeatIndex()?.toFixed(4) ?? 0),
@@ -398,6 +417,7 @@ export async function generateSnapshot() {
     reactivityIndex: Number(adapter.getReactivityIndex()?.toFixed(4) ?? 0),
     gregsEnergyIndex: Number(adapter.getGregsEnergyIndex()?.toFixed(4) ?? 0),
     transformedCount: adapter.getAllTransformedIngredients().length,
+    transformedSample,
   };
 
   return {
