@@ -1,11 +1,15 @@
 import path from "node:path";
 
 import {
+  compareAssertionSites,
   compareCasts,
   compareDeclinedDebt,
   compareLintDebt,
+  countAssertionSitesInSource,
   countTypeCasts,
   findPerRuleRegressions,
+  isDuplicateArtifactPath,
+  scanAssertionSites,
 } from "../lintDebt";
 
 describe("compareLintDebt", () => {
@@ -181,5 +185,193 @@ describe("countTypeCasts", () => {
     expect(typeof counts.asUnknownAs).toBe("number");
     expect(counts.total).toBe(counts.asAny + counts.asUnknownAs);
     expect(counts.total).toBeGreaterThan(0);
+  });
+});
+
+describe("countAssertionSitesInSource", () => {
+  const count = (code: string, file = "sample.ts") =>
+    countAssertionSitesInSource(code, file);
+
+  it("counts a chain as ONE site, so Rule 8 relabelling cannot move the axis", () => {
+    // This is the entire reason the axis exists. `as unknown as Foo` -> `as Foo`
+    // overrides the type system in exactly as many places before and after.
+    const chained = count("const a = x as unknown as Foo;");
+    const relabelled = count("const a = x as Foo;");
+
+    expect(chained.total).toBe(1);
+    expect(relabelled.total).toBe(1);
+    expect(chained.total).toBe(relabelled.total);
+
+    // ...even though the legacy regex axis drops by one on exactly that edit.
+    const legacyBefore = "const a = x as unknown as Foo;".match(
+      /\bas\s+unknown\s+as\b/g,
+    );
+    const legacyAfter = "const a = x as Foo;".match(/\bas\s+unknown\s+as\b/g);
+    expect(legacyBefore?.length ?? 0).toBe(1);
+    expect(legacyAfter?.length ?? 0).toBe(0);
+  });
+
+  it("falls to zero only when the assertion is genuinely removed", () => {
+    expect(count("const a = x as Foo;").total).toBe(1);
+    expect(count("const a = x;").total).toBe(0);
+  });
+
+  it("classifies each assertion shape exactly once", () => {
+    const result = count(
+      [
+        "const a = x as any;",
+        "const b = y as unknown as Foo;",
+        "const c = z as Bar;",
+      ].join("\n"),
+    );
+    expect(result).toMatchObject({ total: 3, asAny: 1, chained: 1, single: 1 });
+    expect(result.total).toBe(result.asAny + result.chained + result.single);
+  });
+
+  it("counts assertions the legacy regex is structurally blind to", () => {
+    // Each of these is a real type assertion whose target type does not begin
+    // with an uppercase identifier, so `\bas\s+(?!unknown|any)[A-Z]\w*` misses it.
+    expect(count("const a = k.toLowerCase() as keyof typeof M;").total).toBe(1);
+    expect(count("const a = j as { success: boolean } & Data;").total).toBe(1);
+    expect(count("const a = s as string[];").total).toBe(1);
+    expect(count("const a = n as number;").total).toBe(1);
+    expect(count("const a = sign as unknown;").total).toBe(1);
+  });
+
+  it("does not count `as const`, which narrows rather than overrides", () => {
+    const result = count('const a = ["1h", "24h"] as const;');
+    expect(result.total).toBe(0);
+    expect(result.asConst).toBe(1);
+  });
+
+  it("does not count import/export aliases or `as` inside string literals", () => {
+    expect(count('import * as React from "react";').total).toBe(0);
+    expect(count('export { default as WeeklyCalendar } from "./W";').total).toBe(0);
+    expect(count('import { foo as Bar } from "./m";').total).toBe(0);
+    // Code generation that emits the text `as any` is not itself an assertion.
+    expect(count("lines.push(`  sign: '${s}' as any,`);").total).toBe(0);
+  });
+
+  it("classifies `as any[]` as an array assertion, not a bare `any`", () => {
+    const result = count("const a = rows.filter(Boolean) as any[];");
+    expect(result.total).toBe(1);
+    expect(result.asAny).toBe(0);
+    expect(result.single).toBe(1);
+  });
+
+  it("counts nested assertions in the operand of an outer assertion", () => {
+    const result = count("const a = foo(y as Bar) as unknown as Baz;");
+    expect(result.total).toBe(2);
+    expect(result.chained).toBe(1);
+    expect(result.single).toBe(1);
+  });
+
+  it("parses TSX generics without treating them as assertions", () => {
+    const result = count("const a = <div id={x as Foo} />;", "sample.tsx");
+    expect(result.total).toBe(1);
+  });
+
+  it("reports non-null assertions separately from the site total", () => {
+    const result = count("const a = maybe!.value;");
+    expect(result.total).toBe(0);
+    expect(result.nonNull).toBe(1);
+  });
+});
+
+describe("compareAssertionSites", () => {
+  const base = {
+    total: 4638,
+    asAny: 103,
+    chained: 294,
+    single: 4241,
+    production: 3600,
+    test: 1038,
+  };
+
+  it("allows the total to hold steady or fall", () => {
+    expect(compareAssertionSites(base, base)).toEqual({
+      exceedsBaseline: false,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+    expect(
+      compareAssertionSites({ ...base, total: 4600, single: 4203, production: 3570 }, base),
+    ).toEqual({
+      exceedsBaseline: false,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+  });
+
+  it("fails when the site total grows", () => {
+    expect(compareAssertionSites({ ...base, total: 4640, single: 4243 }, base)).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 2,
+      asAnyIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+  });
+
+  it("does NOT reward a pure relabel: chained down, single up, total flat", () => {
+    // 50 `as unknown as T` rewritten to `as T`. The legacy axis would call this
+    // a 50-cast win; the site total is unchanged, so this axis calls it nothing.
+    const relabelled = { ...base, chained: 244, single: 4291 };
+    expect(relabelled.total).toBe(base.total);
+    expect(compareAssertionSites(relabelled, base)).toEqual({
+      exceedsBaseline: false,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+  });
+
+  it("fails when asAny or production grows even with the total flat", () => {
+    expect(
+      compareAssertionSites({ ...base, asAny: 120, single: 4224 }, base),
+    ).toMatchObject({ exceedsBaseline: true, asAnyIncreasedBy: 17 });
+    expect(
+      compareAssertionSites({ ...base, production: 3650, test: 988 }, base),
+    ).toMatchObject({ exceedsBaseline: true, productionIncreasedBy: 50 });
+  });
+});
+
+describe("scanAssertionSites", () => {
+  it("agrees with the regex scanner on the one axis both measure exactly", () => {
+    const repoRoot = path.resolve(__dirname, "../../../");
+    const srcDir = path.join(repoRoot, "src");
+    const sites = scanAssertionSites(srcDir, repoRoot);
+    const casts = countTypeCasts(srcDir);
+
+    // `as unknown as` is the only shape the regex matches without false
+    // positives or blind spots, so it is a real cross-instrument control.
+    expect(sites.summary.chained).toBe(casts.asUnknownAs);
+
+    // The AST sees strictly more real assertions than the uppercase-only regex.
+    expect(sites.summary.single).toBeGreaterThan(casts.untrackedSingleAsT ?? 0);
+    expect(sites.summary.total).toBe(
+      sites.summary.asAny + sites.summary.chained + sites.summary.single,
+    );
+    expect(sites.summary.total).toBe(
+      sites.summary.production + sites.summary.test,
+    );
+  });
+});
+
+describe("isDuplicateArtifactPath", () => {
+  it("skips Finder/sync duplicates that tsconfig and .gitignore already exclude", () => {
+    expect(isDuplicateArtifactPath("services/AstrologicalService 2.ts")).toBe(true);
+    expect(isDuplicateArtifactPath("calculations/culinaryAstrology 3.ts")).toBe(true);
+    expect(isDuplicateArtifactPath("lib/auth/auth 2.config.ts")).toBe(true);
+    expect(isDuplicateArtifactPath("app/celestial-lab/mechanics 2/page.tsx")).toBe(true);
+  });
+
+  it("keeps real source files, including names that merely contain digits", () => {
+    expect(isDuplicateArtifactPath("services/AstrologicalService.ts")).toBe(false);
+    expect(isDuplicateArtifactPath("utils/base64.ts")).toBe(false);
+    expect(isDuplicateArtifactPath("components/Panel2.tsx")).toBe(false);
+    expect(isDuplicateArtifactPath("app/api/v2/route.ts")).toBe(false);
+    expect(isDuplicateArtifactPath("__tests__/phase7BatchEComponents.test.tsx")).toBe(false);
   });
 });

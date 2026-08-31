@@ -175,7 +175,7 @@ export const authConfig = {
       }
 
       if (session?.user) {
-        const user = session.user as Record<string, unknown>;
+        const { user } = session;
         const onboardingComplete = user.onboardingComplete === true;
         const _isAdmin = user.role === "admin";
 

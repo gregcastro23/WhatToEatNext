@@ -9,6 +9,7 @@
  */
 
 import { fetchRailwayResourceUsage } from "@/services/railwayUsageService";
+import { asFetch } from "@/__tests__/helpers/fetchMock";
 
 const ORIGINAL_ENV = process.env;
 
@@ -40,27 +41,31 @@ describe("fetchRailwayResourceUsage", () => {
     process.env.RAILWAY_API_TOKEN = "tok";
     // `usage` and `estimatedUsage` are two separate requests; answer each by
     // inspecting the query body.
-    jest.spyOn(global, "fetch").mockImplementation(((_url: unknown, init: { body?: unknown }) => {
-      const body = String(init?.body ?? "");
-      const data = body.includes("estimatedUsage")
-        ? {
-            data: {
-              estimatedUsage: [
-                { measurement: "MEMORY_USAGE_GB", estimatedValue: 200 },
-                { measurement: "NETWORK_TX_GB", estimatedValue: 20 },
-              ],
-            },
-          }
-        : {
-            data: {
-              usage: [
-                { measurement: "MEMORY_USAGE_GB", value: 100 },
-                { measurement: "NETWORK_TX_GB", value: 5 },
-              ],
-            },
-          };
-      return Promise.resolve({ ok: true, status: 200, json: async () => data } as Response);
-    }) as unknown as typeof fetch);
+    jest.spyOn(global, "fetch").mockImplementation(
+      asFetch(
+        jest.fn((_url: unknown, init: { body?: unknown }) => {
+          const body = String(init?.body ?? "");
+          const data = body.includes("estimatedUsage")
+            ? {
+                data: {
+                  estimatedUsage: [
+                    { measurement: "MEMORY_USAGE_GB", estimatedValue: 200 },
+                    { measurement: "NETWORK_TX_GB", estimatedValue: 20 },
+                  ],
+                },
+              }
+            : {
+                data: {
+                  usage: [
+                    { measurement: "MEMORY_USAGE_GB", value: 100 },
+                    { measurement: "NETWORK_TX_GB", value: 5 },
+                  ],
+                },
+              };
+          return Promise.resolve({ ok: true, status: 200, json: async () => data } as Response);
+        }),
+      ),
+    );
 
     const res = await fetchRailwayResourceUsage();
     expect(res?.provider).toBe("Railway");

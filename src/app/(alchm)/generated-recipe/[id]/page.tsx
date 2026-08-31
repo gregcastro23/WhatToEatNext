@@ -411,9 +411,7 @@ export default function GeneratedRecipePage(): React.JSX.Element {
             ) : (
               <ul className="space-y-0.5">
                 {ingredients.map((ing, i) => {
-                  const ingExt = ing as typeof ing & {
-                    elementalProperties?: Record<string, number>;
-                  };
+                  const ingExt = ing;
                   return (
                     <IngredientRow
                       key={ingExt.id ?? i}

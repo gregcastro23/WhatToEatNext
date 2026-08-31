@@ -9,6 +9,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
 import SettlementPanel from "@/components/admin/SettlementPanel";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 let restoreVisibility: () => void;
 beforeAll(() => {
@@ -17,20 +18,16 @@ beforeAll(() => {
 afterAll(() => restoreVisibility());
 
 function mockFetch(body: unknown) {
-  global.fetch = jest.fn().mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: async () => body,
-  }) as unknown as typeof fetch;
+  installFetchMock(
+    jest.fn().mockResolvedValue({ ok: true, status: 200, json: async () => body }),
+  );
 }
 
 /** A failing read — the case none of the original three tests covered. */
 function mockFailedFetch(status: number) {
-  global.fetch = jest.fn().mockResolvedValue({
-    ok: false,
-    status,
-    json: async () => ({}),
-  }) as unknown as typeof fetch;
+  installFetchMock(
+    jest.fn().mockResolvedValue({ ok: false, status, json: async () => ({}) }),
+  );
 }
 
 describe("SettlementPanel empty states", () => {

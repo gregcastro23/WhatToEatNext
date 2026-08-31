@@ -1,4 +1,5 @@
 import { resolveAgentsBridgeUser } from "@/lib/auth/agentsBridge";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 const realFetch = global.fetch;
 
@@ -8,7 +9,7 @@ afterEach(() => {
 });
 
 function mockFetch(impl: jest.Mock) {
-  global.fetch = impl as unknown as typeof fetch;
+  installFetchMock(impl);
 }
 
 describe("resolveAgentsBridgeUser", () => {

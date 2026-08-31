@@ -12,6 +12,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 // jsdom reports `document.hidden === true` under this jest config, which trips
 // useHardenedPolling's visibility guard and means the panel never fetches.
@@ -92,11 +93,9 @@ function payload(overrides: Record<string, unknown> = {}) {
 }
 
 function mockFetch(body: unknown, ok = true) {
-  global.fetch = jest.fn().mockResolvedValue({
-    ok,
-    status: ok ? 200 : 500,
-    json: async () => body,
-  }) as unknown as typeof fetch;
+  installFetchMock(
+    jest.fn().mockResolvedValue({ ok, status: ok ? 200 : 500, json: async () => body }),
+  );
 }
 
 describe("ReliabilityPanel honesty", () => {

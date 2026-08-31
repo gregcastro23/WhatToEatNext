@@ -31,6 +31,7 @@
  */
 
 import { describe, expect, it, jest, beforeEach, afterAll } from "@jest/globals";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 const ORIGINAL_FETCH = global.fetch;
 
@@ -99,15 +100,17 @@ let capturedPayload: Record<string, unknown> | null = null;
 
 beforeEach(() => {
   capturedPayload = null;
-  global.fetch = jest.fn(async (_url: unknown, init: unknown) => {
-    const body = (init as { body?: string })?.body;
-    capturedPayload = body ? JSON.parse(body) : null;
-    return {
-      ok: true,
-      statusText: "OK",
-      json: async () => stubResponse(),
-    } as unknown as Response;
-  }) as unknown as typeof fetch;
+  installFetchMock(
+    jest.fn(async (_url: unknown, init: unknown) => {
+      const body = (init as { body?: string })?.body;
+      capturedPayload = body ? JSON.parse(body) : null;
+      return {
+        ok: true,
+        statusText: "OK",
+        json: async () => stubResponse(),
+      } as unknown as Response;
+    }),
+  );
 });
 
 afterAll(() => {

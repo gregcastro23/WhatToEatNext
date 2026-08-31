@@ -85,7 +85,7 @@ export default function OnboardingPage() {
   // If already onboarded, skip to returnTo or /profile
   useEffect(() => {
     if (status !== "authenticated" || !session?.user) return;
-    const user = session.user as Record<string, unknown>;
+    const { user } = session;
     // Bypass if they already have onboardingComplete
     if (user.onboardingComplete === true && viewState === "input") {
       router.replace(returnTo ?? "/");

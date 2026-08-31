@@ -42,11 +42,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { commensalshipId, targetUserId, action = "block" } = body as {
-      commensalshipId?: string;
-      targetUserId?: string;
-      action?: string;
-    };
+    const { commensalshipId, targetUserId, action = "block" } = body;
 
     if (action !== "block" && action !== "unblock") {
       return NextResponse.json(

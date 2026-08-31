@@ -502,7 +502,7 @@ function convertLegacyToUnified(
       "autumn",
       "winter",
     ],
-    seasonalModifiers: (legacyProfile.seasonalModifiers as Record<"spring" | "summer" | "autumn" | "winter", number> | undefined) ?? {
+    seasonalModifiers: legacyProfile.seasonalModifiers ?? {
       spring: 0.5,
       summer: 0.5,
       autumn: 0.5,

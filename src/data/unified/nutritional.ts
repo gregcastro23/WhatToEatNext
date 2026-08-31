@@ -551,14 +551,7 @@ export const _calculateNutritionalBalance = (
 export const nutritionalToElemental = (
   profile: NutritionalProfile,
 ): ElementalProperties => {
-  const profileData = profile as {
-    protein?: number;
-    carbohydrates?: number;
-    fat?: number;
-    fiber?: number;
-    waterContent?: number;
-    volatiles?: number;
-  };
+  const profileData = profile;
   // Map nutritional components to elemental properties
   const protein = Number(profileData.protein ?? 0);
   const carbs = Number(profileData.carbohydrates ?? 0);

@@ -14,6 +14,7 @@ import {
   POSTAL_FORMAT_LABEL,
 } from "@/lib/location/postalCode";
 import { resolvePostalCode } from "@/services/geocodingService";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 describe("parsePostalCode", () => {
   it("recognises a US ZIP and attributes it to the US", () => {
@@ -97,7 +98,7 @@ describe("resolvePostalCode", () => {
       status: 200,
       json: async () => payload,
     });
-    global.fetch = fetchMock as unknown as typeof fetch;
+    installFetchMock(fetchMock);
     return fetchMock;
   }
 
@@ -222,11 +223,9 @@ describe("resolvePostalCode", () => {
   });
 
   it("throws on an upstream failure instead of returning a fabricated place", async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: false,
-      status: 503,
-      json: async () => ({}),
-    }) as unknown as typeof fetch;
+    installFetchMock(
+      jest.fn().mockResolvedValue({ ok: false, status: 503, json: async () => ({}) }),
+    );
 
     await expect(
       resolvePostalCode({ code: "80202", country: "us", format: "us-zip" }),

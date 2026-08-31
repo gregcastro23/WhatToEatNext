@@ -1079,7 +1079,7 @@ function calculateUnifiedFlavorScore(
 
       // Calculate alignment between flavor profile and elemental preferences
       Object.entries(flavorMap).forEach(([flavor, preference]) => {
-        const flavorValue = (flavorProfile as Record<string, number>)[flavor] || 0;
+        const flavorValue = flavorProfile[flavor] || 0;
         if (flavorValue > 0) {
           // Use exponential compatibility for better spread
           const alignment = exponentialElementalCompatibility(
@@ -1100,7 +1100,7 @@ function calculateUnifiedFlavorScore(
       // Bonus for flavor intensity matching preferences
       if (options.flavorIntensityPreference) {
         const totalIntensity = Object.values(
-          flavorProfile as Record<string, number>,
+          flavorProfile,
         ).reduce((sum, val) => sum + val, 0);
         const avgIntensity = totalIntensity / Object.keys(flavorProfile).length;
 

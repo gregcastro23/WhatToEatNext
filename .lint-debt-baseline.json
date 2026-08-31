@@ -1,22 +1,32 @@
 {
   "trackedTotal": 3606,
   "casts": {
-    "total": 400,
+    "total": 380,
     "asAny": 106,
-    "asUnknownAs": 294,
-    "production": 323,
-    "test": 77,
-    "untrackedSingleAsT": 2852
+    "asUnknownAs": 274,
+    "production": 322,
+    "test": 58,
+    "untrackedSingleAsT": 2837
+  },
+  "assertionSites": {
+    "total": 4593,
+    "asAny": 103,
+    "chained": 274,
+    "single": 4216,
+    "production": 3959,
+    "test": 634,
+    "asConst": 632,
+    "nonNull": 666
   },
   "declined": {
-    "total": 6318,
+    "total": 6317,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1786,
       "@typescript-eslint/explicit-module-boundary-types": 855,
       "complexity": 350,
       "max-depth": 99,
       "max-lines": 658,
-      "max-lines-per-function": 2116,
+      "max-lines-per-function": 2115,
       "no-void": 454
     }
   },
@@ -106,7 +116,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2116,
+      "count": 2115,
       "autoFixable": 0
     },
     "max-nested-callbacks": {

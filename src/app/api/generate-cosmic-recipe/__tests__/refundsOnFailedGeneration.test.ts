@@ -30,6 +30,8 @@ const purchaseShopItem = jest.fn();
 const creditMultipleTokensDetailed = jest.fn();
 const getShopItem = jest.fn();
 
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
+
 jest.mock("@/services/TokenEconomyService", () => ({
   tokenEconomy: {
     purchaseShopItem: (...a: unknown[]) => purchaseShopItem(...a),
@@ -171,13 +173,13 @@ describe("cosmic recipe ESMS settlement", () => {
   afterEach(() => jest.restoreAllMocks());
 
   it("refunds the exact debited basket when the upstream generation fails", async () => {
-    global.fetch = jest
-      .fn()
-      .mockResolvedValue(
-        new Response(JSON.stringify({ detail: "upstream boom" }), {
-          status: 502,
-        }),
-      ) as unknown as typeof fetch;
+    installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValue(
+          new Response(JSON.stringify({ detail: "upstream boom" }), { status: 502 }),
+        ),
+    );
 
     await callRoute();
 
@@ -198,9 +200,9 @@ describe("cosmic recipe ESMS settlement", () => {
   });
 
   it("keys the refund on the debit's transaction group so a retry cannot double-credit", async () => {
-    global.fetch = jest
-      .fn()
-      .mockResolvedValue(new Response("{}", { status: 502 })) as unknown as typeof fetch;
+    installFetchMock(
+      jest.fn().mockResolvedValue(new Response("{}", { status: 502 })),
+    );
 
     await callRoute();
 
@@ -214,12 +216,14 @@ describe("cosmic recipe ESMS settlement", () => {
   it("does NOT refund when the recipe was actually delivered", async () => {
     // Control. Without this, an unconditional refund passes both cases above
     // and every paid generation becomes free.
-    global.fetch = jest.fn().mockResolvedValue(
-      new Response(JSON.stringify(VALID_RECIPE), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }),
-    ) as unknown as typeof fetch;
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify(VALID_RECIPE), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
 
     const res = await callRoute();
 
@@ -238,9 +242,9 @@ describe("cosmic recipe ESMS settlement", () => {
       success: false,
       reason: "already_owned",
     });
-    global.fetch = jest
-      .fn()
-      .mockResolvedValue(new Response("{}", { status: 502 })) as unknown as typeof fetch;
+    installFetchMock(
+      jest.fn().mockResolvedValue(new Response("{}", { status: 502 })),
+    );
 
     await callRoute();
 
@@ -248,12 +252,14 @@ describe("cosmic recipe ESMS settlement", () => {
   });
 
   it("passes client idempotencyKey / requestId to purchaseShopItem for deduplication", async () => {
-    global.fetch = jest.fn().mockResolvedValue(
-      new Response(JSON.stringify(VALID_RECIPE), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }),
-    ) as unknown as typeof fetch;
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify(VALID_RECIPE), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
 
     const mod = await import("@/app/api/generate-cosmic-recipe/route");
     const req = new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {
@@ -282,8 +288,7 @@ describe("cosmic recipe ESMS settlement", () => {
       success: false,
       reason: "already_applied",
     });
-    const fetchSpy = jest.fn();
-    global.fetch = fetchSpy as unknown as typeof fetch;
+    const fetchSpy = installFetchMock(jest.fn());
 
     const mod = await import("@/app/api/generate-cosmic-recipe/route");
     const req = new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {

@@ -255,7 +255,7 @@ export class AstrologicalService {
       const signMap: Record<string, string> = {};
       for (const [planet, pos] of Object.entries(planetaryPositions)) {
         if (planet === "dominantPlanet" || typeof pos === "string") continue;
-        const sign = (pos as { sign?: string })?.sign;
+        const sign = pos?.sign;
         if (sign) signMap[planet] = sign;
       }
 

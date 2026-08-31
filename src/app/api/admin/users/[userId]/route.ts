@@ -145,11 +145,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { tier, isActive, role } = body as {
-      tier?: "free" | "premium";
-      isActive?: boolean;
-      role?: string;
-    };
+    const { tier, isActive, role } = body;
 
     const user = await userDatabase.getUserById(userId);
     if (!user) {

@@ -391,7 +391,7 @@ const combinedSpices: Record<string, Partial<IngredientMapping>> = {
 for (const [key, patch] of Object.entries(inlineSpiceOverrides)) {
   combinedSpices[key] = {
     ...(combinedSpices[key] ?? {}),
-    ...(patch as Partial<IngredientMapping>),
+    ...patch,
   };
 }
 

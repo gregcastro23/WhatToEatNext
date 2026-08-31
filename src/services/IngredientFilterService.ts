@@ -572,7 +572,7 @@ export class IngredientFilterService {
     }
 
     // Award points for vitamin density
-    const vitaminDensity = (nutrition as { vitamin_density?: number }).vitamin_density;
+    const vitaminDensity = nutrition.vitamin_density;
     if (vitaminDensity) {
       score += vitaminDensity * 2;
     }

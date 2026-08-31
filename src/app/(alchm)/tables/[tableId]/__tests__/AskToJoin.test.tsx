@@ -14,6 +14,7 @@
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import TableDetailPage from "../page";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 jest.mock("next/navigation", () => ({
   useParams: () => ({ tableId: "tbl-1" }),
@@ -68,22 +69,24 @@ function tableFixture(overrides: Record<string, unknown> = {}) {
 }
 
 function mockFetchSequence(detailResponse: unknown, viewerId: string | null) {
-  global.fetch = jest.fn((url: unknown, init?: RequestInit) => {
-    const u = String(url);
-    if (u.includes("/join-request") && init?.method === "POST") {
-      return Promise.resolve({
-        ok: true,
-        json: async () => ({ success: true, message: "Your request has been sent" }),
-      }) as unknown as Promise<Response>;
-    }
-    if (u.startsWith("/api/tables/")) {
-      return Promise.resolve({
-        ok: true,
-        json: async () => ({ success: true, table: detailResponse, viewerId }),
-      }) as unknown as Promise<Response>;
-    }
-    return Promise.reject(new Error(`Unexpected fetch: ${u}`));
-  }) as unknown as typeof fetch;
+  installFetchMock(
+    jest.fn((url: unknown, init?: RequestInit) => {
+      const u = String(url);
+      if (u.includes("/join-request") && init?.method === "POST") {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ success: true, message: "Your request has been sent" }),
+        }) as unknown as Promise<Response>;
+      }
+      if (u.startsWith("/api/tables/")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ success: true, table: detailResponse, viewerId }),
+        }) as unknown as Promise<Response>;
+      }
+      return Promise.reject(new Error(`Unexpected fetch: ${u}`));
+    }),
+  );
 }
 
 const originalFetch = global.fetch;

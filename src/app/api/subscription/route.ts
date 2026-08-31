@@ -22,7 +22,7 @@ export async function GET() {
   } catch (error) {
     console.error("[api/subscription] Error:", error);
     // Return a minimal fallback so the frontend always has valid data
-    const jwtTier = (session.user as Record<string, unknown>).tier as string || "free";
+    const jwtTier = session.user.tier as string || "free";
     return NextResponse.json({
       subscription: { tier: jwtTier, status: "active" },
     });

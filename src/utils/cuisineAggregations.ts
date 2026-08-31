@@ -128,7 +128,7 @@ export function computeGlobalAverages(
 
   const thermoMeans = Object.fromEntries(
     Object.entries(thermoSums).map(([key, sum]) => [key, sum / n]),
-  ) as Partial<ThermodynamicMetrics>;
+  );
 
   // Calculate standard deviations using: sqrt(E[X^2] - E[X]^2)
   const elementalStdDev = Object.fromEntries(
@@ -153,7 +153,7 @@ export function computeGlobalAverages(
       const variance = sqSum / n - mean * mean;
       return [key, Math.sqrt(Math.max(0, variance))];
     }),
-  ) as Partial<ThermodynamicMetrics>;
+  );
 
   return {
     elementals: elementalMeans,
