@@ -1,8 +1,12 @@
 {
-  "total": 2057,
-  "files": 422,
+  "total": 2011,
+  "files": 420,
   "allowlist": [
+    "src/calculations/core/alchemicalCalculations.ts",
     "src/calculations/dignityManifest.ts",
+    "src/data/unified/cuisineIntegrations.ts",
+    "src/data/unified/recipeBuilding.ts",
+    "src/data/unified/seasonalAdjustments.ts",
     "src/lib/alchemical-kinetics.ts",
     "src/lib/celestial-energy-calculator.ts",
     "src/lib/cooking/boundaryNetwork.ts",

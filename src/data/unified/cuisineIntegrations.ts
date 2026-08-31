@@ -1633,6 +1633,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate weights based on cuisine compatibility
     for (let i = 0; i < cuisines.length; i++) {
       const cuisine = cuisines[i];
+      if (!cuisine) continue;
       const monica = cuisineMonicaConstants[cuisine];
       if (!monica) continue;
       // Calculate weight based on average compatibility with other cuisines
@@ -1641,6 +1642,7 @@ export class UnifiedCuisineIntegrationSystem {
       for (let j = 0; j < cuisines.length; j++) {
         if (i !== j) {
           const otherCuisine = cuisines[j];
+          if (!otherCuisine) continue;
           const compatibility = this.calculateCuisineCompatibility(
             cuisine,
             otherCuisine,
@@ -1766,10 +1768,14 @@ export class UnifiedCuisineIntegrationSystem {
     let totalHarmony = 0;
     let pairCount = 0;
     for (let i = 0; i < kalchmValues.length; i++) {
+      const ki = kalchmValues[i];
+      if (ki === undefined) continue;
       for (let j = i + 1; j < kalchmValues.length; j++) {
+        const kj = kalchmValues[j];
+        if (kj === undefined) continue;
         const ratio =
-          Math.min(kalchmValues[i], kalchmValues[j]) /
-          Math.max(kalchmValues[i], kalchmValues[j]);
+          Math.min(ki, kj) /
+          Math.max(ki, kj);
         totalHarmony += 0.7 + ratio * 0.3; // Self-reinforcement principle
         pairCount++;
       }
@@ -1785,15 +1791,16 @@ export class UnifiedCuisineIntegrationSystem {
     cuisines: string[],
     season: Season,
   ): SeasonalFusionProfile {
-    if (cuisines.length < 2) {
+    const [c0, c1] = cuisines;
+    if (!c0 || !c1) {
       throw new Error("At least 2 cuisines required for fusion");
     }
     // Generate fusion profile for first two cuisines
-    const fusionProfile = this.generateFusion(cuisines[0], cuisines[1]);
+    const fusionProfile = this.generateFusion(c0, c1);
     // Adapt for season
     const seasonalOptimization = this.calculateSeasonalOptimization(
-      cuisines[0],
-      cuisines[1],
+      c0,
+      c1,
       season,
     );
     // Get seasonal ingredients with safe property access
@@ -1850,6 +1857,7 @@ export class UnifiedCuisineIntegrationSystem {
     const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     for (let i = 0; i < profiles.length; i++) {
       const profile = profiles[i];
+      if (!profile) continue;
       const weight = weights[i] ?? 0;
       result.Fire += profile.Fire * weight;
       result.Water += profile.Water * weight;
@@ -1937,7 +1945,14 @@ export class UnifiedCuisineIntegrationSystem {
   private calculateKalchmDistribution(kalchmValues: number[]): {
     [key: string]: number;
   } {
-    const distribution: { [key: string]: number } = {
+    const distribution: Record<
+      | "low (0.5-0.8)"
+      | "medium-low (0.8-1.0)"
+      | "medium (1.0-1.2)"
+      | "medium-high (1.2-1.5)"
+      | "high (1.5+)",
+      number
+    > = {
       "low (0.5-0.8)": 0,
       "medium-low (0.8-1.0)": 0,
       "medium (1.0-1.2)": 0,
@@ -1953,8 +1968,10 @@ export class UnifiedCuisineIntegrationSystem {
     }
     // Convert to percentages
     const total = kalchmValues.length;
-    for (const range in distribution) {
-      distribution[range] = distribution[range] / total;
+    if (total > 0) {
+      (Object.keys(distribution) as Array<keyof typeof distribution>).forEach((range) => {
+        distribution[range] = distribution[range] / total;
+      });
     }
     return distribution;
   }
