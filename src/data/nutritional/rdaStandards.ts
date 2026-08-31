@@ -268,7 +268,7 @@ function selectBaseRDA(sex: string): NutritionalSummary {
   const base = createEmptyNutritionalSummary();
   for (const std of RDA_STANDARDS) {
     const value = sex === "male" ? std.adult_male : std.adult_female;
-    (base as unknown as Record<string, number>)[std.nutrient] = value;
+    base[std.nutrient] = value;
   }
   return base;
 }
@@ -284,7 +284,7 @@ export function multiplyNutrition(
   for (const key of Object.keys(result) as Array<keyof NutritionalSummary>) {
     const val = summary[key];
     if (typeof val === "number") {
-      (result as unknown as Record<string, number>)[key] = val * factor;
+      result[key] = val * factor;
     }
   }
   return result;
@@ -302,7 +302,7 @@ export function addNutrition(
     const va = a[key];
     const vb = b[key];
     if (typeof va === "number" && typeof vb === "number") {
-      (result as unknown as Record<string, number>)[key] = va + vb;
+      result[key] = va + vb;
     }
   }
   return result;
@@ -362,8 +362,7 @@ function buildRanges(
 ): Partial<Record<keyof NutritionalSummary, NutrientRange>> {
   const ranges: Partial<Record<keyof NutritionalSummary, NutrientRange>> = {};
   for (const std of RDA_STANDARDS) {
-    const target =
-      (daily as unknown as Record<string, number>)[std.nutrient] ?? 0;
+    const target = daily[std.nutrient] ?? 0;
     ranges[std.nutrient] = {
       min: target * 0.85,
       max: std.upper_limit ?? target * 1.15,

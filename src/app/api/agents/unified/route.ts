@@ -101,7 +101,7 @@ function ascendantPoint(
   return { sign: ascendant.sign, degree: ascendant.position % 30 };
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest | Request): Promise<NextResponse> {
   const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 

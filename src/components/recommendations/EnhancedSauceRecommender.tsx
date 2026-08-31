@@ -66,7 +66,7 @@ const _SEASON_OPTIONS = [
 // Helpers
 // ============================================================================
 
-function CuisineFingerprintPanel({ cuisineKey, cuisinesMapData }: { cuisineKey: string, cuisinesMapData?: Record<string, any> }) {
+function CuisineFingerprintPanel({ cuisineKey, cuisinesMapData }: { cuisineKey: string, cuisinesMapData?: Record<string, unknown> }) {
   const fp = useMemo(() => getCuisineFingerprint(cuisineKey, cuisinesMapData), [cuisineKey, cuisinesMapData]);
   if (!fp) return null;
 
@@ -209,12 +209,15 @@ function SauceResultCard({ result, rank }: { result: CuisineSauceResult; rank: n
                   </div>
                 </div>
                 <ul className="text-[10px] text-slate-500 grid grid-cols-1 gap-0.5">
-                  {scaledIngredients.map((ing, i) => (
-                    <li key={i} className="flex justify-between border-b border-slate-50 pb-0.5">
-                      <span>{typeof ing === "string" ? ing : (ing as any).name}</span>
-                      <span className="font-medium text-slate-700">{typeof ing === "string" ? "" : `${(ing as any).amount} ${(ing as any).unit}`}</span>
-                    </li>
-                  ))}
+                  {scaledIngredients.map((ing, i) => {
+                    const ingObj = typeof ing === "object" && ing !== null ? (ing as { name?: string; amount?: number | string; unit?: string }) : null;
+                    return (
+                      <li key={i} className="flex justify-between border-b border-slate-50 pb-0.5">
+                        <span>{typeof ing === "string" ? ing : ingObj?.name}</span>
+                        <span className="font-medium text-slate-700">{typeof ing === "string" ? "" : `${ingObj?.amount ?? ""} ${ingObj?.unit ?? ""}`}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -255,7 +258,7 @@ export default function EnhancedSauceRecommender() {
   const [dietary, _setDietary] = useState<string[]>([]);
   const [flavorTargets, _setFlavorTargets] = useState<FlavorAxis[]>([]);
   const [role, _setRole] = useState<SauceRole>("complement");
-  const [season, _setSeason] = useState<CuisineSauceContext["season"]>(detectedSeason.toLowerCase() as any);
+  const [season, _setSeason] = useState<CuisineSauceContext["season"]>(detectedSeason.toLowerCase() as CuisineSauceContext["season"]);
   const [cosmicSync, setCosmicSync] = useState(false);
   const [strictCuisine, setStrictCuisine] = useState(false);
   const [recommendations, setRecommendations] = useState<CuisineSauceResult[]>([]);

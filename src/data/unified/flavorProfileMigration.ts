@@ -243,7 +243,7 @@ export class FlavorProfileMigration {
     cuisineData: CuisineFlavorProfile,
   ): UnifiedFlavorProfile {
     const id = `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, "-")}`;
-    const rawData = cuisineData as unknown as RawProfileInput;
+    const rawData = cuisineData as RawProfileInput;
     return {
       id,
       name: cuisineName,
@@ -476,7 +476,7 @@ export class FlavorProfileMigration {
   }
 
   private calculateCuisineIntensity(cuisineData: CuisineFlavorProfile): number {
-    const rawData = cuisineData as unknown as RawProfileInput;
+    const rawData = cuisineData as { intensity?: number };
     if (typeof rawData.intensity === "number") return rawData.intensity;
     if (cuisineData.flavorIntensities) {
       const values = Object.values(cuisineData.flavorIntensities);
@@ -490,7 +490,7 @@ export class FlavorProfileMigration {
   private calculateCuisineComplexity(
     cuisineData: CuisineFlavorProfile,
   ): number {
-    const rawData = cuisineData as unknown as RawProfileInput;
+    const rawData = cuisineData as { complexity?: number };
     if (typeof rawData.complexity === "number") return rawData.complexity;
     const ingredientCount = cuisineData.signatureIngredients.length;
     const techniqueCount = cuisineData.signatureTechniques.length;
@@ -500,8 +500,8 @@ export class FlavorProfileMigration {
   private extractCuisineSeasonalPeak(
     cuisineData: CuisineFlavorProfile,
   ): Season[] {
-    const rawData = cuisineData as unknown as RawProfileInput;
-    if (Array.isArray(rawData.seasonalPeak)) return rawData.seasonalPeak as Season[];
+    const rawData = cuisineData as { seasonalPeak?: Season[] };
+    if (Array.isArray(rawData.seasonalPeak)) return rawData.seasonalPeak;
     return ["spring", "summer", "autumn", "winter"];
   }
 

@@ -91,7 +91,7 @@ export function useIngredientSearch() {
           const categoryScore =
             fuzzyMatch(searchTerm, ingredient.category || "") * 0.5;
           const qualitiesScore =
-            (((ingredient as unknown as any).qualities as string[]) || [])
+            (ingredient.qualities || [])
               .map((quality: string) => fuzzyMatch(searchTerm, quality))
               .reduce((max: number, score: number) => Math.max(max, score), 0) *
             0.3;

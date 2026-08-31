@@ -717,6 +717,7 @@ export interface Ingredient {
   preparationNotes?: string;
   planetaryRuler?: string;
   astrologicalProfile?: AstrologicalProfile; // Astrological profile with ruling planets and zodiac info
+  qualities?: string[];
 }
 
 // NutritionalProfile type (causing errors in multiple files)

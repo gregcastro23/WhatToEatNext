@@ -26,6 +26,7 @@ import {
   resolveIngredientSlug,
 } from '../data/ingredientRecipeIndex.js';
 import { userDatabase } from '../services/userDatabaseService.js';
+import type { Recipe } from '../types/recipe.js';
 
 const app = new Hono();
 
@@ -43,8 +44,8 @@ const PYTHON_BACKEND_URL = process.env.PYTHON_BACKEND_URL || RAILWAY_URL || 'htt
 app.get('/health', (c) => c.json({ status: 'ok', service: 'hono-gateway', redis: !!redis, timestamp: new Date().toISOString() }));
 
 /** Safely extract cooking methods from a recipe regardless of singular/plural key. */
-function getCookingMethods(recipe: Record<string, unknown>): string[] {
-  const raw = recipe.cookingMethods ?? recipe.cookingMethod;
+function getCookingMethods(recipe: Partial<Recipe> | Record<string, unknown>): string[] {
+  const raw = recipe.cookingMethod ?? (recipe as Record<string, unknown>).cookingMethods;
   if (!raw) return [];
   const arr = Array.isArray(raw) ? raw : [raw];
   return arr
@@ -58,8 +59,8 @@ function getCookingMethods(recipe: Record<string, unknown>): string[] {
     .filter(Boolean);
 }
 
-function extractTime(recipe: any, kind: "prep" | "cook"): number | undefined {
-  const details = recipe.details;
+function extractTime(recipe: Partial<Recipe> | Record<string, unknown>, kind: "prep" | "cook"): number | undefined {
+  const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
   if (details) {
     const v = kind === "prep" ? details.prepTimeMinutes : details.cookTimeMinutes;
     if (typeof v === "number") return v;
@@ -73,18 +74,19 @@ function extractTime(recipe: any, kind: "prep" | "cook"): number | undefined {
 }
 
 function buildSubstitutions(
-  ingredient: any | undefined,
+  ingredient: unknown,
 ): Array<{ name: string; rationale: string; type: "complementary" | "direct" }> {
-  if (!ingredient) return [];
+  if (!ingredient || typeof ingredient !== "object") return [];
+  const ingObj = ingredient as { name?: string; pairingRecommendations?: { complementary?: string[] } };
   const subs: Array<{ name: string; rationale: string; type: "complementary" | "direct" }> = [];
 
-  const pairing = ingredient.pairingRecommendations;
+  const pairing = ingObj.pairingRecommendations;
 
   if (pairing?.complementary) {
     for (const alt of pairing.complementary.slice(0, 5)) {
       subs.push({
         name: alt,
-        rationale: `Shares flavor affinity with ${ingredient.name} — works well in similar contexts.`,
+        rationale: `Shares flavor affinity with ${ingObj.name ?? "ingredient"} — works well in similar contexts.`,
         type: "complementary",
       });
     }
@@ -148,7 +150,7 @@ app.put('/api/user/profile', async (c) => {
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
       profileData,
-      (user as any).email
+      user.email ?? undefined,
     );
 
     if (!updatedUser) {
@@ -190,19 +192,29 @@ app.get('/api/ingredients/:name', async (c) => {
     const allRecipes = await recipeService.getAllRecipes();
     const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
-    const relatedRecipes: any[] = [];
+    const relatedRecipes: Array<{
+      id: string;
+      name: string;
+      cuisine: string;
+      description?: string;
+      prepTime?: number;
+      cookTime?: number;
+      servings?: number;
+      amount?: number;
+      unit?: string;
+    }> = [];
     for (const match of matches) {
       const recipe = recipeMap.get(match.recipeId);
       if (recipe) {
         relatedRecipes.push({
           id: recipe.id,
           name: recipe.name,
-          cuisine: recipe.cuisine,
+          cuisine: recipe.cuisine ?? "",
           description: recipe.description,
           prepTime: extractTime(recipe, "prep"),
           cookTime: extractTime(recipe, "cook"),
           servings:
-            (recipe as any).baseServingSize ||
+            (recipe as Recipe & { baseServingSize?: number }).baseServingSize ||
             recipe.servingSize ||
             recipe.numberOfServings,
           amount: typeof match.amount === "number" ? match.amount : undefined,
@@ -257,13 +269,13 @@ app.get('/api/recipes/:recipeId', async (c) => {
 
     // Ingredient classification
     const proteins = recipe.ingredients
-      .filter((i: any) => i.category === "protein")
-      .map((i: any) => i.name);
+      .filter((i) => i.category === "protein")
+      .map((i) => i.name);
     const vegetables = recipe.ingredients
-      .filter((i: any) => i.category === "vegetable")
-      .map((i: any) => i.name);
+      .filter((i) => i.category === "vegetable")
+      .map((i) => i.name);
 
-    const cookingMethods = getCookingMethods(recipe as Record<string, unknown>);
+    const cookingMethods = getCookingMethods(recipe);
 
     const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
       protein: proteins[0],
@@ -273,7 +285,7 @@ app.get('/api/recipes/:recipeId', async (c) => {
 
     const allRecipes = await LocalRecipeService.getAllRecipes();
     const recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
-      rawRecipe as any,
+      rawRecipe,
       allRecipes,
     );
 

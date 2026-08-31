@@ -21,14 +21,12 @@ jest.mock("@/lib/database", () => ({
   executeQuery: jest.fn(),
 }));
 
-function makeRequest(body: unknown, headers: Record<string, string>): any {
-  return {
-    headers: {
-      get: (name: string) =>
-        headers[name] || headers[name.toLowerCase()] || null,
-    },
-    json: async () => body,
-  } as unknown as any;
+function makeRequest(body: unknown, headers: Record<string, string>): Request {
+  return new Request("http://localhost:3000/api/internal/agent-sync", {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+  });
 }
 
 const mockSyncSecret = "test_sync_secret_123";

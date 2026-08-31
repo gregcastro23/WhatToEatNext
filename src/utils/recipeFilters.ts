@@ -2,7 +2,6 @@
 import type {
   DietaryRestriction,
   ElementalProperties,
-  IngredientMapping,
 } from "@/types/alchemy";
 import type { CuisineType } from "@/types/cuisine";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
@@ -483,8 +482,10 @@ export class RecipeFilter {
         // whenever a cookingMethod filter is supplied. Preserved as-is; see report.
         if (
           options.cookingMethod?.length &&
-          !options.cookingMethod.includes(
-            recipe.cookingMethod as unknown as string,
+          !options.cookingMethod.some((method) =>
+            Array.isArray(recipe.cookingMethod)
+              ? recipe.cookingMethod.includes(method)
+              : recipe.cookingMethod === method,
           )
         ) {
           return false;
@@ -606,11 +607,7 @@ export function filterRecipesByIngredientMappings(
   recipe: Recipe;
   score: number;
   matchQuality: string;
-  matchedIngredients: Array<{
-    name: string;
-    matchedTo?: IngredientMapping;
-    confidence: number;
-  }>;
+  matchedIngredients: ReturnType<typeof connectIngredientsToMappings>;
 }> {
   // Default elemental target if none provided
   const targetElements = elementalTarget ?? {
@@ -641,12 +638,12 @@ export function filterRecipesByIngredientMappings(
           ),
       );
 
-      if (
-        requiredIngredientsMapped.length <
-        ingredientRequirements.required.length
-      ) {
-        hasAllRequired = false;
-      } else {
+      // Check if all required ingredients were found
+      hasAllRequired =
+        requiredIngredientsMapped.length >=
+        ingredientRequirements.required.length;
+
+      if (hasAllRequired) {
         // Boost score for having required ingredients
         score += 0.2;
       }
@@ -654,21 +651,11 @@ export function filterRecipesByIngredientMappings(
 
     // Immediately filter out recipes missing required ingredients
     if (!hasAllRequired) {
-      // ← Pattern HH-3: Safe conversion via unknown
       return {
         recipe,
         score: 0,
         matchQuality: "no-match",
         matchedIngredients: mappedIngredients,
-      } as unknown as {
-        recipe: Recipe;
-        score: number;
-        matchQuality: string;
-        matchedIngredients: Array<{
-          name: string;
-          matchedTo?: IngredientMapping;
-          confidence: number;
-        }>;
       };
     }
 
@@ -683,21 +670,11 @@ export function filterRecipesByIngredientMappings(
       );
 
       if (hasExcludedIngredient) {
-        // ← Pattern HH-3: Safe conversion via unknown
         return {
           recipe,
           score: 0,
           matchQuality: "excluded",
           matchedIngredients: mappedIngredients,
-        } as unknown as {
-          recipe: Recipe;
-          score: number;
-          matchQuality: string;
-          matchedIngredients: Array<{
-            name: string;
-            matchedTo?: IngredientMapping;
-            confidence: number;
-          }>;
         };
       }
     }
@@ -719,21 +696,11 @@ export function filterRecipesByIngredientMappings(
         );
 
       if (!meetsRestrictions) {
-        // ← Pattern HH-3: Safe conversion via unknown
         return {
           recipe,
           score: 0,
           matchQuality: "dietary-mismatch",
           matchedIngredients: mappedIngredients,
-        } as unknown as {
-          recipe: Recipe;
-          score: number;
-          matchQuality: string;
-          matchedIngredients: Array<{
-            name: string;
-            matchedTo?: IngredientMapping;
-            confidence: number;
-          }>;
         };
       }
 
@@ -788,21 +755,11 @@ export function filterRecipesByIngredientMappings(
     else if (score > 0.6) matchQuality = "good";
     else if (score > 0.4) matchQuality = "fair";
 
-    // ← Pattern HH-3: Safe conversion via unknown
     return {
       recipe,
       score,
       matchQuality,
       matchedIngredients: mappedIngredients,
-    } as unknown as {
-      recipe: Recipe;
-      score: number;
-      matchQuality: string;
-      matchedIngredients: Array<{
-        name: string;
-        matchedTo?: IngredientMapping;
-        confidence: number;
-      }>;
     };
   });
 

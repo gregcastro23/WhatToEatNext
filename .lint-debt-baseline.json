@@ -1,9 +1,12 @@
 {
-  "trackedTotal": 3690,
+  "trackedTotal": 3606,
   "casts": {
-    "total": 543,
-    "asAny": 186,
-    "asUnknownAs": 357
+    "total": 400,
+    "asAny": 106,
+    "asUnknownAs": 294,
+    "production": 323,
+    "test": 77,
+    "untrackedSingleAsT": 2852
   },
   "declined": {
     "total": 6318,
@@ -27,7 +30,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 275,
+      "count": 246,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -35,15 +38,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1750,
+      "count": 1729,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 115,
+      "count": 112,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 340,
+      "count": 335,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -51,15 +54,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 346,
+      "count": 322,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 58,
+      "count": 57,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 211,
+      "count": 210,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {

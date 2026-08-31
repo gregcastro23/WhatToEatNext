@@ -1,5 +1,5 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
-import type { ElementalProperties, Ingredient } from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/alchemy";
 import type { LunarPhase } from "@/types/constants";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { herbs } from "../herbs";
@@ -61,8 +61,8 @@ export interface SeasoningAstrologicalProfile {
 }
 
 // Update salts category to be 'seasoning' with subCategory 'salt'
-const updateSaltCategory = (salts: IngredientMapping): IngredientMapping =>
-  (Object.entries(salts) as Array<[string, IngredientMapping]>).reduce(
+const updateSaltCategory = (saltsMap: Record<string, IngredientMapping>): IngredientMapping =>
+  Object.entries(saltsMap).reduce(
     (acc, [key, value]) => {
       acc[key] = {
         ...value,
@@ -75,7 +75,7 @@ const updateSaltCategory = (salts: IngredientMapping): IngredientMapping =>
   );
 
 // Export updated salts
-export const _categorizedSalts = updateSaltCategory(salts as any);
+export const _categorizedSalts = updateSaltCategory(salts);
 
 // Helper functions
 export const _getSeasoningsByCategory = (
@@ -99,7 +99,7 @@ export const _getSeasoningsByIntensity = (
     );
 
 export const _getCompatibleSeasonings = (seasoningName: string): string[] => {
-  const seasoning = seasonings[seasoningName] as unknown as Ingredient;
+  const seasoning = seasonings[seasoningName];
   if (!seasoning) return [];
 
   return Object.entries(seasonings)
@@ -124,7 +124,7 @@ export const _getSeasoningsByTiming = (
       ([_, value]) =>
         value.culinaryApplications &&
         Object.values(value.culinaryApplications).some(
-          (app) => (app as any)?.timing === timing,
+          (app) => (app as { timing?: string })?.timing === timing,
         ),
     )
     .reduce(
@@ -165,14 +165,17 @@ export const _getSeasoningsByLunarPhase = (
     );
 
 export const _getSeasoningsByElementalBoost = (
-  element: string,
+  element: keyof ElementalProperties,
 ): IngredientMapping =>
   Object.entries(seasonings)
     .filter(
       ([_, value]) =>
         value.astrologicalProfile?.lunarPhaseModifiers &&
         Object.values(value.astrologicalProfile.lunarPhaseModifiers).some(
-          (modifier) => (modifier as any)?.elementalBoost?.[element as any],
+          (modifier: unknown) =>
+            Boolean(
+              (modifier as { elementalBoost?: Partial<ElementalProperties> } | undefined)?.elementalBoost?.[element],
+            ),
         ),
     )
     .reduce(

@@ -7,10 +7,16 @@
 
 import { ingredientsMap } from "@/data/ingredients";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
-import type { ElementalProperties, IngredientMapping } from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 import { filterRecipesByIngredientMappings } from "@/utils/recipeFilters";
 import { connectIngredientsToMappings } from "@/utils/recipeMatching";
+
+export interface CompatibleIngredient {
+  name?: string;
+  elementalProperties: ElementalProperties;
+  category?: string;
+}
 
 // Primary cuisine keys (14 cuisines) - avoids duplicate processing via lowercase aliases
 const PRIMARY_CUISINE_KEYS = [
@@ -132,8 +138,8 @@ class IngredientMappingService {
    * Calculate elemental compatibility between two ingredients
    */
   calculateCompatibility(
-    ingredient1: string | IngredientMapping,
-    ingredient2: string | IngredientMapping,
+    ingredient1: string | CompatibleIngredient,
+    ingredient2: string | CompatibleIngredient,
   ) {
     // Convert string names to ingredient mappings if needed
     const mapping1 =
@@ -149,16 +155,16 @@ class IngredientMappingService {
       return {
         success: false,
         message: !mapping1
-          ? `Ingredient '${ingredient1}' not found`
-          : `Ingredient '${ingredient2}' not found`,
+          ? `Ingredient '${typeof ingredient1 === "string" ? ingredient1 : ingredient1.name ?? "unknown"}' not found`
+          : `Ingredient '${typeof ingredient2 === "string" ? ingredient2 : ingredient2.name ?? "unknown"}' not found`,
         compatibility: 0,
       };
     }
 
     // Calculate base elemental similarity
     const similarity = this.calculateElementalSimilarity(
-      mapping1.elementalProperties as unknown as ElementalProperties,
-      mapping2.elementalProperties as unknown as ElementalProperties,
+      mapping1.elementalProperties,
+      mapping2.elementalProperties,
     );
 
     // Determine compatibility type based on similarity
@@ -181,8 +187,8 @@ class IngredientMappingService {
       spice: ["protein", "vegetable", "fruit"],
     };
 
-    const category1 = mapping1.category as string;
-    const category2 = mapping2.category as string;
+    const category1 = mapping1.category;
+    const category2 = mapping2.category;
 
     if (category1 && category2) {
       // Same category usually works well together
@@ -198,15 +204,15 @@ class IngredientMappingService {
       }
     }
 
-    // Adjust final compatibility score
-    const adjustedCompatibility = Math.min(
+    // Calculate final compatibility score
+    const finalScore = Math.min(
       1,
       Math.max(0, similarity + categoryAdjustment),
     );
 
     return {
       success: true,
-      compatibility: adjustedCompatibility,
+      compatibility: finalScore,
       type: compatibilityType,
       ingredients: {
         first: mapping1,
@@ -247,8 +253,8 @@ class IngredientMappingService {
 
         if (ing1.matchedTo && ing2.matchedTo) {
           const result = this.calculateCompatibility(
-            ing1.matchedTo as unknown as IngredientMapping,
-            ing2.matchedTo as unknown as IngredientMapping,
+            ing1.matchedTo,
+            ing2.matchedTo,
           );
 
           if (result.success) {

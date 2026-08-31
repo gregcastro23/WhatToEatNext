@@ -43,6 +43,7 @@ describe("compareCasts", () => {
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
       asUnknownAsIncreasedBy: 0,
+      productionIncreasedBy: 0,
     });
 
     expect(
@@ -55,6 +56,7 @@ describe("compareCasts", () => {
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
       asUnknownAsIncreasedBy: 0,
+      productionIncreasedBy: 0,
     });
   });
 
@@ -69,6 +71,7 @@ describe("compareCasts", () => {
       totalIncreasedBy: 2,
       asAnyIncreasedBy: 1,
       asUnknownAsIncreasedBy: 1,
+      productionIncreasedBy: 0,
     });
   });
 
@@ -84,6 +87,22 @@ describe("compareCasts", () => {
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 63,
       asUnknownAsIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+  });
+
+  it("fails when production casts increase even if total cast count stays constant", () => {
+    expect(
+      compareCasts(
+        { total: 868, asAny: 187, asUnknownAs: 681, production: 430 },
+        { total: 868, asAny: 187, asUnknownAs: 681, production: 421 },
+      ),
+    ).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 0,
+      asUnknownAsIncreasedBy: 0,
+      productionIncreasedBy: 9,
     });
   });
 });

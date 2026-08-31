@@ -160,10 +160,11 @@ if (showCasts) {
 
   console.log(`\n=== TYPE CAST SURFACE: ${currentCasts.total} total (${currentCasts.asAny} as any, ${currentCasts.asUnknownAs} as unknown as) ===`);
   console.log(`  Production: ${prodTotal} (${prodAsAny} as any, ${prodAsUnknownAs} as unknown as) | Test: ${testTotal} (${testAsAny} as any, ${testAsUnknownAs} as unknown as)`);
+  console.log(`  Untracked single \`as T\` assertions: ${currentCasts.untrackedSingleAsT ?? 0}`);
   console.log(`=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES ===`);
   for (const item of castScan.files.slice(0, topCastsN)) {
     const tag = item.isTest ? "[TEST] " : "       ";
-    console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as) ${tag}: ${item.filePath}`);
+    console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as, ${(item.untrackedSingleAsT ?? 0).toString().padStart(3)} as T) ${tag}: ${item.filePath}`);
   }
   console.log("");
 }
@@ -209,6 +210,12 @@ if (castComparison.exceedsBaseline) {
         `${currentCasts.asAny} exceeds baseline of ${baselineCasts.asAny} (total casts remained ${currentCasts.total}).`,
     );
   }
+  if (castComparison.productionIncreasedBy > 0 && castComparison.totalIncreasedBy === 0) {
+    console.error(
+      `❌ Production type casts increased by ${castComparison.productionIncreasedBy}: ` +
+        `${currentCasts.production} exceeds baseline of ${baselineCasts.production}.`,
+    );
+  }
 }
 
 if (hasError) {
@@ -221,6 +228,7 @@ if (
   trackedTotal < baseline.trackedTotal ||
   currentCasts.total < baselineCasts.total ||
   currentCasts.asAny < baselineCasts.asAny ||
+  (baselineCasts.production !== undefined && (currentCasts.production ?? 0) < baselineCasts.production) ||
   declinedTotal < baselineDeclinedTotal
 ) {
   if (trackedTotal < baseline.trackedTotal) {
@@ -250,6 +258,9 @@ if (
         total: Math.min(currentCasts.total, baselineCasts.total),
         asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
         asUnknownAs: Math.min(currentCasts.asUnknownAs, baselineCasts.asUnknownAs),
+        production: Math.min(currentCasts.production ?? 0, baselineCasts.production ?? (currentCasts.production ?? 0)),
+        test: Math.min(currentCasts.test ?? 0, baselineCasts.test ?? (currentCasts.test ?? 0)),
+        untrackedSingleAsT: currentCasts.untrackedSingleAsT ?? 0,
       },
       declined: {
         total: declinedTotal,
@@ -271,7 +282,7 @@ if (
       ),
     };
     await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}).`);
+    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}).`);
   }
 }
 

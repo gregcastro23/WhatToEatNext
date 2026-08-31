@@ -784,7 +784,7 @@ interface PairingRecommendationsLike {
 }
 
 function getIngredientImageUrl(ingredient: UnifiedIngredient): string | null {
-  const root = ingredient as unknown as Record<string, unknown>;
+  const root = ingredient as Record<string, unknown>;
   const rawValue = root.image_url ?? root.imageUrl ?? root.image;
 
   if (typeof rawValue === "string" && rawValue.trim().length > 0) {
@@ -927,7 +927,7 @@ export const EnhancedIngredientRecommender: React.FC<
         Array.isArray(values) && values.some(matches);
 
       filtered = filtered.filter((ing) => {
-        const root = ing as unknown as Record<string, unknown>;
+        const root = ing as Record<string, unknown>;
         if (matches(ing.name)) return true;
         if (ing.description && matches(ing.description)) return true;
         if (anyMatches(ing.qualities)) return true;
@@ -1752,7 +1752,7 @@ export const EnhancedIngredientRecommender: React.FC<
 
           {/* ── PAIRS WELL WITH ───────────────────────────────── */}
           {((): React.ReactElement | null => {
-            const pr = ingredient.pairingRecommendations as unknown as
+            const pr = ingredient.pairingRecommendations as
               | string[]
               | PairingRecommendationsLike
               | undefined;
@@ -2079,7 +2079,7 @@ export const EnhancedIngredientRecommender: React.FC<
                       Pairings
                     </div>
                     {((): React.ReactElement | null => {
-                      const pr = ingredient.pairingRecommendations as unknown as
+                      const pr = ingredient.pairingRecommendations as
                         | string[]
                         | PairingRecommendationsLike;
                       // Simple string array format

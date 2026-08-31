@@ -79,13 +79,13 @@ export function activatePlanetaryAgentForDegree(
   // itself from `planet`/`sign`, but `color`/`symbol` are consumed as-is
   // downstream — preserving the existing (incomplete) shape via cast rather
   // than fabricating values that would change runtime behavior.
-  const planetaryConfig = {
+  const planetaryConfig: PlanetaryConfig = {
     planet: config.ruler,
     sign: config.sign,
     degree: String(config.zodiacDegree),
     isDiurnal: options.currentDateTime ? isDiurnalTime(options.currentDateTime) : true,
     retrograde: false, // Would need ephemeris data for accuracy
-  } as unknown as PlanetaryConfig
+  }
 
   // Create unified agent
   const factory = new UnifiedAgentFactory()
@@ -233,17 +233,7 @@ export function createMomentPlanetaryAgents(
     }
 
     // Create planetary config for unified agent factory
-    // NOTE: getSignElement can fall back to the string 'Unknown', which is
-    // outside the Element union ('Fire'|'Water'|'Air'|'Earth'). Casting to
-    // Element preserves the exact same runtime value as before (still
-    // whichever string was actually returned) without a runtime guard.
-    // NOTE: `isDiurnal` and `retrograde` are not declared on PlanetaryConfig
-    // (isDiurnal is read downstream via a local cast in
-    // unified-agent-factory.ts; retrograde is carried but unused). Preserving
-    // both extra fields via `as unknown as PlanetaryConfig` to keep the exact
-    // same runtime object rather than dropping fields the original `as any`
-    // silently let through.
-    const planetaryConfig = {
+    const planetaryConfig: PlanetaryConfig = {
       planet: planetName,
       sign: planetData.sign,
       degree: planetData.signDegree.toString(),
@@ -253,7 +243,7 @@ export function createMomentPlanetaryAgents(
       symbol: PLANET_SYMBOLS[planetName] || '●',
       isDiurnal: options.currentDateTime ? isDiurnalTime(options.currentDateTime) : true,
       retrograde: planetData.retrograde ?? false,
-    } as unknown as PlanetaryConfig
+    }
 
     // Add lunar personality for Moon agent
     if (planetName === 'Moon') {
@@ -268,12 +258,23 @@ export function createMomentPlanetaryAgents(
     const agent = factory.createFromPlanetary(planetaryConfig)
 
     // Calculate activation strength
-    // NOTE: this stand-in config is missing `zodiacDegree` and
-    // `isCriticalDegree`, both read inside calculateActivationStrength; both
-    // degrade to falsy/no-op on `undefined`, which is the intended meaning
-    // of "use default config". Cast (not filled in) to preserve behavior.
     const activationStrength = calculateActivationStrength(
-      { powerLevel: 0.5 } as unknown as PlanetaryAgentConfig, // Use default config
+      {
+        ruler: planetName,
+        sign: planetData.sign,
+        degree: planetData.signDegree,
+        zodiacDegree: planetData.signDegree,
+        rulerDignity: getPlanetaryDignity(planetName, planetData.sign) as PlanetaryAgentConfig['rulerDignity'],
+        isCardinalDegree: false,
+        element: (getPlanetaryElement(planetName) || getSignElement(planetData.sign)) as PlanetaryAgentConfig['element'],
+        powerLevel: 0.5,
+        consciousnessLevel: 'active',
+        themes: [`${planetName} energy`, `${planetData.sign} expression`],
+        qualities: [`${planetName} characteristics in ${planetData.sign}`],
+        modality: 'Cardinal',
+        isCriticalDegree: false,
+        isAnaretic: false,
+      },
       { orb: 0 }
     )
 
@@ -338,9 +339,9 @@ export function getActivatedAgentRecommendations(activated: ActivatedPlanetaryAg
   // specialty derived from its consciousness profile — fold both into the
   // queries so the agent is addressed by what it actually is, not just by
   // its planetary role.
-  const agentSignature = agent.consciousness?.signature ?? agent.name
-  const agentSpecialty = agent.capabilities?.specialty ?? `${config.ruler} consciousness`
-  const agentDominantElement = agent.consciousness?.dominantElement
+  const agentSignature = agent.consciousness.signature;
+  const agentSpecialty = agent.capabilities.specialty;
+  const agentDominantElement = agent.consciousness.dominantElement;
 
   // Element-based actions
   if (config.element === 'Fire') {
@@ -360,7 +361,7 @@ export function getActivatedAgentRecommendations(activated: ActivatedPlanetaryAg
   } else if (config.element === 'Air') {
     actions.push('Communicate clearly', 'Connect socially', 'Learn something new')
     consciousnessWork.push('Sharpen mental clarity', 'Develop objectivity', 'Expand perspectives')
-  } else if (config.element === 'Earth') {
+  } else {
     actions.push('Build something lasting', 'Ground yourself', 'Focus on practical matters')
     consciousnessWork.push('Develop patience', 'Master discipline', 'Create stability')
   }
@@ -384,7 +385,7 @@ export function getActivatedAgentRecommendations(activated: ActivatedPlanetaryAg
     consciousnessWork.push(
       `Amplify ${config.element} resonance — planet and sign are elementally aligned`,
     )
-  } else if (agentDominantElement && agentDominantElement !== config.element) {
+  } else if (agentDominantElement !== config.element) {
     consciousnessWork.push(
       `Bridge ${agentDominantElement} (your agent's nature) with ${config.element} (this degree's element)`,
     )

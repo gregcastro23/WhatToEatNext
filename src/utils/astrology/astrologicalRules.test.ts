@@ -24,6 +24,7 @@ import {
 import {
   TRANSIT_CONSTANTS,
   getCurrentTransitSign,
+  type PlanetTransitDates,
   validateAllTransitDates,
   validateRetrogradePhase,
   validateTransitDate,
@@ -61,8 +62,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should detect missing required planets', () => {
-      const missingSun = { ...validPositions };
-      delete (missingSun as any).sun;
+      const { sun: _removed, ...missingSun } = validPositions;
 
       const result = validatePlanetaryPositions(missingSun);
       expect(result.isValid).toBe(false);
@@ -99,9 +99,9 @@ describe('Astrological Validation Utilities', () => {
 
       const result = validatePlanetaryPositions(outOfRange, { autoCorrect: true });
       expect(result.correctedData).toBeDefined();
-      const correctedSun = (result.correctedData as any).sun;
-      expect(correctedSun.degree).toBeLessThan(30);
-      expect(correctedSun.exactLongitude).toBeLessThan(360);
+      const correctedSun = result.correctedData?.sun;
+      expect(correctedSun?.degree).toBeLessThan(30);
+      expect(correctedSun?.exactLongitude).toBeLessThan(360);
     });
   });
 
@@ -173,7 +173,7 @@ describe('Astrological Validation Utilities', () => {
   });
 
   describe('Transit Date Validation', () => {
-    const mockTransitDates = {
+    const mockTransitDates: PlanetTransitDates = {
       aries: { Start: '2024-03-20', End: '2024-04-19' },
       taurus: { Start: '2024-04-20', End: '2024-05-20' },
       RetrogradePhases: {
@@ -186,20 +186,14 @@ describe('Astrological Validation Utilities', () => {
       const taurusDate = new Date('2024-05-01');
       const invalidDate = new Date('2024-06-01');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for validation testing
       expect(
-        validateTransitDate('mars', ariesDate, 'aries', mockTransitDates as any),
+        validateTransitDate('mars', ariesDate, 'aries', mockTransitDates),
       ).toBe(true);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for validation testing
       expect(
-        validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates as any),
+        validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates),
       ).toBe(true);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for validation testing
       expect(
-        validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as any),
+        validateTransitDate('mars', invalidDate, 'aries', mockTransitDates),
       ).toBe(false);
       expect(consoleLogSpy).toHaveBeenCalledWith(
         expect.stringContaining("[DEBUG]"),
@@ -210,14 +204,10 @@ describe('Astrological Validation Utilities', () => {
       const ariesDate = new Date('2024-04-01');
       const taurusDate = new Date('2024-05-01');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for transit sign testing
-      expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates as any)).toBe(
+      expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates)).toBe(
         'aries',
       );
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for transit sign testing
-      expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as any)).toBe(
+      expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates)).toBe(
         'taurus',
       );
     });
@@ -226,19 +216,15 @@ describe('Astrological Validation Utilities', () => {
       const retrogradeDate = new Date('2024-04-10');
       const directDate = new Date('2024-03-25');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for retrograde testing
       const retrogradeResult = validateRetrogradePhase(
         'mercury',
         retrogradeDate,
-        mockTransitDates as any,
+        mockTransitDates,
       );
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // Legitimate any: Mock data for retrograde testing
       const directResult = validateRetrogradePhase(
         'mercury',
         directDate,
-        mockTransitDates as any,
+        mockTransitDates,
       );
 
       expect(retrogradeResult.isRetrograde).toBe(true);
@@ -360,7 +346,7 @@ describe('Astrological Validation Utilities', () => {
   describe('Validation Constants', () => {
     test('should export all necessary validation constants', () => {
       expect(VALIDATION_CONSTANTS.DEGREES_PER_SIGN).toBe(30);
-      expect((VALIDATION_CONSTANTS as any).SIGNS_PER_CIRCLE || 12).toBe(12);
+      expect(VALIDATION_CONSTANTS.SIGNS_PER_CIRCLE).toBe(12);
     });
 
     test('should have consistent constants across modules', () => {
@@ -371,25 +357,25 @@ describe('Astrological Validation Utilities', () => {
 
   describe('Error Handling and Edge Cases', () => {
     test('should handle null and undefined inputs gracefully', () => {
-      expect(validatePlanetaryPositions(null as any).isValid).toBe(false);
-      expect(validateElementalProperties(undefined as any)).toBe(false);
-      expect(validateMathematicalConstants(null as any).isValid).toBe(false);
+      expect(validatePlanetaryPositions(null).isValid).toBe(false);
+      expect(validateElementalProperties(undefined)).toBe(false);
+      expect(validateMathematicalConstants(null).isValid).toBe(false);
     });
 
     test('should handle malformed data structures', () => {
-      expect(validatePlanetaryPositions({ sun: 'not an object' } as any).isValid).toBe(false);
-      expect(validateElementalProperties({ Fire: 'not a number' } as any)).toBe(false);
+      expect(validatePlanetaryPositions({ sun: 'not an object' }).isValid).toBe(false);
+      expect(validateElementalProperties({ Fire: 'not a number' })).toBe(false);
     });
 
     test('should handle circular references safely', () => {
-      const circular: any = { sun: { sign: 'aries' } };
+      const circular: Record<string, unknown> = { sun: { sign: 'aries' } };
       circular.self = circular;
       
       expect(() => validatePlanetaryPositions(circular)).not.toThrow();
     });
 
     test('should validate performance with large datasets', () => {
-      const largePositions: any = {};
+      const largePositions: Record<string, unknown> = {};
       for (let i = 0; i < 500; i++) {
         largePositions[`planet${i}`] = { sign: 'aries', degree: 10, exactLongitude: 10, isRetrograde: false };
       }

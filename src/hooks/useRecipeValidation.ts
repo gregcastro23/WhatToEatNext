@@ -59,10 +59,7 @@ export function useRecipeValidation() {
     hasProtein: ingredients.some(
       (ing) =>
         ing.category === "protein" ||
-        (
-          ((ing as unknown as { qualities?: string[] })
-            .qualities as string[]) || []
-        ).includes("protein-rich"),
+        Boolean(ing.qualities?.includes("protein-rich")),
     ),
     hasVegetables: ingredients.some((ing) => ing.category === "vegetable"),
     hasGrains: ingredients.some((ing) => ing.category === "grain"),
@@ -74,10 +71,7 @@ export function useRecipeValidation() {
     ),
     hasLiquid: ingredients.some(
       (ing) =>
-        (
-          ((ing as unknown as { qualities?: string[] })
-            .qualities as string[]) || []
-        ).includes("liquid") ||
+        Boolean(ing.qualities?.includes("liquid")) ||
         ing.name.toLowerCase().includes("broth") ||
         ing.name.toLowerCase().includes("stock") ||
         ing.name.toLowerCase().includes("water"),
@@ -85,10 +79,7 @@ export function useRecipeValidation() {
     hasFat: ingredients.some(
       (ing) =>
         ing.category === "oil" ||
-        (
-          ((ing as unknown as { qualities?: string[] })
-            .qualities as string[]) || []
-        ).includes("fat") ||
+        Boolean(ing.qualities?.includes("fat")) ||
         ing.name.toLowerCase().includes("butter"),
     ),
   });
@@ -98,21 +89,12 @@ export function useRecipeValidation() {
     ingredients: Ingredient[],
   ): ElementalProperties => {
     if (ingredients.length === 0) {
-      throw new Error("Cannot calculate elemental balance with no ingredients");
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    // Filter ingredients that have valid elemental properties
-    const validIngredients = ingredients.filter(
-      (ing) => ing.elementalProperties !== undefined,
-    );
-
-    if (validIngredients.length === 0) {
-      throw new Error("No ingredients have elemental properties defined");
-    }
-
-    const total = validIngredients.reduce(
-      (acc, ingredient) => {
-        const props = ingredient.elementalProperties;
+    const total = ingredients.reduce(
+      (acc, ing) => {
+        const props = ing.elementalProperties;
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
@@ -123,7 +105,7 @@ export function useRecipeValidation() {
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     );
 
-    const count = validIngredients.length;
+    const count = ingredients.length;
     return {
       Fire: total.Fire / count,
       Water: total.Water / count,
@@ -141,10 +123,7 @@ export function useRecipeValidation() {
     // Check for known incompatible combinations
     const acidic = ingredients.filter(
       (ing) =>
-        (
-          ((ing as unknown as { qualities?: string[] })
-            .qualities as string[]) || []
-        ).includes("acidic") ||
+        Boolean(ing.qualities?.includes("acidic")) ||
         ing.name.toLowerCase().includes("vinegar") ||
         ing.name.toLowerCase().includes("lemon"),
     );
@@ -201,10 +180,6 @@ export function useRecipeValidation() {
       ([, a], [, b]) => b - a,
     )[0][0] as keyof ElementalProperties;
 
-    const _weakestElement = Object.entries(elementalBalance).sort(
-      ([, a], [, b]) => a - b,
-    )[0][0] as keyof ElementalProperties;
-
     if (elementalBalance[dominantElement] > 0.5) {
       const balancingElements: Record<string, string> = {
         Fire: "Water",
@@ -225,10 +200,8 @@ export function useRecipeValidation() {
     // Cooking method suggestions based on ingredients
     const hasDelicateIngredients = ingredients.some(
       (ing) =>
-        (
-          ((ing as unknown as { qualities?: string[] })
-            .qualities as string[]) || []
-        ).includes("delicate") || ing.category === "culinary_herb",
+        Boolean(ing.qualities?.includes("delicate")) ||
+        ing.category === "culinary_herb",
     );
 
     if (hasDelicateIngredients) {
