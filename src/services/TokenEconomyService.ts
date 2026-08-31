@@ -238,7 +238,8 @@ async function applyCreditsInTransaction(
     });
     const res = await client.query(query.sql, query.values);
     if (res.rows.length > 0) {
-      [lastRow] = res.rows;
+      const [r] = res.rows;
+      lastRow = r ?? null;
       written += 1;
     }
   }
@@ -286,8 +287,9 @@ class TokenEconomyService {
       try {
         const query = getBalancesSql(userId);
         const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
-        if (result.rows.length > 0) {
-          return rowToBalances(result.rows[0]);
+        const [balRow] = result.rows;
+        if (balRow) {
+          return rowToBalances(balRow);
         }
       } catch (error) {
         _logger.error("[TokenEconomy] getBalances failed:", error);
@@ -320,8 +322,9 @@ class TokenEconomyService {
     try {
       const query = getBalancesSql(userId);
       const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
-      if (result.rows.length > 0) {
-        return rowToBalances(result.rows[0]);
+      const [balRow] = result.rows;
+      if (balRow) {
+        return rowToBalances(balRow);
       }
       return null;
     } catch (error) {
@@ -372,8 +375,9 @@ class TokenEconomyService {
         });
         const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
 
-        if (result.rows.length > 0) {
-          return rowToBalances(result.rows[0]);
+        const [creditRow] = result.rows;
+        if (creditRow) {
+          return rowToBalances(creditRow);
         }
 
         // Idempotency blocked: return current balance
@@ -446,8 +450,9 @@ class TokenEconomyService {
         });
         const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
 
-        if (result.rows.length > 0) {
-          return rowToBalances(result.rows[0]);
+        const [debitRow] = result.rows;
+        if (debitRow) {
+          return rowToBalances(debitRow);
         }
         return null; // Insufficient balance
       } catch (error) {
@@ -513,13 +518,14 @@ class TokenEconomyService {
         });
         const result = await db.executeQuery<TokenBalanceRow & { txn_group_id: string }>(query.sql, query.values);
 
-        if (result.rows.length === 0) {
+        const [debitAllRow] = result.rows;
+        if (!debitAllRow) {
           return { success: false, reason: "insufficient_funds" };
         }
         return {
           success: true,
-          balances: rowToBalances(result.rows[0]),
-          transactionGroupId: result.rows[0].txn_group_id,
+          balances: rowToBalances(debitAllRow),
+          transactionGroupId: debitAllRow.txn_group_id,
         };
       } catch (error) {
         const pgError = error as { code?: string } | null;
@@ -773,9 +779,9 @@ class TokenEconomyService {
     }));
     const backoffsMs = [0, 250, 750];
 
-    for (let attempt = 0; attempt < backoffsMs.length; attempt++) {
-      if (backoffsMs[attempt] > 0) {
-        await new Promise((resolve) => setTimeout(resolve, backoffsMs[attempt]));
+    for (const [attempt, backoff] of backoffsMs.entries()) {
+      if (backoff > 0) {
+        await new Promise((resolve) => setTimeout(resolve, backoff));
       }
       const result = await this.creditMultipleTokens(
         userId,
@@ -897,14 +903,15 @@ class TokenEconomyService {
         });
         const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
 
-        if (result.rows.length === 0) {
+        const [txRow] = result.rows;
+        if (!txRow) {
           return null;
         }
 
         return {
           spent: { tokenType: fromToken, amount: costAmount },
           received: { tokenType: toToken, amount: targetAmount },
-          newBalances: rowToBalances(result.rows[0]),
+          newBalances: rowToBalances(txRow),
         };
       } catch (error) {
         // Unique-violation on idempotency_key: this transmutation already ran.
@@ -1041,6 +1048,10 @@ class TokenEconomyService {
           return { success: false, reason: "item_not_found" };
         }
         const [item] = itemResult.rows;
+        if (!item) {
+          _logger.warn("[TokenEconomy] Shop item row missing after length check:", shopItemSlug);
+          return { success: false, reason: "item_not_found" };
+        }
 
         // 2. Check if one-time item already purchased
         if (item.is_one_time) {
@@ -1083,15 +1094,16 @@ class TokenEconomyService {
         });
         const result = await db.executeQuery<TokenBalanceRow & { txn_group_id: string }>(query.sql, query.values);
 
-        if (result.rows.length === 0) {
+        const [purchaseRow] = result.rows;
+        if (!purchaseRow) {
           _logger.info("[TokenEconomy] Insufficient funds for:", shopItemSlug);
           return { success: false, reason: "insufficient_funds" };
         }
 
         return {
           success: true,
-          balances: rowToBalances(result.rows[0]),
-          transactionGroupId: result.rows[0].txn_group_id,
+          balances: rowToBalances(purchaseRow),
+          transactionGroupId: purchaseRow.txn_group_id,
         };
       } catch (error) {
         // Unique-violation on idempotency_key (race condition) → already_applied
@@ -1161,8 +1173,8 @@ class TokenEconomyService {
       try {
         const query = shopItemDetailSql(slug);
         const result = await db.executeQuery<ShopItemRow>(query.sql, query.values);
-        if (result.rows.length === 0) return null;
         const [row] = result.rows;
+        if (!row) return null;
         return {
           id: row.id,
           slug: row.slug,

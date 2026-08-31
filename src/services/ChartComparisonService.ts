@@ -95,19 +95,26 @@ export async function calculateMomentChart(
     const planetaryPositionsRaw: Record<string, PlanetPosition> =
       await getPlanetaryPositionsForDateTime(targetDateTime, targetLocation);
 
+    // Helper: extract a required body from the raw record
+    const requireBody = (name: string): PlanetPosition => {
+      const pos = planetaryPositionsRaw[name];
+      if (!pos) throw new Error(`Missing planetary position for ${name}`);
+      return pos;
+    };
+
     // Convert to Record<Planet, ZodiacSignType>
     const planetaryPositions: Record<Planet, ZodiacSignType> = {
-      Sun: planetaryPositionsRaw.Sun.sign,
-      Moon: planetaryPositionsRaw.Moon.sign,
-      Mercury: planetaryPositionsRaw.Mercury.sign,
-      Venus: planetaryPositionsRaw.Venus.sign,
-      Mars: planetaryPositionsRaw.Mars.sign,
-      Jupiter: planetaryPositionsRaw.Jupiter.sign,
-      Saturn: planetaryPositionsRaw.Saturn.sign,
-      Uranus: planetaryPositionsRaw.Uranus.sign,
-      Neptune: planetaryPositionsRaw.Neptune.sign,
-      Pluto: planetaryPositionsRaw.Pluto.sign,
-      Ascendant: planetaryPositionsRaw.Ascendant.sign,
+      Sun: requireBody("Sun").sign,
+      Moon: requireBody("Moon").sign,
+      Mercury: requireBody("Mercury").sign,
+      Venus: requireBody("Venus").sign,
+      Mars: requireBody("Mars").sign,
+      Jupiter: requireBody("Jupiter").sign,
+      Saturn: requireBody("Saturn").sign,
+      Uranus: requireBody("Uranus").sign,
+      Neptune: requireBody("Neptune").sign,
+      Pluto: requireBody("Pluto").sign,
+      Ascendant: requireBody("Ascendant").sign,
     };
 
     // Calculate elemental balance from zodiac positions
@@ -225,9 +232,12 @@ function calculateAlchemicalAlignment(
   ];
 
   properties.forEach((prop) => {
-    dotProduct += natalNorm[prop] * momentNorm[prop];
-    natalMagnitude += natalNorm[prop] * natalNorm[prop];
-    momentMagnitude += momentNorm[prop] * momentNorm[prop];
+    const nv = natalNorm[prop];
+    const mv = momentNorm[prop];
+    if (nv === undefined || mv === undefined) return;
+    dotProduct += nv * mv;
+    natalMagnitude += nv * nv;
+    momentMagnitude += mv * mv;
   });
 
   const magnitude = Math.sqrt(natalMagnitude) * Math.sqrt(momentMagnitude);
@@ -491,6 +501,7 @@ export async function compareCharts(
   alchemProps.forEach((prop) => {
     const natalValue = natalChart.alchemicalProperties[prop];
     const momentValue = moment.alchemicalProperties[prop];
+    if (natalValue === undefined || momentValue === undefined) return;
     const difference = Math.abs(natalValue - momentValue);
 
     // Boost properties that are well-aligned
@@ -561,7 +572,9 @@ export function getPersonalizationBoost(
 
   if (totalAlchem > 0) {
     alchemProps.forEach((prop) => {
-      const normalizedValue = itemAlchemical[prop] / totalAlchem;
+      const raw = itemAlchemical[prop];
+      if (raw === undefined) return;
+      const normalizedValue = raw / totalAlchem;
       const boostValue = chartComparison.alchemicalBoosts[prop] ?? 0;
       boost += normalizedValue * boostValue;
     });
