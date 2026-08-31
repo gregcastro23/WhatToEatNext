@@ -1,5 +1,9 @@
 {
-  "total": 2324,
-  "files": 432,
-  "allowlist": []
+  "total": 2185,
+  "files": 429,
+  "allowlist": [
+    "src/lib/alchemical-kinetics.ts",
+    "src/lib/cooking/boundaryNetwork.ts",
+    "src/lib/wasm/thermoEngine.ts"
+  ]
 }

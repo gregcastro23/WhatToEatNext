@@ -53,8 +53,16 @@ function movingAverage(series: number[], window: number): number[] {
   const out: number[] = new Array(series.length).fill(0)
   let run = 0
   for (let i = 0; i < series.length; i++) {
-    run += series[i]
-    if (i >= w) run -= series[i - w]
+    const val = series[i]
+    if (val !== undefined) {
+      run += val
+    }
+    if (i >= w) {
+      const oldVal = series[i - w]
+      if (oldVal !== undefined) {
+        run -= oldVal
+      }
+    }
     const denom = i < w - 1 ? i + 1 : w
     out[i] = run / denom
   }
@@ -68,13 +76,22 @@ export function getPlanetaryVelocityModifier(hour: PlanetaryHour, element: Eleme
   // Mercury enhances velocity globally (Celeritas); element-specific peaks apply
   const base = 1.0
   const mercuryBoost = hour === 'Mercury' ? 1.1 : 1.0
-  const elementPeaks: Record<ElementKey, number> = {
-    Fire: hour === 'Sun' || hour === 'Mars' ? 1.2 : 1.0,
-    Water: hour === 'Moon' || hour === 'Venus' ? 1.15 : 1.0,
-    Air: hour === 'Mercury' ? 1.15 : 1.0,
-    Earth: hour === 'Saturn' ? 1.1 : 1.0,
+  let peak = 1.0
+  switch (element) {
+    case 'Fire':
+      peak = hour === 'Sun' || hour === 'Mars' ? 1.2 : 1.0
+      break
+    case 'Water':
+      peak = hour === 'Moon' || hour === 'Venus' ? 1.15 : 1.0
+      break
+    case 'Air':
+      peak = hour === 'Mercury' ? 1.15 : 1.0
+      break
+    case 'Earth':
+      peak = hour === 'Saturn' ? 1.1 : 1.0
+      break
   }
-  return base * mercuryBoost * elementPeaks[element]
+  return base * mercuryBoost * peak
 }
 
 export function getPlanetaryMomentumModifier(hour: PlanetaryHour): number {
@@ -120,14 +137,21 @@ export function computeFiniteDifference(
   const smoothed = smoothingWindow > 1 ? movingAverage(values, smoothingWindow) : values
   const out: Array<{ t: Date; dvdt: number }> = []
   for (let i = 0; i < series.length; i++) {
+    const current = series[i]
+    if (!current) continue
     if (i === 0) {
-      out.push({ t: series[i].t, dvdt: 0 })
+      out.push({ t: current.t, dvdt: 0 })
       continue
     }
-    const dtMs = series[i].t.getTime() - series[i - 1].t.getTime()
+    const previous = series[i - 1]
+    if (!previous) continue
+    const dtMs = current.t.getTime() - previous.t.getTime()
     const dt = dtMs / 3600000 // hours
-    const dv = smoothed[i] - smoothed[i - 1]
-    out.push({ t: series[i].t, dvdt: safeDivide(dv, dt) })
+    const currSm = smoothed[i]
+    const prevSm = smoothed[i - 1]
+    if (currSm === undefined || prevSm === undefined) continue
+    const dv = currSm - prevSm
+    out.push({ t: current.t, dvdt: safeDivide(dv, dt) })
   }
   return out
 }
@@ -154,11 +178,13 @@ export function computeElementalVelocity(
     []
   for (let i = 0; i < samples.length; i++) {
     const current = samples[i]
+    if (!current) continue
     const previous = i > 0 ? samples[i - 1] : undefined
     const dt = previous ? (current.t.getTime() - previous.t.getTime()) / 3600000 : 0 // hours
 
     const rawV: ElementVector = { Fire: 0, Water: 0, Air: 0, Earth: 0 }
-    ;(Object.keys(rawV) as ElementKey[]).forEach(el => {
+    const elementKeys: ElementKey[] = ['Fire', 'Water', 'Air', 'Earth']
+    for (const el of elementKeys) {
       if (!previous || dt === 0) {
         rawV[el] = 0
       } else {
@@ -167,7 +193,7 @@ export function computeElementalVelocity(
         const modifier = getPlanetaryVelocityModifier(current.planetaryHour ?? '', el)
         rawV[el] = base * modifier
       }
-    })
+    }
 
     const magnitude = Math.sqrt(
       rawV.Fire * rawV.Fire +
@@ -177,12 +203,13 @@ export function computeElementalVelocity(
     )
     let dominantElement: ElementKey = 'Fire'
     let maxVal = rawV.Fire
-    ;(['Water', 'Air', 'Earth'] as ElementKey[]).forEach(el => {
+    const otherKeys: ElementKey[] = ['Water', 'Air', 'Earth']
+    for (const el of otherKeys) {
       if (rawV[el] > maxVal) {
         maxVal = rawV[el]
         dominantElement = el
       }
-    })
+    }
 
     out.push({ t: current.t, v: rawV, magnitude, dominantElement })
   }
@@ -208,18 +235,20 @@ export function computeMetricVelocity(
   }> = []
   for (let i = 0; i < samples.length; i++) {
     const current = samples[i]
+    if (!current) continue
     const previous = i > 0 ? samples[i - 1] : undefined
     const dt = previous ? (current.t.getTime() - previous.t.getTime()) / 3600000 : 0 // hours
 
     const dvdt: MetricVector = { Heat: 0, Entropy: 0, Reactivity: 0, Energy: 0 }
-    ;(Object.keys(dvdt) as MetricKey[]).forEach(k => {
+    const metricKeys: MetricKey[] = ['Heat', 'Entropy', 'Reactivity', 'Energy']
+    for (const k of metricKeys) {
       if (!previous || dt === 0) {
         dvdt[k] = 0
       } else {
-        const dv = (current as Record<MetricKey, number>)[k] - (previous as Record<MetricKey, number>)[k]
+        const dv = current[k] - previous[k]
         dvdt[k] = safeDivide(dv, dt)
       }
-    })
+    }
 
     const thermalDirection = getThermalDirection(dvdt.Heat)
     out.push({ t: current.t, dvdt, thermalDirection })
@@ -257,6 +286,7 @@ export function computeElementalMomentum(
   }> = []
   for (let i = 0; i < samples.length; i++) {
     const current = samples[i]
+    if (!current) continue
     const previous = i > 0 ? samples[i - 1] : undefined
 
     // Momentum vector p = m * v (per-element v, shared inertia)
@@ -315,6 +345,7 @@ export function computePower(
   const raw: Array<{ t: Date; power: number; solarAmplification?: number }> = []
   for (let i = 0; i < samples.length; i++) {
     const current = samples[i]
+    if (!current) continue
     const previous = i > 0 ? samples[i - 1] : undefined
     const dt = previous ? (current.t.getTime() - previous.t.getTime()) / 3600000 : 0 // hours
     const dE = previous ? current.Energy - previous.Energy : 0
@@ -334,10 +365,12 @@ export function computePower(
 
   const smoothed: Array<{ t: Date; power: number; solarAmplification?: number }> = []
   for (let i = 0; i < raw.length; i++) {
+    const item = raw[i]
+    if (!item) continue
     const start = Math.max(0, i - windowSize + 1)
     const slice = raw.slice(start, i + 1)
     const avg = slice.reduce((sum, s) => sum + (isFinite(s.power) ? s.power : 0), 0) / slice.length
-    smoothed.push({ t: raw[i].t, power: avg, solarAmplification: raw[i].solarAmplification })
+    smoothed.push({ t: item.t, power: avg, solarAmplification: item.solarAmplification })
   }
   return smoothed
 }
@@ -385,6 +418,7 @@ export function computeForce(
   for (let i = 0; i < momentumSamples.length; i++) {
     const momentumSample = momentumSamples[i]
     const _velocitySample = velocitySamples[i]
+    if (!momentumSample) continue
     const previousMomentum = i > 0 ? momentumSamples[i - 1] : undefined
     const previousVelocity = i > 0 ? velocitySamples[i - 1] : undefined
 
@@ -394,18 +428,14 @@ export function computeForce(
         : 0 // hours
 
     const rawF: ForceVector = { Fire: 0, Water: 0, Air: 0, Earth: 0 }
-    ;(Object.keys(rawF) as ElementKey[]).forEach(el => {
+    const elementKeys: ElementKey[] = ['Fire', 'Water', 'Air', 'Earth']
+    for (const el of elementKeys) {
       if (!previousMomentum || !previousVelocity || dt === 0) {
         rawF[el] = 0
       } else {
         // Use momentum derivative: f = dp/dt
         const dp = momentumSample.p[el] - previousMomentum.p[el]
         const base = safeDivide(dp, dt)
-
-        // Alternative efficient calculation: f = inertia * dv/dt
-        // const dv = velocitySample.v[el] - previousVelocity.v[el]
-        // const accel = safeDivide(dv, dt)
-        // const base = momentumSample.inertia * accel
 
         const modifier = getPlanetaryForceModifier(momentumSample.planetaryHour ?? '')
         rawF[el] = base * modifier
@@ -415,7 +445,7 @@ export function computeForce(
       if (!Number.isFinite(rawF[el])) {
         rawF[el] = 0
       }
-    })
+    }
 
     const magnitude = Math.sqrt(
       rawF.Fire * rawF.Fire +
@@ -496,6 +526,7 @@ export function validateCalculusRelationships(
   for (let i = 1; i < samples.length; i++) {
     const current = samples[i]
     const previous = samples[i - 1]
+    if (!current || !previous) continue
     const dt = (current.t.getTime() - previous.t.getTime()) / 3600000 // hours
 
     if (dt <= 0) {
@@ -546,10 +577,11 @@ export function validateCalculusRelationships(
     }
 
     // Validate force = dp/dt for each element
-    if (current.force) {
+    const currentForce = current.force
+    if (currentForce) {
       for (const element of ['Fire', 'Water', 'Air', 'Earth'] as ElementKey[]) {
         const expectedForce = (current.momentum[element] - previous.momentum[element]) / dt
-        const actualForce = current.force[element]
+        const actualForce = currentForce[element]
 
         // Allow for planetary modifiers (up to 30% difference) and numerical precision
         const forceTolerance = Math.abs(expectedForce) * 0.35 + 0.001
@@ -663,23 +695,31 @@ export function validateKineticResults(
   > = {}
   ;(kinetics.elementalVelocity ?? []).forEach((s: KineticSeriesSample) => {
     const hour = s.planetaryHour ?? s.hour ?? 'unknown'
-    if (!countByHour[hour])
-      countByHour[hour] = { fireLead: 0, total: 0, powerSum: 0, powerCount: 0 }
+    let entry = countByHour[hour]
+    if (!entry) {
+      entry = { fireLead: 0, total: 0, powerSum: 0, powerCount: 0 }
+      countByHour[hour] = entry
+    }
     // Fire leads when v.Fire is the max among elements
-    const v = s.v as ElementVector
-    const maxEl = (['Fire', 'Water', 'Air', 'Earth'] as ElementKey[]).reduce((a, b) =>
-      v[a] >= v[b] ? a : (b)
-    )
-    if (maxEl === 'Fire') countByHour[hour].fireLead += 1
-    countByHour[hour].total += 1
+    const { v } = s
+    if (v) {
+      const maxEl = (['Fire', 'Water', 'Air', 'Earth'] as ElementKey[]).reduce((a, b) =>
+        v[a] >= v[b] ? a : b
+      )
+      if (maxEl === 'Fire') entry.fireLead += 1
+    }
+    entry.total += 1
   })
   ;(kinetics.power ?? []).forEach((s: KineticSeriesSample) => {
     const hour = s.planetaryHour ?? s.hour ?? 'unknown'
-    if (!countByHour[hour])
-      countByHour[hour] = { fireLead: 0, total: 0, powerSum: 0, powerCount: 0 }
+    let entry = countByHour[hour]
+    if (!entry) {
+      entry = { fireLead: 0, total: 0, powerSum: 0, powerCount: 0 }
+      countByHour[hour] = entry
+    }
     if (typeof s.power === 'number') {
-      countByHour[hour].powerSum += s.power
-      countByHour[hour].powerCount += 1
+      entry.powerSum += s.power
+      entry.powerCount += 1
     }
   })
 
