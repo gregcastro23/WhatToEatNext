@@ -743,7 +743,7 @@ async function searchRecipesForDay(
     // kept around for the relaxed-filter fallback paths below.
     const recipeIndex = await getServerRecipeIndex();
     const allRecipes = await getServerRecipes();
-    const recipes = allRecipes as unknown as IndexedRecipe[];
+    const recipes = allRecipes;
     const currentSeason = getCurrentSeason();
     const existingMeals = options.existingMeals ?? [];
     const existingRecipeIds = new Set(existingMeals.map((m) => m.recipeId));

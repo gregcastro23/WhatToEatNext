@@ -767,7 +767,7 @@ class TokenEconomyService {
    */
   async grantSignupBonus(userId: string): Promise<boolean> {
     const amount = TokenEconomyService.SIGNUP_GRANT_PER_TOKEN;
-    const credits = (TOKEN_TYPES as readonly TokenType[]).map((tokenType) => ({
+    const credits = TOKEN_TYPES.map((tokenType) => ({
       tokenType,
       amount,
     }));

@@ -1048,7 +1048,7 @@ export async function getRecipesForCuisineMatch(
           const uniqueRecipes = allRecipes.filter(
             (recipe, index, self) =>
               index ===
-              self.findIndex((r) => (r as { name: string }).name === (recipe as { name: string }).name),
+              self.findIndex((r) => r.name === recipe.name),
           );
 
           if (uniqueRecipes.length > 0) {
@@ -1268,7 +1268,7 @@ export async function getRecipesForCuisineMatch(
 
     // Remove duplicates by name
     const uniqueMatches = allMatches.filter((recipe, index, self) => {
-      const recipeData = recipe as { name: string };
+      const recipeData = recipe;
       return (
         index === self.findIndex((r) => r.name === recipeData.name)
       );

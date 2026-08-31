@@ -191,10 +191,10 @@ export class RecipeElementalService {
     a: RecipeLike | Partial<ElementalProperties> | null | undefined,
     b: RecipeLike | Partial<ElementalProperties> | null | undefined,
   ): number {
-    const ea = a && "ingredients" in (a as RecipeLike)
+    const ea = a && "ingredients" in a
       ? deriveElementalProperties(a)
       : normalizeElementalProperties(a as Partial<ElementalProperties>);
-    const eb = b && "ingredients" in (b as RecipeLike)
+    const eb = b && "ingredients" in b
       ? deriveElementalProperties(b)
       : normalizeElementalProperties(b as Partial<ElementalProperties>);
     const raw = calculateElementalSimilarity(ea, eb);

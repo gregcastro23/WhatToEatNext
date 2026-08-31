@@ -11,7 +11,6 @@
  * @file src/utils/foodDiary/logMealFromPlan.ts
  */
 
-import type { ElementalProperties } from "@/types/alchemy";
 import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { MealSlot, MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";
@@ -86,9 +85,7 @@ export function buildDiaryEntryFromPlan(
   const recipeNutrition = (recipe as Recipe & {
     nutrition?: NutritionalSummary;
   }).nutrition;
-  const { elementalProperties } = (recipe as Recipe & {
-    elementalProperties?: ElementalProperties;
-  });
+  const { elementalProperties } = recipe;
 
   const date = input.date ?? new Date();
   const time = input.time ?? nowTimeString();

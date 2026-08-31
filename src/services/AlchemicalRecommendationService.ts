@@ -281,9 +281,7 @@ export class AlchemicalRecommendationService {
         "Heightened reactivity may cause flavor clashes - simplify ingredient combinations.",
       );
     }
-    // Use a type with optional kalchm property
-    type WithKalchm = ThermodynamicProperties & { kalchm?: number };
-    const t = thermodynamics as WithKalchm;
+    const t = thermodynamics;
     if (typeof t.kalchm === "number" && t.kalchm < 0.5) {
       warnings.push(
         "Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.",
@@ -327,11 +325,7 @@ export class AlchemicalRecommendationService {
   private deriveElementalProperties(
     thermodynamics: ThermodynamicProperties,
   ): ElementalProperties {
-    type WithMonicaKalchm = ThermodynamicProperties & {
-      monica?: number;
-      kalchm?: number;
-    };
-    const t = thermodynamics as WithMonicaKalchm;
+    const t = thermodynamics;
     // Simplified mapping from thermodynamics to elemental properties
     const Fire =
       thermodynamics.heat * 0.2 +

@@ -173,7 +173,7 @@ async function fetchCorrections(userId: string): Promise<TasteCorrections> {
 function payloadWeight(row: InteractionRow): number {
   const explicit = parseFloat(row.weight);
   if (Number.isFinite(explicit) && explicit !== 1) return explicit;
-  const fromPayload = (row.payload as { weight?: number })?.weight;
+  const fromPayload = row.payload?.weight;
   return typeof fromPayload === "number" && Number.isFinite(fromPayload)
     ? fromPayload
     : 1;
