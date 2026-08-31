@@ -44,6 +44,9 @@ const config = {
     "/.temp-disabled-tests/",
     "/archive/",
     "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
+    // Shared fixtures/helpers, not suites. They live under src/__tests__ so the
+    // lint-debt scanner keeps counting them as test code rather than production.
+    "/__tests__/helpers/",
     "/docs/Alchm Kitchen/", // Exclude Alchm Kitchen docs from tests to resolve Haste collision
     // Excluded integration tests
     "tests/cross-backend-rectification",

@@ -4,6 +4,7 @@ import { resolveIngredientModality } from "@/components/RecipeBuilder";
 import { AstrologicalRecommendations } from "@/components/astrological/AstrologicalRecommendations";
 import { TokenBalanceBar } from "@/components/economy/TokenBalanceBar";
 import TokenShopModal from "@/components/economy/TokenShopModal";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 jest.mock("@/components/economy/PlanetaryInfluenceTooltip", () => ({
   PlanetaryInfluenceTooltip: () => null,
@@ -37,7 +38,7 @@ function mockFetch(body: unknown, ok = true): jest.Mock {
     status: ok ? 200 : 500,
     json: async (): Promise<unknown> => body,
   });
-  global.fetch = fetchMock as unknown as typeof fetch;
+  installFetchMock(fetchMock);
   return fetchMock;
 }
 

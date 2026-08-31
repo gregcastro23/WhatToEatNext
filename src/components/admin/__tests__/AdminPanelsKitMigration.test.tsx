@@ -17,6 +17,7 @@ import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import UserInsightsPanel from "@/components/admin/UserInsightsPanel";
 import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 let restoreVisibility: () => void;
 beforeAll(() => {
@@ -31,11 +32,9 @@ afterEach(() => {
 });
 
 function mockFetch(body: unknown, ok = true) {
-  global.fetch = jest.fn().mockResolvedValue({
-    ok,
-    status: ok ? 200 : 500,
-    json: async () => body,
-  }) as unknown as typeof fetch;
+  installFetchMock(
+    jest.fn().mockResolvedValue({ ok, status: ok ? 200 : 500, json: async () => body }),
+  );
 }
 
 describe("Admin Panels Kit Migration & Zero-Drift Honesty", () => {
@@ -331,66 +330,68 @@ describe("Admin Panels Kit Migration & Zero-Drift Honesty", () => {
 
   describe("AdvancedMetricsPanel", () => {
     it("renders Metric KPIs, ProvenanceBadges, and EmptyStates", async () => {
-      global.fetch = jest.fn().mockImplementation((url: string) => {
-        if (url.includes("/api/admin/users/stats")) {
-          return Promise.resolve({
-            ok: true,
-            json: async () => ({
-              success: true,
-              users: {
-                total: 20,
-                active: 10,
-                onboarded: 15,
-                premium: 2,
-                agents: 3,
-                signups: { last24h: 2, last7d: 5 },
-                activity: { loggedIn24h: 4, loggedIn7d: 8, loggedIn30d: 12 },
-              },
-              sessions: { active: 3 },
-              authEvents: {
-                last24h: { total: 0, successes: 0, failures: 0, byType: [] },
-                last7d: { total: 0, successes: 0, failures: 0, byType: [] },
-              },
-              recentLogins: [],
-            }),
-          });
-        }
-        if (url.includes("/api/admin/abuse")) {
-          return Promise.resolve({
-            ok: true,
-            json: async () => ({
-              success: true,
-              window: "1h",
-              suspiciousIps: [],
-              targetedEmails: [],
-            }),
-          });
-        }
-        if (url.includes("/api/admin/observability")) {
-          return Promise.resolve({
-            ok: true,
-            json: async () => ({
-              success: true,
-              requests: {
-                summary: {
-                  count: 10,
-                  p50LatencyMs: 20,
-                  p95LatencyMs: 40,
-                  p99LatencyMs: 60,
-                  errorRate: 0,
-                  topPaths: [],
+      installFetchMock(
+        jest.fn().mockImplementation((url: string) => {
+          if (url.includes("/api/admin/users/stats")) {
+            return Promise.resolve({
+              ok: true,
+              json: async () => ({
+                success: true,
+                users: {
+                  total: 20,
+                  active: 10,
+                  onboarded: 15,
+                  premium: 2,
+                  agents: 3,
+                  signups: { last24h: 2, last7d: 5 },
+                  activity: { loggedIn24h: 4, loggedIn7d: 8, loggedIn30d: 12 },
                 },
-                recentFailures: [],
-              },
-              slowQueries: {
-                summary: { count: 0, thresholdMs: 100, slowestMs: 0 },
-                recent: [],
-              },
-            }),
-          });
-        }
-        return Promise.reject(new Error(`Unhandled URL: ${url}`));
-      }) as unknown as typeof fetch;
+                sessions: { active: 3 },
+                authEvents: {
+                  last24h: { total: 0, successes: 0, failures: 0, byType: [] },
+                  last7d: { total: 0, successes: 0, failures: 0, byType: [] },
+                },
+                recentLogins: [],
+              }),
+            });
+          }
+          if (url.includes("/api/admin/abuse")) {
+            return Promise.resolve({
+              ok: true,
+              json: async () => ({
+                success: true,
+                window: "1h",
+                suspiciousIps: [],
+                targetedEmails: [],
+              }),
+            });
+          }
+          if (url.includes("/api/admin/observability")) {
+            return Promise.resolve({
+              ok: true,
+              json: async () => ({
+                success: true,
+                requests: {
+                  summary: {
+                    count: 10,
+                    p50LatencyMs: 20,
+                    p95LatencyMs: 40,
+                    p99LatencyMs: 60,
+                    errorRate: 0,
+                    topPaths: [],
+                  },
+                  recentFailures: [],
+                },
+                slowQueries: {
+                  summary: { count: 0, thresholdMs: 100, slowestMs: 0 },
+                  recent: [],
+                },
+              }),
+            });
+          }
+          return Promise.reject(new Error(`Unhandled URL: ${url}`));
+        }),
+      );
 
       render(<AdvancedMetricsPanel />);
 

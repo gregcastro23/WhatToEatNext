@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import MenuOrderClient from "@/app/restaurants/[id]/menu/MenuOrderClient";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 const originalFetch = global.fetch;
 
@@ -7,18 +8,20 @@ beforeEach(() => {
   process.env.NEXT_PUBLIC_STRIPE_RESTAURANT_CRYPTO_ENABLED = "true";
   process.env.NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED = "true";
   process.env.NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN = "1";
-  global.fetch = jest.fn().mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: async () => ({
-      balances: {
-        spirit: 1000,
-        essence: 1000,
-        matter: 1000,
-        substance: 1000,
-      },
+  installFetchMock(
+    jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        balances: {
+          spirit: 1000,
+          essence: 1000,
+          matter: 1000,
+          substance: 1000,
+        },
+      }),
     }),
-  }) as unknown as typeof fetch;
+  );
 });
 
 afterEach(() => {

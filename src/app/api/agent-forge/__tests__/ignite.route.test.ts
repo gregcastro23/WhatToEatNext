@@ -57,6 +57,7 @@ import { geocodeLocationSingle } from "@/services/geocodingService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { POST } from "../ignite/route";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 const mockAuth = auth as unknown as jest.Mock;
 const mockGeocode = geocodeLocationSingle as unknown as jest.Mock;
@@ -128,11 +129,13 @@ describe("POST /api/agent-forge/ignite", () => {
     mockUpdateProfile.mockResolvedValue({ id: "user-123" });
 
     // Recipe generation succeeds → happy path, never reaches the PA fallback.
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ recipe: { title: "Onboarding Meal" } }),
-      text: async () => "",
-    }) as unknown as typeof fetch;
+    installFetchMock(
+      jest.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ recipe: { title: "Onboarding Meal" } }),
+        text: async () => "",
+      }),
+    );
   });
 
   afterEach(() => {
