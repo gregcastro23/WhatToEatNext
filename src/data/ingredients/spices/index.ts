@@ -1,4 +1,4 @@
-import type { IngredientMapping } from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/alchemy";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { enhancedSpicesIngredients } from "./enhancedSpices";
 import { groundSpices } from "./groundspices";
@@ -6,7 +6,7 @@ import { spiceBlends } from "./spiceBlends";
 import { spicesIngredients } from "./spices";
 import { warmSpices } from "./warmSpices";
 import { wholeSpices } from "./wholespices";
-import type { Ingredient } from "../types";
+import type { Ingredient, IngredientMapping } from "../types";
 
 // Normalize elemental properties to sum to 1
 const normalizeElementalProperties = (
@@ -380,30 +380,28 @@ const inlineSpiceOverrides: Record<string, Record<string, unknown>> = {
 
 // Combine all spice categories with heat levels
 // Enhanced spices take precedence (spread first, then legacy data can override if needed)
-const combinedSpices: Record<string, IngredientMapping> = {
-  ...(spicesIngredients as unknown as Record<string, IngredientMapping>),
-  ...(warmSpices as unknown as Record<string, IngredientMapping>),
-  ...(wholeSpices as unknown as Record<string, IngredientMapping>),
-  ...(groundSpices as unknown as Record<string, IngredientMapping>),
-  ...(spiceBlends as unknown as Record<string, IngredientMapping>),
-  ...(enhancedSpicesIngredients as unknown as Record<string, IngredientMapping>),
+const combinedSpices: Record<string, Partial<IngredientMapping>> = {
+  ...spicesIngredients,
+  ...warmSpices,
+  ...wholeSpices,
+  ...groundSpices,
+  ...spiceBlends,
+  ...enhancedSpicesIngredients,
 };
 for (const [key, patch] of Object.entries(inlineSpiceOverrides)) {
   combinedSpices[key] = {
     ...(combinedSpices[key] ?? {}),
-    ...patch,
-  } as unknown as IngredientMapping;
+    ...(patch as Partial<IngredientMapping>),
+  };
 }
 
-export const spices = fixIngredientMappings(combinedSpices);
+export const spices: Record<string, IngredientMapping> = fixIngredientMappings(combinedSpices);
 
 // Validate spice heat levels
 Object.values(spices).forEach((spice) => {
-  const spiceData = spice as unknown as Record<string, unknown>;
-  const elementalProps = spice.elementalProperties as unknown as Record<string, number>;
   if (
-    Number(spiceData.heatLevel) > 5 &&
-    Number(elementalProps.Fire) < 0.3
+    Number(spice.heatLevel ?? 0) > 5 &&
+    Number(spice.elementalProperties.Fire) < 0.3
   ) {
     // console.error(`Fire element too low for heat in ${spice.name}`);
   }
@@ -417,50 +415,47 @@ export const _getSpicesBySubCategory = (
   subCategory: string,
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
-    .filter(([_, value]) => (value as unknown as Record<string, unknown>).subCategory === subCategory)
+    .filter(([_, value]) => value.subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const _getSpicesByOrigin = (
   origin: string,
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
-    .filter(([_, value]) => {
-      const valueData = value as unknown as Record<string, unknown>;
-      return Array.isArray(valueData.origin)
-        ? (valueData.origin as string[]).includes(origin)
-        : valueData.origin === origin;
-    })
+    .filter(([_, value]) =>
+      Array.isArray(value.origin)
+        ? value.origin.includes(origin)
+        : (value.origin as unknown) === origin,
+    )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const _getSpicesByElementalProperty = (
-  element: string,
+  element: keyof ElementalProperties,
   minStrength = 0.3,
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
-    .filter(([_, value]) => (value.elementalProperties as unknown as Record<string, number>)[element] >= minStrength)
+    .filter(([_, value]) => (value.elementalProperties[element] ?? 0) >= minStrength)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const _getSpiceBlendComponents = (blendName: string): string[] => {
-  const blend = spiceBlends[blendName] as unknown as Record<string, unknown> | undefined;
-  return Array.isArray(blend?.baseIngredients) ? (blend.baseIngredients as string[]) : [];
+  const blend = spiceBlends[blendName] as { baseIngredients?: string[] } | undefined;
+  return Array.isArray(blend?.baseIngredients) ? blend.baseIngredients : [];
 };
 
 export const _getCompatibleSpices = (spiceName: string): string[] => {
-  const allSpices = spices as Record<string, IngredientMapping | undefined>;
-  const spice = allSpices[spiceName];
+  const spice = spices[spiceName] as IngredientMapping | undefined;
   if (!spice) return [];
 
-  const spiceData = spice as unknown as Record<string, unknown>;
-  const spiceAffinities = Array.isArray(spiceData.affinities) ? (spiceData.affinities as string[]) : [];
-  if (spiceAffinities.length === 0) return [];
+  const spiceAffinities = (spice as { affinities?: string[] }).affinities;
+  if (!Array.isArray(spiceAffinities) || spiceAffinities.length === 0) return [];
 
   return Object.entries(spices)
     .filter(([key, value]) => {
-      const valueData = value as unknown as Record<string, unknown>;
+      const valueAffinities = (value as { affinities?: string[] }).affinities;
       return (
         key !== spiceName &&
-        Array.isArray(valueData.affinities) &&
-        (valueData.affinities as string[]).some((affinity: string) =>
+        Array.isArray(valueAffinities) &&
+        valueAffinities.some((affinity: string) =>
           spiceAffinities.includes(affinity),
         )
       );
@@ -469,29 +464,24 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {
 };
 
 export const _getSubstitutions = (spiceName: string): string[] => {
-  const allSpices = spices as Record<string, IngredientMapping | undefined>;
-  const spice = allSpices[spiceName];
+  const spice = spices[spiceName] as IngredientMapping | undefined;
   if (!spice) return [];
 
-  const spiceData = spice as unknown as Record<string, unknown>;
-  const spiceQualities = Array.isArray(spiceData.qualities) ? (spiceData.qualities as string[]) : [];
-  if (spiceQualities.length === 0) return [];
-  const [dominantElement] = Object.keys(spice.elementalProperties);
+  const spiceQualities = spice.qualities;
+  if (!Array.isArray(spiceQualities) || spiceQualities.length === 0) return [];
+  const [dominantElement] = Object.keys(spice.elementalProperties) as Array<keyof ElementalProperties>;
   if (!dominantElement) return [];
 
   return Object.entries(spices)
-    .filter(([key, value]) => {
-      const valueData = value as unknown as Record<string, unknown>;
-      const valueElemental = value.elementalProperties as unknown as Record<string, number>;
-      return (
+    .filter(
+      ([key, value]) =>
         key !== spiceName &&
-        Array.isArray(valueData.qualities) &&
-        (valueData.qualities as string[]).some((quality: string) =>
+        Array.isArray(value.qualities) &&
+        value.qualities.some((quality: string) =>
           spiceQualities.includes(quality),
         ) &&
-        Number(valueElemental[dominantElement]) >= 0.3
-      );
-    })
+        (value.elementalProperties[dominantElement] ?? 0) >= 0.3,
+    )
     .map(([key]) => key);
 };
 
@@ -500,10 +490,11 @@ export const _getSpicesByPreparationMethod = (
 ): Record<string, IngredientMapping> =>
   Object.entries(spices)
     .filter(([_, value]) => {
-      const valueData = value as unknown as { preparation?: Record<string, unknown> };
+      const prep = value.preparation;
       return Boolean(
-        valueData.preparation &&
-        Object.keys(valueData.preparation).includes(method),
+        prep &&
+        typeof prep === "object" &&
+        Object.keys(prep).includes(method),
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -513,14 +504,11 @@ export const _getTraditionalBlends = (
 ): Record<string, IngredientMapping> =>
   Object.entries(spiceBlends)
     .filter(([_, value]) => {
-      const val = value as unknown as Record<string, unknown>;
-      const regionalVariations = val.regionalVariations as
-        | Record<string, unknown>
-        | undefined;
+      const val = value as { origin?: string | string[]; regionalVariations?: Record<string, unknown> };
       return (
         (Array.isArray(val.origin)
-          ? (val.origin as string[]).includes(region)
-          : val.origin === region) || Boolean(regionalVariations?.[region])
+          ? val.origin.includes(region)
+          : val.origin === region) || Boolean(val.regionalVariations?.[region])
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -529,8 +517,8 @@ export const _getSpiceConversionRatio = (
   fromSpice: string,
   toSpice: string,
 ): string | null => {
-  const source = spices[fromSpice] as unknown as Record<string, unknown> | undefined;
-  const target = spices[toSpice] as unknown as Record<string, unknown> | undefined;
+  const source = spices[fromSpice] as { conversionRatio?: unknown } | undefined;
+  const target = spices[toSpice] as { conversionRatio?: unknown } | undefined;
 
   if (
     !source?.conversionRatio ||

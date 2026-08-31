@@ -56,16 +56,9 @@ interface RecipeRecommendation {
   planetaryActivators: string[];
 }
 
-interface MaybePlanets {
-  activePlanets?: string[];
-  dominantPlanets?: Array<{
-    name?: string;
-    effect?: string;
-    influence?: number;
-  }>;
-  planetaryHour?: string;
-  zodiacSign?: string;
-}
+
+
+
 
 export class CulinaryAstrologer {
   private readonly ELEMENTAL_HARMONY_FACTORS = {
@@ -97,7 +90,7 @@ export class CulinaryAstrologer {
   }
 
   private getDominantElementFromAstro(astroState: AstrologicalState): string {
-    const { zodiacSign } = astroState as unknown as MaybePlanets;
+    const { zodiacSign } = astroState as { zodiacSign?: string };
     const sign = (zodiacSign || "").toLowerCase();
     const map: Record<string, string> = {
       aries: "Fire",
@@ -139,7 +132,7 @@ export class CulinaryAstrologer {
     astroState: AstrologicalState,
   ): number {
     if (!method) return 0;
-    const { activePlanets } = astroState as unknown as MaybePlanets;
+    const { activePlanets } = astroState as { activePlanets?: string[] };
     const actives = Array.isArray(activePlanets) ? activePlanets : [];
     const planets = method.astrologicalInfluences?.dominantPlanets ?? [];
     return planets.reduce((sum, p) => sum + (actives.includes(p) ? 0.2 : 0), 0);
@@ -152,7 +145,7 @@ export class CulinaryAstrologer {
     const lunar = method?.astrologicalInfluences?.lunarPhaseEffect || {};
     const bestPhase =
       Object.entries(lunar).sort((a, b) => b[1] - a[1])[0]?.[0] || "full moon";
-    const { planetaryHour } = astroState as unknown as MaybePlanets;
+    const { planetaryHour } = astroState as { planetaryHour?: string };
     const hour = planetaryHour || "Sun";
     const firstPlanet =
       method?.astrologicalInfluences?.dominantPlanets?.[0] || "Sun";
@@ -254,7 +247,7 @@ export class CulinaryAstrologer {
     const filtered = Object.entries(mappings).filter(
       ([, recipe]) => !cuisineFilter || recipe.cuisine === cuisineFilter,
     );
-    const { activePlanets } = astroState as unknown as MaybePlanets;
+    const { activePlanets } = astroState as { activePlanets?: string[] };
     const actives = Array.isArray(activePlanets) ? activePlanets : [];
 
     return filtered
@@ -286,7 +279,7 @@ export class CulinaryAstrologer {
     astroState: AstrologicalState,
     dominant: string,
   ): number {
-    const { activePlanets } = astroState as unknown as MaybePlanets;
+    const { activePlanets } = astroState as { activePlanets?: string[] };
     const actives = Array.isArray(activePlanets) ? activePlanets : [];
     const ruling = recipe.astrologicalProfile.rulingPlanets || [];
     const planetScore = ruling.reduce(
@@ -294,7 +287,7 @@ export class CulinaryAstrologer {
       0,
     );
     const elementMatch =
-      (recipe._elementalProperties as unknown as Record<string, number>)[
+      (recipe._elementalProperties as Record<string, number>)[
         dominant
       ] ?? 0;
     const base =

@@ -15,7 +15,10 @@ import {
   COMPREHENSIVE_TRANSIT_DATABASE,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { TransitSeason } from "@/data/transits/comprehensiveTransitDatabase";
-import type { CelestialPosition, Planet } from "@/types/celestial";
+import type {
+  CelestialPosition,
+  PlanetaryAspect,
+} from "@/types/celestial";
 // import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
 import { createLogger } from "@/utils/logger";
 import { getCurrentPlanetaryPositions } from "./astrologizeApi";
@@ -29,7 +32,7 @@ export interface EnhancedAstrologicalData {
   confidence: number;
   siderealTime?: string;
   seasonalTransit?: unknown;
-  keyAspects: Planet[];
+  keyAspects: PlanetaryAspect[];
   dominantElements: Record<string, number>;
   retrogradePlanets: string[];
   specialEvents: string[];
@@ -37,13 +40,13 @@ export interface EnhancedAstrologicalData {
 }
 
 export interface TransitAnalysis {
-  currentSeason: Season;
-  upcomingTransits: Element[];
+  currentSeason: TransitSeason | null;
+  upcomingTransits: TransitSeason[];
   dominantElements: Record<string, number>;
-  keyAspects: Planet[];
+  keyAspects: PlanetaryAspect[];
   retrogradePlanets: string[];
   eclipseSeasons: Date[];
-  majorTransits: Season[];
+  majorTransits: unknown[];
 }
 
 /**
@@ -128,17 +131,16 @@ export class EnhancedAstrologyService {
     // Get major transits from transit database
     const yearlyData = COMPREHENSIVE_TRANSIT_DATABASE[currentYear] as { majorTransits?: unknown[] } | undefined;
     const majorTransits = Array.isArray(yearlyData?.majorTransits)
-      ? (yearlyData.majorTransits as unknown as Season[])
+      ? yearlyData.majorTransits
       : [];
 
     await Promise.resolve();
 
     return {
-      currentSeason: currentSeason as unknown as Season,
-      upcomingTransits:
-        (upcomingAnalysis.seasons as unknown as Element[]),
+      currentSeason,
+      upcomingTransits: upcomingAnalysis.seasons,
       dominantElements: seasonalAnalysis.dominantElements,
-      keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]),
+      keyAspects: seasonalAnalysis.keyAspects,
       retrogradePlanets: seasonalAnalysis.retrogradePlanets,
       eclipseSeasons: futureEclipses,
       majorTransits,
@@ -159,7 +161,7 @@ export class EnhancedAstrologyService {
     const transitAnalysis = await this.getTransitAnalysis(date);
     const { currentSeason } = transitAnalysis;
 
-    if (typeof currentSeason === "undefined") {
+    if (!currentSeason) {
       // Fallback to basic seasonal analysis
       const month = date.getMonth();
       const basicSeasonalData = this.getBasicSeasonalData(month);
@@ -173,15 +175,13 @@ export class EnhancedAstrologyService {
       };
     }
 
-    const transitSeason = currentSeason as unknown as TransitSeason;
-
     return {
-      seasonalThemes: transitSeason.seasonalThemes,
-      culinaryInfluences: transitSeason.culinaryInfluences,
-      dominantElements: transitSeason.dominantElements,
-      recommendedCuisines: this.getRecommendedCuisines(transitSeason.dominantElements),
-      recommendedCookingMethods: this.getRecommendedCookingMethods(transitSeason.dominantElements),
-      alchemicalProperties: transitSeason.alchemicalProperties,
+      seasonalThemes: currentSeason.seasonalThemes,
+      culinaryInfluences: currentSeason.culinaryInfluences,
+      dominantElements: currentSeason.dominantElements,
+      recommendedCuisines: this.getRecommendedCuisines(currentSeason.dominantElements),
+      recommendedCookingMethods: this.getRecommendedCookingMethods(currentSeason.dominantElements),
+      alchemicalProperties: currentSeason.alchemicalProperties,
     };
   }
 
@@ -247,8 +247,7 @@ export class EnhancedAstrologyService {
     const specialEvents = seasonalTransit?.specialEvents ?? [];
 
     // Get key aspects from seasonal transit
-    const keyAspects =
-      seasonalTransit ? (seasonalTransit.keyAspects as unknown as Planet[]) : [];
+    const keyAspects = (seasonalTransit as { keyAspects?: PlanetaryAspect[] } | undefined)?.keyAspects ?? [];
 
     return {
       planetaryPositions: primaryPositions,

@@ -1596,33 +1596,33 @@
       {
         "cuisine": "Italian",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8312499999999999,
+          0.8312499999999999,
+          0.8312499999999999
         ]
       },
       {
         "cuisine": "Mexican",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8324999999999999,
+          0.8324999999999999,
+          0.8325000000000001
         ]
       },
       {
         "cuisine": "Japanese",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8324999999999999,
+          0.8324999999999999,
+          0.8325000000000001
         ]
       },
       {
         "cuisine": "Indian",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8324999999999999,
+          0.8324999999999999,
+          0.8325000000000001
         ]
       }
     ],
@@ -1630,34 +1630,263 @@
       {
         "planet": "Mars",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8562500000000001,
+          0.8629807692307693,
+          0.8692045454545455
         ]
       },
       {
         "planet": "Venus",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8764772727272728,
+          0.8670376712328768,
+          0.8570833333333333
         ]
       },
       {
         "planet": "Jupiter",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8567934782608696,
+          0.8604166666666667,
+          0.866722972972973
         ]
       },
       {
         "planet": "Saturn",
         "scores": [
-          0.5,
-          0.5,
-          0.5
+          0.8770833333333333,
+          0.8669642857142857,
+          0.8543882978723404
         ]
+      }
+    ]
+  },
+  "recommenderIngredients": {
+    "categoryCount": 6,
+    "enhancedCount": 20,
+    "enhancedTop": [
+      {
+        "name": "MCT Oil",
+        "totalScore": 0.5815,
+        "elementalScore": 0.9295,
+        "flavorScore": 0.5,
+        "seasonalScore": 0.9
+      },
+      {
+        "name": "Olive Oil",
+        "totalScore": 0.5735,
+        "elementalScore": 0.8853,
+        "flavorScore": 0.5,
+        "seasonalScore": 0.9
+      },
+      {
+        "name": "Canola Oil",
+        "totalScore": 0.5735,
+        "elementalScore": 0.8853,
+        "flavorScore": 0.5,
+        "seasonalScore": 0.9
+      },
+      {
+        "name": "Sesame Oil",
+        "totalScore": 0.5165,
+        "elementalScore": 0.9295,
+        "flavorScore": 0.5,
+        "seasonalScore": 0.4
+      },
+      {
+        "name": "Kumquat",
+        "totalScore": 0.5647,
+        "elementalScore": 0.8365,
+        "flavorScore": 0.5,
+        "seasonalScore": 0.9
+      }
+    ],
+    "legacyTopNames": [
+      "Lemon Verbena",
+      "arugula",
+      "maple crystals",
+      "Quince",
+      "Pear",
+      "coconut cream",
+      "Asian Pear",
+      "avocado"
+    ]
+  },
+  "recommenderCookingMethods": {
+    "asyncCount": 25,
+    "asyncTop": [
+      {
+        "name": "Marinating",
+        "score": 0.2636,
+        "heat": null
+      },
+      {
+        "name": "Dehydrating",
+        "score": 0.2614,
+        "heat": null
+      },
+      {
+        "name": "sous_vide",
+        "score": 0.2451,
+        "heat": null
+      },
+      {
+        "name": "braising",
+        "score": 0.2424,
+        "heat": null
+      },
+      {
+        "name": "tilt-skillet",
+        "score": 0.2424,
+        "heat": null
+      }
+    ],
+    "syncCount": 10,
+    "syncTop": [
+      {
+        "name": "braising",
+        "score": 0.8571,
+        "heat": 0.55
+      },
+      {
+        "name": "tilt-skillet",
+        "score": 0.8526,
+        "heat": 0.5
+      },
+      {
+        "name": "roasting",
+        "score": 0.8371,
+        "heat": 0.75
+      },
+      {
+        "name": "fermentation",
+        "score": 0.8371,
+        "heat": 0.2
+      },
+      {
+        "name": "frying",
+        "score": 0.8343,
+        "heat": 0.85
+      }
+    ]
+  },
+  "recommenderSeasonal": {
+    "garlicSpringScore": 0.95,
+    "tomatoSummerInSeason": false
+  },
+  "spiceRegistry": {
+    "totalSpices": 42,
+    "samples": [
+      {
+        "name": "cumin",
+        "found": true,
+        "element": {
+          "Fire": 0.27,
+          "Water": 0.08,
+          "Earth": 0.48,
+          "Air": 0.17
+        }
+      },
+      {
+        "name": "turmeric",
+        "found": true,
+        "element": {
+          "Fire": 0.3,
+          "Water": 0.1,
+          "Earth": 0.5,
+          "Air": 0.1
+        }
+      },
+      {
+        "name": "cinnamon",
+        "found": true,
+        "element": {
+          "Fire": 0.57,
+          "Water": 0.08,
+          "Earth": 0.12,
+          "Air": 0.23
+        }
+      },
+      {
+        "name": "cardamom",
+        "found": true,
+        "element": {
+          "Fire": 0.3,
+          "Water": 0.15,
+          "Earth": 0.1,
+          "Air": 0.45
+        }
+      },
+      {
+        "name": "coriander",
+        "found": true,
+        "element": {
+          "Fire": 0.25,
+          "Water": 0.15,
+          "Earth": 0.2,
+          "Air": 0.4
+        }
+      }
+    ]
+  },
+  "recommenderRecipeBuilding": {
+    "recipeName": "Balanced Italian Sauté with Chicken Breast",
+    "ingredientCount": 6,
+    "monicaOptimizationScore": 0.5766,
+    "seasonalScore": 0.604,
+    "criteriaMatched": null,
+    "kalchmAccuracy": null
+  },
+  "recommenderFiltering": {
+    "springVegetableCount": 75,
+    "springHerbCount": 51,
+    "fireSpiceCount": 42,
+    "fireProteinCount": 76
+  },
+  "recommenderCuisines": {
+    "italianFound": true,
+    "italianDishCount": {
+      "breakfast": null,
+      "dinner": null
+    },
+    "japaneseFound": true,
+    "monicaCompatibility": 0.5953,
+    "kalchmHarmony": 0.987,
+    "culturalSynergy": 0.7,
+    "sharedMethods": [
+      "grilling"
+    ],
+    "italianKalchmAnalysis": {
+      "totalKalchm": 1.0711,
+      "averageRecipeKalchm": 1.075,
+      "recipesAnalyzed": 12
+    }
+  },
+  "recommenderAdapter": {
+    "dominantProperty": "Spirit",
+    "heatIndex": 0,
+    "entropyIndex": 0,
+    "reactivityIndex": 0,
+    "gregsEnergyIndex": 0,
+    "transformedCount": 2,
+    "transformedSample": [
+      {
+        "name": "garlic",
+        "spirit": 0,
+        "essence": 0,
+        "matter": 0,
+        "substance": 0,
+        "heat": 0,
+        "gregsEnergy": 0
+      },
+      {
+        "name": "tomato",
+        "spirit": 0,
+        "essence": 0,
+        "matter": 0,
+        "substance": 0,
+        "heat": 0,
+        "gregsEnergy": 0
       }
     ]
   }

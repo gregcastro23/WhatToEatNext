@@ -8,15 +8,16 @@ import {
 import {
     calculateLunarPhase, calculatePlanetaryPositions
 } from "../utils/astrologyUtils";
-import { convertToLunarPhase } from "../utils/lunarUtils";
+import { convertToLunarPhase } from "../utils/lunarPhaseUtils";
 import type {
     AlchemicalItem, ElementalItem
 } from "../calculations/alchemicalTransformation";
 import type { ElementalCharacter } from "../constants/planetaryElements";
 import type {
     AlchemicalProperties,
-    LunarPhase, LunarPhaseWithSpaces,
-    PlanetaryAspect, PlanetaryPosition
+    LunarPhaseWithSpaces,
+    PlanetaryAspect, PlanetaryPosition,
+    ZodiacSignType
 } from "../types/alchemy";
 import type { RecommendationResult } from "./interfaces/RecommendationServiceInterface";
 
@@ -46,17 +47,21 @@ interface TransformedItem extends AlchemicalItem {
 // alchemicalProperties/elementalValues, so these flat/lowercase reads are pre-existing
 // latent bugs (always undefined/zero at runtime) preserved as-is in this types-only pass.
 interface AlchemicalResultSnapshot {
-  spirit?: unknown;
-  essence?: unknown;
-  matter?: unknown;
-  substance?: unknown;
+  spirit?: number;
+  essence?: number;
+  matter?: number;
+  substance?: number;
+  heat?: number;
+  entropy?: number;
+  reactivity?: number;
+  gregsEnergy?: number;
   elementalBalance?: {
-    Fire?: unknown;
-    Water?: unknown;
-    Earth?: unknown;
-    Air?: unknown;
+    Fire?: number;
+    Water?: number;
+    Earth?: number;
+    Air?: number;
   };
-  dominantElement?: unknown;
+  dominantElement?: string;
 }
 // Snapshot of the fields read off a PlanetData.Alchemy block.
 interface AlchemySnapshot {
@@ -101,8 +106,8 @@ export class RecommendationAdapter {
   private tarotPlanetaryBoosts?: Record<string, number>;
   private aspects: PlanetaryAspect[] = [];
   private retrogradeStatus: Record<string, boolean> = {};
-  private convertedPositions: Record<string, PlanetData> = {};
-  private alchemicalResult: Record<string, number>;
+  private convertedPositions: Record<string, PlanetaryPosition> = {};
+  private alchemicalResult: AlchemicalResultSnapshot;
   constructor(
     ingredients: ElementalItem[],
     methods: ElementalItem[] = [],
@@ -153,7 +158,7 @@ export class RecommendationAdapter {
     this.convertedPositions = {};
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
       this.convertedPositions[planet] = {
-        sign: data.sign ?? "",
+        sign: (data.sign as ZodiacSignType | undefined) ?? "aries",
         degree: data.degree ?? 0,
         ...(data.isRetrograde !== undefined
           ? { isRetrograde: data.isRetrograde }
@@ -174,9 +179,7 @@ export class RecommendationAdapter {
       // Calculate current lunar phase
       const lunarPhase = await calculateLunarPhase(new Date());
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(
-        lunarPhase as unknown as LunarPhase,
-      );
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
       // Calculate if it's currently daytime
       const now = new Date();
       const hours = now.getHours();
@@ -240,17 +243,14 @@ export class RecommendationAdapter {
     try {
       // Get alchemical results from the positions
       const result = alchemize({
-        positions: this.convertedPositions as unknown as Record<
-          string,
-          PlanetaryPosition
-        >,
+        positions: this.convertedPositions,
         isDaytime: this.isDaytime,
         lunarPhase: this.lunarPhase ?? undefined,
         retrogradeStatus: this.retrogradeStatus,
       });
-      this.alchemicalResult = result as unknown as Record<string, number>;
+      this.alchemicalResult = result;
       // Safe type casting for result properties
-      const resultData = result as unknown as AlchemicalResultSnapshot;
+      const resultData = this.alchemicalResult;
       // Prepare alchemical properties
       const alchemicalProperties = {
         Spirit: this.safeGetNumber(resultData.spirit),
@@ -340,7 +340,7 @@ export class RecommendationAdapter {
       if (this.aspects.length > 0) {
         this.aspects.forEach((aspect) => {
           // Extract aspect data with safe property access
-          const aspectData = aspect as unknown as AspectFieldsRead;
+          const aspectData = aspect as AspectFieldsRead;
           const { body1 } = aspectData;
           const { body2 } = aspectData;
           const { aspectType } = aspectData;
@@ -604,7 +604,12 @@ export class RecommendationAdapter {
     // - Essence is related to Water (fluidity)
     // - Matter is related to Earth (stability)
     // - Substance is related to Air (connection)
-    const ingredientData = ingredient as unknown as Record<string, unknown>;
+    const ingredientData = ingredient as {
+      spirit?: unknown;
+      essence?: unknown;
+      matter?: unknown;
+      substance?: unknown;
+    };
     const calculatedSpirit =
       this.safeGetNumber(ingredientData.spirit) ||
       elementalProps.Fire * 0.2 + elementalProps.Air * 0.2;
@@ -682,6 +687,10 @@ export class RecommendationAdapter {
     return {
       ...ingredient,
       alchemicalProperties: {
+        Spirit: boostedSpirit,
+        Essence: boostedEssence,
+        Matter: boostedMatter,
+        Substance: boostedSubstance,
         spirit: boostedSpirit,
         essence: boostedEssence,
         matter: boostedMatter,
@@ -690,15 +699,14 @@ export class RecommendationAdapter {
         entropy,
         reactivity,
         gregsEnergy,
-      },
-    } as unknown as AlchemicalItem;
+      } as AlchemicalProperties,
+    };
   }
   /**
    * Get the dominant element based on alchemical results
    */
   getDominantElement(): ElementalCharacter | null {
-    const elementName = (this.alchemicalResult as unknown as AlchemicalResultSnapshot)
-      .dominantElement;
+    const elementName = this.alchemicalResult.dominantElement;
     // Normalize to proper case for ElementalCharacter - ensure we're comparing strings
     if (String(elementName) === "fire") return "Fire";
     if (String(elementName) === "water") return "Water";
@@ -712,10 +720,10 @@ export class RecommendationAdapter {
   getDominantAlchemicalProperty(): AlchemicalProperty | null {
     // Find the dominant property based on the highest value
     const properties = {
-      Spirit: this.alchemicalResult.spirit || 0,
-      Essence: this.alchemicalResult.essence || 0,
-      Matter: this.alchemicalResult.matter || 0,
-      Substance: this.alchemicalResult.substance || 0,
+      Spirit: this.alchemicalResult.spirit ?? 0,
+      Essence: this.alchemicalResult.essence ?? 0,
+      Matter: this.alchemicalResult.matter ?? 0,
+      Substance: this.alchemicalResult.substance ?? 0,
     };
     let dominant: AlchemicalProperty = "Spirit";
     let maxValue = properties.Spirit;
@@ -732,13 +740,13 @@ export class RecommendationAdapter {
    */
   getHeatIndex(): number | null {
     // If heat is explicitly calculated in alchemical results, use it
-    if ("heat" in this.alchemicalResult) {
+    if (this.alchemicalResult.heat !== undefined) {
       return this.alchemicalResult.heat;
     }
     // Otherwise derive from alchemical properties
-    const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
+    const alchemicalData = this.alchemicalResult;
     const elementalBalance = alchemicalData.elementalBalance ?? {};
-    const fire = Number(elementalBalance.Fire) || 0;
+    const fire = Number(elementalBalance.Fire ?? 0);
     const spirit = alchemicalData.spirit ?? 0;
     // Heat is primarily influenced by Fire element and Spirit property
     return (Number(fire) * 0.6 + Number(spirit) * 0.4) / 2;
@@ -748,13 +756,13 @@ export class RecommendationAdapter {
    */
   getEntropyIndex(): number | null {
     // If entropy is explicitly calculated in alchemical results, use it
-    if ("entropy" in this.alchemicalResult) {
+    if (this.alchemicalResult.entropy !== undefined) {
       return this.alchemicalResult.entropy;
     }
     // Otherwise derive from alchemical properties
-    const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
+    const alchemicalData = this.alchemicalResult;
     const elementalBalance = alchemicalData.elementalBalance ?? {};
-    const air = Number(elementalBalance.Air) || 0;
+    const air = Number(elementalBalance.Air ?? 0);
     const substance = alchemicalData.substance ?? 0;
     // Entropy is primarily influenced by Air element and Substance property
     return (Number(air) * 0.7 + Number(substance) * 0.3) / 2;
@@ -764,14 +772,14 @@ export class RecommendationAdapter {
    */
   getReactivityIndex(): number | null {
     // If reactivity is explicitly calculated in alchemical results, use it
-    if ("reactivity" in this.alchemicalResult) {
+    if (this.alchemicalResult.reactivity !== undefined) {
       return this.alchemicalResult.reactivity;
     }
     // Otherwise derive from alchemical properties
-    const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
+    const alchemicalData = this.alchemicalResult;
     const elementalBalance = alchemicalData.elementalBalance ?? {};
-    const essence = Number(alchemicalData.essence) || 0;
-    const water = Number(elementalBalance.Water) || 0;
+    const essence = Number(alchemicalData.essence ?? 0);
+    const water = Number(elementalBalance.Water ?? 0);
     // Reactivity is primarily influenced by Water element and Essence property
     return (Number(water) * 0.5 + Number(essence) * 0.5) / 2;
   }
@@ -780,20 +788,20 @@ export class RecommendationAdapter {
    */
   getGregsEnergyIndex(): number | null {
     // If Greg's Energy is explicitly calculated in alchemical results, use it
-    if ("gregsEnergy" in this.alchemicalResult) {
+    if (this.alchemicalResult.gregsEnergy !== undefined) {
       return this.alchemicalResult.gregsEnergy;
     }
     // Otherwise derive from alchemical properties - balanced formula based on all elements
-    const alchemicalData = this.alchemicalResult as unknown as AlchemicalResultSnapshot;
+    const alchemicalData = this.alchemicalResult;
     const elementalBalanceData = alchemicalData.elementalBalance ?? {};
-    const Fire = Number(elementalBalanceData.Fire) || 0;
-    const Water = Number(elementalBalanceData.Water) || 0;
-    const Earth = Number(elementalBalanceData.Earth) || 0;
-    const Air = Number(elementalBalanceData.Air) || 0;
-    const spirit = Number(alchemicalData.spirit) || 0;
-    const essence = Number(alchemicalData.essence) || 0;
-    const matter = Number(alchemicalData.matter) || 0;
-    const substance = Number(alchemicalData.substance) || 0;
+    const Fire = Number(elementalBalanceData.Fire ?? 0);
+    const Water = Number(elementalBalanceData.Water ?? 0);
+    const Earth = Number(elementalBalanceData.Earth ?? 0);
+    const Air = Number(elementalBalanceData.Air ?? 0);
+    const spirit = Number(alchemicalData.spirit ?? 0);
+    const essence = Number(alchemicalData.essence ?? 0);
+    const matter = Number(alchemicalData.matter ?? 0);
+    const substance = Number(alchemicalData.substance ?? 0);
     // Weighted combination of all elements and properties
     const elementalBalance =
       (Number(Fire) + Number(Water) + Number(Earth) + Number(Air)) / 4;

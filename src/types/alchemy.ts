@@ -641,28 +641,32 @@ export interface ElementalItem {
 // Add missing type definitions
 export type AlchemicalProperty = "Spirit" | "Essence" | "Matter" | "Substance";
 export type ElementalCharacter = "Fire" | "Water" | "Earth" | "Air";
-// AlchemicalItem type (causing errors in CuisineRecommender.tsx)
 export interface AlchemicalItem extends ElementalItem {
   // Core alchemical properties (required)
-  alchemicalProperties: Record<AlchemicalProperty, number>;
-  transformedElementalProperties: Record<ElementalCharacter, number>;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  dominantElement: ElementalCharacter;
-  dominantAlchemicalProperty: AlchemicalProperty;
+  alchemicalProperties: Record<string, number>;
+  transformedElementalProperties?: Record<string, number>;
+  heat?: number;
+  entropy?: number;
+  reactivity?: number;
+  gregsEnergy?: number;
+  dominantElement?: ElementalCharacter;
+  dominantAlchemicalProperty?: AlchemicalProperty;
 
-  // Planetary influence properties (required)
-  planetaryBoost: number;
-  dominantPlanets: string[];
-  planetaryDignities: Record<string, unknown>;
+  // Planetary influence properties
+  planetaryBoost?: number;
+  dominantPlanets?: string[];
+  planetaryDignities?: Record<string, unknown>;
 
   // Optional legacy properties for backward compatibility
   thermodynamicProperties?: ThermodynamicProperties;
   transformations?: ElementalInteraction[];
   seasonalResonance?: Season[];
   compatibilityScore?: number;
+  uniqueness?: number;
+  planetaryInfluences?: string[];
+  transformationScore?: number;
+  _lunarPhaseEffect?: string;
+  _zodiacInfluence?: string;
 }
 
 // FilterOptions type (causing errors in FilterSection.tsx)

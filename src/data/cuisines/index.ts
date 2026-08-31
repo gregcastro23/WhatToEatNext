@@ -8,25 +8,25 @@ const logger = createLogger("data:cuisines");
 const cuisineImages = cuisineImagesRaw as Record<string, string>;
 
 // Define a type for the dynamic import functions
-type CuisineImport = () => Promise<Record<string, unknown>>;
+type CuisineImport = () => Promise<Cuisine | Partial<Cuisine> | Record<string, unknown>>;
 
 // Map of dynamic import functions for each cuisine
 const cuisineImports: Record<string, CuisineImport> = {
-  African: () => import("./african").then(m => m.african as unknown as Record<string, unknown>),
-  American: () => import("./american").then(m => m.american as unknown as Record<string, unknown>),
-  Chinese: () => import("./chinese").then(m => m.chinese as unknown as Record<string, unknown>),
-  French: () => import("./french").then(m => m.french as unknown as Record<string, unknown>),
-  Greek: () => import("./greek").then(m => m.greek as unknown as Record<string, unknown>),
-  Indian: () => import("./indian").then(m => m.indian as unknown as Record<string, unknown>),
-  Italian: () => import("./italian").then(m => m.italian as unknown as Record<string, unknown>),
-  Japanese: () => import("./japanese").then(m => m.japanese as unknown as Record<string, unknown>),
-  Korean: () => import("./korean").then(m => m.korean as unknown as Record<string, unknown>),
-  Mexican: () => import("./mexican").then(m => m.mexican as unknown as Record<string, unknown>),
-  MiddleEastern: () => import("./middle-eastern").then(m => m.middleEastern as unknown as Record<string, unknown>),
-  Russian: () => import("./russian").then(m => m.russian as unknown as Record<string, unknown>),
-  Thai: () => import("./thai").then(m => m.thai as unknown as Record<string, unknown>),
-  Vietnamese: () => import("./vietnamese").then(m => m.vietnamese as unknown as Record<string, unknown>),
-  HSCA: () => import("./hsca").then(m => m.cuisine as unknown as Record<string, unknown>),
+  African: () => import("./african").then(m => m.african),
+  American: () => import("./american").then(m => m.american),
+  Chinese: () => import("./chinese").then(m => m.chinese),
+  French: () => import("./french").then(m => m.french),
+  Greek: () => import("./greek").then(m => m.greek),
+  Indian: () => import("./indian").then(m => m.indian),
+  Italian: () => import("./italian").then(m => m.italian),
+  Japanese: () => import("./japanese").then(m => m.japanese),
+  Korean: () => import("./korean").then(m => m.korean),
+  Mexican: () => import("./mexican").then(m => m.mexican),
+  MiddleEastern: () => import("./middle-eastern").then(m => m.middleEastern),
+  Russian: () => import("./russian").then(m => m.russian),
+  Thai: () => import("./thai").then(m => m.thai),
+  Vietnamese: () => import("./vietnamese").then(m => m.vietnamese),
+  HSCA: () => import("./hsca").then(m => m.cuisine),
 };
 
 // Metadata is kept synchronous to avoid placeholders and allow immediate UI render
@@ -164,12 +164,12 @@ function extractSeasonDishes(
 export function processCuisineRecipes(cuisine: unknown): Cuisine | null {
   if (!cuisine || typeof cuisine !== "object") return null;
 
-  const rawCuisine = cuisine as Record<string, unknown>;
+  const rawCuisine = cuisine as Partial<Cuisine>;
   const name = typeof rawCuisine.name === "string" ? rawCuisine.name : "Unknown";
   const dishes =
     rawCuisine.dishes && typeof rawCuisine.dishes === "object"
       ? extractSeasonDishes(
-          rawCuisine.dishes as Record<string, Record<string, unknown[]>>,
+          rawCuisine.dishes as unknown as Record<string, Record<string, unknown[]>>,
           name,
         )
       : {
@@ -183,10 +183,12 @@ export function processCuisineRecipes(cuisine: unknown): Cuisine | null {
   const imageUrl = cuisineImages[normalizedKey] ?? undefined;
 
   return {
-    ...(rawCuisine as unknown as Cuisine),
+    ...rawCuisine,
+    id: rawCuisine.id ?? normalizedKey.toLowerCase(),
+    name,
     imageUrl,
     dishes,
-  };
+  } as Cuisine;
 }
 
 /**
@@ -194,7 +196,7 @@ export function processCuisineRecipes(cuisine: unknown): Cuisine | null {
  */
 export async function getCuisineData(key: string): Promise<Cuisine | null> {
   const normalizedKey = key === "Middle Eastern" ? "MiddleEastern" : key;
-  const loader = cuisineImports[normalizedKey];
+  const loader = cuisineImports[normalizedKey] as CuisineImport | undefined;
   if (!loader) return null;
 
   try {
@@ -213,7 +215,7 @@ export const PRIMARY_CUISINE_KEYS = Object.keys(cuisineImports);
 // If dishes are needed, use getCuisineData() instead.
 const cuisinesMapBase: Record<string, Cuisine> = {};
 PRIMARY_CUISINE_KEYS.forEach(key => {
-  const meta = CUISINES_METADATA[key];
+  const meta = CUISINES_METADATA[key] as Partial<Cuisine> | undefined;
   if (!meta) return; // internal collections (HSCA) have no public metadata
   cuisinesMapBase[key] = {
     ...meta,

@@ -15,7 +15,7 @@ import type {
 import { memoize } from "@/utils/memoize";
 import {
   getAllEnhancedCookingMethods,
-  getCookingMethodPillar as _getCookingMethodPillar,
+  getCookingMethodPillar,
   type EnhancedCookingMethod,
 } from "../../constants/alchemicalPillars";
 import { unifiedIngredients } from "./ingredients";
@@ -42,7 +42,7 @@ export interface TarotSeasonalInfluence {
   element: Element;
   effect: number;
   ingredients: string[];
-  cookingMethod: CookingMethod;
+  cookingMethod: CookingMethod | string;
 }
 
 export interface SeasonalTarotProfile {
@@ -179,25 +179,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           element: "Fire",
           effect: 0.85,
           ingredients: ["radishes", "spring_greens"],
-          cookingMethod: "grilling" as unknown as CookingMethod,
+          cookingMethod: "grilling",
         },
         "3_of_wands": {
           element: "Fire",
           effect: 0.8,
           ingredients: ["asparagus", "morels"],
-          cookingMethod: "roasting" as unknown as CookingMethod,
+          cookingMethod: "roasting",
         },
         "4_of_wands": {
           element: "Fire",
           effect: 0.75,
           ingredients: ["strawberries", "new_potatoes"],
-          cookingMethod: "baking" as unknown as CookingMethod,
+          cookingMethod: "baking",
         },
         "5_of_pentacles": {
           element: "Earth",
           effect: 0.7,
           ingredients: ["rhubarb", "fava_beans"],
-          cookingMethod: "simmering" as unknown as CookingMethod,
+          cookingMethod: "simmering",
         },
         dominant_element: "Fire",
         secondary_element: "Air",
@@ -277,25 +277,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           element: "Water",
           effect: 0.85,
           ingredients: ["watermelon", "cucumbers"],
-          cookingMethod: "raw" as unknown as CookingMethod,
+          cookingMethod: "raw",
         },
         "3_of_cups": {
           element: "Water",
           effect: 0.9,
           ingredients: ["berries", "peaches"],
-          cookingMethod: "fermenting" as unknown as CookingMethod,
+          cookingMethod: "fermenting",
         },
         "5_of_wands": {
           element: "Fire",
           effect: 0.85,
           ingredients: ["tomatoes", "bell_peppers"],
-          cookingMethod: "grilling" as unknown as CookingMethod,
+          cookingMethod: "grilling",
         },
         "6_of_wands": {
           element: "Fire",
           effect: 0.8,
           ingredients: ["corn", "summer_squash"],
-          cookingMethod: "roasting" as unknown as CookingMethod,
+          cookingMethod: "roasting",
         },
         dominant_element: "Fire",
         secondary_element: "Water",
@@ -375,25 +375,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           element: "Air",
           effect: 0.7,
           ingredients: ["apples", "pears"],
-          cookingMethod: "baking" as unknown as CookingMethod,
+          cookingMethod: "baking",
         },
         "5_of_cups": {
           element: "Water",
           effect: 0.75,
           ingredients: ["cranberries", "figs"],
-          cookingMethod: "poaching" as unknown as CookingMethod,
+          cookingMethod: "poaching",
         },
         "6_of_cups": {
           element: "Water",
           effect: 0.8,
           ingredients: ["pumpkin", "sweet_potatoes"],
-          cookingMethod: "roasting" as unknown as CookingMethod,
+          cookingMethod: "roasting",
         },
         "8_of_wands": {
           element: "Fire",
           effect: 0.65,
           ingredients: ["grapes", "mushrooms"],
-          cookingMethod: "sauteing" as unknown as CookingMethod,
+          cookingMethod: "sauteing",
         },
         dominant_element: "Earth",
         secondary_element: "Water",
@@ -474,25 +474,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           element: "Air",
           effect: 0.7,
           ingredients: ["apples", "pears"],
-          cookingMethod: "baking" as unknown as CookingMethod,
+          cookingMethod: "baking",
         },
         "5_of_cups": {
           element: "Water",
           effect: 0.75,
           ingredients: ["cranberries", "figs"],
-          cookingMethod: "poaching" as unknown as CookingMethod,
+          cookingMethod: "poaching",
         },
         "6_of_cups": {
           element: "Water",
           effect: 0.8,
           ingredients: ["pumpkin", "sweet_potatoes"],
-          cookingMethod: "roasting" as unknown as CookingMethod,
+          cookingMethod: "roasting",
         },
         "8_of_wands": {
           element: "Fire",
           effect: 0.65,
           ingredients: ["grapes", "mushrooms"],
-          cookingMethod: "sauteing" as unknown as CookingMethod,
+          cookingMethod: "sauteing",
         },
         dominant_element: "Earth",
         secondary_element: "Water",
@@ -572,25 +572,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           element: "Earth",
           effect: 0.75,
           ingredients: ["root_vegetables", "winter_squash"],
-          cookingMethod: "braising" as unknown as CookingMethod,
+          cookingMethod: "braising",
         },
         "3_of_pentacles": {
           element: "Earth",
           effect: 0.8,
           ingredients: ["kale", "leeks"],
-          cookingMethod: "stewing" as unknown as CookingMethod,
+          cookingMethod: "stewing",
         },
         "8_of_cups": {
           element: "Water",
           effect: 0.7,
           ingredients: ["citrus", "pomegranates"],
-          cookingMethod: "poaching" as unknown as CookingMethod,
+          cookingMethod: "poaching",
         },
         "9_of_cups": {
           element: "Water",
           effect: 0.85,
           ingredients: ["persimmons", "cranberries"],
-          cookingMethod: "simmering" as unknown as CookingMethod,
+          cookingMethod: "simmering",
         },
         dominant_element: "Earth",
         secondary_element: "Water",
@@ -682,25 +682,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           element: "Fire",
           effect: 0.8,
           ingredients: ["garlic", "herbs"],
-          cookingMethod: "sauteing" as unknown as CookingMethod,
+          cookingMethod: "sauteing",
         },
         ace_of_cups: {
           element: "Water",
           effect: 0.8,
           ingredients: ["onions", "carrots"],
-          cookingMethod: "simmering" as unknown as CookingMethod,
+          cookingMethod: "simmering",
         },
         ace_of_swords: {
           element: "Air",
           effect: 0.8,
           ingredients: ["herbs", "potatoes"],
-          cookingMethod: "roasting" as unknown as CookingMethod,
+          cookingMethod: "roasting",
         },
         ace_of_pentacles: {
           element: "Earth",
           effect: 0.8,
           ingredients: ["root_vegetables", "grains"],
-          cookingMethod: "baking" as unknown as CookingMethod,
+          cookingMethod: "baking",
         },
         dominant_element: "Earth",
         secondary_element: "Fire",
@@ -714,35 +714,23 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   },
 };
 
-// ===== UNIFIED SEASONAL SYSTEM CLASS =====;
-
-// Note: monicaConstant/alchemicalPillar are not declared on EnhancedCookingMethod
-// and are never set by getAllEnhancedCookingMethods — these reads are always
-// undefined at runtime; the isNaN/optional-chaining guards therefore always skip.
-// Shape preserved as-is (types-only pass). monicaConstant is typed non-optional to
-// match what the prior `as any` assumed (isNaN/subtraction expect a number); this is
-// types-only and does not change the always-undefined runtime value.
-interface CookingMethodMonicaLike {
-  monicaConstant: number;
-  alchemicalPillar?: { elementalAssociations?: { primary?: Element } };
-}
-
 export class UnifiedSeasonalSystem {
-  private readonly enhancedCookingMethods: {
-    [key: string]: EnhancedCookingMethod;
-  };
+  private readonly enhancedCookingMethods: Record<string, EnhancedCookingMethod | undefined>;
   public calculateKalchmSeasonalCompatibility: (ingredientKalchm: number, season: Season) => number;
   public calculateElementalSeasonalCompatibility: (ingredientElements: ElementalProperties, seasonalElements: ElementalProperties) => number;
 
   constructor() {
-    this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {
-      [key: string]: EnhancedCookingMethod;
-    };
+    const allMethods = getAllEnhancedCookingMethods();
+    const methodsMap: Record<string, EnhancedCookingMethod | undefined> = {};
+    for (const method of allMethods) {
+      methodsMap[method.name] = method;
+      methodsMap[method.name.toLowerCase()] = method;
+    }
+    this.enhancedCookingMethods = methodsMap;
 
     this.calculateKalchmSeasonalCompatibility = memoize(this._calculateKalchmSeasonalCompatibility.bind(this));
     this.calculateElementalSeasonalCompatibility = memoize(this._calculateElementalSeasonalCompatibility.bind(this));
   }
-
   // ===== CORE SEASONAL FUNCTIONS =====
 
   /**
@@ -1090,41 +1078,17 @@ export class UnifiedSeasonalSystem {
    */
   private getSeasonalOptimalCookingMethods(
     season: Season,
-    targetMonica?: number,
+    _targetMonica?: number,
   ): EnhancedCookingMethod[] {
     const seasonProfile = unifiedSeasonalProfiles[season];
     const optimalMethods: EnhancedCookingMethod[] = [];
 
     // Get methods listed as optimal for the season
     for (const methodName of seasonProfile.optimalCookingMethods) {
-      const enhancedMethod = (this.enhancedCookingMethods as Record<string, EnhancedCookingMethod | undefined>)[methodName];
+      const enhancedMethod = this.enhancedCookingMethods[methodName];
       if (enhancedMethod) {
         optimalMethods.push(enhancedMethod);
       }
-    }
-
-    // If target Monica is specified, find compatible methods
-    if (targetMonica !== undefined) {
-      /*
-      const compatibleMethodNames = new Set<string>();
-
-      for (const method of Object.values(this.enhancedCookingMethods)) {
-        const pillar = getCookingMethodPillar(method.name);
-        if (!pillar) continue;
-
-        const metrics = getMonicaMetricsForPillar(pillar.id);
-        if (metrics && Math.abs(metrics.targetMonica - targetMonica) < 0.5) {
-          compatibleMethodNames.add(method.name);
-        }
-      }
-      
-      for (const methodName of compatibleMethodNames) {
-        const method = this.enhancedCookingMethods[methodName];
-        if (method && !optimalMethods.includes(method)) {
-          optimalMethods.push(method);
-        }
-      }
-      */
     }
 
     return optimalMethods;
@@ -1147,17 +1111,21 @@ export class UnifiedSeasonalSystem {
     }
 
     // Monica compatibility
-    const methodData = method as unknown as CookingMethodMonicaLike;
-    if (targetMonica !== undefined && !isNaN(methodData.monicaConstant)) {
+    const monicaConstant = typeof method.monicaConstant === "number" ? method.monicaConstant : undefined;
+    if (targetMonica !== undefined && monicaConstant !== undefined && !isNaN(monicaConstant)) {
       const monicaDifference = Math.abs(
-        methodData.monicaConstant - targetMonica,
+        monicaConstant - targetMonica,
       );
       score += Math.max(0, 1 - monicaDifference);
     }
 
     // Elemental compatibility
+    const pillar = getCookingMethodPillar(method.name);
     const methodElement =
-      methodData.alchemicalPillar?.elementalAssociations?.primary;
+      pillar?.elementalAssociations?.primary ??
+      (typeof method.alchemicalPillar === "object" && method.alchemicalPillar !== null && "elementalAssociations" in method.alchemicalPillar
+        ? (method.alchemicalPillar as { elementalAssociations?: { primary?: Element } }).elementalAssociations?.primary
+        : undefined);
     if (methodElement) {
       const elementalScore =
         seasonProfile.elementalDominance[methodElement] || 0;
@@ -1184,10 +1152,10 @@ export class UnifiedSeasonalSystem {
     let validMethods = 0;
 
     for (const method of cookingMethods) {
-      const methodData = method as unknown as CookingMethodMonicaLike;
-      if (!isNaN(methodData.monicaConstant)) {
+      const monicaConstant = typeof method.monicaConstant === "number" ? method.monicaConstant : undefined;
+      if (monicaConstant !== undefined && !isNaN(monicaConstant)) {
         const monicaDifference = Math.abs(
-          methodData.monicaConstant - targetMonica,
+          monicaConstant - targetMonica,
         );
         const methodOptimization = Math.max(0, 1 - monicaDifference);
 

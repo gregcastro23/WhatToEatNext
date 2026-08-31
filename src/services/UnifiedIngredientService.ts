@@ -107,17 +107,7 @@ interface DietaryFilter {
   isLowSugar?: boolean;
 }
 
-/**
- * Shape of the legacy astrological blob some ingredient data uses. Not a
- * declared field on UnifiedIngredient (accessed via its index signature),
- * kept narrow to describe only what these methods read.
- */
-interface LegacyAstrologicalProperties {
-  astrologicalProperties?: {
-    planets?: unknown;
-    signs?: unknown;
-  };
-}
+
 
 /**
  * Shape of the legacy `nutrition` blob some ingredient data uses. Not a
@@ -286,7 +276,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     if (filter.currentSeason) {
       filteredIngredients = this.applySeasonalFilter(
         filteredIngredients,
-        filter.currentSeason as unknown as string[] | Season[],
+        filter.currentSeason,
       );
     }
 
@@ -427,7 +417,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       return seasons.some((s) =>
         Array.isArray(_ingredient.seasonality)
           ? _ingredient.seasonality.includes(s)
-          : _ingredient.seasonality === (s as unknown),
+          : false,
       );
     });
   }
@@ -439,14 +429,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
 
     return allIngredients.filter((_ingredient) => {
-      const legacy = (_ingredient as unknown as LegacyAstrologicalProperties)
+      const legacy = (_ingredient as { astrologicalProperties?: { planets?: unknown } })
         .astrologicalProperties;
       if (!legacy?.planets) return false;
 
       const { planets } = legacy;
       return Array.isArray(planets)
-        ? planets.includes(planet) // ← Pattern HH-1: Safe conversion via unknown
-        : planets === (planet as unknown); // ← Pattern HH-1: Safe conversion via unknown
+        ? (planets as unknown[]).includes(planet)
+        : planets === planet;
     });
   }
 
@@ -457,14 +447,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
 
     return allIngredients.filter((_ingredient) => {
-      const legacy = (_ingredient as unknown as LegacyAstrologicalProperties)
+      const legacy = (_ingredient as { astrologicalProperties?: { signs?: unknown } })
         .astrologicalProperties;
       if (!legacy?.signs) return false;
 
       const { signs } = legacy;
       return Array.isArray(signs)
-        ? signs.includes(sign) // ← Pattern HH-1: Safe conversion via unknown
-        : signs === (sign as unknown); // ← Pattern HH-1: Safe conversion via unknown
+        ? (signs as unknown[]).includes(sign)
+        : signs === sign;
     });
   }
 
@@ -1022,17 +1012,20 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private applySeasonalFilter(
     ingredients: UnifiedIngredient[],
-    seasons: string[] | Season[],
+    seasons: string[] | Season[] | string | Season,
   ): UnifiedIngredient[] {
+    const seasonArray: Array<string | Season> = Array.isArray(seasons)
+      ? seasons
+      : [seasons];
     return ingredients.filter((_ingredient) => {
       if (!_ingredient.seasonality || _ingredient.seasonality.length === 0) {
         return true; // Include ingredients with no seasonality data
       }
 
-      return seasons.some((season) =>
+      return seasonArray.some((season) =>
         Array.isArray(_ingredient.seasonality)
-          ? _ingredient.seasonality.includes(season as Season)
-          : _ingredient.seasonality === (season as unknown),
+          ? (_ingredient.seasonality as string[]).includes(String(season))
+          : String(_ingredient.seasonality) === String(season),
       );
     });
   }
@@ -1108,7 +1101,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     currentZodiacSignType: ZodiacSignType,
   ): UnifiedIngredient[] {
     return ingredients.filter((ingredient) => {
-      const legacy = (ingredient as unknown as LegacyAstrologicalProperties)
+      const legacy = (ingredient as { astrologicalProperties?: { signs?: unknown } })
         .astrologicalProperties;
       if (!legacy?.signs) {
         return false;
@@ -1116,12 +1109,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       const { signs } = legacy;
       return Array.isArray(signs)
-        ? signs.includes(currentZodiacSignType)
-        : signs ===
-            (currentZodiacSignType as unknown as Record<
-              string,
-              Record<string, string>
-            >);
+        ? (signs as unknown[]).includes(currentZodiacSignType)
+        : signs === currentZodiacSignType;
     });
   }
 
@@ -1133,7 +1122,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     planet: Planet,
   ): UnifiedIngredient[] {
     return ingredients.filter((ingredient) => {
-      const legacy = (ingredient as unknown as LegacyAstrologicalProperties)
+      const legacy = (ingredient as { astrologicalProperties?: { planets?: unknown } })
         .astrologicalProperties;
       if (!legacy?.planets) {
         return false;
@@ -1141,9 +1130,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       const { planets } = legacy;
       return Array.isArray(planets)
-        ? planets.includes(planet)
-        : planets ===
-            (planet as unknown as Record<string, Record<string, string>>);
+        ? (planets as unknown[]).includes(planet)
+        : planets === planet;
     });
   }
 

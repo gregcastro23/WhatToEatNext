@@ -55,6 +55,10 @@ interface LegacyAlchemicalFields {
   transformationScore?: number;
 }
 
+export interface TransformableElementalItem
+  extends ElementalItem,
+    LegacyAlchemicalFields {}
+
 // --- Constants ---
 
 const PLANETARY_ELEMENTS: Record<string, ElementalCharacter | undefined> = {
@@ -206,10 +210,9 @@ export function transformSingleItem(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness:
-      (item as unknown as LegacyAlchemicalFields).uniqueness ?? uniqueness,
+    uniqueness: (item as TransformableElementalItem).uniqueness ?? uniqueness,
     planetaryInfluences:
-      (item as unknown as LegacyAlchemicalFields).planetaryInfluences ??
+      (item as TransformableElementalItem).planetaryInfluences ??
       Object.keys(planetaryInfluences),
     _lunarPhaseEffect: context.lunarPhase ?? "new Moon",
     _zodiacInfluence: context.currentZodiac ?? "aries",
@@ -217,7 +220,7 @@ export function transformSingleItem(
       alchemicalProperties,
       uniqueness,
     ),
-  } as unknown as AlchemicalItem;
+  };
 }
 
 /**
@@ -256,16 +259,16 @@ export function applyPlanetaryInfluence(
   // ✅ Pattern KK-9: Safe arithmetic operations for elemental transformation
   const transformedElemental = normalizeProperties({
     Fire:
-      Number(item.elementalProperties?.Fire || 0) +
+      Number(item.elementalProperties.Fire || 0) +
       Number(elementalBoost.Fire || 0),
     Water:
-      Number(item.elementalProperties?.Water || 0) +
+      Number(item.elementalProperties.Water || 0) +
       Number(elementalBoost.Water || 0),
     Earth:
-      Number(item.elementalProperties?.Earth || 0) +
+      Number(item.elementalProperties.Earth || 0) +
       Number(elementalBoost.Earth || 0),
     Air:
-      Number(item.elementalProperties?.Air || 0) +
+      Number(item.elementalProperties.Air || 0) +
       Number(elementalBoost.Air || 0),
   });
 
@@ -286,7 +289,7 @@ export function applyPlanetaryInfluence(
       Number(planetProperties.Substance || 0) * Number(planetaryStrength || 0),
   };
 
-  const legacyFields = item as unknown as LegacyAlchemicalFields;
+  const legacyItem = item as TransformableElementalItem;
 
   return {
     ...item,
@@ -294,16 +297,16 @@ export function applyPlanetaryInfluence(
     alchemicalProperties: alchemicalBoost,
     // ✅ Pattern MM-1: Safe type assertion for planetary influences array
     planetaryInfluences: [
-      ...(Array.isArray(legacyFields.planetaryInfluences)
-        ? legacyFields.planetaryInfluences
+      ...(Array.isArray(legacyItem.planetaryInfluences)
+        ? legacyItem.planetaryInfluences
         : []),
       String(planet || ""),
     ],
     transformationScore: calculateTransformationScore(
       alchemicalBoost,
-      Number(legacyFields.uniqueness) || 0.5,
+      Number(legacyItem.uniqueness) || 0.5,
     ),
-  } as unknown as AlchemicalItem;
+  };
 }
 
 /**
@@ -320,10 +323,10 @@ export function sortByAlchemicalCompatibility(
     // ✅ Pattern MM-1: Safe type assertion for transformation score comparison
     return items.sort((a, b) => {
       const scoreB = Number(
-        (b as unknown as LegacyAlchemicalFields).transformationScore ?? 0,
+        (b as TransformableElementalItem).transformationScore ?? 0,
       );
       const scoreA = Number(
-        (a as unknown as LegacyAlchemicalFields).transformationScore ?? 0,
+        (a as TransformableElementalItem).transformationScore ?? 0,
       );
       return scoreB - scoreA;
     });
@@ -378,7 +381,7 @@ export function filterByAlchemicalCompatibility(
       );
 
       const targetValue = Number(
-        properties[targetProperty as keyof typeof properties] || 0,
+        properties[targetProperty] || 0,
       );
       if (!targetValue || targetValue < Number(maxProperty || 0) * 0.8) {
         return false;
@@ -550,19 +553,19 @@ function calculateAlchemicalProperties(
 
   // Base contributions from elemental properties
   alchemicalProps.Spirit +=
-    (elementalProperties?.Fire || 0) * 0.2 +
-    (elementalProperties?.Air || 0) * 0.2;
+    (elementalProperties.Fire || 0) * 0.2 +
+    (elementalProperties.Air || 0) * 0.2;
   alchemicalProps.Essence +=
-    (elementalProperties?.Water || 0) * 0.2 +
-    (elementalProperties?.Fire || 0) * 0.2 +
-    (elementalProperties?.Air || 0) * 0.2;
+    (elementalProperties.Water || 0) * 0.2 +
+    (elementalProperties.Fire || 0) * 0.2 +
+    (elementalProperties.Air || 0) * 0.2;
   alchemicalProps.Matter +=
-    (elementalProperties?.Earth || 0) * 0.2 +
-    (elementalProperties?.Water || 0) * 0.2;
+    (elementalProperties.Earth || 0) * 0.2 +
+    (elementalProperties.Water || 0) * 0.2;
   alchemicalProps.Substance +=
-    (elementalProperties?.Earth || 0) * 0.2 +
-    (elementalProperties?.Water || 0) * 0.2 +
-    (elementalProperties?.Air || 0) * 0.2;
+    (elementalProperties.Earth || 0) * 0.2 +
+    (elementalProperties.Water || 0) * 0.2 +
+    (elementalProperties.Air || 0) * 0.2;
 
   // Contributions from planetary influences
   for (const [planet, influence] of Object.entries(planetaryInfluences)) {
@@ -649,7 +652,7 @@ function calculateCompatibilityScore(
 
   // ✅ Pattern MM-1: Safe property access for transformation score
   score +=
-    ((item as unknown as LegacyAlchemicalFields).transformationScore ?? 0.5) *
+    ((item as TransformableElementalItem).transformationScore ?? 0.5) *
     0.4;
   totalWeight += 0.4;
 

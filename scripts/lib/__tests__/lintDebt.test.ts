@@ -40,7 +40,9 @@ describe("compareCasts", () => {
       ),
     ).toEqual({
       exceedsBaseline: false,
-      increasedBy: 0,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 0,
+      asUnknownAsIncreasedBy: 0,
     });
 
     expect(
@@ -50,11 +52,13 @@ describe("compareCasts", () => {
       ),
     ).toEqual({
       exceedsBaseline: false,
-      increasedBy: 0,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 0,
+      asUnknownAsIncreasedBy: 0,
     });
   });
 
-  it("fails when cast count increases", () => {
+  it("fails when cast total increases", () => {
     expect(
       compareCasts(
         { total: 870, asAny: 188, asUnknownAs: 682 },
@@ -62,7 +66,24 @@ describe("compareCasts", () => {
       ),
     ).toEqual({
       exceedsBaseline: true,
-      increasedBy: 2,
+      totalIncreasedBy: 2,
+      asAnyIncreasedBy: 1,
+      asUnknownAsIncreasedBy: 1,
+    });
+  });
+
+  it("fails when asAny increases even if total cast count stays constant", () => {
+    // 63 casts shifted from `as unknown as` to `as any`: total is still 868
+    expect(
+      compareCasts(
+        { total: 868, asAny: 250, asUnknownAs: 618 },
+        { total: 868, asAny: 187, asUnknownAs: 681 },
+      ),
+    ).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 0,
+      asAnyIncreasedBy: 63,
+      asUnknownAsIncreasedBy: 0,
     });
   });
 });
