@@ -264,7 +264,10 @@ export class ElementalCalculator {
       if (total > 0) {
         Object.keys(elementalValues).forEach((element) => {
           const elementKey = element as keyof ElementalProperties;
-          elementalValues[elementKey] = elementalValues[elementKey] / total;
+          const val = elementalValues[elementKey];
+          if (val !== undefined) {
+            elementalValues[elementKey] = val / total;
+          }
         });
       } else {
         // Return default values if we couldn't calculate anything
@@ -860,7 +863,10 @@ export class ElementalCalculator {
       Object.entries(prop).forEach(([element, value]) => {
         // Use nullish coalescing to handle undefined values
         const elementKey = element as keyof ElementalProperties;
-        result[elementKey] += value || 0;
+        const cur = result[elementKey];
+        if (cur !== undefined && value !== undefined) {
+          result[elementKey] = cur + value;
+        }
       });
     });
 
@@ -869,7 +875,10 @@ export class ElementalCalculator {
     if (total > 0) {
       Object.keys(result).forEach((element) => {
         const elementKey = element as keyof ElementalProperties;
-        result[elementKey] = result[elementKey] / total;
+        const cur = result[elementKey];
+        if (cur !== undefined) {
+          result[elementKey] = cur / total;
+        }
       });
     } else {
       // Default to equal distribution if total is 0
@@ -918,31 +927,39 @@ export class ElementalCalculator {
 
     // Process dignity effect
     const planetInfoData = planetInfoRecord[planet];
-    const dignityEffectData = planetInfoData["Dignity Effect"] as Record<
-      string,
-      unknown
-    >;
-    if (dignityEffectData[sign]) {
-      const dignityEffectValue = Number(dignityEffectData[sign]);
-      if (dignityEffectValue) {
-        if (
-          Math.abs(dignityEffectValue) === 1 ||
-          Math.abs(dignityEffectValue) === 3
-        ) {
-          const signElement = signInfoRecord[sign]?.Element ?? "Fire";
-          elementalEffect[signElement] =
-            1 * (dignityEffectValue / Math.abs(dignityEffectValue));
-        }
+    if (planetInfoData) {
+      const dignityEffectData = planetInfoData["Dignity Effect"] as Record<
+        string,
+        unknown
+      >;
+      if (dignityEffectData?.[sign]) {
+        const dignityEffectValue = Number(dignityEffectData[sign]);
+        if (dignityEffectValue) {
+          if (
+            Math.abs(dignityEffectValue) === 1 ||
+            Math.abs(dignityEffectValue) === 3
+          ) {
+            const signElement = signInfoRecord[sign]?.Element ?? "Fire";
+            elementalEffect[signElement] =
+              1 * (dignityEffectValue / Math.abs(dignityEffectValue));
+          }
 
-        if (Math.abs(dignityEffectValue) > 1) {
-          const diurnalElement =
-            String(planetInfoData["Diurnal Element"]) || "Fire";
-          const nocturnalElement =
-            String(planetInfoData["Nocturnal Element"]) || "Fire";
-          elementalEffect[diurnalElement] +=
-            1 * (dignityEffectValue / Math.abs(dignityEffectValue || 1));
-          elementalEffect[nocturnalElement] +=
-            1 * (dignityEffectValue / Math.abs(dignityEffectValue));
+          if (Math.abs(dignityEffectValue) > 1) {
+            const diurnalElement =
+              String(planetInfoData["Diurnal Element"]) || "Fire";
+            const nocturnalElement =
+              String(planetInfoData["Nocturnal Element"]) || "Fire";
+            const dVal = elementalEffect[diurnalElement];
+            if (dVal !== undefined) {
+              elementalEffect[diurnalElement] =
+                dVal + 1 * (dignityEffectValue / Math.abs(dignityEffectValue || 1));
+            }
+            const nVal = elementalEffect[nocturnalElement];
+            if (nVal !== undefined) {
+              elementalEffect[nocturnalElement] =
+                nVal + 1 * (dignityEffectValue / Math.abs(dignityEffectValue));
+            }
+          }
         }
       }
     }
@@ -981,7 +998,11 @@ export class ElementalCalculator {
 
           // Combine effects
           for (const element of Object.keys(totalElementalEffect)) {
-            totalElementalEffect[element] += planetEffect[element] || 0;
+            const cur = totalElementalEffect[element];
+            const add = planetEffect[element];
+            if (cur !== undefined && add !== undefined) {
+              totalElementalEffect[element] = cur + add;
+            }
           }
         }
       }
@@ -1023,7 +1044,11 @@ export class ElementalCalculator {
 
         // Combine effects
         for (const element of Object.keys(elementalEffect)) {
-          elementalEffect[element] += planetEffect[element] || 0;
+          const cur = elementalEffect[element];
+          const add = planetEffect[element];
+          if (cur !== undefined && add !== undefined) {
+            elementalEffect[element] = cur + add;
+          }
         }
       }
     }
@@ -1068,8 +1093,8 @@ export class ElementalCalculator {
 
     const normalized: Record<string, number> = {};
 
-    for (const element of Object.keys(elementalEffects)) {
-      normalized[element] = elementalEffects[element] / sum;
+    for (const [element, val] of Object.entries(elementalEffects)) {
+      normalized[element] = val / sum;
     }
 
     return normalized;

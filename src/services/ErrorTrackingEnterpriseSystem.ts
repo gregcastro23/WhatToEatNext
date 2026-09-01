@@ -212,6 +212,7 @@ export class ErrorTrackingEnterpriseSystem {
           existing.successRate = Math.max(0.5, existing.successRate - 0.01);
       } else {
         const [first] = data.errors;
+        if (!first) return;
         const newPattern: ErrorPattern = {
           patternId: patternKey,
           errorCode: first.code,
@@ -285,6 +286,7 @@ export class ErrorTrackingEnterpriseSystem {
     const currentSnapshot = this.metricsHistory[this.metricsHistory.length - 1];
     const previousSnapshot =
       this.metricsHistory[this.metricsHistory.length - 2];
+    if (!currentSnapshot || !previousSnapshot) return [];
 
     const categories: ErrorCategory[] = ["syntax", "type", "module", "other"];
     const trends: ErrorTrend[] = [];
@@ -440,14 +442,12 @@ export class ErrorTrackingEnterpriseSystem {
       ? (Date.now() - previousSnapshot.timestamp.getTime()) / (1000 * 60)
       : 1;
 
-    const prevTotal = previousSnapshot.metrics.totalErrors ?? currentErrorCount;
+    const prevTotal = previousSnapshot?.metrics.totalErrors ?? currentErrorCount;
     const errorVelocity =
       Math.abs(prevTotal - currentErrorCount) / Math.max(minutesElapsed, 1);
 
-    const initialCount =
-      this.metricsHistory.length > 0
-        ? this.metricsHistory[0].metrics.totalErrors
-        : currentErrorCount;
+    const [firstSnapshot] = this.metricsHistory;
+    const initialCount = firstSnapshot?.metrics.totalErrors ?? currentErrorCount;
     const errorReductionRate =
       initialCount > 0 ? (initialCount - currentErrorCount) / initialCount : 0;
 
@@ -491,7 +491,7 @@ export class ErrorTrackingEnterpriseSystem {
       return 0.95;
     } catch {
       const last = this.metricsHistory[this.metricsHistory.length - 1];
-      const count = last.metrics.totalErrors ?? 1000;
+      const count = last?.metrics.totalErrors ?? 1000;
       return Math.max(0.3, 1 - count / 5000);
     }
   }
@@ -500,6 +500,7 @@ export class ErrorTrackingEnterpriseSystem {
     if (this.metricsHistory.length < 3) return 0.75;
     const twoAgo = this.metricsHistory[this.metricsHistory.length - 3];
     const current = this.metricsHistory[this.metricsHistory.length - 1];
+    if (!twoAgo || !current) return 0.75;
     let sum = 0;
     let cnt = 0;
     for (const pred of twoAgo.trends) {
