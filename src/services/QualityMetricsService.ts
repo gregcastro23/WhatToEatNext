@@ -503,7 +503,7 @@ class QualityMetricsService {
 
     const sumX = x.reduce((sum, val) => sum + val, 0);
     const sumY = y.reduce((sum, val) => sum + val, 0);
-    const sumXY = x.reduce((sum, val, i) => sum + val * (y[i] ?? 0), 0);
+    const sumXY = y.reduce((sum, val, i) => sum + i * val, 0);
     const sumXX = x.reduce((sum, val) => sum + val * val, 0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);

@@ -90,11 +90,14 @@ export function getModalityCompatibility(
 /**
  * Calculates affinity between two zodiac signs based on both element and modality compatibility
  */
+/** Lowercase element names used by the compatibility chart in this module. */
+type ElementName = "fire" | "earth" | "air" | "water";
+
 export function getZodiacCompatibility(
   sign1: ZodiacSignType,
   sign2: ZodiacSignType,
 ): number {
-  const elementMap: Record<ZodiacSignType, "fire" | "earth" | "air" | "water"> =
+  const elementMap: Record<ZodiacSignType, ElementName> =
     {
       aries: "fire",
       leo: "fire",
@@ -110,7 +113,10 @@ export function getZodiacCompatibility(
       pisces: "water",
     };
 
-  const elementCompatibilityChart: Record<string, Record<string, number>> = {
+  const elementCompatibilityChart: Record<
+    ElementName,
+    Record<ElementName, number>
+  > = {
     fire: { fire: 0.8, earth: 0.4, air: 0.9, water: 0.3 },
     earth: { fire: 0.4, earth: 0.8, air: 0.3, water: 0.9 },
     air: { fire: 0.9, earth: 0.3, air: 0.8, water: 0.4 },
@@ -121,8 +127,7 @@ export function getZodiacCompatibility(
   const element2 = elementMap[sign2];
 
   // Get element compatibility
-  const elementCompatibility =
-    (element1 && element2 ? elementCompatibilityChart[element1]?.[element2] : undefined) ?? 0.5;
+  const elementCompatibility = elementCompatibilityChart[element1][element2];
 
   // Get modality compatibility
   const modalityCompatibility = getModalityCompatibility(sign1, sign2);
