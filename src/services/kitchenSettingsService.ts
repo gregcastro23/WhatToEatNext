@@ -148,7 +148,8 @@ export async function persistKitchenSettings(
     JSON.stringify(settingsPayload),
   ]);
 
-  return rows.length > 0 ? mapRow(rows[0]) : null;
+  const [row] = rows;
+  return row ? mapRow(row) : null;
 }
 
 export async function getKitchenSettings(userId: string): Promise<KitchenSettingsRow | null> {
@@ -158,5 +159,6 @@ export async function getKitchenSettings(userId: string): Promise<KitchenSetting
     WHERE user_id = $1::uuid;
   `;
   const rows = await selectKitchenRows(sql, [userId]);
-  return rows.length > 0 ? mapRow(rows[0]) : null;
+  const [row] = rows;
+  return row ? mapRow(row) : null;
 }

@@ -245,7 +245,7 @@ export async function geocodeLocationSingle(
   locationName: string,
 ): Promise<GeocodingResult | null> {
   const results = await geocodeLocation(locationName);
-  return results.length > 0 ? results[0] : null;
+  return results[0] ?? null;
 }
 
 /**

@@ -509,12 +509,15 @@ export class FoodAlchemySystem {
       }
 
       // Apply degree effects
-      if (
-        signData?.degreeEffects[planetaryDay]?.length === 2
-      ) {
-        const [minDegree, maxDegree] =
-          signData.degreeEffects[planetaryDay];
-        if (planetDegree >= minDegree && planetDegree <= maxDegree) {
+      const degreeRange = signData?.degreeEffects[planetaryDay];
+      if (degreeRange?.length === 2) {
+        const [minDegree, maxDegree] = degreeRange;
+        if (
+          minDegree !== undefined &&
+          maxDegree !== undefined &&
+          planetDegree >= minDegree &&
+          planetDegree <= maxDegree
+        ) {
           const degreeBonus = 0.2;
           elementalScore = Math.min(1.0, elementalScore + degreeBonus);
         }

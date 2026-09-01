@@ -257,7 +257,8 @@ class PersonalizedRecommendationService {
       [keyof ElementalProperties, number]
     >;
     elements.sort((a, b) => b[1] - a[1]);
-    return elements[0][0];
+    const [first] = elements;
+    return first ? first[0] : "Fire";
   }
 
   /**
@@ -270,7 +271,8 @@ class PersonalizedRecommendationService {
       [keyof AlchemicalProperties, number]
     >;
     properties.sort((a, b) => b[1] - a[1]);
-    return properties[0][0];
+    const [first] = properties;
+    return first ? first[0] : "Spirit";
   }
 
   /**

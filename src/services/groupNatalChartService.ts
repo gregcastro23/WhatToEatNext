@@ -67,20 +67,30 @@ export function calculateCompositeNatalChart(
     const chart = member.natalChart;
 
     // Sum elemental properties
-    Object.entries(chart.elementalBalance).forEach(([element, value]) => {
-      elementalTotals[element as Element] += value;
-    });
+    for (const [element, value] of Object.entries(chart.elementalBalance)) {
+      const el = element as Element;
+      if (elementalTotals[el] !== undefined) {
+        elementalTotals[el] += value;
+      }
+    }
 
     // Sum alchemical properties
-    Object.entries(chart.alchemicalProperties).forEach(([property, value]) => {
-      alchemicalTotals[property as keyof AlchemicalProperties] += value;
-    });
+    for (const [property, value] of Object.entries(chart.alchemicalProperties)) {
+      const prop = property as keyof AlchemicalProperties;
+      if (alchemicalTotals[prop] !== undefined) {
+        alchemicalTotals[prop] += value;
+      }
+    }
 
     // Count dominant elements
-    elementCounts[chart.dominantElement] += 1;
+    if (elementCounts[chart.dominantElement] !== undefined) {
+      elementCounts[chart.dominantElement] += 1;
+    }
 
     // Count modalities
-    modalityCounts[chart.dominantModality] += 1;
+    if (modalityCounts[chart.dominantModality] !== undefined) {
+      modalityCounts[chart.dominantModality] += 1;
+    }
   });
 
   const memberCount = groupMembers.length;

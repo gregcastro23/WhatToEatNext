@@ -163,12 +163,12 @@ export function selectOurEndpoint<T extends { url: string; status?: string }>(
     }
   });
 
-  if (byPath.length === 1) return byPath[0];
+  if (byPath.length === 1) return byPath[0] ?? null;
   if (byPath.length > 1) {
     // Prefer an enabled one; otherwise the first, so we still report something.
-    return byPath.find((e) => e.status === "enabled") ?? byPath[0];
+    return byPath.find((e) => e.status === "enabled") ?? byPath[0] ?? null;
   }
-  return endpoints.length === 1 ? endpoints[0] : null;
+  return endpoints.length === 1 ? (endpoints[0] ?? null) : null;
 }
 
 /**

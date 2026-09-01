@@ -106,8 +106,9 @@ class MenuPersistenceService {
       [userId, weekStartDate],
     );
 
-    if (result.rows.length === 0) return null;
-    return mapRowToPersistedMenu(result.rows[0]);
+    const [row] = result.rows;
+    if (!row) return null;
+    return mapRowToPersistedMenu(row);
   }
 
   async upsertMenu(
@@ -155,7 +156,11 @@ class MenuPersistenceService {
       ],
     );
 
-    return mapRowToPersistedMenu(result.rows[0]);
+    const [row] = result.rows;
+    if (!row) {
+      throw new Error("upsertMenu: returning row missing");
+    }
+    return mapRowToPersistedMenu(row);
   }
 
   async saveTemplate(
@@ -197,7 +202,11 @@ class MenuPersistenceService {
       ],
     );
 
-    return mapRowToPersistedMenu(result.rows[0]);
+    const [row] = result.rows;
+    if (!row) {
+      throw new Error("saveTemplate: returning row missing");
+    }
+    return mapRowToPersistedMenu(row);
   }
 
   async getTemplates(userId: string): Promise<PersistedWeeklyMenu[]> {

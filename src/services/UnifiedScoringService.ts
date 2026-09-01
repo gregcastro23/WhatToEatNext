@@ -253,6 +253,7 @@ function dominantElementOf(props?: Record<string, number>): string | null {
   const entries = Object.entries(props);
   if (!entries.length) return null;
   const [top] = entries.sort((a, b) => b[1] - a[1]);
+  if (!top) return null;
   return top[1] > 0 ? top[0] : null;
 }
 

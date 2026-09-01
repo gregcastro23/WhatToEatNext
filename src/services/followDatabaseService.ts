@@ -91,8 +91,9 @@ class FollowDatabaseService {
          FROM users WHERE id = $1::uuid AND is_active = true`,
       [followeeId],
     );
-    if (target.rows.length === 0) return { ok: false, reason: "not_found" };
-    const followeeIsAgent = target.rows[0].is_agent === true;
+    const [targetRow] = target.rows;
+    if (!targetRow) return { ok: false, reason: "not_found" };
+    const followeeIsAgent = targetRow.is_agent === true;
 
     // FAIL-CLOSED block check: no try/catch — a failure here must abort.
     const blocked = await executeQuery(BLOCKED_PAIR_SQL, [followerId, followeeId]);

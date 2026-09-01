@@ -381,7 +381,7 @@ function fillSignupTrend(
     month: "2-digit",
     day: "2-digit",
   }).format(new Date());
-  const [y, m, dd] = nyToday.split("-").map(Number);
+  const [y = 2026, m = 1, dd = 1] = nyToday.split("-").map(Number);
   const anchor = new Date(Date.UTC(y, m - 1, dd, 12, 0, 0));
 
   const out: SignupTrendPoint[] = [];

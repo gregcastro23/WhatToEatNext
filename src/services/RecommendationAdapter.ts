@@ -186,7 +186,7 @@ export class RecommendationAdapter {
       const isDaytime = hours >= 6 && hours < 18;
       // Get current sun sign as current zodiac
       const sunPosition = positions["sun"];
-      const currentZodiac = sunPosition.sign;
+      const currentZodiac = sunPosition?.sign ?? "aries";
       // Initialize adapter with calculated values - safe type conversion
       this.initialize(
         positions,

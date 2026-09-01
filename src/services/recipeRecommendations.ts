@@ -505,8 +505,10 @@ export class RecipeRecommender {
     const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
     let totalMinutes: number;
     if (timeMatch) {
-      const val = parseInt(timeMatch[1], 10);
-      if (timeMatch[2].toLowerCase().startsWith("h")) {
+      const [, valStr, unit] = timeMatch;
+      if (!valStr || !unit) return 0.5;
+      const val = parseInt(valStr, 10);
+      if (unit.toLowerCase().startsWith("h")) {
         totalMinutes = val * 60;
       } else {
         totalMinutes = val;

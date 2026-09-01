@@ -76,9 +76,11 @@ export function decodeJwtExpiry(token: string | undefined): Date | null {
   if (!token) return null;
   const parts = token.split(".");
   if (parts.length !== 3) return null;
+  const [, payloadPart] = parts;
+  if (!payloadPart) return null;
   try {
     const claims = JSON.parse(
-      Buffer.from(parts[1], "base64url").toString("utf8"),
+      Buffer.from(payloadPart, "base64url").toString("utf8"),
     ) as { exp?: unknown };
     if (typeof claims.exp !== "number" || !Number.isFinite(claims.exp)) {
       return null;

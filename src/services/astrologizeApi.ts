@@ -207,8 +207,10 @@ function calculateApproximateAscendant(
   const degree = Math.floor(degreeInSign);
   const minuteVal = Math.floor((degreeInSign - degree) * 60);
 
+  const sign = signs[((signIndex % 12) + 12) % 12] ?? "aries";
+
   return {
-    sign: signs[signIndex % 12],
+    sign,
     degree,
     minute: minuteVal,
     exactLongitude: ascLongitude,

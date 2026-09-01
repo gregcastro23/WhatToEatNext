@@ -233,7 +233,7 @@ export async function getEventCounts(
     bucket.set(k, (bucket.get(k) ?? 0) + 1);
   }
   const byType = Array.from(bucket.entries()).map(([k, count]) => {
-    const [type, status] = k.split("|");
+    const [type = "", status = ""] = k.split("|");
     return { type, status, count };
   });
   return {
