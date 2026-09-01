@@ -33,7 +33,8 @@ if (typeof globalThis.getDominantElement === "undefined") {
       if (!props) return "Fire";
       const entries = Object.entries(props);
       if (entries.length === 0) return "Fire";
-      return entries.sort((a, b) => b[1] - a[1])[0][0];
+      const [dominant] = entries.sort((a, b) => b[1] - a[1]);
+      return dominant ? dominant[0] : "Fire";
     });
 }
 

@@ -452,8 +452,9 @@ export function validateMathematicalConstants(
     };
 
     Object.entries(expectedConstants).forEach(([name, expected]) => {
-      if (name in constantsObj && Math.abs(constantsObj[name] - expected) > 0.001) {
-        warnings.push(`Constant ${name} has unexpected value: ${constantsObj[name]} (expected: ${expected})`);
+      const actual = constantsObj[name];
+      if (actual !== undefined && Math.abs(actual - expected) > 0.001) {
+        warnings.push(`Constant ${name} has unexpected value: ${actual} (expected: ${expected})`);
       }
     });
 

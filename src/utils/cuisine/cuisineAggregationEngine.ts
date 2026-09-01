@@ -46,8 +46,11 @@ export function calculateWeightedAverage(
   let totalWeight = 0;
 
   for (let i = 0; i < values.length; i++) {
-    weightedSum += values[i] * weights[i];
-    totalWeight += weights[i];
+    const value = values[i];
+    const weight = weights[i];
+    if (value === undefined || weight === undefined) continue;
+    weightedSum += value * weight;
+    totalWeight += weight;
   }
 
   return totalWeight > 0 ? weightedSum / totalWeight : 0;

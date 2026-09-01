@@ -111,10 +111,10 @@ export function calculateElementalCompatibility(
   const userVector = Object.values(userPreferences);
   const cuisineVector = Object.values(cuisineElementals);
 
-  const dotProduct = userVector.reduce(
-    (sum, userVal, i) => sum + userVal * cuisineVector[i],
-    0,
-  );
+  const dotProduct = userVector.reduce((sum, userVal, i) => {
+    const cuisineVal = cuisineVector[i];
+    return cuisineVal === undefined ? sum : sum + userVal * cuisineVal;
+  }, 0);
 
   const userMagnitude = Math.sqrt(
     userVector.reduce((sum, val) => sum + val * val, 0),
@@ -165,6 +165,7 @@ export function calculateAlchemicalCompatibility(
     if (userPref === undefined) return; // Skip if user has no preference for this property
 
     const cuisineValue = cuisineAlchemical[property];
+    if (cuisineValue === undefined) return; // Skip if the cuisine lacks this property
 
     // Apply power function to amplify differences
     const compatibility = Math.pow(1 - Math.abs(userPref - cuisineValue), 1.5);
@@ -272,8 +273,8 @@ export function calculateSignatureMatch(
 
     // Check if signature property is elemental
     if (["Fire", "Water", "Earth", "Air"].includes(property as any)) {
-      const userPreference =
-        userPreferences[property];
+      const userPreference = userPreferences[property];
+      if (userPreference === undefined) return; // Skip if user has no preference
       const signatureStrength = signature.zscore > 0 ? 1 : -1; // Positive or negative signature
 
       // Higher match if user prefers the signature direction
@@ -517,11 +518,9 @@ function normalizeElementalPreferences(
   };
 
   if (sum > 0) {
-    (Object.keys(preferences) as Array<keyof ElementalProperties>).forEach(
-      (key) => {
-        normalized[key] = preferences[key] / sum;
-      },
-    );
+    for (const [key, value] of Object.entries(preferences)) {
+      normalized[key] = value / sum;
+    }
   } else {
     // Fallback to equal distribution
     (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(

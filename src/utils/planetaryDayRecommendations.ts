@@ -484,6 +484,7 @@ export function calculateDayFoodCompatibility(
   elements.forEach((element) => {
     const preferredIntensity = dayChar.elementalPreferences[element];
     const foodIntensity = foodElements[element];
+    if (preferredIntensity === undefined || foodIntensity === undefined) return;
 
     // Calculate how close the food's elemental profile matches the day's preference
     const difference = Math.abs(preferredIntensity - foodIntensity);
@@ -513,7 +514,6 @@ export function getRecommendedFlavors(
   mealType: MealType,
 ): string[] {
   const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
-  const flavors = Object.keys(dayChar.flavorProfiles);
 
   // Adjust flavors based on meal type
   const mealAdjustments: Record<MealType, Record<string, number>> = {
@@ -543,10 +543,10 @@ export function getRecommendedFlavors(
 
   const adjustments = mealAdjustments[mealType] || {};
 
-  return flavors
-    .map((flavor) => ({
+  return Object.entries(dayChar.flavorProfiles)
+    .map(([flavor, base]) => ({
       flavor,
-      score: dayChar.flavorProfiles[flavor] * (adjustments[flavor] || 1.0),
+      score: base * (adjustments[flavor] || 1.0),
     }))
     .sort((a, b) => b.score - a.score)
     .map((f) => f.flavor);

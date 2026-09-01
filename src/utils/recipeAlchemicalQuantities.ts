@@ -99,7 +99,7 @@ function parseServingGrams(servingSize?: string): number | undefined {
   const amt = servingSize.match(/([\d.]+)\s*(oz|ounce|lb|pound|g|gram|ml|tbsp|tablespoon|tsp|teaspoon|cup)\b/i);
   if (amt) {
     const n = Number(amt[1]);
-    const u = amt[2].toLowerCase();
+    const u = (amt[2] ?? "").toLowerCase();
     const g: Record<string, number> = { oz: 28.35, ounce: 28.35, lb: 453.6, pound: 453.6, g: 1, gram: 1, ml: 1, tbsp: 15, tablespoon: 15, tsp: 5, teaspoon: 5, cup: 240 };
     if (Number.isFinite(n) && g[u]) return n * g[u];
   }
@@ -251,8 +251,10 @@ function queryVariants(text: string): Set<string> {
     .map((t) => singularize(t))
     .filter((t) => t.length > 2 && !MATCH_STOPWORDS.has(t));
   if (tokens.length) {
-    set.add(tokens[tokens.length - 1]);
-    set.add(tokens[0]);
+    const last = tokens[tokens.length - 1];
+    const [first] = tokens;
+    if (last !== undefined) set.add(last);
+    if (first !== undefined) set.add(first);
   }
   return set;
 }

@@ -84,7 +84,7 @@ function singularizeWord(w: string): string {
 function coreTokens(name: string): string[] {
   let base = normName(stripLeadingQuantity(name));
   // "X or Y" / "X and Y" → take the first option.
-  base = base.split(/\b(?:or)\b/)[0].trim();
+  base = (base.split(/\b(?:or)\b/)[0] ?? base).trim();
   return base
     .split(" ")
     .filter((w) => w && !PREP_WORDS.has(w))

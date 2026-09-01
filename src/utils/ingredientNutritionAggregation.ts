@@ -49,7 +49,7 @@ export function parseServingSizeGrams(
   const leading = servingSize.match(/^\s*(\d+(?:\.\d+)?)\s*([a-z ]+?)\b/i);
   if (leading) {
     const amount = Number(leading[1]);
-    const unit = leading[2].toLowerCase().trim();
+    const unit = (leading[2] ?? "").toLowerCase().trim();
     const grams = convertToGrams(amount, unit);
     if (grams != null && grams > 0) return grams;
   }

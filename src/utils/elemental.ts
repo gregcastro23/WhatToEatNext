@@ -142,17 +142,18 @@ export const _calculateelementalState = (
 
   ingredients.forEach((ingredient) => {
     const element = categoryElements[ingredient.category];
-    if (element) {
-      balance[element] += ingredient.amount;
+    const current = element ? balance[element] : undefined;
+    if (element && current !== undefined) {
+      balance[element] = current + ingredient.amount;
     }
   });
 
   // Normalize values
   const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
   if (total > 0) {
-    Object.keys(balance).forEach((element) => {
-      balance[element as keyof ElementalProperties] /= total;
-    });
+    for (const [element, value] of Object.entries(balance)) {
+      balance[element] = value / total;
+    }
   }
 
   return balance;
@@ -176,7 +177,7 @@ export const _getElementalCompatibility = (
     Water: ["Earth"],
   };
 
-  if (complementaryPairs[element1].includes(element2)) {
+  if (complementaryPairs[element1]?.includes(element2)) {
     return "compatible"; // Traditional complementary elements
   }
 

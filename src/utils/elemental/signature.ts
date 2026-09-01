@@ -158,9 +158,14 @@ export function elementalSignature(
     );
   });
 
-  const dominant = ranked[0].element;
-  const leader = ranked[0].value;
-  const floor = ranked[ranked.length - 1].value;
+  const [top] = ranked;
+  const last = ranked[ranked.length - 1];
+  if (!top || !last) {
+    throw new Error("elementalSignature: no elements to rank");
+  }
+  const dominant = top.element;
+  const leader = top.value;
+  const floor = last.value;
 
   // Co-dominant = the top-contiguous run within CO_DOMINANT_DELTA of the leader.
   const coDominant = ranked

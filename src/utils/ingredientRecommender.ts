@@ -506,8 +506,8 @@ export function getIngredientRecommendations(
         aquarius: { 1: "5 of Swords", 2: "6 of Swords", 3: "7 of Swords" },
         pisces: { 1: "8 of Cups", 2: "9 of Cups", 3: "10 of Cups" },
       };
-      const decanRuler = decanRulerMap[sign][decanNum] || "";
-      const tarotCard = tarotCardMap[sign][decanNum] || "";
+      const decanRuler = decanRulerMap[sign]?.[decanNum] || "";
+      const tarotCard = tarotCardMap[sign]?.[decanNum] || "";
       planetDecans[planet] = { decanNum, decanRuler, tarotCard };
     },
   );
@@ -637,7 +637,9 @@ export function getIngredientRecommendations(
       groupedRecommendations[category] = [];
       categoryCounts[category] = 0;
     }
-    if (categoryCounts[category] < categoryMaxItems) {
+    const categoryCount = categoryCounts[category] ?? 0;
+    const categoryBucket = groupedRecommendations[category];
+    if (categoryBucket && categoryCount < categoryMaxItems) {
       const ingredientData = ingredient as {
         type?: string;
         category?: string;
@@ -679,8 +681,8 @@ export function getIngredientRecommendations(
         timing: "flexible",
         duration: "standard",
       };
-      groupedRecommendations[category].push(ingredientRecommendation);
-      categoryCounts[category]++;
+      categoryBucket.push(ingredientRecommendation);
+      categoryCounts[category] = categoryCount + 1;
     }
   });
   return Promise.resolve(groupedRecommendations);
@@ -718,9 +720,11 @@ function calculateElementalScore(
   // Return neutral score if either properties are missing
   if (!ingredientProps || !systemProps) return 0.5;
   // Find dominant system element for extra weighting
-  const dominantElement = Object.entries(systemProps).sort(
+  const [dominantEntry] = Object.entries(systemProps).sort(
     (a, b) => b[1] - a[1],
-  )[0][0] as keyof ElementalProperties;
+  );
+  if (!dominantEntry) return 0.5;
+  const dominantElement = dominantEntry[0] as keyof ElementalProperties;
   // Calculate similarity based on overlap of elemental properties
   let similarityScore = 0;
   let totalWeight = 0;
@@ -901,8 +905,9 @@ export function calculateElementalInfluences(
     const weight = planetWeights[planetLower] || 1;
     const sign = position.sign.toLowerCase();
     const element = zodiacElements[position.sign] || zodiacElements[sign];
-    if (element) {
-      elementalInfluences[element] += weight;
+    const currentInfluence = element ? elementalInfluences[element] : undefined;
+    if (element && currentInfluence !== undefined) {
+      elementalInfluences[element] = currentInfluence + weight;
     }
   });
   // Normalize values to sum to 1
@@ -911,10 +916,9 @@ export function calculateElementalInfluences(
     0,
   );
   if (total > 0) {
-    Object.keys(elementalInfluences).forEach((element) => {
-      elementalInfluences[element as keyof ElementalProperties] =
-        elementalInfluences[element as keyof ElementalProperties] / total;
-    });
+    for (const [element, value] of Object.entries(elementalInfluences)) {
+      elementalInfluences[element] = value / total;
+    }
   }
   return elementalInfluences;
 }
@@ -1268,11 +1272,9 @@ function calculateVenusInfluence(
     if (transitElements) {
       for (const element in transitElements) {
         const elemKey = element as keyof ElementalProperties;
-        if (elementalProps[elemKey]) {
-          score +=
-            transitElements[element] *
-            elementalProps[elemKey] *
-            0.7;
+        const transitValue = transitElements[element];
+        if (elementalProps[elemKey] && transitValue !== undefined) {
+          score += transitValue * elementalProps[elemKey] * 0.7;
         }
       }
     }
@@ -1347,7 +1349,7 @@ function calculateVenusInfluence(
       if (
         texture.includes("rich") ||
         texture.includes("dense") ||
-        (flavorProfile && flavorProfile.rich > 0.5)
+        (flavorProfile?.rich !== undefined && flavorProfile.rich > 0.5)
       ) {
         score += 2.0;
       }
@@ -1401,7 +1403,7 @@ function calculateVenusInfluence(
       if (
         texture.includes("light") ||
         texture.includes("crisp") ||
-        (flavorProfile && flavorProfile.light > 0.5)
+        (flavorProfile?.light !== undefined && flavorProfile.light > 0.5)
       ) {
         score += 2.0;
       }
@@ -1761,11 +1763,9 @@ function calculateMarsInfluence(
     if (transit?.Elements) {
       for (const element in transit.Elements) {
         const elemValue = element as keyof ElementalProperties;
-        if (elementalProps[elemValue]) {
-          score +=
-            transit.Elements[element] *
-            elementalProps[elemValue] *
-            1.2;
+        const transitValue = transit.Elements[element];
+        if (elementalProps[elemValue] && transitValue !== undefined) {
+          score += transitValue * elementalProps[elemValue] * 1.2;
         }
       }
     }
@@ -1814,6 +1814,7 @@ function enhanceMarsIngredientScoring(
   // Compute Mars influence for each ingredient
   for (let i = 0; i < ingredients.length; i++) {
     const ingredient = ingredients[i];
+    if (!ingredient) continue;
     const ingredientData = ingredient as {
       name?: string;
       matchScore?: number;
@@ -2006,11 +2007,9 @@ function calculateMercuryInfluence(
       if (mercuryTransit.Elements) {
         for (const element in mercuryTransit.Elements) {
           const elemKey = element as keyof ElementalProperties;
-          if (elementalProps[elemKey]) {
-            score +=
-              mercuryTransit.Elements[element] *
-              elementalProps[elemKey] *
-              1.2;
+          const mercuryValue = mercuryTransit.Elements[element];
+          if (elementalProps[elemKey] && mercuryValue !== undefined) {
+            score += mercuryValue * elementalProps[elemKey] * 1.2;
           }
         }
       }
@@ -2597,9 +2596,15 @@ function calculatePlanetaryDayInfluence(
       elementalScore = Math.min(1.0, elementalScore + 0.15);
     }
     // Apply degree effects
-    if (signData?.degreeEffects[planetaryDay]?.length === 2) {
-      const [minDegree, maxDegree] = signData.degreeEffects[planetaryDay];
-      if (planetDegree >= minDegree && planetDegree <= maxDegree) {
+    const degreeRange = signData?.degreeEffects[planetaryDay];
+    if (degreeRange?.length === 2) {
+      const [minDegree, maxDegree] = degreeRange;
+      if (
+        minDegree !== undefined &&
+        maxDegree !== undefined &&
+        planetDegree >= minDegree &&
+        planetDegree <= maxDegree
+      ) {
         elementalScore = Math.min(1.0, elementalScore + 0.2);
       }
     }
@@ -2797,7 +2802,13 @@ export async function recommendIngredients(
         "Venus",
         "Saturn",
       ];
-      return days[date.getDay()];
+      const day = days[date.getDay()];
+      if (day === undefined) {
+        throw new RangeError(
+          `ingredientRecommender: no planetary day for weekday ${date.getDay()}`,
+        );
+      }
+      return day;
     },
     calculatePlanetaryHour: (date: Date): string => {
       // This is a simplified calculation
@@ -2828,7 +2839,13 @@ export async function recommendIngredients(
         "Mercury",
         "Moon",
       ];
-      return hours[date.getHours()];
+      const hour = hours[date.getHours()];
+      if (hour === undefined) {
+        throw new RangeError(
+          `ingredientRecommender: no planetary hour for hour ${date.getHours()}`,
+        );
+      }
+      return hour;
     },
     isDaytime,
   };

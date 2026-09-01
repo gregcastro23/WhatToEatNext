@@ -197,6 +197,11 @@ export function getFallbackPlanetaryPositions(date: Date): Record<string, Planet
     const signIndex = Math.floor(newLongitude / 30);
     const degree = newLongitude % 30;
     const sign = ZODIAC_SIGNS[signIndex];
+    if (sign === undefined) {
+      throw new RangeError(
+        `positions: sign index ${signIndex} out of range for ${planet}`,
+      );
+    }
 
     // Store both the raw longitude and the formatted data
     positions[planet] = {
@@ -581,6 +586,9 @@ export function getLongitudeToZodiacPosition(longitude: number): {
 
   // Get sign name
   const sign = ZODIAC_SIGNS[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(`positions: sign index ${signIndex} out of range`);
+  }
 
   return { sign, degree };
 }

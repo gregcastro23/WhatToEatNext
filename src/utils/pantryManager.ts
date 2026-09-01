@@ -110,12 +110,13 @@ export function addItem(
         i.unit === item.unit,
     );
 
-    if (existingIndex >= 0) {
+    const existing = existingIndex >= 0 ? pantry[existingIndex] : undefined;
+    if (existing) {
       // Update quantity of existing item
-      pantry[existingIndex].quantity += item.quantity;
+      existing.quantity += item.quantity;
       savePantry(pantry);
       logger.info(`Updated existing pantry item: ${item.name}`);
-      return pantry[existingIndex];
+      return existing;
     }
 
     // Add new item
@@ -214,13 +215,14 @@ export function updateItem(
     const pantry = getPantry();
     const index = pantry.findIndex((item) => item.id === id);
 
-    if (index === -1) {
+    const current = index === -1 ? undefined : pantry[index];
+    if (!current) {
       logger.warn(`Item with id ${id} not found in pantry`);
       return;
     }
 
     pantry[index] = {
-      ...pantry[index],
+      ...current,
       ...updates,
     };
 
@@ -514,6 +516,10 @@ export function deductRecipeFromPantry(
       }
 
       const pantryItem = pantry[idx];
+      if (!pantryItem) {
+        result.notInPantry.push(ing.name);
+        continue;
+      }
       const pantryUnit = normalizeUnit(pantryItem.unit);
       if (pantryUnit && ingUnit && pantryUnit !== ingUnit) {
         result.unitMismatch.push({

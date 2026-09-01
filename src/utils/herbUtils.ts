@@ -31,7 +31,7 @@ export const _herbUtils = {
       .map(([name]) => name),
   _findComplementary: (herbName: string, cuisine: string) => {
     const herb = herbs[herbName];
-    const traditions = herb.culinary_traditions as
+    const traditions = herb?.culinary_traditions as
       | Record<string, HerbCulinaryTradition>
       | undefined;
     const tradition = traditions?.[cuisine];
@@ -39,5 +39,5 @@ export const _herbUtils = {
     return tradition.pairings;
   },
   _getSeasonalRecommendations: (season: string, cuisine: string) =>
-    seasonalHerbGuide[season].cuisines[cuisine] || [],
+    seasonalHerbGuide[season]?.cuisines[cuisine] || [],
 };

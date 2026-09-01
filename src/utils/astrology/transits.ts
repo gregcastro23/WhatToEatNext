@@ -75,7 +75,8 @@ export function calculateTransitScoreModifier(
   if (natalMoon && currentMoonInfo) {
     const natalMoonElement = getElementForSign(natalMoon.sign);
     const [, currentMoonSign] = currentMoonInfo.split(' in ');
-    const currentMoonElement = getElementForSign(currentMoonSign);
+    const currentMoonElement =
+      currentMoonSign === undefined ? undefined : getElementForSign(currentMoonSign);
 
     if (natalMoonElement === currentMoonElement) {
       // Check if the recipe is a "comfort food". This is a simplification.
@@ -93,8 +94,11 @@ export function calculateTransitScoreModifier(
   if (natalMars && currentMarsInfo) {
     const natalMarsSign = natalMars.sign;
     const [, currentMarsSign] = currentMarsInfo.split(' in ');
-    
-    const aspect = getAspect(natalMarsSign, currentMarsSign);
+
+    const aspect =
+      currentMarsSign === undefined
+        ? undefined
+        : getAspect(natalMarsSign, currentMarsSign);
 
     if (aspect === 'square') {
       // Check for high protein/energy.

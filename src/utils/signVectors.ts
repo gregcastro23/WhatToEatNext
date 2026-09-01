@@ -34,6 +34,13 @@ function normalize(value: number, _min = 0, _max = 1): number {
   const clamped = Math.max(_min, Math.min(_max, value));
   return clamped;
 }
+function unitNormalizeVector(
+  values: [number, number, number],
+): [number, number, number];
+function unitNormalizeVector(
+  values: [number, number, number, number],
+): [number, number, number, number];
+function unitNormalizeVector(values: number[]): number[];
 function unitNormalizeVector(values: number[]): number[] {
   const magnitude = Math.sqrt(values.reduce((sum, v) => sum + v * v, 0));
   if (magnitude === 0) return values.map(() => 0);
@@ -145,7 +152,7 @@ export function calculateSignVectors(
     // Seasonal alignment
     components.seasonal = getSeasonalAlignment(sign, season);
     // Normalize modality sub-vector to unit length to avoid bias vs elemental axes
-    const modalityVector = [
+    const modalityVector: [number, number, number] = [
       components.cardinal,
       components.fixed,
       components.mutable,
@@ -155,7 +162,7 @@ export function calculateSignVectors(
     components.fixed = nFixed;
     components.mutable = nMutable;
     // Normalize elemental sub-vector similarly
-    const elementalVector = [
+    const elementalVector: [number, number, number, number] = [
       components.Fire,
       components.Water,
       components.Earth,
@@ -182,7 +189,11 @@ export function calculateSignVectors(
       { key: "mutable", value: components.mutable },
     ];
     modalityTriplet.sort((a, b) => b.value - a.value);
-    const direction = modalityTriplet[0].key;
+    const [dominantModality] = modalityTriplet;
+    if (!dominantModality) {
+      throw new Error("signVectors: modality triplet must have three entries");
+    }
+    const direction = dominantModality.key;
     result[sign] = {
       sign,
       _magnitude: magnitude,
@@ -198,9 +209,12 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   let magA = 0;
   let magB = 0;
   for (let i = 0; i < minLen; i += 1) {
-    dot += a[i] * b[i];
-    magA += a[i] * a[i];
-    magB += b[i] * b[i];
+    const ai = a[i];
+    const bi = b[i];
+    if (ai === undefined || bi === undefined) break;
+    dot += ai * bi;
+    magA += ai * ai;
+    magB += bi * bi;
   }
   if (magA === 0 || magB === 0) return 0;
   return dot / (Math.sqrt(magA) * Math.sqrt(magB));
@@ -250,8 +264,9 @@ export function compareSignVectors(
     { axis: "seasonal", score: seasonalScore },
   ];
   axisScores.sort((x, y) => y.score - x.score);
+  const [topAxis] = axisScores;
   const dominantSharedAxis =
-    axisScores[0].score > 0 ? axisScores[0].axis : "none";
+    topAxis && topAxis.score > 0 ? topAxis.axis : "none";
   return { similarity, dominantSharedAxis };
 }
 // =====================

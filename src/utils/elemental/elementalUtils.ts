@@ -3,6 +3,10 @@ import type { ElementalProperties } from "@/types/alchemy";
 /**
  * Creates a properly initialized ElementalProperties object with default values
  */
+/** The four declared element keys. ElementalProperties also carries a string
+ * index signature, so `keyof` widens to string; this closed union does not. */
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+
 export function createElementalProperties(
   props?: Partial<ElementalProperties>,
 ): ElementalProperties {
@@ -115,18 +119,13 @@ export function calculateElementalCompatibility(
 
   // Calculate direct compatibility between dominant elements;
   const _baseCompatibility =
-    compatibilityScores[sourceDominant][targetDominant] || 0.7;
+    compatibilityScores[sourceDominant]?.[targetDominant] || 0.7;
 
   // Calculate weighted compatibility across all elements
   let weightedSum = 0;
   let totalWeight = 0;
 
-  const elements: Array<keyof ElementalProperties> = [
-    "Fire",
-    "Water",
-    "Earth",
-    "Air",
-  ];
+  const elements: ElementName[] = ["Fire", "Water", "Earth", "Air"];
 
   for (const sourceElement of elements) {
     const sourceValue = sourceProps[sourceElement];
@@ -143,7 +142,7 @@ export function calculateElementalCompatibility(
 
       // Get compatibility between these two elements
       const elementCompatibility =
-        compatibilityScores[sourceElement][targetElement] || 0.7;
+        compatibilityScores[sourceElement]?.[targetElement] || 0.7;
 
       // Scale by the target element's prominence
       const scaledCompatibility = elementCompatibility * targetValue;

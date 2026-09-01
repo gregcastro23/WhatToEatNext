@@ -706,6 +706,10 @@ export function calculateAlchemicalFromPlanetsDetailed(
 
   for (const planet in positions) {
     const rawPosition = positions[planet];
+    if (rawPosition === undefined) {
+      _logger.error(`Planet has no position in alchemical calculation: ${planet}`);
+      continue;
+    }
     const position =
       typeof rawPosition === "string" ? { sign: rawPosition } : rawPosition;
     const { sign } = position;
@@ -840,7 +844,10 @@ export function aggregateZodiacElementals(planetaryPositions: {
 
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet];
-    const element = (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
+    const element =
+      sign === undefined
+        ? undefined
+        : (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
 
     if (!element) {
       _logger.error(`Unknown zodiac sign in elemental aggregation: ${sign}`);
@@ -931,7 +938,11 @@ export function getDominantAlchemicalProperty(
     [keyof AlchemicalProperties, number]
   >;
   entries.sort((a, b) => b[1] - a[1]);
-  return entries[0][0];
+  const [dominant] = entries;
+  if (!dominant) {
+    throw new Error("getDominantAlchemicalProperty: no alchemical properties supplied");
+  }
+  return dominant[0];
 }
 
 /**
@@ -947,7 +958,11 @@ export function getDominantElement(
     [keyof ElementalProperties, number]
   >;
   entries.sort((a, b) => b[1] - a[1]);
-  return entries[0][0];
+  const [dominant] = entries;
+  if (!dominant) {
+    throw new Error("getDominantElement: no elemental properties supplied");
+  }
+  return dominant[0];
 }
 
 /**

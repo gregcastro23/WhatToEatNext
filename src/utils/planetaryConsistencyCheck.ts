@@ -43,7 +43,7 @@ export function validatePlanetaryModifiers(): string[] {
 
   for (const planet in planetaryModifiers) {
     for (const attr of requiredAttributes) {
-      if (planetaryModifiers[planet][attr] === undefined) {
+      if (planetaryModifiers[planet]?.[attr] === undefined) {
         issues.push(`Missing ${attr} attribute for ${planet}`);
       }
     }
@@ -52,8 +52,8 @@ export function validatePlanetaryModifiers(): string[] {
   // Check that all modifier values are within a reasonable range (-1 to 1)
   for (const planet in planetaryModifiers) {
     for (const attr in planetaryModifiers[planet]) {
-      const value = planetaryModifiers[planet][attr];
-      if (value < -1 || value > 1) {
+      const value = planetaryModifiers[planet]?.[attr];
+      if (value !== undefined && (value < -1 || value > 1)) {
         issues.push(`Value out of range for ${planet}.${attr}: ${value}`);
       }
     }

@@ -5,6 +5,18 @@ import { DEFAULT_ZODIAC_AFFINITY } from "@/types/zodiacAffinity";
  * Get the current zodiac sign based on the current date
  * @returns The current zodiac sign as a string
  */
+/** The four declared element keys. ElementalProperties also carries a string
+ * index signature, so `keyof` widens to string and routes reads through the
+ * signature; this closed union does not. */
+type AffinityElement = "Fire" | "Water" | "Earth" | "Air";
+
+const AFFINITY_ELEMENTS: readonly AffinityElement[] = [
+  "Fire",
+  "Water",
+  "Earth",
+  "Air",
+];
+
 export const getCurrentZodiacSignType = (): string => {
   const now = new Date();
   const month = now.getMonth() + 1;
@@ -77,7 +89,13 @@ export function getSignFromLongitude(longitude: number): string {
     "Pisces",
   ];
   const signIndex = Math.floor((longitude % 360) / 30);
-  return signs[signIndex];
+  const sign = signs[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `zodiacUtils: sign index ${signIndex} out of range for longitude ${longitude}`,
+    );
+  }
+  return sign;
 }
 
 /**
@@ -164,7 +182,7 @@ export function calculateZodiacAffinityFromElements(
   const result = { ...DEFAULT_ZODIAC_AFFINITY };
 
   // Map each zodiac sign to its element
-  const elementMap: Record<ZodiacSignType, keyof ElementalProperties> = {
+  const elementMap: Record<ZodiacSignType, AffinityElement> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -184,19 +202,18 @@ export function calculateZodiacAffinityFromElements(
     const zodiacSign = sign as ZodiacSignType;
 
     // Base affinity from primary element - elements are most harmonious with themselves
-    result[zodiacSign] = elementalProperties[element] * 0.7;
+    let affinity = elementalProperties[element] * 0.7;
 
     // Add smaller contributions from other elements based on compatibility
-    const otherElements = (
-      Object.keys(elementalProperties) as Array<keyof ElementalProperties>
-    ).filter((e) => e !== element);
+    const otherElements = AFFINITY_ELEMENTS.filter((e) => e !== element);
 
     otherElements.forEach((otherElement) => {
       // Get compatibility between elements
       const compatibility = getElementalCompatibility(element, otherElement);
-      result[zodiacSign] +=
-        elementalProperties[otherElement] * compatibility * 0.2;
+      affinity += elementalProperties[otherElement] * compatibility * 0.2;
     });
+
+    result[zodiacSign] = affinity;
 
     // Apply modality boost if primary sign is provided
     if (primaryZodiacSignType) {

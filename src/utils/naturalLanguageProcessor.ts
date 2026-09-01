@@ -289,22 +289,38 @@ function calculateSimilarity(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array(len1 + 1).fill(null));
 
-  for (let i = 0; i <= len1; i++) matrix[0][i] = i;
-  for (let j = 0; j <= len2; j++) matrix[j][0] = j;
+  // matrix is allocated (len2+1) x (len1+1) just above, so every (j, i) is in range.
+  const cell = (j: number, i: number): number => {
+    const value = matrix[j]?.[i];
+    if (value === undefined) {
+      throw new RangeError(`levenshtein: cell (${j}, ${i}) outside matrix`);
+    }
+    return value;
+  };
+  const setCell = (j: number, i: number, value: number): void => {
+    const row = matrix[j];
+    if (!row) {
+      throw new RangeError(`levenshtein: row ${j} outside matrix`);
+    }
+    row[i] = value;
+  };
+
+  for (let i = 0; i <= len1; i++) setCell(0, i, i);
+  for (let j = 0; j <= len2; j++) setCell(j, 0, j);
 
   for (let j = 1; j <= len2; j++) {
     for (let i = 1; i <= len1; i++) {
       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
-      matrix[j][i] = Math.min(
-        matrix[j][i - 1] + 1,
-        matrix[j - 1][i] + 1,
-        matrix[j - 1][i - 1] + cost,
+      setCell(
+        j,
+        i,
+        Math.min(cell(j, i - 1) + 1, cell(j - 1, i) + 1, cell(j - 1, i - 1) + cost),
       );
     }
   }
 
   const maxLen = Math.max(len1, len2);
-  return (maxLen - matrix[len2][len1]) / maxLen;
+  return (maxLen - cell(len2, len1)) / maxLen;
 }
 
 /**
@@ -323,7 +339,7 @@ function extractTimeRange(query: string): { min: number; max: number } | null {
   for (const { pattern, multiplier = 1, max, min } of timePatterns) {
     const match = query.match(pattern);
     if (match) {
-      const value = parseInt(match[1], 10) * multiplier;
+      const value = parseInt(match[1] ?? "", 10) * multiplier;
       if (max) return { min: 0, max: value };
       if (min) return { min: value, max: 480 };
       return { min: value - 15, max: value + 15 };

@@ -27,15 +27,16 @@ export async function getReliablePlanetaryPositions(
 ): Promise<Record<string, unknown>> {
   try {
     // Format date for cache key
-    const [dateString] = date.toISOString().split("T");
+    const dateString = date.toISOString().slice(0, 10);
 
     // Check cache first
+    const cached = positionsCache;
     if (
-      positionsCache?.date === dateString &&
-      Date.now() - positionsCache.timestamp < CACHE_DURATION
+      cached?.date === dateString &&
+      Date.now() - cached.timestamp < CACHE_DURATION
     ) {
       logger.debug("Using cached planetary positions");
-      return positionsCache.positions;
+      return cached.positions;
     }
 
     // _Primary: Use fallback positions (MCP integration removed)
@@ -235,7 +236,12 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
       throw new Error(`Could not parse longitude for ${planetName}`);
     }
 
-    const exactLongitude = parseFloat(longMatch[1]);
+    const [, rawLongitude] = longMatch;
+    if (rawLongitude === undefined) {
+      throw new Error(`Could not parse longitude for ${planetName}`);
+    }
+
+    const exactLongitude = parseFloat(rawLongitude);
 
     // Get zodiac sign based on longitude;
     const { sign, degree } = getLongitudeToZodiacSignType(exactLongitude);
@@ -286,8 +292,15 @@ function getLongitudeToZodiacSignType(longitude: number): {
     "pisces",
   ];
 
+  const sign = signs[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `reliableAstronomy: sign index ${signIndex} out of range`,
+    );
+  }
+
   return {
-    sign: signs[signIndex],
+    sign,
     degree: Math.round(degree * 100) / 100, // Round to 2 decimal places
   };
 }

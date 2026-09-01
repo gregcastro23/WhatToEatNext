@@ -194,7 +194,7 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
       cookingMethodsByName[method.relatedToMainMethod]
     ) {
       const mainMethod = cookingMethodsByName[method.relatedToMainMethod];
-      if (mainMethod.astrologicalInfluences) {
+      if (mainMethod?.astrologicalInfluences) {
         method.astrologicalInfluences = {
           ...method.astrologicalInfluences,
           favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,

@@ -23,10 +23,10 @@ export const _recipeCalculations = {
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
     const alignmentScore = Object.entries(recipe._elementalProperties).reduce(
-      (sum, [element, value]) =>
-        sum +
-        value *
-          cuisineElements[element],
+      (sum, [element, value]) => {
+        const cuisineValue = cuisineElements[element];
+        return cuisineValue === undefined ? sum : sum + value * cuisineValue;
+      },
       0,
     );
 
@@ -79,7 +79,10 @@ export const _recipeCalculations = {
     );
 
     // Calculate boost from the user's affinity with that element
-    const boost = userElements[dominantElement] * 1.5;
+    // No affinity recorded for that element means no boost — the additive
+    // identity, not a substituted strength.
+    const dominantAffinity = userElements[dominantElement];
+    const boost = dominantAffinity === undefined ? 0 : dominantAffinity * 1.5;
 
     // Note: RecipeElementalMapping does not declare a `name` field; this cast
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.

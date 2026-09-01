@@ -127,14 +127,14 @@ export function convertToGrams(name: string, amount: number, unit: string): numb
   const u = unit.toLowerCase().trim();
 
   // 1. Direct Weight
-  if (Object.prototype.hasOwnProperty.call(UNIT_TO_GRAMS, u)) {
-    const gramsPerUnit = UNIT_TO_GRAMS[u];
+  const gramsPerUnit = UNIT_TO_GRAMS[u];
+  if (gramsPerUnit !== undefined) {
     return amount * gramsPerUnit;
   }
 
   // 2. Volume to Weight via Density
-  if (Object.prototype.hasOwnProperty.call(UNIT_TO_ML, u)) {
-    const mlPerUnit = UNIT_TO_ML[u];
+  const mlPerUnit = UNIT_TO_ML[u];
+  if (mlPerUnit !== undefined) {
     const ml = amount * mlPerUnit;
     return ml * getDensity(n);
   }

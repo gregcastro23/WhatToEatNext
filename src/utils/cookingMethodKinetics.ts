@@ -320,7 +320,7 @@ export function getKineticProfile(
   const matched = Object.keys(COOKING_METHOD_KINETIC_PROFILES).find(
     (key) => normalizeCookingMethodKey(key) === normalized,
   );
-  if (matched) return COOKING_METHOD_KINETIC_PROFILES[matched];
+  if (matched) return COOKING_METHOD_KINETIC_PROFILES[matched] ?? null;
 
   // Returns null rather than six fabricated 0.50s.
   //
@@ -368,7 +368,8 @@ function getPlanetaryElementBoost(
     // Normalize sign (some data comes capitalized, some camelCase)
     const normalizedSign = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
     const element = SIGN_ELEMENT[normalizedSign];
-    if (element) elementCounts[element]++;
+    const currentCount = element ? elementCounts[element] : undefined;
+    if (element && currentCount !== undefined) elementCounts[element] = currentCount + 1;
   }
 
   // Find the dominant planetary element

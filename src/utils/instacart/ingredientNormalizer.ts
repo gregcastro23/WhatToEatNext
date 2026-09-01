@@ -91,8 +91,8 @@ function parseQuantityUnitName(raw: string): { quantity: number, unit: string, n
   // e.g. "1.5 lbs chicken breast", "2 apples", "1/2 cup sugar"
   const match = raw.trim().match(/^([\d./]+)\s+([A-Za-z]+)\s+(.+)$/);
   
-  if (match) {
-    const [, qtyRaw, rawUnit, name] = match;
+  const [, qtyRaw, rawUnit, name] = match ?? [];
+  if (qtyRaw !== undefined && rawUnit !== undefined && name !== undefined) {
     let quantity = parseFloat(qtyRaw);
     if (qtyRaw.includes('/')) {
       const [num, den] = qtyRaw.split('/');
@@ -121,17 +121,17 @@ function parseQuantityUnitName(raw: string): { quantity: number, unit: string, n
 
   // Fallback: Check if it starts with just a number
   const numMatch = raw.trim().match(/^([\d./]+)\s+(.+)$/);
-  if (numMatch) {
-    const [, qtyRaw, name] = numMatch;
-    let quantity = parseFloat(qtyRaw);
-    if (qtyRaw.includes('/')) {
-      const [num, den] = qtyRaw.split('/');
+  const [, numQtyRaw, numName] = numMatch ?? [];
+  if (numQtyRaw !== undefined && numName !== undefined) {
+    let quantity = parseFloat(numQtyRaw);
+    if (numQtyRaw.includes('/')) {
+      const [num, den] = numQtyRaw.split('/');
       if (num && den && !isNaN(Number(num)) && !isNaN(Number(den))) {
         quantity = Number(num) / Number(den);
       }
     }
     if (isNaN(quantity)) quantity = 1;
-    return { quantity, unit: 'each', name: name.trim() };
+    return { quantity, unit: 'each', name: numName.trim() };
   }
 
   return { quantity: 1, unit: 'each', name: raw.trim() };
@@ -142,7 +142,8 @@ export function normalizeIngredient(raw: string): NormalizedIngredient {
 
   // 1. Strip "or" alternatives → take first option
   if (text.includes(' or ')) {
-    text = text.split(' or ')[0].trim();
+    const [firstOption] = text.split(' or ');
+    if (firstOption !== undefined) text = firstOption.trim();
   }
 
   // 2. Remove filler quality descriptors
@@ -162,11 +163,9 @@ export function normalizeIngredient(raw: string): NormalizedIngredient {
   }
 
   // 5. Apply quantity cap based on general units
-  if (Object.prototype.hasOwnProperty.call(QUANTITY_CAPS, unit)) {
-    const cap = QUANTITY_CAPS[unit];
-    if (quantity > cap) {
-      quantity = cap;
-    }
+  const cap = QUANTITY_CAPS[unit];
+  if (cap !== undefined && quantity > cap) {
+    quantity = cap;
   }
 
 
@@ -290,9 +289,8 @@ export function deduplicateIngredients(
     }
 
     // Apply strict caps after merging
-    const hasWeeklyCap = Object.prototype.hasOwnProperty.call(WEEKLY_CAPS_FOR_4_PEOPLE, group.canonicalName);
-    if (hasWeeklyCap) {
-      const capInfo = WEEKLY_CAPS_FOR_4_PEOPLE[group.canonicalName];
+    const capInfo = WEEKLY_CAPS_FOR_4_PEOPLE[group.canonicalName];
+    if (capInfo) {
       if (finalQty > capInfo.max) {
         finalQty = capInfo.max;
         finalUnit = capInfo.unit;
@@ -302,10 +300,10 @@ export function deduplicateIngredients(
           finalUnit = capInfo.unit;
         }
       }
-    } else if (Object.prototype.hasOwnProperty.call(QUANTITY_CAPS, finalUnit)) {
-      const cap = QUANTITY_CAPS[finalUnit];
-      if (finalQty > cap) {
-        finalQty = cap;
+    } else {
+      const unitCap = QUANTITY_CAPS[finalUnit];
+      if (unitCap !== undefined && finalQty > unitCap) {
+        finalQty = unitCap;
       }
     }
 

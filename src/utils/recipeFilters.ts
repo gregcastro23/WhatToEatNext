@@ -235,8 +235,8 @@ export class RecipeFilter {
       const minutes = timeString.match(/(\d+)\s*min/i);
       const hours = timeString.match(/(\d+)\s*h/i);
       return (
-        (hours ? parseInt(hours[1], 10) * 60 : 0) +
-        (minutes ? parseInt(minutes[1], 10) : 0)
+        (hours ? parseInt(hours[1] ?? "", 10) * 60 : 0) +
+        (minutes ? parseInt(minutes[1] ?? "", 10) : 0)
       );
     } catch (error) {
       logger.error("Error parsing time: ", { timeString, error });

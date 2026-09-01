@@ -107,7 +107,11 @@ export function groundingVessel(degree: number, dignityEsmsScale: number): ESMS 
   // Note this floors, so a fractional degree is legitimate input (k29 passes
   // 14.5) and lands in the pillar of its integer part.
   const idx = ((Math.floor(degree) - 1) % 14 + 14) % 14;
-  const eff = ALCHEMICAL_PILLARS[idx].effects;
+  const pillar = ALCHEMICAL_PILLARS[idx];
+  if (!pillar) {
+    throw new RangeError(`agentMonica: no alchemical pillar at index ${idx}`);
+  }
+  const eff = pillar.effects;
 
   // Base {1,1,1,1} + signed process effect, floored at zero (§7 vessel rule).
   const raw: ESMS = {

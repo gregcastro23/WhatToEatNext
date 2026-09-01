@@ -33,7 +33,11 @@ export type AlchemyLunarPhase =
   | "waning crescent";
 
 // Element modifiers for baseline lunar influence
-const ELEMENTAL_BASE_MODIFIERS: Record<keyof ElementalProperties, number> = {
+/** ElementalProperties carries a string index signature, so `keyof` widens to
+ * string and turns this Record into an index signature; the closed union does not. */
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+
+const ELEMENTAL_BASE_MODIFIERS: Record<ElementName, number> = {
   Fire: 0.2,
   Water: 0.3,
   Earth: 0.15,

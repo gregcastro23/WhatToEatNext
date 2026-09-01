@@ -224,6 +224,7 @@ export function calculatePlanetaryAspects(
     for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
+      if (planet1 === undefined || planet2 === undefined) continue;
       const pos1Obj = positions[planet1];
       const pos2Obj = positions[planet2];
 
@@ -378,8 +379,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const sunPos = positions.Sun;
   const moonPos = positions.Moon;
   const state: AstrologicalState = {
-    sunSign: toZodiacSignType(String(sunPos.sign ?? "aries")),
-    moonSign: toZodiacSignType(String(moonPos.sign ?? "aries")),
+    sunSign: toZodiacSignType(String(sunPos?.sign ?? "aries")),
+    moonSign: toZodiacSignType(String(moonPos?.sign ?? "aries")),
     lunarPhase: phaseName as unknown as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
@@ -448,7 +449,10 @@ function countElements(
     const sign = (position.sign ?? "aries") as ZodiacSignType;
     const element = signElements[sign];
     const weight = planetWeight[planet.toLowerCase()] ?? 1;
-    elements[element] += weight;
+    const currentElement = elements[element];
+    if (currentElement !== undefined) {
+      elements[element] = currentElement + weight;
+    }
   });
 
   return elements;

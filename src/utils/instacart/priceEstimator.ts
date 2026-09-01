@@ -95,6 +95,9 @@ export function estimateIngredientCost(
   // 2. Fallback to Category Baselines
   const category = (ing.category ?? "other") as IngredientCategory;
   const baselineRate = CATEGORY_BASELINES[category] || CATEGORY_BASELINES.other;
+  if (baselineRate === undefined) {
+    throw new Error("priceEstimator: CATEGORY_BASELINES is missing its `other` entry");
+  }
   const grams = convertToGrams(name, amount, unit);
   
   return { 

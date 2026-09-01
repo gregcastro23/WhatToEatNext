@@ -99,20 +99,33 @@ export class EphemerisParser {
     const pattern = /(\d+)([a-l])(\d+)/;
     const match = cleanStr.toLowerCase().match(pattern);
 
-    if (match) {
-      const degrees = parseInt(match[1], 10);
-      const [,, signChar] = match;
-      const minutes = parseInt(match[3], 10);
+    const [, rawDegrees, signChar, rawMinutes] = match ?? [];
+    if (rawDegrees !== undefined && signChar !== undefined && rawMinutes !== undefined) {
+      const degrees = parseInt(rawDegrees, 10);
+      const minutes = parseInt(rawMinutes, 10);
       const signNum = this.signSymbols[signChar] || 0;
 
       // Calculate absolute longitude (0-360°)
       const absoluteLongitude = signNum * 30 + degrees + minutes / 60;
 
+      const signName = this.zodiacSigns[signNum];
+      if (signName === undefined) {
+        log.warn(`Could not parse position string ${posStr}`);
+      return {
+        degrees: 0,
+        minutes: 0,
+        sign: 0,
+        signName: "Aries",
+        absoluteLongitude: 0,
+        retrograde: false,
+      };
+      }
+
       return {
         degrees,
         minutes,
         sign: signNum,
-        signName: this.zodiacSigns[signNum],
+        signName,
         absoluteLongitude,
         retrograde,
       };
@@ -124,11 +137,24 @@ export class EphemerisParser {
       const signNum = Math.floor(degrees / 30);
       const degreeInSign = degrees % 30;
 
+      const signName = this.zodiacSigns[signNum];
+      if (signName === undefined) {
+        log.warn(`Could not parse position string ${posStr}`);
+      return {
+        degrees: 0,
+        minutes: 0,
+        sign: 0,
+        signName: "Aries",
+        absoluteLongitude: 0,
+        retrograde: false,
+      };
+      }
+
       return {
         degrees: degreeInSign,
         minutes: Math.round((degreeInSign % 1) * 60),
         sign: signNum,
-        signName: this.zodiacSigns[signNum],
+        signName,
         absoluteLongitude: degrees,
         retrograde,
       };
@@ -210,11 +236,15 @@ export class EphemerisParser {
           return;
         }
 
-        const [date] = parts;
-        const [, siderealTime] = parts;
+        const [date, siderealTime] = parts;
         const positions = this.parseEphemerisLine(line);
 
-        if (positions && Object.keys(positions).length > 0) {
+        if (
+          date !== undefined &&
+          siderealTime !== undefined &&
+          positions &&
+          Object.keys(positions).length > 0
+        ) {
           entries.push({
             date,
             siderealTime,
@@ -240,8 +270,15 @@ export class EphemerisParser {
     const signIndex = Math.floor(normalizedLongitude / 30);
     const degree = normalizedLongitude % 30;
 
+    const sign = this.zodiacSigns[signIndex];
+    if (sign === undefined) {
+      throw new RangeError(
+        `ephemerisParser: sign index ${signIndex} out of range for longitude ${normalizedLongitude}`,
+      );
+    }
+
     return {
-      sign: this.zodiacSigns[signIndex],
+      sign,
       degree,
     };
   }
@@ -319,8 +356,9 @@ export class EphemerisParser {
 
     Object.values(positions).forEach((position) => {
       const element = this.getElementForSign(position.signName);
-      if (element in elementCounts) {
-        elementCounts[element]++;
+      const currentCount = elementCounts[element];
+      if (currentCount !== undefined) {
+        elementCounts[element] = currentCount + 1;
       }
     });
 
@@ -330,9 +368,9 @@ export class EphemerisParser {
       0,
     );
     if (total > 0) {
-      Object.keys(elementCounts).forEach((element) => {
-        elementCounts[element] /= total;
-      });
+      for (const [element, count] of Object.entries(elementCounts)) {
+        elementCounts[element] = count / total;
+      }
     }
 
     return elementCounts;

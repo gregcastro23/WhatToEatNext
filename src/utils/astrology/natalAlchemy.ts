@@ -173,8 +173,8 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
   // Normalize scores
   const totalElementalScore = Object.values(elementalScores).reduce((sum, score) => sum + score, 0);
   if (totalElementalScore > 0) {
-    for (const element in elementalScores) {
-      elementalScores[element as keyof ElementalProperties] /= totalElementalScore;
+    for (const [element, score] of Object.entries(elementalScores)) {
+      elementalScores[element] = score / totalElementalScore;
     }
   }
 

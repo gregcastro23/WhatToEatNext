@@ -44,6 +44,11 @@ export function generateTopSauceRecommendations(
     "Saturn",
   ];
   const currentPlanetaryDay = planetaryDays[dayOfWeek];
+  if (currentPlanetaryDay === undefined) {
+    throw new RangeError(
+      `cuisineRecommender: no planetary day for weekday ${dayOfWeek}`,
+    );
+  }
 
   // Convert sauces object to array
   const saucesArray: Sauce[] = Object.values(allSauces || {});
@@ -82,9 +87,8 @@ export function generateTopSauceRecommendations(
     let flavorMatchScore = 0.7; // Base score
 
     // Use key ingredients for flavor matching
-    if (sauce.keyIngredients.length > 0) {
-      const planetaryFlavors = planetaryFlavorProfiles[currentPlanetaryDay];
-
+    const planetaryFlavors = planetaryFlavorProfiles[currentPlanetaryDay];
+    if (sauce.keyIngredients.length > 0 && planetaryFlavors) {
       // Simple flavor matching based on ingredients
       const matchingIngredients = sauce.keyIngredients.filter((ingredient) =>
         Object.keys(planetaryFlavors.flavorProfiles).some((flavor) =>

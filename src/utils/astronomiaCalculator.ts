@@ -70,8 +70,15 @@ function degreesToSignAndDegree(longitude: number): { sign: string, degree: numb
   const signIndex = Math.floor(normalizedLong / 30);
   const degree = normalizedLong % 30;
   
+  const sign = ZODIAC_SIGNS[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `astronomiaCalculator: sign index ${signIndex} out of range for longitude ${normalizedLong}`
+    );
+  }
+
   return {
-    sign: ZODIAC_SIGNS[signIndex],
+    sign,
     degree: parseFloat(degree.toFixed(2))
   };
 }
@@ -97,6 +104,7 @@ export function calculatePlanetaryPositions(date: Date = new Date()): Record<str
     
     for (const planet of planets) {
       const currentPosition = CURRENT_POSITIONS[planet];
+      if (!currentPosition) continue;
       const dailyMove = DAILY_MOVEMENT[planet] || 0;
       
       // Calculate the adjusted longitude

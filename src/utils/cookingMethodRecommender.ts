@@ -997,7 +997,9 @@ export async function getRecommendedCookingMethods(
           Friday: "Venus",
           Saturday: "Saturn",
         };
-        const planetaryDay = dayRulers[weekDays[dayOfWeek]];
+        const weekDayName = weekDays[dayOfWeek];
+        const planetaryDay =
+          weekDayName === undefined ? undefined : dayRulers[weekDayName];
         if (planetaryDay) {
           planetaryDayScore = calculatePlanetaryDayInfluence(
             method,
@@ -1039,7 +1041,10 @@ export async function getRecommendedCookingMethods(
         const startingPlanet = dayRulerPlanets[dayOfWeek];
 
         // Find starting position in the sequence
-        const startingPosition = planetaryOrder.indexOf(startingPlanet);
+        const startingPosition =
+          startingPlanet === undefined
+            ? -1
+            : planetaryOrder.indexOf(startingPlanet);
 
         // Calculate hour position (0-23)
         const daytime = isDaytime(now);
@@ -1368,9 +1373,10 @@ export async function getRecommendedCookingMethods(
               string,
               number
             >;
-            if (methodElementalEffect[elementProperty]) {
+            const venusElementValue = venusTemperament.Elements[element];
+            if (methodElementalEffect[elementProperty] && venusElementValue !== undefined) {
               venusScore +=
-                venusTemperament.Elements[element] *
+                venusElementValue *
                 (method.elementalEffect[elementProperty] || 0) *
                 1.2;
             }
@@ -1410,11 +1416,10 @@ export async function getRecommendedCookingMethods(
               string,
               number
             >;
-            if (methodElementalEffect[elementProperty]) {
-              venusScore +=
-                venusZodiacTransit.Elements[element] *
-                methodElementalEffect[elementProperty] *
-                0.8;
+            const transitElementValue = venusZodiacTransit.Elements[element];
+            const methodElementValue = methodElementalEffect[elementProperty];
+            if (methodElementValue && transitElementValue !== undefined) {
+              venusScore += transitElementValue * methodElementValue * 0.8;
             }
           }
         }

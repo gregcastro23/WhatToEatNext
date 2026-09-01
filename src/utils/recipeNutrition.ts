@@ -153,7 +153,7 @@ function sanitizeMicroList(value: unknown): string[] | undefined {
     if (/^\d+(\.\d+)?$/.test(s)) continue;
     const vit = s.match(/^vitamins?\s+(.+)$/i);
     if (vit) {
-      const token = vit[1].trim();
+      const token = (vit[1] ?? "").trim();
       if (/^\d+$/.test(token)) continue; // "Vitamin 0"
       const lc = token.toLowerCase();
       if (MICRO_RENAME[lc]) s = MICRO_RENAME[lc];

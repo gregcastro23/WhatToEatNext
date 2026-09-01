@@ -15,6 +15,14 @@ import type {
 import type { KineticMetrics } from "@/types/kinetics";
 import { calculateElementalCompatibility } from "@/utils/cuisine/cuisineRecommendationEngine";
 
+/** The four declared element keys. ElementalProperties also carries a string
+ * index signature, so `keyof` widens to string; this closed union does not. */
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+
+/** The four declared ESMS keys; same index-signature caveat as ElementName. */
+type AlchemicalName = "Spirit" | "Essence" | "Matter" | "Substance";
+
+
 // ========== TYPE DEFINITIONS ==========
 
 export interface Sauce {
@@ -355,7 +363,7 @@ function calculateAlchemicalSauceCompatibility(
   role: SauceRecommendationCriteria["sauceRole"],
   reasoning: string[],
 ): number {
-  const properties: Array<keyof AlchemicalProperties> = [
+  const properties: AlchemicalName[] = [
     "Spirit",
     "Essence",
     "Matter",
@@ -579,14 +587,9 @@ function applyUserPreferences(
  */
 function getDominantElement(
   elementals: ElementalProperties,
-): keyof ElementalProperties {
-  const elements: Array<keyof ElementalProperties> = [
-    "Fire",
-    "Water",
-    "Earth",
-    "Air",
-  ];
-  let maxElement: keyof ElementalProperties = "Fire";
+): ElementName {
+  const elements: ElementName[] = ["Fire", "Water", "Earth", "Air"];
+  let maxElement: ElementName = "Fire";
   let maxValue = 0;
 
   elements.forEach((element) => {
@@ -604,14 +607,9 @@ function getDominantElement(
  */
 function getWeakestElement(
   elementals: ElementalProperties,
-): keyof ElementalProperties {
-  const elements: Array<keyof ElementalProperties> = [
-    "Fire",
-    "Water",
-    "Earth",
-    "Air",
-  ];
-  let minElement: keyof ElementalProperties = "Fire";
+): ElementName {
+  const elements: ElementName[] = ["Fire", "Water", "Earth", "Air"];
+  let minElement: ElementName = "Fire";
   let minValue = 1;
 
   elements.forEach((element) => {

@@ -240,9 +240,15 @@ export class AutomatedQualityAssurance {
     const getDominantElement = (
       props: ElementalProperties,
     ): keyof ElementalProperties =>
-      (
-        Object.entries(props) as Array<[keyof ElementalProperties, number]>
-      ).sort((a, b) => b[1] - a[1])[0][0];
+      (() => {
+        const [dominant] = (
+          Object.entries(props) as Array<[keyof ElementalProperties, number]>
+        ).sort((a, b) => b[1] - a[1]);
+        if (!dominant) {
+          throw new Error("getDominantElement: no elemental properties supplied");
+        }
+        return dominant[0];
+      })();
 
     ingredients.forEach((ingredient, index) => {
       // Validate elemental properties structure
@@ -281,6 +287,7 @@ export class AutomatedQualityAssurance {
       // Validate compatibility with previous ingredient
       if (index > 0) {
         const prevIngredient = ingredients[index - 1];
+        if (!prevIngredient) return;
         const a = getDominantElement(ingredient.elementalProperties) as
           | "Fire"
           | "Water"

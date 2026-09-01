@@ -30,7 +30,14 @@ const signElements: Record<string, string> = {
 };
 
 // Map planets to their alchemical properties
-const planetAlchemicalProperties: Record<string, Record<string, number>> = {
+interface EsmsWeights {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+}
+
+const planetAlchemicalProperties: Record<string, EsmsWeights> = {
   sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
   moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 },
   mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 },

@@ -65,8 +65,9 @@ const ASPECT_TYPE_ALIASES: Record<string, AspectType> = {
 };
 
 function normalizeAspectType(type: string): AspectType | null {
-  if (type in ASPECT_TYPE_ALIASES) {
-    return ASPECT_TYPE_ALIASES[type];
+  const alias = ASPECT_TYPE_ALIASES[type];
+  if (alias !== undefined) {
+    return alias;
   }
 
   switch (type) {
@@ -145,6 +146,7 @@ export function calculateComprehensiveAspects(
     for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
+      if (planet1 === undefined || planet2 === undefined) continue;
 
       const pos1 = positions[planet1];
       const pos2 = positions[planet2];
@@ -339,8 +341,15 @@ export function getSignAndDegreeFromLongitude(longitude: number): {
   // Calculate degree within sign (0-29.999...)
   const degree = normalizedLong % 30;
 
+  const sign = signs[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `aspectCalculator: sign index ${signIndex} out of range for longitude ${normalizedLong}`,
+    );
+  }
+
   return {
-    sign: signs[signIndex],
+    sign,
     degree: parseFloat(degree.toFixed(2)),
   };
 }

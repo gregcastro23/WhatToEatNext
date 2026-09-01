@@ -1446,17 +1446,18 @@ export function calculateElementalInfluences(
 
   Object.entries(planetaryAlignment).forEach(([planet, data]) => {
     const element = getZodiacElement(data.sign);
-    if (element) {
-      elements[element] += getPlanetaryWeight(planet);
+    const current = element ? elements[element] : undefined;
+    if (element && current !== undefined) {
+      elements[element] = current + getPlanetaryWeight(planet);
     }
   });
 
   // Normalize to sum to 1
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
-    Object.keys(elements).forEach((key) => {
-      elements[key] /= total;
-    });
+    for (const [key, value] of Object.entries(elements)) {
+      elements[key] = value / total;
+    }
   }
 
   return elements;

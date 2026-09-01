@@ -276,6 +276,7 @@ export function compositeFromVectors(
   if (!(meanSum > 0)) return null;
 
   let [leaning] = ELEMENT_ORDER;
+  if (leaning === undefined) return null;
   for (const el of ELEMENT_ORDER) {
     if (mean[el] > mean[leaning]) leaning = el;
   }

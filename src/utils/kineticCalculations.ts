@@ -122,7 +122,7 @@ export function calculateKineticProperties(
   // Calculate elemental velocity (rate of elemental change per element)
   // Higher Spirit and Air = higher velocity
   const baseVelocity = (Spirit + Air) / 2;
-  const velocity: Record<string, number> = {
+  const velocity: Record<Element, number> = {
     Fire: baseVelocity * (Fire + Spirit / 2),
     Water: baseVelocity * (Water + Essence / 2),
     Earth: baseVelocity * (Earth + Matter / 2),
@@ -135,7 +135,7 @@ export function calculateKineticProperties(
   const inertia = thermodynamicResistance;
 
   // Calculate momentum (mass × velocity per element)
-  const momentum: Record<string, number> = {
+  const momentum: Record<Element, number> = {
     Fire: thermodynamicResistance * velocity.Fire,
     Water: thermodynamicResistance * velocity.Water,
     Earth: thermodynamicResistance * velocity.Earth,

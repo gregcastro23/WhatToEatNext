@@ -229,7 +229,9 @@ function findCoarseMatch(
   for (const s of FILE.samples) {
     if (s.ts > upperBound) break; // samples are sorted ascending
     if (s.ts < lowerBound) continue;
-    const d = Math.abs(angleDelta(s.lon[planetIdx], targetLongitude));
+    const lon = s.lon[planetIdx];
+    if (lon === undefined) continue;
+    const d = Math.abs(angleDelta(lon, targetLongitude));
     if (d < bestDelta) {
       bestDelta = d;
       best = s;
@@ -241,7 +243,9 @@ function findCoarseMatch(
   // enough back) — global minimum across whatever's available.
   for (const s of FILE.samples) {
     if (s.ts > upperBound) break;
-    const d = Math.abs(angleDelta(s.lon[planetIdx], targetLongitude));
+    const lon = s.lon[planetIdx];
+    if (lon === undefined) continue;
+    const d = Math.abs(angleDelta(lon, targetLongitude));
     if (d < bestDelta) {
       bestDelta = d;
       best = s;
@@ -318,7 +322,13 @@ async function refine(
 
   const argmin = (
     arr: Array<{ ts: number; lon: number; delta: number }>,
-  ) => arr.reduce((best, x) => (x.delta < best.delta ? x : best), arr[0]);
+  ) => {
+    const [seed] = arr;
+    if (!seed) {
+      throw new Error("historicalEchoFinder: argmin over an empty sweep");
+    }
+    return arr.reduce((best, x) => (x.delta < best.delta ? x : best), seed);
+  };
 
   const sweep = async (
     centerMs: number,
@@ -365,7 +375,11 @@ export async function findOuterPlanetEcho(
   const tCoarseStart = Date.now();
   const referencePositionsRaw = await calculatePlanetaryPositions(referenceDate);
   const referencePositions = asPlanetaryRecord(referencePositionsRaw);
-  const referenceLongitude = toLongitude(referencePositions[planet]);
+  const referencePosition = referencePositions[planet];
+  if (!referencePosition) {
+    throw new Error(`historicalEchoFinder: no reference position for ${planet}`);
+  }
+  const referenceLongitude = toLongitude(referencePosition);
   const referenceAlch = alchemizeDetailed(referencePositions, null, referenceDate);
 
   const PERIOD_YEARS: Record<EchoPlanet, number> = {

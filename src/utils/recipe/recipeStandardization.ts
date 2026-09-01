@@ -171,7 +171,7 @@ export function standardizeRecipe(
     const rawCuisine = standardized.cuisine;
     const regionMatch = rawCuisine.match(/\(([^)]+)\)/);
     if (regionMatch) {
-      standardized.regionalVariant = regionMatch[1].trim();
+      standardized.regionalVariant = regionMatch[1]?.trim();
     }
     standardized.cuisine = rawCuisine.replace(/\s*\([^)]*\)\s*/g, "").trim().toLowerCase();
   }
@@ -208,8 +208,8 @@ export function standardizeRecipe(
     }
 
     if (Math.abs(sum - 1) > 0.01 && sum > 0) {
-      for (const elem of elements) {
-        props[elem] = props[elem] / sum;
+      for (const [elem, value] of Object.entries(props)) {
+        props[elem] = value / sum;
       }
     }
 

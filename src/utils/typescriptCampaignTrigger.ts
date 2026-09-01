@@ -307,8 +307,14 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
       /^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/,
     );
 
-    if (match) {
-      const [, filePath, lineStr, colStr, code, message] = match;
+    const [, filePath, lineStr, colStr, code, message] = match ?? [];
+    if (
+      filePath !== undefined &&
+      lineStr !== undefined &&
+      colStr !== undefined &&
+      code !== undefined &&
+      message !== undefined
+    ) {
       const lineNum = parseInt(lineStr, 10);
       const colNum = parseInt(colStr, 10);
 

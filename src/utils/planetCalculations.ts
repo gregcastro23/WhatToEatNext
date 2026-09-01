@@ -70,7 +70,13 @@ function getSignFromLongitude(longitude: number): string {
     "pisces",
   ];
   const signIndex = Math.floor((longitude % 360) / 30);
-  return signs[signIndex];
+  const sign = signs[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `planetCalculations: sign index ${signIndex} out of range for longitude ${longitude}`,
+    );
+  }
+  return sign;
 }
 
 // Add to your existing function or file

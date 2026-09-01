@@ -144,10 +144,10 @@ function parseTimeToMinutes(timeStr?: string | number): number {
   const match = str.match(/(\d+)\s*(min|minute|minutes|hour|hours|h)/);
   if (!match) return 0;
 
-  const value = parseInt(match[1], 10);
-  const [,, unit] = match;
+  const value = parseInt(match[1] ?? "", 10);
+  const [, , unit] = match;
 
-  if (unit.startsWith("h")) {
+  if (unit?.startsWith("h")) {
     return value * 60;
   }
 

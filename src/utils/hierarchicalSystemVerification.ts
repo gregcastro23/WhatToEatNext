@@ -345,9 +345,8 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         planetaryPositionsUsed: {
           ...r.computationMetadata.planetaryPositionsUsed,
           // Slightly vary planetary positions for diversity
-          [`Sun_${index}`]: Object.keys(
-            r.computationMetadata.planetaryPositionsUsed,
-          )[0],
+          [`Sun_${index}`]:
+            Object.keys(r.computationMetadata.planetaryPositionsUsed)[0] ?? "",
         },
       },
     }));

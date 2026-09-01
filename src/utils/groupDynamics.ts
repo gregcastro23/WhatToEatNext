@@ -87,18 +87,21 @@ export async function computeGroupDynamics(
 
   for (let i = 0; i < withProfiles.length; i++) {
     for (let j = i + 1; j < withProfiles.length; j++) {
+      const left = withProfiles[i];
+      const right = withProfiles[j];
+      if (!left || !right) continue;
       let h: number;
       try {
         h = calculateElementalHarmony(
-          withProfiles[i].profile as AlchemyElementalProperties,
-          withProfiles[j].profile as AlchemyElementalProperties,
+          left.profile as AlchemyElementalProperties,
+          right.profile as AlchemyElementalProperties,
         );
       } catch {
         h = 0.7;
       }
       pairwiseHarmonies.push(h);
-      perUserHarmonies[withProfiles[i].userId].push(h);
-      perUserHarmonies[withProfiles[j].userId].push(h);
+      perUserHarmonies[left.userId]?.push(h);
+      perUserHarmonies[right.userId]?.push(h);
     }
   }
 
@@ -141,7 +144,7 @@ export async function computeGroupDynamics(
   // Per-user contributions
   for (const { userId, profile } of withProfiles) {
     const dom = Math.max(profile.Fire, profile.Water, profile.Earth, profile.Air);
-    const userHarmonies = perUserHarmonies[userId];
+    const userHarmonies = perUserHarmonies[userId] ?? [];
     const avgHarmony =
       userHarmonies.length > 0
         ? userHarmonies.reduce((a, b) => a + b, 0) / userHarmonies.length

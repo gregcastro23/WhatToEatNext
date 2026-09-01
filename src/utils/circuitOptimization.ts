@@ -395,6 +395,7 @@ export function predictImprovementImpact(
 
   for (let i = 0; i < suggestions.length; i++) {
     const suggestion = suggestions[i];
+    if (!suggestion) continue;
     const weight = 1 / (i + 1); // Diminishing weight
     totalImprovement += (suggestion.expectedImprovement / 100) * weight;
   }
@@ -421,5 +422,9 @@ function getDayName(day: DayOfWeek): string {
     "Friday",
     "Saturday",
   ];
-  return days[day];
+  const dayName = days[day];
+  if (dayName === undefined) {
+    throw new RangeError(`circuitOptimization: no day name for index ${day}`);
+  }
+  return dayName;
 }

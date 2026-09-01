@@ -552,7 +552,7 @@ export function generateDailyCaloriesChartData(
     unit: "kcal",
     legend: false,
     data: ([0, 1, 2, 3, 4, 5, 6] as DayOfWeek[]).map((day) => ({
-      label: dayNames[day],
+      label: dayNames[day] ?? "",
       value: dailyBreakdown[day]?.calories || 0,
       color: "#8b5cf6",
     })),
@@ -575,7 +575,7 @@ export function generateGregsEnergyChartData(
     title: "Greg's Energy Trend",
     legend: false,
     data: ([0, 1, 2, 3, 4, 5, 6] as DayOfWeek[]).map((day) => ({
-      label: dayNames[day],
+      label: dayNames[day] ?? "",
       value: dailyBreakdown[day]?.gregsEnergy || 0,
       color: "#ec4899",
     })),

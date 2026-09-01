@@ -113,10 +113,11 @@ export function countPlanetaryPositions(
 
   // Initialize planet data
   PLANETS.forEach((planet) => {
-    planetData[planet] = {};
+    const signCounts: Record<string, number> = {};
     ZODIAC_SIGNS.forEach((sign) => {
-      planetData[planet][sign] = 0;
+      signCounts[sign] = 0;
     });
+    planetData[planet] = signCounts;
   });
 
   // Count positions across all recipes
@@ -125,15 +126,17 @@ export function countPlanetaryPositions(
 
     PLANETS.forEach((planet) => {
       const sign = positions[planet];
-      if (sign && planetData[planet][sign] !== undefined) {
-        planetData[planet][sign]++;
+      const signCounts = planetData[planet];
+      const current = sign && signCounts ? signCounts[sign] : undefined;
+      if (sign && signCounts && current !== undefined) {
+        signCounts[sign] = current + 1;
       }
     });
   });
 
   // Convert to PlanetaryFrequency array
   return PLANETS.map((planet) => {
-    const signFrequencies = planetData[planet];
+    const signFrequencies = planetData[planet] ?? {};
     const totalRecipes = recipes.length;
 
     // Find dominant sign
@@ -274,7 +277,7 @@ export function getCulturalSignificance(
     },
   };
 
-  const planetSignificance = significanceMap[planet][dominantSign];
+  const planetSignificance = significanceMap[planet]?.[dominantSign];
   if (!planetSignificance) return undefined;
 
   // Adjust significance based on strength
@@ -396,7 +399,8 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
 
   patterns.forEach((pattern) => {
     totalStrength += pattern.planetaryStrength ?? 0;
-    dominantElements[pattern.dominantElement]++;
+    dominantElements[pattern.dominantElement] =
+      (dominantElements[pattern.dominantElement] ?? 0) + 1;
     planetDistribution[pattern.planet] = (pattern.planetaryStrength ??
       0);
   });
