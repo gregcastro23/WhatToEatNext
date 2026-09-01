@@ -157,12 +157,11 @@ export function scoreCuisineAgainstMoment(
   const cuisineKey = resolveCuisineKey(cuisineType, business.categories);
   // Own-property check here too, so this cannot desync from resolveCuisineKey.
   // Belt and braces on a user-controlled lookup: an inherited key would give
-  // four `undefined` elements, which now throws in performAlchemicalAnalysis
-  // instead of being fabricated into 0.25s — a user-triggerable 503 rather than
-  // silently wrong scores. Neither is acceptable; resolve to Default instead.
-  const cuisineProfile = Object.hasOwn(CUISINE_ELEMENTAL_MAP, cuisineKey)
-    ? CUISINE_ELEMENTAL_MAP[cuisineKey]
-    : CUISINE_ELEMENTAL_MAP.Default;
+  const defaultProfile = CUISINE_ELEMENTAL_MAP.Default;
+  if (!defaultProfile) {
+    throw new Error("CUISINE_ELEMENTAL_MAP.Default is missing");
+  }
+  const cuisineProfile = CUISINE_ELEMENTAL_MAP[cuisineKey] ?? defaultProfile;
 
   const cuisineElement: ElementalProperties = {
     Fire: cuisineProfile.Fire,
@@ -441,13 +440,15 @@ function scoreLunarAlignment(
 
 function dominantElementOf(profile: ElementalProperties): Element {
   const entries: Array<[Element, number]> = [
-    ["Fire", profile.Fire ?? 0],
-    ["Water", profile.Water ?? 0],
-    ["Earth", profile.Earth ?? 0],
-    ["Air", profile.Air ?? 0],
+    ["Fire", profile.Fire],
+    ["Water", profile.Water],
+    ["Earth", profile.Earth],
+    ["Air", profile.Air],
   ];
   entries.sort(([, a], [, b]) => b - a);
-  return entries[0][0];
+  const [first] = entries;
+  if (!first) return "Fire";
+  return first[0];
 }
 
 function buildMatchReasons(input: {

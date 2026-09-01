@@ -221,7 +221,9 @@ function dominantElementOf(profile: ElementalProperties): Element {
     ["Air", profile.Air],
   ];
   entries.sort(([, a], [, b]) => b - a);
-  return entries[0][0];
+  const [first] = entries;
+  if (!first) return "Fire";
+  return first[0];
 }
 
 /**
@@ -238,9 +240,9 @@ export function buildAstrologicalState(now: Date = new Date()): CosmicComputatio
   }
 
   const sunSignRaw =
-    typeof positions.Sun.sign === "string" ? positions.Sun.sign : null;
+    typeof positions.Sun?.sign === "string" ? positions.Sun.sign : null;
   const moonSignRaw =
-    typeof positions.Moon.sign === "string" ? positions.Moon.sign : null;
+    typeof positions.Moon?.sign === "string" ? positions.Moon.sign : null;
   if (!sunSignRaw || !moonSignRaw) return null;
 
   const sunSign = sunSignRaw.toLowerCase();
@@ -722,6 +724,12 @@ function normalizeOsm(el: OverpassElement): NormalizedRestaurant | null {
   const website = tags.website || tags["contact:website"];
   const cuisineLabel = tags.cuisine ? prettyCuisine(tags.cuisine) : undefined;
 
+  const [firstCuisine] = (tags.cuisine ?? "").split(";");
+  const categories: Array<{ alias: string; title: string }> =
+    cuisineLabel && firstCuisine
+      ? [{ alias: firstCuisine, title: cuisineLabel }]
+      : [{ alias: "restaurant", title: "Restaurant" }];
+
   const business: YelpBusiness = {
     id: externalId,
     name,
@@ -729,9 +737,7 @@ function normalizeOsm(el: OverpassElement): NormalizedRestaurant | null {
     phone: tags.phone || tags["contact:phone"] || "",
     rating: 0, // OSM has no ratings
     review_count: 0,
-    categories: cuisineLabel
-      ? [{ alias: tags.cuisine.split(";")[0], title: cuisineLabel }]
-      : [{ alias: "restaurant", title: "Restaurant" }],
+    categories,
     location: {
       address1: street,
       city: tags["addr:city"] ?? "",

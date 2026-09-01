@@ -343,11 +343,17 @@ export class PlanetaryScoringService {
     if (dignity.domicile.includes(sign)) return 1.0;
     if (dignity.exaltation.includes(sign)) return 0.9;
 
-    const detriment = this.getOppositeSign(dignity.domicile[0]);
-    if (sign === detriment) return 0.3;
+    const [domFirst] = dignity.domicile;
+    if (domFirst) {
+      const detriment = this.getOppositeSign(domFirst);
+      if (sign === detriment) return 0.3;
+    }
 
-    const fall = this.getOppositeSign(dignity.exaltation[0]);
-    if (sign === fall) return 0.2;
+    const [exaltFirst] = dignity.exaltation;
+    if (exaltFirst) {
+      const fall = this.getOppositeSign(exaltFirst);
+      if (sign === fall) return 0.2;
+    }
 
     return 0.6;
   }
@@ -364,6 +370,7 @@ export class PlanetaryScoringService {
     if (!rulers) return 0.4;
 
     const decanRuler = rulers[decanNum];
+    if (!decanRuler) return 0.4;
     if (decanRuler === rulingPlanet) return 1.0;
     if (this.areFriendly(decanRuler, rulingPlanet)) return 0.7;
     return 0.4;
@@ -539,7 +546,11 @@ export class PlanetaryScoringService {
 
   private getOppositeSign(sign: ZodiacSignType): ZodiacSignType {
     const idx = ZODIAC_SIGNS.indexOf(sign);
-    return ZODIAC_SIGNS[(idx + 6) % 12];
+    const opposite = ZODIAC_SIGNS[(idx + 6) % 12];
+    if (!opposite) {
+      throw new Error(`Invalid opposite sign index for ${sign}`);
+    }
+    return opposite;
   }
 
   private areFriendly(p1: Planet, p2: Planet): boolean {
@@ -551,15 +562,19 @@ export class PlanetaryScoringService {
     const hour = now.getHours();
     const dayOfWeek = now.getDay();
     const dayRuler = DAY_RULERS[dayOfWeek];
+    if (!dayRuler) throw new Error(`Invalid dayOfWeek: ${dayOfWeek}`);
     const rulerIdx = CHALDEAN_ORDER.indexOf(dayRuler);
     const hourIdx = (rulerIdx + hour) % 7;
-    return CHALDEAN_ORDER[hourIdx];
+    const hourPlanet = CHALDEAN_ORDER[hourIdx];
+    if (!hourPlanet) throw new Error(`Invalid hourPlanet index: ${hourIdx}`);
+    return hourPlanet;
   }
 
   private getRecommendedTiming(rulingPlanet: Planet): string {
     const now = new Date();
     const dayOfWeek = now.getDay();
     const dayRuler = DAY_RULERS[dayOfWeek];
+    if (!dayRuler) return `Best prepared during next ${rulingPlanet} day`;
     const rulerIdx = CHALDEAN_ORDER.indexOf(dayRuler);
 
     // Find next hour ruled by this planet

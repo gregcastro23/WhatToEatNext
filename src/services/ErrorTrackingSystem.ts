@@ -233,6 +233,7 @@ class ErrorTrackingSystem {
       const match = line.match(errorRegex);
       if (match) {
         const [, file, lineNum, colNum, codeStr, message] = match;
+        if (!file || !lineNum || !colNum || !codeStr || !message) continue;
         const code = parseInt(codeStr.replace("TS", ""), 10);
 
         errors.push({

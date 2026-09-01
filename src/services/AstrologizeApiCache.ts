@@ -270,6 +270,7 @@ class AstrologizeApiCache {
 
     // Use the closest data as base for prediction
     const [baseData] = nearbyData;
+    if (!baseData) return null;
     const predictedPositions: Record<string, PlanetaryPosition> = {};
     const sources: string[] = [];
 
@@ -345,8 +346,8 @@ class AstrologizeApiCache {
 
     // Try to find nearby data if exact match not found
     const nearby = this.findNearby(lat, lng, date, 25, 1); // Closer search for current matching
-    if (nearby.length > 0) {
-      const [best] = nearby;
+    const [best] = nearby;
+    if (best) {
       return {
         elementalAbsolutes: best.elementalAbsolutes,
         elementalRelatives: best.elementalRelatives,
@@ -433,7 +434,8 @@ class AstrologizeApiCache {
       "aquarius",
       "pisces",
     ];
-    return signs[Math.floor(degree / 30) % 12];
+    const idx = ((Math.floor(degree / 30) % 12) + 12) % 12;
+    return signs[idx] ?? "aries";
   }
 
   private evictOldestEntries(): void {
@@ -443,7 +445,10 @@ class AstrologizeApiCache {
     // Remove oldest 10% of entries
     const toRemove = Math.floor(entries.length * 0.2);
     for (let i = 0; i < toRemove; i++) {
-      this.cache.delete(entries[i][0]);
+      const entry = entries[i];
+      if (entry) {
+        this.cache.delete(entry[0]);
+      }
     }
   }
 

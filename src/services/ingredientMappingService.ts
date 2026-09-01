@@ -247,9 +247,11 @@ class IngredientMappingService {
     }> = [];
 
     for (let i = 0; i < validMappings.length; i++) {
+      const ing1 = validMappings[i];
+      if (!ing1) continue;
       for (let j = i + 1; j < validMappings.length; j++) {
-        const ing1 = validMappings[i];
         const ing2 = validMappings[j];
+        if (!ing2) continue;
 
         if (ing1.matchedTo && ing2.matchedTo) {
           const result = this.calculateCompatibility(
