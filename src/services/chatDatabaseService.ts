@@ -310,8 +310,8 @@ class ChatDatabaseService {
           `SELECT id, host_id, title, status FROM tables WHERE id = $1`,
           [tableId],
         );
-        if (tableResult.rows.length === 0) return null;
         const [row] = tableResult.rows;
+        if (!row) return null;
         if (row.status !== "live" && row.status !== "memory") return null;
         return await this.ensureTableConversationOnClient(client, {
           id: String(row.id),
@@ -455,8 +455,9 @@ class ChatDatabaseService {
         `SELECT * FROM conversations WHERE id = $1::uuid`,
         [conversationId],
       );
-      if (result.rows.length === 0) return null;
-      return rowToConversation(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return rowToConversation(row);
     } catch (error) {
       _logger.error("getConversationById failed:", error);
       return null;
@@ -472,8 +473,9 @@ class ChatDatabaseService {
         `SELECT * FROM conversation_members WHERE conversation_id = $1::uuid AND user_id = $2::uuid`,
         [conversationId, userId],
       );
-      if (result.rows.length === 0) return null;
-      return rowToMembership(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return rowToMembership(row);
     } catch (error) {
       _logger.error("getMembership failed:", error);
       return null;
@@ -635,12 +637,13 @@ class ChatDatabaseService {
             input.clientKey ?? null,
           ],
         );
-        if (inserted.rows.length > 0) {
+        const [insertedRow] = inserted.rows;
+        if (insertedRow) {
           await client.query(
             `UPDATE conversations SET last_message_at = CURRENT_TIMESTAMP WHERE id = $1::uuid`,
             [input.conversationId],
           );
-          return { message: rowToMessage(inserted.rows[0]), replay: false };
+          return { message: rowToMessage(insertedRow), replay: false };
         }
         // clientKey replay — return the original.
         const existing = await client.query<MessageDbRow>(
@@ -648,8 +651,9 @@ class ChatDatabaseService {
             WHERE conversation_id = $1::uuid AND sender_id = $2::uuid AND client_key = $3`,
           [input.conversationId, input.senderId, input.clientKey ?? null],
         );
-        if (existing.rows.length === 0) return null;
-        return { message: rowToMessage(existing.rows[0]), replay: true };
+        const [existingRow] = existing.rows;
+        if (!existingRow) return null;
+        return { message: rowToMessage(existingRow), replay: true };
       });
     } catch (error) {
       _logger.error("insertMessage failed:", error);
@@ -664,7 +668,8 @@ class ChatDatabaseService {
         `SELECT conversation_id FROM messages WHERE id = $1::uuid`,
         [messageId],
       );
-      return result.rows.length > 0 ? String(result.rows[0].conversation_id) : null;
+      const [row] = result.rows;
+      return row ? String(row.conversation_id) : null;
     } catch (error) {
       _logger.error("getMessageConversationId failed:", error);
       return null;
@@ -840,8 +845,8 @@ class ChatDatabaseService {
           WHERE m.id = $1::uuid`,
         [messageId, actorId],
       );
-      if (context.rows.length === 0) return { ok: false, reason: "not_found" };
       const [row] = context.rows;
+      if (!row) return { ok: false, reason: "not_found" };
       const allowed =
         opts?.isAdmin === true ||
         String(row.sender_id) === actorId ||
@@ -878,8 +883,9 @@ class ChatDatabaseService {
           `SELECT conversation_id FROM messages WHERE id = $1::uuid FOR UPDATE`,
           [messageId],
         );
-        if (msg.rows.length === 0) return { ok: false as const, reason: "not_found" as const };
-        const conversationId = String(msg.rows[0].conversation_id);
+        const [msgRow] = msg.rows;
+        if (!msgRow) return { ok: false as const, reason: "not_found" as const };
+        const conversationId = String(msgRow.conversation_id);
 
         const inserted = await client.query<{ id: string }>(
           `INSERT INTO message_reports (message_id, conversation_id, reporter_id, reason, detail)
@@ -1021,8 +1027,9 @@ class ChatDatabaseService {
             RETURNING *`,
           [reportId, status, adminId],
         );
-        if (updated.rows.length === 0) return null;
-        const report = rowToReport(updated.rows[0]);
+        const [updatedRow] = updated.rows;
+        if (!updatedRow) return null;
+        const report = rowToReport(updatedRow);
 
         if (status === "actioned") {
           await client.query(

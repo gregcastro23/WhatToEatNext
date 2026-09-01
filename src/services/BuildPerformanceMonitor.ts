@@ -273,6 +273,10 @@ class BuildPerformanceMonitor {
         );
         if (fileMatch) {
           const [, file, errors, warnings = "0"] = fileMatch;
+          // Groups 1 and 2 are mandatory in the pattern, so they are always
+          // present on a successful match; skip the line if the engine ever
+          // hands back a match without them rather than recording NaN counts.
+          if (!file || !errors) continue;
           bottlenecks.push({
             file,
             compilationTime: 0,
@@ -409,6 +413,7 @@ class BuildPerformanceMonitor {
 
     const current = this.buildHistory[this.buildHistory.length - 1];
     const previous = this.buildHistory[this.buildHistory.length - 2];
+    if (!current || !previous) return;
 
     const metrics: Array<keyof BuildMetrics> = [
       "typeScriptCompilationTime",
@@ -481,12 +486,12 @@ class BuildPerformanceMonitor {
 
   private estimateCacheHitRate(): number {
     const recentBuilds = this.buildHistory.slice(-5);
-    if (recentBuilds.length < 2) return 0.5;
+    const latestBuild = recentBuilds[recentBuilds.length - 1];
+    if (recentBuilds.length < 2 || !latestBuild) return 0.5;
     const avgBuildTime =
       recentBuilds.reduce((sum, build) => sum + build.totalBuildTime, 0) /
       recentBuilds.length;
-    const latestBuildTime =
-      recentBuilds[recentBuilds.length - 1].totalBuildTime;
+    const latestBuildTime = latestBuild.totalBuildTime;
     return latestBuildTime < avgBuildTime * 0.8 ? 0.9 : 0.5;
   }
 
@@ -512,12 +517,13 @@ class BuildPerformanceMonitor {
       const content = fs.readFileSync(filePath, "utf8");
       const importMatches =
         content.match(/import\s+.*?\s+from\s+['"]([^'"]+)['"]/g) ?? [];
-      return importMatches
-        .map((match) => {
-          const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);
-          return pathMatch ? pathMatch[1] : "";
-        })
-        .filter(Boolean);
+      return importMatches.flatMap((match) => {
+        const pathMatch = match.match(/from\s+['"]([^'"]+)['"]/);
+        const dependency = pathMatch?.[1];
+        // Previously mapped a missing/empty specifier to "" and dropped it in
+        // a trailing filter(Boolean); dropping it here is the same result.
+        return dependency ? [dependency] : [];
+      });
     } catch (_error) {
       return [];
     }
@@ -527,12 +533,13 @@ class BuildPerformanceMonitor {
     const recentCalculations = this.astrologicalMetrics
       .filter((m) => m.calculationType === calculationType)
       .slice(-10);
-    if (recentCalculations.length < 2) return 0.5;
+    const latestCalculation =
+      recentCalculations[recentCalculations.length - 1];
+    if (recentCalculations.length < 2 || !latestCalculation) return 0.5;
     const avgTime =
       recentCalculations.reduce((sum, calc) => sum + calc.executionTime, 0) /
       recentCalculations.length;
-    const latestTime =
-      recentCalculations[recentCalculations.length - 1].executionTime;
+    const latestTime = latestCalculation.executionTime;
     return latestTime < avgTime * 0.5 ? 0.9 : 0.3;
   }
 
@@ -682,8 +689,8 @@ class BuildPerformanceMonitor {
   ): number {
     let score = 100;
 
-    if (builds.length > 0) {
-      const latest = builds[builds.length - 1];
+    const latest = builds[builds.length - 1];
+    if (latest) {
       if (
         latest.typeScriptCompilationTime > this.THRESHOLDS.typeScriptCompilation
       )
@@ -711,8 +718,8 @@ class BuildPerformanceMonitor {
   ): string[] {
     const recommendations: string[] = [];
 
-    if (builds.length > 0) {
-      const latest = builds[builds.length - 1];
+    const latest = builds[builds.length - 1];
+    if (latest) {
       if (
         latest.typeScriptCompilationTime > this.THRESHOLDS.typeScriptCompilation
       ) {
@@ -727,9 +734,10 @@ class BuildPerformanceMonitor {
         recommendations.push("Optimize build cache configuration");
         recommendations.push("Consider persistent cache storage");
       }
-      if (this.bottlenecks.length > 0) {
+      const [topBottleneck] = this.bottlenecks;
+      if (topBottleneck) {
         recommendations.push(
-          `Address compilation bottlenecks in ${this.bottlenecks[0].file}`,
+          `Address compilation bottlenecks in ${topBottleneck.file}`,
         );
       }
     }

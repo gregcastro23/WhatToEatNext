@@ -268,9 +268,9 @@ class CommensalDatabaseService {
                 OR (requester_id = $2::uuid AND addressee_id = $1::uuid)`,
             [requesterId, addresseeId],
           );
-          if (existing.rows.length === 0) return undefined;
-
           const [row] = existing.rows;
+          if (!row) return undefined;
+
           if (row.status === "blocked") return null;
 
           const isReversePending =
@@ -408,13 +408,14 @@ class CommensalDatabaseService {
           `SELECT requester_id, addressee_id, status FROM commensalships WHERE id = $1`,
           [commensalshipId],
         );
-        if (check.rows.length === 0) return null;
+        const [checkRow] = check.rows;
+        if (!checkRow) return null;
 
-        const [{
+        const {
           requester_id: requesterId,
           addressee_id: addresseeId,
           status,
-        }] = check.rows;
+        } = checkRow;
         const isParty =
           actingUserId === String(requesterId) ||
           actingUserId === String(addresseeId);
@@ -555,8 +556,9 @@ class CommensalDatabaseService {
                 OR (requester_id = $2::uuid AND addressee_id = $1::uuid)`,
             [actingUserId, opts.targetUserId],
           );
-          if (existing.rows.length > 0) {
-            const rowId = String(existing.rows[0].id);
+          const [existingRow] = existing.rows;
+          if (existingRow) {
+            const rowId = String(existingRow.id);
             await db.executeQuery(
               `UPDATE commensalships
                   SET status = 'blocked', updated_at = CURRENT_TIMESTAMP
@@ -820,8 +822,9 @@ class CommensalDatabaseService {
          WHERE c.id = $1`,
         [id],
       );
-      if (result.rows.length === 0) return null;
-      return this.rowToCommensalship(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return this.rowToCommensalship(row);
     } catch {
       return null;
     }
@@ -916,11 +919,11 @@ class CommensalDatabaseService {
           ],
         );
 
-        if (insert.rows.length === 0) {
+        const [row] = insert.rows;
+        if (!row) {
           _logger.error("createSavedChart: upsert returned no row");
           return null;
         }
-        const [row] = insert.rows;
         return {
           id: dbString(row.id),
           ownerId: data.ownerId,
@@ -1173,8 +1176,8 @@ class CommensalDatabaseService {
          RETURNING id, name, relationship, birth_data, natal_chart, created_at`,
         params,
       );
-      if (result.rows.length === 0) return null;
       const [row] = result.rows;
+      if (!row) return null;
       return {
         id: row.id,
         name: row.name,
@@ -1221,8 +1224,9 @@ class CommensalDatabaseService {
         `SELECT natal_chart, birth_data FROM user_profiles WHERE user_id = $1::uuid`,
         [userId],
       );
-      if (result.rows.length > 0) {
-        const profile = this.extractElementalProfile(result.rows[0]);
+      const [row] = result.rows;
+      if (row) {
+        const profile = this.extractElementalProfile(row);
         if (profile) return profile;
       }
     } catch (error) {
@@ -1238,8 +1242,9 @@ class CommensalDatabaseService {
         `SELECT profile FROM users WHERE id = $1::uuid`,
         [userId],
       );
-      if (result.rows.length > 0) {
-        const rawProfile = result.rows[0].profile;
+      const [row] = result.rows;
+      if (row) {
+        const rawProfile = row.profile;
         const profile = typeof rawProfile === "string"
           ? safeJsonParse<LinkedCommensalProfile>(rawProfile)
           : (rawProfile ?? undefined);
