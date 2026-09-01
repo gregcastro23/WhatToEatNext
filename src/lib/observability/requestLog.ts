@@ -154,6 +154,19 @@ export function getRecentRequests(q: RequestLogQuery = {}): RequestLogEntry[] {
   return view.slice(0, limit);
 }
 
+/**
+ * Percentile from a sorted latency list. Every caller returns early on an empty
+ * window, so the sample is non-empty here; throwing names that invariant rather
+ * than reporting a fabricated 0ms latency.
+ */
+function percentile(sorted: number[], p: number): number {
+  const value = sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))];
+  if (value === undefined) {
+    throw new Error(`requestLog: percentile ${p} requested from an empty sample`);
+  }
+  return value;
+}
+
 export interface RequestSummary {
   count: number;
   p50LatencyMs: number;
@@ -172,7 +185,7 @@ export function summarizeRecent(windowMs: number = 5 * 60 * 1000): RequestSummar
     return { count: 0, p50LatencyMs: 0, p95LatencyMs: 0, p99LatencyMs: 0, errorRate: 0, topPaths: [] };
   }
   const latencies = recent.map((r) => r.latencyMs).sort((a, b) => a - b);
-  const pick = (p: number) => latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * p))];
+  const pick = (p: number) => percentile(latencies, p);
   const errors = recent.filter((r) => r.status >= 500).length;
   const pathMap = new Map<string, number>();
   for (const r of recent) pathMap.set(r.path, (pathMap.get(r.path) ?? 0) + 1);
@@ -246,7 +259,7 @@ export function summarizePath(
       new Date(r.at).getTime() >= cutoff && r.path.startsWith(pathPrefix),
   );
 
-  const lastSeen = matching.length > 0 ? matching[matching.length - 1] : null;
+  const lastSeen = matching[matching.length - 1] ?? null;
   const lastFailure =
     matching.filter((r) => r.status >= 400).slice(-1)[0] ?? null;
 
@@ -273,8 +286,7 @@ export function summarizePath(
   const errors5xx = matching.filter((r) => r.status >= 500).length;
   const errors = errors4xx + errors5xx;
   const latencies = matching.map((r) => r.latencyMs).sort((a, b) => a - b);
-  const pick = (p: number) =>
-    latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * p))];
+  const pick = (p: number) => percentile(latencies, p);
 
   return {
     pathPrefix,
@@ -428,8 +440,9 @@ export function summarizeAllPaths(
     ).length;
     const errors5xx = entries.filter((r) => r.status >= 500).length;
     const latencies = entries.map((r) => r.latencyMs).sort((a, b) => a - b);
-    const pick = (p: number) =>
-      latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * p))];
+    const pick = (p: number) => percentile(latencies, p);
+    const lastEntry = entries[entries.length - 1];
+    if (!lastEntry) continue;
     out.push({
       path,
       count: entries.length,
@@ -438,7 +451,7 @@ export function summarizeAllPaths(
       errorRate: (errors4xx + errors5xx) / entries.length,
       p50LatencyMs: pick(0.5),
       p95LatencyMs: pick(0.95),
-      lastSeenAt: entries[entries.length - 1].at,
+      lastSeenAt: lastEntry.at,
     });
   }
   return out.sort((a, b) => b.count - a.count);

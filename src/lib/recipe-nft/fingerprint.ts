@@ -146,9 +146,10 @@ function estimateMass(quantity: string, unit: string, household?: string): { gra
     const m = household
       .toLowerCase()
       .match(/(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(cups?|cans?|tbsp|tablespoons?|tsp|teaspoons?|g|grams?|oz|ounces?|ml|l)\b/);
-    if (m) {
-      const hq = parseAmount(m[1]);
-      const hu = normalizeUnit(m[2]);
+    const [, rawQty, rawUnit] = m ?? [];
+    if (rawQty !== undefined && rawUnit !== undefined) {
+      const hq = parseAmount(rawQty);
+      const hu = normalizeUnit(rawUnit);
       const g = PRECISE_UNITS[hu] ?? COUNT_UNITS[hu];
       if (Number.isFinite(hq) && g != null) return { grams: hq * g, estimated: false };
     }
@@ -259,7 +260,12 @@ function computeSmartServings(
     .sort((a, b) => a - b);
   if (yields.length === 0) return { servings: authoredYields, limitedBy: null };
   const mid = Math.floor(yields.length / 2);
-  const median = yields.length % 2 ? yields[mid] : (yields[mid - 1] + yields[mid]) / 2;
+  const hi = yields[mid];
+  const lo = yields.length % 2 ? hi : yields[mid - 1];
+  if (hi === undefined || lo === undefined) {
+    throw new Error(`fingerprint: median index out of range for ${yields.length} yields`);
+  }
+  const median = (lo + hi) / 2;
   return { servings: Math.max(1, Math.min(12, Math.round(median))), limitedBy: null };
 }
 

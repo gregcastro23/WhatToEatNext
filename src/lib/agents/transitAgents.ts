@@ -131,12 +131,17 @@ export function groupForAspect(a: TransitBody, b: TransitBody, aspect?: string):
     };
   }
 
+  const [first, second] = participants;
+  if (!first || !second) {
+    throw new Error('transitAgents: an aspect needs two participants');
+  }
+
   return {
     participants,
     descriptor: {
       aspect: asp,
       key: `${idPart[0]}--${asp}--${idPart[1]}`,
-      label: `${participants[0].planet} ${asp} ${participants[1].planet}`,
+      label: `${first.planet} ${asp} ${second.planet}`,
     },
   };
 }

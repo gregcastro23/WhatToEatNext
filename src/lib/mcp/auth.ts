@@ -140,15 +140,16 @@ export async function resolveCaller(
        RETURNING id, user_id, rate_limit_tier`,
       [hashKey(key)],
     );
-    if (result.rows.length === 0) {
+    const [keyRow] = result.rows;
+    if (!keyRow) {
       return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false, rateLimitTier: null };
     }
     return {
-      userId: result.rows[0].user_id,
-      apiKeyId: result.rows[0].id,
+      userId: keyRow.user_id,
+      apiKeyId: keyRow.id,
       caller: callerTag,
       isSynthetic: false,
-      rateLimitTier: result.rows[0].rate_limit_tier ?? null,
+      rateLimitTier: keyRow.rate_limit_tier ?? null,
     };
   } catch (err) {
     process.stderr.write(`[mcp/auth] key lookup failed: ${String(err)}\n`);

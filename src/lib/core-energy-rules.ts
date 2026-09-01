@@ -406,7 +406,13 @@ export class PlanetaryInfluenceCalculator {
 
     // Each planetary hour covers ~3.4 regular hours (24/7)
     const planetaryHourIndex = Math.floor(hour / 3.4)
-    const planet = PLANETARY_HOURS[dayName][planetaryHourIndex % 7]
+    const hourSequence = dayName === undefined ? undefined : PLANETARY_HOURS[dayName]
+    const planet = hourSequence?.[planetaryHourIndex % 7]
+    if (planet === undefined) {
+      throw new RangeError(
+        `core-energy-rules: no planetary hour for ${String(dayName)} at index ${planetaryHourIndex}`
+      )
+    }
 
     return {
       planet,

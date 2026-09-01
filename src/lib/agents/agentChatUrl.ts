@@ -26,5 +26,6 @@ export function agentChatUrl(slug: string): string {
 
 /** Agent slug from an `@agentic.alchm.kitchen` email — the local-part. */
 export function agentSlugFromEmail(email: string): string {
-  return email.split("@")[0];
+  const at = email.indexOf("@");
+  return at === -1 ? email : email.slice(0, at);
 }

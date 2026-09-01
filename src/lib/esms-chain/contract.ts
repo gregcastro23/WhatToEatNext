@@ -123,7 +123,16 @@ export async function readEsmsBalances(address: Address): Promise<OnchainEsms> {
     functionName: 'balanceOfBatch',
     args: [accounts, [...ESMS_IDS]],
   })
-  return { spirit: res[0], essence: res[1], matter: res[2], substance: res[3] }
+  const [spirit, essence, matter, substance] = res
+  if (
+    spirit === undefined ||
+    essence === undefined ||
+    matter === undefined ||
+    substance === undefined
+  ) {
+    throw new Error('esms-chain: balanceOfBatch returned fewer than four balances')
+  }
+  return { spirit, essence, matter, substance }
 }
 
 export async function readEsmsClaimed(claimId: `0x${string}`): Promise<boolean> {

@@ -143,10 +143,11 @@ export class ChakraAlchemyService {
     // For each chakra, check if its energy state matches one of the planet's energy states
     Object.entries(this.chakraEnergyStateMappings).forEach(
       ([chakraPos, mapping]) => {
+        const [primaryState, secondaryState] = mapping.energyState.split("/");
         if (
           energyStates.includes(mapping.energyState) ||
-          energyStates.includes(mapping.energyState.split("/")[0]) ||
-          energyStates.includes(mapping.energyState.split("/")[1])
+          (primaryState !== undefined && energyStates.includes(primaryState)) ||
+          (secondaryState !== undefined && energyStates.includes(secondaryState))
         ) {
           chakras.push(chakraPos as ChakraPosition);
         }
@@ -345,8 +346,10 @@ export class ChakraAlchemyService {
 
     if (index === -1) return [];
     const adjacent: ChakraPosition[] = [];
-    if (index > 0) adjacent.push(chakraOrder[index - 1]);
-    if (index < chakraOrder.length - 1) adjacent.push(chakraOrder[index + 1]);
+    const previous = chakraOrder[index - 1];
+    const next = chakraOrder[index + 1];
+    if (index > 0 && previous !== undefined) adjacent.push(previous);
+    if (index < chakraOrder.length - 1 && next !== undefined) adjacent.push(next);
 
     return adjacent;
   }

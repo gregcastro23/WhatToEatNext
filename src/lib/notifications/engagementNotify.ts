@@ -31,7 +31,8 @@ async function gate(actorId: string, recipientId: string): Promise<string | null
     "SELECT COALESCE(is_agent, false) AS is_agent FROM users WHERE id = $1::uuid",
     [recipientId],
   );
-  if (rec.rows.length === 0 || rec.rows[0].is_agent === true) return null;
+  const [recipient] = rec.rows;
+  if (!recipient || recipient.is_agent === true) return null;
 
   // Blocked either direction → stay silent.
   if (await isBlockedBetween(actorId, recipientId)) return null;

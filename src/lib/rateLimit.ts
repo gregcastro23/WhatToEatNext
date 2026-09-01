@@ -41,7 +41,10 @@ const MAX_KEYS = 10_000;
 
 function clientKey(request: Request): string {
   const xff = request.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0].trim();
+  if (xff) {
+    const [firstForwarded] = xff.split(",");
+    if (firstForwarded !== undefined) return firstForwarded.trim();
+  }
   const real = request.headers.get("x-real-ip");
   if (real) return real.trim();
   return "unknown";
@@ -126,7 +129,7 @@ export async function rateLimit(
 
   if (entry.timestamps.length >= max) {
     const [oldestInWindow] = entry.timestamps;
-    const resetMs = Math.max(0, window - (now - oldestInWindow));
+    const resetMs = Math.max(0, window - (now - (oldestInWindow ?? NaN)));
     return buildResponse(false, 0, resetMs, max, now);
   }
 

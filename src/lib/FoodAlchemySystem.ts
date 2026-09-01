@@ -537,8 +537,12 @@ export class FoodAlchemySystem {
     ];
     elementValues.sort((a, b) => b.value - a.value);
 
-    const dominantElement = elementValues[0].element;
-    const weakestElement = elementValues[3].element;
+    const [strongest, , , weakest] = elementValues;
+    if (!strongest || !weakest) {
+      throw new Error("FoodAlchemySystem: expected four ranked element values");
+    }
+    const dominantElement = strongest.element;
+    const weakestElement = weakest.element;
 
     // Calculate match score
     let matchScore = 0.5; // Start with neutral
@@ -617,12 +621,15 @@ export class FoodAlchemySystem {
       }
 
       // Apply degree effects
-      if (
-        signData?.degreeEffects[planetaryDay]?.length === 2
-      ) {
-        const [minDegree, maxDegree] =
-          signData.degreeEffects[planetaryDay];
-        if (planetDegree >= minDegree && planetDegree <= maxDegree) {
+      const degreeRange = signData?.degreeEffects[planetaryDay];
+      if (degreeRange?.length === 2) {
+        const [minDegree, maxDegree] = degreeRange;
+        if (
+          minDegree !== undefined &&
+          maxDegree !== undefined &&
+          planetDegree >= minDegree &&
+          planetDegree <= maxDegree
+        ) {
           const degreeBonus = 0.2;
           elementalScore = Math.min(1.0, elementalScore + degreeBonus);
         }
@@ -951,10 +958,11 @@ export class FoodAlchemySystem {
     }
 
     // Check for planetary conditions that might require caution
-    if (state.planetaryPositions?.[food.planet]) {
-      const planetSign = state.planetaryPositions[food.planet].sign;
-      const dignityEffect =
-        planetaryElements[food.planet].dignityEffect?.[planetSign];
+    const planetPosition = state.planetaryPositions?.[food.planet];
+    const planetElement = planetaryElements[food.planet];
+    if (planetPosition && planetElement) {
+      const planetSign = planetPosition.sign;
+      const dignityEffect = planetElement.dignityEffect?.[planetSign];
 
       if (dignityEffect && dignityEffect < -1) {
         warnings.push(
@@ -993,6 +1001,9 @@ export class FoodAlchemySystem {
       "Saturn",
     ];
     const currentPlanetaryHour = planetaryHours[hourOfDay];
+    if (!currentPlanetaryHour) {
+      throw new Error(`FoodAlchemySystem: no planetary hour for hour index ${hourOfDay}`);
+    }
 
     // Determine if it's daytime or nighttime
     const isDaytime = time.getHours() >= 6 && time.getHours() < 18;

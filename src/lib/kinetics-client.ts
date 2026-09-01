@@ -38,11 +38,20 @@ export interface KineticsPutArgs {
 
 function planetaryHourSequence(reference: Date): string[] {
   const dayRuler = DAY_RULERS[reference.getDay()];
+  if (dayRuler === undefined) {
+    throw new RangeError(`kinetics-client: no day ruler for weekday ${reference.getDay()}`);
+  }
   const start = CHALDEAN_HOURS.indexOf(dayRuler);
   const hour = reference.getHours();
   // 24 hours starting at sunrise (~6am); wrap past midnight.
   const offset = (hour - 6 + 24) % 24;
-  return Array.from({ length: 24 }, (_, i) => CHALDEAN_HOURS[(start + offset + i) % 7]);
+  return Array.from({ length: 24 }, (_, i) => {
+    const ruler = CHALDEAN_HOURS[(start + offset + i) % 7];
+    if (ruler === undefined) {
+      throw new RangeError(`kinetics-client: no Chaldean ruler at hour ${i}`);
+    }
+    return ruler;
+  });
 }
 
 function powerCurve(lat: number, hours: number): Array<{ power: number }> {
@@ -64,7 +73,11 @@ function seasonalInfluence(reference: Date, lat: number): string {
     "Summer", "Summer", "Fall", "Fall", "Fall", "Winter"];
   const south = ["Summer", "Summer", "Fall", "Fall", "Fall", "Winter",
     "Winter", "Winter", "Spring", "Spring", "Spring", "Summer"];
-  return (northern ? north : south)[month];
+  const season = (northern ? north : south)[month];
+  if (season === undefined) {
+    throw new RangeError(`kinetics-client: no season for month index ${month}`);
+  }
+  return season;
 }
 
 export const AlchemicalKineticsClient = {

@@ -173,7 +173,10 @@ export type PositionsProvider = (date: Date) => {
   degraded: DegradedInfo | null;
 };
 
-const ASTRONOMY_BODY: Record<string, Astronomy.Body> = {
+/** The exact key set of OSCILLATOR_BODIES; adding a body must fail to compile here. */
+type OscillatorBody = (typeof OSCILLATOR_BODIES)[number];
+
+const ASTRONOMY_BODY: Record<OscillatorBody, Astronomy.Body> = {
   Sun: Astronomy.Body.Sun,
   Moon: Astronomy.Body.Moon,
   Mercury: Astronomy.Body.Mercury,
@@ -407,6 +410,12 @@ export function buildPriceIndexSnapshot(
 
   const now = samples[samples.length - 1];
   const [dayAgo] = samples;
+  const previousHour = samples[samples.length - 2];
+  if (!now || !dayAgo || !previousHour) {
+    throw new Error(
+      `price-index: sparkline needs at least 2 samples, built ${samples.length}`,
+    );
+  }
 
   const tokens: TokenIndexQuote[] = TOKEN_TYPES.map((token) => ({
     token,
@@ -425,7 +434,6 @@ export function buildPriceIndexSnapshot(
   const compositeIndex = round(mean(now), INDEX_ROUND_DIGITS);
   const composite24hPct = round((mean(now) / mean(dayAgo) - 1) * 100, 2);
 
-  const previousHour = samples[samples.length - 2];
   const sect = now.isDiurnal ? "diurnal" : "nocturnal";
   const coordinate = now.oscillatorCoordinates?.[sect];
   const previousCoordinate = previousHour.oscillatorCoordinates?.[sect];

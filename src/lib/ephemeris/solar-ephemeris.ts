@@ -198,6 +198,15 @@ export function longitudeToZodiac(longitude: number): ZodiacPosition {
   const minuteInDegree = (degreeInSign % 1) * 60
   const decan = Math.floor(degreeInSign / 10) + 1
   const sign = ZODIAC_SIGNS[signIndex]
+  if (sign === undefined) {
+    throw new Error(
+      `solar-ephemeris: sign index ${signIndex} out of range for longitude ${normalized}`
+    )
+  }
+  const decanRuler = DECAN_RULERS[sign as keyof typeof DECAN_RULERS][decan - 1]
+  if (decanRuler === undefined) {
+    throw new Error(`solar-ephemeris: no decan ${decan} ruler for ${sign}`)
+  }
 
   return {
     absolute_longitude: normalized,
@@ -206,7 +215,7 @@ export function longitudeToZodiac(longitude: number): ZodiacPosition {
     degree_in_sign: degreeInSign,
     minute_in_degree: minuteInDegree,
     decan,
-    decan_ruler: DECAN_RULERS[sign as keyof typeof DECAN_RULERS][decan - 1],
+    decan_ruler: decanRuler,
   }
 }
 
@@ -287,10 +296,10 @@ export function getDatesForZodiacDegree(
 export function getZodiacIngresses(year: number): Record<string, Date> {
   const ingresses: Record<string, Date> = {}
 
-  for (let signIndex = 0; signIndex < 12; signIndex++) {
+  for (const [signIndex, sign] of ZODIAC_SIGNS.entries()) {
     const degree = signIndex * 30 // 0, 30, 60, 90, etc.
     const dateRange = getDatesForZodiacDegree(year, degree)
-    ingresses[ZODIAC_SIGNS[signIndex]] = dateRange.start
+    ingresses[sign] = dateRange.start
   }
 
   return ingresses
@@ -342,12 +351,20 @@ export function getSignDurations(year: number): Record<string, number> {
   const ingresses = getZodiacIngresses(year)
   const nextYearIngresses = getZodiacIngresses(year + 1)
 
-  for (let i = 0; i < ZODIAC_SIGNS.length; i++) {
-    const sign = ZODIAC_SIGNS[i]
+  for (const [i, sign] of ZODIAC_SIGNS.entries()) {
     const nextSign = ZODIAC_SIGNS[(i + 1) % 12]
 
     const start = ingresses[sign]
-    const end = i === 11 ? nextYearIngresses['Aries'] : ingresses[nextSign]
+    const end =
+      i === 11
+        ? nextYearIngresses['Aries']
+        : nextSign === undefined
+          ? undefined
+          : ingresses[nextSign]
+
+    if (start === undefined || end === undefined) {
+      throw new Error(`solar-ephemeris: missing ingress bounds for ${sign} in ${year}`)
+    }
 
     const days = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
     durations[sign] = Math.round(days * 100) / 100

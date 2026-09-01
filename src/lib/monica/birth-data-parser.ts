@@ -90,21 +90,26 @@ export function parseBirthData(text: string): ParsedBirthData | null {
     return null
   }
 
+  const [, rawMonth, rawDay, rawYear] = dateMatch
+  if (rawMonth === undefined || rawDay === undefined || rawYear === undefined) {
+    return null
+  }
+
   let month: number
   let day: number
   let year: number
 
-  if (isNaN(parseInt(dateMatch[1], 10))) {
+  if (isNaN(parseInt(rawMonth, 10))) {
     // Month name format
-    const monthName = dateMatch[1].toLowerCase()
+    const monthName = rawMonth.toLowerCase()
     month = MONTH_NAMES[monthName] || 0
-    day = parseInt(dateMatch[2], 10)
-    year = parseInt(dateMatch[3], 10)
+    day = parseInt(rawDay, 10)
+    year = parseInt(rawYear, 10)
   } else {
     // Numeric format - assume MM/DD/YYYY
-    month = parseInt(dateMatch[1], 10)
-    day = parseInt(dateMatch[2], 10)
-    year = parseInt(dateMatch[3], 10)
+    month = parseInt(rawMonth, 10)
+    day = parseInt(rawDay, 10)
+    year = parseInt(rawYear, 10)
   }
 
   // Extract time
@@ -113,10 +118,12 @@ export function parseBirthData(text: string): ParsedBirthData | null {
   let hour = 12
   let minute = 0
 
-  if (timeMatch) {
-    hour = parseInt(timeMatch[1], 10)
-    minute = parseInt(timeMatch[2], 10)
-    const meridiem = timeMatch[3]?.toLowerCase()
+  const [, rawHour, rawMinute, rawMeridiem] = timeMatch ?? []
+
+  if (rawHour !== undefined && rawMinute !== undefined) {
+    hour = parseInt(rawHour, 10)
+    minute = parseInt(rawMinute, 10)
+    const meridiem = rawMeridiem?.toLowerCase()
 
     // Convert to 24-hour format
     if (meridiem === 'pm' && hour !== 12) {

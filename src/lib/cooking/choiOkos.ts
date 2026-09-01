@@ -294,7 +294,11 @@ export function foodProperties(
 
   let conductivity = 0;
   COMPONENT_ORDER.forEach((component, i) => {
-    const volumeFraction = componentVolumePerMass[i] / volumePerMass;
+    const componentVolume = componentVolumePerMass[i];
+    if (componentVolume === undefined) {
+      throw new RangeError(`choiOkos: no volume-per-mass entry for ${component}`);
+    }
+    const volumeFraction = componentVolume / volumePerMass;
     conductivity += volumeFraction * componentConductivity(component, celsius);
   });
 

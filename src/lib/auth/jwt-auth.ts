@@ -239,8 +239,9 @@ export class JWTAuthService {
     const match = expiry.match(/^(\d+)([smhd])$/);
     if (!match) return 3600; // Default 1 hour
 
-    const value = parseInt(match[1], 10);
-    const [,, unit] = match;
+    const [, rawValue, unit] = match;
+    if (rawValue === undefined) return 3600;
+    const value = parseInt(rawValue, 10);
 
     switch (unit) {
       case "s":

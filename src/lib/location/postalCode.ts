@@ -85,24 +85,24 @@ export function parsePostalCode(raw: string): ParsedPostalCode | null {
   const trimmed = raw.trim();
   if (!trimmed) return null;
 
-  const us = US_ZIP.exec(trimmed);
-  if (us) return { code: us[1], country: "us", format: "us-zip" };
+  const [, usCode] = US_ZIP.exec(trimmed) ?? [];
+  if (usCode !== undefined) return { code: usCode, country: "us", format: "us-zip" };
 
   // Canada before the UK: the patterns are disjoint, but checking the stricter
   // shape first keeps the precedence explicit rather than incidental.
-  const ca = CA_POSTAL.exec(trimmed);
-  if (ca) {
+  const [, caOut, caIn] = CA_POSTAL.exec(trimmed) ?? [];
+  if (caOut !== undefined && caIn !== undefined) {
     return {
-      code: `${ca[1].toUpperCase()} ${ca[2].toUpperCase()}`,
+      code: `${caOut.toUpperCase()} ${caIn.toUpperCase()}`,
       country: "ca",
       format: "ca-postal",
     };
   }
 
-  const uk = UK_POSTCODE.exec(trimmed);
-  if (uk) {
+  const [, ukOut, ukIn] = UK_POSTCODE.exec(trimmed) ?? [];
+  if (ukOut !== undefined && ukIn !== undefined) {
     return {
-      code: `${uk[1].toUpperCase()} ${uk[2].toUpperCase()}`,
+      code: `${ukOut.toUpperCase()} ${ukIn.toUpperCase()}`,
       country: "gb",
       format: "uk-postcode",
     };

@@ -209,7 +209,7 @@ const ENHANCED_ORBITAL_ELEMENTS = {
 
 // Zodiac signs array
 const ZODIAC_SIGN_LABELS = CANONICAL_ZODIAC_SIGNS.map(
-  (sign) => `${sign[0].toUpperCase()}${sign.slice(1)}`,
+  (sign) => `${sign.charAt(0).toUpperCase()}${sign.slice(1)}`,
 )
 
 type OrbitalPlanet = Exclude<
@@ -318,8 +318,13 @@ export function longitudeToSignDegree(longitude: number): { sign: string; degree
   const signIndex = Math.floor(normalizedLon / 30)
   const signDegree = normalizedLon % 30
 
+  const sign = ZODIAC_SIGN_LABELS[signIndex]
+  if (sign === undefined) {
+    throw new RangeError(`enhanced-astronomical-calculator: sign index ${signIndex} out of range`)
+  }
+
   return {
-    sign: ZODIAC_SIGN_LABELS[signIndex],
+    sign,
     degree: signDegree,
   }
 }

@@ -187,7 +187,7 @@ export function updatePlanetaryConfigWithLiveSky(
           p.planet.toLowerCase() === config.planet.toLowerCase()
       ) ?? null
   } else if (typeof planetaryPositions === 'object') {
-    planetData = planetaryPositions[config.planet.toLowerCase()]
+    planetData = planetaryPositions[config.planet.toLowerCase()] ?? null
   }
 
   if (!planetData) {

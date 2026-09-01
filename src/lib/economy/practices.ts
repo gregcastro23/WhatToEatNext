@@ -349,5 +349,9 @@ export function pickHint(def: PracticeDefinition, userId: string, dayKey: string
   let h = 0;
   const s = `${userId}:${def.type}:${dayKey}`;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return def.hints[h % def.hints.length];
+  const hint = def.hints[h % def.hints.length];
+  if (hint === undefined) {
+    throw new Error(`practices: no hints defined for ${def.type}`);
+  }
+  return hint;
 }

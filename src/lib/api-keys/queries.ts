@@ -106,10 +106,11 @@ export async function mintApiKey(
      RETURNING id, name, scopes, rate_limit_tier, is_active, expires_at, last_used_at, usage_count, created_at`,
     [input.userId, name, minted.hash, scopes, rateLimitTier, expiresAt],
   );
-  if (result.rows.length === 0) {
+  const [row] = result.rows;
+  if (!row) {
     throw new Error("Failed to persist api_key");
   }
-  return { row: result.rows[0], plaintext: minted.plaintext };
+  return { row, plaintext: minted.plaintext };
 }
 
 /** List a user's keys (active and revoked), newest first. */

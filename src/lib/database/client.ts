@@ -108,7 +108,11 @@ export class IngredientService {
       [category, limit, offset],
     );
 
-    const total = countResult.rows[0].count;
+    const [countRow] = countResult.rows;
+    if (!countRow) {
+      throw new Error("db: COUNT query returned no rows");
+    }
+    const total = countRow.count;
     const totalPages = Math.ceil(total / limit);
     const page = Math.floor(offset / limit) + 1;
 
@@ -230,7 +234,11 @@ export class RecipeService {
       [cuisine, limit, offset],
     );
 
-    const total = countResult.rows[0].count;
+    const [countRow] = countResult.rows;
+    if (!countRow) {
+      throw new Error("db: COUNT query returned no rows");
+    }
+    const total = countRow.count;
     const totalPages = Math.ceil(total / limit);
     const page = Math.floor(offset / limit) + 1;
 
@@ -272,7 +280,11 @@ export class RecipeService {
       [`%${searchTerm}%`, limit, offset],
     );
 
-    const total = countResult.rows[0].count;
+    const [countRow] = countResult.rows;
+    if (!countRow) {
+      throw new Error("db: COUNT query returned no rows");
+    }
+    const total = countRow.count;
     const totalPages = Math.ceil(total / limit);
     const page = Math.floor(offset / limit) + 1;
 
@@ -319,7 +331,11 @@ export class RecipeService {
       [vectorLiteral, limit, offset],
     );
 
-    const total = countResult.rows[0].count;
+    const [countRow] = countResult.rows;
+    if (!countRow) {
+      throw new Error("db: COUNT query returned no rows");
+    }
+    const total = countRow.count;
     const totalPages = Math.ceil(total / limit);
     const page = Math.floor(offset / limit) + 1;
 
@@ -421,7 +437,13 @@ export class ElementalService {
             properties.confidence_score || 1.0,
           ],
         );
-        return updateResult.rows[0];
+        const [updated] = updateResult.rows;
+        if (!updated) {
+          throw new Error(
+            `db: UPDATE elemental_properties returned no row for ${entityType}:${entityId}`,
+          );
+        }
+        return updated;
       } else {
         // Insert new
         const insertResult = await client.query<ElementalProperties>(
@@ -440,7 +462,13 @@ export class ElementalService {
             properties.confidence_score || 1.0,
           ],
         );
-        return insertResult.rows[0];
+        const [inserted] = insertResult.rows;
+        if (!inserted) {
+          throw new Error(
+            `db: INSERT elemental_properties returned no row for ${entityType}:${entityId}`,
+          );
+        }
+        return inserted;
       }
     });
 

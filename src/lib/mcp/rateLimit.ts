@@ -69,7 +69,7 @@ export function checkMcpRateLimit(options: CheckOptions): CheckResult {
       allowed: false,
       remaining: 0,
       limit,
-      resetMs: Math.max(0, WINDOW_MS - (now - oldest)),
+      resetMs: Math.max(0, WINDOW_MS - (now - (oldest ?? NaN))),
     };
   }
 
