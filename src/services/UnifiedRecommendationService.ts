@@ -176,11 +176,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (timeStr) {
         const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
         if (timeMatch) {
-          const val = parseInt(timeMatch[1], 10);
-          const totalMins = timeMatch[2].toLowerCase().startsWith("h") ? val * 60 : val;
-          if (totalMins <= 30) score += 0.3;
-          else if (totalMins <= 45) score += 0.2;
-          else if (totalMins <= 60) score += 0.1;
+          const [, valStr, unit] = timeMatch;
+          if (valStr && unit) {
+            const val = parseInt(valStr, 10);
+            const totalMins = unit.toLowerCase().startsWith("h") ? val * 60 : val;
+            if (totalMins <= 30) score += 0.3;
+            else if (totalMins <= 45) score += 0.2;
+            else if (totalMins <= 60) score += 0.1;
+          }
         }
       }
 
@@ -780,11 +783,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (timeStr) {
         const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
         if (timeMatch) {
-          const val = parseInt(timeMatch[1], 10);
-          const totalMins = timeMatch[2].toLowerCase().startsWith("h") ? val * 60 : val;
-          if (totalMins <= 30) score += 0.3;
-          else if (totalMins <= 45) score += 0.2;
-          else if (totalMins <= 60) score += 0.1;
+          const [, valStr, unit] = timeMatch;
+          if (valStr && unit) {
+            const val = parseInt(valStr, 10);
+            const totalMins = unit.toLowerCase().startsWith("h") ? val * 60 : val;
+            if (totalMins <= 30) score += 0.3;
+            else if (totalMins <= 45) score += 0.2;
+            else if (totalMins <= 60) score += 0.1;
+          }
         }
       }
 

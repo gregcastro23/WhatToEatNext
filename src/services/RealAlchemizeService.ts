@@ -37,13 +37,15 @@ function computeDominantModality(
   };
   for (const pos of Object.values(positions)) {
     const signKey = (pos.sign ?? "").toLowerCase();
-    if (signKey in SIGN_MODALITY) {
-      tally[SIGN_MODALITY[signKey]] += 1;
+    const modality = SIGN_MODALITY[signKey];
+    if (modality) {
+      tally[modality] += 1;
     }
   }
   const [top] = (
     Object.entries(tally) as Array<["Cardinal" | "Fixed" | "Mutable", number]>
   ).sort((a, b) => b[1] - a[1]);
+  if (!top) return "Cardinal";
   return top[1] > 0 ? top[0] : "Cardinal";
 }
 
@@ -391,9 +393,11 @@ export function alchemize(
   );
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
-  const [[dominantElement]] = Object.entries(elements).sort(
+  const sortedElements = Object.entries(elements).sort(
     (a, b) => b[1] - a[1],
   );
+  const [firstElementEntry] = sortedElements;
+  const dominantElement = firstElementEntry ? firstElementEntry[0] : "Fire";
   // Calculate score based on total energy
   const score = Math.min(
     1.0,
@@ -608,7 +612,9 @@ export function alchemizeDetailed(
   );
 
   const elements = { Fire, Water, Air, Earth };
-  const [[dominantElement]] = Object.entries(elements).sort((a, b) => b[1] - a[1]);
+  const sortedElements = Object.entries(elements).sort((a, b) => b[1] - a[1]);
+  const [firstElementEntry] = sortedElements;
+  const dominantElement = firstElementEntry ? firstElementEntry[0] : "Fire";
   const score = Math.min(
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20),

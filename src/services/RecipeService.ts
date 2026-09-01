@@ -460,17 +460,22 @@ export class RecipeService {
     // Handle "X minutes" format
     const minutesMatch = lower.match(/(\d+)\s*minutes?/);
     if (minutesMatch) {
-      return parseInt(minutesMatch[1], 10);
+      const [, mStr] = minutesMatch;
+      if (mStr) return parseInt(mStr, 10);
     }
     // Handle "X hours" format
     const hoursMatch = lower.match(/(\d+)\s*hours?/);
     if (hoursMatch) {
-      return parseInt(hoursMatch[1], 10) * 60;
+      const [, hStr] = hoursMatch;
+      if (hStr) return parseInt(hStr, 10) * 60;
     }
     // Handle "X-X minutes" range
     const rangeMatch = lower.match(/(\d+)-(\d+)\s*minutes?/);
     if (rangeMatch) {
-      return (parseInt(rangeMatch[1], 10) + parseInt(rangeMatch[2], 10)) / 2;
+      const [, startStr, endStr] = rangeMatch;
+      if (startStr && endStr) {
+        return (parseInt(startStr, 10) + parseInt(endStr, 10)) / 2;
+      }
     }
     // Default
     return 30;

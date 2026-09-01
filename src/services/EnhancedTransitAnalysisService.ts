@@ -162,8 +162,9 @@ export class EnhancedTransitAnalysisService {
     _date: Date,
   ): EnhancedPlanetaryPosition[] {
     return Object.entries(planetaryPlacements).map(([planet, position]) => {
+      const sign = position.sign ?? "aries";
       // Calculate dignity
-      const dignity = calculatePlanetaryDignity(planet, position.sign);
+      const dignity = calculatePlanetaryDignity(planet, sign);
 
       // Get location influence for this planet
       const locationInfluence = locationInfluences.find(
@@ -183,7 +184,7 @@ export class EnhancedTransitAnalysisService {
       // prefers the sibling file over the same-named directory. This cast
       // preserves the pre-existing (implicit-any) runtime behavior of passing
       // that value through as PlanetData rather than fixing the import target.
-      const planetData = (planetInfo as unknown as Record<string, PlanetData>)[
+      const planetData = (planetInfo as unknown as Record<string, PlanetData | undefined>)[
         planet
       ];
       const culinaryRecommendations =
@@ -197,7 +198,7 @@ export class EnhancedTransitAnalysisService {
 
       return {
         planet,
-        sign: position.sign,
+        sign,
         degree: Number(position.degree) || 0,
         exactLongitude: Number(position.exactLongitude) || 0,
         isRetrograde: Boolean(position.isRetrograde) || false,
@@ -271,12 +272,12 @@ export class EnhancedTransitAnalysisService {
     dignity: { type: string; modifier: number },
     strength: number,
     locationInfluence: LocationPlanetaryInfluence | undefined,
-    planetData: PlanetData,
+    planetData: PlanetData | undefined,
   ): string[] {
     const recommendations: string[] = [];
 
     // Base recommendations from planet data
-    if (planetData.FoodAssociations) {
+    if (planetData?.FoodAssociations) {
       recommendations.push(...planetData.FoodAssociations.slice(0, 3));
     }
 
@@ -394,10 +395,9 @@ export class EnhancedTransitAnalysisService {
     ingredients.push(...season.culinaryInfluences.slice(0, 3));
 
     // Add regional traditional ingredients
-    if (regionalProfile.seasonalIngredients[season.sunSign]) {
-      ingredients.push(
-        ...regionalProfile.seasonalIngredients[season.sunSign].slice(0, 2),
-      );
+    const seasonal = regionalProfile.seasonalIngredients[season.sunSign];
+    if (seasonal) {
+      ingredients.push(...seasonal.slice(0, 2));
     }
 
     // Add strongest planetary influences

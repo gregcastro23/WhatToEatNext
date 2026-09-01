@@ -503,7 +503,7 @@ class QualityMetricsService {
 
     const sumX = x.reduce((sum, val) => sum + val, 0);
     const sumY = y.reduce((sum, val) => sum + val, 0);
-    const sumXY = x.reduce((sum, val, i) => sum + val * y[i], 0);
+    const sumXY = x.reduce((sum, val, i) => sum + val * (y[i] ?? 0), 0);
     const sumXX = x.reduce((sum, val) => sum + val * val, 0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
@@ -766,9 +766,10 @@ class QualityMetricsService {
 
   private calculateWeeklyImprovement(): number {
     const recentReports = this.reports.slice(-2);
-    if (recentReports.length < 2) return 0;
-    const current = recentReports[1].summary.overallScore;
-    const previous = recentReports[0].summary.overallScore;
+    const [previousReport, currentReport] = recentReports;
+    if (!previousReport || !currentReport) return 0;
+    const current = currentReport.summary.overallScore;
+    const previous = previousReport.summary.overallScore;
     return Number(current) - Number(previous);
   }
 
@@ -946,7 +947,9 @@ class QualityMetricsService {
   public updateGoal(id: string, updates: Partial<QualityGoal>): boolean {
     const goalIndex = this.goals.findIndex((g) => g.id === id);
     if (goalIndex === -1) return false;
-    this.goals[goalIndex] = { ...this.goals[goalIndex], ...updates };
+    const currentGoal = this.goals[goalIndex];
+    if (!currentGoal) return false;
+    this.goals[goalIndex] = { ...currentGoal, ...updates };
     this.saveHistoricalData();
     return true;
   }
