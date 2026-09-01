@@ -9,7 +9,27 @@ interface TemperatureRange {
   cautions: string[];
 }
 
-export const temperatureEffects: Record<string, TemperatureRange> = {
+/**
+ * The temperature bands, in the order they are scanned by
+ * `getTemperatureRange` (ascending by `min`).
+ */
+export const TEMPERATURE_RANGE_KEYS = [
+  "freezing",
+  "cold",
+  "cool",
+  "room",
+  "warm",
+  "hot",
+  "very_hot",
+  "extreme",
+] as const;
+
+export type TemperatureRangeKey = (typeof TEMPERATURE_RANGE_KEYS)[number];
+
+export const temperatureEffects: Record<
+  TemperatureRangeKey,
+  TemperatureRange
+> = {
   freezing: {
     min: -20,
     max: 0,
@@ -116,8 +136,8 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
   },
 };
 
-export const getTemperatureRange = (temp: number): string =>
-  Object.keys(temperatureEffects).find(
+export const getTemperatureRange = (temp: number): TemperatureRangeKey =>
+  TEMPERATURE_RANGE_KEYS.find(
     (range) =>
       temp >= temperatureEffects[range].min &&
       temp <= temperatureEffects[range].max,

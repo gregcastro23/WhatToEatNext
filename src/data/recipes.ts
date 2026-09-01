@@ -224,6 +224,11 @@ const transformCuisineData = (): RecipeData[] => {
         cuisineProfile ? cuisineProfile.flavorProfiles : calculateFlavorProfile(primaryPlanetaryInfluences);
 
       // Handle dishes
+      if (!cuisineData) {
+        // Same failure mode as before: reported by the catch below and this
+        // cuisine is skipped (e.g. "Middle Eastern"/"HSCA" have no entry).
+        throw new Error(`No cuisine data registered for ${cuisineName}`);
+      }
       const cuisineDishes = cuisineData.dishes;
       // Log the dishes structure to debug
       logger.debug(
@@ -549,7 +554,10 @@ export const _getDominantPlanetaryInfluence = (
   const entries = Object.entries(recipe.planetaryInfluences);
   if (!entries.length) return null;
 
-  return entries.sort(([, valueA], [, valueB]) => valueB - valueA)[0][0];
+  const [dominant] = entries.sort(([, valueA], [, valueB]) => valueB - valueA);
+  if (!dominant) return null;
+
+  return dominant[0];
 };
 
 /**
@@ -832,10 +840,8 @@ export const getBestRecipeMatches = async (
 
         // If we got recipes directly and they already have match scores,
         // we can just return them after additional filtering
-        if (
-          formattedRecipes.length > 0 &&
-          formattedRecipes[0].matchScore !== undefined
-        ) {
+        const [firstFormattedRecipe] = formattedRecipes;
+        if (firstFormattedRecipe?.matchScore !== undefined) {
           // Apply additional filters if needed
           return applyAdditionalFilters(formattedRecipes, criteria, limit);
         }

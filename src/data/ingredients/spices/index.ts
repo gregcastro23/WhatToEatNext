@@ -41,18 +41,31 @@ export const _addHeatLevels = (
       spice.elementalProperties,
     );
 
-    // Calculate heat level with more precision, based on Fire element with slight randomization
-    const baseHeatLevel = Math.round(normalizedProperties.Fire * 10);
+    // Calculate heat level with more precision, based on Fire element with slight randomization.
+    // `normalizeElementalProperties` mirrors whatever keys the source profile
+    // had, so a spice with no Fire share still yields NaN here — exactly as
+    // `undefined * 10` did before. No 0 is invented for a missing element.
+    const fireShare = normalizedProperties.Fire;
+    const baseHeatLevel = Math.round(Number(fireShare) * 10);
     const adjustedHeatLevel = Math.min(
       10,
       Math.max(1, baseHeatLevel + (Math.random() < 0.5 ? -1 : 1)),
     );
 
-    // Calculate potency based on dominant element with some variation
-    const [[dominantElement]] = Object.entries(normalizedProperties).sort(
+    // Calculate potency based on dominant element with some variation. The
+    // dominant share is read off the same entry as its key, so no second
+    // (unchecked) lookup is needed.
+    const [dominantEntry] = Object.entries(normalizedProperties).sort(
       ([, a], [, b]) => b - a,
     );
-    const potencyBase = normalizedProperties[dominantElement] * 8;
+    if (!dominantEntry) {
+      // Previously a bare TypeError from destructuring an empty entry list.
+      throw new Error(
+        `Spice "${key}" normalized to an empty elemental profile; cannot determine its dominant element`,
+      );
+    }
+    const [, dominantShare] = dominantEntry;
+    const potencyBase = dominantShare * 8;
     const potency = Math.min(
       10,
       Math.max(1, Math.round(potencyBase + Math.random() * 2)),

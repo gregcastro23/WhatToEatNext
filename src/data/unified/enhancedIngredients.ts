@@ -596,12 +596,12 @@ export class EnhancedIngredientsSystem {
       .filter((i) => !baseIngredients.some((bi) => bi.name === i.name))
       .slice(0, 10);
     // Find flavor-compatible ingredients if we have at least one base ingredient
-    const flavorCompatible =
-      seasonallyAdjusted.length > 0
-        ? this.findFlavorCompatibleIngredients(seasonallyAdjusted[0])
-            .filter((i) => !baseIngredients.some((bi) => bi.name === i.name))
-            .slice(0, 10)
-        : [];
+    const [firstSeasonallyAdjusted] = seasonallyAdjusted;
+    const flavorCompatible = firstSeasonallyAdjusted
+      ? this.findFlavorCompatibleIngredients(firstSeasonallyAdjusted)
+          .filter((i) => !baseIngredients.some((bi) => bi.name === i.name))
+          .slice(0, 10)
+      : [];
     return {
       primary: baseIngredients,
       complementary,

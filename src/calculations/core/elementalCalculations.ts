@@ -126,6 +126,20 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     // Calculate base elemental properties
     const baseProperties = calculateBaseElementalProperties(planetaryPositions);
 
+    // The neutral multipliers used for the "general" context, and for any
+    // context outside the table below. Bound to its own name so the fallback
+    // is a value the compiler can see is present: reading it back off
+    // `contextElementalMultipliers` would go through that record's string
+    // index signature, i.e. `ElementalProperties | undefined`. Same object
+    // identity as `contextElementalMultipliers.general`, so the returned
+    // `multipliers` are unchanged.
+    const generalElementalMultipliers: ElementalProperties = {
+      Fire: 1.0,
+      Water: 1.0,
+      Earth: 1.0,
+      Air: 1.0,
+    };
+
     // Context-specific elemental adjustments
     const contextElementalMultipliers: Record<string, ElementalProperties> = {
       ingredient: {
@@ -158,17 +172,11 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         Earth: 1.0,
         Air: 1.0,
       },
-      general: {
-        Fire: 1.0,
-        Water: 1.0,
-        Earth: 1.0,
-        Air: 1.0,
-      },
+      general: generalElementalMultipliers,
     };
 
-    const elementalMultipliers =
-      contextElementalMultipliers[context] ??
-      contextElementalMultipliers.general;
+    const elementalMultipliers: ElementalProperties =
+      contextElementalMultipliers[context] ?? generalElementalMultipliers;
     const preferenceMultiplier =
       hasProperty(preferences, "intensity") &&
       typeof preferences.intensity === "number"

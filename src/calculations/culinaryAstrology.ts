@@ -198,6 +198,14 @@ export class CulinaryAstrologer {
         (b[1].elementalAlignment[dominant] ?? 0) -
         (a[1].elementalAlignment[dominant] ?? 0),
     );
+    if (!best) {
+      // No tradition clears the 0.3 alignment bar. This already threw (reading
+      // [0] of undefined); keep it a throw rather than inventing a "Fusion"
+      // recommendation the elemental data does not support.
+      throw new Error(
+        `getCuisineRecommendation: no culinary tradition aligns with dominant element "${dominant}"`,
+      );
+    }
     const style = best[0] || "Fusion";
     const modKey = `${dominant}_dominant`;
     const modification =

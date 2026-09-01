@@ -370,9 +370,10 @@ export function getFlavorProfileForIngredient(
     umami: 0.1,
   };
 
-  // Check for exact match
-  if (ingredientFlavorMap[ingredientName.toLowerCase()]) {
-    const fullIngredient = ingredientFlavorMap[ingredientName.toLowerCase()];
+  // Check for exact match. The lookup is bound once so the presence check and
+  // the reads below refer to the same (narrowed) record.
+  const fullIngredient = ingredientFlavorMap[ingredientName.toLowerCase()];
+  if (fullIngredient) {
     // Extract only the flavor profile properties to match IngredientFlavorProfile interface
     return {
       spicy: fullIngredient.spicy,

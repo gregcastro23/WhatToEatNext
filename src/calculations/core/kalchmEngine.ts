@@ -16,6 +16,16 @@ import type { AlchemicalProperties } from "@/types/celestial";
 export type { AlchemicalProperties };
 
 /**
+ * The four alchemical properties, as a closed key union.
+ *
+ * `AlchemicalProperties` declares a `[key: string]: number` index signature,
+ * which makes `keyof AlchemicalProperties` widen to `string | number` — so any
+ * lookup through it is an unchecked index access. Indexing through this union
+ * instead hits the declared (always-present) properties.
+ */
+type AlchemicalPropertyKey = "Spirit" | "Essence" | "Matter" | "Substance";
+
+/**
  * Elemental values derived from zodiac signs and planetary influences
  */
 export interface ElementalValues {
@@ -466,10 +476,17 @@ export function calculateKalchmResults(planetaryPositions: {
       : b,
   )[0] as keyof ElementalValues;
 
+  // `AlchemicalProperties` carries a `[key: string]: number` index signature,
+  // so `keyof AlchemicalProperties` widens to `string | number` and every
+  // lookup routes through the index signature (i.e. `number | undefined`).
+  // Compare through the declared four-key union instead: the declared
+  // properties are `number`, so the comparison is total. Purely a type change
+  // — the reduce still walks the object's own runtime keys in insertion order
+  // and still keeps the incumbent on a tie.
   const dominantProperty = Object.entries(alchemicalProperties).reduce(
     (a, b) =>
-      alchemicalProperties[a[0] as keyof AlchemicalProperties] >
-      alchemicalProperties[b[0] as keyof AlchemicalProperties]
+      alchemicalProperties[a[0] as AlchemicalPropertyKey] >
+      alchemicalProperties[b[0] as AlchemicalPropertyKey]
         ? a
         : b,
   )[0] as keyof AlchemicalProperties;

@@ -1080,9 +1080,12 @@ export class UnifiedFlavorEngine {
     const commonProfiles = profiles.slice(0, Math.min(20, profiles.length));
 
     // Pre-calculate common combinations
-    for (let i = 0; i < commonProfiles.length; i++) {
-      for (let j = i + 1; j < Math.min(i + 5, commonProfiles.length); j++) {
-        this.calculateCompatibility(commonProfiles[i], commonProfiles[j]);
+    for (const [i, profileA] of commonProfiles.entries()) {
+      for (const profileB of commonProfiles.slice(
+        i + 1,
+        Math.min(i + 5, commonProfiles.length),
+      )) {
+        this.calculateCompatibility(profileA, profileB);
       }
     }
 
