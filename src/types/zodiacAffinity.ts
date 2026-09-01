@@ -121,7 +121,8 @@ export function getZodiacCompatibility(
   const element2 = elementMap[sign2];
 
   // Get element compatibility
-  const elementCompatibility = elementCompatibilityChart[element1][element2];
+  const elementCompatibility =
+    (element1 && element2 ? elementCompatibilityChart[element1]?.[element2] : undefined) ?? 0.5;
 
   // Get modality compatibility
   const modalityCompatibility = getModalityCompatibility(sign1, sign2);

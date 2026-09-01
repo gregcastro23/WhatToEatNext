@@ -381,7 +381,7 @@ const _calculateSeasonalAlignment = (
     aquarius: "winter",
     pisces: "winter",
   };
-  const season = seasonMap[zodiacSign];
+  const season = seasonMap[zodiacSign] ?? "spring";
 
   // Seasonal elemental correspondences
   const seasonalElements: Record<string, ElementalCharacter> = {
@@ -390,7 +390,7 @@ const _calculateSeasonalAlignment = (
     autumn: "Earth",
     winter: "Water",
   };
-  const seasonalElement = seasonalElements[season];
+  const seasonalElement = seasonalElements[season] ?? "Air";
 
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element

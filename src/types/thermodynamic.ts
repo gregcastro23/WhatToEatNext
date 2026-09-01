@@ -108,8 +108,9 @@ export function combineThermodynamicProperties(
     return { ...DEFAULT_THERMODYNAMIC_PROPERTIES };
   }
 
-  if (propsArray.length === 1) {
-    return { ...propsArray[0] };
+  const [firstProp] = propsArray;
+  if (propsArray.length === 1 && firstProp) {
+    return { ...firstProp };
   }
 
   // Use equal weights if not provided
@@ -129,11 +130,14 @@ export function combineThermodynamicProperties(
 
   for (let i = 0; i < propsArray.length; i++) {
     const weight = effectiveWeights[i];
-    totalWeight += weight;
+    const item = propsArray[i];
+    if (typeof weight === "number" && item) {
+      totalWeight += weight;
 
-    result.heat += propsArray[i].heat * weight;
-    result.entropy += propsArray[i].entropy * weight;
-    result.reactivity += propsArray[i].reactivity * weight;
+      result.heat += item.heat * weight;
+      result.entropy += item.entropy * weight;
+      result.reactivity += item.reactivity * weight;
+    }
   }
 
   // Normalize by total weight

@@ -49,7 +49,7 @@ export function usePlanetaryHours() {
           "Mars",
         ];
         const currentIndex = planets.indexOf(currentHour);
-        const nextHour = planets[(currentIndex + 1) % (planets || []).length];
+        const nextHour = planets[((currentIndex + 1) % 7 + 7) % 7] ?? "Sun";
 
         setData({
           currentHour,

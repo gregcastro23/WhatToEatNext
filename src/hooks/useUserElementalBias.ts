@@ -60,10 +60,21 @@ export function useUserElementalBias(): UserElementalBias {
   const chartVector = useMemo<ElementVector | null>(() => {
     const b = chart?.elementalBalance as Record<string, number> | undefined;
     if (!b) return null;
-    if (!ELEMENT_ORDER.every((el) => typeof b[el] === "number")) return null;
-    const sum = ELEMENT_ORDER.reduce((acc, el) => acc + b[el], 0);
+    const fire = b.Fire;
+    const earth = b.Earth;
+    const air = b.Air;
+    const water = b.Water;
+    if (
+      typeof fire !== "number" ||
+      typeof earth !== "number" ||
+      typeof air !== "number" ||
+      typeof water !== "number"
+    ) {
+      return null;
+    }
+    const sum = fire + earth + air + water;
     if (!(sum > 0)) return null;
-    return { Fire: b.Fire, Earth: b.Earth, Air: b.Air, Water: b.Water };
+    return { Fire: fire, Earth: earth, Air: air, Water: water };
   }, [chart]);
 
   const chartOn = status === "authenticated" && chartVector !== null;
@@ -94,9 +105,10 @@ export function useUserElementalBias(): UserElementalBias {
   // softened composite is for display and multi-person blends only.
   const bias = useMemo<ElementVector | null>(() => {
     if (!composite) return null;
-    if (!chartOn && table.length === 1) {
+    const [firstPerson] = table;
+    if (!chartOn && table.length === 1 && firstPerson) {
       const oneHot: ElementVector = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
-      oneHot[table[0].element] = 1;
+      oneHot[firstPerson.element] = 1;
       return oneHot;
     }
     return composite.vector;

@@ -208,7 +208,7 @@ export function calculateAlchemicalDistribution(
       }
 
       // Add to the appropriate property
-      if (property in influences) {
+      if (property in influences && influences[property] !== undefined) {
         influences[property] += influence;
         totalInfluence += influence;
       }
@@ -216,10 +216,12 @@ export function calculateAlchemicalDistribution(
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
-      Object.keys(influences).forEach((property) => {
-        distribution[property as keyof AlchemicalProperties] =
-          influences[property] / totalInfluence;
-      });
+      for (const [property, val] of Object.entries(influences)) {
+        if (typeof val === "number") {
+          distribution[property as keyof AlchemicalProperties] =
+            val / totalInfluence;
+        }
+      }
     }
 
     return distribution;

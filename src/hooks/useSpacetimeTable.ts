@@ -80,7 +80,7 @@ function pickColorForIdentity(identityHex: string): string {
     hash |= 0;
   }
   const idx = Math.abs(hash) % DEFAULT_CURSOR_COLORS.length;
-  return DEFAULT_CURSOR_COLORS[idx];
+  return DEFAULT_CURSOR_COLORS[idx] ?? "#4a7c59";
 }
 
 export function useSpacetimeTable(
@@ -229,18 +229,20 @@ export function useSpacetimeTable(
       }
 
       const entry = map[v.recipeRef];
-      entry.totalScore += v.voteScore;
-      if (v.voteScore > 0) entry.upvotes += 1;
-      if (v.voteScore < 0) entry.downvotes += 1;
+      if (entry) {
+        entry.totalScore += v.voteScore;
+        if (v.voteScore > 0) entry.upvotes += 1;
+        if (v.voteScore < 0) entry.downvotes += 1;
 
-      entry.voters.push({
-        name: v.voterName || "Guest",
-        score: v.voteScore,
-        memberHex: voterHex,
-      });
+        entry.voters.push({
+          name: v.voterName || "Guest",
+          score: v.voteScore,
+          memberHex: voterHex,
+        });
 
-      if (isViewer) {
-        entry.viewerVote = v.voteScore;
+        if (isViewer) {
+          entry.viewerVote = v.voteScore;
+        }
       }
     });
 
@@ -259,14 +261,16 @@ export function useSpacetimeTable(
       const slot = c.currentSlotRef;
       if (!slot) return;
 
-      if (!Object.prototype.hasOwnProperty.call(map, slot)) {
-        map[slot] = {
+      let slotSummary = map[slot];
+      if (!slotSummary) {
+        slotSummary = {
           slotRef: slot,
           activeGuests: [],
         };
+        map[slot] = slotSummary;
       }
 
-      map[slot].activeGuests.push({
+      slotSummary.activeGuests.push({
         memberHex,
         displayName: c.displayName || "Guest",
         colorHex: c.colorHex || pickColorForIdentity(memberHex),
