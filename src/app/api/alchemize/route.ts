@@ -64,8 +64,17 @@ export async function GET(request: Request) {
     const raw = getAccuratePlanetaryPositions(date);
 
     const positionData: Record<string, PlanetaryPositionData> = {};
-    const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const modalityCounts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
+    const elementCounts: Record<"Fire" | "Water" | "Earth" | "Air", number> = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
+    const modalityCounts: Record<"Cardinal" | "Fixed" | "Mutable", number> = {
+      Cardinal: 0,
+      Fixed: 0,
+      Mutable: 0,
+    };
 
     for (const [planet, pos] of Object.entries(raw)) {
       if (planet === "NorthNode" || planet === "SouthNode") {
@@ -81,9 +90,13 @@ export async function GET(request: Request) {
       };
 
       const el = SIGN_TO_ELEMENT[sign];
-      if (el) elementCounts[el]++;
+      if (el === "Fire" || el === "Water" || el === "Earth" || el === "Air") {
+        elementCounts[el]++;
+      }
       const mod = SIGN_TO_MODALITY[sign];
-      if (mod) modalityCounts[mod]++;
+      if (mod === "Cardinal" || mod === "Fixed" || mod === "Mutable") {
+        modalityCounts[mod]++;
+      }
     }
 
     // Determine sect (day vs night)
@@ -107,8 +120,10 @@ export async function GET(request: Request) {
     const elTotal = Object.values(elementCounts).reduce((a, b) => a + b, 0) || 1;
     const modalityTotal = Object.values(modalityCounts).reduce((a, b) => a + b, 0) || 1;
 
-    const [[dominantElement]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
-    const [[dominantModality]] = Object.entries(modalityCounts).sort(([, a], [, b]) => b - a);
+    const [dominantElementEntry] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
+    const dominantElement = dominantElementEntry?.[0] ?? "Fire";
+    const [dominantModalityEntry] = Object.entries(modalityCounts).sort(([, a], [, b]) => b - a);
+    const dominantModality = dominantModalityEntry?.[0] ?? "Cardinal";
 
     // Material vocabulary: the ESMS axes as proportions (Spirit is surfaced as
     // part of the alchemical block above, not needed here).

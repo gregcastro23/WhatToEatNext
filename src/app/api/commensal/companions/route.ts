@@ -17,6 +17,12 @@ import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import { safeJsonParse } from "@/utils/typeGuards";
 
+/** The local part of an email — everything before the first "@". */
+function localPart(email: string): string {
+  const at = email.indexOf("@");
+  return at === -1 ? email : email.slice(0, at);
+}
+
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
@@ -119,7 +125,7 @@ function hydrateAgentRow(row: LocalAgentRow): CompanionView | null {
   return {
     userId: row.user_id,
     email,
-    name: row.name ?? email.split("@")[0],
+    name: row.name ?? localPart(email),
     bio:
       row.bio ??
       (typeof profile.bio === "string" ? profile.bio : undefined) ??
@@ -230,7 +236,7 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
       const actAgentId = String(act.agent?.id ?? "").toLowerCase();
       // Match by email slug (prefix before @)
       const matchedLocal = hydratedAgents.find(
-        (agent) => agent.email.split("@")[0].toLowerCase() === actAgentId,
+        (agent) => localPart(agent.email).toLowerCase() === actAgentId,
       );
 
       if (!matchedLocal) return null;
@@ -290,7 +296,7 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
         ...linked.map((companion) => ({
           userId: companion.userId,
           email: companion.email,
-          name: companion.name || companion.email.split("@")[0],
+          name: companion.name || localPart(companion.email),
           bio: "Linked dining companion",
           dominantElement: companion.natalChart.dominantElement,
           monicaConstant: null,

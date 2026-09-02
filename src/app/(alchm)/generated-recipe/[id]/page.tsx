@@ -81,10 +81,10 @@ function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRo
   // of the app (this is a single-glyph affordance, so it stays single-element).
   const dominantElement = elementalProperties
     ? elementalSignature({
-        Fire: elementalProperties.Fire,
-        Water: elementalProperties.Water,
-        Earth: elementalProperties.Earth,
-        Air: elementalProperties.Air,
+        Fire: elementalProperties.Fire ?? 0,
+        Water: elementalProperties.Water ?? 0,
+        Earth: elementalProperties.Earth ?? 0,
+        Air: elementalProperties.Air ?? 0,
       }).dominant
     : undefined;
 

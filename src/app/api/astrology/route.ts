@@ -46,7 +46,8 @@ export async function GET(request: NextRequest) {
         isRetrograde: pos.isRetrograde,
       };
       const el = SIGN_TO_ELEMENT[sign];
-      if (el) elementCounts[el]++;
+      const elCount = el ? elementCounts[el] : undefined;
+      if (el && elCount !== undefined) elementCounts[el] = elCount + 1;
     });
 
     const currentSign = positions["Sun"]?.sign ?? "aries";
@@ -55,7 +56,7 @@ export async function GET(request: NextRequest) {
 
     const dominant = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire";
     const total = Object.values(elementCounts).reduce((s, v) => s + v, 0) || 1;
-    const aspectsInfluence = elementCounts[dominant] / total;
+    const aspectsInfluence = (elementCounts[dominant] ?? 0) / total;
 
     return NextResponse.json({
       success: true,

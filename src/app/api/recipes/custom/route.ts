@@ -31,7 +31,10 @@ export async function GET(request: Request) {
     }
 
     const [row] = result.rows;
-    
+    if (!row) {
+      return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
+    }
+
     const recipe = {
       id: row.id,
       name: row.name,

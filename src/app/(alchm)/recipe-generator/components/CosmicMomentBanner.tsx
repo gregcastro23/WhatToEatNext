@@ -53,10 +53,10 @@ export const CosmicMomentBanner: React.FC<CosmicMomentProps> = ({
   planetaryHour,
 }) => {
   const sig = elementalSignature({
-    Fire: domElements.Fire,
-    Water: domElements.Water,
-    Earth: domElements.Earth,
-    Air: domElements.Air,
+    Fire: domElements.Fire ?? 0,
+    Water: domElements.Water ?? 0,
+    Earth: domElements.Earth ?? 0,
+    Air: domElements.Air ?? 0,
   });
 
   return (

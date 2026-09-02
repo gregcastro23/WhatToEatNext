@@ -496,8 +496,9 @@ function _calculateRecipeEnergyMatch(
     .sort(([, a], [, b]) => b - a);
 
   // Use dominant elements for enhanced scoring if available
-  if (recipeDominantElements.length > 0) {
-    const [[_primaryElement, primaryValue]] = recipeDominantElements;
+  const [primaryDominant] = recipeDominantElements;
+  if (primaryDominant) {
+    const [, primaryValue] = primaryDominant;
     if (primaryValue > 0.4) {
       // Boost score for recipes with strong dominant element
       score += 0.1;

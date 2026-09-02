@@ -473,9 +473,10 @@ export class EnhancedTransitAnalysisService {
     });
 
     // Determine dominant element
-    const [[dominantElement]] = Object.entries(season.dominantElements).sort(
+    const [dominantEntry] = Object.entries(season.dominantElements).sort(
       ([, a], [, b]) => b - a,
     );
+    const dominantElement = dominantEntry?.[0] ?? "Fire";
 
     // Get seasonal theme
     const seasonalTheme =

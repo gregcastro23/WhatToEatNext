@@ -87,14 +87,20 @@ export async function POST(req: Request) {
       ),
     ]);
 
-    const commensalMembers: GroupMember[] = guests.map((guest, i) => ({
-      id: guest.id ?? `commensal_${i}`,
-      name: guest.name,
-      relationship: "friend",
-      birthData: guest.birthData,
-      natalChart: natalCharts[i],
-      createdAt: new Date().toISOString(),
-    }));
+    const commensalMembers: GroupMember[] = guests.flatMap((guest, i) => {
+      const natalChart = natalCharts[i];
+      if (!natalChart) return [];
+      return [
+        {
+          id: guest.id ?? `commensal_${i}`,
+          name: guest.name,
+          relationship: "friend" as const,
+          birthData: guest.birthData,
+          natalChart,
+          createdAt: new Date().toISOString(),
+        },
+      ];
+    });
 
     const groupMembers: GroupMember[] = selfMember
       ? [selfMember, ...commensalMembers]

@@ -767,9 +767,9 @@ export class DegreeAgentMatcher {
       }
     })
 
-    const [[dominantElement]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)
+    const [dominantEntry] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)
 
-    return `${dominantElement} Dominant`
+    return `${dominantEntry?.[0] ?? 'Fire'} Dominant`
   }
 
   /**

@@ -25,7 +25,10 @@ function sampleChart(dominantElement: string): Partial<NatalChart> {
     Earth: { sun: "taurus", moon: "capricorn", asc: "virgo", balance: { Fire: 0.15, Water: 0.2, Earth: 0.5, Air: 0.15 } },
     Air: { sun: "gemini", moon: "aquarius", asc: "libra", balance: { Fire: 0.2, Water: 0.15, Earth: 0.15, Air: 0.5 } },
   };
-  const s = byElement[dominantElement] || byElement.Fire;
+  const s = byElement[dominantElement] ?? byElement.Fire;
+  if (!s) {
+    throw new Error("send-test-email: byElement is missing its Fire entry");
+  }
   return {
     dominantElement: dominantElement as NatalChart["dominantElement"],
     dominantModality: "Cardinal",

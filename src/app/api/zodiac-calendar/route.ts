@@ -32,6 +32,13 @@ const SUN_INGRESS_2026: Array<{ sign: string; date: string }> = [
 
 function handleCurrentPeriod(now: Date, raw: ReturnType<typeof getAccuratePlanetaryPositions>): NextResponse {
   const sunPos = raw.Sun;
+  const moonPos = raw.Moon;
+  if (!sunPos || !moonPos) {
+    return NextResponse.json(
+      { success: false, error: "position engine omitted Sun or Moon" },
+      { status: 503 },
+    );
+  }
   const sunSign = sunPos.sign.toLowerCase();
   const sunDegree = Math.round(sunPos.degree * 100) / 100;
   const sunLongitude = sunPos.exactLongitude;
@@ -52,9 +59,9 @@ function handleCurrentPeriod(now: Date, raw: ReturnType<typeof getAccuratePlanet
       next_ingress_date: nextIngress?.date,
     },
     moon: {
-      sign: raw.Moon.sign,
-      degree: Math.round(raw.Moon.degree * 100) / 100,
-      isRetrograde: raw.Moon.isRetrograde,
+      sign: moonPos.sign,
+      degree: Math.round(moonPos.degree * 100) / 100,
+      isRetrograde: moonPos.isRetrograde,
     },
     timestamp: now.toISOString(),
   });
@@ -66,6 +73,12 @@ function handleDegreeForDate(url: URL): NextResponse {
   const targetDate = new Date(dateParam);
   const targetRaw = getAccuratePlanetaryPositions(targetDate);
   const tSun = targetRaw.Sun;
+  if (!tSun) {
+    return NextResponse.json(
+      { success: false, error: "position engine omitted Sun" },
+      { status: 503 },
+    );
+  }
   const { sign, degree } = getSignFromLongitude(tSun.exactLongitude);
   return NextResponse.json({
     success: true,
@@ -82,8 +95,11 @@ function handleMonthlyCalendar(url: URL, now: Date): NextResponse {
     const d = new Date(year, month, i + 1, 12, 0, 0);
     const dRaw = getAccuratePlanetaryPositions(d);
     const dSun = dRaw.Sun;
-    const s = dSun.sign;
-    return { date: d.toISOString().split("T")[0], sun_sign: s, sun_degree: Math.round(dSun.degree * 10) / 10 };
+    return {
+      date: d.toISOString().slice(0, 10),
+      sun_sign: dSun?.sign ?? null,
+      sun_degree: dSun ? Math.round(dSun.degree * 10) / 10 : null,
+    };
   });
   return NextResponse.json({ success: true, year, month, days });
 }

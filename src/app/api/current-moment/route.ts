@@ -31,10 +31,12 @@ export async function GET(request: Request) {
       const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
       positions[planet] = { sign, degree: Math.round(pos.degree * 100) / 100, exactLongitude: pos.exactLongitude, isRetrograde: pos.isRetrograde };
       const el = SIGN_TO_ELEMENT[sign];
-      if (el) elementCounts[el]++;
+      const elCount = el ? elementCounts[el] : undefined;
+      if (el && elCount !== undefined) elementCounts[el] = elCount + 1;
     });
 
-    const [[dominant]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
+    const [dominantEntry] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
+    const dominant = dominantEntry?.[0] ?? "Fire";
 
     const hour = now.getHours();
     let timeOfDay: string;

@@ -127,12 +127,14 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
   // placed at their actual timestamps; alerts outside the window are dropped.
   const { points } = requestSeries;
   const windowMs = (requestSeries.windowHours || 24) * 3_600_000;
-  const windowEnd =
-    points.length > 0
-      ? new Date(points[points.length - 1].hour).getTime() + 3_600_000
-      : Date.now();
-  const windowStart =
-    points.length > 0 ? new Date(points[0].hour).getTime() : windowEnd - windowMs;
+  const [firstPoint] = points;
+  const lastPoint = points[points.length - 1];
+  const windowEnd = lastPoint
+    ? new Date(lastPoint.hour).getTime() + 3_600_000
+    : Date.now();
+  const windowStart = firstPoint
+    ? new Date(firstPoint.hour).getTime()
+    : windowEnd - windowMs;
   const events: HeroEvent[] = requestSeries.live
     ? recentAlerts.entries.slice(0, 5).flatMap((a) => {
         const t = new Date(a.triggeredAt).getTime();
@@ -321,8 +323,8 @@ function Heartbeat({
   const reqPath = toPath((p) => p.requests);
   const reqFill = `${reqPath} L${(W - P).toFixed(1)} ${(H - P).toFixed(1)} L${P} ${(H - P).toFixed(1)} Z`;
   const errPath = toPath((p) => p.errors);
-  const lastY =
-    points.length > 0 ? yOf(points[points.length - 1].requests) : yOf(0);
+  const lastSeriesPoint = points[points.length - 1];
+  const lastY = lastSeriesPoint ? yOf(lastSeriesPoint.requests) : yOf(0);
 
   const tickLabel = (frac: number): string => {
     if (frac === 1) return "now";
@@ -594,7 +596,7 @@ function SystemStandingChart({
         <circle
           cx={c}
           cy={c}
-          r={radii[3] + 6}
+          r={(radii[3] ?? 0) + 6}
           fill="none"
           stroke="color-mix(in oklch, var(--el-earth), transparent 75%)"
           strokeWidth="14"
@@ -620,7 +622,7 @@ function SystemStandingChart({
           </text>
         ) : (
           services.map((s, i) => {
-            const r = radii[Math.min(s.orbit, radii.length - 1)] || radii[0];
+            const r = radii[Math.min(s.orbit, radii.length - 1)] ?? radii[0] ?? 0;
             const a = (i / services.length) * 2 * Math.PI - Math.PI / 2;
             const x = c + Math.cos(a) * r;
             const y = c + Math.sin(a) * r;

@@ -20,7 +20,9 @@ interface SyncFailure {
 }
 
 function deriveAgentId(user: UserWithProfile): string {
-  return user.email.split("@")[0].toLowerCase().trim();
+  const at = user.email.indexOf("@");
+  const local = at === -1 ? user.email : user.email.slice(0, at);
+  return local.toLowerCase().trim();
 }
 
 function deriveDisplayName(user: UserWithProfile): string {

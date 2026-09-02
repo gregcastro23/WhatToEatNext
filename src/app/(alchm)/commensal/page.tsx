@@ -466,7 +466,7 @@ export default function CommensalPage() {
 
             {recipes.length > 0 && phase !== "composing" && (
               <div className="space-y-4">
-                <RecommendedRecipeCard scored={recipes[0]} />
+                {recipes[0] && <RecommendedRecipeCard scored={recipes[0]} />}
                 {recipes.length > 1 && (
                   <details className="glass-card-premium rounded-2xl p-5 border border-white/10">
                     <summary className="cursor-pointer text-sm font-semibold text-white/90">

@@ -30,7 +30,9 @@ export async function GET(request: NextRequest) {
       if (userRow.rows.length === 0) {
         return NextResponse.json({ error: "user_not_found" }, { status: 404 });
       }
-      const b = await tokenEconomy.getBalances(userRow.rows[0].id);
+      const [balanceUser] = userRow.rows;
+      if (!balanceUser) throw new Error("economy/balance: user row missing");
+      const b = await tokenEconomy.getBalances(balanceUser.id);
       return NextResponse.json({
         balances: {
           spirit: b.spirit,

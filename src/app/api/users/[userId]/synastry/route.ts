@@ -79,14 +79,14 @@ export async function POST(
       [userId],
     );
 
-    if (profileResult.rows.length === 0) {
+    const [row] = profileResult.rows;
+    if (!row) {
       return NextResponse.json(
         { success: false, message: "Agent profile not found" },
         { status: 404 },
       );
     }
 
-    const [row] = profileResult.rows;
     const rawNatal = parseJsonField<NatalChartPayload | null>(row.natal_chart, null);
 
     if (!rawNatal?.planets) {

@@ -84,7 +84,7 @@ export function ResistanceChain({
             <div
               key={link.id}
               className={`ma-chain__block${isControlling ? " is-controlling" : ""}`}
-              style={{ width: `${(floored[i] / totalFloored) * 100}%` }}
+              style={{ width: `${((floored[i] ?? 0) / totalFloored) * 100}%` }}
               title={`${link.label}: ${sharePct}% of total heat delay`}
             >
               <span className="ma-chain__pct">{sharePct}%</span>

@@ -127,16 +127,23 @@ const TAB_NAV = [
 
 type TabId = (typeof TAB_NAV)[number]["id"];
 
-const TOKEN_VISUAL: Record<
-  string,
-  { symbol: string; color: string; bg: string; border: string }
-> = {
-  Spirit: {
-    symbol: "🝇",
-    color: "text-amber-400",
-    bg: "bg-amber-500/10",
-    border: "border-amber-400/25",
-  },
+interface TokenVisual {
+  symbol: string;
+  color: string;
+  bg: string;
+  border: string;
+}
+
+/** Named so the `?? TOKEN_VISUAL.Spirit` fallbacks resolve to a value. */
+const SPIRIT_VISUAL: TokenVisual = {
+  symbol: "🝇",
+  color: "text-amber-400",
+  bg: "bg-amber-500/10",
+  border: "border-amber-400/25",
+};
+
+const TOKEN_VISUAL: Record<string, TokenVisual> = {
+  Spirit: SPIRIT_VISUAL,
   Essence: {
     symbol: "🝑",
     color: "text-blue-400",
@@ -1102,7 +1109,7 @@ function TransactionsTab({
           </thead>
           <tbody>
             {transactions.map((txn) => {
-              const visual = TOKEN_VISUAL[txn.tokenType] ?? TOKEN_VISUAL.Spirit;
+              const visual = TOKEN_VISUAL[txn.tokenType] ?? SPIRIT_VISUAL;
               const isCredit = txn.amount >= 0;
               return (
                 <tr
@@ -1345,8 +1352,8 @@ function SwapTab({
         </h2>
         <div className="space-y-2">
           {context.rates.map((rate) => {
-            const fromVisual = TOKEN_VISUAL[rate.fromToken];
-            const toVisual = TOKEN_VISUAL[rate.toToken];
+            const fromVisual = TOKEN_VISUAL[rate.fromToken] ?? SPIRIT_VISUAL;
+            const toVisual = TOKEN_VISUAL[rate.toToken] ?? SPIRIT_VISUAL;
             const favored = rate.modifier < 1;
             return (
               <button
@@ -1406,7 +1413,7 @@ function TokenSelect({
       </span>
       <div className="mt-2 grid grid-cols-2 gap-2">
         {TOKEN_TYPES.map((t) => {
-          const visual = TOKEN_VISUAL[t];
+          const visual = TOKEN_VISUAL[t] ?? SPIRIT_VISUAL;
           const isDisabled = t === disabled;
           const isActive = t === value;
           return (

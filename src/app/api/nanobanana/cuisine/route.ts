@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     }
 
     const metadata = CUISINES_METADATA[cuisineKey];
-    const cuisineName = metadata.name ?? cuisineKey;
+    const cuisineName = metadata?.name ?? cuisineKey;
 
     // Load full cuisine data dynamically (contains dishes list)
     const cuisineData = await getCuisineData(cuisineKey);

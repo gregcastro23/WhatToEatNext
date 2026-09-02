@@ -1207,10 +1207,10 @@ export function getSaucesByElement(
 ): Sauce[] {
   return Object.values(allSauces).filter((sauce) => {
     // Find the dominant element
-    const [[dominantElement]] = Object.entries(sauce.elementalProperties).sort(
+    const [dominantEntry] = Object.entries(sauce.elementalProperties).sort(
       ([, a], [, b]) => b - a,
     );
-    return dominantElement === element;
+    return dominantEntry?.[0] === element;
   });
 }
 

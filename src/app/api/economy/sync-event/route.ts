@@ -98,14 +98,15 @@ export async function POST(req: NextRequest) {
       [userEmail.toLowerCase()]
     );
 
-    if (userResult.rows.length === 0) {
+    const [eventUser] = userResult.rows;
+    if (!eventUser) {
       return NextResponse.json(
         { ok: false, reason: "user_not_found" },
         { status: 404 }
       );
     }
 
-    const [{ id: userId, is_agent: isAgent }] = userResult.rows;
+    const { id: userId, is_agent: isAgent } = eventUser;
 
     // 3. Report Event to QuestService
     const completed = await questService.reportEvent(userId, event, metadata);

@@ -74,9 +74,10 @@ export const _recipeCalculations = {
     userElements: ElementalProperties,
   ): number {
     // Find the dominant element in the recipe
-    const [[dominantElement]] = Object.entries(recipe._elementalProperties).sort(
+    const [dominantEntry] = Object.entries(recipe._elementalProperties).sort(
       ([, a], [, b]) => b - a,
     );
+    const dominantElement = dominantEntry?.[0] ?? "Fire";
 
     // Calculate boost from the user's affinity with that element
     // No affinity recorded for that element means no boost — the additive

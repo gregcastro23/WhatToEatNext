@@ -46,18 +46,18 @@ function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element
   const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   Object.values(positions).forEach((sign) => {
     const el = SIGN_TO_ELEMENT[sign];
-    counts[el]++;
+    if (el !== undefined) counts[el]++;
   });
-  return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Element;
+  return (Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire") as Element;
 }
 
 function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
   const counts: Record<Modality, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
   Object.values(positions).forEach((sign) => {
     const m = SIGN_TO_MODALITY[sign];
-    counts[m]++;
+    if (m !== undefined) counts[m]++;
   });
-  return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality;
+  return (Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Cardinal") as Modality;
 }
 
 /**
@@ -100,7 +100,7 @@ async function ensureSubArcminutePrecision(chart: StoredChart): Promise<StoredCh
       existingPlanets.length > 0
         ? existingPlanets.map((planet) => {
             const raw = rawPositions[planet.name];
-            if (typeof raw.exactLongitude !== "number") return planet;
+            if (typeof raw?.exactLongitude !== "number") return planet;
             return {
               ...planet,
               position: raw.exactLongitude,

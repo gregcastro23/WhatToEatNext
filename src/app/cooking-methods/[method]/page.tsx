@@ -104,6 +104,7 @@ export async function generateMetadata({
   const key = resolveMethodKey(slug);
   if (!key) return { title: "Cooking method not found" };
   const method = METHODS[key];
+  if (!method) return { title: "Cooking method not found" };
   const profile = getAlchemicalProfile(key);
   const name = displayName(key, method);
   const description = (profile?.tagline ?? method.description ?? "").slice(0, 158);
@@ -163,8 +164,9 @@ export default async function CookingMethodPage({
 }) {
   const { method: slug } = await params;
   const key = resolveMethodKey(slug);
+  const resolvedMethod = key === null ? undefined : METHODS[key];
 
-  if (!key) {
+  if (!key || !resolvedMethod) {
     return (
       <div className="mx-auto flex min-h-[60vh] w-full max-w-3xl flex-col items-center justify-center px-4 py-20 text-center">
         <p className="ma-label mb-4 text-ma-error">SIGNAL_LOST // UNKNOWN_PROCEDURE</p>
@@ -182,7 +184,7 @@ export default async function CookingMethodPage({
     );
   }
 
-  const method = METHODS[key];
+  const method = resolvedMethod;
   const profile = getAlchemicalProfile(key);
   const display = profile ?? fallbackProfile(method);
   const name = displayName(key, method);

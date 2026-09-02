@@ -236,8 +236,8 @@ function MenuPlannerContent(): React.ReactElement {
       const data = (await res.json()) as FeedShareResponse;
       if (data.success) {
         let questMessage = "";
-        if (data.completedQuests && data.completedQuests.length > 0) {
-          const [rewardQuest] = data.completedQuests;
+        const [rewardQuest] = data.completedQuests ?? [];
+        if (rewardQuest) {
           questMessage = ` ✨ +${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType} — the Work notices.`;
         }
         // Dual-write to the live feed so connected clients see the share

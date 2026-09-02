@@ -36,7 +36,7 @@ function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined 
   const raw = kind === "prep" ? recipe.prepTime : recipe.cookTime;
   if (typeof raw === "string") {
     const m = raw.match(/(\d+)/);
-    if (m) return parseInt(m[1], 10);
+    if (m) return parseInt(m[1] ?? "", 10);
   }
   return undefined;
 }

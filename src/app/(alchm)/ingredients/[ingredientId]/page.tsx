@@ -94,8 +94,8 @@ function buildYieldCurve(seasonality: string[] | string | undefined): number[] {
     if (v > 0) {
       const prev = (i + 11) % 12;
       const next = (i + 1) % 12;
-      smoothed[prev] = Math.max(smoothed[prev], 0.45);
-      smoothed[next] = Math.max(smoothed[next], 0.45);
+      smoothed[prev] = Math.max(smoothed[prev] ?? 0, 0.45);
+      smoothed[next] = Math.max(smoothed[next] ?? 0, 0.45);
     }
   });
   return smoothed;
@@ -121,7 +121,8 @@ function dominantElement(
     ["air", props?.Air ?? 0],
   ];
   entries.sort((a, b) => b[1] - a[1]);
-  return { key: entries[0][0], value: entries[0][1] };
+  const [top] = entries;
+  return top ? { key: top[0], value: top[1] } : { key: "fire", value: 0 };
 }
 
 const PLANET_ELEMENT: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {

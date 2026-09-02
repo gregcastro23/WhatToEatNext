@@ -402,7 +402,7 @@ export function LiveTimecode({ format = "JD" }: { format?: "JD" | "UTC" }) {
     const jd = t.getTime() / 86400000 + 2440587.5;
     return <span className="t-mono">JD {jd.toFixed(5)}</span>;
   }
-  return <span className="t-mono">{t.toISOString().split("T")[1].slice(0, 8)} UTC</span>;
+  return <span className="t-mono">{t.toISOString().slice(11, 19)} UTC</span>;
 }
 
 // ============================================================

@@ -371,11 +371,11 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
     };
     for (const [planet, pos] of Object.entries(planetaryPositions)) {
       const planetEl = PLANET_ELEMENT[planet];
-      weights[planetEl] += 0.4;
+      if (planetEl !== undefined) weights[planetEl] += 0.4;
       const sign = (pos as { sign?: string } | undefined)?.sign;
       if (sign) {
         const signEl = SIGN_ELEMENT[String(sign).toLowerCase()];
-        weights[signEl] += 0.6;
+        if (signEl !== undefined) weights[signEl] += 0.6;
       }
     }
     const sum = Object.values(weights).reduce((a, b) => a + b, 0);
@@ -386,9 +386,13 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
     return weights;
   }, [planetaryPositions]);
 
-  const dominantTransitElement = useMemo<ElementKey>(() => (Object.entries(resonance) as Array<[ElementKey, number]>).sort(
-      (a, b) => b[1] - a[1],
-    )[0][0], [resonance]);
+  const dominantTransitElement = useMemo<ElementKey>(
+    () =>
+      (Object.entries(resonance) as Array<[ElementKey, number]>).sort(
+        (a, b) => b[1] - a[1],
+      )[0]?.[0] ?? "Fire",
+    [resonance],
+  );
 
   const derived = useMemo<DerivedIngredient[]>(() => ingredients.map((ing) => {
       const lookupKey = normalizeAmazonIngredientKey(ing.name || "");
@@ -419,6 +423,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
 
   const filteredCandidates = useMemo(() => {
     const cat = CATEGORY_CHOICES.find((c) => c.id === category) ?? CATEGORY_CHOICES[0];
+    if (!cat) return [];
     return derived
       .filter(({ ingredient, dominant, amazon, seasons: s }) => {
         if (!cat.match(ingredient)) return false;

@@ -69,8 +69,8 @@ function parseIngredientString(ingredient: string): InstacartLineItem {
   // e.g., "1.5 lbs chicken breast", "2 apples", "1/2 cup sugar"
   const match = ingredient.trim().match(/^([\d./]+)\s+([A-Za-z]+)\s+(.+)$/);
 
-  if (match) {
-    const [, qtyRaw, rawUnit, name] = match;
+  const [, qtyRaw, rawUnit, name] = match ?? [];
+  if (qtyRaw !== undefined && rawUnit !== undefined && name !== undefined) {
     const lowerUnit = rawUnit.toLowerCase();
     const mappedUnit = UNIT_MAP[lowerUnit] || lowerUnit;
 

@@ -516,9 +516,10 @@ export function RecipeQualityInspector({
 export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
   const maxSink = Math.max(1, ...data.sinks24h.map((s) => s.amount));
   const maxFlow = Math.max(1, data.minted30d, data.burned30d);
+  const [topHolder] = data.topHolders;
   const topHolderShare =
-    data.inCirculation > 0 && data.topHolders.length > 0
-      ? (data.topHolders[0].balance / data.inCirculation) * 100
+    data.inCirculation > 0 && topHolder
+      ? (topHolder.balance / data.inCirculation) * 100
       : null;
   const sinks = data.sinks24h.map((s) => ({
     k: s.source.replace(/_/g, " "),

@@ -36,6 +36,7 @@ const ElementalBars: React.FC<{ elementalProperties: Record<string, number> }> =
         const val = elementalProperties[el] ?? 0;
         const pct = Math.round(val * 100);
         const colors = ELEMENT_COLORS[el];
+        if (!colors) return null;
         return (
           <div key={el} className="flex items-center gap-2">
             <span className="text-xs w-4">{ELEMENT_ICONS[el]}</span>
@@ -60,6 +61,7 @@ const ESMSBadges: React.FC<{ alchProps: Record<string, number | string> }> = ({ 
       {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
         const val = alchProps[prop] ?? 0;
         const colors = ESMS_COLORS[prop];
+        if (!colors) return null;
         return (
           <div key={prop} className={`${colors.bg} ${colors.text} rounded-lg px-2 py-1.5 text-center`}>
             <div className="text-lg font-black leading-none">{typeof val === "number" ? val.toFixed(1) : val}</div>
