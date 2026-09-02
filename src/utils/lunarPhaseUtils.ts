@@ -152,8 +152,8 @@ export function generateDefaultLunarPhaseModifiers(
   const sorted = (
     Object.entries(elementalProps) as Array<[keyof ElementalProperties, number]>
   ).sort((a, b) => b[1] - a[1]);
-  const dominantElement = sorted[0]?.[0] || "Fire";
-  const secondaryElement = sorted[1]?.[0] || "Air";
+  const dominantElement = sorted[0]?.[0] ?? "Fire";
+  const secondaryElement = sorted[1]?.[0] ?? "Air";
 
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
     newMoon: {
@@ -451,11 +451,11 @@ export function getKineticsEnhancedLunarModifiers(
     const enhanced: Record<string, number> = { ...baseModifiers };
 
     if (kinetics.thermalDirection === "heating") {
-      enhanced.Fire = (enhanced.Fire || 0) + 0.1;
-      enhanced.Air = (enhanced.Air || 0) + 0.05;
+      enhanced.Fire = (enhanced.Fire ?? 0) + 0.1;
+      enhanced.Air = (enhanced.Air ?? 0) + 0.05;
     } else if (kinetics.thermalDirection === "cooling") {
-      enhanced.Water = (enhanced.Water || 0) + 0.1;
-      enhanced.Earth = (enhanced.Earth || 0) + 0.05;
+      enhanced.Water = (enhanced.Water ?? 0) + 0.1;
+      enhanced.Earth = (enhanced.Earth ?? 0) + 0.05;
     }
 
     const dominant = getDominantElementFromModifiers(enhanced);
@@ -470,7 +470,7 @@ export function getKineticsEnhancedLunarModifiers(
           : 0.05;
     if (dominant)
       enhanced[dominant] =
-        (enhanced[dominant] || 0) +
+        (enhanced[dominant] ?? 0) +
         aspectBoost * ((kinetics.forceMagnitude || 0) / 5);
 
     return enhanced;
