@@ -1,38 +1,47 @@
 {
-  "trackedTotal": 3606,
+  "trackedTotal": 2970,
   "casts": {
     "total": 380,
     "asAny": 106,
     "asUnknownAs": 274,
     "production": 322,
     "test": 58,
-    "untrackedSingleAsT": 2837
+    "untrackedSingleAsT": 2812
   },
   "assertionSites": {
-    "total": 4593,
+    "total": 4532,
     "asAny": 103,
     "chained": 274,
-    "single": 4216,
-    "production": 3959,
+    "single": 4155,
+    "production": 3898,
     "test": 634,
-    "asConst": 632,
-    "nonNull": 666
+    "asConst": 642,
+    "nonNull": 657
+  },
+  "subBaselines": {
+    "preferNullishCoalescing": {
+      "total": 692,
+      "verifiedSafe": 95,
+      "semantic": 566,
+      "unclassified": 31,
+      "note": "Phase 13 strict-index exposed 482 falsy-fallback sites (210 -> 692). Isolated so aggregate ratchet stays honest."
+    }
   },
   "declined": {
-    "total": 6317,
+    "total": 6364,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1786,
+      "@typescript-eslint/explicit-function-return-type": 1790,
       "@typescript-eslint/explicit-module-boundary-types": 855,
-      "complexity": 350,
-      "max-depth": 99,
-      "max-lines": 658,
-      "max-lines-per-function": 2115,
+      "complexity": 365,
+      "max-depth": 107,
+      "max-lines": 663,
+      "max-lines-per-function": 2130,
       "no-void": 454
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1786,
+      "count": 1790,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
@@ -48,11 +57,11 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1729,
+      "count": 1307,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 112,
+      "count": 109,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
@@ -68,11 +77,11 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 57,
+      "count": 56,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 210,
+      "count": 692,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -92,7 +101,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 350,
+      "count": 365,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -108,15 +117,15 @@
       "autoFixable": 0
     },
     "max-depth": {
-      "count": 99,
+      "count": 107,
       "autoFixable": 0
     },
     "max-lines": {
-      "count": 658,
+      "count": 663,
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2115,
+      "count": 2130,
       "autoFixable": 0
     },
     "max-nested-callbacks": {

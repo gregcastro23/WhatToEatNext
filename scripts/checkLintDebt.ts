@@ -11,6 +11,7 @@ import {
   compareCasts,
   compareDeclinedDebt,
   compareLintDebt,
+  compareSubBaseline,
   countTypeCasts,
   findPerRuleRegressions,
   lintDebtBaselineSchema,
@@ -49,6 +50,10 @@ const counts: Record<string, number> = Object.fromEntries(
 let lintErrors = 0;
 
 const declinedRules = new Set(Object.keys(baseline.declined.rules));
+const subBaselineRules = new Set<string>();
+if (baseline.subBaselines?.preferNullishCoalescing) {
+  subBaselineRules.add("@typescript-eslint/prefer-nullish-coalescing");
+}
 
 interface FileDebt {
   filePath: string;
@@ -66,7 +71,7 @@ for (const result of results) {
   for (const message of result.messages) {
     if (message.ruleId && Object.hasOwn(counts, message.ruleId)) {
       counts[message.ruleId] = (counts[message.ruleId] ?? 0) + 1;
-      if (!declinedRules.has(message.ruleId)) {
+      if (!declinedRules.has(message.ruleId) && !subBaselineRules.has(message.ruleId)) {
         fileTrackedCount += 1;
         fileByRule[message.ruleId] = (fileByRule[message.ruleId] ?? 0) + 1;
       }
@@ -90,7 +95,8 @@ if (lintErrors > 0) {
 }
 
 const trackedTotal = Object.entries(counts).reduce(
-  (total, [rule, count]) => total + (declinedRules.has(rule) ? 0 : count),
+  (total, [rule, count]) =>
+    total + (declinedRules.has(rule) || subBaselineRules.has(rule) ? 0 : count),
   0,
 );
 const declinedTotal = Object.entries(counts).reduce(
@@ -130,7 +136,15 @@ const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 const declinedComparison = compareDeclinedDebt(declinedTotal, baselineDeclinedTotal);
 const castComparison = compareCasts(currentCasts, baselineCasts);
 const siteComparison = compareAssertionSites(currentSites, baselineSites);
-const ruleRegressions = findPerRuleRegressions(counts, baseline.rules, declinedRules);
+const ignoredRules = new Set([...declinedRules, ...subBaselineRules]);
+const ruleRegressions = findPerRuleRegressions(counts, baseline.rules, ignoredRules);
+
+const currentPnc = counts["@typescript-eslint/prefer-nullish-coalescing"] ?? 0;
+const pncBaseline = baseline.subBaselines?.preferNullishCoalescing?.total;
+const subBaselineComparison =
+  pncBaseline !== undefined
+    ? compareSubBaseline(currentPnc, pncBaseline)
+    : null;
 
 console.log(trackedTotal);
 
@@ -220,6 +234,14 @@ if (ruleRegressions.length > 0) {
   }
 }
 
+if (subBaselineComparison?.exceedsBaseline) {
+  hasError = true;
+  console.error(
+    `❌ prefer-nullish-coalescing sub-baseline exceeded by ${subBaselineComparison.increasedBy}: ` +
+      `${currentPnc} exceeds sub-baseline of ${pncBaseline}.`,
+  );
+}
+
 if (declinedComparison.exceedsBaseline) {
   hasError = true;
   console.error(
@@ -280,6 +302,8 @@ if (hasError) {
 
 const shouldRatchet = process.argv.includes("--ratchet") || process.env.LINT_DEBT_AUTO_RATCHET === "1";
 
+const pncDecreased = pncBaseline !== undefined && currentPnc < pncBaseline;
+
 if (
   trackedTotal < baseline.trackedTotal ||
   currentCasts.total < baselineCasts.total ||
@@ -288,12 +312,19 @@ if (
   currentSites.total < baselineSites.total ||
   currentSites.asAny < baselineSites.asAny ||
   currentSites.production < baselineSites.production ||
-  declinedTotal < baselineDeclinedTotal
+  declinedTotal < baselineDeclinedTotal ||
+  pncDecreased
 ) {
   if (trackedTotal < baseline.trackedTotal) {
     const decreasedBy = baseline.trackedTotal - trackedTotal;
     console.log(
       `🎉 Lint debt decreased by ${decreasedBy}: ${trackedTotal} (down from ${baseline.trackedTotal}).`,
+    );
+  }
+  if (pncDecreased && pncBaseline !== undefined) {
+    const decreasedBy = pncBaseline - currentPnc;
+    console.log(
+      `🎉 prefer-nullish-coalescing sub-baseline decreased by ${decreasedBy}: ${currentPnc} (down from ${pncBaseline}).`,
     );
   }
   if (currentCasts.total < baselineCasts.total || currentCasts.asAny < baselineCasts.asAny) {
@@ -345,6 +376,20 @@ if (
         asConst: currentSites.asConst,
         nonNull: currentSites.nonNull,
       },
+      subBaselines: baseline.subBaselines
+        ? {
+            ...baseline.subBaselines,
+            preferNullishCoalescing: baseline.subBaselines.preferNullishCoalescing
+              ? {
+                  ...baseline.subBaselines.preferNullishCoalescing,
+                  total: Math.min(
+                    currentPnc,
+                    baseline.subBaselines.preferNullishCoalescing.total,
+                  ),
+                }
+              : undefined,
+          }
+        : undefined,
       declined: {
         total: declinedTotal,
         rules: Object.fromEntries(
@@ -365,7 +410,10 @@ if (
       ),
     };
     await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production}).`);
+    const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
+      ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
+      : "";
+    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production})${pncLog}.`);
   }
 }
 

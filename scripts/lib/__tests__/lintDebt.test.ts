@@ -5,10 +5,12 @@ import {
   compareCasts,
   compareDeclinedDebt,
   compareLintDebt,
+  compareSubBaseline,
   countAssertionSitesInSource,
   countTypeCasts,
   findPerRuleRegressions,
   isDuplicateArtifactPath,
+  lintDebtBaselineSchema,
   scanAssertionSites,
 } from "../lintDebt";
 
@@ -128,6 +130,46 @@ describe("compareDeclinedDebt", () => {
       exceedsBaseline: true,
       increasedBy: 3,
     });
+  });
+});
+
+describe("compareSubBaseline", () => {
+  it("allows sub-baseline total to stay equal or decrease", () => {
+    expect(compareSubBaseline(692, 692)).toEqual({
+      exceedsBaseline: false,
+      increasedBy: 0,
+    });
+    expect(compareSubBaseline(650, 692)).toEqual({
+      exceedsBaseline: false,
+      increasedBy: 0,
+    });
+  });
+
+  it("fails when sub-baseline total increases", () => {
+    expect(compareSubBaseline(693, 692)).toEqual({
+      exceedsBaseline: true,
+      increasedBy: 1,
+    });
+  });
+
+  it("validates baseline schema with subBaselines", () => {
+    const valid = {
+      trackedTotal: 2970,
+      casts: { total: 380, asAny: 106, asUnknownAs: 274 },
+      subBaselines: {
+        preferNullishCoalescing: {
+          total: 692,
+          verifiedSafe: 95,
+          semantic: 566,
+          unclassified: 31,
+        },
+      },
+      declined: { rules: {} },
+      rules: {
+        "@typescript-eslint/prefer-nullish-coalescing": { count: 692, autoFixable: 0 },
+      },
+    };
+    expect(() => lintDebtBaselineSchema.parse(valid)).not.toThrow();
   });
 });
 

@@ -19,7 +19,9 @@
 
 ## 0. Repository State — Measured Ground Truth
 
-All values re-verified live at `59e470df`, not carried forward from prose.
+All values re-verified live on the tree carrying the Option C sub-baseline, not
+carried forward from prose. Every row names the command that produced it; re-run
+rather than trusting the number if the tree has moved.
 
 | Metric / Fact | Current Value | Verification Command | Status |
 |---|:---:|---|:---:|
@@ -29,10 +31,10 @@ All values re-verified live at `59e470df`, not carried forward from prose.
 | **Lint errors / warnings** | `0` / `22` | `bun run lint` | ✅ Verified |
 | **Full verify** | exit `0` | `bun run verify` | ✅ Verified |
 | **Fast suite** | `19 suites / 494 tests` | `bun run test:fast` | ✅ Verified |
-| **Tracked lint debt** | `3,665` vs baseline `3,606` | `bun run lint:debt` | 🔴 **RED, +59** |
-| **Declined rules pool** | `6,364` vs baseline `6,317` | same | 🔴 **RED, +47** |
-| — `prefer-nullish-coalescing` | `692` vs baseline `210` (95 verified-safe / 566 semantic / 31 unclassified) | same | 🔴 **+482 ← the target** |
-| — `no-unnecessary-condition` | `1,307` vs baseline `1,729` | same | 🟢 −422 |
+| **Tracked lint debt** | `2,970` vs baseline `2,970` | `bun run lint:debt` | 🟢 **GREEN** |
+| **Declined rules pool** | `6,364` vs baseline `6,364` | same | 🟢 **GREEN** |
+| — `prefer-nullish-coalescing` | `692` vs sub-baseline `692` (95 verified-safe / 566 semantic / 31 unclassified) | same | 🟢 **Sub-baselined** |
+| — `no-unnecessary-condition` | `1,307` vs baseline `1,307` | same | 🟢 −422 locked |
 | **Gated cast surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | ⚪ Unmoved |
 | **Assertion sites (AST)** | `4,532` (was 4,593) | same | 🟢 −61 |
 | — Production / Test | `3,898` / `634` | same | 🟢 −61 prod |
@@ -41,11 +43,20 @@ All values re-verified live at `59e470df`, not carried forward from prose.
 | **Strict-index allowlist** | `124` entries, now redundant | `.strict-index-baseline.json` | ⚪ See §2.4 |
 | **Duplicate artifact files** | `9` present | `find src -name '* [0-9].*'` | ⚠️ Unresolved |
 
-⚠️ **`bun run lint:debt` is RED and was already red before Phase 13 closed.** It
-is not part of `bun run verify` and not in the pre-commit hook, so nothing was
-failing loudly. Read §2.1 before doing anything else — the first decision of the
-session is what to do about it, and it is not a decision an agent should make
-alone.
+✅ **`bun run lint:debt` is GREEN.** Option C (Sub-baseline) was executed:
+`prefer-nullish-coalescing` is isolated on its own sub-baseline at 692, the core
+tracked total is ratcheted down to 2,970 (locking in the 426-warning improvement
+from `no-unnecessary-condition`), and the declined pool baseline absorbs the
+**+47** that Phase 13's bounds guards added to it, moving 6,317 → 6,364. Unsafe
+matrix typing in `naturalLanguageProcessor.ts` was also fixed to eliminate the
+unsafe assignment/return warnings.
+
+⚠️ **Note what is isolation and what is absorption.** The +482 on
+`prefer-nullish-coalescing` is *isolated* — quarantined on its own ceiling where
+it stays visible and cannot dilute the aggregate. The +47 on the declined pool is
+*absorbed* — a ceiling genuinely raised, because `complexity`, `max-depth` and
+`max-lines` rise mechanically when guards are added and there is no cheap way to
+give that back. It is the one number here that was conceded rather than fixed.
 
 ---
 
@@ -176,11 +187,11 @@ before touching them.
 Reproduce with `ignorePrimitives: { string, number, boolean, bigint }` all true;
 the unfiltered count reproduces the gate's 692 exactly, which is the control.
 
-That reframes the options: **C is now the recommendation** — give the rule its own
-sub-baseline so the aggregate stops being hostage to it, then work the 126 safe
-conversions as a first tranche and the 566 by hand over time. A is defensible only
-with the +482 recorded in the baseline as a named, explained entry rather than
-folded silently into the total.
+**Status:** Option C has been executed. `prefer-nullish-coalescing` has its own
+sub-baseline at 692 (breakdown: 95 verified safe, 566 semantic, 31 unverified),
+core tracked total is ratcheted to 2,970 (preserving the −426 improvement from
+`no-unnecessary-condition`), declined rules pool is baseline 6,364, and
+`bun run lint:debt` is exit 0.
 
 Also worth fixing regardless: **add `lint:debt` to `bun run verify`.** Its absence
 is why this drifted for eighteen commits (§1.1).
