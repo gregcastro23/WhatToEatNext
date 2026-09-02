@@ -140,7 +140,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
 
       const data = (await res.json()) as { count?: number };
       notifyRefresh();
-      return { success: true, count: data.count || 0 };
+      return { success: true, count: data.count ?? 0 };
     } catch {
       setNotifications(previous);
       setUnreadCount(previous.filter((n) => !n.isRead).length);
@@ -159,7 +159,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
       if (!res.ok) {
         return {
           success: false,
-          message: data.message || 'Unable to generate your daily insight.',
+          message: data.message ?? 'Unable to generate your daily insight.',
         };
       }
 
@@ -171,10 +171,10 @@ export function useNotifications(options?: UseNotificationsOptions) {
       }
 
       if (data.alreadyGenerated) {
-        return { success: true, created: false, message: data.message || 'Insight already generated today.' };
+        return { success: true, created: false, message: data.message ?? 'Insight already generated today.' };
       }
 
-      return { success: true, created: false, message: data.message || 'No new insight generated.' };
+      return { success: true, created: false, message: data.message ?? 'No new insight generated.' };
     } catch {
       return { success: false, message: 'Unable to generate your daily insight.' };
     }
@@ -201,7 +201,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
         if (!res.ok || data.success === false) {
           return {
             success: false,
-            message: data.message || `Failed to ${action} companion request.`,
+            message: data.message ?? `Failed to ${action} companion request.`,
           };
         }
 
@@ -238,7 +238,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
         if (!res.ok || data.success === false) {
           return {
             success: false,
-            message: data.message || `Failed to ${response === 'joined' ? 'accept' : 'decline'} the invitation.`,
+            message: data.message ?? `Failed to ${response === 'joined' ? 'accept' : 'decline'} the invitation.`,
           };
         }
 
@@ -277,7 +277,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
         const data = (await res.json()) as ApiResponse;
 
         if (!res.ok || data.success === false) {
-          return { success: false, message: data.message || 'Could not update the request.' };
+          return { success: false, message: data.message ?? 'Could not update the request.' };
         }
 
         setNotifications((prev) =>
@@ -299,7 +299,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
   const respondToTableJoinRequest = useCallback(
     async (notification: UserNotification) => {
       const tableId = notification.metadata?.tableId;
-      const requesterId = notification.metadata?.requesterId || notification.relatedUserId;
+      const requesterId = notification.metadata?.requesterId ?? notification.relatedUserId;
       if (!tableId || typeof tableId !== 'string' || !requesterId || typeof requesterId !== 'string') {
         return { success: false, message: 'This request can no longer be acted on from notifications.' };
       }
@@ -315,7 +315,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
         const data = (await res.json()) as ApiResponse;
 
         if (!res.ok || data.success === false) {
-          return { success: false, message: data.message || 'Could not send the invitation.' };
+          return { success: false, message: data.message ?? 'Could not send the invitation.' };
         }
 
         // Flip the request's own lifecycle status (not just isRead) so a

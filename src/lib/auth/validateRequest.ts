@@ -210,8 +210,8 @@ export async function validateRequest(
           sessionRole === "admin" ? ["admin", "user"] : ["user"];
         return {
           user: {
-            userId: session.user.id || "",
-            email: session.user.email || "",
+            userId: session.user.id ?? "",
+            email: session.user.email ?? "",
             roles,
             scopes: [],
             iat: 0,
@@ -298,8 +298,8 @@ export async function getUserIdFromRequest(
       const session = await auth();
 
       if (session?.user) {
-        const sessionUserId = (session.user.id || "").trim();
-        const sessionEmail = (session.user.email || "").trim().toLowerCase();
+        const sessionUserId = (session.user.id ?? "").trim();
+        const sessionEmail = (session.user.email ?? "").trim().toLowerCase();
 
         // Resolve against DB when available to avoid OAuth-sub-vs-UUID mismatches.
         try {
@@ -410,8 +410,8 @@ export async function getDatabaseUserFromRequest(
             try {
               user = await userDb.createUser({
                 email: session.user.email,
-                name: session.user.name || "Cosmic Citizen",
-                image: session.user.image || undefined,
+                name: session.user.name ?? "Cosmic Citizen",
+                image: session.user.image ?? undefined,
                 roles: session.user.email.includes("admin") ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
               });
             } catch (createError) {

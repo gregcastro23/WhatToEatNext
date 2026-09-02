@@ -6,7 +6,7 @@
     "asUnknownAs": 262,
     "production": 297,
     "test": 58,
-    "untrackedSingleAsT": 2804
+    "untrackedSingleAsT": 2805
   },
   "assertionSites": {
     "total": 4502,
@@ -20,7 +20,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 500,
+      "total": 475,
       "verifiedSafe": 95,
       "semantic": 566,
       "unclassified": 31,
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 500,
+      "count": 475,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
