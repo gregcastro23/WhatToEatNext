@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 2957,
+  "trackedTotal": 2955,
   "casts": {
     "total": 378,
     "asAny": 104,
@@ -20,7 +20,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 628,
+      "total": 593,
       "verifiedSafe": 95,
       "semantic": 566,
       "unclassified": 31,
@@ -49,7 +49,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 244,
+      "count": 243,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -73,7 +73,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 318,
+      "count": 317,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 628,
+      "count": 593,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
