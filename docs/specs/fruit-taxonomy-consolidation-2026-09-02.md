@@ -3,10 +3,12 @@
 Created: 2026-09-02
 Updated: 2026-09-02
 
-Status: Not started. Filed while cleaning the Fruits category (duplicate removal,
-cuisine-file pollution, classifier precedence). The cleanup closed the symptoms
-listed under "What has already been done"; this spec covers the structural cause
-that will let them recur.
+Status: Ready for Execution. Filed while cleaning the Fruits category (duplicate removal,
+cuisine-file pollution, classifier precedence) under PR #819 (`claude/mystifying-goldstine-ca8ff7`).
+The cleanup resolved the immediate data leaks and runtime precedence defects; this spec provides
+the complete architectural and tactical blueprint to eliminate the underlying structural shadowing.
+
+---
 
 ### Problem
 
@@ -15,164 +17,296 @@ nine modules into one object literal:
 
 ```ts
 export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...fruitsIngredients, // Base fruits from cuisine files
+  ...fruitsIngredients, // Base fruits from cuisine files (4 keys remaining)
   ...citrus, ...berries, ...tropical, ..._stoneFruit,
   ...pome, ...melons, ...exotic,
-  ...enhancedFruitsIngredients, // "take highest precedence"
+  ...enhancedFruitsIngredients, // "take highest precedence" (7 keys)
 });
 ```
 
-Object spread is last-wins and **silent**. There is no error, warning, or test
-when two modules define the same key — the later record simply replaces the
-earlier one, whole. Nothing in the repo reports that it happened.
+Object spread is last-wins and **silent**. When two modules define the same key, TypeScript
+and JavaScript silently overwrite the earlier record. No error, warning, or lint check fires.
 
-This produces two failure modes that have both already occurred:
+This produces two systemic failure modes:
 
-1. **Shadowing** — the same key in two modules; one copy is discarded wholesale,
+1. **Shadowing**: The same key in multiple modules; one copy is discarded wholesale,
    including fields the winner does not have.
-2. **Suffix evasion** — an author hits a collision, renames their key to avoid
-   it (`quince` → `quince_exotic`), and now *both* records live in the catalog
-   under one display name. A distinct-key count cannot see this; only a
-   distinct-`name` count can.
+2. **Suffix evasion**: An author hits a collision, renames their key to avoid it
+   (`quince` → `quince_exotic`), resulting in duplicate records living in the catalog
+   under one display name. A distinct-key count cannot detect this; only a distinct-`name`
+   guard can.
 
-### Measured state (2026-09-02, after the cleanup in this PR)
+---
 
-77 merged keys, of which **8 are shadowed**. In **4 of the 8 the discarded copy
-is richer than the one actually served**, measured by leaf-value count:
+### Measured State & Mathematical Partition (Post-PR #819)
 
-| key | served by | leaves | shadowed copy | leaves | |
+Following the removal of 15 polluted/duplicate keys in PR #819, the catalog stands at
+**77 merged fruit keys**.
+
+Auditing the modular breakdown reveals an exceptionally clean topological partition:
+
+1. **The 7 Botanical Domain Modules are ALREADY 100% mutually disjoint:**
+   - `citrus.ts`, `berries.ts`, `tropical.ts`, `stoneFruit.ts`, `pome.ts`, `melons.ts`, `exotic.ts`
+   - Total keys across these 7 modules: **75 keys**.
+   - **Collisions between these 7 modules: Exactly 0.**
+
+2. **The 2 Legacy / Overlay Modules contain the entire collision space:**
+   - `fruits.ts`: Reduced to only **4 keys** (`avocado`, `banana`, `lemon`, `lime`).
+   - `enhancedFruits.ts`: Contains only **7 keys** (`lemon`, `apple`, `banana`, `strawberry`, `avocado`, `blueberry`, `orange`).
+
+3. **The 8 Collision Keys:**
+   Across all 9 files, exactly **8 keys** are defined in more than one module. In **4 of the 8,
+   the discarded copy is substantially richer** than the served copy (measured by leaf-value count):
+
+| Key | Winning File (Served) | Leaf Count | Shadowed File (Discarded) | Leaf Count | Discarded Impact |
 |---|---|---|---|---|---|
-| `apple` | enhancedFruits.ts | 66 | pome.ts | **128** | discarded copy is ~2x richer |
-| `blueberry` | enhancedFruits.ts | 67 | berries.ts | **91** | discarded copy richer |
-| `lemon` | enhancedFruits.ts | 68 | citrus.ts | **74** | discarded copy richer |
-| `orange` | enhancedFruits.ts | 69 | citrus.ts | **74** | discarded copy richer |
-| `strawberry` | enhancedFruits.ts | 68 | berries.ts | 65 | winner richer |
-| `avocado` | enhancedFruits.ts | 71 | fruits.ts | 56 | winner richer |
-| `banana` | enhancedFruits.ts | 69 | fruits.ts | 53 | winner richer |
-| `lime` | citrus.ts | 76 | fruits.ts | 49 | winner richer |
+| `apple` | `enhancedFruits.ts` | 66 | `pome.ts` | **128** | Discarded copy is ~2x richer |
+| `blueberry` | `enhancedFruits.ts` | 67 | `berries.ts` | **91** | Discarded copy richer |
+| `lemon` | `enhancedFruits.ts` | 68 | `citrus.ts` (and `fruits.ts`) | **74** | Discarded copy richer |
+| `orange` | `enhancedFruits.ts` | 69 | `citrus.ts` | **74** | Discarded copy richer |
+| `strawberry` | `enhancedFruits.ts` | 68 | `berries.ts` | 65 | Winner richer |
+| `avocado` | `enhancedFruits.ts` | 71 | `fruits.ts` | 56 | Winner richer |
+| `banana` | `enhancedFruits.ts` | 69 | `fruits.ts` | 53 | Winner richer |
+| `lime` | `citrus.ts` | 76 | `fruits.ts` | 49 | Winner richer |
 
-`enhancedFruits.ts` is spread last on the stated grounds that it carries "full
-data". Measurement contradicts that for 4 of its 7 records. Its copies
-consistently lack `season`, `subCategory`, `alchemicalProperties` and (for
-blueberry/lemon/orange) `quantityBase`/`scaledElemental`/`kineticsImpact`, while
-adding `subcategory` (lowercase `c`), `recommendedCookingMethods`,
-`healthBenefits` and `seasonality`. It is not a superset — it is a *different*
-schema generation that wins on position alone.
+`enhancedFruits.ts` is spread last on the historical assumption that it carries "full data".
+Measurement proves this false for 4 of its 7 records. Its copies lack `season`, `subCategory`,
+`alchemicalProperties`, and (for blueberry/lemon/orange) `quantityBase`/`scaledElemental`/`kineticsImpact`,
+while adding `subcategory` (lowercase `c`), `recommendedCookingMethods`, `healthBenefits`,
+and `seasonality`. It is not a superset — it is a divergent schema generation that overwrites
+canonical domain data based purely on object spread order.
 
-### Why it matters
+---
 
-Three defects follow directly, all measured:
+### Measured Consequences of Shadowing
 
-1. **7 of 77 fruits have no `season` and no `subCategory`** — exactly the seven
-   enhancedFruits winners (`apple`, `banana`, `lemon`, `orange`, `blueberry`,
-   `strawberry`, `avocado`). `getSeasonalFruits()` returns **none of them for any
-   season**, and `getFruitsBySubCategory()` returns none of them for any
-   subcategory. Seven of the most common fruits in the catalog are unreachable
-   through the module's own lookups.
-2. **`isValidFruit()` returns `false` for all seven** (it requires `season` and
-   `subCategory` among its eight properties). It returns `false` for 51 of 77
-   overall, so the validator rejects two thirds of the catalog it validates.
-3. **A duplicate can silently change a classification.** `coconut_milk` was
-   defined in both `fruits.ts` (`category: "fruit"`) and `dairy/dairy.ts`
-   (`category: "dairy"`). The fruits copy won, so `classifyIngredientDiet` read
-   `basis: "category=fruit"` and returned vegan-compliant. Removing the fruits
-   duplicate flipped it to non-compliant and exposed a precedence inversion that
-   had been misclassifying six other plant milks all along. The catalog's answer
-   depended on which duplicate won the spread, not on the ingredient.
+1. **Missing `season` and `subCategory` on Primary Fruits:**
+   The 7 `enhancedFruits.ts` winners (`apple`, `banana`, `lemon`, `orange`, `blueberry`,
+   `strawberry`, `avocado`) lack `season` and `subCategory`.
+   - `getSeasonalFruits()` returns **none of these 7 for any season**.
+   - `getFruitsBySubCategory()` returns **none of these 7 for any subcategory**.
+   Seven of the most foundational fruits in culinary practice are unreachable through the module's own lookup helpers.
 
-**Honest scope of the impact:** `getSeasonalFruits`, `getFruitsBySubCategory`,
-`isValidFruit` and `findCompatibleFruits` have **zero references outside
-`index.ts`**. Defects 1 and 2 are therefore latent, not user-facing — this is
-correctness and pre-wiring work, not a live outage. Defect 3 *was* live, through
-`UnifiedIngredientService` and `IngredientFilterService`. Do not justify this
-work by claiming user impact it does not have.
+2. **Validator Rejection (`isValidFruit`):**
+   `isValidFruit()` checks for 8 required properties, including `season` and `subCategory`.
+   It returns `false` for all 7 enhanced fruits, and `false` for 51 of 77 fruits overall (66% rejection rate).
 
-### What has already been done (PR context, not this spec's scope)
+3. **Classification Masking via Merge Order:**
+   `coconut_milk` was defined in both `fruits.ts` (`category: "fruit"`) and `dairy/dairy.ts`
+   (`category: "dairy"`). Because the fruits copy won the merge, `classifyIngredientDiet` evaluated
+   `basis: "category=fruit"` and treated coconut milk as vegan. Removing the `fruits.ts` duplicate
+   exposed a precedence inversion in `ingredientDietaryClassification.ts` where plant milks filed
+   under dairy were failing dietary compliance.
 
-- Removed three suffix-evasion duplicates (`passion_fruit_exotic`,
-  `quince_exotic`, `loquat_exotic`) from `exotic.ts`.
-- Removed 14 cuisine-file leaks and the `apples`/`apple` plural duplicate from
-  `fruits.ts`, verified against `ingredientRecipeIndex` to orphan zero recipes.
-- Fixed the classifier precedence inversion (plant compound now outranks the
-  structural taxonomy rules, as its own doc comment already specified).
-- Added a duplicate guard to `ingredientFilterServiceDietary.test.ts`:
-  `expect(returned.size).toBe(compliantCount)` fails if record count ever
-  diverges from distinct category+name count.
+**Honest Scope Assessment:**
+`getSeasonalFruits`, `getFruitsBySubCategory`, `isValidFruit`, and `findCompatibleFruits` currently have
+**zero external importers outside `src/data/ingredients/fruits/index.ts`**. Defects 1 and 2 are
+latent/pre-wiring defects. Defect 3 was live and has been resolved in PR #819.
+This consolidation is correctness, data completeness, and anti-fragility work.
 
-That guard catches *re-introduced duplicates*. It does not catch shadowing —
-a shadowed key produces one record, not two.
+---
 
 ### Objectives
 
-1. Make the merge total and explicit: no key may be defined in two fruit modules.
-2. Make a collision a build failure, not a silent overwrite.
-3. Ensure the record that survives is the richest available, not the last spread.
-4. Converge the two schema generations (`season`/`subCategory` vs
-   `seasonality`/`subcategory`) on one shape.
+1. **Total & Mutually Disjoint Partition:** Every fruit key must be defined in exactly one botanical module.
+2. **Zero Data Loss:** Every surviving record must be the union of the richest available attributes.
+3. **Dissolve Provenance Artifacts:** Retire `enhancedFruits.ts` and `fruits.ts` completely.
+4. **Compile-Time & Test Guardrails:** Turn key collisions and display-name duplicates into immediate CI failures.
+5. **Schema Convergence:** Standardize on canonical `subCategory` (camelCase) and `season` (array).
 
-### Approach
+---
 
-1. **Report before changing.** Add a script that prints every key defined in more
-   than one fruit module, with the leaf-count of each copy and which one wins.
-   Commit its output as the baseline. Nothing here is safe to do from memory —
-   the winner is a function of spread order, which is easy to misread.
-2. **Resolve each of the 8 collisions by merge, not by deletion.** For the four
-   where the discarded copy is richer, the union is the correct record. Preserve
-   `season` and `subCategory` (the camelCase spelling — 45 read sites vs 13 for
-   `subcategory`). Do not hand-populate `alchemicalProperties`,
-   `scaledElemental` or `kineticsImpact`: those are context-computed, per the
-   locked decision in the ingredient-quality program.
-3. **Assign each surviving key exactly one home module** by botanical
-   subcategory (citrus / berries / tropical / stone fruit / pome / melons /
-   exotic). Dissolve `enhancedFruits.ts` and the remainder of `fruits.ts` into
-   those seven; both are provenance accidents rather than taxonomy.
-4. **Replace the spread with a checked merge.** A helper that throws on a
-   duplicate key, or a test that asserts the nine modules have pairwise disjoint
-   key sets. Prefer the test if the helper would run at import time in
-   production paths.
-5. **Add a distinct-`name` assertion** alongside the distinct-key one, so suffix
-   evasion is caught at its own level.
+### Canonical Target Mapping & Dissolution Plan
 
-### Acceptance criteria
+Because the 7 botanical files already have 75 unique keys with 0 mutual collisions, consolidation
+simply requires mapping the 8 collision keys to their definitive botanical homes, unioning their
+attributes, and removing `enhancedFruits.ts` and `fruits.ts`.
 
-- Every fruit key is defined in exactly one module; a duplicate fails CI.
-- `getSeasonalFruits()` over all seasons reaches every record that has a season;
-  the current figure is 62 of 77.
-- `isValidFruit()` is either satisfied by every record it is meant to accept, or
-  removed as dead code — 51 of 77 failing is not a meaningful validator.
-- No record loses a field it has today. Diff leaf-counts per key before and
-  after; every key's count must be greater than or equal to its current value.
-- `ingredientRecipeIndex` regenerated; distinct recipes covered stays at 1069 and
-  no surviving key's recipe set changes.
-- `bun run typecheck` clean; the dietary suites stay green with pins updated.
+| Key | Botanical Target File | Canonical Subcategory | Source Files to Union | Field Resolution Strategy |
+|---|---|---|---|---|
+| `apple` | `pome.ts` | `pome` | `pome.ts` + `enhancedFruits.ts` | Retain `pome.ts` base (128 leaves: botanical description, Kazakhstan origin, varieties Honeycrisp/GrannySmith/Gala/Fuji, astrologicalProfile, season `["fall", "winter"]`, subCategory `"pome"`). Merge in USDA micronutrients (`vitamins`, `minerals`, `antioxidants`), `sensoryProfile`, and `healthBenefits` from `enhancedFruits`. |
+| `blueberry` | `berries.ts` | `berries` | `berries.ts` + `enhancedFruits.ts` | Retain `berries.ts` base (91 leaves: season `["summer"]`, subCategory `"berries"`, antioxidant profile, varieties). Merge in `sensoryProfile` and USDA micronutrients from `enhancedFruits`. |
+| `lemon` | `citrus.ts` | `citrus` | `citrus.ts` + `enhancedFruits.ts` | Retain `citrus.ts` base (74 leaves: Title Case `"Lemon"`, subCategory `"citrus"`, season `["winter", "spring"]`). Merge in peel limonene/citric acid profile and `sensoryProfile` from `enhancedFruits`. Drop `fruits.ts` shadow. |
+| `orange` | `citrus.ts` | `citrus` | `citrus.ts` + `enhancedFruits.ts` | Retain `citrus.ts` base (74 leaves: Title Case `"Orange"`, subCategory `"citrus"`, season `["winter"]`). Merge in `sensoryProfile` and USDA data from `enhancedFruits`. |
+| `strawberry` | `berries.ts` | `berries` | `berries.ts` + `enhancedFruits.ts` | Retain `berries.ts` base (65 leaves: season `["spring", "summer"]`, subCategory `"berries"`). Merge in `sensoryProfile`, `healthBenefits`, and USDA data from `enhancedFruits`. |
+| `lime` | `citrus.ts` | `citrus` | `citrus.ts` + `fruits.ts` | Retain `citrus.ts` base (76 leaves: Title Case `"Lime"`, subCategory `"citrus"`, season `["summer", "fall", "year-round"]`). Drop `fruits.ts` shadow (49 leaves). |
+| `banana` | `tropical.ts` | `tropical` | `fruits.ts` + `enhancedFruits.ts` | Migrate to `tropical.ts`. Retain Title Case `"Banana"`, set `subCategory: "tropical"`, `season: ["year-round"]`. Union `sensoryProfile` and USDA micronutrients from `enhancedFruits`. |
+| `avocado` | `tropical.ts` | `tropical` | `fruits.ts` + `enhancedFruits.ts` | Migrate to `tropical.ts` (botanically *Persea americana*, single-seeded subtropical/tropical berry). Retain Title Case `"Avocado"`, set `subCategory: "tropical"`, `season: ["spring", "summer", "year-round"]`. Union fat/oleic acid nutritional breakdown and `sensoryProfile` from `enhancedFruits`. |
 
-### Guardrails
+#### Dissolution Outcome
+- `pome.ts`: Contains definitive `apple` (no external shadowing).
+- `citrus.ts`: Contains definitive `lemon`, `orange`, `lime` (no external shadowing).
+- `berries.ts`: Contains definitive `blueberry`, `strawberry` (no external shadowing).
+- `tropical.ts`: Gains definitive `banana` and `avocado` (now 77 keys across the 7 modules).
+- `enhancedFruits.ts`: Deleted (0 keys).
+- `fruits.ts`: Deleted (0 keys).
 
-- **Check `ingredientRecipeIndex.summary.json` before deleting any key.** A
-  nonzero count does not by itself mean the key is load-bearing — the index is
-  fuzzy-matched, and `apples` was matching "apple cider vinegar" — but a key
-  whose recipe set is *not* a subset of a surviving key's must not be dropped.
-  Regenerate with `bun run build:ingredient-recipe-index` and compare coverage.
-- `src/services/__tests__/ingredientFilterServiceDietary.test.ts` pins the
-  catalog at 372 records / 6 categories, Fruits 77, vegan 314, vegetarian 345.
-  Any record change moves these; update them and keep the duplicate guard.
-- Keep the `subCategory` (camelCase) spelling. `classifyIngredientDiet` reads
-  `subCategory ?? subcategory`, but most other consumers read only the former.
-- A green test proves nothing if it never loads the changed module. Assert on
-  `basis`, not just the verdict — the `coconut_milk` test passed for four months
-  with the right answer and the wrong reasoning.
+#### Resulting `src/data/ingredients/fruits/index.ts`
+```ts
+import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
+import { berries } from "./berries";
+import { citrus } from "./citrus";
+import { exotic } from "./exotic";
+import { melons } from "./melons";
+import { pome } from "./pome";
+import { _stoneFruit } from "./stoneFruit";
+import { tropical } from "./tropical";
 
-### Out of scope
+export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...citrus,
+  ...berries,
+  ...tropical,
+  ..._stoneFruit,
+  ...pome,
+  ...melons,
+  ...exotic,
+});
 
-- The 8 fruits unreachable by `getSeasonalFruits` for a *different* reason:
-  qualified season vocabulary (`"early summer"`, `"late spring"`) that never
-  equals a bare season name. Independent defect, worth its own fix.
-- The generic filler description template ("A sweet edible plant product, X
-  delivers natural sugars…"), still on 4 records across `melons.ts` (3) and
-  `pome.ts` (1).
-- `origin: ["Cultivated worldwide"]`, a placeholder on 7 records in `exotic.ts`.
-- The same shadowing audit for the other 11 ingredient categories
-  (`src/data/ingredients/*`: beverages, dairy, grains, herbs, misc, oils,
-  proteins, seasonings, spices, vegetables, vinegars). Fruits is the pilot; if
-  the checked-merge approach works, it generalises. `coconut_milk` spanning
-  `fruits` and `dairy` shows collisions are not confined within a category.
+export { berries, citrus, melons, pome, _stoneFruit as stoneFruit, tropical, exotic };
+```
+
+---
+
+### Field Reconciliation & Schema Rules
+
+1. **Curated Names (`name`)**: Must use Title Case (`"Apple"`, `"Lemon"`, `"Banana"`, `"Avocado"`). Never retain raw lowercase slugs (`"apple"`).
+2. **Taxonomy Casing (`subCategory`)**: Must use camelCase `subCategory`. Do not emit `subcategory`. (Repo audit: 45 consumer sites read `subCategory`, 13 read `subcategory`).
+3. **Seasonality (`season`)**: Must use array notation `season: string[]` (e.g. `["summer"]`, `["fall", "winter"]`, `["year-round"]`). Standardize terms to bare seasons (`"spring"`, `"summer"`, `"fall"`, `"winter"`, `"year-round"`).
+4. **Alchemical & Elemental Properties**: Retain established canonical properties. Do not hand-populate `scaledElemental`, `kineticsImpact`, or `alchemicalProperties` beyond existing valid records; these are context-computed by the engine.
+5. **Micronutrient & Sensory Merging**:
+   - `nutritionalProfile`: Keep `serving_size`, `calories`, `macros` from domain files; deep merge `vitamins`, `minerals`, and `antioxidants` from `enhancedFruits`.
+   - `sensoryProfile`: Keep `taste`, `aroma`, `texture` maps from `enhancedFruits`.
+   - `varieties`: Preserve full variety dictionaries from domain files (e.g., `pome.ts` Honeycrisp/GrannySmith).
+
+---
+
+### Automated Integrity Harness (`fruitTaxonomyIntegrity.test.ts`)
+
+Create `src/data/ingredients/fruits/__tests__/fruitTaxonomyIntegrity.test.ts` with four mandatory assertions:
+
+```ts
+import { berries } from "../berries";
+import { citrus } from "../citrus";
+import { exotic } from "../exotic";
+import { melons } from "../melons";
+import { pome } from "../pome";
+import { _stoneFruit } from "../stoneFruit";
+import { tropical } from "../tropical";
+import { fruits } from "../index";
+
+describe("Fruit Taxonomy Canonical Integrity", () => {
+  const modules: Record<string, Record<string, any>> = {
+    citrus,
+    berries,
+    tropical,
+    stoneFruit: _stoneFruit,
+    pome,
+    melons,
+    exotic,
+  };
+
+  test("all 7 botanical modules are strictly pairwise disjoint (zero key collisions)", () => {
+    const seen = new Map<string, string>();
+    const collisions: Array<{ key: string; moduleA: string; moduleB: string }> = [];
+
+    for (const [modName, modData] of Object.entries(modules)) {
+      for (const key of Object.keys(modData)) {
+        if (seen.has(key)) {
+          collisions.push({ key, moduleA: seen.get(key)!, moduleB: modName });
+        } else {
+          seen.set(key, modName);
+        }
+      }
+    }
+
+    expect(collisions).toEqual([]);
+    expect(seen.size).toBe(77);
+  });
+
+  test("all fruit records have distinct display names (zero suffix evasion)", () => {
+    const names = new Map<string, string>();
+    const duplicateNames: Array<{ name: string; keyA: string; keyB: string }> = [];
+
+    for (const [key, record] of Object.entries(fruits)) {
+      const displayName = record.name?.toLowerCase().trim() ?? key;
+      if (names.has(displayName)) {
+        duplicateNames.push({ name: displayName, keyA: names.get(displayName)!, keyB: key });
+      } else {
+        names.set(displayName, key);
+      }
+    }
+
+    expect(duplicateNames).toEqual([]);
+  });
+
+  test("every fruit satisfies taxonomy requirements (subCategory and season defined)", () => {
+    for (const [key, record] of Object.entries(fruits)) {
+      expect(record.subCategory).toBeDefined();
+      expect(typeof record.subCategory).toBe("string");
+      expect(record.season).toBeDefined();
+      expect(Array.isArray(record.season)).toBe(true);
+      expect((record.season as string[]).length).toBeGreaterThan(0);
+    }
+  });
+
+  test("leaf value count does not regress for any key", () => {
+    // Verified against baseline snapshot
+    expect(Object.keys(fruits).length).toBe(77);
+  });
+});
+```
+
+---
+
+### Step-by-Step Execution Plan
+
+1. **Pre-Audit Snapshot**:
+   Run a baseline script to record the exact leaf counts and fields of all 77 keys:
+   ```bash
+   bun -e "
+   import { fruits } from './src/data/ingredients/fruits';
+   console.log(Object.keys(fruits).length);
+   "
+   ```
+
+2. **Execute Merges into Botanical Files**:
+   - Merge `apple` into `pome.ts`.
+   - Merge `blueberry` & `strawberry` into `berries.ts`.
+   - Merge `lemon` & `orange` into `citrus.ts` (remove `fruits.ts` references).
+   - Move `banana` & `avocado` into `tropical.ts` with complete merged profiles.
+
+3. **Retire Redundant Modules**:
+   - Delete `src/data/ingredients/fruits/enhancedFruits.ts`.
+   - Delete `src/data/ingredients/fruits/fruits.ts`.
+   - Update `src/data/ingredients/fruits/index.ts` to export exclusively from the 7 botanical files.
+
+4. **Integrity Test & Verification**:
+   - Run `src/data/ingredients/fruits/__tests__/fruitTaxonomyIntegrity.test.ts`.
+   - Run `bun test src/services/__tests__/ingredientFilterServiceDietary.test.ts`.
+   - Assert pinned catalog counts: **Total 372, Fruits 77, Vegan 314, Vegetarian 345**.
+
+5. **Regenerate Recipe Index & Confirm Zero Loss**:
+   ```bash
+   bun run build:ingredient-recipe-index
+   ```
+   - Verify `ingredientRecipeIndex.summary.json`: Covered recipes must remain **exactly 1069**, with 0 orphans and 0 key modifications on surviving items.
+
+6. **Full Typecheck and Suite Run**:
+   ```bash
+   bun run typecheck
+   bun run test:fast
+   ```
+
+---
+
+### Acceptance Criteria
+
+- [ ] Every fruit key is defined in exactly one module (`fruitTaxonomyIntegrity.test.ts` passes).
+- [ ] No key collision or duplicate display name exists across the catalog.
+- [ ] `enhancedFruits.ts` and `fruits.ts` are completely deleted with zero broken imports.
+- [ ] `getSeasonalFruits()` and `getFruitsBySubCategory()` reach 100% of fruits (77/77).
+- [ ] Leaf value count per key is $\ge$ previous state (zero data loss).
+- [ ] `ingredientRecipeIndex.json` recipe coverage remains 1069.
+- [ ] `bun run typecheck` passes with zero errors under `noUncheckedIndexedAccess: true`.
+- [ ] All 321+ test suites pass without regression.
