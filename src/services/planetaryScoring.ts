@@ -13,7 +13,6 @@ import type {
   PlanetaryPosition,
 } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
-import type { PlanetPositionData } from "@/utils/astrology/positions";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 
@@ -794,7 +793,7 @@ export class PlanetaryScoringService {
     try {
       const accuratePositions = getAccuratePlanetaryPositions(date);
       return SCORING_PLANETS.map((planet) => {
-        const pos = accuratePositions[planet] as PlanetPositionData | undefined;
+        const pos = accuratePositions[planet];
         if (pos) {
           const degreeInt = Math.floor(pos.degree);
           const minuteInt = Math.floor((pos.degree - degreeInt) * 60);

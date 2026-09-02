@@ -456,7 +456,7 @@ export const _getSpiceBlendComponents = (blendName: string): string[] => {
 };
 
 export const _getCompatibleSpices = (spiceName: string): string[] => {
-  const spice = spices[spiceName] as IngredientMapping | undefined;
+  const spice = spices[spiceName];
   if (!spice) return [];
 
   const spiceAffinities = (spice as { affinities?: string[] }).affinities;
@@ -477,7 +477,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {
 };
 
 export const _getSubstitutions = (spiceName: string): string[] => {
-  const spice = spices[spiceName] as IngredientMapping | undefined;
+  const spice = spices[spiceName];
   if (!spice) return [];
 
   const spiceQualities = spice.qualities;

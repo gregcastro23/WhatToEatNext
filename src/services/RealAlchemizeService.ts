@@ -406,7 +406,7 @@ export function alchemize(
       (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20,
     ),
   );
-  const sunPos = planetaryPositions["Sun"] as PlanetaryPosition | undefined;
+  const sunPos = planetaryPositions["Sun"];
   return {
     elementalProperties: {
       Fire: Fire / Math.max(1, Fire + Water + Air + Earth),
@@ -621,7 +621,7 @@ export function alchemizeDetailed(
   );
   const elementalSum = Math.max(1, Fire + Water + Air + Earth);
 
-  const sunPos = planetaryPositions["Sun"] as PlanetaryPosition | undefined;
+  const sunPos = planetaryPositions["Sun"];
   return {
     elementalProperties: {
       Fire: Fire / elementalSum,

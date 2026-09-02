@@ -397,7 +397,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
   const derived = useMemo<DerivedIngredient[]>(() => ingredients.map((ing) => {
       const lookupKey = normalizeAmazonIngredientKey(ing.name || "");
       const staticAsin = resolveAsin(ing.name || "");
-      const liveLookup = amazonLookups[lookupKey] as AmazonSearchResult | undefined;
+      const liveLookup = amazonLookups[lookupKey];
       const asin = staticAsin ?? liveLookup?.asin ?? null;
       const amazon = getAmazonFreshMapping(ing, asin);
       const props = ing.elementalProperties;
@@ -461,7 +461,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
       .filter((name): name is string => Boolean(name))
       .filter((name) => {
         const key = normalizeAmazonIngredientKey(name);
-        const live = amazonLookups[key] as AmazonSearchResult | undefined;
+        const live = amazonLookups[key];
         return !live && !requestedLookups.current.has(key);
       })
       .slice(0, 50);

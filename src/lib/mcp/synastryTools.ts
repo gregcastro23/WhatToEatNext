@@ -675,7 +675,7 @@ export async function getTransitNatalOverlay(
     }
   }
 
-  const headline = activations[0] as TransitActivation | undefined;
+  const [headline] = activations;
   const boostSuffix = boostElement
     ? ` → ${Math.round(boostMagnitude * 100)}% ${boostElement} boost`
     : "";

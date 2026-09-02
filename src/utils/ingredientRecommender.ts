@@ -2990,7 +2990,7 @@ function generateRecommendationsForIngredient(
     ) {
       const daySign = planetaryPositions[planetaryDay].sign;
       const dayDignity =
-        dayElements.dignityEffect[daySign] as number | undefined;
+        dayElements.dignityEffect[daySign];
       if (
         dayDignity !== undefined &&
         dayDignity > 0 &&
@@ -3016,7 +3016,7 @@ function generateRecommendationsForIngredient(
     ) {
       const hourSign = planetaryPositions[planetaryHour].sign;
       const hourDignity =
-        hourElements.dignityEffect[hourSign] as number | undefined;
+        hourElements.dignityEffect[hourSign];
       if (
         hourDignity !== undefined &&
         hourDignity > 0 &&

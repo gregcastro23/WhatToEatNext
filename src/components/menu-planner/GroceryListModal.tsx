@@ -430,7 +430,7 @@ export default function GroceryListModal({
     unresolved: AmazonUnresolvedItem[],
     cartType: "fresh" | "standard" = "fresh",
   ): void => {
-    const firstUnresolved = unresolved[0] as AmazonUnresolvedItem | undefined;
+    const [firstUnresolved] = unresolved;
     if (!firstUnresolved) {
       setAmazonError("No unresolved grocery item is available to search.");
       return;

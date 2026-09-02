@@ -582,7 +582,7 @@ class CelestialCalculator {
     // Calculate base influences based on dignities
     if (jupiterPos?.sign) {
       const jupiterSign = jupiterPos.sign.toLowerCase();
-      const dignity = jupiterDignities[jupiterSign] as { type: string; strength: number } | undefined;
+      const dignity = jupiterDignities[jupiterSign];
       if (dignity !== undefined) {
         jupiterInfluence = 0.5 + dignity.strength;
 
@@ -598,7 +598,7 @@ class CelestialCalculator {
     let _saturnDignityName = "";
     if (saturnPos?.sign) {
       const saturnSign = saturnPos.sign.toLowerCase();
-      const dignity = saturnDignities[saturnSign] as { type: string; strength: number } | undefined;
+      const dignity = saturnDignities[saturnSign];
       if (dignity !== undefined) {
         saturnInfluence = 0.5 + dignity.strength;
         _saturnDignityName = dignity.type;

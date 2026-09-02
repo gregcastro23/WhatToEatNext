@@ -116,7 +116,7 @@ export class CulinaryAstrologer {
     const viable = methods.filter(
       (m) => (m.elementalEffect[dominant] ?? 0) > 0.3,
     );
-    const picked = (viable[0] || methods[0]) as CookingMethodData | undefined;
+    const picked = (viable[0] || methods[0]);
     const name = picked?.name || "balanced-preparation";
     const benefits =
       picked?.benefits.slice(0, 2).join(" and ") || "balanced expression";

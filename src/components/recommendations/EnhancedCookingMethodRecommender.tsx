@@ -48,7 +48,6 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
 import { METHOD_PHYSICAL_REFERENCE } from "@/data/cooking/physicalReference";
 import {
   calculateKalchm,
@@ -1337,7 +1336,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   };
 
   const renderConditionsTab = (method: (typeof currentMethods)[0]): React.ReactElement => {
-    const reference = method.referenceProfile as MethodPhysicalReference | undefined;
+    const reference = method.referenceProfile;
     if (!method.physicsMetrics) {
       return (
         <p className="py-8 text-center text-sm text-gray-500">

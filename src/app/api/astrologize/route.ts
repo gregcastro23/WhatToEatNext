@@ -220,7 +220,7 @@ function formatRailwayResponse(
   let ascendant: AscendantData | undefined;
   const positionsRecord = positionsData;
   const ascData =
-    (positionsRecord.Ascendant as RailwayPlanetData | undefined) ??
+    (positionsRecord.Ascendant) ??
     (positionsRecord.ascendant);
 
   if (ascData) {

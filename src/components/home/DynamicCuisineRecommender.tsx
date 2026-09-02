@@ -119,7 +119,7 @@ const DIGNITIES: Record<string, { domicile: string[]; exaltation: string[] }> =
 };
 
 function calculateDignity(planet: string, sign: string): number {
-  const dignity = DIGNITIES[planet] as { domicile: string[]; exaltation: string[] } | undefined;
+  const dignity = DIGNITIES[planet];
   if (!dignity) return 0.6;
   const s = sign.toLowerCase();
   if (dignity.domicile.includes(s)) return 1.0;
