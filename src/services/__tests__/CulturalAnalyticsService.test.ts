@@ -80,10 +80,15 @@ describe("CulturalAnalyticsService", () => {
       expect(result.culturalSynergy).toBe(0.7);
       expect(result.culturalCompatibility).toBe(0.7);
       expect(result.historicalSignificance).toContain("unknown_cuisine");
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "[ERROR] Error generating cultural analytics: ",
-        expect.any(TypeError),
-      );
+      // Previously `culturalRules[cuisineName]` was dereferenced directly, so an
+      // unrecognised key threw a TypeError that the catch block logged and
+      // swallowed. This assertion pinned that crash-and-recover as though it
+      // were the contract, which contradicted the test's own name. The lookup is
+      // now guarded (`culturalRulesData?.principles`), so an unknown cuisine is
+      // handled on the normal path. "Gracefully" means no error at all — and the
+      // returned values below are unchanged, because the guarded path yields
+      // exactly what the catch block used to return.
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
 
       consoleErrorSpy.mockRestore();
     });
