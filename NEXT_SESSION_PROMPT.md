@@ -28,7 +28,7 @@ rather than trusting the number if the tree has moved.
 | **Fast suite** | `19 suites / 494 tests` | `bun run test:fast` | ✅ Verified |
 | **Tracked lint debt** | `2,962` vs baseline `2,970` | `bun run lint:debt` | 🟢 **GREEN (−8)** |
 | **Declined rules pool** | `6,361` vs baseline `6,364` | same | 🟢 **GREEN (−3)** |
-| — `prefer-nullish-coalescing` | `692` vs sub-baseline `692` (95 verified-safe / 566 semantic / 31 unclassified) | same | 🟢 **Sub-baselined** |
+| — `prefer-nullish-coalescing` | `663` vs sub-baseline `663` (down −29 in Tranche 1) | same | 🟢 **Sub-baselined** |
 | — `no-unnecessary-condition` | `1,307` vs baseline `1,307` | same | 🟢 −422 locked |
 | **Gated cast surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | ⚪ Unmoved |
 | **Assertion sites (AST)** | `4,531` (was 4,532) | same | 🟢 −1 |

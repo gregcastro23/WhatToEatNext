@@ -20,7 +20,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 692,
+      "total": 663,
       "verifiedSafe": 95,
       "semantic": 566,
       "unclassified": 31,
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 692,
+      "count": 663,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
