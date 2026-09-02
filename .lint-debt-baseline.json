@@ -1,26 +1,26 @@
 {
-  "trackedTotal": 2955,
+  "trackedTotal": 2954,
   "casts": {
-    "total": 378,
+    "total": 373,
     "asAny": 104,
-    "asUnknownAs": 274,
-    "production": 320,
+    "asUnknownAs": 269,
+    "production": 315,
     "test": 58,
-    "untrackedSingleAsT": 2812
+    "untrackedSingleAsT": 2808
   },
   "assertionSites": {
-    "total": 4529,
+    "total": 4523,
     "asAny": 101,
-    "chained": 274,
-    "single": 4154,
-    "production": 3895,
+    "chained": 269,
+    "single": 4153,
+    "production": 3889,
     "test": 634,
     "asConst": 641,
     "nonNull": 659
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 593,
+      "total": 592,
       "verifiedSafe": 95,
       "semantic": 566,
       "unclassified": 31,
@@ -57,7 +57,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1301,
+      "count": 1300,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 593,
+      "count": 592,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
