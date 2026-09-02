@@ -286,7 +286,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: 'mystical',
       Pluto: 'mystical',
     }
-    return styles[planet] || 'casual'
+    return styles[planet] ?? 'casual'
   }
 
   private mapPlanetaryCollaboration(
@@ -304,7 +304,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: 'synthesizer',
       Pluto: 'specialist',
     }
-    return collaboration[planet] || 'specialist'
+    return collaboration[planet] ?? 'specialist'
   }
 
   private calculatePlanetaryConsciousness(planet: string, dignity: string, degree: number): ConsciousnessLevel {
@@ -322,7 +322,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Pluto: 6,
     }
 
-    let level = baseLevels[planet] || 3
+    let level = baseLevels[planet] ?? 3
 
     // Adjust for dignity
     if (dignity === 'domicile' || dignity === 'exaltation') level += 1
@@ -363,7 +363,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Pluto: 5.5,
     }
 
-    const base = baseValues[planet] || 3.5
+    const base = baseValues[planet] ?? 3.5
     const degreeModifier = (degree / 30) * 0.3 // 0-0.3 based on position in sign
 
     return Number((base + degreeModifier).toFixed(2))
@@ -382,7 +382,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: 'Dreams & Spirituality',
       Pluto: 'Transformation & Power',
     }
-    return specialties[planet] || 'Universal Energy'
+    return specialties[planet] ?? 'Universal Energy'
   }
 
   private getPlanetaryWisdomDomains(planet: string): string[] {
@@ -398,7 +398,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: ['Spirituality', 'Imagination', 'Compassion', 'Transcendence'],
       Pluto: ['Transformation', 'Psychology', 'Power', 'Regeneration'],
     }
-    return domains[planet] || ['Universal Wisdom']
+    return domains[planet] ?? ['Universal Wisdom']
   }
 
   private getPlanetaryTeachingStyle(planet: string): string {
@@ -414,7 +414,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: 'Mystical-Transcendent',
       Pluto: 'Transformative-Penetrating',
     }
-    return styles[planet] || 'Balanced-Universal'
+    return styles[planet] ?? 'Balanced-Universal'
   }
 
   private getPlanetaryResonance(planet: string): string {
@@ -430,7 +430,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: 'Spiritual',
       Pluto: 'Psychological',
     }
-    return resonance[planet] || 'Universal'
+    return resonance[planet] ?? 'Universal'
   }
 
   private getPlanetaryAuraType(planet: string): string {
@@ -446,7 +446,7 @@ export class UnifiedAgentFactory implements AgentFactory {
       Neptune: 'swirling',
       Pluto: 'pulsing',
     }
-    return auras[planet] || 'shimmering'
+    return auras[planet] ?? 'shimmering'
   }
 }
 
