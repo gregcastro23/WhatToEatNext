@@ -10,7 +10,6 @@ import {
   scoreFirstMeal,
 } from "@/components/home/firstMeal";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
-import { featuredRecipe } from "@/data/featuredRecipe";
 import {
   biasQueryParam,
   useUserElementalBias,
@@ -207,7 +206,7 @@ const TILES: readonly HeroTile[] = [
     teaser: "Dinner, assembled to order.",
     story:
       "Where readings become dinner. Feed it your pantry and tonight's sky, and it assembles a recipe you can actually cook — measured, timed, and tuned to the moment you fire the stove.",
-    exampleLabel: "Sample build · Chorizo Bolognese",
+    exampleLabel: "Sample build · Custom Formulation",
     stats: [
       { label: "Fire", pct: 44 },
       { label: "Earth", pct: 30 },
@@ -1184,8 +1183,8 @@ export function LiveHero() {
                 </span>
               )}
               {tile.id === "builder" && (
-                <span className="t-mono alchm-lh-tile-live is-featured">
-                  FEATURED · {featuredRecipe.title.toUpperCase()}
+                <span className="t-mono alchm-lh-tile-live">
+                  RECIPE BUILDER · LIVE
                 </span>
               )}
             </button>

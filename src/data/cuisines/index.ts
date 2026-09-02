@@ -26,6 +26,7 @@ const cuisineImports: Record<string, CuisineImport> = {
   Russian: () => import("./russian").then(m => m.russian),
   Thai: () => import("./thai").then(m => m.thai),
   Vietnamese: () => import("./vietnamese").then(m => m.vietnamese),
+  Fusion: () => import("./fusion").then(m => m.fusion),
   HSCA: () => import("./hsca").then(m => m.cuisine),
 };
 
@@ -115,6 +116,12 @@ export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
     elementalProperties: { Water: 0.4, Fire: 0.2, Earth: 0.2, Air: 0.2 },
     description: "Fresh, light flavors with an emphasis on herbs and clear broths.",
     imageUrl: cuisineImages.Vietnamese,
+  },
+  Fusion: {
+    name: "Fusion",
+    elementalProperties: { Fire: 0.35, Earth: 0.35, Water: 0.2, Air: 0.1 },
+    description: "Innovative culinary intersections bridging traditions across cultures through elemental harmony.",
+    imageUrl: cuisineImages.Fusion,
   },
   // HSCA is intentionally absent: it is an internal archive collection, not
   // a real cuisine, and must never surface on public cuisine browse/detail

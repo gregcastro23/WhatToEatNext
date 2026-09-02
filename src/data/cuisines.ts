@@ -65,6 +65,7 @@ export const cuisines: Record<string, AlchemyCuisine> = {
   vietnamese: adaptCuisine(CUISINES_METADATA.Vietnamese, { targetKAlchm: 2.2, tolerance: 0.6 }),
   african: adaptCuisine(CUISINES_METADATA.African, { targetKAlchm: 2.3, tolerance: 0.6 }),
   russian: adaptCuisine(CUISINES_METADATA.Russian, { targetKAlchm: 0.9, tolerance: 0.3 }),
+  fusion: adaptCuisine(CUISINES_METADATA.Fusion, { targetKAlchm: 2.1, tolerance: 0.5 }),
 };
 
 const SIGNATURES: Record<string, AlchemicalSignature> = {
@@ -77,6 +78,7 @@ const SIGNATURES: Record<string, AlchemicalSignature> = {
   vietnamese: { targetKAlchm: 2.2, tolerance: 0.6 },
   african: { targetKAlchm: 2.3, tolerance: 0.6 },
   russian: { targetKAlchm: 0.9, tolerance: 0.3 },
+  fusion: { targetKAlchm: 2.1, tolerance: 0.5 },
 };
 
 export async function getFullCuisine(name: string): Promise<AlchemyCuisine | null> {

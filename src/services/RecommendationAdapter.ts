@@ -263,10 +263,10 @@ export class RecommendationAdapter {
         resultData.elementalBalance,
       );
       const elementalProperties = {
-        Fire: elementalBalance.Fire || 0,
-        Earth: elementalBalance.Earth || 0,
-        Air: elementalBalance.Air || 0,
-        Water: elementalBalance.Water || 0,
+        Fire: elementalBalance.Fire ?? 0,
+        Earth: elementalBalance.Earth ?? 0,
+        Air: elementalBalance.Air ?? 0,
+        Water: elementalBalance.Water ?? 0,
       };
       // Apply tarot element boosts if available
       if (this.tarotElementBoosts) {
@@ -580,7 +580,7 @@ export class RecommendationAdapter {
     item: TransformedItem,
     boosts: Record<string, number>,
   ): TransformedItem {
-    const boost = boosts[item.id] || 1;
+    const boost = boosts[item.id] ?? 1;
     const rawProps = item.elementalProperties;
     return {
       ...item,
@@ -624,19 +624,19 @@ export class RecommendationAdapter {
       elementalProps.Air * 0.2 + elementalProps.Earth * 0.2;
     // Apply tarot boosts to calculated values
     const boostedSpirit = Math.min(
-      Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1),
+      Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit ?? 1.0), 0.1),
       1.0,
     );
     const boostedEssence = Math.min(
-      Math.max(calculatedEssence * (tarotEnergyBoosts.Essence || 1.0), 0.1),
+      Math.max(calculatedEssence * (tarotEnergyBoosts.Essence ?? 1.0), 0.1),
       1.0,
     );
     const boostedMatter = Math.min(
-      Math.max(calculatedMatter * (tarotEnergyBoosts.Matter || 1.0), 0.1),
+      Math.max(calculatedMatter * (tarotEnergyBoosts.Matter ?? 1.0), 0.1),
       1.0,
     );
     const boostedSubstance = Math.min(
-      Math.max(calculatedSubstance * (tarotEnergyBoosts.Substance || 1.0), 0.1),
+      Math.max(calculatedSubstance * (tarotEnergyBoosts.Substance ?? 1.0), 0.1),
       1.0,
     );
     // Calculate energy metrics using the formulas with safety checks

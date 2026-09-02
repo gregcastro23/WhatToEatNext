@@ -2,6 +2,8 @@
 
 import type { AlchemicalState } from "./types";
 
+const EMPTY_PLANETARY_ENERGY: string[] = [];
+
 // Define action types
 export type AlchemicalAction =
   | { type: "SET_SEASONAL_STATE"; payload: { season: string } }
@@ -74,8 +76,8 @@ export const _alchemicalReducer = (
         zodiacEnergy: action.payload,
         currentEnergy: {
           zodiacEnergy: action.payload,
-          lunarEnergy: state.currentEnergy?.lunarEnergy || "",
-          planetaryEnergy: state.currentEnergy?.planetaryEnergy || [],
+          lunarEnergy: state.currentEnergy?.lunarEnergy ?? "",
+          planetaryEnergy: state.currentEnergy?.planetaryEnergy ?? EMPTY_PLANETARY_ENERGY,
         },
         lastUpdated: new Date(),
       };
@@ -85,9 +87,9 @@ export const _alchemicalReducer = (
         ...state,
         lunarEnergy: action.payload,
         currentEnergy: {
-          zodiacEnergy: state.currentEnergy?.zodiacEnergy || "",
+          zodiacEnergy: state.currentEnergy?.zodiacEnergy ?? "",
           lunarEnergy: action.payload,
-          planetaryEnergy: state.currentEnergy?.planetaryEnergy || [],
+          planetaryEnergy: state.currentEnergy?.planetaryEnergy ?? EMPTY_PLANETARY_ENERGY,
         },
         lastUpdated: new Date(),
       };
@@ -97,8 +99,8 @@ export const _alchemicalReducer = (
         ...state,
         planetaryEnergy: action.payload,
         currentEnergy: {
-          zodiacEnergy: state.currentEnergy?.zodiacEnergy || "",
-          lunarEnergy: state.currentEnergy?.lunarEnergy || "",
+          zodiacEnergy: state.currentEnergy?.zodiacEnergy ?? "",
+          lunarEnergy: state.currentEnergy?.lunarEnergy ?? "",
           planetaryEnergy: action.payload,
         },
         lastUpdated: new Date(),

@@ -60,9 +60,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!planetData.sign) return;
 
       const { sign } = planetData;
-      if (!signGroups[sign]) {
-        signGroups[sign] = [];
-      }
+      signGroups[sign] ??= [];
       signGroups[sign].push(planet);
     });
 
@@ -203,10 +201,10 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: planetData.sign || "Unknown",
-        degree: planetData.degree || 0,
-        isRetrograde: planetData.isRetrograde || false,
-        exactLongitude: planetData.exactLongitude || 0,
+        sign: planetData.sign ?? "Unknown",
+        degree: planetData.degree ?? 0,
+        isRetrograde: planetData.isRetrograde ?? false,
+        exactLongitude: planetData.exactLongitude ?? 0,
       };
     });
 
@@ -218,7 +216,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
     // Create a basic SVG representation
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: ascendantData.sign || "Libra",
+      ascendantSign: ascendantData.sign ?? "Libra",
       svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>,
         <circle cx='150' cy='150' r='140' fill='none' stroke='#333' stroke-width='1'/>,
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>,

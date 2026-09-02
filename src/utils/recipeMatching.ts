@@ -809,7 +809,7 @@ export const astrologyUtils = {
       _Neptune: "Water",
       _Pluto: "Water",
     };
-    return planetElements[planet] || "Neutral";
+    return planetElements[planet] ?? "Neutral";
   },
 
   getZodiacElement(sign: string): string {
@@ -827,7 +827,7 @@ export const astrologyUtils = {
       _Scorpio: "Water",
       _Pisces: "Water",
     };
-    return zodiacElements[sign] || "Neutral";
+    return zodiacElements[sign] ?? "Neutral";
   },
 };
 
@@ -1483,7 +1483,7 @@ function _calculateAstrologicalMatch(
     // If no direct sign compatibility, check element compatibility
     const recipeElement = signElementMap[recipeSignLower];
     if (recipeElement && userElement) {
-      return elementCompatibility[userElement]?.[recipeElement] || 0.5;
+      return elementCompatibility[userElement]?.[recipeElement] ?? 0.5;
     }
   }
 
@@ -1492,7 +1492,7 @@ function _calculateAstrologicalMatch(
     // Check if recipe has the user's element
     if (typeof elements === "string") {
       const singleElement = String(elements).toLowerCase();
-      return elementCompatibility[userElement]?.[singleElement] || 0.5;
+      return elementCompatibility[userElement]?.[singleElement] ?? 0.5;
     }
 
     // If recipe has multiple elements, average their compatibility
@@ -1502,7 +1502,7 @@ function _calculateAstrologicalMatch(
         if (typeof element === "string") {
           const elemLower = element.toLowerCase();
           totalCompatibility +=
-            elementCompatibility[userElement]?.[elemLower] || 0.5;
+            elementCompatibility[userElement]?.[elemLower] ?? 0.5;
         }
       });
       return elements.length > 0 ? totalCompatibility / elements.length : 0.5;
@@ -1515,7 +1515,7 @@ function _calculateAstrologicalMatch(
     const lunarElement = astrologyUtils.getPlanetaryElement("Moon");
     if (lunarElement) {
       return (
-        elementCompatibility[userElement]?.[lunarElement.toLowerCase()] || 0.5
+        elementCompatibility[userElement]?.[lunarElement.toLowerCase()] ?? 0.5
       );
     }
   }

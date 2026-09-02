@@ -467,7 +467,7 @@ function _standardizePlanetName(_planet: string): string {
     pluto: "Pluto",
   };
   const lowerPlanet = _planet.toLowerCase();
-  return nameMap[lowerPlanet] || _planet;
+  return nameMap[lowerPlanet] ?? _planet;
 }
 /**
  * Validate planetary positions
@@ -852,7 +852,7 @@ export function getTraditionalRuler(sign: string): string {
     aquarius: "Saturn", // Traditional ruler (before Uranus),
     pisces: "Jupiter", // Traditional ruler (before Neptune)
   };
-  return rulers[sign] || "";
+  return rulers[sign] ?? "";
 }
 /**
  * Calculate enhanced stellium effects based on planetary positions
@@ -1964,7 +1964,7 @@ export function getSignFromLongitude(longitude: number): {
     "pisces",
   ];
   return {
-    sign: signs[signIndex] || "aries",
+    sign: signs[signIndex] ?? "aries",
     degree: parseFloat(degree.toFixed(4)),
   };
 }
@@ -2110,7 +2110,7 @@ export const _parseAstroChartAspects = (
         if (aspectData.aspectType && aspectData.planet1 && aspectData.planet2) {
           aspects.push({
             type:
-              aspectTypeMapping[String(aspectData.aspectType)] ||
+              aspectTypeMapping[String(aspectData.aspectType)] ??
               String(aspectData.aspectType),
             planet1: String(aspectData.planet1),
             planet2: String(aspectData.planet2),
@@ -2472,7 +2472,7 @@ function calculateCurrentElementalInfluence(
     };
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
-      const weight = planetWeights[planet] || 0.5;
+      const weight = planetWeights[planet] ?? 0.5;
       const { sign } = data;
       const element = getZodiacElement(sign.toLowerCase());
       influence[element] += weight;
@@ -2524,8 +2524,8 @@ function calculateItemCompatibilityScore(
     // Calculate weighted alignment for each element
     (Object.keys(itemProperties) as Array<keyof ElementalProperties>).forEach((element) => {
       if (element in currentInfluence) {
-        const itemStrength = itemProperties[element] || 0;
-        const currentStrength = currentInfluence[element] || 0;
+        const itemStrength = itemProperties[element] ?? 0;
+        const currentStrength = currentInfluence[element] ?? 0;
         // Elements work best with themselves (no opposing elements principle)
         if (itemStrength > 0 && currentStrength > 0) {
           compatibility += Math.sqrt(itemStrength * currentStrength);
@@ -2697,7 +2697,7 @@ function calculateElementalTransformations(
     // Find strongest interactions
     (Object.entries(itemProperties) as Array<[keyof ElementalProperties, number]>).forEach(([element, strength]) => {
       if (strength > 0.3) {
-        const influenceStrength = currentInfluence[element] || 0;
+        const influenceStrength = currentInfluence[element] ?? 0;
         if (influenceStrength > 0.3) {
           transformations.push({
             primary: element as Element,
@@ -2754,7 +2754,7 @@ function calculatePlanetaryStrength(
         Pluto: 0.4,
       };
       const strength =
-        (basePlanetStrength[planet] || 0.5) * retrogradeModifier;
+        (basePlanetStrength[planet] ?? 0.5) * retrogradeModifier;
       totalStrength += strength;
       planetCount++;
     });

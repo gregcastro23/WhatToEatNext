@@ -10,7 +10,7 @@ import {
   calculatePlanetaryDignity,
   calculatePlanetaryStrength,
 } from "@/calculations/core/planetaryInfluences";
-import planetInfo from "@/data/planets";
+import { planetInfo } from "@/data/planets/index";
 import {
   PlanetaryLocationService,
   AstronomicalCalculations,
@@ -23,15 +23,20 @@ import {
   TransitAnalysisService as _TransitAnalysisService,
   type TransitSeason,
 } from "@/data/transits/comprehensiveTransitDatabase";
-import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
+import type {
+  PlanetaryPosition as AlchemyPlanetaryPosition,
+  ZodiacSignType,
+} from "@/types/alchemy";
+import type { CelestialPosition, PlanetaryAspect } from "@/types/celestial";
+import { isZodiacSignType } from "@/types/constants";
 
 /**
- * Minimal view of the aspect-influence runtime shape, capturing only the
- * `culinaryEffects` field read below. See the preserved type mismatch note at
- * the read site in generateLocationSpecificRecommendations.
+ * Aspect influence with dignity modification and culinary effects
  */
-interface AspectInfluenceLike {
-  culinaryEffects?: string[];
+export interface EnhancedAspectInfluence {
+  aspect: PlanetaryAspect;
+  dignityModifiedInfluence: number;
+  culinaryEffects: string[];
 }
 
 /**
@@ -59,11 +64,7 @@ export interface EnhancedTransitInfluence {
   season: TransitSeason;
   location: GeographicCoordinates;
   enhancedPlanetaryPositions: EnhancedPlanetaryPosition[];
-  aspectInfluences: Array<{
-    aspect: PlanetaryAspect;
-    dignityModifiedInfluence: number;
-    culinaryEffects: string[];
-  }>;
+  aspectInfluences: EnhancedAspectInfluence[];
   locationSpecificRecommendations: {
     ingredients: string[];
     cookingMethods: string[];
@@ -112,7 +113,7 @@ export class EnhancedTransitAnalysisService {
 
     // Calculate enhanced planetary positions with dignity and location modifiers
     const enhancedPositions = this.calculateEnhancedPlanetaryPositions(
-      season.planetaryPlacements as Record<string, Record<string, string>>,
+      season.planetaryPlacements,
       locationInfluences,
       date,
     );
@@ -128,7 +129,7 @@ export class EnhancedTransitAnalysisService {
     const locationRecommendations =
       this.generateLocationSpecificRecommendations(
         enhancedPositions,
-        aspectInfluences as unknown as PlanetaryPosition[],
+        aspectInfluences,
         season,
         location,
         date,
@@ -137,7 +138,7 @@ export class EnhancedTransitAnalysisService {
     // Determine dominant influences
     const dominantInfluences = this.calculateDominantInfluences(
       enhancedPositions,
-      aspectInfluences as unknown as PlanetaryPosition[],
+      aspectInfluences,
       season,
       location,
       date,
@@ -157,7 +158,7 @@ export class EnhancedTransitAnalysisService {
    * Calculate enhanced planetary positions with dignity and location effects
    */
   private static calculateEnhancedPlanetaryPositions(
-    planetaryPlacements: Record<string, Record<string, string>>,
+    planetaryPlacements: Record<string, CelestialPosition>,
     locationInfluences: LocationPlanetaryInfluence[],
     _date: Date,
   ): EnhancedPlanetaryPosition[] {
@@ -172,21 +173,21 @@ export class EnhancedTransitAnalysisService {
       );
 
       // Calculate overall strength
-      const strength = calculatePlanetaryStrength(
-        planet,
-        position as unknown as import("@/types/alchemy").PlanetaryPosition,
-      );
+      const normalizedSign = sign.toLowerCase();
+      const safeSign: ZodiacSignType = isZodiacSignType(normalizedSign)
+        ? normalizedSign
+        : "aries";
+      const alchemyPosition: AlchemyPlanetaryPosition = {
+        sign: safeSign,
+        degree: Number(position.degree) || 0,
+        isRetrograde: Boolean(position.isRetrograde),
+      };
+      const strength = calculatePlanetaryStrength(planet, alchemyPosition);
 
-      // Get planet data for culinary recommendations
-      // NOTE: "@/data/planets" resolves to src/data/planets.ts (a simpler
-      // { element, foodCorrespondences, ... } shape), not the PlanetData-shaped
-      // barrel at src/data/planets/index.ts, because Node module resolution
-      // prefers the sibling file over the same-named directory. This cast
-      // preserves the pre-existing (implicit-any) runtime behavior of passing
-      // that value through as PlanetData rather than fixing the import target.
-      const planetData = (planetInfo as unknown as Record<string, PlanetData | undefined>)[
-        planet
-      ];
+      // Get planet data for culinary recommendations from real planetInfo catalog
+      const normalizedPlanetName =
+        planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
+      const planetData = planetInfo[normalizedPlanetName] ?? planetInfo[planet];
       const culinaryRecommendations =
         this.generatePlanetaryCulinaryRecommendations(
           planet,
@@ -217,11 +218,7 @@ export class EnhancedTransitAnalysisService {
     aspects: PlanetaryAspect[],
     enhancedPositions: EnhancedPlanetaryPosition[],
     location: GeographicCoordinates,
-  ): Array<{
-    aspect: PlanetaryAspect;
-    dignityModifiedInfluence: number;
-    culinaryEffects: string[];
-  }> {
+  ): EnhancedAspectInfluence[] {
     return aspects.map((aspect) => {
       // Get enhanced positions for the aspecting planets
       const planet1Data = enhancedPositions.find(
@@ -258,7 +255,7 @@ export class EnhancedTransitAnalysisService {
 
       return {
         aspect,
-        dignityModifiedInfluence: dignityModifiedInfluence ?? aspect.influence,
+        dignityModifiedInfluence,
         culinaryEffects,
       };
     });
@@ -365,7 +362,7 @@ export class EnhancedTransitAnalysisService {
    */
   private static generateLocationSpecificRecommendations(
     enhancedPositions: EnhancedPlanetaryPosition[],
-    aspectInfluences: PlanetaryPosition[],
+    aspectInfluences: EnhancedAspectInfluence[],
     season: TransitSeason,
     location: GeographicCoordinates,
     date: Date,
@@ -415,11 +412,7 @@ export class EnhancedTransitAnalysisService {
 
     // Add aspect-influenced methods
     aspectInfluences.forEach((aspectInfluence) => {
-      // Types-only: aspectInfluences is declared PlanetaryPosition[] but the runtime
-      // objects are the aspect-influence shape (see force-casts at callsites ~L121/L130).
-      // culinaryEffects is read off that real shape; mismatch preserved intentionally.
-      const effects = (aspectInfluence as unknown as AspectInfluenceLike)
-        .culinaryEffects;
+      const effects = aspectInfluence.culinaryEffects;
       if (Array.isArray(effects)) {
         cookingMethods.push(...effects.slice(0, 1));
       }
@@ -455,7 +448,7 @@ export class EnhancedTransitAnalysisService {
    */
   private static calculateDominantInfluences(
     enhancedPositions: EnhancedPlanetaryPosition[],
-    aspectInfluences: PlanetaryPosition[],
+    _aspectInfluences: EnhancedAspectInfluence[],
     season: TransitSeason,
     location: GeographicCoordinates,
     date: Date,
@@ -480,7 +473,9 @@ export class EnhancedTransitAnalysisService {
 
     // Get seasonal theme
     const seasonalTheme =
-      season.seasonalThemes[0] || "Balanced seasonal cooking";
+      season.seasonalThemes[0]?.trim()
+        ? season.seasonalThemes[0]
+        : "Balanced seasonal cooking";
     // Calculate optimal cooking times
     const solarTimes = AstronomicalCalculations.getSolarElevation(
       location,

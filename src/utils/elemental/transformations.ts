@@ -276,17 +276,17 @@ export function applyPlanetaryInfluence(
   // ✅ Pattern KK-9: Safe arithmetic operations for alchemical transformation
   const alchemicalBoost = {
     Spirit:
-      Number(item.alchemicalProperties.Spirit || 0.25) +
-      Number(planetProperties.Spirit || 0) * Number(planetaryStrength || 0),
+      Number(item.alchemicalProperties.Spirit ?? 0.25) +
+      Number(planetProperties.Spirit ?? 0) * Number(planetaryStrength || 0),
     Essence:
-      Number(item.alchemicalProperties.Essence || 0.25) +
-      Number(planetProperties.Essence || 0) * Number(planetaryStrength || 0),
+      Number(item.alchemicalProperties.Essence ?? 0.25) +
+      Number(planetProperties.Essence ?? 0) * Number(planetaryStrength || 0),
     Matter:
-      Number(item.alchemicalProperties.Matter || 0.25) +
-      Number(planetProperties.Matter || 0) * Number(planetaryStrength || 0),
+      Number(item.alchemicalProperties.Matter ?? 0.25) +
+      Number(planetProperties.Matter ?? 0) * Number(planetaryStrength || 0),
     Substance:
-      Number(item.alchemicalProperties.Substance || 0.25) +
-      Number(planetProperties.Substance || 0) * Number(planetaryStrength || 0),
+      Number(item.alchemicalProperties.Substance ?? 0.25) +
+      Number(planetProperties.Substance ?? 0) * Number(planetaryStrength || 0),
   };
 
   const legacyItem = item as TransformableElementalItem;
@@ -374,14 +374,14 @@ export function filterByAlchemicalCompatibility(
       const properties = item.alchemicalProperties;
       // ✅ Pattern KK-1: Safe number conversion for property comparison
       const maxProperty = Math.max(
-        Number(properties.Spirit || 0),
-        Number(properties.Essence || 0),
-        Number(properties.Matter || 0),
-        Number(properties.Substance || 0),
+        Number(properties.Spirit ?? 0),
+        Number(properties.Essence ?? 0),
+        Number(properties.Matter ?? 0),
+        Number(properties.Substance ?? 0),
       );
 
       const targetValue = Number(
-        properties[targetProperty] || 0,
+        properties[targetProperty] ?? 0,
       );
       if (!targetValue || targetValue < Number(maxProperty || 0) * 0.8) {
         return false;

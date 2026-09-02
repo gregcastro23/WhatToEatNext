@@ -117,18 +117,18 @@ const ASPECT_STYLES: Record<string, AspectStyle> = {
 };
 
 function generateTransitMessage(planet: string, natalSign: string, transitSign: string, type: string): string {
-  const natalEl = SIGN_ELEMENTS[natalSign.toLowerCase()] || 'Fire';
-  const transitEl = SIGN_ELEMENTS[transitSign.toLowerCase()] || 'Fire';
+  const natalEl = SIGN_ELEMENTS[natalSign.toLowerCase()] ?? 'Fire';
+  const transitEl = SIGN_ELEMENTS[transitSign.toLowerCase()] ?? 'Fire';
 
   switch (type) {
     case 'conjunction':
-      return `Transit ${planet} conjunct natal ${planet} in ${natalSign} \u2014 amplifying your natural ${natalEl} energy. Lean into ${SIGN_DESCRIPTIONS[natalSign.toLowerCase()] || 'your innate tendencies'}.`;
+      return `Transit ${planet} conjunct natal ${planet} in ${natalSign} \u2014 amplifying your natural ${natalEl} energy. Lean into ${SIGN_DESCRIPTIONS[natalSign.toLowerCase()] ?? 'your innate tendencies'}.`;
     case 'harmony':
-      return `Transit ${planet} in ${transitSign} (${transitEl}) harmonizes with natal ${natalSign} (${natalEl}) \u2014 flowing energy for ${SIGN_DESCRIPTIONS[transitSign.toLowerCase()] || 'culinary exploration'}.`;
+      return `Transit ${planet} in ${transitSign} (${transitEl}) harmonizes with natal ${natalSign} (${natalEl}) \u2014 flowing energy for ${SIGN_DESCRIPTIONS[transitSign.toLowerCase()] ?? 'culinary exploration'}.`;
     case 'tension':
-      return `Transit ${planet} in ${transitSign} challenges natal ${natalSign} \u2014 push beyond comfort by ${SIGN_DESCRIPTIONS[transitSign.toLowerCase()] || 'trying something new'}.`;
+      return `Transit ${planet} in ${transitSign} challenges natal ${natalSign} \u2014 push beyond comfort by ${SIGN_DESCRIPTIONS[transitSign.toLowerCase()] ?? 'trying something new'}.`;
     case 'opportunity':
-      return `Transit ${planet} in ${transitSign} opens doors for ${natalSign} energy \u2014 great time for ${SIGN_DESCRIPTIONS[transitSign.toLowerCase()] || 'new culinary ventures'}.`;
+      return `Transit ${planet} in ${transitSign} opens doors for ${natalSign} energy \u2014 great time for ${SIGN_DESCRIPTIONS[transitSign.toLowerCase()] ?? 'new culinary ventures'}.`;
     default:
       return '';
   }
@@ -296,9 +296,9 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
     );
   }
 
-  const currentSunSign = transitPositions.Sun?.sign || '';
-  const currentMoonSign = transitPositions.Moon?.sign || '';
-  const domElColor = ELEMENT_COLORS[currentDominantElement] || '#a78bfa';
+  const currentSunSign = transitPositions.Sun?.sign ?? '';
+  const currentMoonSign = transitPositions.Moon?.sign ?? '';
+  const domElColor = ELEMENT_COLORS[currentDominantElement] ?? '#a78bfa';
 
   return (
     <div className="space-y-4">
@@ -319,12 +319,12 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
           {/* Overview cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
             <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5 text-center">
-              <div className="text-2xl text-amber-400">{SIGN_SYMBOLS[currentSunSign] || ''}</div>
+              <div className="text-2xl text-amber-400">{SIGN_SYMBOLS[currentSunSign] ?? ''}</div>
               <div className="text-white/30 text-[10px] uppercase tracking-widest mt-1.5">Sun</div>
               <div className="text-white font-bold text-sm capitalize mt-0.5">{currentSunSign}</div>
             </div>
             <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5 text-center">
-              <div className="text-2xl text-blue-400">{SIGN_SYMBOLS[currentMoonSign] || ''}</div>
+              <div className="text-2xl text-blue-400">{SIGN_SYMBOLS[currentMoonSign] ?? ''}</div>
               <div className="text-white/30 text-[10px] uppercase tracking-widest mt-1.5">Moon</div>
               <div className="text-white font-bold text-sm capitalize mt-0.5">{currentMoonSign}</div>
             </div>
@@ -348,8 +348,8 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
             {PLANETS.map((planet) => {
               const pos = transitPositions[planet];
               if (!pos) return null;
-              const el = SIGN_ELEMENTS[pos.sign] || 'Fire';
-              const color = ELEMENT_COLORS[el] || '#a78bfa';
+              const el = SIGN_ELEMENTS[pos.sign] ?? 'Fire';
+              const color = ELEMENT_COLORS[el] ?? '#a78bfa';
               return (
                 <button
                   type="button"
@@ -473,8 +473,8 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
         <p className="text-sm text-white/40 leading-relaxed">
           With the Sun in <span className="text-white/70 font-semibold capitalize">{currentSunSign}</span> and
           Moon in <span className="text-white/70 font-semibold capitalize">{currentMoonSign}</span>,
-          the cosmic energy favors {SIGN_DESCRIPTIONS[currentSunSign] || 'creative cooking'}.
-          {currentMoonSign && ` The Moon encourages ${SIGN_DESCRIPTIONS[currentMoonSign] || 'intuitive meal choices'}.`}
+          the cosmic energy favors {SIGN_DESCRIPTIONS[currentSunSign] ?? 'creative cooking'}.
+          {currentMoonSign && ` The Moon encourages ${SIGN_DESCRIPTIONS[currentMoonSign] ?? 'intuitive meal choices'}.`}
           {state.currentSeason && ` Seasonal ${state.currentSeason} energy adds ${
             state.currentSeason === 'spring' ? 'fresh, renewing' :
             state.currentSeason === 'summer' ? 'abundant, vibrant' :
