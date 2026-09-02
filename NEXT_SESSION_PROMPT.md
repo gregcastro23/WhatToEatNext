@@ -26,15 +26,15 @@ rather than trusting the number if the tree has moved.
 | **Lint errors / warnings** | `0` / `23` | `bun run lint` | ✅ Verified |
 | **Full verify** | exit `0` | `bun run verify` | ✅ Verified |
 | **Fast suite** | `19 suites / 494 tests` | `bun run test:fast` | ✅ Verified |
-| **Tracked lint debt** | `2,962` vs baseline `2,970` | `bun run lint:debt` | 🟢 **GREEN (−8)** |
-| **Declined rules pool** | `6,361` vs baseline `6,364` | same | 🟢 **GREEN (−3)** |
+| **Tracked lint debt** | `2,957` vs baseline `2,957` | `bun run lint:debt` | 🟢 **GREEN (−5)** |
+| **Declined rules pool** | `6,360` vs baseline `6,360` | same | 🟢 **GREEN (−1)** |
 | — `prefer-nullish-coalescing` | `628` vs sub-baseline `628` (down −64 total: −29 in Tranche 1, −35 in Tranche 2) | same | 🟢 **Sub-baselined** |
-| — `no-unnecessary-condition` | `1,307` vs baseline `1,307` | same | 🟢 −422 locked |
-| **Gated cast surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | ⚪ Unmoved |
-| **Assertion sites (AST)** | `4,531` (was 4,532) | same | 🟢 −1 |
-| — Production / Test | `3,897` / `634` | same | 🟢 −1 prod |
+| — `no-unnecessary-condition` | `1,301` vs baseline `1,301` | same | 🟢 −1 locked |
+| **Gated cast surface** | `378` (104 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | 🟢 **GREEN (−2)** |
+| **Assertion sites (AST)** | `4,529` (was 4,531) | same | 🟢 −2 |
+| — Production / Test | `3,895` / `634` | same | 🟢 −2 prod |
 | — Monitored | `641` `as const`, `659` non-null `!` | same | ⚪ Baseline |
-| **Untracked single `as T`** | `2,811` (was 2,812) | same | 🟢 −1 |
+| **Untracked single `as T`** | `2,812` (was 2,811) | same | ⚪ Baseline |
 | **Strict-index allowlist** | `0` entries (retired) | `.strict-index-baseline.json` | 🟢 Clean |
 | **Duplicate artifact files** | Excluded in gitignore | `find src -name '* [0-9].*'` | ⚪ Ignored |
 
