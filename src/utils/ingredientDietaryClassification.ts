@@ -67,8 +67,8 @@ export interface ClassifiableIngredient {
  * Plant-based names that contain an animal-product word. Checked before every
  * animal list. Verified against the catalog: `eggplant`/`eggplants`/`large
  * eggplant`, `coconut milk`, `almond butter`, `cashew butter`, `sunflower seed
- * butter`, `Butternut squash`, `cream of tartar`, and `vegetable broth` all
- * appear and must classify as vegan.
+ * butter`, `Butternut squash`, `cream of tartar`, `Custard Apple (Cherimoya)`
+ * and `vegetable broth` all appear and must classify as vegan.
  */
 const PLANT_COMPOUNDS: RegExp[] = [
   /\beggplants?\b/,
@@ -81,6 +81,7 @@ const PLANT_COMPOUNDS: RegExp[] = [
   /\bbutter\s+(bean|lettuce)s?\b/,
   /\bmilk\s+thistle\b/,
   /\bcream\s+of\s+tartar\b/,
+  /\bcustard\s+apples?\b/,
   /\bvegetable\s+(broth|stock|bouillon)\b/,
   /\b(vegan|vegetarian|plant[-\s]?based|non[-\s]?dairy|dairy[-\s]?free|meat[-\s]?free|meatless|mock|imitation|faux)\b/,
   /\bcrab\s?apples?\b/,
@@ -116,6 +117,20 @@ const DAIRY_TERMS: RegExp[] = [
   /\b(milk|buttermilk|cream|creams?|butter|ghee|cheeses?|yogh?urts?|whey|casein|curds?|kefir|custard)\b/,
   /\b(paneer|ricotta|mozzarella|parmesan|parmigiano|cheddar|feta|mascarpone|gouda|brie|halloumi|queso)\b/,
   /\bcr[eè]me\s+fra[iî]che\b/,
+];
+
+/**
+ * Eggs named for the bird that laid them. Checked *before* `FLESH_TERMS`,
+ * because the poultry term that correctly excludes `Chicken` also matches
+ * `Chicken Egg` - which put the catalog's `Chicken`/`Duck`/`Quail`/`Goose Egg`
+ * records in the flesh tier while `Egg Yolk` and `Egg White (Albumen)` landed
+ * in the egg tier, so a vegetarian filter kept the yolk and dropped the egg.
+ * An egg is an egg whichever bird is named. Deliberately narrow: only a
+ * `<bird> egg` compound, so `Chicken`, `chicken thigh` and `chicken broth`
+ * still fall through to the flesh terms below.
+ */
+const BIRD_EGG_TERMS: RegExp[] = [
+  /\b(chicken|hens?|ducks?|goose|geese|quail|turkey|pheasant|ostrich|emu)\s+eggs?\b/,
 ];
 
 /** Eggs: excluded from vegan, allowed for vegetarian. */
@@ -211,10 +226,13 @@ function readQualityAttestation(
  *  2. a plant-compound name ("eggplant", "vegetable broth") - suppresses both
  *     the animal term it contains and the ambiguity check
  *  3. a `dairy-based` attestation in `qualities`
- *  4. animal name terms: flesh, then dairy, then egg, then other
+ *  4. animal name terms: a bird's egg first (so `Chicken Egg` is not read as
+ *     poultry flesh), then flesh, dairy, egg, other
  *  5. an ambiguous stock/preparation term, which yields `unknown`
- *  6. structural `category` / `subCategory` rules
- *  7. compliant - nothing excluded it (exclusion-list default)
+ *  6. a plant compound again, this time outranking the structural rules -
+ *     the catalog files plant milks under `category: "dairy"`
+ *  7. structural `category` / `subCategory` rules
+ *  8. compliant - nothing excluded it (exclusion-list default)
  *
  * Note on precedence 2 over 3: `qualities` is sparse and not fully reliable -
  * the catalog tags `cream of tartar` (potassium bitartrate, a winemaking
@@ -257,7 +275,18 @@ export function classifyIngredientDiet(
       };
     }
 
-    // 3. Animal name terms, most restrictive first.
+    // 3. A bird's egg is an egg, not flesh. This must precede FLESH_TERMS:
+    //    the poultry pattern matches "Chicken Egg" as readily as "Chicken".
+    const birdEgg = matchesAny(BIRD_EGG_TERMS, name);
+    if (birdEgg) {
+      return {
+        isVegan: "non-compliant",
+        isVegetarian: "compliant",
+        basis: `name-term:egg(${birdEgg.source})`,
+      };
+    }
+
+    // 4. Animal name terms, most restrictive first.
     const flesh = matchesAny(FLESH_TERMS, name);
     if (flesh) {
       return {
@@ -303,6 +332,18 @@ export function classifyIngredientDiet(
     };
   }
 
+  // 6. A plant compound outranks the structural rules below. The catalog
+  //     files plant milks (oat, almond, soy, cashew, coconut) and coconut
+  //     cream under `category: "dairy"` because that is where a shop shelves
+  //     them; the name is the reliable signal, not the aisle.
+  if (plantCompound) {
+    return {
+      isVegan: "compliant",
+      isVegetarian: "compliant",
+      basis: `plant-compound(${plantCompound.source})`,
+    };
+  }
+
   // 5. Structural rules from the catalog's own taxonomy.
   if (FLESH_CATEGORIES.has(category)) {
     return {
@@ -337,13 +378,6 @@ export function classifyIngredientDiet(
       isVegan: "compliant",
       isVegetarian: "compliant",
       basis: `subCategory=${subCategory}`,
-    };
-  }
-  if (plantCompound) {
-    return {
-      isVegan: "compliant",
-      isVegetarian: "compliant",
-      basis: `plant-compound(${plantCompound.source})`,
     };
   }
   if (PLANT_CATEGORIES.has(category)) {

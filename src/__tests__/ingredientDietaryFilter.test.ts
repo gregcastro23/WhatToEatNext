@@ -163,6 +163,45 @@ describe("classifyIngredientDiet", () => {
     }
   });
 
+  it("reads a bird's egg as an egg, not as the bird", () => {
+    // The poultry flesh term matches "Chicken Egg" as readily as "Chicken",
+    // which put the catalog's Chicken/Duck/Quail/Goose Egg records in the
+    // flesh tier while Egg Yolk and Egg White landed in the egg tier - so a
+    // vegetarian filter kept the yolk and dropped the egg it came from.
+    for (const name of ["Chicken Egg", "Duck Egg", "Quail Egg", "Goose Egg"]) {
+      const result = classifyIngredientDiet({ name, category: "protein" });
+      expect(result.isVegetarian).toBe("compliant");
+      expect(result.isVegan).toBe("non-compliant");
+      expect(result.basis).toContain("egg");
+    }
+  });
+
+  it("still reads the bird itself as flesh", () => {
+    // The control for the rule above: it must stay narrow enough that plain
+    // poultry, cuts and stocks are unaffected. Asserting the basis too, so a
+    // pass cannot come from some later rule reaching the same verdict.
+    for (const name of ["Chicken", "Duck", "Goose", "Quail", "chicken thigh"]) {
+      const result = classifyIngredientDiet({ name, category: "protein" });
+      expect(result.isVegetarian).toBe("non-compliant");
+      expect(result.basis).toContain("flesh");
+    }
+  });
+
+  it("does not read custard apple as a dairy custard", () => {
+    // `custard` is a dairy term; "Custard Apple (Cherimoya)" is a fruit and
+    // appears in both catalogs under `category: fruit`.
+    const result = classifyIngredientDiet({
+      name: "Custard Apple (Cherimoya)",
+      category: "fruit",
+    });
+    expect(result.isVegan).toBe("compliant");
+    expect(result.basis).toContain("plant-compound");
+    // The bare term must keep excluding actual custard.
+    expect(
+      classifyIngredientDiet({ name: "custard", category: "misc" }).isVegan,
+    ).toBe("non-compliant");
+  });
+
   it("reports unknown for preparations of unstated origin rather than guessing", () => {
     for (const name of ["brown stock", "supreme broth gao tang", "refried beans"]) {
       const result = classifyIngredientDiet({ name, category: "misc" });
@@ -178,6 +217,39 @@ describe("classifyIngredientDiet", () => {
       qualities: ["dairy-based"],
     });
     expect(result.isVegan).toBe("compliant");
+  });
+
+  it("lets a plant compound outrank the dairy category it is shelved in", () => {
+    // The catalog files every plant milk under `category: "dairy"` - that is
+    // where a shop shelves them, not what they are made of. Before this was
+    // fixed the category rule ran first, so all seven read as non-vegan.
+    for (const name of [
+      "oat milk",
+      "almond milk",
+      "soy milk",
+      "soymilk",
+      "cashew milk",
+      "coconut milk",
+      "coconut cream",
+    ]) {
+      const result = classifyIngredientDiet({ name, category: "dairy" });
+      expect({ name, vegan: result.isVegan }).toEqual({
+        name,
+        vegan: "compliant",
+      });
+      expect(result.basis).toContain("plant-compound");
+    }
+  });
+
+  it("still excludes real dairy filed in that same category", () => {
+    // CONTROL for the test above: the fix must not turn the dairy aisle vegan.
+    for (const name of ["whole milk", "buttermilk", "heavy cream", "butter"]) {
+      const result = classifyIngredientDiet({ name, category: "dairy" });
+      expect({ name, vegan: result.isVegan }).toEqual({
+        name,
+        vegan: "non-compliant",
+      });
+    }
   });
 
   it("honours the catalog's own taxonomy", () => {
