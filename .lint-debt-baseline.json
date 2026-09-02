@@ -1,12 +1,12 @@
 {
-  "trackedTotal": 2954,
+  "trackedTotal": 2953,
   "casts": {
     "total": 373,
     "asAny": 104,
     "asUnknownAs": 269,
     "production": 315,
     "test": 58,
-    "untrackedSingleAsT": 2808
+    "untrackedSingleAsT": 2810
   },
   "assertionSites": {
     "total": 4520,
@@ -20,7 +20,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 592,
+      "total": 539,
       "verifiedSafe": 95,
       "semantic": 566,
       "unclassified": 31,
@@ -57,7 +57,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1300,
+      "count": 1299,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 592,
+      "count": 539,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -121,11 +121,11 @@
       "autoFixable": 0
     },
     "max-lines": {
-      "count": 663,
+      "count": 661,
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2129,
+      "count": 2127,
       "autoFixable": 0
     },
     "max-nested-callbacks": {

@@ -107,7 +107,7 @@ export function calculateCombinationEffects({
         const effect: CombinationEffect = {
           type: rule.effect,
           strength: rule.modifier,
-          description: rule.notes || "",
+          description: rule.notes ?? "",
           elements: rule.elements
             ? (Object.keys(rule.elements) as Element[])
             : [],
@@ -122,12 +122,12 @@ export function calculateCombinationEffects({
 
     return effects.sort((a, b) => {
       const aValue =
-        (a as { modifier?: number; strength?: number }).modifier ||
-        (a as { strength?: number }).strength ||
+        (a as { modifier?: number; strength?: number }).modifier ??
+        (a as { strength?: number }).strength ??
         0;
       const bValue =
-        (b as { modifier?: number; strength?: number }).modifier ||
-        (b as { strength?: number }).strength ||
+        (b as { modifier?: number; strength?: number }).modifier ??
+        (b as { strength?: number }).strength ??
         0;
       return bValue - aValue;
     });
@@ -210,7 +210,7 @@ const isAntagonisticCombination = (
 ): boolean => {
   const antagonistic =
     (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })
-      .antagonistic || [];
+      .antagonistic ?? [];
   return antagonistic.some(
     ([e1, e2]: [string, string]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||

@@ -216,7 +216,7 @@ function getStaticFlavorProfile(cuisineName: string): string | null {
     russian:
       "Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.",
   };
-  return cuisineFlavorMap[cuisineName] || null;
+  return cuisineFlavorMap[cuisineName] ?? null;
 }
 
 /**
@@ -229,7 +229,7 @@ function getElementalDescription(element: string): string {
     Earth: "grounding, substantial",
     Air: "light, ethereal",
   };
-  return elementDescriptions[element] || "balanced";
+  return elementDescriptions[element] ?? "balanced";
 }
 
 /**
@@ -241,10 +241,10 @@ export function getFlavorProfile(
 ): string {
   // Convert to proper ElementalProperties format
   const convertedProps: ElementalProperties = {
-    Fire: elementalProps.Fire || 0,
-    Water: elementalProps.Water || 0,
-    Earth: elementalProps.Earth || 0,
-    Air: elementalProps.Air || 0,
+    Fire: elementalProps.Fire ?? 0,
+    Water: elementalProps.Water ?? 0,
+    Earth: elementalProps.Earth ?? 0,
+    Air: elementalProps.Air ?? 0,
   };
   return generateFlavorProfileFromElements(convertedProps);
 }
