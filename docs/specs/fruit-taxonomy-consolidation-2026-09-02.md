@@ -4,7 +4,15 @@ Created: 2026-09-02
 Updated: 2026-09-02  
 
 Status: **Executed & Verified**. Fully shipped under PR #819 (`claude/mystifying-goldstine-ca8ff7`) across commits `dbbbd03f` and `fa657a92`.  
-The structural cause of silent shadowing has been eliminated: nine fruit modules were consolidated into exactly seven pairwise-disjoint botanical files, legacy overlay modules (`enhancedFruits.ts`, `fruits.ts`) were dissolved, all 77 fruits now satisfy canonical taxonomy contracts, and adversarial verification confirmed zero data loss.
+The structural cause of silent shadowing has been eliminated: nine fruit modules were consolidated into exactly seven pairwise-disjoint botanical files, legacy overlay modules (`enhancedFruits.ts`, `fruits.ts`) were dissolved, and all 77 fruits now satisfy canonical taxonomy contracts.
+
+**How data loss was actually established, because it matters for the next migration.** Adversarial
+verification ran on the first merge pass and found nothing. It did *not* run on the recovery pass -
+all three verifier agents died on a session limit, and the work was committed unverified. The loss
+was found instead by a deterministic instrument: reconstructing the pre-consolidation catalog from
+`5fe948d4` and diffing every leaf *path*, which surfaced 53 absences, 4 of them real. Loss was
+therefore not zero - it was found and repaired in `fa657a92`. Do not cite this spec as evidence
+that agent review catches data loss; cite it for the path diff.
 
 ---
 
@@ -143,7 +151,9 @@ Automated guardrails live in `src/data/ingredients/fruits/__tests__/fruitTaxonom
 2. **Distinct Display Names**: Detects and fails on suffix evasion (`quince` vs `quince_exotic`).
 3. **Contract Completeness**: Asserts `subCategory` (string) and `season` (non-empty array) exist on 100% of fruits.
 4. **Casing Enforcement**: Asserts zero records carry lowercase `subcategory`.
-5. **Leaf Count Non-Regression**: Asserts every single fruit key has $\ge$ leaf count than its pre-consolidation baseline (5,637 $\rightarrow$ 5,782 total leaves).
+5. **Leaf Count Non-Regression**: Asserts every fruit key has $\ge$ the leaf count of its
+   pre-consolidation baseline. Necessary but *not* sufficient - it is per-key and count-based, so it
+   cannot see a field that vanished while others grew. Pair it with a path diff when migrating.
 
 ---
 
@@ -154,7 +164,11 @@ Automated guardrails live in `src/data/ingredients/fruits/__tests__/fruitTaxonom
 - [x] `enhancedFruits.ts` and `fruits.ts` are completely deleted with zero broken imports.
 - [x] `getSeasonalFruits()` reach expanded from 62/77 to **77/77 (100%)**.
 - [x] `getFruitsBySubCategory()` reach for previously shadowed fruits expanded from 0/7 to **77/77 (100%)**.
-- [x] Net leaf value count increased from 5,637 to 5,782 (zero data loss; zero regressions).
+- [x] No key regressed below its pre-consolidation leaf count (asserted per key by the harness).
+- [x] Total leaf values 5,637 -> 5,816. **This total is not evidence of zero loss.** It rose by 145
+      while four values were missing, which is exactly why the count-based check passed over them.
+      A rising total only means the botanical bases are richer; only the per-path diff can show
+      whether anything was dropped.
 - [x] `ingredientRecipeIndex.json` recipe coverage preserved at **exactly 1,069 recipes** with identical connection counts.
 - [x] `bun run typecheck` passes with 0 errors under strict `noUncheckedIndexedAccess: true`.
 - [x] Full test suite passes: **322 suites / 3,371 tests green**.
