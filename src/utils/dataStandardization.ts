@@ -1,32 +1,62 @@
 import type { ElementalAffinity } from "@/types/alchemy";
+import type { Element } from "@/types/celestial";
+
+const DEFAULT_COMPATIBILITY: Record<Element, number> = {
+  Fire: 0.7,
+  Water: 0.7,
+  Earth: 0.7,
+  Air: 0.7,
+};
+
+function toElement(val: string): Element {
+  if (val === "Water" || val === "Earth" || val === "Air") return val;
+  return "Fire";
+}
 
 // Utility to ensure elementalAffinity is always in object format
 export function standardizeElementalAffinity(
-  value: string | { base: string; decanModifiers?: Record<string, unknown> },
+  value: string | { base: string; decanModifiers?: Record<string, unknown> } | ElementalAffinity,
 ): ElementalAffinity {
   if (typeof value === "string") {
-    return { base: value } as unknown as ElementalAffinity;
+    return {
+      primary: toElement(value),
+      strength: 1.0,
+      compatibility: DEFAULT_COMPATIBILITY,
+    };
   }
-  return value as unknown as ElementalAffinity;
+  if ("primary" in value) {
+    return value;
+  }
+  return {
+    primary: toElement(value.base),
+    strength: 1.0,
+    compatibility: DEFAULT_COMPATIBILITY,
+  };
 }
 
 // Helper function to update entire ingredient objects
-export function standardizeIngredient(ingredient: unknown): unknown {
-  // Apply surgical type casting with variable extraction
-  const ingredientData = ingredient as any;
-  const astrologicalProfile = ingredientData?.astrologicalProfile;
+export function standardizeIngredient<T>(ingredient: T): T {
+  if (!ingredient || typeof ingredient !== "object") {
+    return ingredient;
+  }
+  const ingredientData = ingredient as Record<string, unknown>;
+  const { astrologicalProfile } = ingredientData;
 
-  if (!ingredient || !astrologicalProfile) {
+  if (!astrologicalProfile || typeof astrologicalProfile !== "object") {
     return ingredient;
   }
 
+  const astroRecord = astrologicalProfile as Record<string, unknown>;
   return {
     ...ingredientData,
     astrologicalProfile: {
-      ...astrologicalProfile,
+      ...astroRecord,
       elementalAffinity: standardizeElementalAffinity(
-        astrologicalProfile.elementalAffinity,
+        astroRecord.elementalAffinity as
+          | string
+          | { base: string; decanModifiers?: Record<string, unknown> }
+          | ElementalAffinity,
       ),
     },
-  };
+  } as T;
 }

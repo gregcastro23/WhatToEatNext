@@ -14,7 +14,11 @@ export interface CuisineProfile {
 }
 
 // The simplified culinary traditions profiles
-export const culinaryTraditions: Record<string, CuisineProfile> = {
+export const culinaryTraditions: Record<string, CuisineProfile> & {
+  french: CuisineProfile;
+  japanese: CuisineProfile;
+  mexican: CuisineProfile;
+} = {
   french: {
     elementalAlignment: { Earth: 0.55, Fire: 0.25, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {

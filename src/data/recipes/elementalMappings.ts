@@ -39,7 +39,16 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
   // French Cuisine
   coq_au_vin: {
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.15, Air: 0.05 },
+    _elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.15, Air: 0.05 },
     astrologicalProfile: {
+      rulingPlanets: ["Venus", "Mars"],
+      favorableZodiac: ["taurus", "capricorn"],
+      optimalAspects: ["Venus trine Mars"],
+      techniqueEnhancers: safeGetAstrologicalInfluences(
+        cookingMethods.braising,
+      ),
+    },
+    _astrologicalProfile: {
       rulingPlanets: ["Venus", "Mars"],
       favorableZodiac: ["taurus", "capricorn"],
       optimalAspects: ["Venus trine Mars"],
@@ -61,11 +70,20 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ["Thyme", "Bay leaf", "Rosemary"],
     idealTimeOfDay: ["Evening", "Dinner"],
     seasonalRecommendation: ["Autumn", "Winter"],
-  } as any,
+  },
   // Japanese Cuisine
   kaiseki_ryori: {
     elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 },
+    _elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 },
     astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mercury"],
+      favorableZodiac: ["pisces", "virgo"],
+      optimalAspects: ["Moon conjunct Mercury"],
+      techniqueEnhancers: safeGetAstrologicalInfluences(
+        cookingMethods.steaming,
+      ),
+    },
+    _astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["pisces", "virgo"],
       optimalAspects: ["Moon conjunct Mercury"],
@@ -87,11 +105,20 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ["Shiso", "Ginger", "Wasabi"],
     idealTimeOfDay: ["Evening", "Night"],
     seasonalRecommendation: ["Winter", "Spring"],
-  } as any,
+  },
   // Mexican Cuisine
   mole_poblano: {
     elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 },
+    _elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 },
     astrologicalProfile: {
+      rulingPlanets: ["Sun", "Jupiter"],
+      favorableZodiac: ["leo", "sagittarius"],
+      optimalAspects: ["Sun trine Jupiter"],
+      techniqueEnhancers: safeGetAstrologicalInfluences(
+        cookingMethods.simmering,
+      ),
+    },
+    _astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
       favorableZodiac: ["leo", "sagittarius"],
       optimalAspects: ["Sun trine Jupiter"],
@@ -113,7 +140,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ["Epazote", "Mexican oregano", "Cilantro"],
     idealTimeOfDay: ["Noon", "Early afternoon"],
     seasonalRecommendation: ["Summer", "Early autumn"],
-  } as any,
+  },
 };
 
 /**
@@ -128,20 +155,20 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   // Get base recommendations from the ElementalRecommendationService
   const baseRecommendation =
     ElementalRecommendationService.generateRecommendation(
-      recipe._elementalProperties,
+      recipe.elementalProperties,
     );
 
   // Merge with any recipe-specific overrides
   return {
     ...baseRecommendation,
     cookingTechniques:
-      recipe.cookingTechniques || baseRecommendation.cookingTechniques,
-    flavorProfiles: recipe.flavorProfiles || baseRecommendation.flavorProfiles,
-    healthBenefits: recipe.healthBenefits || baseRecommendation.healthBenefits,
+      recipe.cookingTechniques ?? baseRecommendation.cookingTechniques,
+    flavorProfiles: recipe.flavorProfiles ?? baseRecommendation.flavorProfiles,
+    healthBenefits: recipe.healthBenefits ?? baseRecommendation.healthBenefits,
     culinaryHerbs:
-      recipe.complementaryHerbs || baseRecommendation.culinaryHerbs,
-    timeOfDay: recipe.idealTimeOfDay || baseRecommendation.timeOfDay,
+      recipe.complementaryHerbs ?? baseRecommendation.culinaryHerbs,
+    timeOfDay: recipe.idealTimeOfDay ?? baseRecommendation.timeOfDay,
     seasonalBest:
-      recipe.seasonalRecommendation || baseRecommendation.seasonalBest,
+      recipe.seasonalRecommendation ?? baseRecommendation.seasonalBest,
   };
 }
