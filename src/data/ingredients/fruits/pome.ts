@@ -30,8 +30,10 @@ const rawPome = {
           third: { element: "Air", planet: "Mercury" },
         },
       },
+      seasonalAffinity: ["fall"],
     },
     season: ["fall", "winter"],
+    seasonality: ["fall", "winter"],
     qualities: ["crisp", "sweet", "tart", "versatile", "refreshing"],
     category: "fruit",
     subCategory: "pome",
@@ -49,7 +51,10 @@ const rawPome = {
       vitamins: ["c", "k"],
       minerals: ["potassium"],
       antioxidants: ["quercetin", "catechin", "chlorogenic acid"],
-      notes: "High in pectin and polyphenols",
+      notes:
+        "High in pectin and polyphenols. Quercetin high - especially in " +
+        "peel, anti-inflammatory; catechin moderate - antioxidant; " +
+        "chlorogenic acid moderate - may help regulate blood sugar",
     },
     varieties: {
       Honeycrisp: {
@@ -147,6 +152,7 @@ const rawPome = {
         "Optional - peel for sauces and some baked goods, leave on for fiber and color",
       coring: "Remove core and seeds using apple corer or knife",
       preventing_browning: "Toss with lemon juice or ascorbic acid solution",
+      yields: "1 lb = 3 medium = 3 cups sliced",
     },
     storage: {
       fresh: {
@@ -160,6 +166,13 @@ const rawPome = {
         duration: "Up to 12 months",
         uses: "Best for cooking applications after freezing",
       },
+      container: "plastic bag with holes in crisper drawer",
+      tips: [
+        "Store away from other produce - high ethylene producer",
+        "One bad apple spoils the bunch - remove damaged fruit",
+        "Refrigeration maintains crispness much longer",
+        "Different varieties have different storage lives",
+      ],
     },
     pairings: [
       "cinnamon",
@@ -182,9 +195,45 @@ const rawPome = {
       German: "Apfelstrudel, apfelkuchen (apple cake)",
       Scandinavian: "Apple soup, compotes with cardamom",
     },
-      sensoryProfile: { taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: {
+        taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 },
+        aroma: {
+          fruity: 0.9,
+          floral: 0.3,
+          fresh: 0.7,
+          herbal: 0.1,
+          spicy: 0.2,
+          earthy: 0.2,
+          woody: 0.1,
+        },
+        texture: {
+          juicy: 0.7,
+          tender: 0.6,
+          soft: 0.5,
+          crisp: 0.9,
+          crunchy: 0.9,
+          creamy: 0.3,
+          chewy: 0,
+          silky: 0,
+        },
+      },
       culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
-      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]},
+      recommendedCookingMethods: [
+        "baking",
+        "sautéing",
+        "roasting",
+        "stewing",
+        "raw in salads",
+      ],
+      healthBenefits: [
+        "High in fiber - digestive and heart health",
+        "Rich in antioxidants (especially in peel)",
+        "May help regulate blood sugar",
+        "Supports heart health",
+        "May reduce cancer risk",
+        "Promotes gut health (prebiotic fiber)",
+      ]
 },
   pear: {
       image_url: "ingredients/pear.png",

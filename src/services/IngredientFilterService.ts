@@ -7,6 +7,10 @@ const oils: Record<string, IngredientMapping> = {}; // Commented out non-existen
 import { _proteins as __proteins } from "../data/ingredients/proteins";
 import { spices } from "../data/ingredients/spices";
 import { vegetables } from "../data/ingredients/vegetables";
+import {
+  classifyIngredientDiet,
+  readAllergenAttestation,
+} from "../utils/ingredientDietaryClassification";
 import type {
   IngredientMapping,
 } from "../data/ingredients/types";
@@ -20,7 +24,17 @@ import type { NutritionalFilter, NutritionData } from "../types/nutrition";
 // Re-export types for external use
 export type { NutritionalFilter } from "../types/nutrition";
 
-// Interface to provide special dietary filtering
+/**
+ * Special dietary filtering.
+ *
+ * How each field is answered (see `applyDietaryFilter`):
+ * - `isVegan` / `isVegetarian` are *derived* from the record's name, its
+ *   attestations and the catalog taxonomy.
+ * - `isGlutenFree` / `isDairyFree` / `isNutFree` require a positive
+ *   attestation on the record and are never derived from a name.
+ * - `isLowSodium` / `isLowSugar` cannot be answered from this catalog at all
+ *   and reject the whole request rather than being quietly dropped.
+ */
 export interface DietaryFilter {
   isVegetarian?: boolean;
   isVegan?: boolean;
@@ -70,6 +84,19 @@ export const INGREDIENT_GROUPS = {
   OILS: "Oils & Fats",
 } as const;
 
+/**
+ * Dietary constraints this catalog carries no data for. `sugar` appears in no
+ * `nutritionalProfile`, and the records that give a sodium value give it in
+ * unstated units, so no threshold is defensible. Returning unconstrained
+ * results for these would be answering a question we cannot answer.
+ */
+const unverifiableDietaryConstraints = (filter: DietaryFilter): string[] => {
+  const unverifiable: string[] = [];
+  if (filter.isLowSodium) unverifiable.push("isLowSodium");
+  if (filter.isLowSugar) unverifiable.push("isLowSugar");
+  return unverifiable;
+};
+
 // Helper class to provide ingredient filtering services
 export class IngredientFilterService {
   private static instance: IngredientFilterService | undefined;
@@ -105,6 +132,22 @@ export class IngredientFilterService {
     // Start with all ingredients, grouped by category
     const filteredResults: Record<string, IngredientMapping[]> = {};
 
+    // Checked once per call rather than per category, so the log fires once.
+    if (filter.dietary) {
+      const unverifiable = unverifiableDietaryConstraints(filter.dietary);
+      if (unverifiable.length > 0) {
+        // Error level so it is visible in production: silently ignoring a
+        // dietary constraint someone may be relying on is the failure mode
+        // this filter exists to avoid.
+        _logger.error(
+          `IngredientFilterService cannot verify ${unverifiable.join(", ")} - ` +
+            "the ingredient catalog carries no data for these constraints. " +
+            "Returning no ingredients rather than results that may violate them.",
+        );
+        return filteredResults;
+      }
+    }
+
     // Determine which categories to include
     const categoriesToInclude =
       filter.categories && filter.categories.length > 0
@@ -115,13 +158,19 @@ export class IngredientFilterService {
     categoriesToInclude.forEach((category) => {
       if (!this.allIngredients[category]) return;
 
-      // Convert object to array of ingredients with names
-      const categoryIngredients = Object.entries(
+      // Convert object to array of ingredient copies. Each record carries
+      // its own curated display name ("Butter Croissant", "Passion Fruit");
+      // the object key is a slug and must not overwrite it. Spreading the key
+      // last - `{ ...data, name }` - renamed every record to its slug and
+      // broke name-term classification: `\bbutter\b` cannot match across the
+      // underscore in `butter_croissant`, so a butter pastry classified as
+      // vegan. `name` is required on `IngredientMapping` and defined on all
+      // 372 records, so there is nothing to fall back to - a `?? name` here
+      // is dead code the type checker can see. The invariant it used to guard
+      // is pinned instead in `ingredientFilterServiceDietary.test.ts`.
+      const categoryIngredients = Object.values(
         this.allIngredients[category],
-      ).map(([name, data]) => ({
-        ...data,
-        name,
-      }));
+      ).map((data) => ({ ...data }));
 
       // Apply all filters sequentially
       let filtered = [...categoryIngredients];
@@ -361,64 +410,75 @@ export class IngredientFilterService {
     });
   }
 
-  // Apply dietary filtering criteria
+  /**
+   * Apply dietary filtering criteria.
+   *
+   * This used to read seven boolean flags (`isVegan`, `isVegetarian`,
+   * `isGlutenFree`, ...) straight off each record and drop the record when the
+   * flag was falsy. Not one of the 390 ingredients in this catalog defines any
+   * of those seven flags, so every dietary constraint excluded everything:
+   * `{ dietary: { isVegan: true } }` returned an empty object where the
+   * unfiltered call returns 6 categories and 390 ingredients.
+   *
+   * The fix reuses `ingredientDietaryClassification`, the module written for
+   * the same defect in `UnifiedIngredientService` (where the identical missing
+   * field failed the other way, passing the whole catalog through). Both
+   * services now answer from one classifier, so they cannot drift apart.
+   * Constraints split by what it costs to be wrong:
+   *
+   * - **Preferences** (vegan, vegetarian) are derived by
+   *   `classifyIngredientDiet` from a curated animal-product term list, the
+   *   record's own attestations, and the catalog's taxonomy. Being wrong means
+   *   a surprising suggestion, so best-effort coverage beats an empty result.
+   * - **Allergen claims** (gluten-free, dairy-free, nut-free) are never
+   *   derived. They require a positive attestation on the record; `unknown`
+   *   fails. Inferring "nut-free" from a name not mentioning nuts is how
+   *   someone gets hurt.
+   *
+   * `isLowSodium` / `isLowSugar` are unverifiable against this catalog and are
+   * rejected up front in `filterIngredients`, not here.
+   */
   private applyDietaryFilter(
     ingredients: IngredientMapping[],
     filter: DietaryFilter,
   ): IngredientMapping[] {
+    // Records are passed to the classifier as-is: `ClassifiableIngredient`
+    // declares only optional fields, so no conversion is needed, and the seven
+    // per-flag casts this predicate used to carry are gone with it. What each
+    // record actually holds is `name`, `category`, `subCategory` and
+    // `qualities` (see the mapping in `filterIngredients`) - exactly what the
+    // classifier reads.
     return ingredients.filter((ingredient) => {
-      // Check for vegetarian
-      if (
-        filter.isVegetarian &&
-        !(ingredient as { isVegetarian?: boolean }).isVegetarian
-      ) {
-        return false;
+      // Preferences: derived, exclusion-list semantics.
+      if (filter.isVegan || filter.isVegetarian) {
+        const classification = classifyIngredientDiet(ingredient);
+        if (filter.isVegan && classification.isVegan !== "compliant") {
+          return false;
+        }
+        if (
+          filter.isVegetarian &&
+          classification.isVegetarian !== "compliant"
+        ) {
+          return false;
+        }
       }
 
-      // Check for vegan
-      if (
-        filter.isVegan &&
-        !(ingredient as { isVegan?: boolean }).isVegan
-      ) {
-        return false;
-      }
-
-      // Check for gluten-free
+      // Allergen claims: attestation required, never derived. `unknown` fails.
       if (
         filter.isGlutenFree &&
-        !(ingredient as { isGlutenFree?: boolean }).isGlutenFree
+        readAllergenAttestation(ingredient, "isGlutenFree") !== "compliant"
       ) {
         return false;
       }
-
-      // Check for dairy-free
       if (
         filter.isDairyFree &&
-        !(ingredient as { isDairyFree?: boolean }).isDairyFree
+        readAllergenAttestation(ingredient, "isDairyFree") !== "compliant"
       ) {
         return false;
       }
-
-      // Check for nut-free
       if (
         filter.isNutFree &&
-        !(ingredient as { isNutFree?: boolean }).isNutFree
-      ) {
-        return false;
-      }
-
-      // Check for low sodium
-      if (
-        filter.isLowSodium &&
-        !(ingredient as { isLowSodium?: boolean }).isLowSodium
-      ) {
-        return false;
-      }
-
-      // Check for low sugar
-      if (
-        filter.isLowSugar &&
-        !(ingredient as { isLowSugar?: boolean }).isLowSugar
+        readAllergenAttestation(ingredient, "isNutFree") !== "compliant"
       ) {
         return false;
       }

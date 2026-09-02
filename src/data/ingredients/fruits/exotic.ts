@@ -362,7 +362,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
 
   kiwano: {
       image_url: "ingredients/kiwano.png",
-    description: "A sweet edible plant product, kiwano delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+    description: "A relative of the cucumber and melon (*Cucumis metuliferus*) from sub-Saharan Africa, armored in a spiky orange shell that opens onto lime-green, seed-filled jelly. The taste is mild and tart, nearer cucumber and lime than sweet melon, with a faint banana note. The seeds are edible and eaten along with the pulp.",
     name: "Kiwano (Horned Melon)",
     origin: ["Cultivated worldwide"],
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
@@ -450,7 +450,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
 
   feijoa: {
       image_url: "ingredients/feijoa.png",
-    description: "A sweet edible plant product, feijoa delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+    description: "An egg-shaped, dull green fruit (*Acca sellowiana*) from the highlands of southern Brazil and Uruguay, now most closely associated with New Zealand. The perfumed, faintly gritty flesh tastes of pineapple, guava, and mint at once, and is scooped from the bitter skin with a spoon. Its aroma runs well ahead of its sweetness.",
     name: "Feijoa (Pineapple Guava)",
     origin: ["Cultivated worldwide"],
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -624,99 +624,11 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     }
   },
 
-  loquat_exotic: {
-      image_url: "ingredients/loquat_exotic.png",
-    description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.\n\n**Selection & Storage:** They are highly delicate and bruise easily. Choose bright orange fruit that gives slightly to pressure. Store in the refrigerator and eat quickly.",
-    name: "Loquat",
-    origin: ["Cultivated worldwide"],
-    elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
-    quantityBase: { amount: 149, unit: "g" },
-    scaledElemental: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
-    alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.65,
-      Matter: 0.30,
-      Substance: 0.28,
-    },
-    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
-    astrologicalProfile: {
-      rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["leo", "taurus"],
-      elementalAffinity: {
-        base: "Water",
-        secondary: "Fire",
-      },
-    },
-    qualities: ["sweet-tart", "fragrant", "floral", "refreshing"],
-    season: ["spring"],
-    category: "fruit",
-    subCategory: "exotic",
-    nutritionalProfile: {
-      serving_size: "1 cup (149g)",
-      calories: 70,
-      macros: { protein: 0.6, carbs: 18.1, fat: 0.3, fiber: 2.5, sugar: 12.3, sodium: 1 },
-      vitamins: { A: 0.51, C: 0.01 },
-      minerals: { potassium: 0.08, manganese: 0.07 },
-      source: "USDA FoodData Central",
-    },
-    sensoryProfile: {
-      taste: {
-        sweet: 0.7,
-        salty: 0.0,
-        sour: 0.4,
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.7,
-        fruity: 0.9,
-        herbal: 0.1,
-        spicy: 0.0,
-        earthy: 0.1,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.9,
-        creamy: 0.4,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.7,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["vanilla", "cinnamon", "ginger", "honey", "citrus"],
-      contrasting: ["star anise", "five spice"],
-      toAvoid: ["strong acids"],
-    },
-    cookingMethods: ["raw", "jam", "pie", "syrup"],
-    storage: {
-      temperature: "refrigerate",
-      duration: "3-5 days",
-      notes: "Very perishable, best fresh",
-    },
-    culinaryProfile: {
-      flavorProfile: {
-        primary: ["sweet", "tart"],
-        secondary: ["floral", "apricot-like"],
-        notes: "Small, tangy-sweet fruit tasting of apricot and citrus; bruises and oxidizes quickly.",
-      },
-      cookingMethods: ["raw", "preserve", "poach"],
-      cuisineAffinity: ["Chinese", "Mediterranean"],
-      preparationTips: [
-        "Twist out the few large, glossy seeds.",
-        "Peel the thin skin if it feels tough; otherwise eat it whole.",
-        "Use loquats ripe — they do not sweeten after picking.",
-      ],
-    }
-  },
-
   cactus_pear: {
       image_url: "ingredients/cactus_pear.png",
-    description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.\n\n**Selection & Storage:** Purchase pears while still firm; they are ripe when the flesh yields slightly to gentle pressure at the stem end. Ripen at room temperature, then transfer to the refrigerator to pause the ripening process.",
+    description: "The barrel-shaped fruit of a cactus (*Opuntia ficus-indica*), not a pear at all, with jewel-toned flesh running from deep magenta through orange to green. Its flavor sits between watermelon and bubblegum, mild and lightly floral, and hard edible seeds are scattered throughout. The skin carries tiny barbed glochids that must be removed before handling.",
     name: "Cactus Pear (Prickly Pear)",
-    origin: ["Central Asia", "Western Europe"],
+    origin: ["Mexico"],
     elementalProperties: { Water: 0.5, Earth: 0.2, Fire: 0.2, Air: 0.1 },
     quantityBase: { amount: 103, unit: "g" },
     scaledElemental: { Water: 0.5, Earth: 0.2, Fire: 0.2, Air: 0.1 },
@@ -800,187 +712,11 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     }
   },
 
-  quince_exotic: {
-      image_url: "ingredients/quince_exotic.png",
-    description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).\n\n**Selection & Storage:** Choose firm, bright yellow fruit that emits a powerful, floral, and rosy aroma. Store at room temperature for several days, or in the refrigerator for up to a month.",
-    name: "Quince",
-    origin: ["Caucasus", "Western Asia"],
-    elementalProperties: { Earth: 0.6, Air: 0.2, Water: 0.2, Fire: 0.0 },
-    quantityBase: { amount: 100, unit: "g" },
-    scaledElemental: { Earth: 0.6, Air: 0.2, Water: 0.2, Fire: 0.0 },
-    alchemicalProperties: {
-      Spirit: 0.40,
-      Essence: 0.42,
-      Matter: 0.65,
-      Substance: 0.55,
-    },
-    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.70 },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["taurus", "capricorn"],
-      elementalAffinity: {
-        base: "Earth",
-        secondary: "Air",
-      },
-    },
-    qualities: ["aromatic", "astringent", "transformative", "ancient"],
-    season: ["fall"],
-    category: "fruit",
-    subCategory: "exotic",
-    nutritionalProfile: {
-      serving_size: "100g",
-      calories: 57,
-      macros: { protein: 0.4, carbs: 15.3, fat: 0.1, fiber: 1.9, sugar: 8.9, sodium: 4 },
-      vitamins: { C: 0.25 },
-      minerals: { copper: 0.07, potassium: 0.05 },
-      source: "USDA FoodData Central",
-    },
-    sensoryProfile: {
-      taste: {
-        sweet: 0.3,
-        salty: 0.0,
-        sour: 0.4,
-        bitter: 0.2,
-        umami: 0.0,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.9,
-        fruity: 0.8,
-        herbal: 0.2,
-        spicy: 0.3,
-        earthy: 0.2,
-        woody: 0.1,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.8,
-        creamy: 0.5,
-        chewy: 0.0,
-        crunchy: 0.0,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["lamb", "pork", "apple", "vanilla", "cinnamon"],
-      contrasting: ["manchego cheese", "honey"],
-      toAvoid: ["raw consumption - must be cooked"],
-    },
-    cookingMethods: ["poached", "paste (membrillo)", "jelly", "baked"],
-    storage: {
-      temperature: "cool room temp",
-      duration: "1-2 months",
-      notes: "Extremely aromatic, perfumes room",
-    },
-    culinaryProfile: {
-      flavorProfile: {
-        primary: ["tart", "astringent"],
-        secondary: ["floral", "honeyed"],
-        notes: "Hard, astringent, and inedible raw; long cooking turns it pink, tender, and perfumed.",
-      },
-      cookingMethods: ["poach", "bake", "preserve"],
-      cuisineAffinity: ["Mediterranean", "Middle-Eastern"],
-      preparationTips: [
-        "Always cook quince — it is hard and astringent raw.",
-        "Peel and core it; the flesh is dense, so use a sturdy knife.",
-        "Slow-cook with sugar until the flesh turns rosy pink.",
-      ],
-    }
-  },
-
-  passion_fruit_exotic: {
-      image_url: "ingredients/passion_fruit_exotic.png",
-    description: "A sweet edible plant product, passion fruit exotic delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
-    name: "Passion Fruit",
-    origin: ["South America"],
-    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
-    quantityBase: { amount: 100, unit: "g" },
-    scaledElemental: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
-    alchemicalProperties: {
-      Spirit: 0.72,
-      Essence: 0.78,
-      Matter: 0.15,
-      Substance: 0.18,
-    },
-    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.90 },
-    astrologicalProfile: {
-      rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["libra", "gemini"],
-      elementalAffinity: {
-        base: "Air",
-        secondary: "Water",
-      },
-    },
-    qualities: ["tart", "aromatic", "exotic", "intense"],
-    season: ["year-round"],
-    category: "fruit",
-    subCategory: "exotic",
-    nutritionalProfile: {
-      serving_size: "100g pulp",
-      calories: 97,
-      macros: { protein: 2.2, carbs: 23.4, fat: 0.7, fiber: 10.4, sugar: 11.2, sodium: 28 },
-      vitamins: { C: 0.5, A: 0.25 },
-      minerals: { potassium: 0.1, iron: 0.09 },
-      source: "USDA FoodData Central",
-    },
-    sensoryProfile: {
-      taste: {
-        sweet: 0.5,
-        salty: 0.0,
-        sour: 0.8,
-        bitter: 0.1,
-        umami: 0.0,
-        spicy: 0.0,
-      },
-      aroma: {
-        floral: 0.9,
-        fruity: 1.0,
-        herbal: 0.1,
-        spicy: 0.0,
-        earthy: 0.0,
-        woody: 0.0,
-      },
-      texture: {
-        crisp: 0.0,
-        tender: 0.0,
-        creamy: 0.3,
-        chewy: 0.0,
-        crunchy: 0.4,
-        silky: 0.6,
-      },
-    },
-    pairingRecommendations: {
-      complementary: ["mango", "coconut", "vanilla", "chocolate", "lime"],
-      contrasting: ["meringue", "champagne"],
-      toAvoid: ["overly acidic combinations"],
-    },
-    cookingMethods: ["raw", "sauce", "desserts", "beverages", "curd"],
-    storage: {
-      temperature: "room temp",
-      duration: "1 week, 2-3 weeks refrigerated",
-      notes: "Ripe when wrinkled",
-    },
-    culinaryProfile: {
-      flavorProfile: {
-        primary: ["tart", "aromatic"],
-        secondary: ["floral", "tropical"],
-        notes: "Intensely perfumed and sharply tart; the crunchy seeds are edible.",
-      },
-      cookingMethods: ["raw", "juice", "sauce"],
-      cuisineAffinity: ["Brazilian", "Southeast-Asian", "Australian"],
-      preparationTips: [
-        "Choose wrinkled fruit — a dimpled skin means it is ripe.",
-        "Halve and scoop the pulp and seeds out with a spoon.",
-        "Strain the pulp if you want the juice without the seeds.",
-      ],
-    }
-  },
-
   custard_apple: {
       image_url: "ingredients/custard_apple.png",
-    description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.\n\n**Selection & Storage:** Look for firm apples with vibrant coloring and smooth skin that feel heavy for their size. Store them in the crisper drawer of the refrigerator to maintain their crispness, as they soften ten times faster at room temperature.",
+    description: "A soft, heart-shaped tropical fruit (*Annona cherimola*) with pale green, scale-patterned skin and ivory flesh the texture of set custard. Its flavor blends banana, pineapple, and vanilla into a floral sweetness with almost no acidity, and the large black seeds running through the flesh are inedible. The custard-apple name is applied loosely across close Annona relatives, including *Annona reticulata* and the sugar apple.\n\n**Selection & Storage:** Choose fruit that feels heavy for its size with unbroken skin; it is picked firm and ripens off the tree. Hold it at room temperature until it yields to gentle pressure like a ripe avocado - the skin browns as it ripens, which is normal - then refrigerate and eat within two or three days. Do not chill it while still firm, as cold arrests ripening.",
     name: "Custard Apple (Cherimoya)",
-    origin: ["Central Asia (Kazakhstan)"],
+    origin: ["Andean South America (Ecuador, Peru)"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     quantityBase: { amount: 100, unit: "g" },
     scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -1066,7 +802,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
 
   sapote: {
       image_url: "ingredients/sapote.png",
-    description: "A sweet edible plant product, sapote delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+    description: "A football-shaped fruit (*Pouteria sapota*) native to southern Mexico and Central America, its rough brown skin covering dense, salmon-colored flesh. The flavor is rich and low in acid, closer to sweet potato, pumpkin, and almond than to anything tart, and a single large glossy seed sits at the center. Underripe, the flesh is starchy and bland.",
     name: "Sapote (Mamey)",
     origin: ["Cultivated worldwide"],
     elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
