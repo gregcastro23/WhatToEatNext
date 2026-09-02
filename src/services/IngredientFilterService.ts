@@ -158,20 +158,19 @@ export class IngredientFilterService {
     categoriesToInclude.forEach((category) => {
       if (!this.allIngredients[category]) return;
 
-      // Convert object to array of ingredients with names
-      const categoryIngredients = Object.entries(
+      // Convert object to array of ingredient copies. Each record carries
+      // its own curated display name ("Butter Croissant", "Passion Fruit");
+      // the object key is a slug and must not overwrite it. Spreading the key
+      // last - `{ ...data, name }` - renamed every record to its slug and
+      // broke name-term classification: `\bbutter\b` cannot match across the
+      // underscore in `butter_croissant`, so a butter pastry classified as
+      // vegan. `name` is required on `IngredientMapping` and defined on all
+      // 372 records, so there is nothing to fall back to - a `?? name` here
+      // is dead code the type checker can see. The invariant it used to guard
+      // is pinned instead in `ingredientFilterServiceDietary.test.ts`.
+      const categoryIngredients = Object.values(
         this.allIngredients[category],
-      ).map(([name, data]) => ({
-        ...data,
-        // The key is the fallback, not the winner: `data.name` carries the
-        // curated display name ("Butter Croissant", "Passion Fruit") and must
-        // override the slug. Written as an explicit `??` rather than relying on
-        // spread order, which TS2783 rejects. Spreading the key last renamed
-        // every record to its slug and broke name-term classification -
-        // `\bbutter\b` cannot match across the underscore in
-        // `butter_croissant`, so a butter pastry classified as vegan.
-        name: data.name ?? name,
-      }));
+      ).map((data) => ({ ...data }));
 
       // Apply all filters sequentially
       let filtered = [...categoryIngredients];

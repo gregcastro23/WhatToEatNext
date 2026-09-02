@@ -27,24 +27,27 @@
  * classifier has to be looked at by a person.
  */
 
+import type { IngredientMapping } from "@/data/ingredients/types";
 import {
   IngredientFilterService,
   INGREDIENT_GROUPS,
+  type IngredientFilter,
 } from "@/services/IngredientFilterService";
 import { classifyIngredientDiet } from "@/utils/ingredientDietaryClassification";
 
 const service = IngredientFilterService.getInstance();
 
-type Catalog = Record<string, Array<Record<string, unknown>>>;
+// The service's own argument and return types, not widened stand-ins. An
+// `as unknown as` bridge here would let the returned shape drift out from
+// under these assertions without anything failing.
+type Catalog = Record<string, IngredientMapping[]>;
 
-const filter = (f: Record<string, unknown>): Catalog =>
-  service.filterIngredients(f as never) as unknown as Catalog;
+const filter = (f: IngredientFilter): Catalog => service.filterIngredients(f);
 
-const flatten = (c: Catalog): Array<Record<string, unknown>> =>
-  Object.values(c).flat();
+const flatten = (c: Catalog): IngredientMapping[] => Object.values(c).flat();
 
 const lowerNames = (c: Catalog): Set<string> =>
-  new Set(flatten(c).map((r) => String(r.name).toLowerCase()));
+  new Set(flatten(c).map((r) => r.name.toLowerCase()));
 
 const CATALOG_CATEGORIES = 6;
 const CATALOG_SIZE = 372;
@@ -54,6 +57,18 @@ describe("the catalog this filter runs against", () => {
     const all = filter({});
     expect(Object.keys(all)).toHaveLength(CATALOG_CATEGORIES);
     expect(flatten(all)).toHaveLength(CATALOG_SIZE);
+  });
+
+  it("carries a curated display name on every record", () => {
+    // `filterIngredients` used to substitute the object key when a record had
+    // no `name`. Nothing ever needed that: `name` is required on
+    // `IngredientMapping` and all 372 records define one, so the fallback was
+    // dead code the type checker could see. This is what keeps it dead - if a
+    // record ever ships without a name, `.trim()` throws here rather than the
+    // service quietly handing back an ingredient named after its slug.
+    const names = flatten(filter({})).map((r) => r.name);
+    expect(names).toHaveLength(CATALOG_SIZE);
+    expect(names.filter((n) => n.trim() === "")).toEqual([]);
   });
 
   it("carries none of the seven dietary flags the old predicate read", () => {
@@ -70,7 +85,10 @@ describe("the catalog this filter runs against", () => {
       "isLowSugar",
     ];
     const withAnyFlag = flatten(filter({})).filter((record) =>
-      flags.some((flag) => record[flag] !== undefined),
+      // Key presence, not a truthy value: a record carrying `isVegan: false`
+      // or `isVegan: undefined` would still be something to read, and the
+      // claim being pinned is that there is nothing to read at all.
+      flags.some((flag) => flag in record),
     );
     expect(withAnyFlag).toHaveLength(0);
   });
@@ -170,8 +188,8 @@ describe("vegan filtering returns a real, non-empty subset", () => {
     // through, and nothing compliant is dropped. Keyed by category+name
     // because each call rebuilds its records, so identity never matches and
     // names repeat across categories.
-    const key = (category: string, record: Record<string, unknown>) =>
-      `${category}::${String(record.name)}`;
+    const key = (category: string, record: IngredientMapping) =>
+      `${category}::${record.name}`;
     const collect = (c: Catalog): Set<string> =>
       new Set(
         Object.entries(c).flatMap(([category, records]) =>
