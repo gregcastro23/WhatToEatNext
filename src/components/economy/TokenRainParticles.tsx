@@ -28,7 +28,7 @@ const TOKEN_VISUAL: Record<TokenType, { symbol: string; color: string; glow: str
   Substance: { symbol: '🝉', color: '#c084fc', glow: 'rgba(192,132,252,0.6)' },
 };
 
-const ALL_TOKEN_TYPES: TokenType[] = ['Spirit', 'Essence', 'Matter', 'Substance'];
+const ALL_TOKEN_TYPES: [TokenType, ...TokenType[]] = ['Spirit', 'Essence', 'Matter', 'Substance'];
 
 // ─── Props ────────────────────────────────────────────────────────────
 
@@ -83,7 +83,7 @@ export function TokenRainParticles({
       const startX = 10 + Math.random() * 80; // keep particles away from the very edge
       return {
         id: i,
-        tokenType: pool[i % pool.length],
+        tokenType: pool[i % pool.length] ?? ALL_TOKEN_TYPES[0],
         startX,
         endX: startX + (Math.random() - 0.5) * 20,
         delay: Math.random() * 0.3,

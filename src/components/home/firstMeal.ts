@@ -280,6 +280,7 @@ export function scoreFirstMeal(
   };
   FIRST_MEAL_QUIZ.forEach((q, i) => {
     const option = q.options[answers[i] ?? 0] ?? q.options[0];
+    if (!option) return;
     for (const el of ELEMENT_ORDER) {
       totals[el] += option.weights[el] ?? 0;
     }
@@ -293,6 +294,7 @@ export function scoreFirstMeal(
   }
 
   let [dominant] = ELEMENT_ORDER;
+  if (dominant === undefined) throw new Error("firstMeal: ELEMENT_ORDER is empty");
   for (const el of ELEMENT_ORDER) {
     if (totals[el] > totals[dominant]) dominant = el;
   }
@@ -301,7 +303,7 @@ export function scoreFirstMeal(
     if (el === dominant) continue;
     if (secondary === null || totals[el] > totals[secondary]) secondary = el;
   }
-  secondary ??= ELEMENT_ORDER[1];
+  secondary ??= ELEMENT_ORDER[1] ?? dominant;
 
   const sum = ELEMENT_ORDER.reduce((acc, el) => acc + totals[el], 0) || 1;
   const pct: Record<PalateElement, number> = {
@@ -317,12 +319,20 @@ export function scoreFirstMeal(
   }
   pct[dominant] += 100 - assigned;
 
+  // FIRST_MEALS holds all twelve ordered element pairs and the loop above never
+  // lets secondary equal dominant, so this key is always present.
+  const mealKey = `${dominant}-${secondary}`;
+  const meal = FIRST_MEALS[mealKey];
+  if (!meal) {
+    throw new Error(`firstMeal: no meal catalogued for pairing "${mealKey}"`);
+  }
+
   return {
     totals,
     pct,
     dominant,
     secondary,
-    meal: FIRST_MEALS[`${dominant}-${secondary}`],
+    meal,
   };
 }
 
@@ -346,7 +356,7 @@ export function loadSavedMealAnswers(): number[] | null {
         (a, i) =>
           Number.isInteger(a) &&
           a >= 0 &&
-          a < FIRST_MEAL_QUIZ[i].options.length,
+          a < (FIRST_MEAL_QUIZ[i]?.options.length ?? 0),
       )
     ) {
       return parsed.answers;

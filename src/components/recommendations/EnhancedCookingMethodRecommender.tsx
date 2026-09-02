@@ -822,7 +822,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     if (compareMode) {
       setCompareSelections(prev => {
         if (prev.includes(methodId)) return prev.filter(id => id !== methodId);
-        if (prev.length >= 2) return [prev[1], methodId];
+        if (prev.length >= 2) return [prev[1] ?? methodId, methodId];
         return [...prev, methodId];
       });
       return;

@@ -363,7 +363,7 @@ export default function RecipeQuickView({
           {recipe.mealType &&
             Array.isArray(recipe.mealType) &&
             recipe.mealType.length > 0 && (
-              <MealTypeBadge mealType={recipe.mealType[0]} />
+              <MealTypeBadge mealType={recipe.mealType[0] ?? ""} />
             )}
           <SeasonBadge seasons={recipe.season as string[]} />
         </div>

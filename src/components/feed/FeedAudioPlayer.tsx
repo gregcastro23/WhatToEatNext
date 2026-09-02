@@ -158,6 +158,7 @@ export function FeedAudioPlayer({
     if (!audioRef.current) return;
     const nextIndex = (playbackRateIndex + 1) % PLAYBACK_RATES.length;
     const rate = PLAYBACK_RATES[nextIndex];
+    if (rate === undefined) return;
     audioRef.current.playbackRate = rate;
     setPlaybackRateIndex(nextIndex);
   };

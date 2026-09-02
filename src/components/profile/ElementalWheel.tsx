@@ -32,6 +32,7 @@ export const ElementalWheel: React.FC<ElementalWheelProps> = ({ natalChart }) =>
   const natal = natalChart.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const dominantElement = natalChart.dominantElement || getDominantElement();
   const dominantConfig = ELEMENTS.find(e => e.name === dominantElement) ?? ELEMENTS[0];
+  if (!dominantConfig) return null;
 
   const cx = 90;
   const cy = 90;

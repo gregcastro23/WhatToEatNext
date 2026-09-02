@@ -310,9 +310,10 @@ export default function CuisineRecommender(): React.JSX.Element {
     
     for (const [planet] of Object.entries(positions)) {
       const element = planetElementMap[planet];
-      if (element) {
+      const currentContribution = element ? contributions[element] : undefined;
+      if (element && currentContribution !== undefined) {
         const weight = (planet === 'Sun' || planet === 'Moon') ? 0.3 : 0.1;
-        contributions[element] += weight;
+        contributions[element] = currentContribution + weight;
       }
     }
     
@@ -352,24 +353,27 @@ export default function CuisineRecommender(): React.JSX.Element {
       };
       
       const lunarElement = lunarElementMap[lunarPhaseValue];
-      if (lunarElement) {
-        elementalProfile[lunarElement] += 0.2;
+      const currentLunar = lunarElement ? elementalProfile[lunarElement] : undefined;
+      if (lunarElement && currentLunar !== undefined) {
+        elementalProfile[lunarElement] = currentLunar + 0.2;
       }
     }
     
     if (Object.keys(planetaryPositions).length > 0) {
       const elementalContributions = calculateElementalContributionsFromPlanets(planetaryPositions);
       for (const element of Object.keys(elementalProfile) as Array<keyof ElementalProperties>) {
-        if (elementalContributions[element]) {
-          elementalProfile[element] += elementalContributions[element] * 0.1;
+        const contribution = elementalContributions[element];
+        const base = elementalProfile[element];
+        if (contribution && base !== undefined) {
+          elementalProfile[element] = base + contribution * 0.1;
         }
       }
     }
     
     const sum = Object.values(elementalProfile).reduce((acc, val) => acc + val, 0);
     if (sum > 0) {
-      for (const element of Object.keys(elementalProfile) as Array<keyof ElementalProperties>) {
-        elementalProfile[element] = elementalProfile[element] / sum;
+      for (const [element, value] of Object.entries(elementalProfile)) {
+        elementalProfile[element] = value / sum;
       }
     }
     

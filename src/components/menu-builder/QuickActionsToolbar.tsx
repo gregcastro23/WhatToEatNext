@@ -345,7 +345,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             .map((r) => ({ recipe: r, score: calculateNutritionScore(r) }))
             .sort((a, b) => b.score - a.score);
 
-          const best = scored[0].recipe;
+          const [bestScored] = scored;
+          if (!bestScored) continue;
+          const best = bestScored.recipe;
           await addMealToSlot(day, mealType, best as MonicaOptimizedRecipe);
           usedRecipeIds.add(best.id);
         }
@@ -398,7 +400,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
               .map((r) => ({ recipe: r, score: calculateNutritionScore(r) }))
               .sort((a, b) => b.score - a.score);
 
-            const best = scored[0].recipe;
+            const [bestScored] = scored;
+            if (!bestScored) continue;
+            const best = bestScored.recipe;
             await addMealToSlot(
               day as DayOfWeek,
               mealType,
@@ -447,6 +451,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
       for (let i = 0; i < swapCount; i++) {
         const meal = filledMeals[i];
+        if (!meal) continue;
 
         const betterRecipes = allRecipes
           .filter(
@@ -459,8 +464,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             (a, b) => calculateNutritionScore(b) - calculateNutritionScore(a),
           );
 
-        if (betterRecipes.length > 0) {
-          const [replacement] = betterRecipes;
+        const [replacement] = betterRecipes;
+        if (replacement) {
           usedIds.delete(meal.slot.recipe!.id);
           usedIds.add(replacement.id);
           await addMealToSlot(
@@ -532,6 +537,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
       for (let i = 0; i < swapCount; i++) {
         const meal = filledMeals[i];
+        if (!meal) continue;
 
         // Find recipes with ingredients not currently in the menu
         const currentIngs = new Set(ingredientCounts.keys());
@@ -548,8 +554,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           })
           .sort((a, b) => b.newIngCount - a.newIngCount);
 
-        if (diverseRecipes.length > 0 && diverseRecipes[0].newIngCount > 0) {
-          const replacement = diverseRecipes[0].recipe;
+        const [mostDiverse] = diverseRecipes;
+        if (mostDiverse && mostDiverse.newIngCount > 0) {
+          const replacement = mostDiverse.recipe;
           usedIds.delete(meal.slot.recipe!.id);
           usedIds.add(replacement.id);
           await addMealToSlot(

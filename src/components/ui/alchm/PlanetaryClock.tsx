@@ -203,6 +203,7 @@ export function PlanetaryClock({
           <g stroke="rgba(180,140,255,0.25)" strokeWidth="0.5">
             {planets.map((p, i) => {
               const next = planets[(i + 1) % planets.length];
+              if (!next) return null;
               const a1 = (p.a / 360) * 2 * Math.PI - Math.PI / 2;
               const a2 = (next.a / 360) * 2 * Math.PI - Math.PI / 2;
               return (

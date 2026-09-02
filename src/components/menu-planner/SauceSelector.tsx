@@ -302,15 +302,19 @@ export default function SauceSelector({
           {activeTab === "recommended" ? (
             recommendations.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {recommendations.map((rec) => (
+                {recommendations.map((rec) => {
+                  const sauce = allSauces[rec.sauce.id];
+                  if (!sauce) return null;
+                  return (
                   <SauceCard
                     key={rec.sauce.id}
                     sauceId={rec.sauce.id}
-                    sauce={allSauces[rec.sauce.id]}
+                    sauce={sauce}
                     compatibilityScore={rec.compatibilityScore}
                     onSelect={onSelectSauce}
                   />
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-12 text-slate-500">

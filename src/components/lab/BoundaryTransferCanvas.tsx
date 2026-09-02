@@ -157,12 +157,14 @@ const PHI_CONJUGATE = 0.618033988749895;
 // ============================================================================
 
 /** Cold → hot ramp, read against a dark surface. */
+const HEAT_STOP_LAST = [1.0, 253, 224, 71] as const;
+
 const HEAT_STOPS: ReadonlyArray<readonly [number, number, number, number]> = [
   [0.0, 56, 130, 246],
   [0.3, 129, 140, 248],
   [0.55, 214, 118, 214],
   [0.78, 251, 146, 60],
-  [1.0, 253, 224, 71],
+  HEAT_STOP_LAST,
 ];
 
 function heatRgb(t01: number): readonly [number, number, number] {
@@ -170,6 +172,7 @@ function heatRgb(t01: number): readonly [number, number, number] {
   for (let i = 1; i < HEAT_STOPS.length; i += 1) {
     const hi = HEAT_STOPS[i];
     const lo = HEAT_STOPS[i - 1];
+    if (!hi || !lo) continue;
     if (t <= hi[0]) {
       const span = hi[0] - lo[0];
       const f = span <= 0 ? 0 : (t - lo[0]) / span;
@@ -180,8 +183,7 @@ function heatRgb(t01: number): readonly [number, number, number] {
       ];
     }
   }
-  const last = HEAT_STOPS[HEAT_STOPS.length - 1];
-  return [last[1], last[2], last[3]];
+  return [HEAT_STOP_LAST[1], HEAT_STOP_LAST[2], HEAT_STOP_LAST[3]];
 }
 
 function rgba(c: readonly [number, number, number], alpha: number): string {
@@ -303,8 +305,11 @@ function buildPlan(result: BoundaryNetworkResult): Plan {
   // rather than trusting it means a rounding residue cannot leave a sliver of
   // unpainted canvas at the right edge that reads as a sixth, nameless link.
   const total = shareEdges[shareEdges.length - 1];
-  if (total > 0) {
-    for (let i = 0; i < shareEdges.length; i += 1) shareEdges[i] /= total;
+  if (total !== undefined && total > 0) {
+    for (let i = 0; i < shareEdges.length; i += 1) {
+      const edge = shareEdges[i];
+      if (edge !== undefined) shareEdges[i] = edge / total;
+    }
   }
 
   const nodeC = nodes.map((n) => n.celsius);
@@ -331,7 +336,13 @@ function buildPlan(result: BoundaryNetworkResult): Plan {
   if (controllingIndex < 0) {
     controllingIndex = 0;
     for (let i = 1; i < links.length; i += 1) {
-      if (links[i].resistanceKperW > links[controllingIndex].resistanceKperW) {
+      const candidate = links[i];
+      const incumbent = links[controllingIndex];
+      if (
+        candidate &&
+        incumbent &&
+        candidate.resistanceKperW > incumbent.resistanceKperW
+      ) {
         controllingIndex = i;
       }
     }
@@ -348,13 +359,16 @@ function buildPlan(result: BoundaryNetworkResult): Plan {
   });
   const timeEdges: number[] = [0];
   for (let i = 0; i < weights.length; i += 1) {
+    const weight = weights[i];
+    const previousEdge = timeEdges[i];
+    if (weight === undefined || previousEdge === undefined) continue;
     const dwell =
       weightSum > 0 && Number.isFinite(weightSum)
-        ? (weights[i] / weightSum) * TRAVERSE_SECONDS
+        ? (weight / weightSum) * TRAVERSE_SECONDS
         : TRAVERSE_SECONDS / weights.length;
     // A floor keeps a vanishing band from producing an infinite screen speed
     // and a division by zero in the phase lookup.
-    timeEdges.push(timeEdges[i] + Math.max(dwell, 1e-4));
+    timeEdges.push(previousEdge + Math.max(dwell, 1e-4));
   }
 
   return { shareEdges, nodeC, nodeT01, controllingIndex, timeEdges, tMin, tMax };
@@ -401,8 +415,44 @@ function drawFrame(
   const bandBot = bandTop + bandH;
   const labelTop = bandBot;
 
+  const nodeT01At = (i: number): number => {
+    const v = plan.nodeT01[i];
+    if (v === undefined) {
+      throw new RangeError(
+        `BoundaryTransferCanvas: node index ${i} outside ${plan.nodeT01.length}`,
+      );
+    }
+    return v;
+  };
+  const timeEdgeAt = (i: number): number => {
+    const v = plan.timeEdges[i];
+    if (v === undefined) {
+      throw new RangeError(
+        `BoundaryTransferCanvas: time edge ${i} outside ${plan.timeEdges.length}`,
+      );
+    }
+    return v;
+  };
+  const linkAt = (i: number): (typeof links)[number] => {
+    const v = links[i];
+    if (v === undefined) {
+      throw new RangeError(
+        `BoundaryTransferCanvas: link index ${i} outside ${links.length}`,
+      );
+    }
+    return v;
+  };
+
   const slotX = (i: number): number => padL + (innerW * i) / links.length;
-  const shareX = (i: number): number => padL + innerW * plan.shareEdges[i];
+  const shareX = (i: number): number => {
+    const edge = plan.shareEdges[i];
+    if (edge === undefined) {
+      throw new RangeError(
+        `BoundaryTransferCanvas: share edge ${i} outside ${plan.shareEdges.length}`,
+      );
+    }
+    return padL + innerW * edge;
+  };
 
   // Profile plot area, leaving headroom for the two axis labels.
   const plotTop = profTop + 16;
@@ -454,7 +504,7 @@ function drawFrame(
   ctx.beginPath();
   for (let i = 0; i < plan.nodeT01.length; i += 1) {
     const x = slotX(i);
-    const y = tempY(plan.nodeT01[i]);
+    const y = tempY(nodeT01At(i));
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   }
@@ -466,13 +516,13 @@ function drawFrame(
     ctx.strokeStyle = "rgba(253,224,71,0.95)";
     ctx.lineWidth = 2.6;
     ctx.beginPath();
-    ctx.moveTo(slotX(i), tempY(plan.nodeT01[i]));
-    ctx.lineTo(slotX(i + 1), tempY(plan.nodeT01[i + 1]));
+    ctx.moveTo(slotX(i), tempY(nodeT01At(i)));
+    ctx.lineTo(slotX(i + 1), tempY(nodeT01At(i + 1)));
     ctx.stroke();
 
     const midX = (slotX(i) + slotX(i + 1)) / 2;
-    const midY = (tempY(plan.nodeT01[i]) + tempY(plan.nodeT01[i + 1])) / 2;
-    const drop = `−${links[i].dropK.toFixed(1)} K`;
+    const midY = (tempY(nodeT01At(i)) + tempY(nodeT01At(i + 1))) / 2;
+    const drop = `−${linkAt(i).dropK.toFixed(1)} K`;
     ctx.font = `bold 10px ${MONO}`;
     ctx.textAlign = "left";
     ctx.fillStyle = "rgba(253,224,71,0.95)";
@@ -481,9 +531,9 @@ function drawFrame(
 
   // Node dots, coloured by their own temperature.
   for (let i = 0; i < plan.nodeT01.length; i += 1) {
-    const c = heatRgb(plan.nodeT01[i]);
+    const c = heatRgb(nodeT01At(i));
     ctx.beginPath();
-    ctx.arc(slotX(i), tempY(plan.nodeT01[i]), 3, 0, Math.PI * 2);
+    ctx.arc(slotX(i), tempY(nodeT01At(i)), 3, 0, Math.PI * 2);
     ctx.fillStyle = rgba(c, 0.95);
     ctx.fill();
     ctx.lineWidth = 1;
@@ -494,7 +544,7 @@ function drawFrame(
   // ── Connector: equal slots above, resistance shares below ─────────────────
   for (let i = 0; i < links.length; i += 1) {
     const controlling = i === plan.controllingIndex;
-    const c = heatRgb((plan.nodeT01[i] + plan.nodeT01[i + 1]) / 2);
+    const c = heatRgb((nodeT01At(i) + nodeT01At(i + 1)) / 2);
     const grad = ctx.createLinearGradient(0, connTop, 0, connBot);
     grad.addColorStop(0, rgba(c, controlling ? 0.1 : 0.05));
     grad.addColorStop(1, rgba(c, controlling ? 0.34 : 0.14));
@@ -514,8 +564,8 @@ function drawFrame(
     const x1 = shareX(i + 1);
     const w = x1 - x0;
     const controlling = i === plan.controllingIndex;
-    const cLeft = heatRgb(plan.nodeT01[i]);
-    const cRight = heatRgb(plan.nodeT01[i + 1]);
+    const cLeft = heatRgb(nodeT01At(i));
+    const cRight = heatRgb(nodeT01At(i + 1));
     const grad = ctx.createLinearGradient(x0, 0, x1 === x0 ? x0 + 1 : x1, 0);
     grad.addColorStop(0, rgba(cLeft, controlling ? 0.42 : 0.24));
     grad.addColorStop(1, rgba(cRight, controlling ? 0.42 : 0.24));
@@ -539,10 +589,11 @@ function drawFrame(
   // ── Carriers ──────────────────────────────────────────────────────────────
   for (let n = 0; n < phases.length; n += 1) {
     const p = phases[n];
+    if (p === undefined) continue;
     let band = 0;
-    while (band < links.length - 1 && p >= plan.timeEdges[band + 1]) band += 1;
-    const dwell = plan.timeEdges[band + 1] - plan.timeEdges[band];
-    const frac = dwell > 0 ? Math.min(1, Math.max(0, (p - plan.timeEdges[band]) / dwell)) : 0;
+    while (band < links.length - 1 && p >= timeEdgeAt(band + 1)) band += 1;
+    const dwell = timeEdgeAt(band + 1) - timeEdgeAt(band);
+    const frac = dwell > 0 ? Math.min(1, Math.max(0, (p - timeEdgeAt(band)) / dwell)) : 0;
     const x0 = shareX(band);
     const x1 = shareX(band + 1);
     const x = x0 + (x1 - x0) * frac;
@@ -550,7 +601,7 @@ function drawFrame(
     const lane = (n * PHI_CONJUGATE) % 1;
     const y = bandTop + 7 + lane * Math.max(1, bandH - 14);
 
-    const t01 = plan.nodeT01[band] + (plan.nodeT01[band + 1] - plan.nodeT01[band]) * frac;
+    const t01 = nodeT01At(band) + (nodeT01At(band + 1) - nodeT01At(band)) * frac;
     const c = heatRgb(t01);
 
     // Trail length is the screen speed, so a fast band reads as fast even in a
@@ -580,7 +631,7 @@ function drawFrame(
     ctx.lineWidth = 1.5;
     ctx.strokeRect(x0 + 0.75, bandTop + 0.75, Math.max(1, w - 1.5), bandH - 1.5);
 
-    const pill = `CONTROLS · ${(links[i].share * 100).toFixed(1)} %`;
+    const pill = `CONTROLS · ${(linkAt(i).share * 100).toFixed(1)} %`;
     ctx.font = `bold 10px ${MONO}`;
     const textW = ctx.measureText(pill).width;
     if (w > textW + 16) {
@@ -613,9 +664,10 @@ function drawFrame(
     // Every link gets a label on every layout — dropping one because the lane
     // is short would leave a band on screen with no name attached to it.
     const row = i % 2;
+    const labelBaselineY = rowY[row] ?? labelTop + 12;
     const centre = (shareX(i) + shareX(i + 1)) / 2;
-    const pct = `${(links[i].share * 100).toFixed(1)}%`;
-    const full = `${links[i].label} ${pct}`;
+    const pct = `${(linkAt(i).share * 100).toFixed(1)}%`;
+    const full = `${linkAt(i).label} ${pct}`;
     const fullW = ctx.measureText(full).width;
     const pctW = ctx.measureText(pct).width;
     const text = fullW + 8 <= labelBudget ? full : pct;
@@ -626,7 +678,8 @@ function drawFrame(
     // clamp pulls a label back on top of the one before it, which is exactly
     // the collision the cursor exists to prevent.
     if (x + textW > padL + innerW) x = padL + innerW - textW;
-    if (x < rowCursor[row]) x = rowCursor[row];
+    const cursor = rowCursor[row] ?? padL;
+    if (x < cursor) x = cursor;
     rowCursor[row] = x + textW + 8;
 
     const controlling = i === plan.controllingIndex;
@@ -635,13 +688,13 @@ function drawFrame(
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(centre, bandBot);
-    ctx.lineTo(centre, rowY[row] - 8);
-    ctx.lineTo(x + textW / 2, rowY[row] - 8);
-    ctx.lineTo(x + textW / 2, rowY[row] - 5);
+    ctx.lineTo(centre, labelBaselineY - 8);
+    ctx.lineTo(x + textW / 2, labelBaselineY - 8);
+    ctx.lineTo(x + textW / 2, labelBaselineY - 5);
     ctx.stroke();
 
     ctx.fillStyle = controlling ? "rgba(253,224,71,0.95)" : "rgba(255,255,255,0.5)";
-    ctx.fillText(text, x, rowY[row]);
+    ctx.fillText(text, x, labelBaselineY);
   }
 
   // Flow direction, stated once.
@@ -765,7 +818,9 @@ export function BoundaryTransferCanvas({
       last = now;
       const phases = phasesRef.current;
       for (let n = 0; n < phases.length; n += 1) {
-        let p = phases[n] + dt;
+        const current = phases[n];
+        if (current === undefined) continue;
+        let p = current + dt;
         if (p >= traverse) p -= Math.floor(p / traverse) * traverse;
         phases[n] = p;
       }

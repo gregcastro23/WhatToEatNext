@@ -67,13 +67,14 @@ function getChakraFoodRecommendations(
     { type: 'matter', value: energyInfluence.matter },
     { type: 'substance', value: energyInfluence.substance }
   ].sort((a, b) => a.value - b.value);
-  const recommendedFoods = [...chakraFoodMap[chakra]];
+  const recommendedFoods = [...(chakraFoodMap[chakra] ?? [])];
+  const [weakestAspect] = energyAspects;
 
-  if (energyAspects[0].type === 'spirit') {
+  if (weakestAspect?.type === 'spirit') {
     recommendedFoods.push('Light, Aromatic Herbs', 'Subtle Flavors');
-  } else if (energyAspects[0].type === 'essence') {
+  } else if (weakestAspect?.type === 'essence') {
     recommendedFoods.push('Flavorful Broths', 'Aromatic Spices');
-  } else if (energyAspects[0].type === 'matter') {
+  } else if (weakestAspect?.type === 'matter') {
     recommendedFoods.push('Dense, Hearty Foods', 'Root Vegetables');
   } else {
     recommendedFoods.push('Textured Foods', 'Varied Ingredients');

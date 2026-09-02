@@ -690,10 +690,22 @@ function extractNutrition(np: NutritionalProfileLike | undefined | null): {
   };
 }
 
-const ELEMENT_CARD_TONES: Record<
-  string,
-  { ring: string; chip: string; fallback: string; bar: string }
-> = {
+interface ElementCardTone {
+  ring: string;
+  chip: string;
+  fallback: string;
+  bar: string;
+}
+
+/** Named so the `?? ELEMENT_CARD_TONES.Unknown` fallbacks resolve to a value. */
+const UNKNOWN_CARD_TONE: ElementCardTone = {
+  ring: "border-slate-300/30 shadow-black/30",
+  chip: "bg-slate-500/15 text-slate-100 border-slate-300/25",
+  fallback: "from-[#14141c] via-[#2a2935] to-[#777283]",
+  bar: "from-slate-300 to-slate-500",
+};
+
+const ELEMENT_CARD_TONES: Record<string, ElementCardTone> = {
   Fire: {
     ring: "border-orange-400/45 shadow-orange-950/30",
     chip: "bg-orange-500/15 text-orange-100 border-orange-300/30",
@@ -718,12 +730,7 @@ const ELEMENT_CARD_TONES: Record<
     fallback: "from-[#111223] via-[#333660] to-[#b6b9df]",
     bar: "from-violet-300 to-slate-100",
   },
-  Unknown: {
-    ring: "border-slate-300/30 shadow-black/30",
-    chip: "bg-slate-500/15 text-slate-100 border-slate-300/25",
-    fallback: "from-[#14141c] via-[#2a2935] to-[#777283]",
-    bar: "from-slate-300 to-slate-500",
-  },
+  Unknown: UNKNOWN_CARD_TONE,
 };
 
 /**
@@ -1326,8 +1333,7 @@ export const EnhancedIngredientRecommender: React.FC<
         ? cleanDescription(ingredient.description)
         : "";
     const tone =
-      ELEMENT_CARD_TONES[ingredient.dominantElement] ??
-      ELEMENT_CARD_TONES.Unknown;
+      ELEMENT_CARD_TONES[ingredient.dominantElement] ?? UNKNOWN_CARD_TONE;
 
 
     return (
@@ -2658,8 +2664,7 @@ export const EnhancedIngredientRecommender: React.FC<
         ? cleanDescription(ingredient.description)
         : "";
     const tone =
-      ELEMENT_CARD_TONES[ingredient.dominantElement] ??
-      ELEMENT_CARD_TONES.Unknown;
+      ELEMENT_CARD_TONES[ingredient.dominantElement] ?? UNKNOWN_CARD_TONE;
 
     return (
       <motion.article

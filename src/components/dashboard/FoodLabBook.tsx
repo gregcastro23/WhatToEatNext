@@ -344,6 +344,7 @@ function EntryDetail({
   onDeleted: (id: string) => void;
 }): React.JSX.Element {
   const [activePhoto, setActivePhoto] = useState(0);
+  const activePhotoEntry = entry.photos[activePhoto];
   const [showShare, setShowShare] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -381,11 +382,11 @@ function EntryDetail({
 
         <div className="p-4 space-y-4">
           {/* Photos */}
-          {entry.photos.length > 0 && (
+          {activePhotoEntry && (
             <div>
               <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100">
                 <Image
-                  src={entry.photos[activePhoto].dataUrl}
+                  src={activePhotoEntry.dataUrl}
                   alt={entry.dishName}
                   fill
                   unoptimized

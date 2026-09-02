@@ -142,6 +142,8 @@ function HealthHistorySection({ health }: { health: HealthHistoryData }): React.
 
   // Oldest -> newest so the ribbon reads left-to-right like a timeline.
   const ordered = [...health.points].reverse();
+  const [first] = ordered;
+  const last = ordered[ordered.length - 1];
   const { drift } = health;
   const worsening = drift?.delta !== null && (drift?.delta ?? 0) > 0.05;
   const improving = drift?.delta !== null && (drift?.delta ?? 0) < -0.05;
@@ -190,8 +192,8 @@ function HealthHistorySection({ health }: { health: HealthHistoryData }): React.
         ))}
       </div>
       <div className="mt-1 flex justify-between text-[11px] text-gray-400">
-        <span>{new Date(ordered[0].capturedAt).toLocaleString()}</span>
-        <span>{new Date(ordered[ordered.length - 1].capturedAt).toLocaleString()}</span>
+        <span>{first ? new Date(first.capturedAt).toLocaleString() : "—"}</span>
+        <span>{last ? new Date(last.capturedAt).toLocaleString() : "—"}</span>
       </div>
     </div>
   );

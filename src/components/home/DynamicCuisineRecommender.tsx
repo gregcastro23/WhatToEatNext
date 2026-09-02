@@ -345,8 +345,8 @@ export default function DynamicCuisineRecommender({
         const dayRulers = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
         const chaldeanOrder = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"];
         const dayRuler = dayRulers[dayOfWeek];
-        const rulerIdx = chaldeanOrder.indexOf(dayRuler);
-        const planetaryHour = chaldeanOrder[(rulerIdx + hour) % 7];
+        const rulerIdx = dayRuler === undefined ? -1 : chaldeanOrder.indexOf(dayRuler);
+        const planetaryHour = chaldeanOrder[(rulerIdx + hour) % 7] ?? chaldeanOrder[0];
 
         const scored: DynamicCuisineRecommendation[] = [];
         for (const cuisine of CUISINE_DEFINITIONS) {

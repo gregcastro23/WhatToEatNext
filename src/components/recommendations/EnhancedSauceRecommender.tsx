@@ -266,7 +266,8 @@ export default function EnhancedSauceRecommender() {
 
   useEffect(() => {
     if (!dataLoading && availableCuisines.length > 0 && !availableCuisines.find(c => c.key === cuisineKey)) {
-      setCuisineKey(availableCuisines[0].key);
+      const [firstCuisine] = availableCuisines;
+      if (firstCuisine) setCuisineKey(firstCuisine.key);
     }
   }, [dataLoading, availableCuisines, cuisineKey]);
 

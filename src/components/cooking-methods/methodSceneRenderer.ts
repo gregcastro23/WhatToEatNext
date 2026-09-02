@@ -658,6 +658,15 @@ export function drawParticles(
     const z = particles[o + 2];
     const tempC = particles[o + 6];
     const phaseFrac = particles[o + 8];
+    if (
+      x === undefined ||
+      y === undefined ||
+      z === undefined ||
+      tempC === undefined ||
+      phaseFrac === undefined
+    ) {
+      continue;
+    }
 
     const scale = 0.8 + z * 0.3;
     const px = l.w / 2 + x * (l.w * 0.35) * scale;
@@ -708,14 +717,17 @@ function mix(a: string, b: string, t: number): string {
   const pa = parseHex(a);
   const pb = parseHex(b);
   if (!pa || !pb) return b;
-  const c = (i: number): number => Math.round(pa[i] + (pb[i] - pa[i]) * t);
-  return `rgb(${c(0)}, ${c(1)}, ${c(2)})`;
+  const [ar, ag, ab] = pa;
+  const [br, bg, bb] = pb;
+  const c = (from: number, to: number): number => Math.round(from + (to - from) * t);
+  return `rgb(${c(ar, br)}, ${c(ag, bg)}, ${c(ab, bb)})`;
 }
 
 function parseHex(v: string): [number, number, number] | null {
   const m = /^#([0-9a-f]{6})$/i.exec(v.trim());
-  if (!m) return null;
-  const n = parseInt(m[1], 16);
+  const hex = m?.[1];
+  if (hex === undefined) return null;
+  const n = parseInt(hex, 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 

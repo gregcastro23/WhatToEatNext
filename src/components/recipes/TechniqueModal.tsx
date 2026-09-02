@@ -218,6 +218,7 @@ export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) 
                   {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
                     const v = t.elementalEffect?.[el] ?? 0;
                     const cfg = ELEMENT_COLORS[el];
+                    if (!cfg) return null;
                     const pct = Math.round(Math.min(100, Math.max(0, v * 100)));
                     return (
                       <div key={el} className="flex items-center gap-3">

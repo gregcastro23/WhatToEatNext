@@ -319,7 +319,7 @@ export default function UserInsightsPanel(): React.JSX.Element {
                   label={el.charAt(0).toUpperCase() + el.slice(1)}
                   value={elements[el]}
                   total={elementsTotal}
-                  tone={ELEMENT_TONE[el]}
+                  tone={ELEMENT_TONE[el] ?? ""}
                 />
               ))}
               {elements.unknown > 0 && (
@@ -349,7 +349,7 @@ export default function UserInsightsPanel(): React.JSX.Element {
                   label={m.charAt(0).toUpperCase() + m.slice(1)}
                   value={modalities[m]}
                   total={modalitiesTotal}
-                  tone={MODALITY_TONE[m]}
+                  tone={MODALITY_TONE[m] ?? ""}
                 />
               ))}
               {modalities.unknown > 0 && (

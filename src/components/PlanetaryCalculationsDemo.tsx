@@ -135,8 +135,12 @@ function calculateAspects(
     for (let j = i + 1; j < planetNames.length; j++) {
       const planet1 = planetNames[i];
       const planet2 = planetNames[j];
-      const long1 = positions[planet1].exactLongitude;
-      const long2 = positions[planet2].exactLongitude;
+      if (planet1 === undefined || planet2 === undefined) continue;
+      const pos1 = positions[planet1];
+      const pos2 = positions[planet2];
+      if (!pos1 || !pos2) continue;
+      const long1 = pos1.exactLongitude;
+      const long2 = pos2.exactLongitude;
 
       let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff;

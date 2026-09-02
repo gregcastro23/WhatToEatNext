@@ -542,7 +542,7 @@ async function generateAgentResponse(
     `From the vantage point of ${agent.dignity} dignity, I observe that your question aligns with the deeper rhythms of the cosmos. The planetary intelligence of ${agent.planetaryRuler} suggests embracing ${agent.element.toLowerCase()} qualities.`,
   ]
 
-  const content = responses.at(Math.floor(Math.random() * responses.length)) ?? responses[0]
+  const content = responses.at(Math.floor(Math.random() * responses.length)) ?? responses[0] ?? ''
 
   return {
     content,

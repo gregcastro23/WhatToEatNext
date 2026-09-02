@@ -20,10 +20,12 @@ export const AlchemicalConstitutionPanel: React.FC<AlchemicalConstitutionPanelPr
   const norm = total > 0 ? total : 1;
 
   // Find dominant
-  const dominant = ESMS_CONFIG.reduce((max, item) => {
+  const [firstEsms] = ESMS_CONFIG;
+  const dominant = ESMS_CONFIG.reduce<typeof firstEsms>((max, item) => {
     const val = alch[item.key] ?? 0;
-    return val > (alch[max.key] ?? 0) ? item : max;
-  }, ESMS_CONFIG[0]);
+    return max === undefined || val > (alch[max.key] ?? 0) ? item : max;
+  }, firstEsms);
+  if (!dominant) return null;
 
   return (
     <div className="glass-card-premium rounded-[2.5rem] p-8 border-white/10 shadow-3xl group">

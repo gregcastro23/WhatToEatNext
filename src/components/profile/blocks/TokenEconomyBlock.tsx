@@ -40,7 +40,8 @@ function aggregateDailyTransactions(txs: TransactionItem[]): DailyBuckets {
     const txTime = new Date(tx.createdAt).getTime();
     const dayDiff = Math.floor((todayStart + 24 * 3600 * 1000 - txTime) / (24 * 3600 * 1000));
     if (dayDiff >= 0 && dayDiff < 14) {
-      dailyTx[dayDiff][tx.tokenType] += tx.amount;
+      const bucket = dailyTx[dayDiff];
+      if (bucket) bucket[tx.tokenType] += tx.amount;
     }
   }
   return dailyTx;
@@ -71,10 +72,13 @@ function simulateHistoricalBalances(dailyTx: DailyBuckets, initial: BalancesStat
     seriesData.matter[idx] = Math.max(0, m);
     seriesData.substance[idx] = Math.max(0, sub);
 
-    s -= dailyTx[i].Spirit;
-    e -= dailyTx[i].Essence;
-    m -= dailyTx[i].Matter;
-    sub -= dailyTx[i].Substance;
+    const day = dailyTx[i];
+    if (day) {
+      s -= day.Spirit;
+      e -= day.Essence;
+      m -= day.Matter;
+      sub -= day.Substance;
+    }
   }
   return seriesData;
 }

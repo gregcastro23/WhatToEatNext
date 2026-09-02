@@ -70,7 +70,7 @@ function firstString(value: string | string[] | undefined): string | undefined {
 function formatDuration(recipe: Recipe): string | null {
   const raw = recipe.timeToMake ?? recipe.totalTime ?? recipe.prepTime ?? "";
   const match = String(raw).match(/(\d+)/);
-  const mins = match ? parseInt(match[1], 10) : 0;
+  const mins = match ? parseInt(match[1] ?? "", 10) : 0;
   if (!mins) return null;
   if (mins < 60) return `${mins} min`;
   const hours = Math.floor(mins / 60);

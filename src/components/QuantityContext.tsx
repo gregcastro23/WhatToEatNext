@@ -118,7 +118,7 @@ export function QuantitySparkline({
     const range = hi - lo;
     const mean = sum / series.length;
     const meanY = height - ((mean - lo) / range) * height;
-    const observed = current ?? series[series.length - 1];
+    const observed = current ?? series[series.length - 1] ?? mean;
     const currentY = height - ((observed - lo) / range) * height;
     return { meanY, currentX: width, currentY };
   }, [series, current, width, height]);
@@ -307,6 +307,9 @@ export function QuantityWavefunction({
     }
     const [xMin] = hist.edges;
     const xMax = hist.edges[hist.edges.length - 1];
+    if (xMin === undefined || xMax === undefined) {
+      return { bars: [] as Array<{ x: number; w: number; h: number }>, gaussian: "", currentX: 0 };
+    }
     const xRange = Math.max(xMax - xMin, 1e-9);
 
     const maxCount = Math.max(...hist.counts, 1);
@@ -342,7 +345,10 @@ export function QuantityWavefunction({
     return { bars, gaussian, currentX };
   }, [hist, ctx, current, width, height]);
 
-  if (bars.length === 0) {
+  const [axisMin] = hist.edges;
+  const axisMax = hist.edges[hist.edges.length - 1];
+
+  if (bars.length === 0 || axisMin === undefined || axisMax === undefined) {
     return (
       <div
         className={`flex items-center justify-center text-[9px] text-white/20 ${className}`}
@@ -352,6 +358,8 @@ export function QuantityWavefunction({
       </div>
     );
   }
+
+  const meanX = ((ctx.mean - axisMin) / (axisMax - axisMin)) * width;
 
   return (
     <svg
@@ -378,8 +386,8 @@ export function QuantityWavefunction({
       <path d={gaussian} fill="none" stroke={stroke} strokeWidth={1.25} strokeOpacity={0.85} />
       {/* mean line */}
       <line
-        x1={((ctx.mean - hist.edges[0]) / (hist.edges[hist.edges.length - 1] - hist.edges[0])) * width}
-        x2={((ctx.mean - hist.edges[0]) / (hist.edges[hist.edges.length - 1] - hist.edges[0])) * width}
+        x1={meanX}
+        x2={meanX}
         y1={4}
         y2={height - 3}
         stroke="currentColor"

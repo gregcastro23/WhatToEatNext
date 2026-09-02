@@ -27,7 +27,11 @@ export function CustomizeDrawer({
     const next = [...localLayout];
     const target = index + direction;
     if (target < 0 || target >= next.length) return;
-    [next[index], next[target]] = [next[target], next[index]];
+    const a = next[index];
+    const b = next[target];
+    if (a === undefined || b === undefined) return;
+    next[index] = b;
+    next[target] = a;
     setLocalLayout(next);
   };
 
@@ -87,6 +91,7 @@ export function CustomizeDrawer({
             .filter((id) => PROFILE_BLOCKS[id])
             .map((blockId, index) => {
               const block = PROFILE_BLOCKS[blockId];
+              if (!block) return null;
               return (
                 <div
                   key={blockId}
@@ -130,6 +135,7 @@ export function CustomizeDrawer({
             .filter((id) => !localLayout.includes(id))
             .map((blockId) => {
               const block = PROFILE_BLOCKS[blockId];
+              if (!block) return null;
               return (
                 <div
                   key={blockId}

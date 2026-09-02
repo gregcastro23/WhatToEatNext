@@ -23,7 +23,7 @@ const PLANET_FLAVOR_NOTES: Record<string, string> = {
   Saturn: "Traditional, slow-cooked, grounding meals",
 };
 
-const MOON_PHASES = [
+const MOON_PHASES: readonly [string, ...string[]] = [
   "New Moon",
   "Waxing Crescent",
   "First Quarter",
@@ -40,7 +40,7 @@ function getMoonPhase(): string {
   const synodicMonth = 29.53059;
   const daysSince = (Date.now() - knownNewMoon) / (1000 * 60 * 60 * 24);
   const phase = ((daysSince % synodicMonth) / synodicMonth) * 8;
-  return MOON_PHASES[Math.floor(phase) % 8];
+  return MOON_PHASES[Math.floor(phase) % 8] ?? MOON_PHASES[0];
 }
 
 interface PlanetaryStatusBarProps {

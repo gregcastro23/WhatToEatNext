@@ -163,6 +163,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
 
   for (const planet of PLANETS) {
     const sign = natalSigns[planet];
+    if (sign === undefined) continue;
     const planetInfo = natalChart.planets.find(p => p.name === planet);
     const rawPos = planetInfo?.position ?? 0;
     // `position <= 0` means unknown/legacy per PlanetInfo.position's contract —
@@ -201,6 +202,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
       for (let i = 1; i < sorted.length; i++) {
         const prev = sorted[i - 1];
         const curr = sorted[i];
+        if (!prev || !curr) continue;
         const diff = curr.absAngle - prev.absAngle;
         if (diff < minGap) {
           const shift = (minGap - diff) / 2;
@@ -257,7 +259,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
             const lineStart = polarToXY(startAngle, innerR);
             const labelPos = polarToXY(midAngle, (outerR + signR) / 2);
             const element = SIGN_ELEMENTS[sign];
-            const color = ELEMENT_COLORS[element];
+            const color = element === undefined ? undefined : ELEMENT_COLORS[element];
 
             return (
               <g key={sign}>
@@ -520,7 +522,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
                 <div className="text-base text-purple-400" title={planet}>{PLANET_SYMBOLS[planet as keyof typeof PLANET_SYMBOLS]}</div>
                 <div className="text-[9px] text-white/30 font-medium uppercase tracking-wider mt-0.5">{planet}</div>
                 <div className="text-xs font-semibold text-white/70 capitalize mt-1">
-                  <span className="text-purple-400 mr-0.5">{SIGN_SYMBOLS[signStr]}</span> {signStr}
+                  <span className="text-purple-400 mr-0.5">{signStr === undefined ? '' : SIGN_SYMBOLS[signStr]}</span> {signStr}
                   {degree !== null && (
                     <span className="text-white/30 font-mono text-[10px] ml-0.5">
                       {degree}&deg;{minute !== null && minute > 0 ? `${minute}\u2032` : ''}

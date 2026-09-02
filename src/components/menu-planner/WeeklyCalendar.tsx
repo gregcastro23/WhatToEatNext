@@ -609,14 +609,15 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   }, [currentMenu]);
 
   // Calculate dates for each day
-  const weekDates = useMemo(() => {
-    const dates: Date[] = [];
-    for (let i = 0; i < 7; i++) {
+  // A seven-tuple, not Date[]: DayOfWeek is 0|1|...|6, so every indexed read
+  // below resolves to a Date and needs no substituted "today".
+  const weekDates = useMemo<[Date, Date, Date, Date, Date, Date, Date]>(() => {
+    const at = (i: number): Date => {
       const date = new Date(navigation.currentWeekStart);
       date.setDate(date.getDate() + i);
-      dates.push(date);
-    }
-    return dates;
+      return date;
+    };
+    return [at(0), at(1), at(2), at(3), at(4), at(5), at(6)];
   }, [navigation.currentWeekStart]);
 
   // Handle copy/move meal click
@@ -673,6 +674,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
   // Determine whether today falls within the currently-displayed week.
   // If yes, surface the Today hero card and highlight that column.
   const todayDateStr = new Date().toDateString();
+  const [weekStart, , , , , , weekEnd] = weekDates;
   const todayIndex = weekDates.findIndex(
     (d) => d.toDateString() === todayDateStr,
   );
@@ -692,7 +694,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
 
         <div className="text-center">
           <h2 className="text-lg font-headline-md font-bold text-primary">
-            {formatDateForDisplay(weekDates[0])} - {formatDateForDisplay(weekDates[6])}
+            {weekStart ? formatDateForDisplay(weekStart) : ''} - {weekEnd ? formatDateForDisplay(weekEnd) : ''}
           </h2>
           <button
             onClick={navigation.goToCurrentWeek}

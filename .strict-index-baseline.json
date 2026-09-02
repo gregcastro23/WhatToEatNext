@@ -1,6 +1,6 @@
 {
-  "total": 667,
-  "files": 146,
+  "total": 299,
+  "files": 69,
   "allowlist": [
     "src/actions/recipes.ts",
     "src/calculations/alchemicalCalculations.ts",

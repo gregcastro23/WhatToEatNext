@@ -22,12 +22,12 @@ export interface MembersPanelProps {
   className?: string;
 }
 
-const ELEMENT_CYCLE: Element[] = ["Fire", "Water", "Earth", "Air"];
+const ELEMENT_CYCLE: [Element, ...Element[]] = ["Fire", "Water", "Earth", "Air"];
 
 function elementForMember(member: TableMember, index: number): Element {
   // Real photo when available (AvatarCircle); otherwise a deterministic
   // sigil so the same member always renders the same glyph.
-  return ELEMENT_CYCLE[index % ELEMENT_CYCLE.length];
+  return ELEMENT_CYCLE[index % ELEMENT_CYCLE.length] ?? ELEMENT_CYCLE[0];
 }
 
 export function MembersPanel({

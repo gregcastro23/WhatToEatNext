@@ -82,12 +82,12 @@ function buildMatches(text: string): Match[] {
     const g = new RegExp(TIME_RE.source, TIME_RE.flags);
     let m: RegExpExecArray | null;
     while ((m = g.exec(text)) !== null) {
-      const qty1 = parseFloat(m[1]);
+      const qty1 = parseFloat(m[1] ?? "");
       const qty2 = m[2] ? parseFloat(m[2]) : undefined;
       const [,,, unit] = m;
       // Use the upper bound if range, else single quantity
       const qty = qty2 ?? qty1;
-      const seconds = unitToSeconds(qty, unit);
+      const seconds = unitToSeconds(qty, unit ?? "");
       matches.push({
         start: m.index,
         end: m.index + m[0].length,
@@ -106,7 +106,7 @@ function buildMatches(text: string): Match[] {
     const g = new RegExp(TEMP_RE.source, TEMP_RE.flags);
     let m: RegExpExecArray | null;
     while ((m = g.exec(text)) !== null) {
-      const v = parseInt(m[1], 10);
+      const v = parseInt(m[1] ?? "", 10);
       const unit = m[2]?.toUpperCase().startsWith("C") ? "C" : "F";
       const f = unit === "F" ? v : Math.round((v * 9) / 5 + 32);
       const c = unit === "C" ? v : Math.round(((v - 32) * 5) / 9);

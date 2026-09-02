@@ -368,7 +368,7 @@ function useAmbientMotes(hostRef: React.RefObject<HTMLElement | null>) {
           vy: 4 + Math.random() * 7,
           size: 1.5 + Math.random(),
           phase: Math.random() * Math.PI * 2,
-          color: MOTE_COLORS[i % MOTE_COLORS.length],
+          color: MOTE_COLORS[i % MOTE_COLORS.length] ?? MOTE_COLORS[0] ?? "",
         }));
       }
     };
@@ -540,6 +540,7 @@ export function LiveHero() {
     if (tableSize === 0) return "";
     if (tableSize === 1 && table.length === 1) {
       const [p] = table;
+      if (!p) return "";
       // "your" only when the birthday is plausibly the visitor's own — a
       // named guest ("Mom") gets the possessive of their name instead.
       const isSelf = !p.name || p.name === "You";
@@ -603,6 +604,9 @@ export function LiveHero() {
   };
 
   const quizOpen = quizAnswers !== null;
+  // The render below is gated on quizAnswers.length < FIRST_MEAL_QUIZ.length,
+  // which TS cannot correlate with the lookup; binding the step once can.
+  const currentQuizStep = quizAnswers ? FIRST_MEAL_QUIZ[quizAnswers.length] : undefined;
   const singleGuest = tableSize === 1 && table.length === 1 ? table[0] : null;
 
   return (
@@ -805,7 +809,7 @@ export function LiveHero() {
         <span className="alchm-lh-rule" aria-hidden="true" />
       </div>
 
-      {quizOpen && quizAnswers.length < FIRST_MEAL_QUIZ.length ? (
+      {quizOpen && currentQuizStep ? (
         <div
           key={`quiz-${quizAnswers.length}`}
           className="alchm-lh-stage"
@@ -834,10 +838,10 @@ export function LiveHero() {
               </button>
             </div>
             <h3 className="alchm-lh-quiz-prompt">
-              {FIRST_MEAL_QUIZ[quizAnswers.length].prompt}
+              {currentQuizStep.prompt}
             </h3>
             <div className="alchm-lh-quiz-opts">
-              {FIRST_MEAL_QUIZ[quizAnswers.length].options.map((o, i) => (
+              {currentQuizStep.options.map((o, i) => (
                 <button
                   key={o.label}
                   type="button"
@@ -929,7 +933,7 @@ export function LiveHero() {
                     {quizAnswers
                       .map(
                         (a, i) =>
-                          (FIRST_MEAL_QUIZ[i].options[a]?.label ?? "").split(
+                          (FIRST_MEAL_QUIZ[i]?.options[a]?.label ?? "").split(
                             " — ",
                           )[0],
                       )

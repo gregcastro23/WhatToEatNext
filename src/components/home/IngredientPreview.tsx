@@ -182,7 +182,7 @@ export default function IngredientPreview() {
     const [top] = (Object.entries(weights) as Array<[ElementKey, number]>).sort(
       (a, b) => b[1] - a[1],
     );
-    return top?.[1] > 0 ? top[0] : "Fire";
+    return top !== undefined && top[1] > 0 ? top[0] : "Fire";
   }, [planetaryPositions]);
 
   const trending = useMemo(() => {

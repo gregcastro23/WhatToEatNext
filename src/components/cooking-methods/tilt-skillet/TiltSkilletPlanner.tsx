@@ -100,10 +100,16 @@ export default function TiltSkilletPlanner() {
           : s,
       ),
     );
-  const addIngredient = (si: number) =>
-    setStage(si, { ingredients: [...stages[si].ingredients, { name: "", amount: 1, unit: "cup" }] });
-  const removeIngredient = (si: number, ii: number) =>
-    setStage(si, { ingredients: stages[si].ingredients.filter((_, j) => j !== ii) });
+  const addIngredient = (si: number) => {
+    const stage = stages[si];
+    if (!stage) return;
+    setStage(si, { ingredients: [...stage.ingredients, { name: "", amount: 1, unit: "cup" }] });
+  };
+  const removeIngredient = (si: number, ii: number) => {
+    const stage = stages[si];
+    if (!stage) return;
+    setStage(si, { ingredients: stage.ingredients.filter((_, j) => j !== ii) });
+  };
   const addStage = () =>
     setStages((prev) => [
       ...prev,

@@ -83,9 +83,10 @@ export function PlanetaryInfluenceTooltip({
       }))
       .slice(0, 4), [tokenType, planetaryPositions]);
 
+  const [leadContributor] = contributors;
   const lead =
-    contributors.length > 0 && contributors[0].sign
-      ? `${tokenType} is flowing from ${contributors[0].planet} in ${titleCase(contributors[0].sign)}.`
+    leadContributor?.sign
+      ? `${tokenType} is flowing from ${leadContributor.planet} in ${titleCase(leadContributor.sign)}.`
       : `${tokenType} is produced by the planets below.`;
 
   return (

@@ -101,8 +101,16 @@ function getAspectLabel(type: string): string {
   }
 }
 
-const ASPECT_STYLES: Record<string, { color: string; darkColor: string }> = {
-  conjunction: { color: '#a78bfa', darkColor: 'rgba(167,139,250,0.12)' },
+interface AspectStyle {
+  color: string;
+  darkColor: string;
+}
+
+/** Named so the `|| ASPECT_STYLES.conjunction` fallback resolves to a value. */
+const CONJUNCTION_STYLE: AspectStyle = { color: '#a78bfa', darkColor: 'rgba(167,139,250,0.12)' };
+
+const ASPECT_STYLES: Record<string, AspectStyle> = {
+  conjunction: CONJUNCTION_STYLE,
   harmony: { color: '#34d399', darkColor: 'rgba(52,211,153,0.12)' },
   tension: { color: '#ef4444', darkColor: 'rgba(239,68,68,0.12)' },
   opportunity: { color: '#60a5fa', darkColor: 'rgba(96,165,250,0.12)' },
@@ -178,7 +186,8 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
     const positions = Object.values(transitPositions);
     for (const pos of positions) {
       const el = SIGN_ELEMENTS[pos.sign];
-      if (el) counts[el]++;
+      const elCount = el ? counts[el] : undefined;
+      if (el && elCount !== undefined) counts[el] = elCount + 1;
     }
     return counts;
   }, [transitPositions]);
@@ -198,7 +207,8 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
     const positions = Object.values(transitPositions);
     for (const pos of positions) {
       const mod = SIGN_MODALITIES[pos.sign];
-      if (mod) counts[mod]++;
+      const modCount = mod ? counts[mod] : undefined;
+      if (mod && modCount !== undefined) counts[mod] = modCount + 1;
     }
     return counts;
   }, [transitPositions]);
@@ -415,7 +425,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
           <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Transit Aspects</h3>
           <div className="space-y-2">
             {transitInsights.slice(0, 6).map((insight, idx) => {
-              const style = ASPECT_STYLES[insight.type] || ASPECT_STYLES.conjunction;
+              const style = ASPECT_STYLES[insight.type] ?? CONJUNCTION_STYLE;
               return (
                 <button
                   type="button"
