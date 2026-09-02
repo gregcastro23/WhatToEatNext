@@ -9,12 +9,12 @@
     "untrackedSingleAsT": 2808
   },
   "assertionSites": {
-    "total": 4523,
+    "total": 4520,
     "asAny": 101,
     "chained": 269,
-    "single": 4153,
-    "production": 3889,
-    "test": 634,
+    "single": 4150,
+    "production": 3882,
+    "test": 638,
     "asConst": 641,
     "nonNull": 659
   },
@@ -28,14 +28,14 @@
     }
   },
   "declined": {
-    "total": 6360,
+    "total": 6356,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1788,
       "@typescript-eslint/explicit-module-boundary-types": 855,
       "complexity": 364,
       "max-depth": 107,
-      "max-lines": 663,
-      "max-lines-per-function": 2129,
+      "max-lines": 661,
+      "max-lines-per-function": 2127,
       "no-void": 454
     }
   },
