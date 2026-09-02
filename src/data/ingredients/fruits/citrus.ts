@@ -75,6 +75,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       zesting: "before juicing",
       juicing: "room temperature yields more juice",
+      yields: "1 lemon = 2-3 tbsp juice, 1 tbsp zest",
       notes: "Roll on counter before juicing",
     },
     storage: {
@@ -196,6 +197,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: "remove white pith",
       sectioning: "remove membranes if desired",
+      yields: "1 medium = 1/3-1/2 cup juice, 1-2 tbsp zest",
       notes: "Supreme for salads",
     },
     storage: {

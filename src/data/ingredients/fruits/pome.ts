@@ -51,7 +51,10 @@ const rawPome = {
       vitamins: ["c", "k"],
       minerals: ["potassium"],
       antioxidants: ["quercetin", "catechin", "chlorogenic acid"],
-      notes: "High in pectin and polyphenols",
+      notes:
+        "High in pectin and polyphenols. Quercetin high - especially in " +
+        "peel, anti-inflammatory; catechin moderate - antioxidant; " +
+        "chlorogenic acid moderate - may help regulate blood sugar",
     },
     varieties: {
       Honeycrisp: {
@@ -149,6 +152,7 @@ const rawPome = {
         "Optional - peel for sauces and some baked goods, leave on for fiber and color",
       coring: "Remove core and seeds using apple corer or knife",
       preventing_browning: "Toss with lemon juice or ascorbic acid solution",
+      yields: "1 lb = 3 medium = 3 cups sliced",
     },
     storage: {
       fresh: {
