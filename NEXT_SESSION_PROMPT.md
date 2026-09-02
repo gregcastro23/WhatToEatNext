@@ -31,7 +31,7 @@ All values re-verified live at `59e470df`, not carried forward from prose.
 | **Fast suite** | `19 suites / 494 tests` | `bun run test:fast` | ✅ Verified |
 | **Tracked lint debt** | `3,665` vs baseline `3,606` | `bun run lint:debt` | 🔴 **RED, +59** |
 | **Declined rules pool** | `6,364` vs baseline `6,317` | same | 🔴 **RED, +47** |
-| — `prefer-nullish-coalescing` | `692` vs baseline `210` (126 safe / 566 semantic) | same | 🔴 **+482 ← the target** |
+| — `prefer-nullish-coalescing` | `692` vs baseline `210` (95 verified-safe / 566 semantic / 31 unclassified) | same | 🔴 **+482 ← the target** |
 | — `no-unnecessary-condition` | `1,307` vs baseline `1,729` | same | 🟢 −422 |
 | **Gated cast surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | ⚪ Unmoved |
 | **Assertion sites (AST)** | `4,532` (was 4,593) | same | 🟢 −61 |
@@ -157,12 +157,21 @@ flag is exactly the kind of quiet policy change this program exists to prevent.
 | **C. Split the axis** | Give `prefer-nullish-coalescing` its own sub-baseline (as Phase 12 did for `as any`) so the aggregate is not hostage to one rule. |
 
 ⚠️ **B alone cannot close the gap — measured, not estimated.** Of the 692
-`prefer-nullish-coalescing` hits, only **126** have a non-primitive left operand,
-where `||` and `??` are provably identical because an object is never falsy. The
-other **566** are primitives, where `0` / `""` / `false` change meaning. Passing
-the per-rule check needs **−482**; converting every provably-safe site yields
-**−126**. So **at least 356 sites require an individual semantic decision** —
-this check cannot be made green mechanically, and no autofix or codemod closes it.
+`prefer-nullish-coalescing` hits, only **126** have a non-primitive left operand.
+The other **566** are primitives, where `0` / `""` / `false` change meaning.
+Passing the per-rule check needs **−482**; even converting every non-primitive
+site yields **−126**. So **at least 356 sites require an individual semantic
+decision** — this check cannot be made green mechanically, and no autofix or
+codemod closes it.
+
+⚠️ **`ignorePrimitives` is a filter, not a safety proof.** It excludes
+`string`/`number`/`boolean`/`bigint` and says nothing about `any` or `unknown`,
+where `||` → `??` *is* behaviour-changing. Type-probed at all 126 sites with the
+TS API: **95 resolved, all object/array-typed, zero `any`, zero `unknown`** (87
+`a || b`, 8 ternary `a ? a : b` — the rule reports three shapes, not one). The
+remaining **31 did not resolve to an expression and are unverified.** So the
+mechanically-safe tranche is 95 confirmed, not 126 assumed; classify the other 31
+before touching them.
 
 Reproduce with `ignorePrimitives: { string, number, boolean, bigint }` all true;
 the unfiltered count reproduces the gate's 692 exactly, which is the control.
@@ -204,10 +213,12 @@ can legitimately be `0`, `""` or `false`. That is not a mechanical rewrite:
 at every site where a falsy value is meaningful, and it cannot tell the cases
 apart. Read each site.
 
-**Start with the 126 provably-safe ones.** Filter with `ignorePrimitives` all
-true: what remains has a non-primitive operand, so `||` → `??` is exactly
-equivalent and needs no judgement. That is the only tranche that can move
-mechanically; the remaining 566 are the actual work, and each one is a question
+**Start with the 95 type-verified ones.** Filter with `ignorePrimitives` all
+true to get the 126 candidates, then confirm each operand's type is an
+object/array — `||` → `??` is exactly equivalent there and needs no judgement.
+Do not skip the type check: the filter alone would also admit `any`/`unknown`,
+where the two operators differ. That is the only tranche that moves
+mechanically; the 566 primitives are the actual work, and each one is a question
 about whether a real `0`, `""` or `false` should fall through.
 
 ### 2.3 Reproduce the probe
