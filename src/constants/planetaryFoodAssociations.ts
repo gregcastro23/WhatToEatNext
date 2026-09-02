@@ -241,7 +241,7 @@ export const _calculatePlanetaryBoost = (
     if (!planetInfo) return;
 
     // Basic planetary boost
-    const baseBoost = planetInfo.boostValue || 0.1;
+    const baseBoost = planetInfo.boostValue ?? 0.1;
     boost += baseBoost;
 
     // Add planet to dominant list if significant
@@ -314,7 +314,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 
   // Normalize zodiac sign to lowercase for lookup
   const normalizedSign = zodiacSign.toLowerCase();
-  const zodiacElement = zodiacElements[normalizedSign] || "Fire";
+  const zodiacElement = zodiacElements[normalizedSign] ?? "Fire";
   // Check if item has elemental properties
   const itemData = item as {
     elementalProperties?: Record<string, number>;
@@ -326,7 +326,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 
   // Calculate boost based on elemental affinity
   // Higher boost if the cuisine's dominant element matches the zodiac element
-  const elementValue = itemData.elementalProperties[zodiacElement] || 0;
+  const elementValue = itemData.elementalProperties[zodiacElement] ?? 0;
   const elementBoost = elementValue * 0.8; // Scale based on how strong the element is
 
   // Check if cuisine explicitly lists this zodiac sign as favorable
@@ -341,13 +341,13 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   // If not cardinal or fixed it's mutable (gemini, virgo, sagittarius, pisces)
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
-    modalityBoost = (itemData.elementalProperties["Fire"] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties["Fire"] ?? 0) * 0.2;
   } else if (fixedSigns.includes(normalizedSign)) {
     // Fixed signs prefer substantial, traditional cuisines
-    modalityBoost = (itemData.elementalProperties["Earth"] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties["Earth"] ?? 0) * 0.2;
   } else {
     // Mutable signs prefer adaptable, fusion cuisines
-    modalityBoost = (itemData.elementalProperties["Air"] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties["Air"] ?? 0) * 0.2;
   }
 
   // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
@@ -395,7 +395,7 @@ const _calculateSeasonalAlignment = (
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
   const itemData = item as { elementalProperties?: Record<string, number> };
-  return itemData.elementalProperties?.[seasonalElement] || 0.1;
+  return itemData.elementalProperties?.[seasonalElement] ?? 0.1;
 };
 
 /**
@@ -453,7 +453,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
 
   // Calculate boost based on lunar phase intensity
   // This will vary between 0.15 and 0.4 depending on the phase
-  return 0.15 + ((influence as any)?.intensity || 0) * 0.2;
+  return 0.15 + ((influence as any)?.intensity ?? 0) * 0.2;
 };
 
 /**
@@ -468,11 +468,11 @@ export const _getFlavorBoost = (
     planetaryRulers?: string[];
     elementalCharacter?: string;
   };
-  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
+  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost ?? {};
   return Object.entries(elementBoost).reduce(
     (acc, [element, boost]) =>
       acc +
-      ((ingredientData as any).elementalProperties?.[element] || 0) *
+      ((ingredientData as any).elementalProperties?.[element] ?? 0) *
         (boost || 0),
     0,
   );
