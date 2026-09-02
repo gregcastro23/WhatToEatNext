@@ -1,4 +1,7 @@
-import { describe, expect, it } from "bun:test";
+// No test-runner import: this repo runs jest, which injects `describe`,
+// `it` and `expect` as globals. Importing them from "bun:test" makes the
+// whole suite fail to collect ("Cannot find module 'bun:test'"), which is
+// how this file went unrun - the same way `authCache.test.ts` did before it.
 import { CUISINES_METADATA, getCuisineData } from "@/data/cuisines/index";
 import { getAllRecipes } from "@/data/recipes/index";
 import { resolveCuisineType } from "@/types/cuisineAliases";
