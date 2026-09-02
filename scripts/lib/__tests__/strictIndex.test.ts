@@ -181,7 +181,9 @@ describe("runStrictIndexCheck (smoke/integration)", () => {
 
     expect(summary.total).toBeLessThanOrEqual(baseline.total);
     expect(summary.files).toBeLessThanOrEqual(baseline.files);
-    expect(summary.total).toBeGreaterThan(0);
+    // A clean repo and a scanner that loaded nothing both report total: 0, so
+    // the liveness check is on files loaded, not on errors found.
+    expect(summary.filesScanned).toBeGreaterThan(100);
     expect(Object.keys(summary.byFile).length).toBe(summary.files);
 
     const comparison = compareStrictIndex(summary, baseline);

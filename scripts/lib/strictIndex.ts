@@ -27,6 +27,12 @@ export interface StrictIndexSummary {
   total: number;
   files: number;
   byFile: Record<string, StrictIndexDiagnostic[]>;
+  /**
+   * Source files the program actually loaded. At zero errors this is the only
+   * thing separating "the repo is clean" from "the scanner compiled nothing",
+   * which otherwise both report total: 0.
+   */
+  filesScanned: number;
 }
 
 export interface StrictIndexComparison {
@@ -126,6 +132,9 @@ export function runStrictIndexCheck(
   });
 
   const diagnostics = ts.getPreEmitDiagnostics(program);
+  const filesScanned = program
+    .getSourceFiles()
+    .filter((f) => !f.isDeclarationFile).length;
   const byFile: Record<string, StrictIndexDiagnostic[]> = {};
   let total = 0;
 
@@ -167,6 +176,7 @@ export function runStrictIndexCheck(
     total,
     files: Object.keys(byFile).length,
     byFile,
+    filesScanned,
   };
 }
 
