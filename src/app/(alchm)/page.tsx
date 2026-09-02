@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import LivePriceTicker from "@/components/economy/LivePriceTicker";
-import { FeaturedRecipe } from "@/components/home/FeaturedRecipe";
 import { LiveHero } from "@/components/home/LiveHero";
+import { RecipeMintPromo } from "@/components/home/RecipeMintPromo";
 import type { JSX } from "react";
 
 const NATAL_DISMISSED_KEY = "alchm:natal:dismissed";
@@ -249,13 +249,6 @@ export default function AlchmKitchenHome(): JSX.Element {
           />
         </HomeSection>
 
-        {/* FEATURED BLOCKCHAIN RECIPE SHOWCASE */}
-        <HomeSection
-          tag="LEDGER · BLOCKCHAIN SHOWCASE"
-          title="Featured Recipe of the Month"
-        >
-          <FeaturedRecipe />
-        </HomeSection>
 
         {/* 2 · INGREDIENT RECOMMENDER */}
         <HomeSection
@@ -310,6 +303,14 @@ export default function AlchmKitchenHome(): JSX.Element {
           title="Celestial Prep: Sauces"
         >
           <EnhancedSauceRecommender />
+        </HomeSection>
+
+        {/* 5 · RECIPE MINTING PROMOTION · IMMUTABLE LEDGER */}
+        <HomeSection
+          tag="LEDGER · RECIPE MINTING"
+          title="Prove It’s Yours Forever · Mint Your Recipe"
+        >
+          <RecipeMintPromo />
         </HomeSection>
 
         {/* Footer hint to the Lab */}

@@ -1,44 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { FEATURED_RECIPE_META, featuredRecipe } from "@/data/featuredRecipe";
-import { elementalSignature } from "@/utils/elemental";
+import { useState } from "react";
 
-export interface QuoteResponse {
-  recipeId: string;
-  title: string;
-  enabled: boolean;
-  fingerprint: {
-    aSharp: number;
-    totals: Record<string, number>;
-    physics: { kalchm: number; monica: number; heat: number; entropy: number; reactivity: number; gregsEnergy: number };
-    matchRate: number;
-    elemental: { Fire: number; Water: number; Earth: number; Air: number };
-    smartServings: number;
-    servingsLimitedBy: string | null;
-  };
-  quote: {
-    baseCost: Record<string, number>;
-    liveCost: Record<string, number>;
-    redistributePreview: Record<string, Record<string, number>>;
-    pricing: { multiplier: number; dominantElement: string; timestamp: string };
-    swap: { rulingHourPlanet: string; rulingDayPlanet: string };
-  };
-}
-
-const ELEMENT_ROWS = [
-  { key: "fire", name: "Fire", icon: "🔥", bar: "bg-red-500", text: "text-red-400" },
-  { key: "earth", name: "Earth", icon: "🌍", bar: "bg-emerald-500", text: "text-emerald-400" },
-  { key: "air", name: "Air", icon: "💨", bar: "bg-amber-400", text: "text-amber-300" },
-  { key: "water", name: "Water", icon: "💧", bar: "bg-blue-500", text: "text-blue-400" },
-] as const;
-
-const MIN_SERVINGS = 1;
-const MAX_SERVINGS = 24;
-
-// Real recipe-NFT protocol wiring for the ledger showcase (env-driven; the
-// showcase previously displayed hardcoded mock registry/token/block values).
+// Real recipe-NFT protocol wiring for the ledger showcase
 const REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_RECIPE_REGISTRY_ADDRESS ?? "";
 const RIGHTS_ID = process.env.NEXT_PUBLIC_ALCHM_RIGHTS_ID ?? "";
 const IS_TESTNET = (process.env.NEXT_PUBLIC_RECIPE_NFT_CHAIN ?? "base-sepolia") !== "base";
@@ -47,449 +12,202 @@ const NFT_ENABLED =
 const CHAIN_LABEL = IS_TESTNET ? "Base Sepolia" : "Base";
 const EXPLORER_BASE = IS_TESTNET ? "https://sepolia.basescan.org" : "https://basescan.org";
 
-function parseQty(raw: string): number | null {
-  const s = raw.trim();
-  const mixed = s.match(/^(\d+)\s+(\d+)\/(\d+)$/);
-  if (mixed) return Number(mixed[1]) + Number(mixed[2]) / Number(mixed[3]);
-  const frac = s.match(/^(\d+)\/(\d+)$/);
-  if (frac) return Number(frac[1]) / Number(frac[2]);
-  const n = Number(s);
-  return Number.isFinite(n) ? n : null;
-}
+export function RecipeMintPromo() {
+  const [copiedAddress, setCopiedAddress] = useState(false);
 
-function formatQty(n: number): string {
-  const rounded = Math.round(n * 100) / 100;
-  if (Number.isInteger(rounded)) return String(rounded);
-  return rounded.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
-}
-
-function scaleAmount(quantity: string, factor: number): string {
-  if (factor === 1) return quantity;
-  const n = parseQty(quantity);
-  if (n === null) return quantity;
-  return formatQty(n * factor);
-}
-
-export function FeaturedRecipe() {
-  const [expanded, setExpanded] = useState(false);
-  const recipe = featuredRecipe;
-
-  const [quote, setQuote] = useState<QuoteResponse | null>(null);
-  const [quoteError, setQuoteError] = useState(false);
-  const [heroImage, setHeroImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    let active = true;
-    fetch("/api/recipes/featured/hero-image", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => {
-        if (active && typeof j?.url === "string") setHeroImage(j.url);
-      })
-      .catch(() => {});
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    let active = true;
-    fetch("/api/recipes/featured/mint-quote")
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => {
-        if (active) setQuote(j as QuoteResponse);
-      })
-      .catch(() => {
-        if (active) setQuoteError(true);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const derived = quote?.fingerprint?.elemental ?? null;
-  const smartServes = quote?.fingerprint?.smartServings ?? null;
-  const servesLimitedBy = quote?.fingerprint?.servingsLimitedBy ?? null;
-
-  const shares = useMemo(
-    () =>
-      derived ?? {
-        Fire: recipe.elementalBalance.fire / 100,
-        Water: recipe.elementalBalance.water / 100,
-        Earth: recipe.elementalBalance.earth / 100,
-        Air: recipe.elementalBalance.air / 100,
-      },
-    [derived, recipe.elementalBalance],
-  );
-
-  const signature = useMemo(() => elementalSignature(shares), [shares]);
-  const coDominantSet = new Set(signature.coDominant.map((e) => e.toLowerCase()));
-
-  const baseServings = smartServes ?? recipe.yields;
-  const [servingsOverride, setServingsOverride] = useState<number | null>(null);
-  const servings = servingsOverride ?? baseServings;
-  const scaleFactor = baseServings > 0 ? servings / baseServings : 1;
-  const servingsReady = quote !== null || quoteError;
-
-  const stepServings = (delta: number) =>
-    setServingsOverride((prev) =>
-      Math.max(MIN_SERVINGS, Math.min(MAX_SERVINGS, (prev ?? baseServings) + delta)),
-    );
-
-  const steps = [...recipe.steps].sort(
-    (a, b) => a.step_number - b.step_number,
-  );
-
-  const aSharpVal = quote?.fingerprint?.aSharp ?? 129.5;
-  const contentHash = quote?.recipeId ? `0x${quote.recipeId.substring(0, 40)}` : "0xa9f47e30d12f2b7e51c8a1dbf7d5440628e932b7e";
+  const handleCopyAddress = () => {
+    if (!REGISTRY_ADDRESS) return;
+    navigator.clipboard.writeText(REGISTRY_ADDRESS);
+    setCopiedAddress(true);
+    setTimeout(() => setCopiedAddress(false), 2000);
+  };
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-amber-500/20 bg-gradient-to-br from-[#0c0a06]/80 to-[#0a0f0a]/60 p-5 md:p-6 shadow-xl">
-      {/* Warm ambient glow to set the featured block apart */}
-      <div className="absolute -top-16 -right-10 w-56 h-56 bg-amber-600/10 rounded-full blur-[90px] pointer-events-none" />
+    <div className="relative rounded-3xl overflow-hidden border border-amber-500/25 bg-gradient-to-br from-[#0c0a0f]/90 via-[#080b12]/95 to-[#06080b]/90 p-6 sm:p-8 md:p-10 shadow-2xl shadow-cyan-950/20">
+      {/* Background radial atmosphere */}
+      <div className="absolute -top-24 -left-16 w-80 h-80 bg-amber-500/10 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute -bottom-24 -right-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-[110px] pointer-events-none" />
 
-      <div className="relative z-10 space-y-6">
-        
-        {/* Upper row: Main Showcase and Blockchain Ledger split */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          
-          {/* Left Block: Recipe Showcase details (Span 3) */}
-          <div className="lg:col-span-3 flex flex-col justify-between space-y-4">
-            <div className="space-y-3">
-              {/* Badges */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-[9px] font-extrabold text-amber-300 uppercase tracking-widest">
-                  ✧ {FEATURED_RECIPE_META.designation}
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-extrabold text-emerald-400 uppercase tracking-wide">
-                  {FEATURED_RECIPE_META.status}
-                </span>
-                <span className="text-[10px] font-mono text-white/35">
-                  by {FEATURED_RECIPE_META.authorAgent}
-                </span>
-              </div>
-
-              {/* Title & Description */}
-              <h3 className="text-xl md:text-2xl font-black text-white/95 leading-tight tracking-tight">
-                {recipe.title}
-              </h3>
-              <p className="text-xs md:text-sm text-white/50 leading-relaxed">
-                {recipe.short_description}
-              </p>
-            </div>
-
-            {/* Hero image — generated by the live recipe-image pipeline */}
-            {heroImage && (
-              <div className="relative rounded-xl overflow-hidden border border-white/10 aspect-[16/7] w-full">
-                {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/no-noninteractive-element-interactions -- The live recipe-image URL is not known to Next; onError is a load fallback, not user interaction. */}
-                <img
-                  src={heroImage}
-                  alt={recipe.title}
-                  loading="lazy"
-                  onError={() => setHeroImage(null)}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0a]/70 via-transparent to-transparent pointer-events-none" />
-              </div>
-            )}
-
-            {/* Quick stats */}
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs pt-1">
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-white/35 uppercase tracking-wider text-[9px] font-bold">Time</span>
-                <span className="text-white/80 font-semibold">{recipe.total_time} min</span>
-              </div>
-              <div
-                className="flex items-center gap-1.5"
-                title={
-                  `${servesLimitedBy
-                    ? `Smart default — yield-limited by ${servesLimitedBy}. `
-                    : "Smart default servings. " 
-                  }Adjust to scale the ingredient list; the ledger weight stays fixed.`
-                }
-              >
-                <span className="text-white/35 uppercase tracking-wider text-[9px] font-bold">Serves</span>
-                <div className="inline-flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => stepServings(-1)}
-                    disabled={!servingsReady || servings <= MIN_SERVINGS}
-                    aria-label="Fewer servings"
-                    className="w-5 h-5 flex items-center justify-center rounded-md bg-white/[0.04] border border-white/10 text-white/60 hover:text-white hover:border-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-colors leading-none"
-                  >
-                    −
-                  </button>
-                  <span className="text-white/80 font-semibold tabular-nums w-5 text-center">{servings}</span>
-                  <button
-                    type="button"
-                    onClick={() => stepServings(1)}
-                    disabled={!servingsReady || servings >= MAX_SERVINGS}
-                    aria-label="More servings"
-                    className="w-5 h-5 flex items-center justify-center rounded-md bg-white/[0.04] border border-white/10 text-white/60 hover:text-white hover:border-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-colors leading-none"
-                  >
-                    +
-                  </button>
-                  {servingsOverride !== null && servingsOverride !== baseServings && (
-                    <button
-                      type="button"
-                      onClick={() => setServingsOverride(null)}
-                      className="ml-1 text-[8px] uppercase tracking-wider text-amber-300/70 hover:text-amber-200 transition-colors"
-                    >
-                      reset
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-white/35 uppercase tracking-wider text-[9px] font-bold">Level</span>
-                <span className="text-white/80 font-semibold capitalize">{recipe.difficulty}</span>
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-white/35 uppercase tracking-wider text-[9px] font-bold">Cuisine</span>
-                <span className="text-white/80 font-semibold">{recipe.cuisine}</span>
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-white/35 uppercase tracking-wider text-[9px] font-bold">Aligns</span>
-                <span className="text-amber-300 font-semibold">{recipe.alignment_score.overall}/100</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Block: On-Chain Ledger Showcase (Span 2) */}
-          <div className="lg:col-span-2 flex flex-col justify-between rounded-xl border border-cyan-500/25 bg-[#070b0e]/95 p-4 relative overflow-hidden shadow-lg">
-            <div className="absolute -top-16 -left-10 w-48 h-48 bg-cyan-600/5 rounded-full blur-[80px] pointer-events-none" />
-            
-            <div className="relative z-10 space-y-4">
-              <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-extrabold text-cyan-300 uppercase tracking-widest">
-                  ⛓ Base Ledger Showcase
-                </span>
-                {NFT_ENABLED ? (
-                  <span className="text-[9px] font-semibold text-emerald-400 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                    Registry Live{IS_TESTNET ? " · Testnet" : ""}
-                  </span>
-                ) : (
-                  <span className="text-[9px] font-semibold text-amber-400 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                    Wiring Deploy
-                  </span>
-                )}
-              </div>
-
-              {/* Ledger metadata list — real protocol wiring, no mock values */}
-              <div className="space-y-2.5 font-mono text-[10px] text-white/70">
-                <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Recipe Registry</span>
-                  {REGISTRY_ADDRESS ? (
-                    <a
-                      href={`${EXPLORER_BASE}/address/${REGISTRY_ADDRESS}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-cyan-300/90 hover:text-cyan-200 text-right truncate max-w-[150px] transition-colors"
-                      title={REGISTRY_ADDRESS}
-                    >
-                      {REGISTRY_ADDRESS.substring(0, 10)}…{REGISTRY_ADDRESS.substring(REGISTRY_ADDRESS.length - 4)}
-                    </a>
-                  ) : (
-                    <span className="text-white/40">pending deploy</span>
-                  )}
-                </div>
-                <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Chain</span>
-                  <span className="text-cyan-300 font-extrabold">{CHAIN_LABEL}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Alchemical Weight</span>
-                  <span className="text-white/95 font-semibold">A# {aSharpVal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Content Hash</span>
-                  <span className="text-white/80 text-right truncate max-w-[150px]" title={contentHash}>
-                    {contentHash.substring(0, 10)}...{contentHash.substring(contentHash.length - 8)}
-                  </span>
-                </div>
-                <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Rights Anchor</span>
-                  {RIGHTS_ID ? (
-                    <span className="text-white/80 text-right truncate max-w-[150px]" title={RIGHTS_ID}>
-                      {RIGHTS_ID.substring(0, 10)}…{RIGHTS_ID.substring(RIGHTS_ID.length - 6)}
-                    </span>
-                  ) : (
-                    <span className="text-white/40">pending anchor</span>
-                  )}
-                </div>
-                <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Alchm License</span>
-                  <span className="text-white/60">5% Royalty / VA 2-434-962</span>
-                </div>
-              </div>
-
-              <p className="text-[10px] text-white/40 leading-relaxed">
-                Every minted recipe anchors its content hash to the Alchm rights registry on {CHAIN_LABEL}.
-                Minting is backend-sponsored — your ESMS is the only cost, and the record is immutable.
-              </p>
-            </div>
-
-            <div className="relative z-10 pt-4 border-t border-white/[0.06] mt-4">
-              <Link
-                href="/cosmic-recipe"
-                className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-500/40 text-cyan-300 font-bold text-xs transition-all duration-200 group"
-              >
-                ✨ Conjure &amp; Mint Your Own Recipe
-                <span className="group-hover:translate-x-0.5 transition-transform duration-200">&rarr;</span>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-
-        {/* Action Toggle to reveal full recipe details */}
-        <div className="flex justify-center pt-2">
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            aria-expanded={expanded}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 hover:border-amber-500/40 text-amber-200 font-semibold text-xs transition-all duration-200"
-          >
-            {expanded ? "Hide Recipe Details" : "Reveal Recipe Details"}
-            <span className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>
-              ▾
+      <div className="relative z-10 space-y-8">
+        {/* Badges & Eyebrow */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-[10px] font-extrabold text-cyan-300 uppercase tracking-widest">
+              ⛓ Base On-Chain Ledger
             </span>
-          </button>
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-[10px] font-extrabold text-amber-300 uppercase tracking-widest">
+              🪙 100% Gasless &amp; Sponsored
+            </span>
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-extrabold text-emerald-400 uppercase tracking-widest">
+              VA 2-434-962 Rights Anchor
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-white/50">
+            {NFT_ENABLED ? (
+              <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                Registry Live on {CHAIN_LABEL}
+              </span>
+            ) : (
+              <span className="text-amber-400 font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                {CHAIN_LABEL} Protocol
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Expanded Recipe Segment */}
-        {expanded && (
-          <div className="mt-4 pt-6 border-t border-white/[0.06] grid grid-cols-1 lg:grid-cols-5 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
-            {/* Ingredients column (Span 2) */}
-            <div className="lg:col-span-2 space-y-3">
-              <h4 className="text-[11px] font-bold text-white/45 uppercase tracking-widest flex items-center justify-between">
-                <span>Ingredients · {recipe.ingredients.length}</span>
-                {scaleFactor !== 1 && (
-                  <span className="text-amber-300/60 normal-case tracking-normal font-medium">
-                    scaled to {servings} servings
-                  </span>
-                )}
-              </h4>
-              <ul className="space-y-2">
-                {recipe.ingredients.map((ing) => (
-                  <li
-                    key={ing.name}
-                    className="flex justify-between gap-3 text-[11px] border-b border-white/[0.04] pb-2 last:border-0"
-                  >
-                    <span className="text-white/70 leading-snug">
-                      {ing.name}
-                      {ing.optional && (
-                        <span className="ml-1 text-white/30 italic">(optional)</span>
-                      )}
-                    </span>
-                    <span className="text-amber-300/90 font-medium whitespace-nowrap">
-                      {scaleAmount(ing.quantity, scaleFactor)} {ing.unit}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Cooking steps / method (Span 3) */}
-            <div className="lg:col-span-3 space-y-4">
-              <h4 className="text-[11px] font-bold text-white/45 uppercase tracking-widest">
-                Method Steps
-              </h4>
-              <ol className="space-y-4">
-                {steps.map((step) => (
-                  <li key={step.step_number} className="flex gap-3">
-                    <span className="flex-shrink-0 w-5.5 h-5.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 flex items-center justify-center font-black text-[10px] aspect-square">
-                      {step.step_number}
-                    </span>
-                    <div className="flex-1">
-                      <p className="text-[11px] text-white/70 leading-relaxed">
-                        {step.instruction}
-                      </p>
-                      <span className="text-[9px] text-white/35 uppercase tracking-wide">
-                        {step.cooking_method} · {step.time_minutes} min
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-
-              {/* Finishing & Plating */}
-              <div className="rounded-xl bg-white/[0.02] border border-white/5 p-3.5">
-                <h5 className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1.5">
-                  Finishing &amp; Plating
-                </h5>
-                <p className="text-[11px] text-white/55 leading-relaxed">
-                  {recipe.finishing_and_serving.garnish_and_plating}
-                </p>
-              </div>
-
-              {/* Elemental signature & Astro mapping layout */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/[0.04]">
-                {/* Elemental shares */}
-                <div className="space-y-2.5">
-                  <div className="flex items-center gap-2">
-                    <h4 className="text-[10px] font-bold text-white/45 uppercase tracking-widest">
-                      Elemental Share
-                    </h4>
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[8px] font-extrabold text-white/70 uppercase tracking-wide">
-                      {signature.tier === "co-dominant"
-                        ? `${signature.shortLabel} · co-dominant`
-                        : signature.shortLabel}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {ELEMENT_ROWS.map((el) => {
-                      const val = Math.round((shares[el.name] ?? 0) * 100);
-                      const isCoDominant = coDominantSet.has(el.name.toLowerCase());
-                      return (
-                        <div key={el.key} className="space-y-1">
-                          <div className="flex justify-between text-[10px]">
-                            <span className={`font-semibold flex items-center gap-1.5 ${isCoDominant ? el.text : "text-white/60"}`}>
-                              {el.icon} {el.name}
-                            </span>
-                            <span className="text-white/40 font-medium">{val}%</span>
-                          </div>
-                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full ${el.bar} ${isCoDominant ? "" : "opacity-60"} transition-all duration-1000 ease-out`}
-                              style={{ width: `${Math.min(100, val)}%` }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Astro/Planetary Mapping */}
-                <div className="rounded-xl bg-indigo-500/[0.03] border border-indigo-500/10 p-3 flex flex-col justify-between">
-                  <div>
-                    <h4 className="text-[10px] font-bold text-indigo-300/80 uppercase tracking-widest mb-1.5">
-                      Cosmic Mapping
-                    </h4>
-                    <p className="text-[10px] text-white/55 leading-relaxed">
-                      {recipe.astro_explanation.summary}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {recipe.tags.planets.map((p) => (
-                      <span
-                        key={p}
-                        className="inline-flex items-center px-1.5 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-[8px] font-bold text-indigo-300 uppercase tracking-wide"
-                      >
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
+        {/* Hero Copy */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-8 space-y-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-white to-cyan-200 tracking-tight leading-[1.15]">
+              Have a favorite recipe you want to mint?
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-200 to-cyan-300">
+                Prove it’s yours forever.
+              </span>
+            </h2>
+            <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl">
+              Every chef and home cook carries a signature formulation. Don’t let your culinary genius vanish into algorithms or ephemeral feeds. Anchor your recipe’s immutable content hash to the Base blockchain with authentic elemental thermodynamics, permanent creator attribution, and automatic rights protection.
+            </p>
           </div>
-        )}
+
+          {/* Quick CTA Card */}
+          <div className="lg:col-span-4 rounded-2xl border border-cyan-500/25 bg-[#05080c]/90 p-5 space-y-4 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-[50px] pointer-events-none" />
+            <div className="relative z-10 space-y-3">
+              <span className="text-[10px] font-mono text-cyan-300 uppercase tracking-widest font-bold">
+                Quick Action · Zero Gas
+              </span>
+              <h3 className="text-lg font-bold text-white leading-snug">
+                Claim Culinary Immortality
+              </h3>
+              <p className="text-xs text-white/60 leading-relaxed">
+                Conjure from celestial transits or enter your secret recipe to register your on-chain ownership.
+              </p>
+              <div className="pt-2 flex flex-col gap-2.5">
+                <Link
+                  href="/cosmic-recipe"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-xs tracking-wide shadow-lg shadow-amber-900/30 transition-all duration-200 transform hover:-translate-y-0.5"
+                >
+                  ✨ Conjure &amp; Mint Your Recipe
+                  <span>&rarr;</span>
+                </Link>
+                <Link
+                  href="/kitchen-lab"
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-white/80 font-bold text-xs transition-all duration-200"
+                >
+                  ⚗️ Extract Recipe Signature in Lab
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4 Pillars Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          {/* Pillar 1 */}
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 space-y-2.5 hover:border-amber-500/30 transition-colors duration-300">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-base">
+              🔐
+            </div>
+            <h4 className="text-sm font-bold text-white">Cryptographic Authorship</h4>
+            <p className="text-xs text-white/55 leading-relaxed">
+              Your exact ingredients, ratios, and steps form an immutable cryptographic hash on Base, permanently sealing your creation date and author identity.
+            </p>
+          </div>
+
+          {/* Pillar 2 */}
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 space-y-2.5 hover:border-cyan-500/30 transition-colors duration-300">
+            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-base">
+              ⚗️
+            </div>
+            <h4 className="text-sm font-bold text-white">Elemental Physics</h4>
+            <p className="text-xs text-white/55 leading-relaxed">
+              Calculates your recipe’s A# harmonic weight, Monica constant, and Fire/Earth/Water/Air signature so your dish is mathematically characterized.
+            </p>
+          </div>
+
+          {/* Pillar 3 */}
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 space-y-2.5 hover:border-emerald-500/30 transition-colors duration-300">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-base">
+              ⛽
+            </div>
+            <h4 className="text-sm font-bold text-white">100% Sponsored Gas</h4>
+            <p className="text-xs text-white/55 leading-relaxed">
+              No cryptocurrency or complex wallet setup needed. The Alchm backend sponsors all Base network gas fees for your culinary mints.
+            </p>
+          </div>
+
+          {/* Pillar 4 */}
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 space-y-2.5 hover:border-purple-500/30 transition-colors duration-300">
+            <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-base">
+              📜
+            </div>
+            <h4 className="text-sm font-bold text-white">Perpetual Attribution</h4>
+            <p className="text-xs text-white/55 leading-relaxed">
+              Protected by Alchm VA 2-434-962 licensing. 5% creator attribution and fork lineage travel with your dish across any kitchen or commensal lobby.
+            </p>
+          </div>
+        </div>
+
+        {/* Ledger Technical Telemetry Bar */}
+        <div className="rounded-2xl border border-white/[0.08] bg-[#05070a]/90 p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-[11px] text-white/70">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <div>
+              <span className="text-white/35 uppercase text-[9px] block">Chain</span>
+              <span className="text-cyan-300 font-bold">{CHAIN_LABEL} L2</span>
+            </div>
+            <div>
+              <span className="text-white/35 uppercase text-[9px] block">Rights Registry</span>
+              {REGISTRY_ADDRESS ? (
+                <a
+                  href={`${EXPLORER_BASE}/address/${REGISTRY_ADDRESS}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan-300 hover:text-cyan-200 transition-colors inline-flex items-center gap-1"
+                  title={REGISTRY_ADDRESS}
+                >
+                  {REGISTRY_ADDRESS.substring(0, 8)}…{REGISTRY_ADDRESS.substring(REGISTRY_ADDRESS.length - 6)}
+                  <span className="text-[10px]">↗</span>
+                </a>
+              ) : (
+                <span className="text-white/40">Active Deploy</span>
+              )}
+            </div>
+            <div>
+              <span className="text-white/35 uppercase text-[9px] block">Rights Anchor</span>
+              <span className="text-amber-300 font-semibold">{RIGHTS_ID ? `${RIGHTS_ID.substring(0, 10)}…` : "VA 2-434-962"}</span>
+            </div>
+            <div>
+              <span className="text-white/35 uppercase text-[9px] block">Standard</span>
+              <span className="text-white/90">Alchm ERC-721</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-start md:self-auto">
+            {REGISTRY_ADDRESS && (
+              <button
+                type="button"
+                onClick={handleCopyAddress}
+                className="px-3 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white/80 hover:text-white transition-colors text-[10px] font-sans font-bold"
+              >
+                {copiedAddress ? "✓ Copied Contract" : "Copy Registry"}
+              </button>
+            )}
+            <Link
+              href="/recipe-builder"
+              className="px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 text-cyan-300 hover:text-cyan-200 transition-colors text-[10px] font-sans font-bold"
+            >
+              Recipe Builder →
+            </Link>
+          </div>
+        </div>
 
       </div>
     </div>
   );
 }
+
+// Alias for backwards compatibility with any existing imports
+export const FeaturedRecipe = RecipeMintPromo;
