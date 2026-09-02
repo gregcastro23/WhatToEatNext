@@ -53,6 +53,23 @@ export interface RegionalCulinaryProfile {
 }
 
 /**
+ * Regions that have a hand-authored culinary profile. Declared as a closed
+ * union so lookups into REGIONAL_CULINARY_PROFILES are total instead of
+ * routing through a string index signature.
+ */
+export type RegionalCulinaryProfileKey =
+  | "Mediterranean"
+  | "Nordic"
+  | "Tropical"
+  | "Continental"
+  | "Desert";
+
+/**
+ * The four culinary seasons used by the seasonal recommendation helpers.
+ */
+export type CulinarySeason = "winter" | "spring" | "summer" | "autumn";
+
+/**
  * Location-specific culinary recommendations
  */
 export interface LocationCulinaryRecommendation {
@@ -190,7 +207,7 @@ export class AstronomicalCalculations {
       "Saturn",
       "Jupiter",
       "Mars",
-    ];
+    ] as const;
     const planetaryHours: Record<
       string,
       { start: Date; end: Date; influence: string }
@@ -203,6 +220,12 @@ export class AstronomicalCalculations {
     for (let i = 0; i < 12; i++) {
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
+      if (!planet) {
+        // Unreachable: planetIndex is a modulo of the 7-entry sequence above.
+        throw new Error(
+          `Planetary hour sequence has no ruler at index ${planetIndex}`,
+        );
+      }
 
       const start = new Date(sunrise.getTime() + i * hourLength);
       const end = new Date(sunrise.getTime() + (i + 1) * hourLength);
@@ -236,7 +259,7 @@ export class AstronomicalCalculations {
  * Regional culinary profiles for different geographic areas
  */
 export const REGIONAL_CULINARY_PROFILES: Record<
-  string,
+  RegionalCulinaryProfileKey,
   RegionalCulinaryProfile
 > = {
   Mediterranean: {
@@ -763,7 +786,7 @@ export class PlanetaryLocationService {
     nutritionalFocus: string[];
   } {
     const month = date.getMonth();
-    const season = [
+    const seasonByMonth = [
       "winter",
       "winter",
       "spring",
@@ -776,7 +799,13 @@ export class PlanetaryLocationService {
       "autumn",
       "autumn",
       "winter",
-    ][month];
+    ] as const;
+    const season = seasonByMonth[month];
+    if (!season) {
+      throw new Error(
+        `Cannot determine culinary season: month index ${month} is outside 0-11`,
+      );
+    }
 
     const seasonalIngredients =
       regionalProfile.seasonalIngredients[season] || [];
@@ -878,7 +907,7 @@ export class PlanetaryLocationService {
 
   private static getMethodsForClimate(
     climate: RegionalCulinaryProfile["climateConsiderations"],
-    season: string,
+    season: CulinarySeason,
   ): string[] {
     if (climate.temperature === "tropical") {
       return ["Quick steaming", "Raw preparations", "Light grilling"];
@@ -917,7 +946,7 @@ export class PlanetaryLocationService {
   }
 
   private static getNutritionalFocusForSeason(
-    season: string,
+    season: CulinarySeason,
     climate: RegionalCulinaryProfile["climateConsiderations"],
   ): string[] {
     const baseNutrition = {
@@ -934,10 +963,7 @@ export class PlanetaryLocationService {
           ? ["Warming spices", "Dense calories"]
           : [];
 
-    return [
-      ...baseNutrition[season as keyof typeof baseNutrition],
-      ...climateModifications,
-    ];
+    return [...baseNutrition[season], ...climateModifications];
   }
 }
 

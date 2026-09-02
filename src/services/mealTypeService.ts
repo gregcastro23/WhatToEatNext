@@ -190,8 +190,8 @@ export class MealTypeService {
     const hourMatch = timeStr.match(/(\d+)\s*h/i);
     const minMatch = timeStr.match(/(\d+)\s*m/i);
     let minutes = 0;
-    if (hourMatch) minutes += parseInt(hourMatch[1], 10) * 60;
-    if (minMatch) minutes += parseInt(minMatch[1], 10);
+    if (hourMatch?.[1]) minutes += parseInt(hourMatch[1], 10) * 60;
+    if (minMatch?.[1]) minutes += parseInt(minMatch[1], 10);
 
     // Try plain number (assume minutes)
     if (minutes === 0) {

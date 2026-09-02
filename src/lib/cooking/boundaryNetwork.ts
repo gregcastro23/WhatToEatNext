@@ -219,13 +219,22 @@ export const WATER_MAX_C = 373.15 - 273.15;
 
 /** Locate `x` in a sorted column and return the bracketing index + weight. */
 function bracket(rows: ReadonlyArray<readonly number[]>, x: number): [number, number] {
+  if (rows.length < 2) {
+    throw new RangeError("Table must contain at least 2 rows for interpolation");
+  }
   let lo = 0;
   for (let i = 1; i < rows.length; i += 1) {
-    if (rows[i][0] <= x) lo = i;
+    const row = rows[i];
+    if (row?.[0] !== undefined && row[0] <= x) lo = i;
   }
-  if (lo === rows.length - 1) lo = rows.length - 2;
-  const span = rows[lo + 1][0] - rows[lo][0];
-  return [lo, (x - rows[lo][0]) / span];
+  if (lo >= rows.length - 1) lo = rows.length - 2;
+  const rowLo = rows[lo];
+  const rowHi = rows[lo + 1];
+  if (!rowLo || !rowHi || rowLo[0] === undefined || rowHi[0] === undefined) {
+    throw new RangeError(`Failed to interpolate table at index ${lo}`);
+  }
+  const span = rowHi[0] - rowLo[0];
+  return [lo, (x - rowLo[0]) / span];
 }
 
 function lerp(a: number, b: number, t: number): number {
@@ -257,10 +266,26 @@ export function airProperties(tempC: number): FluidState {
   }
   const kelvin = tempC + 273.15;
   const [i, t] = bracket(AIR_TABLE, kelvin);
-  const rhoKgM3 = lerp(AIR_TABLE[i][1], AIR_TABLE[i + 1][1], t);
-  const cpJkgK = lerp(AIR_TABLE[i][2], AIR_TABLE[i + 1][2], t);
-  const muPaS = lerp(AIR_TABLE[i][3], AIR_TABLE[i + 1][3], t);
-  const kWmK = lerp(AIR_TABLE[i][4], AIR_TABLE[i + 1][4], t);
+  const rowLo = AIR_TABLE[i];
+  const rowHi = AIR_TABLE[i + 1];
+  if (
+    !rowLo ||
+    !rowHi ||
+    rowLo[1] === undefined ||
+    rowHi[1] === undefined ||
+    rowLo[2] === undefined ||
+    rowHi[2] === undefined ||
+    rowLo[3] === undefined ||
+    rowHi[3] === undefined ||
+    rowLo[4] === undefined ||
+    rowHi[4] === undefined
+  ) {
+    throw new RangeError(`Corrupt air table entry at index ${i}`);
+  }
+  const rhoKgM3 = lerp(rowLo[1], rowHi[1], t);
+  const cpJkgK = lerp(rowLo[2], rowHi[2], t);
+  const muPaS = lerp(rowLo[3], rowHi[3], t);
+  const kWmK = lerp(rowLo[4], rowHi[4], t);
   const nuM2s = muPaS / rhoKgM3;
   const alphaM2s = kWmK / (rhoKgM3 * cpJkgK);
   return {
@@ -314,21 +339,53 @@ export function saturatedWaterProperties(tempC: number): WaterState {
   }
   const kelvin = tempC + 273.15;
   const [i, t] = bracket(WATER_TABLE, kelvin);
-  const rhoKgM3 = lerp(WATER_TABLE[i][1], WATER_TABLE[i + 1][1], t);
-  const cpJkgK = lerp(WATER_TABLE[i][2], WATER_TABLE[i + 1][2], t);
-  const muPaS = lerp(WATER_TABLE[i][3], WATER_TABLE[i + 1][3], t);
-  const kWmK = lerp(WATER_TABLE[i][4], WATER_TABLE[i + 1][4], t);
-  const sigmaNm = lerp(WATER_TABLE[i][5], WATER_TABLE[i + 1][5], t);
-  const hfgJkg = lerp(WATER_TABLE[i][6], WATER_TABLE[i + 1][6], t);
+  const rowLo = WATER_TABLE[i];
+  const rowHi = WATER_TABLE[i + 1];
+  if (
+    !rowLo ||
+    !rowHi ||
+    rowLo[1] === undefined ||
+    rowHi[1] === undefined ||
+    rowLo[2] === undefined ||
+    rowHi[2] === undefined ||
+    rowLo[3] === undefined ||
+    rowHi[3] === undefined ||
+    rowLo[4] === undefined ||
+    rowHi[4] === undefined ||
+    rowLo[5] === undefined ||
+    rowHi[5] === undefined ||
+    rowLo[6] === undefined ||
+    rowHi[6] === undefined
+  ) {
+    throw new RangeError(`Corrupt water table entry at index ${i}`);
+  }
+  const rhoKgM3 = lerp(rowLo[1], rowHi[1], t);
+  const cpJkgK = lerp(rowLo[2], rowHi[2], t);
+  const muPaS = lerp(rowLo[3], rowHi[3], t);
+  const kWmK = lerp(rowLo[4], rowHi[4], t);
+  const sigmaNm = lerp(rowLo[5], rowHi[5], t);
+  const hfgJkg = lerp(rowLo[6], rowHi[6], t);
   const nuM2s = muPaS / rhoKgM3;
   const alphaM2s = kWmK / (rhoKgM3 * cpJkgK);
 
   // β = −(1/ρ)(∂ρ/∂T), central difference over the bracketing rows.
   const lo = Math.max(0, i - (t < 0.5 ? 1 : 0));
   const hi = Math.min(WATER_TABLE.length - 1, lo + 2);
+  const rowTableHi = WATER_TABLE[hi];
+  const rowTableLo = WATER_TABLE[lo];
+  if (
+    !rowTableHi ||
+    !rowTableLo ||
+    rowTableHi[1] === undefined ||
+    rowTableLo[1] === undefined ||
+    rowTableHi[0] === undefined ||
+    rowTableLo[0] === undefined
+  ) {
+    throw new RangeError(`Corrupt water table bounds at lo=${lo}, hi=${hi}`);
+  }
   const betaPerK =
-    -(WATER_TABLE[hi][1] - WATER_TABLE[lo][1]) /
-    (rhoKgM3 * (WATER_TABLE[hi][0] - WATER_TABLE[lo][0]));
+    -(rowTableHi[1] - rowTableLo[1]) /
+    (rhoKgM3 * (rowTableHi[0] - rowTableLo[0]));
 
   const satKpa = saturationPressureKpa(Math.min(tempC, ANTOINE_MAX_C));
   return {
@@ -1139,6 +1196,7 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
     // what lets them go on proving this change is inert for a simple wall.
     if (plies.length === 1) {
       const [only] = plies;
+      if (!only) throw new RangeError("vessel wall has no plies");
       positive("vessel.thicknessM", only.thicknessM);
       positive("vessel.kWmK", only.kWmK);
       raw.push({
@@ -1153,7 +1211,7 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
         positive(`vessel.layers[${i}].thicknessM`, ply.thicknessM);
         positive(`vessel.layers[${i}].kWmK`, ply.kWmK);
         raw.push({
-          id: VESSEL_LAYER_IDS[i],
+          id: VESSEL_LAYER_IDS[i] ?? `vessel-ply-${i}`,
           label: ply.name || `wall ply ${i + 1}`,
           resistanceKperW: ply.thicknessM / (ply.kWmK * v.areaM2),
           areaM2: v.areaM2,
@@ -1218,7 +1276,11 @@ export function solveBoundaryNetwork(input: BoundaryNetworkInput): BoundaryNetwo
     nodes.push({ id: link.id, celsius: running });
   }
 
-  let [controlling] = links;
+  const [firstLink] = links;
+  if (!firstLink) {
+    throw new RangeError("a boundary network needs at least one link");
+  }
+  let controlling: BoundaryLink = firstLink;
   for (const link of links) {
     if (link.resistanceKperW > controlling.resistanceKperW) controlling = link;
   }

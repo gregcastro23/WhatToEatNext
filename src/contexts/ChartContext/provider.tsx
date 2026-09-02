@@ -95,7 +95,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { sign } = planetData;
       const element = _getElementFromSign(sign);
-      if (element) {
+      if (element && houseEffects[element] !== undefined) {
         houseEffects[element] += 1;
       }
     });

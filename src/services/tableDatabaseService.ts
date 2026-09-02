@@ -263,8 +263,9 @@ class TableDatabaseService {
         `${TableDatabaseService.MEMBER_SELECT} WHERE tm.id = $1`,
         [memberId],
       );
-      if (result.rows.length === 0) return null;
-      return this.rowToTableMember(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return this.rowToTableMember(row);
     } catch (error) {
       _logger.error("getMemberById failed:", error);
       return null;
@@ -280,8 +281,9 @@ class TableDatabaseService {
       const result = await executeQuery<{ host_id: string | number; status: TableStatus }>(`SELECT host_id, status FROM tables WHERE id = $1`, [
         tableId,
       ]);
-      if (result.rows.length === 0) return null;
-      return { hostId: dbString(result.rows[0].host_id), status: result.rows[0].status };
+      const [row] = result.rows;
+      if (!row) return null;
+      return { hostId: dbString(row.host_id), status: row.status };
     } catch (error) {
       _logger.error("getTableHostAndStatus failed:", error);
       return null;
@@ -297,8 +299,9 @@ class TableDatabaseService {
   async getTableDetail(tableId: string, viewerId: string | null): Promise<TableDetail | null> {
     try {
       const tableResult = await executeQuery<TableRecordRow>(`SELECT * FROM tables WHERE id = $1`, [tableId]);
-      if (tableResult.rows.length === 0) return null;
-      const table = this.rowToTableRecord(tableResult.rows[0]);
+      const [tableRow] = tableResult.rows;
+      if (!tableRow) return null;
+      const table = this.rowToTableRecord(tableRow);
 
       const membersResult = await executeQuery<TableMemberRow>(
         `${TableDatabaseService.MEMBER_SELECT} WHERE tm.table_id = $1 ORDER BY tm.created_at ASC`,
@@ -486,7 +489,11 @@ class TableDatabaseService {
             input.seatCap ?? null,
           ],
         );
-        const id = String(tableResult.rows[0].id);
+        const [insertedTable] = tableResult.rows;
+        if (!insertedTable) {
+          throw new Error("createTable: INSERT INTO tables ... RETURNING id produced no row");
+        }
+        const id = String(insertedTable.id);
         await client.query(
           `INSERT INTO table_members (table_id, user_id, role, rsvp_status, joined_via, rsvp_at)
            VALUES ($1, $2::uuid, 'host', 'joined', 'host', CURRENT_TIMESTAMP)`,
@@ -568,8 +575,9 @@ class TableDatabaseService {
         RETURNING *`,
         params,
       );
-      if (result.rows.length === 0) return null;
-      return this.rowToTableRecord(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return this.rowToTableRecord(row);
     } catch (error) {
       _logger.error("updateTableCore failed:", error);
       return null;
@@ -589,8 +597,9 @@ class TableDatabaseService {
         RETURNING *`,
         [tableId, hostId, JSON.stringify(menu)],
       );
-      if (result.rows.length === 0) return null;
-      return this.rowToTableRecord(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return this.rowToTableRecord(row);
     } catch (error) {
       _logger.error("updateTableMenu failed:", error);
       return null;
@@ -617,8 +626,8 @@ class TableDatabaseService {
           RETURNING *`,
           [tableId, hostId],
         );
-        if (result.rows.length === 0) return null;
         const [tableRow] = result.rows;
+        if (!tableRow) return null;
         const { chatDatabase } = await import("@/services/chatDatabaseService");
         await chatDatabase.ensureTableConversationOnClient(client, {
           id: String(tableRow.id),
@@ -643,8 +652,9 @@ class TableDatabaseService {
         RETURNING *`,
         [tableId, hostId],
       );
-      if (result.rows.length === 0) return null;
-      return this.rowToTableRecord(result.rows[0]);
+      const [row] = result.rows;
+      if (!row) return null;
+      return this.rowToTableRecord(row);
     } catch (error) {
       _logger.error("cancelTable failed:", error);
       return null;
@@ -666,8 +676,8 @@ class TableDatabaseService {
           `SELECT * FROM tables WHERE id = $1 AND host_id = $2::uuid AND status = 'live' FOR UPDATE`,
           [tableId, hostId],
         );
-        if (tableResult.rows.length === 0) return null;
         const [tableRow] = tableResult.rows;
+        if (!tableRow) return null;
 
         const membersResult = await client.query<TableMemberRow>(
           `SELECT tm.user_id, tm.display_name, COALESCE(up.name, u.name) AS user_name
@@ -727,7 +737,11 @@ class TableDatabaseService {
            RETURNING id`,
           [hostId, JSON.stringify(memory)],
         );
-        const feedEventId = String(feedResult.rows[0].id);
+        const [feedRow] = feedResult.rows;
+        if (!feedRow) {
+          throw new Error("closeTable: INSERT INTO feed_events ... RETURNING id produced no row");
+        }
+        const feedEventId = String(feedRow.id);
 
         const finalResult = await client.query<TableRecordRow>(
           `UPDATE tables
@@ -745,7 +759,11 @@ class TableDatabaseService {
         const { chatDatabase } = await import("@/services/chatDatabaseService");
         await chatDatabase.archiveTableConversationOnClient(client, tableId);
 
-        const finalRecord = this.rowToTableRecord(finalResult.rows[0]);
+        const [finalRow] = finalResult.rows;
+        if (!finalRow) {
+          throw new Error("closeTable: UPDATE tables ... RETURNING produced no row");
+        }
+        const finalRecord = this.rowToTableRecord(finalRow);
         return {
           table: finalRecord,
           joinedUserIds: guests.map((g) => g.userId).filter((id): id is string => !!id),
@@ -834,7 +852,13 @@ class TableDatabaseService {
            RETURNING id`,
           [tableId, targetUserId, joinedVia, hostId],
         );
-        const member = await this.getMemberById(String(insertResult.rows[0].id));
+        const [insertedMember] = insertResult.rows;
+        if (!insertedMember) {
+          throw new Error(
+            "addRegisteredMember: INSERT INTO table_members ... RETURNING id produced no row",
+          );
+        }
+        const member = await this.getMemberById(String(insertedMember.id));
         return member ? { ok: true, member } : { ok: false, reason: "not_found" };
       } catch (insertError) {
         const pgError = insertError as { code?: string } | null;
@@ -868,7 +892,8 @@ class TableDatabaseService {
         `SELECT id, name FROM manual_companion_charts WHERE id = $1 AND owner_id = $2::uuid`,
         [manualCompanionChartId, hostId],
       );
-      if (chartResult.rows.length === 0) return { ok: false, reason: "not_found" };
+      const [chartRow] = chartResult.rows;
+      if (!chartRow) return { ok: false, reason: "not_found" };
 
       const countResult = await executeQuery<{ n: number }>(
         `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1`,
@@ -884,9 +909,15 @@ class TableDatabaseService {
              (table_id, manual_companion_chart_id, role, rsvp_status, joined_via, invited_by, display_name, rsvp_at)
            VALUES ($1, $2, 'guest', 'joined', 'manual', $3::uuid, $4, CURRENT_TIMESTAMP)
            RETURNING id`,
-          [tableId, manualCompanionChartId, hostId, chartResult.rows[0].name],
+          [tableId, manualCompanionChartId, hostId, chartRow.name],
         );
-        const member = await this.getMemberById(String(insertResult.rows[0].id));
+        const [insertedMember] = insertResult.rows;
+        if (!insertedMember) {
+          throw new Error(
+            "addManualMember: INSERT INTO table_members ... RETURNING id produced no row",
+          );
+        }
+        const member = await this.getMemberById(String(insertedMember.id));
         if (!member) return { ok: false, reason: "not_found" };
 
         await computeAndStoreTableComposite(tableId);
@@ -920,8 +951,8 @@ class TableDatabaseService {
           WHERE tm.id = $1 AND tm.table_id = $2`,
         [memberId, tableId],
       );
-      if (memberResult.rows.length === 0) return { ok: false, reason: "not_found" };
       const [row] = memberResult.rows;
+      if (!row) return { ok: false, reason: "not_found" };
 
       if (row.role === "host") return { ok: false, reason: "forbidden" };
 
@@ -969,9 +1000,10 @@ class TableDatabaseService {
         RETURNING id`,
         [tableId, userId, response],
       );
-      if (updateResult.rows.length === 0) return { ok: false, reason: "not_found" };
+      const [updatedRow] = updateResult.rows;
+      if (!updatedRow) return { ok: false, reason: "not_found" };
 
-      const member = await this.getMemberById(String(updateResult.rows[0].id));
+      const member = await this.getMemberById(String(updatedRow.id));
       if (!member) return { ok: false, reason: "not_found" };
 
       if (response === "joined") {
@@ -979,8 +1011,9 @@ class TableDatabaseService {
       }
 
       const tableResult = await executeQuery<TableRecordRow>(`SELECT * FROM tables WHERE id = $1`, [tableId]);
-      if (tableResult.rows.length === 0) return { ok: false, reason: "not_found" };
-      const tableRecord = this.rowToTableRecord(tableResult.rows[0]);
+      const [tableRow] = tableResult.rows;
+      if (!tableRow) return { ok: false, reason: "not_found" };
+      const tableRecord = this.rowToTableRecord(tableRow);
 
       return { ok: true, member, table: tableRecord };
     } catch (error) {
@@ -1012,8 +1045,8 @@ class TableDatabaseService {
         `SELECT host_id, status, visibility, title, seat_cap FROM tables WHERE id = $1`,
         [tableId],
       );
-      if (tableResult.rows.length === 0) return { ok: false, reason: "not_found" };
       const [row] = tableResult.rows;
+      if (!row) return { ok: false, reason: "not_found" };
       const hostId = dbString(row.host_id);
       const tableTitle = row.title;
 
@@ -1073,7 +1106,11 @@ class TableDatabaseService {
          RETURNING *`,
         [tableId, token, hostId, maxUses, expiresInHours],
       );
-      return this.rowToTableInvite(result.rows[0]);
+      const [inviteRow] = result.rows;
+      if (!inviteRow) {
+        throw new Error("issueInvite: INSERT INTO table_invites ... RETURNING produced no row");
+      }
+      return this.rowToTableInvite(inviteRow);
     } catch (error) {
       _logger.error("issueInvite failed:", error);
       return null;
@@ -1122,8 +1159,8 @@ class TableDatabaseService {
           WHERE ti.token = $1`,
         [token],
       );
-      if (result.rows.length === 0) return null;
       const [row] = result.rows;
+      if (!row) return null;
       const valid =
         !row.revoked_at &&
         new Date(dbIsoString(row.expires_at)).getTime() > Date.now() &&
@@ -1166,8 +1203,9 @@ class TableDatabaseService {
       const inviteResult = await executeQuery<{ table_id: string | number }>(`SELECT table_id FROM table_invites WHERE token = $1`, [
         token,
       ]);
-      if (inviteResult.rows.length === 0) return { ok: false, reason: "invalid" };
-      const tableId = dbString(inviteResult.rows[0].table_id);
+      const [inviteRow] = inviteResult.rows;
+      if (!inviteRow) return { ok: false, reason: "invalid" };
+      const tableId = dbString(inviteRow.table_id);
 
       const table = await this.getTableHostAndStatus(tableId);
       if (!table) return { ok: false, reason: "invalid" };
@@ -1182,15 +1220,16 @@ class TableDatabaseService {
         `SELECT id, rsvp_status FROM table_members WHERE table_id = $1 AND user_id = $2::uuid`,
         [tableId, userId],
       );
-      if (existing.rows.length > 0) {
-        if (existing.rows[0].rsvp_status === "joined") {
+      const [existingMember] = existing.rows;
+      if (existingMember) {
+        if (existingMember.rsvp_status === "joined") {
           return { ok: true, tableId, alreadyMember: true };
         }
         // invited / declined → join without spending a use.
         await executeQuery(
           `UPDATE table_members SET rsvp_status = 'joined', rsvp_at = CURRENT_TIMESTAMP
             WHERE id = $1 AND table_id = $2`,
-          [existing.rows[0].id, tableId],
+          [existingMember.id, tableId],
         );
         await computeAndStoreTableComposite(tableId);
         return { ok: true, tableId, alreadyMember: true };
@@ -1254,7 +1293,11 @@ class TableDatabaseService {
         `INSERT INTO table_photos (table_id, uploader_id, url) VALUES ($1, $2::uuid, $3) RETURNING *`,
         [tableId, uploaderId, url],
       );
-      return this.rowToTablePhoto(result.rows[0]);
+      const [photoRow] = result.rows;
+      if (!photoRow) {
+        throw new Error("addPhoto: INSERT INTO table_photos ... RETURNING produced no row");
+      }
+      return this.rowToTablePhoto(photoRow);
     } catch (error) {
       _logger.error("addPhoto failed:", error);
       return null;
@@ -1280,7 +1323,11 @@ class TableDatabaseService {
         `INSERT INTO table_comments (table_id, author_id, body) VALUES ($1, $2::uuid, $3) RETURNING *`,
         [tableId, authorId, body],
       );
-      return this.rowToTableComment(result.rows[0]);
+      const [commentRow] = result.rows;
+      if (!commentRow) {
+        throw new Error("addComment: INSERT INTO table_comments ... RETURNING produced no row");
+      }
+      return this.rowToTableComment(commentRow);
     } catch (error) {
       _logger.error("addComment failed:", error);
       return null;

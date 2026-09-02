@@ -40,7 +40,7 @@ function titleCase(input: string): string {
     .replaceAll(/[._]/g, " ")
     .trim()
     .split(/\s+/)
-    .map((w) => (w.length === 0 ? w : w[0].toUpperCase() + w.slice(1)))
+    .map((w) => (w.length === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
     .join(" ");
 }
 
@@ -341,8 +341,9 @@ export function narrateFeedEvent(
   // Role-prefixed PA events (e.g. "sous_chef.suggest_pairing",
   // "pantry.audit", "lineage.trace"). Surface the role + verb cleanly.
   if (type.includes(".")) {
-    const [role, ...rest] = type.split(".");
-    const verb = rest.join(".").replaceAll("_", " ");
+    const dotIndex = type.indexOf(".");
+    const role = type.slice(0, dotIndex);
+    const verb = type.slice(dotIndex + 1).replaceAll("_", " ");
     const item = getString(metadata, "item") ?? getString(metadata, "subject");
     const niceRole = titleCase(role);
     return {

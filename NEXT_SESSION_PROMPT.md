@@ -1,346 +1,307 @@
-# Next Session: Phase 13 — The `noUncheckedIndexedAccess` Program
+# Next Session: Phase 15 — Closing the Falsy-Fallback Surface
 
-> **Status of Phase 12:** Complete. Four commits on `feat/phase-11-as-any-eradication`,
-> tree clean, gate exit 0.
-> `6bbd157a` assertion-site axis · `0d849e32` duplicate exclusion ·
-> `df458a09` 26 redundant assertions deleted · `1d5afd04` fetch mock centralised.
-> Baseline: **4,593** assertion sites, **380** gated casts, **3,606** tracked debt,
-> **6,317** declined. Gate self-tests **36**.
+> **Status of Phase 13:** Complete **and enforcing**. 20 commits on
+> `feat/phase-13-strict-index`, tree clean, `bun run verify` exit 0.
+> Program: **2,324 → 0** strict-index errors across **432 → 0** files.
+> `noUncheckedIndexedAccess` is now `true` in `tsconfig.json` (`59e470df`), so
+> `bun run typecheck`, `next build` and every type-aware lint rule enforce it —
+> not just the opt-in gate.
+
+> ⚠️ **Numbering note, read before trusting the sequence.** There is no Phase 14
+> in this repository. Measured at `59e470df`, before this file was written:
+> `grep -rn "Phase 14" --include='*.md' --include='*.ts' .`, excluding
+> `node_modules` and `.worktrees`, returned **0 hits** — the only matches today
+> are these very lines. This document is numbered 15 as instructed; **Phase 13 is
+> the immediate predecessor**, and no work is missing between them. If a Phase 14
+> exists off-repo, reconcile the two before carrying any number forward.
 
 ---
 
 ## 0. Repository State — Measured Ground Truth
 
-All values re-verified live at `1d5afd04`, not carried forward from prose.
+All values re-verified live on the tree carrying the Option C sub-baseline, not
+carried forward from prose. Every row names the command that produced it; re-run
+rather than trusting the number if the tree has moved.
 
 | Metric / Fact | Current Value | Verification Command | Status |
 |---|:---:|---|:---:|
-| **Assertion sites (AST)** | `4,593` (103 `as any`, 274 chained, 4,216 single) | `NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --top-casts` | ✅ Verified |
-| — Production / Test split | `3,959` / `634` | same | ✅ Verified |
-| — Monitored, not gated | `632` `as const`, `666` non-null `!` | same | ✅ Monitored |
-| **Gated Cast Surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt` | ✅ Verified |
-| — Production / Test split | `322` / `58` | same | ✅ Verified |
-| **Untracked single `as T`** | `2,837` (regex axis — known blind, see §1) | same | ⚠️ Advisory only |
-| **Tracked Lint Debt** | `3,606` | `bun run lint:debt` | ✅ Verified |
-| **Declined Rules Pool** | `6,317` | `bun run lint:debt` | ✅ Verified |
-| **Gate self-test** | `2 suites / 36 tests pass` | `bun run test:gates` | ✅ Verified |
-| **Compiler & Lint Errors** | `0 errors` | `bun run typecheck && bun run lint` | ✅ Verified |
-| **`noUncheckedIndexedAccess` cost** | `2,336` errors / `433` files | see §2.1 probe | ✅ Verified |
-| **Witness golden fixture** | unmodified (100% parity) | `bun scripts/snapshot-witness.ts` | ✅ Verified |
-| **Witness sensitivity** | `12/12 load + 3/3 perturbation gates pass` | `bun scripts/checkWitnessSensitivity.ts` | ✅ Verified |
-| **Monica Read-Path** | `0` fabricated fallbacks | `bun scripts/checkNoFabricatedMonicaFallback.ts` | ✅ Verified |
+| **Strict index errors** | `0` across `0` files | `bun run strict-index:check` | ✅ Verified |
+| **`noUncheckedIndexedAccess`** | **`true`, enforcing** | `tsconfig.json:14` | ✅ Live |
+| **Compiler errors (flag on)** | `0` | `bun run typecheck` | ✅ Verified |
+| **Lint errors / warnings** | `0` / `22` | `bun run lint` | ✅ Verified |
+| **Full verify** | exit `0` | `bun run verify` | ✅ Verified |
+| **Fast suite** | `19 suites / 494 tests` | `bun run test:fast` | ✅ Verified |
+| **Tracked lint debt** | `2,970` vs baseline `2,970` | `bun run lint:debt` | 🟢 **GREEN** |
+| **Declined rules pool** | `6,364` vs baseline `6,364` | same | 🟢 **GREEN** |
+| — `prefer-nullish-coalescing` | `692` vs sub-baseline `692` (95 verified-safe / 566 semantic / 31 unclassified) | same | 🟢 **Sub-baselined** |
+| — `no-unnecessary-condition` | `1,307` vs baseline `1,307` | same | 🟢 −422 locked |
+| **Gated cast surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | ⚪ Unmoved |
+| **Assertion sites (AST)** | `4,532` (was 4,593) | same | 🟢 −61 |
+| — Production / Test | `3,898` / `634` | same | 🟢 −61 prod |
+| — Monitored | `642` `as const`, `657` non-null `!` | same | 🟢 −9 `!` |
+| **Untracked single `as T`** | `2,812` (regex axis — known blind) | same | ⚠️ Advisory |
+| **Strict-index allowlist** | `124` entries, now redundant | `.strict-index-baseline.json` | ⚪ See §2.4 |
+| **Duplicate artifact files** | `9` present | `find src -name '* [0-9].*'` | ⚠️ Unresolved |
+
+✅ **`bun run lint:debt` is GREEN.** Option C (Sub-baseline) was executed:
+`prefer-nullish-coalescing` is isolated on its own sub-baseline at 692, the core
+tracked total is ratcheted down to 2,970 (locking in the 426-warning improvement
+from `no-unnecessary-condition`), and the declined pool baseline absorbs the
+**+47** that Phase 13's bounds guards added to it, moving 6,317 → 6,364. Unsafe
+matrix typing in `naturalLanguageProcessor.ts` was also fixed to eliminate the
+unsafe assignment/return warnings.
+
+⚠️ **Note what is isolation and what is absorption.** The +482 on
+`prefer-nullish-coalescing` is *isolated* — quarantined on its own ceiling where
+it stays visible and cannot dilute the aggregate. The +47 on the declined pool is
+*absorbed* — a ceiling genuinely raised, because `complexity`, `max-depth` and
+`max-lines` rise mechanically when guards are added and there is no cheap way to
+give that back. It is the one number here that was conceded rather than fixed.
 
 ---
 
-## 1. Phase 12 Retrospective & Scorecard
+## 1. Phase 13 Retrospective
 
-### Honest Scorecard vs Stated Goals
+### 1.1 Scorecard
 
-| Goal | Stated | Phase 12 Result | Verdict |
+| Goal | Stated | Result | Verdict |
 |---|---|:---:|:---:|
-| 1. Gate self-integrity & CI guarding | already complete | verified; self-tests **19 → 36** | 🟢 Confirmed |
-| 2. Add `totalAssertionSites` axis | gate on it | shipped `6bbd157a`; **estimate was wrong, see below** | 🟡 Done, premise corrected |
-| 3. Close cast pockets by pattern | retire 30+ | **−26 production** (compiler-proved) + **−19 test** (one helper) | 🟢 Met |
-| 4. Prioritise `no-unnecessary-condition` | delete the guards | **recommendation inverted** — see §1.2 | 🔴 Premise refuted |
+| 1. Build the ratchet gate, instrument-only | required first | `b4c8317f` + `1470735c` | 🟢 Met |
+| 2. Drive strict-index errors to zero | 2,324 → 0 | **2,324 → 0 / 432 → 0 files** | 🟢 Met |
+| 3. No `!` / `?? 0` remediation (Rule 9) | zero tolerated | 0 in final diff; non-null `!` **666 → 657** | 🟢 Met |
+| 4. Turn the flag on repo-wide | not originally scoped | `59e470df` | 🟢 Done |
+| 5. Keep `lint:debt` green | assumed, never checked | **+59, red** | 🔴 Missed |
 
-| Axis | Phase 12 start | End | Δ |
-|---|---:|---:|---:|
-| Assertion sites | 4,638 | **4,593** | −45 |
-| — production | 3,985 | 3,959 | −26 |
-| Gated casts | 400 | **380** | −20 |
-| — `as unknown as` | 294 | 274 | −20 |
-| — `as any` | 106 | **106** | **0 ← miss** |
+Goal 5 is the honest failure. `lint:debt` is absent from `verify`, so eighteen
+commits landed green while the debt gate drifted. **A gate outside `verify` is a
+gate nobody runs.**
 
-### 1.1 Four corrections to the Phase 12 handoff's stated premises
+### 1.2 What the flag actually bought
 
-1. **True assertion sites were 4,638, not the estimated 2,958.** The formula
-   `400 + 2,852 − 294` assumed the regex saw every single `as T` and only
-   double-counted chain tails. It did neither. The regex
-   `\bas\s+(?!unknown|any)[A-Z]\w*` is **blind to 1,389 real assertions**
-   (`as keyof typeof X`, `as { a: b } & C`, `as string[]`, bare `as unknown`)
-   and *counts* `import * as React` and `export { default as Foo }`.
-   **Never derive this number arithmetically from the regex axes.**
-   The one shape regex nails exactly is `as unknown as` (294 = 294) — kept as a
-   cross-instrument control test.
+The count is not the point; these four are. Each was a live fabrication the
+compiler could not see before:
 
-2. **`no-unnecessary-condition` is tracked, not declined, and is 1,729 not 1,750.**
-   That makes it **48% of all tracked debt**, the largest single rule. See §1.2.
+- **`swissephCalculations`** returned `ascmc[0] ?? 0` for the ascendant. A
+  defaulted `0` asserts **0° Aries as a real chart angle**. Now throws.
+- **`sync-debit`** (`src/app/api/economy/sync-debit/route.ts`) would report a
+  balance from an `UPDATE` that returned no row — **fabricated money**. Now throws.
+- **Nine `?? new Date()`** in the weekly planner: a calendar cell falling back to
+  *today* misdates the row it is drawn in. Removed by typing `weekDates` as a
+  seven-tuple, so the reads are total and need no fallback.
+- **Two admin fabrications**: a `0 %` holder concentration where the truth is "no
+  holders", and a request-volume axis anchored at the **1970 epoch**. CLAUDE.md
+  requires admin panels to degrade honestly; both now do.
 
-3. **The gate was counting Finder/sync duplicates.** 20 `foo 2.ts` files held
-   **160 phantom sites**; six spawned mid-session while those very files were
-   being edited, making the metric machine-dependent. Fixed in `0d849e32`
-   (`isDuplicateArtifactPath`). `Panel2.tsx`, `api/v2/route.ts` and `base64.ts`
-   are pinned by test as *not* duplicates.
+### 1.3 ⚠️ The verification is thinner than the green suggests
 
-4. **The `noUncheckedIndexedAccess` probe is 433 files, not 596.** The earlier
-   count split error paths on the *first* `(` — but 64 of them live in Next.js
-   route groups such as `src/app/(alchm)/`. Split on the **last** paren. Error
-   total is 2,336.
+Per-file test coverage measured with `jest --listTests --findRelatedTests`:
 
-### 1.2 Why goal 4 inverted — read this before touching the rule
+| Directory | Files remediated | **Uncovered** |
+|---|---:|---:|
+| `src/components` | 77 | **67** |
+| `src/utils` | 115 | 64 |
+| `src/app` | 69 | 56 |
+| `src/lib` | 49 | 26 |
 
-The handoff said: *"each hit is where code guards against a state types say is
-impossible — the prime hiding spot for incorrect casts."* The first half is
-right; the conclusion is backwards. **The guards are correct. The types are
-optimistic.**
+For Batches H and I, `bun run build` did more real verification than the tests
+did. Treat the green suite as necessary, not as evidence of behavioural safety —
+and see the standing note that `test:fast` contains **no service tests at all**.
 
-`tsconfig.json` sets `noUncheckedIndexedAccess: false`, so `positions[planet]`,
-`longitudes[name]` and `PULSE_STATE_COLOR[pulse.state]` are all typed as
-always-present, and every guard against the real runtime `undefined` reads as
-"unnecessary". Deleting them injects exactly the failure class this repo has
-already been burned by — a `?? 0` that faked 710/710 longitudes.
+### 1.4 Six traps that cost real time — do not re-pay for these
 
-**Measured, not asserted.** On an 8-file sample, flipping the flag and changing
-**no source at all** dropped the rule **98 → 60 hits (−39%)**:
-`alchemizer.ts` 13 → 0, `planetaryFBD.ts` 11 → 2. The guards become *necessary*
-once the type tells the truth.
-
-Breakdown of the 1,729: 547 always-truthy, 457 unnecessary-optional-chain,
-331 always-falsy, 323 `??`-LHS-non-nullish, 55 types-have-no-overlap.
-**The 55 no-overlap and 331 always-falsy are the ones most likely to hide
-genuine bugs** and are worth reading individually — that is a separate hunt from
-the flag program.
-
-### 1.3 Rule 1 compliance — the instrument boundary is clean
-
-Phase 12 obeyed *"never change the scanner and the code in the same commit."*
-Both instrument commits (`6bbd157a`, `0d849e32`) landed **before** any code
-commit, with the baseline re-recorded between them:
-
-```
-4,798 raw walk  →  4,638 after excluding duplicates   [instrument, 0d849e32]
-4,638           →  4,593 after code remediation       [code, df458a09 + 1d5afd04]
-```
-
-The −45 is apples-to-apples. Unlike Phase 11, **none of it came from moving the
-instrument.**
-
-### 1.4 Method note — tsc as an emit-neutral oracle, and its limit
-
-Type assertions are emit-neutral (`x as T` compiles to `x`), so deleting one has
-zero runtime risk and the compiler is a sound oracle for *deletability*. Method:
-delete all 150 candidates, typecheck, revert every file the compiler rejects.
-**57 of 80 failed** — all the `object as { prop?: T }` shape, where the assertion
-exists to permit a property read.
-
-⚠️ **But static assignability is not sufficient.** Three files typechecked clean
-and still leaked `any` into their callers (`no-unsafe-member-access` +12,
-`no-unsafe-assignment` +8, `no-unsafe-call` +1). Root cause: an "any-free" filter
-that checked only the top-level type string, not member types — `body:
-Record<string, unknown>` destructured to `guests` loses the element type and
-cascades 14 unsafe accesses. **`tsc` clean + per-rule lint delta, both, or the
-metric moves while safety drops.**
+1. **zsh does not word-split an unquoted `$VAR`.** `jest --findRelatedTests
+   $TARGETS` passed a 49-path list as **one argument** and returned "0 tests"
+   with rc=0. It was nearly recorded as "no test covers these files". Truth: 135.
+   Use `$(cat file)` or `xargs`.
+2. **`tsc -p` reuses a stale `.tsbuildinfo` and invents errors.** A phantom
+   TS2488 was nearly blamed on a 4-line edit because line numbers had shifted by
+   exactly the insert size. Always `--incremental false`. It can hide errors too.
+3. **`.eslintcache` is content-keyed, so a compiler-flag change does not
+   invalidate it.** Flipping `noUncheckedIndexedAccess` changes every type-aware
+   result while file contents stay byte-identical — cached numbers are stale and
+   look plausible. `rm -f .eslintcache` on **both** sides of any such measurement.
+4. **Local `master` was stale by four commits.** `git log master..HEAD` reported
+   23 commits spanning Phases 10–13; the truth against `origin/master` was **20**,
+   Phase 13 only. Measure against `origin/master` and confirm with
+   `gh api repos/<owner>/<repo>/commits/master`.
+5. **A hook-rejected commit leaves everything staged.** A failed `git add src/ &&
+   git commit` left 78 files in the index; the next 2-file commit swept them in
+   under a message claiming "instrument-only". Check `git diff --cached` **before**
+   staging, every time.
+6. **Parse `tsc` output on the LAST paren.** Route groups (`src/app/(alchm)/…`)
+   broke first-paren parsing and produced a wrong file count (54 vs 69).
 
 ---
 
-## 2. Phase 13 Strategic Mission
-
-Phase 12 made the assertion metric tell the truth. Phase 13 fixes the root cause
-the metric exposed: **the type system is lying about index access**, and 1,729
-lint hits plus an unknown number of real bugs sit downstream of that one flag.
-
-Approved shape: **allowlist ratchet gate + risk-first first tranche.**
+## 2. Phase 15 Strategic Mission
 
 ### 2.0 Start here — session order
 
-Do these in order. Steps 1 and 2 are unfinished business from Phase 12 and both
-must complete **before** any gate code is written.
+1. **Make the §2.1 baseline decision.** Everything else is blocked on it, and it
+   is the user's call, not the agent's.
+2. Reproduce the §2.3 probe. Do not trust the numbers in §0 without re-measuring.
+3. Work §2.2 in tranches, smallest directory first, one commit per tranche.
+4. §2.4 loose ends only if time remains.
 
-1. **Push the five local commits.** `6bbd157a`, `0d849e32`, `df458a09`,
-   `1d5afd04`, `8755b284` are **local only** — verified against the network,
-   `origin/feat/phase-11-as-any-eradication` is still at `920987b3`. This repo
-   has 158 branches that exist on one disk only; secure the verified baseline
-   before opening any new work. Push, then confirm with
-   `git ls-remote origin refs/heads/feat/phase-11-as-any-eradication` — the
-   remote-tracking ref alone is not evidence (it can be stale, and
-   `git branch -r --contains` prints nothing rather than failing loudly).
+### 2.1 ⚠️ Decision required before any code: the debt baseline
 
-2. **Trap the ghost writer.** Do not delete the 19 duplicate files until the
-   process that creates them is named. In a dedicated pane:
+`bun run lint:debt` is red by **+59 tracked** and **+47 declined**. Two facts
+that matter:
 
-   ```bash
-   sudo fs_usage -w -f filesys | grep -i ' 2\.ts'
-   ```
+- It was **already red by +972** before the flag was turned on. Phase 13's own
+  guards caused it: with the flag off, the compiler believes indexed reads are
+  never `undefined`, so every `if (!x) throw` this branch added reads as an
+  *unnecessary condition*. Turning the flag on retired **913** of those.
+- The gate's ratchet is **one-directional by construction** — it `process.exit(1)`s
+  before reaching the write path, so it can never record an increase. Absorbing
+  the +59 means **hand-editing `.lint-debt-baseline.json`**, i.e. deliberately
+  raising a debt ceiling.
 
-   Then edit and save several files under `src/` to provoke it, and capture the
-   **PID and process name**. Expect one of three verdicts, each with a different
-   fix: an iCloud/sync daemon (fix system config — move the checkout out of the
-   synced folder), a local file watcher (fix editor/tooling config), or a repo
-   codegen script (patch the script). ⚠️ `fs_usage` needs `sudo` and emits a
-   great deal of traffic; the grep is essential. If nothing appears, the writer
-   may not be running — try provoking it the way Phase 12 did, by editing files
-   that already have duplicates. **Only after the writer is named** should the
-   19 files be deleted, otherwise the symptom clears and the cause remains.
+That was left undone on purpose. Raising a ceiling as a side effect of a compiler
+flag is exactly the kind of quiet policy change this program exists to prevent.
+**Ask which of these the user wants:**
 
-3. Build the gate (§2.2), instrument-only, its own commit, per Rule 1.
-4. Burn down tranche 1 (§2.3) in separate commits.
+| Option | Effect |
+|---|---|
+| **A. Absorb** | Hand-edit the baseline to measured reality. Gate green immediately. Permanently weakens the `prefer-nullish-coalescing` ratchet by 482. |
+| **B. Pay it down** | Leave the baseline. Fix `prefer-nullish-coalescing` sites until tracked ≤ 3,606. Gate goes green on merit. This is §2.2. |
+| **C. Split the axis** | Give `prefer-nullish-coalescing` its own sub-baseline (as Phase 12 did for `as any`) so the aggregate is not hostage to one rule. |
 
-### 2.1 Reproduce the probe
+⚠️ **B alone cannot close the gap — measured, not estimated.** Of the 692
+`prefer-nullish-coalescing` hits, only **126** have a non-primitive left operand.
+The other **566** are primitives, where `0` / `""` / `false` change meaning.
+Passing the per-rule check needs **−482**; even converting every non-primitive
+site yields **−126**. So **at least 356 sites require an individual semantic
+decision** — this check cannot be made green mechanically, and no autofix or
+codemod closes it.
 
-`noUncheckedIndexedAccess` is **program-wide** — TypeScript cannot enable it for
-a subset of files, and limiting `include` does not help because the checker
-follows the whole import closure. So the gate runs the *full* program and
-**filters the output**.
+⚠️ **`ignorePrimitives` is a filter, not a safety proof.** It excludes
+`string`/`number`/`boolean`/`bigint` and says nothing about `any` or `unknown`,
+where `||` → `??` *is* behaviour-changing. Type-probed at all 126 sites with the
+TS API: **95 resolved, all object/array-typed, zero `any`, zero `unknown`** (87
+`a || b`, 8 ternary `a ? a : b` — the rule reports three shapes, not one). The
+remaining **31 did not resolve to an expression and are unverified.** So the
+mechanically-safe tranche is 95 confirmed, not 126 assumed; classify the other 31
+before touching them.
+
+Reproduce with `ignorePrimitives: { string, number, boolean, bigint }` all true;
+the unfiltered count reproduces the gate's 692 exactly, which is the control.
+
+**Status:** Option C has been executed. `prefer-nullish-coalescing` has its own
+sub-baseline at 692 (breakdown: 95 verified safe, 566 semantic, 31 unverified),
+core tracked total is ratcheted to 2,970 (preserving the −426 improvement from
+`no-unnecessary-condition`), declined rules pool is baseline 6,364, and
+`bun run lint:debt` is exit 0.
+
+Also worth fixing regardless: **add `lint:debt` to `bun run verify`.** Its absence
+is why this drifted for eighteen commits (§1.1).
+
+### 2.2 The main target — `prefer-nullish-coalescing`, 210 → 692
+
+**These 482 sites are newly *visible*, not newly *created*.** The rule fires on
+`a || b` when `a` can be nullish. Before the flag, an indexed read was typed as
+never-undefined, so the rule stayed silent. Now the type admits `undefined` and
+the rule reports what was always there.
+
+Why this is a defect surface and not lint noise: `||` treats **`0`, `""` and
+`false` as absent**. Every one of these sites is a place where a real zero, an
+empty string, or a legitimate `false` silently becomes the fallback value. That
+is the same failure class the whole flag program was run to expose, and this
+repo has been bitten by it repeatedly — a `||` chain once sent a **Date** to a
+boolean bind, and `?? 0` once faked 710/710 longitudes.
+
+**`??` is the correct fix in most cases but not all — and this is the whole
+difficulty.** Changing `a || b` to `a ?? b` is a **behaviour change** wherever `a`
+can legitimately be `0`, `""` or `false`. That is not a mechanical rewrite:
+
+- If falsy-but-valid values *should* fall through → keep `||`, add an eslint-disable
+  with a one-line reason naming the falsy value that matters.
+- If only absence should fall through → `??`.
+- If the fallback itself is fabricated (`?? 0` on a measurement) → **Rule 9
+  applies**: guard, early-return, or throw. Do not swap one fabrication for another.
+
+⚠️ **Do not run `eslint --fix` across this rule.** The autofix is behaviour-changing
+at every site where a falsy value is meaningful, and it cannot tell the cases
+apart. Read each site.
+
+**Start with the 95 type-verified ones.** Filter with `ignorePrimitives` all
+true to get the 126 candidates, then confirm each operand's type is an
+object/array — `||` → `??` is exactly equivalent there and needs no judgement.
+Do not skip the type check: the filter alone would also admit `any`/`unknown`,
+where the two operators differ. That is the only tranche that moves
+mechanically; the 566 primitives are the actual work, and each one is a question
+about whether a real `0`, `""` or `false` should fall through.
+
+### 2.3 Reproduce the probe
 
 ```bash
-cat > /tmp/tsconfig.nuia.json <<'EOF'
-{
-  "extends": "/Users/cookingwithcastro/Desktop/WhatToEatNext-master/tsconfig.json",
-  "compilerOptions": { "noUncheckedIndexedAccess": true, "noEmit": true }
-}
-EOF
-npx tsc -p /tmp/tsconfig.nuia.json --pretty false > /tmp/nuia.txt
+rm -f .eslintcache                       # content-keyed; see §1.4 trap 3
+NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --top-casts 5
 ```
 
-⚠️ **Two parsing traps, both hit in Phase 12:**
-- tsc emits **multi-line** messages. Count only lines matching
-  `\([0-9]+,[0-9]+\): error TS[0-9]+:` — 3,133 raw lines, **2,336 real errors**.
-- Paths contain `(` (Next.js route groups). Strip from the **last** paren:
-  `sed -E 's/\(([0-9]+),([0-9]+)\): error TS.*$//'`. Splitting on the first one
-  gave 417 files instead of 433.
+For the per-rule table the gate does not print (it reports only regressions),
+tabulate independently — note the script must live **inside the repo** so ESM can
+resolve `eslint`, and delete it afterwards:
 
-Current cost: **2,336 errors across 433 files** —
-946 TS18048 (possibly-undefined), 640 TS2532, 361 TS2322, 279 TS2345,
-72 TS2538 (undefined-as-index), 38 other.
-
-Concentration: **60 files carry 50%; 176 carry 80%.**
-
-| domain | errors | files |
-|---|---:|---:|
-| `src/utils` | 638 | 121 |
-| `src/services` | 443 | 64 |
-| `src/components` | 368 | 77 |
-| `src/lib` | 355 | 53 |
-| `src/app` | 298 | 69 |
-| `src/data` | 104 | 18 |
-| `src/calculations` | 75 | 12 |
-| other (`hooks`, `types`, `contexts`, `constants`, `server`, `actions`) | 55 | 19 |
-
-### 2.2 Build the ratchet gate — instrument-only commit, first, alone
-
-1. **`tsconfig.strict-index.json`** — extends `tsconfig.json`, sets
-   `noUncheckedIndexedAccess: true`, `noEmit: true`. Main `tsconfig.json` and
-   `bun run typecheck` are **not** touched, so nothing breaks today.
-2. **`.strict-index-baseline.json`** — `{ total: 2336, files: 433, allowlist: [] }`.
-3. **`scripts/checkStrictIndex.ts`** — drives the TypeScript compiler API
-   directly: read the base `tsconfig.json` via `ts.readConfigFile` +
-   `ts.parseJsonConfigFileContent`, then **force-override**
-   `noUncheckedIndexedAccess: true` on the resulting `options` before
-   `ts.createProgram`. Do not rely on `extends` at runtime — overriding the
-   parsed options is what keeps the probe and the gate provably identical.
-   ⚠️ Load `typescript` with bare `require`, never `import`: `import` resolves
-   to an unrelated copy under bun (its global cache, 7.0.2 not the repo's
-   5.9.3), and `createRequire(import.meta.url)` is a *syntax error* under
-   ts-jest, which compiles `scripts/lib/**` to CJS. This already bit the
-   assertion-site scanner.
-
-   Collect diagnostics with `getPreEmitDiagnostics`, resolve each to a
-   repo-relative path from `diagnostic.file.fileName` (the structured field —
-   **prefer it over re-parsing formatted text**; only the text path needs the
-   Rule 11 last-paren and multi-line handling). Then:
-   - **hard gate:** any error in an **allowlisted** file → fail;
-   - **ratchet:** `total > baseline.total` → fail;
-   - auto-ratchet the baseline down when the total drops, mirroring
-     `checkLintDebt.ts`.
-4. **Self-tests** in `scripts/lib/__tests__/` — must include a *red* proof that
-   the gate fails on an allowlisted regression, and pins for both parser traps
-   (a route-group path, a multi-line message).
-5. Wire into `bun run verify`.
-
-Files **graduate onto the allowlist** as they reach zero. The allowlist is the
-part that cannot regress; the total is the part that must trend down.
-
-### 2.3 Tranche 1 — physics/ESMS core (50 files, 457 errors)
-
-Chosen on **risk, not count.** This is where an undefined index becomes a *wrong
-number* instead of a crash — everywhere else it throws or renders nothing.
-
+```js
+import { ESLint } from "eslint";
+const eslint = new ESLint({ overrideConfigFile: "eslint.config.audit.mjs" });
+const counts = {};
+for (const r of await eslint.lintFiles(["src"]))
+  for (const m of r.messages) if (m.ruleId) counts[m.ruleId] = (counts[m.ruleId] || 0) + 1;
+console.log(JSON.stringify(counts, null, 2));
 ```
- 60  src/lib/alchemical-kinetics.ts          18  src/calculations/alchemicalCalculations.ts
- 40  src/lib/wasm/thermoEngine.ts            17  src/data/unified/cuisineIntegrations.ts
- 39  src/lib/cooking/boundaryNetwork.ts      14  src/calculations/dignityManifest.ts
- 30  src/utils/alchemicalSampleLookup.ts     11  src/calculations/culinary/seasonalAdjustments.ts
- 29  src/utils/astrologyUtils.ts             10  src/utils/astrology/validation.ts
- 29  src/lib/celestial-energy-calculator.ts   8  src/utils/astrology/transitValidation.ts
- 29  src/data/unified/recipeBuilding.ts       8  src/utils/astrology/birthChartSignEstimator.ts
-                                              8  src/lib/alchemical-kinetics-sampler.ts
-```
-…plus 42 files at ≤7 errors each across `src/calculations/**`,
-`src/utils/{astrology,elemental}/**`, `src/data/unified/**`.
-Full list: rerun §2.1 and filter to
-`^src/(calculations|lib/alchemical|lib/wasm|lib/cooking|lib/celestial|data/unified|utils/astrolog|utils/elemental|utils/alchemical)`.
 
-**This tranche is exactly the code the 15 witness gates cover** (12 load + 3
-perturbation). Every commit must hold 100% snapshot parity and 12/12 + 3/3 —
-that is the strongest correctness signal available anywhere in this repo, and it
-is free here. Per Rule 6, a parity break is fixed in implementation code; the
-golden fixture is never regenerated.
+To list the 482 sites themselves, lint with only that rule promoted and read the
+file:line list — then **read each site in source**, not in the lint output.
 
-**Remediation doctrine for this tranche.** When mapping planetary positions to
-continuous thermodynamic properties, an `undefined` index read is not noise — it
-means a real gap in the ephemeris data or the coordinate model, and it is
-load-bearing information. Resolve each one by **tightening the upstream type**
-(make the map total, or make the accessor return `T | undefined` and force the
-caller to decide) or by an **explicit algebraic bounds check that throws or
-returns a typed failure**. Never coerce a fallback. A defaulted body silently
-produces a *plausible wrong number* that every downstream gate will accept — the
-`?? 0` that faked 710/710 longitudes is precisely this edit. If a value truly
-has no defensible default, the correct outcome is a thrown error naming the
-missing body, not a substituted one.
+### 2.4 Loose ends carried forward
 
-### 2.4 Loose ends carried into Phase 13
+- **Retire the 124-entry strict-index allowlist.** With `total: 0`, the ratchet
+  already fails on *any* new error, so the allowlist's hard-fail adds nothing.
+  Harmless, but it is dead weight and misleading to a reader. Instrument-only
+  commit (Rule 1).
+- **`src/utils/seasonalTransitions.ts` is broken and was deliberately not fixed.**
+  Its table is keyed `_Spring` / `_Autumn` while `Season` is
+  `"spring" | "summer" | "fall" | "winter"`, so **every lookup misses** and both
+  exported functions previously read `.Fire` off `undefined`. The lookups are now
+  guarded and the mismatch documented in place. Neither function has a caller.
+  Choosing the intended key set is a **semantic** decision — confirm the intent
+  before renaming, and check whether the leading underscore means "disabled".
+- **106 `as any` — still untouched**, through Phases 12, 13 and this one. The cast
+  surface has not moved: `380` total, exactly the Phase 12 figure. (AST says 103;
+  the regex counts 2× `as any[]` plus one inside a template literal.)
+- **8 mock casts → `jest.mocked()`.** Ships with @types/jest 30, used **0 times** here.
+- **9 duplicate artifact files** (`find src -name '* [0-9].*'`), down from 19. The
+  scanner excludes them. ⚠️ The writer was **never identified** — six appeared
+  mid-session in Phase 12 while those files were being edited. Deleting them
+  clears the symptom only. Instrument before concluding.
 
-- **Delete the 19 duplicate files.** `find src -name '* [0-9].*'`. The scanner is
-  already immune, but six spawned mid-session while those very files were being
-  edited. ⚠️ **The cause is unconfirmed.** The " 2" suffix is the shape Finder
-  copies and iCloud/Dropbox sync conflicts use, but that is a hypothesis, not a
-  measurement — nothing was instrumented to catch the writer. Deleting them
-  without finding the writer only clears the symptom. Check `fs_usage`/`lsof`
-  during an edit, and whether this directory is inside a synced folder, before
-  concluding.
-- **106 `as any` — untouched in Phase 12.** Now an explicit named target with its
-  own sub-baseline, not hidden behind the aggregate. (AST says 103; the regex
-  counts 2× `as any[]` plus one inside a template literal.)
-- **8 mock casts → `jest.mocked()`.** The remaining
-  `as unknown as jest.Mock` / `jest.MockedFunction` sites. `jest.mocked()` ships
-  with @types/jest 30 and is used **0 times** in this repo.
-- **Optional side hunt:** the 55 `types-have-no-overlap` and 331 `always-falsy`
-  hits, read individually. Highest bug-per-hour, independent of the flag program.
-
-### 2.5 ⚠️ Nothing typechecks the test files
+### 2.5 ⚠️ Still true: nothing typechecks the test files
 
 `tsconfig.json` excludes `**/*.test.ts(x)`, `**/*.spec.*` and `src/__tests__/**`,
-and `isolatedModules: true` puts ts-jest in **transpile-only** mode.
-`jest.config.js` also lists `diagnostics.ignoreCodes: [2322, 2339]`, but that is a
-red herring — **nothing is reported at all.**
+and `isolatedModules: true` puts ts-jest in transpile-only mode. **Measured:** a
+test file containing `const f = (x: number) => x; f(1, 2, 3)` — TS2554, wrong
+arity — **runs green**.
 
-**Measured:** a test file containing `const f = (x: number) => x; f(1, 2, 3)` —
-TS2554, wrong arity, *not* in `ignoreCodes` — **runs green.**
+This did not change when the flag went on. Consequences: a type error in a test
+file is invisible in CI; assertions in test files are inert; any test refactor
+must be proved by **running the suite**, never by `typecheck`.
 
-Consequences for Phase 13:
-- A type error in a test file is invisible in CI. Only runtime failure catches it.
-- Assertions in test files are **inert** — erased at runtime, never checked at
-  compile time. Removing them is metric movement, not safety.
-- Any test refactor must be proved by **running the suite**, never by `typecheck`.
-- Editor/tsserver still checks them via an inferred project, so casts there do
-  buy editor ergonomics.
-
-⚠️ The first probe of this was self-defeating: the explanatory comment written
-above it literally began `// @ts-expect-error`, which **is** the suppression
-directive, and silenced the very error being tested for. **Never let a probe's
-prose contain a directive token.**
+⚠️ The first probe of this was self-defeating: the explanatory comment above it
+began `// @ts-expect-error`, which **is** the suppression directive and silenced
+the very error being tested for. **Never let a probe's prose contain a directive token.**
 
 ---
 
-## 3. Strict Operating Rules — Phase 13
+## 3. Strict Operating Rules — Phase 15
 
-Rules 1–8 carry forward from Phase 12 unchanged. 9–13 are new, each earned.
+Rules 1–13 carry forward unchanged. 14–17 were earned in Phase 13.
 
 1. **Do Not Change the Scanner and the Code in the Same Commit.** Instrument
    changes land alone with the baseline re-recorded before any code work.
-2. **`totalAssertionSites` Must Strictly Decrease.** Gated-axis wins that leave
-   it flat are relabelling, not remediation. A chain counts as **one** site, so
-   `as unknown as T` → `as T` cannot move it.
+2. **`totalAssertionSites` Must Strictly Decrease.** A chain counts as **one**
+   site, so `as unknown as T` → `as T` cannot move it.
 3. **The Gate's Own Tests Must Be Green** before any baseline ratchet.
 4. **Verify with Jest, Never `bun test`.**
 5. **Drive Changed-File Tests from `git status`.**
@@ -348,25 +309,34 @@ Rules 1–8 carry forward from Phase 12 unchanged. 9–13 are new, each earned.
    breaks are fixed in implementation code.
 7. **Production Signatures Are Not a Cast Sink.**
 8. **Commit Scoped Changes Atomically.**
-9. **Never fix a `noUncheckedIndexedAccess` error with `!` or `?? 0`.** Both
-   re-hide the exact state the flag exposed and reintroduce the fabricated-value
-   failure class. Use a real guard, an early return, or a typed accessor that
-   returns `T | undefined` and forces the caller to decide. In ESMS/physics
-   code specifically, prefer a throw that names the missing body over any
-   substituted value — see the remediation doctrine in §2.3.
-   **A tranche whose diff is mostly `!` has done negative work.**
-10. **`tsc` clean is necessary, not sufficient.** Every remediation batch needs
-    the per-rule lint delta too — Phase 12 had three files typecheck clean while
-    leaking `any` (+21 unsafe-* hits).
-11. **Parse tsc output on the LAST paren, and only count real error lines.**
-    Route-group paths contain `(`; messages span lines. Both traps produced
-    wrong file counts in Phase 12.
-12. **Do not use `git stash` in this working directory.** A `stash pop` here
-    restored 20 files to *older committed blobs*, producing 26 phantom lint
-    errors that were initially misattributed to the current refactor. Park work
-    as a patch file (`git diff > work.patch`) instead. Never `git add -A` —
-    concurrent sessions share this checkout.
-13. **Read exit codes directly, never through a pipe or `echo $?` after one.**
-    `cmd | tail -4; echo $?` reports `tail`'s status. Write `echo $? > file` and
-    read the file. Quote glob arguments (`--include='*.ts'`) — zsh expands them
-    and silently returns zero matches.
+9. **Never fix a `noUncheckedIndexedAccess` error with `!` or `?? 0`.** Use a real
+   guard, an early return, or a typed accessor returning `T | undefined`. In
+   ESMS/physics code prefer a throw naming the missing body over any substituted
+   value. **A tranche whose diff is mostly `!` has done negative work.**
+   *Phase 15 corollary:* `a || b` → `a ?? b` is not a Rule 9 escape. If the
+   fallback value is itself fabricated, the fix is a guard, not a different operator.
+10. **`tsc` clean is necessary, not sufficient.** Check the per-rule lint delta.
+    *Earned again in Phase 13:* `tsc --noEmit` returned **0 errors** with the flag
+    on, and `bun run lint` then reported **23**. "Proven safe by tsc" is a
+    half-measurement.
+11. **Parse tsc output on the LAST paren**, and count only real error lines.
+12. **Do not use `git stash` in this working directory.** Park work as a patch
+    (`git diff > work.patch`). Never `git add -A` — concurrent sessions share
+    this checkout.
+13. **Read exit codes directly, never through a pipe.** Quote glob arguments
+    (`--include='*.ts'`) — zsh expands them and silently returns zero matches.
+14. **Delete `.eslintcache` on both sides of any compiler-option measurement.**
+    The cache is content-keyed; a tsconfig change alters every type-aware result
+    while leaving file contents byte-identical. Cached numbers will be stale and
+    entirely plausible.
+15. **Measure branch scope against `origin/master`, never local `master`.** Local
+    `master` was four commits stale and inflated the scope from 20 to 23 across
+    four phases. Confirm with `gh api`, which cannot be fooled by a broken ref.
+16. **Before deleting an assertion the compiler calls redundant, probe the
+    resulting type.** `no-unnecessary-type-assertion` is trustworthy, but the
+    reviewer still must confirm the result is not `any` — `executeQuery<T>`
+    defaults its parameter to `any`, so a "redundant" assertion there could have
+    been the only thing holding a real type.
+17. **Check `git diff --cached` before staging.** A hook-rejected commit leaves
+    its files staged, and the next commit will silently absorb them under the
+    wrong message.

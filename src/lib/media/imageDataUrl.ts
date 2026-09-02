@@ -72,5 +72,8 @@ export function parseImageDataUrl(dataUrl: string): ParsedImageDataUrl | null {
   const b64 = dataUrl.slice(header[0].length);
   if (b64.length === 0 || NON_BASE64.test(b64)) return null;
 
-  return { mime: header[1], b64 };
+  const [, mime] = header;
+  if (mime === undefined) return null;
+
+  return { mime, b64 };
 }

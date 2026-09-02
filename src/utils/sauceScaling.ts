@@ -9,20 +9,29 @@
  * Parse a yield string to extract the number of servings or cups
  * Examples: "Serves 4" -> 4, "Makes about 3 cups" -> 3, "Makes about 1 cup of curry paste" -> 1
  */
+/**
+ * Capture group `i`, or "" when absent. parseInt/parseFloat of "" and of
+ * undefined both yield NaN, so this preserves the original arithmetic exactly.
+ */
+function group(match: RegExpMatchArray | null, i: number): string {
+  return match?.[i] ?? "";
+}
+
 export function parseYieldToServings(yieldStr: string): number {
   if (!yieldStr) return 1;
 
   // Match "Serves N" pattern
   const servesMatch = yieldStr.match(/serves?\s+(\d+)/i);
-  if (servesMatch) return parseInt(servesMatch[1], 10);
+  if (servesMatch) return parseInt(group(servesMatch, 1), 10);
 
   // Match "Makes about N cups/cup" or "Makes about N-N servings"
   const makesMatch = yieldStr.match(/makes?\s+(?:about\s+)?(\d+(?:\.\d+)?)/i);
-  if (makesMatch) return parseFloat(makesMatch[1]);
+  if (makesMatch) return parseFloat(group(makesMatch, 1));
 
   // Match fraction patterns like "1/2 cup"
   const fractionMatch = yieldStr.match(/(\d+)\/(\d+)/);
-  if (fractionMatch) return parseInt(fractionMatch[1], 10) / parseInt(fractionMatch[2], 10);
+  if (fractionMatch)
+    return parseInt(group(fractionMatch, 1), 10) / parseInt(group(fractionMatch, 2), 10);
 
   return 1;
 }
@@ -37,13 +46,16 @@ function parseFraction(str: string): number | null {
   // Mixed number: "2 1/2"
   const mixedMatch = str.match(/^(\d+)\s+(\d+)\/(\d+)$/);
   if (mixedMatch) {
-    return parseInt(mixedMatch[1], 10) + parseInt(mixedMatch[2], 10) / parseInt(mixedMatch[3], 10);
+    return (
+      parseInt(group(mixedMatch, 1), 10) +
+      parseInt(group(mixedMatch, 2), 10) / parseInt(group(mixedMatch, 3), 10)
+    );
   }
 
   // Simple fraction: "1/4"
   const fractionMatch = str.match(/^(\d+)\/(\d+)$/);
   if (fractionMatch) {
-    return parseInt(fractionMatch[1], 10) / parseInt(fractionMatch[2], 10);
+    return parseInt(group(fractionMatch, 1), 10) / parseInt(group(fractionMatch, 2), 10);
   }
 
   // Decimal or whole number

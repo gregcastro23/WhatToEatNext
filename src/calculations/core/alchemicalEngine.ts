@@ -222,8 +222,13 @@ function alchemize(planetaryPositions: {
 
     // Sum elemental properties (use signInfo for sign's element).
     // Guard against an unrecognized sign string so a single bad position can't
-    // throw and take down the whole calculation.
-    const signElement = signInfo[sign]?.Element;
+    // throw and take down the whole calculation. A missing `sign` is folded
+    // into the same "unrecognized" path: `signInfo[undefined]` was already a
+    // lookup of the (absent) "undefined" key, so this contributes no element,
+    // exactly as before — and, as before, the planet's alchemical properties
+    // above are still summed.
+    const signElement =
+      sign === undefined ? undefined : signInfo[sign]?.Element;
     if (signElement) {
       totals[signElement] += 1;
     }

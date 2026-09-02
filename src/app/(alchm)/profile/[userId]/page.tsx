@@ -277,6 +277,7 @@ export default function PublicProfilePage() {
               <div className="grid sm:grid-cols-4 gap-4">
                 {(["spirit", "essence", "matter", "substance"] as const).map((key) => {
                   const visual = TOKEN_VISUAL[key];
+                  if (!visual) return null;
                   return (
                     <div
                       key={key}

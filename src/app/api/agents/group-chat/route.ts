@@ -84,13 +84,14 @@ export async function POST(request: NextRequest) {
 
   // Solo council → the existing single-agent chat (resolves today against the
   // seeded planetary-degree agents; no PA group endpoint needed).
-  if (agents.length === 1) {
-    return NextResponse.json({ url: singleChatUrl(agents[0].id), sessionId: null, degraded: false, solo: true });
+  const [firstAgent] = agents;
+  if (agents.length === 1 && firstAgent) {
+    return NextResponse.json({ url: singleChatUrl(firstAgent.id), sessionId: null, degraded: false, solo: true });
   }
 
   const secret = process.env.INTERNAL_API_SECRET;
   const paBase = getServiceUrlSafe("agentsUi");
-  const fallback = singleChatUrl(agents[0].id);
+  const fallback = firstAgent ? singleChatUrl(firstAgent.id) : null;
 
   if (!secret) {
     logger.warn("INTERNAL_API_SECRET unset — degrading to single-agent fallback");

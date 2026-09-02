@@ -544,6 +544,7 @@ function calculateAlchemicalCompatibility(
     if (userPref === undefined) return;
 
     const cuisineValue = cuisineAlchemical[property];
+    if (cuisineValue === undefined) return;
     const compatibility = 1 - Math.abs(userPref - cuisineValue);
     const weight = userPref;
 

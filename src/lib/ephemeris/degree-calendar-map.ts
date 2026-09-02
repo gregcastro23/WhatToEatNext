@@ -151,12 +151,19 @@ export function buildAnnualCalendar(year: number): AnnualZodiacCalendar {
   const signPeriods: SignPeriod[] = []
   const signs = Object.keys(ingresses)
 
-  for (let i = 0; i < signs.length; i++) {
-    const sign = signs[i]
+  for (const [i, sign] of signs.entries()) {
     const nextSign = signs[(i + 1) % signs.length]
+    const [firstSign] = signs
+    if (nextSign === undefined || firstSign === undefined) {
+      throw new Error(`degree-calendar-map: ingress list is empty for ${year}`)
+    }
 
     const startDate = ingresses[sign]
-    const endDate = i === signs.length - 1 ? nextYearIngresses[signs[0]] : ingresses[nextSign]
+    const endDate =
+      i === signs.length - 1 ? nextYearIngresses[firstSign] : ingresses[nextSign]
+    if (startDate === undefined || endDate === undefined) {
+      throw new Error(`degree-calendar-map: missing ingress bounds for ${sign} in ${year}`)
+    }
 
     const durationMs = endDate.getTime() - startDate.getTime()
     const durationDays = durationMs / (1000 * 60 * 60 * 24)
@@ -200,6 +207,9 @@ export function buildAnnualCalendar(year: number): AnnualZodiacCalendar {
     const signIndex = Math.floor(degree / 30)
     const signDegree = degree % 30
     const sign = signs[signIndex]
+    if (sign === undefined) {
+      throw new Error(`degree-calendar-map: sign index ${signIndex} out of range for degree ${degree}`)
+    }
     const decan = Math.floor(signDegree / 10) + 1
 
     enrichedDegreeMap.set(degree, {
@@ -313,6 +323,9 @@ export function daysUntilNextIngress(): { sign: string; days: number; date: Date
   // If we're in the last sign of the year, get next year's Aries
   const nextYearCalendar = buildAnnualCalendar(year + 1)
   const [nextAries] = nextYearCalendar.signPeriods
+  if (nextAries === undefined) {
+    throw new Error(`degree-calendar-map: no sign periods built for ${year + 1}`)
+  }
   const days = (nextAries.startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
 
   return {
@@ -389,8 +402,13 @@ export function getMonthlyZodiacCalendar(
     })
   }
 
+  const monthName = monthNames[month - 1]
+  if (monthName === undefined) {
+    throw new Error(`degree-calendar-map: month ${month} out of range`)
+  }
+
   return {
-    month: monthNames[month - 1],
+    month: monthName,
     days,
   }
 }

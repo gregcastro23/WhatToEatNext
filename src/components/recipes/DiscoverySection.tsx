@@ -65,8 +65,9 @@ function dominantElement(r: DiscoveryRecipe): string | null {
     ["Air", e.Air ?? 0] as const,
   ];
   entries.sort((a, b) => b[1] - a[1]);
-  if (entries[0][1] === 0) return null;
-  return entries[0][0];
+  const [top] = entries;
+  if (!top || top[1] === 0) return null;
+  return top[0];
 }
 
 function DiscoveryCard({ recipe }: { recipe: DiscoveryRecipe }) {
@@ -162,7 +163,7 @@ export function DiscoverySection({ recipeId }: { recipeId: string }) {
   const available = (Object.keys(lists) as Lens[]).filter((k) => lists[k].length > 0);
   if (available.length === 0) return null;
 
-  const activeLens: Lens = lists[lens].length > 0 ? lens : available[0];
+  const activeLens: Lens = lists[lens].length > 0 ? lens : (available[0] ?? lens);
   const items = lists[activeLens];
 
   return (

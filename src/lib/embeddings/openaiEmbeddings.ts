@@ -49,6 +49,9 @@ async function callEmbeddingsApi(input: string[]): Promise<number[][]> {
 /** Embed a single string. For many strings, prefer embedTexts (one request). */
 export async function embedText(text: string): Promise<number[]> {
   const [vector] = await embedTexts([text]);
+  if (!vector) {
+    throw new Error("embedText: embedding request returned no vector");
+  }
   return vector;
 }
 

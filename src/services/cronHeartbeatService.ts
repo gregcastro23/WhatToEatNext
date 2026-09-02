@@ -135,6 +135,7 @@ export function expectedIntervalMinutes(schedule: string): number {
   const fields = schedule.trim().split(/\s+/);
   if (fields.length !== 5) return 1440;
   const [minute, hour] = fields;
+  if (!minute || !hour) return 1440;
   const everyN = /^\*\/(\d+)$/.exec(minute);
   if (everyN && hour === "*") return Number(everyN[1]);
   if (/^\d+$/.test(minute) && hour === "*") return 60;

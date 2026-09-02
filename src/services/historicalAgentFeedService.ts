@@ -245,7 +245,9 @@ export function mapAgentToRecipePost(
     typeof row.email === "string" && row.email.includes("@")
       ? row.email.split("@")[0]
       : undefined;
-  let element = pickElement(row.dominant_element) ?? ELEMENTS[index % ELEMENTS.length];
+  const fallbackElement =
+    ELEMENTS[((index % ELEMENTS.length) + ELEMENTS.length) % ELEMENTS.length] ?? "Fire";
+  let element: FeedElement = pickElement(row.dominant_element) ?? fallbackElement;
   const hourBucket = Math.floor(now.getTime() / 3_600_000);
 
   let recipeName: string;
@@ -259,7 +261,10 @@ export function mapAgentToRecipePost(
       const main = pickMainIngredient(element, hourBucket + index);
       if (main) {
         const templates = DISH_TEMPLATES[element];
-        const template = templates[(hourBucket + index) % templates.length];
+        const templateIdx =
+          ((hourBucket + index) % templates.length + templates.length) %
+          templates.length;
+        const template = templates[templateIdx] ?? "{x}";
         const accent = pickAccent(element, hourBucket + index + 1);
         recipeName =
           template.replace("{x}", main) + (accent && accent !== main ? ` with ${accent}` : "");

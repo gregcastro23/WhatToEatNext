@@ -52,7 +52,7 @@ const FETCH_TIMEOUT_MS = 4_000;
 const TOP_ISSUES_LIMIT = 8;
 
 /** The labels this queue counts; wontfix is closed-state and excluded. */
-const TRIAGE_LABELS = [
+export const TRIAGE_LABELS = [
   "needs-triage",
   "needs-info",
   "ready-for-agent",
@@ -123,7 +123,12 @@ async function fetchLabelledIssues(label: string): Promise<GithubIssueRow[]> {
 async function loadTriageQueue(): Promise<TriageQueueData> {
   const fetchedAt = new Date().toISOString();
   const [needsTriage, needsInfo, readyForAgent, readyForHuman] =
-    await Promise.all(TRIAGE_LABELS.map((label) => fetchLabelledIssues(label)));
+    await Promise.all([
+      fetchLabelledIssues("needs-triage"),
+      fetchLabelledIssues("needs-info"),
+      fetchLabelledIssues("ready-for-agent"),
+      fetchLabelledIssues("ready-for-human"),
+    ]);
 
   const byLabel: Array<[string, GithubIssueRow[]]> = [
     ["needs-triage", needsTriage],

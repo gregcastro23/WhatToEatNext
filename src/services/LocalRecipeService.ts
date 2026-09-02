@@ -445,7 +445,8 @@ export class LocalRecipeService {
       const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(decodedId);
       if (isUuid) {
         const recipes = await this.fetchRecipes("AND r.id = $1", [decodedId]);
-        if (recipes.length > 0) return recipes[0];
+        const [recipeFromDb] = recipes;
+        if (recipeFromDb) return recipeFromDb;
       }
 
       return null;

@@ -176,9 +176,10 @@ function calculateApproximateAscendant(
   );
   const ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
 
-  const signIndex = Math.floor(ascLongitude / 30) % 12;
+  const signIndex = ((Math.floor(ascLongitude / 30) % 12) + 12) % 12;
+  const sign = zodiacSigns[signIndex] ?? "aries";
   return {
-    sign: zodiacSigns[signIndex],
+    sign,
     exactLongitude: ascLongitude,
   };
 }

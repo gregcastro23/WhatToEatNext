@@ -145,12 +145,13 @@ function computeChartComparison(ctx: ChartComparisonContext): ChartComparisonRes
   const natalEl: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   Object.values(natalPositions).forEach((sign) => {
     const el = SIGN_TO_ELEMENT[sign];
-    if (el) natalEl[el]++;
+    const natalCount = el ? natalEl[el] : undefined;
+    if (el && natalCount !== undefined) natalEl[el] = natalCount + 1;
   });
   const natalElTotal = Object.values(natalEl).reduce((a, b) => a + b, 0) || 1;
   let elementalOverlap = 0;
   Object.keys(natalEl).forEach((el) => {
-    elementalOverlap += Math.min(natalEl[el] / natalElTotal, currentElementCounts[el] / total);
+    elementalOverlap += Math.min((natalEl[el] ?? 0) / natalElTotal, (currentElementCounts[el] ?? 0) / total);
   });
   const elementalHarmony = Math.min(elementalOverlap, 1);
 
@@ -210,7 +211,8 @@ async function handlePost(request: NextRequest): Promise<NextResponse> {
     const currentElementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     Object.values(currentPositions).forEach((sign) => {
       const el = SIGN_TO_ELEMENT[sign];
-      if (el) currentElementCounts[el]++;
+      const currentCount = el ? currentElementCounts[el] : undefined;
+      if (el && currentCount !== undefined) currentElementCounts[el] = currentCount + 1;
     });
     const total = Object.values(currentElementCounts).reduce((a, b) => a + b, 0) || 1;
 
@@ -230,13 +232,14 @@ async function handlePost(request: NextRequest): Promise<NextResponse> {
       .slice(0, 4);
 
     // Cuisine & cooking method suggestions from current sky
+    const [favorablePrimary, favorableSecondary] = favorableElements;
     const suggestedCuisines = [
-      ...(ELEMENT_CUISINES[favorableElements[0]] ?? []).slice(0, 2),
-      ...(ELEMENT_CUISINES[favorableElements[1]] ?? []).slice(0, 2),
+      ...(favorablePrimary === undefined ? [] : (ELEMENT_CUISINES[favorablePrimary] ?? [])).slice(0, 2),
+      ...(favorableSecondary === undefined ? [] : (ELEMENT_CUISINES[favorableSecondary] ?? [])).slice(0, 2),
     ];
     const suggestedCookingMethods = [
-      ...(ELEMENT_METHODS[favorableElements[0]] ?? []).slice(0, 2),
-      ...(ELEMENT_METHODS[favorableElements[1]] ?? []).slice(0, 2),
+      ...(favorablePrimary === undefined ? [] : (ELEMENT_METHODS[favorablePrimary] ?? [])).slice(0, 2),
+      ...(favorableSecondary === undefined ? [] : (ELEMENT_METHODS[favorableSecondary] ?? [])).slice(0, 2),
     ];
 
     // Insights

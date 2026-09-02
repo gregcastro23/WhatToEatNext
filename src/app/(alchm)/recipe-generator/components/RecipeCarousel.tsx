@@ -114,11 +114,11 @@ function useCarouselGestures(
   const touchEndX = useRef<number | null>(null);
 
   const onTouchStart = (e: React.TouchEvent): void => {
-    touchStartX.current = e.targetTouches[0].clientX;
+    touchStartX.current = e.targetTouches[0]?.clientX ?? null;
     touchEndX.current = null;
   };
   const onTouchMove = (e: React.TouchEvent): void => {
-    touchEndX.current = e.targetTouches[0].clientX;
+    touchEndX.current = e.targetTouches[0]?.clientX ?? null;
   };
   const onTouchEnd = (): void => {
     if (!touchStartX.current || !touchEndX.current) return;
@@ -181,6 +181,7 @@ export const RecipeCarousel: React.FC<RecipeCarouselProps> = ({
   if (suggestions.length === 0) return <EmptySuggestions />;
 
   const current = suggestions[currentIndex];
+  if (!current) return null;
   const currentRecipeKey = getRecipeIdentity(current.recipe);
 
   return (

@@ -370,10 +370,12 @@ export function buildSustainedReminder(
     previous: "INCIDENT",
     current: "INCIDENT",
     severity: "error",
-    title:
-      due.length === 1
-        ? `${due[0].componentLabel} still down (${formatDuration(due[0].since, now)})`
-        : `${due.length} components still down`,
+    title: (() => {
+      const [firstDue] = due;
+      return due.length === 1 && firstDue
+        ? `${firstDue.componentLabel} still down (${formatDuration(firstDue.since, now)})`
+        : `${due.length} components still down`;
+    })(),
     message:
       `Still in INCIDENT with no change since the last alert. ` +
       `Repeats every ${hours}h until resolved.\n\n${lines.join("\n")}`,

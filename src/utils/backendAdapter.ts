@@ -167,7 +167,11 @@ export const getSeasonalModifier = (season: string): ElementalProperties => {
     winter: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
   };
 
-  return modifiers[season.toLowerCase()] ?? modifiers.spring;
+  const seasonal = modifiers[season.toLowerCase()] ?? modifiers.spring;
+  if (!seasonal) {
+    throw new Error("backendAdapter: seasonal modifier table is missing `spring`");
+  }
+  return seasonal;
 };
 
 /**

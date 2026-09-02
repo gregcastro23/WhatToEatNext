@@ -156,8 +156,8 @@ function fixElementalProperties(
     if (Math.abs(sum - 1) > 0.01) {
       needsFix = true;
       // Normalize
-      for (const elem of elements) {
-        values[elem] = values[elem] / sum;
+      for (const [elem, value] of Object.entries(values)) {
+        values[elem] = value / sum;
       }
     }
 

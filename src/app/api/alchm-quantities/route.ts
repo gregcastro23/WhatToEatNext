@@ -366,6 +366,7 @@ export async function GET(request: Request): Promise<NextResponse | Response> {
       for (let j = i + 1; j < planetNames.length; j++) {
         const p1 = planetNames[i];
         const p2 = planetNames[j];
+        if (p1 === undefined || p2 === undefined) continue;
         const pos1 = nowPositions[p1];
         const pos2 = nowPositions[p2];
         const L1 = longitudeOf(pos1);

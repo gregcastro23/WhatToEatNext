@@ -227,7 +227,7 @@ export class ConsciousnessMemorySystem {
     const powerAmplification = isOptimal ? 1.3 : 1.0
 
     // Find next optimal hour
-    const [nextOptimalHour] = profile.alignment // Simplified - could be enhanced
+    const [nextOptimalHour = 'Sun'] = profile.alignment // Simplified - could be enhanced
 
     const recommendations: string[] = []
     if (isOptimal) {
@@ -324,10 +324,11 @@ export class ConsciousnessMemorySystem {
       return 0.1 // Initial momentum
     }
 
-    const previousVelocity =
-      memory.evolutionHistory.consciousnessVelocityTrend[
-        memory.evolutionHistory.consciousnessVelocityTrend.length - 1
-      ]
+    const trend = memory.evolutionHistory.consciousnessVelocityTrend
+    const previousVelocity = trend[trend.length - 1]
+    if (previousVelocity === undefined) {
+      return 0.1 // Initial momentum
+    }
     return consciousnessVelocity - previousVelocity
   }
 

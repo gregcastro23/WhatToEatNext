@@ -239,7 +239,7 @@ function DayBreakdown() {
       </h3>
       {dayOrder.map((dayIndex) => {
         const dayKey = dayKeys[dayIndex];
-        const dayMetrics = metrics.days[dayKey];
+        const dayMetrics = dayKey === undefined ? undefined : metrics.days[dayKey];
 
         if (!dayMetrics) return null;
 

@@ -24,7 +24,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ compact = false, class
   const { preference, theme, isDiurnal, setPreference, cycleTheme } = useTheme();
 
   if (compact) {
-    const current = OPTIONS.find((o) => o.value === preference) ?? OPTIONS[2];
+    const current = OPTIONS.find((o) => o.value === preference) ?? OPTIONS[2] ?? OPTIONS[0];
+    if (!current) return null;
     const tooltip =
       preference === 'system'
         ? `Auto (currently ${theme}, ${isDiurnal ? 'day' : 'night'})`

@@ -496,8 +496,9 @@ function _calculateRecipeEnergyMatch(
     .sort(([, a], [, b]) => b - a);
 
   // Use dominant elements for enhanced scoring if available
-  if (recipeDominantElements.length > 0) {
-    const [[_primaryElement, primaryValue]] = recipeDominantElements;
+  const [primaryDominant] = recipeDominantElements;
+  if (primaryDominant) {
+    const [, primaryValue] = primaryDominant;
     if (primaryValue > 0.4) {
       // Boost score for recipes with strong dominant element
       score += 0.1;
@@ -789,7 +790,8 @@ function determineIngredientModality(
   const sorted = entries.sort((a, b) => b[1] - a[1]);
 
   // Return the dominant modality if it has a count, otherwise null
-  return sorted[0][1] > 0 ? sorted[0][0] : null;
+  const [top] = sorted;
+  return top && top[1] > 0 ? top[0] : null;
 }
 
 // Create an astrologyUtils object with the necessary functions
@@ -945,26 +947,47 @@ function levenshteinDistance(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array<number>(n + 1).fill(0));
 
+  // The matrix is allocated (m+1) x (n+1) just above, so every (i, j) below is in
+  // range; these accessors make that invariant explicit instead of indexing blind.
+  const cell = (i: number, j: number): number => {
+    const value = matrix[i]?.[j];
+    if (value === undefined) {
+      throw new RangeError(`levenshtein: cell (${i}, ${j}) outside ${m + 1}x${n + 1} matrix`);
+    }
+    return value;
+  };
+  const setCell = (i: number, j: number, value: number): void => {
+    const row = matrix[i];
+    if (!row) {
+      throw new RangeError(`levenshtein: row ${i} outside ${m + 1}x${n + 1} matrix`);
+    }
+    row[j] = value;
+  };
+
   // Fill first row and column
-  for (let i = 0; i <= m; i++) matrix[i][0] = i;
-  for (let j = 0; j <= n; j++) matrix[0][j] = j;
+  for (let i = 0; i <= m; i++) setCell(i, 0, i);
+  for (let j = 0; j <= n; j++) setCell(0, j, j);
 
   // Fill the matrix
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (str1[i - 1] === str2[j - 1]) {
-        matrix[i][j] = matrix[i - 1][j - 1];
+        setCell(i, j, cell(i - 1, j - 1));
       } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1, // deletion
-          matrix[i][j - 1] + 1, // insertion
-          matrix[i - 1][j - 1] + 1, // substitution
+        setCell(
+          i,
+          j,
+          Math.min(
+            cell(i - 1, j) + 1, // deletion
+            cell(i, j - 1) + 1, // insertion
+            cell(i - 1, j - 1) + 1, // substitution
+          ),
         );
       }
     }
   }
 
-  return matrix[m][n];
+  return cell(m, n);
 }
 
 /**
@@ -1452,14 +1475,15 @@ function _calculateAstrologicalMatch(
     }
 
     // Check for sign compatibility
-    if (signCompatibility[userSignLower][recipeSignLower]) {
-      return signCompatibility[userSignLower][recipeSignLower];
+    const signScore = signCompatibility[userSignLower]?.[recipeSignLower];
+    if (signScore) {
+      return signScore;
     }
 
     // If no direct sign compatibility, check element compatibility
     const recipeElement = signElementMap[recipeSignLower];
     if (recipeElement && userElement) {
-      return elementCompatibility[userElement][recipeElement] || 0.5;
+      return elementCompatibility[userElement]?.[recipeElement] || 0.5;
     }
   }
 
@@ -1468,7 +1492,7 @@ function _calculateAstrologicalMatch(
     // Check if recipe has the user's element
     if (typeof elements === "string") {
       const singleElement = String(elements).toLowerCase();
-      return elementCompatibility[userElement][singleElement] || 0.5;
+      return elementCompatibility[userElement]?.[singleElement] || 0.5;
     }
 
     // If recipe has multiple elements, average their compatibility
@@ -1478,7 +1502,7 @@ function _calculateAstrologicalMatch(
         if (typeof element === "string") {
           const elemLower = element.toLowerCase();
           totalCompatibility +=
-            elementCompatibility[userElement][elemLower] || 0.5;
+            elementCompatibility[userElement]?.[elemLower] || 0.5;
         }
       });
       return elements.length > 0 ? totalCompatibility / elements.length : 0.5;
@@ -1491,7 +1515,7 @@ function _calculateAstrologicalMatch(
     const lunarElement = astrologyUtils.getPlanetaryElement("Moon");
     if (lunarElement) {
       return (
-        elementCompatibility[userElement][lunarElement.toLowerCase()] || 0.5
+        elementCompatibility[userElement]?.[lunarElement.toLowerCase()] || 0.5
       );
     }
   }

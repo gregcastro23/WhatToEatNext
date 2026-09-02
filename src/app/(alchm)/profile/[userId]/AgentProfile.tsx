@@ -113,9 +113,9 @@ const AgentArtifactsAndHistory: React.FC<{
 export default function AgentProfile(props: AgentProfileProps): React.ReactElement {
   const { agent, balances, handle, interactions = [], actions = [], artifacts = [], userId, viewer } = props;
   const accent = agent.appearance?.color ?? "#7c3aed";
-  const slug = handle ? handle.split("@")[0] : null;
+  const slug = handle ? (handle.split("@")[0] ?? null) : null;
   const { data: session } = useSession();
-  const currentUserId = session?.user?.id;
+  const currentUserId = session?.user?.id ?? undefined;
 
   const relational = useAgentRelationalData(agent.name, slug, currentUserId);
   const recipeViewer = useAgentRecipeViewer();

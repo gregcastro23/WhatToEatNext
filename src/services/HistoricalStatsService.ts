@@ -117,10 +117,13 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
         }
 
         for (let i = 1; i < dateKeys.length; i++) {
+            const curKey = dateKeys[i];
+            const prevKey = dateKeys[i - 1];
+            if (!curKey || !prevKey) continue;
             datasets.push({
-                date: new Date(dateKeys[i]),
-                positions: sanitizePositions(payload.data[dateKeys[i]]),
-                prevPositions: sanitizePositions(payload.data[dateKeys[i - 1]]),
+                date: new Date(curKey),
+                positions: sanitizePositions(payload.data[curKey]),
+                prevPositions: sanitizePositions(payload.data[prevKey]),
             });
         }
 

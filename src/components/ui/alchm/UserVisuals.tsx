@@ -61,6 +61,7 @@ export function NatalWheel({ planets, size = 380, motion = true, dominantEl = "a
     for (let j = i + 1; j < planets.length; j++) {
       const p = planets[i];
       const q = planets[j];
+      if (!p || !q) continue;
       let d = Math.abs(p.lon - q.lon) % 360;
       if (d > 180) d = 360 - d;
       // Check for major aspects: conjunction (0), sextile (60), square (90), trine (120), opposition (180)
@@ -302,7 +303,7 @@ export function DailyYieldLedger({ width = 720, height = 200, series: inputSerie
             <g key={s.id}>
               <path d={`${path} L${px(n - 1)} ${py(0)} L${px(0)} ${py(0)} Z`} fill={s.color} opacity="0.06" />
               <path d={path} fill="none" stroke={s.color} strokeWidth="1.6" strokeLinecap="round" style={{ filter: `drop-shadow(0 0 4px ${s.color})` }} />
-              <circle cx={px(n - 1)} cy={py(s.data[n - 1])} r="3" fill={s.color} />
+              <circle cx={px(n - 1)} cy={py(s.data[n - 1] ?? 0)} r="3" fill={s.color} />
             </g>
           );
         })}
@@ -316,7 +317,7 @@ export function DailyYieldLedger({ width = 720, height = 200, series: inputSerie
           <div key={s.id} className="flex items-center gap-2">
             <span style={{ width: 10, height: 2, background: s.color, boxShadow: `0 0 6px ${s.color}`, display: "inline-block" }} />
             <span className="font-mono text-[10px] text-white/50 uppercase tracking-widest">{s.id}</span>
-            <span className="font-mono text-[11px] text-white font-black">{(s.data[n - 1] * 100).toFixed(0)}q</span>
+            <span className="font-mono text-[11px] text-white font-black">{((s.data[n - 1] ?? 0) * 100).toFixed(0)}q</span>
           </div>
         ))}
       </div>

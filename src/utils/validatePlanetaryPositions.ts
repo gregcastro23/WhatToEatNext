@@ -59,7 +59,7 @@ export function getCurrentTransitSign(
   const { TransitDates } = planetData.PlanetSpecific;
   if (!TransitDates) return null;
 
-  const [currentDateString] = date.toISOString().split("T"); // YYYY-MM-DD format
+  const currentDateString = date.toISOString().slice(0, 10); // YYYY-MM-DD format
 
   for (const [sign, transit] of Object.entries(TransitDates)) {
     if (!transit.Start || !transit.End) continue;

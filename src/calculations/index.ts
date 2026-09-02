@@ -280,6 +280,14 @@ export class UnifiedCalculationEngine {
       onAlchemizeApiCall(astrologyPositions);
 
       const [dominantPlanetObj] = planetaryInfluence.dominantPlanets;
+      if (!dominantPlanetObj) {
+        // Previously a TypeError from reading .planet off undefined, caught and
+        // rewrapped below. Keep it a throw: naming a dominant planet or a
+        // strength when no planet ranked would fabricate the influence row.
+        throw new Error(
+          "calculateSMES: planetary influences produced no dominant planet",
+        );
+      }
       const result: SMESCalculationResult = {
         // SMES Properties
         spirit: kalchmResult.alchemicalCounts.Spirit,

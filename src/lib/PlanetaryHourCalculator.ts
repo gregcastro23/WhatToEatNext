@@ -88,12 +88,42 @@ export class PlanetaryHourCalculator {
    * @param date The date to calculate the planetary day for
    * @returns The planet ruling that day
    */
+  /** Resolve the hour sequence for a weekday index, naming the invariant if it is out of range. */
+  private static sequenceFor(dayOfWeek: number): Planet[] {
+    const dayName = PlanetaryHourCalculator.dayNames[dayOfWeek];
+    const sequence =
+      dayName === undefined
+        ? undefined
+        : PlanetaryHourCalculator.planetaryHours[dayName];
+    if (sequence === undefined) {
+      throw new Error(
+        `PlanetaryHourCalculator: no planetary hour sequence for day index ${dayOfWeek}`,
+      );
+    }
+    return sequence;
+  }
+
+  /** Resolve the ruling planet for a weekday index and continuous hour index. */
+  private static rulerFor(dayOfWeek: number, hourIndex: number): Planet {
+    const ruler = PlanetaryHourCalculator.sequenceFor(dayOfWeek)[hourIndex % 7];
+    if (ruler === undefined) {
+      throw new Error(
+        `PlanetaryHourCalculator: no ruler at hour index ${hourIndex} for day ${dayOfWeek}`,
+      );
+    }
+    return ruler;
+  }
+
   getPlanetaryDay(date: Date): Planet {
     // Day of the week (0 = Sunday1 = Monday, etc.)
     const dayOfWeek = date.getDay();
 
     // Return the planetary ruler for that day
-    return PlanetaryHourCalculator.dayRulers[dayOfWeek];
+    const ruler = PlanetaryHourCalculator.dayRulers[dayOfWeek];
+    if (ruler === undefined) {
+      throw new Error(`PlanetaryHourCalculator: no day ruler for index ${dayOfWeek}`);
+    }
+    return ruler;
   }
 
   /**
@@ -125,10 +155,7 @@ export class PlanetaryHourCalculator {
     // We'll calculate the planet ruling the current minute based on this
 
     // First, determine which planetary sequence to use (based on day of week)
-    const planetarySequence =
-      PlanetaryHourCalculator.planetaryHours[
-      PlanetaryHourCalculator.dayNames[dayOfWeek]
-      ];
+    const planetarySequence = PlanetaryHourCalculator.sequenceFor(dayOfWeek);
 
     // Calculate the hour ruler index (0-6) to determine start of sequence
     const hourSinceDay = hour % 24;
@@ -140,7 +167,13 @@ export class PlanetaryHourCalculator {
     // The minute ruler is the hour ruler + minute segment, wrapping around if needed
     const minuteRulerIndex = (rulerSequenceStart + minuteSegment) % 7;
 
-    return planetarySequence[minuteRulerIndex];
+    const minuteRuler = planetarySequence[minuteRulerIndex];
+    if (minuteRuler === undefined) {
+      throw new Error(
+        `PlanetaryHourCalculator: no minute ruler at index ${minuteRulerIndex}`,
+      );
+    }
+    return minuteRuler;
   }
 
   /**
@@ -209,10 +242,7 @@ export class PlanetaryHourCalculator {
     const continuousHourIndex = isDaytime ? hourIndex : hourIndex + 12;
 
     return {
-      planet:
-        PlanetaryHourCalculator.planetaryHours[
-        PlanetaryHourCalculator.dayNames[dayOfWeek]
-        ][continuousHourIndex % 7],
+      planet: PlanetaryHourCalculator.rulerFor(dayOfWeek, continuousHourIndex),
       hourNumber: hourIndex,
       isDaytime,
     };
@@ -235,8 +265,7 @@ export class PlanetaryHourCalculator {
    */
   getDailyPlanetaryHours(date: Date): Map<number, Planet> {
     const day = date.getDay();
-    const dayName = PlanetaryHourCalculator.dayNames[day];
-    const rulers = PlanetaryHourCalculator.planetaryHours[dayName];
+    const rulers = PlanetaryHourCalculator.sequenceFor(day);
     const result = new Map<number, Planet>();
 
     // Calculate all 24 hours - 12 daytime hours and 12 nighttime hours
@@ -244,30 +273,38 @@ export class PlanetaryHourCalculator {
 
     // Day hours (6am to 6pm)
     for (let i = 0; i < 7; i++) {
+      const ruler = rulers[i];
+      if (ruler === undefined) {
+        throw new Error(`PlanetaryHourCalculator: no ruler at sequence index ${i}`);
+      }
       const startHour = Math.floor(6 + i * 1.714);
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
       for (let hour = startHour; hour <= endHour; hour++) {
-        result.set(hour, rulers[i]);
+        result.set(hour, ruler);
       }
     }
 
     // Night hours (6pm to 6am)
     for (let i = 0; i < 7; i++) {
+      const ruler = rulers[i];
+      if (ruler === undefined) {
+        throw new Error(`PlanetaryHourCalculator: no ruler at sequence index ${i}`);
+      }
       const startHour = Math.floor(18 + i * 1.714) % 24;
       const endHour = (Math.floor(18 + (i + 1) * 1.714) % 24) - 1;
 
       if (endHour < startHour) {
         // Handle hours that cross midnight
         for (let hour = startHour; hour < 24; hour++) {
-          result.set(hour, rulers[i]);
+          result.set(hour, ruler);
         }
         for (let hour = 0; hour <= endHour; hour++) {
-          result.set(hour, rulers[i]);
+          result.set(hour, ruler);
         }
       } else {
         for (let hour = startHour; hour <= endHour; hour++) {
-          result.set(hour, rulers[i]);
+          result.set(hour, ruler);
         }
       }
     }
@@ -380,10 +417,7 @@ export class PlanetaryHourCalculator {
     const continuousHourIndex = this.isDaytime(date) ? hourIndex : hourIndex + 12;
 
     return {
-      planet:
-        PlanetaryHourCalculator.planetaryHours[
-        PlanetaryHourCalculator.dayNames[dayOfWeek]
-        ][continuousHourIndex % 7],
+      planet: PlanetaryHourCalculator.rulerFor(dayOfWeek, continuousHourIndex),
       hourNumber: hourIndex,
       isDaytime: this.isDaytime(date),
     };

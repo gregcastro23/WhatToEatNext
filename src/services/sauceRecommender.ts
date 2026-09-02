@@ -48,28 +48,25 @@ export class SauceRecommender {
       cuisine.sauceRecommender;
     const recommendations = new Set<string>();
 
-    if (criteria.protein && forProtein?.[criteria.protein]) {
-      forProtein[criteria.protein].forEach((sauce: string) =>
-        recommendations.add(sauce),
-      );
+    if (criteria.protein) {
+      const sauces = forProtein?.[criteria.protein];
+      if (sauces) {
+        sauces.forEach((sauce: string) => recommendations.add(sauce));
+      }
     }
 
-    if (
-      criteria.vegetable &&
-      forVegetable?.[criteria.vegetable]
-    ) {
-      forVegetable[criteria.vegetable].forEach((sauce: string) =>
-        recommendations.add(sauce),
-      );
+    if (criteria.vegetable) {
+      const sauces = forVegetable?.[criteria.vegetable];
+      if (sauces) {
+        sauces.forEach((sauce: string) => recommendations.add(sauce));
+      }
     }
 
-    if (
-      criteria.cookingMethod &&
-      forCookingMethod?.[criteria.cookingMethod]
-    ) {
-      forCookingMethod[criteria.cookingMethod].forEach((sauce: string) =>
-        recommendations.add(sauce),
-      );
+    if (criteria.cookingMethod) {
+      const sauces = forCookingMethod?.[criteria.cookingMethod];
+      if (sauces) {
+        sauces.forEach((sauce: string) => recommendations.add(sauce));
+      }
     }
 
     return Array.from(recommendations);

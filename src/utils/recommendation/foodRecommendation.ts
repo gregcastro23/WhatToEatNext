@@ -364,6 +364,11 @@ function getTimeFactors(): TimeFactors {
     "Saturday",
   ];
   const weekDay = weekDays[dayOfWeek];
+  if (weekDay === undefined) {
+    throw new RangeError(
+      `foodRecommendation: no weekday name for index ${dayOfWeek}`,
+    );
+  }
 
   return {
     season: getCurrentSeason(),
@@ -606,5 +611,5 @@ export function getModalityElementAffinity(
     mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 },
   };
 
-  return modalityAffinities[modality.toLowerCase()][element] || 0.5;
+  return modalityAffinities[modality.toLowerCase()]?.[element] || 0.5;
 }

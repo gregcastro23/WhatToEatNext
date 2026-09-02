@@ -23,6 +23,12 @@ import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
+/** The local part of an email — everything before the first "@". */
+function localPart(email: string): string {
+  const at = email.indexOf("@");
+  return at === -1 ? email : email.slice(0, at);
+}
+
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
@@ -147,7 +153,7 @@ export async function POST(request: NextRequest) {
       targets = rows
         .filter((r) => r.email.endsWith(AGENTIC_EMAIL_DOMAIN))
         .map((r) => ({
-          agentId: r.email.split("@")[0],
+          agentId: localPart(r.email),
           email: r.email,
           displayName: r.name,
         }));
@@ -182,7 +188,7 @@ export async function POST(request: NextRequest) {
     const userWithName = user as { profile?: { name?: string | null }; name?: string | null };
     const displayName =
       userWithName.profile?.name ?? userWithName.name ?? null;
-    targets = [{ agentId: email.split("@")[0], email, displayName }];
+    targets = [{ agentId: localPart(email), email, displayName }];
   } else if (body.agentId) {
     const agentId = body.agentId.trim();
     const email = `${agentId}${AGENTIC_EMAIL_DOMAIN}`;

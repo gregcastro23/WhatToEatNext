@@ -790,7 +790,7 @@ export class RecipeDataEnricher {
       )) {
         for (const item of seasonalItems) {
           if (name.includes(item) || item.includes(name)) {
-            seasonScores[season]++;
+            seasonScores[season] = (seasonScores[season] ?? 0) + 1;
             break;
           }
         }
@@ -1002,6 +1002,12 @@ export class RecipeDataEnricher {
           nutrition = est;
           break;
         }
+      }
+
+      if (!nutrition) {
+        throw new Error(
+          "RecipeDataEnricher: NUTRITION_ESTIMATES is missing its `default` entry",
+        );
       }
 
       // Apply amount scaling (simple heuristic)

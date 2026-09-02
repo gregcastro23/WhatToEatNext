@@ -244,7 +244,9 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
           const [rewardQuest] = data.completedQuests;
-          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+          if (rewardQuest) {
+            questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+          }
         }
         showSuccess(`Successfully shared to community feed!${questMessage}`);
         setHasShared(true);
@@ -284,8 +286,9 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
   // Auto-sync preferred cuisine from the Recipe Builder if the user has
   // exactly one selected — the single most common case we want to support.
   useEffect(() => {
-    if (builder.selectedCuisines.length === 1 && !preferredCuisine) {
-      setPreferredCuisine(builder.selectedCuisines[0]);
+    const [onlyCuisine] = builder.selectedCuisines;
+    if (builder.selectedCuisines.length === 1 && onlyCuisine && !preferredCuisine) {
+      setPreferredCuisine(onlyCuisine);
     }
   }, [builder.selectedCuisines, preferredCuisine]);
 
@@ -298,8 +301,9 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
     if (builder.allergies.length > 0) {
       setDisallowedIngredients(builder.allergies.join(", "));
     }
-    if (builder.selectedCuisines.length > 0) {
-      setPreferredCuisine(builder.selectedCuisines[0]);
+    const [firstCuisine] = builder.selectedCuisines;
+    if (firstCuisine) {
+      setPreferredCuisine(firstCuisine);
     }
     setShowAdvanced(true);
   };

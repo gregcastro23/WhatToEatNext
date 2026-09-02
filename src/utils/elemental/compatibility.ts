@@ -137,6 +137,11 @@ export function autoConvertToRaw(
       referenceIntensity ??
       (category ? CATEGORY_REFERENCE_INTENSITIES[category.toLowerCase()] : undefined) ??
       CATEGORY_REFERENCE_INTENSITIES.default;
+    if (refIntensity === undefined) {
+      throw new Error(
+        "elemental/compatibility: CATEGORY_REFERENCE_INTENSITIES is missing its `default` entry",
+      );
+    }
     return {
       Fire: properties.Fire * refIntensity,
       Water: properties.Water * refIntensity,

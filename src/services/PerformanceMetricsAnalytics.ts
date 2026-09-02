@@ -56,16 +56,21 @@ function summarizeArray(values: number[]): MetricStats {
   }
   const sorted = [...values].sort((a, b) => a - b);
   const sum = sorted.reduce((a, b) => a + b, 0);
+  const [first] = sorted;
+  const last = sorted[sorted.length - 1];
+  if (first === undefined || last === undefined) {
+    return { count: 0, mean: 0, median: 0, min: 0, max: 0, p95: 0 };
+  }
   const pick = (q: number) => {
-    const idx = Math.min(sorted.length - 1, Math.floor(q * sorted.length));
-    return sorted[idx];
+    const idx = Math.min(sorted.length - 1, Math.max(0, Math.floor(q * sorted.length)));
+    return sorted[idx] ?? first;
   };
   return {
     count: sorted.length,
     mean: sum / sorted.length,
     median: pick(0.5),
-    min: sorted[0],
-    max: sorted[sorted.length - 1],
+    min: first,
+    max: last,
     p95: pick(0.95),
   };
 }
@@ -85,7 +90,7 @@ function buildInsights(
   );
   if (durationKey) {
     const value = metrics[durationKey];
-    if (value > 30_000) {
+    if (value !== undefined && value > 30_000) {
       insights.push(
         `${durationKey} is ${(value / 1000).toFixed(1)}s — consider profiling`,
       );
@@ -94,16 +99,22 @@ function buildInsights(
 
   // Memory pressure heuristic
   const memKey = Object.keys(metrics).find((k) => /memory/i.test(k));
-  if (memKey && metrics[memKey] > 500_000_000) {
-    insights.push(
-      `${memKey} is ${(metrics[memKey] / 1_000_000).toFixed(0)}MB — watch for leaks`,
-    );
+  if (memKey) {
+    const memVal = metrics[memKey];
+    if (memVal !== undefined && memVal > 500_000_000) {
+      insights.push(
+        `${memKey} is ${(memVal / 1_000_000).toFixed(0)}MB — watch for leaks`,
+      );
+    }
   }
 
   // Error/warning counts
   const errorKey = Object.keys(metrics).find((k) => /error/i.test(k));
-  if (errorKey && metrics[errorKey] > 0) {
-    insights.push(`${metrics[errorKey]} error signal(s) in ${errorKey}`);
+  if (errorKey) {
+    const errVal = metrics[errorKey];
+    if (errVal !== undefined && errVal > 0) {
+      insights.push(`${errVal} error signal(s) in ${errorKey}`);
+    }
   }
 
   // Variance warning when measurements span a wide range

@@ -1,4 +1,4 @@
-import type { ElementalProperties } from "@/types/alchemy";
+import type { Element, ElementalProperties } from "@/types/alchemy";
 
 export interface UnifiedFlavorProfile {
   id: string;
@@ -88,7 +88,7 @@ export function getFlavorProfileById(
 }
 
 export function getFlavorProfilesByElement(
-  element: keyof ElementalProperties,
+  element: Element,
 ): UnifiedFlavorProfile[] {
   return unifiedFlavorProfiles
     .filter((profile) => profile.elementalProperties[element] > 0.6)

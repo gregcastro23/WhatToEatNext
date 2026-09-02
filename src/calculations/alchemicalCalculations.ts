@@ -1,5 +1,9 @@
 import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
-import type { ElementalProperties } from "@/types/alchemy";
+import type {
+  AlchemicalProperty,
+  Element,
+  ElementalProperties,
+} from "@/types/alchemy";
 import { createLogger } from "@/utils/logger";
 
 // Type imports
@@ -76,9 +80,15 @@ export function calculateBalance(properties: Record<string, number>): number {
 }
 /**
  * Get recommended adjustments to balance elemental properties
+ *
+ * Keyed by the four elements, not by an open string record: the body reads
+ * exactly Fire/Water/Earth/Air, so `Record<Element, number>` states what the
+ * function actually requires and makes each lookup total. A caller holding a
+ * `Record<string, number>` still type-checks (a string index signature
+ * satisfies the four required keys), so this narrows nothing at a call site.
  */
 export function getRecommendedAdjustments(
-  properties: Record<string, number>,
+  properties: Record<Element, number>,
 ): string[] {
   try {
     const adjustments: string[] = [];
@@ -146,14 +156,19 @@ export function calculateAlchemicalTransformation(
   try {
     // Convert elemental properties to counts
     const ep = elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-    const elementalCounts: Record<string, number> = {
+    // Both records are keyed by a closed union, not by `string`: every read
+    // below is one of the four literal keys written here, so the lookups are
+    // total. `Record<Element, number>` / `Record<AlchemicalProperty, number>`
+    // remain assignable to the `Record<string, number>` fields of
+    // AlchemicalResults, so the returned shape is unchanged.
+    const elementalCounts: Record<Element, number> = {
       Fire: ep.Fire || 0,
       Water: ep.Water || 0,
       Earth: ep.Earth || 0,
       Air: ep.Air || 0,
     };
     // Calculate alchemical properties (simplified)
-    const alchemicalCounts: Record<string, number> = {
+    const alchemicalCounts: Record<AlchemicalProperty, number> = {
       Spirit: Math.max(
         ep.Fire || 0,
         ep.Air || 0,
@@ -311,13 +326,20 @@ export function getElementalCompatibility(
 }
 /**
  * Get alchemical property compatibility
+ *
+ * `property1` is one of the four ESMS quantities — the matrix has a row for
+ * each and for nothing else, and any other string always threw here (indexing
+ * a missing row yields undefined, then `.includes` is a TypeError). Typing the
+ * row key as AlchemicalProperty makes the lookup total at compile time and
+ * leaves the runtime untouched. `property2` stays `string` because it is only
+ * a haystack test, never a lookup key.
  */
 export function getAlchemicalCompatibility(
-  property1: string,
+  property1: AlchemicalProperty,
   property2: string,
 ): number {
   // Simplified compatibility matrix
-  const compatiblePairs: Record<string, string[]> = {
+  const compatiblePairs: Record<AlchemicalProperty, string[]> = {
     Spirit: ["Essence"],
     Essence: ["Spirit", "Matter"],
     Matter: ["Essence", "Substance"],

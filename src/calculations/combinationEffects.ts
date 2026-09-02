@@ -183,9 +183,12 @@ const calculateElementalInteractions = (
 
 const getPairs = <T>(array: T[]): Array<[T, T]> => {
   const pairs: Array<[T, T]> = [];
-  for (let i = 0; i < array.length; i++) {
-    for (let j = i + 1; j < array.length; j++) {
-      pairs.push([array[i], array[j]]);
+  // Iterating with entries()/slice() yields `T` for both members instead of the
+  // `T | undefined` an index read carries, so no element has to be asserted.
+  // Emission order is unchanged: outer index ascending, inner index from i + 1.
+  for (const [i, first] of array.entries()) {
+    for (const second of array.slice(i + 1)) {
+      pairs.push([first, second]);
     }
   }
   return pairs;
@@ -215,8 +218,20 @@ const isAntagonisticCombination = (
   );
 };
 
-const getDominantElement = (elements: ElementalProperties): Element =>
-  Object.entries(elements).sort(([, a], [, b]) => b - a)[0][0] as Element;
+const getDominantElement = (elements: ElementalProperties): Element => {
+  // Ranking stays a stable descending sort so ties still resolve to whichever
+  // element appears first in the object's own key order, exactly as before.
+  const [dominant] = Object.entries(elements).sort(([, a], [, b]) => b - a);
+  if (!dominant) {
+    // Previously this threw a TypeError reading [0] of undefined. Keep it a
+    // throw — an elemental profile with no elements is a broken input, and
+    // defaulting to any element here would fabricate a dominance.
+    throw new Error(
+      "getDominantElement: elemental properties object has no elements",
+    );
+  }
+  return dominant[0] as Element;
+};
 
 export const _suggestComplementaryIngredients = (
   currentIngredients: string[],
@@ -261,7 +276,12 @@ const calculateCombinedElements = (
       Object.entries(elements).forEach(([element, value]) => {
         // Pattern KK-1: Safe arithmetic with type validation
         const numericValue = typeof value === "number" ? value : 0;
-        combined[element as keyof ElementalProperties] += numericValue;
+        const key = element as keyof ElementalProperties;
+        // ElementalProperties carries a string index signature, so the running
+        // total reads as `number | undefined`. Number() reproduces the previous
+        // `undefined + n` result (NaN) for a key outside the four elements
+        // instead of inventing a 0 starting point for it.
+        combined[key] = Number(combined[key]) + numericValue;
       });
     }
   });
@@ -269,8 +289,12 @@ const calculateCombinedElements = (
   // Normalize
   const total = Object.values(combined).reduce((a, b) => a + b, 0);
   if (total > 0) {
-    Object.keys(combined).forEach((key) => {
-      combined[key as keyof ElementalProperties] /= total;
+    // Object.entries hands back each own key together with its current value,
+    // so the divisor operand is a plain `number` rather than an unchecked index
+    // read. Same keys, same values: every key is written exactly once and only
+    // ever reads its own previous value.
+    Object.entries(combined).forEach(([key, value]) => {
+      combined[key as keyof ElementalProperties] = value / total;
     });
   }
 

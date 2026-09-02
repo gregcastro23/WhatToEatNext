@@ -5,11 +5,14 @@
  * and calculates planetary influences on culinary recommendations.
  */
 
-import type {
-  Element,
-  ElementalProperties,
-  PlanetaryPosition,
-} from "@/types/alchemy";
+import type { Element, PlanetaryPosition } from "@/types/alchemy";
+
+/**
+ * The four alchemical properties, as a closed key union — the keys of
+ * `PLANETARY_ALCHEMICAL_MAPPINGS`' entries and of the accumulator built from
+ * them in `calculatePlanetaryInfluences`.
+ */
+type AlchemicalInfluenceKey = "Spirit" | "Essence" | "Matter" | "Substance";
 
 /**
  * Planetary alchemical property mappings
@@ -235,11 +238,17 @@ export function calculatePlanetaryStrength(
 
 /**
  * Get planetary elemental influence
+ *
+ * Returns `Element` rather than `keyof ElementalProperties`: that interface
+ * carries a `[key: string]: number` index signature, so `keyof` it widens to
+ * `string | number` and the result cannot index an element-keyed record.
+ * `PLANETARY_ELEMENTAL_MAPPINGS` is `as const`, so the values really are the
+ * four elements — this narrows the declared type to what is already returned.
  */
 export function getPlanetaryElementalInfluence(
   planet: string,
   isDaytime = true,
-): keyof ElementalProperties {
+): Element {
   const planetKey = planet.toLowerCase();
   const timeKey = isDaytime ? "diurnal" : "nocturnal";
 
@@ -300,6 +309,17 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
   const dayRuler = dayRulers[dayOfWeek];
   const hourRuler = hourRulers[hour];
 
+  // `getDay()` is 0-6 and `getHours()` is 0-23 for every valid Date, so both
+  // lookups are in range and this never fires. They are absent only for an
+  // Invalid Date, where both indices are NaN — broken input, and a case the
+  // declared `string` return type never described. Name it rather than hand a
+  // caller an `undefined` masquerading as a planet name.
+  if (dayRuler === undefined || hourRuler === undefined) {
+    throw new Error(
+      `calculatePlanetaryHoursInfluence: invalid Date (day index ${dayOfWeek}, hour index ${hour})`,
+    );
+  }
+
   // Calculate combined influence
   let influence = 1.0;
   if (dayRuler === hourRuler) {
@@ -328,14 +348,19 @@ export function calculatePlanetaryInfluences(
   }>;
   planetaryHours?: { dayRuler: string; hourRuler: string; influence: number };
 } {
-  const alchemicalInfluences: { [key: string]: number } = {
+  // Both accumulators are keyed by a closed set, so declare them that way: a
+  // `{ [key: string]: number }` annotation would make every `+=` below an
+  // unchecked index access even though the four keys are initialised right
+  // here. Each is still assignable to the `{ [key: string]: number }` this
+  // function returns.
+  const alchemicalInfluences: Record<AlchemicalInfluenceKey, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
     Substance: 0,
   };
 
-  const elementalInfluences: { [key: string]: number } = {
+  const elementalInfluences: Record<Element, number> = {
     Fire: 0,
     Water: 0,
     Air: 0,
@@ -374,7 +399,7 @@ export function calculatePlanetaryInfluences(
       dominantPlanets.push({
         planet,
         strength,
-        element: _element as Element,
+        element: _element,
       });
     }
   });

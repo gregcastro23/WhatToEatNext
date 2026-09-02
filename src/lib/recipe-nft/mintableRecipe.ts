@@ -75,8 +75,7 @@ function mintStructureError(recipe: MintableRecipe): string | null {
     return "ingredients: a mintable recipe must list at least one ingredient";
   }
 
-  for (let i = 0; i < recipe.ingredients.length; i++) {
-    const ing = recipe.ingredients[i];
+  for (const [i, ing] of recipe.ingredients.entries()) {
     const rejection = rejectMintQuantity(ing.quantity);
     if (!rejection) continue;
 

@@ -2795,8 +2795,9 @@ class FoodDiaryService {
           `SELECT * FROM food_diary_entries WHERE id = $1`,
           [entryId],
         );
-        if (result.rows.length > 0) {
-          return this.rowToFoodDiaryEntry(result.rows[0]);
+        const [row] = result.rows;
+        if (row) {
+          return this.rowToFoodDiaryEntry(row);
         }
       } catch (error) {
         _logger.warn("PostgreSQL query failed, using in-memory:", error);
@@ -3253,11 +3254,12 @@ class FoodDiaryService {
         [id],
       );
 
-      if (result.rows.length === 0) {
+      const [row] = result.rows;
+      if (!row) {
         return undefined;
       }
 
-      return this.mapIngredientRowToQuickFoodPreset(result.rows[0]);
+      return this.mapIngredientRowToQuickFoodPreset(row);
     } catch (error) {
       _logger.warn("Database quick food preset lookup failed", error);
       return undefined;
@@ -3365,22 +3367,21 @@ class FoodDiaryService {
 
     // Add to favorites list
     const userFavorites = this.favorites.get(userId) ?? [];
-    const existingIdx = userFavorites.findIndex(
-      (f) => f.foodName === entry.foodName,
-    );
+    const existing = userFavorites.find((f) => f.foodName === entry.foodName);
 
-    if (existingIdx >= 0) {
+    let favorite: UserFoodFavorite;
+    if (existing) {
       // Update existing
-      userFavorites[existingIdx].timesEaten++;
-      userFavorites[existingIdx].lastEaten = entry.date;
+      existing.timesEaten++;
+      existing.lastEaten = entry.date;
       if (entry.rating) {
-        const current =
-          userFavorites[existingIdx].averageRating ?? entry.rating;
-        userFavorites[existingIdx].averageRating = (current + entry.rating) / 2;
+        const current = existing.averageRating ?? entry.rating;
+        existing.averageRating = (current + entry.rating) / 2;
       }
+      favorite = existing;
     } else {
       // Add new favorite
-      const favorite: UserFoodFavorite = {
+      favorite = {
         id: `fav_${Date.now()}`,
         userId,
         foodName: entry.foodName,
@@ -3399,9 +3400,7 @@ class FoodDiaryService {
 
     this.favorites.set(userId, userFavorites);
     this.saveToStorage();
-    return userFavorites[
-      existingIdx >= 0 ? existingIdx : userFavorites.length - 1
-    ];
+    return favorite;
   }
 
   /**
@@ -3426,9 +3425,10 @@ class FoodDiaryService {
     const idx = userFavorites.findIndex(
       (f) => f.id === favoriteIdOrName || f.foodName === favoriteIdOrName,
     );
-    if (idx < 0) return false;
+    const removed = idx >= 0 ? userFavorites[idx] : undefined;
+    if (!removed) return false;
 
-    const [removed] = userFavorites.splice(idx, 1);
+    userFavorites.splice(idx, 1);
     this.favorites.set(userId, userFavorites);
 
     // Clear isFavorite flag on matching entries (in-memory)
@@ -3586,8 +3586,8 @@ class FoodDiaryService {
     }
 
     // High-rated foods pattern
-    if (patterns.topRatedFoods.length > 0) {
-      const [topRated] = patterns.topRatedFoods;
+    const [topRated] = patterns.topRatedFoods;
+    if (topRated) {
       insights.push({
         id: `insight_favorite_${Date.now()}`,
         type: "rating_pattern",
@@ -3938,10 +3938,9 @@ class FoodDiaryService {
 
       // Aggregate elemental properties
       if (entry.elementalProperties) {
-        for (const [element, value] of Object.entries(
-          entry.elementalProperties,
-        )) {
-          summary.elementalBalance[element] += value / entries.length;
+        const source = entry.elementalProperties;
+        for (const element of ["Fire", "Water", "Earth", "Air"] as const) {
+          summary.elementalBalance[element] += source[element] / entries.length;
         }
       }
     }
@@ -4048,12 +4047,14 @@ class FoodDiaryService {
     const foodCounts: Record<string, { count: number; ratings: number[] }> = {};
 
     for (const entry of entries) {
-      if (!foodCounts[entry.foodName]) {
-        foodCounts[entry.foodName] = { count: 0, ratings: [] };
+      let bucket = foodCounts[entry.foodName];
+      if (!bucket) {
+        bucket = { count: 0, ratings: [] };
+        foodCounts[entry.foodName] = bucket;
       }
-      foodCounts[entry.foodName].count++;
+      bucket.count++;
       if (entry.rating) {
-        foodCounts[entry.foodName].ratings.push(entry.rating);
+        bucket.ratings.push(entry.rating);
       }
     }
 
@@ -4211,9 +4212,15 @@ class FoodDiaryService {
   ): Record<string, FoodDiaryEntry[]> {
     const grouped: Record<string, FoodDiaryEntry[]> = {};
     for (const entry of entries) {
-      const [day] = new Date(entry.date).toISOString().split("T");
-      if (!grouped[day]) grouped[day] = [];
-      grouped[day].push(entry);
+      const iso = new Date(entry.date).toISOString();
+      const tIndex = iso.indexOf("T");
+      const day = tIndex === -1 ? iso : iso.slice(0, tIndex);
+      let bucket = grouped[day];
+      if (!bucket) {
+        bucket = [];
+        grouped[day] = bucket;
+      }
+      bucket.push(entry);
     }
     return grouped;
   }
@@ -4260,8 +4267,11 @@ class FoodDiaryService {
     let currentStreak = 1;
 
     for (let i = 1; i < sortedDays.length; i++) {
-      const prev = new Date(sortedDays[i - 1]);
-      const curr = new Date(sortedDays[i]);
+      const prevDay = sortedDays[i - 1];
+      const currDay = sortedDays[i];
+      if (prevDay === undefined || currDay === undefined) continue;
+      const prev = new Date(prevDay);
+      const curr = new Date(currDay);
       const diffDays =
         (curr.getTime() - prev.getTime()) / (1000 * 60 * 60 * 24);
 
@@ -4306,8 +4316,8 @@ class FoodDiaryService {
     };
 
     for (const entry of entries) {
-      const [hours, minutes] = entry.time.split(":").map(Number);
-      const totalMinutes = hours * 60 + minutes;
+      const [hoursRaw, minutesRaw] = entry.time.split(":");
+      const totalMinutes = Number(hoursRaw) * 60 + Number(minutesRaw);
       mealTimes[entry.mealType].push(totalMinutes);
     }
 

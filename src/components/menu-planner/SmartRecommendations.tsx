@@ -378,9 +378,10 @@ function scoreRecipe(
   }
 
   // Fallback to any empty slot
-  if (!suggestedDay && emptySlots.length > 0) {
-    suggestedDay = emptySlots[0].day;
-    suggestedMealType = emptySlots[0].mealType;
+  const [firstEmptySlot] = emptySlots;
+  if (!suggestedDay && firstEmptySlot) {
+    suggestedDay = firstEmptySlot.day;
+    suggestedMealType = firstEmptySlot.mealType;
   }
 
   return {

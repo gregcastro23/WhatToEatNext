@@ -85,12 +85,12 @@ function SuggestionCarousel({
 
   // Touch event handlers for swipe navigation
   const onTouchStart = (e: ReactTouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
+    touchStartX.current = e.targetTouches[0]?.clientX ?? null;
     touchEndX.current = null;
   };
 
   const onTouchMove = (e: ReactTouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
+    touchEndX.current = e.targetTouches[0]?.clientX ?? null;
   };
 
   const onTouchEnd = () => {

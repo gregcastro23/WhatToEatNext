@@ -715,6 +715,9 @@ export class SwissEphemerisService {
     date: Date = new Date(),
   ): Promise<Record<string, CelestialPosition>> {
     const [cacheKey] = date.toISOString().split("T");
+    if (!cacheKey) {
+      throw new Error(`Invalid date string for cache key: ${date.toISOString()}`);
+    }
 
     if (this.cache.has(cacheKey)) {
       logger.debug("Using cached Swiss Ephemeris data");
@@ -799,7 +802,10 @@ export class SwissEphemerisService {
           // Aggregate dominant elements
           Object.entries(transit.dominantElements).forEach(
             ([element, value]) => {
-              dominantElements[element] += value;
+              const cur = dominantElements[element];
+              if (cur !== undefined) {
+                dominantElements[element] = cur + value;
+              }
             },
           );
 
@@ -815,9 +821,12 @@ export class SwissEphemerisService {
       0,
     );
     if (total > 0) {
-      Object.keys(dominantElements).forEach((element) => {
-        dominantElements[element] /= total;
-      });
+      for (const element of Object.keys(dominantElements)) {
+        const cur = dominantElements[element];
+        if (cur !== undefined) {
+          dominantElements[element] = cur / total;
+        }
+      }
     }
 
     return {
@@ -906,6 +915,9 @@ export class SwissEphemerisService {
 
     // Find closest day if exact day not found
     let [closestEntry] = yearData;
+    if (!closestEntry) {
+      return null;
+    }
     let minDiff = Math.abs(targetDay - closestEntry.day);
 
     for (const entry of yearData) {
@@ -923,7 +935,10 @@ export class SwissEphemerisService {
    * Approximate positions for dates outside the available ephemeris range
    */
   private approximateForDate(date: Date): SwissEphemerisData | null {
-    const [baseEntry] = this.ephemerisData["2025"]; // Use 2025 as base
+    const data2025 = this.ephemerisData["2025"];
+    if (!data2025 || data2025.length === 0) return null;
+    const [baseEntry] = data2025;
+    if (!baseEntry) return null;
     const baseDate = baseEntry.date;
 
     const daysDiff =
@@ -983,8 +998,13 @@ export class SwissEphemerisService {
     const signIndex = Math.floor(normalizedLongitude / 30);
     const degree = normalizedLongitude % 30;
 
+    const sign = ZODIAC_SIGNS[signIndex];
+    if (!sign) {
+      throw new Error(`Invalid signIndex calculated: ${signIndex}`);
+    }
+
     return {
-      sign: ZODIAC_SIGNS[signIndex],
+      sign,
       degree,
     };
   }
@@ -1014,9 +1034,14 @@ export class SwissEphemerisService {
     const sortedData = allData.sort(
       (a, b) => a.date.getTime() - b.date.getTime(),
     );
+    const [first] = sortedData;
+    const last = sortedData[sortedData.length - 1];
+    if (!first || !last) {
+      throw new Error("No Swiss Ephemeris data available to compute data range");
+    }
     return {
-      start: sortedData[0].date,
-      end: sortedData[sortedData.length - 1].date,
+      start: first.date,
+      end: last.date,
     };
   }
 

@@ -94,7 +94,7 @@ export function getTimeFactors(): TimeFactors {
     "Friday",
     "Saturday",
   ];
-  const weekDay = weekDays[dayOfWeek];
+  const weekDay = weekDays[dayOfWeek] ?? "Sunday";
 
   // Determine planetary day
   const planetaryDay: PlanetaryDay = {
@@ -117,8 +117,8 @@ export function getTimeFactors(): TimeFactors {
   const planetaryHourOfDay = isDay ? hour - 6 : hour < 6 ? hour + 18 : hour - 6;
 
   // Get the ruling planet for the current hour
-  const planetIndex = (startingPlanetIndex + planetaryHourOfDay) % 7;
-  const hourPlanet = PLANETARY_HOUR_SEQUENCE[planetIndex];
+  const planetIndex = ((startingPlanetIndex + planetaryHourOfDay) % 7 + 7) % 7;
+  const hourPlanet = PLANETARY_HOUR_SEQUENCE[planetIndex] ?? "Sun";
 
   const planetaryHour: PlanetaryHour = {
     planet: hourPlanet,

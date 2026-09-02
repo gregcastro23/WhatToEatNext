@@ -46,16 +46,17 @@ function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element
     const el = SIGN_TO_ELEMENT[sign];
     if (el) counts[el]++;
   });
-  return (Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Element);
+  return ((Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire") as Element);
 }
 
 function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
   const counts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
   Object.values(positions).forEach((sign) => {
     const m = SIGN_TO_MODALITY[sign];
-    if (m) counts[m]++;
+    const modCount = m ? counts[m] : undefined;
+    if (m && modCount !== undefined) counts[m] = modCount + 1;
   });
-  return (Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality);
+  return ((Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Cardinal") as Modality);
 }
 
 function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {

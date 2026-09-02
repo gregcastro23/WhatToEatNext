@@ -57,9 +57,9 @@ function parseMinutesFromString(s: string | undefined): number {
   if (!s) return 0;
   let total = 0;
   const hourMatch = s.match(/(\d+)\s*(?:hour|hr|h\b)/i);
-  if (hourMatch) total += parseInt(hourMatch[1], 10) * 60;
+  if (hourMatch) total += parseInt(hourMatch[1] ?? "", 10) * 60;
   const minMatch = s.match(/(\d+)\s*(?:minute|min|m\b)/i);
-  if (minMatch) total += parseInt(minMatch[1], 10);
+  if (minMatch) total += parseInt(minMatch[1] ?? "", 10);
   if (total === 0) {
     const bare = s.match(/\d+/);
     if (bare) total = parseInt(bare[0], 10);

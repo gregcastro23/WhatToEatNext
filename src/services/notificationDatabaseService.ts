@@ -124,8 +124,8 @@ class NotificationDatabaseService {
             opts?.expiresAt ?? null,
           ],
         );
-        if (result.rows.length > 0) {
-          const [row] = result.rows;
+        const [row] = result.rows;
+        if (row) {
           return rowToNotification(row);
         }
       } catch (error) {
@@ -372,8 +372,8 @@ class NotificationDatabaseService {
           [userId, type, conversationId],
         );
 
-        if (found.rows.length > 0) {
-          const [row] = found.rows;
+        const [row] = found.rows;
+        if (row) {
           const prev = parseNotificationMetadata(row.metadata);
           const nextCount = (typeof prev.unreadCount === "number" ? prev.unreadCount : 1) + 1;
           const nextMeta = {
@@ -390,7 +390,8 @@ class NotificationDatabaseService {
               RETURNING *`,
             [row.id, opts.message, JSON.stringify(nextMeta)],
           );
-          return updated.rows[0] ?? null;
+          const [updatedRow] = updated.rows;
+          return updatedRow ?? null;
         }
 
         const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;

@@ -94,7 +94,7 @@ function stripStepPrefix(text: string): string {
 /** Parse a leading integer ("80", "80 minutes") into a minute count. */
 function toMinutes(value: unknown): number {
   const match = String(value ?? "").match(/(\d+)/);
-  return match ? parseInt(match[1], 10) : 0;
+  return match ? parseInt(match[1] ?? "", 10) : 0;
 }
 
 /** Format a minute count as an ISO-8601 duration ("PT1H20M"). */

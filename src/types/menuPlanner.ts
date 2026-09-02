@@ -387,7 +387,7 @@ export function getDayName(day: DayOfWeek): string {
     "Friday",
     "Saturday",
   ];
-  return days[day];
+  return days[day] ?? "Sunday";
 }
 
 /**
@@ -395,7 +395,7 @@ export function getDayName(day: DayOfWeek): string {
  */
 export function getShortDayName(day: DayOfWeek): string {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  return days[day];
+  return days[day] ?? "Sun";
 }
 
 /**

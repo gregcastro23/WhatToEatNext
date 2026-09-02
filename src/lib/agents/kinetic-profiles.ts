@@ -545,8 +545,8 @@ export function calculateKineticState(
   // Determine evolution level
   let evolutionLevel: 'bronze' | 'silver' | 'gold' | 'platinum' | 'transcendent' = 'bronze'
   let thresholdIndex = 0
-  for (let i = 0; i < profile.powerThresholds.length; i++) {
-    if (currentPower >= profile.powerThresholds[i]) {
+  for (const [i, threshold] of profile.powerThresholds.entries()) {
+    if (currentPower >= threshold) {
       evolutionLevel = ['bronze', 'silver', 'gold', 'platinum'][i] as any
       thresholdIndex = i
     }

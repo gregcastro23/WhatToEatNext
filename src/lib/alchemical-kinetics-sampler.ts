@@ -142,6 +142,11 @@ export function attachForceToSamples(samples: HourlyAlchemicalSample[]): void {
   // Compute momentum (requires velocity and inertia)
   const momentumInput = velocityResults.map((vRec, i) => {
     const s = samples[i]
+    if (!s) {
+      throw new Error(
+        `kinetics-sampler: no sample at index ${i} for ${velocityResults.length} velocity results`
+      )
+    }
     const inertia = computeInertia({
       matter: s.matter,
       earth: s.earth,
@@ -154,12 +159,19 @@ export function attachForceToSamples(samples: HourlyAlchemicalSample[]): void {
 
   // Compute force
   const forceResults = computeForce(
-    momentumResults.map((p, i) => ({
-      t: p.t,
-      p: p.p,
-      inertia: momentumInput[i].inertia,
-      planetaryHour: samples[i].planetaryHour,
-    })),
+    momentumResults.map((p, i) => {
+      const mInput = momentumInput[i]
+      const sample = samples[i]
+      if (!mInput || !sample) {
+        throw new Error(`kinetics-sampler: momentum/sample misalignment at index ${i}`)
+      }
+      return {
+        t: p.t,
+        p: p.p,
+        inertia: mInput.inertia,
+        planetaryHour: sample.planetaryHour,
+      }
+    }),
     velocityResults.map((v, i) => ({
       t: v.t,
       v: v.v,
@@ -377,11 +389,12 @@ export function sampleCurrentMoment(
     startHour: now.getHours(),
   })
 
-  if (samples.length === 0) {
+  const [first] = samples
+  if (!first) {
     throw new Error('Failed to generate current moment sample')
   }
 
-  return samples[0]
+  return first
 }
 
 /**

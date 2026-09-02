@@ -421,6 +421,19 @@ export class CuisineEnhancer {
   }
 }
 // Cuisine compatibility and analysis utilities
+/**
+ * The fixed set of elemental-dominance buckets reported by
+ * CuisineAnalyzer.analyzeCuisineCollection. Declaring the key union keeps the
+ * counter record total, so incrementing a bucket is a checked property access
+ * rather than an unchecked index lookup.
+ */
+type ElementalDominanceBucket =
+  | 'Fire-dominant'
+  | 'Water-dominant'
+  | 'Earth-dominant'
+  | 'Air-dominant'
+  | 'balanced';
+
 export class CuisineAnalyzer {
   /**
    * Calculate compatibility between two cuisines based on Kalchm values
@@ -455,7 +468,7 @@ export class CuisineAnalyzer {
    */
   static getCuisinesByElementalDominance(
     cuisines: EnhancedCuisine[],
-    element: keyof ElementalProperties,
+    element: Element,
     threshold = 0.4,
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
@@ -485,13 +498,15 @@ export class CuisineAnalyzer {
       0,
     );
     // Elemental distribution
-    const elementalDistribution: { [key: string]: number } = {
+    const elementalDistribution: Record<ElementalDominanceBucket, number> = {
       'Fire-dominant': 0,
       'Water-dominant': 0,
       'Earth-dominant': 0,
       'Air-dominant': 0,
       balanced: 0,
     };
+    const isElementalDominanceBucket = (key: string): key is ElementalDominanceBucket =>
+      key in elementalDistribution;
     // Alchemical classifications
     const alchemicalClassifications: { [key: string]: number } = {};
     // Ingredient analysis across cuisines
@@ -503,17 +518,16 @@ export class CuisineAnalyzer {
         | ElementalProperties
         | undefined;
       if (elementalBalance) {
+        // Object.entries pairs are [key, elementalBalance[key]], so comparing
+        // the pair values is identical to re-reading the object by key.
         const [dominant] = Object.entries(elementalBalance).reduce((a, b) =>
-          elementalBalance[a[0] as keyof ElementalProperties] >
-          elementalBalance[b[0] as keyof ElementalProperties]
-            ? a
-            : b,
+          a[1] > b[1] ? a : b,
         );
         const dominantKey = `${dominant.toLowerCase()  }-dominant`;
-        if (dominantKey in elementalDistribution) {
+        if (isElementalDominanceBucket(dominantKey)) {
           elementalDistribution[dominantKey]++;
         } else {
-          elementalDistribution['balanced']++;
+          elementalDistribution.balanced++;
         }
       }
       // Count classifications

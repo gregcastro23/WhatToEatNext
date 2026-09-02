@@ -114,9 +114,7 @@ export function usePerformanceMonitoring(
       try {
         const lcpObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1] as
-            | PerformanceEntry
-            | undefined;
+          const lastEntry = entries[entries.length - 1];
           if (lastEntry) {
             setMetrics((prev) => ({
               ...prev,

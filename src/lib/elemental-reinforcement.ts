@@ -365,7 +365,11 @@ function getElementalEffect(element: string, strength: number): string {
 
   const elementEffects = effects[element as keyof typeof effects] || effects.Fire
   const index = Math.min(Math.floor(strength * 5), 4)
-  return elementEffects[index]
+  const effect = elementEffects[index]
+  if (effect === undefined) {
+    throw new Error(`elemental-reinforcement: no effect at index ${index} for ${element}`)
+  }
+  return effect
 }
 
 function identifyResonancePatterns(
@@ -400,6 +404,7 @@ function identifyResonancePatterns(
   const strongElements = Object.entries(avgElements).filter(([, val]) => val > 0.4)
   if (strongElements.length === 2) {
     const [elem1, elem2] = strongElements.map(([name]) => name)
+    if (elem1 === undefined || elem2 === undefined) return patterns
     const compatibility = getElementalCompatibility(elem1, elem2)
     patterns.push({
       pattern: `${elem1}-${elem2} Synthesis`,

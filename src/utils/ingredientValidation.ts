@@ -387,6 +387,7 @@ function validateCompatibilityScores(): {
       for (let j = i + 1; j < Math.min(i + 5, sampleIngredients.length); j++) {
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
+        if (!ingredient1 || !ingredient2) continue;
 
         const rawProps1 = (ingredient1 as Partial<Ingredient>).elementalProperties;
         const rawProps2 = (ingredient2 as Partial<Ingredient>).elementalProperties;

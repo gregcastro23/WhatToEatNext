@@ -181,10 +181,14 @@ export async function calculateLunarPhase(
   try {
     // Get accurate positions
     const positions = getAccuratePlanetaryPositions(date);
+    const sunPos = positions.Sun;
+    const moonPos = positions.Moon;
     // Validate essential planetary positions are available
     if (
-      typeof positions.Sun.exactLongitude !== "number" ||
-      typeof positions.Moon.exactLongitude !== "number"
+      !sunPos ||
+      !moonPos ||
+      typeof sunPos.exactLongitude !== "number" ||
+      typeof moonPos.exactLongitude !== "number"
     ) {
       throw new Error(
         "Sun or Moon position missing required exactLongitude data",
@@ -192,7 +196,7 @@ export async function calculateLunarPhase(
     }
     // Calculate the angular distance between sun and moon
     let angularDistance =
-      positions.Moon.exactLongitude - positions.Sun.exactLongitude;
+      moonPos.exactLongitude - sunPos.exactLongitude;
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
     // Convert to phase percentage (0 to 1)
@@ -337,8 +341,12 @@ export async function calculateMoonSign(
   try {
     // Try to get accurate positions first
     const positions = getAccuratePlanetaryPositions(date);
+    const moonPos = positions.Moon;
+    if (!moonPos) {
+      throw new Error("Moon position missing in getAccuratePlanetaryPositions");
+    }
     // Return Moon position sign (guaranteed by getAccuratePlanetaryPositions)
-    return positions.Moon.sign;
+    return moonPos.sign;
   } catch (error) {
     errorLog("Error in calculateMoonSign: ", error);
     // Fallback to simplified calculation
@@ -869,10 +877,12 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetPositions).forEach(([planet, position]) => {
     if (position.sign) {
       const sign = position.sign.toLowerCase();
-      if (!((planetsBySign as Record<string, string[] | undefined>)[sign])) {
-        planetsBySign[sign] = [];
+      let list = planetsBySign[sign];
+      if (!list) {
+        list = [];
+        planetsBySign[sign] = list;
       }
-      planetsBySign[sign].push(planet);
+      list.push(planet);
     }
   });
   // Find stelliums (3+ planets in same sign)
@@ -883,7 +893,9 @@ export function calculateEnhancedStelliumEffects(
         sign,
       ).toLowerCase() as keyof LowercaseElementalProperties;
       // 1. Add bonus of +n of the sign element (n = number of planets)
-      result[element] += planets.length;
+      if (typeof result[element] === "number") {
+        result[element] += planets.length;
+      }
       // Count planets whose element matches the sign element
       let matchingElementCount = 0;
       // Count planets by type for weighted stellium effects
@@ -899,10 +911,12 @@ export function calculateEnhancedStelliumEffects(
           case "moon":
             planetElement = "water";
             break;
-          case "mercury":
+          case "mercury": {
+            const pos = planetPositions[planet];
             planetElement =
-              planetPositions[planet].degree < 15 ? "air" : "Earth"; // First half: Air, Second half: Earth
+              pos && pos.degree < 15 ? "air" : "Earth"; // First half: Air, Second half: Earth
             break;
+          }
           case "venus":
             planetElement = "water";
             break;
@@ -938,7 +952,7 @@ export function calculateEnhancedStelliumEffects(
         }
       });
       // 2. For planets with matching elements, add (1 + m) per planet where m is other planets with matching elements
-      if (matchingElementCount > 0) {
+      if (matchingElementCount > 0 && typeof result[element] === "number") {
         // Using the formula from the original, algorithm: for each matching planet, add 1 + (number of other matching planets)
         result[element] +=
           matchingElementCount * (1 + (matchingElementCount - 1));
@@ -956,15 +970,19 @@ export function calculateEnhancedStelliumEffects(
       // Count non-matching elements
       Object.values(elementsByPlanet).forEach((planetElement) => {
         if (planetElement !== element) {
-          nonMatchingElements[
-            planetElement as keyof LowercaseElementalProperties
-          ]++;
+          const k = planetElement as keyof LowercaseElementalProperties;
+          if (typeof nonMatchingElements[k] === "number") {
+            nonMatchingElements[k]++;
+          }
         }
       });
       // Add bonuses for non-matching elements that appear multiple times
       Object.entries(nonMatchingElements).forEach(([elem, count]) => {
         if (count >= 1) {
-          result[elem as keyof LowercaseElementalProperties] += count;
+          const key = elem as keyof LowercaseElementalProperties;
+          if (typeof result[key] === "number") {
+            result[key] += count;
+          }
         }
       });
     }
@@ -980,10 +998,12 @@ export function calculateEnhancedStelliumEffects(
         position.degree,
       );
       const house = calculateHousePosition(risingDegree, absoluteDegree);
-      if (!((planetsByHouse as Record<number, string[] | undefined>)[house])) {
-        planetsByHouse[house] = [];
+      let houseList = planetsByHouse[house];
+      if (!houseList) {
+        houseList = [];
+        planetsByHouse[house] = houseList;
       }
-      planetsByHouse[house].push(planet);
+      houseList.push(planet);
     });
     // Process house stelliums
     Object.entries(planetsByHouse).forEach(([houseStr, planets]) => {
@@ -994,8 +1014,10 @@ export function calculateEnhancedStelliumEffects(
         // House stelliums are weighted by house type;
         const stelliumStrength = planets.length;
         // Add house stellium effect to the corresponding element
-        result[houseElement as keyof LowercaseElementalProperties] +=
-          stelliumStrength;
+        const elemKey = houseElement as keyof LowercaseElementalProperties;
+        if (typeof result[elemKey] === "number") {
+          result[elemKey] += stelliumStrength;
+        }
       }
     });
   }
@@ -1090,7 +1112,7 @@ export function calculateJoyEffects(
         // Planet in joy gets a significant boost to the house's element
         const element =
           houseData.element.toLowerCase() as keyof LowercaseElementalProperties;
-        if (element in result) {
+        if (element in result && typeof result[element] === "number") {
           // The joy effect is powerful
           result[element] += 2.0;
         }
@@ -1146,8 +1168,10 @@ export function calculateCompleteAstrologicalEffects(
     const dignity = getPlanetaryDignity(planet, position.sign);
     const element = getZodiacElement(position.sign).toLowerCase();
     // Apply dignity strength based on type
-    dignityEffects[element as keyof LowercaseElementalProperties] +=
-      dignity.strength;
+    const elementKey = element as keyof LowercaseElementalProperties;
+    if (typeof dignityEffects[elementKey] === "number") {
+      dignityEffects[elementKey] += dignity.strength;
+    }
   }
   // Calculate aspect effects
   const { aspects: _aspects, elementalEffects } = calculateAspects(
@@ -1221,7 +1245,7 @@ export function longitudeToZodiacPosition(longitude: number): {
       `Converted longitude ${longitude} to ${sign} at ${Math.floor(degree)}°`,
     );
     return {
-      sign,
+      sign: sign ?? "aries",
       degree,
     };
   } catch (error) {
@@ -1317,7 +1341,7 @@ export function getPlanetaryDignityInfo(
       "pisces",
     ];
     const rules = (rulerships as Record<string, string[] | undefined>)[planet] ?? [];
-    return rules.map((sign) => signs[oppositeSignIndexes[sign]]);
+    return rules.map((s) => signs[oppositeSignIndexes[s] ?? 0] ?? "aries");
   };
   // Dignity strength, magnitude-ordered to match the canonical +10/+7/-7/-10
   // scale (DIGNITY_ESMS_SCALE): Domicile pairs with Fall at the strongest
@@ -1415,10 +1439,11 @@ export function calculateAspects(
     for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
+      if (!planet1 || !planet2) continue;
       const pos1 = positions[planet1];
       const pos2 = positions[planet2];
       // Skip if missing position data
-      if (!pos1.sign || !pos2.sign) continue;
+      if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
       const long1 = getLongitude(pos1);
       const long2 = getLongitude(pos2);
       // Calculate angular difference
@@ -1476,10 +1501,14 @@ export function calculateAspects(
           // Apply elemental effects based on sign elements
           // The strength is proportional to the aspect strength and multiplier
           // Add effect to both planet elements to balance the system
-          elementalEffects[element1 as keyof LowercaseElementalProperties] +=
-            multiplier * strength;
-          elementalEffects[element2 as keyof LowercaseElementalProperties] +=
-            multiplier * strength;
+          const k1 = element1 as keyof LowercaseElementalProperties;
+          const k2 = element2 as keyof LowercaseElementalProperties;
+          if (typeof elementalEffects[k1] === "number") {
+            elementalEffects[k1] += multiplier * strength;
+          }
+          if (typeof elementalEffects[k2] === "number") {
+            elementalEffects[k2] += multiplier * strength;
+          }
           // Only count the closest aspect between two planets
           break;
         }
@@ -1706,7 +1735,7 @@ export function getZodiacSignType(longitude: number): ZodiacSignType {
   const adjustedLong = (longitude + 0.00001) % 360;
   // Each sign spans 30 degrees
   const signIndex = Math.min(11, Math.floor(adjustedLong / 30));
-  return signs[signIndex];
+  return signs[signIndex] ?? "aries";
 }
 // REMOVED: `PLANETARY_ORBS` and its sole consumer `_getAspectOrb`, both
 // callerless. This was a per-planet moiety table averaging to sub-2° orbs — an
@@ -1809,10 +1838,10 @@ export async function runAstroTests(): Promise<void> {
     const testDate = new Date(date);
     const positions = await calculatePlanetaryPositions(testDate);
     debugLog(`Test for ${date}: `);
-    debugLog("Sun Position: ", positions.Sun.sign, "Expected: ", expected.Sun);
+    debugLog("Sun Position: ", positions.Sun?.sign, "Expected: ", expected.Sun);
     debugLog(
       "Moon Position: ",
-      positions.Moon.sign,
+      positions.Moon?.sign,
       "Expected: ",
       expected.Moon,
     );
@@ -2466,9 +2495,10 @@ function calculateCurrentElementalInfluence(
     // Normalize to 0-1 range
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(influence).forEach((key) => {
-        influence[key as keyof ElementalProperties] /= total;
-      });
+      influence.Fire /= total;
+      influence.Water /= total;
+      influence.Earth /= total;
+      influence.Air /= total;
     }
     return influence;
   } catch (error) {

@@ -135,7 +135,7 @@ export function OrderIngredientsModal({
         source,
         cartType: "fresh",
         items: cartable.map((i) => ({
-          asin: asins[i.key],
+          asin: asins[i.key] ?? "",
           qty: Math.max(1, Math.ceil(i.quantity)),
           name: i.name,
           category: i.category,

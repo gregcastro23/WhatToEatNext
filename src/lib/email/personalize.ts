@@ -41,7 +41,8 @@ const MODALITIES: Modality[] = ["Cardinal", "Fixed", "Mutable"];
 export function firstNameOf(name?: string | null): string {
   const trimmed = (name ?? "").trim();
   if (!trimmed) return "there";
-  return trimmed.split(/\s+/)[0];
+  const [first] = trimmed.split(/\s+/);
+  return first ?? "there";
 }
 
 /** "leo" → "Leo". */

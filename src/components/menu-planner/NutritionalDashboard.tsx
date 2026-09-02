@@ -233,7 +233,7 @@ function RadarChart({
             cx={point.x}
             cy={point.y}
             r="4"
-            fill={data[i].color ?? "#8b5cf6"}
+            fill={data[i]?.color ?? "#8b5cf6"}
           />
         ))}
 

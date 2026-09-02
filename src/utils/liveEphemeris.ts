@@ -82,8 +82,12 @@ function longitudeToZodiac(longitude: number): {
   const norm = ((longitude % 360) + 360) % 360;
   const idx = Math.floor(norm / 30);
   const degInSign = norm % 30;
+  const sign = ZODIAC_SIGNS[idx];
+  if (sign === undefined) {
+    throw new RangeError(`liveEphemeris: sign index ${idx} out of range`);
+  }
   return {
-    sign: ZODIAC_SIGNS[idx],
+    sign,
     degree: Math.floor(degInSign),
     minute: Math.floor((degInSign - Math.floor(degInSign)) * 60),
   };

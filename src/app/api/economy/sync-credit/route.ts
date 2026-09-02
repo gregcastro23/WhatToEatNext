@@ -134,7 +134,11 @@ async function handlePost(req: NextRequest) {
       );
     }
 
-    const userId = userResult.rows[0].id;
+    const [creditUserRow] = userResult.rows;
+    if (!creditUserRow) {
+      throw new Error("sync-credit: user upsert returned no row");
+    }
+    const userId = creditUserRow.id;
 
     // 2b. Daily yield requires a chart — the SAME eligibility predicate the
     // in-repo cron uses (agentDailyYield.ts: non-empty `natal_positions`). Two

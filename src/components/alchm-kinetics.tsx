@@ -45,11 +45,13 @@ function signGradient(v: number): string {
  * Normalise a set of values so the largest absolute value maps to 1.
  * Returns width fractions (0–1) for use in progress bars.
  */
-function normalise(record: Record<string, number>): Record<string, number> {
-  const maxAbs = Math.max(...Object.values(record).map(Math.abs), 1e-9);
+function normalise<K extends string>(
+  record: Record<K, number>,
+): Record<K, number> {
+  const maxAbs = Math.max(...Object.values<number>(record).map(Math.abs), 1e-9);
   return Object.fromEntries(
-    Object.entries(record).map(([k, v]) => [k, Math.abs(v) / maxAbs]),
-  );
+    Object.entries<number>(record).map(([k, v]) => [k, Math.abs(v) / maxAbs]),
+  ) as Record<K, number>;
 }
 
 /** Single metric row with normalised progress bar */

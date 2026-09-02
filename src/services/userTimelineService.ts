@@ -190,7 +190,7 @@ async function readIdentity(
        LIMIT 1`,
       [userId],
     );
-    const row = result.rows[0] as IdentityRow | undefined;
+    const [row] = result.rows;
     if (!row) return null;
 
     const isAdmin = (row.role || "").toUpperCase() === "ADMIN";
@@ -301,18 +301,7 @@ async function readLifetimeStats(userId: string): Promise<{
          (SELECT evt FROM feed) AS agent_events`,
       [userId],
     );
-    const row = result.rows[0] as
-      | {
-          signins: number;
-          signin_failures: number;
-          recipes_viewed: number;
-          recipes_cooked: number;
-          diary_entries: number;
-          tokens_earned: string;
-          tokens_spent: string;
-          agent_events: number;
-        }
-      | undefined;
+    const [row] = result.rows;
 
     return {
       stats: {

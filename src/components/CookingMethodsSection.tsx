@@ -266,11 +266,12 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       { name: 'Substance', value: Substance || 0 }
     ].sort((a, b) => b.value - a.value);
     
-    if (alchemical[0].value === 0) return null;
-    
+    const [primary, secondary] = alchemical;
+    if (!primary || !secondary || primary.value === 0) return null;
+
     return {
-      primary: alchemical[0].name,
-      secondary: alchemical[1].name
+      primary: primary.name,
+      secondary: secondary.name
     };
   };
   
@@ -284,12 +285,37 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
 
   // Get score class for styling
+  /** CSS-module lookup. A missing class name means no class, which is what ""
+   * renders as — it does not stand in for a class that exists. */
+  const cls = (name: string): string => styles[name] ?? "";
+
+  /** Compatibility row for a method or variation. Renders nothing when the id
+   * has no recorded score — the previous code read the record five times per
+   * row and could not narrow any of them. */
+  const renderCompatibility = (id: string, small: boolean) => {
+    const score = ingredientCompatibility[id];
+    if (score === undefined) return null;
+    const pct = Math.round(score * 100);
+    const { label, className } = getCompatibilityLabel(score);
+    return (
+      <div
+        className={`${styles['ingredient-compatibility']} ${small ? styles.small : ''} ${cls(className)}`}
+      >
+        <span>{label}</span>
+        <span className={styles['compatibility-value']}>{pct}%</span>
+        <div className={styles['compatibility-bar']}>
+          <div className={styles['compatibility-bar-fill']} style={{ width: `${pct}%` }} />
+        </div>
+      </div>
+    );
+  };
+
   const getScoreClass = (score: number): string => {
-    if (score >= 0.8) return styles['score-excellent'];
-    if (score >= 0.6) return styles['score-good'];
-    if (score >= 0.4) return styles['score-fair'];
-    if (score >= 0.2) return styles['score-poor'];
-    return styles['score-bad'];
+    if (score >= 0.8) return cls('score-excellent');
+    if (score >= 0.6) return cls('score-good');
+    if (score >= 0.4) return cls('score-fair');
+    if (score >= 0.2) return cls('score-poor');
+    return cls('score-bad');
   };
   
   return (
@@ -393,15 +419,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   )}
                   
                   {/* Show ingredient compatibility if available */}
-                  {ingredientCompatibility[method.id] !== undefined && (
-                    <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
-                      <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
-                      <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
-                      <div className={styles['compatibility-bar']}>
-                        <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}} />
-                      </div>
-                    </div>
-                  )}
+                  {renderCompatibility(method.id, false)}
                   
                   {method.variations && method.variations.length > 0 && (
                     <button 
@@ -550,17 +568,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                             )}
                             
                             {/* Show ingredient compatibility for variations if available */}
-                            {ingredientCompatibility[variation.id] !== undefined && (
-                              <div className={`${styles['ingredient-compatibility']} ${styles.small} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
-                                <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label}</span>
-                                <span className={styles['compatibility-value']}>
-                                  {Math.round(ingredientCompatibility[variation.id] * 100)}%
-                                </span>
-                                <div className={styles['compatibility-bar']}>
-                                  <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`}} />
-                                </div>
-                              </div>
-                            )}
+                            {renderCompatibility(variation.id, true)}
                             
                             {variation.score !== undefined && (
                               <div className={`${styles['variation-score']} ${getScoreClass(variation.score)}`}>

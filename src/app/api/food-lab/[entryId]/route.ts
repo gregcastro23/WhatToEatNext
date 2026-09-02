@@ -64,10 +64,11 @@ export async function GET(
         `SELECT * FROM food_lab_entries WHERE id = $1 AND user_id = $2`,
         [entryId, userId],
       );
-      if (result.rows.length === 0) {
+      const [foundRow] = result.rows;
+      if (!foundRow) {
         return NextResponse.json({ success: false, message: "Entry not found" }, { status: 404 });
       }
-      return NextResponse.json({ success: true, entry: rowToEntry(result.rows[0]) });
+      return NextResponse.json({ success: true, entry: rowToEntry(foundRow) });
     } catch { /* fall through */ }
   }
 
@@ -116,12 +117,13 @@ export async function PUT(
         `SELECT is_public, share_token FROM food_lab_entries WHERE id = $1 AND user_id = $2`,
         [entryId, userId],
       );
-      if (existing.rows.length === 0) {
+      const [existingRow] = existing.rows;
+      if (!existingRow) {
         return NextResponse.json({ success: false, message: "Entry not found" }, { status: 404 });
       }
 
-      const wasPublic = existing.rows[0].is_public;
-      const existingToken = existing.rows[0].share_token;
+      const wasPublic = existingRow.is_public;
+      const existingToken = existingRow.share_token;
       let shareToken = existingToken;
       if (isPublic && !existingToken) shareToken = generateShareToken();
       if (!isPublic) shareToken = null;
@@ -166,7 +168,11 @@ export async function PUT(
         `SELECT * FROM food_lab_entries WHERE id = $1`,
         [entryId],
       );
-      return NextResponse.json({ success: true, entry: rowToEntry(updated.rows[0]) });
+      const [updatedRow] = updated.rows;
+      if (!updatedRow) {
+        return NextResponse.json({ success: false, message: "Entry not found" }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, entry: rowToEntry(updatedRow) });
     } catch { /* fall through */ }
   }
 
@@ -177,8 +183,12 @@ export async function PUT(
     if (idx === -1) {
       return NextResponse.json({ success: false, message: "Entry not found" }, { status: 404 });
     }
+    const existingEntry = entries[idx];
+    if (!existingEntry) {
+      return NextResponse.json({ success: false, message: "Entry not found" }, { status: 404 });
+    }
     const updated = {
-      ...entries[idx],
+      ...existingEntry,
       ...(dishName !== undefined && { dishName }),
       ...(description !== undefined && { description }),
       ...(notes !== undefined && { notes }),
@@ -194,7 +204,7 @@ export async function PUT(
       ...(tags !== undefined && { tags }),
       ...(isPublic !== undefined && {
         isPublic,
-        shareToken: isPublic ? (entries[idx].shareToken ?? generateShareToken()) : undefined,
+        shareToken: isPublic ? (existingEntry.shareToken ?? generateShareToken()) : undefined,
       }),
       updatedAt: now,
     };

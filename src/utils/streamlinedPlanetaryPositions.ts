@@ -327,8 +327,15 @@ function longitudeToSignAndDegree(_longitude: number): {
   const signIndex = Math.floor(normalizedLong / 30);
   const degree = normalizedLong % 30;
 
+  const sign = signs[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `streamlinedPlanetaryPositions: sign index ${signIndex} out of range`,
+    );
+  }
+
   return {
-    sign: signs[signIndex],
+    sign,
     degree: parseFloat(degree.toFixed(2)),
   };
 }

@@ -263,9 +263,13 @@ function getEnergyCategory(powerLevel: number): FoodEnergyCategory {
 function getDominantElement(
   elementalTotals: KineticsElementalTotals,
 ): keyof KineticsElementalTotals {
-  return Object.entries(elementalTotals).sort(
+  const [dominant] = Object.entries(elementalTotals).sort(
     ([, a], [, b]) => b - a,
-  )[0][0] as keyof KineticsElementalTotals;
+  );
+  if (!dominant) {
+    throw new Error("kineticsFoodMatcher: no elemental totals supplied");
+  }
+  return dominant[0] as keyof KineticsElementalTotals;
 }
 
 function getAspectPhase(powerLevel: number, trend?: string) {

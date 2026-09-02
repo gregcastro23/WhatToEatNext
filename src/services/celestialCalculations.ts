@@ -113,6 +113,14 @@ interface PlanetaryPosition {
 // Define a record type for planetary positions
 type PlanetaryPositionRecord = Record<string, PlanetaryPosition>;
 
+/**
+ * The four declared element keys. `keyof ElementalProperties` cannot be used
+ * here: RawElementalProperties declares `[key: string]: number`, which widens
+ * keyof to string|number and routes every lookup through the index signature.
+ */
+type ElementKey = "Fire" | "Water" | "Earth" | "Air";
+const ELEMENT_KEYS: readonly ElementKey[] = ["Fire", "Water", "Earth", "Air"];
+
 interface CelestialData {
   sun: CelestialPosition;
   moon: CelestialPosition;
@@ -305,7 +313,9 @@ class CelestialCalculator {
       const currentIndex = (refIndex + signsPassed) % 12;
 
       // Return the current moon sign
-      return signs[currentIndex];
+      const currentSign = signs[currentIndex];
+      if (currentSign === undefined) return "cancer"; // same fallback as above
+      return currentSign;
     } catch (_error) {
       // If all else fails, default to Cancer (traditionally ruled by the Moon)
       return "cancer";
@@ -330,9 +340,11 @@ class CelestialCalculator {
 
     // Add zodiac-related major arcana cards
     const zodiacCards = TAROT_ZODIAC_MAPPING[zodiacSign];
-    zodiacCards.forEach((cardName) => {
-      tarotCards.push(this.createTarotCard(cardName, zodiacSign));
-    });
+    if (zodiacCards) {
+      zodiacCards.forEach((cardName) => {
+        tarotCards.push(this.createTarotCard(cardName, zodiacSign));
+      });
+    }
 
     // Add planet-related major arcana cards
     dominantPlanets.forEach((planet) => {
@@ -570,7 +582,7 @@ class CelestialCalculator {
     // Calculate base influences based on dignities
     if (jupiterPos?.sign) {
       const jupiterSign = jupiterPos.sign.toLowerCase();
-      const dignity = jupiterDignities[jupiterSign] as { type: string; strength: number } | undefined;
+      const dignity = jupiterDignities[jupiterSign];
       if (dignity !== undefined) {
         jupiterInfluence = 0.5 + dignity.strength;
 
@@ -586,7 +598,7 @@ class CelestialCalculator {
     let _saturnDignityName = "";
     if (saturnPos?.sign) {
       const saturnSign = saturnPos.sign.toLowerCase();
-      const dignity = saturnDignities[saturnSign] as { type: string; strength: number } | undefined;
+      const dignity = saturnDignities[saturnSign];
       if (dignity !== undefined) {
         saturnInfluence = 0.5 + dignity.strength;
         _saturnDignityName = dignity.type;
@@ -732,10 +744,13 @@ class CelestialCalculator {
     const hourRuler = hourRulers[hour];
 
     // Create dominant planets array with weights
-    const dominantPlanets: CelestialBody[] = [
-      { name: dayRuler, influence: 0.7 },
-      { name: hourRuler, influence: 0.5 },
-    ];
+    const dominantPlanets: CelestialBody[] = [];
+    if (dayRuler !== undefined) {
+      dominantPlanets.push({ name: dayRuler, influence: 0.7 });
+    }
+    if (hourRuler !== undefined) {
+      dominantPlanets.push({ name: hourRuler, influence: 0.5 });
+    }
 
     // If it's a full moon, add lunar influence
     const now = new Date();
@@ -764,13 +779,11 @@ class CelestialCalculator {
       const jupiterIndex = dominantPlanets.findIndex(
         (p) => p.name === "Jupiter",
       );
-      if (jupiterIndex >= 0) {
+      const existingJupiter = dominantPlanets[jupiterIndex];
+      if (existingJupiter) {
         dominantPlanets[jupiterIndex] = {
-          ...dominantPlanets[jupiterIndex],
-          influence: Math.max(
-            dominantPlanets[jupiterIndex].influence ?? 0,
-            jupiterInfluence,
-          ),
+          ...existingJupiter,
+          influence: Math.max(existingJupiter.influence ?? 0, jupiterInfluence),
           effect: jupiterEffect,
         };
       }
@@ -785,13 +798,11 @@ class CelestialCalculator {
     } else {
       // Update the existing Saturn with the new influence value
       const saturnIndex = dominantPlanets.findIndex((p) => p.name === "Saturn");
-      if (saturnIndex >= 0) {
+      const existingSaturn = dominantPlanets[saturnIndex];
+      if (existingSaturn) {
         dominantPlanets[saturnIndex] = {
-          ...dominantPlanets[saturnIndex],
-          influence: Math.max(
-            dominantPlanets[saturnIndex].influence ?? 0,
-            saturnInfluence,
-          ),
+          ...existingSaturn,
+          influence: Math.max(existingSaturn.influence ?? 0, saturnInfluence),
           effect: saturnEffect,
         };
       }
@@ -810,9 +821,10 @@ class CelestialCalculator {
       } else {
         // Update existing Sun with sign placement effect
         const sunIndex = dominantPlanets.findIndex((p) => p.name === "Sun");
-        if (sunIndex >= 0) {
+        const existingSun = dominantPlanets[sunIndex];
+        if (existingSun) {
           dominantPlanets[sunIndex] = {
-            ...dominantPlanets[sunIndex],
+            ...existingSun,
             effect: `in ${sunPos.sign}`,
           };
         }
@@ -830,9 +842,10 @@ class CelestialCalculator {
         });
       } else {
         const moonIndex = dominantPlanets.findIndex((p) => p.name === "Moon");
-        if (moonIndex >= 0) {
+        const existingMoon = dominantPlanets[moonIndex];
+        if (existingMoon) {
           dominantPlanets[moonIndex] = {
-            ...dominantPlanets[moonIndex],
+            ...existingMoon,
             effect: `in ${moonPos.sign}`,
           };
         }
@@ -938,7 +951,7 @@ class CelestialCalculator {
     };
 
     // Apply zodiac influence
-    const zodiacElements: Record<string, keyof ElementalProperties> = {
+    const zodiacElements: Record<string, ElementKey> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -958,7 +971,7 @@ class CelestialCalculator {
     }
 
     // Apply planetary influences
-    const planetElements: Record<string, keyof ElementalProperties> = {
+    const planetElements: Record<string, ElementKey> = {
       Sun: "Fire",
       Mars: "Fire",
       Jupiter: "Fire",
@@ -990,9 +1003,9 @@ class CelestialCalculator {
 
     // Normalize values
     const sum = Object.values(balance).reduce((a, b) => a + b, 0);
-    Object.keys(balance).forEach((key) => {
-      balance[key as keyof ElementalProperties] /= sum;
-    });
+    for (const key of ELEMENT_KEYS) {
+      balance[key] /= sum;
+    }
 
     return balance;
   }
@@ -1242,9 +1255,9 @@ class CelestialCalculator {
       // Normalize values again
       const sum = Object.values(balance).reduce((a, b) => a + b, 0);
       if (sum > 0) {
-        Object.keys(balance).forEach((key) => {
-          balance[key as keyof ElementalProperties] /= sum;
-        });
+        for (const key of ELEMENT_KEYS) {
+          balance[key] /= sum;
+        }
       }
 
       return balance;
@@ -1555,7 +1568,8 @@ class CelestialCalculator {
           nine: 9,
           ten: 10,
         };
-        const _value = valueMap[cardName.split("_")[0]] || 0;
+        const [rankToken] = cardName.split("_");
+        const _value = rankToken === undefined ? 0 : valueMap[rankToken] || 0;
 
         // Determine the zodiac sign based on the date
         const zodiacSign = this.determineZodiacSignType(month, day);

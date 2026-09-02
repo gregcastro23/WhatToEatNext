@@ -26,6 +26,21 @@ import { swissEphemerisService } from "./SwissEphemerisService";
 
 const logger = createLogger("EnhancedAstrologyService");
 
+/** The four elemental buckets this service tallies and reports on. */
+type ElementName = "Fire" | "Earth" | "Air" | "Water";
+
+const ELEMENT_NAMES: ElementName[] = ["Fire", "Earth", "Air", "Water"];
+
+/**
+ * Threshold test for an element share that may be absent from the map.
+ * `undefined > threshold` is already false in JS, so an absent element keeps
+ * failing the check exactly as it did before the lookups became index-checked.
+ */
+const exceedsThreshold = (
+  value: number | undefined,
+  threshold: number,
+): boolean => value !== undefined && value > threshold;
+
 export interface EnhancedAstrologicalData {
   planetaryPositions: Record<string, CelestialPosition>;
   dataSource: "astrologize" | "swiss-ephemeris" | "fallback" | "composite";
@@ -70,7 +85,12 @@ export class EnhancedAstrologyService {
   async getEnhancedPlanetaryPositions(
     date: Date = new Date(),
   ): Promise<EnhancedAstrologicalData> {
-    const [cacheKey] = date.toISOString().split("T");
+    // Same value as `toISOString().split("T")[0]`, without an unchecked index:
+    // the calendar-date portion, or the whole string if there is no separator.
+    const iso = date.toISOString();
+    const separatorIndex = iso.indexOf("T");
+    const cacheKey =
+      separatorIndex === -1 ? iso : iso.slice(0, separatorIndex);
 
     if (this.cache.has(cacheKey)) {
       const cached = this.cache.get(cacheKey);
@@ -298,7 +318,7 @@ export class EnhancedAstrologyService {
   private calculateDominantElements(
     positions: Record<string, CelestialPosition>,
   ): Record<string, number> {
-    const elementCounts: Record<string, number> = {
+    const elementCounts: Record<ElementName, number> = {
       Fire: 0,
       Earth: 0,
       Air: 0,
@@ -306,8 +326,9 @@ export class EnhancedAstrologyService {
     };
 
     // Keyed by an already-lowercased sign string (with an "aries" fallback) that
-    // isn't statically narrowed to ZodiacSignType, so this is typed as Record<string, string>.
-    const signElements: Record<string, string> = {
+    // isn't statically narrowed to ZodiacSignType, so the key stays `string`.
+    // Every value is one of the four buckets held by `elementCounts`.
+    const signElements: Record<string, ElementName> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -335,7 +356,7 @@ export class EnhancedAstrologyService {
       0,
     );
     if (total > 0) {
-      Object.keys(elementCounts).forEach((element) => {
+      ELEMENT_NAMES.forEach((element) => {
         elementCounts[element] /= total;
       });
     }
@@ -351,16 +372,16 @@ export class EnhancedAstrologyService {
   ): string[] {
     const recommendations: string[] = [];
 
-    if (dominantElements.Fire > 0.3) {
+    if (exceedsThreshold(dominantElements.Fire, 0.3)) {
       recommendations.push("Mexican", "Thai", "Indian", "Korean");
     }
-    if (dominantElements.Earth > 0.3) {
+    if (exceedsThreshold(dominantElements.Earth, 0.3)) {
       recommendations.push("Italian", "French", "Mediterranean", "Southern US");
     }
-    if (dominantElements.Air > 0.3) {
+    if (exceedsThreshold(dominantElements.Air, 0.3)) {
       recommendations.push("Japanese", "Vietnamese", "Greek", "Middle Eastern");
     }
-    if (dominantElements.Water > 0.3) {
+    if (exceedsThreshold(dominantElements.Water, 0.3)) {
       recommendations.push(
         "Seafood-focused",
         "Nordic",
@@ -382,7 +403,7 @@ export class EnhancedAstrologyService {
   ): string[] {
     const recommendations: string[] = [];
 
-    if (dominantElements.Fire > 0.3) {
+    if (exceedsThreshold(dominantElements.Fire, 0.3)) {
       recommendations.push(
         "Grilling",
         "Stir-frying",
@@ -390,10 +411,10 @@ export class EnhancedAstrologyService {
         "Spicy seasoning",
       );
     }
-    if (dominantElements.Earth > 0.3) {
+    if (exceedsThreshold(dominantElements.Earth, 0.3)) {
       recommendations.push("Slow cooking", "Braising", "Stewing", "Baking");
     }
-    if (dominantElements.Air > 0.3) {
+    if (exceedsThreshold(dominantElements.Air, 0.3)) {
       recommendations.push(
         "Steaming",
         "Light sautéing",
@@ -401,7 +422,7 @@ export class EnhancedAstrologyService {
         "Quick cooking",
       );
     }
-    if (dominantElements.Water > 0.3) {
+    if (exceedsThreshold(dominantElements.Water, 0.3)) {
       recommendations.push(
         "Poaching",
         "Soups and stews",

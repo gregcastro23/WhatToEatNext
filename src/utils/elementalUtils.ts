@@ -257,7 +257,11 @@ export const elementalUtils = {
     properties: ElementalProperties,
   ): Partial<ElementalProfile> {
     const entries = Object.entries(properties) as Array<[Element, number]>;
-    const [[dominant]] = entries.sort((a, b) => b[1] - a[1]);
+    const [dominantEntry] = entries.sort((a, b) => b[1] - a[1]);
+    if (!dominantEntry) {
+      throw new Error("getElementalProfile: no elemental properties supplied");
+    }
+    const [dominant] = dominantEntry;
     return {
       dominant,
       balance: properties,
@@ -467,8 +471,10 @@ export function fixRawIngredientMappings(
         const entries = Object.entries(elementalProperties) as Array<
           [Element, number]
         >;
-        const [[dominant]] = entries.sort((a, b) => b[1] - a[1]);
-        astroProfile.elementalAffinity = { base: dominant };
+        const [dominantEntry] = entries.sort((a, b) => b[1] - a[1]);
+        if (dominantEntry) {
+          astroProfile.elementalAffinity = { base: dominantEntry[0] };
+        }
       }
 
       acc[key] = {

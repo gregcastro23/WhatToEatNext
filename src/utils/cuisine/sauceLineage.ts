@@ -595,6 +595,7 @@ function buildFusionBridges(
     for (let j = i + 1; j < arr.length; j++) {
       const a = arr[i];
       const b = arr[j];
+      if (!a || !b) continue;
       if (!a.cuisine || !b.cuisine) continue;
       if (a.cuisine === b.cuisine) continue;
       const sim = jaccard(a.ingredientTokens, b.ingredientTokens);

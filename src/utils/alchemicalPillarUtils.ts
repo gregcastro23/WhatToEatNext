@@ -276,11 +276,12 @@ export function applyPillarTransformation(
     "air",
     "earth",
   ].forEach((prop) => {
-    if (prop in transformedItem) {
+    const current = (transformedItem as Record<string, number | undefined>)[prop];
+    if (current !== undefined) {
       // Use proper type assertion for dynamic property access
       (transformedItem as Record<string, number>)[prop] = Math.max(
         0,
-        Math.min(1, (transformedItem as Record<string, number>)[prop]),
+        Math.min(1, current),
       );
     }
   });
@@ -355,11 +356,12 @@ export function applyPlanetaryInfluence(
 
   // Ensure all values remain within reasonable bounds
   ["spirit", "essence", "matter", "substance"].forEach((prop) => {
-    if (prop in transformedItem) {
+    const current = (transformedItem as Record<string, number | undefined>)[prop];
+    if (current !== undefined) {
       // Use proper type assertion for dynamic property access
       (transformedItem as Record<string, number>)[prop] = Math.max(
         0,
-        Math.min(1, (transformedItem as Record<string, number>)[prop]),
+        Math.min(1, current),
       );
     }
   });
@@ -420,11 +422,12 @@ export function applyTarotInfluence(
 
   // Ensure all values remain within reasonable bounds
   ["spirit", "essence", "matter", "substance"].forEach((prop) => {
-    if (prop in transformedItem) {
+    const current = (transformedItem as Record<string, number | undefined>)[prop];
+    if (current !== undefined) {
       // Use proper type assertion for dynamic property access
       (transformedItem as Record<string, number>)[prop] = Math.max(
         0,
-        Math.min(1, (transformedItem as Record<string, number>)[prop]),
+        Math.min(1, current),
       );
     }
   });

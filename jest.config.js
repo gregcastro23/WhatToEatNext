@@ -33,6 +33,17 @@ const config = {
     "/node_modules/",
     "/.next/",
     "/.claude/",
+    // strictIndex.test.ts builds the ENTIRE TypeScript program (2,400+ files)
+    // to prove the scanner is live rather than silently compiling nothing.
+    // Measured: it needs >2GB and passes at 4GB. `bun run test` allots 2GB, so
+    // the worker OOMs there and takes the whole 320-suite run down with it.
+    // `bun run test:gates` allots 8GB and is what `bun run verify` runs, so
+    // excluding it here loses no coverage — it just stops a memory budget set
+    // for unit tests from being applied to a whole-program compile.
+    // JEST_HEAVY_GATES=1 (set by test:gates) opts it back in.
+    ...(process.env.JEST_HEAVY_GATES === "1"
+      ? []
+      : ["/scripts/lib/__tests__/strictIndex\\.test\\.ts$"]),
     // Git worktrees checked out inside the repo. Without this, running the
     // suite from the primary checkout also collects every sibling worktree's
     // copy of every test — they fail on module resolution (their node_modules

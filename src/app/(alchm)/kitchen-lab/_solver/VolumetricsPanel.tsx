@@ -17,7 +17,7 @@ import { analysePacking, volumeToMass } from "@/lib/cooking/volumetrics";
 import { MEASURED_INGREDIENT_COUNT, UNIT_CONVERSIONS, convertToGramsDetailed } from "@/utils/unitConversion";
 
 /** What the old table assumed a cup weighed, for every ingredient alike. */
-const WATER_ASSUMPTION_G = UNIT_CONVERSIONS.cup;
+const WATER_ASSUMPTION_G = UNIT_CONVERSIONS.cup ?? 240;
 
 /**
  * `[MEASURED 2026-08-18]` Distinct ingredient names appearing with a volume unit

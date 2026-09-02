@@ -277,6 +277,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
         await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000))
 
         const response = responses[i]
+        if (!response) continue
         const agentMessage: ConversationMessage = {
           id: `agent-${response.agentId}-${Date.now()}-${i}`,
           agentId: response.agentId,
@@ -547,7 +548,7 @@ function generateConsensusSummary(
     `Our unified cosmic wisdom reveals a path forward that integrates all elemental perspectives.`,
   ]
 
-  return consensusStatements[Math.floor(Math.random() * consensusStatements.length)]
+  return consensusStatements[Math.floor(Math.random() * consensusStatements.length)] ?? consensusStatements[0] ?? ''
 }
 
 export default MultiAgentConversation

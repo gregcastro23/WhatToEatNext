@@ -570,8 +570,15 @@ function toSignKey(sign: string): keyof typeof ZODIAC_ELEMENTS | null {
 
 function fromLongitude(longitude: number): BodyPosition {
   const lon = ((longitude % FULL_CIRCLE) + FULL_CIRCLE) % FULL_CIRCLE;
+  const signIndex = Math.floor(lon / DEGREES_PER_SIGN);
+  const sign = SIGNS[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `agentMonicaTwoBody: sign index ${signIndex} out of range for longitude ${longitude}`,
+    );
+  }
   return {
-    sign: SIGNS[Math.floor(lon / DEGREES_PER_SIGN)],
+    sign,
     degree: lon % DEGREES_PER_SIGN,
     longitude: lon,
   };

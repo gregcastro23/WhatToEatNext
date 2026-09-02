@@ -436,9 +436,15 @@ export const _getDominantFlavor = (
   planetaryInfluences: Record<string, number>,
 ): string => {
   const flavorProfile = calculateFlavorProfile(planetaryInfluences);
-  return Object.entries(flavorProfile).sort(
+  const [dominantEntry] = Object.entries(flavorProfile).sort(
     ([, valueA], [, valueB]) => valueB - valueA,
-  )[0][0];
+  );
+  if (!dominantEntry) {
+    throw new Error(
+      "calculateFlavorProfile returned no flavor entries; cannot determine a dominant flavor",
+    );
+  }
+  return dominantEntry[0];
 };
 
 /**
@@ -511,6 +517,11 @@ export const _calculatePlanetaryFlavorMatch = (
     // Calculate weighted elemental influence from planets
     Object.entries(planetaryInfluences).forEach(([planet, strength]) => {
       const planetData = planetaryFlavorProfiles[planet];
+      if (!planetData) {
+        throw new Error(
+          `Missing planetary flavor profile for planet: ${planet}`,
+        );
+      }
       if (planetData.elementalInfluence) {
         Object.entries(planetData.elementalInfluence).forEach(
           ([element, value]) => {

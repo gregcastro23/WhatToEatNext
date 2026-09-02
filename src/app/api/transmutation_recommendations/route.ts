@@ -178,7 +178,7 @@ function buildRecommendation(
     : `This ${planet} hour boosts adjacent qualities while stabilizing ${weakest.toLowerCase()}.`;
 
   return {
-    date: date.toISOString().split("T")[0],
+    date: date.toISOString().slice(0, 10),
     time_range: formatHourRange(date),
     ruling_planet: planet,
     imbalance_to_address: WEAKNESS_LABELS[weakest],

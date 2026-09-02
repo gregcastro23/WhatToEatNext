@@ -48,8 +48,9 @@ export async function PUT(
   const members = user.profile.groupMembers ?? [];
   const idx = members.findIndex((m) => m.id === commensalId);
 
-  if (idx !== -1) {
-    const updated = { ...members[idx] };
+  const existingMember = idx === -1 ? undefined : members[idx];
+  if (existingMember) {
+    const updated = { ...existingMember };
     if (name) updated.name = name;
     if (relationship) updated.relationship = relationship as any;
 

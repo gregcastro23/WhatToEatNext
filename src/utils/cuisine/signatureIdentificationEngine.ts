@@ -146,11 +146,16 @@ export function identifyElementalSignatures(
     const value = cuisineElementals[element];
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
-    const zScore = calculateZScore(
-      value,
-      globalMean,
-      globalStdDev,
-    );
+
+    if (
+      value === undefined ||
+      globalMean === undefined ||
+      globalStdDev === undefined
+    ) {
+      return; // Skip if no global data available
+    }
+
+    const zScore = calculateZScore(value, globalMean, globalStdDev);
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);
@@ -200,7 +205,11 @@ export function identifyAlchemicalSignatures(
     const globalMean = globalBaseline.alchemical?.[property];
     const globalStdDev = globalBaseline.alchemicalStdDevs?.[property];
 
-    if (globalMean === undefined || globalStdDev === undefined) {
+    if (
+      value === undefined ||
+      globalMean === undefined ||
+      globalStdDev === undefined
+    ) {
       return; // Skip if no global data available
     }
 
@@ -507,7 +516,7 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
   let totalZScore = 0;
 
   signatures.forEach((sig) => {
-    byStrength[sig.strength]++;
+    byStrength[sig.strength] = (byStrength[sig.strength] ?? 0) + 1;
 
     // Classify property type
     // sig.property's declared union resolves to `string | number` because
@@ -516,15 +525,15 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
     // at runtime it is always one of the named string literals below, so a
     // `string` cast (not `any`) accurately narrows for .includes().
     if (["Fire", "Water", "Earth", "Air"].includes(sig.property as string)) {
-      byPropertyType.elemental++;
+      byPropertyType.elemental = (byPropertyType.elemental ?? 0) + 1;
     } else if (
       ["Spirit", "Essence", "Matter", "Substance"].includes(
         sig.property as string,
       )
     ) {
-      byPropertyType.alchemical++;
+      byPropertyType.alchemical = (byPropertyType.alchemical ?? 0) + 1;
     } else {
-      byPropertyType.thermodynamic++;
+      byPropertyType.thermodynamic = (byPropertyType.thermodynamic ?? 0) + 1;
     }
 
     totalZScore += Math.abs(sig.zscore);

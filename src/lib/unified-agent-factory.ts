@@ -340,7 +340,12 @@ export class UnifiedAgentFactory implements AgentFactory {
       'Illuminated',
       'Transcendent',
     ]
-    return levels[Math.max(0, Math.min(6, Math.floor(level)))]
+    const clamped = Math.max(0, Math.min(6, Math.floor(level)))
+    const resolved = levels[clamped]
+    if (resolved === undefined) {
+      throw new RangeError(`unified-agent-factory: no consciousness level at index ${clamped}`)
+    }
+    return resolved
   }
 
   private calculatePlanetaryMonica(planet: string, sign: string, degree: number): number {

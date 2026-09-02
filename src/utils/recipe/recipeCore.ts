@@ -770,9 +770,16 @@ function buildTimeFactors(date: Date = new Date()): TimeFactors {
           : "Night";
 
   const weekDay = WEEK_DAYS[dayIndex];
+  if (weekDay === undefined) {
+    throw new RangeError(`recipeCore: no weekday name for index ${dayIndex}`);
+  }
+  const dayRuler = DAY_RULERS[weekDay];
+  if (dayRuler === undefined) {
+    throw new RangeError(`recipeCore: no day ruler for ${weekDay}`);
+  }
   const planetaryDay: PlanetaryDay = {
     day: weekDay,
-    planet: DAY_RULERS[weekDay],
+    planet: dayRuler,
   };
 
   const hoursSinceSunrise = hour >= 6 ? hour - 6 : hour + 18; // approximate sunrise at 6
@@ -780,8 +787,12 @@ function buildTimeFactors(date: Date = new Date()): TimeFactors {
   const planetIndex =
     (startingIndex + hoursSinceSunrise) % HOURLY_SEQUENCE.length;
 
+  const hourPlanet = HOURLY_SEQUENCE[planetIndex];
+  if (hourPlanet === undefined) {
+    throw new RangeError(`recipeCore: no hourly planet at index ${planetIndex}`);
+  }
   const planetaryHour: PlanetaryHour = {
-    planet: HOURLY_SEQUENCE[planetIndex],
+    planet: hourPlanet,
     hourOfDay: hour,
   };
 
@@ -834,7 +845,7 @@ function extractPreparationMinutes(recipe: Recipe): number | null {
   }
 
   const match = String(raw).match(/(\d+)/);
-  return match ? Number.parseInt(match[1], 10) : null;
+  return match?.[1] !== undefined ? Number.parseInt(match[1], 10) : null;
 }
 
 function isDaytimeNow(date: Date = new Date()): boolean {

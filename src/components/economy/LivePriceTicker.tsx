@@ -214,7 +214,7 @@ function Sparkline({ values, color }: { values: number[]; color: string }): Reac
       width="100%"
       height={h}
       role="img"
-      aria-label={`24 hour trend from ${fmtIndex(values[0])} to ${fmtIndex(values[values.length - 1])}`}
+      aria-label={`24 hour trend from ${fmtIndex(values[0] ?? 0)} to ${fmtIndex(values[values.length - 1] ?? 0)}`}
       preserveAspectRatio="none"
     >
       <defs>

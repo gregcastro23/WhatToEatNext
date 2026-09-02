@@ -56,6 +56,10 @@ export interface AgentActivationDetail {
   }
 }
 
+type ElementKey = keyof AgentActivationDetail['elementalAlignment']
+
+const ELEMENT_KEYS: readonly ElementKey[] = ['Fire', 'Water', 'Air', 'Earth']
+
 export interface DegreePattern {
   degrees: number[]
   pattern: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile' | 'custom'
@@ -295,9 +299,16 @@ export class DegreeAgentMatcher {
           'Pisces',
         ]
 
+        const sign = signs[signIndex]
+        if (!sign) {
+          throw new Error(
+            `degree-agent-matcher: sign index ${signIndex} out of range for ${planet}`
+          )
+        }
+
         placements[planet] = {
           degree: absoluteDegree,
-          sign: signs[signIndex],
+          sign,
           house,
           isDominant: index < 3,
         }
@@ -721,9 +732,9 @@ export class DegreeAgentMatcher {
     const baseAlignment = { ...moment.elemental }
 
     // Enhance agent's dominant element
-    const dominantElement = profile.element
-    if (dominantElement in baseAlignment) {
-      (baseAlignment as Record<string, number>)[dominantElement] *= 1.2
+    const dominantElement = ELEMENT_KEYS.find(key => key === profile.element)
+    if (dominantElement) {
+      baseAlignment[dominantElement] *= 1.2
     }
 
     return baseAlignment
@@ -756,9 +767,9 @@ export class DegreeAgentMatcher {
       }
     })
 
-    const [[dominantElement]] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)
+    const [dominantEntry] = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)
 
-    return `${dominantElement} Dominant`
+    return `${dominantEntry?.[0] ?? 'Fire'} Dominant`
   }
 
   /**
@@ -770,11 +781,11 @@ export class DegreeAgentMatcher {
     activatedAgents: AgentActivationDetail[],
     moment: CelestialMoment
   ): string {
-    if (activatedAgents.length === 0) {
+    const [primaryAgent] = activatedAgents
+    if (!primaryAgent) {
       return `${planet} transits ${degree}° with A# energy of ${moment.alchemical.A_number.toFixed(2)}.`
     }
 
-    const [primaryAgent] = activatedAgents
     const otherCount = activatedAgents.length - 1
 
     let message = `${planet} at ${degree}° strongly activates ${primaryAgent.agentName} (${(primaryAgent.resonanceStrength * 100).toFixed(0)}% resonance)`
@@ -873,25 +884,26 @@ export class DegreeAgentMatcher {
   private identifyGeometricPattern(
     degrees: number[]
   ): { type: DegreePattern['pattern']; description: string } | null {
-    if (degrees.length < 2) return null
+    const [first, second] = degrees
+    if (first === undefined || second === undefined) return null
 
     // Check for conjunction (degrees within 10° of each other)
-    const isConjunction = degrees.every(d => Math.abs(d - degrees[0]) <= 10)
+    const isConjunction = degrees.every(d => Math.abs(d - first) <= 10)
     if (isConjunction) {
       return {
         type: 'conjunction',
-        description: `Multiple planets converging near ${degrees[0].toFixed(0)}°`,
+        description: `Multiple planets converging near ${first.toFixed(0)}°`,
       }
     }
 
     // Check for opposition (180° apart)
     if (degrees.length === 2) {
-      const diff = Math.abs(degrees[1] - degrees[0])
+      const diff = Math.abs(second - first)
       const opposition = Math.min(diff, 360 - diff)
       if (Math.abs(opposition - 180) <= 10) {
         return {
           type: 'opposition',
-          description: `Opposition between ${degrees[0].toFixed(0)}° and ${degrees[1].toFixed(0)}°`,
+          description: `Opposition between ${first.toFixed(0)}° and ${second.toFixed(0)}°`,
         }
       }
 
@@ -899,7 +911,7 @@ export class DegreeAgentMatcher {
       if (Math.abs(opposition - 120) <= 10) {
         return {
           type: 'trine',
-          description: `Trine between ${degrees[0].toFixed(0)}° and ${degrees[1].toFixed(0)}°`,
+          description: `Trine between ${first.toFixed(0)}° and ${second.toFixed(0)}°`,
         }
       }
 
@@ -907,7 +919,7 @@ export class DegreeAgentMatcher {
       if (Math.abs(opposition - 90) <= 10) {
         return {
           type: 'square',
-          description: `Square between ${degrees[0].toFixed(0)}° and ${degrees[1].toFixed(0)}°`,
+          description: `Square between ${first.toFixed(0)}° and ${second.toFixed(0)}°`,
         }
       }
 
@@ -915,7 +927,7 @@ export class DegreeAgentMatcher {
       if (Math.abs(opposition - 60) <= 10) {
         return {
           type: 'sextile',
-          description: `Sextile between ${degrees[0].toFixed(0)}° and ${degrees[1].toFixed(0)}°`,
+          description: `Sextile between ${first.toFixed(0)}° and ${second.toFixed(0)}°`,
         }
       }
     }

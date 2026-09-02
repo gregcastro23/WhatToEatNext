@@ -92,7 +92,7 @@ function getAstrologicallyInformedFlavorProfile(
   const flavorAttributes = influences
     .filter((influence) => planetFlavors[influence])
     .map((influence) => {
-      const attributes = planetFlavors[influence];
+      const attributes = planetFlavors[influence] ?? [];
       return attributes[Math.floor(Math.random() * attributes.length)];
     });
 
@@ -100,9 +100,10 @@ function getAstrologicallyInformedFlavorProfile(
     return generateFlavorProfileFromElements(elementalProps);
   }
 
-  const [[primaryElement]] = Object.entries(elementalProps).sort(
+  const [primaryEntry] = Object.entries(elementalProps).sort(
     (a, b) => b[1] - a[1],
   );
+  const primaryElement = primaryEntry?.[0] ?? "Fire";
 
   return `${flavorAttributes.join(", ")} flavors with ${getElementalDescription(primaryElement)} characteristics`;
 }
@@ -146,8 +147,12 @@ function generateFlavorProfileFromElements(
     ],
   };
 
-  const primaryElement = elements[0][0] as keyof typeof elementalFlavors;
-  const secondaryElement = elements[1][0] as keyof typeof elementalFlavors;
+  const [primaryEntry, secondaryEntry] = elements;
+  if (!primaryEntry || !secondaryEntry) {
+    throw new Error("flavorProfiles: need at least two ranked elements");
+  }
+  const primaryElement = primaryEntry[0] as keyof typeof elementalFlavors;
+  const secondaryElement = secondaryEntry[0] as keyof typeof elementalFlavors;
 
   if (
     !elementalFlavors[primaryElement] ||

@@ -290,7 +290,8 @@ export class AlchemicalService {
     const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     for (const element of ["Fire", "Water", "Earth", "Air"] as const) {
       const baseValue = baseProperties[element] || 0;
-      result[element] = transform[element](baseValue) ?? baseValue;
+      const fn = transform[element];
+      result[element] = fn ? fn(baseValue) ?? baseValue : baseValue;
     }
     // Apply intensity modifier
     const intensityMultiplier =

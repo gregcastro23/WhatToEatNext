@@ -73,7 +73,10 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     const { dominantElement } = alchemicalState.metadata;
     const elementInstructions = RITUAL_INSTRUCTIONS_BY_ELEMENT[dominantElement] ?? RITUAL_INSTRUCTIONS_BY_ELEMENT.Fire;
-    const elementInstruction = elementInstructions[now.getDate() % elementInstructions.length];
+    const elementInstruction =
+      elementInstructions === undefined
+        ? undefined
+        : elementInstructions[now.getDate() % elementInstructions.length];
     const planetInstruction = RITUAL_INSTRUCTIONS_BY_PLANET[dominantTransit] ?? RITUAL_INSTRUCTIONS_BY_PLANET.Sun;
 
     const ritualInstruction = `${planetInstruction} ${elementInstruction}`;

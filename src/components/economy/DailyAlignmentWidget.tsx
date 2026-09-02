@@ -38,8 +38,17 @@ function teaserLine(item: RecipePostFeedItem | AgentEventFeedItem): string {
 
 // ─── Element palette (for birth-element glow) ───────────────────────
 
-const ELEMENT_GLOW: Record<string, { hex: string; ring: string; tint: string }> = {
-  Fire: { hex: 'rgba(251,146,60,0.6)', ring: 'ring-orange-500/40', tint: 'from-orange-500/30' },
+interface ElementGlow {
+  hex: string;
+  ring: string;
+  tint: string;
+}
+
+/** Named so the `?? ELEMENT_GLOW.Fire` fallback below resolves to a value. */
+const FIRE_GLOW: ElementGlow = { hex: 'rgba(251,146,60,0.6)', ring: 'ring-orange-500/40', tint: 'from-orange-500/30' };
+
+const ELEMENT_GLOW: Record<string, ElementGlow> = {
+  Fire: FIRE_GLOW,
   Water: { hex: 'rgba(96,165,250,0.6)', ring: 'ring-blue-500/40', tint: 'from-blue-500/30' },
   Earth: { hex: 'rgba(52,211,153,0.6)', ring: 'ring-emerald-500/40', tint: 'from-emerald-500/30' },
   Air: { hex: 'rgba(192,132,252,0.6)', ring: 'ring-purple-500/40', tint: 'from-purple-500/30' },
@@ -67,7 +76,7 @@ export function DailyAlignmentWidget() {
       return 'Fire';
     }
   })();
-  const elementCfg = ELEMENT_GLOW[dominantElement] ?? ELEMENT_GLOW.Fire;
+  const elementCfg = ELEMENT_GLOW[dominantElement] ?? FIRE_GLOW;
 
   // Resonant-voice teaser: the freshest post from a historical agent whose
   // sun sign shares the user's dominant element — a daily pull into the feed.

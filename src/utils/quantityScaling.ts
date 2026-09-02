@@ -14,6 +14,21 @@ import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
 // UNIT_CONVERSIONS directly from this module.
 export { UNIT_CONVERSIONS };
 
+/** Closed key unions. ElementalProperties/AlchemicalProperties carry string
+ * index signatures, so `keyof` widens to string and routes reads through the
+ * signature; these do not. */
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+type AlchemicalName = "Spirit" | "Essence" | "Matter" | "Substance";
+
+const ELEMENT_NAMES: readonly ElementName[] = ["Fire", "Water", "Earth", "Air"];
+const ALCHEMICAL_NAMES: readonly AlchemicalName[] = [
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+];
+
+
 /**
  * Calculate quantity scaling factor with logarithmic diminishing returns
  * @param amount - The quantity amount
@@ -66,26 +81,25 @@ export function scaleElementalProperties(
   );
 
   // Apply scaling with "like reinforces like" principle
-  Object.keys(scaled).forEach((element) => {
-    const baseValue = base[element as keyof ElementalProperties];
+  for (const element of ELEMENT_NAMES) {
+    const baseValue = base[element];
 
     if (element === dominantElement.key) {
       // Dominant element gets enhanced scaling (reinforces itself)
-      scaled[element as keyof ElementalProperties] =
-        baseValue * factor * (1 + baseValue * 0.2);
+      scaled[element] = baseValue * factor * (1 + baseValue * 0.2);
     } else {
       // Other elements get standard scaling but maintain harmony
-      scaled[element as keyof ElementalProperties] = baseValue * factor;
+      scaled[element] = baseValue * factor;
     }
-  });
+  }
 
   // Normalize to ensure sum is approximately 1.0 (harmony enforcement)
   const sum = Object.values(scaled).reduce((acc, val) => acc + val, 0);
   if (sum > 0) {
     const normalizationFactor = 1.0 / sum;
-    Object.keys(scaled).forEach((element) => {
-      scaled[element as keyof ElementalProperties] *= normalizationFactor;
-    });
+    for (const element of ELEMENT_NAMES) {
+      scaled[element] *= normalizationFactor;
+    }
   }
 
   return scaled;
@@ -128,9 +142,9 @@ export function scaleAlchemicalProperties(
   };
 
   // Apply basic scaling
-  Object.keys(scaled).forEach((property) => {
-    scaled[property as keyof AlchemicalProperties] *= factor;
-  });
+  for (const property of ALCHEMICAL_NAMES) {
+    scaled[property] *= factor;
+  }
 
   // Apply kinetics modulation if available
   if (kinetics) {
@@ -148,12 +162,9 @@ export function scaleAlchemicalProperties(
   }
 
   // Ensure non-negative values
-  Object.keys(scaled).forEach((property) => {
-    scaled[property as keyof AlchemicalProperties] = Math.max(
-      0,
-      scaled[property as keyof AlchemicalProperties],
-    );
-  });
+  for (const property of ALCHEMICAL_NAMES) {
+    scaled[property] = Math.max(0, scaled[property]);
+  }
 
   return scaled;
 }

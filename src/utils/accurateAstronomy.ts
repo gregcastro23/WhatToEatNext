@@ -29,8 +29,14 @@ function getZodiacPosition(longitude: number): { sign: ZodiacSign; degree: numbe
   const normalizedLong = ((longitude % 360) + 360) % 360;
   const signIndex = Math.floor(normalizedLong / 30);
   const degree = normalizedLong % 30;
+  const sign = ZODIAC_SIGNS[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `accurateAstronomy: sign index ${signIndex} out of range for longitude ${normalizedLong}`,
+    );
+  }
   return {
-    sign: ZODIAC_SIGNS[signIndex],
+    sign,
     degree: parseFloat(degree.toFixed(4)) // Keep high precision for arc minutes
   };
 }

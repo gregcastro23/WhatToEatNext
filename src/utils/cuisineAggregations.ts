@@ -133,7 +133,7 @@ export function computeGlobalAverages(
   // Calculate standard deviations using: sqrt(E[X^2] - E[X]^2)
   const elementalStdDev = Object.fromEntries(
     Object.entries(elementalSqSums).map(([key, sqSum]) => {
-      const mean = elementalMeans[key as keyof ElementalProperties];
+      const mean = elementalMeans[key as keyof ElementalProperties] ?? NaN;
       const variance = sqSum / n - mean * mean;
       return [key, Math.sqrt(Math.max(0, variance))]; // Ensure non-negative
     }),
@@ -141,7 +141,7 @@ export function computeGlobalAverages(
 
   const alchemicalStdDev = Object.fromEntries(
     Object.entries(alchemicalSqSums).map(([key, sqSum]) => {
-      const mean = alchemicalMeans[key as keyof AlchemicalProperties];
+      const mean = alchemicalMeans[key as keyof AlchemicalProperties] ?? NaN;
       const variance = sqSum / n - mean * mean;
       return [key, Math.sqrt(Math.max(0, variance))];
     }),
@@ -509,10 +509,15 @@ export function identifyCuisineSignatures(
   for (const [element, value] of Object.entries(averages.elementals) as Array<
     [keyof ElementalProperties, number]
   >) {
+    const elementGlobalAverage = globalAverages.elementals[element];
+    const elementGlobalStdDev = globalAverages.elementalsStdDev[element];
+    if (elementGlobalAverage === undefined || elementGlobalStdDev === undefined) {
+      continue;
+    }
     const zscore = calculateZScore(
       value,
-      globalAverages.elementals[element],
-      globalAverages.elementalsStdDev[element],
+      elementGlobalAverage,
+      elementGlobalStdDev,
     );
 
     if (Math.abs(zscore) >= threshold) {
@@ -521,7 +526,7 @@ export function identifyCuisineSignatures(
         zscore,
         strength: classifySignatureStrength(zscore),
         averageValue: value,
-        globalAverage: globalAverages.elementals[element],
+        globalAverage: elementGlobalAverage,
         description: `${element} is ${zscore > 0 ? "elevated" : "reduced"} (${Math.abs(zscore).toFixed(1)}σ ${zscore > 0 ? "above" : "below"} global average)`,
       });
     }
@@ -536,10 +541,18 @@ export function identifyCuisineSignatures(
     for (const [property, value] of Object.entries(
       averages.alchemical,
     ) as Array<[keyof AlchemicalProperties, number]>) {
+      const propertyGlobalAverage = globalAverages.alchemical[property];
+      const propertyGlobalStdDev = globalAverages.alchemicalStdDev[property];
+      if (
+        propertyGlobalAverage === undefined ||
+        propertyGlobalStdDev === undefined
+      ) {
+        continue;
+      }
       const zscore = calculateZScore(
         value,
-        globalAverages.alchemical[property],
-        globalAverages.alchemicalStdDev[property],
+        propertyGlobalAverage,
+        propertyGlobalStdDev,
       );
 
       if (Math.abs(zscore) >= threshold) {
@@ -548,7 +561,7 @@ export function identifyCuisineSignatures(
           zscore,
           strength: classifySignatureStrength(zscore),
           averageValue: value,
-          globalAverage: globalAverages.alchemical[property],
+          globalAverage: propertyGlobalAverage,
           description: `${property} is ${zscore > 0 ? "elevated" : "reduced"} (${Math.abs(zscore).toFixed(1)}σ ${zscore > 0 ? "above" : "below"} global average)`,
         });
       }
@@ -631,8 +644,9 @@ export function identifyPlanetaryPatterns(
 
     for (const [sign, count] of Object.entries(signCounts)) {
       const element = ZODIAC_ELEMENTS[sign];
-      if (element) {
-        elementCounts[element] += count;
+      const currentCount = element ? elementCounts[element] : undefined;
+      if (element && currentCount !== undefined) {
+        elementCounts[element] = currentCount + count;
       }
     }
 

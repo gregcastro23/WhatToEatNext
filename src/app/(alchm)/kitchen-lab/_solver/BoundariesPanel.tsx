@@ -329,9 +329,12 @@ function BoilingChart({
         </text>
         <path d={path(etched)} className="ma-chart__curve" />
         <path d={path(scored)} className="ma-chart__curve ma-chart__curve--scored" />
-        {[etched, scored].map((s, i) =>
-          s.length ? <circle key={i} cx={px(s[s.length - 1].dt)} cy={py(s[s.length - 1].flux)} r="3.5" className="ma-chart__stop" /> : null,
-        )}
+        {[etched, scored].map((s, i) => {
+          const last = s.at(-1);
+          return last ? (
+            <circle key={i} cx={px(last.dt)} cy={py(last.flux)} r="3.5" className="ma-chart__stop" />
+          ) : null;
+        })}
         <text x={PAD_L + 8} y={PAD_T + 12} className="ma-chart__tick">q″ ∝ ΔTe³</text>
         <text x={(W + PAD_L) / 2} y={H - 4} className="ma-chart__axis" textAnchor="middle">excess temperature (log)</text>
       </svg>

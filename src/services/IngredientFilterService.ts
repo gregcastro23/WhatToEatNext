@@ -339,7 +339,7 @@ export class IngredientFilterService {
 
       // Check for dominant element if specified
       if (filter.dominantElement) {
-        const [dominantEntry] = (
+        const sortedEntries = (
           Object.entries(elementalProps) as Array<
             [keyof ElementalProperties, number]
           >
@@ -351,6 +351,8 @@ export class IngredientFilterService {
           )
           .sort(([, a], [, b]) => b - a);
 
+        const [dominantEntry] = sortedEntries;
+        if (!dominantEntry) return false;
         const [dominantElement] = dominantEntry;
         if (dominantElement !== filter.dominantElement) return false;
       }
@@ -652,6 +654,7 @@ export class IngredientFilterService {
       // Create basic recipes based on the ingredients provided
       for (let i = 0; i < Math.min(ingredients.length, 3); i++) {
         const mainIngredient = ingredients[i];
+        if (!mainIngredient) continue;
         const otherIngredients = ingredients
           .filter((ing) => ing !== mainIngredient)
           .slice(0, 2);

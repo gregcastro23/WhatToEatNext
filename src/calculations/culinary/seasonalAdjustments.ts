@@ -8,9 +8,39 @@
 import type { ElementalProperties } from "@/types/alchemy";
 
 /**
+ * The seasons this module knows about. Declared as a closed union so that
+ * every lookup into the seasonal tables is total rather than unchecked.
+ */
+const SEASON_KEYS = ["spring", "summer", "autumn", "winter"] as const;
+type SeasonKey = (typeof SEASON_KEYS)[number];
+
+function isSeasonKey(value: string): value is SeasonKey {
+  return (SEASON_KEYS as readonly string[]).includes(value);
+}
+
+/**
+ * The lunar phases this module knows about.
+ */
+const LUNAR_PHASE_KEYS = [
+  "new moon",
+  "waxing crescent",
+  "first quarter",
+  "waxing gibbous",
+  "full moon",
+  "waning gibbous",
+  "third quarter",
+  "waning crescent",
+] as const;
+type LunarPhaseKey = (typeof LUNAR_PHASE_KEYS)[number];
+
+function isLunarPhaseKey(value: string): value is LunarPhaseKey {
+  return (LUNAR_PHASE_KEYS as readonly string[]).includes(value);
+}
+
+/**
  * Seasonal modifiers for elemental properties
  */
-const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
+const SEASONAL_MODIFIERS: Record<SeasonKey, ElementalProperties> = {
   spring: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   summer: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   autumn: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
@@ -20,7 +50,7 @@ const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
 /**
  * Lunar phase modifiers
  */
-const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
+const LUNAR_PHASE_MODIFIERS: Record<LunarPhaseKey, ElementalProperties> = {
   "new moon": { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
   "waxing crescent": { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
   "first quarter": { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
@@ -39,7 +69,9 @@ export function applySeasonalAdjustments(
   season = "spring",
 ): ElementalProperties {
   const seasonKey = season.toLowerCase();
-  const modifier = SEASONAL_MODIFIERS[seasonKey] ?? SEASONAL_MODIFIERS.spring;
+  const modifier = isSeasonKey(seasonKey)
+    ? SEASONAL_MODIFIERS[seasonKey]
+    : SEASONAL_MODIFIERS.spring;
 
   return {
     Fire: (baseProperties.Fire ?? 0) * 0.2 + modifier.Fire * 0.2,
@@ -57,8 +89,9 @@ export function applyLunarPhaseAdjustments(
   lunarPhase = "full moon",
 ): ElementalProperties {
   const phaseKey = lunarPhase.toLowerCase();
-  const modifier =
-    LUNAR_PHASE_MODIFIERS[phaseKey] ?? LUNAR_PHASE_MODIFIERS["full moon"];
+  const modifier = isLunarPhaseKey(phaseKey)
+    ? LUNAR_PHASE_MODIFIERS[phaseKey]
+    : LUNAR_PHASE_MODIFIERS["full moon"];
 
   return {
     Fire: (baseProperties.Fire ?? 0) * 0.2 + modifier.Fire * 0.2,
@@ -93,25 +126,24 @@ export function applyTimeOfDayAdjustments(
 }
 
 /**
- * Get seasonal cooking recommendations
+ * Shape of the per-season culinary guidance returned below.
  */
-export function getSeasonalCookingRecommendations(season: string): {
+interface SeasonalCookingRecommendations {
   cookingMethods: string[];
   ingredients: string[];
   flavors: string[];
   timing: string[];
-} {
+}
+
+/**
+ * Get seasonal cooking recommendations
+ */
+export function getSeasonalCookingRecommendations(
+  season: string,
+): SeasonalCookingRecommendations {
   const seasonKey = season.toLowerCase();
 
-  const recommendations: Record<
-    string,
-    {
-      cookingMethods: string[];
-      ingredients: string[];
-      flavors: string[];
-      timing: string[];
-    }
-  > = {
+  const recommendations: Record<SeasonKey, SeasonalCookingRecommendations> = {
     spring: {
       cookingMethods: [
         "Steaming",
@@ -173,7 +205,9 @@ export function getSeasonalCookingRecommendations(season: string): {
     },
   };
 
-  return recommendations[seasonKey] ?? recommendations.spring;
+  return isSeasonKey(seasonKey)
+    ? recommendations[seasonKey]
+    : recommendations.spring;
 }
 
 /**
@@ -193,8 +227,9 @@ export function calculateSeasonalEffectiveness(
   recommendations: string[];
 } {
   const seasonKey = season.toLowerCase();
-  const seasonalModifier =
-    SEASONAL_MODIFIERS[seasonKey] ?? SEASONAL_MODIFIERS.spring;
+  const seasonalModifier = isSeasonKey(seasonKey)
+    ? SEASONAL_MODIFIERS[seasonKey]
+    : SEASONAL_MODIFIERS.spring;
 
   // Calculate seasonal alignment
   const seasonalAlignment = calculateElementalAlignment(
@@ -206,8 +241,9 @@ export function calculateSeasonalEffectiveness(
   let lunarAlignment = 0.5; // neutral if no phase
   if (lunarPhase) {
     const phaseKey = lunarPhase.toLowerCase();
-    const lunarModifier =
-      LUNAR_PHASE_MODIFIERS[phaseKey] ?? LUNAR_PHASE_MODIFIERS["full moon"];
+    const lunarModifier = isLunarPhaseKey(phaseKey)
+      ? LUNAR_PHASE_MODIFIERS[phaseKey]
+      : LUNAR_PHASE_MODIFIERS["full moon"];
     lunarAlignment = calculateElementalAlignment(recipeElements, lunarModifier);
   }
 

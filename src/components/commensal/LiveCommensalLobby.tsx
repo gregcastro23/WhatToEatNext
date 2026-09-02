@@ -22,7 +22,12 @@ import type {
   CommensalSession as SessionRow,
 } from "@/lib/spacetime/generated/types";
 
-const STATUS_LABEL: Record<number, { label: string; classes: string }> = {
+interface StatusLabel {
+  label: string;
+  classes: string;
+}
+
+const STATUS_LABEL: Record<number, StatusLabel> = {
   0: {
     label: "open",
     classes: "border-emerald-300/40 bg-emerald-400/10 text-emerald-300",
@@ -179,7 +184,8 @@ export default function LiveCommensalLobby() {
             const isMember =
               identityHex !== null &&
               sessionMembers.some((m) => m.member.toHexString() === identityHex);
-            const statusInfo = STATUS_LABEL[session.status] ?? STATUS_LABEL[2];
+            const statusInfo: StatusLabel = STATUS_LABEL[session.status] ??
+              STATUS_LABEL[2] ?? { label: "unknown", classes: "" };
             const closed = session.status === 2;
 
             return (

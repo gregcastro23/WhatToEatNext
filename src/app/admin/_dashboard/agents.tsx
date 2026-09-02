@@ -151,7 +151,7 @@ const ROLE_COLOR_CYCLE = [
 function colorForRole(id: string): string {
   let hash = 0;
   for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) | 0;
-  return ROLE_COLOR_CYCLE[Math.abs(hash) % ROLE_COLOR_CYCLE.length];
+  return ROLE_COLOR_CYCLE[Math.abs(hash) % ROLE_COLOR_CYCLE.length] ?? ROLE_COLOR_CYCLE[0] ?? "";
 }
 
 /** Interactive filters threaded into the `/api/admin/agents/network` query. */
@@ -551,8 +551,11 @@ function AgentTopology({
           [5, 2],
           [6, 5],
         ]
-          .filter(([a, b]) => a < ROLES.length && b < ROLES.length)
-          .map(([a, b], i) => {
+          .filter(
+            ([a, b]) =>
+              a !== undefined && b !== undefined && a < ROLES.length && b < ROLES.length,
+          )
+          .map(([a = 0, b = 0], i) => {
             const len = Math.max(ROLES.length, 1);
             const aa = (a / len) * 2 * Math.PI - Math.PI / 2;
             const bb = (b / len) * 2 * Math.PI - Math.PI / 2;
@@ -909,8 +912,11 @@ function AgentDispatchStream({
   // real throughput instead of a fixed "1,284/min".
   const rate = React.useMemo(() => {
     if (entries.length < 2) return entries.length;
-    const newest = new Date(entries[0].timestamp).getTime();
-    const oldest = new Date(entries[entries.length - 1].timestamp).getTime();
+    const [newestEntry] = entries;
+    const oldestEntry = entries[entries.length - 1];
+    if (!newestEntry || !oldestEntry) return entries.length;
+    const newest = new Date(newestEntry.timestamp).getTime();
+    const oldest = new Date(oldestEntry.timestamp).getTime();
     const spanMs = Math.max(newest - oldest, 1);
     return Math.round((entries.length / spanMs) * 60_000);
   }, [entries]);

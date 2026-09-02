@@ -399,7 +399,8 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
 
   let matches = 0;
   for (let i = 0; i < (shorter || []).length; i++) {
-    if (longer.includes(shorter[i])) matches++;
+    const token = shorter?.[i];
+    if (token !== undefined && longer.includes(token)) matches++;
   }
 
   return matches / (shorter || []).length >= similarityThreshold;

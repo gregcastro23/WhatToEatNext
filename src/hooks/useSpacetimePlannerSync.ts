@@ -323,11 +323,13 @@ export function useSpacetimePlannerSync(
         if (!sessionKeysRef.current.has(key)) continue;
         if (!desired.has(key) && remote.has(key)) {
           const [week, day, meal] = key.split("|").map(Number);
-          void connection.reducers.clearMealPlanSlot({
-            weekEpochDay: week,
-            dayOfWeek: day,
-            mealType: meal,
-          });
+          if (week !== undefined && day !== undefined && meal !== undefined) {
+            void connection.reducers.clearMealPlanSlot({
+              weekEpochDay: week,
+              dayOfWeek: day,
+              mealType: meal,
+            });
+          }
           pushedRef.current.delete(key);
           sessionKeysRef.current.delete(key);
           dirty = true;
@@ -386,6 +388,7 @@ export function useSpacetimePlannerSync(
       if (materializingRef.current.has(key)) return true;
       if (!currentMenu || currentWeek === null) return false;
       const [week, day, meal] = key.split("|").map(Number);
+      if (week === undefined || day === undefined || meal === undefined) return false;
       if (week !== currentWeek) return false;
       const mealType = MEAL_TYPE_BY_INDEX[meal];
       if (!mealType) return false;

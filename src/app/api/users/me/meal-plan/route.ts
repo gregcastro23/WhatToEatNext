@@ -163,9 +163,16 @@ export async function POST(request: NextRequest) {
         cleanServings,
       ],
     );
+    const [insertedRow] = result.rows;
+    if (!insertedRow) {
+      return NextResponse.json(
+        { authenticated: true, error: "meal plan entry was not persisted" },
+        { status: 500 },
+      );
+    }
     return NextResponse.json({
       authenticated: true,
-      entry: rowToDTO(result.rows[0]),
+      entry: rowToDTO(insertedRow),
     });
   } catch (error) {
     console.error("[POST /api/users/me/meal-plan]", error);

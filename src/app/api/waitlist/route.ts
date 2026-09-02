@@ -121,7 +121,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // `createUser` seeds user_profiles, token_balances, user_streaks AND the
     // signup token grant inside one transaction, and returns the existing row
     // if it loses a concurrent insert — so there is nothing else to call here.
-    const name = providedName || email.split("@")[0];
+    const name = providedName || email.split("@")[0] || email;
     const user = await userDatabase.createUser({
       email,
       name,

@@ -382,7 +382,7 @@ export class RecipeFilter {
 
     try {
       const match = timeString.match(/(\d+)/);
-      return match ? parseInt(match[1], 10) : 0;
+      return match ? parseInt(match[1] ?? "", 10) : 0;
     } catch {
       return 0;
     }

@@ -74,6 +74,7 @@ function FlavorBars({ cuisineName }: { cuisineName: string }) {
       {FLAVOR_ORDER.map((key) => {
         const value = fp[key] ?? 0;
         const meta = FLAVOR_LABELS[key];
+        if (!meta) return null;
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-[10px] text-white/40 w-10 shrink-0 font-medium uppercase tracking-wider">
@@ -112,6 +113,7 @@ function TopFlavorPills({ cuisineName }: { cuisineName: string }) {
     <div className="flex flex-wrap gap-1 mt-1">
       {sorted.map(({ key }) => {
         const meta = FLAVOR_LABELS[key];
+        if (!meta) return null;
         return (
           <span
             key={key}
@@ -162,7 +164,7 @@ export function CuisineCard({
   // Following the sky's suggestion quietly counts (invisible practice; deduped
   // per cuisine per day server-side, silent for signed-out visitors).
   const acted = () => firePractice("recommendation_acted", `cuisine:${cuisine.cuisine}`);
-  const imageUrl = cuisine.imageUrl ?? getCuisineByDisplayName(cuisine.cuisine)?.meta.imageUrl;
+  const imageUrl = cuisine.imageUrl ?? getCuisineByDisplayName(cuisine.cuisine)?.meta?.imageUrl;
 
   const icon = PLANET_ICONS[cuisine.planet] || "☉";
   const planetBadge = PLANET_BADGE[cuisine.planet] || PLANET_BADGE.Sun;

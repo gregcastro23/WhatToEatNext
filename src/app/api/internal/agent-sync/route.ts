@@ -157,7 +157,7 @@ export async function POST(req: NextRequest | Request) {
       }
     }
 
-    const resolvedName = displayName?.trim() ?? email.split("@")[0];
+    const resolvedName = displayName?.trim() ?? email.split("@")[0] ?? email;
     // §18j — WTEN computes its own monica from the agent's own name, the same
     // way sync-debit and agents/unified do. This endpoint used to trust
     // `monicaConstant` straight from the sync payload (PA's own legacy,
@@ -251,7 +251,11 @@ export async function POST(req: NextRequest | Request) {
 
       if (existingUserResult.rows.length > 0) {
         // User exists: update user columns
-        wtenUserId = existingUserResult.rows[0].id;
+        const [existingUserRow] = existingUserResult.rows;
+        if (!existingUserRow) {
+          throw new Error("agent-sync: user lookup returned no row");
+        }
+        wtenUserId = existingUserRow.id;
         created = false;
 
         await client.query(

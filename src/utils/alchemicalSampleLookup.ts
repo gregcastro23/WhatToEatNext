@@ -65,7 +65,9 @@ const PERIOD_DAYS: Record<Exclude<StatPeriod, "all">, number> = {
  */
 function sliceByMs(startMs: number, endMs: number): CompactSample[] {
   const arr = FILE.samples;
-  if (arr.length === 0 || endMs < arr[0].ts || startMs > arr[arr.length - 1].ts) {
+  const [first] = arr;
+  const last = arr[arr.length - 1];
+  if (arr.length === 0 || !first || !last || endMs < first.ts || startMs > last.ts) {
     return [];
   }
   let lo = 0;
@@ -73,7 +75,8 @@ function sliceByMs(startMs: number, endMs: number): CompactSample[] {
   // First index >= startMs
   while (lo < hi) {
     const mid = (lo + hi) >>> 1;
-    if (arr[mid].ts < startMs) lo = mid + 1;
+    const item = arr[mid];
+    if (item && item.ts < startMs) lo = mid + 1;
     else hi = mid;
   }
   const startIdx = lo;
@@ -83,7 +86,8 @@ function sliceByMs(startMs: number, endMs: number): CompactSample[] {
   let h = arr.length;
   while (l < h) {
     const mid = (l + h) >>> 1;
-    if (arr[mid].ts <= endMs) l = mid + 1;
+    const item = arr[mid];
+    if (item && item.ts <= endMs) l = mid + 1;
     else h = mid;
   }
   const endIdx = l;
@@ -113,14 +117,20 @@ export function getSampleNearest(at: Date | number): CompactSample | null {
   let hi = arr.length - 1;
   while (lo < hi) {
     const mid = (lo + hi) >>> 1;
-    if (arr[mid].ts < target) lo = mid + 1;
+    const item = arr[mid];
+    if (item && item.ts < target) lo = mid + 1;
     else hi = mid;
   }
   // arr[lo].ts is the first ≥ target. Compare with neighbour for closer.
-  const candidates = [arr[lo]];
-  if (lo > 0) candidates.push(arr[lo - 1]);
+  const sampleLo = arr[lo];
+  if (!sampleLo) return null;
+  const candidates: CompactSample[] = [sampleLo];
+  if (lo > 0) {
+    const prevSample = arr[lo - 1];
+    if (prevSample) candidates.push(prevSample);
+  }
   candidates.sort((a, b) => Math.abs(a.ts - target) - Math.abs(b.ts - target));
-  return candidates[0];
+  return candidates[0] ?? null;
 }
 
 // ─── Series accessors ─────────────────────────────────────────────────────────
@@ -142,15 +152,15 @@ type ElementKey = (typeof ELEMENT_KEYS)[number];
 
 function pickEsmsSeries(samples: CompactSample[], key: EsmsKey): number[] {
   const idx = ESMS_KEYS.indexOf(key);
-  return samples.map((s) => s.esms[idx]);
+  return samples.map((s) => s.esms[idx] ?? 0);
 }
 function pickThermoSeries(samples: CompactSample[], key: ThermoKey): number[] {
   const idx = THERMO_KEYS.indexOf(key);
-  return samples.map((s) => s.thermo[idx]);
+  return samples.map((s) => s.thermo[idx] ?? 0);
 }
 function pickElementSeries(samples: CompactSample[], key: ElementKey): number[] {
   const idx = ELEMENT_KEYS.indexOf(key);
-  return samples.map((s) => s.el[idx]);
+  return samples.map((s) => s.el[idx] ?? 0);
 }
 function pickPlanetEsmsSeries(
   samples: CompactSample[],
@@ -190,10 +200,14 @@ function downsample(series: number[], target: number): number[] {
     let sum = 0;
     let count = 0;
     for (let j = start; j < end && j < series.length; j++) {
-      sum += series[j];
-      count++;
+      const val = series[j];
+      if (val !== undefined) {
+        sum += val;
+        count++;
+      }
     }
-    out[i] = count > 0 ? sum / count : series[start];
+    const defaultVal = series[start] ?? 0;
+    out[i] = count > 0 ? sum / count : defaultVal;
   }
   return out;
 }
@@ -265,7 +279,10 @@ export function getStatisticsForPeriod(
 
   // "Current" = sample nearest the reference moment, sourced from the slice.
   const refMs = reference.getTime();
-  let current = samples[samples.length - 1];
+  const [firstSample] = samples;
+  const lastSample = samples[samples.length - 1];
+  if (!firstSample || !lastSample) return null;
+  let current = lastSample;
   let bestDelta = Math.abs(current.ts - refMs);
   for (const s of samples) {
     const d = Math.abs(s.ts - refMs);
@@ -277,31 +294,34 @@ export function getStatisticsForPeriod(
 
   const esms = {} as Record<EsmsKey, QuantityContext>;
   for (const k of ESMS_KEYS) {
+    const idx = ESMS_KEYS.indexOf(k);
     esms[k] = build(
       pickEsmsSeries(samples, k),
-      current.esms[ESMS_KEYS.indexOf(k)],
+      current.esms[idx] ?? 0,
     );
   }
   const thermo = {} as Record<ThermoKey, QuantityContext>;
   for (const k of THERMO_KEYS) {
+    const idx = THERMO_KEYS.indexOf(k);
     thermo[k] = build(
       pickThermoSeries(samples, k),
-      current.thermo[THERMO_KEYS.indexOf(k)],
+      current.thermo[idx] ?? 0,
     );
   }
   const elemental = {} as Record<ElementKey, QuantityContext>;
   for (const k of ELEMENT_KEYS) {
+    const idx = ELEMENT_KEYS.indexOf(k);
     elemental[k] = build(
       pickElementSeries(samples, k),
-      current.el[ELEMENT_KEYS.indexOf(k)],
+      current.el[idx] ?? 0,
     );
   }
 
   const aNumberSeries = samples.map(
-    (s) => s.esms[0] + s.esms[1] + s.esms[2] + s.esms[3],
+    (s) => (s.esms[0] ?? 0) + (s.esms[1] ?? 0) + (s.esms[2] ?? 0) + (s.esms[3] ?? 0),
   );
   const aNumberCurrent =
-    current.esms[0] + current.esms[1] + current.esms[2] + current.esms[3];
+    (current.esms[0] ?? 0) + (current.esms[1] ?? 0) + (current.esms[2] ?? 0) + (current.esms[3] ?? 0);
   const aNumberCtx = build(aNumberSeries, aNumberCurrent);
 
   const planets = detectPlanets(samples);
@@ -328,8 +348,8 @@ export function getStatisticsForPeriod(
 
   return {
     period,
-    startMs: samples[0].ts,
-    endMs: samples[samples.length - 1].ts,
+    startMs: firstSample.ts,
+    endMs: lastSample.ts,
     sampleCount: samples.length,
     intervalHours: FILE.intervalHours,
     current: {

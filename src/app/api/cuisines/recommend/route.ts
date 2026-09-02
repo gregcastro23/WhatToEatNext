@@ -115,6 +115,14 @@ function parseBias(raw: string | null): Record<string, number> | null {
   const sum = parts.reduce((a, b) => a + b, 0);
   if (!(sum > 0)) return null;
   const [fire, earth, air, water] = parts.map((n) => n / sum);
+  if (
+    fire === undefined ||
+    earth === undefined ||
+    air === undefined ||
+    water === undefined
+  ) {
+    return null;
+  }
   return { Fire: fire, Earth: earth, Air: air, Water: water };
 }
 
@@ -125,11 +133,18 @@ function parseBias(raw: string | null): Record<string, number> | null {
 function computeLocalRecommendations(bias: Record<string, number> | null = null) {
   const positions = getAccuratePlanetaryPositions(new Date());
 
-  const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const elementCounts: Record<"Fire" | "Water" | "Earth" | "Air", number> = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
   for (const pos of Object.values(positions)) {
     const sign = typeof pos.sign === "string" ? pos.sign : "";
     const el = SIGN_TO_ELEMENT[sign];
-    if (el) elementCounts[el]++;
+    if (el === "Fire" || el === "Water" || el === "Earth" || el === "Air") {
+      elementCounts[el]++;
+    }
   }
 
   // The signature input: raw sky shares, or a 70/30 sky/bias blend when the
@@ -137,7 +152,7 @@ function computeLocalRecommendations(bias: Record<string, number> | null = null)
   // sky either way — the blend tunes the ranking, it never rewrites the sky.
   const totalCount =
     elementCounts.Fire + elementCounts.Water + elementCounts.Earth + elementCounts.Air || 1;
-  const share = (el: string) =>
+  const share = (el: "Fire" | "Water" | "Earth" | "Air") =>
     bias
       ? (elementCounts[el] / totalCount) * (1 - BIAS_ALPHA) + (bias[el] ?? 0) * BIAS_ALPHA
       : elementCounts[el];
@@ -152,10 +167,16 @@ function computeLocalRecommendations(bias: Record<string, number> | null = null)
     Air: share("Air"),
   });
   const { dominant } = sig;
-  const secondary = sig.ranked[1].element;
+  const [, secondaryRank] = sig.ranked;
+  const secondary = secondaryRank?.element ?? dominant;
 
   const primData = CUISINE_MAP[dominant];
   const secData  = CUISINE_MAP[secondary];
+  if (!primData || !secData) {
+    throw new Error(
+      `cuisines/recommend: no cuisine map entry for ${dominant}/${secondary}`,
+    );
+  }
 
   return {
     dominantElement: dominant,

@@ -296,8 +296,12 @@ export const getTarotCardsForDate = (
 
   // Extract suit and number from the card name
   const nameParts = tarotCard.name.split(" of ");
-  const [, suit] = nameParts;
-  const [numberStr] = nameParts;
+  const [numberStr, suit] = nameParts;
+  if (numberStr === undefined || suit === undefined) {
+    throw new Error(
+      `tarotCalculations: card name "${tarotCard.name}" is not in "<number> of <suit>" form`,
+    );
+  }
 
   // Convert number string to actual number
   let number;
@@ -317,8 +321,8 @@ export const getTarotCardsForDate = (
 
   // Look up the decan alchemy entry for ESMS quantities
   // Parse the decan degree range from the decan key (e.g. "0-10" → degree 0)
-  const decanParts = decan.split("-");
-  const decanDegree = parseInt(decanParts[0], 10);
+  const [decanStart] = decan.split("-");
+  const decanDegree = parseInt(decanStart ?? "", 10);
   const decanAlchemy = getDecanAlchemy(decanDegree);
 
   // Create the minor card object with element and ESMS
@@ -558,7 +562,7 @@ function getFlavorProfile(_element: string, _foodElement: string): string[] {
   };
 
   return (
-    flavorProfiles[_element][_foodElement] || [
+    flavorProfiles[_element]?.[_foodElement] || [
       "balanced flavors",
       "harmonious combinations",
     ]

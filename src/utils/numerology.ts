@@ -19,7 +19,7 @@ export const celestialNumerology = {
 
     // Sum all digits
     for (let i = 0; i < dateString.length; i++) {
-      sum += parseInt(dateString[i], 10);
+      sum += parseInt(dateString[i] ?? "", 10);
     }
 
     // Keep reducing until we have a single digit (1-9)
@@ -78,7 +78,7 @@ export const celestialNumerology = {
     // Sum all letter values
     for (let i = 0; i < processedName.length; i++) {
       const letter = processedName[i];
-      sum += letterValues[letter] || 0;
+      sum += (letter === undefined ? 0 : letterValues[letter]) || 0;
     }
 
     // Reduce to single digit

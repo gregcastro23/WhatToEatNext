@@ -97,6 +97,7 @@ function calculateAlchemicalCompatibility(
   properties.forEach((property) => {
     const chartValue = chartAlchemical[property];
     const recipeValue = recipeAlchemical[property];
+    if (chartValue === undefined || recipeValue === undefined) return;
 
     dotProduct += chartValue * recipeValue;
     chartMagnitude += chartValue * chartValue;

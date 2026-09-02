@@ -70,8 +70,16 @@ export async function PUT(
     }
   }
 
+  const existingGroup = groups[idx];
+  if (!existingGroup) {
+    return NextResponse.json(
+      { success: false, message: "Dining group not found" },
+      { status: 404 },
+    );
+  }
+
   groups[idx] = {
-    ...groups[idx],
+    ...existingGroup,
     ...(name ? { name } : {}),
     ...(memberIds ? { memberIds } : {}),
     updatedAt: new Date().toISOString(),

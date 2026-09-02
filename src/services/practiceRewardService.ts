@@ -120,12 +120,13 @@ export const practiceRewardService = {
         ],
       );
 
-      if (res.rows.length === 0) {
+      const [firstRow] = res.rows;
+      if (!firstRow) {
         // Dedupe hit — this exact act already recognized. Stay silent.
         return { rewarded: false, reason: "already" };
       }
 
-      const amount = parseFloat(res.rows[0].amount) || 0;
+      const amount = parseFloat(firstRow.amount) || 0;
       if (amount <= 0) {
         return { rewarded: false, reason: "capped" };
       }

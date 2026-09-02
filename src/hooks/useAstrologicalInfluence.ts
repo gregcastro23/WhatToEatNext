@@ -76,7 +76,9 @@ export function useAstrologicalInfluence(): UseAstrologicalInfluenceReturn {
     };
     Object.values(planetaryPositions).forEach((position) => {
       const element = elementMap[position.sign.toLowerCase()];
-      elementCounts[element]++;
+      if (element && elementCounts[element] !== undefined) {
+        elementCounts[element]++;
+      }
     });
 
     const [dominantElement] = Object.entries(elementCounts).reduce((a, b) =>

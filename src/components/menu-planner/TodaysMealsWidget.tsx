@@ -112,7 +112,12 @@ function getChronologicalNextMeal(now: Date): {
   const lastWindow = MEAL_WINDOWS[MEAL_WINDOWS.length - 1];
 
   // Before breakfast or past dinner → roll to tomorrow's breakfast
-  if (hour < firstWindow.startHour || hour >= lastWindow.endHour) {
+  if (
+    !firstWindow ||
+    !lastWindow ||
+    hour < firstWindow.startHour ||
+    hour >= lastWindow.endHour
+  ) {
     return { mealType: "breakfast", isTomorrow: true };
   }
 
@@ -135,7 +140,9 @@ function findNextEmptySlotId(
     const day = ((startDay + dayOffset) % 7) as DayOfWeek;
     const beginIdx = dayOffset === 0 ? startMealIndex : 0;
     for (let mealIdx = beginIdx; mealIdx < MEAL_WINDOWS.length; mealIdx++) {
-      const mealType = MEAL_WINDOWS[mealIdx].type;
+      const mealWindow = MEAL_WINDOWS[mealIdx];
+      if (!mealWindow) continue;
+      const mealType = mealWindow.type;
       const slot = menu.meals.find(
         (m) => m.dayOfWeek === day && m.mealType === mealType,
       );

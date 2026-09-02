@@ -593,14 +593,14 @@ export function PractitionersCohort({
       { stage: "First cook log", count: 0, pct: 0 },
       { stage: "Paid · Pro", count: 0, pct: 0 },
     ];
-  const max = funnel[0].count || 1;
+  const max = funnel[0]?.count || 1;
   const cohorts = retention?.cohorts ?? [];
   const retentionLive = retention?.live ?? false;
 
   return (
     <Card
       title="Practitioner Funnel · Cohort Analytics"
-      subtitle={`${funnel[0].count.toLocaleString()} → ${funnel[funnel.length - 1].count.toLocaleString()} pro · all-time`}
+      subtitle={`${(funnel[0]?.count ?? 0).toLocaleString()} → ${(funnel[funnel.length - 1]?.count ?? 0).toLocaleString()} pro · all-time`}
       right={
         <span style={{ display: "flex", gap: 10 }}>
           <span

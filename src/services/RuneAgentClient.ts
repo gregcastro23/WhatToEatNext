@@ -85,7 +85,11 @@ function generateLocalRune(): RuneResult {
     { symbol: "᚟", name: "Raidho", meaning: "Journey, movement, rhythm" },
   ];
 
-  const selected = runes[Math.floor(Math.random() * runes.length)];
+  const idx = Math.floor(Math.random() * runes.length);
+  const selected = runes[idx] ?? runes[0];
+  if (!selected) {
+    throw new Error("No runes available in pool");
+  }
 
   return {
     symbol: selected.symbol,

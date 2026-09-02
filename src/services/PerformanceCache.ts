@@ -314,7 +314,10 @@ export class PerformanceMonitor {
       return { current: empty, average: empty, peak: empty, history: [] };
     }
 
-    const current = this.metrics[(this.metrics || []).length - 1];
+    const current = this.metrics[this.metrics.length - 1];
+    if (!current) {
+      throw new Error("PerformanceCache: metrics non-empty invariant violated");
+    }
 
     // Calculate averages
     // Pattern KK-1: Safe arithmetic with type validation

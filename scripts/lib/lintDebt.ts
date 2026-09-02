@@ -26,10 +26,29 @@ export const assertionSitesBaselineSchema = z.object({
 
 export type AssertionSitesBaseline = z.infer<typeof assertionSitesBaselineSchema>;
 
+export const preferNullishCoalescingSubBaselineSchema = z.object({
+  total: z.number().int().nonnegative(),
+  verifiedSafe: z.number().int().nonnegative().optional(),
+  semantic: z.number().int().nonnegative().optional(),
+  unclassified: z.number().int().nonnegative().optional(),
+  note: z.string().optional(),
+});
+
+export type PreferNullishCoalescingSubBaseline = z.infer<
+  typeof preferNullishCoalescingSubBaselineSchema
+>;
+
+export const subBaselinesSchema = z.object({
+  preferNullishCoalescing: preferNullishCoalescingSubBaselineSchema.optional(),
+});
+
+export type SubBaselines = z.infer<typeof subBaselinesSchema>;
+
 export const lintDebtBaselineSchema = z.object({
   trackedTotal: z.number().int().nonnegative(),
   casts: castsBaselineSchema,
   assertionSites: assertionSitesBaselineSchema.optional(),
+  subBaselines: subBaselinesSchema.optional(),
   declined: z.object({
     total: z.number().int().nonnegative().optional(),
     rules: z.record(z.string(), z.number().int().nonnegative()),
@@ -99,6 +118,18 @@ export const compareDeclinedDebt = (
   baselineDeclinedTotal: number,
 ): LintDebtComparison => {
   const delta = currentDeclinedTotal - baselineDeclinedTotal;
+
+  return {
+    exceedsBaseline: delta > 0,
+    increasedBy: Math.max(delta, 0),
+  };
+};
+
+export const compareSubBaseline = (
+  currentCount: number,
+  baselineCount: number,
+): LintDebtComparison => {
+  const delta = currentCount - baselineCount;
 
   return {
     exceedsBaseline: delta > 0,

@@ -467,7 +467,7 @@ export class CulturalAnalyticsService {
         this.calculateCulturalDiversityScore(cuisineName);
 
       // Extract traditional principles
-      const traditionalPrinciples = culturalRulesData.principles || [];
+      const traditionalPrinciples = culturalRulesData?.principles || [];
 
       // Generate modern adaptations
       const modernAdaptations = this.generateModernAdaptations(
@@ -795,8 +795,8 @@ export class CulturalAnalyticsService {
     const tradition2 = culinaryTraditions[cuisine2];
 
     if (
-      tradition1.seasonalPreferences?.includes("all") ||
-      tradition2.seasonalPreferences?.includes("all")
+      tradition1?.seasonalPreferences?.includes("all") ||
+      tradition2?.seasonalPreferences?.includes("all")
     ) {
       Object.keys(optimization).forEach((season) => {
         optimization[season] = 0.9;

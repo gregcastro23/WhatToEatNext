@@ -62,12 +62,15 @@ export const _getAstrologicalEffect = (
     effectScore -= 0.2;
   }
   // Check lunar phase if available
-  if (
-    astroState.lunarPhase &&
-    methodData.astrologicalInfluences.lunarPhaseEffect?.[astroState.lunarPhase]
-  ) {
-    effectScore *=
-      methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
+  const { lunarPhaseEffect } = methodData.astrologicalInfluences;
+  if (astroState.lunarPhase && lunarPhaseEffect) {
+    // As before, only a present *and* non-zero modifier is applied; an absent
+    // phase entry leaves the score untouched rather than scaling it by a
+    // made-up factor.
+    const lunarModifier = lunarPhaseEffect[astroState.lunarPhase];
+    if (lunarModifier) {
+      effectScore *= lunarModifier;
+    }
   }
   // Keep score within 0.0-1.0 range
   return Math.max(0.0, Math.min(1.0, effectScore));

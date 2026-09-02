@@ -102,22 +102,28 @@ export async function compareNutritionalValues(
       (((profile2.calories ?? 0) - (profile1.calories ?? 0)) /
         (profile1.calories ?? 1)) *
       100,
-    protein: profile1Macros.protein
-      ? ((profile2Macros.protein - profile1Macros.protein) /
-          profile1Macros.protein) *
-        100
-      : 0,
-    carbs: profile1Macros.carbs
-      ? ((profile2Macros.carbs - profile1Macros.carbs) / profile1Macros.carbs) *
-        100
-      : 0,
-    fat: profile1Macros.fat
-      ? ((profile2Macros.fat - profile1Macros.fat) / profile1Macros.fat) * 100
-      : 0,
-    fiber: profile1Macros.fiber
-      ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) *
-        100
-      : 0,
+    protein:
+      profile1Macros.protein && profile2Macros.protein !== undefined
+        ? ((profile2Macros.protein - profile1Macros.protein) /
+            profile1Macros.protein) *
+          100
+        : 0,
+    carbs:
+      profile1Macros.carbs && profile2Macros.carbs !== undefined
+        ? ((profile2Macros.carbs - profile1Macros.carbs) /
+            profile1Macros.carbs) *
+          100
+        : 0,
+    fat:
+      profile1Macros.fat && profile2Macros.fat !== undefined
+        ? ((profile2Macros.fat - profile1Macros.fat) / profile1Macros.fat) * 100
+        : 0,
+    fiber:
+      profile1Macros.fiber && profile2Macros.fiber !== undefined
+        ? ((profile2Macros.fiber - profile1Macros.fiber) /
+            profile1Macros.fiber) *
+          100
+        : 0,
   };
 
   return {

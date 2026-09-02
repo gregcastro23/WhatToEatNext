@@ -57,8 +57,22 @@ interface PersonalizedData {
 
 type SubTab = 'cuisines' | 'methods' | 'ingredients';
 
-const ELEMENT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  Fire: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20' },
+interface ElementColors {
+  bg: string;
+  text: string;
+  border: string;
+}
+
+/** The Fire palette, named so the `?? FIRE_COLORS` fallback this file
+ * already used everywhere resolves to a value rather than to `undefined`. */
+const FIRE_COLORS: ElementColors = {
+  bg: 'bg-red-500/10',
+  text: 'text-red-400',
+  border: 'border-red-500/20',
+};
+
+const ELEMENT_COLORS: Record<string, ElementColors> = {
+  Fire: FIRE_COLORS,
   Water: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
   Earth: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20' },
   Air: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
@@ -298,6 +312,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
   const { dominantElement, elementalBalance, alchemicalProperties: alchemical } = natalChart;
   const sortedElements = Object.entries(elementalBalance)
     .sort(([, a], [, b]) => b - a);
+  const [, secondaryElement] = sortedElements;
 
   if (isLoading) {
     return (
@@ -325,7 +340,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
             <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Your Constitution:</span>
             <div className="flex gap-2">
               {sortedElements.map(([el, val]) => {
-                const colors = ELEMENT_COLORS[el];
+                const colors = ELEMENT_COLORS[el] ?? FIRE_COLORS;
                 return (
                   <span
                     key={el}
@@ -432,7 +447,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                               .sort(([, a], [, b]) => (b) - (a))
                               .slice(0, 2)
                               .map(([el]) => {
-                                const colors = ELEMENT_COLORS[el];
+                                const colors = ELEMENT_COLORS[el] ?? FIRE_COLORS;
                                 return (
                                   <span
                                     key={el}
@@ -594,7 +609,8 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {personalData.recommendations.suggestedCookingMethods.map((method) => {
                   const detail = COOKING_METHOD_DETAILS[method];
-                  const elColors = ELEMENT_COLORS[detail.element];
+                  if (!detail) return null;
+                  const elColors = ELEMENT_COLORS[detail.element] ?? FIRE_COLORS;
                   return (
                     <div
                       key={method}
@@ -630,7 +646,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 .filter(([, d]) => d.element === dominantElement)
                 .slice(0, 6)
                 .map(([method, detail]) => {
-                  const elColors = ELEMENT_COLORS[detail.element] ?? ELEMENT_COLORS.Fire;
+                  const elColors = ELEMENT_COLORS[detail.element] ?? FIRE_COLORS;
                   return (
                     <div
                       key={method}
@@ -648,20 +664,20 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           </div>
 
           {/* Complementary element methods */}
-          {sortedElements.length > 1 && sortedElements[1][0] !== dominantElement && (
+          {secondaryElement && secondaryElement[0] !== dominantElement && (
             <div className="bg-white rounded-xl shadow-sm p-5">
               <h3 className="text-base font-bold text-gray-800 mb-2">
-                Complementary: {sortedElements[1][0]} Methods
+                Complementary: {secondaryElement[0]} Methods
               </h3>
               <p className="text-xs text-gray-500 mb-3">
-                Your secondary element ({Math.round((sortedElements[1][1] as number) * 100)}%) suggests these techniques too
+                Your secondary element ({Math.round((secondaryElement[1] as number) * 100)}%) suggests these techniques too
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {Object.entries(COOKING_METHOD_DETAILS)
-                  .filter(([, d]) => d.element === sortedElements[1][0])
+                  .filter(([, d]) => d.element === secondaryElement[0])
                   .slice(0, 4)
                   .map(([method, detail]) => {
-                    const elColors = ELEMENT_COLORS[detail.element] ?? ELEMENT_COLORS.Fire;
+                    const elColors = ELEMENT_COLORS[detail.element] ?? FIRE_COLORS;
                     return (
                       <div
                         key={method}
@@ -702,7 +718,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           {/* Primary element ingredients */}
           {personalData && personalData.recommendations.favorableElements.length > 0 ? (
             personalData.recommendations.favorableElements.map((el) => {
-              const colors = ELEMENT_COLORS[el] ?? ELEMENT_COLORS.Fire;
+              const colors = ELEMENT_COLORS[el] ?? FIRE_COLORS;
               const ingredients = ELEMENT_INGREDIENT_DATA[el] ?? [];
               return (
                 <div key={el} className="bg-white rounded-xl shadow-sm p-5">
@@ -730,10 +746,10 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
             /* Fallback: show ingredients for dominant element from natal chart */
             <div className="bg-white rounded-xl shadow-sm p-5">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className={`text-base font-bold ${(ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire).text}`}>
+                <h3 className={`text-base font-bold ${(ELEMENT_COLORS[dominantElement] ?? FIRE_COLORS).text}`}>
                   {dominantElement} Ingredients
                 </h3>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${(ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire).bg} ${(ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire).text} font-medium`}>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${(ELEMENT_COLORS[dominantElement] ?? FIRE_COLORS).bg} ${(ELEMENT_COLORS[dominantElement] ?? FIRE_COLORS).text} font-medium`}>
                   Dominant
                 </span>
               </div>
@@ -742,7 +758,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {(ELEMENT_INGREDIENT_DATA[dominantElement] ?? []).map((ing) => {
-                  const colors = ELEMENT_COLORS[dominantElement] ?? ELEMENT_COLORS.Fire;
+                  const colors = ELEMENT_COLORS[dominantElement] ?? FIRE_COLORS;
                   return (
                     <div key={ing.name} className={`p-3 ${colors.bg} rounded-lg border ${colors.border}`}>
                       <span className={`text-sm font-semibold ${colors.text}`}>{ing.name}</span>

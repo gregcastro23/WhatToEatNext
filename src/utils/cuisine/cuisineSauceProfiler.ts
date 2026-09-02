@@ -504,7 +504,8 @@ const ZODIAC_TO_ELEMENT: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {
 function cosineSimilarity(a: ElementalProperties, b: ElementalProperties): number {
   const ax = [a.Fire, a.Water, a.Earth, a.Air];
   const bx = [b.Fire, b.Water, b.Earth, b.Air];
-  const dot = ax.reduce((s, v, i) => s + v * bx[i], 0);
+  const dot =
+    a.Fire * b.Fire + a.Water * b.Water + a.Earth * b.Earth + a.Air * b.Air;
   const magA = Math.sqrt(ax.reduce((s, v) => s + v * v, 0));
   const magB = Math.sqrt(bx.reduce((s, v) => s + v * v, 0));
   if (magA === 0 || magB === 0) return 0;

@@ -640,8 +640,11 @@ interface UpgradeFrom {
   icon: GlyphName;
 }
 
+/** Named so the `?? UPGRADE_FROM_MAP.lab` fallback below resolves to a value. */
+const UPGRADE_FROM_LAB: UpgradeFrom = { title: "the Lab", line: "Custom recommendation engine and saved formulations.", icon: "atom" };
+
 const UPGRADE_FROM_MAP: Record<string, UpgradeFrom> = {
-  lab: { title: "the Lab", line: "Custom recommendation engine and saved formulations.", icon: "atom" },
+  lab: UPGRADE_FROM_LAB,
   agents: { title: "Agents", line: "Multi-agent sous chefs, dossier export, batch planning.", icon: "orbital" },
   commensal: { title: "Commensal", line: "Dinner-party orchestration and guest harmonization.", icon: "ring" },
   planner: { title: "the Menu Planner", line: "Week-long menus, pantry sync, grocery routing.", icon: "diamond" },
@@ -716,7 +719,7 @@ export function UpgradeGate({
   onStartTrial,
 }: UpgradeGateProps = {}): JSX.Element {
   const key = from.replace(/^\//, "").split("/")[0]?.toLowerCase() || "lab";
-  const f = UPGRADE_FROM_MAP[key] ?? UPGRADE_FROM_MAP.lab;
+  const f = UPGRADE_FROM_MAP[key] ?? UPGRADE_FROM_LAB;
   const { status } = useSession();
   const isLoggedOut = status === "unauthenticated";
 

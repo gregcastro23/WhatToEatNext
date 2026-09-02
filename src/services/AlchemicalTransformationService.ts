@@ -218,12 +218,10 @@ export class AlchemicalTransformationService {
 
     // Determine overall dominant element and alchemical property
     // This is based on the first ingredients as they typically have the strongest influence
-    const dominantElement =
-      topIngredients.length > 0 ? topIngredients[0].dominantElement : "Fire";
+    const [firstIngredient] = topIngredients;
+    const dominantElement = firstIngredient?.dominantElement ?? "Fire";
     const dominantAlchemicalProperty =
-      topIngredients.length > 0
-        ? topIngredients[0].dominantAlchemicalProperty
-        : "Spirit";
+      firstIngredient?.dominantAlchemicalProperty ?? "Spirit";
 
     // Calculate average energy values across top ingredients
     const calculateAverage = (
@@ -425,15 +423,14 @@ export class AlchemicalTransformationService {
     const topCuisines = _getTopCompatibleItems(filteredCuisines, count);
 
     // Use provided targets or default to first ingredient
+    const [firstIngredient] = topIngredients;
     const dominantElement =
-      targetElement ??
-      (topIngredients.length > 0 ? topIngredients[0].dominantElement : "Fire");
+      targetElement ?? firstIngredient?.dominantElement ?? "Fire";
 
     const dominantAlchemicalProperty =
       targetAlchemicalProperty ??
-      (topIngredients.length > 0
-        ? topIngredients[0].dominantAlchemicalProperty
-        : "Spirit");
+      firstIngredient?.dominantAlchemicalProperty ??
+      "Spirit";
 
     // Calculate average energy values
     const calculateAverage = (
@@ -485,7 +482,7 @@ export class AlchemicalTransformationService {
       11: "winter", // Dec
     };
 
-    const currentSeason = monthToSeason[currentMonth];
+    const currentSeason = monthToSeason[currentMonth] ?? "spring";
     if (seasons.includes(currentSeason) || seasons.includes("all")) {
       return 0.8;
     }

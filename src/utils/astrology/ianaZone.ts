@@ -134,13 +134,14 @@ export function wallClockToInstant(wallLabelledUtc: Date, zone: string): Instant
     .filter((ms) => wallClockMsAt(zone, new Date(ms)) === wallMs)
     .sort((a, b) => a - b);
 
-  if (candidates.length === 1) {
-    const instant = new Date(candidates[0]);
+  const [firstCandidate] = candidates;
+  if (candidates.length === 1 && firstCandidate !== undefined) {
+    const instant = new Date(firstCandidate);
     return { instant, resolution: "UNIQUE", offsetMinutes: zoneOffsetMinutes(zone, instant) };
   }
 
-  if (candidates.length > 1) {
-    const instant = new Date(candidates[0]); // earlier of the two passes
+  if (candidates.length > 1 && firstCandidate !== undefined) {
+    const instant = new Date(firstCandidate); // earlier of the two passes
     return { instant, resolution: "AMBIGUOUS", offsetMinutes: zoneOffsetMinutes(zone, instant) };
   }
 

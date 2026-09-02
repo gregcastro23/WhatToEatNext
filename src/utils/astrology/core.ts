@@ -441,6 +441,11 @@ export async function getCurrentAstrologicalState(
       "Saturday",
     ] as const;
     const weekDay = weekDays[now.getDay()];
+    if (weekDay === undefined) {
+      throw new RangeError(
+        `astrology/core: no weekday name for index ${now.getDay()}`,
+      );
+    }
     const timeFactors: TimeFactors = {
       currentDate: now,
       season: (getCurrentSeason().charAt(0).toUpperCase() +
@@ -701,6 +706,7 @@ export async function calculateAspects(
     for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
+      if (planet1 === undefined || planet2 === undefined) continue;
       const pos1 = (positions as Record<string, { sign: string; degree: number } | undefined>)[planet1];
       const pos2 = (positions as Record<string, { sign: string; degree: number } | undefined>)[planet2];
       // Skip if missing position data

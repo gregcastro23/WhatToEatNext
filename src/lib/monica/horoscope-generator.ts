@@ -7,6 +7,16 @@ import {
 } from '../enhanced-astronomical-calculator'
 import { getZodiacPositionForDate } from '../ephemeris/solar-ephemeris'
 
+/** Zodiac label for a computed index; the index is derived from a normalised
+ * longitude, so an out-of-range value is a bug rather than missing data. */
+function signAt(signs: readonly string[], index: number): string {
+  const sign = signs[index]
+  if (sign === undefined) {
+    throw new RangeError(`horoscope-generator: sign index ${index} out of range`)
+  }
+  return sign
+}
+
 export interface BirthInfo {
   year: number
   month: number
@@ -225,7 +235,7 @@ function calculatePlanetPosition(
   const newDegree = newAbsoluteDegrees % 30
 
   return {
-    sign: signs[newSignIndex],
+    sign: signAt(signs, newSignIndex),
     degree: newDegree,
     retrograde,
   }
@@ -301,7 +311,7 @@ function calculateAscendant(birthInfo: BirthInfo): { sign: string; degree: numbe
   const degreeInSign = ascendantLongitude % 30
 
   return {
-    sign: signs[signIndex],
+    sign: signAt(signs, signIndex),
     degree: degreeInSign,
   }
 }
@@ -335,7 +345,7 @@ function calculateHouses(ascendant: {
     const houseNumber = i + 1
     const signIndex = (ascIndex + i) % 12
     houses[houseNumber] = {
-      sign: signs[signIndex],
+      sign: signAt(signs, signIndex),
       degree: ascendant.degree,
     }
   }

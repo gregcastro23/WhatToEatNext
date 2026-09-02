@@ -102,11 +102,16 @@ function getMoonAge(date: Date): number {
     }
   }
 
+  if (lastNewMoon === undefined) {
+    throw new RangeError('moon-phase-calculator: NEW_MOON_DATES is empty')
+  }
+
   // Calculate days since last new moon
   const daysSince = (date.getTime() - lastNewMoon.getTime()) / (1000 * 60 * 60 * 24)
 
   // Handle cycles beyond our known dates
-  if (date > NEW_MOON_DATES[NEW_MOON_DATES.length - 1]) {
+  const lastKnownNewMoon = NEW_MOON_DATES[NEW_MOON_DATES.length - 1]
+  if (lastKnownNewMoon !== undefined && date > lastKnownNewMoon) {
     const cyclesSince = Math.floor(daysSince / LUNAR_CYCLE_DAYS)
     return daysSince - cyclesSince * LUNAR_CYCLE_DAYS
   }
@@ -148,7 +153,15 @@ export function getLunarDegreePersonality(degree: number, _sign?: string): Lunar
 
   // Each degree has unique personality traits
   const personalities = generateDegreePersonalities()
-  const personality = personalities[degree]
+  // The table holds one entry per whole degree, but callers pass ecliptic
+  // longitudes (planetary-agent-activation passes planetData.longitude), which
+  // are fractional. Reading personalities[123.45] returned undefined while the
+  // declared type promised a string; floor into the degree bucket instead.
+  const degreeIndex = ((Math.floor(degree) % 360) + 360) % 360
+  const personality = personalities[degreeIndex]
+  if (personality === undefined) {
+    throw new RangeError(`moon-phase-calculator: no personality for degree ${degree}`)
+  }
 
   // Phase-specific emotional tones
   const emotionalTones: Record<MoonPhase, string> = {
@@ -296,7 +309,11 @@ function getCommunicationStyle(degree: number): string {
   ]
 
   const index = Math.floor(degree / 30)
-  return styles[index] || styles[0]
+  const style = styles[index] || styles[0]
+  if (style === undefined) {
+    throw new RangeError(`moon-phase-calculator: no communication style for degree ${degree}`)
+  }
+  return style
 }
 
 /**

@@ -533,7 +533,8 @@ export default function SauceLineageTree() {
   useEffect(() => {
     if (forest && forest.families.length > 0) {
       if (!activeFamily || !forest.families.find(f => f.family === activeFamily)) {
-        setActiveFamily(forest.families[0].family);
+        const [firstFamily] = forest.families;
+        if (firstFamily) setActiveFamily(firstFamily.family);
       }
     }
   }, [forest, activeFamily]);

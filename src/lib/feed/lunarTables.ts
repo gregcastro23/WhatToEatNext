@@ -106,5 +106,5 @@ export function nextLunarTable(now = new Date()): LunarTable | null {
 
   candidates.sort((a, b) => a.peakAt.getTime() - b.peakAt.getTime());
   // Prefer an open table; otherwise the soonest upcoming one.
-  return candidates.find((t) => t.isOpen) ?? candidates.find((t) => t.peakAt.getTime() >= now.getTime()) ?? candidates[0];
+  return candidates.find((t) => t.isOpen) ?? candidates.find((t) => t.peakAt.getTime() >= now.getTime()) ?? candidates[0] ?? null;
 }

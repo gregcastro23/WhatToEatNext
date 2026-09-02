@@ -210,10 +210,15 @@ export function getElementalColor(
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = "text",
 ): string {
-  if (!element || !(element in ELEMENTAL_COLORS)) {
-    return ELEMENTAL_COLORS.Fire[type]; // Default to Fire
+  const fallback = ELEMENTAL_COLORS.Fire;
+  if (!fallback) {
+    throw new Error("elemental/core: ELEMENTAL_COLORS is missing its `Fire` entry");
   }
-  return ELEMENTAL_COLORS[element as Element][type];
+  if (!element) {
+    return fallback[type]; // Default to Fire
+  }
+  const colors = ELEMENTAL_COLORS[element as Element];
+  return (colors ?? fallback)[type];
 }
 
 /**
@@ -538,7 +543,10 @@ function calculateBalanceScore(
   ];
 
   elements.forEach((element) => {
-    const difference = Math.abs(recipeProps[element] - userProps[element]);
+    const recipeValue = recipeProps[element];
+    const userValue = userProps[element];
+    if (recipeValue === undefined || userValue === undefined) return;
+    const difference = Math.abs(recipeValue - userValue);
     totalDifference += difference;
   });
 

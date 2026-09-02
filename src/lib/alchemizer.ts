@@ -720,7 +720,10 @@ export function alchemize(
     })
   }
 
-  ;({ 1: alchmInfo['Dominant Element'] } = getElementRanking(alchmInfo['Total Effect Value']))
+  const { 1: dominantElement } = getElementRanking(alchmInfo['Total Effect Value'])
+  if (dominantElement !== undefined) {
+    alchmInfo['Dominant Element'] = dominantElement
+  }
 
   const totalPlanets = alchmInfo['# Cardinal'] + alchmInfo['# Fixed'] + alchmInfo['# Mutable']
   if (totalPlanets > 0) {

@@ -162,7 +162,11 @@ async function upsertRestaurant(input: {
       }),
     ],
   );
-  return result.rows[0];
+  const [row] = result.rows;
+  if (!row) {
+    throw new Error("restaurants/onboard: insert returned no row");
+  }
+  return row;
 }
 
 export async function POST(request: NextRequest) {

@@ -643,8 +643,11 @@ export function calculateMultiCuisineHarmony(
   // Compare each cuisine with every other cuisine
   for (let i = 0; i < cuisineProfiles.length; i++) {
     for (let j = i + 1; j < cuisineProfiles.length; j++) {
-      const thermo1 = cuisineProfiles[i].averageThermodynamics;
-      const thermo2 = cuisineProfiles[j].averageThermodynamics;
+      const profile1 = cuisineProfiles[i];
+      const profile2 = cuisineProfiles[j];
+      if (!profile1 || !profile2) continue;
+      const thermo1 = profile1.averageThermodynamics;
+      const thermo2 = profile2.averageThermodynamics;
 
       // Calculate Kalchm ratio
       const kalchmRatio =

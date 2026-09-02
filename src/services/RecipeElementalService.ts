@@ -122,7 +122,7 @@ export function deriveElementalProperties(
     const acc: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     for (const sign of recipe.zodiacInfluences) {
       const el = ZODIAC_ELEMENT[sign?.toLowerCase?.() ?? ""];
-      if (el) acc[el] += 1;
+      if (el && acc[el] !== undefined) acc[el] += 1;
     }
     const total = acc.Fire + acc.Water + acc.Earth + acc.Air;
     if (total > 0) return normalizeElementalProperties(acc);

@@ -33,10 +33,9 @@ export async function GET(request: NextRequest) {
     // Group by category for easier consumption
     const grouped = presets.reduce(
       (acc, preset) => {
-        if (!acc[preset.category]) {
-          acc[preset.category] = [];
-        }
-        acc[preset.category].push(preset);
+        const bucket = acc[preset.category] ?? [];
+        bucket.push(preset);
+        acc[preset.category] = bucket;
         return acc;
       },
       {} as Record<string, typeof presets>,

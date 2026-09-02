@@ -63,7 +63,7 @@ export function getIngredientsForCuisine(
       if (
         grainDataEntry?.cuisines?.includes(cuisineName)
       ) {
-        result.grain.push(grain);
+        result.grain?.push(grain);
       }
     });
   }
@@ -71,7 +71,7 @@ export function getIngredientsForCuisine(
   if (categories.includes("culinary_herb")) {
     Object.entries(__herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
       if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
-        result.culinary_herb.push(herb);
+        result.culinary_herb?.push(herb);
       }
     });
   }

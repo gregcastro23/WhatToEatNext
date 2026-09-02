@@ -175,17 +175,21 @@ export function normalizeTimeToMinutes(time: unknown): number | null {
 
   // Handle "X minutes" format
   const minMatch = str.match(/^(\d+\.?\d*)\s*(min|mins|minute|minutes)$/i);
-  if (minMatch) return parseFloat(minMatch[1]);
+  const minValue = minMatch?.[1];
+  if (minValue !== undefined) return parseFloat(minValue);
 
   // Handle "X hours" format
   const hrMatch = str.match(/^(\d+\.?\d*)\s*(hr|hrs|hour|hours)$/i);
-  if (hrMatch) return parseFloat(hrMatch[1]) * 60;
+  const hrValue = hrMatch?.[1];
+  if (hrValue !== undefined) return parseFloat(hrValue) * 60;
 
   // Handle "X h Y m" format
   const hhmMatch = str.match(/^(\d+)\s*h\s*(\d*)\s*m?$/i);
-  if (hhmMatch) {
-    const hours = parseInt(hhmMatch[1], 10);
-    const mins = hhmMatch[2] ? parseInt(hhmMatch[2], 10) : 0;
+  const hhmHours = hhmMatch?.[1];
+  if (hhmHours !== undefined) {
+    const hours = parseInt(hhmHours, 10);
+    const rawMins = hhmMatch?.[2];
+    const mins = rawMins ? parseInt(rawMins, 10) : 0;
     return hours * 60 + mins;
   }
 
@@ -209,7 +213,12 @@ export function validateElementalProperties(props: unknown): {
 
   const elemental = props as Record<string, unknown>;
   const issues: string[] = [];
-  const values: Record<string, number> = {};
+  const values: Record<(typeof VALID_ELEMENTS)[number], number> = {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  };
 
   // Check all required elements exist and are numbers
   for (const element of VALID_ELEMENTS) {
@@ -768,20 +777,40 @@ function levenshteinDistance(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array(n + 1).fill(0));
 
-  for (let i = 0; i <= m; i++) dp[i][0] = i;
-  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  // dp is allocated (m+1) x (n+1) just above, so every (i, j) below is in range.
+  const cell = (i: number, j: number): number => {
+    const value = dp[i]?.[j];
+    if (value === undefined) {
+      throw new RangeError(`levenshtein: cell (${i}, ${j}) outside ${m + 1}x${n + 1} matrix`);
+    }
+    return value;
+  };
+  const setCell = (i: number, j: number, value: number): void => {
+    const row = dp[i];
+    if (!row) {
+      throw new RangeError(`levenshtein: row ${i} outside ${m + 1}x${n + 1} matrix`);
+    }
+    row[j] = value;
+  };
+
+  for (let i = 0; i <= m; i++) setCell(i, 0, i);
+  for (let j = 0; j <= n; j++) setCell(0, j, j);
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (str1[i - 1] === str2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1];
+        setCell(i, j, cell(i - 1, j - 1));
       } else {
-        dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+        setCell(
+          i,
+          j,
+          1 + Math.min(cell(i - 1, j), cell(i, j - 1), cell(i - 1, j - 1)),
+        );
       }
     }
   }
 
-  return dp[m][n];
+  return cell(m, n);
 }
 
 /**
@@ -957,10 +986,12 @@ export function detectDuplicates(
       });
 
       const bestIndex = scores.indexOf(Math.max(...scores));
+      const [firstInGroup] = group;
+      if (!firstInGroup) continue;
 
       duplicateGroups.push({
         recipes: group,
-        suggestedKeep: group[bestIndex]?.id || group[0].id,
+        suggestedKeep: group[bestIndex]?.id || firstInGroup.id,
         reason: "Based on recipe completeness and data quality",
       });
     }

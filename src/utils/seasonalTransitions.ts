@@ -10,7 +10,14 @@ const defaultBalance: ElementalState = {
 };
 
 // Seasonal modifiers for elemental balance
-const seasonalModifiers: Record<string, Record<string, number>> = {
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+
+// NOTE: these keys carry a leading underscore and use "_Autumn", while
+// Season is "spring" | "summer" | "fall" | "winter". No season matches any
+// key, so every lookup below is a miss. Preserved verbatim rather than
+// renamed — both consumers are currently uncalled, and choosing the intended
+// key set is a semantic decision, not a typing one.
+const seasonalModifiers: Record<string, Record<ElementName, number>> = {
   _Spring: { Fire: 0.2, Water: 0.1, Earth: 0.0, Air: 0.3 },
   _Summer: { Fire: 0.3, Water: 0.0, Earth: 0.1, Air: 0.2 },
   _Autumn: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.0 },
@@ -49,27 +56,31 @@ export function applySeasonalTransition(
   const progress = calculateProgressInPhase(currentDate, currentPhase);
   const strength = calculateSeasonalStrength(progress);
 
+  const modifiers = seasonalModifiers[currentPhase.name];
+  if (!modifiers) {
+    throw new Error(
+      `seasonalTransitions: no modifiers for phase "${currentPhase.name}"`,
+    );
+  }
+
   return {
-    Fire:
-      baseElements.Fire *
-      (1 + strength * seasonalModifiers[currentPhase.name].Fire),
-    Water:
-      baseElements.Water *
-      (1 + strength * seasonalModifiers[currentPhase.name].Water),
-    Air:
-      baseElements.Air *
-      (1 + strength * seasonalModifiers[currentPhase.name].Air),
-    Earth:
-      baseElements.Earth *
-      (1 + strength * seasonalModifiers[currentPhase.name].Earth),
+    Fire: baseElements.Fire * (1 + strength * modifiers.Fire),
+    Water: baseElements.Water * (1 + strength * modifiers.Water),
+    Air: baseElements.Air * (1 + strength * modifiers.Air),
+    Earth: baseElements.Earth * (1 + strength * modifiers.Earth),
   };
 }
 
 export function getSeasonalInfluence(season: Season): ElementalState {
+  const modifiers = seasonalModifiers[season];
+  if (!modifiers) {
+    throw new Error(`seasonalTransitions: no modifiers for season "${season}"`);
+  }
+
   return {
-    Fire: baseElements.Fire * (1 + seasonalModifiers[season].Fire),
-    Water: baseElements.Water * (1 + seasonalModifiers[season].Water),
-    Air: baseElements.Air * (1 + seasonalModifiers[season].Air),
-    Earth: baseElements.Earth * (1 + seasonalModifiers[season].Earth),
+    Fire: baseElements.Fire * (1 + modifiers.Fire),
+    Water: baseElements.Water * (1 + modifiers.Water),
+    Air: baseElements.Air * (1 + modifiers.Air),
+    Earth: baseElements.Earth * (1 + modifiers.Earth),
   };
 }

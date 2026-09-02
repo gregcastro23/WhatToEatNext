@@ -218,8 +218,10 @@ function aggregateAlchemicalProperties(
     Earth: 0,
   };
 
-  for (const planet in planetaryPositions) {
-    const sign = planetaryPositions[planet];
+  // Object.entries hands back the sign alongside its planet, so the sign is a
+  // plain `string` rather than the `string | undefined` an index read carries.
+  // Same own enumerable keys, same order, as the previous for…in.
+  for (const [planet, sign] of Object.entries(planetaryPositions)) {
     const planetData = planetInfo[planet];
     if (!planetData) continue;
 

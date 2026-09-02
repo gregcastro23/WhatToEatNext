@@ -69,9 +69,9 @@ export class ChakraRecipeEnhancer {
 
     // Return the first chakra associated with the dominant element
     // Use type assertion to help TypeScript understand this is a valid key
-    const chakraKeys = chakraMap[dominantElement];
-    if (chakraKeys && chakraKeys.length > 0) {
-      return chakraKeys[0];
+    const [firstChakra] = chakraMap[dominantElement] ?? [];
+    if (firstChakra !== undefined) {
+      return firstChakra;
     }
 
     // Return a default chakra if no mapping is found
@@ -216,7 +216,7 @@ export class ChakraRecipeEnhancer {
             recipe.elementalProperties,
           );
           const elementValue = recipe.elementalProperties[dominantElement];
-          elementalAlignment = Math.min(elementValue, 1.0);
+          elementalAlignment = Math.min(Number(elementValue), 1.0);
         }
 
         // Get tarot recommendations for the dominant chakra

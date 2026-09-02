@@ -253,20 +253,16 @@ export class PlanetaryAgentsAdapter {
   private extractElementalTotals(
     modifiers: Record<string, number>,
   ): Record<string, number> {
-    const elements = ["Fire", "Water", "Earth", "Air"];
-    const totals: Record<string, number> = {};
-
-    elements.forEach((element) => {
-      totals[element] = modifiers[element] || 2.5; // Default baseline
-    });
-
-    // Add alchemical properties influence
-    if (modifiers.Spirit) totals.Fire += modifiers.Spirit * 2;
-    if (modifiers.Essence) totals.Water += modifiers.Essence * 2;
-    if (modifiers.Matter) totals.Earth += modifiers.Matter * 2;
-    if (modifiers.Substance || modifiers.substance) {
-      totals.Air += (modifiers.Substance || modifiers.substance || 0) * 2;
-    }
+    const totals: Record<string, number> = {
+      Fire: (modifiers.Fire ?? 2.5) + (modifiers.Spirit ? modifiers.Spirit * 2 : 0),
+      Water: (modifiers.Water ?? 2.5) + (modifiers.Essence ? modifiers.Essence * 2 : 0),
+      Earth: (modifiers.Earth ?? 2.5) + (modifiers.Matter ? modifiers.Matter * 2 : 0),
+      Air:
+        (modifiers.Air ?? 2.5) +
+        (modifiers.Substance || modifiers.substance
+          ? (modifiers.Substance || modifiers.substance || 0) * 2
+          : 0),
+    };
 
     return totals;
   }
@@ -403,7 +399,8 @@ export class PlanetaryAgentsAdapter {
       "Mercury",
       "Moon",
     ];
-    return planets[hour % 7];
+    const idx = ((hour % 7) + 7) % 7;
+    return planets[idx] ?? "Saturn";
   }
 
   /**

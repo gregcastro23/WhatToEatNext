@@ -33,7 +33,7 @@ export function elementalCosineHarmony(
 ): number {
   const va = ELEMENT_ORDER.map((e) => a[e] ?? 0);
   const vb = ELEMENT_ORDER.map((e) => b[e] ?? 0);
-  const dot = va.reduce((s, ai, i) => s + ai * vb[i], 0);
+  const dot = ELEMENT_ORDER.reduce((s, e) => s + (a[e] ?? 0) * (b[e] ?? 0), 0);
   const magA = Math.sqrt(va.reduce((s, ai) => s + ai * ai, 0));
   const magB = Math.sqrt(vb.reduce((s, bi) => s + bi * bi, 0));
   if (magA === 0 || magB === 0) return 0.7; // Neutral harmony for empty vectors

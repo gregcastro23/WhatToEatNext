@@ -57,8 +57,9 @@ export async function generateDailyInsightContent(
     parts.push(`${planetList} are in harmonic resonance with your birth chart.`);
   }
 
-  if (recommendations.length > 0) {
-    parts.push(recommendations[0]);
+  const [firstRec] = recommendations;
+  if (firstRec) {
+    parts.push(firstRec);
   }
 
   const message = parts.join(" ");

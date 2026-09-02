@@ -48,7 +48,6 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
 import { METHOD_PHYSICAL_REFERENCE } from "@/data/cooking/physicalReference";
 import {
   calculateKalchm,
@@ -822,7 +821,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     if (compareMode) {
       setCompareSelections(prev => {
         if (prev.includes(methodId)) return prev.filter(id => id !== methodId);
-        if (prev.length >= 2) return [prev[1], methodId];
+        if (prev.length >= 2) return [prev[1] ?? methodId, methodId];
         return [...prev, methodId];
       });
       return;
@@ -1337,7 +1336,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   };
 
   const renderConditionsTab = (method: (typeof currentMethods)[0]): React.ReactElement => {
-    const reference = method.referenceProfile as MethodPhysicalReference | undefined;
+    const reference = method.referenceProfile;
     if (!method.physicsMetrics) {
       return (
         <p className="py-8 text-center text-sm text-gray-500">

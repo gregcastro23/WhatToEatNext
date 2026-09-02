@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
 
   try {
     let wasExisting = false;
-    let row: CustomRecipeRow;
+    let row: CustomRecipeRow | undefined;
 
     if (body.sourceRecipeId) {
       const existing = await executeQuery<CustomRecipeRow>(
@@ -223,6 +223,13 @@ export async function POST(request: NextRequest) {
         ],
       );
       [row] = inserted.rows;
+    }
+
+    if (!row) {
+      return NextResponse.json(
+        { success: false, error: "custom recipe write returned no row" },
+        { status: 500 },
+      );
     }
 
     try {

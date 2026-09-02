@@ -125,19 +125,18 @@ async function computeEcosystemUncached() {
     diurnal: detailed.metadata.isDiurnal,
   });
 
-  const positionRows = TEN_PLANETS.filter((planet) => positions[planet] !== undefined).map(
-    (planet) => {
+  const positionRows = TEN_PLANETS.flatMap((planet) => {
       const pos = positions[planet];
-      return {
+      if (pos === undefined) return [];
+      return [{
         planet,
         sign: pos.sign,
         degree: pos.degree,
         minute: pos.minute,
         isRetrograde: pos.isRetrograde ?? false,
         arcminPerDay: pos.longitudeSpeed != null ? pos.longitudeSpeed * 60 : null,
-      };
-    },
-  );
+      }];
+    });
 
   return {
     fbds,

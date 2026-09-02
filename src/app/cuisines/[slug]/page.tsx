@@ -117,7 +117,7 @@ export default async function CuisineDetailPage({
             </div>
 
             {/* Banquet Image Section */}
-            {meta.imageUrl ? (
+            {meta?.imageUrl ? (
               <div className="md:col-span-5 relative min-h-[300px] md:min-h-full w-full overflow-hidden border-t md:border-t-0 md:border-l border-white/10 group">
                 <Image
                   src={meta.imageUrl}

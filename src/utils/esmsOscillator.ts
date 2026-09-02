@@ -125,7 +125,7 @@ export function oscillatorCoordinate(
   for (const body of OSCILLATOR_BODIES) {
     const state = sky[body];
     const r = state?.distanceAu;
-    if (!state || !Number.isFinite(r) || r <= 0) {
+    if (!state || r === undefined || !Number.isFinite(r) || r <= 0) {
       throw new TypeError(
         `oscillatorCoordinate: body "${body}" needs a positive finite distance, got ${String(r)}`,
       );

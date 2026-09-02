@@ -18,7 +18,7 @@ function triPath(cx: number, cy: number, r: number, up: boolean, rot = 0) {
     const a = (((up ? -90 : 90) + i * 120 + rot) * Math.PI) / 180;
     return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
   });
-  return `M${  pts.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" L")  } Z`;
+  return `M${  pts.map(([x, y]) => `${(x ?? 0).toFixed(1)} ${(y ?? 0).toFixed(1)}`).join(" L")  } Z`;
 }
 
 // Horizontal bar across a triangle at vertical fraction f (0=top, 1=bottom)
@@ -225,7 +225,10 @@ export function ConsciousnessSigil({
   const edges: Array<[number, number, number]> = [];
   for (let i = 0; i < planets.length; i++) {
     for (let j = i + 1; j < planets.length; j++) {
-      let d = Math.abs(planets[i].lon - planets[j].lon) % 360;
+      const pi = planets[i];
+      const pj = planets[j];
+      if (!pi || !pj) continue;
+      let d = Math.abs(pi.lon - pj.lon) % 360;
       if (d > 180) d = 360 - d;
       const hit = [0, 60, 90, 120, 180].some((ang) => Math.abs(d - ang) <= 7);
       if (hit) edges.push([i, j, d]);
@@ -388,17 +391,22 @@ export function ConsciousnessSigil({
 
         {/* ── ASPECT WEB ── */}
         <g opacity={em.web} stroke="var(--accent)" strokeWidth="0.6">
-          {edges.map(([i, j], k) => (
+          {edges.map(([i, j], k) => {
+            const ni = nodes[i];
+            const nj = nodes[j];
+            if (!ni || !nj) return null;
+            return (
             <line
               key={k}
-              x1={nodes[i].x}
-              y1={nodes[i].y}
-              x2={nodes[j].x}
-              y2={nodes[j].y}
+              x1={ni.x}
+              y1={ni.y}
+              x2={nj.x}
+              y2={nj.y}
               opacity={0.55}
               style={drawAnim(1.0 + k * 0.05, 0.8)}
             />
-          ))}
+            );
+          })}
         </g>
 
         {/* radial spokes to nodes */}

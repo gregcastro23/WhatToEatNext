@@ -140,7 +140,7 @@ function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
   const parseTime = (t?: string): number => {
     if (!t) return 0;
     const match = t.match(/(\d+)/);
-    return match ? parseInt(match[1], 10) : 0;
+    return match ? parseInt(match[1] ?? "", 10) : 0;
   };
   return { prep: parseTime(recipe.prepTime), cook: parseTime(recipe.cookTime) };
 }

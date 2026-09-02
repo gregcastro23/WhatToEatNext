@@ -30,6 +30,8 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
   };
 
   const moonData = getMoonDisplayData(lunarPhase);
+  const moonName = moonData?.name ?? 'New Moon';
+  const moonIcon = moonData?.icon;
   const currentDominant = getDominantElement();
   const natalDominant = natalChart.dominantElement || 'Fire';
   const aligned = currentDominant === natalDominant;
@@ -53,7 +55,7 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
       <div className="grid grid-cols-2 gap-5">
         {[
           { label: 'Planetary Hour', value: planetaryHour, sub: 'Current Governor' },
-          { label: 'Moon Phase', value: moonData.name, icon: moonData.icon, sub: 'Lunar Cycle' },
+          { label: 'Moon Phase', value: moonName, icon: moonIcon, sub: 'Lunar Cycle' },
           { label: 'Current Element', value: currentDominant, sub: 'Celestial State' },
           { label: 'Natal Status', value: aligned ? 'In Harmony' : 'Contrast', sub: 'Personal Resonance', highlighted: true, alert: aligned }
         ].map((item, idx) => (

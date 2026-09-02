@@ -140,7 +140,7 @@ function extractSeasonDishes(
   const seasonKeys: SeasonKey[] = ["spring", "summer", "autumn", "winter"];
 
   for (const mealKey of mealKeys) {
-    const mealTypeData = rawDishes[mealKey] as Record<string, unknown[]> | undefined;
+    const mealTypeData = rawDishes[mealKey];
     if (!mealTypeData || typeof mealTypeData !== "object") continue;
 
     const targetMeal = dishes[mealKey];
@@ -196,7 +196,7 @@ export function processCuisineRecipes(cuisine: unknown): Cuisine | null {
  */
 export async function getCuisineData(key: string): Promise<Cuisine | null> {
   const normalizedKey = key === "Middle Eastern" ? "MiddleEastern" : key;
-  const loader = cuisineImports[normalizedKey] as CuisineImport | undefined;
+  const loader = cuisineImports[normalizedKey];
   if (!loader) return null;
 
   try {
@@ -215,7 +215,7 @@ export const PRIMARY_CUISINE_KEYS = Object.keys(cuisineImports);
 // If dishes are needed, use getCuisineData() instead.
 const cuisinesMapBase: Record<string, Cuisine> = {};
 PRIMARY_CUISINE_KEYS.forEach(key => {
-  const meta = CUISINES_METADATA[key] as Partial<Cuisine> | undefined;
+  const meta = CUISINES_METADATA[key];
   if (!meta) return; // internal collections (HSCA) have no public metadata
   cuisinesMapBase[key] = {
     ...meta,

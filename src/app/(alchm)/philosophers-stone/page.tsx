@@ -191,11 +191,15 @@ export default function ModernPhilosophersStone(): ReactNode {
 
       const chartResult = calculateAllPlanets(birthInfo)
 
-      const sunLongitude = chartResult.planets.Sun.longitude
-      const moonLongitude = chartResult.planets.Moon.longitude
-      const mercuryLongitude = chartResult.planets.Mercury.longitude
-      const venusLongitude = chartResult.planets.Venus.longitude
-      const marsLongitude = chartResult.planets.Mars.longitude
+      const { Sun, Moon, Mercury, Venus, Mars } = chartResult.planets
+      if (!Sun || !Moon || !Mercury || !Venus || !Mars) {
+        throw new Error('philosophers-stone: chart is missing a classical planet')
+      }
+      const sunLongitude = Sun.longitude
+      const moonLongitude = Moon.longitude
+      const mercuryLongitude = Mercury.longitude
+      const venusLongitude = Venus.longitude
+      const marsLongitude = Mars.longitude
       const ascLongitude = chartResult.ascendant.longitude
 
       // §18e — this preview no longer fabricates a monica. The old
@@ -225,7 +229,7 @@ export default function ModernPhilosophersStone(): ReactNode {
       }))
 
       addMonicaMessage(
-        `Beautiful! Chart calculated: Sun in ${chartResult.planets.Sun.sign}, Moon in ${chartResult.planets.Moon.sign}, Ascendant in ${chartResult.ascendant.sign}. Your Monica Constant is computed when the agent is forged. I've derived initial stats from the chart - you can adjust them in Step 3!`
+        `Beautiful! Chart calculated: Sun in ${Sun.sign}, Moon in ${Moon.sign}, Ascendant in ${chartResult.ascendant.sign}. Your Monica Constant is computed when the agent is forged. I've derived initial stats from the chart - you can adjust them in Step 3!`
       )
     } catch (error) {
       _logger.error('Chart calculation error:', error)
@@ -392,11 +396,11 @@ export default function ModernPhilosophersStone(): ReactNode {
                   <div className="grid grid-cols-3 gap-2 text-sm">
                     <div>
                       <span className="text-slate-400">Sun:</span>{' '}
-                      {agentData.calculatedChart.planets.Sun.sign}
+                      {agentData.calculatedChart.planets.Sun?.sign}
                     </div>
                     <div>
                       <span className="text-slate-400">Moon:</span>{' '}
-                      {agentData.calculatedChart.planets.Moon.sign}
+                      {agentData.calculatedChart.planets.Moon?.sign}
                     </div>
                     <div>
                       <span className="text-slate-400">Asc:</span>{' '}

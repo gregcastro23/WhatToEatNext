@@ -267,10 +267,11 @@ function extractRecipesFromCuisines(
           const detailsCuisine =
             typeof details.cuisine === "string" ? details.cuisine : "";
           const regionMatch = detailsCuisine.match(/\(([^)]+)\)/);
+          const matchedGroup = regionMatch?.[1];
           const regionalVariant =
             (typeof dish.regionalVariant === "string" &&
               dish.regionalVariant) ||
-            (regionMatch ? regionMatch[1].trim() : undefined);
+            (matchedGroup ? matchedGroup.trim() : undefined);
 
           const cookingMethod = toStringArray(classifications.cookingMethods);
           const planets = toStringArray(astro.planets);

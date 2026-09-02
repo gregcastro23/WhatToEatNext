@@ -186,9 +186,11 @@ export function RecipeQueueProvider({
           );
           // Update existing item
           setQueue((prev) => {
+            const currentItem = prev[existingIndex];
+            if (!currentItem) return prev;
             const updated = [...prev];
             updated[existingIndex] = {
-              ...updated[existingIndex],
+              ...currentItem,
               ...metadata,
               addedAt: new Date(), // Refresh timestamp
             };
@@ -253,8 +255,10 @@ export function RecipeQueueProvider({
             return prev;
           }
 
+          const currentItem = prev[index];
+          if (!currentItem) return prev;
           const updated = [...prev];
-          updated[index] = { ...updated[index], ...updates };
+          updated[index] = { ...currentItem, ...updates };
           logger.debug(`Updated queue item ${queueItemId}`);
           return updated;
         });
@@ -289,7 +293,9 @@ export function RecipeQueueProvider({
       setQueue((prev) => {
         const result = Array.from(prev);
         const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
+        if (removed) {
+          result.splice(endIndex, 0, removed);
+        }
         logger.debug(`Reordered queue: ${startIndex} → ${endIndex}`);
         return result;
       });

@@ -176,11 +176,16 @@ export function useRecipeValidation() {
     }
 
     // Elemental balance suggestions
-    const dominantElement = Object.entries(elementalBalance).sort(
+    const sortedElements = Object.entries(elementalBalance).sort(
       ([, a], [, b]) => b - a,
-    )[0][0] as keyof ElementalProperties;
+    );
+    const [dominantEntry] = sortedElements;
+    const dominantElement = dominantEntry
+      ? (dominantEntry[0] as keyof ElementalProperties)
+      : ("Fire" as keyof ElementalProperties);
 
-    if (elementalBalance[dominantElement] > 0.5) {
+    const dominantVal = elementalBalance[dominantElement];
+    if (dominantVal !== undefined && dominantVal > 0.5) {
       const balancingElements: Record<string, string> = {
         Fire: "Water",
         Water: "Fire",

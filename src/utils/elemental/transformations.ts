@@ -544,7 +544,12 @@ function calculateAlchemicalProperties(
   planetaryInfluences: { [key: string]: PlanetaryInfluence },
   tarotPlanetaryBoosts?: { [key: string]: number },
 ): { [key: string]: number } {
-  const alchemicalProps: Record<string, number> = {
+  const alchemicalProps: Record<string, number> & {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  } = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -577,15 +582,18 @@ function calculateAlchemicalProperties(
       influence.strength + influence.dignityBonus + tarotBoost;
 
     for (const [prop, value] of Object.entries(planetProps)) {
-      alchemicalProps[prop] += value * totalStrength * 0.2; // Scale down the planetary effect
+      const current = alchemicalProps[prop];
+      if (current === undefined) continue;
+      // Scale down the planetary effect
+      alchemicalProps[prop] = current + value * totalStrength * 0.2;
     }
   }
 
   // Normalize alchemical properties
   const sum = Object.values(alchemicalProps).reduce((acc, val) => acc + val, 0);
   if (sum > 0) {
-    for (const prop in alchemicalProps) {
-      alchemicalProps[prop] /= sum;
+    for (const [prop, value] of Object.entries(alchemicalProps)) {
+      alchemicalProps[prop] = value / sum;
     }
   }
 

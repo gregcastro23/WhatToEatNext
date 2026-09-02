@@ -80,12 +80,14 @@ export default function AlchmQuantitiesTrends() {
   // Detect day/night sect transitions for reference lines
   const sectTransitions: string[] = [];
   for (let i = 1; i < trendData.length; i++) {
+    const curr = trendData[i];
+    const prev = trendData[i - 1];
     if (
-      trendData[i].isDiurnal != null &&
-      trendData[i - 1].isDiurnal != null &&
-      trendData[i].isDiurnal !== trendData[i - 1].isDiurnal
+      curr?.isDiurnal != null &&
+      prev?.isDiurnal != null &&
+      curr.isDiurnal !== prev.isDiurnal
     ) {
-      sectTransitions.push(trendData[i].time);
+      sectTransitions.push(curr.time);
     }
   }
 
@@ -135,8 +137,9 @@ export default function AlchmQuantitiesTrends() {
               fontSize: "12px",
             }}
             labelFormatter={(label, payload) => {
-              if (payload && payload.length > 0) {
-                const pt = payload[0].payload as TrendPoint;
+              const firstPayload = payload?.[0];
+              if (firstPayload) {
+                const pt = firstPayload.payload as TrendPoint;
                 if (pt.isDiurnal != null) {
                   const sectLabel = pt.isDiurnal ? "Day Sect" : "Night Sect";
                   return `${label} (${sectLabel})`;

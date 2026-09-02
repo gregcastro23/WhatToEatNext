@@ -163,7 +163,7 @@ const ZodiacSignLabel: React.FC<{
   centerY: number
   radius: number
 }> = ({ sign, centerX, centerY, radius }) => {
-  const angle = ((sign.degrees[0] + sign.degrees[1]) / 2) * (Math.PI / 180)
+  const angle = (((sign.degrees[0] ?? 0) + (sign.degrees[1] ?? 0)) / 2) * (Math.PI / 180)
   const labelRadius = radius + 50
   const x = centerX + Math.cos(angle - Math.PI / 2) * labelRadius
   const y = centerY + Math.sin(angle - Math.PI / 2) * labelRadius
@@ -241,7 +241,13 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
           agent,
           angle: degree - 90, // Start from top
           sign:
-            ZODIAC_SIGNS.find(sign => degree >= sign.degrees[0] && degree < sign.degrees[1])?.name ??
+            ZODIAC_SIGNS.find(
+              sign =>
+                sign.degrees[0] !== undefined &&
+                sign.degrees[1] !== undefined &&
+                degree >= sign.degrees[0] &&
+                degree < sign.degrees[1],
+            )?.name ??
             'Unknown',
         });
       }
@@ -257,7 +263,13 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
     (degree: number): void => {
       if (onDegreeClick) {
         const sign =
-          ZODIAC_SIGNS.find(s => degree >= s.degrees[0] && degree < s.degrees[1])?.name ?? 'Unknown'
+          ZODIAC_SIGNS.find(
+            s =>
+              s.degrees[0] !== undefined &&
+              s.degrees[1] !== undefined &&
+              degree >= s.degrees[0] &&
+              degree < s.degrees[1],
+          )?.name ?? 'Unknown'
         onDegreeClick(degree, sign)
       }
     },
@@ -277,6 +289,7 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
   const getTouchDistance = useCallback((touches: React.TouchList) => {
     if (touches.length < 2) return 0
     const [touch1, touch2] = Array.from(touches)
+    if (!touch1 || !touch2) return 0
     return Math.sqrt(
       Math.pow(touch2.clientX - touch1.clientX, 2) + Math.pow(touch2.clientY - touch1.clientY, 2)
     )
@@ -306,6 +319,7 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
       } else if (e.touches.length === 1 && !isPinching) {
         // Single touch for rotation
         const [touch] = Array.from(e.touches)
+        if (!touch) return
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
         const centerX = rect.left + rect.width / 2
         const centerY = rect.top + rect.height / 2

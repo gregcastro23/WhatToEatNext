@@ -548,9 +548,10 @@ export default function CookingMethods(): React.ReactElement | null {
   // Improve access to thermodynamic properties
   const _getThermodynamicValue = (method: ExtendedAlchemicalItem, property: string): number => {
     // First try to get from thermodynamicProperties
-    if (method.thermodynamicProperties && 
-        property in method.thermodynamicProperties) {
-      return method.thermodynamicProperties[property as keyof ThermodynamicProperties];
+    const thermoValue =
+      method.thermodynamicProperties?.[property as keyof ThermodynamicProperties];
+    if (thermoValue !== undefined) {
+      return thermoValue;
     }
     
     // Fall back to direct property if exists
@@ -677,7 +678,7 @@ export default function CookingMethods(): React.ReactElement | null {
     ) {
       // Try to find in molecular methods
       const molecularKey = Object.keys(molecularMethodsMap).find(
-        key => key.toLowerCase().includes(methodName.split(' ')[0].toLowerCase())
+        key => key.toLowerCase().includes((methodName.split(' ')[0] ?? methodName).toLowerCase())
       );
 
       if (molecularKey) {
@@ -1900,10 +1901,10 @@ export default function CookingMethods(): React.ReactElement | null {
                     {typeof ingredientCompatibility[method.id || method.name] === 'number' && (
                       <div className={styles.ingredientCompatibility}>
                         <span>Ingredient Compatibility: </span>
-                        <span>{Math.round(ingredientCompatibility[method.id || method.name] * 100)}%</span>
+                        <span>{Math.round((ingredientCompatibility[method.id || method.name] ?? 0) * 100)}%</span>
                         <div 
                           className={styles.compatibilityBar}
-                          style={{ width: `${Math.round(ingredientCompatibility[method.id || method.name] * 100)}%` }}
+                          style={{ width: `${Math.round((ingredientCompatibility[method.id || method.name] ?? 0) * 100)}%` }}
                         />
                       </div>
                     )}

@@ -83,9 +83,11 @@ export async function calculateElementalCompatibility(
 function getDominantElement(
   props: ElementalProperties,
 ): keyof ElementalProperties {
-  return Object.entries(props).sort(
-    ([, a], [, b]) => b - a,
-  )[0][0];
+  const [dominant] = Object.entries(props).sort(([, a], [, b]) => b - a);
+  if (!dominant) {
+    throw new Error("getDominantElement: no elemental properties supplied");
+  }
+  return dominant[0];
 }
 
 /**
@@ -114,21 +116,28 @@ function calculateBalanceScore(
   userProps: ElementalProperties,
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps).sort(
-    ([, a], [, b]) => a - b,
-  )[0][0] as keyof ElementalProperties;
+  const [weakestEntry] = Object.entries(userProps).sort(([, a], [, b]) => a - b);
+  const [strongestEntry] = Object.entries(userProps).sort(([, a], [, b]) => b - a);
+  if (!weakestEntry || !strongestEntry) {
+    throw new Error("calculateBalanceScore: no elemental properties supplied");
+  }
+  const [userWeakest] = weakestEntry;
+  const [userStrongest, userStrongestValue] = strongestEntry;
 
-  // Find user's strongest element
-  const userStrongest = Object.entries(userProps).sort(
-    ([, a], [, b]) => b - a,
-  )[0][0] as keyof ElementalProperties;
+  const recipeWeakestValue = recipeProps[userWeakest];
+  const recipeStrongestValue = recipeProps[userStrongest];
+  if (recipeWeakestValue === undefined || recipeStrongestValue === undefined) {
+    throw new Error(
+      `calculateBalanceScore: recipe has no "${userWeakest}"/"${userStrongest}" element`,
+    );
+  }
 
   // Check if recipe strengthens user's weakest element
-  const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
+  const weakestScore = recipeWeakestValue * 2; // Higher is better
 
   // Check if recipe moderates user's strongest element
   const strongestDifference = Math.abs(
-    recipeProps[userStrongest] - userProps[userStrongest],
+    recipeStrongestValue - userStrongestValue,
   );
   const strongestScore = 1 - strongestDifference; // Lower difference is better
 

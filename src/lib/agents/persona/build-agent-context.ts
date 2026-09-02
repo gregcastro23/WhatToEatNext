@@ -82,14 +82,16 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
       )
     }
 
-    if (queryResult.rows.length > 0) {
-      const [row] = queryResult.rows
+    const [row] = queryResult.rows
+    if (row) {
       const profile = row.profile ?? {}
       const birthData = row.birth_data ?? {}
       const chart = row.natal_chart ?? {}
 
       const rawEmail = row.email ?? ''
-      const emailFallback = rawEmail.includes('@') ? rawEmail.split('@')[0] : rawEmail || 'Agent'
+      const emailFallback = rawEmail.includes('@')
+        ? rawEmail.slice(0, rawEmail.indexOf('@'))
+        : rawEmail || 'Agent'
       const name = row.name ?? emailFallback
 
       const birthDateVal = birthData.dateTime ?? birthData.date

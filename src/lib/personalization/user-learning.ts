@@ -9,6 +9,11 @@ import { logger } from "@/lib/logger";
 import { userCache } from "@/lib/performance/advanced-cache";
 import type { ElementalProperties } from "@/types/alchemy";
 
+/** The four declared element keys. ElementalProperties also has a string index
+ * signature, so `keyof` widens to string; this closed union does not. */
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+const ELEMENT_KEYS: readonly ElementName[] = ["Fire", "Water", "Earth", "Air"];
+
 /**
  * The ad-hoc payload attached to a tracked interaction. Every field is a
  * read the store performs somewhere (recipe_view / ingredient_select /
@@ -647,18 +652,18 @@ class UserLearningSystem {
     }
 
     // Planetary alignment boost
-    if (
-      context?.planetaryHour &&
-      preferences.planetaryPreferences[context.planetaryHour]
-    ) {
+    const planetaryHour = context?.planetaryHour;
+    const planetaryPreference =
+      planetaryHour === undefined
+        ? undefined
+        : preferences.planetaryPreferences[planetaryHour];
+    if (planetaryPreference) {
       const boost =
-        preferences.planetaryPreferences[context.planetaryHour] *
-        0.15 *
-        preferences.weights.planetary;
+        planetaryPreference * 0.15 * preferences.weights.planetary;
       score += boost;
       if (boost > 0.03) {
         reasons.push(
-          `Aligned with ${context.planetaryHour} energy (+${(boost * 100).toFixed(0)}%)`,
+          `Aligned with ${planetaryHour} energy (+${(boost * 100).toFixed(0)}%)`,
         );
       }
     }
@@ -790,19 +795,18 @@ class UserLearningSystem {
         const weight = interaction.data.weight ?? 1;
         const balance = interaction.data.elementalBalance;
 
-        Object.keys(affinities).forEach((element) => {
-          affinities[element as keyof ElementalProperties] +=
-            balance[element as keyof ElementalProperties] * weight;
-        });
+        for (const element of ELEMENT_KEYS) {
+          affinities[element] += balance[element] * weight;
+        }
 
         totalWeight += weight;
       }
     });
 
     if (totalWeight > 0) {
-      Object.keys(affinities).forEach((element) => {
-        affinities[element as keyof ElementalProperties] /= totalWeight;
-      });
+      for (const element of ELEMENT_KEYS) {
+        affinities[element] /= totalWeight;
+      }
     }
 
     return affinities;
@@ -824,9 +828,9 @@ class UserLearningSystem {
     // Normalize to 0-1 range
     const maxScore = Math.max(...Object.values(preferences));
     if (maxScore > 0) {
-      Object.keys(preferences).forEach((planet) => {
-        preferences[planet] /= maxScore;
-      });
+      for (const [planet, score] of Object.entries(preferences)) {
+        preferences[planet] = score / maxScore;
+      }
     }
 
     return preferences;

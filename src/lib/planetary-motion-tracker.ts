@@ -192,6 +192,9 @@ export class PlanetaryMotionTracker {
 
     const dailyMotion = await this.calculateDailyMotion(planet, date)
     const profile = PLANETARY_VELOCITY_PROFILES[planet]
+    if (!profile) {
+      throw new Error(`Unknown planet: ${planet}`)
+    }
 
     // Calculate velocity relative to average
     const velocity = Math.abs(dailyMotion) / profile.averageDailyMotion
@@ -349,6 +352,9 @@ export class PlanetaryMotionTracker {
 
   private calculateRetrogradeAdjustment(planet: string, date: Date, _daysDiff: number): number {
     const profile = PLANETARY_VELOCITY_PROFILES[planet]
+    if (!profile) {
+      throw new Error(`Unknown planet: ${planet}`)
+    }
     if (profile.retrogradeFrequency === 0) return 1.0
 
     // Simplified retrograde calculation
@@ -365,6 +371,9 @@ export class PlanetaryMotionTracker {
   private calculateRetrogradePhase(planet: string, date: Date): number {
     // Simplified retrograde phase calculation
     const profile = PLANETARY_VELOCITY_PROFILES[planet]
+    if (!profile) {
+      throw new Error(`Unknown planet: ${planet}`)
+    }
     const daysSinceEpoch =
       (date.getTime() - new Date('2000-01-01').getTime()) / (1000 * 60 * 60 * 24)
     const cycleDays = 365.25 / profile.retrogradeFrequency

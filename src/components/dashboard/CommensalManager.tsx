@@ -549,6 +549,7 @@ function GroupRecommendationsPanel({
     .filter((f) => linkedUserIds.includes(f.userId))
     .map((f) => f.name);
   const selectedNames = [...manualNames, ...linkedNames];
+  const topRecommendation = result?.recommendations[0];
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
@@ -613,13 +614,13 @@ function GroupRecommendationsPanel({
           </div>
 
           {/* Per-member score breakdown */}
-          {result.recommendations.length > 0 && result.recommendations[0].memberScores.length > 0 && (
+          {topRecommendation && topRecommendation.memberScores.length > 0 && (
             <div className="space-y-2">
               <h5 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                 Member Harmony Breakdown (Top Pick)
               </h5>
               <div className="grid gap-2">
-                {result.recommendations[0].memberScores.map((ms) => (
+                {topRecommendation.memberScores.map((ms) => (
                   <div key={ms.memberId} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
                     <span className="text-xs font-medium text-gray-700 w-24 truncate">{ms.memberName}</span>
                     <div className="flex-1">

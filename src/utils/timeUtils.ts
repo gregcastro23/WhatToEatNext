@@ -17,7 +17,7 @@ export function getCurrentTimestamp(): string {
  * Get current date in YYYY-MM-DD format
  */
 export function getCurrentDate(): string {
-  return new Date().toISOString().split("T")[0];
+  return new Date().toISOString().slice(0, 10);
 }
 
 /**

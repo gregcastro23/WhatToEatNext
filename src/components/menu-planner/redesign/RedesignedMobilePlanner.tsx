@@ -27,7 +27,8 @@ export default function RedesignedMobilePlanner({
   currentPlanetaryHour,
   onShopWeek,
 }: {
-  weekDates: Date[];
+  /** Seven dates, Sunday-first, so a DayOfWeek index always resolves. */
+  weekDates: [Date, Date, Date, Date, Date, Date, Date];
   mealsByDay: Record<DayOfWeek, MealSlotType[]>;
   todayDayOfWeek: DayOfWeek | null;
   weeklyNutrition?: WeeklyNutritionResult | null;

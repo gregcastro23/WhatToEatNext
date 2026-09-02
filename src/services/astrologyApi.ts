@@ -1,5 +1,5 @@
 import { _logger } from "@/lib/logger";
-import type { ElementalProperties } from "@/types/alchemy";
+import type { Element, ElementalProperties } from "@/types/celestial";
 import {
     calculateLunarPhase, calculatePlanetaryPositions,
     calculateSunSign
@@ -299,20 +299,27 @@ export const _getElementalInfluence =
           Air: 0,
         };
 
+        const addInfluence = (el: Element, weight: number) => {
+          const cur = elementalState[el];
+          if (cur !== undefined) {
+            elementalState[el] = cur + weight;
+          }
+        };
+
         // Add Sun influence (30%)
-        elementalState[sunElement] += 0.3;
+        addInfluence(sunElement, 0.3);
 
         // Add Moon influence (30%)
-        elementalState[moonElement] += 0.3;
+        addInfluence(moonElement, 0.3);
 
         // Add Mercury influence (15%)
-        elementalState[mercuryElement] += 0.15;
+        addInfluence(mercuryElement, 0.15);
 
         // Add Venus influence (15%)
-        elementalState[venusElement] += 0.15;
+        addInfluence(venusElement, 0.15);
 
         // Add Mars influence (10%)
-        elementalState[marsElement] += 0.1;
+        addInfluence(marsElement, 0.1);
 
         return elementalState;
       }
@@ -325,7 +332,7 @@ export const _getElementalInfluence =
   };
 
 // Helper function to get element from zodiac sign
-function getElementFromZodiac(sign: string): string {
+function getElementFromZodiac(sign: string): Element {
   const fireSign = ["aries", "leo", "sagittarius"];
   const earthSigns = ["taurus", "virgo", "capricorn"];
   const airSigns = ["gemini", "libra", "aquarius"];
@@ -350,22 +357,20 @@ function getSignFromDegree(degree: number): string {
     "cancer",
     "leo",
     "virgo",
-    "Libra",
-    "Scorpio",
+    "libra",
+    "scorpio",
     "sagittarius",
     "capricorn",
     "aquarius",
     "pisces",
   ];
-  const signIndex = Math.floor(degree / 30) % 12;
-  return signs[signIndex];
+  const signIndex = ((Math.floor(degree / 30) % 12) + 12) % 12;
+  return signs[signIndex] ?? "aries";
 }
 
 // Helper function to get zodiac element
 function getZodiacElement(sign: string): string {
-  const elements = ["Fire", "Water", "Earth", "Air"];
-  const elementIndex = Math.floor(elements.indexOf(sign) / 2);
-  return elements[elementIndex];
+  return getElementFromZodiac(sign);
 }
 
 // New function to calculate elemental balance based on all available planetary positions
@@ -407,17 +412,21 @@ export function calculateElementalBalanceFromPositions(
     const weight =
       planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;
     const element = getElementFromZodiac(planetData.sign);
-
-    elementalBalance[element as keyof typeof elementalBalance] += weight;
+    const cur = elementalBalance[element];
+    if (cur !== undefined) {
+      elementalBalance[element] = cur + weight;
+    }
     totalInfluence += weight;
   });
 
   // Normalize values if we have influence
   if (totalInfluence > 0) {
-    Object.keys(elementalBalance).forEach((element) => {
-      elementalBalance[element as keyof typeof elementalBalance] /=
-        totalInfluence;
-    });
+    for (const element of Object.keys(elementalBalance) as Element[]) {
+      const cur = elementalBalance[element];
+      if (cur !== undefined) {
+        elementalBalance[element] = cur / totalInfluence;
+      }
+    }
   } else {
     // If no influence, use balanced distribution
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

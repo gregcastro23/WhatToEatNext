@@ -62,7 +62,12 @@ export function suggestTweak(direction: FlavorDirection, existing: FlavorTweak[]
     existing.filter((t) => t.direction === direction).map((t) => t.ingredient),
   );
   // Prefer tweaks not yet added; fall back to round-robin if all used.
-  const preferred = pool.find((p) => !usedIngredients.has(p.ingredient)) ?? pool[existing.filter((t) => t.direction === direction).length % pool.length];
+  const preferred =
+    pool.find((p) => !usedIngredients.has(p.ingredient)) ??
+    pool[existing.filter((t) => t.direction === direction).length % pool.length];
+  if (!preferred) {
+    throw new Error(`flavorTuning: no tweaks catalogued for direction "${direction}"`);
+  }
   return {
     id: `${direction}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     direction,

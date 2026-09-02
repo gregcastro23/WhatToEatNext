@@ -420,16 +420,18 @@ export function useAstrology(options: AstrologyOptions = {}): UseAstrologyReturn
                   const sign = (data.sign ?? "aries").toLowerCase();
                   const element = signElements[sign];
 
-                  if (element) {
+                  if (element && elementalBalance[element] !== undefined) {
                     elementalBalance[element] += weight;
                     totalWeight += weight;
                   }
                 });
 
                 if (totalWeight > 0) {
-                  Object.keys(elementalBalance).forEach((element) => {
-                    elementalBalance[element] /= totalWeight;
-                  });
+                  for (const [element, val] of Object.entries(elementalBalance)) {
+                    if (typeof val === "number") {
+                      elementalBalance[element] = val / totalWeight;
+                    }
+                  }
                 }
 
                 if (isMountedRef.current) {

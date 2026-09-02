@@ -119,7 +119,7 @@ const DIGNITIES: Record<string, { domicile: string[]; exaltation: string[] }> =
 };
 
 function calculateDignity(planet: string, sign: string): number {
-  const dignity = DIGNITIES[planet] as { domicile: string[]; exaltation: string[] } | undefined;
+  const dignity = DIGNITIES[planet];
   if (!dignity) return 0.6;
   const s = sign.toLowerCase();
   if (dignity.domicile.includes(s)) return 1.0;
@@ -345,8 +345,8 @@ export default function DynamicCuisineRecommender({
         const dayRulers = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
         const chaldeanOrder = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"];
         const dayRuler = dayRulers[dayOfWeek];
-        const rulerIdx = chaldeanOrder.indexOf(dayRuler);
-        const planetaryHour = chaldeanOrder[(rulerIdx + hour) % 7];
+        const rulerIdx = dayRuler === undefined ? -1 : chaldeanOrder.indexOf(dayRuler);
+        const planetaryHour = chaldeanOrder[(rulerIdx + hour) % 7] ?? chaldeanOrder[0];
 
         const scored: DynamicCuisineRecommendation[] = [];
         for (const cuisine of CUISINE_DEFINITIONS) {

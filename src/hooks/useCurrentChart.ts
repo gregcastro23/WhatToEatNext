@@ -228,7 +228,7 @@ export function useCurrentChart() {
           ${Array.from({ length: 12 })
             .map((_, i) => {
               const _angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
-              const sign = Object.keys(zodiacSymbols)[i];
+              const sign = Object.keys(zodiacSymbols)[i] ?? "aries";
               const color = signColors[sign] ?? "#999";
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;
               const endAngle = (((i + 1) * 30 - 90) * Math.PI) / 180;
@@ -248,7 +248,7 @@ export function useCurrentChart() {
                     y='${160 + 135 * Math.sin(((i * 30 + 15 - 90) * Math.PI) / 180)}'
                     text-anchor='middle' dominant-baseline='middle'
                     fill='${color}' font-size='14' font-weight='bold'>
-                ${zodiacSymbols[sign]}
+                ${zodiacSymbols[sign] ?? "♈"}
               </text>
             `;
             })

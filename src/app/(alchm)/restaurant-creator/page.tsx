@@ -58,7 +58,7 @@ export default function RestaurantCreatorPage() {
   const [concept, setConcept] = useState<RestaurantConcept>({
     name: "",
     tagline: "",
-    cuisineFusion: CUISINE_FUSIONS[0],
+    cuisineFusion: CUISINE_FUSIONS[0] ?? "",
     ambianceStyle: "celestial-lounge",
     signatureDrink: "",
     menu: [],
@@ -97,16 +97,22 @@ export default function RestaurantCreatorPage() {
     const nameSuffix = zodiacSuffixMap[zodiac?.toLowerCase()] ?? "Table";
 
     const randomFusion =
-      CUISINE_FUSIONS[Math.floor(Math.random() * CUISINE_FUSIONS.length)];
+      CUISINE_FUSIONS[Math.floor(Math.random() * CUISINE_FUSIONS.length)] ??
+      CUISINE_FUSIONS[0] ??
+      "";
     const randomDrink =
-      SIGNATURE_DRINK_BASES[Math.floor(Math.random() * SIGNATURE_DRINK_BASES.length)];
+      SIGNATURE_DRINK_BASES[Math.floor(Math.random() * SIGNATURE_DRINK_BASES.length)] ??
+      SIGNATURE_DRINK_BASES[0] ??
+      "";
     const randomAmbiance =
-      AMBIANCE_STYLES[Math.floor(Math.random() * AMBIANCE_STYLES.length)];
+      AMBIANCE_STYLES[Math.floor(Math.random() * AMBIANCE_STYLES.length)] ??
+      AMBIANCE_STYLES[0];
+    if (!randomAmbiance) return;
 
     setTimeout(() => {
       setConcept({
         name: `${namePrefix} ${nameSuffix}`,
-        tagline: `Where ${randomFusion.split("-")[0]} meets ${randomFusion.split("-")[1]} under the ${zodiac} sky`,
+        tagline: `Where ${randomFusion.split("-")[0] ?? ""} meets ${randomFusion.split("-")[1] ?? ""} under the ${zodiac} sky`,
         cuisineFusion: randomFusion,
         ambianceStyle: randomAmbiance.id,
         signatureDrink: randomDrink,

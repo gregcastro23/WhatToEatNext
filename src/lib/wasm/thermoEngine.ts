@@ -330,14 +330,36 @@ export function stepMediumSimulation(
   const count = buffer.length / FLOATS_PER_PARTICLE;
   for (let i = 0; i < count; i += 1) {
     const o = i * FLOATS_PER_PARTICLE;
-    let x = buffer[o];
-    let y = buffer[o + 1];
-    let z = buffer[o + 2];
-    let vx = buffer[o + 3];
-    let vy = buffer[o + 4];
-    let vz = buffer[o + 5];
-    let tempC = buffer[o + 6];
-    let phaseFrac = buffer[o + 8];
+    const x0 = buffer[o];
+    const y0 = buffer[o + 1];
+    const z0 = buffer[o + 2];
+    const vx0 = buffer[o + 3];
+    const vy0 = buffer[o + 4];
+    const vz0 = buffer[o + 5];
+    const tempC0 = buffer[o + 6];
+    const phaseFrac0 = buffer[o + 8];
+
+    if (
+      x0 === undefined ||
+      y0 === undefined ||
+      z0 === undefined ||
+      vx0 === undefined ||
+      vy0 === undefined ||
+      vz0 === undefined ||
+      tempC0 === undefined ||
+      phaseFrac0 === undefined
+    ) {
+      continue;
+    }
+
+    let x = x0;
+    let y = y0;
+    let z = z0;
+    let vx = vx0;
+    let vy = vy0;
+    let vz = vz0;
+    let tempC = tempC0;
+    let phaseFrac = phaseFrac0;
 
     const phase = f(f(f(x * 2) + f(z * 3)) + f(f(i) * f(0.1)));
     // `sin_f32` in the Rust is `(x as f64).sin() as f32` — the transcendental
@@ -1079,7 +1101,14 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
       );
       // Length is the refusal discriminator, exactly as for the boundary
       // buffer: a length-1 array is a refusal and must never be indexed past.
-      if (buf.length !== 4) {
+      const [b0, b1, b2, b3] = buf;
+      if (
+        buf.length !== 4 ||
+        b0 === undefined ||
+        b1 === undefined ||
+        b2 === undefined ||
+        b3 === undefined
+      ) {
         return {
           available: false,
           reason: `simmer trajectory refused for ${i.initialVolumeL} L at ${i.elapsedS} s`,
@@ -1088,10 +1117,10 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
       return {
         available: true,
         value: {
-          elapsedS: buf[0],
-          remainingVolumeL: buf[1],
-          concentrationRatio: buf[2],
-          netLossKgS: buf[3],
+          elapsedS: b0,
+          remainingVolumeL: b1,
+          concentrationRatio: b2,
+          netLossKgS: b3,
         },
       };
     },
@@ -1108,17 +1137,25 @@ export async function createThermoScalars(): Promise<ThermoScalars> {
       );
       // A refusal is a length-1 array. Checking LENGTH rather than NaN means a
       // caller never reads an element that does not exist.
-      if (buf.length !== LID_FIELDS) {
+      const [l0, l1, l2, l3, l4] = buf;
+      if (
+        buf.length !== LID_FIELDS ||
+        l0 === undefined ||
+        l1 === undefined ||
+        l2 === undefined ||
+        l3 === undefined ||
+        l4 === undefined
+      ) {
         return declined(
           "lid heat balance refused: headspace must be above ambient and every geometry term positive",
         );
       }
       return got({
-        lidC: buf[0],
-        convectiveLossW: buf[1],
-        radiativeLossW: buf[2],
-        totalLossW: buf[3],
-        condensationCapacityKgS: buf[4],
+        lidC: l0,
+        convectiveLossW: l1,
+        radiativeLossW: l2,
+        totalLossW: l3,
+        condensationCapacityKgS: l4,
       });
     },
   };
@@ -1257,6 +1294,18 @@ export function decodeBoundaryBuffer(
     nodeCount,
   ] = buf;
 
+  if (
+    totalResistanceKperW === undefined ||
+    uaWperK === undefined ||
+    heatFlowW === undefined ||
+    controllingIndex === undefined ||
+    foodBiotRaw === undefined ||
+    linkCount === undefined ||
+    nodeCount === undefined
+  ) {
+    return null;
+  }
+
   // Guard the decode against a stale bundle whose layout differs. Without this
   // a shorter buffer reads undefined values as NaN and renders a full panel of
   // plausible-looking blanks instead of falling back to a working engine.
@@ -1273,17 +1322,30 @@ export function decodeBoundaryBuffer(
   for (let i = 0; i < linkCount; i += 1) {
     const o = headerFields + i * linkFields;
     const id = ids[i];
+    if (id === undefined) return null;
+    const r = buf[o + 0];
+    const a = buf[o + 1];
     const h = buf[o + 2];
+    const s = buf[o + 3];
+    const d = buf[o + 4];
+    if (
+      r === undefined ||
+      a === undefined ||
+      s === undefined ||
+      d === undefined
+    ) {
+      return null;
+    }
     links.push({
       id,
       label: plyLabel(id, plyNames) ?? LINK_LABELS[id] ?? id,
-      resistanceKperW: buf[o + 0],
-      areaM2: buf[o + 1],
+      resistanceKperW: r,
+      areaM2: a,
       // NaN is how the core says "this link has no coefficient" — a pure
       // conduction leg. The TypeScript shape spells that as null.
-      hWm2K: Number.isFinite(h) ? h : null,
-      share: buf[o + 3],
-      dropK: buf[o + 4],
+      hWm2K: h !== undefined && Number.isFinite(h) ? h : null,
+      share: s,
+      dropK: d,
     });
   }
 
@@ -1304,18 +1366,22 @@ export function decodeBoundaryBuffer(
   // Pinned by src/lib/wasm/__tests__/boundarySolver.test.ts.
   if (controllingIndex < 0 || controllingIndex >= links.length) return null;
   const controlling = links[controllingIndex];
+  if (!controlling) return null;
 
   const nodeStart = headerFields + linkCount * linkFields;
   const nodes: Array<{ id: string; celsius: number }> = [];
   for (let i = 0; i < nodeCount; i += 1) {
     // Node 0 is the source; every later node is named for the link that
     // produced it, matching the TypeScript solver's `nodes` construction.
+    const c = buf[nodeStart + i];
+    if (c === undefined) return null;
     nodes.push({
       id: i === 0 ? "source" : (ids[i - 1] ?? `node-${i}`),
-      celsius: buf[nodeStart + i],
+      celsius: c,
     });
   }
-  if (nodes.length > 0) nodes[0].celsius = sourceC;
+  const [firstNode] = nodes;
+  if (firstNode) firstNode.celsius = sourceC;
 
   return {
     links,
@@ -1462,8 +1528,10 @@ async function createBoundarySolverInner(): Promise<BoundarySolver> {
       }
       const flatLayers = new Float64Array(plies.length * 2);
       for (let i = 0; i < plies.length; i += 1) {
-        flatLayers[2 * i] = plies[i].thicknessM;
-        flatLayers[2 * i + 1] = plies[i].kWmK;
+        const ply = plies[i];
+        if (!ply) continue;
+        flatLayers[2 * i] = ply.thicknessM;
+        flatLayers[2 * i + 1] = ply.kWmK;
       }
 
       const buf = m.solve_boundary_network!(

@@ -73,7 +73,7 @@ export const AddToMealPlannerModal: React.FC<AddToMealPlannerProps> = ({ recipe,
   const handleAdd = (): void => {
     addToMealPlannerQueue(recipe, selectedDay, selectedMeal);
     saveRecipeToStore(recipe as unknown as MonicaOptimizedRecipe);
-    onAdded(DAYS_OF_WEEK[selectedDay], selectedMeal);
+    onAdded(DAYS_OF_WEEK[selectedDay] ?? "", selectedMeal);
   };
 
   return (
@@ -107,7 +107,7 @@ export const AddToMealPlannerModal: React.FC<AddToMealPlannerProps> = ({ recipe,
             onClick={handleAdd}
             className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-purple-600 to-amber-500 text-white hover:from-purple-700 hover:to-amber-600 shadow-md transition-all"
           >
-            Add to {DAYS_OF_WEEK[selectedDay].slice(0, 3)} {selectedMeal}
+            Add to {(DAYS_OF_WEEK[selectedDay] ?? "").slice(0, 3)} {selectedMeal}
           </button>
         </div>
       </div>

@@ -40,7 +40,8 @@ export interface AgentArtifact {
 }
 
 export function agentSlugFromEmail(email: string): string {
-  return email.split("@")[0];
+  const at = email.indexOf("@");
+  return at === -1 ? email : email.slice(0, at);
 }
 
 export async function fetchAgentProfile(

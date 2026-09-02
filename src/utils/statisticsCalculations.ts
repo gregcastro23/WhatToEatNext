@@ -62,15 +62,19 @@ function sanitize(values: readonly number[]): number[] {
  * `q` is in [0, 1]. Assumes `sorted` is ascending and non-empty.
  */
 function quantile(sorted: readonly number[], q: number): number {
-  if (sorted.length === 0) return 0;
-  if (sorted.length === 1) return sorted[0];
+  const [first] = sorted;
+  if (first === undefined) return 0;
+  if (sorted.length === 1) return first;
   const clamped = Math.min(1, Math.max(0, q));
   const pos = clamped * (sorted.length - 1);
   const lo = Math.floor(pos);
   const hi = Math.ceil(pos);
-  if (lo === hi) return sorted[lo];
+  const loValue = sorted[lo];
+  const hiValue = sorted[hi];
+  if (loValue === undefined || hiValue === undefined) return 0;
+  if (lo === hi) return loValue;
   const frac = pos - lo;
-  return sorted[lo] * (1 - frac) + sorted[hi] * frac;
+  return loValue * (1 - frac) + hiValue * frac;
 }
 
 export function summarize(values: readonly number[]): DistributionSummary {
@@ -156,7 +160,7 @@ export function contextualize(
     current !== undefined && Number.isFinite(current)
       ? current
       : xs.length > 0
-        ? xs[xs.length - 1]
+        ? (xs[xs.length - 1] ?? 0)
         : 0;
   const z =
     summary.stdDev > 1e-12 ? (observed - summary.mean) / summary.stdDev : 0;
@@ -212,7 +216,8 @@ export function histogram(values: readonly number[], bins = 24): Histogram {
     let idx = Math.floor((v - lo) / binWidth);
     if (idx >= bins) idx = bins - 1;
     if (idx < 0) idx = 0;
-    counts[idx]++;
+    const currentCount = counts[idx];
+    if (currentCount !== undefined) counts[idx] = currentCount + 1;
   }
   return { edges, centers, counts, binWidth };
 }
@@ -229,6 +234,7 @@ export function correlation(a: readonly number[], b: readonly number[]): number 
   for (let i = 0; i < n; i++) {
     const av = a[i];
     const bv = b[i];
+    if (av === undefined || bv === undefined) return 0;
     if (!Number.isFinite(av) || !Number.isFinite(bv)) return 0;
     sumA += av;
     sumB += bv;
@@ -239,8 +245,11 @@ export function correlation(a: readonly number[], b: readonly number[]): number 
   let varA = 0;
   let varB = 0;
   for (let i = 0; i < n; i++) {
-    const da = a[i] - meanA;
-    const db = b[i] - meanB;
+    const ai = a[i];
+    const bi = b[i];
+    if (ai === undefined || bi === undefined) return 0;
+    const da = ai - meanA;
+    const db = bi - meanB;
     cov += da * db;
     varA += da * da;
     varB += db * db;

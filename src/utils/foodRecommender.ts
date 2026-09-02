@@ -288,9 +288,11 @@ function standardizeIngredient(
       0,
     );
     if (sum > 0) {
-      Object.keys(standardized.elementalProperties).forEach((key) => {
-        standardized.elementalProperties[key as keyof ElementalProperties] /= sum;
-      });
+      for (const [key, value] of Object.entries(
+        standardized.elementalProperties,
+      )) {
+        standardized.elementalProperties[key] = value / sum;
+      }
     }
   }
 
@@ -707,9 +709,14 @@ export const getRecommendedIngredients = (
 
     // Calculate planetary day influence (35% weight)
     let planetaryDayScore = 0.5; // Default neutral score
-    const planetaryDay = dayRulers[weekDays[dayOfWeek]];
+    const weekDayName = weekDays[dayOfWeek];
+    const planetaryDay =
+      weekDayName === undefined ? undefined : dayRulers[weekDayName];
 
-    const dayPlanetElements = (planetaryElements as Record<string, typeof planetaryElements[keyof typeof planetaryElements] | undefined>)[planetaryDay];
+    const dayPlanetElements =
+      planetaryDay === undefined
+        ? undefined
+        : (planetaryElements as Record<string, typeof planetaryElements[keyof typeof planetaryElements] | undefined>)[planetaryDay];
     if (dayPlanetElements) {
       // For planetary day, BOTH diurnal and nocturnal elements influence all day
       const diurnalElement = dayPlanetElements.diurnal;
@@ -799,7 +806,8 @@ export const getRecommendedIngredients = (
         if (modifier.elementalBoost) {
           const boosts = modifier.elementalBoost;
           Object.entries(boosts).forEach(([element, boost]) => {
-            if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
+            const elementValue = standardized.elementalProperties[element];
+            if (elementValue !== undefined && elementValue > 0.3) {
               lunarScore += (boost ?? 0) * 0.1; // Small additional boost
             }
           });
@@ -916,7 +924,8 @@ export const getRecommendedIngredients = (
       if (adjustment.elementalBoost) {
         Object.entries(adjustment.elementalBoost).forEach(
           ([element, boost]) => {
-            if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
+            const elementValue = standardized.elementalProperties[element];
+            if (elementValue !== undefined && elementValue > 0.3) {
               seasonalScore = Math.min(1, seasonalScore + (boost ?? 0) * 0.1);
             }
           },
@@ -930,10 +939,10 @@ export const getRecommendedIngredients = (
 
       // Consider elemental affinities of seasons
       const seasonElement = getSeasonElement(currentSeason);
-      if (
-        seasonElement &&
-        standardized.elementalProperties[seasonElement] > 0.4
-      ) {
+      const seasonElementValue = seasonElement
+        ? standardized.elementalProperties[seasonElement]
+        : undefined;
+      if (seasonElementValue !== undefined && seasonElementValue > 0.4) {
         seasonalScore = Math.min(1, seasonalScore + 0.1);
       }
     } else if (standardized.isInSeason) {
@@ -941,10 +950,10 @@ export const getRecommendedIngredients = (
     } else {
       // For ingredients without explicit season data, use elemental affinities
       const seasonElement = getSeasonElement(currentSeason);
-      if (
-        seasonElement &&
-        standardized.elementalProperties[seasonElement] > 0.5
-      ) {
+      const seasonElementValue = seasonElement
+        ? standardized.elementalProperties[seasonElement]
+        : undefined;
+      if (seasonElementValue !== undefined && seasonElementValue > 0.5) {
         seasonalScore = 0.7; // Good elemental match even without explicit season
       }
     }
@@ -1042,9 +1051,10 @@ export const getRecommendedIngredients = (
       Object.keys(astroState.tarotElementBoosts).length > 0
     ) {
       // Get the dominant element in the ingredient
-      const [[dominantElement]] = Object.entries(
+      const [dominantEntry] = Object.entries(
         standardized.elementalProperties,
       ).sort(([, a], [, b]) => b - a);
+      const dominantElement = dominantEntry?.[0] ?? "Fire";
 
       // Check if this element is boosted by tarot
       if (astroState.tarotElementBoosts[dominantElement]) {
@@ -1375,12 +1385,12 @@ export const getRecommendedIngredients = (
     // Add to category group - only if we have a valid target category
     if (targetCategories.includes(targetCategory)) {
       // Don't add duplicates
+      const targetGroup = categoryGroups[targetCategory];
       if (
-        !categoryGroups[targetCategory].some(
-          (item) => item.name === ingredient.name,
-        )
+        targetGroup &&
+        !targetGroup.some((item) => item.name === ingredient.name)
       ) {
-        categoryGroups[targetCategory].push(ingredient);
+        targetGroup.push(ingredient);
       }
     }
   });
@@ -1388,11 +1398,13 @@ export const getRecommendedIngredients = (
   // Ensure each category has at least 5 items
   const minItemsPerCategory = 8; // Increased from 5 to get more variety
   targetCategories.forEach((category) => {
+    const group = categoryGroups[category];
+    if (!group) return;
     // If we don't have enough items in this category, look for items with similar properties
-    if (categoryGroups[category].length < minItemsPerCategory) {
+    if (group.length < minItemsPerCategory) {
       // Need to find additional items for this category
       const missingCount =
-        minItemsPerCategory - categoryGroups[category].length;
+        minItemsPerCategory - group.length;
       // For vegetables, make a special effort to include all possible vegetables
       if (category === "vegetables") {
         // First, check if we have all the known vegetables in our list
@@ -1424,7 +1436,7 @@ export const getRecommendedIngredients = (
         // Filter out vegetables we already have
         const missingVegetables = knownVegetables.filter(
           (vegName) =>
-            !categoryGroups[category].some(
+            !group.some(
               (item) =>
                 item.name.toLowerCase() === vegName.toLowerCase() ||
                 item.name.toLowerCase().includes(vegName.toLowerCase()),
@@ -1439,13 +1451,13 @@ export const getRecommendedIngredients = (
                 ingredient.name.toLowerCase() === vegName.toLowerCase() ||
                 ingredient.name.toLowerCase().includes(vegName.toLowerCase()),
             ) &&
-            !categoryGroups[category].some(
+            !group.some(
               (item) => item.name === ingredient.name,
             ),
         );
 
         // Add these items to the category
-        categoryGroups[category].push(...missingVegetableItems);
+        group.push(...missingVegetableItems);
       }
 
       // Find additional ingredients from the full list that would fit this category
@@ -1453,7 +1465,7 @@ export const getRecommendedIngredients = (
         .filter((ingredient) => {
           // Skip if already in this category
           if (
-            categoryGroups[category].some(
+            group.some(
               (item) => item.name === ingredient.name,
             )
           ) {
@@ -1490,14 +1502,14 @@ export const getRecommendedIngredients = (
         .slice(0, missingCount);
 
       // Add these items to the category
-      categoryGroups[category].push(...additionalItems);
+      group.push(...additionalItems);
     }
   });
 
   // First, take top items from each specified category (or all if less than minimum)
   const resultIngredients: EnhancedIngredient[] = [];
   targetCategories.forEach((category) => {
-    const categoryItems = categoryGroups[category];
+    const categoryItems = categoryGroups[category] ?? [];
     resultIngredients.push(
       ...categoryItems.slice(
         0,

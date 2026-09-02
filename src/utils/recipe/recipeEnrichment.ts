@@ -478,7 +478,7 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
   if (recipe.timeToMake) {
     const timeMatch = recipe.timeToMake.match(/(\d+)/);
     if (timeMatch) {
-      const timeInMinutes = parseInt(timeMatch[1], 10);
+      const timeInMinutes = parseInt(timeMatch[1] ?? "", 10);
       if (timeInMinutes > 120)
         complexity += 1; // Over 2 hours
       else if (timeInMinutes > 60) complexity += 0.5; // Over 1 hour

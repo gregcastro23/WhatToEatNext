@@ -250,7 +250,10 @@ export function enhanceDominantElement(
   const enhanced = { ...properties };
 
   // Self-reinforcement: boost the dominant element by 10%
-  enhanced[dominant] = Math.min(1.0, properties[dominant] * 1.1);
+  const dominantValue = properties[dominant];
+  if (dominantValue !== undefined) {
+    enhanced[dominant] = Math.min(1.0, dominantValue * 1.1);
+  }
 
   return enhanced;
 }
@@ -300,7 +303,10 @@ export function validateSelfReinforcement(
   const dominantValue = properties[dominant];
 
   // Dominant element should be at least threshold for clear self-reinforcement
-  if (dominantValue < ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD) {
+  if (
+    dominantValue === undefined ||
+    dominantValue < ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD
+  ) {
     logger.warn(
       `Dominant element ${dominant} strength ${dominantValue} is too low for self-reinforcement`,
     );

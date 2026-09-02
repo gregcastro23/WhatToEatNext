@@ -641,7 +641,7 @@ export async function getTransitNatalOverlay(
     if (a.type === "trine" || a.type === "sextile") return 0.8;
     return 0.7;
   };
-  const elementVotes: Record<string, number> = {
+  const elementVotes: Record<"fire" | "earth" | "air" | "water", number> = {
     fire: 0, earth: 0, air: 0, water: 0,
   };
   for (const a of activations) {
@@ -675,7 +675,7 @@ export async function getTransitNatalOverlay(
     }
   }
 
-  const headline = activations[0] as TransitActivation | undefined;
+  const [headline] = activations;
   const boostSuffix = boostElement
     ? ` → ${Math.round(boostMagnitude * 100)}% ${boostElement} boost`
     : "";

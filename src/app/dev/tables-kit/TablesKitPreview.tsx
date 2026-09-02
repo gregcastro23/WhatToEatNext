@@ -27,7 +27,18 @@ import {
  * chart-bearing sages the cosmic roster serves. No photos exist for them,
  * so every avatar exercises the element-sigil fallback (never invented faces).
  */
-const ROSTER: Array<AvatarPerson & { title: string }> = [
+type RosterPerson = AvatarPerson & { title: string };
+
+const ROSTER: [
+  RosterPerson,
+  RosterPerson,
+  RosterPerson,
+  RosterPerson,
+  RosterPerson,
+  RosterPerson,
+  RosterPerson,
+  RosterPerson,
+] = [
   { name: "Leonardo da Vinci", element: "Air", title: "Renaissance Polymath & Visionary" },
   { name: "William Shakespeare", element: "Water", title: "The Bard of Avon" },
   { name: "Nikola Tesla", element: "Fire", title: "Electrical Visionary" },

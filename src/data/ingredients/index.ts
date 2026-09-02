@@ -319,8 +319,11 @@ function ingredientClusterKey(name: string): string {
     .replace(/^_|_$/g, "");
   s = s.replace(/_exotic$/, "");
   const parts = s.split("_");
-  if (parts.length > 0) {
-    parts[parts.length - 1] = singularizeWord(parts[parts.length - 1]);
+  // `String.split` never yields holes, so a defined last element is exactly
+  // equivalent to the previous `parts.length > 0` check.
+  const lastPart = parts[parts.length - 1];
+  if (lastPart !== undefined) {
+    parts[parts.length - 1] = singularizeWord(lastPart);
   }
   return parts.join("_");
 }
@@ -360,7 +363,11 @@ function isEmpty(value: unknown): boolean {
  * prefers the shortest variant (usually the singular).
  */
 function mergeIngredientVariants(variants: Ingredient[]): Ingredient {
-  if (variants.length === 1) return variants[0];
+  // Single-variant fast path: bind the element so the shortcut only fires when
+  // there really is one record to hand back (callers only ever push real
+  // ingredients, so the general merge path below stays unreachable here).
+  const [onlyVariant] = variants;
+  if (variants.length === 1 && onlyVariant) return onlyVariant;
   const sorted = [...variants].sort(
     (a, b) => ingredientFieldRichness(b) - ingredientFieldRichness(a),
   );
@@ -452,11 +459,21 @@ export const allIngredients: Record<string, Ingredient> = ((): Record<
     const matchByName = variants.find(
       (v) => v.key.toLowerCase().replace(/\s+/g, "_") === slug,
     );
-    const canonicalKey =
-      matchByName?.key ??
-      [...variants].sort(
+    let canonicalKey = matchByName?.key;
+    if (canonicalKey === undefined) {
+      const [shortestVariant] = [...variants].sort(
         (a, b) => a.key.length - b.key.length || a.key.localeCompare(b.key),
-      )[0].key;
+      );
+      if (!shortestVariant) {
+        // Clusters are only created by pushing a variant into them, so an empty
+        // one means the bucketing above is broken. Previously this threw a bare
+        // TypeError on `[0].key`; name the cluster instead of guessing a key.
+        throw new Error(
+          `Ingredient cluster "${slug}" has no variants; cannot pick a canonical key`,
+        );
+      }
+      canonicalKey = shortestVariant.key;
+    }
     finalResult[canonicalKey] = merged;
   }
   return finalResult;

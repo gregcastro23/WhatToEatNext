@@ -169,6 +169,7 @@ export async function validateFileImports(
     if (!pathMatch) continue;
 
     const [, importPath] = pathMatch;
+    if (importPath === undefined) continue;
 
     // Skip external packages (don't start with . or /)
     if (!importPath.startsWith(".") && !importPath.startsWith("/")) {
@@ -281,11 +282,12 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['"]([^'"]+)['"]/);
+        const dependencyPath = pathMatch?.[1];
         if (
-          pathMatch &&
-          (pathMatch[1].startsWith(".") || pathMatch[1].startsWith("/"))
+          dependencyPath !== undefined &&
+          (dependencyPath.startsWith(".") || dependencyPath.startsWith("/"))
         ) {
-          dependencies.push(pathMatch[1]);
+          dependencies.push(dependencyPath);
         }
       }
 

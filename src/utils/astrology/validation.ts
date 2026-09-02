@@ -259,8 +259,9 @@ export function calculatePlanetaryAspects(positions: {
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pairs
-  for (let i = 0; i < (planets || []).length; i++) {
+  for (let i = 0; i < planets.length; i++) {
     const planet1 = planets[i];
+    if (!planet1) continue;
     const pos1 = positions[planet1];
 
     if (!pos1?.exactLongitude) {
@@ -268,8 +269,9 @@ export function calculatePlanetaryAspects(positions: {
       continue;
     }
 
-    for (let j = i + 1; j < (planets || []).length; j++) {
+    for (let j = i + 1; j < planets.length; j++) {
       const planet2 = planets[j];
+      if (!planet2) continue;
       const pos2 = positions[planet2];
 
       if (!pos2?.exactLongitude) {
@@ -425,8 +427,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
 
     // Provide Sun and Moon signs
-    const sunSign = (positions.Sun.sign as ZodiacSignType) || "aries";
-    const moonSign = (positions.moon.sign as ZodiacSignType) || "cancer";
+    const sunSign = (positions.Sun?.sign as ZodiacSignType) || "aries";
+    const moonSign = (positions.moon?.sign as ZodiacSignType) || "cancer";
 
     // Return formatted state
     return {
@@ -707,7 +709,7 @@ function calculateApproximateMoonSign(dayOfYear: number): ZodiacSignType {
     "pisces",
   ];
 
-  return signs[moonCycle % 12];
+  return signs[moonCycle % 12] ?? "aries";
 }
 
 /**
@@ -756,7 +758,10 @@ function countElements(positions: { [key: string]: CelestialPosition }): {
       weight = 2;
     }
 
-    elements[element] += weight;
+    const currentCount = elements[element];
+    if (typeof currentCount === "number") {
+      elements[element] = currentCount + weight;
+    }
   }
 
   return elements;

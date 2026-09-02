@@ -103,7 +103,7 @@ export const LivePlanetaryTracker: React.FC = () => {
       ],
     };
 
-    return recommendations[planet] || recommendations.Sun;
+    return recommendations[planet] ?? recommendations.Sun ?? [];
   }, []);
 
   const updatePlanetaryDisplay = useCallback(async () => {

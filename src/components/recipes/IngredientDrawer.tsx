@@ -463,8 +463,8 @@ export function IngredientDrawer({
                       key={el}
                       label={el}
                       value={elemental[el] ?? 0}
-                      barClass={ELEMENT_COLORS[el].bar}
-                      labelClass={ELEMENT_COLORS[el].text}
+                      barClass={ELEMENT_COLORS[el]?.bar ?? ""}
+                      labelClass={ELEMENT_COLORS[el]?.text ?? ""}
                       icon={ELEMENT_ICONS[el]}
                     />
                   ))}
@@ -480,6 +480,7 @@ export function IngredientDrawer({
                     const v = alch[key] ?? 0;
                     if (v === 0) return null;
                     const cfg = ESMS_COLORS[key];
+                    if (!cfg) return null;
                     return (
                       <div
                         key={key}

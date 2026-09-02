@@ -38,6 +38,18 @@ export interface YearlyTransits {
 }
 
 /**
+ * The four elements aggregated by `getSeasonalAnalysis`. Every season in
+ * COMPREHENSIVE_TRANSIT_DATABASE carries exactly these keys in its
+ * `dominantElements` record.
+ */
+const TRANSIT_ELEMENT_KEYS = ["Fire", "Earth", "Air", "Water"] as const;
+
+type TransitElementKey = (typeof TRANSIT_ELEMENT_KEYS)[number];
+
+const isTransitElementKey = (key: string): key is TransitElementKey =>
+  TRANSIT_ELEMENT_KEYS.some((elementKey) => elementKey === key);
+
+/**
  * Comprehensive transit database for multiple years
  */
 export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
@@ -727,7 +739,7 @@ export class TransitAnalysisService {
     retrogradePlanets: string[];
   } {
     const seasons: TransitSeason[] = [];
-    const dominantElements: Record<string, number> = {
+    const dominantElements: Record<TransitElementKey, number> = {
       Fire: 0,
       Earth: 0,
       Air: 0,
@@ -747,7 +759,9 @@ export class TransitAnalysisService {
             // Aggregate dominant elements;
             Object.entries(season.dominantElements).forEach(
               ([element, value]) => {
-                dominantElements[element] += value;
+                if (isTransitElementKey(element)) {
+                  dominantElements[element] += value;
+                }
               },
             );
 
@@ -767,7 +781,7 @@ export class TransitAnalysisService {
       0,
     );
     if (total > 0) {
-      Object.keys(dominantElements).forEach((element) => {
+      TRANSIT_ELEMENT_KEYS.forEach((element) => {
         dominantElements[element] /= total;
       });
     }

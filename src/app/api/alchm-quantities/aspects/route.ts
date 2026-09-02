@@ -136,6 +136,7 @@ export async function GET(request: Request) {
       if (!MAJOR_ASPECTS.has(aspect.type)) continue;
 
       const aspectAngle = ASPECT_ANGLES[aspect.type];
+      if (aspectAngle === undefined) continue;
       const maxOrb = MAX_ORBS[aspect.type] ?? 8;
 
       const L1 = longitudes[aspect.planet1];

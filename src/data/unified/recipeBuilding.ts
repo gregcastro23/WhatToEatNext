@@ -176,8 +176,8 @@ function pairwiseCuisineHarmony(a: string, b: string): number {
   if (regionA && regionB) {
     const key1 = `${regionA}|${regionB}`;
     const key2 = `${regionB}|${regionA}`;
-    if (key1 in CROSS_REGION_HARMONY) return CROSS_REGION_HARMONY[key1];
-    if (key2 in CROSS_REGION_HARMONY) return CROSS_REGION_HARMONY[key2];
+    if (CROSS_REGION_HARMONY[key1] !== undefined) return CROSS_REGION_HARMONY[key1];
+    if (CROSS_REGION_HARMONY[key2] !== undefined) return CROSS_REGION_HARMONY[key2];
   }
   return elementalCosineHarmony(a, b);
 }
@@ -210,7 +210,8 @@ function parseMinutes(input: unknown): number | null {
   if (typeof input === "number") return input;
   if (typeof input !== "string") return null;
   const match = input.match(/(\d+)/);
-  return match ? parseInt(match[1], 10) : null;
+  const match1 = match?.[1];
+  return match1 ? parseInt(match1, 10) : null;
 }
 
 function recipeIngredientNames(recipe: { ingredients?: unknown }): string[] {
@@ -481,11 +482,18 @@ const DEFAULT_ADJECTIVES = [
 
 /** Picks a pseudo-random item from an array using a seed string. */
 function seededPick<T>(arr: T[], seed: string): T {
+  if (arr.length === 0) {
+    throw new Error('seededPick called on empty array');
+  }
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
   }
-  return arr[hash % arr.length];
+  const item = arr[hash % arr.length];
+  if (item === undefined) {
+    throw new Error('seededPick index out of bounds');
+  }
+  return item;
 }
 
 /** Returns the dominant element from an elemental preference map. */
@@ -497,7 +505,8 @@ function dominantElement(
     ["Fire", "Water", "Earth", "Air"].includes(k),
   );
   if (entries.length === 0) return undefined;
-  return entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))[0][0];
+  const [firstEntry] = entries.sort(([, a], [, b]) => (b ?? 0) - (a ?? 0));
+  return firstEntry?.[0];
 }
 
 // ===== UNIFIED RECIPE BUILDING SYSTEM =====
@@ -1260,10 +1269,10 @@ export class UnifiedRecipeBuildingSystem {
     score -= (monicaDiff / 100) * 0.3; // Up to 30% deduction
 
     // Factor in adjustment ranges
-    const tempRange = Math.abs(
-      temperatureAdjustments[1] - temperatureAdjustments[0],
-    );
-    const timeRange = Math.abs(timingAdjustments[1] - timingAdjustments[0]);
+    const [temp0 = 0, temp1 = 0] = temperatureAdjustments;
+    const [time0 = 0, time1 = 0] = timingAdjustments;
+    const tempRange = Math.abs(temp1 - temp0);
+    const timeRange = Math.abs(time1 - time0);
 
     // Smaller adjustment ranges = more precise = better score
     score -= (tempRange / 100) * 0.1; // Up to 10% for temperature variance
@@ -1360,11 +1369,13 @@ export class UnifiedRecipeBuildingSystem {
       return Math.max(0.2, Math.min(1.0, score)); // Return early if no cooking methods
     }
     const [primaryMethod] = cookingMethodArray; // Use first method for scoring
-    const methodScore = this.getCookingMethodSeasonalScore(
-      primaryMethod,
-      season,
-    );
-    score = score * 0.8 + methodScore * 0.2;
+    if (primaryMethod) {
+      const methodScore = this.getCookingMethodSeasonalScore(
+        primaryMethod,
+        season,
+      );
+      score = score * 0.8 + methodScore * 0.2;
+    }
 
     return Math.max(0.2, Math.min(1.0, score));
   }
@@ -2191,7 +2202,12 @@ export class UnifiedRecipeBuildingSystem {
       for (let i = out.length - 1; i > 0; i--) {
         const digit = seededPick([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], `${timeSeed}-${i}`);
         const j = Math.floor((digit / 10) * (i + 1));
-        [out[i], out[j]] = [out[j], out[i]];
+        const outI = out[i];
+        const outJ = out[j];
+        if (outI !== undefined && outJ !== undefined) {
+          out[i] = outJ;
+          out[j] = outI;
+        }
       }
       return out;
     };
@@ -2207,16 +2223,16 @@ export class UnifiedRecipeBuildingSystem {
     );
 
     // 1 protein (primary star ingredient)
-    const shuffledProteins = shuffled(proteins);
-    if (shuffledProteins.length > 0) selected.push(shuffledProteins[0]);
+    const [protein] = shuffled(proteins);
+    if (protein) selected.push(protein);
 
     // 2-3 vegetables or leafy greens
     const veggiePool = shuffled([...vegetables, ...leafyGreens]);
     selected.push(...veggiePool.slice(0, Math.min(3, veggiePool.length)));
 
     // 1 grain or starch
-    const grainPool = shuffled([...grains]);
-    if (grainPool.length > 0) selected.push(grainPool[0]);
+    const [grain] = shuffled(grains);
+    if (grain) selected.push(grain);
 
     // 1-2 aromatics for flavour base
     const aromaticPool = shuffled(aromatics);
@@ -2227,13 +2243,13 @@ export class UnifiedRecipeBuildingSystem {
     selected.push(...shuffledHerbs.slice(0, Math.min(2, shuffledHerbs.length)));
 
     // 1 sauce/oil base
-    const shuffledSauce = shuffled(sauceBase);
-    if (shuffledSauce.length > 0) selected.push(shuffledSauce[0]);
+    const [sauce] = shuffled(sauceBase);
+    if (sauce) selected.push(sauce);
 
     // 1 fruit for sweetness/acidity if available
     if (fruits.length > 0) {
-      const shuffledFruits = shuffled(fruits);
-      selected.push(shuffledFruits[0]);
+      const [fruit] = shuffled(fruits);
+      if (fruit) selected.push(fruit);
     }
 
     // Final fallback to all available ingredients
@@ -2470,13 +2486,14 @@ export class UnifiedRecipeBuildingSystem {
   ): string {
     const proteinIng = ingredients.find((i) => i.category === "protein");
     const veggieIng = ingredients.find((i) => i.category === "vegetable");
+    const [firstIng] = ingredients;
     let primaryIngredient = "Harvest";
     if (proteinIng?.name) {
       primaryIngredient = proteinIng.name;
     } else if (veggieIng?.name) {
       primaryIngredient = veggieIng.name;
-    } else if (ingredients.length > 0) {
-      primaryIngredient = ingredients[0].name;
+    } else if (firstIng?.name) {
+      primaryIngredient = firstIng.name;
     }
 
     // ── 1. Template type from Moon sign or lunar phase or dominant element ──
@@ -2527,13 +2544,14 @@ export class UnifiedRecipeBuildingSystem {
     const cuisine = criteria.cuisine ?? "Fusion";
     const proteinIng = ingredients.find((i) => i.category === "protein");
     const veggieIng = ingredients.find((i) => i.category === "vegetable");
+    const [firstIng] = ingredients;
     let primaryIngredient = "seasonal ingredients";
     if (proteinIng?.name) {
       primaryIngredient = proteinIng.name;
     } else if (veggieIng?.name) {
       primaryIngredient = veggieIng.name;
-    } else if (ingredients.length > 0) {
-      primaryIngredient = ingredients[0].name;
+    } else if (firstIng?.name) {
+      primaryIngredient = firstIng.name;
     }
 
     const zodiac = criteria.zodiacSign ?? "";
@@ -2638,7 +2656,7 @@ export class UnifiedRecipeBuildingSystem {
     season: Season,
     _recommendations: SeasonalRecommendations,
   ): Array<{ original: string; substitute: string; reason: string }> {
-    const table = SEASONAL_INGREDIENT_SUBS[season];
+    const table = SEASONAL_INGREDIENT_SUBS[season] ?? [];
     if (table.length === 0) return [];
     const ingredientNames = recipeIngredientNames(recipe);
     return table
@@ -2653,14 +2671,16 @@ export class UnifiedRecipeBuildingSystem {
     season: Season,
     _recommendations: SeasonalRecommendations,
   ): Array<{ method: string; adjustment: string; reason: string }> {
-    const preferred = SEASONAL_METHOD_PREFERENCES[season];
+    const preferred = SEASONAL_METHOD_PREFERENCES[season] ?? [];
     if (preferred.length === 0) return [];
+    const [firstPreferred] = preferred;
+    const preferredNote = firstPreferred ? `Consider ${firstPreferred} instead` : "Consider seasonal methods instead";
     const methods = recipeCookingMethods(recipe);
     return methods
       .filter((m) => !preferred.some((p) => m.includes(p)))
       .map((method) => ({
         method,
-        adjustment: `Consider ${preferred[0]} instead`,
+        adjustment: preferredNote,
         reason: `${season} favors ${preferred.join(", ")} over ${method}`,
       }));
   }
@@ -2875,7 +2895,10 @@ export class UnifiedRecipeBuildingSystem {
     const total = rawWeights.reduce((a, b) => a + b, 0);
     const ratios: { [key: string]: number } = {};
     cuisines.forEach((cuisine, i) => {
-      ratios[cuisine] = rawWeights[i] / total;
+      const weight = rawWeights[i];
+      if (weight !== undefined) {
+        ratios[cuisine] = weight / total;
+      }
     });
     return ratios;
   }
@@ -2933,14 +2956,16 @@ export class UnifiedRecipeBuildingSystem {
     }> = [];
 
     const methods = recipe.cookingMethod ?? [];
+    const allMethods = getAllEnhancedCookingMethods();
+    const [defaultMethod] = allMethods;
+    if (!defaultMethod) return [];
     methods.forEach((method, index) => {
-      const sourceCuisine = cuisines[index % cuisines.length];
+      const sourceCuisine = cuisines[index % cuisines.length] ?? "fusion";
       const fusionApplication = `Fusion technique integrating ${sourceCuisine} methodology`;
 
-      const allMethods = getAllEnhancedCookingMethods();
       const enhancedMethod =
         allMethods.find((m) => m.name.toLowerCase() === method.toLowerCase()) ??
-        allMethods[0];
+        defaultMethod;
       fusionMethods.push({
         method: enhancedMethod,
         sourceCuisine,
@@ -2955,8 +2980,12 @@ export class UnifiedRecipeBuildingSystem {
     if (cuisines.length <= 1) return 1.0;
     const pairs: number[] = [];
     for (let i = 0; i < cuisines.length; i++) {
+      const c1 = cuisines[i];
+      if (!c1) continue;
       for (let j = i + 1; j < cuisines.length; j++) {
-        pairs.push(pairwiseCuisineHarmony(cuisines[i], cuisines[j]));
+        const c2 = cuisines[j];
+        if (!c2) continue;
+        pairs.push(pairwiseCuisineHarmony(c1, c2));
       }
     }
     return pairs.reduce((a, b) => a + b, 0) / pairs.length;
@@ -2999,6 +3028,7 @@ export class UnifiedRecipeBuildingSystem {
   ): number {
     if (cuisines.length <= 1) return 0;
     const [primary] = cuisines;
+    if (!primary) return 0;
     const primarySig = lookupCuisineSignature(primary);
     if (!primarySig) return Math.min(1, (cuisines.length - 1) * 0.25);
 

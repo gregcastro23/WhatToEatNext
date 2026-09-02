@@ -119,8 +119,8 @@ function parseTimeToMinutes(timeStr?: string): number | null {
   const hourMatch = timeStr.match(/(\d+)\s*h/i);
   const minMatch = timeStr.match(/(\d+)\s*m/i);
   let total = 0;
-  if (hourMatch) total += parseInt(hourMatch[1], 10) * 60;
-  if (minMatch) total += parseInt(minMatch[1], 10);
+  if (hourMatch) total += parseInt(hourMatch[1] ?? "", 10) * 60;
+  if (minMatch) total += parseInt(minMatch[1] ?? "", 10);
   if (total === 0) {
     const num = parseInt(timeStr, 10);
     if (!isNaN(num)) total = num;

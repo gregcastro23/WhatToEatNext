@@ -560,7 +560,7 @@ export function aggregateCuisineKineticProfile(
     forceMagnitude: totalForceMagnitude / count,
     forceClassification: determineDominantForceClassification(recipeKinetics),
     thermalDirection: determineDominantThermalDirection(recipeKinetics),
-    aspectPhase: recipeKinetics[0].aspectPhase, // Use first as representative
+    aspectPhase: recipeKinetics[0]?.aspectPhase ?? null, // Use first as representative
   };
 
   // Calculate per-element averages

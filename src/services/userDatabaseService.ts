@@ -342,8 +342,8 @@ class UserDatabaseService {
           [userId],
         );
 
-        if (result.rows.length > 0) {
-          const [row] = result.rows;
+        const [row] = result.rows;
+        if (row) {
           return this.rowToUserWithProfile(row);
         }
       } catch (error) {
@@ -375,8 +375,9 @@ class UserDatabaseService {
           [normalizedEmail],
         );
 
-        if (result.rows.length > 0) {
-          return this.rowToUserWithProfile(result.rows[0]);
+        const [row] = result.rows;
+        if (row) {
+          return this.rowToUserWithProfile(row);
         }
         return null; // Return null explicitly if not found in DB
       } catch (error) {
@@ -440,10 +441,10 @@ class UserDatabaseService {
       );
     }
 
+    const [localPart] = normalizedEmail.split("@");
     const resolvedName =
       displayName?.trim() ||
-      normalizedEmail
-        .split("@")[0]
+      (localPart ?? "")
         .split("-")
         .filter(Boolean)
         .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
@@ -522,10 +523,11 @@ class UserDatabaseService {
             }),
           ],
         );
-        if (insertUser.rowCount === 0) {
+        const [upsertedRow] = insertUser.rows;
+        if (!upsertedRow) {
           throw new Error("ensurePlanetaryAgent: upsert returned no row");
         }
-        const finalId = insertUser.rows[0].id;
+        const finalId = upsertedRow.id;
 
         // ── Classify at creation (§18) ──────────────────────────────────────
         //
@@ -899,8 +901,9 @@ class UserDatabaseService {
           `SELECT onboarding_completed FROM user_profiles WHERE user_id = $1`,
           [userId],
         );
-        if (result.rows.length > 0) {
-          return result.rows[0].onboarding_completed === true;
+        const [row] = result.rows;
+        if (row) {
+          return row.onboarding_completed === true;
         }
       } catch (error) {
         _logger.warn("PostgreSQL query failed:", error);
@@ -1074,8 +1077,9 @@ class UserDatabaseService {
           [privyDid],
         );
 
-        if (result.rows.length > 0) {
-          return this.rowToUserWithProfile(result.rows[0]);
+        const [row] = result.rows;
+        if (row) {
+          return this.rowToUserWithProfile(row);
         }
         return null;
       } catch (error) {

@@ -80,6 +80,7 @@ export const DegreeAgentSelector: React.FC<DegreeAgentSelectorProps> = ({
   const handleSliderChange = useCallback(
     (value: number[]) => {
       const [degree] = value
+      if (degree === undefined) return
       setSliderDegree(degree)
       setInputDegree(degree.toString())
       if (onDegreeChange) {

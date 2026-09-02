@@ -666,9 +666,9 @@ export function calculateCuisineKalchm(
   let weightedKalchmSum = 0;
   let totalWeight = 0;
 
-  for (let i = 0; i < (ingredients || []).length; i++) {
+  for (const [i, ingredient] of (ingredients || []).entries()) {
     const weight = effectiveWeights[i] || 0;
-    weightedKalchmSum += ingredients[i].kalchm * weight;
+    weightedKalchmSum += ingredient.kalchm * weight;
     totalWeight += weight;
   }
 

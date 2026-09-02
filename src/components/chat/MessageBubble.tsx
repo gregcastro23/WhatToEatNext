@@ -78,10 +78,10 @@ export function MessageBubble({
 
 /** Sender→element cycle so bubbles read distinctly without inventing identity. */
 export function elementForSender(senderId: string): Element {
-  const cycle: Element[] = ["Fire", "Water", "Earth", "Air"];
+  const cycle: [Element, Element, Element, Element] = ["Fire", "Water", "Earth", "Air"];
   let h = 0;
   for (let i = 0; i < senderId.length; i++) h = (h * 31 + senderId.charCodeAt(i)) >>> 0;
-  return cycle[h % cycle.length];
+  return cycle[h % cycle.length] ?? cycle[0];
 }
 
 /** Small avatar used by inbox/DM headers. */

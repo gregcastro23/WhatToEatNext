@@ -18,11 +18,13 @@ export const timingUtils = {
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const [[cuisineElement]] = Object.entries(
-        cuisineProfile.elementalAlignment,
+      const [dominantAlignment] = Object.entries(
+        cuisineProfile?.elementalAlignment ?? {},
       ).sort(([, a], [, b]) => b - a);
 
-      return this.applyCuisineModifiers(baseTiming, cuisineElement);
+      if (dominantAlignment) {
+        return this.applyCuisineModifiers(baseTiming, dominantAlignment[0]);
+      }
     }
     return baseTiming;
   },

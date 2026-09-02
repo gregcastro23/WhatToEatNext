@@ -91,7 +91,11 @@ export const SIGN_MIDPOINT_DEGREE = (AGENT_DEGREE_MIN + AGENT_DEGREE_MAX) / 2;
 /** Absolute ecliptic degree (0–359) → sign + degree within that sign. */
 function fromAbsoluteDegree(n: number): { sign: string; degree: number } {
   const a = ((n % 360) + 360) % 360;
-  return { sign: SIGNS[Math.floor(a / 30)], degree: a % 30 };
+  const sign = SIGNS[Math.floor(a / 30)];
+  if (sign === undefined) {
+    throw new RangeError(`agentMonicaResolver: no sign for absolute degree ${n}`);
+  }
+  return { sign, degree: a % 30 };
 }
 
 export interface AgentPlacement {
@@ -115,18 +119,38 @@ export interface AgentPlacement {
  * Parse an agent name into a placement, or null if the name is not a placement
  * (a real person's name, a test row, anything unrecognised). Never guesses.
  */
+/** The two capture groups of a match, or null if the match failed or a group is absent. */
+function captured2(match: RegExpMatchArray | null): [string, string] | null {
+  const a = match?.[1];
+  const b = match?.[2];
+  return a !== undefined && b !== undefined ? [a, b] : null;
+}
+
+/** The three capture groups of a match, or null if any is absent. */
+function captured3(
+  match: RegExpMatchArray | null,
+): [string, string, string] | null {
+  const pair = captured2(match);
+  const c = match?.[3];
+  return pair !== null && c !== undefined ? [pair[0], pair[1], c] : null;
+}
+
 export function parseAgentPlacement(rawName: string): AgentPlacement | null {
   if (!rawName) return null;
   const name = rawName.trim().replace(/\s+/g, " ");
 
   // `Moon Phase <Phase> <N>` — N is an absolute ecliptic degree.
-  let m = name.match(/^([A-Za-z]+) Phase (.+?) (\d+)$/);
-  if (m && asPlanet(m[1])) {
-    const { sign, degree } = fromAbsoluteDegree(Number(m[3]));
-    const phase = m[2].trim();
+  const phaseDegreeGroups = captured3(
+    name.match(/^([A-Za-z]+) Phase (.+?) (\d+)$/),
+  );
+  const phaseDegreePlanet =
+    phaseDegreeGroups && asPlanet(phaseDegreeGroups[0]);
+  if (phaseDegreeGroups && phaseDegreePlanet) {
+    const { sign, degree } = fromAbsoluteDegree(Number(phaseDegreeGroups[2]));
+    const phase = phaseDegreeGroups[1].trim();
     return {
       kind: "phase",
-      planet: asPlanet(m[1])!,
+      planet: phaseDegreePlanet,
       sign,
       degree,
       phase,
@@ -135,10 +159,11 @@ export function parseAgentPlacement(rawName: string): AgentPlacement | null {
   }
 
   // `<Planet> Agent <N>` — N is an absolute ecliptic degree.
-  m = name.match(/^([A-Za-z]+) Agent (\d+)$/);
-  if (m && asPlanet(m[1])) {
-    const planet = asPlanet(m[1])!;
-    const { sign, degree } = fromAbsoluteDegree(Number(m[2]));
+  const agentGroups = captured2(name.match(/^([A-Za-z]+) Agent (\d+)$/));
+  const agentPlanet = agentGroups && asPlanet(agentGroups[0]);
+  if (agentGroups && agentPlanet) {
+    const planet = agentPlanet;
+    const { sign, degree } = fromAbsoluteDegree(Number(agentGroups[1]));
     return {
       kind: "single",
       planet,
@@ -149,23 +174,31 @@ export function parseAgentPlacement(rawName: string): AgentPlacement | null {
   }
 
   // `<Phase> Moon in <Sign> <N> [Degree]` — the canonical phase form.
-  m = name.match(/^(.+?) Moon in ([A-Za-z]+) (\d+)(?: Degree)?$/);
-  if (m && asSign(m[2])) {
+  const canonicalPhaseGroups = captured3(
+    name.match(/^(.+?) Moon in ([A-Za-z]+) (\d+)(?: Degree)?$/),
+  );
+  const canonicalPhaseSign =
+    canonicalPhaseGroups && asSign(canonicalPhaseGroups[1]);
+  if (canonicalPhaseGroups && canonicalPhaseSign) {
     return {
       kind: "phase",
       planet: "Moon",
-      sign: asSign(m[2])!,
-      degree: Number(m[3]),
-      phase: m[1].trim(),
+      sign: canonicalPhaseSign,
+      degree: Number(canonicalPhaseGroups[2]),
+      phase: canonicalPhaseGroups[0].trim(),
     };
   }
 
   // `<Planet> in <Sign> <N> [Degree]` — the dominant production family.
-  m = name.match(/^([A-Za-z]+) in ([A-Za-z]+) (\d+)(?: Degree)?$/);
-  if (m && asPlanet(m[1]) && asSign(m[2])) {
-    const planet = asPlanet(m[1])!;
-    const sign = asSign(m[2])!;
-    const degree = Number(m[3]);
+  const inSignGroups = captured3(
+    name.match(/^([A-Za-z]+) in ([A-Za-z]+) (\d+)(?: Degree)?$/),
+  );
+  const inSignPlanet = inSignGroups && asPlanet(inSignGroups[0]);
+  const inSignSign = inSignGroups && asSign(inSignGroups[1]);
+  if (inSignGroups && inSignPlanet && inSignSign) {
+    const planet = inSignPlanet;
+    const sign = inSignSign;
+    const degree = Number(inSignGroups[2]);
     return {
       kind: "single",
       planet,
@@ -176,13 +209,17 @@ export function parseAgentPlacement(rawName: string): AgentPlacement | null {
   }
 
   // `<Planet> <Sign> <N> [Degree]` — already canonical.
-  m = name.match(/^([A-Za-z]+) ([A-Za-z]+) (\d+)(?: Degree)?$/);
-  if (m && asPlanet(m[1]) && asSign(m[2])) {
+  const bareGroups = captured3(
+    name.match(/^([A-Za-z]+) ([A-Za-z]+) (\d+)(?: Degree)?$/),
+  );
+  const barePlanet = bareGroups && asPlanet(bareGroups[0]);
+  const bareSign = bareGroups && asSign(bareGroups[1]);
+  if (bareGroups && barePlanet && bareSign) {
     return {
       kind: "single",
-      planet: asPlanet(m[1])!,
-      sign: asSign(m[2])!,
-      degree: Number(m[3]),
+      planet: barePlanet,
+      sign: bareSign,
+      degree: Number(bareGroups[2]),
     };
   }
 
@@ -196,12 +233,14 @@ export function parseAgentPlacement(rawName: string): AgentPlacement | null {
   // the degree — and the ruling supplies it as the mean of the degrees the sign
   // spans. Contrast the null cases below it: those are missing the planet, the
   // sign, or both, and nothing in the name constrains them.
-  m = name.match(/^([A-Za-z]+) ([A-Za-z]+)$/);
-  if (m && asPlanet(m[1]) && asSign(m[2])) {
+  const signLevelGroups = captured2(name.match(/^([A-Za-z]+) ([A-Za-z]+)$/));
+  const signLevelPlanet = signLevelGroups && asPlanet(signLevelGroups[0]);
+  const signLevelSign = signLevelGroups && asSign(signLevelGroups[1]);
+  if (signLevelGroups && signLevelPlanet && signLevelSign) {
     return {
       kind: "single",
-      planet: asPlanet(m[1])!,
-      sign: asSign(m[2])!,
+      planet: signLevelPlanet,
+      sign: signLevelSign,
       degree: SIGN_MIDPOINT_DEGREE,
     };
   }

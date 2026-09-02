@@ -146,7 +146,12 @@ function validateOuterPlanetForYear(
 
   for (const range of ranges) {
     const [startYear, endYear] = range.years;
-    if (year >= startYear && year <= endYear) {
+    if (
+      startYear !== undefined &&
+      endYear !== undefined &&
+      year >= startYear &&
+      year <= endYear
+    ) {
       const valid = range.signs.includes(sign);
       return {
         valid,
@@ -247,7 +252,9 @@ function validateBirthDate(birthDate: Date, currentDate: Date = new Date()): {
   }
 
   return {
-    valid: issues.length === 0 || (issues.length === 1 && issues[0].includes("today")),
+    valid:
+      issues.length === 0 ||
+      (issues.length === 1 && (issues[0]?.includes("today") ?? false)),
     ageInYears,
     issues,
   };

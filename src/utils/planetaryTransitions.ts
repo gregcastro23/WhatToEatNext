@@ -49,7 +49,7 @@ function getNextSign(currentSign: string): string {
   const currentIndex = (ZODIAC_SIGNS as readonly string[]).indexOf(currentSign.toLowerCase());
   if (currentIndex === -1) return "aries";
   const nextIndex = (currentIndex + 1) % ZODIAC_SIGNS.length;
-  return ZODIAC_SIGNS[nextIndex];
+  return ZODIAC_SIGNS[nextIndex] ?? "aries";
 }
 
 /**
@@ -60,7 +60,7 @@ function getPreviousSign(currentSign: string): string {
   if (currentIndex === -1) return "pisces";
   const prevIndex =
     (currentIndex - 1 + ZODIAC_SIGNS.length) % ZODIAC_SIGNS.length;
-  return ZODIAC_SIGNS[prevIndex];
+  return ZODIAC_SIGNS[prevIndex] ?? "pisces";
 }
 
 /**

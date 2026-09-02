@@ -44,8 +44,18 @@ interface PersonalizedData {
   };
 }
 
-const ELEMENT_COLORS: Record<string, { bg: string; text: string; border: string; bar: string }> = {
-  Fire: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20', bar: 'bg-gradient-to-r from-red-600 to-red-400' },
+interface ElementColors {
+  bg: string;
+  text: string;
+  border: string;
+  bar: string;
+}
+
+/** Named so the `|| ELEMENT_COLORS.Fire` fallbacks below resolve to a value. */
+const FIRE_COLORS: ElementColors = { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20', bar: 'bg-gradient-to-r from-red-600 to-red-400' };
+
+const ELEMENT_COLORS: Record<string, ElementColors> = {
+  Fire: FIRE_COLORS,
   Water: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20', bar: 'bg-gradient-to-r from-blue-600 to-blue-400' },
   Earth: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20', bar: 'bg-gradient-to-r from-green-700 to-green-500' },
   Air: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20', bar: 'bg-gradient-to-r from-amber-500 to-amber-300' },
@@ -199,7 +209,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             {(['Fire', 'Water', 'Earth', 'Air'] as const).map((el) => {
               const val = elemental[el] ?? 0;
               const pct = Math.min(val * 100, 100);
-              const colors = ELEMENT_COLORS[el];
+              const colors = ELEMENT_COLORS[el] ?? FIRE_COLORS;
               return (
                 <div key={el} className="group">
                   <div className="flex justify-between text-[11px] font-bold mb-2">
@@ -228,7 +238,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 <p className="text-[10px] font-bold text-white/20 mb-3 uppercase tracking-widest">Favorable Elements</p>
                 <div className="flex flex-wrap gap-2">
                   {personalData.recommendations.favorableElements.map((el) => {
-                    const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
+                    const colors = ELEMENT_COLORS[el] ?? FIRE_COLORS;
                     return (
                       <span
                         key={el}

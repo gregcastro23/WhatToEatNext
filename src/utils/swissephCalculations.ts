@@ -87,8 +87,15 @@ function longitudeToZodiacPosition(longitude: number): {
     "pisces",
   ];
 
+  const sign = signs[signIndex];
+  if (sign === undefined) {
+    throw new RangeError(
+      `swissephCalculations: sign index ${signIndex} out of range`,
+    );
+  }
+
   return {
-    sign: signs[signIndex],
+    sign,
     degree,
     minute,
   };
@@ -305,11 +312,19 @@ export function calculateHouses(
       houseSystem,
     );
 
+    const [ascendant, mc, , vertex] = result.ascmc;
+    if (ascendant === undefined || mc === undefined || vertex === undefined) {
+      throw new Error(
+        "swissephCalculations: swe_houses returned an incomplete ascmc array; " +
+          "a defaulted 0 would assert 0° Aries as a real angle",
+      );
+    }
+
     return {
       cusps: result.cusps,
-      ascendant: result.ascmc[0], // Ascendant
-      mc: result.ascmc[1], // Midheaven
-      vertex: result.ascmc[3], // Vertex
+      ascendant,
+      mc,
+      vertex,
     };
   } catch (error) {
     logger.error("Error calculating houses:", error);

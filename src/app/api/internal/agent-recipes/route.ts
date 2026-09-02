@@ -86,6 +86,12 @@ export async function POST(request: NextRequest) {
       ],
     );
     const [row] = result.rows;
+    if (!row) {
+      return NextResponse.json(
+        { success: false, error: "recipe insert returned no row" },
+        { status: 500 },
+      );
+    }
     return NextResponse.json({
       success: true,
       id: row.id,

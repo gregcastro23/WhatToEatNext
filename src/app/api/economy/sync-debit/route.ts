@@ -39,7 +39,7 @@ function deriveAgentDisplayName(
   if (!local) return "Agent";
   return local
     .split("-")
-    .map((part) => (part ? part[0].toUpperCase() + part.slice(1) : ""))
+    .map((part) => (part ? part.charAt(0).toUpperCase() + part.slice(1) : ""))
     .join(" ")
     .trim() || "Agent";
 }
@@ -145,17 +145,25 @@ async function handlePost(req: NextRequest) {
          RETURNING id`,
         [email, displayName, JSON.stringify({ email, isAgent: true, name: displayName })],
       );
+      const [insertedUser] = userResult.rows;
+      if (!insertedUser) {
+        throw new Error("sync-debit: agent user upsert returned no row");
+      }
       // Create matching user_profiles row so feed/commensals lookups surface a name.
       // Done as a separate statement (with ON CONFLICT) so it's a no-op for concurrent inserts.
       await executeQuery(
         `INSERT INTO user_profiles (user_id, name)
          VALUES ($1, $2)
          ON CONFLICT (user_id) DO UPDATE SET name = EXCLUDED.name, updated_at = now()`,
-        [userResult.rows[0].id, displayName],
+        [insertedUser.id, displayName],
       );
     }
-    const userId = userResult.rows[0].id;
-    storedName ??= userResult.rows[0].profile_name;
+    const [userRow] = userResult.rows;
+    if (!userRow) {
+      return NextResponse.json({ ok: false, reason: "user_not_found" }, { status: 404 });
+    }
+    const userId = userRow.id;
+    storedName ??= userRow.profile_name;
 
     // 1.5 Update Agent Profile if metadata present.
     // Treat the payload as Record<string, unknown> — the planetary-agents
@@ -463,6 +471,11 @@ async function handlePost(req: NextRequest) {
       }
 
       const [final] = updateRes.rows;
+      if (!final) {
+        throw new Error(
+          "sync-debit: balance UPDATE returned no row; refusing to report a balance",
+        );
+      }
       return {
         kind: "ok" as const,
         groupId,

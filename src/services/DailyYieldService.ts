@@ -155,8 +155,8 @@ class DailyYieldService {
           `SELECT planet_positions, transit_esms FROM daily_ephemeris_cache WHERE cache_date = $1`,
           [todayStr],
         );
-        if (result.rows.length > 0) {
-          const [row] = result.rows;
+        const [row] = result.rows;
+        if (row) {
           const positions: AlchemicalPlanetPositions = typeof row.planet_positions === "string"
             ? (JSON.parse(row.planet_positions) as AlchemicalPlanetPositions)
             : row.planet_positions;
@@ -230,12 +230,11 @@ class DailyYieldService {
         // Both inputs must match: the positions (hash) AND the weight scale.
         // A row on an older scale is a miss, not a hit — it falls through to the
         // recompute below and is upserted on the current scale.
+        const [row] = result.rows;
         if (
-          result.rows.length > 0 &&
-          result.rows[0].natal_chart_hash === chartHash &&
-          result.rows[0].weight_scale_version === YIELD_WEIGHT_SCALE_VERSION
+          row?.natal_chart_hash === chartHash &&
+          row.weight_scale_version === YIELD_WEIGHT_SCALE_VERSION
         ) {
-          const [row] = result.rows;
           return {
             spirit: parseFloat(row.spirit_weight),
             essence: parseFloat(row.essence_weight),

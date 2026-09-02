@@ -45,6 +45,7 @@ import {
 import {
   calculateAlchemicalFromPlanetsDetailed,
   getPlanetarySectElement,
+  type AlchemicalElement,
   type EnhancedPlanetContribution,
 } from "@/utils/planetaryAlchemyMapping";
 
@@ -262,8 +263,14 @@ export const TEN_PLANETS = [
   "Pluto",
 ] as const;
 
-/** Fixed element compass, matches ElementalWheel (Fire up, Air right…). */
-export const ELEMENT_ANGLES: Record<string, number> = {
+/**
+ * Fixed element compass, matches ElementalWheel (Fire up, Air right…).
+ *
+ * Keyed by the four elements rather than by `string`: every lookup in this
+ * module is made with an `AlchemicalElement`, so the compass is total and an
+ * angle can never come back missing.
+ */
+export const ELEMENT_ANGLES: Record<AlchemicalElement, number> = {
   Fire: 90,
   Air: 0,
   Water: 270,
@@ -814,14 +821,30 @@ function buildCard({
   const ry = esms.Spirit - esms.Matter;
   const resultantMagnitude = Math.hypot(rx, ry);
   const resultantAngle = normalizeAngle((Math.atan2(ry, rx) * 180) / Math.PI);
-  const [[dominant]] = (
+  // Both rankings keep their stable descending sort, so ties still resolve to
+  // the first key in the source object's order. Only the top entry is unpacked
+  // in two steps now, so the empty case is named instead of throwing a
+  // TypeError from the destructuring itself.
+  const [topEsms] = (
     Object.entries(esms) as Array<[FBDResultant["dominant"], number]>
   ).sort((a, b) => b[1] - a[1]);
+  if (!topEsms) {
+    throw new Error(
+      `planetaryFBD: no ESMS totals to rank for ${planet} — cannot name a dominant quantity`,
+    );
+  }
+  const [dominant] = topEsms;
 
   const elementalEntries = Object.entries(elements) as Array<
-    ["Fire" | "Water" | "Earth" | "Air", number]
+    [AlchemicalElement, number]
   >;
-  const [[dominantElement]] = elementalEntries.sort((a, b) => b[1] - a[1]);
+  const [topElement] = elementalEntries.sort((a, b) => b[1] - a[1]);
+  if (!topElement) {
+    throw new Error(
+      `planetaryFBD: no elemental weights to rank for ${planet} — cannot name a dominant element`,
+    );
+  }
+  const [dominantElement] = topElement;
 
   return {
     planet,

@@ -88,10 +88,13 @@ export function getTimeFactors() {
   const hourIndex = hour % 24;
   const planetaryHour = isDaytime ? dayHours[hourIndex] : nightHours[hourIndex];
 
+  const dayPlanet =
+    dayOfWeek === undefined ? undefined : planetaryDayMap[dayOfWeek];
+
   return {
     _planetaryDay: {
       day: dayOfWeek,
-      planet: planetaryDayMap[dayOfWeek],
+      planet: dayPlanet,
     },
     planetaryHour: {
       hourOfDay: hour,
