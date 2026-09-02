@@ -398,62 +398,47 @@ const _calculateSeasonalAlignment = (
   return itemData.elementalProperties?.[seasonalElement] ?? 0.1;
 };
 
+interface LunarInfluence {
+  element: ElementalCharacter;
+  alchemical: string;
+  intensity: number;
+}
+
+const LUNAR_INFLUENCES: Readonly<Partial<Record<LunarPhase, LunarInfluence>>> = Object.freeze({
+  "new moon": { element: "Fire", alchemical: "Spirit", intensity: 0.8 },
+  "waxing crescent": { element: "Fire", alchemical: "Spirit", intensity: 0.7 },
+  "first quarter": { element: "Air", alchemical: "Substance", intensity: 0.6 },
+  "waxing gibbous": { element: "Air", alchemical: "Substance", intensity: 0.7 },
+  "full moon": { element: "Water", alchemical: "Essence", intensity: 0.8 },
+  "waning gibbous": { element: "Water", alchemical: "Essence", intensity: 0.7 },
+  "last quarter": { element: "Earth", alchemical: "Matter", intensity: 0.6 },
+  "waning crescent": { element: "Earth", alchemical: "Matter", intensity: 0.7 },
+});
+
+const DEFAULT_LUNAR_INFLUENCE: Readonly<LunarInfluence> = Object.freeze({
+  element: "Water",
+  alchemical: "Essence",
+  intensity: 0.5,
+});
+
+const EMPTY_ELEMENTAL_BOOST: Readonly<Record<string, number>> = Object.freeze({});
+
+interface FlavorIngredientData {
+  name?: string;
+  planetaryRulers?: string[];
+  elementalCharacter?: string;
+  elementalProperties?: Record<string, number>;
+}
+
 /**
  * Calculate boost based on lunar phase
  */
 export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
-  // New calculation based on lunar phase energy patterns
-  // Different lunar phases enhance different elemental and alchemical properties
+  // Get lunar influence data or provide static fallback
+  const influence = LUNAR_INFLUENCES[lunarPhase] ?? DEFAULT_LUNAR_INFLUENCE;
 
-  // Map lunar phases to elemental and alchemical influences
-  const lunarInfluences: Record<
-    LunarPhase,
-    {
-      element: ElementalCharacter;
-      alchemical: string;
-      intensity: number;
-    }
-  > = {
-    "new moon": { element: "Fire", alchemical: "Spirit", intensity: 0.8 },
-    "waxing crescent": {
-      element: "Fire",
-      alchemical: "Spirit",
-      intensity: 0.7,
-    },
-    "first quarter": {
-      element: "Air",
-      alchemical: "Substance",
-      intensity: 0.6,
-    },
-    "waxing gibbous": {
-      element: "Air",
-      alchemical: "Substance",
-      intensity: 0.7,
-    },
-    "full moon": { element: "Water", alchemical: "Essence", intensity: 0.8 },
-    "waning gibbous": {
-      element: "Water",
-      alchemical: "Essence",
-      intensity: 0.7,
-    },
-    "last quarter": { element: "Earth", alchemical: "Matter", intensity: 0.6 },
-    "waning crescent": {
-      element: "Earth",
-      alchemical: "Matter",
-      intensity: 0.7,
-    },
-  };
-
-  // Get lunar influence data or provide fallback
-  const influence = lunarInfluences[lunarPhase] || {
-    element: "Water",
-    alchemical: "Essence",
-    intensity: 0.5,
-  };
-
-  // Calculate boost based on lunar phase intensity
-  // This will vary between 0.15 and 0.4 depending on the phase
-  return 0.15 + ((influence as any)?.intensity ?? 0) * 0.2;
+  // Calculate boost based on lunar phase intensity (varies between 0.15 and 0.4)
+  return 0.15 + influence.intensity * 0.2;
 };
 
 /**
@@ -463,16 +448,13 @@ export const _getFlavorBoost = (
   _planet: Planet,
   _ingredient: unknown,
 ): number => {
-  const ingredientData = _ingredient as {
-    name?: string;
-    planetaryRulers?: string[];
-    elementalCharacter?: string;
-  };
-  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost ?? {};
+  const ingredientData = _ingredient as FlavorIngredientData;
+  const elementBoost =
+    planetaryFoodAssociations[_planet].elementalBoost ?? EMPTY_ELEMENTAL_BOOST;
   return Object.entries(elementBoost).reduce(
     (acc, [element, boost]) =>
       acc +
-      ((ingredientData as any).elementalProperties?.[element] ?? 0) *
+      (ingredientData.elementalProperties?.[element] ?? 0) *
         (boost || 0),
     0,
   );

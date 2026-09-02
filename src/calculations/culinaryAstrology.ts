@@ -7,6 +7,8 @@ import { recipeElementalMappings } from "@/data/recipes/elementalMappings";
 import type { AstrologicalState, Season } from "@/types/alchemy";
 import type { RecipeElementalMapping } from "@/types/recipes";
 
+const EMPTY_LUNAR_PHASE_EFFECT: Readonly<Record<string, number>> = Object.freeze({});
+
 interface AstrologicalCulinaryGuidance {
   dominantElement: string;
   technique: {
@@ -91,7 +93,7 @@ export class CulinaryAstrologer {
 
   private getDominantElementFromAstro(astroState: AstrologicalState): string {
     const { zodiacSign } = astroState as { zodiacSign?: string };
-    const sign = (zodiacSign ?? "").toLowerCase();
+    const sign = (zodiacSign?.trim() ?? "").toLowerCase();
     const map: Record<string, string> = {
       aries: "Fire",
       leo: "Fire",
@@ -117,9 +119,11 @@ export class CulinaryAstrologer {
       (m) => (m.elementalEffect[dominant] ?? 0) > 0.3,
     );
     const picked = (viable[0] ?? methods[0]);
-    const name = picked?.name ?? "balanced-preparation";
+    const name = picked?.name.trim() ? picked.name : "balanced-preparation";
     const benefits =
-      picked?.benefits.slice(0, 2).join(" and ") ?? "balanced expression";
+      picked && picked.benefits.length > 0
+        ? picked.benefits.slice(0, 2).join(" and ")
+        : "balanced expression";
     return {
       name,
       rationale: `Aligns with ${dominant} through ${benefits}`,
@@ -142,13 +146,15 @@ export class CulinaryAstrologer {
     method: CookingMethodData | undefined,
     astroState: AstrologicalState,
   ): string {
-    const lunar = method?.astrologicalInfluences?.lunarPhaseEffect ?? {};
+    const lunar = method?.astrologicalInfluences?.lunarPhaseEffect ?? EMPTY_LUNAR_PHASE_EFFECT;
     const bestPhase =
       Object.entries(lunar).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "full moon";
     const { planetaryHour } = astroState as { planetaryHour?: string };
-    const hour = planetaryHour ?? "Sun";
+    const hour = planetaryHour?.trim() ? planetaryHour : "Sun";
     const firstPlanet =
-      method?.astrologicalInfluences?.dominantPlanets?.[0] ?? "Sun";
+      method?.astrologicalInfluences?.dominantPlanets?.[0]?.trim()
+        ? method.astrologicalInfluences.dominantPlanets[0]
+        : "Sun";
     return `Best during ${bestPhase.replace(/_/g, " ")} when ${hour} or ${firstPlanet} is dominant`;
   }
 
@@ -208,9 +214,9 @@ export class CulinaryAstrologer {
     }
     const style = best[0] || "Fusion";
     const modKey = `${dominant}_dominant`;
+    const mod = best[1].signatureModifications[modKey];
     const modification =
-      best[1].signatureModifications[modKey] ??
-      "Emphasize dominant element techniques";
+      mod?.trim() ? mod : "Emphasize dominant element techniques";
     return {
       style,
       modification,
