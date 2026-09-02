@@ -31,7 +31,7 @@ All values re-verified live at `59e470df`, not carried forward from prose.
 | **Fast suite** | `19 suites / 494 tests` | `bun run test:fast` | ✅ Verified |
 | **Tracked lint debt** | `3,665` vs baseline `3,606` | `bun run lint:debt` | 🔴 **RED, +59** |
 | **Declined rules pool** | `6,364` vs baseline `6,317` | same | 🔴 **RED, +47** |
-| — `prefer-nullish-coalescing` | `692` vs baseline `210` | same | 🔴 **+482 ← the target** |
+| — `prefer-nullish-coalescing` | `692` vs baseline `210` (126 safe / 566 semantic) | same | 🔴 **+482 ← the target** |
 | — `no-unnecessary-condition` | `1,307` vs baseline `1,729` | same | 🟢 −422 |
 | **Gated cast surface** | `380` (106 `as any`, 274 `as unknown as`) | `bun run lint:debt --top-casts 5` | ⚪ Unmoved |
 | **Assertion sites (AST)** | `4,532` (was 4,593) | same | 🟢 −61 |
@@ -156,8 +156,22 @@ flag is exactly the kind of quiet policy change this program exists to prevent.
 | **B. Pay it down** | Leave the baseline. Fix `prefer-nullish-coalescing` sites until tracked ≤ 3,606. Gate goes green on merit. This is §2.2. |
 | **C. Split the axis** | Give `prefer-nullish-coalescing` its own sub-baseline (as Phase 12 did for `as any`) so the aggregate is not hostage to one rule. |
 
-**B is the recommendation**, because the 482 sites are worth fixing on their own
-merits — see below. C is a reasonable hedge if the 482 will not fit in one session.
+⚠️ **B alone cannot close the gap — measured, not estimated.** Of the 692
+`prefer-nullish-coalescing` hits, only **126** have a non-primitive left operand,
+where `||` and `??` are provably identical because an object is never falsy. The
+other **566** are primitives, where `0` / `""` / `false` change meaning. Passing
+the per-rule check needs **−482**; converting every provably-safe site yields
+**−126**. So **at least 356 sites require an individual semantic decision** —
+this check cannot be made green mechanically, and no autofix or codemod closes it.
+
+Reproduce with `ignorePrimitives: { string, number, boolean, bigint }` all true;
+the unfiltered count reproduces the gate's 692 exactly, which is the control.
+
+That reframes the options: **C is now the recommendation** — give the rule its own
+sub-baseline so the aggregate stops being hostage to it, then work the 126 safe
+conversions as a first tranche and the 566 by hand over time. A is defensible only
+with the +482 recorded in the baseline as a named, explained entry rather than
+folded silently into the total.
 
 Also worth fixing regardless: **add `lint:debt` to `bun run verify`.** Its absence
 is why this drifted for eighteen commits (§1.1).
@@ -189,6 +203,12 @@ can legitimately be `0`, `""` or `false`. That is not a mechanical rewrite:
 ⚠️ **Do not run `eslint --fix` across this rule.** The autofix is behaviour-changing
 at every site where a falsy value is meaningful, and it cannot tell the cases
 apart. Read each site.
+
+**Start with the 126 provably-safe ones.** Filter with `ignorePrimitives` all
+true: what remains has a non-primitive operand, so `||` → `??` is exactly
+equivalent and needs no judgement. That is the only tranche that can move
+mechanically; the remaining 566 are the actual work, and each one is a question
+about whether a real `0`, `""` or `false` should fall through.
 
 ### 2.3 Reproduce the probe
 
