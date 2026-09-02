@@ -163,7 +163,14 @@ export class IngredientFilterService {
         this.allIngredients[category],
       ).map(([name, data]) => ({
         ...data,
-        name,
+        // The key is the fallback, not the winner: `data.name` carries the
+        // curated display name ("Butter Croissant", "Passion Fruit") and must
+        // override the slug. Written as an explicit `??` rather than relying on
+        // spread order, which TS2783 rejects. Spreading the key last renamed
+        // every record to its slug and broke name-term classification -
+        // `\bbutter\b` cannot match across the underscore in
+        // `butter_croissant`, so a butter pastry classified as vegan.
+        name: data.name ?? name,
       }));
 
       // Apply all filters sequentially
