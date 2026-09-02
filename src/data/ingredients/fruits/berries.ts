@@ -23,6 +23,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
+      seasonalAffinity: ["summer"],
       elementalAffinity: {
         base: "Water",
         decanModifiers: {
@@ -70,6 +71,10 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         "resveratrol",
         "pterostilbene",
       ],
+      notes:
+        "Anthocyanins extremely high - highest of common fruits, brain and " +
+        "heart health; pterostilbene high - similar to resveratrol, " +
+        "anti-aging; quercetin moderate - anti-inflammatory",
       specific_values: {
         vitamin_c_mg: 14,
         manganese_mg: 0.5,
@@ -154,7 +159,36 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       container: "ventilated container",
       notes: "Best stored in refrigerator",
+      tips: [
+        "Do not wash until ready to eat",
+        "Remove any moldy berries immediately",
+        "Freeze on baking sheet, then bag for up to 12 months",
+        "Wild blueberries more intense flavor than cultivated",
+      ],
     },
+    preparation: {
+      methods: [
+        "Rinse gently in colander just before using",
+        "Pick through and remove stems",
+        "Use fresh or frozen interchangeably in most recipes",
+        "Toss with flour before baking to prevent sinking",
+      ],
+      tips: [
+        "Wild blueberries smaller but more flavorful",
+        "Frozen berries work great in baking",
+        "Add to pancakes/muffins while batter is in pan",
+        "Bloom on berries is natural protective coating - don't wash off until eating",
+      ],
+      yields: "1 pint = 2 cups",
+    },
+    recommendedCookingMethods: [
+      "eating fresh",
+      "baking",
+      "making jam",
+      "blending",
+      "in compotes",
+    ],
+    seasonality: ["summer"],
   },
 
   raspberry: {
@@ -258,6 +292,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["spring", "summer"],
       elementalAffinity: {
         base: "Water",
         decanModifiers: {
@@ -277,6 +312,11 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 1.0, carbs: 11.7, fat: 0.5, fiber: 3.0 },
       vitamins: { C: 1.49, folate: 0.09, K: 0.04 },
       minerals: { manganese: 0.29, potassium: 0.07 },
+      antioxidants: ["anthocyanins", "ellagic acid", "quercetin"],
+      notes:
+        "Anthocyanins very high - red pigment, powerful antioxidants; " +
+        "ellagic acid high - may have anti-cancer properties; " +
+        "quercetin moderate - anti-inflammatory",
       source: "USDA FoodData Central",
     },
     sensoryProfile: {
@@ -312,13 +352,50 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       contrasting: ["black pepper", "goat cheese", "arugula"],
       toAvoid: ["overly spicy foods", "strong fish"],
     },
+    healthBenefits: [
+      "Extremely high in vitamin C - immune support",
+      "Rich in anthocyanins - heart health",
+      "May improve blood sugar regulation",
+      "Anti-inflammatory properties",
+      "Supports brain health",
+      "May reduce cancer risk",
+    ],
     cookingMethods: ["raw", "baked", "preserved", "macerated"],
     storage: {
       temperature: "refrigerate 32-36°F",
       duration: "3-5 days",
       container: "original container or single layer",
       notes: "Store unwashed with hulls attached",
+      tips: [
+        "Store unwashed with hulls attached",
+        "Remove any moldy berries immediately",
+        "Best eaten within 1-2 days of purchase",
+        "Can freeze on baking sheet, then bag for up to 6 months",
+      ],
     },
+    preparation: {
+      methods: [
+        "Rinse gently just before eating",
+        "Hull with paring knife or strawberry huller",
+        "Slice for desserts",
+        "Puree for sauces and smoothies",
+      ],
+      tips: [
+        "Leave hulls on until ready to eat",
+        "Don't soak - absorbs water and loses flavor",
+        "Macerate with sugar to draw out juices",
+        "Room temperature berries have best flavor",
+      ],
+      yields: "1 pint = 2 cups whole = 1.5 cups sliced",
+    },
+    recommendedCookingMethods: [
+      "eating fresh",
+      "macerating",
+      "baking",
+      "making jam",
+      "blending",
+    ],
+    seasonality: ["spring", "summer"],
       culinaryProfile: {
         flavorProfile: {
           primary: ["sweet", "tart"],

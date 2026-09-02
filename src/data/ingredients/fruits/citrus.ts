@@ -24,6 +24,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
       favorableZodiac: ["gemini", "cancer"],
+      // Restored from enhancedFruits.ts
+      seasonalAffinity: ["winter", "spring"],
       elementalAffinity: {
         base: "Water",
         decanModifiers: {
@@ -35,10 +37,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sour", "cooling", "cleansing"],
     season: ["winter", "spring"],
+    // Restored from enhancedFruits.ts
+    seasonality: ["year-round", "peak: winter-spring"],
     category: "fruit",
     subCategory: "citrus",
     affinities: ["honey", "ginger", "mint", "thyme", "lavender"],
     cookingMethods: ["raw", "juiced", "preserved", "zested"],
+    // Restored from enhancedFruits.ts
+    recommendedCookingMethods: [
+      "juicing",
+      "zesting",
+      "preserving",
+      "in dressings",
+      "in baking",
+    ],
     nutritionalProfile: {
       serving_size: "1 medium (58g)",
       calories: 17,
@@ -52,7 +64,12 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       },
       vitamins: ["c", "b6", "folate"],
       minerals: ["potassium", "calcium"],
-      antioxidants: ["flavonoids", "limonoids"],
+      // Merged from enhancedFruits.ts: limonene (peel) and citric acid
+      antioxidants: ["flavonoids", "limonoids", "limonene", "citric_acid"],
+      notes:
+        "Flavonoids high - especially in peel and pith; " +
+        "limonene very high - in peel, anti-cancer and mood-enhancing properties; " +
+        "citric acid high - provides tartness and preservative qualities",
     },
     preparation: {
       washing: true,
@@ -64,9 +81,31 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temp or refrigerated",
       duration: "1-2 weeks",
       notes: "Will continue to ripen at room temperature",
+      // Restored from enhancedFruits.ts
+      container: "open air or plastic bag in crisper",
+      tips: [
+        "Room temperature lemons yield more juice",
+        "Zest before juicing - easier when whole",
+        "Can freeze whole, zest, or juice",
+        "Meyer lemons are sweeter, shorter shelf life",
+      ],
     },
-      sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: {
+        taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 },
+        // Base aroma retained; herbal/spicy/earthy/woody merged from enhancedFruits.ts
+        aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7, herbal: 0.2, spicy: 0.1, earthy: 0, woody: 0 },
+        // Base texture retained; crisp/creamy/chewy/crunchy/silky merged from enhancedFruits.ts
+        texture: { juicy: 0.7, tender: 0.6, soft: 0.5, crisp: 0, creamy: 0, chewy: 0, crunchy: 0, silky: 0.3 },
+      },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      healthBenefits: [
+        "High in vitamin C - immune support",
+        "Aids digestion and liver function",
+        "Alkalizing despite acidity",
+        "Antibacterial properties",
+        "May support heart health",
+        "Antioxidant properties",
+      ],
       culinaryProfile: {
         flavorProfile: {
           primary: ["sour", "bright"],
@@ -105,6 +144,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["leo", "taurus"],
+      // Restored from enhancedFruits.ts
+      seasonalAffinity: ["winter"],
       elementalAffinity: {
         base: "Fire",
         decanModifiers: {
@@ -116,10 +157,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "warming", "nourishing"],
     season: ["winter"],
+    // Restored from enhancedFruits.ts
+    seasonality: ["winter", "spring"],
     category: "fruit",
     subCategory: "citrus",
     affinities: ["vanilla", "cinnamon", "chocolate", "cranberry", "dates"],
     cookingMethods: ["raw", "juiced", "zested", "candied"],
+    // Restored from enhancedFruits.ts
+    recommendedCookingMethods: [
+      "eating fresh",
+      "juicing",
+      "segmenting",
+      "zesting",
+      "in salads",
+    ],
     nutritionalProfile: {
       serving_size: "1 medium (131g)",
       calories: 62,
@@ -131,9 +182,15 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         sugar: 12.2,
         sodium: 0,
       },
-      vitamins: ["c", "a", "b1"],
+      // "folate" merged from enhancedFruits.ts ("thiamin" omitted: same nutrient as base "b1")
+      vitamins: ["c", "a", "b1", "folate"],
       minerals: ["calcium", "potassium"],
-      antioxidants: ["hesperidin", "beta-cryptoxanthin"],
+      // Merged from enhancedFruits.ts: vitamin_c and carotenoids
+      antioxidants: ["hesperidin", "beta-cryptoxanthin", "vitamin_c", "carotenoids"],
+      notes:
+        "Hesperidin very high - flavonoid that reduces inflammation; " +
+        "vitamin c extremely high - immune support; " +
+        "carotenoids moderate - especially in blood oranges",
     },
     preparation: {
       washing: true,
@@ -145,9 +202,31 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       temperature: "cool room temp or refrigerated",
       duration: "2-3 weeks",
       notes: "Keep away from apples and bananas",
+      // Restored from enhancedFruits.ts
+      container: "open air or fruit bowl, crisper if refrigerating",
+      tips: [
+        "Room temperature for best juice yield",
+        "Heavy oranges = juicy oranges",
+        "Avoid soft spots or mold",
+        "Zest can be frozen for later use",
+      ],
     },
-      sensoryProfile: { taste: { spicy: 0, sweet: 0.6, sour: 0.5, bitter: 0.2, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: {
+        taste: { spicy: 0, sweet: 0.6, sour: 0.5, bitter: 0.2, salty: 0, umami: 0 },
+        // Base aroma retained; herbal/spicy/earthy/woody merged from enhancedFruits.ts
+        aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7, herbal: 0.1, spicy: 0, earthy: 0, woody: 0 },
+        // Base texture retained; crisp/creamy/chewy/crunchy/silky merged from enhancedFruits.ts
+        texture: { juicy: 0.7, tender: 0.6, soft: 0.5, crisp: 0, creamy: 0, chewy: 0.3, crunchy: 0, silky: 0.4 },
+      },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      healthBenefits: [
+        "Excellent source of vitamin C - immune support",
+        "Rich in flavonoids - heart health",
+        "May reduce inflammation",
+        "Supports skin health",
+        "May help prevent kidney stones",
+        "Good source of fiber",
+      ],
       culinaryProfile: {
         flavorProfile: {
           primary: ["sweet", "citrusy"],

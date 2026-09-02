@@ -151053,2662 +151053,6 @@
   "acai_berry": [],
   "currant_red": [],
   "currant_black": [],
-  "avocado": [
-    {
-      "recipeId": "american-authentic-avocado-toast-with-poached-eggs",
-      "recipeName": "Authentic Avocado Toast with Poached Eggs",
-      "cuisine": "american",
-      "rawIngredientName": "Hass avocado",
-      "amount": 1,
-      "unit": "large"
-    },
-    {
-      "recipeId": "american-authentic-cobb-salad",
-      "recipeName": "Authentic Cobb Salad",
-      "cuisine": "american",
-      "rawIngredientName": "Hass avocado",
-      "amount": 1,
-      "unit": "large"
-    },
-    {
-      "recipeId": "hsca-tempeh-reuben-sandwich",
-      "recipeName": "Tempeh Reuben Sandwich",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado spread or nayonaise",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-vegetable-and-tempeh-wraps-with-avocado-cilantro-cream",
-      "recipeName": "VEGETABLE AND TEMPEH WRAPS WITH AVOCADO-CILANTRO CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "ripe avocados",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
-      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
-      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado",
-      "amount": 0.3333333333333333,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-greens-with-cucumber-ice-and-lime-vinaigrette",
-      "recipeName": "GREENS WITH CUCUMBER ICE AND LIME VINAIGRETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-jerk-seitan-sloppy-joe-s",
-      "recipeName": "Jerk Seitan Sloppy Joe's",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
-      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado leaves",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-nori-rolls",
-      "recipeName": "NORI ROLLS",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-avocado-and-coconut-terrine",
-      "recipeName": "Avocado and Coconut Terrine",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocado layer",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-avocado-and-coconut-terrine",
-      "recipeName": "Avocado and Coconut Terrine",
-      "cuisine": "hsca",
-      "rawIngredientName": "avocados",
-      "amount": 4,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "mexican-authentic-huevos-rancheros",
-      "recipeName": "Authentic Huevos Rancheros",
-      "cuisine": "mexican",
-      "rawIngredientName": "ripe avocado",
-      "amount": 0.5,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "mexican-authentic-tlayudas",
-      "recipeName": "Authentic Tlayudas",
-      "cuisine": "mexican",
-      "rawIngredientName": "avocado",
-      "amount": 1,
-      "unit": "medium"
-    },
-    {
-      "recipeId": "mexican-authentic-guacamole-en-molcajete",
-      "recipeName": "Authentic Guacamole en Molcajete",
-      "cuisine": "mexican",
-      "rawIngredientName": "Hass avocados",
-      "amount": 3,
-      "unit": "large"
-    }
-  ],
-  "banana": [
-    {
-      "recipeId": "american-berry-breakfast-smoothie-bowl",
-      "recipeName": "Berry Breakfast Smoothie Bowl",
-      "cuisine": "american",
-      "rawIngredientName": "banana",
-      "amount": 0.5,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "hsca-buckwheat-pancakes",
-      "recipeName": "BUCKWHEAT PANCAKES",
-      "cuisine": "hsca",
-      "rawIngredientName": "very ripe banana",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-gluten-free-banana-bread",
-      "recipeName": "GLUTEN-FREE BANANA BREAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "mashed banana",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-skewered-fruit-with-chocolate-fondue",
-      "recipeName": "Skewered Fruit with Chocolate Fondue",
-      "cuisine": "hsca",
-      "rawIngredientName": "bananas",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-fresh-strawberries-and-bananas",
-      "recipeName": "Fresh Strawberries and Bananas",
-      "cuisine": "hsca",
-      "rawIngredientName": "bananas",
-      "amount": 3,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-almond-fruit-tart-with-almond-crust",
-      "recipeName": "ALMOND-FRUIT TART WITH ALMOND CRUST",
-      "cuisine": "hsca",
-      "rawIngredientName": "ripe banana",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-banana-cupcakes",
-      "recipeName": "BANANA CUPCAKES",
-      "cuisine": "hsca",
-      "rawIngredientName": "mashed ripe bananas",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-banana-cupcakes",
-      "recipeName": "BANANA CUPCAKES",
-      "cuisine": "hsca",
-      "rawIngredientName": "banana",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-banana-cupcakes",
-      "recipeName": "BANANA CUPCAKES",
-      "cuisine": "hsca",
-      "rawIngredientName": "mashed ripe bananas",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-banana-cupcakes",
-      "recipeName": "BANANA CUPCAKES",
-      "cuisine": "hsca",
-      "rawIngredientName": "banana",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-banana-cake",
-      "recipeName": "BANANA CAKE",
-      "cuisine": "hsca",
-      "rawIngredientName": "mashed banana",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-banana-cake",
-      "recipeName": "BANANA CAKE",
-      "cuisine": "hsca",
-      "rawIngredientName": "banana extract",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "mexican-authentic-mole-poblano",
-      "recipeName": "Authentic Mole Poblano",
-      "cuisine": "mexican",
-      "rawIngredientName": "plantain or ripe banana",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "mexican-cochinita-pibil",
-      "recipeName": "Cochinita Pibil",
-      "cuisine": "mexican",
-      "rawIngredientName": "Banana leaves",
-      "amount": 1,
-      "unit": "package"
-    },
-    {
-      "recipeId": "mexican-cochinita-pibil",
-      "recipeName": "Cochinita Pibil",
-      "cuisine": "mexican",
-      "rawIngredientName": "Banana leaves",
-      "amount": 1,
-      "unit": "package"
-    },
-    {
-      "recipeId": "vietnamese-b-n-b-hu",
-      "recipeName": "Bún Bò Huế",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "Banana blossom, mint, lime",
-      "amount": 1,
-      "unit": "basket"
-    },
-    {
-      "recipeId": "vietnamese-authentic-bun-bo-hue",
-      "recipeName": "Authentic Bun Bo Hue",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "banana blossoms and cabbage",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "vietnamese-ch-chu-i",
-      "recipeName": "Chè Chuối",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "Saba bananas (Chuối sứ)",
-      "amount": 4,
-      "unit": "whole"
-    }
-  ],
-  "lemon": [
-    {
-      "recipeId": "middle-eastern-ful-medames",
-      "recipeName": "Ful Medames",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "Lemons",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-authentic-fattoush",
-      "recipeName": "Authentic Fattoush",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "middle-eastern-authentic-tabbouleh",
-      "recipeName": "Authentic Tabbouleh",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "middle-eastern-authentic-hummus-bi-tahini",
-      "recipeName": "Authentic Hummus bi Tahini",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "middle-eastern-authentic-chicken-shawarma",
-      "recipeName": "Authentic Chicken Shawarma",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "middle-eastern-authentic-baba-ganoush",
-      "recipeName": "Authentic Baba Ganoush",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "middle-eastern-hummus",
-      "recipeName": "Hummus",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-shawarma",
-      "recipeName": "Shawarma",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-baklava",
-      "recipeName": "Baklava",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "middle-eastern-knafeh",
-      "recipeName": "Knafeh",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "middle-eastern-tabbouleh",
-      "recipeName": "Tabbouleh",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "middle-eastern-hummus",
-      "recipeName": "Hummus",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-baba-ghanoush",
-      "recipeName": "Baba Ghanoush",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "middle-eastern-lentil-soup-shorbat-adas",
-      "recipeName": "Lentil Soup (Shorbat Adas)",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-harira",
-      "recipeName": "Harira",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-dolma",
-      "recipeName": "Dolma",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "middle-eastern-shawarma",
-      "recipeName": "Shawarma",
-      "cuisine": "middle eastern",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "american-authentic-avocado-toast-with-poached-eggs",
-      "recipeName": "Authentic Avocado Toast with Poached Eggs",
-      "cuisine": "american",
-      "rawIngredientName": "lemon or lime juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "american-asparagus-and-goat-cheese-tart",
-      "recipeName": "Asparagus and Goat Cheese Tart",
-      "cuisine": "american",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "american-authentic-new-england-lobster-roll",
-      "recipeName": "Authentic New England Lobster Roll",
-      "cuisine": "american",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "american-authentic-southern-shrimp-and-grits",
-      "recipeName": "Authentic Southern Shrimp and Grits",
-      "cuisine": "american",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "american-classic-american-apple-pie",
-      "recipeName": "Classic American Apple Pie",
-      "cuisine": "american",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "american-grilled-cedar-plank-salmon-with-summer-vegetables",
-      "recipeName": "Grilled Cedar Plank Salmon with Summer Vegetables",
-      "cuisine": "american",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "american-authentic-roast-turkey-with-cranberry-sauce",
-      "recipeName": "Authentic Roast Turkey with Cranberry Sauce",
-      "cuisine": "american",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "american-authentic-american-apple-pie",
-      "recipeName": "Authentic American Apple Pie",
-      "cuisine": "american",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "italian-authentic-cornetto-e-cappuccino",
-      "recipeName": "Authentic Cornetto e Cappuccino",
-      "cuisine": "italian",
-      "rawIngredientName": "orange or lemon zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "italian-authentic-granita-con-brioche",
-      "recipeName": "Authentic Granita con Brioche",
-      "cuisine": "italian",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "italian-authentic-osso-buco-alla-milanese",
-      "recipeName": "Authentic Osso Buco alla Milanese",
-      "cuisine": "italian",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "italian-ossobuco-alla-milanese",
-      "recipeName": "Ossobuco alla Milanese",
-      "cuisine": "italian",
-      "rawIngredientName": "Lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "indian-authentic-poha-spiced-flattened-rice",
-      "recipeName": "Authentic Poha (Spiced Flattened Rice)",
-      "cuisine": "indian",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "indian-authentic-bhel-puri",
-      "recipeName": "Authentic Bhel Puri",
-      "cuisine": "indian",
-      "rawIngredientName": "lemon juice",
-      "amount": 10,
-      "unit": "ml"
-    },
-    {
-      "recipeId": "indian-authentic-dhokla",
-      "recipeName": "Authentic Dhokla",
-      "cuisine": "indian",
-      "rawIngredientName": "lemon juice",
-      "amount": 20,
-      "unit": "ml"
-    },
-    {
-      "recipeId": "indian-authentic-nihari",
-      "recipeName": "Authentic Nihari",
-      "cuisine": "indian",
-      "rawIngredientName": "lemon juice",
-      "amount": 30,
-      "unit": "ml"
-    },
-    {
-      "recipeId": "indian-authentic-madras-lamb-curry",
-      "recipeName": "Authentic Madras Lamb Curry",
-      "cuisine": "indian",
-      "rawIngredientName": "lemon juice",
-      "amount": 30,
-      "unit": "ml"
-    },
-    {
-      "recipeId": "indian-authentic-rasmalai",
-      "recipeName": "Authentic Rasmalai",
-      "cuisine": "indian",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "french-authentic-sole-meuni-u00e8re",
-      "recipeName": "Authentic Sole Meuni\\u00e8re",
-      "cuisine": "french",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "lemon"
-    },
-    {
-      "recipeId": "french-authentic-sole-meuni-re",
-      "recipeName": "Authentic Sole Meunière",
-      "cuisine": "french",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "russian-borscht",
-      "recipeName": "Borscht",
-      "cuisine": "russian",
-      "rawIngredientName": "white wine vinegar or lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "russian-solyanka",
-      "recipeName": "Solyanka",
-      "cuisine": "russian",
-      "rawIngredientName": "Lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "hsca-watermelon-juice",
-      "recipeName": "Watermelon Juice",
-      "cuisine": "hsca",
-      "rawIngredientName": "of lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-beet-and-apple-juice",
-      "recipeName": "Beet and Apple Juice",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-carrot-celery-ginger-juice",
-      "recipeName": "CARROT-CELERY-GINGER JUICE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 1.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-green-juice",
-      "recipeName": "GREEN JUICE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon",
-      "amount": 0.75,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-master-cleanse",
-      "recipeName": "Master Cleanse",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-lemon-cayenne-tea",
-      "recipeName": "Lemon-Cayenne Tea",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-sweet-brew-with-citrus-fruit",
-      "recipeName": "SWEET BREW WITH CITRUS FRUIT",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-wild-rice-pancakes",
-      "recipeName": "WILD RICE PANCAKES",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-cornmeal-pancakes-johnny-cakes",
-      "recipeName": "CORNMEAL PANCAKES (JOHNNY CAKES)",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cheese-medallions-for-spinach-shiitake-salad",
-      "recipeName": "\\\"CHEESE\\\" MEDALLIONS (FOR SPINACH-SHIITAKE SALAD)",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-creamy-fresh-horseradish-dressing",
-      "recipeName": "CREAMY FRESH HORSERADISH DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cr-pes-suzette",
-      "recipeName": "CRÊPES SUZETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-lemon-and-maple-flavored-yogurt",
-      "recipeName": "Lemon and Maple-Flavored Yogurt",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-horseradish-and-lemon-condiment",
-      "recipeName": "HORSERADISH AND LEMON CONDIMENT",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 3,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cruciferous-salad",
-      "recipeName": "CRUCIFEROUS SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-vegan-scones",
-      "recipeName": "VEGAN SCONES",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of one lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-vegan-scones",
-      "recipeName": "VEGAN SCONES",
-      "cuisine": "hsca",
-      "rawIngredientName": "strained lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-tofu-ricotta",
-      "recipeName": "Tofu Ricotta",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-vegan-mozzarella",
-      "recipeName": "Vegan Mozzarella",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-white-bean-and-garlic-sauce",
-      "recipeName": "WHITE BEAN AND GARLIC SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-olive-tapenade",
-      "recipeName": "OLIVE TAPENADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-basil-walnut-pesto",
-      "recipeName": "BASIL-WALNUT PESTO",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-almond-cream-sauce",
-      "recipeName": "ALMOND “CREAM” SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "plus 1 teaspoon lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-ketchup-for-tempeh-reuben-sandwich",
-      "recipeName": "Ketchup (for Tempeh Reuben Sandwich)",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-wild-rice-salad",
-      "recipeName": "WILD RICE SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-traditional-caesar-salad",
-      "recipeName": "TRADITIONAL CAESAR SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-vegan-caesar-salad",
-      "recipeName": "VEGAN CAESAR SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-mushrooms-a-la-grecque",
-      "recipeName": "MUSHROOMS A LA GRECQUE",
-      "cuisine": "hsca",
-      "rawIngredientName": "inches lemon peel",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-mushrooms-a-la-grecque",
-      "recipeName": "MUSHROOMS A LA GRECQUE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-mediterranean-inspired-pasta-salad",
-      "recipeName": "MEDITERRANEAN-INSPIRED PASTA SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-mediterranean-inspired-pasta-salad",
-      "recipeName": "MEDITERRANEAN-INSPIRED PASTA SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-creamy-artichoke-dressing",
-      "recipeName": "CREAMY ARTICHOKE DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-raw-jerusalem-artichoke-salad",
-      "recipeName": "RAW JERUSALEM ARTICHOKE SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-wild-watercress-salad-with-citrus",
-      "recipeName": "Wild Watercress Salad with Citrus",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-coleslaw",
-      "recipeName": "Coleslaw",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-massaged-kale-salad-with-roasted-chickpeas-and-pickled-red-onion",
-      "recipeName": "Massaged Kale Salad with Roasted Chickpeas and Pickled Red Onion",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-massaged-kale-salad-with-roasted-chickpeas-and-pickled-red-onion",
-      "recipeName": "Massaged Kale Salad with Roasted Chickpeas and Pickled Red Onion",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-ni-oise-salad",
-      "recipeName": "NIÇOISE SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-celeriac-with-grilled-asparagus-and-eggs",
-      "recipeName": "CELERIAC WITH GRILLED ASPARAGUS AND EGGS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-fried-shrimp-with-wasabi-garnish",
-      "recipeName": "Fried Shrimp with Wasabi Garnish",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-fried-shrimp-with-wasabi-garnish",
-      "recipeName": "Fried Shrimp with Wasabi Garnish",
-      "cuisine": "hsca",
-      "rawIngredientName": "½ teaspoon lemon juice",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-white-bean-spread-with-sundried-tomato-kalamata-tapenade-on-rosemary-garlic-pizzelle",
-      "recipeName": "WHITE BEAN SPREAD WITH SUNDRIED TOMATO/KALAMATA TAPENADE ON ROSEMARY-GARLIC PIZZELLE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice or more to taste",
-      "amount": 0.25,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-pine-nut-ricotta-on-treviso-leaves",
-      "recipeName": "PINE NUT RICOTTA ON TREVISO LEAVES",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-scallion-edamame-and-leek-dumplings",
-      "recipeName": "SCALLION, EDAMAME, AND LEEK DUMPLINGS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-rosemary-squash-and-leek-dumplings",
-      "recipeName": "ROSEMARY, SQUASH, AND LEEK DUMPLINGS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-vegan-caesar-salad",
-      "recipeName": "Vegan Caesar Salad",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-cucumber-citrus-salsa-for-poached-salmon",
-      "recipeName": "Cucumber-Citrus Salsa (for Poached Salmon)",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-lemon-dill-mayonnaise-for-poached-salmon",
-      "recipeName": "Lemon-Dill Mayonnaise (for Poached Salmon)",
-      "cuisine": "hsca",
-      "rawIngredientName": "of lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-lemon-dill-mayonnaise-for-poached-salmon",
-      "recipeName": "Lemon-Dill Mayonnaise (for Poached Salmon)",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest from 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-sesame-garlic-dressing",
-      "recipeName": "SESAME-GARLIC DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-tapenade",
-      "recipeName": "Tapenade",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-hashed-brussel-sprouts-with-carrots-and-poppy-seeds",
-      "recipeName": "HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-creamy-carrot-soup-with-potato",
-      "recipeName": "CREAMY CARROT SOUP WITH POTATO",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-creamy-fresh-horseradish-dressing",
-      "recipeName": "CREAMY FRESH HORSERADISH DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-miso-marinade",
-      "recipeName": "Miso Marinade",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
-      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-saut-ed-chicken-livers-with-onion-apple-and-fris-e",
-      "recipeName": "SAUTÉED CHICKEN LIVERS WITH ONION, APPLE, AND FRISÉE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-gravad-lax",
-      "recipeName": "Gravad Lax",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-brandade",
-      "recipeName": "Brandade",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice from 1/2 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-stuffed-squid-sicilian-style",
-      "recipeName": "Stuffed Squid, Sicilian Style",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-stuffed-squid-sicilian-style",
-      "recipeName": "Stuffed Squid, Sicilian Style",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon slices from 2 lemons for garnish",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-fried-calamari",
-      "recipeName": "Fried Calamari",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cocktail-sauce",
-      "recipeName": "Cocktail Sauce",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-ginger-marinade",
-      "recipeName": "Ginger Marinade",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1/2 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-three-citrus-marinade",
-      "recipeName": "THREE-CITRUS MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-red-wine-marinade",
-      "recipeName": "RED WINE MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-basic-marinade",
-      "recipeName": "Basic Marinade",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-white-wine-marinade",
-      "recipeName": "WHITE WINE MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon sliced or zest of 1 orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-tabouli",
-      "recipeName": "TABOULI",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-roasted-red-pepper-chickpea-pur-e",
-      "recipeName": "ROASTED RED PEPPER CHICKPEA PURÉE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-great-northern-bean-and-roasted-garlic-pur-e",
-      "recipeName": "GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-cannellini-bean-salad",
-      "recipeName": "CANNELLINI BEAN SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-baked-quinoa-with-peas-and-herbs",
-      "recipeName": "BAKED QUINOA WITH PEAS AND HERBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-white-veal-stock",
-      "recipeName": "WHITE VEAL STOCK",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice or cider vinegar",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-vegan-b-chamel",
-      "recipeName": "Vegan Béchamel",
-      "cuisine": "hsca",
-      "rawIngredientName": "-3 tablespoons lemon juice",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-sweet-corn-sauce-with-butter",
-      "recipeName": "SWEET CORN SAUCE WITH BUTTER",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-sweet-corn-sauce",
-      "recipeName": "SWEET CORN SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-roasted-red-pepper-coulis",
-      "recipeName": "Roasted Red Pepper Coulis",
-      "cuisine": "hsca",
-      "rawIngredientName": "-2 tablespoons lemon juice",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-chimichurri-sauce",
-      "recipeName": "Chimichurri Sauce",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-chermoula-sauce",
-      "recipeName": "CHERMOULA SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-chermoula-sauce",
-      "recipeName": "CHERMOULA SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-tofu-sour-cream",
-      "recipeName": "TOFU SOUR CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-cream-of-carrot-soup-with-potato",
-      "recipeName": "CREAM OF CARROT SOUP WITH POTATO",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-cream-of-carrot-soup-with-oats",
-      "recipeName": "CREAM OF CARROT SOUP WITH OATS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-handmade-garlic-mayonnaise",
-      "recipeName": "HANDMADE GARLIC MAYONNAISE",
-      "cuisine": "hsca",
-      "rawIngredientName": "-2 teaspoons lemon juice",
-      "amount": 1.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-blender-mayonnaise",
-      "recipeName": "BLENDER MAYONNAISE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-procedure-for-egg-thickened-sauces-hollandaise",
-      "recipeName": "PROCEDURE FOR EGG-THICKENED SAUCES - HOLLANDAISE",
-      "cuisine": "hsca",
-      "rawIngredientName": "-2 tablespoons lemon juice",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-hollandaise",
-      "recipeName": "Hollandaise",
-      "cuisine": "hsca",
-      "rawIngredientName": "-2 tablespoons lemon juice",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-hiziki-caviar",
-      "recipeName": "HIZIKI CAVIAR",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice to taste",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-tofu-sour-cream",
-      "recipeName": "TOFU SOUR CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-mediterranean-roasted-black-cod-with-muhammara",
-      "recipeName": "MEDITERRANEAN ROASTED BLACK COD WITH MUHAMMARA",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-broiled-arctic-char-over-black-quinoa-rapini-and-capers",
-      "recipeName": "Broiled Arctic Char Over Black Quinoa, Rapini, and Capers",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-black-quinoa-with-capers-and-rapini-for-broiled-arctic-char",
-      "recipeName": "Black Quinoa with Capers and Rapini (for Broiled Arctic Char)",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-hiziki-with-fresh-lemon",
-      "recipeName": "HIZIKI WITH FRESH LEMON",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-herb-ravioli-with-porcini-mushroom-pesto-and-tofu-ricotta",
-      "recipeName": "Herb Ravioli with Porcini Mushroom Pesto and Tofu \\\"Ricotta\\\"",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-smoked-trout-terrine",
-      "recipeName": "SMOKED TROUT TERRINE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-whole-poached-norwegian-salmon",
-      "recipeName": "Whole Poached Norwegian Salmon",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 4,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-whole-poached-norwegian-salmon",
-      "recipeName": "Whole Poached Norwegian Salmon",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemons",
-      "amount": 6,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-tempeh-vegetable-kebobs",
-      "recipeName": "TEMPEH VEGETABLE KEBOBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-tempeh-scaloppini",
-      "recipeName": "TEMPEH SCALOPPINI",
-      "cuisine": "hsca",
-      "rawIngredientName": "-2 tablespoons lemon juice",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-chicken-breasts-in-mushroom-sauce",
-      "recipeName": "CHICKEN BREASTS IN MUSHROOM SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-homemade-tofu",
-      "recipeName": "Homemade Tofu",
-      "cuisine": "hsca",
-      "rawIngredientName": "nigari or 1/2 cup lemon juice or 1/2 cup vinegar",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-tempeh-scaloppini",
-      "recipeName": "Tempeh Scaloppini",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-tempeh-vegetable-kebobs",
-      "recipeName": "TEMPEH VEGETABLE KEBOBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-airline-chicken-breasts-with-compound-butter",
-      "recipeName": "AIRLINE CHICKEN BREASTS WITH COMPOUND BUTTER",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-airline-chicken-breasts-with-compound-butter",
-      "recipeName": "AIRLINE CHICKEN BREASTS WITH COMPOUND BUTTER",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-seitan-kebabs-with-yellow-rice",
-      "recipeName": "Seitan Kebabs with Yellow Rice",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-horseradish-crusted-salmon",
-      "recipeName": "HORSERADISH-CRUSTED SALMON",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-horseradish-crusted-salmon",
-      "recipeName": "HORSERADISH-CRUSTED SALMON",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 2 lemons",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-monkfish-with-lemon-caper-butter",
-      "recipeName": "MONKFISH WITH LEMON-CAPER BUTTER",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-apple-phyllo-roll",
-      "recipeName": "Apple Phyllo Roll",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1/2 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-apple-phyllo-roll",
-      "recipeName": "Apple Phyllo Roll",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon and maple-flavored yogurt",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-apple-ring",
-      "recipeName": "APPLE RING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-blueberry-sauce",
-      "recipeName": "Blueberry Sauce",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 2 lemons",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-fresh-strawberries-and-bananas",
-      "recipeName": "Fresh Strawberries and Bananas",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1 lemon",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cranberry-walnut-scones",
-      "recipeName": "CRANBERRY WALNUT SCONES",
-      "cuisine": "hsca",
-      "rawIngredientName": "almond milk soured with 1 tablespoon lemon juice",
-      "amount": 0.75,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-light-lemon-tart",
-      "recipeName": "LIGHT LEMON TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.75,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-light-lemon-tart",
-      "recipeName": "LIGHT LEMON TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1.5,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-lemon-wafer-cookies",
-      "recipeName": "LEMON WAFER COOKIES",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 2 lemons",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-lemon-wafer-cookies",
-      "recipeName": "LEMON WAFER COOKIES",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 2 lemons",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-currant-scones",
-      "recipeName": "CURRANT SCONES",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange or lemon zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-black-and-white-cookies",
-      "recipeName": "BLACK AND WHITE COOKIES",
-      "cuisine": "hsca",
-      "rawIngredientName": "grated lemon zest",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-black-and-white-cookies",
-      "recipeName": "BLACK AND WHITE COOKIES",
-      "cuisine": "hsca",
-      "rawIngredientName": "grated lemon zest",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-zesty-lemon-cake",
-      "recipeName": "Zesty Lemon Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-zesty-lemon-cake",
-      "recipeName": "Zesty Lemon Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-zesty-lemon-cake",
-      "recipeName": "Zesty Lemon Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon extract",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-zesty-lemon-cake",
-      "recipeName": "Zesty Lemon Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon oil",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-lemon-whipped-coconut-cream",
-      "recipeName": "LEMON WHIPPED COCONUT CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-lemon-whipped-coconut-cream",
-      "recipeName": "LEMON WHIPPED COCONUT CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-lemon-soy-cream-frosting",
-      "recipeName": "Lemon Soy Cream Frosting",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon extract",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-lemon-soy-cream-frosting",
-      "recipeName": "Lemon Soy Cream Frosting",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-apple-crumb-pie",
-      "recipeName": "APPLE CRUMB PIE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-french-walnut-tart",
-      "recipeName": "FRENCH WALNUT TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-orange-sorbet",
-      "recipeName": "Orange Sorbet",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-tri-color-fruit-terrine",
-      "recipeName": "TRI-COLOR FRUIT TERRINE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.3333333333333333,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-basil-ice-cream",
-      "recipeName": "Basil Ice Cream",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-tapioca-pudding",
-      "recipeName": "Tapioca Pudding",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 0.25,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-tapioca-pudding",
-      "recipeName": "Tapioca Pudding",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-almond-pulp-cookies",
-      "recipeName": "Almond Pulp Cookies",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-green-apple-sorbet",
-      "recipeName": "GREEN APPLE SORBET",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-raw-cheesecake",
-      "recipeName": "RAW \\\"CHEESECAKE\\\"",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-berries-and-cream-terrine",
-      "recipeName": "BERRIES AND CREAM TERRINE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-berries-and-cream-terrine",
-      "recipeName": "BERRIES AND CREAM TERRINE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "greek-authentic-greek-souvlaki-pork-skewers",
-      "recipeName": "Authentic Greek Souvlaki (Pork Skewers)",
-      "cuisine": "greek",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "greek-authentic-kleftiko",
-      "recipeName": "Authentic Kleftiko",
-      "cuisine": "greek",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "greek-authentic-greek-baklava",
-      "recipeName": "Authentic Greek Baklava",
-      "cuisine": "greek",
-      "rawIngredientName": "lemon peel",
-      "amount": 1,
-      "unit": "strip"
-    },
-    {
-      "recipeId": "greek-authentic-greek-saganaki",
-      "recipeName": "Authentic Greek Saganaki",
-      "cuisine": "greek",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "slice"
-    },
-    {
-      "recipeId": "greek-authentic-greek-avgolemono-soup",
-      "recipeName": "Authentic Greek Avgolemono Soup",
-      "cuisine": "greek",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "greek-authentic-chicken-souvlaki",
-      "recipeName": "Authentic Chicken Souvlaki",
-      "cuisine": "greek",
-      "rawIngredientName": "lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "greek-authentic-tzatziki",
-      "recipeName": "Authentic Tzatziki",
-      "cuisine": "greek",
-      "rawIngredientName": "white vinegar or lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "greek-authentic-gyro-pork-or-chicken",
-      "recipeName": "Authentic Gyro (Pork or Chicken)",
-      "cuisine": "greek",
-      "rawIngredientName": "lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "greek-authentic-greek-dolmades",
-      "recipeName": "Authentic Greek Dolmades",
-      "cuisine": "greek",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "greek-authentic-greek-revithia-chickpea-stew",
-      "recipeName": "Authentic Greek Revithia (Chickpea Stew)",
-      "cuisine": "greek",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "greek-authentic-galatopita",
-      "recipeName": "Authentic Galatopita",
-      "cuisine": "greek",
-      "rawIngredientName": "lemon zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "greek-authentic-greek-skordalia",
-      "recipeName": "Authentic Greek Skordalia",
-      "cuisine": "greek",
-      "rawIngredientName": "white wine vinegar or fresh lemon juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "greek-dolmades",
-      "recipeName": "Dolmades",
-      "cuisine": "greek",
-      "rawIngredientName": "Lemons",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "greek-avgolemono",
-      "recipeName": "Avgolemono",
-      "cuisine": "greek",
-      "rawIngredientName": "Lemons",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "greek-kleftiko",
-      "recipeName": "Kleftiko",
-      "cuisine": "greek",
-      "rawIngredientName": "Lemons",
-      "amount": 3,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "japanese-karaage",
-      "recipeName": "Karaage",
-      "cuisine": "japanese",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "african-authentic-egyptian-ful-medames",
-      "recipeName": "Authentic Egyptian Ful Medames",
-      "cuisine": "african",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "african-authentic-ethiopian-doro-wat",
-      "recipeName": "Authentic Ethiopian Doro Wat",
-      "cuisine": "african",
-      "rawIngredientName": "lemon juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "african-authentic-senegalese-yassa-poulet",
-      "recipeName": "Authentic Senegalese Yassa Poulet",
-      "cuisine": "african",
-      "rawIngredientName": "fresh lemon juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "african-authentic-tunisian-brik",
-      "recipeName": "Authentic Tunisian Brik",
-      "cuisine": "african",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": ""
-    },
-    {
-      "recipeId": "african-authentic-kenyan-nyama-choma",
-      "recipeName": "Authentic Kenyan Nyama Choma",
-      "cuisine": "african",
-      "rawIngredientName": "lemons",
-      "amount": 2,
-      "unit": ""
-    },
-    {
-      "recipeId": "african-authentic-mozambican-peri-peri-shrimp",
-      "recipeName": "Authentic Mozambican Peri-Peri Shrimp",
-      "cuisine": "african",
-      "rawIngredientName": "lemon",
-      "amount": 1,
-      "unit": ""
-    },
-    {
-      "recipeId": "african-authentic-south-african-bobotie",
-      "recipeName": "Authentic South African Bobotie",
-      "cuisine": "african",
-      "rawIngredientName": "vinegar or lemon juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "african-authentic-south-african-bobotie",
-      "recipeName": "Authentic South African Bobotie",
-      "cuisine": "african",
-      "rawIngredientName": "bay leaves or lemon leaves",
-      "amount": 4,
-      "unit": "whole"
-    }
-  ],
-  "lime": [
-    {
-      "recipeId": "american-authentic-avocado-toast-with-poached-eggs",
-      "recipeName": "Authentic Avocado Toast with Poached Eggs",
-      "cuisine": "american",
-      "rawIngredientName": "lemon or lime juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "american-authentic-key-lime-pie",
-      "recipeName": "Authentic Key Lime Pie",
-      "cuisine": "american",
-      "rawIngredientName": "key lime juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "american-authentic-key-lime-pie",
-      "recipeName": "Authentic Key Lime Pie",
-      "cuisine": "american",
-      "rawIngredientName": "lime zest",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "hsca-cucumber-agua-fresca",
-      "recipeName": "Cucumber Agua Fresca",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cucumber-agua-fresca",
-      "recipeName": "Cucumber Agua Fresca",
-      "cuisine": "hsca",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-tofu-scramble",
-      "recipeName": "Tofu Scramble",
-      "cuisine": "hsca",
-      "rawIngredientName": "freshly squeezed lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-mango-sauce-for-chickpea-cr-pe",
-      "recipeName": "MANGO SAUCE (FOR CHICKPEA CRÊPE)",
-      "cuisine": "hsca",
-      "rawIngredientName": "-3 teaspoons lime juice",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-orange-kiwi-and-red-grape-compote",
-      "recipeName": "ORANGE, KIWI, AND RED GRAPE COMPOTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-cucumber-agua-fresca",
-      "recipeName": "Cucumber Agua Fresca",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cucumber-agua-fresca",
-      "recipeName": "Cucumber Agua Fresca",
-      "cuisine": "hsca",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cucumber-agua-fresca",
-      "recipeName": "Cucumber Agua Fresca",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cucumber-agua-fresca",
-      "recipeName": "Cucumber Agua Fresca",
-      "cuisine": "hsca",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-mango-puree",
-      "recipeName": "MANGO PUREE",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1/3 lime",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
-      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
-      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-poached-chicken-and-roasted-asparagus",
-      "recipeName": "POACHED CHICKEN AND ROASTED ASPARAGUS",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cabbage-salad-with-peanut-dressing",
-      "recipeName": "CABBAGE SALAD WITH PEANUT DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-cabbage-salad-with-peanut-dressing",
-      "recipeName": "CABBAGE SALAD WITH PEANUT DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime zest",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-cabbage-salad-with-peanut-dressing",
-      "recipeName": "CABBAGE SALAD WITH PEANUT DRESSING",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-greens-with-cucumber-ice-and-lime-vinaigrette",
-      "recipeName": "GREENS WITH CUCUMBER ICE AND LIME VINAIGRETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-greens-with-cucumber-ice-and-lime-vinaigrette",
-      "recipeName": "GREENS WITH CUCUMBER ICE AND LIME VINAIGRETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-curried-chicken-salad-on-papadam-with-yogurt-raita",
-      "recipeName": "CURRIED CHICKEN SALAD ON PAPADAM WITH YOGURT RAITA",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-sweet-potato-latkes-with-pear-fennel-marmalade",
-      "recipeName": "SWEET POTATO LATKES WITH PEAR-FENNEL MARMALADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-kidney-bean-salad",
-      "recipeName": "KIDNEY BEAN SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-grilled-pineapple-chutney",
-      "recipeName": "GRILLED PINEAPPLE CHUTNEY",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-jerk-seitan-sloppy-joe-s",
-      "recipeName": "Jerk Seitan Sloppy Joe's",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-tuna-ceviche",
-      "recipeName": "TUNA CEVICHE",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice of 1 lime",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-three-citrus-marinade",
-      "recipeName": "THREE-CITRUS MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-balinese-chile-marinade",
-      "recipeName": "BALINESE CHILE MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-brown-basmati-rice-variation-2",
-      "recipeName": "Brown Basmati Rice Variation #2",
-      "cuisine": "hsca",
-      "rawIngredientName": "kaffir lime leaves",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-wild-and-long-grain-rice-salad",
-      "recipeName": "Wild and Long Grain Rice Salad",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-spicy-kidney-bean-pur-e",
-      "recipeName": "SPICY KIDNEY BEAN PURÉE",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-curried-red-lentil-with-coconut-milk-dairy",
-      "recipeName": "CURRIED RED LENTIL WITH COCONUT MILK (DAIRY)",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-curried-red-lentil-soup-with-coconut-milk-vegan",
-      "recipeName": "CURRIED RED LENTIL SOUP WITH COCONUT MILK (VEGAN)",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-fresh-curry-sauce",
-      "recipeName": "Fresh Curry Sauce",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-shiitake-broth-with-shrimp-soba-and-baby-bok-choy",
-      "recipeName": "SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY",
-      "cuisine": "hsca",
-      "rawIngredientName": "-3 tablespoons lime juice",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
-      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
-      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cashew-sour-cream",
-      "recipeName": "CASHEW SOUR CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cream-of-curried-sweet-potato-soup",
-      "recipeName": "CREAM OF CURRIED SWEET POTATO SOUP",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-cream-of-curried-sweet-potato-soup",
-      "recipeName": "CREAM OF CURRIED SWEET POTATO SOUP",
-      "cuisine": "hsca",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-zucchini-peanut-noodle-bowl-w-sriracha-string-beans-lemongrass-tofu",
-      "recipeName": "ZUCCHINI PEANUT NOODLE BOWL W/ SRIRACHA STRING BEANS & LEMONGRASS TOFU",
-      "cuisine": "hsca",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-berry-sorbet",
-      "recipeName": "Berry Sorbet",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 4,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-coconut-lime-cream-tart",
-      "recipeName": "COCONUT-LIME CREAM TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-coconut-lime-cream-tart",
-      "recipeName": "COCONUT-LIME CREAM TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-coconut-lime-cream-tart",
-      "recipeName": "COCONUT-LIME CREAM TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-avocado-and-coconut-terrine",
-      "recipeName": "Avocado and Coconut Terrine",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.75,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-watermelon-granita",
-      "recipeName": "WATERMELON GRANITA",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-lime-sea-salt-chocolate-ganache-truffles",
-      "recipeName": "Lime-Sea Salt Chocolate Ganache Truffles",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime zest",
-      "amount": 0.25,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-lime-sea-salt-chocolate-ganache-truffles",
-      "recipeName": "Lime-Sea Salt Chocolate Ganache Truffles",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 2 limes",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-coconut-lime-flan",
-      "recipeName": "COCONUT-LIME FLAN",
-      "cuisine": "hsca",
-      "rawIngredientName": "lime juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "mexican-caldo-de-pollo",
-      "recipeName": "Caldo de Pollo",
-      "cuisine": "mexican",
-      "rawIngredientName": "Limes",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "mexican-aguachile",
-      "recipeName": "Aguachile",
-      "cuisine": "mexican",
-      "rawIngredientName": "Fresh lime juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "mexican-authentic-nopales-salad",
-      "recipeName": "Authentic Nopales Salad",
-      "cuisine": "mexican",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "mexican-authentic-elote",
-      "recipeName": "Authentic Elote",
-      "cuisine": "mexican",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "mexican-authentic-ceviche-de-pescado",
-      "recipeName": "Authentic Ceviche de Pescado",
-      "cuisine": "mexican",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "mexican-authentic-guacamole-en-molcajete",
-      "recipeName": "Authentic Guacamole en Molcajete",
-      "cuisine": "mexican",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "mexican-authentic-sopa-de-lima",
-      "recipeName": "Authentic Sopa de Lima",
-      "cuisine": "mexican",
-      "rawIngredientName": "Yucatecan Limes",
-      "amount": 4,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "mexican-sopa-de-lima",
-      "recipeName": "Sopa de Lima",
-      "cuisine": "mexican",
-      "rawIngredientName": "Limes",
-      "amount": 3,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "mexican-paletas",
-      "recipeName": "Paletas",
-      "cuisine": "mexican",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "mexican-caldo-de-pollo",
-      "recipeName": "Caldo de Pollo",
-      "cuisine": "mexican",
-      "rawIngredientName": "Limes",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "mexican-elote",
-      "recipeName": "Elote",
-      "cuisine": "mexican",
-      "rawIngredientName": "Tajin or chile-lime powder",
-      "amount": 2,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "mexican-elote",
-      "recipeName": "Elote",
-      "cuisine": "mexican",
-      "rawIngredientName": "limes",
-      "amount": 2,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "thai-tom-yum-goong",
-      "recipeName": "Tom Yum Goong",
-      "cuisine": "thai",
-      "rawIngredientName": "makrut lime leaves",
-      "amount": 6,
-      "unit": "leaves"
-    },
-    {
-      "recipeId": "thai-tom-yum-goong",
-      "recipeName": "Tom Yum Goong",
-      "cuisine": "thai",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 4,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-yum-woon-sen",
-      "recipeName": "Yum Woon Sen",
-      "cuisine": "thai",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 4,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-som-tam-thai",
-      "recipeName": "Som Tam Thai",
-      "cuisine": "thai",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-tom-kha-gai",
-      "recipeName": "Tom Kha Gai",
-      "cuisine": "thai",
-      "rawIngredientName": "makrut lime leaves",
-      "amount": 6,
-      "unit": "leaves"
-    },
-    {
-      "recipeId": "thai-tom-kha-gai",
-      "recipeName": "Tom Kha Gai",
-      "cuisine": "thai",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-authentic-larb-moo-spicy-minced-pork-salad",
-      "recipeName": "Authentic Larb Moo (Spicy Minced Pork Salad)",
-      "cuisine": "thai",
-      "rawIngredientName": "lime juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "thai-authentic-larb-moo-spicy-minced-pork-salad",
-      "recipeName": "Authentic Larb Moo (Spicy Minced Pork Salad)",
-      "cuisine": "thai",
-      "rawIngredientName": "lime wedges",
-      "amount": 2,
-      "unit": "fresh"
-    },
-    {
-      "recipeId": "thai-authentic-tom-kha-gai-coconut-chicken-soup",
-      "recipeName": "Authentic Tom Kha Gai (Coconut Chicken Soup)",
-      "cuisine": "thai",
-      "rawIngredientName": "kaffir lime leaves",
-      "amount": 4,
-      "unit": "leaves"
-    },
-    {
-      "recipeId": "thai-authentic-tom-kha-gai-coconut-chicken-soup",
-      "recipeName": "Authentic Tom Kha Gai (Coconut Chicken Soup)",
-      "cuisine": "thai",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "thai-authentic-khao-soi-curry-noodle-soup",
-      "recipeName": "Authentic Khao Soi (Curry Noodle Soup)",
-      "cuisine": "thai",
-      "rawIngredientName": "lime juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "thai-authentic-thai-spicy-grilled-chicken-gai-yang",
-      "recipeName": "Authentic Thai Spicy Grilled Chicken (Gai Yang)",
-      "cuisine": "thai",
-      "rawIngredientName": "lime juice",
-      "amount": 3,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "thai-authentic-tom-yum-goong",
-      "recipeName": "Authentic Tom Yum Goong",
-      "cuisine": "thai",
-      "rawIngredientName": "makrut lime leaves",
-      "amount": 5,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "thai-authentic-tom-yum-goong",
-      "recipeName": "Authentic Tom Yum Goong",
-      "cuisine": "thai",
-      "rawIngredientName": "lime juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "thai-authentic-green-curry-gaeng-keow-wan",
-      "recipeName": "Authentic Green Curry (Gaeng Keow Wan)",
-      "cuisine": "thai",
-      "rawIngredientName": "makrut lime leaves",
-      "amount": 4,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "thai-authentic-som-tum-green-papaya-salad",
-      "recipeName": "Authentic Som Tum (Green Papaya Salad)",
-      "cuisine": "thai",
-      "rawIngredientName": "lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-pad-thai",
-      "recipeName": "Pad Thai",
-      "cuisine": "thai",
-      "rawIngredientName": "lime",
-      "amount": 1,
-      "unit": "lime"
-    },
-    {
-      "recipeId": "thai-pla-neung-manao",
-      "recipeName": "Pla Neung Manao",
-      "cuisine": "thai",
-      "rawIngredientName": "Lime juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "thai-gaeng-keow-wan-gai",
-      "recipeName": "Gaeng Keow Wan Gai",
-      "cuisine": "thai",
-      "rawIngredientName": "makrut lime leaves",
-      "amount": 4,
-      "unit": "leaves"
-    },
-    {
-      "recipeId": "thai-gaeng-daeng-moo",
-      "recipeName": "Gaeng Daeng Moo",
-      "cuisine": "thai",
-      "rawIngredientName": "makrut lime leaves",
-      "amount": 4,
-      "unit": "leaves"
-    },
-    {
-      "recipeId": "thai-larb-gai",
-      "recipeName": "Larb Gai",
-      "cuisine": "thai",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-suea-rong-hai",
-      "recipeName": "Suea Rong Hai",
-      "cuisine": "thai",
-      "rawIngredientName": "fresh lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-yum-woon-sen",
-      "recipeName": "Yum Woon Sen",
-      "cuisine": "thai",
-      "rawIngredientName": "Lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "thai-tom-yum-goong-nam-khon",
-      "recipeName": "Tom Yum Goong Nam Khon",
-      "cuisine": "thai",
-      "rawIngredientName": "Makrut lime leaves",
-      "amount": 5,
-      "unit": "leaves"
-    },
-    {
-      "recipeId": "thai-tom-yum-goong-nam-khon",
-      "recipeName": "Tom Yum Goong Nam Khon",
-      "cuisine": "thai",
-      "rawIngredientName": "Lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "vietnamese-authentic-ph-b-vietnamese-beef-noodle-soup",
-      "recipeName": "Authentic Phở Bò (Vietnamese Beef Noodle Soup)",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "lime",
-      "amount": 1,
-      "unit": "whole"
-    },
-    {
-      "recipeId": "vietnamese-b-n-b-hu",
-      "recipeName": "Bún Bò Huế",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "Banana blossom, mint, lime",
-      "amount": 1,
-      "unit": "basket"
-    },
-    {
-      "recipeId": "vietnamese-c-m-g-h-i-an",
-      "recipeName": "Cơm Gà Hội An",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "Lime juice and salt",
-      "amount": 2,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "vietnamese-authentic-g-u1ecfi-g-u00e0-b-u1eafp-c-u1ea3i-vietnamese-chicken-and-cabbage-salad",
-      "recipeName": "Authentic G\\u1ecfi G\\u00e0 B\\u1eafp C\\u1ea3i (Vietnamese Chicken and Cabbage Salad)",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "lime juice",
-      "amount": 3,
-      "unit": "tbsp"
-    }
-  ],
   "apple": [
     {
       "recipeId": "american-classic-american-apple-pie",
@@ -154317,624 +151661,6 @@
       "rawIngredientName": "apple",
       "amount": 0.5,
       "unit": "whole"
-    }
-  ],
-  "orange": [
-    {
-      "recipeId": "american-cranberry-orange-breakfast-bread",
-      "recipeName": "Cranberry Orange Breakfast Bread",
-      "cuisine": "american",
-      "rawIngredientName": "orange juice",
-      "amount": 0.75,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "american-cranberry-orange-breakfast-bread",
-      "recipeName": "Cranberry Orange Breakfast Bread",
-      "cuisine": "american",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "tbsp"
-    },
-    {
-      "recipeId": "american-authentic-roast-turkey-with-cranberry-sauce",
-      "recipeName": "Authentic Roast Turkey with Cranberry Sauce",
-      "cuisine": "american",
-      "rawIngredientName": "orange juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "italian-authentic-cornetto-e-cappuccino",
-      "recipeName": "Authentic Cornetto e Cappuccino",
-      "cuisine": "italian",
-      "rawIngredientName": "orange or lemon zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "italian-authentic-maritozzo-con-panna",
-      "recipeName": "Authentic Maritozzo con Panna",
-      "cuisine": "italian",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "italian-authentic-granita-con-brioche",
-      "recipeName": "Authentic Granita con Brioche",
-      "cuisine": "italian",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "italian-authentic-panettone",
-      "recipeName": "Authentic Panettone",
-      "cuisine": "italian",
-      "rawIngredientName": "candied orange and citron peel",
-      "amount": 150,
-      "unit": "g"
-    },
-    {
-      "recipeId": "italian-authentic-panettone",
-      "recipeName": "Authentic Panettone",
-      "cuisine": "italian",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "tsp"
-    },
-    {
-      "recipeId": "french-authentic-parisian-breakfast",
-      "recipeName": "Authentic Parisian Breakfast",
-      "cuisine": "french",
-      "rawIngredientName": "fresh orange juice",
-      "amount": 1,
-      "unit": "glass"
-    },
-    {
-      "recipeId": "french-authentic-duck-u00e0-l-orange",
-      "recipeName": "Authentic Duck \\u00e0 l'Orange",
-      "cuisine": "french",
-      "rawIngredientName": "orange juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "french-authentic-duck-u00e0-l-orange",
-      "recipeName": "Authentic Duck \\u00e0 l'Orange",
-      "cuisine": "french",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "french-authentic-bouillabaisse",
-      "recipeName": "Authentic Bouillabaisse",
-      "cuisine": "french",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "strip"
-    },
-    {
-      "recipeId": "french-bouillabaisse",
-      "recipeName": "Bouillabaisse",
-      "cuisine": "french",
-      "rawIngredientName": "Orange zest",
-      "amount": 1,
-      "unit": "strip"
-    },
-    {
-      "recipeId": "hsca-sweet-brew-with-citrus-fruit",
-      "recipeName": "SWEET BREW WITH CITRUS FRUIT",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange",
-      "amount": 0.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-vegan-and-gluten-free-spiced-fruit-muffins",
-      "recipeName": "Vegan and Gluten-Free Spiced Fruit Muffins",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-orange-kiwi-and-red-grape-compote",
-      "recipeName": "ORANGE, KIWI, AND RED GRAPE COMPOTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "large oranges",
-      "amount": 4,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-cr-pes-suzette",
-      "recipeName": "CRÊPES SUZETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh orange juice",
-      "amount": 0.75,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cr-pes-suzette",
-      "recipeName": "CRÊPES SUZETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange zest",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-cr-pes-suzette",
-      "recipeName": "CRÊPES SUZETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "grand marnier",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-cr-pes-suzette",
-      "recipeName": "CRÊPES SUZETTE",
-      "cuisine": "hsca",
-      "rawIngredientName": "grand marnier",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-fresh-herb-dressing",
-      "recipeName": "Fresh Herb Dressing",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-olive-tapenade",
-      "recipeName": "OLIVE TAPENADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "grated orange zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-wild-rice-salad",
-      "recipeName": "WILD RICE SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest of 1 orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-wild-rice-salad",
-      "recipeName": "WILD RICE SALAD",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-wild-watercress-salad-with-citrus",
-      "recipeName": "Wild Watercress Salad with Citrus",
-      "cuisine": "hsca",
-      "rawIngredientName": "navel oranges",
-      "amount": 3,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-wild-watercress-salad-with-citrus",
-      "recipeName": "Wild Watercress Salad with Citrus",
-      "cuisine": "hsca",
-      "rawIngredientName": "blood oranges",
-      "amount": 3,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-beet-salad-with-greens-and-pistachio-crusted-goat-cheese-medallions",
-      "recipeName": "BEET SALAD WITH GREENS AND PISTACHIO-CRUSTED GOAT CHEESE MEDALLIONS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-beet-salad-with-greens-and-pistachio-crusted-goat-cheese-medallions",
-      "recipeName": "BEET SALAD WITH GREENS AND PISTACHIO-CRUSTED GOAT CHEESE MEDALLIONS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-beet-terrine",
-      "recipeName": "Beet Terrine",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "cups"
-    },
-    {
-      "recipeId": "hsca-cucumber-citrus-salsa-for-poached-salmon",
-      "recipeName": "Cucumber-Citrus Salsa (for Poached Salmon)",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 6,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
-      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 4,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
-      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
-      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-glazed-seitan-stir-fry",
-      "recipeName": "GLAZED SEITAN STIR FRY",
-      "cuisine": "hsca",
-      "rawIngredientName": "¼ cup orange juice",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-sweet-and-sour-sauce",
-      "recipeName": "Sweet and Sour Sauce",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange marmalade",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-orange-miso-barbecue-sauce",
-      "recipeName": "Orange-Miso Barbecue Sauce",
-      "cuisine": "hsca",
-      "rawIngredientName": "zest and juice of 1 orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-three-citrus-marinade",
-      "recipeName": "THREE-CITRUS MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh orange juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-white-wine-marinade",
-      "recipeName": "WHITE WINE MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "fresh lemon sliced or zest of 1 orange",
-      "amount": 1,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-asian-flavors-marinade",
-      "recipeName": "ASIAN FLAVORS MARINADE",
-      "cuisine": "hsca",
-      "rawIngredientName": "freshly squeezed orange juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-sweet-and-sour-mango-barbeque-sauce",
-      "recipeName": "SWEET AND SOUR MANGO BARBEQUE SAUCE",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-wakame-cucumber-salad-with-orange",
-      "recipeName": "WAKAME CUCUMBER SALAD WITH ORANGE",
-      "cuisine": "hsca",
-      "rawIngredientName": "juice oranges",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-fresh-herb-dressing",
-      "recipeName": "Fresh Herb Dressing",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-fresh-herb-dressing",
-      "recipeName": "Fresh Herb Dressing",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-tempeh-vegetable-kebobs",
-      "recipeName": "TEMPEH VEGETABLE KEBOBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 1.5,
-      "unit": "cups"
-    },
-    {
-      "recipeId": "hsca-tempeh-vegetable-kebobs",
-      "recipeName": "TEMPEH VEGETABLE KEBOBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.5,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-tempeh-vegetable-kebobs",
-      "recipeName": "TEMPEH VEGETABLE KEBOBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 1.5,
-      "unit": "cups"
-    },
-    {
-      "recipeId": "hsca-tempeh-vegetable-kebobs",
-      "recipeName": "TEMPEH VEGETABLE KEBOBS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.3333333333333333,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-skewered-fruit-with-chocolate-fondue",
-      "recipeName": "Skewered Fruit with Chocolate Fondue",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 1.5,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-chocolate-fondue",
-      "recipeName": "Chocolate Fondue",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange extract",
-      "amount": 0.3333333333333333,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-cranberry-walnut-scones",
-      "recipeName": "CRANBERRY WALNUT SCONES",
-      "cuisine": "hsca",
-      "rawIngredientName": "finely grated orange zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-almond-fruit-tart-with-almond-crust",
-      "recipeName": "ALMOND-FRUIT TART WITH ALMOND CRUST",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-currant-scones",
-      "recipeName": "CURRANT SCONES",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange or lemon zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-orange-cake",
-      "recipeName": "Orange Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-orange-cake",
-      "recipeName": "Orange Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange extract",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-orange-cake",
-      "recipeName": "Orange Cake",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-ginger-cake",
-      "recipeName": "GINGER CAKE",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.3333333333333333,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-ginger-cake",
-      "recipeName": "GINGER CAKE",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange extract",
-      "amount": 0.5,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-orange-whipped-coconut-cream",
-      "recipeName": "ORANGE WHIPPED COCONUT CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange zest",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-orange-whipped-coconut-cream",
-      "recipeName": "ORANGE WHIPPED COCONUT CREAM",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 0.25,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-sweet-potato-pecan-pie",
-      "recipeName": "SWEET POTATO PECAN PIE",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange extract",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-cranberry-pear-pie",
-      "recipeName": "CRANBERRY PEAR PIE",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "hsca-sweet-cranberry-tart",
-      "recipeName": "SWEET CRANBERRY TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "kuzu dissolved in 1/3 cup orange juice",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-sweet-cranberry-tart",
-      "recipeName": "SWEET CRANBERRY TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "finely grated orange zest",
-      "amount": 1,
-      "unit": "tablespoon"
-    },
-    {
-      "recipeId": "hsca-french-walnut-tart",
-      "recipeName": "FRENCH WALNUT TART",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange extract",
-      "amount": 0.25,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-orange-sorbet",
-      "recipeName": "Orange Sorbet",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 2,
-      "unit": "cups"
-    },
-    {
-      "recipeId": "hsca-orange-sorbet",
-      "recipeName": "Orange Sorbet",
-      "cuisine": "hsca",
-      "rawIngredientName": "finely grated orange zest",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-orange-blossom-panna-cotta",
-      "recipeName": "Orange Blossom Panna Cotta",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange blossom water",
-      "amount": 0.3333333333333333,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-orange-blossom-panna-cotta",
-      "recipeName": "Orange Blossom Panna Cotta",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange zest",
-      "amount": 2,
-      "unit": "teaspoons"
-    },
-    {
-      "recipeId": "hsca-orange-blossom-panna-cotta",
-      "recipeName": "Orange Blossom Panna Cotta",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 4,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-pomegranate-granita",
-      "recipeName": "POMEGRANATE GRANITA",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "hsca-chocolate-cherry-pecan-bars",
-      "recipeName": "CHOCOLATE CHERRY PECAN BARS",
-      "cuisine": "hsca",
-      "rawIngredientName": "orange zest",
-      "amount": 1,
-      "unit": "teaspoon"
-    },
-    {
-      "recipeId": "hsca-almond-fruit-torte",
-      "recipeName": "Almond Fruit Torte",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-almond-fruit-tart-with-almond-crust",
-      "recipeName": "Almond-Fruit Tart with Almond Crust",
-      "cuisine": "hsca",
-      "rawIngredientName": "oranges",
-      "amount": 2,
-      "unit": "piece"
-    },
-    {
-      "recipeId": "hsca-raspberry-sauce-for-almond-fruit-tart",
-      "recipeName": "Raspberry Sauce (for Almond Fruit Tart)",
-      "cuisine": "hsca",
-      "rawIngredientName": "grand marnier",
-      "amount": 2,
-      "unit": "tablespoons"
-    },
-    {
-      "recipeId": "mexican-authentic-cochinita-pibil",
-      "recipeName": "Authentic Cochinita Pibil",
-      "cuisine": "mexican",
-      "rawIngredientName": "orange juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "mexican-cochinita-pibil",
-      "recipeName": "Cochinita Pibil",
-      "cuisine": "mexican",
-      "rawIngredientName": "Sour orange juice",
-      "amount": 1,
-      "unit": "cup"
-    },
-    {
-      "recipeId": "mexican-cochinita-pibil",
-      "recipeName": "Cochinita Pibil",
-      "cuisine": "mexican",
-      "rawIngredientName": "Sour orange juice",
-      "amount": 1,
-      "unit": "cup"
     }
   ],
   "pear": [
@@ -156730,6 +153456,3280 @@
       "rawIngredientName": "Coconut milk",
       "amount": 1,
       "unit": "can"
+    }
+  ],
+  "banana": [
+    {
+      "recipeId": "american-berry-breakfast-smoothie-bowl",
+      "recipeName": "Berry Breakfast Smoothie Bowl",
+      "cuisine": "american",
+      "rawIngredientName": "banana",
+      "amount": 0.5,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "hsca-buckwheat-pancakes",
+      "recipeName": "BUCKWHEAT PANCAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "very ripe banana",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-gluten-free-banana-bread",
+      "recipeName": "GLUTEN-FREE BANANA BREAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "mashed banana",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-skewered-fruit-with-chocolate-fondue",
+      "recipeName": "Skewered Fruit with Chocolate Fondue",
+      "cuisine": "hsca",
+      "rawIngredientName": "bananas",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-fresh-strawberries-and-bananas",
+      "recipeName": "Fresh Strawberries and Bananas",
+      "cuisine": "hsca",
+      "rawIngredientName": "bananas",
+      "amount": 3,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-almond-fruit-tart-with-almond-crust",
+      "recipeName": "ALMOND-FRUIT TART WITH ALMOND CRUST",
+      "cuisine": "hsca",
+      "rawIngredientName": "ripe banana",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-banana-cupcakes",
+      "recipeName": "BANANA CUPCAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "mashed ripe bananas",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-banana-cupcakes",
+      "recipeName": "BANANA CUPCAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "banana",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-banana-cupcakes",
+      "recipeName": "BANANA CUPCAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "mashed ripe bananas",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-banana-cupcakes",
+      "recipeName": "BANANA CUPCAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "banana",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-banana-cake",
+      "recipeName": "BANANA CAKE",
+      "cuisine": "hsca",
+      "rawIngredientName": "mashed banana",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-banana-cake",
+      "recipeName": "BANANA CAKE",
+      "cuisine": "hsca",
+      "rawIngredientName": "banana extract",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "mexican-authentic-mole-poblano",
+      "recipeName": "Authentic Mole Poblano",
+      "cuisine": "mexican",
+      "rawIngredientName": "plantain or ripe banana",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "mexican-cochinita-pibil",
+      "recipeName": "Cochinita Pibil",
+      "cuisine": "mexican",
+      "rawIngredientName": "Banana leaves",
+      "amount": 1,
+      "unit": "package"
+    },
+    {
+      "recipeId": "mexican-cochinita-pibil",
+      "recipeName": "Cochinita Pibil",
+      "cuisine": "mexican",
+      "rawIngredientName": "Banana leaves",
+      "amount": 1,
+      "unit": "package"
+    },
+    {
+      "recipeId": "vietnamese-b-n-b-hu",
+      "recipeName": "Bún Bò Huế",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Banana blossom, mint, lime",
+      "amount": 1,
+      "unit": "basket"
+    },
+    {
+      "recipeId": "vietnamese-authentic-bun-bo-hue",
+      "recipeName": "Authentic Bun Bo Hue",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "banana blossoms and cabbage",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "vietnamese-ch-chu-i",
+      "recipeName": "Chè Chuối",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Saba bananas (Chuối sứ)",
+      "amount": 4,
+      "unit": "whole"
+    }
+  ],
+  "avocado": [
+    {
+      "recipeId": "american-authentic-avocado-toast-with-poached-eggs",
+      "recipeName": "Authentic Avocado Toast with Poached Eggs",
+      "cuisine": "american",
+      "rawIngredientName": "Hass avocado",
+      "amount": 1,
+      "unit": "large"
+    },
+    {
+      "recipeId": "american-authentic-cobb-salad",
+      "recipeName": "Authentic Cobb Salad",
+      "cuisine": "american",
+      "rawIngredientName": "Hass avocado",
+      "amount": 1,
+      "unit": "large"
+    },
+    {
+      "recipeId": "hsca-tempeh-reuben-sandwich",
+      "recipeName": "Tempeh Reuben Sandwich",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado spread or nayonaise",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-vegetable-and-tempeh-wraps-with-avocado-cilantro-cream",
+      "recipeName": "VEGETABLE AND TEMPEH WRAPS WITH AVOCADO-CILANTRO CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "ripe avocados",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
+      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
+      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado",
+      "amount": 0.3333333333333333,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-greens-with-cucumber-ice-and-lime-vinaigrette",
+      "recipeName": "GREENS WITH CUCUMBER ICE AND LIME VINAIGRETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-jerk-seitan-sloppy-joe-s",
+      "recipeName": "Jerk Seitan Sloppy Joe's",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
+      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado leaves",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-nori-rolls",
+      "recipeName": "NORI ROLLS",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-avocado-and-coconut-terrine",
+      "recipeName": "Avocado and Coconut Terrine",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocado layer",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-avocado-and-coconut-terrine",
+      "recipeName": "Avocado and Coconut Terrine",
+      "cuisine": "hsca",
+      "rawIngredientName": "avocados",
+      "amount": 4,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "mexican-authentic-huevos-rancheros",
+      "recipeName": "Authentic Huevos Rancheros",
+      "cuisine": "mexican",
+      "rawIngredientName": "ripe avocado",
+      "amount": 0.5,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "mexican-authentic-tlayudas",
+      "recipeName": "Authentic Tlayudas",
+      "cuisine": "mexican",
+      "rawIngredientName": "avocado",
+      "amount": 1,
+      "unit": "medium"
+    },
+    {
+      "recipeId": "mexican-authentic-guacamole-en-molcajete",
+      "recipeName": "Authentic Guacamole en Molcajete",
+      "cuisine": "mexican",
+      "rawIngredientName": "Hass avocados",
+      "amount": 3,
+      "unit": "large"
+    }
+  ],
+  "lemon": [
+    {
+      "recipeId": "middle-eastern-ful-medames",
+      "recipeName": "Ful Medames",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "Lemons",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-authentic-fattoush",
+      "recipeName": "Authentic Fattoush",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "middle-eastern-authentic-tabbouleh",
+      "recipeName": "Authentic Tabbouleh",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "middle-eastern-authentic-hummus-bi-tahini",
+      "recipeName": "Authentic Hummus bi Tahini",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "middle-eastern-authentic-chicken-shawarma",
+      "recipeName": "Authentic Chicken Shawarma",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "middle-eastern-authentic-baba-ganoush",
+      "recipeName": "Authentic Baba Ganoush",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "middle-eastern-hummus",
+      "recipeName": "Hummus",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-shawarma",
+      "recipeName": "Shawarma",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-baklava",
+      "recipeName": "Baklava",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "middle-eastern-knafeh",
+      "recipeName": "Knafeh",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "middle-eastern-tabbouleh",
+      "recipeName": "Tabbouleh",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "middle-eastern-hummus",
+      "recipeName": "Hummus",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-baba-ghanoush",
+      "recipeName": "Baba Ghanoush",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "middle-eastern-lentil-soup-shorbat-adas",
+      "recipeName": "Lentil Soup (Shorbat Adas)",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-harira",
+      "recipeName": "Harira",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-dolma",
+      "recipeName": "Dolma",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "middle-eastern-shawarma",
+      "recipeName": "Shawarma",
+      "cuisine": "middle eastern",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "american-authentic-avocado-toast-with-poached-eggs",
+      "recipeName": "Authentic Avocado Toast with Poached Eggs",
+      "cuisine": "american",
+      "rawIngredientName": "lemon or lime juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "american-asparagus-and-goat-cheese-tart",
+      "recipeName": "Asparagus and Goat Cheese Tart",
+      "cuisine": "american",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "american-authentic-new-england-lobster-roll",
+      "recipeName": "Authentic New England Lobster Roll",
+      "cuisine": "american",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "american-authentic-southern-shrimp-and-grits",
+      "recipeName": "Authentic Southern Shrimp and Grits",
+      "cuisine": "american",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "american-classic-american-apple-pie",
+      "recipeName": "Classic American Apple Pie",
+      "cuisine": "american",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "american-grilled-cedar-plank-salmon-with-summer-vegetables",
+      "recipeName": "Grilled Cedar Plank Salmon with Summer Vegetables",
+      "cuisine": "american",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "american-authentic-roast-turkey-with-cranberry-sauce",
+      "recipeName": "Authentic Roast Turkey with Cranberry Sauce",
+      "cuisine": "american",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "american-authentic-american-apple-pie",
+      "recipeName": "Authentic American Apple Pie",
+      "cuisine": "american",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "italian-authentic-cornetto-e-cappuccino",
+      "recipeName": "Authentic Cornetto e Cappuccino",
+      "cuisine": "italian",
+      "rawIngredientName": "orange or lemon zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "italian-authentic-granita-con-brioche",
+      "recipeName": "Authentic Granita con Brioche",
+      "cuisine": "italian",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "italian-authentic-osso-buco-alla-milanese",
+      "recipeName": "Authentic Osso Buco alla Milanese",
+      "cuisine": "italian",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "italian-ossobuco-alla-milanese",
+      "recipeName": "Ossobuco alla Milanese",
+      "cuisine": "italian",
+      "rawIngredientName": "Lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "indian-authentic-poha-spiced-flattened-rice",
+      "recipeName": "Authentic Poha (Spiced Flattened Rice)",
+      "cuisine": "indian",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "indian-authentic-bhel-puri",
+      "recipeName": "Authentic Bhel Puri",
+      "cuisine": "indian",
+      "rawIngredientName": "lemon juice",
+      "amount": 10,
+      "unit": "ml"
+    },
+    {
+      "recipeId": "indian-authentic-dhokla",
+      "recipeName": "Authentic Dhokla",
+      "cuisine": "indian",
+      "rawIngredientName": "lemon juice",
+      "amount": 20,
+      "unit": "ml"
+    },
+    {
+      "recipeId": "indian-authentic-nihari",
+      "recipeName": "Authentic Nihari",
+      "cuisine": "indian",
+      "rawIngredientName": "lemon juice",
+      "amount": 30,
+      "unit": "ml"
+    },
+    {
+      "recipeId": "indian-authentic-madras-lamb-curry",
+      "recipeName": "Authentic Madras Lamb Curry",
+      "cuisine": "indian",
+      "rawIngredientName": "lemon juice",
+      "amount": 30,
+      "unit": "ml"
+    },
+    {
+      "recipeId": "indian-authentic-rasmalai",
+      "recipeName": "Authentic Rasmalai",
+      "cuisine": "indian",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "french-authentic-sole-meuni-u00e8re",
+      "recipeName": "Authentic Sole Meuni\\u00e8re",
+      "cuisine": "french",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "lemon"
+    },
+    {
+      "recipeId": "french-authentic-sole-meuni-re",
+      "recipeName": "Authentic Sole Meunière",
+      "cuisine": "french",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "russian-borscht",
+      "recipeName": "Borscht",
+      "cuisine": "russian",
+      "rawIngredientName": "white wine vinegar or lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "russian-solyanka",
+      "recipeName": "Solyanka",
+      "cuisine": "russian",
+      "rawIngredientName": "Lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "hsca-watermelon-juice",
+      "recipeName": "Watermelon Juice",
+      "cuisine": "hsca",
+      "rawIngredientName": "of lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-beet-and-apple-juice",
+      "recipeName": "Beet and Apple Juice",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-carrot-celery-ginger-juice",
+      "recipeName": "CARROT-CELERY-GINGER JUICE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 1.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-green-juice",
+      "recipeName": "GREEN JUICE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon",
+      "amount": 0.75,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-master-cleanse",
+      "recipeName": "Master Cleanse",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-lemon-cayenne-tea",
+      "recipeName": "Lemon-Cayenne Tea",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-sweet-brew-with-citrus-fruit",
+      "recipeName": "SWEET BREW WITH CITRUS FRUIT",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-wild-rice-pancakes",
+      "recipeName": "WILD RICE PANCAKES",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-cornmeal-pancakes-johnny-cakes",
+      "recipeName": "CORNMEAL PANCAKES (JOHNNY CAKES)",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cheese-medallions-for-spinach-shiitake-salad",
+      "recipeName": "\\\"CHEESE\\\" MEDALLIONS (FOR SPINACH-SHIITAKE SALAD)",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-creamy-fresh-horseradish-dressing",
+      "recipeName": "CREAMY FRESH HORSERADISH DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-lemon-and-maple-flavored-yogurt",
+      "recipeName": "Lemon and Maple-Flavored Yogurt",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-horseradish-and-lemon-condiment",
+      "recipeName": "HORSERADISH AND LEMON CONDIMENT",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 3,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cruciferous-salad",
+      "recipeName": "CRUCIFEROUS SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-vegan-scones",
+      "recipeName": "VEGAN SCONES",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of one lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-vegan-scones",
+      "recipeName": "VEGAN SCONES",
+      "cuisine": "hsca",
+      "rawIngredientName": "strained lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-tofu-ricotta",
+      "recipeName": "Tofu Ricotta",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-vegan-mozzarella",
+      "recipeName": "Vegan Mozzarella",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-white-bean-and-garlic-sauce",
+      "recipeName": "WHITE BEAN AND GARLIC SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-olive-tapenade",
+      "recipeName": "OLIVE TAPENADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-basil-walnut-pesto",
+      "recipeName": "BASIL-WALNUT PESTO",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-almond-cream-sauce",
+      "recipeName": "ALMOND “CREAM” SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "plus 1 teaspoon lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-ketchup-for-tempeh-reuben-sandwich",
+      "recipeName": "Ketchup (for Tempeh Reuben Sandwich)",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-wild-rice-salad",
+      "recipeName": "WILD RICE SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-traditional-caesar-salad",
+      "recipeName": "TRADITIONAL CAESAR SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-vegan-caesar-salad",
+      "recipeName": "VEGAN CAESAR SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-mushrooms-a-la-grecque",
+      "recipeName": "MUSHROOMS A LA GRECQUE",
+      "cuisine": "hsca",
+      "rawIngredientName": "inches lemon peel",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-mushrooms-a-la-grecque",
+      "recipeName": "MUSHROOMS A LA GRECQUE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-mediterranean-inspired-pasta-salad",
+      "recipeName": "MEDITERRANEAN-INSPIRED PASTA SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-mediterranean-inspired-pasta-salad",
+      "recipeName": "MEDITERRANEAN-INSPIRED PASTA SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-creamy-artichoke-dressing",
+      "recipeName": "CREAMY ARTICHOKE DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-raw-jerusalem-artichoke-salad",
+      "recipeName": "RAW JERUSALEM ARTICHOKE SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-wild-watercress-salad-with-citrus",
+      "recipeName": "Wild Watercress Salad with Citrus",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-coleslaw",
+      "recipeName": "Coleslaw",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-massaged-kale-salad-with-roasted-chickpeas-and-pickled-red-onion",
+      "recipeName": "Massaged Kale Salad with Roasted Chickpeas and Pickled Red Onion",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-massaged-kale-salad-with-roasted-chickpeas-and-pickled-red-onion",
+      "recipeName": "Massaged Kale Salad with Roasted Chickpeas and Pickled Red Onion",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-ni-oise-salad",
+      "recipeName": "NIÇOISE SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-celeriac-with-grilled-asparagus-and-eggs",
+      "recipeName": "CELERIAC WITH GRILLED ASPARAGUS AND EGGS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-fried-shrimp-with-wasabi-garnish",
+      "recipeName": "Fried Shrimp with Wasabi Garnish",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-fried-shrimp-with-wasabi-garnish",
+      "recipeName": "Fried Shrimp with Wasabi Garnish",
+      "cuisine": "hsca",
+      "rawIngredientName": "½ teaspoon lemon juice",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-white-bean-spread-with-sundried-tomato-kalamata-tapenade-on-rosemary-garlic-pizzelle",
+      "recipeName": "WHITE BEAN SPREAD WITH SUNDRIED TOMATO/KALAMATA TAPENADE ON ROSEMARY-GARLIC PIZZELLE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice or more to taste",
+      "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-pine-nut-ricotta-on-treviso-leaves",
+      "recipeName": "PINE NUT RICOTTA ON TREVISO LEAVES",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-scallion-edamame-and-leek-dumplings",
+      "recipeName": "SCALLION, EDAMAME, AND LEEK DUMPLINGS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-rosemary-squash-and-leek-dumplings",
+      "recipeName": "ROSEMARY, SQUASH, AND LEEK DUMPLINGS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-vegan-caesar-salad",
+      "recipeName": "Vegan Caesar Salad",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-cucumber-citrus-salsa-for-poached-salmon",
+      "recipeName": "Cucumber-Citrus Salsa (for Poached Salmon)",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-lemon-dill-mayonnaise-for-poached-salmon",
+      "recipeName": "Lemon-Dill Mayonnaise (for Poached Salmon)",
+      "cuisine": "hsca",
+      "rawIngredientName": "of lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-lemon-dill-mayonnaise-for-poached-salmon",
+      "recipeName": "Lemon-Dill Mayonnaise (for Poached Salmon)",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest from 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-sesame-garlic-dressing",
+      "recipeName": "SESAME-GARLIC DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-tapenade",
+      "recipeName": "Tapenade",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-hashed-brussel-sprouts-with-carrots-and-poppy-seeds",
+      "recipeName": "HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-creamy-carrot-soup-with-potato",
+      "recipeName": "CREAMY CARROT SOUP WITH POTATO",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-creamy-fresh-horseradish-dressing",
+      "recipeName": "CREAMY FRESH HORSERADISH DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-miso-marinade",
+      "recipeName": "Miso Marinade",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
+      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-saut-ed-chicken-livers-with-onion-apple-and-fris-e",
+      "recipeName": "SAUTÉED CHICKEN LIVERS WITH ONION, APPLE, AND FRISÉE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-gravad-lax",
+      "recipeName": "Gravad Lax",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-brandade",
+      "recipeName": "Brandade",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice from 1/2 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-stuffed-squid-sicilian-style",
+      "recipeName": "Stuffed Squid, Sicilian Style",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-stuffed-squid-sicilian-style",
+      "recipeName": "Stuffed Squid, Sicilian Style",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon slices from 2 lemons for garnish",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-fried-calamari",
+      "recipeName": "Fried Calamari",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cocktail-sauce",
+      "recipeName": "Cocktail Sauce",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-ginger-marinade",
+      "recipeName": "Ginger Marinade",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1/2 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-three-citrus-marinade",
+      "recipeName": "THREE-CITRUS MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-red-wine-marinade",
+      "recipeName": "RED WINE MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-basic-marinade",
+      "recipeName": "Basic Marinade",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-white-wine-marinade",
+      "recipeName": "WHITE WINE MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon sliced or zest of 1 orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-tabouli",
+      "recipeName": "TABOULI",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-roasted-red-pepper-chickpea-pur-e",
+      "recipeName": "ROASTED RED PEPPER CHICKPEA PURÉE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-great-northern-bean-and-roasted-garlic-pur-e",
+      "recipeName": "GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-cannellini-bean-salad",
+      "recipeName": "CANNELLINI BEAN SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-baked-quinoa-with-peas-and-herbs",
+      "recipeName": "BAKED QUINOA WITH PEAS AND HERBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-white-veal-stock",
+      "recipeName": "WHITE VEAL STOCK",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice or cider vinegar",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-vegan-b-chamel",
+      "recipeName": "Vegan Béchamel",
+      "cuisine": "hsca",
+      "rawIngredientName": "-3 tablespoons lemon juice",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-sweet-corn-sauce-with-butter",
+      "recipeName": "SWEET CORN SAUCE WITH BUTTER",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-sweet-corn-sauce",
+      "recipeName": "SWEET CORN SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-roasted-red-pepper-coulis",
+      "recipeName": "Roasted Red Pepper Coulis",
+      "cuisine": "hsca",
+      "rawIngredientName": "-2 tablespoons lemon juice",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-chimichurri-sauce",
+      "recipeName": "Chimichurri Sauce",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-chermoula-sauce",
+      "recipeName": "CHERMOULA SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-chermoula-sauce",
+      "recipeName": "CHERMOULA SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-tofu-sour-cream",
+      "recipeName": "TOFU SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-cream-of-carrot-soup-with-potato",
+      "recipeName": "CREAM OF CARROT SOUP WITH POTATO",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-cream-of-carrot-soup-with-oats",
+      "recipeName": "CREAM OF CARROT SOUP WITH OATS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-handmade-garlic-mayonnaise",
+      "recipeName": "HANDMADE GARLIC MAYONNAISE",
+      "cuisine": "hsca",
+      "rawIngredientName": "-2 teaspoons lemon juice",
+      "amount": 1.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-blender-mayonnaise",
+      "recipeName": "BLENDER MAYONNAISE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-procedure-for-egg-thickened-sauces-hollandaise",
+      "recipeName": "PROCEDURE FOR EGG-THICKENED SAUCES - HOLLANDAISE",
+      "cuisine": "hsca",
+      "rawIngredientName": "-2 tablespoons lemon juice",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-hollandaise",
+      "recipeName": "Hollandaise",
+      "cuisine": "hsca",
+      "rawIngredientName": "-2 tablespoons lemon juice",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-hiziki-caviar",
+      "recipeName": "HIZIKI CAVIAR",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice to taste",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-tofu-sour-cream",
+      "recipeName": "TOFU SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-mediterranean-roasted-black-cod-with-muhammara",
+      "recipeName": "MEDITERRANEAN ROASTED BLACK COD WITH MUHAMMARA",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-broiled-arctic-char-over-black-quinoa-rapini-and-capers",
+      "recipeName": "Broiled Arctic Char Over Black Quinoa, Rapini, and Capers",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-black-quinoa-with-capers-and-rapini-for-broiled-arctic-char",
+      "recipeName": "Black Quinoa with Capers and Rapini (for Broiled Arctic Char)",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-hiziki-with-fresh-lemon",
+      "recipeName": "HIZIKI WITH FRESH LEMON",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-herb-ravioli-with-porcini-mushroom-pesto-and-tofu-ricotta",
+      "recipeName": "Herb Ravioli with Porcini Mushroom Pesto and Tofu \\\"Ricotta\\\"",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-smoked-trout-terrine",
+      "recipeName": "SMOKED TROUT TERRINE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-whole-poached-norwegian-salmon",
+      "recipeName": "Whole Poached Norwegian Salmon",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 4,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-whole-poached-norwegian-salmon",
+      "recipeName": "Whole Poached Norwegian Salmon",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemons",
+      "amount": 6,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-tempeh-vegetable-kebobs",
+      "recipeName": "TEMPEH VEGETABLE KEBOBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-tempeh-scaloppini",
+      "recipeName": "TEMPEH SCALOPPINI",
+      "cuisine": "hsca",
+      "rawIngredientName": "-2 tablespoons lemon juice",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-chicken-breasts-in-mushroom-sauce",
+      "recipeName": "CHICKEN BREASTS IN MUSHROOM SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-homemade-tofu",
+      "recipeName": "Homemade Tofu",
+      "cuisine": "hsca",
+      "rawIngredientName": "nigari or 1/2 cup lemon juice or 1/2 cup vinegar",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-tempeh-scaloppini",
+      "recipeName": "Tempeh Scaloppini",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-tempeh-vegetable-kebobs",
+      "recipeName": "TEMPEH VEGETABLE KEBOBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-airline-chicken-breasts-with-compound-butter",
+      "recipeName": "AIRLINE CHICKEN BREASTS WITH COMPOUND BUTTER",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-airline-chicken-breasts-with-compound-butter",
+      "recipeName": "AIRLINE CHICKEN BREASTS WITH COMPOUND BUTTER",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-seitan-kebabs-with-yellow-rice",
+      "recipeName": "Seitan Kebabs with Yellow Rice",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-horseradish-crusted-salmon",
+      "recipeName": "HORSERADISH-CRUSTED SALMON",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-horseradish-crusted-salmon",
+      "recipeName": "HORSERADISH-CRUSTED SALMON",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 2 lemons",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-monkfish-with-lemon-caper-butter",
+      "recipeName": "MONKFISH WITH LEMON-CAPER BUTTER",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-apple-phyllo-roll",
+      "recipeName": "Apple Phyllo Roll",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1/2 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-apple-phyllo-roll",
+      "recipeName": "Apple Phyllo Roll",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon and maple-flavored yogurt",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-apple-ring",
+      "recipeName": "APPLE RING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-blueberry-sauce",
+      "recipeName": "Blueberry Sauce",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 2 lemons",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-fresh-strawberries-and-bananas",
+      "recipeName": "Fresh Strawberries and Bananas",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1 lemon",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cranberry-walnut-scones",
+      "recipeName": "CRANBERRY WALNUT SCONES",
+      "cuisine": "hsca",
+      "rawIngredientName": "almond milk soured with 1 tablespoon lemon juice",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-light-lemon-tart",
+      "recipeName": "LIGHT LEMON TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-light-lemon-tart",
+      "recipeName": "LIGHT LEMON TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1.5,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-lemon-wafer-cookies",
+      "recipeName": "LEMON WAFER COOKIES",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 2 lemons",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-lemon-wafer-cookies",
+      "recipeName": "LEMON WAFER COOKIES",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 2 lemons",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-currant-scones",
+      "recipeName": "CURRANT SCONES",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange or lemon zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-black-and-white-cookies",
+      "recipeName": "BLACK AND WHITE COOKIES",
+      "cuisine": "hsca",
+      "rawIngredientName": "grated lemon zest",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-black-and-white-cookies",
+      "recipeName": "BLACK AND WHITE COOKIES",
+      "cuisine": "hsca",
+      "rawIngredientName": "grated lemon zest",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-zesty-lemon-cake",
+      "recipeName": "Zesty Lemon Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-zesty-lemon-cake",
+      "recipeName": "Zesty Lemon Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-zesty-lemon-cake",
+      "recipeName": "Zesty Lemon Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon extract",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-zesty-lemon-cake",
+      "recipeName": "Zesty Lemon Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon oil",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-lemon-whipped-coconut-cream",
+      "recipeName": "LEMON WHIPPED COCONUT CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-lemon-whipped-coconut-cream",
+      "recipeName": "LEMON WHIPPED COCONUT CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-lemon-soy-cream-frosting",
+      "recipeName": "Lemon Soy Cream Frosting",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon extract",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-lemon-soy-cream-frosting",
+      "recipeName": "Lemon Soy Cream Frosting",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-apple-crumb-pie",
+      "recipeName": "APPLE CRUMB PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-french-walnut-tart",
+      "recipeName": "FRENCH WALNUT TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-orange-sorbet",
+      "recipeName": "Orange Sorbet",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-tri-color-fruit-terrine",
+      "recipeName": "TRI-COLOR FRUIT TERRINE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.3333333333333333,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-basil-ice-cream",
+      "recipeName": "Basil Ice Cream",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-tapioca-pudding",
+      "recipeName": "Tapioca Pudding",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-tapioca-pudding",
+      "recipeName": "Tapioca Pudding",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-almond-pulp-cookies",
+      "recipeName": "Almond Pulp Cookies",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-green-apple-sorbet",
+      "recipeName": "GREEN APPLE SORBET",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-raw-cheesecake",
+      "recipeName": "RAW \\\"CHEESECAKE\\\"",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-berries-and-cream-terrine",
+      "recipeName": "BERRIES AND CREAM TERRINE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-berries-and-cream-terrine",
+      "recipeName": "BERRIES AND CREAM TERRINE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "greek-authentic-greek-souvlaki-pork-skewers",
+      "recipeName": "Authentic Greek Souvlaki (Pork Skewers)",
+      "cuisine": "greek",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "greek-authentic-kleftiko",
+      "recipeName": "Authentic Kleftiko",
+      "cuisine": "greek",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "greek-authentic-greek-baklava",
+      "recipeName": "Authentic Greek Baklava",
+      "cuisine": "greek",
+      "rawIngredientName": "lemon peel",
+      "amount": 1,
+      "unit": "strip"
+    },
+    {
+      "recipeId": "greek-authentic-greek-saganaki",
+      "recipeName": "Authentic Greek Saganaki",
+      "cuisine": "greek",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "slice"
+    },
+    {
+      "recipeId": "greek-authentic-greek-avgolemono-soup",
+      "recipeName": "Authentic Greek Avgolemono Soup",
+      "cuisine": "greek",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "greek-authentic-chicken-souvlaki",
+      "recipeName": "Authentic Chicken Souvlaki",
+      "cuisine": "greek",
+      "rawIngredientName": "lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "greek-authentic-tzatziki",
+      "recipeName": "Authentic Tzatziki",
+      "cuisine": "greek",
+      "rawIngredientName": "white vinegar or lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "greek-authentic-gyro-pork-or-chicken",
+      "recipeName": "Authentic Gyro (Pork or Chicken)",
+      "cuisine": "greek",
+      "rawIngredientName": "lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "greek-authentic-greek-dolmades",
+      "recipeName": "Authentic Greek Dolmades",
+      "cuisine": "greek",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "greek-authentic-greek-revithia-chickpea-stew",
+      "recipeName": "Authentic Greek Revithia (Chickpea Stew)",
+      "cuisine": "greek",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "greek-authentic-galatopita",
+      "recipeName": "Authentic Galatopita",
+      "cuisine": "greek",
+      "rawIngredientName": "lemon zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "greek-authentic-greek-skordalia",
+      "recipeName": "Authentic Greek Skordalia",
+      "cuisine": "greek",
+      "rawIngredientName": "white wine vinegar or fresh lemon juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "greek-dolmades",
+      "recipeName": "Dolmades",
+      "cuisine": "greek",
+      "rawIngredientName": "Lemons",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "greek-avgolemono",
+      "recipeName": "Avgolemono",
+      "cuisine": "greek",
+      "rawIngredientName": "Lemons",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "greek-kleftiko",
+      "recipeName": "Kleftiko",
+      "cuisine": "greek",
+      "rawIngredientName": "Lemons",
+      "amount": 3,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "japanese-karaage",
+      "recipeName": "Karaage",
+      "cuisine": "japanese",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "african-authentic-egyptian-ful-medames",
+      "recipeName": "Authentic Egyptian Ful Medames",
+      "cuisine": "african",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "african-authentic-ethiopian-doro-wat",
+      "recipeName": "Authentic Ethiopian Doro Wat",
+      "cuisine": "african",
+      "rawIngredientName": "lemon juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "african-authentic-senegalese-yassa-poulet",
+      "recipeName": "Authentic Senegalese Yassa Poulet",
+      "cuisine": "african",
+      "rawIngredientName": "fresh lemon juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "african-authentic-tunisian-brik",
+      "recipeName": "Authentic Tunisian Brik",
+      "cuisine": "african",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": ""
+    },
+    {
+      "recipeId": "african-authentic-kenyan-nyama-choma",
+      "recipeName": "Authentic Kenyan Nyama Choma",
+      "cuisine": "african",
+      "rawIngredientName": "lemons",
+      "amount": 2,
+      "unit": ""
+    },
+    {
+      "recipeId": "african-authentic-mozambican-peri-peri-shrimp",
+      "recipeName": "Authentic Mozambican Peri-Peri Shrimp",
+      "cuisine": "african",
+      "rawIngredientName": "lemon",
+      "amount": 1,
+      "unit": ""
+    },
+    {
+      "recipeId": "african-authentic-south-african-bobotie",
+      "recipeName": "Authentic South African Bobotie",
+      "cuisine": "african",
+      "rawIngredientName": "vinegar or lemon juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "african-authentic-south-african-bobotie",
+      "recipeName": "Authentic South African Bobotie",
+      "cuisine": "african",
+      "rawIngredientName": "bay leaves or lemon leaves",
+      "amount": 4,
+      "unit": "whole"
+    }
+  ],
+  "orange": [
+    {
+      "recipeId": "american-cranberry-orange-breakfast-bread",
+      "recipeName": "Cranberry Orange Breakfast Bread",
+      "cuisine": "american",
+      "rawIngredientName": "orange juice",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "american-cranberry-orange-breakfast-bread",
+      "recipeName": "Cranberry Orange Breakfast Bread",
+      "cuisine": "american",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "american-authentic-roast-turkey-with-cranberry-sauce",
+      "recipeName": "Authentic Roast Turkey with Cranberry Sauce",
+      "cuisine": "american",
+      "rawIngredientName": "orange juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "italian-authentic-cornetto-e-cappuccino",
+      "recipeName": "Authentic Cornetto e Cappuccino",
+      "cuisine": "italian",
+      "rawIngredientName": "orange or lemon zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "italian-authentic-maritozzo-con-panna",
+      "recipeName": "Authentic Maritozzo con Panna",
+      "cuisine": "italian",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "italian-authentic-granita-con-brioche",
+      "recipeName": "Authentic Granita con Brioche",
+      "cuisine": "italian",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "italian-authentic-panettone",
+      "recipeName": "Authentic Panettone",
+      "cuisine": "italian",
+      "rawIngredientName": "candied orange and citron peel",
+      "amount": 150,
+      "unit": "g"
+    },
+    {
+      "recipeId": "italian-authentic-panettone",
+      "recipeName": "Authentic Panettone",
+      "cuisine": "italian",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "french-authentic-parisian-breakfast",
+      "recipeName": "Authentic Parisian Breakfast",
+      "cuisine": "french",
+      "rawIngredientName": "fresh orange juice",
+      "amount": 1,
+      "unit": "glass"
+    },
+    {
+      "recipeId": "french-authentic-duck-u00e0-l-orange",
+      "recipeName": "Authentic Duck \\u00e0 l'Orange",
+      "cuisine": "french",
+      "rawIngredientName": "orange juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "french-authentic-duck-u00e0-l-orange",
+      "recipeName": "Authentic Duck \\u00e0 l'Orange",
+      "cuisine": "french",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "french-authentic-bouillabaisse",
+      "recipeName": "Authentic Bouillabaisse",
+      "cuisine": "french",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "strip"
+    },
+    {
+      "recipeId": "french-bouillabaisse",
+      "recipeName": "Bouillabaisse",
+      "cuisine": "french",
+      "rawIngredientName": "Orange zest",
+      "amount": 1,
+      "unit": "strip"
+    },
+    {
+      "recipeId": "hsca-sweet-brew-with-citrus-fruit",
+      "recipeName": "SWEET BREW WITH CITRUS FRUIT",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange",
+      "amount": 0.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-vegan-and-gluten-free-spiced-fruit-muffins",
+      "recipeName": "Vegan and Gluten-Free Spiced Fruit Muffins",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-orange-kiwi-and-red-grape-compote",
+      "recipeName": "ORANGE, KIWI, AND RED GRAPE COMPOTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "large oranges",
+      "amount": 4,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh orange juice",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange zest",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "grand marnier",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cr-pes-suzette",
+      "recipeName": "CRÊPES SUZETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "grand marnier",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-fresh-herb-dressing",
+      "recipeName": "Fresh Herb Dressing",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-olive-tapenade",
+      "recipeName": "OLIVE TAPENADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "grated orange zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-wild-rice-salad",
+      "recipeName": "WILD RICE SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 1 orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-wild-rice-salad",
+      "recipeName": "WILD RICE SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-wild-watercress-salad-with-citrus",
+      "recipeName": "Wild Watercress Salad with Citrus",
+      "cuisine": "hsca",
+      "rawIngredientName": "navel oranges",
+      "amount": 3,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-wild-watercress-salad-with-citrus",
+      "recipeName": "Wild Watercress Salad with Citrus",
+      "cuisine": "hsca",
+      "rawIngredientName": "blood oranges",
+      "amount": 3,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-beet-salad-with-greens-and-pistachio-crusted-goat-cheese-medallions",
+      "recipeName": "BEET SALAD WITH GREENS AND PISTACHIO-CRUSTED GOAT CHEESE MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-beet-salad-with-greens-and-pistachio-crusted-goat-cheese-medallions",
+      "recipeName": "BEET SALAD WITH GREENS AND PISTACHIO-CRUSTED GOAT CHEESE MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-beet-terrine",
+      "recipeName": "Beet Terrine",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-cucumber-citrus-salsa-for-poached-salmon",
+      "recipeName": "Cucumber-Citrus Salsa (for Poached Salmon)",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 6,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
+      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 4,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
+      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-shaved-fennel-orange-salad-w-pistachio-coated-cheese-medallions",
+      "recipeName": "SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-glazed-seitan-stir-fry",
+      "recipeName": "GLAZED SEITAN STIR FRY",
+      "cuisine": "hsca",
+      "rawIngredientName": "¼ cup orange juice",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-sweet-and-sour-sauce",
+      "recipeName": "Sweet and Sour Sauce",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange marmalade",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-orange-miso-barbecue-sauce",
+      "recipeName": "Orange-Miso Barbecue Sauce",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest and juice of 1 orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-three-citrus-marinade",
+      "recipeName": "THREE-CITRUS MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh orange juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-white-wine-marinade",
+      "recipeName": "WHITE WINE MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lemon sliced or zest of 1 orange",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-asian-flavors-marinade",
+      "recipeName": "ASIAN FLAVORS MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "freshly squeezed orange juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-sweet-and-sour-mango-barbeque-sauce",
+      "recipeName": "SWEET AND SOUR MANGO BARBEQUE SAUCE",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-wakame-cucumber-salad-with-orange",
+      "recipeName": "WAKAME CUCUMBER SALAD WITH ORANGE",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice oranges",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-fresh-herb-dressing",
+      "recipeName": "Fresh Herb Dressing",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-fresh-herb-dressing",
+      "recipeName": "Fresh Herb Dressing",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-tempeh-vegetable-kebobs",
+      "recipeName": "TEMPEH VEGETABLE KEBOBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 1.5,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-tempeh-vegetable-kebobs",
+      "recipeName": "TEMPEH VEGETABLE KEBOBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-tempeh-vegetable-kebobs",
+      "recipeName": "TEMPEH VEGETABLE KEBOBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 1.5,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-tempeh-vegetable-kebobs",
+      "recipeName": "TEMPEH VEGETABLE KEBOBS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.3333333333333333,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-skewered-fruit-with-chocolate-fondue",
+      "recipeName": "Skewered Fruit with Chocolate Fondue",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 1.5,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-chocolate-fondue",
+      "recipeName": "Chocolate Fondue",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange extract",
+      "amount": 0.3333333333333333,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-cranberry-walnut-scones",
+      "recipeName": "CRANBERRY WALNUT SCONES",
+      "cuisine": "hsca",
+      "rawIngredientName": "finely grated orange zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-almond-fruit-tart-with-almond-crust",
+      "recipeName": "ALMOND-FRUIT TART WITH ALMOND CRUST",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-currant-scones",
+      "recipeName": "CURRANT SCONES",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange or lemon zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-orange-cake",
+      "recipeName": "Orange Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-orange-cake",
+      "recipeName": "Orange Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange extract",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-orange-cake",
+      "recipeName": "Orange Cake",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-ginger-cake",
+      "recipeName": "GINGER CAKE",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.3333333333333333,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-ginger-cake",
+      "recipeName": "GINGER CAKE",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange extract",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-orange-whipped-coconut-cream",
+      "recipeName": "ORANGE WHIPPED COCONUT CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange zest",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-orange-whipped-coconut-cream",
+      "recipeName": "ORANGE WHIPPED COCONUT CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-sweet-potato-pecan-pie",
+      "recipeName": "SWEET POTATO PECAN PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange extract",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-cranberry-pear-pie",
+      "recipeName": "CRANBERRY PEAR PIE",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-sweet-cranberry-tart",
+      "recipeName": "SWEET CRANBERRY TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "kuzu dissolved in 1/3 cup orange juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-sweet-cranberry-tart",
+      "recipeName": "SWEET CRANBERRY TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "finely grated orange zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-french-walnut-tart",
+      "recipeName": "FRENCH WALNUT TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange extract",
+      "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-orange-sorbet",
+      "recipeName": "Orange Sorbet",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 2,
+      "unit": "cups"
+    },
+    {
+      "recipeId": "hsca-orange-sorbet",
+      "recipeName": "Orange Sorbet",
+      "cuisine": "hsca",
+      "rawIngredientName": "finely grated orange zest",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-orange-blossom-panna-cotta",
+      "recipeName": "Orange Blossom Panna Cotta",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange blossom water",
+      "amount": 0.3333333333333333,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-orange-blossom-panna-cotta",
+      "recipeName": "Orange Blossom Panna Cotta",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange zest",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-orange-blossom-panna-cotta",
+      "recipeName": "Orange Blossom Panna Cotta",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 4,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-pomegranate-granita",
+      "recipeName": "POMEGRANATE GRANITA",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-chocolate-cherry-pecan-bars",
+      "recipeName": "CHOCOLATE CHERRY PECAN BARS",
+      "cuisine": "hsca",
+      "rawIngredientName": "orange zest",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-almond-fruit-torte",
+      "recipeName": "Almond Fruit Torte",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-almond-fruit-tart-with-almond-crust",
+      "recipeName": "Almond-Fruit Tart with Almond Crust",
+      "cuisine": "hsca",
+      "rawIngredientName": "oranges",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-raspberry-sauce-for-almond-fruit-tart",
+      "recipeName": "Raspberry Sauce (for Almond Fruit Tart)",
+      "cuisine": "hsca",
+      "rawIngredientName": "grand marnier",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "mexican-authentic-cochinita-pibil",
+      "recipeName": "Authentic Cochinita Pibil",
+      "cuisine": "mexican",
+      "rawIngredientName": "orange juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "mexican-cochinita-pibil",
+      "recipeName": "Cochinita Pibil",
+      "cuisine": "mexican",
+      "rawIngredientName": "Sour orange juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "mexican-cochinita-pibil",
+      "recipeName": "Cochinita Pibil",
+      "cuisine": "mexican",
+      "rawIngredientName": "Sour orange juice",
+      "amount": 1,
+      "unit": "cup"
+    }
+  ],
+  "lime": [
+    {
+      "recipeId": "american-authentic-avocado-toast-with-poached-eggs",
+      "recipeName": "Authentic Avocado Toast with Poached Eggs",
+      "cuisine": "american",
+      "rawIngredientName": "lemon or lime juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "american-authentic-key-lime-pie",
+      "recipeName": "Authentic Key Lime Pie",
+      "cuisine": "american",
+      "rawIngredientName": "key lime juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "american-authentic-key-lime-pie",
+      "recipeName": "Authentic Key Lime Pie",
+      "cuisine": "american",
+      "rawIngredientName": "lime zest",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "hsca-cucumber-agua-fresca",
+      "recipeName": "Cucumber Agua Fresca",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cucumber-agua-fresca",
+      "recipeName": "Cucumber Agua Fresca",
+      "cuisine": "hsca",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-tofu-scramble",
+      "recipeName": "Tofu Scramble",
+      "cuisine": "hsca",
+      "rawIngredientName": "freshly squeezed lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-mango-sauce-for-chickpea-cr-pe",
+      "recipeName": "MANGO SAUCE (FOR CHICKPEA CRÊPE)",
+      "cuisine": "hsca",
+      "rawIngredientName": "-3 teaspoons lime juice",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-orange-kiwi-and-red-grape-compote",
+      "recipeName": "ORANGE, KIWI, AND RED GRAPE COMPOTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "teaspoons"
+    },
+    {
+      "recipeId": "hsca-cucumber-agua-fresca",
+      "recipeName": "Cucumber Agua Fresca",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cucumber-agua-fresca",
+      "recipeName": "Cucumber Agua Fresca",
+      "cuisine": "hsca",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cucumber-agua-fresca",
+      "recipeName": "Cucumber Agua Fresca",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cucumber-agua-fresca",
+      "recipeName": "Cucumber Agua Fresca",
+      "cuisine": "hsca",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-mango-puree",
+      "recipeName": "MANGO PUREE",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1/3 lime",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
+      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-frisee-salad-with-grilled-baby-carrots-cucumber-and-radishes-with-avocado-dressing",
+      "recipeName": "FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-poached-chicken-and-roasted-asparagus",
+      "recipeName": "POACHED CHICKEN AND ROASTED ASPARAGUS",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cabbage-salad-with-peanut-dressing",
+      "recipeName": "CABBAGE SALAD WITH PEANUT DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-cabbage-salad-with-peanut-dressing",
+      "recipeName": "CABBAGE SALAD WITH PEANUT DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime zest",
+      "amount": 0.5,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-cabbage-salad-with-peanut-dressing",
+      "recipeName": "CABBAGE SALAD WITH PEANUT DRESSING",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-greens-with-cucumber-ice-and-lime-vinaigrette",
+      "recipeName": "GREENS WITH CUCUMBER ICE AND LIME VINAIGRETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-greens-with-cucumber-ice-and-lime-vinaigrette",
+      "recipeName": "GREENS WITH CUCUMBER ICE AND LIME VINAIGRETTE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-curried-chicken-salad-on-papadam-with-yogurt-raita",
+      "recipeName": "CURRIED CHICKEN SALAD ON PAPADAM WITH YOGURT RAITA",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-sweet-potato-latkes-with-pear-fennel-marmalade",
+      "recipeName": "SWEET POTATO LATKES WITH PEAR-FENNEL MARMALADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-kidney-bean-salad",
+      "recipeName": "KIDNEY BEAN SALAD",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-grilled-pineapple-chutney",
+      "recipeName": "GRILLED PINEAPPLE CHUTNEY",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-jerk-seitan-sloppy-joe-s",
+      "recipeName": "Jerk Seitan Sloppy Joe's",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-tuna-ceviche",
+      "recipeName": "TUNA CEVICHE",
+      "cuisine": "hsca",
+      "rawIngredientName": "juice of 1 lime",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-three-citrus-marinade",
+      "recipeName": "THREE-CITRUS MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-balinese-chile-marinade",
+      "recipeName": "BALINESE CHILE MARINADE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-brown-basmati-rice-variation-2",
+      "recipeName": "Brown Basmati Rice Variation #2",
+      "cuisine": "hsca",
+      "rawIngredientName": "kaffir lime leaves",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-wild-and-long-grain-rice-salad",
+      "recipeName": "Wild and Long Grain Rice Salad",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-spicy-kidney-bean-pur-e",
+      "recipeName": "SPICY KIDNEY BEAN PURÉE",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-curried-red-lentil-with-coconut-milk-dairy",
+      "recipeName": "CURRIED RED LENTIL WITH COCONUT MILK (DAIRY)",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-curried-red-lentil-soup-with-coconut-milk-vegan",
+      "recipeName": "CURRIED RED LENTIL SOUP WITH COCONUT MILK (VEGAN)",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-fresh-curry-sauce",
+      "recipeName": "Fresh Curry Sauce",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-shiitake-broth-with-shrimp-soba-and-baby-bok-choy",
+      "recipeName": "SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY",
+      "cuisine": "hsca",
+      "rawIngredientName": "-3 tablespoons lime juice",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
+      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-3-bean-chili-with-cashew-sour-cream",
+      "recipeName": "3-BEAN CHILI WITH CASHEW SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-cashew-sour-cream",
+      "recipeName": "CASHEW SOUR CREAM",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-cream-of-curried-sweet-potato-soup",
+      "recipeName": "CREAM OF CURRIED SWEET POTATO SOUP",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-cream-of-curried-sweet-potato-soup",
+      "recipeName": "CREAM OF CURRIED SWEET POTATO SOUP",
+      "cuisine": "hsca",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-zucchini-peanut-noodle-bowl-w-sriracha-string-beans-lemongrass-tofu",
+      "recipeName": "ZUCCHINI PEANUT NOODLE BOWL W/ SRIRACHA STRING BEANS & LEMONGRASS TOFU",
+      "cuisine": "hsca",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-berry-sorbet",
+      "recipeName": "Berry Sorbet",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 4,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "hsca-coconut-lime-cream-tart",
+      "recipeName": "COCONUT-LIME CREAM TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-coconut-lime-cream-tart",
+      "recipeName": "COCONUT-LIME CREAM TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-coconut-lime-cream-tart",
+      "recipeName": "COCONUT-LIME CREAM TART",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime zest",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "hsca-avocado-and-coconut-terrine",
+      "recipeName": "Avocado and Coconut Terrine",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.75,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-watermelon-granita",
+      "recipeName": "WATERMELON GRANITA",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "hsca-lime-sea-salt-chocolate-ganache-truffles",
+      "recipeName": "Lime-Sea Salt Chocolate Ganache Truffles",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime zest",
+      "amount": 0.25,
+      "unit": "teaspoon"
+    },
+    {
+      "recipeId": "hsca-lime-sea-salt-chocolate-ganache-truffles",
+      "recipeName": "Lime-Sea Salt Chocolate Ganache Truffles",
+      "cuisine": "hsca",
+      "rawIngredientName": "zest of 2 limes",
+      "amount": 1,
+      "unit": "piece"
+    },
+    {
+      "recipeId": "hsca-coconut-lime-flan",
+      "recipeName": "COCONUT-LIME FLAN",
+      "cuisine": "hsca",
+      "rawIngredientName": "lime juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "mexican-caldo-de-pollo",
+      "recipeName": "Caldo de Pollo",
+      "cuisine": "mexican",
+      "rawIngredientName": "Limes",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "mexican-aguachile",
+      "recipeName": "Aguachile",
+      "cuisine": "mexican",
+      "rawIngredientName": "Fresh lime juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "mexican-authentic-nopales-salad",
+      "recipeName": "Authentic Nopales Salad",
+      "cuisine": "mexican",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "mexican-authentic-elote",
+      "recipeName": "Authentic Elote",
+      "cuisine": "mexican",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "mexican-authentic-ceviche-de-pescado",
+      "recipeName": "Authentic Ceviche de Pescado",
+      "cuisine": "mexican",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "mexican-authentic-guacamole-en-molcajete",
+      "recipeName": "Authentic Guacamole en Molcajete",
+      "cuisine": "mexican",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "mexican-authentic-sopa-de-lima",
+      "recipeName": "Authentic Sopa de Lima",
+      "cuisine": "mexican",
+      "rawIngredientName": "Yucatecan Limes",
+      "amount": 4,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "mexican-sopa-de-lima",
+      "recipeName": "Sopa de Lima",
+      "cuisine": "mexican",
+      "rawIngredientName": "Limes",
+      "amount": 3,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "mexican-paletas",
+      "recipeName": "Paletas",
+      "cuisine": "mexican",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "mexican-caldo-de-pollo",
+      "recipeName": "Caldo de Pollo",
+      "cuisine": "mexican",
+      "rawIngredientName": "Limes",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "mexican-elote",
+      "recipeName": "Elote",
+      "cuisine": "mexican",
+      "rawIngredientName": "Tajin or chile-lime powder",
+      "amount": 2,
+      "unit": "tsp"
+    },
+    {
+      "recipeId": "mexican-elote",
+      "recipeName": "Elote",
+      "cuisine": "mexican",
+      "rawIngredientName": "limes",
+      "amount": 2,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "thai-tom-yum-goong",
+      "recipeName": "Tom Yum Goong",
+      "cuisine": "thai",
+      "rawIngredientName": "makrut lime leaves",
+      "amount": 6,
+      "unit": "leaves"
+    },
+    {
+      "recipeId": "thai-tom-yum-goong",
+      "recipeName": "Tom Yum Goong",
+      "cuisine": "thai",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 4,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-yum-woon-sen",
+      "recipeName": "Yum Woon Sen",
+      "cuisine": "thai",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 4,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-som-tam-thai",
+      "recipeName": "Som Tam Thai",
+      "cuisine": "thai",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-tom-kha-gai",
+      "recipeName": "Tom Kha Gai",
+      "cuisine": "thai",
+      "rawIngredientName": "makrut lime leaves",
+      "amount": 6,
+      "unit": "leaves"
+    },
+    {
+      "recipeId": "thai-tom-kha-gai",
+      "recipeName": "Tom Kha Gai",
+      "cuisine": "thai",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-authentic-larb-moo-spicy-minced-pork-salad",
+      "recipeName": "Authentic Larb Moo (Spicy Minced Pork Salad)",
+      "cuisine": "thai",
+      "rawIngredientName": "lime juice",
+      "amount": 2,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "thai-authentic-larb-moo-spicy-minced-pork-salad",
+      "recipeName": "Authentic Larb Moo (Spicy Minced Pork Salad)",
+      "cuisine": "thai",
+      "rawIngredientName": "lime wedges",
+      "amount": 2,
+      "unit": "fresh"
+    },
+    {
+      "recipeId": "thai-authentic-tom-kha-gai-coconut-chicken-soup",
+      "recipeName": "Authentic Tom Kha Gai (Coconut Chicken Soup)",
+      "cuisine": "thai",
+      "rawIngredientName": "kaffir lime leaves",
+      "amount": 4,
+      "unit": "leaves"
+    },
+    {
+      "recipeId": "thai-authentic-tom-kha-gai-coconut-chicken-soup",
+      "recipeName": "Authentic Tom Kha Gai (Coconut Chicken Soup)",
+      "cuisine": "thai",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "thai-authentic-khao-soi-curry-noodle-soup",
+      "recipeName": "Authentic Khao Soi (Curry Noodle Soup)",
+      "cuisine": "thai",
+      "rawIngredientName": "lime juice",
+      "amount": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "recipeId": "thai-authentic-thai-spicy-grilled-chicken-gai-yang",
+      "recipeName": "Authentic Thai Spicy Grilled Chicken (Gai Yang)",
+      "cuisine": "thai",
+      "rawIngredientName": "lime juice",
+      "amount": 3,
+      "unit": "tablespoons"
+    },
+    {
+      "recipeId": "thai-authentic-tom-yum-goong",
+      "recipeName": "Authentic Tom Yum Goong",
+      "cuisine": "thai",
+      "rawIngredientName": "makrut lime leaves",
+      "amount": 5,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "thai-authentic-tom-yum-goong",
+      "recipeName": "Authentic Tom Yum Goong",
+      "cuisine": "thai",
+      "rawIngredientName": "lime juice",
+      "amount": 0.25,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "thai-authentic-green-curry-gaeng-keow-wan",
+      "recipeName": "Authentic Green Curry (Gaeng Keow Wan)",
+      "cuisine": "thai",
+      "rawIngredientName": "makrut lime leaves",
+      "amount": 4,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "thai-authentic-som-tum-green-papaya-salad",
+      "recipeName": "Authentic Som Tum (Green Papaya Salad)",
+      "cuisine": "thai",
+      "rawIngredientName": "lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-pad-thai",
+      "recipeName": "Pad Thai",
+      "cuisine": "thai",
+      "rawIngredientName": "lime",
+      "amount": 1,
+      "unit": "lime"
+    },
+    {
+      "recipeId": "thai-pla-neung-manao",
+      "recipeName": "Pla Neung Manao",
+      "cuisine": "thai",
+      "rawIngredientName": "Lime juice",
+      "amount": 0.5,
+      "unit": "cup"
+    },
+    {
+      "recipeId": "thai-gaeng-keow-wan-gai",
+      "recipeName": "Gaeng Keow Wan Gai",
+      "cuisine": "thai",
+      "rawIngredientName": "makrut lime leaves",
+      "amount": 4,
+      "unit": "leaves"
+    },
+    {
+      "recipeId": "thai-gaeng-daeng-moo",
+      "recipeName": "Gaeng Daeng Moo",
+      "cuisine": "thai",
+      "rawIngredientName": "makrut lime leaves",
+      "amount": 4,
+      "unit": "leaves"
+    },
+    {
+      "recipeId": "thai-larb-gai",
+      "recipeName": "Larb Gai",
+      "cuisine": "thai",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-suea-rong-hai",
+      "recipeName": "Suea Rong Hai",
+      "cuisine": "thai",
+      "rawIngredientName": "fresh lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-yum-woon-sen",
+      "recipeName": "Yum Woon Sen",
+      "cuisine": "thai",
+      "rawIngredientName": "Lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "thai-tom-yum-goong-nam-khon",
+      "recipeName": "Tom Yum Goong Nam Khon",
+      "cuisine": "thai",
+      "rawIngredientName": "Makrut lime leaves",
+      "amount": 5,
+      "unit": "leaves"
+    },
+    {
+      "recipeId": "thai-tom-yum-goong-nam-khon",
+      "recipeName": "Tom Yum Goong Nam Khon",
+      "cuisine": "thai",
+      "rawIngredientName": "Lime juice",
+      "amount": 3,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "vietnamese-authentic-ph-b-vietnamese-beef-noodle-soup",
+      "recipeName": "Authentic Phở Bò (Vietnamese Beef Noodle Soup)",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "lime",
+      "amount": 1,
+      "unit": "whole"
+    },
+    {
+      "recipeId": "vietnamese-b-n-b-hu",
+      "recipeName": "Bún Bò Huế",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Banana blossom, mint, lime",
+      "amount": 1,
+      "unit": "basket"
+    },
+    {
+      "recipeId": "vietnamese-c-m-g-h-i-an",
+      "recipeName": "Cơm Gà Hội An",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "Lime juice and salt",
+      "amount": 2,
+      "unit": "tbsp"
+    },
+    {
+      "recipeId": "vietnamese-authentic-g-u1ecfi-g-u00e0-b-u1eafp-c-u1ea3i-vietnamese-chicken-and-cabbage-salad",
+      "recipeName": "Authentic G\\u1ecfi G\\u00e0 B\\u1eafp C\\u1ea3i (Vietnamese Chicken and Cabbage Salad)",
+      "cuisine": "vietnamese",
+      "rawIngredientName": "lime juice",
+      "amount": 3,
+      "unit": "tbsp"
     }
   ],
   "grapefruit": [
