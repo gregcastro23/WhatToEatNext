@@ -59,17 +59,16 @@ import { userDatabase } from "@/services/userDatabaseService";
 import { POST } from "../ignite/route";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
-const mockAuth = auth as unknown as jest.Mock;
-const mockGeocode = geocodeLocationSingle as unknown as jest.Mock;
-const mockCalcChart = calculateNatalChart as unknown as jest.Mock;
-const mockExecuteQuery = executeQuery as unknown as jest.Mock;
-const mockUpdateProfile = userDatabase.updateUserProfile as unknown as jest.Mock;
+const mockAuth = jest.mocked(auth);
+const mockGeocode = jest.mocked(geocodeLocationSingle);
+const mockCalcChart = jest.mocked(calculateNatalChart);
+const mockExecuteQuery = jest.mocked(executeQuery);
+const mockUpdateProfile = jest.mocked(userDatabase.updateUserProfile);
 
 // The recipe-gen fetch wraps its request in AbortSignal.timeout(); guard it so
 // the test is robust across the jsdom/Node global surface.
-if (typeof (AbortSignal as unknown as { timeout?: unknown }).timeout !== "function") {
-  (AbortSignal as unknown as { timeout: () => AbortSignal }).timeout = () =>
-    new AbortController().signal;
+if (!("timeout" in AbortSignal) || typeof Reflect.get(AbortSignal, "timeout") !== "function") {
+  Reflect.set(AbortSignal, "timeout", () => new AbortController().signal);
 }
 
 // The two readings are deliberately inconsistent so the reserves the route
@@ -97,13 +96,14 @@ const EXPECTED_BIRTH_DATA = {
 };
 
 function makeRequest(body: unknown): Request {
-  return {
-    json: async () => body,
+  return new Request("https://alchm.kitchen/api/agent-forge/ignite", {
+    method: "POST",
     headers: {
-      get: (name: string) =>
-        name.toLowerCase() === "cookie" ? "session=abc" : null,
+      cookie: "session=abc",
+      "content-type": "application/json",
     },
-  } as unknown as Request;
+    body: JSON.stringify(body),
+  });
 }
 
 describe("POST /api/agent-forge/ignite", () => {
