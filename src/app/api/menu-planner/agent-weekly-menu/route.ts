@@ -12,7 +12,7 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { getWeekEndDate } from "@/types/menuPlanner";
-import type { GroceryItem, MealSlot } from "@/types/menuPlanner";
+import type { DailyNutritionTotals, DayOfWeek, GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 import type { NextRequest } from "next/server";
 
@@ -89,6 +89,58 @@ function asFiniteNumber(value: unknown): number | undefined {
     : undefined;
 }
 
+function parseDayNutrition(entry: unknown): DailyNutritionTotals {
+  const result: DailyNutritionTotals = {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+    fiber: 0,
+    sodium: 0,
+    sugar: 0,
+    gregsEnergy: 0,
+    monicaConstant: 0,
+    kalchm: 0,
+    elementalBalance: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+  };
+
+  if (!isRecord(entry)) return result;
+
+  result.calories = asFiniteNumber(entry.calories) ?? 0;
+  result.protein = asFiniteNumber(entry.protein) ?? 0;
+  result.carbs = asFiniteNumber(entry.carbs) ?? 0;
+  result.fat = asFiniteNumber(entry.fat) ?? 0;
+  result.fiber = asFiniteNumber(entry.fiber) ?? 0;
+  result.sodium = asFiniteNumber(entry.sodium) ?? 0;
+  result.sugar = asFiniteNumber(entry.sugar) ?? 0;
+  result.gregsEnergy = asFiniteNumber(entry.gregsEnergy) ?? 0;
+  result.monicaConstant = asFiniteNumber(entry.monicaConstant) ?? 0;
+  result.kalchm = asFiniteNumber(entry.kalchm) ?? 0;
+
+  if (isRecord(entry.elementalBalance)) {
+    result.elementalBalance = {
+      Fire: asFiniteNumber(entry.elementalBalance.Fire) ?? 0,
+      Water: asFiniteNumber(entry.elementalBalance.Water) ?? 0,
+      Earth: asFiniteNumber(entry.elementalBalance.Earth) ?? 0,
+      Air: asFiniteNumber(entry.elementalBalance.Air) ?? 0,
+    };
+  }
+
+  return result;
+}
+
+function parseNutritionalTotals(
+  raw: unknown,
+): Record<DayOfWeek, DailyNutritionTotals> {
+  const rec = isRecord(raw) ? raw : null;
+  const result: Partial<Record<DayOfWeek, DailyNutritionTotals>> = {};
+  for (let i = 0; i < 7; i++) {
+    const day = i as DayOfWeek;
+    result[day] = parseDayNutrition(rec ? (rec[String(i)] ?? rec[i]) : null);
+  }
+  return result as Record<DayOfWeek, DailyNutritionTotals>;
+}
+
 function normalizeAgentEmail(body: AgentWeeklyMenuBody): string | null {
   const rawEmail = asString(body.agentEmail, MAX_AGENT_EMAIL_LENGTH);
   const rawSlug = asString(body.agentSlug, 160);
@@ -161,13 +213,8 @@ function extractFeaturedMeals(
       const recipeName = recipeNameFromMeal(meal);
       if (!recipeName) return null;
       return {
-        dayOfWeek: asFiniteNumber(
-          (meal as unknown as Record<string, unknown>).dayOfWeek,
-        ),
-        mealType: asString(
-          (meal as unknown as Record<string, unknown>).mealType,
-          40,
-        ),
+        dayOfWeek: asFiniteNumber(meal.dayOfWeek),
+        mealType: asString(meal.mealType, 40),
         recipeId: recipeIdFromMeal(meal),
         recipeName,
       };
@@ -296,9 +343,6 @@ export async function POST(request: NextRequest) {
     ? (body.groceryList as GroceryItem[]).slice(0, MAX_GROCERY_ITEMS)
     : [];
   const inventory = parseStringArray(body.inventory, MAX_INVENTORY_ITEMS);
-  const nutritionalTotals = isRecord(body.nutritionalTotals)
-    ? body.nutritionalTotals
-    : {};
   const status = (asString(body.status, 40) ?? "draft").toLowerCase();
   const shareToFeed = asBoolean(body.shareToFeed) === true;
 
@@ -323,7 +367,7 @@ export async function POST(request: NextRequest) {
     const persisted = await menuPersistenceService.upsertMenu(user.id, {
       weekStartDate,
       meals,
-      nutritionalTotals: nutritionalTotals as any,
+      nutritionalTotals: parseNutritionalTotals(body.nutritionalTotals),
       groceryList,
       inventory,
       weeklyBudget: parseWeeklyBudget(body.weeklyBudget),

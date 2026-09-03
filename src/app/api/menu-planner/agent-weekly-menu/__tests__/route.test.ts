@@ -21,7 +21,9 @@ import { POST } from "@/app/api/menu-planner/agent-weekly-menu/route";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import type { UserWithProfile } from "@/services/userDatabaseService";
+import type { DailyNutritionTotals, DayOfWeek } from "@/types/menuPlanner";
 
 const mockedEnsureAgent = userDatabase.ensurePlanetaryAgent as jest.MockedFunction<
   typeof userDatabase.ensurePlanetaryAgent
@@ -34,21 +36,45 @@ const mockedCreateEvent = feedDatabase.createEvent as jest.MockedFunction<
   typeof feedDatabase.createEvent
 >;
 
+const defaultDayTotals = (): DailyNutritionTotals => ({
+  calories: 0,
+  protein: 0,
+  carbs: 0,
+  fat: 0,
+  fiber: 0,
+  sodium: 0,
+  sugar: 0,
+  gregsEnergy: 0,
+  monicaConstant: 0,
+  kalchm: 0,
+  elementalBalance: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+});
+
+const defaultNutritionalTotals = (): Record<DayOfWeek, DailyNutritionTotals> => ({
+  0: defaultDayTotals(),
+  1: defaultDayTotals(),
+  2: defaultDayTotals(),
+  3: defaultDayTotals(),
+  4: defaultDayTotals(),
+  5: defaultDayTotals(),
+  6: defaultDayTotals(),
+});
+
 function makeRequest(json: unknown, token = "secret"): NextRequest {
-  return new Request("http://x/api/menu-planner/agent-weekly-menu", {
+  return new NextRequest("http://x/api/menu-planner/agent-weekly-menu", {
     method: "POST",
     headers: {
       "content-type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(json),
-  }) as unknown as NextRequest;
+  });
 }
 
 describe("POST /api/menu-planner/agent-weekly-menu", () => {
   beforeEach(() => {
     process.env.INTERNAL_API_SECRET = "secret";
-    mockedEnsureAgent.mockResolvedValue({
+    const mockAgent: UserWithProfile = {
       id: "agent-user-id",
       email: "saturn@agentic.alchm.kitchen",
       passwordHash: "AGENT_NO_LOGIN",
@@ -56,20 +82,32 @@ describe("POST /api/menu-planner/agent-weekly-menu", () => {
       isActive: true,
       isAgent: true,
       createdAt: new Date("2026-05-31T00:00:00.000Z"),
+      updatedAt: new Date("2026-05-31T00:00:00.000Z"),
       profile: {
         userId: "agent-user-id",
         name: "Saturn",
         email: "saturn@agentic.alchm.kitchen",
-        preferences: {},
+        preferences: {
+          theme: "system",
+          cuisinePreferences: [],
+          dietaryRestrictions: [],
+          favoriteIngredients: [],
+          dislikedIngredients: [],
+          cookingSkillLevel: "intermediate",
+          spiceTolerance: "medium",
+          elementalPreferences: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          notifications: { email: false, browser: false, mealReminders: false },
+        },
         groupMembers: [],
         diningGroups: [],
       },
-    } as any);
+    };
+    mockedEnsureAgent.mockResolvedValue(mockAgent);
     mockedUpsertMenu.mockResolvedValue({
       id: "menu-id",
       weekStartDate: new Date("2026-06-01T00:00:00.000Z"),
       meals: [],
-      nutritionalTotals: {} as any,
+      nutritionalTotals: defaultNutritionalTotals(),
       groceryList: [],
       inventory: [],
       weeklyBudget: null,
