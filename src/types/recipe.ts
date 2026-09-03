@@ -111,6 +111,7 @@ export interface Recipe {
       sour: number;
       bitter: number;
       umami: number;
+      spicy?: number;
     };
   };
   texturalElements?: string[];
@@ -150,6 +151,9 @@ export interface Recipe {
   };
   // Nutritional information
   nutrition?: NutritionalSummary | NutritionalSummaryBase;
+  matchPercentage?: number;
+  currentSeason?: string | string[];
+  regionalCuisine?: string;
   // Chef's notes and guidance
   preparationNotes?: string;
   technicalTips?: string[];

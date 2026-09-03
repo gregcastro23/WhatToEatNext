@@ -94,10 +94,12 @@ interface AstroStateLike {
   elementalState?: ElementalProperties;
 }
 
-interface AstroServiceLike {
+interface AstroServiceStatic {
   getStateForDate?: (date: Date) => Promise<AstroStateLike>;
   getCurrentState?: (date?: Date) => Promise<AstroStateLike>;
 }
+
+const astroService = AstrologicalService as AstroServiceStatic;
 
 let cachedPositions: CelestialPosition | null = null;
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
@@ -165,11 +167,12 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
   try {
     // Use AstrologicalService to get accurate positions for current date
     const currentDate = new Date();
-    // Apply safe type casting for service method access
-    const astroService = AstrologicalService as unknown as AstroServiceLike;
-    const astroState = await (astroService.getStateForDate
-      ? astroService.getStateForDate(currentDate)
-      : astroService.getCurrentState?.(currentDate));
+    // Safely attempt method access on AstrologicalService constructor
+    const astroState = astroService.getStateForDate
+      ? await astroService.getStateForDate(currentDate)
+      : astroService.getCurrentState
+        ? await astroService.getCurrentState(currentDate)
+        : undefined;
     // Map the data to our format
     cachedPositions = {
       sunSign: astroState!.currentZodiac,
@@ -195,11 +198,12 @@ const getFallbackPositions = async (
   const timestamp = date.getTime();
   // Get fallback data from AstrologicalService for the specified date
   try {
-    // Apply safe type casting for service method access
-    const astroService = AstrologicalService as unknown as AstroServiceLike;
+    // Safely attempt method access on AstrologicalService constructor
     const fallbackState = astroService.getStateForDate
       ? await astroService.getStateForDate(date)
-      : await astroService.getCurrentState?.(date);
+      : astroService.getCurrentState
+        ? await astroService.getCurrentState(date)
+        : undefined;
 
     if (!fallbackState) {
       throw new Error(
@@ -252,11 +256,12 @@ export const _getElementalInfluence =
   async (): Promise<ElementalProperties> => {
     // Use the zodiac to element mapping if available
     try {
-      // Apply safe type casting for service method access
-      const astroService = AstrologicalService as unknown as AstroServiceLike;
-      const astroState = await (astroService?.getCurrentState
-        ? astroService?.getCurrentState()
-        : astroService.getStateForDate?.(new Date()));
+      // Safely attempt method access on AstrologicalService constructor
+      const astroState = astroService.getCurrentState
+        ? await astroService.getCurrentState()
+        : astroService.getStateForDate
+          ? await astroService.getStateForDate(new Date())
+          : undefined;
       if (astroState) {
         // First check if elementalState is already calculated in the astrological state
         if (astroState.elementalState) {

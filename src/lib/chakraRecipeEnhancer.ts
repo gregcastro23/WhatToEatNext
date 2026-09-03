@@ -2,6 +2,7 @@ import type {
   ChakraEnergies,
   ElementalProperties,
   Planet,
+  PlanetName,
   ZodiacSign,
 } from "@/types/alchemy";
 import type { KeyCardChakraMapping } from "@/types/chakra";
@@ -117,19 +118,19 @@ export class ChakraRecipeEnhancer {
     dominantPlanets: Planet[] = [],
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
-    let planetaryHour: Planet = "Sun" as unknown as Planet;
+    let planetaryHour: Planet = { name: "Sun", influence: 1 };
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === "string") {
-        const planetName = hourInfo.planet as unknown as string;
+      if (hourInfo) {
+        const planetName = hourInfo.planet;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
         const capitalizedName =
           planetName.charAt(0).toUpperCase() +
           planetName.slice(1).toLowerCase();
 
         // Create Planet type validation with enhanced safety
-        const planetValidator = (name: string): Planet | null => {
-          const validPlanets: string[] = [
+        const isPlanetName = (name: string): name is PlanetName => {
+          const validPlanets: readonly string[] = [
             "Sun",
             "Moon",
             "Mars",
@@ -138,14 +139,11 @@ export class ChakraRecipeEnhancer {
             "Venus",
             "Saturn",
           ];
-          return validPlanets.includes(name)
-            ? (name as unknown as Planet)
-            : null;
+          return validPlanets.includes(name);
         };
 
-        const validatedPlanet = planetValidator(capitalizedName);
-        if (validatedPlanet) {
-          planetaryHour = validatedPlanet;
+        if (isPlanetName(capitalizedName)) {
+          planetaryHour = { name: capitalizedName, influence: 1 };
         }
       }
     } catch (error) {

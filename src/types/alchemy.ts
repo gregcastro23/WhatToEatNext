@@ -1013,19 +1013,19 @@ export interface CelestialBody {
 }
 
 export interface CelestialAlignment {
-  moment: Date;
-  date?: Date; // Optional date property for backward compatibility
-  planetaryPositions: PlanetaryAlignment;
-  lunarPhase: LunarPhase;
-  seasonalEnergy: Season;
-  elementalDominance: ElementalProperties;
+  moment?: Date;
+  date?: Date | string; // Optional date property for backward compatibility
+  planetaryPositions?: PlanetaryAlignment;
+  lunarPhase: LunarPhase | string;
+  seasonalEnergy?: Season;
+  elementalDominance?: ElementalProperties;
   elementalBalance?: ElementalProperties; // Additional elemental balance property
   elementalState?: ElementalProperties; // Elemental state for alchemical calculations
-  aspectPatterns: PlanetaryAspect[];
-  energyFlow: number; // 0-1 scale
+  aspectPatterns?: PlanetaryAspect[];
+  energyFlow?: number; // 0-1 scale
   // Enhanced properties for celestialCalculations.ts compatibility
   zodiacSign?: ZodiacSignType; // Current dominant zodiac sign
-  dominantPlanets?: CelestialBody[]; // Array of dominant celestial bodies
+  dominantPlanets?: CelestialBody[] | Array<{ name: string; influence: number; effect?: string }>; // Array of dominant celestial bodies
   astrologicalInfluences?: string[]; // Array of astrological influence strings
   tarotInfluences?: TarotCard[]; // Tarot card influences
   energyStates?: EnergyStateProperties; // ESMS energy states (Spirit, Essence, Matter, Substance)
@@ -1033,8 +1033,12 @@ export interface CelestialAlignment {
   // Additional calculation properties
   aspectInfluences?: Array<{
     type: AspectType;
-    planets: string[];
-    influence: number;
+    planets?: string[];
+    planet1?: string;
+    planet2?: string;
+    orb?: number;
+    strength?: number;
+    influence?: number;
   }>; // Detailed aspect influences
   energyStateBalance?: EnergyStateProperties; // Energy state balance calculations
   chakraEmphasis?: ChakraEnergies; // Chakra emphasis calculations

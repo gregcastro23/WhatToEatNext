@@ -12,7 +12,6 @@ import type {
   CelestialBody,
   ZodiacSignType,
 } from "../types/alchemy";
-import type { LunarPhase } from "../types/shared";
 // astronomia calculator removed - using direct calculations
 
 
@@ -237,8 +236,8 @@ class CelestialCalculator {
         "all", // Always include 'all' for universal matching
       ];
 
-      // Build complete celestial alignment (using type assertion due to interface mismatch)
-      const alignment = {
+      // Build complete celestial alignment
+      const alignment: CelestialAlignment = {
         date: now.toISOString(),
         zodiacSign,
         dominantPlanets,
@@ -255,7 +254,7 @@ class CelestialCalculator {
             }),
         ),
         astrologicalInfluences: astroInfluences, // Ensure this is always present and includes tarot influences and 'all'
-      } as unknown as CelestialAlignment;
+      };
 
       // Cache for 1 hour (alignments don't change that quickly)
       cache.set(this.CACHE_KEY, alignment, 60 * 60);
@@ -398,14 +397,14 @@ class CelestialCalculator {
     }
 
     // Start with complete defaults (using type assertion due to interface mismatch)
-    const safeAlignment = {
+    const safeAlignment: CelestialAlignment = {
       date: new Date().toISOString(),
-      zodiacSign: "libra" as ZodiacSignType,
+      zodiacSign: "libra",
       dominantPlanets: [
         { name: "Sun", influence: 0.5 },
         { name: "Moon", influence: 0.5 },
       ],
-      lunarPhase: "full moon" as LunarPhase,
+      lunarPhase: "full moon",
       elementalBalance: {
         Fire: 0.25,
         Water: 0.25,
@@ -414,7 +413,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ["Sun", "Moon", "libra", "all"],
-    } as unknown as CelestialAlignment;
+    };
 
     // Override with any valid properties from the input
     if (typeof alignment.date === "string") {
@@ -481,12 +480,12 @@ class CelestialCalculator {
   private getFallbackAlignment(): CelestialAlignment {
     return {
       date: new Date().toISOString(),
-      zodiacSign: "libra" as ZodiacSignType, // Balance,
+      zodiacSign: "libra", // Balance,
       dominantPlanets: [
         { name: "Sun", influence: 0.5 },
         { name: "Moon", influence: 0.5 },
       ],
-      lunarPhase: "full moon" as LunarPhase,
+      lunarPhase: "full moon",
       elementalBalance: {
         Fire: 0.25,
         Earth: 0.25,
@@ -495,7 +494,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ["Sun", "Moon", "libra", "all"], // Ensure this is always present and has values
-    } as unknown as CelestialAlignment;
+    };
   }
 
   /**

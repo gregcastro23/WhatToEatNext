@@ -5,14 +5,12 @@ import {
     AccordionItemIndicator, AccordionItemTrigger as _AccordionItemTrigger, AccordionRoot, AlertContent, AlertIndicator, AlertRoot, Badge,
     Box,
     Button,
-    Card as _Card,
     CardBody,
     CardFooter,
     CardHeader,
-    Flex, Heading, HStack, Icon, ListIndicator, ListItem, ListRoot, Progress as _Progress,
+    Flex, Heading, HStack, Icon, ListIndicator, ListItem, ListRoot,
     SimpleGrid,
     Spinner, TagLabel, TagRoot, Text,
-    Tooltip as _Tooltip,
     VStack,
     Wrap,
     WrapItem
@@ -43,9 +41,15 @@ import { celestialAudio } from "@/lib/audio/celestialAudioSynthesizer";
  * Displays cuisine recommendations based on current astrological moment
  * with nested recipes and sauce recommendations
  */
-const Card = _Card as unknown as React.ComponentType<Record<string, unknown>>;
-const Tooltip = _Tooltip as unknown as React.ComponentType<Record<string, unknown>>;
-const Progress = _Progress as unknown as React.ComponentType<Record<string, unknown>>;
+const Card: React.FC<React.PropsWithChildren<{ size?: string; [key: string]: unknown }>> = ({ children, size: _size, ...props }): React.ReactElement => (
+  <Box {...props}>{children}</Box>
+);
+const Tooltip: React.FC<React.PropsWithChildren<{ label?: React.ReactNode; [key: string]: unknown }>> = ({ children }): React.ReactElement => <>{children}</>;
+const Progress: React.FC<{ value?: number; size?: string; width?: string; colorScheme?: string; [key: string]: unknown }> = ({ value = 0, width = "40px" }): React.ReactElement => (
+  <Box width={width} height="4px" bg="gray.200" borderRadius="full" overflow="hidden">
+    <Box width={`${Math.min(Math.max(value, 0), 100)}%`} height="100%" bg="purple.500" borderRadius="full" />
+  </Box>
+);
 const AccordionItem = _AccordionItem;
 const AccordionItemTrigger = _AccordionItemTrigger;
 const AccordionItemContent = _AccordionItemContent;
