@@ -1,26 +1,26 @@
 {
-  "trackedTotal": 2933,
+  "trackedTotal": 2889,
   "casts": {
-    "total": 355,
-    "asAny": 93,
-    "asUnknownAs": 262,
-    "production": 297,
-    "test": 58,
-    "untrackedSingleAsT": 2805
+    "total": 317,
+    "asAny": 78,
+    "asUnknownAs": 239,
+    "production": 262,
+    "test": 55,
+    "untrackedSingleAsT": 2794
   },
   "assertionSites": {
-    "total": 4502,
-    "asAny": 90,
-    "chained": 262,
-    "single": 4150,
-    "production": 3864,
-    "test": 638,
-    "asConst": 641,
+    "total": 4468,
+    "asAny": 75,
+    "chained": 239,
+    "single": 4154,
+    "production": 3833,
+    "test": 635,
+    "asConst": 645,
     "nonNull": 659
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 475,
+      "total": 420,
       "verifiedSafe": 95,
       "semantic": 566,
       "unclassified": 31,
@@ -49,7 +49,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 231,
+      "count": 216,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -57,15 +57,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1299,
+      "count": 1292,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 107,
+      "count": 105,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 332,
+      "count": 323,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -73,7 +73,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 313,
+      "count": 304,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 475,
+      "count": 420,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -137,7 +137,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 55,
+      "count": 53,
       "autoFixable": 0
     },
     "no-void": {
