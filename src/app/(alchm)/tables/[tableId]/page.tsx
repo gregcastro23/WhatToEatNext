@@ -29,6 +29,7 @@ import {
 } from "@/components/tables/ui";
 import { useTable } from "@/hooks/useTables";
 import type { TableStatus } from "@/types/table";
+import { resolveErrorMessage, resolveVenueLabel } from "./helpers";
 
 const STATUS_HEADLINE: Record<TableStatus, string> = {
   planned: "Upcoming Table",
@@ -74,9 +75,7 @@ export default function TableDetailPage() {
         <div className="mx-auto max-w-xl">
           <GlassPanel className="p-10 text-center">
             <p className="text-alchm-fg-dim">
-              {statusCode === 403
-                ? "This table is set for its own circle."
-                : error || "This table could not be found."}
+              {resolveErrorMessage(statusCode, error)}
             </p>
             <Link
               href="/tables"
@@ -155,12 +154,7 @@ export default function TableDetailPage() {
     }
   };
 
-  const venueLabel =
-    table.venue.type === "restaurant"
-      ? table.venue.name || "A restaurant"
-      : table.venue.type === "home"
-        ? table.venue.name || "Home"
-        : table.venue.name || "Elsewhere";
+  const venueLabel = resolveVenueLabel(table.venue);
 
   const memoryPhotoUrls = table.memory?.photoUrls ?? [];
 

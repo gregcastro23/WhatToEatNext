@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { executeQuery } from "@/lib/database/connection";
 import { DeliverectClient } from "@/lib/integrations/deliverect";
 import MenuOrderClient from "./MenuOrderClient";
+import { appUrl } from "./helpers";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -40,16 +41,6 @@ async function getRestaurant(id: string): Promise<RestaurantRow | null> {
     console.error(`[restaurants/${id}/menu] DB lookup failed:`, err);
     return null;
   }
-}
-
-function appUrl(): string {
-  const configured =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.AUTH_URL ||
-    process.env.VERCEL_URL ||
-    "https://alchm.kitchen";
-
-  return configured.startsWith("http") ? configured : `https://${configured}`;
 }
 
 export default async function RestaurantMenuPage({
