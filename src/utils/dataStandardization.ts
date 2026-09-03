@@ -8,18 +8,28 @@ const DEFAULT_COMPATIBILITY: Record<Element, number> = {
   Air: 0.7,
 };
 
-function toElement(val: string): Element {
-  if (val === "Water" || val === "Earth" || val === "Air") return val;
-  return "Fire";
+function toElement(val: string): Element | undefined {
+  if (val === "Fire" || val === "Water" || val === "Earth" || val === "Air") return val;
+  return undefined;
 }
 
 // Utility to ensure elementalAffinity is always in object format
 export function standardizeElementalAffinity(
-  value: string | { base: string; decanModifiers?: Record<string, unknown> } | ElementalAffinity,
-): ElementalAffinity {
+  value:
+    | string
+    | { base: string; decanModifiers?: Record<string, unknown> }
+    | ElementalAffinity
+    | null
+    | undefined,
+): ElementalAffinity | undefined {
+  if (value === null || value === undefined) {
+    return undefined;
+  }
   if (typeof value === "string") {
+    const primary = toElement(value);
+    if (!primary) return undefined;
     return {
-      primary: toElement(value),
+      primary,
       strength: 1.0,
       compatibility: DEFAULT_COMPATIBILITY,
     };
@@ -27,11 +37,16 @@ export function standardizeElementalAffinity(
   if ("primary" in value) {
     return value;
   }
-  return {
-    primary: toElement(value.base),
-    strength: 1.0,
-    compatibility: DEFAULT_COMPATIBILITY,
-  };
+  if (typeof value === "object" && "base" in value && typeof value.base === "string") {
+    const primary = toElement(value.base);
+    if (!primary) return undefined;
+    return {
+      primary,
+      strength: 1.0,
+      compatibility: DEFAULT_COMPATIBILITY,
+    };
+  }
+  return undefined;
 }
 
 // Helper function to update entire ingredient objects
