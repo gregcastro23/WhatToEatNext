@@ -496,8 +496,8 @@ function calculateEnhancedElementalCompatibility(
   let totalWeight = 0;
 
   elements.forEach((element) => {
-    const methodValue = methodProps[element] || 0;
-    const targetValue = targetProps[element] || 0;
+    const methodValue = methodProps[element] ?? 0;
+    const targetValue = targetProps[element] ?? 0;
 
     // Exponential compatibility creates better differentiation
     const diff = Math.abs(methodValue - targetValue);
@@ -1377,7 +1377,7 @@ export async function getRecommendedCookingMethods(
             if (methodElementalEffect[elementProperty] && venusElementValue !== undefined) {
               venusScore +=
                 venusElementValue *
-                (method.elementalEffect[elementProperty] || 0) *
+                (method.elementalEffect[elementProperty] ?? 0) *
                 1.2;
             }
           }
@@ -1534,7 +1534,7 @@ export async function getRecommendedCookingMethods(
         const methodElementals = methodWithProps.elementalEffect ??
           methodWithProps.elementalProperties ??
           { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-        const methodElementValue = methodElementals[zodiacElement] || 0;
+        const methodElementValue = methodElementals[zodiacElement] ?? 0;
 
         // Methods with high emphasis on the current zodiac element get a bonus
         if (methodElementValue >= 0.6) {
@@ -1629,7 +1629,7 @@ function _calculateLunarMethodAffinity(
     "last quarter": "Earth",
     "waning crescent": "Air",
   };
-  const lunarElement = lunarElementMap[phase] || "Water";
+  const lunarElement = lunarElementMap[phase] ?? "Water";
   // Calculate affinity based on elemental compatibility
   if (element === lunarElement) {
     return 0.9; // High affinity for matching elements

@@ -341,10 +341,10 @@ function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number
   const cy = size / 2;
   const r = size * 0.38;
   const axes = [
-    { key: "Fire", label: "🔥", value: effect.Fire || 0, color: ELEMENT_ACCENT.Fire },
-    { key: "Air", label: "💨", value: effect.Air || 0, color: ELEMENT_ACCENT.Air },
-    { key: "Water", label: "💧", value: effect.Water || 0, color: ELEMENT_ACCENT.Water },
-    { key: "Earth", label: "🌍", value: effect.Earth || 0, color: ELEMENT_ACCENT.Earth },
+    { key: "Fire", label: "🔥", value: effect.Fire ?? 0, color: ELEMENT_ACCENT.Fire },
+    { key: "Air", label: "💨", value: effect.Air ?? 0, color: ELEMENT_ACCENT.Air },
+    { key: "Water", label: "💧", value: effect.Water ?? 0, color: ELEMENT_ACCENT.Water },
+    { key: "Earth", label: "🌍", value: effect.Earth ?? 0, color: ELEMENT_ACCENT.Earth },
   ];
   const n = axes.length;
   const angleStep = (2 * Math.PI) / n;
@@ -426,7 +426,7 @@ function ElementalSpiderCompare({
 
   const trace = (effect: Record<string, number>): string =>
     SPIDER_AXES.map((key, i) => {
-      const value = effect[key] || 0;
+      const value = effect[key] ?? 0;
       return `${cx + r * value * Math.cos(angleAt(i))},${cy + r * value * Math.sin(angleAt(i))}`;
     }).join(" ");
 
@@ -708,7 +708,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;
 
-      const methodKineticProfile = (method as unknown as { kineticProfile?: Parameters<typeof calculateMethodSpecificKinetics>[0]['kineticProfile'] }).kineticProfile;
+      const methodKineticProfile = Reflect.get(method, 'kineticProfile') as Parameters<typeof calculateMethodSpecificKinetics>[0]['kineticProfile'] | undefined;
       let kinetics: KineticMetrics | null = null;
       try {
         kinetics = calculateMethodSpecificKinetics({

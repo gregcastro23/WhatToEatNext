@@ -166,7 +166,7 @@ function generateReasoning(
   if (isRetrograde) {
     parts.push(`${planet} retrograde favors familiar preparations`);
   }
-  parts.push(CUISINE_QUALITIES[cuisine] || "offers excellent variety");
+  parts.push(CUISINE_QUALITIES[cuisine] ?? "offers excellent variety");
   return parts.join(", ");
 }
 
@@ -289,9 +289,9 @@ export default function DynamicCuisineRecommender({
               cuisine: def.name,
               score: Math.max(score, 1),
               planet: def.planet,
-              reasoning: recommendationObj?.compatibility_reason ?? (CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`),
+              reasoning: recommendationObj?.compatibility_reason ?? (CUISINE_QUALITIES[def.name] ?? `A fine ${def.name} selection.`),
               recipeCount: count,
-              optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
+              optimalTiming: OPTIMAL_TIMINGS[def.planet] ?? "Anytime today",
               topRecipes,
               isRetrograde: false
             });
@@ -374,7 +374,7 @@ export default function DynamicCuisineRecommender({
             planet: cuisine.planet,
             reasoning: generateReasoning(cuisine.name, cuisine.planet, sign, dignityScore, isCurrentHourPlanet, isRetrograde),
             recipeCount: count,
-            optimalTiming: OPTIMAL_TIMINGS[cuisine.planet] || "Anytime today",
+            optimalTiming: OPTIMAL_TIMINGS[cuisine.planet] ?? "Anytime today",
             topRecipes: [],
             isRetrograde,
           });
@@ -391,9 +391,9 @@ export default function DynamicCuisineRecommender({
           cuisine: c.name,
           score: 80 - i,
           planet: c.planet,
-          reasoning: CUISINE_QUALITIES[c.name] || "Great variety",
+          reasoning: CUISINE_QUALITIES[c.name] ?? "Great variety",
           recipeCount: 0,
-          optimalTiming: OPTIMAL_TIMINGS[c.planet] || "Anytime",
+          optimalTiming: OPTIMAL_TIMINGS[c.planet] ?? "Anytime",
           topRecipes: [],
           isRetrograde: false,
         }));

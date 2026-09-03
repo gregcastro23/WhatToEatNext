@@ -552,9 +552,7 @@ export function alchemize(
     alchmInfo['Planets'][planet] = {}
   })
 
-  if (!alchmInfo['Planets']['Ascendant']) {
-    alchmInfo['Planets']['Ascendant'] = {}
-  }
+  alchmInfo['Planets']['Ascendant'] ??= {}
 
   const risingSign = horoscope.Ascendant?.Sign?.label
   if (risingSign && signInfo[risingSign]) {
@@ -640,9 +638,7 @@ export function alchemize(
           if (baseAlchemyValues) {
             const alchemyValues: Record<string, unknown> = {}
 
-            if (!alchmInfo['Planets'][planet]['Alchemy Effects']) {
-              alchmInfo['Planets'][planet]['Alchemy Effects'] = {}
-            }
+            alchmInfo['Planets'][planet]['Alchemy Effects'] ??= {}
 
             if (baseAlchemyValues['Spirit']) {
               const spiritBonus = baseAlchemyValues['Spirit'] * totalEffectMultiplier
@@ -830,9 +826,7 @@ export async function generateAlchmForCurrentMoment(): Promise<AlchemicalInfo> {
     }
 
     for (const planet of planetList) {
-      if (!currentPositions[planet]) {
-        currentPositions[planet] = { sign: 'Aries', degree: 0, retrograde: false }
-      }
+      currentPositions[planet] ??= { sign: 'Aries', degree: 0, retrograde: false }
     }
 
     const ascSign = currentPositions['Ascendant'] ? currentPositions['Ascendant'].sign : 'Aries'
