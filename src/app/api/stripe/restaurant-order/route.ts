@@ -428,7 +428,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     0,
   );
   const explicitAmountCents = cents(body.order?.amountCents);
-  const subtotalCents = itemSubtotalCents || explicitAmountCents || 0;
+  const subtotalCents =
+    itemSubtotalCents > 0 ? itemSubtotalCents : (explicitAmountCents ?? 0);
   const platformFeeBps = Math.min(
     Math.max(intFromEnv("STRIPE_RESTAURANT_PLATFORM_FEE_BPS", 0), 0),
     10000,
@@ -462,7 +463,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         if (wtenUser) {
           effectiveUser = {
             id: wtenUser.id,
-            email: wtenUser.email ?? bridged.email,
+            email: wtenUser.email,
             name: bridged.name,
           };
         }
@@ -535,7 +536,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     provider,
   });
   const connectedAccountId =
-    connectedAccountIdFromBody || partnerRouting?.stripeConnectAccountId || null;
+    connectedAccountIdFromBody && connectedAccountIdFromBody.length > 0
+      ? connectedAccountIdFromBody
+      : (partnerRouting?.stripeConnectAccountId ?? null);
   const internalRestaurantId = partnerRouting?.id ?? restaurantId;
   const partnerSystem = provider || "direct";
   const transferAmountCents = Math.max(subtotalCents - platformFeeCents, 0);

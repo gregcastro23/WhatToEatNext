@@ -2,8 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { executeQuery } from "@/lib/database/connection";
 import { DeliverectClient } from "@/lib/integrations/deliverect";
-import MenuOrderClient from "./MenuOrderClient";
 import { appUrl } from "./helpers";
+import MenuOrderClient from "./MenuOrderClient";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -59,7 +59,9 @@ export default async function RestaurantMenuPage({
   let menu: Awaited<ReturnType<typeof deliverect.getMenu>> | null = null;
   try {
     menu = await deliverect.getMenu(
-      restaurant.deliverect_location_id || restaurant.id,
+      restaurant.deliverect_location_id && restaurant.deliverect_location_id.length > 0
+        ? restaurant.deliverect_location_id
+        : restaurant.id,
     );
   } catch (err) {
     console.error(`[restaurants/${id}/menu] getMenu failed:`, err);
@@ -94,7 +96,10 @@ export default async function RestaurantMenuPage({
             restaurant={{
               id: restaurant.id,
               name: restaurant.name,
-              url: restaurant.menu_url || fallbackMenuUrl.toString(),
+              url:
+                restaurant.menu_url && restaurant.menu_url.length > 0
+                  ? restaurant.menu_url
+                  : fallbackMenuUrl.toString(),
               stripeConnectAccountId:
                 restaurant.stripe_connect_account_id ?? undefined,
             }}

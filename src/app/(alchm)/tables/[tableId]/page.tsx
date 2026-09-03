@@ -119,7 +119,7 @@ export default function TableDetailPage() {
       });
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
-        setRsvpError(data.message || "Could not record your response.");
+        setRsvpError(data.message && data.message.length > 0 ? data.message : "Could not record your response.");
         return;
       }
       await refetch();
@@ -142,7 +142,7 @@ export default function TableDetailPage() {
       const data = (await res.json()) as { success?: boolean; message?: string };
       if (!res.ok || !data.success) {
         setJoinRequestState("error");
-        setJoinRequestError(data.message || "Could not send your request.");
+        setJoinRequestError(data.message && data.message.length > 0 ? data.message : "Could not send your request.");
         return;
       }
       // The server treats a dedupe hit as success too (host-silent by

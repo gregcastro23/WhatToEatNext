@@ -63,9 +63,9 @@ export function NutritionFilters({
   }, [onFiltersChange, onSortChange]);
 
   const hasActiveFilters = Boolean(
-    filters.highFiber ||
-    filters.highProtein ||
-    filters.lowSodium ||
+    filters.highFiber === true ||
+    filters.highProtein === true ||
+    filters.lowSodium === true ||
     filters.minProtein !== undefined ||
     filters.maxCarbs !== undefined ||
     filters.maxFat !== undefined ||
@@ -362,9 +362,9 @@ export function applyNutritionFilters(
 
 function hasAnyFilter(filters: NutritionFilterValues): boolean {
   return Boolean(
-    filters.highFiber ||
-    filters.highProtein ||
-    filters.lowSodium ||
+    filters.highFiber === true ||
+    filters.highProtein === true ||
+    filters.lowSodium === true ||
     filters.minProtein !== undefined ||
     filters.maxCarbs !== undefined ||
     filters.maxFat !== undefined ||

@@ -2,13 +2,14 @@ export function resolveVenueLabel(venue: {
   type: string;
   name?: string | null;
 }): string {
+  const trimmed = venue.name?.trim();
   if (venue.type === "restaurant") {
-    return venue.name || "A restaurant";
+    return trimmed && trimmed.length > 0 ? trimmed : "A restaurant";
   }
   if (venue.type === "home") {
-    return venue.name || "Home";
+    return trimmed && trimmed.length > 0 ? trimmed : "Home";
   }
-  return venue.name || "Elsewhere";
+  return trimmed && trimmed.length > 0 ? trimmed : "Elsewhere";
 }
 
 export function resolveErrorMessage(
@@ -18,5 +19,5 @@ export function resolveErrorMessage(
   if (statusCode === 403) {
     return "This table is set for its own circle.";
   }
-  return error || "This table could not be found.";
+  return error && error.length > 0 ? error : "This table could not be found.";
 }

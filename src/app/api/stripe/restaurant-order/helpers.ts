@@ -19,9 +19,29 @@ export function normalizeCustomerInfo(
   fallback: { name?: string | null; email?: string | null },
 ): CustomerInfo {
   const raw = record(value);
-  return {
-    name: text(raw?.name) || fallback.name || fallback.email || "Guest",
-    phone: text(raw?.phone) || undefined,
-    email: text(raw?.email) || fallback.email || undefined,
-  };
+  const rawName = text(raw?.name);
+  const rawEmail = text(raw?.email);
+  const rawPhone = text(raw?.phone);
+  const fallbackName = fallback.name?.trim();
+  const fallbackEmail = fallback.email?.trim();
+
+  const name =
+    rawName && rawName.length > 0
+      ? rawName
+      : fallbackName && fallbackName.length > 0
+        ? fallbackName
+        : fallbackEmail && fallbackEmail.length > 0
+          ? fallbackEmail
+          : "Guest";
+
+  const email =
+    rawEmail && rawEmail.length > 0
+      ? rawEmail
+      : fallbackEmail && fallbackEmail.length > 0
+        ? fallbackEmail
+        : undefined;
+
+  const phone = rawPhone && rawPhone.length > 0 ? rawPhone : undefined;
+
+  return { name, phone, email };
 }
