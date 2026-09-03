@@ -48,12 +48,31 @@ export interface KineticsPowerPrediction {
   trend: "ascending" | "stable" | "descending";
   confidence: number;
 }
-export interface KineticsResonanceMap {
-  [agentId: string]: {
-    resonance: number;
-    compatibility: number;
-  };
+export interface KineticsResonanceNode {
+  id: string;
+  power: number;
+  element: string;
 }
+
+export interface KineticsResonanceConnection {
+  source: string;
+  target: string;
+  strength?: number;
+}
+
+export interface KineticsResonanceMapGraph {
+  nodes: KineticsResonanceNode[];
+  connections: KineticsResonanceConnection[];
+}
+
+export type KineticsResonanceMap =
+  | {
+      [agentId: string]: {
+        resonance: number;
+        compatibility: number;
+      };
+    }
+  | KineticsResonanceMapGraph;
 export interface KineticsResponseData {
   base: KineticsBaseData;
   agentOptimization?: KineticsAgentOptimization;

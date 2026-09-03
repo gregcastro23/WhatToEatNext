@@ -505,7 +505,7 @@ class UserLearningSystem {
       // `any` payload, so a missing foodName coerced to the "undefined" bucket
       // key and a missing rating pushed `undefined` (later NaN) — unchanged here.
       const food = interaction.data.foodName!;
-      if (!ratingsByFood[food]) ratingsByFood[food] = [];
+      ratingsByFood[food] ??= [];
       ratingsByFood[food].push(interaction.data.rating!);
     }
 
@@ -530,7 +530,7 @@ class UserLearningSystem {
       // `!` keeps the prior `any`-read behavior: a missing foodName coerces to
       // the literal "undefined" index key rather than throwing.
       const food = entry.data.foodName!;
-      foodCounts[food] = (foodCounts[food] || 0) + 1;
+      foodCounts[food] = (foodCounts[food] ?? 0) + 1;
     }
 
     const frequentFoods = Object.entries(foodCounts)
@@ -724,7 +724,7 @@ class UserLearningSystem {
       if (interaction.type === "recipe_view" && interaction.data.cuisine) {
         const weight = interaction.data.weight ?? 1;
         cuisineScores[interaction.data.cuisine] =
-          (cuisineScores[interaction.data.cuisine] || 0) + weight;
+          (cuisineScores[interaction.data.cuisine] ?? 0) + weight;
       }
     });
 
@@ -750,7 +750,7 @@ class UserLearningSystem {
 
         ingredients?.forEach((ingredient: string) => {
           ingredientScores[ingredient] =
-            (ingredientScores[ingredient] || 0) + weight;
+            (ingredientScores[ingredient] ?? 0) + weight;
         });
       } else if (
         interaction.type === "recipe_view" &&
@@ -761,7 +761,7 @@ class UserLearningSystem {
 
         interaction.data.ingredients.forEach((ingredient: string) => {
           ingredientScores[ingredient] =
-            (ingredientScores[ingredient] || 0) + weight;
+            (ingredientScores[ingredient] ?? 0) + weight;
         });
       }
     });
@@ -821,7 +821,7 @@ class UserLearningSystem {
       if (interaction.type === "planetary_query" && interaction.data.planet) {
         const weight = interaction.data.engagement ?? 0.5;
         preferences[interaction.data.planet] =
-          (preferences[interaction.data.planet] || 0) + weight;
+          (preferences[interaction.data.planet] ?? 0) + weight;
       }
     });
 
@@ -848,7 +848,7 @@ class UserLearningSystem {
       ) {
         const weight = interaction.data.weight ?? 1;
         methodScores[interaction.data.cookingMethod] =
-          (methodScores[interaction.data.cookingMethod] || 0) + weight;
+          (methodScores[interaction.data.cookingMethod] ?? 0) + weight;
       }
     });
 
@@ -871,7 +871,7 @@ class UserLearningSystem {
       else if (hour >= 18 && hour < 22) mealTime = "dinner";
       else mealTime = "late_night";
 
-      timePatterns[mealTime] = (timePatterns[mealTime] || 0) + 1;
+      timePatterns[mealTime] = (timePatterns[mealTime] ?? 0) + 1;
     });
 
     return Object.entries(timePatterns)

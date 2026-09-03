@@ -73,7 +73,7 @@ export class IngredientService {
       "SELECT * FROM ingredients WHERE id = $1 AND is_active = true",
       [id],
     );
-    return result.rows[0] || null;
+    return result.rows[0] ?? null;
   }
 
   static async getByCategory(
@@ -149,7 +149,7 @@ export class IngredientService {
        WHERE ep.entity_type = 'ingredient' AND ep.entity_id = $1`,
       [ingredientId],
     );
-    return result.rows[0] || null;
+    return result.rows[0] ?? null;
   }
 
   static async getPlanetaryInfluences(
@@ -199,7 +199,7 @@ export class RecipeService {
       "SELECT * FROM recipes WHERE id = $1 AND is_public = true",
       [id],
     );
-    return result.rows[0] || null;
+    return result.rows[0] ?? null;
   }
 
   static async getByCuisine(
@@ -403,7 +403,7 @@ export class ElementalService {
        WHERE entity_type = $1 AND entity_id = $2`,
       [entityType, entityId],
     );
-    return result.rows[0] || null;
+    return result.rows[0] ?? null;
   }
 
   static async updateElementalProperties(

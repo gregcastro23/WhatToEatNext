@@ -193,7 +193,7 @@ export function getFoodRecommendationsFromChakras(
 
   // Get food items from supporting food groups - ensure we have items
   let primaryFoods = supportingFoodGroups.flatMap(
-    (group) => FOOD_ITEMS_BY_GROUP[group] || [],
+    (group) => FOOD_ITEMS_BY_GROUP[group] ?? [],
   );
   // If no primary foods, add some default ones
   if (primaryFoods.length === 0) {
@@ -222,7 +222,7 @@ export function getFoodRecommendationsFromChakras(
 
   // Get secondary food items - ensure we have items
   let secondaryFoods = secondaryFoodGroups
-    .flatMap((group) => FOOD_ITEMS_BY_GROUP[group] || [])
+    .flatMap((group) => FOOD_ITEMS_BY_GROUP[group] ?? [])
     .filter((food) => !primaryFoods.includes(food)); // Remove duplicates
 
   // If no secondary foods, add some default ones
@@ -248,7 +248,7 @@ export function getFoodRecommendationsFromChakras(
 
   // Get foods to avoid - ensure we have items
   let avoidFoods = avoidFoodGroups
-    .flatMap((group) => FOOD_ITEMS_BY_GROUP[group] || [])
+    .flatMap((group) => FOOD_ITEMS_BY_GROUP[group] ?? [])
     .filter((food) => !primaryFoods.includes(food)); // Don't avoid if it's needed for underactive chakras
 
   // If no foods to avoid, add some default ones
@@ -359,7 +359,7 @@ function generateBalancingMeals(
   // Generate general meals from primary foods if none of the specific meals were generated
   if (meals.length === 0 && primaryFoods.length > 0) {
     const proteins = primaryFoods.filter(
-      (food) => FOOD_ITEMS_BY_GROUP["Proteins"]?.includes(food) || false,
+      (food) => FOOD_ITEMS_BY_GROUP["Proteins"]?.includes(food) ?? false,
     );
 
     const vegetables = primaryFoods.filter(
@@ -368,7 +368,7 @@ function generateBalancingMeals(
 
     if (proteins.length > 0 && vegetables.length > 0) {
       meals.push(
-        `${proteins[0]} with ${vegetables[0]} and ${vegetables[1] || vegetables[0]}`,
+        `${proteins[0]} with ${vegetables[0]} and ${vegetables[1] ?? vegetables[0]}`,
       );
     }
   }
@@ -410,7 +410,7 @@ export function getZodiacSignTypeFoodRecommendations(
   const primaryChakra = ZODIAC_PRIMARY_CHAKRA[zodiacSign];
 
   // Get chakra-specific recommendations
-  const recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] || [];
+  const recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] ?? [];
 
   // Convert general food categories to specific food items
   const foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
@@ -418,7 +418,7 @@ export function getZodiacSignTypeFoodRecommendations(
     .map(([group]) => group);
 
   const specificFoods = foodGroups.flatMap(
-    (group) => FOOD_ITEMS_BY_GROUP[group] || [],
+    (group) => FOOD_ITEMS_BY_GROUP[group] ?? [],
   );
 
   // If no recommendations, provide defaults based on elemental properties
@@ -448,7 +448,7 @@ export function getZodiacSignTypeFoodRecommendations(
       scorpio: "Water",
       pisces: "Water",
     };
-    result = elementalFoods[signElements[zodiacSign]] || [
+    result = elementalFoods[signElements[zodiacSign]] ?? [
       "Balanced Whole Foods",
     ];
   }

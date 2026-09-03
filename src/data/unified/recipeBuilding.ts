@@ -1327,7 +1327,7 @@ export class UnifiedRecipeBuildingSystem {
     const intensity =
       targetMonica > 65 ? "high" : targetMonica > 35 ? "medium" : "low";
     return (
-      timingMap[season][intensity] ||
+      timingMap[season][intensity] ??
       "Cook during planetary hours aligned with your intention"
     );
   }
@@ -1582,7 +1582,7 @@ export class UnifiedRecipeBuildingSystem {
       asian: 0.7,
       traditional: 0.5,
     };
-    return versatilityMap[cuisine.toLowerCase()] || 0.6;
+    return versatilityMap[cuisine.toLowerCase()] ?? 0.6;
   }
 
   private generateCulturalNotes(
@@ -2368,7 +2368,7 @@ export class UnifiedRecipeBuildingSystem {
     }
 
     // 3. Method-specific instructions (much more detailed per method)
-    const primaryMethod = methods[0]?.toLowerCase() || "sauté";
+    const primaryMethod = methods[0]?.toLowerCase() ?? "sauté";
 
     if (primaryMethod.includes("roast") || primaryMethod.includes("bake")) {
       instructions.push("Preheat oven to 400°F (200°C).");
@@ -2783,7 +2783,7 @@ export class UnifiedRecipeBuildingSystem {
 
     return {
       fusionType,
-      primaryCuisine: cuisines[0] || "international",
+      primaryCuisine: cuisines[0] ?? "international",
       influences: cuisines.slice(1),
       complexity: Math.min(
         1,
@@ -2920,7 +2920,7 @@ export class UnifiedRecipeBuildingSystem {
 
     recipe.ingredients.forEach((ingredient, index) => {
       const sourceCuisine =
-        cuisines[index % cuisines.length] || cuisines[0] || "fusion";
+        cuisines[index % cuisines.length] ?? cuisines[0] ?? "fusion";
       const fusionRole: "base" | "accent" | "bridge" | "innovation" =
         index < 2
           ? "base"

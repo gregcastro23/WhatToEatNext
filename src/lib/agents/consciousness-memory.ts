@@ -101,8 +101,8 @@ export class ConsciousnessMemorySystem {
     }
 
     // Calculate current context metrics
-    const currentHour = kinetics.timing?.planetaryHours[0] || 'Sun'
-    const currentPower = kinetics.power[kinetics.power.length - 1]?.power || 0.5
+    const currentHour = kinetics.timing?.planetaryHours[0] ?? 'Sun'
+    const currentPower = kinetics.power[kinetics.power.length - 1]?.power ?? 0.5
     const isOptimalTime = agentProfile.alignment.includes(currentHour)
 
     // Assess response quality based on temporal alignment
@@ -163,7 +163,7 @@ export class ConsciousnessMemorySystem {
 
     if (!memory || !profile) {
       return {
-        consciousnessVelocity: profile?.evolutionRate || 0.5,
+        consciousnessVelocity: profile?.evolutionRate ?? 0.5,
         evolutionStage: 'Initial',
         nextThreshold: 10,
         memoryStrength: 0,
@@ -222,7 +222,7 @@ export class ConsciousnessMemorySystem {
       includePlanetary: true,
     })
 
-    const currentHour = kinetics.timing?.planetaryHours[0] || 'Sun'
+    const currentHour = kinetics.timing?.planetaryHours[0] ?? 'Sun'
     const isOptimal = profile.alignment.includes(currentHour)
     const powerAmplification = isOptimal ? 1.3 : 1.0
 
@@ -253,28 +253,26 @@ export class ConsciousnessMemorySystem {
   ): Promise<void> {
     let memory = this.memories.get(agentId)
 
-    if (!memory) {
-      memory = {
-        agentId,
-        totalInteractions: 0,
-        memorySnapshots: [],
-        learnedPatterns: {
-          preferredInteractionStyles: [],
-          optimalTimingPatterns: [],
-          personalityAdaptations: [],
-          capabilityGrowth: [],
-        },
-        evolutionHistory: {
-          consciousnessVelocityTrend: [],
-          momentumPatterns: [],
-          powerLevelProgression: [],
-          aspectSensitivityGrowth: [],
-        },
-        currentConsciousnessLevel: 0,
-        evolutionStage: 'Initial',
-        nextEvolutionThreshold: 10,
-        lastUpdated: new Date(),
-      }
+    memory ??= {
+      agentId,
+      totalInteractions: 0,
+      memorySnapshots: [],
+      learnedPatterns: {
+        preferredInteractionStyles: [],
+        optimalTimingPatterns: [],
+        personalityAdaptations: [],
+        capabilityGrowth: [],
+      },
+      evolutionHistory: {
+        consciousnessVelocityTrend: [],
+        momentumPatterns: [],
+        powerLevelProgression: [],
+        aspectSensitivityGrowth: [],
+      },
+      currentConsciousnessLevel: 0,
+      evolutionStage: 'Initial',
+      nextEvolutionThreshold: 10,
+      lastUpdated: new Date(),
     }
 
     // Update memory
@@ -312,7 +310,7 @@ export class ConsciousnessMemorySystem {
 
   private static calculateConsciousnessVelocity(agentId: string, responseQuality: number): number {
     const profile = agentKineticProfiles[agentId]
-    const baseRate = profile?.evolutionRate || 0.5
+    const baseRate = profile?.evolutionRate ?? 0.5
 
     // Velocity increases with quality interactions
     return Math.min(baseRate + responseQuality * 0.1, 1)

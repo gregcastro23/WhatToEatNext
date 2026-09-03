@@ -450,7 +450,7 @@ export function getIngredientRecommendations(
     aquarius: "Saturn", // Traditional ruler
     pisces: "Jupiter", // Traditional ruler
   };
-  const rulingPlanet = signRulers[sunSign] || "Sun";
+  const rulingPlanet = signRulers[sunSign] ?? "Sun";
   // Get decan information for each planet position
   const planetDecans: Record<
     string,
@@ -506,8 +506,8 @@ export function getIngredientRecommendations(
         aquarius: { 1: "5 of Swords", 2: "6 of Swords", 3: "7 of Swords" },
         pisces: { 1: "8 of Cups", 2: "9 of Cups", 3: "10 of Cups" },
       };
-      const decanRuler = decanRulerMap[sign]?.[decanNum] || "";
-      const tarotCard = tarotCardMap[sign]?.[decanNum] || "";
+      const decanRuler = decanRulerMap[sign]?.[decanNum] ?? "";
+      const tarotCard = tarotCardMap[sign]?.[decanNum] ?? "";
       planetDecans[planet] = { decanNum, decanRuler, tarotCard };
     },
   );
@@ -780,7 +780,7 @@ function calculateSeasonalScore(
   // This means it will always evaluate to undefined (and fall back to 0.5) for array-typed
   // seasonality data. Pre-existing latent bug, preserved as-is.
   const seasonScore =
-    (seasonalityRecord as Record<string, number>)[currentSeason] || 0.5;
+    (seasonalityRecord as Record<string, number>)[currentSeason] ?? 0.5;
   return seasonScore;
 }
 /**
@@ -902,9 +902,9 @@ export function calculateElementalInfluences(
   // Process each planetary position
   Object.entries(planetaryAlignment).forEach(([planet, position]) => {
     const planetLower = planet.toLowerCase();
-    const weight = planetWeights[planetLower] || 1;
+    const weight = planetWeights[planetLower] ?? 1;
     const sign = position.sign.toLowerCase();
-    const element = zodiacElements[position.sign] || zodiacElements[sign];
+    const element = zodiacElements[position.sign] ?? zodiacElements[sign];
     const currentInfluence = element ? elementalInfluences[element] : undefined;
     if (element && currentInfluence !== undefined) {
       elementalInfluences[element] = currentInfluence + weight;
@@ -1164,12 +1164,12 @@ function calculateVenusInfluence(
       score += flavorProfile.umami * 1.5;
     }
     if (flavorProfile.creamy || flavorProfile.rich) {
-      score += ((flavorProfile.creamy || 0) + (flavorProfile.rich || 0)) * 1.7;
+      score += ((flavorProfile.creamy ?? 0) + (flavorProfile.rich ?? 0)) * 1.7;
     }
     // Venus appreciates aromatic, fragrant qualities
     if (flavorProfile.aromatic || flavorProfile.fragrant) {
       score +=
-        ((flavorProfile.aromatic || 0) + (flavorProfile.fragrant || 0)) * 1.6;
+        ((flavorProfile.aromatic ?? 0) + (flavorProfile.fragrant ?? 0)) * 1.6;
     }
     // Venus is less interested in bitter or excessively spicy flavors
     if (flavorProfile.bitter) {
@@ -1383,7 +1383,7 @@ function calculateVenusInfluence(
         for (const element in elementsData) {
           const elemKey = element as keyof ElementalProperties;
           if (elementalProps[elemKey]) {
-            const elementValue = Number(elementsData[element] || 0);
+            const elementValue = Number(elementsData[element] ?? 0);
             score +=
               elementValue * elementalProps[elemKey] * 1.0;
           }
@@ -1437,7 +1437,7 @@ function calculateVenusInfluence(
         for (const element in elementsData) {
           const elemKey = element as keyof ElementalProperties;
           if (elementalProps[elemKey]) {
-            const elementValue = Number(elementsData[element] || 0);
+            const elementValue = Number(elementsData[element] ?? 0);
             score +=
               elementValue * elementalProps[elemKey] * 1.0;
           }
@@ -1491,7 +1491,7 @@ function calculateVenusInfluence(
         for (const element in elementsData) {
           const elemKey = element as keyof ElementalProperties;
           if (elementalProps[elemKey]) {
-            const elementValue = Number(elementsData[element] || 0);
+            const elementValue = Number(elementsData[element] ?? 0);
             score +=
               elementValue * elementalProps[elemKey] * 1.0;
           }
@@ -1544,7 +1544,7 @@ function calculateVenusInfluence(
         for (const element in elementsData) {
           const elemKey = element as keyof ElementalProperties;
           if (elementalProps[elemKey]) {
-            const elementValue = Number(elementsData[element] || 0);
+            const elementValue = Number(elementsData[element] ?? 0);
             score +=
               elementValue * elementalProps[elemKey] * 1.0;
           }
@@ -2570,8 +2570,8 @@ function calculatePlanetaryDayInfluence(
   const diurnalElement = dayElements.diurnal;
   const nocturnalElement = dayElements.nocturnal;
   const elementalProps = ingredient.elementalProperties ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  const diurnalMatch = elementalProps[diurnalElement] || 0;
-  const nocturnalMatch = elementalProps[nocturnalElement] || 0;
+  const diurnalMatch = elementalProps[diurnalElement] ?? 0;
+  const nocturnalMatch = elementalProps[nocturnalElement] ?? 0;
   // Calculate a weighted score - both elements are equally important for planetary day
   let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
   // Apply dignity effects if we have planet positions
@@ -2644,7 +2644,7 @@ function calculatePlanetaryHourInfluence(
     : hourElements.nocturnal;
   // Calculate match based on food's element compared to the hour's relevant element
   const elementalProps = ingredient.elementalProperties ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  let elementalMatch = elementalProps[relevantElement] || 0;
+  let elementalMatch = elementalProps[relevantElement] ?? 0;
   // Apply dignity effects if we have planet positions
   if (planetaryPositions?.[planetaryHour]) {
     const planetSign = planetaryPositions[planetaryHour].sign;

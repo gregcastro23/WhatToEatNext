@@ -1,5 +1,6 @@
 import { _logger } from "@/lib/logger";
 import type { Ingredient } from "@/types";
+import type { ElementalProperties } from "@/types/alchemy";
 import type { UnifiedIngredient } from "@/types/unified";
 import { standardizeIngredient } from "@/utils/dataStandardization";
 import { determineIngredientModality } from "@/utils/ingredientUtils";
@@ -45,8 +46,8 @@ export const proteins = {
 };
 // Calculate elemental properties from astrological data
 const calculateElementalProperties = (
-  ingredientData: Ingredient | UnifiedIngredient,
-): Record<string, number> => {
+  ingredientData: Ingredient | UnifiedIngredient | Record<string, unknown>,
+): ElementalProperties => {
   // Use actual elemental properties if they exist
   const rawProps = "elementalProperties" in ingredientData ? (ingredientData.elementalProperties as Record<string, unknown> | undefined) : undefined;
   if (
@@ -107,9 +108,11 @@ const calculateElementalProperties = (
     }
   }
   // If no astrological data, calculate from ingredient category
-  return calculateElementalPropertiesFromCategory(
-    ingredientData.category,
-  );
+  const category =
+    typeof ingredientData.category === "string"
+      ? ingredientData.category
+      : "culinary_herb";
+  return calculateElementalPropertiesFromCategory(category);
 };
 // Helper function to get planetary element
 function getPlanetaryElement(
@@ -152,8 +155,8 @@ function getZodiacElement(
 // Helper function to calculate elemental properties from category
 function calculateElementalPropertiesFromCategory(
   category: string,
-): Record<string, number> {
-  const categoryElements: Record<string, Record<string, number> | undefined> = {
+): ElementalProperties {
+  const categoryElements: Record<string, ElementalProperties | undefined> = {
     spice: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
     culinary_herb: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     protein: { Fire: 0.4, Earth: 0.4, Water: 0.2, Air: 0.0 },
@@ -197,9 +200,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const standardized = standardizeIngredient({
     name,
     category: (ingredientData.category as string | undefined) ?? "culinary_herb",
-    elementalProperties: calculateElementalProperties(
-      ingredientData as unknown as Ingredient,
-    ),
+    elementalProperties: calculateElementalProperties(ingredientData),
     qualities: Array.isArray(ingredientData.qualities)
       ? (ingredientData.qualities as string[])
       : [],
@@ -211,7 +212,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     },
     ...ingredientData,
   });
-  return standardized as Ingredient;
+  return standardized;
 };
 // Process a collection of ingredients with the new properties
 const processIngredientCollection = (
@@ -221,14 +222,13 @@ const processIngredientCollection = (
     (acc, [key, value]) => {
       try {
         const processedIngredient = processIngredient(value, key);
-        const ingredientRecord = processedIngredient as unknown as Record<string, unknown>;
-        const rawQualities = Array.isArray(ingredientRecord.qualities)
-          ? (ingredientRecord.qualities as string[])
+        const rawQualities = Array.isArray(processedIngredient.qualities)
+          ? processedIngredient.qualities
           : [];
         const modality = determineIngredientModality(rawQualities);
         // Create elementalSignature (dominant elements in order)
         const elementalProperties =
-          (ingredientRecord.elementalProperties as Record<string, number> | undefined) ?? {
+          (processedIngredient.elementalProperties as Record<string, number> | undefined) ?? {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
@@ -250,13 +250,15 @@ const processIngredientCollection = (
           elementalSignature:
             elementalSignature.length > 0 ? elementalSignature : undefined,
           astrologicalCorrespondence:
-            ingredientRecord.astrologicalCorrespondence ?? undefined,
+            Reflect.get(processedIngredient, "astrologicalCorrespondence") ??
+            undefined,
           pairingRecommendations:
-            ingredientRecord.pairingRecommendations ?? undefined,
+            Reflect.get(processedIngredient, "pairingRecommendations") ??
+            undefined,
           celestialBoost:
-            ingredientRecord.celestialBoost ?? undefined,
+            Reflect.get(processedIngredient, "celestialBoost") ?? undefined,
           planetaryInfluence:
-            ingredientRecord.planetaryInfluence ?? undefined,
+            Reflect.get(processedIngredient, "planetaryInfluence") ?? undefined,
         } as Ingredient;
       } catch (error) {
         _logger.warn(`Skipping invalid ingredient ${key}:`, error);
@@ -371,26 +373,34 @@ function mergeIngredientVariants(variants: Ingredient[]): Ingredient {
   const sorted = [...variants].sort(
     (a, b) => ingredientFieldRichness(b) - ingredientFieldRichness(a),
   );
-  const base: Record<string, unknown> = { ...(sorted[0] as unknown as Record<string, unknown>) };
+  const [richest] = sorted;
+  if (!richest) {
+    const [fallback] = variants;
+    if (!fallback) throw new Error("mergeIngredientVariants called with empty list");
+    return fallback;
+  }
+  const base: Ingredient = { ...richest };
   for (let i = 1; i < sorted.length; i++) {
-    const other = sorted[i] as unknown as Record<string, unknown>;
-    for (const key of Object.keys(other)) {
-      if (isEmpty(base[key]) && !isEmpty(other[key])) {
-        base[key] = other[key];
+    const other = sorted[i];
+    if (!other) continue;
+    for (const [key, val] of Object.entries(other)) {
+      const current = Reflect.get(base, key);
+      if (isEmpty(current) && !isEmpty(val)) {
+        Reflect.set(base, key, val);
       }
     }
   }
   // Prefer the shortest variant name (typically the singular form).
   const names = variants
-    .map((v) => (v as { name?: string }).name)
+    .map((v) => v.name)
     .filter((n): n is string => Boolean(n));
   if (names.length > 0) {
     const [canonical] = [...names].sort(
       (a, b) => a.length - b.length || a.localeCompare(b),
     );
-    base.name = canonical;
+    if (canonical) base.name = canonical;
   }
-  return base as unknown as Ingredient;
+  return base;
 }
 
 // Compile all ingredients into a single collection with deduplication.

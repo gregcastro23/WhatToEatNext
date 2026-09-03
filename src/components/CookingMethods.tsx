@@ -88,10 +88,10 @@ const alchemize = (
       ...alchemicalResult,
       elementalProperties: elements,
       transformedElementalProperties: {
-        Fire: elementsRecord.Fire || 0,
-        Water: elementsRecord.Water || 0,
-        Earth: elementsRecord.Earth || 0,
-        Air: elementsRecord.Air || 0
+        Fire: elementsRecord.Fire ?? 0,
+        Water: elementsRecord.Water ?? 0,
+        Earth: elementsRecord.Earth ?? 0,
+        Air: elementsRecord.Air ?? 0
       },
       heat: thermo.heat ?? alchemicalResult.heat,
       entropy: thermo.entropy ?? alchemicalResult.entropy,
@@ -99,7 +99,7 @@ const alchemize = (
       energy: thermo.energy ?? alchemicalResult.gregsEnergy
     });
   } catch (error) {
-    _logger.error('Error in alchemize function:', error);
+    _logger.error('Error in alchemize function:', error).catch(() => {});
     // Fallback to simple implementation if there's an error
     return Promise.resolve({
       ...elements,
@@ -481,7 +481,7 @@ export default function CookingMethods(): React.ReactElement | null {
       return map;
     } catch (error) {
 
-      _logger.error("Error initializing culture map:", error);
+      _logger.error("Error initializing culture map:", error).catch(() => {});
       return map;
     }
   }, [culturalMethods]);
@@ -1384,7 +1384,7 @@ export default function CookingMethods(): React.ReactElement | null {
   
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
-    _logger.info("Running cooking method recommendations test...");
+    _logger.info("Running cooking method recommendations test...").catch(() => {});
     testCookingMethodRecommendations().catch(() => {});
   }, []);
   
@@ -1410,7 +1410,7 @@ export default function CookingMethods(): React.ReactElement | null {
       }
 
       // Get the cooking methods with default thermodynamic properties
-      const baseMethods = (Object.entries(cookingMethods) as [string, RawCookingMethod][]).map(([key, method]) => ({
+      const baseMethods = (Object.entries(cookingMethods) as Array<[string, RawCookingMethod]>).map(([key, method]) => ({
           ...method,
           id: key,
           name: method.name ?? key.replace(/_/g, ' '),
@@ -1492,7 +1492,7 @@ export default function CookingMethods(): React.ReactElement | null {
             };
 
           } catch (err) {
-            _logger.error(`Error processing method ${method.name}:`, err);
+            _logger.error(`Error processing method ${method.name}:`, err).catch(() => {});
             return {
               ...methodWithThermodynamics,
               gregsEnergy: 0.5, // Fallback
@@ -1543,7 +1543,7 @@ export default function CookingMethods(): React.ReactElement | null {
         setLoading(false);
       }
     } catch (error) {
-      _logger.error('Error fetching cooking methods:', error);
+      _logger.error('Error fetching cooking methods:', error).catch(() => {});
       // Only update loading state if component is still mounted
       if (isMountedRef.current) {
         setLoading(false);
@@ -1694,7 +1694,7 @@ export default function CookingMethods(): React.ReactElement | null {
             {recommendedMethods.length > 0 ? (
               (showAllMethods ? recommendedMethods : recommendedMethods.slice(0, 10)).map((method, index) => {
                 const methodId = `method-${index}`;
-                const isExpanded = expandedMethods[methodId] || false;
+                const isExpanded = expandedMethods[methodId] ?? false;
                 const molecular = getMolecularDetails(method);
                 
                 // Canonical dominant for the method tag — consistent tie-break.
@@ -1706,7 +1706,7 @@ export default function CookingMethods(): React.ReactElement | null {
                 // Use the score from our state with a more reliable key (method.id or name)
                 // This ensures the score is consistent and doesn't change when clicked
                 const scoreKey = method.id || method.name;
-                const displayPercentage = Math.round((methodScores[scoreKey] || 0.5) * 100);
+                const displayPercentage = Math.round((methodScores[scoreKey] ?? 0.5) * 100);
                 
                 // Determine match reason based on the method's properties
                 const matchReasons = [

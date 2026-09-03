@@ -15,6 +15,7 @@ import type {
   KineticsLocation,
   KineticsOptions,
   GroupDynamicsResponse,
+  KineticsElementalTotals,
 } from "@/types/kinetics";
 import { computeGroupDynamics } from "@/utils/groupDynamics";
 
@@ -189,7 +190,7 @@ export class PlanetaryAgentsAdapter {
             seasonalInfluence: this.getCurrentSeason(),
           },
           elemental: {
-            totals: elementalTotals as any,
+            totals: elementalTotals,
           },
         },
         agentOptimization: options.includeAgentOptimization
@@ -207,10 +208,10 @@ export class PlanetaryAgentsAdapter {
             }
           : undefined,
         resonanceMap: options.includeResonanceMap
-          ? ({
+          ? {
               nodes: this.generateResonanceNodes(planet, elementalTotals),
               connections: [],
-            } as any)
+            }
           : undefined,
       },
       computeTimeMs: planetaryHour.metadata.computeTime,
@@ -238,7 +239,7 @@ export class PlanetaryAgentsAdapter {
       Saturn: 0.6,
     };
 
-    const basePower = planetPowers[planet] || 0.5;
+    const basePower = planetPowers[planet] ?? 0.5;
 
     // Adjust for day/night
     if (dayType === "day" && planet === "Sun") return 1.0;
@@ -252,15 +253,15 @@ export class PlanetaryAgentsAdapter {
    */
   private extractElementalTotals(
     modifiers: Record<string, number>,
-  ): Record<string, number> {
-    const totals: Record<string, number> = {
+  ): KineticsElementalTotals {
+    const totals: KineticsElementalTotals = {
       Fire: (modifiers.Fire ?? 2.5) + (modifiers.Spirit ? modifiers.Spirit * 2 : 0),
       Water: (modifiers.Water ?? 2.5) + (modifiers.Essence ? modifiers.Essence * 2 : 0),
       Earth: (modifiers.Earth ?? 2.5) + (modifiers.Matter ? modifiers.Matter * 2 : 0),
       Air:
         (modifiers.Air ?? 2.5) +
         (modifiers.Substance || modifiers.substance
-          ? (modifiers.Substance || modifiers.substance || 0) * 2
+          ? (modifiers.Substance ?? modifiers.substance ?? 0) * 2
           : 0),
     };
 
@@ -366,7 +367,7 @@ export class PlanetaryAgentsAdapter {
    */
   private generateResonanceNodes(
     planet: string,
-    elementalTotals: Record<string, number>,
+    elementalTotals: KineticsElementalTotals,
   ): Array<{ id: string; power: number; element: string }> {
     return Object.entries(elementalTotals).map(([element, power]) => ({
       id: `${planet}-${element}`,

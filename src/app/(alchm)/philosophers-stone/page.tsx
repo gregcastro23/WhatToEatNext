@@ -735,7 +735,7 @@ export default function ModernPhilosophersStone(): ReactNode {
                         setIsCalculating(false)
                       }
                     }
-                    createAgent()
+                    createAgent().catch(() => {})
                   }}
                   className="w-full relative group overflow-hidden"
                   disabled={isCalculating}
@@ -815,13 +815,13 @@ export default function ModernPhilosophersStone(): ReactNode {
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setChatInput(e.target.value)}
                   onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
                     if (e.key === 'Enter' && !isChatLoading) {
-                      handleSendAgentMessage()
+                      handleSendAgentMessage().catch(() => {})
                     }
                   }}
                   disabled={isChatLoading}
                   className="bg-slate-900 border-slate-800 focus:border-purple-500/50"
                 />
-                <Button onClick={() => { handleSendAgentMessage() }} disabled={isChatLoading || !chatInput.trim()}>
+                <Button onClick={() => { handleSendAgentMessage().catch(() => {}); }} disabled={isChatLoading || !chatInput.trim()}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
@@ -938,10 +938,10 @@ export default function ModernPhilosophersStone(): ReactNode {
                   value={userInput}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value)}
                   onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
-                    if (e.key === 'Enter') handleUserMessage()
+                    if (e.key === 'Enter') handleUserMessage().catch(() => {})
                   }}
                 />
-                <Button onClick={() => { handleUserMessage() }} size="icon">
+                <Button onClick={() => { handleUserMessage().catch(() => {}); }} size="icon">
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>

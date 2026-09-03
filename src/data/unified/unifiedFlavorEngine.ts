@@ -396,8 +396,8 @@ export class UnifiedFlavorEngine {
     let weightSum = 0;
 
     for (const element of elements) {
-      const strength1 = elements1[element] || 0;
-      const strength2 = elements2[element] || 0;
+      const strength1 = elements1[element] ?? 0;
+      const strength2 = elements2[element] ?? 0;
 
       if (strength1 > 0 && strength2 > 0) {
         // Self-reinforcement: same element has highest compatibility (0.9)
@@ -412,8 +412,8 @@ export class UnifiedFlavorEngine {
     for (const element1 of elements) {
       for (const element2 of elements) {
         if (element1 !== element2) {
-          const strength1 = elements1[element1] || 0;
-          const strength2 = elements2[element2] || 0;
+          const strength1 = elements1[element1] ?? 0;
+          const strength2 = elements2[element2] ?? 0;
 
           if (strength1 > 0 && strength2 > 0) {
             const differentElementCompatibility = 0.7; // Good compatibility for different elements
@@ -647,8 +647,8 @@ export class UnifiedFlavorEngine {
     };
 
     for (const element of elements) {
-      const strength1 = elements1[element] || 0;
-      const strength2 = elements2[element] || 0;
+      const strength1 = elements1[element] ?? 0;
+      const strength2 = elements2[element] ?? 0;
 
       if (strength1 > 0 && strength2 > 0) {
         // Same element = high compatibility
@@ -828,7 +828,7 @@ export class UnifiedFlavorEngine {
     if (criteria.elementalFocus) {
       const { elementalFocus } = criteria;
       results = results.filter(
-        (p) => (p.elementalFlavors[elementalFocus] || 0) > 0.3,
+        (p) => (p.elementalFlavors[elementalFocus] ?? 0) > 0.3,
       );
     }
 
@@ -1034,8 +1034,8 @@ export class UnifiedFlavorEngine {
 
       // Optimized calculation with early termination for low values
       for (const element of elements) {
-        const strength1 = elements1[element] || 0;
-        const strength2 = elements2[element] || 0;
+        const strength1 = elements1[element] ?? 0;
+        const strength2 = elements2[element] ?? 0;
 
         if (strength1 < 0.01 && strength2 < 0.01) continue; // Skip negligible values
 
@@ -1051,8 +1051,8 @@ export class UnifiedFlavorEngine {
       for (const element1 of elements) {
         for (const element2 of elements) {
           if (element1 !== element2) {
-            const strength1 = elements1[element1] || 0;
-            const strength2 = elements2[element2] || 0;
+            const strength1 = elements1[element1] ?? 0;
+            const strength2 = elements2[element2] ?? 0;
 
             if (strength1 < 0.01 || strength2 < 0.01) continue; // Skip negligible values
 

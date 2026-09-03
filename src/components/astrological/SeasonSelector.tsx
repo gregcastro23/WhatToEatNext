@@ -7,7 +7,6 @@ import {
     Box,
     HStack,
     Icon,
-    Select as _Select,
     Text,
     VStack
 } from "@chakra-ui/react";
@@ -18,8 +17,6 @@ import {
     FaSnowflake,
     FaSun
 } from "react-icons/fa";
-
-const Select = _Select as any;
 
 interface SeasonSelectorProps {
   value: string;
@@ -73,33 +70,41 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
       <Text mb={2} fontWeight="medium" fontSize="sm">
         Current Season
       </Text>
-      <Select
+      <select
         value={value}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
-        placeholder={placeholder}
-        size={size}
-        bg={bgColor}
-        borderColor={borderColor}
-        _hover={{ borderColor: "green.300" }}
-        _focus={{ borderColor: "green.500", boxShadow: "0 0 0 1px green.500" }}
+        style={{
+          width: "100%",
+          padding:
+            size === "sm"
+              ? "4px 8px"
+              : size === "lg"
+                ? "12px 16px"
+                : "8px 12px",
+          backgroundColor: bgColor,
+          borderColor,
+          borderRadius: "6px",
+          borderWidth: "1px",
+        }}
       >
+        <option value="">{placeholder}</option>
         {SEASONS.map((season) => (
           <option key={season} value={season}>
             {season}
           </option>
         ))}
-      </Select>
+      </select>
 
       {value && showDescription && (
         <Box mt={2}>
-          <HStack {...({ spacing: 2, align: "start" } as any)}>
+          <HStack gap={2} alignItems="flex-start">
             <Icon
               as={SEASON_INFO[value as keyof typeof SEASON_INFO].icon}
               color={`${SEASON_INFO[value as keyof typeof SEASON_INFO].color}.500`}
               boxSize={4}
               mt={0.5}
             />
-            <VStack {...({ align: "start", spacing: 1 } as any)}>
+            <VStack alignItems="flex-start" gap={1}>
               <Text fontSize="xs" fontWeight="medium" color="gray.700">
                 {SEASON_INFO[value as keyof typeof SEASON_INFO].description}
               </Text>

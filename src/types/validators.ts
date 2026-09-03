@@ -29,10 +29,12 @@ export const _normalizeElementalProperties = (
   }
 
   // Normalize each value
-  return Object.entries(properties).reduce((acc, [key, value]) => {
-    acc[key as any] = value / sum;
-    return acc;
-  }, {} as ElementalProperties);
+  return {
+    Fire: properties.Fire / sum,
+    Water: properties.Water / sum,
+    Earth: properties.Earth / sum,
+    Air: properties.Air / sum,
+  };
 };
 
 /**
@@ -45,9 +47,14 @@ export const validateElementalProperties = (
 ): boolean => {
   if (!properties) return false;
 
-  const requiredElements = ["Fire", "Water", "Earth", "Air"];
+  const requiredElements: Array<keyof ElementalProperties> = [
+    "Fire",
+    "Water",
+    "Earth",
+    "Air",
+  ];
   const hasAllElements = requiredElements.every(
-    (element) => typeof properties[element as any] === "number",
+    (element) => typeof properties[element] === "number",
   );
   if (!hasAllElements) return false;
   const sum = Object.values(properties).reduce(

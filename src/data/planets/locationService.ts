@@ -251,7 +251,7 @@ export class AstronomicalCalculations {
       Jupiter: "Abundant meals, expansion of recipes, foreign cuisines",
       Saturn: "Traditional methods, slow cooking, structured meal planning",
     };
-    return influences[planet] || "Balanced cooking approach";
+    return influences[planet] ?? "Balanced cooking approach";
   }
 }
 
@@ -578,7 +578,7 @@ export class PlanetaryLocationService {
       // Altitude effect (higher altitude = more intense solar effects);
       const altitudeEffect = this.calculateAltitudeEffect(
         planetName,
-        coordinates.elevation || 0,
+        coordinates.elevation ?? 0,
       );
 
       // Seasonal adjustment based on date and hemisphere
@@ -743,7 +743,7 @@ export class PlanetaryLocationService {
     coordinates: GeographicCoordinates,
   ): number {
     const region = this.getRegionalProfile(coordinates);
-    return region.planetaryAffinities[planet] || 1.0;
+    return region.planetaryAffinities[planet] ?? 1.0;
   }
 
   private static getPlanetaryCulinaryRecommendations(
@@ -751,8 +751,8 @@ export class PlanetaryLocationService {
     influence: number,
     planetData: PlanetData,
   ): string[] {
-    const baseRecommendations = planetData.CulinaryInfluences || [];
-    const foodAssociations = planetData.FoodAssociations || [];
+    const baseRecommendations = planetData.CulinaryInfluences ?? [];
+    const foodAssociations = planetData.FoodAssociations ?? [];
 
     // Intensity-based recommendations
     if (influence > 1.2) {
@@ -808,7 +808,7 @@ export class PlanetaryLocationService {
     }
 
     const seasonalIngredients =
-      regionalProfile.seasonalIngredients[season] || [];
+      regionalProfile.seasonalIngredients[season] ?? [];
     const topInfluences = influences.slice(0, 3);
 
     return {
@@ -979,7 +979,7 @@ export const calculateLocationPlanetaryInfluences = (
 ) =>
   PlanetaryLocationService.calculateLocationPlanetaryInfluences(
     coords,
-    date || new Date(),
+    date ?? new Date(),
   );
 
 export const getRegionalProfile = (coords: GeographicCoordinates) =>
