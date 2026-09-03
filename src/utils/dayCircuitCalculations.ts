@@ -196,7 +196,7 @@ export function calculateDayCircuit(
   const isPowerBalanced = balanceDeviation < 0.05; // 5% tolerance
 
   // Get date from first meal or use current date
-  const date = meals[0]?.planetarySnapshot.timestamp || new Date();
+  const date = meals[0]?.planetarySnapshot.timestamp ?? new Date();
 
   return {
     // Identity
@@ -248,6 +248,21 @@ export function getMealsForDay(
 }
 
 /**
+ * Creates a fully-populated Record<DayOfWeek, T> using a factory function
+ */
+export function emptyDayRecord<T>(factory: (day: DayOfWeek) => T): Record<DayOfWeek, T> {
+  return {
+    0: factory(0),
+    1: factory(1),
+    2: factory(2),
+    3: factory(3),
+    4: factory(4),
+    5: factory(5),
+    6: factory(6),
+  };
+}
+
+/**
  * Calculate circuit metrics for all 7 days
  *
  * @param allMeals - All meal slots in the weekly menu
@@ -258,19 +273,14 @@ export function calculateAllDayCircuits(
   allMeals: MealSlot[],
   planetaryPositions?: PlanetaryPositions,
 ): Record<DayOfWeek, DayCircuitMetrics> {
-  const dayCircuits: Record<DayOfWeek, DayCircuitMetrics> = {} as any;
-
-  for (let day = 0; day < 7; day++) {
-    const dayOfWeek = day as DayOfWeek;
+  return emptyDayRecord((dayOfWeek) => {
     const dayMeals = getMealsForDay(allMeals, dayOfWeek);
-    dayCircuits[dayOfWeek] = calculateDayCircuit(
+    return calculateDayCircuit(
       dayMeals,
       dayOfWeek,
       planetaryPositions,
     );
-  }
-
-  return dayCircuits;
+  });
 }
 
 /**

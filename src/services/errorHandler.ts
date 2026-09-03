@@ -35,12 +35,11 @@ export enum ErrorSeverity {
   FATAL = "FATAL",
 }
 
-// Options for the error handler
 export interface ErrorOptions {
   type?: ErrorType;
   severity?: ErrorSeverity;
   component?: string;
-  context?: string;
+  context?: string | Record<string, unknown>;
   data?: unknown;
   isFatal?: boolean;
   silent?: boolean;
@@ -50,7 +49,7 @@ interface ErrorDetails {
   message: string;
   stack?: string;
   componentStack?: string;
-  context?: string;
+  context?: string | Record<string, unknown>;
   data?: unknown;
   timestamp: string;
   errorType: string;
@@ -162,10 +161,13 @@ class ErrorHandlerService {
   /**
    * Legacy handleError method for backward compatibility
    */
-  handleError(error: unknown, context?: unknown): void {
+  handleError(
+    error: unknown,
+    context?: string | Record<string, unknown>,
+  ): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: (context ?? "unknown") as any,
+      context: context ?? "unknown",
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR,
     });
@@ -268,7 +270,7 @@ export function safePropertyAccess<T>(
         warnNullValue(`${properties.join(".")}.${prop}`, context);
         return defaultValue;
       }
-      current = (current as any)[prop];
+      current = Reflect.get(current, prop);
     }
     if (current === undefined || current === null) {
       return defaultValue;

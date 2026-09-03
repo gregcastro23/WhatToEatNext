@@ -26,8 +26,10 @@ export function MicronutrientHighlights({
   goals,
 }: MicronutrientHighlightsProps) {
   const displayedMicros = KEY_MICRONUTRIENTS.map((key) => {
-    const total = (totals as any)[key] ?? 0;
-    const goal = (goals as any)[key] ?? 0; // Assuming goals also have these keys
+    const totalVal: unknown = Reflect.get(totals, key);
+    const goalVal: unknown = Reflect.get(goals, key);
+    const total = typeof totalVal === "number" && Number.isFinite(totalVal) ? totalVal : 0;
+    const goal = typeof goalVal === "number" && Number.isFinite(goalVal) ? goalVal : 0;
     const percentage = goal > 0 ? (total / goal) * 100 : 100;
     const status =
       percentage >= 90

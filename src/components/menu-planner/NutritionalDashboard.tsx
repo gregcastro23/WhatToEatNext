@@ -11,10 +11,11 @@
 import React, { useMemo, useState } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type {
-  DayOfWeek,
+  MealSlot,
   NutritionalGoals,
   WeeklyNutritionTotals,
 } from "@/types/menuPlanner";
+import { emptyDayRecord } from "@/utils/dayCircuitCalculations";
 import {
   calculateWeeklyTotals,
   calculateMacroBreakdown,
@@ -271,12 +272,9 @@ export default function NutritionalDashboard({
 
   // Group meals by day
   const mealsByDay = useMemo(() => {
-    if (!currentMenu) return {} as Record<DayOfWeek, any[]>;
+    if (!currentMenu) return emptyDayRecord<MealSlot[]>(() => []);
 
-    const grouped: Record<DayOfWeek, any[]> = {} as any;
-    ([0, 1, 2, 3, 4, 5, 6] as DayOfWeek[]).forEach((day) => {
-      grouped[day] = [];
-    });
+    const grouped = emptyDayRecord<MealSlot[]>(() => []);
 
     currentMenu.meals.forEach((meal) => {
       grouped[meal.dayOfWeek].push(meal);
@@ -346,10 +344,13 @@ export default function NutritionalDashboard({
     let mealTypeCalories = 0;
     currentMenu.meals.forEach((meal) => {
       if (meal.mealType === mealType && meal.recipe) {
-        const nutrition =
-          (meal.recipe as any).nutritionalProfile ?? meal.recipe.nutrition;
-        if (nutrition?.calories) {
-          mealTypeCalories += nutrition.calories * (meal.servings || 1);
+        const profile: unknown = Reflect.get(meal.recipe, "nutritionalProfile");
+        const calories =
+          profile && typeof profile === "object" && "calories" in profile && typeof profile.calories === "number"
+            ? profile.calories
+            : meal.recipe.nutrition?.calories;
+        if (calories) {
+          mealTypeCalories += calories * (meal.servings || 1);
         }
       }
     });
