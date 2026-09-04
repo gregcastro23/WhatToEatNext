@@ -73,11 +73,20 @@ describe("safeReadJson", () => {
     });
   });
 
-  it("returns the fallback when response body is empty", async () => {
+  it("returns the fallback when response body is empty (200 OK)", async () => {
     const emptyResponse = new Response("", {
-      status: 204,
+      status: 200,
     });
     await expect(safeReadJson(emptyResponse, { empty: true })).resolves.toEqual({
+      empty: true,
+    });
+  });
+
+  it("returns the fallback when response body is empty (204 No Content)", async () => {
+    const noContentResponse = new Response(null, {
+      status: 204,
+    });
+    await expect(safeReadJson(noContentResponse, { empty: true })).resolves.toEqual({
       empty: true,
     });
   });
