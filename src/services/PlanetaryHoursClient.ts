@@ -99,7 +99,14 @@ export class PlanetaryHoursClient {
       location?.latitude,
       location?.longitude,
     );
-    const detailed = (calculator.getCurrentPlanetaryHour as any)(targetDate);
+    // `getDetailedPlanetaryHour` is the method that takes a date and returns
+    // boundaries — which is what `detailed` was always named for, and what the
+    // backend branch above returns. This previously read
+    // `(calculator.getCurrentPlanetaryHour as any)(targetDate)`; that method
+    // takes NO arguments and returns no start/end, so the cast silently
+    // discarded targetDate (every answer was for "now") and left both
+    // boundaries undefined. See PlanetaryHoursClient.characterisation.test.ts.
+    const detailed = calculator.getDetailedPlanetaryHour(targetDate);
     return {
       planet: detailed.planet,
       hourNumber: detailed.hourNumber,

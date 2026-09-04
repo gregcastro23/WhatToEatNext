@@ -1,3 +1,4 @@
+import { readJson } from "@/lib/api/json";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import {
   type UserPreferences,
@@ -50,7 +51,7 @@ export async function fetchServerProfile(): Promise<{ profile: UserProfileData |
   try {
     const res = await fetch("/api/user/profile", { credentials: "include" });
     if (res.ok) {
-      const data = (await res.json()) as { success?: boolean; profile?: UserProfileData };
+      const data = await readJson<{ success?: boolean; profile?: UserProfileData }>(res);
       if (data.success && data.profile) {
         return { profile: data.profile, serverLoaded: true };
       }
@@ -86,7 +87,11 @@ export async function executeOnboarding(
     }
     return { success: false, message: `Server error (${response.status})`, birthData };
   }
-  const result = (await response.json()) as { success?: boolean; message?: string; natalChart?: NatalChart };
+  const result = await readJson<{
+    success?: boolean;
+    message?: string;
+    natalChart?: NatalChart;
+  }>(response);
   return {
     success: Boolean(result.success),
     message: result.message,
@@ -109,7 +114,7 @@ export function triggerQuestReward(updatedPrefs: UserPreferences): void {
       credentials: "include",
       body: JSON.stringify({ event: "preferences_complete" }),
     })
-      .then((res) => (res.ok ? (res.json() as Promise<{ completedQuests?: unknown[] }>) : null))
+      .then((res) => (res.ok ? readJson<{ completedQuests?: unknown[] }>(res) : null))
       .then((data) => {
         if (data?.completedQuests && data.completedQuests.length > 0 && typeof window !== "undefined") {
           import("@/hooks/useTokenEconomy")

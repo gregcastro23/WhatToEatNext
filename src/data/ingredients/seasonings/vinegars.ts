@@ -3,7 +3,10 @@ import type { /* _ , */} from "@/types/alchemy";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 // Helper function to standardize ingredient mappings
-function createIngredientMapping(id: string, properties: any) {
+function createIngredientMapping(
+  id: string,
+  properties: Partial<IngredientMapping> & Record<string, unknown>,
+) {
   return {
     name: id, // Add the required name property,
     // Vinegar default: Water-dominant (aqueous acid), Air (volatile acidity), minor Fire (acid bite)
