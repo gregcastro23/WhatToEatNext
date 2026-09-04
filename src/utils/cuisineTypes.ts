@@ -618,7 +618,7 @@ export function getCommonIngredients(
   const key = `${cuisine1}-${cuisine2}`;
   const reverseKey = `${cuisine2}-${cuisine1}`;
 
-  return commonIngredients[key] || commonIngredients[reverseKey] || [];
+  return commonIngredients[key] ?? commonIngredients[reverseKey] ?? [];
 }
 
 /**

@@ -4,6 +4,7 @@
  * builder's "Mint as NFT" action.
  */
 
+import { readJson, safeReadJson } from "@/lib/api/json";
 import type { CoinAmounts } from "./types";
 
 export interface MintQuoteResult {
@@ -35,7 +36,7 @@ export async function quoteRecipeMint(recipe: unknown): Promise<MintQuoteResult 
       body: JSON.stringify({ recipe }),
     });
     if (!res.ok) return null;
-    return (await res.json()) as MintQuoteResult;
+    return await readJson<MintQuoteResult>(res);
   } catch {
     return null;
   }
@@ -49,16 +50,16 @@ export async function mintRecipe(recipe: unknown): Promise<MintResult> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ recipe }),
     });
-    const data = await res.json().catch(() => ({}));
+    const data = await safeReadJson<Partial<MintResult>>(res, {});
     return {
       ok: res.ok,
       httpStatus: res.status,
-      status: data?.status,
-      pending: data?.pending,
-      cost: data?.cost,
-      weightedToCoin: data?.weightedToCoin,
-      contentHash: data?.contentHash,
-      error: data?.error,
+      status: data.status,
+      pending: data.pending,
+      cost: data.cost,
+      weightedToCoin: data.weightedToCoin,
+      contentHash: data.contentHash,
+      error: data.error,
     };
   } catch {
     return { ok: false, httpStatus: 0, error: "network_error" };

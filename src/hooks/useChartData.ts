@@ -123,7 +123,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     : undefined;
   // Determine the location to use: option > user > NYC default (never null,
   // so the page can't hang on a missing location).
-  const location = optionLocation || userLocation || DEFAULT_LOCATION;
+  const location = optionLocation ?? userLocation ?? DEFAULT_LOCATION;
 
   const [positions, setPositions] = useState<Record<
     string,

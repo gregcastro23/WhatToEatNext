@@ -1,21 +1,24 @@
-# Next Session: Phase 20 — Trust Boundaries, Dead-Surface Pruning & Nullish Convergence
+# Next Session: Phase 21 — `monicaConstant` Widening & JSON Trust Boundary Wave 2
 
-> **Status of Phase 19:** Complete, verified, committed on branch `refactor/phase-19-trust-boundaries`.
-> Two commits: `ae5beae4` (Trust boundaries, dead surface, live defects) and `78960382` (34 PNC conversions & re-measured baseline).
+> **Status of Phase 20:** Complete, verified, committed on branch `refactor/phase-19-trust-boundaries`.
+> Commit: `693f5605` (Phase 20: dead surface pruning, safeReadJson trust boundaries, and nullish convergence).
 >
-> | Metric | Before (P18) | After (P19) | Δ |
+> | Metric | Before (P19) | After (P20) | Δ |
 > |---|---:|---:|---:|
-> | Tracked lint debt | 2,875 | **2,787** | **−88** |
-> | PNC sub-baseline | 337 | **301** | **−36** |
-> | Cast surface | 263 | **260** | **−3** |
-> | — `as any` / `as unknown as` | 71 / 192 | **69 / 191** | −2 / −1 |
-> | — Production / Test | 231 / 32 | **228 / 32** | −3 / held |
-> | Assertion sites (AST) | 4,418 | **4,411** | **−7** |
-> | — Production | 3,799 | **3,788** | **−11** |
-> | Declined pool | 6,356 | **6,317** | **−39** |
+> | Tracked lint debt | 2,787 | **2,742** | **−45** |
+> | PNC sub-baseline | 301 | **295** | **−6** |
+> | — `verifiedSafe` remaining | 6 | **0** | **−6** (Exhausted) |
+> | Cast surface | 260 | **259** | **−1** |
+> | — `as any` / `as unknown as` | 69 / 191 | **69 / 190** | 0 / −1 |
+> | — Production / Test | 228 / 32 | **227 / 32** | −1 / 0 |
+> | Assertion sites (AST) | 4,411 | **4,389** | **−22** |
+> | — Production | 3,788 | **3,767** | **−21** |
+> | — Test | 623 | **622** | **−1** |
+> | Declined pool | 6,317 | **6,304** | **−13** |
+> | Dead code pruned | — | **−780 lines** | 3 files deleted |
 >
 > Gates: `bun run verify` clean end-to-end (pre-commit hooks passed).
-> Verification: typecheck 0 errors · gate suites 50/50 · 114 suites / 1,044 tests green.
+> Verification: typecheck 0 errors · gate suites 50/50 · 114 suites / 1,044 tests green · production build green.
 
 ---
 
@@ -34,66 +37,45 @@
   - `x === null ? b : x`: diverges **only** when `x` can be `undefined`.
   - `x != null ? x : b`: two-sided guard; never diverges.
 - **Chains convert whole without parentheses:** `a || b || c` converts to `a ?? b ?? c` with **no parentheses**. Parentheses are only required when mixing `??` with `||` or `&&`.
-- **Current PNC status (301 remaining):**
-  - **6 verifiedSafe**: 4 chained `||` sites (`useChartData.ts:126`, `cuisineTypes.ts:621`) and 2 in `seasonings/vinegars.ts:13,19`.
+- **Current PNC status (295 remaining):**
+  - **0 verifiedSafe**: (Exhausted in Phase 20).
   - **290 semantic**: operands can be falsy (`0`, `""`, `false`, `NaN`) or `any`/`unknown`.
   - **5 unclassified**: multi-line `||` expressions whose AST node begins on a line prior to the report.
 
-### Trust Boundary Architecture vs. Ratchet Tension
-- `res.json()` exists at 643 call sites; 313 currently pay an inline `as T` cast.
-- The naive fix (`const data = await res.json() as TargetType`) trades unsafe-* for an assertion site.
-- Use the shared JSON trust boundary helper in [`src/lib/api/json.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/api/json.ts): `readJson<T>(res)` and `fetchJson<T>(url, init)`. It absorbs the cast at the boundary and provides an optional validator hook (`parse?: (raw: unknown) => T`).
-
-### Reference & Scope Corrections
-- **`unsafe-*` family count:** Exactly **823 sites** (not 828).
-- **`monicaConstant` references:** Exactly **153 references** across `src/` (not 136). Do not size the type-widening task off 136.
+### Earned vs. Manufactured Confidence (Architectural Law)
+- `@typescript-eslint/no-unnecessary-condition` accounts for 1,276 entries (46.5% of tracked debt).
+- **Do NOT treat `no-unnecessary-condition` as low-hanging fruit.** A condition is only truly "unnecessary" if the confidence of the type was **earned** via runtime validation (Zod schemas, exhaustive type discriminators) rather than **manufactured** by an upstream cast (`as unknown as`, `as any`, or unvalidated API rehydration).
+- *Case study from Phase 20:* In `useCostEstimation.ts`, removing `typeof ing === 'string'` and `|| []` was type-clean because `m.recipe` was typed as `EnhancedRecipe`. But `meal.recipe` is written by `useMealSlots.ts:153` via `recipe as unknown as ...` and rehydrated at `MenuPlannerProvider.tsx:432` via `(await response.json()) as SavedMenuApiData` (unvalidated GET).
+- Using `readJson<T>` without `options.parse` simply relocates an unverified claim. A true trust boundary must validate at the door.
 
 ---
 
-## 1. Phase 20 Prioritized Action Plan
+## 1. Phase 21 Prioritized Action Plan
 
-### Tranche 1: Convert the Final 6 Safe PNC Sites
-Convert the 6 compiler-verified safe sites to bring `verifiedSafe` to 0:
-1. **Chained fallback sites (4 sites across 2 lines):**
-   - [`src/hooks/useChartData.ts:126`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useChartData.ts#L126): `const location = optionLocation || userLocation || DEFAULT_LOCATION;` → `optionLocation ?? userLocation ?? DEFAULT_LOCATION;`
-   - [`src/utils/cuisineTypes.ts:621`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/utils/cuisineTypes.ts#L621): `return commonIngredients[key] || commonIngredients[reverseKey] || [];` → `commonIngredients[key] ?? commonIngredients[reverseKey] ?? [];`
-2. **Vinegars fallback sites (2 sites):**
-   - [`src/data/ingredients/seasonings/vinegars.ts:13,19`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/data/ingredients/seasonings/vinegars.ts#L13): `elementalProperties: properties.elementalProperties || { ... }` → `??`
-3. **Ratchet & Doc Sync:**
-   - Ratchet PNC sub-baseline: `301 → 295` (−6).
-   - Update doc fields: `verifiedSafe: 0`, `semantic: 290`, `unclassified: 5` (sum = 295).
+### Tranche 1: Earn the Menu Planner Boundary (`MenuPlannerProvider.tsx:432`)
+- **Objective:** Secure the read path for menu planning and retroactively earn the Tranche 4 guard removal in `useCostEstimation.ts`.
+- **Tasks:**
+  1. Extract route-local Zod schemas from [`src/app/api/menu-planner/menus/route.ts`](src/app/api/menu-planner/menus/route.ts) into a shared module: [`src/lib/menu-planner/schemas.ts`](src/lib/menu-planner/schemas.ts).
+  2. Validate GET responses on both server (`route.ts`) and client: [`src/contexts/menu-planner/MenuPlannerProvider.tsx:432`](src/contexts/menu-planner/MenuPlannerProvider.tsx#L432) using `readJson(response, { parse: (raw) => savedMenuApiDataSchema.parse(raw) })`.
+  3. Ensure `ing.name` is guaranteed to be a string at runtime, eliminating the crash hazard in `priceEstimator.ts:198`.
 
-### Tranche 2: Prune Orphaned Dead Modules (Phase 19 Deletion Leftovers)
-The deletion of `AstrologicalClock.tsx` and `RecommendedRecipes.tsx` in `ae5beae4` left two modules with zero importers:
-1. **[`src/hooks/useCurrentChart.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useCurrentChart.ts) (381 lines):**
-   - 0 code importers across `src/` (only referenced in `CONTEXT_CONSOLIDATION_GUIDE.md`).
-   - Audit and delete.
-2. **[`src/utils/recommendationEngine.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/utils/recommendationEngine.ts) (260 lines):**
-   - 0 importers anywhere in the workspace.
-   - Audit and delete.
-- **Expected Yield:** −641 lines of dead code, zero broken dependencies, and immediate drop in overall repo complexity.
+### Tranche 2: `DailyNutritionTotals.monicaConstant` Type Widening (Dedicated Branch)
+- **Objective:** Fix the type honesty of `DailyNutritionTotals.monicaConstant` in [`src/types/nutrition.ts`](src/types/nutrition.ts).
+- **Branch Strategy:** Execute on a dedicated branch (`refactor/monica-constant-optionality`) to avoid merge conflicts across 153 call sites.
+- **Tasks:**
+  1. Change `monicaConstant: number` to `monicaConstant?: number`.
+  2. Use compiler errors (`bun run typecheck`) to navigate to all dereferencing sites.
+  3. Safely coalesce (`totals.monicaConstant ?? 0`) or update test fixtures.
+  4. Ratchet lint debt: `bun scripts/checkLintDebt.ts --ratchet`.
 
-### Tranche 3: `fetchJson` / `readJson` Trust Boundary Fan-out (Wave 1)
-Migrate cast-heavy `.json()` consumer sites to use [`src/lib/api/json.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/api/json.ts). Target 20–30 sites in domain-bounded groups:
-- **Batch A: Recipe & Promotion Clients**
-  - [`src/lib/recipe-nft/mintClient.ts:38,53,68`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/recipe-nft/mintClient.ts): Replace `(await res.json()) as MintQuoteResult` and `MintResult` with `fetchJson<MintQuoteResult>` / `fetchJson<MintResult>`.
-  - [`src/components/recipes/LabBookIngest.tsx:76,177`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/recipes/LabBookIngest.tsx): Replace manual `.json()` casts with `fetchJson`.
-- **Batch B: User & Astrologize Services**
-  - [`src/services/astrologizeApi.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/astrologizeApi.ts) and [`src/services/recipeData.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/recipeData.ts).
-- **Metric Impact:** Net reduction in `assertionSites` and `casts.untrackedSingleAsT` at zero risk.
+### Tranche 3: Validated Trust Boundary Fan-out (Wave 2)
+- Migrate inline `.json() as T` casts, pairing `readJson` / `safeReadJson` with actual schema parsers (`parse`) rather than bare type overrides:
+  - [`src/services/recipeData.ts`](src/services/recipeData.ts)
+  - [`src/services/tokenService.ts`](src/services/tokenService.ts)
+  - [`src/lib/embeddings/openaiEmbeddings.ts`](src/lib/embeddings/openaiEmbeddings.ts)
 
-### Tranche 4: Remaining Root-Cause Unsafe-* Backlog
-1. **[`src/contexts/menu-planner/useCostEstimation.ts:56`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/contexts/menu-planner/useCostEstimation.ts#L56) (10 unsafe sites):**
-   - `ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({ ... }))`
-   - Type `ing` properly with existing ingredient types (`RecipeIngredient`).
-   - Resolves 10 unsafe-* warnings at zero assertion cost. Check with `scripts/checkEmitEquivalence.sh`.
-2. **[`src/components/recipes/LabBookIngest.tsx`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/recipes/LabBookIngest.tsx) (13 unsafe sites):**
-   - Clean up member-level assertions; bind once at the boundary.
-
-### Tranche 5: `DailyNutritionTotals.monicaConstant` Type Widening
-- Field declared `monicaConstant: number` in `DailyNutritionTotals` cannot represent absent/uncomputed values without fabricating a zero.
-- Sized at exactly **153 references** across `src/`.
-- Must be handled in an isolated, dedicated branch/PR to prevent merge conflicts.
+### Tranche 4: Defend Against Naive `no-unnecessary-condition` Sweeps
+- Partition the 1,276 `no-unnecessary-condition` candidates by earned vs. manufactured confidence. Refuse to delete runtime guards where upstream types originate from `as unknown as` or unvalidated I/O.
 
 ---
 
@@ -104,4 +86,5 @@ Migrate cast-heavy `.json()` consumer sites to use [`src/lib/api/json.ts`](file:
    - If present, they add **+2 `max-lines`** to the declined pool, breaking `lint:debt`.
    - Diagnose via `git status --porcelain` and lint file counts (2022 vs 2024), never by file mtime.
 2. **External Manifest Parity Test:**
-   - [`src/lib/esms-chain/__tests__/tokenMetadata.test.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/esms-chain/__tests__/tokenMetadata.test.ts) fails on an external Arweave image URL diff against a sibling ASOL checkout. Known issue; do not patch locally.
+   - [`src/lib/esms-chain/__tests__/tokenMetadata.test.ts`](src/lib/esms-chain/__tests__/tokenMetadata.test.ts) fails on an external Arweave image URL diff against a sibling ASOL checkout. Known issue; do not patch locally.
+
