@@ -307,7 +307,7 @@ export function validateTimingPatterns(samples: HourlyAlchemicalSample[]): Timin
   const hourGroups: Record<string, HourlyAlchemicalSample[]> = {}
   samples.forEach(sample => {
     const hour = sample.planetaryHour || 'unknown'
-    if (!hourGroups[hour]) hourGroups[hour] = []
+    hourGroups[hour] ??= [];
     hourGroups[hour].push(sample)
   })
 

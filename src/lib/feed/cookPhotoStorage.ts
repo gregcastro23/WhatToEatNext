@@ -31,8 +31,7 @@ export function cookPhotoStorageConfigured(): boolean {
 
 let _s3: S3Client | null = null;
 function r2(): S3Client {
-  if (!_s3) {
-    _s3 = new S3Client({
+  _s3 ??= new S3Client({
       region: "auto",
       endpoint: `https://${CF_ACCOUNT_ID}.r2.cloudflarestorage.com`,
       credentials: {
@@ -40,7 +39,6 @@ function r2(): S3Client {
         secretAccessKey: R2_SECRET_ACCESS_KEY as string,
       },
     });
-  }
   return _s3;
 }
 

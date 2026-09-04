@@ -73,7 +73,7 @@ function buildIndex(): IndexedIngredient[] {
 }
 
 function getCache(): IndexedIngredient[] {
-  if (!cache) cache = buildIndex();
+  cache ??= buildIndex();
   return cache;
 }
 

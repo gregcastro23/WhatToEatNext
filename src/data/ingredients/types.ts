@@ -19,6 +19,17 @@ export type IngredientCategory =
   | "dairy"
   | "oil"
   | "vinegar"
+  /**
+   * Plural spelling. NOT a duplicate of "vinegar" — both are authored in the
+   * data and both are read by live consumers, so the union must admit both.
+   * 27 data sites author "vinegars" (src/data/ingredients/vinegars/*.ts and
+   * seasonings/vinegars.ts); 5 author the singular (misc/coverage*.ts).
+   * Live readers that match the PLURAL: ingredientDietaryClassification.ts:172,
+   * recommendation/ingredientRecommendation.ts:359, foodRecommender.ts:1279,
+   * UnifiedIngredientService.ts:156 (cache key), FoodDiaryService.ts:68.
+   * Renaming the data to the singular would silently empty all five.
+   */
+  | "vinegars"
   | "seasoning"
   | "misc"
   | "beverage"

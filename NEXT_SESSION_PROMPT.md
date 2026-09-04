@@ -1,169 +1,107 @@
-# Next Session: Phase 19 — Unsafe Operations (Wave 1, root-cause led)
+# Next Session: Phase 20 — Trust Boundaries, Dead-Surface Pruning & Nullish Convergence
 
-> **Status of Phase 18:** Complete, verified, committed on `feat/phase-17-cast-decimation-pnc`.
-> Three commits: `41893eb8` (Tranches 1–2), `96e07f0d` (Tranche 4), `9947400f` (Tranche 5 ratchet).
+> **Status of Phase 19:** Complete, verified, committed on branch `refactor/phase-19-trust-boundaries`.
+> Two commits: `ae5beae4` (Trust boundaries, dead surface, live defects) and `78960382` (34 PNC conversions & re-measured baseline).
 >
-> | Metric | Before | After | Δ |
+> | Metric | Before (P18) | After (P19) | Δ |
 > |---|---:|---:|---:|
-> | Tracked lint debt | 2,885 | **2,875** | −10 |
-> | Cast surface | 279 | **263** | −16 |
-> | — `as any` / `as unknown as` | 78 / 201 | **71 / 192** | −7 / −9 |
-> | — Production / Test | 241 / 38 | **231 / 32** | −10 / −6 |
-> | Assertion sites (AST) | 4,430 | **4,418** | −12 |
-> | — Production | 3,809 | **3,799** | −10 |
-> | PNC sub-baseline | 398 | **337** | −61 |
-> | Declined pool | 6,356 | **6,356** | held |
+> | Tracked lint debt | 2,875 | **2,787** | **−88** |
+> | PNC sub-baseline | 337 | **301** | **−36** |
+> | Cast surface | 263 | **260** | **−3** |
+> | — `as any` / `as unknown as` | 71 / 192 | **69 / 191** | −2 / −1 |
+> | — Production / Test | 231 / 32 | **228 / 32** | −3 / held |
+> | Assertion sites (AST) | 4,418 | **4,411** | **−7** |
+> | — Production | 3,799 | **3,788** | **−11** |
+> | Declined pool | 6,356 | **6,317** | **−39** |
 >
-> Gates: `bun run verify` green end-to-end (each commit passed it via the pre-commit hook).
-> Full `jest`: **327/328 suites, 3,419 tests passing**.
+> Gates: `bun run verify` clean end-to-end (pre-commit hooks passed).
+> Verification: typecheck 0 errors · gate suites 50/50 · 114 suites / 1,044 tests green.
 
 ---
 
-## 0. What Phase 18 added that changes how future tranches should work
+## 0. Lessons & Operational Realities from Phase 19
 
-### `scripts/checkEmitEquivalence.sh` — the new safety gate
+### Subagent Workflows: Mechanical vs. Judgement
+- **Do NOT launch parallel subagent swarms for mechanical audits or static queries.** In Phase 19, 8 unconstrained exploratory subagents burned 727k tokens and timed out on session limits with 0 synthesized output. Single-threaded local scripts, AST queries, and ripgrep complete in seconds, cost <5k tokens, and are fully deterministic.
+- **Subagents ARE effective for multi-file judgement work with bounded schemas.** The 13-agent coverage analysis across independent files succeeded cleanly (13/13) because each subagent had a distinct target and a constrained output contract.
 
-A type assertion **erases at compile time**, so a correct cast removal must emit
-byte-identical JavaScript. The script diffs esbuild output against a git ref.
+### PNC Sub-baseline Bookkeeping & `--ratchet` Gotcha
+- `compareSubBaseline` in CI validates **`total` alone**.
+- The script flag `--ratchet` (and `LINT_DEBT_AUTO_RATCHET=1`) spreads `...preferNullishCoalescing` and only overwrites `total` (line 380 of `scripts/checkLintDebt.ts`). The documentation fields (`verifiedSafe`, `semantic`, `unclassified`) survive unchanged and silently describe retired populations unless updated by hand.
+- **Shape-dependent divergence rules** (essential for compiler-based classification):
+  - `x || b` and `if (!x) x = b`: diverge when `x` is falsy-but-non-nullish (`0`, `""`, `false`, `0n`, `NaN`).
+  - `x !== undefined ? x : b`: diverges **only** when `x` can be `null`.
+  - `x === null ? b : x`: diverges **only** when `x` can be `undefined`.
+  - `x != null ? x : b`: two-sided guard; never diverges.
+- **Chains convert whole without parentheses:** `a || b || c` converts to `a ?? b ?? c` with **no parentheses**. Parentheses are only required when mixing `??` with `||` or `&&`.
+- **Current PNC status (301 remaining):**
+  - **6 verifiedSafe**: 4 chained `||` sites (`useChartData.ts:126`, `cuisineTypes.ts:621`) and 2 in `seasonings/vinegars.ts:13,19`.
+  - **290 semantic**: operands can be falsy (`0`, `""`, `false`, `NaN`) or `any`/`unknown`.
+  - **5 unclassified**: multi-line `||` expressions whose AST node begins on a line prior to the report.
 
-```bash
-scripts/checkEmitEquivalence.sh <file> [ref]   # 0 = RUNTIME-NEUTRAL, 1 = BEHAVIOUR-BEARING, 2 = could not compare
-```
+### Trust Boundary Architecture vs. Ratchet Tension
+- `res.json()` exists at 643 call sites; 313 currently pay an inline `as T` cast.
+- The naive fix (`const data = await res.json() as TargetType`) trades unsafe-* for an assertion site.
+- Use the shared JSON trust boundary helper in [`src/lib/api/json.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/api/json.ts): `readJson<T>(res)` and `fetchJson<T>(url, init)`. It absorbs the cast at the boundary and provides an optional validator hook (`parse?: (raw: unknown) => T`).
 
-This closes the hole that once let a cast removal drop **772 of 921 ingredients**
-while `tsc` stayed green. It is red-proven in both directions and refuses a
-0-byte comparison so it cannot pass vacuously.
-
-⚠️ It **cannot** bless `||`→`??`, added `?.`, new guards, or deleted branches —
-those legitimately change emit. For those, type analysis is the proof.
-
-⚠️ **Watch the second-order cost.** Two Phase 18 regressions were caused by
-*doc comments explaining a cast* pushing a file over `max-lines` / a function
-over `max-lines-per-function`. Both are counted. Keep justification comments tight.
-
-### The two ratchets are in tension — and the naive unsafe-* fix loses
-
-The cast surface counts `as any`, `as unknown as` **and** single `as T`. The naive
-unsafe-* fix is `const d = await res.json() as Foo`, which silences the warning and
-**adds an assertion site** — trading one ratcheted metric for another. Recon
-quantified this per file group; the honest fixes cost zero and several go *negative*.
-
----
-
-## 1. Phase 19 blueprint — measured, not estimated
-
-Recon over 7 file groups (6 returned; `api-routes` was lost to a session limit):
-
-| Group | sites | emit-neutral | behaviour-bearing |
-|---|---:|---:|---:|
-| `lib/api/fetchWithAuth.ts` + `lib/agents/fetchAgentProfile.ts` | 16 | 16 | 0 |
-| `data/ingredients/seasonings/vinegars.ts` | 13 | 13 | 0 |
-| `services/poolerSaturationHealth.ts` + `services/QuestService.ts` | 28 | 16 | 12 |
-| `components/recipes/LabBookIngest.tsx` + `hooks/useAstrologize.ts` | 24 | 16 | 8 |
-| `lib/recipe-nft/mintClient.ts` + `services/PlanetaryHoursClient.ts` | 25 | 12 | 13 |
-| `contexts/menu-planner/useCostEstimation.ts` | 12 | 10 | 2 |
-| **Total** | **118** | **83 (70%)** | **35** |
-
-Repo-wide the unsafe-* family is **828 sites across 225 files** — a long tail
-(top-30 files hold only 295), so root-cause fixes beat per-site edits.
-
-### Recommended order
-
-1. **`fetchWithAuth` + `fetchAgentProfile` (16/16 emit-neutral).** Do this first —
-   it is the pattern-setter, not a two-file cleanup. `res.json()` appears at ~441
-   call sites, ~235 of which already spend an `as` on the same line. One shared
-   `fetchJson<T>` pays a single assertion inside the helper.
-2. **`vinegars.ts` (13/13).** One root: `properties: any` at line 6. Fixing the
-   signature (precedent: `proteins/plantBased.ts:5-8`) costs **zero** casts; the
-   naive per-site fix costs +9.
-   ⚠️ **Blocker that is actually a find:** all 8 entries author
-   `category: "vinegars"` but `IngredientCategory` only has singular `"vinegar"`.
-   Fix the **type**, not the data — the plural is the live runtime key and ≥7
-   consumers filter on it. Same widening unblocks two sibling vinegar files.
-3. **`poolerSaturationHealth.ts` (15 sites).** Deleting one hand-written
-   `as unknown as` at line 32 restores the real `@types/pg` types and resolves all
-   15, **removing** 3 cast-surface entries and 1 `no-explicit-any`. Highest yield
-   in the backlog and it *pays into* both ratchets.
-4. **`useCostEstimation.ts` (10 of 12)** — one token on one line.
-5. **`LabBookIngest.tsx` (13)** — assert once at the binding and *delete* the two
-   existing member-level assertions: net zero assertion sites.
-
-### Two mechanical facts worth keeping
-
-- **Only `unknown` silences `no-unsafe-assignment`.** Verified against the rule
-  source: an `any` sender is reported unless the receiver is `unknown`. Annotating
-  any other type does not silence it — so "just annotate it" is not a general escape.
-- **Annotations must keep `| null`.** `JSON.parse("null")` returns `null`, so a
-  non-nullable annotation makes existing `?.` provably unnecessary and buys
-  `no-unnecessary-condition` (tracked, 1,287, per-rule gated) while paying off
-  unsafe-*. This converts a clean win into a red gate on a different rule.
+### Reference & Scope Corrections
+- **`unsafe-*` family count:** Exactly **823 sites** (not 828).
+- **`monicaConstant` references:** Exactly **153 references** across `src/` (not 136). Do not size the type-widening task off 136.
 
 ---
 
-## 2. Live defects found hiding behind casts (not lint debt — real bugs)
+## 1. Phase 20 Prioritized Action Plan
 
-1. **`services/PlanetaryHoursClient.ts:102`** —
-   `(calculator.getCurrentPlanetaryHour as any)(targetDate)`. The real method takes
-   **zero arguments** and returns no `start`/`end`. So `targetDate` is silently
-   dropped and `start`/`end` are permanently `undefined`. Behind an env flag that
-   makes this the **default path in most deployments**. Needs a characterisation
-   test first — the fix is behaviour-bearing by definition.
-2. **`hooks/useAstrologize.ts`** — has **zero consumers** (verified: no direct
-   reference, `src/hooks/index.ts` uses only named exports, no `export *` reaches
-   it). Also broken: it casts to reach `AstrologicalService.requestLocation`, which
-   does not exist, so the hook never fetches in its default configuration. Two other
-   callers suppress the same error with `@ts-expect-error` / `@ts-nocheck`.
-   Deleting it clears 11 sites and ratchets both cast metrics down.
-   Typed replacement already exists: `hooks/useUserLocation.ts`.
-3. **`services/QuestService.ts:305`** — `period_start` is a `DATE` column and the
-   repo overrides only the NUMERIC/INT8 parsers, so node-pg returns a **Date**
-   through a field declared `string | null`, JSON-serialised out via `QuestProgress`.
-   ⚠️ Do **not** "fix" this with an `as string` — that asserts the bug as true.
+### Tranche 1: Convert the Final 6 Safe PNC Sites
+Convert the 6 compiler-verified safe sites to bring `verifiedSafe` to 0:
+1. **Chained fallback sites (4 sites across 2 lines):**
+   - [`src/hooks/useChartData.ts:126`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useChartData.ts#L126): `const location = optionLocation || userLocation || DEFAULT_LOCATION;` → `optionLocation ?? userLocation ?? DEFAULT_LOCATION;`
+   - [`src/utils/cuisineTypes.ts:621`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/utils/cuisineTypes.ts#L621): `return commonIngredients[key] || commonIngredients[reverseKey] || [];` → `commonIngredients[key] ?? commonIngredients[reverseKey] ?? [];`
+2. **Vinegars fallback sites (2 sites):**
+   - [`src/data/ingredients/seasonings/vinegars.ts:13,19`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/data/ingredients/seasonings/vinegars.ts#L13): `elementalProperties: properties.elementalProperties || { ... }` → `??`
+3. **Ratchet & Doc Sync:**
+   - Ratchet PNC sub-baseline: `301 → 295` (−6).
+   - Update doc fields: `verifiedSafe: 0`, `semantic: 290`, `unclassified: 5` (sum = 295).
 
----
+### Tranche 2: Prune Orphaned Dead Modules (Phase 19 Deletion Leftovers)
+The deletion of `AstrologicalClock.tsx` and `RecommendedRecipes.tsx` in `ae5beae4` left two modules with zero importers:
+1. **[`src/hooks/useCurrentChart.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useCurrentChart.ts) (381 lines):**
+   - 0 code importers across `src/` (only referenced in `CONTEXT_CONSOLIDATION_GUIDE.md`).
+   - Audit and delete.
+2. **[`src/utils/recommendationEngine.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/utils/recommendationEngine.ts) (260 lines):**
+   - 0 importers anywhere in the workspace.
+   - Audit and delete.
+- **Expected Yield:** −641 lines of dead code, zero broken dependencies, and immediate drop in overall repo complexity.
 
-## 3. PNC: what remains and why
+### Tranche 3: `fetchJson` / `readJson` Trust Boundary Fan-out (Wave 1)
+Migrate cast-heavy `.json()` consumer sites to use [`src/lib/api/json.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/api/json.ts). Target 20–30 sites in domain-bounded groups:
+- **Batch A: Recipe & Promotion Clients**
+  - [`src/lib/recipe-nft/mintClient.ts:38,53,68`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/recipe-nft/mintClient.ts): Replace `(await res.json()) as MintQuoteResult` and `MintResult` with `fetchJson<MintQuoteResult>` / `fetchJson<MintResult>`.
+  - [`src/components/recipes/LabBookIngest.tsx:76,177`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/recipes/LabBookIngest.tsx): Replace manual `.json()` casts with `fetchJson`.
+- **Batch B: User & Astrologize Services**
+  - [`src/services/astrologizeApi.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/astrologizeApi.ts) and [`src/services/recipeData.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/recipeData.ts).
+- **Metric Impact:** Net reduction in `assertionSites` and `casts.untrackedSingleAsT` at zero risk.
 
-337 sites, re-measured over the **whole** corpus with the TypeScript compiler API
-(not sampled) and recorded in the baseline:
+### Tranche 4: Remaining Root-Cause Unsafe-* Backlog
+1. **[`src/contexts/menu-planner/useCostEstimation.ts:56`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/contexts/menu-planner/useCostEstimation.ts#L56) (10 unsafe sites):**
+   - `ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({ ... }))`
+   - Type `ing` properly with existing ingredient types (`RecipeIngredient`).
+   - Resolves 10 unsafe-* warnings at zero assertion cost. Check with `scripts/checkEmitEquivalence.sh`.
+2. **[`src/components/recipes/LabBookIngest.tsx`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/recipes/LabBookIngest.tsx) (13 unsafe sites):**
+   - Clean up member-level assertions; bind once at the boundary.
 
-- **301 semantic** — `||` and `??` diverge (164 `string`, 111 `number`, 13 `any`,
-  2 `unknown`, 2 `false`). Not sweepable.
-- **36 safe** — 24 `if (!x) x = …` (want `??=`), 8 ternaries, and 4 held-back
-  `a || b || c` chains where `??` needs parentheses.
-
-⚠️ The rule fires on **four shapes with different divergence rules**: truthiness
-diverges on any falsy-valid operand; `x !== undefined ? x : b` only if x can be
-null; `x !== null ? x : b` only if x can be undefined; the two-sided guard never
-diverges. A `||`-only classifier silently drops ~10% into a bucket that looks like
-"no result" rather than a gap.
-
-⚠️ The sub-baseline's `verifiedSafe`/`semantic`/`unclassified` fields are
-**documentation, not a gate** — `compareSubBaseline` reads only `total`. They had
-drifted to describe a retired 692-site population; re-measure them whenever `total` moves.
-
----
-
-## 4. Repo hygiene issue, unresolved
-
-`src/data/ingredients/fruits/fruits.ts` and `enhancedFruits.ts` were **deleted from
-git by PR #819** (`fa29e501`) but keep reappearing on disk as untracked files with
-their original May mtime. They are unreferenced, but while present they add **+2
-`max-lines`** to the declined pool — on their own enough to turn `lint:debt` red.
-`isDuplicateArtifactPath()` does **not** match them (ordinary names).
-
-Moved to the session scratchpad with a provenance README rather than deleted.
-They will come back. The writer that resurrects them is still unidentified — see
-the standing note about ` 2.ts` duplicates; this is the same writer, different shape.
-
-⚠️ Diagnose by comparing **lint file counts** between snapshots (2032 → 2034), not
-by mtime — mtime is preserved and will mislead you into thinking they are old.
+### Tranche 5: `DailyNutritionTotals.monicaConstant` Type Widening
+- Field declared `monicaConstant: number` in `DailyNutritionTotals` cannot represent absent/uncomputed values without fabricating a zero.
+- Sized at exactly **153 references** across `src/`.
+- Must be handled in an isolated, dedicated branch/PR to prevent merge conflicts.
 
 ---
 
-## 5. Known unrelated failure
+## 2. Standing Repo Hygiene & Known Warnings
 
-`src/lib/esms-chain/__tests__/tokenMetadata.test.ts` fails on a cross-repo manifest
-byte-equality check against a sibling ASOL checkout (local manifest carries an
-Arweave `image` URL; the sibling has `null`). Not caused by Phase 18 — the same
-class as the PA→AAE sign-vector parity: fix one repo and the other goes stale.
+1. **Reappearing Dead Files Hazard (`fruits.ts` / `enhancedFruits.ts`):**
+   - Deleted in PR #819 (`fa29e501`), but can reappear as untracked files on disk with their original May timestamps.
+   - If present, they add **+2 `max-lines`** to the declined pool, breaking `lint:debt`.
+   - Diagnose via `git status --porcelain` and lint file counts (2022 vs 2024), never by file mtime.
+2. **External Manifest Parity Test:**
+   - [`src/lib/esms-chain/__tests__/tokenMetadata.test.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/esms-chain/__tests__/tokenMetadata.test.ts) fails on an external Arweave image URL diff against a sibling ASOL checkout. Known issue; do not patch locally.

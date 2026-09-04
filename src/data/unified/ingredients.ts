@@ -117,7 +117,7 @@ function calculateMonica(
   const reactivity = Number(thermo.reactivity ?? 0);
   const gregsEnergy = thermo.gregsEnergy !== undefined ? Number(thermo.gregsEnergy) : undefined;
   const energy = Number(thermo.energy ?? 0);
-  const energyValue = gregsEnergy !== undefined ? gregsEnergy : energy;
+  const energyValue = gregsEnergy ?? energy;
   const lnK = Math.log(Math.max(0.001, kalchm));
   if (lnK !== 0 && reactivity !== 0) {
     return -energyValue / (reactivity * lnK);

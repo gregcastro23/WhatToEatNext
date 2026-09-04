@@ -60,8 +60,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   const topMethod = useMemo(() => {
     if (!methods.length) return null;
     return [...methods].sort((a, b) => {
-      const scoreA = a.score !== undefined ? a.score : 0;
-      const scoreB = b.score !== undefined ? b.score : 0;
+      const scoreA = a.score ?? 0;
+      const scoreB = b.score ?? 0;
       return scoreB - scoreA;
     })[0];
   }, [methods]);
@@ -69,8 +69,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   // Sort methods by score and limit display unless showAll is true
   const displayMethods = useMemo(() => {
     const sortedMethods = [...methods].sort((a, b) => {
-      const scoreA = a.score !== undefined ? a.score : 0;
-      const scoreB = b.score !== undefined ? b.score : 0;
+      const scoreA = a.score ?? 0;
+      const scoreB = b.score ?? 0;
       return scoreB - scoreA;
     });
     

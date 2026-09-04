@@ -147,6 +147,38 @@ function getWeeklyPeriodStart(): string {
   return monday.toISOString().slice(0, 10);
 }
 
+/**
+ * Normalise a `period_start` value read back from Postgres to the same
+ * 'YYYY-MM-DD' shape {@link getDailyPeriodStart} and {@link getWeeklyPeriodStart}
+ * produce.
+ *
+ * `period_start` is a DATE column (database/init/17-token-economy-schema.sql:110).
+ * This repo overrides pg type parsers for NUMERIC and INT8 only
+ * (src/lib/database/rawPool.ts:60,63), so DATE falls through to node-pg's
+ * default parser, which returns a JS **Date at LOCAL midnight** — not the
+ * `string` the surrounding signature declares.
+ *
+ * Left alone that Date serialises through `/api/quests` as a full ISO instant
+ * ("2026-09-04T00:00:00.000Z"), which the client posts straight back into
+ * `claimQuestReward` and thence into a SQL WHERE against the DATE column.
+ *
+ * The calendar date is recovered with LOCAL components on purpose: that is the
+ * exact inverse of node-pg's local-midnight parse. Using `toISOString()` here
+ * would be wrong on any host east of UTC, where local midnight is the previous
+ * day in UTC and the quest period would silently shift back one day.
+ */
+export function toPeriodStartString(value: unknown): string | null {
+  if (value === null || value === undefined) return null;
+  if (value instanceof Date) {
+    const year = value.getFullYear();
+    const month = String(value.getMonth() + 1).padStart(2, "0");
+    const day = String(value.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  if (typeof value === "string") return value.slice(0, 10);
+  return null;
+}
+
 function getPeriodStartForType(questType: string): string | null {
   switch (questType) {
     case "daily":
@@ -302,7 +334,7 @@ class QuestService {
             progress: result.rows[0].progress ?? 0,
             completedAt: result.rows[0].completed_at?.toISOString?.() ?? result.rows[0].completed_at ?? null,
             claimedAt: result.rows[0].claimed_at?.toISOString?.() ?? result.rows[0].claimed_at ?? null,
-            periodStart: result.rows[0].period_start ?? null,
+            periodStart: toPeriodStartString(result.rows[0].period_start),
           };
         }
       } catch (error) {

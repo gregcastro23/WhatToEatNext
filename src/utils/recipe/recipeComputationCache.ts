@@ -273,9 +273,7 @@ let globalCacheInstance: RecipeComputationCacheManager | null = null;
  * Get the global recipe computation cache instance
  */
 export function getRecipeComputationCache(): RecipeComputationCacheManager {
-  if (!globalCacheInstance) {
-    globalCacheInstance = new RecipeComputationCacheManager();
-  }
+  globalCacheInstance ??= new RecipeComputationCacheManager();
   return globalCacheInstance;
 }
 

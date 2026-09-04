@@ -566,9 +566,7 @@ let globalCache: CuisineComputationCache | null = null;
  * Get global cache instance
  */
 export function getGlobalCache(): CuisineComputationCache {
-  if (!globalCache) {
-    globalCache = new CuisineComputationCache();
-  }
+  globalCache ??= new CuisineComputationCache();
   return globalCache;
 }
 

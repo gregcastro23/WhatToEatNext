@@ -687,9 +687,7 @@ export function groupCuisinesByCategory(
 
   cuisines.forEach((cuisine) => {
     const category = getCuisineContinent(cuisine);
-    if (!groups[category]) {
-      groups[category] = [];
-    }
+    groups[category] ??= [];
     groups[category].push(cuisine);
   });
 

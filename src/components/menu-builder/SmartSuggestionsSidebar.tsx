@@ -413,7 +413,7 @@ export default function SmartSuggestionsSidebar({
   const grouped = useMemo(() => {
     const groups: Partial<Record<Suggestion["type"], Suggestion[]>> = {};
     for (const s of suggestions) {
-      if (!groups[s.type]) groups[s.type] = [];
+      groups[s.type] ??= [];
       groups[s.type]!.push(s);
     }
     return groups;

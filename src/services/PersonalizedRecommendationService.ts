@@ -131,7 +131,7 @@ class PersonalizedRecommendationService {
     );
 
     // Calculate base score (default to 0.5 if not provided)
-    const baseScore = item.baseScore !== undefined ? item.baseScore : 0.5;
+    const baseScore = item.baseScore ?? 0.5;
 
     // Apply personalization boost
     const personalizedScore = baseScore * boost;

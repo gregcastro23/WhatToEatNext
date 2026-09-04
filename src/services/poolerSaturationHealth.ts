@@ -25,11 +25,9 @@
  * the admin-surface rule that a panel must degrade to an honest "no source".
  */
 
-import pkg from "pg";
+import { Client } from "pg";
 import { databaseConfig, resolveSslOption } from "@/lib/database/config";
 import { _logger } from "@/lib/logger";
-
-const { Client } = pkg as unknown as { Client: new (config: unknown) => any };
 
 /** OK = headroom · DEGRADED = queueing or filling up · INCIDENT = refusals imminent or clients starving. */
 export type PoolerVerdict = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
@@ -205,18 +203,17 @@ export async function fetchPoolerSaturationSignals(): Promise<PoolerSaturationSi
   const client = new Client({ ...dsn, connectionTimeoutMillis: 2000, query_timeout: 2000 });
   try {
     await client.connect();
-    const pools = await client.query("SHOW POOLS");
-    const config = await client.query("SHOW CONFIG");
+    const pools = await client.query<Record<string, unknown>>("SHOW POOLS");
+    const config = await client.query<{ key: string; value: string }>("SHOW CONFIG");
 
     const setting = (key: string) =>
       parseInt(
-        (config.rows as Array<{ key: string; value: string }>).find((r) => r.key === key)?.value ??
-          "0",
+        config.rows.find((r) => r.key === key)?.value ?? "0",
         10,
       ) || 0;
 
     return {
-      ...aggregatePools(pools.rows as Array<Record<string, unknown>>),
+      ...aggregatePools(pools.rows),
       maxClientConn: setting("max_client_conn"),
       poolSize: setting("default_pool_size"),
       live: true,

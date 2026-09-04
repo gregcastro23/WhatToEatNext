@@ -263,9 +263,7 @@ function queryVariants(text: string): Set<string> {
 let _ingredientAlchemicalMap: Map<string, IngredientEntry> | null = null;
 
 function getIngredientAlchemicalMap() {
-  if (!_ingredientAlchemicalMap) {
-    _ingredientAlchemicalMap = buildIngredientAlchemicalMap();
-  }
+  _ingredientAlchemicalMap ??= buildIngredientAlchemicalMap();
   return _ingredientAlchemicalMap;
 }
 

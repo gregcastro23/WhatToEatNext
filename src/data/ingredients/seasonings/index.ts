@@ -142,9 +142,7 @@ export const _getTraditionalCombinations = (
       Array.isArray(value.traditionalCombinations) &&
       value.traditionalCombinations.includes(cuisine)
     ) {
-      if (!combinations[key]) {
-        combinations[key] = [];
-      }
+      combinations[key] ??= [];
       combinations[key].push(...value.traditionalCombinations);
     }
   });

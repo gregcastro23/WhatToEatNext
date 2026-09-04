@@ -403,9 +403,7 @@ function categorizeErrors(
 
   for (const error of errors) {
     const { category } = error;
-    if (!categorized[category]) {
-      categorized[category] = [];
-    }
+    categorized[category] ??= [];
     categorized[category].push(error);
   }
 
@@ -422,9 +420,7 @@ function groupErrorsByFile(
 
   for (const error of errors) {
     const { filePath } = error;
-    if (!grouped[filePath]) {
-      grouped[filePath] = [];
-    }
+    grouped[filePath] ??= [];
     grouped[filePath].push(error);
   }
 
