@@ -1,21 +1,24 @@
-# Next Session: Phase 20 — Trust Boundaries, Dead-Surface Pruning & Nullish Convergence
+# Next Session: Phase 21 — `monicaConstant` Widening & JSON Trust Boundary Wave 2
 
-> **Status of Phase 19:** Complete, verified, committed on branch `refactor/phase-19-trust-boundaries`.
-> Two commits: `ae5beae4` (Trust boundaries, dead surface, live defects) and `78960382` (34 PNC conversions & re-measured baseline).
+> **Status of Phase 20:** Complete, verified, committed on branch `refactor/phase-19-trust-boundaries`.
+> Commit: `693f5605` (Phase 20: dead surface pruning, safeReadJson trust boundaries, and nullish convergence).
 >
-> | Metric | Before (P18) | After (P19) | Δ |
+> | Metric | Before (P19) | After (P20) | Δ |
 > |---|---:|---:|---:|
-> | Tracked lint debt | 2,875 | **2,787** | **−88** |
-> | PNC sub-baseline | 337 | **301** | **−36** |
-> | Cast surface | 263 | **260** | **−3** |
-> | — `as any` / `as unknown as` | 71 / 192 | **69 / 191** | −2 / −1 |
-> | — Production / Test | 231 / 32 | **228 / 32** | −3 / held |
-> | Assertion sites (AST) | 4,418 | **4,411** | **−7** |
-> | — Production | 3,799 | **3,788** | **−11** |
-> | Declined pool | 6,356 | **6,317** | **−39** |
+> | Tracked lint debt | 2,787 | **2,742** | **−45** |
+> | PNC sub-baseline | 301 | **295** | **−6** |
+> | — `verifiedSafe` remaining | 6 | **0** | **−6** (Exhausted) |
+> | Cast surface | 260 | **259** | **−1** |
+> | — `as any` / `as unknown as` | 69 / 191 | **69 / 190** | 0 / −1 |
+> | — Production / Test | 228 / 32 | **227 / 32** | −1 / 0 |
+> | Assertion sites (AST) | 4,411 | **4,389** | **−22** |
+> | — Production | 3,788 | **3,767** | **−21** |
+> | — Test | 623 | **622** | **−1** |
+> | Declined pool | 6,317 | **6,304** | **−13** |
+> | Dead code pruned | — | **−780 lines** | 3 files deleted |
 >
 > Gates: `bun run verify` clean end-to-end (pre-commit hooks passed).
-> Verification: typecheck 0 errors · gate suites 50/50 · 114 suites / 1,044 tests green.
+> Verification: typecheck 0 errors · gate suites 50/50 · 114 suites / 1,044 tests green · production build green.
 
 ---
 
@@ -50,50 +53,27 @@
 
 ---
 
-## 1. Phase 20 Prioritized Action Plan
+## 1. Phase 21 Prioritized Action Plan
 
-### Tranche 1: Convert the Final 6 Safe PNC Sites
-Convert the 6 compiler-verified safe sites to bring `verifiedSafe` to 0:
-1. **Chained fallback sites (4 sites across 2 lines):**
-   - [`src/hooks/useChartData.ts:126`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useChartData.ts#L126): `const location = optionLocation || userLocation || DEFAULT_LOCATION;` → `optionLocation ?? userLocation ?? DEFAULT_LOCATION;`
-   - [`src/utils/cuisineTypes.ts:621`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/utils/cuisineTypes.ts#L621): `return commonIngredients[key] || commonIngredients[reverseKey] || [];` → `commonIngredients[key] ?? commonIngredients[reverseKey] ?? [];`
-2. **Vinegars fallback sites (2 sites):**
-   - [`src/data/ingredients/seasonings/vinegars.ts:13,19`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/data/ingredients/seasonings/vinegars.ts#L13): `elementalProperties: properties.elementalProperties || { ... }` → `??`
-3. **Ratchet & Doc Sync:**
-   - Ratchet PNC sub-baseline: `301 → 295` (−6).
-   - Update doc fields: `verifiedSafe: 0`, `semantic: 290`, `unclassified: 5` (sum = 295).
+### Tranche 1: `DailyNutritionTotals.monicaConstant` Type Widening
+- **Objective:** Fix the type honesty of `DailyNutritionTotals.monicaConstant` in [`src/types/nutrition.ts`](src/types/nutrition.ts).
+- **Branch Strategy:** Execute on a dedicated branch (`refactor/monica-constant-optionality`) to avoid merge conflicts.
+- **Scope:** 153 references across `src/data/`, `src/services/nutrition/`, `src/utils/nutritionCalculator.ts`, and test fixtures.
+- **Tasks:**
+  1. Change `monicaConstant: number` to `monicaConstant?: number`.
+  2. Use compiler errors (`bun run typecheck`) to navigate to all dereferencing sites.
+  3. Safely coalesce (`totals.monicaConstant ?? 0`) or update test fixtures.
+  4. Ratchet lint debt: `bun scripts/checkLintDebt.ts --ratchet`.
 
-### Tranche 2: Prune Orphaned Dead Modules (Phase 19 Deletion Leftovers)
-The deletion of `AstrologicalClock.tsx` and `RecommendedRecipes.tsx` in `ae5beae4` left two modules with zero importers:
-1. **[`src/hooks/useCurrentChart.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/hooks/useCurrentChart.ts) (381 lines):**
-   - 0 code importers across `src/` (only referenced in `CONTEXT_CONSOLIDATION_GUIDE.md`).
-   - Audit and delete.
-2. **[`src/utils/recommendationEngine.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/utils/recommendationEngine.ts) (260 lines):**
-   - 0 importers anywhere in the workspace.
-   - Audit and delete.
-- **Expected Yield:** −641 lines of dead code, zero broken dependencies, and immediate drop in overall repo complexity.
+### Tranche 2: `readJson` / `safeReadJson` Trust Boundary Fan-out (Wave 2)
+- Continue migrating inline `.json() as T` casts across high-traffic services:
+  - [`src/services/recipeData.ts`](src/services/recipeData.ts)
+  - [`src/services/tokenService.ts`](src/services/tokenService.ts)
+  - [`src/lib/embeddings/openaiEmbeddings.ts`](src/lib/embeddings/openaiEmbeddings.ts)
+- Preserve error-handling semantics (use `safeReadJson` where callers catch or swallow).
 
-### Tranche 3: `fetchJson` / `readJson` Trust Boundary Fan-out (Wave 1)
-Migrate cast-heavy `.json()` consumer sites to use [`src/lib/api/json.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/api/json.ts). Target 20–30 sites in domain-bounded groups:
-- **Batch A: Recipe & Promotion Clients**
-  - [`src/lib/recipe-nft/mintClient.ts:38,53,68`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/recipe-nft/mintClient.ts): Replace `(await res.json()) as MintQuoteResult` and `MintResult` with `fetchJson<MintQuoteResult>` / `fetchJson<MintResult>`.
-  - [`src/components/recipes/LabBookIngest.tsx:76,177`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/recipes/LabBookIngest.tsx): Replace manual `.json()` casts with `fetchJson`.
-- **Batch B: User & Astrologize Services**
-  - [`src/services/astrologizeApi.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/astrologizeApi.ts) and [`src/services/recipeData.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/services/recipeData.ts).
-- **Metric Impact:** Net reduction in `assertionSites` and `casts.untrackedSingleAsT` at zero risk.
-
-### Tranche 4: Remaining Root-Cause Unsafe-* Backlog
-1. **[`src/contexts/menu-planner/useCostEstimation.ts:56`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/contexts/menu-planner/useCostEstimation.ts#L56) (10 unsafe sites):**
-   - `ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({ ... }))`
-   - Type `ing` properly with existing ingredient types (`RecipeIngredient`).
-   - Resolves 10 unsafe-* warnings at zero assertion cost. Check with `scripts/checkEmitEquivalence.sh`.
-2. **[`src/components/recipes/LabBookIngest.tsx`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/recipes/LabBookIngest.tsx) (13 unsafe sites):**
-   - Clean up member-level assertions; bind once at the boundary.
-
-### Tranche 5: `DailyNutritionTotals.monicaConstant` Type Widening
-- Field declared `monicaConstant: number` in `DailyNutritionTotals` cannot represent absent/uncomputed values without fabricating a zero.
-- Sized at exactly **153 references** across `src/`.
-- Must be handled in an isolated, dedicated branch/PR to prevent merge conflicts.
+### Tranche 3: Semantic PNC Investigation & Reduction
+- Audit the remaining 290 `semantic` PNC entries in clusters where the operand is demonstrably non-numeric and non-empty (e.g. object references or arrays with type-level truthiness).
 
 ---
 
