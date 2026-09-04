@@ -28,8 +28,11 @@ const DECIMALS: Record<keyof typeof THERMO_INDEX, number> = {
   reactivity: 2,
 };
 
+/** The only field of a corpus row this test reads. Annotating the binding makes
+ *  the compiler CHECK the fixture against this contract (resolveJsonModule types
+ *  alchemicalSamples.json structurally) instead of a cast asserting it unseen. */
 type Sample = { thermo: number[] };
-const SAMPLES = (samples as unknown as { samples: Sample[]; count: number }).samples;
+const SAMPLES: Sample[] = samples.samples;
 
 function column(metric: keyof typeof THERMO_INDEX): number[] {
   return SAMPLES.map((s) => s.thermo[THERMO_INDEX[metric]]).filter(Number.isFinite);
@@ -49,7 +52,7 @@ describe("FALLBACK_METRICS round-trips from alchemicalSamples.json", () => {
     // failure mode this file exists to end.
     expect(Array.isArray(SAMPLES)).toBe(true);
     expect(SAMPLES.length).toBe(1821);
-    expect((samples as unknown as { count: number }).count).toBe(SAMPLES.length);
+    expect(samples.count).toBe(SAMPLES.length);
 
     for (const metric of Object.keys(THERMO_INDEX) as (keyof typeof THERMO_INDEX)[]) {
       const v = column(metric);
@@ -114,9 +117,11 @@ describe("FALLBACK_METRICS round-trips from alchemicalSamples.json", () => {
       expect(FALLBACK_METRICS[key]).toBeDefined();
     }
     const thermoKeys = Object.keys(THERMO_INDEX);
-    const sampleFields = new Set(
-      Object.keys(SAMPLES[0] as unknown as Record<string, unknown>),
-    );
+    // `as Sample` narrows away only the `undefined` that noUncheckedIndexedAccess
+    // adds to any index access — the element type itself is compiler-checked
+    // against the fixture at the SAMPLES declaration, and non-emptiness is
+    // asserted at runtime by the positive control above (length === 1821).
+    const sampleFields = new Set(Object.keys(SAMPLES[0] as Sample));
     // The claim that they are underivable HERE, asserted rather than narrated.
     expect(sampleFields.has("kinetics")).toBe(false);
     expect(thermoKeys).not.toContain("power");

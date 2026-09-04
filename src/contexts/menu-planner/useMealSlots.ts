@@ -44,6 +44,25 @@ function applyMealUpdate(
   };
 }
 
+/**
+ * What `addMealToSlot` is actually able to accept.
+ *
+ * Two distinct `EnhancedRecipe` types are in play:
+ *   - `MealSlot["recipe"]` is `EnhancedRecipe` from `@/types/recipe` — the shape
+ *     the planner stores and reads back out of a slot.
+ *   - `MonicaOptimizedRecipe` extends the *unified* `EnhancedRecipe`
+ *     (`@/data/unified/recipes`) and additionally requires the Monica /
+ *     seasonal / cuisine / nutrition optimisation blocks.
+ *
+ * `addMealToSlot` only ever reads `name` off the recipe, so demanding the
+ * stronger of the two was an over-strong precondition: it forced `copyMeal` to
+ * assert that a slot's own recipe (where those four blocks are optional) was a
+ * fully Monica-optimised one. Accepting either removes that false assertion.
+ */
+export type SlotRecipeInput =
+  | MonicaOptimizedRecipe
+  | NonNullable<MealSlot["recipe"]>;
+
 export interface UseMealSlotsParams {
   currentMenu: WeeklyMenu | null;
   setCurrentMenu: React.Dispatch<React.SetStateAction<WeeklyMenu | null>>;
@@ -54,7 +73,7 @@ export interface UseMealSlotsReturn {
   addMealToSlot: (
     dayOfWeek: DayOfWeek,
     mealType: MealType,
-    recipe: MonicaOptimizedRecipe,
+    recipe: SlotRecipeInput,
     servings?: number,
     locked?: boolean,
   ) => Promise<void>;
@@ -112,7 +131,7 @@ export function useMealSlots({
     async (
       dayOfWeek: DayOfWeek,
       mealType: MealType,
-      recipe: MonicaOptimizedRecipe,
+      recipe: SlotRecipeInput,
       servings = 1,
       locked?: boolean,
     ): Promise<void> => {
@@ -124,6 +143,13 @@ export function useMealSlots({
             if (meal.dayOfWeek === dayOfWeek && meal.mealType === mealType) {
               return {
                 ...meal,
+                // LOAD-BEARING: `MealSlot["recipe"]` requires `title: string`
+                // (src/types/recipe.ts `EnhancedRecipe`), which neither branch
+                // of SlotRecipeInput can guarantee — consumers themselves fall
+                // back (`meal.recipe.name || meal.recipe.title || ""` in
+                // GroceryListModal, `recipe.title ?? recipe.name` in
+                // /api/menu-planner/menus). Removing this needs `title` made
+                // optional in src/types/recipe.ts, not a change here.
                 recipe: recipe as unknown as (typeof meal)["recipe"],
                 servings,
                 // `locked` set in the same update as the recipe (remote-slot
@@ -209,7 +235,7 @@ export function useMealSlots({
         await addMealToSlot(
           targetDay,
           targetMealType,
-          sourceMeal.recipe as unknown as MonicaOptimizedRecipe,
+          sourceMeal.recipe,
           sourceMeal.servings,
         );
         logger.info(`Copied meal from ${sourceMealSlotId} to ${targetDay}-${targetMealType}`);

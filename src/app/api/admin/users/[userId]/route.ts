@@ -7,9 +7,11 @@
  */
 
 import { NextResponse } from "next/server";
+import type { UserRole } from "@/lib/auth/roles";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
+import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +20,23 @@ export const runtime = "nodejs";
 interface RouteParams {
   params: Promise<{ userId: string }>;
 }
+
+/**
+ * `UserRole` (src/lib/auth/roles.ts) is a TypeScript string *enum*, so it is
+ * nominal: the literal "admin" is not assignable to it even though
+ * `UserRole.ADMIN === "admin"` at runtime. That mismatch — not any real
+ * uncertainty about the data — is what the two casts previously applied to the
+ * "admin" literal inside `user.roles.includes(...)` were suppressing.
+ *
+ * Widening only the `roles` field to the enum's *own* string-literal union
+ * (`${UserRole}` == "admin" | "user" | "guest" | "service") lets the literal
+ * compare directly with no cast, while keeping every member checked: a typo
+ * such as `includes("adnim")` is still a compile error. Every other field of
+ * `UserWithProfile` is preserved verbatim.
+ */
+type AdminRouteUser = Omit<UserWithProfile, "roles"> & {
+  roles: Array<`${UserRole}`>;
+};
 
 /**
  * GET /api/admin/users/[userId]
@@ -83,7 +102,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     const { userId } = await params;
-    const user = await userDatabase.getUserById(userId);
+    const user: AdminRouteUser | null = await userDatabase.getUserById(userId);
 
     if (!user) {
       return NextResponse.json(
@@ -93,7 +112,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     // Prevent deleting admin users
-    if (user.roles.includes("admin" as any)) {
+    if (user.roles.includes("admin")) {
       return NextResponse.json(
         { success: false, message: "Cannot delete admin users" },
         { status: 403 },
@@ -147,7 +166,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     const { tier, isActive, role } = body;
 
-    const user = await userDatabase.getUserById(userId);
+    const user: AdminRouteUser | null = await userDatabase.getUserById(userId);
     if (!user) {
       return NextResponse.json(
         { success: false, message: "User not found" },
@@ -155,7 +174,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const targetIsAdmin = user.roles.includes("admin" as any);
+    const targetIsAdmin = user.roles.includes("admin");
     // Session ids can be an OAuth sub rather than the DB uuid, so the
     // self-check matches on email as well as id.
     const isSelf =
