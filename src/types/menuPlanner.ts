@@ -98,7 +98,7 @@ export interface DailyNutritionTotals {
   sodium: number;
   sugar: number;
   gregsEnergy: number;
-  monicaConstant: number;
+  monicaConstant?: number;
   kalchm: number;
   elementalBalance: ElementalProperties;
 }

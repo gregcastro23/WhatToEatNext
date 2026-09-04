@@ -1,20 +1,20 @@
 {
-  "trackedTotal": 2742,
+  "trackedTotal": 2737,
   "casts": {
-    "total": 259,
-    "asAny": 69,
+    "total": 258,
+    "asAny": 68,
     "asUnknownAs": 190,
-    "production": 227,
+    "production": 226,
     "test": 32,
-    "untrackedSingleAsT": 2746
+    "untrackedSingleAsT": 2745
   },
   "assertionSites": {
-    "total": 4389,
-    "asAny": 67,
+    "total": 4387,
+    "asAny": 66,
     "chained": 190,
-    "single": 4132,
-    "production": 3766,
-    "test": 623,
+    "single": 4131,
+    "production": 3763,
+    "test": 624,
     "asConst": 645,
     "nonNull": 658
   },
@@ -49,7 +49,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 206,
+      "count": 205,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -65,7 +65,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 274,
+      "count": 273,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -73,7 +73,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 262,
+      "count": 259,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {

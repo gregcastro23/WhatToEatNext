@@ -46,6 +46,18 @@ describe("readJson", () => {
     });
   });
 
+  it("routes the body through { parse } options object", async () => {
+    const parse = (value: unknown): { n: number } => {
+      if (typeof value !== "object" || value === null || !("n" in value)) {
+        throw new Error("bad payload");
+      }
+      return { n: Number(value.n) };
+    };
+    await expect(
+      readJson(jsonResponse({ n: "9" }), { parse }),
+    ).resolves.toEqual({ n: 9 });
+  });
+
   it("lets a parse rejection surface instead of returning a bad value", async () => {
     const parse = (): never => {
       throw new Error("bad payload");
@@ -107,6 +119,18 @@ describe("safeReadJson", () => {
     ).resolves.toEqual({ n: 42 });
   });
 
+  it("routes through { parse } option object", async () => {
+    const parse = (value: unknown): { n: number } => {
+      if (typeof value !== "object" || value === null || !("n" in value)) {
+        throw new Error("bad");
+      }
+      return { n: Number(value.n) };
+    };
+    await expect(
+      safeReadJson(jsonResponse({ n: "42" }), { n: 0 }, { parse }),
+    ).resolves.toEqual({ n: 42 });
+  });
+
   it("returns fallback if parse throws", async () => {
     const parse = (): never => {
       throw new Error("bad");
@@ -128,6 +152,19 @@ describe("fetchJson", () => {
       Promise.resolve(jsonResponse({ ok: true }));
     global.fetch = mockFetch;
     await expect(fetchJson("/api/x")).resolves.toEqual({ ok: true });
+  });
+
+  it("routes through { parse } option object on fetchJson", async () => {
+    const mockFetch: typeof fetch = () =>
+      Promise.resolve(jsonResponse({ n: "55" }));
+    global.fetch = mockFetch;
+    const parse = (val: unknown): { n: number } => {
+      const rec = val as { n: string };
+      return { n: Number(rec.n) };
+    };
+    await expect(fetchJson("/api/x", undefined, { parse })).resolves.toEqual({
+      n: 55,
+    });
   });
 
   it("throws HttpError carrying the status on a non-2xx", async () => {

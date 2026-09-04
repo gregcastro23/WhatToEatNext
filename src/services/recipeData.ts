@@ -376,18 +376,17 @@ class RecipeData {
 
       this.recipes = mappingsEntries.map((mapping: unknown) => {
         const mappingData = mapping as RecipeMappingSnapshot;
-        // Intentionally any: `mappingData.cuisine` is typed `unknown` on the snapshot
-        // above since it can be either a CuisineProfile object or (per the dead
-        // fallback paths below) is handled as a possible string; preserving the
-        // original `.name`/`.description` lookups verbatim requires an any-typed read.
-        const cuisineAny = mappingData.cuisine as any;
+        const cuisineObj =
+          typeof mappingData.cuisine === "object" && mappingData.cuisine !== null
+            ? (mappingData.cuisine as Record<string, unknown>)
+            : null;
         let elementalProps =
           mappingData.elementalProperties ?? mappingData.elementalProfile;
 
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
           elementalProps = recipeElementalService.deriveElementalProperties({
-            cuisine: String(cuisineAny.name ?? cuisineAny ?? ""),
+            cuisine: String(cuisineObj?.name ?? mappingData.cuisine ?? ""),
             cookingMethod: [String(mappingData.cookingMethod ?? "")],
           });
         }
@@ -402,17 +401,17 @@ class RecipeData {
             safeGetString(mappingData.id) ??
             "Unknown Recipe",
           cuisine:
-            safeGetString(cuisineAny.name) ??
+            safeGetString(cuisineObj?.name) ??
             safeGetString(mappingData.cuisine) ??
             "Unknown",
           description:
             safeGetString(mappingData.description) ??
-            safeGetString(cuisineAny.description) ??
+            safeGetString(cuisineObj?.description) ??
             "",
           elementalProperties: elementalProps as ElementalProperties,
           ingredients: Array.isArray(mappingData.ingredients)
-            ? (mappingData.ingredients as unknown[]).map((ing: unknown) => {
-                const ingData = ing as RawMappingIngredient;
+            ? mappingData.ingredients.map((ing: unknown) => {
+                const ingData = (typeof ing === "object" && ing !== null ? ing : {}) as RawMappingIngredient;
                 return {
                   name: String(ingData.name ?? "Unknown Ingredient"),
                   amount:

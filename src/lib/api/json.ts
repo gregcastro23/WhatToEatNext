@@ -40,6 +40,21 @@ export class HttpError extends Error {
   }
 }
 
+export interface ReadJsonOptions<T> {
+  parse?: (value: unknown) => T;
+}
+
+export type ParseOrOptions<T> =
+  | ((value: unknown) => T)
+  | ReadJsonOptions<T>;
+
+function extractParse<T>(
+  parseOrOptions?: ParseOrOptions<T>,
+): ((value: unknown) => T) | undefined {
+  if (typeof parseOrOptions === "function") return parseOrOptions;
+  return parseOrOptions?.parse;
+}
+
 /**
  * Read a `Response` body as JSON.
  *
@@ -49,9 +64,10 @@ export class HttpError extends Error {
  */
 export async function readJson<T>(
   response: Response,
-  parse?: (value: unknown) => T,
+  parseOrOptions?: ParseOrOptions<T>,
 ): Promise<T> {
   const body: unknown = await response.json();
+  const parse = extractParse(parseOrOptions);
   if (parse) return parse(body);
   // The one assertion, paid here instead of at every call site.
   return body as T;
@@ -67,10 +83,11 @@ export async function readJson<T>(
 export async function safeReadJson<T>(
   response: Response,
   fallback: T,
-  parse?: (value: unknown) => T,
+  parseOrOptions?: ParseOrOptions<T>,
 ): Promise<T> {
   try {
     const body: unknown = await response.json();
+    const parse = extractParse(parseOrOptions);
     if (parse) return parse(body);
     return body as T;
   } catch {
@@ -88,7 +105,7 @@ export async function safeReadJson<T>(
 export async function fetchJson<T>(
   input: RequestInfo | URL,
   init?: RequestInit,
-  parse?: (value: unknown) => T,
+  parseOrOptions?: ParseOrOptions<T>,
 ): Promise<T> {
   const response = await fetch(input, init);
   if (!response.ok) {
@@ -98,5 +115,5 @@ export async function fetchJson<T>(
       typeof input === "string" ? input : String(input),
     );
   }
-  return readJson<T>(response, parse);
+  return readJson<T>(response, parseOrOptions);
 }

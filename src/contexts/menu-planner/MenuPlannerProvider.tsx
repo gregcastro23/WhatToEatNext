@@ -24,6 +24,8 @@ import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useMenuPersistence } from "@/hooks/useMenuPersistence";
 import { useMenuStats } from "@/hooks/useMenuStats";
+import { readJson } from "@/lib/api/json";
+import { savedMenuApiDataSchema } from "@/lib/menu-planner/schemas";
 import { reportQuestEvent } from "@/lib/questReporter";
 import ChartComparisonService, {
   type ChartComparison,
@@ -204,13 +206,6 @@ export function useMenuPlanner(): MenuPlannerContextType {
 // ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
-
-interface SavedMenuApiData {
-  menu?: WeeklyMenu & {
-    weeklyBudget?: number | null;
-    inventory?: string[];
-  };
-}
 
 export function MenuPlannerProvider({ children }: { children: ReactNode }): React.JSX.Element {
   // -- Core state --
@@ -429,7 +424,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
           if (!response.ok) {
             throw new Error(`Load failed with status ${response.status}`);
           }
-          const data = (await response.json()) as SavedMenuApiData;
+          const data = await readJson(response, {
+            parse: (raw) => savedMenuApiDataSchema.parse(raw),
+          });
           const savedMenu = data.menu
             ? hydrateMenuDates(data.menu)
             : null;

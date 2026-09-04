@@ -195,7 +195,7 @@ export function estimateWeeklyGroceryCost(
     for (const ing of ingredients) {
       if (ing.optional) continue;
       
-      const name = ing.name.toLowerCase();
+      const name = (typeof ing.name === "string" ? ing.name : "").toLowerCase();
       const amount = ing.amount ?? 1;
       const unit = ing.unit ?? "each";
       const actualQuantity = convertToGrams(name, amount, unit);
