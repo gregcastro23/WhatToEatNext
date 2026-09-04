@@ -50,7 +50,7 @@ export function detectCircularDependencies(
     visited.add(node);
     recursionStack.add(node);
 
-    const dependencies = _moduleGraph[node] || [];
+    const dependencies = _moduleGraph[node] ?? [];
     for (const dep of dependencies) {
       dfs(dep, [...path, node]);
     }

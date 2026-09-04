@@ -964,7 +964,7 @@ class QualityMetricsService {
 
   public generateCustomReport(startDate: Date, endDate: Date): QualityReport {
     return (
-      this.reports.slice(-1)[0] || {
+      this.reports.slice(-1)[0] ?? {
         period: `${startDate.toISOString().split("T")[0]} to ${endDate.toISOString().split("T")[0]}`,
         summary: {
           overallScore: 0,

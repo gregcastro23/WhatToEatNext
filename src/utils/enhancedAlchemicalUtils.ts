@@ -101,7 +101,7 @@ export function getUserFoodCompatibility(
     Air: "gemini", // Could also use libra or aquarius
   };
 
-  const foodSign = foodSignMap[foodElement] || "aries";
+  const foodSign = foodSignMap[foodElement] ?? "aries";
 
   // Get base astrological affinity;
   const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);

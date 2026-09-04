@@ -50,7 +50,7 @@ function ElementalBadge({ element, value }: ElementalBadgeProps) {
     Air: { emoji: "💨", color: "text-purple-700", bgColor: "bg-purple-50" },
   };
 
-  const { emoji, color, bgColor } = config[element] || {
+  const { emoji, color, bgColor } = config[element] ?? {
     emoji: "?",
     color: "text-gray-700",
     bgColor: "bg-gray-50",
@@ -126,7 +126,7 @@ function CuisineBadge({ cuisine }: { cuisine: string }) {
     "middle-eastern": "🌙",
   };
 
-  const emoji = cuisineEmojis[cuisine.toLowerCase()] || "🍽️";
+  const emoji = cuisineEmojis[cuisine.toLowerCase()] ?? "🍽️";
 
   return (
     <span className="inline-flex items-center gap-1 text-xs bg-gray-100 px-2 py-0.5 rounded-full">
@@ -145,7 +145,7 @@ function MealTypeBadge({ mealType }: { mealType: string }) {
     dessert: { color: "bg-pink-100 text-pink-700", icon: "🍰" },
   };
 
-  const config = typeConfig[mealType.toLowerCase()] || {
+  const config = typeConfig[mealType.toLowerCase()] ?? {
     color: "bg-gray-100 text-gray-700",
     icon: "🍽️",
   };
@@ -181,7 +181,7 @@ function SeasonBadge({ seasons }: { seasons: string[] }) {
     <div className="flex items-center gap-0.5">
       {displaySeasons.map((season, idx) => (
         <span key={idx} title={season} className="text-xs">
-          {seasonEmojis[season.toLowerCase()] || "📅"}
+          {seasonEmojis[season.toLowerCase()] ?? "📅"}
         </span>
       ))}
     </div>
@@ -243,7 +243,7 @@ export default function RecipeQuickView({
       <div
         className={`
           bg-white rounded-lg p-2 shadow-sm border border-gray-200
-          border-l-4 ${dominantConfig[dominantElement] || "border-l-gray-400"}
+          border-l-4 ${dominantConfig[dominantElement] ?? "border-l-gray-400"}
           cursor-pointer transition-all duration-200
           ${selected ? "ring-2 ring-purple-500 ring-offset-1" : ""}
           ${isHovered ? "shadow-md" : ""}
@@ -290,7 +290,7 @@ export default function RecipeQuickView({
     <div
       className={`
         bg-white rounded-xl shadow-md border border-gray-200
-        border-l-4 ${dominantConfig[dominantElement] || "border-l-gray-400"}
+        border-l-4 ${dominantConfig[dominantElement] ?? "border-l-gray-400"}
         overflow-hidden cursor-pointer transition-all duration-200
         ${selected ? "ring-2 ring-purple-500 ring-offset-2" : ""}
         ${isHovered ? "shadow-lg transform -translate-y-0.5" : ""}

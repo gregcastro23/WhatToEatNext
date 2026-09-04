@@ -264,8 +264,12 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         ingredient.astrologicalProfile?.rulingPlanets
       ) {
         const { rulingPlanets } = ingredient.astrologicalProfile;
+        const rulerName =
+          typeof criteria.planetaryRuler === "string"
+            ? criteria.planetaryRuler
+            : criteria.planetaryRuler.name;
         const planetMatch = Array.isArray(rulingPlanets)
-          ? (rulingPlanets as unknown as string[]).includes(criteria.planetaryRuler as unknown as string)
+          ? rulingPlanets.map(String).includes(String(rulerName))
           : false;
         score += planetMatch ? 0.1 : 0;
       }
@@ -546,15 +550,13 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     source: ElementalProperties,
     target: ElementalProperties,
   ): number {
-    const alchemicalEngineData = alchemicalEngine as unknown as Record<
-      string,
-      unknown
-    >;
-    if (
-      typeof alchemicalEngineData.calculateElementalCompatibility === "function"
-    ) {
+    const engineFn: unknown = Reflect.get(
+      alchemicalEngine,
+      "calculateElementalCompatibility",
+    );
+    if (typeof engineFn === "function") {
       return (
-        alchemicalEngineData.calculateElementalCompatibility as (
+        engineFn as (
           source: ElementalProperties,
           target: ElementalProperties,
         ) => number

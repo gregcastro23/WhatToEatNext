@@ -13,6 +13,16 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+/**
+ * `profile` is non-optional on `UserWithProfile`, and every producer in
+ * userDatabaseService builds it as an object literal (`rowToUserWithProfile`
+ * plus three in-memory constructors), so the old `profile?.` was a dead branch.
+ * The old `?? accepter.name` fallback was dead too: `rowToUserWithProfile`
+ * folds the `users.name` column into the profile
+ * (`name: row.profile_name ?? row.name ?? undefined`) and no producer sets a
+ * top-level `name`. Both facts were invisible behind the untyped cast.
+ */
+
 export async function PUT(request: NextRequest) {
   try {
     const userId = await getUserIdFromRequest(request);
@@ -49,7 +59,7 @@ export async function PUT(request: NextRequest) {
     // Notify the requester that their commensal request was accepted (fire-and-forget)
     if (commensalship.requesterId) {
       const accepter = await userDatabase.getUserById(userId);
-      const accepterName = (accepter as any)?.profile?.name ?? (accepter as any)?.name ?? "Someone";
+      const accepterName = accepter?.profile.name ?? "Someone";
       notificationDatabase.createNotification(
         commensalship.requesterId,
         "commensal_accepted",

@@ -159,7 +159,7 @@ function QueueItemCard({
                   Earth: { bg: "bg-amber-400", text: "text-amber-700" },
                   Air: { bg: "bg-sky-400", text: "text-sky-700" },
                 };
-                const color = elementColors[element] || {
+                const color = elementColors[element] ?? {
                   bg: "bg-gray-400",
                   text: "text-gray-700",
                 };

@@ -10,13 +10,13 @@ function createIngredientMapping(
     id: _id,
     name: _id,
     // Plant protein default: Earth-dominant (grounding legume/grain base), Water (protein hydration)
-    elementalProperties: properties.elementalProperties || {
+    elementalProperties: properties.elementalProperties ?? {
       Earth: 0.45,
       Water: 0.30,
       Fire: 0.15,
       Air: 0.10,
     },
-    category: properties.category || undefined,
+    category: properties.category ?? undefined,
     ...properties,
   };
 }

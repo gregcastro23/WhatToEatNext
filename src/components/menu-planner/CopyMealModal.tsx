@@ -11,6 +11,7 @@
 import React, { useState, useMemo } from "react";
 import type { MealSlot, DayOfWeek, MealType } from "@/types/menuPlanner";
 import { getDayName, getShortDayName } from "@/types/menuPlanner";
+import { emptyDayRecord } from "@/utils/dayCircuitCalculations";
 
 interface CopyMealModalProps {
   isOpen: boolean;
@@ -73,16 +74,16 @@ export default function CopyMealModal({
 
   // Organize meals by day and meal type
   const mealsByDayAndType = useMemo(() => {
-    const organized: Record<DayOfWeek, Record<MealType, MealSlot>> = {} as any;
+    const organized = emptyDayRecord<Partial<Record<MealType, MealSlot>>>(() => ({}));
 
     for (let day = 0; day < 7; day++) {
-      organized[day as DayOfWeek] = {} as any;
-      ["breakfast", "lunch", "dinner", "snack"].forEach((mealType) => {
+      const dayOfWeek = day as DayOfWeek;
+      (["breakfast", "lunch", "dinner", "snack"] as const).forEach((mealType) => {
         const meal = allMeals.find(
           (m) => m.dayOfWeek === day && m.mealType === mealType,
         );
         if (meal) {
-          organized[day as DayOfWeek][mealType as MealType] = meal;
+          organized[dayOfWeek][mealType] = meal;
         }
       });
     }

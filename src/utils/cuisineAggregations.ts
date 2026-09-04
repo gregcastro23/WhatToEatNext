@@ -88,7 +88,7 @@ export function computeGlobalAverages(
     // Elemental properties
     Object.keys(elementalSums).forEach((key) => {
       const value =
-        cuisine.averageElementals[key as keyof ElementalProperties] || 0;
+        cuisine.averageElementals[key as keyof ElementalProperties] ?? 0;
       elementalSums[key as keyof typeof elementalSums] += value;
       elementalSqSums[key as keyof typeof elementalSqSums] += value * value;
     });
@@ -97,7 +97,7 @@ export function computeGlobalAverages(
     if (cuisine.averageAlchemical) {
       Object.keys(alchemicalSums).forEach((key) => {
         const value =
-          cuisine.averageAlchemical![key as keyof AlchemicalProperties] || 0;
+          cuisine.averageAlchemical![key as keyof AlchemicalProperties] ?? 0;
         alchemicalSums[key as keyof typeof alchemicalSums] += value;
         alchemicalSqSums[key as keyof typeof alchemicalSqSums] += value * value;
       });
@@ -122,9 +122,12 @@ export function computeGlobalAverages(
     Object.entries(elementalSums).map(([key, sum]) => [key, sum / n]),
   ) as ElementalProperties;
 
-  const alchemicalMeans = Object.fromEntries(
-    Object.entries(alchemicalSums).map(([key, sum]) => [key, sum / n]),
-  ) as unknown as AlchemicalProperties;
+  const alchemicalMeans: AlchemicalProperties = {
+    Spirit: alchemicalSums.Spirit / n,
+    Essence: alchemicalSums.Essence / n,
+    Matter: alchemicalSums.Matter / n,
+    Substance: alchemicalSums.Substance / n,
+  };
 
   const thermoMeans = Object.fromEntries(
     Object.entries(thermoSums).map(([key, sum]) => [key, sum / n]),
@@ -139,13 +142,12 @@ export function computeGlobalAverages(
     }),
   ) as ElementalProperties;
 
-  const alchemicalStdDev = Object.fromEntries(
-    Object.entries(alchemicalSqSums).map(([key, sqSum]) => {
-      const mean = alchemicalMeans[key as keyof AlchemicalProperties] ?? NaN;
-      const variance = sqSum / n - mean * mean;
-      return [key, Math.sqrt(Math.max(0, variance))];
-    }),
-  ) as unknown as AlchemicalProperties;
+  const alchemicalStdDev: AlchemicalProperties = {
+    Spirit: Math.sqrt(Math.max(0, alchemicalSqSums.Spirit / n - alchemicalMeans.Spirit ** 2)),
+    Essence: Math.sqrt(Math.max(0, alchemicalSqSums.Essence / n - alchemicalMeans.Essence ** 2)),
+    Matter: Math.sqrt(Math.max(0, alchemicalSqSums.Matter / n - alchemicalMeans.Matter ** 2)),
+    Substance: Math.sqrt(Math.max(0, alchemicalSqSums.Substance / n - alchemicalMeans.Substance ** 2)),
+  };
 
   const thermoStdDev = Object.fromEntries(
     Object.entries(thermoSqSums).map(([key, sqSum]) => {
@@ -599,10 +601,8 @@ export function identifyPlanetaryPatterns(
     if (!positions) continue;
 
     for (const [planet, sign] of Object.entries(positions)) {
-      if (!planetaryCounts[planet]) {
-        planetaryCounts[planet] = {};
-      }
-      planetaryCounts[planet][sign] = (planetaryCounts[planet][sign] || 0) + 1;
+      planetaryCounts[planet] ??= {};
+      planetaryCounts[planet][sign] = (planetaryCounts[planet][sign] ?? 0) + 1;
     }
   }
 
@@ -652,7 +652,7 @@ export function identifyPlanetaryPatterns(
 
     const dominantElement = (Object.entries(elementCounts).sort(
       (a, b) => b[1] - a[1],
-    )[0]?.[0] || "Fire") as keyof ElementalProperties;
+    )[0]?.[0] ?? "Fire") as keyof ElementalProperties;
 
     patterns.push({
       planet,

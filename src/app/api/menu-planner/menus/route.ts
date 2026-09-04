@@ -144,6 +144,8 @@ const dailyNutritionTotalsSchema: z.ZodType<DailyNutritionTotals> = z.object({
   elementalBalance: elementalPropertiesSchema,
 });
 
+// The refine proves every key present is a DayOfWeek; it does not prove all
+// seven are present, so the honest output type is a Partial record.
 const nutritionalTotalsSchema = z
   .record(z.string(), dailyNutritionTotalsSchema)
   .refine(
@@ -151,7 +153,7 @@ const nutritionalTotalsSchema = z
     "Nutrition totals contain an invalid day",
   )
   .transform(
-    (totals) => totals as unknown as Record<DayOfWeek, DailyNutritionTotals>,
+    (totals): Partial<Record<DayOfWeek, DailyNutritionTotals>> => totals,
   );
 
 const groceryItemSchema: z.ZodType<GroceryItem> = z.object({
@@ -169,9 +171,7 @@ const groceryItemSchema: z.ZodType<GroceryItem> = z.object({
 const menuPutBodySchema = z.object({
   weekStartDate: isoDateSchema,
   meals: z.array(mealSlotSchema).default([]),
-  nutritionalTotals: nutritionalTotalsSchema.default(
-    () => ({}) as unknown as Record<DayOfWeek, DailyNutritionTotals>,
-  ),
+  nutritionalTotals: nutritionalTotalsSchema.default(() => ({})),
   groceryList: z.array(groceryItemSchema).default([]),
   inventory: z.array(z.string()).default([]),
   weeklyBudget: z.number().finite().nullable().default(null),
@@ -248,7 +248,9 @@ export async function PUT(request: NextRequest) {
     const persisted = await menuPersistenceService.upsertMenu(userId, {
       weekStartDate,
       meals,
-      nutritionalTotals,
+      // UpsertMenuInput/PersistedWeeklyMenu/WeeklyMenu all declare a *total*
+      // Record; widening is load-bearing until those three become Partial.
+      nutritionalTotals: nutritionalTotals as unknown as Record<DayOfWeek, DailyNutritionTotals>,
       groceryList,
       inventory,
       weeklyBudget,

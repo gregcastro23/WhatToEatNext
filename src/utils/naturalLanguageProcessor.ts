@@ -742,18 +742,21 @@ export function processQueryWithKinetics(
     const kineticsKeywords = extractKineticsKeywords(query);
 
     // Determine kinetics context from planetary positions
-    // NOTE (latent bugs, preserved via unknown-cast): KineticMetrics.forceClassification
-    // can be "balanced" (not in the declared union), thermalDirection can be "stable"
-    // (declared union says "neutral"), aspectPhase is an AspectPhase object (declared
-    // string), and momentum is a Record<Element, number> (declared number; the "|| 0"
-    // never fires because objects are truthy).
-    const kineticsContext = {
-      forceClassification: kinetics.forceClassification,
-      thermalDirection: kinetics.thermalDirection,
-      aspectPhase: kinetics.aspectPhase ?? "neutral",
+    const force = kinetics.forceClassification;
+    const thermal = kinetics.thermalDirection;
+    const kineticsContext: NonNullable<KineticsAwareSearchIntent["kineticsContext"]> = {
+      forceClassification:
+        force === "accelerating" || force === "decelerating" ? force : "stable",
+      thermalDirection:
+        thermal === "heating" || thermal === "cooling" ? thermal : "neutral",
+      aspectPhase:
+        typeof kinetics.aspectPhase === "string"
+          ? kinetics.aspectPhase
+          : String(kinetics.aspectPhase ?? "neutral"),
       powerLevel: kinetics.power || 50,
-      momentumFactor: kinetics.momentum || 0,
-    } as unknown as NonNullable<KineticsAwareSearchIntent["kineticsContext"]>;
+      momentumFactor:
+        typeof kinetics.momentum === "number" ? kinetics.momentum : 0,
+    };
 
     // Generate kinetics-aware filters
     const kineticsFilters = generateKineticsFilters(kineticsKeywords, kinetics);
@@ -793,19 +796,18 @@ function extractKineticsKeywords(query: string): string[] {
     "dynamic",
     "stable",
   ];
-
   const lowerQuery = query.toLowerCase();
   return kineticsTerms.filter((term) => lowerQuery.includes(term));
 }
 
 /**
- * Generate kinetics filters based on keywords and planetary kinetics
+ * Generate kinetics filters from keywords and celestial kinetics
  */
 function generateKineticsFilters(
   keywords: string[],
   kinetics: KineticMetrics,
 ): KineticsAwareSearchIntent["kineticsFilters"] {
-  const filters: KineticsAwareSearchIntent["kineticsFilters"] = {};
+  const filters: NonNullable<KineticsAwareSearchIntent["kineticsFilters"]> = {};
 
   // Determine preferred force type from keywords and kinetics
   if (
@@ -821,11 +823,11 @@ function generateKineticsFilters(
   ) {
     filters.preferredForceType = "stable";
   } else {
-    // NOTE (latent bug, preserved): kinetics returns "balanced", not "stable".
-    filters.preferredForceType = kinetics.forceClassification as unknown as
-      | "stable"
-      | "accelerating"
-      | "decelerating";
+    filters.preferredForceType =
+      kinetics.forceClassification === "accelerating" ||
+      kinetics.forceClassification === "decelerating"
+        ? kinetics.forceClassification
+        : "stable";
   }
 
   // Determine thermal alignment
@@ -842,11 +844,11 @@ function generateKineticsFilters(
   ) {
     filters.thermalAlignment = "cooling";
   } else {
-    // NOTE (latent bug, preserved): kinetics returns "stable", not "neutral".
-    filters.thermalAlignment = kinetics.thermalDirection as unknown as
-      | "heating"
-      | "cooling"
-      | "neutral";
+    filters.thermalAlignment =
+      kinetics.thermalDirection === "heating" ||
+      kinetics.thermalDirection === "cooling"
+        ? kinetics.thermalDirection
+        : "neutral";
   }
 
   // Set power range based on intensity keywords

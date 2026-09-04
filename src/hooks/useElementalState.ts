@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import type { ElementalProperties } from "@/types/alchemy";
 import { elementalSignature } from "@/utils/elemental/signature";
 import { useAlchemical } from "./useAlchemical";
 
@@ -8,14 +7,17 @@ export interface ElementalState {
   Water: number;
   Earth: number;
   Air: number;
+  dominant: string;
+  balance: number;
 }
+
 export function useElementalState() {
   const { planetaryPositions, isLoading: _isLoading } = useAlchemical();
 
-  const elementalState = useMemo((): ElementalProperties => {
+  const elementalState = useMemo((): ElementalState => {
     if (
       !planetaryPositions ||
-      Object.keys(planetaryPositions || {}).length === 0
+      Object.keys(planetaryPositions).length === 0
     ) {
       return {
         Fire: 0.25,
@@ -24,12 +26,12 @@ export function useElementalState() {
         Air: 0.25,
         dominant: "Fire",
         balance: 1.0,
-      } as unknown as ElementalProperties;
+      };
     }
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementMap: Record<string, keyof typeof elementCounts> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",
@@ -44,11 +46,11 @@ export function useElementalState() {
       pisces: "Water",
     };
 
-    Object.values(planetaryPositions || {}).forEach((position) => {
-      const element =
-        elementMap[(position as any)?.sign as keyof typeof elementMap];
+    Object.values(planetaryPositions).forEach((position) => {
+      const signKey = String(position.sign).toLowerCase();
+      const element = elementMap[signKey];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++;
+        elementCounts[element]++;
       }
     });
 
@@ -79,7 +81,7 @@ export function useElementalState() {
       ...normalized,
       dominant: sig.dominant,
       balance: sig.balance,
-    } as unknown as ElementalProperties;
+    };
   }, [planetaryPositions]);
 
   return {

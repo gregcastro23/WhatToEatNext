@@ -5,6 +5,7 @@
  * @created 2026-01-28
  */
 
+import type { ElementalProperties, RecipeIngredient } from "@/types/recipe";
 import {
   fixRecipe,
   fixAllRecipes,
@@ -65,7 +66,8 @@ describe("Recipe Auto-Fixer", () => {
       expect(result.fixes.some((f) => f.field === "elementalProperties")).toBe(
         true,
       );
-      const props = result.fixedRecipe.elementalProperties as any;
+      const props = result.fixedRecipe
+        .elementalProperties as ElementalProperties;
       expect(props.Fire).toBe(0.25);
       expect(props.Water).toBe(0.25);
       expect(props.Earth).toBe(0.25);
@@ -86,7 +88,8 @@ describe("Recipe Auto-Fixer", () => {
       };
 
       const result = fixRecipe(recipe, { addDefaultElemental: true });
-      const props = result.fixedRecipe.elementalProperties as any;
+      const props = result.fixedRecipe
+        .elementalProperties as ElementalProperties;
       expect(props.Fire).toBeCloseTo(0.25, 2);
       expect(props.Water).toBeCloseTo(0.25, 2);
     });
@@ -195,7 +198,13 @@ describe("Recipe Auto-Fixer", () => {
       };
 
       const result = fixRecipe(recipe, { normalizeIngredients: true });
-      const ingredients = result.fixedRecipe.ingredients as any[];
+      // fixIngredients maps 1:1 over the two literals above, filling amount/unit,
+      // so both entries satisfy RecipeIngredient (name/amount/unit all present).
+      // A fixed-length tuple keeps [0]/[1] non-optional under noUncheckedIndexedAccess.
+      const ingredients = result.fixedRecipe.ingredients as [
+        RecipeIngredient,
+        RecipeIngredient,
+      ];
       expect(ingredients[0].amount).toBe(2);
       expect(ingredients[0].name).toBe("flour");
       expect(ingredients[1].amount).toBe(1);

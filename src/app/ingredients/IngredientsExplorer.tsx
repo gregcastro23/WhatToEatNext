@@ -182,8 +182,18 @@ function dominantElement(props: Ingredient["elementalProperties"]): ElementKey {
   }).dominant;
 }
 
-function seasonsOf(ing: Ingredient): string[] {
-  const raw = (ing as unknown as { seasonality?: unknown }).seasonality;
+/**
+ * `Ingredient` declares `seasonality?: Season[]`, but the static catalog also
+ * carries the comma/slash-joined string form (`seasonality: "autumn, winter"` in
+ * src/data/sauces.ts), which is why both branches below exist. The parameter is
+ * declared as the union of the two live shapes — derived from the interface, so
+ * it tracks any change to it — and asks for nothing else, since seasonality is
+ * the only field read. `Ingredient` is assignable to it, no assertion needed.
+ */
+function seasonsOf(ing: {
+  seasonality?: NonNullable<Ingredient["seasonality"]> | string;
+}): string[] {
+  const raw = ing.seasonality;
   if (Array.isArray(raw)) return raw.map((s) => String(s).toLowerCase());
   if (typeof raw === "string")
     return raw
@@ -216,13 +226,39 @@ interface CulinaryDetails {
 }
 
 /**
+ * The culinary fields the static catalog carries that the shared `Ingredient`
+ * interface does not declare. Every one of these is preserved by the slim
+ * projection in `src/lib/ingredients/slimIngredients.ts` (SLIM_FIELDS), which is
+ * the authoritative list of what reaches this component. Shapes vary per
+ * ingredient (object vs string vs array), so the undeclared ones stay `unknown`
+ * and go through the `asObject` / `asStringArray` guards below; the two fields
+ * `Ingredient` already types keep their declared types.
+ *
+ * All-optional, so `Ingredient` is assignable to it without an assertion.
+ */
+interface CulinarySource {
+  culinaryProfile?: unknown;
+  culinaryApplications?: unknown;
+  flavorProfile?: unknown;
+  notes?: unknown;
+  culinaryUses?: unknown;
+  uses?: unknown;
+  cookingMethods?: string[];
+  cuisineAffinity?: unknown;
+  pairings?: unknown;
+  pairingRecommendations?: unknown;
+  affinities?: string[];
+  preparationTips?: unknown;
+}
+
+/**
  * Pull culinary detail from every shape we see in the static data:
  * - top-level: flavorProfile (string or object), culinaryUses, pairings, cookingMethods
  * - culinaryProfile: { flavorProfile: { primary, secondary, notes }, cookingMethods, cuisineAffinity, preparationTips }
  * - culinaryApplications: { commonUses, pairingRecommendations: { complementary }, ... }
  */
 function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
-  const root = ing as unknown as Record<string, unknown>;
+  const root: CulinarySource = ing;
   const profile = asObject(root.culinaryProfile);
   const apps = asObject(root.culinaryApplications);
 

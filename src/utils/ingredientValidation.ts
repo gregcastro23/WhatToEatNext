@@ -456,7 +456,7 @@ function validateAlchemicalMappings(): {
     const ingredients = allIngredients;
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
-        if ((ingredient as unknown as Record<string, unknown>).alchemicalProperties) {
+        if (Reflect.get(ingredient, "alchemicalProperties")) {
           const validation = validateAlchemicalConsistency(name, ingredient);
           errors.push(...validation.errors);
           warnings.push(...validation.warnings);
@@ -511,23 +511,21 @@ function validateAlchemicalConsistency(
     // shape, and no ingredient data file populates them, so this branch is a
     // pre-existing dead/always-failing check. Preserved verbatim (not fixed)
     // via this narrow cast to avoid changing validation behavior.
-    const ingredientData = ingredient as unknown as {
-      alchemicalProperties?: {
-        spirit?: number;
-        essence?: number;
-        matter?: number;
-        substance?: number;
-      };
-    };
+    const alchemicalData = Reflect.get(ingredient, "alchemicalProperties") as {
+      spirit?: number;
+      essence?: number;
+      matter?: number;
+      substance?: number;
+    } | undefined;
     const rawElemental = (ingredient as Partial<Ingredient>).elementalProperties;
     if (
-      !ingredientData.alchemicalProperties ||
+      !alchemicalData ||
       !rawElemental
     ) {
       return { errors, warnings };
     }
 
-    const alchemical = ingredientData.alchemicalProperties;
+    const alchemical = alchemicalData;
     const elemental = rawElemental;
 
     // Check that alchemical properties are numeric and in valid range
@@ -868,18 +866,14 @@ function testAlchemicalMappings(): IngredientTestResult {
       // NOTE: see validateAlchemicalConsistency() above for why
       // alchemicalProperties.spirit/essence/matter/substance don't match the
       // declared Ingredient type; preserved verbatim, not fixed.
-      const ingredientData = ingredient as unknown as {
-        alchemicalProperties?: {
-          spirit?: number;
-          essence?: number;
-          matter?: number;
-          substance?: number;
-        };
-      };
-      if (ingredientData.alchemicalProperties) {
+      const alchemical = Reflect.get(ingredient, "alchemicalProperties") as {
+        spirit?: number;
+        essence?: number;
+        matter?: number;
+        substance?: number;
+      } | undefined;
+      if (alchemical) {
         totalMappings++;
-
-        const alchemical = ingredientData.alchemicalProperties;
         const alchemicalProps: Array<keyof typeof alchemical> = [
           "spirit",
           "essence",

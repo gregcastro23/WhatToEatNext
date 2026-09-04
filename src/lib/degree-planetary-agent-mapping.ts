@@ -262,7 +262,7 @@ export function generateDegreePlanetaryAgentMapping(): Record<number, PlanetaryA
 export function getPlanetaryAgentForDegree(degree: number): PlanetaryAgentConfig | null {
   const normalizedDegree = Math.round(degree) % 360
   const mapping = generateDegreePlanetaryAgentMapping()
-  return mapping[normalizedDegree] || null
+  return mapping[normalizedDegree] ?? null
 }
 
 /**

@@ -1,30 +1,30 @@
 {
-  "trackedTotal": 2933,
+  "trackedTotal": 2875,
   "casts": {
-    "total": 355,
-    "asAny": 93,
-    "asUnknownAs": 262,
-    "production": 297,
-    "test": 58,
-    "untrackedSingleAsT": 2805
+    "total": 263,
+    "asAny": 71,
+    "asUnknownAs": 192,
+    "production": 231,
+    "test": 32,
+    "untrackedSingleAsT": 2767
   },
   "assertionSites": {
-    "total": 4502,
-    "asAny": 90,
-    "chained": 262,
-    "single": 4150,
-    "production": 3864,
-    "test": 638,
-    "asConst": 641,
+    "total": 4418,
+    "asAny": 69,
+    "chained": 192,
+    "single": 4157,
+    "production": 3799,
+    "test": 619,
+    "asConst": 645,
     "nonNull": 659
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 475,
-      "verifiedSafe": 95,
-      "semantic": 566,
-      "unclassified": 31,
-      "note": "Phase 13 strict-index exposed 482 falsy-fallback sites (210 -> 692). Isolated so aggregate ratchet stays honest."
+      "total": 337,
+      "verifiedSafe": 36,
+      "semantic": 301,
+      "unclassified": 0,
+      "note": "Isolated from the aggregate ratchet so it stays honest (Phase 13 strict-index exposed 482 falsy-fallback sites, 210 -> 692). Classification re-measured 2026-09-04 over ALL 337 sites with the TypeScript compiler API (resolve the operand, ask the checker for its type, decide per shape) -- not sampled, and it must be re-measured when total changes, since the previous counts still described the retired 692-site population. verifiedSafe = || and ?? provably agree (36: 24 `if (!x) x = ..`, 8 ternary, 4 `||` withheld as a||b||c chains needing parens). semantic = they diverge because the left operand can be falsy-but-non-nullish (301). NOTE: only `total` is enforced -- compareSubBaseline reads nothing else; these three fields are documentation."
     }
   },
   "declined": {
@@ -49,7 +49,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 231,
+      "count": 212,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -57,15 +57,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1299,
+      "count": 1287,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 107,
+      "count": 103,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 332,
+      "count": 322,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -73,7 +73,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 313,
+      "count": 302,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -81,7 +81,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 475,
+      "count": 337,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -137,7 +137,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 55,
+      "count": 53,
       "autoFixable": 0
     },
     "no-void": {

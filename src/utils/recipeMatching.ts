@@ -11,7 +11,7 @@ import type { Recipe, RecipeIngredient } from "@/types/recipe";
 interface IngredientMapping {
   name: string;
   elementalProperties: ElementalProperties;
-  astrologicalProfile?: Record<string, unknown>;
+  astrologicalProfile?: unknown;
   qualities?: string[];
   // Add commonly missing properties
   description?: string;
@@ -60,9 +60,20 @@ interface MatchFilters {
   preferredComplexity?: number | string;
 }
 
+interface EnergyData {
+  zodiacEnergy?: string;
+  lunarEnergy?: string;
+  planetaryEnergy?: string | string[];
+  zodiac?: string;
+  lunar?: string;
+  planetary?: string | string[];
+}
+
 interface ExtendedRecipe extends Recipe {
   dietaryTags?: string[];
   cookingMethods?: string[];
+  qualities?: string[];
+  astrologicalEnergy?: EnergyData;
   nutritionalProfile?: {
     calories?: number;
     protein?: number;
@@ -73,7 +84,7 @@ interface ExtendedRecipe extends Recipe {
   };
 }
 
-interface MatchingEnergyState {
+interface MatchingEnergyState extends EnergyData {
   Fire?: number;
   Water?: number;
   Earth?: number;
@@ -385,15 +396,6 @@ const _calculateBaseElements = (
   return baseElements;
 };
 
-interface EnergyData {
-  zodiacEnergy?: string;
-  lunarEnergy?: string;
-  planetaryEnergy?: string | string[];
-  zodiac?: string;
-  lunar?: string;
-  planetary?: string | string[];
-}
-
 const calculateEnergyMatch = (
   recipeEnergy: EnergyData,
   currentEnergy: EnergyData,
@@ -510,23 +512,24 @@ function _calculateRecipeEnergyMatch(
   score += elementalScore * 0.7; // Doubled from 0.35
 
   // 2. Calculate modality score - use qualities array even if preferredModality doesn't exist
-  const qualities = recipe.qualities ?? [];
+  const extendedRecipe = recipe as ExtendedRecipe;
+  const qualities = extendedRecipe.qualities ?? [];
   const { preferredModality } = currentEnergy;
 
   // Check if preferredModality exists in currentEnergy, if not skip this boost
   if (preferredModality) {
     const modalityScore = calculateModalityScore(
-      qualities as unknown as string[],
+      qualities,
       preferredModality,
     );
     score += modalityScore * 0.5; // Doubled from 0.25
   }
 
   // 3. Calculate astrological score - check if astrologicalEnergy exists
-  if (recipe.astrologicalEnergy) {
+  if (extendedRecipe.astrologicalEnergy) {
     const astrologicalScore = calculateEnergyMatch(
-      recipe.astrologicalEnergy,
-      currentEnergy as unknown as EnergyData,
+      extendedRecipe.astrologicalEnergy,
+      currentEnergy,
     );
     score += astrologicalScore * 0.4; // Doubled from 0.2
   }
@@ -1104,7 +1107,7 @@ export const connectIngredientsToMappings = (
       if (similarity > bestMatch.similarity) {
         bestMatch = {
           similarity,
-          ingredient: ingredient as unknown as IngredientMapping,
+          ingredient,
         };
       }
     }

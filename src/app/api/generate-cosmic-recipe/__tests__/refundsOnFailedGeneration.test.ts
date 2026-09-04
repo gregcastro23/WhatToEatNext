@@ -30,6 +30,7 @@ const purchaseShopItem = jest.fn();
 const creditMultipleTokensDetailed = jest.fn();
 const getShopItem = jest.fn();
 
+import { NextRequest } from "next/server";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 jest.mock("@/services/TokenEconomyService", () => ({
@@ -138,8 +139,8 @@ const VALID_RECIPE = {
 
 const DEBIT_GROUP = "grp-abc-123";
 
-function bodyRequest(): Request {
-  return new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {
+function bodyRequest(): NextRequest {
+  return new NextRequest("https://alchm.kitchen/api/generate-cosmic-recipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt: "something nourishing" }),
@@ -149,9 +150,7 @@ function bodyRequest(): Request {
 async function callRoute(): Promise<Response> {
   const mod = await import("@/app/api/generate-cosmic-recipe/route");
   // Call the wrapped POST the way Next.js would.
-  return (await (mod.POST as unknown as (r: Request) => Promise<Response>)(
-    bodyRequest(),
-  )) as Response;
+  return await mod.POST(bodyRequest());
 }
 
 describe("cosmic recipe ESMS settlement", () => {
@@ -262,7 +261,7 @@ describe("cosmic recipe ESMS settlement", () => {
     );
 
     const mod = await import("@/app/api/generate-cosmic-recipe/route");
-    const req = new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {
+    const req = new NextRequest("https://alchm.kitchen/api/generate-cosmic-recipe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -271,7 +270,7 @@ describe("cosmic recipe ESMS settlement", () => {
       body: JSON.stringify({ prompt: "something nourishing", requestId: "client-req-999" }),
     });
 
-    const res = await (mod.POST as unknown as (r: Request) => Promise<Response>)(req);
+    const res = await mod.POST(req);
     expect(res.status).toBe(200);
 
     expect(purchaseShopItem).toHaveBeenCalledWith(
@@ -291,7 +290,7 @@ describe("cosmic recipe ESMS settlement", () => {
     const fetchSpy = installFetchMock(jest.fn());
 
     const mod = await import("@/app/api/generate-cosmic-recipe/route");
-    const req = new Request("https://alchm.kitchen/api/generate-cosmic-recipe", {
+    const req = new NextRequest("https://alchm.kitchen/api/generate-cosmic-recipe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -300,7 +299,7 @@ describe("cosmic recipe ESMS settlement", () => {
       body: JSON.stringify({ prompt: "something nourishing" }),
     });
 
-    const res = await (mod.POST as unknown as (r: Request) => Promise<Response>)(req);
+    const res = await mod.POST(req);
     expect(res.status).toBe(409);
     expect(fetchSpy).not.toHaveBeenCalled();
   });

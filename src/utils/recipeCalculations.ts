@@ -30,11 +30,11 @@ export const _recipeCalculations = {
       0,
     );
 
-    // Note: RecipeElementalMapping does not declare a `name` field; this cast
+    // Note: RecipeElementalMapping does not declare a `name` field; Reflect.get
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.
-    const recipeData = recipe as unknown as { name?: string };
+    const recipeName = (Reflect.get(recipe, "name") as string | undefined) ?? "Unknown Recipe";
     debugLog(
-      `Cuisine alignment score for ${recipeData.name ?? "Unknown Recipe"}: ${alignmentScore.toFixed(2)}`,
+      `Cuisine alignment score for ${recipeName}: ${alignmentScore.toFixed(2)}`,
     );
     return alignmentScore;
   },
@@ -52,11 +52,11 @@ export const _recipeCalculations = {
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers,
     ];
 
-    // Note: RecipeElementalMapping does not declare a `name` field; this cast
+    // Note: RecipeElementalMapping does not declare a `name` field; Reflect.get
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.
-    const recipeWindowData = recipe as unknown as { name?: string };
+    const recipeName = (Reflect.get(recipe, "name") as string | undefined) ?? "Unknown Recipe";
     debugLog(
-      `Optimal cooking windows for ${recipeWindowData?.name ?? "Unknown Recipe"}:`,
+      `Optimal cooking windows for ${recipeName}:`,
       optimalTimes,
     );
     return optimalTimes;
@@ -85,11 +85,11 @@ export const _recipeCalculations = {
     const dominantAffinity = userElements[dominantElement];
     const boost = dominantAffinity === undefined ? 0 : dominantAffinity * 1.5;
 
-    // Note: RecipeElementalMapping does not declare a `name` field; this cast
+    // Note: RecipeElementalMapping does not declare a `name` field; Reflect.get
     // preserves a pre-existing (dead outside of debugLog) lookup as-is.
-    const recipeBoostData = recipe as unknown as { name?: string };
+    const recipeName = (Reflect.get(recipe, "name") as string | undefined) ?? "Unknown Recipe";
     debugLog(
-      `Elemental boost for ${recipeBoostData?.name ?? "Unknown Recipe"}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
+      `Elemental boost for ${recipeName}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
     );
     return boost;
   },

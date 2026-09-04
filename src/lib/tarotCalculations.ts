@@ -38,7 +38,7 @@ export function getCurrentDecan(
 
     // Get the starting degree for the sun's sign
     const signStartDegree =
-      signToStartDegree[sunPosition.sign.toLowerCase()] || 0;
+      signToStartDegree[sunPosition.sign.toLowerCase()] ?? 0;
 
     // Add the degree within the sign
     const absoluteDegree = signStartDegree + sunPosition.degree;
@@ -77,7 +77,7 @@ export function getTarotCardForDate(date: Date) {
 export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [];
   // Apply safe type casting for card access
-  const cardData = card as unknown as {
+  const cardData = card as {
     name?: string;
     element?: string;
     associatedRecipes?: string[];
@@ -351,7 +351,7 @@ export const getTarotCardsForDate = (
   const majorCard: MajorArcanaCard = {
     name: majorArcanaName,
     planet: decanRuler || "Sun", // Default to Sun if no planet found
-    keywords: majorArcanaKeywords[majorArcanaName] || [],
+    keywords: majorArcanaKeywords[majorArcanaName] ?? [],
     element: _MAJOR_ARCANA[majorArcanaName].element || "", // Extract element from _MAJOR_ARCANA
   };
 
@@ -388,7 +388,7 @@ export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   // Apply safe type casting for card access
-  const cardData = card as unknown as {
+  const cardData = card as {
     name?: string;
     element?: string;
     associatedRecipes?: string[];
@@ -436,7 +436,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
 
   if (tarotCards.majorCard?.element) {
     filters.elementalProperties[tarotCards.majorCard.element] =
-      (filters.elementalProperties[tarotCards.majorCard.element] || 0) + 0.5;
+      (filters.elementalProperties[tarotCards.majorCard.element] ?? 0) + 0.5;
   }
 
   return filters;
@@ -529,7 +529,7 @@ function complementaryElement(_element: string): string {
     Earth: "Air",
     Air: "Earth",
   };
-  return complementaryMap[_element] || _element;
+  return complementaryMap[_element] ?? _element;
 }
 
 // Add the missing getFlavorProfile function
@@ -562,7 +562,7 @@ function getFlavorProfile(_element: string, _foodElement: string): string[] {
   };
 
   return (
-    flavorProfiles[_element]?.[_foodElement] || [
+    flavorProfiles[_element]?.[_foodElement] ?? [
       "balanced flavors",
       "harmonious combinations",
     ]

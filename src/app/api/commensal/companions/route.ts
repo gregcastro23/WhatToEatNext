@@ -45,8 +45,21 @@ interface CompanionView {
   bio: string;
   dominantElement: string;
   monicaConstant: number | null;
-  birthData: BirthData;
-  natalChart: NatalChart | null;
+  /**
+   * Either a real `BirthData` (the saved-companion path, which comes back
+   * already typed from `commensalDatabase`) or `user_profiles.birth_data`
+   * parsed straight out of Postgres and NOT shape-checked here.
+   *
+   * The raw branch cannot be narrowed to `BirthData` at this layer: the column
+   * is `JSONB DEFAULT '{}'` (`database/init/12-fix-schema-health.sql:82`), and
+   * `{}` is truthy, so it survives the `!birthData` guard in `hydrateAgentRow`
+   * and reaches the response with none of `dateTime`/`latitude`/`longitude`.
+   * The shape is enforced where a failure is recoverable — client-side, by
+   * `isCompanionsResponse` in `@/types/apiResponses`.
+   */
+  birthData: BirthData | Record<string, unknown>;
+  /** Same provenance split as {@link CompanionView.birthData}; `natal_chart` is `JSONB DEFAULT '{}'` too. */
+  natalChart: NatalChart | Record<string, unknown> | null;
 }
 
 // `fetchAgentsForDate` (in @/lib/planetaryAgentsClient) has an inferred
@@ -134,8 +147,8 @@ function hydrateAgentRow(row: LocalAgentRow): CompanionView | null {
     monicaConstant: row.monica_constant
       ? parseFloat(row.monica_constant)
       : null,
-    birthData: birthData as unknown as BirthData,
-    natalChart: (natalChart as unknown as NatalChart | null) ?? null,
+    birthData,
+    natalChart: natalChart ?? null,
   };
 }
 

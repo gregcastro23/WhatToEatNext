@@ -184,7 +184,7 @@ export function resolveCuisineType(
   cuisineName: string,
 ): PrimaryCuisineType | string {
   const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, "");
-  return CUISINE_ALIASES[normalizedName] || cuisineName;
+  return CUISINE_ALIASES[normalizedName] ?? cuisineName;
 }
 
 /**

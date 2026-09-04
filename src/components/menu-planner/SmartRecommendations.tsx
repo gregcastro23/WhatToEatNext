@@ -246,7 +246,7 @@ function scoreRecipeForElementalBalance(
   // If recipe's dominant element matches what we need most
   if (
     dominantElement === weakestNeededElement &&
-    (gaps as any)[dominantElement] > 1
+    Number(Reflect.get(gaps, dominantElement)) > 1
   ) {
     score += 25;
     reasons.push({
@@ -678,7 +678,7 @@ export default function SmartRecommendations({
       Earth: -elementalGaps.Earth,
       Air: -elementalGaps.Air,
     });
-    if ((elementalGaps as any)[weakElement] > 2) {
+    if (Number(Reflect.get(elementalGaps, weakElement)) > 2) {
       gaps.push(`${weakElement} element`);
     }
 

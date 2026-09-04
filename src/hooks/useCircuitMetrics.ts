@@ -61,7 +61,7 @@ type CircuitMetricsResult =
 export function useMealCircuitMetrics(mealSlotId: string): MealCircuitResult {
   const { mealCircuitMetrics, isLoading } = useMenuPlanner();
 
-  const metrics = useMemo(() => mealCircuitMetrics[mealSlotId] || null, [mealCircuitMetrics, mealSlotId]);
+  const metrics = useMemo(() => mealCircuitMetrics[mealSlotId] ?? null, [mealCircuitMetrics, mealSlotId]);
 
   return {
     scope: "meal",
@@ -76,7 +76,7 @@ export function useMealCircuitMetrics(mealSlotId: string): MealCircuitResult {
 export function useDayCircuitMetrics(dayOfWeek: DayOfWeek): DayCircuitResult {
   const { dayCircuitMetrics, isLoading } = useMenuPlanner();
 
-  const metrics = useMemo(() => dayCircuitMetrics[dayOfWeek] || null, [dayCircuitMetrics, dayOfWeek]);
+  const metrics = useMemo(() => dayCircuitMetrics[dayOfWeek] ?? null, [dayCircuitMetrics, dayOfWeek]);
 
   return {
     scope: "day",
@@ -123,7 +123,7 @@ export function useCircuitMetrics(
     if (scope === "meal" && typeof id === "string") {
       return {
         scope: "meal",
-        metrics: mealCircuitMetrics[id] || null,
+        metrics: mealCircuitMetrics[id] ?? null,
         isLoading,
       };
     }
@@ -131,7 +131,7 @@ export function useCircuitMetrics(
     if (scope === "day" && typeof id === "number") {
       return {
         scope: "day",
-        metrics: dayCircuitMetrics[id] || null,
+        metrics: dayCircuitMetrics[id] ?? null,
         isLoading,
       };
     }

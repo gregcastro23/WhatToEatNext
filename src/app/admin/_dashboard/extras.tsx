@@ -21,7 +21,7 @@ interface SubdomainMatrixProps {
 }
 
 export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
-  const tele = pageTelemetry || {
+  const tele = pageTelemetry ?? {
     foodDiary: 421,
     customRecipes: 89,
     restaurants: 24,
@@ -330,7 +330,7 @@ interface RecipeQualityInspectorProps {
 export function RecipeQualityInspector({
   trending,
 }: RecipeQualityInspectorProps) {
-  const liveRecipes = trending?.recipes || [];
+  const liveRecipes = trending?.recipes ?? [];
   const items = liveRecipes.slice(0, 6).map((recipe, index) => {
     const issues: string[] = [];
     if (recipe.ratingCount === 0) {
@@ -872,7 +872,7 @@ function Stat2({
 // there's enough sample to draw something honest.
 // ============================================================
 export function PractitionerGeo({ data }: { data?: PractitionerGeoData }) {
-  const { regions = [], live = false } = data || {};
+  const { regions = [], live = false } = data ?? {};
   return (
     <Card
       title="Practitioner Geography"
@@ -1159,7 +1159,7 @@ export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
     provider = "Railway",
     periodLabel = "",
     live = false,
-  } = data || {};
+  } = data ?? {};
   return (
     <Card
       title="Resource Usage · MTD"

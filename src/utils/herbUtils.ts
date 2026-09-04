@@ -39,5 +39,5 @@ export const _herbUtils = {
     return tradition.pairings;
   },
   _getSeasonalRecommendations: (season: string, cuisine: string) =>
-    seasonalHerbGuide[season]?.cuisines[cuisine] || [],
+    seasonalHerbGuide[season]?.cuisines[cuisine] ?? [],
 };

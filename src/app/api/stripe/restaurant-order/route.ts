@@ -27,6 +27,12 @@ import {
 } from "@/lib/payments/restaurantPayments";
 import { rateLimit } from "@/lib/rateLimit";
 import type { RestaurantDiscoverySource } from "@/types/yelp";
+import {
+  type CustomerInfo,
+  normalizeCustomerInfo,
+  record,
+  text,
+} from "./helpers";
 
 type SplitMode =
   | "external"
@@ -65,11 +71,7 @@ interface NormalizedLineItem {
   totalCents: number;
 }
 
-interface CustomerInfo {
-  name: string;
-  phone?: string;
-  email?: string;
-}
+
 
 interface FulfillmentAddress {
   street: string;
@@ -86,15 +88,7 @@ type OrderType = "pickup" | "delivery";
 const MAX_METADATA_VALUE_LENGTH = 500;
 const MAX_LINE_ITEMS = 50;
 
-function text(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
-}
 
-function record(value: unknown): Record<string, unknown> | null {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : null;
-}
 
 function metadataValue(value: string | number): string {
   return String(value).slice(0, MAX_METADATA_VALUE_LENGTH);
@@ -139,17 +133,7 @@ function normalizeOrderType(value: unknown): OrderType {
   return text(value) === "delivery" ? "delivery" : "pickup";
 }
 
-function normalizeCustomerInfo(
-  value: unknown,
-  fallback: { name?: string | null; email?: string | null },
-): CustomerInfo {
-  const raw = record(value);
-  return {
-    name: text(raw?.name) || fallback.name || fallback.email || "Guest",
-    phone: text(raw?.phone) || undefined,
-    email: text(raw?.email) || fallback.email || undefined,
-  };
-}
+
 
 function normalizeAddress(value: unknown): FulfillmentAddress | null {
   const raw = record(value);
@@ -444,7 +428,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     0,
   );
   const explicitAmountCents = cents(body.order?.amountCents);
-  const subtotalCents = itemSubtotalCents || explicitAmountCents || 0;
+  const subtotalCents =
+    itemSubtotalCents > 0 ? itemSubtotalCents : (explicitAmountCents ?? 0);
   const platformFeeBps = Math.min(
     Math.max(intFromEnv("STRIPE_RESTAURANT_PLATFORM_FEE_BPS", 0), 0),
     10000,
@@ -478,7 +463,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         if (wtenUser) {
           effectiveUser = {
             id: wtenUser.id,
-            email: wtenUser.email ?? bridged.email,
+            email: wtenUser.email,
             name: bridged.name,
           };
         }
@@ -551,7 +536,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     provider,
   });
   const connectedAccountId =
-    connectedAccountIdFromBody || partnerRouting?.stripeConnectAccountId || null;
+    connectedAccountIdFromBody && connectedAccountIdFromBody.length > 0
+      ? connectedAccountIdFromBody
+      : (partnerRouting?.stripeConnectAccountId ?? null);
   const internalRestaurantId = partnerRouting?.id ?? restaurantId;
   const partnerSystem = provider || "direct";
   const transferAmountCents = Math.max(subtotalCents - platformFeeCents, 0);

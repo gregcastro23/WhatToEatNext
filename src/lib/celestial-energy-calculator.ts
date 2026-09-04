@@ -441,7 +441,7 @@ export class CelestialEnergyCalculator {
     // rather than fixed, since deriving this from `tropical.CelestialBodies.all` would
     // change what this method (and downstream consciousness/evolution-phase calculations)
     // actually returns.
-    const rawPlanets = (horoscope as unknown as { planets?: Record<string, unknown> }).planets
+    const rawPlanets = Reflect.get(horoscope, 'planets') as Record<string, unknown> | undefined
     if (!rawPlanets) {
       _logger.error('Invalid horoscope data: planets is null or undefined')
       return {
@@ -471,14 +471,14 @@ export class CelestialEnergyCalculator {
     for (const [, data] of planets) {
       if (data && (data as Record<string, unknown>).sign) {
         const sign = (data as Record<string, unknown>).sign as string
-        signCounts[sign] = (signCounts[sign] || 0) + 1
+        signCounts[sign] = (signCounts[sign] ?? 0) + 1
       }
     }
-    const dominantSign = Object.entries(signCounts).sort(([, a], [, b]) => b - a)[0]?.[0] || 'Aries'
+    const dominantSign = Object.entries(signCounts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? 'Aries'
 
     // Calculate moon phase (simplified)
-    const sunDegree = this.extractPlanetaryDegrees(horoscope)['Sun'] || 0
-    const moonDegree = this.extractPlanetaryDegrees(horoscope)['Moon'] || 0
+    const sunDegree = this.extractPlanetaryDegrees(horoscope)['Sun'] ?? 0
+    const moonDegree = this.extractPlanetaryDegrees(horoscope)['Moon'] ?? 0
     const moonPhase =
       isNaN(sunDegree) || isNaN(moonDegree) ? 0 : ((moonDegree - sunDegree + 360) % 360) / 360
 
@@ -540,7 +540,7 @@ export class CelestialEnergyCalculator {
 
     // Use moon phase and dominant element to determine phase
     const phaseIndex = Math.floor(planetary.moonPhase * phases.length)
-    const basePhase = phases[phaseIndex] || 'Calcination'
+    const basePhase = phases[phaseIndex] ?? 'Calcination'
 
     // Modify based on A#
     if (alchemical.A_number > 80) {

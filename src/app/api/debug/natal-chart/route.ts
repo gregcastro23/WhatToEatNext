@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
 
       comparison[planet] = {
         natal: natalSign ?? 'N/A',
-        current: currentSign || 'N/A',
+        current: currentSign ?? 'N/A',
         identical: areIdentical,
         natalDegree: natalChart.planets?.find(p => p.name === planet)?.position,
         currentDegree: currentPositions[planet]?.exactLongitude,

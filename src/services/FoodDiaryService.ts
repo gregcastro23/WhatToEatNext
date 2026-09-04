@@ -3714,7 +3714,7 @@ class FoodDiaryService {
     for (const e of entries) {
       if (!e.moodTags || e.moodTags.length === 0) continue;
       const bucket =
-        moodCounts[e.foodName] ||
+        moodCounts[e.foodName] ??
         (moodCounts[e.foodName] = { positive: 0, negative: 0, total: 0 });
       for (const m of e.moodTags) {
         if (POSITIVE.includes(m)) bucket.positive++;

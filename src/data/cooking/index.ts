@@ -128,7 +128,7 @@ export function getCookingMethod(name: string): CookingMethodData | undefined {
   // dynamic name lookups below. Every property on the source type is a
   // `CookingMethodData`, so this is a safe, direct (non-widening) assignment.
   const methods: Record<string, CookingMethodData> = allCookingMethods;
-  return methods[name] || methods[name.toLowerCase()];
+  return methods[name] ?? methods[name.toLowerCase()];
 }
 /**
  * Get multiple cooking methods by name

@@ -2,6 +2,7 @@ import type {
   AstrologicalProfile,
   ElementalAffinity,
   ElementalProperties,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type { Ingredient, Recipe, RecipeIngredient } from "@/types/recipe";
 import type { UnifiedIngredient } from "@/types/unified";
@@ -278,7 +279,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   // Elemental properties validation
   if (recipe.elementalState) {
     const elementalValidation = validateElementalProperties(
-      recipe.elementalState as unknown as ElementalProperties,
+      recipe.elementalState,
     );
     if (!elementalValidation.isValid) {
       warnings.push(...elementalValidation.errors);
@@ -458,26 +459,29 @@ function _standardizeAstrologicalProfile(
 ): AstrologicalProfile {
   if (!profile || typeof profile !== "object") {
     return {
-      elementalAffinity: {} as ElementalAffinity,
+      elementalAffinity: {},
       rulingPlanets: [],
       favorableZodiac: [],
-    } as unknown as AstrologicalProfile;
+    };
   }
   const prof = profile as Record<string, unknown>;
-  return {
-    elementalAffinity: standardizeElementalAffinity(
-      String(
-        (prof.elementalAffinity as Record<string, unknown> | undefined)
-          ?.base ?? "",
-      ),
+  const baseAffinity = standardizeElementalAffinity(
+    String(
+      (prof.elementalAffinity as Record<string, unknown> | undefined)
+        ?.base ?? "",
     ),
+  );
+  return {
+    elementalAffinity: {
+      base: baseAffinity.primary,
+    },
     rulingPlanets: Array.isArray(prof.rulingPlanets)
       ? prof.rulingPlanets.map(String)
       : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac)
-      ? prof.favorableZodiac.map(String)
+      ? (prof.favorableZodiac.map(String) as ZodiacSignType[])
       : [],
-  } as unknown as AstrologicalProfile;
+  };
 }
 
 function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
@@ -580,26 +584,23 @@ function validateDifficulty(difficulty: unknown): boolean {
 }
 
 function validateElementalProperties(
-  properties: ElementalProperties,
+  properties: unknown,
 ): ValidationResult {
   const errors: string[] = [];
 
-  const rawProps = properties as unknown;
-  if (!rawProps || typeof rawProps !== "object") {
+  if (!properties || typeof properties !== "object") {
     errors.push("Elemental properties must be an object");
     return { isValid: false, errors };
   }
 
+  const props = properties as Record<string, unknown>;
   const requiredElements = ["Fire", "Water", "Earth", "Air"] as const;
 
   requiredElements.forEach((element) => {
-    if (
-      typeof properties[element] !==
-      "number"
-    ) {
+    const value = props[element];
+    if (typeof value !== "number") {
       errors.push(`${element} must be a number`);
     } else {
-      const value = properties[element];
       if (value < 0 || value > 1) {
         errors.push(`${element} must be between 0 and 1`);
       }

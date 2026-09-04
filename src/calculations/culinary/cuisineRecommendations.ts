@@ -256,7 +256,7 @@ function getSuggestedDishes(
     Cajun: ["Gumbo", "Jambalaya", "Crawfish étouffee", "Beignets"],
   };
 
-  const cuisineDishes = dishes[cuisine] || [
+  const cuisineDishes = dishes[cuisine] ?? [
     "Traditional dishes",
     "Regional specialties",
   ];

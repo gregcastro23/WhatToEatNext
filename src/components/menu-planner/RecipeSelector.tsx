@@ -174,7 +174,7 @@ function RecipeCard({
               Earth: { bg: "bg-amber-400" },
               Air: { bg: "bg-sky-400" },
             };
-            const color = elementColors[element] || { bg: "bg-gray-400" };
+            const color = elementColors[element] ?? { bg: "bg-gray-400" };
             return (
               <div
                 key={element}

@@ -467,7 +467,7 @@ export class CulturalAnalyticsService {
         this.calculateCulturalDiversityScore(cuisineName);
 
       // Extract traditional principles
-      const traditionalPrinciples = culturalRulesData?.principles || [];
+      const traditionalPrinciples = culturalRulesData?.principles ?? [];
 
       // Generate modern adaptations
       const modernAdaptations = this.generateModernAdaptations(
@@ -564,7 +564,7 @@ export class CulturalAnalyticsService {
     season: string,
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
-    if (!culinaryTradition?.astrologicalProfile?.seasonalPreference) {
+    if (!culinaryTradition?.astrologicalProfile.seasonalPreference) {
       return 0;
     }
 
@@ -587,7 +587,7 @@ export class CulturalAnalyticsService {
     }
 
     const { favorableZodiac } = culinaryTradition.astrologicalProfile;
-    const isZodiacFavorable = favorableZodiac?.includes(
+    const isZodiacFavorable = favorableZodiac.includes(
       astrologicalState.zodiacSign.toLowerCase(),
     );
 
@@ -675,8 +675,8 @@ export class CulturalAnalyticsService {
     const group1 = this.getCulturalGroup(cuisine1);
     const group2 = this.getCulturalGroup(cuisine2);
 
-    let fusionScore = 0.7; // Base fusion potential
-    let culturalHarmony = 0.7;
+    let fusionScore: number;
+    let culturalHarmony: number;
     const blendRatio = 0.5; // Default 50/50
 
     // Same cultural group - high harmony, moderate fusion potential
@@ -719,8 +719,8 @@ export class CulturalAnalyticsService {
     const key2 = `${cuisine2}-${cuisine1}`;
 
     return (
-      combinations[key1] ||
-      combinations[key2] ||
+      combinations[key1] ??
+      combinations[key2] ??
       `${cuisine1}-${cuisine2} Fusion`
     );
   }
@@ -757,8 +757,8 @@ export class CulturalAnalyticsService {
     const key2 = `${cuisine2}-${cuisine1}`;
 
     return (
-      fusionDishes[key1] ||
-      fusionDishes[key2] || [
+      fusionDishes[key1] ??
+      fusionDishes[key2] ?? [
         `${cuisine1}-style ${cuisine2} dish`,
         `${cuisine2}-inspired ${cuisine1} creation`,
         `Fusion ${cuisine1}-${cuisine2} specialty`,

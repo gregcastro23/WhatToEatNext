@@ -307,7 +307,7 @@ export function getCuisineElementalProfile(
     Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 },
   };
 
-  return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
+  return profiles[cuisine] ?? { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
 }
 
 /**
@@ -360,7 +360,7 @@ export function calculateElementalProfileFromZodiac(
   };
 
   return (
-    zodiacProfiles[zodiacSign.toLowerCase()] || {
+    zodiacProfiles[zodiacSign.toLowerCase()] ?? {
       Fire: 0.5,
       Water: 0.5,
       Earth: 0.5,

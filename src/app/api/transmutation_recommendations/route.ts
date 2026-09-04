@@ -122,10 +122,10 @@ function getPlanetaryHourRuler(
     if (current?.planet) return current.planet;
   }
 
-  const dayPlanet = DAY_RULERS[date.getDay()] || "Sun";
+  const dayPlanet = DAY_RULERS[date.getDay()] ?? "Sun";
   const startIndex = CHALDEAN_HOUR_ORDER.indexOf(dayPlanet);
   const hourIndex = (startIndex + date.getHours()) % CHALDEAN_HOUR_ORDER.length;
-  return CHALDEAN_HOUR_ORDER[hourIndex] || "Sun";
+  return CHALDEAN_HOUR_ORDER[hourIndex] ?? "Sun";
 }
 
 function formatHourRange(date: Date): string {
@@ -145,7 +145,7 @@ function formatHourRange(date: Date): string {
 }
 
 function getLowestKey(scores: AlchemicalScores): AlchemicalKey {
-  return (Object.entries(scores).sort((a, b) => a[1] - b[1])[0]?.[0] || "Substance") as AlchemicalKey;
+  return (Object.entries(scores).sort((a, b) => a[1] - b[1])[0]?.[0] ?? "Substance") as AlchemicalKey;
 }
 
 function pickCue(planet: Planet, index: number): string {
@@ -153,7 +153,7 @@ function pickCue(planet: Planet, index: number): string {
     PLANETARY_INGREDIENT_CUES[planet] ??
     PLANETARY_INGREDIENT_CUES.Sun ??
     ["fresh herbs"];
-  return cues[index % cues.length] || "fresh herbs";
+  return cues[index % cues.length] ?? "fresh herbs";
 }
 
 function buildRecommendation(

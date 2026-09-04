@@ -23,16 +23,17 @@ import { BoundaryTransferCanvas } from "../BoundaryTransferCanvas";
 /** Minimal 2D context: every method the component actually calls, no-ops. */
 function stubContext(): CanvasRenderingContext2D {
   const noop = (): void => undefined;
-  return {
+  const ctx: Partial<CanvasRenderingContext2D> = {
     arc: noop, beginPath: noop, clearRect: noop, closePath: noop,
-    createLinearGradient: () => ({ addColorStop: noop }),
+    createLinearGradient: () => ({ addColorStop: noop }) as CanvasGradient,
     fill: noop, fillRect: noop, fillText: noop, lineTo: noop,
-    measureText: () => ({ width: 40 }),
+    measureText: () => ({ width: 40 }) as TextMetrics,
     moveTo: noop, setLineDash: noop, setTransform: noop, stroke: noop,
     strokeRect: noop,
     fillStyle: "", strokeStyle: "", font: "", lineJoin: "round",
     lineWidth: 1, textAlign: "left", textBaseline: "top",
-  } as unknown as CanvasRenderingContext2D;
+  };
+  return ctx as CanvasRenderingContext2D;
 }
 
 let reduceMotion = false;
@@ -67,11 +68,11 @@ beforeAll(() => {
  */
 function installAnimationClock(): { raf: jest.Mock; caf: jest.Mock } {
   const raf = jest.fn((cb: FrameRequestCallback) =>
-    setTimeout(() => cb(16), 16) as unknown as number,
+    window.setTimeout(() => cb(16), 16),
   );
-  const caf = jest.fn((id: number) => clearTimeout(id as unknown as NodeJS.Timeout));
-  (window as unknown as Record<string, unknown>).requestAnimationFrame = raf;
-  (window as unknown as Record<string, unknown>).cancelAnimationFrame = caf;
+  const caf = jest.fn((id: number) => window.clearTimeout(id));
+  window.requestAnimationFrame = raf;
+  window.cancelAnimationFrame = caf;
   return { raf, caf };
 }
 
@@ -85,7 +86,7 @@ function installMatchMedia(): void {
     removeListener: jest.fn(),
     onchange: null,
     dispatchEvent: jest.fn(),
-  })) as unknown as typeof window.matchMedia;
+  })) as typeof window.matchMedia;
 }
 
 beforeEach(() => {

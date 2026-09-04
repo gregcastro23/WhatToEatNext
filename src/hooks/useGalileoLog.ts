@@ -34,11 +34,11 @@ export function useGalileoLog(defaultComponentName?: string) {
           body: JSON.stringify({
             message,
             metadata: {
-              ...(options.metadata || {}),
+              ...(options.metadata ?? {}),
               component: options.componentName || defaultComponentName || 'unknown',
               timestamp: new Date().toISOString(),
             },
-            level: options.level || 'info',
+            level: options.level ?? 'info',
           }),
         })
 

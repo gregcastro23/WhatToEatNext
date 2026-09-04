@@ -87,19 +87,19 @@ export function mergeSignVectorConfig(
     ...overrides,
     planetaryWeights: {
       ...base.planetaryWeights,
-      ...(overrides.planetaryWeights || {}),
+      ...(overrides.planetaryWeights ?? {}),
     },
     aspectModifiers: {
       ...base.aspectModifiers,
-      ...(overrides.aspectModifiers || {}),
+      ...(overrides.aspectModifiers ?? {}),
     },
     seasonalAlignment: {
       ...base.seasonalAlignment,
-      ...(overrides.seasonalAlignment || {}),
+      ...(overrides.seasonalAlignment ?? {}),
     },
     magnitudeScaling: {
       ...base.magnitudeScaling,
-      ...(overrides.magnitudeScaling || {}),
+      ...(overrides.magnitudeScaling ?? {}),
     },
   };
 }
