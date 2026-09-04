@@ -39,9 +39,7 @@ export async function GET() {
     > = {};
     for (const recipe of auditResult.incompleteRecipes) {
       const cuisine = recipe.cuisine ?? "Unknown";
-      if (!byCuisine[cuisine]) {
-        byCuisine[cuisine] = { count: 0, issues: {} };
-      }
+      byCuisine[cuisine] ??= { count: 0, issues: {} };
       byCuisine[cuisine].count++;
 
       for (const issue of recipe.issues) {

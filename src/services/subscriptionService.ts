@@ -66,9 +66,7 @@ class SubscriptionService {
         _logger.error("[subscriptionService] DB query failed:", error);
       }
     }
-    if (!sub) {
-      sub = memorySubscriptions.get(userId) ?? null;
-    }
+    sub ??= memorySubscriptions.get(userId) ?? null;
     // In ESMS Token Economy, default active status with free/standard tier
     if (sub) {
       return {

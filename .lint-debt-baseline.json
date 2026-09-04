@@ -1,55 +1,55 @@
 {
-  "trackedTotal": 2875,
+  "trackedTotal": 2787,
   "casts": {
-    "total": 263,
-    "asAny": 71,
-    "asUnknownAs": 192,
-    "production": 231,
+    "total": 260,
+    "asAny": 69,
+    "asUnknownAs": 191,
+    "production": 228,
     "test": 32,
-    "untrackedSingleAsT": 2767
+    "untrackedSingleAsT": 2765
   },
   "assertionSites": {
-    "total": 4418,
-    "asAny": 69,
-    "chained": 192,
-    "single": 4157,
-    "production": 3799,
-    "test": 619,
+    "total": 4411,
+    "asAny": 67,
+    "chained": 191,
+    "single": 4153,
+    "production": 3788,
+    "test": 623,
     "asConst": 645,
     "nonNull": 659
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 337,
-      "verifiedSafe": 36,
-      "semantic": 301,
-      "unclassified": 0,
-      "note": "Isolated from the aggregate ratchet so it stays honest (Phase 13 strict-index exposed 482 falsy-fallback sites, 210 -> 692). Classification re-measured 2026-09-04 over ALL 337 sites with the TypeScript compiler API (resolve the operand, ask the checker for its type, decide per shape) -- not sampled, and it must be re-measured when total changes, since the previous counts still described the retired 692-site population. verifiedSafe = || and ?? provably agree (36: 24 `if (!x) x = ..`, 8 ternary, 4 `||` withheld as a||b||c chains needing parens). semantic = they diverge because the left operand can be falsy-but-non-nullish (301). NOTE: only `total` is enforced -- compareSubBaseline reads nothing else; these three fields are documentation."
+      "total": 301,
+      "verifiedSafe": 6,
+      "semantic": 290,
+      "unclassified": 5,
+      "note": "Isolated from the aggregate ratchet so it stays honest (Phase 13 strict-index exposed 482 falsy-fallback sites, 210 -> 692). Re-measured 2026-09-04 (Phase 19) over ALL 301 remaining sites with the TypeScript compiler API -- resolve the operand, ask the checker for its type, then apply the test THAT SHAPE requires. The shape matters: `x || b` and `if (!x) x = b` diverge when the operand is falsy-but-not-nullish (0, \"\", false, 0n, NaN); `x !== undefined ? x : b` diverges ONLY when x can be null; `x === null ? b : x` ONLY when x can be undefined; a two-sided `x != null` guard never diverges. Applying the falsy test to every shape under-counts safe sites by 8. verifiedSafe = 6: the `a || b || c` chains previously withheld, plus two in seasonings/vinegars.ts that became classifiable once `properties: any` was typed -- note a FULL chain converts to `a ?? b ?? c` with no parentheses, since parens are only needed when `??` is mixed with `||`/`&&`. semantic = 290: they genuinely diverge, including `any`/`unknown` operands treated as diverging because a type that could hold anything could hold \"\" or 0. unclassified = 5: a limitation of the MEASURING TOOL, not the code -- the classifier matches nodes that START on the reported line and these are multi-line `||` expressions beginning earlier; counted separately rather than folded into semantic. NOTE: only `total` is enforced -- compareSubBaseline reads nothing else, and `--ratchet` spreads these three fields through unchanged, so they MUST be re-measured by hand whenever total moves."
     }
   },
   "declined": {
-    "total": 6356,
+    "total": 6317,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1788,
-      "@typescript-eslint/explicit-module-boundary-types": 855,
+      "@typescript-eslint/explicit-function-return-type": 1774,
+      "@typescript-eslint/explicit-module-boundary-types": 851,
       "complexity": 364,
       "max-depth": 107,
       "max-lines": 661,
-      "max-lines-per-function": 2127,
-      "no-void": 454
+      "max-lines-per-function": 2114,
+      "no-void": 446
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1788,
+      "count": 1774,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 855,
+      "count": 851,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 212,
+      "count": 207,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -57,31 +57,31 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1287,
+      "count": 1280,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 103,
+      "count": 102,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 322,
+      "count": 289,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 40,
+      "count": 26,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 302,
+      "count": 282,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 56,
+      "count": 54,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 337,
+      "count": 301,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -93,7 +93,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/require-await": {
-      "count": 78,
+      "count": 77,
       "autoFixable": 0
     },
     "arrow-body-style": {
@@ -125,7 +125,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2127,
+      "count": 2114,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -133,7 +133,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 422,
+      "count": 417,
       "autoFixable": 0
     },
     "no-useless-assignment": {
@@ -141,7 +141,7 @@
       "autoFixable": 0
     },
     "no-void": {
-      "count": 454,
+      "count": 446,
       "autoFixable": 0
     },
     "prefer-destructuring": {

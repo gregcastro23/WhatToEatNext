@@ -82,7 +82,7 @@ function buildIndex(): Map<string, CuisineIndexEntry> {
 }
 
 function getIndex(): Map<string, CuisineIndexEntry> {
-  if (!indexCache) indexCache = buildIndex();
+  indexCache ??= buildIndex();
   return indexCache;
 }
 

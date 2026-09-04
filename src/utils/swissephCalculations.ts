@@ -27,10 +27,7 @@ let ephemerisInitialized = false;
  */
 export function initializeSwissEphemeris(ephePath: string | null = null): void {
   try {
-    if (!swisseph) {
-       
-      swisseph = require("swisseph-v2");
-    }
+    swisseph ??= require("swisseph-v2");
 
     if (swisseph && !ephemerisInitialized) {
       // Set ephemeris path (null uses built-in Moshier ephemeris)
@@ -387,10 +384,7 @@ export function closeSwissEphemeris(): void {
  */
 export function isSwissEphemerisAvailable(): boolean {
   try {
-    if (!swisseph) {
-       
-      swisseph = require("swisseph-v2");
-    }
+    swisseph ??= require("swisseph-v2");
     return swisseph !== null;
   } catch {
     return false;

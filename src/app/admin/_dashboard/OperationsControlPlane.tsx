@@ -1458,8 +1458,8 @@ export function OperationsControlPlane({ data }: Props) {
                 : "WTEN is_agent count vs PA remote roster"
             }
           >
-            WTEN {wtenAgents === null ? "—" : wtenAgents} · PA{" "}
-            {paAgents === null ? "—" : paAgents}
+            WTEN {wtenAgents ?? "—"} · PA{" "}
+            {paAgents ?? "—"}
             {rosterMismatch ? " · MISMATCH" : ""}
           </span>
 

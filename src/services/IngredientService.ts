@@ -214,9 +214,7 @@ export class IngredientService implements IngredientServiceInterface {
     const result: Record<string, UnifiedIngredient[]> = {};
     for (const ingredient of filteredIngredients) {
       const category = ingredient.category || "uncategorized";
-      if (!result[category]) {
-        result[category] = [];
-      }
+      result[category] ??= [];
       result[category].push(ingredient);
     }
     return result;

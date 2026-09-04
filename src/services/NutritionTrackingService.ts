@@ -278,9 +278,7 @@ export class NutritionTrackingService {
 let defaultInstance: NutritionTrackingService | null = null;
 
 export function getNutritionTrackingService(): NutritionTrackingService {
-  if (!defaultInstance) {
-    defaultInstance = new NutritionTrackingService();
-  }
+  defaultInstance ??= new NutritionTrackingService();
   return defaultInstance;
 }
 

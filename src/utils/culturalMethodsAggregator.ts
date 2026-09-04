@@ -158,9 +158,7 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
       )?.[1];
 
       if (relatedMainMethod) {
-        if (!methodVariationsMap[relatedMainMethod]) {
-          methodVariationsMap[relatedMainMethod] = new Set<string>();
-        }
+        methodVariationsMap[relatedMainMethod] ??= new Set<string>();
 
         const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`;
         if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) return;

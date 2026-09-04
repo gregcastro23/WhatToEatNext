@@ -32,9 +32,7 @@ function getStripeInstance(): StripeClient {
 let _stripe: StripeClient | null = null;
 
 export function getStripe(): StripeClient {
-  if (!_stripe) {
-    _stripe = getStripeInstance();
-  }
+  _stripe ??= getStripeInstance();
   return _stripe;
 }
 

@@ -114,11 +114,9 @@ export class AutomatedQualityAssurance {
   public static getInstance(
     config?: Partial<QualityAssuranceConfig>,
   ): AutomatedQualityAssurance {
-    if (!AutomatedQualityAssurance.instance) {
-      AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(
+    AutomatedQualityAssurance.instance ??= new AutomatedQualityAssurance(
         config,
       );
-    }
     return AutomatedQualityAssurance.instance;
   }
 

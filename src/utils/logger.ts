@@ -218,9 +218,7 @@ class Logger {
 let loggerInstance: Logger | undefined;
 
 export const logger = (() => {
-  if (!loggerInstance) {
-    loggerInstance = new Logger();
-  }
+  loggerInstance ??= new Logger();
   return loggerInstance;
 })();
 

@@ -140,9 +140,7 @@ class CelestialCalculator {
   }
 
   static getInstance(): CelestialCalculator {
-    if (!CelestialCalculator.instance) {
-      CelestialCalculator.instance = new CelestialCalculator();
-    }
+    CelestialCalculator.instance ??= new CelestialCalculator();
     return CelestialCalculator.instance;
   }
 
