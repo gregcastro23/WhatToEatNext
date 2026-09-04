@@ -7,13 +7,21 @@
  * means a new column/migration, not just swapping this constant.
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
+
 const EMBEDDING_MODEL = "text-embedding-3-small";
 const EMBEDDING_DIMENSIONS = 1536;
 const OPENAI_EMBEDDINGS_URL = "https://api.openai.com/v1/embeddings";
 
-interface OpenAIEmbeddingsResponse {
-  data: Array<{ embedding: number[]; index: number }>;
-}
+const openAIEmbeddingsResponseSchema = z.object({
+  data: z.array(
+    z.object({
+      embedding: z.array(z.number()),
+      index: z.number(),
+    }),
+  ),
+});
 
 async function callEmbeddingsApi(input: string[]): Promise<number[][]> {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -37,7 +45,9 @@ async function callEmbeddingsApi(input: string[]): Promise<number[][]> {
     );
   }
 
-  const json = (await response.json()) as OpenAIEmbeddingsResponse;
+  const json = await readJson(response, {
+    parse: (raw) => openAIEmbeddingsResponseSchema.parse(raw),
+  });
   // The API returns items in arbitrary order; `index` maps back to the input array.
   const vectors = new Array<number[]>(input.length);
   for (const item of json.data) {

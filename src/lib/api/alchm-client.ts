@@ -1,3 +1,5 @@
+import { readJson } from "@/lib/api/json";
+
 /*
   Centralized API client scaffold.
   Note: Replace placeholder types with generated backend types when available.
@@ -126,7 +128,7 @@ export class AlchmAPIClient {
       const statusText = response.statusText || "Unknown Error";
       throw new Error(`API Error: ${response.status} ${statusText}`);
     }
-    return response.json() as Promise<TResponse>;
+    return readJson<TResponse>(response);
   }
 
   async calculateElemental(

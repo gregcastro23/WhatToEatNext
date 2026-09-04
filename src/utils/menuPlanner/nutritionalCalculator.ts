@@ -293,7 +293,9 @@ export function calculateWeeklyTotals(
       totalSodium += dailyTotal.sodium;
       totalSugar += dailyTotal.sugar;
       gregsEnergySum += dailyTotal.gregsEnergy;
-      monicaSum += dailyTotal.monicaConstant;
+      if (typeof dailyTotal.monicaConstant === "number") {
+        monicaSum += dailyTotal.monicaConstant;
+      }
       kalchmSum += dailyTotal.kalchm;
       weeklyElemental.Fire += dailyTotal.elementalBalance.Fire;
       weeklyElemental.Water += dailyTotal.elementalBalance.Water;

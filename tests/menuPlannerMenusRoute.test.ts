@@ -20,7 +20,7 @@ jest.mock("@/services/menuPersistenceService", () => ({
 
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
-import { PUT } from "@/app/api/menu-planner/menus/route";
+import { GET, PUT } from "@/app/api/menu-planner/menus/route";
 import type { NextRequest } from "next/server";
 
 function makeRequest(body: unknown): NextRequest {
@@ -162,3 +162,74 @@ describe("PUT /api/menu-planner/menus", () => {
     });
   });
 });
+
+describe("GET /api/menu-planner/menus", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (getUserIdFromRequest as jest.Mock).mockResolvedValue("user-1");
+  });
+
+  function makeGetRequest(url: string): NextRequest {
+    return { url } as unknown as NextRequest;
+  }
+
+  it("requires authentication", async () => {
+    (getUserIdFromRequest as jest.Mock).mockResolvedValue(null);
+    const response = await GET(
+      makeGetRequest("http://localhost/api/menu-planner/menus?weekStartDate=2026-08-23T00:00:00.000Z"),
+    );
+    expect(response.status).toBe(401);
+  });
+
+  it("requires weekStartDate parameter", async () => {
+    const response = await GET(
+      makeGetRequest("http://localhost/api/menu-planner/menus"),
+    );
+    expect(response.status).toBe(400);
+  });
+
+  it("rejects invalid weekStartDate", async () => {
+    const response = await GET(
+      makeGetRequest("http://localhost/api/menu-planner/menus?weekStartDate=invalid-date"),
+    );
+    expect(response.status).toBe(400);
+  });
+
+  it("returns null menu when no menu exists", async () => {
+    (menuPersistenceService.getMenu as jest.Mock).mockResolvedValue(null);
+    const response = await GET(
+      makeGetRequest("http://localhost/api/menu-planner/menus?weekStartDate=2026-08-23T00:00:00.000Z"),
+    );
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body).toEqual({ success: true, menu: null });
+  });
+
+  it("returns validated and normalized menu when menu exists", async () => {
+    const persisted = {
+      id: "menu-123",
+      weekStartDate: new Date("2026-08-23T00:00:00.000Z"),
+      meals: [],
+      nutritionalTotals: {},
+      groceryList: [],
+      inventory: ["salt", "pepper"],
+      weeklyBudget: 150,
+      isTemplate: false,
+      templateName: null,
+      createdAt: new Date("2026-08-23T00:00:00.000Z"),
+      updatedAt: new Date("2026-08-23T00:00:00.000Z"),
+    };
+    (menuPersistenceService.getMenu as jest.Mock).mockResolvedValue(persisted);
+
+    const response = await GET(
+      makeGetRequest("http://localhost/api/menu-planner/menus?weekStartDate=2026-08-23T00:00:00.000Z"),
+    );
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body.success).toBe(true);
+    expect(body.menu.id).toBe("menu-123");
+    expect(body.menu.savedAsTemplate).toBe(false);
+    expect(body.menu.inventory).toEqual(["salt", "pepper"]);
+  });
+});
+
