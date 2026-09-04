@@ -37,43 +37,45 @@
   - `x === null ? b : x`: diverges **only** when `x` can be `undefined`.
   - `x != null ? x : b`: two-sided guard; never diverges.
 - **Chains convert whole without parentheses:** `a || b || c` converts to `a ?? b ?? c` with **no parentheses**. Parentheses are only required when mixing `??` with `||` or `&&`.
-- **Current PNC status (301 remaining):**
-  - **6 verifiedSafe**: 4 chained `||` sites (`useChartData.ts:126`, `cuisineTypes.ts:621`) and 2 in `seasonings/vinegars.ts:13,19`.
+- **Current PNC status (295 remaining):**
+  - **0 verifiedSafe**: (Exhausted in Phase 20).
   - **290 semantic**: operands can be falsy (`0`, `""`, `false`, `NaN`) or `any`/`unknown`.
   - **5 unclassified**: multi-line `||` expressions whose AST node begins on a line prior to the report.
 
-### Trust Boundary Architecture vs. Ratchet Tension
-- `res.json()` exists at 643 call sites; 313 currently pay an inline `as T` cast.
-- The naive fix (`const data = await res.json() as TargetType`) trades unsafe-* for an assertion site.
-- Use the shared JSON trust boundary helper in [`src/lib/api/json.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/api/json.ts): `readJson<T>(res)` and `fetchJson<T>(url, init)`. It absorbs the cast at the boundary and provides an optional validator hook (`parse?: (raw: unknown) => T`).
-
-### Reference & Scope Corrections
-- **`unsafe-*` family count:** Exactly **823 sites** (not 828).
-- **`monicaConstant` references:** Exactly **153 references** across `src/` (not 136). Do not size the type-widening task off 136.
+### Earned vs. Manufactured Confidence (Architectural Law)
+- `@typescript-eslint/no-unnecessary-condition` accounts for 1,276 entries (46.5% of tracked debt).
+- **Do NOT treat `no-unnecessary-condition` as low-hanging fruit.** A condition is only truly "unnecessary" if the confidence of the type was **earned** via runtime validation (Zod schemas, exhaustive type discriminators) rather than **manufactured** by an upstream cast (`as unknown as`, `as any`, or unvalidated API rehydration).
+- *Case study from Phase 20:* In `useCostEstimation.ts`, removing `typeof ing === 'string'` and `|| []` was type-clean because `m.recipe` was typed as `EnhancedRecipe`. But `meal.recipe` is written by `useMealSlots.ts:153` via `recipe as unknown as ...` and rehydrated at `MenuPlannerProvider.tsx:432` via `(await response.json()) as SavedMenuApiData` (unvalidated GET).
+- Using `readJson<T>` without `options.parse` simply relocates an unverified claim. A true trust boundary must validate at the door.
 
 ---
 
 ## 1. Phase 21 Prioritized Action Plan
 
-### Tranche 1: `DailyNutritionTotals.monicaConstant` Type Widening
+### Tranche 1: Earn the Menu Planner Boundary (`MenuPlannerProvider.tsx:432`)
+- **Objective:** Secure the read path for menu planning and retroactively earn the Tranche 4 guard removal in `useCostEstimation.ts`.
+- **Tasks:**
+  1. Extract route-local Zod schemas from [`src/app/api/menu-planner/menus/route.ts`](src/app/api/menu-planner/menus/route.ts) into a shared module: [`src/lib/menu-planner/schemas.ts`](src/lib/menu-planner/schemas.ts).
+  2. Validate GET responses on both server (`route.ts`) and client: [`src/contexts/menu-planner/MenuPlannerProvider.tsx:432`](src/contexts/menu-planner/MenuPlannerProvider.tsx#L432) using `readJson(response, { parse: (raw) => savedMenuApiDataSchema.parse(raw) })`.
+  3. Ensure `ing.name` is guaranteed to be a string at runtime, eliminating the crash hazard in `priceEstimator.ts:198`.
+
+### Tranche 2: `DailyNutritionTotals.monicaConstant` Type Widening (Dedicated Branch)
 - **Objective:** Fix the type honesty of `DailyNutritionTotals.monicaConstant` in [`src/types/nutrition.ts`](src/types/nutrition.ts).
-- **Branch Strategy:** Execute on a dedicated branch (`refactor/monica-constant-optionality`) to avoid merge conflicts.
-- **Scope:** 153 references across `src/data/`, `src/services/nutrition/`, `src/utils/nutritionCalculator.ts`, and test fixtures.
+- **Branch Strategy:** Execute on a dedicated branch (`refactor/monica-constant-optionality`) to avoid merge conflicts across 153 call sites.
 - **Tasks:**
   1. Change `monicaConstant: number` to `monicaConstant?: number`.
   2. Use compiler errors (`bun run typecheck`) to navigate to all dereferencing sites.
   3. Safely coalesce (`totals.monicaConstant ?? 0`) or update test fixtures.
   4. Ratchet lint debt: `bun scripts/checkLintDebt.ts --ratchet`.
 
-### Tranche 2: `readJson` / `safeReadJson` Trust Boundary Fan-out (Wave 2)
-- Continue migrating inline `.json() as T` casts across high-traffic services:
+### Tranche 3: Validated Trust Boundary Fan-out (Wave 2)
+- Migrate inline `.json() as T` casts, pairing `readJson` / `safeReadJson` with actual schema parsers (`parse`) rather than bare type overrides:
   - [`src/services/recipeData.ts`](src/services/recipeData.ts)
   - [`src/services/tokenService.ts`](src/services/tokenService.ts)
   - [`src/lib/embeddings/openaiEmbeddings.ts`](src/lib/embeddings/openaiEmbeddings.ts)
-- Preserve error-handling semantics (use `safeReadJson` where callers catch or swallow).
 
-### Tranche 3: Semantic PNC Investigation & Reduction
-- Audit the remaining 290 `semantic` PNC entries in clusters where the operand is demonstrably non-numeric and non-empty (e.g. object references or arrays with type-level truthiness).
+### Tranche 4: Defend Against Naive `no-unnecessary-condition` Sweeps
+- Partition the 1,276 `no-unnecessary-condition` candidates by earned vs. manufactured confidence. Refuse to delete runtime guards where upstream types originate from `as unknown as` or unvalidated I/O.
 
 ---
 
@@ -84,4 +86,5 @@
    - If present, they add **+2 `max-lines`** to the declined pool, breaking `lint:debt`.
    - Diagnose via `git status --porcelain` and lint file counts (2022 vs 2024), never by file mtime.
 2. **External Manifest Parity Test:**
-   - [`src/lib/esms-chain/__tests__/tokenMetadata.test.ts`](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/esms-chain/__tests__/tokenMetadata.test.ts) fails on an external Arweave image URL diff against a sibling ASOL checkout. Known issue; do not patch locally.
+   - [`src/lib/esms-chain/__tests__/tokenMetadata.test.ts`](src/lib/esms-chain/__tests__/tokenMetadata.test.ts) fails on an external Arweave image URL diff against a sibling ASOL checkout. Known issue; do not patch locally.
+
