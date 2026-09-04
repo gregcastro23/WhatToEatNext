@@ -114,7 +114,14 @@ function parseDayNutrition(entry: unknown): DailyNutritionTotals {
   result.sodium = asFiniteNumber(entry.sodium) ?? 0;
   result.sugar = asFiniteNumber(entry.sugar) ?? 0;
   result.gregsEnergy = asFiniteNumber(entry.gregsEnergy) ?? 0;
-  result.monicaConstant = asFiniteNumber(entry.monicaConstant) ?? 0;
+  // Absence must not be asserted as a measurement. `DailyNutritionTotals`
+  // declares `monicaConstant: number`, so this parse site cannot represent an
+  // absent monica; the 0 therefore comes from the struct's declared default
+  // above rather than being invented here per-payload. Runtime value is
+  // unchanged; widening the field to `number | null` is the real fix and is
+  // out of scope here (136 references across src/).
+  const monicaConstant = asFiniteNumber(entry.monicaConstant);
+  if (monicaConstant !== undefined) result.monicaConstant = monicaConstant;
   result.kalchm = asFiniteNumber(entry.kalchm) ?? 0;
 
   if (isRecord(entry.elementalBalance)) {
