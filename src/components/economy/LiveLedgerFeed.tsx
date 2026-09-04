@@ -143,7 +143,7 @@ export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProp
         <ul className="space-y-2">
           <AnimatePresence initial={false}>
             {transactions.map((txn) => {
-              const visual = TOKEN_VISUAL[txn.tokenType] || { symbol: '•', color: 'text-white/60' };
+              const visual = TOKEN_VISUAL[txn.tokenType] ?? { symbol: '•', color: 'text-white/60' };
               const isCredit = txn.amount >= 0;
               const sourceLabel = SOURCE_LABELS[txn.sourceType] || txn.sourceType;
               return (

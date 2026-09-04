@@ -123,7 +123,7 @@ function normalizeSignName(signName: string): ZodiacSignType {
   };
 
   const normalized = signName.toLowerCase();
-  return signMap[normalized] || ("aries");
+  return signMap[normalized] ?? ("aries");
 }
 
 /**

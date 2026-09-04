@@ -113,7 +113,7 @@ function computeSuggestions(
 
   // Find dominant element in the selection
   const { element: dominantEl } = getDominantElement(selectedElements);
-  const complementElements = ELEMENT_COMPLEMENTS[dominantEl] || ["Earth"];
+  const complementElements = ELEMENT_COMPLEMENTS[dominantEl] ?? ["Earth"];
 
   // Determine which categories to suggest
   const suggestCategories: Set<string> = new Set();

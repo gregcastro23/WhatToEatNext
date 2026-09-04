@@ -1032,7 +1032,7 @@ export class ElementalCalculator {
       (key) =>
         typeof planets[key] === "object" &&
         planets[key] !== null &&
-        (planetInfoRecord[key] || false),
+        (planetInfoRecord[key] ?? false),
     );
 
     // Process each planet

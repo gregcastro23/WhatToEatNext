@@ -55,7 +55,7 @@ export default function CommentReportsAdminPage(): React.JSX.Element {
       }
       const json = (await res.json()) as { success: boolean; reports?: Report[]; message?: string };
       if (json.success) {
-        setReports(json.reports || []);
+        setReports(json.reports ?? []);
       } else {
         setError(json.message || "Failed to load reports.");
       }

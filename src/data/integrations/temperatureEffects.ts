@@ -141,7 +141,7 @@ export const getTemperatureRange = (temp: number): TemperatureRangeKey =>
     (range) =>
       temp >= temperatureEffects[range].min &&
       temp <= temperatureEffects[range].max,
-  ) || "room";
+  ) ?? "room";
 
 export const _getElementalEffect = (temp: number): ElementalProperties => {
   const range = getTemperatureRange(temp);

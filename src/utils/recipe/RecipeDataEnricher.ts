@@ -647,7 +647,7 @@ export class RecipeDataEnricher {
     for (const method of cookingMethods) {
       const methodKey = method.toLowerCase().replace(/\s+/g, "-");
       const modifier =
-        COOKING_METHOD_MODIFIERS[methodKey] ||
+        COOKING_METHOD_MODIFIERS[methodKey] ??
         COOKING_METHOD_MODIFIERS[method.toLowerCase()];
 
       if (modifier) {
@@ -672,7 +672,7 @@ export class RecipeDataEnricher {
   ): ElementalProperties {
     const cuisineKey = cuisine.toLowerCase().replace(/\s+/g, "-");
     const modifier =
-      CUISINE_ELEMENTAL_MODIFIERS[cuisineKey] ||
+      CUISINE_ELEMENTAL_MODIFIERS[cuisineKey] ??
       CUISINE_ELEMENTAL_MODIFIERS[cuisine.toLowerCase()];
 
     if (!modifier) {

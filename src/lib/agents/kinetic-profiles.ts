@@ -584,7 +584,7 @@ export function calculateKineticState(
  * Get agent kinetic profile by ID
  */
 export function getAgentKineticProfile(agentId: string) {
-  const profile = agentKineticProfiles[agentId] || defaultKineticProfile
+  const profile = agentKineticProfiles[agentId] ?? defaultKineticProfile
 
   // Return enhanced profile with name and additional computed properties
   return {
@@ -642,8 +642,8 @@ const defaultKineticProfile: KineticProfile = {
  * Calculate compatibility between two agents
  */
 export function calculateKineticCompatibility(agent1Id: string, agent2Id: string): number {
-  const profile1 = agentKineticProfiles[agent1Id] || defaultKineticProfile
-  const profile2 = agentKineticProfiles[agent2Id] || defaultKineticProfile
+  const profile1 = agentKineticProfiles[agent1Id] ?? defaultKineticProfile
+  const profile2 = agentKineticProfiles[agent2Id] ?? defaultKineticProfile
 
   // Calculate elemental compatibility
   const elementalCompatibility =

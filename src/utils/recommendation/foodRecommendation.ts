@@ -529,7 +529,7 @@ export function isAppropriateForTimeOfDay(
     night: ["Snack"],
   };
 
-  const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] || [];
+  const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] ?? [];
 
   return safeSome(
     Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType],

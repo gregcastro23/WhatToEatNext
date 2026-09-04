@@ -743,7 +743,7 @@ export class SwissEphemerisService {
    * Get comprehensive seasonal transit information
    */
   getSeasonalTransits(year: string): SeasonalTransit[] {
-    return this.seasonalTransits[year] || [];
+    return this.seasonalTransits[year] ?? [];
   }
 
   /**

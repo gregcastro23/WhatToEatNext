@@ -135,7 +135,7 @@ export class ChakraAlchemyService {
     const energyStates =
       planetEnergyStates[
         planet as unknown as keyof typeof planetEnergyStates
-      ] || [];
+      ] ?? [];
 
     // Map energy states to chakras
     const chakras: ChakraPosition[] = [];

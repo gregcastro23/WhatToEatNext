@@ -186,7 +186,7 @@ export function ConsciousnessSigil({
       const signIndex = ZODIAC_SIGNS.indexOf(signLower);
       const signIdx = signIndex >= 0 ? signIndex : 0;
       const lon = (signIdx * 30 + val.degree) % 360;
-      const el = SIGN_TO_ELEMENT[signLower] || "fire";
+      const el = SIGN_TO_ELEMENT[signLower] ?? "fire";
       const mod = (signLower === "aries" || signLower === "cancer" || signLower === "libra" || signLower === "capricorn")
         ? "cardinal"
         : (signLower === "taurus" || signLower === "leo" || signLower === "scorpio" || signLower === "aquarius")

@@ -185,4 +185,4 @@ export const _getTarotCardQuantum = (cardName: string): number =>
  * @returns The ruling planet or null if not found
  */
 export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null =>
-  majorArcanaPlanetMap[cardName] || null;
+  majorArcanaPlanetMap[cardName] ?? null;

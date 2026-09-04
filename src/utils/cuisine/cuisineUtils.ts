@@ -29,7 +29,7 @@ export function getCuisinePAirings(
       return grainData?.cuisines ?? [];
     }
     case "culinary_herb":
-      return __herbCuisineMatrix[ingredientName] || [];
+      return __herbCuisineMatrix[ingredientName] ?? [];
     // Additional categories can be added as their matrix files are created
     default:
       return [];
@@ -110,8 +110,8 @@ export function getSharedIngredients(
 
   // Find shared ingredients across all categories
   for (const category of categories) {
-    const c1Ingredients = cuisine1Ingredients[category] || [];
-    const c2Ingredients = cuisine2Ingredients[category] || [];
+    const c1Ingredients = cuisine1Ingredients[category] ?? [];
+    const c2Ingredients = cuisine2Ingredients[category] ?? [];
 
     for (const ingredient of c1Ingredients) {
       if (c2Ingredients.includes(ingredient)) {

@@ -32,7 +32,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
   );
 
   const planetaryHourChakras = planet ? chakraMapping[planet] || [] : [];
-  const currentPlanetaryHour = planet || "";
+  const currentPlanetaryHour = planet ?? "";
 
   return {
     currentPlanetaryHour,

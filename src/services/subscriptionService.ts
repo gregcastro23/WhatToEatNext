@@ -61,7 +61,7 @@ class SubscriptionService {
            FROM user_subscriptions WHERE user_id = $1`,
           [userId],
         );
-        sub = result.rows[0] || null;
+        sub = result.rows[0] ?? null;
       } catch (error) {
         _logger.error("[subscriptionService] DB query failed:", error);
       }
@@ -200,7 +200,7 @@ class SubscriptionService {
                      updated_at as "updatedAt"`,
           values,
         );
-        return result.rows[0] || null;
+        return result.rows[0] ?? null;
       } catch (error) {
         _logger.error("[subscriptionService] Update failed:", error);
       }
@@ -319,7 +319,7 @@ class SubscriptionService {
            FROM user_subscriptions WHERE stripe_customer_id = $1`,
           [stripeCustomerId],
         );
-        return result.rows[0] || null;
+        return result.rows[0] ?? null;
       } catch (error) {
         _logger.error("[subscriptionService] Stripe lookup failed:", error);
       }

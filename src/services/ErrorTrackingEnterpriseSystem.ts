@@ -629,7 +629,7 @@ export class ErrorTrackingEnterpriseSystem {
     return {
       isMonitoring: this.isMonitoring,
       latestSnapshot:
-        this.metricsHistory[this.metricsHistory.length - 1] || null,
+        this.metricsHistory[this.metricsHistory.length - 1] ?? null,
       totalPatterns: this.patterns.size,
       historyLength: this.metricsHistory.length,
     };

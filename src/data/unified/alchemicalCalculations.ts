@@ -662,7 +662,7 @@ export function calculateCuisineKalchm(
   if ((ingredients || []).length === 0) return 1.0;
 
   const effectiveWeights =
-    weights || (ingredients || []).map(() => 1 / (ingredients || []).length);
+    weights ?? (ingredients || []).map(() => 1 / (ingredients || []).length);
   let weightedKalchmSum = 0;
   let totalWeight = 0;
 

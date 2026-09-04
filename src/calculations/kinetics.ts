@@ -263,7 +263,7 @@ function getElementFromSign(sign: string): Element | null {
     aquarius: "Air",
     pisces: "Water",
   };
-  return signToElement[sign] || null;
+  return signToElement[sign] ?? null;
 }
 
 /**
