@@ -10,13 +10,13 @@ function createIngredientMapping(
   return {
     name: id, // Add the required name property,
     // Vinegar default: Water-dominant (aqueous acid), Air (volatile acidity), minor Fire (acid bite)
-    elementalProperties: properties.elementalProperties || {
+    elementalProperties: properties.elementalProperties ?? {
       Water: 0.45,
       Air: 0.30,
       Fire: 0.15,
       Earth: 0.10,
     },
-    category: properties.category || "",
+    category: properties.category ?? "",
     ...properties,
   };
 }

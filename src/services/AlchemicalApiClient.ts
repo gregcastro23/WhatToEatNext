@@ -8,6 +8,7 @@
  * - Caching and optimization
  */
 
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/alchemy";
 
@@ -127,7 +128,7 @@ export class AlchemicalApiClient {
         throw new Error(`Backend calculation failed: ${response.statusText}`);
       }
 
-      return (await response.json()) as ElementalProperties;
+      return await readJson<ElementalProperties>(response);
     } catch (error) {
       _logger.error("Elemental calculation error: ", error);
       // Fallback to simple balanced elements
@@ -158,7 +159,7 @@ export class AlchemicalApiClient {
         );
       }
 
-      return (await response.json()) as ThermodynamicsResult;
+      return await readJson<ThermodynamicsResult>(response);
     } catch (error) {
       _logger.error("Thermodynamics calculation error: ", error);
       // Fallback values
@@ -186,7 +187,7 @@ export class AlchemicalApiClient {
         throw new Error(`Planetary data fetch failed: ${response.statusText}`);
       }
 
-      return (await response.json()) as PlanetaryInfluenceResponse;
+      return await readJson<PlanetaryInfluenceResponse>(response);
     } catch (error) {
       _logger.error("Planetary data error: ", error);
       // Fallback planetary data
@@ -229,7 +230,7 @@ export class AlchemicalApiClient {
         );
       }
 
-      return (await response.json()) as PlanetaryPositionsResponse;
+      return await readJson<PlanetaryPositionsResponse>(response);
     } catch (error) {
       _logger.error("Planetary positions error: ", error);
       throw error;
@@ -259,7 +260,7 @@ export class AlchemicalApiClient {
         );
       }
 
-      return (await response.json()) as RecipeRecommendationsResponse;
+      return await readJson<RecipeRecommendationsResponse>(response);
     } catch (error) {
       _logger.error("Recipe recommendation error: ", error);
       // Fallback empty recommendations
@@ -294,7 +295,7 @@ export class AlchemicalApiClient {
         },
       );
 
-      return (await response.json()) as ESMSResult;
+      return await readJson<ESMSResult>(response);
     } catch (error) {
       _logger.error("ESMS calculation error: ", error);
       return {
@@ -327,7 +328,7 @@ export class AlchemicalApiClient {
         },
       );
 
-      return (await response.json()) as BalanceOptimizationResult;
+      return await readJson<BalanceOptimizationResult>(response);
     } catch (error) {
       _logger.error("Balance optimization error: ", error);
       return { optimization: "balanced", recommendations: [] };

@@ -1,4 +1,5 @@
 import * as Astronomy from "astronomy-engine";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import type { ZodiacSignType } from "@/types/celestial";
@@ -305,7 +306,7 @@ export async function fetchPlanetaryPositions(
       );
     }
 
-    const data = (await response.json()) as AstrologizeResponse;
+    const data = await readJson<AstrologizeResponse>(response);
 
     // Extract planetary positions from the new API structure;
     const celestialBodies = data._celestialBodies;
@@ -544,7 +545,7 @@ export async function fetchAstrologicalRecipes(
       );
     }
 
-    const data = (await response.json()) as RecipeRecommendationResponse;
+    const data = await readJson<RecipeRecommendationResponse>(response);
     log.info("Successfully fetched astrological recipe recommendations.");
     return data;
   });

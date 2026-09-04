@@ -11,6 +11,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { safeReadJson } from "@/lib/api/json";
 import type { WeeklyMenu } from "@/types/menuPlanner";
 import { estimateWeeklyGroceryCost } from "@/utils/instacart/priceEstimator";
 import { logger } from "@/utils/logger";
@@ -51,21 +52,24 @@ export function useCostEstimation({
     if (!currentMenu) return;
 
     const recipesWithIngredients = currentMenu.meals
-      .filter((m) => m.recipe)
+      .filter(
+        (m): m is typeof m & { recipe: NonNullable<typeof m.recipe> } =>
+          Boolean(m.recipe),
+      )
       .map((m) => ({
-        ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({
-          name: typeof ing === "string" ? ing : ing.name ?? "",
-          amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
-          unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
-          category: typeof ing === "string" ? undefined : ing.category,
-          optional: typeof ing === "string" ? false : ing.optional,
+        ingredients: m.recipe.ingredients.map((ing) => ({
+          name: ing.name,
+          amount: ing.amount,
+          unit: ing.unit,
+          category: ing.category,
+          optional: ing.optional,
         })),
         servings: m.servings || 1,
         dietaryFlags: [
-          m.recipe?.isVegetarian ? "vegetarian" : "",
-          m.recipe?.isVegan ? "vegan" : "",
-          m.recipe?.isGlutenFree ? "gluten-free" : "",
-          m.recipe?.isDairyFree ? "dairy-free" : "",
+          m.recipe.isVegetarian ? "vegetarian" : "",
+          m.recipe.isVegan ? "vegan" : "",
+          m.recipe.isGlutenFree ? "gluten-free" : "",
+          m.recipe.isDairyFree ? "dairy-free" : "",
         ].filter(Boolean),
       }));
 
@@ -106,7 +110,7 @@ export function useCostEstimation({
             body: JSON.stringify({ line_items: lineItems }),
           });
           if (response.ok) {
-            const data = await response.json();
+            const data = await safeReadJson<{ confidence?: string }>(response, {});
             if (data.confidence === "high") {
               setState((prev) => ({ ...prev, confidence: "high" }));
             }

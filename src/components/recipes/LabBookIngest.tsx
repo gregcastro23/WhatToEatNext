@@ -9,6 +9,7 @@
  * Saved recipes (all of the user's custom recipes) list below with delete.
  */
 import { useCallback, useEffect, useState } from "react";
+import { readJson, safeReadJson } from "@/lib/api/json";
 
 interface ElementalProperties {
   Fire: number;
@@ -71,9 +72,12 @@ export default function LabBookIngest() {
       const res = await fetch("/api/users/me/recipes/custom", {
         credentials: "same-origin",
       });
-      const data = await res.json();
-      if (data?.authenticated && Array.isArray(data.recipes)) {
-        setSaved(data.recipes as SavedRecipe[]);
+      const data = await readJson<{
+        authenticated?: boolean;
+        recipes?: SavedRecipe[];
+      }>(res);
+      if (data.authenticated && Array.isArray(data.recipes)) {
+        setSaved(data.recipes);
       }
     } catch {
       /* non-fatal — the saved list just stays empty */
@@ -115,25 +119,30 @@ export default function LabBookIngest() {
         });
       }
 
-      const data = await res.json().catch(() => ({}));
+      const data = await safeReadJson<{
+        recipes?: AlchemizedRecipe[];
+        error?: string;
+        message?: string;
+        success?: boolean;
+      }>(res, {});
 
       if (res.status === 401) {
         setError("Please sign in to ingest recipes.");
         return;
       }
       if (res.status === 402) {
-        setError(data?.error ?? "Insufficient Essence tokens.");
+        setError(data.error ?? "Insufficient Essence tokens.");
         return;
       }
-      if (!res.ok || data?.success === false) {
-        setError(data?.error ?? "Extraction failed. Please try again.");
+      if (!res.ok || data.success === false) {
+        setError(data.error ?? "Extraction failed. Please try again.");
         return;
       }
 
-      const recipes = (data?.recipes ?? []) as AlchemizedRecipe[];
+      const recipes = data.recipes ?? [];
       setPreviews(recipes);
       if (recipes.length === 0) {
-        setNotice(data?.message ?? "No recipe detected in that input.");
+        setNotice(data.message ?? "No recipe detected in that input.");
       }
     } catch {
       setError("Something went wrong reaching the extractor.");
@@ -174,13 +183,13 @@ export default function LabBookIngest() {
           setError("Failed to save recipe.");
           return;
         }
-        const data = (await res.json().catch(() => ({}))) as {
+        const data = await safeReadJson<{
           completedQuests?: Array<{
             questSlug: string;
             tokensAwarded: number;
             tokenType: string;
           }>;
-        };
+        }>(res, {});
         setPreviews((prev) => prev.filter((_, i) => i !== idx));
         const completed = data.completedQuests ?? [];
         if (completed.length > 0) {

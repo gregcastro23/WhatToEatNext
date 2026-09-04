@@ -17,6 +17,7 @@
  * @file src/services/githubTriageService.ts
  */
 
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import { redisCached } from "@/lib/redis";
 
@@ -107,7 +108,7 @@ async function fetchLabelledIssues(label: string): Promise<GithubIssueRow[]> {
       }
       // Raw page length (PRs included) decides pagination; a page below 100
       // rows is the last one.
-      const rows = (await res.json()) as GithubIssueRow[];
+      const rows = await readJson<GithubIssueRow[]>(res);
       all.push(...rows.filter((row) => row.pull_request === undefined));
       if (rows.length < 100) return all;
     } finally {

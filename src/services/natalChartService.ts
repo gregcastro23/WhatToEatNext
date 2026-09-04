@@ -6,6 +6,7 @@
  * complete natal chart data including elemental and alchemical properties.
  */
 
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import type {
   Planet,
@@ -298,7 +299,7 @@ async function fetchPlanetaryPositions(
       throw new Error(`Astrologize API error: ${response.statusText}`);
     }
 
-    const data = (await response.json()) as AstrologizeResponse;
+    const data = await readJson<AstrologizeResponse>(response);
 
     // Determine Ascendant from server response or calculate locally
     let ascendant: PositionWithLongitude;

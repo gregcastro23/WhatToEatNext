@@ -2,7 +2,7 @@
  * The JSON trust boundary — behaviour of the single place the repo converts an
  * unknown payload into a typed value.
  */
-import { readJson, fetchJson, HttpError } from "@/lib/api/json";
+import { readJson, safeReadJson, fetchJson, HttpError } from "@/lib/api/json";
 
 /**
  * A real `Response`, not a hand-rolled stand-in. Using the platform object
@@ -53,6 +53,58 @@ describe("readJson", () => {
     await expect(readJson(jsonResponse({}), parse)).rejects.toThrow(
       "bad payload",
     );
+  });
+});
+
+describe("safeReadJson", () => {
+  it("returns the parsed body on valid JSON", async () => {
+    await expect(safeReadJson(jsonResponse({ a: 1 }), { a: 0 })).resolves.toEqual({
+      a: 1,
+    });
+  });
+
+  it("returns the fallback when response body is not valid JSON", async () => {
+    const invalidResponse = new Response("not-json", {
+      status: 400,
+      headers: { "Content-Type": "text/plain" },
+    });
+    await expect(safeReadJson(invalidResponse, { fallback: true })).resolves.toEqual({
+      fallback: true,
+    });
+  });
+
+  it("returns the fallback when response body is empty", async () => {
+    const emptyResponse = new Response("", {
+      status: 204,
+    });
+    await expect(safeReadJson(emptyResponse, { empty: true })).resolves.toEqual({
+      empty: true,
+    });
+  });
+
+  it("preserves literal null body when valid JSON", async () => {
+    await expect(safeReadJson(jsonResponse(null), { fallback: true })).resolves.toBeNull();
+  });
+
+  it("routes through parse when supplied", async () => {
+    const parse = (value: unknown): { n: number } => {
+      if (typeof value !== "object" || value === null || !("n" in value)) {
+        throw new Error("bad");
+      }
+      return { n: Number(value.n) };
+    };
+    await expect(
+      safeReadJson(jsonResponse({ n: "42" }), { n: 0 }, parse),
+    ).resolves.toEqual({ n: 42 });
+  });
+
+  it("returns fallback if parse throws", async () => {
+    const parse = (): never => {
+      throw new Error("bad");
+    };
+    await expect(
+      safeReadJson(jsonResponse({ n: "42" }), { n: -1 }, parse),
+    ).resolves.toEqual({ n: -1 });
   });
 });
 

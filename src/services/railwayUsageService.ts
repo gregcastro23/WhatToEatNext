@@ -19,6 +19,7 @@
  * production project but can be overridden.
  */
 
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 
 const RAILWAY_GRAPHQL_ENDPOINT = "https://backboard.railway.com/graphql/v2";
@@ -165,10 +166,10 @@ async function railwayGraphql<T>(
       _logger.warn(`[railwayUsage] HTTP ${resp.status} on ${field}`);
       return null;
     }
-    const json = (await resp.json()) as {
+    const json = await readJson<{
       data?: Record<string, T[] | undefined>;
       errors?: Array<{ message: string }>;
-    };
+    }>(resp);
     const rows = json.data?.[field];
     if (json.errors?.length || !rows) {
       _logger.warn(

@@ -58,6 +58,27 @@ export async function readJson<T>(
 }
 
 /**
+ * Read a `Response` body as JSON, returning `fallback` if reading or parsing fails.
+ *
+ * Use this when an endpoint can return an empty body or non-JSON payload (e.g.
+ * on certain error status codes like 401/402/204) and the caller degrades
+ * gracefully instead of treating a missing body as fatal.
+ */
+export async function safeReadJson<T>(
+  response: Response,
+  fallback: T,
+  parse?: (value: unknown) => T,
+): Promise<T> {
+  try {
+    const body: unknown = await response.json();
+    if (parse) return parse(body);
+    return body as T;
+  } catch {
+    return fallback;
+  }
+}
+
+/**
  * `fetch` + {@link readJson}, throwing {@link HttpError} on a non-2xx status.
  *
  * Use this when a failed request is exceptional. When a non-2xx is an ordinary
