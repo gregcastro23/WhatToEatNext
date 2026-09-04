@@ -193,17 +193,40 @@ export class PlanetaryHourCalculator {
    * @param date The date to calculate the planetary hour for
    * @returns Object containing the planet ruling the hour, hour number and if it's daytime
    */
+  /**
+   * Sun times for the solar day CONTAINING `date`, resolved at this
+   * calculator's coordinates.
+   *
+   * All three call sites used to pass
+   * `new Date(date.getFullYear(), date.getMonth(), date.getDate())` — midnight
+   * in the RUNNER'S timezone — and then ask for solar times at a different
+   * longitude. Those two disagree whenever they fall on opposite sides of a
+   * date boundary, which is the normal case in production: Vercel runs in UTC,
+   * so for a New York fix (lng -74) the synthesized midnight 2026-01-15T00:00Z
+   * is 2026-01-14 19:00 locally, and SunCalc returned the PREVIOUS day's
+   * sunrise and sunset. Every planetary hour was then computed against the
+   * wrong solar day — wrong ruling planet, wrong isDaytime, wrong boundaries —
+   * and the error was invisible to anyone developing west of UTC, where the
+   * two happen to agree.
+   *
+   * Passing the instant itself is SunCalc's intended usage and is timezone
+   * independent: the solar day is resolved at the coordinates, not at the host.
+   */
+  private sunTimesFor(date: Date): ReturnType<typeof SunCalc.getTimes> {
+    return SunCalc.getTimes(
+      date,
+      this.coordinates.latitude,
+      this.coordinates.longitude,
+    );
+  }
+
   getPlanetaryHour(date: Date): {
     planet: Planet;
     hourNumber: number;
     isDaytime: boolean;
   } {
     // Get sun times for the day
-    const times = SunCalc.getTimes(
-      new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-      this.coordinates.latitude,
-      this.coordinates.longitude,
-    );
+    const times = this.sunTimesFor(date);
 
     const { sunrise } = times;
     const { sunset } = times;
@@ -326,11 +349,7 @@ export class PlanetaryHourCalculator {
    * Get the next transition time to the following planetary hour
    */
   getNextPlanetaryHourTransition(date: Date = new Date()): Date {
-    const times = SunCalc.getTimes(
-      new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-      this.coordinates.latitude,
-      this.coordinates.longitude,
-    );
+    const times = this.sunTimesFor(date);
     const { sunrise, sunset } = times;
     if (!sunrise || !sunset) {
       const nextHour = new Date(date);
@@ -376,11 +395,7 @@ export class PlanetaryHourCalculator {
     const nextTransition = this.getNextPlanetaryHourTransition(date);
     const nextPlanetHour = this.getPlanetaryHour(new Date(nextTransition.getTime() + 60000));
 
-    const times = SunCalc.getTimes(
-      new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-      this.coordinates.latitude,
-      this.coordinates.longitude,
-    );
+    const times = this.sunTimesFor(date);
     const { sunrise, sunset } = times;
     const dayLength = sunrise && sunset ? sunset.getTime() - sunrise.getTime() : 12 * 60 * 60 * 1000;
     const nightLength = 24 * 60 * 60 * 1000 - dayLength;
