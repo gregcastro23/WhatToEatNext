@@ -117,18 +117,20 @@ export class PlanetaryMotionTracker {
   /**
    * Calculate current daily motion for a planet at a given date
    */
-  async calculateDailyMotion(planet: string, date: Date): Promise<number> {
-    const profile = PLANETARY_VELOCITY_PROFILES[planet]
-    if (!profile) {
-      throw new Error(`Unknown planet: ${planet}`)
-    }
+  calculateDailyMotion(planet: string, date: Date): Promise<number> {
+    return Promise.resolve().then(() => {
+      const profile = PLANETARY_VELOCITY_PROFILES[planet]
+      if (!profile) {
+        throw new Error(`Unknown planet: ${planet}`)
+      }
 
-    // For now, use average motion with orbital variation
-    // In production, this would integrate with astronomical APIs
-    const orbitalPhase = this.calculateOrbitalPhase(planet, date)
-    const seasonalVariation = this.calculateSeasonalVariation(planet, orbitalPhase)
+      // For now, use average motion with orbital variation
+      // In production, this would integrate with astronomical APIs
+      const orbitalPhase = this.calculateOrbitalPhase(planet, date)
+      const seasonalVariation = this.calculateSeasonalVariation(planet, orbitalPhase)
 
-    return profile.averageDailyMotion * seasonalVariation
+      return profile.averageDailyMotion * seasonalVariation
+    })
   }
 
   /**

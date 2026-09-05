@@ -32,7 +32,7 @@ export function useIngredientSearch() {
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   // Load all ingredients on mount
   useEffect(() => {
-    const loadIngredients = async () => {
+    const loadIngredients = () => {
       setIsLoading(true);
       try {
         const ingredients = [
@@ -60,7 +60,7 @@ export function useIngredientSearch() {
         setIsLoading(false);
       }
     };
-    void loadIngredients();
+    loadIngredients();
   }, []);
   // Delegate to the shared search-normalization util so every search bar
   // matches identically. Local wrapper keeps the existing single-target

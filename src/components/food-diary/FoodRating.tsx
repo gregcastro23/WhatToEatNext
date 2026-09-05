@@ -98,7 +98,7 @@ export default function FoodRating({
 
   const displayRating = hoverRating ?? selectedRating ?? 0;
 
-  const handleStarClick = async (value: number) => {
+  const handleStarClick = (value: number) => {
     if (readOnly) return;
 
     // Allow half-star by clicking on left half
@@ -137,7 +137,7 @@ export default function FoodRating({
     return (
       <button
         key={index}
-        onClick={() => { void handleStarClick(index); }}
+        onClick={() => { handleStarClick(index); }}
         onMouseEnter={() => !readOnly && setHoverRating(index)}
         onMouseLeave={() => setHoverRating(null)}
         disabled={readOnly}

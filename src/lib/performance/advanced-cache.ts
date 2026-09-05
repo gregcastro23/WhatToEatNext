@@ -276,9 +276,9 @@ export async function initializeCaches(): Promise<void> {
     await planetaryCache.warmup([
       {
         key: "current_planetary_hour",
-        computeFn: async () =>
+        computeFn: () =>
           // This would normally call the planetary calculation service
-          ({
+          Promise.resolve({
             planet: "Sun",
             influence: 0.7,
             timeRemaining: "45:30",
@@ -292,12 +292,13 @@ export async function initializeCaches(): Promise<void> {
     await elementalCache.warmup([
       {
         key: "elemental_base_properties",
-        computeFn: async () => ({
-          Fire: { energy: "hot", quality: "dry", direction: "South" },
-          Water: { energy: "cold", quality: "wet", direction: "West" },
-          Earth: { energy: "cold", quality: "dry", direction: "North" },
-          Air: { energy: "hot", quality: "wet", direction: "East" },
-        }),
+        computeFn: () =>
+          Promise.resolve({
+            Fire: { energy: "hot", quality: "dry", direction: "South" },
+            Water: { energy: "cold", quality: "wet", direction: "West" },
+            Earth: { energy: "cold", quality: "dry", direction: "North" },
+            Air: { energy: "hot", quality: "wet", direction: "East" },
+          }),
         ttl: 60 * 60 * 1000,
       },
     ]);

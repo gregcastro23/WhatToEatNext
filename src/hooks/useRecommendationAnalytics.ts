@@ -94,7 +94,7 @@ export function useRecommendationAnalytics(
 
   // ========== HELPER FUNCTIONS ==========
 
-  const updateMetrics = useCallback(async () => {
+  const updateMetrics = useCallback(() => {
     try {
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
@@ -142,12 +142,12 @@ export function useRecommendationAnalytics(
       // Start periodic metrics collection
       metricsIntervalRef.current = setInterval(() => {
         if (mountedRef.current) {
-          void updateMetrics();
+          updateMetrics();
         }
       }, metricsUpdateInterval);
 
       // Initial metrics update
-      void updateMetrics();
+      updateMetrics();
     }
 
     return () => {
@@ -239,7 +239,7 @@ export function useRecommendationAnalytics(
 
   const clearAnalytics = useCallback(() => {
     _recommendationAnalytics.clearAnalytics();
-    void updateMetrics();
+    updateMetrics();
   }, [updateMetrics]);
 
   // ========== RETURN ==========

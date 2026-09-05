@@ -66,7 +66,7 @@ export async function GET() {
   }
 }
 
-export async function HEAD() {
+export function HEAD(): Promise<NextResponse> {
   // Simple HEAD request for basic health check
-  return new NextResponse(null, { status: 200 });
+  return Promise.resolve(new NextResponse(null, { status: 200 }));
 }

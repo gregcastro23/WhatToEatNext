@@ -578,40 +578,42 @@ class UserLearningSystem {
   /**
    * Compute user preferences from interaction history
    */
-  private async computeUserPreferences(
+  private computeUserPreferences(
     userId: string,
   ): Promise<UserPreferences> {
-    const interactions = this.interactions.get(userId) ?? [];
+    return Promise.resolve().then(() => {
+      const interactions = this.interactions.get(userId) ?? [];
 
-    if (interactions.length === 0) {
-      return this.getDefaultPreferences(userId);
-    }
+      if (interactions.length === 0) {
+        return this.getDefaultPreferences(userId);
+      }
 
-    const preferences: UserPreferences = {
-      userId,
-      dietaryRestrictions: [],
-      cuisinePreferences: this.extractCuisinePreferences(interactions),
-      favoriteIngredients: this.extractIngredientPreferences(
-        interactions,
-        "positive",
-      ),
-      dislikedIngredients: this.extractIngredientPreferences(
-        interactions,
-        "negative",
-      ),
-      elementalAffinities: this.calculateElementalAffinities(interactions),
-      planetaryPreferences: this.calculatePlanetaryPreferences(interactions),
-      preferredCookingMethods:
-        this.extractCookingMethodPreferences(interactions),
-      typicalMealTimes: this.extractMealTimePatterns(interactions),
-      complexityPreference: this.calculateComplexityPreference(interactions),
-      totalInteractions: interactions.length,
-      lastActivity: Math.max(...interactions.map((i) => i.timestamp)),
-      learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions
-      weights: this.calculatePersonalizationWeights(interactions),
-    };
+      const preferences: UserPreferences = {
+        userId,
+        dietaryRestrictions: [],
+        cuisinePreferences: this.extractCuisinePreferences(interactions),
+        favoriteIngredients: this.extractIngredientPreferences(
+          interactions,
+          "positive",
+        ),
+        dislikedIngredients: this.extractIngredientPreferences(
+          interactions,
+          "negative",
+        ),
+        elementalAffinities: this.calculateElementalAffinities(interactions),
+        planetaryPreferences: this.calculatePlanetaryPreferences(interactions),
+        preferredCookingMethods:
+          this.extractCookingMethodPreferences(interactions),
+        typicalMealTimes: this.extractMealTimePatterns(interactions),
+        complexityPreference: this.calculateComplexityPreference(interactions),
+        totalInteractions: interactions.length,
+        lastActivity: Math.max(...interactions.map((i) => i.timestamp)),
+        learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions
+        weights: this.calculatePersonalizationWeights(interactions),
+      };
 
-    return preferences;
+      return preferences;
+    });
   }
 
   /**

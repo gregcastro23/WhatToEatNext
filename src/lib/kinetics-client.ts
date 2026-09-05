@@ -81,58 +81,62 @@ function seasonalInfluence(reference: Date, lat: number): string {
 }
 
 export const AlchemicalKineticsClient = {
-  get: async (args: KineticsGetArgs) => {
-    const reference = args.date ? new Date(args.date) : new Date();
-    const window = Math.max(1, args.window ?? 6);
-    const includePlanetary = args.includePlanetary ?? true;
-    const includeElemental = args.includeElemental ?? false;
+  get: (args: KineticsGetArgs) =>
+    Promise.resolve().then(() => {
+      const reference = args.date ? new Date(args.date) : new Date();
+      const window = Math.max(1, args.window ?? 6);
+      const includePlanetary = args.includePlanetary ?? true;
+      const includeElemental = args.includeElemental ?? false;
 
-    return {
-      power: powerCurve(args.lat, window),
-      momentum: includeElemental ? 1 + Math.cos((args.lon * Math.PI) / 180) * 0.2 : 1,
-      timing: {
-        planetaryHours: includePlanetary ? planetaryHourSequence(reference) : [],
-        seasonalInfluence: seasonalInfluence(reference, args.lat),
-      },
-    };
-  },
+      return {
+        power: powerCurve(args.lat, window),
+        momentum: includeElemental ? 1 + Math.cos((args.lon * Math.PI) / 180) * 0.2 : 1,
+        timing: {
+          planetaryHours: includePlanetary ? planetaryHourSequence(reference) : [],
+          seasonalInfluence: seasonalInfluence(reference, args.lat),
+        },
+      };
+    }),
 
-  put: async (args: KineticsPutArgs) => {
-    const start = new Date(args["start-time"]);
-    const end = new Date(args["end-time"]);
-    const intervalMin = Math.max(1, args["time-interval"] ?? 60);
-    const sampleCount = Math.max(
-      1,
-      Math.floor((end.getTime() - start.getTime()) / (intervalMin * 60 * 1000)) + 1,
-    );
+  put: (args: KineticsPutArgs) =>
+    Promise.resolve().then(() => {
+      const start = new Date(args["start-time"]);
+      const end = new Date(args["end-time"]);
+      const intervalMin = Math.max(1, args["time-interval"] ?? 60);
+      const sampleCount = Math.max(
+        1,
+        Math.floor((end.getTime() - start.getTime()) / (intervalMin * 60 * 1000)) + 1,
+      );
 
-    const data = Array.from({ length: sampleCount }, (_, i) => ({
-      Timestamp: new Date(start.getTime() + i * intervalMin * 60 * 1000).toISOString(),
-      Total_Spirit: 0,
-      Total_Essence: 0,
-      Total_Matter: 0,
-      Total_Substance: 0,
-      Heat: 0,
-      Entropy: 0,
-    }));
+      const data = Array.from({ length: sampleCount }, (_, i) => ({
+        Timestamp: new Date(start.getTime() + i * intervalMin * 60 * 1000).toISOString(),
+        Total_Spirit: 0,
+        Total_Essence: 0,
+        Total_Matter: 0,
+        Total_Substance: 0,
+        Heat: 0,
+        Entropy: 0,
+      }));
 
-    const payload = { data };
-    const exportFormat = args.exportFormat ?? "json";
+      const payload = { data };
+      const exportFormat = args.exportFormat ?? "json";
 
-    return {
-      ok: true,
-      json: async () => payload,
-      text: async () =>
-        exportFormat === "csv"
-          ? ["Timestamp,Total_Spirit,Total_Essence,Total_Matter,Total_Substance,Heat,Entropy"]
-              .concat(
-                data.map(
-                  (d) =>
-                    `${d.Timestamp},${d.Total_Spirit},${d.Total_Essence},${d.Total_Matter},${d.Total_Substance},${d.Heat},${d.Entropy}`,
-                ),
-              )
-              .join("\n")
-          : JSON.stringify(payload),
-    };
-  },
+      return {
+        ok: true,
+        json: () => Promise.resolve(payload),
+        text: () =>
+          Promise.resolve().then(() =>
+            exportFormat === "csv"
+              ? ["Timestamp,Total_Spirit,Total_Essence,Total_Matter,Total_Substance,Heat,Entropy"]
+                  .concat(
+                    data.map(
+                      (d) =>
+                        `${d.Timestamp},${d.Total_Spirit},${d.Total_Essence},${d.Total_Matter},${d.Total_Substance},${d.Heat},${d.Entropy}`,
+                    ),
+                  )
+                  .join("\n")
+              : JSON.stringify(payload),
+          ),
+      };
+    }),
 };

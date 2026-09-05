@@ -98,110 +98,112 @@ export async function getLiveSkyTransits(
 }
 
 /** Translate raw ingredients into ESMS + thermodynamic metrics. */
-export async function alchemizeIngredients(
+export function alchemizeIngredients(
   args: AlchemizeArgs,
 ): Promise<ToolResult> {
-  const inputIngredients = Array.isArray(args.ingredients)
-    ? args.ingredients.filter((s): s is string => typeof s === "string" && s.length > 0)
-    : [];
-  if (inputIngredients.length === 0) {
-    return {
-      ok: false,
-      data: null,
-      errorCode: "INVALID_ARGS",
-      errorMessage: "ingredients[] required",
-      summary: { reason: "empty-ingredients" },
-    };
-  }
+  return Promise.resolve().then(() => {
+    const inputIngredients = Array.isArray(args.ingredients)
+      ? args.ingredients.filter((s): s is string => typeof s === "string" && s.length > 0)
+      : [];
+    if (inputIngredients.length === 0) {
+      return {
+        ok: false,
+        data: null,
+        errorCode: "INVALID_ARGS",
+        errorMessage: "ingredients[] required",
+        summary: { reason: "empty-ingredients" },
+      };
+    }
 
-  const analyzed = inputIngredients.map((name) => {
-    const item = ingredientService.getIngredientByName(name);
-    const props = item?.elementalProperties ?? {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    };
-    // An ingredient is not a chart — it has no planets — so its quantities can
-    // only come from its own curated data. They must NEVER be synthesized from
-    // its elements: quantities and elements are orthogonal readings (see the
-    // header of src/utils/planetaryAlchemyMapping.ts). This previously returned
-    // spirit = Fire * 100, i.e. the elemental vector wearing an ESMS label.
-    // Only part of the catalog carries curated quantities, so report null
-    // rather than inventing a number an LLM client would treat as real.
-    const stored = item?.alchemicalProperties;
-    return {
-      name,
-      resolvedName: item?.name ?? "Unknown Alchemical Flora",
-      category: item?.category ?? "uncategorized",
-      esms: stored
+    const analyzed = inputIngredients.map((name) => {
+      const item = ingredientService.getIngredientByName(name);
+      const props = item?.elementalProperties ?? {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
+      };
+      // An ingredient is not a chart — it has no planets — so its quantities can
+      // only come from its own curated data. They must NEVER be synthesized from
+      // its elements: quantities and elements are orthogonal readings (see the
+      // header of src/utils/planetaryAlchemyMapping.ts). This previously returned
+      // spirit = Fire * 100, i.e. the elemental vector wearing an ESMS label.
+      // Only part of the catalog carries curated quantities, so report null
+      // rather than inventing a number an LLM client would treat as real.
+      const stored = item?.alchemicalProperties;
+      return {
+        name,
+        resolvedName: item?.name ?? "Unknown Alchemical Flora",
+        category: item?.category ?? "uncategorized",
+        esms: stored
+          ? {
+              spirit: Math.round(stored.Spirit * 100),
+              essence: Math.round(stored.Essence * 100),
+              matter: Math.round(stored.Matter * 100),
+              substance: Math.round(stored.Substance * 100),
+            }
+          : null,
+        esmsSource: stored ? ("ingredient-data" as const) : null,
+        elementalProperties: props,
+        planetaryRuler: item?.planetaryRuler ?? "none",
+      };
+    });
+
+    const averageProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    for (const item of analyzed) {
+      averageProps.Fire += item.elementalProperties.Fire;
+      averageProps.Water += item.elementalProperties.Water;
+      averageProps.Earth += item.elementalProperties.Earth;
+      averageProps.Air += item.elementalProperties.Air;
+    }
+    const len = analyzed.length;
+    averageProps.Fire /= len;
+    averageProps.Water /= len;
+    averageProps.Earth /= len;
+    averageProps.Air /= len;
+
+    // Aggregate only over ingredients that actually carry quantities.
+    const withEsms = analyzed.filter(
+      (a): a is typeof a & { esms: NonNullable<typeof a.esms> } => a.esms !== null,
+    );
+    const aggregateBalances =
+      withEsms.length > 0
         ? {
-            spirit: Math.round(stored.Spirit * 100),
-            essence: Math.round(stored.Essence * 100),
-            matter: Math.round(stored.Matter * 100),
-            substance: Math.round(stored.Substance * 100),
+            spirit: Math.round(withEsms.reduce((s, a) => s + a.esms.spirit, 0) / withEsms.length),
+            essence: Math.round(withEsms.reduce((s, a) => s + a.esms.essence, 0) / withEsms.length),
+            matter: Math.round(withEsms.reduce((s, a) => s + a.esms.matter, 0) / withEsms.length),
+            substance: Math.round(withEsms.reduce((s, a) => s + a.esms.substance, 0) / withEsms.length),
           }
-        : null,
-      esmsSource: stored ? ("ingredient-data" as const) : null,
-      elementalProperties: props,
-      planetaryRuler: item?.planetaryRuler ?? "none",
-    };
-  });
+        : null;
 
-  const averageProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  for (const item of analyzed) {
-    averageProps.Fire += item.elementalProperties.Fire;
-    averageProps.Water += item.elementalProperties.Water;
-    averageProps.Earth += item.elementalProperties.Earth;
-    averageProps.Air += item.elementalProperties.Air;
-  }
-  const len = analyzed.length;
-  averageProps.Fire /= len;
-  averageProps.Water /= len;
-  averageProps.Earth /= len;
-  averageProps.Air /= len;
+    const harmony = alchemicalService.analyzeAlchemicalHarmony(
+      analyzed.map((a) => a.elementalProperties),
+    );
+    const thermo = alchemicalService.calculateThermodynamicProperties(averageProps);
 
-  // Aggregate only over ingredients that actually carry quantities.
-  const withEsms = analyzed.filter(
-    (a): a is typeof a & { esms: NonNullable<typeof a.esms> } => a.esms !== null,
-  );
-  const aggregateBalances =
-    withEsms.length > 0
-      ? {
-          spirit: Math.round(withEsms.reduce((s, a) => s + a.esms.spirit, 0) / withEsms.length),
-          essence: Math.round(withEsms.reduce((s, a) => s + a.esms.essence, 0) / withEsms.length),
-          matter: Math.round(withEsms.reduce((s, a) => s + a.esms.matter, 0) / withEsms.length),
-          substance: Math.round(withEsms.reduce((s, a) => s + a.esms.substance, 0) / withEsms.length),
-        }
-      : null;
-
-  const harmony = alchemicalService.analyzeAlchemicalHarmony(
-    analyzed.map((a) => a.elementalProperties),
-  );
-  const thermo = alchemicalService.calculateThermodynamicProperties(averageProps);
-
-  const data = {
-    ingredientCount: len,
-    ingredients: analyzed,
-    // null when no supplied ingredient carries curated quantities. Elements are
-    // always present; quantities are not, and are not derivable from elements.
-    aggregateBalances,
-    esmsCoverage: { withQuantities: withEsms.length, total: len },
-    overallHarmony: harmony.overallHarmony,
-    dominantElement: harmony.dominantElement,
-    thermodynamics: thermo,
-    recommendations: harmony.recommendations,
-  };
-
-  return {
-    ok: true,
-    data,
-    summary: {
+    const data = {
       ingredientCount: len,
+      ingredients: analyzed,
+      // null when no supplied ingredient carries curated quantities. Elements are
+      // always present; quantities are not, and are not derivable from elements.
+      aggregateBalances,
+      esmsCoverage: { withQuantities: withEsms.length, total: len },
       overallHarmony: harmony.overallHarmony,
       dominantElement: harmony.dominantElement,
-    },
-  };
+      thermodynamics: thermo,
+      recommendations: harmony.recommendations,
+    };
+
+    return {
+      ok: true,
+      data,
+      summary: {
+        ingredientCount: len,
+        overallHarmony: harmony.overallHarmony,
+        dominantElement: harmony.dominantElement,
+      },
+    };
+  });
 }
 
 /** Discover cosmos-aligned recipes from the catalog. */

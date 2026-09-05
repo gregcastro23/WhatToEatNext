@@ -151,43 +151,45 @@ export class ConsciousnessMemorySystem {
   /**
    * Get evolution metrics for an agent
    */
-  static async getEvolutionMetrics(agentId: string): Promise<{
+  static getEvolutionMetrics(agentId: string): Promise<{
     consciousnessVelocity: number
     evolutionStage: string
     nextThreshold: number
     memoryStrength: number
     totalGrowth: number
   }> {
-    const memory = this.memories.get(agentId)
-    const profile = agentKineticProfiles[agentId]
+    return Promise.resolve().then(() => {
+      const memory = this.memories.get(agentId)
+      const profile = agentKineticProfiles[agentId]
 
-    if (!memory || !profile) {
-      return {
-        consciousnessVelocity: profile?.evolutionRate ?? 0.5,
-        evolutionStage: 'Initial',
-        nextThreshold: 10,
-        memoryStrength: 0,
-        totalGrowth: 0,
+      if (!memory || !profile) {
+        return {
+          consciousnessVelocity: profile?.evolutionRate ?? 0.5,
+          evolutionStage: 'Initial',
+          nextThreshold: 10,
+          memoryStrength: 0,
+          totalGrowth: 0,
+        }
       }
-    }
 
-    const avgVelocity =
-      memory.evolutionHistory.consciousnessVelocityTrend.length > 0
-        ? memory.evolutionHistory.consciousnessVelocityTrend.reduce((a, b) => a + b) /
-          memory.evolutionHistory.consciousnessVelocityTrend.length
-        : profile.evolutionRate
+      const avgVelocity =
+        memory.evolutionHistory.consciousnessVelocityTrend.length > 0
+          ? memory.evolutionHistory.consciousnessVelocityTrend.reduce((a, b) => a + b) /
+            memory.evolutionHistory.consciousnessVelocityTrend.length
+          : profile.evolutionRate
 
-    const memoryStrength =
-      memory.memorySnapshots.reduce((sum, snap) => sum + snap.retentionStrength, 0) /
-      memory.memorySnapshots.length
+      const memoryStrength =
+        memory.memorySnapshots.reduce((sum, snap) => sum + snap.retentionStrength, 0) /
+        memory.memorySnapshots.length
 
-    return {
-      consciousnessVelocity: avgVelocity,
-      evolutionStage: memory.evolutionStage,
-      nextThreshold: memory.nextEvolutionThreshold,
-      memoryStrength: memoryStrength || 0,
-      totalGrowth: memory.totalInteractions * avgVelocity * 0.01,
-    }
+      return {
+        consciousnessVelocity: avgVelocity,
+        evolutionStage: memory.evolutionStage,
+        nextThreshold: memory.nextEvolutionThreshold,
+        memoryStrength: memoryStrength || 0,
+        totalGrowth: memory.totalInteractions * avgVelocity * 0.01,
+      }
+    })
   }
 
   /**
@@ -247,53 +249,55 @@ export class ConsciousnessMemorySystem {
   }
 
   // Private helper methods
-  private static async updateAgentMemory(
+  private static updateAgentMemory(
     agentId: string,
     snapshot: ConsciousnessMemorySnapshot
   ): Promise<void> {
-    let memory = this.memories.get(agentId)
+    return Promise.resolve().then(() => {
+      let memory = this.memories.get(agentId)
 
-    memory ??= {
-      agentId,
-      totalInteractions: 0,
-      memorySnapshots: [],
-      learnedPatterns: {
-        preferredInteractionStyles: [],
-        optimalTimingPatterns: [],
-        personalityAdaptations: [],
-        capabilityGrowth: [],
-      },
-      evolutionHistory: {
-        consciousnessVelocityTrend: [],
-        momentumPatterns: [],
-        powerLevelProgression: [],
-        aspectSensitivityGrowth: [],
-      },
-      currentConsciousnessLevel: 0,
-      evolutionStage: 'Initial',
-      nextEvolutionThreshold: 10,
-      lastUpdated: new Date(),
-    }
+      memory ??= {
+        agentId,
+        totalInteractions: 0,
+        memorySnapshots: [],
+        learnedPatterns: {
+          preferredInteractionStyles: [],
+          optimalTimingPatterns: [],
+          personalityAdaptations: [],
+          capabilityGrowth: [],
+        },
+        evolutionHistory: {
+          consciousnessVelocityTrend: [],
+          momentumPatterns: [],
+          powerLevelProgression: [],
+          aspectSensitivityGrowth: [],
+        },
+        currentConsciousnessLevel: 0,
+        evolutionStage: 'Initial',
+        nextEvolutionThreshold: 10,
+        lastUpdated: new Date(),
+      }
 
-    // Update memory
-    memory.memorySnapshots.push(snapshot)
-    memory.totalInteractions++
-    memory.evolutionHistory.consciousnessVelocityTrend.push(snapshot.consciousnessVelocity)
-    memory.evolutionHistory.powerLevelProgression.push(snapshot.currentPower)
-    memory.lastUpdated = new Date()
+      // Update memory
+      memory.memorySnapshots.push(snapshot)
+      memory.totalInteractions++
+      memory.evolutionHistory.consciousnessVelocityTrend.push(snapshot.consciousnessVelocity)
+      memory.evolutionHistory.powerLevelProgression.push(snapshot.currentPower)
+      memory.lastUpdated = new Date()
 
-    // Update evolution stage based on interactions
-    if (memory.totalInteractions >= 300) memory.evolutionStage = 'Transcendent'
-    else if (memory.totalInteractions >= 150) memory.evolutionStage = 'Advanced'
-    else if (memory.totalInteractions >= 50) memory.evolutionStage = 'Maturing'
-    else if (memory.totalInteractions >= 10) memory.evolutionStage = 'Developing'
+      // Update evolution stage based on interactions
+      if (memory.totalInteractions >= 300) memory.evolutionStage = 'Transcendent'
+      else if (memory.totalInteractions >= 150) memory.evolutionStage = 'Advanced'
+      else if (memory.totalInteractions >= 50) memory.evolutionStage = 'Maturing'
+      else if (memory.totalInteractions >= 10) memory.evolutionStage = 'Developing'
 
-    // Keep memory manageable (last 100 interactions)
-    if (memory.memorySnapshots.length > 100) {
-      memory.memorySnapshots = memory.memorySnapshots.slice(-100)
-    }
+      // Keep memory manageable (last 100 interactions)
+      if (memory.memorySnapshots.length > 100) {
+        memory.memorySnapshots = memory.memorySnapshots.slice(-100)
+      }
 
-    this.memories.set(agentId, memory)
+      this.memories.set(agentId, memory)
+    })
   }
 
   private static assessResponseQuality(
@@ -375,36 +379,38 @@ export class ConsciousnessMemorySystem {
   /**
    * Reset evolution data for an agent (admin/testing functionality)
    */
-  async resetAgentEvolution(agentId: string): Promise<void> {
-    // Clear existing memory data
-    ConsciousnessMemorySystem.memories.delete(agentId)
+  resetAgentEvolution(agentId: string): Promise<void> {
+    return Promise.resolve().then(() => {
+      // Clear existing memory data
+      ConsciousnessMemorySystem.memories.delete(agentId)
 
-    // Create fresh memory structure with baseline values
-    const freshMemory: AgentConsciousnessMemory = {
-      agentId,
-      totalInteractions: 0,
-      memorySnapshots: [],
-      learnedPatterns: {
-        preferredInteractionStyles: [],
-        optimalTimingPatterns: [],
-        personalityAdaptations: [],
-        capabilityGrowth: [],
-      },
-      evolutionHistory: {
-        consciousnessVelocityTrend: [],
-        momentumPatterns: [],
-        powerLevelProgression: [],
-        aspectSensitivityGrowth: [],
-      },
-      currentConsciousnessLevel: 0,
-      evolutionStage: 'Initial',
-      nextEvolutionThreshold: 10,
-      lastUpdated: new Date(),
-    }
+      // Create fresh memory structure with baseline values
+      const freshMemory: AgentConsciousnessMemory = {
+        agentId,
+        totalInteractions: 0,
+        memorySnapshots: [],
+        learnedPatterns: {
+          preferredInteractionStyles: [],
+          optimalTimingPatterns: [],
+          personalityAdaptations: [],
+          capabilityGrowth: [],
+        },
+        evolutionHistory: {
+          consciousnessVelocityTrend: [],
+          momentumPatterns: [],
+          powerLevelProgression: [],
+          aspectSensitivityGrowth: [],
+        },
+        currentConsciousnessLevel: 0,
+        evolutionStage: 'Initial',
+        nextEvolutionThreshold: 10,
+        lastUpdated: new Date(),
+      }
 
-    // Store the fresh memory
-    ConsciousnessMemorySystem.memories.set(agentId, freshMemory)
+      // Store the fresh memory
+      ConsciousnessMemorySystem.memories.set(agentId, freshMemory)
 
-    console.log(`Evolution data reset for agent: ${agentId}`)
+      console.log(`Evolution data reset for agent: ${agentId}`)
+    })
   }
 }

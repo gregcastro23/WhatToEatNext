@@ -239,7 +239,7 @@ class StateManager {
     }, this.UPDATE_INTERVAL);
   }
 
-  private async updateCelestialData(): Promise<void> {
+  private updateCelestialData(): Promise<void> {
     try {
       const influences = _celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
@@ -257,8 +257,10 @@ class StateManager {
           lastUpdated: Date.now(),
         },
       });
+      return Promise.resolve();
     } catch (error) {
       logger.error("Error updating celestial data: ", error);
+      return Promise.resolve();
     }
   }
 

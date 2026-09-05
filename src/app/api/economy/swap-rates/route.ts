@@ -12,15 +12,17 @@ import { getCurrentSwapRates } from "@/lib/economy/swapRates";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET() {
+export function GET(): Promise<NextResponse> {
   try {
     const rates = getCurrentSwapRates();
-    return NextResponse.json({ success: true, ...rates });
+    return Promise.resolve(NextResponse.json({ success: true, ...rates }));
   } catch (error) {
     console.error("[GET /api/economy/swap-rates]", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to compute swap rates" },
-      { status: 500 },
+    return Promise.resolve(
+      NextResponse.json(
+        { success: false, message: "Failed to compute swap rates" },
+        { status: 500 },
+      ),
     );
   }
 }

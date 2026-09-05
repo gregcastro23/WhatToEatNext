@@ -11,15 +11,15 @@ export class ThemeManager {
     localStorage.setItem("theme", theme);
   }
 
-  async initializeTheme() {
+  initializeTheme(): Promise<string> {
     try {
       const savedTheme = localStorage.getItem("theme") ?? "light";
       this.updateTheme(savedTheme);
-      return savedTheme;
+      return Promise.resolve(savedTheme);
     } catch (error) {
       logger.error("Error initializing theme: ", error);
       this.updateTheme("light");
-      return "light";
+      return Promise.resolve("light");
     }
   }
 

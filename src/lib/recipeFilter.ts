@@ -11,7 +11,7 @@ const calculateElementalHarmony = (
   });
 
 export const _recipeFilter = {
-  async filterAndSortRecipes(
+  filterAndSortRecipes(
     recipes: Recipe[],
     filters: {
       searchQuery?: string;
@@ -25,83 +25,83 @@ export const _recipeFilter = {
     },
     sortOptions: { by: string; direction: "asc" | "desc" },
   ): Promise<Recipe[]> {
-    let filteredRecipes = [...recipes];
+    return Promise.resolve().then(() => {
+      let filteredRecipes = [...recipes];
 
-    // Apply search filter
-    if (filters.searchQuery) {
-      const searchLower = filters.searchQuery.toLowerCase();
-      filteredRecipes = filteredRecipes.filter(
-        (recipe) =>
-          recipe.name.toLowerCase().includes(searchLower) ||
-          recipe.description?.toLowerCase().includes(searchLower),
-      );
-    }
+      // Apply search filter
+      if (filters.searchQuery) {
+        const searchLower = filters.searchQuery.toLowerCase();
+        filteredRecipes = filteredRecipes.filter(
+          (recipe) =>
+            recipe.name.toLowerCase().includes(searchLower) ||
+            recipe.description?.toLowerCase().includes(searchLower),
+        );
+      }
 
-    // Apply cuisine filter
-    if (filters.cuisineTypes && filters.cuisineTypes.length > 0) {
-      filteredRecipes = filteredRecipes.filter(
-        (recipe) =>
-          recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),
-      );
-    }
+      // Apply cuisine filter
+      if (filters.cuisineTypes && filters.cuisineTypes.length > 0) {
+        filteredRecipes = filteredRecipes.filter(
+          (recipe) =>
+            recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),
+        );
+      }
 
-    // Apply meal type filter
-    if (filters.mealType && filters.mealType.length > 0) {
-      filteredRecipes = filteredRecipes.filter((recipe) => {
-        if (Array.isArray(recipe.mealType)) {
-          return recipe.mealType.some((type) =>
-            filters.mealType?.includes(type),
-          );
-        }
-        return recipe.mealType && filters.mealType?.includes(recipe.mealType);
-      });
-    }
+      // Apply meal type filter
+      if (filters.mealType && filters.mealType.length > 0) {
+        filteredRecipes = filteredRecipes.filter((recipe) => {
+          if (Array.isArray(recipe.mealType)) {
+            return recipe.mealType.some((type) =>
+              filters.mealType?.includes(type),
+            );
+          }
+          return recipe.mealType && filters.mealType?.includes(recipe.mealType);
+        });
+      }
 
-    // Apply dietary restrictions filter
-    if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter((recipe) => {
-        const recipeDietaryRestrictions = recipe.dietaryRestrictions;
-        // Safe array access with type checking
-        if (Array.isArray(recipeDietaryRestrictions)) {
-          return filters.dietaryRestrictions?.every((restriction) =>
-            recipeDietaryRestrictions.includes(restriction),
-          );
-        }
-        return false;
-      });
-    }
+      // Apply dietary restrictions filter
+      if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
+        filteredRecipes = filteredRecipes.filter((recipe) => {
+          const recipeDietaryRestrictions = recipe.dietaryRestrictions;
+          // Safe array access with type checking
+          if (Array.isArray(recipeDietaryRestrictions)) {
+            return filters.dietaryRestrictions?.every((restriction) =>
+              recipeDietaryRestrictions.includes(restriction),
+            );
+          }
+          return false;
+        });
+      }
 
-    // Apply prep time filter
-    if (typeof filters.maxPrepTime === "number") {
-      filteredRecipes = filteredRecipes.filter(
-        (recipe) =>
-          typeof recipe.prepTime === "number" &&
-          recipe.prepTime <= (filters.maxPrepTime ?? 0),
-      );
-    }
+      // Apply prep time filter
+      if (typeof filters.maxPrepTime === "number") {
+        filteredRecipes = filteredRecipes.filter(
+          (recipe) =>
+            typeof recipe.prepTime === "number" &&
+            recipe.prepTime <= (filters.maxPrepTime ?? 0),
+        );
+      }
 
-    // Apply spiciness filter
-    if (typeof filters.spiciness === "number") {
-      filteredRecipes = filteredRecipes.filter(
-        (recipe) =>
-          typeof recipe.spiciness === "number" &&
-          recipe.spiciness <= (filters.spiciness ?? 0),
-      );
-    }
+      // Apply spiciness filter
+      if (typeof filters.spiciness === "number") {
+        filteredRecipes = filteredRecipes.filter(
+          (recipe) =>
+            typeof recipe.spiciness === "number" &&
+            recipe.spiciness <= (filters.spiciness ?? 0),
+        );
+      }
 
-    // Apply complexity filter
-    if (typeof filters.complexity === "number") {
-      filteredRecipes = filteredRecipes.filter(
-        (recipe) =>
-          typeof recipe.complexity === "number" &&
-          recipe.complexity <= (filters.complexity ?? 0),
-      );
-    }
+      // Apply complexity filter
+      if (typeof filters.complexity === "number") {
+        filteredRecipes = filteredRecipes.filter(
+          (recipe) =>
+            typeof recipe.complexity === "number" &&
+            recipe.complexity <= (filters.complexity ?? 0),
+        );
+      }
 
-    // Apply elemental balance filter
-    if (filters.elementalState) {
-      const recipesWithScores = await Promise.all(
-        filteredRecipes.map(async (recipe) => {
+      // Apply elemental balance filter
+      if (filters.elementalState) {
+        const recipesWithScores = filteredRecipes.map((recipe) => {
           const recipeElementalProps = recipe.elementalProperties || {
             Fire: 0.25,
             Water: 0.25,
@@ -115,29 +115,29 @@ export const _recipeFilter = {
               filters.elementalState as ElementalProperties,
             ).elementalHarmony,
           };
-        }),
-      );
+        });
 
-      filteredRecipes = recipesWithScores.sort((a, b) => {
-        // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-        const scoreA = Number(a.matchScore) || 0;
-        const scoreB = Number(b.matchScore) || 0;
-        return scoreB - scoreA;
-      });
-    }
+        filteredRecipes = recipesWithScores.sort((a, b) => {
+          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+          const scoreA = Number(a.matchScore) || 0;
+          const scoreB = Number(b.matchScore) || 0;
+          return scoreB - scoreA;
+        });
+      }
 
-    // Apply sorting
-    if (sortOptions.by === "relevance") {
-      filteredRecipes.sort((a, b) => {
-        // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-        const scoreA = Number(a.matchScore) || 0;
-        const scoreB = Number(b.matchScore) || 0;
-        return sortOptions.direction === "desc"
-          ? scoreB - scoreA
-          : scoreA - scoreB;
-      });
-    }
+      // Apply sorting
+      if (sortOptions.by === "relevance") {
+        filteredRecipes.sort((a, b) => {
+          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+          const scoreA = Number(a.matchScore) || 0;
+          const scoreB = Number(b.matchScore) || 0;
+          return sortOptions.direction === "desc"
+            ? scoreB - scoreA
+            : scoreA - scoreB;
+        });
+      }
 
-    return filteredRecipes;
+      return filteredRecipes;
+    });
   },
 };
