@@ -120,9 +120,10 @@ class UserDatabaseService {
   /**
    * Ensure the service is initialized
    */
-  private async ensureInitialized(): Promise<void> {
-    if (this.initialized) return;
+  private ensureInitialized(): Promise<void> {
+    if (this.initialized) return Promise.resolve();
     this.initialized = true;
+    return Promise.resolve();
   }
 
   /**

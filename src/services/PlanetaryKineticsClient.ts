@@ -63,7 +63,7 @@ export class PlanetaryKineticsClient {
   /**
    * Get enhanced kinetics for a location using real planetary positions
    */
-  async getEnhancedKinetics(
+  getEnhancedKinetics(
     location: KineticsLocation,
     options: KineticsOptions = {},
   ): Promise<KineticsResponse> {
@@ -76,12 +76,12 @@ export class PlanetaryKineticsClient {
       if (options.useCache !== false) {
         const cached = this.cache.get(cacheKey);
         if (cached && now - cached.timestamp < cacheTimeout) {
-          return {
+          return Promise.resolve({
             success: true,
             data: cached.data,
             timestamp: new Date().toISOString(),
             cacheHit: true,
-          };
+          });
         }
       }
 
@@ -136,19 +136,19 @@ export class PlanetaryKineticsClient {
       // Cache the result
       this.cache.set(cacheKey, { data, timestamp: now });
 
-      return {
+      return Promise.resolve({
         success: true,
         data,
         timestamp: new Date().toISOString(),
         cacheHit: false,
-      };
+      });
     } catch (error) {
       logger.error("Error in getEnhancedKinetics:", error);
-      return {
+      return Promise.resolve({
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
         timestamp: new Date().toISOString(),
-      };
+      });
     }
   }
 
@@ -211,8 +211,8 @@ export class PlanetaryKineticsClient {
   /**
    * Health check
    */
-  async checkHealth(): Promise<boolean> {
-    return true;
+  checkHealth(): Promise<boolean> {
+    return Promise.resolve(true);
   }
 
   /**

@@ -29,7 +29,7 @@ export class RecipeRecommender {
     return RecipeRecommender.instance;
   }
 
-  async recommendRecipes(
+  recommendRecipes(
     recipes: Recipe[],
     criteria: RecommendationCriteria,
   ): Promise<ScoredRecipe[]> {
@@ -54,17 +54,17 @@ export class RecipeRecommender {
       // Always ensure at least one recommendation
       if (scoredRecipes.length === 0) {
         logger.warn("No recipes matched criteria, using fallback");
-        return [this.getFallbackRecipe()];
+        return Promise.resolve([this.getFallbackRecipe()]);
       }
 
-      return scoredRecipes;
+      return Promise.resolve(scoredRecipes);
     } catch (error) {
       logger.error("Error recommending recipes: ", error);
-      return [this.getFallbackRecipe()];
+      return Promise.resolve([this.getFallbackRecipe()]);
     }
   }
 
-  async recommendSimilarRecipes(
+  recommendSimilarRecipes(
     currentRecipe: Recipe,
     allRecipes: Recipe[],
   ): Promise<Recipe[]> {
@@ -75,9 +75,11 @@ export class RecipeRecommender {
       })
       .sort((a, b) => b.score - a.score);
 
-    return scoredRecipes
-      .filter((recipe) => recipe.id !== currentRecipe.id)
-      .slice(0, 3);
+    return Promise.resolve(
+      scoredRecipes
+        .filter((recipe) => recipe.id !== currentRecipe.id)
+        .slice(0, 3),
+    );
   }
 
   private calculateSimilarityScore(recipe1: Recipe, recipe2: Recipe): number {

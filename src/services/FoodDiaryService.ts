@@ -2582,10 +2582,11 @@ class FoodDiaryService {
   /**
    * Ensure the service is initialized
    */
-  private async ensureInitialized(): Promise<void> {
-    if (this.initialized) return;
+  private ensureInitialized(): Promise<void> {
+    if (this.initialized) return Promise.resolve();
     this.initialized = true;
     _logger.debug("FoodDiaryService initialized");
+    return Promise.resolve();
   }
 
   // ============================================================
@@ -3354,12 +3355,12 @@ class FoodDiaryService {
   /**
    * Add a food to favorites
    */
-  async addToFavorites(
+  addToFavorites(
     userId: string,
     entryId: string,
   ): Promise<UserFoodFavorite | null> {
     const entry = this.entries.get(entryId);
-    if (entry?.userId !== userId) return null;
+    if (entry?.userId !== userId) return Promise.resolve(null);
 
     // Update entry
     entry.isFavorite = true;
@@ -3400,14 +3401,14 @@ class FoodDiaryService {
 
     this.favorites.set(userId, userFavorites);
     this.saveToStorage();
-    return favorite;
+    return Promise.resolve(favorite);
   }
 
   /**
    * Get user's favorites
    */
-  async getFavorites(userId: string): Promise<UserFoodFavorite[]> {
-    return this.favorites.get(userId) ?? [];
+  getFavorites(userId: string): Promise<UserFoodFavorite[]> {
+    return Promise.resolve(this.favorites.get(userId) ?? []);
   }
 
   /**
@@ -4415,16 +4416,16 @@ class FoodDiaryService {
       .map((s) => s.date);
   }
 
-  private async captureAstrologicalContext(): Promise<
+  private captureAstrologicalContext(): Promise<
     FoodDiaryEntry["astrologicalContext"]
   > {
     // Simplified - in production would call astrology service
-    return {
+    return Promise.resolve({
       dominantPlanet: undefined,
       zodiacSign: undefined,
       lunarPhase: undefined,
       planetaryHour: undefined,
-    };
+    });
   }
 
   private addToUserIndex(userId: string, entryId: string): void {

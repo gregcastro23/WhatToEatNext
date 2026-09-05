@@ -11,6 +11,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { safeReadJson } from "@/lib/api/json";
+import {
+  consumerTransactionsResponseSchema,
+  economyBalanceApiResponseSchema,
+  type EconomyBalanceApiResponse,
+  type ConsumerTransactionItem,
+} from "@/lib/economy/clientSchemas";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("TokenBalanceTrends");
@@ -21,27 +28,6 @@ interface TrendPoint {
   Essence: number;
   Matter: number;
   Substance: number;
-}
-
-interface BalanceResponse {
-  success?: boolean;
-  balances?: {
-    spirit?: number;
-    essence?: number;
-    matter?: number;
-    substance?: number;
-  };
-}
-
-interface TransactionItem {
-  createdAt: string | number | Date;
-  tokenType: string;
-  amount: number;
-}
-
-interface TransactionsResponse {
-  success?: boolean;
-  transactions?: TransactionItem[];
 }
 
 export function TokenBalanceTrends(): React.JSX.Element {
@@ -58,11 +44,18 @@ export function TokenBalanceTrends(): React.JSX.Element {
 
         if (!balRes.ok || !txRes.ok) throw new Error("Failed to fetch");
 
-        const balData = (await balRes.json()) as BalanceResponse;
-        const txData = (await txRes.json()) as TransactionsResponse;
+        const fallbackBal: EconomyBalanceApiResponse = { success: false };
+        const [balData, txData] = await Promise.all([
+          safeReadJson<EconomyBalanceApiResponse>(balRes, fallbackBal, {
+            parse: (raw) => economyBalanceApiResponseSchema.parse(raw),
+          }),
+          safeReadJson(txRes, { success: false, transactions: [] }, {
+            parse: (raw) => consumerTransactionsResponseSchema.parse(raw),
+          }),
+        ]);
 
         if (balData.success && txData.success) {
-          const currentBalances = balData.balances ?? {};
+          const currentBalances = balData.balances;
           const txs = txData.transactions ?? [];
 
           // We will reconstruct the balances going backwards 7 days.
@@ -70,14 +63,14 @@ export function TokenBalanceTrends(): React.JSX.Element {
           const history: TrendPoint[] = [];
           const now = new Date();
 
-          let currentSpirit = currentBalances.spirit ?? 0;
-          let currentEssence = currentBalances.essence ?? 0;
-          let currentMatter = currentBalances.matter ?? 0;
-          let currentSubstance = currentBalances.substance ?? 0;
+          let currentSpirit = currentBalances.spirit;
+          let currentEssence = currentBalances.essence;
+          let currentMatter = currentBalances.matter;
+          let currentSubstance = currentBalances.substance;
 
           // Group transactions by date string YYYY-MM-DD
-          const txByDate: Record<string, TransactionItem[]> = {};
-          txs.forEach((tx: TransactionItem) => {
+          const txByDate: Record<string, ConsumerTransactionItem[]> = {};
+          txs.forEach((tx: ConsumerTransactionItem) => {
             const [dateStr] = new Date(tx.createdAt).toISOString().split("T");
             if (dateStr) {
               const list = txByDate[dateStr] ?? [];

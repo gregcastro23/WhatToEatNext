@@ -354,7 +354,7 @@ class RecipeData {
     this.initPromise = this.loadRecipeData();
   }
 
-  private async loadRecipeData(): Promise<void> {
+  private loadRecipeData(): Promise<void> {
     try {
       logger.info("Loading recipe data...");
 
@@ -363,7 +363,7 @@ class RecipeData {
         logger.error("recipeElementalMappings not found or invalid");
         this.recipes = [];
         this.initialized = true;
-        return;
+        return Promise.resolve();
       }
 
       // Handle different formats of recipeElementalMappings
@@ -466,6 +466,7 @@ class RecipeData {
       this.recipes = [];
       this.initialized = true;
     }
+    return Promise.resolve();
   }
 
   // Add a method to standardize recipes after they've been loaded from anywhere
@@ -636,7 +637,7 @@ class RecipeData {
     }
   }
 
-  async addRecipe(recipe: Partial<Recipe>): Promise<Recipe> {
+  addRecipe(recipe: Partial<Recipe>): Promise<Recipe> {
     // Ensure the recipe has all required properties
     const newRecipe = ensureRecipeProperties(recipe);
 
@@ -645,7 +646,7 @@ class RecipeData {
 
     // Clear cache
     cache.delete(RECIPE_CACHE_KEY);
-    return newRecipe;
+    return Promise.resolve(newRecipe);
   }
 
   async getRecipeById(id: string): Promise<Recipe | null> {

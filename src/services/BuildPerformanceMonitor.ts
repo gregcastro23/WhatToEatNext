@@ -127,7 +127,7 @@ class BuildPerformanceMonitor {
     );
   }
 
-  public async measureTypeScriptCompilation(): Promise<number> {
+  public measureTypeScriptCompilation(): Promise<number> {
     const startTime = performance.now();
     try {
       // Run TypeScript compilation with timing
@@ -156,7 +156,7 @@ class BuildPerformanceMonitor {
         buildType: "type-check",
       });
 
-      return compilationTime;
+      return Promise.resolve(compilationTime);
     } catch (error) {
       const compilationTime = performance.now() - startTime;
 
@@ -178,11 +178,11 @@ class BuildPerformanceMonitor {
         buildType: "type-check",
       });
 
-      throw error;
+      return Promise.reject(error);
     }
   }
 
-  public async measureFullBuild(
+  public measureFullBuild(
     buildType: "development" | "production" = "development",
   ): Promise<BuildMetrics> {
     const startTime = performance.now();
@@ -226,7 +226,7 @@ class BuildPerformanceMonitor {
       };
 
       this.recordBuildMetrics(metrics);
-      return metrics;
+      return Promise.resolve(metrics);
     } catch (error) {
       const totalBuildTime = performance.now() - startTime;
       const finalMemory = process.memoryUsage().heapUsed;
@@ -249,7 +249,7 @@ class BuildPerformanceMonitor {
       };
 
       this.recordBuildMetrics(metrics);
-      throw error;
+      return Promise.reject(error);
     }
   }
 

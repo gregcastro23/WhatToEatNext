@@ -143,14 +143,37 @@ function rowToBalances(row: TokenBalanceRow): TokenBalances {
   };
 }
 
+function toTokenType(value: DbScalar): TokenType {
+  const s = String(value ?? "");
+  const normalized = s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  if (
+    normalized === "Spirit" ||
+    normalized === "Essence" ||
+    normalized === "Matter" ||
+    normalized === "Substance"
+  ) {
+    return normalized;
+  }
+  return "Spirit";
+}
+
+function isPgError(err: unknown): err is { code: string } {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    typeof err.code === "string"
+  );
+}
+
 function rowToTransaction(row: TokenTransactionRow): TokenTransaction {
   return {
     id: toNumber(row.id),
     transactionGroupId: String(row.transaction_group_id ?? ""),
     userId: String(row.user_id ?? ""),
-    tokenType: row.token_type as TokenType,
+    tokenType: toTokenType(row.token_type),
     amount: toNumber(row.amount),
-    sourceType: row.source_type as TransactionSourceType,
+    sourceType: String(row.source_type ?? "") as TransactionSourceType,
     sourceId: toNullableString(row.source_id),
     description: toNullableString(row.description),
     createdAt: toIsoString(row.created_at),
@@ -528,8 +551,7 @@ class TokenEconomyService {
           transactionGroupId: debitAllRow.txn_group_id,
         };
       } catch (error) {
-        const pgError = error as { code?: string } | null;
-        if (pgError?.code === "23505") {
+        if (isPgError(error) && error.code === "23505") {
           return { success: false, reason: "already_applied" };
         }
         _logger.error("[TokenEconomy] debitAllTokens failed:", error);
@@ -917,8 +939,7 @@ class TokenEconomyService {
         // Unique-violation on idempotency_key: this transmutation already ran.
         // Returning null means the caller reports it as not-applied, which is
         // correct — the point is that the user is NOT debited a second time.
-        const pgError = error as { code?: string } | null;
-        if (pgError?.code === "23505") {
+        if (isPgError(error) && error.code === "23505") {
           _logger.info(
             "[TokenEconomy] Duplicate transmutation blocked by idempotency key:",
             opts?.idempotencyKey,
@@ -995,6 +1016,7 @@ class TokenEconomyService {
         };
       } catch (error) {
         _logger.error("[TokenEconomy] getTransactions failed:", error);
+        throw error;
       }
     }
 
@@ -1107,8 +1129,7 @@ class TokenEconomyService {
         };
       } catch (error) {
         // Unique-violation on idempotency_key (race condition) → already_applied
-        const pgError = error as { code?: string } | null;
-        if (pgError?.code === "23505") {
+        if (isPgError(error) && error.code === "23505") {
           return { success: false, reason: "already_applied" };
         }
         _logger.error("[TokenEconomy] purchaseShopItem failed:", error);

@@ -16,7 +16,6 @@ import { getServerRecipes } from "@/actions/recipes";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useUser } from "@/contexts/UserContext";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { reportQuestEvent } from "@/lib/questReporter";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
@@ -348,7 +347,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           const [bestScored] = scored;
           if (!bestScored) continue;
           const best = bestScored.recipe;
-          await addMealToSlot(day, mealType, best as MonicaOptimizedRecipe);
+          await addMealToSlot(day, mealType, best);
           usedRecipeIds.add(best.id);
         }
       }
@@ -406,7 +405,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             await addMealToSlot(
               day as DayOfWeek,
               mealType,
-              best as MonicaOptimizedRecipe,
+              best,
             );
             usedRecipeIds.add(best.id);
           }
@@ -471,7 +470,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           await addMealToSlot(
             meal.slot.dayOfWeek,
             meal.slot.mealType,
-            replacement as MonicaOptimizedRecipe,
+            replacement,
           );
         }
       }
@@ -562,7 +561,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           await addMealToSlot(
             meal.slot.dayOfWeek,
             meal.slot.mealType,
-            replacement as MonicaOptimizedRecipe,
+            replacement,
           );
         }
       }

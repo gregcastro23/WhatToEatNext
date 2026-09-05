@@ -18,7 +18,7 @@ import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
 import { getMealTypeCharacteristics } from "@/types/menuPlanner";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe, EnhancedRecipe } from "@/types/recipe";
 import RecipeRitualModal from "./RecipeRitualModal";
 import RecipeSelector from "./RecipeSelector";
 import SauceSelector from "./SauceSelector";
@@ -157,7 +157,7 @@ function RecipeDisplay({
   onCopyMeal,
   weeklyNutrition: _weeklyNutrition,
 }: {
-  recipe: MonicaOptimizedRecipe;
+  recipe: EnhancedRecipe | MonicaOptimizedRecipe;
   servings: number;
   mealType: MealType;
   onRemove?: () => void;
@@ -616,9 +616,9 @@ export default function MealSlot({
       </div>
 
       {/* Content */}
-      {hasRecipe ? (
+      {mealSlot.recipe ? (
         <RecipeDisplay
-          recipe={mealSlot.recipe as unknown as MonicaOptimizedRecipe}
+          recipe={mealSlot.recipe}
           servings={mealSlot.servings}
           mealType={mealSlot.mealType}
           onRemove={onRemoveRecipe}

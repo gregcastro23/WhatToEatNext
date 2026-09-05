@@ -711,32 +711,34 @@ export class SwissEphemerisService {
   /**
    * Get planetary positions for a specific date using Swiss Ephemeris data
    */
-  async getPlanetaryPositions(
+  getPlanetaryPositions(
     date: Date = new Date(),
   ): Promise<Record<string, CelestialPosition>> {
-    const [cacheKey] = date.toISOString().split("T");
-    if (!cacheKey) {
-      throw new Error(`Invalid date string for cache key: ${date.toISOString()}`);
-    }
+    return Promise.resolve().then(() => {
+      const [cacheKey] = date.toISOString().split("T");
+      if (!cacheKey) {
+        throw new Error(`Invalid date string for cache key: ${date.toISOString()}`);
+      }
 
-    if (this.cache.has(cacheKey)) {
-      logger.debug("Using cached Swiss Ephemeris data");
-      return this.cache.get(cacheKey) ?? {};
-    }
+      if (this.cache.has(cacheKey)) {
+        logger.debug("Using cached Swiss Ephemeris data");
+        return this.cache.get(cacheKey) ?? {};
+      }
 
-    try {
-      const positions = this.calculatePositionsForDate(date);
-      this.cache.set(cacheKey, positions);
-      this.cleanCache();
+      try {
+        const positions = this.calculatePositionsForDate(date);
+        this.cache.set(cacheKey, positions);
+        this.cleanCache();
 
-      logger.info(
-        `Swiss Ephemeris positions calculated for ${date.toDateString()}`,
-      );
-      return positions;
-    } catch (error) {
-      logger.error("Error getting Swiss Ephemeris positions: ", error);
-      throw error;
-    }
+        logger.info(
+          `Swiss Ephemeris positions calculated for ${date.toDateString()}`,
+        );
+        return positions;
+      } catch (error) {
+        logger.error("Error getting Swiss Ephemeris positions: ", error);
+        throw error;
+      }
+    });
   }
 
   /**

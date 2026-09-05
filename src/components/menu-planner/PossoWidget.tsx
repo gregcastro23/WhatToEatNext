@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { getServerRecipes } from "@/actions/recipes";
 import { useToast } from "@/components/common/Toast";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { calculateRecipeEstimatedCost } from "@/utils/instacart/priceEstimator";
@@ -26,7 +25,7 @@ export default function PossoWidget({
 }: {
   onClose: () => void;
 }): React.JSX.Element {
-  const { inventory, setInventory, addMealToSlot } = useMenuPlanner();
+  const { inventory, setInventory, addMealToSlot, currentMenu } = useMenuPlanner();
   const [newItem, setNewItem] = useState("");
   const [scoredRecipes, setScoredRecipes] = useState<ScoredRecipe[]>([]);
   const [loading, setLoading] = useState(false);
@@ -251,16 +250,35 @@ export default function PossoWidget({
 
                     <button
                       onClick={() => {
-                        // Very naive auto-placement (for demo). A better UX would be drag-and-drop.
-                        // Try placing it on the next empty dinner slot
                         const days: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6];
-                        for (const day of days) {
-                          addMealToSlot(day, "dinner", recipe as unknown as MonicaOptimizedRecipe).catch((err: unknown) => {
+                        const dayNames = [
+                          "Sunday",
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday",
+                          "Saturday",
+                        ];
+                        const targetDay = days.find((d) => {
+                          const meal = currentMenu?.meals.find(
+                            (m) => m.dayOfWeek === d && m.mealType === "dinner",
+                          );
+                          return !meal?.recipe;
+                        });
+
+                        if (targetDay === undefined) {
+                          logger.warn("No available dinner slot found in the weekly menu");
+                          return;
+                        }
+
+                        addMealToSlot(targetDay, "dinner", recipe)
+                          .then(() => {
+                            showSuccess(`Added to ${dayNames[targetDay]} Dinner`);
+                          })
+                          .catch((err: unknown) => {
                             logger.error("Failed to add meal to slot", err);
                           });
-                          showSuccess(`Added to ${day} Dinner`);
-                          break;
-                        }
                       }}
                       className="px-3 py-1 bg-emerald-100 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-semibold rounded-lg transition-colors"
                     >

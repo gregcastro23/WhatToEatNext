@@ -86,48 +86,62 @@ export class EnhancedTransitAnalysisService {
   /**
    * Get comprehensive transit analysis for a location and date
    */
-  static async getEnhancedTransitAnalysis(
+  static getEnhancedTransitAnalysis(
     location: GeographicCoordinates,
     date: Date = new Date(),
   ): Promise<EnhancedTransitInfluence> {
-    // Get current season transit data
-    const year = date.getFullYear().toString();
-    const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
-    if (!yearData) {
-      throw new Error("No transit data available for the current year");
-    }
+    try {
+      // Get current season transit data
+      const year = date.getFullYear().toString();
+      const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
+      if (!yearData) {
+        return Promise.reject(
+          new Error("No transit data available for the current year"),
+        );
+      }
 
-    const season = yearData.seasons.find(
-      (s) => date >= s.startDate && date <= s.endDate,
-    );
-    if (!season) {
-      throw new Error("No transit data available for the current date");
-    }
+      const season = yearData.seasons.find(
+        (s) => date >= s.startDate && date <= s.endDate,
+      );
+      if (!season) {
+        return Promise.reject(
+          new Error("No transit data available for the current date"),
+        );
+      }
 
-    // Get location-specific planetary influences
-    const locationInfluences =
-      PlanetaryLocationService.calculateLocationPlanetaryInfluences(
-        location,
+      // Get location-specific planetary influences
+      const locationInfluences =
+        PlanetaryLocationService.calculateLocationPlanetaryInfluences(
+          location,
+          date,
+        );
+
+      // Calculate enhanced planetary positions with dignity and location modifiers
+      const enhancedPositions = this.calculateEnhancedPlanetaryPositions(
+        season.planetaryPlacements,
+        locationInfluences,
         date,
       );
 
-    // Calculate enhanced planetary positions with dignity and location modifiers
-    const enhancedPositions = this.calculateEnhancedPlanetaryPositions(
-      season.planetaryPlacements,
-      locationInfluences,
-      date,
-    );
+      // Calculate aspect influences with dignity modifiers
+      const aspectInfluences = this.calculateEnhancedAspectInfluences(
+        season.keyAspects,
+        enhancedPositions,
+        location,
+      );
 
-    // Calculate aspect influences with dignity modifiers
-    const aspectInfluences = this.calculateEnhancedAspectInfluences(
-      season.keyAspects,
-      enhancedPositions,
-      location,
-    );
+      // Generate location-specific recommendations
+      const locationRecommendations =
+        this.generateLocationSpecificRecommendations(
+          enhancedPositions,
+          aspectInfluences,
+          season,
+          location,
+          date,
+        );
 
-    // Generate location-specific recommendations
-    const locationRecommendations =
-      this.generateLocationSpecificRecommendations(
+      // Determine dominant influences
+      const dominantInfluences = this.calculateDominantInfluences(
         enhancedPositions,
         aspectInfluences,
         season,
@@ -135,23 +149,17 @@ export class EnhancedTransitAnalysisService {
         date,
       );
 
-    // Determine dominant influences
-    const dominantInfluences = this.calculateDominantInfluences(
-      enhancedPositions,
-      aspectInfluences,
-      season,
-      location,
-      date,
-    );
-
-    return {
-      season,
-      location,
-      enhancedPlanetaryPositions: enhancedPositions,
-      aspectInfluences,
-      locationSpecificRecommendations: locationRecommendations,
-      dominantInfluences,
-    };
+      return Promise.resolve({
+        season,
+        location,
+        enhancedPlanetaryPositions: enhancedPositions,
+        aspectInfluences,
+        locationSpecificRecommendations: locationRecommendations,
+        dominantInfluences,
+      });
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   /**

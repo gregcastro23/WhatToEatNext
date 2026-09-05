@@ -108,117 +108,123 @@ export class AstrologicalService {
   /**
    * Updated test calculations with standardized response
    */
-  static async testCalculations(
+  static testCalculations(
     _testData?: AstrologicalTestData,
   ): Promise<AstrologicalCalculationResponse> {
-    try {
-      logger.info("Testing astrological calculations...");
-      const mockCalculationResult = {
-        planetaryPositions: DefaultPlanetaryPositions,
-        zodiacSign: "aries" as StandardZodiacSignType,
-        lunarPhase: "new moon" as StandardLunarPhase,
-        elementalInfluence: {
-          Fire: 0.3,
-          Water: 0.2,
-          Earth: 0.25,
-          Air: 0.25,
-        },
-        accuracy: 0.95,
-        calculationTimestamp: new Date().toISOString(),
-      };
+    return Promise.resolve().then(() => {
+      try {
+        logger.info("Testing astrological calculations...");
+        const mockCalculationResult = {
+          planetaryPositions: DefaultPlanetaryPositions,
+          zodiacSign: "aries" as StandardZodiacSignType,
+          lunarPhase: "new moon" as StandardLunarPhase,
+          elementalInfluence: {
+            Fire: 0.3,
+            Water: 0.2,
+            Earth: 0.25,
+            Air: 0.25,
+          },
+          accuracy: 0.95,
+          calculationTimestamp: new Date().toISOString(),
+        };
 
-      return _createSuccessResponse(mockCalculationResult);
-    } catch (error) {
-      return _createErrorResponse(
-        `Calculation test failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-      );
-    }
+        return _createSuccessResponse(mockCalculationResult);
+      } catch (error) {
+        return _createErrorResponse(
+          `Calculation test failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        );
+      }
+    });
   }
 
   /**
    * Updated planetary position verification with standardized response
    */
-  static async verifyPlanetaryPositions(
+  static verifyPlanetaryPositions(
     positions?: PlanetaryPositions,
   ): Promise<ServiceResponseType<boolean>> {
-    try {
-      logger.info("Verifying planetary positions...");
-      if (!positions || Object.keys(positions).length === 0) {
+    return Promise.resolve().then(() => {
+      try {
+        logger.info("Verifying planetary positions...");
+        if (!positions || Object.keys(positions).length === 0) {
+          return _createErrorResponse(
+            "No planetary positions provided for verification",
+          );
+        }
+
+        // Validate that all positions are valid zodiac signs
+        const validZodiacSignTypes: StandardZodiacSignType[] = [
+          "aries",
+          "taurus",
+          "gemini",
+          "cancer",
+          "leo",
+          "virgo",
+          "libra",
+          "scorpio",
+          "sagittarius",
+          "capricorn",
+          "aquarius",
+          "pisces",
+        ];
+
+        const isValid = Object.values(positions).every((sign) => {
+          if (typeof sign === "string") {
+            return true; // Skip dominantPlanet property
+          }
+          return validZodiacSignTypes.includes(
+            (sign.sign?.toLowerCase() ?? "") as StandardZodiacSignType,
+          );
+        });
+
+        return _createSuccessResponse(isValid);
+      } catch (error) {
         return _createErrorResponse(
-          "No planetary positions provided for verification",
+          `Verification failed: ${error instanceof Error ? error.message : "Unknown error"}`,
         );
       }
-
-      // Validate that all positions are valid zodiac signs
-      const validZodiacSignTypes: StandardZodiacSignType[] = [
-        "aries",
-        "taurus",
-        "gemini",
-        "cancer",
-        "leo",
-        "virgo",
-        "libra",
-        "scorpio",
-        "sagittarius",
-        "capricorn",
-        "aquarius",
-        "pisces",
-      ];
-
-      const isValid = Object.values(positions).every((sign) => {
-        if (typeof sign === "string") {
-          return true; // Skip dominantPlanet property
-        }
-        return validZodiacSignTypes.includes(
-          (sign.sign?.toLowerCase() ?? "") as StandardZodiacSignType,
-        );
-      });
-
-      return _createSuccessResponse(isValid);
-    } catch (error) {
-      return _createErrorResponse(
-        `Verification failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-      );
-    }
+    });
   }
 
   /**
    * Updated API testing with standardized response
    */
-  static async testAPIs(apiEndpoints?: string[]): Promise<
+  static testAPIs(apiEndpoints?: string[]): Promise<
     ServiceResponseType<{
       testedEndpoints: string[];
       results: Record<string, boolean>;
     }>
   > {
-    try {
-      logger.info("Testing astrological APIs...");
+    return Promise.resolve().then(() => {
+      try {
+        logger.info("Testing astrological APIs...");
 
-      const endpoints = apiEndpoints ?? [
-        "/api/planetary-positions",
-        "/api/astrologize",
-        "/api/astrology",
-      ];
+        const endpoints = apiEndpoints ?? [
+          "/api/planetary-positions",
+          "/api/astrologize",
+          "/api/astrology",
+        ];
 
-      const results: Record<string, boolean> = {};
+        const results: Record<string, boolean> = {};
 
-      // Mock API testing - in reality, would make actual HTTP requests
-      for (const endpoint of endpoints) {
-        // Simulate API test result
-        results[endpoint] = Math.random() > 0.1; // 90% success rate for testing
+        // Mock API testing - in reality, would make actual HTTP requests
+        for (const endpoint of endpoints) {
+          // Simulate API test result
+          results[endpoint] = Math.random() > 0.1; // 90% success rate for testing
+        }
+
+        const responseData = {
+          testedEndpoints: endpoints,
+          results,
+        };
+
+        return _createSuccessResponse(responseData);
+      } catch (error) {
+        return _createErrorResponse(
+          `API testing failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        );
       }
-
-      const responseData = {
-        testedEndpoints: endpoints,
-        results,
-      };
-
-      return _createSuccessResponse(responseData);
-    } catch (error) {
-      return _createErrorResponse(
-        `API testing failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-      );
-    }
+    });
   }
 
   /**
@@ -247,7 +253,7 @@ export class AstrologicalService {
   /**
    * Calculate planetary influences
    */
-  public async calculatePlanetaryInfluences(
+  public calculatePlanetaryInfluences(
     planetaryPositions: PlanetaryPositions,
   ): Promise<PlanetaryInfluenceResponse> {
     try {
@@ -300,15 +306,19 @@ export class AstrologicalService {
       );
       const compatibilityScore = 0.5 + dominant * 0.5;
 
-      return _createSuccessResponse({
-        planetaryPositions,
-        elementalBoost,
-        alchemicalModifier,
-        compatibilityScore,
-      });
+      return Promise.resolve(
+        _createSuccessResponse({
+          planetaryPositions,
+          elementalBoost,
+          alchemicalModifier,
+          compatibilityScore,
+        }),
+      );
     } catch (error) {
-      return _createErrorResponse(
-        `Planetary influence calculation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      return Promise.resolve(
+        _createErrorResponse(
+          `Planetary influence calculation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        ),
       );
     }
   }
@@ -364,7 +374,7 @@ function lunarPhaseFromPositions(
 }
 
 // Canonical async function to get the latest astrological state - Updated with standardized response
-export async function getLatestAstrologicalState(): Promise<AstrologicalCalculationResponse> {
+export function getLatestAstrologicalState(): Promise<AstrologicalCalculationResponse> {
   try {
     // On the client, check if the cache already has a real computed entry and
     // derive real elementals from it rather than returning hardcoded defaults.
@@ -387,14 +397,16 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
         : cached.quality === "medium" ? 0.75
         : 0.5;
 
-      return _createSuccessResponse({
-        planetaryPositions: cached.planetaryPositions,
-        zodiacSign: sunSign ?? "aries",
-        lunarPhase: lunarPhaseFromPositions(cached.planetaryPositions),
-        elementalInfluence,
-        accuracy,
-        calculationTimestamp: new Date(cached.timestamp).toISOString(),
-      });
+      return Promise.resolve(
+        _createSuccessResponse({
+          planetaryPositions: cached.planetaryPositions,
+          zodiacSign: sunSign ?? "aries",
+          lunarPhase: lunarPhaseFromPositions(cached.planetaryPositions),
+          elementalInfluence,
+          accuracy,
+          calculationTimestamp: new Date(cached.timestamp).toISOString(),
+        }),
+      );
     }
 
     // Fallback: balanced defaults when no cached chart exists
@@ -412,10 +424,12 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
       calculationTimestamp: new Date().toISOString(),
     };
 
-    return _createSuccessResponse(astrologicalData);
+    return Promise.resolve(_createSuccessResponse(astrologicalData));
   } catch (error) {
-    return _createErrorResponse(
-      `Failed to get astrological state: ${error instanceof Error ? error.message : "Unknown error"}`,
+    return Promise.resolve(
+      _createErrorResponse(
+        `Failed to get astrological state: ${error instanceof Error ? error.message : "Unknown error"}`,
+      ),
     );
   }
 }

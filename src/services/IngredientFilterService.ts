@@ -671,7 +671,7 @@ export class IngredientFilterService {
 
   // Get enhanced nutrition data for an ingredient from local database
 
-  public async getEnhancedNutritionData(
+  public getEnhancedNutritionData(
     ingredientName: string,
   ): Promise<{
     name: string;
@@ -682,7 +682,7 @@ export class IngredientFilterService {
       // Use local nutritional profiles
       const ingredient = this.findIngredientByName(ingredientName);
       if (ingredient?.nutritionalProfile) {
-        return {
+        return Promise.resolve({
           name: ingredientName,
           // Note: findIngredientByName is declared to return IngredientMapping
           // (Record<string, Ingredient>) though at runtime it returns a single
@@ -692,18 +692,18 @@ export class IngredientFilterService {
           // existing runtime behavior without widening to `any`.
           nutrition: ingredient.nutritionalProfile as NutritionalProfile,
           source: "local",
-        };
+        });
       }
 
-      return null;
+      return Promise.resolve(null);
     } catch (error) {
       _logger.error("Error fetching local nutrition data: ", error);
-      return null;
+      return Promise.resolve(null);
     }
   }
 
   // Get recipe recommendations using ingredients from local data
-  public async getRecipeRecommendations(
+  public getRecipeRecommendations(
     ingredients: string[],
     dietaryFilter?: DietaryFilter,
   ): Promise<RecipeRecommendation[]> {
@@ -755,10 +755,10 @@ export class IngredientFilterService {
         }
       }
 
-      return recommendations;
+      return Promise.resolve(recommendations);
     } catch (error) {
       _logger.error("Error generating recipe recommendations: ", error);
-      return [];
+      return Promise.resolve([]);
     }
   }
 

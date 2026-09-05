@@ -11,9 +11,13 @@
  */
 
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
-import type { TokenTransaction } from '@/types/economy';
+import { safeReadJson } from '@/lib/api/json';
+import {
+  consumerTransactionsResponseSchema,
+  type ConsumerTransactionItem,
+} from '@/lib/economy/clientSchemas';
 
 // ─── Token visual map ────────────────────────────────────────────────
 
@@ -37,18 +41,15 @@ const SOURCE_LABELS: Record<string, string> = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────
 
-function formatRelativeTime(iso: string): string {
+function formatRelativeTime(iso: string | number | Date): string {
   const then = new Date(iso).getTime();
   const now = Date.now();
   const diffSec = Math.max(0, Math.floor((now - then) / 1000));
 
   if (diffSec < 60) return 'just now';
-  const diffMin = Math.floor(diffSec / 60);
-  if (diffMin < 60) return `${diffMin}m ago`;
-  const diffHr = Math.floor(diffMin / 60);
-  if (diffHr < 24) return `${diffHr}h ago`;
-  const diffDay = Math.floor(diffHr / 24);
-  return `${diffDay}d ago`;
+  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
+  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`;
+  return `${Math.floor(diffSec / 86400)}d ago`;
 }
 
 // ─── Component ────────────────────────────────────────────────────────
@@ -59,7 +60,7 @@ interface LiveLedgerFeedProps {
 }
 
 export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProps) {
-  const [transactions, setTransactions] = useState<TokenTransaction[]>([]);
+  const [transactions, setTransactions] = useState<ConsumerTransactionItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchTransactions = useCallback(async () => {
@@ -71,7 +72,9 @@ export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProp
         setLoading(false);
         return;
       }
-      const data = await res.json();
+      const data = await safeReadJson(res, { success: false, transactions: [] }, {
+        parse: (raw) => consumerTransactionsResponseSchema.parse(raw),
+      });
       if (data.success) {
         setTransactions(data.transactions ?? []);
       }
@@ -145,7 +148,9 @@ export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProp
             {transactions.map((txn) => {
               const visual = TOKEN_VISUAL[txn.tokenType] ?? { symbol: '•', color: 'text-white/60' };
               const isCredit = txn.amount >= 0;
-              const sourceLabel = SOURCE_LABELS[txn.sourceType] || txn.sourceType;
+              const sourceLabel = txn.sourceType
+                ? (SOURCE_LABELS[txn.sourceType] ?? txn.sourceType)
+                : 'Transaction';
               return (
                 <motion.li
                   key={txn.id}

@@ -193,32 +193,34 @@ class InitializationService {
     }
   }
 
-  private async initializeCelestialData(): Promise<CelestialData> {
-    try {
-      const alignment = _celestialCalculator.calculateCurrentInfluences();
+  private initializeCelestialData(): Promise<CelestialData> {
+    return Promise.resolve().then(() => {
+      try {
+        const alignment = _celestialCalculator.calculateCurrentInfluences();
 
-      // Convert CelestialAlignment to CelestialData format with safe property access
-      // Intentionally loose: CelestialAlignment has no sun/moon/Fire/Water/Earth/Air fields, so every access below is a pre-existing dead lookup that always falls back to defaults. Preserved as-is in this types-only pass.
-      const alignmentData = alignment as unknown as {
-        sun?: { sign?: string; degree?: number; exactLongitude?: number };
-        moon?: { sign?: string; degree?: number; exactLongitude?: number };
-        Fire?: number;
-        Water?: number;
-        Earth?: number;
-        Air?: number;
-      };
-      return {
-        sun: alignmentData?.sun ?? { sign: "", degree: 0, exactLongitude: 0 },
-        moon: alignmentData?.moon ?? { sign: "", degree: 0, exactLongitude: 0 },
-        Fire: alignmentData?.Fire ?? 0.25,
-        Water: alignmentData?.Water ?? 0.25,
-        Earth: alignmentData?.Earth ?? 0.25,
-        Air: alignmentData?.Air ?? 0.25,
-      };
-    } catch (error) {
-      logger.error("Failed to calculate celestial influences: ", error);
-      throw error;
-    }
+        // Convert CelestialAlignment to CelestialData format with safe property access
+        // Intentionally loose: CelestialAlignment has no sun/moon/Fire/Water/Earth/Air fields, so every access below is a pre-existing dead lookup that always falls back to defaults. Preserved as-is in this types-only pass.
+        const alignmentData = alignment as unknown as {
+          sun?: { sign?: string; degree?: number; exactLongitude?: number };
+          moon?: { sign?: string; degree?: number; exactLongitude?: number };
+          Fire?: number;
+          Water?: number;
+          Earth?: number;
+          Air?: number;
+        };
+        return {
+          sun: alignmentData?.sun ?? { sign: "", degree: 0, exactLongitude: 0 },
+          moon: alignmentData?.moon ?? { sign: "", degree: 0, exactLongitude: 0 },
+          Fire: alignmentData?.Fire ?? 0.25,
+          Water: alignmentData?.Water ?? 0.25,
+          Earth: alignmentData?.Earth ?? 0.25,
+          Air: alignmentData?.Air ?? 0.25,
+        };
+      } catch (error) {
+        logger.error("Failed to calculate celestial influences: ", error);
+        throw error;
+      }
+    });
   }
 
   private processRecipes(

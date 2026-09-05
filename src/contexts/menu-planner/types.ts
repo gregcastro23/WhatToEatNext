@@ -24,6 +24,7 @@ import type {
   WeeklyMenuStats,
   CalendarNavigation,
 } from "@/types/menuPlanner";
+import type { SlotRecipeInput } from "./useMealSlots";
 
 // Re-export consumed types so callers only need one import path
 export type {
@@ -35,6 +36,7 @@ export type {
   WeeklyMenuStats,
   CalendarNavigation,
   MonicaOptimizedRecipe,
+  SlotRecipeInput,
   WeeklyMenuCircuitMetrics,
   DayCircuitMetrics,
   MealCircuitMetrics,
@@ -119,7 +121,7 @@ export interface MenuPlannerContextType {
   addMealToSlot: (
     dayOfWeek: DayOfWeek,
     mealType: MealType,
-    recipe: MonicaOptimizedRecipe,
+    recipe: SlotRecipeInput,
     servings?: number,
     locked?: boolean,
   ) => Promise<void>;
