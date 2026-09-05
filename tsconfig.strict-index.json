@@ -1,7 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noUncheckedIndexedAccess": true,
+    // noUncheckedIndexedAccess is already true in tsconfig.json (Phase 13,
+    // 50b15d51) and is additionally hardcoded in runStrictIndexCheck, so this
+    // project bought zero signal over `bun run typecheck` for a full 8 GB
+    // program build. It now carries the NEXT strictness tier instead:
+    // exactOptionalPropertyTypes, which the base config does not enable.
+    // The baseline ratchets down only; see .strict-index-baseline.json.
+    "exactOptionalPropertyTypes": true,
     "noEmit": true
   }
 }
