@@ -51,6 +51,7 @@
     "dev": "next dev",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit --incremental false",
+    "audit:dead-modules": "bun scripts/auditDeadModules.ts",
     "strict-index:check": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkStrictIndex.ts",
     "test:gates": "JEST_HEAVY_GATES=1 NODE_OPTIONS=--max-old-space-size=8192 jest scripts/lib/__tests__/",
     "verify": "bun run test:gates && bun run strict-index:check && bun run typecheck && bun run lint && bun run lint:debt && bun run test:fast",
