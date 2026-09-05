@@ -513,6 +513,42 @@ migration at `user/profile/route.ts:115-117` repairs longitudes, never ESMS);
 `alchemical_constitutions`; `manual_companion_charts.natal_chart`; historical
 `daily_ephemeris_cache` rows; `transit_history` (append-only by design).
 
+### ⚠️ CORRECTION (2026-08-01, measured after decisions 1–3 deployed)
+
+**No `elementalBalance` backfill is needed, and none should be run.** The list
+above named `natal_chart` JSONB as a backfill target on the assumption that its
+`elementalBalance` came from `aggregateEnhancedZodiacElementals` — the function
+this ADR migrates. It does not.
+
+Measured against production: **all 14 stored `elementalBalance` vectors are
+count-based**, and **zero** came from the weighted aggregator.
+
+| source | rows | shape |
+|---|---|---|
+| `user_profiles.natal_chart` | 4 | k/11 — unweighted sign counts |
+| `users.profile.natalChart` | 10 | 6 are the neutral 0.25 fallback; 4 are k/11 |
+
+The writer is `calcElementalBalance` in `src/app/api/onboarding/route.ts:66`
+(duplicated at `user/commensals/route.ts:61`) — a pure sign tally
+(`counts[el]++`, divided by the total) with **no planetary weight of any kind**.
+Every stored value is therefore a simple rational, which is how they were
+identified: a mass-weighted vector cannot be k/N for small N.
+
+`natalChartService.ts:375` *does* use the weighted aggregator, but nothing it
+produces reached these columns.
+
+**This is the second backfill in this ADR that measurement retired.** The first
+was `user_yield_profiles` (see #708: the yield path was already on the inertial
+scale, proven by a dynamic probe counting zero Scale-B calls). Both were flagged
+by tracing a persisted value to the function that *looked* like its writer rather
+than to the writer itself. Before scheduling any backfill from this document,
+identify the actual writing call site and confirm the stored values have the
+shape that writer produces.
+
+**Unrelated finding worth its own look:** 6 of the 14 rows hold exactly
+`{0.25, 0.25, 0.25, 0.25}`, the neutral fallback for a chart with no resolvable
+positions. That is a data-quality signal about onboarding, not a scale problem.
+
 **Self-healing:** `livePricing` (per request, persists nothing);
 `tables.composite_snapshot` (but only *after* member charts are backfilled, since
 it averages stored rows).
@@ -617,6 +653,13 @@ Re-enable it only after the backfill, so it regains its meaning as a real gate.
 **Step 5 — backfill, then verify against the deployed SHA.** Backfill only after
 the new writer is live in production. A backfill run from a branch corrects
 production data while production still runs the old writer.
+
+> **Status: for decisions 1–4 there is nothing to backfill.** Both candidate
+> targets were retired by measurement — `user_yield_profiles` (#708, the yield
+> path was already inertial) and `natal_chart.elementalBalance` (see the
+> correction above, all 14 stored vectors are count-based). Step 5 remains the
+> governing rule for decision 5, which DOES move persisted values
+> (`monica_two_body`, and `alchemicalSamples.json` is regenerated not migrated).
 
 ## Open items
 
