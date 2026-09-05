@@ -400,35 +400,37 @@ class ConfigurationServiceImpl {
   /**
    * Import configuration
    */
-  public async importConfiguration(configJson: string): Promise<boolean> {
-    try {
-      const imported = JSON.parse(configJson);
-      if (!imported.configuration) {
-        throw new Error("Invalid configuration format");
-      }
-      const merged = this.mergeWithDefaults(imported.configuration);
-      // Validate the entire configuration
-      const validation = this.validateConfiguration(merged);
-      if (!validation.isValid) {
-        _logger.error("Import validation failed: ", validation.errors);
+  public importConfiguration(configJson: string): Promise<boolean> {
+    return Promise.resolve().then(() => {
+      try {
+        const imported = JSON.parse(configJson);
+        if (!imported.configuration) {
+          throw new Error("Invalid configuration format");
+        }
+        const merged = this.mergeWithDefaults(imported.configuration);
+        // Validate the entire configuration
+        const validation = this.validateConfiguration(merged);
+        if (!validation.isValid) {
+          _logger.error("Import validation failed: ", validation.errors);
+          return false;
+        }
+        this.currentConfig = merged;
+        this.saveConfiguration();
+        // Create import record
+        const update: ConfigurationUpdate = {
+          section: "debug",
+          key: "import",
+          value: "configuration",
+          timestamp: Date.now(),
+        };
+        this.configHistory.push(update);
+        this.notifyListeners(update);
+        return true;
+      } catch (error) {
+        _logger.error("Failed to import configuration: ", error);
         return false;
       }
-      this.currentConfig = merged;
-      this.saveConfiguration();
-      // Create import record
-      const update: ConfigurationUpdate = {
-        section: "debug",
-        key: "import",
-        value: "configuration",
-        timestamp: Date.now(),
-      };
-      this.configHistory.push(update);
-      this.notifyListeners(update);
-      return true;
-    } catch (error) {
-      _logger.error("Failed to import configuration: ", error);
-      return false;
-    }
+    });
   }
   /**
    * Validate entire configuration

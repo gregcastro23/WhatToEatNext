@@ -26,18 +26,22 @@ export { log } from "./LoggingService";
 export const servicesManager = {
   initialized: false,
 
-  async initialize() {
+  initialize(): Promise<
+    | { status: "already-initialized" }
+    | { status: "success" }
+    | { status: "error"; error: unknown }
+  > {
     if (this.initialized) {
-      return { status: "already-initialized" as const };
+      return Promise.resolve({ status: "already-initialized" });
     }
 
     try {
       // Initialize services here
       this.initialized = true;
-      return { status: "success" as const };
+      return Promise.resolve({ status: "success" });
     } catch (error) {
       console.error("Services initialization failed:", error);
-      return { status: "error" as const, error };
+      return Promise.resolve({ status: "error", error });
     }
   },
 

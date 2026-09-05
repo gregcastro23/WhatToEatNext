@@ -9,8 +9,8 @@ export const oloService = {
   isConfigured(): boolean {
     return !!process.env.OLO_API_KEY;
   },
-  async getMenu(oloRestaurantId: string): Promise<unknown> {
+  getMenu(oloRestaurantId: string): Promise<unknown> {
     _logger.error(`[OloService] getMenu called for ${oloRestaurantId} but integration is not active.`);
-    return null;
+    return Promise.resolve(null);
   }
 };

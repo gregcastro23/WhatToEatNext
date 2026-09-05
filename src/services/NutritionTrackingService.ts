@@ -211,7 +211,7 @@ export class NutritionTrackingService {
     const mealData = meals
       .filter((m) => m.recipe)
       .map((m) => ({
-        recipeName: m.recipe!.name || m.recipe!.title || "Unknown",
+        recipeName: m.recipe!.name || (m.recipe!.title ?? "Unknown"),
         mealType: m.mealType,
         nutrition: this.extractMealNutrition(m),
       }));

@@ -285,18 +285,18 @@ class SubscriptionService {
    * (recipe generation etc.) are throttled by the token economy. Don't
    * re-add a `monthlyRecipeGenerations` branch — see feedback_throttling_model.
    */
-  async canUseFeature(
+  canUseFeature(
     userId: string,
     _feature: string,
   ): Promise<{ allowed: boolean; reason?: string }> {
     if (!userId) {
-      return {
+      return Promise.resolve({
         allowed: false,
         reason: "Authentication required — please sign in to use Alchm tools.",
-      };
+      });
     }
     // All tools are accessible via ESMS tokens in the token economy
-    return { allowed: true };
+    return Promise.resolve({ allowed: true });
   }
 
   async getSubscriptionByStripeCustomerId(

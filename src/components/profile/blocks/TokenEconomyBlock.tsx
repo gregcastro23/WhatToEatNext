@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { DailyYieldLedger } from "@/components/ui/alchm/UserVisuals";
+import { safeReadJson } from "@/lib/api/json";
+import {
+  consumerTransactionsResponseSchema,
+  type ConsumerTransactionItem,
+} from "@/lib/economy/clientSchemas";
 import { createLogger } from "@/utils/logger";
 import type { ProfileData } from "./types";
 
 const logger = createLogger("TokenEconomyBlock");
-
-interface TransactionItem {
-  createdAt: string | number | Date;
-  tokenType: "Spirit" | "Essence" | "Matter" | "Substance";
-  amount: number;
-}
-
-interface TransactionsResponse {
-  success?: boolean;
-  transactions?: TransactionItem[];
-}
 
 interface YieldSeries {
   id: string;
@@ -31,7 +25,7 @@ interface BalancesState {
 
 type DailyBuckets = Array<Record<"Spirit" | "Essence" | "Matter" | "Substance", number>>;
 
-function aggregateDailyTransactions(txs: TransactionItem[]): DailyBuckets {
+function aggregateDailyTransactions(txs: ConsumerTransactionItem[]): DailyBuckets {
   const dailyTx: DailyBuckets = Array.from({ length: 14 }, () => ({ Spirit: 0, Essence: 0, Matter: 0, Substance: 0 }));
   const today = new Date();
   const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
@@ -41,7 +35,10 @@ function aggregateDailyTransactions(txs: TransactionItem[]): DailyBuckets {
     const dayDiff = Math.floor((todayStart + 24 * 3600 * 1000 - txTime) / (24 * 3600 * 1000));
     if (dayDiff >= 0 && dayDiff < 14) {
       const bucket = dailyTx[dayDiff];
-      if (bucket) bucket[tx.tokenType] += tx.amount;
+      if (bucket) {
+        const key = (tx.tokenType.charAt(0).toUpperCase() + tx.tokenType.slice(1).toLowerCase()) as "Spirit" | "Essence" | "Matter" | "Substance";
+        if (key in bucket) bucket[key] += tx.amount;
+      }
     }
   }
   return dailyTx;
@@ -141,7 +138,9 @@ function useYieldLedgerData(balances: BalancesState): { series: YieldSeries[] | 
       setLoading(true);
       try {
         const res = await fetch("/api/economy/transactions?limit=100");
-        const json = (await res.json()) as TransactionsResponse;
+        const json = await safeReadJson(res, { success: false, transactions: [] }, {
+          parse: (raw) => consumerTransactionsResponseSchema.parse(raw),
+        });
         if (json.success && active) {
           const txs = json.transactions ?? [];
           const dailyTx = aggregateDailyTransactions(txs);

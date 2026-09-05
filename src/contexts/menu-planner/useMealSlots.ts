@@ -143,14 +143,9 @@ export function useMealSlots({
             if (meal.dayOfWeek === dayOfWeek && meal.mealType === mealType) {
               return {
                 ...meal,
-                // LOAD-BEARING: `MealSlot["recipe"]` requires `title: string`
-                // (src/types/recipe.ts `EnhancedRecipe`), which neither branch
-                // of SlotRecipeInput can guarantee — consumers themselves fall
-                // back (`meal.recipe.name || meal.recipe.title || ""` in
-                // GroceryListModal, `recipe.title ?? recipe.name` in
-                // /api/menu-planner/menus). Removing this needs `title` made
-                // optional in src/types/recipe.ts, not a change here.
-                recipe: recipe as unknown as (typeof meal)["recipe"],
+                // `MealSlot["recipe"]` is `EnhancedRecipe` (src/types/recipe.ts).
+                // With `title?: string`, `SlotRecipeInput` matches directly without a cast.
+                recipe,
                 servings,
                 // `locked` set in the same update as the recipe (remote-slot
                 // materialization) — a follow-up lockMeal() would clobber the

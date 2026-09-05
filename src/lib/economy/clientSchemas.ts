@@ -60,6 +60,15 @@ export const economyErrorResponseSchema = z.object({
   message: z.string().optional(),
 });
 
+export const economyBalanceApiResponseSchema = z.discriminatedUnion("success", [
+  economyBalanceResponseSchema,
+  economyErrorResponseSchema,
+]);
+
+export type EconomyBalanceApiResponse = z.infer<
+  typeof economyBalanceApiResponseSchema
+>;
+
 const shopItemSchema = z.object({
   id: z.string(),
   slug: z.string(),
@@ -90,3 +99,30 @@ export const purchaseResponseSchema = z.discriminatedUnion("success", [
 ]);
 
 export type ShopResponse = z.infer<typeof shopResponseSchema>;
+
+export const consumerTransactionItemSchema = z
+  .object({
+    id: z.union([z.string(), z.number()]).optional(),
+    createdAt: z.union([z.string(), z.number(), z.date()]),
+    tokenType: z.string(),
+    amount: z.number().finite(),
+    sourceType: z.string().optional(),
+    description: z.string().nullable().optional(),
+  })
+  .passthrough();
+
+export const consumerTransactionsResponseSchema = z
+  .object({
+    success: z.boolean().optional(),
+    transactions: z.array(consumerTransactionItemSchema).optional(),
+    total: z.number().optional(),
+    message: z.string().optional(),
+  })
+  .passthrough();
+
+export type ConsumerTransactionItem = z.infer<
+  typeof consumerTransactionItemSchema
+>;
+export type ConsumerTransactionsResponse = z.infer<
+  typeof consumerTransactionsResponseSchema
+>;

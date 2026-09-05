@@ -567,7 +567,7 @@ async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
   };
 }
 
-async function probeRecommendations(
+function probeRecommendations(
   latest: LatestProbeRow[],
 ): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
@@ -608,7 +608,7 @@ async function probeRecommendations(
     if (issue) issues.push(issue);
   }
 
-  return {
+  return Promise.resolve({
     id: "recommendations",
     label: "Recipe Recommendations",
     description:
@@ -647,10 +647,10 @@ async function probeRecommendations(
     issues: issues.slice(0, 3),
     checkedAt,
     live: true,
-  };
+  });
 }
 
-async function probeAIGeneration(
+function probeAIGeneration(
   latest: LatestProbeRow[],
 ): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
@@ -691,7 +691,7 @@ async function probeAIGeneration(
     if (issue) issues.push(issue);
   }
 
-  return {
+  return Promise.resolve({
     id: "ai-generation",
     label: "AI Recipe Generation",
     description:
@@ -722,7 +722,7 @@ async function probeAIGeneration(
     issues: issues.slice(0, 3),
     checkedAt,
     live: true,
-  };
+  });
 }
 
 async function probeTokenEconomy(): Promise<FlowHealth> {

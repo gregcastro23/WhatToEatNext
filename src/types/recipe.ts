@@ -599,7 +599,7 @@ export interface RecipePlanetaryInfluences {
 }
 export interface EnhancedRecipe extends Recipe {
   // Display title (separate from the canonical `name`)
-  title: string;
+  title?: string;
   // Thermodynamic snapshot attached at the recipe level.
   // Note: distinct from the unified EnhancedRecipe in src/data/unified/recipes.ts,
   // which stores a richer `alchemicalProperties` shape.
@@ -608,6 +608,23 @@ export interface EnhancedRecipe extends Recipe {
     entropy?: number;
     reactivity?: number;
     stability?: number;
+    // Unified recipe properties from src/data/unified/recipes.ts
+    totalKalchm?: number;
+    monicaConstant?: number | null;
+    thermodynamicProfile?: {
+      heat?: number;
+      entropy?: number;
+      reactivity?: number;
+      gregsEnergy?: number;
+    };
+    ingredientKalchmBreakdown?: Array<{
+      name: string;
+      kalchm: number;
+      contribution: number;
+      elementalContribution?: unknown;
+    }>;
+    elementalBalance?: unknown;
+    alchemicalClassification?: string;
   };
   nutritionalProfile?: {
     calories?: number;

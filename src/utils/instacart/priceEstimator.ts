@@ -76,15 +76,13 @@ export function estimateIngredientCost(
     const confidence = isExact ? "exact" : ("fuzzy" as const);
     
     // Scale price based on units
-    let cost = 0;
-    if (priceMatch.unit === "each" || priceMatch.unit === "bulb" || priceMatch.unit === "clove" || priceMatch.unit === "bunch") {
-       // Unit-based pricing
-       cost = amount * priceMatch.basePrice;
-    } else {
-       // Gram/Weight based pricing
-       const grams = convertToGrams(name, amount, unit);
-       cost = grams * priceMatch.basePrice;
-    }
+    const cost =
+      priceMatch.unit === "each" ||
+      priceMatch.unit === "bulb" ||
+      priceMatch.unit === "clove" ||
+      priceMatch.unit === "bunch"
+        ? amount * priceMatch.basePrice
+        : convertToGrams(name, amount, unit) * priceMatch.basePrice;
     
     return { 
       cost: cost * TIER_MODIFIER, 

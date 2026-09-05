@@ -18,7 +18,6 @@ import React, {
 } from "react";
 import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type {
   MealSlot as MealSlotType,
@@ -378,7 +377,7 @@ function LockedRecipeCard({
       {/* Actions */}
       <div className="flex items-center justify-between border-t border-gray-200 pt-4">
         <Link
-          href={`/recipes/${recipe.id || encodeURIComponent(recipe.name || recipe.title || '')}`}
+          href={`/recipes/${recipe.id || encodeURIComponent(recipe.name || (recipe.title ?? ''))}`}
           className="text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center gap-1"
         >
           📖 View Full Recipe
@@ -697,8 +696,7 @@ export default function FocusedDayView({
     mealType: MealType,
     recipe: ScoredRecipe,
   ) => {
-    // Cast recipe to MonicaOptimizedRecipe, asserting that Monica properties will be available or handled downstream
-    await addMealToSlot(dayOfWeek, mealType, recipe as MonicaOptimizedRecipe, 2);
+    await addMealToSlot(dayOfWeek, mealType, recipe, 2);
   };
 
   // Handle locking/unlocking - uses context for persistence

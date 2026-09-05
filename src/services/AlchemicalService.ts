@@ -35,7 +35,7 @@ export class AlchemicalService {
   /**
    * Calculate alchemical properties for planetary positions
    */
-  async calculateAlchemicalProperties(
+  calculateAlchemicalProperties(
     planetaryPositions: Record<string, PlanetaryPosition>,
   ): Promise<StandardizedAlchemicalResult> {
     try {
@@ -53,10 +53,12 @@ export class AlchemicalService {
       }
       const result = alchemize(convertedPositions);
       logger.info("Alchemical calculation completed");
-      return result;
+      return Promise.resolve(result);
     } catch (error) {
       logger.error("Error calculating alchemical properties:", error);
-      throw new Error("Failed to calculate alchemical properties", { cause: error });
+      return Promise.reject(
+        new Error("Failed to calculate alchemical properties", { cause: error }),
+      );
     }
   }
   /**

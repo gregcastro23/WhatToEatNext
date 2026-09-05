@@ -433,12 +433,13 @@ export const performanceMonitor = new PerformanceMonitor();
 /**
  * Warm up caches with common calculations
  */
-export async function warmupCaches(): Promise<void> {
+export function warmupCaches(): Promise<void> {
   log.info("🔥 Warming up caches for optimal performance...");
   // This will be implemented with actual data warming
   // For now, just log the warming process
 
   log.info("✅ Cache warmup complete");
+  return Promise.resolve();
 }
 
 /**
