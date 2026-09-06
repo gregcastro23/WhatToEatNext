@@ -1,8 +1,8 @@
 # Next Session: Phase 25 — Test-Only Surface, Unsafe Rules & the Big Three
 
 > **Status of Phase 24:** Complete and verified on branch `refactor/phase-24-dead-modules`
-> (branched from `refactor/phase-23-require-await`, which is still **unmerged** and sits
-> 8 commits ahead of `master`).
+> (PR #828), branched from `refactor/phase-23-require-await` — which is **unmerged** and
+> sits 4 commits ahead of `origin/master`. Phases 19–22 ARE merged, via #824–#827.
 >
 > | Commit | |
 > |---|---|
@@ -84,6 +84,13 @@ deletion work must treat `.d.ts` as referrers; the audit now does.
 
 ## 1. Phase 25 Prioritized Plan
 
+> **Deletion register:** every module removed by Phases 23–24 is accounted for
+> individually in `docs/DELETED.md` (merged, #829), classified by whether any
+> proposed functionality was lost. 11 of 459 were built by a real feature commit
+> and never wired — 8 of them WTEN migration ports — and two entries
+> (`environmentalResponseProfiles.ts`, `structured-logger.ts`) are flagged there
+> as worth restoring rather than accepting. Read it before deleting anything else.
+
 ### Tranche 1: The 53 test-only modules (needs a human decision)
 `audit:dead-modules` reports **53** modules that are production-unreachable but
 imported by a test — `src/utils` 21, `src/services` 9, `src/calculations` 8,
@@ -139,9 +146,16 @@ not be reintroduced.
    `refactor/phase-23-require-await` by the end — changed by another session.
    Always `git branch --show-current` before running anything there, and prefer
    an isolated worktree. Never `git add -A` in the primary checkout.
-2. **Phases 19–24 are all unmerged.** `refactor/phase-23-require-await` is 8
-   commits ahead of `master`; this branch adds 6 more. Nothing has landed on
-   `master` since `e0c2df85` (Phases 16–18).
+2. **Check `origin/master`, never the local `master` ref.** The local ref in this
+   checkout was stale at `e0c2df85` (Phases 16–18) while `origin/master` had
+   already advanced through Phase 22 (`a23f0d55`, #827). Reading the local ref
+   made Phases 19–22 look unmerged and overstated this branch's range by 3
+   commits. `git fetch origin master` before computing any range, or use
+   `gh api` — and note `git fetch` can be blocked outright by a broken local ref.
+
+   Actual state: Phases 19–22 merged (#824–#827); the DELETED register merged
+   (#829); **outstanding** = Phase 23's 4 commits and Phase 24's 7, both carried
+   by PR #828.
 3. **The scratchpad is wiped between sessions.** Long-running agents that read
    input files from it degrade *silently* rather than failing — two returned 1
    verdict instead of 32. Regenerate inputs deterministically and check result
