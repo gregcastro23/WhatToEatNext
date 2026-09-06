@@ -12,6 +12,8 @@
 > | `84b75fc4` | `fix(audit)`: close two reachability gaps found by empirically deleting the set |
 > | `631bb256` | `chore(dead-code)`: **delete 450 unreachable src/ modules (122,572 LOC)** |
 > | `0e825fdb` | `chore(lint)`: ratchet baseline after the dead-module deletion |
+> | `e9e1f45c` | `chore(gates,docs)`: ratchet strict-flags baseline and hand off Phase 25 |
+> | `4602a81c` | `docs`: correct two stale-master claims in this handoff |
 >
 > | Metric | Before (P23) | After (P24) | Δ |
 > |---|---:|---:|---:|
@@ -103,10 +105,22 @@ regression suite for behaviour that *should* be wired up but is not. **Do not
 bulk-delete these** — they carry the only executable specification of some
 alchemical maths. Triage individually against `docs/physics/PHYSICS_QUANTITY_MAP.md`.
 
-### Tranche 2: The Big Three (now 3,868 of 1,944 tracked + declined)
-`max-lines-per-function` (1,593), `explicit-function-return-type` (1,374) and
-`no-unnecessary-condition` (904) are now 71% of what remains. The first two are
-largely mechanical; the third is **not** — see
+### Tranche 2: The Big Three — but check which pool each one is in first
+⚠️ **Only one of these three counts toward tracked debt.** The other two sit in
+the *declined* pool — rules the config deliberately does not enforce — so
+clearing them moves the declined number and leaves `trackedTotal` untouched.
+
+| Rule | Count | Pool | Clearing it moves |
+|---|---:|---|---|
+| `max-lines-per-function` | 1,593 | **declined** | declined pool only |
+| `explicit-function-return-type` | 1,374 | **declined** | declined pool only |
+| `no-unnecessary-condition` | 904 | **tracked** | **tracked debt (46% of the 1,944)** |
+
+Together 3,871 of the 6,855 tracked + declined (56%). If the goal is the headline
+tracked number, `no-unnecessary-condition` is the *only* one of the three that
+touches it — and it is the hardest of the three. The first two are largely
+mechanical but score against a different meter; decide which meter you are
+moving before starting. See
 `feedback_no_unnecessary_condition_is_not_cleanup`, and note its stated root cause
 (`noUncheckedIndexedAccess: false`) is **stale**: the flag has been on since Phase 13
 and 904 survived it. Re-derive the cause before planning a sweep, and never fix
@@ -154,7 +168,7 @@ not be reintroduced.
    `gh api` — and note `git fetch` can be blocked outright by a broken local ref.
 
    Actual state: Phases 19–22 merged (#824–#827); the DELETED register merged
-   (#829); **outstanding** = Phase 23's 4 commits and Phase 24's 7, both carried
+   (#829); **outstanding** = Phase 23's 4 commits and Phase 24's 8, both carried
    by PR #828.
 3. **The scratchpad is wiped between sessions.** Long-running agents that read
    input files from it degrade *silently* rather than failing — two returned 1
