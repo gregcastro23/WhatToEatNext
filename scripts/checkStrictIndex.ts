@@ -15,10 +15,10 @@ const baselinePath = new URL("../.strict-index-baseline.json", import.meta.url);
 const baselineRaw = await readFile(baselinePath, "utf8");
 const baseline = strictIndexBaselineSchema.parse(JSON.parse(baselineRaw));
 
-console.log("Running noUncheckedIndexedAccess strict index check...");
+console.log("Running exactOptionalPropertyTypes strict-flags check...");
 const summary = runStrictIndexCheck(repoRoot, "tsconfig.strict-index.json");
 
-console.log(`\n=== STRICT INDEX ERRORS: ${summary.total} total across ${summary.files} files ===`);
+console.log(`\n=== STRICT FLAG ERRORS: ${summary.total} total across ${summary.files} files ===`);
 console.log(`Baseline: ${baseline.total} total errors across ${baseline.files} files (${baseline.allowlist.length} allowlisted)`);
 
 const comparison = compareStrictIndex(summary, baseline);
@@ -48,8 +48,8 @@ if (summary.total < baseline.total) {
   const updated = updateStrictIndexBaseline(summary, baseline);
   await writeFile(baselinePath, `${JSON.stringify(updated, null, 2)}\n`, "utf8");
   console.log(
-    `\n📉 Ratchet down: strict index baseline updated from ${baseline.total} to ${updated.total} (-${baseline.total - updated.total} errors).`,
+    `\n📉 Ratchet down: strict-flags baseline updated from ${baseline.total} to ${updated.total} (-${baseline.total - updated.total} errors).`,
   );
 } else {
-  console.log("\n✅ Strict index check passed (no regressions against baseline).");
+  console.log("\n✅ Strict-flags check passed (no regressions against baseline).");
 }

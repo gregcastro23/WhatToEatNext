@@ -98,7 +98,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
     enthalpy: 0.5,
   }),
   updatePlanetaryPositions: () => {},
-  refreshPlanetaryPositions: async () => ({}),
+  refreshPlanetaryPositions: () => Promise.resolve({}),
   setDaytime: () => {},
   updateState: () => {},
 });

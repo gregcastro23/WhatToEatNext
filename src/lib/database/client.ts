@@ -572,21 +572,23 @@ export class DatabaseHealthService {
     return await checkDatabaseHealth();
   }
 
-  static async getMetrics(): Promise<{
+  static getMetrics(): Promise<{
     connectionPoolSize: number;
     activeConnections: number;
     idleConnections: number;
     totalCount: number;
     waitingClients: number;
   }> {
-    const pool = getDatabasePool();
-    return {
-      connectionPoolSize: pool.options.max || 0,
-      activeConnections: pool.totalCount - pool.idleCount,
-      idleConnections: pool.idleCount,
-      totalCount: pool.totalCount,
-      waitingClients: pool.waitingCount,
-    };
+    return Promise.resolve().then(() => {
+      const pool = getDatabasePool();
+      return {
+        connectionPoolSize: pool.options.max || 0,
+        activeConnections: pool.totalCount - pool.idleCount,
+        idleConnections: pool.idleCount,
+        totalCount: pool.totalCount,
+        waitingClients: pool.waitingCount,
+      };
+    });
   }
 
   static async logSystemMetric(

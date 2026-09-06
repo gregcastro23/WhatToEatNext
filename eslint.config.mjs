@@ -445,9 +445,11 @@ export default [
   // catching every new file and every new violation in an already-clean file —
   // without requiring 135 pre-existing call sites to be fixed in one change.
   //
-  // `[MEASURED 2026-07-31]` 135 violations across these 14 files, of which 105
+  // `[MEASURED 2026-07-31]` 135 violations across 14 files, of which 105
   // are in chakraSymbols.ts alone. Deleting an entry here is the definition of
   // done for cleaning that file; adding one is not permitted.
+  // 3 entries removed in Phase 24: their files were deleted as unreachable
+  // (src/data/recipes.ts, RecommendationAnalyticsService.ts, RuneAgentClient.ts).
   // ----------------------------------------------------------------------------
   {
     files: [
@@ -456,12 +458,9 @@ export default [
       "src/data/cuisineFlavorProfiles.ts",
       "src/data/ingredients/herbs/index.ts",
       "src/data/ingredients/spices/index.ts",
-      "src/data/recipes.ts",
       "src/data/unified/seasonal.ts",
       "src/services/AstrologicalService.ts",
       "src/services/FoodDiaryService.ts",
-      "src/services/RecommendationAnalyticsService.ts",
-      "src/services/RuneAgentClient.ts",
       "src/services/commensalDatabaseService.ts",
       "src/services/notificationDatabaseService.ts",
       "src/services/recipeData.ts",

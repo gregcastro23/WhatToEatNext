@@ -179,8 +179,8 @@ export function getAccuratePlanetaryPositionsSync(
  * Get accurate planetary positions using astronomy-engine
  * Strictly calculates based on mathematical models, no hardcoded defaults.
  */
-export async function getAccuratePlanetaryPositions(
+export function getAccuratePlanetaryPositions(
   date: Date = new Date()
 ): Promise<Record<string, PlanetaryPosition & { exactLongitude: number }>> {
-  return getAccuratePlanetaryPositionsSync(date);
+  return Promise.resolve().then(() => getAccuratePlanetaryPositionsSync(date));
 }

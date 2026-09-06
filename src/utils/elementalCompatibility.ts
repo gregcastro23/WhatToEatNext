@@ -18,7 +18,7 @@ export interface ElementalCompatibility {
 /**
  * Calculate the elemental compatibility between a recipe and user's preference
  */
-export async function calculateElementalCompatibility(
+export function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
   userElemental: ElementalProperties = {
     Fire: 0.25,
@@ -27,54 +27,56 @@ export async function calculateElementalCompatibility(
     Air: 0.25,
   },
 ): Promise<ElementalCompatibility> {
-  // Ensure properties are standardized
-  const recipe = recipeElementalService.standardizeRecipe({
-    elementalProperties: recipeElemental,
-  });
-  const user = recipeElementalService.standardizeRecipe({
-    elementalProperties: userElemental,
-  });
+  return Promise.resolve().then(() => {
+    // Ensure properties are standardized
+    const recipe = recipeElementalService.standardizeRecipe({
+      elementalProperties: recipeElemental,
+    });
+    const user = recipeElementalService.standardizeRecipe({
+      elementalProperties: userElemental,
+    });
 
-  // Calculate simple similarity score
-  const similarity = recipeElementalService.calculateSimilarity(
-    recipe.elementalProperties,
-    user.elementalProperties,
-  );
+    // Calculate simple similarity score
+    const similarity = recipeElementalService.calculateSimilarity(
+      recipe.elementalProperties,
+      user.elementalProperties,
+    );
 
-  // Find dominant elements
-  const recipeDominant = getDominantElement(recipe.elementalProperties);
-  const userDominant = getDominantElement(user.elementalProperties);
+    // Find dominant elements
+    const recipeDominant = getDominantElement(recipe.elementalProperties);
+    const userDominant = getDominantElement(user.elementalProperties);
 
-  // Calculate complementary score - check if dominant elements complement each other
-  const complementaryScore = calculateComplementaryScore(
-    recipeDominant,
-    userDominant,
-  );
-
-  // Calculate balance score - how well the recipe balances user's elemental profile
-  const balanceScore = calculateBalanceScore(
-    recipe.elementalProperties,
-    user.elementalProperties,
-  );
-
-  // Calculate overall compatibility (weighted average)
-  const compatibility =
-    similarity * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
-
-  return {
-    compatibility: Math.min(1, Math.max(0, compatibility)),
-    dominantPair: {
-      recipe: recipeDominant,
-      user: userDominant,
-    },
-    complementaryScore,
-    balanceScore,
-    recommendation: generateRecommendation(
-      compatibility,
+    // Calculate complementary score - check if dominant elements complement each other
+    const complementaryScore = calculateComplementaryScore(
       recipeDominant,
       userDominant,
-    ),
-  };
+    );
+
+    // Calculate balance score - how well the recipe balances user's elemental profile
+    const balanceScore = calculateBalanceScore(
+      recipe.elementalProperties,
+      user.elementalProperties,
+    );
+
+    // Calculate overall compatibility (weighted average)
+    const compatibility =
+      similarity * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
+
+    return {
+      compatibility: Math.min(1, Math.max(0, compatibility)),
+      dominantPair: {
+        recipe: recipeDominant,
+        user: userDominant,
+      },
+      complementaryScore,
+      balanceScore,
+      recommendation: generateRecommendation(
+        compatibility,
+        recipeDominant,
+        userDominant,
+      ),
+    };
+  });
 }
 
 /**

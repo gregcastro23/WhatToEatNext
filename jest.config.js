@@ -32,7 +32,7 @@ const config = {
   testPathIgnorePatterns: [
     "/node_modules/",
     "/.next/",
-    "/.claude/",
+    "<rootDir>/.claude/",
     // strictIndex.test.ts builds the ENTIRE TypeScript program (2,400+ files)
     // to prove the scanner is live rather than silently compiling nothing.
     // Measured: it needs >2GB and passes at 4GB. `bun run test` allots 2GB, so
@@ -48,9 +48,14 @@ const config = {
     // suite from the primary checkout also collects every sibling worktree's
     // copy of every test — they fail on module resolution (their node_modules
     // is a symlink to this checkout's) and report as failures that belong to
-    // no branch. `/.claude/` above already covers `.claude/worktrees/`; this
-    // covers the top-level `.worktrees/` convention.
-    "/.worktrees/",
+    // no branch.
+    //
+    // Anchored to <rootDir> deliberately. As a bare substring ("/.worktrees/")
+    // this pattern also matched a worktree's own absolute path, so running the
+    // suite FROM inside a worktree silently collected zero tests and exited 0 —
+    // a green run that proved nothing. Anchored, the primary checkout still
+    // skips every sibling worktree, while a worktree runs its own tests.
+    "<rootDir>/.worktrees/",
     "/docs/archived-tests/",
     "/.temp-disabled-tests/",
     "/archive/",

@@ -13,9 +13,9 @@ export function PremiumMockProvider({ children, premium = false }: PremiumMockPr
     tier: premium ? ("premium" as const) : ("free" as const),
     isLoading: false,
     hasFeature: () => premium,
-    openCheckout: async () => undefined,
-    openPortal: async () => undefined,
-    refresh: async () => undefined,
+    openCheckout: () => Promise.resolve(),
+    openPortal: () => Promise.resolve(),
+    refresh: () => Promise.resolve(),
     isPremium: premium,
   };
   return <PremiumContext.Provider value={value}>{children}</PremiumContext.Provider>;
