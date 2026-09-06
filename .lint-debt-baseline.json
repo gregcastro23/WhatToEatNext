@@ -1,26 +1,26 @@
 {
-  "trackedTotal": 2630,
+  "trackedTotal": 1944,
   "casts": {
-    "total": 252,
-    "asAny": 67,
-    "asUnknownAs": 185,
-    "production": 220,
+    "total": 169,
+    "asAny": 40,
+    "asUnknownAs": 129,
+    "production": 137,
     "test": 32,
-    "untrackedSingleAsT": 2726
+    "untrackedSingleAsT": 2052
   },
   "assertionSites": {
-    "total": 4357,
-    "asAny": 65,
-    "chained": 185,
-    "single": 4107,
-    "production": 3733,
+    "total": 3398,
+    "asAny": 39,
+    "chained": 129,
+    "single": 3230,
+    "production": 2774,
     "test": 624,
-    "asConst": 641,
-    "nonNull": 658
+    "asConst": 547,
+    "nonNull": 630
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 294,
+      "total": 214,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -28,28 +28,28 @@
     }
   },
   "declined": {
-    "total": 6236,
+    "total": 4911,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1747,
-      "@typescript-eslint/explicit-module-boundary-types": 839,
-      "complexity": 363,
-      "max-depth": 106,
-      "max-lines": 653,
-      "max-lines-per-function": 2094,
-      "no-void": 434
+      "@typescript-eslint/explicit-function-return-type": 1374,
+      "@typescript-eslint/explicit-module-boundary-types": 671,
+      "complexity": 301,
+      "max-depth": 85,
+      "max-lines": 514,
+      "max-lines-per-function": 1593,
+      "no-void": 373
     }
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
-      "count": 1747,
+      "count": 1374,
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 839,
+      "count": 671,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 203,
+      "count": 146,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -57,31 +57,31 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1271,
+      "count": 904,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 95,
+      "count": 63,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 267,
+      "count": 206,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 23,
+      "count": 10,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 250,
+      "count": 195,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 53,
+      "count": 23,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 294,
+      "count": 214,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -101,7 +101,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 363,
+      "count": 301,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -117,15 +117,15 @@
       "autoFixable": 0
     },
     "max-depth": {
-      "count": 106,
+      "count": 85,
       "autoFixable": 0
     },
     "max-lines": {
-      "count": 653,
+      "count": 514,
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 2094,
+      "count": 1593,
       "autoFixable": 0
     },
     "max-nested-callbacks": {
@@ -133,15 +133,15 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 417,
+      "count": 362,
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 51,
+      "count": 35,
       "autoFixable": 0
     },
     "no-void": {
-      "count": 434,
+      "count": 373,
       "autoFixable": 0
     },
     "prefer-destructuring": {
