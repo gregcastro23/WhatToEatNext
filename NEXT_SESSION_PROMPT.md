@@ -13,7 +13,11 @@
 > | `631bb256` | `chore(dead-code)`: **delete 450 unreachable src/ modules (122,572 LOC)** |
 > | `0e825fdb` | `chore(lint)`: ratchet baseline after the dead-module deletion |
 > | `e9e1f45c` | `chore(gates,docs)`: ratchet strict-flags baseline and hand off Phase 25 |
-> | `4602a81c` | `docs`: correct two stale-master claims in this handoff |
+>
+> Substantive commits only. Later `docs:` commits on this branch are corrections
+> to this file — self-referential, so they are deliberately not enumerated here
+> (each one would invalidate its own count). **PR #828 is the authoritative
+> list.**
 >
 > | Metric | Before (P23) | After (P24) | Δ |
 > |---|---:|---:|---:|
@@ -168,8 +172,9 @@ not be reintroduced.
    `gh api` — and note `git fetch` can be blocked outright by a broken local ref.
 
    Actual state: Phases 19–22 merged (#824–#827); the DELETED register merged
-   (#829); **outstanding** = Phase 23's 4 commits and Phase 24's 8, both carried
-   by PR #828.
+   (#829); **outstanding** = Phase 23's 4 commits plus Phase 24's, both carried
+   by PR #828 — read the count off the PR, not off this file, which cannot
+   state a number that survives its own next edit.
 3. **The scratchpad is wiped between sessions.** Long-running agents that read
    input files from it degrade *silently* rather than failing — two returned 1
    verdict instead of 32. Regenerate inputs deterministically and check result
