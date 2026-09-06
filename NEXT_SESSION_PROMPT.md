@@ -1,97 +1,148 @@
-# Next Session: Phase 24 — Type Safety Cleanliness, Cast Surface Pruning & Unsafe Rules Hardening
+# Next Session: Phase 25 — Test-Only Surface, Unsafe Rules & the Big Three
 
-> **Status of Phase 23:** Complete, verified, committed on branch `refactor/phase-23-require-await`.
-> Commits:
-> - `31014233`: `chore(tooling): delete 9 unreferenced build, QA and legacy UI modules`
-> - `33e9e138`: `refactor(lint): de-async 27 remaining require-await sites`
-> - `14be3468`: `chore(lint): ratchet baseline via --ratchet`
+> **Status of Phase 24:** Complete and verified on branch `refactor/phase-24-dead-modules`
+> (branched from `refactor/phase-23-require-await`, which is still **unmerged** and sits
+> 8 commits ahead of `master`).
 >
-> | Metric | Before (P22) | After (P23) | Δ |
+> | Commit | |
+> |---|---|
+> | `d8469333` | `feat(gates)`: dead-module reachability audit + repurpose the no-op strict-index gate |
+> | `d2e344c0` | `fix(jest)`: anchor worktree ignore patterns to `<rootDir>` |
+> | `2b2e3455` | `chore(scripts)`: register `audit:dead-modules` |
+> | `84b75fc4` | `fix(audit)`: close two reachability gaps found by empirically deleting the set |
+> | `631bb256` | `chore(dead-code)`: **delete 450 unreachable src/ modules (122,572 LOC)** |
+> | `0e825fdb` | `chore(lint)`: ratchet baseline after the dead-module deletion |
+>
+> | Metric | Before (P23) | After (P24) | Δ |
 > |---|---:|---:|---:|
-> | Tracked lint debt | 2,701 | **2,630** | **−71** |
-> | — `@typescript-eslint/require-await` | 46 | **0** | **−46** (100% eliminated) |
-> | — `@typescript-eslint/no-unsafe-member-access` | 257 | **250** | **−7** |
-> | — `@typescript-eslint/no-unnecessary-condition` | 1,276 | **1,271** | **−5** |
-> | — `@typescript-eslint/no-unsafe-assignment` | 272 | **267** | **−5** |
-> | — `@typescript-eslint/no-unsafe-call` | 26 | **23** | **−3** |
-> | — `@typescript-eslint/no-explicit-any` | 205 | **203** | **−2** |
-> | — `@typescript-eslint/no-unsafe-argument` | 96 | **95** | **−1** |
-> | — `@typescript-eslint/no-unsafe-return` | 54 | **53** | **−1** |
-> | — `no-useless-assignment` | 52 | **51** | **−1** |
-> | PNC sub-baseline | 294 | **294** | **0** (Defended) |
-> | Cast surface | 255 | **252** | **−3** |
-> | — `as any` / `as unknown as` | 68 / 187 | **67 / 185** | **−1** / **−2** |
-> | — Production / Test | 223 / 32 | **220 / 32** | **−3** / 0 |
-> | Assertion sites (AST) | 4,373 | **4,357** | **−16** |
-> | — Production / Test | 3,749 / 624 | **3,733 / 624** | **−16** / 0 |
-> | — `as any` sites | 66 | **65** | **−1** |
-> | Declined pool | 6,302 | **6,236** | **−66** |
+> | Tracked lint debt | 2,630 | **1,944** | **−686 (−26%)** |
+> | — `max-lines-per-function` | 2,094 | **1,593** | −501 |
+> | — `explicit-function-return-type` | 1,747 | **1,374** | −373 |
+> | — `no-unnecessary-condition` | 1,271 | **904** | −367 |
+> | — `explicit-module-boundary-types` | 839 | **671** | −168 |
+> | — `no-unsafe-assignment` | 267 | **206** | −61 |
+> | — `no-unsafe-member-access` | 250 | **195** | −55 |
+> | — `no-explicit-any` | 203 | **146** | −57 |
+> | — `no-unsafe-argument` | 95 | **63** | −32 |
+> | — `no-unsafe-return` | 53 | **23** | −30 |
+> | — `no-unsafe-call` | 23 | **10** | −13 |
+> | Cast surface | 252 | **169** | −83 |
+> | — `as any` / `as unknown as` | 67 / 185 | **40 / 129** | −27 / −56 |
+> | — Production / Test | 220 / 32 | **137 / 32** | −83 / 0 |
+> | Assertion sites (AST) | 4,357 | **3,398** | −959 |
+> | PNC sub-baseline | 294 | **214** | −80 |
+> | Declined pool | 6,236 | **4,911** | −1,325 |
 >
-> Gates: `bun run test:gates` 50/50 · `bun run strict-index:check` 0 errors · `bun run typecheck` 0 errors · `CI=1 bun run test` 331/331 suites passed (3462/3472 tests) · `bun run build` 0 errors.
+> Gates on the final tree: `typecheck` 0 errors · `bun run verify` green ·
+> `strict-index:check` 807/402 → **674/329** (ratcheted by the deletion) ·
+> full jest **333/333 suites, 3,497 passed** · `bun run build` exit 0, bundle
+> thresholds green · `audit:dead-modules` **UNREACHABLE: 0**.
 
 ---
 
-## 0. Lessons & Operational Realities from Phase 23
+## 0. What Phase 24 established
 
-### `require-await` Reached Zero
-- All `@typescript-eslint/require-await` warnings across the repository have been pruned to 0.
-- Mechanical throw-partition rules kept promise contracts identical:
-  - If the function body can throw before or outside a `try`, wrap in `return Promise.resolve().then(() => { ... })`.
-  - If inside `try/catch` and returning a value, `return Promise.resolve(value)`.
-  - Pure internal handlers (e.g. `handleStarClick`, `loadIngredients`, `updateMetrics`) are de-async'd directly and their unawaited `void` callers dropped.
+### Tranche 1 — the audit is now a checked-in gate, not a one-off
+`bun run audit:dead-modules` (`scripts/auditDeadModules.ts` + `scripts/lib/deadModules.ts`,
+31 tests in `test:gates`). Built on the TypeScript compiler API, not regex, and models
+every edge that has previously refuted a "this is dead" claim here: `export * from`
+barrels, literal dynamic `import()`, `require()`, import-equals, tsconfig `paths`
+aliases, Next.js App/Pages conventions, `middleware`/`instrumentation`,
+**package.json script targets**, and **`.d.ts` declaration files**. Template-literal
+imports are unresolvable, so everything under their literal prefix is pinned alive.
 
-### Dead Tooling Deletion Safety
-- Deleting 9 unreferenced legacy tooling files dropped 4,460 lines of dead code and eliminated 2 `as unknown as` casts, 16 `require-await` warnings, 25 tracked lint debt instances, and 54 declined warnings with zero disruption to active product paths.
+### ⚠️ The ordering lesson, now quantified
+Phase 23's handoff flagged that ~41% of its de-async work landed on dead code. That
+was understated. Deleting the dead set moved `as any` from 67 to **40** — past the
+target of the dedicated cast-reduction tranche — and cut the whole `no-unsafe-*`
+cluster by 191, **with zero manual edits and zero runtime risk**. Always run the
+reachability sweep before any type-safety sweep.
+
+### ⚠️ Two gates in `verify` were structurally incapable of failing
+1. **`strict-index:check`** enforced `noUncheckedIndexedAccess`, which
+   `tsconfig.json` has set since Phase 13 (`50b15d51`) and which
+   `runStrictIndexCheck` *also* hardcodes. A full 8 GB whole-program build for
+   zero signal over `typecheck`, at a permanent `0/0/[]` baseline. Now carries
+   **`exactOptionalPropertyTypes`**, ratcheting down, red-proven (807→808 exits 1).
+   Baselined at 807/402 before the dead-module deletion; the deletion ratcheted it
+   to **674 errors / 329 files**. `scripts/lib/__tests__/tsconfigPins.test.ts`
+   keeps the pin the old gate incidentally provided, and fails if the two configs
+   ever agree again.
+2. **jest** listed `"/.worktrees/"` and `"/.claude/"` as bare substrings, matched
+   against absolute paths. Inside any worktree, `test:gates` and `verify`'s
+   `test:fast` collected **zero tests and exited 0**. Anchored to `<rootDir>`;
+   proven both directions (primary: 334 suites, 0 from worktrees; worktree: 333,
+   all its own, was 0).
+
+### ⚠️ `typecheck` cannot see broken `.d.ts` references
+`tsconfig.json` sets `skipLibCheck: true`. A declaration file holding
+`typeof import("@/utils/gone")` produces **zero** tsc errors after the target is
+deleted — red-proven. `src/types/global-types.d.ts` had 5 such edges. Any future
+deletion work must treat `.d.ts` as referrers; the audit now does.
 
 ---
 
-## 1. Phase 24 Prioritized Action Plan
+## 1. Phase 25 Prioritized Plan
 
-### Tranche 1: Unsafe Rules Cluster Hunting (`no-unsafe-*`)
-- **Objective:** Focus on `@typescript-eslint/no-unsafe-assignment` (267), `no-unsafe-member-access` (250), `no-unsafe-argument` (95), and `no-unsafe-return` (53).
-- **Strategy:**
-  - Find top files with high concentration of unsafe member access / assignment.
-  - Introduce typed Zod schemas or narrow boundary types at external API/storage ingest points.
-  - Avoid wide `any` propagation into domain logic.
+### Tranche 1: The 53 test-only modules (needs a human decision)
+`audit:dead-modules` reports **53** modules that are production-unreachable but
+imported by a test — `src/utils` 21, `src/services` 9, `src/calculations` 8,
+`src/components` 5, `src/data` 5, `src/lib` 2, `src/types` 2, `src/hooks` 1.
+Includes `src/calculations/index.ts`, `alchemicalCalculations.ts`,
+`enhancedAlchemicalMatching.ts`, `RecipeBuilder.tsx`.
 
-### Tranche 2: Remaining Production `as any` Cast Reduction
-- **Objective:** 67 `as any` casts remain in production code (`casts.asAny = 67`).
-- **Focus:**
-  - Locate `as any` assertions in UI components and data adapters.
-  - Replace with Discriminated Unions, `unknown` with type guards, or proper TS types.
+Each is one of: (a) genuinely dead, and its test should go with it; (b) a
+regression suite for behaviour that *should* be wired up but is not. **Do not
+bulk-delete these** — they carry the only executable specification of some
+alchemical maths. Triage individually against `docs/physics/PHYSICS_QUANTITY_MAP.md`.
 
-### Tranche 3: `no-unnecessary-condition` Defending & Pruning
-- **Objective:** Address low-hanging `no-unnecessary-condition` (1,271) warnings where TypeScript already knows the type is non-null/non-undefined.
-- **Guardrail:** Never introduce loose `||` when tightening conditions — always protect `prefer-nullish-coalescing`.
+### Tranche 2: The Big Three (now 3,868 of 1,944 tracked + declined)
+`max-lines-per-function` (1,593), `explicit-function-return-type` (1,374) and
+`no-unnecessary-condition` (904) are now 71% of what remains. The first two are
+largely mechanical; the third is **not** — see
+`feedback_no_unnecessary_condition_is_not_cleanup`, and note its stated root cause
+(`noUncheckedIndexedAccess: false`) is **stale**: the flag has been on since Phase 13
+and 904 survived it. Re-derive the cause before planning a sweep, and never fix
+with `!`.
+
+### Tranche 3: Unsafe cluster (497 remaining)
+`no-unsafe-assignment` 206, `no-unsafe-member-access` 195, `no-unsafe-argument` 63,
+`no-unsafe-return` 23, `no-unsafe-call` 10. Now genuinely concentrated in live code,
+so root-cause fixes (Zod boundaries from `clientSchemas.ts`, narrowing external
+types) will stick rather than landing on doomed files.
+
+### Tranche 4: `exactOptionalPropertyTypes` 674 → down
+The repurposed strict-flags gate ratchets automatically on any improvement.
+329 files. This is the newest debt axis and nothing has been spent on it yet.
 
 ---
 
 ## 2. Verification Protocol
 
 ```bash
-# 1. Core compiler and safety gates
-bun run typecheck && bun run strict-index:check && bun run test:gates
-
-# 2. Economy & token suites (pin all 3 files explicitly; verify suite count equals 3)
-bun run jest src/services/__tests__/TokensClient.noFabricatedQuantities.test.ts \
-  src/services/__tests__/TokenEconomyService.grantSignupBonus.test.ts \
-  src/__tests__/economy/creditMultipleTokensAdapter.test.ts
-# Expected: Test Suites: 3 passed, 3 total · Tests: 18 passed
-
-# 3. Full test suite
-CI=1 bun run test
-
-# 4. Debt ratchet and bundle verification
-bun run lint:debt && bun run build
+bun run verify          # test:gates, strict-index:check, typecheck, lint, lint:debt, test:fast
+CI=1 bun run test       # full suite — 333 suites / 3,497 tests
+bun run build
+bun run audit:dead-modules   # must stay at UNREACHABLE: 0
 ```
+
+Worktrees now run their own tests correctly (`d2e344c0`) — the old
+`--testPathIgnorePatterns` override incantations are no longer needed and should
+not be reintroduced.
 
 ---
 
-## 3. Standing Repo Hygiene Checks
+## 3. Standing Hazards
 
-1. **Untracked File Check:**
-   - Run `git status --porcelain`. Expected: zero untracked files.
-2. **Reappearing Dead Files:**
-   - Always verify unreferenced files do not resurrect during branch shifts or git status inspections.
-3. **External Manifest Parity:**
-   - Run `bun run jest src/lib/esms-chain/__tests__/tokenMetadata.test.ts`. Expected: 21/21 passed.
+1. **The primary checkout is shared and moves under you.** It was on `main`
+   (665 commits behind `master`) at the start of Phase 24 and on
+   `refactor/phase-23-require-await` by the end — changed by another session.
+   Always `git branch --show-current` before running anything there, and prefer
+   an isolated worktree. Never `git add -A` in the primary checkout.
+2. **Phases 19–24 are all unmerged.** `refactor/phase-23-require-await` is 8
+   commits ahead of `master`; this branch adds 6 more. Nothing has landed on
+   `master` since `e0c2df85` (Phases 16–18).
+3. **The scratchpad is wiped between sessions.** Long-running agents that read
+   input files from it degrade *silently* rather than failing — two returned 1
+   verdict instead of 32. Regenerate inputs deterministically and check result
+   sizes before trusting them.
