@@ -63,7 +63,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const body = (await request.json()) as SaveTemplateRequestBody;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+    const body = (await request.json()) as Partial<SaveTemplateRequestBody>;
     if (!body || typeof body.name !== "string" || !body.name.trim()) {
       return NextResponse.json(
         { success: false, message: "Template name is required" },

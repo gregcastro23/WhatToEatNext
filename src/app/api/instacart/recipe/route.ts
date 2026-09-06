@@ -47,7 +47,10 @@ function getRecipeCacheKey(recipeId: string, inventory: string[] = []): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as InstacartRecipeRouteRequest;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+    const body = (await request.json()) as Partial<InstacartRecipeRouteRequest>;
 
     // Validate required fields
     if (!body.title || !body.ingredients || body.ingredients.length === 0) {

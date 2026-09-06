@@ -76,7 +76,10 @@ async function handlePost(req: NextRequest) {
       );
     }
 
-    const body = (await req.json()) as SyncCreditBody;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+    const body = (await req.json()) as Partial<SyncCreditBody>;
     const { userEmail, amounts, source, idempotencyKey } = body;
 
     if (!userEmail || !amounts || !idempotencyKey) {

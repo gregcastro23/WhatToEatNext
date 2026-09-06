@@ -66,9 +66,12 @@ async function handlePost(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: SyncDebitBody;
+  let body: Partial<SyncDebitBody>;
   try {
-    body = (await req.json()) as SyncDebitBody;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+    body = (await req.json()) as Partial<SyncDebitBody>;
   } catch {
     return NextResponse.json(
       { ok: false, reason: "invalid_request", message: "Invalid JSON body" },
