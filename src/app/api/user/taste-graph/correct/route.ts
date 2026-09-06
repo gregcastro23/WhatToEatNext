@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { updateTasteCorrections } from "@/services/userInteractionsService";
 
 export async function POST(request: Request) {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     
     return NextResponse.json(updated);
   } catch (error) {
-    console.error("Taste correction error:", error);
+    _logger.error("Taste correction error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

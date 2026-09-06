@@ -8,6 +8,7 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -322,7 +323,7 @@ export async function GET(request: NextRequest) {
       console.warn("[agent-weekly-menu GET] refused agent", error.message);
       return jsonError(error.message, 422);
     }
-    console.error("[agent-weekly-menu GET]", error);
+    _logger.error("[agent-weekly-menu GET]", error);
     return jsonError("Failed to load agent weekly menu", 500);
   }
 }
@@ -413,7 +414,7 @@ export async function POST(request: NextRequest) {
       console.warn("[agent-weekly-menu POST] refused agent", error.message);
       return jsonError(error.message, 422);
     }
-    console.error("[agent-weekly-menu POST]", error);
+    _logger.error("[agent-weekly-menu POST]", error);
     return jsonError("Failed to save agent weekly menu", 500);
   }
 }

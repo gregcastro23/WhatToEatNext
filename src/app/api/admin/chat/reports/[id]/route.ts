@@ -10,6 +10,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { chatDatabase } from "@/services/chatDatabaseService";
 import type { MessageReportStatus } from "@/types/chat";
 
@@ -78,7 +79,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     }
     return NextResponse.json({ success: true, status, report: updated });
   } catch (error) {
-    console.error("[admin/chat/reports] PATCH failed:", error);
+    _logger.error("[admin/chat/reports] PATCH failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update report" },
       { status: 500 },

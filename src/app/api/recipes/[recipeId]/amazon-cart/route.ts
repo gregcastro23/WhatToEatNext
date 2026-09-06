@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 
 interface IngredientAsin {
@@ -73,7 +74,7 @@ export async function GET(
 
   return NextResponse.json({ items, missing });
   } catch (error) {
-    console.error("[amazon-cart] Error:", error);
+    _logger.error("[amazon-cart] Error:", error);
     return NextResponse.json({ error: "Failed to build cart" }, { status: 500 });
   }
 }

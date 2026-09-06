@@ -13,6 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
   CuisineSignaturesResponseSchema,
@@ -163,7 +164,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(body);
   } catch (error) {
-    console.error("[cuisines/signatures] Error:", error);
+    _logger.error("[cuisines/signatures] Error:", error);
     return NextResponse.json(
       { error: "Failed to load cuisine signatures" },
       { status: 500 },

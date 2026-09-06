@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { FoodRating, MoodTag } from "@/types/foodDiary";
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
           rating,
           moodTags,
         },
-      }).catch((err) => console.error("Failed to record food_rating interaction:", err));
+      }).catch((err) => _logger.error("Failed to record food_rating interaction:", err));
     } catch (err) {
       console.warn("Food rating interaction tracking skipped:", err);
     }
@@ -106,7 +107,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       entry,
     });
   } catch (error) {
-    console.error("Rate food diary entry error:", error);
+    _logger.error("Rate food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to rate entry" },
       { status: 500 },

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { _logger } from "@/lib/logger";
 import { parseRecipeForMint } from "@/lib/recipe-nft/mintableRecipe";
 import { buildMintQuote } from "@/lib/recipe-nft/quote";
 import type { NextRequest } from "next/server";
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
     const quote = await buildMintQuote(parsed.recipe);
     return NextResponse.json(quote);
   } catch (err) {
-    console.error("mint-quote failed", err);
+    _logger.error("mint-quote failed", err);
     return NextResponse.json({ error: "Failed to compute mint quote" }, { status: 500 });
   }
 }

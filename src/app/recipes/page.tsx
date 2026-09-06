@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, Suspense, useCallback } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import type { Recipe } from "@/types/recipe";
 
@@ -72,12 +73,12 @@ function RecipesPageContent() {
         );
         setRecipes(scoredRecipes);
       } catch (error) {
-        console.error("Failed to score recipes:", error);
+        _logger.error("Failed to score recipes:", error);
       } finally {
         setIsScoring(false);
       }
     } catch (error) {
-      console.error("Failed to fetch recipes:", error);
+      _logger.error("Failed to fetch recipes:", error);
       setIsLoading(false);
     }
   }, [cuisine]);

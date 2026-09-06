@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { subscriptionService } from "@/services/subscriptionService";
 
 export async function POST() {
@@ -39,7 +40,7 @@ export async function POST() {
 
     return NextResponse.json({ url: portalSession.url });
   } catch (error) {
-    console.error("[api/stripe/portal] Error:", error);
+    _logger.error("[api/stripe/portal] Error:", error);
     return NextResponse.json(
       { error: "Failed to create portal session" },
       { status: 500 },

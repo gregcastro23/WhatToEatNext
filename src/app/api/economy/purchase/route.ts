@@ -13,6 +13,7 @@ import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
@@ -68,7 +69,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[economy/purchase] GET error:", error);
+    _logger.error("[economy/purchase] GET error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to check purchase status" },
       { status: 500 },
@@ -193,7 +194,7 @@ export async function POST(request: NextRequest) {
       message: `✨ Purchased: ${item.title}`,
     });
   } catch (error) {
-    console.error("[economy/purchase] POST error:", error);
+    _logger.error("[economy/purchase] POST error:", error);
     return NextResponse.json(
       { success: false, message: "Purchase failed. Please try again." },
       { status: 500 },

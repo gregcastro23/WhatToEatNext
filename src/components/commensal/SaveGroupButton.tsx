@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
+import { _logger } from "@/lib/logger";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 
 export interface SavableGuest {
@@ -58,7 +59,7 @@ export function SaveGroupButton({
       setStatus("saved");
       onSaved?.(data.diningGroup?.id ?? "");
     } catch (err) {
-      console.error("Save group error:", err);
+      _logger.error("Save group error:", err);
       setErrorMessage("Network error — please try again");
       setStatus("error");
     }

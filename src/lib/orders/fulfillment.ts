@@ -9,6 +9,7 @@ import {
   type DeliveryAddress,
   type LogisticsResponse,
 } from "@/lib/integrations/logistics";
+import { _logger } from "@/lib/logger";
 
 interface RestaurantOrderIntentRow {
   id: string;
@@ -277,7 +278,7 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
     );
   } catch (error) {
     await markFulfillmentFailed(order.id, error);
-    console.error(`[fulfillment] Failed for restaurant order ${order.id}:`, error);
+    _logger.error(`[fulfillment] Failed for restaurant order ${order.id}:`, error);
     throw error;
   }
 }

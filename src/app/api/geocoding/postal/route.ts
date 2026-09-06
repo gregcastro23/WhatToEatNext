@@ -15,6 +15,7 @@
 
 import { NextResponse } from "next/server";
 import { parsePostalCode } from "@/lib/location/postalCode";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { resolvePostalCode } from "@/services/geocodingService";
 import type { NextRequest } from "next/server";
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, result });
   } catch (error) {
-    console.error("Postal geocoding error:", error);
+    _logger.error("Postal geocoding error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to resolve postal code" },
       { status: 502 },

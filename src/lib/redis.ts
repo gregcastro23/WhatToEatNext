@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+import { _logger } from "@/lib/logger";
 
 let _client: Redis | null = null;
 
@@ -20,7 +21,7 @@ export function getRedisClient(): Redis | null {
     });
     return _client;
   } catch (err) {
-    console.error("[Redis] Initialization failed:", err);
+    _logger.error("[Redis] Initialization failed:", err);
     return null;
   }
 }
@@ -35,7 +36,7 @@ export async function redisGet<T = unknown>(key: string): Promise<T | null> {
     if (!client) return null;
     return await client.get<T>(key);
   } catch (err) {
-    console.error("[Redis] GET failed:", err);
+    _logger.error("[Redis] GET failed:", err);
     return null;
   }
 }
@@ -50,7 +51,7 @@ export async function redisSet(
     if (!client) return;
     await client.set(key, value as never, { ex: ttlSeconds });
   } catch (err) {
-    console.error("[Redis] SET failed:", err);
+    _logger.error("[Redis] SET failed:", err);
   }
 }
 
@@ -60,7 +61,7 @@ export async function redisDel(key: string): Promise<void> {
     if (!client) return;
     await client.del(key);
   } catch (err) {
-    console.error("[Redis] DEL failed:", err);
+    _logger.error("[Redis] DEL failed:", err);
   }
 }
 

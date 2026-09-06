@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 
@@ -137,7 +138,7 @@ export async function GET(_req: Request, props: { params: Promise<{ recipeId: st
       sameCuisine,
     });
   } catch (err) {
-    console.error("[discover] Error:", err);
+    _logger.error("[discover] Error:", err);
     return NextResponse.json(
       { success: false, error: "Failed to compute discovery" },
       { status: 500 },

@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import { RecipeCard } from "@/components/RecipeCard";
+import { _logger } from "@/lib/logger";
 
 interface LocationData {
   displayName: string;
@@ -173,7 +174,7 @@ export default function OnboardingPage() {
       // Transition to final reveal step
       setViewState("transmuted");
     } catch (err: any) {
-      console.error("Agent Forge Onboarding Error:", err);
+      _logger.error("Agent Forge Onboarding Error:", err);
       setError(err?.message || "An unexpected eclipse interrupted your onboarding. Please try again.");
       setViewState("input");
     }
@@ -191,7 +192,7 @@ export default function OnboardingPage() {
       // Redirect user to dashboard
       window.location.href = returnTo ?? "/";
     } catch (err) {
-      console.error("Session update failed:", err);
+      _logger.error("Session update failed:", err);
       window.location.href = returnTo ?? "/";
     }
   };

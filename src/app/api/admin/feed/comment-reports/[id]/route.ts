@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -56,7 +57,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
     return NextResponse.json({ success: true, status, commentDeleted });
   } catch (error) {
-    console.error("[admin/feed/comment-reports] PATCH failed:", error);
+    _logger.error("[admin/feed/comment-reports] PATCH failed:", error);
     return NextResponse.json({ success: false, message: "Failed to update report" }, { status: 500 });
   }
 }

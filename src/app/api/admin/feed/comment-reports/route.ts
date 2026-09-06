@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
     const reports = await feedCommentsDatabase.listReports(status, { limit, offset });
     return NextResponse.json({ success: true, reports });
   } catch (error) {
-    console.error("[admin/feed/comment-reports] GET failed:", error);
+    _logger.error("[admin/feed/comment-reports] GET failed:", error);
     return NextResponse.json({ success: false, message: "Failed to load reports" }, { status: 500 });
   }
 }

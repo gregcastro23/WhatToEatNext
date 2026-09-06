@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { _logger } from "@/lib/logger";
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
 
@@ -160,7 +161,7 @@ function AccountInner(): JSX.Element {
             void performLink(token);
           }
         } catch (e) {
-          console.error("Failed to fetch Privy access token for link:", e);
+          _logger.error("Failed to fetch Privy access token for link:", e);
         }
       };
       void autoLink();

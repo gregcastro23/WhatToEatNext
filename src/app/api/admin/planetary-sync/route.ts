@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -239,7 +240,7 @@ export async function POST(request: NextRequest) {
       });
 
   } catch (error) {
-    console.error("[Admin Sync] Internal Handler Error:", error);
+    _logger.error("[Admin Sync] Internal Handler Error:", error);
     return NextResponse.json(
       { 
         success: false, 

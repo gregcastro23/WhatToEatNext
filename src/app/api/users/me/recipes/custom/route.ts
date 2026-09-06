@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import { questService } from "@/services/QuestService";
 import { recordInteraction } from "@/services/userInteractionsService";
 import { buildRecipeLearningPayload } from "@/utils/recipes/learningPayload";
@@ -116,7 +117,7 @@ export async function GET() {
       recipes: result.rows.map(rowToDTO),
     });
   } catch (error) {
-    console.error("[GET /api/users/me/recipes/custom]", error);
+    _logger.error("[GET /api/users/me/recipes/custom]", error);
     return NextResponse.json(
       { error: "Failed to load custom recipes" },
       { status: 500 },
@@ -235,7 +236,7 @@ export async function POST(request: NextRequest) {
     try {
       await recordRecipeSaveSignal(userId, row, body.action ?? "save");
     } catch (learningErr) {
-      console.error(
+      _logger.error(
         "[POST /api/users/me/recipes/custom] learning signal failed",
         learningErr,
       );
@@ -253,7 +254,7 @@ export async function POST(request: NextRequest) {
       try {
         completedQuests = await questService.reportEvent(userId, "ingest_recipe");
       } catch (questErr) {
-        console.error(
+        _logger.error(
           "[POST /api/users/me/recipes/custom] quest report failed",
           questErr,
         );
@@ -267,7 +268,7 @@ export async function POST(request: NextRequest) {
       completedQuests,
     });
   } catch (error) {
-    console.error("[POST /api/users/me/recipes/custom]", error);
+    _logger.error("[POST /api/users/me/recipes/custom]", error);
     return NextResponse.json(
       { error: "Failed to save recipe" },
       { status: 500 },
@@ -296,7 +297,7 @@ export async function DELETE(request: NextRequest) {
     );
     return NextResponse.json({ authenticated: true, removed: id });
   } catch (error) {
-    console.error("[DELETE /api/users/me/recipes/custom]", error);
+    _logger.error("[DELETE /api/users/me/recipes/custom]", error);
     return NextResponse.json(
       { error: "Failed to delete recipe" },
       { status: 500 },

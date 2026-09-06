@@ -9,6 +9,7 @@ import {
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
 import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
+import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Recipe } from "@/types/recipe";
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
       balances: newBalances,
     });
   } catch (error) {
-    console.error("[recipes/refine] Error:", error);
+    _logger.error("[recipes/refine] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to refine recipes" }, { status: 500 });
   }
 }

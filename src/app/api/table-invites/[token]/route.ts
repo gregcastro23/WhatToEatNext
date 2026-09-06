@@ -5,6 +5,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, preview });
   } catch (error) {
-    console.error("Table invite preview error:", error);
+    _logger.error("Table invite preview error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

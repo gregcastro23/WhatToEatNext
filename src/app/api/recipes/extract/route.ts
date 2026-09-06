@@ -21,6 +21,7 @@ import {
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
 import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
+import { _logger } from "@/lib/logger";
 import { alchemizeExtractedRecipe } from "@/lib/recipes/alchemizeExtractedRecipe";
 import {
   extractRecipesFromImages,
@@ -142,7 +143,7 @@ export async function POST(request: NextRequest) {
         .creditTokens(user.id, "Essence", liveEssence, "recipe_ingestion", {
           description: `Refund — ${reason}`,
         })
-        .catch((e) => console.error("[recipes/extract] refund failed:", e));
+        .catch((e) => _logger.error("[recipes/extract] refund failed:", e));
 
     // ── Extract ───────────────────────────────────────────────────────────
     let extracted;
@@ -152,7 +153,7 @@ export async function POST(request: NextRequest) {
         : await extractRecipesFromText(text);
     } catch (err) {
       await refund("extraction failed");
-      console.error("[recipes/extract] extraction error:", err);
+      _logger.error("[recipes/extract] extraction error:", err);
       return NextResponse.json(
         {
           success: false,
@@ -178,7 +179,7 @@ export async function POST(request: NextRequest) {
     const balances = await tokenEconomy.getBalances(user.id);
     return NextResponse.json({ success: true, recipes, balances });
   } catch (error) {
-    console.error("[recipes/extract] Error:", error);
+    _logger.error("[recipes/extract] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to ingest recipe" },
       { status: 500 },

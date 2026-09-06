@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery, withTransaction } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
@@ -342,7 +343,7 @@ async function handlePost(req: NextRequest) {
     }
     } catch (enrichmentError) {
       // Never rethrow: the debit below is the reason this endpoint exists.
-      console.error(
+      _logger.error(
         "[sync-debit] PROFILE_ENRICHMENT_FAILED — continuing to the debit.",
         { userId, name: storedName, error: enrichmentError },
       );
@@ -514,7 +515,7 @@ async function handlePost(req: NextRequest) {
     if ((error as { code?: string })?.code === "23505") {
       return NextResponse.json({ ok: false, reason: "already_applied" }, { status: 409 });
     }
-    console.error("[sync-debit] Internal Error:", error);
+    _logger.error("[sync-debit] Internal Error:", error);
     return NextResponse.json(
       { ok: false, reason: "internal_error", message: (error as Error).message },
       { status: 500 },

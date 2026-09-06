@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { storeTablePhoto } from "@/lib/feed/cookPhotoStorage";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, photo }, { status: 201 });
   } catch (error) {
-    console.error("Add table photo error:", error);
+    _logger.error("Add table photo error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

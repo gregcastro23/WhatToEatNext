@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { chatDatabase } from "@/services/chatDatabaseService";
 import type { NextRequest } from "next/server";
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
     const unread = await chatDatabase.getUnread(userId);
     return NextResponse.json({ success: true, ...unread });
   } catch (error) {
-    console.error("Chat unread GET error:", error);
+    _logger.error("Chat unread GET error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

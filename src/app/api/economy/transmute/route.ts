@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { TOKEN_TYPES, TRANSMUTATION_RATIO } from "@/types/economy";
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("[economy/transmute] Error:", error);
+    _logger.error("[economy/transmute] Error:", error);
     return NextResponse.json(
       { success: false, message: "Transmutation failed. Please try again." },
       { status: 500 },

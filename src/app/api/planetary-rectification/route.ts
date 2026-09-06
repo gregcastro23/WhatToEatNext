@@ -4,6 +4,7 @@
  * based on life events (simplified solar arc rectification approach).
  */
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 
@@ -73,7 +74,7 @@ export async function GET(request: Request) {
       positions: formatted,
     });
   } catch (error) {
-    console.error("[planetary-rectification] Error:", error);
+    _logger.error("[planetary-rectification] Error:", error);
     return NextResponse.json({ success: false, error: "Rectification calculation failed" }, { status: 500 });
   }
 }

@@ -20,6 +20,7 @@
  */
 import { NextResponse } from "next/server";
 import { getAllRecipes } from "@/data/recipes/index";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
@@ -87,7 +88,7 @@ async function fetchFromBackend(params: { zodiacSign?: string; season?: string; 
     });
 
     if (!response.ok) {
-      console.error(`Railway /cuisines/recommend error: ${response.status}`);
+      _logger.error(`Railway /cuisines/recommend error: ${response.status}`);
       return null;
     }
 
@@ -253,7 +254,7 @@ async function handleRequest(request: Request) {
       calculatedAt: new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Cuisine recommendation error:", error);
+    _logger.error("Cuisine recommendation error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to compute recommendations" },
       { status: 500 },

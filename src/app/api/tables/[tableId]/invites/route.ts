@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -82,7 +83,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, invite }, { status: 201 });
   } catch (error) {
-    console.error("Issue table invite error:", error);
+    _logger.error("Issue table invite error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

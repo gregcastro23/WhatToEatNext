@@ -7,6 +7,7 @@ import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedIt
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
+import { _logger } from "@/lib/logger";
 
 type FeedMetadata = Record<string, unknown>;
 
@@ -160,7 +161,7 @@ export function AgentsFeedThread() {
           return;
         }
 
-        console.error("Failed to load network feed:", error);
+        _logger.error("Failed to load network feed:", error);
         setErrorMessage("The network feed is temporarily unavailable.");
       } finally {
         if (!controller.signal.aborted) {

@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { streakService } from "@/services/StreakService";
 import { getStreakMultiplier } from "@/types/economy";
@@ -40,7 +41,7 @@ export async function GET(request: NextRequest) {
       nextMilestone: getNextMilestone(streak.currentStreak),
     });
   } catch (error) {
-    console.error("[quests/streak] Error:", error);
+    _logger.error("[quests/streak] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch streak data" },
       { status: 500 },

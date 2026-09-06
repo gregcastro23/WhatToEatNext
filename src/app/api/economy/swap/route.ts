@@ -12,6 +12,7 @@ import crypto from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { findRate, getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { TOKEN_TYPES } from "@/types/economy";
@@ -136,7 +137,7 @@ export async function POST(request: NextRequest) {
         },
       );
       if (!refunded) {
-        console.error("[POST /api/economy/swap] credit AND refund failed — tokens need manual reconcile:", {
+        _logger.error("[POST /api/economy/swap] credit AND refund failed — tokens need manual reconcile:", {
           userId,
           groupId,
           fromToken,
@@ -164,7 +165,7 @@ export async function POST(request: NextRequest) {
       message: `⚗️ Swap complete under the hour of ${rateContext.rulingHourPlanet}: ${costAmount} ${fromToken} → ${amount} ${toToken}`,
     });
   } catch (error) {
-    console.error("[POST /api/economy/swap]", error);
+    _logger.error("[POST /api/economy/swap]", error);
     return NextResponse.json(
       { success: false, message: "Swap failed" },
       { status: 500 },

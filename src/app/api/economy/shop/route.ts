@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import { _logger } from "@/lib/logger";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { NextRequest } from "next/server";
 
@@ -78,7 +79,7 @@ export async function GET(request: NextRequest) {
       items: shopItems,
     });
   } catch (error) {
-    console.error("[economy/shop] Error:", error);
+    _logger.error("[economy/shop] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch shop items" },
       { status: 500 },
