@@ -41,7 +41,9 @@ export async function GET(
     }));
   } else {
     // 2. Fallback to read_model if relational table is empty
-    const recipeResult = await executeQuery(
+    const recipeResult = await executeQuery<{
+      read_model: { ingredients?: unknown[] } | null;
+    }>(
       `SELECT read_model FROM recipes WHERE id = $1`,
       [recipeId]
     );

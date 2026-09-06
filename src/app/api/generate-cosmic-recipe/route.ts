@@ -158,7 +158,7 @@ async function handlePost(request: NextRequest) {
       // Check daily limit table to see if this is their first generation of the day
       try {
         const { executeQuery } = await import("@/lib/database");
-        const limitRows = await executeQuery(
+        const limitRows = await executeQuery<{ recipes_generated: number }>(
           `SELECT recipes_generated FROM user_daily_limits
            WHERE user_id = $1 AND date = CURRENT_DATE`,
           [userId]
@@ -485,7 +485,7 @@ async function handlePost(request: NextRequest) {
 
         if (!isPremium) {
           const { executeQuery } = await import("@/lib/database");
-          const updateResult = await executeQuery(
+          const updateResult = await executeQuery<{ recipes_generated: number }>(
             `INSERT INTO user_daily_limits (user_id, date, recipes_generated)
              VALUES ($1, CURRENT_DATE, 1)
              ON CONFLICT (user_id, date)

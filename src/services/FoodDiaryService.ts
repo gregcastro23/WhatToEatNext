@@ -3060,8 +3060,8 @@ class FoodDiaryService {
           params.push(filters.limit);
         }
 
-        const result = await db.executeQuery(query, params);
-        return result.rows.map((row: FoodDiaryEntryRow) => this.rowToFoodDiaryEntry(row));
+        const result = await db.executeQuery<FoodDiaryEntryRow>(query, params);
+        return result.rows.map((row) => this.rowToFoodDiaryEntry(row));
       } catch (error) {
         _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
@@ -3222,7 +3222,7 @@ class FoodDiaryService {
         values.push(categoryAliases);
       }
 
-      const result = await db.executeQuery(
+      const result = await db.executeQuery<QuickFoodIngredientRow>(
         `SELECT id, name, common_name, category, calories, protein, carbohydrates, fat, fiber, sugar
          FROM ingredients
          ${where}
@@ -3231,7 +3231,7 @@ class FoodDiaryService {
         values,
       );
 
-      return result.rows.map((row: QuickFoodIngredientRow) => this.mapIngredientRowToQuickFoodPreset(row));
+      return result.rows.map((row) => this.mapIngredientRowToQuickFoodPreset(row));
     } catch (error) {
       _logger.warn("Database quick food lookup failed, using fallback presets", error);
       return [];

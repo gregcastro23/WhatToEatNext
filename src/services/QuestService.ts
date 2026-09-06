@@ -167,6 +167,23 @@ function getWeeklyPeriodStart(): string {
  * would be wrong on any host east of UTC, where local midnight is the previous
  * day in UTC and the quest period would silently shift back one day.
  */
+interface UserQuestProgressRow {
+  progress: number | null;
+  completed_at: Date | string | null;
+  claimed_at: Date | string | null;
+  period_start: Date | string | null;
+}
+
+/**
+ * Preserves the exact semantics of the previous `x?.toISOString?.() ?? x ?? null`
+ * chain: a Date is serialised, a string passes through untouched (pg returns
+ * either depending on the column type and parser), and null/undefined is null.
+ */
+function toTimestampString(value: Date | string | null): string | null {
+  if (value instanceof Date) return value.toISOString();
+  return value ?? null;
+}
+
 export function toPeriodStartString(value: unknown): string | null {
   if (value === null || value === undefined) return null;
   if (value instanceof Date) {
@@ -320,7 +337,7 @@ class QuestService {
           ? [userId, quest.id, periodStart]
           : [userId, quest.id];
 
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserQuestProgressRow>(
           `SELECT progress, completed_at, claimed_at, period_start
            FROM user_quest_progress
            WHERE user_id = $1 AND quest_id = $2
@@ -329,12 +346,13 @@ class QuestService {
           params,
         );
 
-        if (result.rows.length > 0) {
+        const [progressRow] = result.rows;
+        if (progressRow) {
           return {
-            progress: result.rows[0].progress ?? 0,
-            completedAt: result.rows[0].completed_at?.toISOString?.() ?? result.rows[0].completed_at ?? null,
-            claimedAt: result.rows[0].claimed_at?.toISOString?.() ?? result.rows[0].claimed_at ?? null,
-            periodStart: toPeriodStartString(result.rows[0].period_start),
+            progress: progressRow.progress ?? 0,
+            completedAt: toTimestampString(progressRow.completed_at),
+            claimedAt: toTimestampString(progressRow.claimed_at),
+            periodStart: toPeriodStartString(progressRow.period_start),
           };
         }
       } catch (error) {
