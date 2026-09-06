@@ -130,21 +130,26 @@ export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
 };
 
 type MealKey = keyof NonNullable<Cuisine["dishes"]>;
-type SeasonKey = "spring" | "summer" | "autumn" | "winter";
+// `all` is a real bucket in the cuisine files, not a placeholder: it holds dishes
+// served year-round, and it carries 1061 of the corpus's 1174 dishes (HSCA alone
+// keeps 533 there). Omitting it here silently dropped ~90% of the catalog — and
+// `extractRecipesFromCuisines` in actions/recipes.ts already reads an `all` key,
+// so the producer was the only half that disagreed.
+type SeasonKey = "spring" | "summer" | "autumn" | "winter" | "all";
 
 function extractSeasonDishes(
   rawDishes: Record<string, Record<string, unknown[]>>,
   cuisineName: string,
 ): NonNullable<Cuisine["dishes"]> {
   const dishes: NonNullable<Cuisine["dishes"]> = {
-    breakfast: { spring: [], summer: [], autumn: [], winter: [] },
-    lunch: { spring: [], summer: [], autumn: [], winter: [] },
-    dinner: { spring: [], summer: [], autumn: [], winter: [] },
-    dessert: { spring: [], summer: [], autumn: [], winter: [] },
+    breakfast: { spring: [], summer: [], autumn: [], winter: [], all: [] },
+    lunch: { spring: [], summer: [], autumn: [], winter: [], all: [] },
+    dinner: { spring: [], summer: [], autumn: [], winter: [], all: [] },
+    dessert: { spring: [], summer: [], autumn: [], winter: [], all: [] },
   };
 
   const mealKeys: MealKey[] = ["breakfast", "lunch", "dinner", "dessert"];
-  const seasonKeys: SeasonKey[] = ["spring", "summer", "autumn", "winter"];
+  const seasonKeys: SeasonKey[] = ["spring", "summer", "autumn", "winter", "all"];
 
   for (const mealKey of mealKeys) {
     const mealTypeData = rawDishes[mealKey];
