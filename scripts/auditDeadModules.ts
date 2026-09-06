@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 import {
   buildReport,
   isDeadnessCandidate,
-  isScannableSource,
+  isReferrerSource,
 } from "./lib/deadModules";
 
 import type * as TSType from "typescript";
@@ -63,14 +63,18 @@ function walk(dir: string, acc: string[] = []): string[] {
       walk(full, acc);
     } else {
       const rel = path.relative(repoRoot, full).split(path.sep).join("/");
-      if (isScannableSource(rel)) acc.push(rel);
+      if (isReferrerSource(rel)) acc.push(rel);
     }
   }
   return acc;
 }
 
 // Every directory that may reference a src/ module.
-const REFERRER_ROOTS = ["src", "scripts", ".storybook", "tests"];
+// Every directory that may reference a src/ module. `__tests__` at the repo
+// ROOT is easy to miss — it is not under src/, but jest collects it, and
+// omitting it reported two modules dead that root-level suites still import
+// (caught empirically: 2 suites failed on `Cannot find module`).
+const REFERRER_ROOTS = ["src", "scripts", ".storybook", "tests", "__tests__"];
 
 const referrerFiles: string[] = [];
 for (const root of REFERRER_ROOTS) {

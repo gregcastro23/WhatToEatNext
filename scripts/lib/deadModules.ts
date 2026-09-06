@@ -102,6 +102,23 @@ export function isScannableSource(relPath: string): boolean {
 }
 
 /**
+ * Files that may REFERENCE a module. Strictly wider than the candidate set:
+ * `.d.ts` declaration files are included here but can never themselves be
+ * reported dead.
+ *
+ * Declaration files matter because `tsconfig.json` sets `skipLibCheck: true`,
+ * so a `.d.ts` holding `typeof import("@/utils/gone")` produces ZERO tsc
+ * errors after the target is deleted — red-proven. A reachability scan that
+ * skips them therefore reports modules dead that `bun run typecheck` will
+ * never object to, and the breakage surfaces only at a use site.
+ */
+export function isReferrerSource(relPath: string): boolean {
+  if (!/\.tsx?$/.test(relPath)) return false;
+  if (isDuplicateArtifactPath(relPath)) return false;
+  return true;
+}
+
+/**
  * A candidate is a non-test, non-declaration `src/` module that is not itself an
  * implicit Next.js entry point.
  */
@@ -117,6 +134,10 @@ export function isDeadnessCandidate(relPath: string): boolean {
 }
 
 export function isEntryPoint(relPath: string): boolean {
+  // Ambient declaration files are loaded by tsc unconditionally, so anything
+  // they name is live. They are referrers that nothing imports, so without
+  // this they sit outside the traversal and their edges are never followed.
+  if (relPath.endsWith(".d.ts")) return true;
   if ((ROOT_ENTRY_FILES as readonly string[]).includes(relPath)) return true;
   if (relPath.startsWith("src/pages/")) return isScannableSource(relPath);
   if (!relPath.startsWith("src/")) return false;

@@ -1,5 +1,7 @@
 import {
   extractSpecifiers,
+  isReferrerSource,
+  isScannableSource,
   isDeadnessCandidate,
   isEntryPoint,
   isTestLikePath,
@@ -143,5 +145,24 @@ describe("isDeadnessCandidate", () => {
 
   it("includes an ordinary src module", () => {
     expect(isDeadnessCandidate("src/utils/theme.ts")).toBe(true);
+  });
+});
+
+describe("declaration files", () => {
+  it("treats a .d.ts as an entry point", () => {
+    // tsconfig sets skipLibCheck, so a dangling `typeof import()` inside a
+    // .d.ts produces ZERO tsc errors after its target is deleted. If the
+    // declaration file is not an entry point its edges are never traversed
+    // and the module it names is reported dead with nothing to contradict it.
+    expect(isEntryPoint("src/types/global-types.d.ts")).toBe(true);
+  });
+
+  it("never treats a .d.ts as a deadness candidate", () => {
+    expect(isDeadnessCandidate("src/types/global-types.d.ts")).toBe(false);
+  });
+
+  it("scans a .d.ts as a referrer even though it is not scannable source", () => {
+    expect(isReferrerSource("src/types/global-types.d.ts")).toBe(true);
+    expect(isScannableSource("src/types/global-types.d.ts")).toBe(false);
   });
 });
