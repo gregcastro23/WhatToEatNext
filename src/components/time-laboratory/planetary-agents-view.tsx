@@ -20,6 +20,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import { _logger } from "@/lib/logger";
 import { fetchAgentsForDate } from '@/lib/planetaryAgentsClient'
 import { AgentFilterPanel, type AgentFilters } from './agent-filter-panel'
 import { DegreeAgentSelector } from './degree-agent-selector'
@@ -305,7 +306,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
       setActivations(withModality);
       setLastUpdated(new Date());
     } catch (err) {
-      console.error('Error loading planetary agents:', err)
+      _logger.error('Error loading planetary agents:', err)
       setError(err instanceof Error ? err.message : 'Failed to load planetary agents')
     } finally {
       setIsLoading(false)

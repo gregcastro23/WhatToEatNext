@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { feedDatabase } from "@/services/feedDatabaseService";
@@ -132,7 +133,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.error("Commensal request error:", error);
+    _logger.error("Commensal request error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

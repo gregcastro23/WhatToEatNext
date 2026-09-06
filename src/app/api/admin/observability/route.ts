@@ -12,6 +12,7 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import {
   getRecentRequests,
   summarizeRecent,
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[admin/observability] Failed:", error);
+    _logger.error("[admin/observability] Failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load observability data" },
       { status: 500 },

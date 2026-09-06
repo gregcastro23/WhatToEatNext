@@ -24,6 +24,7 @@ import {
   type Hex,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
+import { _logger } from "@/lib/logger";
 import { getPrivyClient } from '@/lib/privy/server'
 import {
   ESMS_ABI,
@@ -145,7 +146,7 @@ export async function verifyRedeem(params: {
     }
     return false
   } catch (err) {
-    console.error('[esms/redeemer] verifyRedeem failed:', err)
+    _logger.error('[esms/redeemer] verifyRedeem failed:', err)
     return false
   }
 }

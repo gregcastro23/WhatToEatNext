@@ -18,6 +18,7 @@ import {
   calculateKalchm,
   calculateMonica,
 } from "@/data/unified/alchemicalCalculations";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { AlchemizeQuerySchema } from "@/lib/validation/railway";
 import {
@@ -199,7 +200,7 @@ export async function GET(request: Request) {
       })(),
     });
   } catch (error) {
-    console.error("[alchemize] Error:", error);
+    _logger.error("[alchemize] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to compute alchemical analysis" },
       { status: 500 },

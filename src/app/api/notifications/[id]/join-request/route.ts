@@ -18,6 +18,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -72,7 +73,7 @@ export async function PATCH(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[notifications/[id]/join-request] Error:", error);
+    _logger.error("[notifications/[id]/join-request] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update the join request" },
       { status: 500 },

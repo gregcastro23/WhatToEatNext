@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { _logger } from "@/lib/logger";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { ElementalProperties, Recipe } from "@/types/recipe";
 
@@ -109,7 +110,7 @@ export async function POST(request: Request) {
       suggestions: scored,
     });
   } catch (error) {
-    console.error("[meal-plan/balance] error:", error);
+    _logger.error("[meal-plan/balance] error:", error);
     return NextResponse.json(
       { error: "Failed to compute balance suggestions" },
       { status: 500 },

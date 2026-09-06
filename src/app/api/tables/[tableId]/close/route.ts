@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, table });
   } catch (error) {
-    console.error("Close table error:", error);
+    _logger.error("Close table error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

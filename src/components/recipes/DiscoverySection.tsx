@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { _logger } from "@/lib/logger";
 
 interface DiscoveryRecipe {
   id: string;
@@ -130,7 +131,7 @@ export function DiscoverySection({ recipeId }: { recipeId: string }) {
           });
         }
       })
-      .catch((err) => console.error("Discovery fetch failed:", err))
+      .catch((err) => _logger.error("Discovery fetch failed:", err))
       .finally(() => {
         if (!cancelled) setLoading(false);
       });

@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -33,7 +34,7 @@ export async function GET() {
     });
 
     if (!response.ok) {
-      console.error(
+      _logger.error(
         `[Planetary Agents Proxy] Backend returned ${response.status}: ${response.statusText}`,
       );
       return NextResponse.json(

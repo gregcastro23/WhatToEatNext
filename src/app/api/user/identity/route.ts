@@ -13,6 +13,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
       avatarUrl: row?.avatar_url ?? null,
     });
   } catch (error) {
-    console.error("[user/identity] GET failed:", error);
+    _logger.error("[user/identity] GET failed:", error);
     return NextResponse.json({ success: false, message: "Failed to load identity settings" }, { status: 500 });
   }
 }
@@ -74,7 +75,7 @@ export async function PATCH(request: NextRequest) {
     );
     return NextResponse.json({ success: true, shareIdentity: body.shareIdentity });
   } catch (error) {
-    console.error("[user/identity] PATCH failed:", error);
+    _logger.error("[user/identity] PATCH failed:", error);
     return NextResponse.json({ success: false, message: "Failed to update identity settings" }, { status: 500 });
   }
 }

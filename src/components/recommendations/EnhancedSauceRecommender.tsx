@@ -11,6 +11,7 @@ import { allSauces } from "@/data/sauces";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useCurrentSeason } from "@/hooks/useCurrentSeason";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
+import { _logger } from "@/lib/logger";
 import {
   getCuisineFingerprint,
   listCuisines,
@@ -294,7 +295,7 @@ export default function EnhancedSauceRecommender() {
         const results = recommendForCuisineContext(ctx, { strictCuisine, maxResults: 15 }, cuisinesMapData ?? undefined);
         setRecommendations(results);
       } catch (error) {
-        console.error("Recommendation error:", error);
+        _logger.error("Recommendation error:", error);
       } finally {
         setLoading(false);
       }

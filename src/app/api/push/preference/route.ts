@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
 
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json({ success: true, enabled });
   } catch (error) {
-    console.error("[push/preference] failed:", error);
+    _logger.error("[push/preference] failed:", error);
     return NextResponse.json({ success: false, message: "Failed to update preference" }, { status: 500 });
   }
 }

@@ -98,12 +98,13 @@ class StreakService {
           `INSERT INTO user_streaks (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
           [userId],
         );
-        const result = await db.executeQuery(
+        const result = await db.executeQuery<UserStreakRow>(
           `SELECT * FROM user_streaks WHERE user_id = $1`,
           [userId],
         );
-        if (result.rows.length > 0) {
-          return rowToStreak(result.rows[0]);
+        const [streakRow] = result.rows;
+        if (streakRow) {
+          return rowToStreak(streakRow);
         }
       } catch (error) {
         _logger.error("[StreakService] getStreak failed:", error);

@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import type { NextRequest } from "next/server";
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest, { params }: Params) {
     // Neutral response either way — never reveal whether this tipped the hide.
     return NextResponse.json({ success: true, reported: result.reported });
   } catch (error) {
-    console.error("[feed/comments] report failed:", error);
+    _logger.error("[feed/comments] report failed:", error);
     return NextResponse.json({ success: false, message: "Failed to report comment" }, { status: 500 });
   }
 }

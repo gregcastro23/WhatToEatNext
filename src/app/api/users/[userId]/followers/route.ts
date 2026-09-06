@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { followDatabase } from "@/services/followDatabaseService";
 import type { NextRequest } from "next/server";
@@ -49,7 +50,7 @@ export async function GET(
       nextCursor: page.nextCursor,
     });
   } catch (error) {
-    console.error("[followers] GET failed:", error);
+    _logger.error("[followers] GET failed:", error);
     return NextResponse.json({ success: false, message: "Failed to load followers" }, { status: 500 });
   }
 }

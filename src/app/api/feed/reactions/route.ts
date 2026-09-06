@@ -13,6 +13,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
 
@@ -58,7 +59,7 @@ export async function GET(request: NextRequest) {
     }
     return NextResponse.json({ success: true, viewerKinds });
   } catch (error) {
-    console.error("[feed/reactions] bootstrap failed:", error);
+    _logger.error("[feed/reactions] bootstrap failed:", error);
     // Fail-open: an empty map just renders every bar unlit; local cache backfills.
     return NextResponse.json({ success: true, viewerKinds: {} });
   }

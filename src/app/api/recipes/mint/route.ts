@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { _logger } from "@/lib/logger";
 import { getPrivyWallet } from "@/lib/privy/server";
 import { buildMetadata, buildRecipeNftContent, computeCommitments } from "@/lib/recipe-nft/content";
 import { recipeNftEnabled } from "@/lib/recipe-nft/contract";
@@ -241,7 +242,7 @@ export async function POST(request: NextRequest) {
     if (!record) {
       // Surface the tx loudly so it can be reconciled into the ledger — refunding
       // here would hand the user both the NFT and their ESMS back.
-      console.error(
+      _logger.error(
         "recipe-nft mint: on-chain token minted but ledger write failed — needs reconciliation",
         {
           userId,

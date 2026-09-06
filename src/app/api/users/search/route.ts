@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -33,7 +34,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, users });
   } catch (error) {
-    console.error("[users/search] Error:", error);
+    _logger.error("[users/search] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to search users" },
       { status: 500 },

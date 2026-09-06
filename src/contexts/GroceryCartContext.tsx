@@ -26,6 +26,7 @@ import {
 import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { resolveAsin } from "@/data/amazon";
 import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
+import { _logger } from "@/lib/logger";
 import { isLiveCartEnabled } from "@/lib/spacetime/config";
 import type { GroceryCartItem as StdbCartRow } from "@/lib/spacetime/generated/types";
 import {
@@ -288,7 +289,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
         } catch (e) {
           // Network/parse failure — let the items be re-tried on next render.
           toResolve.forEach((item) => searchedItemsRef.current.delete(item.id));
-          console.error("Batch ASIN resolve failed", e);
+          _logger.error("Batch ASIN resolve failed", e);
         }
       })();
     }, 800);

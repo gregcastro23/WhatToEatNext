@@ -12,6 +12,7 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
+import { _logger } from "@/lib/logger";
 import { getUserInsights } from "@/services/userInsightsService";
 import type { NextRequest } from "next/server";
 
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
     );
     return NextResponse.json({ success: true, ...payload });
   } catch (error) {
-    console.error("[admin/users/insights] Failed:", error);
+    _logger.error("[admin/users/insights] Failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load user insights" },
       { status: 500 },

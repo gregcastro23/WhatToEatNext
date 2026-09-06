@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
 import type { NextRequest } from "next/server";
 // Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
@@ -280,7 +281,7 @@ export async function POST(request: NextRequest) {
       restaurant,
     });
   } catch (error) {
-    console.error("[api/restaurants/onboard] Error:", error);
+    _logger.error("[api/restaurants/onboard] Error:", error);
     return NextResponse.json(
       { error: "Failed to create restaurant onboarding link" },
       { status: 500 },
@@ -318,7 +319,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, restaurant });
   } catch (error) {
-    console.error("[api/restaurants/onboard] Status error:", error);
+    _logger.error("[api/restaurants/onboard] Status error:", error);
     return NextResponse.json(
       { error: "Failed to load restaurant onboarding status" },
       { status: 500 },

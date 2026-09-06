@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -38,7 +39,7 @@ export async function GET(request: NextRequest) {
       total: notifications.length,
     });
   } catch (error) {
-    console.error("[notifications] Error:", error);
+    _logger.error("[notifications] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch notifications" },
       { status: 500 },

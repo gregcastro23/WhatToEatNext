@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { resolveVenueCoords } from "@/lib/tables/venueGeo";
 import { tableDatabase, type TableListScope } from "@/services/tableDatabaseService";
@@ -118,7 +119,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, table }, { status: 201 });
   } catch (error) {
-    console.error("Create table error:", error);
+    _logger.error("Create table error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },
@@ -144,7 +145,7 @@ export async function GET(request: NextRequest) {
     const tables = await tableDatabase.listTablesForUser(userId, scope);
     return NextResponse.json({ success: true, tables });
   } catch (error) {
-    console.error("List tables error:", error);
+    _logger.error("List tables error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

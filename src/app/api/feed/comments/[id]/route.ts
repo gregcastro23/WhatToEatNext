@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { validateRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import type { NextRequest } from "next/server";
@@ -43,7 +44,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     }
     return NextResponse.json({ success: true, deleted: true });
   } catch (error) {
-    console.error("[feed/comments] DELETE failed:", error);
+    _logger.error("[feed/comments] DELETE failed:", error);
     return NextResponse.json({ success: false, message: "Failed to delete comment" }, { status: 500 });
   }
 }

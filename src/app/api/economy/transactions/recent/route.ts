@@ -8,6 +8,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { redisCached } from "@/lib/redis";
 
 export const dynamic = "force-dynamic";
@@ -84,7 +85,7 @@ export async function GET(req: NextRequest) {
       },
     );
   } catch (error) {
-    console.error("[GET /api/economy/transactions/recent]", error);
+    _logger.error("[GET /api/economy/transactions/recent]", error);
     return NextResponse.json(
       { success: false, message: "Failed to load transactions", transactions: [] },
       { status: 500 },

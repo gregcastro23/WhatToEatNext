@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { subscriptionService } from "@/services/subscriptionService";
 
 export async function POST(request: Request) {
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ count, feature });
   } catch (error) {
-    console.error("[api/subscription/usage] Error:", error);
+    _logger.error("[api/subscription/usage] Error:", error);
     return NextResponse.json(
       { error: "Failed to track usage" },
       { status: 500 },

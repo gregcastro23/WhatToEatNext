@@ -4,6 +4,7 @@
  */
 import { NextResponse } from "next/server";
 import { getServerRecipes } from "@/actions/recipes";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import type { Recipe } from "@/types/recipe";
@@ -80,7 +81,7 @@ async function handleGet(request: Request) {
           return NextResponse.json(data);
         }
       } catch (err) {
-        console.error("Hono Gateway proxy failed:", err);
+        _logger.error("Hono Gateway proxy failed:", err);
       }
     }
 
@@ -131,7 +132,7 @@ async function handleGet(request: Request) {
       });
     }
   } catch (error) {
-    console.error("[recipes] Error:", error);
+    _logger.error("[recipes] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to fetch recipes" }, { status: 500 });
   }
 }
@@ -156,7 +157,7 @@ async function handlePost(request: Request) {
           return NextResponse.json(data);
         }
       } catch (err) {
-        console.error("Hono Gateway proxy failed:", err);
+        _logger.error("Hono Gateway proxy failed:", err);
       }
     }
 

@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
@@ -80,7 +81,7 @@ export async function GET(request: NextRequest) {
       summary: { totalCalories, totalProtein, totalCarbs, totalFat },
     });
   } catch (error) {
-    console.error("Food diary GET error:", error);
+    _logger.error("Food diary GET error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load food diary entries" },
       { status: 500 },
@@ -150,7 +151,7 @@ export async function POST(request: NextRequest) {
           mealType: entry.mealType,
           foodSource: entry.foodName,
         },
-      }).catch((err) => console.error("Failed to record food_diary_entry interaction:", err));
+      }).catch((err) => _logger.error("Failed to record food_diary_entry interaction:", err));
     } catch (err) {
       console.warn("Food diary entry interaction tracking skipped:", err);
     }
@@ -173,7 +174,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, entry }, { status: 201 });
   } catch (error) {
-    console.error("Food diary POST error:", error);
+    _logger.error("Food diary POST error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to create food diary entry" },
       { status: 500 },

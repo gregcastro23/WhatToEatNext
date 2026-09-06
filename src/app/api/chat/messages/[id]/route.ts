@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { chatDatabase } from "@/services/chatDatabaseService";
 import type { NextRequest } from "next/server";
@@ -40,7 +41,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Chat message DELETE error:", error);
+    _logger.error("Chat message DELETE error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

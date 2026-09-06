@@ -174,7 +174,7 @@ export async function GET(request: NextRequest) {
     const summary = await summarizeIngestion();
     return NextResponse.json({ success: true, ...summary });
   } catch (error) {
-    console.error("[admin/environment/seed] summary failed:", error);
+    _logger.error("[admin/environment/seed] summary failed:", error);
     return NextResponse.json(
       { success: false, live: false, message: "Failed to read ingestion state" },
       { status: 500 },

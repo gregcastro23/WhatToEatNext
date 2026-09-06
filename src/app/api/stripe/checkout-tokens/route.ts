@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { findSku, TOKEN_PACKAGE_PURPOSE } from "@/lib/billing/mcpTopUp";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { subscriptionService } from "@/services/subscriptionService";
 
@@ -108,7 +109,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: checkoutSession.url, sku: packageDef.sku });
   } catch (error) {
-    console.error("[api/stripe/checkout-tokens] Error:", error);
+    _logger.error("[api/stripe/checkout-tokens] Error:", error);
     return NextResponse.json(
       { error: "Failed to create token checkout session" },
       { status: 500 },

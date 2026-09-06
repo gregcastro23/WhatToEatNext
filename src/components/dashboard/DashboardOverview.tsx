@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { _logger } from "@/lib/logger";
 import type { NatalChart } from '@/types/natalChart';
 
 interface DashboardOverviewProps {
@@ -90,7 +91,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           }
         }
       } catch (err) {
-        console.error('Failed to load personalized data:', err);
+        _logger.error('Failed to load personalized data:', err);
       } finally {
         setIsLoading(false);
       }

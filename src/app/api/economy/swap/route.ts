@@ -12,6 +12,7 @@ import crypto from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { findRate, getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { TOKEN_TYPES } from "@/types/economy";
@@ -40,9 +41,12 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "economy-swap", identifier: userId });
     if (!rl.allowed) return rl.response!;
 
-    let body: SwapRequestBody;
+    let body: Partial<SwapRequestBody>;
     try {
-      body = (await request.json()) as SwapRequestBody;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+      body = (await request.json()) as Partial<SwapRequestBody>;
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid request body" },
@@ -72,7 +76,11 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!Number.isFinite(amount) || amount <= 0) {
+    // `typeof amount !== "number"` is redundant at RUNTIME — Number.isFinite
+    // already returns false for undefined/null/strings, it does not coerce — but
+    // Number.isFinite is not a type predicate, so it cannot narrow `amount` out
+    // of `number | undefined` for the comparison and arithmetic below.
+    if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json(
         { success: false, message: "amount must be a positive number" },
         { status: 400 },
@@ -136,7 +144,7 @@ export async function POST(request: NextRequest) {
         },
       );
       if (!refunded) {
-        console.error("[POST /api/economy/swap] credit AND refund failed — tokens need manual reconcile:", {
+        _logger.error("[POST /api/economy/swap] credit AND refund failed — tokens need manual reconcile:", {
           userId,
           groupId,
           fromToken,
@@ -164,7 +172,7 @@ export async function POST(request: NextRequest) {
       message: `⚗️ Swap complete under the hour of ${rateContext.rulingHourPlanet}: ${costAmount} ${fromToken} → ${amount} ${toToken}`,
     });
   } catch (error) {
-    console.error("[POST /api/economy/swap]", error);
+    _logger.error("[POST /api/economy/swap]", error);
     return NextResponse.json(
       { success: false, message: "Swap failed" },
       { status: 500 },

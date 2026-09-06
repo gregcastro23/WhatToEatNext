@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -45,7 +46,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, recipe });
   } catch (error) {
-    console.error("[GET /api/recipes/custom]", error);
+    _logger.error("[GET /api/recipes/custom]", error);
     return NextResponse.json({ error: "Failed to fetch custom recipe" }, { status: 500 });
   }
 }

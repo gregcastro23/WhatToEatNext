@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { _logger } from "@/lib/logger";
 
 // Types
 interface PlanetaryAgent {
@@ -308,7 +309,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
         setMessages(prev => [...prev, consensusMessage])
       }
     } catch (error) {
-      console.error('Error generating multi-agent responses:', error)
+      _logger.error('Error generating multi-agent responses:', error)
       const errorMessage: ConversationMessage = {
         id: `error-${Date.now()}`,
         agentId: 'system',

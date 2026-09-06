@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { QuickFoodCategory } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
@@ -60,7 +61,7 @@ export async function GET(request: NextRequest) {
       count: filteredResults.length,
     });
   } catch (error) {
-    console.error("Food search error:", error);
+    _logger.error("Food search error:", error);
     return NextResponse.json(
       { success: false, message: "Search failed" },
       { status: 500 },

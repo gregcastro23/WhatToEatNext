@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import { oloService } from "@/services/oloService";
 
 export const dynamic = "force-dynamic";
@@ -115,7 +116,7 @@ export async function GET(
       menu,
     });
   } catch (err) {
-    console.error("[api/restaurants/menu] Failed to load menu:", err);
+    _logger.error("[api/restaurants/menu] Failed to load menu:", err);
     return NextResponse.json(
       { success: false, error: "Unable to load menu right now" },
       { status: 500 },

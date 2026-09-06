@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { SauceLineageResponseSchema } from "@/lib/schemas/dashboard";
 
@@ -144,7 +145,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(body);
   } catch (error) {
-    console.error("[sauces/lineage] Error:", error);
+    _logger.error("[sauces/lineage] Error:", error);
     return NextResponse.json(
       { error: "Failed to load sauce lineage" },
       { status: 500 },

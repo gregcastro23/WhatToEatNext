@@ -6,6 +6,7 @@ import {
   resolveIngredientSlug,
 } from "@/data/ingredientRecipeIndex";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
@@ -81,7 +82,7 @@ export async function GET(
           return NextResponse.json(data);
         }
       } catch (err) {
-        console.error(`Hono Gateway proxy failed for ingredient ${name}:`, err);
+        _logger.error(`Hono Gateway proxy failed for ingredient ${name}:`, err);
       }
     }
 
@@ -152,7 +153,7 @@ export async function GET(
       totalRecipeMatches,
     });
   } catch (error) {
-    console.error("[ingredients/:name] Error:", error);
+    _logger.error("[ingredients/:name] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch ingredient details" },
       { status: 500 },

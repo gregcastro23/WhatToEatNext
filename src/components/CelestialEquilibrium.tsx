@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { _logger } from "@/lib/logger";
 
 // Define the structure for a recommendation
 interface TransmutationRecommendation {
@@ -58,7 +59,7 @@ export default function CelestialEquilibrium({
         setRecommendations(data);
       } catch (error: any) {
         setErrorRecommendations(error.message);
-        console.error("Failed to fetch transmutation recommendations:", error);
+        _logger.error("Failed to fetch transmutation recommendations:", error);
       } finally {
         setLoadingRecommendations(false);
       }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 
 // This function determines the base URL for the backend API.
 // It should match the logic in src/services/astrologizeApi.ts
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
     const data = await backendResponse.json();
     return NextResponse.json(data);
   } catch (error: any) {
-    console.error("Error in recipe recommendations API route:", error);
+    _logger.error("Error in recipe recommendations API route:", error);
     return NextResponse.json(
       { message: "Internal Server Error", error: error.message },
       { status: 500 },

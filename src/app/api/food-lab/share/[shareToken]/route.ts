@@ -34,10 +34,11 @@ export async function GET(
       `SELECT * FROM food_lab_entries WHERE share_token = $1 AND is_public = TRUE`,
       [shareToken],
     );
-    if (result.rows.length === 0) {
+    const [shareRow] = result.rows;
+    if (!shareRow) {
       return NextResponse.json({ success: false, message: "Shared entry not found" }, { status: 404 });
     }
-    const entry = rowToEntry(result.rows[0]);
+    const entry = rowToEntry(shareRow);
     // Strip user-identifying info for public view
     return NextResponse.json({
       success: true,

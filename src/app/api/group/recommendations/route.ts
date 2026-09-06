@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
 
 const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET ?? "";
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
     const data = await backendResponse.json();
     return NextResponse.json({ success: true, ...data });
   } catch (error) {
-    console.error("[api/group/recommendations] Error:", error);
+    _logger.error("[api/group/recommendations] Error:", error);
     return NextResponse.json(
       { error: "Failed to generate group recommendations" },
       { status: 500 },

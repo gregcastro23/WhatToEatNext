@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -67,7 +68,7 @@ export async function GET(
 
     return NextResponse.json({ tips });
   } catch (error) {
-    console.error("[GET /api/recipes/:id/community-tips]", error);
+    _logger.error("[GET /api/recipes/:id/community-tips]", error);
     return NextResponse.json({ tips: [] as CommunityTip[] });
   }
 }

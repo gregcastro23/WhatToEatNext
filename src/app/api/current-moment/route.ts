@@ -3,6 +3,7 @@
  * Returns current astrological moment — planetary positions + elemental snapshot.
  */
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
@@ -62,7 +63,7 @@ export async function GET(request: Request) {
       season,
     });
   } catch (error) {
-    console.error("[current-moment] Error:", error);
+    _logger.error("[current-moment] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to compute current moment" }, { status: 500 });
   }
 }

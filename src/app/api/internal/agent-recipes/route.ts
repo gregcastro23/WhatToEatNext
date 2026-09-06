@@ -16,6 +16,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -98,7 +99,7 @@ export async function POST(request: NextRequest) {
       createdAt: new Date(row.created_at).getTime(),
     });
   } catch (error) {
-    console.error("[POST /api/internal/agent-recipes]", error);
+    _logger.error("[POST /api/internal/agent-recipes]", error);
     return NextResponse.json(
       { error: "Failed to author recipe" },
       { status: 500 },

@@ -16,6 +16,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -97,7 +98,7 @@ export async function POST(request: NextRequest) {
     // back would be a silent email-harvesting vector.
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Block commensal error:", error);
+    _logger.error("Block commensal error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

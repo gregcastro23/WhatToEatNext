@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
       totalCompanions: companions.length,
     });
   } catch (error) {
-    console.error("Get commensalships error:", error);
+    _logger.error("Get commensalships error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

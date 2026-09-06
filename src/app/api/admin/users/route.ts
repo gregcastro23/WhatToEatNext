@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -270,7 +271,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[admin/users] List error:", error);
+    _logger.error("[admin/users] List error:", error);
     // Fall back to the in-memory userDatabase enumeration so the admin page
     // still renders something usable when Postgres is temporarily unreachable.
     try {

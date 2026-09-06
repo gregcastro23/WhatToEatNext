@@ -15,6 +15,7 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { getEventCounts } from "@/services/authEventsService";
 import type { NextRequest } from "next/server";
 
@@ -129,7 +130,7 @@ export async function GET(request: NextRequest) {
       })),
     });
   } catch (error) {
-    console.error("[admin/users/stats] Failed:", error);
+    _logger.error("[admin/users/stats] Failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load metrics" },
       { status: 500 },

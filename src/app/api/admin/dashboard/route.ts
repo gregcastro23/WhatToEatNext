@@ -16,6 +16,7 @@ import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import {
   getAdminUserStats,
@@ -198,7 +199,7 @@ async function safeCount(label: string, sql: string): Promise<number | null> {
     const result = await executeQuery(sql);
     return Number(result.rows[0]?.count ?? 0);
   } catch (error) {
-    console.error(`[admin/dashboard] ${label} count failed:`, error);
+    _logger.error(`[admin/dashboard] ${label} count failed:`, error);
     return null;
   }
 }
@@ -334,7 +335,7 @@ async function assembleTelemetryCore() {
         );
       }
     } catch (err) {
-      console.error("Failed to query Planetary Agents backend metrics:", err);
+      _logger.error("Failed to query Planetary Agents backend metrics:", err);
       paHealth = "offline";
     }
 
@@ -491,7 +492,7 @@ export async function GET(request: NextRequest) {
     try {
       adminDbUser = await userDatabase.getUserById(authResult.user.userId);
     } catch (err) {
-      console.error(
+      _logger.error(
         `[admin/dashboard] failed to resolve admin user ${authResult.user.userId}:`,
         err,
       );
@@ -541,7 +542,7 @@ export async function GET(request: NextRequest) {
       paIntegration: core.planetaryIntegration,
     });
   } catch (error) {
-    console.error("Admin dashboard error:", error);
+    _logger.error("Admin dashboard error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load dashboard" },
       { status: 500 },

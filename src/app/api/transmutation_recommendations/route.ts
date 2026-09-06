@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import { rateLimit } from "@/lib/rateLimit";
 import type { Planet } from "@/types/celestial";
@@ -216,7 +217,7 @@ export async function GET(request: NextRequest) {
     const recommendations = await getRecommendations(request);
     return NextResponse.json(recommendations);
   } catch (error) {
-    console.error("[transmutation_recommendations] GET failed:", error);
+    _logger.error("[transmutation_recommendations] GET failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to compute transmutation recommendations" },
       { status: 500 },
@@ -231,7 +232,7 @@ export async function POST(request: NextRequest) {
     const recommendations = await getRecommendations(request);
     return NextResponse.json(recommendations);
   } catch (error) {
-    console.error("[transmutation_recommendations] POST failed:", error);
+    _logger.error("[transmutation_recommendations] POST failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to compute transmutation recommendations" },
       { status: 500 },
