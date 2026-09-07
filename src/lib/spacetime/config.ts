@@ -7,7 +7,7 @@
  *
  *   NEXT_PUBLIC_SPACETIME_URI            e.g. "wss://maincloud.spacetimedb.com"
  *                                        or   "ws://localhost:3000" (self-hosted)
- *   NEXT_PUBLIC_SPACETIME_MODULE         database name (default "alchm-culinary")
+ *   NEXT_PUBLIC_SPACETIME_MODULE         database name (default "wten")
  *   NEXT_PUBLIC_SPACETIME_LIVE_CULINARY  "1" to let browse surfaces merge live
  *                                        in-module recipes (read-path swap flag)
  *
@@ -32,10 +32,17 @@ export function getSpacetimeConfig(): SpacetimeConfig | null {
   // (the live badge never lights). Strip a leading "@" and any "owner/" prefix so
   // whichever form the env var carries resolves to the publishable name.
   const rawModule = (
-    process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "alchm-culinary"
+    process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "wten"
   ).trim();
-  const moduleName =
-    rawModule.replace(/^@/, "").split("/").pop()?.trim() ?? "alchm-culinary";
+  const strippedModule =
+    rawModule.replace(/^@/, "").split("/").pop()?.trim() ?? "";
+  // A var that is PRESENT BUT BLANK must not yield an empty database name: `??`
+  // alone would let "" through, because "" is not nullish. Deliberately not
+  // `|| "wten"` — `prefer-nullish-coalescing` is ratcheted in this repo and a
+  // truthy-fallback here would cost a sub-baseline point for no extra safety.
+  const moduleName = (
+    strippedModule === "" ? "wten" : strippedModule
+  ).toLowerCase();
 
   return {
     uri,
