@@ -215,7 +215,7 @@ export async function checkSolanaSupplyInvariants(
       executeQuery(sql, values),
       readSupply(cluster, mints),
     ]);
-    const row = ledgerResult.rows.at(0) as Record<string, unknown> | undefined;
+    const row = ledgerResult.rows.at(0);
     const ledger = Object.fromEntries(
       SPL_COINS.map((coin) => [coin, decimalToAtoms(row?.[coin])]),
     ) as SupplyAtoms;

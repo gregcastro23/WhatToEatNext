@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
 import { getServiceUrl } from "@/lib/serviceUrls";
@@ -79,7 +80,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(data);
   } catch (_err) {
-    console.error("[NanoBanana] Generation failed:", _err);
+    _logger.error("[NanoBanana] Generation failed:", _err);
     return NextResponse.json({ error: "Failed to generate recipe image" }, { status: 500 });
   }
 }

@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { TransactionsResponse } from "@/types/economy";
 import type { NextRequest } from "next/server";
@@ -38,7 +39,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("[economy/transactions] Error:", error);
+    _logger.error("[economy/transactions] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch transactions" },
       { status: 500 },

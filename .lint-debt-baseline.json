@@ -1,19 +1,19 @@
 {
-  "trackedTotal": 1944,
+  "trackedTotal": 1635,
   "casts": {
     "total": 169,
     "asAny": 40,
     "asUnknownAs": 129,
     "production": 137,
     "test": 32,
-    "untrackedSingleAsT": 2052
+    "untrackedSingleAsT": 2050
   },
   "assertionSites": {
-    "total": 3398,
+    "total": 3396,
     "asAny": 39,
     "chained": 129,
-    "single": 3230,
-    "production": 2774,
+    "single": 3228,
+    "production": 2772,
     "test": 624,
     "asConst": 547,
     "nonNull": 630
@@ -28,11 +28,11 @@
     }
   },
   "declined": {
-    "total": 4911,
+    "total": 4910,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1374,
       "@typescript-eslint/explicit-module-boundary-types": 671,
-      "complexity": 301,
+      "complexity": 300,
       "max-depth": 85,
       "max-lines": 514,
       "max-lines-per-function": 1593,
@@ -49,7 +49,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 146,
+      "count": 144,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -57,27 +57,27 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 904,
+      "count": 897,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 63,
+      "count": 60,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 206,
+      "count": 197,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 10,
+      "count": 7,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 195,
+      "count": 174,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 23,
+      "count": 19,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
@@ -101,7 +101,7 @@
       "autoFixable": 0
     },
     "complexity": {
-      "count": 301,
+      "count": 300,
       "autoFixable": 0
     },
     "jsx-a11y/click-events-have-key-events": {
@@ -133,7 +133,7 @@
       "autoFixable": 0
     },
     "no-console": {
-      "count": 362,
+      "count": 102,
       "autoFixable": 0
     },
     "no-useless-assignment": {

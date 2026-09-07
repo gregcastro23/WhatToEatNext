@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
@@ -151,7 +152,7 @@ export async function POST(req: Request) {
       groupMembers,
     });
   } catch (error) {
-    console.error("Guest recommendations error:", error);
+    _logger.error("Guest recommendations error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to generate recommendations" },
       { status: 500 },

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
@@ -75,7 +76,10 @@ async function handlePost(req: NextRequest) {
       );
     }
 
-    const body = (await req.json()) as SyncCreditBody;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+    const body = (await req.json()) as Partial<SyncCreditBody>;
     const { userEmail, amounts, source, idempotencyKey } = body;
 
     if (!userEmail || !amounts || !idempotencyKey) {
@@ -289,7 +293,7 @@ async function handlePost(req: NextRequest) {
             totalTokens: total,
             degreeAgentId,
           })
-          .catch((e) => console.error("[sync-credit] sky-drop feed event failed:", e));
+          .catch((e) => _logger.error("[sync-credit] sky-drop feed event failed:", e));
 
         notificationDatabase
           .createNotification(
@@ -299,7 +303,7 @@ async function handlePost(req: NextRequest) {
             `Your ${where} airdropped +${total.toFixed(1)} ESMS across Spirit, Essence, Matter & Substance.`,
             { metadata: { tokenType: "all", tokenAmount: total, planet, sign, degree } },
           )
-          .catch((e) => console.error("[sync-credit] sky-drop notification failed:", e));
+          .catch((e) => _logger.error("[sync-credit] sky-drop notification failed:", e));
       }
     }
 
@@ -315,7 +319,7 @@ async function handlePost(req: NextRequest) {
     });
 
   } catch (error) {
-    console.error("[sync-credit] Internal Error:", error);
+    _logger.error("[sync-credit] Internal Error:", error);
     return NextResponse.json(
       { ok: false, reason: "internal_error", message: (error as Error).message },
       { status: 500 }

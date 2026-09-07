@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import { _logger } from "@/lib/logger";
 
 interface TrendPoint {
   time: string;
@@ -43,7 +44,7 @@ export default function AlchmQuantitiesTrends() {
         const data = await response.json();
         setTrendData(data.trends);
       } catch (error) {
-        console.error("Failed to fetch trend data:", error);
+        _logger.error("Failed to fetch trend data:", error);
         setTrendData([]);
       } finally {
         setLoading(false);

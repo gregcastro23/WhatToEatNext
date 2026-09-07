@@ -4,6 +4,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { geocodeLocation } from "@/services/geocodingService";
 import type { NextRequest } from "next/server";
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
       results,
     });
   } catch (error) {
-    console.error("Geocoding error:", error);
+    _logger.error("Geocoding error:", error);
     return NextResponse.json(
       {
         success: false,

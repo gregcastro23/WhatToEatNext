@@ -16,6 +16,7 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -117,7 +118,7 @@ export async function GET(request: NextRequest) {
       })),
     });
   } catch (error) {
-    console.error("[admin/abuse] Failed:", error);
+    _logger.error("[admin/abuse] Failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to compute abuse metrics" },
       { status: 500 },

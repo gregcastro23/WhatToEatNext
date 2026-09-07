@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 
 const ASIN_REGEX = /^[A-Z0-9]{10}$/;
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, updated: result.rows[0] });
   } catch (error) {
-    console.error("Error processing ASIN feedback:", error);
+    _logger.error("Error processing ASIN feedback:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

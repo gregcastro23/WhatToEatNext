@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
 import type { NextRequest} from "next/server";
 
@@ -120,7 +121,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error) {
-    console.error("[sync-event] Internal Error:", error);
+    _logger.error("[sync-event] Internal Error:", error);
     return NextResponse.json(
       { ok: false, reason: "internal_error", message: (error as Error).message },
       { status: 500 }

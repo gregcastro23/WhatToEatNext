@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import type { UserRole } from "@/lib/auth/roles";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -81,7 +82,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       },
     });
   } catch (error) {
-    console.error("Admin get user error:", error);
+    _logger.error("Admin get user error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to get user" },
       { status: 500 },
@@ -129,7 +130,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       message: "User deactivated (soft delete — reactivation possible)",
     });
   } catch (error) {
-    console.error("Admin delete user error:", error);
+    _logger.error("Admin delete user error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to delete user" },
       { status: 500 },
@@ -269,7 +270,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       ...(normalizedRole ? { role: normalizedRole } : {}),
     });
   } catch (error) {
-    console.error("[admin/users/[userId]] PATCH error:", error);
+    _logger.error("[admin/users/[userId]] PATCH error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update user" },
       { status: 500 },

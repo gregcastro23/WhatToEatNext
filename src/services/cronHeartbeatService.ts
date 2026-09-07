@@ -175,7 +175,7 @@ export async function recordCronRun(
       ],
     );
   } catch (err) {
-    console.error(`[cronHeartbeat] failed to record run for ${name}:`, err);
+    _logger.error(`[cronHeartbeat] failed to record run for ${name}:`, err);
   }
 }
 

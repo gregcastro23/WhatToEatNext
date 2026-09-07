@@ -137,12 +137,13 @@ export async function loadUserChartMember(userId: string): Promise<GroupMember |
       `SELECT natal_chart, birth_data, name FROM user_profiles WHERE user_id = $1::uuid`,
       [userId],
     );
-    if (result.rows.length > 0) {
+    const [profileRow] = result.rows;
+    if (profileRow) {
       const member = buildMemberFromColumns(
         userId,
-        result.rows[0].natal_chart,
-        result.rows[0].birth_data,
-        result.rows[0].name,
+        profileRow.natal_chart,
+        profileRow.birth_data,
+        profileRow.name,
       );
       if (member) return member;
     }
@@ -159,11 +160,12 @@ export async function loadUserChartMember(userId: string): Promise<GroupMember |
       `SELECT profile, name FROM users WHERE id = $1::uuid`,
       [userId],
     );
-    if (result.rows.length > 0) {
-      const profile = readJsonColumn<Record<string, unknown>>(result.rows[0].profile, {});
+    const [legacyRow] = result.rows;
+    if (legacyRow) {
+      const profile = readJsonColumn<Record<string, unknown>>(legacyRow.profile, {});
       const natalChart = profile?.natalChart ?? profile?.natal_chart;
       const birthData = profile?.birthData ?? profile?.birth_data;
-      const member = buildMemberFromColumns(userId, natalChart, birthData, result.rows[0].name);
+      const member = buildMemberFromColumns(userId, natalChart, birthData, legacyRow.name);
       if (member) return member;
     }
   } catch (error) {
@@ -265,7 +267,11 @@ export async function computeAndStoreTableComposite(
         [tableId],
       );
       const lastComputed = staleCheck.rows[0]?.composite_updated_at;
-      if (lastComputed) {
+      if (
+        lastComputed instanceof Date ||
+        typeof lastComputed === "string" ||
+        typeof lastComputed === "number"
+      ) {
         const ageMs = Date.now() - new Date(lastComputed).getTime();
         if (ageMs >= 0 && ageMs < DEBOUNCE_MS) return;
       }

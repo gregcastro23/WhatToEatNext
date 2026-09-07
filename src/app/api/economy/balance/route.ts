@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { streakService } from "@/services/StreakService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { EconomyBalanceResponse } from "@/types/economy";
@@ -71,7 +72,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("[economy/balance] Error fetching balance:", error);
+    _logger.error("[economy/balance] Error fetching balance:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch balance" },
       { status: 500 },

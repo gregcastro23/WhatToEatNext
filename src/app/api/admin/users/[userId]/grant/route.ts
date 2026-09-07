@@ -32,6 +32,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import {
   isMissingUserFailure,
   tokenEconomy,
@@ -165,7 +166,7 @@ export async function POST(
         return failureResponse(outcome);
     }
   } catch (error) {
-    console.error("[admin/users/grant] credit failed:", error);
+    _logger.error("[admin/users/grant] credit failed:", error);
     return NextResponse.json(
       {
         success: false,

@@ -81,8 +81,8 @@ async function selectKitchenRows(
   sql: string,
   params: unknown[],
 ): Promise<KitchenSettingsDbRow[]> {
-  const { rows } = await executeQuery(sql, params);
-  return rows as KitchenSettingsDbRow[];
+  const { rows } = await executeQuery<KitchenSettingsDbRow>(sql, params);
+  return rows;
 }
 
 function mapRow(row: KitchenSettingsDbRow): KitchenSettingsRow {

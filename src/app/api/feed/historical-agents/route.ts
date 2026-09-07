@@ -20,6 +20,7 @@ import {
   coerceFeedItems,
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
+import { _logger } from "@/lib/logger";
 import { getHistoricalAgentRecipes } from "@/services/historicalAgentFeedService";
 import { getPlanetaryResonanceFeed } from "@/services/planetaryResonanceService";
 
@@ -43,7 +44,7 @@ export async function GET(request: Request) {
         .slice(0, limit);
       return NextResponse.json({ success: true, items, source: "internal" });
     } catch (error) {
-      console.error("[GET /api/feed/historical-agents] internal source error:", error);
+      _logger.error("[GET /api/feed/historical-agents] internal source error:", error);
       return NextResponse.json({ success: true, items: [], source: "internal_error" });
     }
   }
@@ -68,7 +69,7 @@ export async function GET(request: Request) {
     const items = filterHistoricalAgentFeed(coerceFeedItems(rawItems)).slice(0, limit);
     return NextResponse.json({ success: true, items, source: "pa" });
   } catch (error) {
-    console.error("[GET /api/feed/historical-agents]", error);
+    _logger.error("[GET /api/feed/historical-agents]", error);
     return NextResponse.json({ success: true, items: [], source: "exception" });
   }
 }

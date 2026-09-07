@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { checkDatabaseHealth } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 
 export async function GET() {
   try {
@@ -23,10 +24,10 @@ export async function GET() {
       dbLatencyMs = health.latency ?? null;
       if (!health.healthy) {
         // `_logger.warn` would emit nothing in production; this must be visible.
-        console.error("[Health] database unhealthy:", health.error ?? "unknown");
+        _logger.error("[Health] database unhealthy:", health.error ?? "unknown");
       }
     } catch (err) {
-      console.error("[Health] DB check failed:", err);
+      _logger.error("[Health] DB check failed:", err);
       dbStatus = "error";
     }
 

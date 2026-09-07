@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { NextRequest } from "next/server";
@@ -88,7 +89,7 @@ export async function GET(
       madeCount,
     });
   } catch (error) {
-    console.error("[GET /api/users/me/recipes/:id]", error);
+    _logger.error("[GET /api/users/me/recipes/:id]", error);
     return NextResponse.json(
       { error: "Failed to load interaction" },
       { status: 500 },
@@ -171,7 +172,7 @@ export async function POST(
       reward,
     });
   } catch (error) {
-    console.error("[POST /api/users/me/recipes/:id]", error);
+    _logger.error("[POST /api/users/me/recipes/:id]", error);
     return NextResponse.json(
       { error: "Failed to save interaction" },
       { status: 500 },
@@ -198,7 +199,7 @@ export async function DELETE(
     const madeCount = await getAggregateMadeCount(recipeId);
     return NextResponse.json({ authenticated: true, madeCount });
   } catch (error) {
-    console.error("[DELETE /api/users/me/recipes/:id]", error);
+    _logger.error("[DELETE /api/users/me/recipes/:id]", error);
     return NextResponse.json(
       { error: "Failed to delete interaction" },
       { status: 500 },

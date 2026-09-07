@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { feedDatabase } from "@/services/feedDatabaseService";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +21,7 @@ export async function GET(
       events,
     });
   } catch (error) {
-    console.error("[GET /api/users/:userId/feed] error:", error);
+    _logger.error("[GET /api/users/:userId/feed] error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch user feed events." },
       { status: 500 },

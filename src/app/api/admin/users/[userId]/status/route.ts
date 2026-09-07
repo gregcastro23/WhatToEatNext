@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -74,7 +75,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       },
     });
   } catch (error) {
-    console.error("Admin update user status error:", error);
+    _logger.error("Admin update user status error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update user status" },
       { status: 500 },

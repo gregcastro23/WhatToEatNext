@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -17,7 +18,7 @@ export function GET(): Promise<NextResponse> {
     const rates = getCurrentSwapRates();
     return Promise.resolve(NextResponse.json({ success: true, ...rates }));
   } catch (error) {
-    console.error("[GET /api/economy/swap-rates]", error);
+    _logger.error("[GET /api/economy/swap-rates]", error);
     return Promise.resolve(
       NextResponse.json(
         { success: false, message: "Failed to compute swap rates" },

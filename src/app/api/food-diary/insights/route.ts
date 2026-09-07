@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { NextRequest } from "next/server";
 
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
       count: insights.length,
     });
   } catch (error) {
-    console.error("Get insights error:", error);
+    _logger.error("Get insights error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to generate insights" },
       { status: 500 },

@@ -14,6 +14,7 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { getCelestialRewardContext } from "@/lib/economy/celestial";
 import { PRACTICES } from "@/lib/economy/practices";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import { questService } from "@/services/QuestService";
@@ -100,7 +101,7 @@ export async function GET(request: NextRequest) {
       })),
     });
   } catch (error) {
-    console.error("[economy/grimoire] failed:", error);
+    _logger.error("[economy/grimoire] failed:", error);
     return NextResponse.json({ success: false, message: "The grimoire would not open." }, { status: 500 });
   }
 }

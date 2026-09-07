@@ -3,6 +3,7 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useState, useEffect, useRef } from 'react';
+import { _logger } from "@/lib/logger";
 
 export default function SignInModal() {
   const { status } = useSession();
@@ -117,7 +118,7 @@ export default function SignInModal() {
       });
     } catch (err) {
       clearTimeout(timeoutId);
-      console.error('SignIn error:', err);
+      _logger.error('SignIn error:', err);
       setError('Could not start the Google sign-in process. Please try again.');
       setIsSigningIn(false);
     }

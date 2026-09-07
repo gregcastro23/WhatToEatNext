@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { feedDatabase } from "@/services/feedDatabaseService";
@@ -110,7 +111,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("[economy/claim-daily] Error claiming daily yield:", error);
+    _logger.error("[economy/claim-daily] Error claiming daily yield:", error);
     return NextResponse.json(
       { success: false, message: "Failed to claim daily yield. Please try again." },
       { status: 500 },

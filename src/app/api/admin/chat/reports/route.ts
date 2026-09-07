@@ -10,6 +10,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { chatDatabase } from "@/services/chatDatabaseService";
 import type { MessageReportStatus } from "@/types/chat";
 
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
     const reports = await chatDatabase.listReports({ status, limit });
     return NextResponse.json({ success: true, reports });
   } catch (error) {
-    console.error("[admin/chat/reports] GET failed:", error);
+    _logger.error("[admin/chat/reports] GET failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load reports" },
       { status: 500 },

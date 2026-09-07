@@ -12,6 +12,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
 
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json({ success: true, subscribed: true });
   } catch (error) {
-    console.error("[push/subscribe] POST failed:", error);
+    _logger.error("[push/subscribe] POST failed:", error);
     return NextResponse.json({ success: false, message: "Failed to save subscription" }, { status: 500 });
   }
 }
@@ -96,7 +97,7 @@ export async function DELETE(request: NextRequest) {
     );
     return NextResponse.json({ success: true, subscribed: false });
   } catch (error) {
-    console.error("[push/subscribe] DELETE failed:", error);
+    _logger.error("[push/subscribe] DELETE failed:", error);
     return NextResponse.json({ success: false, message: "Failed to remove subscription" }, { status: 500 });
   }
 }

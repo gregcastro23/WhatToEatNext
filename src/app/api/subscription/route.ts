@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 import { subscriptionService } from "@/services/subscriptionService";
 
 export async function GET() {
@@ -20,7 +21,7 @@ export async function GET() {
     );
     return NextResponse.json({ subscription });
   } catch (error) {
-    console.error("[api/subscription] Error:", error);
+    _logger.error("[api/subscription] Error:", error);
     // Return a minimal fallback so the frontend always has valid data
     const jwtTier = session.user.tier as string || "free";
     return NextResponse.json({

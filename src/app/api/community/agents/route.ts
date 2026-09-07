@@ -8,6 +8,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { redisCached } from "@/lib/redis";
 
 export const dynamic = "force-dynamic";
@@ -86,7 +87,7 @@ export async function GET(req: NextRequest) {
       },
     );
   } catch (error) {
-    console.error("[GET /api/community/agents]", error);
+    _logger.error("[GET /api/community/agents]", error);
     return NextResponse.json(
       { success: false, message: "Failed to load agents", agents: [] },
       { status: 500 },

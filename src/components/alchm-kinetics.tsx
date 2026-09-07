@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
+import { _logger } from "@/lib/logger";
 import type { HistoricalContext } from "@/services/HistoricalStatsService";
 
 interface ESMSKinetics {
@@ -164,7 +165,7 @@ export default function AlchmKinetics() {
           setApiData({ kinetics: data.kinetics, circuit: data.circuit, historicalContext: data.historicalContext });
         }
       } catch (error) {
-        console.error("Failed to fetch kinetics:", error);
+        _logger.error("Failed to fetch kinetics:", error);
       } finally {
         setLoading(false);
       }

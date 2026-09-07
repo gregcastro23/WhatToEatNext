@@ -12,6 +12,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import {
   discoverRestaurants,
   emptyCosmicContext,
@@ -118,7 +119,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, results });
   } catch (error) {
-    console.error("Restaurant search error:", error);
+    _logger.error("Restaurant search error:", error);
     return NextResponse.json(
       { success: false, message: "An error occurred while searching." },
       { status: 500 },
@@ -187,7 +188,7 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
-    console.error("[api/restaurants/search] orchestrator failed:", err);
+    _logger.error("[api/restaurants/search] orchestrator failed:", err);
     return NextResponse.json(
       {
         restaurants: [],

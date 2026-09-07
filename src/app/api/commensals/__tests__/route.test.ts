@@ -108,8 +108,11 @@ describe("Commensals API (/api/commensals)", () => {
 
     expect(response.status).toBe(500);
     expect(data.success).toBe(false);
+    // Routed through `_logger.error`, which prefixes "[ERROR] " and still
+    // writes to console.error unconditionally (it is the one _logger level
+    // that is NOT gated off in production).
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "Get commensalships error:",
+      "[ERROR] Get commensalships error:",
       expect.objectContaining({ message: "DB_FAIL" }),
     );
 

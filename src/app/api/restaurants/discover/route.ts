@@ -8,6 +8,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import {
   discoverRestaurants,
   emptyCosmicContext,
@@ -64,7 +65,7 @@ async function discover(input: DiscoverBody) {
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
-    console.error("[api/restaurants/discover] orchestrator failed:", err);
+    _logger.error("[api/restaurants/discover] orchestrator failed:", err);
     return NextResponse.json(
       {
         restaurants: [],

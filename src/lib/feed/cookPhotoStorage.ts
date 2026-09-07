@@ -10,6 +10,7 @@
 
 import { createHash } from "crypto";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { _logger } from "@/lib/logger";
 import { parseImageDataUrl } from "@/lib/media/imageDataUrl";
 
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -69,7 +70,7 @@ export async function storeCookPhoto(userId: string, dataUrl: string): Promise<s
     );
     return `${R2_DOMAIN}/${key}`;
   } catch (err) {
-    console.error("[cookPhotoStorage] R2 put failed:", err);
+    _logger.error("[cookPhotoStorage] R2 put failed:", err);
     return null;
   }
 }
@@ -104,7 +105,7 @@ export async function storeTablePhoto(tableId: string, dataUrl: string): Promise
     );
     return `${R2_DOMAIN}/${key}`;
   } catch (err) {
-    console.error("[cookPhotoStorage] R2 put failed (table photo):", err);
+    _logger.error("[cookPhotoStorage] R2 put failed (table photo):", err);
     return null;
   }
 }
@@ -138,7 +139,7 @@ export async function storeChatPhoto(userId: string, dataUrl: string): Promise<s
     );
     return `${R2_DOMAIN}/${key}`;
   } catch (err) {
-    console.error("[cookPhotoStorage] R2 put failed (chat photo):", err);
+    _logger.error("[cookPhotoStorage] R2 put failed (chat photo):", err);
     return null;
   }
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useState, useEffect, useCallback } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { _logger } from "@/lib/logger";
 import { getMcpNetworkSummary, type McpNetworkSummary, type McpVerdict } from "@/services/mcpNetworkService";
 
 const VERDICT_STYLE: Record<
@@ -69,7 +70,7 @@ export default function McpAdminPage() {
       setSummary(data);
       setSecondsSinceRefreshed(0);
     } catch (err) {
-      console.error("Failed to load telemetry summary", err);
+      _logger.error("Failed to load telemetry summary", err);
     } finally {
       setLoading(false);
     }

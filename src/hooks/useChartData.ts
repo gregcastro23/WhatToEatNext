@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { alchemize } from "@/calculations/core/alchemicalEngine";
 import { calculateKinetics } from "@/calculations/kinetics";
 import { useUser } from "@/contexts/UserContext";
+import { _logger } from "@/lib/logger";
 import { AspectsService } from "@/services/AspectsService";
 import {
   getCurrentPlanetaryPositions,
@@ -279,7 +280,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       const errorMessage =
         err instanceof Error ? err.message : "Unknown error occurred";
       setError(errorMessage);
-      console.error("Chart data fetch error:", err);
+      _logger.error("Chart data fetch error:", err);
     } finally {
       setIsLoading(false);
     }

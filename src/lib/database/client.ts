@@ -167,14 +167,8 @@ export class IngredientService {
   static async getCompatibleIngredients(
     ingredientId: string,
     minScore = 0.7,
-  ): Promise<
-    Array<{
-      ingredient: Ingredient;
-      compatibility_score: number;
-      interaction_type: string;
-    }>
-  > {
-    const result = await executeQuery(
+  ): Promise<CompatibleIngredientRow[]> {
+    const result = await executeQuery<CompatibleIngredientRow>(
       `SELECT i.*, ic.compatibility_score, ic.interaction_type
        FROM ingredients i
        JOIN ingredient_compatibility ic ON (
@@ -351,16 +345,9 @@ export class RecipeService {
   }
 
   static async getRecipeIngredients(recipeId: string): Promise<
-    Array<{
-      ingredient: Ingredient;
-      quantity: number;
-      unit: string;
-      preparation_notes?: string;
-      is_optional: boolean;
-      order_index: number;
-    }>
+    RecipeIngredientRow[]
   > {
-    const result = await executeQuery(
+    const result = await executeQuery<RecipeIngredientRow>(
       `SELECT ri.quantity, ri.unit, ri.preparation_notes, ri.is_optional, ri.order_index,
               i.*
        FROM recipe_ingredients ri
@@ -372,14 +359,8 @@ export class RecipeService {
     return result.rows;
   }
 
-  static async getRecipeContexts(recipeId: string): Promise<{
-    moon_phases: string[];
-    seasons: string[];
-    time_of_day: string[];
-    occasion: string[];
-    energy_intention?: string;
-  } | null> {
-    const result = await executeQuery(
+  static async getRecipeContexts(recipeId: string): Promise<RecipeContextRow | null> {
+    const result = await executeQuery<RecipeContextRow>(
       `SELECT recommended_moon_phases, recommended_seasons, time_of_day, occasion, energy_intention
        FROM recipe_contexts
        WHERE recipe_id = $1`,
@@ -387,6 +368,37 @@ export class RecipeService {
     );
     return result.rows[0] ?? null;
   }
+}
+
+/**
+ * Row shapes for the recipe/ingredient joins below.
+ *
+ * These describe what the SQL actually returns. `SELECT i.*` spreads the
+ * ingredient columns FLAT alongside the join columns — it does not nest them
+ * under an `ingredient` key, which is what the previous return types claimed.
+ * Likewise `recipe_contexts` is selected as `recommended_moon_phases` /
+ * `recommended_seasons`, not `moon_phases` / `seasons`. Those mismatches were
+ * invisible while `executeQuery` defaulted its row type to `any`.
+ */
+export type CompatibleIngredientRow = Ingredient & {
+  compatibility_score: number;
+  interaction_type: string;
+};
+
+export type RecipeIngredientRow = Ingredient & {
+  quantity: number;
+  unit: string;
+  preparation_notes?: string;
+  is_optional: boolean;
+  order_index: number;
+};
+
+export interface RecipeContextRow {
+  recommended_moon_phases: string[];
+  recommended_seasons: string[];
+  time_of_day: string[];
+  occasion: string[];
+  energy_intention?: string;
 }
 
 // ==========================================
@@ -489,7 +501,8 @@ export class CacheService {
         [key],
       );
 
-      if (result.rows.length > 0) {
+      const [cacheRow] = result.rows;
+      if (cacheRow) {
         // Update hit count and last accessed
         await executeQuery(
           `UPDATE calculation_cache
@@ -498,7 +511,7 @@ export class CacheService {
           [key],
         );
 
-        return result.rows[0].result_data;
+        return cacheRow.result_data;
       }
     } catch (error) {
       void logger.warn("Cache retrieval failed", {
@@ -550,10 +563,10 @@ export class CacheService {
 
   static async cleanup(): Promise<number> {
     try {
-      const result = await executeQuery(
+      const result = await executeQuery<{ deleted_count: number }>(
         "SELECT clean_expired_cache() as deleted_count",
       );
-      return result.rows[0].deleted_count ?? 0;
+      return result.rows[0]?.deleted_count ?? 0;
     } catch (error) {
       void logger.warn("Cache cleanup failed", {
         error: error instanceof Error ? error.message : "Unknown error",

@@ -14,6 +14,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { getLaunchReadiness } from "@/services/launchReadinessService";
 
 export const dynamic = "force-dynamic";
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
     const report = await getLaunchReadiness();
     return NextResponse.json({ success: true, ...report });
   } catch (error) {
-    console.error("[admin/launch-readiness] failed:", error);
+    _logger.error("[admin/launch-readiness] failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to compute launch readiness" },
       { status: 500 },
