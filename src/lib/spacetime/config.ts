@@ -34,8 +34,15 @@ export function getSpacetimeConfig(): SpacetimeConfig | null {
   const rawModule = (
     process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "wten"
   ).trim();
-  const moduleName =
-    (rawModule.replace(/^@/, "").split("/").pop()?.trim() || "wten").toLowerCase();
+  const strippedModule =
+    rawModule.replace(/^@/, "").split("/").pop()?.trim() ?? "";
+  // A var that is PRESENT BUT BLANK must not yield an empty database name: `??`
+  // alone would let "" through, because "" is not nullish. Deliberately not
+  // `|| "wten"` — `prefer-nullish-coalescing` is ratcheted in this repo and a
+  // truthy-fallback here would cost a sub-baseline point for no extra safety.
+  const moduleName = (
+    strippedModule === "" ? "wten" : strippedModule
+  ).toLowerCase();
 
   return {
     uri,
