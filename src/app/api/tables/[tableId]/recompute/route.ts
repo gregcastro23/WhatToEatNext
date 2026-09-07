@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { computeAndStoreTableComposite } from "@/lib/tables/composite";
 import { tableDatabase } from "@/services/tableDatabaseService";
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, table: detail });
   } catch (error) {
-    console.error("Recompute table composite error:", error);
+    _logger.error("Recompute table composite error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

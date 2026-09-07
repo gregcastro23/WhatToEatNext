@@ -12,6 +12,7 @@ import {
   calculateGregsEnergy,
   type ElementalAlchemicalCounts,
 } from "@/calculations/gregsEnergy";
+import { _logger } from "@/lib/logger";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -153,7 +154,7 @@ export function calculateMealCircuit(
 
     return mealCircuit;
   } catch (error) {
-    console.error(
+    _logger.error(
       `Error calculating meal circuit for slot ${mealSlot.id}:`,
       error,
     );

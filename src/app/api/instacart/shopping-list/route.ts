@@ -102,7 +102,10 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "instacart-shopping-list" });
     if (!rl.allowed) return rl.response!;
 
-    const body = (await request.json()) as InstacartShoppingListRequest;
+    // Partial<>: the wire guarantees no field is present. Casting straight to
+    // the full body type asserted exactly what the guard below establishes,
+    // which made that validation read as provably dead code.
+    const body = (await request.json()) as Partial<InstacartShoppingListRequest>;
     
     let parsedLineItems: InstacartLineItem[] = [];
 
@@ -114,7 +117,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No items provided" }, { status: 400 });
     }
 
-    const finalTitle = body.title || "Grocery List from WhatToEatNext";
+    // Falls back on BOTH absent and empty, which is what `||` did before
+    // `title` became optional. Spelled out because `??` would keep "" and
+    // prefer-nullish-coalescing cannot express "empty string counts as absent".
+    const finalTitle =
+      body.title === undefined || body.title === ""
+        ? "Grocery List from WhatToEatNext"
+        : body.title;
     const instacartPayload: InstacartShoppingListRequest = {
       title: finalTitle,
       link_type: "shopping_list",

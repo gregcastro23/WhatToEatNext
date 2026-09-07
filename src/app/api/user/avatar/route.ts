@@ -13,6 +13,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import {
   avatarStorageConfigured,
   deleteAvatarObject,
@@ -94,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, avatarUrl, reward });
   } catch (error) {
-    console.error("[user/avatar] POST failed:", error);
+    _logger.error("[user/avatar] POST failed:", error);
     return NextResponse.json({ success: false, message: "Avatar upload failed" }, { status: 500 });
   }
 }
@@ -116,7 +117,7 @@ export async function DELETE(request: NextRequest) {
     }
     return NextResponse.json({ success: true, avatarUrl: null });
   } catch (error) {
-    console.error("[user/avatar] DELETE failed:", error);
+    _logger.error("[user/avatar] DELETE failed:", error);
     return NextResponse.json({ success: false, message: "Avatar removal failed" }, { status: 500 });
   }
 }

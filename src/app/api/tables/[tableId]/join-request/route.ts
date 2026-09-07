@@ -15,6 +15,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase, type JoinRequestFailureReason } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -116,7 +117,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, message: "Your request has been sent" }, { status: 201 });
   } catch (error) {
-    console.error("Table join-request error:", error);
+    _logger.error("Table join-request error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

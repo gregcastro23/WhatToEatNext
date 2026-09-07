@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { getTransitNatalOverlay } from "@/lib/mcp/synastryTools";
 
 export const dynamic = "force-dynamic";
@@ -88,7 +89,7 @@ export async function GET(
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`[GET /api/users/:userId/transit-overlay] error:`, error);
+    _logger.error(`[GET /api/users/:userId/transit-overlay] error:`, error);
     return NextResponse.json(
       { success: false, message: `Failed to load transit overlay: ${message}` },
       { status: 500 },

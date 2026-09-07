@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { reportSchema } from "@/lib/chat/schemas";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { chatDatabase } from "@/services/chatDatabaseService";
 import type { NextRequest } from "next/server";
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     // Neutral response — never disclose the aggregate flag count or hide state.
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Chat report POST error:", error);
+    _logger.error("Chat report POST error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

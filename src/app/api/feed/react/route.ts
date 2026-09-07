@@ -20,6 +20,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { notifyReactionReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
 import { practiceRewardService } from "@/services/practiceRewardService";
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
       reward,
     });
   } catch (error) {
-    console.error("[feed/react] failed:", error);
+    _logger.error("[feed/react] failed:", error);
     return NextResponse.json({ success: false, message: "Reaction failed" }, { status: 500 });
   }
 }

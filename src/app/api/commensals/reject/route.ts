@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -45,7 +46,7 @@ export async function PUT(request: NextRequest) {
       message: "Commensal request rejected",
     });
   } catch (error) {
-    console.error("Reject commensal error:", error);
+    _logger.error("Reject commensal error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

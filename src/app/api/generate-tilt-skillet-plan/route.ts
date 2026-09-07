@@ -14,6 +14,7 @@
  *     surfaces at the WTEN edge.
  */
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { tokenEconomy } from "@/services/TokenEconomyService";
@@ -132,7 +133,7 @@ async function handlePost(request: NextRequest) {
     const parsedResp = (await agentResponse.json()) as unknown;
     const validation = tiltSkilletBatchSchema.safeParse(parsedResp);
     if (!validation.success) {
-      console.error(
+      _logger.error(
         "[generate-tilt-skillet-plan] PA returned a plan that failed local schema check:",
         validation.error.issues.slice(0, 5),
       );
@@ -148,7 +149,7 @@ async function handlePost(request: NextRequest) {
     }
     plan = validation.data;
   } catch (error) {
-    console.error("[generate-tilt-skillet-plan] Error calling planetary agents API:", error);
+    _logger.error("[generate-tilt-skillet-plan] Error calling planetary agents API:", error);
     return json({ error: "Internal server error contacting agents network" }, 500);
   }
 

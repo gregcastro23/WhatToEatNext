@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
 
 let dbModule: typeof import("@/lib/database") | null = null;
 const getDb = async () => {
@@ -77,7 +78,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error("[api/sessions] Error:", error);
+    _logger.error("[api/sessions] Error:", error);
     return NextResponse.json(
       { error: "Failed to create session" },
       { status: 500 },
@@ -128,7 +129,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, sessions: result.rows });
   } catch (error) {
-    console.error("[api/sessions] Error:", error);
+    _logger.error("[api/sessions] Error:", error);
     return NextResponse.json(
       { error: "Failed to fetch sessions" },
       { status: 500 },

@@ -21,6 +21,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         process.env.AUTH_REVOCATION_CHECK === "on" ? "on" : "off",
     });
   } catch (error) {
-    console.error("[admin/users/sessions/revoke] failed:", error);
+    _logger.error("[admin/users/sessions/revoke] failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to revoke sessions" },
       { status: 500 },

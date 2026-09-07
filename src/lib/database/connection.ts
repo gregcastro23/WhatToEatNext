@@ -125,7 +125,7 @@ export async function withTransaction<T>(
   }
 }
 // Query execution with error handling and logging
-export async function executeQuery<T extends QueryResultRow = any>(
+export async function executeQuery<T extends QueryResultRow = Record<string, unknown>>(
   query: string,
   params: unknown[] = [],
   options: {
@@ -239,7 +239,7 @@ export async function executeQuery<T extends QueryResultRow = any>(
 // helper therefore executes any data-modifying statement exactly once,
 // regardless of `maxRetries`. Callers that need a retried write must guarantee
 // idempotency (e.g. an idempotency key) and call executeQuery directly.
-export async function executeQueryWithRetry<T extends QueryResultRow = any>(
+export async function executeQueryWithRetry<T extends QueryResultRow = Record<string, unknown>>(
   query: string,
   params: unknown[] = [],
   maxRetries = 3,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { isAdminEmail } from "@/lib/auth/adminEmails";
+import { _logger } from "@/lib/logger";
 
 /**
  * Admin Layout - Sidebar navigation for admin panel
@@ -54,7 +55,7 @@ export default function AdminLayout({
         setIsAdmin(false);
       }
     } catch (error) {
-      console.error("Auth check failed:", error);
+      _logger.error("Auth check failed:", error);
       setIsAuthenticated(false);
       setIsAdmin(false);
     } finally {

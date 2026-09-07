@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -80,7 +81,7 @@ export async function GET() {
       entries: result.rows.map(rowToDTO),
     });
   } catch (error) {
-    console.error("[GET /api/users/me/meal-plan]", error);
+    _logger.error("[GET /api/users/me/meal-plan]", error);
     return NextResponse.json(
       { error: "Failed to load meal plan" },
       { status: 500 },
@@ -131,7 +132,7 @@ export async function POST(request: NextRequest) {
       }
       return NextResponse.json({ authenticated: true, imported });
     } catch (error) {
-      console.error("[POST bulk /api/users/me/meal-plan]", error);
+      _logger.error("[POST bulk /api/users/me/meal-plan]", error);
       return NextResponse.json(
         { error: "Bulk import failed" },
         { status: 500 },
@@ -175,7 +176,7 @@ export async function POST(request: NextRequest) {
       entry: rowToDTO(insertedRow),
     });
   } catch (error) {
-    console.error("[POST /api/users/me/meal-plan]", error);
+    _logger.error("[POST /api/users/me/meal-plan]", error);
     return NextResponse.json(
       { error: "Failed to add meal" },
       { status: 500 },
@@ -201,7 +202,7 @@ export async function DELETE(request: NextRequest) {
     );
     return NextResponse.json({ authenticated: true, removed: id });
   } catch (error) {
-    console.error("[DELETE /api/users/me/meal-plan]", error);
+    _logger.error("[DELETE /api/users/me/meal-plan]", error);
     return NextResponse.json(
       { error: "Failed to delete meal" },
       { status: 500 },

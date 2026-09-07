@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { _logger } from "@/lib/logger";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
@@ -125,7 +126,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
         );
         isCustomRecipe = customCheck.rows.length > 0;
       } catch (err) {
-        console.error("Error checking custom recipe in catalog fallback:", err);
+        _logger.error("Error checking custom recipe in catalog fallback:", err);
       }
       if (isCustomRecipe) {
         const { redirect } = await import("next/navigation");
@@ -154,7 +155,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
           }
         }
       } catch (err) {
-        console.error("Legacy slug recipe resolution failed:", err);
+        _logger.error("Legacy slug recipe resolution failed:", err);
       }
       if (target) {
         const { permanentRedirect } = await import("next/navigation");
@@ -207,7 +208,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
       allRecipes,
     );
   } catch (err) {
-    console.error(
+    _logger.error(
       `[recipes/${recipeId}] enrichment (sauces/similar recipes) failed; rendering recipe without recommendations:`,
       err,
     );

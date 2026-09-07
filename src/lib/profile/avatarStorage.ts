@@ -10,6 +10,7 @@
 
 import { createHash } from "crypto";
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { _logger } from "@/lib/logger";
 import { parseImageDataUrl } from "@/lib/media/imageDataUrl";
 
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -73,7 +74,7 @@ export async function storeAvatar(userId: string, dataUrl: string): Promise<stri
     );
     return `${R2_DOMAIN}/${key}`;
   } catch (err) {
-    console.error("[avatarStorage] R2 put failed:", err);
+    _logger.error("[avatarStorage] R2 put failed:", err);
     return null;
   }
 }
@@ -105,7 +106,7 @@ export async function deleteAvatarObject(userId: string, url: string): Promise<b
     await r2().send(new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: key }));
     return true;
   } catch (err) {
-    console.error("[avatarStorage] R2 delete failed:", err);
+    _logger.error("[avatarStorage] R2 delete failed:", err);
     return false;
   }
 }

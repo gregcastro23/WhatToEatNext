@@ -12,6 +12,7 @@
 import { randomUUID } from "crypto";
 import { keccak256, toHex } from "viem";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import type { Hex } from "viem";
 
 export interface EsmsClaimAmounts {
@@ -112,7 +113,7 @@ export const esmsOnchainClaimService = {
       );
       return res.rows[0] ? rowToClaim(res.rows[0]) : null;
     } catch (err) {
-      console.error("[esmsOnchainClaimService] createPending failed:", err);
+      _logger.error("[esmsOnchainClaimService] createPending failed:", err);
       return null;
     }
   },
@@ -134,7 +135,7 @@ export const esmsOnchainClaimService = {
       );
       return res.rows.map(rowToClaim);
     } catch (err) {
-      console.error("[esmsOnchainClaimService] listStalePending failed:", err);
+      _logger.error("[esmsOnchainClaimService] listStalePending failed:", err);
       return [];
     }
   },
@@ -150,7 +151,7 @@ export const esmsOnchainClaimService = {
       );
       return res.rows[0] ? rowToClaim(res.rows[0]) : null;
     } catch (err) {
-      console.error("[esmsOnchainClaimService] findPending failed:", err);
+      _logger.error("[esmsOnchainClaimService] findPending failed:", err);
       return null;
     }
   },
@@ -166,7 +167,7 @@ export const esmsOnchainClaimService = {
       );
       return res.rows.map(rowToClaim);
     } catch (err) {
-      console.error("[esmsOnchainClaimService] listRecent failed:", err);
+      _logger.error("[esmsOnchainClaimService] listRecent failed:", err);
       return [];
     }
   },
@@ -181,7 +182,7 @@ export const esmsOnchainClaimService = {
         [id, transactionGroupId],
       );
     } catch (err) {
-      console.error("[esmsOnchainClaimService] attachDebit failed:", err);
+      _logger.error("[esmsOnchainClaimService] attachDebit failed:", err);
     }
   },
 
@@ -195,7 +196,7 @@ export const esmsOnchainClaimService = {
         [id, txHash],
       );
     } catch (err) {
-      console.error("[esmsOnchainClaimService] recordTxHash failed:", err);
+      _logger.error("[esmsOnchainClaimService] recordTxHash failed:", err);
     }
   },
 
@@ -208,7 +209,7 @@ export const esmsOnchainClaimService = {
         [id, txHash ?? null],
       );
     } catch (err) {
-      console.error("[esmsOnchainClaimService] markMinted failed:", err);
+      _logger.error("[esmsOnchainClaimService] markMinted failed:", err);
     }
   },
 
@@ -222,7 +223,7 @@ export const esmsOnchainClaimService = {
         [id, error.slice(0, 1000)],
       );
     } catch (err) {
-      console.error("[esmsOnchainClaimService] recordError failed:", err);
+      _logger.error("[esmsOnchainClaimService] recordError failed:", err);
     }
   },
 
@@ -236,7 +237,7 @@ export const esmsOnchainClaimService = {
         [id, error.slice(0, 1000)],
       );
     } catch (err) {
-      console.error("[esmsOnchainClaimService] markRefunded failed:", err);
+      _logger.error("[esmsOnchainClaimService] markRefunded failed:", err);
     }
   },
 };

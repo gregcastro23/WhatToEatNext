@@ -1,5 +1,6 @@
 // src/lib/planetaryAgentsClient.ts
 
+import { _logger } from "@/lib/logger";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 export const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
@@ -10,7 +11,7 @@ export async function fetchAgentForDegree(degree: number) {
     if (!res.ok) return null;
     return await res.json();
   } catch (error) {
-    console.error("Failed to fetch agent for degree:", error);
+    _logger.error("Failed to fetch agent for degree:", error);
     return null;
   }
 }
@@ -21,7 +22,7 @@ export async function fetchAllDegreeAgents() {
     if (!res.ok) return {};
     return await res.json(); // { [degree]: Agent }
   } catch (error) {
-    console.error("Failed to fetch all degree agents:", error);
+    _logger.error("Failed to fetch all degree agents:", error);
     return {};
   }
 }
@@ -33,7 +34,7 @@ export async function fetchAgentsForDate(date: Date) {
     const data = await res.json();
     return data.activations ?? [];
   } catch (error) {
-    console.error("Failed to fetch agents for date:", error);
+    _logger.error("Failed to fetch agents for date:", error);
     return [];
   }
 }
@@ -47,7 +48,7 @@ export async function fetchAgentReactions(context: any) {
     if (!res.ok) return null;
     return await res.json();
   } catch (error) {
-    console.error("Failed to fetch agent reactions:", error);
+    _logger.error("Failed to fetch agent reactions:", error);
     return null;
   }
 }

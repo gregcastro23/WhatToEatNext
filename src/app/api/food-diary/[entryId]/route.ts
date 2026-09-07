@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { UpdateFoodDiaryEntryInput } from "@/types/foodDiary";
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       entry,
     });
   } catch (error) {
-    console.error("Get food diary entry error:", error);
+    _logger.error("Get food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to get entry" },
       { status: 500 },
@@ -131,7 +132,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       entry,
     });
   } catch (error) {
-    console.error("Update food diary entry error:", error);
+    _logger.error("Update food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update entry" },
       { status: 500 },
@@ -172,7 +173,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       message: "Entry deleted",
     });
   } catch (error) {
-    console.error("Delete food diary entry error:", error);
+    _logger.error("Delete food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to delete entry" },
       { status: 500 },

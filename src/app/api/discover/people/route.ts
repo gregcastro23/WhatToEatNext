@@ -15,6 +15,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
   discoverPeople,
@@ -78,7 +79,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
-    console.error("[GET /api/discover/people]", error);
+    _logger.error("[GET /api/discover/people]", error);
     return NextResponse.json(
       { success: false, message: "Failed to load people", people: [], nextCursor: null },
       { status: 500 },

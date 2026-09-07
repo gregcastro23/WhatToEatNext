@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { normalizeSlug } from "@/constants/cookingMethodKeys";
 import { allCookingMethods } from "@/data/cooking/methods";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
@@ -108,7 +109,7 @@ export async function GET(
     const method = (allCookingMethods as Record<string, unknown>)[match];
     return NextResponse.json({ success: true, technique: method, canonicalKey: match });
   } catch (error) {
-    console.error("[techniques/:name] Error:", error);
+    _logger.error("[techniques/:name] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch technique" },
       { status: 500 },

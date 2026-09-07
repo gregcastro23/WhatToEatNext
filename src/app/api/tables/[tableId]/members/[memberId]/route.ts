@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -45,7 +46,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Remove table member error:", error);
+    _logger.error("Remove table member error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

@@ -17,6 +17,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { followDatabase } from "@/services/followDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     // Fail-closed: includes block-check failures — never let a follow through.
-    console.error("[follows] POST failed:", error);
+    _logger.error("[follows] POST failed:", error);
     return NextResponse.json({ success: false, message: "Follow failed" }, { status: 500 });
   }
 }
@@ -179,7 +180,7 @@ export async function DELETE(request: NextRequest) {
     // Idempotent: unfollowing a non-edge is still success, following:false.
     return NextResponse.json({ success: true, following: false });
   } catch (error) {
-    console.error("[follows] DELETE failed:", error);
+    _logger.error("[follows] DELETE failed:", error);
     return NextResponse.json({ success: false, message: "Unfollow failed" }, { status: 500 });
   }
 }

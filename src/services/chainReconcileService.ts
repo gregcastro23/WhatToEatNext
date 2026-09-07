@@ -150,7 +150,7 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
     );
     pairs = res.rows;
   } catch (err) {
-    console.error("[chainReconcile] pair enumeration failed:", err);
+    _logger.error("[chainReconcile] pair enumeration failed:", err);
     summary.failures++;
     return summary;
   }
@@ -174,7 +174,7 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
       const errMessage = err instanceof Error ? err.message : String(err);
       if (!summary.firstError) {
         summary.firstError = errMessage;
-        console.error(
+        _logger.error(
           `[chainReconcile] healBurnedPurchases failed for pair (${pair.user_id}, ${pair.slug}):`,
           err,
         );
@@ -221,7 +221,7 @@ export async function checkWalletInvariants(rail: string, maxWallets = 20): Prom
     const res = await executeQuery<(typeof rows)[number]>(sql, values);
     ({ rows } = res);
   } catch (err) {
-    console.error("[chainReconcile] invariant enumeration failed:", err);
+    _logger.error("[chainReconcile] invariant enumeration failed:", err);
     summary.failures++;
     return summary;
   }
@@ -254,7 +254,7 @@ export async function checkWalletInvariants(rail: string, maxWallets = 20): Prom
       const errMessage = err instanceof Error ? err.message : String(err);
       if (!summary.firstError) {
         summary.firstError = errMessage;
-        console.error(
+        _logger.error(
           `[chainReconcile] checkWalletInvariants failed for wallet ${row.wallet_address}:`,
           err,
         );
@@ -290,7 +290,7 @@ export async function backfillPendingNfts(limit = 3): Promise<NftBackfillSummary
     );
     ({ rows } = res);
   } catch (err) {
-    console.error("[chainReconcile] pending-NFT scan failed:", err);
+    _logger.error("[chainReconcile] pending-NFT scan failed:", err);
     summary.failures++;
     return summary;
   }
@@ -345,7 +345,7 @@ export async function backfillPendingNfts(limit = 3): Promise<NftBackfillSummary
       const errMessage = err instanceof Error ? err.message : String(err);
       if (!summary.firstError) {
         summary.firstError = errMessage;
-        console.error(
+        _logger.error(
           `[chainReconcile] backfillPendingNfts failed for row ${row.id}:`,
           err,
         );

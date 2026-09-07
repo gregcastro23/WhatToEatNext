@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { questService } from "@/services/QuestService";
 import type { NextRequest } from "next/server";
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("[api/quests/claim] Error:", error);
+    _logger.error("[api/quests/claim] Error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

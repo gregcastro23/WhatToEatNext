@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { featuredRecipe } from "@/data/featuredRecipe";
+import { _logger } from "@/lib/logger";
 import { buildMintQuote } from "@/lib/recipe-nft/quote";
 
 // Cost floats with the planetary hour/day — never cache.
@@ -17,7 +18,7 @@ export async function GET() {
     const quote = await buildMintQuote(featuredRecipe);
     return NextResponse.json(quote);
   } catch (err) {
-    console.error("featured mint-quote failed", err);
+    _logger.error("featured mint-quote failed", err);
     return NextResponse.json({ error: "Failed to compute mint quote" }, { status: 500 });
   }
 }

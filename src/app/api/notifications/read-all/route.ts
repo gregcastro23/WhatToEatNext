@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -25,7 +26,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({ success: true, count });
   } catch (error) {
-    console.error("[notifications/read-all] Error:", error);
+    _logger.error("[notifications/read-all] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to mark notifications as read" },
       { status: 500 },

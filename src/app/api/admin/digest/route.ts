@@ -22,6 +22,7 @@ import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { getEventCounts } from "@/services/authEventsService";
 import {
   recordCronRun,
@@ -207,7 +208,7 @@ export async function POST(request: NextRequest) {
     if (!sent) {
       // Surface persistent failure (502) so the scheduled caller registers it
       // instead of silently reporting success when no digest was delivered.
-      console.error(
+      _logger.error(
         `[admin/digest] email delivery failed after ${MAX_ATTEMPTS} attempts to ${recipient}`,
       );
       await beat("failure", `email delivery failed after ${MAX_ATTEMPTS} attempts`);
@@ -231,7 +232,7 @@ export async function POST(request: NextRequest) {
       payload,
     });
   } catch (error) {
-    console.error("[admin/digest] Failed:", error);
+    _logger.error("[admin/digest] Failed:", error);
     await beat("failure", error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       { success: false, message: "Failed to build/send digest" },
@@ -259,7 +260,7 @@ export async function GET(request: NextRequest) {
       null;
     return NextResponse.json({ success: true, dryRun: true, payload, recipient });
   } catch (error) {
-    console.error("[admin/digest] GET failed:", error);
+    _logger.error("[admin/digest] GET failed:", error);
     return NextResponse.json(
       { success: false, message: "Failed to build digest preview" },
       { status: 500 },

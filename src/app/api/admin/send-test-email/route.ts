@@ -10,6 +10,7 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import emailService from "@/services/emailService";
 import type { NatalChart } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
@@ -115,7 +116,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error("[test-email] Error:", error);
+    _logger.error("[test-email] Error:", error);
     return NextResponse.json(
       {
         success: false,

@@ -3,6 +3,7 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { buildCookCardIdentity } from "@/lib/feed/cookCard";
 import { storeCookPhoto } from "@/lib/feed/cookPhotoStorage";
 import { nextLunarTable } from "@/lib/feed/lunarTables";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { questService } from "@/services/QuestService";
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
       card: shareType === "cooked" ? cardExtras : undefined,
     });
   } catch (error) {
-    console.error("Feed share POST error:", error);
+    _logger.error("Feed share POST error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

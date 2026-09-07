@@ -15,6 +15,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { getWeekStartDate } from "@/types/menuPlanner";
@@ -105,7 +106,7 @@ export async function GET(request: NextRequest) {
       meals: (menu?.meals ?? []).map(toPublicMeal),
     });
   } catch (error) {
-    console.error("[public-week GET]", error);
+    _logger.error("[public-week GET]", error);
     return NextResponse.json(
       { success: false, message: "Failed to load agent week" },
       { status: 500 },

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { executeQuery } from "@/lib/database/connection";
 import { DeliverectClient } from "@/lib/integrations/deliverect";
+import { _logger } from "@/lib/logger";
 import { appUrl } from "./helpers";
 import MenuOrderClient from "./MenuOrderClient";
 
@@ -38,7 +39,7 @@ async function getRestaurant(id: string): Promise<RestaurantRow | null> {
 
     return result.rows[0] ?? null;
   } catch (err) {
-    console.error(`[restaurants/${id}/menu] DB lookup failed:`, err);
+    _logger.error(`[restaurants/${id}/menu] DB lookup failed:`, err);
     return null;
   }
 }
@@ -64,7 +65,7 @@ export default async function RestaurantMenuPage({
         : restaurant.id,
     );
   } catch (err) {
-    console.error(`[restaurants/${id}/menu] getMenu failed:`, err);
+    _logger.error(`[restaurants/${id}/menu] getMenu failed:`, err);
   }
   const fallbackMenuUrl = new URL(`/restaurants/${restaurant.id}/menu`, appUrl());
 

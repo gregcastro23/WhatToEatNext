@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -104,8 +105,13 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Parse payload
+    // Typed as what the WIRE guarantees, not as what the handler wants. Casting
+    // `action` straight to SyncAction asserted the very thing the check below
+    // exists to establish, which made that check read as provably dead code
+    // (no-unnecessary-condition) on an admin endpoint. The narrowing to
+    // SyncAction is earned by the guard, not assumed before it.
     const body = (await request.json().catch(() => ({}))) as {
-      action?: SyncAction;
+      action?: string;
       agentEmail?: string;
       agentId?: string;
     };
@@ -239,7 +245,7 @@ export async function POST(request: NextRequest) {
       });
 
   } catch (error) {
-    console.error("[Admin Sync] Internal Handler Error:", error);
+    _logger.error("[Admin Sync] Internal Handler Error:", error);
     return NextResponse.json(
       { 
         success: false, 

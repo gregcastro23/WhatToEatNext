@@ -10,6 +10,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateLunarPhase, getLunarPhaseName } from "@/utils/safeAstrology";
@@ -70,7 +71,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[astrology] Error:", error);
+    _logger.error("[astrology] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to compute astrological data" },
       { status: 500 },

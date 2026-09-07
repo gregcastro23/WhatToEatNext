@@ -19,6 +19,7 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { feedDatabase } from "@/services/feedDatabaseService";
@@ -129,7 +130,7 @@ export const GET = withObservability(
         },
       );
     } catch (error) {
-      console.error("Feed fetch error:", error);
+      _logger.error("Feed fetch error:", error);
       return NextResponse.json(
         { success: false, message: "Failed to fetch feed events." },
         { status: 500 },
@@ -350,7 +351,7 @@ export const POST = withObservability(
         );
       }
     } catch (notifError) {
-      console.error("[Feed API] Failed to broadcast agent notification:", notifError);
+      _logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
     }
 
     rememberFeedEmit(incomingEventType, normalizedEmail, 200);
@@ -360,7 +361,7 @@ export const POST = withObservability(
       eventType: incomingEventType,
     });
   } catch (error) {
-    console.error("[Feed Webhook] Error processing agent event:", error);
+    _logger.error("[Feed Webhook] Error processing agent event:", error);
     rememberFeedEmit(eventType, agentEmail, 500);
     return NextResponse.json(
       { success: false, message: "Internal server error." },

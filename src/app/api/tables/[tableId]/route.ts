@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { resolveVenueCoords } from "@/lib/tables/venueGeo";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { TableRecord } from "@/types/table";
@@ -112,7 +113,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     // getUserIdFromRequest); host/self checks key off this value.
     return NextResponse.json({ success: true, table, joinedCount, viewerId: userId });
   } catch (error) {
-    console.error("Get table detail error:", error);
+    _logger.error("Get table detail error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },
@@ -228,7 +229,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, table });
   } catch (error) {
-    console.error("Update table error:", error);
+    _logger.error("Update table error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

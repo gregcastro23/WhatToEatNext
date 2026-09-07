@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
@@ -41,7 +42,7 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
           return NextResponse.json(data);
         }
       } catch (err) {
-        console.error(`Hono Gateway proxy failed for recipe ${recipeId}:`, err);
+        _logger.error(`Hono Gateway proxy failed for recipe ${recipeId}:`, err);
       }
     }
 
@@ -101,7 +102,7 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
             complexity: (recipe as any).complexity ?? "moderate",
             elementalBalance: recipe.elementalProperties,
           },
-        }).catch((err) => console.error("Failed to record recipe_view interaction:", err));
+        }).catch((err) => _logger.error("Failed to record recipe_view interaction:", err));
       }
     } catch (err) {
       // Best effort; don't break the response if auth/tracking fails
@@ -110,7 +111,7 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
 
     return NextResponse.json({ success: true, recipe, recommendedSauces, recommendedRecipes });
   } catch (error) {
-    console.error("[recipeId] Error:", error);
+    _logger.error("[recipeId] Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch recipe details" },
       { status: 500 },

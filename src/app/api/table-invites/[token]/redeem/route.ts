@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { recognizeTableJoin } from "@/lib/economy/tableJoin";
+import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -100,7 +101,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       alreadyMember: result.alreadyMember,
     });
   } catch (error) {
-    console.error("Redeem table invite error:", error);
+    _logger.error("Redeem table invite error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },
