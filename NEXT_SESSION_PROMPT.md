@@ -1,26 +1,25 @@
-# Next Session: Phase 26 — Recover Phase 25, close the ungated surface, then make the boundaries honest
+# Next Session: Phase 26 — Close the ungated surface, then make the boundaries honest
 
 > **Numbering note.** The previous copy of this file described "Phase 24" as upcoming.
 > Phases 24 **and** 25 have since been completed and merged. This document is Phase 26.
 >
-> **Status of Phase 25:** complete and verified on branch
-> `refactor/phase-25-test-only-and-unsafe` (tip `4edccc74`) — but **not on master**.
-> See §0, which is blocking.
+> **Status of Phase 25:** complete, verified, and **recovered onto master by PR #832**
+> (this commit). It had been stranded — see §0, kept as the record of how and why.
 >
 > | Metric | P23 | P24 | P25 | on master today |
 > |---|---:|---:|---:|---:|
-> | Tracked lint debt | 2,630 | 1,944 | **1,635** | **1,944** |
-> | Declined pool | 6,236 | 4,911 | 4,910 | 4,911 |
+> | Tracked lint debt | 2,630 | 1,944 | **1,635** | **1,635** |
+> | Declined pool | 6,236 | 4,911 | 4,910 | 4,910 |
 > | Casts (gated) | 252 | 169 | 169 | 169 |
-> | Assertion sites (AST) | 4,357 | 3,398 | 3,396 | 3,398 |
+> | Assertion sites (AST) | 4,357 | 3,398 | 3,396 | 3,396 |
 > | `prefer-nullish-coalescing` sub-baseline | 294 | 214 | 214 | 214 |
 >
-> Master is `1f3c32c1`. The audited rule set has been stable at 28 rules since Phase 12,
+> Master was `1f3c32c1` before #832. The audited rule set has been stable at 28 rules since Phase 12,
 > so Phases 12–25 are like-for-like comparisons.
 
 ---
 
-## 0. BLOCKING: Phase 25 never reached master
+## 0. RESOLVED by PR #832 — how Phase 25 went missing, and why it matters
 
 **What happened.** PR #830 was opened with base `refactor/phase-24-dead-modules` instead of
 `master`. PR #828 squash-merged that same branch into master at `11:44:36`; #830 then merged
@@ -45,8 +44,8 @@ boundary fix. Without it, `no-unnecessary-condition` still reports the live 400-
 `economy/sync-credit`, `economy/sync-debit` and `economy/swap` as provably-dead code. Those
 are the PA↔alchm money bridge. Deleting them leaves tsc, ESLint and all 3,497 tests green.
 
-**Recovery is small.** A `git merge-tree` dry run against real master conflicts in exactly
-three files:
+**Recovery (done in PR #832).** A `git merge-tree` dry run against real master conflicted in
+exactly three files:
 
 | file | resolution |
 |---|---|
@@ -127,8 +126,9 @@ Two smaller gate gaps, both verified in `scripts/lib/lintDebt.ts`:
 
 ## 2. Phase 26 prioritized plan
 
-### Tranche 0 — recover Phase 25 (§0) and gate `scripts/**` (§1)
-Blocking. Nothing below is measurable until the baseline on master is the real one.
+### Tranche 0 — gate `scripts/**` (§1)
+The Phase 25 recovery half of this tranche is **done** (#832), so the baseline on master is
+now the real one (1,635). What remains is putting the ungated files under typecheck and lint.
 
 ### Tranche 1 — boundary validation, scoped by ROUTE, not by grep
 The Phase 25 enumeration (`grep -rl "\.json()) as" src/app/api`) **misses 14 production routes**
