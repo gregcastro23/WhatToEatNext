@@ -101,7 +101,11 @@ function parseIngredientString(ingredient: string): InstacartLineItem {
 export async function POST(request: NextRequest) {
   try {
     const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "instacart-shopping-list" });
-    if (!rl.allowed && rl.response) return rl.response;
+    if (!rl.allowed) {
+      return (
+        rl.response ?? NextResponse.json({ error: "Too many requests" }, { status: 429 })
+      );
+    }
 
     let rawBody: unknown;
     try {

@@ -1,8 +1,12 @@
 #!/bin/sh
 export PATH="$HOME/.bun/bin:$PATH"
 
-# Run full verify suite before pushing
-bun run verify
+# Run full verify suite before pushing.
+# `|| exit 1` is load-bearing: this file has no `set -e`, and without it the
+# hook's exit status comes from the trailing `git lfs pre-push` (or the `exit 0`
+# in the no-lfs branch), so a FAILING verify would still let the push through.
+# Red-proved 2026-09-08 by substituting a failing command for verify: exit 0.
+bun run verify || exit 1
 
 # git-lfs pre-push: warn if lfs is missing but don't block the push,
 # since most pushes contain only code (no tracked binary files).

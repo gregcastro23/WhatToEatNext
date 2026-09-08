@@ -18,7 +18,9 @@ export async function POST(req: NextRequest) {
   }
 
   const rl = await rateLimit(req, RATE_LIMIT);
-  if (!rl.allowed && rl.response) return rl.response;
+  if (!rl.allowed) {
+    return rl.response ?? NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   try {
     let rawBody: unknown;

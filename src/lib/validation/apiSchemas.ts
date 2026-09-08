@@ -891,31 +891,39 @@ export type ParsedInstacartShoppingListBody = z.infer<
   typeof InstacartShoppingListBodySchema
 >;
 
+// ⚠️ Every key here is `.optional()` DELIBERATELY. Under zod 4 a bare
+// `z.unknown()` object key is REQUIRED — `safeParse({})` fails with
+// `expected: "nonoptional"` — unlike zod 3, where it was implicitly optional.
+// These 17 fields were all `?:` on the `RestaurantOrderBody` interface this
+// schema replaced, so dropping `.optional()` 400s every realistic payload on
+// the ESMS restaurant-settlement path. The route normalises each value through
+// `text()` / `currency()` / `normalizeCustomerInfo()`, which already handle
+// `undefined`; this schema's job is shape, not presence.
 export const RestaurantOrderBodySchema = z
   .object({
-    cuisineType: z.unknown(),
-    provider: z.unknown(),
+    cuisineType: z.unknown().optional(),
+    provider: z.unknown().optional(),
     restaurant: z
       .object({
-        id: z.unknown(),
-        name: z.unknown(),
-        url: z.unknown(),
-        stripeConnectedAccountId: z.unknown(),
+        id: z.unknown().optional(),
+        name: z.unknown().optional(),
+        url: z.unknown().optional(),
+        stripeConnectedAccountId: z.unknown().optional(),
       })
       .optional(),
     order: z
       .object({
-        amountCents: z.unknown(),
-        currency: z.unknown(),
-        description: z.unknown(),
-        items: z.unknown(),
-        splitMode: z.unknown(),
-        orderType: z.unknown(),
-        customer: z.unknown(),
-        deliveryAddress: z.unknown(),
-        specialInstructions: z.unknown(),
-        preparationTime: z.unknown(),
-        paymentMethod: z.unknown(),
+        amountCents: z.unknown().optional(),
+        currency: z.unknown().optional(),
+        description: z.unknown().optional(),
+        items: z.unknown().optional(),
+        splitMode: z.unknown().optional(),
+        orderType: z.unknown().optional(),
+        customer: z.unknown().optional(),
+        deliveryAddress: z.unknown().optional(),
+        specialInstructions: z.unknown().optional(),
+        preparationTime: z.unknown().optional(),
+        paymentMethod: z.unknown().optional(),
       })
       .optional(),
   })

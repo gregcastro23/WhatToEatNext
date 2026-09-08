@@ -28,17 +28,17 @@
     }
   },
   "declined": {
-    "total": 4924,
+    "total": 4904,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1374,
-      "@typescript-eslint/explicit-module-boundary-types": 672,
-      "complexity": 300,
+      "@typescript-eslint/explicit-function-return-type": 1369,
+      "@typescript-eslint/explicit-module-boundary-types": 671,
+      "complexity": 297,
       "max-depth": 85,
       "max-lines": 514,
       "max-lines-per-function": 1594,
-      "no-void": 385
+      "no-void": 374
     },
-    "note": "Declined rules pool. Headroom maintained for no-void (385 vs 374 live) to accommodate standard `void promise` ignored-promise idioms without triggering false regressions; EFRT restored to 1374, EMBT to 672, max-lines-per-function to 1594, and complexity restored to 300 ahead of Tranche 1 route handlers."
+    "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {

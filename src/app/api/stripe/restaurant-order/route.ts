@@ -378,7 +378,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     max: 10,
     bucket: "stripe-restaurant-order",
   });
-  if (!rl.allowed && rl.response) return rl.response;
+  if (!rl.allowed) {
+    return rl.response ?? NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   let rawBody: unknown;
   try {

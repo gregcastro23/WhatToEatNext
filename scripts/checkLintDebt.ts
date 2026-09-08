@@ -492,12 +492,17 @@ if (
               : undefined,
           }
         : undefined,
+      // The declined pool ratchets like every other counter. It used to carry
+      // `total` and every per-rule count forward UNCHANGED while the log line
+      // below printed the live `declinedTotal` — so `--ratchet` reported a
+      // ratchet it never performed, and the only way the pool ever moved was a
+      // hand edit. That is how it drifted 14 above its own live value.
       declined: {
-        total: baseline.declined.total ?? baselineDeclinedTotal,
+        total: Math.min(declinedTotal, baselineDeclinedTotal),
         rules: Object.fromEntries(
           Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
             rule,
-            prevCount,
+            Math.min(counts[rule] ?? prevCount, prevCount),
           ]),
         ),
         ...(baseline.declined.note ? { note: baseline.declined.note } : {}),
@@ -518,7 +523,9 @@ if (
     const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
       ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
       : "";
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production})${pncLog}.`);
+    // Reports the values actually WRITTEN, not the live measurements — the two
+    // diverge wherever a Math.min keeps the old floor.
+    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${updatedBaseline.declined.total}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production})${pncLog}.`);
   }
 }
 

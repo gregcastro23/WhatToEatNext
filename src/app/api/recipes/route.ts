@@ -140,7 +140,12 @@ async function handleGet(request: Request) {
 
 async function handlePost(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
-  if (!rl.allowed && rl.response) return rl.response;
+  if (!rl.allowed) {
+    return (
+      rl.response ??
+      NextResponse.json({ success: false, error: "Too many requests" }, { status: 429 })
+    );
+  }
   // Allow POST with body params as an alternative to GET query params
   try {
     const rawBody: unknown = await request.json().catch(() => null);

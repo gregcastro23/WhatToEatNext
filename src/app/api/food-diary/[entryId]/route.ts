@@ -88,7 +88,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-write", identifier: userId });
-    if (!rl.allowed && rl.response) return rl.response;
+    if (!rl.allowed) {
+      return (
+        rl.response ??
+        NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 })
+      );
+    }
 
     const { entryId } = await params;
     let rawBody: unknown;
