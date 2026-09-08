@@ -40,10 +40,29 @@ jest.mock("@/lib/logger", () => ({
   _logger: { error: jest.fn(), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
 }));
 
+jest.mock("@/lib/economy/discriminant-faucet", () => ({
+  ...jest.requireActual("@/lib/economy/discriminant-faucet"),
+  getLiveNetworkSupply: jest.fn().mockResolvedValue({
+    spirit: 1,
+    essence: 1,
+    matter: 1,
+    substance: 1,
+  }),
+}));
+
 import { dailyYieldService } from "@/services/DailyYieldService";
+import { DegradedEphemerisError } from "@/lib/economy/discriminant-faucet";
 
 const USER_ID = "55555555-5555-5555-5555-555555555555";
-const NATAL = { Sun: "Leo", Moon: "Cancer" };
+const NATAL = { positions: { Sun: "Leo", Moon: "Cancer" } };
+const TRANSIT_POSITIONS = Object.fromEntries(
+  ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"].map(
+    (planet, index) => [
+      planet,
+      { sign: "Aries", degree: index, exactLongitude: index },
+    ],
+  ),
+);
 const BALANCES = { spirit: 10, essence: 10, matter: 10, substance: 10 };
 const STREAK = {
   currentStreak: 3,
@@ -64,8 +83,7 @@ beforeEach(() => {
   // Upstream of the credit and irrelevant to it — stubbed so these tests
   // exercise the outcome branching rather than the ephemeris cache.
   jest.spyOn(dailyYieldService, "getTodayEphemeris").mockResolvedValue({
-    positions: {} as never,
-    transitESMS: { Spirit: 5, Essence: 5, Matter: 5, Substance: 5 },
+    positions: TRANSIT_POSITIONS,
   });
   jest.spyOn(dailyYieldService, "getYieldWeights").mockResolvedValue({
     spirit: 0.25,
@@ -73,6 +91,7 @@ beforeEach(() => {
     matter: 0.25,
     substance: 0.25,
   });
+  jest.spyOn(dailyYieldService, "getChartBaseline").mockResolvedValue(10);
 });
 
 afterEach(() => {
@@ -80,6 +99,17 @@ afterEach(() => {
 });
 
 describe("claimDailyYield — the three outcomes", () => {
+  it("does not reach the ledger when the current sky is degraded", async () => {
+    jest
+      .spyOn(dailyYieldService, "getTodayEphemeris")
+      .mockRejectedValueOnce(new DegradedEphemerisError("Mars:missing"));
+
+    await expect(dailyYieldService.claimDailyYield(USER_ID, NATAL)).rejects.toThrow(
+      DegradedEphemerisError,
+    );
+    expect(creditMultipleTokensDetailed).not.toHaveBeenCalled();
+  });
+
   it("reports FAILED, not already_claimed, when the transaction rolls back", async () => {
     // The defect: this returned the same `null` as a genuine same-day claim,
     // so the user was told to come back tomorrow for a yield they never got.
@@ -181,7 +211,7 @@ describe("claimDailyYield — the three outcomes", () => {
       requested: 4,
     });
 
-    await dailyYieldService.claimDailyYield(USER_ID, NATAL, false, "agents");
+    await dailyYieldService.claimDailyYield(USER_ID, NATAL, "agents");
 
     expect(creditMultipleTokensDetailed).toHaveBeenCalledWith(
       USER_ID,

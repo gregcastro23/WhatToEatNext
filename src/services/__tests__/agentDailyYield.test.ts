@@ -1,4 +1,4 @@
-import { planetSignsFromNatal } from "../agentDailyYield";
+import { planetPositionsFromNatal, planetSignsFromNatal } from "../agentDailyYield";
 
 describe("planetSignsFromNatal", () => {
   it("maps an array of {planet, sign} entries into a planet→sign map", () => {
@@ -30,6 +30,18 @@ describe("planetSignsFromNatal", () => {
         { planet: "Sun", sign: "Taurus" },
       ]),
     ).toEqual({ Sun: "Taurus" });
+  });
+});
+
+describe("planetPositionsFromNatal", () => {
+  it("preserves degree and exact longitude for the resonance faucet", () => {
+    expect(
+      planetPositionsFromNatal([
+        { planet: "Sun", sign: "Aries", degree: 12.5, exactLongitude: 12.5 },
+      ]),
+    ).toEqual({
+      Sun: { sign: "Aries", degree: 12.5, exactLongitude: 12.5 },
+    });
   });
 });
 

@@ -22,6 +22,7 @@
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { dailyYieldService } from "@/services/DailyYieldService";
+import type { AlchemicalPlanetPositions } from "@/utils/planetaryAlchemyMapping";
 
 interface AgentYieldRow {
   id: string;
@@ -60,6 +61,33 @@ export function planetSignsFromNatal(natalPositions: unknown): Record<string, st
     if (planet && sign) signs[planet] = sign;
   }
   return signs;
+}
+
+/** Preserve degree geometry for the untethered natal-to-sky resonance law. */
+export function planetPositionsFromNatal(
+  natalPositions: unknown,
+): AlchemicalPlanetPositions {
+  const positions: AlchemicalPlanetPositions = {};
+  for (const entry of asArray(natalPositions)) {
+    if (!isRecord(entry)) continue;
+    const planet = typeof entry.planet === "string" ? entry.planet : undefined;
+    const sign = typeof entry.sign === "string" ? entry.sign : undefined;
+    if (!planet || !sign) continue;
+    const degree =
+      typeof entry.degree === "number" && Number.isFinite(entry.degree)
+        ? entry.degree
+        : undefined;
+    const exactLongitude =
+      typeof entry.exactLongitude === "number" && Number.isFinite(entry.exactLongitude)
+        ? entry.exactLongitude
+        : undefined;
+    positions[planet] = {
+      sign,
+      ...(degree !== undefined ? { degree } : {}),
+      ...(exactLongitude !== undefined ? { exactLongitude } : {}),
+    };
+  }
+  return positions;
 }
 
 export interface AgentYieldResult {
@@ -116,13 +144,17 @@ export async function runAgentDailyYield(limit = 30): Promise<AgentYieldResult> 
 
   result.attempted = rows.length;
   for (const row of rows) {
-    const signs = planetSignsFromNatal(row.natal_positions);
-    if (Object.keys(signs).length === 0) {
+    const positions = planetPositionsFromNatal(row.natal_positions);
+    if (Object.keys(positions).length === 0) {
       result.skipped += 1; // no usable chart → skip rather than mint a uniform yield
       continue;
     }
     try {
-      const claim = await dailyYieldService.claimDailyYield(row.id, signs, false, "agents");
+      const claim = await dailyYieldService.claimDailyYield(
+        row.id,
+        { positions },
+        "agents",
+      );
       if (claim.status === "claimed") {
         result.credited += 1;
         result.tokensMinted += claim.result.totalTokens;

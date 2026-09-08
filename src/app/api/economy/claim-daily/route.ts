@@ -8,12 +8,16 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import {
+  DegradedEphemerisError,
+  validateLedgerClamp,
+} from "@/lib/economy/discriminant-faucet";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import type { ClaimDailyResponse } from "@/types/economy";
-import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
+import { extractAlchemicalPlanetPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -44,15 +48,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build planet → sign map from natal chart
-    const signs = extractPlanetaryPositions(natalChart);
-    const natalPositions: Record<string, string> = {};
-
-    Object.entries(signs).forEach(([planet, sign]) => {
-      if (typeof sign === "string") {
-        natalPositions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
-      }
-    });
+    // Preserve natal longitudes. Reducing the chart to signs here would erase
+    // the degree-level synastry that sets an untethered claim's magnitude.
+    const natalPositions = extractAlchemicalPlanetPositions(natalChart);
 
     if (Object.keys(natalPositions).length === 0) {
       return NextResponse.json(
@@ -70,7 +68,14 @@ export async function POST(request: NextRequest) {
     const site: "main" | "agents" = siteParam === "agents" ? "agents" : "main";
 
     // Claim the daily yield (site-specific idempotency)
-    const claim = await dailyYieldService.claimDailyYield(user.id, natalPositions, site);
+    const claim = await dailyYieldService.claimDailyYield(
+      user.id,
+      {
+        positions: natalPositions,
+        alchemicalProperties: natalChart.alchemicalProperties,
+      },
+      site,
+    );
 
     if (claim.status === "failed") {
       // NOT "already claimed": the credit rolled back, so the day is still
@@ -97,6 +102,12 @@ export async function POST(request: NextRequest) {
     }
 
     const yieldResult = claim.result;
+    // HTTP defense-in-depth: never acknowledge a result outside the same
+    // invariant enforced immediately before the ledger write.
+    validateLedgerClamp({
+      ...yieldResult.distribution,
+      total: yieldResult.totalTokens,
+    });
     const milestoneNote = yieldResult.milestoneBonus
       ? ` 🔥 ${yieldResult.milestoneBonus.days}-day streak milestone: +${yieldResult.milestoneBonus.totalTokens} bonus tokens!`
       : "";
@@ -112,6 +123,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response);
   } catch (error) {
     _logger.error("[economy/claim-daily] Error claiming daily yield:", error);
+    if (error instanceof DegradedEphemerisError) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "The live sky could not be verified, so no tokens were minted. Please retry shortly.",
+        },
+        { status: 503 },
+      );
+    }
     return NextResponse.json(
       { success: false, message: "Failed to claim daily yield. Please try again." },
       { status: 500 },
