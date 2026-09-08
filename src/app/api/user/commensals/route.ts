@@ -8,11 +8,12 @@ import { NextResponse } from "next/server";
 import { natalBodiesFromRawPositions, unusableChartMessage } from "@/lib/astrology/natalBodies";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { AddCommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
-import type { BirthData, NatalChart, GroupMember } from "@/types/natalChart";
+import type { NatalChart } from "@/types/natalChart";
 import { isDiurnalAt } from "@/utils/astrology/positions";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -113,27 +114,29 @@ export async function POST(request: NextRequest) {
     return unauthorizedResponse();
   }
 
-  let body: Record<string, unknown>;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid JSON in request body" },
       { status: 400 },
     );
   }
-  const { name, relationship, birthData } = body as {
-    name: string;
-    relationship?: GroupMember["relationship"];
-    birthData: BirthData;
-  };
 
-  if (!name || !birthData?.dateTime || birthData.latitude === undefined || birthData.longitude === undefined) {
+  const parseResult = AddCommensalRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
     return NextResponse.json(
-      { success: false, message: "name, birthData.dateTime, latitude, and longitude are required" },
+      {
+        success: false,
+        message: "name, birthData.dateTime, latitude, and longitude are required",
+        details: parseResult.error.flatten().fieldErrors,
+      },
       { status: 400 },
     );
   }
+
+  const { name, relationship, birthData } = parseResult.data;
 
   // Calculate natal chart for the commensal
   const birthDate = new Date(birthData.dateTime);

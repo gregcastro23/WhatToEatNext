@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery, withTransaction } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
+import { SyncDebitRequestSchema } from "@/lib/validation/apiSchemas";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 
@@ -45,20 +46,6 @@ function deriveAgentDisplayName(
     .trim() || "Agent";
 }
 
-interface SyncDebitBody {
-  userEmail: string;
-  amounts: {
-    spirit?: number | string;
-    essence?: number | string;
-    matter?: number | string;
-    substance?: number | string;
-  };
-  operationType?: string;
-  source?: string;
-  idempotencyKey: string;
-  metadata?: Record<string, unknown>;
-}
-
 async function handlePost(req: NextRequest) {
   const authHeader = req.headers.get("X-Sync-Secret");
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
@@ -66,12 +53,9 @@ async function handlePost(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: Partial<SyncDebitBody>;
+  let rawBody: unknown;
   try {
-    // Partial<>: the wire guarantees no field is present. Casting straight to
-    // the full body type asserted exactly what the guard below establishes,
-    // which made that validation read as provably dead code.
-    body = (await req.json()) as Partial<SyncDebitBody>;
+    rawBody = await req.json();
   } catch {
     return NextResponse.json(
       { ok: false, reason: "invalid_request", message: "Invalid JSON body" },
@@ -79,17 +63,20 @@ async function handlePost(req: NextRequest) {
     );
   }
 
-  const { userEmail, amounts, idempotencyKey, operationType, source, metadata } = body;
-  if (!userEmail || !amounts || !idempotencyKey) {
+  const parseResult = SyncDebitRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
     return NextResponse.json(
       {
         ok: false,
         reason: "invalid_request",
         message: "userEmail, amounts, and idempotencyKey are required",
+        details: parseResult.error.flatten().fieldErrors,
       },
       { status: 400 },
     );
   }
+
+  const { userEmail, amounts, idempotencyKey, operationType, source, metadata } = parseResult.data;
 
   // Parse and validate amounts — pass as strings so pg sends text, avoiding
   // 'operator is not unique' on DECIMAL columns

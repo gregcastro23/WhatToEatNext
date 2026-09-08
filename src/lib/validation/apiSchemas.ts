@@ -141,7 +141,39 @@ export const OnboardingRequestSchema = z.object({
 
 export type ParsedOnboardingRequest = z.infer<typeof OnboardingRequestSchema>;
 
+export const SkipOnboardingRequestSchema = z.object({
+  skipNatal: z.literal(true),
+});
+
+export type ParsedSkipOnboardingRequest = z.infer<typeof SkipOnboardingRequestSchema>;
+
 // ─── Commensal Request ────────────────────────────────────────────────────────
+
+export const CommensalRelationshipSchema = z.enum([
+  "self",
+  "family",
+  "friend",
+  "partner",
+  "colleague",
+  "other",
+]);
+
+export const AddCommensalRequestSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  relationship: CommensalRelationshipSchema.optional(),
+  birthData: BirthDataSchema,
+});
+
+export type ParsedAddCommensalRequest = z.infer<typeof AddCommensalRequestSchema>;
+
+export const UpdateCommensalRequestSchema = z.object({
+  name: z.string().min(1).optional(),
+  relationship: CommensalRelationshipSchema.optional(),
+}).refine((data) => data.name !== undefined || data.relationship !== undefined, {
+  message: "At least one of name or relationship must be provided",
+});
+
+export type ParsedUpdateCommensalRequest = z.infer<typeof UpdateCommensalRequestSchema>;
 
 export const CommensalRequestSchema = z.object({
   targetUserId: z.string().optional(),
@@ -150,6 +182,121 @@ export const CommensalRequestSchema = z.object({
   message: "Either targetUserId or email must be provided",
   path: ["targetUserId"]
 });
+
+// ─── Economy: Sync Credit, Debit & Swap ──────────────────────────────────────
+
+export const TokenAmountValueSchema = z.union([z.number(), z.string()]);
+
+export const SyncTokenAmountsSchema = z.object({
+  spirit: TokenAmountValueSchema.optional(),
+  essence: TokenAmountValueSchema.optional(),
+  matter: TokenAmountValueSchema.optional(),
+  substance: TokenAmountValueSchema.optional(),
+});
+
+export const TransactionSourceTypeSchema = z.enum([
+  "daily_yield",
+  "agents_yield",
+  "agents_operation",
+  "quest_reward",
+  "purchase",
+  "premium_purchase",
+  "transmutation",
+  "streak_bonus",
+  "alchemical_log",
+  "signup_grant",
+  "admin",
+  "mcp_top_up",
+  "transit_attunement",
+  "group_chat_quest",
+  "recipe_ingestion",
+  "restaurant_order",
+  "restaurant_refund",
+  "cosmic_recipe_refund",
+  "mint_refund",
+  "onchain_claim",
+  "onchain_claim_refund",
+  "practice_reward",
+]);
+
+export const SyncCreditRequestSchema = z.object({
+  userEmail: z.string().min(1, "userEmail is required"),
+  amounts: SyncTokenAmountsSchema,
+  source: TransactionSourceTypeSchema.optional(),
+  idempotencyKey: z.string().min(1, "idempotencyKey is required"),
+  metadata: z
+    .object({
+      planet: z.string().optional(),
+      sign: z.string().optional(),
+      degree: z.number().optional(),
+      totalTokens: z.number().optional(),
+      degreeAgentId: z.string().optional(),
+    })
+    .passthrough()
+    .optional(),
+});
+
+export type ParsedSyncCreditRequest = z.infer<typeof SyncCreditRequestSchema>;
+
+export const SyncDebitRequestSchema = z.object({
+  userEmail: z.string().min(1, "userEmail is required"),
+  amounts: SyncTokenAmountsSchema,
+  operationType: z.string().optional(),
+  source: z.string().optional(),
+  idempotencyKey: z.string().min(1, "idempotencyKey is required"),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+
+export type ParsedSyncDebitRequest = z.infer<typeof SyncDebitRequestSchema>;
+
+export const TokenTypeSchema = z.enum([
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+]);
+
+export const EconomySwapRequestSchema = z.object({
+  fromToken: TokenTypeSchema,
+  toToken: TokenTypeSchema,
+  amount: z.number().positive("amount must be a positive number").finite(),
+}).refine((data) => data.fromToken !== data.toToken, {
+  message: "Cannot swap a token for itself",
+  path: ["toToken"],
+});
+
+export type ParsedEconomySwapRequest = z.infer<typeof EconomySwapRequestSchema>;
+
+// ─── Recipe Mint Envelope ───────────────────────────────────────────────────
+
+export const RecipeMintRequestEnvelopeSchema = z.object({
+  recipe: z.record(z.string(), z.unknown()),
+});
+
+export type ParsedRecipeMintRequestEnvelope = z.infer<
+  typeof RecipeMintRequestEnvelopeSchema
+>;
+
+// ─── Checkout & Stripe ───────────────────────────────────────────────────────
+
+export const CheckoutPreflightRequestSchema = z.object({
+  source: z.string().optional(),
+  items: z.array(z.unknown()),
+  cartType: z.enum(["fresh", "standard"]).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+
+export type ParsedCheckoutPreflightRequest = z.infer<
+  typeof CheckoutPreflightRequestSchema
+>;
+
+export const StripeCheckoutTokensRequestSchema = z.object({
+  sku: z.string().min(1, "Missing or invalid token package SKU"),
+});
+
+export type ParsedStripeCheckoutTokensRequest = z.infer<
+  typeof StripeCheckoutTokensRequestSchema
+>;
 
 // ─── User Profile Update ──────────────────────────────────────────────────────
 

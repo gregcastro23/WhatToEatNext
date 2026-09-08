@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
+import { SyncCreditRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { DAILY_YIELD_SOURCES } from "@/services/tokenEconomyQueries";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import type { TokenType, TransactionSourceType } from "@/types/economy";
-import type { NextRequest} from "next/server";
+import type { TokenType } from "@/types/economy";
+import type { NextRequest } from "next/server";
 
 /**
  * POST /api/economy/sync-credit
@@ -40,29 +41,6 @@ const DAILY_YIELD_SOURCE_SET: ReadonlySet<string> = new Set(
   DAILY_YIELD_SOURCES,
 );
 
-interface SyncCreditBody {
-  userEmail: string;
-  amounts: {
-    spirit?: number | string;
-    essence?: number | string;
-    matter?: number | string;
-    substance?: number | string;
-  };
-  source?: TransactionSourceType;
-  idempotencyKey: string;
-  /**
-   * Optional context for user-visible airdrops (Sky Drops). When
-   * source === 'transit_attunement' these populate the feed event + notification.
-   */
-  metadata?: {
-    planet?: string;
-    sign?: string;
-    degree?: number;
-    totalTokens?: number;
-    degreeAgentId?: string;
-  };
-}
-
 async function handlePost(req: NextRequest) {
   try {
     // 1. Validate Sync Secret
@@ -76,18 +54,30 @@ async function handlePost(req: NextRequest) {
       );
     }
 
-    // Partial<>: the wire guarantees no field is present. Casting straight to
-    // the full body type asserted exactly what the guard below establishes,
-    // which made that validation read as provably dead code.
-    const body = (await req.json()) as Partial<SyncCreditBody>;
-    const { userEmail, amounts, source, idempotencyKey } = body;
-
-    if (!userEmail || !amounts || !idempotencyKey) {
+    let rawBody: unknown;
+    try {
+      rawBody = await req.json();
+    } catch {
       return NextResponse.json(
-        { ok: false, reason: "invalid_request", message: "Missing required fields" },
+        { ok: false, reason: "invalid_request", message: "Invalid JSON body" },
+        { status: 400 },
+      );
+    }
+
+    const parseResult = SyncCreditRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          ok: false,
+          reason: "invalid_request",
+          message: "Missing required fields",
+          details: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 }
       );
     }
+
+    const { userEmail, amounts, source, idempotencyKey, metadata } = parseResult.data;
 
     // `source` defaults to agents_yield when the caller omits it, so the
     // resolved value — not the raw field — decides which rules apply below.
@@ -277,9 +267,9 @@ async function handlePost(req: NextRequest) {
     // so the feed actor is always a human and won't forward back to PA.
     if (source === "transit_attunement") {
       const total =
-        body.metadata?.totalTokens ?? credits.reduce((s, c) => s + c.amount, 0);
+        metadata?.totalTokens ?? credits.reduce((s, c) => s + c.amount, 0);
       if (total > 0) {
-        const { planet, sign, degree, degreeAgentId } = body.metadata ?? {};
+        const { planet, sign, degree, degreeAgentId } = metadata ?? {};
         const where =
           planet && sign && degree !== undefined
             ? `${planet} at ${sign} ${Math.round(degree)}°`

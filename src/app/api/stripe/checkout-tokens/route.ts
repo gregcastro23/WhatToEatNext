@@ -11,6 +11,7 @@ import { auth } from "@/lib/auth/auth";
 import { findSku, TOKEN_PACKAGE_PURPOSE } from "@/lib/billing/mcpTopUp";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { StripeCheckoutTokensRequestSchema } from "@/lib/validation/apiSchemas";
 import { subscriptionService } from "@/services/subscriptionService";
 
 export const runtime = "nodejs";
@@ -31,15 +32,25 @@ export async function POST(request: Request) {
   if (!rl.allowed) return rl.response!;
 
   try {
-    const body = await request.json().catch(() => ({}));
-    const { sku } = body;
-
-    if (!sku || typeof sku !== "string") {
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
       return NextResponse.json(
         { error: "Missing or invalid token package SKU" },
         { status: 400 },
       );
     }
+
+    const parseResult = StripeCheckoutTokensRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: "Missing or invalid token package SKU" },
+        { status: 400 },
+      );
+    }
+
+    const { sku } = parseResult.data;
 
     const packageDef = findSku(sku);
     if (!packageDef) {

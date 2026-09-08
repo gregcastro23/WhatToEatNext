@@ -14,19 +14,11 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { findRate, getCurrentSwapRates } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { EconomySwapRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import { TOKEN_TYPES } from "@/types/economy";
-import type { TokenType } from "@/types/economy";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-interface SwapRequestBody {
-  fromToken: TokenType;
-  toToken: TokenType;
-  /** Amount of toToken the caller wants to receive. */
-  amount: number;
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,12 +33,9 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "economy-swap", identifier: userId });
     if (!rl.allowed) return rl.response!;
 
-    let body: Partial<SwapRequestBody>;
+    let rawBody: unknown;
     try {
-    // Partial<>: the wire guarantees no field is present. Casting straight to
-    // the full body type asserted exactly what the guard below establishes,
-    // which made that validation read as provably dead code.
-      body = (await request.json()) as Partial<SwapRequestBody>;
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid request body" },
@@ -54,38 +43,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { fromToken, toToken, amount } = body;
-    if (!fromToken || !toToken) {
+    const parseResult = EconomySwapRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      const [issue] = parseResult.error.issues;
+      const message =
+        issue?.message === "Cannot swap a token for itself"
+          ? "Cannot swap a token for itself"
+          : !rawBody || typeof rawBody !== "object" || !("fromToken" in rawBody) || !("toToken" in rawBody)
+            ? "fromToken and toToken are required"
+            : issue?.path.includes("amount")
+              ? "amount must be a positive number"
+              : (issue?.message ?? "Invalid token type");
+
       return NextResponse.json(
-        { success: false, message: "fromToken and toToken are required" },
+        {
+          success: false,
+          message,
+          details: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
-    if (
-      !TOKEN_TYPES.includes(fromToken) ||
-      !TOKEN_TYPES.includes(toToken)
-    ) {
-      return NextResponse.json(
-        { success: false, message: "Invalid token type" },
-        { status: 400 },
-      );
-    }
-    if (fromToken === toToken) {
-      return NextResponse.json(
-        { success: false, message: "Cannot swap a token for itself" },
-        { status: 400 },
-      );
-    }
-    // `typeof amount !== "number"` is redundant at RUNTIME — Number.isFinite
-    // already returns false for undefined/null/strings, it does not coerce — but
-    // Number.isFinite is not a type predicate, so it cannot narrow `amount` out
-    // of `number | undefined` for the comparison and arithmetic below.
-    if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
-      return NextResponse.json(
-        { success: false, message: "amount must be a positive number" },
-        { status: 400 },
-      );
-    }
+
+    const { fromToken, toToken, amount } = parseResult.data;
 
     const rateContext = getCurrentSwapRates();
     const rateEntry = findRate(rateContext, fromToken, toToken);

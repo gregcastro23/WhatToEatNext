@@ -14,7 +14,7 @@ import { auth } from "@/lib/auth/auth";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
-import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
+import { OnboardingRequestSchema, SkipOnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -312,9 +312,9 @@ export const PATCH = withObservability(
   { routeName: "/api/onboarding" },
   async (request: NextRequest) => {
     try {
-      let body: unknown;
+      let rawBody: unknown;
       try {
-        body = await request.json();
+        rawBody = await request.json();
       } catch {
         return NextResponse.json(
           { success: false, message: "Invalid JSON in request body" },
@@ -322,8 +322,8 @@ export const PATCH = withObservability(
         );
       }
 
-      const parsed = body as Record<string, unknown>;
-      if (!parsed.skipNatal) {
+      const parseResult = SkipOnboardingRequestSchema.safeParse(rawBody);
+      if (!parseResult.success) {
         return NextResponse.json(
           { success: false, message: "Only skipNatal=true is accepted by this endpoint" },
           { status: 400 },
