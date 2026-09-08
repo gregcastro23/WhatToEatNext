@@ -48,7 +48,7 @@ export default function FoodTrackingPage() {
   useEffect(() => {
     let active = true;
     void getQuickFoodPresets().then((resolvedPresets) => {
-      if (active && resolvedPresets) {
+      if (active) {
         setPresets(resolvedPresets);
       }
     });

@@ -54,7 +54,10 @@ export function usePushSubscription() {
       return;
     }
 
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    async function checkSubscription(): Promise<void> {
       try {
         const reg = await navigator.serviceWorker.getRegistration();
         const existing = reg ? await reg.pushManager.getSubscription() : null;
@@ -69,7 +72,8 @@ export function usePushSubscription() {
       } catch {
         if (!cancelled) setState((s) => ({ ...s, supported: true, permission: Notification.permission }));
       }
-    })();
+    }
+    void checkSubscription();
 
     return () => {
       cancelled = true;

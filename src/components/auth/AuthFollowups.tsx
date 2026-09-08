@@ -1155,7 +1155,10 @@ export function AccountSessions({
   useEffect(() => {
     if (sessionsProp) return;
     let cancelled = false;
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    async function loadSessions(): Promise<void> {
       try {
         const res = await fetch("/api/auth/sessions", { credentials: "include" });
         if (!res.ok) return;
@@ -1169,7 +1172,8 @@ export function AccountSessions({
       } catch {
         /* leave fallback */
       }
-    })();
+    }
+    void loadSessions();
     return () => {
       cancelled = true;
     };
@@ -1178,7 +1182,10 @@ export function AccountSessions({
   // Agent sync status (best-effort)
   useEffect(() => {
     let cancelled = false;
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    async function loadAgentSync(): Promise<void> {
       try {
         const res = await fetch("/api/internal/agent-sync/status", { credentials: "include" });
         if (!res.ok) return;
@@ -1191,7 +1198,8 @@ export function AccountSessions({
       } catch {
         /* ignore */
       }
-    })();
+    }
+    void loadAgentSync();
     return () => {
       cancelled = true;
     };

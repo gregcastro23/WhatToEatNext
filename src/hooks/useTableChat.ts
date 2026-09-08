@@ -137,15 +137,21 @@ export function useTableChat(
     }
     let cancelled = false;
     setLoading(true);
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    const isCancelled = (): boolean => cancelled;
+    async function init(): Promise<void> {
       const id = await ensureConversation();
-      if (cancelled || !id) {
+      if (isCancelled()) return;
+      if (!id) {
         setLoading(false);
         return;
       }
       await fetchCanonical(id);
       if (!cancelled) setLoading(false);
-    })();
+    }
+    void init();
     return () => {
       cancelled = true;
     };

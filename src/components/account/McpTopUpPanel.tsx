@@ -78,7 +78,10 @@ export function McpTopUpPanel(): JSX.Element {
   // Pull current balance so the user can see where they're starting from.
   useEffect(() => {
     let cancelled = false;
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    async function load(): Promise<void> {
       try {
         const res = await fetch("/api/economy/balance", {
           credentials: "include",
@@ -94,7 +97,8 @@ export function McpTopUpPanel(): JSX.Element {
       } finally {
         if (!cancelled) setBalanceLoaded(true);
       }
-    })();
+    }
+    void load();
     return () => {
       cancelled = true;
     };
