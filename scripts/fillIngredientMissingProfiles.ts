@@ -205,7 +205,7 @@ for (const file of files) {
   }
 }
 
-// eslint-disable-next-line no-console
+ 
 console.log(
   `Backfill complete: descriptions=${descriptionsAdded}, sensory=${sensoryAdded}, nutrition=${nutritionAdded}, culinaryProfile=${culinaryAdded}, pairingRecommendations=${pairingsAdded}, files touched=${touchedFiles}.`,
 );

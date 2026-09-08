@@ -147,12 +147,12 @@ export interface RuleRegression {
 export const findPerRuleRegressions = (
   currentCounts: Record<string, number>,
   baselineRules: Record<string, { count: number }>,
-  declinedRules: Set<string>,
+  ignoredRules: Set<string> = new Set(),
 ): RuleRegression[] => {
   const regressions: RuleRegression[] = [];
 
   for (const [rule, info] of Object.entries(baselineRules)) {
-    if (declinedRules.has(rule)) continue;
+    if (ignoredRules.has(rule)) continue;
     const current = currentCounts[rule] ?? 0;
     const baseline = info.count;
     if (current > baseline) {
@@ -311,7 +311,6 @@ export function countTypeCasts(targetDir: string): CastsBaseline {
 // both runtimes; the type-only import is erased and never resolves at runtime.
 import type * as TSType from "typescript";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const ts = require("typescript") as typeof TSType;
 
 export interface AssertionSiteCounts {

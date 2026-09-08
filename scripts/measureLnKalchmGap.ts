@@ -51,13 +51,6 @@ for (const planet of PLANETS) {
   const table = PLANETARY_SECTARIAN_ESMS[planet as keyof typeof PLANETARY_SECTARIAN_ESMS];
   for (const sign of SIGNS) {
     const dignityScale = getDignityScore(planet, sign as never).esmsScale;
-    const element = ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS];
-    const elementalProps = {
-      Fire: element === "Fire" ? 1 : 0,
-      Water: element === "Water" ? 1 : 0,
-      Air: element === "Air" ? 1 : 0,
-      Earth: element === "Earth" ? 1 : 0,
-    };
     for (let degree = 0; degree < 30; degree++) {
       const v = groundingVessel(degree, dignityScale);
       for (const sect of SECTS) {

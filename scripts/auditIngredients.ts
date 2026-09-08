@@ -350,13 +350,13 @@ const { jsonPath, mdPath } = writeReports(rows);
 const avg = rows.length ? Math.round(rows.reduce((s, r) => s + r.scorePct, 0) / rows.length) : 0;
 const weak = rows.filter((r) => r.scorePct < 50).length;
 const strong = rows.filter((r) => r.scorePct >= 80).length;
-// eslint-disable-next-line no-console
+ 
 console.log(`Audited ${rows.length} ingredients — avg ${avg}%, ${weak} below 50%, ${strong} at or above 80%.`);
 const nonReal = rows.filter((r) => !r.isReal).length;
 const byFlag = REALITY_MARKERS.map(
   (m) => `${m.key}=${rows.filter((r) => r.realFlags.includes(m.key)).length}`,
 ).join(", ");
-// eslint-disable-next-line no-console
+ 
 console.log(`Real-data check: ${nonReal} of ${rows.length} carry placeholder/default values (non-real). By marker: ${byFlag}.`);
-// eslint-disable-next-line no-console
+ 
 console.log(`Reports: ${path.relative(process.cwd(), jsonPath)}, ${path.relative(process.cwd(), mdPath)}`);

@@ -26,7 +26,7 @@ try {
   } else {
     console.log(`✅ Bun version ${bunVersion} matches recommended ${requiredBun}`);
   }
-} catch (e) {
+} catch {
   console.error('❌ Bun is not installed. Please install Bun to continue.');
   process.exit(1);
 }

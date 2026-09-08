@@ -1,5 +1,4 @@
 import { readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -45,11 +44,18 @@ if (comparison.exceedsBaseline) {
 }
 
 if (summary.total < baseline.total) {
-  const updated = updateStrictIndexBaseline(summary, baseline);
-  await writeFile(baselinePath, `${JSON.stringify(updated, null, 2)}\n`, "utf8");
-  console.log(
-    `\n📉 Ratchet down: strict-flags baseline updated from ${baseline.total} to ${updated.total} (-${baseline.total - updated.total} errors).`,
-  );
+  const shouldRatchet = process.argv.includes("--ratchet");
+  if (shouldRatchet) {
+    const updated = updateStrictIndexBaseline(summary, baseline);
+    await writeFile(baselinePath, `${JSON.stringify(updated, null, 2)}\n`, "utf8");
+    console.log(
+      `\n📉 Ratchet down: strict-flags baseline updated from ${baseline.total} to ${updated.total} (-${baseline.total - updated.total} errors).`,
+    );
+  } else {
+    console.log(
+      `\n📉 Errors fell from ${baseline.total} to ${summary.total} (-${baseline.total - summary.total}). Pass --ratchet to record new baseline.`,
+    );
+  }
 } else {
   console.log("\n✅ Strict-flags check passed (no regressions against baseline).");
 }

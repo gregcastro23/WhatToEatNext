@@ -5,7 +5,7 @@
  * with authentic USDA / researched nutritional profiles and "provenance: curated".
  */
 
-import { Project, SyntaxKind, ObjectLiteralExpression, PropertyAssignment } from "ts-morph";
+import { Project, SyntaxKind } from "ts-morph";
 import path from "path";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "..");

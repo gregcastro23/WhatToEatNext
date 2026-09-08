@@ -559,7 +559,7 @@ async function main(): Promise<void> {
     let userVisibleFlips = 0;
 
     for (const p of migratable) {
-      const { birth, wallClock, trueInstant, row } = p;
+      const { birth, trueInstant, row } = p;
       let control: Awaited<ReturnType<typeof deriveConstitution>>;
       let next: Awaited<ReturnType<typeof deriveConstitution>>;
       try {

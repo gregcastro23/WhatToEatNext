@@ -47,7 +47,6 @@ function titleName(name: string): string {
 }
 
 function generatedDescription(name: string, category?: string): string {
-  const n = sentenceName(name);
   const t = titleName(name);
   const c = (category ?? "").toLowerCase();
 
@@ -180,6 +179,6 @@ for (const file of files) {
   }
 }
 
-// eslint-disable-next-line no-console
+ 
 console.log(`Standardized descriptions: replaced ${replaced} placeholders across ${touchedFiles} files.`);
 

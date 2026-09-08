@@ -12,7 +12,6 @@ import {
   compareDeclinedDebt,
   compareLintDebt,
   compareSubBaseline,
-  countTypeCasts,
   findPerRuleRegressions,
   lintDebtBaselineSchema,
   scanAssertionSites,
@@ -136,7 +135,7 @@ const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 const declinedComparison = compareDeclinedDebt(declinedTotal, baselineDeclinedTotal);
 const castComparison = compareCasts(currentCasts, baselineCasts);
 const siteComparison = compareAssertionSites(currentSites, baselineSites);
-const ignoredRules = new Set([...declinedRules, ...subBaselineRules]);
+const ignoredRules = new Set([...subBaselineRules]);
 const ruleRegressions = findPerRuleRegressions(counts, baseline.rules, ignoredRules);
 
 const currentPnc = counts["@typescript-eslint/prefer-nullish-coalescing"] ?? 0;
@@ -395,7 +394,7 @@ if (
         rules: Object.fromEntries(
           Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
             rule,
-            counts[rule] ?? prevCount,
+            Math.min(counts[rule] ?? prevCount, prevCount),
           ]),
         ),
       },
@@ -404,7 +403,7 @@ if (
           rule,
           {
             ...info,
-            count: counts[rule] ?? info.count,
+            count: Math.min(counts[rule] ?? info.count, info.count),
           },
         ]),
       ),

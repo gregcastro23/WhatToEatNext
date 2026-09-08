@@ -112,7 +112,9 @@ try {
         stdio: ['ignore', 'pipe', 'ignore'],
       }).toString().trim().split('\n').slice(0, 15);
       allChanged.forEach(file => console.log(`   - ${file}`));
-    } catch {}
+    } catch {
+      /* ignore diff logging failure */
+    }
     console.log('🛑 Cancelling Vercel build (0 CPU minutes used).');
     process.exit(0);
   } else {
@@ -121,7 +123,7 @@ try {
     console.log('🚀 Proceeding with Vercel production build.');
     process.exit(1);
   }
-} catch (err) {
+} catch {
   console.log('⚠️ [FALLBACK] Git diff command failed. Defaulting to proceed with build.');
   process.exit(1);
 }
