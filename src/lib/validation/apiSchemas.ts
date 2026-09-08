@@ -13,6 +13,7 @@
  */
 
 import { z } from "zod";
+import type { NatalChart } from "@/types/natalChart";
 
 // ─── Elemental properties ────────────────────────────────────────────────────
 
@@ -307,6 +308,238 @@ export const UserProfileUpdateSchema = z.object({
   natalChart: z.record(z.string(), z.unknown()).optional(),
   preferences: z.record(z.string(), z.unknown()).optional(),
 }).passthrough();
+
+// ─── Batch 1B: Social, Tables, Feed & Groups ───────────────────────────────
+
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export const FollowTargetRequestSchema = z.object({
+  targetUserId: z.string().regex(UUID_REGEX, "targetUserId must be a valid UUID").optional(),
+});
+export type ParsedFollowTargetRequest = z.infer<typeof FollowTargetRequestSchema>;
+
+export const FeedReactionKindSchema = z.enum(["spark", "fire", "water", "earth", "air"]);
+
+export const FeedReactionRequestSchema = z.object({
+  eventId: z.string().regex(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    "eventId is required",
+  ),
+  kind: z
+    .preprocess(
+      (val) =>
+        typeof val === "string" && ["spark", "fire", "water", "earth", "air"].includes(val)
+          ? val
+          : "spark",
+      FeedReactionKindSchema,
+    )
+    .default("spark"),
+});
+export type ParsedFeedReactionRequest = z.infer<typeof FeedReactionRequestSchema>;
+
+export const FeedCommentRequestSchema = z.object({
+  eventId: z.string().regex(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    "eventId is required",
+  ),
+  body: z
+    .string()
+    .transform((s) => s.trim())
+    .refine((s) => s.length >= 1 && s.length <= 1000, {
+      message: "A comment must be 1–1000 characters.",
+    }),
+});
+export type ParsedFeedCommentRequest = z.infer<typeof FeedCommentRequestSchema>;
+
+export const FeedCommentReportRequestSchema = z.object({
+  reason: z.enum(["spam", "harassment", "inappropriate", "other"], {
+    message: "A valid reason is required",
+  }),
+  detail: z.string().trim().max(1000).optional().nullable(),
+});
+export type ParsedFeedCommentReportRequest = z.infer<
+  typeof FeedCommentReportRequestSchema
+>;
+
+export const FeedShareTypeSchema = z.enum(["menu", "recipe", "preferences", "cooked"]);
+
+export const FeedShareRequestSchema = z.object({
+  shareType: FeedShareTypeSchema,
+  shareName: z.boolean().optional(),
+  shareIdentity: z.boolean().optional(),
+  payload: z.record(z.string(), z.unknown()).optional(),
+});
+export type ParsedFeedShareRequest = z.infer<typeof FeedShareRequestSchema>;
+
+export const CommensalAcceptRequestSchema = z.object({
+  commensalshipId: z.string().min(1, "commensalshipId is required"),
+});
+export type ParsedCommensalAcceptRequest = z.infer<
+  typeof CommensalAcceptRequestSchema
+>;
+
+export const CommensalRejectRequestSchema = z.object({
+  commensalshipId: z.string().min(1, "commensalshipId is required"),
+});
+export type ParsedCommensalRejectRequest = z.infer<
+  typeof CommensalRejectRequestSchema
+>;
+
+export const CommensalBlockRequestSchema = z
+  .object({
+    commensalshipId: z.string().min(1).optional(),
+    targetUserId: z.string().min(1).optional(),
+    action: z
+      .enum(["block", "unblock"], {
+        message: "action must be 'block' or 'unblock'",
+      })
+      .default("block"),
+  })
+  .refine((data) => Boolean(data.commensalshipId || data.targetUserId), {
+    message: "commensalshipId or targetUserId is required",
+  });
+export type ParsedCommensalBlockRequest = z.infer<
+  typeof CommensalBlockRequestSchema
+>;
+
+export const CreateDiningGroupRequestSchema = z.object({
+  name: z.string().trim().min(1, "name and memberIds array are required"),
+  memberIds: z.array(z.string(), {
+    message: "name and memberIds array are required",
+  }),
+});
+export type ParsedCreateDiningGroupRequest = z.infer<
+  typeof CreateDiningGroupRequestSchema
+>;
+
+export const UpdateDiningGroupRequestSchema = z
+  .object({
+    name: z.string().trim().min(1).optional(),
+    memberIds: z.array(z.string()).optional(),
+  })
+  .refine((data) => data.name !== undefined || data.memberIds !== undefined, {
+    message: "At least one of name or memberIds must be provided",
+  });
+export type ParsedUpdateDiningGroupRequest = z.infer<
+  typeof UpdateDiningGroupRequestSchema
+>;
+
+export const GroupRecommendationsRequestSchema = z.object({
+  commensalIds: z.array(z.string()).optional().default([]),
+  linkedUserIds: z.array(z.string()).optional().default([]),
+  strategy: z.string().optional().default("average"),
+});
+export type ParsedGroupRecommendationsRequest = z.infer<
+  typeof GroupRecommendationsRequestSchema
+>;
+
+export const SaveGuestSchema = z.object({
+  name: z.string().min(1, "Guest name is required"),
+  relationship: z.string().optional(),
+  birthData: BirthDataSchema,
+  natalChart: z.custom<NatalChart>(
+    (n) =>
+      Boolean(
+        n &&
+          typeof n === "object" &&
+          "dominantElement" in n &&
+          "elementalBalance" in n,
+      ),
+    "natalChart incomplete",
+  ),
+});
+export type ParsedSaveGuest = z.infer<typeof SaveGuestSchema>;
+
+export const CommensalSaveGroupRequestSchema = z.object({
+  groupName: z
+    .string()
+    .trim()
+    .min(1, "groupName is required")
+    .max(100, "groupName must be at most 100 characters"),
+  guests: z
+    .array(SaveGuestSchema, {
+      message: "guests array must not be empty",
+    })
+    .min(1, "guests array must not be empty")
+    .max(12, "Cannot save a group with more than twelve guests"),
+});
+export type ParsedCommensalSaveGroupRequest = z.infer<
+  typeof CommensalSaveGroupRequestSchema
+>;
+
+export const PushPreferenceRequestSchema = z.object({
+  enabled: z.boolean().optional(),
+});
+export type ParsedPushPreferenceRequest = z.infer<
+  typeof PushPreferenceRequestSchema
+>;
+
+export const PushSubscribeRequestSchema = z.object({
+  subscription: z.object({
+    endpoint: z.string().url().refine((u) => u.startsWith("https://"), {
+      message: "A valid subscription is required",
+    }),
+    keys: z.object({
+      p256dh: z.string().min(1, "A valid subscription is required"),
+      auth: z.string().min(1, "A valid subscription is required"),
+    }),
+  }),
+});
+export type ParsedPushSubscribeRequest = z.infer<
+  typeof PushSubscribeRequestSchema
+>;
+
+export const PushUnsubscribeRequestSchema = z.object({
+  endpoint: z.string().min(1, "endpoint is required"),
+});
+export type ParsedPushUnsubscribeRequest = z.infer<
+  typeof PushUnsubscribeRequestSchema
+>;
+
+export const PremiumTableRequestSchema = z.object({
+  hostData: z.custom<NatalChart>(
+    (val) => Boolean(val && typeof val === "object" && "birthData" in val),
+    "Missing birth data for Host",
+  ),
+  friendData: z.custom<NatalChart>(
+    (val) => Boolean(val && typeof val === "object" && "birthData" in val),
+    "Missing birth data for Friend",
+  ),
+});
+export type ParsedPremiumTableRequest = z.infer<
+  typeof PremiumTableRequestSchema
+>;
+
+export const GroupBackendProxyRequestSchema = z
+  .object({
+    members: z.array(z.unknown()).min(2, "Group must have at least 2 members"),
+  })
+  .passthrough();
+export type ParsedGroupBackendProxyRequest = z.infer<
+  typeof GroupBackendProxyRequestSchema
+>;
+
+export const NatalPlanetInputSchema = z.object({
+  sign: z.string(),
+  degree: z.number(),
+  retrograde: z.boolean().optional(),
+  house: z.number().optional(),
+});
+export type ParsedNatalPlanetInput = z.infer<typeof NatalPlanetInputSchema>;
+
+export const SynastryRequestSchema = z.object({
+  viewer: z.object({
+    id: z.string().optional(),
+    natalChart: z.object({
+      planets: z.record(z.string(), NatalPlanetInputSchema),
+      ascendant: z.union([z.number(), NatalPlanetInputSchema]).optional(),
+      midheaven: z.union([z.number(), NatalPlanetInputSchema]).optional(),
+    }),
+  }),
+});
+export type ParsedSynastryRequest = z.infer<typeof SynastryRequestSchema>;
+
 
 // ─── Alchm Quantities API (/api/alchm-quantities) ───────────────────────────
 

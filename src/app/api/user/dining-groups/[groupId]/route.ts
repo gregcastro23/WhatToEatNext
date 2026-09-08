@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { UpdateDiningGroupRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
@@ -39,29 +40,30 @@ export async function PUT(
     return NextResponse.json({ success: false, message: "Dining group not found" }, { status: 404 });
   }
 
-  let body: Record<string, unknown>;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid JSON in request body" },
       { status: 400 },
     );
   }
-  const { name, memberIds } = body as { name?: string; memberIds?: string[] };
+
+  const parsed = UpdateDiningGroupRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { success: false, message: parsed.error.issues[0]?.message ?? "Invalid request body" },
+      { status: 400 },
+    );
+  }
+  const { name, memberIds } = parsed.data;
 
   // Validate memberIds if provided — a member may live in EITHER storage:
   // legacy profile JSONB (groupMembers) or the modern manual_companion_charts
   // table (written by /api/user/commensals and save-group).
   if (memberIds) {
-    const knownIds = new Set((user.profile.groupMembers ?? []).map((m) => m.id));
-    try {
-      const tableCompanions = await commensalDatabase.getManualCompanionsForUser(user.id);
-      for (const m of tableCompanions) knownIds.add(m.id);
-    } catch (error) {
-      _logger.error(`[PUT /api/user/dining-groups/${groupId}] Manual companions lookup failed`, error);
-    }
-    const invalid = memberIds.filter((id) => !knownIds.has(id));
+    const invalid = await findInvalidMemberIds(user.id, user.profile.groupMembers, memberIds);
     if (invalid.length > 0) {
       return NextResponse.json(
         { success: false, message: `Unknown commensal IDs: ${invalid.join(", ")}` },
@@ -120,4 +122,19 @@ export async function DELETE(
     _logger.error(`[DELETE /api/user/dining-groups/${groupId}] Failed to update profile`, error);
     return NextResponse.json({ success: false, message: "Failed to remove dining group" }, { status: 500 });
   }
+}
+
+async function findInvalidMemberIds(
+  userId: string,
+  groupMembers: Array<{ id: string }> | undefined,
+  memberIds: string[],
+): Promise<string[]> {
+  const knownIds = new Set((groupMembers ?? []).map((m) => m.id));
+  try {
+    const tableCompanions = await commensalDatabase.getManualCompanionsForUser(userId);
+    for (const m of tableCompanions) knownIds.add(m.id);
+  } catch (error) {
+    _logger.error("[PUT /api/user/dining-groups] Manual companions lookup failed", error);
+  }
+  return memberIds.filter((id) => !knownIds.has(id));
 }

@@ -16,6 +16,7 @@ import { isBlockedBetween, sanitizeCommentBody } from "@/lib/feed/commentEnforce
 import { _logger } from "@/lib/logger";
 import { notifyCommentReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
+import { FeedCommentRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
@@ -71,18 +72,25 @@ export async function POST(request: NextRequest) {
   const rlBurst = await rateLimit(request, { window: 10_000, max: 3, bucket: "feed-comment-post-burst", identifier: userId });
   if (!rlBurst.allowed) return rlBurst.response!;
 
-  let body: { eventId?: unknown; body?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
 
-  const eventId = typeof body.eventId === "string" && UUID.test(body.eventId) ? body.eventId : null;
-  if (!eventId) {
-    return NextResponse.json({ success: false, message: "eventId is required" }, { status: 400 });
+  const parsed = FeedCommentRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    const [firstIssue] = parsed.error.issues;
+    const isEventId = firstIssue?.path.includes("eventId");
+    const message = isEventId
+      ? "eventId is required"
+      : (firstIssue?.message ?? "A comment must be 1–1000 characters.");
+    return NextResponse.json({ success: false, message }, { status: 400 });
   }
-  const cleanBody = sanitizeCommentBody(body.body);
+
+  const { eventId } = parsed.data;
+  const cleanBody = sanitizeCommentBody(parsed.data.body);
   if (!cleanBody) {
     return NextResponse.json({ success: false, message: "A comment must be 1–1000 characters." }, { status: 400 });
   }

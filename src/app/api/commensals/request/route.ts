@@ -10,7 +10,7 @@ import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
-import { userDatabase } from "@/services/userDatabaseService";
+import { userDatabase, type UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const { targetUserId: rawTargetUserId, email } = parsedBody.data;
 
     let targetUserId = rawTargetUserId;
-    let targetUserRecord: any = null;
+    let targetUserRecord: UserWithProfile | null = null;
     
     if (!targetUserId && email) {
       const found = await userDatabase.getUserByEmail(email.trim().toLowerCase());
@@ -68,9 +68,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    if (!targetUserRecord) {
-      targetUserRecord = await userDatabase.getUserById(targetUserId);
-    }
+    targetUserRecord ??= await userDatabase.getUserById(targetUserId);
 
     if (targetUserId === userId) {
       return NextResponse.json(

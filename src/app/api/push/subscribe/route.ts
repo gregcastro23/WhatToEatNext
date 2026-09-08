@@ -14,15 +14,14 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import {
+  PushSubscribeRequestSchema,
+  PushUnsubscribeRequestSchema,
+} from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-interface SubscriptionInput {
-  endpoint?: unknown;
-  keys?: { p256dh?: unknown; auth?: unknown };
-}
 
 export async function POST(request: NextRequest) {
   const userId = await getUserIdFromRequest(request);
@@ -31,23 +30,26 @@ export async function POST(request: NextRequest) {
   }
 
   const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "push-subscribe", identifier: userId });
-  if (!rl.allowed) return rl.response!;
+  if (!rl.allowed) {
+    return (
+      rl.response ??
+      NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 })
+    );
+  }
 
-  let body: { subscription?: SubscriptionInput };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
 
-  const sub = body.subscription;
-  const endpoint = typeof sub?.endpoint === "string" && sub.endpoint.startsWith("https://") ? sub.endpoint : null;
-  const p256dh = typeof sub?.keys?.p256dh === "string" ? sub.keys.p256dh : null;
-  const auth = typeof sub?.keys?.auth === "string" ? sub.keys.auth : null;
-  if (!endpoint || !p256dh || !auth) {
+  const parsed = PushSubscribeRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json({ success: false, message: "A valid subscription is required" }, { status: 400 });
   }
 
+  const { endpoint, keys: { p256dh, auth } } = parsed.data.subscription;
   const userAgent = request.headers.get("user-agent")?.slice(0, 500) ?? null;
 
   try {
@@ -76,12 +78,20 @@ export async function DELETE(request: NextRequest) {
   }
 
   const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "push-subscribe", identifier: userId });
-  if (!rl.allowed) return rl.response!;
+  if (!rl.allowed) {
+    return (
+      rl.response ??
+      NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 })
+    );
+  }
 
   let endpoint: string | null = null;
   try {
-    const body = (await request.json()) as { endpoint?: unknown };
-    endpoint = typeof body.endpoint === "string" ? body.endpoint : null;
+    const rawBody: unknown = await request.json();
+    const parsed = PushUnsubscribeRequestSchema.safeParse(rawBody);
+    if (parsed.success) {
+      ({ endpoint } = parsed.data);
+    }
   } catch {
     endpoint = new URL(request.url).searchParams.get("endpoint");
   }

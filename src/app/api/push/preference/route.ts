@@ -11,6 +11,7 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { PushPreferenceRequestSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -25,13 +26,19 @@ export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, { window: 60_000, max: 20, bucket: "push-preference", identifier: userId });
   if (!rl.allowed) return rl.response!;
 
-  let enabled: boolean;
+  let rawBody: unknown;
   try {
-    const body = (await request.json()) as { enabled?: unknown };
-    enabled = body.enabled === true;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
+
+  const parsed = PushPreferenceRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json({ success: false, message: "Invalid request body" }, { status: 400 });
+  }
+
+  const enabled = parsed.data.enabled === true;
 
   try {
     // Set the WHOLE push object, not '{push,enabled}': jsonb_set with a nested

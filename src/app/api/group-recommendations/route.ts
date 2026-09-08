@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { CUISINES } from "@/data/cuisines/index";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { GroupRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
@@ -51,11 +52,8 @@ export const runtime = "nodejs";
 function parseElementalBalance(raw: unknown): ElementalProperties {
   if (raw && typeof raw === "object") {
     const r = raw as Record<string, unknown>;
-    const fire = typeof r.Fire === "number" && Number.isFinite(r.Fire) ? r.Fire : 0.25;
-    const water = typeof r.Water === "number" && Number.isFinite(r.Water) ? r.Water : 0.25;
-    const earth = typeof r.Earth === "number" && Number.isFinite(r.Earth) ? r.Earth : 0.25;
-    const air = typeof r.Air === "number" && Number.isFinite(r.Air) ? r.Air : 0.25;
-    return { Fire: fire, Water: water, Earth: earth, Air: air };
+    const num = (v: unknown): number => (typeof v === "number" && Number.isFinite(v) ? v : 0.25);
+    return { Fire: num(r.Fire), Water: num(r.Water), Earth: num(r.Earth), Air: num(r.Air) };
   }
   return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }
@@ -67,19 +65,13 @@ function parseAlchemicalProperties(
 ): AlchemicalProperties {
   if (raw && typeof raw === "object") {
     const r = raw as Record<string, unknown>;
-    if (
-      typeof r.Spirit === "number" &&
-      typeof r.Essence === "number" &&
-      typeof r.Matter === "number" &&
-      typeof r.Substance === "number"
-    ) {
+    if (typeof r.Spirit === "number" && typeof r.Essence === "number" && typeof r.Matter === "number" && typeof r.Substance === "number") {
       return { Spirit: r.Spirit, Essence: r.Essence, Matter: r.Matter, Substance: r.Substance };
     }
   }
-  if (chart) {
-    return calculateAlchemicalFromPlanets(extractAlchemicalPlanetPositions(chart), diurnal);
-  }
-  return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  return chart
+    ? calculateAlchemicalFromPlanets(extractAlchemicalPlanetPositions(chart), diurnal)
+    : { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
 }
 
 /** Average a list of elemental property objects */
@@ -87,17 +79,10 @@ function avgElemental(items: ElementalProperties[]): ElementalProperties {
   if (items.length === 0) return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const sum = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   for (const e of items) {
-    sum.Fire += e.Fire;
-    sum.Water += e.Water;
-    sum.Earth += e.Earth;
-    sum.Air += e.Air;
+    sum.Fire += e.Fire; sum.Water += e.Water; sum.Earth += e.Earth; sum.Air += e.Air;
   }
-  return {
-    Fire: sum.Fire / items.length,
-    Water: sum.Water / items.length,
-    Earth: sum.Earth / items.length,
-    Air: sum.Air / items.length,
-  };
+  const n = items.length;
+  return { Fire: sum.Fire / n, Water: sum.Water / n, Earth: sum.Earth / n, Air: sum.Air / n };
 }
 
 /** Average a list of alchemical property objects */
@@ -105,17 +90,10 @@ function avgAlchemical(items: AlchemicalProperties[]): AlchemicalProperties {
   if (items.length === 0) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
   const sum = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
   for (const a of items) {
-    sum.Spirit += a.Spirit;
-    sum.Essence += a.Essence;
-    sum.Matter += a.Matter;
-    sum.Substance += a.Substance;
+    sum.Spirit += a.Spirit; sum.Essence += a.Essence; sum.Matter += a.Matter; sum.Substance += a.Substance;
   }
-  return {
-    Spirit: sum.Spirit / items.length,
-    Essence: sum.Essence / items.length,
-    Matter: sum.Matter / items.length,
-    Substance: sum.Substance / items.length,
-  };
+  const n = items.length;
+  return { Spirit: sum.Spirit / n, Essence: sum.Essence / n, Matter: sum.Matter / n, Substance: sum.Substance / n };
 }
 
 /** Dominant element from an elemental property object */
@@ -136,18 +114,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
     const userId = currentUser.id;
 
-    let body: Record<string, unknown>;
+    let rawBody: unknown;
     try {
-      body = (await request.json()) as Record<string, unknown>;
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
       );
     }
-    const commensalIds = Array.isArray(body.commensalIds) ? (body.commensalIds as string[]) : [];
-    const linkedUserIds = Array.isArray(body.linkedUserIds) ? (body.linkedUserIds as string[]) : [];
-    const strategy = typeof body.strategy === "string" ? body.strategy : "average";
+
+    const parsed = GroupRecommendationsRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, message: "Invalid request body" },
+        { status: 400 },
+      );
+    }
+
+    const { commensalIds, linkedUserIds, strategy } = parsed.data;
 
     // Collect elemental + alchemical data from all group members
     const elementalList: ElementalProperties[] = [];

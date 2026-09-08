@@ -92,17 +92,17 @@ const PLANET_VALENCE: Record<string, string> = {
 
 // ─── Input types ──────────────────────────────────────────────────────
 
-interface NatalPlanetInput {
+export interface NatalPlanetInput {
   sign: string;
   degree: number;        // 0..30
-  retrograde?: boolean;
-  house?: number;
+  retrograde?: boolean | undefined;
+  house?: number | undefined;
 }
 
-interface NatalChartInput {
+export interface NatalChartInput {
   planets: Record<string, NatalPlanetInput>;
-  ascendant?: number | NatalPlanetInput;
-  midheaven?: number | NatalPlanetInput;
+  ascendant?: number | NatalPlanetInput | undefined;
+  midheaven?: number | NatalPlanetInput | undefined;
 }
 
 export interface SynastryArgs {

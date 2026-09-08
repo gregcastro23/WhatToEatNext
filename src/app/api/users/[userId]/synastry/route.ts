@@ -1,31 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
-import { computeSynastryOverlay } from "@/lib/mcp/synastryTools";
+import { computeSynastryOverlay, type NatalChartInput } from "@/lib/mcp/synastryTools";
+import { SynastryRequestSchema } from "@/lib/validation/apiSchemas";
 import { createLogger } from "@/utils/logger";
 
 const _logger = createLogger("users-synastry-api");
 
 export const dynamic = "force-dynamic";
-
-interface NatalPlanetPayload {
-  sign: string;
-  degree: number;
-  retrograde?: boolean;
-  house?: number;
-}
-
-interface NatalChartPayload {
-  planets: Record<string, NatalPlanetPayload>;
-  ascendant?: number | NatalPlanetPayload;
-  midheaven?: number | NatalPlanetPayload;
-}
-
-interface SynastryRequestBody {
-  viewer?: {
-    id?: string;
-    natalChart?: NatalChartPayload;
-  };
-}
 
 interface ProfileRow {
   user_id: string;
@@ -57,15 +38,25 @@ export async function POST(
   }
 
   try {
-    const body = (await req.json()) as SynastryRequestBody;
-    const { viewer } = body; // viewer should contain { id, natalChart } or similar
+    let rawBody: unknown;
+    try {
+      rawBody = await req.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON" },
+        { status: 400 },
+      );
+    }
 
-    if (!viewer?.natalChart?.planets) {
+    const parsed = SynastryRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json(
         { success: false, message: "Viewer's natal chart details required in request body" },
         { status: 400 },
       );
     }
+
+    const { viewer } = parsed.data;
 
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
     const lookupColumn = isUuid ? "u.id::text = $1" : "u.email = $1";
@@ -87,7 +78,7 @@ export async function POST(
       );
     }
 
-    const rawNatal = parseJsonField<NatalChartPayload | null>(row.natal_chart, null);
+    const rawNatal = parseJsonField<NatalChartInput | null>(row.natal_chart, null);
 
     if (!rawNatal?.planets) {
       return NextResponse.json(
