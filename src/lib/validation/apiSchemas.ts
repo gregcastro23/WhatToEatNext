@@ -13,6 +13,7 @@
  */
 
 import { z } from "zod";
+import type { TransactionSourceType } from "@/types/economy";
 import type { NatalChart } from "@/types/natalChart";
 import type {
   AstrologicalState,
@@ -223,6 +224,23 @@ export const TransactionSourceTypeSchema = z.enum([
   "onchain_claim_refund",
   "practice_reward",
 ]);
+
+// Bidirectional parity with the canonical union in @/types/economy. Adding a
+// source there without adding it here makes /api/economy/sync-credit 400 on a
+// value the rest of the system considers valid — and the caller is the
+// Planetary Agents repo, so the break would surface as a cross-repo outage,
+// not a local test failure. Assignability in BOTH directions proves set
+// equality, and it lives here rather than in a test because tsc excludes test
+// files (ts-jest is transpile-only), where these would never be checked.
+// Purely type-level — no runtime value, so it costs nothing at execution and
+// adds no lint findings. A drift in either direction fails `tsc` here.
+type _AssertTrue<T extends true> = T;
+type _SourceEnumCoversUnion = _AssertTrue<
+  TransactionSourceType extends z.infer<typeof TransactionSourceTypeSchema> ? true : false
+>;
+type _SourceUnionCoversEnum = _AssertTrue<
+  z.infer<typeof TransactionSourceTypeSchema> extends TransactionSourceType ? true : false
+>;
 
 export const SyncCreditRequestSchema = z.object({
   userEmail: z.string().min(1, "userEmail is required"),
