@@ -99,7 +99,12 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     const rl = await rateLimit(request, { ...MEMBERS_ADD_LIMIT, identifier: hostId });
-    if (!rl.allowed) return rl.response!;
+    if (!rl.allowed) {
+      return (
+        rl.response ??
+        NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 })
+      );
+    }
 
     let rawBody: unknown;
     try {
@@ -121,11 +126,20 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     const result = parsed.data.userId
       ? await tableDatabase.addRegisteredMember(tableId, hostId, parsed.data.userId)
-      : await tableDatabase.addManualMember(
-          tableId,
-          hostId,
-          parsed.data.manualCompanionChartId!,
-        );
+      : parsed.data.manualCompanionChartId
+        ? await tableDatabase.addManualMember(
+            tableId,
+            hostId,
+            parsed.data.manualCompanionChartId,
+          )
+        : null;
+
+    if (!result) {
+      return NextResponse.json(
+        { success: false, message: "Invalid member payload" },
+        { status: 400 },
+      );
+    }
 
     if (!result.ok) {
       return NextResponse.json(

@@ -5,6 +5,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { RitualCookingInstructionRequestSchema } from "@/lib/validation/apiSchemas";
 import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
@@ -48,9 +49,9 @@ const PLANET_CANDIDATES = ["Sun", "Moon", "Mars", "Venus", "Mercury", "Jupiter",
 
 export async function POST(request: Request): Promise<NextResponse> {
   try {
-    const body = (await request.json().catch(() => ({}))) as {
-      recipe_id?: string;
-    };
+    const rawBody = await request.json().catch(() => ({}));
+    const parsed = RitualCookingInstructionRequestSchema.safeParse(rawBody);
+    const recipeId = parsed.success ? parsed.data.recipe_id ?? null : null;
     const now = new Date();
     const alchemicalState = getCurrentAlchemicalState();
     const positions = getAccuratePlanetaryPositions(now);
@@ -87,7 +88,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     return NextResponse.json({
       success: true,
-      recipe_id: body.recipe_id ?? null,
+      recipe_id: recipeId,
       ritual_instruction: ritualInstruction,
       dominant_transit: dominantTransit,
       total_potency_score: potencyPercent,

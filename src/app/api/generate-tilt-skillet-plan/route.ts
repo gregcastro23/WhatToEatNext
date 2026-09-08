@@ -52,6 +52,23 @@ async function handlePost(request: NextRequest) {
   }
 
   const { userId } = access;
+
+  const rawBody = await request.json().catch(() => null);
+  const parsed = tiltSkilletBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return json(
+      {
+        error: "invalid_request",
+        message: "Batch plan input failed validation.",
+        issues: parsed.error.issues
+          .slice(0, 5)
+          .map((i) => ({ path: i.path.join("."), message: i.message })),
+      },
+      400,
+    );
+  }
+  const { prompt, batchServings, cuisine, diet, disallowed_ingredients: disallowedIngredients, stages } = parsed.data;
+
   const COST = 5;
   const balances = await tokenEconomy.getBalances(userId);
   const total = balances.spirit + balances.essence + balances.matter + balances.substance;
@@ -72,22 +89,6 @@ async function handlePost(request: NextRequest) {
   await tokenEconomy.debitTokens(userId, "Spirit", COST, "purchase", {
     description: "Tilt Skillet batch circuit plan generation",
   });
-
-  const rawBody = await request.json().catch(() => null);
-  const parsed = tiltSkilletBodySchema.safeParse(rawBody);
-  if (!parsed.success) {
-    return json(
-      {
-        error: "invalid_request",
-        message: "Batch plan input failed validation.",
-        issues: parsed.error.issues
-          .slice(0, 5)
-          .map((i) => ({ path: i.path.join("."), message: i.message })),
-      },
-      400,
-    );
-  }
-  const { prompt, batchServings, cuisine, diet, disallowed_ingredients: disallowedIngredients, stages } = parsed.data;
 
   // Deterministic recipe-as-a-circuit grounding — computed here so the model honors the physics.
   const circuit = computeBatchCircuit(stages);

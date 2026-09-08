@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { UpdateCommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
@@ -33,16 +34,29 @@ export async function PUT(
     return unauthorizedResponse();
   }
 
-  let body: Record<string, unknown>;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid JSON in request body" },
       { status: 400 },
     );
   }
-  const { name, relationship } = body as { name?: string; relationship?: string };
+
+  const parseResult = UpdateCommensalRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "At least one of name or relationship must be provided",
+        details: parseResult.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
+  }
+
+  const { name, relationship } = parseResult.data;
 
   // 1. Try legacy JSONB first
   const members = user.profile.groupMembers ?? [];
@@ -51,8 +65,8 @@ export async function PUT(
   const existingMember = idx === -1 ? undefined : members[idx];
   if (existingMember) {
     const updated = { ...existingMember };
-    if (name) updated.name = name;
-    if (relationship) updated.relationship = relationship as any;
+    if (name !== undefined) updated.name = name;
+    if (relationship !== undefined) updated.relationship = relationship;
 
     members[idx] = updated;
     try {
@@ -68,12 +82,6 @@ export async function PUT(
   }
 
   // 2. Fall through to the new manual_companion_charts table.
-  if (name === undefined && relationship === undefined) {
-    return NextResponse.json(
-      { success: false, message: "At least one of name or relationship must be provided" },
-      { status: 400 },
-    );
-  }
 
   const updated = await commensalDatabase.updateManualCompanion(
     commensalId,

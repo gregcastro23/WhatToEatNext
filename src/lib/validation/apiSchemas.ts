@@ -13,6 +13,12 @@
  */
 
 import { z } from "zod";
+import type { TransactionSourceType } from "@/types/economy";
+import type { NatalChart } from "@/types/natalChart";
+import type {
+  AstrologicalState,
+  DayRecommendationOptions,
+} from "@/utils/menuPlanner/recommendationBridge";
 
 // ─── Elemental properties ────────────────────────────────────────────────────
 
@@ -141,7 +147,39 @@ export const OnboardingRequestSchema = z.object({
 
 export type ParsedOnboardingRequest = z.infer<typeof OnboardingRequestSchema>;
 
+export const SkipOnboardingRequestSchema = z.object({
+  skipNatal: z.literal(true),
+});
+
+export type ParsedSkipOnboardingRequest = z.infer<typeof SkipOnboardingRequestSchema>;
+
 // ─── Commensal Request ────────────────────────────────────────────────────────
+
+export const CommensalRelationshipSchema = z.enum([
+  "self",
+  "family",
+  "friend",
+  "partner",
+  "colleague",
+  "other",
+]);
+
+export const AddCommensalRequestSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  relationship: CommensalRelationshipSchema.optional(),
+  birthData: BirthDataSchema,
+});
+
+export type ParsedAddCommensalRequest = z.infer<typeof AddCommensalRequestSchema>;
+
+export const UpdateCommensalRequestSchema = z.object({
+  name: z.string().min(1).optional(),
+  relationship: CommensalRelationshipSchema.optional(),
+}).refine((data) => data.name !== undefined || data.relationship !== undefined, {
+  message: "At least one of name or relationship must be provided",
+});
+
+export type ParsedUpdateCommensalRequest = z.infer<typeof UpdateCommensalRequestSchema>;
 
 export const CommensalRequestSchema = z.object({
   targetUserId: z.string().optional(),
@@ -150,6 +188,138 @@ export const CommensalRequestSchema = z.object({
   message: "Either targetUserId or email must be provided",
   path: ["targetUserId"]
 });
+
+// ─── Economy: Sync Credit, Debit & Swap ──────────────────────────────────────
+
+export const TokenAmountValueSchema = z.union([z.number(), z.string()]);
+
+export const SyncTokenAmountsSchema = z.object({
+  spirit: TokenAmountValueSchema.optional(),
+  essence: TokenAmountValueSchema.optional(),
+  matter: TokenAmountValueSchema.optional(),
+  substance: TokenAmountValueSchema.optional(),
+});
+
+export const TransactionSourceTypeSchema = z.enum([
+  "daily_yield",
+  "agents_yield",
+  "agents_operation",
+  "quest_reward",
+  "purchase",
+  "premium_purchase",
+  "transmutation",
+  "streak_bonus",
+  "alchemical_log",
+  "signup_grant",
+  "admin",
+  "mcp_top_up",
+  "transit_attunement",
+  "group_chat_quest",
+  "recipe_ingestion",
+  "restaurant_order",
+  "restaurant_refund",
+  "cosmic_recipe_refund",
+  "mint_refund",
+  "onchain_claim",
+  "onchain_claim_refund",
+  "practice_reward",
+]);
+
+// Bidirectional parity with the canonical union in @/types/economy. Adding a
+// source there without adding it here makes /api/economy/sync-credit 400 on a
+// value the rest of the system considers valid — and the caller is the
+// Planetary Agents repo, so the break would surface as a cross-repo outage,
+// not a local test failure. Assignability in BOTH directions proves set
+// equality, and it lives here rather than in a test because tsc excludes test
+// files (ts-jest is transpile-only), where these would never be checked.
+// Purely type-level — no runtime value, so it costs nothing at execution and
+// adds no lint findings. A drift in either direction fails `tsc` here.
+type _AssertTrue<T extends true> = T;
+type _SourceEnumCoversUnion = _AssertTrue<
+  TransactionSourceType extends z.infer<typeof TransactionSourceTypeSchema> ? true : false
+>;
+type _SourceUnionCoversEnum = _AssertTrue<
+  z.infer<typeof TransactionSourceTypeSchema> extends TransactionSourceType ? true : false
+>;
+
+export const SyncCreditRequestSchema = z.object({
+  userEmail: z.string().min(1, "userEmail is required"),
+  amounts: SyncTokenAmountsSchema,
+  source: TransactionSourceTypeSchema.optional(),
+  idempotencyKey: z.string().min(1, "idempotencyKey is required"),
+  metadata: z
+    .object({
+      planet: z.string().optional(),
+      sign: z.string().optional(),
+      degree: z.number().optional(),
+      totalTokens: z.number().optional(),
+      degreeAgentId: z.string().optional(),
+    })
+    .passthrough()
+    .optional(),
+});
+
+export type ParsedSyncCreditRequest = z.infer<typeof SyncCreditRequestSchema>;
+
+export const SyncDebitRequestSchema = z.object({
+  userEmail: z.string().min(1, "userEmail is required"),
+  amounts: SyncTokenAmountsSchema,
+  operationType: z.string().optional(),
+  source: z.string().optional(),
+  idempotencyKey: z.string().min(1, "idempotencyKey is required"),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+
+export type ParsedSyncDebitRequest = z.infer<typeof SyncDebitRequestSchema>;
+
+export const TokenTypeSchema = z.enum([
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+]);
+
+export const EconomySwapRequestSchema = z.object({
+  fromToken: TokenTypeSchema,
+  toToken: TokenTypeSchema,
+  amount: z.number().positive("amount must be a positive number").finite(),
+}).refine((data) => data.fromToken !== data.toToken, {
+  message: "Cannot swap a token for itself",
+  path: ["toToken"],
+});
+
+export type ParsedEconomySwapRequest = z.infer<typeof EconomySwapRequestSchema>;
+
+// ─── Recipe Mint Envelope ───────────────────────────────────────────────────
+
+export const RecipeMintRequestEnvelopeSchema = z.object({
+  recipe: z.record(z.string(), z.unknown()),
+});
+
+export type ParsedRecipeMintRequestEnvelope = z.infer<
+  typeof RecipeMintRequestEnvelopeSchema
+>;
+
+// ─── Checkout & Stripe ───────────────────────────────────────────────────────
+
+export const CheckoutPreflightRequestSchema = z.object({
+  source: z.string().optional(),
+  items: z.array(z.unknown()),
+  cartType: z.enum(["fresh", "standard"]).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+
+export type ParsedCheckoutPreflightRequest = z.infer<
+  typeof CheckoutPreflightRequestSchema
+>;
+
+export const StripeCheckoutTokensRequestSchema = z.object({
+  sku: z.string().min(1, "Missing or invalid token package SKU"),
+});
+
+export type ParsedStripeCheckoutTokensRequest = z.infer<
+  typeof StripeCheckoutTokensRequestSchema
+>;
 
 // ─── User Profile Update ──────────────────────────────────────────────────────
 
@@ -160,6 +330,238 @@ export const UserProfileUpdateSchema = z.object({
   natalChart: z.record(z.string(), z.unknown()).optional(),
   preferences: z.record(z.string(), z.unknown()).optional(),
 }).passthrough();
+
+// ─── Batch 1B: Social, Tables, Feed & Groups ───────────────────────────────
+
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export const FollowTargetRequestSchema = z.object({
+  targetUserId: z.string().regex(UUID_REGEX, "targetUserId must be a valid UUID").optional(),
+});
+export type ParsedFollowTargetRequest = z.infer<typeof FollowTargetRequestSchema>;
+
+export const FeedReactionKindSchema = z.enum(["spark", "fire", "water", "earth", "air"]);
+
+export const FeedReactionRequestSchema = z.object({
+  eventId: z.string().regex(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    "eventId is required",
+  ),
+  kind: z
+    .preprocess(
+      (val) =>
+        typeof val === "string" && ["spark", "fire", "water", "earth", "air"].includes(val)
+          ? val
+          : "spark",
+      FeedReactionKindSchema,
+    )
+    .default("spark"),
+});
+export type ParsedFeedReactionRequest = z.infer<typeof FeedReactionRequestSchema>;
+
+export const FeedCommentRequestSchema = z.object({
+  eventId: z.string().regex(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    "eventId is required",
+  ),
+  body: z
+    .string()
+    .transform((s) => s.trim())
+    .refine((s) => s.length >= 1 && s.length <= 1000, {
+      message: "A comment must be 1–1000 characters.",
+    }),
+});
+export type ParsedFeedCommentRequest = z.infer<typeof FeedCommentRequestSchema>;
+
+export const FeedCommentReportRequestSchema = z.object({
+  reason: z.enum(["spam", "harassment", "inappropriate", "other"], {
+    message: "A valid reason is required",
+  }),
+  detail: z.string().trim().max(1000).optional().nullable(),
+});
+export type ParsedFeedCommentReportRequest = z.infer<
+  typeof FeedCommentReportRequestSchema
+>;
+
+export const FeedShareTypeSchema = z.enum(["menu", "recipe", "preferences", "cooked"]);
+
+export const FeedShareRequestSchema = z.object({
+  shareType: FeedShareTypeSchema,
+  shareName: z.boolean().optional(),
+  shareIdentity: z.boolean().optional(),
+  payload: z.record(z.string(), z.unknown()).optional(),
+});
+export type ParsedFeedShareRequest = z.infer<typeof FeedShareRequestSchema>;
+
+export const CommensalAcceptRequestSchema = z.object({
+  commensalshipId: z.string().min(1, "commensalshipId is required"),
+});
+export type ParsedCommensalAcceptRequest = z.infer<
+  typeof CommensalAcceptRequestSchema
+>;
+
+export const CommensalRejectRequestSchema = z.object({
+  commensalshipId: z.string().min(1, "commensalshipId is required"),
+});
+export type ParsedCommensalRejectRequest = z.infer<
+  typeof CommensalRejectRequestSchema
+>;
+
+export const CommensalBlockRequestSchema = z
+  .object({
+    commensalshipId: z.string().min(1).optional(),
+    targetUserId: z.string().min(1).optional(),
+    action: z
+      .enum(["block", "unblock"], {
+        message: "action must be 'block' or 'unblock'",
+      })
+      .default("block"),
+  })
+  .refine((data) => Boolean(data.commensalshipId || data.targetUserId), {
+    message: "commensalshipId or targetUserId is required",
+  });
+export type ParsedCommensalBlockRequest = z.infer<
+  typeof CommensalBlockRequestSchema
+>;
+
+export const CreateDiningGroupRequestSchema = z.object({
+  name: z.string().trim().min(1, "name and memberIds array are required"),
+  memberIds: z.array(z.string(), {
+    message: "name and memberIds array are required",
+  }),
+});
+export type ParsedCreateDiningGroupRequest = z.infer<
+  typeof CreateDiningGroupRequestSchema
+>;
+
+export const UpdateDiningGroupRequestSchema = z
+  .object({
+    name: z.string().trim().min(1).optional(),
+    memberIds: z.array(z.string()).optional(),
+  })
+  .refine((data) => data.name !== undefined || data.memberIds !== undefined, {
+    message: "At least one of name or memberIds must be provided",
+  });
+export type ParsedUpdateDiningGroupRequest = z.infer<
+  typeof UpdateDiningGroupRequestSchema
+>;
+
+export const GroupRecommendationsRequestSchema = z.object({
+  commensalIds: z.array(z.string()).optional().default([]),
+  linkedUserIds: z.array(z.string()).optional().default([]),
+  strategy: z.string().optional().default("average"),
+});
+export type ParsedGroupRecommendationsRequest = z.infer<
+  typeof GroupRecommendationsRequestSchema
+>;
+
+export const SaveGuestSchema = z.object({
+  name: z.string().min(1, "Guest name is required"),
+  relationship: z.string().optional(),
+  birthData: BirthDataSchema,
+  natalChart: z.custom<NatalChart>(
+    (n) =>
+      Boolean(
+        n &&
+          typeof n === "object" &&
+          "dominantElement" in n &&
+          "elementalBalance" in n,
+      ),
+    "natalChart incomplete",
+  ),
+});
+export type ParsedSaveGuest = z.infer<typeof SaveGuestSchema>;
+
+export const CommensalSaveGroupRequestSchema = z.object({
+  groupName: z
+    .string()
+    .trim()
+    .min(1, "groupName is required")
+    .max(100, "groupName must be at most 100 characters"),
+  guests: z
+    .array(SaveGuestSchema, {
+      message: "guests array must not be empty",
+    })
+    .min(1, "guests array must not be empty")
+    .max(12, "Cannot save a group with more than twelve guests"),
+});
+export type ParsedCommensalSaveGroupRequest = z.infer<
+  typeof CommensalSaveGroupRequestSchema
+>;
+
+export const PushPreferenceRequestSchema = z.object({
+  enabled: z.boolean().optional(),
+});
+export type ParsedPushPreferenceRequest = z.infer<
+  typeof PushPreferenceRequestSchema
+>;
+
+export const PushSubscribeRequestSchema = z.object({
+  subscription: z.object({
+    endpoint: z.string().url().refine((u) => u.startsWith("https://"), {
+      message: "A valid subscription is required",
+    }),
+    keys: z.object({
+      p256dh: z.string().min(1, "A valid subscription is required"),
+      auth: z.string().min(1, "A valid subscription is required"),
+    }),
+  }),
+});
+export type ParsedPushSubscribeRequest = z.infer<
+  typeof PushSubscribeRequestSchema
+>;
+
+export const PushUnsubscribeRequestSchema = z.object({
+  endpoint: z.string().min(1, "endpoint is required"),
+});
+export type ParsedPushUnsubscribeRequest = z.infer<
+  typeof PushUnsubscribeRequestSchema
+>;
+
+export const PremiumTableRequestSchema = z.object({
+  hostData: z.custom<NatalChart>(
+    (val) => Boolean(val && typeof val === "object" && "birthData" in val),
+    "Missing birth data for Host",
+  ),
+  friendData: z.custom<NatalChart>(
+    (val) => Boolean(val && typeof val === "object" && "birthData" in val),
+    "Missing birth data for Friend",
+  ),
+});
+export type ParsedPremiumTableRequest = z.infer<
+  typeof PremiumTableRequestSchema
+>;
+
+export const GroupBackendProxyRequestSchema = z
+  .object({
+    members: z.array(z.unknown()).min(2, "Group must have at least 2 members"),
+  })
+  .passthrough();
+export type ParsedGroupBackendProxyRequest = z.infer<
+  typeof GroupBackendProxyRequestSchema
+>;
+
+export const NatalPlanetInputSchema = z.object({
+  sign: z.string(),
+  degree: z.number(),
+  retrograde: z.boolean().optional(),
+  house: z.number().optional(),
+});
+export type ParsedNatalPlanetInput = z.infer<typeof NatalPlanetInputSchema>;
+
+export const SynastryRequestSchema = z.object({
+  viewer: z.object({
+    id: z.string().optional(),
+    natalChart: z.object({
+      planets: z.record(z.string(), NatalPlanetInputSchema),
+      ascendant: z.union([z.number(), NatalPlanetInputSchema]).optional(),
+      midheaven: z.union([z.number(), NatalPlanetInputSchema]).optional(),
+    }),
+  }),
+});
+export type ParsedSynastryRequest = z.infer<typeof SynastryRequestSchema>;
+
 
 // ─── Alchm Quantities API (/api/alchm-quantities) ───────────────────────────
 
@@ -284,6 +686,267 @@ export const AlchmQuantitiesApiResponseSchema = z.object({
 export type AlchmQuantitiesApiResponse = z.infer<
   typeof AlchmQuantitiesApiResponseSchema
 >;
+
+// ─── Batch 1C: Recipe, Menu Planning & AI Generation Endpoints ──────────────
+
+export const IgniteRequestSchema = z.object({
+  dob: z.string().min(1, "Date of Birth is required"),
+  city: z.string().min(1, "City is required"),
+});
+export type ParsedIgniteRequest = z.infer<typeof IgniteRequestSchema>;
+
+export const NanobananaGenerateRequestSchema = z.object({
+  title: z.string().trim().min(1, "Missing recipe title."),
+  description: z.string().trim().optional(),
+});
+export type ParsedNanobananaGenerateRequest = z.infer<
+  typeof NanobananaGenerateRequestSchema
+>;
+
+export const RecipesQueryBodySchema = z.object({
+  element: z.string().optional(),
+  cuisine: z.string().optional(),
+  search: z.string().optional(),
+  limit: z.coerce.number().int().min(1).max(100).optional().default(20),
+  offset: z.coerce.number().int().min(0).optional().default(0),
+});
+export type ParsedRecipesQueryBody = z.infer<typeof RecipesQueryBodySchema>;
+
+export const RecipeRefineRequestSchema = z.object({
+  cuisine: z.string().trim().optional(),
+});
+export type ParsedRecipeRefineRequest = z.infer<typeof RecipeRefineRequestSchema>;
+
+export const RecipeExtractJsonBodySchema = z.object({
+  text: z.string().optional(),
+});
+export type ParsedRecipeExtractJsonBody = z.infer<typeof RecipeExtractJsonBodySchema>;
+
+export const GenerateRecommendationsRequestSchema = z.object({
+  dayOfWeek: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+  ]),
+  astroState: z.custom<AstrologicalState>(
+    (val): boolean => Boolean(val && typeof val === "object" && !Array.isArray(val)),
+    "astroState must be an object",
+  ),
+  options: z
+    .custom<DayRecommendationOptions>(
+      (val): boolean => Boolean(val && typeof val === "object" && !Array.isArray(val)),
+      "options must be an object",
+    )
+    .optional(),
+  retryToken: z.string().optional(),
+});
+export type ParsedGenerateRecommendationsRequest = z.infer<
+  typeof GenerateRecommendationsRequestSchema
+>;
+
+export const RitualCookingInstructionRequestSchema = z.object({
+  recipe_id: z.string().optional(),
+});
+export type ParsedRitualCookingInstructionRequest = z.infer<
+  typeof RitualCookingInstructionRequestSchema
+>;
+
+export const UserRecipeInteractionSchema = z.object({
+  madeIt: z.boolean().optional().default(false),
+  rating: z.coerce.number().min(0).max(5).optional().default(0),
+  review: z.string().max(500).optional().default(""),
+});
+export type ParsedUserRecipeInteraction = z.infer<typeof UserRecipeInteractionSchema>;
+
+export const BulkImportMealPlanEntrySchema = z.object({
+  recipeId: z.string().min(1),
+  recipeName: z.string().nullable().optional(),
+  date: z.string().min(1),
+  mealType: z.string().nullable().optional(),
+  servings: z.number().int().optional().default(1),
+});
+
+export const UserMealPlanPostSchema = z.object({
+  bulkImport: z.array(BulkImportMealPlanEntrySchema).optional(),
+  recipeId: z.string().optional(),
+  recipeName: z.string().nullable().optional(),
+  date: z.string().optional(),
+  mealType: z.string().nullable().optional(),
+  servings: z.number().int().optional(),
+});
+export type ParsedUserMealPlanPost = z.infer<typeof UserMealPlanPostSchema>;
+
+export const FoodDiaryRatingSchema = z.object({
+  userId: z.string().min(1, "userId is required"),
+  rating: z.number().min(0).max(5).refine((r) => (r * 2) % 1 === 0, {
+    message: "rating must be in 0.5 increments",
+  }),
+  moodTags: z.array(z.string()).optional(),
+  wouldEatAgain: z.boolean().optional(),
+});
+export type ParsedFoodDiaryRating = z.infer<typeof FoodDiaryRatingSchema>;
+
+export const UpdateFoodLabEntryBodySchema = z.object({
+  dishName: z.string().trim().min(1).optional(),
+  description: z.string().optional(),
+  notes: z.string().optional(),
+  recipeName: z.string().optional(),
+  cuisineType: z.string().optional(),
+  cookingMethod: z.string().optional(),
+  cookedAt: z.string().datetime().optional(),
+  photos: z
+    .array(
+      z.object({
+        dataUrl: z.string(),
+        caption: z.string().optional(),
+        uploadedAt: z.string().datetime(),
+      }),
+    )
+    .optional(),
+  elementalTags: z.record(z.string(), z.number().finite()).optional(),
+  alchemicalTags: z.record(z.string(), z.number().finite()).optional(),
+  planetaryContext: z.record(z.string(), z.unknown()).optional(),
+  rating: z.number().finite().optional(),
+  tags: z.array(z.string()).optional(),
+  isPublic: z.boolean().optional(),
+});
+export type ParsedUpdateFoodLabEntryBody = z.infer<typeof UpdateFoodLabEntryBodySchema>;
+
+export const RestaurantsDiscoverRequestSchema = z.object({
+  cuisine: z.string().optional(),
+  latitude: z.union([z.number(), z.string()]).optional(),
+  longitude: z.union([z.number(), z.string()]).optional(),
+  radius: z.union([z.number(), z.string()]).optional(),
+  limit: z.union([z.number(), z.string()]).optional(),
+});
+export type ParsedRestaurantsDiscoverRequest = z.infer<
+  typeof RestaurantsDiscoverRequestSchema
+>;
+
+export const RestaurantsSearchRequestSchema = z.object({
+  cuisineType: z.string().optional(),
+  latitude: z.union([z.number(), z.string()]).optional(),
+  longitude: z.union([z.number(), z.string()]).optional(),
+  radius: z.union([z.number(), z.string()]).optional(),
+  limit: z.union([z.number(), z.string()]).optional(),
+});
+export type ParsedRestaurantsSearchRequest = z.infer<
+  typeof RestaurantsSearchRequestSchema
+>;
+
+export const RestaurantOnboardRequestSchema = z.object({
+  restaurantId: z.string().optional(),
+  name: z.string().trim().min(1, "Restaurant name is required"),
+  email: z.string().email().optional(),
+  businessType: z.string().optional(),
+  externalProvider: z.string().optional(),
+  externalId: z.string().optional(),
+  menuUrl: z.string().url().optional(),
+});
+export type ParsedRestaurantOnboardRequest = z.infer<
+  typeof RestaurantOnboardRequestSchema
+>;
+
+export const InstacartPriceEstimateItemSchema = z.union([
+  z.string().min(1, "Item string cannot be empty"),
+  z.object({
+    name: z.string().min(1, "Item name is required"),
+    display_text: z.string().optional(),
+    product_ids: z.array(z.number()).optional(),
+    upcs: z.array(z.string()).optional(),
+    line_item_measurements: z
+      .array(
+        z.object({
+          quantity: z.number(),
+          unit: z.string(),
+        }),
+      )
+      .optional(),
+  }),
+]);
+
+export const InstacartPriceEstimateRequestSchema = z.object({
+  line_items: z.array(InstacartPriceEstimateItemSchema).min(1, "Missing line_items"),
+});
+export type ParsedInstacartPriceEstimateRequest = z.infer<
+  typeof InstacartPriceEstimateRequestSchema
+>;
+
+export const InstacartShoppingListBodySchema = z
+  .object({
+    title: z.string().optional(),
+    line_items: z
+      .array(
+        z.object({
+          name: z.string().min(1, "Item name is required"),
+          quantity: z.number().optional(),
+          unit: z.string().optional(),
+          display_text: z.string().optional(),
+          line_item_measurements: z
+            .array(
+              z.object({
+                quantity: z.number(),
+                unit: z.string(),
+              }),
+            )
+            .optional(),
+        }),
+      )
+      .optional(),
+    ingredients: z.array(z.string()).optional(),
+  })
+  .refine(
+    (data): boolean =>
+      (data.line_items !== undefined && data.line_items.length > 0) ||
+      (data.ingredients !== undefined && data.ingredients.length > 0),
+    { message: "No items provided" },
+  );
+export type ParsedInstacartShoppingListBody = z.infer<
+  typeof InstacartShoppingListBodySchema
+>;
+
+// ⚠️ Every key here is `.optional()` DELIBERATELY. Under zod 4 a bare
+// `z.unknown()` object key is REQUIRED — `safeParse({})` fails with
+// `expected: "nonoptional"` — unlike zod 3, where it was implicitly optional.
+// These 17 fields were all `?:` on the `RestaurantOrderBody` interface this
+// schema replaced, so dropping `.optional()` 400s every realistic payload on
+// the ESMS restaurant-settlement path. The route normalises each value through
+// `text()` / `currency()` / `normalizeCustomerInfo()`, which already handle
+// `undefined`; this schema's job is shape, not presence.
+export const RestaurantOrderBodySchema = z
+  .object({
+    cuisineType: z.unknown().optional(),
+    provider: z.unknown().optional(),
+    restaurant: z
+      .object({
+        id: z.unknown().optional(),
+        name: z.unknown().optional(),
+        url: z.unknown().optional(),
+        stripeConnectedAccountId: z.unknown().optional(),
+      })
+      .optional(),
+    order: z
+      .object({
+        amountCents: z.unknown().optional(),
+        currency: z.unknown().optional(),
+        description: z.unknown().optional(),
+        items: z.unknown().optional(),
+        splitMode: z.unknown().optional(),
+        orderType: z.unknown().optional(),
+        customer: z.unknown().optional(),
+        deliveryAddress: z.unknown().optional(),
+        specialInstructions: z.unknown().optional(),
+        preparationTime: z.unknown().optional(),
+        paymentMethod: z.unknown().optional(),
+      })
+      .optional(),
+  })
+  .passthrough();
+export type ParsedRestaurantOrderBody = z.infer<typeof RestaurantOrderBodySchema>;
 
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.

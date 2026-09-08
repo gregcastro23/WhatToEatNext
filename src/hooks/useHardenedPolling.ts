@@ -72,7 +72,6 @@ export function useHardenedPolling(
       } finally {
         running = false;
       }
-      if (cancelled) return;
 
       interval = ok
         ? baseIntervalMs

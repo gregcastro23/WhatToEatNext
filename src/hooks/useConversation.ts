@@ -81,10 +81,14 @@ export function useConversation(
     }
     let cancelled = false;
     setLoading(true);
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    async function load(): Promise<void> {
       await fetchLatest();
       if (!cancelled) setLoading(false);
-    })();
+    }
+    void load();
     return () => {
       cancelled = true;
     };

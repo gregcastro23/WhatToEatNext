@@ -244,7 +244,7 @@ function main(): void {
   lines.push("");
 
   fs.writeFileSync(OUT_PATH, `${lines.join("\n")}\n`);
-  // eslint-disable-next-line no-console
+   
   console.log(`Generated ${OUT_PATH} with ${seenSlugs.size} coverage entries.`);
 }
 

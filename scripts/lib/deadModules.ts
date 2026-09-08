@@ -5,7 +5,6 @@ import { isDuplicateArtifactPath } from "./lintDebt";
 
 import type * as TSType from "typescript";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const ts = require("typescript") as typeof TSType;
 
 /**

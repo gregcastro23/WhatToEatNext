@@ -84,6 +84,8 @@
   ],
   "exclude": [
     "node_modules",
+    ".worktrees/**",
+    ".worktrees",
     "mcp-server/**",
     "wten-migration-ui-components",
     "wten-migration-ui-components/**",

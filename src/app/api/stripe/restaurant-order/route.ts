@@ -26,6 +26,7 @@ import {
   stripePaymentMethodTypes,
 } from "@/lib/payments/restaurantPayments";
 import { rateLimit } from "@/lib/rateLimit";
+import { RestaurantOrderBodySchema } from "@/lib/validation/apiSchemas";
 import type { RestaurantDiscoverySource } from "@/types/yelp";
 import {
   type CustomerInfo,
@@ -38,30 +39,6 @@ type SplitMode =
   | "external"
   | "destination_charge"
   | "separate_charges_and_transfers";
-
-interface RestaurantOrderBody {
-  cuisineType?: unknown;
-  provider?: unknown;
-  restaurant?: {
-    id?: unknown;
-    name?: unknown;
-    url?: unknown;
-    stripeConnectedAccountId?: unknown;
-  };
-  order?: {
-    amountCents?: unknown;
-    currency?: unknown;
-    description?: unknown;
-    items?: unknown;
-    splitMode?: unknown;
-    orderType?: unknown;
-    customer?: unknown;
-    deliveryAddress?: unknown;
-    specialInstructions?: unknown;
-    preparationTime?: unknown;
-    paymentMethod?: unknown;
-  };
-}
 
 interface NormalizedLineItem {
   id: string;
@@ -401,20 +378,29 @@ export async function POST(request: Request): Promise<NextResponse> {
     max: 10,
     bucket: "stripe-restaurant-order",
   });
-  if (!rl.allowed) return rl.response!;
+  if (!rl.allowed) {
+    return rl.response ?? NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
-  let body: RestaurantOrderBody;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as RestaurantOrderBody;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const restaurant = body.restaurant ?? {};
-  const restaurantId = text(restaurant.id);
-  const restaurantName = text(restaurant.name);
-  const restaurantUrl = text(restaurant.url);
-  const connectedAccountIdFromBody = text(restaurant.stripeConnectedAccountId);
+  const parsed = RestaurantOrderBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const body = parsed.data;
+
+  const { restaurant } = body;
+  const restaurantId = text(restaurant?.id);
+  const restaurantName = text(restaurant?.name);
+  const restaurantUrl = text(restaurant?.url);
+  const connectedAccountIdFromBody = text(restaurant?.stripeConnectedAccountId);
   const cuisineType = text(body.cuisineType) || "Restaurant";
   const provider = text(body.provider) as RestaurantDiscoverySource | "";
   const orderCurrency = currency(body.order?.currency);
@@ -909,10 +895,10 @@ export async function POST(request: Request): Promise<NextResponse> {
                     quantity: 1,
                   },
                 ])
-          : [{ price: orderPriceId, quantity: 1 }],
+          : (orderPriceId ? [{ price: orderPriceId, quantity: 1 }] : []),
         success_url: successUrl.toString(),
         cancel_url: cancelUrl.toString(),
-        customer_email: effectiveUser?.email ?? undefined,
+        ...(effectiveUser?.email ? { customer_email: effectiveUser.email } : {}),
         client_reference_id: orderId,
         metadata: commonMetadata,
         payment_intent_data: {

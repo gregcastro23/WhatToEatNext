@@ -5,6 +5,7 @@ import { storeCookPhoto } from "@/lib/feed/cookPhotoStorage";
 import { nextLunarTable } from "@/lib/feed/lunarTables";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { FeedShareRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { questService } from "@/services/QuestService";
 import type { NextRequest } from "next/server";
@@ -26,8 +27,25 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "feed-share", identifier: userId });
     if (!rl.allowed) return rl.response!;
 
-    const body = await request.json();
-    const { shareType, shareName, shareIdentity, payload } = body;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON in request body" },
+        { status: 400 },
+      );
+    }
+
+    const parsed = FeedShareRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, message: "shareType is required" },
+        { status: 400 },
+      );
+    }
+
+    const { shareType, shareName, shareIdentity, payload } = parsed.data;
 
     // Per-post identity choice: `shareIdentity` is canonical, legacy
     // `shareName` accepted as an alias. Absent = inherit the user's
@@ -38,13 +56,6 @@ export async function POST(request: NextRequest) {
         : typeof shareName === "boolean"
           ? shareName
           : undefined;
-
-    if (!shareType) {
-      return NextResponse.json(
-        { success: false, message: "shareType is required" },
-        { status: 400 }
-      );
-    }
 
     let eventType: string;
     let questEvent: string;
@@ -108,7 +119,7 @@ export async function POST(request: NextRequest) {
       shareName: _droppedShareName,
       identity: _droppedIdentity,
       ...safePayload
-    } = (payload ?? {}) as Record<string, unknown>;
+    } = payload ?? {};
     const metadataPayload = {
       ...safePayload,
       ...cardExtras,

@@ -43,7 +43,7 @@ async function run() {
     try {
       existingImages = JSON.parse(fs.readFileSync(outputPath, "utf8"));
       console.log("Loaded existing image map with", Object.keys(existingImages).length, "images.");
-    } catch (e) {
+    } catch {
       console.warn("Failed to parse existing images.json, starting fresh.");
     }
   }
@@ -67,7 +67,6 @@ async function run() {
     const fire = elements.Fire ?? 0;
     const water = elements.Water ?? 0;
     const earth = elements.Earth ?? 0;
-    const air = elements.Air ?? 0;
 
     let elementalLighting = "";
     if (fire > 0.35) {

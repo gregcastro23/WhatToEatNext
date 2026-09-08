@@ -6,7 +6,7 @@
  * with real USDA FoodData Central and curated researched nutritional profiles.
  */
 
-import { Project, SyntaxKind, ObjectLiteralExpression, PropertyAssignment } from "ts-morph";
+import { Project, SyntaxKind } from "ts-morph";
 import path from "path";
 import fs from "fs";
 

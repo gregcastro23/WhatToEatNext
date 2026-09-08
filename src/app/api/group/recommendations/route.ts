@@ -11,8 +11,21 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { GroupBackendProxyRequestSchema } from "@/lib/validation/apiSchemas";
 
 const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET ?? "";
+
+async function forwardGroupRecommendations(payload: unknown): Promise<Response> {
+  const BACKEND_URL = getServiceUrl("wtenBackend");
+  return fetch(`${BACKEND_URL}/api/group/recommendations`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(INTERNAL_API_SECRET ? { Authorization: `Bearer ${INTERNAL_API_SECRET}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  });
+}
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -20,30 +33,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Tier gate removed with the premium concept — see the note in
-  // group/compatibility. No subscription row was ever Stripe-backed.
-
   try {
-    const BACKEND_URL = getServiceUrl("wtenBackend");
-    const body = await request.json();
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
 
-    // Validate member count
-    if (!body.members || body.members.length < 2) {
+    const parsed = GroupBackendProxyRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Group must have at least 2 members" },
+        { error: parsed.error.issues[0]?.message ?? "Group must have at least 2 members" },
         { status: 400 },
       );
     }
 
-    const backendResponse = await fetch(`${BACKEND_URL}/api/group/recommendations`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(INTERNAL_API_SECRET ? { Authorization: `Bearer ${INTERNAL_API_SECRET}` } : {}),
-      },
-      body: JSON.stringify(body),
-    });
-
+    const backendResponse = await forwardGroupRecommendations(parsed.data);
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json().catch(() => ({}));
       return NextResponse.json(

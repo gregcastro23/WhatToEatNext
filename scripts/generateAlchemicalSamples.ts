@@ -125,7 +125,7 @@ async function main() {
   // Snap to the interval grid so consecutive runs land on the same timestamps.
   const snappedStart = Math.floor(startMs / stepMs) * stepMs;
 
-  // eslint-disable-next-line no-console
+   
   console.log(
     `Generating ${total} samples · interval=${interval}h · ${new Date(snappedStart).toISOString()} → ${new Date(endMs).toISOString()}`,
   );
@@ -199,13 +199,13 @@ async function main() {
       ok++;
     } catch (err) {
       failed++;
-      // eslint-disable-next-line no-console
+       
       console.warn(`Sample at ${date.toISOString()} failed:`, err);
     }
 
     if (i > 0 && i % 100 === 0) {
       const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
-      // eslint-disable-next-line no-console
+       
       console.log(`  ${i}/${total} (${elapsed}s) ok=${ok} fail=${failed}`);
     }
   }
@@ -226,14 +226,14 @@ async function main() {
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(file));
   const sizeKb = (fs.statSync(outPath).size / 1024).toFixed(1);
-  // eslint-disable-next-line no-console
+   
   console.log(
     `\n✓ Wrote ${samples.length} samples to ${outPath} (${sizeKb} KB) — fail=${failed}`,
   );
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
+   
   console.error("generateAlchemicalSamples failed:", err);
   process.exit(1);
 });

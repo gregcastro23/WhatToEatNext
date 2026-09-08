@@ -19,6 +19,7 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { FollowTargetRequestSchema } from "@/lib/validation/apiSchemas";
 import { followDatabase } from "@/services/followDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
@@ -30,17 +31,23 @@ export const runtime = "nodejs";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 async function readTargetUserId(request: NextRequest): Promise<string | null> {
-  let candidate: unknown = null;
+  let candidate: string | undefined;
   try {
-    const body = (await request.json()) as { targetUserId?: unknown };
-    candidate = body?.targetUserId;
+    const rawBody: unknown = await request.json();
+    const parsed = FollowTargetRequestSchema.safeParse(rawBody);
+    if (parsed.success) {
+      candidate = parsed.data.targetUserId;
+    }
   } catch {
     // DELETE may carry the target in the query string instead of a body.
   }
-  if (typeof candidate !== "string") {
-    candidate = new URL(request.url).searchParams.get("targetUserId");
+  if (!candidate) {
+    const fromQuery = new URL(request.url).searchParams.get("targetUserId");
+    if (fromQuery && UUID.test(fromQuery)) {
+      candidate = fromQuery;
+    }
   }
-  return typeof candidate === "string" && UUID.test(candidate) ? candidate : null;
+  return candidate ?? null;
 }
 
 /**

@@ -77,7 +77,7 @@ function numOrUndefined(value: string | undefined): number | undefined {
 }
 
 class TripadvisorService {
-  private static instance: TripadvisorService;
+  private static instance: TripadvisorService | undefined;
   private readonly apiKey: string;
   private readonly referer: string | undefined;
 
@@ -92,9 +92,7 @@ class TripadvisorService {
   }
 
   static getInstance(): TripadvisorService {
-    if (!TripadvisorService.instance) {
-      TripadvisorService.instance = new TripadvisorService();
-    }
+    TripadvisorService.instance ??= new TripadvisorService();
     return TripadvisorService.instance;
   }
 

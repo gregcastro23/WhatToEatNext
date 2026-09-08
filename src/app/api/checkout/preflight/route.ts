@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { getStandardizedQuantity, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { auth } from "@/lib/auth/auth";
+import { CheckoutPreflightRequestSchema } from "@/lib/validation/apiSchemas";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type {
   CheckoutPreflightItem,
-  CheckoutPreflightRequest,
   CheckoutPreflightResponse,
   CheckoutPreflightSource,
 } from "@/types/checkout";
@@ -210,13 +210,22 @@ async function logCartHandoffIntent({
 }
 
 export async function POST(request: Request) {
-  let body: CheckoutPreflightRequest;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as CheckoutPreflightRequest;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
+  const parseResult = CheckoutPreflightRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { error: "Invalid request body", details: parseResult.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const body = parseResult.data;
   const { items, droppedCount } = normalizeItems(body.items);
   if (items.length === 0) {
     return NextResponse.json(

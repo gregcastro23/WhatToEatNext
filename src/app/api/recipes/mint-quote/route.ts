@@ -3,6 +3,7 @@ import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { _logger } from "@/lib/logger";
 import { parseRecipeForMint } from "@/lib/recipe-nft/mintableRecipe";
 import { buildMintQuote } from "@/lib/recipe-nft/quote";
+import { RecipeMintRequestEnvelopeSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 // Cost floats with the planetary hour/day — never cache.
@@ -28,14 +29,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Sign in to quote a recipe mint." }, { status: 401 });
   }
 
-  let body: unknown;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
   }
 
-  const parsed = parseRecipeForMint((body as { recipe?: unknown })?.recipe);
+  const envelope = RecipeMintRequestEnvelopeSchema.safeParse(rawBody);
+  if (!envelope.success) {
+    return NextResponse.json(
+      {
+        error: "Invalid recipe payload.",
+        detail: envelope.error.issues.map((i) => i.message).join("; "),
+      },
+      { status: 400 },
+    );
+  }
+
+  const parsed = parseRecipeForMint(envelope.data.recipe);
   if (!parsed.ok || !parsed.recipe) {
     return NextResponse.json({ error: "Invalid recipe payload.", detail: parsed.error }, { status: 400 });
   }

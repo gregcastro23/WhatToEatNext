@@ -178,34 +178,43 @@ describe("findPerRuleRegressions", () => {
     "no-explicit-any": { count: 275, autoFixable: 0 },
     "no-unnecessary-condition": { count: 1775, autoFixable: 0 },
     "max-lines": { count: 659, autoFixable: 0 },
+    "prefer-nullish-coalescing": { count: 214, autoFixable: 0 },
   };
-  const declinedRules = new Set(["max-lines"]);
+  const ignoredRules = new Set(["prefer-nullish-coalescing"]);
 
-  it("returns empty array when no tracked rules regressed", () => {
+  it("returns empty array when no rules regressed", () => {
     const currentCounts = {
       "no-explicit-any": 270,
       "no-unnecessary-condition": 1775,
-      "max-lines": 700, // declined, should be ignored
+      "max-lines": 650,
+      "prefer-nullish-coalescing": 220, // ignored, sub-baseline handled separately
     };
     expect(
-      findPerRuleRegressions(currentCounts, baselineRules, declinedRules),
+      findPerRuleRegressions(currentCounts, baselineRules, ignoredRules),
     ).toEqual([]);
   });
 
-  it("detects and sorts regressions on tracked rules", () => {
+  it("detects and sorts regressions on tracked and declined rules", () => {
     const currentCounts = {
       "no-explicit-any": 280, // +5
       "no-unnecessary-condition": 1785, // +10
-      "max-lines": 700,
+      "max-lines": 665, // +6 (declined rule regressed)
+      "prefer-nullish-coalescing": 220, // ignored
     };
     expect(
-      findPerRuleRegressions(currentCounts, baselineRules, declinedRules),
+      findPerRuleRegressions(currentCounts, baselineRules, ignoredRules),
     ).toEqual([
       {
         rule: "no-unnecessary-condition",
         baselineCount: 1775,
         currentCount: 1785,
         delta: 10,
+      },
+      {
+        rule: "max-lines",
+        baselineCount: 659,
+        currentCount: 665,
+        delta: 6,
       },
       {
         rule: "no-explicit-any",

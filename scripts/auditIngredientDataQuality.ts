@@ -14,7 +14,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import {
-  ArrayLiteralExpression,
   ObjectLiteralExpression,
   Project,
   PropertyAssignment,
@@ -42,42 +41,6 @@ const PLACEHOLDER_DESCRIPTION_SIGNATURES = [
   "A liquid consumable,",
 ];
 
-const STOPWORDS = new Set([
-  "fresh",
-  "dried",
-  "dry",
-  "ground",
-  "minced",
-  "chopped",
-  "sliced",
-  "diced",
-  "whole",
-  "boneless",
-  "skinless",
-  "large",
-  "small",
-  "medium",
-  "extra",
-  "virgin",
-  "to",
-  "taste",
-  "for",
-  "garnish",
-  "optional",
-  "organic",
-  "ripe",
-  "raw",
-  "cooked",
-  "warm",
-  "cold",
-  "split",
-  "lightly",
-  "toasted",
-  "unsalted",
-  "salted",
-  "full",
-  "fat",
-]);
 
 interface IngredientIssue {
   slug: string;
@@ -101,7 +64,7 @@ interface RecipeIngredientRef {
   unitMissing: boolean;
 }
 
-import { normalize, singularize, MATCH_STOPWORDS, normalizedVariants, stripQuotes } from "../src/utils/ingredientNormalization.js";
+import { normalize, normalizedVariants, stripQuotes } from "../src/utils/ingredientNormalization.js";
 
 function propByName(obj: ObjectLiteralExpression, name: string): PropertyAssignment | undefined {
   for (const p of obj.getProperties()) {
@@ -471,11 +434,11 @@ function main() {
   const mdPath = path.join(OUT_DIR, "ingredient-data-quality-audit.md");
   fs.writeFileSync(mdPath, toMarkdown(report));
 
-  // eslint-disable-next-line no-console
+   
   console.log(
     `Ingredient quality audit complete: ${ingredientIssues.length} ingredient issues, ${unmatched.length} unmatched recipe ingredient names.`,
   );
-  // eslint-disable-next-line no-console
+   
   console.log(`Reports: ${path.relative(process.cwd(), jsonPath)}, ${path.relative(process.cwd(), mdPath)}`);
 
   if (ingredientIssues.length > 0 || unmatched.length > 0) {

@@ -23,14 +23,12 @@ import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { notifyReactionReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
+import { FeedReactionRequestSchema } from "@/lib/validation/apiSchemas";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const KINDS = new Set(["spark", "fire", "water", "earth", "air"]);
 
 /** Per-kind counts for one event, keyed by kind. Viewer-independent. */
 async function kindCounts(eventId: string): Promise<Record<string, number>> {
@@ -61,18 +59,18 @@ export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "feed-react", identifier: userId });
   if (!rl.allowed) return rl.response!;
 
-  let body: { eventId?: unknown; kind?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
 
-  const eventId = typeof body.eventId === "string" && UUID.test(body.eventId) ? body.eventId : null;
-  if (!eventId) {
+  const parsed = FeedReactionRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json({ success: false, message: "eventId is required" }, { status: 400 });
   }
-  const kind = typeof body.kind === "string" && KINDS.has(body.kind) ? body.kind : "spark";
+  const { eventId, kind } = parsed.data;
 
   try {
     const eventRes = await executeQuery<{ actor_id: string }>(

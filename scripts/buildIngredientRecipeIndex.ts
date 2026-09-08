@@ -24,7 +24,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import { Project, SyntaxKind, ObjectLiteralExpression, PropertyAssignment, ArrayLiteralExpression } from "ts-morph";
+import { Project, SyntaxKind, ObjectLiteralExpression, PropertyAssignment } from "ts-morph";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,7 +55,7 @@ interface UnmatchedIngredientUsage {
   sampleRecipes: string[];
 }
 
-import { normalize, singularize, MATCH_STOPWORDS, normalizedVariants, stripQuotes } from "../src/utils/ingredientNormalization.js";
+import { normalize, normalizedVariants, stripQuotes } from "../src/utils/ingredientNormalization.js";
 
 // --- Pass 1: collect canonical ingredients ---
 function collectCanonical(project: Project): CanonicalIngredient[] {
@@ -290,11 +290,11 @@ const project = new Project({
 });
 
 const canonical = collectCanonical(project);
-// eslint-disable-next-line no-console
+ 
 console.log(`Canonical ingredients: ${canonical.length}`);
 
 const recipes = collectRecipes(project);
-// eslint-disable-next-line no-console
+ 
 console.log(`Recipes with ingredients: ${recipes.length}`);
 
 const { index, unmatched } = buildIndex(canonical, recipes);
@@ -312,9 +312,9 @@ fs.writeFileSync(unmatchedPath, JSON.stringify(unmatched, null, 2));
 
 const nonEmpty = Object.values(index).filter((v) => v.length > 0).length;
 const totalRefs = Object.values(index).reduce((s, v) => s + v.length, 0);
-// eslint-disable-next-line no-console
+ 
 console.log(`Index: ${nonEmpty}/${canonical.length} ingredients matched by ≥1 recipe; ${totalRefs} total references.`);
-// eslint-disable-next-line no-console
+ 
 console.log(`Written: ${path.relative(process.cwd(), fullPath)}`);
-// eslint-disable-next-line no-console
+ 
 console.log(`Unmatched recipe ingredient names: ${unmatched.length} (summary: ${path.relative(process.cwd(), unmatchedPath)})`);

@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { UserMealPlanPostSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -30,20 +31,13 @@ interface MealPlanRow {
 export interface MealPlanEntryDTO {
   id: string;
   recipeId: string;
-  recipeName?: string;
+  recipeName?: string | undefined;
   date: string;
-  mealType?: string;
-  servings?: number;
+  mealType?: string | undefined;
+  servings?: number | undefined;
   addedAt: number;
 }
 
-interface BulkImportEntry {
-  recipeId: string;
-  recipeName?: string;
-  date: string;
-  mealType?: string;
-  servings?: number;
-}
 
 function rowToDTO(row: MealPlanRow): MealPlanEntryDTO {
   const dateStr =
@@ -96,13 +90,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body:
-    | { bulkImport?: BulkImportEntry[]; recipeId?: string; recipeName?: string; date?: string; mealType?: string; servings?: number };
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
+
+  const parsed = UserMealPlanPostSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid request payload", details: parsed.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const body = parsed.data;
 
   // Bulk import path — merges localStorage entries with dedupe.
   if (Array.isArray(body.bulkImport)) {

@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { CommensalAcceptRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -34,15 +35,25 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
-    const { commensalshipId } = body as { commensalshipId?: string };
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON in request body" },
+        { status: 400 },
+      );
+    }
 
-    if (!commensalshipId || typeof commensalshipId !== "string") {
+    const parsed = CommensalAcceptRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json(
         { success: false, message: "commensalshipId is required" },
         { status: 400 },
       );
     }
+
+    const { commensalshipId } = parsed.data;
 
     const commensalship = await commensalDatabase.updateCommensalshipStatus(
       commensalshipId,

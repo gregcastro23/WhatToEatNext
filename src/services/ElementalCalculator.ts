@@ -36,7 +36,7 @@ const signInfoRecord = signInfo as unknown as Record<
 >;
 
 export class ElementalCalculator {
-  private static instance: ElementalCalculator;
+  private static instance: ElementalCalculator | undefined;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
   private readonly debugMode: boolean;
@@ -53,9 +53,7 @@ export class ElementalCalculator {
    * Get the singleton instance
    */
   static getInstance(): ElementalCalculator {
-    if (!ElementalCalculator.instance) {
-      ElementalCalculator.instance = new ElementalCalculator();
-    }
+    ElementalCalculator.instance ??= new ElementalCalculator();
     return ElementalCalculator.instance;
   }
 

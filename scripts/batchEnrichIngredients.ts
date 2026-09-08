@@ -265,23 +265,6 @@ function extractValueProp(obj: ObjectLiteralExpression, name: string): unknown {
   }
 }
 
-function optionalObject(value: unknown): Record<string, unknown> | undefined {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : undefined;
-}
-
-function optionalStringArray(value: unknown): string[] | undefined {
-  if (!Array.isArray(value)) return undefined;
-  const strings = value.map((item) => String(item).trim()).filter(Boolean);
-  return strings.length ? strings.slice(0, 4) : undefined;
-}
-
-function compactPayload<T extends Record<string, unknown>>(payload: T): T {
-  return Object.fromEntries(
-    Object.entries(payload).filter(([, value]) => value !== undefined),
-  ) as T;
-}
 
 function endpointFromEnv(pathname: string, explicitEnv: string): string {
   const explicit = process.env[explicitEnv];
@@ -344,7 +327,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 async function generateIngredientImage(
   candidate: Candidate,
-  description: string,
+  _description: string,
 ): Promise<ImageGenerationResult> {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   const apiToken = process.env.CLOUDFLARE_API_TOKEN;

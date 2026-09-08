@@ -17,6 +17,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { CommensalBlockRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -33,9 +34,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let body: Record<string, unknown>;
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid JSON in request body" },
@@ -43,25 +44,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { commensalshipId, targetUserId, action = "block" } = body;
+    const parsed = CommensalBlockRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      const [firstIssue] = parsed.error.issues;
+      return NextResponse.json(
+        { success: false, message: firstIssue?.message ?? "Invalid request payload" },
+        { status: 400 },
+      );
+    }
 
-    if (action !== "block" && action !== "unblock") {
-      return NextResponse.json(
-        { success: false, message: "action must be 'block' or 'unblock'" },
-        { status: 400 },
-      );
-    }
-    const hasChipId =
-      typeof commensalshipId === "string" && commensalshipId.length > 0;
-    const hasTargetId =
-      typeof targetUserId === "string" && targetUserId.length > 0;
-    if (!hasChipId && !hasTargetId) {
-      return NextResponse.json(
-        { success: false, message: "commensalshipId or targetUserId is required" },
-        { status: 400 },
-      );
-    }
-    if (hasTargetId && targetUserId === userId) {
+    const { commensalshipId, targetUserId, action } = parsed.data;
+
+    if (targetUserId && targetUserId === userId) {
       return NextResponse.json(
         { success: false, message: "You cannot block yourself" },
         { status: 400 },
@@ -70,8 +64,8 @@ export async function POST(request: NextRequest) {
 
     if (action === "unblock") {
       const removed = await commensalDatabase.unblockCommensal(userId, {
-        commensalshipId: hasChipId ? commensalshipId : undefined,
-        targetUserId: hasTargetId ? targetUserId : undefined,
+        commensalshipId,
+        targetUserId,
       });
       if (!removed) {
         return NextResponse.json(
@@ -83,8 +77,8 @@ export async function POST(request: NextRequest) {
     }
 
     const blocked = await commensalDatabase.blockCommensal(userId, {
-      commensalshipId: hasChipId ? commensalshipId : undefined,
-      targetUserId: hasTargetId ? targetUserId : undefined,
+      commensalshipId,
+      targetUserId,
     });
     if (!blocked) {
       return NextResponse.json(

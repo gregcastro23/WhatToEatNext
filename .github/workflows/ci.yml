@@ -27,8 +27,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # ⚠️ `verify:static`, NOT `verify`. As of 2026-09-08 `verify` ends in
+          # the full jest suite — it is the LOCAL gate, and pre-push runs it, so
+          # it must not have the blind spot it had when it ended in test:fast
+          # (19 hand-listed suites, zero route tests: a green verify sat next to
+          # a red Test leg here). But the Test leg below already runs that suite
+          # in a parallel job, so calling plain `verify` would run jest TWICE per
+          # PR and — worse — let a lint or typecheck failure mask the test
+          # result, since the chain is `&&`. Splitting keeps total coverage
+          # identical and both signals independent (fail-fast is false).
           - name: Verify
-            command: bun run verify
+            command: bun run verify:static
           - name: Build
             command: bun run build
           - name: Test

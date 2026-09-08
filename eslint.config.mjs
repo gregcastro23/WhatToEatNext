@@ -475,22 +475,72 @@ export default [
   // Scripts Directory Configuration
   // ============================================================================
   {
-    files: ["src/scripts/**/*.{ts,js}", "scripts/**/*.{ts,js}"],
+    files: ["scripts/**/*.{ts,js}"],
+    ignores: [
+      "scripts/**/__tests__/**",
+      "scripts/**/*.test.ts",
+      "scripts/**/*.spec.ts",
+    ],
+
+    plugins: {
+      "@typescript-eslint": tseslint,
+    },
 
     languageOptions: {
+      parser: tsParser,
       globals: {
         ...globals.node,
+        ...globals.es2021,
       },
       parserOptions: {
-        // Disable project for scripts to avoid parser errors
-        project: null,
+        project: "./scripts/tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
       },
     },
 
     rules: {
       "no-console": "off",
+      "no-undef": "off",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+        },
+      ],
       "@typescript-eslint/no-explicit-any": "warn",
       "max-lines": "off",
+    },
+  },
+
+  // ============================================================================
+  // Scripts ESM Configuration (.mjs)
+  // ============================================================================
+  {
+    files: ["scripts/**/*.mjs"],
+
+    languageOptions: {
+      sourceType: "module",
+      globals: {
+        ...globals.node,
+        ...globals.es2021,
+      },
+    },
+
+    rules: {
+      "no-console": "off",
+      "no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+        },
+      ],
     },
   },
 
@@ -504,6 +554,7 @@ export default [
       sourceType: "commonjs",
       globals: {
         ...globals.node,
+        ...globals.es2021,
       },
     },
 
@@ -676,6 +727,9 @@ export default [
       "src/tests/**",
       "src/**/*.test.ts",
       "src/**/*.test.tsx",
+      "scripts/**/__tests__/**",
+      "scripts/**/*.test.ts",
+      "scripts/**/*.spec.ts",
       "src/components/GlobalPopup.js",
 
       // Untracked development files

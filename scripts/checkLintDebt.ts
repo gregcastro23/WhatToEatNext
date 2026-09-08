@@ -12,7 +12,6 @@ import {
   compareDeclinedDebt,
   compareLintDebt,
   compareSubBaseline,
-  countTypeCasts,
   findPerRuleRegressions,
   lintDebtBaselineSchema,
   scanAssertionSites,
@@ -26,6 +25,47 @@ const baseline = lintDebtBaselineSchema.parse(
 );
 const auditedRuleNames = Object.keys(AUDITED_RULES).sort();
 const baselineRuleNames = Object.keys(baseline.rules).sort();
+
+const ruleArgIdx = process.argv.indexOf("--rule");
+const rawRuleCandidate = ruleArgIdx !== -1 ? process.argv[ruleArgIdx + 1] : undefined;
+const rawRuleFilter =
+  rawRuleCandidate && !rawRuleCandidate.startsWith("-")
+    ? rawRuleCandidate
+    : null;
+
+if (ruleArgIdx !== -1 && !rawRuleFilter) {
+  console.error("❌ --rule requires a rule name argument.");
+  process.exit(1);
+}
+
+const messageIdArgIdx = process.argv.indexOf("--messageId");
+const rawMessageIdCandidate = messageIdArgIdx !== -1 ? process.argv[messageIdArgIdx + 1] : undefined;
+const messageIdFilter =
+  rawMessageIdCandidate && !rawMessageIdCandidate.startsWith("-")
+    ? rawMessageIdCandidate
+    : null;
+
+if (messageIdArgIdx !== -1 && !messageIdFilter) {
+  console.error("❌ --messageId requires a messageId argument.");
+  process.exit(1);
+}
+
+let ruleFilter: string | null = null;
+if (rawRuleFilter) {
+  if (auditedRuleNames.includes(rawRuleFilter)) {
+    ruleFilter = rawRuleFilter;
+  } else if (auditedRuleNames.includes(`@typescript-eslint/${rawRuleFilter}`)) {
+    ruleFilter = `@typescript-eslint/${rawRuleFilter}`;
+  } else {
+    console.error(
+      `❌ Unknown rule "${rawRuleFilter}". Note: --rule validates against the 28 audited rules (defined in checkLintDebt.ts). Valid audited rules:`,
+    );
+    for (const r of auditedRuleNames) {
+      console.error(`  ${r} (or ${r.replace("@typescript-eslint/", "")})`);
+    }
+    process.exit(1);
+  }
+}
 
 execFileSync("./node_modules/.bin/next", ["typegen"], {
   cwd: repoRoot,
@@ -55,6 +95,16 @@ if (baseline.subBaselines?.preferNullishCoalescing) {
   subBaselineRules.add("@typescript-eslint/prefer-nullish-coalescing");
 }
 
+interface RuleFinding {
+  file: string;
+  line: number;
+  column: number;
+  messageId: string;
+  message: string;
+}
+
+const ruleFindings: RuleFinding[] = [];
+
 interface FileDebt {
   filePath: string;
   trackedCount: number;
@@ -74,6 +124,17 @@ for (const result of results) {
       if (!declinedRules.has(message.ruleId) && !subBaselineRules.has(message.ruleId)) {
         fileTrackedCount += 1;
         fileByRule[message.ruleId] = (fileByRule[message.ruleId] ?? 0) + 1;
+      }
+    }
+    if (ruleFilter && message.ruleId === ruleFilter) {
+      if (!messageIdFilter || message.messageId === messageIdFilter) {
+        ruleFindings.push({
+          file: path.relative(repoRoot, result.filePath),
+          line: message.line,
+          column: message.column,
+          messageId: message.messageId ?? "default",
+          message: message.message,
+        });
       }
     }
   }
@@ -108,6 +169,47 @@ const baselineDeclinedTotal =
   baseline.declined.total ??
   Object.values(baseline.declined.rules).reduce((a, b) => a + b, 0);
 
+if (ruleFilter) {
+  const distinctFiles = new Set(ruleFindings.map((f) => f.file)).size;
+  const filterDesc = messageIdFilter ? ` [messageId: ${messageIdFilter}]` : "";
+  console.log(
+    `\n=== FINDINGS FOR ${ruleFilter}${filterDesc}: ${ruleFindings.length} total across ${distinctFiles} file(s) ===\n`,
+  );
+
+  const byMessageId = new Map<string, RuleFinding[]>();
+  for (const f of ruleFindings) {
+    const list = byMessageId.get(f.messageId) ?? [];
+    list.push(f);
+    byMessageId.set(f.messageId, list);
+  }
+
+  const sortedMessageIds = [...byMessageId.entries()].sort(
+    (a, b) => b[1].length - a[1].length,
+  );
+
+  console.log("Distribution by messageId:");
+  for (const [mid, list] of sortedMessageIds) {
+    console.log(`  ${mid}: ${list.length}`);
+  }
+  console.log("");
+
+  if (!process.argv.includes("--summary")) {
+    for (const [mid, list] of sortedMessageIds) {
+      console.log(`[messageId: ${mid}] (${list.length} finding${list.length === 1 ? "" : "s"})`);
+      list.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line);
+      for (const f of list) {
+        console.log(`  ${f.file}:${f.line}:${f.column} - ${f.message}`);
+      }
+      console.log("");
+    }
+  }
+
+  if (!process.argv.includes("--ratchet") && process.env.LINT_DEBT_AUTO_RATCHET !== "1") {
+    console.log("ℹ️  Query mode (--rule) — gate checks skipped.");
+    process.exit(0);
+  }
+}
+
 // Scan and count type casts (as any, as unknown as) in src/
 const castScan = scanFileCasts(path.join(repoRoot, "src"), repoRoot);
 const currentCasts = castScan.summary;
@@ -136,7 +238,7 @@ const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 const declinedComparison = compareDeclinedDebt(declinedTotal, baselineDeclinedTotal);
 const castComparison = compareCasts(currentCasts, baselineCasts);
 const siteComparison = compareAssertionSites(currentSites, baselineSites);
-const ignoredRules = new Set([...declinedRules, ...subBaselineRules]);
+const ignoredRules = new Set([...subBaselineRules]);
 const ruleRegressions = findPerRuleRegressions(counts, baseline.rules, ignoredRules);
 
 const currentPnc = counts["@typescript-eslint/prefer-nullish-coalescing"] ?? 0;
@@ -390,21 +492,29 @@ if (
               : undefined,
           }
         : undefined,
+      // The declined pool ratchets like every other counter. It used to carry
+      // `total` and every per-rule count forward UNCHANGED while the log line
+      // below printed the live `declinedTotal` — so `--ratchet` reported a
+      // ratchet it never performed, and the only way the pool ever moved was a
+      // hand edit. That is how it drifted 14 above its own live value.
       declined: {
-        total: declinedTotal,
+        total: Math.min(declinedTotal, baselineDeclinedTotal),
         rules: Object.fromEntries(
           Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
             rule,
-            counts[rule] ?? prevCount,
+            Math.min(counts[rule] ?? prevCount, prevCount),
           ]),
         ),
+        ...(baseline.declined.note ? { note: baseline.declined.note } : {}),
       },
       rules: Object.fromEntries(
         Object.entries(baseline.rules).map(([rule, info]) => [
           rule,
           {
             ...info,
-            count: counts[rule] ?? info.count,
+            count: declinedRules.has(rule)
+              ? info.count
+              : Math.min(counts[rule] ?? info.count, info.count),
           },
         ]),
       ),
@@ -413,8 +523,9 @@ if (
     const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
       ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
       : "";
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${declinedTotal}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production})${pncLog}.`);
+    // Reports the values actually WRITTEN, not the live measurements — the two
+    // diverge wherever a Math.min keeps the old floor.
+    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${updatedBaseline.declined.total}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production})${pncLog}.`);
   }
 }
-
 

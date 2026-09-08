@@ -20,7 +20,6 @@ import {
 
 import type * as TSType from "typescript";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const ts = require("typescript") as typeof TSType;
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));

@@ -69,10 +69,20 @@ export async function POST(req: NextRequest) {
   }
 
   const rl = await rateLimit(req, RATE_LIMIT);
-  if (!rl.allowed) return rl.response!;
+  if (!rl.allowed) {
+    return rl.response ?? NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   try {
-    const body: unknown = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid JSON in request body." },
+        { status: 400 },
+      );
+    }
     const parsedBody = requestSchema.safeParse(body);
     if (!parsedBody.success) {
       return NextResponse.json(

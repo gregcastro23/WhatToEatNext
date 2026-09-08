@@ -16,16 +16,14 @@ interface RecommendationCriteria {
 }
 
 export class RecipeRecommender {
-  private static instance: RecipeRecommender;
+  private static instance: RecipeRecommender | undefined;
 
   private constructor() {
     // Private constructor to enforce singleton pattern
   }
 
   static getInstance(): RecipeRecommender {
-    if (!RecipeRecommender.instance) {
-      RecipeRecommender.instance = new RecipeRecommender();
-    }
+    RecipeRecommender.instance ??= new RecipeRecommender();
     return RecipeRecommender.instance;
   }
 

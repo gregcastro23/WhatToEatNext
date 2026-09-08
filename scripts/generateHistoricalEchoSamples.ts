@@ -118,7 +118,7 @@ async function main() {
   const endMs = now.getTime();
   const total = Math.floor((endMs - snappedStart) / stepMs) + 1;
 
-  // eslint-disable-next-line no-console
+   
   console.log(
     `Historical echoes · ${years}y past · ${interval}d interval · ${total} samples · ${new Date(
       snappedStart,
@@ -159,7 +159,7 @@ async function main() {
 
     if (i > 0 && i % 200 === 0) {
       const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
-      // eslint-disable-next-line no-console
+       
       console.log(`  ${i}/${total} (${elapsed}s) ok=${ok} fail=${failed}`);
     }
   }
@@ -179,14 +179,14 @@ async function main() {
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(file));
   const sizeKb = (fs.statSync(outPath).size / 1024).toFixed(1);
-  // eslint-disable-next-line no-console
+   
   console.log(
     `\n✓ Wrote ${samples.length} historical samples to ${outPath} (${sizeKb} KB) — fail=${failed}`,
   );
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
+   
   console.error("generateHistoricalEchoSamples failed:", err);
   process.exit(1);
 });

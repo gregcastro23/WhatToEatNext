@@ -14,6 +14,7 @@ import {
   mapInstacartProxyError,
 } from "@/lib/instacart/idpClient";
 import { rateLimit } from "@/lib/rateLimit";
+import { InstacartShoppingListBodySchema } from "@/lib/validation/apiSchemas";
 import type {
   InstacartShoppingListRequest,
   InstacartShoppingListResponse,
@@ -100,17 +101,43 @@ function parseIngredientString(ingredient: string): InstacartLineItem {
 export async function POST(request: NextRequest) {
   try {
     const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "instacart-shopping-list" });
-    if (!rl.allowed) return rl.response!;
+    if (!rl.allowed) {
+      return (
+        rl.response ?? NextResponse.json({ error: "Too many requests" }, { status: 429 })
+      );
+    }
 
-    // Partial<>: the wire guarantees no field is present. Casting straight to
-    // the full body type asserted exactly what the guard below establishes,
-    // which made that validation read as provably dead code.
-    const body = (await request.json()) as Partial<InstacartShoppingListRequest>;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
+    const parsed = InstacartShoppingListBodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "No items provided", details: parsed.error.issues },
+        { status: 400 },
+      );
+    }
+    const body = parsed.data;
     
     let parsedLineItems: InstacartLineItem[] = [];
 
     if (body.line_items && body.line_items.length > 0) {
-      parsedLineItems = body.line_items;
+      parsedLineItems = body.line_items.map((item) => {
+        const lineItem: InstacartLineItem = {
+          name: item.name,
+          ...(item.display_text ? { display_text: item.display_text } : {}),
+          ...(item.line_item_measurements
+            ? { line_item_measurements: item.line_item_measurements }
+            : item.quantity !== undefined && item.unit !== undefined
+              ? { line_item_measurements: [{ quantity: item.quantity, unit: item.unit }] }
+              : {}),
+        };
+        return lineItem;
+      });
     } else if (body.ingredients && body.ingredients.length > 0) {
       parsedLineItems = body.ingredients.map(parseIngredientString);
     } else {

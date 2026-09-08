@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { FeedCommentReportRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -17,7 +18,6 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const REASONS = new Set(["spam", "harassment", "inappropriate", "other"]);
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -37,22 +37,21 @@ export async function POST(request: NextRequest, { params }: Params) {
     return NextResponse.json({ success: false, message: "Invalid comment id" }, { status: 400 });
   }
 
-  let body: { reason?: unknown; detail?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
 
-  const reason = typeof body.reason === "string" && REASONS.has(body.reason) ? body.reason : null;
-  if (!reason) {
+  const parsed = FeedCommentReportRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json({ success: false, message: "A valid reason is required" }, { status: 400 });
   }
-  const detail =
-    typeof body.detail === "string" && body.detail.trim() ? body.detail.trim().slice(0, 1000) : null;
+  const { reason, detail } = parsed.data;
 
   try {
-    const result = await feedCommentsDatabase.reportComment(id, userId, reason, detail);
+    const result = await feedCommentsDatabase.reportComment(id, userId, reason, detail ?? null);
     // Neutral response either way — never reveal whether this tipped the hide.
     return NextResponse.json({ success: true, reported: result.reported });
   } catch (error) {

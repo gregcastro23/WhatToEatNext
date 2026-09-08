@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
+import { FoodDiaryRatingSchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { FoodRating, MoodTag } from "@/types/foodDiary";
@@ -33,30 +34,43 @@ interface RouteParams {
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { entryId } = await params;
-    const body = await request.json();
-    const { userId, rating, moodTags, wouldEatAgain } = body;
-
-    if (!userId) {
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
       return NextResponse.json(
-        { success: false, message: "userId is required" },
+        { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
       );
     }
 
-    if (rating === undefined || rating < 0 || rating > 5) {
+    const parsed = FoodDiaryRatingSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      const isMissingUserId = parsed.error.issues.some((i) => i.path[0] === "userId");
+      if (isMissingUserId) {
+        return NextResponse.json(
+          { success: false, message: "userId is required" },
+          { status: 400 },
+        );
+      }
+      const ratingIssue = parsed.error.issues.find((i) => i.path[0] === "rating");
+      if (ratingIssue) {
+        return NextResponse.json(
+          { success: false, message: ratingIssue.message },
+          { status: 400 },
+        );
+      }
       return NextResponse.json(
-        { success: false, message: "rating must be between 0 and 5" },
+        {
+          success: false,
+          message: "Validation error",
+          details: parsed.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
 
-    // Validate rating is in 0.5 increments
-    if ((rating * 2) % 1 !== 0) {
-      return NextResponse.json(
-        { success: false, message: "rating must be in 0.5 increments" },
-        { status: 400 },
-      );
-    }
+    const { userId, rating, moodTags, wouldEatAgain } = parsed.data;
 
     const entry = await foodDiaryService.rateEntry(
       userId,

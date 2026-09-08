@@ -10,14 +10,12 @@ interface CuisineSauceMapping {
 }
 
 export class SauceRecommender {
-  private static instance: SauceRecommender;
+  private static instance: SauceRecommender | undefined;
 
   private constructor() {}
 
   public static getInstance(): SauceRecommender {
-    if (!SauceRecommender.instance) {
-      SauceRecommender.instance = new SauceRecommender();
-    }
+    SauceRecommender.instance ??= new SauceRecommender();
     return SauceRecommender.instance;
   }
 

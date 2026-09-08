@@ -100,7 +100,12 @@ export async function POST(request: NextRequest) {
     const userId = await getUserIdFromRequest(request);
 
     const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-post", identifier: userId ?? undefined });
-    if (!rl.allowed) return rl.response!;
+    if (!rl.allowed) {
+      return (
+        rl.response ??
+        NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 })
+      );
+    }
 
     let body: unknown;
     try {

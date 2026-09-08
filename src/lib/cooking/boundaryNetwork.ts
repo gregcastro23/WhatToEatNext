@@ -268,18 +268,7 @@ export function airProperties(tempC: number): FluidState {
   const [i, t] = bracket(AIR_TABLE, kelvin);
   const rowLo = AIR_TABLE[i];
   const rowHi = AIR_TABLE[i + 1];
-  if (
-    !rowLo ||
-    !rowHi ||
-    rowLo[1] === undefined ||
-    rowHi[1] === undefined ||
-    rowLo[2] === undefined ||
-    rowHi[2] === undefined ||
-    rowLo[3] === undefined ||
-    rowHi[3] === undefined ||
-    rowLo[4] === undefined ||
-    rowHi[4] === undefined
-  ) {
+  if (!rowLo || !rowHi) {
     throw new RangeError(`Corrupt air table entry at index ${i}`);
   }
   const rhoKgM3 = lerp(rowLo[1], rowHi[1], t);
@@ -341,22 +330,7 @@ export function saturatedWaterProperties(tempC: number): WaterState {
   const [i, t] = bracket(WATER_TABLE, kelvin);
   const rowLo = WATER_TABLE[i];
   const rowHi = WATER_TABLE[i + 1];
-  if (
-    !rowLo ||
-    !rowHi ||
-    rowLo[1] === undefined ||
-    rowHi[1] === undefined ||
-    rowLo[2] === undefined ||
-    rowHi[2] === undefined ||
-    rowLo[3] === undefined ||
-    rowHi[3] === undefined ||
-    rowLo[4] === undefined ||
-    rowHi[4] === undefined ||
-    rowLo[5] === undefined ||
-    rowHi[5] === undefined ||
-    rowLo[6] === undefined ||
-    rowHi[6] === undefined
-  ) {
+  if (!rowLo || !rowHi) {
     throw new RangeError(`Corrupt water table entry at index ${i}`);
   }
   const rhoKgM3 = lerp(rowLo[1], rowHi[1], t);
@@ -373,14 +347,7 @@ export function saturatedWaterProperties(tempC: number): WaterState {
   const hi = Math.min(WATER_TABLE.length - 1, lo + 2);
   const rowTableHi = WATER_TABLE[hi];
   const rowTableLo = WATER_TABLE[lo];
-  if (
-    !rowTableHi ||
-    !rowTableLo ||
-    rowTableHi[1] === undefined ||
-    rowTableLo[1] === undefined ||
-    rowTableHi[0] === undefined ||
-    rowTableLo[0] === undefined
-  ) {
+  if (!rowTableHi || !rowTableLo) {
     throw new RangeError(`Corrupt water table bounds at lo=${lo}, hi=${hi}`);
   }
   const betaPerK =

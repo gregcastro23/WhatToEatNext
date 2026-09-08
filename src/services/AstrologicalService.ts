@@ -84,7 +84,7 @@ export type PlanetName = Planet;
 
 // Export main class and types
 export class AstrologicalService {
-  private static instance: AstrologicalService;
+  private static instance: AstrologicalService | undefined;
   private currentState: CompleteAstrologicalState;
 
   private constructor() {
@@ -99,9 +99,7 @@ export class AstrologicalService {
    * Get singleton instance
    */
   public static getInstance(): AstrologicalService {
-    if (!AstrologicalService.instance) {
-      AstrologicalService.instance = new AstrologicalService();
-    }
+    AstrologicalService.instance ??= new AstrologicalService();
     return AstrologicalService.instance;
   }
 

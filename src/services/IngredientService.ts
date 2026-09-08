@@ -30,7 +30,7 @@ import type {
  * data and performs various filtering and analysis operations.
  */
 export class IngredientService implements IngredientServiceInterface {
-  private static instance: IngredientService;
+  private static instance: IngredientService | undefined;
   private ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
   private flatIngredientCache: UnifiedIngredient[] | null = null;
   /**
@@ -43,9 +43,7 @@ export class IngredientService implements IngredientServiceInterface {
    * Get singleton instance
    */
   public static getInstance(): IngredientService {
-    if (!IngredientService.instance) {
-      IngredientService.instance = new IngredientService();
-    }
+    IngredientService.instance ??= new IngredientService();
     return IngredientService.instance;
   }
   /**

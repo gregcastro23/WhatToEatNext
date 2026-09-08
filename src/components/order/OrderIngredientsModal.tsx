@@ -81,13 +81,18 @@ export function OrderIngredientsModal({
     if (!open || items.length === 0) return;
     let cancelled = false;
     setResolving(true);
-    fetch("/api/amazon/search", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ingredients: items.map((i) => i.name) }),
-    })
-      .then(async (res) => {
-        if (!res.ok || cancelled) return;
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    const isCancelled = (): boolean => cancelled;
+    async function search(): Promise<void> {
+      try {
+        const res = await fetch("/api/amazon/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ingredients: items.map((i) => i.name) }),
+        });
+        if (!res.ok || isCancelled()) return;
         const json = (await res.json()) as { results?: Array<{ ingredient: string; asin: string | null }> };
         if (!json.results) return;
         const map: Record<string, string> = {};
@@ -97,13 +102,13 @@ export function OrderIngredientsModal({
           if (match) map[match.key] = r.asin;
         }
         if (!cancelled) setAsins(map);
-      })
-      .catch(() => {
+      } catch {
         /* search links cover everything anyway */
-      })
-      .finally(() => {
+      } finally {
         if (!cancelled) setResolving(false);
-      });
+      }
+    }
+    void search();
     return () => {
       cancelled = true;
     };

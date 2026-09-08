@@ -51,9 +51,12 @@ function InviteLanding() {
   useEffect(() => {
     if (!token) return;
     let cancelled = false;
-    void (async () => {
+    // Named, not an inline IIFE: TypeScript does not reset narrowing across an
+    // IIFE, so `cancelled` would read as literal `false` and every unmount guard
+    // below would be reported as dead code. Do not inline.
+    async function fetchInvite(tok: string): Promise<void> {
       try {
-        const res = await fetch(`/api/table-invites/${encodeURIComponent(token)}`);
+        const res = await fetch(`/api/table-invites/${encodeURIComponent(tok)}`);
         if (cancelled) return;
         if (!res.ok) {
           setNotFound(true);
@@ -67,7 +70,8 @@ function InviteLanding() {
       } finally {
         if (!cancelled) setLoading(false);
       }
-    })();
+    }
+    void fetchInvite(token);
     return () => {
       cancelled = true;
     };
