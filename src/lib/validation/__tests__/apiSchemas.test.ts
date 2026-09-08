@@ -22,6 +22,22 @@ import {
   PushSubscribeRequestSchema,
   PremiumTableRequestSchema,
   SynastryRequestSchema,
+  IgniteRequestSchema,
+  NanobananaGenerateRequestSchema,
+  RecipesQueryBodySchema,
+  RecipeRefineRequestSchema,
+  RecipeExtractJsonBodySchema,
+  GenerateRecommendationsRequestSchema,
+  RitualCookingInstructionRequestSchema,
+  UserRecipeInteractionSchema,
+  UserMealPlanPostSchema,
+  FoodDiaryRatingSchema,
+  UpdateFoodLabEntryBodySchema,
+  RestaurantsDiscoverRequestSchema,
+  RestaurantsSearchRequestSchema,
+  RestaurantOnboardRequestSchema,
+  InstacartPriceEstimateRequestSchema,
+  InstacartShoppingListBodySchema,
 } from "../apiSchemas";
 
 describe("Batch 1A API Validation Schemas", () => {
@@ -357,6 +373,92 @@ describe("Batch 1B API Validation Schemas (Social, Tables, Feed & Groups)", () =
       expect(SynastryRequestSchema.safeParse(valid).success).toBe(true);
       expect(SynastryRequestSchema.safeParse({ viewer: {} }).success).toBe(false);
     });
+  });
+});
+
+describe("Batch 1C API Validation Schemas (Recipes, Menus, AI & Culinary)", () => {
+  it("validates IgniteRequestSchema", () => {
+    expect(IgniteRequestSchema.safeParse({ dob: "1990-01-01", city: "London" }).success).toBe(true);
+    expect(IgniteRequestSchema.safeParse({ dob: "1990-01-01" }).success).toBe(false);
+    expect(IgniteRequestSchema.safeParse({ city: "London" }).success).toBe(false);
+  });
+
+  it("validates NanobananaGenerateRequestSchema", () => {
+    expect(NanobananaGenerateRequestSchema.safeParse({ title: "Solar Broth" }).success).toBe(true);
+    expect(NanobananaGenerateRequestSchema.safeParse({ title: "" }).success).toBe(false);
+    expect(NanobananaGenerateRequestSchema.safeParse({}).success).toBe(false);
+  });
+
+  it("validates RecipesQueryBodySchema with defaults", () => {
+    const res = RecipesQueryBodySchema.safeParse({});
+    expect(res.success).toBe(true);
+    if (res.success) {
+      expect(res.data.limit).toBe(20);
+      expect(res.data.offset).toBe(0);
+    }
+  });
+
+  it("validates RecipeRefineRequestSchema and RecipeExtractJsonBodySchema", () => {
+    expect(RecipeRefineRequestSchema.safeParse({ cuisine: "Mediterranean" }).success).toBe(true);
+    expect(RecipeExtractJsonBodySchema.safeParse({ text: "Recipe instructions..." }).success).toBe(true);
+  });
+
+  it("validates GenerateRecommendationsRequestSchema", () => {
+    const valid = {
+      dayOfWeek: 2,
+      astroState: { moonPhase: "Waxing Gibbous" },
+      options: { mealType: "dinner" },
+    };
+    expect(GenerateRecommendationsRequestSchema.safeParse(valid).success).toBe(true);
+    expect(GenerateRecommendationsRequestSchema.safeParse({ dayOfWeek: 7, astroState: {} }).success).toBe(false);
+  });
+
+  it("validates UserRecipeInteractionSchema", () => {
+    const res = UserRecipeInteractionSchema.safeParse({ madeIt: true, rating: 4, review: "Delicious!" });
+    expect(res.success).toBe(true);
+    if (res.success) {
+      expect(res.data.madeIt).toBe(true);
+      expect(res.data.rating).toBe(4);
+    }
+  });
+
+  it("validates UserMealPlanPostSchema", () => {
+    const validSingle = { recipeId: "rec-1", date: "2026-03-01", servings: 2 };
+    expect(UserMealPlanPostSchema.safeParse(validSingle).success).toBe(true);
+
+    const validBulk = {
+      bulkImport: [{ recipeId: "rec-1", date: "2026-03-01", servings: 1 }],
+    };
+    expect(UserMealPlanPostSchema.safeParse(validBulk).success).toBe(true);
+  });
+
+  it("validates FoodDiaryRatingSchema (0-5 in 0.5 increments)", () => {
+    expect(FoodDiaryRatingSchema.safeParse({ userId: "u1", rating: 4.5 }).success).toBe(true);
+    expect(FoodDiaryRatingSchema.safeParse({ userId: "u1", rating: 4.3 }).success).toBe(false);
+    expect(FoodDiaryRatingSchema.safeParse({ userId: "u1", rating: 6 }).success).toBe(false);
+  });
+
+  it("validates UpdateFoodLabEntryBodySchema", () => {
+    expect(UpdateFoodLabEntryBodySchema.safeParse({ dishName: "Herbal Broth", isPublic: true }).success).toBe(true);
+  });
+
+  it("validates RestaurantsDiscoverRequestSchema and RestaurantsSearchRequestSchema", () => {
+    expect(RestaurantsDiscoverRequestSchema.safeParse({ latitude: 37.77, longitude: -122.41 }).success).toBe(true);
+    expect(RestaurantsSearchRequestSchema.safeParse({ cuisineType: "Italian", latitude: "37.77" }).success).toBe(true);
+  });
+
+  it("validates RestaurantOnboardRequestSchema", () => {
+    expect(RestaurantOnboardRequestSchema.safeParse({ name: "Solar Kitchen", email: "chef@example.com" }).success).toBe(true);
+    expect(RestaurantOnboardRequestSchema.safeParse({ name: "" }).success).toBe(false);
+  });
+
+  it("validates Instacart schemas", () => {
+    expect(InstacartPriceEstimateRequestSchema.safeParse({ line_items: ["parsley"] }).success).toBe(true);
+    expect(InstacartPriceEstimateRequestSchema.safeParse({ line_items: [] }).success).toBe(false);
+
+    expect(InstacartShoppingListBodySchema.safeParse({ line_items: [{ name: "parsley" }] }).success).toBe(true);
+    expect(InstacartShoppingListBodySchema.safeParse({ ingredients: ["parsley"] }).success).toBe(true);
+    expect(InstacartShoppingListBodySchema.safeParse({}).success).toBe(false);
   });
 });
 

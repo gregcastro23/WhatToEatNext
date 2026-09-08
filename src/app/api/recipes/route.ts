@@ -7,6 +7,7 @@ import { getServerRecipes } from "@/actions/recipes";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
+import { RecipesQueryBodySchema } from "@/lib/validation/apiSchemas";
 import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
@@ -139,10 +140,22 @@ async function handleGet(request: Request) {
 
 async function handlePost(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
-  if (!rl.allowed) return rl.response!;
+  if (!rl.allowed && rl.response) return rl.response;
   // Allow POST with body params as an alternative to GET query params
   try {
-    const body = await request.json().catch(() => ({}));
+    const rawBody: unknown = await request.json().catch(() => null);
+    if (!rawBody) {
+      return NextResponse.json({ success: false, error: "Invalid JSON" }, { status: 400 });
+    }
+
+    const parsed = RecipesQueryBodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, error: "Invalid request", details: parsed.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+    const { element, cuisine, search, limit, offset } = parsed.data;
 
     // Proxy to Hono if configured
     if (HONO_API_URL) {
@@ -150,7 +163,7 @@ async function handlePost(request: Request) {
         const honoResponse = await fetch(`${HONO_API_URL}/api/recipes`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: JSON.stringify(parsed.data),
         });
         if (honoResponse.ok) {
           const data = await honoResponse.json();
@@ -161,7 +174,6 @@ async function handlePost(request: Request) {
       }
     }
 
-    const { element, cuisine, search, limit = 20, offset = 0 } = body;
     const params = new URLSearchParams();
     if (element) params.set("element", element);
     if (cuisine) params.set("cuisine", cuisine);

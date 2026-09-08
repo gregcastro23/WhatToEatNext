@@ -1,9 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { menuTemplateSaveBodySchema } from "@/lib/menu-planner/schemas";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import type {
-  MealSlot,
-  GroceryItem,
   DayOfWeek,
   DailyNutritionTotals,
 } from "@/types/menuPlanner";
@@ -13,16 +12,6 @@ const logger = createLogger("api:menu-planner:templates");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-interface SaveTemplateRequestBody {
-  name?: unknown;
-  weekStartDate?: unknown;
-  meals?: unknown;
-  nutritionalTotals?: unknown;
-  groceryList?: unknown;
-  inventory?: unknown;
-  weeklyBudget?: unknown;
-}
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
@@ -63,44 +52,64 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Partial<>: the wire guarantees no field is present. Casting straight to
-    // the full body type asserted exactly what the guard below establishes,
-    // which made that validation read as provably dead code.
-    const body = (await request.json()) as Partial<SaveTemplateRequestBody>;
-    if (!body || typeof body.name !== "string" || !body.name.trim()) {
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
       return NextResponse.json(
-        { success: false, message: "Template name is required" },
+        { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
       );
     }
 
-    const weekStartDate = new Date(String(body.weekStartDate ?? ""));
-    if (Number.isNaN(weekStartDate.getTime())) {
+    const parsed = menuTemplateSaveBodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      const nameIssue = parsed.error.issues.find((i) => i.path[0] === "name");
+      if (nameIssue) {
+        return NextResponse.json(
+          { success: false, message: "Template name is required" },
+          { status: 400 },
+        );
+      }
+      const dateIssue = parsed.error.issues.find((i) => i.path[0] === "weekStartDate");
+      if (dateIssue) {
+        return NextResponse.json(
+          { success: false, message: "Invalid weekStartDate" },
+          { status: 400 },
+        );
+      }
       return NextResponse.json(
-        { success: false, message: "Invalid weekStartDate" },
+        {
+          success: false,
+          message: "Invalid payload",
+          details: parsed.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
+
+    const {
+      name,
+      weekStartDate,
+      meals,
+      nutritionalTotals,
+      groceryList,
+      inventory,
+      weeklyBudget,
+    } = parsed.data;
 
     const template = await menuPersistenceService.saveTemplate(userId, {
-      name: body.name.trim(),
+      name,
       menu: {
         weekStartDate,
-        meals: Array.isArray(body.meals) ? (body.meals as MealSlot[]) : [],
-        nutritionalTotals: (body.nutritionalTotals ?? {}) as Record<
+        meals,
+        nutritionalTotals: nutritionalTotals as Record<
           DayOfWeek,
           DailyNutritionTotals
         >,
-        groceryList: Array.isArray(body.groceryList)
-          ? (body.groceryList as GroceryItem[])
-          : [],
-        inventory: Array.isArray(body.inventory)
-          ? (body.inventory as string[])
-          : [],
-        weeklyBudget:
-          typeof body.weeklyBudget === "number" || body.weeklyBudget === null
-            ? body.weeklyBudget
-            : null,
+        groceryList,
+        inventory,
+        weeklyBudget,
       },
     });
 

@@ -195,6 +195,16 @@ export const menuPutBodySchema = z.object({
   weeklyBudget: z.number().finite().nullable().default(null),
 });
 
+export const menuTemplateSaveBodySchema = z.object({
+  name: z.string().trim().min(1, "Template name is required"),
+  weekStartDate: isoDateSchema,
+  meals: z.array(mealSlotSchema).default([]),
+  nutritionalTotals: nutritionalTotalsSchema.default(() => ({})),
+  groceryList: z.array(groceryItemSchema).default([]),
+  inventory: z.array(z.string()).default([]),
+  weeklyBudget: z.number().finite().nullable().default(null),
+});
+
 export const savedMenuSchema = z
   .object({
     id: z.string(),

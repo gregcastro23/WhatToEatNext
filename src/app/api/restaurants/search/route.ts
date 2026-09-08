@@ -13,6 +13,7 @@
 
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
+import { RestaurantsSearchRequestSchema } from "@/lib/validation/apiSchemas";
 import {
   discoverRestaurants,
   emptyCosmicContext,
@@ -129,18 +130,10 @@ export async function GET(request: NextRequest) {
 
 // ─── Cosmic-scored POST (alias of /api/restaurants/discover) ───────────────
 
-interface ScoredSearchBody {
-  cuisineType?: unknown;
-  latitude?: unknown;
-  longitude?: unknown;
-  radius?: unknown;
-  limit?: unknown;
-}
-
 export async function POST(request: NextRequest) {
-  let body: ScoredSearchBody;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as ScoredSearchBody;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       {
@@ -151,6 +144,20 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+
+  const parsed = RestaurantsSearchRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        restaurants: [],
+        cosmicContext: emptyCosmicContext(),
+        error: "Invalid request payload",
+      } satisfies RestaurantSearchResponse,
+      { status: 400 },
+    );
+  }
+
+  const body = parsed.data;
 
   const cuisineType =
     typeof body.cuisineType === "string" ? body.cuisineType.trim() : "";

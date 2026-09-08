@@ -5,6 +5,7 @@ import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { NanobananaGenerateRequestSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 const RATE_LIMIT = { window: 60_000, max: 10, bucket: "nanobanana-generate" };
@@ -17,15 +18,20 @@ export async function POST(req: NextRequest) {
   }
 
   const rl = await rateLimit(req, RATE_LIMIT);
-  if (!rl.allowed) return rl.response!;
+  if (!rl.allowed && rl.response) return rl.response;
 
   try {
-    const body = await req.json();
-    const { title, description } = body;
-
-    if (!title) {
+    let rawBody: unknown;
+    try {
+      rawBody = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON in request body." }, { status: 400 });
+    }
+    const parsed = NanobananaGenerateRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json({ error: "Missing recipe title." }, { status: 400 });
     }
+    const { title, description } = parsed.data;
 
     // Generate a unique cache key based on the content
     const hash = createHash("sha256")

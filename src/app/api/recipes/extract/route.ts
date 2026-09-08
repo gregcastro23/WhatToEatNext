@@ -27,6 +27,7 @@ import {
   extractRecipesFromImages,
   extractRecipesFromText,
 } from "@/lib/recipes/extractRecipe";
+import { RecipeExtractJsonBodySchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
@@ -91,8 +92,11 @@ export async function POST(request: NextRequest) {
         imageDataUrls.push(`data:${file.type};base64,${buffer.toString("base64")}`);
       }
     } else {
-      const body = (await request.json().catch(() => ({}))) as { text?: unknown };
-      if (typeof body.text === "string") ({ text } = body);
+      const rawJson = await request.json().catch(() => ({}));
+      const parsedJson = RecipeExtractJsonBodySchema.safeParse(rawJson);
+      if (parsedJson.success && typeof parsedJson.data.text === "string") {
+        ({ text } = parsedJson.data);
+      }
     }
 
     text = text.slice(0, MAX_TEXT);

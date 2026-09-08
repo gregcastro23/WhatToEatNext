@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { UpdateFoodLabEntryBodySchema } from "@/lib/validation/apiSchemas";
 import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken } from "../shared";
 import type { NextRequest } from "next/server";
 
@@ -15,23 +16,6 @@ interface FoodLabEntryDbRow extends Record<string, unknown> {
   user_id: string;
   is_public: boolean;
   share_token: string | null;
-}
-
-interface UpdateFoodLabEntryBody {
-  dishName?: string;
-  description?: string;
-  notes?: string;
-  recipeName?: string;
-  cuisineType?: string;
-  cookingMethod?: string;
-  cookedAt?: string;
-  photos?: Array<{ dataUrl: string; caption?: string; uploadedAt: string }>;
-  elementalTags?: Record<string, number>;
-  alchemicalTags?: Record<string, number>;
-  planetaryContext?: Record<string, unknown>;
-  rating?: number;
-  tags?: string[];
-  isPublic?: boolean;
 }
 
 let _dbMod: typeof import("@/lib/database") | null = null;
@@ -90,7 +74,21 @@ export async function PUT(
   if ("error" in authResult) return authResult.error;
 
   const { userId } = authResult.user;
-  const body = (await request.json()) as UpdateFoodLabEntryBody;
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON in request body" }, { status: 400 });
+  }
+
+  const parsed = UpdateFoodLabEntryBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid food lab entry payload", details: parsed.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+  const body = parsed.data;
   const now = new Date().toISOString();
 
   const {

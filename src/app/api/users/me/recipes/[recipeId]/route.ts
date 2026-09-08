@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { UserRecipeInteractionSchema } from "@/lib/validation/apiSchemas";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { NextRequest } from "next/server";
@@ -107,18 +108,23 @@ export async function POST(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: { madeIt?: boolean; rating?: number; review?: string };
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const madeIt = typeof body.madeIt === "boolean" ? body.madeIt : false;
-  const ratingRaw = typeof body.rating === "number" ? Math.round(body.rating) : 0;
-  const rating = Math.max(0, Math.min(5, ratingRaw));
-  const review =
-    typeof body.review === "string" ? body.review.slice(0, 500) : "";
+  const parsed = UserRecipeInteractionSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid payload", details: parsed.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const { madeIt, rating: parsedRating, review } = parsed.data;
+  const rating = Math.max(0, Math.min(5, Math.round(parsedRating)));
 
   try {
     // Mirror GET's slug→UUID resolution so the same recipe can't produce two

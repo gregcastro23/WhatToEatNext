@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
+import { RestaurantsDiscoverRequestSchema } from "@/lib/validation/apiSchemas";
 import {
   discoverRestaurants,
   emptyCosmicContext,
@@ -18,14 +19,6 @@ import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-interface DiscoverBody {
-  cuisine?: unknown;
-  latitude?: unknown;
-  longitude?: unknown;
-  radius?: unknown;
-  limit?: unknown;
-}
 
 function numberFrom(value: unknown): number | null {
   // A missing search param is `null`, and `Number(null) === 0` — guard empty/null
@@ -39,7 +32,15 @@ function textValue(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-async function discover(input: DiscoverBody) {
+interface DiscoverInput {
+  cuisine?: unknown;
+  latitude?: unknown;
+  longitude?: unknown;
+  radius?: unknown;
+  limit?: unknown;
+}
+
+async function discover(input: DiscoverInput) {
   const latitude = numberFrom(input.latitude);
   const longitude = numberFrom(input.longitude);
 
@@ -90,9 +91,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  let body: DiscoverBody;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as DiscoverBody;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       {
@@ -105,5 +106,18 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  return discover(body);
+  const parsed = RestaurantsDiscoverRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        restaurants: [],
+        cosmicContext: emptyCosmicContext(),
+        source: "google",
+        error: "Invalid request payload",
+      } satisfies RestaurantSearchResponse,
+      { status: 400 },
+    );
+  }
+
+  return discover(parsed.data);
 }

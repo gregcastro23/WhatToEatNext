@@ -13,6 +13,7 @@ import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
+import { RestaurantOnboardRequestSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 // Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
 // `stripe` default export as the actual class with merged namespace —
@@ -24,16 +25,6 @@ import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-interface RestaurantOnboardBody {
-  restaurantId?: unknown;
-  name?: unknown;
-  email?: unknown;
-  businessType?: unknown;
-  externalProvider?: unknown;
-  externalId?: unknown;
-  menuUrl?: unknown;
-}
 
 interface RestaurantRow {
   id: string;
@@ -176,26 +167,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: RestaurantOnboardBody;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as RestaurantOnboardBody;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
+  const parsed = RestaurantOnboardRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Restaurant name is required", details: parsed.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const body = parsed.data;
   const restaurantId = restaurantIdFrom(body.restaurantId);
   const name = text(body.name);
   const email = text(body.email) || session.user.email;
   const externalProvider = text(body.externalProvider) || null;
   const externalId = text(body.externalId) || null;
   const menuUrl = text(body.menuUrl) || null;
-
-  if (!name) {
-    return NextResponse.json(
-      { error: "Restaurant name is required" },
-      { status: 400 },
-    );
-  }
 
   try {
     const { getStripe } = await import("@/lib/stripe/stripe");

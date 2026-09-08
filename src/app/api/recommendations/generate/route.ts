@@ -14,15 +14,14 @@ import {
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
 import { withObservability } from "@/lib/observability/withObservability";
+import { GenerateRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import type { DayOfWeek } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import {
   generateDayRecommendations,
-  type AstrologicalState,
   type DayRecommendationOptions,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
@@ -190,12 +189,6 @@ async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T
   }
 }
 
-interface GenerateRequestBody {
-  dayOfWeek: DayOfWeek;
-  astroState: AstrologicalState;
-  options?: DayRecommendationOptions;
-  retryToken?: string;
-}
 
 async function handlePost(request: NextRequest) {
   const tStart = Date.now();
@@ -208,9 +201,9 @@ async function handlePost(request: NextRequest) {
   });
   if (access.mode === "denied") return access.blocked;
 
-  let body: GenerateRequestBody;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid request body" },
@@ -218,22 +211,15 @@ async function handlePost(request: NextRequest) {
     );
   }
 
-  const { dayOfWeek, astroState, options = {}, retryToken } = body;
-  if (
-    typeof dayOfWeek !== "number" ||
-    dayOfWeek < 0 ||
-    dayOfWeek > 6 ||
-    !astroState ||
-    typeof astroState !== "object" ||
-    !options ||
-    typeof options !== "object" ||
-    Array.isArray(options)
-  ) {
+  const parsed = GenerateRecommendationsRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json(
       { success: false, message: "Invalid request payload" },
       { status: 400 },
     );
   }
+
+  const { dayOfWeek, retryToken, astroState, options = {} } = parsed.data;
 
   // The client's userContext (natal chart, stats) is never trusted. For
   // authenticated users it is rebuilt below from the stored profile; for the

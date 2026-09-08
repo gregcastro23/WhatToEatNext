@@ -1,22 +1,22 @@
 {
-  "trackedTotal": 1547,
+  "trackedTotal": 1520,
   "casts": {
     "total": 168,
     "asAny": 39,
     "asUnknownAs": 129,
     "production": 136,
     "test": 32,
-    "untrackedSingleAsT": 2039
+    "untrackedSingleAsT": 2029
   },
   "assertionSites": {
-    "total": 3366,
+    "total": 3353,
     "asAny": 38,
     "chained": 129,
-    "single": 3199,
-    "production": 2742,
+    "single": 3186,
+    "production": 2729,
     "test": 624,
     "asConst": 550,
-    "nonNull": 625
+    "nonNull": 618
   },
   "subBaselines": {
     "preferNullishCoalescing": {
@@ -28,17 +28,17 @@
     }
   },
   "declined": {
-    "total": 4922,
+    "total": 4924,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1374,
-      "@typescript-eslint/explicit-module-boundary-types": 671,
+      "@typescript-eslint/explicit-module-boundary-types": 672,
       "complexity": 300,
       "max-depth": 85,
       "max-lines": 514,
-      "max-lines-per-function": 1593,
+      "max-lines-per-function": 1594,
       "no-void": 385
     },
-    "note": "Declined rules pool. Headroom maintained for no-void (385 vs 374 live) to accommodate standard `void promise` ignored-promise idioms without triggering false regressions; EFRT restored to 1374 and complexity restored to 300 ahead of Tranche 1 route handlers."
+    "note": "Declined rules pool. Headroom maintained for no-void (385 vs 374 live) to accommodate standard `void promise` ignored-promise idioms without triggering false regressions; EFRT restored to 1374, EMBT to 672, max-lines-per-function to 1594, and complexity restored to 300 ahead of Tranche 1 route handlers."
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
@@ -46,11 +46,11 @@
       "autoFixable": 0
     },
     "@typescript-eslint/explicit-module-boundary-types": {
-      "count": 671,
+      "count": 672,
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 142,
+      "count": 141,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -58,15 +58,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 842,
+      "count": 840,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 59,
+      "count": 51,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 180,
+      "count": 165,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -74,7 +74,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 163,
+      "count": 162,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -126,7 +126,7 @@
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 1593,
+      "count": 1594,
       "autoFixable": 0
     },
     "max-nested-callbacks": {

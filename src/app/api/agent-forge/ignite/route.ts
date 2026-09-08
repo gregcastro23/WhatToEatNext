@@ -19,6 +19,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { IgniteRequestSchema } from "@/lib/validation/apiSchemas";
 import { geocodeLocationSingle } from "@/services/geocodingService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
@@ -43,11 +44,6 @@ export const dynamic = "force-dynamic";
  */
 const RECIPE_GEN_TIMEOUT_MS = 20_000;
 
-interface IgniteRequestBody {
-  dob?: string;
-  city?: string;
-}
-
 export async function POST(req: Request): Promise<NextResponse> {
   try {
     // 1. Authenticate user from active NextAuth session
@@ -71,14 +67,23 @@ export async function POST(req: Request): Promise<NextResponse> {
     }
 
     // 2. Parse request payload
-    const body = (await req.json().catch(() => null)) as IgniteRequestBody | null;
-    if (!body?.dob || !body.city) {
+    let rawBody: unknown;
+    try {
+      rawBody = await req.json();
+    } catch {
       return NextResponse.json(
         { success: false, error: "bad_request", message: "Date of Birth (dob) and City (city) are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    const { dob, city } = body;
+    const parsed = IgniteRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, error: "bad_request", message: "Date of Birth (dob) and City (city) are required." },
+        { status: 400 },
+      );
+    }
+    const { dob, city } = parsed.data;
 
     // 3. Geocode location to coordinates
     //

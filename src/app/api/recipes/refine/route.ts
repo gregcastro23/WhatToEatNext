@@ -10,6 +10,7 @@ import {
 } from "@/lib/economy/livePricing";
 import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
 import { _logger } from "@/lib/logger";
+import { RecipeRefineRequestSchema } from "@/lib/validation/apiSchemas";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Recipe } from "@/types/recipe";
@@ -29,8 +30,20 @@ export async function POST(request: NextRequest) {
     // Throttling: Substance token spend (debited below) is the economic gate.
     // No per-minute rate cap — logged-in users are paced by their token balance.
 
-    const body = await request.json().catch(() => ({}));
-    const { cuisine } = body;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ success: false, error: "Invalid JSON in request body" }, { status: 400 });
+    }
+    const parsed = RecipeRefineRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, error: "Invalid request", details: parsed.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+    const { cuisine } = parsed.data;
 
     // Personalised live pricing: even though refine debits only Substance, run
     // it through the same chart × current-sky multiplier so the economy stays

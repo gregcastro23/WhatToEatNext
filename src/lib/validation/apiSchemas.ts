@@ -14,6 +14,10 @@
 
 import { z } from "zod";
 import type { NatalChart } from "@/types/natalChart";
+import type {
+  AstrologicalState,
+  DayRecommendationOptions,
+} from "@/utils/menuPlanner/recommendationBridge";
 
 // ─── Elemental properties ────────────────────────────────────────────────────
 
@@ -664,6 +668,259 @@ export const AlchmQuantitiesApiResponseSchema = z.object({
 export type AlchmQuantitiesApiResponse = z.infer<
   typeof AlchmQuantitiesApiResponseSchema
 >;
+
+// ─── Batch 1C: Recipe, Menu Planning & AI Generation Endpoints ──────────────
+
+export const IgniteRequestSchema = z.object({
+  dob: z.string().min(1, "Date of Birth is required"),
+  city: z.string().min(1, "City is required"),
+});
+export type ParsedIgniteRequest = z.infer<typeof IgniteRequestSchema>;
+
+export const NanobananaGenerateRequestSchema = z.object({
+  title: z.string().trim().min(1, "Missing recipe title."),
+  description: z.string().trim().optional(),
+});
+export type ParsedNanobananaGenerateRequest = z.infer<
+  typeof NanobananaGenerateRequestSchema
+>;
+
+export const RecipesQueryBodySchema = z.object({
+  element: z.string().optional(),
+  cuisine: z.string().optional(),
+  search: z.string().optional(),
+  limit: z.coerce.number().int().min(1).max(100).optional().default(20),
+  offset: z.coerce.number().int().min(0).optional().default(0),
+});
+export type ParsedRecipesQueryBody = z.infer<typeof RecipesQueryBodySchema>;
+
+export const RecipeRefineRequestSchema = z.object({
+  cuisine: z.string().trim().optional(),
+});
+export type ParsedRecipeRefineRequest = z.infer<typeof RecipeRefineRequestSchema>;
+
+export const RecipeExtractJsonBodySchema = z.object({
+  text: z.string().optional(),
+});
+export type ParsedRecipeExtractJsonBody = z.infer<typeof RecipeExtractJsonBodySchema>;
+
+export const GenerateRecommendationsRequestSchema = z.object({
+  dayOfWeek: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+  ]),
+  astroState: z.custom<AstrologicalState>(
+    (val): boolean => Boolean(val && typeof val === "object" && !Array.isArray(val)),
+    "astroState must be an object",
+  ),
+  options: z
+    .custom<DayRecommendationOptions>(
+      (val): boolean => Boolean(val && typeof val === "object" && !Array.isArray(val)),
+      "options must be an object",
+    )
+    .optional(),
+  retryToken: z.string().optional(),
+});
+export type ParsedGenerateRecommendationsRequest = z.infer<
+  typeof GenerateRecommendationsRequestSchema
+>;
+
+export const RitualCookingInstructionRequestSchema = z.object({
+  recipe_id: z.string().optional(),
+});
+export type ParsedRitualCookingInstructionRequest = z.infer<
+  typeof RitualCookingInstructionRequestSchema
+>;
+
+export const UserRecipeInteractionSchema = z.object({
+  madeIt: z.boolean().optional().default(false),
+  rating: z.coerce.number().min(0).max(5).optional().default(0),
+  review: z.string().max(500).optional().default(""),
+});
+export type ParsedUserRecipeInteraction = z.infer<typeof UserRecipeInteractionSchema>;
+
+export const BulkImportMealPlanEntrySchema = z.object({
+  recipeId: z.string().min(1),
+  recipeName: z.string().nullable().optional(),
+  date: z.string().min(1),
+  mealType: z.string().nullable().optional(),
+  servings: z.number().int().optional().default(1),
+});
+
+export const UserMealPlanPostSchema = z.object({
+  bulkImport: z.array(BulkImportMealPlanEntrySchema).optional(),
+  recipeId: z.string().optional(),
+  recipeName: z.string().nullable().optional(),
+  date: z.string().optional(),
+  mealType: z.string().nullable().optional(),
+  servings: z.number().int().optional(),
+});
+export type ParsedUserMealPlanPost = z.infer<typeof UserMealPlanPostSchema>;
+
+export const FoodDiaryRatingSchema = z.object({
+  userId: z.string().min(1, "userId is required"),
+  rating: z.number().min(0).max(5).refine((r) => (r * 2) % 1 === 0, {
+    message: "rating must be in 0.5 increments",
+  }),
+  moodTags: z.array(z.string()).optional(),
+  wouldEatAgain: z.boolean().optional(),
+});
+export type ParsedFoodDiaryRating = z.infer<typeof FoodDiaryRatingSchema>;
+
+export const UpdateFoodLabEntryBodySchema = z.object({
+  dishName: z.string().trim().min(1).optional(),
+  description: z.string().optional(),
+  notes: z.string().optional(),
+  recipeName: z.string().optional(),
+  cuisineType: z.string().optional(),
+  cookingMethod: z.string().optional(),
+  cookedAt: z.string().datetime().optional(),
+  photos: z
+    .array(
+      z.object({
+        dataUrl: z.string(),
+        caption: z.string().optional(),
+        uploadedAt: z.string().datetime(),
+      }),
+    )
+    .optional(),
+  elementalTags: z.record(z.string(), z.number().finite()).optional(),
+  alchemicalTags: z.record(z.string(), z.number().finite()).optional(),
+  planetaryContext: z.record(z.string(), z.unknown()).optional(),
+  rating: z.number().finite().optional(),
+  tags: z.array(z.string()).optional(),
+  isPublic: z.boolean().optional(),
+});
+export type ParsedUpdateFoodLabEntryBody = z.infer<typeof UpdateFoodLabEntryBodySchema>;
+
+export const RestaurantsDiscoverRequestSchema = z.object({
+  cuisine: z.string().optional(),
+  latitude: z.union([z.number(), z.string()]).optional(),
+  longitude: z.union([z.number(), z.string()]).optional(),
+  radius: z.union([z.number(), z.string()]).optional(),
+  limit: z.union([z.number(), z.string()]).optional(),
+});
+export type ParsedRestaurantsDiscoverRequest = z.infer<
+  typeof RestaurantsDiscoverRequestSchema
+>;
+
+export const RestaurantsSearchRequestSchema = z.object({
+  cuisineType: z.string().optional(),
+  latitude: z.union([z.number(), z.string()]).optional(),
+  longitude: z.union([z.number(), z.string()]).optional(),
+  radius: z.union([z.number(), z.string()]).optional(),
+  limit: z.union([z.number(), z.string()]).optional(),
+});
+export type ParsedRestaurantsSearchRequest = z.infer<
+  typeof RestaurantsSearchRequestSchema
+>;
+
+export const RestaurantOnboardRequestSchema = z.object({
+  restaurantId: z.string().optional(),
+  name: z.string().trim().min(1, "Restaurant name is required"),
+  email: z.string().email().optional(),
+  businessType: z.string().optional(),
+  externalProvider: z.string().optional(),
+  externalId: z.string().optional(),
+  menuUrl: z.string().url().optional(),
+});
+export type ParsedRestaurantOnboardRequest = z.infer<
+  typeof RestaurantOnboardRequestSchema
+>;
+
+export const InstacartPriceEstimateItemSchema = z.union([
+  z.string().min(1, "Item string cannot be empty"),
+  z.object({
+    name: z.string().min(1, "Item name is required"),
+    display_text: z.string().optional(),
+    product_ids: z.array(z.number()).optional(),
+    upcs: z.array(z.string()).optional(),
+    line_item_measurements: z
+      .array(
+        z.object({
+          quantity: z.number(),
+          unit: z.string(),
+        }),
+      )
+      .optional(),
+  }),
+]);
+
+export const InstacartPriceEstimateRequestSchema = z.object({
+  line_items: z.array(InstacartPriceEstimateItemSchema).min(1, "Missing line_items"),
+});
+export type ParsedInstacartPriceEstimateRequest = z.infer<
+  typeof InstacartPriceEstimateRequestSchema
+>;
+
+export const InstacartShoppingListBodySchema = z
+  .object({
+    title: z.string().optional(),
+    line_items: z
+      .array(
+        z.object({
+          name: z.string().min(1, "Item name is required"),
+          quantity: z.number().optional(),
+          unit: z.string().optional(),
+          display_text: z.string().optional(),
+          line_item_measurements: z
+            .array(
+              z.object({
+                quantity: z.number(),
+                unit: z.string(),
+              }),
+            )
+            .optional(),
+        }),
+      )
+      .optional(),
+    ingredients: z.array(z.string()).optional(),
+  })
+  .refine(
+    (data): boolean =>
+      (data.line_items !== undefined && data.line_items.length > 0) ||
+      (data.ingredients !== undefined && data.ingredients.length > 0),
+    { message: "No items provided" },
+  );
+export type ParsedInstacartShoppingListBody = z.infer<
+  typeof InstacartShoppingListBodySchema
+>;
+
+export const RestaurantOrderBodySchema = z
+  .object({
+    cuisineType: z.unknown(),
+    provider: z.unknown(),
+    restaurant: z
+      .object({
+        id: z.unknown(),
+        name: z.unknown(),
+        url: z.unknown(),
+        stripeConnectedAccountId: z.unknown(),
+      })
+      .optional(),
+    order: z
+      .object({
+        amountCents: z.unknown(),
+        currency: z.unknown(),
+        description: z.unknown(),
+        items: z.unknown(),
+        splitMode: z.unknown(),
+        orderType: z.unknown(),
+        customer: z.unknown(),
+        deliveryAddress: z.unknown(),
+        specialInstructions: z.unknown(),
+        preparationTime: z.unknown(),
+        paymentMethod: z.unknown(),
+      })
+      .optional(),
+  })
+  .passthrough();
+export type ParsedRestaurantOrderBody = z.infer<typeof RestaurantOrderBodySchema>;
 
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.
