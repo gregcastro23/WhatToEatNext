@@ -52,6 +52,7 @@ export const lintDebtBaselineSchema = z.object({
   declined: z.object({
     total: z.number().int().nonnegative().optional(),
     rules: z.record(z.string(), z.number().int().nonnegative()),
+    note: z.string().optional(),
   }),
   rules: z.record(
     z.string(),
