@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1635,
+  "trackedTotal": 1624,
   "casts": {
     "total": 169,
     "asAny": 40,
@@ -15,7 +15,7 @@
     "single": 3228,
     "production": 2772,
     "test": 624,
-    "asConst": 547,
+    "asConst": 550,
     "nonNull": 630
   },
   "subBaselines": {
@@ -57,7 +57,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 897,
+      "count": 886,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {

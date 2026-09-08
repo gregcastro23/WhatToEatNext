@@ -16,15 +16,13 @@ import { calculateRecipeAlchemicalQuantities } from "@/utils/recipeAlchemicalQua
 const logger = createLogger("UnifiedRecipeService");
 
 export class UnifiedRecipeService {
-  private static instance: UnifiedRecipeService;
+  private static instance: UnifiedRecipeService | undefined;
   private recipesCache: Recipe[] | null = null;
 
   private constructor() {}
 
   public static getInstance(): UnifiedRecipeService {
-    if (!UnifiedRecipeService.instance) {
-      UnifiedRecipeService.instance = new UnifiedRecipeService();
-    }
+    UnifiedRecipeService.instance ??= new UnifiedRecipeService();
     return UnifiedRecipeService.instance;
   }
 

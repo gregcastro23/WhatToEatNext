@@ -52,7 +52,7 @@ interface InstacartEvent {
 // ─── Service ───────────────────────────────────────────────────────────────
 
 class InstacartService {
-  private static instance: InstacartService;
+  private static instance: InstacartService | undefined;
 
   /** In-memory retailer cache to avoid redundant API calls */
   private readonly retailerCache: Map<string, { retailers: InstacartRetailer[]; expiresAt: number }> = new Map();

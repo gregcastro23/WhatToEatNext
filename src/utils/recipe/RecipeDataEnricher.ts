@@ -463,14 +463,12 @@ const SEASONAL_INGREDIENTS: Record<string, string[]> = {
 // ============================================================================
 
 export class RecipeDataEnricher {
-  private static instance: RecipeDataEnricher;
+  private static instance: RecipeDataEnricher | undefined;
 
   private constructor() {}
 
   public static getInstance(): RecipeDataEnricher {
-    if (!RecipeDataEnricher.instance) {
-      RecipeDataEnricher.instance = new RecipeDataEnricher();
-    }
+    RecipeDataEnricher.instance ??= new RecipeDataEnricher();
     return RecipeDataEnricher.instance;
   }
 

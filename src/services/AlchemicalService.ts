@@ -16,7 +16,7 @@ import type {
  * and alchemical transformations.
  */
 export class AlchemicalService {
-  private static instance: AlchemicalService;
+  private static instance: AlchemicalService | undefined;
   /**
    * Private constructor for singleton pattern
    */
@@ -27,9 +27,7 @@ export class AlchemicalService {
    * Get singleton instance
    */
   public static getInstance(): AlchemicalService {
-    if (!AlchemicalService.instance) {
-      AlchemicalService.instance = new AlchemicalService();
-    }
+    AlchemicalService.instance ??= new AlchemicalService();
     return AlchemicalService.instance;
   }
   /**

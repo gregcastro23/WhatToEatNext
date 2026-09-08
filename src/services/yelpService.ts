@@ -35,7 +35,7 @@ interface FetchResult<T> {
 }
 
 class YelpService {
-  private static instance: YelpService;
+  private static instance: YelpService | undefined;
   private readonly apiKey: string;
 
   private constructor() {
@@ -50,9 +50,7 @@ class YelpService {
   }
 
   public static getInstance(): YelpService {
-    if (!YelpService.instance) {
-      YelpService.instance = new YelpService();
-    }
+    YelpService.instance ??= new YelpService();
     return YelpService.instance;
   }
 
