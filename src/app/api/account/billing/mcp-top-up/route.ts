@@ -18,6 +18,7 @@ import {
   type McpTopUpSku,
 } from "@/lib/billing/mcpTopUp";
 import { rateLimit } from "@/lib/rateLimit";
+import { AccountMcpTopUpRequestSchema } from "@/lib/validation/apiSchemas";
 import { getSelfBaseUrl } from "@/utils/urlUtils";
 
 export const dynamic = "force-dynamic";
@@ -41,9 +42,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { sku?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, error: "Invalid JSON body" },
@@ -51,7 +52,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const sku = typeof body.sku === "string" ? body.sku : "";
+  const parsed = AccountMcpTopUpRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "sku is required",
+        details: parsed.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
+  }
+
+  const { sku } = parsed.data;
   const def = findSku(sku);
   if (!def) {
     return NextResponse.json(

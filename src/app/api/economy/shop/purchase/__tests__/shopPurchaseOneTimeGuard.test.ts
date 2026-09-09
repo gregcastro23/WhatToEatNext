@@ -151,4 +151,83 @@ describe("POST /api/economy/shop/purchase isOneTime null-guard regression", () =
     const expectedOrderId = keccak256(toHex("shop:user-uuid-123:consumable-boost:valid-nonce-42"));
     expect(data.orderId).toBe(expectedOrderId);
   });
+
+  describe("Inbound body schema validation", () => {
+    it("returns 400 on invalid JSON syntax", async () => {
+      const req = new NextRequest("http://localhost/api/economy/shop/purchase", {
+        method: "POST",
+        body: "invalid-json{",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const res = await POST(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(400);
+      expect(data.error).toBe("Invalid JSON body");
+    });
+
+    it("returns 400 with details.fieldErrors when itemId is missing or empty", async () => {
+      const req = new NextRequest("http://localhost/api/economy/shop/purchase", {
+        method: "POST",
+        body: JSON.stringify({ nonce: "123" }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const res = await POST(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(400);
+      expect(data.error).toBe("Invalid request body");
+      expect(data.message).toBe("itemId is required");
+      expect(data.details?.itemId).toBeDefined();
+    });
+
+    it("returns 400 with details.fieldErrors when deadline format is invalid", async () => {
+      const req = new NextRequest("http://localhost/api/economy/shop/purchase", {
+        method: "POST",
+        body: JSON.stringify({ itemId: "theme-celestial", deadline: "not-a-number" }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const res = await POST(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(400);
+      expect(data.error).toBe("Invalid request body");
+      expect(data.details?.deadline).toBeDefined();
+    });
+
+    it("falls through to mode: 'sign' on non-hex txHash and signature, preserving the recovery loop", async () => {
+      getShopItemMock.mockResolvedValue({
+        id: "item-uuid-1",
+        slug: "theme-celestial",
+        title: "Celestial Theme",
+        isOneTime: true,
+        costSpirit: 10,
+        costEssence: 0,
+        costMatter: 0,
+        costSubstance: 0,
+        isActive: true,
+      });
+      hasActivePurchaseMock.mockResolvedValue(false);
+
+      const req = new NextRequest("http://localhost/api/economy/shop/purchase", {
+        method: "POST",
+        body: JSON.stringify({
+          itemId: "theme-celestial",
+          txHash: "not-a-hex-tx",
+          signature: "not-a-hex-sig",
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const res = await POST(req);
+      const data = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(data.mode).toBe("sign");
+      expect(data.orderId).toBeDefined();
+    });
+  });
 });

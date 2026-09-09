@@ -312,6 +312,59 @@ export const EconomyPracticeRequestSchema = z.object({
   targetId: z.unknown().optional(),
 });
 
+export const EconomyShopPurchaseRequestSchema = z.object({
+  itemId: z.string().min(1, "itemId is required"),
+  nonce: z.union([z.string(), z.number()]).optional(),
+  txHash: z.string().optional(),
+  signature: z.string().optional(),
+  deadline: z
+    .union([
+      z.string().regex(/^\d+$/, "deadline must be a numeric timestamp string"),
+      z.number().int().nonnegative("deadline must be a non-negative integer"),
+    ])
+    .optional(),
+});
+
+export type ParsedEconomyShopPurchaseRequest = z.infer<
+  typeof EconomyShopPurchaseRequestSchema
+>;
+
+/**
+ * Lenient metadata schema matching QuestEventMetadata's `[key: string]: unknown`
+ * (QuestService.ts:86).
+ *
+ * Uses `.passthrough().nullish()` to safely accept external metadata (e.g. from
+ * planetary-agents) without failing the request on extra/nested fields (such as agentProfile).
+ * `broadcastMasterQuestReward` explicitly constructs its persisted record instead of
+ * spreading, preventing nested objects from polluting storage.
+ */
+export const QuestEventMetadataSchema = z
+  .object({
+    agentName: z.string().optional(),
+    sacredStat: z.string().optional(),
+    planetarySignature: z.record(z.string(), z.unknown()).optional(),
+  })
+  .passthrough()
+  .nullish();
+
+export const EconomySyncEventRequestSchema = z.object({
+  userEmail: z
+    .string()
+    .trim()
+    .min(1, "userEmail is required")
+    .max(200, "userEmail exceeds maximum length"),
+  event: z
+    .string()
+    .trim()
+    .min(1, "event is required")
+    .max(100, "event exceeds maximum length"),
+  metadata: QuestEventMetadataSchema,
+});
+
+export type ParsedEconomySyncEventRequest = z.infer<
+  typeof EconomySyncEventRequestSchema
+>;
+
 // ─── Recipe Mint Envelope ───────────────────────────────────────────────────
 
 export const RecipeMintRequestEnvelopeSchema = z.object({
@@ -969,6 +1022,155 @@ export const RestaurantOrderBodySchema = z
   })
   .passthrough();
 export type ParsedRestaurantOrderBody = z.infer<typeof RestaurantOrderBodySchema>;
+
+// ─── Account & Billing ────────────────────────────────────────────────────────
+
+export const AccountMcpTopUpRequestSchema = z.object({
+  sku: z.string().min(1, "sku is required"),
+});
+
+export const AccountMintApiKeyRequestSchema = z.object({
+  name: z.string().trim().min(1, "`name` is required"),
+  scopes: z.unknown().optional(),
+  expiresAt: z.unknown().optional(),
+});
+
+export const AccountLinkPrivyRequestSchema = z.object({
+  privyToken: z.string().trim().min(1, "`privyToken` is required"),
+});
+
+export const SubscriptionTrackUsageRequestSchema = z.object({
+  feature: z.string().min(1, "Missing feature parameter"),
+});
+
+// ─── Quests ──────────────────────────────────────────────────────────────────
+
+export const QuestReportEventRequestSchema = z.object({
+  event: z.string().min(1, "event is required and must be a string"),
+});
+
+export const QuestClaimRewardRequestSchema = z.object({
+  questSlug: z.string().min(1, "questSlug is required"),
+  periodStart: z.string().nullable().optional(),
+});
+
+// ─── User Profile & Cosmic Identity ──────────────────────────────────────────
+
+export const CreateUserChartRequestSchema = z.object({
+  label: z.string().min(1, "label is required"),
+  birthData: BirthDataSchema,
+});
+
+export const UserIdentityPreferencesRequestSchema = z.object({
+  shareIdentity: z.boolean(),
+});
+
+export const UserAvatarUploadRequestSchema = z.object({
+  photoDataUrl: z.string().min(1, "photoDataUrl is required"),
+});
+
+export const UserDietaryPreferencesRequestSchema = z.object({
+  preferences: z.union([z.record(z.string(), z.unknown()), z.array(z.unknown())]),
+});
+
+export const UserKitchenSettingsRequestSchema = z.object({
+  kitchenElevationM: z
+    .union([z.number(), z.string().regex(/^-?\d+(\.\d+)?$/).transform(Number)])
+    .nullable()
+    .optional()
+    .refine(
+      (val) => val === undefined || val === null || (Number.isFinite(val) && val >= -500 && val <= 9000),
+      { message: "kitchenElevationM must be a number within -500..9000 metres" },
+    ),
+  kitchenElevationBasis: z.string().nullable().optional(),
+  kitchenSettings: z.record(z.string(), z.unknown()).optional(),
+  recipeAdjustments: z.array(z.unknown()).optional(),
+});
+
+export const UserProfileLayoutRequestSchema = z.object({
+  layout: z.array(z.unknown()),
+});
+
+export const TasteInteractionTypeSchema = z.enum([
+  "recipe_view",
+  "recipe_save",
+  "recipe_cook",
+  "ingredient_select",
+  "cooking_method",
+  "planetary_query",
+  "food_diary_entry",
+  "food_rating",
+]);
+
+export const UserTasteGraphRecordRequestSchema = z.object({
+  type: TasteInteractionTypeSchema,
+  payload: z.record(z.string(), z.unknown()).optional(),
+  context: z.record(z.string(), z.unknown()).optional(),
+  weight: z.number().optional(),
+});
+
+export const TasteVerdictSchema = z.enum(["love", "block"]);
+
+export const UserTasteCorrectionsSchema = z.object({
+  cuisines: z.record(z.string(), TasteVerdictSchema).optional(),
+  ingredients: z.record(z.string(), TasteVerdictSchema).optional(),
+  methods: z.record(z.string(), TasteVerdictSchema).optional(),
+  planets: z.record(z.string(), TasteVerdictSchema).optional(),
+});
+
+// ─── Sessions & Onboarding ───────────────────────────────────────────────────
+
+export const CreateSessionRequestSchema = z.object({
+  name: z.string().optional(),
+  memberIds: z.array(z.string()).min(1, "At least 1 member ID is required"),
+  strategy: z.string().optional(),
+});
+
+const WAITLIST_EMAIL_PATTERN = /^[^\s@,;:<>()[\]\\"]+@[^\s@,;:<>()[\]\\"]+\.[A-Za-z]{2,}$/;
+
+export const WaitlistSignupRequestSchema = z.object({
+  email: z
+    .string()
+    .max(254)
+    .transform((val) => val.trim().replace(/^<|>$/g, "").toLowerCase())
+    .refine((val) => WAITLIST_EMAIL_PATTERN.test(val), { message: "A valid email is required" }),
+  name: z.string().max(80).optional(),
+  source: z.string().max(64).optional(),
+  event: z.string().max(120).nullable().optional(),
+});
+
+// ─── Admin & Composite Calculations ──────────────────────────────────────────
+
+export const AdminUpdateUserRequestSchema = z.object({
+  tier: z.string().optional(),
+  isActive: z.boolean().optional(),
+  role: z.string().optional(),
+});
+
+export const AdminUpdateUserStatusRequestSchema = z.object({
+  isActive: z.boolean(),
+});
+
+export const AdminGrantTokensRequestSchema = z.object({
+  credits: z
+    .array(
+      z.object({
+        tokenType: TokenTypeSchema,
+        amount: z.number().positive().max(10_000),
+      }),
+    )
+    .min(1)
+    .max(4),
+  idempotencyKey: z.string().min(8).max(200),
+  description: z.string().max(500).optional(),
+});
+
+export const AdminRestaurantSettlementRequestSchema = z.object({
+  orderId: z.string().min(8).max(120),
+  action: z.enum(["retry", "refund"]),
+});
+
+export const AdeptTableRequestSchema = PremiumTableRequestSchema;
 
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.

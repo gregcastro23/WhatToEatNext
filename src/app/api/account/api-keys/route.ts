@@ -16,6 +16,7 @@ import { NextResponse } from "next/server";
 import { listUserApiKeys, mintApiKey } from "@/lib/api-keys/queries";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
+import { AccountMintApiKeyRequestSchema } from "@/lib/validation/apiSchemas";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -81,9 +82,9 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { name?: unknown; scopes?: unknown; expiresAt?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, error: "Invalid JSON body" },
@@ -91,20 +92,26 @@ export async function POST(request: Request) {
     );
   }
 
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  if (name.length === 0) {
+  const parsed = AccountMintApiKeyRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: "`name` is required" },
+      {
+        success: false,
+        error: "`name` is required",
+        details: parsed.error.flatten().fieldErrors,
+      },
       { status: 400 },
     );
   }
+
+  const { name, scopes, expiresAt } = parsed.data;
 
   try {
     const minted = await mintApiKey({
       userId,
       name,
-      scopes: body.scopes,
-      expiresAt: body.expiresAt,
+      scopes,
+      expiresAt,
     });
     // The ONLY response that ever carries the plaintext. Client must
     // surface it immediately and discard.

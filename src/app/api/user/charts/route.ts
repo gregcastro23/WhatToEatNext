@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import { natalBodiesFromRawPositions, unusableChartMessage } from "@/lib/astrology/natalBodies";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { CreateUserChartRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -209,26 +210,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
-  let body: Record<string, unknown>;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as Record<string, unknown>;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid JSON in request body" },
       { status: 400 },
     );
   }
-  const { label, birthData } = body as {
-    label?: string;
-    birthData?: Partial<BirthData>;
-  };
 
-  if (!label || !birthData?.dateTime || birthData.latitude === undefined || birthData.longitude === undefined) {
+  const parseResult = CreateUserChartRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
     return NextResponse.json(
-      { success: false, message: "label, birthData.dateTime, latitude, and longitude are required" },
+      {
+        success: false,
+        message: "label, birthData.dateTime, latitude, and longitude are required",
+        details: parseResult.error.flatten().fieldErrors,
+      },
       { status: 400 },
     );
   }
+
+  const { label, birthData } = parseResult.data;
 
   // Calculate natal chart
   const birthDate = new Date(birthData.dateTime);

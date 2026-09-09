@@ -15,6 +15,7 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { UserIdentityPreferencesRequestSchema } from "@/lib/validation/apiSchemas";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -56,24 +57,35 @@ export async function PATCH(request: NextRequest) {
   const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "identity", identifier: userId });
   if (!rl.allowed) return rl.response!;
 
-  let body: { shareIdentity?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
-  if (typeof body.shareIdentity !== "boolean") {
-    return NextResponse.json({ success: false, message: "shareIdentity must be a boolean" }, { status: 400 });
+
+  const parsed = UserIdentityPreferencesRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "shareIdentity must be a boolean",
+        details: parsed.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
   }
+
+  const { shareIdentity } = parsed.data;
 
   try {
     await executeQuery(
       `INSERT INTO user_profiles (user_id, share_identity)
        VALUES ($1::uuid, $2)
        ON CONFLICT (user_id) DO UPDATE SET share_identity = EXCLUDED.share_identity`,
-      [userId, body.shareIdentity],
+      [userId, shareIdentity],
     );
-    return NextResponse.json({ success: true, shareIdentity: body.shareIdentity });
+    return NextResponse.json({ success: true, shareIdentity });
   } catch (error) {
     _logger.error("[user/identity] PATCH failed:", error);
     return NextResponse.json({ success: false, message: "Failed to update identity settings" }, { status: 500 });

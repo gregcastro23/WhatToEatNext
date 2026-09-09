@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
+import { QuestReportEventRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService } from "@/services/QuestService";
 import { streakService } from "@/services/StreakService";
 import type { QuestsResponse } from "@/types/economy";
@@ -62,9 +63,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { event: string };
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid request body" },
@@ -72,14 +73,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!body.event) {
+  const parsed = QuestReportEventRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json(
-      { success: false, message: "event is required" },
+      {
+        success: false,
+        message: "event is required and must be a string",
+        details: parsed.error.flatten().fieldErrors,
+      },
       { status: 400 },
     );
   }
 
-  const completed = await questService.reportEvent(userId, body.event);
+  const completed = await questService.reportEvent(userId, parsed.data.event);
 
   return NextResponse.json({
     success: true,

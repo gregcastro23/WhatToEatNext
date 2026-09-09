@@ -67,6 +67,21 @@ if (rawRuleFilter) {
   }
 }
 
+console.log("Checking lint debt, casts, and assertion sites against baseline...");
+const startTime = Date.now();
+const timeoutTimer = setTimeout(() => {
+  console.error("\n❌ checkLintDebt timed out after 5 minutes.");
+  process.exit(1);
+}, 300_000);
+timeoutTimer.unref();
+
+const heartbeat = setInterval(() => {
+  const elapsedSec = Math.round((Date.now() - startTime) / 1000);
+  console.log(`⏳ checkLintDebt in progress (${elapsedSec}s elapsed)...`);
+}, 15_000);
+heartbeat.unref();
+
+console.log("[1/4] Generating Next.js route types...");
 execFileSync("./node_modules/.bin/next", ["typegen"], {
   cwd: repoRoot,
   stdio: "ignore",
@@ -79,6 +94,7 @@ if (JSON.stringify(auditedRuleNames) !== JSON.stringify(baselineRuleNames)) {
   process.exit(1);
 }
 
+console.log("[2/4] Linting src/ against 28 audited rules (ESLint)...");
 const eslint = new ESLint({
   cwd: repoRoot,
   overrideConfigFile: "eslint.config.audit.mjs",
@@ -211,6 +227,7 @@ if (ruleFilter) {
 }
 
 // Scan and count type casts (as any, as unknown as) in src/
+console.log("[3/4] Scanning codebase for type casts (as any, as unknown as)...");
 const castScan = scanFileCasts(path.join(repoRoot, "src"), repoRoot);
 const currentCasts = castScan.summary;
 const baselineCasts = baseline.casts;
@@ -223,9 +240,13 @@ if (!baselineCasts) {
 // Distinct assertion sites (AST). A chain counts once, so relabelling
 // `as unknown as T` into `as T` cannot move this number — only deleting an
 // assertion can. See Operating Rule 8.
+console.log("[4/4] Scanning AST assertion sites...");
 const siteScan = scanAssertionSites(path.join(repoRoot, "src"), repoRoot);
 const currentSites = { ...siteScan.summary };
 const baselineSites = baseline.assertionSites;
+
+clearInterval(heartbeat);
+clearTimeout(timeoutTimer);
 
 if (!baselineSites) {
   console.error(

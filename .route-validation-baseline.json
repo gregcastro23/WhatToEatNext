@@ -1,0 +1,27 @@
+{
+  "totalUnvalidated": 21,
+  "totalBodyReading": 123,
+  "allowlist": [
+    "src/app/api/admin/agent-sync/route.ts",
+    "src/app/api/admin/chat/reports/[id]/route.ts",
+    "src/app/api/admin/environment/seed/route.ts",
+    "src/app/api/admin/feed/comment-reports/[id]/route.ts",
+    "src/app/api/admin/observability/slow-query-threshold/route.ts",
+    "src/app/api/admin/planetary-sync/route.ts",
+    "src/app/api/admin/send-test-email/route.ts",
+    "src/app/api/agents/group-chat/route.ts",
+    "src/app/api/agents/unified/route.ts",
+    "src/app/api/amazon/feedback/route.ts",
+    "src/app/api/amazon/search/route.ts",
+    "src/app/api/feed/route.ts",
+    "src/app/api/food-lab/upload/route.ts",
+    "src/app/api/instacart/recipe/route.ts",
+    "src/app/api/internal/revalidate/route.ts",
+    "src/app/api/menu-planner/agent-weekly-menu/route.ts",
+    "src/app/api/personalized-recommendations/route.ts",
+    "src/app/api/philosophers-stone/positions/route.ts",
+    "src/app/api/planetary-positions/route.ts",
+    "src/app/api/planetary-rectification/route.ts",
+    "src/app/api/transmutation_recommendations/route.ts"
+  ]
+}

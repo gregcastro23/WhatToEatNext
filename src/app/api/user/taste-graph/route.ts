@@ -1,31 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { _logger } from "@/lib/logger";
+import { UserTasteGraphRecordRequestSchema } from "@/lib/validation/apiSchemas";
 import {
   computeTasteGraph,
   fetchUserInteractions,
   recordInteraction,
-  type InteractionType,
 } from "@/services/userInteractionsService";
-import { isObject } from "@/utils/typeGuards";
-
-const VALID_TYPES: InteractionType[] = [
-  "recipe_view",
-  "recipe_save",
-  "recipe_cook",
-  "ingredient_select",
-  "cooking_method",
-  "planetary_query",
-  "food_diary_entry",
-  "food_rating",
-];
-
-interface TasteGraphPostBody {
-  type?: unknown;
-  payload?: unknown;
-  context?: unknown;
-  weight?: unknown;
-}
 
 /**
  * GET /api/user/taste-graph
@@ -70,28 +51,29 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const rawBody: unknown = await request.json();
-    const body = (isObject(rawBody) ? rawBody : {}) as TasteGraphPostBody;
-    const type = typeof body.type === "string" ? (body.type as InteractionType) : ("" as InteractionType);
-    if (!VALID_TYPES.includes(type)) {
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    const parsed = UserTasteGraphRecordRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json(
         { error: "Invalid interaction type" },
         { status: 400 },
       );
     }
 
+    const { type, payload, context, weight } = parsed.data;
+
     await recordInteraction({
       userId: session.user.id,
       type,
-      payload:
-        body.payload && typeof body.payload === "object" && !Array.isArray(body.payload)
-          ? (body.payload as Record<string, unknown>)
-          : {},
-      context:
-        body.context && typeof body.context === "object" && !Array.isArray(body.context)
-          ? (body.context as Record<string, unknown>)
-          : {},
-      weight: typeof body.weight === "number" ? body.weight : undefined,
+      payload: payload ?? {},
+      context: context ?? {},
+      ...(weight !== undefined ? { weight } : {}),
     });
 
     return NextResponse.json({ ok: true });

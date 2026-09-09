@@ -20,6 +20,7 @@ import {
   storeAvatar,
 } from "@/lib/profile/avatarStorage";
 import { rateLimit } from "@/lib/rateLimit";
+import { UserAvatarUploadRequestSchema } from "@/lib/validation/apiSchemas";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
 
@@ -59,18 +60,29 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { photoDataUrl?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
-  if (typeof body.photoDataUrl !== "string") {
-    return NextResponse.json({ success: false, message: "photoDataUrl is required" }, { status: 400 });
+
+  const parsed = UserAvatarUploadRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "photoDataUrl is required",
+        details: parsed.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
   }
 
+  const { photoDataUrl } = parsed.data;
+
   try {
-    const avatarUrl = await storeAvatar(userId, body.photoDataUrl);
+    const avatarUrl = await storeAvatar(userId, photoDataUrl);
     if (!avatarUrl) {
       return NextResponse.json(
         { success: false, message: "Image must be a jpeg/png/webp data URL under 5MB" },

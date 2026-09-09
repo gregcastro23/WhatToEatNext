@@ -24,11 +24,11 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import { z } from "zod";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { getStripe } from "@/lib/stripe/stripe";
+import { AdminRestaurantSettlementRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { TOKEN_TYPES, type TokenType } from "@/types/economy";
 
@@ -47,11 +47,6 @@ interface OrderRow {
   payment_status: string | null;
   transfer_status: string | null;
 }
-
-const bodySchema = z.object({
-  orderId: z.string().min(8).max(120),
-  action: z.enum(["retry", "refund"]),
-});
 
 async function loadOrder(orderId: string): Promise<OrderRow | null> {
   const result = await executeQuery<OrderRow>(
@@ -180,16 +175,19 @@ export async function POST(request: NextRequest) {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  let body: z.infer<typeof bodySchema>;
+  let rawBody: unknown;
   try {
-    body = bodySchema.parse(await request.json());
-  } catch (err) {
-    const message =
-      err instanceof z.ZodError
-        ? err.issues[0]?.message ?? "Invalid body"
-        : "Invalid JSON";
+    rawBody = await request.json();
+  } catch {
+    return NextResponse.json({ success: false, message: "Invalid JSON" }, { status: 400 });
+  }
+
+  const parsed = AdminRestaurantSettlementRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    const message = parsed.error.issues[0]?.message ?? "Invalid body";
     return NextResponse.json({ success: false, message }, { status: 400 });
   }
+  const body = parsed.data;
 
   const { orderId, action } = body;
   const operator = authResult.user.email;
