@@ -18,8 +18,9 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { SERVER_ONLY_PRACTICES, type PracticeType } from "@/lib/economy/practices";
+import { SERVER_ONLY_PRACTICES } from "@/lib/economy/practices";
 import { rateLimit } from "@/lib/rateLimit";
+import { EconomyPracticeRequestSchema } from "@/lib/validation/apiSchemas";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
 
@@ -35,38 +36,41 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ success: true, discoveredSurfaces: discovered });
 }
 
+function invalidPracticeResponse(): NextResponse {
+  return NextResponse.json({ success: false, rewarded: false, reason: "invalid" }, { status: 400 });
+}
+
 export async function POST(request: NextRequest) {
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
-  const rl = await rateLimit(request, {
-    window: 60_000,
-    max: 30,
-    bucket: "economy-practice",
-    identifier: user.id,
-  });
+  const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "economy-practice", identifier: user.id });
   if (!rl.allowed) return rl.response!;
 
-  let body: { type?: unknown; targetId?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
 
-  const type = typeof body.type === "string" ? body.type : "";
+  const parseResult = EconomyPracticeRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { success: false, message: "Invalid request body", details: parseResult.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const { type, targetId } = parseResult.data;
   // Transition-gated practices (cooked-it, photos) are recognized by the
   // routes that observe the real data change — never by a bare client POST.
-  if (SERVER_ONLY_PRACTICES.has(type as PracticeType)) {
-    return NextResponse.json({ success: false, rewarded: false, reason: "invalid" }, { status: 400 });
-  }
-  const result = await practiceRewardService.recognize(user.id, type, body.targetId);
+  if (SERVER_ONLY_PRACTICES.has(type)) return invalidPracticeResponse();
 
-  if (result.reason === "invalid") {
-    return NextResponse.json({ success: false, rewarded: false, reason: "invalid" }, { status: 400 });
-  }
+  const result = await practiceRewardService.recognize(user.id, type, targetId);
+  if (result.reason === "invalid") return invalidPracticeResponse();
 
   return NextResponse.json({
     success: true,

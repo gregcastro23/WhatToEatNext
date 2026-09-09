@@ -1,384 +1,405 @@
-# Next Session: Phase 26 — Close the ungated surface, then make the boundaries honest
+# Next Session: Phase 27 — Finish the boundaries, and stop chasing the lever that isn't there
 
-> **Numbering note.** The previous copy of this file described "Phase 24" as upcoming.
-> Phases 24 **and** 25 have since been completed and merged. This document is Phase 26.
+> **Numbering note.** The previous copy of this file described Phase 26 as upcoming. Phase 26
+> shipped as PR #835 (`refactor/phase-26-close-ungated-surface`, merged into master at
+> `e98c46cb`) plus the faucet work in #836. This document is Phase 27.
 >
-> **Status of Phase 25:** complete, verified, and **recovered onto master by PR #832**
-> (this commit). It had been stranded — see §0, kept as the record of how and why.
+> | Metric | P23 | P24 | P25 | P26 (master) | P27 (today) |
+> |---|---:|---:|---:|---:|---:|
+> | Tracked lint debt | 2,630 | 1,944 | 1,635 | 1,520 | **1,518** |
+> | Declined pool | 6,236 | 4,911 | 4,910 | 4,910 | 4,910 |
+> | Casts (gated) | 252 | 169 | 169 | 168 | **168** (`untrackedSingleAsT` 2,029 → 2,024) |
+> | Assertion sites (AST) | 4,357 | 3,398 | 3,396 | 3,353 | **3,346** |
+> | `prefer-nullish-coalescing` sub-baseline | 294 | 214 | 214 | 214 | 214 |
+> | `exactOptionalPropertyTypes` strict-index | — | — | 674 / 329 files | 671 / 328 files | **670 / 327 files** |
 >
-> | Metric | P23 | P24 | P25 | on master today |
-> |---|---:|---:|---:|---:|
-> | Tracked lint debt | 2,630 | 1,944 | **1,635** | **1,635** |
-> | Declined pool | 6,236 | 4,911 | 4,910 | 4,910 |
-> | Casts (gated) | 252 | 169 | 169 | 169 |
-> | Assertion sites (AST) | 4,357 | 3,398 | 3,396 | 3,396 |
-> | `prefer-nullish-coalescing` sub-baseline | 294 | 214 | 214 | 214 |
->
-> Master was `1f3c32c1` before #832. The audited rule set has been stable at 28 rules since Phase 12,
-> so Phases 12–25 are like-for-like comparisons.
+> Every number above was re-measured on 2026-09-09 against a live `eslint --config
+> eslint.config.audit.mjs src` run and reproduces `.lint-debt-baseline.json` exactly, **once the
+> 29 stale files in §0 are excluded**. The audited rule set has been stable at 28 rules since
+> Phase 12, so Phases 12–26 are like-for-like.
 
 ---
 
-## 0. RESOLVED by PR #832 — how Phase 25 went missing, and why it matters
+## 0. RESOLVED — and the gate that prevents recurrence
 
-**What happened.** PR #830 was opened with base `refactor/phase-24-dead-modules` instead of
-`master`. PR #828 squash-merged that same branch into master at `11:44:36`; #830 then merged
-into it at `11:45:30` — 54 seconds after its base had already been merged away. GitHub reports
-#830 as `MERGED`, so nothing looks wrong from the PR list.
+`/Users/cookingwithcastro/Desktop/WhatToEatNext-master` carried **29 untracked `.ts` files under
+`src/`**. Every one of them was a module Phase 24 deleted in `381fb1fc` (#828). They were never
+removed from disk, so they were inside `src/` — which is exactly the scan root of `bun run lint`,
+`tsc`, `lint:debt` and `audit:dead-modules`.
 
-**Evidence that master lacks the work** (four independent witnesses):
+**What they cost, measured:**
 
-| probe | master | Phase 25 tip |
-|---|---:|---:|
-| `.lint-debt-baseline.json` → `trackedTotal` | 1,944 | 1,635 |
-| `console.error` occurrences in `src/` | 304 | 45 |
-| `Partial<` in `api/economy/sync-credit/route.ts` | 0 | 2 |
-| `GET /compare/master...<tip>` → `.status` | `diverged` | — |
+| probe | with them | without them | truth |
+|---|---:|---:|---|
+| `tsc --noEmit --incremental false` errors | **78** | **0** | typecheck is RED locally, GREEN on master |
+| — of those, `TS2307 Cannot find module` | 8 | 0 | they import modules Phase 24 also deleted |
+| audit-overlay warnings | 7,213 | 6,649 | **+564 phantom warnings** |
+| — `no-unsafe-call` | 66 | 6 | 11× the entire real count |
+| — `prefer-nullish-coalescing` | 313 | 214 | would read as a 99-warning regression |
+| strict-index errors | 765 | 670 | +95 |
 
-**The branch is deleted on origin.** It survives in exactly two places: the local worktree
-`.worktrees/phase-24`, and the origin branch `refactor/phase-24-dead-modules` (head
-`c3c771db`, which contains #830's merge). **Do not delete either until this is recovered.**
+**Deleting them was provably lossless.** Each file's content was matched against git history:
 
-**What is stranded.** 309 retired warnings, and — far more important — the `Partial<T>`
-boundary fix. Without it, `no-unnecessary-condition` still reports the live 400-guards on
-`economy/sync-credit`, `economy/sync-debit` and `economy/swap` as provably-dead code. Those
-are the PA↔alchm money bridge. Deleting them leaves tsc, ESLint and all 3,497 tests green.
+- **12 of 29** were byte-identical to their blob at `381fb1fc^` — the version that was deleted.
+- **17 of 29** were *older* than that: exact blobs from earlier commits. Two traced precisely —
+  `src/utils/recipe/recipeUtils.ts` is the blob from `0877c82f` (2026-08-14) and
+  `src/utils/elemental/transformations.ts` is from `70e53837` (2026-07-13).
+- **0 of 29** contained anything absent from history (content match: `29 MATCH · 0 NOMATCH`). All 29 have been purged from disk.
 
-**Recovery (done in PR #832).** A `git merge-tree` dry run against real master conflicted in
-exactly three files:
+**Permanent gate installed and red-proved.**
+To prevent future untracked source files from poisoning gates, `scripts/checkUntrackedSourceFiles.ts` (and `scripts/lib/untrackedSourceFiles.ts`) is now wired as the very first step of `verify:static`:
+- **Red-proved**: Dropping a throwaway `src/__gate_redproof__.ts` made `check:untracked` exit 1 with the file named; removing it exits 0.
+- **Extended to `scripts/`**: While the initial draft filtered only `src/`, `scripts/tsconfig.json` includes `./**/*.ts`, meaning `check:scripts` and `lint:scripts` had the same exposure. The gate queries `git status --porcelain -uall src scripts` and filters both `src/` and `scripts/`.
+- **Inert Finder duplicate check**: `src/app/discover/layout 2.tsx` on disk is gitignored (thus invisible to `check:untracked`), and was verified inert: `tsconfig` explicitly excludes `**/* 2.*` and ESLint ignores it.
 
-| file | resolution |
+---
+
+## 1. What Phase 26 actually closed
+
+Merged in #835 and #836. Cross off against the old plan:
+
+| old item | status |
 |---|---|
-| `src/app/api/economy/swap-rates/route.ts` | take Phase 25's side — it is a strict superset (both branches made the same de-async change; Phase 25 additionally routed `console.error` → `_logger.error`) |
-| `.lint-debt-baseline.json` | take Phase 25's, then re-derive with `bun run lint:debt --ratchet` rather than trusting the file |
-| `NEXT_SESSION_PROMPT.md` | superseded by this document |
+| **Phase 27 PR 1: §0 purge** | ✅ closed. 29 untracked dead modules purged from disk; content match verified (29 MATCH · 0 NOMATCH). |
+| **Phase 27 PR 1: untracked source gate** | ✅ closed. `scripts/checkUntrackedSourceFiles.ts` wired as first check in `verify:static`. Red-proved (exit 1 / exit 0) and covers both `src/` and `scripts/`. |
+| **Phase 27 PR 1: Tranche A (economy boundaries)** | ⚠️ **3 of 5 shipped.** `purchase`, `transmute`, and `practice` validated with `@/lib/validation/apiSchemas`. `shop/purchase` and `sync-event` remain. |
+| **Tranche 0 — gate `scripts/**`** | ✅ `3a0c8b25`. `verify:static` now runs `check:scripts` (`tsc -p scripts/tsconfig.json`) and `lint:scripts` (`--max-warnings=25`). The 110 ungated script files are gated. |
+| **The declined pool has no per-rule ratchet** | ✅ closed. `scripts/checkLintDebt.ts:241` now reads `new Set([...subBaselineRules])` — declined rules are no longer exempt. Only `prefer-nullish-coalescing` is, by design. Paying for 300 new `max-lines-per-function` with 300 deleted `no-void` no longer passes. |
+| **`verify` ends in `test:fast` (19 suites)** | ✅ closed by `c1829a02` / `97fd3c99`. `verify` = `verify:static && test` (336 suites / 3,589 tests). CI runs `verify:static` because its Test leg runs the suite in parallel. Cost of closing the blind spot: 5.2s. |
+| **boundaryNetwork's 24 dead tuple checks** | ✅ `aca0f1d0`. `noOverlapBooleanExpression` fell 50 → 24. |
+| **11 singleton services → nullish-assignment** | ✅ `85a44ade`. |
+| **Tranche 1 — route body validation** | ⚠️ **partial.** Batches 1A/1B/1C landed. `user/commensals` and `recipes/mint` — the two highest-risk routes named in the last document — now read `unknown` and `safeParse` against `@/lib/validation/apiSchemas`. **50 body-reading routes still have no schema.** See §3. |
+| **`ElementalProperties` 12 declarations** | ❌ untouched — **and the plan for it was wrong.** See §2. |
+| **Tranche 2 `.json()`, Tranche 3 NUC, Tranche 4 strict-index** | ❌ untouched. Re-scoped in §3. |
 
-Everything else auto-merges. Open this as a normal PR **based on `master`**, and check
-`baseRefName` before merging.
+---
+
+## 2. The finding that reorders Phase 27: the `ElementalProperties` lever is refuted
+
+The last document called this "one high-leverage declaration fix" and predicted that removing the
+`[key: string]: number` index signatures would make `no-unnecessary-condition` tell the truth —
+`neverNullish` findings flipping from "delete the guard" to "the guard is required," at the price
+of "a wave of new tsc errors; that is the point."
+
+**It was measured today. The prediction is backwards.**
+
+The structural claim held up exactly. There are **12 structural declarations** of
+`ElementalProperties` and **172 import sites**; `@/types/alchemy` supplies **125 of them** and
+inherits `[key: string]: number` from `RawElementalProperties` (`src/types/alchemy.ts:205`). 50
+files both import the type and carry NUC findings, holding **169 of the 840**.
+
+The experiment: drop the index signature from all three declaring modules
+(`alchemy.ts`/`RawElementalProperties`, `recipe.ts`, `elemental.ts`), re-run the audit overlay
+over those same 50 files, revert.
+
+| | before | after | delta |
+|---|---:|---:|---:|
+| `no-unnecessary-condition` | 169 | **189** | **+20** |
+| — `neverNullish` | 34 | **45** | **+11** |
+| — `noOverlapBooleanExpression` | 6 | **15** | +9 |
+| — `alwaysTruthy` / `alwaysFalsy` / `neverOptionalChain` | 59 / 44 / 25 | 59 / 44 / 25 | 0 |
+| `no-unsafe-return` | 1 | **22** | +21 |
+| `no-unsafe-assignment` | 2 | **21** | +19 |
+| `tsc` errors (whole repo, excl. §0 files) | 0 | **57** | +57 |
+
+Removing the index signature does not restore honest optionality — it removes the type that made
+element access checkable at all, so those reads degrade toward `any`, and `any` makes the rule
+fire *more*, not less. The change costs 57 real type errors and **adds 60 audit warnings**.
+
+**Consequences for the plan:**
+
+1. **Do not open Phase 27 with a declaration-reconciliation PR.** There is no 169-warning prize
+   behind it. If the 12 declarations are consolidated, do it for coherence — one type, one
+   meaning — and budget it as a refactor with a *negative* short-term lint return.
+2. **`no-unnecessary-condition` has no cheap structural lever left.** The last document's own
+   sample (n=35, ±16pp, no guard red-proved) is now the *only* evidence for the 40–50% "lying
+   type" band, and the one structural hypothesis derived from it has been falsified. Treat 840 as
+   840 individual decisions until someone produces a *measured* cluster.
+3. **`src/utils/elementalMappings.ts:3` is a genuine naming collision, not a variant.** It
+   declares `ElementalProperties` as an index signature *only* — no `Fire`/`Water`/`Earth`/`Air` —
+   and its `elements` table stores `heat`, `_dryness`, `_transformation`, `_expansion`. It is a
+   different concept wearing the same name. Rename it; that part is free.
+
+---
+
+## 3. Phase 27 prioritized plan
+
+Ordered by measured leverage per unit of risk, highest first.
+
+### Tranche A — finish inbound body validation (50 routes remaining, 2 of them on the money path)
+
+This is the only tranche where the work prevents an incident rather than lowering a number.
+
+```
+257  route.ts files under src/app/api
+122  read a request body
+ 78  import zod or @/lib/validation (+3 in PR 1)
+ 50  read a body with NO schema (down from 53)
+```
+
+Distribution of the 50: `admin` 9 · `user` 8 · `chat` 7 · `menu-planner` 3 ·
+`account` 3 · **`economy` 2** · `quests` 2 · `amazon` 2 · `agents` 2 · 18 others with 1 each.
+
+**PR 1 completed 3 of 5 economy routes:**
+- `economy/purchase` ✅ validated with `EconomyPurchaseRequestSchema.safeParse(rawBody)`
+- `economy/transmute` ✅ validated with `EconomyTransmuteRequestSchema.safeParse(rawBody)`
+- `economy/practice` ✅ validated with `EconomyPracticeRequestSchema.safeParse(rawBody)`
+
+**Finish PR 1 with the remaining two:**
+
+| route | how it reads the body |
+|---|---|
+| `economy/shop/purchase` | `body = (await request.json()) as PurchaseRequestBody` |
+| `economy/sync-event` | `body = (await req.json()) as SyncEventBody` |
+
+⚠️ **Two of the economy routes carried no cast at all.** `request.json()` returns `Promise<any>`, so
+`let body: {…}; body = await request.json();` was a silent unsound assignment — a declared type
+with nothing behind it. **A cast-pattern grep cannot find these.** Build the inventory from the
+122 body-reading routes, never from `) as`.
+
+**Natural PR 2: 19 money/identity routes.**
+After PR 1 closes the economy group, the next natural boundary is the 19 remaining money and identity routes: `user/charts` (`body = (await request.json()) as Record<string, unknown>`), `account/api-keys`, `account/billing/mcp-top-up`, `account/privy`, `quests/claim`, `user/identity`, etc.
+
+The shipped pattern to copy is `src/app/api/user/commensals/route.ts:117-135`: `let rawBody:
+unknown` → `await request.json()` in a try/catch → `Schema.safeParse(rawBody)` → 400 with
+`error.flatten().fieldErrors`. Schemas live in `src/lib/validation/apiSchemas.ts`.
+
+This is a **behavioural** change — malformed bodies start returning 400. Its own PR, its own
+review. Ship the remaining 2 economy routes to complete PR 1 before touching the 19 money/identity routes in PR 2.
+
+### Tranche B — the response side is now the larger half
+
+| shape | count |
+|---|---:|
+| `.json()) as` **repo-wide** (response side dominates) | **236** |
+| — inside `src/app/api` | 43 |
+| `JSON.parse(...) as` | 69 |
+| `readJson<T>` / `safeReadJson<T>` call sites | 25 |
+
+**The helper already exists and is already the right shape.** `src/lib/api/json.ts` takes an
+optional `parse` narrowing function — *"`parse` is the honest path: give it a narrowing function
+and the result is checked rather than asserted"* — and falls back to `return body as T` only when
+none is supplied. So there is nothing to build here. The work is **supplying `parse` at the call
+sites that omit it**: of the 25, roughly **20 pass no parse function** and 4–5 already validate.
+
+Start with `src/services/AlchemicalApiClient.ts` — **7 unvalidated `readJson<T>` calls in one
+file**, all against the external alchm backend, all convertible in a single PR with one schema
+module. Then `astrologizeApi.ts` (2), `natalChartService.ts`, `railwayUsageService.ts`,
+`restaurantDiscoveryService.ts`, `githubTriageService.ts`, `mcpNetworkService.ts`.
+
+Only after that is exhausted should anyone hand-edit the 236 raw `.json()) as` sites — many will
+have been routed through the helper by then.
+
+### Tranche C — `no-unnecessary-condition`, 840, with no shortcut
+
+Re-measured distribution (2026-09-09, clean of §0), superseding the last document's table:
+
+| messageId | P26 doc | today | note |
+|---|---:|---:|---|
+| `neverOptionalChain` | 262 | **258** | |
+| `alwaysTruthy` | 231 | **223** | |
+| `neverNullish` | 218 | **218** | |
+| `alwaysFalsy` | 126 | **106** | |
+| `noOverlapBooleanExpression` | 50 | **24** | boundaryNetwork fixed in P26 |
+| `comparisonBetweenLiteralTypes` | 10 | **11** | |
+| **total** | 897 | **840** | across **308 files** |
+
+No file holds more than 13. The top 15 files hold 141 — 17% of the rule. There is no head to this
+distribution; §2 removed the one hypothesised structural cause. **Schedule this as background
+work behind Tranches A and B, one file per PR**, and require a red-proof (delete the guard, watch
+a test fail) before any guard deletion. The recorded lesson stands: `no-unnecessary-condition` is
+a trap, not cleanup, and `!` is never the fix.
+
+### Tranche D — strict-index 671 is two populations; split the tranche
+
+Measured today (`tsc -p tsconfig.strict-index.json`, clean of §0): **670 errors**, confirming the
+671 baseline to within one.
+
+| | codes | count |
+|---|---|---:|
+| **Genuinely `exactOptionalPropertyTypes`** | TS2375 369 · TS2379 129 · TS2412 28 | **526** |
+| **Latent type errors wearing the label** | TS2322 54 · TS2345 29 · **TS2339 24** · TS2352 16 · TS2344 10 · TS2769 5 · TS7006 4 · TS2740 1 · TS1360 1 | **144** |
+
+The 526 have one mechanical fix — omit the key rather than pass `undefined`
+(`...(x === undefined ? {} : { x })`). The 144 are real bugs-in-waiting; the 24 TS2339 "property
+does not exist" especially. **Fix the 144 first** — they are fewer, they are defects, and they do
+not depend on the flag.
+
+### Tranche E — dead exports inside live modules
+
+The dead-module gate is module-granular; `UNREACHABLE: 0` says nothing about exports inside
+surviving modules. Sized today:
+
+```
+6,674  exported symbol declarations in src/ (5,333 distinct names)
+1,930  whose name appears in NO other file in src/
+```
+
+| kind | exported | no consumer | files |
+|---|---:|---:|---:|
+| interface | 1,555 | 687 | 339 |
+| const | 1,905 | 482 | 201 |
+| function | 2,504 | 478 | 198 |
+| type | 624 | 258 | 115 |
+| class | 69 | 16 | 14 |
+| enum | 17 | 9 | 3 |
+
+**976 are runtime-valued** (function/const/class) — the slice that is actual shipped dead code.
+By area: `src/utils` 292 · `src/data` 215 · `src/lib` 162 · `src/services` 64 ·
+`src/components` 40 · `src/app` **3** (so Next.js framework exports are not polluting the count).
+
+Concentrations worth one PR each: `src/constants/typeDefaults.ts` 19 · `src/utils/lunarPhaseUtils.ts`
+17 · `src/constants/chakraSymbols.ts` 15 · `src/utils/astrologyUtils.ts` 15 ·
+`src/constants/defaults.ts` 14 · `src/utils/typeGuards.ts` 12 · `src/services/UnifiedScoringService.ts` 11.
+
+⚠️ **This is an upper bound, not a delete list.** The probe asks "does this name appear anywhere
+else in `src/`" — it does not resolve dynamic access, string-keyed registries, or the 35
+`export * from` barrels. This repo's record has `export *` refuting a delete-as-dead claim **3
+times out of 3**. Verify each symbol individually; the number is for sizing the tranche, not for
+scripting it.
+
+One clean sub-slice, already verified: **51 of the 120 exports in `src/lib/validation/apiSchemas.ts`
+are `Parsed*` aliases** (`z.infer<typeof X>`) that nobody imports. Those are safe — but Tranche A
+will consume some of them, so do Tranche A first.
+
+### Not a Phase 27 tranche: the `any` root set
+
+Unchanged from the last audit and still correct — leverage is ~2.2:1, the whole unsafe cluster is
+**403 warnings** (`no-unsafe-assignment` 165 · `member-access` 162 · `argument` 51 · `return` 19 ·
+`call` 6) over ~200 root decisions, and the largest single root collapses 9. Small single-concern
+PRs, not sweeps. The one remaining consolidation is the `asPlanetaryPositions` copy-paste (~30
+warnings behind one shared normaliser) — verify every call site first; see the sign-vector
+cross-repo lesson.
+
+---
+
+## 4. Streamlining the site, as distinct from typing it
+
+Type-safety tranches lower a number. These change what the site *is*. Sized, not yet planned:
+
+- **976 runtime dead exports** (Tranche E) — the direct one.
+- **Duplicate concept declarations.** `ElementalProperties` at 12 structural declarations is the
+  worst, and §2 shows the fix is coherence work with no lint payoff. But the same shape recurs:
+  27 cooking-method registries with 5 normalizers, 3 parallel dietary filters over 1 shared
+  classifier, and a recommendation-services map where live and dead implementations sit side by
+  side. Pick **one** concept per PR and land the consolidation end to end; a half-migrated concept
+  is worse than two honest ones.
+- **257 API routes against 79 pages.** Worth an inventory pass: which routes have no caller in
+  `src/`? The Tranche E probe method applies directly to route paths and would answer it cheaply.
+- The five economy routes in Tranche A are simultaneously a type-safety fix and a functional
+  hardening — the highest-value overlap on the board. Start there.
+
+---
+
+## 5. Verification protocol (updated — this changed in Phase 26)
 
 ```bash
-gh pr view <n> --json baseRefName,headRefName
-```
-
----
-
-## 0b. The primary checkout is contaminated — read before running anything in it
-
-`/Users/cookingwithcastro/Desktop/WhatToEatNext-master` is on `refactor/phase-23-require-await`
-with **132 modified files**. Provenance was traced file by file:
-
-- **125 files hold previously-committed *stale* content.** `scripts/lib/lintDebt.ts` there is
-  710 bytes versus 14,525 on every branch — it is the pre-#813 version from 2026-08-14, i.e.
-  **the cast ratchet, assertion-site gate, declined-pool freeze and per-rule non-regression
-  assertion are all absent**. Any `lint:debt` run in this checkout measures a different thing
-  than CI does.
-- **6 files are genuinely novel** and must not be discarded: `package.json` (the `gen` script),
-  `src/lib/spacetime/config.ts` (module default → `wten`), and
-  `src/lib/spacetime/generated/{index,types,types/reducers}.ts`, plus
-  `docs/design/home-living-hero-stitch-prompt.md`. These are the SpacetimeDB migration.
-- 1 file deleted: `NEXT_SESSION_PROMPT_LAGGING_STRAND.md`.
-
-**A blind `git checkout -- .` destroys the six.** Salvage them first, then reset. Do all Phase 26
-measurement in `.worktrees/phase-24` (clean) or a fresh worktree off master — never here.
-
-Also present: `NEXT_SESSION_LAB_STATS_FIX 2.md`, a Finder duplicate. `tsconfig.json` already
-excludes `**/* 2.*`, but scanners that do not have inflated counts before.
-
----
-
-## 1. The finding that should reorder the campaign
-
-**The largest uncovered surface is not lint debt. It is the code no gate looks at.**
-
-```
-bun run lint      → eslint ... src --max-warnings=10000     # src only
-tsconfig.json     → exclude: scripts/**, tests/**, __tests__/**, src/scripts/**,
-                             **/*.test.ts, **/*.spec.ts, .storybook/**, ...
-```
-
-| population | count |
-|---|---:|
-| TypeScript files outside every gate's scan root | **152–163** |
-| — `scripts/*.ts` | 110 |
-| — **of those, referencing `executeQuery` / `DATABASE_URL` / `DATABASE_PUBLIC_URL`** | **51** |
-| `tests/` + root `__tests__/` | 42 |
-
-A ledger-repair or backfill script can be type-broken, `any`-riddled and unlinted while
-`bun run verify` is green and `lint:debt` reports 1,635. Given that `DATABASE_PUBLIC_URL` points
-at **production**, and that this repo's history already contains a backfill that ran against the
-wrong writer twice, this is where the next real incident comes from — not from the 897.
-
-**Tranche 0 should be: put `scripts/**` under typecheck and lint.** Expect a large one-off error
-count. Ratchet it; do not try to zero it.
-
-Two smaller gate gaps, both verified in `scripts/lib/lintDebt.ts`:
-
-- **The declined pool has no per-rule ratchet.** `findPerRuleRegressions` line 155 reads
-  `if (declinedRules.has(rule)) continue;`, and line 139 passes it
-  `new Set([...declinedRules, ...subBaselineRules])`. Only the 4,910 aggregate is checked, so
-  300 new `max-lines-per-function` violations can be paid for with 300 deleted `no-void` ones and
-  the gate stays green. Adding per-rule declined regressions is a ~5-line change.
-- **The dead-module gate is module-granular.** `UNREACHABLE: 0` is a true statement about
-  modules and says nothing about dead *exports inside live modules*. Phase 24 deleted 450 whole
-  modules; the same technique cannot find the next tranche, which now lives inside survivors.
-
----
-
-## 2. Phase 26 prioritized plan
-
-### Tranche 0 — gate `scripts/**` (§1)
-The Phase 25 recovery half of this tranche is **done** (#832), so the baseline on master is
-now the real one (1,635). What remains is putting the ungated files under typecheck and lint.
-
-### Tranche 1 — boundary validation, scoped by ROUTE, not by grep
-The Phase 25 enumeration (`grep -rl "\.json()) as" src/app/api`) **misses 14 production routes**
-that assert the body a different way — including `recipes/mint`, `recipes/mint-quote` (the NFT
-mint path) and `user/commensals` (the highest-risk guard found in this audit: `birthData` is
-destructured out of an untrusted body via `body as {...}`, and its `latitude`/`longitude` flow
-straight into `getPlanetaryPositionsForDateTime` and are then persisted as a natal chart).
-
-**Build the inventory from the 122 `route.ts` files that read a body**, not from a cast pattern.
-
-| shape | count | note |
-|---|---:|---|
-| request-body assertion sites in `src/app/api` | 63 in 50 files | 12 `as typeof body`, 10 `Record`, 6 `Partial<>`, 5 `unknown`, 30 concrete named types |
-| routes invisible to the Phase 25 grep | **14** | includes the two mint routes and `user/commensals` |
-| `(res\|response).json()) as` **repo-wide** | 188 | response side — never in Phase 25's scope |
-| `JSON.parse(...) as` | 61 | |
-| `safeReadJson<T>` / `readJson<T>` | 34 in 16 files | implementation is `return body as T` — an unvalidated cast |
-
-**Response bodies are now the larger half of the problem.** Tranche 1 as previously scoped fixes
-under a fifth of the lying-cast surface.
-
-⚠️ **`Partial<T>` is not the destination.** Every route Phase 25 converted re-enters
-`no-unnecessary-condition` at its `!body` guard, because `Partial<T>` models *absence only* — a
-body sending a string where a number is expected is still mis-typed. `unknown` + a parse is what
-actually retires these. A second `Partial<>` pass would *add* findings.
-
-The zod pattern already exists (`src/lib/validation/clientSchemas.ts`; 21–36 routes already
-import it, depending on probe). This is a **behavioural** change — malformed bodies start
-returning 400 — so it needs its own PR and its own review.
-
-### Tranche 2 — `.json()` is the one real lever, and it is 101 decisions
-Measured causal blast radius: **261 of the 457 unsafe warnings (57%)** trace to `.json()`, from
-**101 root call sites in 74 files** — 42 inbound (`request.json()`), 54 outbound
-(`response.json()`) spanning 44 distinct endpoints.
-
-The handoff's "89 unsafe sites" was a *lexical* count (sites whose own line contains `.json()`);
-the causal radius is 2.9× larger. So the prize is bigger than advertised and the simplicity is
-worse: 261 warnings for 101 hand-written schemas, a 2.6:1 payoff.
-
-Use the `interface Body { json(): Promise<unknown> }` augmentation **to size the work, then
-delete it** — it is a measurement probe, not a shippable fix. Measured floor: 132 error-producing
-sites on 94 lines in 35 files (the handoff claimed 142 / 57).
-
-### Tranche 3 — `no-unnecessary-condition` (897) stays last, and shrinks by being *measured*
-Do not size this rule until Tranches 1–2 land. 480 of the 897 (`neverOptionalChain` 262 +
-`neverNullish` 218) are derived from precisely the types the casts assert.
-
-**Corrected distribution** — the previous handoff's table summed to 904 against a real 897:
-
-| messageId | count |
-|---|---:|
-| `neverOptionalChain` | 262 |
-| `alwaysTruthy` | 231 |
-| `neverNullish` | 218 |
-| `alwaysFalsy` | 126 |
-| `noOverlapBooleanExpression` | 50 |
-| `comparisonBetweenLiteralTypes` | 10 |
-
-Two corrections to how this rule was framed:
-
-1. **`alwaysFalsy` and `noOverlap` are the *least* defect-dense buckets, not the most.**
-   24 of the 50 `noOverlap` are one benign tuple guard in `src/lib/cooking/boundaryNetwork.ts` —
-   3 identical blocks, one decision, the cheapest real win in the whole rule.
-2. **897 findings = 808 distinct `file:line` = 656 contiguous guard-blocks across 322 files.**
-   Per-finding burn-down rates misestimate this rule in both directions.
-
-Sampled classification (n=35, stratified across all six messageIds): **A (the type lies, guard is
-live) 14 · B (genuine redundancy) 14 · C (needs judgment) 7**. Extrapolated: **40–50% is a lying
-type**. State it as a band — at n=35 the point estimate carries roughly ±16pp.
-
-Genuinely mechanical slice: ~51 findings / ~21 edits — 10 `private static instance` declarations,
-~8 `let cancelled: boolean = false` annotations, and the boundaryNetwork block. **None of them are
-guard deletions.**
-
-**One high-leverage declaration fix — `ElementalProperties`.** The agent analysis said this type
-is "declared twice." That is wrong, and the truth is worse: **12 structural declarations** exist,
-and they disagree about whether the type has an index signature.
-
-| declaration | index signature |
-|---|---|
-| `src/types/recipe.ts:9` | **`[key: string]: number`** |
-| `src/types/elemental.ts:14` | **`[key: string]: number`** |
-| `src/app/api/group-recommendations/route.ts:40` | **`[key: string]: number`** |
-| `src/utils/elementalMappings.ts:3` | **index signature *only*** — no `Fire`/`Water`/`Earth`/`Air` at all |
-| `src/types/celestial.ts:148`, `zodiac.ts:17`, `cuisine.ts:57`, `lib/api/alchm-client.ts:8`, `components/recipes/LabBookIngest.tsx:14` | none |
-| `src/types/alchemy.ts:238` | `extends RawElementalProperties` — resolve before editing |
-| `src/lib/database/types.ts:112` | a different shape entirely (DB row: `id`, `entity_type`, lowercase `fire`…) |
-
-Wherever the index-signature version is in scope, **every element read types as non-nullish**, so
-the guard against a missing element reads as dead code. Removing those index signatures makes the
-rule tell the truth — `neverNullish` findings flip from "delete the guard" to "the guard is
-required." Expect a wave of new tsc errors; that is the point. Reconciling the 12 declarations is
-a prerequisite, not a side quest.
-
-### Tranche 4 — `exactOptionalPropertyTypes` 674 is really two populations
-Confirmed at 674 across 329 files, identical to `.strict-index-baseline.json`. But only **529 are
-exactOptional diagnostics** (TS2375 373 + TS2379 128 + TS2412 28). The other **145 are different
-errors** — TS2322 55, TS2345 29, **TS2339 "property does not exist" 24**, TS2352 16, TS2344 10,
-TS2769 5, TS7006 4, TS2740 1, TS1360 1. The TS2339 slice is latent type errors, not optionality
-work. Split the tranche accordingly.
-
-### Do NOT plan Phase 26 around the `any` type roots
-The August audit's root set (22 `any` lines in 7 type modules, ~686 import sites) was never
-fixed — **and no longer matters.** 19 of the 22 lines are still in the tree, with 179/100/79
-importers, and they now drive **6 of the 457** unsafe warnings. Of the 22, three are prose in
-comments and five are stub-function parameters; the remainder are narrow optional zodiac fields.
-
-Leverage collapsed from roughly 358:1 to **2.22:1**. The whole unsafe cluster is 457 warnings
-over **206 distinct root decisions**, and the single largest root anywhere collapses **9**
-warnings. Plan Phase 26 as a long series of small single-concern PRs, not a few sweeps: the
-top-25 files are only 44% of the cluster.
-
-One consolidation opportunity does remain — the `asPlanetaryPositions` copy-paste, worth ~30
-warnings behind one shared normaliser typed against the existing `PlanetaryPosition`. Verify all
-call sites; see the cross-repo sign-vector lesson.
-
----
-
-## 3. The floor: what "pristine" cannot mean
-
-Driving the tracked number to zero is not achievable and mostly not desirable. Best estimate of
-the achievable floor: **~400 of the 1,635** (range 250–600).
-
-| population | floor | why |
-|---|---:|---|
-| `no-console` 102 | **~72** | 21 are the logger implementations themselves. `_logger` (imported by 339 files) gates `info`/`warn`/`debug` behind `NODE_ENV !== "production"`, so converting a `console.warn` **silently deletes a production log line**. 51 of the 71 warns are server-side, on live degradation paths (Redis fallback, Privy token-verification failure, DB-insert fallback in `/api/sessions`). There are already 209 `_logger.warn` and 64 `_logger.info` calls that emit nothing in production. |
-| `no-useless-assignment` 35 | **35** | The base config disables this rule as a domain false-positive generator. Either drop it from `AUDITED_RULES` — honestly lowering the total to 1,600 — or accept it as permanent. |
-| `prefer-nullish-coalescing` 214 | ~130–214 | Tracked separately. Split by RHS: 67 string literal, 62 expression, 60 `\|\| 0`, 9 numeric, 6 `\|\| ""`, 6 null/undefined, 3 `[]`/`{}`, 1 `\|\| false`. **12 sites have a nonzero numeric fallback** (`\|\| 1`, `\|\| 0.7`, `\|\| 0.05`, `\|\| 14`) where `\|\|`→`??` is a live behaviour change. |
-| `no-explicit-any` 144 | **~2–8** | Bad news, not good: the "deliberately permitted" category is nearly empty. Almost all 144 are real, fixable debt. |
-| assertion sites 3,396 | ~470 | 137 `keyof` index-key narrowing + 36 generic-parameter casts + test idioms (188 `as jest.Mock`, 84 `as never` — 47% of the 624 test sites). The remaining ~2,900 are real boundary-shaping debt, dominated by 259 production `as Record<string, unknown>`. |
-| `no-unnecessary-condition` 897 | 150–450, and it **moves** | The floor is unknowable until the boundaries are validated. After Tranche 1 most of these guards become genuinely dead and safely removable — the work *lowers* the floor rather than clearing warnings against it. |
-
-### The declined pool (4,910) should not be driven to zero
-- **2,492 are measured against ESLint *default* thresholds nobody on this team chose**
-  (`max-lines` 300, `max-lines-per-function` 50, `complexity` 20 — `AUDITED_RULES` passes a bare
-  `"warn"` with no options). 514 of 1,644 non-test files — **31% of the codebase** — are "too
-  long" by that unchosen default; 115 of them are `src/data` literal tables.
-- **373 `no-void` are a regression by construction.** The base config sets `"no-void": "off"` with
-  the comment *"valid pattern for ignored promises"*, while `no-floating-promises` is `"warn"`.
-  248 of the 373 reported lines literally begin with `void `. Fixing them re-introduces the thing
-  the other rule warns about.
-- **`max-lines-per-function` is useless as a priority signal.** Correlation with tracked debt per
-  file: Pearson **r = 0.049**. The top 30 files by MLPF carry 303 MLPF warnings and just **23**
-  tracked warnings (1.4%). It would send the team to almost exactly the wrong 30 files.
-- **`explicit-function-return-type` (1,374) buys essentially no type safety here.** Inference
-  under `strict` already types every return, and the dangerous subset (`no-unsafe-return`) is 19
-  warnings in 13 files — only 7 of which even carry an EFRT warning. It is a readability policy;
-  selling it as safety would be false.
-
----
-
-## 4. Claims from the Phase 25 handoff, audited
-
-| # | claim | verdict |
-|---|---|---|
-| 1 | "53 test-only modules in ~7 dependency clusters" | 53 **CONFIRMED**; **"7" is WRONG — measured 23 connected components** (29 distinct owner-sets). Largest is 19 modules; **15 are singletons**. Budgeting 7 judgments and hitting 23 will blow the phase. |
-| 2 | `unifiedEngineWitness.test.ts` is unfalsifiable | **CONFIRMED** — it would pass if the engine returned one identical constant for all 20 charts. But the proposed fix is the weaker one: the fixture already supplies **exact expected values**, so assert conformance directly rather than merely counting distinct outputs. Only then is "is `UnifiedCalculationEngine` dead?" answerable. |
-| 3 | Three `client.ts` functions have zero callers | **CONFIRMED** under an explicit barrel check. But note *two of the five zero-caller exports share names with live classes* (`IngredientService` among them) — so grep alone cannot answer "is this symbol used?" in this repo. |
-| 4 | `pollingTestEnv.ts` is test-only by design | **CONFIRMED** — not a deletion candidate. |
-| 5 | `exactOptionalPropertyTypes` 674, untouched | **674 CONFIRMED exactly**, but the label is wrong — see Tranche 4. |
-
-**Also worth knowing:** 9 of the 22 files Phase 23 hand-edited for `require-await` were deleted
-as dead by Phase 24 — **41% of that phase's judgment calls were spent on code that was about to
-be deleted.** Run the reachability audit *before* a phase of hand edits, not after. (The de-async
-trap itself did **not** fire: 8 rejection-preserving `Promise.resolve().then(...)` versus 94 bare
-`return Promise.resolve(expr)`, and every de-async'd site traced in surviving files uses the safe
-form.)
-
----
-
-## 5. What could still ship with every gate green
-
-The campaign gates lint debt, casts, assertion sites, strict-index and dead modules. It does not
-gate:
-
-1. **Anything in `scripts/**`, `tests/**`, `__tests__/**`** — 152–163 files, 51 of them touching
-   the production database (§1).
-2. **Dead exports inside live modules** — the dead-module gate is module-granular.
-3. **Test code asserting against properties production types do not have** — tests are excluded
-   from `tsc` *and* exempted from the two most common type errors. This is the exact shape of the
-   recorded "schema change shipped before its 6 readers" incident.
-4. **Deletion of a live runtime guard** — proven by Phase 25: removing the `sync-credit` /
-   `sync-debit` / `swap` 400-guards leaves tsc, ESLint and all 3,497 tests green.
-5. **Retiring a warning with a suppression comment** — the gate has no directive-count axis.
-   Today there are only 4 such directives and each carries a written reason, but a
-   "drive it to zero" push creates a strong incentive to add more.
-6. **New unsafe warnings in ordinary development** — the `no-unsafe-*` rules exist only in the
-   audit overlay (`eslint.config.audit.mjs`), not in the `bun run lint` that actually runs in CI.
-
----
-
-## 6. Verification protocol
-
-```bash
-bun run verify               # test:gates, strict-index:check, typecheck, lint, lint:debt, test:fast
-CI=1 bunx jest               # full suite — 333 suites / 3,497 tests
+bun run verify         # verify:static + the FULL suite (336 suites / 3,589 tests)
+bun run verify:static  # test:gates, strict-index:check, check:scripts, typecheck,
+                       #   lint, lint:scripts, lint:debt, audit:dead-modules
 bun run build
-bun run audit:dead-modules   # must stay at UNREACHABLE: 0
 ```
 
-⚠️ `verify` ends in `test:fast` (19 suites). It is **not** the full suite — run `CI=1 bunx jest`
-separately before claiming green.
+`verify` no longer has the `test:fast` blind spot — it runs the whole suite. CI calls
+`verify:static` instead, because its Test leg runs the suite in a parallel job; running full
+`verify` there would execute jest twice per PR and let a static-gate failure mask the test result.
+Same coverage, split for independent signals. `test:fast` is inner-loop only and must not gate.
 
-⚠️ `lint:debt` is only a valid local witness when `git status --porcelain | grep -c '^??'`
-returns **0** and the tree contains only your changeset. It is **not** valid in the primary
-checkout today (§0b).
+⚠️ `lint:debt` is a valid local witness only when the tree has **zero** untracked files (§0).
 
-⚠️ `rm -f .eslintcache` before re-running lint to verify a fix; `--cache-strategy content` has
+⚠️ `rm -f .eslintcache` before re-running lint to check a fix; `--cache-strategy content` has
 failed to invalidate here.
 
-⚠️ A pipeline's exit code is the last command's — `bun run typecheck 2>&1 | tail -20` reports
+⚠️ A pipeline's exit code is the last command's. `bun run typecheck 2>&1 | tail -20` reports
 `tail`'s status. Use `set -o pipefail`.
+
+⚠️ Renaming a CI matrix command blocks every merge with all jobs green — ruleset `20950461`
+pins the required context by name.
 
 ---
 
-## 7. Measurement traps that produced false results while writing this document
+## 6. What can still ship with every gate green
 
-- **zsh does not word-split `"$VAR"`.** A variable holding a space-separated file list becomes
-  **one** argument, matches nothing, and reports a confident **0**. Use `$(cat file)` or an array.
-- **`$REF:path` is a zsh history modifier.** Write `${REF}:path` or you get `bad substitution`.
-- **`2>/dev/null` turns "bad revision" into "0 differences."** A comparison against a ref that
-  does not exist reported *"0 of 132 files differ"* — which read as proof of a hypothesis that
-  was in fact false. Verify refs with `git rev-parse --verify` first.
-- **Unquoted URLs glob.** `gh api "...?ref=master"` needs the quotes; unquoted, zsh fails with
-  `no matches found`.
-- **`grep` here is ugrep**, which rejects some ERE alternations with escaped parens and returns a
-  false 0 rather than an error. POSIX ERE `\s` is a literal `s`. Use `-P`.
-- **Before reporting any count as 0, prove the probe returns non-zero on a known positive.**
+Phase 26 closed items 1 and 6 of the old list. What remains:
+
+1. ~~Anything in `scripts/**`~~ — **closed** by Tranche 0.
+2. **Dead exports inside live modules** — 976 runtime-valued, unmeasured by any gate (Tranche E).
+3. **Test code asserting against properties production types do not have** — tests are excluded
+   from `tsc` *and* from the two most common type errors. This is the exact shape of the recorded
+   "schema change shipped before its 6 readers" incident.
+4. **Deletion of a live runtime guard** — proven by Phase 25: removing the `sync-credit` /
+   `sync-debit` / `swap` 400-guards left tsc, ESLint and the whole suite green.
+5. **Retiring a warning with a suppression comment** — no directive-count axis. 4 such directives
+   exist today, each with a written reason. A "drive it to zero" push creates the incentive.
+6. ~~New unsafe warnings in ordinary development~~ — still true that `no-unsafe-*` lives only in
+   `eslint.config.audit.mjs`, but `lint:debt` now ratchets every rule including the declined pool,
+   so a regression is caught at the gate rather than at the aggregate.
+7. **An unvalidated request body on a money route** — five of them today (Tranche A).
+
+---
+
+## 7. Measurement traps (carry-forward, plus three found writing this)
+
+**New, from this session:**
+
+- **A declared type with no cast is invisible to every cast probe.** `let body: {a: string};
+  body = await request.json();` type-checks, lints clean under `bun run lint`, and asserts a shape
+  nothing verified. Two of the five unvalidated economy routes are this shape.
+- **Removing a lying type can make the lint worse.** §2: the index-signature removal was expected
+  to retire `neverNullish` findings and instead added 11 of them plus 40 unsafe warnings. Always
+  run the experiment on a scoped file list and revert; never plan a tranche on a predicted delta.
+- **`grep --include='*.ts'` must be quoted.** Unquoted, zsh globs it against the cwd and the
+  command dies with `no matches found` — which reads as a legitimate 0 in a pipeline ending in
+  `wc -l`. Three probes in this session returned a confident false zero this way.
+- **Unbalanced regex paren swallowed by `2>/dev/null` returns a false zero.** An unescaped or
+  unbalanced paren in a regex (e.g. `(zod|@/lib/validation`) when redirected with `2>/dev/null`
+  swallowed the syntax error and returned a confident `1` instead of erroring. Never suppress stderr
+  on a count probe until syntax is verified.
+- **`echo "$LIST" | xargs grep -l` collapses to 1 under zsh's no-word-split.** zsh does not split
+  unquoted or quoted multi-line scalar strings into separate arguments for xargs across pipes,
+  collapsing 122 files into 1 file scanned. Use arrays, `cat`, or `\n`-delimited streams.
+
+**Carried forward:**
+
+- **zsh does not word-split `"$VAR"`.** A variable holding a space-separated file list becomes one
+  argument, matches nothing, reports 0. Use `$(cat file)` or an array.
+- **`$REF:path` is a zsh history modifier.** Write `${REF}:path`.
+- **`2>/dev/null` turns "bad revision" into "0 differences."** Verify refs with `git rev-parse --verify`.
+- **`grep` here is ugrep**: POSIX ERE `\s` is a literal `s`, and some escaped-paren alternations
+  return a false 0 rather than an error. Use `-P`.
+- **`timeout` is not installed on this machine.** Background long probes instead.
+- **`tsc -p` without `--incremental false` reports phantom errors.**
+- **Before reporting any count as 0, prove the probe returns non-zero on a known positive.** The
+  dead-export probe in Tranche E was validated this way: `AddCommensalRequestSchema` (known
+  imported) correctly stayed out of the no-consumer set.
 
 ---
 
 ## 8. Honest limits of this document
 
-The four analyses behind §§1–5 were produced by parallel agents; their **adversarial verification
-pass did not run** (session limit). I independently re-verified the load-bearing claims — the
-ungated-file counts, the `findPerRuleRegressions` skip, the `any` root-set collapse, the branch
-topology, the merge dry run, and the corrected NUC distribution.
+Everything in §§0–3 was measured on 2026-09-09 in this checkout, and the headline lint numbers
+reproduce `.lint-debt-baseline.json` exactly once §0's 29 files are excluded — which is itself the
+strongest available evidence that the exclusion is correct.
 
-**That spot-check already caught one false claim**: the analysis reported `ElementalProperties`
-as "declared twice"; it is declared **12 times**, with at least four variants disagreeing on the
-index signature (Tranche 3). Assume other unverified specifics carry similar error — re-measure
-before acting on any single number below, and treat the following as single-sourced:
+Single-sourced or estimated, treat with suspicion:
 
-- The **A/B/C 40–50%** split for `no-unnecessary-condition` rests on n=35 hand-classified sites
-  (±16pp), and **no guard was red-proved** by actually removing it and observing a failure.
-- The **~400 floor** is an estimate assembled from several per-rule estimates, not a measurement.
-- The **51 "scripts touching the production DB"** is a text match on
-  `executeQuery|DATABASE_URL|DATABASE_PUBLIC_URL`; it does not distinguish readers from writers.
-- Route-level zod adoption measured **21** with one probe and **36** with another. Both are in
-  this document because the disagreement is real and unresolved; build the Tranche 1 inventory
-  from the 122 body-reading routes rather than trusting either.
-- Effort figures in hours are unanchored order-of-magnitude guesses with no baseline from this
-  team's actual throughput.
+- **Tranche E's 1,930 / 976** is a name-appearance probe, not a resolver. (It does have one
+  control: two independently written implementations — an O(n²) pairwise scan and an
+  inverted-index scan — agreed at **1,931 vs 1,930** with identical top files, so the count is at
+  least reproducible.) It cannot see dynamic
+  access or the 35 `export * from` barrels. A runtime-only re-pass counted **983** rather than 976
+  — the 7-symbol gap is names declared as a type in one file and a value in another. Use the
+  number to size the tranche; verify every symbol before deleting it.
+- **The 40–50% "lying type" band for `no-unnecessary-condition`** rests on the previous session's
+  n=35 hand classification (±16pp) and **no guard was ever red-proved**. §2 falsified the one
+  structural hypothesis built on it. It should be re-derived, not inherited.
+- **The ~400 achievable floor** is an assembly of per-rule estimates, not a measurement.
+- **The §2 experiment covered the 50 EP-importing files with NUC findings**, not all 172 import
+  sites; the tsc delta (+57) is repo-wide, the lint delta (+20/+40) is scoped to those 50. A
+  repo-wide lint re-run would likely show a larger absolute increase, not a smaller one.
+- **The three duplicate-concept examples in §4** (27 cooking-method registries / 5 normalizers,
+  3 parallel dietary filters over 1 classifier, the live-vs-dead recommendation-services map) are
+  **inherited from earlier audits and were not re-measured today.** Only the `ElementalProperties`
+  count (12 declarations, 172 import sites) was. Re-measure before scoping any of them.
+- **Effort estimates are absent from this document on purpose.** Previous ones were unanchored
+  guesses with no baseline from this team's throughput.
