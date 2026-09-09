@@ -19,6 +19,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { getPrivyClient, verifyPrivyToken, getPrivyWallet, maskDid } from "@/lib/privy/server";
+import { AccountLinkPrivyRequestSchema } from "@/lib/validation/apiSchemas";
 import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
@@ -86,9 +87,9 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { privyToken?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, error: "Invalid JSON body" },
@@ -96,13 +97,19 @@ export async function POST(request: Request) {
     );
   }
 
-  const privyToken = typeof body.privyToken === "string" ? body.privyToken.trim() : "";
-  if (!privyToken) {
+  const parsed = AccountLinkPrivyRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: "`privyToken` is required" },
+      {
+        success: false,
+        error: "`privyToken` is required",
+        details: parsed.error.flatten().fieldErrors,
+      },
       { status: 400 }
     );
   }
+
+  const { privyToken } = parsed.data;
 
   try {
     // 1. Verify Privy access token → DID (null = invalid/expired token).

@@ -6,8 +6,10 @@
  */
 
 import { NextResponse } from "next/server";
+import { UserRole } from "@/lib/auth/roles";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { AdminUpdateUserStatusRequestSchema } from "@/lib/validation/apiSchemas";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -31,15 +33,24 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const { userId } = await params;
-    const body = await request.json();
-    const { isActive } = body;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON body" },
+        { status: 400 },
+      );
+    }
 
-    if (typeof isActive !== "boolean") {
+    const parsed = AdminUpdateUserStatusRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json(
         { success: false, message: "isActive boolean is required" },
         { status: 400 },
       );
     }
+    const { isActive } = parsed.data;
 
     const user = await userDatabase.getUserById(userId);
 
@@ -51,7 +62,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     // Prevent deactivating admin users
-    if (!isActive && user.roles.includes("admin" as any)) {
+    if (!isActive && user.roles.includes(UserRole.ADMIN)) {
       return NextResponse.json(
         { success: false, message: "Cannot deactivate admin users" },
         { status: 403 },

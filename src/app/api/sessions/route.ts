@@ -10,6 +10,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { _logger } from "@/lib/logger";
+import { CreateSessionRequestSchema } from "@/lib/validation/apiSchemas";
 
 let dbModule: typeof import("@/lib/database") | null = null;
 const getDb = async () => {
@@ -32,17 +33,24 @@ export async function POST(request: Request) {
   // Tier gate removed with the premium concept — see the note in
   // group/compatibility. No subscription row was ever Stripe-backed.
 
+  let rawBody: unknown;
   try {
-    const body = await request.json();
-    const { name, memberIds, strategy = "consensus" } = body;
+    rawBody = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
 
-    if (!memberIds || !Array.isArray(memberIds) || memberIds.length < 1) {
-      return NextResponse.json(
-        { error: "At least 1 member ID is required" },
-        { status: 400 },
-      );
-    }
+  const parsed = CreateSessionRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "At least 1 member ID is required" },
+      { status: 400 },
+    );
+  }
 
+  const { name, memberIds, strategy = "consensus" } = parsed.data;
+
+  try {
     const sessionId = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     const db = await getDb();
 

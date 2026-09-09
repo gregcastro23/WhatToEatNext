@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { QuestClaimRewardRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService } from "@/services/QuestService";
 import type { NextRequest } from "next/server";
 
@@ -9,6 +10,26 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "quests-claim" };
+
+async function parseClaimBody(request: NextRequest) {
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return { ok: false as const, message: "Invalid request body" };
+  }
+
+  const parsed = QuestClaimRewardRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return {
+      ok: false as const,
+      message: "questSlug is required",
+      details: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  return { ok: true as const, data: parsed.data };
+}
 
 export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, RATE_LIMIT);
@@ -22,23 +43,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { questSlug: string; periodStart?: string | null };
-  try {
-    body = await request.json();
-  } catch {
+  const parsed = await parseClaimBody(request);
+  if (!parsed.ok) {
     return NextResponse.json(
-      { success: false, message: "Invalid request body" },
+      {
+        success: false,
+        message: parsed.message,
+        details: parsed.details,
+      },
       { status: 400 }
     );
   }
 
-  const { questSlug, periodStart } = body;
-  if (!questSlug) {
-    return NextResponse.json(
-      { success: false, message: "questSlug is required" },
-      { status: 400 }
-    );
-  }
+  const { questSlug, periodStart } = parsed.data;
 
   try {
     const result = await questService.claimQuestReward(userId, questSlug, periodStart);

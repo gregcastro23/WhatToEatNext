@@ -7,21 +7,16 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { AdeptTableRequestSchema } from "@/lib/validation/apiSchemas";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import type { AlchemicalProperties } from "@/types/celestial";
-import type { GroupMember, NatalChart } from "@/types/natalChart";
-import { isObject } from "@/utils/typeGuards";
+import type { GroupMember } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const PREMIUM_TABLE_LIMIT = { window: 60_000, max: 10, bucket: "premium-table" };
-
-interface AdeptTableRequestBody {
-  hostData?: NatalChart;
-  friendData?: NatalChart;
-}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, PREMIUM_TABLE_LIMIT);
@@ -44,13 +39,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     _logger.info(`[adept-table] User ${user.id} requested composite chart.`);
 
-    const rawBody: unknown = await request.json().catch(() => ({}));
-    const body = (isObject(rawBody) ? rawBody : {}) as AdeptTableRequestBody;
-    const { hostData, friendData } = body;
-
-    if (!hostData || !friendData) {
+    const rawBody: unknown = await request.json().catch(() => null);
+    if (rawBody === null || typeof rawBody !== "object") {
       return NextResponse.json({ success: false, error: "Missing birth data for Host or Friend." }, { status: 400 });
     }
+
+    const parsed = AdeptTableRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json({ success: false, error: "Missing birth data for Host or Friend." }, { status: 400 });
+    }
+
+    const { hostData, friendData } = parsed.data;
 
     const nowIso = new Date().toISOString();
     const groupMembers: GroupMember[] = [

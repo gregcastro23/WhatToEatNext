@@ -1023,6 +1023,155 @@ export const RestaurantOrderBodySchema = z
   .passthrough();
 export type ParsedRestaurantOrderBody = z.infer<typeof RestaurantOrderBodySchema>;
 
+// ─── Account & Billing ────────────────────────────────────────────────────────
+
+export const AccountMcpTopUpRequestSchema = z.object({
+  sku: z.string().min(1, "sku is required"),
+});
+export type ParsedAccountMcpTopUpRequest = z.infer<typeof AccountMcpTopUpRequestSchema>;
+
+export const AccountMintApiKeyRequestSchema = z.object({
+  name: z.string().trim().min(1, "`name` is required"),
+  scopes: z.unknown().optional(),
+  expiresAt: z.unknown().optional(),
+});
+export type ParsedAccountMintApiKeyRequest = z.infer<typeof AccountMintApiKeyRequestSchema>;
+
+export const AccountLinkPrivyRequestSchema = z.object({
+  privyToken: z.string().trim().min(1, "`privyToken` is required"),
+});
+export type ParsedAccountLinkPrivyRequest = z.infer<typeof AccountLinkPrivyRequestSchema>;
+
+export const SubscriptionTrackUsageRequestSchema = z.object({
+  feature: z.string().min(1, "Missing feature parameter"),
+});
+export type ParsedSubscriptionTrackUsageRequest = z.infer<typeof SubscriptionTrackUsageRequestSchema>;
+
+// ─── Quests ──────────────────────────────────────────────────────────────────
+
+export const QuestReportEventRequestSchema = z.object({
+  event: z.string().min(1, "event is required and must be a string"),
+});
+export type ParsedQuestReportEventRequest = z.infer<typeof QuestReportEventRequestSchema>;
+
+export const QuestClaimRewardRequestSchema = z.object({
+  questSlug: z.string().min(1, "questSlug is required"),
+  periodStart: z.string().nullable().optional(),
+});
+export type ParsedQuestClaimRewardRequest = z.infer<typeof QuestClaimRewardRequestSchema>;
+
+// ─── User Profile & Cosmic Identity ──────────────────────────────────────────
+
+export const CreateUserChartRequestSchema = z.object({
+  label: z.string().min(1, "label is required"),
+  birthData: BirthDataSchema,
+});
+export type ParsedCreateUserChartRequest = z.infer<typeof CreateUserChartRequestSchema>;
+
+export const UserIdentityPreferencesRequestSchema = z.object({
+  shareIdentity: z.boolean(),
+});
+export type ParsedUserIdentityPreferencesRequest = z.infer<typeof UserIdentityPreferencesRequestSchema>;
+
+export const UserAvatarUploadRequestSchema = z.object({
+  photoDataUrl: z.string().min(1, "photoDataUrl is required"),
+});
+export type ParsedUserAvatarUploadRequest = z.infer<typeof UserAvatarUploadRequestSchema>;
+
+export const UserDietaryPreferencesRequestSchema = z.object({
+  preferences: z.union([z.record(z.string(), z.unknown()), z.array(z.unknown())]),
+});
+export type ParsedUserDietaryPreferencesRequest = z.infer<typeof UserDietaryPreferencesRequestSchema>;
+
+export const UserKitchenSettingsRequestSchema = z.object({
+  kitchenElevationM: z
+    .union([z.number(), z.string().regex(/^-?\d+(\.\d+)?$/).transform(Number)])
+    .nullable()
+    .optional()
+    .refine(
+      (val) => val === undefined || val === null || (Number.isFinite(val) && val >= -500 && val <= 9000),
+      { message: "kitchenElevationM must be a number within -500..9000 metres" },
+    ),
+  kitchenElevationBasis: z.string().nullable().optional(),
+  kitchenSettings: z.record(z.string(), z.unknown()).optional(),
+  recipeAdjustments: z.array(z.unknown()).optional(),
+});
+export type ParsedUserKitchenSettingsRequest = z.infer<typeof UserKitchenSettingsRequestSchema>;
+
+export const UserProfileLayoutRequestSchema = z.object({
+  layout: z.array(z.unknown()),
+});
+export type ParsedUserProfileLayoutRequest = z.infer<typeof UserProfileLayoutRequestSchema>;
+
+export const TasteInteractionTypeSchema = z.enum([
+  "recipe_view",
+  "recipe_save",
+  "recipe_cook",
+  "ingredient_select",
+  "cooking_method",
+  "planetary_query",
+  "food_diary_entry",
+  "food_rating",
+]);
+
+export const UserTasteGraphRecordRequestSchema = z.object({
+  type: TasteInteractionTypeSchema,
+  payload: z.record(z.string(), z.unknown()).optional(),
+  context: z.record(z.string(), z.unknown()).optional(),
+  weight: z.number().optional(),
+});
+export type ParsedUserTasteGraphRecordRequest = z.infer<typeof UserTasteGraphRecordRequestSchema>;
+
+export const TasteVerdictSchema = z.enum(["love", "block"]);
+
+export const UserTasteCorrectionsSchema = z.object({
+  cuisines: z.record(z.string(), TasteVerdictSchema).optional(),
+  ingredients: z.record(z.string(), TasteVerdictSchema).optional(),
+  methods: z.record(z.string(), TasteVerdictSchema).optional(),
+  planets: z.record(z.string(), TasteVerdictSchema).optional(),
+});
+export type ParsedUserTasteCorrections = z.infer<typeof UserTasteCorrectionsSchema>;
+
+// ─── Sessions & Onboarding ───────────────────────────────────────────────────
+
+export const CreateSessionRequestSchema = z.object({
+  name: z.string().optional(),
+  memberIds: z.array(z.string()).min(1, "At least 1 member ID is required"),
+  strategy: z.string().optional(),
+});
+export type ParsedCreateSessionRequest = z.infer<typeof CreateSessionRequestSchema>;
+
+const WAITLIST_EMAIL_PATTERN = /^[^\s@,;:<>()[\]\\"]+@[^\s@,;:<>()[\]\\"]+\.[A-Za-z]{2,}$/;
+
+export const WaitlistSignupRequestSchema = z.object({
+  email: z
+    .string()
+    .max(254)
+    .transform((val) => val.trim().replace(/^<|>$/g, "").toLowerCase())
+    .refine((val) => WAITLIST_EMAIL_PATTERN.test(val), { message: "A valid email is required" }),
+  name: z.string().max(80).optional(),
+  source: z.string().max(64).optional(),
+  event: z.string().max(120).nullable().optional(),
+});
+export type ParsedWaitlistSignupRequest = z.infer<typeof WaitlistSignupRequestSchema>;
+
+// ─── Admin & Composite Calculations ──────────────────────────────────────────
+
+export const AdminUpdateUserRequestSchema = z.object({
+  tier: z.string().optional(),
+  isActive: z.boolean().optional(),
+  role: z.string().optional(),
+});
+export type ParsedAdminUpdateUserRequest = z.infer<typeof AdminUpdateUserRequestSchema>;
+
+export const AdminUpdateUserStatusRequestSchema = z.object({
+  isActive: z.boolean(),
+});
+export type ParsedAdminUpdateUserStatusRequest = z.infer<typeof AdminUpdateUserStatusRequestSchema>;
+
+export const AdeptTableRequestSchema = PremiumTableRequestSchema;
+export type ParsedAdeptTableRequest = z.infer<typeof AdeptTableRequestSchema>;
+
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.
 

@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import type { UserRole } from "@/lib/auth/roles";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { AdminUpdateUserRequestSchema } from "@/lib/validation/apiSchemas";
 import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -155,9 +156,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     const { userId } = await params;
 
-    let body: Record<string, unknown>;
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid JSON body" },
@@ -165,7 +166,15 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { tier, isActive, role } = body;
+    const parsed = AdminUpdateUserRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, message: "Invalid request payload" },
+        { status: 400 },
+      );
+    }
+
+    const { tier, isActive, role } = parsed.data;
 
     const user: AdminRouteUser | null = await userDatabase.getUserById(userId);
     if (!user) {

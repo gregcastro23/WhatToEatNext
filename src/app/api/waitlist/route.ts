@@ -25,16 +25,13 @@
 
 import { timingSafeEqual } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
+import { WaitlistSignupRequestSchema } from "@/lib/validation/apiSchemas";
 import emailService from "@/services/emailService";
 import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-/** Same shape rule the kiosk applies client-side, re-checked at the boundary. */
-const EMAIL_PATTERN = /^[^\s@,;:<>()[\]\\"]+@[^\s@,;:<>()[\]\\"]+\.[A-Za-z]{2,}$/;
-
-const MAX_EMAIL_LENGTH = 254;
 const MAX_NAME_LENGTH = 80;
 
 /** A row created within this window is genuinely new (vs. one createUser
@@ -79,29 +76,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const body = (await request.json().catch(() => null)) as {
-    email?: unknown;
-    name?: unknown;
-    source?: unknown;
-    event?: unknown;
-  } | null;
-
-  const rawEmail = typeof body?.email === "string" ? body.email : "";
-  const email = rawEmail.trim().replace(/^<|>$/g, "").toLowerCase();
-
-  if (!email || email.length > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.test(email)) {
+  const rawBody: unknown = await request.json().catch(() => null);
+  if (rawBody === null || typeof rawBody !== "object") {
     return NextResponse.json(
       { ok: false, message: "A valid email is required" },
       { status: 400 },
     );
   }
 
+  const parsed = WaitlistSignupRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { ok: false, message: "A valid email is required" },
+      { status: 400 },
+    );
+  }
+
+  const { email, name: rawName, source: rawSource, event: rawEvent } = parsed.data;
   const providedName =
-    typeof body?.name === "string"
-      ? body.name.trim().replace(/\s+/g, " ").slice(0, MAX_NAME_LENGTH)
+    typeof rawName === "string"
+      ? rawName.trim().replace(/\s+/g, " ").slice(0, MAX_NAME_LENGTH)
       : "";
-  const source = typeof body?.source === "string" ? body.source.slice(0, 64) : "all-aboard";
-  const event = typeof body?.event === "string" ? body.event.slice(0, 120) : null;
+  const source = typeof rawSource === "string" && rawSource.length > 0 ? rawSource.slice(0, 64) : "all-aboard";
+  const event = typeof rawEvent === "string" ? rawEvent.slice(0, 120) : null;
 
   try {
     // Fast path: we already know this person. No duplicate row, no second
