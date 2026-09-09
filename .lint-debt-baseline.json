@@ -1,11 +1,11 @@
 {
   "trackedTotal": 1520,
   "casts": {
-    "total": 168,
+    "total": 169,
     "asAny": 39,
-    "asUnknownAs": 129,
+    "asUnknownAs": 130,
     "production": 136,
-    "test": 32,
+    "test": 33,
     "untrackedSingleAsT": 2029
   },
   "assertionSites": {
