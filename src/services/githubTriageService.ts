@@ -20,6 +20,7 @@
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import { redisCached } from "@/lib/redis";
+import { GithubIssuesResponseSchema } from "@/lib/validation/serviceResponseSchemas";
 
 export interface TriageIssue {
   number: number;
@@ -108,7 +109,9 @@ async function fetchLabelledIssues(label: string): Promise<GithubIssueRow[]> {
       }
       // Raw page length (PRs included) decides pagination; a page below 100
       // rows is the last one.
-      const rows = await readJson<GithubIssueRow[]>(res);
+      const rows = await readJson(res, {
+        parse: GithubIssuesResponseSchema.parse,
+      });
       all.push(...rows.filter((row) => row.pull_request === undefined));
       if (rows.length < 100) return all;
     } finally {

@@ -9,6 +9,7 @@
 
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
 import { readJson } from "@/lib/api/json";
+import { GooglePlacesResponseSchema } from "@/lib/validation/serviceResponseSchemas";
 import { executeQuery } from "@/lib/database/connection";
 import { scoreCuisineAgainstMoment } from "@/services/restaurantScoring";
 import {
@@ -455,7 +456,9 @@ async function googleNearby(
       };
     }
 
-    const data = await readJson<{ places?: GooglePlaceRaw[] }>(response);
+    const data = await readJson(response, {
+      parse: GooglePlacesResponseSchema.parse,
+    });
     const restaurants = (data.places ?? []).flatMap((place) => {
       const normalized = normalizeGooglePlace(place);
       return normalized ? [normalized] : [];

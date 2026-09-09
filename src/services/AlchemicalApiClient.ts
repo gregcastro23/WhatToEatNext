@@ -10,6 +10,15 @@
 
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
+import {
+  AlchemicalElementalPropertiesSchema,
+  BalanceOptimizationResultSchema,
+  ESMSResultSchema,
+  PlanetaryInfluenceResponseSchema,
+  PlanetaryPositionsResponseSchema,
+  RecipeRecommendationsResponseSchema,
+  ThermodynamicsResultSchema,
+} from "@/lib/validation/alchemicalBackendSchemas";
 import type { ElementalProperties } from "@/types/alchemy";
 
 // Backend service configuration
@@ -128,7 +137,9 @@ export class AlchemicalApiClient {
         throw new Error(`Backend calculation failed: ${response.statusText}`);
       }
 
-      return await readJson<ElementalProperties>(response);
+      return await readJson<ElementalProperties>(response, {
+        parse: AlchemicalElementalPropertiesSchema.parse,
+      });
     } catch (error) {
       _logger.error("Elemental calculation error: ", error);
       // Fallback to simple balanced elements
@@ -159,7 +170,9 @@ export class AlchemicalApiClient {
         );
       }
 
-      return await readJson<ThermodynamicsResult>(response);
+      return await readJson<ThermodynamicsResult>(response, {
+        parse: ThermodynamicsResultSchema.parse,
+      });
     } catch (error) {
       _logger.error("Thermodynamics calculation error: ", error);
       // Fallback values
@@ -187,7 +200,9 @@ export class AlchemicalApiClient {
         throw new Error(`Planetary data fetch failed: ${response.statusText}`);
       }
 
-      return await readJson<PlanetaryInfluenceResponse>(response);
+      return await readJson<PlanetaryInfluenceResponse>(response, {
+        parse: PlanetaryInfluenceResponseSchema.parse,
+      });
     } catch (error) {
       _logger.error("Planetary data error: ", error);
       // Fallback planetary data
@@ -230,7 +245,9 @@ export class AlchemicalApiClient {
         );
       }
 
-      return await readJson<PlanetaryPositionsResponse>(response);
+      return await readJson<PlanetaryPositionsResponse>(response, {
+        parse: PlanetaryPositionsResponseSchema.parse,
+      });
     } catch (error) {
       _logger.error("Planetary positions error: ", error);
       throw error;
@@ -260,7 +277,9 @@ export class AlchemicalApiClient {
         );
       }
 
-      return await readJson<RecipeRecommendationsResponse>(response);
+      return await readJson<RecipeRecommendationsResponse>(response, {
+        parse: RecipeRecommendationsResponseSchema.parse,
+      });
     } catch (error) {
       _logger.error("Recipe recommendation error: ", error);
       // Fallback empty recommendations
@@ -295,7 +314,9 @@ export class AlchemicalApiClient {
         },
       );
 
-      return await readJson<ESMSResult>(response);
+      return await readJson<ESMSResult>(response, {
+        parse: ESMSResultSchema.parse,
+      });
     } catch (error) {
       _logger.error("ESMS calculation error: ", error);
       return {
@@ -328,7 +349,9 @@ export class AlchemicalApiClient {
         },
       );
 
-      return await readJson<BalanceOptimizationResult>(response);
+      return await readJson<BalanceOptimizationResult>(response, {
+        parse: BalanceOptimizationResultSchema.parse,
+      });
     } catch (error) {
       _logger.error("Balance optimization error: ", error);
       return { optimization: "balanced", recommendations: [] };

@@ -1,5 +1,6 @@
 import { readJson } from "@/lib/api/json";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { McpNetworkSummarySchema } from "@/lib/validation/serviceResponseSchemas";
 
 export type McpVerdict = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
 
@@ -125,7 +126,9 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
       return { ...stale, live: false };
     }
 
-    const data = await readJson<Partial<McpNetworkSummary> | null>(res);
+    const data = await readJson(res, {
+      parse: McpNetworkSummarySchema.nullable().parse,
+    });
 
     // A 200 does not mean the upstream had data. The proxy reports its own
     // `live: false` when it could not reach the MCP source, and forcing

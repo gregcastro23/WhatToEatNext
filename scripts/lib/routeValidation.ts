@@ -41,8 +41,9 @@ export function inspectRouteFileContent(
       stmt.name &&
       /^(GET|POST|PUT|PATCH|DELETE)$/.test(stmt.name.text)
     ) {
-      if (stmt.parameters.length > 0 && ts.isIdentifier(stmt.parameters[0].name)) {
-        handlerParams.add(stmt.parameters[0].name.text);
+      const firstParam = stmt.parameters[0];
+      if (firstParam && ts.isIdentifier(firstParam.name)) {
+        handlerParams.add(firstParam.name.text);
       }
     } else if (ts.isVariableStatement(stmt)) {
       for (const decl of stmt.declarationList.declarations) {
@@ -57,7 +58,9 @@ export function inspectRouteFileContent(
             decl.initializer.parameters.length > 0
           ) {
             const p = decl.initializer.parameters[0];
-            if (ts.isIdentifier(p.name)) handlerParams.add(p.name.text);
+            if (p && ts.isIdentifier(p.name)) {
+              handlerParams.add(p.name.text);
+            }
           }
         }
       }
@@ -150,8 +153,8 @@ export function inspectRouteFileContent(
       ts.isPropertyAccessExpression(node.expression) &&
       node.expression.name.text === "safeParse"
     ) {
-      if (node.arguments.length > 0) {
-        const arg0 = node.arguments[0];
+      const arg0 = node.arguments[0];
+      if (arg0) {
         let referencesBodyVar = false;
         function findVar(n: TSType.Node) {
           if (ts.isIdentifier(n) && bodyVars.has(n.text)) {

@@ -7,6 +7,7 @@
  */
 
 import { readJson } from "@/lib/api/json";
+import { NatalChartAstrologizeResponseSchema } from "@/lib/validation/astrologySchemas";
 import { _logger } from "@/lib/logger";
 import type {
   Planet,
@@ -299,7 +300,9 @@ async function fetchPlanetaryPositions(
       throw new Error(`Astrologize API error: ${response.statusText}`);
     }
 
-    const data = await readJson<AstrologizeResponse>(response);
+    const data = await readJson<AstrologizeResponse>(response, {
+      parse: NatalChartAstrologizeResponseSchema.parse,
+    });
 
     // Determine Ascendant from server response or calculate locally
     let ascendant: PositionWithLongitude;
