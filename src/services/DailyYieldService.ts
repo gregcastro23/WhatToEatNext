@@ -13,21 +13,32 @@
  * @file src/services/DailyYieldService.ts
  */
 
-import type { AlchemicalProperties } from "@/types/celestial";
-import type { DailyYieldClaim, TokenType } from "@/types/economy";
 import {
-  BASE_DAILY_TOKENS,
-  TRANSIT_BONUS_SCALE,
-  getHoldingsMultiplier,
-  getStreakMilestone,
-  getStreakMultiplier,
+  baselineVersionFor,
+  baselineYearFor,
+  calculateChartBaseline,
+  computeDiscriminantDailyYield,
+  DegradedEphemerisError,
+  deriveTransitWeightsFromPositions,
+  FAUCET_PLANETS,
+  getLiveNetworkSupply,
+  validateLedgerClamp,
+} from "@/lib/economy/discriminant-faucet";
+import type { AlchemicalProperties } from "@/types/celestial";
+import type {
+  DailyYieldClaim,
+  FaucetResonanceBreakdown,
+  TokenType,
 } from "@/types/economy";
+import { getStreakMilestone, PROTOCOL_BAND } from "@/types/economy";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
 import {
   calculateAlchemicalFromPlanets,
+  calculateAlchemicalFromPlanetsDetailed,
   type AlchemicalPlanetPositions,
 } from "@/utils/planetaryAlchemyMapping";
+import { calculatePlanetaryPositionsWithMeta } from "@/utils/serverPlanetaryCalculations";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { streakService } from "./StreakService";
 import { tokenEconomy } from "./TokenEconomyService";
@@ -48,6 +59,18 @@ interface UserYieldProfileRow {
   substance_weight: string;
   natal_chart_hash: string;
   weight_scale_version: string;
+}
+
+interface UserBaselineRow {
+  natal_chart_hash: string;
+  synastry_baseline: string | number | null;
+  baseline_version: string | null;
+}
+
+export interface NatalFaucetInput {
+  positions: AlchemicalPlanetPositions;
+  /** Birth-chart ESMS, when the stored chart already carries its measured sect. */
+  alchemicalProperties?: AlchemicalProperties;
 }
 
 const isServerWithDB = (): boolean =>
@@ -83,7 +106,7 @@ const getDbModule = async (): Promise<typeof import("@/lib/database") | null> =>
  * the OTHER scales onto it does not move these weights (proven by probe: zero
  * Scale-B calls in this path). This guard exists for the change after that one.
  */
-export const YIELD_WEIGHT_SCALE_VERSION = "inertial-v1";
+export const YIELD_WEIGHT_SCALE_VERSION = "untethered-faucet-v1";
 
 /**
  * Create a SHA-256 hash of natal chart positions for cache invalidation.
@@ -94,8 +117,20 @@ export const YIELD_WEIGHT_SCALE_VERSION = "inertial-v1";
  * cannot verify a hash — it can only check a stored version. One mechanism,
  * checkable by both readers, beats two that can disagree.
  */
-async function hashNatalChart(positions: Record<string, string>): Promise<string> {
-  const text = JSON.stringify(positions, Object.keys(positions).sort());
+async function hashNatalChart(positions: AlchemicalPlanetPositions): Promise<string> {
+  const canonical = Object.fromEntries(
+    Object.entries(positions)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([planet, position]) => [
+        planet,
+        typeof position === "string"
+          ? position
+          : Object.fromEntries(
+              Object.entries(position).sort(([a], [b]) => a.localeCompare(b)),
+            ),
+      ]),
+  );
+  const text = JSON.stringify(canonical);
   if (typeof globalThis.crypto.subtle !== "undefined") {
     const msgBuffer = new TextEncoder().encode(text);
     const hashBuffer = await globalThis.crypto.subtle.digest("SHA-256", msgBuffer);
@@ -111,6 +146,30 @@ async function hashNatalChart(positions: Record<string, string>): Promise<string
     hash |= 0;
   }
   return Math.abs(hash).toString(16);
+}
+
+function hasUsableAlchemy(value: AlchemicalProperties | undefined): value is AlchemicalProperties {
+  if (!value) return false;
+  const axes = [value.Spirit, value.Essence, value.Matter, value.Substance];
+  return axes.every(Number.isFinite) && axes.some((axis) => axis > 0);
+}
+
+function canonicalFaucetPositions(
+  positions: Record<string, unknown>,
+): AlchemicalPlanetPositions {
+  const lowerLookup = new Map(
+    Object.entries(positions).map(([planet, position]) => [planet.toLowerCase(), position]),
+  );
+  const canonical: AlchemicalPlanetPositions = {};
+  for (const planet of FAUCET_PLANETS) {
+    const position = lowerLookup.get(planet.toLowerCase());
+    if (typeof position === "string") {
+      canonical[planet] = position;
+    } else if (typeof position === "object" && position !== null && "sign" in position) {
+      canonical[planet] = position as AlchemicalPlanetPositions[string];
+    }
+  }
+  return canonical;
 }
 
 /**
@@ -138,13 +197,9 @@ function normalizeESMS(esms: AlchemicalProperties): {
 
 class DailyYieldService {
 
-  /**
-   * Get today's cached planetary positions.
-   * Falls back to a balanced default if the cron hasn't run yet.
-   */
+  /** Get today's complete, degree-bearing sky; never let a fallback set mint magnitude. */
   async getTodayEphemeris(): Promise<{
     positions: AlchemicalPlanetPositions;
-    transitESMS: AlchemicalProperties;
   }> {
     const db = await getDbModule();
     const todayStr = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
@@ -157,25 +212,32 @@ class DailyYieldService {
         );
         const [row] = result.rows;
         if (row) {
-          const positions: AlchemicalPlanetPositions = typeof row.planet_positions === "string"
-            ? (JSON.parse(row.planet_positions) as AlchemicalPlanetPositions)
-            : row.planet_positions;
-          const transitESMS: AlchemicalProperties = typeof row.transit_esms === "string"
-            ? (JSON.parse(row.transit_esms) as AlchemicalProperties)
-            : row.transit_esms;
-          return { positions, transitESMS };
+          const rawPositions: Record<string, unknown> =
+            typeof row.planet_positions === "string"
+              ? (JSON.parse(row.planet_positions) as Record<string, unknown>)
+              : row.planet_positions;
+          const positions = canonicalFaucetPositions(rawPositions);
+          deriveTransitWeightsFromPositions(positions, { requireComplete: true });
+          return { positions };
         }
       } catch (error) {
-        _logger.error("[DailyYield] Failed to fetch ephemeris cache:", error);
+        _logger.warn(
+          "[DailyYield] Cached ephemeris was unavailable or invalid; calculating the live sky:",
+          error,
+        );
       }
     }
 
-    // Fallback: no transit bonus if ephemeris not cached yet
-    _logger.info("[DailyYield] No ephemeris cache for today, using balanced defaults");
-    return {
-      positions: {},
-      transitESMS: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
-    };
+    const { positions: rawPositions, degraded } =
+      await calculatePlanetaryPositionsWithMeta();
+    if (degraded) {
+      throw new DegradedEphemerisError(
+        `Live ephemeris degraded: ${degraded.reasons.join(", ")}`,
+      );
+    }
+    const positions = canonicalFaucetPositions(rawPositions);
+    deriveTransitWeightsFromPositions(positions, { requireComplete: true });
+    return { positions };
   }
 
   /**
@@ -185,6 +247,7 @@ class DailyYieldService {
     positions: AlchemicalPlanetPositions,
     source: "railway" | "astronomy-engine" = "railway",
   ): Promise<void> {
+    deriveTransitWeightsFromPositions(positions, { requireComplete: true });
     const todayStr = new Date().toISOString().slice(0, 10);
     const diurnal = isCurrentSkyDiurnal();
     const transitESMS = calculateAlchemicalFromPlanets(positions, diurnal);
@@ -205,7 +268,10 @@ class DailyYieldService {
         _logger.info("[DailyYield] Ephemeris cached for", todayStr);
       } catch (error) {
         _logger.error("[DailyYield] Failed to cache ephemeris:", error);
+        throw error;
       }
+    } else {
+      throw new Error("Cannot cache ephemeris without a database connection");
     }
   }
 
@@ -214,7 +280,8 @@ class DailyYieldService {
    */
   async getYieldWeights(
     userId: string,
-    natalPositions: Record<string, string>,
+    natalPositions: AlchemicalPlanetPositions,
+    measuredAlchemy?: AlchemicalProperties,
   ): Promise<{ spirit: number; essence: number; matter: number; substance: number }> {
     const chartHash = await hashNatalChart(natalPositions);
     const db = await getDbModule();
@@ -247,9 +314,14 @@ class DailyYieldService {
       }
     }
 
-    // Compute from natal chart via calculateAlchemicalFromPlanets
-    const diurnal = isCurrentSkyDiurnal();
-    const natalESMS = calculateAlchemicalFromPlanets(natalPositions, diurnal);
+    // Prefer the birth-chart ESMS already measured with the user's natal sect.
+    // Legacy agent rows carry positions only; inject the grounding vessel there
+    // so missing birth-time metadata cannot collapse Matter/Substance to zero.
+    const natalESMS = hasUsableAlchemy(measuredAlchemy)
+      ? measuredAlchemy
+      : calculateAlchemicalFromPlanetsDetailed(natalPositions, true, {
+          injectAscendant: true,
+        }).totals;
     const weights = normalizeESMS(natalESMS);
 
     // Cache the weights
@@ -285,26 +357,62 @@ class DailyYieldService {
   }
 
   /**
-   * Calculate transit bonus based on current sky vs user's natal chart.
-   * When transit ESMS amplifies the user's natal pattern → bonus tokens.
+   * Read or deterministically compute the chart's self-normalisation baseline.
+   *
+   * Scoped to the claim's own year: `baseline_version` carries the epoch year,
+   * so the first claim after a rollover misses the cache and recomputes. A
+   * baseline from a previous year is stale, not reusable — see the measured
+   * out-of-sample drift in discriminant-faucet.ts.
    */
-  calculateTransitBonus(
-    natalPositions: Record<string, string>,
-    transitESMS: AlchemicalProperties,
-  ): { spirit: number; essence: number; matter: number; substance: number } {
-    const diurnal = isCurrentSkyDiurnal();
-    const natalESMS = calculateAlchemicalFromPlanets(natalPositions, diurnal);
+  async getChartBaseline(
+    userId: string,
+    natalPositions: AlchemicalPlanetPositions,
+    claimedAt: Date = new Date(),
+  ): Promise<number> {
+    const year = baselineYearFor(claimedAt);
+    const baselineVersion = baselineVersionFor(year);
+    const chartHash = await hashNatalChart(natalPositions);
+    const db = await getDbModule();
 
-    // Proportional delta: if transits amplify natal pattern → bonus
-    const natalNorm = normalizeESMS(natalESMS);
-    const transitNorm = normalizeESMS(transitESMS);
+    if (db) {
+      try {
+        const result = await db.executeQuery<UserBaselineRow>(
+          `SELECT natal_chart_hash, synastry_baseline, baseline_version
+             FROM user_yield_profiles
+            WHERE user_id = $1`,
+          [userId],
+        );
+        const [row] = result.rows;
+        const stored = Number(row?.synastry_baseline);
+        if (
+          row?.natal_chart_hash === chartHash &&
+          row.baseline_version === baselineVersion &&
+          Number.isFinite(stored) &&
+          stored > 0
+        ) {
+          return stored;
+        }
+      } catch (error) {
+        _logger.warn("[DailyYield] Failed to read synastry baseline:", error);
+      }
+    }
 
-    return {
-      spirit: Math.max(0, transitNorm.spirit - natalNorm.spirit) * TRANSIT_BONUS_SCALE,
-      essence: Math.max(0, transitNorm.essence - natalNorm.essence) * TRANSIT_BONUS_SCALE,
-      matter: Math.max(0, transitNorm.matter - natalNorm.matter) * TRANSIT_BONUS_SCALE,
-      substance: Math.max(0, transitNorm.substance - natalNorm.substance) * TRANSIT_BONUS_SCALE,
-    };
+    const baseline = calculateChartBaseline(natalPositions, year);
+    if (db) {
+      try {
+        await db.executeQuery(
+          `UPDATE user_yield_profiles
+              SET synastry_baseline = $2,
+                  baseline_version = $3,
+                  calculated_at = now()
+            WHERE user_id = $1 AND natal_chart_hash = $4`,
+          [userId, baseline, baselineVersion, chartHash],
+        );
+      } catch (error) {
+        _logger.warn("[DailyYield] Failed to cache synastry baseline:", error);
+      }
+    }
+    return baseline;
   }
 
   /**
@@ -314,21 +422,14 @@ class DailyYieldService {
    * `DailyYieldResult | null`.
    *
    * @param userId - User's database ID
-   * @param natalPositions - Planet → sign map from user's natal chart
-   * @param siteOrLegacyPremium - Origin site ('main' | 'agents') or legacy boolean
-   * @param legacySite - Origin site when called with 4 arguments
+   * @param natal - User's degree-bearing natal geometry and measured ESMS profile
+   * @param site - Origin site ('main' | 'agents')
    */
   async claimDailyYield(
     userId: string,
-    natalPositions: Record<string, string>,
-    siteOrLegacyPremium?: "main" | "agents" | boolean,
-    legacySite?: "main" | "agents",
+    natal: NatalFaucetInput,
+    site: "main" | "agents" = "main",
   ): Promise<DailyYieldClaim> {
-    const site: "main" | "agents" =
-      typeof siteOrLegacyPremium === "string"
-        ? siteOrLegacyPremium
-        : legacySite ?? "main";
-
     // 1. Idempotency check (site-specific)
     const alreadyClaimed = await tokenEconomy.hasClaimedToday(userId, site);
     if (alreadyClaimed) {
@@ -336,52 +437,45 @@ class DailyYieldService {
       return { status: "already_claimed" };
     }
 
-    // 2. Get today's transit data (from cache, fetched once/day by cron)
-    const { transitESMS } = await this.getTodayEphemeris();
+    // 2. Get today's complete degree-bearing sky (cache, then live ephemeris).
+    const { positions: transitPositions } = await this.getTodayEphemeris();
 
-    // 3. Get user's natal yield weights
-    const weights = await this.getYieldWeights(userId, natalPositions);
-
-    // 4. Calculate streak multiplier
-    const streak = await streakService.getStreak(userId);
-    const nextStreak = streak.currentStreak + 1; // will be updated after claim
-    const streakMultiplier = getStreakMultiplier(nextStreak);
-
-    // 5. Calculate transit bonus
-    const transitBonus = this.calculateTransitBonus(natalPositions, transitESMS);
-
-    // 6. Compute final distribution: holdings scale yield dynamically
-    // Balance-scaled yield: the more ESMS you hold, the more you draw each day —
-    // with steep diminishing returns + a hard cap (getHoldingsMultiplier) so
-    // holdings reward loyalty without runaway "whale" compounding.
-    const currentBalances = await tokenEconomy.getBalances(userId);
-    const totalHoldings =
-      currentBalances.spirit +
-      currentBalances.essence +
-      currentBalances.matter +
-      currentBalances.substance;
-    const holdingsMultiplier = getHoldingsMultiplier(totalHoldings);
-
-    const totalBaseTokens = Math.round(
-      BASE_DAILY_TOKENS * streakMultiplier * holdingsMultiplier,
+    // 3. Resolve the user's chart colour and fixed-epoch self-normaliser.
+    const weights = await this.getYieldWeights(
+      userId,
+      natal.positions,
+      natal.alchemicalProperties,
     );
+    const chartBaseline = await this.getChartBaseline(userId, natal.positions);
 
+    // 4. Untether magnitude via z=S(N,t)/S-bar(N), then colour it by the chart,
+    // current sky and counter-cyclical live-supply damping. Premium, holdings and
+    // streak multipliers are intentionally absent from this faucet.
+    const supply = await getLiveNetworkSupply();
+    const computed = computeDiscriminantDailyYield({
+      natalWeights: weights,
+      natalPositions: natal.positions,
+      transitPositions,
+      chartBaseline,
+      supply,
+    });
     const distribution = {
-      spirit: Math.round((totalBaseTokens * weights.spirit + transitBonus.spirit) * 100) / 100,
-      essence: Math.round((totalBaseTokens * weights.essence + transitBonus.essence) * 100) / 100,
-      matter: Math.round((totalBaseTokens * weights.matter + transitBonus.matter) * 100) / 100,
-      substance: Math.round((totalBaseTokens * weights.substance + transitBonus.substance) * 100) / 100,
+      spirit: computed.spirit,
+      essence: computed.essence,
+      matter: computed.matter,
+      substance: computed.substance,
     };
 
-    // 7. Credit all tokens atomically
+    // 5. Validate again at the last boundary before persistence, then credit all
+    // four axes atomically. No zero-axis filter is allowed here.
+    validateLedgerClamp(computed);
     const todayStr = new Date().toISOString().slice(0, 10);
-    const allCredits: Array<{ tokenType: TokenType; amount: number }> = [
+    const credits: Array<{ tokenType: TokenType; amount: number }> = [
       { tokenType: "Spirit" as const, amount: distribution.spirit },
       { tokenType: "Essence" as const, amount: distribution.essence },
       { tokenType: "Matter" as const, amount: distribution.matter },
       { tokenType: "Substance" as const, amount: distribution.substance },
     ];
-    const credits = allCredits.filter(c => c.amount > 0);
 
     const sourceType = site === "agents" ? "agents_yield" : "daily_yield";
     const credit = await tokenEconomy.creditMultipleTokensDetailed(
@@ -431,14 +525,15 @@ class DailyYieldService {
     // not be reported as a zero balance.
     const newBalances = credit.balances ?? (await tokenEconomy.getBalances(userId));
 
-    // 8. Update site-specific daily claim timestamp and streak
+    // 6. Update site-specific daily claim timestamp and streak
     await tokenEconomy.updateDailyClaimTimestamp(userId, site);
     await streakService.recordActivity(userId);
 
     const updatedStreak = await streakService.getStreak(userId);
     await reportQuestEventBestEffort(userId, "maintain_streak");
 
-    // 9. Streak milestone bonus — fires the day the streak hits a milestone.
+    // 7. Streak milestone bonus remains a separate ledger source; it never
+    // multiplies the astrological faucet itself.
     // Day-scoped idempotency: a rebuilt streak re-earns the milestone later,
     // but a retry/race today can never double-credit.
     let milestoneBonus: { days: number; totalTokens: number } | undefined;
@@ -477,20 +572,91 @@ class DailyYieldService {
       }
     }
 
+    // 8. Observability, deliberately last and deliberately unguarded by the
+    // caller: the band was opened without a shadow period, so this is how the
+    // live distribution becomes visible. It is analytics, not ledger — the
+    // credit above has already committed, and a failure here must not change
+    // what the user was paid or what this method reports.
+    await this.recordClaimResonance({
+      userId,
+      site,
+      claimDate: todayStr,
+      resonance: computed.resonance,
+      total: computed.total,
+      baselineVersion: baselineVersionFor(baselineYearFor(new Date())),
+    });
+
     return {
       status: "claimed",
       result: {
-        baseTokens: BASE_DAILY_TOKENS,
-        streakMultiplier,
-        holdingsMultiplier,
-        totalTokens: credits.reduce((sum, c) => sum + c.amount, 0),
+        totalTokens: computed.total,
         distribution,
-        transitBonus,
+        resonance: computed.resonance,
+        breakdown: computed.breakdown,
         newBalances,
         streakCount: updatedStreak.currentStreak,
-        milestoneBonus,
+        ...(milestoneBonus === undefined ? {} : { milestoneBonus }),
       },
     };
+  }
+
+  /**
+   * Best-effort record of what set this claim's magnitude.
+   *
+   * `band_edge` is the value worth watching: claims piling up on a rail mean
+   * the self-normalisation has drifted and the measured emission neutrality no
+   * longer holds. Writing on the claim's own idempotency grain (user, site,
+   * day) so a replayed claim updates rather than duplicating.
+   */
+  private async recordClaimResonance(entry: {
+    userId: string;
+    site: "main" | "agents";
+    claimDate: string;
+    resonance: FaucetResonanceBreakdown;
+    total: number;
+    baselineVersion: string;
+  }): Promise<void> {
+    const db = await getDbModule();
+    if (!db) return;
+
+    const bandEdge =
+      entry.total <= PROTOCOL_BAND.min
+        ? "min"
+        : entry.total >= PROTOCOL_BAND.max
+          ? "max"
+          : "none";
+
+    try {
+      await db.executeQuery(
+        `INSERT INTO faucet_claim_resonance
+           (user_id, claim_date, site, synastry_score, chart_baseline,
+            resonance_ratio, total_esms, band_edge, baseline_version)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         ON CONFLICT (user_id, site, claim_date) DO UPDATE SET
+           synastry_score = EXCLUDED.synastry_score,
+           chart_baseline = EXCLUDED.chart_baseline,
+           resonance_ratio = EXCLUDED.resonance_ratio,
+           total_esms = EXCLUDED.total_esms,
+           band_edge = EXCLUDED.band_edge,
+           baseline_version = EXCLUDED.baseline_version`,
+        [
+          entry.userId,
+          entry.claimDate,
+          entry.site,
+          entry.resonance.score,
+          entry.resonance.baseline,
+          entry.resonance.ratio,
+          entry.total,
+          bandEdge,
+          entry.baselineVersion,
+        ],
+      );
+    } catch (error) {
+      // `_logger.warn` is gated off in production, and losing an analytics row
+      // is not worth an error-level page — but it must not be silent either, or
+      // an empty panel reads as "nobody claimed" instead of "the write broke".
+      _logger.error("[DailyYield] resonance record failed (claim was PAID):", error);
+    }
   }
 }
 

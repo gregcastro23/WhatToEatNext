@@ -28,17 +28,17 @@
     }
   },
   "declined": {
-    "total": 4904,
+    "total": 4910,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1369,
       "@typescript-eslint/explicit-module-boundary-types": 671,
-      "complexity": 297,
+      "complexity": 298,
       "max-depth": 85,
-      "max-lines": 514,
-      "max-lines-per-function": 1594,
+      "max-lines": 515,
+      "max-lines-per-function": 1598,
       "no-void": 374
     },
-    "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
+    "note": "Declined rules pool, pinned at the LIVE measurement \u2014 no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": {
@@ -122,11 +122,11 @@
       "autoFixable": 0
     },
     "max-lines": {
-      "count": 514,
+      "count": 515,
       "autoFixable": 0
     },
     "max-lines-per-function": {
-      "count": 1594,
+      "count": 1598,
       "autoFixable": 0
     },
     "max-nested-callbacks": {

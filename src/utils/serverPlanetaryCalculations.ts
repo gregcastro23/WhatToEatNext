@@ -177,6 +177,7 @@ function longitudeToZodiacPosition(longitude: number): {
  */
 export function calculatePositionsWithAstronomyEngine(
   date: Date,
+  options: { log?: boolean } = {},
 ): { positions: Record<string, PlanetPosition>; usedFallback: boolean } {
   const positions: Partial<Record<string, PlanetPosition>> = {};
   // True when any planet's value came from the static fallback rather than a
@@ -282,10 +283,12 @@ export function calculatePositionsWithAstronomyEngine(
         distanceSpeed,
       };
     } catch (planetError) {
-      logger.warn(
-        `Failed to calculate position for ${planet.name}:`,
-        planetError,
-      );
+      if (options.log !== false) {
+        logger.warn(
+          `Failed to calculate position for ${planet.name}:`,
+          planetError,
+        );
+      }
       // Use fallback position for this planet
       const fallback = getFallbackPlanetaryPositions();
       positions[planet.name] = fallback[planet.name];
@@ -304,9 +307,11 @@ export function calculatePositionsWithAstronomyEngine(
     }
   }
 
-  logger.info(
-    `Calculated ${Object.keys(positions).length} planetary positions using astronomy-engine`,
-  );
+  if (options.log !== false) {
+    logger.info(
+      `Calculated ${Object.keys(positions).length} planetary positions using astronomy-engine`,
+    );
+  }
   return { positions: positions as Record<string, PlanetPosition>, usedFallback };
 }
 
@@ -328,6 +333,7 @@ export async function calculatePlanetaryPositionsWithMeta(
 ): Promise<{
   positions: Record<string, PlanetPosition>;
   degraded: DegradedInfo | null;
+  source: "railway" | "astronomy-engine";
 }> {
   logger.info(
     `calculatePlanetaryPositions called for date: ${date.toISOString()}`,
@@ -345,7 +351,7 @@ export async function calculatePlanetaryPositionsWithMeta(
         logger.info(
           "Using backend Swiss Ephemeris for planetary calculations (high precision)",
         );
-        return { positions: backendPositions, degraded: null };
+        return { positions: backendPositions, degraded: null, source: "railway" };
       }
     }
   } catch (backendError) {
@@ -365,6 +371,7 @@ export async function calculatePlanetaryPositionsWithMeta(
         degraded: usedFallback
           ? { reasons: ["astronomy-engine-fallback"] }
           : null,
+        source: "astronomy-engine",
       };
     }
 
@@ -379,6 +386,7 @@ export async function calculatePlanetaryPositionsWithMeta(
   return {
     positions: getFallbackPlanetaryPositions(),
     degraded: { reasons: ["astronomy-engine-fallback"] },
+    source: "astronomy-engine",
   };
 }
 

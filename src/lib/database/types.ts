@@ -348,6 +348,9 @@ export interface UserYieldProfileRecord {
   matter_weight: number; // DECIMAL(5,4)
   substance_weight: number; // DECIMAL(5,4)
   natal_chart_hash?: string;
+  weight_scale_version?: string;
+  synastry_baseline?: number;
+  baseline_version?: string;
   last_transit_bonus?: Record<string, unknown>; // JSONB
   yield_cache_date?: Date;
   calculated_at: Date;

@@ -46,7 +46,12 @@ export async function GET(request: NextRequest) {
 
   const startedAt = new Date();
   try {
-    const { positions, degraded } = await calculatePlanetaryPositionsWithMeta();
+    const { positions, degraded, source } = await calculatePlanetaryPositionsWithMeta();
+    if (degraded) {
+      throw new Error(
+        `refusing to cache degraded ephemeris: ${degraded.reasons.join(", ")}`,
+      );
+    }
 
     // Canonicalize planet keys while preserving aspect/distance inputs.
     const lowerLookup = new Map(
@@ -80,7 +85,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const source = degraded ? "astronomy-engine" : "railway";
     await dailyYieldService.cacheEphemeris(alchemicalPositions, source);
 
     await recordCronRun("cache-ephemeris", { status: "success", startedAt });
@@ -88,7 +92,7 @@ export async function GET(request: NextRequest) {
       success: true,
       planets: Object.keys(alchemicalPositions).length,
       source,
-      degraded: degraded?.reasons ?? null,
+      degraded: null,
     });
   } catch (err) {
     _logger.error("[cron/cache-ephemeris] failed:", err);

@@ -153,25 +153,49 @@ export interface YieldProfile {
   calculatedAt: string;
 }
 
+export interface TokenDistribution {
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+}
+
+/** Inputs used to colour a faucet grant after its resonance sets the magnitude. */
+export interface GlobalSupplyState extends TokenDistribution {
+  total?: number;
+  /** True when the live balance query failed and the audited snapshot was used. */
+  isDegraded?: boolean;
+}
+
+export interface TokenYieldBreakdown {
+  natalRatio: number;
+  transitRatio: number;
+  antiGlutFactor: number;
+  finalYield: number;
+}
+
+export interface FaucetResonanceBreakdown {
+  /** Signed, degree-level natal-to-current-sky aspect score S(N,t). */
+  score: number;
+  /** The chart's deterministic fixed-epoch mean S-bar(N). */
+  baseline: number;
+  /** Self-normalised resonance z = S(N,t) / S-bar(N). */
+  ratio: number;
+}
+
+/** Pure result from the untethered resonance faucet before persistence. */
+export interface DiscriminantYieldResult extends TokenDistribution {
+  total: number;
+  resonance: FaucetResonanceBreakdown;
+  breakdown: Record<Lowercase<TokenType>, TokenYieldBreakdown>;
+}
+
 /** Result of calculating a daily yield */
 export interface DailyYieldResult {
-  baseTokens: number;
-  streakMultiplier: number;
-  /** Multiplier from current ESMS holdings (see getHoldingsMultiplier). */
-  holdingsMultiplier: number;
   totalTokens: number;
-  distribution: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  };
-  transitBonus: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  };
+  distribution: TokenDistribution;
+  resonance: FaucetResonanceBreakdown;
+  breakdown: DiscriminantYieldResult["breakdown"];
   newBalances: TokenBalances;
   streakCount: number;
   /** Set when this claim crossed a streak milestone and its bonus was granted. */
@@ -298,24 +322,26 @@ export interface TransmutationResult {
 
 // ─── Economy Constants ─────────────────────────────────────────────────
 
-/** Base daily token reward before multipliers */
-export const BASE_DAILY_TOKENS = 10;
+/**
+ * Untethered per-site faucet band. Twelve is the self-normalised centre, not a
+ * conserved total: authentic natal-to-sky resonance can move a claim anywhere
+ * in this 8x range.
+ */
+export const PROTOCOL_BAND = { min: 3, center: 12, max: 24 } as const;
 
-/** Premium subscribers get 2× daily yield */
-export const PREMIUM_YIELD_MULTIPLIER = 2.0;
+/** Every claim funds at least one 0.30-SPIRIT conversational operation per axis. */
+export const AXIS_FLOOR = 0.3;
 
-/** Maximum streak multiplier (reached at 30-day streak) */
-export const MAX_STREAK_MULTIPLIER = 2.0;
+/** Streak progress display calibration; deliberately not applied to daily claims. */
+export const MAX_STREAK_MULTIPLIER = 2;
 
-/** Streak multiplier ramp: starts at 1.0, increases by 0.033 per day up to MAX */
+/** Legacy streak progress signal retained for the streak API and UI only. */
 export function getStreakMultiplier(streakCount: number): number {
-  // Day 0–1: 1.0x, Day 7: ~1.23x, Day 15: ~1.5x, Day 30+: 2.0x
-  const multiplier = 1.0 + (streakCount * (MAX_STREAK_MULTIPLIER - 1.0)) / 30;
-  return Math.min(multiplier, MAX_STREAK_MULTIPLIER);
+  return Math.min(
+    1 + (streakCount * (MAX_STREAK_MULTIPLIER - 1)) / 30,
+    MAX_STREAK_MULTIPLIER,
+  );
 }
-
-/** Bonus scale factor for transit ESMS deltas */
-export const TRANSIT_BONUS_SCALE = 2.0;
 
 // ─── Streak Milestone Bonuses ────────────────────────────────────────────
 
@@ -337,30 +363,6 @@ export const STREAK_MILESTONE_BONUSES: ReadonlyArray<{ days: number; totalTokens
 /** The milestone hit exactly at `streakCount`, if any. */
 export function getStreakMilestone(streakCount: number): { days: number; totalTokens: number } | null {
   return STREAK_MILESTONE_BONUSES.find((m) => m.days === streakCount) ?? null;
-}
-
-// ─── Holdings-Scaled Yield ───────────────────────────────────────────────
-
-/** Coefficient on the log term of the holdings multiplier. */
-export const HOLDINGS_YIELD_COEFF = 0.25;
-/** Total ESMS that constitutes one "decade" of holdings for the log term. */
-export const HOLDINGS_YIELD_SCALE = 100;
-/** Hard cap on the holdings multiplier (guards against runaway compounding). */
-export const HOLDINGS_YIELD_MAX = 2.0;
-
-/**
- * Daily-yield multiplier derived from the user's current total ESMS holdings:
- * the more you hold, the more you draw each day. Uses log10 + a hard cap so the
- * reward has steep diminishing returns — loyalty is rewarded without letting
- * large balances compound away from everyone else.
- *
- *   0 → 1.00× · 100 → ~1.08× · 500 → ~1.19× · 1k → ~1.26× · 5k → ~1.43× · cap 2.00×
- */
-export function getHoldingsMultiplier(totalHoldings: number): number {
-  const safe = Math.max(0, totalHoldings);
-  const multiplier =
-    1 + HOLDINGS_YIELD_COEFF * Math.log10(1 + safe / HOLDINGS_YIELD_SCALE);
-  return Math.min(multiplier, HOLDINGS_YIELD_MAX);
 }
 
 // ─── API Response Types ────────────────────────────────────────────────

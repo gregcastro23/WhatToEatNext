@@ -34,10 +34,14 @@ jest.mock("@/services/feedDatabaseService", () => ({
 }));
 
 jest.mock("@/utils/astrology/chartDataUtils", () => ({
-  extractPlanetaryPositions: () => ({ Sun: "leo", Moon: "cancer" }),
+  extractAlchemicalPlanetPositions: () => ({
+    Sun: { sign: "leo", degree: 1, exactLongitude: 121 },
+    Moon: { sign: "cancer", degree: 2, exactLongitude: 92 },
+  }),
 }));
 
 import { POST } from "@/app/api/economy/claim-daily/route";
+import { DegradedEphemerisError } from "@/lib/economy/discriminant-faucet";
 
 const USER = {
   id: "55555555-5555-5555-5555-555555555555",
@@ -89,12 +93,10 @@ describe("POST /api/economy/claim-daily", () => {
     claimDailyYield.mockResolvedValue({
       status: "claimed",
       result: {
-        baseTokens: 10,
-        streakMultiplier: 1,
-        holdingsMultiplier: 1,
         totalTokens: 12.5,
         distribution: { spirit: 3, essence: 3, matter: 3, substance: 3.5 },
-        transitBonus: { spirit: 0, essence: 0, matter: 0, substance: 0 },
+        resonance: { score: 2, baseline: 1.5, ratio: 1.333333 },
+        breakdown: {},
         newBalances: { spirit: 10, essence: 10, matter: 10, substance: 10 },
         streakCount: 4,
       },
@@ -106,5 +108,26 @@ describe("POST /api/economy/claim-daily", () => {
     expect(res.status).toBe(200);
     expect(body.success).toBe(true);
     expect(body.yield.totalTokens).toBe(12.5);
+    expect(claimDailyYield).toHaveBeenCalledWith(
+      USER.id,
+      expect.objectContaining({
+        positions: expect.objectContaining({
+          Sun: expect.objectContaining({ exactLongitude: 121 }),
+        }),
+      }),
+      "main",
+    );
+  });
+
+  it("answers 503 and states that nothing minted when the live sky is degraded", async () => {
+    claimDailyYield.mockRejectedValue(
+      new DegradedEphemerisError("Pluto:missing-longitude"),
+    );
+
+    const res = await POST(request());
+    const body = await res.json();
+
+    expect(res.status).toBe(503);
+    expect(body.message).toMatch(/no tokens were minted/i);
   });
 });

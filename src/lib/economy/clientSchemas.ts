@@ -26,12 +26,39 @@ export const tokenDistributionSchema = z.object({
 });
 
 export const dailyYieldSchema = z.object({
-  baseTokens: z.number().finite(),
-  streakMultiplier: z.number().finite(),
-  holdingsMultiplier: z.number().finite(),
   totalTokens: z.number().finite(),
   distribution: tokenDistributionSchema,
-  transitBonus: tokenDistributionSchema,
+  resonance: z.object({
+    score: z.number().finite(),
+    baseline: z.number().finite().positive(),
+    ratio: z.number().finite(),
+  }),
+  breakdown: z.object({
+    spirit: z.object({
+      natalRatio: z.number().finite(),
+      transitRatio: z.number().finite(),
+      antiGlutFactor: z.number().finite(),
+      finalYield: z.number().finite(),
+    }),
+    essence: z.object({
+      natalRatio: z.number().finite(),
+      transitRatio: z.number().finite(),
+      antiGlutFactor: z.number().finite(),
+      finalYield: z.number().finite(),
+    }),
+    matter: z.object({
+      natalRatio: z.number().finite(),
+      transitRatio: z.number().finite(),
+      antiGlutFactor: z.number().finite(),
+      finalYield: z.number().finite(),
+    }),
+    substance: z.object({
+      natalRatio: z.number().finite(),
+      transitRatio: z.number().finite(),
+      antiGlutFactor: z.number().finite(),
+      finalYield: z.number().finite(),
+    }),
+  }),
   newBalances: tokenBalancesSchema,
   streakCount: z.number().finite(),
   milestoneBonus: z
