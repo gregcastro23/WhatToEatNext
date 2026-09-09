@@ -7,7 +7,9 @@
 
 import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 import { FaucetResonancePanel } from "@/components/admin/FaucetResonancePanel";
+import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
 
 const livePayload = {
   success: true,
@@ -37,37 +39,27 @@ const livePayload = {
   baselineVersions: ["synastry-annual-v2:2026"],
 };
 
-/**
- * A minimal stub rather than a real `Response`. The cast is the standard way to
- * stand in for `fetch`; `jest.spyOn(globalThis, "fetch")` with a real Response
- * would avoid it, and is worth revisiting.
- */
 function mockFetch(payload: unknown, ok = true): jest.Mock {
-  const fn = jest.fn().mockResolvedValue({
-    ok,
-    status: ok ? 200 : 500,
-    json: async () => payload,
-  });
-  global.fetch = fn as unknown as typeof fetch;
-  return fn;
+  return installFetchMock(
+    jest.fn().mockResolvedValue({
+      ok,
+      status: ok ? 200 : 500,
+      json: async () => payload,
+    }),
+  );
 }
 
-describe("FaucetResonancePanel", () => {
-  beforeAll(() => {
-    // This jsdom config reports visibilityState "prerender" / hidden true, and
-    // useHardenedPolling deliberately does not poll a hidden document — so
-    // without this every panel here would sit on its loading spinner forever
-    // and each assertion would fail for the wrong reason.
-    Object.defineProperty(document, "visibilityState", {
-      configurable: true,
-      get: () => "visible",
-    });
-    Object.defineProperty(document, "hidden", {
-      configurable: true,
-      get: () => false,
-    });
-  });
+// jsdom reports visibilityState "prerender" / hidden true here, and
+// useHardenedPolling deliberately does not poll a hidden document — without
+// this the panel sits on its loading spinner and every assertion fails for the
+// wrong reason.
+let restoreVisibility: () => void;
+beforeAll(() => {
+  restoreVisibility = makeDocumentVisible();
+});
+afterAll(() => restoreVisibility());
 
+describe("FaucetResonancePanel", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
