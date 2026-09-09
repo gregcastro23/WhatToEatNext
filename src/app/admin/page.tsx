@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
 import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
+import FaucetResonancePanel from "@/components/admin/FaucetResonancePanel";
 import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
 import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
@@ -302,6 +303,13 @@ export default function AdminDashboardPage(): React.JSX.Element {
       {/* Per-route API health — top endpoints by traffic with error +
           latency badges. Catches a single route degrading. */}
       <ApiRouteHealthPanel />
+
+      {/* Untethered faucet watch — band occupancy and emission pace. The
+          [3,24] band shipped without a shadow period, so this is how a
+          drifted self-normalisation becomes visible (ADR-016). */}
+      <div className="mb-8">
+        <FaucetResonancePanel />
+      </div>
 
       {/* Advanced metrics (auth events, abuse, observability, digest) */}
       <div className="mb-8">

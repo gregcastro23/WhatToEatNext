@@ -27,6 +27,32 @@ export const maxDuration = 30;
 
 const DEFAULT_RETAIN_DAYS = 7;
 
+/**
+ * Faucet resonance rows are economy observability, not request logs, and carry
+ * their own retention: 180 days covers a full band cycle and lets emission pace
+ * be checked against the ~4,380 ESMS/user/year target (ADR-016). Pruned here
+ * rather than from a new cron because this sweep already runs daily.
+ */
+const FAUCET_RESONANCE_RETAIN_DAYS = 180;
+
+/**
+ * Separately guarded: this table arrived after the cron did, and a failure to
+ * prune analytics must not report the log sweep as failed. Returns 0 rather
+ * than throwing so the caller stays a straight line.
+ */
+async function pruneFaucetResonance(): Promise<number> {
+  try {
+    const result = await executeQuery<{ faucet_resonance_deleted: string }>(
+      `SELECT * FROM prune_faucet_claim_resonance($1)`,
+      [FAUCET_RESONANCE_RETAIN_DAYS],
+    );
+    return Number(result.rows[0]?.faucet_resonance_deleted ?? 0);
+  } catch (err) {
+    _logger.error("[cron/observability-prune] faucet resonance prune failed:", err);
+    return 0;
+  }
+}
+
 export async function GET(request: NextRequest) {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json(
@@ -65,6 +91,8 @@ export async function GET(request: NextRequest) {
       ? Number(row.mcp_invocations_deleted)
       : 0;
 
+    const faucetResonanceDeleted = await pruneFaucetResonance();
+
     await recordCronRun("observability-prune", { status: "success", startedAt });
     return NextResponse.json({
       success: true,
@@ -72,6 +100,7 @@ export async function GET(request: NextRequest) {
       requestLogDeleted,
       slowQueryLogDeleted,
       mcpInvocationsDeleted,
+      faucetResonanceDeleted,
     });
   } catch (err) {
     _logger.error("[cron/observability-prune] failed:", err);

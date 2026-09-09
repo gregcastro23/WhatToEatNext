@@ -57,9 +57,12 @@ const moments = [
   ["Winter solstice", "2026-12-21T21:00:00Z"],
 ] as const;
 
+// Every moment below sits in 2026, so that is the self-normalisation year.
+const SIMULATION_YEAR = 2026;
+
 const rows: Array<Record<string, string | number>> = [];
 for (const archetype of archetypes) {
-  const chartBaseline = calculateChartBaseline(archetype.positions);
+  const chartBaseline = calculateChartBaseline(archetype.positions, SIMULATION_YEAR);
   for (const [moment, iso] of moments) {
     const { positions, usedFallback } = calculatePositionsWithAstronomyEngine(
       new Date(iso),

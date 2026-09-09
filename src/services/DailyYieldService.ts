@@ -14,7 +14,8 @@
  */
 
 import {
-  BASELINE_VERSION,
+  baselineVersionFor,
+  baselineYearFor,
   calculateChartBaseline,
   computeDiscriminantDailyYield,
   DegradedEphemerisError,
@@ -24,8 +25,12 @@ import {
   validateLedgerClamp,
 } from "@/lib/economy/discriminant-faucet";
 import type { AlchemicalProperties } from "@/types/celestial";
-import type { DailyYieldClaim, TokenType } from "@/types/economy";
-import { getStreakMilestone } from "@/types/economy";
+import type {
+  DailyYieldClaim,
+  FaucetResonanceBreakdown,
+  TokenType,
+} from "@/types/economy";
+import { getStreakMilestone, PROTOCOL_BAND } from "@/types/economy";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
 import {
@@ -351,11 +356,21 @@ class DailyYieldService {
     return weights;
   }
 
-  /** Read or deterministically compute the chart's self-normalisation baseline. */
+  /**
+   * Read or deterministically compute the chart's self-normalisation baseline.
+   *
+   * Scoped to the claim's own year: `baseline_version` carries the epoch year,
+   * so the first claim after a rollover misses the cache and recomputes. A
+   * baseline from a previous year is stale, not reusable — see the measured
+   * out-of-sample drift in discriminant-faucet.ts.
+   */
   async getChartBaseline(
     userId: string,
     natalPositions: AlchemicalPlanetPositions,
+    claimedAt: Date = new Date(),
   ): Promise<number> {
+    const year = baselineYearFor(claimedAt);
+    const baselineVersion = baselineVersionFor(year);
     const chartHash = await hashNatalChart(natalPositions);
     const db = await getDbModule();
 
@@ -371,7 +386,7 @@ class DailyYieldService {
         const stored = Number(row?.synastry_baseline);
         if (
           row?.natal_chart_hash === chartHash &&
-          row.baseline_version === BASELINE_VERSION &&
+          row.baseline_version === baselineVersion &&
           Number.isFinite(stored) &&
           stored > 0
         ) {
@@ -382,7 +397,7 @@ class DailyYieldService {
       }
     }
 
-    const baseline = calculateChartBaseline(natalPositions);
+    const baseline = calculateChartBaseline(natalPositions, year);
     if (db) {
       try {
         await db.executeQuery(
@@ -391,7 +406,7 @@ class DailyYieldService {
                   baseline_version = $3,
                   calculated_at = now()
             WHERE user_id = $1 AND natal_chart_hash = $4`,
-          [userId, baseline, BASELINE_VERSION, chartHash],
+          [userId, baseline, baselineVersion, chartHash],
         );
       } catch (error) {
         _logger.warn("[DailyYield] Failed to cache synastry baseline:", error);
@@ -557,6 +572,20 @@ class DailyYieldService {
       }
     }
 
+    // 8. Observability, deliberately last and deliberately unguarded by the
+    // caller: the band was opened without a shadow period, so this is how the
+    // live distribution becomes visible. It is analytics, not ledger — the
+    // credit above has already committed, and a failure here must not change
+    // what the user was paid or what this method reports.
+    await this.recordClaimResonance({
+      userId,
+      site,
+      claimDate: todayStr,
+      resonance: computed.resonance,
+      total: computed.total,
+      baselineVersion: baselineVersionFor(baselineYearFor(new Date())),
+    });
+
     return {
       status: "claimed",
       result: {
@@ -566,9 +595,68 @@ class DailyYieldService {
         breakdown: computed.breakdown,
         newBalances,
         streakCount: updatedStreak.currentStreak,
-        milestoneBonus,
+        ...(milestoneBonus === undefined ? {} : { milestoneBonus }),
       },
     };
+  }
+
+  /**
+   * Best-effort record of what set this claim's magnitude.
+   *
+   * `band_edge` is the value worth watching: claims piling up on a rail mean
+   * the self-normalisation has drifted and the measured emission neutrality no
+   * longer holds. Writing on the claim's own idempotency grain (user, site,
+   * day) so a replayed claim updates rather than duplicating.
+   */
+  private async recordClaimResonance(entry: {
+    userId: string;
+    site: "main" | "agents";
+    claimDate: string;
+    resonance: FaucetResonanceBreakdown;
+    total: number;
+    baselineVersion: string;
+  }): Promise<void> {
+    const db = await getDbModule();
+    if (!db) return;
+
+    const bandEdge =
+      entry.total <= PROTOCOL_BAND.min
+        ? "min"
+        : entry.total >= PROTOCOL_BAND.max
+          ? "max"
+          : "none";
+
+    try {
+      await db.executeQuery(
+        `INSERT INTO faucet_claim_resonance
+           (user_id, claim_date, site, synastry_score, chart_baseline,
+            resonance_ratio, total_esms, band_edge, baseline_version)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         ON CONFLICT (user_id, site, claim_date) DO UPDATE SET
+           synastry_score = EXCLUDED.synastry_score,
+           chart_baseline = EXCLUDED.chart_baseline,
+           resonance_ratio = EXCLUDED.resonance_ratio,
+           total_esms = EXCLUDED.total_esms,
+           band_edge = EXCLUDED.band_edge,
+           baseline_version = EXCLUDED.baseline_version`,
+        [
+          entry.userId,
+          entry.claimDate,
+          entry.site,
+          entry.resonance.score,
+          entry.resonance.baseline,
+          entry.resonance.ratio,
+          entry.total,
+          bandEdge,
+          entry.baselineVersion,
+        ],
+      );
+    } catch (error) {
+      // `_logger.warn` is gated off in production, and losing an analytics row
+      // is not worth an error-level page — but it must not be silent either, or
+      // an empty panel reads as "nobody claimed" instead of "the write broke".
+      _logger.error("[DailyYield] resonance record failed (claim was PAID):", error);
+    }
   }
 }
 

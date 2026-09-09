@@ -61,11 +61,51 @@ const ASPECTS = [
 ] as const;
 
 export const SYNASTRY_ORB_DEGREES = 6;
-export const BASELINE_VERSION = "synastry-2026-daily-v1";
-export const FIXED_BASELINE_EPOCH = {
-  start: "2026-01-01T12:00:00.000Z",
-  endExclusive: "2027-01-01T12:00:00.000Z",
-} as const;
+
+/**
+ * Algorithm identifier for S-bar(N). The stored `baseline_version` is this
+ * prefix joined to the epoch year, so a year rollover is a cache miss and the
+ * baseline recomputes itself — no migration, no yearly operational ritual.
+ */
+export const BASELINE_ALGORITHM = "synastry-annual-v2";
+
+export function baselineVersionFor(year: number): string {
+  return `${BASELINE_ALGORITHM}:${year}`;
+}
+
+/**
+ * The self-normalisation window is the claim's OWN calendar year.
+ *
+ * ADR-015 §3 prescribes a single fixed window ("never a rolling window"), and
+ * v1 of this engine pinned 2026 to reproduce the ADR's published emission table.
+ * Measured out of sample, that pin does not survive its own year: a chart's
+ * resonance with the slow-planet background is strongly non-stationary, so a
+ * 2026 mean is simply the wrong divisor for any later sky.
+ *
+ *   annual ESMS, 2026-pinned baseline (target 4380)
+ *                        2026    2027    2028    2029    2030    2031
+ *   stellium 0° Aries    4369    2118    1474    1373    1915    1413
+ *   even 36° spread      4407    3511    3732    4770    6690    7054
+ *   chart-shape spread  1.01x   1.91x   2.53x   3.47x   3.49x   4.99x
+ *
+ * A 5x shape spread is the exploit ADR-015 exists to close. The ADR's literal
+ * 12-year Jupiter window does not fix it either (±53% emission, 1.8-3.0x
+ * spread) because one cycle still leaves Saturn and outward drifting. Sampling
+ * the claim's own year holds both invariants — ±3% emission for 3 of 4
+ * archetypes in every year measured, shape spread ≤1.37x — so WTEN diverges
+ * from §3 deliberately. See docs/adr/016-untethered-resonance-faucet.md.
+ */
+export function baselineEpochFor(year: number): { start: number; endExclusive: number } {
+  return {
+    start: Date.UTC(year, 0, 1, 12),
+    endExclusive: Date.UTC(year + 1, 0, 1, 12),
+  };
+}
+
+/** UTC year whose sky a claim at `date` is normalised against. */
+export function baselineYearFor(date: Date): number {
+  return date.getUTCFullYear();
+}
 
 const DAY_MS = 86_400_000;
 const SUPPLY_CACHE_TTL_MS = 5 * 60 * 1000;
@@ -121,9 +161,9 @@ function canonicalSign(sign: unknown): (typeof SIGNS)[number] | null {
     .trim()
     .slice(1)
     .toLowerCase()}`;
-  return (SIGNS as readonly string[]).includes(normalized)
-    ? (normalized as (typeof SIGNS)[number])
-    : null;
+  // `find` narrows to the literal union on its own; `includes` cannot, which is
+  // why this needed two assertions to say what the code already guarantees.
+  return SIGNS.find((candidate) => candidate === normalized) ?? null;
 }
 
 function finiteNumber(value: unknown): number | null {
@@ -186,14 +226,35 @@ function aspectContribution(natalLongitude: number, transitLongitude: number): n
 }
 
 /**
+ * `Map.get` is honestly optional, so the miss branch below type-checks as
+ * reachable. Indexing `ZODIAC_ELEMENTS` with `as keyof typeof` instead claimed
+ * every string resolves, which made that branch read as dead code and cost two
+ * type assertions to paper over.
+ */
+const ELEMENT_BY_SIGN = new Map<string, AlchemicalElement>(
+  Object.entries(ZODIAC_ELEMENTS),
+);
+
+/** Deterministic tie-break order for the dominant-element reduce. */
+const ELEMENT_ORDER = ["Fire", "Water", "Earth", "Air"] as const;
+
+/**
  * Sign-only legacy charts still move with the sky, but never fabricate degrees.
  * Same-element and traditional complementary pairs conduct; cross-polar pairs
- * resist. The chart's own fixed-epoch mean normalises this fallback exactly as
- * it does degree-level geometry, so sign-only shape cannot inflate magnitude.
+ * resist. The chart's own annual mean normalises this fallback exactly as it
+ * does degree-level geometry, so sign-only shape cannot inflate magnitude.
+ *
+ * Parameters are the canonical union, not `string`: unrecognised signs are
+ * already dropped upstream by {@link canonicalSign}, and typing them loosely
+ * here would invite a caller to pass a raw string and silently collect the
+ * -0.25 cross-polar score instead of nothing.
  */
-function elementalConductance(natalSign: string, transitSign: string): number {
-  const natalElement = ZODIAC_ELEMENTS[natalSign as keyof typeof ZODIAC_ELEMENTS];
-  const transitElement = ZODIAC_ELEMENTS[transitSign as keyof typeof ZODIAC_ELEMENTS];
+function elementalConductance(
+  natalSign: (typeof SIGNS)[number],
+  transitSign: (typeof SIGNS)[number],
+): number {
+  const natalElement = ELEMENT_BY_SIGN.get(natalSign);
+  const transitElement = ELEMENT_BY_SIGN.get(transitSign);
   if (!natalElement || !transitElement) return 0;
   if (natalElement === transitElement) return 1;
   if (
@@ -276,39 +337,43 @@ export function deriveTransitWeightsFromPositions(
     counts.Air = 2.5;
   }
 
-  const [dominantElement] = (
-    Object.entries(counts) as Array<[AlchemicalElement, number]>
-  ).reduce(
-    (dominant, candidate) => (candidate[1] > dominant[1] ? candidate : dominant),
-    ["Fire", counts.Fire] as [AlchemicalElement, number],
+  // Reducing over the element union keeps this typed without asserting the
+  // shape of `Object.entries`, which erases the key type to `string`.
+  const dominantElement = ELEMENT_ORDER.reduce((dominant, candidate) =>
+    counts[candidate] > counts[dominant] ? candidate : dominant,
   );
 
   return { elementWeights: counts, dominantElement };
 }
 
-let fixedBaselineSkies: AlchemicalPlanetPositions[] | null = null;
+/**
+ * Memoised per epoch year. The 365-sky sweep runs once per year per process;
+ * every user's baseline for that year then reuses it, so a year rollover costs
+ * one sweep rather than one per claimer.
+ */
+const baselineSkiesByYear = new Map<number, AlchemicalPlanetPositions[]>();
 const chartBaselineCache = new Map<string, number>();
 
-function baselineSkies(): AlchemicalPlanetPositions[] {
-  if (fixedBaselineSkies) return fixedBaselineSkies;
+function baselineSkies(year: number): AlchemicalPlanetPositions[] {
+  const memo = baselineSkiesByYear.get(year);
+  if (memo) return memo;
 
-  const start = Date.parse(FIXED_BASELINE_EPOCH.start);
-  const end = Date.parse(FIXED_BASELINE_EPOCH.endExclusive);
+  const { start, endExclusive } = baselineEpochFor(year);
   const samples: AlchemicalPlanetPositions[] = [];
-  for (let timestamp = start; timestamp < end; timestamp += DAY_MS) {
+  for (let timestamp = start; timestamp < endExclusive; timestamp += DAY_MS) {
     const date = new Date(timestamp);
     const { positions, usedFallback } = calculatePositionsWithAstronomyEngine(date, {
       log: false,
     });
     if (usedFallback) {
       throw new DegradedEphemerisError(
-        `Cannot construct ${BASELINE_VERSION}: ephemeris degraded at ${date.toISOString()}`,
+        `Cannot construct ${baselineVersionFor(year)}: ephemeris degraded at ${date.toISOString()}`,
       );
     }
     deriveTransitWeightsFromPositions(positions, { requireComplete: true });
     samples.push(positions);
   }
-  fixedBaselineSkies = samples;
+  baselineSkiesByYear.set(year, samples);
   return samples;
 }
 
@@ -321,16 +386,21 @@ function geometryCacheKey(positions: AlchemicalPlanetPositions): string {
 }
 
 /**
- * Deterministic chart mean S-bar(N), sampled daily over the fixed 2026
- * calibration epoch used by ADR-015's published emission-neutral simulations.
- * The epoch and algorithm are versioned because changing either reprices income.
+ * Deterministic chart mean S-bar(N), sampled daily over `year`'s sky.
+ *
+ * `year` is explicit rather than defaulted to the current date: this is the
+ * divisor that sets a claim's magnitude, and a hidden `new Date()` inside it
+ * would make the engine's output depend on the wall clock of whatever process
+ * called it. Callers pass the claim's own year (see {@link baselineYearFor}).
+ * The algorithm and epoch are versioned because changing either reprices income.
  */
 export function calculateChartBaseline(
   natalPositions: AlchemicalPlanetPositions,
-  samples: readonly AlchemicalPlanetPositions[] = baselineSkies(),
+  year: number,
+  samples: readonly AlchemicalPlanetPositions[] = baselineSkies(year),
 ): number {
-  const key = `${BASELINE_VERSION}:${geometryCacheKey(natalPositions)}`;
-  if (samples === fixedBaselineSkies) {
+  const key = `${baselineVersionFor(year)}:${geometryCacheKey(natalPositions)}`;
+  if (samples === baselineSkiesByYear.get(year)) {
     const cached = chartBaselineCache.get(key);
     if (cached !== undefined) return cached;
   }
@@ -349,7 +419,7 @@ export function calculateChartBaseline(
   }
 
   const baseline = Math.round(mean * 1_000_000) / 1_000_000;
-  if (samples === fixedBaselineSkies) chartBaselineCache.set(key, baseline);
+  if (samples === baselineSkiesByYear.get(year)) chartBaselineCache.set(key, baseline);
   return baseline;
 }
 
@@ -558,7 +628,7 @@ export async function getLiveNetworkSupply(query?: SupplyQuery): Promise<GlobalS
   if (cachedSupply && cachedSupply.expiresAt > now) return cachedSupply.data;
 
   try {
-    const runQuery: SupplyQuery = query ?? (async () => {
+    const runQuery: SupplyQuery = query ?? (async (): Promise<{ rows: SupplyRow[] }> => {
       const { executeQuery } = await import("@/lib/database");
       return executeQuery<SupplyRow>(
         `SELECT COALESCE(SUM(spirit), 0)::float8 AS spirit,

@@ -86,7 +86,7 @@ describe("untethered discriminant faucet", () => {
     const natal = chartAt([0]);
     const exactConjunctionSky = chartAt([0]);
     const squareSky = chartAt([90]);
-    const baseline = calculateChartBaseline(natal);
+    const baseline = calculateChartBaseline(natal, 2026);
 
     const resonant = computeDiscriminantDailyYield({
       natalWeights: NATAL_WEIGHTS,
@@ -120,6 +120,27 @@ describe("untethered discriminant faucet", () => {
     expect(computeSynastryScore(natal, outsideOrb)).toBe(0);
   });
 
+  /**
+   * An unrecognised sign must contribute nothing, never the -0.25 cross-polar
+   * score. Two layers enforce this — `canonicalSign` drops the body, and the
+   * `ELEMENT_BY_SIGN` miss returns 0 — so breaking either alone leaves the
+   * other holding and this stays green. Red-proven only with both removed:
+   * the score then goes to -25 (100 pairs x -0.25). Treat it as a pin on the
+   * observable behaviour, not on either mechanism individually.
+   */
+  it("contributes nothing for an unrecognised sign, rather than scoring it", () => {
+    const signOnly = (sign: string): AlchemicalPlanetPositions =>
+      Object.fromEntries(PLANETS.map((planet) => [planet, sign]));
+
+    const crossPolar = computeSynastryScore(signOnly("Aries"), signOnly("Cancer"));
+    const sameElement = computeSynastryScore(signOnly("Aries"), signOnly("Leo"));
+    const unrecognised = computeSynastryScore(signOnly("Aries"), signOnly("Ophiuchus"));
+
+    expect(crossPolar).toBeLessThan(0);
+    expect(sameElement).toBeGreaterThan(0);
+    expect(unrecognised).toBe(0);
+  });
+
   it("keeps every axis above its gas floor and conserves the variable total exactly", () => {
     const natal = chartAt([0, 120, 240]);
     const sky = chartAt([0, 30, 60, 90, 120, 150, 180, 210, 240, 270]);
@@ -127,7 +148,7 @@ describe("untethered discriminant faucet", () => {
       natalWeights: { spirit: 1, essence: 0, matter: 0, substance: 0 },
       natalPositions: natal,
       transitPositions: sky,
-      chartBaseline: calculateChartBaseline(natal),
+      chartBaseline: calculateChartBaseline(natal, 2026),
       supply: { ...NEUTRAL_SUPPLY, matter: 100_000 },
     });
 
@@ -157,7 +178,7 @@ describe("untethered discriminant faucet", () => {
     );
 
     const annual = charts.map((natal) => {
-      const baseline = calculateChartBaseline(natal);
+      const baseline = calculateChartBaseline(natal, 2026);
       return skies.reduce(
         (sum, transitPositions) =>
           sum +
@@ -180,9 +201,65 @@ describe("untethered discriminant faucet", () => {
     expect(Math.max(...annual) / Math.min(...annual)).toBeLessThan(1.05);
   });
 
+  /**
+   * The test above sweeps 2026 against a 2026 baseline, so mean(S/S-bar) is 1
+   * by construction and it cannot fail — it pins the in-sample year only.
+   *
+   * This is the out-of-sample pin. It sweeps years the engine was never
+   * calibrated against, and it is the regression guard for a fixed epoch:
+   * with `baselineEpochFor` frozen to a single year, chart-shape spread
+   * measured 1.91x in 2027, 3.47x in 2029 and 4.99x in 2031 — reinstating the
+   * shape exploit ADR-015 exists to close. Bounds below are set from measured
+   * behaviour, not from the ADR's aspiration.
+   */
+  it("keeps chart shape from setting income in years it was never calibrated on", () => {
+    const charts = [
+      chartAt([0]),
+      chartAt([0, 120, 240]),
+      chartAt([0, 36, 72, 108, 144, 180, 216, 252, 288, 324]),
+      chartAt([14, 43, 81, 117, 154, 188, 221, 259, 302, 347]),
+    ];
+
+    for (const year of [2027, 2029, 2031]) {
+      const skies = Array.from({ length: 365 }, (_, day) =>
+        liveSky(new Date(Date.UTC(year, 0, day + 1, 12))),
+      );
+
+      const annual = charts.map((natal) => {
+        // Deliberately NOT passing `skies` as samples: the baseline must come
+        // from the engine's own epoch resolution, or this test stops guarding
+        // it. (Passing samples here made a frozen-epoch red-proof pass.)
+        const baseline = calculateChartBaseline(natal, year);
+        return skies.reduce(
+          (sum, transitPositions) =>
+            sum +
+            computeDiscriminantDailyYield({
+              natalWeights: NATAL_WEIGHTS,
+              natalPositions: natal,
+              transitPositions,
+              chartBaseline: baseline,
+              supply: NEUTRAL_SUPPLY,
+            }).total,
+          0,
+        );
+      });
+
+      // The anti-exploit invariant: no chart shape may out-earn another
+      // materially. A frozen epoch drives this to 5x by 2031.
+      expect(Math.max(...annual) / Math.min(...annual)).toBeLessThan(1.5);
+
+      // Emission stays near the 12/day centre for a realistic chart. The
+      // adversarial shapes are allowed a wider miss: band clamping truncates
+      // their low tail asymmetrically (trine lattice measured -25.7% in 2029).
+      const realistic = annual[annual.length - 1]!;
+      expect(realistic).toBeGreaterThan(365 * 12 * 0.9);
+      expect(realistic).toBeLessThan(365 * 12 * 1.1);
+    }
+  });
+
   it("returns a bit-identical baseline for the same chart and fixed epoch", () => {
     const natal = chartAt([14, 43, 81, 117, 154, 188, 221, 259, 302, 347]);
-    expect(calculateChartBaseline(natal)).toBe(calculateChartBaseline(natal));
+    expect(calculateChartBaseline(natal, 2026)).toBe(calculateChartBaseline(natal, 2026));
   });
 
   it("caches live circulating supply for five minutes", async () => {
