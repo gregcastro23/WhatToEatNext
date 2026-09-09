@@ -30,34 +30,18 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import { z } from "zod";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { AdminGrantTokensRequestSchema } from "@/lib/validation/apiSchemas";
 import {
   isMissingUserFailure,
   tokenEconomy,
   type CreditResult,
 } from "@/services/TokenEconomyService";
-import { TOKEN_TYPES, type TokenType } from "@/types/economy";
+import type { TokenType } from "@/types/economy";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const tokenTypeEnum = z.enum(TOKEN_TYPES as [TokenType, ...TokenType[]]);
-
-const grantBodySchema = z.object({
-  credits: z
-    .array(
-      z.object({
-        tokenType: tokenTypeEnum,
-        amount: z.number().positive().max(10_000),
-      }),
-    )
-    .min(1)
-    .max(TOKEN_TYPES.length),
-  idempotencyKey: z.string().min(8).max(200),
-  description: z.string().max(500).optional(),
-});
 
 /**
  * A rolled-back grant, reported as one. Names the SQLSTATE rather than
@@ -102,15 +86,19 @@ export async function POST(
     );
   }
 
-  let body: z.infer<typeof grantBodySchema>;
+  let rawBody: unknown;
   try {
-    const json = await request.json();
-    body = grantBodySchema.parse(json);
-  } catch (err) {
-    const message =
-      err instanceof z.ZodError ? err.issues[0]?.message ?? "Invalid body" : "Invalid JSON";
+    rawBody = await request.json();
+  } catch {
+    return NextResponse.json({ success: false, message: "Invalid JSON" }, { status: 400 });
+  }
+
+  const parsed = AdminGrantTokensRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    const message = parsed.error.issues[0]?.message ?? "Invalid body";
     return NextResponse.json({ success: false, message }, { status: 400 });
   }
+  const body = parsed.data;
 
   // Coalesce duplicate tokenType entries — if the caller sends two
   // { tokenType: "Spirit" } credits we fold them so the per-tokenType
