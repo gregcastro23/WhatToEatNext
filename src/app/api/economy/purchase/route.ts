@@ -15,6 +15,7 @@ import {
 } from "@/lib/economy/livePricing";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { EconomyPurchaseRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
@@ -90,9 +91,9 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "economy-purchase", identifier: user.id });
     if (!rl.allowed) return rl.response!;
 
-    let body: { shopItemSlug?: string; idempotencyKey?: string };
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid request body" },
@@ -100,13 +101,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { shopItemSlug, idempotencyKey } = body;
-    if (!shopItemSlug || typeof shopItemSlug !== "string") {
+    const parseResult = EconomyPurchaseRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
       return NextResponse.json(
-        { success: false, message: "shopItemSlug is required" },
+        {
+          success: false,
+          message: "shopItemSlug is required",
+          details: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
+
+    const { shopItemSlug, idempotencyKey } = parseResult.data;
 
     // Validate the item exists
     const item = await tokenEconomy.getShopItem(shopItemSlug);

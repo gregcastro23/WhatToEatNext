@@ -13,6 +13,7 @@
  */
 
 import { z } from "zod";
+import { PRACTICE_TYPES } from "@/lib/economy/practices";
 import type { TransactionSourceType } from "@/types/economy";
 import type { NatalChart } from "@/types/natalChart";
 import type {
@@ -289,6 +290,27 @@ export const EconomySwapRequestSchema = z.object({
 });
 
 export type ParsedEconomySwapRequest = z.infer<typeof EconomySwapRequestSchema>;
+
+export const EconomyPurchaseRequestSchema = z.object({
+  shopItemSlug: z.string().min(1, "shopItemSlug is required"),
+  idempotencyKey: z.string().optional(),
+});
+
+export const EconomyTransmuteRequestSchema = z.object({
+  fromToken: TokenTypeSchema,
+  toToken: TokenTypeSchema,
+  amount: z.number().positive("Amount must be a positive number").finite(),
+}).refine((data) => data.fromToken !== data.toToken, {
+  message: "Cannot transmute a token into itself.",
+  path: ["toToken"],
+});
+
+export const PracticeTypeSchema = z.enum(PRACTICE_TYPES);
+
+export const EconomyPracticeRequestSchema = z.object({
+  type: PracticeTypeSchema,
+  targetId: z.unknown().optional(),
+});
 
 // ─── Recipe Mint Envelope ───────────────────────────────────────────────────
 

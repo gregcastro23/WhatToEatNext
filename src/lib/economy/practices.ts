@@ -14,23 +14,26 @@
 
 import type { TokenType } from "@/types/economy";
 
-export type PracticeType =
-  | "cooked_recipe"
-  | "photo_added"
-  | "recommendation_acted"
-  | "feed_visit"
-  | "feed_reaction"
-  | "comment_posted"
-  | "work_discussed"
-  | "chat_joined"
-  | "surface_discovered"
-  | "work_resonated"
-  | "list_conjured"
-  | "table_toasted"
-  | "dm_thread_started"
-  | "follow_made"
-  | "first_follower_gained"
-  | "visage_revealed";
+export const PRACTICE_TYPES = [
+  "cooked_recipe",
+  "photo_added",
+  "recommendation_acted",
+  "feed_visit",
+  "feed_reaction",
+  "comment_posted",
+  "work_discussed",
+  "chat_joined",
+  "surface_discovered",
+  "work_resonated",
+  "list_conjured",
+  "table_toasted",
+  "dm_thread_started",
+  "follow_made",
+  "first_follower_gained",
+  "visage_revealed",
+] as const;
+
+export type PracticeType = (typeof PRACTICE_TYPES)[number];
 
 export type DedupeScope = "daily" | "ever";
 

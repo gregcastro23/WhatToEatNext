@@ -7,9 +7,10 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { EconomyTransmuteRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import { TOKEN_TYPES, TRANSMUTATION_RATIO } from "@/types/economy";
-import type { TokenType, TransmuteResponse } from "@/types/economy";
+import { TRANSMUTATION_RATIO } from "@/types/economy";
+import type { TransmuteResponse } from "@/types/economy";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -28,9 +29,9 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 20, bucket: "economy-transmute", identifier: userId });
     if (!rl.allowed) return rl.response!;
 
-    let body: { fromToken: string; toToken: string; amount: number };
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { success: false, message: "Invalid request body" },
@@ -38,43 +39,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { fromToken, toToken, amount } = body;
+    const parseResult = EconomyTransmuteRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      const [issue] = parseResult.error.issues;
+      const isMissingFields =
+        !rawBody ||
+        typeof rawBody !== "object" ||
+        !("fromToken" in rawBody) ||
+        !("toToken" in rawBody) ||
+        !("amount" in rawBody);
+      const message = isMissingFields
+        ? "fromToken, toToken, and amount are required"
+        : issue?.message === "Cannot transmute a token into itself."
+          ? "Cannot transmute a token into itself."
+          : issue?.path.includes("amount")
+            ? "Amount must be a positive number"
+            : "Invalid token type. Must be Spirit, Essence, Matter, or Substance.";
 
-    // Validate
-    if (!fromToken || !toToken || !amount) {
       return NextResponse.json(
-        { success: false, message: "fromToken, toToken, and amount are required" },
+        {
+          success: false,
+          message,
+          details: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
 
-    if (!TOKEN_TYPES.includes(fromToken as TokenType) || !TOKEN_TYPES.includes(toToken as TokenType)) {
-      return NextResponse.json(
-        { success: false, message: "Invalid token type. Must be Spirit, Essence, Matter, or Substance." },
-        { status: 400 },
-      );
-    }
-
-    if (fromToken === toToken) {
-      return NextResponse.json(
-        { success: false, message: "Cannot transmute a token into itself." },
-        { status: 400 },
-      );
-    }
-
-    if (amount <= 0 || !Number.isFinite(amount)) {
-      return NextResponse.json(
-        { success: false, message: "Amount must be a positive number" },
-        { status: 400 },
-      );
-    }
+    const { fromToken, toToken, amount } = parseResult.data;
 
     const costAmount = amount * TRANSMUTATION_RATIO;
 
     const result = await tokenEconomy.transmute(
       userId,
-      fromToken as TokenType,
-      toToken as TokenType,
+      fromToken,
+      toToken,
       amount,
     );
 
