@@ -1,10 +1,10 @@
 import type { Element } from "@/types/celestial";
 
-export interface ElementalProperties {
+export interface ElementalQualityMap {
   [_key: string]: number; // Element: strength (0-1)
 }
 
-export const elements: Record<Element, ElementalProperties> = {
+export const elements: Record<Element, ElementalQualityMap> = {
   Fire: {
     heat: 1.0,
     _dryness: 0.8,
@@ -63,8 +63,8 @@ export const elementalFunctions = {
    * Calculate the elemental affinity between two sets of properties
    */
   _calculateAffinity: (
-    props1: ElementalProperties,
-    props2: ElementalProperties,
+    props1: ElementalQualityMap,
+    props2: ElementalQualityMap,
   ): number => {
     let affinity = 0;
     let count = 0;
@@ -86,7 +86,7 @@ export const elementalFunctions = {
   /**
    * Get dominant element from properties
    */
-  getDominantElement: (props: ElementalProperties): Element =>
+  getDominantElement: (props: ElementalQualityMap): Element =>
     Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element,
 
   /**
@@ -98,7 +98,7 @@ export const elementalFunctions = {
   /**
    * Get element balance score
    */
-  _getBalanceScore: (props: ElementalProperties): number => {
+  _getBalanceScore: (props: ElementalQualityMap): number => {
     const values = Object.values(props);
     const average = values.reduce((a, b) => a + b, 0) / values.length;
     const variance =
@@ -109,7 +109,7 @@ export const elementalFunctions = {
   /**
    * Suggest complementary elements
    */
-  _suggestComplementaryElements: (props: ElementalProperties): Element[] => {
+  _suggestComplementaryElements: (props: ElementalQualityMap): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter(
       (element) =>
