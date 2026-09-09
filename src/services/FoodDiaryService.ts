@@ -2831,13 +2831,13 @@ class FoodDiaryService {
       },
       quantity: toNumber(row.quantity, 1),
       nutrition: {
-        calories: toOptionalNumber(row.calories),
-        protein: toOptionalNumber(row.protein),
-        carbs: toOptionalNumber(row.carbs),
-        fat: toOptionalNumber(row.fat),
-        fiber: toOptionalNumber(row.fiber),
-        sugar: toOptionalNumber(row.sugar),
-        sodium: toOptionalNumber(row.sodium),
+        ...(toOptionalNumber(row.calories) !== undefined ? { calories: toOptionalNumber(row.calories) } : {}),
+        ...(toOptionalNumber(row.protein) !== undefined ? { protein: toOptionalNumber(row.protein) } : {}),
+        ...(toOptionalNumber(row.carbs) !== undefined ? { carbs: toOptionalNumber(row.carbs) } : {}),
+        ...(toOptionalNumber(row.fat) !== undefined ? { fat: toOptionalNumber(row.fat) } : {}),
+        ...(toOptionalNumber(row.fiber) !== undefined ? { fiber: toOptionalNumber(row.fiber) } : {}),
+        ...(toOptionalNumber(row.sugar) !== undefined ? { sugar: toOptionalNumber(row.sugar) } : {}),
+        ...(toOptionalNumber(row.sodium) !== undefined ? { sodium: toOptionalNumber(row.sodium) } : {}),
       },
       nutritionConfidence: row.nutrition_confidence ?? "medium",
       elementalProperties: row.elemental_fire != null
@@ -3194,12 +3194,12 @@ class FoodDiaryService {
         description: "100 g serving",
       },
       nutritionPer100g: {
-        calories: toOptionalNumber(row.calories),
-        protein: toOptionalNumber(row.protein),
-        carbs: toOptionalNumber(row.carbohydrates),
-        fat: toOptionalNumber(row.fat),
-        fiber: toOptionalNumber(row.fiber),
-        sugar: toOptionalNumber(row.sugar),
+        ...(toOptionalNumber(row.calories) !== undefined ? { calories: toOptionalNumber(row.calories) } : {}),
+        ...(toOptionalNumber(row.protein) !== undefined ? { protein: toOptionalNumber(row.protein) } : {}),
+        ...(toOptionalNumber(row.carbohydrates) !== undefined ? { carbs: toOptionalNumber(row.carbohydrates) } : {}),
+        ...(toOptionalNumber(row.fat) !== undefined ? { fat: toOptionalNumber(row.fat) } : {}),
+        ...(toOptionalNumber(row.fiber) !== undefined ? { fiber: toOptionalNumber(row.fiber) } : {}),
+        ...(toOptionalNumber(row.sugar) !== undefined ? { sugar: toOptionalNumber(row.sugar) } : {}),
       },
     };
   }
@@ -4063,10 +4063,9 @@ class FoodDiaryService {
       .map(([name, data]) => ({
         name,
         count: data.count,
-        averageRating:
-          data.ratings.length > 0
-            ? data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length
-            : undefined,
+        ...(data.ratings.length > 0
+          ? { averageRating: data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length }
+          : {}),
       }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
@@ -4420,12 +4419,7 @@ class FoodDiaryService {
     FoodDiaryEntry["astrologicalContext"]
   > {
     // Simplified - in production would call astrology service
-    return Promise.resolve({
-      dominantPlanet: undefined,
-      zodiacSign: undefined,
-      lunarPhase: undefined,
-      planetaryHour: undefined,
-    });
+    return Promise.resolve(undefined);
   }
 
   private addToUserIndex(userId: string, entryId: string): void {

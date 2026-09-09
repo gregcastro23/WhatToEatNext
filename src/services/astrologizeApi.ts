@@ -1,10 +1,10 @@
 import * as Astronomy from "astronomy-engine";
 import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import {
   AstrologizeResponseSchema,
   RecipeRecommendationResponseSchema,
 } from "@/lib/validation/astrologySchemas";
-import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import type { ZodiacSignType } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";

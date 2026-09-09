@@ -7,8 +7,8 @@
  */
 
 import { readJson } from "@/lib/api/json";
-import { NatalChartAstrologizeResponseSchema } from "@/lib/validation/astrologySchemas";
 import { _logger } from "@/lib/logger";
+import { NatalChartAstrologizeResponseSchema } from "@/lib/validation/astrologySchemas";
 import type {
   Planet,
   ZodiacSignType,
