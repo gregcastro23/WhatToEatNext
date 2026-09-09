@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
+import { EconomySyncEventRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
 import type { NextRequest} from "next/server";
 
@@ -25,13 +26,6 @@ import type { NextRequest} from "next/server";
  *
  * Response: { ok, event, completedCount, completed: [{ questSlug, tokensAwarded, tokenType }] }
  */
-interface SyncEventBody {
-  userEmail?: unknown;
-  event?: unknown;
-  metadata?: unknown;
-}
-
-const EVENT_MAX_LENGTH = 100;
 const STRING_MAX_LENGTH = 200;
 
 function coerceString(value: unknown, max: number): string | undefined {
@@ -71,9 +65,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let body: SyncEventBody;
+    let rawBody: unknown;
     try {
-      body = (await req.json()) as SyncEventBody;
+      rawBody = await req.json();
     } catch {
       return NextResponse.json(
         { ok: false, reason: "invalid_request", message: "Body must be valid JSON" },
@@ -81,17 +75,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const userEmail = coerceString(body.userEmail, STRING_MAX_LENGTH);
-    const event = coerceString(body.event, EVENT_MAX_LENGTH);
-
-    if (!userEmail || !event) {
+    const parseResult = EconomySyncEventRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
       return NextResponse.json(
-        { ok: false, reason: "invalid_request", message: "Missing or invalid userEmail or event" },
+        {
+          ok: false,
+          reason: "invalid_request",
+          message: "Missing or invalid userEmail or event",
+          details: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 }
       );
     }
 
-    const metadata = parseEventMetadata(body.metadata);
+    const { userEmail, event, metadata: rawMetadata } = parseResult.data;
+    const metadata = parseEventMetadata(rawMetadata);
 
     // 2. Look up user ID by email (and confirm they're an agentic account)
     const userResult = await executeQuery<{ id: string; is_agent: boolean | null }>(

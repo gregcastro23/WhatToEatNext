@@ -312,6 +312,59 @@ export const EconomyPracticeRequestSchema = z.object({
   targetId: z.unknown().optional(),
 });
 
+export const EconomyShopPurchaseRequestSchema = z.object({
+  itemId: z.string().min(1, "itemId is required"),
+  nonce: z.union([z.string(), z.number()]).optional(),
+  txHash: z.string().optional(),
+  signature: z.string().optional(),
+  deadline: z
+    .union([
+      z.string().regex(/^\d+$/, "deadline must be a numeric timestamp string"),
+      z.number().int().nonnegative("deadline must be a non-negative integer"),
+    ])
+    .optional(),
+});
+
+export type ParsedEconomyShopPurchaseRequest = z.infer<
+  typeof EconomyShopPurchaseRequestSchema
+>;
+
+/**
+ * Lenient metadata schema matching QuestEventMetadata's `[key: string]: unknown`
+ * (QuestService.ts:86).
+ *
+ * Uses `.passthrough().nullish()` to safely accept external metadata (e.g. from
+ * planetary-agents) without failing the request on extra/nested fields (such as agentProfile).
+ * `broadcastMasterQuestReward` explicitly constructs its persisted record instead of
+ * spreading, preventing nested objects from polluting storage.
+ */
+export const QuestEventMetadataSchema = z
+  .object({
+    agentName: z.string().optional(),
+    sacredStat: z.string().optional(),
+    planetarySignature: z.record(z.string(), z.unknown()).optional(),
+  })
+  .passthrough()
+  .nullish();
+
+export const EconomySyncEventRequestSchema = z.object({
+  userEmail: z
+    .string()
+    .trim()
+    .min(1, "userEmail is required")
+    .max(200, "userEmail exceeds maximum length"),
+  event: z
+    .string()
+    .trim()
+    .min(1, "event is required")
+    .max(100, "event exceeds maximum length"),
+  metadata: QuestEventMetadataSchema,
+});
+
+export type ParsedEconomySyncEventRequest = z.infer<
+  typeof EconomySyncEventRequestSchema
+>;
+
 // ─── Recipe Mint Envelope ───────────────────────────────────────────────────
 
 export const RecipeMintRequestEnvelopeSchema = z.object({

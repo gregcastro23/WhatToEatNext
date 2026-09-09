@@ -6,14 +6,14 @@
     "asUnknownAs": 129,
     "production": 136,
     "test": 32,
-    "untrackedSingleAsT": 2024
+    "untrackedSingleAsT": 2022
   },
   "assertionSites": {
-    "total": 3346,
+    "total": 3344,
     "asAny": 38,
     "chained": 129,
-    "single": 3179,
-    "production": 2723,
+    "single": 3177,
+    "production": 2721,
     "test": 623,
     "asConst": 559,
     "nonNull": 619

@@ -14,6 +14,7 @@ import {
   verifyRedeem,
 } from '@/lib/esms-chain/redeemer'
 import { _logger } from "@/lib/logger";
+import { EconomyShopPurchaseRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Address, Hex } from 'viem'
 
@@ -23,28 +24,32 @@ export const maxDuration = 60
 
 const TX_PATTERN = /^0x[0-9a-f]{64}$/i
 
-interface PurchaseRequestBody {
-  itemId?: string;
-  nonce?: string | number;
-  txHash?: string;
-  signature?: string;
-  deadline?: string | number | bigint;
-}
-
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const user = await getDatabaseUserFromRequest(request);
   const userId = user?.id;
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  let body: PurchaseRequestBody;
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as PurchaseRequestBody;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const shopItemSlug = typeof body.itemId === "string" ? body.itemId : "";
-  if (!shopItemSlug) return NextResponse.json({ error: 'Unknown item' }, { status: 404 })
+  const parseResult = EconomyShopPurchaseRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      {
+        error: 'Invalid request body',
+        message: 'itemId is required',
+        details: parseResult.error.flatten().fieldErrors,
+      },
+      { status: 400 }
+    );
+  }
+
+  const body = parseResult.data;
+  const shopItemSlug = body.itemId;
 
   const item = await tokenEconomy.getShopItem(shopItemSlug);
   if (!item) return NextResponse.json({ error: 'Unknown item' }, { status: 404 })
