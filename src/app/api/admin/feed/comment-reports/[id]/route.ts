@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { AdminResolveCommentReportRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -15,7 +16,6 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const STATUSES = new Set(["open", "reviewed", "dismissed", "actioned"]);
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -31,17 +31,20 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     return NextResponse.json({ success: false, message: "Invalid report id" }, { status: 400 });
   }
 
-  let body: { status?: unknown; commentId?: unknown; deleteComment?: unknown };
+  let rawBody: unknown;
   try {
-    body = (await request.json()) as typeof body;
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "Invalid JSON body" }, { status: 400 });
   }
 
-  const status = typeof body.status === "string" && STATUSES.has(body.status) ? body.status : null;
-  if (!status) {
+  const parseResult = AdminResolveCommentReportRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
     return NextResponse.json({ success: false, message: "A valid status is required" }, { status: 400 });
   }
+
+  const body = parseResult.data;
+  const { status } = body;
 
   try {
     const updated = await feedCommentsDatabase.resolveReport(id, status, adminId);

@@ -19,6 +19,7 @@ import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { AdminAgentSyncRequestSchema } from "@/lib/validation/apiSchemas";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
@@ -118,78 +119,71 @@ async function runBatched(
   return results;
 }
 
-export async function POST(request: NextRequest) {
-  const authResult = await validateAdminRequest(request);
-  if ("error" in authResult) return authResult.error;
+type ResolveTargetsResult =
+  | { ok: true; targets: SyncTarget[] }
+  | { ok: false; response: NextResponse };
 
-  let body: { agentId?: string; email?: string; all?: boolean };
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { success: false, error: "Invalid JSON body" },
-      { status: 400 },
-    );
-  }
-
-  const cfg = getPaConfig();
-  if ("error" in cfg) {
-    return NextResponse.json(
-      { success: false, error: cfg.error },
-      { status: 503 },
-    );
-  }
-
-  let targets: SyncTarget[] = [];
-
+async function resolveSyncTargets(
+  body: import("@/lib/validation/apiSchemas").AdminAgentSyncRequest,
+): Promise<ResolveTargetsResult> {
   if (body.all) {
-    // Pull every is_agent=true user from the DB.
     try {
       const result = await executeQuery(
         `SELECT email, name FROM users WHERE is_agent = true ORDER BY email`,
         [],
       );
       const rows = (result.rows ?? []) as Array<{ email: string; name: string | null }>;
-      targets = rows
+      const targets = rows
         .filter((r) => r.email.endsWith(AGENTIC_EMAIL_DOMAIN))
         .map((r) => ({
           agentId: localPart(r.email),
           email: r.email,
           displayName: r.name,
         }));
+      return { ok: true, targets };
     } catch (err) {
       logger.error("[admin/agent-sync] DB enumerate failed", err);
-      return NextResponse.json(
-        { success: false, error: "Failed to enumerate agentic users" },
-        { status: 500 },
-      );
+      return {
+        ok: false,
+        response: NextResponse.json(
+          { success: false, error: "Failed to enumerate agentic users" },
+          { status: 500 },
+        ),
+      };
     }
-  } else if (body.email) {
+  }
+
+  if (body.email) {
     const email = body.email.toLowerCase().trim();
     if (!email.endsWith(AGENTIC_EMAIL_DOMAIN)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `email must end in ${AGENTIC_EMAIL_DOMAIN}`,
-        },
-        { status: 400 },
-      );
+      return {
+        ok: false,
+        response: NextResponse.json(
+          {
+            success: false,
+            error: `email must end in ${AGENTIC_EMAIL_DOMAIN}`,
+          },
+          { status: 400 },
+        ),
+      };
     }
     const user = await userDatabase.getUserByEmail(email);
     if (!user) {
-      return NextResponse.json(
-        { success: false, error: "User not found" },
-        { status: 404 },
-      );
+      return {
+        ok: false,
+        response: NextResponse.json(
+          { success: false, error: "User not found" },
+          { status: 404 },
+        ),
+      };
     }
-    // UserWithProfile carries the name on its profile sub-object; the SELECT
-    // alias in getUserByEmail also exposes a top-level `name`. Cover both
-    // shapes without forcing a hard cast.
     const userWithName = user as { profile?: { name?: string | null }; name?: string | null };
     const displayName =
       userWithName.profile?.name ?? userWithName.name ?? null;
-    targets = [{ agentId: localPart(email), email, displayName }];
-  } else if (body.agentId) {
+    return { ok: true, targets: [{ agentId: localPart(email), email, displayName }] };
+  }
+
+  if (body.agentId) {
     const agentId = body.agentId.trim();
     const email = `${agentId}${AGENTIC_EMAIL_DOMAIN}`;
     const user = await userDatabase
@@ -200,13 +194,56 @@ export async function POST(request: NextRequest) {
       | null;
     const displayName =
       userWithName?.profile?.name ?? userWithName?.name ?? null;
-    targets = [{ agentId, email, displayName }];
-  } else {
-    return NextResponse.json(
+    return { ok: true, targets: [{ agentId, email, displayName }] };
+  }
+
+  return {
+    ok: false,
+    response: NextResponse.json(
       { success: false, error: "Provide one of: email, agentId, all=true" },
+      { status: 400 },
+    ),
+  };
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  const authResult = await validateAdminRequest(request);
+  if ("error" in authResult) return authResult.error;
+
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, error: "Invalid JSON body" },
       { status: 400 },
     );
   }
+
+  const parseResult = AdminAgentSyncRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { success: false, error: "Validation failed", details: parseResult.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const body = parseResult.data;
+
+  const cfg = getPaConfig();
+  if ("error" in cfg) {
+    return NextResponse.json(
+      { success: false, error: cfg.error },
+      { status: 503 },
+    );
+  }
+
+  const resolved = await resolveSyncTargets(body);
+  if (!resolved.ok) {
+    return resolved.response;
+  }
+
+  const { targets } = resolved;
 
   if (targets.length === 0) {
     return NextResponse.json({

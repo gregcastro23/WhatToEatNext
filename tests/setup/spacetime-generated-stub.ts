@@ -18,8 +18,19 @@ class NoopConnectionBuilder {
   }
 }
 
+export class DbConnectionBuilder extends NoopConnectionBuilder {}
+
+export const tables = {};
+export const reducers = {
+  postFeedEvent: () => {},
+  createCommensalSession: () => {},
+  upsertMealPlanSlot: () => {},
+};
+export const procedures = {};
+
 export class DbConnection {
   static builder() {
-    return new NoopConnectionBuilder();
+    return new DbConnectionBuilder();
   }
 }
+

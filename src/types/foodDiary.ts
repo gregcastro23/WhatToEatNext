@@ -9,7 +9,11 @@
 import type { ElementalProperties } from "./alchemy";
 import type { StandardZodiacSignType } from "./astrology";
 import type { MealType } from "./menuPlanner";
-import type { NutritionalSummary} from "./nutrition";
+import type { NutritionalSummary } from "./nutrition";
+
+export type FoodDiaryNutrition = {
+  [K in keyof NutritionalSummary]?: number | undefined;
+};
 
 /**
  * Food entry source type - where the food data comes from
@@ -50,10 +54,10 @@ export interface QuickFoodPreset {
   name: string;
   category: QuickFoodCategory;
   defaultServing: ServingSize;
-  nutritionPer100g: Partial<NutritionalSummary>;
-  elementalProperties?: ElementalProperties;
-  commonBrands?: string[];
-  icon?: string;
+  nutritionPer100g: FoodDiaryNutrition;
+  elementalProperties?: ElementalProperties | undefined;
+  commonBrands?: string[] | undefined;
+  icon?: string | undefined;
 }
 
 /**
@@ -79,7 +83,7 @@ export interface ServingSize {
   amount: number;
   unit: ServingUnit;
   grams: number; // Equivalent weight in grams
-  description?: string; // e.g., "1 medium apple", "1 cup"
+  description?: string | undefined; // e.g., "1 medium apple", "1 cup"
 }
 
 /**
@@ -107,8 +111,8 @@ export interface FoodDiaryEntry {
   // Food identification
   foodName: string;
   foodSource: FoodSource;
-  sourceId?: string; // Recipe ID, FDC ID, or preset ID
-  brandName?: string;
+  sourceId?: string | undefined; // Recipe ID, FDC ID, or preset ID
+  brandName?: string | undefined;
 
   // Timing
   date: Date;
@@ -120,41 +124,41 @@ export interface FoodDiaryEntry {
   quantity: number; // Number of servings
 
   // Nutrition (calculated based on serving and quantity)
-  nutrition: Partial<NutritionalSummary>;
+  nutrition: FoodDiaryNutrition;
   nutritionConfidence: "high" | "medium" | "low"; // How confident we are in the nutrition data
 
   // Elemental/Alchemical (optional)
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties | undefined;
   alchemicalProperties?: {
     Spirit: number;
     Essence: number;
     Matter: number;
     Substance: number;
-  };
+  } | undefined;
 
   // User feedback
-  rating?: FoodRating;
-  moodTags?: MoodTag[];
-  notes?: string;
-  wouldEatAgain?: boolean;
+  rating?: FoodRating | undefined;
+  moodTags?: MoodTag[] | undefined;
+  notes?: string | undefined;
+  wouldEatAgain?: boolean | undefined;
 
   // Ingredient sourcing & details
-  price?: number;
-  store?: string;
-  quality?: string;
+  price?: number | undefined;
+  store?: string | undefined;
+  quality?: string | undefined;
 
   // Astrological context (captured at entry time)
   astrologicalContext?: {
-    dominantPlanet?: string;
-    zodiacSign?: StandardZodiacSignType;
-    lunarPhase?: string;
-    planetaryHour?: string;
-  };
+    dominantPlanet?: string | undefined;
+    zodiacSign?: StandardZodiacSignType | undefined;
+    lunarPhase?: string | undefined;
+    planetaryHour?: string | undefined;
+  } | undefined;
 
   // Metadata
   isFavorite: boolean;
-  tags?: string[];
-  imageUrl?: string;
+  tags?: string[] | undefined;
+  imageUrl?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -172,7 +176,7 @@ export interface CreateFoodDiaryEntryInput {
   time: string;
   serving: ServingSize;
   quantity: number;
-  nutrition?: Partial<NutritionalSummary>;
+  nutrition?: FoodDiaryNutrition | undefined;
   elementalProperties?: ElementalProperties;
   notes?: string;
   tags?: string[];
@@ -186,17 +190,17 @@ export interface CreateFoodDiaryEntryInput {
  */
 export interface UpdateFoodDiaryEntryInput {
   id: string;
-  quantity?: number;
-  serving?: ServingSize;
-  rating?: FoodRating;
-  moodTags?: MoodTag[];
-  notes?: string;
-  wouldEatAgain?: boolean;
-  isFavorite?: boolean;
-  tags?: string[];
-  price?: number;
-  store?: string;
-  quality?: string;
+  quantity?: number | undefined;
+  serving?: ServingSize | undefined;
+  rating?: FoodRating | undefined;
+  moodTags?: MoodTag[] | undefined;
+  notes?: string | undefined;
+  wouldEatAgain?: boolean | undefined;
+  isFavorite?: boolean | undefined;
+  tags?: string[] | undefined;
+  price?: number | undefined;
+  store?: string | undefined;
+  quality?: string | undefined;
 }
 
 /**
@@ -328,13 +332,13 @@ export interface FoodSearchResult {
   id: string;
   name: string;
   source: FoodSource;
-  category?: string;
-  brandName?: string;
-  nutritionPer100g?: Partial<NutritionalSummary>;
-  commonServings?: ServingSize[];
+  category?: string | undefined;
+  brandName?: string | undefined;
+  nutritionPer100g?: FoodDiaryNutrition | undefined;
+  commonServings?: ServingSize[] | undefined;
   matchScore: number;
-  isUserFavorite?: boolean;
-  lastEaten?: Date;
+  isUserFavorite?: boolean | undefined;
+  lastEaten?: Date | undefined;
 }
 
 /**
@@ -345,14 +349,14 @@ export interface UserFoodFavorite {
   userId: string;
   foodName: string;
   foodSource: FoodSource;
-  sourceId?: string;
-  brandName?: string;
-  customServing?: ServingSize;
-  customNutrition?: Partial<NutritionalSummary>;
+  sourceId?: string | undefined;
+  brandName?: string | undefined;
+  customServing?: ServingSize | undefined;
+  customNutrition?: FoodDiaryNutrition | undefined;
   timesEaten: number;
-  averageRating?: number;
-  lastEaten?: Date;
-  tags?: string[];
+  averageRating?: number | undefined;
+  lastEaten?: Date | undefined;
+  tags?: string[] | undefined;
   createdAt: Date;
 }
 

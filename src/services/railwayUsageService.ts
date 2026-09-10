@@ -21,6 +21,7 @@
 
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
+import { RailwayGraphQLResponseSchema } from "@/lib/validation/serviceResponseSchemas";
 
 const RAILWAY_GRAPHQL_ENDPOINT = "https://backboard.railway.com/graphql/v2";
 const DEFAULT_PROJECT_ID = "29768485-d0da-48ab-aedf-5cbc142e0f3f"; // alchm.kitchen prod
@@ -166,11 +167,10 @@ async function railwayGraphql<T>(
       _logger.warn(`[railwayUsage] HTTP ${resp.status} on ${field}`);
       return null;
     }
-    const json = await readJson<{
-      data?: Record<string, T[] | undefined>;
-      errors?: Array<{ message: string }>;
-    }>(resp);
-    const rows = json.data?.[field];
+    const json = await readJson(resp, {
+      parse: RailwayGraphQLResponseSchema.parse,
+    });
+    const rows = json.data?.[field] as T[] | undefined;
     if (json.errors?.length || !rows) {
       _logger.warn(
         `[railwayUsage] ${field} error: ${json.errors?.[0]?.message ?? "no data"}`,

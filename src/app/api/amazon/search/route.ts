@@ -22,6 +22,7 @@ import {
   searchAmazonCreatorsCatalog,
 } from "@/lib/amazonCreators";
 import { rateLimit } from "@/lib/rateLimit";
+import { AmazonSearchBatchRequestSchema } from "@/lib/validation/apiSchemas";
 import type {
   AmazonMatchConfidence,
   AmazonSearchResult,
@@ -454,16 +455,19 @@ export async function POST(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search-batch" });
   if (!rl.allowed) return rl.response!;
 
-  let body: unknown;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const ingredients = Array.isArray((body as { ingredients?: unknown }).ingredients)
-    ? (body as { ingredients: unknown[] }).ingredients
-    : [];
+  const parseResult = AmazonSearchBatchRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json({ error: "Missing ingredients array" }, { status: 400 });
+  }
+
+  const { ingredients } = parseResult.data;
 
   const uniqueIngredients = Array.from(
     new Set(

@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { AmazonFeedbackRequestSchema } from "@/lib/validation/apiSchemas";
 
 const ASIN_REGEX = /^[A-Z0-9]{10}$/;
 const MAX_INGREDIENT_NAME_LENGTH = 200;
@@ -22,20 +23,23 @@ export async function POST(request: Request) {
     });
     if (!rl.allowed) return rl.response!;
 
-    const { ingredientName, asin } = (await request.json()) as {
-      ingredientName?: unknown;
-      asin?: unknown;
-    };
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
 
-    if (typeof ingredientName !== "string" || typeof asin !== "string") {
+    const parseResult = AmazonFeedbackRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
       return NextResponse.json(
         { error: "Missing or invalid ingredientName/asin" },
         { status: 400 },
       );
     }
 
-    const trimmedName = ingredientName.trim();
-    const normalizedAsin = asin.trim().toUpperCase();
+    const trimmedName = parseResult.data.ingredientName;
+    const normalizedAsin = parseResult.data.asin;
 
     if (!trimmedName || trimmedName.length > MAX_INGREDIENT_NAME_LENGTH) {
       return NextResponse.json({ error: "Invalid ingredient name" }, { status: 400 });

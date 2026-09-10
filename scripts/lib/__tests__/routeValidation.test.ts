@@ -46,6 +46,48 @@ describe("routeValidation gate", () => {
       expect(result.readsBody).toBe(false);
       expect(result.hasSafeParse).toBe(false);
     });
+
+    it("red-proof: flags route as UNVALIDATED if body is read but safeParse only inspects query params", () => {
+      const code = `
+        import { QuerySchema } from "@/lib/validation";
+        export async function POST(req: Request) {
+          const body = await req.json();
+          const query = QuerySchema.safeParse({ search: "test" });
+          return Response.json({ body, query });
+        }
+      `;
+      const result = inspectRouteFileContent(code, "src/app/api/unrelated/route.ts");
+      expect(result.readsBody).toBe(true);
+      expect(result.hasSafeParse).toBe(false);
+    });
+
+    it("detects body read and safeParse with non-standard parameter name (e.g. c: Request)", () => {
+      const code = `
+        import { MySchema } from "@/lib/validation";
+        export async function POST(c: Request) {
+          const payload = await c.json();
+          const parsed = MySchema.safeParse(payload);
+          return Response.json(parsed);
+        }
+      `;
+      const result = inspectRouteFileContent(code, "src/app/api/custom-param/route.ts");
+      expect(result.readsBody).toBe(true);
+      expect(result.hasSafeParse).toBe(true);
+    });
+
+    it("detects validated formData extraction", () => {
+      const code = `
+        import { FormSchema } from "@/lib/validation";
+        export async function POST(req: Request) {
+          const formData = await req.formData();
+          const parsed = FormSchema.safeParse(formData);
+          return Response.json(parsed);
+        }
+      `;
+      const result = inspectRouteFileContent(code, "src/app/api/form-valid/route.ts");
+      expect(result.readsBody).toBe(true);
+      expect(result.hasSafeParse).toBe(true);
+    });
   });
 
   describe("compareRouteValidation", () => {

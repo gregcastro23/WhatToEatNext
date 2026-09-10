@@ -1,6 +1,10 @@
 import * as Astronomy from "astronomy-engine";
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
+import {
+  AstrologizeResponseSchema,
+  RecipeRecommendationResponseSchema,
+} from "@/lib/validation/astrologySchemas";
 import { log } from "@/services/LoggingService";
 import type { ZodiacSignType } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
@@ -306,7 +310,9 @@ export async function fetchPlanetaryPositions(
       );
     }
 
-    const data = await readJson<AstrologizeResponse>(response);
+    const data = await readJson<AstrologizeResponse>(response, {
+      parse: AstrologizeResponseSchema.parse,
+    });
 
     // Extract planetary positions from the new API structure;
     const celestialBodies = data._celestialBodies;
@@ -545,7 +551,9 @@ export async function fetchAstrologicalRecipes(
       );
     }
 
-    const data = await readJson<RecipeRecommendationResponse>(response);
+    const data = await readJson<RecipeRecommendationResponse>(response, {
+      parse: RecipeRecommendationResponseSchema.parse,
+    });
     log.info("Successfully fetched astrological recipe recommendations.");
     return data;
   });

@@ -29,6 +29,8 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { AgentGroupChatRequestSchema } from "@/lib/validation/apiSchemas";
+import type { AgentGroupChatRequest } from "@/lib/validation/apiSchemas";
 import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
@@ -41,19 +43,7 @@ const RATE_LIMIT = { window: 60_000, max: 20, bucket: "agents-group-chat" };
 const PA_TIMEOUT_MS = 6000;
 const MAX_AGENTS = 6;
 
-interface Participant {
-  id: string;
-  planet?: string;
-  sign?: string;
-  degree?: number;
-  name?: string;
-}
-
-interface RequestBody {
-  agents?: Participant[];
-  transit?: { aspect?: string; key?: string; label?: string } | null;
-  source?: string;
-}
+type Participant = NonNullable<AgentGroupChatRequest["agents"]>[number];
 
 /** Deep link a single agent's chat — used for solo councils and as the failure fallback. */
 function singleChatUrl(agentId: string): string {
@@ -64,12 +54,25 @@ export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
-  let body: RequestBody;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
+
+  const parseResult = AgentGroupChatRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      {
+        error: "Validation failed",
+        details: parseResult.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
+  }
+
+  const body = parseResult.data;
 
   // Validate + de-dupe + cap.
   const seen = new Set<string>();

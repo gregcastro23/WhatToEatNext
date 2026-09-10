@@ -12,8 +12,8 @@ export interface YelpBusiness {
   phone: string;
   rating: number;
   review_count: number;
-  price?: string;
-  distance?: number;
+  price?: string | undefined;
+  distance?: number | undefined;
   categories: Array<{ alias: string; title: string }>;
   location: {
     address1: string;
@@ -26,7 +26,7 @@ export interface YelpBusiness {
     latitude: number;
     longitude: number;
   };
-  image_url?: string;
+  image_url?: string | undefined;
   is_closed: boolean;
 }
 
@@ -34,10 +34,10 @@ export interface YelpSearchParams {
   term: string;
   latitude: number;
   longitude: number;
-  radius?: number;
-  limit?: number;
-  sort_by?: "best_match" | "rating" | "review_count" | "distance";
-  open_now?: boolean;
+  radius?: number | undefined;
+  limit?: number | undefined;
+  sort_by?: ("best_match" | "rating" | "review_count" | "distance") | undefined;
+  open_now?: boolean | undefined;
 }
 
 export interface YelpSearchResponse {
@@ -49,11 +49,11 @@ export interface YelpSearchResponse {
 }
 
 export interface AlchmScoredRestaurant {
-  externalId?: string;
-  name?: string;
-  address?: string;
-  rating?: number;
-  imageUrl?: string;
+  externalId?: string | undefined;
+  name?: string | undefined;
+  address?: string | undefined;
+  rating?: number | undefined;
+  imageUrl?: string | undefined;
   business: YelpBusiness;
   alchmScore: number;
   elementalMatch: number;
@@ -78,22 +78,22 @@ export interface AlchmScoredRestaurant {
     Air: number;
   };
   /** True when this provider result maps to a fully active local restaurant partner. */
-  isPartner?: boolean;
+  isPartner?: boolean | undefined;
   /** Internal restaurant row id, used by Stripe Connect order handoff. */
-  partnerRestaurantId?: string;
-  partnerOnboardingStatus?: string;
-  stripeConnectAccountId?: string;
-  deliverectLocationId?: string;
+  partnerRestaurantId?: string | undefined;
+  partnerOnboardingStatus?: string | undefined;
+  stripeConnectAccountId?: string | undefined;
+  deliverectLocationId?: string | undefined;
   /** Human-readable cuisine label derived from the provider's place classification. */
-  cuisineLabel?: string;
+  cuisineLabel?: string | undefined;
   /** Raw provider type identifier (e.g. Google Places primaryType). */
-  primaryType?: string;
+  primaryType?: string | undefined;
   /**
    * Provider-supplied rating badge image URL (Tripadvisor bubble image).
    * When present, the UI MUST render this image instead of its own stars —
    * Tripadvisor's terms require displaying their official rating graphic.
    */
-  ratingImageUrl?: string;
+  ratingImageUrl?: string | undefined;
 }
 
 export interface CosmicContext {
@@ -115,11 +115,11 @@ export interface RestaurantSearchResponse {
   restaurants: AlchmScoredRestaurant[];
   cosmicContext: CosmicContext;
   /** Provider that produced these results. Foursquare results are unscored. */
-  source?: RestaurantDiscoverySource;
+  source?: RestaurantDiscoverySource | undefined;
   /**
    * Note shown to the user when scoring/precision is degraded
    * (e.g. Yelp unavailable, falling back to Foursquare without alchm scoring).
    */
-  sourceNotice?: string;
-  error?: string;
+  sourceNotice?: string | undefined;
+  error?: string | undefined;
 }

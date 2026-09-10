@@ -23,6 +23,7 @@ import {
   getSlowQueryThresholdMs,
   setSlowQueryThresholdMs,
 } from "@/lib/observability/slowQueryLog";
+import { AdminSlowQueryThresholdRequestSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -49,9 +50,9 @@ export async function POST(request: NextRequest) {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  let body: unknown;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid JSON body" },
@@ -59,15 +60,16 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const raw = (body as { ms?: unknown })?.ms;
+  const parseResult = AdminSlowQueryThresholdRequestSchema.safeParse(rawBody);
+  const raw = (rawBody as { ms?: unknown })?.ms;
   const ms = typeof raw === "number" ? raw : Number(raw);
-  if (!Number.isFinite(ms)) {
-    return NextResponse.json(
-      { success: false, message: "Body must include numeric `ms`" },
-      { status: 400 },
-    );
-  }
-  if (ms < MIN_MS || ms > MAX_MS) {
+  if (!parseResult.success) {
+    if (!Number.isFinite(ms)) {
+      return NextResponse.json(
+        { success: false, message: "Body must include numeric `ms`" },
+        { status: 400 },
+      );
+    }
     return NextResponse.json(
       {
         success: false,

@@ -8,6 +8,7 @@
 
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
+import { NatalChartAstrologizeResponseSchema } from "@/lib/validation/astrologySchemas";
 import type {
   Planet,
   ZodiacSignType,
@@ -53,38 +54,7 @@ interface AstrologizePlanetData {
   isRetrograde: boolean;
 }
 
-interface AscendantData {
-  sign: string;
-  degree?: number;
-  minute?: number;
-  exactLongitude?: number;
-}
 
-interface AstrologizeResponse {
-  _celestialBodies: {
-    all: AstrologizePlanetData[];
-    sun: AstrologizePlanetData;
-    moon: AstrologizePlanetData;
-    mercury: AstrologizePlanetData;
-    venus: AstrologizePlanetData;
-    mars: AstrologizePlanetData;
-    jupiter: AstrologizePlanetData;
-    saturn: AstrologizePlanetData;
-    uranus: AstrologizePlanetData;
-    neptune: AstrologizePlanetData;
-    pluto: AstrologizePlanetData;
-  };
-  ascendant?: AscendantData;
-  birth_info: {
-    year: number;
-    month: number;
-    date: number;
-    hour: number;
-    minute: number;
-    latitude: number;
-    longitude: number;
-  };
-}
 
 // Resolve an absolute astrologize URL when running on the server (where
 // `fetch` rejects relative paths) and stay relative in the browser.
@@ -299,7 +269,9 @@ async function fetchPlanetaryPositions(
       throw new Error(`Astrologize API error: ${response.statusText}`);
     }
 
-    const data = await readJson<AstrologizeResponse>(response);
+    const data = await readJson(response, {
+      parse: NatalChartAstrologizeResponseSchema.parse,
+    });
 
     // Determine Ascendant from server response or calculate locally
     let ascendant: PositionWithLongitude;

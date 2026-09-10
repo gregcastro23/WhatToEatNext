@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { AdminPlanetarySyncRequestSchema } from "@/lib/validation/apiSchemas";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
@@ -105,24 +106,22 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Parse payload
-    // Typed as what the WIRE guarantees, not as what the handler wants. Casting
-    // `action` straight to SyncAction asserted the very thing the check below
-    // exists to establish, which made that check read as provably dead code
-    // (no-unnecessary-condition) on an admin endpoint. The narrowing to
-    // SyncAction is earned by the guard, not assumed before it.
-    const body = (await request.json().catch(() => ({}))) as {
-      action?: string;
-      agentEmail?: string;
-      agentId?: string;
-    };
-    const { action, agentEmail, agentId } = body;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      rawBody = {};
+    }
 
-    if (!action || (action !== "sync-all" && action !== "sync-one")) {
+    const parseResult = AdminPlanetarySyncRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
       return NextResponse.json(
         { success: false, message: "Invalid action. Must be 'sync-all' or 'sync-one'." },
         { status: 400 }
       );
     }
+
+    const { action, agentEmail, agentId } = parseResult.data;
 
     if (!process.env.INTERNAL_API_SECRET) {
       return NextResponse.json(

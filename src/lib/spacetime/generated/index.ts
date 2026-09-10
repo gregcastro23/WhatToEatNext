@@ -457,22 +457,40 @@ const reducersSchema = __reducers(
 const proceduresSchema = __procedures(
 );
 
+type __CleanConstraint<C> = C extends { constraint: "unique"; columns: infer Cols }
+  ? { constraint: "unique"; columns: Cols; name?: string }
+  : C;
+
+type __CleanTableDef<T> = T extends { constraints: readonly (infer C)[] }
+  ? Omit<T, "constraints"> & { constraints: readonly __CleanConstraint<C>[] }
+  : T;
+
+type __CleanTables<Tables> = {
+  [K in keyof Tables]: __CleanTableDef<Tables[K]>;
+};
+
+type __CleanSchema<S> = S extends { tables: infer T }
+  ? Omit<S, "tables"> & { tables: __CleanTables<T> }
+  : S;
+
+type __ModuleSchema = __CleanSchema<typeof tablesSchema.schemaType>;
+
 /** The remote SpacetimeDB module schema, both runtime and type information. */
 const REMOTE_MODULE = {
   versionInfo: {
     cliVersion: "2.6.0" as const,
   },
-  tables: tablesSchema.schemaType.tables,
+  tables: tablesSchema.schemaType.tables as __ModuleSchema["tables"],
   reducers: reducersSchema.reducersType.reducers,
   ...proceduresSchema,
 } satisfies __RemoteModule<
-  typeof tablesSchema.schemaType,
+  __ModuleSchema,
   typeof reducersSchema.reducersType,
   typeof proceduresSchema
 >;
 
 /** The tables available in this remote SpacetimeDB module. Each table reference doubles as a query builder. */
-export const tables: __QueryBuilder<typeof tablesSchema.schemaType> = __makeQueryBuilder(tablesSchema.schemaType);
+export const tables: __QueryBuilder<__ModuleSchema> = __makeQueryBuilder(tablesSchema.schemaType as __ModuleSchema);
 
 /** The reducers available in this remote SpacetimeDB module. */
 export const reducers = __convertToAccessorMap(reducersSchema.reducersType.reducers);

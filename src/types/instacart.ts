@@ -78,16 +78,16 @@ export interface InstacartShoppingListResponse {
 
 export interface InstacartRecipeRequest {
   title: string;
-  image_url?: string;
-  author?: string;
-  servings?: number;
-  cooking_time?: number;
-  external_reference_id?: string;
-  content_creator_credit_info?: string;
-  expires_in?: number;
-  instructions?: string[];
+  image_url?: string | undefined;
+  author?: string | undefined;
+  servings?: number | undefined;
+  cooking_time?: number | undefined;
+  external_reference_id?: string | undefined;
+  content_creator_credit_info?: string | undefined;
+  expires_in?: number | undefined;
+  instructions?: string[] | undefined;
   ingredients: InstacartLineItem[];
-  landing_page_configuration?: InstacartLandingPageConfiguration;
+  landing_page_configuration?: InstacartLandingPageConfiguration | undefined;
 }
 
 export interface InstacartRecipeResponse {

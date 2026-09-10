@@ -10,6 +10,7 @@
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
 import { readJson } from "@/lib/api/json";
 import { executeQuery } from "@/lib/database/connection";
+import { GooglePlacesResponseSchema } from "@/lib/validation/serviceResponseSchemas";
 import { scoreCuisineAgainstMoment } from "@/services/restaurantScoring";
 import {
   tripadvisorService,
@@ -64,12 +65,12 @@ interface NormalizedRestaurant {
   name: string;
   address: string;
   rating: number;
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   business: YelpBusiness;
-  cuisineLabel?: string;
-  primaryType?: string;
+  cuisineLabel?: string | undefined;
+  primaryType?: string | undefined;
   /** Tripadvisor rating-bubble image URL (must be shown per TA terms). */
-  ratingImageUrl?: string;
+  ratingImageUrl?: string | undefined;
 }
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -318,17 +319,17 @@ function clampLimit(limit: number | undefined): number {
 // ─── Google Places provider ────────────────────────────────────────────────
 
 interface GooglePlaceRaw {
-  id?: string;
-  displayName?: { text?: string };
-  formattedAddress?: string;
-  rating?: number;
-  userRatingCount?: number;
-  priceLevel?: string;
-  photos?: Array<{ name?: string }>;
-  primaryType?: string;
-  primaryTypeDisplayName?: { text?: string };
-  types?: string[];
-  location?: { latitude?: number; longitude?: number };
+  id?: string | undefined;
+  displayName?: { text?: string | undefined } | undefined;
+  formattedAddress?: string | undefined;
+  rating?: number | undefined;
+  userRatingCount?: number | undefined;
+  priceLevel?: string | undefined;
+  photos?: Array<{ name?: string | undefined }> | undefined;
+  primaryType?: string | undefined;
+  primaryTypeDisplayName?: { text?: string | undefined } | undefined;
+  types?: string[] | undefined;
+  location?: { latitude?: number | undefined; longitude?: number | undefined } | undefined;
 }
 
 function deriveCuisineLabel(raw: GooglePlaceRaw): string | undefined {
@@ -455,7 +456,9 @@ async function googleNearby(
       };
     }
 
-    const data = await readJson<{ places?: GooglePlaceRaw[] }>(response);
+    const data = await readJson(response, {
+      parse: GooglePlacesResponseSchema.parse,
+    });
     const restaurants = (data.places ?? []).flatMap((place) => {
       const normalized = normalizeGooglePlace(place);
       return normalized ? [normalized] : [];
@@ -1389,7 +1392,7 @@ async function gatherBestMatchCandidates(
    *  distinct from `notices`, which records earlier providers that were tried
    *  and superseded. Only this should reach users once results are found;
    *  `notices` is diagnostic and is only surfaced when nothing worked at all. */
-  resultNotice?: string;
+  resultNotice?: string | undefined;
 }> {
   const notices: string[] = [];
 

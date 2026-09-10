@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database";
 import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { UnifiedAgentRequestSchema } from "@/lib/validation/apiSchemas";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { isDiurnalAt } from "@/utils/astrology/positions";
@@ -19,10 +20,6 @@ export const runtime = "nodejs";
 const PA_TIMEOUT_MS = 10000;
 const RATE_LIMIT = { window: 60_000, max: 20, bucket: "agents-unified" };
 
-interface UnifiedAgentRequest {
-  action: string;
-  parameters?: Record<string, unknown>;
-}
 
 interface AgentListRow {
   user_id: string;
@@ -109,8 +106,30 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
     const session = await auth();
     const userId = session?.user?.id;
 
-    const body = (await request.json()) as UnifiedAgentRequest;
-    const { action, parameters = {} } = body;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, error: "Invalid JSON body", timestamp: new Date().toISOString() },
+        { status: 400 },
+      );
+    }
+
+    const parseResult = UnifiedAgentRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Validation failed",
+          details: parseResult.error.flatten().fieldErrors,
+          timestamp: new Date().toISOString(),
+        },
+        { status: 400 },
+      );
+    }
+
+    const { action, parameters = {} } = parseResult.data;
     const timestamp = new Date().toISOString();
 
     switch (action) {

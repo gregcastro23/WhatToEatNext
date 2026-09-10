@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
+import { PlanetaryPositionsRequestSchema } from "@/lib/validation/apiSchemas";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
@@ -30,14 +31,14 @@ interface NormalizedPlanetPosition {
 }
 
 interface PlanetaryRequestBody {
-  year?: number;
-  month?: number;
-  day?: number;
-  date?: number;
-  hour?: number;
-  minute?: number;
-  latitude?: number;
-  longitude?: number;
+  year?: number | undefined;
+  month?: number | undefined;
+  day?: number | undefined;
+  date?: number | undefined;
+  hour?: number | undefined;
+  minute?: number | undefined;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
 }
 
 interface RawPositionObject {
@@ -251,7 +252,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, PLANETARY_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
-    const body = ((await request.json().catch(() => ({}))) ?? {}) as PlanetaryRequestBody;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return GET(request);
+    }
+
+    const parseResult = PlanetaryPositionsRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          error: "Validation failed",
+          details: parseResult.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      );
+    }
+
+    const body = parseResult.data;
     const backendPositions = await fetchFromBackend(body);
     if (backendPositions) {
       return toResponse(backendPositions, "backend-pyswisseph");
