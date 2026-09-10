@@ -25,6 +25,7 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
+import { InternalRevalidateRequestSchema } from "@/lib/validation/apiSchemas";
 
 export const dynamic = "force-dynamic";
 
@@ -35,9 +36,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json().catch(() => null)) as {
-    paths?: unknown;
-  } | null;
+  let rawBody: unknown = null;
+  try {
+    rawBody = await request.json();
+  } catch {
+    rawBody = null;
+  }
+
+  const parseResult = InternalRevalidateRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { error: "Validation failed", details: parseResult.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const body = parseResult.data;
 
   let paths = DEFAULT_PATHS;
   if (Array.isArray(body?.paths) && body.paths.length > 0) {

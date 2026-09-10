@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import { rateLimit } from "@/lib/rateLimit";
+import { TransmutationRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
 import type { Planet } from "@/types/celestial";
 import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -92,7 +93,7 @@ function normalizeScores(input: unknown): AlchemicalScores {
 
 function normalizeLocation(
   payload: Record<string, unknown>,
-): { latitude?: number; longitude?: number } {
+): { latitude?: number | undefined; longitude?: number | undefined } {
   const loc = (payload.location && typeof payload.location === "object") ? (payload.location as Record<string, unknown>) : undefined;
   const latitude = Number(
     payload.latitude ?? payload.lat ?? loc?.latitude,
@@ -189,12 +190,17 @@ function buildRecommendation(
 }
 
 async function getRecommendations(request: NextRequest): Promise<TransmutationRecommendation[]> {
-  let payload: Record<string, unknown> = {};
-  try {
-    payload = (await request.json()) as Record<string, unknown>;
-  } catch {
-    payload = {};
+  let rawBody: unknown = {};
+  if (request.method !== "GET") {
+    try {
+      rawBody = await request.json();
+    } catch {
+      rawBody = {};
+    }
   }
+
+  const parseResult = TransmutationRecommendationsRequestSchema.safeParse(rawBody);
+  const payload = parseResult.success ? (parseResult.data as Record<string, unknown>) : {};
 
   const quantities = (payload.alchemicalQuantities && typeof payload.alchemicalQuantities === "object") ? (payload.alchemicalQuantities as Record<string, unknown>) : payload;
   const scores = normalizeScores(quantities);

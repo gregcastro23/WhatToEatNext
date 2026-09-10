@@ -29,6 +29,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { ENVIRONMENT_GEOHASH_PRECISION, encodeGeohash } from "@/lib/environment/geohash";
 import { _logger } from "@/lib/logger";
+import { AdminEnvironmentSeedRequestSchema } from "@/lib/validation/apiSchemas";
 import { seedFromArchive, summarizeIngestion } from "@/services/environmentalIngestService";
 
 export const dynamic = "force-dynamic";
@@ -84,20 +85,21 @@ export async function POST(request: NextRequest) {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
 
-  let body: unknown;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, message: "invalid JSON body" }, { status: 400 });
   }
 
-  const parsed = parseLocations(body);
+  const parseResult = AdminEnvironmentSeedRequestSchema.safeParse(rawBody);
+  const parsed = parseResult.success ? parseResult.data.locations : parseLocations(rawBody);
   if (typeof parsed === "string") {
     return NextResponse.json({ success: false, message: parsed }, { status: 400 });
   }
 
   const seeded: Array<Record<string, unknown>> = [];
-  const failed: Array<{ geohash5: string; label?: string; error: string }> = [];
+  const failed: Array<{ geohash5: string; label?: string | undefined; error: string }> = [];
 
   for (const location of parsed) {
     // Coarsen before anything is logged or persisted.

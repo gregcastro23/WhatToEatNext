@@ -1172,6 +1172,212 @@ export const AdminRestaurantSettlementRequestSchema = z.object({
 
 export const AdeptTableRequestSchema = PremiumTableRequestSchema;
 
+// ─── Batch 1: Public / Guest-Facing Inbound Request Schemas ──────────────────
+
+export const FeedEventIngestSchema = z.object({
+  agentEmail: z.string().trim().min(1).max(320),
+  eventType: z.string().trim().min(1).max(50),
+  agentDisplayName: z.string().trim().max(120).optional(),
+  metadataPayload: z.record(z.string(), z.unknown()).optional().default({}),
+});
+export type FeedEventIngestRequest = z.infer<typeof FeedEventIngestSchema>;
+
+export const PlanetaryPositionsRequestSchema = z.object({
+  year: z.number().int().optional(),
+  month: z.number().int().min(1).max(12).optional(),
+  day: z.number().int().min(1).max(31).optional(),
+  date: z.number().int().min(1).max(31).optional(),
+  hour: z.number().int().min(0).max(23).optional(),
+  minute: z.number().int().min(0).max(59).optional(),
+  latitude: z.number().min(-90).max(90).optional(),
+  longitude: z.number().min(-180).max(180).optional(),
+});
+export type PlanetaryPositionsRequest = z.infer<typeof PlanetaryPositionsRequestSchema>;
+
+export const PlanetaryRectificationRequestSchema = z.object({
+  date: z.string().optional(),
+  birthDate: z.string().optional(),
+  latitude: z.union([z.number(), z.string()]).optional(),
+  longitude: z.union([z.number(), z.string()]).optional(),
+});
+export type PlanetaryRectificationRequest = z.infer<typeof PlanetaryRectificationRequestSchema>;
+
+export const PhilosophersStonePositionsRequestSchema = z.object({
+  date: z.string().optional(),
+  year: z.number().int().optional(),
+  month: z.number().int().min(1).max(12).optional(),
+  day: z.number().int().min(1).max(31).optional(),
+  hour: z.number().int().min(0).max(23).optional(),
+  minute: z.number().int().min(0).max(59).optional(),
+  customPlanets: z.record(z.string(), z.unknown()).optional(),
+});
+export type PhilosophersStonePositionsRequest = z.infer<typeof PhilosophersStonePositionsRequestSchema>;
+
+export const PersonalizedRecommendationsRequestSchema = z.object({
+  includeChartAnalysis: z.boolean().optional(),
+});
+export type PersonalizedRecommendationsRequest = z.infer<typeof PersonalizedRecommendationsRequestSchema>;
+
+export const TransmutationRecommendationsRequestSchema = z.object({
+  alchemicalQuantities: z.record(z.string(), z.unknown()).optional(),
+  location: z.object({
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
+  }).optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  lat: z.number().optional(),
+  Spirit: z.number().optional(),
+  Essence: z.number().optional(),
+  Matter: z.number().optional(),
+  Substance: z.number().optional(),
+  spirit_score: z.number().optional(),
+  essence_score: z.number().optional(),
+  matter_score: z.number().optional(),
+  substance_score: z.number().optional(),
+}).passthrough();
+export type TransmutationRecommendationsRequest = z.infer<typeof TransmutationRecommendationsRequestSchema>;
+
+// ─── Batch 2: Agent & Menu Workflows Inbound Request Schemas ─────────────────
+
+export const AgentWeeklyMenuRequestSchema = z.object({
+  agentEmail: z.string().optional(),
+  agentSlug: z.string().optional(),
+  agentDisplayName: z.string().optional(),
+  weekStartDate: z.string().optional(),
+  meals: z.array(z.unknown()).optional(),
+  nutritionalTotals: z.unknown().optional(),
+  groceryList: z.array(z.unknown()).optional(),
+  inventory: z.unknown().optional(),
+  weeklyBudget: z.number().optional(),
+  status: z.string().optional(),
+  shareToFeed: z.boolean().optional(),
+  title: z.string().optional(),
+  menuTitle: z.string().optional(),
+  summary: z.string().optional(),
+  description: z.string().optional(),
+  planetaryFocus: z.string().optional(),
+  dietaryFocus: z.string().optional(),
+  planetarySignature: z.record(z.string(), z.unknown()).optional(),
+  featuredMeals: z.array(z.unknown()).optional(),
+  idempotencyKey: z.string().optional(),
+}).passthrough();
+export type AgentWeeklyMenuRequest = z.infer<typeof AgentWeeklyMenuRequestSchema>;
+
+export const AgentGroupChatRequestSchema = z.object({
+  agents: z.array(
+    z.object({
+      id: z.string().min(1),
+      planet: z.string().optional(),
+      sign: z.string().optional(),
+      degree: z.number().optional(),
+      name: z.string().optional(),
+    }).passthrough(),
+  ).optional(),
+  transit: z.object({
+    aspect: z.string().optional(),
+    key: z.string().optional(),
+    label: z.string().optional(),
+  }).nullable().optional(),
+  source: z.string().optional(),
+});
+export type AgentGroupChatRequest = z.infer<typeof AgentGroupChatRequestSchema>;
+
+export const UnifiedAgentRequestSchema = z.object({
+  action: z.string(),
+  parameters: z.record(z.string(), z.unknown()).optional(),
+});
+export type UnifiedAgentRequest = z.infer<typeof UnifiedAgentRequestSchema>;
+
+// ─── Batch 3: External Integrations & Lab Inbound Request Schemas ───────────
+
+export const FoodLabUploadFormDataSchema = z.custom<FormData>(
+  (val) => typeof val === "object" && val !== null && "get" in val,
+  { message: "Must be FormData" },
+);
+
+export const InstacartRecipeRequestSchema = z.object({
+  title: z.string().min(1),
+  ingredients: z.array(z.any()).min(1),
+  author: z.string().optional(),
+  image_url: z.string().optional(),
+  instructions: z.array(z.string()).optional(),
+  servings: z.number().optional(),
+  cooking_time_minutes: z.number().optional(),
+  prep_time_minutes: z.number().optional(),
+  external_reference_id: z.string().optional(),
+  inventory: z.array(z.string()).optional(),
+}).passthrough();
+export type ParsedInstacartRecipeRequest = z.infer<typeof InstacartRecipeRequestSchema>;
+
+export const AmazonFeedbackRequestSchema = z.object({
+  ingredientName: z.string().trim().min(1).max(200),
+  asin: z.string().trim().toUpperCase(),
+});
+export type AmazonFeedbackRequest = z.infer<typeof AmazonFeedbackRequestSchema>;
+
+export const AmazonSearchBatchRequestSchema = z.object({
+  ingredients: z.array(z.unknown()),
+});
+export type AmazonSearchBatchRequest = z.infer<typeof AmazonSearchBatchRequestSchema>;
+
+export const InternalRevalidateRequestSchema = z.object({
+  paths: z.array(z.unknown()).optional(),
+}).nullable().optional();
+export type InternalRevalidateRequest = z.infer<typeof InternalRevalidateRequestSchema>;
+
+// ─── Batch 4: Admin Endpoints Inbound Request Schemas ────────────────────────
+
+export const AdminAgentSyncRequestSchema = z.object({
+  agentId: z.string().optional(),
+  email: z.string().optional(),
+  all: z.boolean().optional(),
+});
+export type AdminAgentSyncRequest = z.infer<typeof AdminAgentSyncRequestSchema>;
+
+export const AdminResolveChatReportRequestSchema = z.object({
+  status: z.enum(["reviewed", "dismissed", "actioned"]),
+});
+export type AdminResolveChatReportRequest = z.infer<typeof AdminResolveChatReportRequestSchema>;
+
+export const AdminEnvironmentSeedRequestSchema = z.object({
+  locations: z.array(
+    z.object({
+      latitude: z.number(),
+      longitude: z.number(),
+      label: z.string().optional(),
+    }),
+  ).min(1).max(5),
+});
+export type AdminEnvironmentSeedRequest = z.infer<typeof AdminEnvironmentSeedRequestSchema>;
+
+export const AdminResolveCommentReportRequestSchema = z.object({
+  status: z.enum(["open", "reviewed", "dismissed", "actioned"]),
+  commentId: z.string().optional(),
+  deleteComment: z.boolean().optional(),
+});
+export type AdminResolveCommentReportRequest = z.infer<typeof AdminResolveCommentReportRequestSchema>;
+
+export const AdminSlowQueryThresholdRequestSchema = z.object({
+  ms: z.coerce.number().min(5).max(60_000),
+});
+export type AdminSlowQueryThresholdRequest = z.infer<typeof AdminSlowQueryThresholdRequestSchema>;
+
+export const AdminPlanetarySyncRequestSchema = z.object({
+  action: z.enum(["sync-all", "sync-one"]),
+  agentEmail: z.string().optional(),
+  agentId: z.string().optional(),
+});
+export type AdminPlanetarySyncRequest = z.infer<typeof AdminPlanetarySyncRequestSchema>;
+
+export const AdminSendTestEmailRequestSchema = z.object({
+  to: z.string().email().optional(),
+  name: z.string().optional(),
+  dominantElement: z.string().optional(),
+  type: z.enum(["welcome", "admin", "login", "bulletin"]).optional(),
+});
+export type AdminSendTestEmailRequest = z.infer<typeof AdminSendTestEmailRequestSchema>;
+
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.
 

@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { PlanetaryRectificationRequestSchema } from "@/lib/validation/apiSchemas";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
@@ -80,11 +81,28 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => ({}));
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    rawBody = {};
+  }
+  const parseResult = PlanetaryRectificationRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Validation failed",
+        details: parseResult.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
+  }
+  const body = parseResult.data;
   const params = new URLSearchParams();
-  if (body.date || body.birthDate) params.set("date", body.date ?? body.birthDate);
-  if (body.latitude) params.set("latitude", String(body.latitude));
-  if (body.longitude) params.set("longitude", String(body.longitude));
+  if (body.date || body.birthDate) params.set("date", body.date ?? body.birthDate ?? "");
+  if (body.latitude !== undefined) params.set("latitude", String(body.latitude));
+  if (body.longitude !== undefined) params.set("longitude", String(body.longitude));
   const syntheticReq = new Request(`${new URL(request.url).origin}/api/planetary-rectification?${params}`);
   return GET(syntheticReq);
 }

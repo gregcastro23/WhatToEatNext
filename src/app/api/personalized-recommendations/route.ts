@@ -11,6 +11,7 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
+import { PersonalizedRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
 import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
 import type { CelestialPosition } from "@/types/celestial";
 import type { NatalChart } from "@/types/natalChart";
@@ -55,9 +56,6 @@ const ELEMENT_METHODS: Record<string, string[]> = {
   Air:   ["Sautéing", "Wok-frying", "Smoking", "Dehydrating"],
 };
 
-interface RecommendationRequestBody {
-  includeChartAnalysis?: boolean;
-}
 
 interface ChartComparisonResult {
   overallHarmony: number;
@@ -185,7 +183,26 @@ async function handlePost(request: NextRequest): Promise<NextResponse> {
     const user = await getDatabaseUserFromRequest(request).catch(() => null);
 
     // Parse request body for any extra hints
-    const body = (await request.json().catch(() => ({}))) as RecommendationRequestBody;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      rawBody = {};
+    }
+
+    const parseResult = PersonalizedRecommendationsRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Validation failed",
+          details: parseResult.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      );
+    }
+
+    const body = parseResult.data;
     const includeChartAnalysis = body.includeChartAnalysis ?? false;
 
     // Get natal chart from user profile if available

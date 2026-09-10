@@ -480,7 +480,7 @@ const REMOTE_MODULE = {
   versionInfo: {
     cliVersion: "2.6.0" as const,
   },
-  tables: tablesSchema.schemaType.tables as unknown as __ModuleSchema["tables"],
+  tables: tablesSchema.schemaType.tables as __ModuleSchema["tables"],
   reducers: reducersSchema.reducersType.reducers,
   ...proceduresSchema,
 } satisfies __RemoteModule<
@@ -490,7 +490,7 @@ const REMOTE_MODULE = {
 >;
 
 /** The tables available in this remote SpacetimeDB module. Each table reference doubles as a query builder. */
-export const tables: __QueryBuilder<__ModuleSchema> = __makeQueryBuilder(tablesSchema.schemaType as unknown as __ModuleSchema);
+export const tables: __QueryBuilder<__ModuleSchema> = __makeQueryBuilder(tablesSchema.schemaType as __ModuleSchema);
 
 /** The reducers available in this remote SpacetimeDB module. */
 export const reducers = __convertToAccessorMap(reducersSchema.reducersType.reducers);

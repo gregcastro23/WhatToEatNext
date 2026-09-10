@@ -9,6 +9,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
+import { AgentWeeklyMenuRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -333,16 +334,19 @@ export async function POST(request: NextRequest) {
     return jsonError("Unauthorized", 401);
   }
 
-  let body: AgentWeeklyMenuBody;
+  let rawBody: unknown;
   try {
-    const json = (await request.json()) as unknown;
-    if (!isRecord(json)) {
-      return jsonError("Invalid request body", 400);
-    }
-    body = json;
+    rawBody = await request.json();
   } catch {
     return jsonError("Invalid JSON body", 400);
   }
+
+  const parseResult = AgentWeeklyMenuRequestSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    return jsonError("Invalid request body", 400);
+  }
+
+  const body: AgentWeeklyMenuBody = parseResult.data;
 
   const agentEmail = normalizeAgentEmail(body);
   const weekStartDate = parseWeekStart(body.weekStartDate);

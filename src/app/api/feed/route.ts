@@ -19,9 +19,11 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
+import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -32,9 +34,6 @@ export const dynamic = "force-dynamic";
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 
 // Edge-case ceilings: bound agent-supplied fields so a malformed or hostile
-// payload fails fast with a 4xx instead of surfacing as a DB-level 500.
-const MAX_EVENT_TYPE_LENGTH = 50; // matches feed_events.event_type VARCHAR(50)
-const MAX_AGENT_EMAIL_LENGTH = 320; // RFC 5321 maximum addressable length
 const MAX_DISPLAY_NAME_LENGTH = 120;
 const MAX_METADATA_BYTES = 16_384; // 16 KB ceiling on a single event payload
 
@@ -56,9 +55,6 @@ function isAuthorizedAgentRequest(authHeader: string | null): boolean {
   return timingSafeEqual(received, expected);
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-}
 
 function asString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value : undefined;
@@ -73,14 +69,20 @@ function rememberFeedEmit(eventType: string, agentEmail: string, responseCode: n
   });
 }
 
+const WebhookPreviewSchema = z.object({
+  agentEmail: z.string().optional(),
+  eventType: z.string().optional(),
+});
+
 async function extractWebhookPreview(request: Request) {
   try {
-    const body = (await request.clone().json()) as unknown;
-    if (!isRecord(body)) return {};
+    const rawPreview = (await request.clone().json()) as unknown;
+    const parsed = WebhookPreviewSchema.safeParse(rawPreview);
+    if (!parsed.success) return {};
 
     return {
-      agentEmail: asString(body.agentEmail),
-      eventType: asString(body.eventType),
+      agentEmail: asString(parsed.data.agentEmail),
+      eventType: asString(parsed.data.eventType),
     };
   } catch {
     return {};
@@ -158,37 +160,40 @@ export const POST = withObservability(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    let body: unknown;
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
       rememberFeedEmit(eventType, agentEmail, 400);
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    if (!isRecord(body)) {
-      rememberFeedEmit(eventType, agentEmail, 400);
-      return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
-    }
-
-    const incomingAgentEmail = asString(body.agentEmail);
-    const incomingEventType = asString(body.eventType);
-    const agentDisplayName = asString(body.agentDisplayName)?.slice(
-      0,
-      MAX_DISPLAY_NAME_LENGTH,
-    );
-    const metadataPayload = isRecord(body.metadataPayload) ? body.metadataPayload : {};
-
-    agentEmail = incomingAgentEmail ?? agentEmail;
-    eventType = incomingEventType ?? eventType;
-
-    if (!incomingAgentEmail || !incomingEventType) {
+    const parseResult = FeedEventIngestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
       rememberFeedEmit(eventType, agentEmail, 400);
       return NextResponse.json(
-        { error: "Missing required fields", required: ["agentEmail", "eventType"] },
+        {
+          error: "Missing required fields",
+          required: ["agentEmail", "eventType"],
+          details: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }
+
+    const {
+      agentEmail: incomingAgentEmail,
+      eventType: incomingEventType,
+      agentDisplayName: rawDisplayName,
+      metadataPayload,
+    } = parseResult.data;
+    const agentDisplayName = rawDisplayName?.slice(
+      0,
+      MAX_DISPLAY_NAME_LENGTH,
+    );
+
+    agentEmail = incomingAgentEmail;
+    eventType = incomingEventType;
 
     // Skip chat event types entirely to maintain anonymity
     if (["agent_chat", "chat", "agent.chat"].includes(incomingEventType)) {
@@ -197,24 +202,6 @@ export const POST = withObservability(
         success: true,
         message: "Chat events are excluded from the feed for anonymity.",
       });
-    }
-
-    // Field-size hardening — reject oversized input before it can overflow a
-    // VARCHAR column or bloat the JSONB payload at insert time.
-    if (incomingEventType.length > MAX_EVENT_TYPE_LENGTH) {
-      rememberFeedEmit(eventType, agentEmail, 400);
-      return NextResponse.json(
-        { error: "eventType exceeds maximum length", maxLength: MAX_EVENT_TYPE_LENGTH },
-        { status: 400 },
-      );
-    }
-
-    if (incomingAgentEmail.length > MAX_AGENT_EMAIL_LENGTH) {
-      rememberFeedEmit(eventType, agentEmail, 400);
-      return NextResponse.json(
-        { error: "agentEmail exceeds maximum length", maxLength: MAX_AGENT_EMAIL_LENGTH },
-        { status: 400 },
-      );
     }
 
     const metadataBytes = Buffer.byteLength(

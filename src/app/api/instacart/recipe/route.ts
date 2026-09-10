@@ -15,6 +15,7 @@ import {
   InstacartConfigurationError,
   mapInstacartProxyError,
 } from "@/lib/instacart/idpClient";
+import { InstacartRecipeRequestSchema } from "@/lib/validation/apiSchemas";
 import type {
   InstacartRecipeRequest,
   InstacartRecipeResponse,
@@ -47,18 +48,22 @@ function getRecipeCacheKey(recipeId: string, inventory: string[] = []): string {
 
 export async function POST(request: NextRequest) {
   try {
-    // Partial<>: the wire guarantees no field is present. Casting straight to
-    // the full body type asserted exactly what the guard below establishes,
-    // which made that validation read as provably dead code.
-    const body = (await request.json()) as Partial<InstacartRecipeRouteRequest>;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
 
-    // Validate required fields
-    if (!body.title || !body.ingredients || body.ingredients.length === 0) {
+    const parseResult = InstacartRecipeRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
       return NextResponse.json(
-        { error: "title and ingredients are required" },
+        { error: "title and ingredients are required", details: parseResult.error.flatten().fieldErrors },
         { status: 400 },
       );
     }
+
+    const body = parseResult.data as InstacartRecipeRouteRequest;
 
     const inventory = Array.isArray(body.inventory)
       ? body.inventory.filter(

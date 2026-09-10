@@ -193,10 +193,9 @@ describe("Response-Side Narrowing Schemas & Client Validation", () => {
     it("falls back to balanced elements on malformed elemental response", async () => {
       const client = new AlchemicalApiClient();
       const originalFetch = global.fetch;
-      global.fetch = jest.fn().mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve({ bad: "response" }),
-      } as unknown as Response);
+      global.fetch = jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ bad: "response" }), { status: 200 }),
+      );
 
       try {
         const result = await client.calculateElementalBalance(["basil"]);

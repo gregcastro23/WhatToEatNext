@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
+import { PhilosophersStonePositionsRequestSchema } from "@/lib/validation/apiSchemas";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
 import { alchemizeDetailed } from "@/services/RealAlchemizeService";
 import { logger } from "@/utils/logger";
@@ -147,7 +148,29 @@ export async function POST(request: NextRequest) {
   if (!rl.allowed) return rl.response!;
 
   try {
-    const body = (await request.json()) as Record<string, unknown>;
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, error: "Invalid JSON body" },
+        { status: 400 },
+      );
+    }
+
+    const parseResult = PhilosophersStonePositionsRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Validation failed",
+          details: parseResult.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      );
+    }
+
+    const body = parseResult.data;
 
     let dt: Date;
     if (typeof body.date === "string") {
@@ -160,11 +183,11 @@ export async function POST(request: NextRequest) {
       const now = new Date();
       dt = new Date(
         Date.UTC(
-          (body.year as number) ?? now.getUTCFullYear(),
-          ((body.month as number) ?? now.getUTCMonth() + 1) - 1,
-          (body.day as number) ?? now.getUTCDate(),
-          (body.hour as number) ?? 0,
-          (body.minute as number) ?? 0,
+          body.year ?? now.getUTCFullYear(),
+          (body.month ?? now.getUTCMonth() + 1) - 1,
+          body.day ?? now.getUTCDate(),
+          body.hour ?? 0,
+          body.minute ?? 0,
         ),
       );
     } else {

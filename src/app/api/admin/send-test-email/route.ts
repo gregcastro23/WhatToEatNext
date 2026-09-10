@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { AdminSendTestEmailRequestSchema } from "@/lib/validation/apiSchemas";
 import emailService from "@/services/emailService";
 import type { NatalChart } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
@@ -48,19 +49,27 @@ export async function POST(request: NextRequest) {
       return auth.error;
     }
 
-    const body = await request.json().catch(() => ({}));
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
+      rawBody = {};
+    }
+
+    const parseResult = AdminSendTestEmailRequestSchema.safeParse(rawBody);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { success: false, error: "Validation failed", details: parseResult.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
 
     const {
       to = "cookingwithcastrollc@gmail.com",
       name = "Greg Castro",
       dominantElement,
       type = "welcome",
-    } = body as {
-      to?: string;
-      name?: string;
-      dominantElement?: string;
-      type?: "welcome" | "admin" | "login" | "bulletin";
-    };
+    } = parseResult.data;
 
     // Re-check env vars in case they weren't available at module load
     emailService.ensureInitialized();

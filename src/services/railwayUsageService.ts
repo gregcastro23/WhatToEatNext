@@ -170,7 +170,7 @@ async function railwayGraphql<T>(
     const json = await readJson(resp, {
       parse: RailwayGraphQLResponseSchema.parse,
     });
-    const rows = json.data?.[field] as unknown as T[] | undefined;
+    const rows = json.data?.[field] as T[] | undefined;
     if (json.errors?.length || !rows) {
       _logger.warn(
         `[railwayUsage] ${field} error: ${json.errors?.[0]?.message ?? "no data"}`,

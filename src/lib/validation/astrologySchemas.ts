@@ -119,7 +119,8 @@ export const NatalChartAstrologizeResponseSchema = z
         longitude: z.number(),
         ayanamsa: z.string().optional(),
       })
-      .passthrough(),
+      .passthrough()
+      .optional(),
   })
   .passthrough();
 

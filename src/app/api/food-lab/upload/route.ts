@@ -10,6 +10,7 @@
 import { NextResponse } from "next/server";
 import { validateRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
+import { FoodLabUploadFormDataSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -26,9 +27,9 @@ export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, { window: 60_000, max: 20, bucket: "food-lab-upload", identifier: authResult.user.userId });
   if (!rl.allowed) return rl.response!;
 
-  let formData: FormData;
+  let rawFormData: FormData;
   try {
-    formData = await request.formData();
+    rawFormData = await request.formData();
   } catch {
     return NextResponse.json(
       { success: false, message: "Invalid form data" },
@@ -36,6 +37,15 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const parseResult = FoodLabUploadFormDataSchema.safeParse(rawFormData);
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { success: false, message: "Invalid form data" },
+      { status: 400 },
+    );
+  }
+
+  const formData = parseResult.data;
   const file = formData.get("image") as File | null;
   if (!file) {
     return NextResponse.json(
