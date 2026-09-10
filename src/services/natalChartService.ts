@@ -54,12 +54,6 @@ interface AstrologizePlanetData {
   isRetrograde: boolean;
 }
 
-interface AscendantData {
-  sign: string;
-  degree?: number;
-  minute?: number;
-  exactLongitude?: number;
-}
 
 
 // Resolve an absolute astrologize URL when running on the server (where
