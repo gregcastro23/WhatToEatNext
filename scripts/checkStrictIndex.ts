@@ -24,8 +24,9 @@ const topArgIdx = process.argv.indexOf("--top");
 const showTop = topArgIdx !== -1 || process.argv.includes("--files");
 if (showTop) {
   let n = 20;
-  if (topArgIdx !== -1 && process.argv[topArgIdx + 1] && /^\d+$/.test(process.argv[topArgIdx + 1])) {
-    n = parseInt(process.argv[topArgIdx + 1], 10);
+  const topArgVal = topArgIdx !== -1 ? process.argv[topArgIdx + 1] : undefined;
+  if (topArgVal && /^\d+$/.test(topArgVal)) {
+    n = parseInt(topArgVal, 10);
   }
   const sorted = Object.entries(summary.byFile).sort((a, b) => b[1].length - a[1].length);
   console.log(`\n=== TOP ${Math.min(n, sorted.length)} FILES BY STRICT ERROR COUNT ===`);
