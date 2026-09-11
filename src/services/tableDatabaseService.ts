@@ -27,6 +27,7 @@ import type {
   TableInvite,
   TableInvitePreview,
   TableMember,
+  TableMemoryGuest,
   TableMemoryPayload,
   TableMenuItem,
   TablePhoto,
@@ -168,15 +169,15 @@ class TableDatabaseService {
   private rowToTableRecord(row: TableRecordRow): TableRecord {
     const venue: TableVenue = {
       type: row.venue_type,
-      restaurantId: row.venue_restaurant_id ?? undefined,
-      name: row.venue_name ?? undefined,
-      address: row.venue_address ?? undefined,
+      ...(row.venue_restaurant_id ? { restaurantId: row.venue_restaurant_id } : {}),
+      ...(row.venue_name ? { name: row.venue_name } : {}),
+      ...(row.venue_address ? { address: row.venue_address } : {}),
     };
     return {
       id: dbString(row.id),
       hostId: dbString(row.host_id),
       title: row.title,
-      description: row.description ?? undefined,
+      ...(row.description ? { description: row.description } : {}),
       scheduledAt: dbIsoString(row.scheduled_at),
       venue,
       status: row.status,
@@ -195,21 +196,22 @@ class TableDatabaseService {
   }
 
   private rowToTableMember(row: TableMemberRow): TableMember {
+    const memberName = row.user_name ?? row.display_name;
     return {
       id: dbString(row.id),
       tableId: dbString(row.table_id),
-      userId: row.user_id ?? undefined,
-      manualCompanionChartId: row.manual_companion_chart_id ?? undefined,
+      ...(row.user_id ? { userId: row.user_id } : {}),
+      ...(row.manual_companion_chart_id ? { manualCompanionChartId: row.manual_companion_chart_id } : {}),
       role: row.role,
       rsvpStatus: row.rsvp_status,
-      joinedVia: row.joined_via ?? undefined,
-      invitedBy: row.invited_by ?? undefined,
-      displayName: row.display_name ?? undefined,
-      rsvpAt: row.rsvp_at ? dbIsoString(row.rsvp_at) : undefined,
+      ...(row.joined_via ? { joinedVia: row.joined_via } : {}),
+      ...(row.invited_by ? { invitedBy: row.invited_by } : {}),
+      ...(row.display_name ? { displayName: row.display_name } : {}),
+      ...(row.rsvp_at ? { rsvpAt: dbIsoString(row.rsvp_at) } : {}),
       createdAt: dbIsoString(row.created_at),
       updatedAt: dbIsoString(row.updated_at),
-      name: (row.user_name ?? row.display_name ?? undefined) ?? undefined,
-      avatarUrl: row.user_image ?? undefined,
+      ...(memberName ? { name: memberName } : {}),
+      ...(row.user_image ? { avatarUrl: row.user_image } : {}),
       isAgent: row.user_is_agent === true,
     };
   }
@@ -244,7 +246,7 @@ class TableDatabaseService {
       id: dbString(row.id),
       tableId: dbString(row.table_id),
       authorId: dbString(row.author_id),
-      authorName: row.author_name ?? undefined,
+      ...(row.author_name ? { authorName: row.author_name } : {}),
       body: row.body,
       createdAt: dbIsoString(row.created_at),
     };
@@ -320,7 +322,12 @@ class TableDatabaseService {
         invites = invitesResult.rows.map((r: TableInviteRow) => this.rowToTableInvite(r));
       }
 
-      return { ...table, members, photos, invites };
+      return {
+        ...table,
+        members,
+        photos,
+        ...(invites ? { invites } : {}),
+      };
     } catch (error) {
       _logger.error("getTableDetail failed:", error);
       return null;
@@ -515,15 +522,15 @@ class TableDatabaseService {
     tableId: string,
     hostId: string,
     patch: {
-      title?: string;
-      description?: string;
-      scheduledAt?: string;
-      venue?: TableVenue;
-      visibility?: TableVisibility;
+      title?: string | undefined;
+      description?: string | undefined;
+      scheduledAt?: string | undefined;
+      venue?: TableVenue | undefined;
+      visibility?: TableVisibility | undefined;
       /** Discovery geo — forced null for home venues (route enforces + DB CHECK). */
-      venueLat?: number | null;
-      venueLng?: number | null;
-      seatCap?: number | null;
+      venueLat?: number | null | undefined;
+      venueLng?: number | null | undefined;
+      seatCap?: number | null | undefined;
     },
   ): Promise<TableRecord | null> {
     const sets: string[] = [];
@@ -693,9 +700,9 @@ class TableDatabaseService {
           [tableId],
         );
 
-        const guests = membersResult.rows.map((r: TableMemberRow) => ({
+        const guests: TableMemoryGuest[] = membersResult.rows.map((r: TableMemberRow) => ({
           name: r.user_name ?? r.display_name ?? "A guest",
-          userId: r.user_id ?? undefined,
+          ...(r.user_id ? { userId: r.user_id } : {}),
         }));
 
         const compositeSnapshot = readJsonColumn<{
@@ -722,10 +729,10 @@ class TableDatabaseService {
           title: tableRow.title,
           scheduledAt: dbIsoString(tableRow.scheduled_at),
           closedAt: closedAtIso,
-          venue: { type: tableRow.venue_type, name: tableRow.venue_name ?? undefined },
+          venue: { type: tableRow.venue_type, ...(tableRow.venue_name ? { name: tableRow.venue_name } : {}) },
           guests,
           guestCount: guests.length,
-          composite,
+          ...(composite ? { composite } : {}),
           menu: readJsonColumn<TableMenuItem[]>(tableRow.menu, []).slice(0, 8),
           photoUrls: photosResult.rows.map((r: TablePhotoRow) => r.url).slice(0, 6),
           shareName: true,
@@ -1170,7 +1177,7 @@ class TableDatabaseService {
         tableTitle: row.title,
         hostName: row.host_name ?? "Someone",
         scheduledAt: dbIsoString(row.scheduled_at),
-        venueName: row.venue_name ?? undefined,
+        ...(row.venue_name ? { venueName: row.venue_name } : {}),
         joinedCount: Number(row.joined_count) || 0,
         valid,
       };

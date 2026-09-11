@@ -200,15 +200,15 @@ function getLunarPhases(recipe: Recipe): string[] {
 }
 
 interface NormalizedNutrition {
-  calories?: number;
-  protein?: number;
-  carbs?: number;
-  fat?: number;
-  fiber?: number;
-  sodium?: number;
-  sugar?: number;
-  vitamins?: string[];
-  minerals?: string[];
+  calories?: number | undefined;
+  protein?: number | undefined;
+  carbs?: number | undefined;
+  fat?: number | undefined;
+  fiber?: number | undefined;
+  sodium?: number | undefined;
+  sugar?: number | undefined;
+  vitamins?: string[] | undefined;
+  minerals?: string[] | undefined;
 }
 
 function getNutrition(recipe: Recipe): NormalizedNutrition | null {
@@ -490,7 +490,7 @@ function computeMonicaComponents(
 }
 
 interface ASharpBlockProps {
-  ingAlch?: IngredientAlchemicalSummary;
+  ingAlch?: IngredientAlchemicalSummary | undefined;
   aSharp: number;
   ingTotalASharp: number;
   aSharpSegments: DonutSegment[];

@@ -6,16 +6,16 @@
     "asUnknownAs": 129,
     "production": 135,
     "test": 32,
-    "untrackedSingleAsT": 2008
+    "untrackedSingleAsT": 1997
   },
   "assertionSites": {
-    "total": 3308,
+    "total": 3295,
     "asAny": 37,
     "chained": 129,
-    "single": 3142,
-    "production": 2685,
+    "single": 3129,
+    "production": 2672,
     "test": 623,
-    "asConst": 563,
+    "asConst": 564,
     "nonNull": 619
   },
   "subBaselines": {

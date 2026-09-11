@@ -22,6 +22,7 @@ import {
   calculateMonica,
 } from "@/data/unified/alchemicalCalculations";
 import { logger as _logger } from "@/lib/logger";
+import type { CookingMethodData } from "@/types/cookingMethod";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
@@ -42,18 +43,18 @@ interface MethodData {
     heat: number;
     entropy: number;
     reactivity: number;
-    gregsEnergy?: number;
-  };
-  duration?: { min: number; max: number };
-  timeRange?: { min: number; max: number };
-  suitable_for?: string[];
-  benefits?: string[];
-  toolsRequired?: string[];
-  commonMistakes?: string[];
-  pairingSuggestions?: string[];
-  regionalVariations?: Record<string, string[]>;
-  expertTips?: string[];
-  optimalTemperatures?: Record<string, number>;
+    gregsEnergy?: number | undefined;
+  } | undefined;
+  duration?: { min: number; max: number } | undefined;
+  timeRange?: { min: number; max: number } | undefined;
+  suitable_for?: string[] | undefined;
+  benefits?: string[] | undefined;
+  toolsRequired?: string[] | undefined;
+  commonMistakes?: string[] | undefined;
+  pairingSuggestions?: string[] | undefined;
+  regionalVariations?: Record<string, string[]> | undefined;
+  expertTips?: string[] | undefined;
+  optimalTemperatures?: Record<string, number> | undefined;
 }
 
 // Default planetary positions (fallback when context not available)
@@ -142,6 +143,44 @@ function classifyMonica(monica: number | null): {
   return { label: "Very Stable", color: "text-indigo-700" };
 }
 
+function adaptCookingMethod(m: CookingMethodData): MethodData {
+  const tp = m.thermodynamicProperties;
+  return {
+    name: m.name,
+    description: m.description,
+    elementalEffect: m.elementalEffect,
+    ...(tp
+      ? {
+          thermodynamicProperties: {
+            heat: tp.heat,
+            entropy: tp._entropy,
+            reactivity: tp._reactivity,
+            ...(typeof tp.gregsEnergy === "number" ? { gregsEnergy: tp.gregsEnergy } : {}),
+          },
+        }
+      : {}),
+    duration: m.duration,
+    suitable_for: m.suitable_for,
+    benefits: m.benefits,
+    ...(m.toolsRequired ? { toolsRequired: m.toolsRequired } : {}),
+    ...(m.commonMistakes ? { commonMistakes: m.commonMistakes } : {}),
+    ...(m.pairingSuggestions ? { pairingSuggestions: m.pairingSuggestions } : {}),
+    ...(m.regionalVariations ? { regionalVariations: m.regionalVariations } : {}),
+    ...(m.expertTips ? { expertTips: m.expertTips } : {}),
+    ...(m.optimalTemperatures ? { optimalTemperatures: m.optimalTemperatures } : {}),
+  };
+}
+
+function adaptCookingMethods(
+  methods: Record<string, CookingMethodData>,
+): Record<string, MethodData> {
+  const result: Record<string, MethodData> = {};
+  for (const [k, v] of Object.entries(methods)) {
+    result[k] = adaptCookingMethod(v);
+  }
+  return result;
+}
+
 interface CategoryConfig {
   id: string;
   name: string;
@@ -154,31 +193,31 @@ const categories: CategoryConfig[] = [
     id: "dry",
     name: "Dry Heat",
     icon: "🔥",
-    methods: dryCookingMethods as Record<string, MethodData>,
+    methods: adaptCookingMethods(dryCookingMethods),
   },
   {
     id: "wet",
     name: "Wet Heat",
     icon: "💧",
-    methods: wetCookingMethods as Record<string, MethodData>,
+    methods: adaptCookingMethods(wetCookingMethods),
   },
   {
     id: "molecular",
     name: "Molecular",
     icon: "🧪",
-    methods: molecularCookingMethods as Record<string, MethodData>,
+    methods: adaptCookingMethods(molecularCookingMethods),
   },
   {
     id: "traditional",
     name: "Traditional",
     icon: "🏺",
-    methods: traditionalCookingMethods as Record<string, MethodData>,
+    methods: adaptCookingMethods(traditionalCookingMethods),
   },
   {
     id: "transformation",
     name: "Transformation",
     icon: "⚗️",
-    methods: transformationMethods as Record<string, MethodData>,
+    methods: adaptCookingMethods(transformationMethods),
   },
 ];
 

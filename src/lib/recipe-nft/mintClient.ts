@@ -5,6 +5,10 @@
  */
 
 import { readJson, safeReadJson } from "@/lib/api/json";
+import {
+  MintQuoteResponseSchema,
+  MintWireResponseSchema,
+} from "@/lib/validation/serviceResponseSchemas";
 import type { CoinAmounts } from "./types";
 
 export interface MintQuoteResult {
@@ -36,7 +40,7 @@ export async function quoteRecipeMint(recipe: unknown): Promise<MintQuoteResult 
       body: JSON.stringify({ recipe }),
     });
     if (!res.ok) return null;
-    return await readJson<MintQuoteResult>(res);
+    return await readJson(res, { parse: MintQuoteResponseSchema.parse });
   } catch {
     return null;
   }
@@ -50,16 +54,20 @@ export async function mintRecipe(recipe: unknown): Promise<MintResult> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ recipe }),
     });
-    const data = await safeReadJson<Partial<MintResult>>(res, {});
+    const data = await safeReadJson(
+      res,
+      { error: "network_error" },
+      { parse: MintWireResponseSchema.parse },
+    );
     return {
       ok: res.ok,
       httpStatus: res.status,
-      status: data.status,
-      pending: data.pending,
-      cost: data.cost,
-      weightedToCoin: data.weightedToCoin,
-      contentHash: data.contentHash,
-      error: data.error,
+      ...(data.status !== undefined ? { status: data.status } : {}),
+      ...(data.pending !== undefined ? { pending: data.pending } : {}),
+      ...(data.cost !== undefined ? { cost: data.cost } : {}),
+      ...(data.weightedToCoin !== undefined ? { weightedToCoin: data.weightedToCoin } : {}),
+      ...(data.contentHash !== undefined ? { contentHash: data.contentHash } : {}),
+      ...(data.error !== undefined ? { error: data.error } : {}),
     };
   } catch {
     return { ok: false, httpStatus: 0, error: "network_error" };

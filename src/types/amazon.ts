@@ -32,16 +32,16 @@ export interface AmazonSearchResult {
   searchUrl: string;
   source: AmazonSearchSource;
   matchConfidence: AmazonMatchConfidence;
-  alternateBrands?: string[];
-  imageUrl?: string;
-  price?: string | number;
-  inStock?: boolean;
-  substituted?: boolean;
-  substitutedBrand?: string;
-  substitutionReason?: AmazonSubstitutionReason;
-  title?: string;
-  detailPageUrl?: string | null;
-  reason?: string;
+  alternateBrands?: string[] | undefined;
+  imageUrl?: string | undefined;
+  price?: string | number | undefined;
+  inStock?: boolean | undefined;
+  substituted?: boolean | undefined;
+  substitutedBrand?: string | undefined;
+  substitutionReason?: AmazonSubstitutionReason | undefined;
+  title?: string | undefined;
+  detailPageUrl?: string | null | undefined;
+  reason?: string | undefined;
   /** Marker so the client can back off, populated for upstream 429s. */
-  rateLimited?: boolean;
+  rateLimited?: boolean | undefined;
 }

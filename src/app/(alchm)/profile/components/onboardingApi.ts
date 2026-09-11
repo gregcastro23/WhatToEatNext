@@ -1,4 +1,9 @@
 import { readJson } from "@/lib/api/json";
+import {
+  ServerProfileResponseSchema,
+  OnboardingApiResponseSchema,
+  QuestReportResponseSchema,
+} from "@/lib/validation/serviceResponseSchemas";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import {
   type UserPreferences,
@@ -51,8 +56,10 @@ export async function fetchServerProfile(): Promise<{ profile: UserProfileData |
   try {
     const res = await fetch("/api/user/profile", { credentials: "include" });
     if (res.ok) {
-      const data = await readJson<{ success?: boolean; profile?: UserProfileData }>(res);
-      if (data.success && data.profile) {
+      const data = await readJson(res, {
+        parse: ServerProfileResponseSchema.parse,
+      });
+      if (data.success) {
         return { profile: data.profile, serverLoaded: true };
       }
     }
@@ -87,11 +94,9 @@ export async function executeOnboarding(
     }
     return { success: false, message: `Server error (${response.status})`, birthData };
   }
-  const result = await readJson<{
-    success?: boolean;
-    message?: string;
-    natalChart?: NatalChart;
-  }>(response);
+  const result = await readJson(response, {
+    parse: OnboardingApiResponseSchema.parse,
+  });
   return {
     success: Boolean(result.success),
     message: result.message,
@@ -114,9 +119,17 @@ export function triggerQuestReward(updatedPrefs: UserPreferences): void {
       credentials: "include",
       body: JSON.stringify({ event: "preferences_complete" }),
     })
-      .then((res) => (res.ok ? readJson<{ completedQuests?: unknown[] }>(res) : null))
+      .then((res) =>
+        res.ok
+          ? readJson(res, { parse: QuestReportResponseSchema.parse })
+          : null,
+      )
       .then((data) => {
-        if (data?.completedQuests && data.completedQuests.length > 0 && typeof window !== "undefined") {
+        if (
+          data?.success &&
+          data.completedQuests.length > 0 &&
+          typeof window !== "undefined"
+        ) {
           import("@/hooks/useTokenEconomy")
             .then(({ emitTokenEconomyUpdate }) => {
               emitTokenEconomyUpdate({

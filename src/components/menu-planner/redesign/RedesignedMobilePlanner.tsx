@@ -31,9 +31,9 @@ export default function RedesignedMobilePlanner({
   weekDates: [Date, Date, Date, Date, Date, Date, Date];
   mealsByDay: Record<DayOfWeek, MealSlotType[]>;
   todayDayOfWeek: DayOfWeek | null;
-  weeklyNutrition?: WeeklyNutritionResult | null;
-  currentPlanetaryHour?: string | null;
-  onShopWeek?: () => void;
+  weeklyNutrition?: WeeklyNutritionResult | null | undefined;
+  currentPlanetaryHour?: string | null | undefined;
+  onShopWeek?: (() => void) | undefined;
 }) {
   const otherDays = ALL_DAYS.filter((d) => d !== todayDayOfWeek);
   const daysToRender = todayDayOfWeek !== null ? otherDays : ALL_DAYS;

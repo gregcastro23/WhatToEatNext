@@ -40,11 +40,12 @@ interface AmazonProfile {
 }
 
 function buildProviders(): Provider[] {
+  const googleConfig: { clientId?: string; clientSecret?: string } = {};
+  if (process.env.AUTH_GOOGLE_ID) googleConfig.clientId = process.env.AUTH_GOOGLE_ID;
+  if (process.env.AUTH_GOOGLE_SECRET) googleConfig.clientSecret = process.env.AUTH_GOOGLE_SECRET;
+
   const providers: Provider[] = [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
-    }),
+    Google(googleConfig),
   ];
 
   if (process.env.AUTH_AMAZON_ID && process.env.AUTH_AMAZON_SECRET) {
@@ -75,8 +76,10 @@ function buildProviders(): Provider[] {
   return providers;
 }
 
+const authSecret = getAuthSecret();
+
 export const authConfig = {
-  secret: getAuthSecret(),
+  ...(authSecret ? { secret: authSecret } : {}),
   trustHost: true,
   providers: buildProviders(),
   session: {
@@ -96,7 +99,7 @@ export const authConfig = {
         sameSite: "lax",
         path: "/",
         secure: process.env.NODE_ENV === "production",
-        domain: process.env.NODE_ENV === "production" ? ".alchm.kitchen" : undefined,
+        ...(process.env.NODE_ENV === "production" ? { domain: ".alchm.kitchen" } : {}),
       },
     },
     pkceCodeVerifier: {
@@ -240,9 +243,10 @@ export const authConfig = {
       session.user.tier = token.tier ?? "free";
       session.user.onboardingComplete =
         token.onboardingComplete ?? false;
-      // Surface the JWT id so middleware can look up revocation state
-      // without re-decoding the token.
-      session.user.sessionId = token.deviceSessionId ?? token.sessionId;
+      const sessId = token.deviceSessionId ?? token.sessionId;
+      if (sessId) {
+        session.user.sessionId = sessId;
+      }
       session.user.recipesGeneratedToday = token.recipesGeneratedToday ?? 0;
       return session;
     },

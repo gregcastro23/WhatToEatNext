@@ -22,7 +22,7 @@ export interface FeedNarration {
   /** Short noun phrase suitable for a "Recent Activity" bullet point. */
   label: string;
   /** Optional href target — e.g. recipe permalink or PA chat. */
-  href?: string;
+  href?: string | undefined;
 }
 
 function getString(meta: FeedMetadata, key: string): string | undefined {

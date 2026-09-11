@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { UserProfileData } from "@/app/(alchm)/profile/components/types";
+import type { NatalChart } from "@/types/natalChart";
 
 /**
  * Railway Usage GraphQL Response Schema
@@ -162,3 +164,113 @@ export const McpNetworkSummarySchema = z
 export type McpNetworkSummaryResponse = z.infer<
   typeof McpNetworkSummarySchema
 >;
+
+// ── Phase 29: Response Wire Validation Schemas ──────────────────────────────
+
+/**
+ * Instacart Price Estimate Response Schema
+ */
+export const InstacartPriceEstimateResponseSchema = z
+  .object({
+    confidence: z.enum(["low", "high"]),
+    message: z.string().optional(),
+    reason: z.string().optional(),
+    error: z.string().optional(),
+    validated_item_count: z.number().optional(),
+    status: z.number().optional(),
+  })
+  .passthrough();
+
+export type InstacartPriceEstimateResponse = z.infer<
+  typeof InstacartPriceEstimateResponseSchema
+>;
+
+export * from "./recipeResponseSchemas";
+
+/**
+ * Server Profile Response Schema (/api/user/profile)
+ */
+export const ServerProfileSuccessSchema = z
+  .object({
+    success: z.literal(true),
+    profile: z.custom<UserProfileData>(
+      (val) => Boolean(val && typeof val === "object"),
+    ),
+  })
+  .passthrough();
+
+export const ServerProfileErrorSchema = z
+  .object({
+    success: z.literal(false),
+    message: z.string().optional(),
+    error: z.string().optional(),
+  })
+  .passthrough();
+
+export const ServerProfileResponseSchema = z.union([
+  ServerProfileSuccessSchema,
+  ServerProfileErrorSchema,
+]);
+
+export type ServerProfileResponse = z.infer<typeof ServerProfileResponseSchema>;
+
+/**
+ * Onboarding API Response Schema (/api/onboarding)
+ */
+export const OnboardingApiSuccessSchema = z
+  .object({
+    success: z.literal(true),
+    natalChart: z
+      .custom<NatalChart>((val) => Boolean(val && typeof val === "object"))
+      .optional(),
+    message: z.string().optional(),
+    user: z.record(z.string(), z.unknown()).optional(),
+    profile: z.record(z.string(), z.unknown()).nullable().optional(),
+  })
+  .passthrough();
+
+export const OnboardingApiErrorSchema = z
+  .object({
+    success: z.literal(false),
+    message: z.string().optional(),
+    error: z.string().optional(),
+    natalChart: z
+      .custom<NatalChart>((val) => Boolean(val && typeof val === "object"))
+      .optional(),
+  })
+  .passthrough();
+
+export const OnboardingApiResponseSchema = z.union([
+  OnboardingApiSuccessSchema,
+  OnboardingApiErrorSchema,
+]);
+
+export type OnboardingApiResponse = z.infer<typeof OnboardingApiResponseSchema>;
+
+/**
+ * Quests Report Event Response Schema (/api/quests)
+ */
+export const QuestReportSuccessSchema = z
+  .object({
+    success: z.literal(true),
+    completedQuests: z.array(z.unknown()),
+    message: z.string().optional(),
+  })
+  .passthrough();
+
+export const QuestReportErrorSchema = z
+  .object({
+    success: z.literal(false),
+    message: z.string().optional(),
+    details: z.unknown().optional(),
+  })
+  .passthrough();
+
+export const QuestReportResponseSchema = z.union([
+  QuestReportSuccessSchema,
+  QuestReportErrorSchema,
+]);
+
+export type QuestReportResponse = z.infer<typeof QuestReportResponseSchema>;
+
+export * from "./alchmResponseSchemas";

@@ -112,7 +112,7 @@ async function getCachedUser(email: string): Promise<UserWithProfile | null> {
  * Handle background asynchronous post-sign-in tasks
  */
 async function runBackgroundSignInTasks(
-  user: { email: string; name?: string | null },
+  user: { email: string; name?: string | null | undefined },
   dbUser: UserWithProfile,
   isNewUser: boolean,
 ): Promise<void> {
@@ -393,7 +393,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               userDatabase.createUser({
                 email: user.email,
                 name: user.name ?? "",
-                image: user.image ?? undefined,
+                ...(user.image ? { image: user.image } : {}),
                 roles: isAdmin
                   ? [UserRole.ADMIN, UserRole.USER]
                   : [UserRole.USER],
@@ -560,9 +560,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const extToken = token as ExtendedJWT;
       // On initial sign-in, persist user info into the JWT
       if (user) {
-        extToken.email = user.email ?? undefined;
-        extToken.name = user.name ?? undefined;
-        extToken.picture = user.image ?? undefined;
+        if (user.email) extToken.email = user.email;
+        if (user.name) extToken.name = user.name;
+        if (user.image) extToken.picture = user.image;
       }
       if (account) {
         extToken.provider = account.provider;
@@ -571,7 +571,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Sync recipesGeneratedToday dynamically from trigger update
       if (trigger === "update" && session && typeof session === "object" && "recipesGeneratedToday" in session) {
         const updatePayload = session as UpdateSessionPayload;
-        extToken.recipesGeneratedToday = updatePayload.recipesGeneratedToday;
+        if (typeof updatePayload.recipesGeneratedToday === "number") {
+          extToken.recipesGeneratedToday = updatePayload.recipesGeneratedToday;
+        }
       }
 
       // Soft session revocation check
@@ -612,7 +614,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 userDatabase.createUser({
                   email: extToken.email,
                   name: extToken.name ?? "",
-                  image: extToken.picture ?? undefined,
+                  ...(extToken.picture ? { image: extToken.picture } : {}),
                   roles: isAdmin ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
                 }),
                 new Promise<UserWithProfile | null>((_, reject) => setTimeout(() => reject(new Error("JIT Create User Timeout")), 8000))

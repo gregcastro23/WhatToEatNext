@@ -30,6 +30,12 @@ const cuisineImports: Record<string, CuisineImport> = {
   HSCA: () => import("./hsca").then(m => m.cuisine),
 };
 
+// Helper to conditionally supply imageUrl only when defined (exactOptionalPropertyTypes)
+const getCuisineImage = (key: string): { imageUrl: string } | Record<string, never> => {
+  const img = cuisineImages[key];
+  return img ? { imageUrl: img } : {};
+};
+
 // Metadata is kept synchronous to avoid placeholders and allow immediate UI render
 // These are extracted from the 2.8MB static files
 export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
@@ -37,91 +43,91 @@ export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
     name: "African",
     elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
     description: "Rich and diverse culinary traditions from across the African continent.",
-    imageUrl: cuisineImages.African,
+    ...getCuisineImage("African"),
   },
   American: {
     name: "American",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     description: "Diverse culinary influences reflecting the melting pot of American culture.",
-    imageUrl: cuisineImages.American,
+    ...getCuisineImage("American"),
   },
   Chinese: {
     name: "Chinese",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
     description: "Ancient culinary traditions with a focus on balance and wok hei.",
-    imageUrl: cuisineImages.Chinese,
+    ...getCuisineImage("Chinese"),
   },
   French: {
     name: "French",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     description: "Classical techniques and a focus on high-quality ingredients and sauces.",
-    imageUrl: cuisineImages.French,
+    ...getCuisineImage("French"),
   },
   Greek: {
     name: "Greek",
     elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.3, Air: 0.2 },
     description: "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
-    imageUrl: cuisineImages.Greek,
+    ...getCuisineImage("Greek"),
   },
   Indian: {
     name: "Indian",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     description: "Complex spice blends and traditional cooking methods like the tandoor.",
-    imageUrl: cuisineImages.Indian,
+    ...getCuisineImage("Indian"),
   },
   Italian: {
     name: "Italian",
     elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
     description: "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
-    imageUrl: cuisineImages.Italian,
+    ...getCuisineImage("Italian"),
   },
   Japanese: {
     name: "Japanese",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
     description: "Precision and seasonality with a focus on umami and fresh seafood.",
-    imageUrl: cuisineImages.Japanese,
+    ...getCuisineImage("Japanese"),
   },
   Korean: {
     name: "Korean",
     elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
     description: "Bold flavors from fermentation and grilling.",
-    imageUrl: cuisineImages.Korean,
+    ...getCuisineImage("Korean"),
   },
   Mexican: {
     name: "Mexican",
     elementalProperties: { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 },
     description: "Vibrant flavors with a focus on chilies, corn, and traditional salsas.",
-    imageUrl: cuisineImages.Mexican,
+    ...getCuisineImage("Mexican"),
   },
   MiddleEastern: {
     name: "Middle Eastern",
     elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
     description: "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
-    imageUrl: cuisineImages.MiddleEastern,
+    ...getCuisineImage("MiddleEastern"),
   },
   Russian: {
     name: "Russian",
     elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
     description: "Hearty soups, grains, and preserved foods suitable for cold climates.",
-    imageUrl: cuisineImages.Russian,
+    ...getCuisineImage("Russian"),
   },
   Thai: {
     name: "Thai",
     elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
     description: "Perfect balance of sour, sweet, salty, and spicy flavors.",
-    imageUrl: cuisineImages.Thai,
+    ...getCuisineImage("Thai"),
   },
   Vietnamese: {
     name: "Vietnamese",
     elementalProperties: { Water: 0.4, Fire: 0.2, Earth: 0.2, Air: 0.2 },
     description: "Fresh, light flavors with an emphasis on herbs and clear broths.",
-    imageUrl: cuisineImages.Vietnamese,
+    ...getCuisineImage("Vietnamese"),
   },
   Fusion: {
     name: "Fusion",
     elementalProperties: { Fire: 0.35, Earth: 0.35, Water: 0.2, Air: 0.1 },
     description: "Innovative culinary intersections bridging traditions across cultures through elemental harmony.",
-    imageUrl: cuisineImages.Fusion,
+    ...getCuisineImage("Fusion"),
   },
   // HSCA is intentionally absent: it is an internal archive collection, not
   // a real cuisine, and must never surface on public cuisine browse/detail
@@ -235,7 +241,7 @@ PRIMARY_CUISINE_KEYS.forEach(key => {
     name: meta.name ?? key,
     elementalProperties: meta.elementalProperties ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     description: meta.description ?? "",
-    imageUrl: meta.imageUrl,
+    ...(meta.imageUrl ? { imageUrl: meta.imageUrl } : {}),
     dishes: {
       breakfast: { spring: [], summer: [], autumn: [], winter: [] },
       lunch: { spring: [], summer: [], autumn: [], winter: [] },

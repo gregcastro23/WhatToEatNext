@@ -53,7 +53,7 @@ const ORIGIN_BADGES: Record<
   "variant-only": { label: "Variant", className: "bg-slate-100 text-slate-500" },
 };
 
-function CuisineChip({ cuisine }: { cuisine?: string }) {
+function CuisineChip({ cuisine }: { cuisine?: string | undefined }) {
   if (!cuisine) return null;
   return (
     <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded uppercase tracking-wider">
@@ -84,7 +84,7 @@ interface NodeRowProps {
   expanded: Set<string>;
   onToggle: (id: string) => void;
   onSelect: (id: string) => void;
-  cuisinesData?: Record<string, any>;
+  cuisinesData?: Record<string, any> | undefined;
 }
 
 function NodeRow({
@@ -196,7 +196,7 @@ function DetailPane({
 }: {
   selectedId: string | null;
   onSelect: (id: string) => void;
-  cuisinesData?: Record<string, any>;
+  cuisinesData?: Record<string, any> | undefined;
 }) {
   const forest = useMemo(() => getSauceForest(cuisinesData), [cuisinesData]);
   if (!selectedId) {

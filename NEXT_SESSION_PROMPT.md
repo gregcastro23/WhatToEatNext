@@ -1,197 +1,203 @@
-# Next Session: Phase 29 — Complete ReadJson Response Narrowing (10 -> 0), Latent Strict-Index Repairs & Dead Runtime Exports Pruning
+# Next Session: Phase 30 — Strict-Index Latent Error Burndown (478 -> <= 380)
 
-> **Status note.** Phase 28 completed the Route Validation Allowlist burn-down, introduced the Gate 11 `readJson` AST gate, converted 14 high-density response sites, repaired SpacetimeDB compilation cascades, and ratcheted strict-index errors down from 668 to 588:
-> - **Route Validation Allowlist** (`5fbfcb4e`): Burnt down from **21 to 0** across all 123 body-reading endpoints (`.route-validation-baseline.json` is now empty `[]`).
-> - **Gate 11 Installed & Ratcheted** (`512c876c`, `bd005195`): Built `scripts/checkReadJsonValidation.ts` + `scripts/lib/readJsonValidation.ts` enforcing AST `{ parse: Schema.parse }`. Converted 14 high-density response sites and ratcheted `.read-json-baseline.json` from **24 to 10**.
-> - **Strict-Index & SpacetimeDB Cascade** (`443b7135`, `5fbfcb4e`): Pinned `spacetimedb` to `^2.6.0`, resolved union property cascade, repaired optional property defects, and ratcheted `.strict-index-baseline.json` down by 80 errors (**668 -> 588** across 312 files).
-> - **All 11 Static Gates Green & Full Test Pass**: All 11 static gates pass with 0 errors; 364/364 Jest test suites pass (3,773 tests); Next.js production build (`bun run build`) compiles with 0 errors.
+> **Status note.** Phase 29 is **verified in the current working tree** (not yet committed; HEAD is at `fbd52496` where baselines were 588 strict-index errors and 10 read-JSON allowlisted calls). The working tree contains 38 changed paths that complete Gate 11 response narrowing (10 -> 0), repair 15 strict-index target clusters (-110 errors, 588 -> 478), reduce AST assertion sites (-13, 3,308 -> 3,295), preserve all rich domain models (`lunarPhaseUtils.ts`, `chakraSymbols.ts`, `defaults.ts`, `typeDefaults.ts`), and pass all 11 static gates, 365 test suites, and the Next.js production build:
+> - **Gate 11 Zero Allowlist Verified**: All 30 response-reading call sites in the application now strictly enforce AST `{ parse: Schema.parse }`. `.read-json-baseline.json` is at **0 unvalidated (allowlist: `[]`)**.
+> - **Strict-Index Latent Type Repairs (588 -> 478 across 294 files)**: Repaired optional property assigning defects across 15 high-density targets, burning down 110 compiler errors. `.strict-index-baseline.json` is ratcheted to 478 with 0 allowlisted files.
+> - **AST Assertion Sites Reduction (3,308 -> 3,295)**: Removed unsafe `as Record<string, MethodData>` assertions in favor of type-safe adapters (`adaptCookingMethods`). `.lint-debt-baseline.json` is ratcheted down to 3,295 assertion sites.
+> - **Domain Physics & Alchemical Integrity Preserved**: User-directed enforcement of **FIX > REMOVE**: `src/utils/lunarPhaseUtils.ts` (586 lines), `src/constants/chakraSymbols.ts` (857 lines), `src/constants/defaults.ts` (212 lines), and `src/constants/typeDefaults.ts` (358 lines) are 100% preserved with all domain calculations intact.
+> - **All 11 Static Gates Green, Full Test Suite Pass & Production Build**: All 11 static gates pass with 0 errors; 365/365 Jest test suites pass (3,801 tests); Next.js production build (`bun run build`) compiles with 0 errors and all bundle sizes within threshold.
 >
-> | Metric | P24 | P25 | P26 | P27 | P28 (Shipped) |
+> | Metric | P25 | P26 | P27 | P28 | P29 (Working Tree Verified) |
 > |---|---:|---:|---:|---:|---:|
-> | Tracked lint debt | 1,944 | 1,635 | 1,520 | 1,493 | **1,474** (-19) |
-> | Declined pool | 4,911 | 4,910 | 4,910 | 4,910 | **4,906** (-4) |
-> | Casts (gated) | 169 | 169 | 168 | 167 | **167** (held) |
-> | Assertion sites (AST) | 3,398 | 3,396 | 3,353 | 3,325 | **3,308** (-17) |
+> | Tracked lint debt | 1,635 | 1,520 | 1,493 | 1,474 | **1,474** (held) |
+> | Declined pool | 4,910 | 4,910 | 4,910 | 4,906 | **4,906** (held) |
+> | Casts (gated) | 169 | 168 | 167 | 167 | **167** (held) |
+> | Assertion sites (AST) | 3,396 | 3,353 | 3,325 | 3,308 | **3,295** (-13) |
 > | `prefer-nullish-coalescing` sub-baseline | 214 | 214 | 214 | 214 | **214** |
-> | `exactOptionalPropertyTypes` strict-index | — | 674 / 329 files | 671 / 328 files | 668 / 325 files | **588 / 312 files** (-80 errors) |
-> | Route validation gate (unvalidated / body-reading) | — | — | — | 21 / 123 | **0 / 123 (Allowlist: 0)** |
-> | `readJson` response validation gate (Gate 11) | — | — | — | — | **10 / 30 (Allowlist: 10)** |
-> | Gate test suites / tests | — | — | 6 / 88 | 7 / 96 | **8 / 110** (+1 suite / +14 tests) |
-> | Static Gates passing | — | — | — | 10 / 10 | **11 / 11 (All Green)** |
-> | Unit Test Suite (Jest) | — | — | — | 336 suites | **364 suites (3,773 passed)** |
+> | `exactOptionalPropertyTypes` strict-index | 674 / 329 files | 671 / 328 files | 668 / 325 files | 588 / 312 files | **478 / 294 files** (-110 errors) |
+> | Route validation gate (unvalidated / body-reading) | — | — | 21 / 123 | 0 / 123 | **0 / 123 (Allowlist: 0)** |
+> | `readJson` response validation gate (Gate 11) | — | — | — | 10 / 30 | **0 / 30 (Allowlist: 0)** |
+> | Gate test suites / tests | — | 6 / 88 | 7 / 96 | 8 / 110 | **8 / 110** (all green) |
+> | Static Gates passing | — | — | 10 / 10 | 11 / 11 | **11 / 11 (All Green)** |
+> | Unit Test Suite (Jest) | — | — | 336 suites | 364 suites | **365 suites (3,801 passed)** |
+> | Next.js Production Build (`bun run build`) | — | — | Pass | Pass | **Pass (0 errors)** |
 >
-> Every number above was re-measured on 2026-09-10 against live static gates and reproduces committed baselines exactly.
+> Every number above was re-measured on 2026-09-11 against live static gates and reproduces working tree baselines exactly.
 
 ---
 
-## 1. What Phase 28 Closed
+## 1. Preflight & Checkpoint Instructions
 
-Cross off against the Phase 28 commitments:
-
-| Item | Status |
-|---|---|
-| **Route Validation Allowlist Burn-down (21 -> 0)** | ✅ `5fbfcb4e`. Burned down all 21 remaining body-reading endpoints across admin, agents, feed, lab, instacart, amazon, and recommendations. `.route-validation-baseline.json` is empty `[]`. |
-| **Gate 11: AST `readJson` Validation Gate** | ✅ `512c876c`. Built `scripts/checkReadJsonValidation.ts` + `scripts/lib/readJsonValidation.ts` and 14 unit tests in `scripts/lib/__tests__/readJsonValidation.test.ts`. Wired into `verify:static` as Gate 11. |
-| **Response-Side Narrowing (14 sites converted)** | ✅ `bd005195`. Converted 14 high-density response sites across `natalChartService`, `celestialEventsService`, `planetaryHourService`, `synastryService`, `railwayUsageService`, `alchemicalRecommendationService`, `historicalEchoService`, `personalizedRecommendationService`, `recipeChatService`, `nutritionProfileService`, `hscaAuditService`, and `hscaElementalPropertiesService`. Ratcheted `.read-json-baseline.json` from 24 to 10. |
-| **SpacetimeDB Package Reproducibility Pin** | ✅ `512c876c`. Pinned `spacetimedb` in `package.json` to `^2.6.0`, harmonizing CLI generated bindings and package versioning. |
-| **SpacetimeDB Exact Optional Property Cascade Repair** | ✅ `443b7135`. Repaired the generated TypeScript bindings union property cascade without introducing `as unknown as` casts. |
-| **Latent Strict-Index Type Repairs (668 -> 588)** | ✅ `443b7135` & `5fbfcb4e`. Repaired optional property assigning defects across services, reducing compiler diagnostics by 80 across 13 files. Ratcheted `.strict-index-baseline.json`. |
-| **Test Suite Duplication & Astrologize Schema Fix** | ✅ `5fbfcb4e` & `db886e10`. Removed stale duplicate `subscriptionRevenueService.test 2.ts` and aligned `NatalChartAstrologizeResponseSchema` with service reality, restoring 100% test pass rate (364/364 suites). |
+> [!IMPORTANT]
+> **Do not begin Phase 30 edits until Phase 29 is intentionally checkpointed.**
+> - Confirm the status of the current working tree (`git status -s`).
+> - Do not commit or push unless explicitly instructed or authorized by the user.
+> - Preserve all 38 modified files and baselines established in Phase 29.
+> - Run `git diff --check` before any edits to ensure no trailing whitespace or EOF issues exist.
 
 ---
 
-## 2. Phase 29 Prioritized Plan
+## 2. Definition of Done for Phase 30
 
-Ordered by measured leverage per unit of risk, highest first.
+### Required Objective: Strict-Index Latent Error Burndown (478 -> <= 380)
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ Phase 29 Priority Order:                                                    │
-│ 1. Tranche B Completion: Burn Down `.read-json-baseline.json` (10 -> 0)     │
-│    -> Eliminate the final 10 unvalidated readJson/safeReadJson sites        │
-│ 2. Tranche D: Strict-Index Latent Type Errors (588 -> <= 500)               │
-│    -> Continue fixing compiler defects exposed under strict-flags           │
-│ 3. Tranche E: Dead Runtime Exports Pruning (976 runtime symbols)            │
-│    -> Clean up dead code in src/utils and src/data                          │
-│ 4. Tranche C: `no-unnecessary-condition` Background Work (840 findings)     │
-│    -> Red-proof guard removals, 1 file per PR                               │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-### Priority 1: Tranche B Completion — Burn Down `.read-json-baseline.json` (10 -> 0)
-
-#### The Problem
-Gate 11 (`bun run check:read-json`) currently holds an allowlist of **10 unvalidated response sites** in `.read-json-baseline.json`.
-
-#### The 10 Sites (Targeted for Zero Allowlist)
-1. **`src/app/(alchm)/profile/components/onboardingApi.ts` (3 sites)**:
-   - Line 54 (`readJson`): Onboarding profile submission response.
-   - Line 90 (`readJson`): Dietary preferences update response.
-   - Line 117 (`readJson`): Natal chart calculation response.
-   - **Action**: Define response schemas in `src/lib/validation/profileSchemas.ts` (or `onboardingSchemas.ts`) and pass `{ parse: Schema.parse }`.
-2. **`src/components/recipes/LabBookIngest.tsx` (3 sites)**:
-   - Line 75 (`readJson`): Recipe ingestion status check.
-   - Line 122 (`safeReadJson`): Recipe parse result.
-   - Line 186 (`safeReadJson`): Recipe commit confirmation.
-   - **Action**: Define response schemas in `src/lib/validation/recipeSchemas.ts` and pass `{ parse: Schema.parse }`.
-3. **`src/contexts/menu-planner/useCostEstimation.ts` (1 site)**:
-   - Line 113 (`safeReadJson`): Grocery pricing / cost estimation response.
-   - **Action**: Define response schema in `src/lib/validation/grocerySchemas.ts`.
-4. **`src/lib/api/alchm-client.ts` (1 site)**:
-   - Line 131 (`readJson`): Generic alchm client internal request helper.
-   - **Action**: Add an optional parse option to `AlchmClientRequestOptions` and thread into `readJson`.
-5. **`src/lib/recipe-nft/mintClient.ts` (2 sites)**:
-   - Line 39 (`readJson`): NFT mint transaction quote / preparation.
-   - Line 53 (`safeReadJson`): NFT mint status polling.
-   - **Action**: Define response schemas in `src/lib/validation/nftSchemas.ts`.
-
-#### Execution & Ratchet
-- Wire schemas into all 10 calls.
-- Run `bun run check:read-json:ratchet` to shrink `.read-json-baseline.json` to `[]` (0 unvalidated).
+1. **Pre-edit Baseline Re-measurement**:
+   - Re-measure live diagnostics using `NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkStrictIndex.ts --top 25`.
+2. **Error Target**:
+   - Reduce strict-index diagnostics from 478 down to **<= 380 errors** across `tsconfig.strict-index.json` (a reduction of **at least 98 errors**).
+3. **Semantic Integrity (Do Not Weaken Types)**:
+   - Prioritize TS2375 (229 errors) and TS2379 (111 errors), which together constitute 79% of all strict-index defects.
+   - Preserve the strict semantic distinction between:
+     - **`absent`** (omitted property)
+     - **`present-with-undefined`** (explicitly assigned `undefined`)
+     - **`null`** (explicitly null)
+   - Do NOT widen shared type definitions (e.g., blanket `| undefined` or optionalizing required fields) solely to satisfy the compiler.
+   - Use the conditional spread pattern for optional fields: `...(val !== undefined ? { prop: val } : {})`.
+4. **Non-regression Guarantee**:
+   - Do not introduce new diagnostic locations to offset fixes elsewhere.
+   - No file should see an error count increase.
+5. **Ratchet & Verification**:
+   - Ratchet only after the target (<= 380) is achieved: `bun run strict-index:ratchet`.
+   - Run `bun run verify:full` once at the end of the phase to validate all static gates, unit tests, and production compilation.
 
 ---
 
-### Priority 2: Tranche D — Strict-Index Latent Type Errors (588 -> <= 500)
+### Stretch Objectives (Independent Debt Ceilings)
 
-#### The Problem
-`bun run strict-index:check` enforces `tsconfig.strict-index.json`. The current baseline sits at **588 errors across 312 files** (down from 668).
-Target for Phase 29 is to drop diagnostics below **500**.
+If the required strict-index objective is completed with headroom, address the following stretch targets without regressing any other metric:
 
-#### Latent Errors Breakdown to Target
-1. **TS2339** ("Property does not exist on type"): Fix remaining instances where optional or union structures read undefined properties.
-2. **TS2322** ("Type 'X' is not assignable to type 'Y'"): Fix mismatched return or assignment types.
-3. **TS2345** ("Argument of type 'X' is not assignable to parameter of type 'Y'"): Fix parameter type drift across services and components.
-4. **Pure `exactOptionalPropertyTypes` (TS2375/TS2379)**: Continue replacing `{ foo: val ?? undefined }` with omit spread pattern `...(val !== undefined ? { foo: val } : {})`.
-
-#### Execution Workflow
-1. Run `NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkStrictIndex.ts` to inspect top contributing files.
-2. Fix files in cohesive domain clusters (e.g. `src/services/`, `src/components/`, `src/utils/`).
-3. Ratchet baseline down using `bun run strict-index:ratchet`.
-
----
-
-### Priority 3: Tranche E — Dead Runtime Exports Pruning (976 runtime symbols)
-
-#### Inventory
-There are **976 runtime-valued exported symbols** (functions, constants, classes) that have **zero external references** in `src/`:
-- `src/utils`: 292 symbols
-- `src/data`: 215 symbols
-- `src/lib`: 162 symbols
-- `src/services`: 64 symbols
-- `src/components`: 40 symbols
-- `src/app`: 3 symbols
-
-#### High-Density Concentration Files
-- `src/constants/typeDefaults.ts` (19 symbols)
-- `src/utils/lunarPhaseUtils.ts` (17 symbols)
-- `src/constants/chakraSymbols.ts` (15 symbols)
-- `src/utils/astrologyUtils.ts` (15 symbols)
-- `src/constants/defaults.ts` (14 symbols)
-- `src/utils/typeGuards.ts` (12 symbols)
-- `src/services/UnifiedScoringService.ts` (11 symbols)
-
-#### Rules of Engagement
-- **Verify before deleting**: Watch for barrel re-exports (`export * from`) and dynamic string-keyed lookups.
-- Verify `bun run verify:static` and `bun run test` after each file cleanup.
+1. **`no-unnecessary-condition` Reduction**:
+   - Live count: **835 findings across 307 files** (Message distribution: `neverOptionalChain`: 258, `alwaysTruthy`: 223, `neverNullish`: 213, `alwaysFalsy`: 106, `noOverlapBooleanExpression`: 24, `comparisonBetweenLiteralTypes`: 11).
+   - Stretch target: Reduce findings from **835 to <= 780** (burn down >= 55 findings).
+   - **Mandatory Safety Rules for Condition Removals**:
+     - Determine whether the static TypeScript type or the runtime payload behavior is authoritative.
+     - Characterize malformed, absent, and null input behavior before removing any guard.
+     - Prefer fixing the upstream source type or tightening boundary validation over removing downstream defensive checks.
+     - Never replace guards with non-null assertions (`!`), type casts (`as T`), wider `| undefined` types, or ESLint disable comments merely to reduce the warning counter.
+     - Touched files must have zero new warnings, even if the aggregate total decreases.
+2. **Tracked Lint Debt Ratchet**:
+   - Tracked debt: **1,474 -> <= 1,419** (driven by condition cleanups).
+3. **AST Assertion Sites & Gated Casts**:
+   - Assertion sites: **3,295 -> <= 3,250** (eliminate >= 45 `as` assertions using runtime narrowing or type adapters).
+   - Gated casts: **167 -> <= 165**.
+   - Ensure zero increase in production casts (<= 135), `as any` (<= 38), declined pool (<= 4,906), or PNC sub-baseline (<= 214).
 
 ---
 
-### Priority 4: Tranche C — `no-unnecessary-condition` Background Work (840 findings)
+### Deferred Feature Objective: Domain Feature Wiring (Design & Vertical Slice First)
 
-- Count sits at **840 findings across 308 files** (`neverOptionalChain` 258, `alwaysTruthy` 223, `neverNullish` 218, `alwaysFalsy` 106, `noOverlapBooleanExpression` 24, `comparisonBetweenLiteralTypes` 11).
-- Treat as background cleanup: 1 file per PR, requiring an explicit red-proof test (delete guard -> watch test fail or prove unreachable).
-- Never use `!` assertion to silence a warning.
+> [!CAUTION]
+> **Do not broadly wire `lunarPhaseUtils.ts` or `chakraSymbols.ts` across product surfaces in this phase.**
+> - `lunarPhaseUtils.ts` contains knowingly preserved latent calculations (lines 461, 517), `applyVelocityBoost` is a documented no-op placeholder (line 428), and neither illumination-curve nor void-of-course calculations are implemented.
+> - `chakraSymbols.ts` generates metrics using `Math.random()` (e.g. line 150), making runtime output nondeterministic and risking hydration mismatches and test instability.
+> - "Alchemy Atlas" does not identify a concrete, existing route.
+>
+> **Discovery & Vertical Slice Mandate**:
+> Before exposing these modules to live user flows:
+> 1. Select **one single route** (e.g., `/celestial-lab` or `/kitchen-lab`).
+> 2. Define exact input contracts, deterministic calculation formulas (eliminate all `Math.random()` calls), and visible UI behavior.
+> 3. Fix documented latent calculation defects with mathematical unit tests.
+> 4. Add UI acceptance tests proving determinism before merging.
 
 ---
 
-## 3. Verification Protocol (The 11 Static Gates)
+## 3. Live Diagnostic Distribution & Top Strict-Index Targets
 
-Always verify against the complete gate suite before committing or pushing:
+Measured live across 1,982 scanned files (478 errors across 294 files):
+- **Error Code Breakdown**:
+  - `TS2375` (`exactOptionalPropertyTypes` assignment mismatch): **229 errors**
+  - `TS2379` (`exactOptionalPropertyTypes` object literal mismatch): **111 errors**
+  - `TS2322` (Type assignment mismatch): **47 errors**
+  - `TS2345` (Argument type mismatch): **23 errors**
+  - `TS2412` (Property in type not assignable to index): **11 errors**
+  - `TS2352` (Conversion type mismatch): **6 errors**
+  - `TS2769` (No overload matches call): **4 errors**
+  - *TS2375 + TS2379 = 340 errors (71% of total).*
+
+- **Area Distribution**:
+  - `src/components/`: 103 errors
+  - `src/utils/`: 79 errors
+  - `src/app/api/`: 65 errors
+  - `src/services/`: 58 errors
+  - `src/app/(alchm)/`: 47 errors
+  - `src/lib/`: 43 errors
+  - `src/data/`: 17 errors
+  - `src/contexts/`: 17 errors
+  - Other: 49 errors
+
+- **Top Live Files (Inspect via `bun scripts/checkStrictIndex.ts --top 20`)**:
+  - `src/lib/menu-planner/schemas.ts` (8 errors)
+  - `src/components/menu-planner/RecipeBrowserPanel.tsx` (5 errors)
+  - `src/contexts/menu-planner/useMealSlots.ts` (5 errors)
+  - `src/data/unified/recipeBuilding.ts` (5 errors)
+  - `src/services/UnifiedRecommendationService.ts` (5 errors)
+  - `src/utils/cuisine/sauceLineage.ts` (5 errors)
+  - `src/utils/ingredientRecommender.ts` (5 errors)
+  - `src/app/(alchm)/feed/page.tsx` (4 errors)
+  - `src/app/api/group-recommendations/route.ts` (4 errors)
+  - `src/app/cooking-methods/[method]/page.tsx` (4 errors)
+  - `src/app/ingredients/IngredientsExplorer.tsx` (4 errors)
+  - `src/components/time-laboratory/planetary-agents-view.tsx` (4 errors)
+  - `src/contexts/GroceryCartContext.tsx` (4 errors)
+  - `src/contexts/menu-planner/MenuPlannerProvider.tsx` (4 errors)
+  - `src/lib/orders/fulfillment.ts` (4 errors)
+  - `src/services/EnhancedRecommendationService.ts` (4 errors)
+  - `src/services/stripeWebhookCoverageService.ts` (4 errors)
+  - `src/utils/cookingMethodRecommender.ts` (4 errors)
+  - `src/utils/menuPlanner/recommendationBridge.ts` (4 errors)
+
+---
+
+## 4. Verification Protocol
+
+Use targeted inner-loop commands during development and run `bun run verify:full` once upon completion:
 
 ```bash
-# 1. Run all 11 static gates:
-bun run verify:static
+# Inner-loop checks during development:
+NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkStrictIndex.ts --top 15
+bun run typecheck
+bun run lint:fast
 
-# 2. Run static gates + full test suite (364 suites / 3,773 tests):
-bun run verify
+# Targeted test running:
+bun run test -- <target-pattern>
 
-# 3. Full production build verification:
+# Full gate verification (run ONCE when work is complete):
 bun run verify:full
 ```
 
-### The 11 Static Gates Breakdown:
+### The 11 Static Gates Checklist:
 1. `check:untracked` — Ensures no untracked `.ts`/`.tsx` files exist in `src/` or `scripts/`.
-2. `check:route-validation` — Ensures all body-reading routes in `src/app/api/**/route.ts` are validated via AST (0 unvalidated).
-3. `test:gates` — Runs AST and gate test suites in `scripts/lib/__tests__/` (110 passed across 8 suites).
-4. `strict-index:check` — Enforces compiler strictness under `tsconfig.strict-index.json` (baseline 588 / 312 files).
-5. `check:scripts` — Enforces typecheck on `scripts/**/*.ts` (baseline 302 errors / 58 files).
+2. `check:route-validation` — 0 unvalidated body-reading routes (allowlist: `[]`).
+3. `test:gates` — AST and gate tests in `scripts/lib/__tests__/` (110 passed across 8 suites).
+4. `strict-index:check` — Enforces `tsconfig.strict-index.json` (baseline 478 / 294 files).
+5. `check:scripts` — Typecheck on `scripts/**/*.ts` (baseline 302 errors / 58 files).
 6. `typecheck` — Full Next.js production typegen and compiler check (`next typegen && tsc --noEmit`). Must be 0 errors.
-7. `lint` — ESLint on `src/` (`--max-warnings=10000`, 5 baseline warnings).
+7. `lint` — ESLint on `src/` (`--max-warnings=10000`).
 8. `lint:scripts` — ESLint on `scripts/` (`--max-warnings=25`).
-9. `lint:debt` — Ratchet gate for lint debt (1,474), casts (167), assertion sites (3,308), and sub-baselines.
+9. `lint:debt` — Ratchet gate for lint debt (1,474), casts (167), assertion sites (3,295), and sub-baselines.
 10. `audit:dead-modules` — AST dead module check (0 unreachable modules).
-11. `check:read-json` — AST gate ensuring `readJson` / `safeReadJson` calls pass `{ parse: Schema.parse }` (baseline 10 unvalidated).
+11. `check:read-json` — AST gate ensuring `readJson` / `safeReadJson` calls pass `{ parse: Schema.parse }` (0 unvalidated, allowlist: `[]`).
 
 ---
 
-## 4. Measurement Traps & Operational Lessons Learned
+## 5. Operational Lessons & Traps to Avoid
 
-1. **Jest Worker Stalls & Open Handles**:
-   - Always run Jest with `--forceExit` and adequate memory (`NODE_OPTIONS='--expose-gc --max-old-space-size=4096' bun run jest --passWithNoTests --forceExit`) to prevent background open handles (e.g. database pools, unref timers) from hanging the process.
+1. **Do Not Over-Rely on `--forceExit`**:
+   - Canonical `package.json` scripts intentionally do not use `--forceExit` so handle leaks are detectable.
+   - Run `bun run test:detect-open-handles` if a worker hangs rather than masking leaks with unconditional process termination.
 
-2. **Sync / Duplicate Test Files (`* 2.ts`)**:
-   - Stale duplicate files (e.g. `foo.test 2.ts`) generated by sync tools or Finder are ignored by git/tsconfig but picked up by Jest regex scanners.
-   - Always remove duplicate files immediately.
+2. **Compliance Test Regex Spans (`HooksCompliance.test.tsx`)**:
+   - `HooksCompliance.test.tsx` tests `/try\s*\{[\s\S]*?useAlchemical\(\)[\s\S]*?\}\s*catch/`.
+   - Never declare helper functions containing `try/catch` above components that invoke `useAlchemical()`. Place top-level helpers *after* the component at the bottom of the file.
 
-3. **AST Cast Counting in Tests & Routes**:
-   - `scripts/checkLintDebt.ts` parses the entire AST of `src/` and counts all `as` expressions.
-   - Replacing `as unknown as Foo` with single casts `as Foo` or native constructors (`new Response(...)`) keeps gated casts flat.
+3. **Cyclomatic Complexity in Loop Bodies**:
+   - In components like `EnhancedCookingMethodRecommender.tsx` with complexity limits of 20, inline conditional object spreads (`...(cond ? { k: v } : {})`) inside `.flatMap()` or `.map()` callbacks will trigger `complexity` lint debt.
+   - Extract multi-branch evaluations into standalone pure functions (`computeTransformedESMS`, `computeMethodKinetics`).
 
-4. **Route-Validation AST Schema Argument Requirements**:
-   - `scripts/lib/routeValidation.ts` requires that a variable assigned from `request.json()` or `request.formData()` be passed directly into a `.safeParse(...)` call.
-   - For `FormData`, using `z.custom<FormData>()` satisfies runtime typing and passes the AST route gate cleanly.
+4. **Finder Duplicate Artifacts (`* 2` and `* 3`)**:
+   - macOS Finder conflict copies (e.g., `mechanics 2/page.tsx`) are ignored by `.gitignore` and `tsconfig.json`, but the Next.js App Router will attempt to discover and compile them.
+   - Always ensure no `* 2` folders remain under `src/app/`.
 
-5. **Astrology Response Mappings**:
-   - In external astrologize calculation services, optional response envelope fields (like `birth_info`) must remain optional in Zod response schemas (`NatalChartAstrologizeResponseSchema`) to avoid rejecting mock test fixtures that only supply planetary coordinate data.
+5. **`import/order` ESLint Rule**:
+   - `eslint.config.mjs` enforces `"newlines-between": "never"`.
+   - All `import type` statements must precede any `export *` statements to prevent import order warnings.

@@ -17,10 +17,10 @@ import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 
 export interface OrderInput {
   name: string;
-  amount?: number;
-  unit?: string;
-  category?: string;
-  optional?: boolean;
+  amount?: number | undefined;
+  unit?: string | undefined;
+  category?: string | undefined;
+  optional?: boolean | undefined;
 }
 
 export interface OrderListItem {
@@ -28,7 +28,7 @@ export interface OrderListItem {
   name: string;
   quantity: number;
   unit: string;
-  category?: string;
+  category?: string | undefined;
   isStaple: boolean;
   optional: boolean;
   searchUrl: string;

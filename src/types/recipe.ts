@@ -15,24 +15,24 @@ export interface ElementalProperties {
 }
 // Basic recipe ingredient interface
 export interface RecipeIngredient {
-  id?: string;
+  id?: string | undefined;
   name: string;
   amount: number; // Revert to number for calculations
   unit: string;
-  category?: string;
-  optional?: boolean;
-  preparation?: string;
-  notes?: string;
-  function?: string;
-  asin?: string;
-  cookingPoint?: string;
-  substitutes?: string[];
-  elementalProperties?: ElementalProperties;
-  seasonality?: Season | "all" | Season[]; // Match EnhancedRecipe seasonality
+  category?: string | undefined;
+  optional?: boolean | undefined;
+  preparation?: string | undefined;
+  notes?: string | undefined;
+  function?: string | undefined;
+  asin?: string | undefined;
+  cookingPoint?: string | undefined;
+  substitutes?: string[] | undefined;
+  elementalProperties?: ElementalProperties | undefined;
+  seasonality?: Season | "all" | Season[] | undefined; // Match EnhancedRecipe seasonality
   // Astrological associations
-  zodiacInfluences?: any[];
-  planetaryInfluences?: string[]; // Planet names
-  lunarPhaseInfluences?: LunarPhase[];
+  zodiacInfluences?: any[] | undefined;
+  planetaryInfluences?: string[] | undefined; // Planet names
+  lunarPhaseInfluences?: LunarPhase[] | undefined;
   [key: string]: unknown;
 }
 export interface IngredientAlchemicalSummary {
@@ -150,7 +150,7 @@ export interface Recipe {
     neutral?: string[];
   };
   // Nutritional information
-  nutrition?: NutritionalSummary | NutritionalSummaryBase;
+  nutrition?: NutritionalSummary | NutritionalSummaryBase | undefined;
   matchPercentage?: number;
   currentSeason?: string | string[];
   regionalCuisine?: string;

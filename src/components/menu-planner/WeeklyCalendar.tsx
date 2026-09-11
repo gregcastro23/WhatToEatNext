@@ -120,14 +120,14 @@ function DayColumn({
   dayOfWeek: DayOfWeek;
   date: Date;
   meals: MealSlotType[];
-  onMealClick?: (mealSlot: MealSlotType) => void;
-  onCopyMealClick?: (mealSlot: MealSlotType) => void;
-  onFocusDay?: () => void;
-  onToggleExpand?: () => void;
-  isExpanded?: boolean;
-  currentPlanetaryHour?: string | null;
-  dailyNutrition?: DailyNutritionResult;
-  isSelectedForHero?: boolean;
+  onMealClick?: ((mealSlot: MealSlotType) => void) | undefined;
+  onCopyMealClick?: ((mealSlot: MealSlotType) => void) | undefined;
+  onFocusDay?: (() => void) | undefined;
+  onToggleExpand?: (() => void) | undefined;
+  isExpanded?: boolean | undefined;
+  currentPlanetaryHour?: string | null | undefined;
+  dailyNutrition?: DailyNutritionResult | undefined;
+  isSelectedForHero?: boolean | undefined;
 }): React.JSX.Element {
   const {
     addMealToSlot,
@@ -332,10 +332,10 @@ function TodayHeroCard({
   dayOfWeek: DayOfWeek;
   date: Date;
   meals: MealSlotType[];
-  onCopyMealClick?: (mealSlot: MealSlotType) => void;
-  onFocusDay?: () => void;
-  currentPlanetaryHour?: string | null;
-  dailyNutrition?: DailyNutritionResult;
+  onCopyMealClick?: ((mealSlot: MealSlotType) => void) | undefined;
+  onFocusDay?: (() => void) | undefined;
+  currentPlanetaryHour?: string | null | undefined;
+  dailyNutrition?: DailyNutritionResult | undefined;
 }): React.JSX.Element {
   const {
     addMealToSlot,
