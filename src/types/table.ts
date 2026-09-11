@@ -35,18 +35,18 @@ export type TableMemberJoinedVia =
 
 export interface TableVenue {
   type: TableVenueType;
-  restaurantId?: string;
-  name?: string;
-  address?: string;
+  restaurantId?: string | undefined;
+  name?: string | undefined;
+  address?: string | undefined;
 }
 
 export type TableCourseStatus = "upcoming" | "prep" | "cooking" | "served" | "completed";
 
 export interface TableMenuItem {
   name: string;
-  recipeRef?: string;
-  course?: string;
-  status?: TableCourseStatus | string;
+  recipeRef?: string | undefined;
+  course?: string | undefined;
+  status?: TableCourseStatus | string | undefined;
 }
 
 /** A single member row on a table — either a registered user (human or
@@ -56,23 +56,23 @@ export interface TableMenuItem {
 export interface TableMember {
   id: string;
   tableId: string;
-  userId?: string;
-  manualCompanionChartId?: string;
+  userId?: string | undefined;
+  manualCompanionChartId?: string | undefined;
   role: TableMemberRole;
   rsvpStatus: TableMemberRsvpStatus;
-  joinedVia?: TableMemberJoinedVia;
-  invitedBy?: string;
+  joinedVia?: TableMemberJoinedVia | undefined;
+  invitedBy?: string | undefined;
   /** Denormalized; required for manual guests, optional display override
    * for registered members. */
-  displayName?: string;
-  rsvpAt?: string;
+  displayName?: string | undefined;
+  rsvpAt?: string | undefined;
   createdAt: string;
   updatedAt: string;
   /** Real identity fields, joined from users/user_profiles on detail reads
    * only — never invented (design-spec §4.8). */
-  name?: string;
-  avatarUrl?: string;
-  isAgent?: boolean;
+  name?: string | undefined;
+  avatarUrl?: string | undefined;
+  isAgent?: boolean | undefined;
 }
 
 export interface TableInvite {
@@ -86,7 +86,7 @@ export interface TableInvite {
   maxUses: number;
   useCount: number;
   expiresAt: string;
-  revokedAt?: string | null;
+  revokedAt?: string | null | undefined;
   createdAt: string;
 }
 
@@ -140,7 +140,7 @@ export interface CompositeSnapshot {
  * linked to a user id; manual guests are name-only. */
 export interface TableMemoryGuest {
   name: string;
-  userId?: string;
+  userId?: string | undefined;
 }
 
 export interface TableMemoryComposite {
@@ -164,10 +164,10 @@ export interface TableMemoryPayload {
   title: string;
   scheduledAt: string;
   closedAt: string;
-  venue: { type: TableVenueType; name?: string };
+  venue: { type: TableVenueType; name?: string | undefined };
   guests: TableMemoryGuest[];
   guestCount: number;
-  composite?: TableMemoryComposite;
+  composite?: TableMemoryComposite | undefined;
   menu: TableMenuItem[];
   photoUrls: string[];
   shareName: true;
@@ -177,22 +177,22 @@ export interface TableRecord {
   id: string;
   hostId: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   scheduledAt: string;
   venue: TableVenue;
   status: TableStatus;
   visibility: TableVisibility;
-  compositeSnapshot?: CompositeSnapshot | null;
-  compositeUpdatedAt?: string | null;
+  compositeSnapshot?: CompositeSnapshot | null | undefined;
+  compositeUpdatedAt?: string | null | undefined;
   menu: TableMenuItem[];
-  memory?: TableMemoryPayload | null;
-  wentLiveAt?: string | null;
-  closedAt?: string | null;
-  feedEventId?: string | null;
+  memory?: TableMemoryPayload | null | undefined;
+  wentLiveAt?: string | null | undefined;
+  closedAt?: string | null | undefined;
+  feedEventId?: string | null | undefined;
   /** Optional seat capacity (2..24) for discovery "seats left" (PR 6). Coords
    * (venue_lat/venue_lng) are intentionally NOT surfaced on the domain record —
    * discovery reads them directly in SQL and never exposes them. */
-  seatCap?: number | null;
+  seatCap?: number | null | undefined;
   createdAt: string;
   updatedAt: string;
 }
@@ -202,7 +202,7 @@ export interface TableRecord {
 export interface TableDetail extends TableRecord {
   members: TableMember[];
   photos: TablePhoto[];
-  invites?: TableInvite[];
+  invites?: TableInvite[] | undefined;
 }
 
 /** Public, unauthenticated preview for `/t/[token]` and
@@ -211,7 +211,7 @@ export interface TableInvitePreview {
   tableTitle: string;
   hostName: string;
   scheduledAt: string;
-  venueName?: string;
+  venueName?: string | undefined;
   joinedCount: number;
   valid: boolean;
 }
@@ -220,7 +220,7 @@ export interface TableComment {
   id: string;
   tableId: string;
   authorId: string;
-  authorName?: string;
+  authorName?: string | undefined;
   body: string;
   createdAt: string;
 }

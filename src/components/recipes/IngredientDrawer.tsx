@@ -93,10 +93,10 @@ interface ApiResponse {
 
 interface IngredientDrawerProps {
   ingredientName: string | null;
-  recipeAmount?: number;
-  recipeUnit?: string;
-  recipeNotes?: string;
-  currentRecipeId?: string;
+  recipeAmount?: number | undefined;
+  recipeUnit?: string | undefined;
+  recipeNotes?: string | undefined;
+  currentRecipeId?: string | undefined;
   onClose: () => void;
 }
 

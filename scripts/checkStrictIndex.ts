@@ -20,6 +20,33 @@ const summary = runStrictIndexCheck(repoRoot, "tsconfig.strict-index.json");
 console.log(`\n=== STRICT FLAG ERRORS: ${summary.total} total across ${summary.files} files ===`);
 console.log(`Baseline: ${baseline.total} total errors across ${baseline.files} files (${baseline.allowlist.length} allowlisted)`);
 
+const topArgIdx = process.argv.indexOf("--top");
+const showTop = topArgIdx !== -1 || process.argv.includes("--files");
+if (showTop) {
+  let n = 20;
+  const topArgVal = topArgIdx !== -1 ? process.argv[topArgIdx + 1] : undefined;
+  if (topArgVal && /^\d+$/.test(topArgVal)) {
+    n = parseInt(topArgVal, 10);
+  }
+  const sorted = Object.entries(summary.byFile).sort((a, b) => b[1].length - a[1].length);
+  console.log(`\n=== TOP ${Math.min(n, sorted.length)} FILES BY STRICT ERROR COUNT ===`);
+  for (const [file, diags] of sorted.slice(0, n)) {
+    console.log(`  ${diags.length.toString().padStart(3)}: ${file}`);
+  }
+}
+
+if (process.argv.includes("--json")) {
+  const jsonOutput = {
+    total: summary.total,
+    files: summary.files,
+    filesScanned: summary.filesScanned,
+    rankedFiles: Object.entries(summary.byFile)
+      .sort((a, b) => b[1].length - a[1].length)
+      .map(([file, diags]) => ({ file, count: diags.length })),
+  };
+  console.log(JSON.stringify(jsonOutput, null, 2));
+}
+
 const comparison = compareStrictIndex(summary, baseline);
 
 if (comparison.allowlistViolations.length > 0) {

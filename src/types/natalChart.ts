@@ -49,19 +49,19 @@ export interface BirthData {
    * instant exists (agent sentinels, fabricated pins) — never fabricated, so
    * `undefined` genuinely means "unknown" and callers fall back to `dateTime`.
    */
-  utcInstant?: string;
+  utcInstant?: string | undefined;
   latitude: number;
   longitude: number;
   /** IANA zone name. Never a raw `UTC±N` offset — those cannot express DST. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** How `timezone` was decided. See `ZoneBasis` in `utils/astrology/birthTimezone`. */
-  timezoneBasis?: "DERIVED_FROM_COORDINATES" | "STORED_IANA_STRING" | "ABSENT";
+  timezoneBasis?: "DERIVED_FROM_COORDINATES" | "STORED_IANA_STRING" | "ABSENT" | undefined;
   /** The pre-migration `timezone` string, kept for audit when it was replaced. */
-  timezoneStoredBefore?: string;
+  timezoneStoredBefore?: string | undefined;
   location?: {
     latitude: number;
     longitude: number;
-  };
+  } | undefined;
 }
 
 export interface PlanetInfo {
@@ -89,8 +89,8 @@ export interface PlanetInfo {
  * Contains planetary positions and derived properties
  */
 export interface NatalChart {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   birthData: BirthData;
   planets: PlanetInfo[];
   ascendant: ZodiacSignType;
@@ -108,7 +108,7 @@ export interface NatalChart {
 export interface GroupMember {
   id: string;
   name: string;
-  relationship?: "self" | "family" | "friend" | "partner" | "colleague" | "other";
+  relationship?: "self" | "family" | "friend" | "partner" | "colleague" | "other" | undefined;
   birthData: BirthData;
   natalChart: NatalChart;
   createdAt: string;
@@ -189,11 +189,11 @@ export type CommensalshipStatus = "pending" | "accepted" | "blocked";
 export interface Commensalship {
   id: string;
   requesterId: string;
-  requesterName?: string;
-  requesterEmail?: string;
+  requesterName?: string | undefined;
+  requesterEmail?: string | undefined;
   addresseeId: string;
-  addresseeName?: string;
-  addresseeEmail?: string;
+  addresseeName?: string | undefined;
+  addresseeEmail?: string | undefined;
   status: CommensalshipStatus;
   createdAt: string;
   updatedAt: string;

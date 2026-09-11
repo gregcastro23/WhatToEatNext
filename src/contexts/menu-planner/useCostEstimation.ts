@@ -12,6 +12,7 @@
 
 import { useEffect, useState } from "react";
 import { safeReadJson } from "@/lib/api/json";
+import { InstacartPriceEstimateResponseSchema } from "@/lib/validation/serviceResponseSchemas";
 import type { WeeklyMenu } from "@/types/menuPlanner";
 import { estimateWeeklyGroceryCost } from "@/utils/instacart/priceEstimator";
 import { logger } from "@/utils/logger";
@@ -110,7 +111,13 @@ export function useCostEstimation({
             body: JSON.stringify({ line_items: lineItems }),
           });
           if (response.ok) {
-            const data = await safeReadJson<{ confidence?: string }>(response, {});
+            const data = await safeReadJson(
+              response,
+              { confidence: "low" as const },
+              {
+                parse: InstacartPriceEstimateResponseSchema.parse,
+              },
+            );
             if (data.confidence === "high") {
               setState((prev) => ({ ...prev, confidence: "high" }));
             }

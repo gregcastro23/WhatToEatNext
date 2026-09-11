@@ -22,34 +22,34 @@ export interface NormalizedRecipeNutrition {
   fiber: number;
   sugar: number;
   sodium: number;
-  saturatedFat?: number;
+  saturatedFat?: number | undefined;
 
   // Micronutrients — included when available on the source.
-  vitaminA?: number;
-  vitaminC?: number;
-  vitaminD?: number;
-  vitaminE?: number;
-  vitaminK?: number;
-  thiamin?: number;
-  riboflavin?: number;
-  niacin?: number;
-  vitaminB6?: number;
-  vitaminB12?: number;
-  folate?: number;
-  calcium?: number;
-  iron?: number;
-  magnesium?: number;
-  phosphorus?: number;
-  potassium?: number;
-  zinc?: number;
-  copper?: number;
-  manganese?: number;
-  selenium?: number;
+  vitaminA?: number | undefined;
+  vitaminC?: number | undefined;
+  vitaminD?: number | undefined;
+  vitaminE?: number | undefined;
+  vitaminK?: number | undefined;
+  thiamin?: number | undefined;
+  riboflavin?: number | undefined;
+  niacin?: number | undefined;
+  vitaminB6?: number | undefined;
+  vitaminB12?: number | undefined;
+  folate?: number | undefined;
+  calcium?: number | undefined;
+  iron?: number | undefined;
+  magnesium?: number | undefined;
+  phosphorus?: number | undefined;
+  potassium?: number | undefined;
+  zinc?: number | undefined;
+  copper?: number | undefined;
+  manganese?: number | undefined;
+  selenium?: number | undefined;
 
   // Raw tags for downstream display (some callers show the literal
   // vitamin/mineral lists unchanged).
-  vitamins?: string[];
-  minerals?: string[];
+  vitamins?: string[] | undefined;
+  minerals?: string[] | undefined;
 }
 
 /**

@@ -10,39 +10,19 @@
  */
 import { useCallback, useEffect, useState } from "react";
 import { readJson, safeReadJson } from "@/lib/api/json";
+import {
+  CustomRecipesListResponseSchema,
+  RecipeExtractApiResponseSchema,
+  CustomRecipeSaveWireResponseSchema,
+  type AlchemizedRecipe,
+  type SavedRecipe,
+} from "@/lib/validation/serviceResponseSchemas";
 
 interface ElementalProperties {
   Fire: number;
   Water: number;
   Earth: number;
   Air: number;
-}
-
-interface AlchemizedRecipe {
-  name: string;
-  description?: string;
-  cuisine?: string;
-  yield?: string;
-  categories: string[];
-  ingredients: string[];
-  instructions: string[];
-  elementalProperties: ElementalProperties;
-  elementalMatchRate: number;
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
-  aSharp: number;
-  alchemicalMatchRate: number;
-  source: string;
-}
-
-interface SavedRecipe {
-  id: string;
-  name: string;
-  cuisine?: string;
-  source?: string;
-  createdAt: number;
 }
 
 type Mode = "text" | "photo";
@@ -72,11 +52,10 @@ export default function LabBookIngest() {
       const res = await fetch("/api/users/me/recipes/custom", {
         credentials: "same-origin",
       });
-      const data = await readJson<{
-        authenticated?: boolean;
-        recipes?: SavedRecipe[];
-      }>(res);
-      if (data.authenticated && Array.isArray(data.recipes)) {
+      const data = await readJson(res, {
+        parse: CustomRecipesListResponseSchema.parse,
+      });
+      if ("authenticated" in data && data.authenticated && Array.isArray(data.recipes)) {
         setSaved(data.recipes);
       }
     } catch {
@@ -119,12 +98,13 @@ export default function LabBookIngest() {
         });
       }
 
-      const data = await safeReadJson<{
-        recipes?: AlchemizedRecipe[];
-        error?: string;
-        message?: string;
-        success?: boolean;
-      }>(res, {});
+      const data = await safeReadJson(
+        res,
+        { success: false, recipes: [] },
+        {
+          parse: RecipeExtractApiResponseSchema.parse,
+        },
+      );
 
       if (res.status === 401) {
         setError("Please sign in to ingest recipes.");
@@ -183,13 +163,13 @@ export default function LabBookIngest() {
           setError("Failed to save recipe.");
           return;
         }
-        const data = await safeReadJson<{
-          completedQuests?: Array<{
-            questSlug: string;
-            tokensAwarded: number;
-            tokenType: string;
-          }>;
-        }>(res, {});
+        const data = await safeReadJson(
+          res,
+          { error: "Failed to save" },
+          {
+            parse: CustomRecipeSaveWireResponseSchema.parse,
+          },
+        );
         setPreviews((prev) => prev.filter((_, i) => i !== idx));
         const completed = data.completedQuests ?? [];
         if (completed.length > 0) {

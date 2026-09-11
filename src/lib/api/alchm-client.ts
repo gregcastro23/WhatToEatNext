@@ -1,107 +1,31 @@
+import { z } from "zod";
 import { readJson } from "@/lib/api/json";
+import { AlchemicalElementalPropertiesSchema } from "@/lib/validation/alchemicalBackendSchemas";
+import {
+  AlchemicalThermodynamicsResultSchema,
+  AlchemicalTokenRatesResultSchema,
+  AlchemicalRuneGuidanceResultSchema,
+  AlchemicalPlanetaryHourResultSchema,
+  AlchmRecipeRecommendationSchema,
+  AlchmCuisinesRecordSchema,
+  AlchmCuisineSchema,
+  AlchmSaucesRecordSchema,
+  AlchmIngredientsRecordSchema,
+} from "@/lib/validation/serviceResponseSchemas";
+import type {
+  ElementalProperties,
+  ThermodynamicsResult,
+  RecommendationRequest,
+  Recipe,
+  TokenRatesRequest,
+  TokenRatesResult,
+  RuneAgentRequest,
+  RuneResult,
+  PlanetaryHourRequest,
+  PlanetaryHourResult,
+} from "./alchmClientTypes";
 
-/*
-  Centralized API client scaffold.
-  Note: Replace placeholder types with generated backend types when available.
-*/
-
-export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Air: number;
-  Earth: number;
-}
-
-export interface ThermodynamicsResult {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  kalchm: number;
-  monica: number | null;
-}
-
-export interface RecommendationRequest {
-  ingredients: string[];
-  dietaryRestrictions?: string[];
-  cuisinePreferences?: string[];
-}
-
-export interface Recipe {
-  id: string;
-  name: string;
-  url?: string;
-}
-
-export interface TokenRatesRequest {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
-  elemental?: ElementalProperties;
-  esms?: { Spirit: number; Essence: number; Matter: number; Substance: number };
-}
-
-export interface TokenRatesResult {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-  kalchm: number;
-  /**
-   * NULL when the rate endpoint has no elemental input.
-   *
-   * monica = −gregsEnergy / (reactivity · ln kalchm), and both gregsEnergy and
-   * reactivity are functions of the four ELEMENTS. Elements come from SIGNS,
-   * and this endpoint is given only a planetary HOUR — a ruling planet, no
-   * sign. So monica is not derivable and the server says so rather than
-   * substituting a literal (it used to return 1.0 unconditionally).
-   *
-   * `kalchm` is not in the same position: it is a function of the ESMS axes
-   * alone, which the planetary hour does determine, so it is a real value.
-   *
-   * Handle the absence at the display layer. Do NOT `?? 1` it.
-   */
-  monica: number | null;
-}
-
-export interface RuneAgentRequest {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
-  context?: "cuisine" | "recipe" | "ingredient" | "cooking_method";
-  preferences?: {
-    dietaryRestrictions?: string[];
-    cuisineTypes?: string[];
-    intensity?: "mild" | "moderate" | "intense";
-  };
-}
-
-export interface RuneResult {
-  symbol: string;
-  name: string;
-  meaning: string;
-  influence: {
-    elemental: ElementalProperties;
-    energy: {
-      Spirit: number;
-      Essence: number;
-      Matter: number;
-      Substance: number;
-    };
-    guidance: string;
-  };
-}
-
-export interface PlanetaryHourRequest {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
-}
-
-export interface PlanetaryHourResult {
-  planet: string;
-  hourNumber?: number;
-  isDaytime: boolean;
-  start?: string;
-  end?: string;
-}
+export * from "./alchmClientTypes";
 
 export class AlchmAPIClient {
   private readonly endpoints = {
@@ -111,7 +35,10 @@ export class AlchmAPIClient {
 
   private async request<TResponse>(
     url: string,
-    init?: RequestInit,
+    options: {
+      init?: RequestInit;
+      parse: (value: unknown) => TResponse;
+    },
   ): Promise<TResponse> {
     // When NEXT_PUBLIC_BACKEND_URL is unset (typical local dev), URLs end up
     // relative (e.g. "/api/v1/cuisines"). Node's fetch requires absolute URLs
@@ -123,12 +50,12 @@ export class AlchmAPIClient {
           `Set NEXT_PUBLIC_BACKEND_URL or NEXT_PUBLIC_KITCHEN_BACKEND_URL.`,
       );
     }
-    const response = await fetch(url, init);
+    const response = await fetch(url, options.init);
     if (!response.ok) {
       const statusText = response.statusText || "Unknown Error";
       throw new Error(`API Error: ${response.status} ${statusText}`);
     }
-    return readJson<TResponse>(response);
+    return readJson<TResponse>(response, { parse: options.parse });
   }
 
   async calculateElemental(
@@ -136,9 +63,12 @@ export class AlchmAPIClient {
   ): Promise<ElementalProperties> {
     const url = `${this.endpoints.alchemical}/calculate/elemental`;
     return this.request<ElementalProperties>(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ingredients }),
+      init: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ingredients }),
+      },
+      parse: AlchemicalElementalPropertiesSchema.parse,
     });
   }
 
@@ -147,18 +77,24 @@ export class AlchmAPIClient {
   ): Promise<ThermodynamicsResult> {
     const url = `${this.endpoints.alchemical}/calculate/thermodynamics`;
     return this.request<ThermodynamicsResult>(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ingredients }),
+      init: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ingredients }),
+      },
+      parse: AlchemicalThermodynamicsResultSchema.parse,
     });
   }
 
   async getRecommendations(request: RecommendationRequest): Promise<Recipe[]> {
     const url = `${this.endpoints.kitchen}/recommend/recipes`;
     return this.request<Recipe[]>(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(request),
+      init: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(request),
+      },
+      parse: (val) => z.array(AlchmRecipeRecommendationSchema).parse(val),
     });
   }
 
@@ -167,18 +103,24 @@ export class AlchmAPIClient {
   ): Promise<TokenRatesResult> {
     const url = `${this.endpoints.alchemical}/api/tokens/calculate`;
     return this.request<TokenRatesResult>(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(request),
+      init: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(request),
+      },
+      parse: AlchemicalTokenRatesResultSchema.parse,
     });
   }
 
   async getRuneGuidance(request: RuneAgentRequest): Promise<RuneResult> {
     const url = `${this.endpoints.alchemical}/api/runes/guidance`;
     return this.request<RuneResult>(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(request),
+      init: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(request),
+      },
+      parse: AlchemicalRuneGuidanceResultSchema.parse,
     });
   }
 
@@ -194,8 +136,11 @@ export class AlchmAPIClient {
     }
 
     return this.request<PlanetaryHourResult>(`${url}?${params.toString()}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
+      init: {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      },
+      parse: AlchemicalPlanetaryHourResultSchema.parse,
     });
   }
 
@@ -216,8 +161,11 @@ export class AlchmAPIClient {
       }
       const url = `${this.endpoints.alchemical}/api/v1/cuisines`;
       this._cache.cuisines = this.request<Record<string, any>>(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
+        init: {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+        parse: AlchmCuisinesRecordSchema.parse,
       }).catch(async () => {
         const { cuisines } = await import("@/data/cuisines");
         return cuisines;
@@ -234,8 +182,11 @@ export class AlchmAPIClient {
       }
       const url = `${this.endpoints.alchemical}/api/v1/cuisines/${id}`;
       this._cache.cuisineDetails[id] = this.request<any>(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
+        init: {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+        parse: AlchmCuisineSchema.parse,
       }).catch(async () => {
         const { cuisines } = await import("@/data/cuisines");
         return cuisines[id];
@@ -252,8 +203,11 @@ export class AlchmAPIClient {
       }
       const url = `${this.endpoints.alchemical}/api/v1/sauces`;
       this._cache.sauces = this.request<Record<string, any>>(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
+        init: {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+        parse: AlchmSaucesRecordSchema.parse,
       }).catch(async () => {
         const { allSauces } = await import("@/data/sauces");
         return allSauces;
@@ -270,8 +224,11 @@ export class AlchmAPIClient {
       }
       const url = `${this.endpoints.alchemical}/api/v1/ingredients`;
       this._cache.ingredients = this.request<Record<string, any>>(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
+        init: {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+        parse: AlchmIngredientsRecordSchema.parse,
       }).catch(async () => {
         const { allIngredients } = await import("@/data/ingredients/index");
         return allIngredients;

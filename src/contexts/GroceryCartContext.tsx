@@ -40,11 +40,11 @@ const STORAGE_KEY = "alchm:grocery-cart:v2";
 
 export interface GroceryCartIngredientInput {
   name: string;
-  amount?: number;
-  unit?: string;
-  category?: string;
-  notes?: string;
-  asin?: string;
+  amount?: number | undefined;
+  unit?: string | undefined;
+  category?: string | undefined;
+  notes?: string | undefined;
+  asin?: string | undefined;
 }
 
 export interface GroceryCartRecipeInput {
@@ -59,9 +59,9 @@ export interface GroceryCartItem {
   name: string;
   quantity: number;
   unit: string;
-  category?: string;
+  category?: string | undefined;
   recipeIds: string[];
-  notes?: string;
+  notes?: string | undefined;
   addedAt: number;
   asin: string | null;
 }

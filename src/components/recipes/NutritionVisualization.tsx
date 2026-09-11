@@ -10,15 +10,15 @@ import {
 } from "recharts";
 
 export interface NutritionData {
-  calories?: number;
-  protein?: number;
-  carbs?: number;
-  fat?: number;
-  fiber?: number;
-  sodium?: number;
-  sugar?: number;
-  vitamins?: string[];
-  minerals?: string[];
+  calories?: number | undefined;
+  protein?: number | undefined;
+  carbs?: number | undefined;
+  fat?: number | undefined;
+  fiber?: number | undefined;
+  sodium?: number | undefined;
+  sugar?: number | undefined;
+  vitamins?: string[] | undefined;
+  minerals?: string[] | undefined;
 }
 
 // 2000-calorie reference daily values (FDA)

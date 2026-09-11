@@ -14,11 +14,11 @@ import type { Recipe } from "@/types/recipe";
  * score without repeated toLowerCase() calls.
  */
 export interface IndexedRecipe extends Recipe {
-  _lcCuisine?: string;
-  _lcTags?: string[];
-  _lcCookingMethod?: string[];
-  _lcSeasons?: string[];
-  _lcMealTypes?: string[];
+  _lcCuisine?: string | undefined;
+  _lcTags?: string[] | undefined;
+  _lcCookingMethod?: string[] | undefined;
+  _lcSeasons?: string[] | undefined;
+  _lcMealTypes?: string[] | undefined;
 }
 
 /** Precomputed lookup buckets keyed by `${mealType}-${season}`. */

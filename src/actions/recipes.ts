@@ -3,7 +3,7 @@
 import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
 import type { Cuisine } from "@/types/cuisine";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import { createLogger } from "@/utils/logger";
 import {
@@ -278,6 +278,11 @@ function extractRecipesFromCuisines(
           const signs = toStringArray(astro.signs);
           const lunarPhases = toStringArray(astro.lunarPhases);
           const monicaConstant = toFiniteNumber(thermo.monica);
+          const spirit = toFiniteNumber(alchemicalProps.Spirit);
+          const essence = toFiniteNumber(alchemicalProps.Essence);
+          const matter = toFiniteNumber(alchemicalProps.Matter);
+          const substance = toFiniteNumber(alchemicalProps.Substance);
+          const monicaScore = toFiniteNumber(dish.monicaScore);
 
           const substitutions = (
             Array.isArray(dish.substitutions) ? dish.substitutions : []
@@ -305,8 +310,7 @@ function extractRecipesFromCuisines(
               dish.id ??
               `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
             name: dish.name,
-            image: imageUrl,
-            imageUrl,
+            ...(imageUrl ? { image: imageUrl, imageUrl } : {}),
             description: dish.description ?? "",
             cuisine:
               dish.cuisine ??
@@ -314,7 +318,7 @@ function extractRecipesFromCuisines(
               (dish.alchemicalProfile?.cuisine as string | undefined) ??
               cuisineName,
             ingredients: Array.isArray(dish.ingredients)
-              ? dish.ingredients.map((ing: unknown) => {
+              ? dish.ingredients.map((ing: unknown): RecipeIngredient => {
                   if (typeof ing === "string") {
                     return { name: ing, amount: 1, unit: "" };
                   }
@@ -324,7 +328,7 @@ function extractRecipesFromCuisines(
                     amount: Number(i.amount ?? i.quantity ?? 0),
                     unit: typeof i.unit === "string" ? i.unit : "",
                     optional: Boolean(i.optional),
-                    notes: typeof i.notes === "string" ? i.notes : undefined,
+                    ...(typeof i.notes === "string" ? { notes: i.notes } : {}),
                   };
                 })
               : [],
@@ -353,13 +357,15 @@ function extractRecipesFromCuisines(
             isVegan: dietaryTags.includes("vegan"),
             isGlutenFree: dietaryTags.includes("glutenFree"),
             isDairyFree: dietaryTags.includes("dairyFree"),
-            numberOfServings:
-              Number(
-                dish.numberOfServings ??
-                  dish.servings ??
-                  (details.baseServingSize as number | undefined),
-              ) || undefined,
-            nutrition: undefined,
+            ...(dish.numberOfServings || dish.servings || details.baseServingSize
+              ? {
+                  numberOfServings: Number(
+                    dish.numberOfServings ??
+                      dish.servings ??
+                      details.baseServingSize,
+                  ),
+                }
+              : {}),
             elementalProperties:
               dish.elementalProfile ?? dish.elementalProperties ?? {
                 Fire: 0.25,
@@ -367,24 +373,24 @@ function extractRecipesFromCuisines(
                 Earth: 0.25,
                 Air: 0.25,
               },
-            cookingMethod,
-            spiceLevel:
-              (details.spiceLevel as Recipe["spiceLevel"]) ?? undefined,
-            regionalVariant,
+            ...(cookingMethod ? { cookingMethod } : {}),
+            ...(details.spiceLevel != null
+              ? { spiceLevel: details.spiceLevel as NonNullable<Recipe["spiceLevel"]> }
+              : {}),
+            ...(regionalVariant ? { regionalVariant } : {}),
             // Alchemical SMES grid + Monica constant — powers the recipe
             // detail page's "Alchemical Scores" panel.
-            spirit: toFiniteNumber(alchemicalProps.Spirit),
-            essence: toFiniteNumber(alchemicalProps.Essence),
-            matter: toFiniteNumber(alchemicalProps.Matter),
-            substance: toFiniteNumber(alchemicalProps.Substance),
-            monicaScore: toFiniteNumber(dish.monicaScore),
-            monicaScoreLabel:
-              typeof dish.monicaScoreLabel === "string"
-                ? dish.monicaScoreLabel
-                : undefined,
-            monicaOptimization:
-              monicaConstant != null
-                ? {
+            ...(spirit !== undefined ? { spirit } : {}),
+            ...(essence !== undefined ? { essence } : {}),
+            ...(matter !== undefined ? { matter } : {}),
+            ...(substance !== undefined ? { substance } : {}),
+            ...(monicaScore !== undefined ? { monicaScore } : {}),
+            ...(typeof dish.monicaScoreLabel === "string"
+              ? { monicaScoreLabel: dish.monicaScoreLabel }
+              : {}),
+            ...(monicaConstant != null
+              ? {
+                  monicaOptimization: {
                     originalMonica: monicaConstant,
                     optimizedMonica: monicaConstant,
                     optimizationScore: 0,
@@ -392,18 +398,19 @@ function extractRecipesFromCuisines(
                     timingAdjustments: [],
                     intensityModifications: [],
                     planetaryTimingRecommendations: [],
-                  }
-                : undefined,
+                  },
+                }
+              : {}),
             // Astrological affinities — powers the detail page's
             // "Astrological Affinities" panel and planetary scoring.
-            planetaryInfluences:
-              planets && planets.length > 0
-                ? { favorable: planets, unfavorable: [], neutral: [] }
-                : undefined,
-            zodiacInfluences: signs,
-            lunarPhaseInfluences:
-              lunarPhases as Recipe["lunarPhaseInfluences"],
-            substitutions: substitutions.length > 0 ? substitutions : undefined,
+            ...(planets && planets.length > 0
+              ? { planetaryInfluences: { favorable: planets, unfavorable: [], neutral: [] } }
+              : {}),
+            ...(signs ? { zodiacInfluences: signs } : {}),
+            ...(lunarPhases
+              ? { lunarPhaseInfluences: lunarPhases as NonNullable<Recipe["lunarPhaseInfluences"]> }
+              : {}),
+            ...(substitutions.length > 0 ? { substitutions } : {}),
           };
 
           // ── Nutrition pipeline ──

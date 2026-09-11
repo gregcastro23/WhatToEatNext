@@ -60,6 +60,7 @@ import type {
   AlchemicalProperties,
   ElementalProperties,
 } from "@/types/alchemy";
+import type { CookingMethodData, CookingMethodKineticProfile } from "@/types/cookingMethod";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
@@ -106,6 +107,61 @@ interface MethodData {
   commonMistakes?: string[];
   expertTips?: string[];
   regionalVariations?: Record<string, string[]>;
+  kineticProfile?: CookingMethodKineticProfile;
+  optimalTemperatures?: Record<string, number>;
+}
+
+function adaptCookingMethod(m: CookingMethodData): MethodData {
+  const tp = m.thermodynamicProperties;
+  return {
+    name: m.name,
+    description: m.description,
+    ...(m.shortDescription ? { shortDescription: m.shortDescription } : {}),
+    ...(m.culinaryArchetype ? { culinaryArchetype: m.culinaryArchetype } : {}),
+    elementalEffect: m.elementalEffect,
+    ...(tp
+      ? {
+          thermodynamicProperties: {
+            heat: tp.heat,
+            entropy: tp._entropy,
+            reactivity: tp._reactivity,
+            energy: tp.gregsEnergy,
+          },
+        }
+      : {}),
+    duration: m.duration,
+    suitable_for: m.suitable_for,
+    benefits: m.benefits,
+    ...(m.toolsRequired ? { toolsRequired: m.toolsRequired } : {}),
+    ...(m.commonMistakes ? { commonMistakes: m.commonMistakes } : {}),
+    ...(m.expertTips ? { expertTips: m.expertTips } : {}),
+    ...(m.regionalVariations ? { regionalVariations: m.regionalVariations } : {}),
+    ...(m.kineticProfile ? { kineticProfile: m.kineticProfile } : {}),
+    ...(m.optimalTemperatures ? { optimalTemperatures: m.optimalTemperatures } : {}),
+  };
+}
+
+function adaptCookingMethods(
+  methods: Record<string, CookingMethodData>,
+): Record<string, MethodData> {
+  const adapted: Record<string, MethodData> = {};
+  for (const [key, method] of Object.entries(methods)) {
+    adapted[key] = adaptCookingMethod(method);
+  }
+  return adapted;
+}
+
+function computeTransformedESMS(
+  baseESMS: { Spirit: number; Essence: number; Matter: number; Substance: number },
+  pillar: ReturnType<typeof getCookingMethodPillar>,
+): { Spirit: number; Essence: number; Matter: number; Substance: number } {
+  if (!pillar) return baseESMS;
+  return {
+    Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
+    Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
+    Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
+    Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
+  };
 }
 
 interface CategoryConfig {
@@ -189,11 +245,11 @@ interface AlignedRecipe {
 
 const categories: CategoryConfig[] = [
 
-  { id: "dry", name: "Dry Heat", icon: "🔥", methods: dryCookingMethods as Record<string, MethodData> },
-  { id: "wet", name: "Wet Heat", icon: "💧", methods: wetCookingMethods as Record<string, MethodData> },
-  { id: "molecular", name: "Molecular", icon: "🧪", methods: molecularCookingMethods as Record<string, MethodData> },
-  { id: "traditional", name: "Traditional", icon: "🏺", methods: traditionalCookingMethods as Record<string, MethodData> },
-  { id: "transformation", name: "Transformation", icon: "⚗️", methods: transformationMethods as Record<string, MethodData> },
+  { id: "dry", name: "Dry Heat", icon: "🔥", methods: adaptCookingMethods(dryCookingMethods) },
+  { id: "wet", name: "Wet Heat", icon: "💧", methods: adaptCookingMethods(wetCookingMethods) },
+  { id: "molecular", name: "Molecular", icon: "🧪", methods: adaptCookingMethods(molecularCookingMethods) },
+  { id: "traditional", name: "Traditional", icon: "🏺", methods: adaptCookingMethods(traditionalCookingMethods) },
+  { id: "transformation", name: "Transformation", icon: "⚗️", methods: adaptCookingMethods(transformationMethods) },
 ];
 
 // ============================================================================
@@ -683,14 +739,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         Matter: baseAlchemicalProperties.Matter,
         Substance: baseAlchemicalProperties.Substance,
       };
-      const transformedESMS = pillar
-        ? {
-          Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
-          Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
-          Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
-          Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
-        }
-        : baseESMS;
+      const transformedESMS = computeTransformedESMS(baseESMS, pillar);
 
       if (!method.elementalEffect) return [];
       const { elementalEffect } = method;
@@ -708,20 +757,17 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;
 
-      const methodKineticProfile = Reflect.get(method, 'kineticProfile') as Parameters<typeof calculateMethodSpecificKinetics>[0]['kineticProfile'] | undefined;
-      let kinetics: KineticMetrics | null = null;
-      try {
-        kinetics = calculateMethodSpecificKinetics({
-          methodId: id,
-          elementalEffect,
-          transformedESMS,
-          thermodynamics: methodThermo,
-          gregsEnergy,
-          monica,
-          kineticProfile: methodKineticProfile,
-          planetaryPositions: Object.keys(contextPlanetaryPositions).length > 0 ? contextPlanetaryPositions : planetaryPositions,
-        });
-      } catch { /* skip */ }
+      const methodKineticProfile = method.kineticProfile;
+      const kinetics = computeMethodKinetics({
+        methodId: id,
+        elementalEffect,
+        transformedESMS,
+        thermodynamics: methodThermo,
+        gregsEnergy,
+        monica,
+        ...(methodKineticProfile ? { kineticProfile: methodKineticProfile } : {}),
+        planetaryPositions: Object.keys(contextPlanetaryPositions).length > 0 ? contextPlanetaryPositions : planetaryPositions,
+      });
 
       const monicaScoreResult = calculateMonicaOptimizationScore(
         [id],
@@ -755,9 +801,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           gregsEnergy,
           kalchm,
           monica,
-          duration: duration ?? undefined,
-          kineticPower: kinetics?.power,
-          userElementalBias: userBias,
+          ...(duration ? { duration } : {}),
+          ...(typeof kinetics?.power === "number" ? { kineticPower: kinetics.power } : {}),
+          ...(userBias ? { userElementalBias: userBias } : {}),
         },
         userIntent,
         {
@@ -1344,11 +1390,12 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </p>
       );
     }
+    const optTemps = method.optimalTemperatures;
     return (
       <ConditionsTab
         metrics={method.physicsMetrics}
-        reference={reference}
-        optimalTemperatures={(method as { optimalTemperatures?: Record<string, number> }).optimalTemperatures}
+        {...(reference ? { reference } : {})}
+        {...(optTemps ? { optimalTemperatures: optTemps } : {})}
       />
     );
   };
@@ -1373,7 +1420,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     method.physicsMetrics ? (
       <ReactionsTab
         metrics={method.physicsMetrics}
-        reference={method.referenceProfile}
+        {...(method.referenceProfile ? { reference: method.referenceProfile } : {})}
       />
     ) : (
       renderMissingPhysics(method.name)
@@ -1872,20 +1919,15 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                           <Readout
                             label="Transfer"
                             tone="transfer"
-                            value={physics.transfer ? physics.transfer.typical.toLocaleString() : undefined}
-                            unit={physics.transfer ? "W·m⁻²·K⁻¹" : undefined}
-                            z={physics.transfer?.z}
+                            {...(physics.transfer ? { value: physics.transfer.typical.toLocaleString(), unit: "W·m⁻²·K⁻¹" } : {})}
+                            {...(physics.transfer?.z != null ? { z: physics.transfer.z } : {})}
                             absent={physics.transfer ? null : "not heat-limited"}
                           />
                           <Readout
                             label="To core"
                             tone="time"
-                            value={
-                              physics.reference.result
-                                ? `${physics.reference.result.minutes.toFixed(0)} min`
-                                : undefined
-                            }
-                            z={physics.reference.result ? physics.reference.z : undefined}
+                            {...(physics.reference.result ? { value: `${physics.reference.result.minutes.toFixed(0)} min` } : {})}
+                            {...(physics.reference.result && physics.reference.z != null ? { z: physics.reference.z } : {})}
                             absent={physics.reference.result ? null : physics.reference.unavailableReason}
                           />
                           <Readout
@@ -1957,4 +1999,14 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       </footer>
     </div>
   );
+}
+
+function computeMethodKinetics(
+  params: Parameters<typeof calculateMethodSpecificKinetics>[0],
+): KineticMetrics | null {
+  try {
+    return calculateMethodSpecificKinetics(params);
+  } catch {
+    return null;
+  }
 }
