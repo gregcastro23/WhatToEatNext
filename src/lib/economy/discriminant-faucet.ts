@@ -91,9 +91,10 @@ export function baselineVersionFor(year: number): string {
  * A 5x shape spread is the exploit ADR-015 exists to close. The ADR's literal
  * 12-year Jupiter window does not fix it either (±53% emission, 1.8-3.0x
  * spread) because one cycle still leaves Saturn and outward drifting. Sampling
- * the claim's own year holds both invariants — ±3% emission for 3 of 4
- * archetypes in every year measured, shape spread ≤1.37x — so WTEN diverges
- * from §3 deliberately. See docs/adr/016-untethered-resonance-faucet.md.
+ * the claim's own year reduces the measured drift, but does not guarantee
+ * annual neutrality: clamping changes the mean and some signed means are
+ * nonpositive. WTEN diverges from §3 deliberately; see the limitations in
+ * docs/adr/016-untethered-resonance-faucet.md.
  */
 export function baselineEpochFor(year: number): { start: number; endExclusive: number } {
   return {
@@ -175,16 +176,27 @@ function geometryOf(position: string | AlchemicalPlanetPosition): BodyGeometry {
     return { sign: canonicalSign(position), longitude: null };
   }
 
+  if (!position || typeof position !== "object") {
+    return { sign: null, longitude: null };
+  }
   const sign = canonicalSign(position.sign);
+  const invalid: BodyGeometry = { sign: null, longitude: null };
+  const degree = finiteNumber(position.degree);
+  if (position.degree !== undefined && (degree === null || degree < 0 || degree >= 30)) {
+    return invalid;
+  }
   const exactLongitude = finiteNumber(position.exactLongitude);
-  if (exactLongitude !== null) {
-    return {
-      sign,
-      longitude: ((exactLongitude % 360) + 360) % 360,
-    };
+  // An explicitly corrupt longitude is not a missing longitude. Do not wrap
+  // it or silently replace it with sign+degree: that would mint on bad data.
+  if (position.exactLongitude !== undefined) {
+    if (exactLongitude === null || exactLongitude < 0 || exactLongitude >= 360 ||
+        sign !== SIGNS[Math.floor(exactLongitude / 30)] ||
+        (degree !== null && Math.floor(degree) !== Math.floor(exactLongitude % 30))) {
+      return invalid;
+    }
+    return { sign, longitude: exactLongitude };
   }
 
-  const degree = finiteNumber(position.degree);
   if (sign && degree !== null && degree >= 0 && degree < 30) {
     return {
       sign,
@@ -592,16 +604,25 @@ export function validateLedgerClamp(
     distribution.matter,
     distribution.substance,
   ];
-  const computedSum = quantize(axes.reduce((sum, value) => sum + value, 0));
+  // PostgreSQL stores four decimals. Validate that exact unit grid before
+  // summing, so rounding cannot conceal a sub-floor axis or a lost quantum.
+  const units = axes.map((value) => Math.round(value * ROUNDING_FACTOR));
+  const totalUnits = Math.round(distribution.total * ROUNDING_FACTOR);
+  const onUnitGrid = (value: number): boolean => {
+    const scaled = value * ROUNDING_FACTOR;
+    return Number.isFinite(scaled) &&
+      Math.abs(scaled - Math.round(scaled)) <=
+        Number.EPSILON * Math.max(1, Math.abs(scaled)) * 4;
+  };
+  const computedUnits = units.reduce((sum, value) => sum + value, 0);
+  const computedSum = computedUnits / ROUNDING_FACTOR;
   const invalid =
-    !Number.isFinite(distribution.total) ||
-    axes.some((value) => !Number.isFinite(value)) ||
-    distribution.total < PROTOCOL_BAND.min ||
-    distribution.total > PROTOCOL_BAND.max ||
-    computedSum < PROTOCOL_BAND.min ||
-    computedSum > PROTOCOL_BAND.max ||
-    Math.abs(computedSum - distribution.total) > 0.0001 ||
-    axes.some((value) => value < AXIS_FLOOR - 0.0001);
+    !onUnitGrid(distribution.total) ||
+    axes.some((value) => !onUnitGrid(value)) ||
+    totalUnits < PROTOCOL_BAND.min * ROUNDING_FACTOR ||
+    totalUnits > PROTOCOL_BAND.max * ROUNDING_FACTOR ||
+    computedUnits !== totalUnits ||
+    units.some((value) => value < AXIS_FLOOR * ROUNDING_FACTOR);
   if (invalid) {
     throw new Error(
       `Ledger clamp invariant breach: computedSum=${computedSum}, total=${distribution.total} ` +
@@ -640,7 +661,9 @@ export async function getLiveNetworkSupply(query?: SupplyQuery): Promise<GlobalS
     });
     const result = await runQuery();
     const [row] = result.rows;
-    if (row) {
+    if (row && [row.spirit, row.essence, row.matter, row.substance].every(
+      (value) => value !== null && value !== "" && Number.isFinite(Number(value)) && Number(value) >= 0,
+    )) {
       const data: GlobalSupplyState = {
         spirit: positiveFinite(Number(row.spirit)),
         essence: positiveFinite(Number(row.essence)),

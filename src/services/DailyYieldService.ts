@@ -5,7 +5,7 @@
  * and current planetary transits. This is the "Cosmic Yield" engine.
  *
  * Architecture:
- *   - Today's planetary positions are read from daily_ephemeris_cache (1 fetch/day)
+ *   - Planetary positions are computed for the captured claim instant
  *   - User's natal positions come from user_profiles (already stored)
  *   - Yield weights are computed via calculateAlchemicalFromPlanets() (pure math)
  *   - Result: a personalized ESMS token distribution unique to each user each day
@@ -38,7 +38,7 @@ import {
   calculateAlchemicalFromPlanetsDetailed,
   type AlchemicalPlanetPositions,
 } from "@/utils/planetaryAlchemyMapping";
-import { calculatePlanetaryPositionsWithMeta } from "@/utils/serverPlanetaryCalculations";
+import { calculatePositionsWithAstronomyEngine } from "@/utils/serverPlanetaryCalculations";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { streakService } from "./StreakService";
 import { tokenEconomy } from "./TokenEconomyService";
@@ -47,22 +47,8 @@ const _logger = createLogger("daily-yield-service");
 
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
 
-interface EphemerisRow {
-  planet_positions: string | AlchemicalPlanetPositions;
-  transit_esms: string | AlchemicalProperties;
-}
-
-interface UserYieldProfileRow {
-  spirit_weight: string;
-  essence_weight: string;
-  matter_weight: string;
-  substance_weight: string;
-  natal_chart_hash: string;
-  weight_scale_version: string;
-}
-
 interface UserBaselineRow {
-  natal_chart_hash: string;
+  baseline_chart_hash: string | null;
   synastry_baseline: string | number | null;
   baseline_version: string | null;
 }
@@ -106,16 +92,14 @@ const getDbModule = async (): Promise<typeof import("@/lib/database") | null> =>
  * the OTHER scales onto it does not move these weights (proven by probe: zero
  * Scale-B calls in this path). This guard exists for the change after that one.
  */
-export const YIELD_WEIGHT_SCALE_VERSION = "untethered-faucet-v1";
+export const YIELD_WEIGHT_SCALE_VERSION = "untethered-faucet-v2";
 
 /**
  * Create a SHA-256 hash of natal chart positions for cache invalidation.
  *
- * The hash deliberately covers POSITIONS ONLY. The weight scale is the cache's
- * other input and is tracked separately, in the `weight_scale_version` column,
- * because `celestial.ts` reads these rows WITHOUT the positions in hand and so
- * cannot verify a hash — it can only check a stored version. One mechanism,
- * checkable by both readers, beats two that can disagree.
+ * This identifies geometry, not measured alchemy. Baselines carry their own
+ * copy of the hash; rewriting a weight profile must never relabel an old
+ * baseline as belonging to the new chart.
  */
 async function hashNatalChart(positions: AlchemicalPlanetPositions): Promise<string> {
   const canonical = Object.fromEntries(
@@ -151,7 +135,8 @@ async function hashNatalChart(positions: AlchemicalPlanetPositions): Promise<str
 function hasUsableAlchemy(value: AlchemicalProperties | undefined): value is AlchemicalProperties {
   if (!value) return false;
   const axes = [value.Spirit, value.Essence, value.Matter, value.Substance];
-  return axes.every(Number.isFinite) && axes.some((axis) => axis > 0);
+  return axes.every((axis) => Number.isFinite(axis) && axis >= 0) &&
+    axes.some((axis) => axis > 0);
 }
 
 function canonicalFaucetPositions(
@@ -197,42 +182,18 @@ function normalizeESMS(esms: AlchemicalProperties): {
 
 class DailyYieldService {
 
-  /** Get today's complete, degree-bearing sky; never let a fallback set mint magnitude. */
-  async getTodayEphemeris(): Promise<{
+  /** Compute the actual claim moment, using the same ephemeris as the baseline. */
+  async getClaimEphemeris(claimedAt: Date): Promise<{
     positions: AlchemicalPlanetPositions;
   }> {
-    const db = await getDbModule();
-    const todayStr = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-
-    if (db) {
-      try {
-        const result = await db.executeQuery<EphemerisRow>(
-          `SELECT planet_positions, transit_esms FROM daily_ephemeris_cache WHERE cache_date = $1`,
-          [todayStr],
-        );
-        const [row] = result.rows;
-        if (row) {
-          const rawPositions: Record<string, unknown> =
-            typeof row.planet_positions === "string"
-              ? (JSON.parse(row.planet_positions) as Record<string, unknown>)
-              : row.planet_positions;
-          const positions = canonicalFaucetPositions(rawPositions);
-          deriveTransitWeightsFromPositions(positions, { requireComplete: true });
-          return { positions };
-        }
-      } catch (error) {
-        _logger.warn(
-          "[DailyYield] Cached ephemeris was unavailable or invalid; calculating the live sky:",
-          error,
-        );
-      }
-    }
-
-    const { positions: rawPositions, degraded } =
-      await calculatePlanetaryPositionsWithMeta();
-    if (degraded) {
+    // A daily cache row cannot represent "now": the Moon can move through
+    // multiple 6-degree aspect windows within that day. Local computation also
+    // avoids backend timezone conversion and matches baseline sampling exactly.
+    const { positions: rawPositions, usedFallback } =
+      calculatePositionsWithAstronomyEngine(claimedAt, { log: false });
+    if (usedFallback) {
       throw new DegradedEphemerisError(
-        `Live ephemeris degraded: ${degraded.reasons.join(", ")}`,
+        "Live ephemeris degraded: astronomy-engine-fallback",
       );
     }
     const positions = canonicalFaucetPositions(rawPositions);
@@ -276,7 +237,9 @@ class DailyYieldService {
   }
 
   /**
-   * Get or compute a user's ESMS yield weights from their natal chart.
+   * Compute the current chart's weights and persist them for other consumers.
+   * This cheap calculation is not read-cached: measured natal alchemy (including
+   * sect) can change even when the geometry hash stays the same.
    */
   async getYieldWeights(
     userId: string,
@@ -286,42 +249,13 @@ class DailyYieldService {
     const chartHash = await hashNatalChart(natalPositions);
     const db = await getDbModule();
 
-    // Check cached yield profile
-    if (db) {
-      try {
-        const result = await db.executeQuery<UserYieldProfileRow>(
-          `SELECT spirit_weight, essence_weight, matter_weight, substance_weight, natal_chart_hash, weight_scale_version
-           FROM user_yield_profiles WHERE user_id = $1`,
-          [userId],
-        );
-        // Both inputs must match: the positions (hash) AND the weight scale.
-        // A row on an older scale is a miss, not a hit — it falls through to the
-        // recompute below and is upserted on the current scale.
-        const [row] = result.rows;
-        if (
-          row?.natal_chart_hash === chartHash &&
-          row.weight_scale_version === YIELD_WEIGHT_SCALE_VERSION
-        ) {
-          return {
-            spirit: parseFloat(row.spirit_weight),
-            essence: parseFloat(row.essence_weight),
-            matter: parseFloat(row.matter_weight),
-            substance: parseFloat(row.substance_weight),
-          };
-        }
-      } catch (error) {
-        _logger.warn("[DailyYield] Failed to read yield profile:", error);
-      }
-    }
-
     // Prefer the birth-chart ESMS already measured with the user's natal sect.
-    // Legacy agent rows carry positions only; inject the grounding vessel there
-    // so missing birth-time metadata cannot collapse Matter/Substance to zero.
+    // Legacy rows without measured sect keep the historical diurnal convention,
+    // but must not invent an Aries Ascendant. The faucet's explicit per-axis
+    // floor guarantees gas even when natal weights contain a zero axis.
     const natalESMS = hasUsableAlchemy(measuredAlchemy)
       ? measuredAlchemy
-      : calculateAlchemicalFromPlanetsDetailed(natalPositions, true, {
-          injectAscendant: true,
-        }).totals;
+      : calculateAlchemicalFromPlanetsDetailed(natalPositions, true).totals;
     const weights = normalizeESMS(natalESMS);
 
     // Cache the weights
@@ -377,7 +311,7 @@ class DailyYieldService {
     if (db) {
       try {
         const result = await db.executeQuery<UserBaselineRow>(
-          `SELECT natal_chart_hash, synastry_baseline, baseline_version
+          `SELECT baseline_chart_hash, synastry_baseline, baseline_version
              FROM user_yield_profiles
             WHERE user_id = $1`,
           [userId],
@@ -385,7 +319,7 @@ class DailyYieldService {
         const [row] = result.rows;
         const stored = Number(row?.synastry_baseline);
         if (
-          row?.natal_chart_hash === chartHash &&
+          row?.baseline_chart_hash === chartHash &&
           row.baseline_version === baselineVersion &&
           Number.isFinite(stored) &&
           stored > 0
@@ -404,6 +338,7 @@ class DailyYieldService {
           `UPDATE user_yield_profiles
               SET synastry_baseline = $2,
                   baseline_version = $3,
+                  baseline_chart_hash = $4,
                   calculated_at = now()
             WHERE user_id = $1 AND natal_chart_hash = $4`,
           [userId, baseline, baselineVersion, chartHash],
@@ -437,16 +372,19 @@ class DailyYieldService {
       return { status: "already_claimed" };
     }
 
-    // 2. Get today's complete degree-bearing sky (cache, then live ephemeris).
-    const { positions: transitPositions } = await this.getTodayEphemeris();
+    // Capture once: sky, normalization year, idempotency and analytics must all
+    // describe the same moment, even if computing the baseline takes time.
+    const claimedAt = new Date();
+    const todayStr = claimedAt.toISOString().slice(0, 10);
+    const { positions: transitPositions } = await this.getClaimEphemeris(claimedAt);
 
-    // 3. Resolve the user's chart colour and fixed-epoch self-normaliser.
+    // 3. Resolve the user's chart colour and claim-year self-normaliser.
     const weights = await this.getYieldWeights(
       userId,
       natal.positions,
       natal.alchemicalProperties,
     );
-    const chartBaseline = await this.getChartBaseline(userId, natal.positions);
+    const chartBaseline = await this.getChartBaseline(userId, natal.positions, claimedAt);
 
     // 4. Untether magnitude via z=S(N,t)/S-bar(N), then colour it by the chart,
     // current sky and counter-cyclical live-supply damping. Premium, holdings and
@@ -469,7 +407,9 @@ class DailyYieldService {
     // 5. Validate again at the last boundary before persistence, then credit all
     // four axes atomically. No zero-axis filter is allowed here.
     validateLedgerClamp(computed);
-    const todayStr = new Date().toISOString().slice(0, 10);
+    if (new Date().toISOString().slice(0, 10) !== todayStr) {
+      throw new Error("The UTC claim day changed during calculation; retry with the new sky");
+    }
     const credits: Array<{ tokenType: TokenType; amount: number }> = [
       { tokenType: "Spirit" as const, amount: distribution.spirit },
       { tokenType: "Essence" as const, amount: distribution.essence },
@@ -583,7 +523,7 @@ class DailyYieldService {
       claimDate: todayStr,
       resonance: computed.resonance,
       total: computed.total,
-      baselineVersion: baselineVersionFor(baselineYearFor(new Date())),
+      baselineVersion: baselineVersionFor(baselineYearFor(claimedAt)),
     });
 
     return {

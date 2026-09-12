@@ -82,7 +82,7 @@ beforeEach(() => {
 
   // Upstream of the credit and irrelevant to it — stubbed so these tests
   // exercise the outcome branching rather than the ephemeris cache.
-  jest.spyOn(dailyYieldService, "getTodayEphemeris").mockResolvedValue({
+  jest.spyOn(dailyYieldService, "getClaimEphemeris").mockResolvedValue({
     positions: TRANSIT_POSITIONS,
   });
   jest.spyOn(dailyYieldService, "getYieldWeights").mockResolvedValue({
@@ -99,9 +99,21 @@ afterEach(() => {
 });
 
 describe("claimDailyYield — the three outcomes", () => {
+  it("uses one captured instant for both sky and baseline", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({ status: "failed", message: "test rollback" });
+    await dailyYieldService.claimDailyYield(USER_ID, NATAL);
+    const [claimedAt] = jest.mocked(dailyYieldService.getClaimEphemeris).mock.calls[0]!;
+    expect(claimedAt).toBeInstanceOf(Date);
+    expect(dailyYieldService.getChartBaseline).toHaveBeenCalledWith(USER_ID, NATAL.positions, claimedAt);
+    expect(creditMultipleTokensDetailed).toHaveBeenCalledWith(
+      USER_ID, expect.any(Array), "daily_yield",
+      expect.objectContaining({ idempotencyKey: `daily:main:${USER_ID}:${claimedAt.toISOString().slice(0, 10)}` }),
+    );
+  });
+
   it("does not reach the ledger when the current sky is degraded", async () => {
     jest
-      .spyOn(dailyYieldService, "getTodayEphemeris")
+      .spyOn(dailyYieldService, "getClaimEphemeris")
       .mockRejectedValueOnce(new DegradedEphemerisError("Mars:missing"));
 
     await expect(dailyYieldService.claimDailyYield(USER_ID, NATAL)).rejects.toThrow(

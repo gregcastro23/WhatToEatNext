@@ -351,6 +351,7 @@ export interface UserYieldProfileRecord {
   weight_scale_version?: string;
   synastry_baseline?: number;
   baseline_version?: string;
+  baseline_chart_hash?: string;
   last_transit_bonus?: Record<string, unknown>; // JSONB
   yield_cache_date?: Date;
   calculated_at: Date;

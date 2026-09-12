@@ -49,8 +49,8 @@ taken in one year is the wrong divisor for another. ADR-015's literal 12-year
 Jupiter window does not fix it either (±53% emission, 1.8–3.0x spread): one
 Jupiter cycle still leaves Saturn and everything outward drifting.
 
-Sampling the claim's own year holds both invariants — ±3% emission for three of
-four archetypes in every year measured, shape spread ≤1.37x. The cost is that a
+Sampling the claim's own year reduces drift in the measured examples; it does
+not establish either invariant for arbitrary natal charts. The cost is that a
 chart's baseline is no longer constant for life; it is re-derived each January.
 That is not the griefing vector §3 warns about, because the window is a pure
 deterministic function of the claim date rather than a trailing window an
@@ -62,8 +62,12 @@ Changing the epoch or algorithm remains an economic migration, not a refactor.
 
 - A current sky missing any canonical planet, valid sign, or reconstructable
   longitude throws `DegradedEphemerisError`; no fallback may choose mint size.
+  Explicitly corrupt or contradictory coordinates are rejected, not wrapped
+  or replaced by another field. Claims compute the captured instant locally
+  with the same ephemeris used for baseline sampling; the daily cache is only a
+  daily summary, never the claim-time sky.
 - Every distribution is checked against the `[3,24]` band, the four-decimal
-  sum, finite-number requirements, and the per-axis floor immediately before
+  integer-unit sum, finite-number requirements, and the per-axis floor immediately before
   ledger persistence and again at the HTTP response boundary.
 - Daily claims do not use premium, holdings, or streak multipliers. Streak
   milestones remain separate, idempotent `streak_bonus` ledger grants.
@@ -72,14 +76,35 @@ Changing the epoch or algorithm remains an economic migration, not a refactor.
   `baseline_version` carries the epoch year (`synastry-annual-v2:2027`), so a
   year rollover is an ordinary cache miss — no migration and no yearly
   operational ritual, which a hand-re-pinned epoch would have required.
+  `baseline_chart_hash` is independent of the weight row's `natal_chart_hash`:
+  updating weights cannot relabel an old baseline. Migration 85 intentionally
+  leaves existing baseline hashes NULL to force verified recomputation. Weight
+  ratios are recomputed from each claim's current natal inputs, including any
+  measured alchemy, then persisted for other reward consumers. Legacy natal
+  rows lacking measured sect retain the diurnal convention, without injecting
+  an invented Ascendant; the explicit faucet floor supplies operational gas.
 - `calculateChartBaseline` takes its year explicitly. It sets a claim's
   magnitude, so it must not read the wall clock of whichever process calls it.
 
+## Limits of self-normalisation
+
+`mean(S / mean(S)) = 1` does **not** imply
+`mean(clamp(12 * S / mean(S), 3, 24)) = 12`. Clipping the two tails changes the
+mean. For example, raw scores `[-50, 100]` have mean `25`, but the two bounded
+grants are `[3, 24]`, averaging `13.5`, not `12`. Daily-noon sampling also does
+not guarantee neutrality for users choosing other claim times.
+
+The four-chart sweeps are regression examples, not proof of annual neutrality
+or removal of all chart-shape advantages. In addition, a nonpositive signed
+baseline is currently rejected: substituting an arbitrary divisor would change
+the agreed law. Enforcing universal annual neutrality or guaranteeing every
+possible chart a valid divisor requires a separately approved normalization
+rule. This implementation keeps the requested `clamp(12z, 3, 24)` law.
+
 ## Consequences
 
-Daily totals now vary across the full 8× safety band while adversarial chart
-shapes remain annual-emission neutral in every year measured (2026–2031), not
-only in a calibration year. The first claim for a new chart — and the first
+Daily totals now vary across the full 8× safety band; twelve is a reference
+level, not a total cap or a guaranteed annual average. The first claim for a new chart — and the first
 claim of each calendar year — computes its baseline; subsequent claims reuse
 the database and in-process caches. The 365-sky sweep behind a baseline is
 memoised per year per process, so a rollover costs one sweep rather than one

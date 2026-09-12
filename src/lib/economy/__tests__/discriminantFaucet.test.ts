@@ -4,6 +4,7 @@ import {
   computeSynastryScore,
   DegradedEphemerisError,
   deriveTransitWeightsFromPositions,
+  FALLBACK_NETWORK_SUPPLY,
   getLiveNetworkSupply,
   validateLedgerClamp,
 } from "@/lib/economy/discriminant-faucet";
@@ -120,6 +121,33 @@ describe("untethered discriminant faucet", () => {
     expect(computeSynastryScore(natal, outsideOrb)).toBe(0);
   });
 
+  it("responds to different actual moments within the same UTC day", () => {
+    const natal = liveSky(new Date("1990-01-01T12:00:00Z"));
+    const chartBaseline = calculateChartBaseline(natal, 2026);
+    const totals = [0, 6, 12, 18].map((hour) => computeDiscriminantDailyYield({
+      natalWeights: NATAL_WEIGHTS,
+      natalPositions: natal,
+      transitPositions: liveSky(new Date(Date.UTC(2026, 8, 12, hour))),
+      chartBaseline,
+      supply: NEUTRAL_SUPPLY,
+    }).total);
+    expect(new Set(totals).size).toBe(4);
+  });
+
+  it("preserves the specified clipping law without claiming clipped emission neutrality", () => {
+    const natal = chartAt([0]);
+    // Signed scores -50 and 100 average 25. The bounded payouts are 3 and
+    // 24, averaging 13.5: raw-mean normalization is not clipped-mean neutrality.
+    const skies = [chartAt([90]), chartAt([0])];
+    const chartBaseline = calculateChartBaseline(natal, 2026, skies);
+    expect(chartBaseline).toBe(25);
+    const totals = skies.map((transitPositions) => computeDiscriminantDailyYield({
+      natalWeights: NATAL_WEIGHTS, natalPositions: natal, transitPositions,
+      chartBaseline, supply: NEUTRAL_SUPPLY,
+    }).total);
+    expect(totals).toEqual([3, 24]);
+  });
+
   /**
    * An unrecognised sign must contribute nothing, never the -0.25 cross-polar
    * score. Two layers enforce this — `canonicalSign` drops the body, and the
@@ -166,7 +194,7 @@ describe("untethered discriminant faucet", () => {
     expect(() => validateLedgerClamp(result)).not.toThrow();
   });
 
-  it("self-normalises adversarial chart shapes to comparable annual emissions", () => {
+  it("keeps the four 2026 reference fixtures within their measured emission bounds", () => {
     const charts = [
       chartAt([0]),
       chartAt([0, 120, 240]),
@@ -202,8 +230,8 @@ describe("untethered discriminant faucet", () => {
   });
 
   /**
-   * The test above sweeps 2026 against a 2026 baseline, so mean(S/S-bar) is 1
-   * by construction and it cannot fail — it pins the in-sample year only.
+   * The test above sweeps 2026 against a 2026 baseline. The UNCLIPPED mean
+   * ratio is 1 by construction; the clipped grants need not average 12.
    *
    * This is the out-of-sample pin. It sweeps years the engine was never
    * calibrated against, and it is the regression guard for a fixed epoch:
@@ -212,7 +240,7 @@ describe("untethered discriminant faucet", () => {
    * shape exploit ADR-015 exists to close. Bounds below are set from measured
    * behaviour, not from the ADR's aspiration.
    */
-  it("keeps chart shape from setting income in years it was never calibrated on", () => {
+  it("keeps the four reference fixtures within their measured multi-year bounds", () => {
     const charts = [
       chartAt([0]),
       chartAt([0, 120, 240]),
@@ -263,6 +291,8 @@ describe("untethered discriminant faucet", () => {
   });
 
   it("caches live circulating supply for five minutes", async () => {
+    const now = Date.now();
+    const clock = jest.spyOn(Date, "now").mockReturnValue(now);
     const query = jest.fn().mockResolvedValue({
       rows: [{ spirit: 10, essence: 20, matter: 40, substance: 30 }],
     });
@@ -280,6 +310,14 @@ describe("untethered discriminant faucet", () => {
     });
     expect(second).toEqual(first);
     expect(query).toHaveBeenCalledTimes(1);
+    clock.mockReturnValue(now + 300_001);
+    await getLiveNetworkSupply(query);
+    expect(query).toHaveBeenCalledTimes(2);
+
+    clock.mockReturnValue(now + 600_002);
+    query.mockResolvedValue({ rows: [{ spirit: NaN, essence: 20, matter: 40, substance: 30 }] });
+    expect(await getLiveNetworkSupply(query)).toEqual(FALLBACK_NETWORK_SUPPLY);
+    clock.mockRestore();
   });
 
   it("refuses partial or corrupt current-sky geometry", () => {
@@ -294,6 +332,37 @@ describe("untethered discriminant faucet", () => {
     expect(() =>
       deriveTransitWeightsFromPositions(corrupt, { requireComplete: true }),
     ).toThrow(DegradedEphemerisError);
+  });
+
+  it.each([
+    { sign: "Aries", degree: 1, exactLongitude: NaN },
+    { sign: "Aries", degree: 1, exactLongitude: Infinity },
+    { sign: "Aries", degree: 1, exactLongitude: 999 },
+    { sign: "Aries", degree: 1, exactLongitude: -1 },
+    { sign: "Aries", degree: 0, exactLongitude: 120 },
+    { sign: "Aries", degree: 20, exactLongitude: 1 },
+    { sign: "Aries", degree: NaN, exactLongitude: 1 },
+  ])("rejects explicitly malformed or contradictory geometry: %j", (position) => {
+    const sky = chartAt([0]);
+    sky.Mars = position;
+    expect(() => deriveTransitWeightsFromPositions(sky, { requireComplete: true }))
+      .toThrow(DegradedEphemerisError);
+  });
+
+  it("accepts a genuine zero longitude and sign-relative reconstruction", () => {
+    const sky = chartAt([0]);
+    sky.Mars = { sign: "Taurus", degree: 4.5 };
+    expect(() => deriveTransitWeightsFromPositions(sky, { requireComplete: true })).not.toThrow();
+  });
+
+  it.each([
+    { spirit: 0.29995, essence: 0.70005, matter: 1, substance: 1, total: 3 },
+    { spirit: 0.75001, essence: 0.75001, matter: 0.75001, substance: 0.75001, total: 3 },
+    { spirit: 0.3, essence: 0.7, matter: 1, substance: 1.0001, total: 3 },
+    { spirit: 0.3, essence: 0.7, matter: 1, substance: 1, total: 3.00001 },
+    { spirit: NaN, essence: 0.7, matter: 1, substance: 1, total: 3 },
+  ])("refuses nonquantized, sub-floor or nonconserving ledger amounts: %j", (distribution) => {
+    expect(() => validateLedgerClamp(distribution)).toThrow(/Ledger clamp invariant breach/);
   });
 
   it("fails closed at the ledger boundary", () => {
