@@ -107,6 +107,10 @@ export const jsonbOrNull = (value: unknown): string | null => {
   return JSON.stringify(value);
 };
 
+function nonEmptyObject<T extends object>(obj: T | undefined | null): T | undefined {
+  return obj && Object.keys(obj).length > 0 ? obj : undefined;
+}
+
 class UserDatabaseService {
   // In-memory fallback storage
   private readonly users: Map<string, UserWithProfile> = new Map();
@@ -1167,8 +1171,8 @@ class UserDatabaseService {
     // Always update in-memory fallback
     const user = this.users.get(userId);
     if (user) {
-      user.privyDid = undefined;
-      user.walletAddress = undefined;
+      delete user.privyDid;
+      delete user.walletAddress;
     }
   }
 
@@ -1220,11 +1224,11 @@ class UserDatabaseService {
       Object.keys(rawUserPrefs).length > 0
         ? rawUserPrefs
         : dietaryPreferences;
-    const groupMembers = parseJsonColumn<UserProfile["groupMembers"]>(
+    const groupMembers = parseJsonColumn<NonNullable<UserProfile["groupMembers"]>>(
       row.group_members,
       [],
     );
-    const diningGroups = parseJsonColumn<UserProfile["diningGroups"]>(
+    const diningGroups = parseJsonColumn<NonNullable<UserProfile["diningGroups"]>>(
       row.dining_groups,
       [],
     );
@@ -1236,6 +1240,10 @@ class UserDatabaseService {
         ? (["admin", "user"] as UserRole[])
         : (["user"] as UserRole[]);
 
+    const profileName = row.profile_name ?? row.name;
+    const resolvedBirthData = nonEmptyObject(birthData);
+    const resolvedNatalChart = nonEmptyObject(natalChart);
+
     return {
       id: row.id,
       email: row.email,
@@ -1243,13 +1251,13 @@ class UserDatabaseService {
       roles,
       isActive: row.is_active,
       isAgent: row.is_agent === true,
-      privyDid: row.privy_did ?? undefined,
-      walletAddress: row.wallet_address ?? undefined,
+      ...(row.privy_did ? { privyDid: row.privy_did } : {}),
+      ...(row.wallet_address ? { walletAddress: row.wallet_address } : {}),
       createdAt: new Date(row.created_at),
-      lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
+      ...(row.last_login_at ? { lastLoginAt: new Date(row.last_login_at) } : {}),
       profile: {
         userId: row.id,
-        name: row.profile_name ?? row.name ?? undefined,
+        ...(profileName ? { name: profileName } : {}),
         email: row.email,
         preferences,
         dietaryPreferences,
@@ -1258,10 +1266,8 @@ class UserDatabaseService {
         onboardingComplete:
           row.onboarding_completed === true ||
           jsonbProfile.onboardingComplete === true,
-        birthData:
-          Object.keys(birthData ?? {}).length > 0 ? birthData : undefined,
-        natalChart:
-          Object.keys(natalChart ?? {}).length > 0 ? natalChart : undefined,
+        ...(resolvedBirthData ? { birthData: resolvedBirthData } : {}),
+        ...(resolvedNatalChart ? { natalChart: resolvedNatalChart } : {}),
         groupMembers,
         diningGroups,
       },

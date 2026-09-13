@@ -545,7 +545,7 @@ export function getRecipesByDiet(
     | "paleo",
   limit?: number,
 ): ScoredRecipe[] {
-  const options: RecipeSearchOptions = { limit };
+  const options: RecipeSearchOptions = limit !== undefined ? { limit } : {};
 
   switch (dietType) {
     case "vegetarian":
@@ -840,7 +840,7 @@ export function auditRecipeCompleteness(recipes: Recipe[]): RecipeAuditResult {
       incompleteRecipes.push({
         recipeId: recipe.id || "unknown",
         recipeName: recipe.name || "Unnamed recipe",
-        cuisine: recipe.cuisine,
+        ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
         issues,
       });
     }

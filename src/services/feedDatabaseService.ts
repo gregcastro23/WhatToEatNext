@@ -260,9 +260,9 @@ class FeedDatabaseService {
           metadataPayload: row.metadata_payload,
           createdAt: new Date(row.created_at),
           actorName,
-          actorImage,
+          ...(actorImage !== undefined ? { actorImage } : {}),
           actorIsAgent: isAgent,
-          actorSlug,
+          ...(actorSlug !== undefined ? { actorSlug } : {}),
           reactionCount: reactionTotal,
           reactionCounts: byKind,
           commentCount: Number(row.comment_count) || 0,
@@ -321,9 +321,9 @@ class FeedDatabaseService {
           metadataPayload: row.metadata_payload,
           createdAt: new Date(row.created_at),
           actorName,
-          actorImage,
+          ...(actorImage !== undefined ? { actorImage } : {}),
           actorIsAgent: isAgent,
-          actorSlug,
+          ...(actorSlug !== undefined ? { actorSlug } : {}),
           actorRevealed: revealed,
         };
       });

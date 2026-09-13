@@ -6,9 +6,9 @@ import type { JSX } from "react";
 export interface AvatarPerson {
   name: string;
   /** Real photo when the roster member has one. */
-  src?: string;
+  src?: string | undefined;
   /** Drives the sigil fallback color/glyph when there is no photo. */
-  element?: Element;
+  element?: Element | undefined;
 }
 
 export interface AvatarCircleProps extends AvatarPerson {

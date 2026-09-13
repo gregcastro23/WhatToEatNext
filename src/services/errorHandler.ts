@@ -203,12 +203,12 @@ class ErrorHandlerService {
 
     return {
       message,
-      stack,
-      context: options.context,
-      data: options.data,
+      ...(stack !== undefined ? { stack } : {}),
+      ...(options.context !== undefined ? { context: options.context } : {}),
+      ...(options.data !== undefined ? { data: options.data } : {}),
       timestamp: new Date().toISOString(),
       errorType,
-      componentStack,
+      ...(componentStack !== undefined ? { componentStack } : {}),
     };
   }
 }

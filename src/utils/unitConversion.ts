@@ -174,20 +174,25 @@ export function convertToGramsDetailed(
   if (measure !== undefined && ingredientName) {
     const measured = volumeToMass(canonicalIngredient(ingredientName), amount, measure);
     if (measured !== null) {
-      return { grams: measured.grams, basis: "usda-measured", fdcId: measured.fdcId };
+      return {
+        grams: measured.grams,
+        basis: "usda-measured",
+        ...(measured.fdcId !== undefined ? { fdcId: measured.fdcId } : {}),
+      };
     }
   }
 
   const factor = UNIT_CONVERSIONS[key];
   if (factor == null) return null;
+  const approximationNote =
+    measure !== undefined
+      ? `No measured weight for ${ingredientName ? `"${ingredientName}"` : "this ingredient"}; ` +
+        `"${key}" was converted at water density and may be wrong by several fold.`
+      : undefined;
   return {
     grams: amount * factor,
     basis: "water-approximation",
-    approximationNote:
-      measure !== undefined
-        ? `No measured weight for ${ingredientName ? `"${ingredientName}"` : "this ingredient"}; ` +
-          `"${key}" was converted at water density and may be wrong by several fold.`
-        : undefined,
+    ...(approximationNote ? { approximationNote } : {}),
   };
 }
 

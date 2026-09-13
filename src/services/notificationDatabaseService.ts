@@ -61,6 +61,7 @@ const parseNotificationMetadata = (
 };
 
 function rowToNotification(row: NotificationRow): UserNotification {
+  const expiresAt = toOptionalIsoString(row.expires_at);
   return {
     id: row.id,
     userId: row.user_id,
@@ -68,11 +69,11 @@ function rowToNotification(row: NotificationRow): UserNotification {
     title: row.title,
     message: row.message,
     isRead: row.is_read,
-    relatedUserId: row.related_user_id ?? undefined,
-    relatedUserName: row.related_user_name ?? undefined,
+    ...(row.related_user_id ? { relatedUserId: row.related_user_id } : {}),
+    ...(row.related_user_name ? { relatedUserName: row.related_user_name } : {}),
     metadata: parseNotificationMetadata(row.metadata),
     createdAt: toIsoString(row.created_at),
-    expiresAt: toOptionalIsoString(row.expires_at),
+    ...(expiresAt ? { expiresAt } : {}),
   };
 }
 
@@ -101,10 +102,10 @@ class NotificationDatabaseService {
       title,
       message,
       isRead: false,
-      relatedUserId: opts?.relatedUserId,
+      ...(opts?.relatedUserId ? { relatedUserId: opts.relatedUserId } : {}),
       metadata: opts?.metadata ?? {},
       createdAt: now,
-      expiresAt: opts?.expiresAt,
+      ...(opts?.expiresAt ? { expiresAt: opts.expiresAt } : {}),
     };
 
     if (db) {
@@ -340,7 +341,7 @@ class NotificationDatabaseService {
         return existing;
       }
       return this.createNotification(userId, type, opts.title, opts.message, {
-        relatedUserId: opts.relatedUserId,
+        ...(opts.relatedUserId ? { relatedUserId: opts.relatedUserId } : {}),
         metadata: { ...opts.metadata, conversationId, unreadCount: 1, messagePreview: opts.message },
       });
     }

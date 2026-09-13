@@ -186,7 +186,7 @@ class EmailService {
         to: options.to,
         subject: options.subject,
         html: options.html,
-        text: options.text,
+        ...(options.text !== undefined ? { text: options.text } : {}),
       });
       logger.info("Email sent via SMTP:", info.messageId);
       return true;
@@ -226,8 +226,8 @@ class EmailService {
   ): Promise<boolean> {
     const { subject, html, text } = renderBulletinEmail({
       name,
-      natalChart,
-      unsubscribeUrl: opts?.unsubscribeUrl,
+      ...(natalChart !== undefined ? { natalChart } : {}),
+      ...(opts?.unsubscribeUrl !== undefined ? { unsubscribeUrl: opts.unsubscribeUrl } : {}),
     });
     return this.sendEmail({ to, subject, html, text });
   }

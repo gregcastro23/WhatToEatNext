@@ -34,7 +34,13 @@ function _parseBackendResult(data: unknown): PlanetaryHourResult | null {
   const start = typeof obj.start === "string" ? new Date(obj.start) : undefined;
   const end = typeof obj.end === "string" ? new Date(obj.end) : undefined;
 
-  return { planet: planet as Planet, hourNumber, isDaytime, start, end };
+  return {
+    planet: planet as Planet,
+    isDaytime,
+    ...(hourNumber !== undefined ? { hourNumber } : {}),
+    ...(start ? { start } : {}),
+    ...(end ? { end } : {}),
+  };
 }
 
 /**
@@ -76,13 +82,12 @@ export class PlanetaryHoursClient {
           result,
         );
 
-        // Transform API result to our format
         return {
           planet: result.planet as Planet,
-          hourNumber: result.hourNumber,
           isDaytime: result.isDaytime,
-          start: result.start ? new Date(result.start) : undefined,
-          end: result.end ? new Date(result.end) : undefined,
+          ...(result.hourNumber !== undefined ? { hourNumber: result.hourNumber } : {}),
+          ...(result.start ? { start: new Date(result.start) } : {}),
+          ...(result.end ? { end: new Date(result.end) } : {}),
         };
       } catch (error) {
         void logger.warn(

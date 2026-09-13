@@ -220,18 +220,24 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
 
   const regionalEntries = cuisine.regionalCuisines
     ? Array.isArray(cuisine.regionalCuisines)
-      ? (cuisine.regionalCuisines as RegionalCuisineEntry[]).map((r, i: number) => ({
-        key: String(i),
-        name: r.name ?? String(i),
-        description: r.description,
-        signature: r.signature ?? r.signatureDishes,
-      }))
-      : Object.entries(cuisine.regionalCuisines as Record<string, RegionalCuisineEntry>).map(([k, r]) => ({
-        key: k,
-        name: r.name ?? k,
-        description: r.description,
-        signature: r.signature ?? r.signatureDishes,
-      }))
+      ? (cuisine.regionalCuisines as RegionalCuisineEntry[]).map((r, i: number) => {
+        const sig = r.signature ?? r.signatureDishes;
+        return {
+          key: String(i),
+          name: r.name ?? String(i),
+          ...(r.description ? { description: r.description } : {}),
+          ...(sig ? { signature: sig } : {}),
+        };
+      })
+      : Object.entries(cuisine.regionalCuisines as Record<string, RegionalCuisineEntry>).map(([k, r]) => {
+        const sig = r.signature ?? r.signatureDishes;
+        return {
+          key: k,
+          name: r.name ?? k,
+          ...(r.description ? { description: r.description } : {}),
+          ...(sig ? { signature: sig } : {}),
+        };
+      })
     : [];
 
   const sr = (cuisine.sauceRecommender ?? {
@@ -253,7 +259,7 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
   return {
     key: canonicalKey,
     name: cuisine.name || canonicalKey,
-    description: cuisine.description,
+    ...(cuisine.description ? { description: cuisine.description } : {}),
     elementalProperties: (cuisine.elementalProperties as ElementalProperties | undefined) ?? {
       Fire: 0.25,
       Water: 0.25,
@@ -263,7 +269,7 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
     planetaryResonance: profile?.planetaryResonance ?? [],
     signatureTechniques: profile?.signatureTechniques ?? [],
     signatureIngredients: profile?.signatureIngredients ?? [],
-    flavorProfile: profile?.flavorProfiles,
+    ...(profile?.flavorProfiles ? { flavorProfile: profile.flavorProfiles } : {}),
     seasonalPreference: profile?.seasonalPreference ?? [],
     regions: regionalEntries,
     motherSauceCount: cuisine.motherSauces ? Object.keys(cuisine.motherSauces).length : 0,
@@ -322,6 +328,16 @@ function findDataSauce(name: string): { key: string; sauce: DataSauce } | undefi
   return ALL_SAUCE_INDEX.byName.get(n) ?? ALL_SAUCE_INDEX.byKey.get(n);
 }
 
+function assignIfDefined<T extends object, K extends keyof T>(
+  target: T,
+  key: K,
+  value: T[K] | undefined,
+): void {
+  if (value !== undefined) {
+    target[key] = value;
+  }
+}
+
 function fromCuisineSauce(
   ownerCuisine: string,
   origin: "mother" | "traditional",
@@ -330,32 +346,35 @@ function fromCuisineSauce(
 ): UnifiedSauce {
   const richer = findDataSauce(raw?.name ?? key);
   const merged: CuisineSauceBlob = richer ? { ...richer.sauce, ...raw } : raw ?? {};
-  return {
+  const sauce: UnifiedSauce = {
     id: `${ownerCuisine}:${origin}:${key}`,
     name: raw?.name ?? key,
     origin,
     ownerCuisine,
-    description: merged.description,
-    base: merged.base,
-    keyIngredients: merged.keyIngredients,
-    variants: merged.variants ?? merged.derivatives,
-    elementalProperties: merged.elementalProperties,
-    astrologicalInfluences: merged.astrologicalInfluences,
-    seasonality: merged.seasonality,
-    preparationNotes: merged.preparationNotes,
-    technicalTips: merged.technicalTips,
-    difficulty: merged.difficulty,
-    prepTime: merged.prepTime,
-    cookTime: merged.cookTime,
-    yield: merged.yield,
-    ingredients: merged.ingredients,
-    preparationSteps: merged.preparationSteps,
-    storageInstructions: merged.storageInstructions,
-    alchemicalProperties: merged.alchemicalProperties,
-    thermodynamicProperties: merged.thermodynamicProperties,
-    nutritionalProfile: merged.nutritionalProfile,
-    dataKey: richer?.key,
   };
+
+  assignIfDefined(sauce, "description", merged.description);
+  assignIfDefined(sauce, "base", merged.base);
+  assignIfDefined(sauce, "keyIngredients", merged.keyIngredients);
+  assignIfDefined(sauce, "variants", merged.variants ?? merged.derivatives);
+  assignIfDefined(sauce, "elementalProperties", merged.elementalProperties);
+  assignIfDefined(sauce, "astrologicalInfluences", merged.astrologicalInfluences);
+  assignIfDefined(sauce, "seasonality", merged.seasonality);
+  assignIfDefined(sauce, "preparationNotes", merged.preparationNotes);
+  assignIfDefined(sauce, "technicalTips", merged.technicalTips);
+  assignIfDefined(sauce, "difficulty", merged.difficulty);
+  assignIfDefined(sauce, "prepTime", merged.prepTime);
+  assignIfDefined(sauce, "cookTime", merged.cookTime);
+  assignIfDefined(sauce, "yield", merged.yield);
+  assignIfDefined(sauce, "ingredients", merged.ingredients);
+  assignIfDefined(sauce, "preparationSteps", merged.preparationSteps);
+  assignIfDefined(sauce, "storageInstructions", merged.storageInstructions);
+  assignIfDefined(sauce, "alchemicalProperties", merged.alchemicalProperties);
+  assignIfDefined(sauce, "thermodynamicProperties", merged.thermodynamicProperties);
+  assignIfDefined(sauce, "nutritionalProfile", merged.nutritionalProfile);
+  assignIfDefined(sauce, "dataKey", richer?.key);
+
+  return sauce;
 }
 
 function fromGlobalSauce(key: string, sauce: DataSauce): UnifiedSauce {
@@ -363,26 +382,26 @@ function fromGlobalSauce(key: string, sauce: DataSauce): UnifiedSauce {
     id: `global:${key}`,
     name: sauce.name,
     origin: "global",
-    ownerCuisine: sauce.cuisine,
+    ...(sauce.cuisine ? { ownerCuisine: sauce.cuisine } : {}),
     description: sauce.description,
     base: sauce.base,
     keyIngredients: sauce.keyIngredients,
-    variants: sauce.variants,
+    ...(sauce.variants ? { variants: sauce.variants } : {}),
     elementalProperties: sauce.elementalProperties,
     astrologicalInfluences: sauce.astrologicalInfluences,
     seasonality: sauce.seasonality,
-    preparationNotes: sauce.preparationNotes,
-    technicalTips: sauce.technicalTips,
-    difficulty: sauce.difficulty,
-    prepTime: sauce.prepTime,
-    cookTime: sauce.cookTime,
-    yield: sauce.yield,
-    ingredients: sauce.ingredients,
-    preparationSteps: sauce.preparationSteps,
-    storageInstructions: sauce.storageInstructions,
-    alchemicalProperties: sauce.alchemicalProperties,
-    thermodynamicProperties: sauce.thermodynamicProperties,
-    nutritionalProfile: sauce.nutritionalProfile,
+    ...(sauce.preparationNotes ? { preparationNotes: sauce.preparationNotes } : {}),
+    ...(sauce.technicalTips ? { technicalTips: sauce.technicalTips } : {}),
+    ...(sauce.difficulty ? { difficulty: sauce.difficulty } : {}),
+    ...(sauce.prepTime ? { prepTime: sauce.prepTime } : {}),
+    ...(sauce.cookTime ? { cookTime: sauce.cookTime } : {}),
+    ...(sauce.yield ? { yield: sauce.yield } : {}),
+    ...(sauce.ingredients ? { ingredients: sauce.ingredients } : {}),
+    ...(sauce.preparationSteps ? { preparationSteps: sauce.preparationSteps } : {}),
+    ...(sauce.storageInstructions ? { storageInstructions: sauce.storageInstructions } : {}),
+    ...(sauce.alchemicalProperties ? { alchemicalProperties: sauce.alchemicalProperties } : {}),
+    ...(sauce.thermodynamicProperties ? { thermodynamicProperties: sauce.thermodynamicProperties } : {}),
+    ...(sauce.nutritionalProfile ? { nutritionalProfile: sauce.nutritionalProfile } : {}),
     dataKey: key,
   };
 }

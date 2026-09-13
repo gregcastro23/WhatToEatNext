@@ -479,7 +479,7 @@ export interface BirthSectInput {
    * about an absolute moment — a wall clock is not a moment until a zone is
    * applied to it. Written by `scripts/backfillBirthInstant.ts`.
    */
-  utcInstant?: string;
+  utcInstant?: string | undefined;
   latitude?: number;
   longitude?: number;
 }

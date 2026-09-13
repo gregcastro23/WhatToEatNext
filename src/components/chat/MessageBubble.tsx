@@ -92,8 +92,8 @@ export function SenderAvatar({
   size = 32,
 }: {
   name: string;
-  src?: string;
-  element?: Element;
+  src?: string | undefined;
+  element?: Element | undefined;
   size?: number;
 }): JSX.Element {
   return <AvatarCircle name={name} src={src} element={element} size={size} />;

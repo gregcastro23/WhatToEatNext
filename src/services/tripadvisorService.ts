@@ -180,20 +180,25 @@ class TripadvisorService {
     const d = await this.getJson<TaDetailsResponse>(url);
     if (!d?.name) return null;
 
+    const rating = numOrUndefined(d.rating);
+    const numReviews = numOrUndefined(d.num_reviews);
+    const latitude = numOrUndefined(d.latitude);
+    const longitude = numOrUndefined(d.longitude);
+
     return {
       locationId,
       name: d.name,
-      webUrl: d.web_url,
-      rating: numOrUndefined(d.rating),
-      numReviews: numOrUndefined(d.num_reviews),
-      priceLevel: d.price_level,
-      ratingImageUrl: d.rating_image_url,
+      ...(d.web_url ? { webUrl: d.web_url } : {}),
+      ...(rating !== undefined ? { rating } : {}),
+      ...(numReviews !== undefined ? { numReviews } : {}),
+      ...(d.price_level ? { priceLevel: d.price_level } : {}),
+      ...(d.rating_image_url ? { ratingImageUrl: d.rating_image_url } : {}),
       cuisine: (d.cuisine ?? [])
         .map((c) => c.localized_name ?? c.name ?? "")
         .filter(Boolean),
-      latitude: numOrUndefined(d.latitude),
-      longitude: numOrUndefined(d.longitude),
-      addressString: d.address_obj?.address_string,
+      ...(latitude !== undefined ? { latitude } : {}),
+      ...(longitude !== undefined ? { longitude } : {}),
+      ...(d.address_obj?.address_string ? { addressString: d.address_obj.address_string } : {}),
     };
   }
 }

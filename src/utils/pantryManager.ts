@@ -60,14 +60,15 @@ export function getPantry(): PantryItem[] {
     const items = JSON.parse(stored) as StoredPantryItem[];
 
     // Convert date strings back to Date objects
-    return items.map((item) => ({
-      ...item,
-      id: item.id ?? generateId(),
-      addedDate: new Date(item.addedDate),
-      expirationDate: item.expirationDate
-        ? new Date(item.expirationDate)
-        : undefined,
-    }));
+    return items.map((item) => {
+      const { expirationDate, ...rest } = item;
+      return {
+        ...rest,
+        id: item.id ?? generateId(),
+        addedDate: new Date(item.addedDate),
+        ...(expirationDate ? { expirationDate: new Date(expirationDate) } : {}),
+      };
+    });
   } catch (error) {
     logger.error("Failed to load pantry from localStorage:", error);
     return [];
@@ -390,14 +391,15 @@ export function importPantryJSON(
     }
 
     // Validate items
-    const items: PantryItem[] = (imported as StoredPantryItem[]).map((item) => ({
-      ...item,
-      id: item.id ?? generateId(),
-      addedDate: new Date(item.addedDate),
-      expirationDate: item.expirationDate
-        ? new Date(item.expirationDate)
-        : undefined,
-    }));
+    const items: PantryItem[] = (imported as StoredPantryItem[]).map((item) => {
+      const { expirationDate, ...rest } = item;
+      return {
+        ...rest,
+        id: item.id ?? generateId(),
+        addedDate: new Date(item.addedDate),
+        ...(expirationDate ? { expirationDate: new Date(expirationDate) } : {}),
+      };
+    });
 
     if (merge) {
       const existing = getPantry();

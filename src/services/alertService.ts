@@ -480,7 +480,7 @@ export async function dispatchAlert(
       slack: { ok: false, error: "Suppressed by cooldown" },
       email: { ok: false, error: "Suppressed by cooldown" },
       suppressed: true,
-      suppressionReason: cooldown.reason,
+      ...(cooldown.reason ? { suppressionReason: cooldown.reason } : {}),
     };
   } else {
     const [slackResult, emailResult] = await Promise.all([

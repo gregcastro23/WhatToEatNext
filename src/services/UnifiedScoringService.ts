@@ -959,7 +959,7 @@ export class UnifiedScoringService {
         notes,
         metadata: {
           timestamp: new Date(),
-          location: context.location,
+          ...(context.location !== undefined ? { location: context.location } : {}),
           dominantEffects,
           warnings,
         },

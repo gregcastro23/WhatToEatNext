@@ -59,7 +59,7 @@ export function validateRecipeCircuit(
     outputPower,
     losses,
     efficiency,
-    error: isValid ? undefined : "Power conservation violated",
+    ...(isValid ? {} : { error: "Power conservation violated" }),
   };
 }
 
@@ -97,7 +97,7 @@ export function getCircuitBasedRecommendations(
         recipe,
         circuitEfficiency: validation.efficiency,
         kineticsCompatibility,
-        recommendedCookingMethod: recommendedMethod,
+        ...(recommendedMethod ? { recommendedCookingMethod: recommendedMethod } : {}),
         powerFlowDescription,
       };
     })
@@ -252,6 +252,6 @@ export function validateMultiRecipeCircuit(
     outputPower: totalOutputPower,
     losses: totalLosses,
     efficiency,
-    error: isValid ? undefined : "Multi-recipe power conservation violated",
+    ...(isValid ? {} : { error: "Multi-recipe power conservation violated" }),
   };
 }
