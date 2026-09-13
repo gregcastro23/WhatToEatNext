@@ -193,9 +193,9 @@ function addCulturalMethodVariation(
         name: culturalMethod.variationName ?? culturalMethod.name,
         description: culturalMethod.description,
         elementalEffect: culturalMethod.elementalProperties,
-        toolsRequired: culturalMethod.toolsRequired,
-        bestFor: culturalMethod.bestFor,
-        culturalOrigin: culturalMethod.culturalOrigin,
+        duration: { min: 10, max: 30 },
+        suitable_for: culturalMethod.bestFor ?? [],
+        benefits: [],
         astrologicalInfluences: {
           favorableZodiac:
             culturalMethod.astrologicalInfluences?.favorableZodiac ?? [],
@@ -204,10 +204,10 @@ function addCulturalMethodVariation(
           dominantPlanets:
             culturalMethod.astrologicalInfluences?.dominantPlanets ?? [],
         },
-        duration: { min: 10, max: 30 },
-        suitable_for: culturalMethod.bestFor ?? [],
-        benefits: [],
-        relatedToMainMethod: culturalMethod.relatedToMainMethod,
+        ...(culturalMethod.toolsRequired !== undefined ? { toolsRequired: culturalMethod.toolsRequired } : {}),
+        ...(culturalMethod.bestFor !== undefined ? { bestFor: culturalMethod.bestFor } : {}),
+        culturalOrigin: culturalMethod.culturalOrigin,
+        ...(culturalMethod.relatedToMainMethod !== undefined ? { relatedToMainMethod: culturalMethod.relatedToMainMethod } : {}),
       },
     ];
   }
@@ -226,9 +226,10 @@ function addCulturalMethodStandalone(
       name: culturalMethod.name,
       description: culturalMethod.description,
       elementalEffect: culturalMethod.elementalProperties,
-      toolsRequired: culturalMethod.toolsRequired,
-      bestFor: culturalMethod.bestFor,
-      culturalOrigin: culturalMethod.culturalOrigin,
+      duration: { min: 10, max: 30 },
+      suitable_for: culturalMethod.bestFor ?? [],
+      benefits: [],
+      variations: [],
       astrologicalInfluences: {
         favorableZodiac:
           culturalMethod.astrologicalInfluences?.favorableZodiac ?? [],
@@ -237,10 +238,9 @@ function addCulturalMethodStandalone(
         dominantPlanets:
           culturalMethod.astrologicalInfluences?.dominantPlanets ?? [],
       },
-      duration: { min: 10, max: 30 },
-      suitable_for: culturalMethod.bestFor ?? [],
-      benefits: [],
-      variations: [],
+      ...(culturalMethod.toolsRequired !== undefined ? { toolsRequired: culturalMethod.toolsRequired } : {}),
+      ...(culturalMethod.bestFor !== undefined ? { bestFor: culturalMethod.bestFor } : {}),
+      culturalOrigin: culturalMethod.culturalOrigin,
     };
   }
 }

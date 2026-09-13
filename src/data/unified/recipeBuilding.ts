@@ -1980,12 +1980,16 @@ export class UnifiedRecipeBuildingSystem {
 
     for (let i = 0; i < altPlanets.length; i++) {
       try {
-        const altCriteria = {
-          ...criteria,
+        const {
+          requiredIngredients: _req,
+          cuisine: _oldCuisine,
+          ...criteriaWithoutRequired
+        } = criteria;
+        const altCuisine = altCuisines[i] ?? criteria.cuisine;
+        const altCriteria: RecipeBuildingCriteria = {
+          ...criteriaWithoutRequired,
           planetaryHour: altPlanets[i] as PlanetName,
-          cuisine: altCuisines[i] ?? criteria.cuisine,
-          // Clear required ingredients so the alternative can pick freely
-          requiredIngredients: undefined,
+          ...(altCuisine !== undefined ? { cuisine: altCuisine } : {}),
         };
 
         const baseRecipe = this.createBaseRecipe(altCriteria);
@@ -2273,9 +2277,9 @@ export class UnifiedRecipeBuildingSystem {
       name: i.name,
       amount: i.amount,
       unit: i.unit,
-      id: i.id,
-      seasonality: i.seasonality,
-      category: i.category,
+      ...(i.id !== undefined ? { id: i.id } : {}),
+      ...(i.seasonality !== undefined ? { seasonality: i.seasonality } : {}),
+      ...(i.category !== undefined ? { category: i.category } : {}),
     }));
   }
 
@@ -2814,6 +2818,7 @@ export class UnifiedRecipeBuildingSystem {
       ? ` with ${influences.join(" and ")} accents`
       : "";
 
+    const season = criteria.currentSeason ?? criteria.season;
     const base: Partial<EnhancedRecipe> = {
       name: `${primary} ${fusionType}${accentNote}`,
       cuisine: primary,
@@ -2824,8 +2829,8 @@ export class UnifiedRecipeBuildingSystem {
       cookingMethod: [],
       cookingTime: `${parseMinutes(criteria.maxCookTime) ?? 35} minutes`,
       elementalProperties: baseElementals,
-      mealType: criteria.mealType,
-      season: criteria.currentSeason ?? criteria.season,
+      ...(criteria.mealType !== undefined ? { mealType: criteria.mealType } : {}),
+      ...(season !== undefined ? { season } : {}),
     };
     return base;
   }
@@ -2836,9 +2841,11 @@ export class UnifiedRecipeBuildingSystem {
   ): MonicaOptimizedRecipe["monicaOptimization"] {
     // Calculate fusion Monica optimization with complete interface
     const originalMonica = recipe.alchemicalProperties?.monicaConstant ?? null;
-    const optimizedMonica = this.calculateOptimalMonica(recipe, {
-      cuisine: cuisines[0],
-    });
+    const [primaryCuisine] = cuisines;
+    const optimizedMonica = this.calculateOptimalMonica(
+      recipe,
+      primaryCuisine !== undefined ? { cuisine: primaryCuisine } : {},
+    );
     const optimizationScore = originalMonica
       ? optimizedMonica / originalMonica
       : 1.0;

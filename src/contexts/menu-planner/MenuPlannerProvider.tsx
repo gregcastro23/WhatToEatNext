@@ -582,29 +582,36 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
           lunarPhase: astrologicalState.lunarPhase,
           activePlanets: astrologicalState.activePlanets,
           domElements: astrologicalState.domElements,
-          currentPlanetaryHour: astrologicalState.currentPlanetaryHour ?? undefined,
+          ...(astrologicalState.currentPlanetaryHour != null
+            ? { currentPlanetaryHour: astrologicalState.currentPlanetaryHour }
+            : {}),
         };
 
         const userContext: UserPersonalizationContext | undefined =
           hasPersonalization
-            ? { natalChart, chartComparison: chartComparison ?? undefined, prioritizeHarmony: true }
+            ? {
+                natalChart,
+                ...(chartComparison != null ? { chartComparison } : {}),
+                prioritizeHarmony: true,
+              }
             : undefined;
 
-        const existingMeals = currentMenu.meals
-          .filter((m) => m.recipe && m.dayOfWeek !== dayOfWeek)
-          .map((m) => ({
-            recipeId: m.recipe!.id,
-            recipeName: m.recipe!.name,
-            cuisine: m.recipe!.cuisine,
-            primaryProtein: ((): string | undefined => {
-              const proteinIng = m.recipe!.ingredients.find(
-                (i) => typeof i !== "string" && (i as { category?: string }).category === "protein",
-              );
-              return proteinIng && typeof proteinIng !== "string"
-                ? (proteinIng as { name?: string }).name
-                : undefined;
-            })(),
-          }));
+        const existingMeals = currentMenu.meals.flatMap((m) => {
+          if (!m.recipe || m.dayOfWeek === dayOfWeek) return [];
+          const { recipe } = m;
+          const proteinIng = recipe.ingredients.find(
+            (i) => typeof i !== "string" && (i as { category?: string }).category === "protein",
+          );
+          const proteinName = proteinIng && typeof proteinIng !== "string"
+            ? (proteinIng as { name?: string }).name
+            : undefined;
+          return [{
+            recipeId: recipe.id,
+            recipeName: recipe.name,
+            ...(recipe.cuisine !== undefined ? { cuisine: recipe.cuisine } : {}),
+            ...(proteinName !== undefined ? { primaryProtein: proteinName } : {}),
+          }];
+        });
 
         const totalPlannedMeals = currentMenu.meals.filter((m) => m.recipe).length;
         const budgetPerMealValue = weeklyBudget
@@ -684,21 +691,21 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
           const consumedFiber = plannedFiber + eatenFiber;
 
           nutritionalContext = {
-            remainingCalories: nutTargets.dailyCalories
-              ? Math.max(0, nutTargets.dailyCalories - consumedCals)
-              : undefined,
-            remainingProteinG: nutTargets.dailyProteinG
-              ? Math.max(0, nutTargets.dailyProteinG - consumedProtein)
-              : undefined,
-            remainingCarbsG: nutTargets.dailyCarbsG
-              ? Math.max(0, nutTargets.dailyCarbsG - consumedCarbs)
-              : undefined,
-            remainingFatG: nutTargets.dailyFatG
-              ? Math.max(0, nutTargets.dailyFatG - consumedFat)
-              : undefined,
-            remainingFiberG: nutTargets.dailyFiberG
-              ? Math.max(0, nutTargets.dailyFiberG - consumedFiber)
-              : undefined,
+            ...(nutTargets.dailyCalories
+              ? { remainingCalories: Math.max(0, nutTargets.dailyCalories - consumedCals) }
+              : {}),
+            ...(nutTargets.dailyProteinG
+              ? { remainingProteinG: Math.max(0, nutTargets.dailyProteinG - consumedProtein) }
+              : {}),
+            ...(nutTargets.dailyCarbsG
+              ? { remainingCarbsG: Math.max(0, nutTargets.dailyCarbsG - consumedCarbs) }
+              : {}),
+            ...(nutTargets.dailyFatG
+              ? { remainingFatG: Math.max(0, nutTargets.dailyFatG - consumedFat) }
+              : {}),
+            ...(nutTargets.dailyFiberG
+              ? { remainingFiberG: Math.max(0, nutTargets.dailyFiberG - consumedFiber) }
+              : {}),
             prioritizeProtein: nutTargets.prioritizeProtein,
             prioritizeFiber: nutTargets.prioritizeFiber,
           };
@@ -718,10 +725,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
             maxPrepTimeMinutes: mergedMaxPrepTime,
             useCurrentPlanetary,
             maxRecipesPerMeal: 1,
-            userContext,
+            ...(userContext !== undefined ? { userContext } : {}),
             existingMeals,
-            budgetPerMeal: budgetPerMealValue,
-            nutritionalContext,
+            ...(budgetPerMealValue !== undefined ? { budgetPerMeal: budgetPerMealValue } : {}),
+            ...(nutritionalContext !== undefined ? { nutritionalContext } : {}),
           },
         );
 

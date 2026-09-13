@@ -276,16 +276,25 @@ function getAllIngredients(): EnhancedIngredient[] {
   Object.entries(ingredientCategories).forEach(([category, ingredientsMap]) => {
     Object.entries(ingredientsMap as Record<string, unknown>).forEach(([name, data]) => {
       const ingredientData = (data ?? {}) as Record<string, unknown>;
+      const {
+        elementalProperties: rawElem,
+        astrologicalProfile: rawAstro,
+        ...restData
+      } = ingredientData;
       allIngredients.push({
         name,
         type: category.endsWith("s") ? category.slice(0, -1) : category,
         category,
-        elementalProperties: ingredientData.elementalProperties as ElementalProperties | undefined,
-        astrologicalProfile: ingredientData.astrologicalProfile as {
-          rulingPlanets?: string[];
-          signAffinities?: string[];
-        } | undefined,
-        ...ingredientData,
+        ...restData,
+        ...(rawElem !== undefined ? { elementalProperties: rawElem as ElementalProperties } : {}),
+        ...(rawAstro !== undefined
+          ? {
+              astrologicalProfile: rawAstro as {
+                rulingPlanets?: string[];
+                signAffinities?: string[];
+              },
+            }
+          : {}),
       });
     });
   });
@@ -648,6 +657,7 @@ export function getIngredientRecommendations(
         description?: string;
         [key: string]: unknown;
       };
+      const safeElem = safeGetElementalProperties(ingredient.elementalProperties);
       const ingredientRecommendation: IngredientRecommendation = {
         name: ingredient.name || "",
         type:
@@ -655,9 +665,7 @@ export function getIngredientRecommendations(
           safeGetString(ingredientData.category) ??
           "ingredient",
         category,
-        elementalProperties: safeGetElementalProperties(
-          ingredient.elementalProperties,
-        ),
+        ...(safeElem !== undefined ? { elementalProperties: safeElem } : {}),
         qualities: safeGetStringArray(ingredient.qualities),
         matchScore: safeGetNumber(ingredient.score),
         modality: (ingredient.modality as Modality | undefined) ?? "Cardinal",
@@ -977,7 +985,7 @@ export function getChakraBasedRecommendations(
       const recommendation: IngredientRecommendation = {
         name: ingredientName,
         type: ingredientType,
-        category: ingredient.category,
+        ...(ingredient.category !== undefined ? { category: ingredient.category } : {}),
         elementalProperties: ingredient.elementalProperties,
         qualities: safeGetStringArray(ingredient.qualities),
         matchScore: energy / 10, // Normalize to 0-1 range
@@ -2925,22 +2933,23 @@ export async function recommendIngredients(
       planetaryAlignment,
       aspects,
     );
+    const ingExtras = ingredient as { seasonalScore?: number; dietary?: string[] };
     const ingredientRecommendation: IngredientRecommendation = {
       name: ingredient.name,
       type: String(ingredient.type ?? ""),
-      category: ingredient.category,
+      ...(ingredient.category !== undefined ? { category: ingredient.category } : {}),
       elementalProperties:
         ingredient.elementalProperties ?? systemElementalProps,
       qualities: ingredient.qualities ?? [],
       matchScore: totalScore,
       modality: ingredient.modality as Modality,
       recommendations: ingredientRecommendations,
-      description: ingredient.description,
+      ...(ingredient.description !== undefined ? { description: ingredient.description } : {}),
       totalScore,
       elementalScore: elementalScore * 0.45,
       astrologicalScore: planetaryDayScore * 0.35 + planetaryHourScore * 0.2,
-      seasonalScore: (ingredient as { seasonalScore?: number }).seasonalScore,
-      dietary: (ingredient as { dietary?: string[] }).dietary,
+      ...(ingExtras.seasonalScore !== undefined ? { seasonalScore: ingExtras.seasonalScore } : {}),
+      ...(ingExtras.dietary !== undefined ? { dietary: ingExtras.dietary } : {}),
     };
     recommendations.push(ingredientRecommendation);
   }

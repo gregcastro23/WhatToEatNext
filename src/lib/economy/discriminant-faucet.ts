@@ -171,7 +171,7 @@ function finiteNumber(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
-function geometryOf(position: string | AlchemicalPlanetPosition): BodyGeometry {
+function geometryOf(position: unknown): BodyGeometry {
   if (typeof position === "string") {
     return { sign: canonicalSign(position), longitude: null };
   }
@@ -179,16 +179,17 @@ function geometryOf(position: string | AlchemicalPlanetPosition): BodyGeometry {
   if (!position || typeof position !== "object") {
     return { sign: null, longitude: null };
   }
-  const sign = canonicalSign(position.sign);
+  const pos = position as Partial<AlchemicalPlanetPosition>;
+  const sign = typeof pos.sign === "string" ? canonicalSign(pos.sign) : null;
   const invalid: BodyGeometry = { sign: null, longitude: null };
-  const degree = finiteNumber(position.degree);
-  if (position.degree !== undefined && (degree === null || degree < 0 || degree >= 30)) {
+  const degree = finiteNumber(pos.degree);
+  if (pos.degree !== undefined && (degree === null || degree < 0 || degree >= 30)) {
     return invalid;
   }
-  const exactLongitude = finiteNumber(position.exactLongitude);
+  const exactLongitude = finiteNumber(pos.exactLongitude);
   // An explicitly corrupt longitude is not a missing longitude. Do not wrap
   // it or silently replace it with sign+degree: that would mint on bad data.
-  if (position.exactLongitude !== undefined) {
+  if (pos.exactLongitude !== undefined) {
     if (exactLongitude === null || exactLongitude < 0 || exactLongitude >= 360 ||
         sign !== SIGNS[Math.floor(exactLongitude / 30)] ||
         (degree !== null && Math.floor(degree) !== Math.floor(exactLongitude % 30))) {
@@ -200,7 +201,7 @@ function geometryOf(position: string | AlchemicalPlanetPosition): BodyGeometry {
   if (sign && degree !== null && degree >= 0 && degree < 30) {
     return {
       sign,
-      longitude: SIGNS.indexOf(sign) * 30 + degree,
+      longitude: ((SIGNS.indexOf(sign) * 30 + degree) % 360 + 360) % 360,
     };
   }
 
@@ -635,10 +636,10 @@ export function validateLedgerClamp(
 let cachedSupply: { data: GlobalSupplyState; expiresAt: number } | null = null;
 
 interface SupplyRow extends Record<string, unknown> {
-  spirit: number | string;
-  essence: number | string;
-  matter: number | string;
-  substance: number | string;
+  spirit: number | string | null;
+  essence: number | string | null;
+  matter: number | string | null;
+  substance: number | string | null;
 }
 
 type SupplyQuery = () => Promise<{ rows: SupplyRow[] }>;

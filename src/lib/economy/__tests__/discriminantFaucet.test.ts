@@ -279,7 +279,7 @@ describe("untethered discriminant faucet", () => {
       // Emission stays near the 12/day centre for a realistic chart. The
       // adversarial shapes are allowed a wider miss: band clamping truncates
       // their low tail asymmetrically (trine lattice measured -25.7% in 2029).
-      const realistic = annual[annual.length - 1]!;
+      const realistic = annual[annual.length - 1] ?? 0;
       expect(realistic).toBeGreaterThan(365 * 12 * 0.9);
       expect(realistic).toBeLessThan(365 * 12 * 1.1);
     }
@@ -373,13 +373,6 @@ describe("untethered discriminant faucet", () => {
         matter: 0.3,
         substance: 0.3,
         total: 12,
-        resonance: { score: 1, baseline: 1, ratio: 1 },
-        breakdown: {
-          spirit: { natalRatio: 0.25, transitRatio: 0.25, antiGlutFactor: 1, finalYield: 0.3 },
-          essence: { natalRatio: 0.25, transitRatio: 0.25, antiGlutFactor: 1, finalYield: 0.3 },
-          matter: { natalRatio: 0.25, transitRatio: 0.25, antiGlutFactor: 1, finalYield: 0.3 },
-          substance: { natalRatio: 0.25, transitRatio: 0.25, antiGlutFactor: 1, finalYield: 0.3 },
-        },
       }),
     ).toThrow(/Ledger clamp invariant breach/);
   });

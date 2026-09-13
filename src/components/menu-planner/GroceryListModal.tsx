@@ -406,14 +406,14 @@ export default function GroceryListModal({
           name: item.ingredient,
           asin: result.asin,
           quantity: item.quantity,
-          source: result.source,
+          ...(result.source !== undefined ? { source: result.source } : {}),
         });
       } else {
         unresolved.push({
           name: item.ingredient,
-          searchUrl: result?.searchUrl,
-          source: result?.source,
-          reason: result?.reason,
+          ...(result?.searchUrl !== undefined ? { searchUrl: result.searchUrl } : {}),
+          ...(result?.source !== undefined ? { source: result.source } : {}),
+          ...(result?.reason !== undefined ? { reason: result.reason } : {}),
         });
       }
     }
@@ -422,7 +422,7 @@ export default function GroceryListModal({
       total: activeShoppingItems.length,
       resolved,
       unresolved,
-      configured: payload.configured,
+      ...(payload.configured !== undefined ? { configured: payload.configured } : {}),
     };
   };
 
@@ -1156,16 +1156,20 @@ function RecipeGroupedView({
     groceryList.forEach((item) => {
       if (item.usedInRecipes.length > 0) {
         item.usedInRecipes.forEach((recipeId) => {
-          if (!groups.has(recipeId)) {
-            groups.set(recipeId, []);
+          let groupList = groups.get(recipeId);
+          if (!groupList) {
+            groupList = [];
+            groups.set(recipeId, groupList);
           }
-          groups.get(recipeId)!.push(item);
+          groupList.push(item);
         });
       } else {
-        if (!groups.has("_uncategorized")) {
-          groups.set("_uncategorized", []);
+        let uncat = groups.get("_uncategorized");
+        if (!uncat) {
+          uncat = [];
+          groups.set("_uncategorized", uncat);
         }
-        groups.get("_uncategorized")!.push(item);
+        uncat.push(item);
       }
     });
 

@@ -65,18 +65,29 @@ export function fromLiveFlag(
   live: boolean,
   options: { ageMs?: number; staleAfterMs?: number; detail?: string } = {},
 ): Provenance {
+  const { ageMs, staleAfterMs, detail } = options;
   if (!live) {
-    return { state: "no-source", detail: options.detail };
+    return {
+      state: "no-source",
+      ...(detail !== undefined ? { detail } : {}),
+    };
   }
-  const { ageMs, staleAfterMs } = options;
   if (
     typeof ageMs === "number" &&
     typeof staleAfterMs === "number" &&
     ageMs > staleAfterMs
   ) {
-    return { state: "stale", ageMs, detail: options.detail };
+    return {
+      state: "stale",
+      ageMs,
+      ...(detail !== undefined ? { detail } : {}),
+    };
   }
-  return { state: "live", ageMs, detail: options.detail };
+  return {
+    state: "live",
+    ...(ageMs !== undefined ? { ageMs } : {}),
+    ...(detail !== undefined ? { detail } : {}),
+  };
 }
 
 /**

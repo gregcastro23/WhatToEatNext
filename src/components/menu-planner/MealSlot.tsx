@@ -488,7 +488,7 @@ export default function MealSlot({
   const [isDragOver, setIsDragOver] = useState(false);
   const colors = getMealTypeColors(mealSlot.mealType);
   const hasRecipe = !!mealSlot.recipe;
-  const hasSauce = !!mealSlot.sauce;
+  const { sauce } = mealSlot;
 
   // Handle recipe selection
   const handleRecipeSelect = (recipe: Recipe): void => {
@@ -621,46 +621,46 @@ export default function MealSlot({
           recipe={mealSlot.recipe}
           servings={mealSlot.servings}
           mealType={mealSlot.mealType}
-          onRemove={onRemoveRecipe}
-          onUpdateServings={onUpdateServings}
-          onCopyMeal={onCopyMeal}
-          weeklyNutrition={weeklyNutrition}
+          {...(onRemoveRecipe !== undefined ? { onRemove: onRemoveRecipe } : {})}
+          {...(onUpdateServings !== undefined ? { onUpdateServings } : {})}
+          {...(onCopyMeal !== undefined ? { onCopyMeal } : {})}
+          {...(weeklyNutrition !== undefined ? { weeklyNutrition } : {})}
         />
       ) : (
         <EmptyMealSlot
           mealType={mealSlot.mealType}
           onClick={() => setShowRecipeSelector(true)}
-          onGenerate={onGenerateMeal}
+          {...(onGenerateMeal !== undefined ? { onGenerate: onGenerateMeal } : {})}
         />
       )}
 
       {/* Sauce Section */}
       {hasRecipe && (
         <div className="mt-2 pt-2 border-t border-white/10">
-          {hasSauce ? (
+          {sauce ? (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 flex-1 min-w-0">
                 <span className="text-xs text-amber-300 font-medium truncate">
-                  + {mealSlot.sauce!.name}
+                  + {sauce.name}
                 </span>
-                {mealSlot.sauce!.nutritionalProfile?.calories && (
+                {sauce.nutritionalProfile?.calories && (
                   <span className="text-[10px] text-purple-300/50">
-                    +{Math.round((mealSlot.sauce!.nutritionalProfile.calories || 0) * (mealSlot.sauce!.servings || 1))} cal
+                    +{Math.round((sauce.nutritionalProfile.calories ?? 0) * sauce.servings)} cal
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-1">
                 <button
-                  onClick={() => onUpdateSauceServings?.(Math.max(0.5, (mealSlot.sauce!.servings || 1) - 0.5))}
+                  onClick={() => onUpdateSauceServings?.(Math.max(0.5, sauce.servings - 0.5))}
                   className="w-4 h-4 rounded bg-white/10 hover:bg-white/20 text-purple-100 flex items-center justify-center text-[10px]"
                 >
                   -
                 </button>
                 <span className="w-6 text-center text-[10px] font-medium text-purple-100">
-                  {mealSlot.sauce!.servings || 1}x
+                  {sauce.servings}x
                 </span>
                 <button
-                  onClick={() => onUpdateSauceServings?.((mealSlot.sauce!.servings || 1) + 0.5)}
+                  onClick={() => onUpdateSauceServings?.(sauce.servings + 0.5)}
                   className="w-4 h-4 rounded bg-white/10 hover:bg-white/20 text-purple-100 flex items-center justify-center text-[10px]"
                 >
                   +
@@ -719,17 +719,19 @@ export default function MealSlot({
           onAddSauce?.(sauceId);
           setShowSauceSelector(false);
         }}
-        recipeElementalProperties={mealSlot.recipe?.elementalProperties}
-        recipeAlchemicalProperties={
-          mealSlot.recipe?.alchemicalProperties
-            ? {
+        {...(mealSlot.recipe?.elementalProperties !== undefined
+          ? { recipeElementalProperties: mealSlot.recipe.elementalProperties }
+          : {})}
+        {...(mealSlot.recipe?.alchemicalProperties
+          ? {
+              recipeAlchemicalProperties: {
                 Spirit: mealSlot.recipe.alchemicalProperties.heat ?? 0,
                 Essence: mealSlot.recipe.alchemicalProperties.reactivity ?? 0,
                 Matter: mealSlot.recipe.alchemicalProperties.stability ?? 0,
                 Substance: mealSlot.recipe.alchemicalProperties.entropy ?? 0,
-              }
-            : undefined
-        }
+              },
+            }
+          : {})}
       />
     </div>
   );

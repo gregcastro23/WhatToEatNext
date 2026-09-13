@@ -102,8 +102,11 @@ describe("claimDailyYield — the three outcomes", () => {
   it("uses one captured instant for both sky and baseline", async () => {
     creditMultipleTokensDetailed.mockResolvedValue({ status: "failed", message: "test rollback" });
     await dailyYieldService.claimDailyYield(USER_ID, NATAL);
-    const [claimedAt] = jest.mocked(dailyYieldService.getClaimEphemeris).mock.calls[0]!;
+    const firstCall = jest.mocked(dailyYieldService.getClaimEphemeris).mock.calls[0];
+    expect(firstCall).toBeDefined();
+    const claimedAt = firstCall?.[0];
     expect(claimedAt).toBeInstanceOf(Date);
+    if (!claimedAt) throw new Error("claimedAt missing");
     expect(dailyYieldService.getChartBaseline).toHaveBeenCalledWith(USER_ID, NATAL.positions, claimedAt);
     expect(creditMultipleTokensDetailed).toHaveBeenCalledWith(
       USER_ID, expect.any(Array), "daily_yield",

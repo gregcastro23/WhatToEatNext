@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
 import { isDuplicateArtifactPath } from "./lintDebt";
@@ -93,12 +94,54 @@ export function countDiagnosticsFromText(
   };
 }
 
+export type StrictIndexTargetResolution =
+  | { valid: true; absPath: string; relPath: string }
+  | { valid: false; error: string };
+
+/**
+ * Resolve and validate a file target path for strict-index inspection.
+ * Handles missing arguments, relative paths, absolute paths, and unknown/missing files.
+ */
+export function resolveStrictIndexTarget(
+  repoRoot: string,
+  rawTarget: string | undefined,
+): StrictIndexTargetResolution {
+  if (!rawTarget || rawTarget.trim() === "" || rawTarget.startsWith("-")) {
+    return { valid: false, error: "--file requires a file path argument." };
+  }
+  const absPath = path.isAbsolute(rawTarget)
+    ? path.resolve(rawTarget)
+    : path.resolve(repoRoot, rawTarget);
+  const relPath = path.relative(repoRoot, absPath).split(path.sep).join("/");
+
+  if (relPath.startsWith("..") || path.isAbsolute(relPath)) {
+    return { valid: false, error: `Target file is outside repository: ${rawTarget}` };
+  }
+
+  if (!fs.existsSync(absPath)) {
+    return { valid: false, error: `Target file does not exist: ${rawTarget}` };
+  }
+
+  try {
+    const stat = fs.statSync(absPath);
+    if (!stat.isFile()) {
+      return { valid: false, error: `Target path is not a file: ${rawTarget}` };
+    }
+  } catch {
+    return { valid: false, error: `Cannot read target path: ${rawTarget}` };
+  }
+
+  return { valid: true, absPath, relPath };
+}
+
 /**
  * Drive TypeScript Compiler API directly with noUncheckedIndexedAccess: true override.
+ * When targetFile is specified, compiles and inspects only that file and its dependency graph.
  */
 export function runStrictIndexCheck(
   repoRoot: string,
   configFileName: string = "tsconfig.strict-index.json",
+  targetFile?: string,
 ): StrictIndexSummary {
   const configPath = path.resolve(repoRoot, configFileName);
   const readResult = ts.readConfigFile(configPath, ts.sys.readFile);
@@ -124,18 +167,49 @@ export function runStrictIndexCheck(
     incremental: false,
   };
 
+  let rootNames = parsedConfig.fileNames;
+  let targetAbsPath: string | undefined;
+
+  if (targetFile) {
+    targetAbsPath = path.isAbsolute(targetFile)
+      ? path.resolve(targetFile)
+      : path.resolve(repoRoot, targetFile);
+    if (!fs.existsSync(targetAbsPath)) {
+      throw new Error(`Target file does not exist: ${targetFile}`);
+    }
+    rootNames = [targetAbsPath];
+  }
+
   const program = ts.createProgram({
-    rootNames: parsedConfig.fileNames,
+    rootNames,
     options: compilerOptions,
     projectReferences: parsedConfig.projectReferences,
   });
 
-  const diagnostics = ts.getPreEmitDiagnostics(program);
-  const filesScanned = program
-    .getSourceFiles()
-    .filter((f) => !f.isDeclarationFile).length;
+  let diagnostics: readonly TSType.Diagnostic[];
+  let filesScanned: number;
+
+  if (targetAbsPath) {
+    const sourceFile = program.getSourceFile(targetAbsPath);
+    diagnostics = sourceFile ? ts.getPreEmitDiagnostics(program, sourceFile) : [];
+    filesScanned = sourceFile && !sourceFile.isDeclarationFile ? 1 : 0;
+  } else {
+    diagnostics = ts.getPreEmitDiagnostics(program);
+    filesScanned = program
+      .getSourceFiles()
+      .filter((f) => !f.isDeclarationFile).length;
+  }
+
   const byFile: Record<string, StrictIndexDiagnostic[]> = {};
   let total = 0;
+
+  if (targetAbsPath) {
+    const relTarget = path
+      .relative(repoRoot, targetAbsPath)
+      .split(path.sep)
+      .join("/");
+    byFile[relTarget] = [];
+  }
 
   for (const diag of diagnostics) {
     if (!diag.file || diag.file.isDeclarationFile) continue;

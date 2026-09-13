@@ -256,7 +256,7 @@ export function AgentFeedControlRoom({
 
   return (
     <>
-    <PaAgentSyncPanel endpoint={paBackend} />
+    <PaAgentSyncPanel {...(paBackend !== undefined ? { endpoint: paBackend } : {})} />
     <section style={{ marginBottom: 14 }}>
       <div
         style={{
@@ -321,7 +321,7 @@ export function AgentFeedControlRoom({
           roles={roles.entries}
           totalNodes={totals.total}
           live={roles.live}
-          lastFeedEmit={lastFeedEmit}
+          {...(lastFeedEmit !== undefined ? { lastFeedEmit } : {})}
         />
         <AgentRoleDistribution roles={roles.entries} live={roles.live} />
         <AgentDispatchStream entries={dispatch.entries} live={dispatch.live} />
@@ -1367,11 +1367,9 @@ function AgentInteractionsPanel({
                 />
                 <AgentProfileLink
                   userId={interaction.targetUserId}
-                  title={
-                    interaction.targetUserId
-                      ? undefined
-                      : "Counterparty has no local profile"
-                  }
+                  {...(!interaction.targetUserId
+                    ? { title: "Counterparty has no local profile" }
+                    : {})}
                   style={{ color: "var(--fg-dim)" }}
                 >
                   {interaction.agentName2}

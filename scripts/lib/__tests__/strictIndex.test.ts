@@ -1,9 +1,11 @@
+import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import {
   compareStrictIndex,
   countDiagnosticsFromText,
   parseTscDiagnosticLine,
+  resolveStrictIndexTarget,
   runStrictIndexCheck,
   StrictIndexBaseline,
   strictIndexBaselineSchema,
@@ -189,5 +191,114 @@ describe("runStrictIndexCheck (smoke/integration)", () => {
     const comparison = compareStrictIndex(summary, baseline);
     expect(comparison.exceedsBaseline).toBe(false);
     expect(comparison.allowlistViolations).toEqual([]);
+  }, 60000);
+});
+
+describe("resolveStrictIndexTarget", () => {
+  const repoRoot = path.resolve(__dirname, "../../../");
+
+  it("rejects undefined, empty, or flag-prefixed targets", () => {
+    expect(resolveStrictIndexTarget(repoRoot, undefined)).toEqual({
+      valid: false,
+      error: "--file requires a file path argument.",
+    });
+    expect(resolveStrictIndexTarget(repoRoot, "")).toEqual({
+      valid: false,
+      error: "--file requires a file path argument.",
+    });
+    expect(resolveStrictIndexTarget(repoRoot, "--json")).toEqual({
+      valid: false,
+      error: "--file requires a file path argument.",
+    });
+  });
+
+  it("normalizes relative and absolute paths to repo-relative paths", () => {
+    const rel = resolveStrictIndexTarget(repoRoot, "src/lib/cooking/labSolver.ts");
+    expect(rel).toEqual({
+      valid: true,
+      absPath: path.resolve(repoRoot, "src/lib/cooking/labSolver.ts"),
+      relPath: "src/lib/cooking/labSolver.ts",
+    });
+
+    const dotRel = resolveStrictIndexTarget(repoRoot, "./src/lib/cooking/labSolver.ts");
+    expect(dotRel).toEqual({
+      valid: true,
+      absPath: path.resolve(repoRoot, "src/lib/cooking/labSolver.ts"),
+      relPath: "src/lib/cooking/labSolver.ts",
+    });
+  });
+
+  it("rejects non-existent targets", () => {
+    const nonExistent = resolveStrictIndexTarget(repoRoot, "does/not/exist.ts");
+    expect(nonExistent).toEqual({
+      valid: false,
+      error: "Target file does not exist: does/not/exist.ts",
+    });
+  });
+});
+
+describe("checkStrictIndex CLI --file inspection", () => {
+  const repoRoot = path.resolve(__dirname, "../../../");
+
+  it("handles valid target with strict-index errors", () => {
+    const res = spawnSync(
+      "bun",
+      ["scripts/checkStrictIndex.ts", "--file", "src/lib/menu-planner/schemas.ts"],
+      { cwd: repoRoot, encoding: "utf8" },
+    );
+    expect(res.status).toBe(0);
+    expect(res.stdout).toContain("=== STRICT FLAG ERRORS FOR src/lib/menu-planner/schemas.ts");
+    expect(res.stdout).toContain("TS2375");
+  });
+
+  it("handles clean target with zero strict-index errors", () => {
+    const res = spawnSync(
+      "bun",
+      ["scripts/checkStrictIndex.ts", "--file", "src/lib/cooking/labSolver.ts"],
+      { cwd: repoRoot, encoding: "utf8" },
+    );
+    expect(res.status).toBe(0);
+    expect(res.stdout).toContain("=== STRICT FLAG ERRORS FOR src/lib/cooking/labSolver.ts (0 errors) ===");
+  });
+
+  it("handles differently-prefixed and absolute paths for clean targets", () => {
+    const absPath = path.resolve(repoRoot, "src/lib/cooking/labSolver.ts");
+    const res = spawnSync(
+      "bun",
+      ["scripts/checkStrictIndex.ts", "--file", absPath],
+      { cwd: repoRoot, encoding: "utf8" },
+    );
+    expect(res.status).toBe(0);
+    expect(res.stdout).toContain("=== STRICT FLAG ERRORS FOR src/lib/cooking/labSolver.ts (0 errors) ===");
+  });
+
+  it("fails clearly when argument is missing", () => {
+    const res = spawnSync(
+      "bun",
+      ["scripts/checkStrictIndex.ts", "--file"],
+      { cwd: repoRoot, encoding: "utf8" },
+    );
+    expect(res.status).toBe(1);
+    expect(res.stderr).toContain("❌ --file requires a file path argument.");
+  });
+
+  it("fails clearly when target path does not exist", () => {
+    const res = spawnSync(
+      "bun",
+      ["scripts/checkStrictIndex.ts", "--file", "nonexistent-target-file.ts"],
+      { cwd: repoRoot, encoding: "utf8" },
+    );
+    expect(res.status).toBe(1);
+    expect(res.stderr).toContain("❌ Target file does not exist: nonexistent-target-file.ts");
+  });
+
+  it("fails clearly when target path is outside repository", () => {
+    const res = spawnSync(
+      "bun",
+      ["scripts/checkStrictIndex.ts", "--file", "../outside.ts"],
+      { cwd: repoRoot, encoding: "utf8" },
+    );
+    expect(res.status).toBe(1);
+    expect(res.stderr).toContain("❌ Target file is outside repository: ../outside.ts");
   });
 });

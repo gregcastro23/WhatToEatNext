@@ -79,7 +79,9 @@ const AgentRelationalSections: React.FC<{
       loadingSynastry={relational.loadingSynastry}
       viewerProfile={relational.viewerProfile}
       agentName={agent.name}
-      dominantElement={agent.consciousness?.dominantElement}
+      {...(agent.consciousness?.dominantElement !== undefined
+        ? { dominantElement: agent.consciousness.dominantElement }
+        : {})}
       isLoggedIn={Boolean(currentUserId)}
     />
   </>
@@ -122,8 +124,21 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
 
   return (
     <>
-      <AgentHeroHeader agent={agent} balances={balances} handle={handle} slug={slug} userId={userId} viewer={viewer} accent={accent} />
-      <AgentRelationalSections agent={agent} accent={accent} currentUserId={currentUserId} relational={relational} />
+      <AgentHeroHeader
+        agent={agent}
+        balances={balances}
+        slug={slug}
+        accent={accent}
+        {...(handle !== undefined ? { handle } : {})}
+        {...(userId !== undefined ? { userId } : {})}
+        {...(viewer !== undefined ? { viewer } : {})}
+      />
+      <AgentRelationalSections
+        agent={agent}
+        accent={accent}
+        relational={relational}
+        {...(currentUserId !== undefined ? { currentUserId } : {})}
+      />
       <AgentArtifactsAndHistory agent={agent} accent={accent} interactions={interactions} actions={actions} artifacts={artifacts} viewer={recipeViewer} />
     </>
   );

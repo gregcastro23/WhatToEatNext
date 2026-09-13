@@ -143,9 +143,9 @@ export const SOLVABLE_INGREDIENTS: readonly SolverIngredient[] = Object.entries(
         unaccountedFraction:
           1 -
           (profile.water + profile.protein + profile.fat + profile.carbohydrate + profile.ash),
-        fdcId: profile.fdcId,
-        fdcDescription: profile.fdcDescription,
-        retrieved: profile.retrieved,
+        ...(profile.fdcId !== undefined ? { fdcId: profile.fdcId } : {}),
+        ...(profile.fdcDescription !== undefined ? { fdcDescription: profile.fdcDescription } : {}),
+        ...(profile.retrieved !== undefined ? { retrieved: profile.retrieved } : {}),
       },
     ];
   })
@@ -476,30 +476,20 @@ export function solveArrangement(input: SolverInput): SolverResult {
           return solveBoundaryNetwork({
             sourceC: method.mediumC,
             sinkC: input.startC,
-            vessel: vessel
+            ...(vessel
               ? {
-                  // ⚠️ STATED SIMPLIFICATION. The method's own `h` is the
-                  // MEDIUM-TO-FOOD coefficient; it is reused here for the
-                  // burner-to-vessel and vessel-to-medium links because the
-                  // method registry publishes no separate values for them.
-                  //
-                  // The two real coefficients differ by orders of magnitude — a
-                  // gas ring against a pot base is ~60 W·m⁻²·K⁻¹ while nucleate
-                  // boiling on the inside is thousands — so these two links'
-                  // magnitudes should be read as placeholders. What survives the
-                  // simplification is the comparison the tab exists for: the
-                  // food's own interior against everything outside it, since
-                  // `medium-to-food` and `food-interior` are both real.
-                  //
-                  // The Compare tab uses the honest pair (60 / 5000) because it
-                  // fixes one arrangement and can afford to name them.
-                  sourceToVesselHWm2K: hTyped,
-                  areaM2: vessel.baseAreaM2,
-                  kWmK: vessel.material.kWmK,
-                  thicknessM: vessel.baseThicknessMm / 1000,
-                  vesselToMediumHWm2K: hTyped,
+                  // Stated simplification: method h is reused for burner-to-vessel
+                  // and vessel-to-medium links as placeholders because the method
+                  // registry does not publish separate link coefficients.
+                  vessel: {
+                    sourceToVesselHWm2K: hTyped,
+                    areaM2: vessel.baseAreaM2,
+                    kWmK: vessel.material.kWmK,
+                    thicknessM: vessel.baseThicknessMm / 1000,
+                    vesselToMediumHWm2K: hTyped,
+                  },
                 }
-              : undefined,
+              : {}),
             food: {
               mediumToFoodHWm2K: hTyped,
               geometry: input.geometry,
@@ -514,7 +504,7 @@ export function solveArrangement(input: SolverInput): SolverResult {
   return {
     ingredient,
     properties,
-    compositionWarning,
+    ...(compositionWarning !== undefined ? { compositionWarning } : {}),
     vessel,
     ambient,
     ceilingC: ceiling.celsius,

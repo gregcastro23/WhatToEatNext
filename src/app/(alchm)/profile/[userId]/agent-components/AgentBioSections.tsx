@@ -150,8 +150,8 @@ export const PersonalityAndShadowsSection: React.FC<{ agent: CraftedAgentProfile
 
   return (
     <>
-      <PersonalityTraitsBlock traits={personality.traits} currentMood={personality.currentMood} />
-      <GiftsShadowsBlock gifts={personality.gifts} shadows={personality.shadows} />
+      <PersonalityTraitsBlock {...(personality.traits !== undefined ? { traits: personality.traits } : {})} {...(personality.currentMood !== undefined ? { currentMood: personality.currentMood } : {})} />
+      <GiftsShadowsBlock {...(personality.gifts !== undefined ? { gifts: personality.gifts } : {})} {...(personality.shadows !== undefined ? { shadows: personality.shadows } : {})} />
 
       {personality.challenges && personality.challenges.length > 0 && (
         <section className="mb-8">
@@ -284,7 +284,10 @@ export const ConsciousnessSection: React.FC<{ agent: CraftedAgentProfile; accent
             </div>
           </div>
 
-          <AlchemicalElementsBars ae={consciousness?.alchemicalElements} accent={accent} />
+          <AlchemicalElementsBars
+            {...(consciousness?.alchemicalElements !== undefined ? { ae: consciousness.alchemicalElements } : {})}
+            accent={accent}
+          />
         </div>
       </div>
     </section>

@@ -778,7 +778,7 @@ function FeedTab({
                 key={row.id}
                 initial={reduceMotion ? false : { opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+                {...(!reduceMotion ? { exit: { opacity: 0, y: -4 } } : {})}
                 transition={{
                   delay: reduceMotion ? 0 : Math.min(index, 6) * 0.025,
                 }}
@@ -797,6 +797,23 @@ function FeedTab({
   );
 }
 
+function getFeedCardEngagement(
+  event: FeedEvent,
+  viewerKindsMap: Record<string, string[]>,
+  engageable: boolean,
+): {
+  reactionCounts?: Record<string, number>;
+  viewerKinds?: string[];
+  commentCount?: number;
+} {
+  const viewerKinds = engageable ? viewerKindsMap[event.id] : undefined;
+  return {
+    ...(event.reactionCounts !== undefined ? { reactionCounts: event.reactionCounts } : {}),
+    ...(viewerKinds !== undefined ? { viewerKinds } : {}),
+    ...(event.commentCount !== undefined ? { commentCount: event.commentCount } : {}),
+  };
+}
+
 function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
   const narration = getEventNarration(event);
   const actorHref = `/profile/${event.actorId}`;
@@ -804,6 +821,7 @@ function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
   // Engagement UI mounts only on Postgres-backed rows (real UUIDs); the live
   // SpacetimeDB store prepends synthetic `stdb-…` ids that carry no reactions.
   const engageable = isUuidEventId(event.id);
+  const engagementProps = getFeedCardEngagement(event, viewerKindsMap, engageable);
 
   // Cooked-it dish cards render as a full card, not a narration row. When
   // the actor is revealed (identity resolver, PR 4) the real name + avatar
@@ -815,12 +833,9 @@ function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
         eventId={event.id}
         createdAtLabel={formatRelativeTime(event.createdAt)}
         meta={event.metadataPayload}
-        reactionCounts={event.reactionCounts}
-        viewerKinds={engageable ? viewerKindsMap[event.id] : undefined}
-        commentCount={event.commentCount}
-        actorId={revealed ? event.actorId : undefined}
-        actorName={revealed ? event.actorName : undefined}
-        actorImage={revealed ? event.actorImage : undefined}
+        {...engagementProps}
+        {...(revealed ? { actorId: event.actorId, actorName: event.actorName } : {})}
+        {...(revealed && event.actorImage !== undefined ? { actorImage: event.actorImage } : {})}
       />
     );
   }
@@ -833,10 +848,8 @@ function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
         meta={event.metadataPayload as unknown as TableMemoryPayload}
         createdAtLabel={formatRelativeTime(event.createdAt)}
         actorName={event.actorName}
-        eventId={engageable ? event.id : undefined}
-        reactionCounts={event.reactionCounts}
-        viewerKinds={engageable ? viewerKindsMap[event.id] : undefined}
-        commentCount={event.commentCount}
+        {...(engageable ? { eventId: event.id } : {})}
+        {...engagementProps}
       />
     );
   }
@@ -882,9 +895,15 @@ function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
           <div className="mt-3">
             <FeedEngagementBar
               eventId={event.id}
-              initialCounts={event.reactionCounts}
-              viewerKinds={viewerKindsMap[event.id]}
-              commentCount={event.commentCount}
+              {...(event.reactionCounts !== undefined
+                ? { initialCounts: event.reactionCounts }
+                : {})}
+              {...(viewerKindsMap[event.id] !== undefined
+                ? { viewerKinds: viewerKindsMap[event.id] }
+                : {})}
+              {...(event.commentCount !== undefined
+                ? { commentCount: event.commentCount }
+                : {})}
             />
           </div>
         )}

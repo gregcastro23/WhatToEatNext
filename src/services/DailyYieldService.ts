@@ -183,7 +183,7 @@ function normalizeESMS(esms: AlchemicalProperties): {
 class DailyYieldService {
 
   /** Compute the actual claim moment, using the same ephemeris as the baseline. */
-  async getClaimEphemeris(claimedAt: Date): Promise<{
+  getClaimEphemeris(claimedAt: Date): Promise<{
     positions: AlchemicalPlanetPositions;
   }> {
     // A daily cache row cannot represent "now": the Moon can move through
@@ -192,13 +192,15 @@ class DailyYieldService {
     const { positions: rawPositions, usedFallback } =
       calculatePositionsWithAstronomyEngine(claimedAt, { log: false });
     if (usedFallback) {
-      throw new DegradedEphemerisError(
-        "Live ephemeris degraded: astronomy-engine-fallback",
+      return Promise.reject(
+        new DegradedEphemerisError(
+          "Live ephemeris degraded: astronomy-engine-fallback",
+        ),
       );
     }
     const positions = canonicalFaucetPositions(rawPositions);
     deriveTransitWeightsFromPositions(positions, { requireComplete: true });
-    return { positions };
+    return Promise.resolve({ positions });
   }
 
   /**

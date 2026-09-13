@@ -141,6 +141,42 @@ export interface RecommendedMeal {
  * @param options - Recommendation options (including optional user personalization)
  * @returns Array of recommended meals
  */
+function buildMealOptions(options: DayRecommendationOptions) {
+  const {
+    maxRecipesPerMeal = 3,
+    dietaryRestrictions = [],
+    preferredCuisines = [],
+    excludeIngredients = [],
+    requiredIngredients = [],
+    preferredCookingMethods = [],
+    flavorPreferences = [],
+    favoriteIngredients = [],
+    dislikedIngredients = [],
+    complexityPreference,
+    existingMeals = [],
+    budgetPerMeal,
+    maxPrepTimeMinutes,
+    nutritionalContext,
+  } = options;
+
+  return {
+    maxRecipes: maxRecipesPerMeal,
+    dietaryRestrictions,
+    preferredCuisines,
+    excludeIngredients,
+    requiredIngredients,
+    preferredCookingMethods,
+    flavorPreferences,
+    favoriteIngredients,
+    dislikedIngredients,
+    existingMeals,
+    ...(complexityPreference !== undefined ? { complexityPreference } : {}),
+    ...(budgetPerMeal !== undefined ? { budgetPerMeal } : {}),
+    ...(maxPrepTimeMinutes !== undefined ? { maxPrepTimeMinutes } : {}),
+    ...(nutritionalContext !== undefined ? { nutritionalContext } : {}),
+  };
+}
+
 export async function generateDayRecommendations(
   dayOfWeek: DayOfWeek,
   astroState: AstrologicalState,
@@ -149,21 +185,7 @@ export async function generateDayRecommendations(
   try {
     const {
       mealTypes = ["breakfast", "lunch", "dinner"],
-      maxRecipesPerMeal = 3,
-      dietaryRestrictions = [],
-      preferredCuisines = [],
-      excludeIngredients = [],
-      requiredIngredients = [],
-      preferredCookingMethods = [],
-      flavorPreferences = [],
-      favoriteIngredients = [],
-      dislikedIngredients = [],
-      complexityPreference,
       userContext,
-      existingMeals = [],
-      budgetPerMeal,
-      maxPrepTimeMinutes,
-      nutritionalContext,
     } = options;
 
     const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
@@ -176,6 +198,7 @@ export async function generateDayRecommendations(
     });
 
     const recommendations: RecommendedMeal[] = [];
+    const mealOptions = buildMealOptions(options);
 
     // Generate recommendations for each meal type
     for (const mealType of mealTypes) {
@@ -184,22 +207,7 @@ export async function generateDayRecommendations(
         mealType,
         dayChar,
         astroState,
-        {
-          maxRecipes: maxRecipesPerMeal,
-          dietaryRestrictions,
-          preferredCuisines,
-          excludeIngredients,
-          requiredIngredients,
-          preferredCookingMethods,
-          flavorPreferences,
-          favoriteIngredients,
-          dislikedIngredients,
-          complexityPreference,
-          existingMeals,
-          budgetPerMeal,
-          maxPrepTimeMinutes,
-          nutritionalContext,
-        },
+        mealOptions,
       );
 
       recommendations.push(...mealRecs);
@@ -992,13 +1000,23 @@ async function searchRecipesForDay(
       // loop when pricing is enabled.
       let costPerServing = 0;
       if (budgetEnabled) {
-        const ingredients = recipe.ingredients.map((ing) => ({
-          name: typeof ing === "string" ? ing : ing.name,
-          amount: typeof ing === "string" ? 1 : ing.amount,
-          unit: typeof ing === "string" ? "each" : ing.unit,
-          category: typeof ing === "string" ? undefined : ing.category,
-          optional: typeof ing === "string" ? false : ing.optional,
-        }));
+        const ingredients = recipe.ingredients.map((ing) => {
+          if (typeof ing === "string") {
+            return {
+              name: ing,
+              amount: 1,
+              unit: "each",
+              optional: false,
+            };
+          }
+          return {
+            name: ing.name,
+            amount: ing.amount,
+            unit: ing.unit,
+            ...(ing.category !== undefined ? { category: ing.category } : {}),
+            ...(ing.optional !== undefined ? { optional: ing.optional } : { optional: false }),
+          };
+        });
         const estimate = calculateRecipeEstimatedCost(
           ingredients,
           (recipe as { servings?: number }).servings ?? 4,

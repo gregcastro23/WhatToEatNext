@@ -349,8 +349,8 @@ export default async function CookingMethodPage({
                   <EquationBlock
                     key={eq.expression}
                     expression={eq.expression}
-                    label={eq.label}
-                    note={eq.note}
+                    {...(eq.label !== undefined ? { label: eq.label } : {})}
+                    {...(eq.note !== undefined ? { note: eq.note } : {})}
                   />
                 ))}
               </div>
@@ -366,14 +366,17 @@ export default async function CookingMethodPage({
           <MaPanel glow className="flex-1 p-6">
             <MaSectionHeader title="ELEMENTAL_SIGNATURE" className="mb-4" />
             <div className="space-y-4">
-              {rankedElements.map((r) => (
-                <ElementBar
-                  key={r.element}
-                  element={r.element}
-                  percent={r.value * 100}
-                  role={profile?.elementalRoles?.[r.element]}
-                />
-              ))}
+              {rankedElements.map((r) => {
+                const role = profile?.elementalRoles?.[r.element];
+                return (
+                  <ElementBar
+                    key={r.element}
+                    element={r.element}
+                    percent={r.value * 100}
+                    {...(role !== undefined ? { role } : {})}
+                  />
+                );
+              })}
             </div>
             <p className="mt-5 font-grimoire italic text-ma-fg-dim">
               This transmutation {signature.label}.
@@ -393,14 +396,17 @@ export default async function CookingMethodPage({
             <MaSectionHeader title="ASTROLOGICAL_RULERSHIP" className="mb-4" />
             <div className="space-y-5">
               {rulers.length > 0 ? (
-                rulers.map((ruler) => (
-                  <PlanetEmblem
-                    key={ruler.planet}
-                    planet={ruler.planet}
-                    governs={"governs" in ruler ? ruler.governs : undefined}
-                    rank={ruler.rank}
-                  />
-                ))
+                rulers.map((ruler) => {
+                  const governs = "governs" in ruler ? ruler.governs : undefined;
+                  return (
+                    <PlanetEmblem
+                      key={ruler.planet}
+                      planet={ruler.planet}
+                      {...(governs !== undefined ? { governs } : {})}
+                      {...(ruler.rank !== undefined ? { rank: ruler.rank } : {})}
+                    />
+                  );
+                })
               ) : (
                 <p className="font-mono text-sm text-ma-outline">
                   No recorded rulership.
@@ -439,7 +445,7 @@ export default async function CookingMethodPage({
             />
             <MolecularGrid
               interactions={profile.molecularInteractions}
-              checklist={profile.checklist}
+              {...(profile.checklist !== undefined ? { checklist: profile.checklist } : {})}
             />
           </MaPanel>
         ) : null}

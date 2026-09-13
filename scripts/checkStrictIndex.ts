@@ -3,12 +3,48 @@ import { fileURLToPath } from "node:url";
 
 import {
   compareStrictIndex,
+  resolveStrictIndexTarget,
   runStrictIndexCheck,
   strictIndexBaselineSchema,
   updateStrictIndexBaseline,
 } from "./lib/strictIndex";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
+
+const fileArgIdx =
+  process.argv.indexOf("--file") !== -1
+    ? process.argv.indexOf("--file")
+    : process.argv.indexOf("--inspect");
+
+if (fileArgIdx !== -1) {
+  const rawTarget = process.argv[fileArgIdx + 1];
+  const resolved = resolveStrictIndexTarget(repoRoot, rawTarget);
+  if (!resolved.valid) {
+    console.error(`❌ ${resolved.error}`);
+    process.exit(1);
+  }
+
+  console.log(`Running exactOptionalPropertyTypes strict-flags check for ${resolved.relPath}...`);
+  const summary = runStrictIndexCheck(repoRoot, "tsconfig.strict-index.json", resolved.relPath);
+  const diags = summary.byFile[resolved.relPath] ?? [];
+
+  console.log(`\n=== STRICT FLAG ERRORS FOR ${resolved.relPath} (${diags.length} errors) ===`);
+  for (const diag of diags) {
+    console.log(`  ${diag.line}:${diag.character} TS${diag.code} ${diag.message}`);
+  }
+
+  if (process.argv.includes("--json")) {
+    const jsonOutput = {
+      target: resolved.relPath,
+      total: diags.length,
+      diagnostics: diags,
+    };
+    console.log(JSON.stringify(jsonOutput, null, 2));
+  }
+
+  process.exit(0);
+}
+
 const baselinePath = new URL("../.strict-index-baseline.json", import.meta.url);
 
 const baselineRaw = await readFile(baselinePath, "utf8");
