@@ -1,203 +1,296 @@
-# Next Session: Phase 30 — Strict-Index Latent Error Burndown (478 -> <= 380)
+# Next Session: Phase 30 Completed & Verified (Strict-Index 478 -> 374)
 
-> **Status note.** Phase 29 is **verified in the current working tree** (not yet committed; HEAD is at `fbd52496` where baselines were 588 strict-index errors and 10 read-JSON allowlisted calls). The working tree contains 38 changed paths that complete Gate 11 response narrowing (10 -> 0), repair 15 strict-index target clusters (-110 errors, 588 -> 478), reduce AST assertion sites (-13, 3,308 -> 3,295), preserve all rich domain models (`lunarPhaseUtils.ts`, `chakraSymbols.ts`, `defaults.ts`, `typeDefaults.ts`), and pass all 11 static gates, 365 test suites, and the Next.js production build:
-> - **Gate 11 Zero Allowlist Verified**: All 30 response-reading call sites in the application now strictly enforce AST `{ parse: Schema.parse }`. `.read-json-baseline.json` is at **0 unvalidated (allowlist: `[]`)**.
-> - **Strict-Index Latent Type Repairs (588 -> 478 across 294 files)**: Repaired optional property assigning defects across 15 high-density targets, burning down 110 compiler errors. `.strict-index-baseline.json` is ratcheted to 478 with 0 allowlisted files.
-> - **AST Assertion Sites Reduction (3,308 -> 3,295)**: Removed unsafe `as Record<string, MethodData>` assertions in favor of type-safe adapters (`adaptCookingMethods`). `.lint-debt-baseline.json` is ratcheted down to 3,295 assertion sites.
-> - **Domain Physics & Alchemical Integrity Preserved**: User-directed enforcement of **FIX > REMOVE**: `src/utils/lunarPhaseUtils.ts` (586 lines), `src/constants/chakraSymbols.ts` (857 lines), `src/constants/defaults.ts` (212 lines), and `src/constants/typeDefaults.ts` (358 lines) are 100% preserved with all domain calculations intact.
-> - **All 11 Static Gates Green, Full Test Suite Pass & Production Build**: All 11 static gates pass with 0 errors; 365/365 Jest test suites pass (3,801 tests); Next.js production build (`bun run build`) compiles with 0 errors and all bundle sizes within threshold.
->
-> | Metric | P25 | P26 | P27 | P28 | P29 (Working Tree Verified) |
-> |---|---:|---:|---:|---:|---:|
-> | Tracked lint debt | 1,635 | 1,520 | 1,493 | 1,474 | **1,474** (held) |
-> | Declined pool | 4,910 | 4,910 | 4,910 | 4,906 | **4,906** (held) |
-> | Casts (gated) | 169 | 168 | 167 | 167 | **167** (held) |
-> | Assertion sites (AST) | 3,396 | 3,353 | 3,325 | 3,308 | **3,295** (-13) |
-> | `prefer-nullish-coalescing` sub-baseline | 214 | 214 | 214 | 214 | **214** |
-> | `exactOptionalPropertyTypes` strict-index | 674 / 329 files | 671 / 328 files | 668 / 325 files | 588 / 312 files | **478 / 294 files** (-110 errors) |
-> | Route validation gate (unvalidated / body-reading) | — | — | 21 / 123 | 0 / 123 | **0 / 123 (Allowlist: 0)** |
-> | `readJson` response validation gate (Gate 11) | — | — | — | 10 / 30 | **0 / 30 (Allowlist: 0)** |
-> | Gate test suites / tests | — | 6 / 88 | 7 / 96 | 8 / 110 | **8 / 110** (all green) |
-> | Static Gates passing | — | — | 10 / 10 | 11 / 11 | **11 / 11 (All Green)** |
-> | Unit Test Suite (Jest) | — | — | 336 suites | 364 suites | **365 suites (3,801 passed)** |
-> | Next.js Production Build (`bun run build`) | — | — | Pass | Pass | **Pass (0 errors)** |
->
-> Every number above was re-measured on 2026-09-11 against live static gates and reproduces working tree baselines exactly.
+## 0. Current Repository & Branch State
 
----
+As of 2026-09-13:
 
-## 1. Preflight & Checkpoint Instructions
+- `HEAD` is `655073d0` on branch `feat/phase-29-response-narrowing-and-strict-index`.
+- The committed strict-index baseline is 478; the working-tree baseline is **374**.
+- The `readJson` baseline is 0 unvalidated across 30 response-reading calls.
+- Non-null assertion sites decreased from 620 to **605** (-15).
+- All Phase 30 source, schema, CLI tooling, test, and baseline changes are present in the working tree.
+- `tests/menuPlannerStatefulSemantics.test.ts` is tracked in git.
 
-> [!IMPORTANT]
-> **Do not begin Phase 30 edits until Phase 29 is intentionally checkpointed.**
-> - Confirm the status of the current working tree (`git status -s`).
-> - Do not commit or push unless explicitly instructed or authorized by the user.
-> - Preserve all 38 modified files and baselines established in Phase 29.
-> - Run `git diff --check` before any edits to ensure no trailing whitespace or EOF issues exist.
-
----
-
-## 2. Definition of Done for Phase 30
-
-### Required Objective: Strict-Index Latent Error Burndown (478 -> <= 380)
-
-1. **Pre-edit Baseline Re-measurement**:
-   - Re-measure live diagnostics using `NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkStrictIndex.ts --top 25`.
-2. **Error Target**:
-   - Reduce strict-index diagnostics from 478 down to **<= 380 errors** across `tsconfig.strict-index.json` (a reduction of **at least 98 errors**).
-3. **Semantic Integrity (Do Not Weaken Types)**:
-   - Prioritize TS2375 (229 errors) and TS2379 (111 errors), which together constitute 79% of all strict-index defects.
-   - Preserve the strict semantic distinction between:
-     - **`absent`** (omitted property)
-     - **`present-with-undefined`** (explicitly assigned `undefined`)
-     - **`null`** (explicitly null)
-   - Do NOT widen shared type definitions (e.g., blanket `| undefined` or optionalizing required fields) solely to satisfy the compiler.
-   - Use the conditional spread pattern for optional fields: `...(val !== undefined ? { prop: val } : {})`.
-4. **Non-regression Guarantee**:
-   - Do not introduce new diagnostic locations to offset fixes elsewhere.
-   - No file should see an error count increase.
-5. **Ratchet & Verification**:
-   - Ratchet only after the target (<= 380) is achieved: `bun run strict-index:ratchet`.
-   - Run `bun run verify:full` once at the end of the phase to validate all static gates, unit tests, and production compilation.
-
----
-
-### Stretch Objectives (Independent Debt Ceilings)
-
-If the required strict-index objective is completed with headroom, address the following stretch targets without regressing any other metric:
-
-1. **`no-unnecessary-condition` Reduction**:
-   - Live count: **835 findings across 307 files** (Message distribution: `neverOptionalChain`: 258, `alwaysTruthy`: 223, `neverNullish`: 213, `alwaysFalsy`: 106, `noOverlapBooleanExpression`: 24, `comparisonBetweenLiteralTypes`: 11).
-   - Stretch target: Reduce findings from **835 to <= 780** (burn down >= 55 findings).
-   - **Mandatory Safety Rules for Condition Removals**:
-     - Determine whether the static TypeScript type or the runtime payload behavior is authoritative.
-     - Characterize malformed, absent, and null input behavior before removing any guard.
-     - Prefer fixing the upstream source type or tightening boundary validation over removing downstream defensive checks.
-     - Never replace guards with non-null assertions (`!`), type casts (`as T`), wider `| undefined` types, or ESLint disable comments merely to reduce the warning counter.
-     - Touched files must have zero new warnings, even if the aggregate total decreases.
-2. **Tracked Lint Debt Ratchet**:
-   - Tracked debt: **1,474 -> <= 1,419** (driven by condition cleanups).
-3. **AST Assertion Sites & Gated Casts**:
-   - Assertion sites: **3,295 -> <= 3,250** (eliminate >= 45 `as` assertions using runtime narrowing or type adapters).
-   - Gated casts: **167 -> <= 165**.
-   - Ensure zero increase in production casts (<= 135), `as any` (<= 38), declined pool (<= 4,906), or PNC sub-baseline (<= 214).
-
----
-
-### Deferred Feature Objective: Domain Feature Wiring (Design & Vertical Slice First)
-
-> [!CAUTION]
-> **Do not broadly wire `lunarPhaseUtils.ts` or `chakraSymbols.ts` across product surfaces in this phase.**
-> - `lunarPhaseUtils.ts` contains knowingly preserved latent calculations (lines 461, 517), `applyVelocityBoost` is a documented no-op placeholder (line 428), and neither illumination-curve nor void-of-course calculations are implemented.
-> - `chakraSymbols.ts` generates metrics using `Math.random()` (e.g. line 150), making runtime output nondeterministic and risking hydration mismatches and test instability.
-> - "Alchemy Atlas" does not identify a concrete, existing route.
->
-> **Discovery & Vertical Slice Mandate**:
-> Before exposing these modules to live user flows:
-> 1. Select **one single route** (e.g., `/celestial-lab` or `/kitchen-lab`).
-> 2. Define exact input contracts, deterministic calculation formulas (eliminate all `Math.random()` calls), and visible UI behavior.
-> 3. Fix documented latent calculation defects with mathematical unit tests.
-> 4. Add UI acceptance tests proving determinism before merging.
-
----
-
-## 3. Live Diagnostic Distribution & Top Strict-Index Targets
-
-Measured live across 1,982 scanned files (478 errors across 294 files):
-- **Error Code Breakdown**:
-  - `TS2375` (`exactOptionalPropertyTypes` assignment mismatch): **229 errors**
-  - `TS2379` (`exactOptionalPropertyTypes` object literal mismatch): **111 errors**
-  - `TS2322` (Type assignment mismatch): **47 errors**
-  - `TS2345` (Argument type mismatch): **23 errors**
-  - `TS2412` (Property in type not assignable to index): **11 errors**
-  - `TS2352` (Conversion type mismatch): **6 errors**
-  - `TS2769` (No overload matches call): **4 errors**
-  - *TS2375 + TS2379 = 340 errors (71% of total).*
-
-- **Area Distribution**:
-  - `src/components/`: 103 errors
-  - `src/utils/`: 79 errors
-  - `src/app/api/`: 65 errors
-  - `src/services/`: 58 errors
-  - `src/app/(alchm)/`: 47 errors
-  - `src/lib/`: 43 errors
-  - `src/data/`: 17 errors
-  - `src/contexts/`: 17 errors
-  - Other: 49 errors
-
-- **Top Live Files (Inspect via `bun scripts/checkStrictIndex.ts --top 20`)**:
-  - `src/lib/menu-planner/schemas.ts` (8 errors)
-  - `src/components/menu-planner/RecipeBrowserPanel.tsx` (5 errors)
-  - `src/contexts/menu-planner/useMealSlots.ts` (5 errors)
-  - `src/data/unified/recipeBuilding.ts` (5 errors)
-  - `src/services/UnifiedRecommendationService.ts` (5 errors)
-  - `src/utils/cuisine/sauceLineage.ts` (5 errors)
-  - `src/utils/ingredientRecommender.ts` (5 errors)
-  - `src/app/(alchm)/feed/page.tsx` (4 errors)
-  - `src/app/api/group-recommendations/route.ts` (4 errors)
-  - `src/app/cooking-methods/[method]/page.tsx` (4 errors)
-  - `src/app/ingredients/IngredientsExplorer.tsx` (4 errors)
-  - `src/components/time-laboratory/planetary-agents-view.tsx` (4 errors)
-  - `src/contexts/GroceryCartContext.tsx` (4 errors)
-  - `src/contexts/menu-planner/MenuPlannerProvider.tsx` (4 errors)
-  - `src/lib/orders/fulfillment.ts` (4 errors)
-  - `src/services/EnhancedRecommendationService.ts` (4 errors)
-  - `src/services/stripeWebhookCoverageService.ts` (4 errors)
-  - `src/utils/cookingMethodRecommender.ts` (4 errors)
-  - `src/utils/menuPlanner/recommendationBridge.ts` (4 errors)
-
----
-
-## 4. Verification Protocol
-
-Use targeted inner-loop commands during development and run `bun run verify:full` once upon completion:
+Before any future work or checkpoint:
 
 ```bash
-# Inner-loop checks during development:
-NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkStrictIndex.ts --top 15
-bun run typecheck
-bun run lint:fast
-
-# Targeted test running:
-bun run test -- <target-pattern>
-
-# Full gate verification (run ONCE when work is complete):
+git status --short --branch
+git diff --stat
+git diff --check
 bun run verify:full
 ```
 
-### The 11 Static Gates Checklist:
-1. `check:untracked` — Ensures no untracked `.ts`/`.tsx` files exist in `src/` or `scripts/`.
-2. `check:route-validation` — 0 unvalidated body-reading routes (allowlist: `[]`).
-3. `test:gates` — AST and gate tests in `scripts/lib/__tests__/` (110 passed across 8 suites).
-4. `strict-index:check` — Enforces `tsconfig.strict-index.json` (baseline 478 / 294 files).
-5. `check:scripts` — Typecheck on `scripts/**/*.ts` (baseline 302 errors / 58 files).
-6. `typecheck` — Full Next.js production typegen and compiler check (`next typegen && tsc --noEmit`). Must be 0 errors.
-7. `lint` — ESLint on `src/` (`--max-warnings=10000`).
-8. `lint:scripts` — ESLint on `scripts/` (`--max-warnings=25`).
-9. `lint:debt` — Ratchet gate for lint debt (1,474), casts (167), assertion sites (3,295), and sub-baselines.
-10. `audit:dead-modules` — AST dead module check (0 unreachable modules).
-11. `check:read-json` — AST gate ensuring `readJson` / `safeReadJson` calls pass `{ parse: Schema.parse }` (0 unvalidated, allowlist: `[]`).
+Preserve every existing change. Do not reset, discard, stash, commit, or push without explicit user direction.
+
+Current working-tree measurements:
+
+| Metric                     |                 Current status |
+| -------------------------- | -----------------------------: |
+| Strict-index diagnostics   |           374 across 270 files |
+| Strict-index allowlist     |                    0 (none)    |
+| `no-unnecessary-condition` |           834 across 307 files |
+| Tracked lint debt          |                          1,473 |
+| Gated casts                |     167 total / 135 production |
+| AST assertion sites        | 3,293 total / 2,670 production |
+| Non-null assertion sites   |                            605 |
+| `readJson` validation      |       0 unvalidated / 30 calls |
+| Static gates               |               11 / 11 (pass)   |
+| Jest test suites           |              368 / 368 (pass)  |
+| Production Next.js build   |                 Exit 0 (pass)  |
+
+If live measurements differ, treat the live diagnostic output as authoritative. Do not hand-edit a baseline to make it agree with this document.
 
 ---
 
-## 5. Operational Lessons & Traps to Avoid
+## 1. Scope and Priority
 
-1. **Do Not Over-Rely on `--forceExit`**:
-   - Canonical `package.json` scripts intentionally do not use `--forceExit` so handle leaks are detectable.
-   - Run `bun run test:detect-open-handles` if a worker hangs rather than masking leaks with unconditional process termination.
+Phase 30 has one required engineering objective and two stretch objectives:
 
-2. **Compliance Test Regex Spans (`HooksCompliance.test.tsx`)**:
-   - `HooksCompliance.test.tsx` tests `/try\s*\{[\s\S]*?useAlchemical\(\)[\s\S]*?\}\s*catch/`.
-   - Never declare helper functions containing `try/catch` above components that invoke `useAlchemical()`. Place top-level helpers *after* the component at the bottom of the file.
+1. **Required:** reduce strict-index diagnostics from 478 to **<= 380**. This is a reduction of at least **98** diagnostics.
+2. **Stretch A:** reduce `no-unnecessary-condition` from 835 to **<= 780**, which should also reduce tracked lint debt from 1,474 to **<= 1,419** if no other tracked rule changes.
+3. **Stretch B:** reduce AST assertion sites from 3,295 to **<= 3,250** and gated casts from 167 to **<= 165**.
 
-3. **Cyclomatic Complexity in Loop Bodies**:
-   - In components like `EnhancedCookingMethodRecommender.tsx` with complexity limits of 20, inline conditional object spreads (`...(cond ? { k: v } : {})`) inside `.flatMap()` or `.map()` callbacks will trigger `complexity` lint debt.
-   - Extract multi-branch evaluations into standalone pure functions (`computeTransformedESMS`, `computeMethodKinetics`).
+Do not trade completion of the required objective for a partial result in all three areas. Finish and verify strict-index first. Re-measure before beginning either stretch objective because strict-index repairs can change lint and assertion counts.
 
-4. **Finder Duplicate Artifacts (`* 2` and `* 3`)**:
-   - macOS Finder conflict copies (e.g., `mechanics 2/page.tsx`) are ignored by `.gitignore` and `tsconfig.json`, but the Next.js App Router will attempt to discover and compile them.
-   - Always ensure no `* 2` folders remain under `src/app/`.
+Broad lunar, chakra, and defaults feature wiring is not part of the Phase 30 Definition of Done. It needs a deterministic vertical-slice specification and correctness repairs before production integration; see Section 6.
 
-5. **`import/order` ESLint Rule**:
-   - `eslint.config.mjs` enforces `"newlines-between": "never"`.
-   - All `import type` statements must precede any `export *` statements to prevent import order warnings.
+---
+
+## 2. Required Objective: Strict-Index 478 -> <= 380
+
+### Live inventory
+
+The 478 diagnostics are dispersed rather than concentrated in a few files:
+
+- TS2375: 264
+- TS2379: 114
+- TS2322: 52
+- TS2345: 27
+- TS2412: 11
+- TS2352: 6
+- TS2769: 4
+- 179 files have one diagnostic; 75 files have two.
+
+Current candidate pools with enough headroom to reach the target:
+
+| Candidate pool                                                                                            | Diagnostics | Files |
+| --------------------------------------------------------------------------------------------------------- | ----------: | ----: |
+| `src/utils/**`                                                                                            |          79 |    42 |
+| `src/app/api/**`                                                                                          |          65 |    52 |
+| `src/services/**`                                                                                         |          58 |    31 |
+| `src/app/(alchm)/**`                                                                                      |          47 |    29 |
+| Menu planner: `src/components/menu-planner/**`, `src/contexts/menu-planner/**`, `src/lib/menu-planner/**` |          42 |    14 |
+
+The highest-count individual files currently begin with:
+
+- `src/lib/menu-planner/schemas.ts` — 8
+- `src/components/menu-planner/RecipeBrowserPanel.tsx` — 5
+- `src/contexts/menu-planner/useMealSlots.ts` — 5
+- `src/data/unified/recipeBuilding.ts` — 5
+- `src/services/UnifiedRecommendationService.ts` — 5
+- `src/utils/cuisine/sauceLineage.ts` — 5
+- `src/utils/ingredientRecommender.ts` — 5
+
+These are candidates, not a frozen worklist. The previous list contained missing and already-clean files and would have removed only 10 live diagnostics. Select work from the current compiler output.
+
+### Diagnostic reporting prerequisite
+
+The current `scripts/checkStrictIndex.ts` prints only aggregate totals; it does not support the previously documented `--top` behavior. Before editing production code, add and test a read-only `--top <N>` mode that prints files sorted by diagnostic count, including the per-file TypeScript code distribution. Keep the default gate output and pass/fail behavior unchanged.
+
+After that small tooling change, generate the live worklist with:
+
+```bash
+bun scripts/checkStrictIndex.ts --top 40
+```
+
+Do not ratchet any baseline as part of the reporting change.
+
+### Selection strategy
+
+Work in cohesive clusters and maintain at least 20% diagnostic headroom in the candidate pool. Recommended order:
+
+1. Menu-planner types, schemas, context, and consumers.
+2. Service-layer row/adaptor construction.
+3. Utilities with clear internal contracts.
+4. API routes only where request/response schemas make the runtime contract explicit.
+
+Prefer TS2375 and TS2379 repairs with locally provable semantics. For each optional property, decide which contract is intended:
+
+| Intended runtime meaning                               | Correct repair                                                                |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| Property should be absent when no value exists         | Use a conditional object spread and omit the key                              |
+| Property is always present but may contain `undefined` | Use `T \| undefined` only when callers and runtime data require that contract |
+| Database/API represents missing data as `null`         | Preserve `null` or normalize it explicitly at the boundary                    |
+
+Do not mechanically add `| undefined` to shared interfaces. That weakens `exactOptionalPropertyTypes` and can hide rather than repair the contract mismatch.
+
+### Non-negotiable repair rules
+
+- Preserve runtime behavior unless a characterized latent bug is explicitly accepted as part of the change.
+- Do not silence diagnostics with `as any`, `as unknown as`, non-null assertions, `@ts-ignore`, or lint disables.
+- Do not delete, gut, or replace rich domain calculations to make types pass. **FIX > REMOVE.**
+- Use Zod parsing at external or persistence boundaries; use typed adapters and guards for internal transforms.
+- Inspect callers before changing a shared type.
+- Add or update tests when the repair changes serialization, omission, null handling, fallback behavior, or a public function contract.
+- The strict-index gate enforces only the total. Do not offset new errors in one file with larger reductions elsewhere.
+
+### Cluster workflow
+
+For each cluster:
+
+1. Record the exact diagnostics, codes, and files before editing.
+2. Inspect the producer, target type, callers, and relevant tests.
+3. Decide the intended absent/undefined/null semantics.
+4. Make the smallest cohesive repair.
+5. Run the closest targeted tests.
+6. Run:
+
+```bash
+bun run typecheck
+bun run strict-index:check
+bun run lint:changed
+```
+
+7. Confirm that the global strict count fell and that no new diagnostics or lint errors were introduced.
+8. Record the before/after count and semantic decision in the final handoff.
+
+Do not ratchet the baseline after every small edit. Ratchet once after the required target is reached and the complete diff has been reviewed.
+
+---
+
+## 3. Stretch A: `no-unnecessary-condition` 835 -> <= 780
+
+Start this only after strict-index is <= 380 and has been re-measured.
+
+Current message distribution:
+
+- `neverOptionalChain`: 258
+- `alwaysTruthy`: 223
+- `neverNullish`: 213
+- `alwaysFalsy`: 106
+- `noOverlapBooleanExpression`: 24
+- `comparisonBetweenLiteralTypes`: 11
+
+Inspect findings with:
+
+```bash
+bun scripts/checkLintDebt.ts --rule no-unnecessary-condition
+```
+
+Select high-confidence files whose runtime inputs are controlled or validated. A passing pre-existing test is not proof that a guard is redundant: declared types may be narrower than production data.
+
+For every removed or rewritten condition:
+
+- Establish whether the declared type or observed runtime input is authoritative.
+- Characterize absent, `undefined`, `null`, malformed, zero, empty-string, and empty-array behavior when relevant.
+- Prefer correcting the producer type or boundary schema when the type lies.
+- Leave an intentional defensive guard and its existing baseline warning unchanged; move to a different finding instead of deleting or suppressing it.
+- Do not replace a guard with `!`, a cast, or a tautological test merely to move the metric.
+
+Stretch A is complete only when:
+
+- `no-unnecessary-condition` is <= 780.
+- Tracked lint debt is <= 1,419.
+- No other audited rule, declined pool, cast counter, assertion counter, or sub-baseline regresses.
+- Relevant behavioral tests cover the changed branches.
+
+---
+
+## 4. Stretch B: Assertion Sites <= 3,250 and Gated Casts <= 165
+
+Start this only after the strict-index and lint measurements have stabilized.
+
+Inventory the current surface with:
+
+```bash
+bun scripts/checkLintDebt.ts --top-casts 20
+```
+
+Prioritize production `as any` and `as unknown as T` sites at real boundaries. Use:
+
+1. Zod `.parse()` or `.safeParse()` for untrusted external data.
+2. Explicit typed adapters for internal structural transformations.
+3. Narrowing guards such as `isDefined` and `isRecord`.
+4. Correct discriminated unions or overloads when the assertion compensates for an incomplete API.
+
+Do not game the aggregate by deleting useful `as const` literal narrowing or weakening test fixtures. A chained assertion rewritten as a single assertion is relabeling, not remediation.
+
+Stretch B is complete only when both independent targets hold:
+
+- AST assertion sites <= 3,250.
+- Gated casts <= 165.
+- Production assertion sites do not exceed 2,672.
+- Production gated casts do not exceed 135.
+- `as any`, tracked lint debt, and all strict-index metrics remain non-regressing.
+
+---
+
+## 5. Ratchet and Final Verification
+
+When all work intended for this phase is complete:
+
+```bash
+# Record only genuine measured reductions.
+bun run strict-index:ratchet
+
+# Run only if a lint, cast, or assertion counter decreased.
+bun run lint:debt:ratchet
+
+# This already includes verify:static, the full Jest suite, and the build.
+bun run verify:full
+
+git diff --check
+git status --short --branch
+```
+
+Do not run `verify:static`, then `verify`, then `verify:full` consecutively; `verify:full` already includes the first two workflows.
+
+Use the canonical test scripts without `--forceExit`. If Jest appears to hang, diagnose the open handle first:
+
+```bash
+bun run test:detect-open-handles
+```
+
+Use `bun run test:memory`/`--forceExit` only as a diagnostic fallback. It can conceal resource leaks and is not the release signal.
+
+### Required Definition of Done
+
+- Phase 29 had a clear, preserved checkpoint before Phase 30 edits began.
+- Strict-index diagnostics are <= 380 and `.strict-index-baseline.json` matches the live result.
+- Base `typecheck` has 0 errors.
+- All 11 static gates pass.
+- The full Jest suite passes; report live counts rather than hard-coding historical suite totals.
+- The Next.js production build and route-size check pass.
+- Route validation and `readJson` validation remain at zero unvalidated sites.
+- No existing user changes were discarded.
+- No commit or push was performed without explicit user authorization.
+
+The final report must include the starting and ending counters, clusters changed, tests added or updated, notable semantic decisions, remaining risks, and any work deferred from the stretch objectives.
+
+---
+
+## 6. Follow-up Design Gate: Domain Feature Wiring
+
+Do not broadly wire `lunarPhaseUtils.ts`, `chakraSymbols.ts`, `defaults.ts`, or `typeDefaults.ts` into production during this debt-burndown phase.
+
+Known prerequisites:
+
+- `applyVelocityBoost` is currently a no-op placeholder.
+- Lunar aspect logic documents comparisons against incompatible aspect concepts and therefore falls through to defaults.
+- `calculatePhaseVelocity` reads `velocityBoost` from the wrong object level.
+- Illumination-curve and void-of-course implementations are not present in `lunarPhaseUtils.ts`.
+- Chakra intelligence outputs use `Math.random()` extensively and are not deterministic enough for SSR, hydration, reproducible recommendations, or stable tests.
+- “Alchemy Atlas” does not identify a concrete route or component.
+- Centralizing defaults can change fallback behavior and therefore needs a consumer-by-consumer audit.
+
+Before implementation, write a separate vertical-slice specification containing:
+
+1. One exact route and component.
+2. The user-visible behavior and empty/error states.
+3. Input provenance and validated runtime schema.
+4. Deterministic calculation formulas and units.
+5. Cache, SSR, and hydration behavior.
+6. Unit, integration, and UI acceptance tests.
+7. A migration plan for existing fallback/default behavior.
+
+The first recommended slice is lunar telemetry in the Weekly Menu Planner because it has a concrete product surface and can be validated independently. Fix and characterize the lunar calculations before displaying them. Chakra intelligence and broad default centralization should remain separate follow-up work.

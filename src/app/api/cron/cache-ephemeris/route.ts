@@ -1,10 +1,9 @@
 /**
  * Daily Ephemeris Cache — cron endpoint
  *
- * Populates `daily_ephemeris_cache` once per day so the transit-bonus slice of
- * the daily Cosmic Yield (DailyYieldService.getTodayEphemeris) has real data.
- * Without this the cache is empty in production and every user's transit bonus
- * silently resolves to zero — only the natal-weighted base flows.
+ * Populates `daily_ephemeris_cache` once per day for daily sky summaries.
+ * Faucet claims compute their own exact claim-time sky; this day-level snapshot
+ * must not choose a claim's magnitude.
  *
  * Fetches the live sky via calculatePlanetaryPositionsWithMeta (Swiss-ephemeris
  * backend first, astronomy-engine fallback), reduces it to canonical planet keys

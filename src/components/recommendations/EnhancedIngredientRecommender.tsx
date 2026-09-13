@@ -682,11 +682,11 @@ function extractNutrition(np: NutritionalProfileLike | undefined | null): {
   const fat = macros.fat ?? np.fat_g ?? np.fat;
   if (calories == null && protein == null) return null;
   return {
-    servingSize: np.serving_size,
-    calories: calories != null ? Math.round(Number(calories)) : undefined,
-    protein: protein != null ? Number(protein) : undefined,
-    carbs: carbs != null ? Number(carbs) : undefined,
-    fat: fat != null ? Number(fat) : undefined,
+    ...(np.serving_size !== undefined ? { servingSize: np.serving_size } : {}),
+    ...(calories != null ? { calories: Math.round(Number(calories)) } : {}),
+    ...(protein != null ? { protein: Number(protein) } : {}),
+    ...(carbs != null ? { carbs: Number(carbs) } : {}),
+    ...(fat != null ? { fat: Number(fat) } : {}),
   };
 }
 
@@ -981,16 +981,16 @@ export const EnhancedIngredientRecommender: React.FC<
     // Build the astrological context once per render — every ingredient is
     // scored against the same current moment, so the sky's quantities (which
     // require an aspect pass) are derived here rather than per ingredient.
+    const liveAlch = deriveLiveSkyQuantities(
+      alchemicalContext.planetaryPositions,
+      alchemicalContext.isDaytime,
+    );
     const astroCtx: AstroContext = {
       zodiacSign: alchemicalContext.zodiacSign,
       lunarPhase: alchemicalContext.lunarPhase,
       planetaryPositions: alchemicalContext.planetaryPositions,
       isDaytime: alchemicalContext.isDaytime,
-      alchemical:
-        deriveLiveSkyQuantities(
-          alchemicalContext.planetaryPositions,
-          alchemicalContext.isDaytime,
-        ) ?? undefined,
+      ...(liveAlch ? { alchemical: liveAlch } : {}),
     };
 
     // Calculate scores and sort
@@ -1005,11 +1005,11 @@ export const EnhancedIngredientRecommender: React.FC<
           seasonData,
           ing.alchemicalProperties,
           {
-            astrologicalProfile: ing.astrologicalProfile,
-            qualities: ing.qualities,
-            kineticsImpact: ing.kineticsImpact as
-              | KineticsImpactLike
-              | undefined,
+            ...(ing.astrologicalProfile !== undefined ? { astrologicalProfile: ing.astrologicalProfile } : {}),
+            ...(ing.qualities !== undefined ? { qualities: ing.qualities } : {}),
+            ...(ing.kineticsImpact !== undefined
+              ? { kineticsImpact: ing.kineticsImpact as KineticsImpactLike }
+              : {}),
           },
           astroCtx,
         );

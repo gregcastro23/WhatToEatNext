@@ -38,7 +38,7 @@ type SortOption =
   | "alphabetical"
   | "newest";
 
-interface RecipeFilters {
+export interface RecipeFilters {
   cuisines: string[];
   dietary: string[];
   maxCookTime?: number;
@@ -46,13 +46,46 @@ interface RecipeFilters {
   seasonal: boolean;
 }
 
-const EMPTY_FILTERS: RecipeFilters = {
+export const EMPTY_FILTERS: RecipeFilters = {
   cuisines: [],
   dietary: [],
-  maxCookTime: undefined,
   difficulty: [],
   seasonal: false,
 };
+
+export function toggleMaxCookTimeFilter(
+  prev: RecipeFilters,
+  optValue: number,
+): RecipeFilters {
+  const { maxCookTime: _oldMax, ...rest } = prev;
+  return prev.maxCookTime === optValue
+    ? rest
+    : { ...rest, maxCookTime: optValue };
+}
+
+export function toggleDietaryFilter(
+  prev: RecipeFilters,
+  key: string,
+): RecipeFilters {
+  return {
+    ...prev,
+    dietary: prev.dietary.includes(key)
+      ? prev.dietary.filter((d) => d !== key)
+      : [...prev.dietary, key],
+  };
+}
+
+export function toggleCuisineFilter(
+  prev: RecipeFilters,
+  cuisine: string,
+): RecipeFilters {
+  return {
+    ...prev,
+    cuisines: prev.cuisines.includes(cuisine)
+      ? prev.cuisines.filter((c) => c !== cuisine)
+      : [...prev.cuisines, cuisine],
+  };
+}
 
 const DIETARY_OPTIONS = [
   { key: "vegetarian", label: "Vegetarian" },
@@ -200,14 +233,14 @@ export default function RecipeBrowserPanel({
   const processedRecipes = useMemo(() => {
     // Use search engine for query-based search
     const searchOptions: RecipeSearchOptions = {
-      query: searchQuery || undefined,
-      cuisine: filters.cuisines.length > 0 ? filters.cuisines : undefined,
-      isVegetarian: filters.dietary.includes("vegetarian") || undefined,
-      isVegan: filters.dietary.includes("vegan") || undefined,
-      isGlutenFree: filters.dietary.includes("glutenFree") || undefined,
-      isDairyFree: filters.dietary.includes("dairyFree") || undefined,
-      prepTimeMax: filters.maxCookTime,
       limit: 500,
+      ...(searchQuery ? { query: searchQuery } : {}),
+      ...(filters.cuisines.length > 0 ? { cuisine: filters.cuisines } : {}),
+      ...(filters.dietary.includes("vegetarian") ? { isVegetarian: true } : {}),
+      ...(filters.dietary.includes("vegan") ? { isVegan: true } : {}),
+      ...(filters.dietary.includes("glutenFree") ? { isGlutenFree: true } : {}),
+      ...(filters.dietary.includes("dairyFree") ? { isDairyFree: true } : {}),
+      ...(filters.maxCookTime !== undefined ? { prepTimeMax: filters.maxCookTime } : {}),
     };
 
     let results: ScoredRecipe[] = searchRecipes(combinedRecipes, searchOptions);
@@ -289,21 +322,11 @@ export default function RecipeBrowserPanel({
   };
 
   const toggleDietary = (key: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      dietary: prev.dietary.includes(key)
-        ? prev.dietary.filter((d) => d !== key)
-        : [...prev.dietary, key],
-    }));
+    setFilters((prev) => toggleDietaryFilter(prev, key));
   };
 
   const toggleCuisine = (cuisine: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      cuisines: prev.cuisines.includes(cuisine)
-        ? prev.cuisines.filter((c) => c !== cuisine)
-        : [...prev.cuisines, cuisine],
-    }));
+    setFilters((prev) => toggleCuisineFilter(prev, cuisine));
   };
 
   return (
@@ -446,11 +469,7 @@ export default function RecipeBrowserPanel({
                   type="button"
                   aria-pressed={filters.maxCookTime === opt.value}
                   onClick={() =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      maxCookTime:
-                        prev.maxCookTime === opt.value ? undefined : opt.value,
-                    }))
+                    setFilters((prev) => toggleMaxCookTimeFilter(prev, opt.value))
                   }
                   className={`px-2.5 py-1 rounded text-xs font-medium font-mono transition-colors cursor-pointer ${
                     filters.maxCookTime === opt.value
@@ -521,13 +540,11 @@ export default function RecipeBrowserPanel({
                   key={recipe.id}
                   recipe={recipe}
                   onSelect={() => onSelectRecipe(recipe)}
-                  onViewDetail={
-                    onViewRecipeDetail
-                      ? () => onViewRecipeDetail(recipe)
-                      : undefined
-                  }
+                  {...(onViewRecipeDetail
+                    ? { onViewDetail: (): void => { onViewRecipeDetail(recipe); } }
+                    : {})}
                   onAddToQueue={() =>
-                    addToQueue(recipe, { suggestedMealTypes: undefined })
+                    addToQueue(recipe)
                   }
                   isInQueue={isInQueue(recipe.id)}
                   isFavorite={isFavorite(recipe.id)}

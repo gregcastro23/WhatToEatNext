@@ -17,6 +17,7 @@ import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type {
   WeeklyMenu,
   MealSlot,
+  MealSlotSauce,
   DayOfWeek,
   MealType,
   GroceryItem,
@@ -114,6 +115,109 @@ export interface UseMealSlotsReturn {
 }
 
 /**
+ * Pure transition helper: clears the recipe from a meal slot while preserving
+ * all other slot properties and strictly omitting the `recipe` key.
+ */
+export function removeRecipeFromMealSlot(meal: MealSlot): MealSlot {
+  const { recipe: _recipe, ...mealWithoutRecipe } = meal;
+  return { ...mealWithoutRecipe, updatedAt: new Date() };
+}
+
+/**
+ * Pure transition helper: moves a recipe from source to target slot,
+ * ensuring target was empty and source is cleared.
+ */
+export function moveMealBetweenSlots(
+  sourceMeal: MealSlot,
+  targetMeal: MealSlot,
+): { source: MealSlot; target: MealSlot } {
+  if (!sourceMeal.recipe) throw new Error("Source meal not found or has no recipe");
+  if (targetMeal.recipe) throw new Error("Target slot is already occupied");
+
+  const { recipe: _old, ...rest } = targetMeal;
+  const target: MealSlot = {
+    ...rest,
+    servings: sourceMeal.servings,
+    recipe: sourceMeal.recipe,
+    updatedAt: new Date(),
+  };
+  const source = removeRecipeFromMealSlot(sourceMeal);
+  return { source, target };
+}
+
+/**
+ * Pure transition helper: swaps recipe and servings between two slots.
+ * Correctly handles both occupied-to-occupied and occupied-to-empty swaps
+ * without leaking undefined recipe keys.
+ */
+export function swapMealsBetweenSlots(
+  meal1: MealSlot,
+  meal2: MealSlot,
+): { meal1: MealSlot; meal2: MealSlot } {
+  const { recipe: _old1, ...rest1 } = meal1;
+  const nextMeal1: MealSlot = {
+    ...rest1,
+    servings: meal2.servings,
+    ...(meal2.recipe !== undefined ? { recipe: meal2.recipe } : {}),
+    updatedAt: new Date(),
+  };
+
+  const { recipe: _old2, ...rest2 } = meal2;
+  const nextMeal2: MealSlot = {
+    ...rest2,
+    servings: meal1.servings,
+    ...(meal1.recipe !== undefined ? { recipe: meal1.recipe } : {}),
+    updatedAt: new Date(),
+  };
+
+  return { meal1: nextMeal1, meal2: nextMeal2 };
+}
+
+export interface MealSlotSauceInput {
+  name: string;
+  nutritionalProfile?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+  elementalProperties?: MealSlotSauce["elementalProperties"];
+  ingredients?: string[];
+}
+
+/**
+ * Pure transition helper: builds a MealSlot sauce object, cleanly omitting
+ * nutritionalProfile if not provided or omitting undefined nutritional fields.
+ */
+export function buildMealSlotSauce(
+  sauceId: string,
+  sauceData: MealSlotSauceInput,
+  servings = 1,
+): MealSlotSauce {
+  const { nutritionalProfile } = sauceData;
+  const nutProfile = nutritionalProfile
+    ? {
+        ...(nutritionalProfile.calories !== undefined ? { calories: nutritionalProfile.calories } : {}),
+        ...(nutritionalProfile.protein !== undefined ? { protein: nutritionalProfile.protein } : {}),
+        ...(nutritionalProfile.carbs !== undefined ? { carbs: nutritionalProfile.carbs } : {}),
+        ...(nutritionalProfile.fat !== undefined ? { fat: nutritionalProfile.fat } : {}),
+        ...(nutritionalProfile.fiber !== undefined ? { fiber: nutritionalProfile.fiber } : {}),
+      }
+    : undefined;
+  return {
+    id: sauceId,
+    name: sauceData.name,
+    servings,
+    ...(nutProfile !== undefined ? { nutritionalProfile: nutProfile } : {}),
+    ...(sauceData.elementalProperties !== undefined
+      ? { elementalProperties: sauceData.elementalProperties }
+      : {}),
+    ...(sauceData.ingredients !== undefined ? { ingredients: sauceData.ingredients } : {}),
+  };
+}
+
+/**
  * All slot-level CRUD operations for the weekly menu planner.
  * State ownership stays in MenuPlannerProvider; this hook only provides
  * stable callback references via useCallback.
@@ -176,8 +280,7 @@ export function useMealSlots({
           if (!prevMenu) return prevMenu;
           const updatedMeals = prevMenu.meals.map((meal) => {
             if (meal.id === mealSlotId) {
-              const { recipe: _recipe, ...mealWithoutRecipe } = meal;
-              return { ...mealWithoutRecipe, updatedAt: new Date() };
+              return removeRecipeFromMealSlot(meal);
             }
             return meal;
           });
@@ -250,18 +353,13 @@ export function useMealSlots({
         const targetMeal = currentMenu.meals.find((m) => m.id === targetMealSlotId);
         if (!sourceMeal?.recipe) throw new Error("Source meal not found or has no recipe");
         if (!targetMeal) throw new Error("Target meal slot not found");
-        if (targetMeal.recipe) throw new Error("Target slot is already occupied");
+        const { source, target } = moveMealBetweenSlots(sourceMeal, targetMeal);
 
         setCurrentMenu((prevMenu) => {
           if (!prevMenu) return prevMenu;
           const updatedMeals = prevMenu.meals.map((meal) => {
-            if (meal.id === targetMealSlotId) {
-              return { ...meal, recipe: sourceMeal.recipe, servings: sourceMeal.servings, updatedAt: new Date() };
-            }
-            if (meal.id === sourceMealSlotId) {
-              const { recipe: _recipe, ...mealWithoutRecipe } = meal;
-              return { ...mealWithoutRecipe, updatedAt: new Date() };
-            }
+            if (meal.id === targetMealSlotId) return target;
+            if (meal.id === sourceMealSlotId) return source;
             return meal;
           });
           return { ...prevMenu, meals: updatedMeals, updatedAt: new Date() };
@@ -284,13 +382,11 @@ export function useMealSlots({
         const meal2 = currentMenu.meals.find((m) => m.id === mealSlotId2);
         if (!meal1 || !meal2) throw new Error("One or both meal slots not found");
 
+        const { meal1: nextMeal1, meal2: nextMeal2 } = swapMealsBetweenSlots(meal1, meal2);
+
         const updatedMeals = currentMenu.meals.map((meal) => {
-          if (meal.id === mealSlotId1) {
-            return { ...meal, recipe: meal2.recipe, servings: meal2.servings, updatedAt: new Date() };
-          }
-          if (meal.id === mealSlotId2) {
-            return { ...meal, recipe: meal1.recipe, servings: meal1.servings, updatedAt: new Date() };
-          }
+          if (meal.id === mealSlotId1) return nextMeal1;
+          if (meal.id === mealSlotId2) return nextMeal2;
           return meal;
         });
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
@@ -311,11 +407,18 @@ export function useMealSlots({
         const sourceMeal = currentMenu.meals.find((m) => m.id === sourceMealSlotId);
         if (!sourceMeal?.recipe) throw new Error("Source meal not found or has no recipe");
         const useServings = servings ?? sourceMeal.servings;
-        const updatedMeals = currentMenu.meals.map((meal) =>
-          targetSlotIds.includes(meal.id)
-            ? { ...meal, recipe: sourceMeal.recipe, servings: useServings, updatedAt: new Date() }
-            : meal,
-        );
+        const updatedMeals = currentMenu.meals.map((meal) => {
+          if (targetSlotIds.includes(meal.id)) {
+            const { recipe: _old, ...rest } = meal;
+            return {
+              ...rest,
+              servings: useServings,
+              ...(sourceMeal.recipe !== undefined ? { recipe: sourceMeal.recipe } : {}),
+              updatedAt: new Date(),
+            };
+          }
+          return meal;
+        });
         setCurrentMenu({ ...currentMenu, meals: updatedMeals, updatedAt: new Date() });
         await Promise.resolve();
         logger.info(`Copied meal from ${sourceMealSlotId} to ${targetSlotIds.length} slots`);
@@ -336,7 +439,13 @@ export function useMealSlots({
         const useServings = servings ?? sourceMeal.servings;
         const updatedMeals = currentMenu.meals.map((meal) => {
           if (targetSlotIds.includes(meal.id)) {
-            return { ...meal, recipe: sourceMeal.recipe, servings: useServings, updatedAt: new Date() };
+            const { recipe: _old, ...rest } = meal;
+            return {
+              ...rest,
+              servings: useServings,
+              ...(sourceMeal.recipe !== undefined ? { recipe: sourceMeal.recipe } : {}),
+              updatedAt: new Date(),
+            };
           }
           if (meal.id === sourceMealSlotId) {
             const { recipe: _recipe, ...mealWithoutRecipe } = meal;
@@ -417,22 +526,7 @@ export function useMealSlots({
         if (meal.id === mealSlotId) {
           return {
             ...meal,
-            sauce: {
-              id: sauceId,
-              name: sauceData.name,
-              servings,
-              nutritionalProfile: sauceData.nutritionalProfile
-                ? {
-                  calories: sauceData.nutritionalProfile.calories,
-                  protein: sauceData.nutritionalProfile.protein,
-                  carbs: sauceData.nutritionalProfile.carbs,
-                  fat: sauceData.nutritionalProfile.fat,
-                  fiber: sauceData.nutritionalProfile.fiber,
-                }
-                : undefined,
-              elementalProperties: sauceData.elementalProperties,
-              ingredients: sauceData.ingredients,
-            },
+            sauce: buildMealSlotSauce(sauceId, sauceData, servings),
             updatedAt: new Date(),
           };
         }

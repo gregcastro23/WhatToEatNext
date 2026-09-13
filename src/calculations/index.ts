@@ -152,7 +152,7 @@ export function toRealAlchemizePositions(
       degree: pos.degree ?? 0,
       minute: pos.minute ?? pos.minutes ?? 0,
       isRetrograde: Boolean(pos.isRetrograde),
-      exactLongitude: pos.exactLongitude,
+      ...(pos.exactLongitude !== undefined ? { exactLongitude: pos.exactLongitude } : {}),
     };
   }
   return mapped;
@@ -163,12 +163,13 @@ export function toAlchemyPlanetaryPositions(
 ): Record<string, import("@/types/alchemy").PlanetaryPosition> {
   const mapped: Record<string, import("@/types/alchemy").PlanetaryPosition> = {};
   for (const [planet, pos] of Object.entries(positions)) {
+    const min = pos.minute ?? pos.minutes;
     mapped[planet] = {
       sign: toZodiacSign(pos.sign),
       degree: pos.degree ?? 0,
-      minute: pos.minute ?? pos.minutes,
-      isRetrograde: pos.isRetrograde,
-      longitude: pos.exactLongitude,
+      ...(min !== undefined ? { minute: min } : {}),
+      ...(pos.isRetrograde !== undefined ? { isRetrograde: pos.isRetrograde } : {}),
+      ...(pos.exactLongitude !== undefined ? { longitude: pos.exactLongitude } : {}),
     };
   }
   return mapped;
@@ -493,7 +494,9 @@ export class UnifiedCalculationEngine {
   }): KineticMetrics {
     return calculateKinetics({
       currentPlanetaryPositions: input.currentPositions,
-      previousPlanetaryPositions: input.previousPositions,
+      ...(input.previousPositions !== undefined
+        ? { previousPlanetaryPositions: input.previousPositions }
+        : {}),
       timeInterval: input.timeInterval ?? 3600,
     });
   }

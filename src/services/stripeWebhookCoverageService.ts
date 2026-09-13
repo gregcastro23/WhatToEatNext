@@ -64,6 +64,10 @@ export function classifyWebhookCoverage(input: {
   endpointStatus?: string;
 }): StripeWebhookCoverage {
   const { enabledEvents, endpointUrl, endpointStatus } = input;
+  const endpointFields = {
+    ...(endpointUrl !== undefined ? { endpointUrl } : {}),
+    ...(endpointStatus !== undefined ? { endpointStatus } : {}),
+  };
 
   if (enabledEvents === null) {
     return {
@@ -82,8 +86,7 @@ export function classifyWebhookCoverage(input: {
       status: "incident",
       summary: `Stripe webhook endpoint is ${endpointStatus} — no events are being delivered at all`,
       live: true,
-      endpointUrl,
-      endpointStatus,
+      ...endpointFields,
       missingEvents: [...HANDLED_STRIPE_EVENT_TYPES],
       missingCriticalEvents: [...CRITICAL_STRIPE_EVENT_TYPES],
       unhandledEvents: [],
@@ -108,8 +111,7 @@ export function classifyWebhookCoverage(input: {
       status: "incident",
       summary: describeMissing(missingCriticalEvents, missingEvents),
       live: true,
-      endpointUrl,
-      endpointStatus,
+      ...endpointFields,
       missingEvents,
       missingCriticalEvents,
       unhandledEvents,
@@ -121,8 +123,7 @@ export function classifyWebhookCoverage(input: {
       status: "degraded",
       summary: describeMissing(missingCriticalEvents, missingEvents),
       live: true,
-      endpointUrl,
-      endpointStatus,
+      ...endpointFields,
       missingEvents,
       missingCriticalEvents,
       unhandledEvents,
@@ -135,8 +136,7 @@ export function classifyWebhookCoverage(input: {
       ? `Endpoint receives all events (${WILDCARD}); all ${HANDLED_STRIPE_EVENTS.length} handled events covered`
       : `All ${HANDLED_STRIPE_EVENTS.length} handled events are enabled in Stripe`,
     live: true,
-    endpointUrl,
-    endpointStatus,
+    ...endpointFields,
     missingEvents: [],
     missingCriticalEvents: [],
     unhandledEvents,

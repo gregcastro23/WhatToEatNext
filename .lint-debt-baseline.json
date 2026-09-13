@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1474,
+  "trackedTotal": 1473,
   "casts": {
     "total": 167,
     "asAny": 38,
@@ -9,14 +9,14 @@
     "untrackedSingleAsT": 1997
   },
   "assertionSites": {
-    "total": 3295,
+    "total": 3293,
     "asAny": 37,
     "chained": 129,
-    "single": 3129,
-    "production": 2672,
+    "single": 3127,
+    "production": 2670,
     "test": 623,
     "asConst": 564,
-    "nonNull": 619
+    "nonNull": 605
   },
   "subBaselines": {
     "preferNullishCoalescing": {
@@ -58,7 +58,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 835,
+      "count": 834,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {

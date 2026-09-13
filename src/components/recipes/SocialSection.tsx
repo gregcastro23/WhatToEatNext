@@ -149,7 +149,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
             madeIt: !!data.madeIt,
             rating: typeof data.rating === "number" ? data.rating : 0,
             review: typeof data.review === "string" ? data.review : "",
-            photoDataUrl: local.photoDataUrl,
+            ...(local.photoDataUrl !== undefined ? { photoDataUrl: local.photoDataUrl } : {}),
           };
           setState(remote);
           writeLocalState(recipeId, remote);
@@ -247,9 +247,22 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
     if (!file.type.startsWith("image/")) return;
     const reader = new FileReader();
     reader.onload = (): void => {
-      update({ photoDataUrl: typeof reader.result === "string" ? reader.result : undefined });
+      if (typeof reader.result === "string") {
+        update({ photoDataUrl: reader.result });
+      }
     };
     reader.readAsDataURL(file);
+  };
+
+  const clearPhoto = (): void => {
+    setState((curr) => {
+      const { photoDataUrl: _removed, ...rest } = curr;
+      writeLocalState(recipeId, rest);
+      if (isAuthed) {
+        persistRemote(rest).catch(() => {});
+      }
+      return rest;
+    });
   };
 
   if (!hydrated) {
@@ -344,7 +357,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
             <img src={state.photoDataUrl} alt="Your upload" className="rounded-lg max-h-48 border border-white/10" />
             <button
               type="button"
-              onClick={() => { update({ photoDataUrl: undefined }); }}
+              onClick={clearPhoto}
               className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white/80 hover:text-rose-300 text-xs"
               aria-label="Remove photo"
             >

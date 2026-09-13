@@ -332,15 +332,14 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const itemSignature = (item: {
-    name: string;
-    quantity: number;
-    unit: string;
-    category?: string;
-    notes?: string;
-    asin?: string | null;
-    recipeIds: string[];
-  }): string =>
+  const itemSignature = (
+    item:
+      | GroceryCartItem
+      | Pick<
+          GroceryCartItem,
+          "name" | "quantity" | "unit" | "category" | "notes" | "asin" | "recipeIds"
+        >,
+  ): string =>
     JSON.stringify([
       item.name,
       item.quantity,
@@ -516,7 +515,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
           asin: item.asin,
           qty: item.quantity,
           name: item.name,
-          category: item.category,
+          ...(item.category !== undefined ? { category: item.category } : {}),
         })),
         metadata: {
           itemIds: cartItems.map((item) => item.id),

@@ -435,9 +435,16 @@ if (
   currentSites.total < baselineSites.total ||
   currentSites.asAny < baselineSites.asAny ||
   currentSites.production < baselineSites.production ||
+  (baselineSites.nonNull !== undefined && currentSites.nonNull < baselineSites.nonNull) ||
   declinedTotal < baselineDeclinedTotal ||
   pncDecreased
 ) {
+  if (baselineSites.nonNull !== undefined && currentSites.nonNull < baselineSites.nonNull) {
+    const nonNullDecreasedBy = baselineSites.nonNull - currentSites.nonNull;
+    console.log(
+      `🎉 Non-null assertions decreased by ${nonNullDecreasedBy}: ${currentSites.nonNull} (down from ${baselineSites.nonNull}).`,
+    );
+  }
   if (trackedTotal < baseline.trackedTotal) {
     const decreasedBy = baseline.trackedTotal - trackedTotal;
     console.log(
@@ -497,7 +504,7 @@ if (
         production: Math.min(currentSites.production, baselineSites.production),
         test: currentSites.test,
         asConst: currentSites.asConst,
-        nonNull: currentSites.nonNull,
+        nonNull: Math.min(currentSites.nonNull, baselineSites.nonNull ?? currentSites.nonNull),
       },
       subBaselines: baseline.subBaselines
         ? {

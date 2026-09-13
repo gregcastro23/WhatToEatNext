@@ -299,10 +299,15 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
 
     try {
       const fetchedActivations = await fetchAgentsForDate(selectedDate);
-      const withModality = (fetchedActivations as PlanetaryAgentActivation[]).map((a) => ({
-        ...a,
-        modality: a.modality ?? modalityFromAgentId(a.agent?.id),
-      }));
+      const withModality: PlanetaryAgentActivation[] = (
+        fetchedActivations as PlanetaryAgentActivation[]
+      ).map((a) => {
+        const modality = a.modality ?? modalityFromAgentId(a.agent.id);
+        return {
+          ...a,
+          ...(modality !== undefined ? { modality } : {}),
+        };
+      });
       setActivations(withModality);
       setLastUpdated(new Date());
     } catch (err) {
@@ -548,7 +553,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
           {/* Left Panel - Degree Selector */}
           <div className="xl:col-span-1">
             <DegreeAgentSelector
-              selectedDegree={selectedDegree}
+              {...(selectedDegree !== undefined ? { selectedDegree } : {})}
               onDegreeChange={handleDegreeChange}
               onAgentChat={handleAgentChatFromWheel}
             />
@@ -557,7 +562,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
           {/* Center Panel - Zodiac Wheel */}
           <div className="xl:col-span-2">
             <ZodiacWheelInteractive
-              selectedDegree={selectedDegree}
+              {...(selectedDegree !== undefined ? { selectedDegree } : {})}
               onDegreeClick={handleDegreeClick}
               onAgentChat={handleAgentChatFromWheel}
               size={600}
@@ -584,7 +589,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
               }}
               userId={userId}
               initialContext={{
-                degree: selectedDegree,
+                ...(selectedDegree !== undefined ? { degree: selectedDegree } : {}),
                 sign: 'Unknown', // Would need to calculate from degree
                 date: selectedDate,
               }}

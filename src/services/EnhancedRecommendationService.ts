@@ -403,8 +403,8 @@ export class EnhancedRecommendationService {
         score: Math.max(0, Math.min(1, composite)),
         scoreBreakdown: breakdown,
         reason: buildReason(recipe, breakdown, {
-          elemental: elementalGap,
-          nutritional: nutritionalGap,
+          ...(elementalGap !== undefined ? { elemental: elementalGap } : {}),
+          ...(nutritionalGap !== undefined ? { nutritional: nutritionalGap } : {}),
         }),
       };
     });
@@ -430,9 +430,9 @@ export class EnhancedRecommendationService {
       context: {
         userId: ctx.userId,
         datetime,
-        location: ctx.location,
-        dominantElementalGap: elementalGap,
-        topNutritionalGap: nutritionalGap,
+        ...(ctx.location !== undefined ? { location: ctx.location } : {}),
+        ...(elementalGap !== undefined ? { dominantElementalGap: elementalGap } : {}),
+        ...(nutritionalGap !== undefined ? { topNutritionalGap: nutritionalGap } : {}),
       },
     };
   }
@@ -547,8 +547,6 @@ export class EnhancedRecommendationService {
       context: {
         userId: composite.groupId,
         datetime,
-        dominantElementalGap: undefined,
-        topNutritionalGap: undefined,
       },
     };
   }
@@ -613,15 +611,9 @@ export class EnhancedRecommendationService {
             ? `Helps cover your ${nutritionalGap} target today.`
             : "A well-rounded option based on your day so far.",
           confidence: baseScore,
-          nutritionalBenefit: nutritionalGap
-            ? `High in ${nutritionalGap}`
-            : undefined,
-          elementalBenefit: elementalGap
-            ? `Adds ${elementalGap} balance`
-            : undefined,
-          basedOn: {
-            nutrientGap: nutritionalGap,
-          },
+          ...(nutritionalGap ? { nutritionalBenefit: `High in ${nutritionalGap}` } : {}),
+          ...(elementalGap ? { elementalBenefit: `Adds ${elementalGap} balance` } : {}),
+          ...(nutritionalGap ? { basedOn: { nutrientGap: nutritionalGap } } : {}),
         };
       })
       .sort((a, b) => b.confidence - a.confidence)

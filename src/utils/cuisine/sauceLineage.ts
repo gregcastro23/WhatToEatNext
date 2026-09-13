@@ -325,20 +325,20 @@ function buildNode(args: {
     id: args.rawId,
     name: args.name,
     origin: args.origin,
-    cuisine: args.cuisine,
-    base: args.base,
     baseFamily: classifyBase(args.base, keyIngredients),
-    description: args.description,
     keyIngredients,
     ingredientTokens: buildIngredientTokens(keyIngredients),
     declaredVariants: args.variants ?? [],
     declaredDerivatives: args.derivatives ?? [],
     astrologicalInfluences: args.astrologicalInfluences ?? [],
-    seasonality: args.seasonality,
-    difficulty: args.difficulty,
-    preparationNotes: args.preparationNotes,
-    technicalTips: args.technicalTips,
-    dataKey: args.dataKey,
+    ...(args.cuisine !== undefined ? { cuisine: args.cuisine } : {}),
+    ...(args.base !== undefined ? { base: args.base } : {}),
+    ...(args.description !== undefined ? { description: args.description } : {}),
+    ...(args.seasonality !== undefined ? { seasonality: args.seasonality } : {}),
+    ...(args.difficulty !== undefined ? { difficulty: args.difficulty } : {}),
+    ...(args.preparationNotes !== undefined ? { preparationNotes: args.preparationNotes } : {}),
+    ...(args.technicalTips !== undefined ? { technicalTips: args.technicalTips } : {}),
+    ...(args.dataKey !== undefined ? { dataKey: args.dataKey } : {}),
   };
 }
 
@@ -381,16 +381,16 @@ function collectNodes(cuisinesData: Record<string, RawCuisineEntry | undefined>)
           name: raw.name ?? k,
           origin: "mother",
           cuisine: cuisine.name ?? cuisineKey,
-          base: raw.base,
-          description: raw.description,
-          keyIngredients: raw.keyIngredients,
-          derivatives: raw.derivatives,
-          variants: raw.variants,
-          astrologicalInfluences: raw.astrologicalInfluences,
-          seasonality: raw.seasonality,
-          difficulty: raw.difficulty,
-          preparationNotes: raw.preparationNotes,
-          technicalTips: raw.technicalTips,
+          ...(raw.base !== undefined ? { base: raw.base } : {}),
+          ...(raw.description !== undefined ? { description: raw.description } : {}),
+          ...(raw.keyIngredients !== undefined ? { keyIngredients: raw.keyIngredients } : {}),
+          ...(raw.derivatives !== undefined ? { derivatives: raw.derivatives } : {}),
+          ...(raw.variants !== undefined ? { variants: raw.variants } : {}),
+          ...(raw.astrologicalInfluences !== undefined ? { astrologicalInfluences: raw.astrologicalInfluences } : {}),
+          ...(raw.seasonality !== undefined ? { seasonality: raw.seasonality } : {}),
+          ...(raw.difficulty !== undefined ? { difficulty: raw.difficulty } : {}),
+          ...(raw.preparationNotes !== undefined ? { preparationNotes: raw.preparationNotes } : {}),
+          ...(raw.technicalTips !== undefined ? { technicalTips: raw.technicalTips } : {}),
         });
         if (!nodes.has(id)) {
           nodes.set(id, node);
@@ -412,15 +412,17 @@ function collectNodes(cuisinesData: Record<string, RawCuisineEntry | undefined>)
           name: raw.name ?? k,
           origin: "traditional",
           cuisine: cuisine.name ?? cuisineKey,
-          base: raw.base,
-          description: raw.description,
-          keyIngredients: raw.keyIngredients,
-          variants: raw.variants ?? raw.derivatives,
-          astrologicalInfluences: raw.astrologicalInfluences,
-          seasonality: raw.seasonality,
-          difficulty: raw.difficulty,
-          preparationNotes: raw.preparationNotes,
-          technicalTips: raw.technicalTips,
+          ...(raw.base !== undefined ? { base: raw.base } : {}),
+          ...(raw.description !== undefined ? { description: raw.description } : {}),
+          ...(raw.keyIngredients !== undefined ? { keyIngredients: raw.keyIngredients } : {}),
+          ...((raw.variants ?? raw.derivatives) !== undefined
+            ? { variants: raw.variants ?? raw.derivatives }
+            : {}),
+          ...(raw.astrologicalInfluences !== undefined ? { astrologicalInfluences: raw.astrologicalInfluences } : {}),
+          ...(raw.seasonality !== undefined ? { seasonality: raw.seasonality } : {}),
+          ...(raw.difficulty !== undefined ? { difficulty: raw.difficulty } : {}),
+          ...(raw.preparationNotes !== undefined ? { preparationNotes: raw.preparationNotes } : {}),
+          ...(raw.technicalTips !== undefined ? { technicalTips: raw.technicalTips } : {}),
         });
         nodes.set(id, node);
         if (!nameIndex.has(nameKey)) nameIndex.set(nameKey, node);
@@ -436,17 +438,17 @@ function collectNodes(cuisinesData: Record<string, RawCuisineEntry | undefined>)
       rawId: id,
       name: sauce.name,
       origin: "global",
-      cuisine: sauce.cuisine,
       base: sauce.base,
       description: sauce.description,
       keyIngredients: sauce.keyIngredients,
-      variants: sauce.variants,
       astrologicalInfluences: sauce.astrologicalInfluences,
       seasonality: sauce.seasonality,
-      difficulty: sauce.difficulty,
-      preparationNotes: sauce.preparationNotes,
-      technicalTips: sauce.technicalTips,
+      ...(sauce.difficulty !== undefined ? { difficulty: sauce.difficulty } : {}),
+      ...(sauce.preparationNotes !== undefined ? { preparationNotes: sauce.preparationNotes } : {}),
+      ...(sauce.technicalTips !== undefined ? { technicalTips: sauce.technicalTips } : {}),
       dataKey: key,
+      ...(sauce.cuisine !== undefined ? { cuisine: sauce.cuisine } : {}),
+      ...(sauce.variants !== undefined ? { variants: sauce.variants } : {}),
     });
     nodes.set(id, node);
     nameIndex.set(nameKey, node);
@@ -518,7 +520,12 @@ function deriveEdges(
         if (!variantLeaves.has(node.id)) variantLeaves.set(node.id, []);
         const arr = variantLeaves.get(node.id)!;
         if (!arr.find((v) => v.id === leafId)) {
-          arr.push({ id: leafId, name: trimmed, parentId: node.id, cuisine: node.cuisine });
+          arr.push({
+            id: leafId,
+            name: trimmed,
+            parentId: node.id,
+            ...(node.cuisine !== undefined ? { cuisine: node.cuisine } : {}),
+          });
         }
       }
     }

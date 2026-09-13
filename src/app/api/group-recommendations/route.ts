@@ -6,12 +6,13 @@ import { GroupRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
-import type { GroupMember, NatalChart } from "@/types/natalChart";
+import type { BirthData, GroupMember, NatalChart } from "@/types/natalChart";
 import { extractAlchemicalPlanetPositions } from "@/utils/astrology/chartDataUtils";
 import { elementalCosineHarmony } from "@/utils/elemental/harmony";
 import {
   calculateAlchemicalFromPlanets,
   isSectDiurnalForBirth,
+  type BirthSectInput,
 } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -24,17 +25,19 @@ import type { NextRequest } from "next/server";
  * the best collective harmony.
  */
 
-interface CuisineDefinition {
-  name?: string;
-  elementalProperties?: Record<string, number>;
-  elementalState?: Record<string, number>;
-  [key: string]: unknown;
+function toBirthSectInput(birthData: BirthData): BirthSectInput {
+  return {
+    dateTime: birthData.dateTime,
+    latitude: birthData.latitude,
+    longitude: birthData.longitude,
+    ...(birthData.utcInstant !== undefined ? { utcInstant: birthData.utcInstant } : {}),
+  };
 }
 
-const CUISINE_LIST = Object.entries(CUISINES as Record<string, CuisineDefinition>).map(([key, val]) => ({
+const CUISINE_LIST = Object.entries(CUISINES).map(([key, val]) => ({
   id: key,
   name: typeof val.name === "string" ? val.name : key,
-  elemental: parseElementalBalance(val.elementalProperties ?? val.elementalState),
+  elemental: parseElementalBalance(val.elementalProperties),
 }));
 
 // Use a unified elemental interface that satisfies both celestial and alchemy interfaces
@@ -143,7 +146,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const ownerChart = currentUser.profile.natalChart;
     if (ownerChart) {
       const el = parseElementalBalance(ownerChart.elementalBalance);
-      const diurnal = isSectDiurnalForBirth(ownerChart.birthData);
+      const diurnal = isSectDiurnalForBirth(toBirthSectInput(ownerChart.birthData));
       const alch = parseAlchemicalProperties(ownerChart.alchemicalProperties, ownerChart, diurnal);
       elementalList.push(el);
       alchemicalList.push(alch);
@@ -168,7 +171,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         if (!commensalIds.includes(commensal.id)) continue;
         const chart = commensal.natalChart;
         const el = parseElementalBalance(chart.elementalBalance);
-        const diurnal = isSectDiurnalForBirth(chart.birthData);
+        const diurnal = isSectDiurnalForBirth(toBirthSectInput(chart.birthData));
         const alch = parseAlchemicalProperties(chart.alchemicalProperties, chart, diurnal);
         elementalList.push(el);
         alchemicalList.push(alch);
@@ -183,7 +186,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           if (!linkedUserIds.includes(friend.userId)) continue;
           const chart = friend.natalChart;
           const el = parseElementalBalance(chart.elementalBalance);
-          const diurnal = isSectDiurnalForBirth(chart.birthData);
+          const diurnal = isSectDiurnalForBirth(toBirthSectInput(chart.birthData));
           const alch = parseAlchemicalProperties(chart.alchemicalProperties, chart, diurnal);
           elementalList.push(el);
           alchemicalList.push(alch);

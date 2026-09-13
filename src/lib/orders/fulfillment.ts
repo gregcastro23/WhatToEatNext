@@ -58,10 +58,12 @@ function normalizeCustomer(value: unknown): CustomerInfo {
   const raw = record(value);
   if (!raw) return { name: "Guest" };
 
+  const phone = text(raw.phone);
+  const email = text(raw.email);
   return {
     name: text(raw.name) || "Guest",
-    phone: text(raw.phone) || undefined,
-    email: text(raw.email) || undefined,
+    ...(phone ? { phone } : {}),
+    ...(email ? { email } : {}),
   };
 }
 
@@ -76,14 +78,18 @@ function normalizeAddress(value: unknown): DeliveryAddress | null {
 
   if (!street || !city || !postalCode) return null;
 
+  const state = text(raw.state);
+  const latitude = numberValue(raw.latitude);
+  const longitude = numberValue(raw.longitude);
+
   return {
     street,
     city,
-    state: text(raw.state) || undefined,
+    ...(state ? { state } : {}),
     postalCode,
     country,
-    latitude: numberValue(raw.latitude) ?? undefined,
-    longitude: numberValue(raw.longitude) ?? undefined,
+    ...(latitude != null ? { latitude } : {}),
+    ...(longitude != null ? { longitude } : {}),
   };
 }
 
@@ -240,14 +246,15 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
     const items = normalizeLineItems(order.line_items, order.total_cents);
 
     const deliverectClient = new DeliverectClient();
+    const preparationTime = numberValue(metadata.preparationTime);
     const posOrder = await deliverectClient.injectOrder(deliverectLocationId, {
       externalId: order.id,
       channelOrderId: order.id,
       items,
       customer,
-      deliveryAddress: deliveryAddress ?? undefined,
+      ...(deliveryAddress ? { deliveryAddress } : {}),
       orderType,
-      preparationTime: numberValue(metadata.preparationTime) ?? undefined,
+      ...(preparationTime != null ? { preparationTime } : {}),
     });
 
     let delivery: LogisticsResponse | null = null;
@@ -256,12 +263,13 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
     if (orderType === "delivery" && deliveryAddress && pickupAddress) {
       const logisticsClient = new LogisticsClient();
       deliveryProvider = process.env.LOGISTICS_PROVIDER ?? "doordash_drive";
+      const specialInstructions = text(metadata.specialInstructions);
       delivery = await logisticsClient.requestDriver({
         orderId: order.id,
         pickupAddress,
         deliveryAddress,
         orderValue: order.total_cents,
-        specialInstructions: text(metadata.specialInstructions) || undefined,
+        ...(specialInstructions ? { specialInstructions } : {}),
         estimatedReadyTime: posOrder.estimatedReadyTime,
       });
     }

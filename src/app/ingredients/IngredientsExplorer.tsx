@@ -342,7 +342,15 @@ function getCulinaryDetails(ing: Ingredient): CulinaryDetails {
     return asStringArray(root.preparationTips);
   })();
 
-  return { flavorTags, flavorNotes, commonUses, cookingMethods, cuisines, pairings, prepTips };
+  return {
+    flavorTags,
+    ...(flavorNotes !== undefined ? { flavorNotes } : {}),
+    commonUses,
+    cookingMethods,
+    cuisines,
+    pairings,
+    prepTips,
+  };
 }
 
 interface DerivedIngredient {
@@ -444,13 +452,14 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
         (Number(props.Water) || 0) * resonance.Water +
         (Number(props.Earth) || 0) * resonance.Earth +
         (Number(props.Air) || 0) * resonance.Air;
+      const asinSource = staticAsin ? "verified_static_asin_map" : liveLookup?.source;
       return {
         ingredient: ing,
         dominant: dom,
         asin,
-        asinSource: staticAsin ? "verified_static_asin_map" : liveLookup?.source,
+        ...(asinSource !== undefined ? { asinSource } : {}),
         amazon,
-        lookup: liveLookup,
+        ...(liveLookup !== undefined ? { lookup: liveLookup } : {}),
         score,
         seasons: seasonsOf(ing),
         lookupPending: lookupStatus === "loading" && !staticAsin && !liveLookup,
@@ -582,7 +591,7 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
           name: item.name,
           chakra: item.chakra,
           category: item.category,
-          price: item.price,
+          ...(item.price !== undefined ? { price: item.price } : {}),
         })),
         metadata: {
           visibleCount,
@@ -843,15 +852,15 @@ function getCardAmazonState(data: DerivedIngredient): {
     brand: substitutedBrand ?? data.lookup?.primaryBrandSelected ?? data.amazon.primaryBrand,
     searchString,
     substituted: Boolean(data.lookup?.substituted ?? suggestFallbackBrand),
-    substitutedBrand,
+    ...(substitutedBrand !== undefined ? { substitutedBrand } : {}),
     confidence:
       data.asinSource === "verified_static_asin_map"
         ? "high"
         : data.lookup?.matchConfidence ?? "low",
-    productTitle: data.lookup?.title,
-    productImageUrl: data.lookup?.imageUrl,
-    price: data.lookup?.price,
-    inStock: data.lookup?.inStock,
+    ...(data.lookup?.title !== undefined ? { productTitle: data.lookup.title } : {}),
+    ...(data.lookup?.imageUrl !== undefined ? { productImageUrl: data.lookup.imageUrl } : {}),
+    ...(data.lookup?.price !== undefined ? { price: data.lookup.price } : {}),
+    ...(data.lookup?.inStock !== undefined ? { inStock: data.lookup.inStock } : {}),
   };
 }
 

@@ -233,21 +233,29 @@ export const savedMenuSchema = z
       isTemplate?: boolean;
       templateName?: string | null;
     } => {
-      const { weekStartDate } = menu;
+      const {
+        weekStartDate,
+        templateName: rawTemplateName,
+        isTemplate,
+        ...restMenu
+      } = menu;
       const weekEndDate =
-        menu.weekEndDate ??
+        restMenu.weekEndDate ??
         new Date(weekStartDate.getTime() + 6 * 24 * 60 * 60 * 1000);
       return {
-        ...menu,
+        ...restMenu,
         weekStartDate,
         weekEndDate,
-        savedAsTemplate: menu.savedAsTemplate ?? menu.isTemplate ?? false,
-        templateName: menu.templateName ?? undefined,
-        createdAt: menu.createdAt ?? new Date(),
-        updatedAt: menu.updatedAt ?? new Date(),
-        weeklyBudget: menu.weeklyBudget ?? null,
+        savedAsTemplate: restMenu.savedAsTemplate ?? isTemplate ?? false,
+        ...(isTemplate !== undefined ? { isTemplate } : {}),
+        ...(rawTemplateName != null
+          ? { templateName: rawTemplateName }
+          : {}),
+        createdAt: restMenu.createdAt ?? new Date(),
+        updatedAt: restMenu.updatedAt ?? new Date(),
+        weeklyBudget: restMenu.weeklyBudget ?? null,
         nutritionalTotals:
-          menu.nutritionalTotals as Record<DayOfWeek, DailyNutritionTotals>,
+          restMenu.nutritionalTotals as Record<DayOfWeek, DailyNutritionTotals>,
       };
     },
   );

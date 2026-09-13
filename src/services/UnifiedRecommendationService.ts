@@ -33,10 +33,20 @@ import type {
  * cast at the end only papers over the `unknown`-typed fields.
  */
 function toIngredient(source: UnifiedIngredient): Ingredient {
+  const { pairingRecommendations: _pairings, ...rest } = source;
+  const emptyStrings: string[] = [];
+  const pairingRecs = Array.isArray(source.pairingRecommendations)
+    ? {
+        complementary: source.pairingRecommendations,
+        contrasting: emptyStrings,
+        toAvoid: emptyStrings,
+      }
+    : undefined;
   return {
-    ...source,
+    ...rest,
     qualities: source.qualities ?? [],
     category: source.category as IngredientCategory,
+    ...(pairingRecs !== undefined ? { pairingRecommendations: pairingRecs } : {}),
   } as Ingredient;
 }
 
@@ -580,27 +590,19 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     type: "recipe" | "ingredient" | "cuisine" | "cookingMethod",
     limit?: number,
   ): Promise<RecommendationResult<unknown>> {
+    const criteria = {
+      elementalProperties,
+      ...(limit !== undefined ? { limit } : {}),
+    };
     switch (type) {
       case "recipe":
-        return this.getRecommendedRecipes({
-          elementalProperties,
-          limit,
-        });
+        return this.getRecommendedRecipes(criteria);
       case "ingredient":
-        return this.getRecommendedIngredients({
-          elementalProperties,
-          limit,
-        });
+        return this.getRecommendedIngredients(criteria);
       case "cuisine":
-        return this.getRecommendedCuisines({
-          elementalProperties,
-          limit,
-        });
+        return this.getRecommendedCuisines(criteria);
       case "cookingMethod":
-        return this.getRecommendedCookingMethods({
-          elementalProperties,
-          limit,
-        });
+        return this.getRecommendedCookingMethods(criteria);
       default:
         throw new Error(`Unsupported recommendation type: ${type}`);
     }
