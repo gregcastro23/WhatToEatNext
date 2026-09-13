@@ -102,8 +102,8 @@ export class RecommendationAdapter {
   private transformedIngredients: AlchemicalItem[] = [];
   private transformedMethods: AlchemicalItem[] = [];
   private transformedCuisines: AlchemicalItem[] = [];
-  private tarotElementBoosts?: Record<ElementalCharacter, number>;
-  private tarotPlanetaryBoosts?: Record<string, number>;
+  private tarotElementBoosts?: Record<ElementalCharacter, number> | undefined;
+  private tarotPlanetaryBoosts?: Record<string, number> | undefined;
   private aspects: PlanetaryAspect[] = [];
   private retrogradeStatus: Record<string, boolean> = {};
   private convertedPositions: Record<string, PlanetaryPosition> = {};

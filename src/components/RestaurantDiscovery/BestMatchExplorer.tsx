@@ -319,17 +319,15 @@ export function BestMatchExplorer({
       const { business } = entry;
       if (savedIds.has(business.id)) return;
 
+      const loc = [business.location.city, business.location.state].filter(Boolean).join(", ");
+      const addr = business.location.display_address.join(", ") || business.location.address1;
+
       const restaurant: SavedRestaurant = {
         id: `${source}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
         name: business.name,
         cuisine: business.categories[0]?.title || cuisine || "Restaurant",
-        location:
-          [business.location.city, business.location.state].filter(Boolean).join(", ") ||
-          undefined,
-        address:
-          business.location.display_address.join(", ") ||
-          business.location.address1 ||
-          undefined,
+        ...(loc ? { location: loc } : {}),
+        ...(addr ? { address: addr } : {}),
         menuItems: [],
         rating: business.rating,
         source,

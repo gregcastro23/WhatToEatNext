@@ -87,7 +87,7 @@ export function averageElementalProperties(
 interface RecipeLike {
   elementalProperties?: Partial<ElementalProperties>;
   ingredients?: Array<{
-    elementalProperties?: Partial<ElementalProperties>;
+    elementalProperties?: Partial<ElementalProperties> | undefined;
   }>;
   zodiacInfluences?: string[];
   [key: string]: unknown;

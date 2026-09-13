@@ -69,7 +69,7 @@ export function toStandardElementalAffinity(
 
   return {
     primary,
-    secondary,
+    ...(secondary ? { secondary } : {}),
     strength,
     compatibility: readCompatibility(data.compatibility),
     engine: {
@@ -88,7 +88,7 @@ export function toEngineElementalAffinity(
     element: standardAffinity.primary,
     strength: standardAffinity.strength,
     source: standardAffinity.engine?.source ?? "default",
-    secondary: standardAffinity.secondary,
+    ...(standardAffinity.secondary ? { secondary: standardAffinity.secondary } : {}),
     compatibility: { ...standardAffinity.compatibility },
   };
 }

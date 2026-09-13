@@ -91,7 +91,6 @@ export class AstrologicalService {
     // Initialize with default state
     this.currentState = {
       ..._DefaultAstrologicalState,
-      elementalInfluence: _DefaultAstrologicalState.elementalInfluence,
     };
   }
 

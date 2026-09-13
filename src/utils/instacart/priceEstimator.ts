@@ -19,10 +19,10 @@ import type { IngredientCategory } from "./ingredientNormalizer";
 
 export interface RecipeIngredient {
   name: string;
-  amount?: number;
-  unit?: string;
-  category?: string;
-  optional?: boolean;
+  amount?: number | undefined;
+  unit?: string | undefined;
+  category?: string | undefined;
+  optional?: boolean | undefined;
 }
 
 export interface RecipeNutrition {

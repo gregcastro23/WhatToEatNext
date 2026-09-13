@@ -93,7 +93,7 @@ function metricFrom(
     today,
     yesterday,
     delta,
-    hint: options.hint,
+    ...(options.hint ? { hint: options.hint } : {}),
     live,
     goodWhenIncreasing: options.goodWhenIncreasing ?? true,
   };

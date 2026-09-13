@@ -41,7 +41,7 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
       id: `rest_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name: newRestName.trim(),
       cuisine: newRestCuisine.trim(),
-      location: newRestLocation.trim() || undefined,
+      ...(newRestLocation.trim() ? { location: newRestLocation.trim() } : {}),
       menuItems: [],
       source: 'manual',
       addedAt: new Date().toISOString(),

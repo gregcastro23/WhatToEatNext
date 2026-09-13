@@ -61,33 +61,33 @@ export interface UserPersonalizationContext {
   natalChart: NatalChart;
   chartComparison?: ChartComparison;
   prioritizeHarmony?: boolean;
-  stats?: AlchemicalProfile;
+  stats?: AlchemicalProfile | undefined;
 }
 
 /**
  * Day recommendation options
  */
 export interface DayRecommendationOptions {
-  mealTypes?: MealType[];
-  dietaryRestrictions?: string[];
-  useCurrentPlanetary?: boolean;
-  maxRecipesPerMeal?: number;
-  preferredCuisines?: string[];
-  excludeIngredients?: string[];
+  mealTypes?: MealType[] | undefined;
+  dietaryRestrictions?: string[] | undefined;
+  useCurrentPlanetary?: boolean | undefined;
+  maxRecipesPerMeal?: number | undefined;
+  preferredCuisines?: string[] | undefined;
+  excludeIngredients?: string[] | undefined;
   /** Required ingredients to include in generated recipes */
-  requiredIngredients?: string[];
+  requiredIngredients?: string[] | undefined;
   /** Preferred cooking methods to guide recipe generation */
-  preferredCookingMethods?: string[];
+  preferredCookingMethods?: string[] | undefined;
   /** Flavor preferences to guide ingredient and cuisine selection */
-  flavorPreferences?: string[];
+  flavorPreferences?: string[] | undefined;
   /** Learned favorite ingredients to softly boost matching recipes */
-  favoriteIngredients?: string[];
+  favoriteIngredients?: string[] | undefined;
   /** Learned disliked ingredients to avoid in generated recommendations */
-  dislikedIngredients?: string[];
+  dislikedIngredients?: string[] | undefined;
   /** Learned complexity preference to softly bias recipe selection */
-  complexityPreference?: "simple" | "moderate" | "complex";
+  complexityPreference?: "simple" | "moderate" | "complex" | undefined;
   /** User personalization context for chart-based recommendations */
-  userContext?: UserPersonalizationContext;
+  userContext?: UserPersonalizationContext | undefined;
   /** Meals already planned for the week, used to avoid repetition */
   existingMeals?: Array<{
     recipeId: string;

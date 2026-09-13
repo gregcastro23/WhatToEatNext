@@ -92,9 +92,9 @@ class LoggingService {
       timestamp: new Date(),
       level,
       message,
-      context,
-      error,
-      data,
+      ...(context !== undefined ? { context } : {}),
+      ...(error !== undefined ? { error } : {}),
+      ...(data !== undefined ? { data } : {}),
     };
 
     // Add to buffer

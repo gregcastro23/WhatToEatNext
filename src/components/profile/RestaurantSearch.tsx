@@ -87,19 +87,22 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       dietaryTags: [],
     }] : [];
 
+    const locationStr = place.location?.locality
+      ? `${place.location.locality}${place.location.region ? `, ${place.location.region}` : ''}`
+      : undefined;
+    const addressStr = place.location?.formatted_address ?? place.location?.address;
+
     const restaurant: SavedRestaurant = {
       id: `fsq_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name: place.name,
       cuisine: place.categories?.[0]?.name || 'Restaurant',
-      location: place.location?.locality
-        ? `${place.location.locality}${place.location.region ? `, ${  place.location.region}` : ''}`
-        : undefined,
-      address: place.location?.formatted_address ?? place.location?.address,
+      ...(locationStr ? { location: locationStr } : {}),
+      ...(addressStr ? { address: addressStr } : {}),
       menuItems,
-      rating: place.rating,
+      ...(place.rating !== undefined ? { rating: place.rating } : {}),
       source: 'foursquare',
-      externalId: place.fsq_id,
-      url: place.link,
+      ...(place.fsq_id ? { externalId: place.fsq_id } : {}),
+      ...(place.link ? { url: place.link } : {}),
       addedAt: new Date().toISOString(),
     };
 

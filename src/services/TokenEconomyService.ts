@@ -270,6 +270,24 @@ async function applyCreditsInTransaction(
   return { lastRow, written };
 }
 
+function buildCreditBatchOptions(
+  opts: { sourceId?: string; description?: string } | undefined,
+  idemKey: string | undefined,
+  groupId: string | undefined,
+): {
+  sourceId?: string;
+  description?: string;
+  idempotencyKey?: string;
+  transactionGroupId?: string;
+} {
+  return {
+    ...(opts?.sourceId ? { sourceId: opts.sourceId } : {}),
+    ...(opts?.description ? { description: opts.description } : {}),
+    ...(idemKey ? { idempotencyKey: idemKey } : {}),
+    ...(groupId ? { transactionGroupId: groupId } : {}),
+  };
+}
+
 /** FK constraints that specifically mean "no such user". */
 const USER_FK_CONSTRAINTS = new Set([
   "token_transactions_user_id_fkey",
@@ -687,12 +705,13 @@ class TokenEconomyService {
       const idemKey = opts?.idempotencyKey
         ? `${opts.idempotencyKey}:${tokenType}`
         : undefined;
-      const next = await this.creditTokens(userId, tokenType, amount, sourceType, {
-        sourceId: opts?.sourceId,
-        description: opts?.description,
-        idempotencyKey: idemKey,
-        transactionGroupId: groupId,
-      });
+      const next = await this.creditTokens(
+        userId,
+        tokenType,
+        amount,
+        sourceType,
+        buildCreditBatchOptions(opts, idemKey, groupId),
+      );
       if (next) {
         lastBalances = next;
         written += 1;
@@ -1160,7 +1179,7 @@ class TokenEconomyService {
         const query = hasActivePurchaseSql({
           userId,
           slug: shopItemSlug,
-          maxAgeDays,
+          ...(maxAgeDays !== undefined ? { maxAgeDays } : {}),
         });
         const result = await db.executeQuery(query.sql, query.values);
         return result.rows.length > 0;

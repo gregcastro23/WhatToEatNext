@@ -12,10 +12,10 @@ export interface ChatBubbleReaction {
 export interface ChatBubbleProps {
   variant: "self" | "other";
   /** Sender identity; renders a tiny avatar on `other` bubbles. */
-  author?: AvatarPerson;
-  timestamp?: string;
+  author?: AvatarPerson | undefined;
+  timestamp?: string | undefined;
   /** Message-level element reactions, stacked bottom-right. */
-  reactions?: ChatBubbleReaction[];
+  reactions?: ChatBubbleReaction[] | undefined;
   children: ReactNode;
   className?: string;
 }

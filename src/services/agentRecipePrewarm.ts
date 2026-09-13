@@ -214,7 +214,7 @@ export async function getCachedAgentRecipes(
         map.set(id, {
           title: data.title,
           element: matchElement(data.element, "Fire"),
-          cuisine: typeof data.cuisine === "string" ? data.cuisine : undefined,
+          ...(typeof data.cuisine === "string" ? { cuisine: data.cuisine } : {}),
           source: "pa",
         });
       }

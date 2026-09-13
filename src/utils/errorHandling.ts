@@ -75,7 +75,9 @@ export function createEnhancedError(
 
   error.type = type;
   error.severity = severity;
-  error.context = context;
+  if (context !== undefined) {
+    error.context = context;
+  }
   error.userMessage = USER_FRIENDLY_MESSAGES[type];
   error.recoverable = isRecoverable(type);
   error.retryable = isRetryable(type);
@@ -84,7 +86,9 @@ export function createEnhancedError(
 
   // Preserve original error stack if available
   if (originalError) {
-    error.stack = originalError.stack;
+    if (originalError.stack !== undefined) {
+      error.stack = originalError.stack;
+    }
     error.cause = originalError;
   }
 

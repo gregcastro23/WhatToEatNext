@@ -151,7 +151,7 @@ export function resolveBirthZone(input: {
       return {
         zone,
         basis: "DERIVED_FROM_COORDINATES",
-        storedTimezone: stored || undefined,
+        ...(stored ? { storedTimezone: stored } : {}),
         storedDisagrees: storedIsIana && stored !== zone,
         storedIsRawOffset,
       };
@@ -174,7 +174,7 @@ export function resolveBirthZone(input: {
   return {
     zone: null,
     basis: "ABSENT",
-    storedTimezone: stored || undefined,
+    ...(stored ? { storedTimezone: stored } : {}),
     storedDisagrees: false,
     storedIsRawOffset,
   };

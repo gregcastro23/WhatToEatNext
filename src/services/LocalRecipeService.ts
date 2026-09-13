@@ -208,24 +208,28 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     }
 
     const imageUrl = getAssetUrl(rm.image_url ?? row.image_url);
+    const description = rm.description ?? row.description;
+    const servings = rm.servings ?? row.servings;
+    const createdAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
+    const updatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
+    const nutrition = rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined) : undefined);
+    const cuisine = publicCuisine(rm.cuisine ?? row.cuisine);
 
     return {
       id: rm.id ?? row.id,
       name: rm.name ?? row.name,
-      image: imageUrl,
-      imageUrl,
-      description: rm.description ?? row.description ?? undefined,
-      cuisine: publicCuisine(rm.cuisine ?? row.cuisine),
+      ...(imageUrl ? { image: imageUrl, imageUrl } : {}),
+      ...(description ? { description } : {}),
+      ...(cuisine ? { cuisine } : {}),
       ingredients: normalizeIngredients(rm.ingredients),
       instructions: normalizeInstructions(rm.instructions),
       prepTime: String(rm.prep_time_minutes ?? row.prep_time_minutes ?? 0),
       cookTime: String(rm.cook_time_minutes ?? row.cook_time_minutes ?? 0),
       totalTime: String((rm.prep_time_minutes ?? 0) + (rm.cook_time_minutes ?? 0)),
       timeToMake: `${(rm.prep_time_minutes ?? 0) + (rm.cook_time_minutes ?? 0)} minutes`,
-      servingSize: rm.servings ?? row.servings ?? undefined,
-      numberOfServings: rm.servings ?? row.servings ?? undefined,
+      ...(servings !== undefined && servings !== null ? { servingSize: servings, numberOfServings: servings } : {}),
       mealType: mealTypes,
-      season: seasons.length ? seasons : undefined,
+      ...(seasons.length ? { season: seasons } : {}),
       elementalProperties: {
         Fire: rm.elemental_properties?.fire ?? rm.elemental_properties?.Fire ?? 0.25,
         Water: rm.elemental_properties?.water ?? rm.elemental_properties?.Water ?? 0.25,
@@ -237,10 +241,10 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
       isVegan: hasDietaryTag(dietaryTags, "vegan"),
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
       isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
-      nutrition: (rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined) : undefined)) as unknown as Recipe['nutrition'],
+      ...(nutrition ? { nutrition: nutrition as unknown as Recipe['nutrition'] } : {}),
       tags: dietaryTags,
-      createdAt: row.created_at ? new Date(row.created_at).toISOString() : undefined,
-      updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : undefined,
+      ...(createdAt ? { createdAt } : {}),
+      ...(updatedAt ? { updatedAt } : {}),
     };
   }
 
@@ -250,37 +254,38 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
   const cookTime = row.cook_time_minutes ?? 0;
   const mealTypes = row.meal_types?.length ? row.meal_types : row.category ? [row.category] : [];
   const imageUrl = getAssetUrl(row.image_url);
+  const legacyDesc = row.description;
+  const legacyServings = row.servings;
+  const legacyCreatedAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
+  const legacyUpdatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
+  const legacyNutrition = parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined);
+  const legacyCuisine = publicCuisine(row.cuisine ?? row.cuisine_type);
 
   return {
     id: row.id,
     name: row.name,
-    image: imageUrl,
-    imageUrl,
-    description: row.description ?? undefined,
-    cuisine: publicCuisine(row.cuisine ?? row.cuisine_type),
+    ...(imageUrl ? { image: imageUrl, imageUrl } : {}),
+    ...(legacyDesc ? { description: legacyDesc } : {}),
+    ...(legacyCuisine ? { cuisine: legacyCuisine } : {}),
     ingredients: normalizeIngredients(row.ingredients),
     instructions: normalizeInstructions(row.instructions),
     prepTime: String(prepTime),
     cookTime: String(cookTime),
     totalTime: String(prepTime + cookTime),
     timeToMake: `${prepTime + cookTime} minutes`,
-    servingSize: row.servings ?? undefined,
-    numberOfServings: row.servings ?? undefined,
+    ...(legacyServings !== undefined && legacyServings !== null ? { servingSize: legacyServings, numberOfServings: legacyServings } : {}),
     mealType: mealTypes,
-    season: row.seasons ?? undefined,
+    ...(row.seasons ? { season: row.seasons } : {}),
     elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES, // Legacy fallback
     allergens: row.allergens ?? [],
     isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
     isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree"),
     isDairyFree: hasDietaryTag(dietaryTags, "dairyfree"),
-    nutrition: parseJsonValue<RecipeNutrition | undefined>(
-      row.nutritional_profile,
-      undefined,
-    ) as unknown as Recipe['nutrition'],
+    ...(legacyNutrition ? { nutrition: legacyNutrition as unknown as Recipe['nutrition'] } : {}),
     tags: dietaryTags,
-    createdAt: row.created_at ? new Date(row.created_at).toISOString() : undefined,
-    updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : undefined,
+    ...(legacyCreatedAt ? { createdAt: legacyCreatedAt } : {}),
+    ...(legacyUpdatedAt ? { updatedAt: legacyUpdatedAt } : {}),
   };
 }
 

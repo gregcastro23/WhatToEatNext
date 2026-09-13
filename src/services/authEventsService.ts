@@ -136,7 +136,7 @@ export async function logAuthEvent(event: AuthEventInput): Promise<void> {
     userAgent,
     errorCode: event.errorCode ?? null,
     errorMessage,
-    metadata: event.metadata,
+    ...(event.metadata !== undefined ? { metadata: event.metadata } : {}),
     createdAt: new Date(),
   });
   if (memoryEvents.length > MEMORY_RING_SIZE) {
