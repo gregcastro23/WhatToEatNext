@@ -191,7 +191,9 @@ export function computeMethodSnapshot(
       thermodynamics: thermo,
       gregsEnergy,
       monica,
-      kineticProfile: method.kineticProfile,
+      ...(method.kineticProfile !== undefined
+        ? { kineticProfile: method.kineticProfile }
+        : {}),
       planetaryPositions:
         moment.planetaryPositions &&
         Object.keys(moment.planetaryPositions).length > 0
@@ -212,8 +214,8 @@ export function computeMethodSnapshot(
       gregsEnergy,
       kalchm,
       monica,
-      duration: method.duration ?? undefined,
-      kineticPower: kinetics?.power,
+      ...(method.duration !== undefined ? { duration: method.duration } : {}),
+      ...(kinetics?.power !== undefined ? { kineticPower: kinetics.power } : {}),
     },
     moment.userIntent ?? null,
     { highStress: moment.highStress ?? false },

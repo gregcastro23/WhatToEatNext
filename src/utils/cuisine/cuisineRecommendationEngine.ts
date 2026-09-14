@@ -311,6 +311,42 @@ export function calculateSignatureMatch(
  * @param options - Recommendation options
  * @returns Array of personalized cuisine recommendations
  */
+function generateCuisineReasoning(
+  elementalCompatibility: number,
+  alchemicalCompatibility: number | undefined,
+  culturalAlignment: number,
+  signatureMatch: number,
+): string[] {
+  const reasoning: string[] = [];
+  if (elementalCompatibility > 0.7) {
+    reasoning.push("Strong elemental alignment with your preferences");
+  } else if (elementalCompatibility < 0.4) {
+    reasoning.push("Elemental properties differ from your preferences");
+  }
+
+  if (
+    alchemicalCompatibility !== undefined &&
+    alchemicalCompatibility > 0.7
+  ) {
+    reasoning.push("Good match with your alchemical preferences");
+  }
+
+  if (culturalAlignment > 0.7) {
+    reasoning.push("Aligns with your cultural background");
+  }
+
+  if (signatureMatch > 0.6) {
+    reasoning.push(
+      "Matches your preference for distinctive culinary signatures",
+    );
+  }
+
+  if (reasoning.length === 0) {
+    reasoning.push("Balanced compatibility across multiple factors");
+  }
+  return reasoning;
+}
+
 export function generateCuisineRecommendations(
   userProfile: UserProfile,
   availableCuisines: Map<
@@ -395,35 +431,14 @@ export function generateCuisineRecommendations(
     }
 
     // Generate reasoning
-    const reasoning: string[] = [];
-    if (includeReasoning) {
-      if (elementalCompatibility > 0.7) {
-        reasoning.push("Strong elemental alignment with your preferences");
-      } else if (elementalCompatibility < 0.4) {
-        reasoning.push("Elemental properties differ from your preferences");
-      }
-
-      if (
-        alchemicalCompatibility !== undefined &&
-        alchemicalCompatibility > 0.7
-      ) {
-        reasoning.push("Good match with your alchemical preferences");
-      }
-
-      if (culturalAlignment > 0.7) {
-        reasoning.push("Aligns with your cultural background");
-      }
-
-      if (signatureMatch > 0.6) {
-        reasoning.push(
-          "Matches your preference for distinctive culinary signatures",
-        );
-      }
-
-      if (reasoning.length === 0) {
-        reasoning.push("Balanced compatibility across multiple factors");
-      }
-    }
+    const reasoning = includeReasoning
+      ? generateCuisineReasoning(
+          elementalCompatibility,
+          alchemicalCompatibility,
+          culturalAlignment,
+          signatureMatch,
+        )
+      : [];
 
     // Calculate confidence based on data completeness
     let confidence = 0.5; // Base confidence
@@ -438,7 +453,9 @@ export function generateCuisineRecommendations(
       compatibilityScore: overallScore,
       scoringFactors: {
         elementalCompatibility,
-        alchemicalCompatibility,
+        ...(alchemicalCompatibility !== undefined
+          ? { alchemicalCompatibility }
+          : {}),
         culturalAlignment,
         seasonalRelevance,
         signatureMatch,
@@ -488,9 +505,9 @@ export function createAdvancedUserProfile(
 ): UserProfile {
   return {
     elementalPreferences: normalizeElementalPreferences(elementalPreferences),
-    culturalBackground,
-    astrologicalProfile,
-    locationPreferences,
+    ...(culturalBackground !== undefined ? { culturalBackground } : {}),
+    ...(astrologicalProfile !== undefined ? { astrologicalProfile } : {}),
+    ...(locationPreferences !== undefined ? { locationPreferences } : {}),
   };
 }
 

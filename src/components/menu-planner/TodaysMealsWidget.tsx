@@ -165,6 +165,26 @@ function getNextMealWindow(hour: number): MealWindow | null {
   return MEAL_WINDOWS.find((w) => w.startHour > hour) ?? null;
 }
 
+interface IngredientLike {
+  name?: string;
+  amount?: number;
+  unit?: string;
+}
+
+function extractPantryDeductionIngredients(
+  rawIngredients: Array<string | IngredientLike> | undefined,
+): Array<{ name: string; amount?: number; unit?: string }> | undefined {
+  return rawIngredients?.map((ing) => ({
+    name: typeof ing === "string" ? ing : (ing.name ?? ""),
+    ...(typeof ing !== "string" && ing.amount !== undefined
+      ? { amount: ing.amount }
+      : {}),
+    ...(typeof ing !== "string" && ing.unit !== undefined
+      ? { unit: ing.unit }
+      : {}),
+  }));
+}
+
 export default function TodaysMealsWidget({
   weekPlan,
   onScrollToDay,
@@ -254,17 +274,8 @@ export default function TodaysMealsWidget({
       });
 
       // Best-effort pantry deduction — localStorage only, never throws.
-      interface IngredientLike {
-        name?: string;
-        amount?: number;
-        unit?: string;
-      }
       const rawIngredients = slot.recipe.ingredients as Array<string | IngredientLike> | undefined;
-      const ingredients = rawIngredients?.map((ing) => ({
-        name: typeof ing === "string" ? ing : (ing.name ?? ""),
-        amount: typeof ing === "string" ? undefined : ing.amount,
-        unit: typeof ing === "string" ? undefined : ing.unit,
-      }));
+      const ingredients = extractPantryDeductionIngredients(rawIngredients);
       let pantrySuffix = "";
       if (ingredients && ingredients.length > 0) {
         const result = deductRecipeFromPantry(ingredients, slot.servings || 1);
@@ -748,9 +759,11 @@ export default function TodaysMealsWidget({
         onClose={() => setRecipeSelectorMealType(null)}
         onSelectRecipe={handleRecipeSelect}
         filters={{
-          mealType: recipeSelectorMealType ?? undefined,
+          ...(recipeSelectorMealType ? { mealType: recipeSelectorMealType } : {}),
           dayOfWeek: todayDow,
-          planetarySnapshot: currentSlotSnapshot,
+          ...(currentSlotSnapshot !== undefined
+            ? { planetarySnapshot: currentSlotSnapshot }
+            : {}),
         }}
       />
 

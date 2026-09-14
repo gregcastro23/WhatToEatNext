@@ -42,7 +42,7 @@ export async function GET(
     const page = await followDatabase.listFollowers(
       userId,
       viewerId && UUID.test(viewerId) ? viewerId : null,
-      { limit, cursor },
+      { ...(limit !== undefined ? { limit } : {}), cursor },
     );
     return NextResponse.json({
       success: true,

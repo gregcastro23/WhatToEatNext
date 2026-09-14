@@ -103,7 +103,7 @@ function BarChart({
   unit,
 }: {
   data: Array<{ label: string; value: number; color?: string }>;
-  unit?: string;
+  unit?: string | undefined;
 }) {
   const maxValue = Math.max(...data.map((d) => d.value));
 

@@ -173,10 +173,12 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
         culturalOrigin: cuisine.name,
         toolsRequired: technique.toolsRequired,
         bestFor: technique.bestFor,
-        relatedToMainMethod: relatedMainMethod,
-        variationName: relatedMainMethod
-          ? `${cuisine.name} ${technique.name}`
-          : undefined,
+        ...(relatedMainMethod !== undefined
+          ? {
+              relatedToMainMethod: relatedMainMethod,
+              variationName: `${cuisine.name} ${technique.name}`,
+            }
+          : {}),
         astrologicalInfluences: {
           dominantPlanets: [],
         },
@@ -195,9 +197,18 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
       if (mainMethod?.astrologicalInfluences) {
         method.astrologicalInfluences = {
           ...method.astrologicalInfluences,
-          favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,
-          unfavorableZodiac:
-            mainMethod.astrologicalInfluences.unfavorableZodiac,
+          ...(mainMethod.astrologicalInfluences.favorableZodiac !== undefined
+            ? {
+                favorableZodiac:
+                  mainMethod.astrologicalInfluences.favorableZodiac,
+              }
+            : {}),
+          ...(mainMethod.astrologicalInfluences.unfavorableZodiac !== undefined
+            ? {
+                unfavorableZodiac:
+                  mainMethod.astrologicalInfluences.unfavorableZodiac,
+              }
+            : {}),
           dominantPlanets:
             mainMethod.astrologicalInfluences.dominantPlanets ?? [],
         };

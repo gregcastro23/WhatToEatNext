@@ -76,11 +76,14 @@ function toAlchemicalPositions(
     if (!sign) continue;
     result[planetName] = {
       sign: sign.toString(),
-      degree: typeof r.degree === "number" ? r.degree : undefined,
-      exactLongitude:
-        typeof r.exactLongitude === "number" ? r.exactLongitude : undefined,
-      distance: typeof r.distance === "number" ? r.distance : undefined,
-      distanceAu: typeof r.distanceAu === "number" ? r.distanceAu : undefined,
+      ...(typeof r.degree === "number" ? { degree: r.degree } : {}),
+      ...(typeof r.exactLongitude === "number"
+        ? { exactLongitude: r.exactLongitude }
+        : {}),
+      ...(typeof r.distance === "number" ? { distance: r.distance } : {}),
+      ...(typeof r.distanceAu === "number"
+        ? { distanceAu: r.distanceAu }
+        : {}),
     };
   }
   return result;

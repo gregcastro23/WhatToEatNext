@@ -1110,7 +1110,7 @@ export function UpgradeGateFromQuery({
 } = {}): JSX.Element {
   const params = useSearchParams();
   const from = params?.get("from") ?? "lab";
-  return <UpgradeGate from={from} currentTier={currentTier} />;
+  return <UpgradeGate from={from} {...(currentTier !== undefined ? { currentTier } : {})} />;
 }
 
 /* ============================================================================

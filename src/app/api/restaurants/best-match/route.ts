@@ -114,8 +114,8 @@ export async function GET(request: NextRequest) {
       cuisine,
       latitude,
       longitude,
-      radiusMeters: radius ?? undefined,
-      limit: limit ?? undefined,
+      ...(radius !== null ? { radiusMeters: radius } : {}),
+      ...(limit !== null ? { limit } : {}),
       sort,
       openNow,
     });

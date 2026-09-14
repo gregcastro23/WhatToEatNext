@@ -54,8 +54,12 @@ export default function RedesignedMobilePlanner({
           dayOfWeek={todayDayOfWeek}
           date={weekDates[todayDayOfWeek]}
           meals={mealsByDay[todayDayOfWeek] ?? []}
-          dailyNutrition={weeklyNutrition?.days?.[todayDayOfWeek]}
-          currentPlanetaryHour={currentPlanetaryHour}
+          {...(weeklyNutrition?.days?.[todayDayOfWeek] !== undefined
+            ? { dailyNutrition: weeklyNutrition.days[todayDayOfWeek] }
+            : {})}
+          {...(currentPlanetaryHour !== undefined
+            ? { currentPlanetaryHour }
+            : {})}
         />
       )}
 
@@ -67,7 +71,9 @@ export default function RedesignedMobilePlanner({
           dayOfWeek={day}
           date={weekDates[day]}
           meals={mealsByDay[day] ?? []}
-          dailyNutrition={weeklyNutrition?.days?.[day]}
+          {...(weeklyNutrition?.days?.[day] !== undefined
+            ? { dailyNutrition: weeklyNutrition.days[day] }
+            : {})}
         />
       ))}
 

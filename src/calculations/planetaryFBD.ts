@@ -477,8 +477,8 @@ export function buildFreeBodyDiagrams(input: BuildFBDInput): FBDResult {
           {
             sign: String(pos.sign).toLowerCase(),
             degree: pos.degree,
-            exactLongitude: longitudes[name],
-            isRetrograde: pos.isRetrograde,
+            ...(longitudes[name] !== undefined ? { exactLongitude: longitudes[name] } : {}),
+            ...(pos.isRetrograde !== undefined ? { isRetrograde: pos.isRetrograde } : {}),
           },
         ]),
     ),
@@ -495,7 +495,7 @@ export function buildFreeBodyDiagrams(input: BuildFBDInput): FBDResult {
         {
           sign: String(pos.sign).toLowerCase(),
           degree: pos.degree,
-          exactLongitude: longitudes[name],
+          ...(longitudes[name] !== undefined ? { exactLongitude: longitudes[name] } : {}),
         },
       ]),
   );

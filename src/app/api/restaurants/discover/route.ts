@@ -55,14 +55,15 @@ async function discover(input: DiscoverInput) {
       { status: 400 },
     );
   }
-
   try {
+    const radiusMeters = numberFrom(input.radius);
+    const limit = numberFrom(input.limit);
     const data = await discoverRestaurants({
       cuisine: textValue(input.cuisine),
       latitude,
       longitude,
-      radiusMeters: numberFrom(input.radius) ?? undefined,
-      limit: numberFrom(input.limit) ?? undefined,
+      ...(radiusMeters !== null ? { radiusMeters } : {}),
+      ...(limit !== null ? { limit } : {}),
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {

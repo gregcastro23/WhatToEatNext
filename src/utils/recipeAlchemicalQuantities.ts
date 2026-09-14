@@ -175,7 +175,14 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
     const servingGrams = parseServingGrams(nutri?.serving_size);
     const category = typeof ing.category === "string" ? ing.category : undefined;
 
-    const entry: IngredientEntry = { key, alchemical, elemental, potency, servingGrams, category };
+    const entry: IngredientEntry = {
+      key,
+      alchemical,
+      ...(elemental !== undefined ? { elemental } : {}),
+      ...(potency !== undefined ? { potency } : {}),
+      ...(servingGrams !== undefined ? { servingGrams } : {}),
+      ...(category !== undefined ? { category } : {}),
+    };
 
     // Index under every reasonable variant of the catalog key + display name
     // (mirrors the elemental backfill matcher so ESMS and elemental resolve the
@@ -341,10 +348,14 @@ export function lookupIngredientFull(ingredientName: string): {
     ? {
         key: entry.key,
         alchemical: entry.alchemical,
-        elemental: entry.elemental,
-        potency: entry.potency,
-        servingGrams: entry.servingGrams,
-        category: entry.category,
+        ...(entry.elemental !== undefined ? { elemental: entry.elemental } : {}),
+        ...(entry.potency !== undefined ? { potency: entry.potency } : {}),
+        ...(entry.servingGrams !== undefined
+          ? { servingGrams: entry.servingGrams }
+          : {}),
+        ...(entry.category !== undefined
+          ? { category: entry.category }
+          : {}),
       }
     : null;
 }

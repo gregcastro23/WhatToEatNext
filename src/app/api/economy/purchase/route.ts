@@ -145,7 +145,9 @@ export async function POST(request: NextRequest) {
       descriptionSuffix: pricing.personalized
         ? `live x${pricing.multiplier.toFixed(2)} · personalized`
         : `live x${pricing.multiplier.toFixed(2)}`,
-      idempotencyKey: idempotencyKey ? `purchase:${idempotencyKey}` : undefined,
+      ...(idempotencyKey
+        ? { idempotencyKey: `purchase:${idempotencyKey}` }
+        : {}),
     });
     if (!result.success) {
       if (result.reason === "already_owned") {

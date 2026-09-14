@@ -51,7 +51,7 @@ export interface AstrologicalState {
   lunarPhase: LunarPhase;
   activePlanets: string[];
   domElements: ElementalProperties;
-  currentPlanetaryHour?: string;
+  currentPlanetaryHour?: string | undefined;
 }
 
 /**
@@ -607,7 +607,6 @@ function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
   return {
     ...recipe,
     alchemicalProperties: alchemicalProperties as unknown as MonicaOptimizedRecipe['alchemicalProperties'],
-    cookingOptimization: undefined,
     monicaOptimization: {
       originalMonica: null,
       optimizedMonica: 1.0,

@@ -212,7 +212,9 @@ async function handlePost(request: NextRequest) {
           descriptionSuffix: pricing.personalized
             ? `live x${pricing.multiplier.toFixed(2)} · personalized`
             : `live x${pricing.multiplier.toFixed(2)}`,
-          idempotencyKey: clientKey ? `cosmic_recipe_debit:${clientKey}` : undefined,
+          ...(clientKey
+            ? { idempotencyKey: `cosmic_recipe_debit:${clientKey}` }
+            : {}),
         });
 
         if (!purchase.success && purchase.reason !== "already_owned") {

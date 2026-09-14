@@ -300,18 +300,21 @@ export default function RecipeSelector({
 
     const options: RecipeSearchOptions = {
       query: searchQuery,
-      cuisine: cuisineFilter.length > 0 ? cuisineFilter : undefined,
-      isVegetarian: dietaryFilters.vegetarian || undefined,
-      isVegan: dietaryFilters.vegan || undefined,
-      isGlutenFree: dietaryFilters.glutenFree || undefined,
-      isDairyFree: dietaryFilters.dairyFree || undefined,
+      ...(cuisineFilter.length > 0 ? { cuisine: cuisineFilter } : {}),
+      ...(dietaryFilters.vegetarian ? { isVegetarian: true } : {}),
+      ...(dietaryFilters.vegan ? { isVegan: true } : {}),
+      ...(dietaryFilters.glutenFree ? { isGlutenFree: true } : {}),
+      ...(dietaryFilters.dairyFree ? { isDairyFree: true } : {}),
       // Meal type is used for scoring only, not filtering - all recipes show for all meal types
-      mealType: filters?.mealType ? [filters.mealType] : undefined,
-      planetaryDay: filters?.dayOfWeek,
-      prepTimeMax: maxPrepTime,
+      ...(filters?.mealType ? { mealType: [filters.mealType] } : {}),
+      ...(filters?.dayOfWeek !== undefined
+        ? { planetaryDay: filters.dayOfWeek }
+        : {}),
+      ...(maxPrepTime !== undefined ? { prepTimeMax: maxPrepTime } : {}),
       // Include ingredients filter
-      includeIngredients:
-        selectedIngredients.length > 0 ? selectedIngredients : undefined,
+      ...(selectedIngredients.length > 0
+        ? { includeIngredients: selectedIngredients }
+        : {}),
       limit: 100, // Show up to 100 recipes (increased from 50)
     };
 

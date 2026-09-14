@@ -99,7 +99,12 @@ export async function POST(request: NextRequest) {
   try {
     const userId = await getUserIdFromRequest(request);
 
-    const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-post", identifier: userId ?? undefined });
+    const rl = await rateLimit(request, {
+      window: 60_000,
+      max: 30,
+      bucket: "food-diary-post",
+      ...(userId ? { identifier: userId } : {}),
+    });
     if (!rl.allowed) {
       return (
         rl.response ??

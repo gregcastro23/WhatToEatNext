@@ -73,7 +73,14 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const invite = await tableDatabase.issueInvite(tableId, userId, parsed.data);
+    const invite = await tableDatabase.issueInvite(tableId, userId, {
+      ...(parsed.data.expiresInHours !== undefined
+        ? { expiresInHours: parsed.data.expiresInHours }
+        : {}),
+      ...(parsed.data.maxUses !== undefined
+        ? { maxUses: parsed.data.maxUses }
+        : {}),
+    });
     if (!invite) {
       return NextResponse.json(
         { success: false, message: "Failed to issue invite" },

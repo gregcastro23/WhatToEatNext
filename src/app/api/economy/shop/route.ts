@@ -28,8 +28,10 @@ export async function GET(request: NextRequest) {
 
     const [balances, items, pricing, ownedRes] = await Promise.all([
       tokenEconomy.getBalances(user.id),
-      // "all" → the whole storefront (used by the /shop Bazaar page)
-      tokenEconomy.getShopItems({ category: category === "all" ? undefined : category, onlyActive: true }),
+      tokenEconomy.getShopItems({
+        ...(category !== "all" ? { category } : {}),
+        onlyActive: true,
+      }),
       getLivePricingContext(),
       import("@/lib/database")
         .then((db) =>

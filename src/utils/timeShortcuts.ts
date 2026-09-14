@@ -90,7 +90,13 @@ function analyzeStep(instruction: string, index: number): StepAnalysis {
   else if (parallelizable) reason = "Can run alongside another step";
   else if (skippable) reason = "Optional — safe to skip under time pressure";
 
-  return { index, skippable, parallelizable, timeConsuming, reason };
+  return {
+    index,
+    skippable,
+    parallelizable,
+    timeConsuming,
+    ...(reason !== undefined ? { reason } : {}),
+  };
 }
 
 function extractMakeAheadTips(recipe: Recipe): string[] {

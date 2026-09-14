@@ -244,8 +244,12 @@ class CelestialCalculator {
         aspectInfluences: this.calculatePlanetaryAspects(now).map(
           (aspect) =>
             ({
-              planet1: aspect.planets[0],
-              planet2: aspect.planets[1],
+              ...(aspect.planets[0] !== undefined
+                ? { planet1: aspect.planets[0] }
+                : {}),
+              ...(aspect.planets[1] !== undefined
+                ? { planet2: aspect.planets[1] }
+                : {}),
               type: aspect.type,
               orb: aspect.orb ?? 0,
               strength: aspect.influence,
@@ -378,9 +382,9 @@ class CelestialCalculator {
       name,
       suit,
       description: `Tarot card associated with ${zodiacAssociation ?? planetaryAssociation ?? "universal forces"}`,
-      planetaryInfluences: planetaryAssociation
-        ? { [planetaryAssociation]: 1.0 }
-        : undefined,
+      ...(planetaryAssociation
+        ? { planetaryInfluences: { [planetaryAssociation]: 1.0 } }
+        : {}),
     };
   }
 
@@ -1579,7 +1583,7 @@ class CelestialCalculator {
 
         return {
           name: displayName,
-          suit,
+          ...(suit !== undefined ? { suit } : {}),
           description: `Minor Arcana card for ${zodiacSign}, representing the current period`,
           planetaryInfluences: {}, // Minor arcana are more linked to decans than planets
         };

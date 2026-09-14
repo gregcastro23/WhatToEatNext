@@ -9,14 +9,12 @@ import type { MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 
 export interface RestaurantItem {
-  name?: string;
+  name?: string | undefined;
   business: {
     id: string;
     name: string;
-    [key: string]: unknown;
   };
-  elementalProperties?: ElementalProperties;
-  [key: string]: unknown;
+  elementalProperties?: ElementalProperties | undefined;
 }
 
 export type AddToDiaryItem =
@@ -131,17 +129,17 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
     await addEntry({
       foodName: displayName,
       foodSource,
-      sourceId,
+      ...(sourceId !== undefined ? { sourceId } : {}),
       date: new Date(),
       mealType,
       time,
       serving,
       quantity: Number(quantity) || 1,
-      price: price === "" ? undefined : Number(price),
-      store: store || restaurantBusinessName,
-      quality: quality || undefined,
-      notes: notes || undefined,
-      elementalProperties,
+      ...(price !== "" ? { price: Number(price) } : {}),
+      ...(store ? { store } : restaurantBusinessName ? { store: restaurantBusinessName } : {}),
+      ...(quality ? { quality } : {}),
+      ...(notes ? { notes } : {}),
+      ...(elementalProperties !== undefined ? { elementalProperties } : {}),
     });
     onClose();
   };

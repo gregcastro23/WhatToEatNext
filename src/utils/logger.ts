@@ -165,7 +165,7 @@ class Logger {
     this.recentErrors.unshift({
       message,
       timestamp: Date.now(),
-      component,
+      ...(component !== undefined ? { component } : {}),
     });
 
     // Keep list at max length

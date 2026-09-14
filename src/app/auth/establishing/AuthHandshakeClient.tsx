@@ -28,5 +28,5 @@ export function AuthHandshakeClient() {
     }
   }, [session]);
 
-  return <AuthHandshake redirectTo={next} />;
+  return <AuthHandshake {...(next !== undefined ? { redirectTo: next } : {})} />;
 }
