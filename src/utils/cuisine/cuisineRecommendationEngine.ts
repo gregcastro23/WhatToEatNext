@@ -300,17 +300,6 @@ export function calculateSignatureMatch(
 
 // ========== MAIN RECOMMENDATION ENGINE ==========
 
-/**
- * Generate cuisine recommendations for a user
- *
- * This is the main entry point for personalized cuisine recommendations.
- * Combines multiple compatibility factors for comprehensive scoring.
- *
- * @param userProfile - User's preference and background profile
- * @param availableCuisines - Map of cuisine IDs to computed properties
- * @param options - Recommendation options
- * @returns Array of personalized cuisine recommendations
- */
 function generateCuisineReasoning(
   elementalCompatibility: number,
   alchemicalCompatibility: number | undefined,
@@ -346,6 +335,18 @@ function generateCuisineReasoning(
   }
   return reasoning;
 }
+
+/**
+ * Generate cuisine recommendations for a user
+ *
+ * This is the main entry point for personalized cuisine recommendations.
+ * Combines multiple compatibility factors for comprehensive scoring.
+ *
+ * @param userProfile - User's preference and background profile
+ * @param availableCuisines - Map of cuisine IDs to computed properties
+ * @param options - Recommendation options
+ * @returns Array of personalized cuisine recommendations
+ */
 
 export function generateCuisineRecommendations(
   userProfile: UserProfile,

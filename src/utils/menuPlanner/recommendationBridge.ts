@@ -607,6 +607,7 @@ function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
   return {
     ...recipe,
     alchemicalProperties: alchemicalProperties as unknown as MonicaOptimizedRecipe['alchemicalProperties'],
+    cookingOptimization: undefined,
     monicaOptimization: {
       originalMonica: null,
       optimizedMonica: 1.0,
