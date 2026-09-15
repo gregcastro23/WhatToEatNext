@@ -20,26 +20,15 @@ import { auth } from "@/lib/auth/auth";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
+export async function POST() {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Determine the requester's current jti so we preserve it.
-  let currentJti: string | undefined;
-  try {
-    const { getToken } = await import("next-auth/jwt");
-    const token = await getToken({
-      req: request,
-      ...(process.env.AUTH_SECRET !== undefined ? { secret: process.env.AUTH_SECRET } : {}),
-    });
-    const devId = token?.deviceSessionId;
-    const sessId = token?.sessionId;
-    currentJti = typeof devId === "string" ? devId : typeof sessId === "string" ? sessId : undefined;
-  } catch {
-    /* fall through — DB query below still excludes by user_id */
-  }
+  // The requester's own session, preserved below. It comes from auth(), not a
+  // second cookie decode — see GET /api/auth/sessions.
+  const currentJti = session.user.sessionId;
 
   try {
     const { executeQuery } = await import("@/lib/database");

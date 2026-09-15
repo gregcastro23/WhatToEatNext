@@ -95,21 +95,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
 
-  // Resolve the current jti from the JWT so we can mark the corresponding
-  // device_sessions row as "current".
-  let currentJti: string | undefined;
-  try {
-    const { getToken } = await import("next-auth/jwt");
-    const token = await getToken({
-      req: request,
-      ...(process.env.AUTH_SECRET !== undefined ? { secret: process.env.AUTH_SECRET } : {}),
-    });
-    const devId = token?.deviceSessionId;
-    const sessId = token?.sessionId;
-    currentJti = typeof devId === "string" ? devId : typeof sessId === "string" ? sessId : undefined;
-  } catch {
-    /* ignore — fall back to JWT introspection below */
-  }
+  // The requester's device_sessions row id, so that row can be marked "current".
+  // Taken from auth(), whose session callback copies token.deviceSessionId ??
+  // token.sessionId — never from a second getToken() decode, which defaults to
+  // the unprefixed cookie name and returns null for production's
+  // `__Secure-authjs.session-token`. Undefined for Bearer clients.
+  const currentJti = session?.user?.id ? session.user.sessionId : undefined;
 
   // Best-effort signup date for the /profile/security "MEMBER SINCE" row.
   let memberSince: string | null = null;
