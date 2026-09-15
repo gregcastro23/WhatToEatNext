@@ -1,14 +1,34 @@
 const mockHandleSignOutSession = jest.fn();
 const mockScheduleSessionTouch = jest.fn();
+const mockTouchSession = jest.fn();
+
+let capturedAuthOptions: unknown = null;
+let capturedMiddlewareHandler: unknown = null;
+
+const mockNextAuthAuth = jest.fn((handler: unknown) => {
+  capturedMiddlewareHandler = handler;
+});
+
+const mockNextAuthHandlers = {
+  GET: jest.fn(),
+  POST: jest.fn(),
+};
+
+const mockNextAuth = jest.fn((options: unknown) => {
+  if (options && typeof options === "object" && "events" in options) {
+    capturedAuthOptions = options;
+  }
+  return {
+    handlers: mockNextAuthHandlers,
+    signIn: jest.fn(),
+    signOut: jest.fn(),
+    auth: mockNextAuthAuth,
+  };
+});
 
 jest.mock("next-auth", () => ({
   __esModule: true,
-  default: jest.fn(() => ({
-    handlers: { GET: jest.fn(), POST: jest.fn() },
-    signIn: jest.fn(),
-    signOut: jest.fn(),
-    auth: jest.fn(),
-  })),
+  default: mockNextAuth,
 }));
 
 jest.mock("next-auth/providers/google", () => ({
@@ -22,11 +42,12 @@ jest.mock("../signOutSession", () => ({
 
 jest.mock("../sessionTouch", () => ({
   scheduleSessionTouch: (...args: unknown[]) => mockScheduleSessionTouch(...args),
+  touchSession: (...args: unknown[]) => mockTouchSession(...args),
 }));
 
 import { onSignOutEvent } from "../auth";
 import { onAuthMiddlewareRequest } from "@/middleware";
-import { scheduleTouchFromSessionResponse } from "@/app/api/auth/[...nextauth]/route";
+import { GET, scheduleTouchFromSessionResponse } from "@/app/api/auth/[...nextauth]/route";
 import { NextRequest } from "next/server";
 
 describe("Auth wiring tests", () => {
@@ -34,7 +55,17 @@ describe("Auth wiring tests", () => {
     jest.clearAllMocks();
   });
 
-  describe("onSignOutEvent in auth.ts", () => {
+  describe("NextAuth events.signOut wiring in auth.ts", () => {
+    it("wires NextAuth signOut event to onSignOutEvent during configuration", () => {
+      expect(capturedAuthOptions).toEqual(
+        expect.objectContaining({
+          events: expect.objectContaining({
+            signOut: onSignOutEvent,
+          }),
+        }),
+      );
+    });
+
     it("calls handleSignOutSession with token when token is present in message", async () => {
       const token = {
         sessionId: "session-wiring-123",
@@ -56,7 +87,11 @@ describe("Auth wiring tests", () => {
     });
   });
 
-  describe("onAuthMiddlewareRequest in middleware.ts", () => {
+  describe("Middleware .auth wiring in middleware.ts", () => {
+    it("wires onAuthMiddlewareRequest to NextAuth(...).auth", () => {
+      expect(capturedMiddlewareHandler).toBe(onAuthMiddlewareRequest);
+    });
+
     it("schedules session touch when sessionId is present on auth user", () => {
       const headers = new Headers({ "user-agent": "TestBrowser" });
       onAuthMiddlewareRequest({
@@ -82,8 +117,66 @@ describe("Auth wiring tests", () => {
     });
   });
 
-  describe("scheduleTouchFromSessionResponse in [...nextauth]/route.ts", () => {
-    it("schedules session touch when /api/auth/session response contains sessionId", async () => {
+  describe("GET route handler wiring in [...nextauth]/route.ts", () => {
+    it("schedules session touch when GET /api/auth/session succeeds with sessionId", async () => {
+      mockNextAuthHandlers.GET.mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            user: {
+              name: "Test User",
+              sessionId: "session-via-get-endpoint",
+            },
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        ),
+      );
+
+      const request = new NextRequest("https://alchm.kitchen/api/auth/session");
+      const response = await GET(request);
+
+      expect(response.status).toBe(200);
+
+      // Allow background microtask / after() fallback to run
+      await new Promise((resolve) => setTimeout(resolve, 20));
+
+      expect(mockTouchSession).toHaveBeenCalledWith(
+        "session-via-get-endpoint",
+        request,
+      );
+    });
+
+    it("does not schedule touch when GET route is not /session", async () => {
+      mockNextAuthHandlers.GET.mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ csrfToken: "csrf-token-abc" }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        ),
+      );
+
+      const request = new NextRequest("https://alchm.kitchen/api/auth/csrf");
+      const response = await GET(request);
+
+      expect(response.status).toBe(200);
+      await new Promise((resolve) => setTimeout(resolve, 20));
+
+      expect(mockTouchSession).not.toHaveBeenCalled();
+    });
+
+    it("does not schedule touch when GET response is not ok", async () => {
+      mockNextAuthHandlers.GET.mockResolvedValueOnce(
+        new Response("Server Error", { status: 500 }),
+      );
+
+      const request = new NextRequest("https://alchm.kitchen/api/auth/session");
+      const response = await GET(request);
+
+      expect(response.status).toBe(500);
+      await new Promise((resolve) => setTimeout(resolve, 20));
+
+      expect(mockTouchSession).not.toHaveBeenCalled();
+    });
+
+    it("scheduleTouchFromSessionResponse calls touchSession directly", async () => {
       const responseBody = JSON.stringify({
         user: {
           name: "Test User",
@@ -100,16 +193,15 @@ describe("Auth wiring tests", () => {
 
       scheduleTouchFromSessionResponse(response, request);
 
-      // Allow background microtask to execute
       await new Promise((resolve) => setTimeout(resolve, 20));
 
-      expect(mockScheduleSessionTouch).toHaveBeenCalledWith(
+      expect(mockTouchSession).toHaveBeenCalledWith(
         "session-route-999",
         request,
       );
     });
 
-    it("does not schedule touch when response has no sessionId", async () => {
+    it("scheduleTouchFromSessionResponse does not call touchSession when response has no sessionId", async () => {
       const response = new Response(JSON.stringify({ user: null }), {
         status: 200,
         headers: { "content-type": "application/json" },
@@ -121,7 +213,7 @@ describe("Auth wiring tests", () => {
 
       await new Promise((resolve) => setTimeout(resolve, 20));
 
-      expect(mockScheduleSessionTouch).not.toHaveBeenCalled();
+      expect(mockTouchSession).not.toHaveBeenCalled();
     });
   });
 });

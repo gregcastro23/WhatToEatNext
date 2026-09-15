@@ -56,7 +56,7 @@ function checkPreview(hostname: string, isDevOrTest: boolean): OriginCheckResult
     if (process.env.VERCEL_BRANCH_URL) {
       allowedPreviewHosts.add(process.env.VERCEL_BRANCH_URL.toLowerCase());
     }
-    if (allowedPreviewHosts.size > 0 && !allowedPreviewHosts.has(hostname)) {
+    if (allowedPreviewHosts.size === 0 || !allowedPreviewHosts.has(hostname)) {
       return {
         allowed: false,
         status: 403,

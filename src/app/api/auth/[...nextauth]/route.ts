@@ -10,9 +10,10 @@
  *   - /api/auth/providers
  */
 
+import { after } from "next/server";
 import { handlers } from "@/lib/auth/auth";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
-import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
+import { touchSession } from "@/lib/auth/sessionTouch";
 import { deriveAuthRouteName } from "@/lib/observability/authRouteName";
 import { withObservability } from "@/lib/observability/withObservability";
 import type { NextRequest } from "next/server";
@@ -37,9 +38,9 @@ const authObservability = {
 export function scheduleTouchFromSessionResponse(response: Response, request: NextRequest): void {
   try {
     const cloned = response.clone();
-    cloned
-      .json()
-      .then((data: unknown) => {
+    const run = async (): Promise<void> => {
+      try {
+        const data: unknown = await cloned.json();
         if (
           data &&
           typeof data === "object" &&
@@ -50,10 +51,19 @@ export function scheduleTouchFromSessionResponse(response: Response, request: Ne
           typeof data.user.sessionId === "string" &&
           data.user.sessionId.length > 0
         ) {
-          scheduleSessionTouch(data.user.sessionId, request);
+          await touchSession(data.user.sessionId, request);
         }
-      })
-      .catch(() => {});
+      } catch {
+        // Non-blocking JSON parsing / touch error
+      }
+    };
+
+    try {
+      after(run);
+    } catch {
+      // Fallback outside Next.js request context (e.g. unit tests)
+      run().catch(() => {});
+    }
   } catch {
     // Non-blocking touch scheduling
   }

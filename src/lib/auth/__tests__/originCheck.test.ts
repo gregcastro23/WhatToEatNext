@@ -111,7 +111,13 @@ describe("originCheck", () => {
 
     process.env.NODE_ENV = "production";
     process.env.VERCEL_ENV = "preview";
-    expect(checkAllowedOrigin(previewReq).allowed).toBe(true);
+    // When preview env vars are unset, reject to prevent accepting arbitrary *.vercel.app origins
+    delete process.env.VERCEL_URL;
+    delete process.env.VERCEL_BRANCH_URL;
+    const unpinnedReject = checkAllowedOrigin(previewReq);
+    expect(unpinnedReject.allowed).toBe(false);
+    expect(unpinnedReject.status).toBe(403);
+    expect(unpinnedReject.error).toBe("Forbidden preview origin");
 
     // When VERCEL_URL is set, pin to that preview deployment
     process.env.VERCEL_URL = "whattoeatnext-git-preview-alchm.vercel.app";

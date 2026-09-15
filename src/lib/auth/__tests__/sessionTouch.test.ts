@@ -66,7 +66,8 @@ describe("sessionTouch", () => {
 
     expect(sqlText).toContain("WHERE id = $1");
     expect(sqlText).toContain("AND revoked_at IS NULL");
-    expect(sqlText).toContain("OR device IS NULL OR device = 'Unknown device'");
+    expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
+    expect(sqlText).toContain("(device IS NULL AND $2 IS NOT NULL)");
 
     expect(sqlParams[0]).toBe("session-123");
     expect(sqlParams[1]).toBe("Browser on macOS");
@@ -91,7 +92,28 @@ describe("sessionTouch", () => {
 
     const queryCall = mockExecuteQuery.mock.calls[0];
     const sqlText: string = queryCall[0];
-    expect(sqlText).toContain("OR device IS NULL OR device = 'Unknown device'");
+    const sqlParams: unknown[] = queryCall[1];
+    expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
+    expect(sqlText).toContain("(device IS NULL AND $2 IS NOT NULL)");
+    expect(sqlParams[1]).toBe("Browser on Windows");
+  });
+
+  it("passes null as parameter $2 when headers produce no device label", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({
+      rowCount: 1,
+      rows: [{ id: "session-no-device" }],
+    });
+
+    const touched = await touchSession("session-no-device", new Headers());
+    expect(touched).toBe(true);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+
+    const queryCall = mockExecuteQuery.mock.calls[0];
+    const sqlText: string = queryCall[0];
+    const sqlParams: unknown[] = queryCall[1];
+    expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
+    expect(sqlText).toContain("(device IS NULL AND $2 IS NOT NULL)");
+    expect(sqlParams[1]).toBeNull();
   });
 
   it("returns false and never inserts when SQL update matches 0 rows", async () => {
