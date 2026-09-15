@@ -67,7 +67,7 @@ describe("sessionTouch", () => {
     expect(sqlText).toContain("WHERE id = $1");
     expect(sqlText).toContain("AND revoked_at IS NULL");
     expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
-    expect(sqlText).toContain("(device IS NULL AND $2 IS NOT NULL)");
+    expect(sqlText).toContain("(device IS NULL AND $2::text IS NOT NULL)");
 
     expect(sqlParams[0]).toBe("session-123");
     expect(sqlParams[1]).toBe("Browser on macOS");
@@ -94,7 +94,7 @@ describe("sessionTouch", () => {
     const sqlText: string = queryCall[0];
     const sqlParams: unknown[] = queryCall[1];
     expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
-    expect(sqlText).toContain("(device IS NULL AND $2 IS NOT NULL)");
+    expect(sqlText).toContain("(device IS NULL AND $2::text IS NOT NULL)");
     expect(sqlParams[1]).toBe("Browser on Windows");
   });
 
@@ -112,7 +112,7 @@ describe("sessionTouch", () => {
     const sqlText: string = queryCall[0];
     const sqlParams: unknown[] = queryCall[1];
     expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
-    expect(sqlText).toContain("(device IS NULL AND $2 IS NOT NULL)");
+    expect(sqlText).toContain("(device IS NULL AND $2::text IS NOT NULL)");
     expect(sqlParams[1]).toBeNull();
   });
 
