@@ -9,14 +9,20 @@
  */
 
 export interface ParsedDeviceMetadata {
-  device: string;
+  device: string | null;
   userAgent: string | null;
   locationCity: string | null;
   locationRegion: string | null;
   locationCountry: string | null;
+  isBrowser: boolean;
 }
 
 type HeaderSource = Request | Headers | { headers: Headers };
+
+export function isBrowserRequest(source: HeaderSource): boolean {
+  const secFetchSite = getHeader(source, "sec-fetch-site");
+  return typeof secFetchSite === "string" && secFetchSite.trim().length > 0;
+}
 
 function getHeader(source: HeaderSource, name: string): string | null {
   if ("headers" in source && typeof source.headers.get === "function") {
@@ -102,8 +108,25 @@ function parseLocation(source: HeaderSource): {
 /**
  * Parses coarse device label ("Browser on Platform") and location metadata
  * from incoming HTTP headers.
+ *
+ * To avoid overwriting a user's real device/location metadata with datacenter
+ * IPs and server runtime user-agents (e.g. when Planetary Agents backend
+ * calls /api/auth/session server-side), device and location are only extracted
+ * when the request carries a valid `Sec-Fetch-Site` header (which interactive
+ * browsers universally attach).
  */
 export function extractDeviceMetadata(source: HeaderSource): ParsedDeviceMetadata {
+  if (!isBrowserRequest(source)) {
+    return {
+      device: null,
+      userAgent: null,
+      locationCity: null,
+      locationRegion: null,
+      locationCountry: null,
+      isBrowser: false,
+    };
+  }
+
   const ua = getHeader(source, "user-agent") ?? "";
   const secPlatform = getHeader(source, "sec-ch-ua-platform");
   const secUa = getHeader(source, "sec-ch-ua");
@@ -129,5 +152,6 @@ export function extractDeviceMetadata(source: HeaderSource): ParsedDeviceMetadat
     locationCity,
     locationRegion,
     locationCountry,
+    isBrowser: true,
   };
 }

@@ -13,6 +13,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { REVOKE_SESSION_BY_ID_SQL } from "@/lib/auth/authQueries";
 import { assertAllowedOrigin } from "@/lib/auth/originCheck";
 
 export const dynamic = "force-dynamic";
@@ -25,10 +26,7 @@ async function revokeSessionById(id: string, userId: string): Promise<NextRespon
   try {
     const { executeQuery } = await import("@/lib/database");
     const result = await executeQuery(
-      `UPDATE device_sessions
-          SET revoked_at = NOW()
-        WHERE id = $1 AND user_id = $2 AND revoked_at IS NULL
-        RETURNING id`,
+      REVOKE_SESSION_BY_ID_SQL,
       [id, userId],
     );
     if (result.rowCount === 0) {

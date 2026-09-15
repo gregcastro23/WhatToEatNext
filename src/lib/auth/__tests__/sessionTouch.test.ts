@@ -50,6 +50,7 @@ describe("sessionTouch", () => {
     });
 
     const headers = new Headers({
+      "sec-fetch-site": "same-origin",
       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
       "x-vercel-ip-city": "Miami",
       "x-vercel-ip-country-region": "FL",
@@ -83,6 +84,7 @@ describe("sessionTouch", () => {
     });
 
     const headers = new Headers({
+      "sec-fetch-site": "same-origin",
       "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     });
 
@@ -96,6 +98,33 @@ describe("sessionTouch", () => {
     expect(sqlText).toContain("last_seen_at < NOW() - interval '10 minutes'");
     expect(sqlText).toContain("(device IS NULL AND $2::text IS NOT NULL)");
     expect(sqlParams[1]).toBe("Browser on Windows");
+  });
+
+  it("passes null for device/location parameters on server-side requests (e.g. PA backend) so COALESCE preserves real metadata", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({
+      rowCount: 1,
+      rows: [{ id: "session-from-pa" }],
+    });
+
+    const serverHeaders = new Headers({
+      "user-agent": "python-requests/2.31.0",
+      "x-vercel-ip-city": "Ashburn",
+      "x-vercel-ip-country-region": "VA",
+      "x-vercel-ip-country": "US",
+    });
+
+    const touched = await touchSession("session-from-pa", serverHeaders);
+    expect(touched).toBe(true);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+
+    const queryCall = mockExecuteQuery.mock.calls[0];
+    const sqlParams: unknown[] = queryCall[1];
+    expect(sqlParams[0]).toBe("session-from-pa");
+    expect(sqlParams[1]).toBeNull();
+    expect(sqlParams[2]).toBeNull();
+    expect(sqlParams[3]).toBeNull();
+    expect(sqlParams[4]).toBeNull();
+    expect(sqlParams[5]).toBeNull();
   });
 
   it("passes null as parameter $2 when headers produce no device label", async () => {

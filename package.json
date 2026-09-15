@@ -36,6 +36,7 @@
     "check-route-sizes": "node ./scripts/check-route-sizes.cjs",
     "check:price-parity": "node ./scripts/check-live-price-parity.mjs",
     "check:sql:kitchen-settings": "bun scripts/checkKitchenSettingsSqlParses.ts",
+    "check:sql:auth": "bun scripts/checkAuthSqlParses.ts",
     "audit:ingredients": "bun scripts/auditIngredients.ts",
     "cleanup:device-sessions": "bun scripts/cleanup-device-sessions.ts",
     "audit:ingredient-quality": "bun scripts/auditIngredientDataQuality.ts",

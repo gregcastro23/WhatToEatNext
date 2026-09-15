@@ -175,6 +175,14 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
 
+      - name: Auth SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports live auth SQL constants, so a PR that edits
+        # them can make this fail. PREPARE writes nothing.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAuthSqlParses.ts
+
       - name: Agents leave the writer already classified
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it extracts the provisioning statements from the route
@@ -365,6 +373,13 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
+
+      - name: Auth SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: verifies device session & auth SQL against PostgreSQL with PREPARE.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAuthSqlParses.ts
 
       - name: Welcome-grant indicator counts real misses and names them
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
