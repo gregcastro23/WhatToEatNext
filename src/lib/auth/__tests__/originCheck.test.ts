@@ -113,6 +113,19 @@ describe("originCheck", () => {
     process.env.VERCEL_ENV = "preview";
     expect(checkAllowedOrigin(previewReq).allowed).toBe(true);
 
+    // When VERCEL_URL is set, pin to that preview deployment
+    process.env.VERCEL_URL = "whattoeatnext-git-preview-alchm.vercel.app";
+    expect(checkAllowedOrigin(previewReq).allowed).toBe(true);
+
+    const attackerPreviewReq = new Request("https://preview.vercel.app/api/auth/sessions/123", {
+      method: "DELETE",
+      headers: { origin: "https://attacker-app.vercel.app" },
+    });
+    const pinnedReject = checkAllowedOrigin(attackerPreviewReq);
+    expect(pinnedReject.allowed).toBe(false);
+    expect(pinnedReject.status).toBe(403);
+    expect(pinnedReject.error).toBe("Forbidden preview origin");
+
     process.env.VERCEL_ENV = "production";
     const prodResult = checkAllowedOrigin(previewReq);
     expect(prodResult.allowed).toBe(false);

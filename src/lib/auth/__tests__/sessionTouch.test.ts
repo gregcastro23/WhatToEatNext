@@ -66,13 +66,32 @@ describe("sessionTouch", () => {
 
     expect(sqlText).toContain("WHERE id = $1");
     expect(sqlText).toContain("AND revoked_at IS NULL");
-    expect(sqlText).toContain("AND last_seen_at < NOW() - interval '10 minutes'");
+    expect(sqlText).toContain("OR device IS NULL OR device = 'Unknown device'");
 
     expect(sqlParams[0]).toBe("session-123");
     expect(sqlParams[1]).toBe("Browser on macOS");
     expect(sqlParams[3]).toBe("Miami");
     expect(sqlParams[4]).toBe("FL");
     expect(sqlParams[5]).toBe("US");
+  });
+
+  it("updates device labels immediately when device was previously null or unknown", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({
+      rowCount: 1,
+      rows: [{ id: "new-session-fresh-signin" }],
+    });
+
+    const headers = new Headers({
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    });
+
+    const touched = await touchSession("new-session-fresh-signin", headers);
+    expect(touched).toBe(true);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+
+    const queryCall = mockExecuteQuery.mock.calls[0];
+    const sqlText: string = queryCall[0];
+    expect(sqlText).toContain("OR device IS NULL OR device = 'Unknown device'");
   });
 
   it("returns false and never inserts when SQL update matches 0 rows", async () => {

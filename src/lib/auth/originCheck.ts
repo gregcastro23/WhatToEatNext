@@ -50,7 +50,22 @@ function checkPreview(hostname: string, isDevOrTest: boolean): OriginCheckResult
   if (!hostname.endsWith(".vercel.app")) {
     return null;
   }
-  if (process.env.VERCEL_ENV === "preview" || isDevOrTest) {
+  if (process.env.VERCEL_ENV === "preview") {
+    const allowedPreviewHosts = new Set<string>();
+    if (process.env.VERCEL_URL) allowedPreviewHosts.add(process.env.VERCEL_URL.toLowerCase());
+    if (process.env.VERCEL_BRANCH_URL) {
+      allowedPreviewHosts.add(process.env.VERCEL_BRANCH_URL.toLowerCase());
+    }
+    if (allowedPreviewHosts.size > 0 && !allowedPreviewHosts.has(hostname)) {
+      return {
+        allowed: false,
+        status: 403,
+        error: "Forbidden preview origin",
+      };
+    }
+    return { allowed: true, status: 200 };
+  }
+  if (isDevOrTest) {
     return { allowed: true, status: 200 };
   }
   return {

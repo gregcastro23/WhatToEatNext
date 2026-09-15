@@ -33,14 +33,38 @@ describe("revokeSessionsOnSignOut", () => {
 
     expect(mockExecuteQuery).toHaveBeenNthCalledWith(
       1,
-      `DELETE FROM sessions WHERE "sessionToken" = $1`,
-      ["sessionToken-placeholder"].map(() => "session-abc-123"),
+      `UPDATE device_sessions SET revoked_at = NOW() WHERE id = $1 AND revoked_at IS NULL`,
+      ["deviceSessionId-placeholder"].map(() => "device-xyz-789"),
     );
 
     expect(mockExecuteQuery).toHaveBeenNthCalledWith(
       2,
+      `DELETE FROM sessions WHERE "sessionToken" = $1`,
+      ["sessionToken-placeholder"].map(() => "session-abc-123"),
+    );
+  });
+
+  it("updates device_sessions even if deleting from sessions table throws", async () => {
+    mockExecuteQuery
+      .mockResolvedValueOnce({ rowCount: 1, rows: [] })
+      .mockRejectedValueOnce(new Error("Sessions table error"));
+
+    const result = await revokeSessionsOnSignOut({
+      sessionToken: "session-fail-123",
+      deviceSessionId: "device-success-789",
+    });
+
+    expect(result).toBe(true);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(2);
+    expect(mockExecuteQuery).toHaveBeenNthCalledWith(
+      1,
       `UPDATE device_sessions SET revoked_at = NOW() WHERE id = $1 AND revoked_at IS NULL`,
-      ["deviceSessionId-placeholder"].map(() => "device-xyz-789"),
+      ["device-success-789"],
+    );
+    expect(mockExecuteQuery).toHaveBeenNthCalledWith(
+      2,
+      `DELETE FROM sessions WHERE "sessionToken" = $1`,
+      ["session-fail-123"],
     );
   });
 
@@ -131,12 +155,12 @@ describe("handleSignOutSession", () => {
     expect(mockExecuteQuery).toHaveBeenCalledTimes(2);
     expect(mockExecuteQuery).toHaveBeenNthCalledWith(
       1,
-      `DELETE FROM sessions WHERE "sessionToken" = $1`,
+      `UPDATE device_sessions SET revoked_at = NOW() WHERE id = $1 AND revoked_at IS NULL`,
       ["fallback-session-789"],
     );
     expect(mockExecuteQuery).toHaveBeenNthCalledWith(
       2,
-      `UPDATE device_sessions SET revoked_at = NOW() WHERE id = $1 AND revoked_at IS NULL`,
+      `DELETE FROM sessions WHERE "sessionToken" = $1`,
       ["fallback-session-789"],
     );
   });

@@ -26,28 +26,38 @@ export async function revokeSessionsOnSignOut(
     return false;
   }
 
-  try {
-    const { executeQuery } = await import("@/lib/database");
+  let deviceRevoked = false;
+  let nextAuthSessionDeleted = false;
 
-    if (sessionToken) {
-      await executeQuery(
-        `DELETE FROM sessions WHERE "sessionToken" = $1`,
-        [sessionToken],
-      );
-    }
-
-    if (deviceSessionId) {
+  // 1. Primary: Stamp revocation in device_sessions first
+  if (deviceSessionId) {
+    try {
+      const { executeQuery } = await import("@/lib/database");
       await executeQuery(
         `UPDATE device_sessions SET revoked_at = NOW() WHERE id = $1 AND revoked_at IS NULL`,
         [deviceSessionId],
       );
+      deviceRevoked = true;
+    } catch (e) {
+      logger.warn("device_sessions revoke on signOut failed (non-blocking):", e);
     }
-
-    return true;
-  } catch (e) {
-    logger.warn("Session cleanup on signOut failed (non-blocking):", e);
-    return false;
   }
+
+  // 2. Secondary: Purge row from NextAuth sessions table if present
+  if (sessionToken) {
+    try {
+      const { executeQuery } = await import("@/lib/database");
+      await executeQuery(
+        `DELETE FROM sessions WHERE "sessionToken" = $1`,
+        [sessionToken],
+      );
+      nextAuthSessionDeleted = true;
+    } catch (e) {
+      logger.warn("NextAuth sessions table delete on signOut failed (non-blocking):", e);
+    }
+  }
+
+  return deviceRevoked || nextAuthSessionDeleted;
 }
 
 export async function handleSignOutSession(token: {

@@ -296,26 +296,28 @@ async function runBackgroundSignInTasks(
   }
 }
 
+export async function onSignOutEvent(message: { token?: unknown; session?: unknown }): Promise<void> {
+  // In JWT mode NextAuth passes { token } — delete the DB session record so
+  // the session slot is freed and can no longer be used to verify revocation,
+  // and mark the matching device_sessions row revoked.
+  const rawToken = "token" in message ? message.token : undefined;
+  const token = rawToken as ExtendedJWT | undefined;
+  const { handleSignOutSession } = await import("./signOutSession");
+  await handleSignOutSession(token);
+  recordAuthEvent({
+    type: "signout",
+    status: "info",
+    userId: token?.userId ?? null,
+    email: token?.email ?? null,
+    metadata: { sessionId: token?.sessionId ?? null },
+  });
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   debug: process.env.NODE_ENV === "development" || process.env.DEBUG === "true",
   events: {
-    async signOut(message) {
-      // In JWT mode NextAuth passes { token } — delete the DB session record so
-      // the session slot is freed and can no longer be used to verify revocation,
-      // and mark the matching device_sessions row revoked.
-      const rawToken = "token" in message ? message.token : undefined;
-      const token = rawToken as ExtendedJWT | undefined;
-      const { handleSignOutSession } = await import("./signOutSession");
-      await handleSignOutSession(token);
-      recordAuthEvent({
-        type: "signout",
-        status: "info",
-        userId: token?.userId ?? null,
-        email: token?.email ?? null,
-        metadata: { sessionId: token?.sessionId ?? null },
-      });
-    },
+    signOut: onSignOutEvent,
   },
   callbacks: {
     // Preserve the edge-safe authorized and session callbacks

@@ -72,7 +72,7 @@ async function updateSessionInDb(cleanId: string, source?: HeaderSource): Promis
             location_country = COALESCE($6, location_country)
       WHERE id = $1
         AND revoked_at IS NULL
-        AND last_seen_at < NOW() - interval '10 minutes'
+        AND (last_seen_at < NOW() - interval '10 minutes' OR device IS NULL OR device = 'Unknown device')
       RETURNING id`,
     [
       cleanId,
