@@ -51,6 +51,20 @@ interface SessionRowBody {
   current: boolean;
 }
 
+interface ListBody {
+  source: string;
+  sessions: SessionRowBody[];
+}
+
+/** The SQL and bound params of the n-th executeQuery call; throws if it never happened. */
+function queryCall(n: number): { sql: string; params: unknown[] } {
+  const [sql, params]: unknown[] = mockExecuteQuery.mock.calls[n] ?? [];
+  if (typeof sql !== "string" || !Array.isArray(params)) {
+    throw new Error(`executeQuery call #${n} did not happen`);
+  }
+  return { sql, params };
+}
+
 function signedInAs(sessionId: string | undefined) {
   mockAuth.mockResolvedValue({
     user: { id: USER_ID, ...(sessionId !== undefined ? { sessionId } : {}) },
@@ -100,7 +114,7 @@ describe("GET /api/auth/sessions — current-device marking", () => {
     const res = await GET(new Request(BASE));
 
     expect(res.status).toBe(200);
-    const body = (await res.json()) as { source: string; sessions: SessionRowBody[] };
+    const body: ListBody = await res.json();
     expect(body.source).toBe("db");
     expect(body.sessions.map((s) => s.id)).toEqual([OTHER_ROW, CURRENT_ROW, THIRD_ROW]);
     expect(body.sessions.filter((s) => s.current).map((s) => s.id)).toEqual([CURRENT_ROW]);
@@ -112,7 +126,7 @@ describe("GET /api/auth/sessions — current-device marking", () => {
 
     const res = await GET(new Request(BASE));
 
-    const body = (await res.json()) as { source: string; sessions: SessionRowBody[] };
+    const body: ListBody = await res.json();
     expect(body.source).toBe("jwt-fallback");
     expect(body.sessions).toEqual([expect.objectContaining({ id: CURRENT_ROW, current: true })]);
   });
@@ -127,7 +141,7 @@ describe("GET /api/auth/sessions — current-device marking", () => {
     );
 
     expect(res.status).toBe(200);
-    const body = (await res.json()) as { source: string; sessions: SessionRowBody[] };
+    const body: ListBody = await res.json();
     expect(body.source).toBe("db");
     expect(body.sessions.some((s) => s.current)).toBe(false);
   });
@@ -146,7 +160,7 @@ describe("DELETE /api/auth/sessions/[id] — self-revoke guard", () => {
 
     expect(mockExecuteQuery).not.toHaveBeenCalled();
     expect(res.status).toBe(400);
-    const body = (await res.json()) as { error: string };
+    const body: { error: string } = await res.json();
     expect(body.error).toBe("Use signOut to end the current session.");
   });
 
@@ -160,7 +174,7 @@ describe("DELETE /api/auth/sessions/[id] — self-revoke guard", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ revoked: OTHER_ROW });
     expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
-    const [sql, bound] = mockExecuteQuery.mock.calls[0] as [string, unknown[]];
+    const { sql, params: bound } = queryCall(0);
     expect(sql).toContain("UPDATE device_sessions");
     expect(bound).toEqual([OTHER_ROW, USER_ID]);
   });
@@ -174,7 +188,7 @@ describe("POST /api/auth/sessions/revoke-all — preserves the current session",
     const res = await REVOKE_ALL(new Request(`${BASE}/revoke-all`, { method: "POST" }));
 
     expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
-    const [sql, bound] = mockExecuteQuery.mock.calls[0] as [string, unknown[]];
+    const { sql, params: bound } = queryCall(0);
     expect(sql).toContain("UPDATE device_sessions");
     expect(bound).toEqual([USER_ID, CURRENT_ROW]);
     expect(res.status).toBe(200);
@@ -188,7 +202,6 @@ describe("POST /api/auth/sessions/revoke-all — preserves the current session",
     const res = await REVOKE_ALL(new Request(`${BASE}/revoke-all`, { method: "POST" }));
 
     expect(await res.json()).toEqual({ revoked: 0, preservedCurrent: false });
-    const [, bound] = mockExecuteQuery.mock.calls[0] as [string, unknown[]];
-    expect(bound).toEqual([USER_ID, null]);
+    expect(queryCall(0).params).toEqual([USER_ID, null]);
   });
 });
