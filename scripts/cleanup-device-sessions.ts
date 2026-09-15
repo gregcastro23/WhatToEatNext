@@ -40,6 +40,17 @@ const REVOKED_TTL_DAYS = Number(
 );
 const DRY_RUN = process.env.DRY_RUN === "1" || process.env.DRY_RUN === "true";
 
+// SAFEGUARD: Step 1 (session touch & metadata refresh) went live on 2026-09-15.
+// Pruning rows based on last_seen_at before Step 1 has been active for >= 30 days
+// (earliest: 2026-10-15) would purge active user sessions whose last_seen_at has
+// not yet been refreshed. Deletions are strictly blocked until this date.
+const EARLIEST_PRUNE_DATE_ISO = "2026-10-15T00:00:00.000Z";
+const EARLIEST_PRUNE_TIMESTAMP = new Date(EARLIEST_PRUNE_DATE_ISO).getTime();
+const isBeforeGracePeriod = Date.now() < EARLIEST_PRUNE_TIMESTAMP;
+const effectiveDryRun =
+  DRY_RUN ||
+  (isBeforeGracePeriod && process.env.ALLOW_EARLY_CLEANUP !== "1");
+
 if (!DATABASE_URL) {
   console.error("Missing required env var: DATABASE_URL");
   process.exit(1);
@@ -97,8 +108,13 @@ async function deleteMatching(
 
 async function main(): Promise<void> {
   const startedAt = Date.now();
+  if (isBeforeGracePeriod && !DRY_RUN && process.env.ALLOW_EARLY_CLEANUP !== "1") {
+    console.warn(
+      `[cleanup-device-sessions] SAFEGUARD ACTIVE: Session touch (Step 1) deployed 2026-09-15. Pruning is blocked until ${EARLIEST_PRUNE_DATE_ISO} (30 days) to prevent deleting active sessions. Enforcing DRY_RUN mode. (Override with ALLOW_EARLY_CLEANUP=1)`,
+    );
+  }
   console.log(
-    `[cleanup-device-sessions] start dryRun=${DRY_RUN} maxAgeDays=${MAX_AGE_DAYS} revokedTtlDays=${REVOKED_TTL_DAYS}`,
+    `[cleanup-device-sessions] start dryRun=${effectiveDryRun} safeguardActive=${isBeforeGracePeriod} maxAgeDays=${MAX_AGE_DAYS} revokedTtlDays=${REVOKED_TTL_DAYS}`,
   );
 
   const client = await pool.connect();
@@ -109,7 +125,7 @@ async function main(): Promise<void> {
     const staleWhere = `last_seen_at < NOW() - ($1 || ' days')::interval`;
     const revokedWhere = `revoked_at IS NOT NULL AND revoked_at < NOW() - ($1 || ' days')::interval`;
 
-    if (DRY_RUN) {
+    if (effectiveDryRun) {
       const [staleCount, revokedCount] = await Promise.all([
         countMatching(client, staleWhere, [String(MAX_AGE_DAYS)]),
         countMatching(client, revokedWhere, [String(REVOKED_TTL_DAYS)]),

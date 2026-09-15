@@ -14,9 +14,19 @@ import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth/auth.config";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
 import type { NextRequest } from "next/server";
 
-const authMiddleware = NextAuth(authConfig).auth as unknown as (
+const authMiddleware = NextAuth(authConfig).auth((req) => {
+  const user = req.auth?.user;
+  const sessionId =
+    user && "sessionId" in user && typeof user.sessionId === "string"
+      ? user.sessionId
+      : undefined;
+  if (sessionId) {
+    scheduleSessionTouch(sessionId, req);
+  }
+}) as unknown as (
   request: NextRequest,
 ) => ReturnType<Response["clone"]> | Promise<Response | undefined> | undefined;
 

@@ -302,27 +302,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   events: {
     async signOut(message) {
       // In JWT mode NextAuth passes { token } — delete the DB session record so
-      // the session slot is freed and can no longer be used to verify revocation.
+      // the session slot is freed and can no longer be used to verify revocation,
+      // and mark the matching device_sessions row revoked.
       const rawToken = "token" in message ? message.token : undefined;
       const token = rawToken as ExtendedJWT | undefined;
-      const sessionId = token?.sessionId;
-      if (sessionId) {
-        try {
-          const { executeQuery } = await import("@/lib/database");
-          await executeQuery(
-            `DELETE FROM sessions WHERE "sessionToken" = $1`,
-            [sessionId]
-          );
-        } catch (e) {
-          logger.warn("Session cleanup on signOut failed (non-blocking):", e);
-        }
-      }
+      const { handleSignOutSession } = await import("./signOutSession");
+      await handleSignOutSession(token);
       recordAuthEvent({
         type: "signout",
         status: "info",
         userId: token?.userId ?? null,
         email: token?.email ?? null,
-        metadata: { sessionId: sessionId ?? null },
+        metadata: { sessionId: token?.sessionId ?? null },
       });
     },
   },
