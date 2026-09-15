@@ -36,7 +36,7 @@ export async function DELETE(request: Request, { params }: Params) {
     const { getToken } = await import("next-auth/jwt");
     const token = await getToken({
       req: request,
-      secret: process.env.AUTH_SECRET,
+      ...(process.env.AUTH_SECRET !== undefined ? { secret: process.env.AUTH_SECRET } : {}),
     });
     const currentJti = token?.deviceSessionId ?? token?.sessionId;
     if (currentJti === id) {

@@ -49,7 +49,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     const messages = await chatDatabase.listMessages(conversationId, userId, {
       limit,
-      before: before ?? undefined,
+      ...(before ? { before } : {}),
     });
 
     const oldest = messages[messages.length - 1];
@@ -99,9 +99,15 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       conversationId,
       senderId: userId,
       body: parsed.data.body,
-      clientKey: parsed.data.clientKey,
-      replyToId: parsed.data.replyToId,
-      attachmentDataUrl: parsed.data.attachmentDataUrl,
+      ...(parsed.data.clientKey !== undefined
+        ? { clientKey: parsed.data.clientKey }
+        : {}),
+      ...(parsed.data.replyToId !== undefined
+        ? { replyToId: parsed.data.replyToId }
+        : {}),
+      ...(parsed.data.attachmentDataUrl !== undefined
+        ? { attachmentDataUrl: parsed.data.attachmentDataUrl }
+        : {}),
     });
 
     if (!outcome.ok) {

@@ -259,9 +259,10 @@ function asPlanetaryPositions(
       isRetrograde: Boolean(pos.isRetrograde),
       // Aspects need real angular separations; this is what makes the index
       // move WITHIN signs rather than only at ingresses.
-      exactLongitude:
-        typeof pos.exactLongitude === "number" ? pos.exactLongitude : undefined,
-      distance: typeof pos.distance === "number" ? pos.distance : undefined,
+      ...(typeof pos.exactLongitude === "number"
+        ? { exactLongitude: pos.exactLongitude }
+        : {}),
+      ...(typeof pos.distance === "number" ? { distance: pos.distance } : {}),
     };
   }
   return normalized;

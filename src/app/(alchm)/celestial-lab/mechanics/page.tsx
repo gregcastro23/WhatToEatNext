@@ -104,7 +104,9 @@ async function computeEcosystemUncached() {
       sign: pos.sign,
       degree: pos.degree,
       minute: pos.minute,
-      isRetrograde: pos.isRetrograde,
+      ...(pos.isRetrograde !== undefined
+        ? { isRetrograde: pos.isRetrograde }
+        : {}),
       exactLongitude: pos.exactLongitude,
     };
     fbdPositions[name] = {
@@ -112,8 +114,12 @@ async function computeEcosystemUncached() {
       degree: pos.degree,
       minute: pos.minute,
       exactLongitude: pos.exactLongitude,
-      isRetrograde: pos.isRetrograde,
-      longitudeSpeed: pos.longitudeSpeed,
+      ...(pos.isRetrograde !== undefined
+        ? { isRetrograde: pos.isRetrograde }
+        : {}),
+      ...(pos.longitudeSpeed !== undefined
+        ? { longitudeSpeed: pos.longitudeSpeed }
+        : {}),
     };
   }
 

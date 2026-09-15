@@ -121,7 +121,7 @@ function derivePerson(member: StoredMember): TablePerson | null {
   const sign = getZodiacSignType(date);
   return {
     id: member.id,
-    name: member.name,
+    ...(member.name !== undefined ? { name: member.name } : {}),
     birthday: member.birthday,
     sign,
     signLabel: sign.charAt(0).toUpperCase() + sign.slice(1),

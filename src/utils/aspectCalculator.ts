@@ -266,7 +266,7 @@ export function buildAspectsWithStrength(
     normalized[planet] = {
       sign: String(pos.sign).toLowerCase(),
       degree,
-      exactLongitude,
+      ...(exactLongitude !== undefined ? { exactLongitude } : {}),
     };
   }
 

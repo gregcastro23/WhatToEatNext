@@ -248,7 +248,7 @@ export async function POST(request: Request) {
     items,
     droppedCount,
     payload,
-    metadata: body.metadata,
+    ...(body.metadata !== undefined ? { metadata: body.metadata } : {}),
     userId,
     request,
   });

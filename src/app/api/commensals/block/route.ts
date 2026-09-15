@@ -64,8 +64,8 @@ export async function POST(request: NextRequest) {
 
     if (action === "unblock") {
       const removed = await commensalDatabase.unblockCommensal(userId, {
-        commensalshipId,
-        targetUserId,
+        ...(commensalshipId !== undefined ? { commensalshipId } : {}),
+        ...(targetUserId !== undefined ? { targetUserId } : {}),
       });
       if (!removed) {
         return NextResponse.json(
@@ -77,8 +77,8 @@ export async function POST(request: NextRequest) {
     }
 
     const blocked = await commensalDatabase.blockCommensal(userId, {
-      commensalshipId,
-      targetUserId,
+      ...(commensalshipId !== undefined ? { commensalshipId } : {}),
+      ...(targetUserId !== undefined ? { targetUserId } : {}),
     });
     if (!blocked) {
       return NextResponse.json(

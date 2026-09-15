@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
   const contentURI = `${base}/api/recipes/nft/content/${commitments.contentHash}`;
   const metadataURI = `${base}/api/recipes/nft/metadata/${commitments.contentHash}`;
   const metadata = buildMetadata(recipe, fingerprint, {
-    imageUrl: imageUrl ?? undefined,
+    ...(imageUrl ? { imageUrl } : {}),
     externalUrl: `${base}/recipe-builder`,
   });
 

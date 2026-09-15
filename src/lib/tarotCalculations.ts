@@ -265,6 +265,18 @@ interface MajorArcanaCard {
   element?: string; // Add this property as optional
 }
 
+const FACE_CARD_VALUES: Record<string, number> = {
+  Ace: 1,
+  Page: 11,
+  Knight: 12,
+  Queen: 13,
+  King: 14,
+};
+
+function parseCardNumber(numberStr: string): number {
+  return FACE_CARD_VALUES[numberStr] ?? parseInt(numberStr, 10);
+}
+
 /**
  * Get the tarot cards for a specific date
  * Each date corresponds to a specific minor and major arcana card
@@ -304,20 +316,7 @@ export const getTarotCardsForDate = (
   }
 
   // Convert number string to actual number
-  let number;
-  if (numberStr === "Ace") {
-    number = 1;
-  } else if (numberStr === "Page") {
-    number = 11;
-  } else if (numberStr === "Knight") {
-    number = 12;
-  } else if (numberStr === "Queen") {
-    number = 13;
-  } else if (numberStr === "King") {
-    number = 14;
-  } else {
-    number = parseInt(numberStr, 10);
-  }
+  const number = parseCardNumber(numberStr);
 
   // Look up the decan alchemy entry for ESMS quantities
   // Parse the decan degree range from the decan key (e.g. "0-10" → degree 0)
@@ -355,7 +354,11 @@ export const getTarotCardsForDate = (
     element: _MAJOR_ARCANA[majorArcanaName].element || "", // Extract element from _MAJOR_ARCANA
   };
 
-  return { minorCard, majorCard, decanAlchemy };
+  return {
+    minorCard,
+    majorCard,
+    ...(decanAlchemy !== undefined ? { decanAlchemy } : {}),
+  };
 };
 
 export function getQuantumValueForCard(card: unknown): number {

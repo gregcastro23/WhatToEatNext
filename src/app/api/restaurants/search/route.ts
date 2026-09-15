@@ -190,8 +190,8 @@ export async function POST(request: NextRequest) {
       cuisine: cuisineType,
       latitude,
       longitude,
-      radiusMeters: radius,
-      limit,
+      ...(radius !== undefined ? { radiusMeters: radius } : {}),
+      ...(limit !== undefined ? { limit } : {}),
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {

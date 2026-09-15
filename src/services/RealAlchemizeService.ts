@@ -144,14 +144,15 @@ function toCanonicalESMSPositions(
   for (const [planet, position] of Object.entries(planetaryPositions)) {
     if (isExcludedAspectBody(planet)) continue;
     const sign = String(position.sign);
+    const exactLongitude =
+      position.exactLongitude ??
+      signDegreeToLongitude(sign, position.degree, position.minute) ??
+      undefined;
     positions[planet] = {
       sign,
       degree: position.degree,
-      exactLongitude:
-        position.exactLongitude ??
-        signDegreeToLongitude(sign, position.degree, position.minute) ??
-        undefined,
-      distance: position.distance,
+      ...(exactLongitude !== undefined ? { exactLongitude } : {}),
+      ...(position.distance !== undefined ? { distance: position.distance } : {}),
     };
   }
   return positions;

@@ -456,7 +456,7 @@ export function calculateNutritionalProgress(
 
   return {
     actual,
-    goals,
+    ...(goals !== undefined ? { goals } : {}),
     percentages,
     status,
   };

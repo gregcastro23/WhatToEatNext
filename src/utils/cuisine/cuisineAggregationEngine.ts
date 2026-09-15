@@ -499,8 +499,12 @@ export function computeCuisineProperties(
 
     variance = {
       elementals: elementalVariance,
-      alchemical: alchemicalVariance,
-      thermodynamics: thermodynamicVariance,
+      ...(alchemicalVariance !== undefined
+        ? { alchemical: alchemicalVariance }
+        : {}),
+      ...(thermodynamicVariance !== undefined
+        ? { thermodynamics: thermodynamicVariance }
+        : {}),
       diversityScore: 0, // Will be calculated below
     };
 
@@ -519,11 +523,14 @@ export function computeCuisineProperties(
   // Return complete cuisine properties
   return {
     averageElementals,
-    averageAlchemical,
-    averageThermodynamics,
+    ...(averageAlchemical !== undefined
+      ? { averageAlchemical }
+      : {}),
+    ...(averageThermodynamics !== undefined
+      ? { averageThermodynamics }
+      : {}),
     variance,
     signatures: [], // Will be populated by signature identification engine
-    planetaryPatterns: undefined, // Will be populated by planetary pattern analysis
     sampleSize: recipes.length,
     computedAt,
     version,

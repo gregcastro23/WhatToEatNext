@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     window: 60_000,
     max: 60,
     bucket: "feed-comments-list",
-    identifier: viewerId ?? undefined,
+    ...(viewerId ? { identifier: viewerId } : {}),
   });
   if (!rl.allowed) return rl.response!;
 

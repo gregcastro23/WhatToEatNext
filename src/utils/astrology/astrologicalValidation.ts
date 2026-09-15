@@ -199,8 +199,7 @@ export function validatePlanetaryPositions(
       isValid: errors.length === 0,
       errors,
       warnings,
-      correctedData:
-        Object.keys(correctedData).length > 0 ? correctedData : undefined,
+      ...(Object.keys(correctedData).length > 0 ? { correctedData } : {}),
     };
   } catch (error) {
     const errorMessage = `Validation error: ${error instanceof Error ? error.message : "Unknown error"}`;
@@ -358,7 +357,7 @@ function validateSinglePlanetaryPosition(
       isValid: errors.length === 0,
       errors,
       warnings,
-      correctedData,
+      ...(correctedData !== undefined ? { correctedData } : {}),
     };
   } catch (error) {
     errors.push(

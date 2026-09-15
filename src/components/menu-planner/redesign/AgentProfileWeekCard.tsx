@@ -84,7 +84,7 @@ export default function AgentProfileWeekCard({
       variant="agent"
       title={`${agentName ?? "Agent"}'s week`}
       meals={meals ?? []}
-      updatedLabel={updatedLabel}
+      {...(updatedLabel !== undefined ? { updatedLabel } : {})}
       planetaryFocus="Planetary menu"
       todayDayOfWeek={todayDayOfWeek}
       onAdopt={() => router.push("/menu-planner")}

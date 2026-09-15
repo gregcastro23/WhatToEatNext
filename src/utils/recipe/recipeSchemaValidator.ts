@@ -925,7 +925,9 @@ export function detectDuplicates(
       {
         id: String(recipe1.id ?? `recipe-${i}`),
         name: String(recipe1.name ?? "unknown"),
-        cuisine: recipe1.cuisine as string | undefined,
+        ...(typeof recipe1.cuisine === "string"
+          ? { cuisine: recipe1.cuisine }
+          : {}),
         similarity: 1,
       },
     ];
@@ -940,7 +942,9 @@ export function detectDuplicates(
         group.push({
           id: String(recipe2.id ?? `recipe-${j}`),
           name: String(recipe2.name ?? "unknown"),
-          cuisine: recipe2.cuisine as string | undefined,
+          ...(typeof recipe2.cuisine === "string"
+            ? { cuisine: recipe2.cuisine }
+            : {}),
           similarity: Math.round(similarity * 100) / 100,
         });
         processedIndices.add(j);

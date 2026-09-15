@@ -705,7 +705,7 @@ export function computeCuisineProperties(
   const variance = includeVariance
     ? calculatePropertyVariance(recipes, {
         elementals: averageElementals,
-        alchemical: averageAlchemical,
+        ...(averageAlchemical !== undefined ? { alchemical: averageAlchemical } : {}),
       })
     : {
         elementals: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
@@ -723,7 +723,7 @@ export function computeCuisineProperties(
     ? identifyCuisineSignatures(
         {
           elementals: averageElementals,
-          alchemical: averageAlchemical,
+          ...(averageAlchemical !== undefined ? { alchemical: averageAlchemical } : {}),
         },
         globalAverages,
         signatureThreshold,
@@ -737,10 +737,10 @@ export function computeCuisineProperties(
 
   return {
     averageElementals,
-    averageAlchemical,
+    ...(averageAlchemical !== undefined ? { averageAlchemical } : {}),
     variance,
     signatures,
-    planetaryPatterns,
+    ...(planetaryPatterns !== undefined ? { planetaryPatterns } : {}),
     sampleSize: recipes.length,
     computedAt: new Date(),
     version: "1.0.0",

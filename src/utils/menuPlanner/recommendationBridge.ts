@@ -51,7 +51,7 @@ export interface AstrologicalState {
   lunarPhase: LunarPhase;
   activePlanets: string[];
   domElements: ElementalProperties;
-  currentPlanetaryHour?: string;
+  currentPlanetaryHour?: string | undefined;
 }
 
 /**

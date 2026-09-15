@@ -182,7 +182,9 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 toolsRequired: method.toolsRequired ?? [],
                 bestFor: method.bestFor ?? [],
                 culturalOrigin: method.culturalOrigin,
-                astrologicalInfluences: method.astrologicalInfluences,
+                ...(method.astrologicalInfluences !== undefined
+                  ? { astrologicalInfluences: method.astrologicalInfluences }
+                  : {}),
                 duration: { min: 0, max: 60 },
                 suitable_for: method.bestFor ?? [],
                 benefits: [],
@@ -900,28 +902,21 @@ export function getHolisticCookingRecommendations(
       (season as Season | undefined) ?? getCurrentSeason(),
     );
 
-
     // Filter by available methods if provided
-    const filteredRecs =
-      availableMethods.length > 0
-        ? recommendations.filter((rec) =>
-            availableMethods.some((method) =>
-              areSimilarMethods(rec.name, method),
-            ),
-          )
-        : recommendations;
+    const filteredRecs = availableMethods.length > 0
+      ? recommendations.filter((rec) =>
+          availableMethods.some((method) => areSimilarMethods(rec.name, method)),
+        )
+      : recommendations;
 
     // Format the results with safe property access
     return filteredRecs.slice(0, limit || 5).map((rec) => ({
       method: rec.name,
       compatibility: (Number(rec.score) || 0) * 100,
-      reason: includeReasons
-        ? String(rec.reasons[0]) || `Good match for ${ingredient.name}`
-        : undefined,
+      ...(includeReasons ? { reason: String(rec.reasons[0]) || `Good match for ${ingredient.name}` } : {}),
     }));
   } catch (error) {
     _logger.error("Error in getHolisticCookingRecommendations: ", error);
-    // Return empty array as fallback
     return [];
   }
 }

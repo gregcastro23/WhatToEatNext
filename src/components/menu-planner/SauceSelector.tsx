@@ -34,8 +34,8 @@ function SauceCard({
 }: {
   sauceId: string;
   sauce: Sauce;
-  compatibilityScore?: number;
-  onSelect: (sauceId: string) => void;
+  compatibilityScore?: number | undefined;
+  onSelect: (sauceId: string, servings?: number) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [scaleMultiplier, setScaleMultiplier] = useState(1);
@@ -188,11 +188,17 @@ export default function SauceSelector({
       description: s.description,
       keyIngredients: s.keyIngredients,
       elementalProperties: s.elementalProperties,
-      alchemicalProperties: s.alchemicalProperties,
-      thermodynamicProperties: s.thermodynamicProperties,
+      ...(s.alchemicalProperties !== undefined
+        ? { alchemicalProperties: s.alchemicalProperties }
+        : {}),
+      ...(s.thermodynamicProperties !== undefined
+        ? { thermodynamicProperties: s.thermodynamicProperties }
+        : {}),
       flavorTags: s.astrologicalInfluences,
-      cuisineAssociations: s.cuisine ? [s.cuisine] : undefined,
-      nutritionalProfile: s.nutritionalProfile,
+      ...(s.cuisine ? { cuisineAssociations: [s.cuisine] } : {}),
+      ...(s.nutritionalProfile !== undefined
+        ? { nutritionalProfile: s.nutritionalProfile }
+        : {}),
     })), []);
 
   // Get recommendations
@@ -201,7 +207,9 @@ export default function SauceSelector({
     return recommendSauces(
       {
         targetElementalProperties: recipeElementalProperties,
-        targetAlchemicalProperties: recipeAlchemicalProperties,
+        ...(recipeAlchemicalProperties !== undefined
+          ? { targetAlchemicalProperties: recipeAlchemicalProperties }
+          : {}),
         sauceRole: "complement",
         maxRecommendations: 12,
         minCompatibilityThreshold: 0.1,
