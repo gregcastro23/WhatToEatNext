@@ -11,6 +11,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
 
 export const dynamic = "force-dynamic";
 
@@ -101,6 +102,9 @@ export async function GET(request: Request) {
   // the unprefixed cookie name and returns null for production's
   // `__Secure-authjs.session-token`. Undefined for Bearer clients.
   const currentJti = session?.user?.id ? session.user.sessionId : undefined;
+  if (currentJti) {
+    scheduleSessionTouch(currentJti, request);
+  }
 
   // Best-effort signup date for the /profile/security "MEMBER SINCE" row.
   let memberSince: string | null = null;

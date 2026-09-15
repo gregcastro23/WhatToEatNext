@@ -35,6 +35,11 @@ jest.mock("@/lib/auth/validateRequest", () => ({
   validateToken: (...args: unknown[]) => mockValidateToken(...args),
 }));
 
+const mockScheduleSessionTouch = jest.fn();
+jest.mock("@/lib/auth/sessionTouch", () => ({
+  scheduleSessionTouch: (...args: unknown[]) => mockScheduleSessionTouch(...args),
+}));
+
 import { DELETE } from "@/app/api/auth/sessions/[id]/route";
 import { POST as REVOKE_ALL } from "@/app/api/auth/sessions/revoke-all/route";
 import { GET } from "@/app/api/auth/sessions/route";
@@ -104,6 +109,7 @@ beforeEach(() => {
   mockAuth.mockReset();
   mockExecuteQuery.mockReset();
   mockValidateToken.mockReset();
+  mockScheduleSessionTouch.mockReset();
 });
 
 describe("GET /api/auth/sessions — current-device marking", () => {
@@ -118,6 +124,29 @@ describe("GET /api/auth/sessions — current-device marking", () => {
     expect(body.source).toBe("db");
     expect(body.sessions.map((s) => s.id)).toEqual([OTHER_ROW, CURRENT_ROW, THIRD_ROW]);
     expect(body.sessions.filter((s) => s.current).map((s) => s.id)).toEqual([CURRENT_ROW]);
+  });
+
+  it("schedules session touch with current sessionId and request on GET", async () => {
+    signedInAs(CURRENT_ROW);
+    primeList([deviceRow(CURRENT_ROW, 1)]);
+
+    const req = new Request(BASE);
+    const res = await GET(req);
+
+    expect(res.status).toBe(200);
+    expect(mockScheduleSessionTouch).toHaveBeenCalledTimes(1);
+    expect(mockScheduleSessionTouch).toHaveBeenCalledWith(CURRENT_ROW, req);
+  });
+
+  it("does not schedule session touch when current sessionId is missing", async () => {
+    signedInAs(undefined);
+    primeList([deviceRow(OTHER_ROW, 1)]);
+
+    const req = new Request(BASE);
+    const res = await GET(req);
+
+    expect(res.status).toBe(200);
+    expect(mockScheduleSessionTouch).not.toHaveBeenCalled();
   });
 
   it("uses the session id for the jwt-fallback row when the table query fails", async () => {
@@ -147,8 +176,29 @@ describe("GET /api/auth/sessions — current-device marking", () => {
   });
 });
 
-describe("DELETE /api/auth/sessions/[id] — self-revoke guard", () => {
+describe("DELETE /api/auth/sessions/[id] — self-revoke guard and origin checks", () => {
   const params = (id: string) => ({ params: Promise.resolve({ id }) });
+  const ORIGIN_HEADERS = { origin: "https://alchm.kitchen" };
+
+  it("returns 403 when Origin header is missing", async () => {
+    signedInAs(CURRENT_ROW);
+    const res = await DELETE(new Request(`${BASE}/${OTHER_ROW}`, { method: "DELETE" }), params(OTHER_ROW));
+    expect(res.status).toBe(403);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 when Origin is a sibling subdomain", async () => {
+    signedInAs(CURRENT_ROW);
+    const res = await DELETE(
+      new Request(`${BASE}/${OTHER_ROW}`, {
+        method: "DELETE",
+        headers: { origin: "https://agents.alchm.kitchen" },
+      }),
+      params(OTHER_ROW),
+    );
+    expect(res.status).toBe(403);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
 
   it("returns 400 for the requester's own row and never issues the UPDATE", async () => {
     signedInAs(CURRENT_ROW);
@@ -156,7 +206,10 @@ describe("DELETE /api/auth/sessions/[id] — self-revoke guard", () => {
     // (200) instead of crashing on an unprimed mock.
     mockExecuteQuery.mockResolvedValue({ rows: [{ id: CURRENT_ROW }], rowCount: 1 });
 
-    const res = await DELETE(new Request(`${BASE}/${CURRENT_ROW}`, { method: "DELETE" }), params(CURRENT_ROW));
+    const res = await DELETE(
+      new Request(`${BASE}/${CURRENT_ROW}`, { method: "DELETE", headers: ORIGIN_HEADERS }),
+      params(CURRENT_ROW),
+    );
 
     expect(mockExecuteQuery).not.toHaveBeenCalled();
     expect(res.status).toBe(400);
@@ -169,7 +222,10 @@ describe("DELETE /api/auth/sessions/[id] — self-revoke guard", () => {
     signedInAs(CURRENT_ROW);
     mockExecuteQuery.mockResolvedValue({ rows: [{ id: OTHER_ROW }], rowCount: 1 });
 
-    const res = await DELETE(new Request(`${BASE}/${OTHER_ROW}`, { method: "DELETE" }), params(OTHER_ROW));
+    const res = await DELETE(
+      new Request(`${BASE}/${OTHER_ROW}`, { method: "DELETE", headers: ORIGIN_HEADERS }),
+      params(OTHER_ROW),
+    );
 
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ revoked: OTHER_ROW });
@@ -180,12 +236,35 @@ describe("DELETE /api/auth/sessions/[id] — self-revoke guard", () => {
   });
 });
 
-describe("POST /api/auth/sessions/revoke-all — preserves the current session", () => {
+describe("POST /api/auth/sessions/revoke-all — preserves the current session and checks origin", () => {
+  const ORIGIN_HEADERS = { origin: "https://alchm.kitchen" };
+
+  it("returns 403 when Origin header is missing", async () => {
+    signedInAs(CURRENT_ROW);
+    const res = await REVOKE_ALL(new Request(`${BASE}/revoke-all`, { method: "POST" }));
+    expect(res.status).toBe(403);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 when Origin is a sibling subdomain", async () => {
+    signedInAs(CURRENT_ROW);
+    const res = await REVOKE_ALL(
+      new Request(`${BASE}/revoke-all`, {
+        method: "POST",
+        headers: { origin: "https://agents.alchm.kitchen" },
+      }),
+    );
+    expect(res.status).toBe(403);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
+
   it("binds the auth() session's sessionId as $2", async () => {
     signedInAs(CURRENT_ROW);
     mockExecuteQuery.mockResolvedValue({ rows: [{ id: OTHER_ROW }, { id: THIRD_ROW }], rowCount: 2 });
 
-    const res = await REVOKE_ALL(new Request(`${BASE}/revoke-all`, { method: "POST" }));
+    const res = await REVOKE_ALL(
+      new Request(`${BASE}/revoke-all`, { method: "POST", headers: ORIGIN_HEADERS }),
+    );
 
     expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
     const { sql, params: bound } = queryCall(0);
@@ -199,7 +278,9 @@ describe("POST /api/auth/sessions/revoke-all — preserves the current session",
     signedInAs(undefined);
     mockExecuteQuery.mockResolvedValue({ rows: [], rowCount: 0 });
 
-    const res = await REVOKE_ALL(new Request(`${BASE}/revoke-all`, { method: "POST" }));
+    const res = await REVOKE_ALL(
+      new Request(`${BASE}/revoke-all`, { method: "POST", headers: ORIGIN_HEADERS }),
+    );
 
     expect(await res.json()).toEqual({ revoked: 0, preservedCurrent: false });
     expect(queryCall(0).params).toEqual([USER_ID, null]);

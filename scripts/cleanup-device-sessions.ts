@@ -40,6 +40,14 @@ const REVOKED_TTL_DAYS = Number(
 );
 const DRY_RUN = process.env.DRY_RUN === "1" || process.env.DRY_RUN === "true";
 
+// SAFEGUARD: The device_sessions table must accumulate at least 30 days of
+// active touch history before deletions can safely run without pruning active
+// user sessions. This job runs in DRY-RUN mode by default to prevent accidental
+// data loss. Real deletions are strictly disabled unless explicitly approved
+// via ALLOW_DEVICE_SESSION_DELETIONS=1.
+const ALLOW_DELETIONS = process.env.ALLOW_DEVICE_SESSION_DELETIONS === "1";
+const effectiveDryRun = DRY_RUN || !ALLOW_DELETIONS;
+
 if (!DATABASE_URL) {
   console.error("Missing required env var: DATABASE_URL");
   process.exit(1);
@@ -97,8 +105,13 @@ async function deleteMatching(
 
 async function main(): Promise<void> {
   const startedAt = Date.now();
+  if (!ALLOW_DELETIONS && !DRY_RUN) {
+    console.warn(
+      `[cleanup-device-sessions] SAFEGUARD ACTIVE: Deletions are disabled to prevent accidental data loss. Enforcing DRY_RUN mode. To execute real deletions with explicit user approval, set ALLOW_DEVICE_SESSION_DELETIONS=1.`,
+    );
+  }
   console.log(
-    `[cleanup-device-sessions] start dryRun=${DRY_RUN} maxAgeDays=${MAX_AGE_DAYS} revokedTtlDays=${REVOKED_TTL_DAYS}`,
+    `[cleanup-device-sessions] start dryRun=${effectiveDryRun} allowDeletions=${ALLOW_DELETIONS} maxAgeDays=${MAX_AGE_DAYS} revokedTtlDays=${REVOKED_TTL_DAYS}`,
   );
 
   const client = await pool.connect();
@@ -109,7 +122,7 @@ async function main(): Promise<void> {
     const staleWhere = `last_seen_at < NOW() - ($1 || ' days')::interval`;
     const revokedWhere = `revoked_at IS NOT NULL AND revoked_at < NOW() - ($1 || ' days')::interval`;
 
-    if (DRY_RUN) {
+    if (effectiveDryRun) {
       const [staleCount, revokedCount] = await Promise.all([
         countMatching(client, staleWhere, [String(MAX_AGE_DAYS)]),
         countMatching(client, revokedWhere, [String(REVOKED_TTL_DAYS)]),
