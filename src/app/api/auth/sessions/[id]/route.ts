@@ -20,7 +20,7 @@ interface Params {
   params: Promise<{ id: string }>;
 }
 
-export async function DELETE(request: Request, { params }: Params) {
+export async function DELETE(_request: Request, { params }: Params) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -31,22 +31,13 @@ export async function DELETE(request: Request, { params }: Params) {
     return NextResponse.json({ error: "Missing session id" }, { status: 400 });
   }
 
-  // Refuse to revoke the current session through this route.
-  try {
-    const { getToken } = await import("next-auth/jwt");
-    const token = await getToken({
-      req: request,
-      ...(process.env.AUTH_SECRET !== undefined ? { secret: process.env.AUTH_SECRET } : {}),
-    });
-    const currentJti = token?.deviceSessionId ?? token?.sessionId;
-    if (currentJti === id) {
-      return NextResponse.json(
-        { error: "Use signOut to end the current session." },
-        { status: 400 },
-      );
-    }
-  } catch {
-    /* if we can't read the token, fall through — DB ownership check still gates */
+  // Refuse to revoke the current session through this route. The id comes
+  // from auth(), not a second cookie decode — see GET /api/auth/sessions.
+  if (session.user.sessionId === id) {
+    return NextResponse.json(
+      { error: "Use signOut to end the current session." },
+      { status: 400 },
+    );
   }
 
   try {
