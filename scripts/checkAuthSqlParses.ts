@@ -177,7 +177,42 @@ try {
       `CONTROL FAILED: expected ${EXPECTED_TOTAL} statements, built ${statements.length}.`,
     );
   }
-  console.log(`✓ control: ${statements.length} statements registered as expected\n`);
+  console.log(`✓ control: ${statements.length} statements registered as expected`);
+
+  // ── Control 5: SELECT_DEVICE_SESSIONS_SQL Effective Lifetime Predicate ───
+  // Proves over literal rows in PostgreSQL that:
+  //   (i) A row older than 30 days post-epoch is excluded.
+  //   (ii) A legacy row created prior to 2026-09-15 is included before 2026-10-15 (pinned to 09-15 epoch).
+  //   (iii) The legacy row is excluded when evaluated after 2026-10-15.
+  const predicateTest = await client.query<{ label: string }>(`
+    WITH test_rows(label, created_at, revoked_at, simulated_now) AS (
+      VALUES
+        ('fresh_active', NOW() - interval '1 day', NULL::timestamptz, NOW()),
+        ('revoked_session', NOW() - interval '1 day', NOW(), NOW()),
+        ('legacy_session_current', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz, NOW()),
+        ('legacy_session_expired', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz, TIMESTAMPTZ '2026-10-16T00:00:00Z'),
+        ('post_epoch_expired', TIMESTAMPTZ '2026-09-20T00:00:00Z', NULL::timestamptz, TIMESTAMPTZ '2026-10-26T00:00:00Z')
+    )
+    SELECT label
+      FROM test_rows
+     WHERE revoked_at IS NULL
+       AND GREATEST(created_at, TIMESTAMPTZ '2026-09-15T20:33:00Z') > simulated_now - interval '30 days'
+  `);
+  const includedLabels = new Set(predicateTest.rows.map((r) => r.label));
+  if (!includedLabels.has("fresh_active") || !includedLabels.has("legacy_session_current")) {
+    fail("CONTROL FAILED: active or valid legacy session was unexpectedly excluded by effective lifetime predicate");
+  }
+  if (includedLabels.has("revoked_session")) {
+    fail("CONTROL FAILED: revoked session was unexpectedly included");
+  }
+  if (includedLabels.has("legacy_session_expired")) {
+    fail("CONTROL FAILED: expired legacy session past 2026-10-15T20:33:00Z was unexpectedly included");
+  }
+  if (includedLabels.has("post_epoch_expired")) {
+    fail("CONTROL FAILED: post-epoch expired session (>30d) was unexpectedly included");
+  }
+  console.log("✓ control: effective session lifetime predicate excludes expired rows and preserves legacy rows before 2026-10-15\n");
+
 
   // ── PREPARE Gate Execution ──────────────────────────────────────────────
   for (let i = 0; i < statements.length; i++) {

@@ -36,7 +36,9 @@ export const REVOKE_ALL_SESSIONS_SQL = `UPDATE device_sessions
 
 export const SELECT_DEVICE_SESSIONS_SQL = `SELECT id, subdomain, device, user_agent, location_city, location_region, location_country, last_seen_at, revoked_at
          FROM device_sessions
-        WHERE user_id = $1 AND revoked_at IS NULL
+        WHERE user_id = $1
+          AND revoked_at IS NULL
+          AND GREATEST(created_at, TIMESTAMPTZ '2026-09-15T20:33:00Z') > NOW() - interval '30 days'
         ORDER BY last_seen_at DESC
         LIMIT 25`;
 
