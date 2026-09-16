@@ -2,9 +2,12 @@
 
 _Canonical entry point for agent handover (WTEN only — PA / agents-repo work gets its own prompt). Raw telemetry and probes: [docs/handovers/handover-evidence-2026-09-15.md](docs/handovers/handover-evidence-2026-09-15.md). PR description: [docs/handovers/pr-body-auth-absolute-lifetime.md](docs/handovers/pr-body-auth-absolute-lifetime.md). `docs/prompts/next_session_prompt.md` is only a pointer to this file; never copy this file there._
 
-> **Status (2026-09-16)** — the 30-day absolute session lifetime is **pushed; PR [#851](https://github.com/gregcastro23/WhatToEatNext/pull/851) is open against `master`. NOT merged, NOT deployed.** Production runs `d13aa0c1` (#850; GitHub Production deployment `6471308599`, `success` at 2026-09-16 00:39Z) with **no** absolute session cap.
->
-> ⚠️ **Hard deadline — merged AND deployed well before `2026-10-15T20:33:00Z`.** The legacy epoch is pinned to the #848 release, not to this deploy. Shipping after that instant logs out every pre-policy session on its first request (§5.4).
+> **Status (2026-09-16)** — PR [#851](https://github.com/gregcastro23/WhatToEatNext/pull/851) is **merged into `master`** (`7bdc4adf65f44aafc6f7a81e75cc21871975cb73`) and **deployed to Production** (GitHub deployment `6480366726`, `state=success` at 2026-09-16 12:03Z). The 30-day absolute session lifetime is **live in production**.
+> 
+> Follow-up gaps closed:
+> - **P1**: Effective age bound on `SELECT_DEVICE_SESSIONS_SQL` (`GREATEST(created_at, TIMESTAMPTZ '2026-09-15T20:33:00Z') > NOW() - interval '30 days'`) + literal CTE execution control against real Postgres in `scripts/checkAuthSqlParses.ts`.
+> - **P2**: Upstream `@auth/core` null-token contract check (`scripts/checkAuthNullTokenContract.ts`) wired into `test:gates`, and `@auth/core` pinned to `0.41.2`.
+> - **P3**: Pre-commit hook wrapper (`scripts/lintChanged.ts`) that exits cleanly with 0 on empty JS/TS file lists, eliminating docs-only hook OOMs.
 
 ---
 
