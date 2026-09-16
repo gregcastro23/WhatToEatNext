@@ -1,115 +1,188 @@
-# Next Session Prompt: Admin Observability Modernization, Lint Debt Campaign & Site Housekeeping
+# Session Handover: 30-Day Absolute Session Lifetime & Auth Architecture
 
-## 1. Executive Summary & Current System State
-- **Branch**: `master` (PR #798 merged as commit `c7dfcbfa`).
-- **Phase 3 Shipped & Verified**:
-  1. **Culinary Accessibility Pass (Kitchen Lab & Physics)**:
-     - Default Fahrenheit (°F) with persistent, instant Celsius (°C) toggle ([temperatureUnits.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/cooking/temperatureUnits.ts)).
-     - Banished scientific notation (`K·W⁻¹`, `ΔT K`, raw exponents) in favor of percentage bottleneck shares and practical chef actions.
-     - Added resting carryover heat rise ($+5^\circ\text{F}$ to $+10^\circ\text{F}$) and doneness timelines.
-     - Simmer reduction liquid formatted in familiar Quarts / Cups and Liters.
-  2. **SpacetimeDB Collaborative Live Pot Sync**:
-     - Rust module table `live_pot` and reducers with 5 host integration tests ([live_pot_tests.rs](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/spacetime-module/tests/live_pot_tests.rs)).
-     - Client hook ([useLivePotSimulation.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/spacetime/hooks/useLivePotSimulation.ts)) with 60 FPS RAF interpolation and offline local fallback.
-     - Interactive multi-device control panel ([LivePotSyncPanel.tsx](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/components/lab/LivePotSyncPanel.tsx)).
-  3. **Verification**:
-     - 109 Rust tests passing (`cargo test --workspace`).
-     - WASM builds and manifests green.
-     - Fast tests passing (410 / 410).
-     - TypeScript: 0 errors.
-     - Lint Debt: exactly **15,367** (0 debt added).
+_Canonical entry point for agent handover. Detailed historical telemetry and raw probes are preserved in [docs/handovers/handover-evidence-2026-09-15.md](docs/handovers/handover-evidence-2026-09-15.md)._
+
+> **Status as of 2026-09-16 04:00Z** — the 30-day absolute lifetime is **implemented and locally verified, uncommitted, and NOT deployed**. PR [#850](https://github.com/gregcastro23/WhatToEatNext/pull/850) (the *previous* phase: auth SQL gate + query centralization) is **merged** as `d13aa0c1`, which is now `origin/master`. No production behaviour has changed yet: prod still runs `6e4130f2` + `d13aa0c1` with **no** absolute session cap.
 
 ---
 
-## 2. Investigative Housekeeping & Gap Audit
+## 1. Goal (Immediate Objective)
 
-### 🔍 Audit Finding: Do Our Admin Panes Adequately Reflect Site Status?
-**Short Answer: Not Yet.** The Admin Dashboard (`src/app/admin/`) is an exceptionally built monitoring surface, but recent major capabilities are not yet wired into it:
+**Objective**: Implement and validate a **30-day absolute session lifetime** with a documented, bounded migration strategy for existing legacy tokens that cannot perpetually restart grace.
 
-1. **SpacetimeDB Live Layer (v4.0 & Live Pot)**:
-   - `ServiceMatrix` does not monitor the `wss://maincloud.spacetimedb.com` connection or the `cookingwithcastrollc/alchm-culinary` module.
-   - `FeatureFlagsPanel` is missing the `NEXT_PUBLIC_SPACETIME_LIVE_*` feature flags (`LIVE_CULINARY`, `LIVE_PLANNER`, `LIVE_COMMENSAL`, `LIVE_CART`, `LIVE_FEED`, `LIVE_POT`).
-   - `DatabaseStorage` and `SubdomainMatrix` do not show live SpacetimeDB table metrics (`live_pot`, `table_session`, `commensal_session`, `grocery_cart_item`, `meal_plan_slot`).
-2. **Kitchen Lab Physics & Thermal Engine**:
-   - `/kitchen-lab` and `/kitchen-lab/physics` are missing from `SubdomainMatrix`.
-   - The Rust/WASM `thermoEngine` and boundary resistance solver have no health probe in `EngineHealth` or `ServiceMatrix`.
-3. **Philosopher's Stone Agent Forging**:
-   - The dynamic forge route `/philosophers-stone` and ignition API (`/api/agent-forge/ignite`) are absent from `SubdomainMatrix`.
-4. **Data Authenticity Campaign**:
-   - The recent backfill of real USDA per-serving nutrition (#555), 21 specialty oils (#566), and cooking staples (#563) should be highlighted in `CatalogState` as verified authentic items vs legacy items.
+**Remaining for this objective** (the evaluator and its wiring are done — see §4):
+1. Commit the staged work on a **new branch off `d13aa0c1`** and open a new PR. The old branch's PR is merged and closed; pushing to it will not reopen it.
+2. Resolve the three findings in §5.1–§5.3 (orphaned `device_sessions` rows on cap expiry, the env-override footgun, and the missing upstream-contract guard) or explicitly defer each with a reason.
+3. Deploy and verify **live**, to this repo's usual standard: a real signed-in session, a real DB read, a real probe. Everything recorded so far is local-only.
 
----
-
-### 🧹 Lint Debt Attack Plan: Breaking Below 15,000
-Our lint audit shows the 15,367 baseline warnings are concentrated in distinct categories:
-- `@typescript-eslint/no-unnecessary-condition`: 3,876
-- `@typescript-eslint/explicit-function-return-type`: 2,535
-- `@typescript-eslint/no-unsafe-member-access`: 2,149
-- `@typescript-eslint/no-unsafe-assignment`: 1,452
-- `@typescript-eslint/explicit-module-boundary-types`: 1,127
-- `@typescript-eslint/no-explicit-any`: 892
-- `no-console`: 744
-- `no-void`: 719
-- `@typescript-eslint/prefer-nullish-coalescing`: 700
-- `@typescript-eslint/no-unsafe-argument`: 482
-- `@typescript-eslint/no-unsafe-call`: 265
-- `@typescript-eslint/no-unsafe-return`: 175
-- `@typescript-eslint/require-await`: 163
-- `no-useless-assignment`: 88
-
-**Targeted Strike Waves**:
-- **Wave 1 (Low-hanging Fruit / Clean Semantics)**:
-  - Eliminate `no-void` (-719) by converting dangling promise statements to `.catch(() => {})` or properly typed async handlers.
-  - Eliminate raw `no-console` (-744) by routing logs through our structured `_logger` ([logger.ts](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/src/lib/logger.ts)).
-  - **Yield**: ~1,460 warnings eliminated, bringing baseline down to **~13,900**!
-- **Wave 2 (Type Safety & Boundary Contracts)**:
-  - Explicit function return types & module boundaries across `src/services/` and `src/lib/`.
-  - Elimination of remaining `any` in `src/data/` and API endpoints.
+### Primary Acceptance Criteria
+1. **`authTime` Contract Defined & Implemented**:
+   - **Units**: Unix epoch seconds (`Math.floor(Date.now() / 1000)`).
+   - **Minting**: Minted in the NextAuth `jwt` callback *only* on initial sign-in (when `user` or `account` is defined).
+   - **Immutability**: Preserved strictly across all token refreshes and session updates (`trigger === "update"`). It must never be re-minted or overwritten.
+   - **Strict Boundary**: Return `null` from the `jwt` callback when `Math.floor(Date.now() / 1000) >= token.authTime + (30 * 86400)`.
+   - **Validation**: Reject missing, non-numeric, negative (`<= 0`), `NaN`, or future timestamps (`> now + 300` allowing 5 minutes clock skew) by returning `null`.
+2. **Bounded Legacy Migration**:
+   - Existing active JWTs lack `authTime`.
+   - **Adopted Policy (Choice A - Pinned Deployment Epoch)**:
+     - Define a fixed deployment constant: `DEPLOYMENT_TIMESTAMP` (Unix epoch seconds of the release).
+     - When a token lacks `authTime`, treat its baseline as `DEPLOYMENT_TIMESTAMP`.
+     - Expiry check: if `now >= DEPLOYMENT_TIMESTAMP + (30 * 86400)`, the token is expired (`return null`).
+     - Otherwise, persist `token.authTime = DEPLOYMENT_TIMESTAMP` in the token. Because it is pinned to the fixed deployment epoch, subsequent refreshes cannot extend the 30-day grace window.
+3. **Boundary Unit Tests**:
+   - Test at `authTime + 30d - 1s`: valid (token returned).
+   - Test at `authTime + 30d`: expired (`null` returned).
+   - Test at `authTime + 30d + 1s`: expired (`null` returned).
+   - Test that session updates and refreshes preserve existing `authTime`.
+   - Test that legacy tokens without `authTime` expire strictly at `DEPLOYMENT_TIMESTAMP + 30d`.
 
 ---
 
-## 3. Next Session Priority Roadmaps
+## 2. Context & Repository Status
 
-### 🎯 Priority 1: Modernize Admin Observability & Operations Control Plane
-1. **SpacetimeDB Live Observability**:
-   - Add SpacetimeDB health probe to `src/services/systemStatusService.ts` checking module availability and websocket status.
-   - Update `getFeatureFlags()` in `src/services/dashboardPanelsService.ts` to surface all 6 SpacetimeDB live flags.
-   - Add SpacetimeDB table telemetry cards (Live Pots active, active Commensal lobbies, synced Grocery carts) to `DatabaseStorage` and `CommensalPulse`.
-2. **Kitchen Lab & Agent Forging in Subdomain Matrix**:
-   - Add `/kitchen-lab/physics` (Thermal boundary solver, WASM thermo engine) and `/philosophers-stone` (Custom agent forge) to `SubdomainMatrix` in `src/app/admin/_dashboard/extras.tsx`.
-3. **Data Authenticity Metrics in Catalog Health**:
-   - Display USDA-backed nutrition coverage percentage and verified recipe counts in `CatalogState`.
+### Branch & PR State (re-measured 2026-09-16 04:00Z)
+- **`origin/master`**: `d13aa0c1` — merge commit of PR #850, merged 2026-09-16 00:36Z. Verified with `gh api`, not a local ref (local `master` is stale and does **not** contain `d13aa0c1`).
+- **Current Branch**: `feat/auth-sql-gate-and-session-touch-hardening` @ `e04d8992` — **1 commit behind `origin/master`**; `e04d8992` is an ancestor of master, so its work has landed.
+- **Pull Request**: [#850](https://github.com/gregcastro23/WhatToEatNext/pull/850) — **MERGED** (all CI green: Verify, Build, Test, rust, SQL pre-merge, Monica Integrity). Not open. A new PR is required for the session-lifetime work.
+- **Working Tree**: **NOT clean.** 6 files staged and uncommitted — the entire session-lifetime feature:
+  `src/lib/auth/sessionLifetime.ts` (new), `src/lib/auth/__tests__/sessionLifetime.test.ts` (new), `src/lib/auth/__tests__/authWiring.test.ts`, `src/lib/auth/auth.config.ts`, `src/lib/auth/auth.ts`, `src/types/next-auth.d.ts`.
+  Also unstaged/untracked: `NEXT_SESSION_PROMPT.md`, `docs/prompts/next_session_prompt.md` (reduced to an 8-line pointer to this file), `docs/handovers/`.
+  ⚠️ Stage by name only, and re-run `git status` immediately before committing — staged files survive a hook-rejected commit and get swept into the next one.
 
-### 🎯 Priority 2: Execute Wave 1 Lint Debt Reduction (Target < 14,000)
-1. Run automated search-and-replace / codemod on `no-void` patterns in non-critical components.
-2. Replace raw `console.log` / `console.error` calls with structured `_logger` in `src/services/` and `src/lib/`.
-3. Auto-ratchet baseline down via `NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --ratchet`.
+### Separation of Concerns: Local PR #850 vs Production `6e4130f2`
 
-### 🎯 Priority 3: Site-Wide Culinary Accessibility Extension
-1. Extend `useTemperatureUnit` (°F/°C) and `formatCookingVolume` (Quarts/Cups/Liters) into:
-   - `/recipes/[id]` (Dynamic recipe instruction temperatures & volumes).
-   - `/recipe-builder` and `/menu-planner` (Pacing & thermal method settings).
-   - `/food-tracking` (Serving sizes and macro measurements).
+| Capability | Origin Commit | Current Status | Verification State |
+| :--- | :---: | :---: | :--- |
+| **Origin checks on revoke endpoints** | `6e4130f2` (PR #848) | **Live in Production** | Probed: 403 on missing origin, 403 on sibling domain, 401 on canonical origin. |
+| **`last_seen_at` touch & device labels** | `6e4130f2` (PR #848) | **Live in Production** | Verified live in DB at 2026-09-15 21:15Z (`Firefox on macOS`). |
+| **Sign-out row revocation** | `6e4130f2` (PR #848) | **Live in Production** | Verified live in DB at 2026-09-15 21:34Z (`revoked_at` stamped). |
+| **Current-device marking (#847)** | `6e4130f2` (PR #847) | **Live in Production** | Unit tested; browser round trip verified. |
+| **Canonical Query Module ([src/lib/auth/authQueries.ts](src/lib/auth/authQueries.ts))** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | 0 copy-paste drift across 8 caller sites; admin `RETURNING id` reconciled. |
+| **Auth SQL Prepare Gate ([scripts/checkAuthSqlParses.ts](scripts/checkAuthSqlParses.ts))** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Verified against live PostgreSQL; Control 2 proves error `42P08` on uncast `$2`. |
+| **CI Integration ([.github/workflows/monica-integrity.yml](.github/workflows/monica-integrity.yml))** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Wired into `pre-merge-sql` and `integrity` jobs. |
+| **Datacenter Location Guard (`sec-fetch-site`)** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Prevents server-side calls (e.g. PA backend) from overwriting user device/location. |
+| **App Router Route Typegen Compliance** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Moved helper to [src/lib/auth/sessionResponseTouch.ts](src/lib/auth/sessionResponseTouch.ts). |
+
+### Concrete Prerequisites for Lifecycle Policies (Replacing Calendar-Based Rules)
+1. **Hard Session Deletion (Cleanup Cron)**:
+   - *Cannot run simply because of a calendar date.* In Auth.js, active sessions refresh JWT and cookie expiry on every session read.
+   - **Prerequisites before enabling deletions**:
+     1. 30-day absolute lifetime (`authTime`) is deployed and enforced.
+     2. Legacy token migration deadline (`DEPLOYMENT_TIMESTAMP + 30d`) has elapsed.
+     3. Tombstone retention policy is enforced: revoked rows MUST be retained as tombstones (`revoked_at IS NOT NULL`) for at least 30 days so that a deleted row cannot be resurrected or treated as an unknown-valid session.
+2. **7-Day Idle Enforcement**:
+   - September 22 is an *earliest review date*, not an automatic enablement trigger.
+   - Enforcement can only be enabled once telemetry proves `last_seen_at` touches reliably cover the active user base.
 
 ---
 
-## 4. Verification Checklist & Gate Commands
+## 3. Constraints & Operating Rules
 
-```bash
-# 1. Rust workspace tests (thermo-core, thermo-wasm, spacetime-module)
-cargo test --workspace
+### Reproducible Baseline Verification (Commit `e04d8992`)
+Always verify against live commands; never rely on unstated assumptions:
 
-# 2. Build SpacetimeDB WASM module
-cargo build --release --target wasm32-unknown-unknown --manifest-path spacetime-module/Cargo.toml
+| Verification Gate | Command | Commit & Timestamp | Result |
+| :--- | :--- | :---: | :--- |
+| **Auth SQL Gate** | `bun run check:sql:auth` | `e04d8992` · 2026-09-15 21:41Z | **Passed**: 4 controls, 9/9 statements prepared against PostgreSQL. |
+| **Full Typecheck** | `bun run typecheck` | `e04d8992` · 2026-09-15 21:42Z | **Passed**: `next typegen` and `tsc --noEmit` exit 0 with 0 errors. |
+| **Changed Files Lint** | `bun run lint:changed` | `e04d8992` · 2026-09-15 21:42Z | **Passed**: 0 errors across modified files. |
+| **Lint Debt** | `bun run lint:debt` | `e04d8992` · 2026-09-15 21:44Z | **Passed**: Exactly 1,473 tracked debt (declined pool down to 4,905). |
+| **Non-Null Assertions** | `bun -e 'import path from "node:path"; import {scanAssertionSites} from "./scripts/lib/lintDebt"; const c = scanAssertionSites(path.resolve("src"), process.cwd()).summary.nonNull; if (c > 605) process.exit(1);'` | `e04d8992` · 2026-09-15 21:45Z | **Passed**: 605 non-null assertions (ceiling $\le 605$). |
+| **Auth Test Suite** | `bun run test --runTestsByPath src/lib/auth/__tests__/authWiring.test.ts src/lib/auth/__tests__/deviceLabels.test.ts src/lib/auth/__tests__/originCheck.test.ts src/lib/auth/__tests__/sessionTouch.test.ts src/lib/auth/__tests__/signOutSession.test.ts src/app/api/auth/sessions/__tests__/route.test.ts` | `e04d8992` · 2026-09-15 21:40Z | **Passed**: 6 suites, 57 tests passed. |
 
-# 3. Parity and manifest checks
-./scripts/thermo-wasm-manifest.sh --check
-bun scripts/verify-boundary-solver-parity.mjs
-bun scripts/verify-thermo-wasm-parity.mjs
+### Tooling Traps & Operational Caveats
+1. **`PREPARE` Scope**: `bun run check:sql:auth` validates SQL syntax, table/column presence, and parameter deduction in PostgreSQL. It does **not** evaluate runtime business logic or row updates. Unit tests remain mandatory.
+2. **Auth SQL Extensibility**: The gate currently verifies exactly 9 statements (`EXPECTED_TOTAL = 9`). Any newly introduced SQL query must be added to [src/lib/auth/authQueries.ts](src/lib/auth/authQueries.ts) and registered in [scripts/checkAuthSqlParses.ts](scripts/checkAuthSqlParses.ts).
+3. **Pre-push Hook is a Stub**: The pre-push hook is a `git-lfs` stub and does not run CI checks. Run verification commands explicitly.
+4. **Jest & `next-auth/jwt`**: Jest cannot import `next-auth/jwt` directly due to ESM export mapping conflicts. Mock or isolate JWT helpers at the test boundary.
+5. **Worktrees Require `node_modules` Symlink**: Always run `ln -s ../../node_modules node_modules` in any newly created worktree. Never run `worktree remove -f` without auditing untracked files.
+6. **Zsh Multi-Path Splitting**: In zsh, unquoted `$VAR` containing space-separated paths does not word-split and silently runs 0 tests. Always pass explicit arguments.
+7. **Stage Files Strictly by Name**: Never run `git add .` or `git add -A`.
 
-# 4. Web application test suite & lint ratchet
-bun run test:fast
-bun run typecheck
-bun run lint
-NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts
+---
+
+## 4. Completion (Done When)
+
+Criteria 1–6 are **met in the working tree** (uncommitted). Criterion 7 is **open** — there is no commit SHA, no PR, and no live verification yet.
+
+| # | Criterion | State | Where / evidence |
+| :--- | :--- | :---: | :--- |
+| 1 | `authTime` stamped on initial sign-in | **Met** | `evaluateSessionLifetime` returns `authTime: now` when `isInitialSignIn`; called at the top of the `jwt` callback in `src/lib/auth/auth.ts`. |
+| 2 | `authTime` preserved across refresh/update | **Met** | Valid present-claim branch returns `tokenAuthTime` unchanged; `authWiring.test.ts` covers `trigger === "update"` and a client attempting to overwrite it. |
+| 3 | `now >= authTime + 30d` ⇒ `null` | **Met** | Strict `>=` boundary in `sessionLifetime.ts`; returning `null` really does clear the cookie — see the upstream contract below. |
+| 4 | Legacy tokens bounded, cannot reset grace | **Met** | `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS = 1789504380`. Verified: that is exactly `2026-09-15T20:33:00Z` (the `q8dv3cm3y` Ready instant), and `+2592000 = 1792096380` = **`2026-10-15T20:33:00Z`**. Pinned, so refreshes cannot extend it. |
+| 5 | Boundary tests pass | **Met** | 47 tests across `sessionLifetime.test.ts` (28) and `authWiring.test.ts` (19); 93 tests green across all 7 auth suites. |
+| 6 | `typecheck` / `lint:debt` / `check:sql:auth` clean | **Met** | 0 tsc errors; lint debt exactly 1,473 with 0 rule regressions; non-null assertions 605 (≤ 605); `verify:static` all 11 gates green. This phase added no SQL, so `check:sql:auth` stays 9/9. |
+| 7 | Commit SHAs + live verification recorded | **OPEN** | Nothing committed, no PR, nothing deployed. |
+
+### Upstream contract this design depends on (verified by source read)
+
+`@auth/core` **0.41.2** / `next-auth` **5.0.0-beta.31**, `node_modules/@auth/core/lib/actions/session.js`: the JWT branch calls `callbacks.jwt(...)` and then
+
+```js
+if (token !== null) { /* ...re-encode, set cookie... */ }
+else { response.cookies?.push(...sessionStore.clean()); }
 ```
+
+So a `null` return **does** clear the session cookie — the gate genuinely gates. Two consequences a future reader must not miss:
+- **No `events.signOut` fires on the `null` path.** `onSignOutEvent` → `handleSignOutSession` never runs, so nothing revokes the `device_sessions` row. This is finding §5.1.
+- **The tests only assert our own return value**, never that the cookie was cleared. That contract lives in a **beta** dependency. See finding §5.3.
+
+`src/middleware.ts` builds middleware from `authConfig` via `NextAuth(authConfig).auth(...)`, so the edge `jwt` callback is genuinely on the request path. `auth.ts` spreads `...authConfig.callbacks` **before** defining its own `jwt`, so the server `jwt` correctly overrides the edge one while `authorized` and `session` (which propagates `session.user.authTime`) are preserved.
+
+---
+
+## 5. Ordered Backlog (Subsequent Work)
+
+### 1. Cap expiry orphans the `device_sessions` row — the sessions UI lies
+- **Found**: 2026-09-16, reviewing this phase. Not yet fixed.
+- **Mechanism**: when the absolute cap fires, `@auth/core` clears the cookie but does **not** emit `events.signOut`, so `onSignOutEvent` → `handleSignOutSession` → `REVOKE_SESSION_ON_SIGNOUT_SQL` never runs. The row keeps `revoked_at IS NULL` **forever**.
+- **Consequence**: `SELECT_DEVICE_SESSIONS_SQL` filters on `user_id = $1 AND revoked_at IS NULL` with **no age bound** (`LIMIT 25`, ordered by `last_seen_at`). `GET /api/auth/sessions` therefore lists a device whose session is already dead as an **active session** — on a security-facing surface, indefinitely. The NextAuth `sessions` row also lingers (its `expires` is now correctly in the past, but only sign-out deletes rows, and with `strategy: "jwt"` nothing reads that table).
+- **Only current reaper**: `scripts/cleanup-device-sessions.ts` at `last_seen_at < NOW() - 30 days` — and that job has **no schedule attached**.
+- **Fix options**: (a) revoke the row inside the `jwt` callback on the invalid branch before returning `null` (Node runtime only — the edge callback cannot reach Postgres); (b) add an age bound to `SELECT_DEVICE_SESSIONS_SQL` (remember: new/changed SQL must be registered in `scripts/checkAuthSqlParses.ts` and `EXPECTED_TOTAL` bumped); or (c) accept it and say so in the UI copy. Option (a) writes on a hot read path — measure before shipping.
+
+### 2. `AUTH_LEGACY_MIGRATION_EPOCH_SECONDS` is an unvalidated throw on the hottest auth path
+- `resolveMigrationEpochSeconds` **throws** on a non-integer, non-positive, or future override, and it is called from inside `evaluateSessionLifetime` on **every session read**.
+- `@auth/core`'s `session()` wraps `callbacks.jwt` in `try/catch`, and that catch **also** calls `sessionStore.clean()`. So one typo'd env var silently signs out **every user on every request**, surfacing only as a core `logger.error`.
+- Two env names are accepted via `??` (`AUTH_LEGACY_MIGRATION_EPOCH_SECONDS`, `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS`), doubling the typo surface, for a value that is already pinned and defensible.
+- **Recommendation**: validate once at module load so a bad value fails the **deploy** loudly, or drop the override entirely. Do not leave a site-wide logout switch behind an untested env var.
+
+### 3. No guard on the upstream `null`-token contract
+- Every one of the 47 new tests asserts what *our* function returns. The behaviour that actually ends the session — `token !== null` ⇒ else ⇒ `sessionStore.clean()` — is `@auth/core` **0.41.2** behaviour under `next-auth` **5.0.0-beta.31**.
+- A beta bump that changed the `null` contract would leave every test green while the cap silently stopped capping.
+- **Recommendation**: pin `@auth/core`, and/or add one cheap test asserting the installed core still honours the `null`-clears-cookie contract.
+
+### 4. Legacy migration is a single simultaneous mass expiry — **2026-10-15T20:33:00Z**
+- Every pre-policy token is stamped the *same* pinned `authTime`, so all legacy sessions die in the **same instant** rather than spread out.
+- **Measured blast radius is small**: 22 `device_sessions` rows total, 1 revoked, as of the 2026-09-15 21:40Z read-only audit — so this is acceptable, not a thundering herd. Recorded because it is a fixed calendar event and it is prerequisite #2 for enabling hard deletion (§2).
+- Note the coupling: `DEVICE_SESSIONS_MAX_AGE_DAYS` defaults to 30 and its own docstring says it "must match JWT maxAge" — now `SESSION_MAX_AGE_SECONDS`. Nothing gates that agreement; changing one silently diverges from the other.
+
+### 5. Edge `jwt` callback can never mint (unreachable by path, not dead code)
+- In `auth.config.ts`, `isInitialSignIn = Boolean(user) || Boolean(account)` — but `@auth/core`'s `session()` calls `callbacks.jwt({ token, trigger?, session })` with **no** `user`/`account`, and sign-in is handled by `auth.ts`'s handlers. The minting branch is therefore unreachable *at the edge*.
+- It is correct defensive code, not deletable dead code — the distinction is which branch *fires*, not which *could*. Worth one comment so nobody later assumes the edge runtime mints `authTime`.
+
+### 6. Missing-Row Policy, Tombstones & Cache Extension
+- **Current State**: `sessionRevocation.ts` treats a missing row as revoked (`result.rowCount === 0` returns `true`).
+- **Policy**: Do NOT blindly recreate missing rows, which risks resurrecting deleted/revoked tokens.
+- **Tombstones**: Retain revoked rows in PostgreSQL with `revoked_at IS NOT NULL` for $\ge 30$ days before physical deletion.
+- **Caching**: Implement short-lived caching (30–60s in-memory / Redis) for non-revoked session checks, with immediate invalidation on revocation.
+- **Coverage**: The JWT revocation check currently runs only when `trigger === "update"`. Extend revocation checks across all session evaluations, middleware, and `getUserIdFromRequest`.
+
+### 7. "Sign Out Everywhere" Semantics & Security UI
+- **Current Limitation**: [REVOKE_ALL_SESSIONS_SQL](src/lib/auth/authQueries.ts#L30) explicitly contains `AND ($2::text IS NULL OR id <> $2)` to preserve the caller's current session.
+- **Required Implementation**:
+  1. Call `POST /api/auth/sessions/revoke-all` (revoking all *other* devices).
+  2. Call `signOut()` immediately after (revoking and destroying the current session locally).
+  3. Provide visible toast notifications for network/authorization errors (401, 403).
+  4. Ensure UI copy truthfully states whether revocation is immediate or subject to cache TTL.
+
+### 8. Vercel Build Cache Failure Mitigation
+- Mitigate recurring build timeouts and OOMs by turning off Webpack disk caching in `next.config.js` for CI builds or configuring `VERCEL_FORCE_NO_BUILD_CACHE=1`.
+
+### 9. Phase 33 Exact-Optional Property Burndown (217 → ≤160)
+- Pick up the candidate pools preserved in commit `36a6d3e7`:
+  - `src/utils/` (21 diagnostics)
+  - `src/components/menu-planner/` (10 diagnostics)
+  - `src/app/api/` (58 diagnostics)
+  - `src/components/` (59 diagnostics)
+- Follow the absent vs undefined vs null decision table and verify JS emit parity via `ts.transpileModule`.
