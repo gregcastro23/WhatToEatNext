@@ -177,7 +177,73 @@ try {
       `CONTROL FAILED: expected ${EXPECTED_TOTAL} statements, built ${statements.length}.`,
     );
   }
-  console.log(`✓ control: ${statements.length} statements registered as expected\n`);
+  console.log(`✓ control: ${statements.length} statements registered as expected`);
+
+  // ── Control 5: SELECT_DEVICE_SESSIONS_SQL Effective Lifetime Execution ───
+  // Proves that:
+  //   1. SELECT_DEVICE_SESSIONS_SQL directly incorporates buildDeviceSessionActiveClause().
+  //   2. The actual SELECT_DEVICE_SESSIONS_SQL query executed in PostgreSQL returns active
+  //      and valid legacy sessions, while strictly excluding revoked sessions.
+  //   3. All pre-deploy legacy sessions expire strictly after the migration deadline (> 2026-10-15T20:33:00Z).
+  const activeClause = authQueries.buildDeviceSessionActiveClause();
+  if (!authQueries.SELECT_DEVICE_SESSIONS_SQL.includes(activeClause)) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL does not use buildDeviceSessionActiveClause()");
+  }
+
+  const cteQuery = `
+    WITH device_sessions(id, subdomain, device, user_agent, location_city, location_region, location_country, last_seen_at, revoked_at, user_id, created_at) AS (
+      VALUES
+        ('fresh_active', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), null::timestamptz, 'u_test', NOW() - interval '1 day'),
+        ('revoked_session', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), NOW(), 'u_test', NOW() - interval '1 day'),
+        ('legacy_session_current', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), null::timestamptz, 'u_test', TIMESTAMPTZ '2026-08-06T00:00:00Z'),
+        ('interim_session_current', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), null::timestamptz, 'u_test', TIMESTAMPTZ '2026-09-16T08:00:00Z')
+    )
+  ` + authQueries.SELECT_DEVICE_SESSIONS_SQL;
+
+  const res = await client.query<{ id: string }>(cteQuery, ["u_test"]);
+  const returnedIds = new Set(res.rows.map((r) => r.id));
+
+  if (!returnedIds.has("fresh_active")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded fresh active session");
+  }
+  if (!returnedIds.has("legacy_session_current")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded legacy session created prior to epoch");
+  }
+  if (!returnedIds.has("interim_session_current")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded interim session created before deploy");
+  }
+  if (returnedIds.has("revoked_session")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL included revoked session");
+  }
+
+  // Also simulate post-deadline check (> 2026-10-15T20:33:00Z) for pre-deploy sessions
+  const legacyExpiredClause = authQueries.buildDeviceSessionActiveClause("created_at", "TIMESTAMPTZ '2026-10-16T00:00:00Z'");
+  const postDeadlineLegacyTest = await client.query<{ label: string }>(`
+    WITH test_rows(label, created_at, revoked_at) AS (
+      VALUES
+        ('legacy_session', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz),
+        ('interim_session', TIMESTAMPTZ '2026-09-16T08:00:00Z', NULL::timestamptz)
+    )
+    SELECT label FROM test_rows WHERE revoked_at IS NULL AND ${legacyExpiredClause}
+  `);
+  if (postDeadlineLegacyTest.rows.length > 0) {
+    fail(`CONTROL FAILED: legacy sessions unexpectedly listed after deadline: ${postDeadlineLegacyTest.rows.map((r) => r.label).join(", ")}`);
+  }
+
+  // Also simulate post-epoch expiry (>30 days after creation) for a post-deploy session
+  const postEpochExpiredClause = authQueries.buildDeviceSessionActiveClause("created_at", "TIMESTAMPTZ '2026-10-26T00:00:00Z'");
+  const postEpochTest = await client.query<{ label: string }>(`
+    WITH test_rows(label, created_at, revoked_at) AS (
+      VALUES
+        ('post_epoch_expired', TIMESTAMPTZ '2026-09-20T00:00:00Z', NULL::timestamptz)
+    )
+    SELECT label FROM test_rows WHERE revoked_at IS NULL AND ${postEpochExpiredClause}
+  `);
+  if (postEpochTest.rows.length > 0) {
+    fail(`CONTROL FAILED: post-epoch expired session (>30d) unexpectedly listed: ${postEpochTest.rows.map((r) => r.label).join(", ")}`);
+  }
+  console.log("✓ control: SELECT_DEVICE_SESSIONS_SQL executed against live PostgreSQL correctly bounds effective lifetime\n");
+
 
   // ── PREPARE Gate Execution ──────────────────────────────────────────────
   for (let i = 0; i < statements.length; i++) {
