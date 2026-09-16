@@ -8,7 +8,6 @@ import {
   SESSION_MAX_AGE_SECONDS,
   CLOCK_SKEW_TOLERANCE_SECONDS,
   LEGACY_SESSION_MIGRATION_EPOCH_SECONDS,
-  resolveMigrationEpochSeconds,
   evaluateSessionLifetime,
 } from "../sessionLifetime";
 
@@ -32,45 +31,6 @@ describe("sessionLifetime", () => {
       expect(migrationDeadline).toBe(1792096380); // 2026-10-15T20:33:00Z
     });
 
-    describe("resolveMigrationEpochSeconds", () => {
-      it("returns default constant when envVal is empty or undefined", () => {
-        expect(resolveMigrationEpochSeconds()).toBe(
-          LEGACY_SESSION_MIGRATION_EPOCH_SECONDS,
-        );
-        expect(resolveMigrationEpochSeconds("")).toBe(
-          LEGACY_SESSION_MIGRATION_EPOCH_SECONDS,
-        );
-      });
-
-      it("accepts valid positive integer override within clock skew", () => {
-        const validEpoch = BASE_NOW - 1000;
-        expect(
-          resolveMigrationEpochSeconds(String(validEpoch), BASE_NOW),
-        ).toBe(validEpoch);
-      });
-
-      it("throws when override is non-integer or not a safe integer", () => {
-        expect(() =>
-          resolveMigrationEpochSeconds("1789504380.5", BASE_NOW),
-        ).toThrow("Invalid migration epoch override");
-        expect(() =>
-          resolveMigrationEpochSeconds("invalid-number", BASE_NOW),
-        ).toThrow("Invalid migration epoch override");
-        expect(() =>
-          resolveMigrationEpochSeconds("-100", BASE_NOW),
-        ).toThrow("Invalid migration epoch override");
-        expect(() => resolveMigrationEpochSeconds("0", BASE_NOW)).toThrow(
-          "Invalid migration epoch override",
-        );
-      });
-
-      it("throws when override is set in the future beyond clock skew", () => {
-        const futureEpoch = BASE_NOW + CLOCK_SKEW_TOLERANCE_SECONDS + 1;
-        expect(() =>
-          resolveMigrationEpochSeconds(String(futureEpoch), BASE_NOW),
-        ).toThrow("is set in the future");
-      });
-    });
   });
 
   describe("Initial Sign-In (Minting)", () => {

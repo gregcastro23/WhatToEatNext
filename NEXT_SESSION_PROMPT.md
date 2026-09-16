@@ -2,7 +2,7 @@
 
 _Canonical entry point for agent handover. Detailed historical telemetry and raw probes are preserved in [docs/handovers/handover-evidence-2026-09-15.md](docs/handovers/handover-evidence-2026-09-15.md)._
 
-> **Status as of 2026-09-16 04:00Z** — the 30-day absolute lifetime is **implemented and locally verified, uncommitted, and NOT deployed**. PR [#850](https://github.com/gregcastro23/WhatToEatNext/pull/850) (the *previous* phase: auth SQL gate + query centralization) is **merged** as `d13aa0c1`, which is now `origin/master`. No production behaviour has changed yet: prod still runs `6e4130f2` + `d13aa0c1` with **no** absolute session cap.
+> **Status as of 2026-09-16 (re-measured after commit)** — the 30-day absolute lifetime is **committed on `feat/auth-absolute-session-lifetime` (`44dea44d` code, `fd775489` docs), NOT pushed, no PR, NOT deployed**. ⚠️ **Deploy-by: well before `2026-10-15T20:33:00Z`** — see §5.4. PR [#850](https://github.com/gregcastro23/WhatToEatNext/pull/850) (the *previous* phase: auth SQL gate + query centralization) is **merged** as `d13aa0c1`, which is now `origin/master`. No production behaviour has changed yet: prod still runs `6e4130f2` + `d13aa0c1` with **no** absolute session cap.
 
 ---
 
@@ -11,8 +11,8 @@ _Canonical entry point for agent handover. Detailed historical telemetry and raw
 **Objective**: Implement and validate a **30-day absolute session lifetime** with a documented, bounded migration strategy for existing legacy tokens that cannot perpetually restart grace.
 
 **Remaining for this objective** (the evaluator and its wiring are done — see §4):
-1. Commit the staged work on a **new branch off `d13aa0c1`** and open a new PR. The old branch's PR is merged and closed; pushing to it will not reopen it.
-2. Resolve the three findings in §5.1–§5.3 (orphaned `device_sessions` rows on cap expiry, the env-override footgun, and the missing upstream-contract guard) or explicitly defer each with a reason.
+1. ✅ Committed on a new branch (`44dea44d`, `fd775489`). **Remaining: push and open a PR.** Do **not** use the old `walkthrough.md` as the PR body — it predates the env change, lists none of §5's gaps, and carries 5 local `file:///` links into a **public** repo.
+2. §5.2 is **half-fixed and now has a different defect** (witnessed below). §5.1 and §5.3 are **untouched**. Resolve each or explicitly defer it with a reason — in the PR body, not just here.
 3. Deploy and verify **live**, to this repo's usual standard: a real signed-in session, a real DB read, a real probe. Everything recorded so far is local-only.
 
 ### Primary Acceptance Criteria
@@ -40,14 +40,15 @@ _Canonical entry point for agent handover. Detailed historical telemetry and raw
 
 ## 2. Context & Repository Status
 
-### Branch & PR State (re-measured 2026-09-16 04:00Z)
-- **`origin/master`**: `d13aa0c1` — merge commit of PR #850, merged 2026-09-16 00:36Z. Verified with `gh api`, not a local ref (local `master` is stale and does **not** contain `d13aa0c1`).
-- **Current Branch**: `feat/auth-sql-gate-and-session-touch-hardening` @ `e04d8992` — **1 commit behind `origin/master`**; `e04d8992` is an ancestor of master, so its work has landed.
-- **Pull Request**: [#850](https://github.com/gregcastro23/WhatToEatNext/pull/850) — **MERGED** (all CI green: Verify, Build, Test, rust, SQL pre-merge, Monica Integrity). Not open. A new PR is required for the session-lifetime work.
-- **Working Tree**: **NOT clean.** 6 files staged and uncommitted — the entire session-lifetime feature:
-  `src/lib/auth/sessionLifetime.ts` (new), `src/lib/auth/__tests__/sessionLifetime.test.ts` (new), `src/lib/auth/__tests__/authWiring.test.ts`, `src/lib/auth/auth.config.ts`, `src/lib/auth/auth.ts`, `src/types/next-auth.d.ts`.
-  Also unstaged/untracked: `NEXT_SESSION_PROMPT.md`, `docs/prompts/next_session_prompt.md` (reduced to an 8-line pointer to this file), `docs/handovers/`.
-  ⚠️ Stage by name only, and re-run `git status` immediately before committing — staged files survive a hook-rejected commit and get swept into the next one.
+### Branch & PR State (re-measured 2026-09-16)
+- **`origin/master`**: `d13aa0c1` — merge commit of PR #850 (merged 2026-09-16 00:36Z, all CI green). Local ref and `gh api` agree.
+- **Current Branch**: `feat/auth-absolute-session-lifetime`, based on `e04d8992`. Relative to master: **2 ahead** (`44dea44d`, `fd775489`), **1 behind** (only the `d13aa0c1` merge commit, whose content is already in the base — no conflict expected).
+- **Remote**: branch **not pushed** (`gh api …/branches/feat/auth-absolute-session-lifetime` → 404). No PR.
+- **Commits**:
+  - `44dea44d` feat(auth) — 6 files: `sessionLifetime.ts` (new), `__tests__/sessionLifetime.test.ts` (new), `__tests__/authWiring.test.ts`, `auth.config.ts`, `auth.ts`, `types/next-auth.d.ts`. Went through the pre-commit hook (`typecheck && lint:changed`).
+  - `fd775489` docs(auth) — `NEXT_SESSION_PROMPT.md`, `docs/prompts/next_session_prompt.md`, `docs/handovers/handover-evidence-2026-09-15.md`. Committed with **`-n` (hook skipped)**; docs-only, so the TS gates it skipped cannot have caught anything.
+- **Working Tree**: clean at `fd775489` before this doc refresh.
+- ⚠️ `docs/prompts/next_session_prompt.md` was committed as a **full copy** of this file, which overwrote the 8-line pointer. Two copies drift on the next edit, so it has been restored to a pointer. This file is the canonical one.
 
 ### Separation of Concerns: Local PR #850 vs Production `6e4130f2`
 
@@ -103,7 +104,7 @@ Always verify against live commands; never rely on unstated assumptions:
 
 ## 4. Completion (Done When)
 
-Criteria 1–6 are **met in the working tree** (uncommitted). Criterion 7 is **open** — there is no commit SHA, no PR, and no live verification yet.
+Criteria 1–6 are **met and committed** (`44dea44d`). Criterion 7 is **half met**: commit SHAs are recorded, but there is no PR and no live verification.
 
 | # | Criterion | State | Where / evidence |
 | :--- | :--- | :---: | :--- |
@@ -111,9 +112,9 @@ Criteria 1–6 are **met in the working tree** (uncommitted). Criterion 7 is **o
 | 2 | `authTime` preserved across refresh/update | **Met** | Valid present-claim branch returns `tokenAuthTime` unchanged; `authWiring.test.ts` covers `trigger === "update"` and a client attempting to overwrite it. |
 | 3 | `now >= authTime + 30d` ⇒ `null` | **Met** | Strict `>=` boundary in `sessionLifetime.ts`; returning `null` really does clear the cookie — see the upstream contract below. |
 | 4 | Legacy tokens bounded, cannot reset grace | **Met** | `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS = 1789504380`. Verified: that is exactly `2026-09-15T20:33:00Z` (the `q8dv3cm3y` Ready instant), and `+2592000 = 1792096380` = **`2026-10-15T20:33:00Z`**. Pinned, so refreshes cannot extend it. |
-| 5 | Boundary tests pass | **Met** | 47 tests across `sessionLifetime.test.ts` (28) and `authWiring.test.ts` (19); 93 tests green across all 7 auth suites. |
+| 5 | Boundary tests pass | **Met** | 43 tests across `sessionLifetime.test.ts` (24) and `authWiring.test.ts` (19). 8 suites / 96 tests green (`sessionLifetime`, `authWiring`, `sessionTouch`, `signOutSession`, `deviceLabels`, `originCheck`, `src/__tests__/lib/sessionRevocation`, `sessions/route`). Note: `sessionRevocation.test.ts` lives under `src/__tests__/lib/`, **not** `src/lib/auth/__tests__/`. |
 | 6 | `typecheck` / `lint:debt` / `check:sql:auth` clean | **Met** | 0 tsc errors; lint debt exactly 1,473 with 0 rule regressions; non-null assertions 605 (≤ 605); `verify:static` all 11 gates green. This phase added no SQL, so `check:sql:auth` stays 9/9. |
-| 7 | Commit SHAs + live verification recorded | **OPEN** | Nothing committed, no PR, nothing deployed. |
+| 7 | Commit SHAs + live verification recorded | **Half** | SHAs `44dea44d` / `fd775489` recorded. Not pushed, no PR, nothing deployed or verified live. |
 
 ### Upstream contract this design depends on (verified by source read)
 
@@ -141,11 +142,9 @@ So a `null` return **does** clear the session cookie — the gate genuinely gate
 - **Only current reaper**: `scripts/cleanup-device-sessions.ts` at `last_seen_at < NOW() - 30 days` — and that job has **no schedule attached**.
 - **Fix options**: (a) revoke the row inside the `jwt` callback on the invalid branch before returning `null` (Node runtime only — the edge callback cannot reach Postgres); (b) add an age bound to `SELECT_DEVICE_SESSIONS_SQL` (remember: new/changed SQL must be registered in `scripts/checkAuthSqlParses.ts` and `EXPECTED_TOTAL` bumped); or (c) accept it and say so in the UI copy. Option (a) writes on a hot read path — measure before shipping.
 
-### 2. `AUTH_LEGACY_MIGRATION_EPOCH_SECONDS` is an unvalidated throw on the hottest auth path
-- `resolveMigrationEpochSeconds` **throws** on a non-integer, non-positive, or future override, and it is called from inside `evaluateSessionLifetime` on **every session read**.
-- `@auth/core`'s `session()` wraps `callbacks.jwt` in `try/catch`, and that catch **also** calls `sessionStore.clean()`. So one typo'd env var silently signs out **every user on every request**, surfacing only as a core `logger.error`.
-- Two env names are accepted via `??` (`AUTH_LEGACY_MIGRATION_EPOCH_SECONDS`, `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS`), doubling the typo surface, for a value that is already pinned and defensible.
-- **Recommendation**: validate once at module load so a bad value fails the **deploy** loudly, or drop the override entirely. Do not leave a site-wide logout switch behind an untested env var.
+### 2. Legacy-epoch env override — deleted, pinned constant is the single authority
+- **Resolved**: The env override, module-load parser `resolveConfiguredMigrationEpoch()`, and test-only helper `resolveMigrationEpochSeconds` have been completely deleted.
+- **Single Source of Truth**: `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS = 1789504380` is the single, pinned constant. It requires no environment variable, cannot throw or be bypassed on the hot path, and eliminates any future-timestamp drift.
 
 ### 3. No guard on the upstream `null`-token contract
 - Every one of the 47 new tests asserts what *our* function returns. The behaviour that actually ends the session — `token !== null` ⇒ else ⇒ `sessionStore.clean()` — is `@auth/core` **0.41.2** behaviour under `next-auth` **5.0.0-beta.31**.
@@ -154,12 +153,14 @@ So a `null` return **does** clear the session cookie — the gate genuinely gate
 
 ### 4. Legacy migration is a single simultaneous mass expiry — **2026-10-15T20:33:00Z**
 - Every pre-policy token is stamped the *same* pinned `authTime`, so all legacy sessions die in the **same instant** rather than spread out.
+- ⚠️ **This is a deploy-by date, not a 30-day grace from deploy.** The epoch is pinned to the **#848** release (`2026-09-15T20:33Z`), not to this PR's deploy, so the grace shrinks every day this PR goes unshipped. It also covers sessions created **after** 09-15 but before deploy: they carry no `authTime` either, so they get the same pinned epoch. **If this ships after `2026-10-15T20:33:00Z`, every pre-policy session is logged out on its first request** (`legacy_migration_expired`).
 - **Measured blast radius is small**: 22 `device_sessions` rows total, 1 revoked, as of the 2026-09-15 21:40Z read-only audit — so this is acceptable, not a thundering herd. Recorded because it is a fixed calendar event and it is prerequisite #2 for enabling hard deletion (§2).
 - Note the coupling: `DEVICE_SESSIONS_MAX_AGE_DAYS` defaults to 30 and its own docstring says it "must match JWT maxAge" — now `SESSION_MAX_AGE_SECONDS`. Nothing gates that agreement; changing one silently diverges from the other.
 
 ### 5. Edge `jwt` callback can never mint (unreachable by path, not dead code)
 - In `auth.config.ts`, `isInitialSignIn = Boolean(user) || Boolean(account)` — but `@auth/core`'s `session()` calls `callbacks.jwt({ token, trigger?, session })` with **no** `user`/`account`, and sign-in is handled by `auth.ts`'s handlers. The minting branch is therefore unreachable *at the edge*.
-- It is correct defensive code, not deletable dead code — the distinction is which branch *fires*, not which *could*. Worth one comment so nobody later assumes the edge runtime mints `authTime`.
+- It is correct defensive code, not deletable dead code — the distinction is which branch *fires*, not which *could*.
+- ✅ **Done in `44dea44d`**: `auth.config.ts` now carries a comment explaining exactly this.
 
 ### 6. Missing-Row Policy, Tombstones & Cache Extension
 - **Current State**: `sessionRevocation.ts` treats a missing row as revoked (`result.rowCount === 0` returns `true`).

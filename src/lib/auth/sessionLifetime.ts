@@ -23,49 +23,6 @@ export const CLOCK_SKEW_TOLERANCE_SECONDS = 300; // 5 minutes = 300 seconds
  */
 export const LEGACY_SESSION_MIGRATION_EPOCH_SECONDS = 1789504380;
 
-/**
- * Resolves the legacy migration epoch safely at module load.
- * Falls back to LEGACY_SESSION_MIGRATION_EPOCH_SECONDS if absent or invalid,
- * ensuring no runtime throw on the hot session evaluation path.
- */
-function resolveConfiguredMigrationEpoch(): number {
-  const envVal = process.env.LEGACY_SESSION_MIGRATION_EPOCH_SECONDS;
-  if (!envVal) return LEGACY_SESSION_MIGRATION_EPOCH_SECONDS;
-  const parsed = Number(envVal);
-  if (!Number.isSafeInteger(parsed) || parsed <= 0) {
-    return LEGACY_SESSION_MIGRATION_EPOCH_SECONDS;
-  }
-  return parsed;
-}
-
-export const CONFIGURED_MIGRATION_EPOCH_SECONDS =
-  resolveConfiguredMigrationEpoch();
-
-/**
- * Resolves and validates the legacy migration epoch from optional environment override.
- * Rejects invalid, negative, non-safe-integer, or future timestamps beyond clock skew.
- */
-export function resolveMigrationEpochSeconds(
-  envVal?: string,
-  nowSeconds?: number,
-): number {
-  if (envVal) {
-    const parsed = Number(envVal);
-    if (!Number.isSafeInteger(parsed) || parsed <= 0) {
-      throw new Error(
-        `Invalid migration epoch override: "${envVal}". Must be a positive integer epoch seconds.`,
-      );
-    }
-    const currentNow = nowSeconds ?? Math.floor(Date.now() / 1000);
-    if (parsed > currentNow + CLOCK_SKEW_TOLERANCE_SECONDS) {
-      throw new Error(
-        `Invalid migration epoch override: ${parsed} is set in the future relative to current time ${currentNow}.`,
-      );
-    }
-    return parsed;
-  }
-  return LEGACY_SESSION_MIGRATION_EPOCH_SECONDS;
-}
 
 export type SessionLifetimeEvaluation =
   | { valid: true; authTime: number }
@@ -124,7 +81,7 @@ export function evaluateSessionLifetime(
     }
     migrationEpoch = params.migrationEpochSeconds;
   } else {
-    migrationEpoch = CONFIGURED_MIGRATION_EPOCH_SECONDS;
+    migrationEpoch = LEGACY_SESSION_MIGRATION_EPOCH_SECONDS;
   }
 
   // Initial sign-in: always mints fresh authTime claim
