@@ -179,39 +179,70 @@ try {
   }
   console.log(`✓ control: ${statements.length} statements registered as expected`);
 
-  // ── Control 5: SELECT_DEVICE_SESSIONS_SQL Effective Lifetime Predicate ───
-  // Proves over literal rows in PostgreSQL that:
-  //   (i) A row older than 30 days post-epoch is excluded.
-  //   (ii) A legacy row created prior to 2026-09-15 is included before 2026-10-15 (pinned to 09-15 epoch).
-  //   (iii) The legacy row is excluded when evaluated after 2026-10-15.
-  const predicateTest = await client.query<{ label: string }>(`
-    WITH test_rows(label, created_at, revoked_at, simulated_now) AS (
+  // ── Control 5: SELECT_DEVICE_SESSIONS_SQL Effective Lifetime Execution ───
+  // Proves that:
+  //   1. SELECT_DEVICE_SESSIONS_SQL directly incorporates buildDeviceSessionActiveClause().
+  //   2. The actual SELECT_DEVICE_SESSIONS_SQL query executed in PostgreSQL returns active
+  //      and valid legacy sessions, while strictly excluding revoked sessions.
+  //   3. All pre-deploy legacy sessions expire strictly after the migration deadline (> 2026-10-15T20:33:00Z).
+  const activeClause = authQueries.buildDeviceSessionActiveClause();
+  if (!authQueries.SELECT_DEVICE_SESSIONS_SQL.includes(activeClause)) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL does not use buildDeviceSessionActiveClause()");
+  }
+
+  const cteQuery = `
+    WITH device_sessions(id, subdomain, device, user_agent, location_city, location_region, location_country, last_seen_at, revoked_at, user_id, created_at) AS (
       VALUES
-        ('fresh_active', NOW() - interval '1 day', NULL::timestamptz, NOW()),
-        ('revoked_session', NOW() - interval '1 day', NOW(), NOW()),
-        ('legacy_session_current', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz, NOW()),
-        ('legacy_session_expired', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz, TIMESTAMPTZ '2026-10-16T00:00:00Z'),
-        ('post_epoch_expired', TIMESTAMPTZ '2026-09-20T00:00:00Z', NULL::timestamptz, TIMESTAMPTZ '2026-10-26T00:00:00Z')
+        ('fresh_active', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), null::timestamptz, 'u_test', NOW() - interval '1 day'),
+        ('revoked_session', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), NOW(), 'u_test', NOW() - interval '1 day'),
+        ('legacy_session_current', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), null::timestamptz, 'u_test', TIMESTAMPTZ '2026-08-06T00:00:00Z'),
+        ('interim_session_current', 'sub', 'dev', 'ua', null::text, null::text, null::text, NOW(), null::timestamptz, 'u_test', TIMESTAMPTZ '2026-09-16T08:00:00Z')
     )
-    SELECT label
-      FROM test_rows
-     WHERE revoked_at IS NULL
-       AND GREATEST(created_at, TIMESTAMPTZ '2026-09-15T20:33:00Z') > simulated_now - interval '30 days'
+  ` + authQueries.SELECT_DEVICE_SESSIONS_SQL;
+
+  const res = await client.query<{ id: string }>(cteQuery, ["u_test"]);
+  const returnedIds = new Set(res.rows.map((r) => r.id));
+
+  if (!returnedIds.has("fresh_active")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded fresh active session");
+  }
+  if (!returnedIds.has("legacy_session_current")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded legacy session created prior to epoch");
+  }
+  if (!returnedIds.has("interim_session_current")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded interim session created before deploy");
+  }
+  if (returnedIds.has("revoked_session")) {
+    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL included revoked session");
+  }
+
+  // Also simulate post-deadline check (> 2026-10-15T20:33:00Z) for pre-deploy sessions
+  const legacyExpiredClause = authQueries.buildDeviceSessionActiveClause("created_at", "TIMESTAMPTZ '2026-10-16T00:00:00Z'");
+  const postDeadlineLegacyTest = await client.query<{ label: string }>(`
+    WITH test_rows(label, created_at, revoked_at) AS (
+      VALUES
+        ('legacy_session', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz),
+        ('interim_session', TIMESTAMPTZ '2026-09-16T08:00:00Z', NULL::timestamptz)
+    )
+    SELECT label FROM test_rows WHERE revoked_at IS NULL AND ${legacyExpiredClause}
   `);
-  const includedLabels = new Set(predicateTest.rows.map((r) => r.label));
-  if (!includedLabels.has("fresh_active") || !includedLabels.has("legacy_session_current")) {
-    fail("CONTROL FAILED: active or valid legacy session was unexpectedly excluded by effective lifetime predicate");
+  if (postDeadlineLegacyTest.rows.length > 0) {
+    fail(`CONTROL FAILED: legacy sessions unexpectedly listed after deadline: ${postDeadlineLegacyTest.rows.map((r) => r.label).join(", ")}`);
   }
-  if (includedLabels.has("revoked_session")) {
-    fail("CONTROL FAILED: revoked session was unexpectedly included");
+
+  // Also simulate post-epoch expiry (>30 days after creation) for a post-deploy session
+  const postEpochExpiredClause = authQueries.buildDeviceSessionActiveClause("created_at", "TIMESTAMPTZ '2026-10-26T00:00:00Z'");
+  const postEpochTest = await client.query<{ label: string }>(`
+    WITH test_rows(label, created_at, revoked_at) AS (
+      VALUES
+        ('post_epoch_expired', TIMESTAMPTZ '2026-09-20T00:00:00Z', NULL::timestamptz)
+    )
+    SELECT label FROM test_rows WHERE revoked_at IS NULL AND ${postEpochExpiredClause}
+  `);
+  if (postEpochTest.rows.length > 0) {
+    fail(`CONTROL FAILED: post-epoch expired session (>30d) unexpectedly listed: ${postEpochTest.rows.map((r) => r.label).join(", ")}`);
   }
-  if (includedLabels.has("legacy_session_expired")) {
-    fail("CONTROL FAILED: expired legacy session past 2026-10-15T20:33:00Z was unexpectedly included");
-  }
-  if (includedLabels.has("post_epoch_expired")) {
-    fail("CONTROL FAILED: post-epoch expired session (>30d) was unexpectedly included");
-  }
-  console.log("✓ control: effective session lifetime predicate excludes expired rows and preserves legacy rows before 2026-10-15\n");
+  console.log("✓ control: SELECT_DEVICE_SESSIONS_SQL executed against live PostgreSQL correctly bounds effective lifetime\n");
 
 
   // ── PREPARE Gate Execution ──────────────────────────────────────────────

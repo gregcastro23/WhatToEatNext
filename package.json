@@ -117,7 +117,6 @@
     "test:parity:boundary": "bun scripts/verify-boundary-solver-parity.mjs"
   },
   "dependencies": {
-    "@auth/core": "0.41.2",
     "@aws-sdk/client-s3": "^3.1045.0",
     "@chakra-ui/react": "^3.35.0",
     "@ducanh2912/next-pwa": "^10.2.9",

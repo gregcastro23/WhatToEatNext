@@ -31,8 +31,19 @@
  * @file scripts/checkAuthNullTokenContract.ts
  */
 
-import { Auth } from "@auth/core";
-import { encode } from "@auth/core/jwt";
+import { createRequire } from "node:module";
+
+// Ensure we load the exact @auth/core instance resolved by next-auth, avoiding drift
+// if a nested copy ever exists in node_modules.
+const nextAuthRequire = createRequire(import.meta.resolve("next-auth"));
+const authCorePath = nextAuthRequire.resolve("@auth/core");
+const authCoreJwtPath = nextAuthRequire.resolve("@auth/core/jwt");
+
+const authCore = (await import(authCorePath)) as typeof import("@auth/core");
+const authCoreJwt = (await import(authCoreJwtPath)) as typeof import("@auth/core/jwt");
+
+const { Auth } = authCore;
+const { encode } = authCoreJwt;
 
 const THROWAWAY_SECRET = "test-throwaway-secret-at-least-32-chars-long-123456";
 

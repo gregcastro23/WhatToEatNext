@@ -53,9 +53,9 @@ function getChangedJsTsFiles(): string[] {
     return combined.filter(
       (filePath) => JS_TS_EXTENSIONS_REGEX.test(filePath) && existsSync(filePath),
     );
-  } catch {
-    // If git fails (e.g. initial repo state or detached commit error), return empty
-    return [];
+  } catch (err) {
+    console.error(`✗ Failed to query git for changed files: ${String(err)}`);
+    process.exit(1);
   }
 }
 
