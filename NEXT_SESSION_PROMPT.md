@@ -1,68 +1,103 @@
-# Session Handover: 30-Day Absolute Session Lifetime & Auth Architecture
+# Session Handover: Ship the 30-Day Session Cap, Then Close Its Gaps
 
-_Canonical entry point for agent handover. Detailed historical telemetry and raw probes are preserved in [docs/handovers/handover-evidence-2026-09-15.md](docs/handovers/handover-evidence-2026-09-15.md)._
+_Canonical entry point for agent handover (WTEN only — PA / agents-repo work gets its own prompt). Raw telemetry and probes: [docs/handovers/handover-evidence-2026-09-15.md](docs/handovers/handover-evidence-2026-09-15.md). PR description: [docs/handovers/pr-body-auth-absolute-lifetime.md](docs/handovers/pr-body-auth-absolute-lifetime.md). `docs/prompts/next_session_prompt.md` is only a pointer to this file; never copy this file there._
 
-> **Status as of 2026-09-16 (re-measured after commit)** — the 30-day absolute lifetime is **committed on `feat/auth-absolute-session-lifetime` (`44dea44d` code, `fd775489` docs), NOT pushed, no PR, NOT deployed**. ⚠️ **Deploy-by: well before `2026-10-15T20:33:00Z`** — see §5.4. PR [#850](https://github.com/gregcastro23/WhatToEatNext/pull/850) (the *previous* phase: auth SQL gate + query centralization) is **merged** as `d13aa0c1`, which is now `origin/master`. No production behaviour has changed yet: prod still runs `6e4130f2` + `d13aa0c1` with **no** absolute session cap.
+> **Status (2026-09-16)** — the 30-day absolute session lifetime is **pushed; PR [#851](https://github.com/gregcastro23/WhatToEatNext/pull/851) is open against `master`. NOT merged, NOT deployed.** Production runs `d13aa0c1` (#850; GitHub Production deployment `6471308599`, `success` at 2026-09-16 00:39Z) with **no** absolute session cap.
+>
+> ⚠️ **Hard deadline — merged AND deployed well before `2026-10-15T20:33:00Z`.** The legacy epoch is pinned to the #848 release, not to this deploy. Shipping after that instant logs out every pre-policy session on its first request (§5.4).
 
 ---
 
-## 1. Goal (Immediate Objective)
+## 1. Next-Session Priorities (in order)
 
-**Objective**: Implement and validate a **30-day absolute session lifetime** with a documented, bounded migration strategy for existing legacy tokens that cannot perpetually restart grace.
+**Re-measure before acting** — everything below was true when written, not necessarily when read:
+- PR state and CI **on the current head SHA**: `gh pr view 851 --json state,headRefOid,mergeCommit,statusCheckRollup`.
+- `master` head via `gh api repos/gregcastro23/WhatToEatNext/commits/master --jq .sha`. A local `origin/master` can be silently stale.
+- What production serves: `gh api "repos/gregcastro23/WhatToEatNext/deployments?sha=<full sha>"`, then `…/deployments/<id>/statuses`. Look for `environment=Production` with `state=success`.
 
-**Remaining for this objective** (the evaluator and its wiring are done — see §4):
-1. ✅ Committed on a new branch (`44dea44d`, `fd775489`). **Remaining: push and open a PR.** Do **not** use the old `walkthrough.md` as the PR body — it predates the env change, lists none of §5's gaps, and carries 5 local `file:///` links into a **public** repo.
-2. §5.2 is **half-fixed and now has a different defect** (witnessed below). §5.1 and §5.3 are **untouched**. Resolve each or explicitly defer it with a reason — in the PR body, not just here.
-3. Deploy and verify **live**, to this repo's usual standard: a real signed-in session, a real DB read, a real probe. Everything recorded so far is local-only.
+### P0 — Merge #851, deploy, and verify the cap live (deadline-driven)
+1. **Merge** once the required contexts (Verify, Build, Test, rust) are green on the head SHA. Use a **merge commit, not squash**: this file, the PR body, and the handover evidence cite branch SHAs (`44dea44d`, `9c6740b1`, …), and squashing orphans them from `master`.
+2. **Confirm production serves the merge commit** (a GitHub deployment for that SHA, `environment=Production`, `state=success`). If the Vercel build OOMs (exit 137) or stalls ~46 min, redeploy **without** build cache (§5.8; evidence doc §1).
+3. **Live witness — legacy session.** In a browser signed in *before* the deploy, `GET https://alchm.kitchen/api/auth/session` must return `user.authTime === 1789504380`. This is observable because the edge `session` callback copies `token.authTime` into `session.user.authTime`.
+4. **Live witness — fresh session.** Sign out and back in. `user.authTime` must be within seconds of the sign-in time (**not** `1789504380`), and a read-only query must show the new `device_sessions` row.
+5. **Do not forge tokens against production** to witness expiry. The "expired token ⇒ cookie cleared" half is proven by P2's contract check instead.
+6. **Traps for this step:**
+   - **Logs cannot witness a rejection before `2026-10-15T20:33:00Z`.** Every token's `authTime` is ≥ `1789504380`, so no `expired` or `legacy_migration_expired` rejection can occur yet. "0 `Session lifetime rejected` lines" is vacuous until then.
+   - Only the **server** `jwt` callback logs (`logger.info`; `createLogger` defaults to level `info` in production, so it is emitted). The **edge** middleware callback returns `null` **silently**, so middleware-path rejections never reach the logs at all.
+   - A signed-out `GET /api/auth/session` returns `200` with a `null` body. It witnesses nothing.
 
-### Primary Acceptance Criteria
-1. **`authTime` Contract Defined & Implemented**:
-   - **Units**: Unix epoch seconds (`Math.floor(Date.now() / 1000)`).
-   - **Minting**: Minted in the NextAuth `jwt` callback *only* on initial sign-in (when `user` or `account` is defined).
-   - **Immutability**: Preserved strictly across all token refreshes and session updates (`trigger === "update"`). It must never be re-minted or overwritten.
-   - **Strict Boundary**: Return `null` from the `jwt` callback when `Math.floor(Date.now() / 1000) >= token.authTime + (30 * 86400)`.
-   - **Validation**: Reject missing, non-numeric, negative (`<= 0`), `NaN`, or future timestamps (`> now + 300` allowing 5 minutes clock skew) by returning `null`.
-2. **Bounded Legacy Migration**:
-   - Existing active JWTs lack `authTime`.
-   - **Adopted Policy (Choice A - Pinned Deployment Epoch)**:
-     - Define a fixed deployment constant: `DEPLOYMENT_TIMESTAMP` (Unix epoch seconds of the release).
-     - When a token lacks `authTime`, treat its baseline as `DEPLOYMENT_TIMESTAMP`.
-     - Expiry check: if `now >= DEPLOYMENT_TIMESTAMP + (30 * 86400)`, the token is expired (`return null`).
-     - Otherwise, persist `token.authTime = DEPLOYMENT_TIMESTAMP` in the token. Because it is pinned to the fixed deployment epoch, subsequent refreshes cannot extend the 30-day grace window.
-3. **Boundary Unit Tests**:
-   - Test at `authTime + 30d - 1s`: valid (token returned).
-   - Test at `authTime + 30d`: expired (`null` returned).
-   - Test at `authTime + 30d + 1s`: expired (`null` returned).
-   - Test that session updates and refreshes preserve existing `authTime`.
-   - Test that legacy tokens without `authTime` expire strictly at `DEPLOYMENT_TIMESTAMP + 30d`.
+### P1 — §5.1 before 2026-10-15: stop listing dead sessions as active
+- **Why now**: it is coupled to the deadline. At `2026-10-15T20:33:00Z` every pre-policy session expires in the same instant, so all of their `device_sessions` rows become orphans at once, and every such user's sessions page lists dead devices as active.
+- **Suggested fix: option (b)**, an age bound on `SELECT_DEVICE_SESSIONS_SQL`. It is read-only and adds no write on the hot path.
+- ⚠️ **Bound on the effective lifetime, not raw `created_at`.** `device_sessions` has no `authTime` column, and `INSERT … ON CONFLICT (user_id, jti) DO UPDATE` never changes `created_at`. So a legacy row keeps its original sign-in `created_at` (the 09-15 audit row was `2026-08-06`) while its effective `authTime` is pinned to `2026-09-15T20:33Z`.
+  - A naive `created_at > NOW() - interval '30 days'` would **hide still-valid legacy sessions** until 10-15.
+  - The bound that mirrors the evaluator is `GREATEST(created_at, TIMESTAMPTZ '2026-09-15T20:33:00Z') > NOW() - interval '30 days'`.
+- Changing SQL means:
+  - edit it in `src/lib/auth/authQueries.ts`;
+  - keep it registered in `scripts/checkAuthSqlParses.ts` (`EXPECTED_TOTAL` changes only when a statement is **added**);
+  - run `bun run check:sql:auth` against a **real** Postgres.
+- **Done when**:
+  - The predicate is **executed** against real Postgres over literal rows (e.g. a `VALUES` CTE), proving (i) a row past its effective 30 days is excluded and (ii) a legacy row with `created_at` before 09-15 is still listed before 10-15. A mocked route test only proves which string was sent.
+  - Route tests still mark the current device.
+  - `check:sql:auth` passes.
+
+### P2 — §5.3: guard the upstream `null`-token contract
+- Add a **bun-run** check; jest cannot import `next-auth/jwt` (trap 4). It should:
+  - encode a session JWT with `@auth/core/jwt` using a throwaway secret;
+  - drive `@auth/core`'s session action with a `jwt` callback that returns `null`;
+  - assert that `Set-Cookie` clears the session cookie.
+- **Control**: the same token with a callback that returns the token must **not** clear the cookie. **Red proof**: invert the assertion and confirm the check fails.
+- Wire it into an **existing** script chain, e.g. `test:gates` inside `verify:static`. **Do not add or rename a CI matrix command**: required contexts are pinned by repository ruleset `20950461`, so a renamed matrix entry blocks every merge even with all jobs green.
+- Optionally pin `@auth/core` (currently 0.41.2, under `next-auth` 5.0.0-beta.31).
+
+### P3 — Fix the pre-commit hook so docs-only commits stop needing `-n`
+- **Measured 2026-09-16**: `lint:changed` builds its file list with `$({ git diff …; git ls-files --others …; } | grep -E '\.(ts|tsx|js|jsx|mjs|cjs)$')`. For a docs-only commit that list is **empty**, so `eslint --config eslint.config.mjs --cache` lints the **whole repo** on the default heap and dies: `FATAL ERROR: Reached heap limit`, SIGABRT, hook exit 134. The typecheck half had already passed.
+- This is why every docs commit on #851 used `-n`. A habit of `-n` will eventually skip a real code check.
+- **Fix**: exit 0 with a message when the list is empty (a small wrapper script is clearer than more shell inside `package.json`). **Red proof**: a docs-only commit passes the hook, and a commit containing a deliberate lint error is still rejected.
+
+### P4 — Make revocation actually enforce (§5.6)
+- Re-measure first: is `AUTH_REVOCATION_CHECK=on` set in production? Read env var **names only**, never values. As of the 2026-09-15 audit it was **absent**, so `revoked_at` is bookkeeping only.
+- Even when it is on, coverage is partial:
+  - the server `jwt` check runs only on `trigger === "update"` (`src/lib/auth/auth.ts`);
+  - the edge check runs in `authorized` only for `isProtected` middleware-matched pages (`src/lib/auth/auth.config.ts`), so API routes and `GET /api/auth/session` are unguarded.
+- ⚠️ **Ordering trap**: `isJtiRevoked` treats a **missing** row as revoked. The 09-14 audit counted 23 `signin_complete` events against 22 rows, so at least one live session has no row, and turning the check on would log those users out. Audit missing rows before enabling.
+
+### P5 — 7-day idle enforcement: review no earlier than 2026-09-22T20:33Z
+- A review date, not an enable date. Enabling needs telemetry proving `last_seen_at` touches cover real activity. Touches fire only on middleware-matched pages and `GET /api/auth/session(s)`, and are throttled to one per 10 minutes (`TOUCH_SESSION_SQL`), so users who only visit public pages look idle.
+
+### P6 — "Sign out everywhere" semantics & UI (§5.7)
+### P7 — Vercel build-cache OOM mitigation (§5.8)
+### P8 — Exact-optional burndown 217 → ≤160 (§5.9)
 
 ---
 
 ## 2. Context & Repository Status
 
-### Branch & PR State (re-measured 2026-09-16)
-- **`origin/master`**: `d13aa0c1` — merge commit of PR #850 (merged 2026-09-16 00:36Z, all CI green). Local ref and `gh api` agree.
-- **Current Branch**: `feat/auth-absolute-session-lifetime`, based on `e04d8992`. Relative to master: **2 ahead** (`44dea44d`, `fd775489`), **1 behind** (only the `d13aa0c1` merge commit, whose content is already in the base — no conflict expected).
-- **Remote**: branch **not pushed** (`gh api …/branches/feat/auth-absolute-session-lifetime` → 404). No PR.
-- **Commits**:
-  - `44dea44d` feat(auth) — 6 files: `sessionLifetime.ts` (new), `__tests__/sessionLifetime.test.ts` (new), `__tests__/authWiring.test.ts`, `auth.config.ts`, `auth.ts`, `types/next-auth.d.ts`. Went through the pre-commit hook (`typecheck && lint:changed`).
-  - `fd775489` docs(auth) — `NEXT_SESSION_PROMPT.md`, `docs/prompts/next_session_prompt.md`, `docs/handovers/handover-evidence-2026-09-15.md`. Committed with **`-n` (hook skipped)**; docs-only, so the TS gates it skipped cannot have caught anything.
-- **Working Tree**: clean at `fd775489` before this doc refresh.
-- ⚠️ `docs/prompts/next_session_prompt.md` was committed as a **full copy** of this file, which overwrote the 8-line pointer. Two copies drift on the next edit, so it has been restored to a pointer. This file is the canonical one.
+### Branch & PR State (2026-09-16, after push)
+- **`origin/master`**: `d13aa0c1` — merge commit of PR #850, deployed to Production (GitHub deployment `6471308599`, `success` at 2026-09-16 00:39Z).
+- **Feature branch**: `feat/auth-absolute-session-lifetime`, pushed. PR [#851](https://github.com/gregcastro23/WhatToEatNext/pull/851) is open against `master` (`MERGEABLE` at open; CI was running). It is based on `e04d8992`: ahead of master by the commits below, and behind only by the `d13aa0c1` merge commit, whose content is already in the base.
+- **Commits** (trust `git log origin/master..origin/feat/auth-absolute-session-lifetime` over this list):
+  - `44dea44d` feat(auth) — 6 files: `sessionLifetime.ts` (new), `__tests__/sessionLifetime.test.ts` (new), `__tests__/authWiring.test.ts`, `auth.config.ts`, `auth.ts`, `types/next-auth.d.ts`. Passed the pre-commit hook.
+  - `fd775489` docs(auth) — handover prompt, pointer, handover evidence. `-n`, docs-only.
+  - `9c6740b1` refactor(auth) — deletes the legacy-epoch env override (`sessionLifetime.ts` −45 lines, 4 tests removed) and restores the pointer file. Passed the hook.
+  - `a8ba5d82` docs(auth) — adds the PR body file. `-n`, docs-only.
+  - `8304934f` docs(auth) — corrects PR-body claims (reaper, deadline scope, contract caveat), re-measured gates, adds post-merge witnesses. `-n` **after** the hook was attempted: typecheck passed, then `lint:changed` OOMed on an empty file list (P3).
+  - One further docs commit: this priorities rewrite.
+- `.git/index.lock` was removed by hand once during this phase. The index was verified intact afterwards: 7291 index entries = 7291 HEAD tree entries, nothing staged.
 
-### Separation of Concerns: Local PR #850 vs Production `6e4130f2`
+### What Production Runs (`d13aa0c1`) vs This PR
 
-| Capability | Origin Commit | Current Status | Verification State |
+| Capability | Origin | Status | Verification State |
 | :--- | :---: | :---: | :--- |
-| **Origin checks on revoke endpoints** | `6e4130f2` (PR #848) | **Live in Production** | Probed: 403 on missing origin, 403 on sibling domain, 401 on canonical origin. |
-| **`last_seen_at` touch & device labels** | `6e4130f2` (PR #848) | **Live in Production** | Verified live in DB at 2026-09-15 21:15Z (`Firefox on macOS`). |
-| **Sign-out row revocation** | `6e4130f2` (PR #848) | **Live in Production** | Verified live in DB at 2026-09-15 21:34Z (`revoked_at` stamped). |
-| **Current-device marking (#847)** | `6e4130f2` (PR #847) | **Live in Production** | Unit tested; browser round trip verified. |
-| **Canonical Query Module ([src/lib/auth/authQueries.ts](src/lib/auth/authQueries.ts))** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | 0 copy-paste drift across 8 caller sites; admin `RETURNING id` reconciled. |
-| **Auth SQL Prepare Gate ([scripts/checkAuthSqlParses.ts](scripts/checkAuthSqlParses.ts))** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Verified against live PostgreSQL; Control 2 proves error `42P08` on uncast `$2`. |
-| **CI Integration ([.github/workflows/monica-integrity.yml](.github/workflows/monica-integrity.yml))** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Wired into `pre-merge-sql` and `integrity` jobs. |
-| **Datacenter Location Guard (`sec-fetch-site`)** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Prevents server-side calls (e.g. PA backend) from overwriting user device/location. |
-| **App Router Route Typegen Compliance** | `e04d8992` (PR #850) | **Pending Merge (PR #850)** | Moved helper to [src/lib/auth/sessionResponseTouch.ts](src/lib/auth/sessionResponseTouch.ts). |
+| **Origin checks on revoke endpoints** | #848 (`6e4130f2`) | **Live** | Probed: 403 missing Origin, 403 sibling Origin, 401 canonical Origin. |
+| **`last_seen_at` touch & device labels** | #848 | **Live** | DB row touched 2026-09-15 21:15Z (`Firefox on macOS`). |
+| **Sign-out row revocation** | #848 | **Live** | `revoked_at` stamped 2026-09-15 21:34Z. |
+| **Current-device marking** | #847 | **Live** | Unit tested; browser round trip verified. |
+| **Canonical query module ([src/lib/auth/authQueries.ts](src/lib/auth/authQueries.ts))** | #850 (`d13aa0c1`) | **Deployed** | 0 copy-paste drift across 8 caller sites; admin `RETURNING id` reconciled. Not re-probed live since deploy. |
+| **Auth SQL prepare gate ([scripts/checkAuthSqlParses.ts](scripts/checkAuthSqlParses.ts))** | #850 | **CI-gated** | Wired into the `pre-merge-sql` and `integrity` jobs; Control 2 proves `42P08` on an uncast `$2`. |
+| **Datacenter location guard (`sec-fetch-site`)** | #850 | **Deployed** | Unit tested; not re-verified live since deploy. |
+| **Route-export typegen compliance** | #850 | **Deployed** | Helper lives in [src/lib/auth/sessionResponseTouch.ts](src/lib/auth/sessionResponseTouch.ts). |
+| **30-day absolute session lifetime** | [#851](https://github.com/gregcastro23/WhatToEatNext/pull/851) | **Open PR — NOT deployed** | Local + CI evidence only (§3, §4). The live witness is P0. |
 
 ### Concrete Prerequisites for Lifecycle Policies (Replacing Calendar-Based Rules)
 1. **Hard Session Deletion (Cleanup Cron)**:
@@ -79,17 +114,24 @@ _Canonical entry point for agent handover. Detailed historical telemetry and raw
 
 ## 3. Constraints & Operating Rules
 
-### Reproducible Baseline Verification (Commit `e04d8992`)
-Always verify against live commands; never rely on unstated assumptions:
+### Reproducible Baseline Verification (re-measured at `a8ba5d82`, 2026-09-16)
+Always re-run; never inherit a number. Code is unchanged since `a8ba5d82` — every later commit is docs-only.
 
-| Verification Gate | Command | Commit & Timestamp | Result |
-| :--- | :--- | :---: | :--- |
-| **Auth SQL Gate** | `bun run check:sql:auth` | `e04d8992` · 2026-09-15 21:41Z | **Passed**: 4 controls, 9/9 statements prepared against PostgreSQL. |
-| **Full Typecheck** | `bun run typecheck` | `e04d8992` · 2026-09-15 21:42Z | **Passed**: `next typegen` and `tsc --noEmit` exit 0 with 0 errors. |
-| **Changed Files Lint** | `bun run lint:changed` | `e04d8992` · 2026-09-15 21:42Z | **Passed**: 0 errors across modified files. |
-| **Lint Debt** | `bun run lint:debt` | `e04d8992` · 2026-09-15 21:44Z | **Passed**: Exactly 1,473 tracked debt (declined pool down to 4,905). |
-| **Non-Null Assertions** | `bun -e 'import path from "node:path"; import {scanAssertionSites} from "./scripts/lib/lintDebt"; const c = scanAssertionSites(path.resolve("src"), process.cwd()).summary.nonNull; if (c > 605) process.exit(1);'` | `e04d8992` · 2026-09-15 21:45Z | **Passed**: 605 non-null assertions (ceiling $\le 605$). |
-| **Auth Test Suite** | `bun run test --runTestsByPath src/lib/auth/__tests__/authWiring.test.ts src/lib/auth/__tests__/deviceLabels.test.ts src/lib/auth/__tests__/originCheck.test.ts src/lib/auth/__tests__/sessionTouch.test.ts src/lib/auth/__tests__/signOutSession.test.ts src/app/api/auth/sessions/__tests__/route.test.ts` | `e04d8992` · 2026-09-15 21:40Z | **Passed**: 6 suites, 57 tests passed. |
+| Gate | Command | Result |
+| :--- | :--- | :--- |
+| **Full static verification** | `bun run verify:static` | **Exit 0** across all 11 gates: untracked files, route validation, gate tests, strict-index, scripts typecheck, typecheck, lint, lint:scripts, lint:debt, dead modules, readJson. |
+| Route validation | inside `verify:static` | 0 unvalidated / 123 body-reading routes (257 total). |
+| Gate unit tests | `test:gates` | 119 / 119. |
+| Strict-index | `strict-index:check` | 217 across 166 files = baseline. |
+| Lint debt | `bun run lint:debt` | 1,473 = ceiling; no rule, cast, or assertion regressions. |
+| Non-null assertions | `bun -e 'import path from "node:path"; import {scanAssertionSites} from "./scripts/lib/lintDebt"; console.log(scanAssertionSites(path.resolve("src"), process.cwd()).summary.nonNull)'` | 605 (ceiling ≤ 605). |
+| Dead modules | `audit:dead-modules` | 0 unreachable (2,181 reachable, 53 test-only). |
+| readJson validation | `check:read-json` | 0 unvalidated / 30. |
+| **Auth test suites** | `bun run test --runTestsByPath` + the 8 paths below | **8 suites / 96 tests.** |
+| **Auth SQL gate** | `bun run check:sql:auth` | 9/9 PREPARE + 4 controls. Last run at `9c6740b1` by another agent; auth SQL is unchanged since `e04d8992`. |
+
+Auth suite paths (pass them explicitly — trap 6):
+`src/lib/auth/__tests__/sessionLifetime.test.ts` `src/lib/auth/__tests__/authWiring.test.ts` `src/lib/auth/__tests__/sessionTouch.test.ts` `src/lib/auth/__tests__/signOutSession.test.ts` `src/lib/auth/__tests__/deviceLabels.test.ts` `src/lib/auth/__tests__/originCheck.test.ts` `src/__tests__/lib/sessionRevocation.test.ts` `src/app/api/auth/sessions/__tests__/route.test.ts`
 
 ### Tooling Traps & Operational Caveats
 1. **`PREPARE` Scope**: `bun run check:sql:auth` validates SQL syntax, table/column presence, and parameter deduction in PostgreSQL. It does **not** evaluate runtime business logic or row updates. Unit tests remain mandatory.
@@ -99,12 +141,17 @@ Always verify against live commands; never rely on unstated assumptions:
 5. **Worktrees Require `node_modules` Symlink**: Always run `ln -s ../../node_modules node_modules` in any newly created worktree. Never run `worktree remove -f` without auditing untracked files.
 6. **Zsh Multi-Path Splitting**: In zsh, unquoted `$VAR` containing space-separated paths does not word-split and silently runs 0 tests. Always pass explicit arguments.
 7. **Stage Files Strictly by Name**: Never run `git add .` or `git add -A`.
+8. **Exact test counts need `--runTestsByPath`**: positional jest args are regex path *patterns* and can match extra suites. `sessionRevocation.test.ts` lives in `src/__tests__/lib/`, not `src/lib/auth/__tests__/`; five other auth test paths tried during this phase do not exist.
+9. **The pre-commit hook OOMs on docs-only commits** (P3). Until it is fixed, `-n` is acceptable **only** for docs-only commits, and the commit message must say so.
+10. **Never `rm .git/index.lock` without first checking for a live git process** (IDE background git holds it). Afterwards compare `git ls-files | wc -l` with `git ls-tree -r HEAD | wc -l`.
+11. **macOS has no `timeout` command.** `timeout 120 git push` fails with exit 127 and pushes nothing; use the tool's own timeout instead.
+12. **A rejected commit leaves its files staged.** Check `git diff --cached --name-only` before retrying.
 
 ---
 
 ## 4. Completion (Done When)
 
-Criteria 1–6 are **met and committed** (`44dea44d`). Criterion 7 is **half met**: commit SHAs are recorded, but there is no PR and no live verification.
+Criteria 1–6 are **met and committed** (`44dea44d`, env override removed in `9c6740b1`). Criterion 7 is **half met**: SHAs are recorded and PR #851 is open, but nothing is merged, deployed, or verified live (P0). The original spec's `DEPLOYMENT_TIMESTAMP` is implemented as `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS`, pinned to the **#848 release** rather than to this PR's deploy (§5.4).
 
 | # | Criterion | State | Where / evidence |
 | :--- | :--- | :---: | :--- |
@@ -113,8 +160,8 @@ Criteria 1–6 are **met and committed** (`44dea44d`). Criterion 7 is **half met
 | 3 | `now >= authTime + 30d` ⇒ `null` | **Met** | Strict `>=` boundary in `sessionLifetime.ts`; returning `null` really does clear the cookie — see the upstream contract below. |
 | 4 | Legacy tokens bounded, cannot reset grace | **Met** | `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS = 1789504380`. Verified: that is exactly `2026-09-15T20:33:00Z` (the `q8dv3cm3y` Ready instant), and `+2592000 = 1792096380` = **`2026-10-15T20:33:00Z`**. Pinned, so refreshes cannot extend it. |
 | 5 | Boundary tests pass | **Met** | 43 tests across `sessionLifetime.test.ts` (24) and `authWiring.test.ts` (19). 8 suites / 96 tests green (`sessionLifetime`, `authWiring`, `sessionTouch`, `signOutSession`, `deviceLabels`, `originCheck`, `src/__tests__/lib/sessionRevocation`, `sessions/route`). Note: `sessionRevocation.test.ts` lives under `src/__tests__/lib/`, **not** `src/lib/auth/__tests__/`. |
-| 6 | `typecheck` / `lint:debt` / `check:sql:auth` clean | **Met** | 0 tsc errors; lint debt exactly 1,473 with 0 rule regressions; non-null assertions 605 (≤ 605); `verify:static` all 11 gates green. This phase added no SQL, so `check:sql:auth` stays 9/9. |
-| 7 | Commit SHAs + live verification recorded | **Half** | SHAs `44dea44d` / `fd775489` recorded. Not pushed, no PR, nothing deployed or verified live. |
+| 6 | `typecheck` / `lint:debt` / `check:sql:auth` clean | **Met** | Re-measured at `a8ba5d82` (§3): `verify:static` exit 0 across all 11 gates; lint debt 1,473; non-null 605. This phase added no SQL, so `check:sql:auth` stays 9/9. |
+| 7 | Commit SHAs + live verification recorded | **Half** | SHAs recorded (§2); pushed; PR #851 open. Not merged, not deployed, not verified live (P0). |
 
 ### Upstream contract this design depends on (verified by source read)
 
@@ -133,28 +180,36 @@ So a `null` return **does** clear the session cookie — the gate genuinely gate
 
 ---
 
-## 5. Ordered Backlog (Subsequent Work)
+## 5. Findings & Backlog Detail
+
+_Referenced by the §1 priorities. Numbering is stable because the PR body links to §5.1 and §5.3; mark items resolved instead of renumbering._
 
 ### 1. Cap expiry orphans the `device_sessions` row — the sessions UI lies
-- **Found**: 2026-09-16, reviewing this phase. Not yet fixed.
+- **Found**: 2026-09-16, reviewing this phase. Not yet fixed; disclosed as a known gap in PR #851. **Scheduled as P1.**
 - **Mechanism**: when the absolute cap fires, `@auth/core` clears the cookie but does **not** emit `events.signOut`, so `onSignOutEvent` → `handleSignOutSession` → `REVOKE_SESSION_ON_SIGNOUT_SQL` never runs. The row keeps `revoked_at IS NULL` **forever**.
 - **Consequence**: `SELECT_DEVICE_SESSIONS_SQL` filters on `user_id = $1 AND revoked_at IS NULL` with **no age bound** (`LIMIT 25`, ordered by `last_seen_at`). `GET /api/auth/sessions` therefore lists a device whose session is already dead as an **active session** — on a security-facing surface, indefinitely. The NextAuth `sessions` row also lingers (its `expires` is now correctly in the past, but only sign-out deletes rows, and with `strategy: "jwt"` nothing reads that table).
 - **Only current reaper**: `scripts/cleanup-device-sessions.ts` at `last_seen_at < NOW() - 30 days` — and that job has **no schedule attached**.
 - **Fix options**: (a) revoke the row inside the `jwt` callback on the invalid branch before returning `null` (Node runtime only — the edge callback cannot reach Postgres); (b) add an age bound to `SELECT_DEVICE_SESSIONS_SQL` (remember: new/changed SQL must be registered in `scripts/checkAuthSqlParses.ts` and `EXPECTED_TOTAL` bumped); or (c) accept it and say so in the UI copy. Option (a) writes on a hot read path — measure before shipping.
+- ⚠️ For (b), bound on the **effective** lifetime, not raw `created_at` — legacy rows predate their pinned `authTime`. See P1.
 
 ### 2. Legacy-epoch env override — deleted, pinned constant is the single authority
 - **Resolved**: The env override, module-load parser `resolveConfiguredMigrationEpoch()`, and test-only helper `resolveMigrationEpochSeconds` have been completely deleted.
 - **Single Source of Truth**: `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS = 1789504380` is the single, pinned constant. It requires no environment variable, cannot throw or be bypassed on the hot path, and eliminates any future-timestamp drift.
+- **Witness (red → green), same command both times** — `LEGACY_SESSION_MIGRATION_EPOCH_SECONDS=1800000000 bun -e …`, calling `evaluateSessionLifetime` for a legacy token and then for the same token 60 s later:
+  - at `44dea44d`: req1 `{"valid":true,"authTime":1800000000}`, req2 `{"valid":false,"reason":"future_clock_skew"}` — logged out;
+  - at `a8ba5d82`: req1 and req2 both `{"valid":true,"authTime":1789504380}` — the env var is ignored.
+- `grep` for `CONFIGURED_MIGRATION_EPOCH_SECONDS`, `resolveMigrationEpochSeconds`, `resolveConfiguredMigrationEpoch`, and `AUTH_LEGACY_MIGRATION_EPOCH_SECONDS` across `src/` and `scripts/` → 0 hits. `sessionLifetime.ts` reads no `process.env`.
 
 ### 3. No guard on the upstream `null`-token contract
 - Every one of the 47 new tests asserts what *our* function returns. The behaviour that actually ends the session — `token !== null` ⇒ else ⇒ `sessionStore.clean()` — is `@auth/core` **0.41.2** behaviour under `next-auth` **5.0.0-beta.31**.
 - A beta bump that changed the `null` contract would leave every test green while the cap silently stopped capping.
-- **Recommendation**: pin `@auth/core`, and/or add one cheap test asserting the installed core still honours the `null`-clears-cookie contract.
+- **Recommendation**: pin `@auth/core`, and/or add one cheap check asserting the installed core still honours the `null`-clears-cookie contract. Disclosed in PR #851. **Scheduled as P2.**
 
 ### 4. Legacy migration is a single simultaneous mass expiry — **2026-10-15T20:33:00Z**
 - Every pre-policy token is stamped the *same* pinned `authTime`, so all legacy sessions die in the **same instant** rather than spread out.
 - ⚠️ **This is a deploy-by date, not a 30-day grace from deploy.** The epoch is pinned to the **#848** release (`2026-09-15T20:33Z`), not to this PR's deploy, so the grace shrinks every day this PR goes unshipped. It also covers sessions created **after** 09-15 but before deploy: they carry no `authTime` either, so they get the same pinned epoch. **If this ships after `2026-10-15T20:33:00Z`, every pre-policy session is logged out on its first request** (`legacy_migration_expired`).
 - **Measured blast radius is small**: 22 `device_sessions` rows total, 1 revoked, as of the 2026-09-15 21:40Z read-only audit — so this is acceptable, not a thundering herd. Recorded because it is a fixed calendar event and it is prerequisite #2 for enabling hard deletion (§2).
+- **Scheduled consequences**: P0 (ship before it) and P1 (the orphaned-row listing lands for every legacy user in that same instant).
 - Note the coupling: `DEVICE_SESSIONS_MAX_AGE_DAYS` defaults to 30 and its own docstring says it "must match JWT maxAge" — now `SESSION_MAX_AGE_SECONDS`. Nothing gates that agreement; changing one silently diverges from the other.
 
 ### 5. Edge `jwt` callback can never mint (unreachable by path, not dead code)
