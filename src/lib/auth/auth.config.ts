@@ -12,7 +12,12 @@
  */
 
 import Google from "next-auth/providers/google";
+import {
+  SESSION_MAX_AGE_SECONDS,
+  evaluateSessionLifetime,
+} from "./sessionLifetime";
 import type { NextAuthConfig, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import type { Provider } from "next-auth/providers";
 
 /**
@@ -84,7 +89,7 @@ export const authConfig = {
   providers: buildProviders(),
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days - keep users logged in
+    maxAge: SESSION_MAX_AGE_SECONDS, // 30 days - keep users logged in
     updateAge: 24 * 60 * 60, // Refresh JWT once per day
   },
   pages: {
@@ -248,7 +253,34 @@ export const authConfig = {
         session.user.sessionId = sessId;
       }
       session.user.recipesGeneratedToday = token.recipesGeneratedToday ?? 0;
+      if (typeof token.authTime === "number") {
+        session.user.authTime = token.authTime;
+      }
       return session;
+    },
+
+    /**
+     * Edge-safe JWT callback for middleware.
+     * Enforces the 30-day absolute session lifetime cap and bounded legacy migration.
+     *
+     * Note on minting: @auth/core's session() invokes callbacks.jwt({ token, trigger?, session })
+     * with no user/account context; initial sign-in is handled by auth.ts handlers. The minting
+     * branch (isInitialSignIn) is therefore unreachable at the edge, but is preserved defensively.
+     */
+    jwt({ token, user, account }): JWT | null {
+      const isInitialSignIn = Boolean(user) || Boolean(account);
+      const evaluation = evaluateSessionLifetime({
+        tokenAuthTime: token.authTime,
+        hasAuthTimeClaim: "authTime" in token,
+        isInitialSignIn,
+      });
+
+      if (!evaluation.valid) {
+        return null;
+      }
+
+      token.authTime = evaluation.authTime;
+      return token;
     },
   },
 } satisfies NextAuthConfig;

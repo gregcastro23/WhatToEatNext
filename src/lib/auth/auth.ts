@@ -22,6 +22,10 @@ import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
 import { INSERT_DEVICE_SESSION_ON_SIGNIN_SQL } from "./authQueries";
 import { UserRole } from "./roles";
+import {
+  SESSION_MAX_AGE_SECONDS,
+  evaluateSessionLifetime,
+} from "./sessionLifetime";
 import type { JWT } from "next-auth/jwt";
 
 const logger = createLogger("auth");
@@ -37,6 +41,7 @@ interface ExtendedJWT extends JWT {
   sessionId?: string;
   deviceSessionId?: string;
   provider?: string;
+  authTime?: number;
 }
 
 interface DailyLimitRow {
@@ -552,6 +557,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async jwt({ token, user, account, trigger, session }): Promise<JWT | null> {
       const extToken = token as ExtendedJWT;
+      const isInitialSignIn = Boolean(user) || Boolean(account);
+
+      // Enforce 30-day absolute session lifetime cap and bounded legacy migration
+      const evaluation = evaluateSessionLifetime({
+        tokenAuthTime: extToken.authTime,
+        hasAuthTimeClaim: "authTime" in extToken,
+        isInitialSignIn,
+      });
+
+      if (!evaluation.valid) {
+        logger.info(
+          `Session lifetime rejected for ${extToken.email ?? "unknown"} (reason: ${evaluation.reason}); clearing token`,
+        );
+        return null;
+      }
+
+      extToken.authTime = evaluation.authTime;
+
       // On initial sign-in, persist user info into the JWT
       if (user) {
         if (user.email) extToken.email = user.email;
@@ -631,7 +654,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (user && !extToken.sessionId) {
               try {
                 const sessionId = crypto.randomUUID();
-                const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+                const expiresAt = new Date(
+                  (extToken.authTime + SESSION_MAX_AGE_SECONDS) * 1000,
+                );
                 const { executeQuery } = await import("@/lib/database");
                 await executeQuery(
                   `INSERT INTO sessions ("sessionToken", "userId", expires)
