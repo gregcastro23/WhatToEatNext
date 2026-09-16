@@ -47,7 +47,8 @@ jest.mock("../sessionTouch", () => ({
 
 import { onSignOutEvent } from "../auth";
 import { onAuthMiddlewareRequest } from "@/middleware";
-import { GET, scheduleTouchFromSessionResponse } from "@/app/api/auth/[...nextauth]/route";
+import { GET } from "@/app/api/auth/[...nextauth]/route";
+import { scheduleTouchFromSessionResponse } from "../sessionResponseTouch";
 import { NextRequest } from "next/server";
 
 describe("Auth wiring tests", () => {

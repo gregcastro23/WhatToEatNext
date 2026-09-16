@@ -20,6 +20,7 @@ import { logAuthEvent } from "@/services/authEventsService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
+import { INSERT_DEVICE_SESSION_ON_SIGNIN_SQL } from "./authQueries";
 import { UserRole } from "./roles";
 import type { JWT } from "next-auth/jwt";
 
@@ -650,11 +651,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   account?.provider ?? extToken.provider ?? "google";
                 const { executeQuery } = await import("@/lib/database");
                 await executeQuery(
-                  `INSERT INTO device_sessions (id, user_id, jti, provider, current_for_jti)
-                   VALUES ($1, $2, $3, $4, $5)
-                   ON CONFLICT (user_id, jti) DO UPDATE SET
-                     last_seen_at = NOW(),
-                     revoked_at = NULL`,
+                  INSERT_DEVICE_SESSION_ON_SIGNIN_SQL,
                   [
                     extToken.sessionId,
                     dbUser.id,

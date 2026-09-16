@@ -10,6 +10,10 @@
  */
 
 import { createLogger } from "@/utils/logger";
+import {
+  REVOKE_SESSION_ON_SIGNOUT_SQL,
+  DELETE_NEXTAUTH_SESSION_ON_SIGNOUT_SQL,
+} from "./authQueries";
 
 const logger = createLogger("auth:signOutSession");
 
@@ -34,7 +38,7 @@ export async function revokeSessionsOnSignOut(
     try {
       const { executeQuery } = await import("@/lib/database");
       await executeQuery(
-        `UPDATE device_sessions SET revoked_at = NOW() WHERE id = $1 AND revoked_at IS NULL`,
+        REVOKE_SESSION_ON_SIGNOUT_SQL,
         [deviceSessionId],
       );
       deviceRevoked = true;
@@ -48,7 +52,7 @@ export async function revokeSessionsOnSignOut(
     try {
       const { executeQuery } = await import("@/lib/database");
       await executeQuery(
-        `DELETE FROM sessions WHERE "sessionToken" = $1`,
+        DELETE_NEXTAUTH_SESSION_ON_SIGNOUT_SQL,
         [sessionToken],
       );
       nextAuthSessionDeleted = true;

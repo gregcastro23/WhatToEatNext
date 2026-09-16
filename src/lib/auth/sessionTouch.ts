@@ -19,6 +19,7 @@
 
 import { after } from "next/server";
 import { createLogger } from "@/utils/logger";
+import { TOUCH_SESSION_SQL } from "./authQueries";
 import { extractDeviceMetadata } from "./deviceLabels";
 
 const logger = createLogger("sessionTouch");
@@ -63,17 +64,7 @@ async function updateSessionInDb(cleanId: string, source?: HeaderSource): Promis
 
   const { executeQuery } = await import("@/lib/database");
   const result = await executeQuery(
-    `UPDATE device_sessions
-        SET last_seen_at = NOW(),
-            device = COALESCE($2, device),
-            user_agent = COALESCE($3, user_agent),
-            location_city = COALESCE($4, location_city),
-            location_region = COALESCE($5, location_region),
-            location_country = COALESCE($6, location_country)
-      WHERE id = $1
-        AND revoked_at IS NULL
-        AND (last_seen_at < NOW() - interval '10 minutes' OR (device IS NULL AND $2::text IS NOT NULL))
-      RETURNING id`,
+    TOUCH_SESSION_SQL,
     [
       cleanId,
       metadata.device && metadata.device !== "Unknown device" ? metadata.device : null,

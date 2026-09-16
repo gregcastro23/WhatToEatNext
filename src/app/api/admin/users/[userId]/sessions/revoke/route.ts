@@ -19,6 +19,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { ADMIN_REVOKE_USER_SESSIONS_SQL } from "@/lib/auth/authQueries";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
@@ -47,11 +48,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     // device_sessions.user_id is TEXT (database/init/33), so no uuid cast.
     const result = await executeQuery(
-      `UPDATE device_sessions
-          SET revoked_at = NOW()
-        WHERE user_id = $1
-          AND revoked_at IS NULL
-        RETURNING id`,
+      ADMIN_REVOKE_USER_SESSIONS_SQL,
       [userId],
     );
     return NextResponse.json({
