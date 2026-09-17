@@ -214,11 +214,12 @@ async function main(): Promise<void> {
   let customRpc: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === "--cluster" && args[i + 1]) {
-      cluster = args[i + 1];
+    const nextArg = args[i + 1];
+    if (args[i] === "--cluster" && nextArg) {
+      cluster = nextArg;
       i++;
-    } else if (args[i] === "--rpc" && args[i + 1]) {
-      customRpc = args[i + 1];
+    } else if (args[i] === "--rpc" && nextArg) {
+      customRpc = nextArg;
       i++;
     }
   }
@@ -283,6 +284,6 @@ async function main(): Promise<void> {
   }
 }
 
-if (import.meta.main) {
+if ((import.meta as { main?: boolean }).main) {
   void main();
 }

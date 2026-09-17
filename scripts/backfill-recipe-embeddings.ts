@@ -103,9 +103,11 @@ async function main() {
       const vectors = await embedTexts(batch.map((r) => r.description));
       for (let i = 0; i < batch.length; i++) {
         const r = batch[i];
+        const vec = vectors[i];
+        if (!r || !vec) continue;
         await pool.query(
           `UPDATE recipes SET description_embedding = $1::vector WHERE id = $2`,
-          [toPgVectorLiteral(vectors[i]), r.id],
+          [toPgVectorLiteral(vec), r.id],
         );
         done += 1;
         console.log(`OK   [${done}/${rows.length}] ${r.name}`);
