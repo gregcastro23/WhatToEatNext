@@ -5,6 +5,7 @@
  */
 
 import * as AstronomyModule from "astronomy-engine";
+import { z } from "zod";
 import type { ZodiacSignType } from "@/types/celestial";
 import type { DegradedInfo } from "@/types/degraded";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
@@ -14,6 +15,75 @@ const Astronomy: typeof AstronomyModule =
   (AstronomyModule as unknown as { default?: typeof AstronomyModule }).default ??
   AstronomyModule;
 const logger = createLogger("ServerPlanetaryCalculations");
+
+export const PRICED_BODIES = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+] as const;
+
+export type PricedBody = (typeof PRICED_BODIES)[number];
+
+export const ZODIAC_SIGNS = [
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
+] as const;
+
+export const backendPlanetPositionSchema = z.object({
+  sign: z.enum(ZODIAC_SIGNS),
+  degree: z.number().finite().min(0).max(30),
+  minute: z.number().finite().min(0).max(60).optional(),
+  exactLongitude: z.number().finite().min(0).lt(360),
+  isRetrograde: z.boolean(),
+  longitudeSpeed: z.number().finite().optional(),
+  eclipticLatitude: z.number().finite().optional(),
+  latitudeSpeed: z.number().finite().optional(),
+  distance: z.number().finite().optional(),
+  distanceSpeed: z.number().finite().optional(),
+  house: z.number().int().min(1).max(12).optional(),
+});
+
+export const backendPlanetaryPositionsResponseSchema = z
+  .object({
+    planetary_positions: z.record(z.string(), backendPlanetPositionSchema),
+    metadata: z
+      .object({
+        source: z.string().optional(),
+        precision: z.string().optional(),
+        zodiacSystem: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+  })
+  .passthrough()
+  .refine(
+    (data) => PRICED_BODIES.every((body) => body in data.planetary_positions),
+    {
+      message: "Missing required priced celestial bodies in ephemeris response",
+      path: ["planetary_positions"],
+    },
+  );
+
+export type ValidatedBackendResponse = z.infer<
+  typeof backendPlanetaryPositionsResponseSchema
+>;
 
 // Backend URL configuration
 const BACKEND_URL =
@@ -47,7 +117,7 @@ async function isBackendAvailable(): Promise<boolean> {
 /**
  * Call backend for planetary positions calculation
  */
-async function calculatePlanetaryPositionsBackend(
+export async function calculatePlanetaryPositionsBackend(
   date: Date,
   zodiacSystem: "tropical" | "sidereal" = "tropical",
 ): Promise<Record<string, PlanetPosition> | null> {
@@ -86,34 +156,29 @@ async function calculatePlanetaryPositionsBackend(
       throw new Error(`Backend returned ${response.status}`);
     }
 
-    interface BackendPlanetPosition {
-      sign: ZodiacSignType;
-      degree: number;
-      minute: number;
-      exactLongitude: number;
-      isRetrograde: boolean;
-      longitudeSpeed?: number;
-      eclipticLatitude?: number;
-      latitudeSpeed?: number;
-      distance?: number;
-      distanceSpeed?: number;
+    const rawJson: unknown = await response.json();
+    const parseResult = backendPlanetaryPositionsResponseSchema.safeParse(rawJson);
+
+    if (!parseResult.success) {
+      const issues = parseResult.error.issues.map((i) => ({
+        path: i.path.join("."),
+        code: i.code,
+        message: i.message,
+      }));
+      logger.warn("backend-schema-invalid: ephemeris response failed schema validation", {
+        issues,
+      });
+      return null;
     }
 
-    interface BackendResponse {
-      planetary_positions?: Record<string, BackendPlanetPosition>;
-      metadata?: { source?: string };
-    }
-
-    const data = (await response.json()) as BackendResponse;
+    const { data } = parseResult;
     const positions: Record<string, PlanetPosition> = {};
 
-    for (const [planetName, pos] of Object.entries(
-      data.planetary_positions ?? {},
-    )) {
+    for (const [planetName, pos] of Object.entries(data.planetary_positions)) {
       positions[planetName] = {
         sign: pos.sign,
         degree: pos.degree,
-        minute: pos.minute,
+        minute: pos.minute ?? Math.floor((pos.exactLongitude % 1) * 60),
         exactLongitude: pos.exactLongitude,
         isRetrograde: pos.isRetrograde,
         longitudeSpeed: pos.longitudeSpeed,
