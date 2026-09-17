@@ -11,6 +11,7 @@ import type { Recipe, RecipeIngredient } from "@/types/recipe";
 export type { Season } from "@/constants/seasons";
 // ---------------------------------------------------------------------------
 // Re-export types from other modules for convenience and backward compatibility
+// eslint-disable-next-line import/no-cycle -- type-only cycle for cross-module type unification
 export type {
     AlchemicalProperties,
     AstrologicalState,
