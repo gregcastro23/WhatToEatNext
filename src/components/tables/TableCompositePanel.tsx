@@ -23,10 +23,10 @@ import type { JSX } from "react";
 export interface TableCompositePanelProps {
   tableId: string;
   snapshot: CompositeSnapshot | null | undefined;
-  compositeUpdatedAt?: string | null;
+  compositeUpdatedAt?: string | null | undefined;
   isHost: boolean;
-  onChanged?: () => void;
-  className?: string;
+  onChanged?: (() => void) | undefined;
+  className?: string | undefined;
 }
 
 export function TableCompositePanel({

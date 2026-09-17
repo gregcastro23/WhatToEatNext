@@ -139,7 +139,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ProfileApi
           }
           return NextResponse.json({
             success: true,
-            profile: data.profile,
+            ...(data.profile !== undefined ? { profile: data.profile } : {}),
           });
         }
       } catch (err) {
@@ -237,7 +237,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
           const data = (await honoResponse.json()) as HonoProfileResponse;
           return NextResponse.json({
             success: true,
-            profile: data.profile,
+            ...(data.profile !== undefined ? { profile: data.profile } : {}),
           });
         }
       } catch (err) {

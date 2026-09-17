@@ -150,6 +150,7 @@ export interface ElementalProperties {
   Water: number;
   Earth: number;
   Air: number;
+  [key: string]: number;
 }
 
 // Alchemical properties

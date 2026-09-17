@@ -107,8 +107,8 @@ function computeChartComparison(ctx: ChartComparisonContext): ChartComparisonRes
     if (v.sign) {
       currentAlchPositions[k] = {
         sign: v.sign,
-        degree: v.degree,
-        exactLongitude: v.exactLongitude,
+        ...(v.degree !== undefined ? { degree: v.degree } : {}),
+        ...(v.exactLongitude !== undefined ? { exactLongitude: v.exactLongitude } : {}),
       };
     }
   }

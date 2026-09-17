@@ -279,7 +279,7 @@ describe("Recipe Computation Pipeline", () => {
       // Should return unmodified properties for unknown methods
       expect(result).toEqual(baseElementals);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        "Unknown cooking method: unknown_method",
+        expect.stringContaining("Unknown cooking method: unknown_method"),
       );
 
       consoleWarnSpy.mockRestore();

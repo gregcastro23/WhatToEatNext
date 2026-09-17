@@ -47,19 +47,19 @@ export interface UserLocation {
   lat: number;
   lng: number;
   /** Human-readable label (city / "Current location"). */
-  label?: string;
+  label?: string | undefined;
   /** Altitude in metres (from GNSS altimeter or DEM lookup), if resolved. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Vertical accuracy in metres, if provided by device GNSS. */
-  altitudeAccuracy?: number;
+  altitudeAccuracy?: number | undefined;
   /** How altitude was obtained. Governs physical error bars and claims. */
-  elevationProvenance?: ElevationProvenance;
+  elevationProvenance?: ElevationProvenance | undefined;
   /**
    * How lat/lng was obtained. Optional because locations persisted before this
    * field existed carry no basis — and an absent basis must stay absent rather
    * than defaulting to the most flattering option.
    */
-  horizontalBasis?: HorizontalBasis;
+  horizontalBasis?: HorizontalBasis | undefined;
   /**
    * Horizontal accuracy radius in metres, when the source measured one.
    *
@@ -69,7 +69,7 @@ export interface UserLocation {
    * number derived from it would be a constant wearing a measurement's clothes
    * (see `POSTAL_CENTROID_CAVEAT`). Absent here means absent.
    */
-  accuracyM?: number;
+  accuracyM?: number | undefined;
 }
 
 /** Outcome of resolving a typed postal code. */
@@ -81,7 +81,7 @@ export interface CitySuggestion {
   displayName: string;
   latitude: number;
   longitude: number;
-  country?: string;
+  country?: string | undefined;
 }
 
 export type LocationStatus =

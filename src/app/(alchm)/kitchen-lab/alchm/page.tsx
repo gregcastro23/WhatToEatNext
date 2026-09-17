@@ -177,17 +177,20 @@ function useRecommendedIngredients(limit = 8): IngredientCardData[] | null {
           ? j.ingredients
           : [];
         setItems(
-          list.map((it) => ({
-            id: it.id,
-            name: it.name,
-            category: (it.category ?? "other").toUpperCase(),
-            element: it.elemental_affinity,
-            match: it.match_score,
-            properties: it.thermo,
-            planet: PLANET_GLYPH_LOOKUP[it.planet] ?? "☉",
-            hue: it.hue,
-            imageUrl: getAssetUrl(it.image_url),
-          })),
+          list.map((it) => {
+            const imageUrl = getAssetUrl(it.image_url);
+            return {
+              id: it.id,
+              name: it.name,
+              category: (it.category ?? "other").toUpperCase(),
+              element: it.elemental_affinity,
+              match: it.match_score,
+              properties: it.thermo,
+              planet: PLANET_GLYPH_LOOKUP[it.planet] ?? "☉",
+              hue: it.hue,
+              ...(imageUrl ? { imageUrl } : {}),
+            };
+          }),
         );
       })
       .catch(() => {

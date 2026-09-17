@@ -711,9 +711,9 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
     label: string;
     v: string;
     d: string;
-    spark?: number[];
+    spark?: number[] | undefined;
     tone: "ok" | "warn" | "neutral";
-    live?: boolean;
+    live?: boolean | undefined;
   }> = [
     {
       label: "Practitioners · total",

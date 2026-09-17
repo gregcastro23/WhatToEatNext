@@ -208,18 +208,18 @@ export async function logServerMealFromPlan(
   if (input.mealSlot) {
     payload = {
       mealSlot: input.mealSlot,
-      date: input.date,
-      time: input.time,
-      notes: input.notes,
+      ...(input.date ? { date: input.date } : {}),
+      ...(input.time ? { time: input.time } : {}),
+      ...(input.notes ? { notes: input.notes } : {}),
     };
   } else if (input.recipe && input.mealType) {
     payload = {
       recipe: input.recipe,
       mealType: input.mealType,
-      servings: input.servings,
-      date: input.date,
-      time: input.time,
-      notes: input.notes,
+      ...(input.servings !== undefined ? { servings: input.servings } : {}),
+      ...(input.date ? { date: input.date } : {}),
+      ...(input.time ? { time: input.time } : {}),
+      ...(input.notes ? { notes: input.notes } : {}),
     };
   } else {
     throw new Error("logServerMealFromPlan requires a mealSlot or recipe+mealType");

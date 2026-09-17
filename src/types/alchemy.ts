@@ -82,7 +82,7 @@ export type CompleteAlchemicalResultType = AlchemicalStateType &
  * Standard type for planetary position data
  */
 export type PlanetaryPositionsType = Record<string, CelestialPosition> & {
-  dominantPlanet?: string;
+  dominantPlanet?: string | undefined;
 };
 
 /**

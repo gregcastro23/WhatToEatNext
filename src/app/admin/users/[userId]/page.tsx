@@ -597,9 +597,9 @@ function DetailTile({
 }: {
   label: string;
   value: string;
-  sub?: string;
-  valueClass?: string;
-  action?: React.ReactNode;
+  sub?: string | undefined;
+  valueClass?: string | undefined;
+  action?: React.ReactNode | undefined;
 }) {
   return (
     <div className="p-3 sm:p-4 border-r border-b border-gray-100 last:border-r-0 even:border-r-0 md:even:border-r md:last:border-r-0">

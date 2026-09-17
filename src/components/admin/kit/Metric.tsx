@@ -34,15 +34,15 @@ export interface MetricProps {
   value: number | string | null | undefined;
   provenance: Provenance;
   /** Formats the value only when one exists. */
-  format?: (value: number | string) => string;
+  format?: ((value: number | string) => string) | undefined;
   /** e.g. "+12%" — rendered only alongside a real value. */
-  delta?: { value: string; direction: "up" | "down" | "flat" };
+  delta?: { value: string; direction: "up" | "down" | "flat" } | undefined;
   /** Is an increase good? Drives delta color. Defaults to true. */
-  higherIsBetter?: boolean;
+  higherIsBetter?: boolean | undefined;
   /** Small caption under the value. */
-  caption?: string;
-  size?: "sm" | "md" | "lg";
-  className?: string;
+  caption?: string | undefined;
+  size?: ("sm" | "md" | "lg") | undefined;
+  className?: string | undefined;
 }
 
 const SIZE = {

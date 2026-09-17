@@ -140,7 +140,11 @@ export async function POST(request: NextRequest) {
    */
   const beat = (status: CronRunStatus, error?: string): Promise<void> =>
     isInternal
-      ? recordCronRun("daily-digest", { status, startedAt, error })
+      ? recordCronRun("daily-digest", {
+          status,
+          startedAt,
+          ...(error !== undefined ? { error } : {}),
+        })
       : Promise.resolve();
 
   try {

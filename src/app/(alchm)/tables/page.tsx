@@ -63,7 +63,7 @@ export default function TablesPage() {
   const [createError, setCreateError] = useState<string | null>(null);
   // Discover deep-links: `?new=1` opens the create dialog; `?invite=<id>`
   // preselects a guest ("Break bread" from a PersonCard) to add on create.
-  const [pendingInvite, setPendingInvite] = useState<{ id: string; name?: string } | null>(null);
+  const [pendingInvite, setPendingInvite] = useState<{ id: string; name?: string | undefined } | null>(null);
 
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search);
@@ -92,7 +92,7 @@ export default function TablesPage() {
           scheduledAt: scheduled.toISOString(),
           venue: {
             type: form.venueType,
-            name: form.venueName.trim() || undefined,
+            ...(form.venueName.trim() ? { name: form.venueName.trim() } : {}),
           },
           visibility: form.visibility,
         }),

@@ -132,7 +132,7 @@ interface BirthDataScreenProps {
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
   hasExistingChart: boolean;
-  onSkip?: () => void;
+  onSkip?: (() => void) | undefined;
 }
 
 export const BirthDataScreen: React.FC<BirthDataScreenProps> = ({

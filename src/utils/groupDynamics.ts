@@ -9,8 +9,7 @@
 
 import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
-import type { ElementalProperties as AlchemyElementalProperties } from "@/types/alchemy";
-import type { ElementalProperties } from "@/types/celestial";
+import type { Element, ElementalProperties } from "@/types/celestial";
 import type { GroupDynamicsData } from "@/types/kinetics";
 import { calculateElementalHarmony } from "@/utils/astrology/elementalValidation";
 
@@ -93,8 +92,8 @@ export async function computeGroupDynamics(
       let h: number;
       try {
         h = calculateElementalHarmony(
-          left.profile as AlchemyElementalProperties,
-          right.profile as AlchemyElementalProperties,
+          left.profile,
+          right.profile,
         );
       } catch {
         h = 0.7;
@@ -112,7 +111,7 @@ export async function computeGroupDynamics(
       : 1.0;
 
   // Group resonance — inverse variance of per-element values across members
-  const elements: Array<keyof ElementalProperties> = ["Fire", "Water", "Earth", "Air"];
+  const elements: Element[] = ["Fire", "Water", "Earth", "Air"];
   let varianceSum = 0;
   for (const el of elements) {
     let v = 0;

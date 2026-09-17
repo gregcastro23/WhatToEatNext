@@ -68,7 +68,7 @@ const BalancesGrid: React.FC<{ balances: Balances }> = ({ balances }) => (
   </div>
 );
 
-const HeroAvatar: React.FC<{ accent: string; symbol?: string }> = ({ accent, symbol }) => (
+const HeroAvatar: React.FC<{ accent: string; symbol?: string | undefined }> = ({ accent, symbol }) => (
   <div
     className="w-28 h-28 md:w-32 md:h-32 rounded-2xl border-2 flex items-center justify-center text-5xl md:text-6xl shadow-lg backdrop-blur-sm shrink-0"
     style={{ borderColor: accent, background: `${accent}22` }}
@@ -81,10 +81,10 @@ const HeroAvatar: React.FC<{ accent: string; symbol?: string }> = ({ accent, sym
 interface HeroDetailsProps {
   agent: CraftedAgentProfile;
   accent: string;
-  handle?: string | null;
+  handle?: string | null | undefined;
   slug: string | null;
-  userId?: string;
-  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
+  userId?: string | undefined;
+  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null | undefined;
 }
 
 const HeroDetails: React.FC<HeroDetailsProps> = ({ agent, accent, handle, slug, userId, viewer }) => (

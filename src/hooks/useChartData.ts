@@ -69,14 +69,14 @@ export interface ChartData {
   refetch: () => void;
 }
 export interface ChartDataOptions {
-  dateTime?: Date;
+  dateTime?: Date | undefined;
   location?: {
     latitude: number;
     longitude: number;
-  };
-  zodiacSystem?: "tropical" | "sidereal";
-  autoRefresh?: boolean;
-  refreshInterval?: number; // milliseconds
+  } | undefined;
+  zodiacSystem?: ("tropical" | "sidereal") | undefined;
+  autoRefresh?: boolean | undefined;
+  refreshInterval?: number | undefined; // milliseconds
 }
 
 const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;

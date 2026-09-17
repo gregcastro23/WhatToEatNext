@@ -129,8 +129,8 @@ export default function RestaurantCreatorPage() {
     const item: MenuItem = {
       id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       name: newItem.name.trim(),
-      description: newItem.description.trim() || undefined,
-      price: newItem.price ? parseFloat(newItem.price) : undefined,
+      ...(newItem.description.trim() ? { description: newItem.description.trim() } : {}),
+      ...(newItem.price ? { price: parseFloat(newItem.price) } : {}),
       category: newItem.category,
       dietaryTags: [...newItem.tags],
     };

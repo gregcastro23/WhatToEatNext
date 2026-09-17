@@ -89,7 +89,7 @@ export async function GET() {
       active: false,
       lastSync: null,
       source: "fallback",
-      reason: process.env.NODE_ENV === "development" ? "unauthenticated" : undefined,
+      ...(process.env.NODE_ENV === "development" ? { reason: "unauthenticated" } : {}),
     };
     return NextResponse.json(payload);
   }
@@ -109,15 +109,17 @@ export async function GET() {
   const isAgentEmail =
     typeof user.email === "string" && user.email.endsWith(AGENTIC_EMAIL_DOMAIN);
 
+  const devReason =
+    process.env.NODE_ENV === "development"
+      ? INTERNAL_SECRET
+        ? "backend-unreachable"
+        : "INTERNAL_API_SECRET-not-set"
+      : undefined;
+
   return NextResponse.json<StatusResponse>({
     active: isAgentEmail,
     lastSync: null,
     source: "fallback",
-    reason:
-      process.env.NODE_ENV === "development"
-        ? INTERNAL_SECRET
-          ? "backend-unreachable"
-          : "INTERNAL_API_SECRET-not-set"
-        : undefined,
+    ...(devReason !== undefined ? { reason: devReason } : {}),
   });
 }

@@ -113,10 +113,11 @@ function addCuisineDefaults(
   const recipe = parseEnrichmentRecipe(value);
   if (!recipe) return null;
 
+  const resolvedMealType = recipe.mealType ?? (mealType ? [mealType] : undefined);
   return {
     ...recipe,
     cuisine: recipe.cuisine ?? cuisine,
-    mealType: recipe.mealType ?? (mealType ? [mealType] : undefined),
+    ...(resolvedMealType !== undefined ? { mealType: resolvedMealType } : {}),
   };
 }
 
@@ -434,7 +435,7 @@ export type ProgressCallback = (progress: {
   current: number;
   total: number;
   percent: number;
-  currentRecipe?: string;
+  currentRecipe?: string | undefined;
 }) => void;
 
 /**
@@ -443,7 +444,7 @@ export type ProgressCallback = (progress: {
 export async function batchEnrichWithProgress(
   recipes: Array<Partial<Recipe>>,
   options: BatchEnrichmentOptions = {},
-  onProgress?: ProgressCallback,
+  onProgress?: ProgressCallback | undefined,
 ): Promise<BatchEnrichmentResult> {
   const {
     skipExisting = false,

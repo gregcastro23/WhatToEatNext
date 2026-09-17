@@ -100,14 +100,14 @@ export async function POST(request: NextRequest) {
 
     const table = await tableDatabase.createTable(userId, {
       title: parsed.data.title,
-      description: parsed.data.description,
+      ...(parsed.data.description !== undefined ? { description: parsed.data.description } : {}),
       scheduledAt: scheduledDate.toISOString(),
       venue: parsed.data.venue,
-      visibility: parsed.data.visibility,
-      menu: parsed.data.menu,
+      ...(parsed.data.visibility !== undefined ? { visibility: parsed.data.visibility } : {}),
+      ...(parsed.data.menu !== undefined ? { menu: parsed.data.menu } : {}),
       venueLat: coords.venueLat,
       venueLng: coords.venueLng,
-      seatCap: parsed.data.seatCap,
+      ...(parsed.data.seatCap !== undefined ? { seatCap: parsed.data.seatCap } : {}),
     });
 
     if (!table) {
