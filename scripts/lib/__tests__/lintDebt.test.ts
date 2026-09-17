@@ -1,17 +1,24 @@
 import path from "node:path";
 
 import {
+  ALLOWED_LOGGER_SINKS,
   compareAssertionSites,
   compareCasts,
   compareDeclinedDebt,
   compareLintDebt,
+  compareLooseOptionality,
   compareSubBaseline,
+  compareSuppressions,
   countAssertionSitesInSource,
+  countLooseOptionalityInSource,
   countTypeCasts,
+  findFileLevelDisablesInSource,
   findPerRuleRegressions,
   isDuplicateArtifactPath,
   lintDebtBaselineSchema,
   scanAssertionSites,
+  scanFileLevelDisables,
+  scanLooseOptionality,
 } from "../lintDebt";
 
 describe("compareLintDebt", () => {
@@ -155,7 +162,28 @@ describe("compareSubBaseline", () => {
   it("validates baseline schema with subBaselines", () => {
     const valid = {
       trackedTotal: 2970,
-      casts: { total: 380, asAny: 106, asUnknownAs: 274 },
+      casts: { total: 380, asAny: 106, asUnknownAs: 274, production: 300, test: 80 },
+      assertionSites: {
+        total: 1000,
+        asAny: 10,
+        chained: 50,
+        single: 940,
+        production: 800,
+        test: 200,
+        asConst: 50,
+        nonNull: 20,
+      },
+      looseOptionality: {
+        total: 462,
+        production: 462,
+        test: 0,
+      },
+      fileLevelDisables: {
+        ceiling: 5,
+      },
+      suppressions: {
+        "no-console": 5,
+      },
       subBaselines: {
         preferNullishCoalescing: {
           total: 692,
@@ -337,6 +365,8 @@ describe("compareAssertionSites", () => {
     single: 4241,
     production: 3600,
     test: 1038,
+    asConst: 500,
+    nonNull: 600,
   };
 
   it("allows the total to hold steady or fall", () => {
@@ -344,6 +374,7 @@ describe("compareAssertionSites", () => {
       exceedsBaseline: false,
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
+      singleIncreasedBy: 0,
       productionIncreasedBy: 0,
       nonNullIncreasedBy: 0,
     });
@@ -353,6 +384,7 @@ describe("compareAssertionSites", () => {
       exceedsBaseline: false,
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
+      singleIncreasedBy: 0,
       productionIncreasedBy: 0,
       nonNullIncreasedBy: 0,
     });
@@ -363,20 +395,22 @@ describe("compareAssertionSites", () => {
       exceedsBaseline: true,
       totalIncreasedBy: 2,
       asAnyIncreasedBy: 0,
+      singleIncreasedBy: 2,
       productionIncreasedBy: 0,
       nonNullIncreasedBy: 0,
     });
   });
 
-  it("does NOT reward a pure relabel: chained down, single up, total flat", () => {
-    // 50 `as unknown as T` rewritten to `as T`. The legacy axis would call this
-    // a 50-cast win; the site total is unchanged, so this axis calls it nothing.
+  it("blocks a pure relabel: chained down, single up, total flat (Rule 8)", () => {
+    // 50 `as unknown as T` rewritten to `as T`. In Phase 34, single assertions
+    // are strictly gated so relabelling cannot bypass the gate.
     const relabelled = { ...base, chained: 244, single: 4291 };
     expect(relabelled.total).toBe(base.total);
     expect(compareAssertionSites(relabelled, base)).toEqual({
-      exceedsBaseline: false,
+      exceedsBaseline: true,
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
+      singleIncreasedBy: 50,
       productionIncreasedBy: 0,
       nonNullIncreasedBy: 0,
     });
@@ -396,6 +430,153 @@ describe("compareAssertionSites", () => {
     expect(
       compareAssertionSites({ ...baseWithNonNull, nonNull: 606 }, baseWithNonNull),
     ).toMatchObject({ exceedsBaseline: true, nonNullIncreasedBy: 1 });
+  });
+
+  it("fails when single assertion sites grow beyond baseline (relabelling detection)", () => {
+    expect(
+      compareAssertionSites({ ...base, single: 4242, chained: 175 }, base),
+    ).toMatchObject({ exceedsBaseline: true, singleIncreasedBy: 1 });
+  });
+});
+
+describe("compareLooseOptionality", () => {
+  const base = { total: 462, production: 462, test: 0 };
+
+  it("allows loose optionality to stay equal or decrease", () => {
+    expect(compareLooseOptionality(base, base)).toEqual({
+      exceedsBaseline: false,
+      totalIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+    expect(compareLooseOptionality({ total: 450, production: 450, test: 0 }, base)).toEqual({
+      exceedsBaseline: false,
+      totalIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+  });
+
+  it("fails when loose optionality total increases", () => {
+    expect(compareLooseOptionality({ total: 463, production: 463, test: 0 }, base)).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 1,
+      productionIncreasedBy: 1,
+    });
+  });
+
+  it("fails when production loose optionality increases even if total is flat", () => {
+    const baseWithTest = { total: 462, production: 450, test: 12 };
+    expect(
+      compareLooseOptionality({ total: 462, production: 455, test: 7 }, baseWithTest),
+    ).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 0,
+      productionIncreasedBy: 5,
+    });
+  });
+});
+
+describe("countLooseOptionalityInSource", () => {
+  it("detects single-line and multi-line loose optional properties", () => {
+    const code = `
+interface Example {
+  singleLine?: string | undefined;
+  multiLine?:
+    | number
+    | undefined;
+  strictOptional?: string;
+  requiredUnion: string | undefined;
+  method?(arg?: boolean | undefined): void;
+}
+`;
+    expect(countLooseOptionalityInSource(code, "example.ts")).toBe(3);
+  });
+
+  it("returns 0 for clean types without loose optionality", () => {
+    const code = `
+interface Clean {
+  name: string;
+  age?: number;
+  data: string | null;
+}
+`;
+    expect(countLooseOptionalityInSource(code, "clean.ts")).toBe(0);
+  });
+});
+
+describe("scanFileLevelDisables", () => {
+  it("flags unauthorized no-console file-level disables", () => {
+    const repoRoot = path.resolve(__dirname, "../../../");
+    const srcDir = path.join(repoRoot, "src");
+    const scan = scanFileLevelDisables(srcDir, repoRoot);
+
+    expect(scan.unauthorizedNoConsole).toEqual([]);
+    expect(scan.total).toBeLessThanOrEqual(5);
+
+    for (const finding of scan.findings) {
+      if (finding.isNoConsole) {
+        expect(ALLOWED_LOGGER_SINKS.has(finding.filePath)).toBe(true);
+      }
+    }
+  });
+
+  it("flags unauthorized no-console in arbitrary files (red proof)", () => {
+    const maliciousCode = `
+/* eslint-disable no-console */
+console.log("unauthorized console bypass");
+`;
+    const result = findFileLevelDisablesInSource(maliciousCode, "src/components/BadComponent.tsx");
+    expect(result.unauthorizedNoConsole).toEqual(["src/components/BadComponent.tsx:2"]);
+    expect(result.findings).toHaveLength(1);
+    expect(result.findings[0]?.isNoConsole).toBe(true);
+  });
+
+  it("permits no-console file-level disable in allowed logger sinks (green proof)", () => {
+    const sinkCode = `
+/* eslint-disable no-console */
+export class Logger {}
+`;
+    const result = findFileLevelDisablesInSource(sinkCode, "src/utils/logger.ts");
+    expect(result.unauthorizedNoConsole).toEqual([]);
+    expect(result.findings).toHaveLength(1);
+    expect(result.findings[0]?.isNoConsole).toBe(true);
+  });
+
+  it("ignores line-level and next-line disable comments", () => {
+    const code = `
+// eslint-disable-next-line no-console
+console.log("line level");
+console.log("another"); // eslint-disable-line no-console
+`;
+    const result = findFileLevelDisablesInSource(code, "src/components/Component.tsx");
+    expect(result.findings).toEqual([]);
+    expect(result.unauthorizedNoConsole).toEqual([]);
+  });
+});
+
+describe("compareSuppressions", () => {
+  const base = { "no-console": 5, "jsx-a11y/no-static-element-interactions": 2 };
+
+  it("allows suppressions to hold flat or decrease", () => {
+    expect(compareSuppressions(base, base)).toEqual({
+      exceedsBaseline: false,
+      regressions: [],
+    });
+    expect(compareSuppressions({ "no-console": 4 }, base)).toEqual({
+      exceedsBaseline: false,
+      regressions: [],
+    });
+  });
+
+  it("detects increases in rule suppressions", () => {
+    const result = compareSuppressions(
+      { "no-console": 6, "jsx-a11y/no-static-element-interactions": 3 },
+      base,
+    );
+    expect(result.exceedsBaseline).toBe(true);
+    expect(result.regressions).toEqual([
+      { rule: "no-console", baselineCount: 5, currentCount: 6, delta: 1 },
+      { rule: "jsx-a11y/no-static-element-interactions", baselineCount: 2, currentCount: 3, delta: 1 },
+    ]);
   });
 });
 

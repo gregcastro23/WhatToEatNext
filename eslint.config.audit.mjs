@@ -37,6 +37,9 @@ export default [
   ...base,
   {
     files: ["src/**/*.{ts,tsx,js,jsx}"],
+    linterOptions: {
+      reportUnusedDisableDirectives: "error",
+    },
     rules: AUDITED_RULES,
   },
 ];
