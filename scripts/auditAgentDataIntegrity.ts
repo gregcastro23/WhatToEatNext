@@ -125,15 +125,16 @@ const total = cov.rows.reduce((s, r) => s + Number(r.n), 0);
 // witness"; a witness that reproduces the first one's blind spot is not
 // independent. Read the population from `users` alone, and account for the rows
 // the join cannot see.
-const { rows: [pop] } = await client.query<{ agents: string; no_profile: string }>(
+const popResult = await client.query<{ agents: string; no_profile: string }>(
   `SELECT
      (SELECT count(*) FROM users WHERE is_agent)::text AS agents,
      (SELECT count(*) FROM users u
         LEFT JOIN user_profiles up ON up.user_id = u.id
        WHERE u.is_agent AND up.user_id IS NULL)::text AS no_profile`,
 );
-const agentPop = Number(pop.agents);
-const noProfile = Number(pop.no_profile);
+const pop = popResult.rows[0];
+const agentPop = pop ? Number(pop.agents) : 0;
+const noProfile = pop ? Number(pop.no_profile) : 0;
 checks++;
 if (total + noProfile !== agentPop) {
   failures++;
@@ -175,7 +176,8 @@ for (const [col, method] of [["monica_single","single-body"],["monica_two_body",
   const { rows } = await client.query<{ n: string; phi: string }>(
     `SELECT count(*)::text n, count(*) FILTER (WHERE abs(${col} - $1) < 1e-9)::text phi
        FROM user_profiles WHERE ${col} IS NOT NULL`, [MONICA_EQUILIBRIUM]);
-  const n = Number(rows[0].n), phi = Number(rows[0].phi);
+  const first = rows[0];
+  const n = first ? Number(first.n) : 0, phi = first ? Number(first.phi) : 0;
   console.log(`  ---   ${method.padEnd(60)} φ ${phi}/${n} (${n ? (phi/n*100).toFixed(1) : "0.0"}%)`);
 }
 // ⚠️ A monica of exactly 0 is NOT a fake-sentinel signature here. §18h proved
@@ -186,14 +188,16 @@ for (const [col, method] of [["monica_single","single-body"],["monica_two_body",
 // by construction. What would be a finding is the count MOVING, or a zero
 // appearing in a construction that cannot produce one.
 const EXPECTED_SINGLE_BODY_ZEROS = 284;
-const { rows: [z] } = await client.query<{ single: string; other: string }>(
+const zResult = await client.query<{ single: string; other: string }>(
   `SELECT count(*) FILTER (WHERE monica_single = 0)::text AS single,
           count(*) FILTER (WHERE monica_two_body = 0 OR monica_full_chart = 0)::text AS other
      FROM user_profiles`);
+const z = zResult.rows[0];
 checks++;
-console.log(`  ---   single-body zeros (§18h proven cluster)${" ".repeat(24)} ${z.single}`);
-if (Number(z.single) !== EXPECTED_SINGLE_BODY_ZEROS) {
-  console.log(`  NOTE  zero-cluster moved from ${EXPECTED_SINGLE_BODY_ZEROS} to ${z.single} ` +
+const singleZeros = z ? z.single : "0";
+console.log(`  ---   single-body zeros (§18h proven cluster)${" ".repeat(24)} ${singleZeros}`);
+if (Number(singleZeros) !== EXPECTED_SINGLE_BODY_ZEROS) {
+  console.log(`  NOTE  zero-cluster moved from ${EXPECTED_SINGLE_BODY_ZEROS} to ${singleZeros} ` +
     `(expected as the population grows — investigate only if it jumps)`);
 }
 await expectZero(
@@ -220,8 +224,9 @@ const { rows: snaps } = await client.query<{ table_name: string }>(
     ORDER BY c.relname`,
 );
 for (const snap of snaps) {
-  const { rows: [{ n }] } = await client.query<{ n: string }>(
+  const snapResult = await client.query<{ n: string }>(
     `SELECT count(*)::text n FROM "${snap.table_name}"`);
+  const n = snapResult.rows[0]?.n ?? "0";
   console.log(`  ---   snapshot ${snap.table_name.padEnd(46)} ${n} rows`);
 }
 // ⚠️ NOT every monica_preconstruction_* table is a rollback point. The backfill
@@ -233,14 +238,16 @@ for (const snap of snaps) {
 checks++;
 const rollbackPoints: string[] = [];
 for (const snap of snaps.filter((x) => x.table_name.startsWith("monica_preconstruction_"))) {
-  const { rows: [a] } = await client.query<{ n: string }>(
+  const aResult = await client.query<{ n: string }>(
     `SELECT count(*)::text n FROM "${snap.table_name}"
       WHERE monica_method IS NULL AND monica_constant BETWEEN 0.8 AND 7`);
-  const { rows: [b] } = await client.query<{ n: string }>(
+  const bResult = await client.query<{ n: string }>(
     `SELECT count(*)::text n FROM "${snap.table_name}" s
        JOIN user_profiles up ON up.user_id = s.user_id
       WHERE up.monica_method = 'two-body' AND s.monica_constant IS NOT NULL`);
-  const usable = Number(a.n) >= 70 && Number(b.n) >= 400;
+  const a = aResult.rows[0];
+  const b = bResult.rows[0];
+  const usable = Number(a?.n ?? 0) >= 70 && Number(b?.n ?? 0) >= 400;
   console.log(`  ${usable ? "==>" : "   "}   ${snap.table_name.padEnd(46)} ` +
     `${usable ? "TRUE ROLLBACK POINT" : "post-migration — restores nothing"}`);
   if (usable) rollbackPoints.push(snap.table_name);
