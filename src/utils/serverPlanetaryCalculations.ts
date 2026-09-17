@@ -7,7 +7,8 @@
 import * as AstronomyModule from "astronomy-engine";
 import { z } from "zod";
 import type { ZodiacSignType } from "@/types/celestial";
-import type { DegradedInfo } from "@/types/degraded";
+import { ZODIAC_SIGNS } from "@/types/constants";
+import type { DegradedInfo, DegradedReason } from "@/types/degraded";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
@@ -31,20 +32,7 @@ export const PRICED_BODIES = [
 
 export type PricedBody = (typeof PRICED_BODIES)[number];
 
-export const ZODIAC_SIGNS = [
-  "aries",
-  "taurus",
-  "gemini",
-  "cancer",
-  "leo",
-  "virgo",
-  "libra",
-  "scorpio",
-  "sagittarius",
-  "capricorn",
-  "aquarius",
-  "pisces",
-] as const;
+export { ZODIAC_SIGNS };
 
 export const backendPlanetPositionSchema = z.object({
   sign: z.enum(ZODIAC_SIGNS),
@@ -115,12 +103,17 @@ async function isBackendAvailable(): Promise<boolean> {
 }
 
 /**
- * Call backend for planetary positions calculation
+ * Call backend for planetary positions calculation with detailed outcome
  */
-export async function calculatePlanetaryPositionsBackend(
+export interface BackendPlanetaryCalculationResult {
+  positions: Record<string, PlanetPosition> | null;
+  schemaInvalid: boolean;
+}
+
+export async function calculatePlanetaryPositionsBackendDetailed(
   date: Date,
   zodiacSystem: "tropical" | "sidereal" = "tropical",
-): Promise<Record<string, PlanetPosition> | null> {
+): Promise<BackendPlanetaryCalculationResult> {
   try {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -165,10 +158,10 @@ export async function calculatePlanetaryPositionsBackend(
         code: i.code,
         message: i.message,
       }));
-      logger.warn("backend-schema-invalid: ephemeris response failed schema validation", {
+      logger.error("backend-schema-invalid: ephemeris response failed schema validation", {
         issues,
       });
-      return null;
+      return { positions: null, schemaInvalid: true };
     }
 
     const { data } = parseResult;
@@ -194,11 +187,25 @@ export async function calculatePlanetaryPositionsBackend(
       `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source ?? "unknown"})`,
     );
 
-    return positions;
+    return { positions, schemaInvalid: false };
   } catch (error) {
     logger.warn("Backend planetary calculation failed:", error);
-    return null;
+    return { positions: null, schemaInvalid: false };
   }
+}
+
+/**
+ * Call backend for planetary positions calculation
+ */
+export async function calculatePlanetaryPositionsBackend(
+  date: Date,
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
+): Promise<Record<string, PlanetPosition> | null> {
+  const result = await calculatePlanetaryPositionsBackendDetailed(
+    date,
+    zodiacSystem,
+  );
+  return result.positions;
 }
 
 /**
@@ -215,23 +222,8 @@ function longitudeToZodiacPosition(longitude: number): {
   const degree = Math.floor(degreeInSign);
   const minute = Math.floor((degreeInSign - degree) * 60);
 
-  const signs: ZodiacSignType[] = [
-    "aries",
-    "taurus",
-    "gemini",
-    "cancer",
-    "leo",
-    "virgo",
-    "libra",
-    "scorpio",
-    "sagittarius",
-    "capricorn",
-    "aquarius",
-    "pisces",
-  ];
-
   return {
-    sign: signs[signIndex] ?? "aries",
+    sign: ZODIAC_SIGNS[signIndex] ?? "aries",
     degree,
     minute,
   };
@@ -405,19 +397,24 @@ export async function calculatePlanetaryPositionsWithMeta(
     `calculatePlanetaryPositions called for date: ${date.toISOString()}`,
   );
 
+  let backendFailedSchema = false;
+
   // Try backend first for high-precision Swiss Ephemeris calculations
   try {
     const backendAvailable = await isBackendAvailable();
     if (backendAvailable) {
-      const backendPositions = await calculatePlanetaryPositionsBackend(
+      const backendResult = await calculatePlanetaryPositionsBackendDetailed(
         date,
         zodiacSystem,
       );
-      if (backendPositions && Object.keys(backendPositions).length > 0) {
+      if (backendResult.schemaInvalid) {
+        backendFailedSchema = true;
+      }
+      if (backendResult.positions && Object.keys(backendResult.positions).length > 0) {
         logger.info(
           "Using backend Swiss Ephemeris for planetary calculations (high precision)",
         );
-        return { positions: backendPositions, degraded: null, source: "railway" };
+        return { positions: backendResult.positions, degraded: null, source: "railway" };
       }
     }
   } catch (backendError) {
@@ -432,11 +429,12 @@ export async function calculatePlanetaryPositionsWithMeta(
     const { positions: astronomyPositions, usedFallback } =
       calculatePositionsWithAstronomyEngine(date);
     if (Object.keys(astronomyPositions).length > 0) {
+      const reasons: DegradedReason[] = [];
+      if (backendFailedSchema) reasons.push("backend-schema-invalid");
+      if (usedFallback) reasons.push("astronomy-engine-fallback");
       return {
         positions: astronomyPositions,
-        degraded: usedFallback
-          ? { reasons: ["astronomy-engine-fallback"] }
-          : null,
+        degraded: reasons.length > 0 ? { reasons } : null,
         source: "astronomy-engine",
       };
     }
@@ -449,9 +447,12 @@ export async function calculatePlanetaryPositionsWithMeta(
   logger.warn(
     "All calculation methods failed, using static fallback positions",
   );
+  const reasons: DegradedReason[] = [];
+  if (backendFailedSchema) reasons.push("backend-schema-invalid");
+  reasons.push("astronomy-engine-fallback");
   return {
     positions: getFallbackPlanetaryPositions(),
-    degraded: { reasons: ["astronomy-engine-fallback"] },
+    degraded: { reasons },
     source: "astronomy-engine",
   };
 }

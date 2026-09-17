@@ -5,7 +5,11 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
+  PRICED_BODIES,
+  type PricedBody,
 } from "@/utils/serverPlanetaryCalculations";
+
+export { PRICED_BODIES, type PricedBody };
 
 interface EsmsCost {
   spirit: number;
@@ -116,19 +120,6 @@ export function globalMultiplierForANumber(aNumber: number): number {
  * contribute exactly 0 to ESMS, so excluding them is behaviour-preserving and
  * merely makes the contract explicit.
  */
-export const PRICED_BODIES = [
-  "Sun",
-  "Moon",
-  "Mercury",
-  "Venus",
-  "Mars",
-  "Jupiter",
-  "Saturn",
-  "Uranus",
-  "Neptune",
-  "Pluto",
-] as const;
-
 const PRICED_BODY_SET: ReadonlySet<string> = new Set(PRICED_BODIES);
 
 /**

@@ -247,7 +247,10 @@ for (const snap of snaps.filter((x) => x.table_name.startsWith("monica_preconstr
       WHERE up.monica_method = 'two-body' AND s.monica_constant IS NOT NULL`);
   const a = aResult.rows[0];
   const b = bResult.rows[0];
-  const usable = Number(a?.n ?? 0) >= 70 && Number(b?.n ?? 0) >= 400;
+  if (!a || !b) {
+    throw new Error(`Snapshot count query returned no rows for table ${snap.table_name}`);
+  }
+  const usable = Number(a.n) >= 70 && Number(b.n) >= 400;
   console.log(`  ${usable ? "==>" : "   "}   ${snap.table_name.padEnd(46)} ` +
     `${usable ? "TRUE ROLLBACK POINT" : "post-migration — restores nothing"}`);
   if (usable) rollbackPoints.push(snap.table_name);

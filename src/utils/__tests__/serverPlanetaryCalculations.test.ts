@@ -8,85 +8,119 @@ import {
 } from "../serverPlanetaryCalculations";
 
 const VALID_GOLDEN_BACKEND_PAYLOAD = {
+  birth_info: {
+    year: 2026,
+    month: 9,
+    date: 17,
+    hour: 17,
+    minute: 45,
+  },
   planetary_positions: {
     Sun: {
-      sign: "cancer",
-      degree: 27,
-      exactLongitude: 117.8035,
+      sign: "virgo",
+      degree: 24,
+      minute: 51,
+      exactLongitude: 174.857328677447,
       isRetrograde: false,
     },
     Moon: {
-      sign: "libra",
-      degree: 16,
-      exactLongitude: 196.6872,
+      sign: "sagittarius",
+      degree: 12,
+      minute: 34,
+      exactLongitude: 252.57051158650566,
       isRetrograde: false,
     },
     Mercury: {
-      sign: "cancer",
-      degree: 16,
-      exactLongitude: 106.8545,
-      isRetrograde: true,
+      sign: "libra",
+      degree: 11,
+      minute: 28,
+      exactLongitude: 191.4829078214909,
+      isRetrograde: false,
     },
     Venus: {
-      sign: "virgo",
-      degree: 11,
-      exactLongitude: 161.8483,
+      sign: "scorpio",
+      degree: 4,
+      minute: 18,
+      exactLongitude: 214.30571159732622,
       isRetrograde: false,
     },
     Mars: {
-      sign: "gemini",
-      degree: 15,
-      exactLongitude: 75.2195,
+      sign: "cancer",
+      degree: 23,
+      minute: 47,
+      exactLongitude: 113.79426346782628,
       isRetrograde: false,
     },
     Jupiter: {
       sign: "leo",
-      degree: 4,
-      exactLongitude: 124.4163,
+      degree: 17,
+      minute: 6,
+      exactLongitude: 137.10373838914455,
       isRetrograde: false,
     },
     Saturn: {
       sign: "aries",
-      degree: 14,
-      exactLongitude: 14.7159,
-      isRetrograde: false,
+      degree: 12,
+      minute: 35,
+      exactLongitude: 12.58788025255397,
+      isRetrograde: true,
     },
     Uranus: {
       sign: "gemini",
-      degree: 4,
-      exactLongitude: 64.5913,
-      isRetrograde: false,
+      degree: 5,
+      minute: 40,
+      exactLongitude: 65.67641365444423,
+      isRetrograde: true,
     },
     Neptune: {
       sign: "aries",
-      degree: 4,
-      exactLongitude: 4.3724,
+      degree: 3,
+      minute: 13,
+      exactLongitude: 3.228558158719206,
       isRetrograde: true,
     },
     Pluto: {
       sign: "aquarius",
-      degree: 4,
-      exactLongitude: 304.4441,
+      degree: 3,
+      minute: 15,
+      exactLongitude: 303.2524263526133,
       isRetrograde: true,
     },
-    // Extra remote bodies that pyswisseph provides
     "North Node": {
-      sign: "pisces",
-      degree: 1,
-      exactLongitude: 331.5544,
+      sign: "aquarius",
+      degree: 28,
+      minute: 25,
+      exactLongitude: 328.41747511364724,
+      isRetrograde: true,
+    },
+    "South Node": {
+      sign: "leo",
+      degree: 28,
+      minute: 25,
+      exactLongitude: 148.41747511364724,
       isRetrograde: true,
     },
     Ascendant: {
-      sign: "virgo",
-      degree: 0,
-      exactLongitude: 150.6708,
+      sign: "capricorn",
+      degree: 24,
+      minute: 16,
+      exactLongitude: 294.27569846701607,
+      isRetrograde: false,
+    },
+    MC: {
+      sign: "libra",
+      degree: 28,
+      minute: 10,
+      exactLongitude: 208.1811638160915,
       isRetrograde: false,
     },
   },
   metadata: {
     source: "pyswisseph",
-    precision: "swiss-ephemeris",
+    precision: "NASA JPL DE (sub-arcsecond)",
     zodiacSystem: "tropical",
+    timestamp: "2026-09-17T17:56:16.328304",
+    calculatedAt: "2026-09-17T17:45:00",
   },
 };
 
@@ -334,17 +368,19 @@ describe("calculatePlanetaryPositionsBackend", () => {
     );
 
     expect(positions).not.toBeNull();
-    expect(positions?.Sun?.sign).toBe("cancer");
-    expect(positions?.Sun?.degree).toBe(27);
-    expect(positions?.Sun?.exactLongitude).toBeCloseTo(117.8035);
+    expect(positions?.Sun?.sign).toBe("virgo");
+    expect(positions?.Sun?.degree).toBe(24);
+    expect(positions?.Sun?.minute).toBe(51);
+    expect(positions?.Sun?.exactLongitude).toBeCloseTo(174.8573);
     expect(positions?.Sun?.isRetrograde).toBe(false);
-    expect(positions?.Mercury?.isRetrograde).toBe(true);
-    // Extra bodies like Ascendant should still be preserved
-    expect(positions?.Ascendant?.sign).toBe("virgo");
+    expect(positions?.Saturn?.isRetrograde).toBe(true);
+    // Extra bodies like Ascendant and MC should still be preserved
+    expect(positions?.Ascendant?.sign).toBe("capricorn");
+    expect(positions?.MC?.sign).toBe("libra");
   });
 
   it("logs backend-schema-invalid and returns null on corrupt response (missing body)", async () => {
-    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     const corruptPayload = JSON.parse(
       JSON.stringify(VALID_GOLDEN_BACKEND_PAYLOAD),
@@ -369,7 +405,7 @@ describe("calculatePlanetaryPositionsBackend", () => {
     expect(positions).toBeNull();
 
     // Verify structured logging
-    expect(warnSpy).toHaveBeenCalledWith(
+    expect(errorSpy).toHaveBeenCalledWith(
       expect.stringContaining("backend-schema-invalid:"),
       expect.objectContaining({
         issues: expect.arrayContaining([
@@ -385,7 +421,7 @@ describe("calculatePlanetaryPositionsBackend", () => {
   });
 
   it("logs backend-schema-invalid and returns null on corrupt coordinate (out-of-range degree)", async () => {
-    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     const corruptPayload = JSON.parse(
       JSON.stringify(VALID_GOLDEN_BACKEND_PAYLOAD),
@@ -408,7 +444,7 @@ describe("calculatePlanetaryPositionsBackend", () => {
     );
 
     expect(positions).toBeNull();
-    expect(warnSpy).toHaveBeenCalledWith(
+    expect(errorSpy).toHaveBeenCalledWith(
       expect.stringContaining("backend-schema-invalid:"),
       expect.objectContaining({
         issues: expect.arrayContaining([
@@ -420,7 +456,8 @@ describe("calculatePlanetaryPositionsBackend", () => {
     );
   });
 
-  it("falls back to astronomy-engine when backend schema fails validation", async () => {
+  it("falls back to astronomy-engine and signals backend-schema-invalid when backend schema fails validation", async () => {
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
     jest.spyOn(console, "warn").mockImplementation(() => {});
 
     const corruptPayload = JSON.parse(
@@ -446,5 +483,10 @@ describe("calculatePlanetaryPositionsBackend", () => {
     expect(meta.source).toBe("astronomy-engine");
     expect(meta.positions.Saturn).toBeDefined();
     expect(meta.positions.Saturn.sign).toBeDefined();
+    expect(meta.degraded?.reasons).toContain("backend-schema-invalid");
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining("backend-schema-invalid:"),
+      expect.any(Object),
+    );
   });
 });
