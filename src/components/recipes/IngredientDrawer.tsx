@@ -834,7 +834,7 @@ export function IngredientDrawer({
         )}
       </aside>
 
-      {/* eslint-disable react/no-unknown-property */}
+      {/* eslint-disable-next-line react/no-unknown-property */}
       <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -845,7 +845,6 @@ export function IngredientDrawer({
           to { transform: translateX(0); }
         }
       `}</style>
-      {/* eslint-enable react/no-unknown-property */}
     </div>
   );
 }

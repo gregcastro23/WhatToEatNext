@@ -5,18 +5,30 @@
     "asAny": 38,
     "asUnknownAs": 129,
     "production": 135,
-    "test": 32,
-    "untrackedSingleAsT": 2002
+    "test": 32
   },
   "assertionSites": {
-    "total": 3289,
+    "total": 3288,
     "asAny": 37,
     "chained": 129,
-    "single": 3123,
-    "production": 2666,
-    "test": 623,
+    "single": 3122,
+    "production": 2664,
+    "test": 624,
     "asConst": 564,
     "nonNull": 605
+  },
+  "looseOptionality": {
+    "total": 462,
+    "production": 462,
+    "test": 0
+  },
+  "fileLevelDisables": {
+    "ceiling": 5
+  },
+  "suppressions": {
+    "no-console": 25,
+    "jsx-a11y/no-noninteractive-element-interactions": 3,
+    "jsx-a11y/no-static-element-interactions": 1
   },
   "subBaselines": {
     "preferNullishCoalescing": {

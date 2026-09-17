@@ -80,10 +80,9 @@ export function countDiagnosticsFromText(
   for (const line of lines) {
     const diag = parseTscDiagnosticLine(line);
     if (!diag) continue;
-    if (!byFile[diag.filePath]) {
-      byFile[diag.filePath] = [];
-    }
-    byFile[diag.filePath].push(diag);
+    const fileDiags = byFile[diag.filePath] ?? [];
+    fileDiags.push(diag);
+    byFile[diag.filePath] = fileDiags;
     total += 1;
   }
 
