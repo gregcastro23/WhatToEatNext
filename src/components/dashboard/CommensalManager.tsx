@@ -1016,8 +1016,8 @@ export const CommensalManager: React.FC = () => {
                 key={m.id}
                 name={m.name}
                 element={m.natalChart.dominantElement}
-                {...(m.natalChart.dominantModality ? { modality: m.natalChart.dominantModality } : {})}
-                {...(m.natalChart.ascendant ? { ascendant: m.natalChart.ascendant } : {})}
+                modality={m.natalChart.dominantModality}
+                ascendant={m.natalChart.ascendant}
                 {...(m.relationship ? { relationship: m.relationship } : {})}
                 selected={selectedManualIds.includes(m.id)}
                 onToggle={() => { toggleManualSelect(m.id); }}
@@ -1035,8 +1035,8 @@ export const CommensalManager: React.FC = () => {
                 key={f.userId}
                 name={f.name}
                 element={f.natalChart.dominantElement}
-                {...(f.natalChart.dominantModality ? { modality: f.natalChart.dominantModality } : {})}
-                {...(f.natalChart.ascendant ? { ascendant: f.natalChart.ascendant } : {})}
+                modality={f.natalChart.dominantModality}
+                ascendant={f.natalChart.ascendant}
                 isLinked
                 selected={selectedLinkedIds.includes(f.userId)}
                 onToggle={() => { toggleLinkedSelect(f.userId); }}
