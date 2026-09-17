@@ -9,8 +9,10 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { CreateSessionRequestSchema } from "@/lib/validation/apiSchemas";
+
+const logger = createLogger("api:sessions");
 
 let dbModule: typeof import("@/lib/database") | null = null;
 const getDb = async () => {
@@ -69,7 +71,9 @@ export async function POST(request: Request) {
           ],
         );
       } catch (dbError) {
-        console.warn("[api/sessions] DB insert failed, returning in-memory session:", dbError);
+        logger.warn("DB insert failed, returning in-memory session", {
+          error: dbError,
+        });
       }
     }
 
@@ -86,12 +90,29 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    _logger.error("[api/sessions] Error:", error);
+    logger.error("Failed to create session", {
+      error,
+    });
     return NextResponse.json(
       { error: "Failed to create session" },
       { status: 500 },
     );
   }
+}
+
+async function getSessionById(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  sessionId: string,
+  userId: string,
+) {
+  const result = await db.executeQuery(
+    `SELECT id, creator_id as "creatorId", name, member_ids as "memberIds",
+            strategy, results, status, created_at as "createdAt", expires_at as "expiresAt"
+     FROM recommendation_sessions
+     WHERE id = $1 AND (creator_id = $2 OR member_ids::text LIKE '%' || $2 || '%')`,
+    [sessionId, userId],
+  );
+  return result.rows[0] ?? null;
 }
 
 export async function GET(request: Request) {
@@ -110,18 +131,11 @@ export async function GET(request: Request) {
     }
 
     if (sessionId) {
-      // Get specific session
-      const result = await db.executeQuery(
-        `SELECT id, creator_id as "creatorId", name, member_ids as "memberIds",
-                strategy, results, status, created_at as "createdAt", expires_at as "expiresAt"
-         FROM recommendation_sessions
-         WHERE id = $1 AND (creator_id = $2 OR member_ids::text LIKE '%' || $2 || '%')`,
-        [sessionId, session.user.id],
-      );
-      if (result.rows.length === 0) {
+      const sessionRow = await getSessionById(db, sessionId, session.user.id);
+      if (!sessionRow) {
         return NextResponse.json({ error: "Session not found" }, { status: 404 });
       }
-      return NextResponse.json({ success: true, session: result.rows[0] });
+      return NextResponse.json({ success: true, session: sessionRow });
     }
 
     // List user's sessions
@@ -137,7 +151,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, sessions: result.rows });
   } catch (error) {
-    _logger.error("[api/sessions] Error:", error);
+    logger.error("Failed to fetch sessions", {
+      error,
+    });
     return NextResponse.json(
       { error: "Failed to fetch sessions" },
       { status: 500 },

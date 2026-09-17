@@ -97,12 +97,11 @@ export async function POST(request: NextRequest) {
     // The customer may not exist yet (first purchase). When it's null,
     // pass undefined and let Stripe create one keyed to the userId in
     // metadata — the webhook picks it up.
-    const customerId = sub.stripeCustomerId ?? undefined;
     const appUrl = getSelfBaseUrl();
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
-      customer: customerId,
+      ...(sub.stripeCustomerId ? { customer: sub.stripeCustomerId } : {}),
       line_items: [{ price: def.stripePriceId, quantity: 1 }],
       success_url: `${appUrl}/account/billing/mcp?status=success&sku=${encodeURIComponent(def.sku)}`,
       cancel_url: `${appUrl}/account/billing/mcp?status=canceled`,

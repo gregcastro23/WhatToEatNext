@@ -70,6 +70,7 @@ export default async function middleware(request: NextRequest) {
     const result = await authMiddleware(request);
     const elapsed = Date.now() - started;
     if (elapsed > SLOW_MIDDLEWARE_THRESHOLD_MS) {
+      // eslint-disable-next-line no-console -- Edge runtime: stdout is the sole tracing channel for slow middleware
       console.warn(
         `[middleware] slow ${elapsed}ms ${request.method} ${request.nextUrl.pathname}`,
       );
@@ -77,6 +78,7 @@ export default async function middleware(request: NextRequest) {
     return result;
   } catch (err) {
     const elapsed = Date.now() - started;
+    // eslint-disable-next-line no-console -- Edge runtime: stdout is the sole channel for uncaught middleware failures
     console.error(
       `[middleware] failed after ${elapsed}ms ${request.method} ${request.nextUrl.pathname}:`,
       err,

@@ -1,12 +1,15 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { NanobananaGenerateRequestSchema } from "@/lib/validation/apiSchemas";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("nanobanana:generate");
 
 const RATE_LIMIT = { window: 60_000, max: 10, bucket: "nanobanana-generate" };
 const CACHE_TTL = 60 * 60 * 24 * 7; // 7 days
@@ -46,11 +49,11 @@ export async function POST(req: NextRequest) {
     try {
       const cached = await redisGet<unknown>(cacheKey);
       if (cached) {
-        console.debug("[NanoBanana] Serving cached image result");
+        logger.debug("[NanoBanana] Serving cached image result");
         return NextResponse.json(cached);
       }
     } catch (err) {
-      console.warn("[NanoBanana] Redis read failed:", err);
+      logger.warn("[NanoBanana] Redis read failed:", err);
     }
 
     // PA's image-gen route is served by the Python backend at
@@ -82,13 +85,13 @@ export async function POST(req: NextRequest) {
     // Cache the successful result
     if (data.url) {
       await redisSet(cacheKey, data, CACHE_TTL).catch((err) =>
-        console.warn("[NanoBanana] Redis write failed:", err),
+        logger.warn("[NanoBanana] Redis write failed:", err),
       );
     }
 
     return NextResponse.json(data);
   } catch (_err) {
-    _logger.error("[NanoBanana] Generation failed:", _err);
+    logger.error("[NanoBanana] Generation failed:", _err);
     return NextResponse.json({ error: "Failed to generate recipe image" }, { status: 500 });
   }
 }

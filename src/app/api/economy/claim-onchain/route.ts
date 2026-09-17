@@ -20,6 +20,8 @@ import { NextResponse } from "next/server";
 import { formatUnits } from "viem";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { createLogger } from "@/utils/logger";
+
 import {
   esmsCaip2,
   esmsChain,
@@ -39,6 +41,8 @@ import {
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { NextRequest } from "next/server";
 import type { Address, Hex } from "viem";
+
+const logger = createLogger("economy:claim-onchain");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -84,7 +88,7 @@ async function readOnchainOrNull(wallet: Address) {
       substance: Number(formatUnits(b.substance, 18)),
     };
   } catch (err) {
-    console.warn("[economy/claim-onchain] on-chain balance read failed:", err);
+    logger.warn("[economy/claim-onchain] on-chain balance read failed:", err);
     return null;
   }
 }

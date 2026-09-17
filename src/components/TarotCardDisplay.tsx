@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { createLogger } from "@/utils/logger";
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import styles from './TarotCardDisplay.module.css';
+
+const logger = createLogger("TarotCardDisplay");
 
 interface TarotTokenValues {
     Spirit: number;
@@ -66,7 +69,7 @@ export default function TarotCardDisplay() {
             }
         } catch (err) {
             setError('Failed to load tarot cards');
-            console.error(err);
+            logger.error('Failed to load tarot cards:', err);
         }
     }, []);
 

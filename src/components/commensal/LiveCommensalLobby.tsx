@@ -17,10 +17,14 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { isLiveCommensalEnabled } from "@/lib/spacetime/config";
+import { createLogger } from "@/utils/logger";
+
 import type {
   CommensalMember as MemberRow,
   CommensalSession as SessionRow,
 } from "@/lib/spacetime/generated/types";
+
+const logger = createLogger("LiveCommensalLobby");
 
 interface StatusLabel {
   label: string;
@@ -133,7 +137,7 @@ export default function LiveCommensalLobby() {
     if (!cleanTitle) return;
     void connection.reducers
       .createCommensalSession({ title: cleanTitle, displayName })
-      .catch((error) => console.warn("[commensal] create failed:", error));
+      .catch((error) => logger.warn("create failed:", error));
     track("commensal_session_created");
     setTitle("");
   };
@@ -219,7 +223,7 @@ export default function LiveCommensalLobby() {
                               displayName,
                             })
                             .catch((error) =>
-                              console.warn("[commensal] join failed:", error),
+                              logger.warn("join failed:", error),
                             );
                           track("commensal_session_joined");
                         }}
@@ -234,7 +238,7 @@ export default function LiveCommensalLobby() {
                           void connection.reducers
                             .leaveCommensalSession({ sessionId: session.sessionId })
                             .catch((error) =>
-                              console.warn("[commensal] leave failed:", error),
+                              logger.warn("leave failed:", error),
                             );
                         }}
                         className="rounded-lg border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/60 hover:bg-white/10"
@@ -256,7 +260,7 @@ export default function LiveCommensalLobby() {
                               status: session.status === 0 ? 1 : 0,
                             })
                             .catch((error) =>
-                              console.warn("[commensal] status failed:", error),
+                              logger.warn("status failed:", error),
                             );
                         }}
                         className="rounded-lg border border-amber-300/40 bg-amber-400/10 px-3 py-1 text-xs font-medium text-amber-300 hover:bg-amber-400/20"

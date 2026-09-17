@@ -20,7 +20,8 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
@@ -28,6 +29,8 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
+
+const logger = createLogger("feed");
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +41,7 @@ const MAX_DISPLAY_NAME_LENGTH = 120;
 const MAX_METADATA_BYTES = 16_384; // 16 KB ceiling on a single event payload
 
 if (!process.env.INTERNAL_API_SECRET) {
-  console.warn(
+  logger.warn(
     "[feed] INTERNAL_API_SECRET is not set - the POST handler will reject all agent writes until the secret is configured",
   );
 }
@@ -132,7 +135,7 @@ export const GET = withObservability(
         },
       );
     } catch (error) {
-      _logger.error("Feed fetch error:", error);
+      logger.error("Feed fetch error:", error);
       return NextResponse.json(
         { success: false, message: "Failed to fetch feed events." },
         { status: 500 },
@@ -232,7 +235,7 @@ export const POST = withObservability(
     if (isAgenticNamespace && (!user?.isAgent)) {
       try {
         user = await userDatabase.ensurePlanetaryAgent(normalizedEmail, agentDisplayName);
-        console.log(
+        logger.info(
           `[Feed API] Auto-provisioned agent ${normalizedEmail} (userId=${user.id})`,
         );
       } catch (provisionError) {
@@ -242,7 +245,7 @@ export const POST = withObservability(
         // announces a platform incident for what is really one malformed
         // agent. 422 says "we understood you and declined".
         if (provisionError instanceof AgentChartRequiredError) {
-          console.warn(
+          logger.warn(
             "[Feed API] refused unclassifiable agent",
             normalizedEmail,
             provisionError.message,
@@ -258,7 +261,7 @@ export const POST = withObservability(
             { status: 422 },
           );
         }
-        console.error("[Feed API] ensurePlanetaryAgent failed for", normalizedEmail, provisionError);
+        logger.error("[Feed API] ensurePlanetaryAgent failed for", normalizedEmail, provisionError);
         rememberFeedEmit(eventType, normalizedEmail, 500);
         return NextResponse.json(
           {
@@ -338,7 +341,7 @@ export const POST = withObservability(
         );
       }
     } catch (notifError) {
-      _logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
+      logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
     }
 
     rememberFeedEmit(incomingEventType, normalizedEmail, 200);
@@ -348,7 +351,7 @@ export const POST = withObservability(
       eventType: incomingEventType,
     });
   } catch (error) {
-    _logger.error("[Feed Webhook] Error processing agent event:", error);
+    logger.error("[Feed Webhook] Error processing agent event:", error);
     rememberFeedEmit(eventType, agentEmail, 500);
     return NextResponse.json(
       { success: false, message: "Internal server error." },

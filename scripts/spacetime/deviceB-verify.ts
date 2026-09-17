@@ -110,25 +110,39 @@ async function main() {
     case "dump":
       dump();
       break;
-    case "plan-upsert":
+    case "plan-upsert": {
+      if (args.length < 6) {
+        console.error("Usage: plan-upsert <week> <day> <meal> <ref> <name> <servings>");
+        process.exit(1);
+      }
       await conn.reducers.upsertMealPlanSlot({
         weekEpochDay: Number(args[0]),
         dayOfWeek: Number(args[1]),
         mealType: Number(args[2]),
         recipeId: 0n,
-        recipeRef: args[3],
-        recipeName: args[4],
+        recipeRef: args[3] ?? "",
+        recipeName: args[4] ?? "",
         servings: Number(args[5]),
       });
       break;
-    case "plan-clear":
+    }
+    case "plan-clear": {
+      if (args.length < 3) {
+        console.error("Usage: plan-clear <week> <day> <meal>");
+        process.exit(1);
+      }
       await conn.reducers.clearMealPlanSlot({
         weekEpochDay: Number(args[0]),
         dayOfWeek: Number(args[1]),
         mealType: Number(args[2]),
       });
       break;
-    case "plan-lock":
+    }
+    case "plan-lock": {
+      if (args.length < 4) {
+        console.error("Usage: plan-lock <week> <day> <meal> <0|1>");
+        process.exit(1);
+      }
       await conn.reducers.setMealPlanSlotLocked({
         weekEpochDay: Number(args[0]),
         dayOfWeek: Number(args[1]),
@@ -136,11 +150,19 @@ async function main() {
         locked: args[3] === "1",
       });
       break;
-    case "cart-upsert":
+    }
+    case "cart-upsert": {
+      const itemKey = args[0];
+      const name = args[1];
+      const quantity = Number(args[2]);
+      if (!itemKey || !name || Number.isNaN(quantity)) {
+        console.error("Usage: cart-upsert <key> <name> <qty> [unit]");
+        process.exit(1);
+      }
       await conn.reducers.cartUpsertItem({
-        itemKey: args[0],
-        name: args[1],
-        quantity: Number(args[2]),
+        itemKey,
+        name,
+        quantity,
         unit: args[3] ?? "each",
         category: "",
         notes: "",
@@ -148,43 +170,82 @@ async function main() {
         recipeRefs: [],
       });
       break;
-    case "cart-remove":
-      await conn.reducers.cartRemoveItem({ itemKey: args[0] });
+    }
+    case "cart-remove": {
+      const itemKey = args[0];
+      if (!itemKey) {
+        console.error("Usage: cart-remove <key>");
+        process.exit(1);
+      }
+      await conn.reducers.cartRemoveItem({ itemKey });
       break;
-    case "feed-post":
+    }
+    case "feed-post": {
+      const eventType = args[0];
+      if (!eventType) {
+        console.error("Usage: feed-post <eventType> [actorName]");
+        process.exit(1);
+      }
       await conn.reducers.postFeedEvent({
         actorName: args[1] ?? "Device B",
         actorIsAgent: false,
-        eventType: args[0] ?? "shared_menu",
+        eventType,
         payloadJson: JSON.stringify({ menuTitle: "device-B test", mealCount: 2 }),
       });
       break;
-    case "comm-create":
+    }
+    case "comm-create": {
+      const title = args[0];
+      if (!title) {
+        console.error("Usage: comm-create <title> [displayName] [staySeconds]");
+        process.exit(1);
+      }
       await conn.reducers.createCommensalSession({
-        title: args[0] ?? "Test Party",
+        title,
         displayName: args[1] ?? "DeviceB",
       });
       break;
-    case "comm-join":
+    }
+    case "comm-join": {
+      const rawSessionId = args[0];
+      if (!rawSessionId) {
+        console.error("Usage: comm-join <sessionId> [displayName] [staySeconds]");
+        process.exit(1);
+      }
       await conn.reducers.joinCommensalSession({
-        sessionId: BigInt(args[0]),
+        sessionId: BigInt(rawSessionId),
         displayName: args[1] ?? "DeviceB",
       });
       break;
-    case "comm-leave":
-      await conn.reducers.leaveCommensalSession({ sessionId: BigInt(args[0]) });
+    }
+    case "comm-leave": {
+      const rawSessionId = args[0];
+      if (!rawSessionId) {
+        console.error("Usage: comm-leave <sessionId>");
+        process.exit(1);
+      }
+      await conn.reducers.leaveCommensalSession({ sessionId: BigInt(rawSessionId) });
       break;
-    case "comm-status":
+    }
+    case "comm-status": {
+      const rawSessionId = args[0];
+      const rawStatus = args[1];
+      if (!rawSessionId || rawStatus === undefined) {
+        console.error("Usage: comm-status <sessionId> <status>");
+        process.exit(1);
+      }
       await conn.reducers.setCommensalSessionStatus({
-        sessionId: BigInt(args[0]),
-        status: Number(args[1]),
+        sessionId: BigInt(rawSessionId),
+        status: Number(rawStatus),
       });
       break;
+    }
     default:
       throw new Error(`unknown command: ${cmd}`);
   }
 
-  const stayIdx = { "comm-create": 2, "comm-join": 2 }[cmd];
+  const stayCommands: Record<string, number> = { "comm-create": 2, "comm-join": 2 };
+  const stayIdx = stayCommands[cmd];
   const stay =
     stayIdx !== undefined && args[stayIdx] ? Number(args[stayIdx]) : 0;
   await sleep(1200);

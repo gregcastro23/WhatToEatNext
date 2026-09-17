@@ -27,11 +27,14 @@ export function parseStoredProfile(
   try {
     const parsed = JSON.parse(stored) as UserProfileData;
     if (parsed.natalChart) {
+      const resolvedUserId = parsed.userId ?? userId;
+      const resolvedName = parsed.name ?? (userName ?? undefined);
+      const resolvedEmail = parsed.email ?? (userEmail ?? undefined);
       return {
         ...parsed,
-        userId: parsed.userId ?? userId,
-        name: parsed.name ?? (userName ?? undefined),
-        email: parsed.email ?? (userEmail ?? undefined),
+        ...(resolvedUserId ? { userId: resolvedUserId } : {}),
+        ...(resolvedName ? { name: resolvedName } : {}),
+        ...(resolvedEmail ? { email: resolvedEmail } : {}),
       };
     }
   } catch {
@@ -46,7 +49,7 @@ export function loadInitialPreferences(): UserPreferences {
     try {
       return JSON.parse(storedPrefs) as UserPreferences;
     } catch {
-      // fallback
+      // Corrupt localStorage, fall back to initial
     }
   }
   return DEFAULT_PREFERENCES;
@@ -68,6 +71,7 @@ export async function fetchServerProfile(): Promise<{ profile: UserProfileData |
   }
   return { profile: null, serverLoaded: false };
 }
+
 
 export async function executeOnboarding(
   email: string,
@@ -99,8 +103,8 @@ export async function executeOnboarding(
   });
   return {
     success: Boolean(result.success),
-    message: result.message,
-    natalChart: result.natalChart,
+    ...(result.message ? { message: result.message } : {}),
+    ...(result.natalChart ? { natalChart: result.natalChart } : {}),
     birthData,
   };
 }

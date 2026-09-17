@@ -19,13 +19,13 @@ const { HONO_API_URL } = process.env;
 interface RelatedRecipe {
   id: string;
   name: string;
-  cuisine?: string;
-  description?: string;
-  prepTime?: number;
-  cookTime?: number;
-  servings?: number;
-  amount?: number;
-  unit?: string;
+  cuisine?: string | undefined;
+  description?: string | undefined;
+  prepTime?: number | undefined;
+  cookTime?: number | undefined;
+  servings?: number | undefined;
+  amount?: number | undefined;
+  unit?: string | undefined;
 }
 
 function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined {

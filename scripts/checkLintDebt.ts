@@ -405,16 +405,22 @@ if (siteComparison.exceedsBaseline) {
         `(as any: ${currentSites.asAny} vs ${baselineSites.asAny}, chained: ${currentSites.chained} vs ${baselineSites.chained}, single: ${currentSites.single} vs ${baselineSites.single}).`,
     );
   }
-  if (siteComparison.asAnyIncreasedBy > 0 && siteComparison.totalIncreasedBy === 0) {
+  if (siteComparison.asAnyIncreasedBy > 0) {
     console.error(
       `❌ \`as any\` assertion sites increased by ${siteComparison.asAnyIncreasedBy}: ` +
-        `${currentSites.asAny} exceeds baseline of ${baselineSites.asAny} (site total remained ${currentSites.total}).`,
+        `${currentSites.asAny} exceeds baseline of ${baselineSites.asAny}.`,
     );
   }
-  if (siteComparison.productionIncreasedBy > 0 && siteComparison.totalIncreasedBy === 0) {
+  if (siteComparison.productionIncreasedBy > 0) {
     console.error(
       `❌ Production assertion sites increased by ${siteComparison.productionIncreasedBy}: ` +
         `${currentSites.production} exceeds baseline of ${baselineSites.production}.`,
+    );
+  }
+  if (siteComparison.nonNullIncreasedBy > 0) {
+    console.error(
+      `❌ Non-null assertion sites increased by ${siteComparison.nonNullIncreasedBy}: ` +
+        `${currentSites.nonNull} exceeds baseline of ${baselineSites.nonNull}.`,
     );
   }
 }

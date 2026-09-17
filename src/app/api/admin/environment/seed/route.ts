@@ -75,7 +75,7 @@ function parseLocations(body: unknown): SeedLocation[] | string {
     parsed.push({
       latitude,
       longitude,
-      label: typeof label === "string" ? label : undefined,
+      ...(typeof label === "string" ? { label } : {}),
     });
   }
   return parsed;

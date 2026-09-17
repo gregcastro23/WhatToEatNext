@@ -70,9 +70,9 @@ function ScoreBadge({ label, value, color }: { label: string; value: string | nu
 
 interface IngredientRowProps {
   name: string;
-  amount?: number | string;
-  unit?: string;
-  elementalProperties?: Record<string, number>;
+  amount?: number | string | undefined;
+  unit?: string | undefined;
+  elementalProperties?: Record<string, number> | undefined;
 }
 
 function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRowProps): React.JSX.Element {

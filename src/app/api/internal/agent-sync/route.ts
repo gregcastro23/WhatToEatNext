@@ -140,12 +140,13 @@ export async function POST(req: NextRequest | Request) {
       try {
         const parsedDate = new Date(`${birthDate}T${timeStr}`);
         if (!Number.isNaN(parsedDate.getTime())) {
+          const locName = birthLocation.name ?? birthLocation.displayName;
           birthData = {
             dateTime: parsedDate.toISOString(),
             latitude: Number(birthLocation.latitude),
             longitude: Number(birthLocation.longitude),
-            timezone: birthLocation.timezone ?? undefined,
-            name: birthLocation.name ?? birthLocation.displayName ?? undefined,
+            ...(birthLocation.timezone ? { timezone: birthLocation.timezone } : {}),
+            ...(locName ? { name: locName } : {}),
           };
         }
       } catch (err) {

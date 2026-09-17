@@ -194,18 +194,29 @@ export async function PUT(
       ...(cuisineType !== undefined && { cuisineType }),
       ...(cookingMethod !== undefined && { cookingMethod }),
       ...(cookedAt !== undefined && { cookedAt }),
-      ...(photos !== undefined && { photos }),
+      ...(photos !== undefined && {
+        photos: photos.map((p) => ({
+          dataUrl: p.dataUrl,
+          uploadedAt: p.uploadedAt,
+          ...(p.caption !== undefined ? { caption: p.caption } : {}),
+        })),
+      }),
       ...(elementalTags !== undefined && { elementalTags }),
       ...(alchemicalTags !== undefined && { alchemicalTags }),
       ...(planetaryContext !== undefined && { planetaryContext }),
       ...(rating !== undefined && { rating }),
       ...(tags !== undefined && { tags }),
-      ...(isPublic !== undefined && {
+      ...(isPublic !== undefined ? {
         isPublic,
-        shareToken: isPublic ? (existingEntry.shareToken ?? generateShareToken()) : undefined,
-      }),
+        ...(isPublic
+          ? { shareToken: existingEntry.shareToken ?? generateShareToken() }
+          : {}),
+      } : {}),
       updatedAt: now,
     };
+    if (isPublic === false) {
+      delete updated.shareToken;
+    }
     entries[idx] = updated;
     saveUserEntries(userId, entries);
     return NextResponse.json({ success: true, entry: updated });

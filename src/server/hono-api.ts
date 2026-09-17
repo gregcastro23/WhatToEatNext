@@ -196,12 +196,12 @@ app.get('/api/ingredients/:name', async (c) => {
       id: string;
       name: string;
       cuisine: string;
-      description?: string;
-      prepTime?: number;
-      cookTime?: number;
-      servings?: number;
-      amount?: number;
-      unit?: string;
+      description?: string | undefined;
+      prepTime?: number | undefined;
+      cookTime?: number | undefined;
+      servings?: number | undefined;
+      amount?: number | undefined;
+      unit?: string | undefined;
     }> = [];
     for (const match of matches) {
       const recipe = recipeMap.get(match.recipeId);
@@ -278,9 +278,9 @@ app.get('/api/recipes/:recipeId', async (c) => {
     const cookingMethods = getCookingMethods(recipe);
 
     const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
-      protein: proteins[0],
-      vegetable: vegetables[0],
-      cookingMethod: cookingMethods[0],
+      ...(proteins[0] ? { protein: proteins[0] } : {}),
+      ...(vegetables[0] ? { vegetable: vegetables[0] } : {}),
+      ...(cookingMethods[0] ? { cookingMethod: cookingMethods[0] } : {}),
     });
 
     const allRecipes = await LocalRecipeService.getAllRecipes();

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { _logger } from "@/lib/logger";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import type { ElementalProperties, Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,9 @@ const BalanceBodySchema = z.object({
 const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
 type Element = (typeof ELEMENTS)[number];
 
-function normalize(e: Partial<ElementalProperties> | undefined): Record<Element, number> {
+function normalize(
+  e?: { Fire?: number | undefined; Water?: number | undefined; Earth?: number | undefined; Air?: number | undefined } | undefined,
+): Record<Element, number> {
   const fire = Number(e?.Fire ?? 0);
   const water = Number(e?.Water ?? 0);
   const earth = Number(e?.Earth ?? 0);

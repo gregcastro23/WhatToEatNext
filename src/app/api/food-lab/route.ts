@@ -191,24 +191,30 @@ export async function POST(request: NextRequest) {
   const now = new Date().toISOString();
   const shareToken = isPublic ? generateShareToken() : undefined;
 
+  const mappedPhotos = photos.map((p) => ({
+    dataUrl: p.dataUrl,
+    uploadedAt: p.uploadedAt,
+    ...(p.caption !== undefined ? { caption: p.caption } : {}),
+  }));
+
   const entry: FoodLabEntry = {
     id,
     userId,
     dishName,
-    description,
-    notes,
-    recipeName,
-    cuisineType,
-    cookingMethod,
+    ...(description !== undefined ? { description } : {}),
+    ...(notes !== undefined ? { notes } : {}),
+    ...(recipeName !== undefined ? { recipeName } : {}),
+    ...(cuisineType !== undefined ? { cuisineType } : {}),
+    ...(cookingMethod !== undefined ? { cookingMethod } : {}),
     cookedAt: cookedAt ?? now,
-    photos,
+    photos: mappedPhotos,
     elementalTags,
     alchemicalTags,
     planetaryContext,
-    rating,
+    ...(rating !== undefined ? { rating } : {}),
     tags,
     isPublic,
-    shareToken,
+    ...(shareToken !== undefined ? { shareToken } : {}),
     createdAt: now,
     updatedAt: now,
   };

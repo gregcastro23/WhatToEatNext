@@ -5,8 +5,8 @@ import type { FullRecipeCardProps, RecipePayloadItem } from "./types";
 
 const ScoreBreakdownBar: React.FC<{
   recommendation: FullRecipeCardProps["recommendation"];
-  alchProps?: Record<string, number | string>;
-  monicaOpt?: RecipePayloadItem["monicaOptimization"];
+  alchProps?: Record<string, number | string> | undefined;
+  monicaOpt?: RecipePayloadItem["monicaOptimization"] | undefined;
 }> = ({ recommendation, alchProps, monicaOpt }) => (
   <div className="px-5 py-3 border-t border-gray-100 flex flex-wrap gap-2">
     <div className="px-3 py-1.5 bg-indigo-50 rounded-lg text-center">

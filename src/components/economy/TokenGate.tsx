@@ -22,6 +22,15 @@ interface TokenGateProps {
   onUnlocked?: () => void;
 }
 
+interface TokenGateResponse {
+  success?: boolean;
+  hasAccess?: boolean;
+  message?: string;
+  item?: {
+    isOneTime?: boolean;
+  };
+}
+
 /**
  * TokenGate — Wraps premium features with token-based access.
  *
@@ -60,8 +69,8 @@ export function TokenGate({
           if (mounted) setCheckingAccess(false);
           return;
         }
-        const data = await res.json();
-        if (!mounted || !data?.success) {
+        const data = (await res.json()) as TokenGateResponse;
+        if (!mounted || !data.success) {
           if (mounted) setCheckingAccess(false);
           return;
         }
@@ -89,13 +98,13 @@ export function TokenGate({
         credentials: "include",
         body: JSON.stringify({ shopItemSlug }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as TokenGateResponse;
       if (data.success) {
         if (isOneTimeItem) {
           setIsUnlocked(true);
         }
         if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-          navigator.vibrate?.(20);
+          navigator.vibrate(20);
         }
         onUnlocked?.();
       } else {

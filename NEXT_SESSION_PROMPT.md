@@ -1,84 +1,97 @@
-# Phase 33 TypeScript Burndown & Health Campaign
+# Phase 34 TypeScript Burndown & Health Campaign
 
-_Primary agent prompt for Next Session. Auth & Session Persistence status has been archived to [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR [#852](https://github.com/gregcastro23/WhatToEatNext/pull/852) addresses session cap gaps and is open against `master`._
+_Primary agent prompt for Next Session. Auth & Session Persistence status is archived to [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR #852 is **MERGED** (`39a56d78`). Phase 33 burndown is open in PR [#853](https://github.com/gregcastro23/WhatToEatNext/pull/853) on branch `chore/phase-33-burndown` (Status: PR #853, CI green; ready to merge)._
 
 ---
 
-## 1. Verified Quality & Type Health Baselines
+## 1. Verified Quality & Type Health Baselines (Post Phase 33 Close-Out)
 
 Always re-measure before acting — never assume or inherit a number:
 
-| Metric | Baseline | Verification Gate |
-| :--- | :--- | :--- |
-| **Strict-Index (`exactOptionalPropertyTypes`)** | **217** errors / 166 files (allowlist 0) | `bun run strict-index:check` |
-| **Tracked Lint Debt** | **1,473** total across 9 tracked rules | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-unnecessary-condition` | 834 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-member-access` | 148 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-assignment` | 143 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-explicit-any` | 140 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `no-console` | 102 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-argument` | 48 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `sonarjs/no-useless-assignment` | 33 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-return` | 19 | `bun run lint:debt` |
-| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-call` | 6 | `bun run lint:debt` |
-| **Nullish Coalescing (`prefer-nullish-coalescing`)** | **214** (tracked separately as sub-baseline) | `scripts/checkLintDebt.ts` |
-| **Type Casts** | **167** (38 `as any`, 129 `as unknown as`; 135 production) | `bun run lint:debt` |
-| **Non-Null Assertions (`!`)** | **605** | AST scan in `lint:debt` |
-| **Scripts Typecheck** | **302** errors across 58 files | `bun run check:scripts` |
-| **Declined Rules** | **4,906** (strictly pinned; no headroom) | `bun run lint:debt` |
+| Metric | Baseline | Honest Accounting / Breakdown | Verification Gate |
+| :--- | :--- | :--- | :--- |
+| **Strict-Index (`exactOptionalPropertyTypes`)** | **133** errors / 117 files | Reverted from 217 (−84): ~77 from construction/parameter fixes, ~7 from domain type widenings | `bun run strict-index:check` |
+| **Tracked Lint Debt** | **1,335** total across 9 tracked rules | Down from 1,473 (−138); all 28 audited rules passing without gate regressions | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-unnecessary-condition` | 832 | Pinned at baseline (defensive runtime checks preserved) | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-assignment` | 135 | Down from 143 (−8) | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-explicit-any` | 136 | Down from 140 (−4) | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-member-access` | 127 | Down from 148 (−21) | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-argument` | 47 | Down from 48 (−1) | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `sonarjs/no-useless-assignment` | 33 | Flat | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-return` | 19 | Flat | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-call` | 6 | Flat | `bun run lint:debt` |
+| &nbsp;&nbsp;↳ `no-console` | **0** | 102 → 0: 74 migrated to `createLogger`, 4 exempted with reasons, 19 in legitimate sinks | `bun run lint:debt` |
+| **Nullish Coalescing (`prefer-nullish-coalescing`)** | **212** | Down from 214 (tracked separately as sub-baseline) | `scripts/checkLintDebt.ts` |
+| **Tracked Type Casts** | **167** | 38 `as any`, 129 `as unknown as`; 135 production | `bun run lint:debt` |
+| **Untracked Single `as T` Casts** | **2,002** | Rose 1,997 → 2,002; honest ceiling must be ratcheted | AST scan in `lint:debt` |
+| **Non-Null Assertions (`!`)** | **605** | Enforced by hard gate; red-proof confirmed (606 fails) | AST scan in `lint:debt` |
+| **Total Assertion Sites** | **3,288** | Down from 3,293 baseline (Rule 8 relabelling blocked) | AST scan in `lint:debt` |
+| **Loose Optionality (`?: T \| undefined`)** | **488** | Rose 427 → 530 before Phase 33 revert of CelestialPosition & profiler; currently 488 | AST / Grep scan |
+| **File-Level `eslint-disable` Comments** | **60-65** | File-level `no-console` banned outside 4 sinks | Source scan |
+| **Scripts Typecheck** | **246** errors across 55 files | Down from 302 across 58 files (−56); deviceB-verify & measureNormalisation hardened | `bun run check:scripts` |
+| **Declined Rules** | **4,906** | Strictly pinned; no headroom | `bun run lint:debt` |
 
 ---
 
-## 2. Campaign Priorities & Execution Order
+## 2. Campaign Priorities & Execution Order (Phase 34)
 
-### Priority 1: Exact-Optional Property Burndown (217 → ≤160)
-Candidate pools preserved in commit `36a6d3e7`:
-- `src/app/api/` (58 diagnostics)
-- `src/components/` (59 diagnostics)
-- `src/utils/` (21 diagnostics)
-- `src/components/menu-planner/` (10 diagnostics)
+### Priority 1: Anti-Pattern Ratchets & Enforcement Gates (P1)
+Turn Phase 33 anti-patterns into programmatic ratchets with end-to-end red-proof tests:
+1. **Loose-Optionality Ratchet**:
+   - Establish ceiling on `?: T | undefined` in tracked `src/` (currently 488).
+   - Reject any PR that widens core domain interfaces instead of fixing construction/caller sites. Provide automated test with a red proof.
+2. **File-Level `eslint-disable` Ratchet**:
+   - Ceiling on file-level disables across `src/` (currently ~62).
+   - Hard ban on file-level `/* eslint-disable no-console */` outside the 4 legitimate sinks (`src/utils/logger.ts`, `src/lib/logger.ts`, `src/services/LoggingService.ts`, `src/utils/clientLogger.ts`). Require per-line `-- reason` for exemptions.
+3. **Untracked Single `as T` Ceiling**:
+   - Enforce `untrackedSingleAsT` ceiling at **2,002** in `scripts/checkLintDebt.ts`, failing the build if untracked single casts increase.
 
-**Decision Rule:**
-- Follow the `absent` vs `undefined` vs `null` decision table.
-- Verify compiled JS emit parity via `ts.transpileModule` / JS diff before ratcheting.
-- Run `bun run strict-index:ratchet` after each validated batch.
+### Priority 2: Remote Boundary Validation over Assertions (P2)
+Eliminate unvalidated type escapes that hide runtime bugs:
+1. **Zod Parsing at Ephemeris / Railway Boundary**:
+   - `serverPlanetaryCalculations.ts:107`: Replace `(await response.json()) as BackendResponse` with a strict Zod schema parse (`calculatePlanetaryPositionsBackend`).
+   - Feeds both ESMS debit and reward sides (`livePricing.ts`, `celestial.ts`).
+2. **Systematic `res.json() as T` Remediation**:
+   - Audit and replace bare `as T` casts across fetch calls with Zod validators.
+   - This is the authentic mechanism to burn down unsafe-* debt (334 remaining: 135 assignment, 127 member access, 47 argument, 19 return, 6 call).
 
-### Priority 2: Unsafe-* (364 total) + Explicit Any (140) + Casts
-- Break down member access (148), assignments (143), arguments (48), returns (19), calls (6).
-- Type boundaries properly rather than applying local casts.
-- Note: `executeQuery` now defaults to `Record<string, unknown>`, so do not assume unsafe access comes solely from DB queries.
+### Priority 3: Exact-Optional Property Burndown (133 → ≤100) (P2)
+- Target strict-index errors down from 133 to ≤100.
+- **Strict Rule:** A batch that merely adds `| undefined` or deletes type annotations does NOT count.
+- Every ratchet report must disclose the split: `N construction/caller fixes vs M widenings`.
 
-### Priority 3: Scripts Typecheck Burndown (302 → ≤250)
-- Many scripts in `scripts/` touch the production database or run critical cron jobs with 0 type validation.
-- Fix high-impact operational scripts first, ratcheting with `bun run check:scripts:ratchet`.
+### Priority 4: Scripts Typecheck Burndown (246 → ≤200) (P2)
+- Target scripts typecheck down from 246 to ≤200.
+- Focus on production database and cron scripts first (`grep -E "DATABASE_URL|executeQuery" scripts/`).
+- Never default missing CLI arguments to `0` or `""`; require explicit arguments and fail fast with exit code 1.
 
-### Priority 4: `no-console` Burndown (102 → 0)
-- Replace bare `console.log` / `console.error` with the structured logger (`createLogger` from `@/lib/logger` or `@/utils/logger`).
+### Priority 5: Type Unification (P3)
+- `src/types/celestial.ts` `ElementalProperties` gained `[key: string]: number` to drop 2 casts in `groupDynamics.ts`, duplicating `src/types/alchemy.ts:238`.
+- Prefer a clean re-export of the canonical type from `alchemy.ts`.
+- ⚠️ **DO NOT delete the canonical index signature** (`[key: string]: number` in `RawElementalProperties`), as that previously triggered 57 cascading `tsc` errors.
 
 ---
 
 ## 3. Operational Caveats & Anti-Patterns (DO NOT DO)
 
-- ⚠️ **DO NOT treat the 834 `no-unnecessary-condition` warnings as mechanical cleanup.** Many flag live defensive runtime validation code as "always true" according to TypeScript's types. Stripping them or adding `!` suppresses the warning while breaking runtime resilience.
-- ⚠️ **DO NOT mass-convert `||` to `??`.** Audits show only ~62% of `||` conversions are mechanical. Replacing `||` where empty strings (`""`) or zero (`0`) are valid falsy fallbacks introduces subtle behavior shifts.
-- ⚠️ **DO NOT blindly delete a "lying" type.** Deleting an imprecise interface previously introduced 57 cascading `tsc` errors. Narrow interfaces incrementally.
-- ⚠️ **DO NOT trust a clean `tsc` for cast removal.** Removing a cast can silently change emitted JavaScript. Always diff the transpile output for non-trivial refactors.
-- ⚠️ **DO NOT run `tsc` without `--incremental false`.** Incremental builds cache stale error sets and report phantom diagnostics.
-- ⚠️ **DO NOT assume test files are typechecked by default.** `tsconfig.json` excludes test files; test suites must be checked explicitly.
-- ⚠️ **Finder Duplicates:** If a duplicate file like `.strict-index-baseline 2.json` appears untracked, delete it immediately before running metric baselines.
+- ⚠️ **DO NOT replace runtime validation with `as T` at unvalidated boundaries.** As demonstrated by the Phase 33 pricing regression in `livePricing.ts` / `celestial.ts`, an `as RawBodyPosition` cast bypassed defensive checks, causing string degrees (`"15" + 1 === "151"`), `null` longitude pass-through, and runtime exceptions on numeric signs. Always validate or defensively coerce unvalidated external data.
+- ⚠️ **DO NOT use truthy conditional spreads where falsy values are valid.** `...(x ? { x } : {})` drops intentional `0`, `""`, and `false`. In `food-lab/[entryId]/route.ts`, an in-memory fallback dropped the explicit `false` and kept stale tokens; in `stripe/webhook/route.ts`, absent keys were serialized as literal `null`. Use `x !== undefined ? { x } : {}` or explicit deletion.
+- ⚠️ **DO NOT replace Error objects with `err.message` in loggers.** Stripping the error object loses stack traces in stdout, which is the primary alerting channel in production. Always pass the complete error object (`logger.error("action failed", err)`).
+- ⚠️ **DO NOT default missing CLI script inputs.** Defaulting missing args in operational scripts (e.g. `args[0] ?? ""` in `deviceB-verify.ts` or quantile `?? 0` on empty samples) can trigger live reducers against real production states or fabricate data. Validate argument counts and fail fast with usage errors and `process.exit(1)`.
+- ⚠️ **DO NOT work directly on `master`.** All work must be carried out on dedicated feature/chore branches (e.g. `chore/phase-33-burndown`). Never commit directly to `master`.
+- ⚠️ **DO NOT trust local `verify` as identical to CI.** CI executes clean fresh checkouts without local cache artifacts. Verify commits on the open PR branch.
 
 ---
 
 ## 4. Session Persistence Tail (Context & Watch Items)
 
-Full details are documented in [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md).
+Full details are documented in [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR #852 is **MERGED** (`39a56d78465d4ffd4667e91b93ae1cef530d11a2`).
 
 1. **Production Revocation Flag (`AUTH_REVOCATION_CHECK`)**:
-   - `AUTH_REVOCATION_CHECK` is currently **unset** in production. Revoked sessions linger until the 30-day cap expires.
-   - ⚠️ *Ordering Trap:* Missing rows count as revoked. Audit missing `device_sessions` rows before enabling the flag to avoid logging out legitimate active users.
+   - `AUTH_REVOCATION_CHECK` remains **unset** in production environment variables.
+   - ⚠️ *Ordering Trap:* Missing `device_sessions` rows count as revoked. Audit missing rows before enabling the flag to avoid inadvertent logouts of legitimate users.
 2. **Live Browser Witness (`authTime`)**:
-   - Open `https://alchm.kitchen/api/auth/session` in a session from before 2026-09-16 12:03:22Z to witness `"authTime": 1789504380`.
-   - Sign out and back in to witness a fresh Unix timestamp.
+   - Inspect `https://alchm.kitchen/api/auth/session` on pre-merge sessions to witness `"authTime": 1789504380`. Fresh sign-ins yield updated timestamps.
 3. **Upcoming Milestone Dates**:
-   - **2026-09-22T20:33:00Z**: Earliest review date for 7-day idle session timeouts (needs telemetry verification).
-   - **2026-10-15T20:33:00Z**: Hard deadline instant when all pre-policy legacy sessions expire simultaneously.
+   - **2026-09-22T20:33:00Z**: Review date for 7-day idle session timeouts (6 days out; telemetry verification required).
+   - **2026-10-15T20:33:00Z**: Hard deadline when all pre-policy legacy sessions expire simultaneously.

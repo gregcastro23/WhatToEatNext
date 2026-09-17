@@ -43,5 +43,9 @@ export function normalizeCustomerInfo(
 
   const phone = rawPhone && rawPhone.length > 0 ? rawPhone : undefined;
 
-  return { name, phone, email };
+  return {
+    name,
+    ...(phone !== undefined ? { phone } : {}),
+    ...(email !== undefined ? { email } : {}),
+  };
 }

@@ -88,7 +88,7 @@ export async function GET(request: Request) {
           {
             sign: (pos).sign,
             degree: (pos).degree ?? 0,
-            exactLongitude: longitudes[name],
+            exactLongitude: toLongitude(pos),
             isRetrograde: (pos).isRetrograde ?? false,
           },
         ]),

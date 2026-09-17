@@ -67,7 +67,7 @@ const _SEASON_OPTIONS = [
 // Helpers
 // ============================================================================
 
-function CuisineFingerprintPanel({ cuisineKey, cuisinesMapData }: { cuisineKey: string, cuisinesMapData?: Record<string, unknown> }) {
+function CuisineFingerprintPanel({ cuisineKey, cuisinesMapData }: { cuisineKey: string, cuisinesMapData?: Record<string, unknown> | undefined }) {
   const fp = useMemo(() => getCuisineFingerprint(cuisineKey, cuisinesMapData), [cuisineKey, cuisinesMapData]);
   if (!fp) return null;
 
@@ -279,13 +279,24 @@ export default function EnhancedSauceRecommender() {
   const { bias: userBias, source: biasSource } = useUserElementalBias();
 
   const ctx: CuisineSauceContext = useMemo(() => ({
-    cuisine: cuisineKey, region, protein, vegetable, cookingMethod,
-    dietary: dietary.length ? dietary : undefined,
-    flavorTargets: flavorTargets.length ? flavorTargets : undefined,
-    role, season,
-    cosmic: cosmicSync ? { zodiac: astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase } : undefined,
-    cosmicWeight: cosmicSync ? 0.5 : 0,
-    userElementals: userBias ?? undefined,
+    cuisine: cuisineKey,
+    ...(region ? { region } : {}),
+    ...(protein ? { protein } : {}),
+    ...(vegetable ? { vegetable } : {}),
+    ...(cookingMethod ? { cookingMethod } : {}),
+    ...(dietary.length ? { dietary } : {}),
+    role,
+    ...(season ? { season } : {}),
+    ...(cosmicSync ? {
+      cosmic: {
+        ...(astroState.currentZodiac ? { zodiac: astroState.currentZodiac } : {}),
+        ...(planetaryHour ? { planetaryHour } : {}),
+        isDaytime,
+        ...(lunarPhase ? { lunarPhase } : {}),
+      },
+      cosmicWeight: 0.5,
+    } : {}),
+    ...(userBias ? { userElementals: userBias } : {}),
   }), [cuisineKey, region, protein, vegetable, cookingMethod, dietary, flavorTargets, role, season, cosmicSync, astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase, userBias]);
 
   const handleRecommend = useCallback(() => {

@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createLogger } from "@/utils/logger";
 import { PROFILE_BLOCKS } from "./ProfileBlockRegistry";
+
+const logger = createLogger("CustomizeDrawer");
 
 interface CustomizeDrawerProps {
   isOpen: boolean;
@@ -54,7 +57,7 @@ export function CustomizeDrawer({
       onUpdateLayout(localLayout);
       onClose();
     } catch (e) {
-      console.error(e);
+      logger.error("Failed to save profile layout:", e);
     }
     setSaving(false);
   };

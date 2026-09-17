@@ -12,14 +12,17 @@
  */
 
 import { NextResponse } from "next/server";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { RestaurantsSearchRequestSchema } from "@/lib/validation/apiSchemas";
+
 import {
   discoverRestaurants,
   emptyCosmicContext,
 } from "@/services/restaurantDiscoveryService";
 import type { RestaurantSearchResponse } from "@/types/yelp";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("api:restaurants:search");
 
 export const dynamic = "force-dynamic";
 
@@ -89,7 +92,10 @@ export async function GET(request: NextRequest) {
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error("Foursquare API error:", response.status, errorBody);
+      logger.error("Foursquare API error", {
+        status: response.status,
+        error: errorBody,
+      });
       return NextResponse.json(
         {
           success: false,
@@ -120,7 +126,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, results });
   } catch (error) {
-    _logger.error("Restaurant search error:", error);
+    logger.error("Restaurant search error", {
+      error: error instanceof Error ? error.message : String(error),
+    });
     return NextResponse.json(
       { success: false, message: "An error occurred while searching." },
       { status: 500 },
@@ -195,7 +203,9 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
-    _logger.error("[api/restaurants/search] orchestrator failed:", err);
+    logger.error("Orchestrator failed", {
+      error: err,
+    });
     return NextResponse.json(
       {
         restaurants: [],

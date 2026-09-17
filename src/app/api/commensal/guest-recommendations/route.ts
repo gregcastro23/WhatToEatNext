@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { rateLimit } from "@/lib/rateLimit";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
@@ -9,6 +10,8 @@ import type { ElementalProperties as AlchemyElementalProperties } from "@/types/
 import type { GroupMember, NatalChart, BirthData } from "@/types/natalChart";
 import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
 import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
+
+const logger = createLogger("commensal:guest-recommendations");
 
 interface CookingMethodSummary {
   method: string;
@@ -152,7 +155,7 @@ export async function POST(req: Request) {
       groupMembers,
     });
   } catch (error) {
-    _logger.error("Guest recommendations error:", error);
+    logger.error("Guest recommendations error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to generate recommendations" },
       { status: 500 },
@@ -217,7 +220,7 @@ async function loadAuthenticatedSelfMember(): Promise<GroupMember | null> {
       createdAt: new Date().toISOString(),
     };
   } catch (err) {
-    console.warn(
+    logger.warn(
       "guest-recommendations: skipped auth user lookup —",
       err instanceof Error ? err.message : err,
     );

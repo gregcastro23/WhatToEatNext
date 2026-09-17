@@ -48,18 +48,27 @@ export async function GET(request: NextRequest) {
       ? (sortRaw as DiscoverTablesSort)
       : "soonest";
 
+    const lat = floatParam(sp, "lat");
+    const lng = floatParam(sp, "lng");
+    const radiusKm = floatParam(sp, "radiusKm");
+    const element = sp.get("element") ?? undefined;
+    const windowDays = floatParam(sp, "windowDays");
+    const q = sp.get("q") ?? undefined;
+    const cursor = sp.get("cursor") ?? undefined;
+    const limit = floatParam(sp, "limit");
+
     const result = await discoverTables(
       {
-        lat: floatParam(sp, "lat"),
-        lng: floatParam(sp, "lng"),
-        radiusKm: floatParam(sp, "radiusKm"),
-        element: sp.get("element") ?? undefined,
+        ...(lat !== undefined ? { lat } : {}),
+        ...(lng !== undefined ? { lng } : {}),
+        ...(radiusKm !== undefined ? { radiusKm } : {}),
+        ...(element !== undefined ? { element } : {}),
         openSeats: sp.get("openSeats") === "true" || sp.get("openSeats") === "1",
-        windowDays: floatParam(sp, "windowDays"),
-        q: sp.get("q") ?? undefined,
+        ...(windowDays !== undefined ? { windowDays } : {}),
+        ...(q !== undefined ? { q } : {}),
         sort,
-        cursor: sp.get("cursor") ?? undefined,
-        limit: floatParam(sp, "limit"),
+        ...(cursor !== undefined ? { cursor } : {}),
+        ...(limit !== undefined ? { limit } : {}),
       },
       viewerId,
     );

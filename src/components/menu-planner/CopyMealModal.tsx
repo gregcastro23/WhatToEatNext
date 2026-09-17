@@ -9,9 +9,12 @@
  */
 
 import React, { useState, useMemo } from "react";
+import { createLogger } from "@/utils/logger";
 import type { MealSlot, DayOfWeek, MealType } from "@/types/menuPlanner";
 import { getDayName, getShortDayName } from "@/types/menuPlanner";
 import { emptyDayRecord } from "@/utils/dayCircuitCalculations";
+
+const logger = createLogger("CopyMealModal");
 
 interface CopyMealModalProps {
   isOpen: boolean;
@@ -108,7 +111,7 @@ export default function CopyMealModal({
   const handleApply = () => {
     const targetSlotIds = Array.from(selectedSlotIds);
     if (targetSlotIds.length === 0) {
-      console.warn("Please select at least one slot");
+      logger.warn("Please select at least one slot");
       return;
     }
 

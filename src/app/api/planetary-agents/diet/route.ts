@@ -7,7 +7,9 @@
  */
 
 import { NextResponse } from "next/server";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("planetary-agents:diet");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -34,7 +36,7 @@ export async function GET() {
     });
 
     if (!response.ok) {
-      _logger.error(
+      logger.error(
         `[Planetary Agents Proxy] Backend returned ${response.status}: ${response.statusText}`,
       );
       return NextResponse.json(
@@ -46,7 +48,7 @@ export async function GET() {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.warn(
+    logger.warn(
       "[Planetary Agents Proxy] Error fetching agent profiles:",
       error,
     );

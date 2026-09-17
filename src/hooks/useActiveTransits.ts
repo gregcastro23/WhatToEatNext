@@ -39,9 +39,12 @@ async function loadAspects(): Promise<RawAspect[]> {
   if (cache && Date.now() - cache.at < TTL_MS) return cache.aspects;
   if (inflight) return inflight;
   inflight = fetch("/api/alchm-quantities/aspects")
-    .then((r) => (r.ok ? r.json() : { aspects: [] }))
-    .then((j) => {
-      const aspects: RawAspect[] = Array.isArray(j?.aspects) ? j.aspects : [];
+    .then(async (r) => {
+      if (!r.ok) return [];
+      const j = (await r.json()) as { aspects?: RawAspect[] };
+      return Array.isArray(j.aspects) ? j.aspects : [];
+    })
+    .then((aspects) => {
       cache = { at: Date.now(), aspects };
       return aspects;
     })

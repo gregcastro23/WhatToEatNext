@@ -252,7 +252,7 @@ function formatRailwayResponse(
   return {
     success: true,
     _celestialBodies: { all: allBodies, ...bodies },
-    ascendant,
+    ...(ascendant !== undefined ? { ascendant } : {}),
     birth_info: {
       year: params.year,
       month: params.month,
@@ -336,7 +336,7 @@ function calculateLocally(params: PlanetaryRequest): AstrologizeResponse {
   return {
     success: true,
     _celestialBodies: { all: allBodies, ...bodies },
-    ascendant,
+    ...(ascendant !== undefined ? { ascendant } : {}),
     birth_info: {
       year: params.year,
       month: params.month,

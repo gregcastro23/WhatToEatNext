@@ -17,13 +17,16 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
+
 import { FollowTargetRequestSchema } from "@/lib/validation/apiSchemas";
 import { followDatabase } from "@/services/followDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("follows");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -66,7 +69,7 @@ async function recentlyNotified(followeeId: string, followerId: string): Promise
     );
     return (res.rows?.length || 0) > 0;
   } catch (error) {
-    console.warn("[follows] new_follower dedup check failed, staying silent:", error);
+    logger.warn("new_follower dedup check failed, staying silent:", error);
     return true;
   }
 }
@@ -133,7 +136,7 @@ export async function POST(request: NextRequest) {
             await practiceRewardService.recognize(targetUserId, "first_follower_gained");
           }
         } catch (error) {
-          console.warn("[follows] first_follower_gained check failed:", error);
+          logger.warn("first_follower_gained check failed:", error);
         }
 
         // Bell, deduped per pair per 30 days. Fire-and-forget shape, but we
@@ -150,7 +153,7 @@ export async function POST(request: NextRequest) {
             );
           }
         } catch (error) {
-          console.warn("[follows] new_follower notification failed:", error);
+          logger.warn("new_follower notification failed:", error);
         }
       }
     }
@@ -163,7 +166,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     // Fail-closed: includes block-check failures — never let a follow through.
-    _logger.error("[follows] POST failed:", error);
+    logger.error("POST failed:", error);
     return NextResponse.json({ success: false, message: "Follow failed" }, { status: 500 });
   }
 }
@@ -187,7 +190,7 @@ export async function DELETE(request: NextRequest) {
     // Idempotent: unfollowing a non-edge is still success, following:false.
     return NextResponse.json({ success: true, following: false });
   } catch (error) {
-    _logger.error("[follows] DELETE failed:", error);
+    logger.error("DELETE failed:", error);
     return NextResponse.json({ success: false, message: "Unfollow failed" }, { status: 500 });
   }
 }

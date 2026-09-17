@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { AdminPlanetarySyncRequestSchema } from "@/lib/validation/apiSchemas";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("admin:planetary-sync");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -166,7 +169,7 @@ export async function POST(request: NextRequest) {
 
     // 4. Dispatch each WTEN agent to the FastAPI backend boundary.
     const PA_BACKEND_URL = getServiceUrl("planetaryAgentsApi");
-    console.log(
+    logger.info(
       `[Admin Sync] Dispatching ${targets.length} ${action} target(s) to ${PA_BACKEND_URL}...`,
     );
 
@@ -226,7 +229,7 @@ export async function POST(request: NextRequest) {
         : `${failure.agent}: ${failure.message}`,
     );
 
-    console.log(
+    logger.info(
       `[Admin Sync] Sync complete. Affected: ${affectedCount}, Failures: ${failures.length}`,
     );
 
@@ -244,7 +247,7 @@ export async function POST(request: NextRequest) {
       });
 
   } catch (error) {
-    _logger.error("[Admin Sync] Internal Handler Error:", error);
+    logger.error("[Admin Sync] Internal Handler Error:", error);
     return NextResponse.json(
       { 
         success: false, 

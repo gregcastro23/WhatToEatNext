@@ -23,7 +23,7 @@ export interface IngredientCardData {
   /** Hue 0-360 for the card backdrop tint */
   hue: number;
   /** Optional resolved image URL — when present, overlays the gradient backdrop. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
 }
 
 export interface IngredientCardProps {
