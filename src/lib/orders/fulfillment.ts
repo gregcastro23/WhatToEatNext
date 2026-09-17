@@ -9,7 +9,9 @@ import {
   type DeliveryAddress,
   type LogisticsResponse,
 } from "@/lib/integrations/logistics";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("Fulfillment");
 
 interface RestaurantOrderIntentRow {
   id: string;
@@ -281,12 +283,12 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
       deliveryProvider,
     });
 
-    console.log(
-      `[fulfillment] Restaurant order fulfilled: order=${order.id} pos=${posOrder.orderId} delivery=${delivery?.trackingId ?? "none"}`,
+    logger.info(
+      `Restaurant order fulfilled: order=${order.id} pos=${posOrder.orderId} delivery=${delivery?.trackingId ?? "none"}`,
     );
   } catch (error) {
     await markFulfillmentFailed(order.id, error);
-    _logger.error(`[fulfillment] Failed for restaurant order ${order.id}:`, error);
+    logger.error(`Failed for restaurant order ${order.id}:`, error);
     throw error;
   }
 }

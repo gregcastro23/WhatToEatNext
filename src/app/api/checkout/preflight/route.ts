@@ -3,11 +3,15 @@ import { getStandardizedQuantity, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { auth } from "@/lib/auth/auth";
 import { CheckoutPreflightRequestSchema } from "@/lib/validation/apiSchemas";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
+import { createLogger } from "@/utils/logger";
+
 import type {
   CheckoutPreflightItem,
   CheckoutPreflightResponse,
   CheckoutPreflightSource,
 } from "@/types/checkout";
+
+const logger = createLogger("checkout:preflight");
 
 const AMAZON_CART_URL = "https://www.amazon.com/gp/aws/cart/add.html";
 const MAX_CART_ITEMS = 50;
@@ -205,7 +209,7 @@ async function logCartHandoffIntent({
       ],
     );
   } catch (error) {
-    console.warn("[api/checkout/preflight] telemetry insert failed:", error);
+    logger.warn("[api/checkout/preflight] telemetry insert failed:", error);
   }
 }
 

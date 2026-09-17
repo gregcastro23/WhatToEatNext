@@ -11,6 +11,9 @@
 "use client";
 
 import React, { useState } from "react";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("PlanetaryChartControls");
 
 export interface ChartControlsProps {
   onDateTimeChange: (dateTime: Date | undefined) => void;
@@ -82,7 +85,7 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
     ) {
       onLocationChange({ latitude: lat, longitude: lon });
     } else {
-      console.warn("Invalid coordinates. Latitude: -90 to 90, Longitude: -180 to 180");
+      logger.warn("Invalid coordinates. Latitude: -90 to 90, Longitude: -180 to 180");
     }
   };
 
@@ -116,11 +119,11 @@ export const PlanetaryChartControls: React.FC<ChartControlsProps> = ({
           onLocationChange({ latitude: lat, longitude: lon });
         },
         (error) => {
-          console.warn(`Error getting location: ${error.message}`);
+          logger.warn(`Error getting location: ${error.message}`);
         },
       );
     } else {
-      console.warn("Geolocation is not supported by your browser");
+      logger.warn("Geolocation is not supported by your browser");
     }
   };
 

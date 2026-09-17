@@ -1,11 +1,14 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery, withTransaction } from "@/lib/database";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { withObservability } from "@/lib/observability/withObservability";
 import { SyncDebitRequestSchema } from "@/lib/validation/apiSchemas";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
+
+const logger = createLogger("economy:sync-debit");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -228,7 +231,7 @@ async function handlePost(req: NextRequest) {
       // would report as drift on a row written correctly. `ap.name` remains a
       // fallback for the case where no profile name exists yet.
       const onUnclassifiedPhase = (error: unknown) =>
-        console.warn(
+        logger.warn(
           `[sync-debit] phase agent with an unclassifiable phase: ${storedName ?? "(no name)"} —` +
             ` left for the nightly backfill to surface. ${String(error)}`,
         );
@@ -333,7 +336,7 @@ async function handlePost(req: NextRequest) {
     }
     } catch (enrichmentError) {
       // Never rethrow: the debit below is the reason this endpoint exists.
-      _logger.error(
+      logger.error(
         "[sync-debit] PROFILE_ENRICHMENT_FAILED — continuing to the debit.",
         { userId, name: storedName, error: enrichmentError },
       );
@@ -505,7 +508,7 @@ async function handlePost(req: NextRequest) {
     if ((error as { code?: string })?.code === "23505") {
       return NextResponse.json({ ok: false, reason: "already_applied" }, { status: 409 });
     }
-    _logger.error("[sync-debit] Internal Error:", error);
+    logger.error("[sync-debit] Internal Error:", error);
     return NextResponse.json(
       { ok: false, reason: "internal_error", message: (error as Error).message },
       { status: 500 },

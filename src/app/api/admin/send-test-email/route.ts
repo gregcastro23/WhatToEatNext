@@ -10,11 +10,14 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { AdminSendTestEmailRequestSchema } from "@/lib/validation/apiSchemas";
 import emailService from "@/services/emailService";
 import type { NatalChart } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("admin:send-test-email");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -108,7 +111,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (success) {
-      console.log(`[test-email] ${type} email sent successfully to ${to}`);
+      logger.info(`[test-email] ${type} email sent successfully to ${to}`);
       return NextResponse.json({
         success: true,
         message: `${type} email sent to ${to}`,
@@ -125,7 +128,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    _logger.error("[test-email] Error:", error);
+    logger.error("[test-email] Error:", error);
     return NextResponse.json(
       {
         success: false,

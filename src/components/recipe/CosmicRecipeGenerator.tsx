@@ -106,7 +106,6 @@ function mapCosmicToStoreRecipe(
     cuisine,
     mealType: cosmic.tags.meal_type ? [cosmic.tags.meal_type] : [],
     prepTime: `${totalMinutes} min`,
-    cookTime: undefined,
     numberOfServings: cosmic.yields,
     ingredients,
     instructions,
@@ -430,8 +429,8 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
       diet,
       ingredients_main: ingredientsMain.split(',').map(i => i.trim()).filter(Boolean),
       disallowed_ingredients: disallowedIngredients.split(',').map(i => i.trim()).filter(Boolean),
-      birthData,
-      preferredCuisine: preferredCuisine || undefined,
+      ...(birthData ? { birthData } : {}),
+      ...(preferredCuisine ? { preferredCuisine } : {}),
     }).catch((err: unknown) => {
       _logger.error("[CosmicRecipeGenerator] generation failed", err);
     });

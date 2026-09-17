@@ -6,10 +6,13 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { tableDatabase } from "@/services/tableDatabaseService";
+
 import type { TableRecord } from "@/types/table";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("api:tables:go-live");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -43,7 +46,9 @@ async function notifyGoingLive(tableId: string, table: TableRecord): Promise<voi
       ),
     );
   } catch (err) {
-    console.warn("notifyGoingLive failed (non-blocking):", err);
+    logger.warn("notifyGoingLive failed (non-blocking)", {
+      error: err,
+    });
   }
 }
 
@@ -81,7 +86,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, table });
   } catch (error) {
-    _logger.error("Go-live error:", error);
+    logger.error("Go-live error", {
+      error,
+    });
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

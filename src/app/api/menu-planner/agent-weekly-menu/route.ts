@@ -8,7 +8,8 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { AgentWeeklyMenuRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
@@ -17,6 +18,8 @@ import { getWeekEndDate } from "@/types/menuPlanner";
 import type { DailyNutritionTotals, DayOfWeek, GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("agent-weekly-menu");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -321,10 +324,10 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     // See the note in /api/feed: a refusal to provision is a 422, not an outage.
     if (error instanceof AgentChartRequiredError) {
-      console.warn("[agent-weekly-menu GET] refused agent", error.message);
+      logger.warn("[agent-weekly-menu GET] refused agent", error.message);
       return jsonError(error.message, 422);
     }
-    _logger.error("[agent-weekly-menu GET]", error);
+    logger.error("[agent-weekly-menu GET]", error);
     return jsonError("Failed to load agent weekly menu", 500);
   }
 }
@@ -415,10 +418,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     // See the note in /api/feed: a refusal to provision is a 422, not an outage.
     if (error instanceof AgentChartRequiredError) {
-      console.warn("[agent-weekly-menu POST] refused agent", error.message);
+      logger.warn("[agent-weekly-menu POST] refused agent", error.message);
       return jsonError(error.message, 422);
     }
-    _logger.error("[agent-weekly-menu POST]", error);
+    logger.error("[agent-weekly-menu POST]", error);
     return jsonError("Failed to save agent weekly menu", 500);
   }
 }

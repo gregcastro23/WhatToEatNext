@@ -23,11 +23,15 @@ import {
 } from "@/lib/amazonCreators";
 import { rateLimit } from "@/lib/rateLimit";
 import { AmazonSearchBatchRequestSchema } from "@/lib/validation/apiSchemas";
+import { createLogger } from "@/utils/logger";
+
 import type {
   AmazonMatchConfidence,
   AmazonSearchResult,
   AmazonSubstitutionReason,
 } from "@/types/amazon";
+
+const logger = createLogger("amazon:search");
 
 const MAX_BATCH_SIZE = 50;
 const PAAPI_GROCERY_RESOURCES = [
@@ -309,7 +313,7 @@ async function resolveAmazonIngredientUncached(
     } catch (error) {
       const status = error instanceof PaapiError ? error.status : undefined;
       if (status === 429) {
-        console.warn(`Amazon PA-API throttled (429) for "${normalized}"`);
+        logger.warn(`Amazon PA-API throttled (429) for "${normalized}"`);
         return {
           ingredient,
           normalized,
@@ -326,7 +330,7 @@ async function resolveAmazonIngredientUncached(
           rateLimited: true,
         };
       }
-      console.warn("Amazon PA-API lookup failed, trying remaining fallbacks", error);
+      logger.warn("Amazon PA-API lookup failed, trying remaining fallbacks", error);
     }
   }
 
@@ -373,9 +377,9 @@ async function resolveAmazonIngredientUncached(
       const status = error instanceof CreatorsApiError ? error.status : undefined;
       const isRateLimit = status === 429;
       if (isRateLimit) {
-        console.warn(`Amazon Creators API throttled (429) for "${normalized}"`);
+        logger.warn(`Amazon Creators API throttled (429) for "${normalized}"`);
       } else {
-        console.warn("Amazon Creators API lookup failed, returning graceful fallback", error);
+        logger.warn("Amazon Creators API lookup failed, returning graceful fallback", error);
       }
       return {
         ingredient,

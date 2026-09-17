@@ -1,4 +1,7 @@
 import type { MetadataRoute } from "next";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("sitemap");
 
 // The sitemap enumerates recipes from the local server payload (no Redis,
 // no DB). Going through LocalRecipeService would hit a no-store Upstash
@@ -54,7 +57,9 @@ async function getRecipeEntries(now: Date): Promise<MetadataRoute.Sitemap> {
       }));
   } catch (err) {
     // Sitemap generation should never crash the build/route — log and continue.
-    console.warn("[sitemap] Failed to enumerate recipes:", err);
+    logger.warn("Failed to enumerate recipes", {
+      error: err,
+    });
     return [];
   }
 }

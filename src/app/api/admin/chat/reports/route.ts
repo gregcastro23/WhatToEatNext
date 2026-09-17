@@ -37,7 +37,10 @@ export async function GET(request: NextRequest) {
   const limit = Number.parseInt(searchParams.get("limit") ?? "50", 10) || 50;
 
   try {
-    const reports = await chatDatabase.listReports({ status, limit });
+    const reports = await chatDatabase.listReports({
+      ...(status !== undefined ? { status } : {}),
+      limit,
+    });
     return NextResponse.json({ success: true, reports });
   } catch (error) {
     _logger.error("[admin/chat/reports] GET failed:", error);

@@ -12,13 +12,16 @@ import {
   DegradedEphemerisError,
   validateLedgerClamp,
 } from "@/lib/economy/discriminant-faucet";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
+
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import type { ClaimDailyResponse } from "@/types/economy";
 import { extractAlchemicalPlanetPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("economy:claim-daily");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -118,11 +121,13 @@ export async function POST(request: NextRequest) {
     };
 
     // Record the action in the community feed
-    feedDatabase.createEvent(user.id, "claim_daily", { site }).catch(console.error);
+    feedDatabase.createEvent(user.id, "claim_daily", { site }).catch((err) => {
+      logger.error("Failed to create feed event:", err);
+    });
 
     return NextResponse.json(response);
   } catch (error) {
-    _logger.error("[economy/claim-daily] Error claiming daily yield:", error);
+    logger.error("[economy/claim-daily] Error claiming daily yield:", error);
     if (error instanceof DegradedEphemerisError) {
       return NextResponse.json(
         {

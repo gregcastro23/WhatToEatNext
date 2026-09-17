@@ -225,15 +225,17 @@ function paymentMethodMetadata(paymentIntent: Stripe.PaymentIntent | null): {
   const crypto = details?.crypto;
 
   return {
-    paymentMethodType: details?.type,
-    cryptoPayment: crypto
+    ...(details?.type !== undefined ? { paymentMethodType: details.type } : {}),
+    ...(crypto
       ? {
-          buyerAddress: crypto.buyer_address,
-          network: crypto.network,
-          tokenCurrency: crypto.token_currency,
-          transactionHash: crypto.transaction_hash,
+          cryptoPayment: {
+            ...(crypto.buyer_address !== undefined ? { buyerAddress: crypto.buyer_address } : {}),
+            ...(crypto.network !== undefined ? { network: crypto.network } : {}),
+            ...(crypto.token_currency !== undefined ? { tokenCurrency: crypto.token_currency } : {}),
+            ...(crypto.transaction_hash !== undefined ? { transactionHash: crypto.transaction_hash } : {}),
+          },
         }
-      : undefined,
+      : {}),
   };
 }
 
@@ -243,7 +245,7 @@ async function handleRestaurantOrderCheckout(
 ): Promise<void> {
   const orderId = session.metadata?.orderId;
   if (!orderId) {
-    logger.warn(`[webhook] Restaurant order session ${session.id} missing orderId`);
+    logger.warn(`Restaurant order session ${session.id} missing orderId`);
     return;
   }
 
@@ -476,7 +478,7 @@ export const POST = withObservability(
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
-    logger.error("[webhook] STRIPE_WEBHOOK_SECRET not configured");
+    logger.error("STRIPE_WEBHOOK_SECRET not configured");
     return NextResponse.json(
       { error: "Webhook not configured" },
       { status: 500 },
@@ -498,7 +500,7 @@ export const POST = withObservability(
       webhookSecret,
     );
   } catch (error) {
-    logger.error("[webhook] Signature verification failed:", error);
+    logger.error("Signature verification failed:", error);
     return NextResponse.json(
       { error: "Invalid signature" },
       { status: 400 },
@@ -506,7 +508,7 @@ export const POST = withObservability(
   }
 
   try {
-    logger.info(`[webhook] Processing event: ${event.type}`);
+    logger.info(`Processing event: ${event.type}`);
 
     switch (event.type) {
       // Both of these mean "this Checkout Session reached a settled state".
@@ -583,9 +585,9 @@ export const POST = withObservability(
             currentPeriodEnd: period.currentPeriodEnd,
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
           });
-          logger.info(`[webhook] Subscription updated: ${subscription.id} status=${subscription.status}`);
+          logger.info(`Subscription updated: ${subscription.id} status=${subscription.status}`);
         } else {
-          logger.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (subscription.updated ${subscription.id})`);
+          logger.warn(`No local subscription for Stripe customer ${stripeCustomerId} (subscription.updated ${subscription.id})`);
         }
         break;
       }
@@ -607,9 +609,9 @@ export const POST = withObservability(
             status: "canceled",
             stripeSubscriptionId: null,
           });
-          logger.info(`[webhook] Subscription deleted: ${subscription.id} for user=${sub.userId}`);
+          logger.info(`Subscription deleted: ${subscription.id} for user=${sub.userId}`);
         } else {
-          logger.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (subscription.deleted ${subscription.id})`);
+          logger.warn(`No local subscription for Stripe customer ${stripeCustomerId} (subscription.deleted ${subscription.id})`);
         }
         break;
       }
@@ -629,9 +631,9 @@ export const POST = withObservability(
               currentPeriodStart: period.currentPeriodStart,
               currentPeriodEnd: period.currentPeriodEnd,
             });
-            logger.info(`[webhook] Invoice paid, period extended: ${subscriptionId}`);
+            logger.info(`Invoice paid, period extended: ${subscriptionId}`);
           } else {
-            logger.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_succeeded, subscription ${subscriptionId})`);
+            logger.warn(`No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_succeeded, subscription ${subscriptionId})`);
           }
         }
         break;
@@ -650,20 +652,20 @@ export const POST = withObservability(
             tier: "free",
             status: "past_due",
           });
-          logger.info(`[webhook] Invoice payment failed: ${invoice.id} for user=${sub.userId} — downgraded to free`);
+          logger.info(`Invoice payment failed: ${invoice.id} for user=${sub.userId} — downgraded to free`);
         } else {
-          logger.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_failed ${invoice.id})`);
+          logger.warn(`No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_failed ${invoice.id})`);
         }
         break;
       }
 
       default:
-        logger.info(`[webhook] Unhandled event type: ${event.type}`);
+        logger.info(`Unhandled event type: ${event.type}`);
     }
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    logger.error("[webhook] Error processing webhook:", error);
+    logger.error("Error processing webhook:", error);
     return NextResponse.json(
       { error: "Webhook processing failed" },
       { status: 500 },

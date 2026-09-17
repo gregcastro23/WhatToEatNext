@@ -15,6 +15,9 @@
  */
 
 import { PrivyClient } from "@privy-io/server-auth";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("privy");
 
 let _client: PrivyClient | null = null;
 
@@ -52,7 +55,7 @@ export async function verifyPrivyToken(accessToken: string): Promise<string | nu
     const claims = await client.verifyAuthToken(accessToken);
     return claims.userId || null; // claims.userId is the Privy DID
   } catch (err) {
-    console.warn("[privy] token verification failed:", err);
+    logger.warn("token verification failed:", err);
     return null;
   }
 }
@@ -79,7 +82,7 @@ export async function getPrivyWallet(did: string): Promise<string | null> {
     const anyWallet = accounts.find((a) => a?.type === "wallet");
     return (embedded?.address ?? anyWallet?.address ?? null) as string | null;
   } catch (err) {
-    console.warn("[privy] getPrivyWallet failed:", err);
+    logger.warn("getPrivyWallet failed:", err);
     return null;
   }
 }

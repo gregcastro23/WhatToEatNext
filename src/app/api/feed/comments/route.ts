@@ -13,13 +13,16 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { isBlockedBetween, sanitizeCommentBody } from "@/lib/feed/commentEnforcement";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { notifyCommentReceived } from "@/lib/notifications/engagementNotify";
+
 import { rateLimit } from "@/lib/rateLimit";
 import { FeedCommentRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("feed:comments");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -55,7 +58,7 @@ export async function GET(request: NextRequest) {
     const page = await feedCommentsDatabase.listComments(eventId, viewerId, { limit, before });
     return NextResponse.json({ success: true, ...page });
   } catch (error) {
-    _logger.error("[feed/comments] GET failed:", error);
+    logger.error("[feed/comments] GET failed:", error);
     return NextResponse.json({ success: false, message: "Failed to load comments" }, { status: 500 });
   }
 }
@@ -131,7 +134,7 @@ export async function POST(request: NextRequest) {
           await practiceRewardService.recognize(actorId, "work_discussed", eventId);
         }
       } catch (error) {
-        console.warn("[feed/comments] work_discussed recognize failed:", error);
+        logger.warn("[feed/comments] work_discussed recognize failed:", error);
       }
 
       // Fire-and-forget bell to the event actor (deduped; self/blocked/agent-safe
@@ -146,7 +149,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, comment, reward });
   } catch (error) {
-    _logger.error("[feed/comments] POST failed:", error);
+    logger.error("[feed/comments] POST failed:", error);
     return NextResponse.json({ success: false, message: "Failed to post comment" }, { status: 500 });
   }
 }

@@ -20,12 +20,15 @@
  */
 import { NextResponse } from "next/server";
 import { getAllRecipes } from "@/data/recipes/index";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
+
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { elementalSignature } from "@/utils/elemental/signature";
+
+const logger = createLogger("cuisines:recommend");
 
 const CUISINES_LIMIT = { window: 60_000, max: 60, bucket: "cuisines-recommend" };
 
@@ -88,14 +91,14 @@ async function fetchFromBackend(params: { zodiacSign?: string; season?: string; 
     });
 
     if (!response.ok) {
-      _logger.error(`Railway /cuisines/recommend error: ${response.status}`);
+      logger.error(`Railway /cuisines/recommend error: ${response.status}`);
       return null;
     }
 
     const raw: unknown = await response.json();
     return parseCuisinesResponse(raw); // validated or null
   } catch (error) {
-    console.warn("Railway /cuisines/recommend unavailable, falling back to local:", error);
+    logger.warn("Railway /cuisines/recommend unavailable, falling back to local:", error);
     return null;
   }
 }
@@ -225,7 +228,11 @@ async function handleRequest(request: Request) {
     // near-flat anyway, so biased rankings always compute locally.
     const backendData = bias
       ? null
-      : await fetchFromBackend({ zodiacSign, season, mealType });
+      : await fetchFromBackend({
+          ...(zodiacSign !== undefined ? { zodiacSign } : {}),
+          ...(season !== undefined ? { season } : {}),
+          ...(mealType !== undefined ? { mealType } : {}),
+        });
     if (backendData) {
       return NextResponse.json({
         success: true,
@@ -254,7 +261,7 @@ async function handleRequest(request: Request) {
       calculatedAt: new Date().toISOString(),
     });
   } catch (error) {
-    _logger.error("Cuisine recommendation error:", error);
+    logger.error("Cuisine recommendation error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to compute recommendations" },
       { status: 500 },

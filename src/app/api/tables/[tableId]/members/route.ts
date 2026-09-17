@@ -9,14 +9,17 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
+
 import {
   tableDatabase,
   type AddMemberFailureReason,
 } from "@/services/tableDatabaseService";
 import type { TableMember } from "@/types/table";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("api:tables:members");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -83,7 +86,9 @@ async function notifyTableInvite(
       },
     );
   } catch (err) {
-    console.warn("notifyTableInvite failed (non-blocking):", err);
+    logger.warn("notifyTableInvite failed (non-blocking)", {
+      error: err,
+    });
   }
 }
 
@@ -154,7 +159,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, member: result.member }, { status: 201 });
   } catch (error) {
-    _logger.error("Add table member error:", error);
+    logger.error("Add table member error", {
+      error,
+    });
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

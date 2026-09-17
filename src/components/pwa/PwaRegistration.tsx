@@ -51,6 +51,7 @@ export default function PwaRegistration() {
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_ENABLE_PWA !== "true") {
       void unregisterDisabledPwa().catch((error) => {
+        // eslint-disable-next-line no-console -- Browser runtime: PWA cleanup warning during SW cache teardown
         console.warn("[pwa] Disabled PWA cleanup failed", error);
       });
       return;

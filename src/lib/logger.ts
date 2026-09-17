@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export type LogLevel = "debug" | "info" | "warn" | "error";
 export class Logger {
   private readonly analyticsEndpoint: string | undefined =

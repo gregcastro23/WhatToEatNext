@@ -41,6 +41,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // eslint-disable-next-line no-console -- Client boundary: uncaught React tree exceptions must report to browser console
     console.error(
       "%c[ErrorBoundary] Uncaught error in React tree",
       "color: #f44336; font-weight: bold; font-size: 14px",

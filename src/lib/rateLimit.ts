@@ -10,7 +10,10 @@
  *   if (!rl.allowed) return rl.response;
  */
 import { NextResponse } from "next/server";
+import { createLogger } from "@/utils/logger";
 import { getRedisClient } from "./redis";
+
+const logger = createLogger("RateLimit");
 
 /**
  * Map an api_keys.rate_limit_tier value to a per-minute request cap.
@@ -110,7 +113,7 @@ export async function rateLimit(
         };
       }
     } catch (err) {
-      console.warn("[RateLimit] Redis failed, falling back to Memory:", err);
+      logger.warn("Redis failed, falling back to Memory:", err);
     }
   }
 

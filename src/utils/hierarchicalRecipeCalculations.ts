@@ -17,6 +17,8 @@ import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
 import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import type { ThermodynamicMetrics } from "@/data/unified/alchemicalCalculations";
 import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
+import { createLogger } from "@/utils/logger";
+
 import type {
   CookingMethod,
   ElementalProperties,
@@ -38,6 +40,8 @@ import {
   getDominantAlchemicalProperty,
   getDominantElement,
 } from "./planetaryAlchemyMapping";
+
+const logger = createLogger("hierarchicalRecipeCalculations");
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
 
@@ -283,7 +287,7 @@ export function applyCookingMethodTransforms(
     const modifiers = COOKING_METHOD_MODIFIERS[methodName.toLowerCase()];
 
     if (!modifiers) {
-      console.warn(`Unknown cooking method: ${methodName}`);
+      logger.warn(`Unknown cooking method: ${methodName}`);
       continue;
     }
 

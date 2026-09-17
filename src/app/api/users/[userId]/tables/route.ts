@@ -14,7 +14,10 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { rateLimit } from "@/lib/rateLimit";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("api:users:tables");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -40,8 +43,8 @@ export async function GET(
     if (reg.rows[0]?.present === true) {
       // Schema exists but the service wiring is deferred to the PR 2
       // integration rebase — make that visible to operators.
-      console.warn(
-        "[users/:userId/tables] tables schema present but listMemoriesForUser wiring pending — see docs/plans/pr4-pr2-integration-followups.md",
+      logger.warn(
+        "tables schema present but listMemoriesForUser wiring pending — see docs/plans/pr4-pr2-integration-followups.md",
       );
     }
   } catch {

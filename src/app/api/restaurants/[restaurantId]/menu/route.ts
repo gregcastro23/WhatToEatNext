@@ -9,8 +9,10 @@
 
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database/connection";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { oloService } from "@/services/oloService";
+
+const logger = createLogger("api:restaurants:menu");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -100,10 +102,9 @@ export async function GET(
        WHERE id = $1`,
       [restaurant.id],
     ).catch((error) => {
-      console.warn(
-        "[api/restaurants/menu] Failed to record menu sync:",
-        error instanceof Error ? error.message : error,
-      );
+      logger.warn("Failed to record menu sync", {
+        error: error instanceof Error ? error.message : String(error),
+      });
     });
 
     return NextResponse.json({
@@ -116,7 +117,9 @@ export async function GET(
       menu,
     });
   } catch (err) {
-    _logger.error("[api/restaurants/menu] Failed to load menu:", err);
+    logger.error("Failed to load menu", {
+      error: err,
+    });
     return NextResponse.json(
       { success: false, error: "Unable to load menu right now" },
       { status: 500 },

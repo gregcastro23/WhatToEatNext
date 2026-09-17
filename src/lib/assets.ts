@@ -1,5 +1,8 @@
 import { ASSET_DOMAIN } from "@/constants";
+import { createLogger } from "@/utils/logger";
 import { redisGet, redisSet } from "./redis";
+
+const logger = createLogger("AssetCache");
 
 const ASSET_CACHE_TTL = 60 * 60 * 24; // 24 hours
 
@@ -18,7 +21,7 @@ export async function getValidatedAssetUrl(path: string | null | undefined): Pro
     if (cached === true) return `${ASSET_DOMAIN}/${path}`;
     if (cached === false) return undefined;
   } catch (err) {
-    console.warn("[AssetCache] Redis lookup failed:", err);
+    logger.warn("Redis lookup failed:", err);
   }
 
   // If not cached, we assume it's valid for now but would ideally 

@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
+
+const logger = createLogger("recipes:detail");
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +45,10 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
           return NextResponse.json(data);
         }
       } catch (err) {
-        _logger.error(`Hono Gateway proxy failed for recipe ${recipeId}:`, err);
+        logger.error("Hono Gateway proxy failed for recipe", {
+          recipeId,
+          error: err,
+        });
       }
     }
 
@@ -59,7 +65,7 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
     // drift in logs without breaking the response.
     const parsed = RecipeSchema.safeParse(rawRecipe);
     if (!parsed.success) {
-      console.warn(`[recipeId] Recipe ${recipeId} has unexpected shape:`, parsed.error.flatten());
+      logger.warn(`[recipeId] Recipe ${recipeId} has unexpected shape:`, parsed.error.flatten());
     }
     const recipe = parsed.success ? parsed.data : rawRecipe;
 
@@ -74,9 +80,9 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
     const cookingMethods = getCookingMethods(recipe);
 
     const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
-      protein: proteins[0],
-      vegetable: vegetables[0],
-      cookingMethod: cookingMethods[0],
+      ...(proteins[0] !== undefined ? { protein: proteins[0] } : {}),
+      ...(vegetables[0] !== undefined ? { vegetable: vegetables[0] } : {}),
+      ...(cookingMethods[0] !== undefined ? { cookingMethod: cookingMethods[0] } : {}),
     });
 
     const allRecipes = await LocalRecipeService.getAllRecipes();
@@ -102,16 +108,16 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
             complexity: (recipe as any).complexity ?? "moderate",
             elementalBalance: recipe.elementalProperties,
           },
-        }).catch((err) => _logger.error("Failed to record recipe_view interaction:", err));
+        }).catch((err) => logger.error("Failed to record recipe_view interaction:", err));
       }
     } catch (err) {
       // Best effort; don't break the response if auth/tracking fails
-      console.warn("Interaction tracking skipped:", err);
+      logger.warn("Interaction tracking skipped:", err);
     }
 
     return NextResponse.json({ success: true, recipe, recommendedSauces, recommendedRecipes });
   } catch (error) {
-    _logger.error("[recipeId] Error:", error);
+    logger.error("Error fetching recipe:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch recipe details" },
       { status: 500 },

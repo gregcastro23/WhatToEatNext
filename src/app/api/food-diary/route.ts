@@ -8,13 +8,16 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { rateLimit } from "@/lib/rateLimit";
 import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("food-diary");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -81,7 +84,7 @@ export async function GET(request: NextRequest) {
       summary: { totalCalories, totalProtein, totalCarbs, totalFat },
     });
   } catch (error) {
-    _logger.error("Food diary GET error:", error);
+    logger.error("Food diary GET error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load food diary entries" },
       { status: 500 },
@@ -161,9 +164,9 @@ export async function POST(request: NextRequest) {
           mealType: entry.mealType,
           foodSource: entry.foodName,
         },
-      }).catch((err) => _logger.error("Failed to record food_diary_entry interaction:", err));
+      }).catch((err) => logger.error("Failed to record food_diary_entry interaction:", err));
     } catch (err) {
-      console.warn("Food diary entry interaction tracking skipped:", err);
+      logger.warn("Food diary entry interaction tracking skipped:", err);
     }
 
     // Streak-aware events: fire log_streak_3_days / log_streak_7_days when
@@ -184,7 +187,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, entry }, { status: 201 });
   } catch (error) {
-    _logger.error("Food diary POST error:", error);
+    logger.error("Food diary POST error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to create food diary entry" },
       { status: 500 },
