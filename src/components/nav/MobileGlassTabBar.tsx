@@ -137,8 +137,8 @@ export function MobileGlassTabBar(): JSX.Element {
               <Link
                 key={t.id}
                 href={href}
-                prefetch={t.id === "profile" ? false : undefined}
-                aria-current={isActive ? "page" : undefined}
+                {...(t.id === "profile" ? { prefetch: false } : {})}
+                {...(isActive ? { "aria-current": "page" } : {})}
                 style={{
                   display: "flex",
                   flexDirection: "column",

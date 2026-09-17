@@ -123,9 +123,9 @@ export function CookedDishCard({
         <div className="mt-3">
           <FeedEngagementBar
             eventId={eventId}
-            initialCounts={reactionCounts}
-            viewerKinds={viewerKinds}
-            commentCount={commentCount}
+            {...(reactionCounts ? { initialCounts: reactionCounts } : {})}
+            {...(viewerKinds ? { viewerKinds } : {})}
+            {...(commentCount !== undefined ? { commentCount } : {})}
             trailing={
               <>
                 {meta.tableKey && (

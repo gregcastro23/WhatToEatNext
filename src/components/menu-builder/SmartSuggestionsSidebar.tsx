@@ -527,9 +527,7 @@ export default function SmartSuggestionsSidebar({
                           <SuggestionCard
                             key={suggestion.id}
                             suggestion={suggestion}
-                            onApply={
-                              onApplySuggestion
-                            }
+                            {...(onApplySuggestion ? { onApply: onApplySuggestion } : {})}
                           />
                         ))}
                       </div>

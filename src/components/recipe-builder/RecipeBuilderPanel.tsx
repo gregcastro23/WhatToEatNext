@@ -284,7 +284,7 @@ function CuisineSelector() {
         .map((sig) => ({
           property: String(sig.property),
           zscore: sig.zscore,
-          description: sig.description,
+          ...(sig.description ? { description: sig.description } : {}),
         }));
       if (top.length > 0) {
         map.set(cuisine, { signatures: top, sampleSize: entry.sampleSize });

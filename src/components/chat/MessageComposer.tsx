@@ -90,10 +90,10 @@ export function MessageComposer({
       <ChatComposer
         value={value}
         onChange={setValue}
-        onSend={() => void doSend()}
-        onPhoto={allowPhoto ? () => fileRef.current?.click() : undefined}
+        onSend={() => { void doSend(); }}
+        {...(allowPhoto ? { onPhoto: () => fileRef.current?.click() } : {})}
         disabled={disabled || busy}
-        placeholder={placeholder}
+        {...(placeholder ? { placeholder } : {})}
       />
       {allowPhoto && (
         <input

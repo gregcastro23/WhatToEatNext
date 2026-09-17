@@ -50,17 +50,13 @@ export function TableChatPanel({
         isHost={isHost}
         isOwnMessage={isOwn}
         onReport={() => setReportTarget(message)}
-        onDelete={isHost || isOwn ? () => void chat.remove(message.id) : undefined}
-        onMuteSender={
-          isHost && !isOwn && message.senderId
-            ? () => void chat.hostMute(message.senderId)
-            : undefined
-        }
-        onKickSender={
-          isHost && !isOwn && message.senderId
-            ? () => void chat.hostKick(message.senderId)
-            : undefined
-        }
+        {...(isHost || isOwn ? { onDelete: () => { void chat.remove(message.id); } } : {})}
+        {...(isHost && !isOwn && message.senderId
+          ? { onMuteSender: () => { void chat.hostMute(message.senderId); } }
+          : {})}
+        {...(isHost && !isOwn && message.senderId
+          ? { onKickSender: () => { void chat.hostKick(message.senderId); } }
+          : {})}
       />
     );
   };

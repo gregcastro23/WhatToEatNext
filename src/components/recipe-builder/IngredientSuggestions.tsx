@@ -224,7 +224,7 @@ export default function IngredientSuggestions({
   const handleAdd = (ing: EnhancedIngredient) => {
     addIngredient({
       name: ing.name,
-      category: ing.category,
+      ...(ing.category ? { category: ing.category } : {}),
       elementalProperties: ing.elementalProperties,
     });
   };

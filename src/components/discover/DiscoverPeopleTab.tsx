@@ -102,9 +102,9 @@ export function DiscoverPeopleTab(): JSX.Element {
   const [copied, setCopied] = useState(false);
 
   const { people, loading, needsAuth, hasMore, loadMore } = useDiscoverPeople({
-    q: q.trim().length >= 2 ? q.trim() : undefined,
+    ...(q.trim().length >= 2 ? { q: q.trim() } : {}),
     kind,
-    element: element ?? undefined,
+    ...(element ? { element } : {}),
     limit: 24,
   });
 

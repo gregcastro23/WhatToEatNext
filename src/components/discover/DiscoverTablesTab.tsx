@@ -58,11 +58,10 @@ export function DiscoverTablesTab({ onSwitchToPeople }: { onSwitchToPeople: () =
 
   // Main grid.
   const main = useDiscoverTables({
-    q: q.trim() || undefined,
-    element,
+    ...(q.trim() ? { q: q.trim() } : {}),
+    ...(element ? { element } : {}),
     openSeats,
-    lat: geoActive && location ? location.lat : undefined,
-    lng: geoActive && location ? location.lng : undefined,
+    ...(geoActive && location ? { lat: location.lat, lng: location.lng } : {}),
     sort: geoActive ? "distance" : "soonest",
   });
 

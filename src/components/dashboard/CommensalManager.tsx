@@ -1018,7 +1018,7 @@ export const CommensalManager: React.FC = () => {
                 element={m.natalChart.dominantElement}
                 modality={m.natalChart.dominantModality}
                 ascendant={m.natalChart.ascendant}
-                relationship={m.relationship}
+                {...(m.relationship ? { relationship: m.relationship } : {})}
                 selected={selectedManualIds.includes(m.id)}
                 onToggle={() => { toggleManualSelect(m.id); }}
                 onDelete={() => {

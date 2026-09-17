@@ -41,17 +41,22 @@ export function parseCuisineResponse(payload: unknown): CuisineRecommendation[] 
         (c): c is Record<string, unknown> =>
           !!c && typeof c === 'object' && typeof (c as Record<string, unknown>).name === 'string'
       )
-      .map((c) => ({
-        cuisine_id:
-          typeof c.cuisine_id === 'string' ? c.cuisine_id : (c.name as string).toLowerCase(),
-        name: c.name as string,
-        description: typeof c.description === 'string' ? c.description : undefined,
-        elemental_properties: asNonEmptyNumberRecord(c.elemental_properties),
-        flavor_profile: asNonEmptyNumberRecord(c.flavor_profile),
-        nested_recipes: Array.isArray(c.nested_recipes)
-          ? (c.nested_recipes as CuisineRecommendation['nested_recipes'])
-          : undefined,
-      }));
+      .map((c): CuisineRecommendation => {
+        const item: CuisineRecommendation = {
+          cuisine_id:
+            typeof c.cuisine_id === 'string' ? c.cuisine_id : (c.name as string).toLowerCase(),
+          name: c.name as string,
+        };
+        if (typeof c.description === 'string') item.description = c.description;
+        const elem = asNonEmptyNumberRecord(c.elemental_properties);
+        if (elem) item.elemental_properties = elem;
+        const flav = asNonEmptyNumberRecord(c.flavor_profile);
+        if (flav) item.flavor_profile = flav;
+        if (Array.isArray(c.nested_recipes)) {
+          item.nested_recipes = c.nested_recipes as NonNullable<CuisineRecommendation['nested_recipes']>;
+        }
+        return item;
+      });
     if (rich.length > 0) return rich;
   }
 

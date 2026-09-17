@@ -143,7 +143,7 @@ export function OrderIngredientsModal({
           asin: asins[i.key] ?? "",
           qty: Math.max(1, Math.ceil(i.quantity)),
           name: i.name,
-          category: i.category,
+          ...(i.category ? { category: i.category } : {}),
         })),
         metadata: { listTarget, itemCount: cartable.length },
       });
