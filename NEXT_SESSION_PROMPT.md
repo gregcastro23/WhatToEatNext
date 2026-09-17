@@ -1,6 +1,6 @@
 # Phase 34 TypeScript Burndown & Health Campaign
 
-_Primary agent prompt for Next Session. Auth & Session Persistence status is archived to [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR #852 is **MERGED** (`39a56d78`). Phase 33 burndown is staged on branch `chore/phase-33-burndown` (Status: PR #___, CI ___ pending push/merge; NOT complete until CI is green)._
+_Primary agent prompt for Next Session. Auth & Session Persistence status is archived to [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR #852 is **MERGED** (`39a56d78`). Phase 33 burndown is open in PR [#853](https://github.com/gregcastro23/WhatToEatNext/pull/853) on branch `chore/phase-33-burndown` (Status: PR #853, CI in progress; NOT complete until CI is green)._
 
 ---
 
