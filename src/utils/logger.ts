@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Advanced logger utility to standardize logging across the application.
  * This module provides component-specific logging capabilities and consistent formatting.
@@ -140,9 +141,9 @@ class Logger {
   }
 
   /**
-   * Extract options from argsif last arg is an object with component property
+   * Extract options from args if last arg is an object with component property
    */
-  private extractOptions(args: unknown[]) {
+  private extractOptions(args: unknown[]): { component?: string; rest: unknown[] } {
     const last = args[args.length - 1];
     if (
       last &&
@@ -150,9 +151,13 @@ class Logger {
       !Array.isArray(last) &&
       "component" in last
     ) {
+      const record = last as { component?: unknown; args?: unknown[] };
+      const component = typeof record.component === "string" ? record.component : undefined;
+      const innerArgs: unknown[] = Array.isArray(record.args) ? record.args : [];
+      const priorArgs = args.slice(0, args.length - 1);
       return {
-        component: last.component as string,
-        rest: args.slice(0, args.length - 1),
+        ...(component !== undefined ? { component } : {}),
+        rest: [...priorArgs, ...innerArgs],
       };
     }
     return { rest: args };
