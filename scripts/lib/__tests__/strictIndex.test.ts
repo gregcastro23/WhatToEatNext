@@ -243,11 +243,17 @@ describe("checkStrictIndex CLI --file inspection", () => {
   it("handles valid target with strict-index errors", () => {
     const res = spawnSync(
       "bun",
-      ["scripts/checkStrictIndex.ts", "--file", "src/lib/menu-planner/schemas.ts"],
+      [
+        "scripts/checkStrictIndex.ts",
+        "--file",
+        "scripts/fixtures/strict-index-fixture.ts",
+      ],
       { cwd: repoRoot, encoding: "utf8" },
     );
     expect(res.status).toBe(0);
-    expect(res.stdout).toContain("=== STRICT FLAG ERRORS FOR src/lib/menu-planner/schemas.ts");
+    expect(res.stdout).toContain(
+      "=== STRICT FLAG ERRORS FOR scripts/fixtures/strict-index-fixture.ts",
+    );
     expect(res.stdout).toContain("TS2375");
   });
 

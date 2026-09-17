@@ -2,16 +2,16 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { ingredientsMap } from "../src/data/ingredients/index.ts";
+import { ingredientsMap } from "../src/data/ingredients/index";
 import {
   calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients
-} from "../src/utils/recipeAlchemicalQuantities.ts";
+} from "../src/utils/recipeAlchemicalQuantities";
 import {
   calculateThermodynamics,
   calculateKalchm,
   calculateMonica,
-} from "../src/data/unified/alchemicalCalculations.ts";
+} from "../src/data/unified/alchemicalCalculations";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,26 +62,26 @@ function parseIngredientString(ingStr: string) {
 
   let remaining = cleanStr;
 
-  if (mixedMatch) {
-    amount = parseInt(mixedMatch[1]) + parseInt(mixedMatch[2]) / parseInt(mixedMatch[3]);
-    remaining = mixedMatch[4];
-  } else if (fracMatch) {
-    amount = parseInt(fracMatch[1]) / parseInt(fracMatch[2]);
-    remaining = fracMatch[3];
-  } else if (decMatch) {
+  if (mixedMatch && mixedMatch[1] && mixedMatch[2] && mixedMatch[3]) {
+    amount = parseInt(mixedMatch[1], 10) + parseInt(mixedMatch[2], 10) / parseInt(mixedMatch[3], 10);
+    remaining = mixedMatch[4] ?? "";
+  } else if (fracMatch && fracMatch[1] && fracMatch[2]) {
+    amount = parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10);
+    remaining = fracMatch[3] ?? "";
+  } else if (decMatch && decMatch[1]) {
     amount = parseFloat(decMatch[1]);
-    remaining = decMatch[2];
-  } else if (intMatch) {
-    amount = parseInt(intMatch[1]);
-    remaining = intMatch[2];
-  } else if (textNumMatch) {
+    remaining = decMatch[2] ?? "";
+  } else if (intMatch && intMatch[1]) {
+    amount = parseInt(intMatch[1], 10);
+    remaining = intMatch[2] ?? "";
+  } else if (textNumMatch && textNumMatch[1]) {
     const word = textNumMatch[1].toLowerCase();
     const wordMap: Record<string, number> = {
       one: 1, two: 2, three: 3, four: 4, five: 5,
       six: 6, seven: 7, eight: 8, nine: 9, ten: 10
     };
     amount = wordMap[word] || 1;
-    remaining = textNumMatch[2];
+    remaining = textNumMatch[2] ?? "";
   }
 
   // Unit patterns
@@ -94,9 +94,9 @@ function parseIngredientString(ingStr: string) {
   const unitRegex = new RegExp(`^(${units.join("|")})\\s*(.*)$`, "i");
   const unitMatch = remaining.match(unitRegex);
 
-  if (unitMatch) {
+  if (unitMatch && unitMatch[1]) {
     unit = unitMatch[1].toLowerCase();
-    remaining = unitMatch[2];
+    remaining = unitMatch[2] ?? "";
   }
 
   // Split on first comma for notes
@@ -110,7 +110,7 @@ function parseIngredientString(ingStr: string) {
 
   // Extract parentheses in name to notes
   const parenMatch = name.match(/\(([^)]+)\)/);
-  if (parenMatch) {
+  if (parenMatch && parenMatch[1]) {
     const parenContent = parenMatch[1];
     notes = notes ? `${parenContent}; ${notes}` : parenContent;
     name = name.replace(/\([^)]+\)/g, "").trim();
@@ -131,7 +131,7 @@ function parseIngredientString(ingStr: string) {
 function parseTimeMinutes(timeStr: string): number {
   if (!timeStr) return 0;
   const match = timeStr.match(/(\d+)\s*(minute|hour)/i);
-  if (!match) return 0;
+  if (!match || !match[1] || !match[2]) return 0;
   const val = parseInt(match[1], 10);
   if (match[2].toLowerCase().startsWith("hour")) {
     return val * 60;
@@ -209,7 +209,7 @@ async function run() {
         if (matched.elementalProperties) {
           const sortedElems = Object.entries(matched.elementalProperties)
             .sort((a: any, b: any) => b[1] - a[1]);
-          if (sortedElems.length > 0) {
+          if (sortedElems.length > 0 && sortedElems[0]) {
             element = sortedElems[0][0];
           }
         }
@@ -310,7 +310,7 @@ async function run() {
     let servings = 4;
     if (r.yield_amount && typeof r.yield_amount === "string") {
       const servMatch = r.yield_amount.match(/(\d+)/);
-      if (servMatch) {
+      if (servMatch && servMatch[1]) {
         servings = parseInt(servMatch[1], 10);
       }
     }
