@@ -1,6 +1,6 @@
 # Phase 34 TypeScript Burndown & Health Campaign
 
-_Primary agent prompt for Next Session. Auth & Session Persistence status is archived to [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR #852 is **MERGED** (`39a56d78`). Phase 33 burndown is open in PR [#853](https://github.com/gregcastro23/WhatToEatNext/pull/853) on branch `chore/phase-33-burndown` (Status: PR #853, CI green; ready to merge)._
+_Primary agent prompt for Next Session. Auth & Session Persistence status is archived to [docs/handovers/session-persistence-status-2026-09-16.md](docs/handovers/session-persistence-status-2026-09-16.md). PR #852 is **MERGED** (`39a56d78`). PR #853 is **MERGED** (`7590cb8d`)._
 
 ---
 
@@ -10,7 +10,7 @@ Always re-measure before acting — never assume or inherit a number:
 
 | Metric | Baseline | Honest Accounting / Breakdown | Verification Gate |
 | :--- | :--- | :--- | :--- |
-| **Strict-Index (`exactOptionalPropertyTypes`)** | **133** errors / 117 files | Reverted from 217 (−84): ~77 from construction/parameter fixes, ~7 from domain type widenings | `bun run strict-index:check` |
+| **Strict-Index (`exactOptionalPropertyTypes`)** | **133** errors / 117 files | Reverted from 217 (−84): ~77 construction fixes, +84 net `?: T \| undefined` lines added in Phase 33 | `bun run strict-index:check` |
 | **Tracked Lint Debt** | **1,335** total across 9 tracked rules | Down from 1,473 (−138); all 28 audited rules passing without gate regressions | `bun run lint:debt` |
 | &nbsp;&nbsp;↳ `@typescript-eslint/no-unnecessary-condition` | 832 | Pinned at baseline (defensive runtime checks preserved) | `bun run lint:debt` |
 | &nbsp;&nbsp;↳ `@typescript-eslint/no-unsafe-assignment` | 135 | Down from 143 (−8) | `bun run lint:debt` |
@@ -23,11 +23,11 @@ Always re-measure before acting — never assume or inherit a number:
 | &nbsp;&nbsp;↳ `no-console` | **0** | 102 → 0: 74 migrated to `createLogger`, 4 exempted with reasons, 19 in legitimate sinks | `bun run lint:debt` |
 | **Nullish Coalescing (`prefer-nullish-coalescing`)** | **212** | Down from 214 (tracked separately as sub-baseline) | `scripts/checkLintDebt.ts` |
 | **Tracked Type Casts** | **167** | 38 `as any`, 129 `as unknown as`; 135 production | `bun run lint:debt` |
-| **Untracked Single `as T` Casts** | **2,002** | Rose 1,997 → 2,002; honest ceiling must be ratcheted | AST scan in `lint:debt` |
+| **Untracked Single `as T` Casts** | **2,002** | Regex scan in `lintDebt.ts:240` (picks up ~80 import/export renames, misses ≥511 casts); AST `assertionSites.single` (3,123) is real gate | AST `assertionSites` in `lint:debt` |
 | **Non-Null Assertions (`!`)** | **605** | Enforced by hard gate; red-proof confirmed (606 fails) | AST scan in `lint:debt` |
 | **Total Assertion Sites** | **3,288** | Down from 3,293 baseline (Rule 8 relabelling blocked) | AST scan in `lint:debt` |
-| **Loose Optionality (`?: T \| undefined`)** | **488** | Rose 427 → 530 before Phase 33 revert of CelestialPosition & profiler; currently 488 | AST / Grep scan |
-| **File-Level `eslint-disable` Comments** | **60-65** | File-level `no-console` banned outside 4 sinks | Source scan |
+| **Loose Optionality (`?: T \| undefined`)** | **459** AST (488 regex) | 459 via AST scan in `lintDebt.ts` (excluding generated); 488 via regex | AST scan in `lint:debt` |
+| **File-Level `eslint-disable` Comments** | **5** hand-written (61 total) | 56 in `src/lib/spacetime/generated/`, 5 hand-written (4 loggers, 1 max-params); file-level `no-console` banned outside 4 sinks | Source / ESLint suppression scan |
 | **Scripts Typecheck** | **246** errors across 55 files | Down from 302 across 58 files (−56); deviceB-verify & measureNormalisation hardened | `bun run check:scripts` |
 | **Declined Rules** | **4,906** | Strictly pinned; no headroom | `bun run lint:debt` |
 
