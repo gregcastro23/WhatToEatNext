@@ -191,7 +191,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
       sign: td.sign,
       degree: deg,
       absAngle: toAbsoluteAngle(td.sign, deg),
-      isRetrograde: td.isRetrograde,
+      ...(td.isRetrograde !== undefined ? { isRetrograde: td.isRetrograde } : {}),
     });
   }
 

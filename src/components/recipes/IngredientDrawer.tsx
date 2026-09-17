@@ -465,7 +465,7 @@ export function IngredientDrawer({
                       value={elemental[el] ?? 0}
                       barClass={ELEMENT_COLORS[el]?.bar ?? ""}
                       labelClass={ELEMENT_COLORS[el]?.text ?? ""}
-                      icon={ELEMENT_ICONS[el]}
+                      {...(ELEMENT_ICONS[el] ? { icon: ELEMENT_ICONS[el] } : {})}
                     />
                   ))}
                 </div>

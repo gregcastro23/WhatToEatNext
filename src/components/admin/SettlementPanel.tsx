@@ -169,7 +169,7 @@ export default function SettlementPanel(): React.JSX.Element {
        read once, latest poll failed -> stale (real data, but not current)
        latest poll succeeded -> live */
   const provenance: Provenance = !loaded
-    ? { state: "no-source", detail: error ?? undefined }
+    ? (error ? { state: "no-source", detail: error } : { state: "no-source" })
     : error
       ? { state: "stale", detail: error }
       : { state: "live" };

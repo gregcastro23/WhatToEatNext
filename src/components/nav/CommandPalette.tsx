@@ -39,7 +39,7 @@ function routeToItem(r: FlatNavEntry): PaletteItem {
     label: r.label,
     hint: r.hint.toUpperCase(),
     href: r.path,
-    external: r.external,
+    ...(r.external !== undefined ? { external: r.external } : {}),
   };
 }
 

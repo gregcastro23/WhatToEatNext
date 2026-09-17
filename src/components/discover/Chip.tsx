@@ -29,7 +29,7 @@ export function Chip({ active = false, onClick, icon, children, ariaPressed }: C
           : "border-white/10 bg-white/[0.03] text-alchm-fg-dim hover:border-white/20"
       }`}
     >
-      {icon && <Glyph name={icon} size={12} stroke={1.5} style={active ? { color: "var(--accent)" } : undefined} />}
+      {icon && <Glyph name={icon} size={12} stroke={1.5} {...(active ? { style: { color: "var(--accent)" } } : {})} />}
       <LabelXS className={active ? "text-alchm-fg" : "text-alchm-fg-dim"}>{children}</LabelXS>
     </button>
   );

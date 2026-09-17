@@ -154,9 +154,9 @@ export function LocationSearch({
       displayName: result.displayName,
       latitude: result.latitude,
       longitude: result.longitude,
-      // Server-resolved IANA name, or undefined when the pin resolves to no
+      // Server-resolved IANA name, or omitted when the pin resolves to no
       // zone. Never substitute a guess: downstream this dates the birth chart.
-      timezone: result.timezone ?? undefined,
+      ...(result.timezone ? { timezone: result.timezone } : {}),
     };
 
     setQuery(result.displayName);

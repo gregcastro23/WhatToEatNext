@@ -83,7 +83,7 @@ export default function HubTelemetry() {
 
   const fetchQuantities = useCallback(async (signal?: AbortSignal) => {
     try {
-      const res = await fetch("/api/alchm-quantities", { signal });
+      const res = await fetch("/api/alchm-quantities", signal ? { signal } : {});
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json: unknown = await res.json();
       if (!mountedRef.current) return;

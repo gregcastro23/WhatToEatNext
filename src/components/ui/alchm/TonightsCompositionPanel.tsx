@@ -36,7 +36,11 @@ export function TonightsCompositionPanel({ data }: TonightsCompositionPanelProps
           borderRadius: 10,
         }}
       >
-        <AgentImage label="AGENT · COMPOSITION" src={data.imageSrc} style={{ marginBottom: 12 }} />
+        <AgentImage
+          label="AGENT · COMPOSITION"
+          {...(data.imageSrc ? { src: data.imageSrc } : {})}
+          style={{ marginBottom: 12 }}
+        />
         <div
           className="t-display"
           style={{ fontSize: 19, lineHeight: 1.1, color: "var(--fg)", marginBottom: 4 }}

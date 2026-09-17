@@ -175,18 +175,19 @@ export async function calculatePlanetaryPositionsBackend(
     const positions: Record<string, PlanetPosition> = {};
 
     for (const [planetName, pos] of Object.entries(data.planetary_positions)) {
-      positions[planetName] = {
+      const planetPos: PlanetPosition = {
         sign: pos.sign,
         degree: pos.degree,
         minute: pos.minute ?? Math.floor((pos.exactLongitude % 1) * 60),
         exactLongitude: pos.exactLongitude,
         isRetrograde: pos.isRetrograde,
-        longitudeSpeed: pos.longitudeSpeed,
-        eclipticLatitude: pos.eclipticLatitude,
-        latitudeSpeed: pos.latitudeSpeed,
-        distance: pos.distance,
-        distanceSpeed: pos.distanceSpeed,
       };
+      if (pos.longitudeSpeed !== undefined) planetPos.longitudeSpeed = pos.longitudeSpeed;
+      if (pos.eclipticLatitude !== undefined) planetPos.eclipticLatitude = pos.eclipticLatitude;
+      if (pos.latitudeSpeed !== undefined) planetPos.latitudeSpeed = pos.latitudeSpeed;
+      if (pos.distance !== undefined) planetPos.distance = pos.distance;
+      if (pos.distanceSpeed !== undefined) planetPos.distanceSpeed = pos.distanceSpeed;
+      positions[planetName] = planetPos;
     }
 
     logger.info(

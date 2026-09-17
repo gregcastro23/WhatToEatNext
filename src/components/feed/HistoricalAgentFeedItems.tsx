@@ -259,7 +259,7 @@ export function AgentEventCard({
               src={item.audioUrl}
               title={item.action}
               author={agent.name}
-              element={item.element ?? undefined}
+              {...(item.element ? { element: item.element } : {})}
               compact={compact}
             />
           </div>

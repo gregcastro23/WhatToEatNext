@@ -952,7 +952,12 @@ export function EquipmentPhysicsPanel({ metrics }: { metrics: MethodPhysicsMetri
 
   return (
     <div className="space-y-4">
-      <Panel title="What matters in a pan here" subtitle={PRIORITY_EXPLAIN[physics.equipmentPriority]}>
+      <Panel
+        title="What matters in a pan here"
+        {...(PRIORITY_EXPLAIN[physics.equipmentPriority]
+          ? { subtitle: PRIORITY_EXPLAIN[physics.equipmentPriority] }
+          : {})}
+      >
         <p className="text-[11px] leading-relaxed text-gray-400">{physics.equipmentNote}</p>
       </Panel>
 
