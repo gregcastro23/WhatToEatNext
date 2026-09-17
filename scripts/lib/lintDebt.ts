@@ -465,6 +465,7 @@ export interface AssertionSitesComparison {
   totalIncreasedBy: number;
   asAnyIncreasedBy: number;
   productionIncreasedBy: number;
+  nonNullIncreasedBy: number;
 }
 
 export const compareAssertionSites = (
@@ -474,11 +475,17 @@ export const compareAssertionSites = (
   const deltaTotal = current.total - baseline.total;
   const deltaAsAny = current.asAny - baseline.asAny;
   const deltaProduction = current.production - baseline.production;
+  const deltaNonNull =
+    baseline.nonNull !== undefined && current.nonNull !== undefined
+      ? current.nonNull - baseline.nonNull
+      : 0;
 
   return {
-    exceedsBaseline: deltaTotal > 0 || deltaAsAny > 0 || deltaProduction > 0,
+    exceedsBaseline:
+      deltaTotal > 0 || deltaAsAny > 0 || deltaProduction > 0 || deltaNonNull > 0,
     totalIncreasedBy: Math.max(deltaTotal, 0),
     asAnyIncreasedBy: Math.max(deltaAsAny, 0),
     productionIncreasedBy: Math.max(deltaProduction, 0),
+    nonNullIncreasedBy: Math.max(deltaNonNull, 0),
   };
 };

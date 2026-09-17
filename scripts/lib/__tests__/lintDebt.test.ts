@@ -345,6 +345,7 @@ describe("compareAssertionSites", () => {
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
       productionIncreasedBy: 0,
+      nonNullIncreasedBy: 0,
     });
     expect(
       compareAssertionSites({ ...base, total: 4600, single: 4203, production: 3570 }, base),
@@ -353,6 +354,7 @@ describe("compareAssertionSites", () => {
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
       productionIncreasedBy: 0,
+      nonNullIncreasedBy: 0,
     });
   });
 
@@ -362,6 +364,7 @@ describe("compareAssertionSites", () => {
       totalIncreasedBy: 2,
       asAnyIncreasedBy: 0,
       productionIncreasedBy: 0,
+      nonNullIncreasedBy: 0,
     });
   });
 
@@ -375,6 +378,7 @@ describe("compareAssertionSites", () => {
       totalIncreasedBy: 0,
       asAnyIncreasedBy: 0,
       productionIncreasedBy: 0,
+      nonNullIncreasedBy: 0,
     });
   });
 
@@ -385,6 +389,13 @@ describe("compareAssertionSites", () => {
     expect(
       compareAssertionSites({ ...base, production: 3650, test: 988 }, base),
     ).toMatchObject({ exceedsBaseline: true, productionIncreasedBy: 50 });
+  });
+
+  it("fails when nonNull grows beyond baseline", () => {
+    const baseWithNonNull = { ...base, nonNull: 605 };
+    expect(
+      compareAssertionSites({ ...baseWithNonNull, nonNull: 606 }, baseWithNonNull),
+    ).toMatchObject({ exceedsBaseline: true, nonNullIncreasedBy: 1 });
   });
 });
 
