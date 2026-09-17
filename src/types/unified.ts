@@ -455,8 +455,6 @@ export type OptionalFields<T, TK extends keyof T> = Omit<T, TK> &
 
 export type Nullable<T> = T | null;
 
-export type Optional<T> = T | undefined;
-
 export type StringKeys<T> = {
   [K in keyof T]: T[K] extends string ? K : never;
 }[keyof T];

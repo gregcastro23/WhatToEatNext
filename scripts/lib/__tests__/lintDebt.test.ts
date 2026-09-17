@@ -501,6 +501,18 @@ interface Clean {
 `;
     expect(countLooseOptionalityInSource(code, "clean.ts")).toBe(0);
   });
+
+  it("detects Optional<T> alias references as loose optionality", () => {
+    const code = `
+interface AliasExample {
+  aliased?: Optional<string>;
+  unionAliased?: Optional<number> | null;
+  clean?: string;
+  func?(param?: Optional<boolean>): void;
+}
+`;
+    expect(countLooseOptionalityInSource(code, "alias.ts")).toBe(3);
+  });
 });
 
 describe("scanFileLevelDisables", () => {

@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1335,
+  "trackedTotal": 1334,
   "casts": {
     "total": 167,
     "asAny": 38,
@@ -8,13 +8,13 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 3288,
+    "total": 3287,
     "asAny": 37,
     "chained": 129,
-    "single": 3122,
-    "production": 2664,
+    "single": 3121,
+    "production": 2663,
     "test": 624,
-    "asConst": 564,
+    "asConst": 566,
     "nonNull": 605
   },
   "looseOptionality": {
@@ -40,9 +40,9 @@
     }
   },
   "declined": {
-    "total": 4906,
+    "total": 4905,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1368,
+      "@typescript-eslint/explicit-function-return-type": 1367,
       "@typescript-eslint/explicit-module-boundary-types": 669,
       "complexity": 297,
       "max-depth": 85,
@@ -70,7 +70,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 832,
+      "count": 831,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {

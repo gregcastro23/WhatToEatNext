@@ -29,10 +29,16 @@ import { calculatePlanetaryPositions } from "@/utils/serverPlanetaryCalculations
 // The debit path's position source, stubbed to return what the REMOTE backend
 // really returns — the only way to exercise it, since jest blocks the network
 // and the real call would silently fall back to the local engine.
-jest.mock("@/utils/serverPlanetaryCalculations", () => ({
-  calculatePlanetaryPositions: jest.fn(),
-  getFallbackPlanetaryPositions: jest.fn(() => ({})),
-}));
+jest.mock("@/utils/serverPlanetaryCalculations", () => {
+  const actual = jest.requireActual<
+    typeof import("@/utils/serverPlanetaryCalculations")
+  >("@/utils/serverPlanetaryCalculations");
+  return {
+    ...actual,
+    calculatePlanetaryPositions: jest.fn(),
+    getFallbackPlanetaryPositions: jest.fn(() => ({})),
+  };
+});
 
 /**
  * A real backend response for 2026-07-20T12:00Z, trimmed to the fields the

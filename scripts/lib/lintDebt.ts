@@ -513,6 +513,16 @@ export interface FileLooseOptionalDebt {
   isTest: boolean;
 }
 
+function isOptionalAlias(typeNode: TSType.TypeNode): boolean {
+  if (ts.isTypeReferenceNode(typeNode)) {
+    const typeName = typeNode.typeName;
+    if (ts.isIdentifier(typeName) && typeName.text === "Optional") {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function countLooseOptionalityInSource(code: string, fileName: string): number {
   const sourceFile = ts.createSourceFile(
     fileName,
@@ -526,11 +536,17 @@ export function countLooseOptionalityInSource(code: string, fileName: string): n
     if (
       (ts.isPropertySignature(node) || ts.isPropertyDeclaration(node) || ts.isParameter(node)) &&
       node.questionToken &&
-      node.type &&
-      ts.isUnionTypeNode(node.type) &&
-      node.type.types.some((t) => t.kind === ts.SyntaxKind.UndefinedKeyword)
+      node.type
     ) {
-      count += 1;
+      const isUnionWithUndefined =
+        ts.isUnionTypeNode(node.type) &&
+        node.type.types.some(
+          (t) => t.kind === ts.SyntaxKind.UndefinedKeyword || isOptionalAlias(t),
+        );
+      const isDirectOptionalAlias = isOptionalAlias(node.type);
+      if (isUnionWithUndefined || isDirectOptionalAlias) {
+        count += 1;
+      }
     }
     ts.forEachChild(node, visit);
   };

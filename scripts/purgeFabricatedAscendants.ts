@@ -109,14 +109,17 @@ const { rows: survey } = await client.query<Record<string, string>>(`
          count(*) FILTER (WHERE up.monica_full_chart IS NOT NULL)::text full_chart
     FROM user_profiles up JOIN users u ON u.id = up.user_id
    WHERE ${targetPredicate}`);
-console.log("rows in scope:", JSON.stringify(survey[0]));
+const surveyRow = survey[0];
+if (!surveyRow) throw new Error("Survey query returned no rows (unexpected for count aggregate)");
+console.log("rows in scope:", JSON.stringify(surveyRow));
 
-const agentTotal =
-  (
-    await client.query<{ n: string }>(
-      `SELECT count(*)::text n FROM users WHERE is_agent`,
-    )
-  ).rows[0]?.n ?? "0";
+const agentTotalRow = (
+  await client.query<{ n: string }>(
+    `SELECT count(*)::text n FROM users WHERE is_agent`,
+  )
+).rows[0];
+if (!agentTotalRow) throw new Error("Agent count query returned no rows");
+const agentTotal = agentTotalRow.n;
 console.log(`agent population: ${agentTotal} (scope must be far smaller)`);
 
 // What the chart looks like after — computed, not assumed.
@@ -129,7 +132,7 @@ const { rows: preview } = await client.query<{ name: string; before: string; aft
    ORDER BY up.name LIMIT 3`);
 console.table(preview);
 
-const affected = Number(survey[0]?.affected ?? 0);
+const affected = Number(surveyRow.affected);
 if (affected === 0) {
   console.log("\nNothing to purge — already converged. (This script is idempotent.)");
   await client.end();

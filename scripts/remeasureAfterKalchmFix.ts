@@ -98,8 +98,13 @@ console.log("");
 console.log("=".repeat(76));
 console.log("2. TWO-BODY |ln kalchm| GAP  (degenerate = Comixion degrees 8/22)");
 console.log("=".repeat(76));
-const degenMax = twoLnDegen[twoLnDegen.length - 1] ?? 0;
-const healthyMin = twoLnHealthy[0] ?? 0;
+const degenMax = twoLnDegen[twoLnDegen.length - 1];
+const healthyMin = twoLnHealthy[0];
+if (degenMax === undefined || healthyMin === undefined) {
+  throw new Error(
+    `Empty sample in two-body gap measurement (twoLnDegen: ${twoLnDegen.length}, twoLnHealthy: ${twoLnHealthy.length})`,
+  );
+}
 console.log(`  degenerate n         ${twoLnDegen.length}   max |ln k|  ${p(degenMax)}`);
 console.log(`  healthy n            ${twoLnHealthy.length}   min |ln k|  ${p(healthyMin)}`);
 const separable = degenMax < healthyMin;
