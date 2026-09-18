@@ -12,6 +12,12 @@ import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
+  AstrologizeSuccessResponseSchema,
+  type AstrologizeResponse,
+  type AstrologizeSuccessResponse,
+  type AstrologizePlanetData,
+} from "@/lib/validation/astrologySchemas";
+import {
   parseRailwayResponse,
   PlanetaryRequestSchema,
   type PlanetaryRequest,
@@ -27,20 +33,23 @@ export const revalidate = 300;
 
 const RAILWAY_URL = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
-const { HONO_API_URL } = process.env;
-
 // ─── Hono Gateway ───────────────────────────────────────────────────────────
 
-async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeResponse | null> {
-  if (!HONO_API_URL) return null;
+async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeSuccessResponse | null> {
+  const honoUrl = process.env.HONO_API_URL;
+  if (!honoUrl) return null;
   try {
-    const response = await fetch(`${HONO_API_URL}/api/astrologize`, {
+    const response = await fetch(`${honoUrl}/api/astrologize`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
       signal: AbortSignal.timeout(15000),
     });
-    if (response.ok) return (await response.json()) as AstrologizeResponse;
+    if (response.ok) {
+      const parsed = AstrologizeSuccessResponseSchema.safeParse(await response.json());
+      if (parsed.success) return parsed.data;
+      _logger.warn("Hono Gateway returned unparseable astrologize payload");
+    }
   } catch (err) {
     _logger.error("Hono Gateway proxy failed:", err instanceof Error ? err.message : "Unknown error");
   }
@@ -49,44 +58,8 @@ async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeRespo
 
 // ─── Shared response body shape ──────────────────────────────────────────────
 
-interface ArcDegrees {
-  degrees: number;
-  minutes: number;
-  seconds: number;
-}
-
-interface CelestialBody {
-  key: string;
-  label: string;
-  Sign: { key: string; zodiac: string; label: string };
-  ChartPosition: { Ecliptic: { DecimalDegrees: number; ArcDegrees: ArcDegrees } };
-  isRetrograde: boolean;
-}
-
-interface AscendantData {
-  sign: string;
-  degree: number;
-  minute: number;
-  exactLongitude: number;
-}
-
-interface AstrologizeResponse {
-  success: boolean;
-  _celestialBodies: { all: CelestialBody[] } & Record<string, CelestialBody | CelestialBody[]>;
-  ascendant?: AscendantData;
-  birth_info: {
-    year: number;
-    month: number;
-    date: number;
-    hour: number;
-    minute: number;
-    latitude: number;
-    longitude: number;
-    ayanamsa: string;
-  };
-  source: string;
-  precision: string;
-}
+type CelestialBody = AstrologizePlanetData;
+type AscendantData = NonNullable<AstrologizeResponse["ascendant"]>;
 
 // ─── Railway backend ──────────────────────────────────────────────────────────
 
@@ -464,7 +437,8 @@ async function trackAstrologyQuery(data: AstrologizeResponse): Promise<void> {
     if (session?.user?.id) {
       const { recordInteraction } = await import("@/services/userInteractionsService");
       // Record engagement with the sun/ascendant as proxies for planetary interest
-      const dominantPlanet = "sun" in data._celestialBodies ? "Sun" : "Planets";
+      const dominantPlanet =
+        data._celestialBodies && "sun" in data._celestialBodies ? "Sun" : "Planets";
       await recordInteraction({
         userId: session.user.id,
         type: "planetary_query",

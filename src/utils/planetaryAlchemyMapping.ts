@@ -710,6 +710,8 @@ const IGNORED_ALCHEMICAL_BODY_KEYS = new Set([
   "parsfortune",
   "meannode",
   "mc",
+  "lunarphase",
+  "moonphase",
 ]);
 
 function canonicalESMSBodyName(

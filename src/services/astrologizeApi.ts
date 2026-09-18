@@ -4,6 +4,10 @@ import { _logger } from "@/lib/logger";
 import {
   AstrologizeResponseSchema,
   RecipeRecommendationResponseSchema,
+  type AstrologizePlanetData,
+  type AstrologizeResponse,
+  type RecipeRecommendation,
+  type RecipeRecommendationResponse,
 } from "@/lib/validation/astrologySchemas";
 import { log } from "@/services/LoggingService";
 import type { ZodiacSignType } from "@/types/celestial";
@@ -11,6 +15,13 @@ import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { getSelfBaseUrl } from "@/utils/urlUtils";
+
+export type {
+  AstrologizePlanetData,
+  AstrologizeResponse,
+  RecipeRecommendation,
+  RecipeRecommendationResponse,
+};
 
 // Use relative API endpoints so they hit the Next.js routes
 // The Next.js /api/... routes will securely proxy to the appropriate backend
@@ -35,62 +46,6 @@ interface LocalAstrologizeRequest {
   latitude?: number;
   longitude?: number;
   zodiacSystem?: "tropical" | "sidereal"; // Add zodiac system support
-}
-
-// Interface for planetary data from the API
-interface AstrologizePlanetData {
-  key: string;
-  label: string;
-  Sign: {
-    key: string;
-    zodiac: string;
-    label: string;
-  };
-  ChartPosition: {
-    Ecliptic: {
-      DecimalDegrees: number;
-      ArcDegrees: {
-        degrees: number;
-        minutes: number;
-        seconds: number;
-      };
-    };
-  };
-  isRetrograde: boolean;
-}
-
-// Interface for the API response (updated to match actual astrologize API structure)
-interface AstrologizeResponse {
-  _celestialBodies?: {
-    all: AstrologizePlanetData[];
-    sun?: AstrologizePlanetData;
-    moon?: AstrologizePlanetData;
-    mercury?: AstrologizePlanetData;
-    venus?: AstrologizePlanetData;
-    mars?: AstrologizePlanetData;
-    jupiter?: AstrologizePlanetData;
-    saturn?: AstrologizePlanetData;
-    uranus?: AstrologizePlanetData;
-    neptune?: AstrologizePlanetData;
-    pluto?: AstrologizePlanetData;
-  };
-  ascendant?: {
-    sign: string;
-    degree?: number;
-    minute?: number;
-    exactLongitude?: number;
-  };
-  error?: string;
-  birth_info?: {
-    year: number;
-    month: number;
-    date: number;
-    hour: number;
-    minute: number;
-    latitude: number;
-    longitude: number;
-    ayanamsa?: string;
-  };
 }
 
 // Default location (New York City)
@@ -334,7 +289,7 @@ export async function fetchPlanetaryPositions(
     const positions: Record<string, PlanetPosition> = {};
 
     // Process each planet from the celestial bodies
-    const planetMap: Record<string, string> = {
+    const planetMap = {
       sun: "Sun",
       moon: "Moon",
       mercury: "Mercury",
@@ -345,10 +300,11 @@ export async function fetchPlanetaryPositions(
       uranus: "Uranus",
       neptune: "Neptune",
       pluto: "Pluto",
-    };
+    } as const;
 
-    Object.entries(planetMap).forEach(([apiKey, planetName]) => {
-      const planetData = celestialBodies[apiKey as keyof typeof celestialBodies] as AstrologizePlanetData | undefined;
+    (Object.keys(planetMap) as Array<keyof typeof planetMap>).forEach((apiKey) => {
+      const planetName = planetMap[apiKey];
+      const planetData = celestialBodies[apiKey];
       if (planetData) {
         const sign = normalizeSignName(planetData.Sign.key);
         const decimalDegrees = planetData.ChartPosition.Ecliptic.DecimalDegrees;
@@ -482,28 +438,6 @@ export interface RecipeRecommendationElementalProperties {
   Air: number;
 }
 
-/**
- * One recommended recipe in the response's `recommendations` array.
- * Mirrors the dict appended at backend/alchm_kitchen/main.py:2127.
- */
-export interface RecipeRecommendation {
-  recipe_id: string;
-  name: string;
-  weighted_environmental_score: number;
-  matching_ingredients: RecipeRecommendationMatchingIngredient[];
-  isEnvironmentalMatch: boolean;
-  environmentalMatchDetails?: string;
-  optimal_cooking_window: RecipeRecommendationOptimalWindow | null;
-  elementalProperties: RecipeRecommendationElementalProperties | null;
-  spirit_score: number;
-  matter_score: number;
-  essence_score: number;
-  substance_score: number;
-  kinetic_val: number;
-  thermo_val: number;
-  total_potency_score: number;
-  collective_potency_modifier_applied: number;
-}
 
 export interface RecipeRecommendationLunarPhase {
   phase_name: string;
@@ -513,18 +447,6 @@ export interface RecipeRecommendationLunarPhase {
 export interface RecipeRecommendationSeasonalContext {
   current_zodiac_season: string;
   boosted_ingredients: Record<string, unknown>;
-}
-
-/**
- * Response envelope returned by
- * POST /api/astrological/recipe-recommendations-by-chart. Shape is defined
- * at backend/alchm_kitchen/main.py:2152.
- */
-export interface RecipeRecommendationResponse {
-  request_params: Record<string, unknown>;
-  lunar_phase: RecipeRecommendationLunarPhase | null;
-  seasonal_context: RecipeRecommendationSeasonalContext;
-  recommendations: RecipeRecommendation[];
 }
 
 /**

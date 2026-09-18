@@ -202,13 +202,18 @@ export async function searchItem(
   const item = parsed.SearchResult?.Items?.[0];
   if (!item?.ASIN) return null;
 
+  const title = item.ItemInfo?.Title?.DisplayValue;
+  const imageUrl = item.Images?.Primary?.Large?.URL ?? item.Images?.Primary?.Medium?.URL;
+  const price = item.Offers?.Listings?.[0]?.Price?.DisplayAmount;
+  const detailPageUrl = item.DetailPageURL;
+
   return {
     asin: item.ASIN,
-    title: item.ItemInfo?.Title?.DisplayValue,
-    imageUrl: item.Images?.Primary?.Large?.URL ?? item.Images?.Primary?.Medium?.URL,
-    price: item.Offers?.Listings?.[0]?.Price?.DisplayAmount,
-    inStock: Boolean(item.Offers?.Listings?.[0]?.Price?.DisplayAmount),
-    detailPageUrl: item.DetailPageURL,
+    ...(title !== undefined ? { title } : {}),
+    ...(imageUrl !== undefined ? { imageUrl } : {}),
+    ...(price !== undefined ? { price } : {}),
+    inStock: Boolean(price),
+    ...(detailPageUrl !== undefined ? { detailPageUrl } : {}),
   };
 }
 
@@ -227,6 +232,8 @@ export class PaapiError extends Error {
     super(message);
     this.name = "PaapiError";
     this.status = status;
-    this.code = code;
+    if (code !== undefined) {
+      this.code = code;
+    }
   }
 }

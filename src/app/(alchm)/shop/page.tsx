@@ -34,7 +34,16 @@ import LivePriceTicker from "@/components/economy/LivePriceTicker";
 import { Button } from "@/components/ui/button";
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
-const ESMS_CHAIN = process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia;
+
+function withTestnet<T extends typeof base | typeof baseSepolia>(chain: T): T & { testnet: boolean } {
+  return {
+    ...chain,
+    testnet: Boolean(chain.testnet),
+  };
+}
+
+const ESMS_CHAIN = withTestnet(process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia);
+const BASE_CHAIN = withTestnet(base);
 
 interface CoinAmounts {
   spirit: number;
@@ -517,7 +526,7 @@ export default function ShopPage(): JSX.Element {
           solana: { createOnLogin: "off" },
         },
         defaultChain: ESMS_CHAIN,
-        supportedChains: ESMS_CHAIN.id === base.id ? [base] : [ESMS_CHAIN, base],
+        supportedChains: ESMS_CHAIN.id === BASE_CHAIN.id ? [BASE_CHAIN] : [ESMS_CHAIN, BASE_CHAIN],
         appearance: {
           theme: "dark",
           accentColor: "#805ad5",

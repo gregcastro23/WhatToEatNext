@@ -11,6 +11,7 @@ export const strictIndexBaselineSchema = z.object({
   total: z.number().int().nonnegative(),
   files: z.number().int().nonnegative(),
   allowlist: z.array(z.string()),
+  byFile: z.record(z.string(), z.number().int().nonnegative()).optional(),
 });
 
 export type StrictIndexBaseline = z.infer<typeof strictIndexBaselineSchema>;
@@ -39,6 +40,7 @@ export interface StrictIndexComparison {
   exceedsBaseline: boolean;
   totalIncreasedBy: number;
   allowlistViolations: string[];
+  regressedFiles?: { file: string; current: number; baseline: number }[];
 }
 
 /**
@@ -271,11 +273,23 @@ export function compareStrictIndex(
     }
   }
 
+  const regressedFiles: { file: string; current: number; baseline: number }[] = [];
+  if (baseline.byFile) {
+    for (const [file, diags] of Object.entries(currentByFile)) {
+      const baseCount = baseline.byFile[file] ?? 0;
+      if (diags.length > baseCount) {
+        regressedFiles.push({ file, current: diags.length, baseline: baseCount });
+      }
+    }
+  }
+
   const delta = current.total - baseline.total;
+  const exceeds = delta > 0 || allowlistViolations.length > 0 || regressedFiles.length > 0;
   return {
-    exceedsBaseline: delta > 0 || allowlistViolations.length > 0,
+    exceedsBaseline: exceeds,
     totalIncreasedBy: Math.max(0, delta),
     allowlistViolations,
+    ...(regressedFiles.length > 0 ? { regressedFiles } : {}),
   };
 }
 
@@ -283,12 +297,29 @@ export function compareStrictIndex(
  * Update baseline if total errors dropped or allowlist evolved.
  */
 export function updateStrictIndexBaseline(
-  current: StrictIndexSummary,
+  current: StrictIndexSummary | { total: number; files: number; byFile: Record<string, StrictIndexDiagnostic[]> },
   baseline: StrictIndexBaseline,
 ): StrictIndexBaseline {
+  const currentByFile = current.byFile ?? {};
+  const hasByFile =
+    baseline.byFile !== undefined ||
+    Object.values(currentByFile).some((diags) => diags.length > 0);
+
+  let byFile: Record<string, number> | undefined;
+  if (hasByFile) {
+    byFile = Object.entries(currentByFile)
+      .filter(([, diags]) => diags.length > 0)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .reduce<Record<string, number>>((acc, [file, diags]) => {
+        acc[file] = diags.length;
+        return acc;
+      }, {});
+  }
+
   return {
     total: Math.min(baseline.total, current.total),
     files: current.files,
     allowlist: [...baseline.allowlist].sort(),
+    ...(byFile !== undefined ? { byFile } : {}),
   };
 }

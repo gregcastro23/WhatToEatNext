@@ -417,7 +417,7 @@ export function calculatePlanetaryInfluences(
     alchemicalInfluences,
     elementalInfluences,
     dominantPlanets,
-    planetaryHours,
+    ...(planetaryHours !== undefined ? { planetaryHours } : {}),
   };
 }
 

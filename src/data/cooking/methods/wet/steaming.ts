@@ -204,7 +204,7 @@ export const steaming: CookingMethodData = {
     // ThermodynamicProperties (from @/types/shared, declaring _entropy/_reactivity) that differs
     // structurally from the runtime object's keys (entropy/reactivity, read by scoring/stats consumers).
     // Pre-existing type drift previously masked by a loose cast; runtime keys are intentionally left unchanged.
-  } as unknown as CookingMethodData["thermodynamicProperties"],
+  } as unknown as NonNullable<CookingMethodData["thermodynamicProperties"]>,
 
   kineticProfile: {
     voltage: 0.40,            // Limited by 212°F water boiling point

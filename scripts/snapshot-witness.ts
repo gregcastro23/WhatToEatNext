@@ -82,7 +82,10 @@ export async function generateSnapshot() {
             minute: pos.minute,
             exactLongitude: Number(pos.exactLongitude.toFixed(6)),
             isRetrograde: pos.isRetrograde,
-            longitudeSpeed: Number(pos.longitudeSpeed.toFixed(6)),
+            longitudeSpeed:
+              pos.longitudeSpeed !== undefined
+                ? Number(pos.longitudeSpeed.toFixed(6))
+                : undefined,
           },
         ]),
       ),
@@ -163,7 +166,9 @@ export async function generateSnapshot() {
       category: item?.category ?? null,
       elementalProperties: item?.elementalProperties ?? null,
       qualities: item?.qualities ?? [],
-      tasteProfile: item?.sensoryProfile?.tasteProfile ?? null,
+      tasteProfile:
+        (item?.sensoryProfile as { tasteProfile?: unknown } | undefined)
+          ?.tasteProfile ?? null,
     };
   });
 
@@ -217,14 +222,13 @@ export async function generateSnapshot() {
   };
 
   const ingredientRecs = await getIngredientRecommendations(testAstroContext, {
-    maxResults: 8,
+    limit: 8,
     modalityPreference: "Cardinal",
   });
 
   const astroStateLegacy = {
     activePlanets: ["Sun", "Mars", "Venus"],
-    currentZodiac: "Aries",
-    timestamp: new Date("2026-03-20T14:46:00Z"),
+    currentZodiac: "aries" as const,
   };
   const legacyIngredientRecs = getRecommendedIngredients(astroStateLegacy).slice(0, 8);
 
@@ -233,13 +237,21 @@ export async function generateSnapshot() {
   const recommenderIngredients = {
     categoryCount: Object.keys(ingredientRecs).length,
     enhancedCount: flatEnhancedRecs.length,
-    enhancedTop: flatEnhancedRecs.slice(0, 5).map((r) => ({
-      name: r.name,
-      totalScore: Number((r.totalScore ?? r.matchScore ?? 0).toFixed(4)),
-      elementalScore: Number((r.elementalScore ?? 0).toFixed(4)),
-      flavorScore: Number((r.flavorScore ?? 0).toFixed(4)),
-      seasonalScore: Number((r.seasonalScore ?? 0).toFixed(4)),
-    })),
+    enhancedTop: flatEnhancedRecs
+      .filter((r): r is NonNullable<typeof r> => Boolean(r))
+      .slice(0, 5)
+      .map((r) => ({
+        name: r.name,
+        totalScore: Number((r.totalScore ?? r.matchScore ?? 0).toFixed(4)),
+        elementalScore: Number((r.elementalScore ?? 0).toFixed(4)),
+        flavorScore: Number((r.flavorScore ?? 0).toFixed(4)),
+        seasonalScore: Number(
+          (
+            ((r as Record<string, unknown>).seasonalScore as number | undefined) ??
+            0
+          ).toFixed(4),
+        ),
+      })),
     legacyTopNames: legacyIngredientRecs.map((i) => i.name),
   };
 
@@ -263,8 +275,10 @@ export async function generateSnapshot() {
     asyncCount: asyncMethods.length,
     asyncTop: asyncMethods.slice(0, 5).map((m) => ({
       name: m.name,
-      score: Number(m.score.toFixed(4)),
-      heat: m.thermodynamicProperties?.heat ?? null,
+      score: Number((m.score ?? 0).toFixed(4)),
+      heat: (m as unknown as Record<string, unknown>).thermodynamicProperties
+        ? ((m as unknown as Record<string, unknown>).thermodynamicProperties as { heat?: unknown }).heat ?? null
+        : null,
     })),
     syncCount: syncMethods.length,
     syncTop: syncMethods.slice(0, 5).map((m) => ({
@@ -278,8 +292,8 @@ export async function generateSnapshot() {
   const springRecs = unifiedSeasonalSystem.getSeasonalRecommendations("spring");
   const autumnRecs = unifiedSeasonalSystem.getSeasonalRecommendations("autumn");
   const recommenderSeasonal = {
-    springOptimalMethods: springRecs.optimalCookingMethods,
-    autumnOptimalMethods: autumnRecs.optimalCookingMethods,
+    springOptimalMethods: springRecs.cookingMethods,
+    autumnOptimalMethods: autumnRecs.cookingMethods,
     garlicSpringScore: getSeasonalScore("garlic", "spring"),
     tomatoSummerInSeason: isInSeason("tomato", 0.5),
   };
@@ -308,7 +322,6 @@ export async function generateSnapshot() {
     targetKalchm: 1.0,
   });
   const recommenderRecipeBuilding = {
-    success: builtRecipe.success,
     recipeName: builtRecipe.recipe?.name ?? null,
     ingredientCount: builtRecipe.recipe?.ingredients?.length ?? null,
     monicaOptimizationScore:
@@ -319,10 +332,10 @@ export async function generateSnapshot() {
       typeof builtRecipe.recipe?.seasonalAdaptation?.seasonalScore === "number"
         ? Number(builtRecipe.recipe.seasonalAdaptation.seasonalScore.toFixed(4))
         : null,
-    criteriaMatched: builtRecipe.metrics?.criteriaMatched ?? null,
+    criteriaMatched: builtRecipe.generationMetadata?.criteriaMatched ?? null,
     kalchmAccuracy:
-      typeof builtRecipe.metrics?.kalchmAccuracy === "number"
-        ? Number(builtRecipe.metrics.kalchmAccuracy.toFixed(4))
+      typeof builtRecipe.generationMetadata?.kalchmAccuracy === "number"
+        ? Number(builtRecipe.generationMetadata.kalchmAccuracy.toFixed(4))
         : null,
   };
 
@@ -332,7 +345,7 @@ export async function generateSnapshot() {
     season: ["spring"],
   });
   const elementalFiltered = filterService.filterIngredients({
-    elemental: { Fire: 0.3 },
+    elemental: { minFire: 0.3 },
   });
   const recommenderFiltering = {
     springVegetableCount: springFiltered[INGREDIENT_GROUPS.VEGETABLES]?.length ?? null,
@@ -374,10 +387,12 @@ export async function generateSnapshot() {
   // 13. Recommendation Adapter (Exercises RecommendationAdapter.ts)
   const adapterItems = [
     {
+      id: "garlic",
       name: "garlic",
       elementalProperties: { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 },
     },
     {
+      id: "tomato",
       name: "tomato",
       elementalProperties: { Fire: 0.2, Water: 0.6, Earth: 0.1, Air: 0.1 },
     },
@@ -399,7 +414,7 @@ export async function generateSnapshot() {
     samplePositions,
     true,
     "aries",
-    "Full Moon",
+    "full moon",
   );
   const transformedSample = adapter.getAllTransformedIngredients().map((item) => ({
     name: item.name,
@@ -407,8 +422,18 @@ export async function generateSnapshot() {
     essence: Number((item.alchemicalProperties?.Essence ?? 0).toFixed(4)),
     matter: Number((item.alchemicalProperties?.Matter ?? 0).toFixed(4)),
     substance: Number((item.alchemicalProperties?.Substance ?? 0).toFixed(4)),
-    heat: Number((item.alchemicalProperties?.heat ?? 0).toFixed(4)),
-    gregsEnergy: Number((item.alchemicalProperties?.gregsEnergy ?? 0).toFixed(4)),
+    heat: Number(
+      (
+        ((item.alchemicalProperties as Record<string, number | undefined>)?.heat) ??
+        0
+      ).toFixed(4),
+    ),
+    gregsEnergy: Number(
+      (
+        ((item.alchemicalProperties as Record<string, number | undefined>)?.gregsEnergy) ??
+        0
+      ).toFixed(4),
+    ),
   }));
   const recommenderAdapter = {
     dominantProperty: adapter.getDominantAlchemicalProperty(),

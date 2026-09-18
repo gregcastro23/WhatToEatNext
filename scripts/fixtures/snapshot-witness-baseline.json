@@ -1221,7 +1221,7 @@
     "categoryCounts": {
       "beverages": 14,
       "dairy": 45,
-      "fruits": 95,
+      "fruits": 77,
       "grains": 51,
       "herbs": 51,
       "misc": 475,
@@ -1233,7 +1233,7 @@
       "vegetables": 75,
       "vinegars": 11
     },
-    "totalIngredients": 1158,
+    "totalIngredients": 1140,
     "samples": [
       {
         "name": "garlic",
@@ -1275,18 +1275,17 @@
       {
         "name": "olive oil",
         "found": true,
-        "category": "fruit",
+        "category": "oil",
         "elementalProperties": {
           "Fire": 0.3,
-          "Water": 0.1,
-          "Earth": 0.4,
+          "Water": 0.2,
+          "Earth": 0.3,
           "Air": 0.2
         },
         "qualities": [
-          "rich",
-          "fruity",
+          "healthy",
           "versatile",
-          "healthy"
+          "rich"
         ],
         "tasteProfile": null
       },
@@ -1411,18 +1410,15 @@
         "found": true,
         "category": "fruit",
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.15,
+          "Fire": 0.2,
+          "Water": 0.4,
           "Earth": 0.1,
-          "Air": 0.45
+          "Air": 0.3
         },
         "qualities": [
-          "acidic",
-          "bright",
-          "aromatic",
-          "versatile",
-          "cleansing",
-          "essential"
+          "sour",
+          "cooling",
+          "cleansing"
         ],
         "tasteProfile": null
       }
@@ -1663,7 +1659,7 @@
   },
   "recommenderIngredients": {
     "categoryCount": 6,
-    "enhancedCount": 20,
+    "enhancedCount": 16,
     "enhancedTop": [
       {
         "name": "MCT Oil",
@@ -1687,14 +1683,14 @@
         "seasonalScore": 0.9
       },
       {
-        "name": "Sesame Oil",
-        "totalScore": 0.5165,
-        "elementalScore": 0.9295,
+        "name": "Kumquat",
+        "totalScore": 0.5647,
+        "elementalScore": 0.8365,
         "flavorScore": 0.5,
-        "seasonalScore": 0.4
+        "seasonalScore": 0.9
       },
       {
-        "name": "Kumquat",
+        "name": "Blood Orange",
         "totalScore": 0.5647,
         "elementalScore": 0.8365,
         "flavorScore": 0.5,
@@ -1706,10 +1702,10 @@
       "arugula",
       "maple crystals",
       "Quince",
+      "Apple",
       "Pear",
       "coconut cream",
-      "Asian Pear",
-      "avocado"
+      "Asian Pear"
     ]
   },
   "recommenderCookingMethods": {
@@ -1771,6 +1767,8 @@
     ]
   },
   "recommenderSeasonal": {
+    "springOptimalMethods": [],
+    "autumnOptimalMethods": [],
     "garlicSpringScore": 0.95,
     "tomatoSummerInSeason": false
   },
@@ -1834,20 +1832,20 @@
     "ingredientCount": 6,
     "monicaOptimizationScore": 0.5766,
     "seasonalScore": 0.604,
-    "criteriaMatched": null,
-    "kalchmAccuracy": null
+    "criteriaMatched": 3,
+    "kalchmAccuracy": 1.0464
   },
   "recommenderFiltering": {
     "springVegetableCount": 75,
     "springHerbCount": 51,
-    "fireSpiceCount": 42,
-    "fireProteinCount": 76
+    "fireSpiceCount": 29,
+    "fireProteinCount": 15
   },
   "recommenderCuisines": {
     "italianFound": true,
     "italianDishCount": {
-      "breakfast": null,
-      "dinner": null
+      "breakfast": 3,
+      "dinner": 22
     },
     "japaneseFound": true,
     "monicaCompatibility": 0.5953,
@@ -1857,9 +1855,9 @@
       "grilling"
     ],
     "italianKalchmAnalysis": {
-      "totalKalchm": 1.0711,
-      "averageRecipeKalchm": 1.075,
-      "recipesAnalyzed": 12
+      "totalKalchm": 1.0617,
+      "averageRecipeKalchm": 1.0637,
+      "recipesAnalyzed": 41
     }
   },
   "recommenderAdapter": {

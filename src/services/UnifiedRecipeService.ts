@@ -6,7 +6,6 @@
 import { getServerRecipes } from "@/actions/recipes";
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
-import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
 // Using local error handler implementation
@@ -174,7 +173,7 @@ export class UnifiedRecipeService {
    * Supports exact match and startsWith matching for regional variants
    * e.g., searching "indian" will match "indian", "indian (south)", "indian (north)", etc.
    */
-  async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
+  async getRecipesForCuisine(cuisine: string): Promise<Recipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
       const targetCuisine =
@@ -213,7 +212,7 @@ export class UnifiedRecipeService {
   /**
    * Get recipes by cuisine (alias for compatibility)
    */
-  async getRecipesByCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
+  async getRecipesByCuisine(cuisine: string): Promise<Recipe[]> {
     return this.getRecipesForCuisine(cuisine);
   }
 
@@ -222,7 +221,7 @@ export class UnifiedRecipeService {
    */
   async getBestRecipeMatches(
     _criteria: RecipeSearchCriteria,
-  ): Promise<ExtendedRecipe[]> {
+  ): Promise<Recipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now

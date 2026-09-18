@@ -321,20 +321,25 @@ function enhanceIngredient(
     for (const k of ["Water", "Earth", "Air"] as Array<keyof ElementalProperties>) {
       if ((ep[k] ?? 0) > domVal) { dom = k; domVal = ep[k] ?? 0; }
     }
-    const planetMap: Record<string, [PlanetName, PlanetName]> = {
+    const planetMap: Record<keyof ElementalProperties, [PlanetName, PlanetName]> = {
       Fire: ["Sun", "Mars"],
       Water: ["Moon", "Neptune"],
       Earth: ["Saturn", "Venus"],
       Air: ["Mercury", "Uranus"],
     };
+    const ruling = planetMap[dom];
     astrologicalProfile = {
       ...(existingAstro ?? {}),
-      rulingPlanets: planetMap[dom],
+      ...(ruling ? { rulingPlanets: ruling } : {}),
     };
   }
 
+  const { image_url: _rawImageUrl, imageUrl: _rawImageUrl2, ...baseIngredient } = ingredient as Record<string, unknown>;
+
+  const resolvedAssetUrl = imageUrl ? getAssetUrl(imageUrl) : undefined;
+
   return {
-    ...ingredient,
+    ...baseIngredient,
     ...(projectedFlavorProfile && { flavorProfile: projectedFlavorProfile }),
     ...(astrologicalProfile && { astrologicalProfile }),
     ...(nutritionalProfile && { nutritionalProfile }),
@@ -355,10 +360,12 @@ function enhanceIngredient(
     monica,
     description:
       authoredDescription ?? summaryDescription ?? fallbackDescription,
-    ...(imageUrl && {
-      image_url: getAssetUrl(imageUrl),
-      imageUrl: getAssetUrl(imageUrl),
-    }),
+    ...(resolvedAssetUrl
+      ? {
+          image_url: resolvedAssetUrl,
+          imageUrl: resolvedAssetUrl,
+        }
+      : {}),
     ...(thermodynamics && {
       energyProfile: thermodynamics,
     }),

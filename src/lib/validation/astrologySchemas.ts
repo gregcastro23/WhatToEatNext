@@ -52,6 +52,7 @@ export const AstrologizeCelestialBodiesSchema = z
  */
 export const AstrologizeResponseSchema = z
   .object({
+    success: z.boolean().optional(),
     _celestialBodies: AstrologizeCelestialBodiesSchema.optional(),
     ascendant: z
       .object({
@@ -74,10 +75,65 @@ export const AstrologizeResponseSchema = z
         ayanamsa: z.string().optional(),
       })
       .optional(),
+    source: z.string().optional(),
+    precision: z.string().optional(),
   })
   .passthrough();
 
 export type AstrologizeResponse = z.infer<typeof AstrologizeResponseSchema>;
+
+/**
+ * Astrologize Success Response Schema
+ * Strict boundary schema requiring success: true and non-empty usable celestial bodies.
+ */
+export const AstrologizeSuccessResponseSchema = z
+  .object({
+    success: z.literal(true),
+    _celestialBodies: z
+      .object({
+        all: z.array(AstrologizePlanetDataSchema).min(1),
+        sun: AstrologizePlanetDataSchema.optional(),
+        moon: AstrologizePlanetDataSchema.optional(),
+        mercury: AstrologizePlanetDataSchema.optional(),
+        venus: AstrologizePlanetDataSchema.optional(),
+        mars: AstrologizePlanetDataSchema.optional(),
+        jupiter: AstrologizePlanetDataSchema.optional(),
+        saturn: AstrologizePlanetDataSchema.optional(),
+        uranus: AstrologizePlanetDataSchema.optional(),
+        neptune: AstrologizePlanetDataSchema.optional(),
+        pluto: AstrologizePlanetDataSchema.optional(),
+      })
+      .passthrough(),
+    ascendant: z
+      .object({
+        sign: z.string(),
+        degree: z.number().optional(),
+        minute: z.number().optional(),
+        exactLongitude: z.number().optional(),
+      })
+      .optional(),
+    error: z.undefined().optional(),
+    birth_info: z
+      .object({
+        year: z.number(),
+        month: z.number(),
+        date: z.number(),
+        hour: z.number(),
+        minute: z.number(),
+        latitude: z.number(),
+        longitude: z.number(),
+        ayanamsa: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+    source: z.string().optional(),
+    precision: z.string().optional(),
+  })
+  .passthrough();
+
+export type AstrologizeSuccessResponse = z.infer<
+  typeof AstrologizeSuccessResponseSchema
+>;
 
 /**
  * Natal Chart Astrologize Response Schema (natalChartService.ts)

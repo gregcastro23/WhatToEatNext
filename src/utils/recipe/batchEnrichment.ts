@@ -109,16 +109,22 @@ function addCuisineDefaults(
   value: unknown,
   cuisine: string,
   mealType?: string,
-): EnrichmentRecipeInput | null {
+): Partial<Recipe> | null {
   const recipe = parseEnrichmentRecipe(value);
   if (!recipe) return null;
 
   const resolvedMealType = recipe.mealType ?? (mealType ? [mealType] : undefined);
-  return {
-    ...recipe,
-    cuisine: recipe.cuisine ?? cuisine,
-    ...(resolvedMealType !== undefined ? { mealType: resolvedMealType } : {}),
-  };
+  const result: Partial<Recipe> = {};
+  for (const [k, v] of Object.entries(recipe)) {
+    if (v !== undefined) {
+      Object.assign(result, { [k]: v });
+    }
+  }
+  result.cuisine = recipe.cuisine ?? cuisine;
+  if (resolvedMealType !== undefined) {
+    result.mealType = resolvedMealType;
+  }
+  return result;
 }
 
 // ============================================================================

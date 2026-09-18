@@ -150,7 +150,7 @@ export function renderBulletinEmail(input: BulletinInput): RenderedEmail {
     accentColor: accent,
     bodyHtml: body,
     footerNote: "You're receiving this because you have an account at alchm.kitchen.",
-    unsubscribeUrl: input.unsubscribeUrl,
+    ...(input.unsubscribeUrl !== undefined ? { unsubscribeUrl: input.unsubscribeUrl } : {}),
   });
 
   // ── Plain-text counterpart ──────────────────────────────────────────────
@@ -169,7 +169,7 @@ export function renderBulletinEmail(input: BulletinInput): RenderedEmail {
       `Questions or ideas? Reply anytime: ${BRAND.support}`,
       `With gratitude and good food,\nGreg Castro — Chef & Founder, ${BRAND.name}`,
     ],
-    { unsubscribeUrl: input.unsubscribeUrl },
+    input.unsubscribeUrl !== undefined ? { unsubscribeUrl: input.unsubscribeUrl } : undefined,
   );
 
   return { subject, html, text };
