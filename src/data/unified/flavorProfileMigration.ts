@@ -93,21 +93,11 @@ export class FlavorProfileMigration {
   }
 
   /**
-   * Main migration function - consolidates all existing flavor profile systems
+   * Synchronous migration function - consolidates all existing flavor profile systems
    */
-  public async migrateAllSystems(): Promise<MigrationStats> {
+  public migrateAllSystemsSync(): MigrationStats {
     if (_isMigrationCompleted && _cachedMigrationStats) {
       return { ..._cachedMigrationStats };
-    }
-    if (_isMigrationRunning) {
-      return new Promise((resolve) => {
-        const checkInterval = setInterval(() => {
-          if (!_isMigrationRunning && _cachedMigrationStats) {
-            clearInterval(checkInterval);
-            resolve({ ..._cachedMigrationStats });
-          }
-        }, 100);
-      });
     }
 
     _isMigrationRunning = true;
@@ -138,12 +128,33 @@ export class FlavorProfileMigration {
         `📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in ${migrationTime}ms`,
       );
       _isMigrationRunning = false;
-      return await Promise.resolve({ ..._cachedMigrationStats });
+      return { ..._cachedMigrationStats };
     } catch (error) {
       this.migrationErrors.push(`Migration failed: ${String(error)}`);
       _isMigrationRunning = false;
       throw error;
     }
+  }
+
+  /**
+   * Main migration function - consolidates all existing flavor profile systems
+   */
+  public migrateAllSystems(): Promise<MigrationStats> {
+    if (_isMigrationCompleted && _cachedMigrationStats) {
+      return Promise.resolve({ ..._cachedMigrationStats });
+    }
+    if (_isMigrationRunning) {
+      return new Promise((resolve) => {
+        const checkInterval = setInterval(() => {
+          if (!_isMigrationRunning && _cachedMigrationStats) {
+            clearInterval(checkInterval);
+            resolve({ ..._cachedMigrationStats });
+          }
+        }, 100);
+      });
+    }
+
+    return Promise.resolve(this.migrateAllSystemsSync());
   }
 
   // ===== UNIFIED FLAVOR PROFILES MIGRATION =====
@@ -709,15 +720,23 @@ export class FlavorProfileMigration {
 }
 
 /**
- * Run the flavor profile migration
+ * Run the flavor profile migration synchronously
  * Returns statistics about the migration
  */
-export async function runFlavorProfileMigration(): Promise<MigrationStats> {
+export function runFlavorProfileMigrationSync(): MigrationStats {
   _migrationInstance ??= new FlavorProfileMigration();
   if (_cachedMigrationStats && !_isMigrationRunning) {
     return { ..._cachedMigrationStats };
   }
-  return await _migrationInstance.migrateAllSystems();
+  return _migrationInstance.migrateAllSystemsSync();
+}
+
+/**
+ * Run the flavor profile migration
+ * Returns statistics about the migration
+ */
+export function runFlavorProfileMigration(): Promise<MigrationStats> {
+  return Promise.resolve(runFlavorProfileMigrationSync());
 }
 
 /**
