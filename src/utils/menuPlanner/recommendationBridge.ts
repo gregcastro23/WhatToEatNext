@@ -612,11 +612,14 @@ function getCurrentSeason(): string {
  * Uses stub metadata since the recipe is already a real, curated recipe.
  */
 function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
+  const { cookingOptimization: _ignored, ...baseRecipe } = recipe as Recipe & {
+    cookingOptimization?: unknown;
+  };
   const alchemicalProperties = recipe.alchemicalProperties
     ? (recipe.alchemicalProperties as unknown as MonicaOptimizedRecipe["alchemicalProperties"])
     : undefined;
   return {
-    ...recipe,
+    ...baseRecipe,
     ...(alchemicalProperties ? { alchemicalProperties } : {}),
     monicaOptimization: {
       originalMonica: null,
