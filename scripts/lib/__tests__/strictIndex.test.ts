@@ -77,6 +77,32 @@ describe("compareStrictIndex", () => {
     expect(comparison.exceedsBaseline).toBe(true);
     expect(comparison.allowlistViolations).toEqual(["src/lib/safeModule.ts"]);
   });
+
+  it("fails when an individual file regresses even if total error count decreased", () => {
+    const baselineWithByFile: StrictIndexBaseline = {
+      total: 100,
+      files: 50,
+      allowlist: [],
+      byFile: { "src/fileA.ts": 1, "src/fileB.ts": 2 },
+    };
+    const comparison = compareStrictIndex(
+      {
+        total: 90,
+        files: 45,
+        byFile: {
+          "src/fileA.ts": [
+            { filePath: "src/fileA.ts", line: 1, character: 1, code: 2532, message: "err" },
+            { filePath: "src/fileA.ts", line: 2, character: 1, code: 2532, message: "err" },
+          ],
+        },
+      },
+      baselineWithByFile,
+    );
+    expect(comparison.exceedsBaseline).toBe(true);
+    expect(comparison.regressedFiles).toEqual([
+      { file: "src/fileA.ts", current: 2, baseline: 1 },
+    ]);
+  });
 });
 
 describe("parseTscDiagnosticLine", () => {

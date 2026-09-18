@@ -96,6 +96,13 @@ if (comparison.allowlistViolations.length > 0) {
   }
 }
 
+if (comparison.regressedFiles && comparison.regressedFiles.length > 0) {
+  console.error(`\n❌ PER-FILE REGRESSION: ${comparison.regressedFiles.length} file(s) regressed:`);
+  for (const { file, current: cCount, baseline: bCount } of comparison.regressedFiles) {
+    console.error(`  - ${file}: ${cCount} error(s) (was ${bCount}, +${cCount - bCount})`);
+  }
+}
+
 if (comparison.totalIncreasedBy > 0) {
   console.error(
     `\n❌ TOTAL ERROR REGRESSION: Total strict index errors increased from ${baseline.total} to ${summary.total} (+${comparison.totalIncreasedBy}).`,
@@ -106,7 +113,7 @@ if (comparison.exceedsBaseline) {
   process.exit(1);
 }
 
-if (summary.total < baseline.total) {
+if (summary.total < baseline.total || (process.argv.includes("--ratchet") && !baseline.byFile)) {
   const shouldRatchet = process.argv.includes("--ratchet");
   if (shouldRatchet) {
     const updated = updateStrictIndexBaseline(summary, baseline);
