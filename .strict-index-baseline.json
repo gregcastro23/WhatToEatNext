@@ -1,9 +1,8 @@
 {
-  "total": 99,
-  "files": 83,
+  "total": 97,
+  "files": 82,
   "allowlist": [],
   "byFile": {
-    "src/actions/recipes.ts": 2,
     "src/app/(alchm)/account/page.tsx": 2,
     "src/app/(alchm)/celestial-lab/mechanics/PlanetaryChartClient.tsx": 1,
     "src/app/(alchm)/profile/[userId]/agent-components/RecipeExpandedView.tsx": 1,

@@ -14,12 +14,12 @@
     "single": 3121,
     "production": 2663,
     "test": 624,
-    "asConst": 566,
+    "asConst": 564,
     "nonNull": 605
   },
   "looseOptionality": {
-    "total": 462,
-    "production": 462,
+    "total": 439,
+    "production": 439,
     "test": 0
   },
   "fileLevelDisables": {

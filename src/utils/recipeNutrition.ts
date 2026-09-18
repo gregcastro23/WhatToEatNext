@@ -22,34 +22,34 @@ export interface NormalizedRecipeNutrition {
   fiber: number;
   sugar: number;
   sodium: number;
-  saturatedFat?: number | undefined;
+  saturatedFat?: number;
 
   // Micronutrients — included when available on the source.
-  vitaminA?: number | undefined;
-  vitaminC?: number | undefined;
-  vitaminD?: number | undefined;
-  vitaminE?: number | undefined;
-  vitaminK?: number | undefined;
-  thiamin?: number | undefined;
-  riboflavin?: number | undefined;
-  niacin?: number | undefined;
-  vitaminB6?: number | undefined;
-  vitaminB12?: number | undefined;
-  folate?: number | undefined;
-  calcium?: number | undefined;
-  iron?: number | undefined;
-  magnesium?: number | undefined;
-  phosphorus?: number | undefined;
-  potassium?: number | undefined;
-  zinc?: number | undefined;
-  copper?: number | undefined;
-  manganese?: number | undefined;
-  selenium?: number | undefined;
+  vitaminA?: number;
+  vitaminC?: number;
+  vitaminD?: number;
+  vitaminE?: number;
+  vitaminK?: number;
+  thiamin?: number;
+  riboflavin?: number;
+  niacin?: number;
+  vitaminB6?: number;
+  vitaminB12?: number;
+  folate?: number;
+  calcium?: number;
+  iron?: number;
+  magnesium?: number;
+  phosphorus?: number;
+  potassium?: number;
+  zinc?: number;
+  copper?: number;
+  manganese?: number;
+  selenium?: number;
 
   // Raw tags for downstream display (some callers show the literal
   // vitamin/mineral lists unchanged).
-  vitamins?: string[] | undefined;
-  minerals?: string[] | undefined;
+  vitamins?: string[];
+  minerals?: string[];
 }
 
 /**
@@ -230,8 +230,10 @@ export function normalizeRecipeNutrition(
         perServing.saturatedFatG ?? perServing.saturatedFat,
       );
     }
-    out.vitamins = sanitizeMicroList(perServing.vitamins);
-    out.minerals = sanitizeMicroList(perServing.minerals);
+    const vitServing = sanitizeMicroList(perServing.vitamins);
+    if (vitServing !== undefined) out.vitamins = vitServing;
+    const minServing = sanitizeMicroList(perServing.minerals);
+    if (minServing !== undefined) out.minerals = minServing;
   }
 
   // --- Source 2: legacy flat `dish.nutrition` -----------------------------
@@ -245,8 +247,14 @@ export function normalizeRecipeNutrition(
     out.sugar = num(flat.sugar ?? flat.sugarG);
     out.sodium = num(flat.sodium ?? flat.sodiumMg);
     if (flat.saturatedFat != null) out.saturatedFat = num(flat.saturatedFat);
-    out.vitamins ??= sanitizeMicroList(flat.vitamins);
-    out.minerals ??= sanitizeMicroList(flat.minerals);
+    if (out.vitamins === undefined) {
+      const v = sanitizeMicroList(flat.vitamins);
+      if (v !== undefined) out.vitamins = v;
+    }
+    if (out.minerals === undefined) {
+      const m = sanitizeMicroList(flat.minerals);
+      if (m !== undefined) out.minerals = m;
+    }
     applyMicroMap(asRecord(flat.vitamins), VITAMIN_KEY_MAP, out);
     applyMicroMap(asRecord(flat.minerals), MINERAL_KEY_MAP, out);
   }
@@ -267,8 +275,14 @@ export function normalizeRecipeNutrition(
         out.saturatedFat = num(macros.saturatedFat);
       }
     }
-    out.vitamins ??= sanitizeMicroList(profile.vitamins);
-    out.minerals ??= sanitizeMicroList(profile.minerals);
+    if (out.vitamins === undefined) {
+      const v = sanitizeMicroList(profile.vitamins);
+      if (v !== undefined) out.vitamins = v;
+    }
+    if (out.minerals === undefined) {
+      const m = sanitizeMicroList(profile.minerals);
+      if (m !== undefined) out.minerals = m;
+    }
     applyMicroMap(asRecord(profile.vitamins), VITAMIN_KEY_MAP, out);
     applyMicroMap(asRecord(profile.minerals), MINERAL_KEY_MAP, out);
   }
