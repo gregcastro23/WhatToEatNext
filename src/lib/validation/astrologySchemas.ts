@@ -52,6 +52,7 @@ export const AstrologizeCelestialBodiesSchema = z
  */
 export const AstrologizeResponseSchema = z
   .object({
+    success: z.boolean().optional(),
     _celestialBodies: AstrologizeCelestialBodiesSchema.optional(),
     ascendant: z
       .object({
@@ -74,6 +75,8 @@ export const AstrologizeResponseSchema = z
         ayanamsa: z.string().optional(),
       })
       .optional(),
+    source: z.string().optional(),
+    precision: z.string().optional(),
   })
   .passthrough();
 

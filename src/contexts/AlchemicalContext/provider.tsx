@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useCallback, useEffect, useReducer, useState } from "react";
+import { readJson } from "@/lib/api/json";
+import {
+  AstrologizeResponseSchema,
+  type AstrologizeResponse,
+} from "@/lib/validation/astrologySchemas";
 import type { CelestialPosition } from "@/types/celestial";
 import { fetchWithRetry } from "@/utils/apiUtils";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
@@ -43,12 +48,6 @@ interface AstrologizeCelestialBody {
   minute?: number;
   exactLongitude?: number;
   isRetrograde?: boolean;
-}
-
-interface AstrologizeResponse {
-  success?: boolean;
-  _celestialBodies?: Record<string, AstrologizeCelestialBody | undefined>;
-  ascendant?: AstrologizeCelestialBody;
 }
 
 const isTestEnvironment = process.env.NODE_ENV === "test";
@@ -296,7 +295,9 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
             retries: 2,
           });
           if (!response.ok) throw new Error(`API returned ${response.status}`);
-          return response.json() as Promise<AstrologizeResponse>;
+          return readJson<AstrologizeResponse>(response, {
+            parse: AstrologizeResponseSchema.parse,
+          });
         };
 
         const currentData = await fetchForDate(now);
@@ -310,20 +311,30 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
         const extractPositions = (data: AstrologizeResponse | null): Record<string, CelestialPosition> | null => {
           if (!data?.success || !data._celestialBodies) return null;
+          const bodies = data._celestialBodies as Record<string, AstrologizeCelestialBody | undefined>;
           const pos: Record<string, CelestialPosition> = {};
-          const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "ascendant"];
+          const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
           for (const key of planetKeys) {
-            const body = data._celestialBodies[key] ?? (key === "ascendant" ? data.ascendant : null);
+            const body = bodies[key];
             if (body) {
-              const titleKey = key === "ascendant" ? "Ascendant" : key.charAt(0).toUpperCase() + key.slice(1);
+              const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
               pos[titleKey] = {
                 sign: body.Sign?.key ?? body.sign ?? "aries",
                 degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? body.degree ?? 0,
-                minutes: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? body.minutes ?? body.minute ?? 0,
+                minutes: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? body.minute ?? 0,
                 exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? body.exactLongitude ?? 0,
                 isRetrograde: body.isRetrograde ?? false,
               };
             }
+          }
+          if (data.ascendant) {
+            pos.Ascendant = {
+              sign: data.ascendant.sign,
+              degree: data.ascendant.degree ?? 0,
+              minutes: data.ascendant.minute ?? 0,
+              exactLongitude: data.ascendant.exactLongitude ?? 0,
+              isRetrograde: false,
+            };
           }
           return pos;
         };
@@ -382,12 +393,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         retries: 2,
       });
       if (!response.ok) throw new Error(`API returned ${response.status}`);
-      const data = await response.json() as AstrologizeResponse;
+      const data = await readJson<AstrologizeResponse>(response, {
+        parse: AstrologizeResponseSchema.parse,
+      });
       if (data.success && data._celestialBodies) {
+        const bodies = data._celestialBodies as Record<string, AstrologizeCelestialBody | undefined>;
         const positions: Record<string, CelestialPosition> = {};
         const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
         for (const key of planetKeys) {
-          const body = data._celestialBodies[key];
+          const body = bodies[key];
           if (body) {
             const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
             positions[titleKey] = {
