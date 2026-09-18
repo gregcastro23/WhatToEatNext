@@ -373,7 +373,7 @@ function calculatePersonalizationBoost(
 
   // 3. Alchemical property alignment (±5%)
   const recipeAlch = "alchemicalProperties" in recipe
-    ? (recipe.alchemicalProperties as AlchemicalProperties | undefined)
+    ? (recipe.alchemicalProperties as unknown as AlchemicalProperties | undefined)
     : undefined;
   if (recipeAlch) {
     const userAlch = natalChart.alchemicalProperties;
@@ -601,13 +601,12 @@ function getCurrentSeason(): string {
  * Uses stub metadata since the recipe is already a real, curated recipe.
  */
 function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
-  const alchemicalProperties = "alchemicalProperties" in recipe
-    ? (recipe.alchemicalProperties as AlchemicalProperties | undefined)
+  const alchemicalProperties = recipe.alchemicalProperties
+    ? (recipe.alchemicalProperties as unknown as MonicaOptimizedRecipe["alchemicalProperties"])
     : undefined;
   return {
     ...recipe,
-    alchemicalProperties: alchemicalProperties as unknown as MonicaOptimizedRecipe['alchemicalProperties'],
-    cookingOptimization: undefined,
+    ...(alchemicalProperties ? { alchemicalProperties } : {}),
     monicaOptimization: {
       originalMonica: null,
       optimizedMonica: 1.0,

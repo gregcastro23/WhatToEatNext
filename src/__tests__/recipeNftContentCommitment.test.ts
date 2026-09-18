@@ -90,6 +90,13 @@ describe("content envelope schema v2", () => {
     const parsed = parseRecipeForMint(featuredRecipe);
     expect(parsed.ok).toBe(true);
   });
+
+  it("pins golden contentHash for featured recipe", () => {
+    const commitments = hashesOf(baseRecipe());
+    expect(commitments.contentHash).toBe(
+      "0x2930f8de7fab3702429848b3a71357ebccf31dec0fb3c83a196a6e57c56c28d1",
+    );
+  });
 });
 
 describe("isPublicCommitmentBase — no dead contentURIs on-chain", () => {

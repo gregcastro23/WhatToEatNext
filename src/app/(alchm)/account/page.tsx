@@ -11,11 +11,11 @@
  * @file src/app/(alchm)/account/page.tsx
  */
 
+import { base, baseSepolia, type Chain } from "@privy-io/chains";
 import { PrivyProvider, usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
 import { ArrowLeft, Check, CheckCircle2, Copy, ShieldAlert, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState, type JSX } from "react";
-import { base, baseSepolia } from "viem/chains";
 import { OnchainEsmsPanel } from "@/components/account/OnchainEsmsPanel";
 import {
   AlertDialog,
@@ -35,7 +35,7 @@ const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80da
 // Follow the ESMS deployment chain (Base Sepolia on testnet, Base on mainnet)
 // so wallet signing, funding, and the on-chain panel all agree with where the
 // contracts actually live.
-const ESMS_CHAIN = process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia;
+const ESMS_CHAIN: Chain = process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia;
 
 interface DBConnectionStatus {
   connected: boolean;

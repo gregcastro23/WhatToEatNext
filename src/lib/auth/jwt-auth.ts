@@ -12,10 +12,12 @@ import { UserRole, ROLE_PERMISSIONS } from "./roles";
 export { UserRole, ROLE_PERMISSIONS };
 export type { RolePermissions } from "./roles";
 
+export type JwtExpiresIn = NonNullable<jwt.SignOptions["expiresIn"]>;
+
 export interface AuthConfig {
   jwtSecret: string;
-  tokenExpiry: string;
-  refreshTokenExpiry: string;
+  tokenExpiry: JwtExpiresIn;
+  refreshTokenExpiry: JwtExpiresIn;
   issuer: string;
 }
 
@@ -111,7 +113,7 @@ export class JWTAuthService {
     };
 
     const accessToken = jwt.sign(payload, this.config.jwtSecret, {
-      expiresIn: this.config.tokenExpiry as jwt.SignOptions["expiresIn"],
+      expiresIn: this.config.tokenExpiry,
       issuer: this.config.issuer,
       audience: "alchm.kitchen",
     });
@@ -120,7 +122,7 @@ export class JWTAuthService {
       { userId: user.id, type: "refresh" },
       this.config.jwtSecret,
       {
-        expiresIn: this.config.refreshTokenExpiry as jwt.SignOptions["expiresIn"],
+        expiresIn: this.config.refreshTokenExpiry,
         issuer: this.config.issuer,
         audience: "alchm.kitchen",
       },
@@ -129,7 +131,7 @@ export class JWTAuthService {
     return {
       accessToken,
       refreshToken,
-      expiresIn: this.parseExpiry(this.config.tokenExpiry),
+      expiresIn: this.parseExpiry(String(this.config.tokenExpiry)),
     };
   }
 

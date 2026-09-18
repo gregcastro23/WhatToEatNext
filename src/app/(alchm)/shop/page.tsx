@@ -17,6 +17,7 @@
  * the vault on /account — the storefront cross-links when balance is short.
  */
 
+import { base, baseSepolia, type Chain } from "@privy-io/chains";
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import {
   ArrowLeft,
@@ -29,12 +30,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
-import { base, baseSepolia } from "viem/chains";
 import LivePriceTicker from "@/components/economy/LivePriceTicker";
 import { Button } from "@/components/ui/button";
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
-const ESMS_CHAIN = process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia;
+const ESMS_CHAIN: Chain = process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia;
 
 interface CoinAmounts {
   spirit: number;

@@ -213,7 +213,7 @@ function flattenNatalChart(chart: NatalChartInput): PlanetPoint[] {
       sign,
       degreeInSign: Number(position.degree) || 0,
       retrograde: Boolean(position.retrograde),
-      house: position.house,
+      ...(position.house !== undefined ? { house: position.house } : {}),
     });
   }
   /**
@@ -253,7 +253,7 @@ function flattenNatalChart(chart: NatalChartInput): PlanetPoint[] {
       sign,
       degreeInSign: Number(input.degree) || 0,
       retrograde: Boolean(input.retrograde),
-      house: input.house,
+      ...(input.house !== undefined ? { house: input.house } : {}),
     });
   };
   extra("Ascendant", chart.ascendant);

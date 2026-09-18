@@ -116,7 +116,7 @@ export const _tiltSkillet: CookingMethodData = {
     // Cast via the field's own type: CookingMethodData's thermodynamicProperties resolves to the
     // @/types/shared variant (heat/_entropy/_reactivity/gregsEnergy), which differs structurally
     // from this literal's shape (entropy/reactivity). Indexed-access keeps the cast honest to the field type.
-  } as unknown as CookingMethodData["thermodynamicProperties"],
+  } as unknown as NonNullable<CookingMethodData["thermodynamicProperties"]>,
 
   kineticProfile: {
     voltage: 0.78, // High floor temperature, below a wok's extreme but broad and sustained

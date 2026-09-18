@@ -6,6 +6,7 @@ function createIngredientMapping(
   _id: string,
   properties: Partial<IngredientMapping> & Record<string, unknown>,
 ): Partial<IngredientMapping> {
+  const { category, ...rest } = properties;
   return {
     id: _id,
     name: _id,
@@ -16,8 +17,8 @@ function createIngredientMapping(
       Fire: 0.15,
       Air: 0.10,
     },
-    category: properties.category ?? undefined,
-    ...properties,
+    ...(category !== undefined ? { category } : {}),
+    ...rest,
   };
 }
 

@@ -256,6 +256,6 @@ export async function searchAmazonCreatorsCatalog(keywords: string): Promise<{
   return {
     asin: firstItem?.asin ?? null,
     detailPageUrl: firstItem?.detailPageUrl ?? null,
-    title,
+    ...(title !== undefined ? { title } : {}),
   };
 }

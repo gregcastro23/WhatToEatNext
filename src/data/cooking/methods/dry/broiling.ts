@@ -130,7 +130,7 @@ export const broiling: CookingMethodData = {
     // Cast via the field's own type: CookingMethodData's thermodynamicProperties resolves to the
     // @/types/shared variant (heat/_entropy/_reactivity/gregsEnergy), which differs structurally
     // from this literal's shape. Indexed-access keeps the cast honest to the exact field type.
-  } as unknown as CookingMethodData["thermodynamicProperties"],
+  } as unknown as NonNullable<CookingMethodData["thermodynamicProperties"]>,
 
   kineticProfile: {
     voltage: 0.95,            // Extreme radiant heat from above (500-550°F)

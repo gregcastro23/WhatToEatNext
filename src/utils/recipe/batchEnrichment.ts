@@ -109,16 +109,26 @@ function addCuisineDefaults(
   value: unknown,
   cuisine: string,
   mealType?: string,
-): EnrichmentRecipeInput | null {
+): Partial<Recipe> | null {
   const recipe = parseEnrichmentRecipe(value);
   if (!recipe) return null;
 
   const resolvedMealType = recipe.mealType ?? (mealType ? [mealType] : undefined);
-  return {
-    ...recipe,
+  const result: Partial<Recipe> = {
     cuisine: recipe.cuisine ?? cuisine,
-    ...(resolvedMealType !== undefined ? { mealType: resolvedMealType } : {}),
   };
+  if (recipe.id !== undefined) result.id = recipe.id;
+  if (recipe.name !== undefined) result.name = recipe.name;
+  if (recipe.description !== undefined) result.description = recipe.description;
+  if (recipe.ingredients !== undefined) result.ingredients = recipe.ingredients;
+  if (recipe.cookingMethod !== undefined) result.cookingMethod = recipe.cookingMethod;
+  if (recipe.elementalProperties !== undefined) result.elementalProperties = recipe.elementalProperties;
+  if (resolvedMealType !== undefined) result.mealType = resolvedMealType;
+  if (recipe.season !== undefined) result.season = recipe.season;
+  if (recipe.astrologicalInfluences !== undefined) result.astrologicalInfluences = recipe.astrologicalInfluences;
+  if (recipe.numberOfServings !== undefined) result.numberOfServings = recipe.numberOfServings;
+  if (recipe.spiceLevel !== undefined) result.spiceLevel = recipe.spiceLevel;
+  return result;
 }
 
 // ============================================================================
