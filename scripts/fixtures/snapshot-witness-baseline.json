@@ -1659,7 +1659,7 @@
   },
   "recommenderIngredients": {
     "categoryCount": 6,
-    "enhancedCount": 20,
+    "enhancedCount": 16,
     "enhancedTop": [
       {
         "name": "MCT Oil",
@@ -1683,14 +1683,14 @@
         "seasonalScore": 0.9
       },
       {
-        "name": "Sesame Oil",
-        "totalScore": 0.5165,
-        "elementalScore": 0.9295,
+        "name": "Kumquat",
+        "totalScore": 0.5647,
+        "elementalScore": 0.8365,
         "flavorScore": 0.5,
-        "seasonalScore": 0.4
+        "seasonalScore": 0.9
       },
       {
-        "name": "Kumquat",
+        "name": "Blood Orange",
         "totalScore": 0.5647,
         "elementalScore": 0.8365,
         "flavorScore": 0.5,
@@ -1767,6 +1767,8 @@
     ]
   },
   "recommenderSeasonal": {
+    "springOptimalMethods": [],
+    "autumnOptimalMethods": [],
     "garlicSpringScore": 0.95,
     "tomatoSummerInSeason": false
   },
@@ -1830,14 +1832,14 @@
     "ingredientCount": 6,
     "monicaOptimizationScore": 0.5766,
     "seasonalScore": 0.604,
-    "criteriaMatched": null,
-    "kalchmAccuracy": null
+    "criteriaMatched": 3,
+    "kalchmAccuracy": 1.0464
   },
   "recommenderFiltering": {
     "springVegetableCount": 75,
     "springHerbCount": 51,
-    "fireSpiceCount": 42,
-    "fireProteinCount": 76
+    "fireSpiceCount": 29,
+    "fireProteinCount": 15
   },
   "recommenderCuisines": {
     "italianFound": true,
