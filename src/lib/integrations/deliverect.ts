@@ -212,7 +212,7 @@ export class DeliverectClient {
             return [
               {
                 id: itemId,
-                plu: text(itemRecord.plu ?? itemRecord.sku ?? itemId),
+                plu: text(itemRecord.plu) || itemId,
                 name,
                 ...(desc ? { description: desc } : {}),
                 priceCents: cents(itemRecord.priceCents ?? itemRecord.price),

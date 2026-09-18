@@ -12,8 +12,9 @@ import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
-  AstrologizeResponseSchema,
+  AstrologizeSuccessResponseSchema,
   type AstrologizeResponse,
+  type AstrologizeSuccessResponse,
   type AstrologizePlanetData,
 } from "@/lib/validation/astrologySchemas";
 import {
@@ -32,24 +33,23 @@ export const revalidate = 300;
 
 const RAILWAY_URL = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
-const { HONO_API_URL } = process.env;
-
 // ─── Hono Gateway ───────────────────────────────────────────────────────────
 
-async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeResponse | null> {
-  if (!HONO_API_URL) return null;
+async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeSuccessResponse | null> {
+  const honoUrl = process.env.HONO_API_URL;
+  if (!honoUrl) return null;
   try {
-    const response = await fetch(`${HONO_API_URL}/api/astrologize`, {
+    const response = await fetch(`${honoUrl}/api/astrologize`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
       signal: AbortSignal.timeout(15000),
     });
-      if (response.ok) {
-        const parsed = AstrologizeResponseSchema.safeParse(await response.json());
-        if (parsed.success) return parsed.data;
-        _logger.warn("Hono Gateway returned unparseable astrologize payload");
-      }
+    if (response.ok) {
+      const parsed = AstrologizeSuccessResponseSchema.safeParse(await response.json());
+      if (parsed.success) return parsed.data;
+      _logger.warn("Hono Gateway returned unparseable astrologize payload");
+    }
   } catch (err) {
     _logger.error("Hono Gateway proxy failed:", err instanceof Error ? err.message : "Unknown error");
   }

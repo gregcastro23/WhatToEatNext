@@ -57,7 +57,15 @@ if (WRITE) {
     `SELECT count(*)::text AS n FROM information_schema.columns
       WHERE table_name = 'user_profiles' AND column_name = 'monica_single'`,
   );
-  if (Number(split.rows[0]?.n ?? 0) > 0) {
+  const splitRow = split.rows[0];
+  if (!splitRow) {
+    throw new Error("Failed to query information_schema for monica_single column check: empty result set");
+  }
+  const colCount = Number(splitRow.n);
+  if (Number.isNaN(colCount)) {
+    throw new Error(`Failed to parse column count from SQL result: ${splitRow.n}`);
+  }
+  if (colCount > 0) {
     console.error(
       "REFUSING TO WRITE: this script is superseded by §18o.\n" +
         "  It sets monica_method='single-body' without setting monica_single,\n" +
@@ -146,9 +154,22 @@ if (nonFinite.length) {
 }
 
 const vals = updates.map((u) => u.combined).sort((a, b) => a - b);
-const minVal = vals[0] ?? 0;
-const maxVal = vals[vals.length - 1] ?? 0;
-const pct = (p: number) => vals[Math.floor((vals.length - 1) * p)] ?? 0;
+if (vals.length === 0) {
+  throw new Error("No eligible agent updates found; cannot compute monica distribution on empty sample array");
+}
+const minVal = vals[0];
+const maxVal = vals[vals.length - 1];
+if (minVal === undefined || maxVal === undefined) {
+  throw new Error("Invariant violated: sample array unexpectedly empty");
+}
+const pct = (p: number): number => {
+  const idx = Math.floor((vals.length - 1) * p);
+  const val = vals[idx];
+  if (val === undefined) {
+    throw new Error(`Failed to calculate percentile ${p} on values array of length ${vals.length}`);
+  }
+  return val;
+};
 console.log(`\ncombined monica distribution:`);
 console.log(
   `  min ${minVal.toFixed(4)}  p10 ${pct(0.1).toFixed(4)}  median ${pct(0.5).toFixed(4)}` +

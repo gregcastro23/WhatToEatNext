@@ -128,10 +128,19 @@ export class JWTAuthService {
       },
     );
 
+    const decoded = jwt.decode(accessToken);
+    const tokenLifetime =
+      typeof decoded === "object" &&
+      decoded !== null &&
+      typeof decoded.exp === "number" &&
+      typeof decoded.iat === "number"
+        ? decoded.exp - decoded.iat
+        : this.parseExpiry(this.config.tokenExpiry);
+
     return {
       accessToken,
       refreshToken,
-      expiresIn: this.parseExpiry(String(this.config.tokenExpiry)),
+      expiresIn: tokenLifetime,
     };
   }
 
@@ -235,10 +244,13 @@ export class JWTAuthService {
   }
 
   /**
-   * Parse expiry string to seconds
+   * Parse expiry value to seconds
    */
-  private parseExpiry(expiry: string): number {
-    const match = expiry.match(/^(\d+)([smhd])$/);
+  private parseExpiry(expiry: JwtExpiresIn): number {
+    if (typeof expiry === "number") {
+      return expiry;
+    }
+    const match = expiry.match(/^(\d+)([smhd])?$/);
     if (!match) return 3600; // Default 1 hour
 
     const [, rawValue, unit] = match;
@@ -247,6 +259,7 @@ export class JWTAuthService {
 
     switch (unit) {
       case "s":
+      case undefined:
         return value;
       case "m":
         return value * 60;
