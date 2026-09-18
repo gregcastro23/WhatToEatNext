@@ -338,6 +338,17 @@ function applyUserPersonalization(
  * @param chartComparison - Optional chart comparison with current moment
  * @returns Boost multiplier (0.7 to 1.3)
  */
+function isAlchemicalProperties(val: unknown): val is AlchemicalProperties {
+  return (
+    typeof val === "object" &&
+    val !== null &&
+    "Spirit" in val &&
+    "Essence" in val &&
+    "Matter" in val &&
+    "Substance" in val
+  );
+}
+
 function calculatePersonalizationBoost(
   recipe: MonicaOptimizedRecipe,
   natalChart: NatalChart,
@@ -372,8 +383,8 @@ function calculatePersonalizationBoost(
   }
 
   // 3. Alchemical property alignment (±5%)
-  const recipeAlch = "alchemicalProperties" in recipe
-    ? (recipe.alchemicalProperties as unknown as AlchemicalProperties | undefined)
+  const recipeAlch = isAlchemicalProperties(recipe.alchemicalProperties)
+    ? recipe.alchemicalProperties
     : undefined;
   if (recipeAlch) {
     const userAlch = natalChart.alchemicalProperties;

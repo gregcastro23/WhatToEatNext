@@ -120,6 +120,37 @@ const alchemicalReducer = (
   }
 };
 
+// Helper function to extract celestial positions from Astrologize API response
+function extractPositions(data: AstrologizeResponse | null): Record<string, CelestialPosition> | null {
+  if (!data?.success || !data._celestialBodies) return null;
+  const bodies = data._celestialBodies as Record<string, AstrologizeCelestialBody | undefined>;
+  const pos: Record<string, CelestialPosition> = {};
+  const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+  for (const key of planetKeys) {
+    const body = bodies[key];
+    if (body) {
+      const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
+      pos[titleKey] = {
+        sign: body.Sign?.key ?? body.sign ?? "aries",
+        degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? body.degree ?? 0,
+        minutes: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? body.minute ?? 0,
+        exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? body.exactLongitude ?? 0,
+        isRetrograde: body.isRetrograde ?? false,
+      };
+    }
+  }
+  if (data.ascendant) {
+    pos.Ascendant = {
+      sign: data.ascendant.sign,
+      degree: data.ascendant.degree ?? 0,
+      minutes: data.ascendant.minute ?? 0,
+      exactLongitude: data.ascendant.exactLongitude ?? 0,
+      isRetrograde: false,
+    };
+  }
+  return pos;
+}
+
 // Provider component
 export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -309,36 +340,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           logger.warn("Historical fetch failed, continuing with current data only:", histErr);
         }
 
-        const extractPositions = (data: AstrologizeResponse | null): Record<string, CelestialPosition> | null => {
-          if (!data?.success || !data._celestialBodies) return null;
-          const bodies = data._celestialBodies as Record<string, AstrologizeCelestialBody | undefined>;
-          const pos: Record<string, CelestialPosition> = {};
-          const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
-          for (const key of planetKeys) {
-            const body = bodies[key];
-            if (body) {
-              const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
-              pos[titleKey] = {
-                sign: body.Sign?.key ?? body.sign ?? "aries",
-                degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? body.degree ?? 0,
-                minutes: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? body.minute ?? 0,
-                exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? body.exactLongitude ?? 0,
-                isRetrograde: body.isRetrograde ?? false,
-              };
-            }
-          }
-          if (data.ascendant) {
-            pos.Ascendant = {
-              sign: data.ascendant.sign,
-              degree: data.ascendant.degree ?? 0,
-              minutes: data.ascendant.minute ?? 0,
-              exactLongitude: data.ascendant.exactLongitude ?? 0,
-              isRetrograde: false,
-            };
-          }
-          return pos;
-        };
-
         const currentPos = extractPositions(currentData);
         const historicalPos = extractPositions(historicalData);
 
@@ -392,34 +393,16 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         timeout: 30000,
         retries: 2,
       });
-      if (!response.ok) throw new Error(`API returned ${response.status}`);
       const data = await readJson<AstrologizeResponse>(response, {
         parse: AstrologizeResponseSchema.parse,
       });
-      if (data.success && data._celestialBodies) {
-        const bodies = data._celestialBodies as Record<string, AstrologizeCelestialBody | undefined>;
-        const positions: Record<string, CelestialPosition> = {};
-        const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
-        for (const key of planetKeys) {
-          const body = bodies[key];
-          if (body) {
-            const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
-            positions[titleKey] = {
-              sign: body.Sign?.key ?? "aries",
-              degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
-              minutes: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
-              exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
-              isRetrograde: body.isRetrograde ?? false,
-            };
-          }
-        }
-        if (Object.keys(positions).length > 0) {
-          setPlanetaryPositions(positions);
-          setNormalizedPositions(positions);
-          dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: positions });
-          setError(null);
-          return positions;
-        }
+      const positions = extractPositions(data);
+      if (positions && Object.keys(positions).length > 0) {
+        setPlanetaryPositions(positions);
+        setNormalizedPositions(positions);
+        dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: positions });
+        setError(null);
+        return positions;
       }
       return planetaryPositionsRef.current;
     } catch (err) {
