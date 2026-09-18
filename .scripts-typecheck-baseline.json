@@ -1,6 +1,6 @@
 {
-  "total": 187,
-  "files": 47,
+  "total": 142,
+  "files": 44,
   "note": "Baseline established in Phase 26 Tranche 0 for scripts/** under scripts/tsconfig.json with incremental false",
   "byFile": {
     "scripts/applyCoverageDescriptionCuration.ts": 5,
@@ -8,7 +8,6 @@
     "scripts/auditIngredients.ts": 1,
     "scripts/backfill-agent-sync.ts": 1,
     "scripts/backfill-recipe-token-ids.ts": 2,
-    "scripts/backfillAgentMonica.ts": 11,
     "scripts/backfillBirthInstant.ts": 2,
     "scripts/backfillChartGeocentricDistance.ts": 2,
     "scripts/backfillHscaElementalProperties.ts": 2,
@@ -22,7 +21,6 @@
     "scripts/checkAgentMonicaDrift.ts": 5,
     "scripts/checkKitchenSettingsSqlParses.ts": 1,
     "scripts/checkNoStrayKalchmFormula.ts": 2,
-    "scripts/curatedDescriptions.ts": 10,
     "scripts/dedupeAgentRows.ts": 1,
     "scripts/enrichCoreCatalog.ts": 2,
     "scripts/enrichCoverageIngredients.ts": 2,
@@ -45,7 +43,6 @@
     "scripts/ratchetNullishCoalescing.ts": 2,
     "scripts/reattributeChefFeedEvents.ts": 5,
     "scripts/resolveThermoCallers.ts": 1,
-    "scripts/snapshot-witness.ts": 24,
     "scripts/snapshotAgentMonica.ts": 5,
     "scripts/spacetime/seedCulinary.ts": 2,
     "scripts/stripe-mcp-top-up-e2e.ts": 4,

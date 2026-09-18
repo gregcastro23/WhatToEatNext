@@ -106,7 +106,7 @@ interface Update {
 }
 
 const updates: Update[] = [];
-const skipped: Record<string, string[]> = { phase: [], unparseable: [] };
+const skipped: { phase: string[]; unparseable: string[] } = { phase: [], unparseable: [] };
 const nonFinite: string[] = [];
 
 for (const r of rows) {
@@ -146,11 +146,13 @@ if (nonFinite.length) {
 }
 
 const vals = updates.map((u) => u.combined).sort((a, b) => a - b);
-const pct = (p: number) => vals[Math.floor((vals.length - 1) * p)];
+const minVal = vals[0] ?? 0;
+const maxVal = vals[vals.length - 1] ?? 0;
+const pct = (p: number) => vals[Math.floor((vals.length - 1) * p)] ?? 0;
 console.log(`\ncombined monica distribution:`);
 console.log(
-  `  min ${vals[0].toFixed(4)}  p10 ${pct(0.1).toFixed(4)}  median ${pct(0.5).toFixed(4)}` +
-    `  p90 ${pct(0.9).toFixed(4)}  max ${vals[vals.length - 1].toFixed(4)}`,
+  `  min ${minVal.toFixed(4)}  p10 ${pct(0.1).toFixed(4)}  median ${pct(0.5).toFixed(4)}` +
+    `  p90 ${pct(0.9).toFixed(4)}  max ${maxVal.toFixed(4)}`,
 );
 console.log(`  distinct values ${new Set(vals.map((v) => v.toFixed(6))).size}`);
 console.log(

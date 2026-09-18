@@ -170,8 +170,8 @@ function getCuratedOrSummary(slug: string): string | undefined {
   if (slug.endsWith('es') && summaries[slug.slice(0, -2)]) return summaries[slug.slice(0, -2)];
 
   const words = slug.split('_');
-  for (let i = words.length - 1; i >= 0; i--) {
-    const word = words[i];
+  for (const word of [...words].reverse()) {
+    if (!word) continue;
     if (CURATED[word]) return CURATED[word];
     if (summaries[word]) return summaries[word];
     if (word.endsWith('s') && CURATED[word.slice(0, -1)]) return CURATED[word.slice(0, -1)];
