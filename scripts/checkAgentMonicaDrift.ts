@@ -122,6 +122,9 @@ const { rows: [census] } = await client.query<{
        WHERE u.is_agent AND up.name IS NULL)::text AS profile_no_name`,
 );
 await client.end();
+if (!census) {
+  throw new Error("Expected census row from database query");
+}
 
 interface Tally {
   checked: number;
@@ -135,7 +138,7 @@ const tally: Record<"single" | "phase" | "fullChart", Tally> = {
   fullChart: { checked: 0, drifted: 0, missing: 0, wrongMethod: 0 },
 };
 /** Stored values per population, for the φ-share assertion. */
-const values: Record<string, number[]> = { single: [], phase: [], fullChart: [] };
+const values: Record<"single" | "phase" | "fullChart", number[]> = { single: [], phase: [], fullChart: [] };
 let notAPlacementNoChart = 0;
 const examples: string[] = [];
 let unparseable = 0;

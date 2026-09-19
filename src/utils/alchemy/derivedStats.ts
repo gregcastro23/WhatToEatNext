@@ -55,7 +55,7 @@ export function getRecipeKAlchm(recipe: MonicaOptimizedRecipe): number {
         const fullIngredient: Ingredient = {
             name: ingredient.name,
             elementalProperties: ingredient.elementalProperties ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-            alchemicalProperties: ing.alchemicalProperties,
+            ...(ing.alchemicalProperties !== undefined ? { alchemicalProperties: ing.alchemicalProperties } : {}),
             // `category`/`qualities` are required on Ingredient but optional/undeclared on the source;
             // the original `as any` silently passed through whatever was present (often undefined).
             // `!` preserves that exact runtime value (incl. undefined) without adding a default.

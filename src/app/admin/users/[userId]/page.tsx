@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { readJson } from "@/lib/api/json";
+import {
+  AdminPatchUserResponseSchema,
+  AdminSessionRevokeResponseSchema,
+  AdminUserTimelineResponseSchema,
+} from "@/lib/validation/adminUserResponseSchemas";
 import GrantTokensModal from "../_components/GrantTokensModal";
 
 // users.role enum labels accepted by PATCH /api/admin/users/[userId].
@@ -172,9 +178,20 @@ export default function AdminUserDeepDivePage() {
         setError(`Failed to load (HTTP ${res.status})`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & UserTimelinePayload;
+      const json = await readJson(res, { parse: AdminUserTimelineResponseSchema.parse });
       if (json.success) {
-        setData(json);
+        setData({
+          ...json,
+          events: json.events.map((e) => ({
+            id: e.id,
+            at: e.at,
+            category: e.category,
+            type: e.type,
+            description: e.description,
+            status: e.status,
+            ...(e.metadata !== undefined ? { metadata: e.metadata } : {}),
+          })),
+        });
         setError(null);
         return { ok: true };
       }
@@ -207,12 +224,7 @@ export default function AdminUserDeepDivePage() {
       const res = await fetch(`/api/admin/users/${userId}/sessions/revoke`, {
         method: "POST",
       });
-      const json = (await res.json()) as {
-        success?: boolean;
-        revoked?: number;
-        revocationCheck?: "on" | "off";
-        message?: string;
-      };
+      const json = await readJson(res, { parse: AdminSessionRevokeResponseSchema.parse });
       if (res.ok && json.success) {
         setRevokeState({
           loading: false,
@@ -246,7 +258,7 @@ export default function AdminUserDeepDivePage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ role }),
         });
-        const json = (await res.json()) as { success?: boolean; message?: string };
+        const json = await readJson(res, { parse: AdminPatchUserResponseSchema.parse });
         if (res.ok && json.success) {
           setRoleState({ loading: false, message: `Role set to ${role}` });
           void poll();

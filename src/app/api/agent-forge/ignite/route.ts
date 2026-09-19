@@ -268,10 +268,9 @@ export async function POST(req: Request): Promise<NextResponse> {
             degree: Number(pos.degree) || 0,
             minute: 0,
             isRetrograde: Boolean(pos.isRetrograde),
-            exactLongitude:
-              typeof pos.exactLongitude === "number"
-                ? pos.exactLongitude
-                : undefined,
+            ...(typeof pos.exactLongitude === "number"
+              ? { exactLongitude: pos.exactLongitude }
+              : {}),
           };
         }
 

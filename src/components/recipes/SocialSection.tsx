@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { type PracticeReward, revealPracticeReward } from "@/lib/economy/practiceClient";
+import { readJson } from "@/lib/api/json";
+import { revealPracticeReward } from "@/lib/economy/practiceClient";
+import {
+  type CommunityTip,
+  CommunityTipsResponseSchema,
+  PersistResponseSchema,
+  RecipeSocialResponseSchema,
+  ShareResponseSchema,
+} from "@/lib/validation/socialResponseSchemas";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("SocialSection");
@@ -14,34 +22,6 @@ interface LocalSocialState {
   rating: number;           // 0–5
   review: string;
   photoDataUrl?: string;    // base64 preview only
-}
-
-interface CommunityTip {
-  author: string;
-  rating: number;
-  tip: string;
-  postedAt: string;
-}
-
-interface ShareResponse {
-  success?: boolean;
-}
-
-interface RecipeSocialResponse {
-  authenticated?: boolean;
-  madeIt?: boolean;
-  rating?: number;
-  review?: string;
-  madeCount?: number;
-}
-
-interface CommunityTipsResponse {
-  tips?: CommunityTip[];
-}
-
-interface PersistResponse {
-  madeCount?: number;
-  reward?: PracticeReward;
 }
 
 const DEFAULT: LocalSocialState = { madeIt: false, rating: 0, review: "" };
@@ -108,7 +88,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
           },
         }),
       });
-      const json = (await res.json()) as ShareResponse;
+      const json = await readJson(res, { parse: ShareResponseSchema.parse });
       if (json.success) {
         setShareState("shared");
         try {
@@ -142,7 +122,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
           cache: "no-store",
         });
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as RecipeSocialResponse;
+        const data = await readJson(res, { parse: RecipeSocialResponseSchema.parse });
         if (cancelled) return;
         if (data.authenticated) {
           const remote: LocalSocialState = {
@@ -176,7 +156,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
           cache: "no-store",
         });
         if (!res.ok) return;
-        const data = (await res.json()) as CommunityTipsResponse;
+        const data = await readJson(res, { parse: CommunityTipsResponseSchema.parse });
         if (!cancelled && Array.isArray(data.tips)) setTips(data.tips);
       } catch {
         // silent — community tips are non-critical
@@ -202,7 +182,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
         }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
-      const data = (await res.json()) as PersistResponse;
+      const data = await readJson(res, { parse: PersistResponseSchema.parse });
       if (typeof data.madeCount === "number") setMadeCount(data.madeCount);
       // A genuine first "I made this" quietly earns — the server decides; we
       // just hand the moment to the global delight host.

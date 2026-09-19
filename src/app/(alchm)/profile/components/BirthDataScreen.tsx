@@ -164,7 +164,7 @@ export const BirthDataScreen: React.FC<BirthDataScreenProps> = ({
         onSubmit={onSubmit}
         isLoading={isLoading}
         hasExistingChart={hasExistingChart}
-        onSkip={onSkip}
+        {...(onSkip !== undefined ? { onSkip } : {})}
       />
       <WhyCardsGrid />
     </motion.div>

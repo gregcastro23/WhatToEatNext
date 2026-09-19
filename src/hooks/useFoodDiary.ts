@@ -590,7 +590,7 @@ export function useQuickFoodEntry(): UseQuickFoodEntryReturn {
     presets,
     searchQuery,
     searchResults,
-    selectedCategory,
+    ...(selectedCategory !== undefined ? { selectedCategory } : {}),
     selectedDate,
     isLoading,
     setSelectedCategory,

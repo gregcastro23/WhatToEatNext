@@ -188,10 +188,14 @@ export const getPersonalizedRecommendations = async (preferences: {
   const request = {
     current_time: new Date().toISOString(),
     location: { latitude: 40.7128, longitude: -74.006 }, // Default to NYC
-    current_elements: preferences.currentElements,
+    ...(preferences.currentElements !== undefined
+      ? { current_elements: preferences.currentElements }
+      : {}),
     cuisine_preferences: preferences.cuisinePreferences ?? [],
     dietary_restrictions: preferences.dietaryRestrictions ?? [],
-    max_prep_time: preferences.maxPrepTime,
+    ...(preferences.maxPrepTime !== undefined
+      ? { max_prep_time: preferences.maxPrepTime }
+      : {}),
     limit: preferences.limit ?? 10,
   };
 

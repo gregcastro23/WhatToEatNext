@@ -58,9 +58,8 @@ export function alchemizeExtractedRecipe(
 
   return {
     name: recipe.title,
-    description: recipe.description ?? undefined,
-    cuisine: undefined,
-    yield: recipe.yield_amount ?? undefined,
+    ...(recipe.description != null ? { description: recipe.description } : {}),
+    ...(recipe.yield_amount != null ? { yield: recipe.yield_amount } : {}),
     categories: recipe.categories ?? [],
     ingredients,
     instructions: recipe.instructions ?? [],

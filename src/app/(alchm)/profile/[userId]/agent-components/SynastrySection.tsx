@@ -277,7 +277,7 @@ export const SynastrySection: React.FC<SynastrySectionProps> = ({
           stanceKey={synastryData.dominantStance}
           viewerProfile={viewerProfile}
           agentName={agentName}
-          dominantElement={dominantElement}
+          {...(dominantElement !== undefined ? { dominantElement } : {})}
         />
         <ResonanceLedger synastryData={synastryData} agentName={agentName} />
       </div>

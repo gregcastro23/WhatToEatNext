@@ -272,7 +272,7 @@ export async function triggerOrderFulfillment(orderId: string): Promise<void> {
         deliveryAddress,
         orderValue: order.total_cents,
         ...(specialInstructions ? { specialInstructions } : {}),
-        estimatedReadyTime: posOrder.estimatedReadyTime,
+        ...(posOrder.estimatedReadyTime !== undefined ? { estimatedReadyTime: posOrder.estimatedReadyTime } : {}),
       });
     }
 

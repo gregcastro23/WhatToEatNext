@@ -91,7 +91,7 @@ export function useRecipeCollections() {
     const newCollection: RecipeCollection = {
       id: `col-${Date.now()}`,
       name,
-      description,
+      ...(description !== undefined ? { description } : {}),
       recipeIds: [],
       createdAt: new Date().toISOString(),
     };

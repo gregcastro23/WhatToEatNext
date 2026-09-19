@@ -373,14 +373,12 @@ export function EconomyIntegrityPanel({
         value: "—",
         sub: "grant check unreadable",
         tone: "none" as IntegrityTone,
-        action: undefined as { href: string; label: string } | undefined,
       }
     : welcomeGrant.humansWithoutGrant === 0
       ? {
           value: "COVERED",
           sub: "every non-agent holds a welcome grant",
           tone: "ok" as IntegrityTone,
-          action: undefined,
         }
       : {
           value: welcomeGrant.humansWithoutGrant.toLocaleString(),
@@ -389,7 +387,6 @@ export function EconomyIntegrityPanel({
           // names them and links each one directly.
           sub: "humans without grant · named below",
           tone: "warn" as IntegrityTone,
-          action: undefined,
         };
 
   const claimsStuck =

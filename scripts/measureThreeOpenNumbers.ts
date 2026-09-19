@@ -78,14 +78,26 @@ async function main() {
   console.log(`one sect exactly zero:    ${hasZero}`)
 
   ratios.sort((a, b) => a - b)
-  const pct = (p: number) => ratios[Math.min(ratios.length - 1, Math.floor((p / 100) * ratios.length))]
+  if (ratios.length === 0) {
+    throw new Error("Expected non-empty ratios");
+  }
+  const minRatio = ratios[0];
+  const maxRatio = ratios[ratios.length - 1];
+  if (minRatio === undefined || maxRatio === undefined) {
+    throw new Error("Expected min and max ratio");
+  }
+  const pct = (p: number): number => {
+    const val = ratios[Math.min(ratios.length - 1, Math.floor((p / 100) * ratios.length))];
+    if (val === undefined) throw new Error(`Missing percentile value for p=${p}`);
+    return val;
+  };
   console.log('')
   console.log('retained-magnitude ratio |mean| / mean(|d|,|n|)   (1.0 = lossless, 0.0 = total cancellation)')
-  console.log(`  min    ${fmt(ratios[0])}`)
+  console.log(`  min    ${fmt(minRatio)}`)
   console.log(`  p25    ${fmt(pct(25))}`)
   console.log(`  median ${fmt(pct(50))}`)
   console.log(`  p75    ${fmt(pct(75))}`)
-  console.log(`  max    ${fmt(ratios[ratios.length - 1])}`)
+  console.log(`  max    ${fmt(maxRatio)}`)
   const mean = ratios.reduce((s, x) => s + x, 0) / ratios.length
   console.log(`  mean   ${fmt(mean)}`)
 

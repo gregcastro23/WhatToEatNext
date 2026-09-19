@@ -87,8 +87,9 @@ export function buildDiaryEntryFromPlan(
   }).nutrition;
   const { elementalProperties } = recipe;
 
-  const date = input.date ?? new Date();
-  const time = input.time ?? nowTimeString();
+  const date = input.date ?? new Date(), time = input.time ?? nowTimeString();
+
+  const scaledNutrition = scaleNutrition(recipeNutrition, servings);
 
   return {
     foodName: recipe.name ?? "Planned meal",
@@ -104,13 +105,12 @@ export function buildDiaryEntryFromPlan(
       amount: servings,
       unit: "serving",
       grams: 100,
-      description:
-        servings === 1 ? "1 serving" : `${servings} servings`,
+      description: servings === 1 ? "1 serving" : `${servings} servings`,
     },
     quantity: 1,
-    nutrition: scaleNutrition(recipeNutrition, servings),
+    ...(scaledNutrition !== undefined ? { nutrition: scaledNutrition } : {}),
     elementalProperties,
-    notes: input.notes,
+    ...(input.notes !== undefined ? { notes: input.notes } : {}),
     tags: ["from-plan"],
   };
 }

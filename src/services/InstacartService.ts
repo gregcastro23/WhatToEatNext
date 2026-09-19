@@ -303,8 +303,8 @@ class InstacartService {
 
     return {
       split,
-      instacartShoppingUrl,
-      nearbyRetailers,
+      ...(instacartShoppingUrl !== undefined ? { instacartShoppingUrl } : {}),
+      ...(nearbyRetailers !== undefined ? { nearbyRetailers } : {}),
     };
   }
 

@@ -2634,8 +2634,8 @@ class FoodDiaryService {
       userId,
       foodName: input.foodName,
       foodSource: input.foodSource,
-      sourceId: input.sourceId,
-      brandName: input.brandName,
+      ...(input.sourceId !== undefined ? { sourceId: input.sourceId } : {}),
+      ...(input.brandName !== undefined ? { brandName: input.brandName } : {}),
       date: input.date,
       mealType: input.mealType,
       time: input.time,
@@ -2643,11 +2643,11 @@ class FoodDiaryService {
       quantity: input.quantity,
       nutrition,
       nutritionConfidence,
-      elementalProperties: input.elementalProperties,
-      notes: input.notes,
-      tags: input.tags,
+      ...(input.elementalProperties !== undefined ? { elementalProperties: input.elementalProperties } : {}),
+      ...(input.notes !== undefined ? { notes: input.notes } : {}),
+      ...(input.tags !== undefined ? { tags: input.tags } : {}),
       isFavorite: false,
-      astrologicalContext,
+      ...(astrologicalContext !== undefined ? { astrologicalContext } : {}),
       createdAt: now,
       updatedAt: now,
     };
@@ -2813,13 +2813,24 @@ class FoodDiaryService {
    * Convert database row to FoodDiaryEntry
    */
   private rowToFoodDiaryEntry(row: FoodDiaryEntryRow): FoodDiaryEntry {
+    const calories = toOptionalNumber(row.calories);
+    const protein = toOptionalNumber(row.protein);
+    const carbs = toOptionalNumber(row.carbs);
+    const fat = toOptionalNumber(row.fat);
+    const fiber = toOptionalNumber(row.fiber);
+    const sugar = toOptionalNumber(row.sugar);
+    const sodium = toOptionalNumber(row.sodium);
+    const rating = toOptionalNumber(row.rating) as FoodRating | undefined;
+    const price = toOptionalNumber(row.price);
+    const astrologicalContext = parseAstrologicalContext(row.astrological_context);
+
     return {
       id: row.id,
       userId: row.user_id,
       foodName: row.food_name,
       foodSource: row.food_source,
-      sourceId: row.source_id ?? undefined,
-      brandName: row.brand_name ?? undefined,
+      ...(row.source_id != null ? { sourceId: row.source_id } : {}),
+      ...(row.brand_name != null ? { brandName: row.brand_name } : {}),
       date: toDate(row.date),
       mealType: row.meal_type,
       time: row.time,
@@ -2827,37 +2838,39 @@ class FoodDiaryService {
         amount: toNumber(row.serving_amount, 1),
         unit: row.serving_unit,
         grams: toNumber(row.serving_grams, 100),
-        description: row.serving_description ?? undefined,
+        ...(row.serving_description != null ? { description: row.serving_description } : {}),
       },
       quantity: toNumber(row.quantity, 1),
       nutrition: {
-        ...(toOptionalNumber(row.calories) !== undefined ? { calories: toOptionalNumber(row.calories) } : {}),
-        ...(toOptionalNumber(row.protein) !== undefined ? { protein: toOptionalNumber(row.protein) } : {}),
-        ...(toOptionalNumber(row.carbs) !== undefined ? { carbs: toOptionalNumber(row.carbs) } : {}),
-        ...(toOptionalNumber(row.fat) !== undefined ? { fat: toOptionalNumber(row.fat) } : {}),
-        ...(toOptionalNumber(row.fiber) !== undefined ? { fiber: toOptionalNumber(row.fiber) } : {}),
-        ...(toOptionalNumber(row.sugar) !== undefined ? { sugar: toOptionalNumber(row.sugar) } : {}),
-        ...(toOptionalNumber(row.sodium) !== undefined ? { sodium: toOptionalNumber(row.sodium) } : {}),
+        ...(calories !== undefined ? { calories } : {}),
+        ...(protein !== undefined ? { protein } : {}),
+        ...(carbs !== undefined ? { carbs } : {}),
+        ...(fat !== undefined ? { fat } : {}),
+        ...(fiber !== undefined ? { fiber } : {}),
+        ...(sugar !== undefined ? { sugar } : {}),
+        ...(sodium !== undefined ? { sodium } : {}),
       },
       nutritionConfidence: row.nutrition_confidence ?? "medium",
-      elementalProperties: row.elemental_fire != null
+      ...(row.elemental_fire != null
         ? {
-            Fire: toNumber(row.elemental_fire),
-            Water: toNumber(row.elemental_water),
-            Earth: toNumber(row.elemental_earth),
-            Air: toNumber(row.elemental_air),
+            elementalProperties: {
+              Fire: toNumber(row.elemental_fire),
+              Water: toNumber(row.elemental_water),
+              Earth: toNumber(row.elemental_earth),
+              Air: toNumber(row.elemental_air),
+            },
           }
-        : undefined,
-      rating: toOptionalNumber(row.rating) as FoodRating | undefined,
+        : {}),
+      ...(rating !== undefined ? { rating } : {}),
       moodTags: row.mood_tags ?? [],
-      notes: row.notes ?? undefined,
-      wouldEatAgain: row.would_eat_again ?? undefined,
+      ...(row.notes != null ? { notes: row.notes } : {}),
+      ...(row.would_eat_again != null ? { wouldEatAgain: row.would_eat_again } : {}),
       isFavorite: row.is_favorite ?? false,
       tags: row.tags ?? [],
-      price: toOptionalNumber(row.price),
-      store: row.store ?? undefined,
-      quality: row.quality ?? undefined,
-      astrologicalContext: parseAstrologicalContext(row.astrological_context),
+      ...(price !== undefined ? { price } : {}),
+      ...(row.store != null ? { store: row.store } : {}),
+      ...(row.quality != null ? { quality: row.quality } : {}),
+      ...(astrologicalContext !== undefined ? { astrologicalContext } : {}),
       createdAt: toDate(row.created_at),
       updatedAt: toDate(row.updated_at),
     };
@@ -3006,7 +3019,7 @@ class FoodDiaryService {
     return this.updateEntry(userId, {
       id: entryId,
       rating,
-      moodTags,
+      ...(moodTags !== undefined ? { moodTags } : {}),
     });
   }
 
@@ -3183,6 +3196,13 @@ class FoodDiaryService {
   }
 
   private mapIngredientRowToQuickFoodPreset(row: QuickFoodIngredientRow): QuickFoodPreset {
+    const calories = toOptionalNumber(row.calories);
+    const protein = toOptionalNumber(row.protein);
+    const carbs = toOptionalNumber(row.carbohydrates);
+    const fat = toOptionalNumber(row.fat);
+    const fiber = toOptionalNumber(row.fiber);
+    const sugar = toOptionalNumber(row.sugar);
+
     return {
       id: row.id,
       name: row.common_name ?? row.name,
@@ -3194,12 +3214,12 @@ class FoodDiaryService {
         description: "100 g serving",
       },
       nutritionPer100g: {
-        ...(toOptionalNumber(row.calories) !== undefined ? { calories: toOptionalNumber(row.calories) } : {}),
-        ...(toOptionalNumber(row.protein) !== undefined ? { protein: toOptionalNumber(row.protein) } : {}),
-        ...(toOptionalNumber(row.carbohydrates) !== undefined ? { carbs: toOptionalNumber(row.carbohydrates) } : {}),
-        ...(toOptionalNumber(row.fat) !== undefined ? { fat: toOptionalNumber(row.fat) } : {}),
-        ...(toOptionalNumber(row.fiber) !== undefined ? { fiber: toOptionalNumber(row.fiber) } : {}),
-        ...(toOptionalNumber(row.sugar) !== undefined ? { sugar: toOptionalNumber(row.sugar) } : {}),
+        ...(calories !== undefined ? { calories } : {}),
+        ...(protein !== undefined ? { protein } : {}),
+        ...(carbs !== undefined ? { carbs } : {}),
+        ...(fat !== undefined ? { fat } : {}),
+        ...(fiber !== undefined ? { fiber } : {}),
+        ...(sugar !== undefined ? { sugar } : {}),
       },
     };
   }
@@ -3337,13 +3357,13 @@ class FoodDiaryService {
           id: favorite.id,
           name: favorite.foodName,
           source: "favorite",
-          brandName: favorite.brandName,
-          nutritionPer100g: favorite.customNutrition,
+          ...(favorite.brandName !== undefined ? { brandName: favorite.brandName } : {}),
+          ...(favorite.customNutrition !== undefined ? { nutritionPer100g: favorite.customNutrition } : {}),
           matchScore: favorite.foodName.toLowerCase().startsWith(queryLower)
             ? 0.95
             : 0.75,
           isUserFavorite: true,
-          lastEaten: favorite.lastEaten,
+          ...(favorite.lastEaten !== undefined ? { lastEaten: favorite.lastEaten } : {}),
         });
       }
     }
@@ -3387,12 +3407,12 @@ class FoodDiaryService {
         userId,
         foodName: entry.foodName,
         foodSource: entry.foodSource,
-        sourceId: entry.sourceId,
-        brandName: entry.brandName,
+        ...(entry.sourceId !== undefined ? { sourceId: entry.sourceId } : {}),
+        ...(entry.brandName !== undefined ? { brandName: entry.brandName } : {}),
         customServing: entry.serving,
         customNutrition: entry.nutrition,
         timesEaten: 1,
-        averageRating: entry.rating,
+        ...(entry.rating !== undefined ? { averageRating: entry.rating } : {}),
         lastEaten: entry.date,
         createdAt: new Date(),
       };

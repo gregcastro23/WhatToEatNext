@@ -55,9 +55,9 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
       tier: "Dep" as const,
       status: d.status,
       summary: d.summary,
-      metrics: typeof d.latencyMs === "number"
-        ? [{ label: "ping", value: `${Math.round(d.latencyMs)}ms` }]
-        : undefined,
+      ...(typeof d.latencyMs === "number"
+        ? { metrics: [{ label: "ping", value: `${Math.round(d.latencyMs)}ms` }] }
+        : {}),
     })),
   ];
   const warnCount = items.filter((i) => i.status === "DEGRADED").length;
