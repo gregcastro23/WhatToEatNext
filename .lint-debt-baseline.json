@@ -8,18 +8,18 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 3287,
+    "total": 3260,
     "asAny": 37,
     "chained": 129,
-    "single": 3121,
-    "production": 2663,
+    "single": 3094,
+    "production": 2636,
     "test": 624,
-    "asConst": 564,
+    "asConst": 565,
     "nonNull": 605
   },
   "looseOptionality": {
-    "total": 439,
-    "production": 439,
+    "total": 392,
+    "production": 392,
     "test": 0
   },
   "fileLevelDisables": {

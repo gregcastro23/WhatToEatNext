@@ -299,7 +299,7 @@ export function useTableChat(
               wtenTableId: tableId,
               messageUuid: message.id,
               body: message.body,
-              replyToUuid: message.replyToId,
+              ...(message.replyToId !== undefined ? { replyToUuid: message.replyToId } : {}),
             });
           }
         }

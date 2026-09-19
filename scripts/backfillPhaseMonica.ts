@@ -209,11 +209,23 @@ if (nonFinite.length) {
 }
 
 const vals = updates.map((u) => u.combined).sort((a, b) => a - b);
-const pct = (p: number) => vals[Math.floor((vals.length - 1) * p)];
+if (vals.length === 0) {
+  throw new Error("Expected non-empty updates");
+}
+const valMin = vals[0];
+const valMax = vals[vals.length - 1];
+if (valMin === undefined || valMax === undefined) {
+  throw new Error("Expected valid min and max for updates");
+}
+const pct = (p: number): number => {
+  const v = vals[Math.floor((vals.length - 1) * p)];
+  if (v === undefined) throw new Error(`Missing percentile value for p=${p}`);
+  return v;
+};
 console.log(`\ncombined monica distribution:`);
 console.log(
-  `  min ${vals[0].toFixed(4)}  p10 ${pct(0.1).toFixed(4)}  median ${pct(0.5).toFixed(4)}` +
-    `  p90 ${pct(0.9).toFixed(4)}  max ${vals[vals.length - 1].toFixed(4)}`,
+  `  min ${valMin.toFixed(4)}  p10 ${pct(0.1).toFixed(4)}  median ${pct(0.5).toFixed(4)}` +
+    `  p90 ${pct(0.9).toFixed(4)}  max ${valMax.toFixed(4)}`,
 );
 console.log(`  distinct values ${new Set(vals.map((v) => v.toFixed(6))).size} / ${vals.length}`);
 console.log(`  negative        ${vals.filter((v) => v < 0).length}`);
@@ -225,6 +237,9 @@ console.log(
 const buckets = new Map<string, number>();
 for (const v of vals) buckets.set(v.toFixed(6), (buckets.get(v.toFixed(6)) ?? 0) + 1);
 const biggest = [...buckets.entries()].sort((a, b) => b[1] - a[1])[0];
+if (!biggest) {
+  throw new Error("Expected non-empty buckets for distribution check");
+}
 console.log(
   `  largest bucket  ${biggest[1]} rows at ${biggest[0]} (${((biggest[1] / vals.length) * 100).toFixed(1)}%)`,
 );
@@ -252,15 +267,20 @@ for (const u of updates) (byPhase[u.phase] ??= []).push(u.combined);
 console.log(`\nper phase:`);
 console.table(
   Object.fromEntries(
-    Object.entries(byPhase).map(([k, v]) => [
-      k,
-      {
-        n: v.length,
-        min: Math.min(...v).toFixed(3),
-        median: [...v].sort((a, b) => a - b)[Math.floor(v.length / 2)].toFixed(3),
-        max: Math.max(...v).toFixed(3),
-      },
-    ]),
+    Object.entries(byPhase).map(([k, v]) => {
+      const sorted = [...v].sort((a, b) => a - b);
+      const mid = sorted[Math.floor(v.length / 2)];
+      if (mid === undefined) throw new Error(`Empty values array for phase: ${k}`);
+      return [
+        k,
+        {
+          n: v.length,
+          min: Math.min(...v).toFixed(3),
+          median: mid.toFixed(3),
+          max: Math.max(...v).toFixed(3),
+        },
+      ];
+    }),
   ),
 );
 

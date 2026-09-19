@@ -256,7 +256,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         score: safe(gregsEnergy),
         metadata: {
           dominantElement,
-          sunSign,
+          ...(sunSign !== undefined ? { sunSign } : {}),
           source: "astrologize + planetaryAlchemyMapping + alchemicalEngine",
         },
         spirit: safe(esms.Spirit),

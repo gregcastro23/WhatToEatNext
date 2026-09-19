@@ -269,7 +269,7 @@ export function Dashboard({ data }: DashboardProps) {
           />
           <CommensalPulse pageTelemetry={data.pageTelemetry} />
           <CommercePanel commerceSummary={data.commerce} />
-          <LivingEconomyPanel data={data.livingEconomy} />
+          <LivingEconomyPanel {...(data.livingEconomy !== undefined ? { data: data.livingEconomy } : {})} />
         </div>
 
         <div

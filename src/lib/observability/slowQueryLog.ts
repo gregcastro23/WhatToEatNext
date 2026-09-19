@@ -75,7 +75,7 @@ export function recordSlowQuery(
     ms: Math.round(ms),
     preview: query.length > 200 ? `${query.slice(0, 200)}…` : query,
     rowCount,
-    pool,
+    ...(pool !== undefined ? { pool } : {}),
   };
   ring.push(entry);
   if (ring.length > RING_SIZE) ring.shift();

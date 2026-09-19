@@ -101,8 +101,7 @@ export default async function RestaurantMenuPage({
                 restaurant.menu_url && restaurant.menu_url.length > 0
                   ? restaurant.menu_url
                   : fallbackMenuUrl.toString(),
-              stripeConnectAccountId:
-                restaurant.stripe_connect_account_id ?? undefined,
+              ...(restaurant.stripe_connect_account_id ? { stripeConnectAccountId: restaurant.stripe_connect_account_id } : {}),
             }}
             menu={menu}
           />

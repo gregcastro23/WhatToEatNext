@@ -158,7 +158,7 @@ export const RecipeExpandedView: React.FC<RecipeExpandedViewProps> = ({ recipe, 
         </div>
       </div>
 
-      <RecipeTimingNotes timingRecs={timingRecs} alchmKitchenPath={alchmKitchenPath} />
+      <RecipeTimingNotes timingRecs={timingRecs} {...(alchmKitchenPath !== undefined ? { alchmKitchenPath } : {})} />
     </div>
   );
 };

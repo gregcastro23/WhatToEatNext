@@ -140,17 +140,17 @@ export function buildRecipeLearningPayload(
     recipe.cuisineType,
   );
 
+  const cookingMethod = readCookingMethod(recipe);
+  const complexity = readComplexity(recipe);
+  const elementalBalance = readElementalBalance(recipe);
+
   return {
-    ...(id ? { id } : {}),
-    ...(name ? { name } : {}),
-    ...(cuisine ? { cuisine } : {}),
+    ...(id !== undefined ? { id } : {}),
+    ...(name !== undefined ? { name } : {}),
+    ...(cuisine !== undefined ? { cuisine } : {}),
     ingredients: readIngredientNames(recipe),
-    ...(readCookingMethod(recipe)
-      ? { cookingMethod: readCookingMethod(recipe) }
-      : {}),
-    ...(readComplexity(recipe) ? { complexity: readComplexity(recipe) } : {}),
-    ...(readElementalBalance(recipe)
-      ? { elementalBalance: readElementalBalance(recipe) }
-      : {}),
+    ...(cookingMethod !== undefined ? { cookingMethod } : {}),
+    ...(complexity !== undefined ? { complexity } : {}),
+    ...(elementalBalance !== undefined ? { elementalBalance } : {}),
   };
 }

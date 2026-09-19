@@ -196,10 +196,14 @@ export default async function RecipePage({ params }: RecipePageProps) {
       .filter((i) => i.category === "vegetable")
       .map((i) => i.name);
 
+    const [protein] = proteins;
+    const [vegetable] = vegetables;
+    const [cookingMethod] = cookingMethods;
+
     recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
-      protein: proteins[0],
-      vegetable: vegetables[0],
-      cookingMethod: cookingMethods[0],
+      ...(protein !== undefined ? { protein } : {}),
+      ...(vegetable !== undefined ? { vegetable } : {}),
+      ...(cookingMethod !== undefined ? { cookingMethod } : {}),
     });
 
     const allRecipes = await LocalRecipeService.getAllRecipes();

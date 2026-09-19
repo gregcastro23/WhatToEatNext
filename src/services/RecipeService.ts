@@ -312,13 +312,14 @@ export class RecipeService {
       const scoredRecipes = await Promise.all(
         recipes.map(async (recipe) => {
           try {
+            const planetaryRulers = recipe.astrologicalInfluences as Planet[] | undefined;
             const result = await scoringService.scoreRecommendation({
               dateTime: new Date(),
               item: {
                 name: recipe.name,
                 type: "recipe",
                 elementalProperties: recipe.elementalProperties,
-                planetaryRulers: recipe.astrologicalInfluences as Planet[] | undefined,
+                ...(planetaryRulers !== undefined ? { planetaryRulers } : {}),
               }
             });
             return {

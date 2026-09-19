@@ -90,8 +90,12 @@ async function handlePost(request: NextRequest) {
     description: "Tilt Skillet batch circuit plan generation",
   });
 
-  // Deterministic recipe-as-a-circuit grounding — computed here so the model honors the physics.
-  const circuit = computeBatchCircuit(stages);
+  const circuit = computeBatchCircuit(
+    stages.map((s) => ({
+      ingredients: s.ingredients,
+      ...(s.name !== undefined ? { name: s.name } : {}),
+    })),
+  );
 
   const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
   let plan: z.infer<typeof tiltSkilletBatchSchema>;

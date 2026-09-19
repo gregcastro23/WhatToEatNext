@@ -2,35 +2,15 @@
 
 import Image from 'next/image';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { readJson } from '@/lib/api/json';
 import { reportQuestEvent } from '@/lib/questReporter';
-
-/* ─── Types ─────────────────────────────────────────────── */
-
-interface LabPhoto {
-  dataUrl: string;
-  caption?: string;
-  uploadedAt: string;
-}
-
-interface FoodLabEntry {
-  id: string;
-  dishName: string;
-  description?: string;
-  notes?: string;
-  recipeName?: string;
-  cuisineType?: string;
-  cookingMethod?: string;
-  cookedAt: string;
-  photos: LabPhoto[];
-  elementalTags: Record<string, number>;
-  alchemicalTags: Record<string, number>;
-  rating?: number;
-  tags: string[];
-  isPublic: boolean;
-  shareToken?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import {
+  type FoodLabEntry,
+  type FoodLabPhoto as LabPhoto,
+  FoodLabListResponseSchema,
+  FoodLabSingleResponseSchema,
+  FoodLabUploadResponseSchema,
+} from '@/lib/validation/foodLabResponseSchemas';
 
 /* ─── Constants ─────────────────────────────────────────── */
 
@@ -45,27 +25,6 @@ const COOKING_METHOD_OPTIONS = [
   'Baking', 'Boiling', 'Braising', 'Fermenting', 'Frying', 'Grilling',
   'Raw', 'Roasting', 'Smoking', 'Steaming', 'Stewing', 'Sautéing', 'Other',
 ];
-
-/* ─── Star Rating ────────────────────────────────────────── */
-
-interface FoodLabSingleResponse {
-  success: boolean;
-  entry: FoodLabEntry;
-  message?: string;
-}
-
-interface FoodLabUploadResponse {
-  success: boolean;
-  dataUrl: string;
-  uploadedAt: string;
-  message?: string;
-}
-
-interface FoodLabListResponse {
-  success: boolean;
-  entries?: FoodLabEntry[];
-  message?: string;
-}
 
 /* ─── Star Rating ────────────────────────────────────────── */
 
@@ -99,6 +58,24 @@ function StarRating({
   );
 }
 
+/* ─── Share Panel Helpers ────────────────────────────────── */
+
+function buildTwitterText(entry: FoodLabEntry): string {
+  return encodeURIComponent(
+    `Just cooked ${entry.dishName}! ${entry.cuisineType ? `${entry.cuisineType} cuisine` : ''} ${
+      entry.rating ? `⭐️${'★'.repeat(entry.rating)}` : ''
+    } — created with WhatToEatNext #AlchemicalCooking #Astro${entry.dishName.replace(/\s/g, '')}`,
+  );
+}
+
+function buildInstagramCaption(entry: FoodLabEntry): string {
+  return `${entry.dishName}${entry.cuisineType ? ` • ${entry.cuisineType}` : ''}${entry.cookingMethod ? ` • ${entry.cookingMethod}` : ''}\n\n${
+    entry.notes ? `${entry.notes}\n\n` : ''
+  }${entry.rating ? `${'⭐'.repeat(entry.rating)} Rating\n\n` : ''}${
+    entry.tags.length > 0 ? `${entry.tags.map((t) => `#${t.replace(/\s/g, '')}`).join(' ')  }\n` : ''
+  }#WhatToEatNext #AlchemicalCooking #${(entry.cookingMethod ?? 'Cooking').replace(/\s/g, '')}`;
+}
+
 /* ─── Share Panel ────────────────────────────────────────── */
 
 function SharePanel({ entry }: { entry: FoodLabEntry }): React.JSX.Element {
@@ -121,7 +98,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }): React.JSX.Element {
         body: JSON.stringify({ isPublic: true }),
       });
       if (!res.ok) return;
-      const data = (await res.json()) as FoodLabSingleResponse;
+      const data = await readJson(res, { parse: FoodLabSingleResponseSchema.parse });
       if (data.success) setLocalEntry(data.entry);
     } finally {
       setEnabling(false);
@@ -136,18 +113,9 @@ function SharePanel({ entry }: { entry: FoodLabEntry }): React.JSX.Element {
     }).catch(() => {});
   };
 
-  const twitterText = encodeURIComponent(
-    `Just cooked ${localEntry.dishName}! ${localEntry.cuisineType ? `${localEntry.cuisineType} cuisine` : ''} ${
-      localEntry.rating ? `⭐️${'★'.repeat(localEntry.rating)}` : ''
-    } — created with WhatToEatNext #AlchemicalCooking #Astro${localEntry.dishName.replace(/\s/g, '')}`,
-  );
+  const twitterText = buildTwitterText(localEntry);
   const twitterUrl = shareUrl ? encodeURIComponent(shareUrl) : '';
-
-  const instagramCaption = `${localEntry.dishName}${localEntry.cuisineType ? ` • ${localEntry.cuisineType}` : ''}${localEntry.cookingMethod ? ` • ${localEntry.cookingMethod}` : ''}\n\n${
-    localEntry.notes ? `${localEntry.notes}\n\n` : ''
-  }${localEntry.rating ? `${'⭐'.repeat(localEntry.rating)} Rating\n\n` : ''}${
-    localEntry.tags.length > 0 ? `${localEntry.tags.map((t) => `#${t.replace(/\s/g, '')}`).join(' ')  }\n` : ''
-  }#WhatToEatNext #AlchemicalCooking #${(localEntry.cookingMethod ?? 'Cooking').replace(/\s/g, '')}`;
+  const instagramCaption = buildInstagramCaption(localEntry);
 
   const [igCopied, setIgCopied] = useState(false);
   const copyIgCaption = (): void => {
@@ -600,7 +568,7 @@ function NewEntryForm({
         body: fd,
       });
       if (!res.ok) throw new Error(`Upload failed (${res.status})`);
-      const data = (await res.json()) as FoodLabUploadResponse;
+      const data = await readJson(res, { parse: FoodLabUploadResponseSchema.parse });
       if (!data.success) throw new Error(data.message ?? 'Photo upload failed');
       setPhotos((prev) => [
         ...prev,
@@ -659,7 +627,7 @@ function NewEntryForm({
         }),
       });
       if (!res.ok) throw new Error(`Server error (${res.status})`);
-      const data = (await res.json()) as FoodLabSingleResponse;
+      const data = await readJson(res, { parse: FoodLabSingleResponseSchema.parse });
       if (!data.success) throw new Error(data.message ?? 'Failed to save entry');
       onSaved(data.entry);
     } catch (err) {
@@ -925,7 +893,7 @@ export const FoodLabBook: React.FC = () => {
     try {
       const res = await fetch('/api/food-lab', { credentials: 'include' });
       if (!res.ok) return;
-      const data = (await res.json()) as FoodLabListResponse;
+      const data = await readJson(res, { parse: FoodLabListResponseSchema.parse });
       if (data.success) setEntries(data.entries ?? []);
     } catch {
       // ignore
