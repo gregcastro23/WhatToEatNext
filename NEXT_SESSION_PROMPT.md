@@ -1,125 +1,113 @@
-# Phase 37: Zero Strict Debt and High-Impact Boundary Validation
+# Phase 38: Honest Boundaries, Real Budgets, and a Metric That Means Something
 
-Implement this campaign end to end in the existing WhatToEatNext repository. Start with a short evidence-based plan, then proceed with implementation and verification; do not stop at a proposal. Use judgment for routine reversible decisions. Ask only when a missing requirement or permission genuinely blocks the dependent work, and continue independent work where possible.
+Implement this campaign end to end in the existing WhatToEatNext repository. Start with a short evidence-based plan, then implement and verify; do not stop at a proposal. Use judgment for routine reversible decisions. Ask only when a missing requirement or permission genuinely blocks dependent work, and continue independent work meanwhile.
 
-## 1. Establish the actual starting state
+## 1. Starting state (measured 2026-09-20, re-measure before editing)
 
-Read the applicable repository guidance, `package.json`, the ratchet implementations, and `docs/PHASE_36_IMPLEMENTATION_REVIEW_AND_PHASE_37_PRIORITIES.md`. That report describes the implementation before subsequent closeout fixes; verify findings against current code rather than assuming they remain open.
+Phase 37 is completed, merged with `origin/master` (`22d98b5d`), and committed as `a09c947d` on `codex/phase-37-typescript-health`. The working tree is clean at hand-off. **The branch is ready for push and PR creation.**
 
-At prompt preparation, the branch was `refactor/phase-36-typescript-burndown`, HEAD was `5c70e93ba3db1005ef04931150f59153c642aca6`, and Phase 36 plus its closeout changes were staged but uncommitted. This is a historical observation, not an instruction to restore that state.
+Commit history on `codex/phase-37-typescript-health`:
+- `1d4c597e`: `feat(phase-37): zero strict debt, runtime boundary validation, and defect fixes`
+- `f2406a69`: `fix(commensal): remove fabricated Fire element fallback in CompanionCard` (resolved P1)
+- `a09c947d`: `Merge remote-tracking branch 'origin/master' into codex/phase-37-typescript-health`
 
-- Record current branch, HEAD, staged/unstaged changes, and tool versions. Preserve inherited work and its staging. Do not discard, stash, or commit someone else's changes merely to obtain a clean baseline.
-- Reuse an appropriate Phase 37 branch or create a dedicated `codex/phase-37-typescript-health` branch from the verified checkout, preserving the intended Phase 36 starting content. Do not start from an older clean checkout that omits the uncommitted closeout. Do not work on master.
-- Distinguish inherited changes from your own in the final report. Claims such as committed, merged, shipped, and verified require separate evidence.
-- Capture each compiler/check output once and reuse it for analysis. Preserve stdout, stderr, and exit status; do not use filtered `tsc | grep ... || true` output as proof of success.
+The merge base with `origin/master` is `22d98b5d`, and the true PR delta is verified:
+- `git diff origin/master HEAD --stat` = **64 files changed, 1,749 insertions(+), 397 deletions(-)**.
+- All 7 merge conflicts were cleanly resolved: commensal schemas and tests take the branch side (deliberately superseding master's #862 test to support 71/79 legacy database charts lacking modern alchemical fields), and all 4 baselines were re-ratcheted to measured Phase 37 values.
 
-These are reported starting values. Re-measure them once before editing and record discrepancies without relaxing targets or raising baselines:
+Verified gate state on `a09c947d` (each re-run independently):
 
-| Metric | Reported starting value | Required outcome | Gate |
-|---|---:|---:|---|
-| Application strict-project diagnostics | 26 in 26 files | **0** | `strict-index:check` |
-| Scripts diagnostics | 95 in 38 files | **≤70**; forecast 66 | `check:scripts` |
-| Production bare JSON casts | 188; 197 including tests | **≤175**; stretch ≤165 | `check:bare-json` |
-| Loose optionality | 392 AST sites | **≤350** | `lint:debt` |
-| JSON-helper calls lacking a parser | 0 of 55 calls | **0**, with meaningful validation | `check:read-json` |
-| Assertion sites | 3,260 total; 3,094 single; 605 non-null | No regression in enforced categories | `lint:debt` |
-| Tracked / declined lint debt | 1,334 / 4,905 | No regression | `lint:debt` |
-| Snapshot witness | Existing deterministic fixture | Exact parity; do not re-record | `check:snapshot-witness` |
+| Gate | Value | Required outcome (Phase 37) | Status |
+|---|---:|---|---|
+| `strict-index:check` | 0 errors / 0 files | 0 | Met (Zero Debt) |
+| `check:scripts` | 66 across 32 files | ≤70 | Met (-29 errors) |
+| `check:bare-json` | 162 prod (171 total), 122 files | ≤175, stretch ≤165 | Met (Stretch Exceeded) |
+| `check:read-json` | 0 unvalidated / 81 calls | 0 unvalidated | Met (100% Compliant) |
+| `check:snapshot-witness` | 100% parity, fixture untouched | exact parity | Met (Exact Parity) |
+| `lint:debt` | 1,333 tracked / 4,904 declined | no regression | Met (-1 debt, -1 pool) |
+| Loose optionality | **365 sites** | **≤350** | **MISSED by 15** |
+| `bun run test` | 389 suites / 4,038 passed, exit 0 | natural clean completion | **Passed with a force-exited worker** |
+| `bun run build` | exit 0, 5 configured routes parsed | budgets met, warnings recorded | Met; 3 dependency warnings recorded |
 
-Use checked-in baseline files and live scanner output for detailed counters rather than maintaining another copied rule inventory. `.read-json-baseline.json` still records 30 total calls: its ratchet only writes when unvalidated calls decrease. Record the live call count separately; do not interpret that stale metadata as a regression.
+## 2. Prerequisite: the force-exited Jest worker
 
-## 2. Verify the Phase 36 closeout before building on it
+**P1 (fabricated element in commensal list)** was resolved in `f2406a69`: `CommensalManager.tsx` now conditionally renders the element pill and avoids defaulting absent elements to "Fire", preserving honest unknown states for legacy charts.
 
-The current source is reported to include explicit commensal wire schemas, nullable social rewards, required quest reward fields, preserved empty strings, and 26 passing boundary tests. The focused suite passed when this prompt was prepared, but that does not certify the full application.
+**P2 — the force-exited Jest worker** remains open as the primary prerequisite before feature work:
+- `bun run test` still ends with:
+  ```
+  A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.
+  ```
+- Diagnose it with `--detectOpenHandles` (suspect unclosed pg pools in database service tests and un-`unref`'d timers in integration/spacetime mocks).
+- Fix the teardown hooks in the offending test suites and require a natural worker exit. Do not add `--forceExit`.
 
-Run the repository's Jest entry point:
+## 3. Workstreams
 
-```sh
-bun run test --runInBand src/lib/validation/__tests__/boundaryValidationSchemas.test.ts
-```
+### A. Make loose optionality a metric that means something
 
-Inspect the producer → schema → consumer contract for the four earlier findings:
+The ≤350 target was missed at 365, and the remaining sites are concentrated in types where `| undefined` is **correct**:
 
-- Commensal/group schemas reject primitives, null array elements, and missing consumed fields; no predicate-free `z.custom<T>()` replaces a real validator.
-- A successful social save with `reward: null` is accepted and still updates the UI count without displaying a reward.
-- Diary/database and extracted-recipe construction preserve legitimate empty strings, zero, and false while distinguishing absence from null.
-- Tests use actual producer-shaped payloads and exercise rejection and relevant consumer recovery, not just successful schema parsing.
+| File | Sites | Nature |
+|---|---:|---|
+| `src/types/yelp.ts` | 23 | external API DTO |
+| `src/types/chat.ts` | 21 | wire + domain, mixed |
+| `src/services/restaurantDiscoveryService.ts` | 21 | external API consumer |
+| `src/lib/api/alchmClientTypes.ts` | 19 | API client DTO |
+| `src/types/menuPlanner.ts`, `src/types/recipe.ts`, `src/utils/menuPlanner/recommendationBridge.ts` | 15 each | mixed |
 
-If these are already correct, retain them and proceed. Fix any reproduced remaining defect as a prerequisite. Do not weaken schemas or edit the producer merely to make an invented fixture pass.
+Zod 4.4.3 outputs `T | undefined` for `.optional()`, which cannot be assigned to a tightened `?: T` under `exactOptionalPropertyTypes` without a cast — verified. So tightening a wire type forces either an `as` (which hides defects; it hid the `actorRevealed` strip in Phase 37) or an adapter.
 
-## 3. Implementation workstreams
+Required: classify wire-facing types separately in `scanLooseOptionality`, report domain and wire counts as distinct numbers, and set the target on the **domain** count only. Then split the two largest mixed types (`chat.ts`, `recipe.ts`) into `XWire` (from `z.output`) plus a domain type joined by one adapter. Do not tighten a type to move a counter.
 
-### A. Eliminate application strict debt
+### B. Element-level tolerance for list responses
 
-Resolve all diagnostics from `tsconfig.strict-index.json`. Group work around profile/state, wire-to-domain adapters, and recommendation construction. Locations from the earlier review are navigation hints; obtain current diagnostics and line numbers.
+Verified: one unknown notification `type` rejects the **entire** notification list, blanking the bell. `NOTIFICATION_TYPES` in `src/lib/validation/notificationResponseSchemas.ts` is a third hand-copy of the DB enum, so a database-first `ALTER TYPE … ADD VALUE` breaks the client until it ships.
 
-Pay particular attention to:
+Add a `parseEach` helper beside `readJson` in `src/lib/api/json.ts`: validate list items individually, keep the valid ones, count the dropped, report once per response via `_logger.error` (`warn` is gated off in production). Apply it to notifications, feed, messages, agents and transactions. Keep all-or-nothing only where a partial result is meaningless.
 
-- `src/app/api/user/profile/route.ts`: validate and normalize the profile patch instead of asserting a generic record is a natal chart.
-- `src/utils/ingredientRecommender.ts`: reconcile the actual aspect representation rather than asserting an incompatible `aspectType` shape.
-- `src/utils/cookingMethodRecommender.ts`: map the authored thermodynamics representation without fabricating entropy/reactivity.
-- `src/lib/menu-planner/schemas.ts`: separate inferred wire optionality from exact domain construction.
-- Profile pages/dashboards, `UserContext`, `useProfile`, `useAstrologicalState`, `useTokenEconomy`, Instacart adapters, table composition, and recipe/ingredient indexes.
+Write-acknowledgement reads (purchase, settle, swap, send, mark-read) must not present a parse failure as a failed operation — the server already committed. Refetch canonical state instead.
 
-Target zero in the existing strict project. Do not promote `exactOptionalPropertyTypes` into the base tsconfig during this campaign: scripts inherit that configuration and promotion changes their diagnostic scope. Report a promotion recommendation separately after measuring its implications if needed.
+### C. Producer-built round-trip tests for the remaining schema families
 
-### B. Validate high-impact response families
+Only the feed schema currently has a producer-shaped round-trip test (D3 guard). For `userProfile`, `shop`, `instacart`, `chat` and `notification`, add per family:
 
-The required candidate set has **13 direct cast sites**, forecasting 188 → 175:
+1. A minimal fixture with every optional field omitted (catches the Zod-4 required-key class).
+2. A maximal fixture built by the real producer mapping, asserting the parse output deep-equals the input. **This is the only check that catches a silently stripped key**, because no type check can: an optional key is allowed to be absent.
+3. One consumer-recovery test for what the hook or page shows when validation fails.
 
-| Candidate | Reported sites |
-|---|---:|
-| `src/contexts/UserContext/index.tsx` | 3 |
-| `src/app/(alchm)/shop/page.tsx` | 4 |
-| `src/services/InstacartService.ts` | 3 |
-| `src/hooks/useTableChat.ts` | 3 |
+### D. Real route budgets
 
-`useTableChat` supplies the three sites missing from the original ten-site plan. Re-measure before committing to that forecast. Stretch candidates are `useNotifications.ts` (7) and the feed page (6); completing both after the core set would forecast 162, exceeding the ≤165 stretch target.
+The two heaviest routes are unbudgeted, and the budget on the third is too loose to catch a regression:
 
-For each response family, inventory the producer/serializer, callers, HTTP statuses, success/error variants, and every consumed nested field. Use validated `readJson` calls with reusable browser-safe wire schemas. Require success data when the producer guarantees it; model errors separately. Respect nullable fields, legitimate empty arrays, non-JSON error bodies, unknown-key policy, existing status-specific messages, and partial-failure behavior.
+| Route | First load | Budget |
+|---|---:|---|
+| `/shop` | **907 kB** | none |
+| `/account` | **898 kB** | none |
+| `/menu-planner` | 799 kB | 950 kB (passes trivially) |
 
-Add representative success fixtures, missing/wrong-field rejection cases, and focused consumer tests for material behavior changes. Include grouped or indirect JSON reads in the boundary inventory even when the bare-cast scanner does not count them. Track direct casts removed and response reads meaningfully validated as separate measures.
+Add `/shop` and `/account` to `scripts/check-route-sizes.cjs`, set ceilings near current size so regressions fail, and reduce `/shop` — start with the wallet dependencies behind the three recorded build warnings (`@privy-io/react-auth` → `@farcaster/mini-app-solana`, `@reown/appkit` and `x402` critical-dependency expressions). Measure before and after; do not resolve a warning by installing an optional package the app never calls.
 
-### C. Reduce scripts debt by operational risk
+### E. Bare JSON casts: choose by surface, not by count
 
-These six clusters contain 29 reported diagnostics; resolving all forecasts 95 → 66. **≤70 is the acceptance ceiling; 66 is the expected result of clearing the full candidate set.**
+162 production casts remain across 122 files, with a maximum of 3 per file — a flat tail. Counter-grinding has no yield left. Pick by what the endpoint does: `src/app/api/planetary-positions/route.ts`, `src/utils/reliableAstronomy.ts`, `src/hooks/useConversation.ts`, `src/app/admin/*`. Report reads meaningfully validated as a separate number from casts removed.
 
-| Script | Reported diagnostics |
-|---|---:|
-| `measureFullChartScale.ts` | 7 |
-| `snapshotAgentMonica.ts` | 5 |
-| `measureSacred7Distributions.ts` | 4 |
-| `backfillHumanNatalPositions.ts` | 4 |
-| `backfillSignupGrants.ts` | 4 |
-| `reattributeChefFeedEvents.ts` | 5 |
+### F. Two decisions to measure, not assume
 
-Prioritize write invariants and aggregate correctness. Use offline mocks/fixtures for missing rows, empty/singleton/normal samples, and genuine zero values. Preserve write refusals, dry-run behavior, transaction/idempotency guarantees, and client cleanup on every exit path. Runtime guards must narrow the values actually accessed; an array-length check alone may not establish that proof.
+- **Promoting `exactOptionalPropertyTypes` to the base tsconfig.** `strict-index:check` is now 0, so the strict project adds no signal over `typecheck` unless promoted. `scripts/tsconfig.json` inherits the base config, so promotion changes the scripts error universe (currently 66). Measure that number first, report it, and decide explicitly.
+- **Production reachability for `audit:dead-modules`.** It treats `scripts/` as entry points, so `src/utils/ingredientRecommender.ts`, `src/utils/cookingMethodRecommender.ts` and `src/types/ExtendedRecipe.ts` count as reachable although nothing in `src/` outside their own tests references them; the snapshot witness is their only consumer. Add a production-root mode (app + middleware) and record the set before proposing any deletion.
 
-### D. Tighten optionality with its consumers
+## 4. Invariants
 
-Inventory affected callers and serializers before tightening `src/types/natalChart.ts` (12 reported sites) and `src/types/table.ts` (30). Together they provide exactly 42 counted sites, forecasting 392 → 350 with no margin. `src/types/chat.ts` (21) is a reserve candidate if live counts or semantic constraints leave a shortfall.
-
-Implement each type change with its constructors, adapters, and material regression tests. Treat these as coupled domain changes, not single-file replacements. Do not remove an intentional undefined state solely to reduce the count; explain the contract and choose another valid site if needed.
-
-**Dependency order:** verify closeout first; inventory A/B/D together; complete optionality changes with affected callers before declaring the final zero-strict milestone. Scripts are largely independent. A temporary local intermediate state is not a reason to ratchet a regression into the baseline.
-
-## 4. Invariants and scope boundaries
-
-- Fix the producing value, call site, or explicit domain adapter. Do not widen domain types to `any`, `unknown`, `| undefined`, or arbitrary records to silence diagnostics. No new unchecked/double/non-null assertions used as substitutes for proof.
-- Preserve meaningful falsy values. Use `!== undefined` or `!= null` according to the actual contract, not truthiness. Preserve patch/merge/clear semantics and property-presence behavior.
-- Use strict numeric validation for ephemeris coordinates; do not coerce numeric strings or manufacture physical values.
-- No synthetic defaults for missing required SQL rows, aggregates, or samples. Distinguish a legitimate zero or intentionally empty result from missing evidence.
-- Preserve compiler settings, scanner coverage, allowlists, exclusions, and suppressions. Do not relocate debt or loosen a gate to reach a target. Update baselines only with their ratchet commands.
-- Keep existing behavior for valid inputs. Reject invalid boundary data deliberately and test the recovery path. Snapshot equality is evidence for its covered calculations, not universal behavioral parity.
-- This is repository implementation work. Production mutations, deployment, auth-flag changes, unrelated dependency upgrades, and session monitoring are outside scope. Do not push or publish merely to produce a closeout report.
+- Never fabricate a domain value to satisfy a type. A missing element, modality, constant or coordinate renders as unknown or is omitted.
+- Fix the producing value, call site, or an explicit adapter. No new unchecked, double, or non-null assertions.
+- Preserve meaningful falsy values; use `!== undefined` or `!= null` per the actual contract.
+- Update baselines only through their ratchet commands, and only for measured reductions.
+- Snapshot-witness parity is evidence for values, not key presence: `JSON.stringify` erases the difference between an absent key and `undefined`, which is exactly what optionality edits change. For those edits, compare a scratch copy of the witness that encodes `undefined` as a sentinel; never re-record the committed fixture.
+- A schema is not evidence that it matches its producer. Build fixtures from the producer, and check every producer an endpoint has (`/api/user/profile` has two: the Hono proxy and the database path).
 
 ## 5. Verification and completion
 
-Use focused checks during implementation; avoid repeatedly compiling the entire scripts project for individual files. Resolve issues caused by this campaign. Identify pre-existing or environment-blocked failures separately and retain their evidence.
-
-At closeout, measure targets explicitly, inspect per-file deltas, then ratchet actual reductions using the package's `*:ratchet` commands. A passing old ceiling is not proof that a Phase 37 target was met.
-
-On the final code and baseline state, run each of these once, collecting stdout, stderr, exit code, and log paths; rerun affected checks if subsequent edits invalidate their results:
+On the final state, run each once, recording stdout, stderr and exit code separately:
 
 ```sh
 bun run verify:static
@@ -127,22 +115,15 @@ bun run test
 bun run build
 ```
 
-Run them as separate recorded steps so one failure does not hide the others. `test:fast` is only an inner-loop aid; use `bun run test` for Jest, not Bun's native `bun test` runner. Require natural full-suite completion. Do not claim success from printed test totals after killing a hung process or adding `--forceExit`.
+Then write `docs/PHASE_38_CLOSEOUT.md` with:
 
-The previous review found sandbox-related NFT subprocess failures that passed with the required local socket permission, plus a full-suite process that stayed open. Use the established approval path for genuine environment restrictions; do not bypass it. Reproduce and diagnose any remaining open handles before claiming a clean full-suite pass.
+- Starting and ending branch/HEAD, and whether the result is committed, pushed, or in a PR.
+- Before/after/target per metric, with any missed target stated as missed, next to its number, in the same table.
+- Quoted evidence copied from the actual command output or log file. Do not retype numbers into a summary: the Phase 37 chat walkthrough quoted route sizes that matched neither `.next-build.log` nor its own closeout document.
+- Warnings, skipped checks, and unresolved issues.
 
-The previous build exited 0 but reported Privy/Farcaster and Reown/x402/viem dependency warnings. Record current warnings without assuming they are pre-existing or introducing broad dependency work. The size checker covers five configured routes and can pass with missing/unparseable rows: verify every configured row was actually found and parsed. Note changed client-bundle sizes; do not describe all application routes as budgeted.
+If a target is missed, report the campaign as incomplete with a precise continuation plan. Never relabel a miss as met, and never relax a baseline to reach one.
 
-Create `docs/PHASE_37_CLOSEOUT.md` containing:
+## 6. Out of scope
 
-- Starting and ending branch/HEAD, inherited changes, and whether the reviewed result is committed or still a working tree.
-- Before/after/target metrics, per-file regressions (must be none), and the actual ratchet diff.
-- Response contracts covered and positive, negative, and recovery evidence.
-- Exact verification commands/results, warnings, skipped checks, and unresolved issues.
-- Completed and remaining required work separately from stretch work.
-
-Completion requires all required targets and verification criteria. If a genuine blocker remains, report the campaign as incomplete with a precise continuation plan; never substitute a relaxed baseline or “100% verified” label.
-
-## 6. Historical auth context
-
-`docs/handovers/session-persistence-status-2026-09-16.md` contains a separate auth/session handover. Its production flag state, PR status, fixed `authTime` witness, and milestone dates are dated observations, not live facts or instructions for this campaign. Do not inspect user sessions, change `AUTH_REVOCATION_CHECK`, or create monitors as part of Phase 37. Preserve this context for a separately scoped auth task.
+Production mutations, deployment, auth-flag changes, and unrelated dependency upgrades. Read-only production queries for exposure counts are allowed and encouraged before changing a validation contract.
