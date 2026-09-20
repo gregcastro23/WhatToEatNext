@@ -275,15 +275,17 @@ export function recommendSauces(
         compatibilityScore,
         compatibility: {
           elemental: elementalScore,
-          alchemical: alchemicalScore,
-          thermodynamic: thermodynamicScore,
-          kinetic: kineticScore,
-          circuitOptimization: circuitOptimizationScore,
+          ...(alchemicalScore !== undefined ? { alchemical: alchemicalScore } : {}),
+          ...(thermodynamicScore !== undefined ? { thermodynamic: thermodynamicScore } : {}),
+          ...(kineticScore !== undefined ? { kinetic: kineticScore } : {}),
+          ...(circuitOptimizationScore !== undefined
+            ? { circuitOptimization: circuitOptimizationScore }
+            : {}),
         },
         reason,
         detailedReasoning,
         enhancement,
-        application,
+        ...(application !== undefined ? { application } : {}),
       };
     })
     // Filter by threshold

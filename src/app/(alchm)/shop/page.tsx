@@ -28,6 +28,13 @@ import {
   Wallet,
 } from "lucide-react";
 import Link from "next/link";
+import { readJson } from "@/lib/api/json";
+import {
+  ShopItemsResponseSchema,
+  OnchainStatusSchema,
+  ShopPurchaseResponseSchema,
+  ShopPurchaseSettleResponseSchema,
+} from "@/lib/validation/shopResponseSchemas";
 import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
 import { base, baseSepolia } from "viem/chains";
 import LivePriceTicker from "@/components/economy/LivePriceTicker";
@@ -152,11 +159,16 @@ function ShopInner(): JSX.Element {
         return;
       }
       if (shopRes.ok) {
-        const json = (await shopRes.json()) as { items?: ShopItem[] };
+        const json = await readJson(shopRes, {
+          parse: (x) => ShopItemsResponseSchema.parse(x),
+        });
         setItems(json.items ?? []);
       }
       if (chainRes.ok) {
-        setStatus((await chainRes.json()) as OnchainStatus);
+        const statusData = await readJson(chainRes, {
+          parse: (x) => OnchainStatusSchema.parse(x),
+        });
+        setStatus(statusData);
       }
     } catch {
       /* transient — surfaces as empty state */
@@ -179,18 +191,9 @@ function ShopInner(): JSX.Element {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ itemId: item.slug }),
         });
-        const j1 = (await r1.json()) as {
-          ok?: boolean;
-          alreadyOwned?: boolean;
-          reconciled?: boolean;
-          txHash?: string;
-          mode?: string;
-          orderId?: string;
-          deadline?: string;
-          challenge?: SignChallenge;
-          error?: string;
-          code?: string;
-        };
+        const j1 = await readJson(r1, {
+          parse: (x) => ShopPurchaseResponseSchema.parse(x),
+        });
 
         if (j1.ok) {
           const txUrl =
@@ -260,7 +263,9 @@ function ShopInner(): JSX.Element {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ itemId: item.slug, signature, deadline: j1.deadline }),
           });
-          const j2 = (await r2.json()) as { ok?: boolean; txHash?: string; error?: string; code?: string };
+          const j2 = await readJson(r2, {
+            parse: (x) => ShopPurchaseSettleResponseSchema.parse(x),
+          });
           if (j2.ok) {
             const txUrl =
               j2.txHash && status?.chain.explorerBaseUrl

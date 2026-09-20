@@ -419,7 +419,7 @@ function Field({
   label, unit, value, onChange, min, max,
 }: {
   label: string; unit: string; value: number;
-  onChange: (v: number) => void; min?: number | undefined; max?: number | undefined;
+  onChange: (v: number) => void; min?: number; max?: number;
 }): React.JSX.Element {
   return (
     <label className="ma-field">

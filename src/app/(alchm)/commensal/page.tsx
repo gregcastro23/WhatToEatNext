@@ -64,7 +64,7 @@ function GuestForm({ onAdd, onCompanionSaved, atCapacity = false }: GuestFormPro
         dateTime: new Date(dateTime).toISOString(),
         latitude: parseFloat(latitude),
         longitude: parseFloat(longitude),
-        timezone: timezone || undefined,
+        ...(timezone ? { timezone } : {}),
       };
 
       setErrorMsg(null);

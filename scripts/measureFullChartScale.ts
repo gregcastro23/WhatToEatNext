@@ -71,7 +71,12 @@ for (const r of rows) {
   out.push({ name: r.name, stored: r.monica_constant === null ? null : Number(r.monica_constant), computed: monica, hasBirth });
 }
 
-const q = (xs: number[], p: number) => { const s = [...xs].sort((a, b) => a - b); return s[Math.floor((s.length - 1) * p)]; };
+const q = (xs: number[], p: number): number => {
+  if (xs.length === 0) return 0;
+  const s = [...xs].sort((a, b) => a - b);
+  const idx = Math.max(0, Math.min(s.length - 1, Math.floor((s.length - 1) * p)));
+  return s[idx] ?? 0;
+};
 const f = (n: number) => n.toFixed(6);
 
 console.log(`\n=== full-chart monica, measured over the chart-bearing agents ===`);
@@ -101,8 +106,11 @@ console.log(`  full-chart span ${f(span)}   single-body span 7.172   => ${(7.172
 console.log(`\nworst-case collision: how many computed values collapse into one 0.01-wide bucket?`);
 const buckets = new Map<number, number>();
 for (const v of comp) { const b = Math.round(v * 100); buckets.set(b, (buckets.get(b) ?? 0) + 1); }
-const biggest = [...buckets.entries()].sort((a, b) => b[1] - a[1])[0];
-console.log(`  largest bucket ${biggest[1]} / ${comp.length} rows at ~${(biggest[0] / 100).toFixed(2)}`);
+const sortedBuckets = [...buckets.entries()].sort((a, b) => b[1] - a[1]);
+const biggest = sortedBuckets[0];
+if (biggest) {
+  console.log(`  largest bucket ${biggest[1]} / ${comp.length} rows at ~${(biggest[0] / 100).toFixed(2)}`);
+}
 
 console.log(`\nsample (first 8):`);
 console.table(out.slice(0, 8).map((r) => ({ name: r.name.slice(0, 28), stored: r.stored, computed: Number(r.computed.toFixed(6)), birth: r.hasBirth })));

@@ -305,9 +305,13 @@ export async function discoverTables(
       title: row.title,
       scheduledAt: iso(row.scheduled_at),
       status: row.status,
-      venue: isHome ? { type: "home" } : { type: row.venue_type, name: row.venue_name ?? undefined },
-      distanceKm,
-      photoUrl: row.photo_url ?? undefined,
+      venue: isHome
+        ? { type: "home" }
+        : row.venue_name
+          ? { type: row.venue_type, name: row.venue_name }
+          : { type: row.venue_type },
+      ...(distanceKm !== undefined ? { distanceKm } : {}),
+      ...(row.photo_url ? { photoUrl: row.photo_url } : {}),
       host: {
         id: String(row.host_id),
         name: row.host_name ?? "A host",

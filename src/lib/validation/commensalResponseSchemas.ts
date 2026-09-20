@@ -62,11 +62,21 @@ export const PlanetInfoSchema = z
   .object({
     name: z.string(),
     sign: z.string(),
-    position: z.number(),
+    position: z
+      .union([z.number(), z.null(), z.undefined()])
+      .transform((val) => (typeof val === "number" && !Number.isNaN(val) ? val : 0)),
   })
   .passthrough();
 
 export type PlanetInfoWire = z.infer<typeof PlanetInfoSchema>;
+
+export const DominantElementSchema = z
+  .string()
+  .transform((val) => {
+    const formatted = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+    return ["Fire", "Water", "Earth", "Air"].includes(formatted) ? (formatted as "Fire" | "Water" | "Earth" | "Air") : (val as "Fire" | "Water" | "Earth" | "Air");
+  })
+  .pipe(z.enum(["Fire", "Water", "Earth", "Air"]));
 
 export const NatalChartSchema = z
   .object({
@@ -76,7 +86,7 @@ export const NatalChartSchema = z
     planets: z.array(PlanetInfoSchema).optional(),
     ascendant: z.string().optional(),
     planetaryPositions: z.record(z.string(), z.string()).optional(),
-    dominantElement: z.enum(["Fire", "Water", "Earth", "Air"]),
+    dominantElement: DominantElementSchema.optional(),
     dominantModality: z.enum(["Cardinal", "Fixed", "Mutable"]).optional(),
   })
   .passthrough();
@@ -108,6 +118,8 @@ export const ExtendedDiningGroupSchema = z
   .passthrough();
 
 export type ExtendedDiningGroupWire = z.infer<typeof ExtendedDiningGroupSchema>;
+export const DiningGroupSchema = ExtendedDiningGroupSchema;
+export type DiningGroupWire = ExtendedDiningGroupWire;
 
 export const LinkedCommensalSchema = z
   .object({

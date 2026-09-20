@@ -295,14 +295,18 @@ export async function computeAndStoreTableComposite(
         bundle.compositeChart,
         5,
       );
-      topRecipes = recipeResult.recommendations.map((r) => ({
-        recipe: {
-          id: (r.recipe as { id?: string })?.id,
-          name: (r.recipe as { name?: string })?.name,
-        },
-        score: r.score,
-        reason: r.reason,
-      }));
+      topRecipes = recipeResult.recommendations.map((r) => {
+        const recipeId = (r.recipe as { id?: string })?.id;
+        const recipeName = (r.recipe as { name?: string })?.name;
+        return {
+          recipe: {
+            ...(recipeId !== undefined ? { id: recipeId } : {}),
+            ...(recipeName !== undefined ? { name: recipeName } : {}),
+          },
+          score: r.score,
+          reason: r.reason,
+        };
+      });
     } catch (error) {
       _logger.warn(
         `computeAndStoreTableComposite: recipe scoring failed for table ${tableId}, persisting without topRecipes:`,

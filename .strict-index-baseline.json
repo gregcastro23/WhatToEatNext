@@ -1,33 +1,6 @@
 {
-  "total": 26,
-  "files": 26,
+  "total": 0,
+  "files": 0,
   "allowlist": [],
-  "byFile": {
-    "src/app/(alchm)/celestial-lab/mechanics/PlanetaryChartClient.tsx": 1,
-    "src/app/(alchm)/profile/[userId]/page.tsx": 1,
-    "src/app/(alchm)/profile/components/OperatorDashboard.tsx": 1,
-    "src/app/(alchm)/profile/components/RegisteredDashboard.tsx": 1,
-    "src/app/(alchm)/tables/[tableId]/page.tsx": 1,
-    "src/app/api/user/profile/route.ts": 1,
-    "src/contexts/UserContext/index.tsx": 1,
-    "src/data/unified/cuisineIntegrations.ts": 1,
-    "src/data/unified/flavorCompatibilityLayer.ts": 1,
-    "src/hooks/useAstrologicalState.ts": 1,
-    "src/hooks/useProfile.ts": 1,
-    "src/hooks/useTokenEconomy.ts": 1,
-    "src/lib/instacart/idpClient.ts": 1,
-    "src/lib/menu-planner/schemas.ts": 1,
-    "src/lib/tables/composite.ts": 1,
-    "src/services/AstrologicalService.ts": 1,
-    "src/services/discoveryService.ts": 1,
-    "src/services/recipeRecommendations.ts": 1,
-    "src/types/ExtendedRecipe.ts": 1,
-    "src/utils/cookingMethodRecommender.ts": 1,
-    "src/utils/cuisine/cuisineIndex.ts": 1,
-    "src/utils/cuisine/intelligentSauceRecommender.ts": 1,
-    "src/utils/ingredient/ingredientIndex.ts": 1,
-    "src/utils/ingredientRecommender.ts": 1,
-    "src/utils/instacart/ingredientNormalizer.ts": 1,
-    "src/utils/recommendation/ingredientRecommendation.ts": 1
-  }
+  "byFile": {}
 }

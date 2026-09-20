@@ -1027,7 +1027,7 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={m.id}
                 name={m.name}
-                element={m.natalChart.dominantElement}
+                element={m.natalChart.dominantElement ?? "Fire"}
                 {...(m.natalChart.dominantModality ? { modality: m.natalChart.dominantModality } : {})}
                 {...(m.natalChart.ascendant ? { ascendant: m.natalChart.ascendant } : {})}
                 {...(m.relationship ? { relationship: m.relationship } : {})}
@@ -1046,7 +1046,7 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={f.userId}
                 name={f.name}
-                element={f.natalChart.dominantElement}
+                element={f.natalChart.dominantElement ?? "Fire"}
                 {...(f.natalChart.dominantModality ? { modality: f.natalChart.dominantModality } : {})}
                 {...(f.natalChart.ascendant ? { ascendant: f.natalChart.ascendant } : {})}
                 isLinked

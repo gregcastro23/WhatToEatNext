@@ -42,13 +42,13 @@ import { SIGNUP_GRANT_PER_TOKEN } from "@/services/tokenEconomyQueries";
 
 const EXECUTE = process.argv.includes("--execute");
 
-interface TargetRow {
+type TargetRow = {
   id: string;
   email: string;
   created_at: string;
   login_count: number | null;
   total_esms: string;
-}
+};
 
 /** Humans with no welcome grant on the ledger. Both grant sources count:
  *  `initial_grant` is a closed set (420 rows, 2026-05-14 → 2026-05-25, no
@@ -78,7 +78,9 @@ const SELECT_TARGETS = `
 `;
 
 const mask = (email: string) => {
-  const [local, domain] = email.split("@");
+  const parts = email.split("@");
+  const local = parts[0] ?? "";
+  const domain = parts[1] ?? "";
   const head = local.slice(0, 2);
   return `${head}${"*".repeat(Math.max(1, local.length - 2))}@${domain}`;
 };
@@ -89,7 +91,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const targets = (await executeQuery(SELECT_TARGETS, [])).rows as TargetRow[];
+  const targets = (await executeQuery<TargetRow>(SELECT_TARGETS, [])).rows;
 
   if (targets.length === 0) {
     console.log("Nothing to do: every human user already holds a welcome grant.");
@@ -131,7 +133,7 @@ async function main(): Promise<void> {
   // Re-run the selection rather than trusting the return values: the ledger is
   // the authority on whether the grant landed, and a `true` from a writer is
   // not the same claim as a row being present.
-  const remaining = (await executeQuery(SELECT_TARGETS, [])).rows as TargetRow[];
+  const remaining = (await executeQuery<TargetRow>(SELECT_TARGETS, [])).rows;
   console.log(
     `\nGranted ${granted}/${targets.length}. ` +
       `Users still owed a grant, re-read from the ledger: ${remaining.length}.`,

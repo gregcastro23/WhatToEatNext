@@ -1,6 +1,6 @@
 export function resolveVenueLabel(venue: {
   type: string;
-  name?: string | null;
+  name?: string | null | undefined;
 }): string {
   const trimmed = venue.name?.trim();
   if (venue.type === "restaurant") {

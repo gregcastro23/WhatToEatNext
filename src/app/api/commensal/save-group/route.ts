@@ -84,7 +84,13 @@ export async function POST(request: NextRequest) {
       guests.map((g) => ({
         name: g.name,
         relationship: g.relationship ?? "friend",
-        birthData: g.birthData,
+        birthData: {
+          dateTime: g.birthData.dateTime,
+          latitude: g.birthData.latitude,
+          longitude: g.birthData.longitude,
+          ...(g.birthData.timezone ? { timezone: g.birthData.timezone } : {}),
+          ...(g.birthData.location ? { location: g.birthData.location } : {}),
+        },
         natalChart: g.natalChart,
       })),
       async (members, client) => {

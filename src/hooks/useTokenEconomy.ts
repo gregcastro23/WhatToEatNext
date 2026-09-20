@@ -139,7 +139,11 @@ export function useTokenEconomy(): UseTokenEconomyResult {
         );
         return null;
       }
-      const yieldResult: DailyYieldResult = parsed.data.yield;
+      const { milestoneBonus, ...restYield } = parsed.data.yield;
+      const yieldResult: DailyYieldResult = {
+        ...restYield,
+        ...(milestoneBonus !== undefined ? { milestoneBonus } : {}),
+      };
       // Optimistic merge of the returned balances.
       setBalances(yieldResult.newBalances);
       setCanClaimDaily(false);

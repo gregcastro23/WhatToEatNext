@@ -93,10 +93,14 @@ const { rows: colDiff } = await client.query<{ missing: string[] }>(
       )`,
   [tableName],
 );
-if (colDiff[0].missing.length > 0) {
+const firstDiff = colDiff[0];
+if (!firstDiff) {
+  throw new Error(`Failed to query column completeness for ${tableName}`);
+}
+if (firstDiff.missing.length > 0) {
   throw new Error(
     `INCOMPLETE SNAPSHOT ${tableName}: user_profiles has monica columns this ` +
-      `snapshot does not capture: ${colDiff[0].missing.join(", ")}.\n` +
+      `snapshot does not capture: ${firstDiff.missing.join(", ")}.\n` +
       `Rows in those populations would be UNRECOVERABLE. Add them to the SELECT ` +
       `above before running any backfill. The incomplete table has been left in ` +
       `place as evidence — drop it manually once the fix is in.`,
@@ -110,7 +114,11 @@ const { rows } = await client.query<{ n: string; agents: string; with_monica: st
           count(*) FILTER (WHERE monica_constant IS NOT NULL)::text AS with_monica
      FROM ${tableName}`,
 );
-console.log(`Snapshotted: ${rows[0].n} total rows (${rows[0].agents} agents, ${rows[0].with_monica} with a monica_constant).`);
+const firstRow = rows[0];
+if (!firstRow) {
+  throw new Error(`Failed to query snapshot statistics for ${tableName}`);
+}
+console.log(`Snapshotted: ${firstRow.n} total rows (${firstRow.agents} agents, ${firstRow.with_monica} with a monica_constant).`);
 console.log(`Table: ${tableName}`);
 
 await client.end();

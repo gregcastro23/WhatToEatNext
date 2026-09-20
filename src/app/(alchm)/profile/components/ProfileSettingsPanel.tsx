@@ -4,7 +4,7 @@ import type { NatalChart } from "@/types/natalChart";
 import type { UserPreferences } from "./types";
 
 interface ProfileSettingsPanelProps {
-  sessionUser?: { name?: string | null; email?: string | null; role?: string };
+  sessionUser?: { name?: string | null; email?: string | null; role?: string } | undefined;
   natalChart: NatalChart;
   preferences: UserPreferences;
   isOperator?: boolean;

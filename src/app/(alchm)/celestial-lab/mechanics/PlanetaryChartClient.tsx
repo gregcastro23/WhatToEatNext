@@ -75,7 +75,7 @@ export default function PlanetaryChartClient() {
             onLocationChange={setLocation}
             onZodiacSystemChange={setZodiacSystem}
             onRefresh={refetch}
-            currentDateTime={dateTime}
+            {...(dateTime ? { currentDateTime: dateTime } : {})}
             currentLocation={location}
             currentZodiacSystem={zodiacSystem}
             isLoading={isLoading}

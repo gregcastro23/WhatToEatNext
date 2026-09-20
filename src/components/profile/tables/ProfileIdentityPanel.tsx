@@ -41,7 +41,7 @@ export interface ProfileIdentityPanelProps {
   createdAt: string;
   isOwner: boolean;
   /** Owner-only field from the API; undefined for other viewers. */
-  shareIdentity?: boolean;
+  shareIdentity?: boolean | undefined;
   viewer: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
   tablesAvailable: boolean;
   onAvatarChanged: (avatarUrl: string | null) => void;

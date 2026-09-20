@@ -28,6 +28,12 @@ import {
   publishLiveTableChatMessage,
 } from "@/lib/spacetime/liveTableChatPublish";
 import type { ChatMessage } from "@/types/chat";
+import { readJson } from "@/lib/api/json";
+import {
+  TableConversationEnsureResponseSchema,
+  ConversationMessagesResponseSchema,
+  SendMessageResponseSchema,
+} from "@/lib/validation/chatResponseSchemas";
 
 const CANONICAL_RECONCILE_MS = 20_000;
 const POLL_FALLBACK_MS = 10_000;
@@ -99,7 +105,9 @@ export function useTableChat(
         setError("This table's discussion isn't available.");
         return null;
       }
-      const data = (await res.json()) as { conversation?: { id: string } };
+      const data = await readJson(res, {
+        parse: (x) => TableConversationEnsureResponseSchema.parse(x),
+      });
       const id = data.conversation?.id ?? null;
       setConversationId(id);
       return id;
@@ -115,7 +123,9 @@ export function useTableChat(
         credentials: "include",
       });
       if (!res.ok) return;
-      const data = (await res.json()) as { messages?: ChatMessage[] };
+      const data = await readJson(res, {
+        parse: (x) => ConversationMessagesResponseSchema.parse(x),
+      });
       // API returns newest-first; store oldest-first for display.
       const ordered = (data.messages ?? []).slice().reverse();
       setCanonical(ordered);
@@ -286,7 +296,9 @@ export function useTableChat(
           }),
         });
         if (!res.ok) return false;
-        const data = (await res.json()) as { message?: ChatMessage; replay?: boolean };
+        const data = await readJson(res, {
+          parse: (x) => SendMessageResponseSchema.parse(x),
+        });
         const { message } = data;
         if (message) {
           // Optimistically show it, then let the canonical refetch confirm.
