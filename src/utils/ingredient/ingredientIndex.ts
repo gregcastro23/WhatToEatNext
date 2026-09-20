@@ -59,14 +59,19 @@ function buildIndex(): IndexedIngredient[] {
       ? (astro.zodiacAffinity as unknown[]).map(String)
       : undefined;
 
+    const astroProfile =
+      rulingPlanets || favorableZodiac
+        ? {
+            ...(rulingPlanets ? { rulingPlanets } : {}),
+            ...(favorableZodiac ? { favorableZodiac } : {}),
+          }
+        : undefined;
+
     out.push({
       name,
       category,
       elementalProperties: elemental,
-      astrologicalProfile:
-        rulingPlanets || favorableZodiac
-          ? { rulingPlanets, favorableZodiac }
-          : undefined,
+      ...(astroProfile ? { astrologicalProfile: astroProfile } : {}),
     });
   }
   return out;

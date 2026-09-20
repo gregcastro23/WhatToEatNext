@@ -318,10 +318,22 @@ export function getMethodThermodynamics(
 
   // 1. Check the detailed data source first
   // ✅ Pattern KK-1: Safe type conversion for cooking method lookup
-  const detailedMethodData =
-    (detailedCookingMethods as Record<string, { thermodynamicProperties?: BasicThermodynamicProperties } | undefined>)[
-      methodNameLower
-    ];
+  const detailedMethodData = (
+    detailedCookingMethods as Record<
+      string,
+      | {
+          thermodynamicProperties?: {
+            heat?: number;
+            _entropy?: number;
+            _reactivity?: number;
+            entropy?: number;
+            reactivity?: number;
+            gregsEnergy?: number;
+          };
+        }
+      | undefined
+    >
+  )[methodNameLower];
   // Optional chain is load-bearing — see the twin in
   // src/utils/recommendation/methodRecommendation.ts. Here the throw WAS
   // reachable, and was swallowed by a catch that substituted a fabricated 0.5.
@@ -329,10 +341,17 @@ export function getMethodThermodynamics(
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
       heat: Number(thermoProps.heat) || 0.5,
-      entropy: Number((thermoProps as { _entropy?: number })._entropy ?? thermoProps.entropy) || 0.5,
-      reactivity: Number((thermoProps as { _reactivity?: number })._reactivity ?? thermoProps.reactivity) || 0.5,
-      gregsEnergy:
-        Number((thermoProps as { gregsEnergy?: number }).gregsEnergy) || 0.5,
+      entropy:
+        Number(
+          thermoProps._entropy ??
+            thermoProps.entropy,
+        ) || 0.5,
+      reactivity:
+        Number(
+          thermoProps._reactivity ??
+            thermoProps.reactivity,
+        ) || 0.5,
+      gregsEnergy: Number(thermoProps.gregsEnergy) || 0.5,
     };
   }
 

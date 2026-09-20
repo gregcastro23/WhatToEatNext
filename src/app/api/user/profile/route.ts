@@ -8,12 +8,10 @@
 
 import { NextResponse } from "next/server";
 import type { UserProfile } from "@/contexts/UserContext";
-import {
-  getDatabaseUserFromRequest,
-} from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { withTimeout } from "@/lib/performance/withTimeout";
-import { UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
+import { NatalChartPatchSchema, UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NatalChart, PlanetInfo } from "@/types/natalChart";
@@ -31,7 +29,6 @@ interface ProfileApiResponse {
   message?: string;
   details?: Record<string, string[] | undefined>;
 }
-
 interface HonoProfileResponse {
   success?: boolean;
   profile?: UserProfile;
@@ -76,10 +73,7 @@ async function maybeMigrateNatalChart(
         const pos = rawPositions[p.name];
         return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
       });
-      const migratedChart: NatalChart = {
-        ...natalChart,
-        planets: updatedPlanets,
-      };
+      const migratedChart: NatalChart = { ...natalChart, planets: updatedPlanets };
 
       // Persist the migrated chart asynchronously
       userDatabase.updateUserProfile(userId, { natalChart: migratedChart }, userEmail).catch((err: unknown) => {
@@ -211,7 +205,36 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
       );
     }
 
-    const { userId: _bodyUserId, ...profileData } = parsedBody.data;
+    const { userId: _bodyUserId, natalChart: rawNatalChart, ...restProfile } = parsedBody.data;
+
+    let validatedNatalChart: NatalChart | undefined;
+    if (rawNatalChart !== undefined) {
+      const parsedChart = NatalChartPatchSchema.safeParse(rawNatalChart);
+      if (!parsedChart.success) {
+        return NextResponse.json({
+          success: false,
+          message: "Validation error: invalid natal chart format",
+          details: parsedChart.error.flatten().fieldErrors,
+        }, { status: 400 });
+      }
+      validatedNatalChart = parsedChart.data as NatalChart;
+    }
+
+    const profileData: Partial<UserProfile> = {};
+    if (restProfile.name !== undefined) profileData.name = restProfile.name;
+    if (restProfile.birthData !== undefined) {
+      profileData.birthData = {
+        dateTime: restProfile.birthData.dateTime,
+        latitude: restProfile.birthData.latitude,
+        longitude: restProfile.birthData.longitude,
+        ...(restProfile.birthData.timezone ? { timezone: restProfile.birthData.timezone } : {}),
+        ...(restProfile.birthData.location ? { location: restProfile.birthData.location } : {}),
+      };
+    }
+    if (restProfile.preferences !== undefined) profileData.preferences = restProfile.preferences;
+    if (validatedNatalChart !== undefined) {
+      profileData.natalChart = validatedNatalChart;
+    }
 
     // Use authenticated user's ID
     const userId = user.id;
@@ -222,10 +245,8 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
         const headers: Record<string, string> = {
           "Content-Type": "application/json",
           "x-user-id": user.id,
+          ...(INTERNAL_SECRET ? { "x-internal-secret": INTERNAL_SECRET } : {}),
         };
-        if (INTERNAL_SECRET) {
-          headers["x-internal-secret"] = INTERNAL_SECRET;
-        }
 
         const honoResponse = await fetch(`${HONO_API_URL}/api/user/profile`, {
           method: "PUT",
@@ -247,7 +268,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
 
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
-      profileData as Partial<UserProfile>,
+      profileData,
       user.email,
     );
 

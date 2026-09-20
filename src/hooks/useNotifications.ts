@@ -1,7 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { NotificationListResponse, UserNotification } from '@/types/notification';
+import type { UserNotification } from '@/types/notification';
+import { readJson } from '@/lib/api/json';
+import {
+  NotificationListResponseSchema,
+  MarkAllReadResponseSchema,
+  NotificationActionResponseSchema,
+  toDomainNotification,
+} from '@/lib/validation/notificationResponseSchemas';
 
 const NOTIFICATION_REFRESH_EVENT = 'notifications:refresh';
 
@@ -9,15 +16,6 @@ interface UseNotificationsOptions {
   enabled?: boolean;
   limit?: number;
   pollingMs?: number;
-}
-
-interface ApiResponse {
-  success?: boolean;
-  message?: string;
-  notifications?: UserNotification[];
-  unreadCount?: number;
-  notification?: UserNotification;
-  alreadyGenerated?: boolean;
 }
 
 export function useNotifications(options?: UseNotificationsOptions) {
@@ -52,9 +50,11 @@ export function useNotifications(options?: UseNotificationsOptions) {
         throw new Error(`Failed to fetch notifications (${res.status})`);
       }
 
-      const data = (await res.json()) as NotificationListResponse;
-      setNotifications(data.notifications || []);
-      setUnreadCount(data.unreadCount || 0);
+      const data = await readJson(res, {
+        parse: (x) => NotificationListResponseSchema.parse(x),
+      });
+      setNotifications(data.notifications.map(toDomainNotification));
+      setUnreadCount(data.unreadCount);
     } catch {
       setError('Unable to load notifications right now.');
     } finally {
@@ -138,9 +138,11 @@ export function useNotifications(options?: UseNotificationsOptions) {
         throw new Error('Failed to mark all as read');
       }
 
-      const data = (await res.json()) as { count?: number };
+      const data = await readJson(res, {
+        parse: (x) => MarkAllReadResponseSchema.parse(x),
+      });
       notifyRefresh();
-      return { success: true, count: data.count ?? 0 };
+      return { success: true, count: data.count };
     } catch {
       setNotifications(previous);
       setUnreadCount(previous.filter((n) => !n.isRead).length);
@@ -154,7 +156,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
         method: 'POST',
         credentials: 'include',
       });
-      const data = (await res.json()) as ApiResponse;
+      const data = await readJson(res, {
+        parse: (x) => NotificationActionResponseSchema.parse(x),
+      });
 
       if (!res.ok) {
         return {
@@ -164,7 +168,8 @@ export function useNotifications(options?: UseNotificationsOptions) {
       }
 
       if (data.notification) {
-        setNotifications((prev) => [data.notification!, ...prev.filter((n) => n.id !== data.notification!.id)]);
+        const created = toDomainNotification(data.notification);
+        setNotifications((prev) => [created, ...prev.filter((n) => n.id !== created.id)]);
         setUnreadCount((count) => count + 1);
         notifyRefresh();
         return { success: true, created: true };
@@ -196,7 +201,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ commensalshipId }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return {
@@ -233,7 +240,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ response }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return {
@@ -274,7 +283,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ status }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return { success: false, message: data.message ?? 'Could not update the request.' };
@@ -312,7 +323,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ userId: requesterId }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return { success: false, message: data.message ?? 'Could not send the invitation.' };

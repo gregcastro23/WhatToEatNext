@@ -48,9 +48,15 @@ const { rows: recent } = await client.query<{ n: string; latest: string | null }
      FROM feed_events WHERE actor_id = $1 AND created_at > now() - interval '24 hours'`,
   [CHEF],
 );
-if (Number(recent[0].n) > 0) {
+const firstRecent = recent[0];
+if (!firstRecent) {
+  console.error("FATAL: expected 1 row from recent feed_events count query, got 0 rows");
+  await client.end();
+  process.exit(1);
+}
+if (Number(firstRecent.n) > 0) {
   console.error(
-    `REFUSING: the chef produced ${recent[0].n} event(s) in the last 24h (latest ${recent[0].latest}).\n` +
+    `REFUSING: the chef produced ${firstRecent.n} event(s) in the last 24h (latest ${firstRecent.latest}).\n` +
       `The producer is still live — migrating now would race new rows. Stop it first.`,
   );
   await client.end();
@@ -160,7 +166,11 @@ for (const fk of fks) {
     `SELECT count(*)::text AS n FROM "${fk.table_name}" WHERE "${fk.column_name}" = $1`,
     [CHEF],
   );
-  const n = Number(rows[0].n);
+  const firstRow = rows[0];
+  if (!firstRow) {
+    throw new Error(`expected count(*) row for table ${fk.table_name}, got 0 rows`);
+  }
+  const n = Number(firstRow.n);
   if (n > 0) residual.push({ table: fk.table_name, column: fk.column_name, rows: n });
 }
 console.log(`\n=== everything still referencing the chef (feed_events shown PRE-migration) ===`);
@@ -227,7 +237,11 @@ const { rows: after } = await client.query<{ n: string }>(
   `SELECT count(*)::text AS n FROM feed_events WHERE actor_id = $1`,
   [CHEF],
 );
-console.log(`chef feed_events remaining: ${after[0].n} (expect 0)`);
+const afterRow = after[0];
+if (!afterRow) {
+  throw new Error("expected count(*) row for remaining chef feed_events, got 0 rows");
+}
+console.log(`chef feed_events remaining: ${afterRow.n} (expect 0)`);
 console.log(
   `\nTo reverse (both the re-attribution AND the probe deletions):\n` +
     `  UPDATE feed_events fe SET actor_id = s.original_actor_id\n` +

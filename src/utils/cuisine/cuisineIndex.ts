@@ -73,9 +73,9 @@ function buildIndex(): Map<string, CuisineIndexEntry> {
       ...entry,
       cuisine: key,
       signatures: [...(entry.signatures ?? [])],
-      planetaryPatterns: entry.planetaryPatterns
-        ? [...entry.planetaryPatterns]
-        : undefined,
+      ...(entry.planetaryPatterns
+        ? { planetaryPatterns: [...entry.planetaryPatterns] }
+        : {}),
     });
   }
   return map;

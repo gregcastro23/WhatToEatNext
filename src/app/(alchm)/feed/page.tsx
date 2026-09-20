@@ -25,27 +25,20 @@ import { _logger } from "@/lib/logger";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
 import type { TableMemoryPayload } from "@/types/table";
+import { readJson } from "@/lib/api/json";
+import {
+  type FeedEventWire,
+  FeedApiResponseSchema,
+  FeedReactionsResponseSchema,
+  AgentsApiResponseSchema,
+  TransactionsApiResponseSchema,
+  SwapRatesApiResponseSchema,
+  SwapActionResponseSchema,
+} from "@/lib/validation/feedResponseSchemas";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface FeedEvent {
-  id: string;
-  actorId: string;
-  actorName: string;
-  actorImage?: string;
-  actorIsAgent: boolean;
-  actorSlug?: string;
-  eventType: string;
-  metadataPayload: Record<string, unknown>;
-  createdAt: string;
-  reactionCount?: number;
-  /** Per-kind reaction counts (lowercase keys) — viewer-independent (PR 5). */
-  reactionCounts?: Record<string, number>;
-  /** Non-deleted, non-hidden comment count (PR 5). */
-  commentCount?: number;
-  /** Identity resolver output (PR 4): real identity rendered when true. */
-  actorRevealed?: boolean;
-}
+type FeedEvent = FeedEventWire;
 
 /** Postgres UUID guard — engagement UI renders only on DB-backed rows, never
  *  the synthetic `stdb-…` ids from the live SpacetimeDB store. */
@@ -241,7 +234,9 @@ export default function FeedPage(): React.JSX.Element {
       let failedSources = 0;
 
       if (feedRes.status === "fulfilled" && feedRes.value.ok) {
-        const data = (await feedRes.value.json()) as FeedApiResponse;
+        const data = await readJson(feedRes.value, {
+          parse: (x) => FeedApiResponseSchema.parse(x),
+        });
         if (data.success && data.events) {
           const nextEvents: FeedEvent[] = data.events;
           setEvents(nextEvents);
@@ -254,7 +249,13 @@ export default function FeedPage(): React.JSX.Element {
             .slice(0, 100);
           if (uuidIds.length > 0) {
             fetch(`/api/feed/reactions?eventIds=${uuidIds.join(",")}`)
-              .then(async (res) => (res.ok ? ((await res.json()) as { success?: boolean; viewerKinds?: Record<string, string[]> }) : null))
+              .then(async (res) =>
+                res.ok
+                  ? await readJson(res, {
+                      parse: (x) => FeedReactionsResponseSchema.parse(x),
+                    })
+                  : null,
+              )
               .then((body) => {
                 if (body?.success && body.viewerKinds) {
                   setViewerKinds(body.viewerKinds);
@@ -276,7 +277,9 @@ export default function FeedPage(): React.JSX.Element {
       setLoading((prev) => ({ ...prev, feed: false }));
 
       if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-        const data = (await agentsRes.value.json()) as AgentsApiResponse;
+        const data = await readJson(agentsRes.value, {
+          parse: (x) => AgentsApiResponseSchema.parse(x),
+        });
         if (data.success) setAgents(data.agents ?? []);
       } else {
         failedSources += 1;
@@ -284,7 +287,9 @@ export default function FeedPage(): React.JSX.Element {
       setLoading((prev) => ({ ...prev, agents: false }));
 
       if (txnRes.status === "fulfilled" && txnRes.value.ok) {
-        const data = (await txnRes.value.json()) as TransactionsApiResponse;
+        const data = await readJson(txnRes.value, {
+          parse: (x) => TransactionsApiResponseSchema.parse(x),
+        });
         if (data.success) setTransactions(data.transactions ?? []);
       } else {
         failedSources += 1;
@@ -292,7 +297,9 @@ export default function FeedPage(): React.JSX.Element {
       setLoading((prev) => ({ ...prev, transactions: false }));
 
       if (ratesRes.status === "fulfilled" && ratesRes.value.ok) {
-        const data = (await ratesRes.value.json()) as SwapRatesApiResponse;
+        const data = await readJson(ratesRes.value, {
+          parse: (x) => SwapRatesApiResponseSchema.parse(x),
+        });
         if (data.success) {
           setSwapContext({
             rulingHourPlanet: data.rulingHourPlanet,
@@ -1229,7 +1236,9 @@ function SwapTab({
         credentials: "include",
         body: JSON.stringify({ fromToken, toToken, amount: numericAmount }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const data = await readJson(res, {
+        parse: (x) => SwapActionResponseSchema.parse(x),
+      });
       if (!res.ok || !data.success) {
         setResultMessage({
           kind: "error",

@@ -70,7 +70,7 @@ export async function fetchInstacartIdp(
         Authorization: `Bearer ${apiKey}`,
         ...(options.body ? { "Content-Type": "application/json" } : {}),
       },
-      body: options.body ? JSON.stringify(options.body) : undefined,
+      ...(options.body ? { body: JSON.stringify(options.body) } : {}),
       signal: controller.signal,
     });
   } finally {

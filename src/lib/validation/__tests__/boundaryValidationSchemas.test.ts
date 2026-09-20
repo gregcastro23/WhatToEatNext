@@ -28,6 +28,36 @@ import {
   RecipeSocialResponseSchema,
   ShareResponseSchema,
 } from "../socialResponseSchemas";
+import { ServerProfileResponseSchema } from "../userProfileResponseSchemas";
+import {
+  ShopItemsResponseSchema,
+  OnchainStatusSchema,
+  ShopPurchaseResponseSchema,
+  ShopPurchaseSettleResponseSchema,
+} from "../shopResponseSchemas";
+import {
+  InstacartLinkResponseSchema,
+  InstacartRetailersResponseSchema,
+} from "../instacartResponseSchemas";
+import {
+  TableConversationEnsureResponseSchema,
+  ConversationMessagesResponseSchema,
+  SendMessageResponseSchema,
+} from "../chatResponseSchemas";
+import {
+  NotificationListResponseSchema,
+  MarkAllReadResponseSchema,
+  NotificationActionResponseSchema,
+} from "../notificationResponseSchemas";
+import {
+  FeedApiResponseSchema,
+  FeedEventWireSchema,
+  FeedReactionsResponseSchema,
+  AgentsApiResponseSchema,
+  TransactionsApiResponseSchema,
+  SwapRatesApiResponseSchema,
+  SwapActionResponseSchema,
+} from "../feedResponseSchemas";
 
 const validBirthData = {
   dateTime: "1990-05-15T14:30:00.000Z",
@@ -285,14 +315,14 @@ describe("boundaryValidationSchemas", () => {
       ).toThrow();
     });
 
-    it("rejects commensal when natalChart lacks required dominantElement", () => {
+    it("rejects commensal when natalChart is invalid", () => {
       expect(() =>
         CommensalMemberResponseSchema.parse({
           success: true,
           commensal: {
             id: "m1",
             name: "Bob",
-            natalChart: {},
+            natalChart: "not-a-chart",
           },
         }),
       ).toThrow();
@@ -436,4 +466,330 @@ describe("boundaryValidationSchemas", () => {
       ).toThrow();
     });
   });
+
+  describe("userProfileResponseSchemas", () => {
+    it("parses valid ServerProfileResponse", () => {
+      const parsed = ServerProfileResponseSchema.parse({
+        success: true,
+        profile: {
+          id: "usr_1",
+          userId: "usr_1",
+          name: "Alchemist",
+          email: "alchemist@alchm.kitchen",
+          onboardingComplete: true,
+          birthData: validBirthData,
+          natalChart: validNatalChart,
+        },
+      });
+      expect(parsed.success).toBe(true);
+      expect(parsed.profile?.userId).toBe("usr_1");
+      expect(parsed.profile?.name).toBe("Alchemist");
+    });
+
+    it("parses minimal error/empty ServerProfileResponse", () => {
+      const parsed = ServerProfileResponseSchema.parse({
+        success: false,
+        message: "Not found",
+      });
+      expect(parsed.success).toBe(false);
+      expect(parsed.profile).toBeUndefined();
+    });
+  });
+
+  describe("shopResponseSchemas", () => {
+    it("parses valid ShopItemsResponse and OnchainStatus", () => {
+      const items = ShopItemsResponseSchema.parse({
+        items: [
+          {
+            id: "shp_1",
+            slug: "monica-spoon",
+            title: "Monica's Wooden Spoon",
+            description: "A consecrated stirring utensil",
+            category: "tools",
+            isOneTime: true,
+            baseCost: { spirit: 10, essence: 5, matter: 0, substance: 0 },
+            liveCost: { spirit: 10, essence: 5, matter: 0, substance: 0 },
+            owned: false,
+          },
+        ],
+      });
+      expect(items.items?.length).toBe(1);
+
+      const status = OnchainStatusSchema.parse({
+        configured: true,
+        walletAddress: "0x1234567890abcdef1234567890abcdef12345678",
+        walletLinked: true,
+        offchain: { spirit: 100, essence: 50, matter: 20, substance: 10 },
+        onchain: null,
+        chain: { chainName: "Base", testnet: false, explorerBaseUrl: "https://basescan.org" },
+      });
+      expect(status.configured).toBe(true);
+    });
+
+    it("parses ShopPurchaseResponse and ShopPurchaseSettleResponse", () => {
+      const purchase = ShopPurchaseResponseSchema.parse({
+        ok: true,
+        txHash: "0xabc",
+        alreadyOwned: false,
+      });
+      expect(purchase.ok).toBe(true);
+
+      const settle = ShopPurchaseSettleResponseSchema.parse({
+        ok: true,
+        txHash: "0xdef",
+      });
+      expect(settle.txHash).toBe("0xdef");
+    });
+
+    it("rejects ShopItem when id or slug is missing", () => {
+      expect(() =>
+        ShopItemsResponseSchema.parse({
+          items: [{ title: "Missing ID and slug" }],
+        }),
+      ).toThrow();
+    });
+  });
+
+  describe("instacartResponseSchemas", () => {
+    it("parses valid InstacartLinkResponse with url or products_link_url", () => {
+      const link1 = InstacartLinkResponseSchema.parse({
+        url: "https://instacart.com/store/partner_recipes/123",
+      });
+      expect(link1.url).toContain("instacart.com");
+
+      const link2 = InstacartLinkResponseSchema.parse({
+        products_link_url: "https://instacart.com/store/partner_recipes/456",
+      });
+      expect(link2.products_link_url).toContain("instacart.com");
+    });
+
+    it("rejects InstacartLinkResponse when both URLs are absent", () => {
+      expect(() =>
+        InstacartLinkResponseSchema.parse({}),
+      ).toThrow();
+    });
+
+    it("parses valid InstacartRetailersResponse", () => {
+      const retailers = InstacartRetailersResponseSchema.parse({
+        retailers: [
+          {
+            retailer_key: "kroger",
+            name: "Kroger",
+            retailer_logo_url: "https://logos.instacart.com/kroger.png",
+          },
+        ],
+      });
+      expect(retailers.retailers.length).toBe(1);
+    });
+  });
+
+  describe("chatResponseSchemas", () => {
+    it("parses TableConversationEnsureResponse, ConversationMessagesResponse, and SendMessageResponse", () => {
+      const conv = TableConversationEnsureResponseSchema.parse({
+        conversation: { id: "conv_123" },
+      });
+      expect(conv.conversation?.id).toBe("conv_123");
+
+      const messages = ConversationMessagesResponseSchema.parse({
+        messages: [
+          {
+            id: "msg_1",
+            conversationId: "conv_123",
+            senderId: "usr_1",
+            body: "Welcome to the table!",
+            attachments: [],
+            createdAt: "2026-09-19T12:00:00Z",
+            editedAt: null,
+            deletedAt: null,
+          },
+        ],
+      });
+      expect(messages.messages?.length).toBe(1);
+
+      const send = SendMessageResponseSchema.parse({
+        message: {
+          id: "msg_2",
+          conversationId: "conv_123",
+          senderId: "usr_1",
+          body: "Second message",
+          attachments: [],
+          createdAt: "2026-09-19T12:01:00Z",
+          editedAt: null,
+          deletedAt: null,
+        },
+        replay: false,
+      });
+      expect(send.message?.body).toBe("Second message");
+    });
+
+    it("rejects ChatMessage missing body or id", () => {
+      expect(() =>
+        ConversationMessagesResponseSchema.parse({
+          messages: [{ senderId: "usr_1" }],
+        }),
+      ).toThrow();
+    });
+  });
+
+  describe("notificationResponseSchemas", () => {
+    it("parses NotificationListResponse and MarkAllReadResponse", () => {
+      const list = NotificationListResponseSchema.parse({
+        success: true,
+        notifications: [
+          {
+            id: "notif_1",
+            userId: "usr_1",
+            type: "welcome",
+            title: "Welcome to Alchm",
+            message: "Your journey begins.",
+            isRead: false,
+            createdAt: "2026-09-19T12:00:00Z",
+          },
+        ],
+        unreadCount: 1,
+      });
+      expect(list.notifications.length).toBe(1);
+
+      const marked = MarkAllReadResponseSchema.parse({
+        success: true,
+        count: 5,
+      });
+      expect(marked.count).toBe(5);
+    });
+
+    it("parses NotificationActionResponse and rejects malformed notification", () => {
+      const action = NotificationActionResponseSchema.parse({
+        success: true,
+        message: "Invite accepted",
+      });
+      expect(action.success).toBe(true);
+
+      expect(() =>
+        NotificationListResponseSchema.parse({
+          notifications: [{ title: "Missing fields" }],
+        }),
+      ).toThrow();
+    });
+  });
+
+  describe("feedResponseSchemas", () => {
+    it("parses FeedApiResponse, FeedReactionsResponse, AgentsApiResponse, TransactionsApiResponse, and SwapRatesApiResponse", () => {
+      const feed = FeedApiResponseSchema.parse({
+        success: true,
+        events: [
+          {
+            id: "evt_1",
+            actorId: "usr_1",
+            actorName: "Chef Alchm",
+            eventType: "cooked_recipe",
+            metadataPayload: { recipeName: "Golden Broth" },
+            createdAt: "2026-09-19T12:00:00Z",
+          },
+        ],
+      });
+      expect(feed.events?.length).toBe(1);
+
+      const reactions = FeedReactionsResponseSchema.parse({
+        success: true,
+        viewerKinds: { evt_1: ["spark", "fire"] },
+      });
+      expect(reactions.viewerKinds?.evt_1).toEqual(["spark", "fire"]);
+
+      const agents = AgentsApiResponseSchema.parse({
+        success: true,
+        agents: [
+          {
+            userId: "agent_1",
+            handle: "monica",
+            name: "Agent Monica",
+            actionCount: 42,
+          },
+        ],
+      });
+      expect(agents.agents?.length).toBe(1);
+
+      const txns = TransactionsApiResponseSchema.parse({
+        success: true,
+        transactions: [
+          {
+            id: "tx_1",
+            userId: "usr_1",
+            tokenType: "spirit",
+            amount: 5,
+            sourceType: "daily_yield",
+            createdAt: "2026-09-19T12:00:00Z",
+            actorIsAgent: false,
+            actorName: "User",
+          },
+        ],
+      });
+      expect(txns.transactions?.length).toBe(1);
+
+      const rates = SwapRatesApiResponseSchema.parse({
+        success: true,
+        rulingHourPlanet: "Jupiter",
+        rulingDayPlanet: "Sun",
+        rates: [
+          { fromToken: "Spirit", toToken: "Essence", rate: 1.25, modifier: 1.0 },
+        ],
+        generatedAt: "2026-09-19T12:00:00Z",
+        validUntil: "2026-09-19T13:00:00Z",
+      });
+      expect(rates.rates.length).toBe(1);
+
+      const swapAct = SwapActionResponseSchema.parse({
+        success: true,
+        message: "Swapped successfully",
+      });
+      expect(swapAct.success).toBe(true);
+    });
+
+    it("rejects SwapRatesApiResponse when ruling planets or rates missing", () => {
+      expect(() =>
+        SwapRatesApiResponseSchema.parse({
+          success: true,
+        }),
+      ).toThrow();
+    });
+
+    it("preserves producer-shaped FeedEvent attributes including actorRevealed across round-trip parsing (D3 guard)", () => {
+      const producerEvent = {
+        id: "evt_prod_1",
+        actorId: "usr_42",
+        actorName: "Chef Auguste",
+        actorImage: "https://example.com/avatar.jpg",
+        actorIsAgent: false,
+        eventType: "cooked_recipe",
+        metadataPayload: { recipeId: "rec_123", recipeName: "Alchemical Consommé" },
+        createdAt: "2026-09-20T12:00:00.000Z",
+        reactionCounts: { spark: 3 },
+        commentCount: 2,
+        actorRevealed: true,
+      };
+      const parsed = FeedEventWireSchema.parse(producerEvent);
+      expect(parsed.actorRevealed).toBe(true);
+      expect(parsed.actorName).toBe("Chef Auguste");
+      expect(parsed.actorImage).toBe("https://example.com/avatar.jpg");
+      expect(parsed.eventType).toBe("cooked_recipe");
+      expect(parsed.metadataPayload).toEqual({ recipeId: "rec_123", recipeName: "Alchemical Consommé" });
+
+      const parsedEnvelope = FeedApiResponseSchema.parse({
+        success: true,
+        events: [producerEvent],
+      });
+      expect(parsedEnvelope.events?.[0]?.actorRevealed).toBe(true);
+
+      const unrevealedEvent = {
+        ...producerEvent,
+        id: "evt_prod_2",
+        actorName: "Anonymous Alchemist",
+        actorImage: undefined,
+        actorRevealed: false,
+      };
+      const parsedUnrevealed = FeedEventWireSchema.parse(unrevealedEvent);
+      expect(parsedUnrevealed.actorRevealed).toBe(false);
+      expect(parsedUnrevealed.actorName).toBe("Anonymous Alchemist");
+    });
+  });
 });
+

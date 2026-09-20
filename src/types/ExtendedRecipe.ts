@@ -13,13 +13,13 @@ import type { Recipe, RecipeIngredient } from "./recipe";
  * Extended Recipe Ingredient with all accessed properties
  */
 export interface ExtendedRecipeIngredient extends RecipeIngredient {
-  id?: string;
-  preparation?: string;
-  optional?: boolean;
-  notes?: string;
-  function?: string;
-  cookingPoint?: string;
-  substitutes?: string[];
+  id?: string | undefined;
+  preparation?: string | undefined;
+  optional?: boolean | undefined;
+  notes?: string | undefined;
+  function?: string | undefined;
+  cookingPoint?: string | undefined;
+  substitutes?: string[] | undefined;
 }
 /**
  * Extended Recipe Interface with all accessed properties

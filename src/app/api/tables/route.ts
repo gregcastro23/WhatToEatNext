@@ -102,9 +102,22 @@ export async function POST(request: NextRequest) {
       title: parsed.data.title,
       ...(parsed.data.description !== undefined ? { description: parsed.data.description } : {}),
       scheduledAt: scheduledDate.toISOString(),
-      venue: parsed.data.venue,
+      venue: {
+        type: parsed.data.venue.type,
+        ...(parsed.data.venue.restaurantId ? { restaurantId: parsed.data.venue.restaurantId } : {}),
+        ...(parsed.data.venue.name !== undefined ? { name: parsed.data.venue.name } : {}),
+        ...(parsed.data.venue.address !== undefined ? { address: parsed.data.venue.address } : {}),
+      },
       ...(parsed.data.visibility !== undefined ? { visibility: parsed.data.visibility } : {}),
-      ...(parsed.data.menu !== undefined ? { menu: parsed.data.menu } : {}),
+      ...(parsed.data.menu !== undefined
+        ? {
+            menu: parsed.data.menu.map((item) => ({
+              name: item.name,
+              ...(item.recipeRef ? { recipeRef: item.recipeRef } : {}),
+              ...(item.course ? { course: item.course } : {}),
+            })),
+          }
+        : {}),
       venueLat: coords.venueLat,
       venueLng: coords.venueLng,
       ...(parsed.data.seatCap !== undefined ? { seatCap: parsed.data.seatCap } : {}),

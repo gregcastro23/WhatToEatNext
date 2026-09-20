@@ -24,6 +24,7 @@ import type {
     ChakraEnergies,
     ElementalProperties,
     LunarPhase,
+    PlanetaryAspect,
     Season
 } from "@/types/alchemy";
 import { _createAstrologicalBridge } from "@/types/bridges/astrologicalBridge";
@@ -2760,11 +2761,7 @@ export async function recommendIngredients(
     Earth?: number;
     zodiacSign?: string;
     planetaryAlignment?: Record<string, { sign: string; degree: number }>;
-    aspects?: Array<{
-      aspectType: string;
-      planet1: string;
-      planet2: string;
-    }>;
+    aspects?: PlanetaryAspect[];
     [key: string]: unknown;
   };
   const timestamp =
@@ -2777,7 +2774,13 @@ export async function recommendIngredients(
   const Earth = Number(astroStateData.Earth) || 0.5;
   const _zodiacSign = String(astroStateData.zodiacSign ?? "");
   const planetaryAlignment = astroStateData.planetaryAlignment ?? {};
-  const aspects = astroStateData.aspects ?? [];
+  const rawAspects = astroStateData.aspects ?? [];
+  const aspects: Array<{ aspectType: string; planet1: string; planet2: string }> =
+    rawAspects.map((asp) => ({
+      aspectType: String(asp.type ?? (asp as { aspectType?: string }).aspectType ?? ""),
+      planet1: asp.planet1,
+      planet2: asp.planet2,
+    }));
   // Get planetary day and hour for current time (moved up to fix declaration order)
   const date =
     timestamp instanceof Date ? timestamp : new Date(String(timestamp));
@@ -3047,7 +3050,8 @@ function generateRecommendationsForIngredient(
         aspect.planet2 === planetaryHour,
     );
     for (const aspect of relevantAspects) {
-      if (aspect.aspectType === "Conjunction") {
+      const normalizedAspect = aspect.aspectType.toLowerCase();
+      if (normalizedAspect === "conjunction") {
         const planets = [aspect.planet1, aspect.planet2];
         if (planets.includes(planetaryDay) || planets.includes(planetaryHour)) {
           const otherPlanet = planets.find(
@@ -3059,7 +3063,7 @@ function generateRecommendationsForIngredient(
             );
           }
         }
-      } else if (aspect.aspectType === "Trine") {
+      } else if (normalizedAspect === "trine") {
         const planets = [aspect.planet1, aspect.planet2];
         if (planets.includes(planetaryDay) || planets.includes(planetaryHour)) {
           const otherPlanet = planets.find(

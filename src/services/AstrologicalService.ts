@@ -169,6 +169,7 @@ export class AstrologicalService {
           if (typeof sign === "string") {
             return true; // Skip dominantPlanet property
           }
+          if (!sign) return false;
           return validZodiacSignTypes.includes(
             (sign.sign?.toLowerCase() ?? "") as StandardZodiacSignType,
           );

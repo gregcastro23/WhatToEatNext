@@ -84,11 +84,13 @@ export function useProfile(): UseProfileReturn {
           if (stored) {
             const parsed = JSON.parse(stored) as ProfileRecord | null;
             if (parsed && typeof parsed === 'object' && parsed.natalChart) {
+              const resolvedName = parsed.name ?? session?.user?.name ?? undefined;
+              const resolvedEmail = parsed.email ?? session?.user?.email ?? undefined;
               profile = {
                 ...parsed,
                 userId: parsed.userId ?? (session?.user?.id ?? ""),
-                name: parsed.name ?? (session?.user?.name ? session.user.name : undefined),
-                email: parsed.email ?? (session?.user?.email ? session.user.email : undefined),
+                ...(resolvedName ? { name: resolvedName } : {}),
+                ...(resolvedEmail ? { email: resolvedEmail } : {}),
               };
             }
           }

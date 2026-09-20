@@ -19,10 +19,7 @@
 
 import type {
   InstacartLineItem,
-  InstacartShoppingListResponse,
-  InstacartRecipeResponse,
   InstacartRetailer,
-  InstacartRetailersResponse,
 } from "@/types/instacart";
 import type { GroceryItem } from "@/types/menuPlanner";
 import {
@@ -31,6 +28,11 @@ import {
   type SplitCartResult,
 } from "@/utils/instacart/ingredientIntelligence";
 import { createLogger } from "@/utils/logger";
+import { readJson } from "@/lib/api/json";
+import {
+  InstacartLinkResponseSchema,
+  InstacartRetailersResponseSchema,
+} from "@/lib/validation/instacartResponseSchemas";
 
 const logger = createLogger("InstacartService");
 
@@ -123,8 +125,10 @@ class InstacartService {
       throw new Error(`Instacart shopping list creation failed: ${detail}`);
     }
 
-    const data = (await response.json()) as InstacartShoppingListResponse & { url?: string };
-    const url = data.url ?? data.products_link_url;
+    const data = await readJson(response, {
+      parse: (x) => InstacartLinkResponseSchema.parse(x),
+    });
+    const url = data.url ?? data.products_link_url ?? "";
 
     this.trackEvent("instacart_shopping_list_created", {
       itemCount: activeItems.length,
@@ -229,8 +233,10 @@ class InstacartService {
       throw new Error(`Instacart recipe page creation failed: ${detail}`);
     }
 
-    const data = (await response.json()) as InstacartRecipeResponse & { url?: string };
-    const url = data.url ?? data.products_link_url;
+    const data = await readJson(response, {
+      parse: (x) => InstacartLinkResponseSchema.parse(x),
+    });
+    const url = data.url ?? data.products_link_url ?? "";
 
     // Cache the URL (inventory-aware)
     const finalCacheKey = this.getRecipeCacheKey(recipe.id, recipe.inventory);
@@ -350,7 +356,9 @@ class InstacartService {
       return [];
     }
 
-    const { retailers } = (await response.json()) as InstacartRetailersResponse;
+    const { retailers } = await readJson(response, {
+      parse: (x) => InstacartRetailersResponseSchema.parse(x),
+    });
 
     // Cache the results
 

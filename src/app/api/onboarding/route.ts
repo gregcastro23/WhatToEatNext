@@ -229,7 +229,7 @@ export const POST = withObservability(
         dateTime: birthData.dateTime,
         latitude: birthData.latitude,
         longitude: birthData.longitude,
-        timezone: birthData.timezone,
+        ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
       },
       planets,
       ascendant: positions.Ascendant,

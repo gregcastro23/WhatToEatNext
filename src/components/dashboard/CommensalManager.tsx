@@ -447,7 +447,7 @@ function AddCommensalForm({
 
 interface CompanionCardProps {
   name: string;
-  element: string;
+  element?: string;
   modality?: string;
   ascendant?: string;
   relationship?: string;
@@ -463,7 +463,7 @@ interface CompanionCardProps {
 const CompanionCard: React.FC<CompanionCardProps> = ({
   name, element, modality, ascendant, relationship, isLinked, selected, onToggle, onDelete, messageUserId,
 }) => {
-  const colorClass = ELEMENT_COLORS[element] ?? ELEMENT_COLORS.Fire;
+  const colorClass = element && ELEMENT_COLORS[element] ? ELEMENT_COLORS[element] : 'bg-gray-100 text-gray-700 border-gray-200';
 
   return (
     <div
@@ -501,9 +501,11 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
           )}
         </div>
         <div className="flex items-center gap-2 mt-0.5">
-          <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${colorClass}`}>
-            {ELEMENT_EMOJI[element]} {element}
-          </span>
+          {element && (
+            <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${colorClass}`}>
+              {ELEMENT_EMOJI[element]} {element}
+            </span>
+          )}
           {modality && (
             <span className="text-xs text-gray-400 capitalize">{modality}</span>
           )}
@@ -773,7 +775,7 @@ function DiningGroupSection({
                   className="accent-purple-600"
                 />
                 <span className="text-sm text-gray-700">{c.name}</span>
-                <span className="text-xs text-gray-400 capitalize">{c.element}</span>
+                {c.element && <span className="text-xs text-gray-400 capitalize">{c.element}</span>}
                 {c.isLinked && (
                   <span className="text-[10px] text-green-600 font-medium">Linked</span>
                 )}
@@ -1027,7 +1029,7 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={m.id}
                 name={m.name}
-                element={m.natalChart.dominantElement}
+                {...(m.natalChart.dominantElement ? { element: m.natalChart.dominantElement } : {})}
                 {...(m.natalChart.dominantModality ? { modality: m.natalChart.dominantModality } : {})}
                 {...(m.natalChart.ascendant ? { ascendant: m.natalChart.ascendant } : {})}
                 {...(m.relationship ? { relationship: m.relationship } : {})}
@@ -1046,7 +1048,7 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={f.userId}
                 name={f.name}
-                element={f.natalChart.dominantElement}
+                {...(f.natalChart.dominantElement ? { element: f.natalChart.dominantElement } : {})}
                 {...(f.natalChart.dominantModality ? { modality: f.natalChart.dominantModality } : {})}
                 {...(f.natalChart.ascendant ? { ascendant: f.natalChart.ascendant } : {})}
                 isLinked
