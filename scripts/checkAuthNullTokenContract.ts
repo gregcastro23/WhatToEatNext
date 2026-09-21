@@ -50,7 +50,7 @@ const THROWAWAY_SECRET = "test-throwaway-secret-at-least-32-chars-long-123456";
 interface SessionCheckResult {
   status: number;
   cookies: string[];
-  sessionCookie?: string;
+  sessionCookie?: string | undefined;
 }
 
 async function driveSessionRequest(

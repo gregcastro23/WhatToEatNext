@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, Suspense, useCallback } from "react";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
@@ -28,7 +30,14 @@ function RecipesPageContent() {
         setIsLoading(false);
         return;
       }
-      const data = await res.json();
+      const RecipesResponseSchema = z.object({
+        success: z.boolean().optional(),
+        recipes: z.array(z.custom<Recipe>()).optional(),
+      }).passthrough();
+
+      const data = await readJson(res, {
+        parse: (raw) => RecipesResponseSchema.parse(raw),
+      });
       let cuisineRecipes: Recipe[] = [];
       if (data.success && data.recipes) {
         cuisineRecipes = data.recipes;

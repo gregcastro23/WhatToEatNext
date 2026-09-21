@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import UserInsightsPanel from "@/components/admin/UserInsightsPanel";
 import { looseIncludes } from "@/utils/searchNormalize";
 import GrantTokensModal, {
@@ -83,15 +85,18 @@ export default function AdminUsersPage() {
       params.set("page", String(page));
 
       const response = await fetch(`/api/admin/users?${params}`);
-      if (!response.ok) throw new Error(`Server error (${response.status})`);
-      const data = (await response.json()) as {
-        success?: boolean;
-        message?: string;
-        users?: AdminUser[];
-        counts?: UserCounts;
-        pagination?: Pagination;
-        degraded?: boolean;
-      };
+      const AdminUsersResponseSchema = z.object({
+        success: z.boolean().optional(),
+        message: z.string().optional(),
+        users: z.array(z.custom<AdminUser>()).optional(),
+        counts: z.custom<UserCounts>().optional(),
+        pagination: z.custom<Pagination>().optional(),
+        degraded: z.boolean().optional(),
+      }).passthrough();
+
+      const data = await readJson(response, {
+        parse: (raw) => AdminUsersResponseSchema.parse(raw),
+      });
 
       if (data.success && data.users) {
         setUsers(data.users);
@@ -137,8 +142,14 @@ export default function AdminUsersPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isActive }),
       });
-      if (!response.ok) throw new Error(`Server error (${response.status})`);
-      const data = (await response.json()) as { success?: boolean; message?: string };
+      const StatusChangeResponseSchema = z.object({
+        success: z.boolean().optional(),
+        message: z.string().optional(),
+      }).passthrough();
+
+      const data = await readJson(response, {
+        parse: (raw) => StatusChangeResponseSchema.parse(raw),
+      });
 
       if (data.success) {
         setUsers((prev) =>

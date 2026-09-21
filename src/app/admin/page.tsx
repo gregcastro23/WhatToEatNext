@@ -12,6 +12,8 @@ import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 
 interface RecentUser {
@@ -108,7 +110,16 @@ export default function AdminDashboardPage(): React.JSX.Element {
         setRecentUsersLive(false);
         return { ok: false };
       }
-      const data = (await response.json()) as AdminDashboardResponse;
+      const AdminDashboardResponseSchema = z.object({
+        success: z.boolean().optional(),
+        recentUsers: z.array(z.custom<RecentUser>()).optional(),
+        recentUsersLive: z.boolean().optional(),
+        paIntegration: z.custom<PaIntegration | null>().optional(),
+      }).passthrough();
+
+      const data = await readJson(response, {
+        parse: (raw) => AdminDashboardResponseSchema.parse(raw),
+      });
       if (data.success) {
         setRecentUsers(Array.isArray(data.recentUsers) ? data.recentUsers : []);
         // recentUsersLive is the server's own signal that the user query ran;
@@ -131,6 +142,14 @@ export default function AdminDashboardPage(): React.JSX.Element {
   // visibility-aware with error backoff. Replaces a single mount fetch.
   useHardenedPolling(fetchDashboardData, { baseIntervalMs: 30_000 });
 
+  const PlanetarySyncResponseSchema = z.object({
+    success: z.boolean(),
+    statusCode: z.number().optional(),
+    affectedCount: z.number().optional(),
+    failures: z.array(z.string()).optional(),
+    timestamp: z.string().optional(),
+  }).passthrough();
+
   const handleSyncAll = async (): Promise<void> => {
     try {
       setSyncing(true);
@@ -140,7 +159,9 @@ export default function AdminDashboardPage(): React.JSX.Element {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "sync-all" }),
       });
-      const data = (await res.json()) as PlanetarySyncResponse;
+      const data = await readJson(res, {
+        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
+      });
       setSyncResult({
         success: data.success,
         statusCode: data.statusCode ?? res.status,
@@ -188,7 +209,9 @@ export default function AdminDashboardPage(): React.JSX.Element {
           agentEmail: syncEmail.trim()
         }),
       });
-      const data = (await res.json()) as PlanetarySyncResponse;
+      const data = await readJson(res, {
+        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
+      });
       setSyncResult({
         success: data.success,
         statusCode: data.statusCode ?? res.status,

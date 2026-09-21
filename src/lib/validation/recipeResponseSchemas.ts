@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { ElementalProperties, RecipeIngredient } from "@/types/recipe";
+import type { LunarPhase } from "@/types/alchemy";
 import { AlchemicalElementalPropertiesSchema } from "./alchemicalBackendSchemas";
 
 /**
@@ -232,3 +234,58 @@ export const MintWireResponseSchema = z.union([
 ]);
 
 export type MintWireResponse = z.infer<typeof MintWireResponseSchema>;
+
+export const ElementalPropertiesSchema = z.object({
+  Fire: z.number(),
+  Water: z.number(),
+  Earth: z.number(),
+  Air: z.number(),
+});
+
+export const RecipeIngredientSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string(),
+    amount: z.number(),
+    unit: z.string(),
+    category: z.string().optional(),
+    optional: z.boolean().optional(),
+    preparation: z.string().optional(),
+    notes: z.string().optional(),
+    function: z.string().optional(),
+    asin: z.string().optional(),
+    cookingPoint: z.string().optional(),
+    substitutes: z.array(z.string()).optional(),
+    elementalProperties: ElementalPropertiesSchema.optional(),
+    seasonality: z.union([z.string(), z.array(z.string())]).optional(),
+    zodiacInfluences: z.array(z.any()).optional(),
+    planetaryInfluences: z.array(z.string()).optional(),
+    lunarPhaseInfluences: z.array(z.string()).optional(),
+  })
+  .passthrough();
+
+export type RecipeIngredientWire = z.infer<typeof RecipeIngredientSchema>;
+
+export function toDomainRecipeIngredient(wire: RecipeIngredientWire): RecipeIngredient {
+  const result: RecipeIngredient = {
+    name: wire.name,
+    amount: wire.amount,
+    unit: wire.unit,
+  };
+  if (wire.id !== undefined) result.id = wire.id;
+  if (wire.category !== undefined) result.category = wire.category;
+  if (wire.optional !== undefined) result.optional = wire.optional;
+  if (wire.preparation !== undefined) result.preparation = wire.preparation;
+  if (wire.notes !== undefined) result.notes = wire.notes;
+  if (wire.function !== undefined) result.function = wire.function;
+  if (wire.asin !== undefined) result.asin = wire.asin;
+  if (wire.cookingPoint !== undefined) result.cookingPoint = wire.cookingPoint;
+  if (wire.substitutes !== undefined) result.substitutes = wire.substitutes;
+  if (wire.elementalProperties !== undefined) result.elementalProperties = wire.elementalProperties;
+  if (wire.seasonality !== undefined) result.seasonality = wire.seasonality;
+  if (wire.zodiacInfluences !== undefined) result.zodiacInfluences = wire.zodiacInfluences;
+  if (wire.planetaryInfluences !== undefined) result.planetaryInfluences = wire.planetaryInfluences;
+  if (wire.lunarPhaseInfluences !== undefined) result.lunarPhaseInfluences = wire.lunarPhaseInfluences;
+  return result;
+}
+

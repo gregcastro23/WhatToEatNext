@@ -66,6 +66,13 @@ export const FeedEventWireSchema = z
   })
   .passthrough();
 
+export const FeedEnvelopeSchema = z
+  .object({
+    success: z.boolean().optional(),
+    events: z.array(z.unknown()).optional().default([]),
+  })
+  .passthrough();
+
 export const FeedApiResponseSchema = z
   .object({
     success: z.boolean().optional(),
@@ -96,6 +103,13 @@ export const AgentSummarySchema: z.ZodType<AgentSummaryWire> = z
     actionCount: z.number(),
   });
 
+export const AgentsEnvelopeSchema = z
+  .object({
+    success: z.boolean().optional(),
+    agents: z.array(z.unknown()).optional().default([]),
+  })
+  .passthrough();
+
 export const AgentsApiResponseSchema = z
   .object({
     success: z.boolean().optional(),
@@ -117,6 +131,13 @@ export const NetworkTransactionSchema: z.ZodType<NetworkTransactionWire> = z
     actorIsAgent: z.boolean(),
     actorName: z.string(),
   });
+
+export const TransactionsEnvelopeSchema = z
+  .object({
+    success: z.boolean().optional(),
+    transactions: z.array(z.unknown()).optional().default([]),
+  })
+  .passthrough();
 
 export const TransactionsApiResponseSchema = z
   .object({

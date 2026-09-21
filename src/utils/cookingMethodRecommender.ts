@@ -693,6 +693,7 @@ export async function getRecommendedCookingMethods(
   culturalPreference?: string,
   dietaryPreferences: string[] = [],
   availableTools?: string[],
+  date: Date = new Date(),
 ): Promise<CookingMethodData[]> {
   // Convert cooking methods to array for easier processing
   const methodsArray = Object.entries(allCookingMethodsCombined)
@@ -906,7 +907,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get the current lunar phase for additional scoring
-  const lunarPhaseValue = await calculateLunarPhase(new Date());
+  const lunarPhaseValue = await calculateLunarPhase(date);
   const lunarPhase = getLunarPhaseName(lunarPhaseValue);
 
   // Track recommendations to prevent adding duplicates

@@ -396,13 +396,13 @@ export function adaptRecipe(recipe: Recipe, mode: DietaryMode): AdaptationResult
       return;
     }
     const spec = rule.replace(ing);
+    const category = spec.category ?? ing.category;
     const newIng: RecipeIngredient = {
       ...ing,
       name: spec.name,
       unit: spec.unit ?? ing.unit,
-      category: spec.category ?? ing.category,
       amount: spec.amountScale ? ing.amount * spec.amountScale : ing.amount,
-      notes: ing.notes,
+      ...(category !== undefined ? { category } : {}),
     };
     adaptedIngredients.push(newIng);
     swaps.push({ index, from: ing, to: newIng, reason: rule.reason });

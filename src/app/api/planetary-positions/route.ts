@@ -6,6 +6,8 @@
  * Used by useAlchemical, astrologyDataProvider, astrologyValidation.
  */
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
 import { PlanetaryPositionsRequestSchema } from "@/lib/validation/apiSchemas";
@@ -123,6 +125,8 @@ function normalizeBackendPositions(backendPayload: unknown): Record<string, Norm
   return positions;
 }
 
+const BackendPayloadSchema = z.record(z.string(), z.unknown());
+
 async function fetchFromBackend(
   payload: PlanetaryRequestBody,
 ): Promise<Record<string, NormalizedPlanetPosition> | null> {
@@ -151,7 +155,9 @@ async function fetchFromBackend(
     });
 
     if (!response.ok) return null;
-    const json = (await response.json()) as unknown;
+    const json = await readJson(response, {
+      parse: (data) => BackendPayloadSchema.parse(data),
+    });
     const normalized = normalizeBackendPositions(json);
     return Object.keys(normalized).length > 0 ? normalized : null;
   } catch {
@@ -177,18 +183,18 @@ function calculateLocalPositions(date = new Date()): Record<string, NormalizedPl
   return positions;
 }
 
-function toResponse(
+function buildPlanetaryResponseData(
   positions: Record<string, NormalizedPlanetPosition>,
   source: "backend-pyswisseph" | "local-astronomy-engine",
-): NextResponse {
+): Record<string, unknown> {
   // Compatibility:
   // - `positions` for hooks/services expecting wrapped response
   // - spread root keys for legacy callers expecting raw object map
-  return NextResponse.json({
+  return {
     positions,
     source,
     ...positions,
-  });
+  };
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -220,8 +226,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const backendPositions = await fetchFromBackend(params);
     if (backendPositions) {
-      const resp = toResponse(backendPositions, "backend-pyswisseph");
-      const data = (await resp.json()) as Record<string, unknown>;
+      const data = buildPlanetaryResponseData(backendPositions, "backend-pyswisseph");
       await redisSet(cacheKey, data, 3600).catch(() => {});
       return NextResponse.json(data);
     }
@@ -238,8 +243,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       )
       : new Date();
     const fallbackPositions = calculateLocalPositions(fallbackDate);
-    const resp = toResponse(fallbackPositions, "local-astronomy-engine");
-    const data = (await resp.json()) as Record<string, unknown>;
+    const data = buildPlanetaryResponseData(fallbackPositions, "local-astronomy-engine");
     await redisSet(cacheKey, data, 3600).catch(() => {});
     return NextResponse.json(data);
   } catch (error) {
@@ -273,7 +277,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const body = parseResult.data;
     const backendPositions = await fetchFromBackend(body);
     if (backendPositions) {
-      return toResponse(backendPositions, "backend-pyswisseph");
+      return NextResponse.json(buildPlanetaryResponseData(backendPositions, "backend-pyswisseph"));
     }
 
     const fallbackDate = body.year && body.month && (body.day || body.date)
@@ -288,7 +292,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       )
       : new Date();
     const fallbackPositions = calculateLocalPositions(fallbackDate);
-    return toResponse(fallbackPositions, "local-astronomy-engine");
+    return NextResponse.json(buildPlanetaryResponseData(fallbackPositions, "local-astronomy-engine"));
   } catch {
     return GET(request);
   }

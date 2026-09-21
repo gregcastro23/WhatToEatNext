@@ -162,9 +162,6 @@ export class UnifiedFlavorEngine {
       try {
         // Try synchronous initialization first
         this.initializeProfilesSync();
-
-        // Setup cache cleanup interval
-        setInterval(() => this.cleanupCaches(), 300000); // Every 5 minutes
       } catch (error) {
         _logger.error("Error during synchronous initialization: ", error);
       }

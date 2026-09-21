@@ -143,14 +143,26 @@ console.log("=================");
 console.log(`Referrer files scanned : ${referrerFiles.length}`);
 console.log(`Deadness candidates    : ${candidateFiles.length}`);
 console.log(`Entry points           : ${report.entryPoints.length}`);
+console.log(`  of which app-roots   : ${report.appEntryPoints.length}`);
 console.log(`  of which manifest    : ${manifestEntryPoints.size}`);
-console.log(`Reachable              : ${report.reachable.length}`);
-console.log(`UNREACHABLE            : ${report.dead.length}`);
+console.log(`Reachable (any root)   : ${report.reachable.length}`);
+console.log(`App-root reachable     : ${report.appReachable.length}`);
+console.log(`Script-only reachable  : ${report.scriptOnly.length}`);
 console.log(`Test-only reachable    : ${report.testOnly.length}`);
+console.log(`UNREACHABLE (dead)     : ${report.dead.length}`);
 console.log(
   `Unresolvable dynamic   : ${report.unresolvableDynamicImports.length}`,
 );
 console.log("");
+
+if (process.argv.includes("--app-roots")) {
+  console.log("Script-only reachable modules (not reached by app roots):");
+  for (const file of report.scriptOnly) {
+    console.log(`  [script-only] ${file}`);
+  }
+  console.log("");
+}
+
 for (const [dir, files] of [...byDir.entries()].sort(
   (a, b) => b[1].length - a[1].length,
 )) {

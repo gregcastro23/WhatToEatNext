@@ -74,7 +74,7 @@ export default function PossoWidget({
             name: typeof ing === "string" ? ing : ing.name,
             amount: typeof ing === "string" ? 1 : ing.amount,
             unit: typeof ing === "string" ? "each" : ing.unit,
-            optional: typeof ing === "string" ? false : ing.optional,
+            optional: typeof ing === "string" ? false : Boolean(ing.optional),
           }));
 
           const originalEstimate = calculateRecipeEstimatedCost(normalizedIngs, 4, []);

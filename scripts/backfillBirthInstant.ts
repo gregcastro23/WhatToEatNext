@@ -302,9 +302,9 @@ async function deriveConstitution(
 ): Promise<{ esms: [number, number, number, number]; archetype: string; diurnal: boolean }> {
   const chart = await calculateNatalChart({
     ...birth,
-    // NEW: the true instant. CONTROL: undefined, so calculateNatalChart falls
+    // NEW: the true instant. CONTROL: omitted, so calculateNatalChart falls
     // back to `dateTime` and reproduces exactly what prod computed before.
-    utcInstant: trueInstant ? trueInstant.toISOString() : undefined,
+    ...(trueInstant ? { utcInstant: trueInstant.toISOString() } : {}),
   });
   const shares = toEsmsShares(chart.alchemicalProperties);
   // Sect from the WALL CLOCK, matching what calculateNatalChart used internally.

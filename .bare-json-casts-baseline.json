@@ -1,6 +1,6 @@
 {
-  "total": 171,
-  "production": 162,
+  "total": 154,
+  "production": 145,
   "test": 9,
   "byFile": {
     "src/__tests__/api/syncCreditDailyGuard.test.ts": 3,
@@ -19,11 +19,6 @@
     "src/app/admin/_dashboard/agents.tsx": 2,
     "src/app/admin/_dashboard/PaAgentSyncPanel.tsx": 1,
     "src/app/admin/_dashboard/panels.tsx": 1,
-    "src/app/admin/chat-reports/page.tsx": 1,
-    "src/app/admin/dashboard/page.tsx": 1,
-    "src/app/admin/feed/comment-reports/page.tsx": 1,
-    "src/app/admin/page.tsx": 3,
-    "src/app/admin/users/page.tsx": 2,
     "src/app/api/admin/agents/monica/route.ts": 1,
     "src/app/api/agent-forge/ignite/route.ts": 2,
     "src/app/api/agents/unified/route.ts": 1,
@@ -38,7 +33,6 @@
     "src/app/api/instacart/shopping-list/route.ts": 1,
     "src/app/api/internal/agent-sync/status/route.ts": 1,
     "src/app/api/philosophers-stone/positions/route.ts": 1,
-    "src/app/api/planetary-positions/route.ts": 3,
     "src/app/api/restaurants/search/route.ts": 1,
     "src/app/api/rituals/generate-cooking-instruction/__tests__/route.test.ts": 2,
     "src/app/api/user/profile/route.ts": 2,
@@ -101,7 +95,6 @@
     "src/hooks/useAlchemical.ts": 1,
     "src/hooks/useChatInbox.ts": 1,
     "src/hooks/useChatUnread.ts": 1,
-    "src/hooks/useConversation.ts": 3,
     "src/hooks/useEnvironmentalProducer.ts": 1,
     "src/hooks/useFoodDiary.ts": 2,
     "src/hooks/useMealPlan.ts": 2,
@@ -123,7 +116,6 @@
     "src/services/restaurantDiscoveryService.ts": 2,
     "src/services/tripadvisorService.ts": 1,
     "src/services/UnifiedScoringService.ts": 1,
-    "src/services/yelpService.ts": 1,
-    "src/utils/reliableAstronomy.ts": 3
+    "src/services/yelpService.ts": 1
   }
 }

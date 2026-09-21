@@ -1,8 +1,8 @@
 import { Pool } from "pg";
 
 interface Args {
-  email?: string;
-  userId?: string;
+  email?: string | undefined;
+  userId?: string | undefined;
   apply: boolean;
 }
 

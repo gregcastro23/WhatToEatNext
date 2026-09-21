@@ -39,16 +39,12 @@ describe("tsconfig strictness pins", () => {
     expect(base.noUncheckedIndexedAccess).toBe(true);
   });
 
-  it("keeps noFallthroughCasesInSwitch on", () => {
-    expect(base.noFallthroughCasesInSwitch).toBe(true);
+  it("keeps exactOptionalPropertyTypes on in the BASE config", () => {
+    // Promoted to base in Phase 38 when strict-index reached zero debt.
+    expect(base.exactOptionalPropertyTypes).toBe(true);
   });
 
-  it("points the strict-flags project at a tier the base config lacks", () => {
-    // If these ever agree, the strict-flags gate is a redundant 8 GB no-op
-    // again and must be re-pointed at the next tier (or retired).
-    const strictProject = readJsonc("tsconfig.strict-index.json")
-      .compilerOptions as Record<string, unknown>;
-    expect(strictProject.exactOptionalPropertyTypes).toBe(true);
-    expect(base.exactOptionalPropertyTypes).not.toBe(true);
+  it("keeps noFallthroughCasesInSwitch on", () => {
+    expect(base.noFallthroughCasesInSwitch).toBe(true);
   });
 });

@@ -165,9 +165,15 @@ beforeAll(() => {
   jest.setTimeout(10000);
 });
 
-afterAll(() => {
+afterAll(async () => {
   jest.clearAllTimers();
   jest.useRealTimers();
+  try {
+    const { closeDatabase } = await import("@/lib/database/rawPool");
+    await closeDatabase();
+  } catch {
+    /* ignore if rawPool was never loaded */
+  }
 });
 
 // Add global error handler for unhandled rejections

@@ -67,7 +67,7 @@ interface MembershipDbRow {
   banned?: boolean | null;
 }
 
-interface MessageDbRow {
+export interface MessageDbRow {
   id: string;
   conversation_id: string;
   sender_id: string;
@@ -131,11 +131,11 @@ function rowToConversation(row: ConversationDbRow): ConversationRecord {
   return {
     id: String(row.id),
     kind: row.kind as ConversationKind,
-    subjectRef: row.subject_ref ?? undefined,
-    title: row.title ?? undefined,
-    createdBy: row.created_by ?? undefined,
-    dmUserLo: row.dm_user_lo ?? undefined,
-    dmUserHi: row.dm_user_hi ?? undefined,
+    ...(row.subject_ref ? { subjectRef: row.subject_ref } : {}),
+    ...(row.title ? { title: row.title } : {}),
+    ...(row.created_by ? { createdBy: row.created_by } : {}),
+    ...(row.dm_user_lo ? { dmUserLo: row.dm_user_lo } : {}),
+    ...(row.dm_user_hi ? { dmUserHi: row.dm_user_hi } : {}),
     lastMessageAt: dbIsoOrNull(row.last_message_at),
     archivedAt: dbIsoOrNull(row.archived_at),
     createdAt: dbIso(row.created_at),
@@ -158,7 +158,7 @@ function rowToMembership(row: MembershipDbRow): ConversationMembership {
   };
 }
 
-function rowToMessage(row: MessageDbRow): ChatMessage {
+export function rowToMessage(row: MessageDbRow): ChatMessage {
   const deleted = !!row.deleted_at;
   return {
     id: String(row.id),
@@ -167,13 +167,13 @@ function rowToMessage(row: MessageDbRow): ChatMessage {
     // Deleted messages read as empty tombstones — the body never leaves the DB.
     body: deleted ? "" : String(row.body ?? ""),
     attachments: deleted ? [] : readJsonColumn<ChatAttachment[]>(row.attachments, []),
-    replyToId: row.reply_to_id ?? undefined,
-    clientKey: row.client_key ?? undefined,
+    ...(row.reply_to_id ? { replyToId: row.reply_to_id } : {}),
+    ...(row.client_key ? { clientKey: row.client_key } : {}),
     createdAt: dbIso(row.created_at),
     editedAt: dbIsoOrNull(row.edited_at),
     deletedAt: dbIsoOrNull(row.deleted_at),
-    senderName: row.sender_name ?? undefined,
-    senderAvatarUrl: row.sender_image ?? undefined,
+    ...(row.sender_name ? { senderName: row.sender_name } : {}),
+    ...(row.sender_image ? { senderAvatarUrl: row.sender_image } : {}),
     senderIsAgent: row.sender_is_agent === true,
   };
 }
@@ -185,15 +185,15 @@ function rowToReport(row: ReportDbRow): MessageReport {
     conversationId: String(row.conversation_id),
     reporterId: String(row.reporter_id),
     reason: row.reason as MessageReportReason,
-    detail: row.detail ?? undefined,
+    ...(row.detail ? { detail: row.detail } : {}),
     status: row.status as MessageReportStatus,
     createdAt: dbIso(row.created_at),
     resolvedAt: dbIsoOrNull(row.resolved_at),
     resolvedBy: row.resolved_by ?? null,
-    messageBody: row.message_body ?? undefined,
-    messageSenderId: row.message_sender_id ?? undefined,
+    ...(row.message_body ? { messageBody: row.message_body } : {}),
+    ...(row.message_sender_id ? { messageSenderId: row.message_sender_id } : {}),
     messageHidden: row.message_hidden === true,
-    conversationKind: (row.conversation_kind as ConversationKind | undefined) ?? undefined,
+    ...(row.conversation_kind ? { conversationKind: row.conversation_kind as ConversationKind } : {}),
   };
 }
 
@@ -542,20 +542,22 @@ class ChatDatabaseService {
             ? {
                 id: String(row.last_msg_id),
                 senderId: String(row.last_msg_sender_id),
-                senderName: row.last_msg_sender_name ?? undefined,
+                ...(row.last_msg_sender_name ? { senderName: row.last_msg_sender_name } : {}),
                 body: String(row.last_msg_body ?? "").slice(0, 140),
                 createdAt: dbIso(row.last_msg_created_at),
               }
             : null,
           unreadCount: row.unread_count ?? 0,
-          otherUser: row.other_id
+          ...(row.other_id
             ? {
-                id: String(row.other_id),
-                name: row.other_name ?? undefined,
-                avatarUrl: row.other_image ?? undefined,
-                isAgent: row.other_is_agent === true,
+                otherUser: {
+                  id: String(row.other_id),
+                  ...(row.other_name ? { name: row.other_name } : {}),
+                  ...(row.other_image ? { avatarUrl: row.other_image } : {}),
+                  isAgent: row.other_is_agent === true,
+                },
               }
-            : undefined,
+            : {}),
         };
       });
     } catch (error) {

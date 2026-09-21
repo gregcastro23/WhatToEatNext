@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 import { Dashboard } from "../_dashboard/Dashboard";
 import { FALLBACK_DATA, type AdminDashboardData } from "../_dashboard/data";
@@ -26,7 +28,14 @@ export default function AdminDashboardPage() {
         setError(`Failed to load dashboard (HTTP ${res.status})`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean; data?: AdminDashboardData };
+      const AdminDashboardPayloadSchema = z.object({
+        success: z.boolean(),
+        data: z.custom<AdminDashboardData>().optional(),
+      }).passthrough();
+
+      const json = await readJson(res, {
+        parse: (raw) => AdminDashboardPayloadSchema.parse(raw),
+      });
       if (json.success && json.data) {
         setData(json.data);
         setError(null);

@@ -264,8 +264,6 @@ if (!baselineSites) {
 }
 
 console.log("[5/6] Scanning AST loose optionality (?: T | undefined)...");
-const looseScan = scanLooseOptionality(path.join(repoRoot, "src"), repoRoot);
-const currentLoose = looseScan.summary;
 const baselineLoose = baseline.looseOptionality;
 
 if (!baselineLoose) {
@@ -274,6 +272,13 @@ if (!baselineLoose) {
   );
   process.exit(1);
 }
+
+const looseScan = scanLooseOptionality(
+  path.join(repoRoot, "src"),
+  repoRoot,
+  baselineLoose.wireAllowlist ?? [],
+);
+const currentLoose = looseScan.summary;
 
 console.log("[6/6] Scanning file-level disables...");
 const fileDisableScan = scanFileLevelDisables(path.join(repoRoot, "src"), repoRoot);
@@ -304,8 +309,6 @@ const subBaselineComparison =
   pncBaseline !== undefined
     ? compareSubBaseline(currentPnc, pncBaseline)
     : null;
-
-console.log(trackedTotal);
 
 fileDebts.sort((a, b) => b.trackedCount - a.trackedCount);
 
@@ -476,6 +479,18 @@ if (looseComparison.exceedsBaseline) {
         `${currentLoose.total} exceeds baseline of ${baselineLoose.total}.`,
     );
   }
+  if (looseComparison.domainIncreasedBy > 0) {
+    console.error(
+      `❌ Domain loose optionality increased by ${looseComparison.domainIncreasedBy}: ` +
+        `${currentLoose.domain} exceeds baseline of ${baselineLoose.domain}.`,
+    );
+  }
+  if (looseComparison.wireIncreasedBy > 0) {
+    console.error(
+      `❌ Wire loose optionality increased by ${looseComparison.wireIncreasedBy}: ` +
+        `${currentLoose.wire} exceeds baseline of ${baselineLoose.wire}.`,
+    );
+  }
   if (looseComparison.productionIncreasedBy > 0 && looseComparison.totalIncreasedBy === 0) {
     console.error(
       `❌ Production loose optionality increased by ${looseComparison.productionIncreasedBy}: ` +
@@ -521,13 +536,15 @@ const pncDecreased = pncBaseline !== undefined && currentPnc < pncBaseline;
 const singleSitesDecreased = currentSites.single < baselineSites.single;
 const looseDecreased =
   currentLoose.total < baselineLoose.total ||
+  currentLoose.domain < baselineLoose.domain ||
+  currentLoose.wire < baselineLoose.wire ||
   currentLoose.production < baselineLoose.production;
 const fileDisablesDecreased = fileDisableScan.total < baselineFileDisables.ceiling;
 const suppressionsDecreased = Object.entries(baseline.suppressions).some(
   ([rule, prevCount]) => (liveSuppressions[rule] ?? 0) < prevCount,
 );
 
-if (
+const anyDecreased =
   trackedTotal < baseline.trackedTotal ||
   currentCasts.total < baselineCasts.total ||
   currentCasts.asAny < baselineCasts.asAny ||
@@ -541,8 +558,9 @@ if (
   pncDecreased ||
   looseDecreased ||
   fileDisablesDecreased ||
-  suppressionsDecreased
-) {
+  suppressionsDecreased;
+
+if (anyDecreased) {
   if (baselineSites.nonNull !== undefined && currentSites.nonNull < baselineSites.nonNull) {
     const nonNullDecreasedBy = baselineSites.nonNull - currentSites.nonNull;
     console.log(
@@ -589,7 +607,7 @@ if (
   }
   if (looseDecreased) {
     console.log(
-      `🎉 Loose optionality decreased: ${currentLoose.total} (down ${Math.max(baselineLoose.total - currentLoose.total, 0)} from ${baselineLoose.total}; production: ${currentLoose.production} vs baseline ${baselineLoose.production}).`,
+      `🎉 Loose optionality decreased: ${currentLoose.total} (${currentLoose.domain} domain, ${currentLoose.wire} wire; down from baseline ${baselineLoose.total}: ${baselineLoose.domain} domain, ${baselineLoose.wire} wire).`,
     );
   }
   if (fileDisablesDecreased) {
@@ -606,90 +624,93 @@ if (
       `🎉 Declined rules pool decreased by ${declinedDecreasedBy}: ${declinedTotal} (down from ${baselineDeclinedTotal}).`,
     );
   }
-
-  if (shouldRatchet) {
-    const updatedBaseline = {
-      ...baseline,
-      trackedTotal,
-      casts: {
-        total: Math.min(currentCasts.total, baselineCasts.total),
-        asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
-        asUnknownAs: Math.min(currentCasts.asUnknownAs, baselineCasts.asUnknownAs),
-        production: Math.min(currentCasts.production ?? 0, baselineCasts.production ?? (currentCasts.production ?? 0)),
-        test: Math.min(currentCasts.test ?? 0, baselineCasts.test ?? (currentCasts.test ?? 0)),
-      },
-      assertionSites: {
-        total: Math.min(currentSites.total, baselineSites.total),
-        asAny: Math.min(currentSites.asAny, baselineSites.asAny),
-        chained: currentSites.chained,
-        single: Math.min(currentSites.single, baselineSites.single),
-        production: Math.min(currentSites.production, baselineSites.production),
-        test: currentSites.test,
-        asConst: currentSites.asConst,
-        nonNull: Math.min(currentSites.nonNull, baselineSites.nonNull ?? currentSites.nonNull),
-      },
-      looseOptionality: {
-        total: Math.min(currentLoose.total, baselineLoose.total),
-        production: Math.min(currentLoose.production, baselineLoose.production),
-        test: currentLoose.test,
-      },
-      fileLevelDisables: {
-        ceiling: Math.min(fileDisableScan.total, baselineFileDisables.ceiling),
-      },
-      suppressions: Object.fromEntries(
-        Object.entries(baseline.suppressions).map(([rule, prevCount]) => [
-          rule,
-          Math.min(liveSuppressions[rule] ?? 0, prevCount),
-        ]),
-      ),
-      subBaselines: baseline.subBaselines
-        ? {
-            ...baseline.subBaselines,
-            preferNullishCoalescing: baseline.subBaselines.preferNullishCoalescing
-              ? {
-                  ...baseline.subBaselines.preferNullishCoalescing,
-                  total: Math.min(
-                    currentPnc,
-                    baseline.subBaselines.preferNullishCoalescing.total,
-                  ),
-                }
-              : undefined,
-          }
-        : undefined,
-      // The declined pool ratchets like every other counter. It used to carry
-      // `total` and every per-rule count forward UNCHANGED while the log line
-      // below printed the live `declinedTotal` — so `--ratchet` reported a
-      // ratchet it never performed, and the only way the pool ever moved was a
-      // hand edit. That is how it drifted 14 above its own live value.
-      declined: {
-        total: Math.min(declinedTotal, baselineDeclinedTotal),
-        rules: Object.fromEntries(
-          Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
-            rule,
-            Math.min(counts[rule] ?? prevCount, prevCount),
-          ]),
-        ),
-        ...(baseline.declined.note ? { note: baseline.declined.note } : {}),
-      },
-      rules: Object.fromEntries(
-        Object.entries(baseline.rules).map(([rule, info]) => [
-          rule,
-          {
-            ...info,
-            count: declinedRules.has(rule)
-              ? info.count
-              : Math.min(counts[rule] ?? info.count, info.count),
-          },
-        ]),
-      ),
-    };
-    await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-    const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
-      ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
-      : "";
-    // Reports the values actually WRITTEN, not the live measurements — the two
-    // diverge wherever a Math.min keeps the old floor.
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${updatedBaseline.declined.total}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production}), loose: ${updatedBaseline.looseOptionality.total}, fileDisables: ${updatedBaseline.fileLevelDisables.ceiling}${pncLog}.`);
-  }
 }
 
+if (shouldRatchet && anyDecreased) {
+  const updatedBaseline = {
+    ...baseline,
+    trackedTotal,
+    casts: {
+      total: Math.min(currentCasts.total, baselineCasts.total),
+      asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
+      asUnknownAs: Math.min(currentCasts.asUnknownAs, baselineCasts.asUnknownAs),
+      production: Math.min(currentCasts.production ?? 0, baselineCasts.production ?? (currentCasts.production ?? 0)),
+      test: Math.min(currentCasts.test ?? 0, baselineCasts.test ?? (currentCasts.test ?? 0)),
+    },
+    assertionSites: {
+      total: Math.min(currentSites.total, baselineSites.total),
+      asAny: Math.min(currentSites.asAny, baselineSites.asAny),
+      chained: Math.min(currentSites.chained, baselineSites.chained),
+      single: Math.min(currentSites.single, baselineSites.single),
+      production: Math.min(currentSites.production, baselineSites.production),
+      test: Math.min(currentSites.test, baselineSites.test),
+      asConst: Math.min(currentSites.asConst, baselineSites.asConst),
+      nonNull: Math.min(currentSites.nonNull, baselineSites.nonNull ?? currentSites.nonNull),
+    },
+    looseOptionality: {
+      total: Math.min(currentLoose.total, baselineLoose.total),
+      domain: Math.min(currentLoose.domain, baselineLoose.domain),
+      wire: Math.min(currentLoose.wire, baselineLoose.wire),
+      production: Math.min(currentLoose.production, baselineLoose.production),
+      test: Math.min(currentLoose.test, baselineLoose.test),
+      ...(baselineLoose.wireAllowlist ? { wireAllowlist: baselineLoose.wireAllowlist } : {}),
+    },
+    fileLevelDisables: {
+      ceiling: Math.min(fileDisableScan.total, baselineFileDisables.ceiling),
+    },
+    suppressions: Object.fromEntries(
+      Object.entries(baseline.suppressions).map(([rule, prevCount]) => [
+        rule,
+        Math.min(liveSuppressions[rule] ?? prevCount, prevCount),
+      ]),
+    ),
+    ...(baseline.subBaselines?.preferNullishCoalescing && pncBaseline !== undefined
+      ? {
+          subBaselines: {
+            ...baseline.subBaselines,
+            preferNullishCoalescing: {
+              ...baseline.subBaselines.preferNullishCoalescing,
+              total: Math.min(currentPnc, pncBaseline),
+            },
+          },
+        }
+      : {}),
+    // The declined pool ratchets like every other counter. It used to carry
+    // `total` and every per-rule count forward UNCHANGED while the log line
+    // below printed the live `declinedTotal` — so `--ratchet` reported a
+    // ratchet it never performed, and the only way the pool ever moved was a
+    // hand edit. That is how it drifted 14 above its own live value.
+    declined: {
+      total: Math.min(declinedTotal, baselineDeclinedTotal),
+      rules: Object.fromEntries(
+        Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
+          rule,
+          Math.min(counts[rule] ?? prevCount, prevCount),
+        ]),
+      ),
+      ...(baseline.declined.note ? { note: baseline.declined.note } : {}),
+    },
+    rules: Object.fromEntries(
+      Object.entries(baseline.rules).map(([rule, info]) => [
+        rule,
+        {
+          ...info,
+          count: declinedRules.has(rule)
+            ? info.count
+            : Math.min(counts[rule] ?? info.count, info.count),
+        },
+      ]),
+    ),
+  };
+  await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
+  const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
+    ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
+    : "";
+  // Reports the values actually WRITTEN, not the live measurements — the two
+  // diverge wherever a Math.min keeps the old floor.
+  console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${updatedBaseline.declined.total}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production}), loose: ${updatedBaseline.looseOptionality.total} (${updatedBaseline.looseOptionality.domain} domain, ${updatedBaseline.looseOptionality.wire} wire), fileDisables: ${updatedBaseline.fileLevelDisables.ceiling}${pncLog}.`);
+} else if (anyDecreased) {
+  console.log("ℹ️ Improvements detected. Run `bun run lint:debt:ratchet` to lock them into the baseline.");
+} else {
+  console.log("✅ All lint debt, type cast, assertion site, and loose optionality gates passed.");
+}

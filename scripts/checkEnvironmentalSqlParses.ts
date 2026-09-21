@@ -180,7 +180,7 @@ async function main(): Promise<void> {
   console.log(`✓ control: ${statements.length} statements built as expected`);
 
   // ── The gate proper ───────────────────────────────────────────────────────
-  const failures: Array<{ builder: string; code?: string; message: string }> = [];
+  const failures: Array<{ builder: string; code?: string | undefined; message: string }> = [];
 
   for (const [index, { builder, sql }] of statements.entries()) {
     const name = `_env_gate_${index}`;
