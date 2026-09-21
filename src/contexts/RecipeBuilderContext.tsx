@@ -16,6 +16,8 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
+import { z } from "zod";
+import { quizCosmicRequestSchema, type QuizCosmicRequest } from "@/components/home/quiz/quizIntegrations";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeBuilderContext");
@@ -47,6 +49,8 @@ export interface RecipeBuilderState {
   selectedCuisines: string[];
   selectedIngredients: SelectedIngredient[];
   selectedCookingMethods: string[];
+  /** Complete, validated culinary brief from the homepage quiz. */
+  quizBrief: QuizCosmicRequest | null;
 }
 
 export interface RecipeBuilderContextType extends RecipeBuilderState {
@@ -84,6 +88,8 @@ export interface RecipeBuilderContextType extends RecipeBuilderState {
 
   // Actions
   clearQueue: () => void;
+  applyQuizBrief: (state: RecipeBuilderState) => void;
+  clearQuizBrief: () => void;
 }
 
 const initialState: RecipeBuilderState = {
@@ -94,7 +100,19 @@ const initialState: RecipeBuilderState = {
   selectedCuisines: [],
   selectedIngredients: [],
   selectedCookingMethods: [],
+  quizBrief: null,
 };
+
+const savedBuilderSchema = z.object({
+  mealType: z.enum(["Breakfast", "Lunch", "Dinner", "Snack"]).nullable().default(null),
+  flavors: z.array(z.enum(["spicy", "sweet", "savory", "bitter", "sour", "umami"])).default([]),
+  dietaryPreferences: z.array(z.string()).default([]),
+  allergies: z.array(z.string()).default([]),
+  selectedCuisines: z.array(z.string()).default([]),
+  selectedIngredients: z.array(z.object({ name: z.string().min(1), category: z.string().optional(), elementalProperties: z.object({ Fire: z.number().optional(), Water: z.number().optional(), Earth: z.number().optional(), Air: z.number().optional() }).optional() })).default([]),
+  selectedCookingMethods: z.array(z.string()).default([]),
+  quizBrief: quizCosmicRequestSchema.nullable().catch(null).default(null),
+});
 
 const RecipeBuilderContext = createContext<RecipeBuilderContextType | undefined>(
   undefined,
@@ -115,8 +133,17 @@ export function RecipeBuilderProvider({
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        setState((prev) => ({ ...prev, ...parsed }));
+        const raw: unknown = JSON.parse(stored);
+        const parsed = savedBuilderSchema.safeParse(raw);
+        if (!parsed.success) return;
+        setState({
+          ...parsed.data,
+          selectedIngredients: parsed.data.selectedIngredients.map((ingredient) => ({
+            name: ingredient.name,
+            ...(ingredient.category !== undefined ? { category: ingredient.category } : {}),
+            ...(ingredient.elementalProperties ? { elementalProperties: Object.fromEntries(Object.entries(ingredient.elementalProperties).filter(([, value]) => value !== undefined)) } : {}),
+          })),
+        });
         logger.info("Loaded recipe builder state from storage");
       }
     } catch (error) {
@@ -295,6 +322,13 @@ export function RecipeBuilderProvider({
     logger.info("Cleared recipe builder queue");
   }, []);
 
+  const applyQuizBrief = useCallback((next: RecipeBuilderState) => {
+    setState(next);
+  }, []);
+  const clearQuizBrief = useCallback(() => {
+    setState((previous) => ({ ...previous, quizBrief: null }));
+  }, []);
+
   const contextValue = useMemo<RecipeBuilderContextType>(
     () => ({
       ...state,
@@ -317,6 +351,8 @@ export function RecipeBuilderProvider({
       hasCookingMethod,
       totalItems,
       clearQueue,
+      applyQuizBrief,
+      clearQuizBrief,
     }),
     [
       state,
@@ -339,6 +375,8 @@ export function RecipeBuilderProvider({
       hasCookingMethod,
       totalItems,
       clearQueue,
+      applyQuizBrief,
+      clearQuizBrief,
     ],
   );
 

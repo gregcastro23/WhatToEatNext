@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  FIRST_MEAL_QUIZ,
-  loadSavedMealAnswers,
-  saveMealAnswers,
-  scoreFirstMeal,
-} from "@/components/home/firstMeal";
+import { QuizBar } from "@/components/home/quiz/QuizBar";
+import { QuizProvider } from "@/components/home/quiz/QuizProvider";
+import { QuizSurface } from "@/components/home/quiz/QuizSurface";
+import { localQuizTime, quizSkySchema } from "@/components/home/quiz/quizContext";
+import type { ESMSVector, QuizContext } from "@/components/home/quiz/types";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import {
   biasQueryParam,
@@ -28,7 +27,7 @@ import {
 /**
  * LiveHero — the homepage's consolidated top component: masthead + inline
  * personalization ("Who's eating tonight?") + a preview grid of every site
- * capability + the four-tap meal-crafting quiz, in one surface.
+ * capability + the adaptive meal-crafting quiz, in one surface.
  *
  * Honesty rules: nothing is labeled live unless a real source feeds it (the
  * quantities endpoint's elemental balance, the client-side planetary hour,
@@ -38,11 +37,8 @@ import {
  * quantities come from planets, elements from signs; the two are orthogonal
  * readings and are never presented as the same four things).
  *
- * All view transitions are pure CSS (conditional render + keyframes) — no
- * framer-motion, nothing rAF-gated except the self-nooping ambient motes.
+ * Preview transitions use CSS; the lazily loaded quiz owns its motion and state.
  */
-
-const GOLD = "#fbbf24";
 
 const ELEMENT_TINTS: Record<string, string> = {
   Fire: "#f87171",
@@ -397,7 +393,7 @@ function useAmbientMotes(hostRef: React.RefObject<HTMLElement | null>) {
 
 /* ─── Component ───────────────────────────────────────────────────────────── */
 
-export function LiveHero() {
+export function LiveHero({ quizContext: contextOverrides }: { quizContext?: Partial<QuizContext> } = {}) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useAmbientMotes(sectionRef);
   const { status } = useSession();
@@ -412,9 +408,8 @@ export function LiveHero() {
   const [nameInput, setNameInput] = useState("");
 
   const [openTileId, setOpenTileId] = useState<string | null>(null);
-  // null = quiz closed; length < quiz length = mid-question; full = result.
-  const [quizAnswers, setQuizAnswers] = useState<number[] | null>(null);
-  const [savedMeal, setSavedMeal] = useState<number[] | null>(null);
+  const [localTime, setLocalTime] = useState<Pick<QuizContext, "timeOfDay" | "season">>({ timeOfDay: "evening", season: "autumn" });
+  const [planetaryESMS, setPlanetaryESMS] = useState<ESMSVector>();
 
   // Live taps — each null until (and unless) its real source answers.
   const [skyPct, setSkyPct] = useState<ElementVector | null>(null);
@@ -422,10 +417,11 @@ export function LiveHero() {
   const [topCuisine, setTopCuisine] = useState<string | null>(null);
   const [featuredThumb, setFeaturedThumb] = useState<string | null>(null);
 
-  // Hydrate the saved meal after mount (SSR-safe); the table itself is
-  // hydrated and event-synced inside useUserElementalBias.
   useEffect(() => {
-    setSavedMeal(loadSavedMealAnswers());
+    const update = () => setLocalTime(localQuizTime(new Date()));
+    update();
+    const timer = window.setInterval(update, 60_000);
+    return () => window.clearInterval(timer);
   }, []);
 
   // Planetary hour — same derivation as the header's CelestialHeaderClock:
@@ -454,18 +450,10 @@ export function LiveHero() {
       .then((r) => r.json())
       .then((j: unknown) => {
         if (!active) return;
-        const data = j as {
-          success?: boolean;
-          circuit?: { elementalBalance?: Record<string, number> };
-        };
-        const balance = data?.success ? data.circuit?.elementalBalance : null;
-        if (
-          balance &&
-          ELEMENT_ORDER.every((el) => typeof balance[el] === "number")
-        ) {
-          setSkyPct(
-            compositeFromVectors([balance as ElementVector])?.pct ?? null,
-          );
+        const parsed = quizSkySchema.safeParse(j);
+        if (parsed.success && !parsed.data.degraded?.reasons.length) {
+          setSkyPct(compositeFromVectors([parsed.data.circuit.elementalBalance])?.pct ?? null);
+          setPlanetaryESMS(parsed.data.quantities);
         }
       })
       .catch(() => {
@@ -555,18 +543,26 @@ export function LiveHero() {
     () => TILES.find((t) => t.id === openTileId) ?? null,
     [openTileId],
   );
-  const bias = composite?.vector ?? null;
-  const reading = useMemo(
-    () =>
-      quizAnswers?.length === FIRST_MEAL_QUIZ.length
-        ? scoreFirstMeal(quizAnswers, bias)
-        : null,
-    [quizAnswers, bias],
-  );
-  const savedReading = useMemo(
-    () => (savedMeal ? scoreFirstMeal(savedMeal, bias) : null),
-    [savedMeal, bias],
-  );
+  const quizContext = useMemo<QuizContext>(() => {
+    const positions: Record<string, string> = {};
+    for (const [planet, position] of Object.entries(alch?.planetaryPositions ?? {})) {
+      if (position?.sign) positions[planet] = position.sign;
+    }
+    return {
+      ...localTime,
+      tableSize,
+      tableGlyphs,
+      elementalBias: composite?.vector ?? null,
+      isAuthenticated: authenticated,
+      planetaryHour: hydrated ? displayHour ?? undefined : undefined,
+      // The provider's placeholder lunar phase is deliberately not promoted
+      // to sky data. Callers may inject a sourced lunar phase via quizContext.
+      zodiacSign: positions.Sun,
+      planetaryPositions: Object.keys(positions).length ? positions : undefined,
+      planetaryESMS,
+      ...contextOverrides,
+    };
+  }, [alch?.planetaryPositions, localTime, tableSize, tableGlyphs, composite?.vector, authenticated, hydrated, displayHour, planetaryESMS, contextOverrides]);
 
   const submitAdd = () => {
     if (!bdayInput) return;
@@ -578,37 +574,11 @@ export function LiveHero() {
     }
   };
 
-  const answerQuiz = (optionIndex: number) => {
-    if (!quizAnswers || quizAnswers.length >= FIRST_MEAL_QUIZ.length) return;
-    const next = [...quizAnswers, optionIndex];
-    setQuizAnswers(next);
-    if (next.length === FIRST_MEAL_QUIZ.length) {
-      setSavedMeal(next);
-      saveMealAnswers(next);
-    }
-  };
-
   const addRowVisible = showAdd || (table.length === 0 && !chartOn);
-  const optionDot = (weights: Partial<Record<string, number>>) => {
-    let best = "Fire";
-    let bestW = -1;
-    for (const el of ELEMENT_ORDER) {
-      const w = weights[el] ?? 0;
-      if (w > bestW) {
-        best = el;
-        bestW = w;
-      }
-    }
-    return ELEMENT_TINTS[best];
-  };
-
-  const quizOpen = quizAnswers !== null;
-  // The render below is gated on quizAnswers.length < FIRST_MEAL_QUIZ.length,
-  // which TS cannot correlate with the lookup; binding the step once can.
-  const currentQuizStep = quizAnswers ? FIRST_MEAL_QUIZ[quizAnswers.length] : undefined;
   const singleGuest = tableSize === 1 && table.length === 1 ? table[0] : null;
 
   return (
+    <QuizProvider context={quizContext}>
     <section
       ref={sectionRef}
       className="alchm-lh"
@@ -808,214 +778,8 @@ export function LiveHero() {
         <span className="alchm-lh-rule" aria-hidden="true" />
       </div>
 
-      {quizOpen && currentQuizStep ? (
-        <div
-          key={`quiz-${quizAnswers.length}`}
-          className="alchm-lh-stage"
-          style={{ ["--q" as string]: GOLD }}
-        >
-          <div className="alchm-lh-panel is-quiz">
-            <div className="alchm-lh-quiz-head">
-              <span className="t-mono alchm-lh-kicker">
-                CRAFT TONIGHT&apos;S MEAL · QUESTION {quizAnswers.length + 1}{" "}
-                OF {FIRST_MEAL_QUIZ.length}
-              </span>
-              <span className="alchm-lh-segments" aria-hidden="true">
-                {FIRST_MEAL_QUIZ.map((q, i) => (
-                  <i
-                    key={q.id}
-                    className={i < quizAnswers.length ? "is-on" : undefined}
-                  />
-                ))}
-              </span>
-              <button
-                type="button"
-                className="t-mono alchm-lh-ghost"
-                onClick={() => setQuizAnswers(null)}
-              >
-                ✕ Cancel
-              </button>
-            </div>
-            <h3 className="alchm-lh-quiz-prompt">
-              {currentQuizStep.prompt}
-            </h3>
-            <div className="alchm-lh-quiz-opts">
-              {currentQuizStep.options.map((o, i) => (
-                <button
-                  key={o.label}
-                  type="button"
-                  className="alchm-lh-quiz-opt"
-                  style={{ ["--i" as string]: i }}
-                  onClick={() => answerQuiz(i)}
-                >
-                  <span className="alchm-lh-quiz-opt-copy">
-                    <span className="alchm-lh-quiz-opt-label">{o.label}</span>
-                    <span className="alchm-lh-quiz-opt-sub">{o.sub}</span>
-                  </span>
-                  <i
-                    className="alchm-lh-dot"
-                    style={{ background: optionDot(o.weights) }}
-                    aria-hidden="true"
-                  />
-                </button>
-              ))}
-            </div>
-            {tunedSuffix && (
-              <p className="t-mono alchm-lh-tuned">
-                TUNED{tunedSuffix.replace(" · tuned", "").toUpperCase()}
-              </p>
-            )}
-          </div>
-        </div>
-      ) : quizOpen && reading ? (
-        <div
-          key="result"
-          className="alchm-lh-stage"
-          style={{ ["--q" as string]: GOLD }}
-        >
-          <div className="alchm-lh-panel">
-            <div className="alchm-lh-stagehead">
-              <span className="t-mono alchm-lh-kicker">
-                TONIGHT&apos;S CRAFT
-              </span>
-              <span className="alchm-lh-stagehead-actions">
-                <button
-                  type="button"
-                  className="t-mono alchm-lh-ghost"
-                  onClick={() => setQuizAnswers([])}
-                >
-                  ⟲ Recraft
-                </button>
-                <button
-                  type="button"
-                  className="t-mono alchm-lh-ghost"
-                  onClick={() => setQuizAnswers(null)}
-                >
-                  ← All previews
-                </button>
-              </span>
-            </div>
-            <div className="alchm-lh-cols">
-              <div className="alchm-lh-col">
-                <div className="alchm-lh-dish">
-                  <span className="alchm-lh-dish-emoji" aria-hidden="true">
-                    {reading.meal.emoji}
-                  </span>
-                  <div>
-                    <h3 className="alchm-lh-dish-name">{reading.meal.name}</h3>
-                    <p className="t-mono alchm-lh-dish-chips">
-                      {reading.meal.cuisine.toUpperCase()} ·{" "}
-                      {reading.meal.method.toUpperCase()}
-                    </p>
-                  </div>
-                </div>
-                <p className="alchm-lh-story">{reading.meal.blurb}</p>
-                <div className="alchm-lh-stageacts">
-                  <Link
-                    href={`/recipes?cuisine=${reading.meal.cuisineSlug}`}
-                    className="alchm-lh-cta is-small"
-                  >
-                    See {reading.meal.cuisine} recipes →
-                  </Link>
-                  <Link
-                    href="/recipe-builder"
-                    className="alchm-lh-cta is-secondary is-small"
-                  >
-                    Build it my way
-                  </Link>
-                </div>
-              </div>
-              <div className="alchm-lh-col">
-                <div className="alchm-lh-example">
-                  <p className="t-mono alchm-lh-example-label">
-                    YOUR READING —{" "}
-                    {quizAnswers
-                      .map(
-                        (a, i) =>
-                          (FIRST_MEAL_QUIZ[i]?.options[a]?.label ?? "").split(
-                            " — ",
-                          )[0],
-                      )
-                      .join(" · ")
-                      .toUpperCase()}
-                    {tableSize > 0 ? ` · ${tableGlyphs}` : ""}
-                  </p>
-                  <div className="alchm-lh-stats">
-                    {ELEMENT_ORDER.map((el) => (
-                      <div
-                        key={el}
-                        className="alchm-lh-stat"
-                        style={{ ["--e" as string]: ELEMENT_TINTS[el] }}
-                      >
-                        <span className="t-mono alchm-lh-stat-label">{el}</span>
-                        <span className="alchm-lh-stat-track">
-                          <span
-                            className="alchm-lh-stat-bar"
-                            style={{ width: `${reading.pct[el]}%` }}
-                          />
-                        </span>
-                        <span className="t-mono alchm-lh-stat-pct">
-                          {reading.pct[el]}%
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {tableSize > 0 ? (
-                  <p className="alchm-lh-note">
-                    {chartOn
-                      ? `Tuned to your chart${table.length > 0 ? " and your table" : ""}.`
-                      : "Tuned to your table's sun signs. Want the full picture? "}
-                    {!chartOn && (
-                      <>
-                        <Link href="/onboarding" className="alchm-lh-link">
-                          Set up your chart →
-                        </Link>{" "}
-                        {!authenticated && (
-                          <Link
-                            href="/login"
-                            className="alchm-lh-link is-quiet"
-                          >
-                            or sign in to save readings
-                          </Link>
-                        )}
-                      </>
-                    )}
-                  </p>
-                ) : (
-                  <div className="alchm-lh-tunebox">
-                    <p className="alchm-lh-note">
-                      Add a birthday and this reading tunes to your table — no
-                      account needed.
-                    </p>
-                    <span className="alchm-lh-addrow">
-                      <input
-                        type="date"
-                        className="alchm-lh-input"
-                        aria-label="Your birthday"
-                        value={bdayInput}
-                        min="1900-01-01"
-                        max={localTodayIso()}
-                        onChange={(e) => setBdayInput(e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="t-mono alchm-lh-addgo"
-                        disabled={!bdayInput}
-                        onClick={() => {
-                          if (addTableMember(bdayInput)) setBdayInput("");
-                        }}
-                      >
-                        Tune it →
-                      </button>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : openTile ? (
+      <QuizSurface>
+      {openTile ? (
         <div
           key={openTile.id}
           className="alchm-lh-stage"
@@ -1192,35 +956,10 @@ export function LiveHero() {
         </div>
       )}
 
-      {/* ── Quiz bar ── */}
-      {!quizOpen && (
-        <button
-          type="button"
-          className="alchm-lh-quizbar"
-          onClick={() =>
-            savedMeal ? setQuizAnswers([...savedMeal]) : setQuizAnswers([])
-          }
-        >
-          <span className="alchm-lh-quizbar-copy">
-            <i className="alchm-lh-golddot" aria-hidden="true" />
-            {savedReading ? (
-              <span>
-                {savedReading.meal.emoji} {savedReading.meal.name}
-                <em> · {savedReading.meal.cuisine}</em>
-              </span>
-            ) : (
-              <span>
-                Craft tonight&apos;s meal — four taps, one dish
-                {tunedSuffix && <em>{tunedSuffix}</em>}
-              </span>
-            )}
-          </span>
-          <span className="t-mono alchm-lh-quizbar-go">
-            {savedMeal ? "View →" : "Start →"}
-          </span>
-        </button>
-      )}
+      </QuizSurface>
+      <QuizBar tunedSuffix={tunedSuffix} />
     </section>
+    </QuizProvider>
   );
 }
 
@@ -1689,60 +1428,6 @@ const heroStyles = `
   .alchm-lh-stageacts { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .alchm-lh-realnote { color: var(--fg-mute); font-size: 8.5px; letter-spacing: 0.1em; }
 
-  /* Quiz */
-  .alchm-lh-quiz-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .alchm-lh-segments { display: flex; gap: 5px; flex: 1; min-width: 90px; max-width: 160px; }
-  .alchm-lh-segments i {
-    flex: 1;
-    height: 5px;
-    border-radius: 3px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid var(--line-hi);
-  }
-  .alchm-lh-segments i.is-on { background: var(--q); border-color: var(--q); }
-  .alchm-lh-quiz-head .alchm-lh-ghost { margin-left: auto; }
-  .alchm-lh-quiz-prompt { margin: 0; color: var(--fg); font-size: clamp(18px, 2.4vw, 23px); font-weight: 700; letter-spacing: -0.02em; }
-  .alchm-lh-quiz-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .alchm-lh-quiz-opt {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 15px;
-    border: 1px solid var(--line-hi);
-    border-radius: 12px;
-    background: rgba(0,0,0,0.22);
-    cursor: pointer;
-    text-align: left;
-    transition: border-color 0.15s, background 0.15s;
-    animation: alchm-lh-in 0.25s ease-out backwards;
-    animation-delay: calc(var(--i, 0) * 45ms);
-  }
-  .alchm-lh-quiz-opt:hover {
-    border-color: color-mix(in oklch, var(--q), transparent 40%);
-    background: color-mix(in oklch, var(--q), transparent 95%);
-  }
-  .alchm-lh-quiz-opt-copy { display: grid; gap: 3px; }
-  .alchm-lh-quiz-opt-label { color: var(--fg); font-size: 13px; font-weight: 650; }
-  .alchm-lh-quiz-opt-sub { color: var(--fg-mute); font-size: 10.5px; }
-  .alchm-lh-dot {
-    flex-shrink: 0;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    box-shadow: 0 0 8px currentColor;
-  }
-  .alchm-lh-tuned {
-    margin: 0;
-    padding-top: 10px;
-    border-top: 1px solid var(--line);
-    color: var(--fg-mute);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-align: center;
-  }
-
-  /* Result */
   .alchm-lh-dish { display: flex; align-items: center; gap: 13px; }
   .alchm-lh-dish-emoji {
     display: inline-flex;
@@ -1770,53 +1455,8 @@ const heroStyles = `
     background: color-mix(in oklch, var(--q), transparent 94%);
   }
 
-  /* Quiz bar */
-  .alchm-lh-quizbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    padding: 11px 16px;
-    border: 1px solid rgba(251,191,36,0.25);
-    border-radius: 11px;
-    background: rgba(251,191,36,0.06);
-    cursor: pointer;
-    text-align: left;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .alchm-lh-quizbar:hover { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.4); }
-  .alchm-lh-quizbar-copy {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-    color: var(--fg);
-    font-size: 12.5px;
-    font-weight: 600;
-  }
-  .alchm-lh-quizbar-copy em { color: var(--fg-mute); font-style: normal; font-weight: 500; font-size: 11.5px; }
-  .alchm-lh-golddot {
-    flex-shrink: 0;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fbbf24;
-  }
-  .alchm-lh-quizbar-go {
-    flex-shrink: 0;
-    padding: 8px 14px;
-    border: 1px solid rgba(251,191,36,0.35);
-    border-radius: 8px;
-    background: rgba(251,191,36,0.14);
-    color: #fbbf24;
-    font-size: 10px;
-    font-weight: 750;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .alchm-lh-tile, .alchm-lh-stage, .alchm-lh-quiz-opt,
+    .alchm-lh-tile, .alchm-lh-stage,
     .alchm-lh-stat-bar, .alchm-lh-livedot { animation: none; }
   }
   @media (max-width: 980px) {
@@ -1835,8 +1475,6 @@ const heroStyles = `
     .alchm-lh-actions { flex-direction: column; align-items: stretch; }
     .alchm-lh-tile { min-height: 92px; padding: 11px 12px; }
     .alchm-lh-livechip-name { display: none; }
-    .alchm-lh-quiz-opts { grid-template-columns: 1fr; }
     .alchm-lh-panel { padding: 15px 14px; }
-    .alchm-lh-quizbar { flex-wrap: wrap; }
   }
 `;

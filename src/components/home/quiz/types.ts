@@ -23,18 +23,12 @@ export interface QuizContext {
   /** Authoritative planetary quantities, never inferred from quiz answers. */
   planetaryESMS?: ESMSVector;
 }
-
-export type QuizBranchCondition = (
-  answers: QuizAnswers,
-  context: QuizContext,
-) => boolean;
-
+export type QuizBranchCondition = (answers: QuizAnswers, context: QuizContext) => boolean;
 export interface QuizOptionWeight {
   elements: Partial<ElementVector>;
-  /** Culinary preference axes only; these are not planetary measurements. */
+  /** Culinary preferences only; never planetary measurements. */
   esms?: Partial<ESMSVector>;
 }
-
 export interface QuizOption {
   id: string;
   label: string;
@@ -44,10 +38,8 @@ export interface QuizOption {
   cookingMethodTag?: string;
   textureTag?: string;
   condition?: QuizBranchCondition;
-  /** "None" clears other selections in a multiple-selection question. */
   exclusive?: boolean;
 }
-
 export interface QuizQuestion {
   id: string;
   tier: 1 | 2 | 3 | 4 | 5;
@@ -59,7 +51,6 @@ export interface QuizQuestion {
   condition?: QuizBranchCondition;
   isQuickQuestion?: boolean;
 }
-
 export interface QuizPreferences {
   dietaryStyle: "unrestricted" | "vegetarian" | "vegan" | "pescatarian";
   excludedAllergens: readonly string[];
@@ -70,20 +61,14 @@ export interface QuizPreferences {
   proteinFocus: string | null;
   servings: number;
   spiceLevel: "mild" | "medium" | "hot";
-  selectedOptions: readonly {
-    questionId: string;
-    question: string;
-    optionId: string;
-    label: string;
-  }[];
+  selectedOptions: readonly { questionId: string; question: string; optionId: string; label: string }[];
 }
-
 export interface QuizReading {
   totals: ElementVector;
   pct: ElementVector;
   dominant: PalateElement;
   secondary: PalateElement;
-  /** Preference totals; explicitly separate from context.planetaryESMS. */
+  /** Preference totals, explicitly separate from context.planetaryESMS. */
   esmsTotals: ESMSVector;
   meal: {
     name: string;
@@ -99,7 +84,6 @@ export interface QuizReading {
   preferences: QuizPreferences;
   tunedDescription: string;
 }
-
 export interface QuizState {
   mode: QuizMode;
   questionLimit: QuizQuestionLimit;
@@ -111,7 +95,6 @@ export interface QuizState {
   direction: 1 | -1;
   hydrated: boolean;
 }
-
 export type QuizAction =
   | { type: "HYDRATE"; state: QuizState | null }
   | { type: "START" }
