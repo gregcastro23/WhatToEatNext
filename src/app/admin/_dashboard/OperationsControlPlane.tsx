@@ -32,12 +32,13 @@ const MAINTENANCE_COLOR = {
 const CRON_STATE_COLOR = {
   ok: "var(--el-earth)",
   late: "var(--accent-2)",
+  retrying: "var(--accent-2)",
   failing: "#FF5252",
   never: "var(--fg-mute)",
 } as const;
 
 // Worst-first so the header chip surfaces the most urgent entry.
-const CRON_STATE_RANK = ["failing", "late", "never", "ok"] as const;
+const CRON_STATE_RANK = ["failing", "late", "retrying", "never", "ok"] as const;
 
 function statusColor(status: OperationsStatus): string {
   return STATUS_COLOR[status];
