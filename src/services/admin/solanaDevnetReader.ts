@@ -59,19 +59,33 @@ async function readConfig(m: Devnet): Promise<DevnetState["config"]> {
   return decoded ? { ...decoded, pda: m.programConfigPda } : null;
 }
 
-async function readMint(mint: Devnet["mints"][number]): Promise<SolanaMintLive> {
-  const [supply, largest] = await Promise.all([
-    settle(rpc(DEVNET_RPC, "getTokenSupply", [mint.address], TokenSupplySchema)),
-    settle(rpc(DEVNET_RPC, "getTokenLargestAccounts", [mint.address], LargestAccountsSchema)),
+/**
+ * Holder counts come from getTokenLargestAccounts, which the public devnet
+ * RPC rate-limits PER METHOD (HTTP 429). The calls therefore run one after
+ * another rather than four at once; a 429 still leaves the count null.
+ */
+async function readHolders(mints: Devnet["mints"]): Promise<Array<number | null>> {
+  const counts: Array<number | null> = [];
+  for (const mint of mints) {
+    const largest = await settle(rpc(DEVNET_RPC, "getTokenLargestAccounts", [mint.address], LargestAccountsSchema));
+    counts.push(largest ? largest.value.filter((a) => a.amount !== "0").length : null);
+  }
+  return counts;
+}
+
+async function readMints(mints: Devnet["mints"]): Promise<SolanaMintLive[]> {
+  const [supplies, holders] = await Promise.all([
+    Promise.all(mints.map((m) => settle(rpc(DEVNET_RPC, "getTokenSupply", [m.address], TokenSupplySchema)))),
+    readHolders(mints),
   ]);
-  return {
+  return mints.map((mint, i) => ({
     symbol: mint.symbol,
     address: mint.address,
     decimals: mint.decimals,
-    supply: supply?.value.uiAmountString ?? null,
-    holdersTop20: largest ? largest.value.filter((a) => a.amount !== "0").length : null,
+    supply: supplies[i]?.value.uiAmountString ?? null,
+    holdersTop20: holders[i] ?? null,
     explorerUrl: explorerUrl("address", mint.address, "devnet"),
-  };
+  }));
 }
 
 async function readPool(ref: { pda: string }, programId: string): Promise<SolanaPoolLive | null> {
@@ -147,7 +161,7 @@ async function readLiveDevnet(m: Devnet, manifests: SolanaManifests): Promise<Pa
     readProgram(m),
     readConfig(m),
     solBalance(DEVNET_RPC, m.deployer),
-    Promise.all(m.mints.map(readMint)),
+    readMints(m.mints),
     Promise.all((manifests.audit?.ammPools ?? []).map((ref) => readPool(ref, m.programId))),
     readGovernance(manifests.governance),
     readActivity(m.programId),

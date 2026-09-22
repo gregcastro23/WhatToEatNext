@@ -26,7 +26,7 @@ const TONE_CLASS: Record<Tone, string> = {
 
 const TONE_GLYPH: Record<Tone, string> = { ok: "✓", warn: "!", bad: "✕", neutral: "•", info: "i" };
 
-export function Pill({ tone, children, title }: { tone: Tone; children: React.ReactNode; title?: string | undefined }): React.JSX.Element {
+export function Pill({ tone, children, title }: { tone: Tone; children: React.ReactNode; title?: string }): React.JSX.Element {
   return (
     <span
       title={title}

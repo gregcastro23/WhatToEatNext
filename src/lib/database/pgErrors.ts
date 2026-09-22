@@ -10,5 +10,5 @@
  * the two call for different operator actions.
  */
 export function isMissingRelation(err: unknown): boolean {
-  return typeof err === "object" && err !== null && (err as { code?: unknown }).code === "42P01";
+  return typeof err === "object" && err !== null && "code" in err && err.code === "42P01";
 }

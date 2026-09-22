@@ -8,7 +8,7 @@
 
 import React from "react";
 import { fmtAgo, fmtInt, shortAddress } from "@/components/admin/live/format";
-import { Absent, ExternalLink, Panel, Pill, Stat, StatGrid } from "@/components/admin/live/primitives";
+import { Absent, ExternalLink, Panel, Pill, Stat, StatGrid, type Tone } from "@/components/admin/live/primitives";
 import type { BaseView } from "@/lib/admin/schemas/chain";
 
 function claimTotal(b: BaseView): string | null {
@@ -17,14 +17,24 @@ function claimTotal(b: BaseView): string | null {
   return fmtInt(t.spirit + t.essence + t.matter + t.substance);
 }
 
+function pendingStat(base: BaseView): { value: string | null; sub: string; tone: Tone } {
+  if (base.claims.status !== "live") return { value: null, sub: `claims ledger: ${base.claims.status}`, tone: "neutral" };
+  const pending = base.claims.byStatus.pending ?? 0;
+  const hours = base.claims.oldestPendingHours;
+  return {
+    value: fmtInt(pending),
+    sub: hours === null ? "none stuck" : `oldest ${hours.toFixed(1)}h`,
+    tone: pending > 0 ? "warn" : "ok",
+  };
+}
+
 export function BaseKpis({ base }: { base: BaseView }): React.JSX.Element {
   const live = base.claims.status === "live";
-  const pending = base.claims.byStatus.pending ?? 0;
   return (
     <StatGrid>
       <Stat label={base.chain} value={base.reachable ? "reachable" : "down"} sub={base.blockNumber ? `block ${Number(base.blockNumber).toLocaleString("en-US")}` : (base.error ?? "")} tone={base.reachable ? "ok" : "bad"} />
       <Stat label="Claims minted" value={live ? fmtInt(base.claims.byStatus.minted ?? 0) : null} sub={live ? `${fmtInt(base.claims.last30d)} claims in 30d` : `claims ledger: ${base.claims.status}`} />
-      <Stat label="Claims pending" value={live ? fmtInt(pending) : null} sub={base.claims.oldestPendingHours === null ? "none stuck" : `oldest ${base.claims.oldestPendingHours.toFixed(1)}h`} tone={pending > 0 ? "warn" : "ok"} />
+      <Stat label="Claims pending" {...pendingStat(base)} />
       <Stat label="ESMS moved on-chain" value={claimTotal(base)} sub="sum of all four tokens across minted claims" />
       <Stat label="Recipe NFTs" value={base.recipeMints.status === "live" ? fmtInt(base.recipeMints.byStatus.minted ?? 0) : null} sub={base.recipeNftEnabled ? `minting enabled · ${base.recipeMints.last30d} requests 30d` : "minting disabled"} />
     </StatGrid>
@@ -58,6 +68,8 @@ export function OperatorWallets({ base }: { base: BaseView }): React.JSX.Element
   );
 }
 
+const CLAIM_TONE: Record<string, Tone> = { minted: "ok", pending: "warn", refunded: "neutral" };
+
 export function RecentClaims({ base }: { base: BaseView }): React.JSX.Element {
   const { claims } = base;
   return (
@@ -70,7 +82,7 @@ export function RecentClaims({ base }: { base: BaseView }): React.JSX.Element {
             <li key={`${c.at}-${c.txHash ?? c.status}`} className="flex items-center justify-between gap-2">
               <span className="text-gray-500">{fmtAgo(c.at)}</span>
               {c.txHash ? <ExternalLink href={`${base.explorer}/tx/${c.txHash}`}><span className="font-mono">{shortAddress(c.txHash)}</span></ExternalLink> : <span className="text-gray-400">no tx</span>}
-              <Pill tone={c.status === "minted" ? "ok" : c.status === "pending" ? "warn" : "neutral"}>{c.status}</Pill>
+              <Pill tone={CLAIM_TONE[c.status] ?? "neutral"}>{c.status}</Pill>
             </li>
           ))}
         </ul>

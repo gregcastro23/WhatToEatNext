@@ -23,7 +23,7 @@ function ChargeRow({ c }: { c: Charge }): React.JSX.Element {
       <td className="px-3 py-2 whitespace-nowrap text-gray-500" title={fmtDateTime(c.created)}>{fmtAgo(c.created)}</td>
       <td className="px-3 py-2 font-mono text-gray-900">{fmtMoney(c.amount, c.currency)}</td>
       <td className="px-3 py-2">
-        <Pill tone={STATUS_TONE[c.status] ?? "neutral"} title={c.failureMessage ?? undefined}>{c.status}</Pill>
+        <Pill tone={STATUS_TONE[c.status] ?? "neutral"} title={c.failureMessage ?? c.status}>{c.status}</Pill>
         {refunded && <span className="ml-1 text-[10px] text-amber-700">refunded {fmtMoney(c.amountRefunded, c.currency)}</span>}
       </td>
       <td className="px-3 py-2 text-gray-700">{c.purpose ?? "—"}</td>

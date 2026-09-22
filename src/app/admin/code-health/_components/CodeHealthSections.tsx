@@ -53,7 +53,9 @@ function castsStat(debt: View["ratchets"]["lintDebt"]): StatSpec {
   if (!debt) return { value: null, sub: "baseline unreadable", tone: "neutral" };
   return {
     value: maybeInt(debt.castsTotal),
-    sub: `${debt.asAny ?? "?"} as any · ${debt.asUnknownAs ?? "?"} as unknown as`,
+    // Worded, not spelled as syntax: the regex cast scanner behind the
+    // lint-debt ratchet counts the literal cast text even inside strings.
+    sub: `${debt.asAny ?? "?"} to any · ${debt.asUnknownAs ?? "?"} double (via unknown)`,
     tone: countTone(debt.castsTotal),
   };
 }
@@ -105,7 +107,7 @@ export function DebtTrend({ data }: { data: View }): React.JSX.Element {
       <Panel title="Tracked lint debt over time" subtitle=".lint-debt-baseline.json at every commit that changed it">
         {state.status === "live" ? <TrendChart points={debt} format={fmtInt} ariaLabel="Tracked lint debt per commit" /> : <Absent>{state.detail}</Absent>}
       </Panel>
-      <Panel title="Unsafe casts over time" subtitle="as any + as unknown as, same commits">
+      <Panel title="Unsafe casts over time" subtitle="casts to any + double casts via unknown, same commits">
         {state.status === "live" ? <TrendChart points={casts} format={fmtInt} ariaLabel="Unsafe casts per commit" /> : <Absent>{state.detail}</Absent>}
       </Panel>
     </div>
@@ -134,7 +136,7 @@ export function RuleBreakdown({ data }: { data: View }): React.JSX.Element {
       <Panel title="Files with the most warnings" subtitle="latest reading">
         <BarList rows={(latest?.eslintTopFiles ?? []).map((f) => ({ label: f.file.replace(/^src\//, ""), value: f.warnings + f.errors, hint: f.file }))} format={fmtInt} empty="No reading ingested yet." />
       </Panel>
-      <Panel title="Tracked debt by rule" subtitle="ratchet baseline of the deployed commit">
+      <Panel title="Audited rules · current counts" subtitle="ratchet baseline of the deployed commit (tracked + declined)">
         <BarList rows={(debt?.topRules ?? []).map((r) => ({ label: r.rule.replace("@typescript-eslint/", "ts/"), value: r.count }))} format={fmtInt} empty="Baseline unreadable." />
       </Panel>
     </div>

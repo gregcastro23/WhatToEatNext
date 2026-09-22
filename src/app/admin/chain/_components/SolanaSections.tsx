@@ -69,7 +69,10 @@ export function MintsTable({ devnet }: { devnet: Devnet }): React.JSX.Element {
           </tbody>
         </table>
       )}
-      <p className="mt-2 text-[10px] text-gray-500">*non-empty accounts among the 20 largest (RPC limit)</p>
+      <p className="mt-2 text-[10px] text-gray-500">
+        *non-empty accounts among the 20 largest. The public devnet RPC rate-limits this call, so it can read &ldquo;—&rdquo;;
+        set SOLANA_DEVNET_RPC_URL to a private RPC for reliable counts.
+      </p>
     </Panel>
   );
 }
