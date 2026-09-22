@@ -3,8 +3,8 @@
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
-import { readJson } from "@/lib/api/json";
 import UserInsightsPanel from "@/components/admin/UserInsightsPanel";
+import { readJson } from "@/lib/api/json";
 import { looseIncludes } from "@/utils/searchNormalize";
 import GrantTokensModal, {
   type GrantTarget,
