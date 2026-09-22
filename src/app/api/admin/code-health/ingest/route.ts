@@ -14,10 +14,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { _logger } from "@/lib/logger";
-import {
-  CodeHealthSnapshotInputSchema,
-  ingestCodeHealthSnapshot,
-} from "@/services/admin/codeHealthService";
+import { CodeHealthSnapshotInputSchema, ingestCodeHealthSnapshot } from "@/services/admin/codeHealthIngest";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -31,7 +28,7 @@ function authorized(request: NextRequest): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!authorized(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }

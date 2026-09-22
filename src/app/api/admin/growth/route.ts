@@ -18,7 +18,7 @@ import { getUserGrowth } from "@/services/admin/userGrowthService";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
 

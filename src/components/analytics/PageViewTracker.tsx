@@ -46,7 +46,7 @@ function send(payload: Record<string, unknown>): void {
   } catch {
     // fall through to fetch
   }
-  void fetch(ENDPOINT, {
+  fetch(ENDPOINT, {
     method: "POST",
     body,
     headers: { "content-type": "application/json" },

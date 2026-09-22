@@ -32,38 +32,48 @@ export interface UserAgentClass {
 const BOT_PATTERN =
   /\bbot\b|bot\/|bot;|crawl|spider|slurp|facebookexternalhit|embedly|quora link preview|whatsapp|telegrambot|discordbot|slackbot|linkedinbot|pinterest|vercel-screenshot|lighthouse|pagespeed|headlesschrome|phantomjs|puppeteer|playwright|selenium|curl\/|wget\/|python-requests|axios\/|node-fetch|go-http-client|okhttp|java\/|uptime|monitor|pingdom|statuscake|preview/i;
 
+/** First match wins; order matters where UAs overlap. */
+const OS_RULES: ReadonlyArray<readonly [RegExp, string]> = [
+  [/iphone|ipod/i, "iOS"],
+  [/ipad/i, "iPadOS"],
+  [/android/i, "Android"],
+  [/windows/i, "Windows"],
+  [/cros/i, "ChromeOS"],
+  [/macintosh|mac os x/i, "macOS"],
+  [/linux|x11/i, "Linux"],
+];
+
+/** Edge and Opera also say "Chrome"; Chrome also says "Safari". */
+const BROWSER_RULES: ReadonlyArray<readonly [RegExp, string]> = [
+  [/edg(e|a|ios)?\//i, "Edge"],
+  [/opr\/|opera/i, "Opera"],
+  [/samsungbrowser/i, "Samsung Internet"],
+  [/firefox\/|fxios\//i, "Firefox"],
+  [/chrome\/|crios\//i, "Chrome"],
+  [/safari\//i, "Safari"],
+];
+
+function firstMatch(agent: string, rules: ReadonlyArray<readonly [RegExp, string]>): string | null {
+  return rules.find(([pattern]) => pattern.test(agent))?.[1] ?? null;
+}
+
+function deviceTypeOf(agent: string): DeviceType {
+  const androidTablet = /android/i.test(agent) && !/mobile/i.test(agent);
+  if (/ipad|tablet/i.test(agent) || androidTablet) return "tablet";
+  return /mobi|iphone|ipod|android/i.test(agent) ? "mobile" : "desktop";
+}
+
 export function classifyUserAgent(ua: string | null | undefined): UserAgentClass {
   const agent = (ua ?? "").trim();
   if (agent.length === 0 || BOT_PATTERN.test(agent)) {
     return { deviceType: "bot", browser: null, os: null, isBot: true };
   }
-
-  let os: string | null = null;
-  if (/iphone|ipod/i.test(agent)) os = "iOS";
-  else if (/ipad/i.test(agent)) os = "iPadOS";
-  else if (/android/i.test(agent)) os = "Android";
-  else if (/windows/i.test(agent)) os = "Windows";
-  else if (/cros/i.test(agent)) os = "ChromeOS";
-  else if (/macintosh|mac os x/i.test(agent)) os = "macOS";
-  else if (/linux|x11/i.test(agent)) os = "Linux";
-
-  // Order matters: Edge and Opera also say "Chrome", Chrome also says "Safari".
-  let browser: string | null = null;
-  if (/edg(e|a|ios)?\//i.test(agent)) browser = "Edge";
-  else if (/opr\/|opera/i.test(agent)) browser = "Opera";
-  else if (/samsungbrowser/i.test(agent)) browser = "Samsung Internet";
-  else if (/firefox\/|fxios\//i.test(agent)) browser = "Firefox";
-  else if (/chrome\/|crios\//i.test(agent)) browser = "Chrome";
-  else if (/safari\//i.test(agent)) browser = "Safari";
-
-  let deviceType: DeviceType = "desktop";
-  if (/ipad|tablet/i.test(agent) || (/android/i.test(agent) && !/mobile/i.test(agent))) {
-    deviceType = "tablet";
-  } else if (/mobi|iphone|ipod|android/i.test(agent)) {
-    deviceType = "mobile";
-  }
-
-  return { deviceType, browser, os, isBot: false };
+  return {
+    deviceType: deviceTypeOf(agent),
+    browser: firstMatch(agent, BROWSER_RULES),
+    os: firstMatch(agent, OS_RULES),
+    isBot: false,
+  };
 }
 
 /**
@@ -96,7 +106,7 @@ export function externalReferrerHost(
  * collapse; the result is capped so a hostile beacon cannot store megabytes.
  */
 export function normalizePath(raw: string): string | null {
-  if (typeof raw !== "string" || !raw.startsWith("/")) return null;
+  if (!raw.startsWith("/")) return null;
   const pathOnly = raw.split(/[?#]/)[0] ?? "/";
   let decoded = pathOnly;
   try {

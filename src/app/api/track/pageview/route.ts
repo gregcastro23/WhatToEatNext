@@ -61,9 +61,11 @@ const HASH_SECRET = createHash("sha256")
   .digest("hex");
 
 function clientIp(request: NextRequest): string {
-  const xff = request.headers.get("x-forwarded-for");
-  const first = xff?.split(",")[0]?.trim();
-  return first || request.headers.get("x-real-ip")?.trim() || "unknown";
+  const candidates = [
+    request.headers.get("x-forwarded-for")?.split(",")[0],
+    request.headers.get("x-real-ip"),
+  ];
+  return candidates.map((c) => c?.trim() ?? "").find((c) => c.length > 0) ?? "unknown";
 }
 
 function decodedHeader(request: NextRequest, name: string, max: number): string | null {
@@ -73,7 +75,8 @@ function decodedHeader(request: NextRequest, name: string, max: number): string 
     const value = decodeURIComponent(raw).trim();
     return value.length > 0 ? value.slice(0, max) : null;
   } catch {
-    return raw.trim().slice(0, max) || null;
+    const trimmed = raw.trim().slice(0, max);
+    return trimmed.length > 0 ? trimmed : null;
   }
 }
 
@@ -97,7 +100,7 @@ async function sessionUserId(): Promise<string | null> {
 
 const NO_CONTENT = (): NextResponse => new NextResponse(null, { status: 204 });
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   // Another site's page posting here is not a visit to this one. (Absent
   // header is allowed: Safari < 16.4 does not send Sec-Fetch-Site at all.)
   if (request.headers.get("sec-fetch-site") === "cross-site") return NO_CONTENT();

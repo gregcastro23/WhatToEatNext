@@ -12,14 +12,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
-import { getTrafficSummary, type TrafficRange } from "@/services/admin/trafficAnalyticsService";
+import { getTrafficSummary } from "@/services/admin/trafficAnalyticsService";
+import type { TrafficRange } from "@/services/admin/trafficTypes";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const RANGES: readonly TrafficRange[] = ["24h", "7d", "30d"];
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
 

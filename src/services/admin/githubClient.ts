@@ -28,6 +28,11 @@ export const SOLANA_REPO = process.env.ADMIN_SOLANA_REPO ?? "gregcastro23/alchm-
 
 const TIMEOUT_MS = 6_000;
 
+/** How a GitHub-backed section reports itself when it has no data. */
+export type SourceState =
+  | { status: "live" }
+  | { status: "rate-limited" | "error" | "not-found"; detail: string };
+
 export type GithubResult<T> =
   | { ok: true; data: T }
   | { ok: false; reason: "rate-limited" | "not-found" | "error"; detail: string };

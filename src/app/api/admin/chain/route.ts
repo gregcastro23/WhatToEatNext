@@ -13,12 +13,13 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
-import { getBaseProgress, getSolanaProgress } from "@/services/admin/chainProgressService";
+import { getBaseProgress } from "@/services/admin/baseProgressService";
+import { getSolanaProgress } from "@/services/admin/solanaProgressService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
 
