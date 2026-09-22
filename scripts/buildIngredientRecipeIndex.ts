@@ -45,8 +45,8 @@ interface RecipeMatch {
   recipeName: string;
   cuisine: string;
   rawIngredientName: string;
-  amount?: number | string;
-  unit?: string;
+  amount?: number | string | undefined;
+  unit?: string | undefined;
 }
 
 interface UnmatchedIngredientUsage {
@@ -140,7 +140,7 @@ interface RawRecipe {
   id: string;
   name: string;
   cuisine: string;
-  ingredients: Array<{ name: string; amount?: number | string; unit?: string }>;
+  ingredients: Array<{ name: string; amount?: number | string | undefined; unit?: string | undefined }>;
 }
 
 function collectRecipes(project: Project): RawRecipe[] {

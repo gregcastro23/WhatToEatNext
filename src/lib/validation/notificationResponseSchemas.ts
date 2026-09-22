@@ -60,6 +60,19 @@ export function toDomainNotification(wire: UserNotificationWire): UserNotificati
   };
 }
 
+export const NotificationListEnvelopeSchema = z
+  .object({
+    success: z.boolean().optional(),
+    notifications: z.array(z.unknown()).optional().default([]),
+    unreadCount: z.number().optional().default(0),
+    total: z.number().optional(),
+  })
+  .passthrough();
+
+export type NotificationListEnvelopeWire = z.infer<
+  typeof NotificationListEnvelopeSchema
+>;
+
 export const NotificationListResponseSchema = z
   .object({
     success: z.boolean().optional(),

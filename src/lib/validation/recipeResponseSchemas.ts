@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { LunarPhase } from "@/types/alchemy";
+import type { RecipeIngredient } from "@/types/recipe";
 import { AlchemicalElementalPropertiesSchema } from "./alchemicalBackendSchemas";
 
 /**
@@ -61,9 +63,7 @@ export const RecipeExtractApiResponseSchema = z.union([
   RecipeExtractRawErrorSchema,
 ]);
 
-export type RecipeExtractApiResponse = z.infer<
-  typeof RecipeExtractApiResponseSchema
->;
+export type RecipeExtractApiResponse = z.infer<typeof RecipeExtractApiResponseSchema>;
 
 /**
  * Saved Recipe Schema (custom recipe list DTO)
@@ -110,9 +110,7 @@ export const CustomRecipesListResponseSchema = z.union([
   CustomRecipesListErrorSchema,
 ]);
 
-export type CustomRecipesListResponse = z.infer<
-  typeof CustomRecipesListResponseSchema
->;
+export type CustomRecipesListResponse = z.infer<typeof CustomRecipesListResponseSchema>;
 
 /**
  * Custom Recipe Save Wire Response Schema
@@ -150,9 +148,7 @@ export const CustomRecipeSaveWireResponseSchema = z.union([
   CustomRecipeSaveErrorSchema,
 ]);
 
-export type CustomRecipeSaveWireResponse = z.infer<
-  typeof CustomRecipeSaveWireResponseSchema
->;
+export type CustomRecipeSaveWireResponse = z.infer<typeof CustomRecipeSaveWireResponseSchema>;
 
 /**
  * Coin Amounts Schema for Recipe NFT
@@ -178,11 +174,7 @@ export const MintQuoteResponseSchema = z
     quote: z
       .object({
         liveCost: CoinAmountsSchema,
-        swap: z
-          .object({
-            rulingHourPlanet: z.string(),
-          })
-          .passthrough(),
+        swap: z.object({ rulingHourPlanet: z.string() }).passthrough(),
       })
       .passthrough(),
   })
@@ -194,9 +186,7 @@ export const MintWireSuccessResponseSchema = z
   .object({
     success: z.literal(true),
     mintId: z.string().optional(),
-    status: z
-      .enum(["pending_chain", "minting", "minted", "failed"])
-      .optional(),
+    status: z.enum(["pending_chain", "minting", "minted", "failed"]).optional(),
     pending: z.boolean().optional(),
     reason: z.string().optional(),
     cost: CoinAmountsSchema.optional(),
@@ -214,9 +204,7 @@ export const MintWireErrorResponseSchema = z
     success: z.literal(false).optional(),
     error: z.string(),
     detail: z.string().optional(),
-    status: z
-      .enum(["pending_chain", "minting", "minted", "failed"])
-      .optional(),
+    status: z.enum(["pending_chain", "minting", "minted", "failed"]).optional(),
     pending: z.boolean().optional(),
     cost: CoinAmountsSchema.optional(),
     weightedToCoin: z.string().nullable().optional(),
@@ -232,3 +220,77 @@ export const MintWireResponseSchema = z.union([
 ]);
 
 export type MintWireResponse = z.infer<typeof MintWireResponseSchema>;
+
+export const ElementalPropertiesSchema = z.object({
+  Fire: z.number(),
+  Water: z.number(),
+  Earth: z.number(),
+  Air: z.number(),
+});
+
+const SEASONS = ["spring", "summer", "autumn", "fall", "winter", "all"] as const;
+export const SeasonEnum = z.enum(SEASONS);
+
+const LUNAR_PHASE_MAP: Record<string, LunarPhase> = {
+  "new moon": "new moon", "waxing crescent": "waxing crescent", "first quarter": "first quarter", "waxing gibbous": "waxing gibbous",
+  "full moon": "full moon", "waning gibbous": "waning gibbous", "last quarter": "last quarter", "waning crescent": "waning crescent",
+  "new_moon": "new moon", "waxing_crescent": "waxing crescent", "first_quarter": "first quarter", "waxing_gibbous": "waxing gibbous",
+  "full_moon": "full moon", "waning_gibbous": "waning gibbous", "last_quarter": "last quarter", "waning_crescent": "waning crescent",
+};
+
+export const LunarPhaseEnum: z.ZodType<LunarPhase> = z.string().transform((v, ctx): LunarPhase => {
+  const mapped = LUNAR_PHASE_MAP[v];
+  if (!mapped) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Invalid lunar phase: ${v}` });
+    return z.NEVER;
+  }
+  return mapped;
+});
+
+export const RecipeIngredientSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string(),
+    amount: z.number(),
+    unit: z.string(),
+    category: z.string().optional(),
+    optional: z.boolean().optional(),
+    preparation: z.string().optional(),
+    notes: z.string().optional(),
+    function: z.string().optional(),
+    asin: z.string().optional(),
+    cookingPoint: z.string().optional(),
+    substitutes: z.array(z.string()).optional(),
+    elementalProperties: ElementalPropertiesSchema.optional(),
+    seasonality: z.union([SeasonEnum, z.array(SeasonEnum)]).optional(),
+    zodiacInfluences: z.array(z.any()).optional(),
+    planetaryInfluences: z.array(z.string()).optional(),
+    lunarPhaseInfluences: z.array(LunarPhaseEnum).optional(),
+  })
+  .passthrough();
+
+export type RecipeIngredientWire = z.infer<typeof RecipeIngredientSchema>;
+
+export function toDomainRecipeIngredient(wire: RecipeIngredientWire): RecipeIngredient {
+  const result: RecipeIngredient = {
+    name: wire.name,
+    amount: wire.amount,
+    unit: wire.unit,
+  };
+  if (wire.id !== undefined) result.id = wire.id;
+  if (wire.category !== undefined) result.category = wire.category;
+  if (wire.optional !== undefined) result.optional = wire.optional;
+  if (wire.preparation !== undefined) result.preparation = wire.preparation;
+  if (wire.notes !== undefined) result.notes = wire.notes;
+  if (wire.function !== undefined) result.function = wire.function;
+  if (wire.asin !== undefined) result.asin = wire.asin;
+  if (wire.cookingPoint !== undefined) result.cookingPoint = wire.cookingPoint;
+  if (wire.substitutes !== undefined) result.substitutes = wire.substitutes;
+  if (wire.elementalProperties !== undefined) result.elementalProperties = wire.elementalProperties;
+  if (wire.seasonality !== undefined) result.seasonality = wire.seasonality;
+  if (wire.zodiacInfluences !== undefined) result.zodiacInfluences = wire.zodiacInfluences;
+  if (wire.planetaryInfluences !== undefined) result.planetaryInfluences = wire.planetaryInfluences;
+  if (wire.lunarPhaseInfluences !== undefined) result.lunarPhaseInfluences = wire.lunarPhaseInfluences;
+  return result;
+}
+

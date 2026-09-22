@@ -175,6 +175,8 @@ describe("compareSubBaseline", () => {
       },
       looseOptionality: {
         total: 462,
+        domain: 300,
+        wire: 162,
         production: 462,
         test: 0,
       },
@@ -440,37 +442,69 @@ describe("compareAssertionSites", () => {
 });
 
 describe("compareLooseOptionality", () => {
-  const base = { total: 462, production: 462, test: 0 };
+  const base = { total: 462, domain: 300, wire: 162, production: 462, test: 0 };
 
   it("allows loose optionality to stay equal or decrease", () => {
     expect(compareLooseOptionality(base, base)).toEqual({
       exceedsBaseline: false,
       totalIncreasedBy: 0,
+      domainIncreasedBy: 0,
+      wireIncreasedBy: 0,
       productionIncreasedBy: 0,
     });
-    expect(compareLooseOptionality({ total: 450, production: 450, test: 0 }, base)).toEqual({
+    expect(compareLooseOptionality({ total: 450, domain: 290, wire: 160, production: 450, test: 0 }, base)).toEqual({
       exceedsBaseline: false,
       totalIncreasedBy: 0,
+      domainIncreasedBy: 0,
+      wireIncreasedBy: 0,
       productionIncreasedBy: 0,
     });
   });
 
   it("fails when loose optionality total increases", () => {
-    expect(compareLooseOptionality({ total: 463, production: 463, test: 0 }, base)).toEqual({
+    expect(compareLooseOptionality({ total: 463, domain: 301, wire: 162, production: 463, test: 0 }, base)).toEqual({
       exceedsBaseline: true,
       totalIncreasedBy: 1,
+      domainIncreasedBy: 1,
+      wireIncreasedBy: 0,
       productionIncreasedBy: 1,
     });
   });
 
   it("fails when production loose optionality increases even if total is flat", () => {
-    const baseWithTest = { total: 462, production: 450, test: 12 };
+    const baseWithTest = { total: 462, domain: 300, wire: 150, production: 450, test: 12 };
     expect(
-      compareLooseOptionality({ total: 462, production: 455, test: 7 }, baseWithTest),
+      compareLooseOptionality({ total: 462, domain: 300, wire: 155, production: 455, test: 7 }, baseWithTest),
     ).toEqual({
       exceedsBaseline: true,
       totalIncreasedBy: 0,
+      domainIncreasedBy: 0,
+      wireIncreasedBy: 5,
       productionIncreasedBy: 5,
+    });
+  });
+
+  it("fails when domain loose optionality increases even if wire decreases and total is flat", () => {
+    expect(
+      compareLooseOptionality({ total: 462, domain: 305, wire: 157, production: 462, test: 0 }, base),
+    ).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 0,
+      domainIncreasedBy: 5,
+      wireIncreasedBy: 0,
+      productionIncreasedBy: 0,
+    });
+  });
+
+  it("fails when wire loose optionality increases even if domain decreases and total is flat", () => {
+    expect(
+      compareLooseOptionality({ total: 462, domain: 295, wire: 167, production: 462, test: 0 }, base),
+    ).toEqual({
+      exceedsBaseline: true,
+      totalIncreasedBy: 0,
+      domainIncreasedBy: 0,
+      wireIncreasedBy: 5,
+      productionIncreasedBy: 0,
     });
   });
 });

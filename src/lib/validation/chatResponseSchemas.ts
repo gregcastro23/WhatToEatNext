@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ChatMessage } from "@/types/chat";
+import type { ChatMessage, MessageReport } from "@/types/chat";
 
 export const ChatAttachmentSchema = z
   .object({
@@ -8,7 +8,7 @@ export const ChatAttachmentSchema = z
   })
   .passthrough();
 
-export const ChatMessageSchema: z.ZodType<ChatMessage> = z
+export const ChatMessageSchema = z
   .object({
     id: z.string(),
     conversationId: z.string(),
@@ -24,9 +24,30 @@ export const ChatMessageSchema: z.ZodType<ChatMessage> = z
     senderAvatarUrl: z.string().optional(),
     senderIsAgent: z.boolean().optional(),
     pending: z.boolean().optional(),
-  });
+  })
+  .passthrough();
 
-export type ChatMessageWire = ChatMessage;
+export type ChatMessageWire = z.infer<typeof ChatMessageSchema>;
+
+export function toDomainChatMessage(wire: ChatMessageWire): ChatMessage {
+  const result: ChatMessage = {
+    id: wire.id,
+    conversationId: wire.conversationId,
+    senderId: wire.senderId,
+    body: wire.body,
+    attachments: wire.attachments,
+    createdAt: wire.createdAt,
+    editedAt: wire.editedAt,
+    deletedAt: wire.deletedAt,
+  };
+  if (wire.replyToId !== undefined) result.replyToId = wire.replyToId;
+  if (wire.clientKey !== undefined) result.clientKey = wire.clientKey;
+  if (wire.senderName !== undefined) result.senderName = wire.senderName;
+  if (wire.senderAvatarUrl !== undefined) result.senderAvatarUrl = wire.senderAvatarUrl;
+  if (wire.senderIsAgent !== undefined) result.senderIsAgent = wire.senderIsAgent;
+  if (wire.pending !== undefined) result.pending = wire.pending;
+  return result;
+}
 
 export const TableConversationEnsureResponseSchema = z
   .object({
@@ -43,9 +64,19 @@ export type TableConversationEnsureResponseWire = z.infer<
   typeof TableConversationEnsureResponseSchema
 >;
 
+export const ConversationMessagesEnvelopeSchema = z
+  .object({
+    messages: z.array(z.unknown()).optional().default([]),
+    nextCursor: z.string().nullable().optional(),
+    viewerId: z.string().nullable().optional(),
+  })
+  .passthrough();
+
 export const ConversationMessagesResponseSchema = z
   .object({
-    messages: z.array(ChatMessageSchema).optional(),
+    messages: z.array(ChatMessageSchema).optional().default([]),
+    nextCursor: z.string().nullable().optional(),
+    viewerId: z.string().nullable().optional(),
   })
   .passthrough();
 
@@ -61,3 +92,58 @@ export const SendMessageResponseSchema = z
   .passthrough();
 
 export type SendMessageResponseWire = z.infer<typeof SendMessageResponseSchema>;
+
+export const MessageReportReasonSchema = z.enum([
+  "spam",
+  "harassment",
+  "inappropriate",
+  "other",
+]);
+
+export const MessageReportStatusSchema = z.enum([
+  "open",
+  "reviewed",
+  "dismissed",
+  "actioned",
+]);
+
+export const MessageReportSchema = z
+  .object({
+    id: z.string(),
+    messageId: z.string(),
+    conversationId: z.string(),
+    reporterId: z.string(),
+    reason: MessageReportReasonSchema,
+    detail: z.string().optional(),
+    status: MessageReportStatusSchema,
+    createdAt: z.string(),
+    resolvedAt: z.string().nullable().optional().default(null),
+    resolvedBy: z.string().nullable().optional().default(null),
+    messageBody: z.string().optional(),
+    messageSenderId: z.string().optional(),
+    messageHidden: z.boolean().optional(),
+    conversationKind: z.enum(["table", "dm", "circle"]).optional(),
+  })
+  .passthrough();
+
+export type MessageReportWire = z.infer<typeof MessageReportSchema>;
+
+export function toDomainMessageReport(wire: MessageReportWire): MessageReport {
+  const result: MessageReport = {
+    id: wire.id,
+    messageId: wire.messageId,
+    conversationId: wire.conversationId,
+    reporterId: wire.reporterId,
+    reason: wire.reason,
+    status: wire.status,
+    createdAt: wire.createdAt,
+    resolvedAt: wire.resolvedAt,
+    resolvedBy: wire.resolvedBy,
+  };
+  if (wire.detail !== undefined) result.detail = wire.detail;
+  if (wire.messageBody !== undefined) result.messageBody = wire.messageBody;
+  if (wire.messageSenderId !== undefined) result.messageSenderId = wire.messageSenderId;
+  if (wire.messageHidden !== undefined) result.messageHidden = wire.messageHidden;
+  if (wire.conversationKind !== undefined) result.conversationKind = wire.conversationKind;
+  return result;
+}

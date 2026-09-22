@@ -2,7 +2,7 @@
  * The JSON trust boundary — behaviour of the single place the repo converts an
  * unknown payload into a typed value.
  */
-import { readJson, safeReadJson, fetchJson, HttpError } from "@/lib/api/json";
+import { readJson, safeReadJson, fetchJson, parseEach, HttpError } from "@/lib/api/json";
 
 /**
  * A real `Response`, not a hand-rolled stand-in. Using the platform object
@@ -181,3 +181,73 @@ describe("fetchJson", () => {
     });
   });
 });
+
+describe("parseEach", () => {
+  it("handles non-array inputs safely by returning empty result", () => {
+    expect(parseEach(null, (x) => x)).toEqual({
+      items: [],
+      kept: 0,
+      dropped: 0,
+      total: 0,
+    });
+    expect(parseEach(undefined, (x) => x)).toEqual({
+      items: [],
+      kept: 0,
+      dropped: 0,
+      total: 0,
+    });
+    expect(parseEach({ not: "an array" }, (x) => x)).toEqual({
+      items: [],
+      kept: 0,
+      dropped: 0,
+      total: 0,
+    });
+  });
+
+  it("parses an all-valid array, returning kept === total and dropped === 0", () => {
+    const raw = [1, 2, 3];
+    const res = parseEach(raw, (n) => String(n));
+    expect(res).toEqual({
+      items: ["1", "2", "3"],
+      kept: 3,
+      dropped: 0,
+      total: 3,
+    });
+  });
+
+  it("tolerates corrupted items, collecting survivors and counting dropped", () => {
+    const raw = [10, "bad", 30, "also bad", 50];
+    const errors: Array<{ err: unknown; item: unknown; idx: number }> = [];
+    const parse = (x: unknown): number => {
+      if (typeof x !== "number") throw new Error(`Not a number: ${String(x)}`);
+      return x * 2;
+    };
+    const res = parseEach(raw, parse, {
+      onError: (err, item, idx) => errors.push({ err, item, idx }),
+    });
+
+    expect(res.items).toEqual([20, 60, 100]);
+    expect(res.kept).toBe(3);
+    expect(res.dropped).toBe(2);
+    expect(res.total).toBe(5);
+    expect(errors).toHaveLength(2);
+    expect(errors[0].idx).toBe(1);
+    expect(errors[0].item).toBe("bad");
+    expect(errors[1].idx).toBe(3);
+    expect(errors[1].item).toBe("also bad");
+  });
+
+  it("handles all-items-dropped cleanly without throwing", () => {
+    const raw = ["a", "b", "c"];
+    const res = parseEach(raw, () => {
+      throw new Error("fail");
+    });
+    expect(res).toEqual({
+      items: [],
+      kept: 0,
+      dropped: 3,
+      total: 3,
+    });
+  });
+});
+

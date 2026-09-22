@@ -1078,7 +1078,7 @@ export class UnifiedScoringService {
         seasonal: { currentSeason: "spring", alignment: 0, recommendation: "" },
       },
       lunarPhase: {
-        name: "new moon" as LunarPhase,
+        name: "new moon",
         illumination: 0.5,
         effect: "Neutral",
       },

@@ -79,7 +79,7 @@ async function main() {
   process.stdout.write(`[layer-2] Creating test-mode Checkout Session for sku=${sku}...\n`);
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
-    line_items: [{ price: priceId, quantity: 1 }],
+    line_items: [{ price: priceId!, quantity: 1 }],
     success_url: "https://example.com/success",
     cancel_url: "https://example.com/cancel",
     metadata: {

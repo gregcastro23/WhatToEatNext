@@ -46,6 +46,30 @@ export const ShopItemsResponseSchema = z
 
 export type ShopItemsResponseWire = z.infer<typeof ShopItemsResponseSchema>;
 
+export function toDomainShopItem(wire: ShopItemWire): {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  category: string;
+  isOneTime: boolean;
+  baseCost: CoinAmountsWire;
+  liveCost: CoinAmountsWire;
+  owned: boolean;
+} {
+  return {
+    id: wire.id,
+    slug: wire.slug,
+    title: wire.title,
+    description: wire.description,
+    category: wire.category,
+    isOneTime: wire.isOneTime,
+    baseCost: { ...wire.baseCost },
+    liveCost: { ...wire.liveCost },
+    owned: wire.owned,
+  };
+}
+
 export const OnchainStatusSchema = z
   .object({
     configured: z.boolean(),

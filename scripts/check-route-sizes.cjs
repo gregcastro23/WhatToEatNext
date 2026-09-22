@@ -14,11 +14,13 @@ if (process.argv[2] && fs.existsSync(process.argv[2])) {
 const lines = logContent.split('\n');
 
 const thresholds = {
-  '/': { maxRouteKb: 150, maxFirstLoadKb: 250 },
-  '/menu-planner': { maxRouteKb: 400, maxFirstLoadKb: 950 },
-  '/recipe-builder': { maxRouteKb: 150, maxFirstLoadKb: 250 },
-  '/recipe-generator': { maxRouteKb: 150, maxFirstLoadKb: 250 },
-  '/recipes/[recipeId]': { maxRouteKb: 150, maxFirstLoadKb: 400 },
+  '/': { maxRouteKb: 50, maxFirstLoadKb: 220 },
+  '/menu-planner': { maxRouteKb: 250, maxFirstLoadKb: 810 },
+  '/recipe-builder': { maxRouteKb: 50, maxFirstLoadKb: 200 },
+  '/recipe-generator': { maxRouteKb: 50, maxFirstLoadKb: 220 },
+  '/recipes/[recipeId]': { maxRouteKb: 80, maxFirstLoadKb: 350 },
+  '/shop': { maxRouteKb: 15, maxFirstLoadKb: 120 },
+  '/account': { maxRouteKb: 800, maxFirstLoadKb: 910 },
 };
 
 let failed = false;
@@ -46,21 +48,28 @@ for (const [route, limits] of Object.entries(thresholds)) {
     else if (flUnit === 'B') firstLoadKb /= 1024;
 
     if (isNaN(routeKb) || isNaN(firstLoadKb)) {
-      console.warn(`⚠️ Route ${route} found but could not parse sizes from line: ${line.trim()}`);
+      console.error(`❌ Route ${route} found but could not parse sizes from line: ${line.trim()}`);
+      failed = true;
       continue;
     }
 
+    let routeOk = true;
     if (routeKb > limits.maxRouteKb) {
       console.error(`❌ Route ${route} exceeded route size threshold! Size: ${routeKb.toFixed(1)} kB (Max: ${limits.maxRouteKb} kB)`);
       failed = true;
-    } else if (firstLoadKb > limits.maxFirstLoadKb) {
+      routeOk = false;
+    }
+    if (firstLoadKb > limits.maxFirstLoadKb) {
       console.error(`❌ Route ${route} exceeded First Load JS threshold! First Load: ${firstLoadKb.toFixed(1)} kB (Max: ${limits.maxFirstLoadKb} kB)`);
       failed = true;
-    } else {
+      routeOk = false;
+    }
+    if (routeOk) {
       console.log(`✅ Route ${route} is within threshold: ${routeKb.toFixed(1)} kB route / ${firstLoadKb.toFixed(1)} kB first-load (Max: ${limits.maxRouteKb} kB / ${limits.maxFirstLoadKb} kB)`);
     }
   } else {
-    console.warn(`⚠️ Route ${route} not found in build log.`);
+    console.error(`❌ Route ${route} not found in build log.`);
+    failed = true;
   }
 }
 

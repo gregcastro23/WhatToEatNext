@@ -40,9 +40,6 @@ class AdvancedCache {
       maxSize,
       hitRate: 0,
     };
-
-    // Cleanup expired entries every 5 minutes
-    setInterval(() => this.cleanup(), 5 * 60 * 1000);
   }
 
   /**
@@ -135,7 +132,7 @@ class AdvancedCache {
   async warmup(
     entries: Array<{
       key: string;
-      computeFn: () => Promise<any>;
+      computeFn: () => Promise<unknown>;
       ttl?: number;
     }>,
   ): Promise<void> {
@@ -143,7 +140,7 @@ class AdvancedCache {
 
     const promises = entries.map(async ({ key, computeFn, ttl }) => {
       try {
-        const data = await computeFn();
+        const data: unknown = await computeFn();
         this.set(key, data, ttl);
         void logger.debug("Cache warmed", { key });
       } catch (error) {

@@ -12,6 +12,8 @@ import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 
 interface RecentUser {
@@ -70,6 +72,62 @@ interface AdminDashboardResponse {
   paIntegration?: PaIntegration | null;
 }
 
+const RecentUserSchema = z
+  .object({
+    id: z.string(),
+    email: z.string(),
+    name: z.string(),
+    createdAt: z.string(),
+    dominantElement: z.string().nullable(),
+    isActive: z.boolean(),
+  })
+  .passthrough();
+
+const TelemetryMetricSchema = z
+  .object({
+    value: z.string(),
+    raw: z.number(),
+    live: z.boolean(),
+    source: z.enum(["database", "ephemeris"]),
+  })
+  .passthrough();
+
+const AgentTelemetrySchema = z
+  .object({
+    agentHarmony: TelemetryMetricSchema,
+    transmutationRate: TelemetryMetricSchema,
+    spiritualEntropy: TelemetryMetricSchema,
+    mcpInvocationRate: TelemetryMetricSchema,
+    generatedAt: z.string(),
+    allLive: z.boolean(),
+  })
+  .passthrough();
+
+const PaIntegrationSchema = z
+  .object({
+    endpoints: z
+      .object({
+        alchmNextApp: z.string(),
+        paUi: z.string(),
+        paBackend: z.string(),
+        wtenLegacyBackend: z.string(),
+      })
+      .passthrough(),
+    health: z.string(),
+    agentCount: z.number().nullable(),
+    lastFeedEmit: z
+      .object({
+        eventType: z.string(),
+        agentEmail: z.string(),
+        responseCode: z.number(),
+        timestamp: z.string(),
+      })
+      .passthrough()
+      .nullable(),
+    telemetry: AgentTelemetrySchema.nullable(),
+  })
+  .passthrough();
+
 interface PlanetarySyncResponse {
   success: boolean;
   statusCode?: number;
@@ -108,7 +166,18 @@ export default function AdminDashboardPage(): React.JSX.Element {
         setRecentUsersLive(false);
         return { ok: false };
       }
-      const data = (await response.json()) as AdminDashboardResponse;
+      const AdminDashboardResponseSchema = z
+        .object({
+          success: z.boolean().optional(),
+          recentUsers: z.array(RecentUserSchema).optional(),
+          recentUsersLive: z.boolean().optional(),
+          paIntegration: PaIntegrationSchema.nullable().optional(),
+        })
+        .passthrough();
+
+      const data = await readJson(response, {
+        parse: (raw) => AdminDashboardResponseSchema.parse(raw),
+      });
       if (data.success) {
         setRecentUsers(Array.isArray(data.recentUsers) ? data.recentUsers : []);
         // recentUsersLive is the server's own signal that the user query ran;
@@ -131,6 +200,14 @@ export default function AdminDashboardPage(): React.JSX.Element {
   // visibility-aware with error backoff. Replaces a single mount fetch.
   useHardenedPolling(fetchDashboardData, { baseIntervalMs: 30_000 });
 
+  const PlanetarySyncResponseSchema = z.object({
+    success: z.boolean(),
+    statusCode: z.number().optional(),
+    affectedCount: z.number().optional(),
+    failures: z.array(z.string()).optional(),
+    timestamp: z.string().optional(),
+  }).passthrough();
+
   const handleSyncAll = async (): Promise<void> => {
     try {
       setSyncing(true);
@@ -140,7 +217,9 @@ export default function AdminDashboardPage(): React.JSX.Element {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "sync-all" }),
       });
-      const data = (await res.json()) as PlanetarySyncResponse;
+      const data = await readJson(res, {
+        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
+      });
       setSyncResult({
         success: data.success,
         statusCode: data.statusCode ?? res.status,
@@ -188,7 +267,9 @@ export default function AdminDashboardPage(): React.JSX.Element {
           agentEmail: syncEmail.trim()
         }),
       });
-      const data = (await res.json()) as PlanetarySyncResponse;
+      const data = await readJson(res, {
+        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
+      });
       setSyncResult({
         success: data.success,
         statusCode: data.statusCode ?? res.status,

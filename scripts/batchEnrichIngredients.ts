@@ -50,7 +50,7 @@ interface Options {
   forceImages: boolean;
   limit: number;
   delayMs: number;
-  onlySlug?: string;
+  onlySlug?: string | undefined;
 }
 
 interface Candidate {

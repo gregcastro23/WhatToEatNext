@@ -28,12 +28,15 @@ import {
   publishLiveTableChatMessage,
 } from "@/lib/spacetime/liveTableChatPublish";
 import type { ChatMessage } from "@/types/chat";
-import { readJson } from "@/lib/api/json";
+import { readJson, parseEach } from "@/lib/api/json";
 import {
   TableConversationEnsureResponseSchema,
-  ConversationMessagesResponseSchema,
+  ConversationMessagesEnvelopeSchema,
+  ChatMessageSchema,
+  toDomainChatMessage,
   SendMessageResponseSchema,
 } from "@/lib/validation/chatResponseSchemas";
+import { clientLogger } from "@/utils/clientLogger";
 
 const CANONICAL_RECONCILE_MS = 20_000;
 const POLL_FALLBACK_MS = 10_000;
@@ -123,11 +126,14 @@ export function useTableChat(
         credentials: "include",
       });
       if (!res.ok) return;
-      const data = await readJson(res, {
-        parse: (x) => ConversationMessagesResponseSchema.parse(x),
+      const envelope = await readJson(res, {
+        parse: (x) => ConversationMessagesEnvelopeSchema.parse(x),
       });
+      const parsed = parseEach(envelope.messages, (m) =>
+        toDomainChatMessage(ChatMessageSchema.parse(m)),
+      );
       // API returns newest-first; store oldest-first for display.
-      const ordered = (data.messages ?? []).slice().reverse();
+      const ordered = parsed.items.slice().reverse();
       setCanonical(ordered);
       setError(null);
     } catch {
@@ -296,24 +302,29 @@ export function useTableChat(
           }),
         });
         if (!res.ok) return false;
-        const data = await readJson(res, {
-          parse: (x) => SendMessageResponseSchema.parse(x),
-        });
-        const { message } = data;
-        if (message) {
-          // Optimistically show it, then let the canonical refetch confirm.
-          setCanonical((prev) =>
-            prev.some((m) => m.id === message.id) ? prev : [...prev, message],
-          );
-          // Mirror to Spacetime ONLY for table chat, ONLY after PG 200.
-          if (!data.replay && live && connection && tableId) {
-            publishLiveTableChatMessage(connection, {
-              wtenTableId: tableId,
-              messageUuid: message.id,
-              body: message.body,
-              ...(message.replyToId !== undefined ? { replyToUuid: message.replyToId } : {}),
-            });
+        try {
+          const data = await readJson(res, {
+            parse: (x) => SendMessageResponseSchema.parse(x),
+          });
+          const { message } = data;
+          if (message) {
+            const domainMsg = toDomainChatMessage(message);
+            // Optimistically show it, then let the canonical refetch confirm.
+            setCanonical((prev) =>
+              prev.some((m) => m.id === domainMsg.id) ? prev : [...prev, domainMsg],
+            );
+            // Mirror to Spacetime ONLY for table chat, ONLY after PG 200.
+            if (!data.replay && connection && live && tableId) {
+              publishLiveTableChatMessage(connection, {
+                wtenTableId: tableId,
+                messageUuid: domainMsg.id,
+                body: domainMsg.body,
+                ...(domainMsg.replyToId !== undefined ? { replyToUuid: domainMsg.replyToId } : {}),
+              });
+            }
           }
+        } catch (parseErr) {
+          clientLogger.warn("useTableChat", "Message send succeeded (200 OK) but response body failed parse, refetching canonical state:", parseErr);
         }
         void refetch();
         return true;

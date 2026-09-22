@@ -2,15 +2,27 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { UserNotification } from '@/types/notification';
-import { readJson } from '@/lib/api/json';
+import { readJson, parseEach } from '@/lib/api/json';
 import {
-  NotificationListResponseSchema,
+  NotificationListEnvelopeSchema,
+  UserNotificationSchema,
   MarkAllReadResponseSchema,
   NotificationActionResponseSchema,
   toDomainNotification,
 } from '@/lib/validation/notificationResponseSchemas';
+import { clientLogger } from '@/utils/clientLogger';
 
 const NOTIFICATION_REFRESH_EVENT = 'notifications:refresh';
+const loggedIssues = new Set<string>();
+
+function logDroppedNotification(err: unknown, item: unknown): void {
+  const id = typeof item === 'object' && item && 'id' in item ? String(item.id) : 'unknown';
+  const key = `notifications:${id}`;
+  if (!loggedIssues.has(key)) {
+    loggedIssues.add(key);
+    clientLogger.error('useNotifications', 'Dropped malformed notification item:', err);
+  }
+}
 
 interface UseNotificationsOptions {
   enabled?: boolean;
@@ -50,11 +62,24 @@ export function useNotifications(options?: UseNotificationsOptions) {
         throw new Error(`Failed to fetch notifications (${res.status})`);
       }
 
-      const data = await readJson(res, {
-        parse: (x) => NotificationListResponseSchema.parse(x),
+      const envelope = await readJson(res, {
+        parse: (x) => NotificationListEnvelopeSchema.parse(x),
       });
-      setNotifications(data.notifications.map(toDomainNotification));
-      setUnreadCount(data.unreadCount);
+
+      const parsed = parseEach(
+        envelope.notifications,
+        (raw) => toDomainNotification(UserNotificationSchema.parse(raw)),
+        { onError: logDroppedNotification },
+      );
+
+      if (envelope.notifications.length > 0 && parsed.kept === 0) {
+        // All items failed parse: surface honest error rather than false-empty state
+        setError('Unable to load notifications right now.');
+        setNotifications([]);
+      } else {
+        setNotifications(parsed.items);
+      }
+      setUnreadCount(envelope.unreadCount);
     } catch {
       setError('Unable to load notifications right now.');
     } finally {
@@ -138,11 +163,17 @@ export function useNotifications(options?: UseNotificationsOptions) {
         throw new Error('Failed to mark all as read');
       }
 
-      const data = await readJson(res, {
-        parse: (x) => MarkAllReadResponseSchema.parse(x),
-      });
+      let count = previous.filter((n) => !n.isRead).length;
+      try {
+        const { count: serverCount } = await readJson(res, {
+          parse: (x) => MarkAllReadResponseSchema.parse(x),
+        });
+        count = serverCount;
+      } catch (parseErr) {
+        clientLogger.warn('useNotifications', 'markAllRead succeeded (200 OK) but response failed parse:', parseErr);
+      }
       notifyRefresh();
-      return { success: true, count: data.count };
+      return { success: true, count };
     } catch {
       setNotifications(previous);
       setUnreadCount(previous.filter((n) => !n.isRead).length);

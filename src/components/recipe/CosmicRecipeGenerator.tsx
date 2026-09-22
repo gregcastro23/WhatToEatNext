@@ -76,7 +76,7 @@ function mapCosmicToStoreRecipe(
       name: ing.name,
       amount: Number.isFinite(numeric) ? numeric : (Number(rawQty) || 0),
       unit: ing.unit,
-      notes: ing.household_description,
+      ...(ing.household_description ? { notes: ing.household_description } : {}),
     };
   });
 

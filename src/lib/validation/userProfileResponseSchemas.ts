@@ -63,3 +63,41 @@ export const ServerProfileResponseSchema = z
 
 export type ServerProfileResponseWire = z.infer<typeof ServerProfileResponseSchema>;
 export type ServerProfileDataWire = z.infer<typeof ServerProfileDataSchema>;
+
+export interface DomainUserProfile {
+  userId: string;
+  name?: string;
+  email?: string;
+  preferences?: Record<string, unknown>;
+  dietaryPreferences?: Record<string, unknown>;
+  onboardingComplete?: boolean;
+  birthData?: z.infer<typeof BirthDataSchema>;
+  natalChart?: z.infer<typeof NatalChartSchema>;
+  groupMembers?: Array<z.infer<typeof GroupMemberSchema>>;
+  diningGroups?: Array<z.infer<typeof DiningGroupSchema>>;
+  savedCharts?: Array<z.infer<typeof SavedChartSchema>>;
+  tokenEconomy?: z.infer<typeof TokenEconomyStateSchema>;
+  stats?: Record<string, unknown>;
+}
+
+export function toDomainUserProfile(
+  wire: ServerProfileDataWire,
+  fallbackUserId?: string,
+): DomainUserProfile {
+  const result: DomainUserProfile = {
+    userId: wire.userId ?? wire.id ?? fallbackUserId ?? "",
+  };
+  if (wire.name !== undefined) result.name = wire.name;
+  if (wire.email !== undefined) result.email = wire.email;
+  if (wire.preferences !== undefined) result.preferences = wire.preferences;
+  if (wire.dietaryPreferences !== undefined) result.dietaryPreferences = wire.dietaryPreferences;
+  if (wire.onboardingComplete !== undefined) result.onboardingComplete = wire.onboardingComplete;
+  if (wire.birthData !== undefined) result.birthData = wire.birthData;
+  if (wire.natalChart !== undefined) result.natalChart = wire.natalChart;
+  if (wire.groupMembers !== undefined) result.groupMembers = wire.groupMembers;
+  if (wire.diningGroups !== undefined) result.diningGroups = wire.diningGroups;
+  if (wire.savedCharts !== undefined) result.savedCharts = wire.savedCharts;
+  if (wire.tokenEconomy !== undefined) result.tokenEconomy = wire.tokenEconomy;
+  if (wire.stats !== undefined) result.stats = wire.stats;
+  return result;
+}

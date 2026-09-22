@@ -7,6 +7,8 @@
  */
 
 import React, { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { EmptyState } from "@/components/admin/kit/EmptyState";
 
 interface Report {
@@ -53,7 +55,28 @@ export default function CommentReportsAdminPage(): React.JSX.Element {
         setReports([]);
         return;
       }
-      const json = (await res.json()) as { success: boolean; reports?: Report[]; message?: string };
+      const ReportSchema = z.object({
+        id: z.string(),
+        commentId: z.string(),
+        reporterId: z.string(),
+        reason: z.string(),
+        detail: z.string().nullable().optional().default(null),
+        status: z.string(),
+        createdAt: z.string(),
+        commentBody: z.string().nullable().optional().default(null),
+        commentHidden: z.boolean().nullable().optional().default(null),
+        commentDeleted: z.boolean(),
+      }).passthrough();
+
+      const CommentReportsResponseSchema = z.object({
+        success: z.boolean(),
+        reports: z.array(ReportSchema).optional(),
+        message: z.string().optional(),
+      }).passthrough();
+
+      const json = await readJson(res, {
+        parse: (raw) => CommentReportsResponseSchema.parse(raw),
+      });
       if (json.success) {
         setReports(json.reports ?? []);
       } else {

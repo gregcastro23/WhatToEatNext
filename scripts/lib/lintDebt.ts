@@ -27,8 +27,11 @@ export type AssertionSitesBaseline = z.infer<typeof assertionSitesBaselineSchema
 
 export const looseOptionalityBaselineSchema = z.object({
   total: z.number().int().nonnegative(),
+  domain: z.number().int().nonnegative(),
+  wire: z.number().int().nonnegative(),
   production: z.number().int().nonnegative(),
   test: z.number().int().nonnegative(),
+  wireAllowlist: z.array(z.string()).optional().default([]),
 });
 
 export type LooseOptionalityBaseline = z.infer<typeof looseOptionalityBaselineSchema>;
@@ -510,6 +513,8 @@ export const compareAssertionSites = (
 export interface FileLooseOptionalDebt {
   filePath: string;
   count: number;
+  domainCount: number;
+  wireCount: number;
   isTest: boolean;
 }
 
@@ -523,7 +528,11 @@ function isOptionalAlias(typeNode: TSType.TypeNode): boolean {
   return false;
 }
 
-export function countLooseOptionalityInSource(code: string, fileName: string): number {
+export function countLooseOptionalityDetails(
+  code: string,
+  fileName: string,
+  isWireFile = false,
+): { total: number; domain: number; wire: number } {
   const sourceFile = ts.createSourceFile(
     fileName,
     code,
@@ -531,7 +540,21 @@ export function countLooseOptionalityInSource(code: string, fileName: string): n
     true,
     scriptKindFor(fileName),
   );
-  let count = 0;
+  let total = 0;
+  let domain = 0;
+  let wire = 0;
+
+  function getEnclosingTypeName(node: TSType.Node): string | null {
+    let curr: TSType.Node | undefined = node.parent;
+    while (curr) {
+      if (ts.isTypeAliasDeclaration(curr) || ts.isInterfaceDeclaration(curr)) {
+        return curr.name.text;
+      }
+      curr = curr.parent;
+    }
+    return null;
+  }
+
   const visit = (node: TSType.Node): void => {
     if (
       (ts.isPropertySignature(node) || ts.isPropertyDeclaration(node) || ts.isParameter(node)) &&
@@ -545,23 +568,39 @@ export function countLooseOptionalityInSource(code: string, fileName: string): n
         );
       const isDirectOptionalAlias = isOptionalAlias(node.type);
       if (isUnionWithUndefined || isDirectOptionalAlias) {
-        count += 1;
+        total += 1;
+        if (isWireFile) {
+          wire += 1;
+        } else {
+          const typeName = getEnclosingTypeName(node);
+          if (typeName && (typeName.endsWith("Wire") || typeName.endsWith("WireSchema"))) {
+            wire += 1;
+          } else {
+            domain += 1;
+          }
+        }
       }
     }
     ts.forEachChild(node, visit);
   };
   visit(sourceFile);
-  return count;
+  return { total, domain, wire };
+}
+
+export function countLooseOptionalityInSource(code: string, fileName: string): number {
+  return countLooseOptionalityDetails(code, fileName, false).total;
 }
 
 export function scanLooseOptionality(
   targetDir: string,
   repoRoot: string,
+  wireAllowlist: string[] = [],
 ): {
   summary: LooseOptionalityBaseline;
   files: FileLooseOptionalDebt[];
 } {
   const filePaths: string[] = [];
+  const allowlistSet = new Set(wireAllowlist.map((f) => f.split(path.sep).join("/")));
 
   function walk(dir: string): void {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -581,24 +620,36 @@ export function scanLooseOptionality(
   walk(targetDir);
 
   let prodTotal = 0;
+  let prodDomain = 0;
+  let prodWire = 0;
   let testTotal = 0;
+  let testDomain = 0;
+  let testWire = 0;
   const files: FileLooseOptionalDebt[] = [];
 
   for (const file of filePaths) {
     const rawContent = readFileSync(file, "utf8");
-    const count = countLooseOptionalityInSource(rawContent, file);
+    const rel = path.relative(repoRoot, file).split(path.sep).join("/");
+    const isWireFile = allowlistSet.has(rel) || rel.startsWith("src/lib/validation/");
+    const counts = countLooseOptionalityDetails(rawContent, file, isWireFile);
     const isTest = /(\b__tests__\b|\.test\.|\.spec\.)/.test(file);
 
     if (isTest) {
-      testTotal += count;
+      testTotal += counts.total;
+      testDomain += counts.domain;
+      testWire += counts.wire;
     } else {
-      prodTotal += count;
+      prodTotal += counts.total;
+      prodDomain += counts.domain;
+      prodWire += counts.wire;
     }
 
-    if (count > 0) {
+    if (counts.total > 0) {
       files.push({
-        filePath: path.relative(repoRoot, file),
-        count,
+        filePath: rel,
+        count: counts.total,
+        domainCount: counts.domain,
+        wireCount: counts.wire,
         isTest,
       });
     }
@@ -609,8 +660,11 @@ export function scanLooseOptionality(
   return {
     summary: {
       total: prodTotal + testTotal,
+      domain: prodDomain + testDomain,
+      wire: prodWire + testWire,
       production: prodTotal,
       test: testTotal,
+      wireAllowlist,
     },
     files,
   };
@@ -619,6 +673,8 @@ export function scanLooseOptionality(
 export interface LooseOptionalityComparison {
   exceedsBaseline: boolean;
   totalIncreasedBy: number;
+  domainIncreasedBy: number;
+  wireIncreasedBy: number;
   productionIncreasedBy: number;
 }
 
@@ -627,11 +683,19 @@ export const compareLooseOptionality = (
   baseline: LooseOptionalityBaseline,
 ): LooseOptionalityComparison => {
   const deltaTotal = current.total - baseline.total;
+  const deltaDomain = current.domain - baseline.domain;
+  const deltaWire = current.wire - baseline.wire;
   const deltaProduction = current.production - baseline.production;
 
   return {
-    exceedsBaseline: deltaTotal > 0 || deltaProduction > 0,
+    exceedsBaseline:
+      deltaTotal > 0 ||
+      deltaDomain > 0 ||
+      deltaWire > 0 ||
+      deltaProduction > 0,
     totalIncreasedBy: Math.max(deltaTotal, 0),
+    domainIncreasedBy: Math.max(deltaDomain, 0),
+    wireIncreasedBy: Math.max(deltaWire, 0),
     productionIncreasedBy: Math.max(deltaProduction, 0),
   };
 };

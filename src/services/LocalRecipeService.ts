@@ -7,7 +7,6 @@ import type {
   ElementalProperties,
   Recipe,
   RecipeIngredient,
-  RecipeNutrition,
 } from "@/types/recipe";
 import { publicCuisine } from "@/utils/internalCuisineCodes";
 import { logger } from "@/utils/logger";
@@ -46,7 +45,7 @@ interface RecipeReadModel {
   cook_time_minutes?: number | null;
   servings?: number | null;
   elemental_properties?: RecipeReadModelElementalProperties | null;
-  nutritional_profile?: RecipeNutrition | null;
+  nutritional_profile?: NonNullable<Recipe['nutrition']> | null;
 }
 
 interface DbRecipeRow {
@@ -165,16 +164,20 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
         return null;
       }
 
+      const id = typeof record.id === "string" ? record.id : undefined;
+      const notes = typeof record.notes === "string" ? record.notes : (typeof record.preparation === "string" ? record.preparation : undefined);
+      const category = typeof record.category === "string" ? record.category : undefined;
+      const asin = typeof record.asin === "string" ? record.asin : (typeof record.amazon_asin === "string" ? record.amazon_asin : undefined);
+
       return {
-        id: typeof record.id === "string" ? record.id : undefined,
         name,
         amount: Number(record.amount ?? record.quantity ?? 0),
         unit: typeof record.unit === "string" ? record.unit : "",
         optional: Boolean(record.optional),
-        notes: typeof record.notes === "string" ? record.notes : (record.preparation as string),
-        category:
-          typeof record.category === "string" ? record.category : undefined,
-        asin: typeof record.asin === "string" ? record.asin : (typeof record.amazon_asin === "string" ? record.amazon_asin : undefined),
+        ...(id !== undefined ? { id } : {}),
+        ...(notes !== undefined ? { notes } : {}),
+        ...(category !== undefined ? { category } : {}),
+        ...(asin !== undefined ? { asin } : {}),
       };
     })
     .filter((ingredient): ingredient is RecipeIngredient => Boolean(ingredient));
@@ -212,7 +215,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     const servings = rm.servings ?? row.servings;
     const createdAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
     const updatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
-    const nutrition = rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined) : undefined);
+    const nutrition = rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<NonNullable<Recipe['nutrition']> | undefined>(row.nutritional_profile, undefined) : undefined);
     const cuisine = publicCuisine(rm.cuisine ?? row.cuisine);
 
     return {
@@ -241,7 +244,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
       isVegan: hasDietaryTag(dietaryTags, "vegan"),
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
       isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
-      ...(nutrition ? { nutrition: nutrition as unknown as Recipe['nutrition'] } : {}),
+      ...(nutrition ? { nutrition } : {}),
       tags: dietaryTags,
       ...(createdAt ? { createdAt } : {}),
       ...(updatedAt ? { updatedAt } : {}),
@@ -258,7 +261,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
   const legacyServings = row.servings;
   const legacyCreatedAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
   const legacyUpdatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
-  const legacyNutrition = parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined);
+  const legacyNutrition = parseJsonValue<NonNullable<Recipe['nutrition']> | undefined>(row.nutritional_profile, undefined);
   const legacyCuisine = publicCuisine(row.cuisine ?? row.cuisine_type);
 
   return {
@@ -282,7 +285,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
     isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree"),
     isDairyFree: hasDietaryTag(dietaryTags, "dairyfree"),
-    ...(legacyNutrition ? { nutrition: legacyNutrition as unknown as Recipe['nutrition'] } : {}),
+    ...(legacyNutrition ? { nutrition: legacyNutrition } : {}),
     tags: dietaryTags,
     ...(legacyCreatedAt ? { createdAt: legacyCreatedAt } : {}),
     ...(legacyUpdatedAt ? { updatedAt: legacyUpdatedAt } : {}),

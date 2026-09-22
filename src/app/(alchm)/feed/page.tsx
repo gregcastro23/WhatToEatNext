@@ -25,13 +25,16 @@ import { _logger } from "@/lib/logger";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
 import type { TableMemoryPayload } from "@/types/table";
-import { readJson } from "@/lib/api/json";
+import { readJson, parseEach } from "@/lib/api/json";
 import {
   type FeedEventWire,
-  FeedApiResponseSchema,
+  FeedEnvelopeSchema,
+  FeedEventWireSchema,
   FeedReactionsResponseSchema,
-  AgentsApiResponseSchema,
-  TransactionsApiResponseSchema,
+  AgentsEnvelopeSchema,
+  AgentSummarySchema,
+  TransactionsEnvelopeSchema,
+  NetworkTransactionSchema,
   SwapRatesApiResponseSchema,
   SwapActionResponseSchema,
 } from "@/lib/validation/feedResponseSchemas";
@@ -234,11 +237,12 @@ export default function FeedPage(): React.JSX.Element {
       let failedSources = 0;
 
       if (feedRes.status === "fulfilled" && feedRes.value.ok) {
-        const data = await readJson(feedRes.value, {
-          parse: (x) => FeedApiResponseSchema.parse(x),
+        const envelope = await readJson(feedRes.value, {
+          parse: (x) => FeedEnvelopeSchema.parse(x),
         });
-        if (data.success && data.events) {
-          const nextEvents: FeedEvent[] = data.events;
+        if (envelope.success !== false) {
+          const parsed = parseEach(envelope.events, (e) => FeedEventWireSchema.parse(e));
+          const nextEvents: FeedEvent[] = parsed.items;
           setEvents(nextEvents);
           // Per-viewer reaction bootstrap: one call with the visible UUID event
           // ids (per-viewer state can't ride the shared-cached /api/feed). Silent
@@ -277,20 +281,26 @@ export default function FeedPage(): React.JSX.Element {
       setLoading((prev) => ({ ...prev, feed: false }));
 
       if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-        const data = await readJson(agentsRes.value, {
-          parse: (x) => AgentsApiResponseSchema.parse(x),
+        const envelope = await readJson(agentsRes.value, {
+          parse: (x) => AgentsEnvelopeSchema.parse(x),
         });
-        if (data.success) setAgents(data.agents ?? []);
+        if (envelope.success !== false) {
+          const parsed = parseEach(envelope.agents, (a) => AgentSummarySchema.parse(a));
+          setAgents(parsed.items);
+        }
       } else {
         failedSources += 1;
       }
       setLoading((prev) => ({ ...prev, agents: false }));
 
       if (txnRes.status === "fulfilled" && txnRes.value.ok) {
-        const data = await readJson(txnRes.value, {
-          parse: (x) => TransactionsApiResponseSchema.parse(x),
+        const envelope = await readJson(txnRes.value, {
+          parse: (x) => TransactionsEnvelopeSchema.parse(x),
         });
-        if (data.success) setTransactions(data.transactions ?? []);
+        if (envelope.success !== false) {
+          const parsed = parseEach(envelope.transactions, (t) => NetworkTransactionSchema.parse(t));
+          setTransactions(parsed.items);
+        }
       } else {
         failedSources += 1;
       }
@@ -1236,19 +1246,29 @@ function SwapTab({
         credentials: "include",
         body: JSON.stringify({ fromToken, toToken, amount: numericAmount }),
       });
-      const data = await readJson(res, {
-        parse: (x) => SwapActionResponseSchema.parse(x),
-      });
-      if (!res.ok || !data.success) {
-        setResultMessage({
-          kind: "error",
-          text: data.message ?? "Swap failed.",
+      if (!res.ok) {
+        setResultMessage({ kind: "error", text: "Swap failed." });
+        return;
+      }
+      try {
+        const data = await readJson(res, {
+          parse: (x) => SwapActionResponseSchema.parse(x),
         });
-      } else {
-        setResultMessage({
-          kind: "ok",
-          text: data.message ?? "Swap complete.",
-        });
+        if (!data.success) {
+          setResultMessage({
+            kind: "error",
+            text: data.message ?? "Swap failed.",
+          });
+        } else {
+          setResultMessage({
+            kind: "ok",
+            text: data.message ?? "Swap complete.",
+          });
+          onSwapComplete();
+        }
+      } catch (parseErr) {
+        _logger.warn("[feed/page] Swap succeeded (200 OK) but response body failed parse:", parseErr);
+        setResultMessage({ kind: "ok", text: "Swap complete." });
         onSwapComplete();
       }
     } catch {

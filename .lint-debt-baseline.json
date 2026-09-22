@@ -1,26 +1,35 @@
 {
-  "trackedTotal": 1333,
+  "trackedTotal": 1327,
   "casts": {
-    "total": 167,
+    "total": 165,
     "asAny": 38,
-    "asUnknownAs": 129,
-    "production": 135,
+    "asUnknownAs": 127,
+    "production": 133,
     "test": 32
   },
   "assertionSites": {
-    "total": 3231,
+    "total": 3208,
     "asAny": 37,
-    "chained": 129,
-    "single": 3065,
-    "production": 2607,
+    "chained": 127,
+    "single": 3044,
+    "production": 2584,
     "test": 624,
     "asConst": 571,
-    "nonNull": 603
+    "nonNull": 602
   },
   "looseOptionality": {
-    "total": 365,
-    "production": 365,
-    "test": 0
+    "total": 322,
+    "domain": 233,
+    "wire": 89,
+    "production": 322,
+    "test": 0,
+    "wireAllowlist": [
+      "src/types/yelp.ts",
+      "src/lib/api/alchmClientTypes.ts",
+      "src/services/restaurantDiscoveryService.ts",
+      "src/types/amazon.ts",
+      "src/types/instacart.ts"
+    ]
   },
   "fileLevelDisables": {
     "ceiling": 5
@@ -62,7 +71,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 136,
+      "count": 135,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -70,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 830,
+      "count": 828,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -86,7 +95,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 127,
+      "count": 124,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
