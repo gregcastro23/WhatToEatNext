@@ -22,6 +22,8 @@ export interface Column {
   key: string;
   label: string;
   value: number;
+  /** Extra tooltip text, e.g. which jobs make up the column. */
+  detail?: string;
 }
 
 interface ColumnChartProps {
@@ -79,12 +81,22 @@ function HiddenTable({ columns, format, caption }: { columns: Column[]; format: 
         {columns.map((c) => (
           <tr key={c.key}>
             <th scope="row">{c.label}</th>
-            <td>{format(c.value)}</td>
+            <td>
+              {format(c.value)}
+              {c.detail ? ` — ${c.detail}` : ""}
+            </td>
           </tr>
         ))}
       </tbody>
     </table>
   );
+}
+
+/** Centre the tooltip over its column, but keep edge columns' tooltips inside the panel. */
+function tooltipShift(index: number, count: number): string {
+  const fraction = (index + 0.5) / count;
+  if (fraction < 0.15) return "-translate-x-[10%]";
+  return fraction > 0.85 ? "-translate-x-[90%]" : "-translate-x-1/2";
 }
 
 export function ColumnChart({ columns, format, ariaLabel, height = 140 }: ColumnChartProps): React.JSX.Element {
@@ -110,10 +122,11 @@ export function ColumnChart({ columns, format, ariaLabel, height = 140 }: Column
         </div>
         {hovered && hover !== null && (
           <div
-            className="pointer-events-none absolute -top-8 z-10 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-[11px] text-white shadow"
+            className={`pointer-events-none absolute -top-8 z-10 ${tooltipShift(hover, columns.length)} whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-[11px] text-white shadow`}
             style={{ left: `${((hover + 0.5) / columns.length) * 100}%` }}
           >
             <span className="text-gray-300">{hovered.label}</span> · <span className="font-semibold">{format(hovered.value)}</span>
+            {hovered.detail && <span className="text-gray-300"> · {hovered.detail}</span>}
           </div>
         )}
       </div>
