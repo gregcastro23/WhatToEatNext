@@ -15,6 +15,15 @@ import { clientLogger } from '@/utils/clientLogger';
 const NOTIFICATION_REFRESH_EVENT = 'notifications:refresh';
 const loggedIssues = new Set<string>();
 
+function logDroppedNotification(err: unknown, item: unknown): void {
+  const id = typeof item === 'object' && item && 'id' in item ? String(item.id) : 'unknown';
+  const key = `notifications:${id}`;
+  if (!loggedIssues.has(key)) {
+    loggedIssues.add(key);
+    clientLogger.error('useNotifications', 'Dropped malformed notification item:', err);
+  }
+}
+
 interface UseNotificationsOptions {
   enabled?: boolean;
   limit?: number;
@@ -60,28 +69,26 @@ export function useNotifications(options?: UseNotificationsOptions) {
       const parsed = parseEach(
         envelope.notifications,
         (raw) => toDomainNotification(UserNotificationSchema.parse(raw)),
-        {
-          onError: (err, item) => {
-            const id = typeof item === 'object' && item && 'id' in item ? String(item.id) : 'unknown';
-            const key = `notifications:${id}`;
-            if (!loggedIssues.has(key)) {
-              loggedIssues.add(key);
-              clientLogger.error('useNotifications', 'Dropped malformed notification item:', err);
-            }
-          },
-        },
+        { onError: logDroppedNotification },
       );
 
       if (envelope.notifications.length > 0 && parsed.kept === 0) {
         // All items failed parse: surface honest error rather than false-empty state
         setError('Unable to load notifications right now.');
         setNotifications([]);
+        setUnreadCount(0);
       } else {
         setNotifications(parsed.items);
+        if (parsed.dropped > 0) {
+          // Synchronize badge with survivors when malformed items are dropped
+          setUnreadCount(parsed.items.filter((n) => !n.isRead).length);
+        } else {
+          setUnreadCount(envelope.unreadCount);
+        }
       }
-      setUnreadCount(envelope.unreadCount);
     } catch {
       setError('Unable to load notifications right now.');
+      setUnreadCount(0);
     } finally {
       setLoading(false);
     }

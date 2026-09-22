@@ -98,7 +98,7 @@
     "test:coverage": "bun run jest --coverage",
     "test:fast": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --silent 'src/__tests__/physics/' 'src/__tests__/calculations/' 'CrossRuntimeParity' 'src/__tests__/cookingThermo' 'testImportPathsResolve' 'methodPanelPresentationGuards' 'methodRankingProvenance' 'postalCode' 'alchemicalDefaultStateIntegrity' 'personalizedIngredientRecommenderSmoke' 'src/lib/database/__tests__/'",
     "test:watch": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --watch",
-    "test:memory": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --detectOpenHandles --forceExit",
+    "test:memory": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --detectOpenHandles",
     "test:detect-open-handles": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' bun run jest --runInBand --detectOpenHandles --passWithNoTests --no-forceExit",
     "open-browser": "node -e \"setTimeout(function(){require('open')('http://localhost:3000')}, 3000)\"",
     "prepare": "husky install || true",

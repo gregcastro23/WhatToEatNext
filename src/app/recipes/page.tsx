@@ -10,6 +10,37 @@ import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import type { Recipe } from "@/types/recipe";
 
+function hasValidElementalProperties(ep: unknown): boolean {
+  if (!ep || typeof ep !== "object") return false;
+  return (
+    "Fire" in ep && typeof ep.Fire === "number" &&
+    "Water" in ep && typeof ep.Water === "number" &&
+    "Earth" in ep && typeof ep.Earth === "number" &&
+    "Air" in ep && typeof ep.Air === "number"
+  );
+}
+
+function isValidRecipe(r: unknown): r is Recipe {
+  if (!r || typeof r !== "object") return false;
+  if (!("id" in r) || typeof r.id !== "string") return false;
+  if (!("name" in r) || typeof r.name !== "string") return false;
+  if (!("ingredients" in r) || !Array.isArray(r.ingredients)) return false;
+  if (!("instructions" in r) || !Array.isArray(r.instructions)) return false;
+  return "elementalProperties" in r && hasValidElementalProperties(r.elementalProperties);
+}
+
+const ValidatedRecipeSchema = z.custom<Recipe>(
+  isValidRecipe,
+  "Expected valid Recipe with id, name, ingredients, instructions, and elementalProperties",
+);
+
+const RecipesResponseSchema = z
+  .object({
+    success: z.boolean().optional(),
+    recipes: z.array(ValidatedRecipeSchema).optional(),
+  })
+  .passthrough();
+
 function RecipesPageContent() {
   const searchParams = useSearchParams();
   const cuisine = searchParams?.get("cuisine") || null;
@@ -30,10 +61,6 @@ function RecipesPageContent() {
         setIsLoading(false);
         return;
       }
-      const RecipesResponseSchema = z.object({
-        success: z.boolean().optional(),
-        recipes: z.array(z.custom<Recipe>()).optional(),
-      }).passthrough();
 
       const data = await readJson(res, {
         parse: (raw) => RecipesResponseSchema.parse(raw),

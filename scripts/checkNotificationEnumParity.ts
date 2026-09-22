@@ -16,6 +16,12 @@ async function checkDatabaseEnum(): Promise<string[]> {
     return [];
   }
   try {
+    try {
+      const dbUrl = new URL(process.env.DATABASE_URL);
+      console.log(`📡 Querying target database host: ${dbUrl.host}`);
+    } catch {
+      console.log("📡 Querying target database (unparseable URL)");
+    }
     const { getDatabasePool, closeDatabase } = await import("../src/lib/database/rawPool");
     const pool = getDatabasePool();
     const res = await pool.query<{ val: string }>(

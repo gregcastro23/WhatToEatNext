@@ -31,18 +31,24 @@ import {
   RecipeSocialResponseSchema,
   ShareResponseSchema,
 } from "../socialResponseSchemas";
-import { ServerProfileResponseSchema, ServerProfileDataSchema } from "../userProfileResponseSchemas";
+import {
+  ServerProfileResponseSchema,
+  ServerProfileDataSchema,
+  toDomainUserProfile,
+} from "../userProfileResponseSchemas";
 import {
   ShopItemsResponseSchema,
   ShopItemSchema,
   OnchainStatusSchema,
   ShopPurchaseResponseSchema,
   ShopPurchaseSettleResponseSchema,
+  toDomainShopItem,
 } from "../shopResponseSchemas";
 import {
   InstacartLinkResponseSchema,
   InstacartRetailerSchema,
   InstacartRetailersResponseSchema,
+  toDomainInstacartRetailer,
 } from "../instacartResponseSchemas";
 import {
   TableConversationEnsureResponseSchema,
@@ -1151,11 +1157,65 @@ describe("boundaryValidationSchemas", () => {
         expect(parsed.natalChart?.dominantElement).toBe("Fire");
       });
 
+      it("asserts producer fixture round-trip parity across toDomainUserProfile adapter", () => {
+        const producerProfile = {
+          userId: "usr_producer_1",
+          name: "The Great Paracelsus",
+          email: "paracelsus@alchm.kitchen",
+          onboardingComplete: true,
+          birthData: validBirthData,
+          natalChart: validNatalChart,
+          preferences: { spiceTolerance: "high" },
+          dietaryPreferences: { vegetarian: false },
+          groupMembers: [validGroupMember],
+          diningGroups: [validDiningGroup],
+          savedCharts: [
+            {
+              id: "chart_1",
+              ownerId: "usr_producer_1",
+              label: "Natal Blueprint",
+              chartType: "primary" as const,
+              birthData: validBirthData,
+              natalChart: validNatalChart,
+              isPrimary: true,
+              createdAt: "2026-09-20T12:00:00Z",
+              updatedAt: "2026-09-20T12:00:00Z",
+            },
+          ],
+          tokenEconomy: {
+            balances: { spirit: 100, essence: 50, matter: 25, substance: 10 },
+            isPremium: true,
+            streakCount: 7,
+            lastDailyClaimAt: "2026-09-20T12:00:00.000Z",
+          },
+          stats: { totalTransmutations: 42 },
+        };
+        const parsed = ServerProfileDataSchema.parse(producerProfile);
+        const domain = toDomainUserProfile(parsed);
+
+        expect(domain).toEqual(producerProfile);
+      });
+
+      it("red proof: rejects invalid token economy balances or corrupt natal chart", () => {
+        const corrupt = {
+          userId: "usr_corrupt",
+          tokenEconomy: {
+            balances: "invalid_string_balance",
+            isPremium: true,
+            streakCount: 1,
+          },
+        };
+        const parsed = ServerProfileDataSchema.parse(corrupt);
+        expect(parsed.tokenEconomy).toBeUndefined();
+        const domain = toDomainUserProfile(parsed);
+        expect(domain.tokenEconomy).toBeUndefined();
+      });
+
       it("consumer-recovery: malformed natalChart or birthData falls back safely to undefined", () => {
         const corruptProfile = {
           userId: "usr_corrupt_chart",
           birthData: "not an object",
-          natalChart: { dominantElement: "Aether" }, // invalid element
+          natalChart: { dominantElement: "Aether" },
         };
         const parsed = ServerProfileDataSchema.parse(corruptProfile);
         expect(parsed.userId).toBe("usr_corrupt_chart");
@@ -1210,6 +1270,38 @@ describe("boundaryValidationSchemas", () => {
         expect(parsed).toEqual(maximalItem);
       });
 
+      it("asserts producer fixture round-trip parity across toDomainShopItem adapter", () => {
+        const producerShopItem = {
+          id: "shop_item_1",
+          slug: "alchemical-crucible",
+          title: "Alchemical Crucible",
+          description: "High-temperature vessel for planetary distillations",
+          category: "hardware",
+          isOneTime: true,
+          baseCost: { spirit: 100, essence: 50, matter: 25, substance: 10 },
+          liveCost: { spirit: 110, essence: 55, matter: 28, substance: 11 },
+          owned: false,
+        };
+        const parsed = ShopItemSchema.parse(producerShopItem);
+        const domain = toDomainShopItem(parsed);
+
+        expect(domain).toEqual(producerShopItem);
+      });
+
+      it("red proof: rejects shop item with non-numeric or missing coin costs", () => {
+        const invalidCost = {
+          id: "shop_item_bad",
+          slug: "bad-item",
+          title: "Bad Item",
+          category: "hardware",
+          isOneTime: true,
+          baseCost: { spirit: "free", essence: 0, matter: 0, substance: 0 },
+          liveCost: { spirit: 0, essence: 0, matter: 0, substance: 0 },
+          owned: false,
+        };
+        expect(() => ShopItemSchema.parse(invalidCost)).toThrow();
+      });
+
       it("consumer-recovery: isolates corrupt shop items via parseEach", () => {
         const rawItems = [
           {
@@ -1225,7 +1317,6 @@ describe("boundaryValidationSchemas", () => {
           },
           {
             id: "item_corrupt",
-            // missing slug, title, category, costs
           },
         ];
         const result = parseEach(rawItems, (item) => ShopItemSchema.parse(item));
@@ -1265,11 +1356,36 @@ describe("boundaryValidationSchemas", () => {
         expect(parsed.retailer_logo_url).toBe("https://example.com/wfm.png");
       });
 
+      it("asserts producer fixture round-trip parity across toDomainInstacartRetailer adapter", () => {
+        const producerRetailer = {
+          retailer_key: "kroger_express",
+          name: "Kroger Express",
+          retailer_logo_url: "https://images.instacart.com/kroger.png",
+        };
+        const parsed = InstacartRetailerSchema.parse(producerRetailer);
+        const domain = toDomainInstacartRetailer(parsed);
+
+        expect(domain).toEqual(producerRetailer);
+      });
+
+      it("red proof: rejects invalid retailer_key or missing name in InstacartRetailerSchema", () => {
+        const missingName = {
+          retailer_key: "nameless_market",
+          retailer_logo_url: "https://images.instacart.com/logo.png",
+        };
+        expect(() => InstacartRetailerSchema.parse(missingName)).toThrow();
+
+        const invalidKey = {
+          retailer_key: 12345,
+          name: "Number Key Store",
+        };
+        expect(() => InstacartRetailerSchema.parse(invalidKey)).toThrow();
+      });
+
       it("consumer-recovery: rejects missing retailer name", () => {
         expect(() =>
           InstacartRetailerSchema.parse({
             retailer_key: "mystery_mart",
-            // missing required name
           }),
         ).toThrow();
       });

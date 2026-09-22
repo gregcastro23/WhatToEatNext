@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ChatMessage } from "@/types/chat";
+import type { ChatMessage, MessageReport } from "@/types/chat";
 
 export const ChatAttachmentSchema = z
   .object({
@@ -127,3 +127,23 @@ export const MessageReportSchema = z
   .passthrough();
 
 export type MessageReportWire = z.infer<typeof MessageReportSchema>;
+
+export function toDomainMessageReport(wire: MessageReportWire): MessageReport {
+  const result: MessageReport = {
+    id: wire.id,
+    messageId: wire.messageId,
+    conversationId: wire.conversationId,
+    reporterId: wire.reporterId,
+    reason: wire.reason,
+    status: wire.status,
+    createdAt: wire.createdAt,
+    resolvedAt: wire.resolvedAt,
+    resolvedBy: wire.resolvedBy,
+  };
+  if (wire.detail !== undefined) result.detail = wire.detail;
+  if (wire.messageBody !== undefined) result.messageBody = wire.messageBody;
+  if (wire.messageSenderId !== undefined) result.messageSenderId = wire.messageSenderId;
+  if (wire.messageHidden !== undefined) result.messageHidden = wire.messageHidden;
+  if (wire.conversationKind !== undefined) result.conversationKind = wire.conversationKind;
+  return result;
+}

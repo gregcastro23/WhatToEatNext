@@ -169,8 +169,16 @@ afterAll(async () => {
   jest.clearAllTimers();
   jest.useRealTimers();
   try {
-    const { closeDatabase } = await import("@/lib/database/rawPool");
-    await closeDatabase();
+    let rawPoolPath: string | undefined;
+    try {
+      rawPoolPath = require.resolve("@/lib/database/rawPool");
+    } catch {
+      /* ignore resolution error */
+    }
+    if (rawPoolPath && typeof require !== "undefined" && require.cache && require.cache[rawPoolPath]) {
+      const { closeDatabase } = await import("@/lib/database/rawPool");
+      await closeDatabase();
+    }
   } catch {
     /* ignore if rawPool was never loaded */
   }

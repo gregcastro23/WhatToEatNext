@@ -178,6 +178,10 @@ export function rowToMessage(row: MessageDbRow): ChatMessage {
   };
 }
 
+function isConversationKind(v: unknown): v is ConversationKind {
+  return v === "table" || v === "dm" || v === "circle";
+}
+
 function rowToReport(row: ReportDbRow): MessageReport {
   return {
     id: String(row.id),
@@ -193,7 +197,7 @@ function rowToReport(row: ReportDbRow): MessageReport {
     ...(row.message_body ? { messageBody: row.message_body } : {}),
     ...(row.message_sender_id ? { messageSenderId: row.message_sender_id } : {}),
     messageHidden: row.message_hidden === true,
-    ...(row.conversation_kind ? { conversationKind: row.conversation_kind as ConversationKind } : {}),
+    ...(isConversationKind(row.conversation_kind) ? { conversationKind: row.conversation_kind } : {}),
   };
 }
 

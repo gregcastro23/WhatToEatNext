@@ -48,7 +48,8 @@ for (const [route, limits] of Object.entries(thresholds)) {
     else if (flUnit === 'B') firstLoadKb /= 1024;
 
     if (isNaN(routeKb) || isNaN(firstLoadKb)) {
-      console.warn(`⚠️ Route ${route} found but could not parse sizes from line: ${line.trim()}`);
+      console.error(`❌ Route ${route} found but could not parse sizes from line: ${line.trim()}`);
+      failed = true;
       continue;
     }
 

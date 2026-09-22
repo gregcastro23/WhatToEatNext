@@ -72,6 +72,62 @@ interface AdminDashboardResponse {
   paIntegration?: PaIntegration | null;
 }
 
+const RecentUserSchema = z
+  .object({
+    id: z.string(),
+    email: z.string(),
+    name: z.string(),
+    createdAt: z.string(),
+    dominantElement: z.string().nullable(),
+    isActive: z.boolean(),
+  })
+  .passthrough();
+
+const TelemetryMetricSchema = z
+  .object({
+    value: z.string(),
+    raw: z.number(),
+    live: z.boolean(),
+    source: z.enum(["database", "ephemeris"]),
+  })
+  .passthrough();
+
+const AgentTelemetrySchema = z
+  .object({
+    agentHarmony: TelemetryMetricSchema,
+    transmutationRate: TelemetryMetricSchema,
+    spiritualEntropy: TelemetryMetricSchema,
+    mcpInvocationRate: TelemetryMetricSchema,
+    generatedAt: z.string(),
+    allLive: z.boolean(),
+  })
+  .passthrough();
+
+const PaIntegrationSchema = z
+  .object({
+    endpoints: z
+      .object({
+        alchmNextApp: z.string(),
+        paUi: z.string(),
+        paBackend: z.string(),
+        wtenLegacyBackend: z.string(),
+      })
+      .passthrough(),
+    health: z.string(),
+    agentCount: z.number().nullable(),
+    lastFeedEmit: z
+      .object({
+        eventType: z.string(),
+        agentEmail: z.string(),
+        responseCode: z.number(),
+        timestamp: z.string(),
+      })
+      .passthrough()
+      .nullable(),
+    telemetry: AgentTelemetrySchema.nullable(),
+  })
+  .passthrough();
+
 interface PlanetarySyncResponse {
   success: boolean;
   statusCode?: number;
@@ -110,12 +166,14 @@ export default function AdminDashboardPage(): React.JSX.Element {
         setRecentUsersLive(false);
         return { ok: false };
       }
-      const AdminDashboardResponseSchema = z.object({
-        success: z.boolean().optional(),
-        recentUsers: z.array(z.custom<RecentUser>()).optional(),
-        recentUsersLive: z.boolean().optional(),
-        paIntegration: z.custom<PaIntegration | null>().optional(),
-      }).passthrough();
+      const AdminDashboardResponseSchema = z
+        .object({
+          success: z.boolean().optional(),
+          recentUsers: z.array(RecentUserSchema).optional(),
+          recentUsersLive: z.boolean().optional(),
+          paIntegration: PaIntegrationSchema.nullable().optional(),
+        })
+        .passthrough();
 
       const data = await readJson(response, {
         parse: (raw) => AdminDashboardResponseSchema.parse(raw),

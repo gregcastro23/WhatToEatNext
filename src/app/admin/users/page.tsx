@@ -60,6 +60,70 @@ const USER_TYPE_LABELS: Record<UserType, string> = {
   agent: "Agents",
 };
 
+const AdminUserWireSchema = z
+  .object({
+    id: z.string(),
+    email: z.string(),
+    name: z.string().nullable(),
+    roles: z.array(z.string()),
+    tier: z.string().optional(),
+    subscriptionStatus: z.string().nullable().optional(),
+    isActive: z.boolean(),
+    isAgent: z.boolean(),
+    createdAt: z.string(),
+    lastLoginAt: z.string().nullable().optional(),
+    loginCount: z.number().optional(),
+    activeSessions: z.number().optional(),
+    dominantElement: z.string().nullable(),
+    bio: z.string().nullable().optional(),
+    monicaConstant: z.number().nullable().optional(),
+    feedEvents24h: z.number().optional(),
+    hasCompletedOnboarding: z.boolean(),
+  })
+  .passthrough();
+
+export type AdminUserWire = z.infer<typeof AdminUserWireSchema>;
+
+function toDomainAdminUser(wire: AdminUserWire): AdminUser {
+  const user: AdminUser = {
+    id: wire.id,
+    email: wire.email,
+    name: wire.name,
+    roles: wire.roles,
+    isActive: wire.isActive,
+    isAgent: wire.isAgent,
+    createdAt: wire.createdAt,
+    dominantElement: wire.dominantElement,
+    hasCompletedOnboarding: wire.hasCompletedOnboarding,
+  };
+  if (wire.tier !== undefined) user.tier = wire.tier;
+  if (wire.subscriptionStatus !== undefined) user.subscriptionStatus = wire.subscriptionStatus;
+  if (wire.lastLoginAt !== undefined) user.lastLoginAt = wire.lastLoginAt;
+  if (wire.loginCount !== undefined) user.loginCount = wire.loginCount;
+  if (wire.activeSessions !== undefined) user.activeSessions = wire.activeSessions;
+  if (wire.bio !== undefined) user.bio = wire.bio;
+  if (wire.monicaConstant !== undefined) user.monicaConstant = wire.monicaConstant;
+  if (wire.feedEvents24h !== undefined) user.feedEvents24h = wire.feedEvents24h;
+  return user;
+}
+
+const UserCountsSchema = z
+  .object({
+    all: z.number(),
+    humans: z.number(),
+    agents: z.number(),
+  })
+  .passthrough();
+
+const PaginationSchema = z
+  .object({
+    page: z.number(),
+    pageSize: z.number(),
+    total: z.number(),
+    totalPages: z.number(),
+  })
+  .passthrough();
+
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [counts, setCounts] = useState<UserCounts>({ all: 0, humans: 0, agents: 0 });
@@ -85,21 +149,23 @@ export default function AdminUsersPage() {
       params.set("page", String(page));
 
       const response = await fetch(`/api/admin/users?${params}`);
-      const AdminUsersResponseSchema = z.object({
-        success: z.boolean().optional(),
-        message: z.string().optional(),
-        users: z.array(z.custom<AdminUser>()).optional(),
-        counts: z.custom<UserCounts>().optional(),
-        pagination: z.custom<Pagination>().optional(),
-        degraded: z.boolean().optional(),
-      }).passthrough();
+      const AdminUsersResponseSchema = z
+        .object({
+          success: z.boolean().optional(),
+          message: z.string().optional(),
+          users: z.array(AdminUserWireSchema).optional(),
+          counts: UserCountsSchema.optional(),
+          pagination: PaginationSchema.optional(),
+          degraded: z.boolean().optional(),
+        })
+        .passthrough();
 
       const data = await readJson(response, {
         parse: (raw) => AdminUsersResponseSchema.parse(raw),
       });
 
       if (data.success && data.users) {
-        setUsers(data.users);
+        setUsers(data.users.map(toDomainAdminUser));
         if (data.counts) setCounts(data.counts);
         setPagination(data.pagination ?? null);
         // The API sets `degraded: true` on its in-memory fallback path, where
