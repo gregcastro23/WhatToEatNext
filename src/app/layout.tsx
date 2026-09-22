@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, JetBrains_Mono, Manrope } from "next/font/google";
 import React, { Suspense } from "react";
+import PageViewTracker from "@/components/analytics/PageViewTracker";
 import SignInModal from "@/components/auth/SignInModal";
 import TokenShopModal from "@/components/economy/TokenShopModal";
 import { GroceryCartDrawer } from "@/components/grocery-cart/GroceryCartDrawer";
@@ -167,6 +168,8 @@ export default function RootLayout({
           <GroceryCartDrawer />
         </ClientProviders>
         <Analytics />
+        {/* First-party visit log → /admin/traffic. No cookies, no raw IPs. */}
+        <PageViewTracker />
       </body>
     </html>
   );
