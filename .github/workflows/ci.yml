@@ -68,6 +68,43 @@ jobs:
       - name: Run ${{ matrix.name }}
         run: ${{ matrix.command }}
 
+  # Code-health reading for /admin/code-health: what tsc and ESLint actually
+  # report on each master commit (the ratchet baselines are ceilings; this is
+  # the measurement), posted to the admin ingest endpoint. Master pushes only,
+  # never a required check, never red on a failed post. Needs the
+  # CODE_HEALTH_INGEST_SECRET repository secret (same value as the Vercel env
+  # var); without it the job still measures and prints, and skips the post.
+  code-health:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          lfs: true
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Create env file
+        run: |
+          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
+          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
+          echo "NODE_ENV=test" >> .env.local
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Measure tsc + ESLint and post the reading
+        env:
+          CODE_HEALTH_INGEST_SECRET: ${{ secrets.CODE_HEALTH_INGEST_SECRET }}
+          CODE_HEALTH_INGEST_URL: ${{ vars.CODE_HEALTH_INGEST_URL }}
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        run: bun scripts/codeHealthSnapshot.ts --post "${CODE_HEALTH_INGEST_URL:-https://alchm.kitchen/api/admin/code-health/ingest}"
+
   # The Rust half of the physics parity proof. Until 2026-08-16 NOTHING ran
   # cargo in CI: the 49 workspace tests (thermo-core golden vectors included)
   # and the wasm build only ran when someone remembered to run them locally,

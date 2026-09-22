@@ -7,7 +7,7 @@
  * baselines are ceilings; this is the reading.
  *
  * Output is a JSON document matching `CodeHealthSnapshotInput` in
- * src/services/admin/codeHealthService.ts. With `--post <url>` it is sent to
+ * src/services/admin/codeHealthIngest.ts. With `--post <url>` it is sent to
  * the admin ingest endpoint, authenticated by CODE_HEALTH_INGEST_SECRET.
  *
  *   bun scripts/codeHealthSnapshot.ts                    # print JSON
@@ -60,8 +60,8 @@ function runTsc(): TscReading {
   // `next typegen` first, exactly as `bun run typecheck` does — without the
   // generated route types tsc reports errors the gate never sees.
   spawnSync("bunx", ["next", "typegen"], { cwd: repoRoot, stdio: "ignore" });
-  // --incremental false: an incremental build can report phantom errors
-  // (see memory: tsc incremental invents an error).
+  // --incremental false: a stale .tsbuildinfo can make an incremental run
+  // report errors that a clean run does not.
   const res = spawnSync(
     "bunx",
     ["tsc", "--noEmit", "--incremental", "false", "--pretty", "false", "-p", "tsconfig.json"],
@@ -170,8 +170,7 @@ interface Census {
 async function walk(dir: string, out: string[]): Promise<void> {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
-    // Finder duplicates ("foo 2.ts") are not source — see memory
-    // reference_scanner_counts_finder_duplicates.
+    // macOS Finder duplicates ("foo 2.ts") are copies, not source.
     if (/ \d+\.[a-z]+$/.test(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) await walk(full, out);
@@ -238,7 +237,10 @@ if (postUrl) {
     });
     const body = await res.text();
     console.error(`POST ${postUrl} → ${res.status} ${body.slice(0, 300)}`);
-    if (!res.ok) process.exitCode = 1;
+    // A failed post is a warning, not a red build: the reading is already in
+    // this log, and the endpoint may simply not be deployed yet (the push that
+    // introduces it runs before its own deploy finishes).
+    if (!res.ok) console.log(`::warning::code-health ingest returned ${res.status}; reading not stored`);
   }
 }
 

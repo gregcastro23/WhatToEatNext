@@ -31,6 +31,7 @@ import {
   utcDay,
   visitorHash,
 } from "@/lib/analytics/pageViewClassify";
+import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import { rateLimit } from "@/lib/rateLimit";
 import { recordPageView } from "@/services/admin/trafficAnalyticsService";
@@ -83,7 +84,6 @@ function decodedHeader(request: NextRequest, name: string, max: number): string 
 /** Server-verified identity only. Any failure → anonymous, never an error. */
 async function sessionUserId(): Promise<string | null> {
   try {
-    const { auth } = await import("@/lib/auth/auth");
     const session = await auth();
     const email = session?.user?.email?.trim().toLowerCase();
     if (!email) return null;

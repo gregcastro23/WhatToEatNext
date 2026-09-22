@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import { z } from "zod";
 import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
 import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
 import FaucetResonancePanel from "@/components/admin/FaucetResonancePanel";
 import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
 import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
+import PulseStrip from "@/components/admin/PulseStrip";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
-import { z } from "zod";
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 
@@ -65,12 +66,6 @@ interface PaIntegration {
   telemetry: AgentTelemetry | null;
 }
 
-interface AdminDashboardResponse {
-  success?: boolean;
-  recentUsers?: RecentUser[];
-  recentUsersLive?: boolean;
-  paIntegration?: PaIntegration | null;
-}
 
 const RecentUserSchema = z
   .object({
@@ -128,13 +123,6 @@ const PaIntegrationSchema = z
   })
   .passthrough();
 
-interface PlanetarySyncResponse {
-  success: boolean;
-  statusCode?: number;
-  affectedCount?: number;
-  failures?: string[];
-  timestamp?: string;
-}
 
 /**
  * Admin Dashboard - Overview of system statistics & integration observability
@@ -344,11 +332,15 @@ export default function AdminDashboardPage(): React.JSX.Element {
     <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Overview</h1>
         <p className="text-sm sm:text-base text-gray-600 mt-1">
-          Welcome to the alchm.kitchen admin panel
+          Live state of alchm.kitchen — every number below is read from its source on this refresh.
         </p>
       </div>
+
+      {/* Pulse — one live headline per source (traffic, growth, Stripe, code
+          health, chain), each linking to its detail page. Polls every 30s. */}
+      <PulseStrip />
 
       {/* Launch readiness — settlement backlog + presence-only config for every
           revenue / on-chain subsystem. First thing an operator should see: a
