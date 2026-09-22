@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, Suspense, useCallback } from "react";
 import { z } from "zod";
-import { readJson } from "@/lib/api/json";
+import { readJson, parseEach } from "@/lib/api/json";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
@@ -34,10 +34,10 @@ const ValidatedRecipeSchema = z.custom<Recipe>(
   "Expected valid Recipe with id, name, ingredients, instructions, and elementalProperties",
 );
 
-const RecipesResponseSchema = z
+const RecipesResponseEnvelopeSchema = z
   .object({
     success: z.boolean().optional(),
-    recipes: z.array(ValidatedRecipeSchema).optional(),
+    recipes: z.array(z.unknown()).optional(),
   })
   .passthrough();
 
@@ -63,11 +63,11 @@ function RecipesPageContent() {
       }
 
       const data = await readJson(res, {
-        parse: (raw) => RecipesResponseSchema.parse(raw),
+        parse: (raw) => RecipesResponseEnvelopeSchema.parse(raw),
       });
       let cuisineRecipes: Recipe[] = [];
       if (data.success && data.recipes) {
-        cuisineRecipes = data.recipes;
+        cuisineRecipes = parseEach(data.recipes, (r) => ValidatedRecipeSchema.parse(r)).items;
       }
 
       // Initially display recipes unsorted

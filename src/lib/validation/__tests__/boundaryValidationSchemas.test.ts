@@ -67,6 +67,8 @@ import {
 import {
   RecipeIngredientSchema,
   toDomainRecipeIngredient,
+  LunarPhaseEnum,
+  SeasonEnum,
 } from "../recipeResponseSchemas";
 import {
   FeedApiResponseSchema,
@@ -1113,6 +1115,29 @@ describe("boundaryValidationSchemas", () => {
             }),
           ),
         ).toThrow();
+      });
+
+      it("validates and normalizes all 8 lunar phases in both space and underscore formats", () => {
+        const phases = [
+          { space: "new moon", under: "new_moon", expected: "new moon" },
+          { space: "waxing crescent", under: "waxing_crescent", expected: "waxing crescent" },
+          { space: "first quarter", under: "first_quarter", expected: "first quarter" },
+          { space: "waxing gibbous", under: "waxing_gibbous", expected: "waxing gibbous" },
+          { space: "full moon", under: "full_moon", expected: "full moon" },
+          { space: "waning gibbous", under: "waning_gibbous", expected: "waning gibbous" },
+          { space: "last quarter", under: "last_quarter", expected: "last quarter" },
+          { space: "waning crescent", under: "waning_crescent", expected: "waning crescent" },
+        ];
+        for (const { space, under, expected } of phases) {
+          expect(LunarPhaseEnum.parse(space)).toBe(expected);
+          expect(LunarPhaseEnum.parse(under)).toBe(expected);
+        }
+      });
+
+      it("validates all six season enum members", () => {
+        for (const season of ["spring", "summer", "autumn", "fall", "winter", "all"]) {
+          expect(SeasonEnum.parse(season)).toBe(season);
+        }
       });
     });
 

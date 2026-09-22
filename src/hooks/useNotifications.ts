@@ -76,19 +76,12 @@ export function useNotifications(options?: UseNotificationsOptions) {
         // All items failed parse: surface honest error rather than false-empty state
         setError('Unable to load notifications right now.');
         setNotifications([]);
-        setUnreadCount(0);
       } else {
         setNotifications(parsed.items);
-        if (parsed.dropped > 0) {
-          // Synchronize badge with survivors when malformed items are dropped
-          setUnreadCount(parsed.items.filter((n) => !n.isRead).length);
-        } else {
-          setUnreadCount(envelope.unreadCount);
-        }
       }
+      setUnreadCount(envelope.unreadCount);
     } catch {
       setError('Unable to load notifications right now.');
-      setUnreadCount(0);
     } finally {
       setLoading(false);
     }

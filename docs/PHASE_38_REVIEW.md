@@ -240,4 +240,4 @@ These let a green gate coexist with a real defect. Fix them before grinding more
 | 7 | Workstream C remainder if not finished: userProfile (both producers), shop, instacart | — |
 | — | Carry-over, not TypeScript: honest /shop split (wallet-only lazy, catalog SSR); /account 898 kB | — |
 
-**Standing process rule**: One agent per worktree. Before staging in any shared tree, check for files modified in the last few minutes.
+**Standing process rule (learned the hard way this phase)**: one agent per worktree. In one day, a shared checkout produced three stash/move cycles of another agent's files, and one commit that captured a third agent's in-flight edits. Before staging in any shared tree, check for files modified in the last few minutes.

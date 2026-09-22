@@ -86,51 +86,41 @@ The classification mechanism in `scripts/checkLintDebt.ts` was audited and is do
 - **0 dependencies, 0 imports**: keeps `json.ts` completely leaf-pure without dragging logging services into client-side bundles.
 - Allows hooks to differentiate between an empty server response (`total === 0`) and a response where malformed items were dropped (`dropped > 0 && kept === 0`), avoiding false empty states.
 
-### Adopted Call Sites & Badge Synchronization
-- `src/hooks/useNotifications.ts`: Parse list with `parseEach(data.notifications, UserNotificationWireSchema)`.
-  - When items are dropped (`parsed.dropped > 0`), the unread badge count is synchronized with surviving items:
-    ```typescript
-    if (parsed.dropped > 0) {
-      const survivingUnread = parsed.items.filter((n) => !n.isRead).length;
-      setUnreadCount(survivingUnread);
-    }
-    ```
-  - When all items are dropped (`parsed.dropped > 0 && parsed.kept === 0`), `useNotifications` enters an error state and explicitly zeros `unreadCount` (`setUnreadCount(0)`).
+### Adopted Call Sites & Resilient Badge Handling
+- `src/hooks/useNotifications.ts`: Parse list with `parseEach(data.notifications, UserNotificationSchema)`.
+  - Maintains the server's global unread count (`setUnreadCount(envelope.unreadCount)`) even when malformed items are dropped, avoiding false undercounts against the local 20-item page limit.
+  - Preserves the last known unread count on fetch errors or all-dropped states, preventing transient network glitches from incorrectly showing zero unread messages.
+- `src/app/recipes/page.tsx`: Recipe catalog parses items tolerantly with `parseEach`, dropping corrupt entries individually rather than rejecting the entire recipe catalog on a single malformed item.
 - `src/hooks/useConversation.ts`: Messages parsed with element-level resilience.
 - `src/hooks/useTableChat.ts`: Live message updates parsed with item tolerance.
 - `src/app/(alchm)/feed/page.tsx`: Feed events parsed with element-level resilience.
 - Empty write-acknowledgement handling: Hardened `safeReadJson` to return `{}` for 200 OK responses with empty bodies instead of throwing syntax errors.
 
 ### Database Enum Parity Verification
-- Updated `scripts/checkNotificationEnumParity.ts` to log the masked database host (`tramway.proxy.rlwy.net:35670`).
-- Queried the live Railway PostgreSQL database:
-  - Live enum `notification_type` contains **17 distinct values**:
-    `["welcome", "login_greeting", "daily_insight", "commensal_request", "commensal_accepted", "transit_attunement", "table_invite", "table_rsvp", "table_going_live", "table_memory_posted", "new_follower", "dm_message", "circle_message", "table_chat_mention", "reaction_received", "comment_received", "table_join_request"]`.
-  - Exposure count query (`SELECT type, COUNT(*) FROM notifications GROUP BY type;`): returned **0 rows** (the live `notifications` table currently contains 0 rows).
-  - Schema parity: All 17 live enum values are fully supported members in `notificationResponseSchemas.ts` (`UserNotificationWireSchema`), ensuring 100% coverage.
+- Tested against the production Railway database proxy at `tramway.proxy.rlwy.net:35670` via `scripts/checkNotificationEnumParity.ts`.
+- **Live Enum Parity Findings**:
+  - The live production `notification_type` enum contains **17 distinct values**:
+    `["welcome", "login_greeting", "daily_insight", "commensal_request", "commensal_accepted", "transit_attunement", "table_invite", "table_rsvp", "table_going_live", "table_memory_posted", "new_follower", "dm_message", "circle_message", "table_chat_mention", "table_join_request", "reaction_received", "comment_received"]` (with production currently missing migration 67's values relative to the 19 defined across migrations 13, 30, 49, 61, 63, 65, 67, 69; client schema supports 20 values including client-side `agent_broadcast`).
+  - The live `notifications` table currently reports **0 rows**.
+  - Client schema (`notificationResponseSchemas.ts`) fully covers all 17 live enum values, so inbound reads parse without dropping valid notifications.
 
 ---
 
 ## 4. Workstream C: Producer Round-Trip Parity & Red Proofs
 
-### Defect Addressed
-Because Zod schemas in `src/lib/validation/**` utilize `.passthrough()`, `Schema.parse(x)` deep-equals `x` unconditionally, masking fields silently dropped during domain adapter conversion.
-
-### Test Upgrades
-- Added producer-grounded round-trip tests and red proofs for all 7 schema families in `src/lib/validation/__tests__/boundaryValidationSchemas.test.ts`:
-  1. **Feed**: `feedResponseSchemas.ts` -> `toDomainFeedItem`
-  2. **Notification**: `notificationResponseSchemas.ts` -> `toDomainNotification`
-  3. **Chat**: `chatResponseSchemas.ts` -> `toDomainMessageReport`, `toDomainConversation`
-  4. **Recipe**: `recipeResponseSchemas.ts` -> `toDomainRecipeOverview`, `toDomainRecipe`
-  5. **UserProfile**: `userProfileResponseSchemas.ts` -> `toDomainUserProfile` (producer: `rowToUserProfile`)
-  6. **Shop**: `shopResponseSchemas.ts` -> `toDomainShopItem` (producer: `ShopService`)
-  7. **Instacart**: `instacartResponseSchemas.ts` -> `toDomainInstacartRetailer` (producer: Instacart retailer API fixture)
-- Asserted both:
-  1. Key presence in `Schema.shape`: `expect(Object.keys(Schema.shape)).toContain("actorRevealed")`
-  2. Adapter translation: `expect(toDomainX(Schema.parse(fixture)))`.toEqual(expectedDomain)
-- Built fixtures directly using producer mappings to avoid synthetic drift.
-- Verified red proofs: intentionally dropping an adapter field causes the test suite to fail immediately.
-- Updated `tests/extendedRecipe.test.ts` to assert `expect(ing).not.toHaveProperty("instructions")` rather than `.toBeUndefined()`, correctly asserting key omission under `exactOptionalPropertyTypes`.
+### Status: Partially Met
+- **Met**: Notification, Chat, and Recipe:
+  1. **Notification**: `notificationResponseSchemas.ts` -> `toDomainNotification` (producer: `rowToNotification` in `notificationDatabaseService.ts`).
+  2. **Chat**: `chatResponseSchemas.ts` -> `toDomainMessageReport` and `toDomainChatMessage` (producer: `rowToMessage` in `chatDatabaseService.ts`).
+  3. **Recipe**: `recipeResponseSchemas.ts` -> `toDomainRecipeIngredient`.
+  - Asserted both:
+    1. Key presence in `Schema.shape`: `expect(Object.keys(Schema.shape)).toContain("actorRevealed")`
+    2. Adapter translation: `expect(toDomainX(Schema.parse(fixture)))`.toEqual(expectedDomain)
+  - Verified red proofs: intentionally corrupting an adapter field causes the test suite to fail immediately.
+  - Updated `tests/extendedRecipe.test.ts` to assert `expect(ing).not.toHaveProperty("instructions")` rather than `.toBeUndefined()`, correctly asserting key omission under `exactOptionalPropertyTypes`.
+- **Missed / Deferred to Phase 39**: UserProfile, Shop, and Instacart:
+  - Schemas and domain adapters were created (`toDomainUserProfile`, `toDomainShopItem`, `toDomainInstacartRetailer`), but round-trips currently use shape checks and handwritten fixtures without live producers crossing, and real consumer pages/services (`UserContext`, `ShopStorefront`, `InstacartService`) are not yet routed through them.
+  - Formally recorded as missed and parked for Phase 39 candidate scope (Priority 7).
 
 ---
 
@@ -181,10 +171,10 @@ We explicitly avoided masking these warnings with `exprContextCritical: false` t
 ### Remediation of 11 Predicate-Free `z.custom<T>()` Calls
 Review identified 11 predicate-free `z.custom<T>()` calls added in early Phase 38 that validated nothing at runtime (accepting `null`, `"fire"`, `42`, or `[1, 2]`). All 11 calls were completely eliminated and replaced with concrete, validated Zod schemas:
 
-1. `src/lib/validation/recipeResponseSchemas.ts`: Replaced predicate-free `z.custom<ElementalProperties>()` with `ElementalPropertiesSchema` checking numeric bounds `[0, 1]` on `fire`, `water`, `earth`, and `air`.
-2. `src/lib/validation/recipeResponseSchemas.ts`: Replaced predicate-free `z.custom<Season>()` with `SeasonEnum` union (`"spring" | "summer" | "autumn" | "winter" | "all"`).
-3. `src/lib/validation/recipeResponseSchemas.ts`: Replaced predicate-free `z.custom<LunarPhase>()` with `LunarPhaseEnum` normalizing wire underscores to domain space-separated strings.
-4. `src/app/recipes/page.tsx`: Replaced predicate-free `z.custom<RecipeOverview>()` with `ValidatedRecipeSchema` checking object structure and elemental properties.
+1. `src/lib/validation/recipeResponseSchemas.ts`: Replaced predicate-free `z.custom<ElementalProperties>()` with `ElementalPropertiesSchema` checking numeric fields `Fire`, `Water`, `Earth`, and `Air`.
+2. `src/lib/validation/recipeResponseSchemas.ts`: Replaced predicate-free `z.custom<Season>()` with `SeasonEnum` union (`"spring" | "summer" | "autumn" | "fall" | "winter" | "all"`).
+3. `src/lib/validation/recipeResponseSchemas.ts`: Replaced predicate-free `z.custom<LunarPhase>()` with `LunarPhaseEnum` normalizing wire underscores to domain space-separated strings across all 8 phases (including `"waning crescent"` and `"waning_crescent"`).
+4. `src/app/recipes/page.tsx`: Replaced predicate-free `z.custom<RecipeOverview>()` with `ValidatedRecipeSchema` checking object structure and elemental properties, parsed tolerantly via `parseEach`.
 5. `src/lib/validation/chatResponseSchemas.ts`: Added `MessageReportSchema` validating message report records and exported `toDomainMessageReport`.
 6. `src/app/admin/chat-reports/page.tsx`: Replaced predicate-free `z.custom<MessageReport[]>` with `MessageReportSchema` and mapped via `toDomainMessageReport`.
 7. `src/app/admin/users/page.tsx`: Replaced predicate-free `z.custom<AdminUser[]>` with `AdminUserSchema` validating user fields.
@@ -199,6 +189,7 @@ Review identified 11 predicate-free `z.custom<T>()` calls added in early Phase 3
 Eliminated all 3 unchecked assertions identified during review:
 1. `src/services/LocalRecipeService.ts:248`: Removed `as unknown as NonNullable<Recipe['nutrition']>`. Properly typed `nutritional_profile: NonNullable<Recipe['nutrition']> | null` on the intermediate model, aligning with `Recipe['nutrition']` without any type casting.
 2. `src/services/LocalRecipeService.ts:289`: Removed duplicate `as unknown as NonNullable<Recipe['nutrition']>`.
+   - _Note on nutrition boundary_: While the double assertions are removed, intermediate parsing in `parseJsonValue<T>` remains `JSON.parse(v) as T`. Replacing this with a dedicated Zod nutrition schema is scheduled for Phase 39.
 3. `src/services/chatDatabaseService.ts:196`: Removed `row.conversation_kind as ConversationKind`. Introduced an exhaustive runtime type guard:
    ```typescript
    function isConversationKind(value: unknown): value is ConversationKind {

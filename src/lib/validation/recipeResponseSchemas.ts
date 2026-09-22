@@ -229,16 +229,16 @@ export const ElementalPropertiesSchema = z.object({
 });
 
 const SEASONS = ["spring", "summer", "autumn", "fall", "winter", "all"] as const;
-const SeasonEnum = z.enum(SEASONS);
+export const SeasonEnum = z.enum(SEASONS);
 
 const LUNAR_PHASE_MAP: Record<string, LunarPhase> = {
   "new moon": "new moon", "waxing crescent": "waxing crescent", "first quarter": "first quarter", "waxing gibbous": "waxing gibbous",
-  "full moon": "full moon", "waning gibbous": "waning gibbous", "last quarter": "last quarter", "waning crescent": "waxing crescent",
+  "full moon": "full moon", "waning gibbous": "waning gibbous", "last quarter": "last quarter", "waning crescent": "waning crescent",
   "new_moon": "new moon", "waxing_crescent": "waxing crescent", "first_quarter": "first quarter", "waxing_gibbous": "waxing gibbous",
-  "full_moon": "full moon", "waning_gibbous": "waning gibbous", "last_quarter": "last quarter", "waning_crescent": "waxing crescent",
+  "full_moon": "full moon", "waning_gibbous": "waning gibbous", "last_quarter": "last quarter", "waning_crescent": "waning crescent",
 };
 
-const LunarPhaseEnum: z.ZodType<LunarPhase> = z.string().transform((v, ctx): LunarPhase => {
+export const LunarPhaseEnum: z.ZodType<LunarPhase> = z.string().transform((v, ctx): LunarPhase => {
   const mapped = LUNAR_PHASE_MAP[v];
   if (!mapped) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Invalid lunar phase: ${v}` });
