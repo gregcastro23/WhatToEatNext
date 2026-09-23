@@ -19,6 +19,13 @@
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import {
+  claimInboundEvent,
+  completeWebhookEvent,
+  extractIdempotencyKey,
+  failWebhookEvent,
+  type ClaimOutcome,
+} from "@/lib/hooks/idempotency";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
@@ -143,6 +150,7 @@ export const POST = withObservability(
   async (request: Request) => {
     let agentEmail = "unknown";
     let eventType = "unknown";
+    let claimOutcome: ClaimOutcome | null = null;
 
     try {
       const preview = await extractWebhookPreview(request);
@@ -217,6 +225,37 @@ export const POST = withObservability(
     const normalizedEmail = incomingAgentEmail.toLowerCase().trim();
     agentEmail = normalizedEmail;
     const isAgenticNamespace = normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN);
+
+    const idempotencyKey = extractIdempotencyKey(request, rawBody);
+    claimOutcome = await claimInboundEvent({
+      source: "asol-feed",
+      key: idempotencyKey,
+      eventType: incomingEventType,
+      subjectId: normalizedEmail,
+      summary: { agentEmail: normalizedEmail, eventType: incomingEventType },
+      data: rawBody,
+    });
+
+    if (claimOutcome.isDuplicate) {
+      if (claimOutcome.isInFlight) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "conflict",
+            message: "Event is currently being processed",
+          },
+          { status: 409, headers: { "Retry-After": "1" } },
+        );
+      }
+      return NextResponse.json({
+        ...(claimOutcome.previousResult ?? {
+          success: true,
+          agentEmail: normalizedEmail,
+          eventType: incomingEventType,
+        }),
+        deduplicated: true,
+      });
+    }
 
     let user = await userDatabase.getUserByEmail(normalizedEmail);
 
@@ -333,13 +372,20 @@ export const POST = withObservability(
       logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
     }
 
-    rememberFeedEmit(incomingEventType, normalizedEmail, 200);
-    return NextResponse.json({
+    const responsePayload = {
       success: true,
       agentEmail: normalizedEmail,
       eventType: incomingEventType,
-    });
+    };
+    if (claimOutcome?.claim) {
+      await completeWebhookEvent(claimOutcome.claim, "processed", responsePayload);
+    }
+    rememberFeedEmit(incomingEventType, normalizedEmail, 200);
+    return NextResponse.json(responsePayload);
   } catch (error) {
+    if (claimOutcome?.claim) {
+      await failWebhookEvent(claimOutcome.claim, error);
+    }
     logger.error("[Feed Webhook] Error processing agent event:", error);
     rememberFeedEmit(eventType, agentEmail, 500);
     return NextResponse.json(
