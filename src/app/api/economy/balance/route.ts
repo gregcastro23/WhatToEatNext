@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { streakService } from "@/services/StreakService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
     const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
     const syncHeader = request.headers.get("X-Sync-Secret");
     const emailParam = new URL(request.url).searchParams.get("email");
-    if (syncHeader && syncSecret && syncHeader === syncSecret && emailParam) {
+    if (emailParam && safeEqual(syncHeader, syncSecret)) {
       const userRow = await executeQuery<{ id: string }>(
         "SELECT id FROM users WHERE email = $1 LIMIT 1",
         [emailParam],

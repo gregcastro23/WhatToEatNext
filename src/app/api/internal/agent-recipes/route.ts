@@ -16,6 +16,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
+import { bearerMatches, safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import type { NextRequest } from "next/server";
 
@@ -47,8 +48,8 @@ export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization") ?? "";
   const syncHeader = request.headers.get("x-sync-secret") ?? "";
 
-  const isBearerAuthorized = !!INTERNAL_API_SECRET && authHeader === `Bearer ${INTERNAL_API_SECRET}`;
-  const isSyncHeaderAuthorized = !!ALCHM_KITCHEN_SYNC_SECRET && syncHeader === ALCHM_KITCHEN_SYNC_SECRET;
+  const isBearerAuthorized = bearerMatches(authHeader, INTERNAL_API_SECRET);
+  const isSyncHeaderAuthorized = safeEqual(syncHeader, ALCHM_KITCHEN_SYNC_SECRET);
 
   if (!isBearerAuthorized && !isSyncHeaderAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
