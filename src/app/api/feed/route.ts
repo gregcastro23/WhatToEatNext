@@ -328,12 +328,10 @@ export const POST = withObservability(
           agentName: user.profile?.name ?? normalizedEmail,
           eventType: incomingEventType,
         });
-        // Unique text id per row (matches the notif_<ts>_<rand> service
-        // convention — see Risk 1; the column accepts text ids in prod).
+        // Unique UUID per row matching notifications schema
         await executeQuery(
           `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
-           SELECT 'notif_' || floor(extract(epoch from now()) * 1000)::bigint
-                    || '_' || substr(md5(random()::text || u.id::text), 1, 6),
+           SELECT uuid_generate_v4(),
                   u.id, 'agent_broadcast', $1, $2, $3, $4::jsonb
              FROM users u
             WHERE COALESCE(u.is_agent, false) = false`,

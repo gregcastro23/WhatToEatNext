@@ -14,8 +14,14 @@ export function isMissingRelation(err: unknown): boolean {
 }
 
 /**
- * `22P02 invalid_text_representation` — rejected enum value or malformed literal.
+ * `22P02 invalid_text_representation` — specifically rejected enum value (not a UUID or integer syntax error).
  */
 export function isPgEnumMismatch(err: unknown): boolean {
-  return typeof err === "object" && err !== null && "code" in err && err.code === "22P02";
+  if (typeof err !== "object" || err === null || !("code" in err) || err.code !== "22P02") {
+    return false;
+  }
+  if ("message" in err && typeof err.message === "string") {
+    return /enum/i.test(err.message);
+  }
+  return true;
 }
