@@ -83,6 +83,42 @@ export function computeV1Signature(
   return createHmac("sha256", secret).update(content).digest("base64");
 }
 
+function hasMatchingV1Signature(signatureHeader: string, expectedSig: string): boolean {
+  const candidates = signatureHeader.trim().split(/\s+/);
+  for (const candidate of candidates) {
+    const commaIndex = candidate.indexOf(",");
+    if (commaIndex === -1) continue;
+    const version = candidate.slice(0, commaIndex);
+    const sig = candidate.slice(commaIndex + 1);
+
+    if (version === "v1" && safeEqual(sig, expectedSig)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function validateTimestamp(
+  timestampStr: string,
+  nowSeconds: number,
+  toleranceSeconds: number,
+):
+  | { valid: true; timestamp: number }
+  | { valid: false; reason: "invalid_timestamp" | "timestamp_drift"; detail: string } {
+  const timestamp = parseInt(timestampStr, 10);
+  if (Number.isNaN(timestamp) || timestamp <= 0) {
+    return { valid: false, reason: "invalid_timestamp", detail: timestampStr };
+  }
+  if (Math.abs(nowSeconds - timestamp) > toleranceSeconds) {
+    return {
+      valid: false,
+      reason: "timestamp_drift",
+      detail: `Drift ${Math.abs(nowSeconds - timestamp)}s exceeds tolerance ${toleranceSeconds}s`,
+    };
+  }
+  return { valid: true, timestamp };
+}
+
 /**
  * Verify inbound Standard Webhooks headers and body against secret.
  */
@@ -117,40 +153,16 @@ export function verifyStandardWebhook(params: {
     };
   }
 
-  const timestamp = parseInt(timestampStr, 10);
-  if (Number.isNaN(timestamp) || timestamp <= 0) {
-    return { valid: false, reason: "invalid_timestamp", detail: timestampStr };
+  const timeCheck = validateTimestamp(timestampStr, nowSeconds, toleranceSeconds);
+  if (!timeCheck.valid) {
+    return timeCheck;
   }
-
-  // Check timestamp drift
-  if (Math.abs(nowSeconds - timestamp) > toleranceSeconds) {
-    return {
-      valid: false,
-      reason: "timestamp_drift",
-      detail: `Drift ${Math.abs(nowSeconds - timestamp)}s exceeds tolerance ${toleranceSeconds}s`,
-    };
-  }
+  const { timestamp } = timeCheck;
 
   const secretBuffer = parseWebhookSecret(secret);
   const expectedSig = computeV1Signature(msgId, timestamp, rawBody, secretBuffer);
 
-  // Signatures header is space-delimited list of version,sig pairs (e.g. "v1,abc v1,def")
-  const candidates = signatureHeader.trim().split(/\s+/);
-  let matched = false;
-
-  for (const candidate of candidates) {
-    const commaIndex = candidate.indexOf(",");
-    if (commaIndex === -1) continue;
-    const version = candidate.slice(0, commaIndex);
-    const sig = candidate.slice(commaIndex + 1);
-
-    if (version === "v1" && safeEqual(sig, expectedSig)) {
-      matched = true;
-      break;
-    }
-  }
-
-  if (!matched) {
+  if (!hasMatchingV1Signature(signatureHeader, expectedSig)) {
     return { valid: false, reason: "no_matching_signature" };
   }
 

@@ -61,7 +61,7 @@ function asString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value : undefined;
 }
 
-function rememberFeedEmit(eventType: string, agentEmail: string, responseCode: number) {
+function rememberFeedEmit(eventType: string, agentEmail: string, responseCode: number): void {
   feedEmitTracker.setLastEmit({
     eventType,
     agentEmail,
@@ -75,15 +75,22 @@ const WebhookPreviewSchema = z.object({
   eventType: z.string().optional(),
 });
 
-async function extractWebhookPreview(request: Request) {
+interface WebhookPreview {
+  agentEmail?: string;
+  eventType?: string;
+}
+
+async function extractWebhookPreview(request: Request): Promise<WebhookPreview> {
   try {
     const rawPreview = (await request.clone().json()) as unknown;
     const parsed = WebhookPreviewSchema.safeParse(rawPreview);
     if (!parsed.success) return {};
 
+    const agentEmail = asString(parsed.data.agentEmail);
+    const eventType = asString(parsed.data.eventType);
     return {
-      agentEmail: asString(parsed.data.agentEmail),
-      eventType: asString(parsed.data.eventType),
+      ...(agentEmail ? { agentEmail } : {}),
+      ...(eventType ? { eventType } : {}),
     };
   } catch {
     return {};
@@ -345,7 +352,7 @@ export const POST = withObservability(
           asString(metadataPayload.insightTitle) ??
           asString(metadataPayload.dishName) ??
           asString(metadataPayload.recipeName) ??
-          `New Activity from ${user.profile?.name ?? "an Agent"}`;
+          `New Activity from ${user.profile.name ?? "an Agent"}`;
         const message =
           asString(metadataPayload.insightContent) ??
           asString(metadataPayload.description) ??
@@ -355,7 +362,7 @@ export const POST = withObservability(
         const { executeQuery } = await import("@/lib/database");
         const metadata = JSON.stringify({
           ...metadataPayload,
-          agentName: user.profile?.name ?? normalizedEmail,
+          agentName: user.profile.name ?? normalizedEmail,
           eventType: incomingEventType,
         });
         // Unique UUID per row matching notifications schema
@@ -377,7 +384,7 @@ export const POST = withObservability(
       agentEmail: normalizedEmail,
       eventType: incomingEventType,
     };
-    if (claimOutcome?.claim) {
+    if (claimOutcome.claim) {
       await completeWebhookEvent(claimOutcome.claim, "processed", responsePayload);
     }
     rememberFeedEmit(incomingEventType, normalizedEmail, 200);

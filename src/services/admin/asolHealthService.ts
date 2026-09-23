@@ -102,63 +102,13 @@ function toNullableNumber(val: unknown): number | null {
   return Number.isFinite(n) ? Math.round(n) : null;
 }
 
-export async function getAsolHealthOverview(): Promise<AsolHealthOverview> {
-  const [overallRes, sourceRes, recentRes] = await Promise.all([
-    executeQuery<OverallRow>(
-      `SELECT
-         COUNT(*)::int AS total_received,
-         COUNT(*) FILTER (WHERE status = 'processed')::int AS total_processed,
-         COUNT(*) FILTER (WHERE status = 'processing')::int AS total_in_flight,
-         COUNT(*) FILTER (WHERE status = 'failed')::int AS total_failed,
-         COALESCE(SUM(duplicates), 0)::int AS total_duplicates,
-         PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) AS overall_p95_latency_ms
-       FROM webhook_events
-      WHERE source = ANY($1::text[])`,
-      [[...ASOL_SOURCES]],
-    ),
-    executeQuery<SourceRow>(
-      `SELECT
-         source,
-         COUNT(*)::int AS received,
-         COUNT(*) FILTER (WHERE status = 'processed')::int AS processed,
-         COUNT(*) FILTER (WHERE status = 'processing')::int AS in_flight,
-         COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
-         COALESCE(SUM(duplicates), 0)::int AS duplicates,
-         PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) AS p95_latency_ms
-       FROM webhook_events
-      WHERE source = ANY($1::text[])
-      GROUP BY source`,
-      [[...ASOL_SOURCES]],
-    ),
-    executeQuery<EventRow>(
-      `SELECT
-         id,
-         source,
-         event_id,
-         event_type,
-         subject_id,
-         status,
-         attempts,
-         duplicates,
-         latency_ms,
-         last_error,
-         received_at
-       FROM webhook_events
-      WHERE source = ANY($1::text[])
-      ORDER BY received_at DESC
-      LIMIT 25`,
-      [[...ASOL_SOURCES]],
-    ),
-  ]);
-
-  const [overall] = overallRes.rows;
-
+function buildSourceStats(sourceRows: SourceRow[]): AsolSourceStats[] {
   const sourceMap = new Map<string, SourceRow>();
-  for (const row of sourceRes.rows) {
+  for (const row of sourceRows) {
     sourceMap.set(row.source, row);
   }
 
-  const sources: AsolSourceStats[] = ASOL_SOURCES.map((s) => {
+  return ASOL_SOURCES.map((s) => {
     const r = sourceMap.get(s);
     return {
       source: s,
@@ -170,8 +120,10 @@ export async function getAsolHealthOverview(): Promise<AsolHealthOverview> {
       p95LatencyMs: toNullableNumber(r?.p95_latency_ms),
     };
   });
+}
 
-  const recentEvents: AsolDeliveryEvent[] = recentRes.rows.map((e) => ({
+function buildRecentEvents(eventRows: EventRow[]): AsolDeliveryEvent[] {
+  return eventRows.map((e) => ({
     id: String(e.id),
     source: e.source,
     eventId: e.event_id,
@@ -184,6 +136,68 @@ export async function getAsolHealthOverview(): Promise<AsolHealthOverview> {
     lastError: e.last_error ?? null,
     receivedAt: new Date(e.received_at).toISOString(),
   }));
+}
+
+const OVERALL_HEALTH_QUERY = `SELECT
+  COUNT(*)::int AS total_received,
+  COUNT(*) FILTER (WHERE status = 'processed')::int AS total_processed,
+  COUNT(*) FILTER (WHERE status = 'processing')::int AS total_in_flight,
+  COUNT(*) FILTER (WHERE status = 'failed')::int AS total_failed,
+  COALESCE(SUM(duplicates), 0)::int AS total_duplicates,
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) AS overall_p95_latency_ms
+FROM webhook_events
+WHERE source = ANY($1::text[])`;
+
+const SOURCE_HEALTH_QUERY = `SELECT
+  source,
+  COUNT(*)::int AS received,
+  COUNT(*) FILTER (WHERE status = 'processed')::int AS processed,
+  COUNT(*) FILTER (WHERE status = 'processing')::int AS in_flight,
+  COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
+  COALESCE(SUM(duplicates), 0)::int AS duplicates,
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) AS p95_latency_ms
+FROM webhook_events
+WHERE source = ANY($1::text[])
+GROUP BY source`;
+
+const RECENT_EVENTS_QUERY = `SELECT
+  id,
+  source,
+  event_id,
+  event_type,
+  subject_id,
+  status,
+  attempts,
+  duplicates,
+  latency_ms,
+  last_error,
+  received_at
+FROM webhook_events
+WHERE source = ANY($1::text[])
+ORDER BY received_at DESC
+LIMIT 25`;
+
+async function fetchAsolHealthRows(): Promise<{
+  overall: OverallRow | null;
+  sourceRows: SourceRow[];
+  eventRows: EventRow[];
+}> {
+  const sourcesParam = [[...ASOL_SOURCES]];
+  const [overallRes, sourceRes, recentRes] = await Promise.all([
+    executeQuery<OverallRow>(OVERALL_HEALTH_QUERY, sourcesParam),
+    executeQuery<SourceRow>(SOURCE_HEALTH_QUERY, sourcesParam),
+    executeQuery<EventRow>(RECENT_EVENTS_QUERY, sourcesParam),
+  ]);
+
+  return {
+    overall: overallRes.rows[0] ?? null,
+    sourceRows: sourceRes.rows,
+    eventRows: recentRes.rows,
+  };
+}
+
+export async function getAsolHealthOverview(): Promise<AsolHealthOverview> {
+  const { overall, sourceRows, eventRows } = await fetchAsolHealthRows();
 
   return {
     generatedAt: new Date().toISOString(),
@@ -193,8 +207,8 @@ export async function getAsolHealthOverview(): Promise<AsolHealthOverview> {
     totalFailed: toNumber(overall?.total_failed),
     totalDuplicates: toNumber(overall?.total_duplicates),
     overallP95LatencyMs: toNullableNumber(overall?.overall_p95_latency_ms),
-    sources,
-    recentEvents,
+    sources: buildSourceStats(sourceRows),
+    recentEvents: buildRecentEvents(eventRows),
     feedStatus: {
       lastEmit: feedEmitTracker.getLastEmit(),
       signatureMode: getWebhookSignatureMode(),

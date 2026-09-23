@@ -30,34 +30,37 @@ interface AgentRow {
   created_at: string | Date;
 }
 
-export async function GET(request: NextRequest) {
+async function fetchAgentRows(): Promise<AgentRow[]> {
+  const res = await executeQuery<AgentRow>(
+    `SELECT
+       u.id,
+       u.email,
+       up.name,
+       u.is_agent,
+       u.is_active,
+       up.dominant_element,
+       (
+         (up.natal_positions IS NOT NULL AND up.natal_positions::text NOT IN ('[]', 'null', '{}'))
+         OR (up.natal_chart IS NOT NULL AND up.natal_chart::text NOT IN ('[]', 'null', '{}'))
+       ) AS has_natal_chart,
+       u.created_at
+     FROM users u
+     LEFT JOIN user_profiles up ON up.user_id = u.id
+    WHERE LOWER(u.email) LIKE $1
+    ORDER BY u.created_at ASC`,
+    [AGENT_EMAIL_PATTERN],
+  );
+  return res.rows;
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authHeader = request.headers.get("authorization") ?? "";
   if (!bearerMatches(authHeader, process.env.INTERNAL_API_SECRET)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const res = await executeQuery<AgentRow>(
-      `SELECT
-         u.id,
-         u.email,
-         up.name,
-         u.is_agent,
-         u.is_active,
-         up.dominant_element,
-         (
-           (up.natal_positions IS NOT NULL AND up.natal_positions::text NOT IN ('[]', 'null', '{}'))
-           OR (up.natal_chart IS NOT NULL AND up.natal_chart::text NOT IN ('[]', 'null', '{}'))
-         ) AS has_natal_chart,
-         u.created_at
-       FROM users u
-       LEFT JOIN user_profiles up ON up.user_id = u.id
-      WHERE LOWER(u.email) LIKE $1
-      ORDER BY u.created_at ASC`,
-      [AGENT_EMAIL_PATTERN],
-    );
-
-    const { rows } = res;
+    const rows = await fetchAgentRows();
     let notFlagged = 0;
 
     const agents = rows.map((r) => {
@@ -93,9 +96,6 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     _logger.error("[GET /api/internal/agent-roster] failed:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

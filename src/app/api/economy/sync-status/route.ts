@@ -30,7 +30,34 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
+async function probeLedgerApplication(key: string): Promise<boolean> {
+  const prefix = `${key}:%`;
+  const txnResult = await executeQuery<{ id: string | number }>(
+    `SELECT id FROM token_transactions
+      WHERE idempotency_key = $1
+         OR idempotency_key LIKE $2
+         OR source_id = $1
+         OR description LIKE $2
+      LIMIT 1`,
+    [key, prefix],
+  );
+
+  if (txnResult.rows.length > 0) {
+    return true;
+  }
+
+  const hookResult = await executeQuery<{ id: string | number }>(
+    `SELECT id FROM webhook_events
+      WHERE event_id = $1
+        AND status = 'processed'
+      LIMIT 1`,
+    [key],
+  );
+
+  return hookResult.rows.length > 0;
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
   const syncHeader = request.headers.get("x-sync-secret");
 
@@ -51,37 +78,7 @@ export async function GET(request: NextRequest) {
   const key = idempotencyKey.trim();
 
   try {
-    // 1. Probe token_transactions for direct match or prefix match
-    const prefix = `${key}:%`;
-    const txnResult = await executeQuery<{ id: string | number }>(
-      `SELECT id FROM token_transactions
-        WHERE idempotency_key = $1
-           OR idempotency_key LIKE $2
-           OR source_id = $1
-           OR description LIKE $2
-        LIMIT 1`,
-      [key, prefix],
-    );
-
-    if (txnResult.rows.length > 0) {
-      return NextResponse.json({
-        ok: true,
-        idempotencyKey: key,
-        applied: true,
-      });
-    }
-
-    // 2. Probe webhook_events for processed delivery
-    const hookResult = await executeQuery<{ id: string | number }>(
-      `SELECT id FROM webhook_events
-        WHERE event_id = $1
-          AND status = 'processed'
-        LIMIT 1`,
-      [key],
-    );
-
-    const applied = hookResult.rows.length > 0;
-
+    const applied = await probeLedgerApplication(key);
     return NextResponse.json({
       ok: true,
       idempotencyKey: key,

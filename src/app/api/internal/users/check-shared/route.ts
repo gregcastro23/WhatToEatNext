@@ -32,7 +32,27 @@ const checkSharedSchema = z.object({
     .max(MAX_BATCH_SIZE, `Batch size exceeds limit of ${MAX_BATCH_SIZE} emails`),
 });
 
-export async function POST(request: NextRequest) {
+function normalizeEmails(rawEmails: string[]): string[] {
+  const cleanEmails: string[] = [];
+  for (const item of rawEmails) {
+    if (typeof item === "string" && item.trim().length > 0) {
+      cleanEmails.push(item.trim().toLowerCase());
+    }
+  }
+  return cleanEmails;
+}
+
+async function querySharedEmails(cleanEmails: string[]): Promise<string[]> {
+  const res = await executeQuery<{ email: string }>(
+    `SELECT DISTINCT LOWER(email) AS email
+       FROM users
+      WHERE LOWER(email) = ANY($1::text[])`,
+    [cleanEmails],
+  );
+  return res.rows.map((r) => r.email);
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
   const syncHeader = request.headers.get("x-sync-secret");
 
@@ -63,37 +83,16 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const rawEmails = parseResult.data.emails;
-
-  const cleanEmails: string[] = [];
-  for (const item of rawEmails) {
-    if (typeof item === "string" && item.trim().length > 0) {
-      cleanEmails.push(item.trim().toLowerCase());
-    }
-  }
-
+  const cleanEmails = normalizeEmails(parseResult.data.emails);
   if (cleanEmails.length === 0) {
     return NextResponse.json({ success: true, sharedEmails: [] });
   }
 
   try {
-    const res = await executeQuery<{ email: string }>(
-      `SELECT DISTINCT LOWER(email) AS email
-         FROM users
-        WHERE LOWER(email) = ANY($1::text[])`,
-      [cleanEmails],
-    );
-
-    const sharedEmails = res.rows.map((r) => r.email);
-    return NextResponse.json({
-      success: true,
-      sharedEmails,
-    });
+    const sharedEmails = await querySharedEmails(cleanEmails);
+    return NextResponse.json({ success: true, sharedEmails });
   } catch (error) {
     _logger.error("[POST /api/internal/users/check-shared] Query failed:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }

@@ -78,6 +78,25 @@ export interface ClaimOutcome {
  * Attempt to claim an inbound event by its idempotency key.
  * If no key is provided, returns claimed: true with claim: null (non-idempotent pass-through).
  */
+async function handleDuplicateClaim(
+  claim: Extract<InboxClaim, { kind: "duplicate" }>,
+  source: HookSource,
+  normalizedId: string,
+): Promise<ClaimOutcome> {
+  const inFlight = isInFlight(claim.status);
+  const previousResult = inFlight
+    ? null
+    : await fetchStoredResult(source, normalizedId);
+  return {
+    claimed: false,
+    claim,
+    normalizedId,
+    isDuplicate: true,
+    isInFlight: inFlight,
+    previousResult,
+  };
+}
+
 export async function claimInboundEvent(params: {
   source: HookSource;
   key: string | null;
@@ -111,18 +130,7 @@ export async function claimInboundEvent(params: {
 
   const claim = await claimWebhookEvent(event);
   if (claim.kind === "duplicate") {
-    const inFlight = isInFlight(claim.status);
-    const previousResult = inFlight
-      ? null
-      : await fetchStoredResult(source, normalizedId);
-    return {
-      claimed: false,
-      claim,
-      normalizedId,
-      isDuplicate: true,
-      isInFlight: inFlight,
-      previousResult,
-    };
+    return handleDuplicateClaim(claim, source, normalizedId);
   }
 
   return {

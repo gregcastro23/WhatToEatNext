@@ -61,7 +61,7 @@ function quantize(value: number): number {
   return Math.round(value * 10_000) / 10_000;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
     const syncHeader = request.headers.get("x-sync-secret");
@@ -245,7 +245,7 @@ export async function GET(request: NextRequest) {
           matter: quantize(balances.matter),
           substance: quantize(balances.substance),
         },
-        streakDays: streak.currentStreak ?? 0,
+        streakDays: streak.currentStreak,
         streams,
         quests,
         recent,
