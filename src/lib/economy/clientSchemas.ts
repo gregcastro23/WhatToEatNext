@@ -153,3 +153,60 @@ export type ConsumerTransactionItem = z.infer<
 export type ConsumerTransactionsResponse = z.infer<
   typeof consumerTransactionsResponseSchema
 >;
+
+// GET /api/economy/vessel — KitchenVesselLedger, contract v1.
+export const vesselStreamKeySchema = z.enum([
+  "jingDuels",
+  "staking",
+  "pentaclesMelee",
+  "kitchenAchievements",
+]);
+
+const esmsTupleSchema = z.tuple([
+  z.number().finite(),
+  z.number().finite(),
+  z.number().finite(),
+  z.number().finite(),
+]);
+
+const vesselStreamSchema = z.object({
+  esms: esmsTupleSchema,
+  entries: z.number().finite(),
+  lastAt: z.string().nullable(),
+  sourceTypes: z.array(z.string()),
+});
+
+export const kitchenVesselLedgerSchema = z.object({
+  success: z.literal(true),
+  version: z.number(),
+  generatedAt: z.string(),
+  balances: tokenDistributionSchema,
+  streakDays: z.number().finite(),
+  streams: z.object({
+    jingDuels: vesselStreamSchema,
+    staking: vesselStreamSchema,
+    pentaclesMelee: vesselStreamSchema,
+    kitchenAchievements: vesselStreamSchema,
+  }),
+  quests: z
+    .object({
+      achievementsUnlocked: z.number().finite(),
+      questsCompleted: z.number().finite(),
+      rewardsClaimed: z.number().finite(),
+    })
+    .nullable(),
+  recent: z.array(
+    z.object({
+      id: z.string(),
+      stream: z.union([vesselStreamKeySchema, z.literal("other")]),
+      sourceType: z.string(),
+      tokenType: z.string(),
+      amount: z.number().finite(),
+      description: z.string().nullable(),
+      createdAt: z.string(),
+    }),
+  ),
+});
+
+export type VesselStreamKey = z.infer<typeof vesselStreamKeySchema>;
+export type KitchenVesselLedger = z.infer<typeof kitchenVesselLedgerSchema>;

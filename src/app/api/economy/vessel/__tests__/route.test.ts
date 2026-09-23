@@ -234,6 +234,31 @@ describe("GET /api/economy/vessel", () => {
     }
   });
 
+  it("counts the source types Agents actually syncs into the ledger", async () => {
+    mockGetUserIdFromRequest.mockResolvedValueOnce("session-user-uuid");
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [
+        { source_type: "duel_yield", token_type: "Spirit", total_amount: "0.5", entry_count: "3", last_created_at: "2026-09-23T08:00:00Z" },
+        { source_type: "kitchen_daily_yield", token_type: "Matter", total_amount: "4", entry_count: "2", last_created_at: null },
+        { source_type: "agents_daily_yield", token_type: "Matter", total_amount: "1", entry_count: "1", last_created_at: null },
+        { source_type: "group_chat_quest", token_type: "Essence", total_amount: "2", entry_count: "1", last_created_at: null },
+        { source_type: "alchemical_log", token_type: "Essence", total_amount: "1", entry_count: "1", last_created_at: null },
+      ],
+    });
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] }); // recent
+
+    const res = await GET(makeVesselRequest({ cookie: "next-auth.session-token=valid-session" }));
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    const streams = isRecord(data) ? data.streams : null;
+    expect(isRecord(streams)).toBe(true);
+    if (isRecord(streams)) {
+      expect(streams.jingDuels).toMatchObject({ esms: [0.5, 0, 0, 0], entries: 3 });
+      expect(streams.staking).toMatchObject({ esms: [0, 0, 5, 0], entries: 3 });
+      expect(streams.kitchenAchievements).toMatchObject({ esms: [0, 3, 0, 0], entries: 2 });
+    }
+  });
+
   it("authenticates via session cookie when X-Sync-Secret is not used", async () => {
     mockGetUserIdFromRequest.mockResolvedValueOnce("session-user-uuid");
     mockExecuteQuery.mockResolvedValueOnce({ rows: [] }); // streams
