@@ -43,4 +43,32 @@ Operator UI lives under `src/app/admin/*` behind the sidebar in `admin/layout.ts
 - **Moderation** — `/admin/chat-reports` (`/api/admin/chat/reports`) and `/admin/feed/comment-reports`.
 - **Settings** (`/admin/settings`) — live launch-readiness board over static platform facts.
 
+## Webhooks
+
+Inbound webhooks follow one pattern (`src/lib/hooks/`):
+1. Verify the provider's signature in the route.
+2. Record the event in `webhook_events` (migration 87), keyed by `(source, event_id)`.
+3. Dispatch by event type through a handler registry.
+
+**`webhook_events` is the idempotency guard and the immutable record.**
+- A trigger rejects any update to an event's identity or payload.
+- A redelivery of a finished event is answered 200 and not re-run.
+- A redelivery while the first attempt is still running gets 409, so the provider retries later.
+- A redelivery of a *failed* event is re-claimed and processed again.
+- Store a curated summary only, never the raw body: Stripe bodies contain customer PII.
+- If the record can't be written, the event is still processed. Every handler is idempotent.
+
+**Sources:**
+- **Stripe** (`/api/stripe/webhook`): verified with `constructEvent`. It keeps Stripe's own retry contract: a failure answers 500.
+- **Vercel** (`/api/hooks/vercel`): verified with `x-vercel-signature` (HMAC-SHA1 of the raw body) against `VERCEL_WEBHOOK_SECRET`.
+  - A production `deployment.error` raises an operator alert.
+  - A production `deployment.succeeded` runs the synthetic probes straight away. Use `succeeded`, not `ready`: `deployment.ready` is Vercel's renamed legacy `deployment-prepared` event.
+  - The webhook is registered as `account_hook_zr8IInqORZw0P2Faezx9FRZr`, subscribed to `created`, `succeeded`, `error` and `canceled`. The handler registry must match `VERCEL_SUBSCRIBED_EVENTS`, and a test enforces it.
+  - Preview events are only recorded.
+
+**Shared secrets:**
+- Compare with `safeEqual` / `bearerMatches` from `src/lib/hooks/secureCompare.ts`, never `===`.
+- The six `ALCHM_KITCHEN_SYNC_SECRET` routes already do. `secureCompare.test.ts` guards this.
+- PA and ASOL still send the static header. Signed requests (Standard Webhooks) are Phase 2.
+
 **Launch readiness** = presence-only env config for the revenue/on-chain subsystems (Stripe, restaurant crypto-food payments, on-chain ESMS, Recipe-NFT, Privy, Amazon Fresh, agent network, email). Source: `src/services/launchReadinessService.ts` → `GET /api/admin/launch-readiness`. It reports booleans only — never serialize a secret's value.

@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery, withTransaction } from "@/lib/database";
-import { createLogger } from "@/utils/logger";
-
+import { safeEqual } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { SyncDebitRequestSchema } from "@/lib/validation/apiSchemas";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("economy:sync-debit");
 
@@ -52,7 +52,7 @@ function deriveAgentDisplayName(
 async function handlePost(req: NextRequest) {
   const authHeader = req.headers.get("X-Sync-Secret");
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
-  if (!syncSecret || authHeader !== syncSecret) {
+  if (!safeEqual(authHeader, syncSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

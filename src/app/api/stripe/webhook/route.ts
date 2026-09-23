@@ -12,11 +12,12 @@
  *   customer.subscription.updated / .deleted
  *   invoice.payment_succeeded / .payment_failed
  *
- * DUPLICATE DELIVERY IS SAFE, by construction rather than by a dedup table:
- * Stripe delivers at least once, so every write here is either naturally
- * idempotent (the subscription updates re-write the same values) or explicitly
- * guarded — the Connect transfer carries an idempotency key, and fulfillment is
- * claimed with a conditional UPDATE that only matches an unfulfilled paid row.
+ * DUPLICATE DELIVERY IS SAFE, twice over. Every write here is idempotent by
+ * construction — subscription updates re-write the same values, the Connect
+ * transfer carries an idempotency key, and fulfillment is claimed with a
+ * conditional UPDATE that only matches an unfulfilled paid row. On top of that,
+ * each event is recorded in webhook_events by Stripe event id before it runs
+ * (src/lib/hooks/inbox.ts), so a redelivery of a finished event is not re-run.
  *
  * FAILURES DELIBERATELY RETURN NON-2XX so Stripe retries. A swallowed database
  * error would report success for an order that real money already moved for.
@@ -27,6 +28,9 @@
 import { NextResponse } from "next/server";
 import { handleMcpTopUpCheckout } from "@/lib/billing/handleMcpTopUpCheckout";
 import { MCP_TOP_UP_PURPOSE, TOKEN_PACKAGE_PURPOSE } from "@/lib/billing/mcpTopUp";
+import { isInFlight } from "@/lib/hooks/dispatcher";
+import { claimWebhookEvent, completeWebhookEvent, failWebhookEvent } from "@/lib/hooks/inbox";
+import { isHandledStripeEvent, stripeHookEvent } from "@/lib/hooks/stripe/stripeEvent";
 import { withObservability } from "@/lib/observability/withObservability";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import { RESTAURANT_ORDER_PURPOSE } from "@/lib/payments/restaurantPayments";
@@ -507,6 +511,19 @@ export const POST = withObservability(
     );
   }
 
+  // Record first, keyed by Stripe's event id (webhook_events). A redelivery of
+  // an event we already finished is acknowledged without re-running it; one
+  // still in flight gets 409 so Stripe retries later instead of settling it;
+  // one that FAILED is re-claimed here and processed again — Stripe's retry
+  // after our 500 must be allowed through.
+  const claim = await claimWebhookEvent(stripeHookEvent(event));
+  if (claim.kind === "duplicate") {
+    logger.info(`Redelivery of ${event.id} (${event.type}) — already ${claim.status}; not re-run`);
+    return isInFlight(claim.status)
+      ? NextResponse.json({ error: "Event is being processed" }, { status: 409 })
+      : NextResponse.json({ received: true, duplicate: true });
+  }
+
   try {
     logger.info(`Processing event: ${event.type}`);
 
@@ -663,9 +680,11 @@ export const POST = withObservability(
         logger.info(`Unhandled event type: ${event.type}`);
     }
 
+    await completeWebhookEvent(claim, isHandledStripeEvent(event.type) ? "processed" : "ignored");
     return NextResponse.json({ received: true });
   } catch (error) {
     logger.error("Error processing webhook:", error);
+    await failWebhookEvent(claim, error);
     return NextResponse.json(
       { error: "Webhook processing failed" },
       { status: 500 },
