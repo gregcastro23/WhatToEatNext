@@ -23,9 +23,22 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+// Source types as they actually land in token_transactions. Agents credits
+// arrive through /api/economy/sync-credit carrying the Agents-side source
+// verbatim — Jing Arena rounds as `duel_yield`, faucet claims as
+// `kitchen_daily_yield` / `agents_daily_yield`, chat quests as
+// `group_chat_quest` — so those names must be listed or the stream reads 0.
 const STREAM_SOURCE_TYPES = {
-  jingDuels: ["jing_duel", "duel"],
-  staking: ["staking", "star_vault", "daily_yield", "agents_yield", "streak_bonus"],
+  jingDuels: ["duel_yield", "jing_duel", "duel"],
+  staking: [
+    "staking",
+    "star_vault",
+    "daily_yield",
+    "kitchen_daily_yield",
+    "agents_daily_yield",
+    "agents_yield",
+    "streak_bonus",
+  ],
   pentaclesMelee: [
     "pentacles_melee",
     "pentacles_conversion",
@@ -42,6 +55,8 @@ const STREAM_SOURCE_TYPES = {
     "achievement_reward",
     "recipe_reward",
     "alchemical_milestone",
+    "alchemical_log",
+    "group_chat_quest",
   ],
 } as const;
 
