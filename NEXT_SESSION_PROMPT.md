@@ -1,129 +1,157 @@
-# Phase 39: Nutrition Schema Hardening, Migration 30 Parity, and Producer-Bound Round-Trip Coverage
+# Phase 40: ASOL Signature Enforcement, Inbound Delivery Hardening, Domain Loose Optionality (≤200), and Bare JSON Cast Ratchet
 
 Implement this campaign end to end in the existing WhatToEatNext repository. Start with a short evidence-based plan, then implement and verify; do not stop at a proposal. Use judgment for routine reversible decisions. Ask only when a missing requirement or permission genuinely blocks dependent work, and continue independent work meanwhile.
 
 ---
 
-## 1. Starting State (Measured on `master` @ `ae4c1d9d`, September 22, 2026)
+## 1. Starting State (Measured on `feat/phase-39-nutrition-migration30-roundtrips` / PR #869, September 23, 2026)
 
-Phase 38 was squashed and merged into `origin/master` as commit [`ae4c1d9d`](https://github.com/gregcastro23/WhatToEatNext/commit/ae4c1d9d5f0a041e79e7e6e685098027e46c7dfe) via PR #865. The working tree is clean.
+Phase 39 and the ASOL Contract Follow-ups are complete on branch `feat/phase-39-nutrition-migration30-roundtrips` (PR #869). All static gates, tests, and production build checks pass with 0 errors and 0 warnings.
 
-### Commit History Reference:
-- `ae4c1d9d`: `feat(phase-38): honest boundaries, route budgets, and EOPT promotion (#865)`
-- `f48b6e8c`: `docs(phase-38): correct production enum gap diagnosis to migration 30 and align notification resilience`
-- `fbb0b75b`: `fix(phase-38): fix waning crescent mapping, notification badge resilience, recipe parseEach, and ratchet lint-debt baseline`
-- `334aadaa`: `fix(phase-38): remediate review findings, runtime validation, and honest boundaries`
-- `20c15467`: `feat(phase-37): zero strict debt, client boundary validation, and defect fixes (#863)`
+### Preceding Commit Reference (PR #869):
+- `d47cb923`: `refactor(asol): modularize admin delivery health components and enforce strict lint compliance`
+- `0647e66d`: `fix(users): validate check-shared request body with zod safeParse`
+- `4e12109d`: `feat(admin): asol delivery health dashboard and telemetry service`
+- `c9fe5683`: `feat(webhooks): standard webhooks signature verifier and test vectors`
+- `53581798`: `feat(asol-contract): implement sync-status, check-shared, and vessel endpoints`
+- `b97545a6`: `feat(agents): internal agent roster endpoint for fleet visibility`
+- `8337fd6d`: `feat(webhooks): inbox deduplication for asol inbound routes`
+- `887a2aed`: `feat(recipes): attach internal bearer auth to agent recipe prewarm`
+- `8d1f8b93`: `fix(security): timing-safe bearer check for feed api and secret comparison scan test`
+- `19b40c90`: `fix(phase-39): pass repoRoot to resolveBaseRef in diff guard and enable tls in enum parity CLI`
+- `5a4764b1`: `feat(hooks): webhook_events record, constant-time secrets, Vercel deployment webhook (Phases 0–1) (#868)`
 
-### Verified Gate State on `master`:
+### Verified Gate State:
 
 | Gate / Command | Measured Value | Baseline / Ceiling | Status |
 |---|---:|---:|---|
 | `check:untracked` | 0 untracked files | 0 | ✅ Clean |
 | `check:route-validation` | 0 unvalidated / 123 body routes | 0 | ✅ 100% Compliant |
-| `test:gates` | 8/8 suites, 124 tests passed | 8/8 | ✅ Pass |
+| `test:gates` | 10/10 suites, 147 tests passed | 10/10 | ✅ Pass |
 | `check:scripts` | 66 baseline errors across 32 files | ≤66 | ✅ Met (0 regressions) |
 | `typecheck` | 0 errors | 0 | ✅ Zero Type Errors |
-| `lint:scripts` | 0 errors, 25 warnings | 0 errors | ✅ Pass |
-| `lint:debt` (Casts) | **165 casts** | ≤165 | ✅ Ratcheted (-2) |
-| `lint:debt` (Assertions) | **3,208 sites** | ≤3,208 | ✅ Ratcheted (-3) |
-| `lint:debt` (Tracked debt) | **1,327 sites** | ≤1,327 | ✅ Ratcheted (-6) |
-| `lint:debt` (Declined pool) | 4,904 sites | 4,904 | ✅ Constant |
-| `lint:debt` (Loose Domain) | **233 sites** | ≤233 | ✅ Segregated (89 wire) |
-| `audit:dead-modules` | 0 dead modules (1,202 reachable) | 0 | ✅ Pass |
-| `check:read-json` | 0 unvalidated / 97 calls | 0 unvalidated | ✅ 100% Compliant |
-| `check:bare-json` | 145 prod / 154 total (112 files) | ≤145 | ✅ Met |
+| `lint:scripts` | 0 errors, ≤25 warnings | 0 errors | ✅ Pass |
+| `lint:debt` (Casts) | **165 casts** (38 asAny, 127 asUnknownAs) | ≤165 | ✅ Met |
+| `lint:debt` (Assertions) | **3,185 sites** | ≤3,186 | ✅ Decreased (-1) |
+| `lint:debt` (Single assertions) | **3,021 sites** | ≤3,022 | ✅ Decreased (-1) |
+| `lint:debt` (Tracked debt) | **1,320 sites** | ≤1,322 | ✅ Decreased (-2) |
+| `lint:debt` (Declined pool) | **4,891 sites** | ≤4,892 | ✅ Decreased (-1) |
+| `lint:debt` (Loose Domain) | **216 sites** | ≤220 | ✅ Met (89 wire segregated) |
+| `audit:dead-modules` | 0 dead modules (1,282 reachable) | 0 | ✅ Pass |
+| `check:read-json` | 0 unvalidated / 108 calls | 0 unvalidated | ✅ 100% Compliant |
+| `check:bare-json` | 139 prod / 148 total (109 files) | ≤139 prod | ✅ Met |
+| `check:diff-assertions` | **0 new type assertions** across 70 diff files | 0 | ✅ Zero Slippage |
 | `check:snapshot-witness` | 100% behavioral parity | 100% | ✅ Exact Parity |
-| `bun run test` | 389 suites, 4,080 passed, 0 failed | natural exit 0 | ✅ Clean Teardown (0 open handles) |
-| `bun run build` | 7/7 route size checks pass | ceilings met | ✅ Pass (`/shop` 109 kB vs 120 kB ceiling) |
+| `bun run test` | 430 suites, 4,325 passed, 0 failed | natural exit 0 | ✅ Clean Teardown |
+| `bun run build` | 7/7 route size checks pass | ceilings met | ✅ Pass (`/account` 109 kB, `/menu-planner` 289 kB) |
 
 ---
 
-## 2. Key Context & Known Gaps from Phase 38 Closeout
+## 2. Key Accomplishments & Context Handed Off from Phase 39
 
-### P1: Production Notification Enum Gap (Migration 30)
-- **Finding**: Production DB (`tramway.proxy.rlwy.net:35670`) contains 17 values, while codebase migrations define 19 values (and client schema defines 20 with client-side `agent_broadcast`).
-- **Actual Gap**: Production is missing `quest_completed` and `master_quest_broadcast` from **Migration 30** (`database/init/30-notification-type-master-quest-broadcast.sql`). Production already has Migration 67's `reaction_received` and `comment_received`.
-- **Impact**: `QuestService.ts:798` inserts `'master_quest_broadcast'::notification_type`, which production PostgreSQL will reject if reached.
-- **Action**: Verify whether Migration 30 can be applied cleanly to production DB or if `QuestService` requires defensive fallback handling for environments where Migration 30 has not been run.
-
-### P2: Invariant §4 — Intermediate Nutrition Parsing in `parseJsonValue<T>`
-- **Finding**: While the double assertions `as unknown as NonNullable<Recipe['nutrition']>` were removed in `LocalRecipeService.ts`, intermediate parsing in `parseJsonValue<T>` remains `JSON.parse(v) as T`.
-- **Action**: Replace `parseJsonValue<T>` with concrete Zod validation using `ValidatedRecipeSchema` or a dedicated `RecipeNutritionSchema`.
-
-### P3: Workstream C Remainder (UserProfile, Shop, Instacart Round-Trips)
-- **Finding**: Schemas and domain adapters were defined in Phase 38 (`toDomainUserProfile`, `toDomainShopItem`, `toDomainInstacartRetailer`), but round-trips currently use synthetic shape checks rather than live producer fixtures, and consumer layers (`UserContext`, `ShopStorefront`, `InstacartService`) are not yet piped through these validation boundaries.
-- **Action**: Build full producer-to-consumer round-trip tests and integrate the validation adapters into the real consumption paths.
+1. **ASOL Contract Alignment Completed (PRs #41, #43, #44)**:
+   - All 7 contract deliverables are fully implemented on WTEN:
+     - Constant-time secret checking on `/api/feed` via `crypto.timingSafeEqual`.
+     - Internal bearer authentication for outbound recipe generation prewarm (`Authorization: Bearer <INTERNAL_API_SECRET>`).
+     - Webhook inbox deduplication (`src/lib/hooks/idempotency.ts`) using `webhook_events` with SHA-256 event normalization and replay of completed results.
+     - Agent roster endpoint (`/api/internal/agent-roster`) serving `@agentic.alchm.kitchen` accounts with natal charts, tier, and counts.
+     - Three missing contract endpoints: `/api/economy/sync-status`, `/api/internal/users/check-shared`, and `/api/economy/vessel`.
+     - Admin delivery health monitoring dashboard at `/admin/asol` powered by `asolHealthService.ts`.
+     - Standard Webhooks signature verification engine (`standardWebhooks.ts`) supporting `v1` HMAC-SHA256 signatures, drift tolerance, and three-state gating (`off`, `permissive`, `enforced`).
+2. **Migration 30 & Production Parity Verified**:
+   - `database/init/88-notification-type-agent-broadcast.sql` created and verified against production database.
+   - `scripts/verifyNotificationEnumParity.ts` confirmed 20/20 notification types in full parity on production Railway PostgreSQL.
+   - Replaced legacy `notif_...` string identifiers with standard UUIDs (`crypto.randomUUID()` and `uuid_generate_v4()`), resolving PostgreSQL `22P02` syntax errors.
+3. **Fail-Closed Diff Assertion Guard**:
+   - `scripts/lib/diffAssertions.ts` runs in `verify:static` and CI, rejecting any newly introduced `as <Type>` or `as unknown as <Type>` assertions across PR diffs.
 
 ---
 
-## 3. Workstreams for Phase 39
+## 3. Workstreams for Phase 40
 
-### Workstream A: Invariant §4 Diff-Level Guard & Nutrition Boundary
-1. **Prevent Assertion Slippage**:
-   - Add a diff-level check or gate script (`scripts/checkDiffAssertions.ts`) to ensure PR diffs do not introduce new `as <Type>` or `as unknown as <Type>` casts.
-2. **Harden Recipe Nutrition Boundary**:
-   - In `LocalRecipeService.ts`, replace `parseJsonValue(row.nutritional_profile)` with a runtime Zod validator (`RecipeNutritionSchema.safeParse`).
-   - Eliminate the remaining unchecked `as T` inside `parseJsonValue`.
+### Workstream A: ASOL Phase 3 Rollout & Webhook Signature Gating
+1. **Signature Enforcement Mode Promotion**:
+   - Upstream ASOL (agents.alchm.kitchen) is shipping symmetric `v1` signing headers (`webhook-id`, `webhook-timestamp`, `webhook-signature`).
+   - Coordinate rollout of `ASOL_WEBHOOK_SIGNATURES`:
+     - Transition runtime from `"permissive"` (log-only failures) to `"enforced"` (reject unauthenticated or drifted deliveries with 401/400).
+   - Ensure webhook replay responses return appropriate HTTP status codes (200 for processed duplicates, 503/429 for in-flight collisions to trigger provider backoff).
+2. **Admin Telemetry & Alerting**:
+   - Add alert triggers to `/admin/asol` when in-flight webhook counts exceed threshold or p95 delivery latency degrades > 1000ms.
+   - Add filter / inspection controls to view failed deliveries and inspect `last_error` payloads safely.
 
-### Workstream B: Production Enum Parity & Quest Broadcast Resilience
-1. **Defensive Notification Inserts**:
-   - In `src/services/QuestService.ts:798`, wrap the `'master_quest_broadcast'::notification_type` insert with error handling or check live enum capabilities before inserting.
-2. **Migration Runbook / Verification**:
-   - Provide an idempotent verification script to confirm database schema migrations on Railway (`ALTER TYPE notification_type ADD VALUE IF NOT EXISTS 'quest_completed';` and `'master_quest_broadcast'`).
+### Workstream B: Loose Optionality Domain Ratchet (Target: ≤200)
+1. **Current State**:
+   - 216 domain sites (89 wire segregated in `wireAllowlist`).
+2. **Target File Clusters**:
+   - `src/utils/menuPlanner/recommendationBridge.ts`
+   - `src/types/foodDiary.ts`
+   - `src/services/restaurantDiscoveryService.ts`
+   - `src/types/yelp.ts`
+3. **Execution**:
+   - Convert loose optional fields (`?: T | undefined`) to explicit union types or exact optionality using the adapter pattern (`toDomain...`).
+   - Run `bun run lint:debt` and ratchet `.lint-debt-baseline.json` down from 216 towards ≤200.
 
-### Workstream C: Complete Workstream C Round-Trip Wiring
-1. **`userProfile`**:
-   - Test both producer paths: the Hono `/api/user/profile` route and the direct database path (`userDatabaseService.ts`).
-   - Wire `toDomainUserProfile` into `src/contexts/UserContext.tsx` or `src/hooks/useProfile.ts`.
-2. **`shop`**:
-   - Wire `ShopItemSchema` and `toDomainShopItem` into `ShopStorefront.tsx` with element-level resilience (`parseEach`).
-3. **`instacart`**:
-   - Wire `InstacartRetailerSchema` and `toDomainInstacartRetailer` into `InstacartService.ts`.
+### Workstream C: Bare JSON Casts by Surface (Target: ≤130 prod / ≤140 total)
+1. **Current State**:
+   - 139 production bare casts (148 total) across 109 files.
+2. **High-Value Target Surfaces**:
+   - `src/app/api/planetary-positions/route.ts` & `src/utils/reliableAstronomy.ts`
+   - `src/services/yelpRestaurantService.ts` / external discovery client boundaries
+   - `src/services/InstacartService.ts` and `src/services/AmazonFreshService.ts`
+3. **Execution**:
+   - Replace unchecked `(await res.json()) as T` with schema-validated `readJson` or Zod `.safeParse`.
+   - Ratchet `.bare-json-casts-baseline.json`.
 
-### Workstream D: Loose Optionality Domain Ratchet (Target: ≤220)
-- Current state: 233 domain sites (ratcheted from 276; 89 wire segregated).
-- Continue converting domain types using the adapter pattern (`XWire` from Zod output, domain type with exact optionality).
-- Focus on the concentrated files identified in Phase 38:
-  - `src/types/yelp.ts`
-  - `src/services/restaurantDiscoveryService.ts`
-  - `src/utils/menuPlanner/recommendationBridge.ts`
-  - `src/types/foodDiary.ts`
-- Ratchet `.lint-debt-baseline.json` domain loose optionality count accordingly.
+### Workstream D: AST Assertion Sites & Single Assertions Ratchet (Target: <3,000 single)
+1. **Current State**:
+   - 3,021 single assertion sites (improved from 3,039 in Phase 38).
+   - 3,185 total assertion sites.
+2. **Strategy**:
+   - Target high-density assertion areas:
+     - `src/data/seasonings/` (replace manual `as Seasoning` casts with const assertions or typed array factories).
+     - `src/services/cartService.ts` & `src/services/mealPlanner/`.
+   - Bring single assertion sites under 3,000 without introducing any new assertions (enforced by `checkDiffAssertions.ts`).
 
-### Workstream E: Bare JSON Casts by Surface
-- 145 production casts remain across 112 files.
-- Pick by functional surface rather than counter-grinding:
-  - `src/app/api/planetary-positions/route.ts`
-  - `src/utils/reliableAstronomy.ts`
-  - `src/app/admin/*`
-- Validate reads with Zod schemas and ratchet `.bare-json-casts-baseline.json`.
+### Workstream E: Cross-Service Synthetic Contract Probe (WTEN ↔ ASOL)
+1. **Synthetic E2E Probe**:
+   - Create a synthetic test / health probe exercising the full contract loop:
+     - Enumerate fleet via `/api/internal/agent-roster`.
+     - Validate recipe generation dispatch headers (`Authorization: Bearer`).
+     - Submit mock webhook payload to `/api/feed` and verify inbox claiming, duplicate detection, and stored result retrieval.
+     - Validate email lookup on `/api/internal/users/check-shared`.
+     - Inspect vessel telemetry on `/api/economy/vessel`.
+   - Add probe to the automated health monitoring runner (`/admin/health` or synthetic cron).
 
-### Workstream F: Route Budgeting for `/account` and `/menu-planner`
-- `/account` is currently 898 kB (ceiling: 910 kB). Target: split heavy Web3/auth chunks dynamically as done for `/shop`.
-- `/menu-planner` is currently 799 kB (ceiling: 810 kB). Target: evaluate dynamic imports for drag-and-drop / heavy calendar libs to move toward <750 kB.
+### Workstream F: Route Budget Maintenance & Code Splitting
+1. **Route Budgets**:
+   - Monitor all 7 tracked routes:
+     - `/` (target < 50 kB route / < 220 kB first-load)
+     - `/menu-planner` (target < 60 kB route / < 320 kB first-load; currently 289 kB)
+     - `/shop` (target < 15 kB route / < 120 kB first-load; currently 109 kB)
+     - `/account` (target < 15 kB route / < 125 kB first-load; currently 109 kB)
+     - `/recipes/[recipeId]` (target < 80 kB route / < 350 kB first-load; currently 331 kB)
+   - Evaluate dynamic component splitting on `/recipes/[recipeId]` to move first-load JS under 300 kB.
 
 ---
 
 ## 4. Invariants
 
-- **Bun Only**: Always use `bun run` for dev commands, test runners, and build scripts.
-- **Never Fabricate Values**: Missing elements, modalities, or coordinates render as unknown or are omitted.
-- **No New Unchecked Casts**: All boundary parsing must use Zod or type guards; no new `as unknown as T` assertions.
+- **Bun Only**: Always use `bun run` for dev commands, test runners, and build scripts. Never run `npm` or `yarn`.
+- **Zero Assertion Invariant**: Never add new `as <Type>` or `as unknown as <Type>` casts. `bun scripts/checkDiffAssertions.ts` must always exit 0.
 - **Natural Worker Exits**: Never re-introduce `--forceExit` to test scripts. All suites must clean up resources and exit naturally.
-- **Ratchet Strictly**: Update baselines only downward via their respective ratchet commands (`bun run lint:debt --ratchet`, etc.).
-- **Process Hygiene**: Check for active listeners on port 3000 before dev runs; terminate any spawned dev processes when tasks conclude.
-- **Single Worktree Rule**: Do not touch uncommitted edits from other active tasks/stashes. Keep commits atomic and clean.
+- **Ratchet Strictly**: Update baselines only downward via their respective ratchet commands (`bun run lint:debt:ratchet`, `check:bare-json:ratchet`, etc.).
+- **Process Hygiene**: Check for active listeners on port 3000 before dev runs (`lsof -ti:3000`); terminate any spawned dev processes when tasks conclude.
+- **Atomic Git Commits**: Explicit staging only (`git add <file1> <file2>`), never `git add -A` or `git add .`.
 
 ---
 
 ## 5. Verification Commands
 
-Run the full verification battery prior to PR creation:
+Run the full verification suite before any PR creation:
 
 ```sh
 bun run verify:static
-bun run test
+bun run test --passWithNoTests
 bun run build
 ```
 
