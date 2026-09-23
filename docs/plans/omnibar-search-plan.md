@@ -84,8 +84,8 @@ Elemental queries ("earth grains") are **deferred to Phase 5 behind a data check
 | Tier | Rule | Example |
 |---|---|---|
 | 0 | Exact match on normalized name, key or synonym | `spinach`, `aubergine` |
-| 1 | Word-boundary prefix | `spin` → spinach |
-| 2 | Word-boundary contains | `sichuan` → "Authentic Sichuan Dan Dan Noodles" |
+| 1 | Whole (stemmed) words contained *(Phase 1: moved above prefixes)* | `egg` → "Scrambled Eggs"; `dan dan` → "Authentic Sichuan Dan Dan Noodles" |
+| 2 | Word-boundary prefix, or every query word starts a candidate word | `spin` → spinach; `sichuan noodles` |
 | 3 | Mid-word contains | `pinach` → spinach *(did-you-mean shown)* |
 | 4 | Damerau-Levenshtein ≤ 1 (query length ≥ 4) | `spinich`, `tomatoe` |
 | 5 | Damerau-Levenshtein ≤ 2 (query length ≥ 7) | `spinnahc` |
@@ -150,7 +150,7 @@ Run `bunx eslint --config eslint.config.audit.mjs <new paths>` per file down to 
 | **0 — Recipe identity** *(prerequisite; fixes a live SEO bug and a live dead link)* | One tested resolver for all three id forms (UUID, static catalog id, index id) → the live twin by normalized name, with cuisine as the tie-break. `generateMetadata` emits the twin's title plus `canonical` → UUID, with no noindex. The page redirects to the UUID. A static id with no twin renders the static recipe with a self-canonical. The sitemap emits canonical ids. (A true HTTP 308 needs the decision moved out of root `loading.tsx`'s Suspense tree; that's a separate follow-up. Carrying static `mealType`/season onto live recipes waits for Phase 5) | Join report (twins / ambiguous / static-only / index-id coverage). Crawl every sitemap and index URL: each must show the recipe's own title with no noindex, and none may contain `NEXT_HTTP_ERROR_FALLBACK;404` |
 | **1 — Search core** | `src/lib/search/*` + accent fold in `normalizeForMatch` + synonyms + live reverse index. No UI | Corpus tests: **921/921 ingredients find themselves at rank 1**. Generated 1-edit mutations of names with ≥ 5 characters find the original in the top 3 (rate reported). Golden set (§8) passes. Red-proof: removing the fold turns the Béarnaise and jalapeño cases red |
 | **2 — API** | `GET /api/search` + Zod schema + route tests (handler called directly; jest blocks network) | Warm p95 < 150 ms at the handler. Cold index build time measured and logged. Cache headers asserted. `bun run verify` green |
-| **3 — Omnibar UI** | Split the shell from the lazy body, sections, keyboard, a11y, mobile, header copy | `/` First Load stays ≤ 220 kB. Palette component tests (typing "spinich" shows the correction, the hero and the recipes; keyboard walk). Screenshots from the preview |
+| **3 — Omnibar UI** | Split the shell from the lazy body, sections, keyboard, a11y, mobile, header copy. **Prerequisites found in Phase 1:** (a) fix the dossier resolver (`/api/ingredients/[name]` → `IngredientService.getIngredientByName`), because 15 of 921 hero links land on the wrong ingredient or none ("Apple Cider Vinegar" → Apple), pinned in `dossierHrefs.test.ts`; (b) merge rule: an exact local nav match (`pantry`) suppresses a server correction or hero ("puff pastry" is one edit from "pantry") | `/` First Load stays ≤ 220 kB. Palette component tests (typing "spinich" shows the correction, the hero and the recipes; keyboard walk). Screenshots from the preview |
 | **4 — Actions and deep links** | `GroceryCartContext.addItem`, `/recipe-builder?ingredients=`, `/sauces?focus=`, `/ingredients?q=` | Each action verified in the preview: cart badge increments, builder shows spinach |
 | **5 — Multi-ingredient and intent** | `spinach eggs feta` coverage ranking. Chips for derived diet, parsed time and season. Planetary and quality filters. Elemental queries only if the per-category distinct-vector check passes | Per-intent golden cases. Diet results pass the classifier with the basis shown |
 | **6 — Search as a destination** | `/search?q=` results page (SSR, shareable, `noindex` for arbitrary queries). `public/opensearch.xml` + `<link rel="search">`. `/api/search/suggest` in OpenSearch JSON format. `WebSite` JSON-LD with `SearchAction` | alchm.kitchen can be added as a browser search engine and suggestions show in the address bar. Rich Results test passes |
@@ -169,14 +169,15 @@ Phases 0–3 are the minimum that satisfies the original request. Phase 0 can sh
 | `spinich` | Spinach hero, corrected | — |
 | `tomatoe` | Tomato (not cherry tomatoes) | — |
 | `aubergine` | Eggplant (synonym) | — |
-| `béarnaise` / `bearnaise` | Béarnaise (sauce data) | Same result with or without the accent |
+| `béarnaise` / `bearnaise` | Hollandaise (Béarnaise is one of its `variants` in the sauce data) | Same result with or without the accent; the "Bernaise" archive recipe by edit distance |
 | `carbonara` | Authentic Spaghetti alla Carbonara | — |
 | `dan dan` | Both Dan Dan Noodles recipes, with UUID hrefs that resolve | — |
 | `thai` | Thai cuisine → `/cuisines/thai` | Thai recipes |
 | `braise` | Braising → `/cooking-methods/braising` | — |
 | `spinach eggs` | Recipes containing both | "uses 2 of 2" label |
-| `oaxacan` | Mexican cuisine suggestion (labeled) | Recipes mentioning Oaxaca, if any |
-| `pantry` | Pantry route (instant, client-side) | — |
+| `oaxacan` | *(Phase 5: demonym → cuisine intent)* Mexican cuisine suggestion, labeled. The Phase 1 core reaches "oaxaca cheese" by edit distance | Recipes mentioning Oaxaca, if any |
+| `pantry` | Pantry route (instant, client-side) | The server alone fuzzes to "puff pastry"; see the Phase 3 merge rule |
+| `egg` | No hero: eggs are **not in the 921-ingredient catalog** (a data gap, not a search bug) | Egg recipes lead |
 | `xqzv` | Zero-result fallbacks (D5) | — |
 
 Each recipe `href` in the set gets fetched in the test harness against the page resolver. A link that renders "Recipe not found" fails the test.

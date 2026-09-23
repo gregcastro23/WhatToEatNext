@@ -114,6 +114,30 @@ const ALIAS_TO_SLUG = (() => {
 })();
 
 /**
+ * Generic state/preparation descriptors that get promoted to slugs when a
+ * recipe lists them as bare ingredients; never used for containment matches.
+ */
+const CONTAINMENT_STOPWORDS = new Set([
+  "fresh", "dried", "frozen", "raw", "cooked", "ground", "whole",
+  "plain", "unsalted", "salted", "sweet", "warm", "hot", "cold",
+  "small", "medium", "large", "chopped", "minced", "sliced", "diced",
+  "to taste", "for garnish", "for serving", "optional",
+]);
+
+/**
+ * Whole-word patterns for the containment fallback, longest alias first so
+ * "fresh pandan leaves" resolves to "pandan leaves", not "fresh". Built once:
+ * this used to re-sort every alias and rebuild the regexes on every call.
+ */
+const CONTAINMENT_ALIASES: ReadonlyArray<readonly [RegExp, string]> = Array.from(ALIAS_TO_SLUG.entries())
+  .filter(([alias]) => alias.length >= 4 && !CONTAINMENT_STOPWORDS.has(alias))
+  .sort((a, b) => b[0].length - a[0].length)
+  .map(([alias, slug]): readonly [RegExp, string] => {
+    const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return [new RegExp(`(^|\\s)${escaped}(\\s|$)`), slug];
+  });
+
+/**
  * Resolve a canonical index slug from a user-facing ingredient input.
  * Returns null when no slug can be resolved.
  */
@@ -138,24 +162,9 @@ export function resolveIngredientSlug(input: string): string | null {
     if (byAlias) return byAlias;
 
     // Containment fallback for prefixed names like "fresh pandan leaves".
-    // Iterate longest-first so descriptive prefixes ("fresh", "dried")
-    // never win against the actual ingredient ("pandan leaves"). Also skip
-    // a stopword list of generic state/preparation descriptors that get
-    // promoted to slugs when a recipe lists them as bare ingredients.
-    const STOP = new Set([
-      "fresh", "dried", "frozen", "raw", "cooked", "ground", "whole",
-      "plain", "unsalted", "salted", "sweet", "warm", "hot", "cold",
-      "small", "medium", "large", "chopped", "minced", "sliced", "diced",
-      "to taste", "for garnish", "for serving", "optional",
-    ]);
-    const sortedAliases = Array.from(ALIAS_TO_SLUG.entries()).sort(
-      (a, b) => b[0].length - a[0].length,
-    );
-    for (const [alias, candidate] of sortedAliases) {
-      if (alias.length < 4) continue;
-      if (STOP.has(alias)) continue;
-      const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const re = new RegExp(`(^|\\s)${escaped}(\\s|$)`);
+    // Longest alias first, so descriptive prefixes never win against the
+    // actual ingredient (see CONTAINMENT_ALIASES).
+    for (const [re, candidate] of CONTAINMENT_ALIASES) {
       if (re.test(candidateInput)) return candidate;
     }
   }
