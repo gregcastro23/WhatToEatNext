@@ -7,15 +7,11 @@
  * @file src/app/api/cron/_lib/cronAuth.ts
  */
 
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import type { NextRequest } from "next/server";
 
 export function isAuthorizedCron(request: NextRequest): boolean {
-  const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret) return false;
-  const header = request.headers.get("authorization") ?? "";
-  const expected = `Bearer ${cronSecret}`;
-  if (header.length !== expected.length) return false;
-  return header === expected;
+  return bearerMatches(request.headers.get("authorization"), process.env.CRON_SECRET);
 }
 
 export function getCronBaseUrl(): string {

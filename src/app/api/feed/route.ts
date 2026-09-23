@@ -17,11 +17,9 @@
  * routes elsewhere). The two secrets are distinct.
  */
 
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createLogger } from "@/utils/logger";
-
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
@@ -29,6 +27,7 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("feed");
 
@@ -47,15 +46,7 @@ if (!process.env.INTERNAL_API_SECRET) {
 }
 
 function isAuthorizedAgentRequest(authHeader: string | null): boolean {
-  const internalSecret = process.env.INTERNAL_API_SECRET;
-  // Fail closed: without a configured secret, agent writes are rejected.
-  if (!internalSecret || !authHeader) return false;
-
-  const expected = Buffer.from(`Bearer ${internalSecret}`);
-  const received = Buffer.from(authHeader);
-  if (received.length !== expected.length) return false;
-
-  return timingSafeEqual(received, expected);
+  return bearerMatches(authHeader, process.env.INTERNAL_API_SECRET);
 }
 
 
