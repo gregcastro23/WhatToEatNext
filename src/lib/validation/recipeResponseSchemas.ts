@@ -3,9 +3,7 @@ import type { LunarPhase } from "@/types/alchemy";
 import type { RecipeIngredient } from "@/types/recipe";
 import { AlchemicalElementalPropertiesSchema } from "./alchemicalBackendSchemas";
 
-/**
- * Alchemized Recipe Schema (extracted preview)
- */
+/** Alchemized Recipe Schema (extracted preview) */
 export const AlchemizedRecipeSchema = z
   .object({
     name: z.string(),
@@ -246,7 +244,6 @@ export const LunarPhaseEnum: z.ZodType<LunarPhase> = z.string().transform((v, ct
   }
   return mapped;
 });
-
 export const RecipeIngredientSchema = z
   .object({
     id: z.string().optional(),
@@ -293,4 +290,11 @@ export function toDomainRecipeIngredient(wire: RecipeIngredientWire): RecipeIngr
   if (wire.lunarPhaseInfluences !== undefined) result.lunarPhaseInfluences = wire.lunarPhaseInfluences;
   return result;
 }
+
+export {
+  RecipeNutritionSchema,
+  toDomainRecipeNutrition,
+  OPTIONAL_NUTRITION_KEYS,
+  type RecipeNutritionWire,
+} from "./recipeNutritionSchema";
 

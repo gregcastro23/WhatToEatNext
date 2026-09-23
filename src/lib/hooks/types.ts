@@ -5,7 +5,12 @@
  */
 
 /** Lower-case provider slug, stored in webhook_events.source. */
-export type HookSource = "stripe" | "vercel";
+export type HookSource =
+  | "stripe"
+  | "vercel"
+  | "asol-sync-event"
+  | "asol-feed"
+  | "asol-agent-recipes";
 
 /** A verified, normalised inbound event, ready to record and dispatch. */
 export interface HookEvent<TData = unknown> {

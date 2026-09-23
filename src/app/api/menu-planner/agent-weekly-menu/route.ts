@@ -6,10 +6,8 @@
  * compact `weekly_menu` event to the shared feed.
  */
 
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { createLogger } from "@/utils/logger";
-
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { AgentWeeklyMenuRequestSchema } from "@/lib/validation/apiSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
@@ -17,6 +15,7 @@ import { userDatabase } from "@/services/userDatabaseService";
 import { getWeekEndDate } from "@/types/menuPlanner";
 import type { DailyNutritionTotals, DayOfWeek, GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("agent-weekly-menu");
@@ -63,14 +62,7 @@ interface FeaturedMeal {
 }
 
 function isAuthorizedInternalRequest(authHeader: string | null): boolean {
-  const internalSecret = process.env.INTERNAL_API_SECRET;
-  if (!internalSecret || !authHeader) return false;
-
-  const expected = Buffer.from(`Bearer ${internalSecret}`);
-  const received = Buffer.from(authHeader);
-  if (received.length !== expected.length) return false;
-
-  return timingSafeEqual(received, expected);
+  return bearerMatches(authHeader, process.env.INTERNAL_API_SECRET);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

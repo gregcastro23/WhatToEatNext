@@ -105,6 +105,7 @@ export default function AdminLayout({
     {
       group: "System",
       items: [
+        { href: "/admin/asol", label: "ASOL Health ✦", icon: "🪐" },
         { href: "/admin/jobs", label: "Jobs & probes", icon: "⏱️" },
         { href: "/admin/settings", label: "Settings", icon: "⚙️" },
       ],

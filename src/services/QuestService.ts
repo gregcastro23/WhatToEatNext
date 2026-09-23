@@ -7,6 +7,7 @@
  * @file src/services/QuestService.ts
  */
 
+import { isPgEnumMismatch } from "@/lib/database/pgErrors";
 import { _logger } from "@/lib/logger";
 import type {
   QuestDefinition,
@@ -208,6 +209,25 @@ function getPeriodStartForType(questType: string): string | null {
       return getDailyPeriodStart();
   }
 }
+
+const INSERT_MASTER_QUEST_NOTIFICATIONS_SQL = `INSERT INTO notifications
+   (id, user_id, type, title, message, metadata, expires_at)
+ SELECT
+   uuid_generate_v5(
+     '6ba7b810-9dad-11d1-80b4-00c04fd430c8'::uuid,
+     $1 || ':' || u.id::text
+   ),
+   u.id,
+   'master_quest_broadcast'::notification_type,
+   $2,
+   $3,
+   $4::jsonb,
+   $5::timestamptz
+ FROM users u
+ WHERE COALESCE(u.is_agent, false) = false
+   AND COALESCE(u.is_active, true) = true
+   AND u.id <> $6
+ ON CONFLICT (id) DO NOTHING`;
 
 // ─── Service Class ────────────────────────────────────────────────────
 
@@ -424,7 +444,7 @@ class QuestService {
   /**
    * Increment progress on a quest and send a notification if threshold met.
    */
-  private async incrementProgress(
+  async incrementProgress(
     userId: string,
     quest: QuestDefinition,
   ): Promise<{ questSlug: string; tokensAwarded: number; tokenType: string } | null> {
@@ -486,11 +506,18 @@ class QuestService {
               questSlug: quest.slug,
               tokenType: quest.tokenRewardType,
               tokenAmount: quest.tokenRewardAmount,
-            }
-          }
+            },
+          },
         );
       } catch (err) {
-        _logger.error("[QuestService] Failed to create quest completion notification", err);
+        if (isPgEnumMismatch(err)) {
+          _logger.error(
+            "[QuestService] Database notification_type enum rejected 'quest_completed' (code 22P02). Apply database/init/30-notification-type-master-quest-broadcast.sql to enable.",
+            err,
+          );
+        } else {
+          _logger.error("[QuestService] Failed to create quest completion notification", err);
+        }
       }
 
       return {
@@ -786,36 +813,48 @@ class QuestService {
         },
       });
 
-      await db.executeQuery(
-        `INSERT INTO notifications
-           (id, user_id, type, title, message, metadata, expires_at)
-         SELECT
-           uuid_generate_v5(
-             '6ba7b810-9dad-11d1-80b4-00c04fd430c8'::uuid,
-             $1 || ':' || u.id::text
-           ),
-           u.id,
-           'master_quest_broadcast'::notification_type,
-           $2,
-           $3,
-           $4::jsonb,
-           $5::timestamptz
-         FROM users u
-         WHERE COALESCE(u.is_agent, false) = false
-           AND COALESCE(u.is_active, true) = true
-           AND u.id <> $6
-         ON CONFLICT (id) DO NOTHING`,
-        [
-          broadcastKeyPrefix,
-          title,
-          message,
-          metadata,
-          expiresAt,
-          completedByUserId,
-        ],
-      );
+      await this.insertMasterQuestBroadcastNotification(db, {
+        broadcastKeyPrefix,
+        title,
+        message,
+        metadata,
+        expiresAt,
+        completedByUserId,
+      });
     } catch (error) {
       _logger.error("[QuestService] broadcastMasterQuestReward failed:", error);
+    }
+  }
+
+  async insertMasterQuestBroadcastNotification(
+    db: { executeQuery: (sql: string, params?: unknown[]) => Promise<{ rows: unknown[] }> },
+    params: {
+      broadcastKeyPrefix: string;
+      title: string;
+      message: string;
+      metadata: string;
+      expiresAt: string;
+      completedByUserId: string;
+    },
+  ): Promise<void> {
+    try {
+      await db.executeQuery(INSERT_MASTER_QUEST_NOTIFICATIONS_SQL, [
+        params.broadcastKeyPrefix,
+        params.title,
+        params.message,
+        params.metadata,
+        params.expiresAt,
+        params.completedByUserId,
+      ]);
+    } catch (error) {
+      if (isPgEnumMismatch(error)) {
+        _logger.error(
+          "[QuestService] Database notification_type enum rejected 'master_quest_broadcast' (code 22P02). Apply database/init/30-notification-type-master-quest-broadcast.sql to enable.",
+          error,
+        );
+        return;
+      }
+      throw error;
     }
   }
 

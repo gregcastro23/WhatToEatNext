@@ -21,6 +21,8 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { readJson } from "@/lib/api/json";
+import { LaunchReadinessResponseSchema } from "@/lib/validation/adminResponseSchemas";
 
 type ReadinessStatus = "READY" | "PARTIAL" | "OFF";
 
@@ -70,7 +72,9 @@ export default function LaunchReadinessPanel({
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & Report;
+      const json = await readJson(res, {
+        parse: (raw) => LaunchReadinessResponseSchema.parse(raw),
+      });
       if (json.success) {
         setReport(json);
         setError(null);

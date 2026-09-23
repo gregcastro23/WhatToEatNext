@@ -43,18 +43,18 @@ interface MethodData {
     heat: number;
     entropy: number;
     reactivity: number;
-    gregsEnergy?: number | undefined;
-  } | undefined;
-  duration?: { min: number; max: number } | undefined;
-  timeRange?: { min: number; max: number } | undefined;
-  suitable_for?: string[] | undefined;
-  benefits?: string[] | undefined;
-  toolsRequired?: string[] | undefined;
-  commonMistakes?: string[] | undefined;
-  pairingSuggestions?: string[] | undefined;
-  regionalVariations?: Record<string, string[]> | undefined;
-  expertTips?: string[] | undefined;
-  optimalTemperatures?: Record<string, number> | undefined;
+    gregsEnergy?: number;
+  };
+  duration?: { min: number; max: number };
+  timeRange?: { min: number; max: number };
+  suitable_for?: string[];
+  benefits?: string[];
+  toolsRequired?: string[];
+  commonMistakes?: string[];
+  pairingSuggestions?: string[];
+  regionalVariations?: Record<string, string[]>;
+  expertTips?: string[];
+  optimalTemperatures?: Record<string, number>;
 }
 
 // Default planetary positions (fallback when context not available)

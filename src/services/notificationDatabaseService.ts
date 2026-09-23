@@ -92,7 +92,7 @@ class NotificationDatabaseService {
     },
   ): Promise<UserNotification | null> {
     const db = await getDbModule();
-    const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const id = crypto.randomUUID();
     const now = new Date().toISOString();
 
     const notification: UserNotification = {
@@ -186,7 +186,7 @@ class NotificationDatabaseService {
     extraMetadata?: Record<string, unknown>;
   }): Promise<UserNotification | null> {
     const db = await getDbModule();
-    const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const id = crypto.randomUUID();
 
     const baseMetadata = {
       ...(args.extraMetadata ?? {}),
@@ -395,7 +395,7 @@ class NotificationDatabaseService {
           return updatedRow ?? null;
         }
 
-        const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        const id = crypto.randomUUID();
         const meta = {
           ...opts.metadata,
           conversationId,

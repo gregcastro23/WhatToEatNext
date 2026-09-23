@@ -34,8 +34,8 @@ describe("bearerMatches", () => {
   });
 });
 
-describe("the six shared-secret routes", () => {
-  const ROUTES = [
+describe("the shared-secret and internal routes", () => {
+  const SYNC_ROUTES = [
     "src/app/api/economy/sync-credit/route.ts",
     "src/app/api/economy/sync-debit/route.ts",
     "src/app/api/economy/sync-event/route.ts",
@@ -46,7 +46,7 @@ describe("the six shared-secret routes", () => {
 
   it("compare the sync secret in constant time, never with === or !==", async () => {
     const { readFileSync } = await import("node:fs");
-    for (const route of ROUTES) {
+    for (const route of SYNC_ROUTES) {
       const src = readFileSync(route, "utf8");
       expect({ route, usesSafeEqual: src.includes("safeEqual(") }).toEqual({ route, usesSafeEqual: true });
       // Any plain comparison against a secret-bearing identifier is a regression.
@@ -56,4 +56,13 @@ describe("the six shared-secret routes", () => {
       });
     }
   });
+
+  it("compares the feed internal bearer in constant time via bearerMatches", async () => {
+    const { readFileSync } = await import("node:fs");
+    const src = readFileSync("src/app/api/feed/route.ts", "utf8");
+    expect(src.includes("bearerMatches(")).toBe(true);
+    expect(/[!=]==\s*(internalSecret|INTERNAL_API_SECRET)/.test(src)).toBe(false);
+    expect(src.includes(".length !==")).toBe(false);
+  });
 });
+

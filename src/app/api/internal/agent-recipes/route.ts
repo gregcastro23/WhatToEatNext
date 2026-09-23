@@ -13,18 +13,20 @@
  * so PA can reference it on the agent's profile feed event.
  */
 
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
+import {
+  claimInboundEvent,
+  completeWebhookEvent,
+  extractIdempotencyKey,
+  failWebhookEvent,
+} from "@/lib/hooks/idempotency";
 import { bearerMatches, safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
-import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET ?? "";
-const ALCHM_KITCHEN_SYNC_SECRET = process.env.ALCHM_KITCHEN_SYNC_SECRET ?? "";
 
 const AgentRecipeBodySchema = z.object({
   // The authoring agent's WTEN user id (PA's alchmKitchenUserId).
@@ -48,8 +50,14 @@ export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization") ?? "";
   const syncHeader = request.headers.get("x-sync-secret") ?? "";
 
-  const isBearerAuthorized = bearerMatches(authHeader, INTERNAL_API_SECRET);
-  const isSyncHeaderAuthorized = safeEqual(syncHeader, ALCHM_KITCHEN_SYNC_SECRET);
+  const isBearerAuthorized = bearerMatches(
+    authHeader,
+    process.env.INTERNAL_API_SECRET,
+  );
+  const isSyncHeaderAuthorized = safeEqual(
+    syncHeader,
+    process.env.ALCHM_KITCHEN_SYNC_SECRET,
+  );
 
   if (!isBearerAuthorized && !isSyncHeaderAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -70,6 +78,29 @@ export async function POST(request: NextRequest) {
     );
   }
   const body = parsed.data;
+
+  const idempotencyKey = extractIdempotencyKey(request, rawBody);
+  const claimResult = await claimInboundEvent({
+    source: "asol-agent-recipes",
+    key: idempotencyKey,
+    eventType: "agent-recipe",
+    subjectId: body.userId,
+    summary: { userId: body.userId, name: body.name },
+    data: rawBody,
+  });
+
+  if (claimResult.isDuplicate) {
+    if (claimResult.isInFlight) {
+      return NextResponse.json(
+        { success: false, error: "conflict", message: "Event is currently being processed" },
+        { status: 409, headers: { "Retry-After": "1" } },
+      );
+    }
+    return NextResponse.json({
+      ...(claimResult.previousResult ?? { success: true }),
+      deduplicated: true,
+    });
+  }
 
   try {
     const result = await executeQuery<InsertedRow>(
@@ -94,12 +125,19 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-    return NextResponse.json({
+    const responsePayload = {
       success: true,
       id: row.id,
       createdAt: new Date(row.created_at).getTime(),
-    });
+    };
+    if (claimResult.claim) {
+      await completeWebhookEvent(claimResult.claim, "processed", responsePayload);
+    }
+    return NextResponse.json(responsePayload);
   } catch (error) {
+    if (claimResult.claim) {
+      await failWebhookEvent(claimResult.claim, error);
+    }
     _logger.error("[POST /api/internal/agent-recipes]", error);
     return NextResponse.json(
       { error: "Failed to author recipe" },
