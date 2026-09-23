@@ -53,10 +53,10 @@ function isConstTypeReference(typeNode: ts.TypeNode): boolean {
  * Prefers explicitRef, then GITHUB_BASE_REF (in CI), then origin/master, master, origin/main, main.
  * Fails closed if no valid ref can be verified.
  */
-export function resolveBaseRef(explicitRef?: string): string {
+export function resolveBaseRef(explicitRef?: string, repoRoot: string = process.cwd()): string {
   if (explicitRef) {
     try {
-      execFileSync("git", ["rev-parse", "--verify", explicitRef], { stdio: "ignore" });
+      execFileSync("git", ["rev-parse", "--verify", explicitRef], { cwd: repoRoot, stdio: "ignore" });
       return explicitRef;
     } catch {
       throw new Error(`Explicit base ref "${explicitRef}" cannot be resolved by git rev-parse.`);
@@ -67,11 +67,11 @@ export function resolveBaseRef(explicitRef?: string): string {
   if (process.env.GITHUB_BASE_REF) {
     const prBase = `origin/${process.env.GITHUB_BASE_REF}`;
     try {
-      execFileSync("git", ["rev-parse", "--verify", prBase], { stdio: "ignore" });
+      execFileSync("git", ["rev-parse", "--verify", prBase], { cwd: repoRoot, stdio: "ignore" });
       return prBase;
     } catch {
       try {
-        execFileSync("git", ["rev-parse", "--verify", process.env.GITHUB_BASE_REF], { stdio: "ignore" });
+        execFileSync("git", ["rev-parse", "--verify", process.env.GITHUB_BASE_REF], { cwd: repoRoot, stdio: "ignore" });
         return process.env.GITHUB_BASE_REF;
       } catch {
         // Fall through to standard branch checks
@@ -81,7 +81,7 @@ export function resolveBaseRef(explicitRef?: string): string {
 
   for (const candidate of ["origin/master", "master", "origin/main", "main"]) {
     try {
-      execFileSync("git", ["rev-parse", "--verify", candidate], { stdio: "ignore" });
+      execFileSync("git", ["rev-parse", "--verify", candidate], { cwd: repoRoot, stdio: "ignore" });
       return candidate;
     } catch {
       // Continue to next candidate
@@ -353,7 +353,7 @@ export function scanDiffAssertions(
   repoRoot: string,
   explicitBaseRef?: string,
 ): DiffAssertionsResult {
-  const baseRef = resolveBaseRef(explicitBaseRef);
+  const baseRef = resolveBaseRef(explicitBaseRef, repoRoot);
   const mergeBase = resolveMergeBase(baseRef, repoRoot);
   const changedFiles = getChangedSourceFiles(mergeBase, targetDir, repoRoot);
 

@@ -65,13 +65,19 @@ describe("notificationEnumParity static gate & database verification", () => {
 
   it("applies missing values when applyFixes is true", async () => {
     const executedQueries: string[] = [];
-    const mockDbValues = CANONICAL_NOTIFICATION_TYPES.filter(
-      (v) => v !== "quest_completed" && v !== "master_quest_broadcast",
-    );
+    const mockDbValues = [
+      ...CANONICAL_NOTIFICATION_TYPES.filter(
+        (v) => v !== "quest_completed" && v !== "master_quest_broadcast",
+      ),
+    ];
 
     const mockPool = {
       query: jest.fn(async (sql: string) => {
         executedQueries.push(sql);
+        if (sql.includes("ALTER TYPE")) {
+          const match = sql.match(/'([^']+)'/);
+          if (match?.[1]) mockDbValues.push(match[1]);
+        }
         if (sql.includes("SELECT e.enumlabel")) {
           return { rows: mockDbValues.map((enumlabel) => ({ enumlabel })) };
         }
@@ -80,8 +86,9 @@ describe("notificationEnumParity static gate & database verification", () => {
     };
 
     const result = await checkEnumParity(mockPool as any, true);
-    expect(result.isCompliant).toBe(false);
+    expect(result.isCompliant).toBe(true);
+    expect(result.missingValues).toEqual([]);
     expect(result.appliedValues).toEqual(["quest_completed", "master_quest_broadcast"]);
-    expect(executedQueries.length).toBe(3); // 1 select + 2 alter statements
+    expect(executedQueries.length).toBe(4); // 1 select + 2 alter statements + 1 recheck select
   });
 });

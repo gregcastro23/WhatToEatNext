@@ -124,6 +124,26 @@ export async function checkEnumParity(
       );
       appliedValues.push(val);
     }
+
+    const recheck = await pool.query<{ enumlabel: string }>(
+      `SELECT e.enumlabel
+       FROM pg_enum e
+       JOIN pg_type t ON e.enumtypid = t.oid
+       WHERE t.typname = 'notification_type'
+       ORDER BY e.enumsortorder;`,
+    );
+    const updatedValues = recheck.rows.map((r) => r.enumlabel);
+    const updatedSet = new Set(updatedValues);
+    const remainingMissing = CANONICAL_NOTIFICATION_TYPES.filter(
+      (val) => !updatedSet.has(val),
+    );
+
+    return {
+      currentValues: updatedValues,
+      missingValues: remainingMissing.map((v) => String(v)),
+      isCompliant: remainingMissing.length === 0,
+      appliedValues,
+    };
   }
 
   return {

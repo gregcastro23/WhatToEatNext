@@ -167,6 +167,11 @@ describe("diffAssertions", () => {
       fs.rmSync(tempDir, { recursive: true, force: true });
     });
 
+    it("resolves default base ref within temp git repository without relying on outer repo", () => {
+      const base = resolveBaseRef(undefined, tempDir);
+      expect(base).toBe("master");
+    });
+
     it("detects assertion swap (removes 1, adds 1 elsewhere) as a regression", () => {
       // Create a feature branch
       execFileSync("git", ["checkout", "-b", "feature/swap"], { cwd: tempDir, stdio: "ignore" });

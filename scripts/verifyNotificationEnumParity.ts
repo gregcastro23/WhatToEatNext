@@ -83,7 +83,11 @@ async function main(): Promise<void> {
     }
   }
 
-  const pool = new Pool({ connectionString: databaseUrl });
+  const isLocal = parsedHost === "localhost" || parsedHost === "127.0.0.1" || parsedHost === "";
+  const pool = new Pool({
+    connectionString: databaseUrl,
+    ssl: isLocal || databaseUrl.includes("sslmode=") ? undefined : { rejectUnauthorized: false },
+  });
 
   try {
     console.log(`Checking database notification_type enum parity on host: ${parsedHost}...`);
