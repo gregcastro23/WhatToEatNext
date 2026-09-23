@@ -15,6 +15,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
@@ -25,9 +26,11 @@ export const runtime = "nodejs";
 
 const MAX_BATCH_SIZE = 1_000;
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
+const checkSharedSchema = z.object({
+  emails: z
+    .array(z.string())
+    .max(MAX_BATCH_SIZE, `Batch size exceeds limit of ${MAX_BATCH_SIZE} emails`),
+});
 
 export async function POST(request: NextRequest) {
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
@@ -44,23 +47,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "Invalid JSON" }, { status: 400 });
   }
 
-  if (!isRecord(rawBody) || !Array.isArray(rawBody.emails)) {
-    return NextResponse.json(
-      { success: false, error: "Body must contain an 'emails' array" },
-      { status: 400 },
+  const parseResult = checkSharedSchema.safeParse(rawBody);
+  if (!parseResult.success) {
+    const isBatchError = parseResult.error.issues.some((issue) =>
+      issue.message.includes("Batch size exceeds limit"),
     );
-  }
-
-  const rawEmails = rawBody.emails;
-  if (rawEmails.length > MAX_BATCH_SIZE) {
     return NextResponse.json(
       {
         success: false,
-        error: `Batch size exceeds limit of ${MAX_BATCH_SIZE} emails`,
+        error: isBatchError
+          ? `Batch size exceeds limit of ${MAX_BATCH_SIZE} emails`
+          : "Body must contain an 'emails' array",
       },
       { status: 400 },
     );
   }
+
+  const rawEmails = parseResult.data.emails;
 
   const cleanEmails: string[] = [];
   for (const item of rawEmails) {
