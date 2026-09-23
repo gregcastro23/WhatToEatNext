@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import React, { useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import { RecipeCard } from "@/components/RecipeCard";
 import { _logger } from "@/lib/logger";
@@ -40,7 +40,7 @@ function sanitizeReturn(raw: string | null | undefined): string | null {
   return raw;
 }
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnTo = sanitizeReturn(searchParams?.get("return"));
@@ -649,5 +649,24 @@ export default function OnboardingPage() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+/**
+ * useSearchParams() needs a Suspense boundary for static prerendering. The
+ * root loading.tsx used to provide one implicitly; it was removed because it
+ * turned every notFound()/redirect() in the app into an HTTP 200.
+ */
+export default function OnboardingPage(): React.JSX.Element {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center p-4 text-center text-gray-600">
+          Loading...
+        </div>
+      }
+    >
+      <OnboardingContent />
+    </Suspense>
   );
 }
