@@ -4,11 +4,14 @@
  */
 import { NextResponse } from "next/server";
 import { getServerRecipes } from "@/actions/recipes";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { RecipesQueryBodySchema } from "@/lib/validation/apiSchemas";
 import type { Recipe } from "@/types/recipe";
+
+const logger = createLogger("recipes");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -82,7 +85,7 @@ async function handleGet(request: Request) {
           return NextResponse.json(data);
         }
       } catch (err) {
-        _logger.error("Hono Gateway proxy failed:", err);
+        logger.error("Hono Gateway proxy failed:", err);
       }
     }
 
@@ -121,7 +124,7 @@ async function handleGet(request: Request) {
         offset,
       });
     } catch (apiError) {
-      console.warn("[recipes] backend service unavailable:", apiError);
+      logger.warn("[recipes] backend service unavailable:", apiError);
       const recipes = filterRecipes(await getServerRecipes(), { element, cuisine, search });
       return NextResponse.json({
         success: true,
@@ -133,7 +136,7 @@ async function handleGet(request: Request) {
       });
     }
   } catch (error) {
-    _logger.error("[recipes] Error:", error);
+    logger.error("[recipes] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to fetch recipes" }, { status: 500 });
   }
 }
@@ -175,7 +178,7 @@ async function handlePost(request: Request) {
           return NextResponse.json(data);
         }
       } catch (err) {
-        _logger.error("Hono Gateway proxy failed:", err);
+        logger.error("Hono Gateway proxy failed:", err);
       }
     }
 

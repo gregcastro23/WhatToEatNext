@@ -135,6 +135,29 @@ export async function readEsmsBalances(address: Address): Promise<OnchainEsms> {
   return { spirit, essence, matter, substance }
 }
 
+/**
+ * Balances for many wallets in ONE `balanceOfBatch` eth_call (4 ids per
+ * wallet), instead of one request per wallet. The hourly invariant check did
+ * the latter against the public Base Sepolia RPC and hit "over rate limit" on
+ * nearly every run, so it rarely verified all the wallets it scanned.
+ */
+export async function readEsmsBalancesMany(addresses: readonly Address[]): Promise<OnchainEsms[]> {
+  if (addresses.length === 0) return []
+  const res = await esmsPublicClient().readContract({
+    address: esmsContractAddress(),
+    abi: ESMS_ABI,
+    functionName: 'balanceOfBatch',
+    args: [addresses.flatMap((a) => ESMS_IDS.map(() => a)), addresses.flatMap(() => [...ESMS_IDS])],
+  })
+  return addresses.map((_, i) => {
+    const [spirit, essence, matter, substance] = res.slice(i * 4, i * 4 + 4)
+    if (spirit === undefined || essence === undefined || matter === undefined || substance === undefined) {
+      throw new Error('esms-chain: balanceOfBatch returned fewer balances than requested')
+    }
+    return { spirit, essence, matter, substance }
+  })
+}
+
 export async function readEsmsClaimed(claimId: `0x${string}`): Promise<boolean> {
   return esmsPublicClient().readContract({
     address: esmsContractAddress(),

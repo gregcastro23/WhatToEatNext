@@ -63,21 +63,55 @@ export default function AdminLayout({
     }
   };
 
-  const navItems = [
-    { href: "/admin", label: "Overview", icon: "📊" },
-    { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
-    { href: "/admin/mcp", label: "MCP Network ✦", icon: "🔌" },
-    { href: "/admin/users", label: "Users", icon: "👥" },
-    { href: "/admin/onboarding", label: "Onboarding", icon: "🧭" },
-    { href: "/admin/settlements", label: "Settlements", icon: "💳" },
-    { href: "/admin/chat-reports", label: "Chat Reports", icon: "🚩" },
+  const navGroups: Array<{ group: string; items: Array<{ href: string; label: string; icon: string }> }> = [
     {
-      href: "/admin/feed/comment-reports",
-      label: "Comment Reports",
-      icon: "💬",
+      group: "Pulse",
+      items: [
+        { href: "/admin", label: "Overview", icon: "📊" },
+        { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
+      ],
     },
-    { href: "/admin/settings", label: "Settings", icon: "⚙️" },
+    {
+      group: "Audience",
+      items: [
+        { href: "/admin/traffic", label: "Traffic", icon: "📈" },
+        { href: "/admin/growth", label: "Growth", icon: "🌱" },
+        { href: "/admin/users", label: "Users", icon: "👥" },
+        { href: "/admin/onboarding", label: "Onboarding", icon: "🧭" },
+      ],
+    },
+    {
+      group: "Money & chain",
+      items: [
+        { href: "/admin/revenue", label: "Revenue", icon: "💵" },
+        { href: "/admin/settlements", label: "Settlements", icon: "💳" },
+        { href: "/admin/chain", label: "Chain", icon: "⛓️" },
+      ],
+    },
+    {
+      group: "Build",
+      items: [
+        { href: "/admin/code-health", label: "Code Health", icon: "🧪" },
+        { href: "/admin/mcp", label: "MCP Network ✦", icon: "🔌" },
+      ],
+    },
+    {
+      group: "Moderation",
+      items: [
+        { href: "/admin/chat-reports", label: "Chat Reports", icon: "🚩" },
+        { href: "/admin/feed/comment-reports", label: "Comment Reports", icon: "💬" },
+      ],
+    },
+    {
+      group: "System",
+      items: [
+        { href: "/admin/asol", label: "ASOL Health ✦", icon: "🪐" },
+        { href: "/admin/jobs", label: "Jobs & probes", icon: "⏱️" },
+        { href: "/admin/settings", label: "Settings", icon: "⚙️" },
+      ],
+    },
   ];
+  const navItems = navGroups.flatMap((g) => g.items);
 
   if (loading) {
     return (
@@ -187,24 +221,29 @@ export default function AdminLayout({
           <p className="text-sm text-gray-400 mt-1">Admin Panel</p>
         </div>
 
-        <nav className="mt-6">
-          {navItems.map((item) => {
-            const active = pathname === item.href || (item.href !== "/admin" && Boolean(pathname?.startsWith(`${item.href}/`)));
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors ${
-                  active
-                    ? "bg-gray-700 text-white border-r-4 border-purple-500"
-                    : ""
-                }`}
-              >
-                <span className="mr-3">{item.icon}</span>
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="mt-2 overflow-y-auto" style={{ maxHeight: "calc(100vh - 170px)" }}>
+          {navGroups.map((g) => (
+            <div key={g.group} className="mt-3">
+              <p className="px-6 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-500">{g.group}</p>
+              {g.items.map((item) => {
+                const active = pathname === item.href || (item.href !== "/admin" && Boolean(pathname?.startsWith(`${item.href}/`)));
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center px-6 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors ${
+                      active
+                        ? "bg-gray-700 text-white border-r-4 border-purple-500"
+                        : ""
+                    }`}
+                  >
+                    <span className="mr-3">{item.icon}</span>
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         <div className="absolute bottom-0 w-full p-6 border-t border-gray-700">

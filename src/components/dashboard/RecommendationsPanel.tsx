@@ -346,7 +346,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                     key={el}
                     className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${colors.bg} ${colors.text} border ${colors.border}`}
                   >
-                    {el} {Math.round((val as number) * 100)}%
+                    {el} {Math.round(val * 100)}%
                   </span>
                 );
               })}
@@ -670,7 +670,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 Complementary: {secondaryElement[0]} Methods
               </h3>
               <p className="text-xs text-gray-500 mb-3">
-                Your secondary element ({Math.round((secondaryElement[1] as number) * 100)}%) suggests these techniques too
+                Your secondary element ({Math.round(secondaryElement[1] * 100)}%) suggests these techniques too
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {Object.entries(COOKING_METHOD_DETAILS)

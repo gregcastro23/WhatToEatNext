@@ -34,7 +34,7 @@ const ArtifactCardHeader: React.FC<{ artifact: AgentArtifact; isRecipe: boolean;
 const ArtifactExpandedBody: React.FC<{
   isLoading: boolean;
   recipe: RecipeDetail | null;
-  alchmKitchenPath?: string;
+  alchmKitchenPath?: string | undefined;
 }> = ({ isLoading, recipe, alchmKitchenPath }) => {
   if (isLoading) {
     return (

@@ -63,8 +63,8 @@ export const RestaurantBuilder: React.FC<RestaurantBuilderProps> = ({
     const newItem: MenuItem = {
       id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name: newItemName.trim(),
-      description: newItemDesc.trim() || undefined,
-      price: typeof newItemPrice === 'number' ? newItemPrice : undefined,
+      ...(newItemDesc.trim() ? { description: newItemDesc.trim() } : {}),
+      ...(typeof newItemPrice === 'number' ? { price: newItemPrice } : {}),
       category: newItemCategory,
       dietaryTags: [...newItemTags],
     };

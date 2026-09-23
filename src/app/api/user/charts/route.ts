@@ -279,7 +279,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     dateTime: birthData.dateTime,
     latitude: birthData.latitude,
     longitude: birthData.longitude,
-    timezone: birthData.timezone,
+    ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
   };
 
   // Whole birthData — sect is the Sun's altitude at the birthplace.

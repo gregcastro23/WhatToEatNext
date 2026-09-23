@@ -243,9 +243,11 @@ async function reignite(birthData: BirthData, opts: { useWallClock?: boolean } =
   // sky. Without this split the control gate would fail on every migrated row —
   // correctly, since the geometry genuinely changed — and refuse to apply,
   // reporting the migration's whole point as a harness fault.
-  const source: BirthData = opts.useWallClock
-    ? { ...birthData, utcInstant: undefined }
-    : birthData;
+  let source: BirthData = birthData;
+  if (opts.useWallClock && birthData.utcInstant !== undefined) {
+    const { utcInstant: _discarded, ...rest } = birthData;
+    source = rest;
+  }
 
   const chart: any = await calculateNatalChart(source);
 

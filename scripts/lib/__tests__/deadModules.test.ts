@@ -1,4 +1,5 @@
 import {
+  buildReport,
   extractSpecifiers,
   isReferrerSource,
   isScannableSource,
@@ -164,5 +165,34 @@ describe("declaration files", () => {
   it("scans a .d.ts as a referrer even though it is not scannable source", () => {
     expect(isReferrerSource("src/types/global-types.d.ts")).toBe(true);
     expect(isScannableSource("src/types/global-types.d.ts")).toBe(false);
+  });
+});
+
+describe("buildReport four tiers partitioning", () => {
+  it("partitions candidates into dead, testOnly, scriptOnly, and appReachable", () => {
+    const report = buildReport({
+      repoRoot: "/test-repo",
+      referrerFiles: [
+        "src/app/page.tsx",
+        "scripts/tool.ts",
+        "src/__tests__/test.ts",
+        "src/app-used.ts",
+        "src/script-used.ts",
+        "src/test-used.ts",
+        "src/dead-file.ts",
+      ],
+      candidateFiles: [
+        "src/app-used.ts",
+        "src/script-used.ts",
+        "src/test-used.ts",
+        "src/dead-file.ts",
+      ],
+      compilerOptions: {},
+      extraEntryPoints: [],
+    });
+
+    // In an empty/mocked filesystem, none of the files import each other, so all candidates are dead.
+    expect(report.candidates).toHaveLength(4);
+    expect(report.dead.length + report.testOnly.length + report.scriptOnly.length + report.appReachable.length).toBe(4);
   });
 });

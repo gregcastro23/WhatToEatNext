@@ -1,8 +1,11 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { cache } from "react";
 import { _logger } from "@/lib/logger";
+import { resolveRecipeRef } from "@/lib/recipes/recipeRefResolver";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
+import type { Recipe } from "@/types/recipe";
 import RecipeClient from "./RecipeClient";
 import type { Metadata } from "next";
 
@@ -30,23 +33,55 @@ interface RecipePageProps {
   params: Promise<{ recipeId: string }>;
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+/**
+ * What a `/recipes/[recipeId]` request resolves to. `canonicalId` is the id the
+ * page's canonical URL uses: the live UUID for live recipes and for bridged
+ * static/index ids ("redirect"), the static id itself for static-only recipes.
+ */
+type RecipePageTarget =
+  | { kind: "recipe"; recipe: Recipe; canonicalId: string }
+  | { kind: "redirect"; recipe: Recipe; canonicalId: string }
+  | { kind: "missing" };
+
+/**
+ * Deduped per request — generateMetadata and the page both need it, and they
+ * must agree: metadata that says "not found" while the page redirects is what
+ * left every legacy sitemap URL with a not-found title and noindex.
+ */
+const resolveRecipePage = cache(async (recipeId: string): Promise<RecipePageTarget> => {
+  const direct = await LocalRecipeService.getRecipeById(recipeId);
+  if (direct) return { kind: "recipe", recipe: direct, canonicalId: String(direct.id) };
+  if (UUID_RE.test(recipeId)) return { kind: "missing" };
+  const ref = await resolveRecipeRef(recipeId).catch((err: unknown) => {
+    _logger.error(`[recipes/${recipeId}] legacy id resolution failed:`, err);
+    return null;
+  });
+  if (!ref) return { kind: "missing" };
+  return ref.kind === "twin"
+    ? { kind: "redirect", recipe: ref.recipe, canonicalId: ref.canonicalId }
+    : { kind: "recipe", recipe: ref.recipe, canonicalId: ref.canonicalId };
+});
+
 export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
   const { recipeId } = await params;
-  const recipe = await LocalRecipeService.getRecipeById(recipeId).catch(() => null);
+  const target = await resolveRecipePage(recipeId).catch((): RecipePageTarget => ({ kind: "missing" }));
 
-  if (!recipe) {
+  if (target.kind === "missing") {
     return {
       title: "Recipe not found",
       robots: { index: false, follow: false },
     };
   }
 
+  const { recipe, canonicalId } = target;
   const recipeName = String(recipe.name ?? "Recipe");
   const description =
     typeof recipe.description === "string" && recipe.description.length > 0
       ? recipe.description.slice(0, 160)
       : `${recipeName} — a personalized cosmic recipe from Alchm Kitchen.`;
-  const canonicalPath = `/recipes/${recipeId}`;
+  const canonicalPath = `/recipes/${encodeURIComponent(canonicalId)}`;
   const imageUrl =
     typeof (recipe as { image?: unknown }).image === "string"
       ? ((recipe as { image: string }).image)
@@ -107,76 +142,60 @@ function isoDuration(minutes: number): string | undefined {
   return out === "PT" ? undefined : out;
 }
 
+/**
+ * Terminal branch for an id nothing resolves. A UUID may be a user's custom
+ * recipe (redirected to its generated-recipe page); anything else is a 404.
+ */
+async function handleMissingRecipe(recipeId: string): Promise<never> {
+  if (UUID_RE.test(recipeId)) {
+    // redirect() throws NEXT_REDIRECT, so it must be called outside the
+    // try/catch — a catch here would swallow the redirect into notFound().
+    let isCustomRecipe = false;
+    try {
+      const { executeQuery } = await import("@/lib/database/connection");
+      const customCheck = await executeQuery(
+        "SELECT 1 FROM user_custom_recipes WHERE id = $1",
+        [recipeId]
+      );
+      isCustomRecipe = customCheck.rows.length > 0;
+    } catch (err) {
+      _logger.error("Error checking custom recipe in catalog fallback:", err);
+    }
+    if (isCustomRecipe) {
+      const { redirect } = await import("next/navigation");
+      redirect(`/generated-recipe/${recipeId}`);
+    }
+  }
+  // With ISR enabled, notFound() is a cacheable result — a 404 rendered
+  // during a transient outage would poison this URL for the whole
+  // revalidate window. When the catalog was served from the degraded
+  // hardcoded fallback (DB unreachable / empty), the recipe may exist but
+  // be invisible, so fail the render instead: thrown errors are never
+  // cached and the next request retries against a healthy catalog.
+  if (LocalRecipeService.isCatalogDegraded()) {
+    throw new Error(
+      `Recipe catalog degraded while rendering /recipes/${recipeId}; refusing to cache a 404`,
+    );
+  }
+  notFound();
+}
+
 export default async function RecipePage({ params }: RecipePageProps) {
   const { recipeId } = await params;
 
-  const rawRecipe = await LocalRecipeService.getRecipeById(recipeId);
-
-  if (!rawRecipe) {
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(recipeId);
-    if (isUuid) {
-      // redirect() throws NEXT_REDIRECT, so it must be called outside the
-      // try/catch — a catch here would swallow the redirect into notFound().
-      let isCustomRecipe = false;
-      try {
-        const { executeQuery } = await import("@/lib/database/connection");
-        const customCheck = await executeQuery(
-          "SELECT 1 FROM user_custom_recipes WHERE id = $1",
-          [recipeId]
-        );
-        isCustomRecipe = customCheck.rows.length > 0;
-      } catch (err) {
-        _logger.error("Error checking custom recipe in catalog fallback:", err);
-      }
-      if (isCustomRecipe) {
-        const { redirect } = await import("next/navigation");
-        redirect(`/generated-recipe/${recipeId}`);
-      }
-    } else {
-      // Legacy slug URL. The sitemap enumerates ids from the static server
-      // payload ("hsca-dinner-all-whole-steamed-fish"), while the live catalog
-      // is UUID-keyed — every indexed slug URL soft-404ed. Resolve the slug to
-      // its static recipe, match the live catalog by normalized name, and 308
-      // to the canonical UUID URL.
-      let target: string | null = null;
-      try {
-        const { getServerRecipes } = await import("@/actions/recipes");
-        const staticRecipes = await getServerRecipes();
-        const staticHit = staticRecipes.find((r) => String(r?.id ?? "") === recipeId);
-        const staticName = typeof staticHit?.name === "string" ? staticHit.name : "";
-        if (staticName) {
-          const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-          const all = await LocalRecipeService.getAllRecipes();
-          const match = all.find(
-            (r) => typeof r.name === "string" && norm(r.name) === norm(staticName),
-          );
-          if (match?.id && String(match.id) !== recipeId) {
-            target = `/recipes/${String(match.id)}`;
-          }
-        }
-      } catch (err) {
-        _logger.error("Legacy slug recipe resolution failed:", err);
-      }
-      if (target) {
-        const { permanentRedirect } = await import("next/navigation");
-        permanentRedirect(target);
-      }
-    }
-    // With ISR enabled, notFound() is a cacheable result — a 404 rendered
-    // during a transient outage would poison this URL for the whole
-    // revalidate window. When the catalog was served from the degraded
-    // hardcoded fallback (DB unreachable / empty), the recipe may exist but
-    // be invisible, so fail the render instead: thrown errors are never
-    // cached and the next request retries against a healthy catalog.
-    if (LocalRecipeService.isCatalogDegraded()) {
-      throw new Error(
-        `Recipe catalog degraded while rendering /recipes/${recipeId}; refusing to cache a 404`,
-      );
-    }
-    notFound();
+  const target = await resolveRecipePage(recipeId);
+  if (target.kind === "redirect") {
+    // Static-catalog and ingredient-index ids 308 to the live UUID. Root
+    // loading.tsx streams this page, so the redirect reaches the client in
+    // the RSC payload rather than as an HTTP status; the canonical in
+    // generateMetadata is what crawlers act on.
+    permanentRedirect(`/recipes/${encodeURIComponent(target.canonicalId)}`);
+  }
+  if (target.kind === "missing") {
+    return handleMissingRecipe(recipeId);
   }
 
-  const recipe = rawRecipe;
+  const { recipe } = target;
 
   const cookingMethods = getCookingMethods(recipe);
 
@@ -196,15 +215,19 @@ export default async function RecipePage({ params }: RecipePageProps) {
       .filter((i) => i.category === "vegetable")
       .map((i) => i.name);
 
+    const [protein] = proteins;
+    const [vegetable] = vegetables;
+    const [cookingMethod] = cookingMethods;
+
     recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
-      protein: proteins[0],
-      vegetable: vegetables[0],
-      cookingMethod: cookingMethods[0],
+      ...(protein !== undefined ? { protein } : {}),
+      ...(vegetable !== undefined ? { vegetable } : {}),
+      ...(cookingMethod !== undefined ? { cookingMethod } : {}),
     });
 
     const allRecipes = await LocalRecipeService.getAllRecipes();
     recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
-      rawRecipe,
+      recipe,
       allRecipes,
     );
   } catch (err) {

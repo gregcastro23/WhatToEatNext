@@ -13,6 +13,7 @@
  *   - feed_events (agent activity, quest events)
  *   - token_transactions (mints, burns, daily claims)
  *   - user_interactions (recipe views, cooks, food diary entries)
+ *   - page_views (one event per visitor session — liveActivityVisits)
  *
  * Every source query is bounded to a recent window and capped (per-source
  * LIMIT) so the merge stays cheap. Each event is normalized to the same
@@ -23,6 +24,7 @@
 
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { readVisits } from "@/services/liveActivityVisits";
 
 export type ActivityCategory =
   | "signup"
@@ -31,7 +33,8 @@ export type ActivityCategory =
   | "recipe"
   | "economy"
   | "agent"
-  | "diary";
+  | "diary"
+  | "visit";
 
 export type ActivityStatus = "success" | "failure" | "info";
 
@@ -481,6 +484,7 @@ export async function getLiveActivity(): Promise<LiveActivityPayload> {
     readFeedEvents(),
     readTokenTransactions(),
     readUserInteractions(),
+    readVisits(WINDOW_HOURS, PER_SOURCE_LIMIT),
   ]);
 
   const live = sources.every((s) => s.status === "fulfilled");
@@ -502,6 +506,7 @@ export async function getLiveActivity(): Promise<LiveActivityPayload> {
     economy: 0,
     agent: 0,
     diary: 0,
+    visit: 0,
   };
   for (const event of limited) {
     counts[event.category] += 1;

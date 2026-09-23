@@ -25,27 +25,23 @@ import { _logger } from "@/lib/logger";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
 import type { TableMemoryPayload } from "@/types/table";
+import { readJson, parseEach } from "@/lib/api/json";
+import {
+  type FeedEventWire,
+  FeedEnvelopeSchema,
+  FeedEventWireSchema,
+  FeedReactionsResponseSchema,
+  AgentsEnvelopeSchema,
+  AgentSummarySchema,
+  TransactionsEnvelopeSchema,
+  NetworkTransactionSchema,
+  SwapRatesApiResponseSchema,
+  SwapActionResponseSchema,
+} from "@/lib/validation/feedResponseSchemas";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface FeedEvent {
-  id: string;
-  actorId: string;
-  actorName: string;
-  actorImage?: string;
-  actorIsAgent: boolean;
-  actorSlug?: string;
-  eventType: string;
-  metadataPayload: Record<string, unknown>;
-  createdAt: string;
-  reactionCount?: number;
-  /** Per-kind reaction counts (lowercase keys) — viewer-independent (PR 5). */
-  reactionCounts?: Record<string, number>;
-  /** Non-deleted, non-hidden comment count (PR 5). */
-  commentCount?: number;
-  /** Identity resolver output (PR 4): real identity rendered when true. */
-  actorRevealed?: boolean;
-}
+type FeedEvent = FeedEventWire;
 
 /** Postgres UUID guard — engagement UI renders only on DB-backed rows, never
  *  the synthetic `stdb-…` ids from the live SpacetimeDB store. */
@@ -241,9 +237,12 @@ export default function FeedPage(): React.JSX.Element {
       let failedSources = 0;
 
       if (feedRes.status === "fulfilled" && feedRes.value.ok) {
-        const data = (await feedRes.value.json()) as FeedApiResponse;
-        if (data.success && data.events) {
-          const nextEvents: FeedEvent[] = data.events;
+        const envelope = await readJson(feedRes.value, {
+          parse: (x) => FeedEnvelopeSchema.parse(x),
+        });
+        if (envelope.success !== false) {
+          const parsed = parseEach(envelope.events, (e) => FeedEventWireSchema.parse(e));
+          const nextEvents: FeedEvent[] = parsed.items;
           setEvents(nextEvents);
           // Per-viewer reaction bootstrap: one call with the visible UUID event
           // ids (per-viewer state can't ride the shared-cached /api/feed). Silent
@@ -254,7 +253,13 @@ export default function FeedPage(): React.JSX.Element {
             .slice(0, 100);
           if (uuidIds.length > 0) {
             fetch(`/api/feed/reactions?eventIds=${uuidIds.join(",")}`)
-              .then(async (res) => (res.ok ? ((await res.json()) as { success?: boolean; viewerKinds?: Record<string, string[]> }) : null))
+              .then(async (res) =>
+                res.ok
+                  ? await readJson(res, {
+                      parse: (x) => FeedReactionsResponseSchema.parse(x),
+                    })
+                  : null,
+              )
               .then((body) => {
                 if (body?.success && body.viewerKinds) {
                   setViewerKinds(body.viewerKinds);
@@ -276,23 +281,35 @@ export default function FeedPage(): React.JSX.Element {
       setLoading((prev) => ({ ...prev, feed: false }));
 
       if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-        const data = (await agentsRes.value.json()) as AgentsApiResponse;
-        if (data.success) setAgents(data.agents ?? []);
+        const envelope = await readJson(agentsRes.value, {
+          parse: (x) => AgentsEnvelopeSchema.parse(x),
+        });
+        if (envelope.success !== false) {
+          const parsed = parseEach(envelope.agents, (a) => AgentSummarySchema.parse(a));
+          setAgents(parsed.items);
+        }
       } else {
         failedSources += 1;
       }
       setLoading((prev) => ({ ...prev, agents: false }));
 
       if (txnRes.status === "fulfilled" && txnRes.value.ok) {
-        const data = (await txnRes.value.json()) as TransactionsApiResponse;
-        if (data.success) setTransactions(data.transactions ?? []);
+        const envelope = await readJson(txnRes.value, {
+          parse: (x) => TransactionsEnvelopeSchema.parse(x),
+        });
+        if (envelope.success !== false) {
+          const parsed = parseEach(envelope.transactions, (t) => NetworkTransactionSchema.parse(t));
+          setTransactions(parsed.items);
+        }
       } else {
         failedSources += 1;
       }
       setLoading((prev) => ({ ...prev, transactions: false }));
 
       if (ratesRes.status === "fulfilled" && ratesRes.value.ok) {
-        const data = (await ratesRes.value.json()) as SwapRatesApiResponse;
+        const data = await readJson(ratesRes.value, {
+          parse: (x) => SwapRatesApiResponseSchema.parse(x),
+        });
         if (data.success) {
           setSwapContext({
             rulingHourPlanet: data.rulingHourPlanet,
@@ -1229,17 +1246,29 @@ function SwapTab({
         credentials: "include",
         body: JSON.stringify({ fromToken, toToken, amount: numericAmount }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
-      if (!res.ok || !data.success) {
-        setResultMessage({
-          kind: "error",
-          text: data.message ?? "Swap failed.",
+      if (!res.ok) {
+        setResultMessage({ kind: "error", text: "Swap failed." });
+        return;
+      }
+      try {
+        const data = await readJson(res, {
+          parse: (x) => SwapActionResponseSchema.parse(x),
         });
-      } else {
-        setResultMessage({
-          kind: "ok",
-          text: data.message ?? "Swap complete.",
-        });
+        if (!data.success) {
+          setResultMessage({
+            kind: "error",
+            text: data.message ?? "Swap failed.",
+          });
+        } else {
+          setResultMessage({
+            kind: "ok",
+            text: data.message ?? "Swap complete.",
+          });
+          onSwapComplete();
+        }
+      } catch (parseErr) {
+        _logger.warn("[feed/page] Swap succeeded (200 OK) but response body failed parse:", parseErr);
+        setResultMessage({ kind: "ok", text: "Swap complete." });
         onSwapComplete();
       }
     } catch {

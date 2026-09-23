@@ -354,9 +354,8 @@ export default function RecipeSelector({
   const handleAddToQueue = () => {
     if (selectedRecipe) {
       addToQueue(selectedRecipe, {
-        suggestedMealTypes: filters?.mealType ? [filters.mealType] : undefined,
-        suggestedDays:
-          filters?.dayOfWeek !== undefined ? [filters.dayOfWeek] : undefined,
+        ...(filters?.mealType ? { suggestedMealTypes: [filters.mealType] } : {}),
+        ...(filters?.dayOfWeek !== undefined ? { suggestedDays: [filters.dayOfWeek] } : {}),
       });
       logger.info(`Added "${selectedRecipe.name}" to queue`);
       setSelectedRecipe(null); // Clear selection after adding

@@ -9,10 +9,16 @@ import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 import { useShareIdentityDefault } from '@/hooks/useShareIdentityDefault';
+import { readJson } from '@/lib/api/json';
 import { shareIdentityForPost } from '@/lib/feed/identity';
 import { _logger } from '@/lib/logger';
 import { mintRecipe as submitRecipeMint, mintResultMessage, quoteRecipeMint, type MintQuoteResult } from '@/lib/recipe-nft/mintClient';
-import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
+import {
+  FeedShareResponseSchema,
+  NanobananaGenerateResponseSchema,
+  RecipeErrorResponseSchema,
+} from '@/lib/validation/socialResponseSchemas';
+import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import type { RecipeIngredient } from '@/types/recipe';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
@@ -37,15 +43,6 @@ interface CosmicRecipeSubmitPayload {
   disallowed_ingredients: string[];
   birthData?: BirthDataPayload;
   preferredCuisine?: string;
-}
-
-interface ShareResponseData {
-  success: boolean;
-  message?: string;
-  completedQuests?: Array<{
-    tokenRewardAmount: number;
-    tokenRewardType: string;
-  }>;
 }
 
 /**
@@ -79,7 +76,7 @@ function mapCosmicToStoreRecipe(
       name: ing.name,
       amount: Number.isFinite(numeric) ? numeric : (Number(rawQty) || 0),
       unit: ing.unit,
-      notes: ing.household_description,
+      ...(ing.household_description ? { notes: ing.household_description } : {}),
     };
   });
 
@@ -106,7 +103,6 @@ function mapCosmicToStoreRecipe(
     cuisine,
     mealType: cosmic.tags.meal_type ? [cosmic.tags.meal_type] : [],
     prepTime: `${totalMinutes} min`,
-    cookTime: undefined,
     numberOfServings: cosmic.yields,
     ingredients,
     instructions,
@@ -239,7 +235,7 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
           },
         }),
       });
-      const data = (await res.json()) as ShareResponseData;
+      const data = await readJson(res, { parse: FeedShareResponseSchema.parse });
       if (data.success) {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
@@ -344,7 +340,7 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
         body: JSON.stringify({ title, description })
       });
       if (res.ok) {
-        const data = (await res.json()) as { url?: string };
+        const data = await readJson(res, { parse: NanobananaGenerateResponseSchema.parse });
         if (data.url) setImageUrl(data.url);
       }
     } catch (e: unknown) {
@@ -379,7 +375,7 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
         else if (res.status === 429) message = "You're generating recipes faster than the cosmos can keep up. Please wait a moment.";
         else if (res.status >= 500) message = "The recipe service is temporarily unavailable. Please try again shortly.";
         try {
-          const data = (await res.json()) as { message?: string; error?: string };
+          const data = await readJson(res, { parse: RecipeErrorResponseSchema.parse });
           if (typeof data.message === "string") ({ message } = data);
           else if (typeof data.error === "string") message = data.error;
         } catch {
@@ -388,7 +384,9 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
         setErrorMessage(message);
         return;
       }
-      const data = (await res.json()) as CosmicRecipe;
+      const data = await readJson(res, {
+        parse: (v) => cosmicRecipeSchema.passthrough().parse(v),
+      });
       setObject(data);
       if (data.title) {
         try {
@@ -430,8 +428,8 @@ export default function CosmicRecipeGenerator(): React.JSX.Element {
       diet,
       ingredients_main: ingredientsMain.split(',').map(i => i.trim()).filter(Boolean),
       disallowed_ingredients: disallowedIngredients.split(',').map(i => i.trim()).filter(Boolean),
-      birthData,
-      preferredCuisine: preferredCuisine || undefined,
+      ...(birthData ? { birthData } : {}),
+      ...(preferredCuisine ? { preferredCuisine } : {}),
     }).catch((err: unknown) => {
       _logger.error("[CosmicRecipeGenerator] generation failed", err);
     });

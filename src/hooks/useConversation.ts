@@ -11,15 +11,17 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "@/types/chat";
+import { readJson, parseEach } from "@/lib/api/json";
+import {
+  ConversationMessagesEnvelopeSchema,
+  ChatMessageSchema,
+  toDomainChatMessage,
+  SendMessageResponseSchema,
+} from "@/lib/validation/chatResponseSchemas";
+import { clientLogger } from "@/utils/clientLogger";
 
 const FOCUSED_MS = 5_000;
 const BLURRED_MS = 30_000;
-
-interface MessagesResponse {
-  messages?: ChatMessage[];
-  nextCursor?: string | null;
-  viewerId?: string | null;
-}
 
 export interface UseConversationResult {
   messages: ChatMessage[];
@@ -58,12 +60,17 @@ export function useConversation(
         if (res.status === 403) setError("This conversation is not available.");
         return;
       }
-      const data = (await res.json()) as MessagesResponse;
-      const ordered = (data.messages ?? []).slice().reverse(); // oldest-first
+      const envelope = await readJson(res, {
+        parse: (x) => ConversationMessagesEnvelopeSchema.parse(x),
+      });
+      const parsed = parseEach(envelope.messages, (m) =>
+        toDomainChatMessage(ChatMessageSchema.parse(m)),
+      );
+      const ordered = parsed.items.slice().reverse(); // oldest-first
       seenIds.current = new Set(ordered.map((m) => m.id));
       setMessages(ordered);
-      setNextCursor(data.nextCursor ?? null);
-      if (data.viewerId) setViewerId(data.viewerId);
+      setNextCursor(envelope.nextCursor ?? null);
+      if (envelope.viewerId) setViewerId(envelope.viewerId);
       setError(null);
     } catch {
       // keep last good window
@@ -131,12 +138,17 @@ export function useConversation(
         { credentials: "include" },
       );
       if (!res.ok) return;
-      const data = (await res.json()) as MessagesResponse;
-      const older = (data.messages ?? []).slice().reverse();
+      const envelope = await readJson(res, {
+        parse: (x) => ConversationMessagesEnvelopeSchema.parse(x),
+      });
+      const parsed = parseEach(envelope.messages, (m) =>
+        toDomainChatMessage(ChatMessageSchema.parse(m)),
+      );
+      const older = parsed.items.slice().reverse();
       const fresh = older.filter((m) => !seenIds.current.has(m.id));
       fresh.forEach((m) => seenIds.current.add(m.id));
       setMessages((prev) => [...fresh, ...prev]);
-      setNextCursor(data.nextCursor ?? null);
+      setNextCursor(envelope.nextCursor ?? null);
     } catch {
       // ignore
     }
@@ -157,17 +169,27 @@ export function useConversation(
           body: JSON.stringify({ body, clientKey, ...sendOpts }),
         });
         if (!res.ok) return false;
-        const data = (await res.json()) as { message?: ChatMessage };
-        if (data.message && !seenIds.current.has(data.message.id)) {
-          seenIds.current.add(data.message.id);
-          setMessages((prev) => [...prev, data.message!]);
+        try {
+          const data = await readJson(res, {
+            parse: (x) => SendMessageResponseSchema.parse(x),
+          });
+          if (data.message) {
+            const domainMsg = toDomainChatMessage(data.message);
+            if (!seenIds.current.has(domainMsg.id)) {
+              seenIds.current.add(domainMsg.id);
+              setMessages((prev) => [...prev, domainMsg]);
+            }
+          }
+        } catch (parseErr) {
+          clientLogger.warn("useConversation", "Message send succeeded (200 OK) but response body failed parse, refetching canonical state:", parseErr);
+          fetchLatest().catch(() => {});
         }
         return true;
       } catch {
         return false;
       }
     },
-    [conversationId],
+    [conversationId, fetchLatest],
   );
 
   const markRead = useCallback(async () => {

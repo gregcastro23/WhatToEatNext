@@ -207,13 +207,14 @@ export class DeliverectClient {
             const name = text(itemRecord.name);
             if (!name) return [];
 
-            const id = text(itemRecord.id) || `item_${itemIndex + 1}`;
+            const itemId = text(itemRecord.id) || `item_${itemIndex + 1}`;
+            const desc = text(itemRecord.description);
             return [
               {
-                id,
-                plu: text(itemRecord.plu) || id,
+                id: itemId,
+                plu: text(itemRecord.plu) || itemId,
                 name,
-                description: text(itemRecord.description) || undefined,
+                ...(desc ? { description: desc } : {}),
                 priceCents: cents(itemRecord.priceCents ?? itemRecord.price),
                 available: itemRecord.available === false ? false : true,
               },
@@ -268,10 +269,11 @@ export class DeliverectClient {
       throw new Error("Deliverect response did not include an order id");
     }
 
+    const estimatedReadyTime = text(result.estimatedReadyTime);
     return {
       orderId,
       status: normalizeStatus(result.status),
-      estimatedReadyTime: text(result.estimatedReadyTime) || undefined,
+      ...(estimatedReadyTime ? { estimatedReadyTime } : {}),
     };
   }
 }

@@ -187,12 +187,19 @@ function resolveIngredient(name: string): Resolved {
         key: match.key,
         source: "catalog",
         esms: { spirit: a.Spirit, essence: a.Essence, matter: a.Matter, substance: a.Substance },
-        elemental: match.elemental
-          ? { Fire: match.elemental.Fire, Water: match.elemental.Water, Earth: match.elemental.Earth, Air: match.elemental.Air }
-          : undefined,
+        ...(match.elemental
+          ? {
+              elemental: {
+                Fire: match.elemental.Fire,
+                Water: match.elemental.Water,
+                Earth: match.elemental.Earth,
+                Air: match.elemental.Air,
+              },
+            }
+          : {}),
         potency: match.potency ?? NEUTRAL_POTENCY,
-        servingGrams: match.servingGrams,
-        category: match.category,
+        ...(match.servingGrams !== undefined ? { servingGrams: match.servingGrams } : {}),
+        ...(match.category !== undefined ? { category: match.category } : {}),
       };
     }
   }
@@ -309,7 +316,7 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
       substance: round(r.esms.substance),
     },
     aSharp: round(r.esms.spirit + r.esms.essence + r.esms.matter + r.esms.substance),
-    elemental: r.elemental,
+    ...(r.elemental ? { elemental: r.elemental } : {}),
     quantity: ing.quantity,
     unit: ing.unit,
     massGrams: round(grams, 1),

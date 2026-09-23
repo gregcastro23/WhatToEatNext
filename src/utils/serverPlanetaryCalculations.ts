@@ -5,8 +5,10 @@
  */
 
 import * as AstronomyModule from "astronomy-engine";
+import { z } from "zod";
 import type { ZodiacSignType } from "@/types/celestial";
-import type { DegradedInfo } from "@/types/degraded";
+import { ZODIAC_SIGNS } from "@/types/constants";
+import type { DegradedInfo, DegradedReason } from "@/types/degraded";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
@@ -14,6 +16,62 @@ const Astronomy: typeof AstronomyModule =
   (AstronomyModule as unknown as { default?: typeof AstronomyModule }).default ??
   AstronomyModule;
 const logger = createLogger("ServerPlanetaryCalculations");
+
+export const PRICED_BODIES = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+] as const;
+
+export type PricedBody = (typeof PRICED_BODIES)[number];
+
+export { ZODIAC_SIGNS };
+
+export const backendPlanetPositionSchema = z.object({
+  sign: z.enum(ZODIAC_SIGNS),
+  degree: z.number().finite().min(0).max(30),
+  minute: z.number().finite().min(0).max(60).optional(),
+  exactLongitude: z.number().finite().min(0).lt(360),
+  isRetrograde: z.boolean(),
+  longitudeSpeed: z.number().finite().optional(),
+  eclipticLatitude: z.number().finite().optional(),
+  latitudeSpeed: z.number().finite().optional(),
+  distance: z.number().finite().optional(),
+  distanceSpeed: z.number().finite().optional(),
+  house: z.number().int().min(1).max(12).optional(),
+});
+
+export const backendPlanetaryPositionsResponseSchema = z
+  .object({
+    planetary_positions: z.record(z.string(), backendPlanetPositionSchema),
+    metadata: z
+      .object({
+        source: z.string().optional(),
+        precision: z.string().optional(),
+        zodiacSystem: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+  })
+  .passthrough()
+  .refine(
+    (data) => PRICED_BODIES.every((body) => body in data.planetary_positions),
+    {
+      message: "Missing required priced celestial bodies in ephemeris response",
+      path: ["planetary_positions"],
+    },
+  );
+
+export type ValidatedBackendResponse = z.infer<
+  typeof backendPlanetaryPositionsResponseSchema
+>;
 
 // Backend URL configuration
 const BACKEND_URL =
@@ -45,12 +103,17 @@ async function isBackendAvailable(): Promise<boolean> {
 }
 
 /**
- * Call backend for planetary positions calculation
+ * Call backend for planetary positions calculation with detailed outcome
  */
-async function calculatePlanetaryPositionsBackend(
+export interface BackendPlanetaryCalculationResult {
+  positions: Record<string, PlanetPosition> | null;
+  schemaInvalid: boolean;
+}
+
+export async function calculatePlanetaryPositionsBackendDetailed(
   date: Date,
   zodiacSystem: "tropical" | "sidereal" = "tropical",
-): Promise<Record<string, PlanetPosition> | null> {
+): Promise<BackendPlanetaryCalculationResult> {
   try {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -86,53 +149,63 @@ async function calculatePlanetaryPositionsBackend(
       throw new Error(`Backend returned ${response.status}`);
     }
 
-    interface BackendPlanetPosition {
-      sign: ZodiacSignType;
-      degree: number;
-      minute: number;
-      exactLongitude: number;
-      isRetrograde: boolean;
-      longitudeSpeed?: number;
-      eclipticLatitude?: number;
-      latitudeSpeed?: number;
-      distance?: number;
-      distanceSpeed?: number;
+    const rawJson: unknown = await response.json();
+    const parseResult = backendPlanetaryPositionsResponseSchema.safeParse(rawJson);
+
+    if (!parseResult.success) {
+      const issues = parseResult.error.issues.map((i) => ({
+        path: i.path.join("."),
+        code: i.code,
+        message: i.message,
+      }));
+      logger.error("backend-schema-invalid: ephemeris response failed schema validation", {
+        issues,
+      });
+      return { positions: null, schemaInvalid: true };
     }
 
-    interface BackendResponse {
-      planetary_positions?: Record<string, BackendPlanetPosition>;
-      metadata?: { source?: string };
-    }
-
-    const data = (await response.json()) as BackendResponse;
+    const { data } = parseResult;
     const positions: Record<string, PlanetPosition> = {};
 
-    for (const [planetName, pos] of Object.entries(
-      data.planetary_positions ?? {},
-    )) {
-      positions[planetName] = {
+    for (const [planetName, pos] of Object.entries(data.planetary_positions)) {
+      const planetPos: PlanetPosition = {
         sign: pos.sign,
         degree: pos.degree,
-        minute: pos.minute,
+        minute: pos.minute ?? Math.floor((pos.exactLongitude % 1) * 60),
         exactLongitude: pos.exactLongitude,
         isRetrograde: pos.isRetrograde,
-        longitudeSpeed: pos.longitudeSpeed,
-        eclipticLatitude: pos.eclipticLatitude,
-        latitudeSpeed: pos.latitudeSpeed,
-        distance: pos.distance,
-        distanceSpeed: pos.distanceSpeed,
       };
+      if (pos.longitudeSpeed !== undefined) planetPos.longitudeSpeed = pos.longitudeSpeed;
+      if (pos.eclipticLatitude !== undefined) planetPos.eclipticLatitude = pos.eclipticLatitude;
+      if (pos.latitudeSpeed !== undefined) planetPos.latitudeSpeed = pos.latitudeSpeed;
+      if (pos.distance !== undefined) planetPos.distance = pos.distance;
+      if (pos.distanceSpeed !== undefined) planetPos.distanceSpeed = pos.distanceSpeed;
+      positions[planetName] = planetPos;
     }
 
     logger.info(
       `Calculated ${Object.keys(positions).length} planetary positions using backend (${data.metadata?.source ?? "unknown"})`,
     );
 
-    return positions;
+    return { positions, schemaInvalid: false };
   } catch (error) {
     logger.warn("Backend planetary calculation failed:", error);
-    return null;
+    return { positions: null, schemaInvalid: false };
   }
+}
+
+/**
+ * Call backend for planetary positions calculation
+ */
+export async function calculatePlanetaryPositionsBackend(
+  date: Date,
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
+): Promise<Record<string, PlanetPosition> | null> {
+  const result = await calculatePlanetaryPositionsBackendDetailed(
+    date,
+    zodiacSystem,
+  );
+  return result.positions;
 }
 
 /**
@@ -149,23 +222,8 @@ function longitudeToZodiacPosition(longitude: number): {
   const degree = Math.floor(degreeInSign);
   const minute = Math.floor((degreeInSign - degree) * 60);
 
-  const signs: ZodiacSignType[] = [
-    "aries",
-    "taurus",
-    "gemini",
-    "cancer",
-    "leo",
-    "virgo",
-    "libra",
-    "scorpio",
-    "sagittarius",
-    "capricorn",
-    "aquarius",
-    "pisces",
-  ];
-
   return {
-    sign: signs[signIndex] ?? "aries",
+    sign: ZODIAC_SIGNS[signIndex] ?? "aries",
     degree,
     minute,
   };
@@ -339,19 +397,24 @@ export async function calculatePlanetaryPositionsWithMeta(
     `calculatePlanetaryPositions called for date: ${date.toISOString()}`,
   );
 
+  let backendFailedSchema = false;
+
   // Try backend first for high-precision Swiss Ephemeris calculations
   try {
     const backendAvailable = await isBackendAvailable();
     if (backendAvailable) {
-      const backendPositions = await calculatePlanetaryPositionsBackend(
+      const backendResult = await calculatePlanetaryPositionsBackendDetailed(
         date,
         zodiacSystem,
       );
-      if (backendPositions && Object.keys(backendPositions).length > 0) {
+      if (backendResult.schemaInvalid) {
+        backendFailedSchema = true;
+      }
+      if (backendResult.positions && Object.keys(backendResult.positions).length > 0) {
         logger.info(
           "Using backend Swiss Ephemeris for planetary calculations (high precision)",
         );
-        return { positions: backendPositions, degraded: null, source: "railway" };
+        return { positions: backendResult.positions, degraded: null, source: "railway" };
       }
     }
   } catch (backendError) {
@@ -366,11 +429,12 @@ export async function calculatePlanetaryPositionsWithMeta(
     const { positions: astronomyPositions, usedFallback } =
       calculatePositionsWithAstronomyEngine(date);
     if (Object.keys(astronomyPositions).length > 0) {
+      const reasons: DegradedReason[] = [];
+      if (backendFailedSchema) reasons.push("backend-schema-invalid");
+      if (usedFallback) reasons.push("astronomy-engine-fallback");
       return {
         positions: astronomyPositions,
-        degraded: usedFallback
-          ? { reasons: ["astronomy-engine-fallback"] }
-          : null,
+        degraded: reasons.length > 0 ? { reasons } : null,
         source: "astronomy-engine",
       };
     }
@@ -383,9 +447,12 @@ export async function calculatePlanetaryPositionsWithMeta(
   logger.warn(
     "All calculation methods failed, using static fallback positions",
   );
+  const reasons: DegradedReason[] = [];
+  if (backendFailedSchema) reasons.push("backend-schema-invalid");
+  reasons.push("astronomy-engine-fallback");
   return {
     positions: getFallbackPlanetaryPositions(),
-    degraded: { reasons: ["astronomy-engine-fallback"] },
+    degraded: { reasons },
     source: "astronomy-engine",
   };
 }

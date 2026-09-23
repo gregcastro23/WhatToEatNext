@@ -39,16 +39,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function readOptionalString(value: unknown): string | undefined {
-  return typeof value === "string" ? value : undefined;
-}
-
-function readOptionalNumber(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isFinite(value)
-    ? value
-    : undefined;
-}
-
 function readOptionalElement(value: unknown): Element | undefined {
   return typeof value === "string"
     ? ELEMENT_TYPES.find((element) => element === value)
@@ -73,24 +63,31 @@ function normalizeCelestialPosition(
   value: unknown,
 ): AstrologicalPosition | undefined {
   if (!isRecord(value)) return undefined;
-  return {
-    ...value,
-    sign: readOptionalString(value.sign),
-    degree: readOptionalNumber(value.degree),
-    exactLongitude: readOptionalNumber(value.exactLongitude),
-    isRetrograde:
-      typeof value.isRetrograde === "boolean" ? value.isRetrograde : undefined,
-    retrogradeSymbol: readOptionalString(value.retrogradeSymbol),
-    minute: readOptionalNumber(value.minute),
-    minutes: readOptionalNumber(value.minutes),
-    speed: readOptionalNumber(value.speed),
-    longitudeSpeed: readOptionalNumber(value.longitudeSpeed),
-    arcminutesPerDay: readOptionalNumber(value.arcminutesPerDay),
-    speedDisplay: readOptionalString(value.speedDisplay),
-    phase: readOptionalString(value.phase),
-    element: readOptionalElement(value.element),
-    dignity: readOptionalDignity(value.dignity),
-  };
+  const result: AstrologicalPosition = { ...value };
+  const strKeys = ["sign", "retrogradeSymbol", "speedDisplay", "phase"] as const;
+  for (const k of strKeys) {
+    if (typeof value[k] === "string") result[k] = value[k];
+  }
+  const numKeys = [
+    "degree",
+    "exactLongitude",
+    "minute",
+    "minutes",
+    "speed",
+    "longitudeSpeed",
+    "arcminutesPerDay",
+  ] as const;
+  for (const k of numKeys) {
+    if (typeof value[k] === "number" && Number.isFinite(value[k])) {
+      result[k] = value[k];
+    }
+  }
+  if (typeof value.isRetrograde === "boolean") result.isRetrograde = value.isRetrograde;
+  const element = readOptionalElement(value.element);
+  if (element !== undefined) result.element = element;
+  const dignity = readOptionalDignity(value.dignity);
+  if (dignity !== undefined) result.dignity = dignity;
+  return result;
 }
 
 function normalizePlanetaryPositions(value: unknown): AstrologicalPositionMap {

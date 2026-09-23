@@ -74,16 +74,19 @@ export function MessageList({
         <p className="py-8 text-center text-sm text-alchm-fg-mute">{emptyLabel}</p>
       )}
 
-      {messages.map((message) => (
-        <MessageBubble
-          key={message.id}
-          message={message}
-          isSelf={!!viewerId && message.senderId === viewerId}
-          element={elementForSender(message.senderId || message.id)}
-          timestamp={message.createdAt ? formatNotificationTimeAgo(message.createdAt) : undefined}
-          menu={renderMenu?.(message)}
-        />
-      ))}
+      {messages.map((message) => {
+        const menuNode = renderMenu?.(message);
+        return (
+          <MessageBubble
+            key={message.id}
+            message={message}
+            isSelf={!!viewerId && message.senderId === viewerId}
+            element={elementForSender(message.senderId || message.id)}
+            {...(message.createdAt ? { timestamp: formatNotificationTimeAgo(message.createdAt) } : {})}
+            {...(menuNode !== undefined ? { menu: menuNode } : {})}
+          />
+        );
+      })}
       <div ref={bottomRef} />
     </div>
   );

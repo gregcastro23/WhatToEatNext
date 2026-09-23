@@ -124,7 +124,7 @@ export function groupForAspect(a: TransitBody, b: TransitBody, aspect?: string):
     return {
       participants,
       descriptor: {
-        aspect: asp,
+        ...(asp !== undefined ? { aspect: asp } : {}),
         key: idPart.join("--"),
         label: participants.map((p) => p.planet).join(" · "),
       },

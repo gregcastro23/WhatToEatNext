@@ -135,9 +135,9 @@ export function TableMemoryCard({
           <div className="mt-4 border-t border-white/8 pt-3">
             <FeedEngagementBar
               eventId={eventId}
-              initialCounts={reactionCounts}
-              viewerKinds={viewerKinds}
-              commentCount={commentCount}
+              {...(reactionCounts ? { initialCounts: reactionCounts } : {})}
+              {...(viewerKinds ? { viewerKinds } : {})}
+              {...(commentCount !== undefined ? { commentCount } : {})}
             />
           </div>
         )}

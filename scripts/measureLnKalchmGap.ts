@@ -91,8 +91,11 @@ console.log(`\nLARGEST GAPS in the low tail (|ln k| < 0.5):`);
 const lowTail = sorted.filter((s) => s.absLn < 0.5);
 const gaps: Array<{ lo: number; hi: number; width: number; idx: number }> = [];
 for (let i = 1; i < lowTail.length; i++) {
-  const lo = lowTail[i - 1].absLn;
-  const hi = lowTail[i].absLn;
+  const prev = lowTail[i - 1];
+  const curr = lowTail[i];
+  if (!prev || !curr) continue;
+  const lo = prev.absLn;
+  const hi = curr.absLn;
   if (hi - lo > 0) gaps.push({ lo, hi, width: hi - lo, idx: i });
 }
 gaps.sort((a, b) => b.width - a.width);
@@ -116,8 +119,8 @@ for (const [label, eps] of CANDIDATES) {
   const n = samples.filter((s) => s.absLn < eps).length;
   console.log(`  ${label.padEnd(32)} ${String(n).padStart(6)} / ${samples.length}  (${((n / samples.length) * 100).toFixed(2)}%)`);
 }
-if (gaps.length) {
-  const best = gaps[0];
+const best = gaps[0];
+if (best) {
   const mid = (best.lo + best.hi) / 2;
   const n = samples.filter((s) => s.absLn < mid).length;
   console.log(
@@ -131,12 +134,17 @@ const zeroEss = samples.filter((s) => s.essence === 0);
 console.log(`  grid points with Essence exactly 0 : ${zeroEss.length}`);
 if (zeroEss.length) {
   const lns = zeroEss.map((s) => s.absLn).sort((a, b) => a - b);
-  console.log(`  their |ln k| range                 : [${lns[0].toFixed(6)}, ${lns[lns.length - 1].toFixed(6)}]`);
+  const minZero = lns[0];
+  const maxZero = lns[lns.length - 1];
   const nonZero = samples.filter((s) => s.essence !== 0).map((s) => s.absLn).sort((a, b) => a - b);
-  console.log(`  Essence != 0, smallest |ln k|       : ${nonZero[0].toFixed(6)}`);
-  const separable = lns[lns.length - 1] < nonZero[0];
-  console.log(`  cleanly separable?                 : ${separable ? "YES — a derivation exists" : "NO — the two overlap"}`);
-  if (separable) {
-    console.log(`  => derived epsilon = (${lns[lns.length - 1].toFixed(6)} + ${nonZero[0].toFixed(6)}) / 2 = ${((lns[lns.length - 1] + nonZero[0]) / 2).toFixed(7)}`);
+  const minNonZero = nonZero[0];
+  if (minZero !== undefined && maxZero !== undefined && minNonZero !== undefined) {
+    console.log(`  their |ln k| range                 : [${minZero.toFixed(6)}, ${maxZero.toFixed(6)}]`);
+    console.log(`  Essence != 0, smallest |ln k|       : ${minNonZero.toFixed(6)}`);
+    const separable = maxZero < minNonZero;
+    console.log(`  cleanly separable?                 : ${separable ? "YES — a derivation exists" : "NO — the two overlap"}`);
+    if (separable) {
+      console.log(`  => derived epsilon = (${maxZero.toFixed(6)} + ${minNonZero.toFixed(6)}) / 2 = ${((maxZero + minNonZero) / 2).toFixed(7)}`);
+    }
   }
 }

@@ -17,9 +17,13 @@ import {
   claimDailyResponseSchema,
   economyBalanceResponseSchema,
   economyErrorResponseSchema,
+  type dailyYieldSchema,
 } from '@/lib/economy/clientSchemas';
-import type { TokenBalances, UserStreak, DailyYieldResult, TokenType } from '@/types';
+import type { TokenBalances, UserStreak, TokenType } from '@/types';
 import { PlanetaryInfluenceTooltip } from './PlanetaryInfluenceTooltip';
+import type { z } from 'zod';
+
+type ClaimDailyYield = z.infer<typeof dailyYieldSchema>;
 
 // ─── Token Config ─────────────────────────────────────────────────────
 
@@ -45,7 +49,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
   const [streak, setStreak] = useState<UserStreak | null>(null);
   const [canClaim, setCanClaim] = useState(false);
   const [claiming, setClaiming] = useState(false);
-  const [claimResult, setClaimResult] = useState<DailyYieldResult | null>(null);
+  const [claimResult, setClaimResult] = useState<ClaimDailyYield | null>(null);
   const [debitFlash, setDebitFlash] = useState<string | null>(null);
   const [creditFlash, setCreditFlash] = useState<string | null>(null);
   const [hoveredToken, setHoveredToken] = useState<TokenType | null>(null);

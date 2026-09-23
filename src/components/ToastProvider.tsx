@@ -64,7 +64,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       const id = `toast_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
       const duration = options?.duration ?? (type === "error" ? 6000 : 4000);
 
-      const toast: Toast = { id, message, type, duration, action: options?.action };
+      const toast: Toast = {
+        id,
+        message,
+        type,
+        duration,
+        ...(options?.action ? { action: options.action } : {}),
+      };
 
       setToasts((prev) => {
         // Limit to 5 toasts max

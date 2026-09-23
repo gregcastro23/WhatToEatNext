@@ -371,8 +371,8 @@ export function ingredientToRecipeIngredient(
     elementalProperties: ingredient.elementalProperties,
     qualities,
     astrologicalProfile: ingredient.astrologicalProfile,
-    origin,
-    seasonality,
+    ...(origin !== undefined ? { origin } : {}),
+    ...(seasonality !== undefined ? { seasonality } : {}),
   };
 }
 

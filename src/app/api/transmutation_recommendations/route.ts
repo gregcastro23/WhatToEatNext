@@ -93,7 +93,7 @@ function normalizeScores(input: unknown): AlchemicalScores {
 
 function normalizeLocation(
   payload: Record<string, unknown>,
-): { latitude?: number | undefined; longitude?: number | undefined } {
+): { latitude?: number; longitude?: number } {
   const loc = (payload.location && typeof payload.location === "object") ? (payload.location as Record<string, unknown>) : undefined;
   const latitude = Number(
     payload.latitude ?? payload.lat ?? loc?.latitude,
@@ -103,8 +103,8 @@ function normalizeLocation(
   );
 
   return {
-    latitude: Number.isFinite(latitude) ? latitude : undefined,
-    longitude: Number.isFinite(longitude) ? longitude : undefined,
+    ...(Number.isFinite(latitude) ? { latitude } : {}),
+    ...(Number.isFinite(longitude) ? { longitude } : {}),
   };
 }
 

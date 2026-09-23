@@ -26,17 +26,14 @@ import {
   writeSnapshot,
 } from "@/services/healthSnapshotService";
 import { getSystemStatus } from "@/services/systemStatusService";
+import { isAuthorizedCron } from "../_lib/cronAuth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
 function isAuthorized(request: NextRequest): boolean {
-  const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret) return false;
-  const header = request.headers.get("authorization") ?? "";
-  if (header.length !== `Bearer ${cronSecret}`.length) return false;
-  return header === `Bearer ${cronSecret}`;
+  return isAuthorizedCron(request);
 }
 
 export async function GET(request: NextRequest) {

@@ -1,12 +1,14 @@
 import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, JetBrains_Mono, Manrope } from "next/font/google";
 import React, { Suspense } from "react";
+import PageViewTracker from "@/components/analytics/PageViewTracker";
 import SignInModal from "@/components/auth/SignInModal";
 import TokenShopModal from "@/components/economy/TokenShopModal";
 import { GroceryCartDrawer } from "@/components/grocery-cart/GroceryCartDrawer";
 import { AppChromeFooter, AppChromeTabBar } from "@/components/nav/AppChrome";
 import { CommandPalette } from "@/components/nav/CommandPalette";
 import { MobileGlassTabBar } from "@/components/nav/MobileGlassTabBar";
+import { NavigationProgress } from "@/components/nav/NavigationProgress";
 import { RedesignedFooter } from "@/components/nav/RedesignedFooter";
 import { RedesignedHeader } from "@/components/nav/RedesignedHeader";
 import PwaRegistration from "@/components/pwa/PwaRegistration";
@@ -150,6 +152,7 @@ export default function RootLayout({
             <RedesignedFooter />
           </AppChromeFooter>
           <CommandPalette />
+          <NavigationProgress />
           <AppChromeTabBar>
             <MobileGlassTabBar />
           </AppChromeTabBar>
@@ -167,6 +170,8 @@ export default function RootLayout({
           <GroceryCartDrawer />
         </ClientProviders>
         <Analytics />
+        {/* First-party visit log → /admin/traffic. No cookies, no raw IPs. */}
+        <PageViewTracker />
       </body>
     </html>
   );

@@ -22,6 +22,7 @@
     "node_modules",
     "../node_modules",
     "lib/__tests__/**",
+    "fixtures/**",
     "**/*.test.ts",
     "**/*.spec.ts",
     "**/* 2.*",

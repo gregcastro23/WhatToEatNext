@@ -10,10 +10,13 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { recognizeTableJoin } from "@/lib/economy/tableJoin";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
+
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("api:tables:rsvp");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -46,7 +49,9 @@ async function notifyHostOfRsvp(
       },
     );
   } catch (err) {
-    console.warn("notifyHostOfRsvp failed (non-blocking):", err);
+    logger.warn("notifyHostOfRsvp failed (non-blocking)", {
+      error: err,
+    });
   }
 }
 
@@ -96,7 +101,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, member: result.member });
   } catch (error) {
-    _logger.error("RSVP error:", error);
+    logger.error("RSVP error", {
+      error,
+    });
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

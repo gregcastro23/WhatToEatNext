@@ -20,7 +20,12 @@ import { logAuthEvent } from "@/services/authEventsService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
+import { INSERT_DEVICE_SESSION_ON_SIGNIN_SQL } from "./authQueries";
 import { UserRole } from "./roles";
+import {
+  SESSION_MAX_AGE_SECONDS,
+  evaluateSessionLifetime,
+} from "./sessionLifetime";
 import type { JWT } from "next-auth/jwt";
 
 const logger = createLogger("auth");
@@ -36,6 +41,7 @@ interface ExtendedJWT extends JWT {
   sessionId?: string;
   deviceSessionId?: string;
   provider?: string;
+  authTime?: number;
 }
 
 interface DailyLimitRow {
@@ -296,35 +302,28 @@ async function runBackgroundSignInTasks(
   }
 }
 
+export async function onSignOutEvent(message: { token?: unknown; session?: unknown }): Promise<void> {
+  // In JWT mode NextAuth passes { token } — delete the DB session record so
+  // the session slot is freed and can no longer be used to verify revocation,
+  // and mark the matching device_sessions row revoked.
+  const rawToken = "token" in message ? message.token : undefined;
+  const token = rawToken as ExtendedJWT | undefined;
+  const { handleSignOutSession } = await import("./signOutSession");
+  await handleSignOutSession(token);
+  recordAuthEvent({
+    type: "signout",
+    status: "info",
+    userId: token?.userId ?? null,
+    email: token?.email ?? null,
+    metadata: { sessionId: token?.sessionId ?? null },
+  });
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   debug: process.env.NODE_ENV === "development" || process.env.DEBUG === "true",
   events: {
-    async signOut(message) {
-      // In JWT mode NextAuth passes { token } — delete the DB session record so
-      // the session slot is freed and can no longer be used to verify revocation.
-      const rawToken = "token" in message ? message.token : undefined;
-      const token = rawToken as ExtendedJWT | undefined;
-      const sessionId = token?.sessionId;
-      if (sessionId) {
-        try {
-          const { executeQuery } = await import("@/lib/database");
-          await executeQuery(
-            `DELETE FROM sessions WHERE "sessionToken" = $1`,
-            [sessionId]
-          );
-        } catch (e) {
-          logger.warn("Session cleanup on signOut failed (non-blocking):", e);
-        }
-      }
-      recordAuthEvent({
-        type: "signout",
-        status: "info",
-        userId: token?.userId ?? null,
-        email: token?.email ?? null,
-        metadata: { sessionId: sessionId ?? null },
-      });
-    },
+    signOut: onSignOutEvent,
   },
   callbacks: {
     // Preserve the edge-safe authorized and session callbacks
@@ -558,6 +557,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async jwt({ token, user, account, trigger, session }): Promise<JWT | null> {
       const extToken = token as ExtendedJWT;
+      const isInitialSignIn = Boolean(user) || Boolean(account);
+
+      // Enforce 30-day absolute session lifetime cap and bounded legacy migration
+      const evaluation = evaluateSessionLifetime({
+        tokenAuthTime: extToken.authTime,
+        hasAuthTimeClaim: "authTime" in extToken,
+        isInitialSignIn,
+      });
+
+      if (!evaluation.valid) {
+        logger.info(
+          `Session lifetime rejected for ${extToken.email ?? "unknown"} (reason: ${evaluation.reason}); clearing token`,
+        );
+        return null;
+      }
+
+      extToken.authTime = evaluation.authTime;
+
       // On initial sign-in, persist user info into the JWT
       if (user) {
         if (user.email) extToken.email = user.email;
@@ -637,7 +654,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (user && !extToken.sessionId) {
               try {
                 const sessionId = crypto.randomUUID();
-                const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+                const expiresAt = new Date(
+                  (extToken.authTime + SESSION_MAX_AGE_SECONDS) * 1000,
+                );
                 const { executeQuery } = await import("@/lib/database");
                 await executeQuery(
                   `INSERT INTO sessions ("sessionToken", "userId", expires)
@@ -657,11 +676,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   account?.provider ?? extToken.provider ?? "google";
                 const { executeQuery } = await import("@/lib/database");
                 await executeQuery(
-                  `INSERT INTO device_sessions (id, user_id, jti, provider, current_for_jti)
-                   VALUES ($1, $2, $3, $4, $5)
-                   ON CONFLICT (user_id, jti) DO UPDATE SET
-                     last_seen_at = NOW(),
-                     revoked_at = NULL`,
+                  INSERT_DEVICE_SESSION_ON_SIGNIN_SQL,
                   [
                     extToken.sessionId,
                     dbUser.id,

@@ -1,8 +1,11 @@
 "use client";
 
 import { useContext } from "react";
+import { createLogger } from "@/utils/logger";
 import { AlchemicalContext } from "./context";
 import type { AlchemicalContextType } from "./types";
+
+const logger = createLogger("AlchemicalContext");
 
 /**
  * Hook to access the AlchemicalContext.
@@ -14,7 +17,7 @@ export const useAlchemical = (): AlchemicalContextType => {
   const context = useContext(AlchemicalContext);
 
   if (!context) {
-    console.warn(
+    logger.warn(
       "[useAlchemical] Context is null — component may be outside AlchemicalProvider. Using default values.",
     );
   }

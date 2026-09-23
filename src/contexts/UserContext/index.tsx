@@ -19,6 +19,11 @@ import type {
 } from "@/types/natalChart";
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import { logger } from "@/utils/logger";
+import { readJson } from "@/lib/api/json";
+import {
+  ServerProfileResponseSchema,
+  type ServerProfileDataWire,
+} from "@/lib/validation/userProfileResponseSchemas";
 
 // Define the user's alchemical constitution
 interface AlchemicalProfile {
@@ -94,39 +99,53 @@ interface UserProviderProps {
 }
 
 /** Parse a server profile response into our UserProfile shape */
-function parseServerProfile(
-  data: Record<string, unknown>,
-  fallbackUserId?: string,
-): UserProfile {
-  const natalChart = data.natalChart as Partial<NatalChart> | undefined;
-  const serverStats = data.stats as AlchemicalProfile | undefined;
-  // Server doesn't persist `stats` — derive from natalChart on load so the
-  // lab page (and any other consumer of user.stats) hydrates immediately.
-  let stats = serverStats;
-  if (!stats && (natalChart?.planets?.length ?? 0) > 0) {
+function deriveAlchemicalStats(
+  serverStats: AlchemicalProfile | undefined,
+  natalChart: Partial<NatalChart> | undefined,
+): AlchemicalProfile | undefined {
+  if (serverStats) return serverStats;
+  if ((natalChart?.planets?.length ?? 0) > 0) {
     try {
-      stats = calculateAlchemicalProfile(natalChart as NatalChart);
+      return calculateAlchemicalProfile(natalChart as NatalChart);
     } catch (err) {
       logger.warn("Failed to derive AlchemicalProfile from natalChart", err);
     }
   }
-  return {
-    userId: (data.userId ?? data.id ?? fallbackUserId ?? "") as string,
-    name: data.name as string | undefined,
-    email: data.email as string | undefined,
-    preferences: data.preferences as Record<string, unknown> | undefined,
-    dietaryPreferences: data.dietaryPreferences as
-      | Record<string, unknown>
-      | undefined,
-    onboardingComplete: data.onboardingComplete as boolean | undefined,
-    birthData: data.birthData as BirthData | undefined,
-    natalChart: natalChart as NatalChart | undefined,
-    groupMembers: (data.groupMembers ?? []) as GroupMember[],
-    diningGroups: (data.diningGroups ?? []) as DiningGroup[],
-    stats,
-    savedCharts: (data.savedCharts ?? []) as SavedChart[],
-    tokenEconomy: data.tokenEconomy as UserProfile["tokenEconomy"],
+  return undefined;
+}
+
+/** Parse a server profile response into our UserProfile shape */
+function parseServerProfile(
+  data: ServerProfileDataWire | Record<string, unknown>,
+  fallbackUserId?: string,
+): UserProfile {
+  const natalChart = data.natalChart as Partial<NatalChart> | undefined;
+  const stats = deriveAlchemicalStats(data.stats as AlchemicalProfile | undefined, natalChart);
+
+  const profile: UserProfile = {
+    userId: (data.userId ?? (data as Record<string, unknown>).id ?? fallbackUserId ?? "") as string,
   };
+  if (typeof data.name === "string") profile.name = data.name;
+  if (typeof data.email === "string") profile.email = data.email;
+  if (data.preferences && typeof data.preferences === "object") {
+    profile.preferences = data.preferences as Record<string, unknown>;
+  }
+  if (data.dietaryPreferences && typeof data.dietaryPreferences === "object") {
+    profile.dietaryPreferences = data.dietaryPreferences as Record<string, unknown>;
+  }
+  if (typeof data.onboardingComplete === "boolean") {
+    profile.onboardingComplete = data.onboardingComplete;
+  }
+  if (data.birthData) profile.birthData = data.birthData as BirthData;
+  if (natalChart) profile.natalChart = natalChart as NatalChart;
+  if (Array.isArray(data.groupMembers)) profile.groupMembers = data.groupMembers as GroupMember[];
+  if (Array.isArray(data.diningGroups)) profile.diningGroups = data.diningGroups as DiningGroup[];
+  if (stats) profile.stats = stats;
+  if (Array.isArray(data.savedCharts)) profile.savedCharts = data.savedCharts as SavedChart[];
+  if (data.tokenEconomy && typeof data.tokenEconomy === "object") {
+    profile.tokenEconomy = data.tokenEconomy as NonNullable<UserProfile["tokenEconomy"]>;
+  }
+  return profile;
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
@@ -240,11 +259,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           });
 
           if (response.ok) {
-            interface ServerProfileResponse {
-              success?: boolean;
-              profile?: Record<string, unknown>;
-            }
-            const data = (await response.json()) as ServerProfileResponse;
+            const data = await readJson(response, {
+              parse: (x) => ServerProfileResponseSchema.parse(x),
+            });
             if (data.success && data.profile) {
               const profile = parseServerProfile(data.profile);
               setCurrentUser(profile);
@@ -293,11 +310,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
 
       if (response.ok) {
-        interface ServerProfileResponse {
-          success?: boolean;
-          profile?: Record<string, unknown>;
-        }
-        const data = (await response.json()) as ServerProfileResponse;
+        const data = await readJson(response, {
+          parse: (x) => ServerProfileResponseSchema.parse(x),
+        });
         if (data.success && data.profile) {
           const profile = parseServerProfile(
             data.profile,
@@ -354,11 +369,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
 
         if (response.ok) {
-          interface ServerProfileResponse {
-            success?: boolean;
-            profile?: Record<string, unknown>;
-          }
-          const result = (await response.json()) as ServerProfileResponse;
+          const result = await readJson(response, {
+            parse: (x) => ServerProfileResponseSchema.parse(x),
+          });
           if (result.success && result.profile) {
             const serverProfile = parseServerProfile(
               result.profile,

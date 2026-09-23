@@ -224,9 +224,11 @@ export const AgentFilterPanel: React.FC<AgentFilterPanelProps> = ({
               <div className="space-y-2">
                 <Slider
                   value={[filters.minStrength, filters.maxStrength]}
-                  onValueChange={([min, max]: number[]) =>
-                    updateFilters({ minStrength: min, maxStrength: max })
-                  }
+                  onValueChange={([min, max]: number[]) => {
+                    if (min !== undefined && max !== undefined) {
+                      updateFilters({ minStrength: min, maxStrength: max });
+                    }
+                  }}
                   max={100}
                   min={0}
                   step={5}
@@ -286,7 +288,7 @@ export const AgentFilterPanel: React.FC<AgentFilterPanelProps> = ({
               <Label className="text-purple-300">Consciousness Levels</Label>
               <Select
                 value={
-                  filters.consciousnessLevels.length === 1 ? filters.consciousnessLevels[0] : ''
+                  filters.consciousnessLevels.length === 1 ? (filters.consciousnessLevels[0] ?? '') : ''
                 }
                 onValueChange={value =>
                   updateFilters({ consciousnessLevels: value ? [value] : [] })

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { createLogger } from "@/utils/logger";
+
 import { CompanionSuggestions } from "@/components/commensal/CompanionSuggestions";
 import { CompositeEnergyVisualizer } from "@/components/commensal/CompositeEnergyVisualizer";
 import { CookingMethodsList } from "@/components/commensal/CookingMethodsList";
@@ -23,6 +25,8 @@ import {
   type SearchLocation,
 } from "@/hooks/useCommensalRecommendations";
 import type { BirthData, NatalChart } from "@/types/natalChart";
+
+const logger = createLogger("commensal:page");
 
 interface GuestEntry {
   id?: string;
@@ -60,7 +64,7 @@ function GuestForm({ onAdd, onCompanionSaved, atCapacity = false }: GuestFormPro
         dateTime: new Date(dateTime).toISOString(),
         latitude: parseFloat(latitude),
         longitude: parseFloat(longitude),
-        timezone: timezone || undefined,
+        ...(timezone ? { timezone } : {}),
       };
 
       setErrorMsg(null);
@@ -107,7 +111,7 @@ function GuestForm({ onAdd, onCompanionSaved, atCapacity = false }: GuestFormPro
             setLongitude("");
             setTimezone("");
           } catch (err: any) {
-            console.error(err);
+            logger.error("Failed to save companion:", err);
             setErrorMsg(
               err.message ||
                 "Saved companion locally instead due to a temporary error.",

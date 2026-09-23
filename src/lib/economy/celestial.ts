@@ -77,21 +77,34 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-function asPlanetaryPositions(positions: Record<string, any>): Record<string, PlanetaryPosition> {
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null;
+}
+
+export function asPlanetaryPositions(positions: Record<string, unknown>): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
-  for (const [planet, pos] of Object.entries(positions)) {
+  for (const [planet, rawPos] of Object.entries(positions)) {
     // Same whitelist the debit side uses: rewards must breathe with the same
     // sky the debits charge on, and this path is remote-first too (ADR-012).
-    if (!isPricedBody(planet)) continue;
+    if (!isPricedBody(planet) || !isRecord(rawPos)) continue;
+
+    const sign = typeof rawPos.sign === "string" ? rawPos.sign.toLowerCase() : String(rawPos.sign ?? "").toLowerCase();
+    const degree = typeof rawPos.degree === "number" && Number.isFinite(rawPos.degree) ? rawPos.degree : Number(rawPos.degree ?? 0);
+    const minute = typeof rawPos.minute === "number" && Number.isFinite(rawPos.minute) ? rawPos.minute : Number(rawPos.minute ?? 0);
+    const isRetrograde = Boolean(rawPos.isRetrograde);
+    const exactLongitude =
+      typeof rawPos.exactLongitude === "number" && Number.isFinite(rawPos.exactLongitude)
+        ? rawPos.exactLongitude
+        : undefined;
+
     normalized[planet] = {
-      sign: String(pos?.sign ?? "").toLowerCase(),
-      degree: Number(pos?.degree ?? 0),
-      minute: Number(pos?.minute ?? 0),
-      isRetrograde: Boolean(pos?.isRetrograde),
+      sign,
+      degree: Number.isFinite(degree) ? degree : 0,
+      minute: Number.isFinite(minute) ? minute : 0,
+      isRetrograde,
       // Carried through so aspects get real angular separations; dropping it
       // forces a reconstruction from sign + degree.
-      exactLongitude:
-        typeof pos?.exactLongitude === "number" ? pos.exactLongitude : undefined,
+      ...(exactLongitude !== undefined ? { exactLongitude } : {}),
     };
   }
   return normalized;
@@ -108,23 +121,22 @@ interface GlobalSky {
 // One sky computation per 10-minute window, shared across all events/users.
 let skyCache: { bucket: number; sky: GlobalSky } | null = null;
 
-async function getGlobalSky(now = new Date()): Promise<GlobalSky> {
-  const bucket = Math.floor(now.getTime() / 600_000);
-  if (skyCache?.bucket === bucket) return skyCache.sky;
-
-  // Time-boxed: the ephemeris backend can burn ~7s of timeout budget on a
-  // cold path, and recognize() awaits this before its SQL. 2.5s or we fall
-  // back to the local fallback positions (pure CPU) — the 10-minute memo
-  // means at most one slow attempt per instance per window.
-  let positions: Record<string, any>;
+async function fetchSkyPositions(now: Date): Promise<Record<string, unknown>> {
   try {
-    positions = await Promise.race([
+    return await Promise.race([
       calculatePlanetaryPositions(now),
       new Promise<never>((_, reject) => setTimeout(() => reject(new Error("sky timeout")), 2_500)),
     ]);
   } catch {
-    positions = getFallbackPlanetaryPositions();
+    return getFallbackPlanetaryPositions();
   }
+}
+
+async function getGlobalSky(now = new Date()): Promise<GlobalSky> {
+  const bucket = Math.floor(now.getTime() / 600_000);
+  if (skyCache?.bucket === bucket) return skyCache.sky;
+
+  const positions = await fetchSkyPositions(now);
   const alch = alchemize(asPlanetaryPositions(positions), null, now);
   const total =
     Number(alch.esms.Spirit || 0) +

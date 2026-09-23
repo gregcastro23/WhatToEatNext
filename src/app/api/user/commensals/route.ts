@@ -181,7 +181,12 @@ export async function POST(request: NextRequest) {
   const { positions, planets } = bodies;
 
   const natalChart: NatalChart = {
-    birthData: { dateTime: birthData.dateTime, latitude: birthData.latitude, longitude: birthData.longitude, timezone: birthData.timezone },
+    birthData: {
+      dateTime: birthData.dateTime,
+      latitude: birthData.latitude,
+      longitude: birthData.longitude,
+      ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
+    },
     planets,
     ascendant: positions.Ascendant,
     planetaryPositions: positions,

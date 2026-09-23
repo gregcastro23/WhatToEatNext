@@ -11,6 +11,8 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { SELECT_DEVICE_SESSIONS_SQL } from "@/lib/auth/authQueries";
+import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
 
 export const dynamic = "force-dynamic";
 
@@ -101,6 +103,9 @@ export async function GET(request: Request) {
   // the unprefixed cookie name and returns null for production's
   // `__Secure-authjs.session-token`. Undefined for Bearer clients.
   const currentJti = session?.user?.id ? session.user.sessionId : undefined;
+  if (currentJti) {
+    scheduleSessionTouch(currentJti, request);
+  }
 
   // Best-effort signup date for the /profile/security "MEMBER SINCE" row.
   let memberSince: string | null = null;
@@ -119,11 +124,7 @@ export async function GET(request: Request) {
   try {
     const { executeQuery } = await import("@/lib/database");
     const result = await executeQuery(
-      `SELECT id, subdomain, device, user_agent, location_city, location_region, location_country, last_seen_at, revoked_at
-         FROM device_sessions
-        WHERE user_id = $1 AND revoked_at IS NULL
-        ORDER BY last_seen_at DESC
-        LIMIT 25`,
+      SELECT_DEVICE_SESSIONS_SQL,
       [user.id],
     );
 

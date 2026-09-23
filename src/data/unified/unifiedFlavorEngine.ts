@@ -162,9 +162,6 @@ export class UnifiedFlavorEngine {
       try {
         // Try synchronous initialization first
         this.initializeProfilesSync();
-
-        // Setup cache cleanup interval
-        setInterval(() => this.cleanupCaches(), 300000); // Every 5 minutes
       } catch (error) {
         _logger.error("Error during synchronous initialization: ", error);
       }
@@ -173,41 +170,33 @@ export class UnifiedFlavorEngine {
 
   private initializeProfilesSync(): void {
     try {
-      // Run the migration but don't wait for it - it will cache its results
-      flavorProfileMigration
-        .runFlavorProfileMigration()
-        .then((_stats) => {
-          const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
+      flavorProfileMigration.runFlavorProfileMigrationSync();
+      const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
 
-          // Add profiles to our map
-          for (const profile of profiles) {
-            this.profiles.set(profile.id, profile);
-          }
+      // Add profiles to our map
+      for (const profile of profiles) {
+        this.profiles.set(profile.id, profile);
+      }
 
-          // Log successful initialization
-          log.info(
-            `🚀 Unified Flavor Engine initialized with ${profiles.length} profiles`,
-          );
+      // Log successful initialization
+      log.info(
+        `🚀 Unified Flavor Engine initialized with ${profiles.length} profiles`,
+      );
 
-          // Log category stats
-          const categoryStats = profiles.reduce(
-            (acc: Record<string, number>, profile: UnifiedFlavorProfile) => {
-              const { category } = profile;
-              acc[category] = (acc[category] ?? 0) + 1;
-              return acc;
-            },
-            {},
-          );
+      // Log category stats
+      const categoryStats = profiles.reduce(
+        (acc: Record<string, number>, profile: UnifiedFlavorProfile) => {
+          const { category } = profile;
+          acc[category] = (acc[category] ?? 0) + 1;
+          return acc;
+        },
+        {},
+      );
 
-          log.info("📊 Categories: ", { categoryStats });
+      log.info("📊 Categories: ", { categoryStats });
 
-          // Mark as initialized
-          setGlobalState(this, false, true);
-        })
-        .catch((error: Error) => {
-          _logger.error("Failed to initialize profiles: ", error);
-          setGlobalState(this, false, false);
-        });
+      // Mark as initialized
+      setGlobalState(this, false, true);
     } catch (error) {
       _logger.error("Error during synchronous initialization: ", error);
       setGlobalState(this, false, false);
@@ -804,10 +793,16 @@ export class UnifiedFlavorEngine {
   }
 
   getProfile(id: string): UnifiedFlavorProfile | undefined {
+    if (this.profiles.size === 0) {
+      this.initializeProfilesSync();
+    }
     return this.profiles.get(id);
   }
 
   getAllProfiles(): UnifiedFlavorProfile[] {
+    if (this.profiles.size === 0) {
+      this.initializeProfilesSync();
+    }
     return Array.from(this.profiles.values());
   }
 

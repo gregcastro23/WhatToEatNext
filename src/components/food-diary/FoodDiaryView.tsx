@@ -436,8 +436,8 @@ function FoodEntryCard({
             <div className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-3">Self-Observation</div>
             <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
               <FoodRating
-                rating={entry.rating}
-                moodTags={entry.moodTags}
+                {...(entry.rating !== undefined ? { rating: entry.rating } : {})}
+                {...(entry.moodTags ? { moodTags: entry.moodTags } : {})}
                 onRate={onRate}
                 compact={false}
               />

@@ -600,8 +600,10 @@ function standardizeIngredient(
       elementalSignature(elementalProperties).dominant,
     category: ingredient.category ?? "",
     elementalProperties,
-    astrologicalProfile: ingredient.astrologicalProfile,
   };
+
+  if (ingredient.astrologicalProfile)
+    standardized.astrologicalProfile = ingredient.astrologicalProfile;
 
   // Add other properties safely
   if (ingredient.flavorProfile)

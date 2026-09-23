@@ -81,7 +81,7 @@ export function queueWebPush(recipientId: string, payload: PushPayload): void {
         title: payload.title,
         body: payload.body,
         url: payload.url,
-        tag: payload.tag,
+        ...(payload.tag !== undefined ? { tag: payload.tag } : {}),
       });
     } catch (error) {
       _logger.warn("[queueWebPush] send failed:", error);

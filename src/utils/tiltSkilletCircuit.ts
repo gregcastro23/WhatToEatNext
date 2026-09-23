@@ -137,6 +137,8 @@ export function computeStageCircuit(
   const esms = deriveESMSFromElemental(blendedElemental);
   const thermo = performAlchemicalAnalysis(esms, blendedElemental);
 
+  const kineticProfile = getKineticProfile("tilt_skillet");
+
   const kinetics = calculateMethodSpecificKinetics({
     methodId: "tilt_skillet",
     elementalEffect: blendedElemental,
@@ -144,16 +146,13 @@ export function computeStageCircuit(
     thermodynamics: { heat: thermo.heat, entropy: thermo.entropy, reactivity: thermo.reactivity },
     gregsEnergy: thermo.gregsEnergy,
     monica: Number.isFinite(thermo.monica) ? thermo.monica : null,
-    // tilt_skillet is a registered profile, so this never resolves null; the
-    // bridge exists because the field is optional rather than nullable.
-    kineticProfile: getKineticProfile("tilt_skillet") ?? undefined,
-    planetaryPositions,
+    ...(kineticProfile != null ? { kineticProfile } : {}),
+    ...(planetaryPositions !== undefined ? { planetaryPositions } : {}),
   });
 
   const charge = finite(kinetics.charge);
   const potentialDifference = finite(kinetics.potentialDifference);
-  const currentFlow = finite(kinetics.currentFlow);
-  const power = finite(kinetics.power);
+  const currentFlow = finite(kinetics.currentFlow), power = finite(kinetics.power);
   // R = Entropy, Losses = I²R, η = (P − Losses)/P — identical mapping to recipeCircuit/mealCircuit.
   const resistance = finite(thermo.entropy);
   const powerLosses = currentFlow * currentFlow * resistance;

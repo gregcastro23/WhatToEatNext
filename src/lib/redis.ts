@@ -1,5 +1,7 @@
 import { Redis } from "@upstash/redis";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("Redis");
 
 let _client: Redis | null = null;
 
@@ -10,7 +12,7 @@ export function getRedisClient(): Redis | null {
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   if (!url || !token) {
-    console.warn("[Redis] Missing UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN");
+    logger.warn("Missing UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN");
     return null;
   }
 
@@ -21,7 +23,7 @@ export function getRedisClient(): Redis | null {
     });
     return _client;
   } catch (err) {
-    _logger.error("[Redis] Initialization failed:", err);
+    logger.error("Initialization failed:", err);
     return null;
   }
 }
@@ -36,7 +38,7 @@ export async function redisGet<T = unknown>(key: string): Promise<T | null> {
     if (!client) return null;
     return await client.get<T>(key);
   } catch (err) {
-    _logger.error("[Redis] GET failed:", err);
+    logger.error("GET failed", { error: err });
     return null;
   }
 }
@@ -51,7 +53,7 @@ export async function redisSet(
     if (!client) return;
     await client.set(key, value as never, { ex: ttlSeconds });
   } catch (err) {
-    _logger.error("[Redis] SET failed:", err);
+    logger.error("SET failed", { error: err });
   }
 }
 
@@ -61,7 +63,7 @@ export async function redisDel(key: string): Promise<void> {
     if (!client) return;
     await client.del(key);
   } catch (err) {
-    _logger.error("[Redis] DEL failed:", err);
+    logger.error("DEL failed", { error: err });
   }
 }
 

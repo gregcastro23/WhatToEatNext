@@ -132,7 +132,7 @@ interface BirthDataScreenProps {
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
   hasExistingChart: boolean;
-  onSkip?: () => void;
+  onSkip?: (() => void) | undefined;
 }
 
 export const BirthDataScreen: React.FC<BirthDataScreenProps> = ({
@@ -164,7 +164,7 @@ export const BirthDataScreen: React.FC<BirthDataScreenProps> = ({
         onSubmit={onSubmit}
         isLoading={isLoading}
         hasExistingChart={hasExistingChart}
-        onSkip={onSkip}
+        {...(onSkip !== undefined ? { onSkip } : {})}
       />
       <WhyCardsGrid />
     </motion.div>

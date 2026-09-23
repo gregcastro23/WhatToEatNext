@@ -21,6 +21,7 @@
  */
 
 import { logger } from "../logger";
+import { SELECT_REVOKED_AT_BY_JTI_SQL } from "./authQueries";
 
 const REDIS_KEY_PREFIX = "session:revoked:";
 
@@ -86,7 +87,7 @@ async function checkPostgres(jti: string): Promise<boolean | null> {
   try {
     const { executeQuery } = await import("@/lib/database");
     const result = await executeQuery(
-      `SELECT revoked_at FROM device_sessions WHERE jti = $1 LIMIT 1`,
+      SELECT_REVOKED_AT_BY_JTI_SQL,
       [jti],
     );
     if (result.rowCount === 0) {

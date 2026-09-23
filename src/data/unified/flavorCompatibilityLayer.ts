@@ -376,8 +376,8 @@ export function getCuisineProfile(
       },
       elementalProperties: cuisineProfile.elementalFlavors,
       signatureIngredients: cuisineProfile.pairingRecommendations,
-      signatureTechniques: cuisineProfile.preparationMethods,
-      description: cuisineProfile.description,
+      ...(cuisineProfile.preparationMethods ? { signatureTechniques: cuisineProfile.preparationMethods } : {}),
+      ...(cuisineProfile.description ? { description: cuisineProfile.description } : {}),
     };
   } catch (error) {
     _logger.warn("Legacy cuisine profile error: ", error);

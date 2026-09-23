@@ -1736,7 +1736,7 @@ export class UnifiedCuisineIntegrationSystem {
     return {
       temperature,
       timing,
-      planetaryHour,
+      ...(planetaryHour ? { planetaryHour } : {}),
       lunarPhase,
     };
   }

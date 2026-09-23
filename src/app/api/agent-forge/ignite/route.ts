@@ -114,9 +114,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       dateTime: new Date(dob).toISOString(),
       latitude,
       longitude,
-      // IANA, resolved from the pin. Null rather than "UTC" when unresolvable —
-      // a fabricated "UTC" silently re-dates the birth by the true offset.
-      timezone: geocoded.timezone ?? undefined,
+      ...(geocoded.timezone ? { timezone: geocoded.timezone } : {}),
     };
 
     logger.info(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);
@@ -268,10 +266,9 @@ export async function POST(req: Request): Promise<NextResponse> {
             degree: Number(pos.degree) || 0,
             minute: 0,
             isRetrograde: Boolean(pos.isRetrograde),
-            exactLongitude:
-              typeof pos.exactLongitude === "number"
-                ? pos.exactLongitude
-                : undefined,
+            ...(typeof pos.exactLongitude === "number"
+              ? { exactLongitude: pos.exactLongitude }
+              : {}),
           };
         }
 

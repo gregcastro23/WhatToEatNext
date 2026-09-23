@@ -59,11 +59,11 @@ function rowToDTO(row: CustomRecipeRow): CustomRecipeDTO {
   return {
     id: row.id,
     name: row.name,
-    cuisine: row.cuisine ?? undefined,
-    source: row.source ?? undefined,
-    sourceRecipeId: row.source_recipe_id ?? undefined,
+    ...(row.cuisine ? { cuisine: row.cuisine } : {}),
+    ...(row.source ? { source: row.source } : {}),
+    ...(row.source_recipe_id ? { sourceRecipeId: row.source_recipe_id } : {}),
     payload: row.payload,
-    notes: row.notes ?? undefined,
+    ...(row.notes ? { notes: row.notes } : {}),
     createdAt: new Date(row.created_at).getTime(),
     updatedAt: new Date(row.updated_at).getTime(),
   };
@@ -77,9 +77,9 @@ async function recordRecipeSaveSignal(
   const learningPayload = buildRecipeLearningPayload(row.payload, {
     id: row.id,
     name: row.name,
-    cuisine: row.cuisine ?? undefined,
-    source: row.source ?? undefined,
-    sourceRecipeId: row.source_recipe_id ?? undefined,
+    ...(row.cuisine ? { cuisine: row.cuisine } : {}),
+    ...(row.source ? { source: row.source } : {}),
+    ...(row.source_recipe_id ? { sourceRecipeId: row.source_recipe_id } : {}),
   });
 
   await recordInteraction({

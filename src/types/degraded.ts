@@ -15,7 +15,9 @@ export type DegradedReason =
   /** Positions were interpolated from a fixed reference date (drift grows over time). */
   | "stale-positions"
   /** Monica couldn't be computed and stayed at its degenerate 1.0 default. */
-  | "monica-degenerate";
+  | "monica-degenerate"
+  /** Ephemeris backend responded, but payload failed Zod schema validation. */
+  | "backend-schema-invalid";
 
 export interface DegradedInfo {
   /** One or more machine-readable reasons, in discovery order. Presence ⇒ degraded. */

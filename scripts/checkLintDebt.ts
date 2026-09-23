@@ -11,11 +11,15 @@ import {
   compareCasts,
   compareDeclinedDebt,
   compareLintDebt,
+  compareLooseOptionality,
   compareSubBaseline,
+  compareSuppressions,
   findPerRuleRegressions,
   lintDebtBaselineSchema,
   scanAssertionSites,
   scanFileCasts,
+  scanFileLevelDisables,
+  scanLooseOptionality,
 } from "./lib/lintDebt";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
@@ -81,7 +85,7 @@ const heartbeat = setInterval(() => {
 }, 15_000);
 heartbeat.unref();
 
-console.log("[1/4] Generating Next.js route types...");
+console.log("[1/6] Generating Next.js route types...");
 execFileSync("./node_modules/.bin/next", ["typegen"], {
   cwd: repoRoot,
   stdio: "ignore",
@@ -94,7 +98,7 @@ if (JSON.stringify(auditedRuleNames) !== JSON.stringify(baselineRuleNames)) {
   process.exit(1);
 }
 
-console.log("[2/4] Linting src/ against 28 audited rules (ESLint)...");
+console.log("[2/6] Linting src/ against 28 audited rules (ESLint)...");
 const eslint = new ESLint({
   cwd: repoRoot,
   overrideConfigFile: "eslint.config.audit.mjs",
@@ -127,12 +131,19 @@ interface FileDebt {
   byRule: Record<string, number>;
 }
 
+const liveSuppressions: Record<string, number> = {};
 const fileDebts: FileDebt[] = [];
 
 for (const result of results) {
   lintErrors += result.errorCount;
   let fileTrackedCount = 0;
   const fileByRule: Record<string, number> = {};
+
+  for (const suppressed of result.suppressedMessages ?? []) {
+    if (suppressed.ruleId && Object.hasOwn(counts, suppressed.ruleId)) {
+      liveSuppressions[suppressed.ruleId] = (liveSuppressions[suppressed.ruleId] ?? 0) + 1;
+    }
+  }
 
   for (const message of result.messages) {
     if (message.ruleId && Object.hasOwn(counts, message.ruleId)) {
@@ -227,7 +238,7 @@ if (ruleFilter) {
 }
 
 // Scan and count type casts (as any, as unknown as) in src/
-console.log("[3/4] Scanning codebase for type casts (as any, as unknown as)...");
+console.log("[3/6] Scanning codebase for type casts (as any, as unknown as)...");
 const castScan = scanFileCasts(path.join(repoRoot, "src"), repoRoot);
 const currentCasts = castScan.summary;
 const baselineCasts = baseline.casts;
@@ -240,13 +251,10 @@ if (!baselineCasts) {
 // Distinct assertion sites (AST). A chain counts once, so relabelling
 // `as unknown as T` into `as T` cannot move this number — only deleting an
 // assertion can. See Operating Rule 8.
-console.log("[4/4] Scanning AST assertion sites...");
+console.log("[4/6] Scanning AST assertion sites...");
 const siteScan = scanAssertionSites(path.join(repoRoot, "src"), repoRoot);
 const currentSites = { ...siteScan.summary };
 const baselineSites = baseline.assertionSites;
-
-clearInterval(heartbeat);
-clearTimeout(timeoutTimer);
 
 if (!baselineSites) {
   console.error(
@@ -255,10 +263,43 @@ if (!baselineSites) {
   process.exit(1);
 }
 
+console.log("[5/6] Scanning AST loose optionality (?: T | undefined)...");
+const baselineLoose = baseline.looseOptionality;
+
+if (!baselineLoose) {
+  console.error(
+    "❌ Baseline is missing the required `looseOptionality` section; aborting audit.",
+  );
+  process.exit(1);
+}
+
+const looseScan = scanLooseOptionality(
+  path.join(repoRoot, "src"),
+  repoRoot,
+  baselineLoose.wireAllowlist ?? [],
+);
+const currentLoose = looseScan.summary;
+
+console.log("[6/6] Scanning file-level disables...");
+const fileDisableScan = scanFileLevelDisables(path.join(repoRoot, "src"), repoRoot);
+const baselineFileDisables = baseline.fileLevelDisables;
+
+if (!baselineFileDisables) {
+  console.error(
+    "❌ Baseline is missing the required `fileLevelDisables` section; aborting audit.",
+  );
+  process.exit(1);
+}
+
+clearInterval(heartbeat);
+clearTimeout(timeoutTimer);
+
 const comparison = compareLintDebt(trackedTotal, baseline.trackedTotal);
 const declinedComparison = compareDeclinedDebt(declinedTotal, baselineDeclinedTotal);
 const castComparison = compareCasts(currentCasts, baselineCasts);
 const siteComparison = compareAssertionSites(currentSites, baselineSites);
+const looseComparison = compareLooseOptionality(currentLoose, baselineLoose);
+const suppressionComparison = compareSuppressions(liveSuppressions, baseline.suppressions);
 const ignoredRules = new Set([...subBaselineRules]);
 const ruleRegressions = findPerRuleRegressions(counts, baseline.rules, ignoredRules);
 
@@ -269,23 +310,23 @@ const subBaselineComparison =
     ? compareSubBaseline(currentPnc, pncBaseline)
     : null;
 
-console.log(trackedTotal);
-
 fileDebts.sort((a, b) => b.trackedCount - a.trackedCount);
 
 // Check if --top, --ranking, or --casts flag was requested
 const topArgIdx = process.argv.findIndex((arg) => arg === "--top" || arg === "--ranking");
 const showTop = topArgIdx !== -1 || process.argv.includes("--files");
 let topN = 25;
-if (topArgIdx !== -1 && process.argv[topArgIdx + 1] && /^\d+$/.test(process.argv[topArgIdx + 1])) {
-  topN = parseInt(process.argv[topArgIdx + 1], 10);
+const rawTopCandidate = topArgIdx !== -1 ? process.argv[topArgIdx + 1] : undefined;
+if (rawTopCandidate && /^\d+$/.test(rawTopCandidate)) {
+  topN = parseInt(rawTopCandidate, 10);
 }
 
 const showCasts = process.argv.includes("--casts") || process.argv.includes("--top-casts");
 const castArgIdx = process.argv.findIndex((arg) => arg === "--top-casts");
 let topCastsN = 25;
-if (castArgIdx !== -1 && process.argv[castArgIdx + 1] && /^\d+$/.test(process.argv[castArgIdx + 1])) {
-  topCastsN = parseInt(process.argv[castArgIdx + 1], 10);
+const rawCastCandidate = castArgIdx !== -1 ? process.argv[castArgIdx + 1] : undefined;
+if (rawCastCandidate && /^\d+$/.test(rawCastCandidate)) {
+  topCastsN = parseInt(rawCastCandidate, 10);
 }
 
 if (showTop) {
@@ -314,7 +355,6 @@ if (showCasts) {
 
   console.log(`\n=== TYPE CAST SURFACE: ${currentCasts.total} total (${currentCasts.asAny} as any, ${currentCasts.asUnknownAs} as unknown as) ===`);
   console.log(`  Production: ${prodTotal} (${prodAsAny} as any, ${prodAsUnknownAs} as unknown as) | Test: ${testTotal} (${testAsAny} as any, ${testAsUnknownAs} as unknown as)`);
-  console.log(`  Untracked single \`as T\` assertions (regex, uppercase-only): ${currentCasts.untrackedSingleAsT ?? 0}`);
   console.log(
     `\n=== ASSERTION SITES (AST): ${currentSites.total} distinct ` +
       `(${currentSites.asAny} as any, ${currentSites.chained} chained, ${currentSites.single} single) ===`,
@@ -334,7 +374,7 @@ if (showCasts) {
   console.log(`\n=== TOP ${Math.min(topCastsN, castScan.files.length)} FILES BY GATED CASTS ===`);
   for (const item of castScan.files.slice(0, topCastsN)) {
     const tag = item.isTest ? "[TEST] " : "       ";
-    console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as, ${(item.untrackedSingleAsT ?? 0).toString().padStart(3)} as T) ${tag}: ${item.filePath}`);
+    console.log(`${item.total.toString().padStart(4)} casts (${item.asAny.toString().padStart(2)} as any, ${item.asUnknownAs.toString().padStart(2)} as unknown as) ${tag}: ${item.filePath}`);
   }
   console.log("");
 }
@@ -405,17 +445,84 @@ if (siteComparison.exceedsBaseline) {
         `(as any: ${currentSites.asAny} vs ${baselineSites.asAny}, chained: ${currentSites.chained} vs ${baselineSites.chained}, single: ${currentSites.single} vs ${baselineSites.single}).`,
     );
   }
-  if (siteComparison.asAnyIncreasedBy > 0 && siteComparison.totalIncreasedBy === 0) {
+  if (siteComparison.asAnyIncreasedBy > 0) {
     console.error(
       `❌ \`as any\` assertion sites increased by ${siteComparison.asAnyIncreasedBy}: ` +
-        `${currentSites.asAny} exceeds baseline of ${baselineSites.asAny} (site total remained ${currentSites.total}).`,
+        `${currentSites.asAny} exceeds baseline of ${baselineSites.asAny}.`,
     );
   }
-  if (siteComparison.productionIncreasedBy > 0 && siteComparison.totalIncreasedBy === 0) {
+  if (siteComparison.productionIncreasedBy > 0) {
     console.error(
       `❌ Production assertion sites increased by ${siteComparison.productionIncreasedBy}: ` +
         `${currentSites.production} exceeds baseline of ${baselineSites.production}.`,
     );
+  }
+  if (siteComparison.nonNullIncreasedBy > 0) {
+    console.error(
+      `❌ Non-null assertion sites increased by ${siteComparison.nonNullIncreasedBy}: ` +
+        `${currentSites.nonNull} exceeds baseline of ${baselineSites.nonNull}.`,
+    );
+  }
+  if (siteComparison.singleIncreasedBy > 0) {
+    console.error(
+      `❌ Single assertion sites increased by ${siteComparison.singleIncreasedBy}: ` +
+        `${currentSites.single} exceeds baseline of ${baselineSites.single}.`,
+    );
+  }
+}
+
+if (looseComparison.exceedsBaseline) {
+  hasError = true;
+  if (looseComparison.totalIncreasedBy > 0) {
+    console.error(
+      `❌ Loose optionality (?: T | undefined) increased by ${looseComparison.totalIncreasedBy}: ` +
+        `${currentLoose.total} exceeds baseline of ${baselineLoose.total}.`,
+    );
+  }
+  if (looseComparison.domainIncreasedBy > 0) {
+    console.error(
+      `❌ Domain loose optionality increased by ${looseComparison.domainIncreasedBy}: ` +
+        `${currentLoose.domain} exceeds baseline of ${baselineLoose.domain}.`,
+    );
+  }
+  if (looseComparison.wireIncreasedBy > 0) {
+    console.error(
+      `❌ Wire loose optionality increased by ${looseComparison.wireIncreasedBy}: ` +
+        `${currentLoose.wire} exceeds baseline of ${baselineLoose.wire}.`,
+    );
+  }
+  if (looseComparison.productionIncreasedBy > 0 && looseComparison.totalIncreasedBy === 0) {
+    console.error(
+      `❌ Production loose optionality increased by ${looseComparison.productionIncreasedBy}: ` +
+        `${currentLoose.production} exceeds baseline of ${baselineLoose.production}.`,
+    );
+  }
+}
+
+if (fileDisableScan.unauthorizedNoConsole.length > 0) {
+  hasError = true;
+  console.error(
+    `❌ Unauthorized file-level no-console disable found in ${fileDisableScan.unauthorizedNoConsole.length} site(s):`,
+  );
+  for (const site of fileDisableScan.unauthorizedNoConsole) {
+    console.error(`  ${site} (only allowed in designated logger sinks)`);
+  }
+}
+
+if (fileDisableScan.total > baselineFileDisables.ceiling) {
+  hasError = true;
+  console.error(
+    `❌ File-level disable count ${fileDisableScan.total} exceeds ceiling of ${baselineFileDisables.ceiling}.`,
+  );
+}
+
+if (suppressionComparison.exceedsBaseline) {
+  hasError = true;
+  console.error(
+    `❌ ESLint suppressions increased for ${suppressionComparison.regressions.length} rule(s):`,
+  );
+  for (const reg of suppressionComparison.regressions) {
+    console.error(`  ${reg.rule}: ${reg.baselineCount} -> ${reg.currentCount} (+${reg.delta})`);
   }
 }
 
@@ -426,23 +533,44 @@ if (hasError) {
 const shouldRatchet = process.argv.includes("--ratchet") || process.env.LINT_DEBT_AUTO_RATCHET === "1";
 
 const pncDecreased = pncBaseline !== undefined && currentPnc < pncBaseline;
+const singleSitesDecreased = currentSites.single < baselineSites.single;
+const looseDecreased =
+  currentLoose.total < baselineLoose.total ||
+  currentLoose.domain < baselineLoose.domain ||
+  currentLoose.wire < baselineLoose.wire ||
+  currentLoose.production < baselineLoose.production;
+const fileDisablesDecreased = fileDisableScan.total < baselineFileDisables.ceiling;
+const suppressionsDecreased = Object.entries(baseline.suppressions).some(
+  ([rule, prevCount]) => (liveSuppressions[rule] ?? 0) < prevCount,
+);
 
-if (
+const anyDecreased =
   trackedTotal < baseline.trackedTotal ||
   currentCasts.total < baselineCasts.total ||
   currentCasts.asAny < baselineCasts.asAny ||
   (baselineCasts.production !== undefined && (currentCasts.production ?? 0) < baselineCasts.production) ||
   currentSites.total < baselineSites.total ||
   currentSites.asAny < baselineSites.asAny ||
+  singleSitesDecreased ||
   currentSites.production < baselineSites.production ||
   (baselineSites.nonNull !== undefined && currentSites.nonNull < baselineSites.nonNull) ||
   declinedTotal < baselineDeclinedTotal ||
-  pncDecreased
-) {
+  pncDecreased ||
+  looseDecreased ||
+  fileDisablesDecreased ||
+  suppressionsDecreased;
+
+if (anyDecreased) {
   if (baselineSites.nonNull !== undefined && currentSites.nonNull < baselineSites.nonNull) {
     const nonNullDecreasedBy = baselineSites.nonNull - currentSites.nonNull;
     console.log(
       `🎉 Non-null assertions decreased by ${nonNullDecreasedBy}: ${currentSites.nonNull} (down from ${baselineSites.nonNull}).`,
+    );
+  }
+  if (singleSitesDecreased) {
+    console.log(
+      `🎉 Single assertion sites decreased by ${baselineSites.single - currentSites.single}: ` +
+        `${currentSites.single} (down from ${baselineSites.single}).`,
     );
   }
   if (trackedTotal < baseline.trackedTotal) {
@@ -477,83 +605,112 @@ if (
         `assertions but the site total held at ${currentSites.total}: that is relabelling, not remediation (Rule 8).`,
     );
   }
+  if (looseDecreased) {
+    console.log(
+      `🎉 Loose optionality decreased: ${currentLoose.total} (${currentLoose.domain} domain, ${currentLoose.wire} wire; down from baseline ${baselineLoose.total}: ${baselineLoose.domain} domain, ${baselineLoose.wire} wire).`,
+    );
+  }
+  if (fileDisablesDecreased) {
+    console.log(
+      `🎉 File-level disables decreased: ${fileDisableScan.total} (down from ceiling ${baselineFileDisables.ceiling}).`,
+    );
+  }
+  if (suppressionsDecreased) {
+    console.log(`🎉 ESLint suppressions decreased on audited rules.`);
+  }
   if (declinedTotal < baselineDeclinedTotal) {
     const declinedDecreasedBy = baselineDeclinedTotal - declinedTotal;
     console.log(
       `🎉 Declined rules pool decreased by ${declinedDecreasedBy}: ${declinedTotal} (down from ${baselineDeclinedTotal}).`,
     );
   }
-
-  if (shouldRatchet) {
-    const updatedBaseline = {
-      ...baseline,
-      trackedTotal,
-      casts: {
-        total: Math.min(currentCasts.total, baselineCasts.total),
-        asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
-        asUnknownAs: Math.min(currentCasts.asUnknownAs, baselineCasts.asUnknownAs),
-        production: Math.min(currentCasts.production ?? 0, baselineCasts.production ?? (currentCasts.production ?? 0)),
-        test: Math.min(currentCasts.test ?? 0, baselineCasts.test ?? (currentCasts.test ?? 0)),
-        untrackedSingleAsT: currentCasts.untrackedSingleAsT ?? 0,
-      },
-      assertionSites: {
-        total: Math.min(currentSites.total, baselineSites.total),
-        asAny: Math.min(currentSites.asAny, baselineSites.asAny),
-        chained: currentSites.chained,
-        single: currentSites.single,
-        production: Math.min(currentSites.production, baselineSites.production),
-        test: currentSites.test,
-        asConst: currentSites.asConst,
-        nonNull: Math.min(currentSites.nonNull, baselineSites.nonNull ?? currentSites.nonNull),
-      },
-      subBaselines: baseline.subBaselines
-        ? {
-            ...baseline.subBaselines,
-            preferNullishCoalescing: baseline.subBaselines.preferNullishCoalescing
-              ? {
-                  ...baseline.subBaselines.preferNullishCoalescing,
-                  total: Math.min(
-                    currentPnc,
-                    baseline.subBaselines.preferNullishCoalescing.total,
-                  ),
-                }
-              : undefined,
-          }
-        : undefined,
-      // The declined pool ratchets like every other counter. It used to carry
-      // `total` and every per-rule count forward UNCHANGED while the log line
-      // below printed the live `declinedTotal` — so `--ratchet` reported a
-      // ratchet it never performed, and the only way the pool ever moved was a
-      // hand edit. That is how it drifted 14 above its own live value.
-      declined: {
-        total: Math.min(declinedTotal, baselineDeclinedTotal),
-        rules: Object.fromEntries(
-          Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
-            rule,
-            Math.min(counts[rule] ?? prevCount, prevCount),
-          ]),
-        ),
-        ...(baseline.declined.note ? { note: baseline.declined.note } : {}),
-      },
-      rules: Object.fromEntries(
-        Object.entries(baseline.rules).map(([rule, info]) => [
-          rule,
-          {
-            ...info,
-            count: declinedRules.has(rule)
-              ? info.count
-              : Math.min(counts[rule] ?? info.count, info.count),
-          },
-        ]),
-      ),
-    };
-    await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
-    const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
-      ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
-      : "";
-    // Reports the values actually WRITTEN, not the live measurements — the two
-    // diverge wherever a Math.min keeps the old floor.
-    console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${updatedBaseline.declined.total}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production})${pncLog}.`);
-  }
 }
 
+if (shouldRatchet && anyDecreased) {
+  const updatedBaseline = {
+    ...baseline,
+    trackedTotal,
+    casts: {
+      total: Math.min(currentCasts.total, baselineCasts.total),
+      asAny: Math.min(currentCasts.asAny, baselineCasts.asAny),
+      asUnknownAs: Math.min(currentCasts.asUnknownAs, baselineCasts.asUnknownAs),
+      production: Math.min(currentCasts.production ?? 0, baselineCasts.production ?? (currentCasts.production ?? 0)),
+      test: Math.min(currentCasts.test ?? 0, baselineCasts.test ?? (currentCasts.test ?? 0)),
+    },
+    assertionSites: {
+      total: Math.min(currentSites.total, baselineSites.total),
+      asAny: Math.min(currentSites.asAny, baselineSites.asAny),
+      chained: Math.min(currentSites.chained, baselineSites.chained),
+      single: Math.min(currentSites.single, baselineSites.single),
+      production: Math.min(currentSites.production, baselineSites.production),
+      test: Math.min(currentSites.test, baselineSites.test),
+      asConst: Math.min(currentSites.asConst, baselineSites.asConst),
+      nonNull: Math.min(currentSites.nonNull, baselineSites.nonNull ?? currentSites.nonNull),
+    },
+    looseOptionality: {
+      total: Math.min(currentLoose.total, baselineLoose.total),
+      domain: Math.min(currentLoose.domain, baselineLoose.domain),
+      wire: Math.min(currentLoose.wire, baselineLoose.wire),
+      production: Math.min(currentLoose.production, baselineLoose.production),
+      test: Math.min(currentLoose.test, baselineLoose.test),
+      ...(baselineLoose.wireAllowlist ? { wireAllowlist: baselineLoose.wireAllowlist } : {}),
+    },
+    fileLevelDisables: {
+      ceiling: Math.min(fileDisableScan.total, baselineFileDisables.ceiling),
+    },
+    suppressions: Object.fromEntries(
+      Object.entries(baseline.suppressions).map(([rule, prevCount]) => [
+        rule,
+        Math.min(liveSuppressions[rule] ?? prevCount, prevCount),
+      ]),
+    ),
+    ...(baseline.subBaselines?.preferNullishCoalescing && pncBaseline !== undefined
+      ? {
+          subBaselines: {
+            ...baseline.subBaselines,
+            preferNullishCoalescing: {
+              ...baseline.subBaselines.preferNullishCoalescing,
+              total: Math.min(currentPnc, pncBaseline),
+            },
+          },
+        }
+      : {}),
+    // The declined pool ratchets like every other counter. It used to carry
+    // `total` and every per-rule count forward UNCHANGED while the log line
+    // below printed the live `declinedTotal` — so `--ratchet` reported a
+    // ratchet it never performed, and the only way the pool ever moved was a
+    // hand edit. That is how it drifted 14 above its own live value.
+    declined: {
+      total: Math.min(declinedTotal, baselineDeclinedTotal),
+      rules: Object.fromEntries(
+        Object.entries(baseline.declined.rules).map(([rule, prevCount]) => [
+          rule,
+          Math.min(counts[rule] ?? prevCount, prevCount),
+        ]),
+      ),
+      ...(baseline.declined.note ? { note: baseline.declined.note } : {}),
+    },
+    rules: Object.fromEntries(
+      Object.entries(baseline.rules).map(([rule, info]) => [
+        rule,
+        {
+          ...info,
+          count: declinedRules.has(rule)
+            ? info.count
+            : Math.min(counts[rule] ?? info.count, info.count),
+        },
+      ]),
+    ),
+  };
+  await writeFile(baselinePath, JSON.stringify(updatedBaseline, null, 2) + "\n", "utf8");
+  const pncLog = updatedBaseline.subBaselines?.preferNullishCoalescing
+    ? `, prefer-nullish-coalescing: ${updatedBaseline.subBaselines.preferNullishCoalescing.total}`
+    : "";
+  // Reports the values actually WRITTEN, not the live measurements — the two
+  // diverge wherever a Math.min keeps the old floor.
+  console.log(`🔒 Baseline auto-ratcheted down: tracked ${trackedTotal}, declined ${updatedBaseline.declined.total}, casts ${updatedBaseline.casts.total} (as any: ${updatedBaseline.casts.asAny}, prod: ${updatedBaseline.casts.production}, test: ${updatedBaseline.casts.test}), assertion sites ${updatedBaseline.assertionSites.total} (as any: ${updatedBaseline.assertionSites.asAny}, prod: ${updatedBaseline.assertionSites.production}), loose: ${updatedBaseline.looseOptionality.total} (${updatedBaseline.looseOptionality.domain} domain, ${updatedBaseline.looseOptionality.wire} wire), fileDisables: ${updatedBaseline.fileLevelDisables.ceiling}${pncLog}.`);
+} else if (anyDecreased) {
+  console.log("ℹ️ Improvements detected. Run `bun run lint:debt:ratchet` to lock them into the baseline.");
+} else {
+  console.log("✅ All lint debt, type cast, assertion site, and loose optionality gates passed.");
+}

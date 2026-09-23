@@ -12,7 +12,8 @@ import {
   calculateGregsEnergy,
   type ElementalAlchemicalCounts,
 } from "@/calculations/gregsEnergy";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -22,6 +23,8 @@ import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
 import type { MealSlot } from "@/types/menuPlanner";
 import { calculateKineticProperties } from "./kineticCalculations";
 import { validateRecipeCircuit } from "./recipeCircuit";
+
+const logger = createLogger("mealCircuitCalculations");
 
 /**
  * Count elemental and alchemical properties for thermodynamic calculations
@@ -67,7 +70,7 @@ export function calculateMealCircuit(
 
   // Safe check for ingredients and instructions
   if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
-    console.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions).`);
+    logger.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions).`);
     return null; // Handle incomplete recipes gracefully
   }
 
@@ -79,7 +82,7 @@ export function calculateMealCircuit(
     recipe.substance == null &&
     !recipe.alchemicalProperties
   ) {
-    console.warn(
+    logger.warn(
       `Recipe ${recipe.id} missing alchemical or elemental properties for circuit calculation.`,
     );
     return null;
@@ -154,7 +157,7 @@ export function calculateMealCircuit(
 
     return mealCircuit;
   } catch (error) {
-    _logger.error(
+    logger.error(
       `Error calculating meal circuit for slot ${mealSlot.id}:`,
       error,
     );

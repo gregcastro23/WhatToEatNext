@@ -31,7 +31,7 @@ const getDbModule = async (): Promise<typeof import("@/lib/database") | null> =>
 // â”€â”€â”€ In-memory fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const notificationsStore: Map<string, UserNotification> = new Map();
 
-interface NotificationRow {
+export interface NotificationRow {
   id: string;
   user_id: string;
   type: NotificationType;
@@ -60,7 +60,7 @@ const parseNotificationMetadata = (
   return value ?? {};
 };
 
-function rowToNotification(row: NotificationRow): UserNotification {
+export function rowToNotification(row: NotificationRow): UserNotification {
   const expiresAt = toOptionalIsoString(row.expires_at);
   return {
     id: row.id,
@@ -92,7 +92,7 @@ class NotificationDatabaseService {
     },
   ): Promise<UserNotification | null> {
     const db = await getDbModule();
-    const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const id = crypto.randomUUID();
     const now = new Date().toISOString();
 
     const notification: UserNotification = {
@@ -186,7 +186,7 @@ class NotificationDatabaseService {
     extraMetadata?: Record<string, unknown>;
   }): Promise<UserNotification | null> {
     const db = await getDbModule();
-    const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const id = crypto.randomUUID();
 
     const baseMetadata = {
       ...(args.extraMetadata ?? {}),
@@ -395,7 +395,7 @@ class NotificationDatabaseService {
           return updatedRow ?? null;
         }
 
-        const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        const id = crypto.randomUUID();
         const meta = {
           ...opts.metadata,
           conversationId,

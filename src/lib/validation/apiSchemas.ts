@@ -406,6 +406,46 @@ export const UserProfileUpdateSchema = z.object({
   preferences: z.record(z.string(), z.unknown()).optional(),
 }).passthrough();
 
+export const PlanetPatchSchema = z
+  .object({
+    name: z.string().optional(),
+    sign: z.string().optional(),
+    position: z.number().optional(),
+  })
+  .passthrough();
+
+export const NatalChartPatchSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string().optional(),
+    birthData: BirthDataSchema.optional(),
+    planets: z.array(PlanetPatchSchema).optional(),
+    ascendant: z.string().optional(),
+    planetaryPositions: z.record(z.string(), z.string()).optional(),
+    dominantElement: z.string().optional(),
+    dominantModality: z.string().optional(),
+    elementalBalance: z
+      .object({
+        Fire: z.number().optional(),
+        Water: z.number().optional(),
+        Earth: z.number().optional(),
+        Air: z.number().optional(),
+      })
+      .passthrough()
+      .optional(),
+    alchemicalProperties: z
+      .object({
+        Spirit: z.number().optional(),
+        Essence: z.number().optional(),
+        Matter: z.number().optional(),
+        Substance: z.number().optional(),
+      })
+      .passthrough()
+      .optional(),
+    calculatedAt: z.string().optional(),
+  })
+  .passthrough();
+
 // ─── Batch 1B: Social, Tables, Feed & Groups ───────────────────────────────
 
 const UUID_REGEX =

@@ -4,7 +4,7 @@ import type { RecipeDetail, RecipeIngredient } from "./types";
 
 interface RecipeExpandedViewProps {
   recipe: RecipeDetail;
-  alchmKitchenPath?: string;
+  alchmKitchenPath?: string | undefined;
 }
 
 const EL_COLORS: Record<string, string> = {
@@ -43,7 +43,7 @@ const RecipeMetadataStrip: React.FC<{ recipe: RecipeDetail }> = ({ recipe }) => 
   </div>
 );
 
-const RecipeIngredientsCol: React.FC<{ ingredients?: RecipeIngredient[]; elementalProperties?: Record<string, number | undefined> }> = ({
+const RecipeIngredientsCol: React.FC<{ ingredients?: RecipeIngredient[] | undefined; elementalProperties?: Record<string, number | undefined> | undefined }> = ({
   ingredients,
   elementalProperties,
 }) => (
@@ -158,7 +158,7 @@ export const RecipeExpandedView: React.FC<RecipeExpandedViewProps> = ({ recipe, 
         </div>
       </div>
 
-      <RecipeTimingNotes timingRecs={timingRecs} alchmKitchenPath={alchmKitchenPath} />
+      <RecipeTimingNotes timingRecs={timingRecs} {...(alchmKitchenPath !== undefined ? { alchmKitchenPath } : {})} />
     </div>
   );
 };

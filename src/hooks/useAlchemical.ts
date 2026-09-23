@@ -69,11 +69,14 @@ export function useAlchemical() {
         );
       }
 
-      const data = await response.json();
-      writeCache(data.positions || {});
+      const data = (await response.json()) as {
+        positions?: Record<string, PlanetPosition>;
+      };
+      const positions = data.positions ?? {};
+      writeCache(positions);
 
       setState({
-        planetaryPositions: data.positions || {},
+        planetaryPositions: positions,
         isDaytime,
         isLoading: false,
         error: null,

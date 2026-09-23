@@ -348,7 +348,9 @@ export function normalizeIngredientList(
 ): NormalizedIngredient[] {
   const normalized = rawItems.map(item => {
     const norm = normalizeIngredient(item.text);
-    norm.usedInRecipes = item.recipes;
+    if (item.recipes !== undefined) {
+      norm.usedInRecipes = item.recipes;
+    }
     return norm;
   });
   return deduplicateIngredients(normalized);

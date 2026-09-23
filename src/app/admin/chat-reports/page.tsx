@@ -7,7 +7,13 @@
  */
 
 import React, { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
 import { EmptyState } from "@/components/admin/kit/EmptyState";
+import { readJson } from "@/lib/api/json";
+import {
+  MessageReportSchema,
+  toDomainMessageReport,
+} from "@/lib/validation/chatResponseSchemas";
 import type { MessageReport, MessageReportStatus } from "@/types/chat";
 
 const STATUS_TABS: MessageReportStatus[] = ["open", "actioned", "dismissed", "reviewed"];
@@ -36,8 +42,14 @@ export default function AdminChatReportsPage(): React.JSX.Element {
         setReports([]);
         return;
       }
-      const data = (await res.json()) as { reports?: MessageReport[] };
-      setReports(data.reports ?? []);
+      const ChatReportsResponseSchema = z.object({
+        reports: z.array(MessageReportSchema).optional(),
+      }).passthrough();
+
+      const data = await readJson(res, {
+        parse: (raw) => ChatReportsResponseSchema.parse(raw),
+      });
+      setReports((data.reports ?? []).map(toDomainMessageReport));
     } catch {
       setError("Could not load reports.");
     } finally {

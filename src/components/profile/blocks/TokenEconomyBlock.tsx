@@ -183,7 +183,7 @@ export const TokenEconomyBlock: React.FC<{ data: ProfileData }> = ({ data }) => 
         {loading && !series ? (
           <div className="h-[200px] flex items-center justify-center text-xs text-white/40">Loading ledger data...</div>
         ) : (
-          <DailyYieldLedger series={series} />
+          <DailyYieldLedger {...(series ? { series } : {})} />
         )}
       </div>
     </div>

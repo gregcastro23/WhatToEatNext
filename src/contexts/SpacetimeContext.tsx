@@ -28,7 +28,11 @@ import {
   getSpacetimeConfig,
   SPACETIME_TOKEN_STORAGE_KEY,
 } from "@/lib/spacetime/config";
+import { createLogger } from "@/utils/logger";
+
 import { DbConnection } from "@/lib/spacetime/generated";
+
+const logger = createLogger("SpacetimeContext");
 
 export type SpacetimeStatus =
   | "disabled"
@@ -131,9 +135,10 @@ export function SpacetimeProvider({ children }: { children: ReactNode }) {
             // Log only the first error of a disconnect episode; the reconnect
             // loop retries on a backoff and would otherwise spam the console.
             if (failuresRef.current === 0) {
-              console.warn("[spacetime] connect error:", error.message);
+              logger.warn("[spacetime] connect error:", error.message);
             }
             setConnection(null);
+            setStatus("connecting");
             scheduleReconnect(connect);
           })
           .onDisconnect(() => {
@@ -145,7 +150,7 @@ export function SpacetimeProvider({ children }: { children: ReactNode }) {
           .build();
         activeConnRef.current = conn;
       } catch (error) {
-        console.warn("[spacetime] failed to build connection:", error);
+        logger.warn("[spacetime] failed to build connection:", error);
         scheduleReconnect(connect);
       }
     };
@@ -154,7 +159,7 @@ export function SpacetimeProvider({ children }: { children: ReactNode }) {
       if (disposedRef.current) return;
       // Only reconnect if we don't have a live connection
       if (activeConnRef.current === null) {
-        console.info("[spacetime] triggering recovery reconnect (network/focus restored)");
+        logger.info("[spacetime] triggering recovery reconnect (network/focus restored)");
         failuresRef.current = 0;
         if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
         connect();

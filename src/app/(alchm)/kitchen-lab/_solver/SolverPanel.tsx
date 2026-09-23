@@ -97,9 +97,9 @@ export function SolverPanel(): React.JSX.Element {
           targetC,
           methodId,
           ambient: { airC, relativeHumidityPct: rhPct, elevationM, airVelocityMs: 0 },
-          vesselId: vesselId || undefined,
-          lidSeal: lidSeal || undefined,
-          burnerPowerW: vessel?.lid ? burnerW : undefined,
+          ...(vesselId ? { vesselId } : {}),
+          ...(lidSeal ? { lidSeal } : {}),
+          ...(vessel?.lid ? { burnerPowerW: burnerW } : {}),
         }),
       };
     } catch (error) {
@@ -436,7 +436,7 @@ function Field({
   );
 }
 
-function Derived({ label, value, note }: { label: string; value: string; note?: string }): React.JSX.Element {
+function Derived({ label, value, note }: { label: string; value: string; note?: string | undefined }): React.JSX.Element {
   return (
     <p className="ma-derived">
       <span>{label}</span>

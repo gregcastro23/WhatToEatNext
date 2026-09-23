@@ -123,14 +123,18 @@ function normalizeAddress(value: unknown): FulfillmentAddress | null {
 
   if (!street || !city || !postalCode) return null;
 
+  const state = text(raw.state) || undefined;
+  const latitude = numberFrom(raw.latitude);
+  const longitude = numberFrom(raw.longitude);
+
   return {
     street,
     city,
-    state: text(raw.state) || undefined,
+    ...(state !== undefined ? { state } : {}),
     postalCode,
     country,
-    latitude: numberFrom(raw.latitude),
-    longitude: numberFrom(raw.longitude),
+    ...(latitude !== undefined ? { latitude } : {}),
+    ...(longitude !== undefined ? { longitude } : {}),
   };
 }
 
@@ -540,8 +544,8 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const orderType = normalizeOrderType(body.order?.orderType);
   const customerInfo = normalizeCustomerInfo(body.order?.customer, {
-    name: effectiveUser?.name,
-    email: effectiveUser?.email,
+    ...(effectiveUser?.name ? { name: effectiveUser.name } : {}),
+    ...(effectiveUser?.email ? { email: effectiveUser.email } : {}),
   });
   const deliveryAddress = normalizeAddress(body.order?.deliveryAddress);
 

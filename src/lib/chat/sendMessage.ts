@@ -112,7 +112,7 @@ export async function sendChatMessage(
     flags: { dmsEnabled: isDmsEnabledServer(), circlesEnabled: isCirclesEnabledServer() },
     body,
     attachments,
-    replyTargetConversationId,
+    ...(replyTargetConversationId !== undefined ? { replyTargetConversationId } : {}),
     conversationId: conversation.id,
   });
   if (!decision.allowed) {
@@ -124,8 +124,8 @@ export async function sendChatMessage(
     senderId: input.senderId,
     body,
     attachments,
-    replyToId: input.replyToId,
-    clientKey: input.clientKey,
+    ...(input.replyToId !== undefined ? { replyToId: input.replyToId } : {}),
+    ...(input.clientKey !== undefined ? { clientKey: input.clientKey } : {}),
   });
   if (!inserted) {
     return { ok: false, status: 500, message: "Message could not be sent." };

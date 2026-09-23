@@ -94,16 +94,21 @@ export function buildPersonalContext(
     }
   }
 
+  const modality = isValidModality(chart.dominantModality) ? chart.dominantModality : undefined;
+  const sun = positions.Sun ? signLabel(positions.Sun) : undefined;
+  const moon = positions.Moon ? signLabel(positions.Moon) : undefined;
+  const ascendant = chart.ascendant ? signLabel(chart.ascendant) : positions.Ascendant ? signLabel(positions.Ascendant) : undefined;
+
   return {
     hasChart: true,
     firstName,
     element,
-    modality: isValidModality(chart.dominantModality) ? chart.dominantModality : undefined,
+    ...(modality ? { modality } : {}),
     balance,
-    sun: positions.Sun ? signLabel(positions.Sun) : undefined,
-    moon: positions.Moon ? signLabel(positions.Moon) : undefined,
-    ascendant: chart.ascendant ? signLabel(chart.ascendant) : positions.Ascendant ? signLabel(positions.Ascendant) : undefined,
-    topAlchemy,
+    ...(sun ? { sun } : {}),
+    ...(moon ? { moon } : {}),
+    ...(ascendant ? { ascendant } : {}),
+    ...(topAlchemy ? { topAlchemy } : {}),
   };
 }
 

@@ -1,0 +1,76 @@
+/**
+ * Revokes sessions on sign-out.
+ *
+ * Stamped on NextAuth signOut events:
+ * 1. Deletes the raw NextAuth session row from `sessions` (keyed by "sessionToken")
+ * 2. Updates `device_sessions` setting `revoked_at = NOW()` (keyed by `id`)
+ *    where `revoked_at IS NULL` (idempotent, safe on repeats).
+ *
+ * @file src/lib/auth/signOutSession.ts
+ */
+
+import { createLogger } from "@/utils/logger";
+import {
+  REVOKE_SESSION_ON_SIGNOUT_SQL,
+  DELETE_NEXTAUTH_SESSION_ON_SIGNOUT_SQL,
+} from "./authQueries";
+
+const logger = createLogger("auth:signOutSession");
+
+export interface SignOutSessionTokens {
+  sessionToken?: string | null | undefined;
+  deviceSessionId?: string | null | undefined;
+}
+
+export async function revokeSessionsOnSignOut(
+  tokens: SignOutSessionTokens,
+): Promise<boolean> {
+  const { sessionToken, deviceSessionId } = tokens;
+  if (!sessionToken && !deviceSessionId) {
+    return false;
+  }
+
+  let deviceRevoked = false;
+  let nextAuthSessionDeleted = false;
+
+  // 1. Primary: Stamp revocation in device_sessions first
+  if (deviceSessionId) {
+    try {
+      const { executeQuery } = await import("@/lib/database");
+      await executeQuery(
+        REVOKE_SESSION_ON_SIGNOUT_SQL,
+        [deviceSessionId],
+      );
+      deviceRevoked = true;
+    } catch (e) {
+      logger.warn("device_sessions revoke on signOut failed (non-blocking):", e);
+    }
+  }
+
+  // 2. Secondary: Purge row from NextAuth sessions table if present
+  if (sessionToken) {
+    try {
+      const { executeQuery } = await import("@/lib/database");
+      await executeQuery(
+        DELETE_NEXTAUTH_SESSION_ON_SIGNOUT_SQL,
+        [sessionToken],
+      );
+      nextAuthSessionDeleted = true;
+    } catch (e) {
+      logger.warn("NextAuth sessions table delete on signOut failed (non-blocking):", e);
+    }
+  }
+
+  return deviceRevoked || nextAuthSessionDeleted;
+}
+
+export async function handleSignOutSession(token: {
+  sessionId?: string;
+  deviceSessionId?: string;
+} | undefined): Promise<void> {
+  const sessionToken = token?.sessionId;
+  const deviceSessionId = token?.deviceSessionId ?? token?.sessionId;
+  if (sessionToken || deviceSessionId) {
+    await revokeSessionsOnSignOut({ sessionToken, deviceSessionId });
+  }
+}

@@ -7,12 +7,15 @@
  */
 
 import { NextResponse } from "next/server";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { FoodDiaryRatingSchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { FoodRating, MoodTag } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("food-diary:rate");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -98,9 +101,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
           rating,
           moodTags,
         },
-      }).catch((err) => _logger.error("Failed to record food_rating interaction:", err));
+      }).catch((err) => logger.error("Failed to record food_rating interaction:", err));
     } catch (err) {
-      console.warn("Food rating interaction tracking skipped:", err);
+      logger.warn("Food rating interaction tracking skipped:", err);
     }
 
     // Update wouldEatAgain if provided
@@ -121,7 +124,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       entry,
     });
   } catch (error) {
-    _logger.error("Rate food diary entry error:", error);
+    logger.error("Rate food diary entry error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to rate entry" },
       { status: 500 },

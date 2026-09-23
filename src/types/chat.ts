@@ -23,11 +23,11 @@ export interface ConversationRecord {
   id: string;
   kind: ConversationKind;
   /** tables.id for 'table', circle id for 'circle', undefined for 'dm'. */
-  subjectRef?: string | undefined;
-  title?: string | undefined;
-  createdBy?: string | undefined;
-  dmUserLo?: string | undefined;
-  dmUserHi?: string | undefined;
+  subjectRef?: string;
+  title?: string;
+  createdBy?: string;
+  dmUserLo?: string;
+  dmUserHi?: string;
   lastMessageAt: string | null;
   archivedAt: string | null;
   createdAt: string;
@@ -59,17 +59,17 @@ export interface ChatMessage {
   /** Empty string for deleted tombstones. */
   body: string;
   attachments: ChatAttachment[];
-  replyToId?: string | undefined;
-  clientKey?: string | undefined;
+  replyToId?: string;
+  clientKey?: string;
   createdAt: string;
   editedAt: string | null;
   deletedAt: string | null;
   /** Denormalized sender display fields (joined at read time). */
-  senderName?: string | undefined;
-  senderAvatarUrl?: string | undefined;
-  senderIsAgent?: boolean | undefined;
+  senderName?: string;
+  senderAvatarUrl?: string;
+  senderIsAgent?: boolean;
   /** Client-only: a live/optimistic row not yet confirmed by a canonical fetch. */
-  pending?: boolean | undefined;
+  pending?: boolean;
 }
 
 export type MessageReportReason = "spam" | "harassment" | "inappropriate" | "other";
@@ -82,16 +82,16 @@ export interface MessageReport {
   conversationId: string;
   reporterId: string;
   reason: MessageReportReason;
-  detail?: string | undefined;
+  detail?: string;
   status: MessageReportStatus;
   createdAt: string;
   resolvedAt: string | null;
   resolvedBy: string | null;
   /** Joined context for the admin queue. */
-  messageBody?: string | undefined;
-  messageSenderId?: string | undefined;
-  messageHidden?: boolean | undefined;
-  conversationKind?: ConversationKind | undefined;
+  messageBody?: string;
+  messageSenderId?: string;
+  messageHidden?: boolean;
+  conversationKind?: ConversationKind;
 }
 
 /** One row of the /messages inbox. */
@@ -102,7 +102,7 @@ export interface InboxEntry {
   lastMessage: {
     id: string;
     senderId: string;
-    senderName?: string | undefined;
+    senderName?: string;
     body: string;
     createdAt: string;
   } | null;
@@ -110,10 +110,10 @@ export interface InboxEntry {
   /** For DMs: the other participant. */
   otherUser?: {
     id: string;
-    name?: string | undefined;
-    avatarUrl?: string | undefined;
-    isAgent?: boolean | undefined;
-  } | undefined;
+    name?: string;
+    avatarUrl?: string;
+    isAgent?: boolean;
+  };
 }
 
 export interface ChatUnread {

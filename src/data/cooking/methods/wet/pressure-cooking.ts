@@ -73,7 +73,7 @@ export const _pressureCooking: CookingMethodData = {
     // ThermodynamicProperties (from @/types/shared, declaring _entropy/_reactivity) that differs
     // structurally from the runtime object's keys (entropy/reactivity, read by scoring/stats consumers).
     // Pre-existing type drift previously masked by a loose cast; runtime keys are intentionally left unchanged.
-  } as unknown as CookingMethodData["thermodynamicProperties"],
+  } as unknown as NonNullable<CookingMethodData["thermodynamicProperties"]>,
 
   kineticProfile: {
     voltage: 0.75,            // High temp from pressure (250°F)

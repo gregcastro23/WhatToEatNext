@@ -6,8 +6,22 @@ import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnerg
 import { CompositeEnergySkeleton } from '@/components/commensal/skeletons';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { useGroupRecommendations } from '@/hooks/useCommensalRecommendations';
+import { readJson } from '@/lib/api/json';
 import { _logger } from '@/lib/logger';
-import type { GroupMember, ExtendedDiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
+import {
+  type CommensalMemberResponse,
+  type ExtendedDiningGroupWire,
+  type GroupMemberWire,
+  type LinkedCommensalWire,
+  CommensalListResponseSchema,
+  CommensalMemberResponseSchema,
+  DiningGroupListResponseSchema,
+  DiningGroupResponseSchema,
+  GenericActionResponseSchema,
+  LinkedCommensalsResponseSchema,
+  UserSearchResponseSchema,
+} from '@/lib/validation/commensalResponseSchemas';
+import type { CompositeNatalChart } from '@/types/natalChart';
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -47,7 +61,7 @@ const ELEMENT_EMOJI: Record<string, string> = {
   Fire: '🔥', Water: '💧', Earth: '🌿', Air: '💨',
 };
 
-const RELATIONSHIP_OPTIONS: Array<GroupMember['relationship']> = [
+const RELATIONSHIP_OPTIONS: Array<NonNullable<GroupMemberWire['relationship']>> = [
   'friend', 'family', 'partner', 'colleague', 'other',
 ];
 
@@ -129,7 +143,7 @@ function AddByEmailForm({
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Search failed');
-      const data = (await res.json()) as { success: boolean; users?: SearchResult[] };
+      const data = await readJson(res, { parse: UserSearchResponseSchema.parse });
       if (data.success) setResults(data.users ?? []);
     } catch (err: unknown) {
       _logger.error("[CommensalManager] handleSearch failed:", err);
@@ -167,7 +181,7 @@ function AddByEmailForm({
       });
 
       if (!res.ok) throw new Error('Failed to send request');
-      const data = (await res.json()) as { success: boolean; message?: string };
+      const data = await readJson(res, { parse: GenericActionResponseSchema.parse });
       if (data.success) {
         setMessage({ type: 'success', text: `Commensal request sent to ${userEmail}` });
         setSentTo((prev) => new Set(prev).add(userEmail));
@@ -275,11 +289,11 @@ function AddCommensalForm({
   onAdded,
   onCancel,
 }: {
-  onAdded: (c: GroupMember) => void;
+  onAdded: (c: GroupMemberWire) => void;
   onCancel: () => void;
 }): React.JSX.Element {
   const [name, setName] = useState('');
-  const [relationship, setRelationship] = useState<GroupMember['relationship']>('friend');
+  const [relationship, setRelationship] = useState<NonNullable<GroupMemberWire['relationship']>>('friend');
   const [dateTime, setDateTime] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
@@ -313,10 +327,10 @@ function AddCommensalForm({
           },
         }),
       });
-      let data: { success: boolean; message?: string; commensal?: GroupMember };
+      let data: CommensalMemberResponse;
       const contentType = res.headers.get('content-type') ?? '';
       if (contentType.includes('application/json')) {
-        data = (await res.json()) as { success: boolean; message?: string; commensal?: GroupMember };
+        data = await readJson(res, { parse: CommensalMemberResponseSchema.parse });
       } else {
         const raw = await res.text();
         _logger.error(`Non-JSON response from /api/user/commensals (${res.status}):`, raw);
@@ -368,11 +382,11 @@ function AddCommensalForm({
           <select
             id="commensal-relationship"
             value={relationship}
-            onChange={(e) => setRelationship(e.target.value as GroupMember['relationship'])}
+            onChange={(e) => setRelationship(e.target.value as NonNullable<GroupMemberWire['relationship']>)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
           >
             {RELATIONSHIP_OPTIONS.map((r) => (
-              <option key={r} value={r}>{r ? r.charAt(0).toUpperCase() + r.slice(1) : ''}</option>
+              <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>
             ))}
           </select>
         </div>
@@ -433,7 +447,7 @@ function AddCommensalForm({
 
 interface CompanionCardProps {
   name: string;
-  element: string;
+  element?: string;
   modality?: string;
   ascendant?: string;
   relationship?: string;
@@ -449,7 +463,7 @@ interface CompanionCardProps {
 const CompanionCard: React.FC<CompanionCardProps> = ({
   name, element, modality, ascendant, relationship, isLinked, selected, onToggle, onDelete, messageUserId,
 }) => {
-  const colorClass = ELEMENT_COLORS[element] ?? ELEMENT_COLORS.Fire;
+  const colorClass = element && ELEMENT_COLORS[element] ? ELEMENT_COLORS[element] : 'bg-gray-100 text-gray-700 border-gray-200';
 
   return (
     <div
@@ -487,9 +501,11 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
           )}
         </div>
         <div className="flex items-center gap-2 mt-0.5">
-          <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${colorClass}`}>
-            {ELEMENT_EMOJI[element]} {element}
-          </span>
+          {element && (
+            <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${colorClass}`}>
+              {ELEMENT_EMOJI[element]} {element}
+            </span>
+          )}
           {modality && (
             <span className="text-xs text-gray-400 capitalize">{modality}</span>
           )}
@@ -526,8 +542,8 @@ function GroupRecommendationsPanel({
 }: {
   commensalIds: string[];
   linkedUserIds: string[];
-  allMembers: GroupMember[];
-  linkedCommensals: LinkedCommensal[];
+  allMembers: GroupMemberWire[];
+  linkedCommensals: LinkedCommensalWire[];
 }): React.JSX.Element | null {
   const [strategy, setStrategy] = useState<'average' | 'minimum' | 'consensus'>('average');
   const { result, loading, refetch } = useGroupRecommendations({
@@ -647,10 +663,10 @@ function DiningGroupSection({
   onGroupDeleted,
   onGetRecs,
 }: {
-  groups: ExtendedDiningGroup[];
-  members: GroupMember[];
-  linkedCommensals: LinkedCommensal[];
-  onGroupCreated: (g: ExtendedDiningGroup) => void;
+  groups: ExtendedDiningGroupWire[];
+  members: GroupMemberWire[];
+  linkedCommensals: LinkedCommensalWire[];
+  onGroupCreated: (g: ExtendedDiningGroupWire) => void;
   onGroupDeleted: (id: string) => void;
   onGetRecs: (manualIds: string[], linkedIds: string[]) => void;
 }): React.JSX.Element {
@@ -694,7 +710,7 @@ function DiningGroupSection({
         }),
       });
       if (!res.ok) throw new Error(`Server error (${res.status})`);
-      const data = (await res.json()) as { success: boolean; message?: string; diningGroup?: ExtendedDiningGroup };
+      const data = await readJson(res, { parse: DiningGroupResponseSchema.parse });
       if (!data.success || !data.diningGroup) throw new Error(data.message ?? 'Failed to create group');
       onGroupCreated(data.diningGroup);
       setGroupName('');
@@ -759,7 +775,7 @@ function DiningGroupSection({
                   className="accent-purple-600"
                 />
                 <span className="text-sm text-gray-700">{c.name}</span>
-                <span className="text-xs text-gray-400 capitalize">{c.element}</span>
+                {c.element && <span className="text-xs text-gray-400 capitalize">{c.element}</span>}
                 {c.isLinked && (
                   <span className="text-[10px] text-green-600 font-medium">Linked</span>
                 )}
@@ -835,9 +851,9 @@ function DiningGroupSection({
 /* ─── Main Component ─────────────────────────────────────── */
 
 export const CommensalManager: React.FC = () => {
-  const [commensals, setCommensals] = useState<GroupMember[]>([]);
-  const [linkedCommensals, setLinkedCommensals] = useState<LinkedCommensal[]>([]);
-  const [groups, setGroups] = useState<ExtendedDiningGroup[]>([]);
+  const [commensals, setCommensals] = useState<GroupMemberWire[]>([]);
+  const [linkedCommensals, setLinkedCommensals] = useState<LinkedCommensalWire[]>([]);
+  const [groups, setGroups] = useState<ExtendedDiningGroupWire[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [addMode, setAddMode] = useState<AddMode>('manual');
@@ -856,15 +872,13 @@ export const CommensalManager: React.FC = () => {
           fetch('/api/commensals', { credentials: 'include' }),
         ]);
         if (!cRes.ok || !gRes.ok) throw new Error('Failed to load data');
-        const [cData, gData, lcData] = (await Promise.all([
-          cRes.json(),
-          gRes.json(),
-          lcRes.ok ? lcRes.json() : Promise.resolve({ success: false }),
-        ])) as [
-          { success: boolean; commensals?: GroupMember[] },
-          { success: boolean; diningGroups?: ExtendedDiningGroup[] },
-          { success: boolean; linkedCommensals?: LinkedCommensal[] },
-        ];
+        const [cData, gData, lcData] = await Promise.all([
+          readJson(cRes, { parse: CommensalListResponseSchema.parse }),
+          readJson(gRes, { parse: DiningGroupListResponseSchema.parse }),
+          lcRes.ok
+            ? readJson(lcRes, { parse: LinkedCommensalsResponseSchema.parse })
+            : Promise.resolve({ success: false, linkedCommensals: [] }),
+        ]);
         if (cData.success) setCommensals(cData.commensals ?? []);
         if (gData.success) setGroups(gData.diningGroups ?? []);
         if (lcData.success) setLinkedCommensals(lcData.linkedCommensals ?? []);
@@ -883,7 +897,7 @@ export const CommensalManager: React.FC = () => {
     try {
       const res = await fetch('/api/commensals', { credentials: 'include' });
       if (!res.ok) return;
-      const data = (await res.json()) as { success: boolean; linkedCommensals?: LinkedCommensal[] };
+      const data = await readJson(res, { parse: LinkedCommensalsResponseSchema.parse });
       if (data.success) setLinkedCommensals(data.linkedCommensals ?? []);
     } catch (err: unknown) {
       _logger.error("[CommensalManager] refreshLinkedCommensals failed:", err);
@@ -1015,10 +1029,10 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={m.id}
                 name={m.name}
-                element={m.natalChart.dominantElement}
-                modality={m.natalChart.dominantModality}
-                ascendant={m.natalChart.ascendant}
-                relationship={m.relationship}
+                {...(m.natalChart.dominantElement ? { element: m.natalChart.dominantElement } : {})}
+                {...(m.natalChart.dominantModality ? { modality: m.natalChart.dominantModality } : {})}
+                {...(m.natalChart.ascendant ? { ascendant: m.natalChart.ascendant } : {})}
+                {...(m.relationship ? { relationship: m.relationship } : {})}
                 selected={selectedManualIds.includes(m.id)}
                 onToggle={() => { toggleManualSelect(m.id); }}
                 onDelete={() => {
@@ -1034,9 +1048,9 @@ export const CommensalManager: React.FC = () => {
               <CompanionCard
                 key={f.userId}
                 name={f.name}
-                element={f.natalChart.dominantElement}
-                modality={f.natalChart.dominantModality}
-                ascendant={f.natalChart.ascendant}
+                {...(f.natalChart.dominantElement ? { element: f.natalChart.dominantElement } : {})}
+                {...(f.natalChart.dominantModality ? { modality: f.natalChart.dominantModality } : {})}
+                {...(f.natalChart.ascendant ? { ascendant: f.natalChart.ascendant } : {})}
                 isLinked
                 selected={selectedLinkedIds.includes(f.userId)}
                 onToggle={() => { toggleLinkedSelect(f.userId); }}

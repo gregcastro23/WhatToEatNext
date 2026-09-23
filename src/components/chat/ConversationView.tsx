@@ -53,7 +53,6 @@ export function ConversationView({
         isHost={isHost}
         isOwnMessage={isOwn}
         onReport={() => setReportTarget(message)}
-        onDelete={undefined}
       />
     );
   };

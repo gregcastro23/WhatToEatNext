@@ -155,10 +155,15 @@ console.log(
 // ── 3. Kalchm display range ─────────────────────────────────────────────────
 console.log("\n═══ 3. Kalchm rendering range ═══");
 const kalchms = rows.map((r) => r.kalchm!).filter(Number.isFinite).sort((a, b) => a - b);
+const kMin = kalchms[0];
+const kMax = kalchms[kalchms.length - 1];
+if (kMin === undefined || kMax === undefined) {
+  throw new Error("Expected non-empty kalchm values from method rows");
+}
 const wide = rows.filter((r) => r.kalchm! >= 10000);
 console.log(
-  `   min ${kalchms[0].toExponential(2)}   max ${kalchms[kalchms.length - 1].toExponential(2)}   ` +
-    `span ${(kalchms[kalchms.length - 1] / kalchms[0]).toExponential(1)}×`,
+  `   min ${kMin.toExponential(2)}   max ${kMax.toExponential(2)}   ` +
+    `span ${(kMax / kMin).toExponential(1)}×`,
 );
 console.log(`   ${wide.length} methods exceed 4 integer digits: ${wide.map((r) => r.id).join(", ")}`);
 console.log("   Rendered with .toFixed(3) these overflowed their card. Now scientific notation + ln K.");
@@ -166,8 +171,14 @@ console.log("   Rendered with .toFixed(3) these overflowed their card. Now scien
 // ── 4. Greg's Energy range vs the harmony-score calibration ──────────────────
 console.log("\n═══ 4. Greg's Energy range vs the thermo dimension's calibration ═══");
 const ge = rows.map((r) => r.gregsEnergy).sort((a, b) => a - b);
+const geMin = ge[0];
+const geMax = ge[ge.length - 1];
+const geMedian = ge[Math.floor(ge.length / 2)];
+if (geMin === undefined || geMax === undefined || geMedian === undefined) {
+  throw new Error("Expected non-empty gregsEnergy values from method rows");
+}
 console.log(
-  `   min ${ge[0].toFixed(3)}   median ${ge[Math.floor(ge.length / 2)].toFixed(3)}   max ${ge[ge.length - 1].toFixed(3)}`,
+  `   min ${geMin.toFixed(3)}   median ${geMedian.toFixed(3)}   max ${geMax.toFixed(3)}`,
 );
 const oldScore = (g: number) => Math.max(5, Math.min(100, 60 + g * 40));
 const oldFloored = ge.filter((g) => oldScore(g) <= 5.0001).length;

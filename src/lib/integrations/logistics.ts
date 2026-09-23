@@ -126,11 +126,13 @@ export class LogisticsClient {
         ? cents((result.fee as Record<string, unknown>).total_fee_cents)
         : cents(result.delivery_fee_cents);
 
+    const estimatedDeliveryTime = text(result.estimated_dropoff_time);
+
     return {
       trackingId,
       deliveryFeeCents: fee,
       status: "driver_assigned",
-      estimatedDeliveryTime: text(result.estimated_dropoff_time) || undefined,
+      ...(estimatedDeliveryTime ? { estimatedDeliveryTime } : {}),
     };
   }
 }

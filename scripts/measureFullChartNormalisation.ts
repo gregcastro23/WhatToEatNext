@@ -38,7 +38,13 @@ import { PLANETARY_SECTARIAN_ESMS, ZODIAC_ELEMENTS } from "../src/utils/planetar
 const SIGNS = Object.keys(ZODIAC_ELEMENTS);
 const PLANETS = ["Sun","Moon","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto"];
 const f = (n: number) => n.toFixed(6);
-const q = (xs: number[], p: number) => { const s=[...xs].sort((a,b)=>a-b); return s[Math.floor((s.length-1)*p)]; };
+const q = (xs: number[], p: number): number => {
+  if (xs.length === 0) throw new Error("Cannot calculate quantile for empty sample");
+  const s = [...xs].sort((a, b) => a - b);
+  const val = s[Math.floor((s.length - 1) * p)];
+  if (val === undefined) throw new Error("Quantile index out of bounds");
+  return val;
+};
 
 // ─────────── 1. MEASURE the single-body reference mass ───────────
 const singleMasses: number[] = [];

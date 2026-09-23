@@ -23,6 +23,12 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 const CACHE_PREFIX = "agent_recipe:";
 const CACHE_TTL_SECONDS = 26 * 60 * 60; // ~26h — outlives the hourly rotating cron
 const PA_TIMEOUT_MS = 45_000;
+/**
+ * Don't start a generation with less than this left: the fastest real PA
+ * generation measured was 13.7s (/api/generate-cosmic-recipe, 2026-08-19),
+ * so a shorter window can only abort.
+ */
+const MIN_ATTEMPT_MS = 15_000;
 const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
 type FeedElementLocal = (typeof ELEMENTS)[number];
 
@@ -82,70 +88,83 @@ interface PrewarmAgentRow {
   natal_positions: unknown;
 }
 
-async function generateOne(row: PrewarmAgentRow): Promise<boolean> {
+function buildPaRequestBody(row: PrewarmAgentRow): Record<string, unknown> | null {
   const positions = normalizedFromNatal(row.natal_positions);
-  if (Object.keys(positions).length === 0) return false; // need a chart to ground
+  if (Object.keys(positions).length === 0) return null; // need a chart to ground
 
   const element = matchElement(row.dominant_element, "Fire");
-  const esms = calculateAlchemicalFromPlanets(positions);
   let thermodynamicProperties: unknown;
   try {
-    thermodynamicProperties = (
-      alchemize(positions) as { thermodynamicProperties?: unknown }
-    )?.thermodynamicProperties;
+    ({ thermodynamicProperties } = alchemize(positions));
   } catch {
     thermodynamicProperties = undefined;
   }
-  const topIngredients = findTopIngredientsForElement(element, 8).map((i) => i.name);
   const agentName = row.name ?? row.email?.split("@")[0] ?? "a historical alchemist";
+  return {
+    prompt: `A signature dish from ${agentName}, attuned to their natal chart and today's cosmic energies.`,
+    dominantElement: element,
+    topIngredients: findTopIngredientsForElement(element, 8).map((i) => i.name),
+    birthData: { name: agentName, natalPositions: asArray(row.natal_positions) },
+    dietPreference: "omnivore",
+    alchemicalState: calculateAlchemicalFromPlanets(positions),
+    thermodynamicProperties,
+    tier: "premium",
+  };
+}
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), PA_TIMEOUT_MS);
-  let res: Response;
-  try {
-    res = await fetch(`${getServiceUrl("planetaryAgentsApi")}/api/generate-recipe`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: `A signature dish from ${agentName}, attuned to their natal chart and today's cosmic energies.`,
-        dominantElement: element,
-        topIngredients,
-        birthData: { name: agentName, natalPositions: asArray(row.natal_positions) },
-        dietPreference: "omnivore",
-        alchemicalState: esms,
-        thermodynamicProperties,
-        tier: "premium",
-      }),
-      signal: controller.signal,
-    });
-  } catch (error) {
-    _logger.error(`[prewarm] PA fetch failed for ${agentName}:`, error);
-    return false;
-  } finally {
-    clearTimeout(timeout);
+let warnedMissingSecret = false;
+
+export function resetPrewarmAuthWarning(): void {
+  warnedMissingSecret = false;
+}
+
+export function getPaAuthHeaders(): Record<string, string> {
+  const secret = process.env.INTERNAL_API_SECRET;
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (secret) {
+    headers["Authorization"] = `Bearer ${secret}`;
+  } else if (!warnedMissingSecret) {
+    warnedMissingSecret = true;
+    _logger.warn("[prewarm] INTERNAL_API_SECRET is unset; recipe prewarm request to PA is unauthenticated");
   }
+  return headers;
+}
 
-  if (!res.ok) {
-    _logger.error(`[prewarm] PA returned ${res.status} for ${agentName}`);
-    return false;
-  }
-
+/**
+ * One PA generation, bounded end to end: `AbortSignal.timeout` covers the body
+ * read as well as the headers, so a slow stream cannot outlive the budget the
+ * caller handed us.
+ */
+async function generateOne(row: PrewarmAgentRow, timeoutMs: number): Promise<boolean> {
+  const body = buildPaRequestBody(row);
+  if (!body) return false;
+  const label = row.name ?? row.id;
   let parsed: unknown;
   try {
+    const res = await fetch(`${getServiceUrl("planetaryAgentsApi")}/api/generate-recipe`, {
+      method: "POST",
+      headers: getPaAuthHeaders(),
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    if (!res.ok) {
+      _logger.error(`[prewarm] PA returned ${res.status} for ${label}`);
+      return false;
+    }
     parsed = await res.json();
-  } catch {
+  } catch (error) {
+    _logger.error(`[prewarm] PA call failed for ${label} (budget ${timeoutMs}ms):`, error);
     return false;
   }
   const validation = cosmicRecipeSchema.safeParse(parsed);
   if (!validation.success) {
-    _logger.error(`[prewarm] PA recipe failed schema for ${agentName}`);
+    _logger.error(`[prewarm] PA recipe failed schema for ${label}`);
     return false;
   }
-
   const recipe = validation.data;
   const cached: CachedAgentRecipe = {
     title: recipe.title,
-    element: matchElement(recipe.tags.elements[0], element),
+    element: matchElement(recipe.tags.elements[0], matchElement(row.dominant_element, "Fire")),
     cuisine: recipe.cuisine,
     source: "pa",
   };
@@ -153,44 +172,66 @@ async function generateOne(row: PrewarmAgentRow): Promise<boolean> {
   return true;
 }
 
+export interface PrewarmResult {
+  /** Agents selected for this run. */
+  selected: number;
+  /** Generations actually started. */
+  attempted: number;
+  generated: number;
+  /** Selected but not started because too little of the budget remained. */
+  skippedForBudget: number;
+}
+
+async function selectAgents(limit: number): Promise<PrewarmAgentRow[]> {
+  const result = await executeQuery<PrewarmAgentRow & Record<string, unknown>>(
+    `SELECT u.id, u.email, up.name, up.dominant_element, up.natal_positions
+       FROM users u
+       JOIN user_profiles up ON up.user_id = u.id
+       LEFT JOIN calculation_cache c ON c.cache_key = $2 || u.id::text
+      WHERE COALESCE(u.is_agent, false) = true
+        AND COALESCE(u.is_active, true) = true
+        AND up.natal_positions IS NOT NULL
+        AND up.natal_positions::text NOT IN ('[]', 'null', '{}')
+      ORDER BY c.expires_at ASC NULLS FIRST
+      LIMIT $1`,
+    [limit, CACHE_PREFIX],
+  );
+  return result.rows;
+}
+
 /**
  * Generate + cache PA recipes for a rotating slice of chart-bearing agents
- * (those with the oldest / missing cache first). Sequential to avoid hammering
- * PA's LLM. Per-agent failures are skipped.
+ * (oldest / missing cache first). Sequential to avoid hammering PA's LLM.
+ *
+ * Deadline-aware: PA generations measure 12-34s each, so three at the old
+ * fixed 45s timeout could need 135s inside a 60s function, and Vercel killed
+ * this cron mid-flight 15 times, taking its heartbeat with it. Each call now
+ * gets at most the time left before `deadlineMs`, and no call starts with
+ * less than MIN_ATTEMPT_MS left.
+ *
+ * Throws when the agent query fails, so the cron records a real failure
+ * instead of a "success" that generated nothing.
  */
 export async function prewarmAgentRecipes(
   limit = 3,
-): Promise<{ attempted: number; generated: number }> {
-  let rows: PrewarmAgentRow[] = [];
-  try {
-    const result = await executeQuery<PrewarmAgentRow>(
-      `SELECT u.id, u.email, up.name, up.dominant_element, up.natal_positions
-         FROM users u
-         JOIN user_profiles up ON up.user_id = u.id
-         LEFT JOIN calculation_cache c ON c.cache_key = $2 || u.id::text
-        WHERE COALESCE(u.is_agent, false) = true
-          AND COALESCE(u.is_active, true) = true
-          AND up.natal_positions IS NOT NULL
-          AND up.natal_positions::text NOT IN ('[]', 'null', '{}')
-        ORDER BY c.expires_at ASC NULLS FIRST
-        LIMIT $1`,
-      [limit, CACHE_PREFIX],
-    );
-    ({ rows } = result);
-  } catch (error) {
-    _logger.error("[prewarm] agent query failed:", error);
-    return { attempted: 0, generated: 0 };
-  }
-
-  let generated = 0;
+  deadlineMs: number = Date.now() + PA_TIMEOUT_MS,
+): Promise<PrewarmResult> {
+  const rows = await selectAgents(limit);
+  const result: PrewarmResult = { selected: rows.length, attempted: 0, generated: 0, skippedForBudget: 0 };
   for (const row of rows) {
+    const remaining = deadlineMs - Date.now();
+    if (remaining < MIN_ATTEMPT_MS) {
+      result.skippedForBudget = rows.length - result.attempted;
+      break;
+    }
+    result.attempted += 1;
     try {
-      if (await generateOne(row)) generated += 1;
+      if (await generateOne(row, Math.min(PA_TIMEOUT_MS, remaining))) result.generated += 1;
     } catch (error) {
       _logger.error("[prewarm] generateOne threw:", error);
     }
   }
-  return { attempted: rows.length, generated };
+  return result;
 }
 
 /** Batch-read cached PA recipes for the given agent ids. */

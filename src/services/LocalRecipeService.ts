@@ -3,13 +3,17 @@ import { after } from "next/server";
 import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
+import {
+  RecipeNutritionSchema,
+  toDomainRecipeNutrition,
+} from "@/lib/validation/recipeResponseSchemas";
 import type {
   ElementalProperties,
   Recipe,
   RecipeIngredient,
-  RecipeNutrition,
 } from "@/types/recipe";
 import { publicCuisine } from "@/utils/internalCuisineCodes";
+import { _logger } from "@/lib/logger";
 import { logger } from "@/utils/logger";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -46,7 +50,7 @@ interface RecipeReadModel {
   cook_time_minutes?: number | null;
   servings?: number | null;
   elemental_properties?: RecipeReadModelElementalProperties | null;
-  nutritional_profile?: RecipeNutrition | null;
+  nutritional_profile?: NonNullable<Recipe['nutrition']> | null;
 }
 
 interface DbRecipeRow {
@@ -101,33 +105,54 @@ const RECIPE_QUERY = `
   WHERE r.is_public = true
 `;
 
-function parseJsonValue<T>(value: unknown, fallback: T): T {
+function parseJsonUnknown(value: unknown): unknown {
   if (value == null) {
-    return fallback;
+    return null;
   }
 
   if (typeof value === "string") {
     try {
-      return JSON.parse(value) as T;
+      return JSON.parse(value);
     } catch {
-      return fallback;
+      return null;
     }
   }
 
-  return value as T;
+  return value;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseRecipeNutrition(value: unknown): NonNullable<Recipe["nutrition"]> | undefined {
+  const unparsed = parseJsonUnknown(value);
+  if (!unparsed || typeof unparsed !== "object") {
+    return undefined;
+  }
+  if (Object.keys(unparsed).length === 0) {
+    return undefined;
+  }
+  const result = RecipeNutritionSchema.safeParse(unparsed);
+  if (result.success) {
+    return toDomainRecipeNutrition(result.data);
+  }
+  _logger.error("[LocalRecipeService] Recipe nutrition rejected by schema:", {
+    errors: result.error.issues,
+    keys: Object.keys(unparsed),
+  });
+  return undefined;
 }
 
 function normalizeInstructions(value: unknown): string[] {
-  const parsed = parseJsonValue<unknown>(value, []);
+  const parsed = parseJsonUnknown(value) ?? [];
 
   if (Array.isArray(parsed)) {
     return parsed
       .map((step) => {
         if (typeof step === "string") return step;
-        if (step && typeof step === "object") {
-          const candidate = (step as Record<string, unknown>).instruction
-            ?? (step as Record<string, unknown>).text
-            ?? (step as Record<string, unknown>).step;
+        if (isRecord(step)) {
+          const candidate = step.instruction ?? step.text ?? step.step;
           return typeof candidate === "string" ? candidate : null;
         }
         return null;
@@ -135,8 +160,8 @@ function normalizeInstructions(value: unknown): string[] {
       .filter((step): step is string => Boolean(step));
   }
 
-  if (parsed && typeof parsed === "object") {
-    const { steps } = (parsed as Record<string, unknown>);
+  if (isRecord(parsed)) {
+    const { steps } = parsed;
     return normalizeInstructions(steps);
   }
 
@@ -148,33 +173,37 @@ function normalizeInstructions(value: unknown): string[] {
 }
 
 function normalizeIngredients(value: unknown): RecipeIngredient[] {
-  const parsed = parseJsonValue<unknown[]>(value, []);
+  const parsed = parseJsonUnknown(value) ?? [];
   if (!Array.isArray(parsed)) {
     return [];
   }
 
   return parsed
     .map((ingredient): RecipeIngredient | null => {
-      if (!ingredient || typeof ingredient !== "object") {
+      if (!isRecord(ingredient)) {
         return null;
       }
 
-      const record = ingredient as Record<string, unknown>;
-      const name = typeof record.name === "string" ? record.name : (record.ingredient as string);
+      const record = ingredient;
+      const name = typeof record.name === "string" ? record.name : (typeof record.ingredient === "string" ? record.ingredient : null);
       if (!name) {
         return null;
       }
 
+      const id = typeof record.id === "string" ? record.id : undefined;
+      const notes = typeof record.notes === "string" ? record.notes : (typeof record.preparation === "string" ? record.preparation : undefined);
+      const category = typeof record.category === "string" ? record.category : undefined;
+      const asin = typeof record.asin === "string" ? record.asin : (typeof record.amazon_asin === "string" ? record.amazon_asin : undefined);
+
       return {
-        id: typeof record.id === "string" ? record.id : undefined,
         name,
         amount: Number(record.amount ?? record.quantity ?? 0),
         unit: typeof record.unit === "string" ? record.unit : "",
         optional: Boolean(record.optional),
-        notes: typeof record.notes === "string" ? record.notes : (record.preparation as string),
-        category:
-          typeof record.category === "string" ? record.category : undefined,
-        asin: typeof record.asin === "string" ? record.asin : (typeof record.amazon_asin === "string" ? record.amazon_asin : undefined),
+        ...(id !== undefined ? { id } : {}),
+        ...(notes !== undefined ? { notes } : {}),
+        ...(category !== undefined ? { category } : {}),
+        ...(asin !== undefined ? { asin } : {}),
       };
     })
     .filter((ingredient): ingredient is RecipeIngredient => Boolean(ingredient));
@@ -212,7 +241,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     const servings = rm.servings ?? row.servings;
     const createdAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
     const updatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
-    const nutrition = rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined) : undefined);
+    const nutrition = parseRecipeNutrition(rm.nutritional_profile ?? row.nutritional_profile);
     const cuisine = publicCuisine(rm.cuisine ?? row.cuisine);
 
     return {
@@ -241,7 +270,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
       isVegan: hasDietaryTag(dietaryTags, "vegan"),
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
       isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
-      ...(nutrition ? { nutrition: nutrition as unknown as Recipe['nutrition'] } : {}),
+      ...(nutrition ? { nutrition } : {}),
       tags: dietaryTags,
       ...(createdAt ? { createdAt } : {}),
       ...(updatedAt ? { updatedAt } : {}),
@@ -258,7 +287,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
   const legacyServings = row.servings;
   const legacyCreatedAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
   const legacyUpdatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
-  const legacyNutrition = parseJsonValue<RecipeNutrition | undefined>(row.nutritional_profile, undefined);
+  const legacyNutrition = parseRecipeNutrition(row.nutritional_profile);
   const legacyCuisine = publicCuisine(row.cuisine ?? row.cuisine_type);
 
   return {
@@ -282,7 +311,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
     isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree"),
     isDairyFree: hasDietaryTag(dietaryTags, "dairyfree"),
-    ...(legacyNutrition ? { nutrition: legacyNutrition as unknown as Recipe['nutrition'] } : {}),
+    ...(legacyNutrition ? { nutrition: legacyNutrition } : {}),
     tags: dietaryTags,
     ...(legacyCreatedAt ? { createdAt: legacyCreatedAt } : {}),
     ...(legacyUpdatedAt ? { updatedAt: legacyUpdatedAt } : {}),

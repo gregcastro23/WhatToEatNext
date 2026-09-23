@@ -688,7 +688,7 @@ class UserDatabaseService {
   async updateUserProfile(
     userId: string,
     profileData: Partial<UserProfile>,
-    fallbackEmail?: string,
+    fallbackEmail?: string | undefined,
   ): Promise<UserWithProfile | null> {
     await this.ensureInitialized();
     const db = await getDbModule();

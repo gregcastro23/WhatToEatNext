@@ -125,12 +125,12 @@ export async function GET(request: Request): Promise<NextResponse> {
 
       // We'll also return elemental properties for display
       return {
-        id: recipe.id,
-        name: recipe.name,
+        ...(recipe.id !== undefined ? { id: recipe.id } : {}),
+        ...(recipe.name !== undefined ? { name: recipe.name } : {}),
         cuisine: recipe.cuisine ?? recipe.details?.cuisine ?? null,
         matchScore,
-        elementalProperties: recipe.elementalProperties,
-        alchemicalProperties: recipe.alchemicalProperties,
+        ...(recipe.elementalProperties !== undefined ? { elementalProperties: recipe.elementalProperties } : {}),
+        ...(recipe.alchemicalProperties !== undefined ? { alchemicalProperties: recipe.alchemicalProperties } : {}),
         thermodynamicProperties: {
           heat: rHeat,
           entropy: rEntropy,

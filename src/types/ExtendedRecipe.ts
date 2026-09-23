@@ -230,36 +230,62 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
       typeof recipeData.preparationNotes === "string"
         ? recipeData.preparationNotes
         : "",
-    ingredients: ingredients.map((ingredient, index) => ({
-      ...ingredient,
-      id:
-        typeof ingredient.id === "string"
-          ? ingredient.id
-          : `${recipeId}-ingredient-${index + 1}`,
-      preparation:
-        typeof ingredient.preparation === "string"
-          ? ingredient.preparation
-          : "",
-      optional:
-        typeof ingredient.optional === "boolean" ? ingredient.optional : false,
-      notes: typeof ingredient.notes === "string" ? ingredient.notes : "",
-      category: readOptionalString(ingredient.category),
-      function: readOptionalString(ingredient.function),
-      asin: readOptionalString(ingredient.asin),
-      cookingPoint: readOptionalString(ingredient.cookingPoint),
-      substitutes: readOptionalStringArray(ingredient.substitutes),
-      elementalProperties: readElementalProperties(
+    ingredients: ingredients.map((ingredient, index) => {
+      const {
+        category: _rawCategory,
+        function: _rawFunc,
+        asin: _rawAsin,
+        cookingPoint: _rawCookingPoint,
+        substitutes: _rawSubstitutes,
+        elementalProperties: _rawElemental,
+        seasonality: _rawSeasonality,
+        zodiacInfluences: _rawZodiac,
+        planetaryInfluences: _rawPlanetary,
+        lunarPhaseInfluences: _rawLunar,
+        ...restIngredient
+      } = ingredient;
+      const category = readOptionalString(ingredient.category);
+      const func = readOptionalString(ingredient.function);
+      const asin = readOptionalString(ingredient.asin);
+      const cookingPoint = readOptionalString(ingredient.cookingPoint);
+      const substitutes = readOptionalStringArray(ingredient.substitutes);
+      const elementalProperties = readElementalProperties(
         ingredient.elementalProperties,
-      ),
-      seasonality: readSeasonality(ingredient.seasonality),
-      zodiacInfluences: Array.isArray(ingredient.zodiacInfluences)
+      );
+      const seasonality = readSeasonality(ingredient.seasonality);
+      const zodiacInfluences = Array.isArray(ingredient.zodiacInfluences)
         ? ingredient.zodiacInfluences
-        : undefined,
-      planetaryInfluences: readOptionalStringArray(
+        : undefined;
+      const planetaryInfluences = readOptionalStringArray(
         ingredient.planetaryInfluences,
-      ),
-      lunarPhaseInfluences: readLunarPhases(ingredient.lunarPhaseInfluences),
-    })),
+      );
+      const lunarPhaseInfluences = readLunarPhases(ingredient.lunarPhaseInfluences);
+
+      return {
+        ...restIngredient,
+        id:
+          typeof ingredient.id === "string"
+            ? ingredient.id
+            : `${recipeId}-ingredient-${index + 1}`,
+        preparation:
+          typeof ingredient.preparation === "string"
+            ? ingredient.preparation
+            : "",
+        optional:
+          typeof ingredient.optional === "boolean" ? ingredient.optional : false,
+        notes: typeof ingredient.notes === "string" ? ingredient.notes : "",
+        ...(category !== undefined ? { category } : {}),
+        ...(func !== undefined ? { function: func } : {}),
+        ...(asin !== undefined ? { asin } : {}),
+        ...(cookingPoint !== undefined ? { cookingPoint } : {}),
+        ...(substitutes !== undefined ? { substitutes } : {}),
+        ...(elementalProperties !== undefined ? { elementalProperties } : {}),
+        ...(seasonality !== undefined ? { seasonality } : {}),
+        ...(zodiacInfluences !== undefined ? { zodiacInfluences } : {}),
+        ...(planetaryInfluences !== undefined ? { planetaryInfluences } : {}),
+        ...(lunarPhaseInfluences !== undefined ? { lunarPhaseInfluences } : {}),
+      };
+    }),
   };
 }
 export default ExtendedRecipe;

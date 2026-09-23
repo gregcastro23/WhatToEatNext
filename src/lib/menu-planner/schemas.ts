@@ -74,7 +74,7 @@ export const enhancedRecipeSchema: z.ZodType<EnhancedRecipe> = z
     title: recipe.title ?? recipe.name,
   }));
 
-export const celestialPositionSchema: z.ZodType<CelestialPosition> = z.object({
+const celestialPositionWireSchema = z.object({
   sign: z.string().optional(),
   degree: z.number().finite().optional(),
   exactLongitude: z.number().finite().optional(),
@@ -91,6 +91,25 @@ export const celestialPositionSchema: z.ZodType<CelestialPosition> = z.object({
     .enum(["Domicile", "Exaltation", "Detriment", "Fall", "Neutral"])
     .optional(),
 });
+
+export const celestialPositionSchema: z.ZodType<CelestialPosition> =
+  celestialPositionWireSchema.transform((raw): CelestialPosition => {
+    const pos: CelestialPosition = {};
+    if (raw.sign !== undefined) pos.sign = raw.sign;
+    if (raw.degree !== undefined) pos.degree = raw.degree;
+    if (raw.exactLongitude !== undefined) pos.exactLongitude = raw.exactLongitude;
+    if (raw.isRetrograde !== undefined) pos.isRetrograde = raw.isRetrograde;
+    if (raw.retrogradeSymbol !== undefined) pos.retrogradeSymbol = raw.retrogradeSymbol;
+    if (raw.minute !== undefined) pos.minute = raw.minute;
+    if (raw.minutes !== undefined) pos.minutes = raw.minutes;
+    if (raw.speed !== undefined) pos.speed = raw.speed;
+    if (raw.longitudeSpeed !== undefined) pos.longitudeSpeed = raw.longitudeSpeed;
+    if (raw.arcminutesPerDay !== undefined) pos.arcminutesPerDay = raw.arcminutesPerDay;
+    if (raw.speedDisplay !== undefined) pos.speedDisplay = raw.speedDisplay;
+    if (raw.element !== undefined) pos.element = raw.element;
+    if (raw.dignity !== undefined) pos.dignity = raw.dignity;
+    return pos;
+  });
 
 export const planetaryPositionsSchema: z.ZodType<
   NonNullable<PlanetarySnapshot["planetaryPositions"]>

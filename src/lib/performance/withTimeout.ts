@@ -11,6 +11,10 @@
  * cancellation — it keeps running in the background until it settles. Pair
  * with an explicit AbortController where the work supports one.
  */
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("withTimeout");
+
 export function withTimeout<T>(
   promise: Promise<T>,
   ms: number,
@@ -21,7 +25,7 @@ export function withTimeout<T>(
   const deadline = new Promise<T>((resolve) => {
     timer = setTimeout(() => {
       if (label) {
-        console.warn(`[withTimeout] ${label} exceeded ${ms}ms — using fallback`);
+        logger.warn(`${label} exceeded ${ms}ms — using fallback`);
       }
       resolve(fallback);
     }, ms);

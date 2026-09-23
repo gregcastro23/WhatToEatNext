@@ -93,19 +93,17 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     // Non-members (incl. anonymous viewers of a public memory) never see the
     // host's street address — parity with the invite preview and the frozen
     // memory artifact, both of which carry only venue {type, name}.
-    let table: typeof detail =
-      !isMember && detail.venue?.address
-        ? { ...detail, venue: { ...detail.venue, address: undefined } }
-        : detail;
+    let table: typeof detail = detail;
+    if (!isMember && detail.venue?.address) {
+      const { address: _stripped, ...safeVenue } = detail.venue;
+      table = { ...table, venue: safeVenue };
+    }
 
-    // Card-level only for a non-member viewer of a public PLANNED/LIVE table:
-    // reduce members to the host row (identity for the card) and drop invites.
-    // joinedCount surfaces the headcount without exposing the roster. The
-    // existing public-memory path is untouched (it renders the frozen artifact).
     const joinedCount = detail.members.filter((m) => m.rsvpStatus === "joined").length;
     if (!isMember && publicJoinable) {
       const hostRow = table.members.filter((m) => m.role === "host");
-      table = { ...table, members: hostRow, invites: undefined };
+      const { invites: _strippedInvites, ...tableWithoutInvites } = table;
+      table = { ...tableWithoutInvites, members: hostRow };
     }
 
     // viewerId: the caller's resolved DB id — clients must not derive this
@@ -119,6 +117,35 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       { status: 500 },
     );
   }
+}
+
+type CorePatchData = Omit<z.infer<typeof patchSchema>, "menu" | "venueLat" | "venueLng">;
+
+function buildCorePatchPayload(
+  corePatch: CorePatchData,
+  scheduledAtIso: string | undefined,
+  resolvedLat: number | null | undefined,
+  resolvedLng: number | null | undefined,
+): Parameters<typeof tableDatabase.updateTableCore>[2] {
+  return {
+    ...(corePatch.title !== undefined ? { title: corePatch.title } : {}),
+    ...(corePatch.description !== undefined ? { description: corePatch.description } : {}),
+    ...(scheduledAtIso !== undefined ? { scheduledAt: scheduledAtIso } : {}),
+    ...(corePatch.venue !== undefined
+      ? {
+          venue: {
+            type: corePatch.venue.type,
+            ...(corePatch.venue.restaurantId !== undefined ? { restaurantId: corePatch.venue.restaurantId } : {}),
+            ...(corePatch.venue.name !== undefined ? { name: corePatch.venue.name } : {}),
+            ...(corePatch.venue.address !== undefined ? { address: corePatch.venue.address } : {}),
+          },
+        }
+      : {}),
+    ...(corePatch.visibility !== undefined ? { visibility: corePatch.visibility } : {}),
+    ...(resolvedLat !== undefined ? { venueLat: resolvedLat } : {}),
+    ...(resolvedLng !== undefined ? { venueLng: resolvedLng } : {}),
+    ...(corePatch.seatCap !== undefined ? { seatCap: corePatch.seatCap } : {}),
+  };
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
@@ -191,17 +218,15 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       resolvedLng = coords.venueLng;
     }
 
-    const hasCorePatch =
-      Object.values(corePatch).some((v) => v !== undefined);
+    const hasCorePatch = Object.keys(corePatch).length > 0;
     let table: TableRecord | null = null;
 
     if (hasCorePatch) {
-      table = await tableDatabase.updateTableCore(tableId, userId, {
-        ...corePatch,
-        scheduledAt: scheduledAtIso,
-        venueLat: resolvedLat,
-        venueLng: resolvedLng,
-      });
+      table = await tableDatabase.updateTableCore(
+        tableId,
+        userId,
+        buildCorePatchPayload(corePatch, scheduledAtIso, resolvedLat, resolvedLng),
+      );
       if (!table) {
         return NextResponse.json(
           { success: false, message: "Core fields can only be edited while the table is planned" },
@@ -211,7 +236,15 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     if (menu !== undefined) {
-      table = await tableDatabase.updateTableMenu(tableId, userId, menu);
+      table = await tableDatabase.updateTableMenu(
+        tableId,
+        userId,
+        menu.map((item) => ({
+          name: item.name,
+          ...(item.recipeRef ? { recipeRef: item.recipeRef } : {}),
+          ...(item.course ? { course: item.course } : {}),
+        })),
+      );
       if (!table) {
         return NextResponse.json(
           { success: false, message: "The menu can only be edited while the table is planned or live" },

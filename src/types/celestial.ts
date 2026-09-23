@@ -144,13 +144,9 @@ export interface PlanetaryAlignment {
   Ascendant?: CelestialPosition;
 }
 
-// Elemental properties
-export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-}
+// Elemental properties (re-export canonical definition from src/types/alchemy.ts)
+// eslint-disable-next-line import/no-cycle -- type-only re-export for cross-module type unification
+export type { ElementalProperties } from "./alchemy";
 
 // Alchemical properties
 export interface AlchemicalProperties {

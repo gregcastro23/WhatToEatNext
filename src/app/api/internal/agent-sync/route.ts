@@ -12,6 +12,7 @@ import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { withTransaction } from "@/lib/database";
+import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { jsonbOrNull } from "@/services/userDatabaseService";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest | Request) {
       );
     }
 
-    if (!clientSecret || clientSecret !== syncSecret) {
+    if (!safeEqual(clientSecret, syncSecret)) {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
         { status: 401 },
@@ -140,12 +141,13 @@ export async function POST(req: NextRequest | Request) {
       try {
         const parsedDate = new Date(`${birthDate}T${timeStr}`);
         if (!Number.isNaN(parsedDate.getTime())) {
+          const locName = birthLocation.name ?? birthLocation.displayName;
           birthData = {
             dateTime: parsedDate.toISOString(),
             latitude: Number(birthLocation.latitude),
             longitude: Number(birthLocation.longitude),
-            timezone: birthLocation.timezone ?? undefined,
-            name: birthLocation.name ?? birthLocation.displayName ?? undefined,
+            ...(birthLocation.timezone ? { timezone: birthLocation.timezone } : {}),
+            ...(locName ? { name: locName } : {}),
           };
         }
       } catch (err) {

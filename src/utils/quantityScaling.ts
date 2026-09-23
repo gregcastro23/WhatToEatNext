@@ -216,7 +216,7 @@ export function createQuantityScaledProperties(
     quantity,
     unit,
     factor,
-    kineticsImpact,
+    ...(kineticsImpact !== undefined ? { kineticsImpact } : {}),
   };
 }
 

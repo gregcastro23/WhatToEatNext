@@ -18,37 +18,13 @@ import { Metric } from "@/components/admin/kit/Metric";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
-
-interface RequestEntry {
-  id: number;
-  at: string;
-  method: string;
-  path: string;
-  status: number;
-  latencyMs: number;
-}
-
-interface ObservabilitySummary {
-  count: number;
-  p50LatencyMs: number;
-  p95LatencyMs: number;
-  p99LatencyMs: number;
-  errorRate: number;
-  topPaths: Array<{ path: string; count: number }>;
-}
-
-interface ObservabilityResponse {
-  success: boolean;
-  requests: {
-    summary: ObservabilitySummary;
-    recent: RequestEntry[];
-    recentFailures: RequestEntry[];
-  };
-  slowQueries: {
-    summary: unknown;
-    recent: Array<{ ms: number; preview: string }>;
-  };
-}
+import { readJson } from "@/lib/api/json";
+import {
+  ObservabilityResponseSchema,
+  type ObservabilityResponse,
+  type ObservabilitySummary,
+  type RequestEntry,
+} from "@/lib/validation/adminResponseSchemas";
 
 interface PerPathRow {
   path: string;
@@ -116,7 +92,9 @@ export default function ApiRouteHealthPanel(): React.JSX.Element {
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as ObservabilityResponse;
+      const json = await readJson(res, {
+        parse: (raw) => ObservabilityResponseSchema.parse(raw),
+      });
       if (!json.success || !json.requests) {
         setError("Observability payload malformed");
         return { ok: false };

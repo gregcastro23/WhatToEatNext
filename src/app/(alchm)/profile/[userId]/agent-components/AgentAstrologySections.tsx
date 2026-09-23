@@ -79,9 +79,9 @@ export const NatalChartSection: React.FC<{ agent: CraftedAgentProfile }> = ({ ag
 };
 
 const DietColumns: React.FC<{
-  staples?: string[];
-  favoriteFoods?: string[];
-  avoidedFoods?: string[];
+  staples?: string[] | undefined;
+  favoriteFoods?: string[] | undefined;
+  avoidedFoods?: string[] | undefined;
 }> = ({ staples, favoriteFoods, avoidedFoods }) => (
   <div className="grid md:grid-cols-3 gap-5">
     {(staples?.length ?? 0) > 0 && (

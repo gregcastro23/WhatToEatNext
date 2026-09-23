@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { AmazonFeedbackRequestSchema } from "@/lib/validation/apiSchemas";
+
+const logger = createLogger("amazon:feedback");
 
 const ASIN_REGEX = /^[A-Z0-9]{10}$/;
 const MAX_INGREDIENT_NAME_LENGTH = 200;
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
     );
 
     if (result.rows.length === 0) {
-      console.warn(
+      logger.warn(
         `[Feedback] Could not update ASIN for "${trimmedName}" - not found in ingredients table.`,
       );
       return NextResponse.json(
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, updated: result.rows[0] });
   } catch (error) {
-    _logger.error("Error processing ASIN feedback:", error);
+    logger.error("Error processing ASIN feedback:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

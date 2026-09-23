@@ -23,9 +23,10 @@ import { keccak256, toHex, formatUnits } from "viem";
 import { executeQuery } from "@/lib/database";
 import {
   esmsOnchainConfigured,
-  readEsmsBalances,
+  readEsmsBalancesMany,
   readEsmsClaimed,
   readEsmsRedeemed,
+  type OnchainEsms,
 } from "@/lib/esms-chain/contract";
 import { mintEsmsClaim, minterConfigured } from "@/lib/esms-chain/minter";
 import { _logger } from "@/lib/logger";
@@ -184,82 +185,80 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
   return summary;
 }
 
-/**
- * 3. On-chain balance must never exceed what the claim ledger minted.
- *
- * Scoped to EVM/Base contracts (`readEsmsBalances` with 18-dp `formatUnits` and
- * EPSILON = 0.0001 for sub-quantum dust tolerance).
- * Solana rails return `notConfigured: true` (on-chain reading is unconfigured /
- * managed by sibling authority and checked under K4 supply invariants).
- */
-export async function checkWalletInvariants(rail: string, maxWallets = 20): Promise<InvariantSummary> {
-  const summary: InvariantSummary = { walletsChecked: 0, walletsTotal: 0, violations: [], failures: 0 };
-  if (rail.startsWith("eip155:") && !esmsOnchainConfigured()) {
-    return { ...summary, notConfigured: true };
-  }
-  if (rail.startsWith("solana:")) {
-    // Solana on-chain reading is unconfigured / owned by sibling authority.
-    return { ...summary, notConfigured: true };
-  }
+interface InvariantRow {
+  wallet_address: string;
+  spirit: string;
+  essence: string;
+  matter: string;
+  substance: string;
+}
 
+const INVARIANT_EPSILON = 0.0001;
+const ESMS_COINS: ReadonlyArray<keyof OnchainEsms> = ["spirit", "essence", "matter", "substance"];
+
+function walletViolations(row: InvariantRow, onchain: OnchainEsms): InvariantSummary["violations"] {
+  return ESMS_COINS.flatMap((coin) => {
+    const chain = Number(formatUnits(onchain[coin], 18));
+    const ledger = parseFloat(row[coin]) || 0;
+    return chain > ledger + INVARIANT_EPSILON ? [{ wallet: row.wallet_address, coin, onchain: chain, ledger }] : [];
+  });
+}
+
+async function readInvariantRows(rail: string, maxWallets: number, summary: InvariantSummary): Promise<InvariantRow[] | null> {
   try {
     const totalCountRes = await executeQuery<{ total: number }>(walletInvariantsTotalCountSql().sql);
     summary.walletsTotal = Number(totalCountRes.rows[0]?.total ?? 0);
   } catch (err) {
     _logger.error("[chainReconcile] wallet total count failed:", err);
   }
-
-  let rows: Array<{
-    wallet_address: string;
-    spirit: string;
-    essence: string;
-    matter: string;
-    substance: string;
-  }> = [];
   try {
     const { sql, values } = walletInvariantsSql({ rail, maxWallets });
-    const res = await executeQuery<(typeof rows)[number]>(sql, values);
-    ({ rows } = res);
+    const res = await executeQuery<InvariantRow & Record<string, unknown>>(sql, values);
+    return res.rows;
   } catch (err) {
     _logger.error("[chainReconcile] invariant enumeration failed:", err);
     summary.failures++;
-    return summary;
+    return null;
   }
+}
 
-  const EPSILON = 0.0001;
+/**
+ * 3. On-chain balance must never exceed what the claim ledger minted.
+ *
+ * Scoped to EVM/Base contracts (`readEsmsBalancesMany` — one batched
+ * balanceOfBatch for every wallet — with 18-dp `formatUnits` and
+ * EPSILON = 0.0001 for sub-quantum dust tolerance).
+ * Solana rails return `notConfigured: true` (on-chain reading is unconfigured /
+ * managed by sibling authority and checked under K4 supply invariants).
+ */
+export async function checkWalletInvariants(rail: string, maxWallets = 20): Promise<InvariantSummary> {
+  const summary: InvariantSummary = { walletsChecked: 0, walletsTotal: 0, violations: [], failures: 0 };
+  if (rail.startsWith("solana:")) {
+    // Solana on-chain reading is unconfigured / owned by sibling authority.
+    return { ...summary, notConfigured: true };
+  }
+  if (rail.startsWith("eip155:") && !esmsOnchainConfigured()) {
+    return { ...summary, notConfigured: true };
+  }
+  const rows = await readInvariantRows(rail, maxWallets, summary);
+  if (!rows || rows.length === 0) return summary;
 
-  for (const row of rows) {
-    summary.walletsChecked++;
-    try {
-      const onchain = await readEsmsBalances(row.wallet_address as Address);
-      const chain = {
-        spirit: Number(formatUnits(onchain.spirit, 18)),
-        essence: Number(formatUnits(onchain.essence, 18)),
-        matter: Number(formatUnits(onchain.matter, 18)),
-        substance: Number(formatUnits(onchain.substance, 18)),
-      };
-      for (const coin of ["spirit", "essence", "matter", "substance"] as const) {
-        const ledger = parseFloat(row[coin]) || 0;
-        if (chain[coin] > ledger + EPSILON) {
-          summary.violations.push({
-            wallet: row.wallet_address,
-            coin,
-            onchain: chain[coin],
-            ledger,
-          });
-        }
-      }
-    } catch (err) {
-      summary.failures++;
-      const errMessage = err instanceof Error ? err.message : String(err);
-      if (!summary.firstError) {
-        summary.firstError = errMessage;
-        _logger.error(
-          `[chainReconcile] checkWalletInvariants failed for wallet ${row.wallet_address}:`,
-          err,
-        );
-      }
+  const wallets = rows.map((row) => row.wallet_address).filter((w): w is Address => EVM_ADDRESS.test(w));
+  summary.walletsChecked = rows.length;
+  // Non-address rows can never be read; count them as failures, not passes.
+  summary.failures += rows.length - wallets.length;
+  try {
+    const balances = await readEsmsBalancesMany(wallets);
+    const byWallet = new Map<string, OnchainEsms | undefined>(wallets.map((w, i) => [w, balances[i]]));
+    for (const row of rows) {
+      const onchain = byWallet.get(row.wallet_address);
+      if (onchain) summary.violations.push(...walletViolations(row, onchain));
     }
+  } catch (err) {
+    // One request for every wallet: if it fails, none of them were verified.
+    summary.failures += wallets.length;
+    summary.firstError = err instanceof Error ? err.message : String(err);
+    _logger.error(`[chainReconcile] checkWalletInvariants batch read failed for ${wallets.length} wallet(s):`, err);
   }
   return summary;
 }

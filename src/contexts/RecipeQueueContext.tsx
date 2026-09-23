@@ -82,11 +82,13 @@ function normalizeStoredRecipe(value: unknown): Recipe | null {
   if (!parsed.success) return null;
 
   const { cookingMethod, ...recipe } = parsed.data;
-  return {
-    ...recipe,
-    cookingMethod:
-      typeof cookingMethod === "string" ? [cookingMethod] : cookingMethod,
-  };
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(recipe)) {
+    if (v !== undefined) out[k] = v;
+  }
+  const cm = typeof cookingMethod === "string" ? [cookingMethod] : cookingMethod;
+  if (cm !== undefined) out.cookingMethod = cm;
+  return out as Recipe;
 }
 
 function restoreDate(value: unknown): Date {
@@ -111,16 +113,15 @@ function normalizeStoredQueue(value: unknown): QueuedRecipe[] | null {
     const recipe = normalizeStoredRecipe(parsed.data.recipe);
     if (!recipe) return [];
 
-    const { recipe: _storedRecipe, addedAt, ...metadata } = parsed.data;
+    const { addedAt } = parsed.data;
     return [
       {
-        ...metadata,
         id: parsed.data.id,
         recipe,
         addedAt: restoreDate(addedAt),
-        notes: parsed.data.notes,
-        suggestedMealTypes: parsed.data.suggestedMealTypes,
-        suggestedDays: parsed.data.suggestedDays,
+        ...(parsed.data.notes ? { notes: parsed.data.notes } : {}),
+        ...(parsed.data.suggestedMealTypes ? { suggestedMealTypes: parsed.data.suggestedMealTypes } : {}),
+        ...(parsed.data.suggestedDays ? { suggestedDays: parsed.data.suggestedDays } : {}),
       },
     ];
   });

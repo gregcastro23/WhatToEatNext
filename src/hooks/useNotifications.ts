@@ -1,23 +1,33 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { NotificationListResponse, UserNotification } from '@/types/notification';
+import type { UserNotification } from '@/types/notification';
+import { readJson, parseEach } from '@/lib/api/json';
+import {
+  NotificationListEnvelopeSchema,
+  UserNotificationSchema,
+  MarkAllReadResponseSchema,
+  NotificationActionResponseSchema,
+  toDomainNotification,
+} from '@/lib/validation/notificationResponseSchemas';
+import { clientLogger } from '@/utils/clientLogger';
 
 const NOTIFICATION_REFRESH_EVENT = 'notifications:refresh';
+const loggedIssues = new Set<string>();
+
+function logDroppedNotification(err: unknown, item: unknown): void {
+  const id = typeof item === 'object' && item && 'id' in item ? String(item.id) : 'unknown';
+  const key = `notifications:${id}`;
+  if (!loggedIssues.has(key)) {
+    loggedIssues.add(key);
+    clientLogger.error('useNotifications', 'Dropped malformed notification item:', err);
+  }
+}
 
 interface UseNotificationsOptions {
   enabled?: boolean;
   limit?: number;
   pollingMs?: number;
-}
-
-interface ApiResponse {
-  success?: boolean;
-  message?: string;
-  notifications?: UserNotification[];
-  unreadCount?: number;
-  notification?: UserNotification;
-  alreadyGenerated?: boolean;
 }
 
 export function useNotifications(options?: UseNotificationsOptions) {
@@ -52,9 +62,24 @@ export function useNotifications(options?: UseNotificationsOptions) {
         throw new Error(`Failed to fetch notifications (${res.status})`);
       }
 
-      const data = (await res.json()) as NotificationListResponse;
-      setNotifications(data.notifications || []);
-      setUnreadCount(data.unreadCount || 0);
+      const envelope = await readJson(res, {
+        parse: (x) => NotificationListEnvelopeSchema.parse(x),
+      });
+
+      const parsed = parseEach(
+        envelope.notifications,
+        (raw) => toDomainNotification(UserNotificationSchema.parse(raw)),
+        { onError: logDroppedNotification },
+      );
+
+      if (envelope.notifications.length > 0 && parsed.kept === 0) {
+        // All items failed parse: surface honest error rather than false-empty state
+        setError('Unable to load notifications right now.');
+        setNotifications([]);
+      } else {
+        setNotifications(parsed.items);
+      }
+      setUnreadCount(envelope.unreadCount);
     } catch {
       setError('Unable to load notifications right now.');
     } finally {
@@ -138,9 +163,17 @@ export function useNotifications(options?: UseNotificationsOptions) {
         throw new Error('Failed to mark all as read');
       }
 
-      const data = (await res.json()) as { count?: number };
+      let count = previous.filter((n) => !n.isRead).length;
+      try {
+        const { count: serverCount } = await readJson(res, {
+          parse: (x) => MarkAllReadResponseSchema.parse(x),
+        });
+        count = serverCount;
+      } catch (parseErr) {
+        clientLogger.warn('useNotifications', 'markAllRead succeeded (200 OK) but response failed parse:', parseErr);
+      }
       notifyRefresh();
-      return { success: true, count: data.count ?? 0 };
+      return { success: true, count };
     } catch {
       setNotifications(previous);
       setUnreadCount(previous.filter((n) => !n.isRead).length);
@@ -154,7 +187,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
         method: 'POST',
         credentials: 'include',
       });
-      const data = (await res.json()) as ApiResponse;
+      const data = await readJson(res, {
+        parse: (x) => NotificationActionResponseSchema.parse(x),
+      });
 
       if (!res.ok) {
         return {
@@ -164,7 +199,8 @@ export function useNotifications(options?: UseNotificationsOptions) {
       }
 
       if (data.notification) {
-        setNotifications((prev) => [data.notification!, ...prev.filter((n) => n.id !== data.notification!.id)]);
+        const created = toDomainNotification(data.notification);
+        setNotifications((prev) => [created, ...prev.filter((n) => n.id !== created.id)]);
         setUnreadCount((count) => count + 1);
         notifyRefresh();
         return { success: true, created: true };
@@ -196,7 +232,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ commensalshipId }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return {
@@ -233,7 +271,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ response }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return {
@@ -274,7 +314,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ status }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return { success: false, message: data.message ?? 'Could not update the request.' };
@@ -312,7 +354,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
           credentials: 'include',
           body: JSON.stringify({ userId: requesterId }),
         });
-        const data = (await res.json()) as ApiResponse;
+        const data = await readJson(res, {
+          parse: (x) => NotificationActionResponseSchema.parse(x),
+        });
 
         if (!res.ok || data.success === false) {
           return { success: false, message: data.message ?? 'Could not send the invitation.' };

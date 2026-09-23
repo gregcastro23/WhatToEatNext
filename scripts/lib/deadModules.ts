@@ -74,10 +74,16 @@ export interface DeadModuleReport {
   dead: string[];
   /** Dead files that ARE referenced, but only from test/story files. */
   testOnly: string[];
+  /** Files referenced from scripts/tooling, but not from application roots. */
+  scriptOnly: string[];
+  /** Candidates reachable from application entry points (routes, pages, middleware). */
+  appReachable: string[];
   /** Every file the scan considered a candidate for deadness. */
   candidates: string[];
   /** Entry points the traversal started from. */
   entryPoints: string[];
+  /** Application entry points. */
+  appEntryPoints: string[];
   /** Template-literal `import()` sites that cannot be resolved statically. */
   unresolvableDynamicImports: { file: string; specifier: string }[];
   /** referrer -> resolved targets, for evidence when refuting a verdict. */
@@ -307,25 +313,63 @@ export function buildReport(options: BuildGraphOptions): DeadModuleReport {
     }
   }
 
-  const dead: string[] = [];
-  const testOnly: string[] = [];
-  for (const rel of candidateFiles) {
-    if (reachable.has(rel)) continue;
-    if (prodReachable.has(rel)) continue;
-    dead.push(rel);
+  // Third traversal: app roots only (Next conventions, pages, middleware, instrumentation,
+  // pinned prefixes, and ambient declarations). Drops non-src scripts and tests.
+  const appEntries = new Set<string>();
+  for (const rel of referrerFiles) {
+    if (isEntryPoint(rel) && !isTestLikePath(rel)) {
+      appEntries.add(rel);
+    }
   }
   for (const rel of candidateFiles) {
-    if (!reachable.has(rel)) continue;
-    if (prodReachable.has(rel)) continue;
-    testOnly.push(rel);
+    for (const prefix of pinnedPrefixes) {
+      if (rel.startsWith(`${prefix}/`)) appEntries.add(rel);
+    }
+  }
+  for (const rel of extraEntryPoints) {
+    if (rel.startsWith("src/") && !isTestLikePath(rel)) {
+      appEntries.add(rel);
+    }
+  }
+
+  const appReachable = new Set<string>();
+  const appQueue = [...appEntries];
+  while (appQueue.length > 0) {
+    const current = appQueue.pop();
+    if (current === undefined) continue;
+    if (appReachable.has(current)) continue;
+    appReachable.add(current);
+    for (const target of referrers[current] ?? []) {
+      if (!appReachable.has(target)) appQueue.push(target);
+    }
+  }
+
+  const dead: string[] = [];
+  const testOnly: string[] = [];
+  const scriptOnly: string[] = [];
+  const appReachableList: string[] = [];
+
+  for (const rel of candidateFiles) {
+    if (!reachable.has(rel)) {
+      dead.push(rel);
+    } else if (!prodReachable.has(rel)) {
+      testOnly.push(rel);
+    } else if (!appReachable.has(rel)) {
+      scriptOnly.push(rel);
+    } else {
+      appReachableList.push(rel);
+    }
   }
 
   return {
     reachable: [...reachable].sort(),
     dead: dead.sort(),
     testOnly: testOnly.sort(),
+    scriptOnly: scriptOnly.sort(),
+    appReachable: appReachableList.sort(),
     candidates: [...candidateFiles].sort(),
     entryPoints: [...entryPoints].sort(),
+    appEntryPoints: [...appEntries].sort(),
     unresolvableDynamicImports,
     referrers,
   };

@@ -120,7 +120,12 @@ export async function mintRecipeOnChain(input: MintOnChainInput): Promise<MintOn
     // returns just a hash). Decode it now; the backfill script recovers it for
     // any rows where this synchronous decode came up empty.
     const tokenId = decodeMintedTokenId(receipt.logs, registry);
-    return { status: "minted", chain: chain.name, txHash, tokenId };
+    return {
+      status: "minted",
+      chain: chain.name,
+      txHash,
+      ...(tokenId !== undefined ? { tokenId } : {}),
+    };
   } catch (err) {
     return {
       status: "failed",

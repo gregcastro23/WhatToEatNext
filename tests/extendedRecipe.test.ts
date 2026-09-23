@@ -91,16 +91,17 @@ describe("toExtendedRecipe", () => {
       ],
     });
 
-    expect(toExtendedRecipe(malformedRecipe).ingredients[0]).toEqual(
+    const ing = toExtendedRecipe(malformedRecipe).ingredients[0];
+    expect(ing).toEqual(
       expect.objectContaining({
         id: "recipe-1-ingredient-1",
         preparation: "",
         optional: false,
         notes: "",
-        category: undefined,
-        substitutes: undefined,
-        planetaryInfluences: undefined,
       }),
     );
+    expect(ing).not.toHaveProperty("category");
+    expect(ing).not.toHaveProperty("substitutes");
+    expect(ing).not.toHaveProperty("planetaryInfluences");
   });
 });

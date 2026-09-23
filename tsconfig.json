@@ -10,10 +10,11 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "exactOptionalPropertyTypes": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": false,
-    "exactOptionalPropertyTypes": false,
+    
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

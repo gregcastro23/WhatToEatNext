@@ -14,8 +14,6 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
-import WeeklyInsights from "@/components/menu-planner/redesign/WeeklyInsights";
-import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import {
     MenuPlannerProvider,
     type Participant,
@@ -72,6 +70,18 @@ const RecipeQueue = dynamic(
 );
 const SmartSuggestionsSidebarLazy = dynamic(
   () => import("@/components/menu-builder/SmartSuggestionsSidebar"),
+);
+const WeeklyInsights = dynamic(
+  () => import("@/components/menu-planner/redesign/WeeklyInsights"),
+  {
+    loading: () => <div className="h-40 rounded-xl bg-gray-100/50 animate-pulse my-4" />,
+  },
+);
+const WeeklyCalendar = dynamic(
+  () => import("@/components/menu-planner/WeeklyCalendar"),
+  {
+    loading: () => <div className="h-96 rounded-xl bg-gray-100/50 animate-pulse my-4" />,
+  },
 );
 
 /**

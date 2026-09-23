@@ -1,9 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
+import {
+  claimInboundEvent,
+  completeWebhookEvent,
+  extractIdempotencyKey,
+  failWebhookEvent,
+} from "@/lib/hooks/idempotency";
+import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { EconomySyncEventRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
-import type { NextRequest} from "next/server";
 
 /**
  * POST /api/economy/sync-event
@@ -58,7 +64,7 @@ export async function POST(req: NextRequest) {
     const authHeader = req.headers.get("X-Sync-Secret");
     const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
 
-    if (!syncSecret || authHeader !== syncSecret) {
+    if (!safeEqual(authHeader, syncSecret)) {
       return NextResponse.json(
         { ok: false, reason: "unauthorized" },
         { status: 401 }
@@ -107,21 +113,59 @@ export async function POST(req: NextRequest) {
 
     const { id: userId, is_agent: isAgent } = eventUser;
 
-    // 3. Report Event to QuestService
-    const completed = await questService.reportEvent(userId, event, metadata);
-
-    return NextResponse.json({
-      ok: true,
-      event,
-      isAgent: isAgent === true,
-      completedCount: completed.length,
-      completed,
+    // 3. Claim idempotency key if provided
+    const idempotencyKey = extractIdempotencyKey(req, rawBody);
+    const claimResult = await claimInboundEvent({
+      source: "asol-sync-event",
+      key: idempotencyKey,
+      eventType: "sync-event",
+      subjectId: userEmail,
+      summary: { userEmail, event },
+      data: rawBody,
     });
+
+    if (claimResult.isDuplicate) {
+      if (claimResult.isInFlight) {
+        return NextResponse.json(
+          { ok: false, error: "conflict", message: "Event is currently being processed" },
+          { status: 409, headers: { "Retry-After": "1" } },
+        );
+      }
+      return NextResponse.json({
+        ...(claimResult.previousResult ?? { ok: true, event }),
+        deduplicated: true,
+      });
+    }
+
+    try {
+      // 4. Report Event to QuestService
+      const completed = await questService.reportEvent(userId, event, metadata);
+
+      const responsePayload = {
+        ok: true,
+        event,
+        isAgent: isAgent === true,
+        completedCount: completed.length,
+        completed,
+      };
+
+      if (claimResult.claim) {
+        await completeWebhookEvent(claimResult.claim, "processed", responsePayload);
+      }
+
+      return NextResponse.json(responsePayload);
+    } catch (innerError) {
+      if (claimResult.claim) {
+        await failWebhookEvent(claimResult.claim, innerError);
+      }
+      throw innerError;
+    }
 
   } catch (error) {
     _logger.error("[sync-event] Internal Error:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { ok: false, reason: "internal_error", message: (error as Error).message },
+      { ok: false, reason: "internal_error", message },
       { status: 500 }
     );
   }

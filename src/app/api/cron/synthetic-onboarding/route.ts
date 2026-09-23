@@ -24,6 +24,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { _logger } from "@/lib/logger";
 import { runOnboardingSkipProbe } from "@/services/syntheticProbeService";
+import { isAuthorizedCron } from "../_lib/cronAuth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -42,18 +43,7 @@ function getBaseUrl(): string {
 }
 
 function isAuthorized(request: NextRequest): boolean {
-  const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret) {
-    // Without a configured secret, refuse to run — better than letting
-    // anyone trigger the probe.
-    return false;
-  }
-  const header = request.headers.get("authorization") ?? "";
-  // Constant-time-ish compare via length + char check; Node doesn't
-  // expose timingSafeEqual on edge runtimes consistently. The secret is
-  // 32+ chars, attacker has to guess the full value.
-  if (header.length !== `Bearer ${cronSecret}`.length) return false;
-  return header === `Bearer ${cronSecret}`;
+  return isAuthorizedCron(request);
 }
 
 export async function GET(request: NextRequest) {

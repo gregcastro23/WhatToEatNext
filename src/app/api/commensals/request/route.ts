@@ -5,13 +5,16 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { userDatabase, type UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("commensals:request");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -80,7 +83,7 @@ export async function POST(request: NextRequest) {
     const commensalship = await commensalDatabase.createCommensalRequest(userId, targetUserId);
 
     if (!commensalship) {
-      console.warn(`[commensals/request] Request failed for ${userId} -> ${targetUserId} (possibly duplicate or blocked)`);
+      logger.warn(`[commensals/request] Request failed for ${userId} -> ${targetUserId} (possibly duplicate or blocked)`);
       return NextResponse.json(
         { success: false, message: "Could not create commensal request. It may already exist or be blocked." },
         { status: 409 },
@@ -131,7 +134,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    _logger.error("Commensal request error:", error);
+    logger.error("Commensal request error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

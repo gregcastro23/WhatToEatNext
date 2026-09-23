@@ -247,7 +247,7 @@ export async function POST(request: NextRequest) {
       externalId,
       menuUrl,
       stripeConnectAccountId: account.id,
-      controller: account.controller,
+      ...(account.controller ? { controller: account.controller } : {}),
       account,
     });
 

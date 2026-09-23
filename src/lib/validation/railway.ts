@@ -11,6 +11,9 @@
  */
 
 import { z } from "zod";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("validation:railway");
 
 // ─── Individual planet position data ────────────────────────────────────────
 // The backend may return any combination of these longitude field names
@@ -96,7 +99,7 @@ export type PlanetaryRequest = z.infer<typeof PlanetaryRequestSchema>;
 export function parseRailwayResponse(raw: unknown): RailwayPositionsResponse | null {
   const result = RailwayPositionsResponseSchema.safeParse(raw);
   if (!result.success) {
-    console.warn(
+    logger.warn(
       "[astrologize] Railway response failed schema validation — falling back to local engine.",
       result.error.flatten().fieldErrors,
     );
@@ -187,7 +190,7 @@ export type RailwayCuisinesResponse = z.infer<typeof RailwayCuisinesResponseSche
 export function parseCuisinesResponse(raw: unknown): RailwayCuisinesResponse | null {
   const result = RailwayCuisinesResponseSchema.safeParse(raw);
   if (!result.success) {
-    console.warn(
+    logger.warn(
       "[cuisines] Railway response failed schema validation — falling back to local engine.",
       result.error.flatten().fieldErrors,
     );

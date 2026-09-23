@@ -964,7 +964,7 @@ class CommensalDatabaseService {
         dateTime: dbIsoString(row.birth_date, ""),
         latitude: Number(row.birth_latitude ?? 0),
         longitude: Number(row.birth_longitude ?? 0),
-        timezone: row.timezone_str ?? undefined,
+        ...(row.timezone_str ? { timezone: row.timezone_str } : {}),
       },
       // No natal chart is stored in prod — callers needing planetary data must
       // recompute from birthData. Empty object preserves the SavedChart shape.
@@ -986,14 +986,17 @@ class CommensalDatabaseService {
           `SELECT * FROM manual_companion_charts WHERE owner_id::text = $1 ORDER BY created_at DESC LIMIT 500`,
           [userId],
         );
-        return result.rows.map((r: ManualCompanionRow) => ({
-          id: dbString(r.id),
-          name: dbString(r.name),
-          relationship: normalizeGroupRelationship(r.relationship),
-          birthData: readJsonColumn<BirthData>(r.birth_data, {} as BirthData),
-          natalChart: readJsonColumn<NatalChart>(r.natal_chart, {} as NatalChart),
-          createdAt: dbIsoString(r.created_at),
-        }));
+        return result.rows.map((r: ManualCompanionRow) => {
+          const relationship = normalizeGroupRelationship(r.relationship);
+          return {
+            id: dbString(r.id),
+            name: dbString(r.name),
+            ...(relationship ? { relationship } : {}),
+            birthData: readJsonColumn<BirthData>(r.birth_data, {} as BirthData),
+            natalChart: readJsonColumn<NatalChart>(r.natal_chart, {} as NatalChart),
+            createdAt: dbIsoString(r.created_at),
+          };
+        });
       } catch (error) {
         _logger.error("getManualCompanionsForUser failed:", error);
         return [];
@@ -1021,10 +1024,11 @@ class CommensalDatabaseService {
           [id, data.ownerId, data.name, data.relationship ?? "friend",
            JSON.stringify(data.birthData), JSON.stringify(data.natalChart)],
         );
+        const relationship = normalizeGroupRelationship(data.relationship);
         return {
           id,
           name: data.name,
-          relationship: normalizeGroupRelationship(data.relationship),
+          ...(relationship ? { relationship } : {}),
           birthData: data.birthData,
           natalChart: data.natalChart,
           createdAt: now,
@@ -1086,10 +1090,11 @@ class CommensalDatabaseService {
               JSON.stringify(c.natalChart),
             ],
           );
+          const relationship = normalizeGroupRelationship(c.relationship);
           created.push({
             id,
             name: c.name,
-            relationship: normalizeGroupRelationship(c.relationship),
+            ...(relationship ? { relationship } : {}),
             birthData: c.birthData,
             natalChart: c.natalChart,
             createdAt: new Date().toISOString(),
@@ -1178,10 +1183,11 @@ class CommensalDatabaseService {
       );
       const [row] = result.rows;
       if (!row) return null;
+      const relationship = normalizeGroupRelationship(row.relationship);
       return {
         id: row.id,
         name: row.name,
-        relationship: (row.relationship ?? undefined) as GroupMember["relationship"],
+        ...(relationship ? { relationship } : {}),
         birthData: row.birth_data as BirthData,
         natalChart: row.natal_chart as NatalChart,
         createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
@@ -1310,14 +1316,18 @@ class CommensalDatabaseService {
 
   // ─── Internal helpers ────────────────────────────────────────
   private rowToCommensalship(row: CommensalshipRow): Commensalship {
+    const requesterName = dbOptionalString(row.requester_name);
+    const requesterEmail = dbOptionalString(row.requester_email);
+    const addresseeName = dbOptionalString(row.addressee_name);
+    const addresseeEmail = dbOptionalString(row.addressee_email);
     return {
       id: dbString(row.id),
       requesterId: dbString(row.requester_id),
-      requesterName: dbOptionalString(row.requester_name),
-      requesterEmail: dbOptionalString(row.requester_email),
+      ...(requesterName ? { requesterName } : {}),
+      ...(requesterEmail ? { requesterEmail } : {}),
       addresseeId: dbString(row.addressee_id),
-      addresseeName: dbOptionalString(row.addressee_name),
-      addresseeEmail: dbOptionalString(row.addressee_email),
+      ...(addresseeName ? { addresseeName } : {}),
+      ...(addresseeEmail ? { addresseeEmail } : {}),
       status: row.status ?? "pending",
       createdAt: dbIsoString(row.created_at),
       updatedAt: dbIsoString(row.updated_at),

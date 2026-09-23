@@ -86,7 +86,10 @@ export async function PUT(
   const updated = await commensalDatabase.updateManualCompanion(
     commensalId,
     user.id,
-    { name, relationship },
+    {
+      ...(name !== undefined ? { name } : {}),
+      ...(relationship !== undefined ? { relationship } : {}),
+    },
   );
 
   if (!updated) {

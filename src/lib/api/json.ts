@@ -117,3 +117,47 @@ export async function fetchJson<T>(
   }
   return readJson<T>(response, parseOrOptions);
 }
+
+export interface ParseEachResult<T> {
+  items: T[];
+  kept: number;
+  dropped: number;
+  total: number;
+}
+
+export interface ParseEachOptions<_T = unknown> {
+  onError?: (error: unknown, rawItem: unknown, index: number) => void;
+}
+
+/**
+ * Parses an array of unknown items, returning parsed items and dropped counts.
+ * Pure function: zero external dependencies. Callers handle logging or reporting.
+ */
+export function parseEach<T>(
+  rawItems: unknown,
+  parseItem: (item: unknown) => T,
+  options?: ParseEachOptions<T>,
+): ParseEachResult<T> {
+  if (!Array.isArray(rawItems)) {
+    return { items: [], kept: 0, dropped: 0, total: 0 };
+  }
+  const items: T[] = [];
+  let dropped = 0;
+  const list: readonly unknown[] = rawItems;
+  for (let i = 0; i < list.length; i++) {
+    const raw: unknown = list[i];
+    try {
+      items.push(parseItem(raw));
+    } catch (err) {
+      dropped++;
+      options?.onError?.(err, raw, i);
+    }
+  }
+  return {
+    items,
+    kept: items.length,
+    dropped,
+    total: rawItems.length,
+  };
+}
+

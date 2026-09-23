@@ -26,7 +26,8 @@ import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
-import { _logger } from "@/lib/logger";
+import { createLogger } from "@/utils/logger";
+
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { foodDiaryService } from "@/services/FoodDiaryService";
@@ -51,6 +52,8 @@ import {
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
+
+const logger = createLogger("generate-cosmic-recipe");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -167,7 +170,7 @@ async function handlePost(request: NextRequest) {
         count = limitRows.rows[0]?.recipes_generated ?? 0;
         isFirstGeneration = count === 0;
       } catch (err) {
-        console.warn("[generate-cosmic-recipe] Failed to verify daily limit:", err);
+        logger.warn("[generate-cosmic-recipe] Failed to verify daily limit:", err);
       }
 
       // If they already generated their free daily recipe, charge them using their ESMS token balances
@@ -429,7 +432,7 @@ async function handlePost(request: NextRequest) {
       const parsed = (await agentResponse.json()) as unknown;
       const validation = cosmicRecipeSchema.safeParse(parsed);
       if (!validation.success) {
-        _logger.error(
+        logger.error(
           "[generate-cosmic-recipe] PA returned recipe that failed local schema check:",
           validation.error.issues.slice(0, 5),
         );
@@ -445,7 +448,7 @@ async function handlePost(request: NextRequest) {
       }
       recipe = validation.data;
     } catch (error) {
-      _logger.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
+      logger.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
       // A deadline breach is an UPSTREAM failure, not a WTEN crash. Reporting it
       // as 504 rather than 500 keeps `serverErrorRate` and the route-health panel
       // pointing at the service that actually owns the latency.
@@ -499,7 +502,7 @@ async function handlePost(request: NextRequest) {
           updatedCount = updateResult.rows[0]?.recipes_generated ?? 1;
         }
       } catch (err) {
-        console.warn("[generate-cosmic-recipe] Failed to increment daily limits:", err);
+        logger.warn("[generate-cosmic-recipe] Failed to increment daily limits:", err);
       }
     }
 
@@ -564,10 +567,7 @@ async function handlePost(request: NextRequest) {
           },
         );
         if (outcome.status === "failed") {
-          // console.error, not _logger.warn: warn emits NOTHING in production,
-          // and a user charged with no recipe is the one event on this path
-          // that must reach production logs.
-          _logger.error(
+          logger.error(
             "[generate-cosmic-recipe] REFUND FAILED - user charged, no recipe",
             {
               userId: spend.userId,
@@ -579,7 +579,7 @@ async function handlePost(request: NextRequest) {
       } catch (refundError) {
         // A throw escaping `finally` would REPLACE the intended 504/502 with a
         // 500 and lose the real status, so the refund is contained.
-        _logger.error("[generate-cosmic-recipe] refund threw", refundError);
+        logger.error("refund threw", refundError);
       }
     }
   }

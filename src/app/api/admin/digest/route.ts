@@ -18,10 +18,10 @@
  * @requires Authentication - admin session OR internal bearer
  */
 
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { getEventCounts } from "@/services/authEventsService";
 import {
@@ -35,12 +35,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 function isInternalCaller(authHeader: string | null): boolean {
-  const secret = process.env.INTERNAL_API_SECRET;
-  if (!secret || !authHeader) return false;
-  const expected = Buffer.from(`Bearer ${secret}`);
-  const received = Buffer.from(authHeader);
-  if (received.length !== expected.length) return false;
-  return timingSafeEqual(received, expected);
+  return bearerMatches(authHeader, process.env.INTERNAL_API_SECRET);
 }
 
 interface CountsRow {
@@ -140,7 +135,11 @@ export async function POST(request: NextRequest) {
    */
   const beat = (status: CronRunStatus, error?: string): Promise<void> =>
     isInternal
-      ? recordCronRun("daily-digest", { status, startedAt, error })
+      ? recordCronRun("daily-digest", {
+          status,
+          startedAt,
+          ...(error !== undefined ? { error } : {}),
+        })
       : Promise.resolve();
 
   try {

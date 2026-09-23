@@ -70,14 +70,14 @@ export interface PlanetaryPositionsRequest {
 
 export interface PlanetaryPositionsResponse {
   primary_chart: Record<string, unknown>;
-  secondary_charts?: Array<Record<string, unknown>>;
+  secondary_charts?: Array<Record<string, unknown>> | undefined;
   collective_synastry?: {
     participant_count: number;
     average_elemental_distribution: Record<string, number>;
     elemental_deficits: Record<string, number>;
     group_smes_scores: Record<string, number>;
     is_collective: boolean;
-  };
+  } | undefined;
   is_collective: boolean;
   participant_count: number;
 }
@@ -94,7 +94,7 @@ export interface RecipeRecommendationsResponse {
   total_count: number;
   request_context: {
     timestamp: string;
-    elemental_state?: ElementalProperties;
+    elemental_state?: ElementalProperties | undefined;
   };
 }
 
@@ -288,7 +288,7 @@ export class AlchemicalApiClient {
         total_count: 0,
         request_context: {
           timestamp: new Date().toISOString(),
-          elemental_state: request.current_elements,
+          ...(request.current_elements ? { elemental_state: request.current_elements } : {}),
         },
       };
     }
@@ -448,7 +448,7 @@ export const alchemicalApi = new AlchemicalApiClient();
 export interface UseBackendCalculationsReturn {
   calculateElements: (
     ingredients: string[],
-    weights?: number[],
+    weights?: number[] | undefined,
   ) => Promise<ElementalProperties>;
   calculateThermodynamics: (
     elements: ElementalProperties,
@@ -461,7 +461,7 @@ export interface UseBackendCalculationsReturn {
     request: PlanetaryPositionsRequest,
   ) => Promise<PlanetaryPositionsResponse>;
   createRealtimeConnection: (
-    onPlanetaryUpdate?: (data: unknown) => void,
+    onPlanetaryUpdate?: ((data: unknown) => void) | undefined,
   ) => WebSocket | null;
 }
 

@@ -294,7 +294,7 @@ export function getPlanetaryPositionsForDate(_date: Date): {
       sign,
       degree,
       exactLongitude: adjustedLongitude,
-      isRetrograde: position.isRetrograde,
+      ...(position.isRetrograde !== undefined ? { isRetrograde: position.isRetrograde } : {}),
     };
   }
 

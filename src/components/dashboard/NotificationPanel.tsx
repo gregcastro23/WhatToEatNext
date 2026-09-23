@@ -307,7 +307,7 @@ export function NotificationPanel(): React.JSX.Element {
                             Harmony: {Math.round(Number(n.metadata.overallHarmony) * 100)}%
                           </span>
                         )}
-                        {n.metadata.dominantElement && (
+                        {Boolean(n.metadata.dominantElement) && (
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-highlight text-[9px] font-black uppercase tracking-widest text-amber-300 border border-amber-500/10">
                             {String(n.metadata.dominantElement)}
                           </span>

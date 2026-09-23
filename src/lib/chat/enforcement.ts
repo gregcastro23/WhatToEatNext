@@ -224,7 +224,10 @@ export interface SendCheckInput {
  * returns one precise denial.
  */
 export function checkSend(input: SendCheckInput): SendDecision {
-  const membership = checkMembership({ membership: input.membership, now: input.now });
+  const membership = checkMembership({
+    membership: input.membership,
+    ...(input.now !== undefined ? { now: input.now } : {}),
+  });
   if (!membership.allowed) return membership;
 
   const archived = checkNotArchived(input.conversation);

@@ -109,11 +109,17 @@ const { rows: survey } = await client.query<Record<string, string>>(`
          count(*) FILTER (WHERE up.monica_full_chart IS NOT NULL)::text full_chart
     FROM user_profiles up JOIN users u ON u.id = up.user_id
    WHERE ${targetPredicate}`);
-console.log("rows in scope:", JSON.stringify(survey[0]));
+const surveyRow = survey[0];
+if (!surveyRow) throw new Error("Survey query returned no rows (unexpected for count aggregate)");
+console.log("rows in scope:", JSON.stringify(surveyRow));
 
-const { rows: [{ n: agentTotal }] } = await client.query<{ n: string }>(
-  `SELECT count(*)::text n FROM users WHERE is_agent`,
-);
+const agentTotalRow = (
+  await client.query<{ n: string }>(
+    `SELECT count(*)::text n FROM users WHERE is_agent`,
+  )
+).rows[0];
+if (!agentTotalRow) throw new Error("Agent count query returned no rows");
+const agentTotal = agentTotalRow.n;
 console.log(`agent population: ${agentTotal} (scope must be far smaller)`);
 
 // What the chart looks like after — computed, not assumed.
@@ -126,7 +132,7 @@ const { rows: preview } = await client.query<{ name: string; before: string; aft
    ORDER BY up.name LIMIT 3`);
 console.table(preview);
 
-const affected = Number(survey[0].affected);
+const affected = Number(surveyRow.affected);
 if (affected === 0) {
   console.log("\nNothing to purge — already converged. (This script is idempotent.)");
   await client.end();
@@ -147,28 +153,37 @@ try {
     SELECT up.user_id, up.natal_chart
       FROM user_profiles up JOIN users u ON u.id = up.user_id
      WHERE ${targetPredicate}`);
-  const { rows: [{ n: snapN }] } = await client.query<{ n: string }>(
-    `SELECT count(*)::text n FROM _rehearsal`,
-  );
+  const snapN =
+    (
+      await client.query<{ n: string }>(
+        `SELECT count(*)::text n FROM _rehearsal`,
+      )
+    ).rows[0]?.n ?? "0";
   console.log(`  snapshot captured ${snapN} rows (expected ${affected})`);
   if (Number(snapN) !== affected) throw new Error("snapshot row count != scope");
 
   await client.query(`
     UPDATE user_profiles up SET natal_chart = ${purgeExpr}
       FROM users u WHERE u.id = up.user_id AND ${targetPredicate}`);
-  const { rows: [{ n: leftAfter }] } = await client.query<{ n: string }>(`
+  const leftAfter =
+    (
+      await client.query<{ n: string }>(`
     SELECT count(*)::text n FROM user_profiles up JOIN users u ON u.id = up.user_id
-     WHERE ${targetPredicate}`);
+     WHERE ${targetPredicate}`)
+    ).rows[0]?.n ?? "0";
   console.log(`  after purge, rows still carrying a key: ${leftAfter} (must be 0)`);
   if (Number(leftAfter) !== 0) throw new Error("purge left keys behind");
 
   await client.query(`
     UPDATE user_profiles up SET natal_chart = r.natal_chart
       FROM _rehearsal r WHERE r.user_id = up.user_id`);
-  const { rows: [{ n: mismatched }] } = await client.query<{ n: string }>(`
+  const mismatched =
+    (
+      await client.query<{ n: string }>(`
     SELECT count(*)::text n
       FROM _rehearsal r JOIN user_profiles up ON up.user_id = r.user_id
-     WHERE up.natal_chart <> r.natal_chart`);
+     WHERE up.natal_chart <> r.natal_chart`)
+    ).rows[0]?.n ?? "0";
   console.log(`  after restore, rows differing from the snapshot: ${mismatched} (must be 0)`);
   if (Number(mismatched) !== 0) throw new Error("restore did not reproduce the original");
 
@@ -177,10 +192,13 @@ try {
   await client.query(`
     UPDATE user_profiles up SET natal_chart = up.natal_chart || '{"_control":1}'::jsonb
       FROM _rehearsal r WHERE r.user_id = up.user_id`);
-  const { rows: [{ n: ctl }] } = await client.query<{ n: string }>(`
+  const ctl =
+    (
+      await client.query<{ n: string }>(`
     SELECT count(*)::text n
       FROM _rehearsal r JOIN user_profiles up ON up.user_id = r.user_id
-     WHERE up.natal_chart <> r.natal_chart`);
+     WHERE up.natal_chart <> r.natal_chart`)
+    ).rows[0]?.n ?? "0";
   console.log(`  CONTROL: after perturbing every row, differences = ${ctl} (must be ${affected})`);
   if (Number(ctl) !== affected) throw new Error("comparison cannot detect a difference");
 
@@ -189,9 +207,12 @@ try {
   await client.query("ROLLBACK");
 }
 
-const { rows: [{ n: postRehearsal }] } = await client.query<{ n: string }>(`
+const postRehearsal =
+  (
+    await client.query<{ n: string }>(`
   SELECT count(*)::text n FROM user_profiles up JOIN users u ON u.id = up.user_id
-   WHERE ${targetPredicate}`);
+   WHERE ${targetPredicate}`)
+  ).rows[0]?.n ?? "0";
 console.log(`rollback verified: ${postRehearsal} rows still in scope (must be ${affected})`);
 if (Number(postRehearsal) !== affected) {
   console.error("FATAL: the rehearsal was not rolled back. Refusing to continue.");
@@ -214,9 +235,12 @@ try {
     SELECT up.user_id, up.name, up.natal_chart, now() AS snapshotted_at
       FROM user_profiles up JOIN users u ON u.id = up.user_id
      WHERE ${targetPredicate}`);
-  const { rows: [{ n: snapN }] } = await client.query<{ n: string }>(
-    `SELECT count(*)::text n FROM ${SNAPSHOT}`,
-  );
+  const snapN =
+    (
+      await client.query<{ n: string }>(
+        `SELECT count(*)::text n FROM ${SNAPSHOT}`,
+      )
+    ).rows[0]?.n ?? "0";
   if (Number(snapN) !== affected) throw new Error(`snapshot ${snapN} != scope ${affected}`);
   console.log(`  snapshot holds ${snapN} rows, full natal_chart per row`);
 
@@ -235,6 +259,7 @@ try {
            count(*)::text n
       FROM user_profiles up JOIN users u ON u.id = up.user_id
      WHERE u.is_agent AND up.monica_full_chart IS NOT NULL`);
+  if (!chk) throw new Error("verification check returned no rows");
   console.log("  in-transaction check:", JSON.stringify(chk));
   if (Number(chk.asc_left) || Number(chk.mc_left) || Number(chk.houses_left)) {
     throw new Error("angles survived the purge");

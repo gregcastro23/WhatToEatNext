@@ -12,6 +12,7 @@
 
 import { handlers } from "@/lib/auth/auth";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import { scheduleTouchFromSessionResponse } from "@/lib/auth/sessionResponseTouch";
 import { deriveAuthRouteName } from "@/lib/observability/authRouteName";
 import { withObservability } from "@/lib/observability/withObservability";
 import type { NextRequest } from "next/server";
@@ -37,7 +38,12 @@ export const GET = withObservability(
   authObservability,
   async (request: NextRequest) => {
     applyRequestAuthOrigin(request);
-    return handlers.GET(request);
+    const response = await handlers.GET(request);
+    const { pathname } = request.nextUrl;
+    if (pathname.endsWith("/session") && response.ok) {
+      scheduleTouchFromSessionResponse(response, request);
+    }
+    return response;
   },
 );
 

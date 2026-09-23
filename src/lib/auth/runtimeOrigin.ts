@@ -1,4 +1,7 @@
 import type { NextRequest } from "next/server";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("auth-origin");
 
 type RequestLike = Request | NextRequest;
 
@@ -48,7 +51,7 @@ export function applyRequestAuthOrigin(request: RequestLike): string | null {
   
   // DIAGNOSTIC: Log origin resolution
   if (process.env.NODE_ENV !== "production") {
-    console.log(`[auth-origin] Host: ${hostname}, Origin: ${origin}, isLocal: ${isLocal}, isPreview: ${isVercelPreview}`);
+    logger.info(`Host: ${hostname}, Origin: ${origin}, isLocal: ${isLocal}, isPreview: ${isVercelPreview}`);
   }
 
   if (isLocal || isVercelPreview || isMissingSecret || !process.env.AUTH_URL) {
@@ -62,7 +65,7 @@ export function applyRequestAuthOrigin(request: RequestLike): string | null {
   // NextAuth v5 might fail. We should consider being more aggressive here,
   // but for now let's just log it if they don't match.
   if (process.env.AUTH_URL && !origin.startsWith(process.env.AUTH_URL)) {
-    console.warn(`[auth-origin] Mismatch detected! AUTH_URL=${process.env.AUTH_URL}, Request Origin=${origin}. This may cause 401 errors.`);
+    logger.warn(`Mismatch detected! AUTH_URL=${process.env.AUTH_URL}, Request Origin=${origin}. This may cause 401 errors.`);
     
     // Auto-fix for www vs non-www mismatches in production
     if (hostname.includes("alchm.kitchen")) {

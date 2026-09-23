@@ -9,6 +9,9 @@ import {
   type AdaptationResult,
   type DietaryMode,
 } from "@/utils/dietaryAdaptation";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("DietaryAdaptationPanel");
 
 const MODES: Array<{ key: DietaryMode; label: string; icon: string }> = [
   { key: "vegan", label: "Vegan", icon: "\u{1F33F}" },
@@ -66,7 +69,7 @@ function savePreferredMode(mode: DietaryMode) {
     parsed.dietaryRestrictions = [...withoutModes, mode];
     window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify(parsed));
   } catch (err) {
-    console.warn("preference save failed:", err);
+    logger.warn("preference save failed:", err);
   }
 }
 

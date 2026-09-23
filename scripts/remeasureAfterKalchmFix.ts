@@ -23,9 +23,12 @@ const p = (n: number) => n.toPrecision(17);
 function widestGap(sorted: number[], below = 0.5) {
   let best = { lo: 0, hi: 0, width: 0 };
   for (let i = 1; i < sorted.length; i++) {
-    if (sorted[i] >= below) break;
-    const w = sorted[i] - sorted[i - 1];
-    if (w > best.width) best = { lo: sorted[i - 1], hi: sorted[i], width: w };
+    const curr = sorted[i];
+    const prev = sorted[i - 1];
+    if (curr === undefined || prev === undefined) continue;
+    if (curr >= below) break;
+    const w = curr - prev;
+    if (w > best.width) best = { lo: prev, hi: curr, width: w };
   }
   return best;
 }
@@ -95,16 +98,23 @@ console.log("");
 console.log("=".repeat(76));
 console.log("2. TWO-BODY |ln kalchm| GAP  (degenerate = Comixion degrees 8/22)");
 console.log("=".repeat(76));
-console.log(`  degenerate n         ${twoLnDegen.length}   max |ln k|  ${p(twoLnDegen[twoLnDegen.length - 1])}`);
-console.log(`  healthy n            ${twoLnHealthy.length}   min |ln k|  ${p(twoLnHealthy[0])}`);
-const separable = twoLnDegen[twoLnDegen.length - 1] < twoLnHealthy[0];
+const degenMax = twoLnDegen[twoLnDegen.length - 1];
+const healthyMin = twoLnHealthy[0];
+if (degenMax === undefined || healthyMin === undefined) {
+  throw new Error(
+    `Empty sample in two-body gap measurement (twoLnDegen: ${twoLnDegen.length}, twoLnHealthy: ${twoLnHealthy.length})`,
+  );
+}
+console.log(`  degenerate n         ${twoLnDegen.length}   max |ln k|  ${p(degenMax)}`);
+console.log(`  healthy n            ${twoLnHealthy.length}   min |ln k|  ${p(healthyMin)}`);
+const separable = degenMax < healthyMin;
 console.log(`  cleanly separable    ${separable ? "YES" : "NO — they OVERLAP, midpoint derivation invalid"}`);
 if (separable) {
-  const mid = (twoLnDegen[twoLnDegen.length - 1] + twoLnHealthy[0]) / 2;
+  const mid = (degenMax + healthyMin) / 2;
   console.log(`  MIDPOINT (epsilon)   ${p(mid)}`);
   console.log(`  collateral (healthy below midpoint): ${twoLnHealthy.filter((x) => x < mid).length}  (must be 0)`);
 } else {
-  console.log(`  degenerate max ${p(twoLnDegen[twoLnDegen.length - 1])} >= healthy min ${p(twoLnHealthy[0])}`);
+  console.log(`  degenerate max ${p(degenMax)} >= healthy min ${p(healthyMin)}`);
 }
 
 // ───────────────────────────────────────────────── 3. Sacred-7 |max|/2 ──────

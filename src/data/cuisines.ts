@@ -41,15 +41,18 @@ function adaptCuisine(
   const cuisineData = (
     cuisine && typeof cuisine === "object" ? cuisine : {}
   ) as Record<string, unknown>;
+  const {
+    elementalProperties: rawEp,
+    elementalState: rawEs,
+    ...restCuisine
+  } = cuisineData;
+  const ep = rawEp ? adaptElementalProperties(rawEp) : undefined;
+  const es = rawEs ? adaptElementalProperties(rawEs) : undefined;
   return {
-    ...(cuisineData as unknown as AlchemyCuisine),
+    ...(restCuisine as unknown as AlchemyCuisine),
     alchemicalSignature,
-    elementalProperties: cuisineData.elementalProperties
-      ? adaptElementalProperties(cuisineData.elementalProperties)
-      : undefined,
-    elementalState: cuisineData.elementalState
-      ? adaptElementalProperties(cuisineData.elementalState)
-      : undefined,
+    ...(ep !== undefined ? { elementalProperties: ep } : {}),
+    ...(es !== undefined ? { elementalState: es } : {}),
   };
 }
 

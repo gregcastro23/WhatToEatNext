@@ -17,6 +17,7 @@
  */
 
 import { createHash } from "node:crypto";
+import { safeEqual } from "@/lib/hooks/secureCompare";
 
 const isServerWithDB = (): boolean => !!process.env.DATABASE_URL;
 
@@ -99,12 +100,8 @@ export async function resolveCaller(
   // Internal cron secret path — used by the synthetic probe so it
   // doesn't need to mint and ship a real API key.
   const internal = args._meta as Record<string, unknown> | undefined;
-  const internalSecret = internal?.internalSecret;
-  if (
-    typeof internalSecret === "string" &&
-    process.env.INTERNAL_API_SECRET &&
-    internalSecret === process.env.INTERNAL_API_SECRET
-  ) {
+  const internalSecret = typeof internal?.internalSecret === "string" ? internal.internalSecret : undefined;
+  if (safeEqual(internalSecret, process.env.INTERNAL_API_SECRET)) {
     return {
       userId: process.env.SYNTHETIC_PROBE_USER_ID ?? null,
       apiKeyId: null,

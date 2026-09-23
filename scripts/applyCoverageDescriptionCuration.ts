@@ -47,14 +47,19 @@ function main(): void {
   const re = /\n {2}([a-z0-9_]+): \{/g;
   const matches = [...txt.matchAll(re)];
 
-  let result = matches.length ? txt.slice(0, matches[0].index) : txt;
+  const firstMatch = matches[0];
+  let result = firstMatch ? txt.slice(0, firstMatch.index) : txt;
   let patched = 0;
   let hiddenAfter = 0;
 
   for (let i = 0; i < matches.length; i++) {
-    const slug = matches[i][1];
-    const start = matches[i].index as number;
-    const end = i + 1 < matches.length ? (matches[i + 1].index as number) : txt.length;
+    const match = matches[i];
+    if (!match) continue;
+    const slug = match[1];
+    if (!slug) continue;
+    const start = match.index;
+    const nextMatch = matches[i + 1];
+    const end = nextMatch ? nextMatch.index : txt.length;
     let block = txt.slice(start, end);
 
     const cur = coverageDescriptionCuration[slug];

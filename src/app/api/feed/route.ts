@@ -17,10 +17,16 @@
  * routes elsewhere). The two secrets are distinct.
  */
 
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { _logger } from "@/lib/logger";
+import {
+  claimInboundEvent,
+  completeWebhookEvent,
+  extractIdempotencyKey,
+  failWebhookEvent,
+  type ClaimOutcome,
+} from "@/lib/hooks/idempotency";
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
@@ -28,6 +34,9 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("feed");
 
 export const dynamic = "force-dynamic";
 
@@ -38,21 +47,13 @@ const MAX_DISPLAY_NAME_LENGTH = 120;
 const MAX_METADATA_BYTES = 16_384; // 16 KB ceiling on a single event payload
 
 if (!process.env.INTERNAL_API_SECRET) {
-  console.warn(
+  logger.warn(
     "[feed] INTERNAL_API_SECRET is not set - the POST handler will reject all agent writes until the secret is configured",
   );
 }
 
 function isAuthorizedAgentRequest(authHeader: string | null): boolean {
-  const internalSecret = process.env.INTERNAL_API_SECRET;
-  // Fail closed: without a configured secret, agent writes are rejected.
-  if (!internalSecret || !authHeader) return false;
-
-  const expected = Buffer.from(`Bearer ${internalSecret}`);
-  const received = Buffer.from(authHeader);
-  if (received.length !== expected.length) return false;
-
-  return timingSafeEqual(received, expected);
+  return bearerMatches(authHeader, process.env.INTERNAL_API_SECRET);
 }
 
 
@@ -60,7 +61,7 @@ function asString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value : undefined;
 }
 
-function rememberFeedEmit(eventType: string, agentEmail: string, responseCode: number) {
+function rememberFeedEmit(eventType: string, agentEmail: string, responseCode: number): void {
   feedEmitTracker.setLastEmit({
     eventType,
     agentEmail,
@@ -74,15 +75,22 @@ const WebhookPreviewSchema = z.object({
   eventType: z.string().optional(),
 });
 
-async function extractWebhookPreview(request: Request) {
+interface WebhookPreview {
+  agentEmail?: string;
+  eventType?: string;
+}
+
+async function extractWebhookPreview(request: Request): Promise<WebhookPreview> {
   try {
     const rawPreview = (await request.clone().json()) as unknown;
     const parsed = WebhookPreviewSchema.safeParse(rawPreview);
     if (!parsed.success) return {};
 
+    const agentEmail = asString(parsed.data.agentEmail);
+    const eventType = asString(parsed.data.eventType);
     return {
-      agentEmail: asString(parsed.data.agentEmail),
-      eventType: asString(parsed.data.eventType),
+      ...(agentEmail ? { agentEmail } : {}),
+      ...(eventType ? { eventType } : {}),
     };
   } catch {
     return {};
@@ -132,7 +140,7 @@ export const GET = withObservability(
         },
       );
     } catch (error) {
-      _logger.error("Feed fetch error:", error);
+      logger.error("Feed fetch error:", error);
       return NextResponse.json(
         { success: false, message: "Failed to fetch feed events." },
         { status: 500 },
@@ -149,6 +157,7 @@ export const POST = withObservability(
   async (request: Request) => {
     let agentEmail = "unknown";
     let eventType = "unknown";
+    let claimOutcome: ClaimOutcome | null = null;
 
     try {
       const preview = await extractWebhookPreview(request);
@@ -224,6 +233,37 @@ export const POST = withObservability(
     agentEmail = normalizedEmail;
     const isAgenticNamespace = normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN);
 
+    const idempotencyKey = extractIdempotencyKey(request, rawBody);
+    claimOutcome = await claimInboundEvent({
+      source: "asol-feed",
+      key: idempotencyKey,
+      eventType: incomingEventType,
+      subjectId: normalizedEmail,
+      summary: { agentEmail: normalizedEmail, eventType: incomingEventType },
+      data: rawBody,
+    });
+
+    if (claimOutcome.isDuplicate) {
+      if (claimOutcome.isInFlight) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "conflict",
+            message: "Event is currently being processed",
+          },
+          { status: 409, headers: { "Retry-After": "1" } },
+        );
+      }
+      return NextResponse.json({
+        ...(claimOutcome.previousResult ?? {
+          success: true,
+          agentEmail: normalizedEmail,
+          eventType: incomingEventType,
+        }),
+        deduplicated: true,
+      });
+    }
+
     let user = await userDatabase.getUserByEmail(normalizedEmail);
 
     // Auto-provision agents in the @agentic.alchm.kitchen namespace on first event.
@@ -232,7 +272,7 @@ export const POST = withObservability(
     if (isAgenticNamespace && (!user?.isAgent)) {
       try {
         user = await userDatabase.ensurePlanetaryAgent(normalizedEmail, agentDisplayName);
-        console.log(
+        logger.info(
           `[Feed API] Auto-provisioned agent ${normalizedEmail} (userId=${user.id})`,
         );
       } catch (provisionError) {
@@ -242,7 +282,7 @@ export const POST = withObservability(
         // announces a platform incident for what is really one malformed
         // agent. 422 says "we understood you and declined".
         if (provisionError instanceof AgentChartRequiredError) {
-          console.warn(
+          logger.warn(
             "[Feed API] refused unclassifiable agent",
             normalizedEmail,
             provisionError.message,
@@ -258,7 +298,7 @@ export const POST = withObservability(
             { status: 422 },
           );
         }
-        console.error("[Feed API] ensurePlanetaryAgent failed for", normalizedEmail, provisionError);
+        logger.error("[Feed API] ensurePlanetaryAgent failed for", normalizedEmail, provisionError);
         rememberFeedEmit(eventType, normalizedEmail, 500);
         return NextResponse.json(
           {
@@ -312,7 +352,7 @@ export const POST = withObservability(
           asString(metadataPayload.insightTitle) ??
           asString(metadataPayload.dishName) ??
           asString(metadataPayload.recipeName) ??
-          `New Activity from ${user.profile?.name ?? "an Agent"}`;
+          `New Activity from ${user.profile.name ?? "an Agent"}`;
         const message =
           asString(metadataPayload.insightContent) ??
           asString(metadataPayload.description) ??
@@ -322,15 +362,13 @@ export const POST = withObservability(
         const { executeQuery } = await import("@/lib/database");
         const metadata = JSON.stringify({
           ...metadataPayload,
-          agentName: user.profile?.name ?? normalizedEmail,
+          agentName: user.profile.name ?? normalizedEmail,
           eventType: incomingEventType,
         });
-        // Unique text id per row (matches the notif_<ts>_<rand> service
-        // convention — see Risk 1; the column accepts text ids in prod).
+        // Unique UUID per row matching notifications schema
         await executeQuery(
           `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
-           SELECT 'notif_' || floor(extract(epoch from now()) * 1000)::bigint
-                    || '_' || substr(md5(random()::text || u.id::text), 1, 6),
+           SELECT uuid_generate_v4(),
                   u.id, 'agent_broadcast', $1, $2, $3, $4::jsonb
              FROM users u
             WHERE COALESCE(u.is_agent, false) = false`,
@@ -338,17 +376,24 @@ export const POST = withObservability(
         );
       }
     } catch (notifError) {
-      _logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
+      logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
     }
 
-    rememberFeedEmit(incomingEventType, normalizedEmail, 200);
-    return NextResponse.json({
+    const responsePayload = {
       success: true,
       agentEmail: normalizedEmail,
       eventType: incomingEventType,
-    });
+    };
+    if (claimOutcome.claim) {
+      await completeWebhookEvent(claimOutcome.claim, "processed", responsePayload);
+    }
+    rememberFeedEmit(incomingEventType, normalizedEmail, 200);
+    return NextResponse.json(responsePayload);
   } catch (error) {
-    _logger.error("[Feed Webhook] Error processing agent event:", error);
+    if (claimOutcome?.claim) {
+      await failWebhookEvent(claimOutcome.claim, error);
+    }
+    logger.error("[Feed Webhook] Error processing agent event:", error);
     rememberFeedEmit(eventType, agentEmail, 500);
     return NextResponse.json(
       { success: false, message: "Internal server error." },

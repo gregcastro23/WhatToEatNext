@@ -12,10 +12,12 @@ import { UserRole, ROLE_PERMISSIONS } from "./roles";
 export { UserRole, ROLE_PERMISSIONS };
 export type { RolePermissions } from "./roles";
 
+export type JwtExpiresIn = NonNullable<jwt.SignOptions["expiresIn"]>;
+
 export interface AuthConfig {
   jwtSecret: string;
-  tokenExpiry: string;
-  refreshTokenExpiry: string;
+  tokenExpiry: JwtExpiresIn;
+  refreshTokenExpiry: JwtExpiresIn;
   issuer: string;
 }
 
@@ -111,7 +113,7 @@ export class JWTAuthService {
     };
 
     const accessToken = jwt.sign(payload, this.config.jwtSecret, {
-      expiresIn: this.config.tokenExpiry as jwt.SignOptions["expiresIn"],
+      expiresIn: this.config.tokenExpiry,
       issuer: this.config.issuer,
       audience: "alchm.kitchen",
     });
@@ -120,16 +122,25 @@ export class JWTAuthService {
       { userId: user.id, type: "refresh" },
       this.config.jwtSecret,
       {
-        expiresIn: this.config.refreshTokenExpiry as jwt.SignOptions["expiresIn"],
+        expiresIn: this.config.refreshTokenExpiry,
         issuer: this.config.issuer,
         audience: "alchm.kitchen",
       },
     );
 
+    const decoded = jwt.decode(accessToken);
+    const tokenLifetime =
+      typeof decoded === "object" &&
+      decoded !== null &&
+      typeof decoded.exp === "number" &&
+      typeof decoded.iat === "number"
+        ? decoded.exp - decoded.iat
+        : this.parseExpiry(this.config.tokenExpiry);
+
     return {
       accessToken,
       refreshToken,
-      expiresIn: this.parseExpiry(this.config.tokenExpiry),
+      expiresIn: tokenLifetime,
     };
   }
 
@@ -233,10 +244,13 @@ export class JWTAuthService {
   }
 
   /**
-   * Parse expiry string to seconds
+   * Parse expiry value to seconds
    */
-  private parseExpiry(expiry: string): number {
-    const match = expiry.match(/^(\d+)([smhd])$/);
+  private parseExpiry(expiry: JwtExpiresIn): number {
+    if (typeof expiry === "number") {
+      return expiry;
+    }
+    const match = expiry.match(/^(\d+)([smhd])?$/);
     if (!match) return 3600; // Default 1 hour
 
     const [, rawValue, unit] = match;
@@ -245,6 +259,7 @@ export class JWTAuthService {
 
     switch (unit) {
       case "s":
+      case undefined:
         return value;
       case "m":
         return value * 60;

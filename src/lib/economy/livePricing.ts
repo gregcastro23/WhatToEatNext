@@ -5,7 +5,11 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
+  PRICED_BODIES,
+  type PricedBody,
 } from "@/utils/serverPlanetaryCalculations";
+
+export { PRICED_BODIES, type PricedBody };
 
 interface EsmsCost {
   spirit: number;
@@ -116,19 +120,6 @@ export function globalMultiplierForANumber(aNumber: number): number {
  * contribute exactly 0 to ESMS, so excluding them is behaviour-preserving and
  * merely makes the contract explicit.
  */
-export const PRICED_BODIES = [
-  "Sun",
-  "Moon",
-  "Mercury",
-  "Venus",
-  "Mars",
-  "Jupiter",
-  "Saturn",
-  "Uranus",
-  "Neptune",
-  "Pluto",
-] as const;
-
 const PRICED_BODY_SET: ReadonlySet<string> = new Set(PRICED_BODIES);
 
 /**
@@ -149,32 +140,45 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-function asPlanetaryPositions(
-  positions: Record<string, any>,
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null;
+}
+
+export function asPlanetaryPositions(
+  positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {};
-  for (const [planet, pos] of Object.entries(positions)) {
+  for (const [planet, rawPos] of Object.entries(positions)) {
     // The debit path is remote-first, and the remote hands back an Ascendant.
     // Filtering HERE — at the pricing boundary, not in the shared position
     // util — keeps natal charts and the wheel free to use every body while the
     // economy prices exactly the ten the oracle quotes. See PRICED_BODIES.
-    if (!isPricedBody(planet)) continue;
+    if (!isPricedBody(planet) || !isRecord(rawPos)) continue;
+
+    const sign = typeof rawPos.sign === "string" ? rawPos.sign.toLowerCase() : String(rawPos.sign ?? "").toLowerCase();
+    const degree = typeof rawPos.degree === "number" && Number.isFinite(rawPos.degree) ? rawPos.degree : Number(rawPos.degree ?? 0);
+    const minute = typeof rawPos.minute === "number" && Number.isFinite(rawPos.minute) ? rawPos.minute : Number(rawPos.minute ?? 0);
+    const isRetrograde = Boolean(rawPos.isRetrograde);
+    const exactLongitude =
+      typeof rawPos.exactLongitude === "number" && Number.isFinite(rawPos.exactLongitude)
+        ? rawPos.exactLongitude
+        : undefined;
+
     normalized[planet] = {
-      sign: String(pos?.sign ?? "").toLowerCase(),
-      degree: Number(pos?.degree ?? 0),
-      minute: Number(pos?.minute ?? 0),
-      isRetrograde: Boolean(pos?.isRetrograde),
+      sign,
+      degree: Number.isFinite(degree) ? degree : 0,
+      minute: Number.isFinite(minute) ? minute : 0,
+      isRetrograde,
       // Carried through so aspects get real angular separations; dropping it
       // forces a reconstruction from sign + degree.
-      exactLongitude:
-        typeof pos?.exactLongitude === "number" ? pos.exactLongitude : undefined,
+      ...(exactLongitude !== undefined ? { exactLongitude } : {}),
     };
   }
   return normalized;
 }
 
 export async function getLivePricingContext(now = new Date()): Promise<LivePricingContext> {
-  let positions: Record<string, any>;
+  let positions: Record<string, unknown>;
   try {
     positions = await calculatePlanetaryPositions(now);
   } catch {

@@ -5,6 +5,8 @@
  * with robust fallback mechanisms when API calls fail.
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 // getMCPServerIntegration removed with MCP cleanup
 import { logger } from "@/utils/logger";
@@ -175,14 +177,16 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
         const response = await fetch(url, { signal: controller.signal });
         clearTimeout(timeoutId);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+        const HorizonsApiResponseSchema = z.object({
+          result: z.string().optional(),
+        }).passthrough();
 
-        const data = (await response.json()) as { result?: string } | null;
+        const data = await readJson(response, {
+          parse: (raw) => HorizonsApiResponseSchema.parse(raw),
+        });
 
         // Process and extract the ecliptic longitude from the response
-        if (data?.result) {
+        if (data.result) {
           const result = processHorizonsResponse(data.result, planet.name);
           if (result) {
             positions[planet.name] = result;
@@ -491,11 +495,16 @@ async function fetchPublicApiData(
       // Clear the timeout
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        throw new Error(`Public API error: ${response.status}`);
-      }
+      const PublicApiPlanetItemSchema = z.object({
+        name: z.string().optional(),
+        longitude: z.union([z.number(), z.string()]).optional(),
+        isRetrograde: z.boolean().optional(),
+      }).passthrough();
+      const PublicApiResponseSchema = z.array(PublicApiPlanetItemSchema);
 
-      const data = (await response.json()) as unknown;
+      const data = await readJson(response, {
+        parse: (raw) => PublicApiResponseSchema.parse(raw),
+      });
 
       // Process the response;
       const positions: Record<string, unknown> = {};
@@ -517,13 +526,8 @@ async function fetchPublicApiData(
       };
 
       // Process each planet
-      interface PublicApiPlanetItem {
-        name?: string;
-        longitude?: string | number;
-        isRetrograde?: boolean;
-      }
       if (Array.isArray(data)) {
-        (data as PublicApiPlanetItem[]).forEach((planetData) => {
+        data.forEach((planetData) => {
           const rawName = planetData.name?.toLowerCase();
           if (
             rawName &&
@@ -643,26 +647,26 @@ async function fetchTimeAndDateData(
       // Clear the timeout
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        throw new Error(`TimeAndDate API error: ${response.status}`);
-      }
+      const TimeAndDateObjectSchema = z.object({
+        name: z.string().optional(),
+        position: z.object({
+          eclipticLongitude: z.number().optional(),
+          isRetrograde: z.boolean().optional(),
+        }).passthrough().optional(),
+      }).passthrough();
 
-      interface TimeAndDateObject {
-        name?: string;
-        position?: {
-          eclipticLongitude?: number;
-          isRetrograde?: boolean;
-        };
-      }
-      interface TimeAndDateResponse {
-        objects?: TimeAndDateObject[];
-      }
-      const data = (await response.json()) as TimeAndDateResponse | null;
+      const TimeAndDateResponseSchema = z.object({
+        objects: z.array(TimeAndDateObjectSchema).optional(),
+      }).passthrough();
+
+      const data = await readJson(response, {
+        parse: (raw) => TimeAndDateResponseSchema.parse(raw),
+      });
 
       // Process the response
       const positions: Record<string, unknown> = {};
 
-      if (Array.isArray(data?.objects)) {
+      if (Array.isArray(data.objects)) {
         data.objects.forEach((objData) => {
           if (
             objData.name &&

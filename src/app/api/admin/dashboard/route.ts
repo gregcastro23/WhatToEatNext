@@ -18,6 +18,7 @@ import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { getDeployHistoryLive } from "@/services/admin/deployHistory";
 import {
   getAdminUserStats,
   getRecentHumanSignups,
@@ -39,7 +40,6 @@ import {
   getLivingEconomyMetrics,
   getRequestHourlySeries,
   getSecuritySummary,
-  getDeployHistory,
   getFeatureFlags,
   getResourceUsage,
   getPractitionerGeo,
@@ -286,7 +286,7 @@ async function assembleTelemetryCore() {
     const livingEconomyPromise = getLivingEconomyMetrics();
     const errorGroupsPromise = getErrorGroupSummary();
     const securityPromise = getSecuritySummary();
-    const deploysPromise = Promise.resolve(getDeployHistory());
+    const deploysPromise = getDeployHistoryLive();
     const featureFlagsPromise = Promise.resolve(getFeatureFlags());
     const practitionerGeoPromise = getPractitionerGeo();
     const cohortRetentionPromise = getCohortRetention();

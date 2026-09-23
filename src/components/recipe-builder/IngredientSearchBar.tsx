@@ -285,9 +285,10 @@ export default function IngredientSearchBar({
     }) => {
       const selected: SelectedIngredient = {
         name: ing.name,
-        category: ing.category,
-        elementalProperties:
-          ing.elementalProperties,
+        ...(ing.category !== undefined ? { category: ing.category } : {}),
+        ...(ing.elementalProperties !== undefined
+          ? { elementalProperties: ing.elementalProperties }
+          : {}),
       };
       addIngredient(selected);
     },

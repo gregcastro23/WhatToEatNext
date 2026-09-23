@@ -6,7 +6,7 @@
  * The "what's actually happening on the site right now" hero panel.
  * Polls /api/admin/live-activity every 10s and renders a chronological
  * feed merging signups, sign-ins, onboarding completions, recipe views,
- * food diary entries, token transactions, and agent events.
+ * food diary entries, token transactions, agent events, and site visits.
  *
  * Filter chips on top let the operator zoom in on a single category;
  * counts shown per chip.
@@ -17,43 +17,18 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { readJson } from "@/lib/api/json";
+import {
+  LiveActivityResponseSchema,
+  type LiveActivityPayload as ActivityPayload,
+  type LiveActivityEvent as ActivityEvent,
+} from "@/lib/validation/adminResponseSchemas";
 
-type Category =
-  | "signup"
-  | "auth"
-  | "onboarding"
-  | "recipe"
-  | "economy"
-  | "agent"
-  | "diary";
-
-type Status = "success" | "failure" | "info";
-
-interface Actor {
-  userId: string;
-  email: string;
-  name: string | null;
-  isAgent: boolean;
-}
-
-interface ActivityEvent {
-  id: string;
-  at: string;
-  category: Category;
-  type: string;
-  description: string;
-  status: Status;
-  actor: Actor | null;
-  context?: Record<string, unknown>;
-}
-
-interface ActivityPayload {
-  generatedAt: string;
-  windowHours: number;
-  events: ActivityEvent[];
-  countsByCategory: Record<Category, number>;
-  live: boolean;
-}
+import type {
+  ActivityCategory as Category,
+  ActivityStatus as Status,
+  ActivityActor as Actor,
+} from "@/services/liveActivityService";
 
 const CATEGORY_LABEL: Record<Category, string> = {
   signup: "Signups",
@@ -63,6 +38,7 @@ const CATEGORY_LABEL: Record<Category, string> = {
   economy: "Economy",
   agent: "Agent",
   diary: "Diary",
+  visit: "Visits",
 };
 
 const CATEGORY_STYLE: Record<Category, { dot: string; chip: string; ring: string }> = {
@@ -100,6 +76,11 @@ const CATEGORY_STYLE: Record<Category, { dot: string; chip: string; ring: string
     dot: "bg-pink-500",
     chip: "bg-pink-100 text-pink-800 border-pink-200",
     ring: "ring-pink-300",
+  },
+  visit: {
+    dot: "bg-teal-500",
+    chip: "bg-teal-100 text-teal-800 border-teal-200",
+    ring: "ring-teal-300",
   },
 };
 
@@ -140,7 +121,9 @@ export default function LiveActivityPanel(): React.JSX.Element | null {
         setError(`Failed to load activity (HTTP ${res.status})`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & ActivityPayload;
+      const json = await readJson(res, {
+        parse: (raw) => LiveActivityResponseSchema.parse(raw),
+      });
       if (json.success) {
         setData(json);
         setError(null);
@@ -205,6 +188,7 @@ export default function LiveActivityPanel(): React.JSX.Element | null {
     "economy",
     "agent",
     "diary",
+    "visit",
   ];
 
   return (
@@ -235,7 +219,7 @@ export default function LiveActivityPanel(): React.JSX.Element | null {
           onClick={() => setFilter("all")}
         />
         {categories.map((cat) => {
-          const count = data.countsByCategory[cat] ?? 0;
+          const count = data.countsByCategory[cat];
           if (count === 0 && filter !== cat) return null;
           return (
             <FilterChip
@@ -312,10 +296,23 @@ function FilterChip({
   );
 }
 
-function EventRow({ event }: { event: ActivityEvent }) {
+function ActorBadge({ actor }: { actor: ActivityEvent["actor"] }): React.JSX.Element {
+  if (!actor) return <span className="text-sm text-gray-500 italic">system</span>;
+  return (
+    <span className="flex items-baseline gap-1">
+      <span className="text-sm font-medium text-gray-900">{shortHandle(actor)}</span>
+      {actor.isAgent && (
+        <span className="px-1 py-0.5 rounded text-[8px] font-bold bg-purple-100 text-purple-700">
+          AGENT
+        </span>
+      )}
+    </span>
+  );
+}
+
+function EventRow({ event }: { event: ActivityEvent }): React.JSX.Element {
   const catStyle = CATEGORY_STYLE[event.category];
   const statusStyle = STATUS_STYLE[event.status];
-  const { actor } = event;
   return (
     <li className="px-4 sm:px-6 py-3 hover:bg-gray-50">
       <div className="flex items-start gap-3">
@@ -324,25 +321,10 @@ function EventRow({ event }: { event: ActivityEvent }) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2 flex-wrap">
-            <span
-              className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border ${catStyle.chip}`}
-            >
+            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border ${catStyle.chip}`}>
               {CATEGORY_LABEL[event.category]}
             </span>
-            {actor ? (
-              <span className="flex items-baseline gap-1">
-                <span className="text-sm font-medium text-gray-900">
-                  {shortHandle(actor)}
-                </span>
-                {actor.isAgent && (
-                  <span className="px-1 py-0.5 rounded text-[8px] font-bold bg-purple-100 text-purple-700">
-                    AGENT
-                  </span>
-                )}
-              </span>
-            ) : (
-              <span className="text-sm text-gray-500 italic">system</span>
-            )}
+            <ActorBadge actor={event.actor} />
             <span className="text-sm text-gray-700">{event.description}</span>
             {event.status !== "success" && (
               <span className={`text-[10px] font-mono ${statusStyle.className}`}>
@@ -350,16 +332,13 @@ function EventRow({ event }: { event: ActivityEvent }) {
               </span>
             )}
           </div>
-          {actor?.email && (
+          {event.actor?.email && (
             <p className="text-[10px] text-gray-400 font-mono mt-0.5 truncate">
-              {actor.email} · {event.type}
+              {event.actor.email} · {event.type}
             </p>
           )}
         </div>
-        <span
-          className="flex-shrink-0 text-[10px] text-gray-400 font-mono"
-          title={new Date(event.at).toLocaleString()}
-        >
+        <span className="flex-shrink-0 text-[10px] text-gray-400 font-mono" title={new Date(event.at).toLocaleString()}>
           {formatRelative(event.at)} ago
         </span>
       </div>

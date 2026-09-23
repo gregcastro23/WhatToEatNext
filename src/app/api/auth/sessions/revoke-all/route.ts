@@ -17,10 +17,17 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { REVOKE_ALL_SESSIONS_SQL } from "@/lib/auth/authQueries";
+import { assertAllowedOrigin } from "@/lib/auth/originCheck";
 
 export const dynamic = "force-dynamic";
 
-export async function POST() {
+export async function POST(request: Request) {
+  const originError = assertAllowedOrigin(request);
+  if (originError) {
+    return originError;
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -36,12 +43,7 @@ export async function POST() {
     // the current session. The unique index on (user_id, jti) makes the
     // WHERE clause cheap.
     const result = await executeQuery(
-      `UPDATE device_sessions
-          SET revoked_at = NOW()
-        WHERE user_id = $1
-          AND revoked_at IS NULL
-          AND ($2::text IS NULL OR id <> $2)
-        RETURNING id`,
+      REVOKE_ALL_SESSIONS_SQL,
       [session.user.id, currentJti ?? null],
     );
     return NextResponse.json({

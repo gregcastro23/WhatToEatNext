@@ -66,7 +66,9 @@ function loadSummaries(): Record<string, string> {
 // Summaries include a `**Selection & Storage:**` block; we keep everything
 // before that and collapse newlines.
 function summaryToDescription(summary: string): string {
-  let body = summary.split(/\*\*Selection/i)[0].trim();
+  const parts = summary.split(/\*\*Selection/i);
+  const head = parts[0];
+  let body = (head !== undefined ? head : summary).trim();
   body = body.replace(/\n+/g, " ").replace(/\s+/g, " ").trim();
   // Escape stray double quotes and backslashes so we can emit as a
   // double-quoted JS string literal.
@@ -80,7 +82,8 @@ function summaryToDescription(summary: string): string {
 
 interface CategoryDefaults {
   description: string;
-  qualities: string[];
+  // JS literal string representation for AST insertion
+  qualities: string;
   sensoryProfile: string;
   nutritionalProfile: string;
   culinaryProfile: string;
@@ -200,7 +203,11 @@ function def(cat: string, name: string): CategoryDefaults {
       storage: `{ refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }`,
     },
   };
-  return defaults[cat] ?? defaults.misc;
+  const miscDefaults = defaults.misc;
+  if (!miscDefaults) {
+    throw new Error("Missing defaults.misc fallback definition");
+  }
+  return defaults[cat] ?? miscDefaults;
 }
 
 // ──────────────────────────────────────────────────────────────────
@@ -284,7 +291,11 @@ function hasDescription(props: Map<string, PropertyAssignment>): boolean {
 
 function categoryFromFile(file: string): string {
   const rel = path.relative(INGREDIENTS_DIR, file).split(path.sep);
-  return rel[0].replace(/\.ts$/, "");
+  const first = rel[0];
+  if (!first) {
+    throw new Error(`Failed to extract category from relative path: ${file}`);
+  }
+  return first.replace(/\.ts$/, "");
 }
 
 function enrichFile(

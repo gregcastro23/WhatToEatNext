@@ -65,14 +65,19 @@ export async function GET(request: NextRequest) {
       ? (sortRaw as DiscoverPeopleSort)
       : "recent";
 
+    const q = sp.get("q") ?? undefined;
+    const element = sp.get("element") ?? undefined;
+    const cursor = sp.get("cursor") ?? undefined;
+    const limit = floatParam(sp, "limit");
+
     const result = await discoverPeople(
       {
-        q: sp.get("q") ?? undefined,
+        ...(q !== undefined ? { q } : {}),
         kind,
-        element: sp.get("element") ?? undefined,
+        ...(element !== undefined ? { element } : {}),
         sort,
-        cursor: sp.get("cursor") ?? undefined,
-        limit: floatParam(sp, "limit"),
+        ...(cursor !== undefined ? { cursor } : {}),
+        ...(limit !== undefined ? { limit } : {}),
       },
       viewerId,
     );

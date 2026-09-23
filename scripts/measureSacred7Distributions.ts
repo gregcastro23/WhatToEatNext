@@ -45,7 +45,12 @@ for (const r of rows) {
   byMethod.get(k)!.push(v);
 }
 
-const q = (xs: number[], p: number) => { const s=[...xs].sort((a,b)=>a-b); return s[Math.floor((s.length-1)*p)]; };
+const q = (xs: number[], p: number): number => {
+  if (xs.length === 0) return 0;
+  const s = [...xs].sort((a, b) => a - b);
+  const idx = Math.max(0, Math.min(s.length - 1, Math.floor((s.length - 1) * p)));
+  return s[idx] ?? 0;
+};
 const f = (n: number) => n.toFixed(4);
 
 console.log(`\n=== monica by construction (what sacred-7 actually receives) ===`);

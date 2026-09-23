@@ -155,7 +155,7 @@ function validateOuterPlanetForYear(
       const valid = range.signs.includes(sign);
       return {
         valid,
-        expectedSigns: valid ? undefined : range.signs,
+        ...(!valid ? { expectedSigns: range.signs } : {}),
       };
     }
   }

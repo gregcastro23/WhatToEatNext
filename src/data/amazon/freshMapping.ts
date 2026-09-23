@@ -336,7 +336,7 @@ export function getAmazonFreshMapping(
     optimizedSearchString,
     categoryNode,
     primaryBrand: brand,
-    alternateBrands,
+    ...(alternateBrands ? { alternateBrands } : {}),
     chakraAlignment,
     confidence: asin ? "verified_asin" : "optimized_nyc_fresh_query",
     fulfillmentSignal: fulfillmentSignal(categoryNode, brand),
@@ -509,7 +509,7 @@ function selectBrandAndAttribute(
   ingredient?: Ingredient,
 ): { brand: string; attribute?: string } {
   const local = LOCAL_BRAND_RULES.find((rule) => rule.match(value, ingredient));
-  if (local) return { brand: local.brand, attribute: local.attribute };
+  if (local) return { brand: local.brand, ...(local.attribute !== undefined ? { attribute: local.attribute } : {}) };
 
   if (category === "Pantry Staples" && hasAny(value, ["salt", "sugar", "flour", "honey", "syrup"])) {
     return { brand: "Amazon Saver" };

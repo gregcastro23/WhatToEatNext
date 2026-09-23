@@ -165,9 +165,23 @@ beforeAll(() => {
   jest.setTimeout(10000);
 });
 
-afterAll(() => {
+afterAll(async () => {
   jest.clearAllTimers();
   jest.useRealTimers();
+  try {
+    let rawPoolPath: string | undefined;
+    try {
+      rawPoolPath = require.resolve("@/lib/database/rawPool");
+    } catch {
+      /* ignore resolution error */
+    }
+    if (rawPoolPath && typeof require !== "undefined" && require.cache && require.cache[rawPoolPath]) {
+      const { closeDatabase } = await import("@/lib/database/rawPool");
+      await closeDatabase();
+    }
+  } catch {
+    /* ignore if rawPool was never loaded */
+  }
 });
 
 // Add global error handler for unhandled rejections

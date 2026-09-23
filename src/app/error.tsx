@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { createLogger } from "@/utils/logger";
+
+const log = createLogger("RootErrorBoundary");
 
 export default function Error({
   error,
@@ -11,8 +14,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("Root error boundary caught error:", error, {
-      context: "RootErrorBoundary",
+    log.error("Root error boundary caught error:", error, {
       digest: error.digest,
     });
   }, [error]);

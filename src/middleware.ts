@@ -14,9 +14,26 @@ import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth/auth.config";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
 import type { NextRequest } from "next/server";
 
-const authMiddleware = NextAuth(authConfig).auth as unknown as (
+export interface MiddlewareAuthRequest {
+  auth?: { user?: Record<string, unknown> | null } | null;
+  headers?: Headers;
+}
+
+export function onAuthMiddlewareRequest(req: MiddlewareAuthRequest): void {
+  const user = req.auth?.user;
+  const sessionId =
+    user && "sessionId" in user && typeof user.sessionId === "string"
+      ? user.sessionId
+      : undefined;
+  if (sessionId) {
+    scheduleSessionTouch(sessionId, req.headers);
+  }
+}
+
+const authMiddleware = NextAuth(authConfig).auth(onAuthMiddlewareRequest) as unknown as (
   request: NextRequest,
 ) => ReturnType<Response["clone"]> | Promise<Response | undefined> | undefined;
 
@@ -53,6 +70,7 @@ export default async function middleware(request: NextRequest) {
     const result = await authMiddleware(request);
     const elapsed = Date.now() - started;
     if (elapsed > SLOW_MIDDLEWARE_THRESHOLD_MS) {
+      // eslint-disable-next-line no-console -- Edge runtime: stdout is the sole tracing channel for slow middleware
       console.warn(
         `[middleware] slow ${elapsed}ms ${request.method} ${request.nextUrl.pathname}`,
       );
@@ -60,6 +78,7 @@ export default async function middleware(request: NextRequest) {
     return result;
   } catch (err) {
     const elapsed = Date.now() - started;
+    // eslint-disable-next-line no-console -- Edge runtime: stdout is the sole channel for uncaught middleware failures
     console.error(
       `[middleware] failed after ${elapsed}ms ${request.method} ${request.nextUrl.pathname}:`,
       err,

@@ -55,17 +55,23 @@ function getPlanetarySignature(
   const signature = metadata?.planetarySignature;
   if (!isObject(signature)) return null;
 
-  return {
-    planetaryHour: optionalString(signature.planetaryHour),
-    planetaryDay: optionalString(signature.planetaryDay),
-    dominantPlanet: optionalString(signature.dominantPlanet),
-    dominantSign: optionalString(signature.dominantSign),
-    dominantElement: optionalString(signature.dominantElement),
-    sacredStat: optionalString(signature.sacredStat),
-    natalPositions: Array.isArray(signature.natalPositions)
-      ? signature.natalPositions.filter(isSignaturePlacement)
-      : undefined,
-  };
+  const res: PlanetarySignature = {};
+  const hour = optionalString(signature.planetaryHour);
+  if (hour) res.planetaryHour = hour;
+  const day = optionalString(signature.planetaryDay);
+  if (day) res.planetaryDay = day;
+  const planet = optionalString(signature.dominantPlanet);
+  if (planet) res.dominantPlanet = planet;
+  const sign = optionalString(signature.dominantSign);
+  if (sign) res.dominantSign = sign;
+  const element = optionalString(signature.dominantElement);
+  if (element) res.dominantElement = element;
+  const stat = optionalString(signature.sacredStat);
+  if (stat) res.sacredStat = stat;
+  if (Array.isArray(signature.natalPositions)) {
+    res.natalPositions = signature.natalPositions.filter(isSignaturePlacement);
+  }
+  return res;
 }
 
 function formatPlacement(placement: SignaturePlacement): string | null {

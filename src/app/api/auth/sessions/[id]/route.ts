@@ -13,6 +13,8 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { REVOKE_SESSION_BY_ID_SQL } from "@/lib/auth/authQueries";
+import { assertAllowedOrigin } from "@/lib/auth/originCheck";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +22,37 @@ interface Params {
   params: Promise<{ id: string }>;
 }
 
-export async function DELETE(_request: Request, { params }: Params) {
+async function revokeSessionById(id: string, userId: string): Promise<NextResponse> {
+  try {
+    const { executeQuery } = await import("@/lib/database");
+    const result = await executeQuery(
+      REVOKE_SESSION_BY_ID_SQL,
+      [id, userId],
+    );
+    if (result.rowCount === 0) {
+      return NextResponse.json(
+        { error: "Session not found" },
+        { status: 404 },
+      );
+    }
+    return NextResponse.json({ revoked: id });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "Failed to revoke session",
+        detail: process.env.NODE_ENV === "development" ? String(err) : undefined,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request: Request, { params }: Params) {
+  const originError = assertAllowedOrigin(request);
+  if (originError) {
+    return originError;
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -40,29 +72,5 @@ export async function DELETE(_request: Request, { params }: Params) {
     );
   }
 
-  try {
-    const { executeQuery } = await import("@/lib/database");
-    const result = await executeQuery(
-      `UPDATE device_sessions
-          SET revoked_at = NOW()
-        WHERE id = $1 AND user_id = $2 AND revoked_at IS NULL
-        RETURNING id`,
-      [id, session.user.id],
-    );
-    if (result.rowCount === 0) {
-      return NextResponse.json(
-        { error: "Session not found" },
-        { status: 404 },
-      );
-    }
-    return NextResponse.json({ revoked: id });
-  } catch (err) {
-    return NextResponse.json(
-      {
-        error: "Failed to revoke session",
-        detail: process.env.NODE_ENV === "development" ? String(err) : undefined,
-      },
-      { status: 500 },
-    );
-  }
+  return revokeSessionById(id, session.user.id);
 }
