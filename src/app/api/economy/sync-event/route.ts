@@ -6,6 +6,7 @@ import {
   extractIdempotencyKey,
   failWebhookEvent,
 } from "@/lib/hooks/idempotency";
+import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { EconomySyncEventRequestSchema } from "@/lib/validation/apiSchemas";
@@ -126,10 +127,11 @@ export async function POST(req: NextRequest) {
 
     if (claimResult.isDuplicate) {
       if (claimResult.isInFlight) {
-        return NextResponse.json(
-          { ok: false, error: "conflict", message: "Event is currently being processed" },
-          { status: 409, headers: { "Retry-After": "1" } },
-        );
+        return inFlightConflict({
+          ok: false,
+          error: "conflict",
+          message: "Event is currently being processed",
+        });
       }
       return NextResponse.json({
         ...(claimResult.previousResult ?? { ok: true, event }),

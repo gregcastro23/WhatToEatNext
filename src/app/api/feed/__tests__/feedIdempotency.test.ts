@@ -166,6 +166,8 @@ describe("POST /api/feed idempotency", () => {
     const res = await POST(req);
     expect(res.status).toBe(409);
     expect(res.headers.get("Retry-After")).toBe("1");
+    const data = await res.json();
+    expect(isRecord(data) && data.status).toBe("in_flight");
     expect(mockCreateEvent).not.toHaveBeenCalled();
   });
 });

@@ -22,6 +22,7 @@ import {
   extractIdempotencyKey,
   failWebhookEvent,
 } from "@/lib/hooks/idempotency";
+import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
 import { bearerMatches, safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 
@@ -91,10 +92,11 @@ export async function POST(request: NextRequest) {
 
   if (claimResult.isDuplicate) {
     if (claimResult.isInFlight) {
-      return NextResponse.json(
-        { success: false, error: "conflict", message: "Event is currently being processed" },
-        { status: 409, headers: { "Retry-After": "1" } },
-      );
+      return inFlightConflict({
+        success: false,
+        error: "conflict",
+        message: "Event is currently being processed",
+      });
     }
     return NextResponse.json({
       ...(claimResult.previousResult ?? { success: true }),
