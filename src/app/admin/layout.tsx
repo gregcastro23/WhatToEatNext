@@ -102,7 +102,13 @@ export default function AdminLayout({
         { href: "/admin/feed/comment-reports", label: "Comment Reports", icon: "💬" },
       ],
     },
-    { group: "System", items: [{ href: "/admin/settings", label: "Settings", icon: "⚙️" }] },
+    {
+      group: "System",
+      items: [
+        { href: "/admin/jobs", label: "Jobs & probes", icon: "⏱️" },
+        { href: "/admin/settings", label: "Settings", icon: "⚙️" },
+      ],
+    },
   ];
   const navItems = navGroups.flatMap((g) => g.items);
 

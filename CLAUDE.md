@@ -31,6 +31,13 @@ Operator UI lives under `src/app/admin/*` behind the sidebar in `admin/layout.ts
   - Revenue: read live from the Stripe API (MRR from real prices, 30-day charges, checkout funnel by `metadata.purpose`, pending webhook deliveries).
   - Chain: Solana addresses come from `alchm-agents-solana/deployments/*.json` on GitHub and are then read live from devnet and mainnet RPC. Anchor layouts are decoded in `solanaDecode.ts`, with golden-vector tests. Also shows Base Sepolia operator gas and the claim ledger.
   - Code health: tsc/ESLint readings arrive from the CI `code-health` job, which posts to `POST /api/admin/code-health/ingest` using `CODE_HEALTH_INGEST_SECRET`. Also shows the bundled ratchet baselines, their GitHub history, CI status, commits, and PRs. `bun run health:snapshot` measures locally. Set `GITHUB_TOKEN` to lift the unauthenticated GitHub rate limit.
+- **Jobs & probes** (`/admin/jobs`, `GET /api/admin/jobs`) shows every cron and synthetic probe from `src/services/cronRegistry.ts`, which imports vercel.json and appends Railway jobs such as `daily-digest`. For each job it shows:
+  - state, using the same `evaluateHeartbeat` verdict as the alerting cron;
+  - runs owed versus recorded in the last 24h (a run Vercel kills at `maxDuration` leaves no row);
+  - p95 against the function limit;
+  - its last 24 runs.
+
+  It also shows alert emails per component. Crons record `cron:<name>` heartbeats via `recordCronRun(name, { status, startedAt, details })`. A sub-daily job alerts after two consecutive missed or failed runs; one failure shows as `retrying`. Give each new hourly-or-faster cron a minute of the hour no other job uses (`cronRegistry.test.ts` enforces this).
 - **Dashboard ✦** (`/admin/dashboard`) — the "High Alchemist" full-bleed board in `src/app/admin/_dashboard/`, fed entirely by `GET /api/admin/dashboard` → `AdminDashboardData`.
 - **Settlements** (`/admin/settlements`) — restaurant ESMS settlement handle (retry/refund stuck crypto-food orders); `GET/POST /api/admin/restaurants/settlement`. Required before public payments launch (`docs/payments/CRYPTO_FOOD_PAYMENTS.md`).
 - **Moderation** — `/admin/chat-reports` (`/api/admin/chat/reports`) and `/admin/feed/comment-reports`.

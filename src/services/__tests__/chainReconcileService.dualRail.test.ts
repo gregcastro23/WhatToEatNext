@@ -9,12 +9,12 @@ jest.mock("@/lib/database", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
 }));
 
-const mockReadEsmsBalances = jest.fn();
+const mockReadEsmsBalancesMany = jest.fn();
 const mockReadEsmsClaimed = jest.fn();
 const mockEsmsOnchainConfigured = jest.fn();
 jest.mock("@/lib/esms-chain/contract", () => ({
   esmsOnchainConfigured: () => mockEsmsOnchainConfigured(),
-  readEsmsBalances: (wallet: string) => mockReadEsmsBalances(wallet),
+  readEsmsBalancesMany: (wallets: string[]) => mockReadEsmsBalancesMany(wallets),
   readEsmsClaimed: (claimId: string) => mockReadEsmsClaimed(claimId),
   readEsmsRedeemed: jest.fn(),
 }));
@@ -93,12 +93,14 @@ describe("chainReconcileService - Dual-Rail Ledger Isolation", () => {
         });
 
       // On-chain returns spirit within EPSILON tolerance (10.00005 vs 10.0000 -> <= 10.0001)
-      mockReadEsmsBalances.mockResolvedValue({
-        spirit: parseUnits("10.00005", 18),
-        essence: parseUnits("5.0000", 18),
-        matter: parseUnits("2.0000", 18),
-        substance: parseUnits("1.0000", 18),
-      });
+      mockReadEsmsBalancesMany.mockResolvedValue([
+        {
+          spirit: parseUnits("10.00005", 18),
+          essence: parseUnits("5.0000", 18),
+          matter: parseUnits("2.0000", 18),
+          substance: parseUnits("1.0000", 18),
+        },
+      ]);
 
       const res = await checkWalletInvariants("eip155:84532", 20);
 
@@ -134,12 +136,14 @@ describe("chainReconcileService - Dual-Rail Ledger Isolation", () => {
         });
 
       // On-chain returns 10.0002 (exceeds 10.0000 + 0.0001)
-      mockReadEsmsBalances.mockResolvedValue({
-        spirit: parseUnits("10.0002", 18),
-        essence: parseUnits("5.0000", 18),
-        matter: parseUnits("2.0000", 18),
-        substance: parseUnits("1.0000", 18),
-      });
+      mockReadEsmsBalancesMany.mockResolvedValue([
+        {
+          spirit: parseUnits("10.0002", 18),
+          essence: parseUnits("5.0000", 18),
+          matter: parseUnits("2.0000", 18),
+          substance: parseUnits("1.0000", 18),
+        },
+      ]);
 
       const res = await checkWalletInvariants("eip155:84532", 20);
 
@@ -150,6 +154,37 @@ describe("chainReconcileService - Dual-Rail Ledger Isolation", () => {
         onchain: 10.0002,
         ledger: 10,
       });
+    });
+    it("reads every wallet in ONE batched call, and counts a failed batch as every wallet unverified", async () => {
+      // 2026-09: one eth_call per wallet hit "over rate limit" on the public
+      // Base Sepolia RPC on nearly every hourly run, while the cron still
+      // reported success. One request for all wallets, and an honest count.
+      mockEsmsOnchainConfigured.mockReturnValue(true);
+      const ledgerRow = (wallet: string): Record<string, string> => ({
+        wallet_address: wallet,
+        spirit: "1",
+        essence: "1",
+        matter: "1",
+        substance: "1",
+      });
+      const wallets = [
+        "0x3333333333333333333333333333333333333333",
+        "0x4444444444444444444444444444444444444444",
+        "0x5555555555555555555555555555555555555555",
+      ];
+      mockExecuteQuery
+        .mockResolvedValueOnce({ rows: [{ total: 3 }] })
+        .mockResolvedValueOnce({ rows: wallets.map(ledgerRow) });
+      mockReadEsmsBalancesMany.mockRejectedValue(new Error("over rate limit"));
+
+      const res = await checkWalletInvariants("eip155:84532", 20);
+
+      expect(mockReadEsmsBalancesMany).toHaveBeenCalledTimes(1);
+      expect(mockReadEsmsBalancesMany).toHaveBeenCalledWith(wallets);
+      expect(res.walletsChecked).toBe(3);
+      expect(res.failures).toBe(3);
+      expect(res.firstError).toBe("over rate limit");
+      expect(res.violations).toHaveLength(0);
     });
   });
 

@@ -8,9 +8,12 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { SolanaMilestones } from "@/app/admin/chain/_components/SolanaMilestones";
+import { JobsKpis } from "@/app/admin/jobs/_components/JobsSummary";
+import { JobsTable } from "@/app/admin/jobs/_components/JobsTable";
 import { ModeBanner, RevenueKpis } from "@/app/admin/revenue/_components/RevenueSections";
 import { TrafficStatusNotice } from "@/app/admin/traffic/_components/TrafficSections";
 import type { SolanaView } from "@/lib/admin/schemas/chain";
+import type { JobsView } from "@/lib/admin/schemas/jobs";
 import type { RevenueView } from "@/lib/admin/schemas/revenue";
 import type { TrafficSummaryView } from "@/lib/admin/schemas/traffic";
 
@@ -88,5 +91,34 @@ describe("Solana milestones", () => {
     render(<SolanaMilestones solana={solana} />);
     expect(screen.getAllByText("unknown").length).toBeGreaterThanOrEqual(6);
     expect(screen.queryByText("done")).toBeNull();
+  });
+});
+
+describe("Jobs & probes", () => {
+  const base: JobsView = {
+    generatedAt: "2026-09-22T00:00:00Z",
+    live: false,
+    alertsLive: false,
+    errors: ["run history: Query read timeout"],
+    jobs: [],
+    minuteLoad: [],
+    alerts: [],
+    alertWindowDays: 7,
+  };
+
+  it("says the run table is unreadable instead of listing jobs with zero runs", () => {
+    render(<JobsTable data={base} />);
+    expect(screen.getByText(/Run history unreadable/)).toBeTruthy();
+    expect(screen.getByText(/Query read timeout/)).toBeTruthy();
+  });
+
+  it("renders missed runs and alert emails as unknown, not 0, when they could not be measured", () => {
+    render(<JobsKpis data={base} />);
+    expect(screen.getAllByText("run history unreadable")).toHaveLength(5);
+    expect(screen.getByText("alert history unreadable")).toBeTruthy();
+    expect(screen.getAllByText("—")).toHaveLength(6);
+    // No fabricated fleet health from an empty list.
+    expect(screen.queryByText("0/0")).toBeNull();
+    expect(screen.queryByText("every job healthy")).toBeNull();
   });
 });
