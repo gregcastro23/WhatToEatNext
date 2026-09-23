@@ -112,6 +112,24 @@ function buildPaRequestBody(row: PrewarmAgentRow): Record<string, unknown> | nul
   };
 }
 
+let warnedMissingSecret = false;
+
+export function resetPrewarmAuthWarning(): void {
+  warnedMissingSecret = false;
+}
+
+export function getPaAuthHeaders(): Record<string, string> {
+  const secret = process.env.INTERNAL_API_SECRET;
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (secret) {
+    headers["Authorization"] = `Bearer ${secret}`;
+  } else if (!warnedMissingSecret) {
+    warnedMissingSecret = true;
+    _logger.warn("[prewarm] INTERNAL_API_SECRET is unset; recipe prewarm request to PA is unauthenticated");
+  }
+  return headers;
+}
+
 /**
  * One PA generation, bounded end to end: `AbortSignal.timeout` covers the body
  * read as well as the headers, so a slow stream cannot outlive the budget the
@@ -125,7 +143,7 @@ async function generateOne(row: PrewarmAgentRow, timeoutMs: number): Promise<boo
   try {
     const res = await fetch(`${getServiceUrl("planetaryAgentsApi")}/api/generate-recipe`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getPaAuthHeaders(),
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(timeoutMs),
     });
