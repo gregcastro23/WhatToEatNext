@@ -33,6 +33,7 @@ import { base, baseSepolia } from "viem/chains";
 import LivePriceTicker from "@/components/economy/LivePriceTicker";
 import { Button } from "@/components/ui/button";
 import { readJson, parseEach } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import {
   RawShopItemsResponseSchema,
   ShopItemSchema,
@@ -164,9 +165,18 @@ function ShopInner(): JSX.Element {
         const json = await readJson(shopRes, {
           parse: (x) => RawShopItemsResponseSchema.parse(x),
         });
-        const { items: validItems } = parseEach(json.items ?? [], (item) =>
-          toDomainShopItem(ShopItemSchema.parse(item)),
+        const { items: validItems, dropped } = parseEach(
+          json.items ?? [],
+          (item) => toDomainShopItem(ShopItemSchema.parse(item)),
+          {
+            onError: (err, raw, idx) => {
+              _logger.error(`[ShopStorefront] Failed to parse item at index ${idx}:`, err);
+            },
+          },
         );
+        if (dropped > 0) {
+          _logger.warn(`[ShopStorefront] Dropped ${dropped} invalid shop items`);
+        }
         setItems(validItems);
       }
       if (chainRes.ok) {

@@ -18,9 +18,10 @@
  */
 
 import { z } from "zod";
-import { readJson } from "@/lib/api/json";
+import { readJson, parseEach } from "@/lib/api/json";
 import {
   InstacartLinkResponseSchema,
+  InstacartRetailerSchema,
   InstacartRetailersResponseSchema,
   toDomainInstacartRetailer,
 } from "@/lib/validation/instacartResponseSchemas";
@@ -341,46 +342,62 @@ class InstacartService {
       return cached.retailers;
     }
 
-    const response = await fetch(
-      `/api/instacart/retailers?postal_code=${encodeURIComponent(postalCode)}&country_code=${encodeURIComponent(countryCode)}`,
-    );
+    try {
+      const response = await fetch(
+        `/api/instacart/retailers?postal_code=${encodeURIComponent(postalCode)}&country_code=${encodeURIComponent(countryCode)}`,
+      );
 
-    if (!response.ok) {
-      const errorData = await readJson(response, {
-        parse: (x) => z.object({ error: z.string().optional() }).passthrough().parse(x),
-      }).catch(() => ({ error: undefined }));
-      const detail = errorData.error ?? `HTTP ${response.status}`;
-      this.trackEvent("instacart_handoff_error", {
-        endpoint: "retailers",
-        postalCode,
-        status: response.status,
-        detail,
+      if (!response.ok) {
+        const errorData = await readJson(response, {
+          parse: (x) => z.object({ error: z.string().optional() }).passthrough().parse(x),
+        }).catch(() => ({ error: undefined }));
+        const detail = errorData.error ?? `HTTP ${response.status}`;
+        this.trackEvent("instacart_handoff_error", {
+          endpoint: "retailers",
+          postalCode,
+          status: response.status,
+          detail,
+        });
+        logger.warn("Failed to fetch retailers from API, returning empty", { postalCode, status: response.status });
+        return [];
+      }
+
+      const { retailers: rawRetailers } = await readJson(response, {
+        parse: (x) => InstacartRetailersResponseSchema.parse(x),
       });
-      logger.warn("Failed to fetch retailers from API, returning empty", { postalCode, status: response.status });
+
+      const { items: retailers, dropped } = parseEach(
+        rawRetailers,
+        (item) => toDomainInstacartRetailer(InstacartRetailerSchema.parse(item)),
+        {
+          onError: (err, raw, idx) => {
+            logger.error(`Failed to parse Instacart retailer at index ${idx}`, { err, raw });
+          },
+        },
+      );
+
+      if (dropped > 0) {
+        logger.warn(`Dropped ${dropped} invalid Instacart retailers`);
+      }
+
+      // Cache the results
+      this.retailerCache.set(cacheKey, {
+        retailers,
+        expiresAt: Date.now() + InstacartService.RETAILER_CACHE_TTL,
+      });
+
+      this.trackEvent("instacart_retailers_fetched", {
+        postalCode,
+        retailerCount: retailers.length,
+        retailers: retailers.map((r) => r.name),
+      });
+
+      logger.info("Retailers fetched successfully", { postalCode, count: retailers.length });
+      return retailers;
+    } catch (err) {
+      logger.error("Failed to fetch or parse nearby retailers:", err);
       return [];
     }
-
-    const { retailers: rawRetailers } = await readJson(response, {
-      parse: (x) => InstacartRetailersResponseSchema.parse(x),
-    });
-    const retailers = rawRetailers.map(toDomainInstacartRetailer);
-
-    // Cache the results
-
-
-    this.retailerCache.set(cacheKey, {
-      retailers,
-      expiresAt: Date.now() + InstacartService.RETAILER_CACHE_TTL,
-    });
-
-    this.trackEvent("instacart_retailers_fetched", {
-      postalCode,
-      retailerCount: retailers.length,
-      retailers: retailers.map((r) => r.name),
-    });
-
-    logger.info("Retailers fetched successfully", { postalCode, count: retailers.length });
-    return retailers;
   }
 
   // ─── Helpers ───────────────────────────────────────────────────────────

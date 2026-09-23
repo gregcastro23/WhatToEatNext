@@ -13,6 +13,7 @@ import type {
   RecipeIngredient,
 } from "@/types/recipe";
 import { publicCuisine } from "@/utils/internalCuisineCodes";
+import { _logger } from "@/lib/logger";
 import { logger } from "@/utils/logger";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -120,13 +121,27 @@ function parseJsonUnknown(value: unknown): unknown {
   return value;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 function parseRecipeNutrition(value: unknown): NonNullable<Recipe["nutrition"]> | undefined {
   const unparsed = parseJsonUnknown(value);
   if (!unparsed || typeof unparsed !== "object") {
     return undefined;
   }
+  if (Object.keys(unparsed).length === 0) {
+    return undefined;
+  }
   const result = RecipeNutritionSchema.safeParse(unparsed);
-  return result.success ? toDomainRecipeNutrition(result.data) : undefined;
+  if (result.success) {
+    return toDomainRecipeNutrition(result.data);
+  }
+  _logger.error("[LocalRecipeService] Recipe nutrition rejected by schema:", {
+    errors: result.error.issues,
+    keys: Object.keys(unparsed),
+  });
+  return undefined;
 }
 
 function normalizeInstructions(value: unknown): string[] {
@@ -136,10 +151,8 @@ function normalizeInstructions(value: unknown): string[] {
     return parsed
       .map((step) => {
         if (typeof step === "string") return step;
-        if (step && typeof step === "object") {
-          const candidate = (step as Record<string, unknown>).instruction
-            ?? (step as Record<string, unknown>).text
-            ?? (step as Record<string, unknown>).step;
+        if (isRecord(step)) {
+          const candidate = step.instruction ?? step.text ?? step.step;
           return typeof candidate === "string" ? candidate : null;
         }
         return null;
@@ -147,8 +160,8 @@ function normalizeInstructions(value: unknown): string[] {
       .filter((step): step is string => Boolean(step));
   }
 
-  if (typeof parsed === "object") {
-    const { steps } = (parsed as Record<string, unknown>);
+  if (isRecord(parsed)) {
+    const { steps } = parsed;
     return normalizeInstructions(steps);
   }
 
@@ -167,12 +180,12 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
 
   return parsed
     .map((ingredient): RecipeIngredient | null => {
-      if (!ingredient || typeof ingredient !== "object") {
+      if (!isRecord(ingredient)) {
         return null;
       }
 
-      const record = ingredient as Record<string, unknown>;
-      const name = typeof record.name === "string" ? record.name : (record.ingredient as string);
+      const record = ingredient;
+      const name = typeof record.name === "string" ? record.name : (typeof record.ingredient === "string" ? record.ingredient : null);
       if (!name) {
         return null;
       }

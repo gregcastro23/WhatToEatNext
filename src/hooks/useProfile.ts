@@ -7,6 +7,8 @@ import { _logger } from '@/lib/logger';
 import {
   ServerProfileResponseSchema,
   toDomainUserProfile,
+  toDomainNatalChart,
+  type DomainUserProfile,
 } from '@/lib/validation/userProfileResponseSchemas';
 import type { NatalChart } from '@/types/natalChart';
 import type { Session } from 'next-auth';
@@ -27,14 +29,11 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
   complexity: 'moderate',
 };
 
-export interface ProfileRecord {
-  userId?: string;
-  name?: string;
-  email?: string;
+export type ProfileRecord = Omit<DomainUserProfile, 'natalChart'> & {
   natalChart?: NatalChart;
   preferences?: UserPreferences | Record<string, unknown>;
   [key: string]: unknown;
-}
+};
 
 export interface UseProfileReturn {
   profileData: ProfileRecord | null;
@@ -64,7 +63,6 @@ export function useProfile(): UseProfileReturn {
       }
 
       let profile: ProfileRecord | null = null;
-      let serverProfileLoaded = false;
 
       try {
         const res = await fetch('/api/user/profile', { credentials: 'include' });
@@ -74,26 +72,22 @@ export function useProfile(): UseProfileReturn {
           });
           if (data.success && data.profile) {
             const domain = toDomainUserProfile(data.profile, session.user?.id ?? undefined);
-            const domainChart = domain.natalChart;
+            const { natalChart: _wireChart, ...restDomain } = domain;
             profile = {
-              userId: domain.userId,
+              ...restDomain,
               ...(domain.name ? { name: domain.name } : {}),
               ...(domain.email ? { email: domain.email } : {}),
-              ...(domain.preferences !== undefined ? { preferences: domain.preferences } : {}),
-              ...(domainChart ? { natalChart: domainChart as NatalChart } : {}),
+              ...(data.profile.natalChart
+                ? { natalChart: toDomainNatalChart(data.profile.natalChart) }
+                : {}),
             };
-            serverProfileLoaded = true;
           }
         }
       } catch (err) {
         _logger.error('Failed to fetch profile from API:', err);
       }
 
-      if (serverProfileLoaded && !profile?.natalChart && typeof window !== 'undefined') {
-        localStorage.removeItem('userProfile');
-      }
-
-      if (!serverProfileLoaded && !profile?.natalChart) {
+      if (!profile?.natalChart) {
         try {
           const stored = getStorageItem('userProfile');
           if (stored) {
@@ -102,8 +96,10 @@ export function useProfile(): UseProfileReturn {
               const resolvedName = parsed.name ?? session.user?.name ?? undefined;
               const resolvedEmail = parsed.email ?? session.user?.email ?? undefined;
               profile = {
+                ...(profile ?? {}),
                 ...parsed,
-                userId: parsed.userId ?? (session.user?.id ?? ""),
+                userId: profile?.userId ?? parsed.userId ?? (session.user?.id ?? ""),
+                natalChart: parsed.natalChart,
                 ...(resolvedName ? { name: resolvedName } : {}),
                 ...(resolvedEmail ? { email: resolvedEmail } : {}),
               };

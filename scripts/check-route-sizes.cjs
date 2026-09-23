@@ -15,12 +15,12 @@ const lines = logContent.split('\n');
 
 const thresholds = {
   '/': { maxRouteKb: 50, maxFirstLoadKb: 220 },
-  '/menu-planner': { maxRouteKb: 250, maxFirstLoadKb: 810 },
+  '/menu-planner': { maxRouteKb: 60, maxFirstLoadKb: 320 },
   '/recipe-builder': { maxRouteKb: 50, maxFirstLoadKb: 200 },
   '/recipe-generator': { maxRouteKb: 50, maxFirstLoadKb: 220 },
   '/recipes/[recipeId]': { maxRouteKb: 80, maxFirstLoadKb: 350 },
   '/shop': { maxRouteKb: 15, maxFirstLoadKb: 120 },
-  '/account': { maxRouteKb: 800, maxFirstLoadKb: 910 },
+  '/account': { maxRouteKb: 15, maxFirstLoadKb: 125 },
 };
 
 let failed = false;

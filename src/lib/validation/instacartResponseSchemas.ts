@@ -24,7 +24,7 @@ export type InstacartRetailerWire = z.infer<typeof InstacartRetailerSchema>;
 
 export const InstacartRetailersResponseSchema = z
   .object({
-    retailers: z.array(InstacartRetailerSchema),
+    retailers: z.array(z.unknown()),
   })
   .passthrough();
 
@@ -38,6 +38,6 @@ export function toDomainInstacartRetailer(wire: InstacartRetailerWire): {
   return {
     retailer_key: wire.retailer_key,
     name: wire.name,
-    retailer_logo_url: wire.retailer_logo_url,
+    retailer_logo_url: wire.retailer_logo_url ?? "",
   };
 }

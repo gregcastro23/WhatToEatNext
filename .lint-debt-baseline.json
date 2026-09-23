@@ -8,20 +8,20 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 3203,
+    "total": 3188,
     "asAny": 37,
     "chained": 127,
-    "single": 3039,
-    "production": 2579,
+    "single": 3024,
+    "production": 2564,
     "test": 624,
     "asConst": 571,
     "nonNull": 602
   },
   "looseOptionality": {
-    "total": 322,
-    "domain": 233,
+    "total": 305,
+    "domain": 216,
     "wire": 89,
-    "production": 322,
+    "production": 305,
     "test": 0,
     "wireAllowlist": [
       "src/types/yelp.ts",
@@ -49,9 +49,9 @@
     }
   },
   "declined": {
-    "total": 4897,
+    "total": 4895,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1365,
+      "@typescript-eslint/explicit-function-return-type": 1363,
       "@typescript-eslint/explicit-module-boundary-types": 667,
       "complexity": 297,
       "max-depth": 85,

@@ -294,6 +294,7 @@ export function toDomainRecipeIngredient(wire: RecipeIngredientWire): RecipeIngr
 export {
   RecipeNutritionSchema,
   toDomainRecipeNutrition,
+  OPTIONAL_NUTRITION_KEYS,
   type RecipeNutritionWire,
 } from "./recipeNutritionSchema";
 

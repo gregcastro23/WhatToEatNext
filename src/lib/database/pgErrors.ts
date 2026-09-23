@@ -12,3 +12,10 @@
 export function isMissingRelation(err: unknown): boolean {
   return typeof err === "object" && err !== null && "code" in err && err.code === "42P01";
 }
+
+/**
+ * `22P02 invalid_text_representation` — rejected enum value or malformed literal.
+ */
+export function isPgEnumMismatch(err: unknown): boolean {
+  return typeof err === "object" && err !== null && "code" in err && err.code === "22P02";
+}

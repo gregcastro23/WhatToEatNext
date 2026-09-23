@@ -1,5 +1,7 @@
+import { parseEach } from "@/lib/api/json";
 import {
   InstacartRetailersResponseSchema,
+  InstacartRetailerSchema,
   toDomainInstacartRetailer,
   InstacartLinkResponseSchema,
 } from "../instacartResponseSchemas";
@@ -62,5 +64,30 @@ describe("instacart producer-to-consumer round-trip coverage", () => {
     expect(parsed.products_link_url).toBe(
       "https://www.instacart.com/store/partner_recipes/xyz",
     );
+  });
+
+  it("resiliently drops malformed retailer items via parseEach and invokes onError", () => {
+    const rawPayload = {
+      retailers: [
+        { retailer_key: "valid_1", name: "Valid Store" },
+        { broken: "missing key and name" },
+        { retailer_key: "valid_2", name: "Second Store" },
+      ],
+    };
+
+    const parsed = InstacartRetailersResponseSchema.parse(rawPayload);
+    const errors: unknown[] = [];
+    const { items, kept, dropped } = parseEach(
+      parsed.retailers,
+      (item) => toDomainInstacartRetailer(InstacartRetailerSchema.parse(item)),
+      {
+        onError: (err) => errors.push(err),
+      },
+    );
+
+    expect(kept).toBe(2);
+    expect(dropped).toBe(1);
+    expect(items.map((r) => r.retailer_key)).toEqual(["valid_1", "valid_2"]);
+    expect(errors.length).toBe(1);
   });
 });

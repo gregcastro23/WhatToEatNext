@@ -1,54 +1,67 @@
 import { z } from "zod";
 import type { NutritionalSummaryBase } from "@/types/nutrition";
 
+/**
+ * Preprocessor that converts null, empty string, or coercible numeric strings
+ * into a number or undefined. Prevents legacy database rows with `null` or string-valued
+ * optional metrics from failing the entire recipe's nutrition parse.
+ */
+const optionalMetric = z.preprocess((val) => {
+  if (typeof val === "number" && !Number.isNaN(val)) return val;
+  if (typeof val === "string" && val.trim() !== "" && !Number.isNaN(Number(val))) {
+    return Number(val);
+  }
+  return undefined;
+}, z.number().optional());
+
 export const RecipeNutritionSchema = z
   .object({
     calories: z.number(),
     protein: z.number(),
     carbs: z.number(),
     fat: z.number(),
-    fiber: z.number().optional(),
-    sugar: z.number().optional(),
-    addedSugar: z.number().optional(),
-    sodium: z.number().optional(),
-    saturatedFat: z.number().optional(),
-    transFat: z.number().optional(),
-    monounsaturatedFat: z.number().optional(),
-    polyunsaturatedFat: z.number().optional(),
-    omega3: z.number().optional(),
-    omega6: z.number().optional(),
-    cholesterol: z.number().optional(),
-    vitaminA: z.number().optional(),
-    vitaminD: z.number().optional(),
-    vitaminE: z.number().optional(),
-    vitaminK: z.number().optional(),
-    vitaminC: z.number().optional(),
-    thiamin: z.number().optional(),
-    riboflavin: z.number().optional(),
-    niacin: z.number().optional(),
-    pantothenicAcid: z.number().optional(),
-    vitaminB6: z.number().optional(),
-    biotin: z.number().optional(),
-    folate: z.number().optional(),
-    vitaminB12: z.number().optional(),
-    choline: z.number().optional(),
-    calcium: z.number().optional(),
-    phosphorus: z.number().optional(),
-    magnesium: z.number().optional(),
-    potassium: z.number().optional(),
-    chloride: z.number().optional(),
-    iron: z.number().optional(),
-    zinc: z.number().optional(),
-    copper: z.number().optional(),
-    manganese: z.number().optional(),
-    selenium: z.number().optional(),
-    iodine: z.number().optional(),
-    chromium: z.number().optional(),
-    molybdenum: z.number().optional(),
-    fluoride: z.number().optional(),
-    alcohol: z.number().optional(),
-    caffeine: z.number().optional(),
-    water: z.number().optional(),
+    fiber: optionalMetric,
+    sugar: optionalMetric,
+    addedSugar: optionalMetric,
+    sodium: optionalMetric,
+    saturatedFat: optionalMetric,
+    transFat: optionalMetric,
+    monounsaturatedFat: optionalMetric,
+    polyunsaturatedFat: optionalMetric,
+    omega3: optionalMetric,
+    omega6: optionalMetric,
+    cholesterol: optionalMetric,
+    vitaminA: optionalMetric,
+    vitaminD: optionalMetric,
+    vitaminE: optionalMetric,
+    vitaminK: optionalMetric,
+    vitaminC: optionalMetric,
+    thiamin: optionalMetric,
+    riboflavin: optionalMetric,
+    niacin: optionalMetric,
+    pantothenicAcid: optionalMetric,
+    vitaminB6: optionalMetric,
+    biotin: optionalMetric,
+    folate: optionalMetric,
+    vitaminB12: optionalMetric,
+    choline: optionalMetric,
+    calcium: optionalMetric,
+    phosphorus: optionalMetric,
+    magnesium: optionalMetric,
+    potassium: optionalMetric,
+    chloride: optionalMetric,
+    iron: optionalMetric,
+    zinc: optionalMetric,
+    copper: optionalMetric,
+    manganese: optionalMetric,
+    selenium: optionalMetric,
+    iodine: optionalMetric,
+    chromium: optionalMetric,
+    molybdenum: optionalMetric,
+    fluoride: optionalMetric,
+    alcohol: optionalMetric,
+    caffeine: optionalMetric,
+    water: optionalMetric,
     vitamins: z.union([z.array(z.string()), z.record(z.string(), z.number())]).optional(),
     minerals: z.union([z.array(z.string()), z.record(z.string(), z.number())]).optional(),
   })
@@ -56,15 +69,30 @@ export const RecipeNutritionSchema = z
 
 export type RecipeNutritionWire = z.infer<typeof RecipeNutritionSchema>;
 
-const OPTIONAL_NUTRITION_KEYS = [
-  "fiber", "sugar", "addedSugar", "sodium", "saturatedFat", "transFat",
-  "monounsaturatedFat", "polyunsaturatedFat", "omega3", "omega6", "cholesterol",
-  "vitaminA", "vitaminD", "vitaminE", "vitaminK", "vitaminC", "thiamin",
-  "riboflavin", "niacin", "pantothenicAcid", "vitaminB6", "biotin", "folate",
-  "vitaminB12", "choline", "calcium", "phosphorus", "magnesium", "potassium",
-  "chloride", "iron", "zinc", "copper", "manganese", "selenium", "iodine",
-  "chromium", "molybdenum", "fluoride", "alcohol", "caffeine", "water",
-] as const;
+export type OptionalNutritionKey = keyof Omit<
+  NutritionalSummaryBase,
+  "calories" | "protein" | "carbs" | "fat"
+>;
+
+function isOptionalNutritionKey(k: string): k is OptionalNutritionKey {
+  return (
+    k in RecipeNutritionSchema.shape &&
+    k !== "calories" &&
+    k !== "protein" &&
+    k !== "carbs" &&
+    k !== "fat" &&
+    k !== "vitamins" &&
+    k !== "minerals"
+  );
+}
+
+/**
+ * Derived list of optional micronutrient keys dynamically read from
+ * the schema shape to prevent hand-maintained duplicate lists from drifting.
+ */
+export const OPTIONAL_NUTRITION_KEYS: OptionalNutritionKey[] = Object.keys(
+  RecipeNutritionSchema.shape,
+).filter(isOptionalNutritionKey);
 
 export function toDomainRecipeNutrition(wire: RecipeNutritionWire): NutritionalSummaryBase {
   const result: NutritionalSummaryBase = {
@@ -75,7 +103,7 @@ export function toDomainRecipeNutrition(wire: RecipeNutritionWire): NutritionalS
   };
   for (const k of OPTIONAL_NUTRITION_KEYS) {
     const val = wire[k];
-    if (val !== undefined) {
+    if (typeof val === "number") {
       result[k] = val;
     }
   }

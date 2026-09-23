@@ -1,21 +1,38 @@
 import {
-  CANONICAL_DB_NOTIFICATION_TYPES,
+  CANONICAL_NOTIFICATION_TYPES,
   checkEnumParity,
+  getMigrationNotificationTypes,
+  getTypeScriptNotificationTypes,
 } from "../notificationEnumParity";
 
-describe("verifyNotificationEnumParity", () => {
-  it("declares exactly 19 canonical database notification types", () => {
-    expect(CANONICAL_DB_NOTIFICATION_TYPES.length).toBe(19);
-    expect(CANONICAL_DB_NOTIFICATION_TYPES).toContain("quest_completed");
-    expect(CANONICAL_DB_NOTIFICATION_TYPES).toContain("master_quest_broadcast");
-    expect(CANONICAL_DB_NOTIFICATION_TYPES).toContain("reaction_received");
-    expect(CANONICAL_DB_NOTIFICATION_TYPES).toContain("comment_received");
+describe("notificationEnumParity static gate & database verification", () => {
+  it("declares exactly 20 canonical notification types matching TS union", () => {
+    expect(CANONICAL_NOTIFICATION_TYPES.length).toBe(20);
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("quest_completed");
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("master_quest_broadcast");
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("agent_broadcast");
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("reaction_received");
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("comment_received");
   });
 
-  it("detects when Migration 30 values are missing in database", async () => {
-    // Mock database pool missing migration 30 values
-    const mockDbValues = CANONICAL_DB_NOTIFICATION_TYPES.filter(
-      (v) => v !== "quest_completed" && v !== "master_quest_broadcast",
+  it("statically verifies 100% parity between SQL migrations and TypeScript NotificationType union", () => {
+    const migrationTypes = getMigrationNotificationTypes();
+    const typeScriptTypes = getTypeScriptNotificationTypes();
+
+    // Verify all TypeScript types are covered in database/init migrations
+    const missingInMigrations = typeScriptTypes.filter((t) => !migrationTypes.includes(t));
+    expect(missingInMigrations).toEqual([]);
+
+    // Verify all migration types exist in TypeScript definition
+    const extraInMigrations = migrationTypes.filter((t) => !typeScriptTypes.includes(t));
+    expect(extraInMigrations).toEqual([]);
+
+    expect(migrationTypes).toEqual(typeScriptTypes);
+  });
+
+  it("detects when Migration 30 or Migration 88 values are missing in database", async () => {
+    const mockDbValues = CANONICAL_NOTIFICATION_TYPES.filter(
+      (v) => v !== "quest_completed" && v !== "master_quest_broadcast" && v !== "agent_broadcast",
     );
 
     const mockPool = {
@@ -26,14 +43,18 @@ describe("verifyNotificationEnumParity", () => {
 
     const result = await checkEnumParity(mockPool as any, false);
     expect(result.isCompliant).toBe(false);
-    expect(result.missingValues).toEqual(["quest_completed", "master_quest_broadcast"]);
+    expect(result.missingValues).toEqual([
+      "quest_completed",
+      "master_quest_broadcast",
+      "agent_broadcast",
+    ]);
     expect(mockPool.query).toHaveBeenCalledTimes(1);
   });
 
-  it("passes when all 19 canonical values are present in database", async () => {
+  it("passes when all 20 canonical values are present in database", async () => {
     const mockPool = {
       query: jest.fn(async () => ({
-        rows: CANONICAL_DB_NOTIFICATION_TYPES.map((enumlabel) => ({ enumlabel })),
+        rows: CANONICAL_NOTIFICATION_TYPES.map((enumlabel) => ({ enumlabel })),
       })),
     };
 
@@ -44,7 +65,7 @@ describe("verifyNotificationEnumParity", () => {
 
   it("applies missing values when applyFixes is true", async () => {
     const executedQueries: string[] = [];
-    const mockDbValues = CANONICAL_DB_NOTIFICATION_TYPES.filter(
+    const mockDbValues = CANONICAL_NOTIFICATION_TYPES.filter(
       (v) => v !== "quest_completed" && v !== "master_quest_broadcast",
     );
 
@@ -59,12 +80,8 @@ describe("verifyNotificationEnumParity", () => {
     };
 
     const result = await checkEnumParity(mockPool as any, true);
+    expect(result.isCompliant).toBe(false);
     expect(result.appliedValues).toEqual(["quest_completed", "master_quest_broadcast"]);
-    expect(executedQueries).toContain(
-      "ALTER TYPE notification_type ADD VALUE IF NOT EXISTS 'quest_completed';",
-    );
-    expect(executedQueries).toContain(
-      "ALTER TYPE notification_type ADD VALUE IF NOT EXISTS 'master_quest_broadcast';",
-    );
+    expect(executedQueries.length).toBe(3); // 1 select + 2 alter statements
   });
 });

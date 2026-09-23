@@ -31,12 +31,16 @@ console.log("Checking diff for newly introduced type assertions...");
 const result = scanDiffAssertions(targetDir, repoRoot, explicitBase);
 
 console.log(`Base reference: ${result.baseRef}`);
+console.log(`Merge base commit: ${result.mergeBase}`);
 console.log(`Files scanned: ${result.filesScanned}`);
 
 if (!result.passed) {
   console.error(`\n❌ ASSERTION SLIPPAGE: ${result.totalAddedAssertions} new type assertion(s) introduced across ${result.regressedFiles.length} file(s):`);
   for (const file of result.regressedFiles) {
-    console.error(`  - ${file.filePath}: +${file.addedAssertions} assertion(s) (was ${file.baseCount}, now ${file.currentCount})`);
+    console.error(`  - ${file.filePath}: +${file.addedAssertions} assertion(s):`);
+    for (const site of file.sites) {
+      console.error(`      L${site.line}:${site.column} -> ${site.snippet}`);
+    }
   }
   console.error("\nPer Invariant §4: No new unchecked casts or assertions may be introduced. Use Zod parsing or type guards.");
   process.exit(1);

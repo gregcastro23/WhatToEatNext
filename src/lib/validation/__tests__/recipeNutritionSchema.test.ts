@@ -1,6 +1,7 @@
 import {
   RecipeNutritionSchema,
   toDomainRecipeNutrition,
+  OPTIONAL_NUTRITION_KEYS,
 } from "../recipeResponseSchemas";
 
 describe("RecipeNutritionSchema and toDomainRecipeNutrition", () => {
@@ -56,6 +57,46 @@ describe("RecipeNutritionSchema and toDomainRecipeNutrition", () => {
     expect("sodium" in domain).toBe(false);
   });
 
+  it("tolerates legacy rows with null optional micronutrients without dropping nutrition", () => {
+    const legacyRow = {
+      calories: 350,
+      protein: 20,
+      carbs: 45,
+      fat: 10,
+      fiber: null,
+      sugar: null,
+      sodium: 300,
+    };
+
+    const parsed = RecipeNutritionSchema.safeParse(legacyRow);
+    expect(parsed.success).toBe(true);
+    if (!parsed.success) return;
+
+    const domain = toDomainRecipeNutrition(parsed.data);
+    expect(domain.calories).toBe(350);
+    expect(domain.sodium).toBe(300);
+    expect("fiber" in domain).toBe(false);
+  });
+
+  it("coerces string numeric optional fields from legacy data", () => {
+    const stringRow = {
+      calories: 300,
+      protein: 15,
+      carbs: 40,
+      fat: 8,
+      fiber: "4.5",
+      sugar: "0",
+    };
+
+    const parsed = RecipeNutritionSchema.safeParse(stringRow);
+    expect(parsed.success).toBe(true);
+    if (!parsed.success) return;
+
+    const domain = toDomainRecipeNutrition(parsed.data);
+    expect(domain.fiber).toBe(4.5);
+    expect(domain.sugar).toBe(0);
+  });
+
   it("rejects non-numeric required macros", () => {
     const invalid = {
       calories: "450",
@@ -68,31 +109,23 @@ describe("RecipeNutritionSchema and toDomainRecipeNutrition", () => {
     expect(parsed.success).toBe(false);
   });
 
-  it("rejects missing required macros", () => {
+  it("rejects missing required macros (including empty column default {})", () => {
     const missing = {
       calories: 450,
       protein: 25,
     };
 
-    const parsed = RecipeNutritionSchema.safeParse(missing);
-    expect(parsed.success).toBe(false);
+    expect(RecipeNutritionSchema.safeParse(missing).success).toBe(false);
+    expect(RecipeNutritionSchema.safeParse({}).success).toBe(false);
   });
 
-  it("tolerates passthrough fields without corrupting domain output", () => {
-    const withExtra = {
-      calories: 300,
-      protein: 20,
-      carbs: 40,
-      fat: 10,
-      extraUnknownField: "tolerated",
-    };
-
-    const parsed = RecipeNutritionSchema.safeParse(withExtra);
-    expect(parsed.success).toBe(true);
-    if (!parsed.success) return;
-
-    const domain = toDomainRecipeNutrition(parsed.data);
-    expect(domain.calories).toBe(300);
-    expect("extraUnknownField" in domain).toBe(false);
+  it("derives OPTIONAL_NUTRITION_KEYS dynamically from schema shape", () => {
+    expect(OPTIONAL_NUTRITION_KEYS.length).toBeGreaterThan(30);
+    expect(OPTIONAL_NUTRITION_KEYS).toContain("fiber");
+    expect(OPTIONAL_NUTRITION_KEYS).toContain("iron");
+    expect(OPTIONAL_NUTRITION_KEYS).not.toContain("calories");
+    expect(OPTIONAL_NUTRITION_KEYS).not.toContain("protein");
+    expect(OPTIONAL_NUTRITION_KEYS).not.toContain("carbs");
+    expect(OPTIONAL_NUTRITION_KEYS).not.toContain("fat");
   });
 });

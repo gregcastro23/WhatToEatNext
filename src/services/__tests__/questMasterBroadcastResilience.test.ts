@@ -1,74 +1,76 @@
-import {
-  questService,
-  resetMasterQuestBroadcastSupportCache,
-} from "../QuestService";
-import type { QuestDefinition } from "@/types/quest";
+import { _logger } from "@/lib/logger";
+import { questService } from "../QuestService";
+import { notificationDatabase } from "../notificationDatabaseService";
+import type { QuestDefinition } from "@/types/economy";
 
-describe("QuestService master quest broadcast enum resilience", () => {
+describe("QuestService notification enum resilience (Migration 30)", () => {
   const sampleQuest: QuestDefinition = {
     id: "quest-1",
     slug: "daily_alchemical_attunement",
     title: "Daily Attunement",
     description: "Align your elemental constitution",
-    category: "exploration",
-    questType: "master",
-    status: "active",
-    tokenRewardAmount: 10,
+    questType: "daily",
     tokenRewardType: "spirit",
-    targetCount: 1,
-    currentCount: 0,
-    isCompleted: true,
-    progressPercent: 100,
+    tokenRewardAmount: 10,
+    triggerEvent: "attune",
+    triggerThreshold: 1,
+    isActive: true,
   };
 
   beforeEach(() => {
-    resetMasterQuestBroadcastSupportCache();
     jest.clearAllMocks();
+    jest.spyOn(_logger, "error").mockImplementation(() => {});
   });
 
-  it("skips notification insert when database lacks master_quest_broadcast enum value", async () => {
-    const executedQueries: string[] = [];
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("handles 22P02 enum mismatch on master_quest_broadcast by logging error with migration hint", async () => {
     const mockDb = {
       executeQuery: jest.fn(async (sql: string) => {
-        executedQueries.push(sql);
-        if (sql.includes("pg_enum")) {
-          return { rows: [{ exists: false }] };
+        if (sql.includes("master_quest_broadcast")) {
+          const err = new Error("invalid input value for enum notification_type: master_quest_broadcast");
+          Object.assign(err, { code: "22P02" });
+          throw err;
         }
         return { rows: [] };
       }),
     };
 
-    const isSupported = await questService.isMasterQuestBroadcastSupported(mockDb);
-    expect(isSupported).toBe(false);
+    await expect(
+      questService.insertMasterQuestBroadcastNotification(mockDb, {
+        broadcastKeyPrefix: "test",
+        title: "Test",
+        message: "Test message",
+        metadata: "{}",
+        expiresAt: new Date().toISOString(),
+        completedByUserId: "user-1",
+      }),
+    ).resolves.not.toThrow();
 
-    // Verify subsequent calls use cache
-    const isSupportedCached = await questService.isMasterQuestBroadcastSupported(mockDb);
-    expect(isSupportedCached).toBe(false);
-    expect(mockDb.executeQuery).toHaveBeenCalledTimes(1);
+    expect(_logger.error).toHaveBeenCalledWith(
+      expect.stringContaining("rejected 'master_quest_broadcast' (code 22P02). Apply database/init/30-notification-type-master-quest-broadcast.sql"),
+      expect.anything(),
+    );
   });
 
-  it("permits notification insert when database supports master_quest_broadcast", async () => {
-    const mockDb = {
-      executeQuery: jest.fn(async (sql: string) => {
-        if (sql.includes("pg_enum")) {
-          return { rows: [{ exists: true }] };
-        }
-        return { rows: [] };
-      }),
-    };
+  it("handles 22P02 enum mismatch on quest_completed without failing quest reward award", async () => {
+    const enumErr = new Error("invalid input value for enum notification_type: quest_completed");
+    Object.assign(enumErr, { code: "22P02" });
+    jest.spyOn(notificationDatabase, "createNotification").mockRejectedValueOnce(enumErr);
 
-    const isSupported = await questService.isMasterQuestBroadcastSupported(mockDb);
-    expect(isSupported).toBe(true);
-  });
+    const result = await questService.incrementProgress("user-1", sampleQuest);
 
-  it("gracefully falls back to true if pg_enum query fails, letting SQL error handler manage it", async () => {
-    const mockDb = {
-      executeQuery: jest.fn(async () => {
-        throw new Error("permission denied for pg_enum");
-      }),
-    };
+    expect(result).toEqual({
+      questSlug: "daily_alchemical_attunement",
+      tokensAwarded: 10,
+      tokenType: "spirit",
+    });
 
-    const isSupported = await questService.isMasterQuestBroadcastSupported(mockDb);
-    expect(isSupported).toBe(true);
+    expect(_logger.error).toHaveBeenCalledWith(
+      expect.stringContaining("rejected 'quest_completed' (code 22P02). Apply database/init/30-notification-type-master-quest-broadcast.sql"),
+      expect.anything(),
+    );
   });
 });

@@ -7,6 +7,7 @@
  * @file src/services/QuestService.ts
  */
 
+import { isPgEnumMismatch } from "@/lib/database/pgErrors";
 import { _logger } from "@/lib/logger";
 import type {
   QuestDefinition,
@@ -228,22 +229,7 @@ const INSERT_MASTER_QUEST_NOTIFICATIONS_SQL = `INSERT INTO notifications
    AND u.id <> $6
  ON CONFLICT (id) DO NOTHING`;
 
-function isPgEnumMismatch(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    error.code === "22P02"
-  );
-}
-
 // ─── Service Class ────────────────────────────────────────────────────
-
-let _masterQuestBroadcastSupported: boolean | null = null;
-
-export function resetMasterQuestBroadcastSupportCache(): void {
-  _masterQuestBroadcastSupported = null;
-}
 
 class QuestService {
 
@@ -458,7 +444,7 @@ class QuestService {
   /**
    * Increment progress on a quest and send a notification if threshold met.
    */
-  private async incrementProgress(
+  async incrementProgress(
     userId: string,
     quest: QuestDefinition,
   ): Promise<{ questSlug: string; tokensAwarded: number; tokenType: string } | null> {
@@ -520,11 +506,18 @@ class QuestService {
               questSlug: quest.slug,
               tokenType: quest.tokenRewardType,
               tokenAmount: quest.tokenRewardAmount,
-            }
-          }
+            },
+          },
         );
       } catch (err) {
-        _logger.error("[QuestService] Failed to create quest completion notification", err);
+        if (isPgEnumMismatch(err)) {
+          _logger.error(
+            "[QuestService] Database notification_type enum rejected 'quest_completed' (code 22P02). Apply database/init/30-notification-type-master-quest-broadcast.sql to enable.",
+            err,
+          );
+        } else {
+          _logger.error("[QuestService] Failed to create quest completion notification", err);
+        }
       }
 
       return {
@@ -705,36 +698,6 @@ class QuestService {
     }
   }
 
-  public async isMasterQuestBroadcastSupported(db: {
-    executeQuery: (sql: string, params?: unknown[]) => Promise<{ rows: unknown[] }>;
-  }): Promise<boolean> {
-    if (_masterQuestBroadcastSupported !== null) {
-      return _masterQuestBroadcastSupported;
-    }
-
-    try {
-      const result = await db.executeQuery(
-        `SELECT EXISTS (
-           SELECT 1
-           FROM pg_enum e
-           JOIN pg_type t ON e.enumtypid = t.oid
-           WHERE t.typname = 'notification_type'
-             AND e.enumlabel = 'master_quest_broadcast'
-         ) AS exists;`
-      );
-      const [firstRow] = result.rows;
-      const supported =
-        typeof firstRow === "object" &&
-        firstRow !== null &&
-        "exists" in firstRow &&
-        Boolean(firstRow.exists);
-      _masterQuestBroadcastSupported = supported;
-      return supported;
-    } catch {
-      return true;
-    }
-  }
-
   private async broadcastMasterQuestReward(
     completedByUserId: string,
     quest: QuestDefinition,
@@ -863,7 +826,7 @@ class QuestService {
     }
   }
 
-  private async insertMasterQuestBroadcastNotification(
+  async insertMasterQuestBroadcastNotification(
     db: { executeQuery: (sql: string, params?: unknown[]) => Promise<{ rows: unknown[] }> },
     params: {
       broadcastKeyPrefix: string;
@@ -874,14 +837,6 @@ class QuestService {
       completedByUserId: string;
     },
   ): Promise<void> {
-    const isSupported = await this.isMasterQuestBroadcastSupported(db);
-    if (!isSupported) {
-      _logger.warn(
-        "[QuestService] Database notification_type enum is missing 'master_quest_broadcast'. Skipping broadcast notification insert. Apply database/init/30-notification-type-master-quest-broadcast.sql to enable."
-      );
-      return;
-    }
-
     try {
       await db.executeQuery(INSERT_MASTER_QUEST_NOTIFICATIONS_SQL, [
         params.broadcastKeyPrefix,
@@ -893,10 +848,10 @@ class QuestService {
       ]);
     } catch (error) {
       if (isPgEnumMismatch(error)) {
-        _logger.warn(
-          "[QuestService] Database notification_type enum rejected 'master_quest_broadcast' (code 22P02). Skipping broadcast until Migration 30 is applied."
+        _logger.error(
+          "[QuestService] Database notification_type enum rejected 'master_quest_broadcast' (code 22P02). Apply database/init/30-notification-type-master-quest-broadcast.sql to enable.",
+          error,
         );
-        _masterQuestBroadcastSupported = false;
         return;
       }
       throw error;
