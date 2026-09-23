@@ -10,8 +10,9 @@
  * before the secret lands are not lost) · 500 handler failed (Vercel retries)
  * · 200 processed / ignored / duplicate.
  *
- * Register with `vercel webhooks create https://alchm.kitchen/api/hooks/vercel …`
- * (see CLAUDE.md "Webhooks").
+ * Registered 2026-09-23 as account_hook_zr8IInqORZw0P2Faezx9FRZr for
+ * deployment.created / succeeded / error / canceled on this project
+ * (VERCEL_SUBSCRIBED_EVENTS in vercelEvent.ts; see CLAUDE.md "Webhooks").
  *
  * @file src/app/api/hooks/vercel/route.ts
  */

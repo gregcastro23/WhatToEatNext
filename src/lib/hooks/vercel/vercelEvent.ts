@@ -10,6 +10,13 @@
  * payload.deployment.{id,url,name,meta}, payload.target ("production" |
  * "staging" | null), payload.project.id and payload.links.deployment.
  *
+ * Event names: the webhook is subscribed to `deployment.succeeded`, not
+ * `deployment.ready`. Vercel's legacy-name table maps the old
+ * `deployment-ready` (the build finished and is serving) to
+ * `deployment.succeeded`; today's `deployment.ready` is the old
+ * `deployment-prepared`, fired before blocking Checks run. With no Checks
+ * registered on this project, `succeeded` follows the build directly.
+ *
  * @file src/lib/hooks/vercel/vercelEvent.ts
  */
 
@@ -23,6 +30,22 @@ export function verifyVercelSignature(rawBody: string, signature: string | null,
   const expected = createHmac("sha1", secret).update(rawBody, "utf8").digest();
   return timingSafeEqual(Buffer.from(signature, "hex"), expected);
 }
+
+/**
+ * The events the account webhook is subscribed to (registered 2026-09-23:
+ * account_hook_zr8IInqORZw0P2Faezx9FRZr, project prj_FkAq08tNvdiV7rawfC49MezqzZQE).
+ * deploymentHandlers.ts registers exactly one handler per entry.
+ */
+export const VercelDeploymentEventTypeSchema = z.enum([
+  "deployment.created",
+  "deployment.succeeded",
+  "deployment.error",
+  "deployment.canceled",
+]);
+
+export type VercelDeploymentEventType = z.infer<typeof VercelDeploymentEventTypeSchema>;
+
+export const VERCEL_SUBSCRIBED_EVENTS: readonly VercelDeploymentEventType[] = VercelDeploymentEventTypeSchema.options;
 
 const DeploymentSchema = z.object({
   id: z.string(),

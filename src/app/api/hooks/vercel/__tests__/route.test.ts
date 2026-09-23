@@ -76,7 +76,7 @@ beforeEach(() => {
 describe("POST /api/hooks/vercel", () => {
   it("refuses with 503 until the secret is configured (Vercel keeps retrying)", async () => {
     delete process.env.VERCEL_WEBHOOK_SECRET;
-    const res = await POST(post(body("deployment.ready", "production")));
+    const res = await POST(post(body("deployment.succeeded", "production")));
     expect(res.status).toBe(503);
     expect(mockClaim).not.toHaveBeenCalled();
   });
@@ -105,16 +105,30 @@ describe("POST /api/hooks/vercel", () => {
     expect(mockComplete).toHaveBeenCalledWith(expect.anything(), "processed", { action: "none", reason: "not production" });
   });
 
-  it("schedules the post-deploy probes after a production deploy is ready", async () => {
-    const res = await POST(post(body("deployment.ready", "production")));
+  it("schedules the post-deploy probes when a production deploy succeeds", async () => {
+    const res = await POST(post(body("deployment.succeeded", "production")));
     expect(res.status).toBe(200);
     expect(mockAfter).toHaveBeenCalledTimes(1);
     expect(mockAfter.mock.calls[0]?.[0]).toContain("post-deploy probes");
+    expect(mockComplete).toHaveBeenCalledWith(
+      expect.anything(),
+      "processed",
+      expect.objectContaining({ action: "probes-scheduled" }),
+    );
   });
 
-  it("does not probe after a preview deploy", async () => {
-    await POST(post(body("deployment.ready", null)));
+  it("does not probe after a preview deploy succeeds", async () => {
+    await POST(post(body("deployment.succeeded", null)));
     expect(mockAfter).not.toHaveBeenCalled();
+  });
+
+  it("records deployment.ready as ignored — the webhook subscribes to succeeded, not ready", async () => {
+    // deployment.ready is Vercel's renamed legacy `deployment-prepared`,
+    // fired before blocking Checks. Acting on it would probe too early.
+    const res = await POST(post(body("deployment.ready", "production")));
+    expect(res.status).toBe(200);
+    expect(mockAfter).not.toHaveBeenCalled();
+    expect(mockComplete).toHaveBeenCalledWith(expect.anything(), "ignored");
   });
 
   it("acknowledges a redelivery without alerting twice", async () => {

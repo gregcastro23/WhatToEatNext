@@ -22,7 +22,7 @@ const mockFail = jest.mocked(failWebhookEvent);
 const EVENT: HookEvent<{ n: number }> = {
   source: "vercel",
   id: "evt_1",
-  type: "deployment.ready",
+  type: "deployment.succeeded",
   subjectId: "dpl_1",
   occurredAt: null,
   summary: {},
@@ -30,7 +30,7 @@ const EVENT: HookEvent<{ n: number }> = {
 };
 
 const handle = jest.fn();
-const REGISTRY = handlerRegistry<{ n: number }>([{ type: "deployment.ready", handle }]);
+const REGISTRY = handlerRegistry<{ n: number }>([{ type: "deployment.succeeded", handle }]);
 const CLAIMED: InboxClaim = { kind: "claimed", rowId: 7, attempt: 1, startedAt: 0 };
 
 beforeEach(() => {

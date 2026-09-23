@@ -55,7 +55,8 @@ Inbound webhooks follow one pattern (`src/lib/hooks/`):
 - **Stripe** (`/api/stripe/webhook`): verified with `constructEvent`. It keeps Stripe's own retry contract: a failure answers 500.
 - **Vercel** (`/api/hooks/vercel`): verified with `x-vercel-signature` (HMAC-SHA1 of the raw body) against `VERCEL_WEBHOOK_SECRET`.
   - A production `deployment.error` raises an operator alert.
-  - A production `deployment.ready` runs the synthetic probes straight away.
+  - A production `deployment.succeeded` runs the synthetic probes straight away. Use `succeeded`, not `ready`: `deployment.ready` is Vercel's renamed legacy `deployment-prepared` event.
+  - The webhook is registered as `account_hook_zr8IInqORZw0P2Faezx9FRZr`, subscribed to `created`, `succeeded`, `error` and `canceled`. The handler registry must match `VERCEL_SUBSCRIBED_EVENTS`, and a test enforces it.
   - Preview events are only recorded.
 
 **Shared secrets:**

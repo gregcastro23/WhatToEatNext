@@ -10,7 +10,8 @@
  * baked into the expectation.
  */
 
-import { toVercelHookEvent, verifyVercelSignature } from "@/lib/hooks/vercel/vercelEvent";
+import { DEPLOYMENT_HANDLERS } from "@/lib/hooks/vercel/deploymentHandlers";
+import { toVercelHookEvent, VERCEL_SUBSCRIBED_EVENTS, verifyVercelSignature } from "@/lib/hooks/vercel/vercelEvent";
 
 const SECRET = "whsec_test_secret";
 const BODY =
@@ -62,6 +63,19 @@ describe("toVercelHookEvent", () => {
 
   it("returns null for anything that is not a Vercel envelope", () => {
     expect(toVercelHookEvent("not json")).toBeNull();
-    expect(toVercelHookEvent('{"type":"deployment.ready"}')).toBeNull();
+    expect(toVercelHookEvent('{"type":"deployment.succeeded"}')).toBeNull();
+  });
+});
+
+describe("the webhook subscription and the handler registry", () => {
+  it("handle exactly the subscribed events — nothing subscribed goes unhandled, no dead handlers", () => {
+    // Subscribed on account_hook_zr8IInqORZw0P2Faezx9FRZr (2026-09-23).
+    expect([...VERCEL_SUBSCRIBED_EVENTS].sort()).toEqual([
+      "deployment.canceled",
+      "deployment.created",
+      "deployment.error",
+      "deployment.succeeded",
+    ]);
+    expect(DEPLOYMENT_HANDLERS.map((h) => h.type).sort()).toEqual([...VERCEL_SUBSCRIBED_EVENTS].sort());
   });
 });

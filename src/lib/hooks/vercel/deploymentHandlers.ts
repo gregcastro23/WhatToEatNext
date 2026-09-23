@@ -2,9 +2,10 @@
  * What WTEN does with Vercel deployment events.
  *
  *   deployment.created   record only (the start of a build, for timing)
- *   deployment.ready     production → run the synthetic probes against the
+ *   deployment.succeeded production → run the synthetic probes against the
  *                        new deployment right away, instead of waiting up to
- *                        15 minutes for their next scheduled tick
+ *                        15 minutes for their next scheduled tick (see
+ *                        vercelEvent.ts for why `succeeded`, not `ready`)
  *   deployment.error     production → operator alert, with the inspect link
  *                        and the known remedy for a stale build cache
  *   deployment.canceled  record only (a cancel is usually deliberate)
@@ -18,7 +19,7 @@
 import { getCronBaseUrl } from "@/app/api/cron/_lib/cronAuth";
 import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import type { HookEvent, HookHandler } from "@/lib/hooks/types";
-import type { VercelDeploymentPayload } from "@/lib/hooks/vercel/vercelEvent";
+import type { VercelDeploymentEventType, VercelDeploymentPayload } from "@/lib/hooks/vercel/vercelEvent";
 import { dispatchAlert } from "@/services/alertService";
 import {
   runAuthHandshakeProbe,
@@ -31,6 +32,11 @@ import {
 } from "@/services/syntheticProbeService";
 
 type DeployEvent = HookEvent<VercelDeploymentPayload>;
+
+/** A handler for one of the subscribed deployment event types — no strays. */
+interface DeploymentHandler extends HookHandler<VercelDeploymentPayload> {
+  type: VercelDeploymentEventType;
+}
 
 /**
  * The probes worth running on every production deploy: each exercises a
@@ -70,7 +76,7 @@ export async function runPostDeployProbes(): Promise<ProbeResult[]> {
   return settled.flatMap((s) => (s.status === "fulfilled" ? [s.value] : []));
 }
 
-function onReady(event: DeployEvent): Promise<Record<string, unknown>> {
+function onSucceeded(event: DeployEvent): Promise<Record<string, unknown>> {
   if (!isProduction(event)) return Promise.resolve({ action: "none", reason: "not production" });
   runAfterResponse(`post-deploy probes ${shortSha(event)}`, runPostDeployProbes);
   return Promise.resolve({ action: "probes-scheduled", probes: POST_DEPLOY_PROBES });
@@ -100,9 +106,9 @@ function recordOnly(): Promise<Record<string, unknown>> {
   return Promise.resolve({ action: "recorded" });
 }
 
-export const DEPLOYMENT_HANDLERS: ReadonlyArray<HookHandler<VercelDeploymentPayload>> = [
+export const DEPLOYMENT_HANDLERS: readonly DeploymentHandler[] = [
   { type: "deployment.created", handle: recordOnly },
-  { type: "deployment.ready", handle: onReady },
+  { type: "deployment.succeeded", handle: onSucceeded },
   { type: "deployment.error", handle: onError },
   { type: "deployment.canceled", handle: recordOnly },
 ];
