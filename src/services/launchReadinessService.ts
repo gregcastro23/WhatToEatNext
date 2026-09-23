@@ -254,7 +254,10 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
       "agent-network",
       "Agents · cross-project sync",
       "Signed channel to the Planetary Agents backend.",
-      [check("Internal API secret", "INTERNAL_API_SECRET", "secret")],
+      [
+        check("Internal API secret", "INTERNAL_API_SECRET", "secret"),
+        check("ASOL webhook secret", "HOOK_SECRET_ASOL", "secret"),
+      ],
     ),
     subsystem(
       "email",

@@ -7,6 +7,8 @@ interface Props {
 }
 
 function RouteRow({ stat }: { stat: AsolSourceStats }): React.ReactElement {
+  const { valid, unsigned, failed } = stat.signatureBreakdown;
+
   return (
     <tr className="hover:bg-gray-50 transition">
       <td className="px-5 py-3 font-mono text-xs font-semibold text-gray-900">
@@ -18,14 +20,26 @@ function RouteRow({ stat }: { stat: AsolSourceStats }): React.ReactElement {
       <td className="px-4 py-3 text-right text-emerald-600 font-medium">
         {stat.processed.toLocaleString()}
       </td>
-      <td className="px-4 py-3 text-right text-amber-600 font-medium">
-        {stat.inFlight.toLocaleString()}
+      <td className="px-4 py-3 text-right font-medium">
+        <span className="text-amber-600">{stat.liveInFlight.toLocaleString()}</span>
+        {stat.staleLocks > 0 && (
+          <span className="text-rose-600 text-xs ml-1" title={`${stat.staleLocks} stale locks (>300s)`}>
+            ({stat.staleLocks} stale)
+          </span>
+        )}
       </td>
       <td className="px-4 py-3 text-right text-rose-600 font-medium">
         {stat.failed.toLocaleString()}
       </td>
       <td className="px-4 py-3 text-right text-blue-600 font-medium">
         {stat.duplicates.toLocaleString()}
+      </td>
+      <td className="px-4 py-3 text-right font-mono text-xs">
+        <span className="text-emerald-600" title="Valid standard webhook signatures">{valid}</span>
+        <span className="text-gray-400 mx-1">/</span>
+        <span className="text-gray-500" title="Unsigned requests">{unsigned}</span>
+        <span className="text-gray-400 mx-1">/</span>
+        <span className={failed > 0 ? "text-rose-600 font-bold" : "text-gray-400"} title="Failed signatures">{failed}</span>
       </td>
       <td className="px-4 py-3 text-right text-purple-600 font-medium">
         {formatLatency(stat.p95LatencyMs)}
@@ -52,6 +66,7 @@ export function AsolRouteBreakdown({ data }: Props): React.ReactElement {
               <th className="px-4 py-3 text-right">In-Flight</th>
               <th className="px-4 py-3 text-right">Failed</th>
               <th className="px-4 py-3 text-right">Duplicates</th>
+              <th className="px-4 py-3 text-right">Signatures (v/u/f)</th>
               <th className="px-4 py-3 text-right">P95 Latency</th>
             </tr>
           </thead>

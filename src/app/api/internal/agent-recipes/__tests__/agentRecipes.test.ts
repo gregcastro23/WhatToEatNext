@@ -13,6 +13,10 @@ jest.mock("@/lib/database/connection", () => ({
 }));
 
 import { NextRequest } from "next/server";
+import {
+  computeV1Signature,
+  parseWebhookSecret,
+} from "@/lib/hooks/standardWebhooks";
 import { POST } from "../route";
 
 const TEST_INTERNAL_SECRET = "test-internal-secret-xyz";
@@ -181,4 +185,96 @@ describe("POST /api/internal/agent-recipes", () => {
     const data = await res.json();
     expect(isRecord(data) && data.status).toBe("in_flight");
   });
+
+  it("records signature: 'valid' in summary when Standard Webhook headers are valid", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 301, attempts: 1 }] });
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: "recipe-uuid-sig", created_at: new Date().toISOString() }],
+    });
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const body = {
+      userId: "agent-user-id",
+      name: "Solar Stew",
+      payload: { ingredients: ["saffron"] },
+    };
+    const bodyStr = JSON.stringify(body);
+    const nowSec = Math.floor(Date.now() / 1000);
+    const msgId = "msg_recipe_789";
+    const sig = computeV1Signature(msgId, nowSec, bodyStr, parseWebhookSecret(TEST_SYNC_SECRET));
+
+    const req = new NextRequest("http://localhost/api/internal/agent-recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Sync-Secret": TEST_SYNC_SECRET,
+        "webhook-id": msgId,
+        "webhook-timestamp": String(nowSec),
+        "webhook-signature": `v1,${sig}`,
+      },
+      body: bodyStr,
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+
+    const claimCallArgs: unknown[] = mockExecuteQuery.mock.calls[0] ?? [];
+    const params = Array.isArray(claimCallArgs[1]) ? claimCallArgs[1] : [];
+    const payloadStr = typeof params[5] === "string" ? params[5] : "{}";
+    const payload = JSON.parse(payloadStr);
+    expect(isRecord(payload) && payload.signature).toBe("valid");
+  });
+
+  it("records keyMismatch: true when webhook-id and Idempotency-Key differ", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 302, attempts: 1 }] });
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: "recipe-uuid-sig", created_at: new Date().toISOString() }],
+    });
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = new NextRequest("http://localhost/api/internal/agent-recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Sync-Secret": TEST_SYNC_SECRET,
+        "webhook-id": "msg_recipe_key_a",
+        "Idempotency-Key": "recipe_key_b",
+      },
+      body: JSON.stringify({
+        userId: "agent-user-id",
+        name: "Solar Stew",
+        payload: { ingredients: ["saffron"] },
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+
+    const claimCallArgs: unknown[] = mockExecuteQuery.mock.calls[0] ?? [];
+    const params = Array.isArray(claimCallArgs[1]) ? claimCallArgs[1] : [];
+    const payloadStr = typeof params[5] === "string" ? params[5] : "{}";
+    const payload = JSON.parse(payloadStr);
+    expect(isRecord(payload) && payload.keyMismatch).toBe(true);
+  });
+
+  it("rejects with 401 when ASOL_WEBHOOK_SIGNATURES='required' and request is unsigned", async () => {
+    process.env.ASOL_WEBHOOK_SIGNATURES = "required";
+
+    const req = makeRecipeRequest(
+      {
+        userId: "agent-user-id",
+        name: "Solar Stew",
+        payload: { ingredients: ["saffron"] },
+      },
+      { authHeader: `Bearer ${TEST_INTERNAL_SECRET}` },
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(401);
+    const data = await res.json();
+    expect(isRecord(data) && data.error).toContain("unsigned");
+
+    delete process.env.ASOL_WEBHOOK_SIGNATURES;
+  });
 });
+

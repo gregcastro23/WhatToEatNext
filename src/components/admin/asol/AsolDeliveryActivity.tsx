@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import type { AsolDeliveryEvent } from "@/services/admin/asolHealthService";
+import { AsolErrorModal } from "./AsolErrorModal";
 import { formatLatency, formatRelative, getStatusBadge } from "./asolHelpers";
 
 interface Props {
   events: AsolDeliveryEvent[];
+  statusFilter?: "all" | "failed";
+  onStatusFilterChange?: (status: "all" | "failed") => void;
 }
 
 interface FilterProps {
@@ -54,9 +57,20 @@ function FilterBar({
   );
 }
 
-function EventRow({ evt }: { evt: AsolDeliveryEvent }): React.ReactElement {
+function EventRow({
+  evt,
+  onInspect,
+}: {
+  evt: AsolDeliveryEvent;
+  onInspect: (evt: AsolDeliveryEvent) => void;
+}): React.ReactElement {
+  const isClickable = Boolean(evt.lastError || evt.status === "failed");
+
   return (
-    <tr className="hover:bg-gray-50 transition">
+    <tr
+      onClick={() => onInspect(evt)}
+      className={`transition ${isClickable ? "cursor-pointer hover:bg-rose-50/50" : "hover:bg-gray-50"}`}
+    >
       <td className="px-4 py-2 text-gray-500 whitespace-nowrap">
         {formatRelative(evt.receivedAt)}
       </td>
@@ -85,59 +99,86 @@ function EventRow({ evt }: { evt: AsolDeliveryEvent }): React.ReactElement {
         {formatLatency(evt.latencyMs)}
       </td>
       <td className="px-4 py-2 text-rose-600 truncate max-w-[200px]" title={evt.lastError ?? ""}>
-        {evt.lastError ?? "—"}
+        {evt.lastError ? (
+          <span className="underline decoration-dotted">{evt.lastError}</span>
+        ) : (
+          "—"
+        )}
       </td>
     </tr>
   );
 }
 
-export function AsolDeliveryActivity({ events }: Props): React.ReactElement {
+export function AsolDeliveryActivity({
+  events,
+  statusFilter: externalStatusFilter,
+  onStatusFilterChange,
+}: Props): React.ReactElement {
   const [sourceFilter, setSourceFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [internalStatusFilter, setInternalStatusFilter] = useState<string>("all");
+  const [inspectingEvent, setInspectingEvent] = useState<AsolDeliveryEvent | null>(null);
+
+  const activeStatusFilter = externalStatusFilter ?? internalStatusFilter;
+
+  const handleStatusChange = (val: string): void => {
+    setInternalStatusFilter(val);
+    if (onStatusFilterChange && (val === "all" || val === "failed")) {
+      onStatusFilterChange(val);
+    }
+  };
 
   const filteredEvents = events.filter((e) => {
     if (sourceFilter !== "all" && e.source !== sourceFilter) return false;
-    if (statusFilter !== "all" && e.status.toLowerCase() !== statusFilter) return false;
+    if (activeStatusFilter !== "all" && e.status.toLowerCase() !== activeStatusFilter) return false;
     return true;
   });
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <FilterBar
-        sourceFilter={sourceFilter}
-        statusFilter={statusFilter}
-        totalFiltered={filteredEvents.length}
-        onSourceChange={setSourceFilter}
-        onStatusChange={setStatusFilter}
-      />
+    <>
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <FilterBar
+          sourceFilter={sourceFilter}
+          statusFilter={activeStatusFilter}
+          totalFiltered={filteredEvents.length}
+          onSourceChange={setSourceFilter}
+          onStatusChange={handleStatusChange}
+        />
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 text-xs">
-          <thead className="bg-gray-50 text-gray-500 uppercase tracking-wider">
-            <tr>
-              <th className="px-4 py-2.5 text-left">Time</th>
-              <th className="px-4 py-2.5 text-left">Source</th>
-              <th className="px-4 py-2.5 text-left">Event ID</th>
-              <th className="px-4 py-2.5 text-left">Type</th>
-              <th className="px-4 py-2.5 text-left">Status</th>
-              <th className="px-4 py-2.5 text-right">Dups</th>
-              <th className="px-4 py-2.5 text-right">Latency</th>
-              <th className="px-4 py-2.5 text-left">Error</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 font-mono">
-            {filteredEvents.length === 0 ? (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 text-xs">
+            <thead className="bg-gray-50 text-gray-500 uppercase tracking-wider">
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-gray-400 font-sans">
-                  No matching webhook deliveries found.
-                </td>
+                <th className="px-4 py-2.5 text-left">Time</th>
+                <th className="px-4 py-2.5 text-left">Source</th>
+                <th className="px-4 py-2.5 text-left">Event ID</th>
+                <th className="px-4 py-2.5 text-left">Type</th>
+                <th className="px-4 py-2.5 text-left">Status</th>
+                <th className="px-4 py-2.5 text-right">Dups</th>
+                <th className="px-4 py-2.5 text-right">Latency</th>
+                <th className="px-4 py-2.5 text-left">Error (click to inspect)</th>
               </tr>
-            ) : (
-              filteredEvents.map((evt) => <EventRow key={evt.id} evt={evt} />)
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200 font-mono">
+              {filteredEvents.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="px-4 py-8 text-center text-gray-400 font-sans">
+                    No matching webhook deliveries found.
+                  </td>
+                </tr>
+              ) : (
+                filteredEvents.map((evt) => (
+                  <EventRow key={evt.id} evt={evt} onInspect={setInspectingEvent} />
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+
+      <AsolErrorModal
+        event={inspectingEvent}
+        onClose={() => setInspectingEvent(null)}
+      />
+    </>
   );
 }

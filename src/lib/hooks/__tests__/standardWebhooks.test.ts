@@ -8,8 +8,12 @@ import { _logger } from "@/lib/logger";
 import {
   computeV1Signature,
   evaluateSignatureGate,
+  getWebhookSignatureMode,
+  getWebhookSignatureModeInfo,
   parseWebhookSecret,
+  resolveWebhookSecret,
   verifyStandardWebhook,
+  _resetWarnedInvalidSignatureModeForTesting,
 } from "../standardWebhooks";
 
 describe("Standard Webhooks signature verifier", () => {
@@ -203,6 +207,16 @@ describe("Standard Webhooks signature verifier", () => {
       expect(result.valid).toBe(false);
       expect(result.reason).toBe("missing_secret");
     });
+
+    it("returns unsigned when secret is provided but all webhook headers are absent", () => {
+      const result = verifyStandardWebhook({
+        headers: {},
+        rawBody: BODY,
+        secret: RAW_SECRET,
+      });
+      expect(result.valid).toBe(false);
+      expect(result.reason).toBe("unsigned");
+    });
   });
 
   describe("evaluateSignatureGate", () => {
@@ -252,6 +266,92 @@ describe("Standard Webhooks signature verifier", () => {
       );
       expect(gate.proceed).toBe(true);
       expect(gate.status).toBeUndefined();
+    });
+  });
+
+  describe("getWebhookSignatureModeInfo", () => {
+    const originalEnv = process.env.ASOL_WEBHOOK_SIGNATURES;
+
+    beforeEach(() => {
+      _resetWarnedInvalidSignatureModeForTesting();
+    });
+
+    afterEach(() => {
+      if (originalEnv !== undefined) {
+        process.env.ASOL_WEBHOOK_SIGNATURES = originalEnv;
+      } else {
+        delete process.env.ASOL_WEBHOOK_SIGNATURES;
+      }
+    });
+
+    it("defaults to mode 'off' and valid true when unset", () => {
+      delete process.env.ASOL_WEBHOOK_SIGNATURES;
+      expect(getWebhookSignatureModeInfo()).toEqual({ mode: "off", raw: "", valid: true });
+      expect(getWebhookSignatureMode()).toBe("off");
+    });
+
+    it("parses 'off', 'shadow', and 'required' cleanly", () => {
+      process.env.ASOL_WEBHOOK_SIGNATURES = "off";
+      expect(getWebhookSignatureModeInfo()).toEqual({ mode: "off", raw: "off", valid: true });
+      expect(getWebhookSignatureMode()).toBe("off");
+
+      process.env.ASOL_WEBHOOK_SIGNATURES = "shadow";
+      expect(getWebhookSignatureModeInfo()).toEqual({ mode: "shadow", raw: "shadow", valid: true });
+      expect(getWebhookSignatureMode()).toBe("shadow");
+
+      process.env.ASOL_WEBHOOK_SIGNATURES = "required";
+      expect(getWebhookSignatureModeInfo()).toEqual({ mode: "required", raw: "required", valid: true });
+      expect(getWebhookSignatureMode()).toBe("required");
+    });
+
+    it("falls back to 'shadow' with valid: false and logs error when misconfigured", () => {
+      const errorSpy = jest.spyOn(_logger, "error").mockImplementation(() => {});
+      process.env.ASOL_WEBHOOK_SIGNATURES = "enabled";
+
+      const info = getWebhookSignatureModeInfo();
+      expect(info).toEqual({ mode: "shadow", raw: "enabled", valid: false });
+      expect(getWebhookSignatureMode()).toBe("shadow");
+      expect(errorSpy).toHaveBeenCalledTimes(1);
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Invalid ASOL_WEBHOOK_SIGNATURES="enabled"'),
+      );
+
+      // Calling again should not log a duplicate error (once per cold start)
+      getWebhookSignatureModeInfo();
+      expect(errorSpy).toHaveBeenCalledTimes(1);
+
+      errorSpy.mockRestore();
+    });
+  });
+
+  describe("resolveWebhookSecret", () => {
+    const origHook = process.env.HOOK_SECRET_ASOL;
+    const origSync = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+
+    afterEach(() => {
+      if (origHook !== undefined) process.env.HOOK_SECRET_ASOL = origHook;
+      else delete process.env.HOOK_SECRET_ASOL;
+
+      if (origSync !== undefined) process.env.ALCHM_KITCHEN_SYNC_SECRET = origSync;
+      else delete process.env.ALCHM_KITCHEN_SYNC_SECRET;
+    });
+
+    it("prefers HOOK_SECRET_ASOL", () => {
+      process.env.HOOK_SECRET_ASOL = "hook-secret-val";
+      process.env.ALCHM_KITCHEN_SYNC_SECRET = "sync-secret-val";
+      expect(resolveWebhookSecret()).toBe("hook-secret-val");
+    });
+
+    it("falls back to ALCHM_KITCHEN_SYNC_SECRET", () => {
+      delete process.env.HOOK_SECRET_ASOL;
+      process.env.ALCHM_KITCHEN_SYNC_SECRET = "sync-secret-val";
+      expect(resolveWebhookSecret()).toBe("sync-secret-val");
+    });
+
+    it("returns empty string when neither is set", () => {
+      delete process.env.HOOK_SECRET_ASOL;
+      delete process.env.ALCHM_KITCHEN_SYNC_SECRET;
+      expect(resolveWebhookSecret()).toBe("");
     });
   });
 });

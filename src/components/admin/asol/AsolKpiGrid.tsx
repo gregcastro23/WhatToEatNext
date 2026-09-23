@@ -29,10 +29,14 @@ export function AsolKpiGrid({ data }: Props): React.ReactElement {
       ? Math.round((data.totalProcessed / data.totalReceived) * 100)
       : null;
 
+  const staleSubtext = data && data.totalStaleLocks > 0
+    ? `${data.totalStaleLocks} stale locks (>300s)`
+    : "Active processing locks";
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       <KpiCard
-        label="Total Inbound"
+        label="Total Inbound (24h)"
         value={data ? data.totalReceived.toLocaleString() : "—"}
         subtext={data ? `${data.totalProcessed} completed` : "—"}
       />
@@ -50,14 +54,14 @@ export function AsolKpiGrid({ data }: Props): React.ReactElement {
       />
       <KpiCard
         label="In-Flight"
-        value={data ? data.totalInFlight.toLocaleString() : "—"}
-        subtext="Active processing locks"
-        valueColor="text-amber-600"
+        value={data ? data.totalLiveInFlight.toLocaleString() : "—"}
+        subtext={data ? staleSubtext : "—"}
+        valueColor={data && data.totalStaleLocks > 0 ? "text-rose-600" : "text-amber-600"}
       />
       <KpiCard
         label="Failed"
         value={data ? data.totalFailed.toLocaleString() : "—"}
-        subtext="Delivery errors"
+        subtext="Delivery errors (24h)"
         valueColor="text-rose-600"
       />
       <KpiCard

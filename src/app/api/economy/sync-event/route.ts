@@ -1,13 +1,19 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
 import {
+  buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  extractIdempotencyKey,
   failWebhookEvent,
+  resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
 import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
 import { safeEqual } from "@/lib/hooks/secureCompare";
+import {
+  evaluateSignatureGate,
+  resolveWebhookSecret,
+  verifyStandardWebhook,
+} from "@/lib/hooks/standardWebhooks";
 import { _logger } from "@/lib/logger";
 import { EconomySyncEventRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
@@ -59,27 +65,62 @@ function parseEventMetadata(raw: unknown): QuestEventMetadata | undefined {
   };
 }
 
+async function readJsonBody(req: NextRequest): Promise<{ text: string; data: unknown } | null> {
+  try {
+    const text = await req.text();
+    return { text, data: JSON.parse(text) };
+  } catch {
+    return null;
+  }
+}
+
+function checkSyncAuth(req: NextRequest, rawBodyText: string): { ok: true } | { ok: false; response: NextResponse } {
+  const verification = verifyStandardWebhook({
+    headers: req.headers,
+    rawBody: rawBodyText,
+    secret: resolveWebhookSecret(),
+  });
+  const gate = evaluateSignatureGate(verification);
+  if (!gate.proceed) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { ok: false, reason: "unauthorized", error: gate.error },
+        { status: gate.status ?? 401 },
+      ),
+    };
+  }
+
+  const authHeader = req.headers.get("X-Sync-Secret");
+  const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+
+  if (!safeEqual(authHeader, syncSecret)) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { ok: false, reason: "unauthorized" },
+        { status: 401 },
+      ),
+    };
+  }
+
+  return { ok: true };
+}
+
 export async function POST(req: NextRequest) {
   try {
-    // 1. Validate Sync Secret
-    const authHeader = req.headers.get("X-Sync-Secret");
-    const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
-
-    if (!safeEqual(authHeader, syncSecret)) {
-      return NextResponse.json(
-        { ok: false, reason: "unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    let rawBody: unknown;
-    try {
-      rawBody = await req.json();
-    } catch {
+    const parsedBody = await readJsonBody(req);
+    if (!parsedBody) {
       return NextResponse.json(
         { ok: false, reason: "invalid_request", message: "Body must be valid JSON" },
-        { status: 400 }
+        { status: 400 },
       );
+    }
+    const { text: rawBodyText, data: rawBody } = parsedBody;
+
+    const authCheck = checkSyncAuth(req, rawBodyText);
+    if (!authCheck.ok) {
+      return authCheck.response;
     }
 
     const parseResult = EconomySyncEventRequestSchema.safeParse(rawBody);
@@ -91,7 +132,7 @@ export async function POST(req: NextRequest) {
           message: "Missing or invalid userEmail or event",
           details: parseResult.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -101,27 +142,33 @@ export async function POST(req: NextRequest) {
     // 2. Look up user ID by email (and confirm they're an agentic account)
     const userResult = await executeQuery<{ id: string; is_agent: boolean | null }>(
       "SELECT id, is_agent FROM users WHERE email = $1 LIMIT 1",
-      [userEmail.toLowerCase()]
+      [userEmail.toLowerCase()],
     );
 
     const [eventUser] = userResult.rows;
     if (!eventUser) {
       return NextResponse.json(
         { ok: false, reason: "user_not_found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     const { id: userId, is_agent: isAgent } = eventUser;
 
     // 3. Claim idempotency key if provided
-    const idempotencyKey = extractIdempotencyKey(req, rawBody);
+    const verification = verifyStandardWebhook({
+      headers: req.headers,
+      rawBody: rawBodyText,
+      secret: resolveWebhookSecret(),
+    });
+    const delivery = resolveInboundDeliveryContext(req.headers, rawBody, verification);
+
     const claimResult = await claimInboundEvent({
       source: "asol-sync-event",
-      key: idempotencyKey,
+      key: delivery.effectiveKey,
       eventType: "sync-event",
       subjectId: userEmail,
-      summary: { userEmail, event },
+      summary: buildDeliverySummary({ userEmail, event }, delivery),
       data: rawBody,
     });
 

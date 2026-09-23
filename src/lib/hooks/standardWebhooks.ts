@@ -31,17 +31,59 @@ export type WebhookVerificationResult =
         | "invalid_timestamp"
         | "timestamp_drift"
         | "no_matching_signature"
-        | "missing_secret";
+        | "missing_secret"
+        | "unsigned";
       detail?: string;
     };
 
 export type WebhookSignatureMode = "off" | "shadow" | "required";
 
+export interface WebhookSignatureModeInfo {
+  mode: WebhookSignatureMode;
+  raw: string;
+  valid: boolean;
+}
+
+let _hasWarnedInvalidSignatureMode = false;
+
+export function _resetWarnedInvalidSignatureModeForTesting(): void {
+  _hasWarnedInvalidSignatureMode = false;
+}
+
+export function getWebhookSignatureModeInfo(): WebhookSignatureModeInfo {
+  const envVal = process.env.ASOL_WEBHOOK_SIGNATURES;
+  if (!envVal || envVal.trim().length === 0) {
+    return { mode: "off", raw: "", valid: true };
+  }
+  const raw = envVal.trim();
+  const normalized = raw.toLowerCase();
+  if (normalized === "off") return { mode: "off", raw, valid: true };
+  if (normalized === "shadow") return { mode: "shadow", raw, valid: true };
+  if (normalized === "required") return { mode: "required", raw, valid: true };
+
+  if (!_hasWarnedInvalidSignatureMode) {
+    _hasWarnedInvalidSignatureMode = true;
+    _logger.error(
+      `[standard-webhooks] Invalid ASOL_WEBHOOK_SIGNATURES="${raw}". Defaulting to shadow mode. Allowed values: off, shadow, required.`,
+    );
+  }
+  return { mode: "shadow", raw, valid: false };
+}
+
 export function getWebhookSignatureMode(): WebhookSignatureMode {
-  const env = process.env.ASOL_WEBHOOK_SIGNATURES?.toLowerCase();
-  if (env === "required") return "required";
-  if (env === "shadow") return "shadow";
-  return "off";
+  return getWebhookSignatureModeInfo().mode;
+}
+
+/**
+ * Resolve the standard webhook secret from environment variables.
+ * Prefers HOOK_SECRET_ASOL, falls back to ALCHM_KITCHEN_SYNC_SECRET.
+ */
+export function resolveWebhookSecret(): string {
+  const hookSecret = process.env.HOOK_SECRET_ASOL?.trim();
+  if (hookSecret && hookSecret.length > 0) return hookSecret;
+  const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET?.trim();
+  if (syncSecret && syncSecret.length > 0) return syncSecret;
+  return "";
 }
 
 /**
@@ -144,6 +186,10 @@ export function verifyStandardWebhook(params: {
   const msgId = getHeader(headers, "webhook-id");
   const timestampStr = getHeader(headers, "webhook-timestamp");
   const signatureHeader = getHeader(headers, "webhook-signature");
+
+  if (!msgId && !timestampStr && !signatureHeader) {
+    return { valid: false, reason: "unsigned" };
+  }
 
   if (!msgId || !timestampStr || !signatureHeader) {
     return {
