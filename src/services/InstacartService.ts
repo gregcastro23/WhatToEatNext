@@ -17,6 +17,13 @@
  * to the client. This service calls our own API routes which proxy to IDP.
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
+import {
+  InstacartLinkResponseSchema,
+  InstacartRetailersResponseSchema,
+  toDomainInstacartRetailer,
+} from "@/lib/validation/instacartResponseSchemas";
 import type {
   InstacartLineItem,
   InstacartRetailer,
@@ -28,11 +35,6 @@ import {
   type SplitCartResult,
 } from "@/utils/instacart/ingredientIntelligence";
 import { createLogger } from "@/utils/logger";
-import { readJson } from "@/lib/api/json";
-import {
-  InstacartLinkResponseSchema,
-  InstacartRetailersResponseSchema,
-} from "@/lib/validation/instacartResponseSchemas";
 
 const logger = createLogger("InstacartService");
 
@@ -344,7 +346,9 @@ class InstacartService {
     );
 
     if (!response.ok) {
-      const errorData = (await response.json().catch(() => ({}))) as Record<string, string | undefined>;
+      const errorData = await readJson(response, {
+        parse: (x) => z.object({ error: z.string().optional() }).passthrough().parse(x),
+      }).catch(() => ({ error: undefined }));
       const detail = errorData.error ?? `HTTP ${response.status}`;
       this.trackEvent("instacart_handoff_error", {
         endpoint: "retailers",
@@ -356,9 +360,10 @@ class InstacartService {
       return [];
     }
 
-    const { retailers } = await readJson(response, {
+    const { retailers: rawRetailers } = await readJson(response, {
       parse: (x) => InstacartRetailersResponseSchema.parse(x),
     });
+    const retailers = rawRetailers.map(toDomainInstacartRetailer);
 
     // Cache the results
 

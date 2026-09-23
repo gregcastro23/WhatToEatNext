@@ -1,113 +1,125 @@
-# Phase 38: Honest Boundaries, Real Budgets, and a Metric That Means Something
+# Phase 39: Nutrition Schema Hardening, Migration 30 Parity, and Producer-Bound Round-Trip Coverage
 
 Implement this campaign end to end in the existing WhatToEatNext repository. Start with a short evidence-based plan, then implement and verify; do not stop at a proposal. Use judgment for routine reversible decisions. Ask only when a missing requirement or permission genuinely blocks dependent work, and continue independent work meanwhile.
 
-## 1. Starting state (measured 2026-09-20, re-measure before editing)
+---
 
-Phase 37 is completed, merged with `origin/master` (`22d98b5d`), and committed as `a09c947d` on `codex/phase-37-typescript-health`. The working tree is clean at hand-off. **The branch is ready for push and PR creation.**
+## 1. Starting State (Measured on `master` @ `ae4c1d9d`, September 22, 2026)
 
-Commit history on `codex/phase-37-typescript-health`:
-- `1d4c597e`: `feat(phase-37): zero strict debt, runtime boundary validation, and defect fixes`
-- `f2406a69`: `fix(commensal): remove fabricated Fire element fallback in CompanionCard` (resolved P1)
-- `a09c947d`: `Merge remote-tracking branch 'origin/master' into codex/phase-37-typescript-health`
+Phase 38 was squashed and merged into `origin/master` as commit [`ae4c1d9d`](https://github.com/gregcastro23/WhatToEatNext/commit/ae4c1d9d5f0a041e79e7e6e685098027e46c7dfe) via PR #865. The working tree is clean.
 
-The merge base with `origin/master` is `22d98b5d`, and the true PR delta is verified:
-- `git diff origin/master HEAD --stat` = **64 files changed, 1,749 insertions(+), 397 deletions(-)**.
-- All 7 merge conflicts were cleanly resolved: commensal schemas and tests take the branch side (deliberately superseding master's #862 test to support 71/79 legacy database charts lacking modern alchemical fields), and all 4 baselines were re-ratcheted to measured Phase 37 values.
+### Commit History Reference:
+- `ae4c1d9d`: `feat(phase-38): honest boundaries, route budgets, and EOPT promotion (#865)`
+- `f48b6e8c`: `docs(phase-38): correct production enum gap diagnosis to migration 30 and align notification resilience`
+- `fbb0b75b`: `fix(phase-38): fix waning crescent mapping, notification badge resilience, recipe parseEach, and ratchet lint-debt baseline`
+- `334aadaa`: `fix(phase-38): remediate review findings, runtime validation, and honest boundaries`
+- `20c15467`: `feat(phase-37): zero strict debt, client boundary validation, and defect fixes (#863)`
 
-Verified gate state on `a09c947d` (each re-run independently):
+### Verified Gate State on `master`:
 
-| Gate | Value | Required outcome (Phase 37) | Status |
-|---|---:|---|---|
-| `strict-index:check` | 0 errors / 0 files | 0 | Met (Zero Debt) |
-| `check:scripts` | 66 across 32 files | ≤70 | Met (-29 errors) |
-| `check:bare-json` | 162 prod (171 total), 122 files | ≤175, stretch ≤165 | Met (Stretch Exceeded) |
-| `check:read-json` | 0 unvalidated / 81 calls | 0 unvalidated | Met (100% Compliant) |
-| `check:snapshot-witness` | 100% parity, fixture untouched | exact parity | Met (Exact Parity) |
-| `lint:debt` | 1,333 tracked / 4,904 declined | no regression | Met (-1 debt, -1 pool) |
-| Loose optionality | **365 sites** | **≤350** | **MISSED by 15** |
-| `bun run test` | 389 suites / 4,038 passed, exit 0 | natural clean completion | **Passed with a force-exited worker** |
-| `bun run build` | exit 0, 5 configured routes parsed | budgets met, warnings recorded | Met; 3 dependency warnings recorded |
+| Gate / Command | Measured Value | Baseline / Ceiling | Status |
+|---|---:|---:|---|
+| `check:untracked` | 0 untracked files | 0 | ✅ Clean |
+| `check:route-validation` | 0 unvalidated / 123 body routes | 0 | ✅ 100% Compliant |
+| `test:gates` | 8/8 suites, 124 tests passed | 8/8 | ✅ Pass |
+| `check:scripts` | 66 baseline errors across 32 files | ≤66 | ✅ Met (0 regressions) |
+| `typecheck` | 0 errors | 0 | ✅ Zero Type Errors |
+| `lint:scripts` | 0 errors, 25 warnings | 0 errors | ✅ Pass |
+| `lint:debt` (Casts) | **165 casts** | ≤165 | ✅ Ratcheted (-2) |
+| `lint:debt` (Assertions) | **3,208 sites** | ≤3,208 | ✅ Ratcheted (-3) |
+| `lint:debt` (Tracked debt) | **1,327 sites** | ≤1,327 | ✅ Ratcheted (-6) |
+| `lint:debt` (Declined pool) | 4,904 sites | 4,904 | ✅ Constant |
+| `lint:debt` (Loose Domain) | **233 sites** | ≤233 | ✅ Segregated (89 wire) |
+| `audit:dead-modules` | 0 dead modules (1,202 reachable) | 0 | ✅ Pass |
+| `check:read-json` | 0 unvalidated / 97 calls | 0 unvalidated | ✅ 100% Compliant |
+| `check:bare-json` | 145 prod / 154 total (112 files) | ≤145 | ✅ Met |
+| `check:snapshot-witness` | 100% behavioral parity | 100% | ✅ Exact Parity |
+| `bun run test` | 389 suites, 4,080 passed, 0 failed | natural exit 0 | ✅ Clean Teardown (0 open handles) |
+| `bun run build` | 7/7 route size checks pass | ceilings met | ✅ Pass (`/shop` 109 kB vs 120 kB ceiling) |
 
-## 2. Prerequisite: the force-exited Jest worker
+---
 
-**P1 (fabricated element in commensal list)** was resolved in `f2406a69`: `CommensalManager.tsx` now conditionally renders the element pill and avoids defaulting absent elements to "Fire", preserving honest unknown states for legacy charts.
+## 2. Key Context & Known Gaps from Phase 38 Closeout
 
-**P2 — the force-exited Jest worker** remains open as the primary prerequisite before feature work:
-- `bun run test` still ends with:
-  ```
-  A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.
-  ```
-- Diagnose it with `--detectOpenHandles` (suspect unclosed pg pools in database service tests and un-`unref`'d timers in integration/spacetime mocks).
-- Fix the teardown hooks in the offending test suites and require a natural worker exit. Do not add `--forceExit`.
+### P1: Production Notification Enum Gap (Migration 30)
+- **Finding**: Production DB (`tramway.proxy.rlwy.net:35670`) contains 17 values, while codebase migrations define 19 values (and client schema defines 20 with client-side `agent_broadcast`).
+- **Actual Gap**: Production is missing `quest_completed` and `master_quest_broadcast` from **Migration 30** (`database/init/30-notification-type-master-quest-broadcast.sql`). Production already has Migration 67's `reaction_received` and `comment_received`.
+- **Impact**: `QuestService.ts:798` inserts `'master_quest_broadcast'::notification_type`, which production PostgreSQL will reject if reached.
+- **Action**: Verify whether Migration 30 can be applied cleanly to production DB or if `QuestService` requires defensive fallback handling for environments where Migration 30 has not been run.
 
-## 3. Workstreams
+### P2: Invariant §4 — Intermediate Nutrition Parsing in `parseJsonValue<T>`
+- **Finding**: While the double assertions `as unknown as NonNullable<Recipe['nutrition']>` were removed in `LocalRecipeService.ts`, intermediate parsing in `parseJsonValue<T>` remains `JSON.parse(v) as T`.
+- **Action**: Replace `parseJsonValue<T>` with concrete Zod validation using `ValidatedRecipeSchema` or a dedicated `RecipeNutritionSchema`.
 
-### A. Make loose optionality a metric that means something
+### P3: Workstream C Remainder (UserProfile, Shop, Instacart Round-Trips)
+- **Finding**: Schemas and domain adapters were defined in Phase 38 (`toDomainUserProfile`, `toDomainShopItem`, `toDomainInstacartRetailer`), but round-trips currently use synthetic shape checks rather than live producer fixtures, and consumer layers (`UserContext`, `ShopStorefront`, `InstacartService`) are not yet piped through these validation boundaries.
+- **Action**: Build full producer-to-consumer round-trip tests and integrate the validation adapters into the real consumption paths.
 
-The ≤350 target was missed at 365, and the remaining sites are concentrated in types where `| undefined` is **correct**:
+---
 
-| File | Sites | Nature |
-|---|---:|---|
-| `src/types/yelp.ts` | 23 | external API DTO |
-| `src/types/chat.ts` | 21 | wire + domain, mixed |
-| `src/services/restaurantDiscoveryService.ts` | 21 | external API consumer |
-| `src/lib/api/alchmClientTypes.ts` | 19 | API client DTO |
-| `src/types/menuPlanner.ts`, `src/types/recipe.ts`, `src/utils/menuPlanner/recommendationBridge.ts` | 15 each | mixed |
+## 3. Workstreams for Phase 39
 
-Zod 4.4.3 outputs `T | undefined` for `.optional()`, which cannot be assigned to a tightened `?: T` under `exactOptionalPropertyTypes` without a cast — verified. So tightening a wire type forces either an `as` (which hides defects; it hid the `actorRevealed` strip in Phase 37) or an adapter.
+### Workstream A: Invariant §4 Diff-Level Guard & Nutrition Boundary
+1. **Prevent Assertion Slippage**:
+   - Add a diff-level check or gate script (`scripts/checkDiffAssertions.ts`) to ensure PR diffs do not introduce new `as <Type>` or `as unknown as <Type>` casts.
+2. **Harden Recipe Nutrition Boundary**:
+   - In `LocalRecipeService.ts`, replace `parseJsonValue(row.nutritional_profile)` with a runtime Zod validator (`RecipeNutritionSchema.safeParse`).
+   - Eliminate the remaining unchecked `as T` inside `parseJsonValue`.
 
-Required: classify wire-facing types separately in `scanLooseOptionality`, report domain and wire counts as distinct numbers, and set the target on the **domain** count only. Then split the two largest mixed types (`chat.ts`, `recipe.ts`) into `XWire` (from `z.output`) plus a domain type joined by one adapter. Do not tighten a type to move a counter.
+### Workstream B: Production Enum Parity & Quest Broadcast Resilience
+1. **Defensive Notification Inserts**:
+   - In `src/services/QuestService.ts:798`, wrap the `'master_quest_broadcast'::notification_type` insert with error handling or check live enum capabilities before inserting.
+2. **Migration Runbook / Verification**:
+   - Provide an idempotent verification script to confirm database schema migrations on Railway (`ALTER TYPE notification_type ADD VALUE IF NOT EXISTS 'quest_completed';` and `'master_quest_broadcast'`).
 
-### B. Element-level tolerance for list responses
+### Workstream C: Complete Workstream C Round-Trip Wiring
+1. **`userProfile`**:
+   - Test both producer paths: the Hono `/api/user/profile` route and the direct database path (`userDatabaseService.ts`).
+   - Wire `toDomainUserProfile` into `src/contexts/UserContext.tsx` or `src/hooks/useProfile.ts`.
+2. **`shop`**:
+   - Wire `ShopItemSchema` and `toDomainShopItem` into `ShopStorefront.tsx` with element-level resilience (`parseEach`).
+3. **`instacart`**:
+   - Wire `InstacartRetailerSchema` and `toDomainInstacartRetailer` into `InstacartService.ts`.
 
-Verified: one unknown notification `type` rejects the **entire** notification list, blanking the bell. `NOTIFICATION_TYPES` in `src/lib/validation/notificationResponseSchemas.ts` is a third hand-copy of the DB enum, so a database-first `ALTER TYPE … ADD VALUE` breaks the client until it ships.
+### Workstream D: Loose Optionality Domain Ratchet (Target: ≤220)
+- Current state: 233 domain sites (ratcheted from 276; 89 wire segregated).
+- Continue converting domain types using the adapter pattern (`XWire` from Zod output, domain type with exact optionality).
+- Focus on the concentrated files identified in Phase 38:
+  - `src/types/yelp.ts`
+  - `src/services/restaurantDiscoveryService.ts`
+  - `src/utils/menuPlanner/recommendationBridge.ts`
+  - `src/types/foodDiary.ts`
+- Ratchet `.lint-debt-baseline.json` domain loose optionality count accordingly.
 
-Add a `parseEach` helper beside `readJson` in `src/lib/api/json.ts`: validate list items individually, keep the valid ones, count the dropped, report once per response via `_logger.error` (`warn` is gated off in production). Apply it to notifications, feed, messages, agents and transactions. Keep all-or-nothing only where a partial result is meaningless.
+### Workstream E: Bare JSON Casts by Surface
+- 145 production casts remain across 112 files.
+- Pick by functional surface rather than counter-grinding:
+  - `src/app/api/planetary-positions/route.ts`
+  - `src/utils/reliableAstronomy.ts`
+  - `src/app/admin/*`
+- Validate reads with Zod schemas and ratchet `.bare-json-casts-baseline.json`.
 
-Write-acknowledgement reads (purchase, settle, swap, send, mark-read) must not present a parse failure as a failed operation — the server already committed. Refetch canonical state instead.
+### Workstream F: Route Budgeting for `/account` and `/menu-planner`
+- `/account` is currently 898 kB (ceiling: 910 kB). Target: split heavy Web3/auth chunks dynamically as done for `/shop`.
+- `/menu-planner` is currently 799 kB (ceiling: 810 kB). Target: evaluate dynamic imports for drag-and-drop / heavy calendar libs to move toward <750 kB.
 
-### C. Producer-built round-trip tests for the remaining schema families
-
-Only the feed schema currently has a producer-shaped round-trip test (D3 guard). For `userProfile`, `shop`, `instacart`, `chat` and `notification`, add per family:
-
-1. A minimal fixture with every optional field omitted (catches the Zod-4 required-key class).
-2. A maximal fixture built by the real producer mapping, asserting the parse output deep-equals the input. **This is the only check that catches a silently stripped key**, because no type check can: an optional key is allowed to be absent.
-3. One consumer-recovery test for what the hook or page shows when validation fails.
-
-### D. Real route budgets
-
-The two heaviest routes are unbudgeted, and the budget on the third is too loose to catch a regression:
-
-| Route | First load | Budget |
-|---|---:|---|
-| `/shop` | **907 kB** | none |
-| `/account` | **898 kB** | none |
-| `/menu-planner` | 799 kB | 950 kB (passes trivially) |
-
-Add `/shop` and `/account` to `scripts/check-route-sizes.cjs`, set ceilings near current size so regressions fail, and reduce `/shop` — start with the wallet dependencies behind the three recorded build warnings (`@privy-io/react-auth` → `@farcaster/mini-app-solana`, `@reown/appkit` and `x402` critical-dependency expressions). Measure before and after; do not resolve a warning by installing an optional package the app never calls.
-
-### E. Bare JSON casts: choose by surface, not by count
-
-162 production casts remain across 122 files, with a maximum of 3 per file — a flat tail. Counter-grinding has no yield left. Pick by what the endpoint does: `src/app/api/planetary-positions/route.ts`, `src/utils/reliableAstronomy.ts`, `src/hooks/useConversation.ts`, `src/app/admin/*`. Report reads meaningfully validated as a separate number from casts removed.
-
-### F. Two decisions to measure, not assume
-
-- **Promoting `exactOptionalPropertyTypes` to the base tsconfig.** `strict-index:check` is now 0, so the strict project adds no signal over `typecheck` unless promoted. `scripts/tsconfig.json` inherits the base config, so promotion changes the scripts error universe (currently 66). Measure that number first, report it, and decide explicitly.
-- **Production reachability for `audit:dead-modules`.** It treats `scripts/` as entry points, so `src/utils/ingredientRecommender.ts`, `src/utils/cookingMethodRecommender.ts` and `src/types/ExtendedRecipe.ts` count as reachable although nothing in `src/` outside their own tests references them; the snapshot witness is their only consumer. Add a production-root mode (app + middleware) and record the set before proposing any deletion.
+---
 
 ## 4. Invariants
 
-- Never fabricate a domain value to satisfy a type. A missing element, modality, constant or coordinate renders as unknown or is omitted.
-- Fix the producing value, call site, or an explicit adapter. No new unchecked, double, or non-null assertions.
-- Preserve meaningful falsy values; use `!== undefined` or `!= null` per the actual contract.
-- Update baselines only through their ratchet commands, and only for measured reductions.
-- Snapshot-witness parity is evidence for values, not key presence: `JSON.stringify` erases the difference between an absent key and `undefined`, which is exactly what optionality edits change. For those edits, compare a scratch copy of the witness that encodes `undefined` as a sentinel; never re-record the committed fixture.
-- A schema is not evidence that it matches its producer. Build fixtures from the producer, and check every producer an endpoint has (`/api/user/profile` has two: the Hono proxy and the database path).
+- **Bun Only**: Always use `bun run` for dev commands, test runners, and build scripts.
+- **Never Fabricate Values**: Missing elements, modalities, or coordinates render as unknown or are omitted.
+- **No New Unchecked Casts**: All boundary parsing must use Zod or type guards; no new `as unknown as T` assertions.
+- **Natural Worker Exits**: Never re-introduce `--forceExit` to test scripts. All suites must clean up resources and exit naturally.
+- **Ratchet Strictly**: Update baselines only downward via their respective ratchet commands (`bun run lint:debt --ratchet`, etc.).
+- **Process Hygiene**: Check for active listeners on port 3000 before dev runs; terminate any spawned dev processes when tasks conclude.
+- **Single Worktree Rule**: Do not touch uncommitted edits from other active tasks/stashes. Keep commits atomic and clean.
 
-## 5. Verification and completion
+---
 
-On the final state, run each once, recording stdout, stderr and exit code separately:
+## 5. Verification Commands
+
+Run the full verification battery prior to PR creation:
 
 ```sh
 bun run verify:static
@@ -115,15 +127,4 @@ bun run test
 bun run build
 ```
 
-Then write `docs/PHASE_38_CLOSEOUT.md` with:
-
-- Starting and ending branch/HEAD, and whether the result is committed, pushed, or in a PR.
-- Before/after/target per metric, with any missed target stated as missed, next to its number, in the same table.
-- Quoted evidence copied from the actual command output or log file. Do not retype numbers into a summary: the Phase 37 chat walkthrough quoted route sizes that matched neither `.next-build.log` nor its own closeout document.
-- Warnings, skipped checks, and unresolved issues.
-
-If a target is missed, report the campaign as incomplete with a precise continuation plan. Never relabel a miss as met, and never relax a baseline to reach one.
-
-## 6. Out of scope
-
-Production mutations, deployment, auth-flag changes, and unrelated dependency upgrades. Read-only production queries for exposure counts are allowed and encouraged before changing a validation contract.
+Every command must exit with code 0.

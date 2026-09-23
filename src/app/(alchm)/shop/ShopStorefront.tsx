@@ -17,6 +17,8 @@
  * the vault on /account — the storefront cross-links when balance is short.
  */
 
+import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
+import Link from "next/link";
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import {
   ArrowLeft,
@@ -27,18 +29,18 @@ import {
   Sparkles,
   Wallet,
 } from "lucide-react";
-import Link from "next/link";
-import { readJson } from "@/lib/api/json";
+import { base, baseSepolia } from "viem/chains";
+import LivePriceTicker from "@/components/economy/LivePriceTicker";
+import { Button } from "@/components/ui/button";
+import { readJson, parseEach } from "@/lib/api/json";
 import {
-  ShopItemsResponseSchema,
+  RawShopItemsResponseSchema,
+  ShopItemSchema,
+  toDomainShopItem,
   OnchainStatusSchema,
   ShopPurchaseResponseSchema,
   ShopPurchaseSettleResponseSchema,
 } from "@/lib/validation/shopResponseSchemas";
-import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
-import { base, baseSepolia } from "viem/chains";
-import LivePriceTicker from "@/components/economy/LivePriceTicker";
-import { Button } from "@/components/ui/button";
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
 
@@ -160,9 +162,12 @@ function ShopInner(): JSX.Element {
       }
       if (shopRes.ok) {
         const json = await readJson(shopRes, {
-          parse: (x) => ShopItemsResponseSchema.parse(x),
+          parse: (x) => RawShopItemsResponseSchema.parse(x),
         });
-        setItems(json.items ?? []);
+        const { items: validItems } = parseEach(json.items ?? [], (item) =>
+          toDomainShopItem(ShopItemSchema.parse(item)),
+        );
+        setItems(validItems);
       }
       if (chainRes.ok) {
         const statusData = await readJson(chainRes, {

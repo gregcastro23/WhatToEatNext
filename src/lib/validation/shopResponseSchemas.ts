@@ -38,6 +38,14 @@ export const ShopItemSchema: z.ZodType<ShopItemWire> = z.object({
   owned: z.boolean(),
 });
 
+export const RawShopItemsResponseSchema = z
+  .object({
+    items: z.array(z.unknown()).optional(),
+  })
+  .passthrough();
+
+export type RawShopItemsResponseWire = z.infer<typeof RawShopItemsResponseSchema>;
+
 export const ShopItemsResponseSchema = z
   .object({
     items: z.array(ShopItemSchema).optional(),

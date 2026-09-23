@@ -13,11 +13,13 @@
  */
 
 import React from "react";
+import { z } from "zod";
 import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { Metric } from "@/components/admin/kit/Metric";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { readJson } from "@/lib/api/json";
 
 interface RequestEntry {
   id: number;
@@ -116,7 +118,51 @@ export default function ApiRouteHealthPanel(): React.JSX.Element {
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as ObservabilityResponse;
+      const ObservabilityResponseSchema = z
+        .object({
+          success: z.boolean(),
+          requests: z.object({
+            summary: z.object({
+              count: z.number(),
+              p50LatencyMs: z.number(),
+              p95LatencyMs: z.number(),
+              p99LatencyMs: z.number(),
+              errorRate: z.number(),
+              topPaths: z.array(z.object({ path: z.string(), count: z.number() })),
+            }),
+            recent: z.array(
+              z.object({
+                id: z.number(),
+                at: z.string(),
+                method: z.string(),
+                path: z.string(),
+                status: z.number(),
+                latencyMs: z.number(),
+              }),
+            ),
+            recentFailures: z.array(
+              z.object({
+                id: z.number(),
+                at: z.string(),
+                method: z.string(),
+                path: z.string(),
+                status: z.number(),
+                latencyMs: z.number(),
+              }),
+            ),
+          }),
+          slowQueries: z
+            .object({
+              summary: z.unknown(),
+              recent: z.array(z.object({ ms: z.number(), preview: z.string() })),
+            })
+            .optional(),
+        })
+        .passthrough();
+
+      const json = await readJson(res, {
+        parse: (raw) => ObservabilityResponseSchema.parse(raw) as ObservabilityResponse,
+      });
       if (!json.success || !json.requests) {
         setError("Observability payload malformed");
         return { ok: false };

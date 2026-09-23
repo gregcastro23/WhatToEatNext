@@ -3,6 +3,10 @@ import { after } from "next/server";
 import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
+import {
+  RecipeNutritionSchema,
+  toDomainRecipeNutrition,
+} from "@/lib/validation/recipeResponseSchemas";
 import type {
   ElementalProperties,
   Recipe,
@@ -100,24 +104,33 @@ const RECIPE_QUERY = `
   WHERE r.is_public = true
 `;
 
-function parseJsonValue<T>(value: unknown, fallback: T): T {
+function parseJsonUnknown(value: unknown): unknown {
   if (value == null) {
-    return fallback;
+    return null;
   }
 
   if (typeof value === "string") {
     try {
-      return JSON.parse(value) as T;
+      return JSON.parse(value);
     } catch {
-      return fallback;
+      return null;
     }
   }
 
-  return value as T;
+  return value;
+}
+
+function parseRecipeNutrition(value: unknown): NonNullable<Recipe["nutrition"]> | undefined {
+  const unparsed = parseJsonUnknown(value);
+  if (!unparsed || typeof unparsed !== "object") {
+    return undefined;
+  }
+  const result = RecipeNutritionSchema.safeParse(unparsed);
+  return result.success ? toDomainRecipeNutrition(result.data) : undefined;
 }
 
 function normalizeInstructions(value: unknown): string[] {
-  const parsed = parseJsonValue<unknown>(value, []);
+  const parsed = parseJsonUnknown(value) ?? [];
 
   if (Array.isArray(parsed)) {
     return parsed
@@ -134,7 +147,7 @@ function normalizeInstructions(value: unknown): string[] {
       .filter((step): step is string => Boolean(step));
   }
 
-  if (parsed && typeof parsed === "object") {
+  if (typeof parsed === "object") {
     const { steps } = (parsed as Record<string, unknown>);
     return normalizeInstructions(steps);
   }
@@ -147,7 +160,7 @@ function normalizeInstructions(value: unknown): string[] {
 }
 
 function normalizeIngredients(value: unknown): RecipeIngredient[] {
-  const parsed = parseJsonValue<unknown[]>(value, []);
+  const parsed = parseJsonUnknown(value) ?? [];
   if (!Array.isArray(parsed)) {
     return [];
   }
@@ -215,7 +228,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     const servings = rm.servings ?? row.servings;
     const createdAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
     const updatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
-    const nutrition = rm.nutritional_profile ?? (row.nutritional_profile ? parseJsonValue<NonNullable<Recipe['nutrition']> | undefined>(row.nutritional_profile, undefined) : undefined);
+    const nutrition = parseRecipeNutrition(rm.nutritional_profile ?? row.nutritional_profile);
     const cuisine = publicCuisine(rm.cuisine ?? row.cuisine);
 
     return {
@@ -261,7 +274,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
   const legacyServings = row.servings;
   const legacyCreatedAt = row.created_at ? new Date(row.created_at).toISOString() : undefined;
   const legacyUpdatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
-  const legacyNutrition = parseJsonValue<NonNullable<Recipe['nutrition']> | undefined>(row.nutritional_profile, undefined);
+  const legacyNutrition = parseRecipeNutrition(row.nutritional_profile);
   const legacyCuisine = publicCuisine(row.cuisine ?? row.cuisine_type);
 
   return {

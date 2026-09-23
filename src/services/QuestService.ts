@@ -209,7 +209,41 @@ function getPeriodStartForType(questType: string): string | null {
   }
 }
 
+const INSERT_MASTER_QUEST_NOTIFICATIONS_SQL = `INSERT INTO notifications
+   (id, user_id, type, title, message, metadata, expires_at)
+ SELECT
+   uuid_generate_v5(
+     '6ba7b810-9dad-11d1-80b4-00c04fd430c8'::uuid,
+     $1 || ':' || u.id::text
+   ),
+   u.id,
+   'master_quest_broadcast'::notification_type,
+   $2,
+   $3,
+   $4::jsonb,
+   $5::timestamptz
+ FROM users u
+ WHERE COALESCE(u.is_agent, false) = false
+   AND COALESCE(u.is_active, true) = true
+   AND u.id <> $6
+ ON CONFLICT (id) DO NOTHING`;
+
+function isPgEnumMismatch(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === "22P02"
+  );
+}
+
 // ─── Service Class ────────────────────────────────────────────────────
+
+let _masterQuestBroadcastSupported: boolean | null = null;
+
+export function resetMasterQuestBroadcastSupportCache(): void {
+  _masterQuestBroadcastSupported = null;
+}
 
 class QuestService {
 
@@ -671,6 +705,36 @@ class QuestService {
     }
   }
 
+  public async isMasterQuestBroadcastSupported(db: {
+    executeQuery: (sql: string, params?: unknown[]) => Promise<{ rows: unknown[] }>;
+  }): Promise<boolean> {
+    if (_masterQuestBroadcastSupported !== null) {
+      return _masterQuestBroadcastSupported;
+    }
+
+    try {
+      const result = await db.executeQuery(
+        `SELECT EXISTS (
+           SELECT 1
+           FROM pg_enum e
+           JOIN pg_type t ON e.enumtypid = t.oid
+           WHERE t.typname = 'notification_type'
+             AND e.enumlabel = 'master_quest_broadcast'
+         ) AS exists;`
+      );
+      const [firstRow] = result.rows;
+      const supported =
+        typeof firstRow === "object" &&
+        firstRow !== null &&
+        "exists" in firstRow &&
+        Boolean(firstRow.exists);
+      _masterQuestBroadcastSupported = supported;
+      return supported;
+    } catch {
+      return true;
+    }
+  }
+
   private async broadcastMasterQuestReward(
     completedByUserId: string,
     quest: QuestDefinition,
@@ -786,36 +850,56 @@ class QuestService {
         },
       });
 
-      await db.executeQuery(
-        `INSERT INTO notifications
-           (id, user_id, type, title, message, metadata, expires_at)
-         SELECT
-           uuid_generate_v5(
-             '6ba7b810-9dad-11d1-80b4-00c04fd430c8'::uuid,
-             $1 || ':' || u.id::text
-           ),
-           u.id,
-           'master_quest_broadcast'::notification_type,
-           $2,
-           $3,
-           $4::jsonb,
-           $5::timestamptz
-         FROM users u
-         WHERE COALESCE(u.is_agent, false) = false
-           AND COALESCE(u.is_active, true) = true
-           AND u.id <> $6
-         ON CONFLICT (id) DO NOTHING`,
-        [
-          broadcastKeyPrefix,
-          title,
-          message,
-          metadata,
-          expiresAt,
-          completedByUserId,
-        ],
-      );
+      await this.insertMasterQuestBroadcastNotification(db, {
+        broadcastKeyPrefix,
+        title,
+        message,
+        metadata,
+        expiresAt,
+        completedByUserId,
+      });
     } catch (error) {
       _logger.error("[QuestService] broadcastMasterQuestReward failed:", error);
+    }
+  }
+
+  private async insertMasterQuestBroadcastNotification(
+    db: { executeQuery: (sql: string, params?: unknown[]) => Promise<{ rows: unknown[] }> },
+    params: {
+      broadcastKeyPrefix: string;
+      title: string;
+      message: string;
+      metadata: string;
+      expiresAt: string;
+      completedByUserId: string;
+    },
+  ): Promise<void> {
+    const isSupported = await this.isMasterQuestBroadcastSupported(db);
+    if (!isSupported) {
+      _logger.warn(
+        "[QuestService] Database notification_type enum is missing 'master_quest_broadcast'. Skipping broadcast notification insert. Apply database/init/30-notification-type-master-quest-broadcast.sql to enable."
+      );
+      return;
+    }
+
+    try {
+      await db.executeQuery(INSERT_MASTER_QUEST_NOTIFICATIONS_SQL, [
+        params.broadcastKeyPrefix,
+        params.title,
+        params.message,
+        params.metadata,
+        params.expiresAt,
+        params.completedByUserId,
+      ]);
+    } catch (error) {
+      if (isPgEnumMismatch(error)) {
+        _logger.warn(
+          "[QuestService] Database notification_type enum rejected 'master_quest_broadcast' (code 22P02). Skipping broadcast until Migration 30 is applied."
+        );
+        _masterQuestBroadcastSupported = false;
+        return;
+      }
+      throw error;
     }
   }
 

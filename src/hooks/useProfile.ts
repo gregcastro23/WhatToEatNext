@@ -2,7 +2,12 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { readJson } from '@/lib/api/json';
 import { _logger } from '@/lib/logger';
+import {
+  ServerProfileResponseSchema,
+  toDomainUserProfile,
+} from '@/lib/validation/userProfileResponseSchemas';
 import type { NatalChart } from '@/types/natalChart';
 import type { Session } from 'next-auth';
 
@@ -27,7 +32,7 @@ export interface ProfileRecord {
   name?: string;
   email?: string;
   natalChart?: NatalChart;
-  preferences?: UserPreferences;
+  preferences?: UserPreferences | Record<string, unknown>;
   [key: string]: unknown;
 }
 
@@ -64,9 +69,19 @@ export function useProfile(): UseProfileReturn {
       try {
         const res = await fetch('/api/user/profile', { credentials: 'include' });
         if (res.ok) {
-          const data = (await res.json()) as { success?: boolean; profile?: ProfileRecord };
+          const data = await readJson(res, {
+            parse: (x) => ServerProfileResponseSchema.parse(x),
+          });
           if (data.success && data.profile) {
-            ({ profile } = data);
+            const domain = toDomainUserProfile(data.profile, session.user?.id ?? undefined);
+            const domainChart = domain.natalChart;
+            profile = {
+              userId: domain.userId,
+              ...(domain.name ? { name: domain.name } : {}),
+              ...(domain.email ? { email: domain.email } : {}),
+              ...(domain.preferences !== undefined ? { preferences: domain.preferences } : {}),
+              ...(domainChart ? { natalChart: domainChart as NatalChart } : {}),
+            };
             serverProfileLoaded = true;
           }
         }
@@ -84,11 +99,11 @@ export function useProfile(): UseProfileReturn {
           if (stored) {
             const parsed = JSON.parse(stored) as ProfileRecord | null;
             if (parsed && typeof parsed === 'object' && parsed.natalChart) {
-              const resolvedName = parsed.name ?? session?.user?.name ?? undefined;
-              const resolvedEmail = parsed.email ?? session?.user?.email ?? undefined;
+              const resolvedName = parsed.name ?? session.user?.name ?? undefined;
+              const resolvedEmail = parsed.email ?? session.user?.email ?? undefined;
               profile = {
                 ...parsed,
-                userId: parsed.userId ?? (session?.user?.id ?? ""),
+                userId: parsed.userId ?? (session.user?.id ?? ""),
                 ...(resolvedName ? { name: resolvedName } : {}),
                 ...(resolvedEmail ? { email: resolvedEmail } : {}),
               };

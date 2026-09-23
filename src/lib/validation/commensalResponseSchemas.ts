@@ -78,6 +78,20 @@ export const DominantElementSchema = z
   })
   .pipe(z.enum(["Fire", "Water", "Earth", "Air"]));
 
+export const ElementalPropertiesSchema = z.object({
+  Fire: z.number(),
+  Water: z.number(),
+  Earth: z.number(),
+  Air: z.number(),
+});
+
+export const AlchemicalPropertiesSchema = z.object({
+  Spirit: z.number(),
+  Essence: z.number(),
+  Matter: z.number(),
+  Substance: z.number(),
+});
+
 export const NatalChartSchema = z
   .object({
     id: z.string().optional(),
@@ -88,6 +102,9 @@ export const NatalChartSchema = z
     planetaryPositions: z.record(z.string(), z.string()).optional(),
     dominantElement: DominantElementSchema.optional(),
     dominantModality: z.enum(["Cardinal", "Fixed", "Mutable"]).optional(),
+    elementalBalance: ElementalPropertiesSchema.optional(),
+    alchemicalProperties: AlchemicalPropertiesSchema.optional(),
+    calculatedAt: z.string().optional(),
   })
   .passthrough();
 

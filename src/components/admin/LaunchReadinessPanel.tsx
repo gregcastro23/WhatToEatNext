@@ -17,10 +17,12 @@
 
 import Link from "next/link";
 import React from "react";
+import { z } from "zod";
 import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { readJson } from "@/lib/api/json";
 
 type ReadinessStatus = "READY" | "PARTIAL" | "OFF";
 
@@ -70,7 +72,47 @@ export default function LaunchReadinessPanel({
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & Report;
+      const LaunchReadinessResponseSchema = z
+        .object({
+          success: z.boolean(),
+          subsystems: z.array(
+            z
+              .object({
+                key: z.string(),
+                label: z.string(),
+                description: z.string(),
+                status: z.enum(["READY", "PARTIAL", "OFF"]),
+                configured: z.number(),
+                total: z.number(),
+                checks: z.array(
+                  z
+                    .object({
+                      label: z.string(),
+                      source: z.string(),
+                      ok: z.boolean(),
+                      kind: z.enum(["flag", "secret", "config"]),
+                      isPublic: z.boolean(),
+                    })
+                    .passthrough(),
+                ),
+              })
+              .passthrough(),
+          ),
+          settlement: z
+            .object({
+              pending: z.number(),
+              live: z.boolean(),
+            })
+            .passthrough(),
+          readyCount: z.number(),
+          generatedAt: z.string(),
+        })
+        .passthrough();
+
+      const json = await readJson(res, {
+        parse: (raw) =>
+          LaunchReadinessResponseSchema.parse(raw) as { success: boolean } & Report,
+      });
       if (json.success) {
         setReport(json);
         setError(null);
