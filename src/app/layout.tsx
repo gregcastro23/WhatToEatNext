@@ -8,6 +8,7 @@ import { GroceryCartDrawer } from "@/components/grocery-cart/GroceryCartDrawer";
 import { AppChromeFooter, AppChromeTabBar } from "@/components/nav/AppChrome";
 import { CommandPalette } from "@/components/nav/CommandPalette";
 import { MobileGlassTabBar } from "@/components/nav/MobileGlassTabBar";
+import { NavigationProgress } from "@/components/nav/NavigationProgress";
 import { RedesignedFooter } from "@/components/nav/RedesignedFooter";
 import { RedesignedHeader } from "@/components/nav/RedesignedHeader";
 import PwaRegistration from "@/components/pwa/PwaRegistration";
@@ -151,6 +152,7 @@ export default function RootLayout({
             <RedesignedFooter />
           </AppChromeFooter>
           <CommandPalette />
+          <NavigationProgress />
           <AppChromeTabBar>
             <MobileGlassTabBar />
           </AppChromeTabBar>
