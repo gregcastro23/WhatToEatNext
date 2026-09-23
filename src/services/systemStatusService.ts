@@ -1565,6 +1565,9 @@ export async function probeScheduledJobsDependency(): Promise<DependencyHealth> 
   const failing = entries.filter((e) => e.state === "failing");
   const late = entries.filter((e) => e.state === "late");
   const never = entries.filter((e) => e.state === "never");
+  // One failed tick of a sub-daily job: shown, never alerted — the next run
+  // either clears it or escalates it to `failing`.
+  const retrying = entries.filter((e) => e.state === "retrying");
 
   const name = (list: typeof entries) => list.map((e) => e.name).join(", ");
 
@@ -1597,7 +1600,10 @@ export async function probeScheduledJobsDependency(): Promise<DependencyHealth> 
     id: "scheduled-jobs",
     label: "Scheduled jobs",
     status: "OK",
-    summary: `${entries.length} jobs on schedule`,
+    summary:
+      retrying.length > 0
+        ? `${entries.length - retrying.length} jobs on schedule · retrying: ${name(retrying)}`
+        : `${entries.length} jobs on schedule`,
     latencyMs: null,
     checkedAt,
   };

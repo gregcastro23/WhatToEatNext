@@ -40,6 +40,26 @@ const FAUCET_RESONANCE_RETAIN_DAYS = 180;
  * prune analytics must not report the log sweep as failed. Returns 0 rather
  * than throwing so the caller stays a straight line.
  */
+/**
+ * First-party page views (migration 86). 180 days keeps two full quarters for
+ * /admin/traffic comparisons. Same isolation as the faucet prune: a missing
+ * table (migration not yet applied) must not fail the log sweep.
+ */
+const PAGE_VIEWS_RETAIN_DAYS = 180;
+
+async function prunePageViews(): Promise<number> {
+  try {
+    const result = await executeQuery<{ page_views_deleted: string }>(
+      `SELECT * FROM prune_page_views($1)`,
+      [PAGE_VIEWS_RETAIN_DAYS],
+    );
+    return Number(result.rows[0]?.page_views_deleted ?? 0);
+  } catch (err) {
+    _logger.error("[cron/observability-prune] page views prune failed:", err);
+    return 0;
+  }
+}
+
 async function pruneFaucetResonance(): Promise<number> {
   try {
     const result = await executeQuery<{ faucet_resonance_deleted: string }>(
@@ -92,6 +112,7 @@ export async function GET(request: NextRequest) {
       : 0;
 
     const faucetResonanceDeleted = await pruneFaucetResonance();
+    const pageViewsDeleted = await prunePageViews();
 
     await recordCronRun("observability-prune", { status: "success", startedAt });
     return NextResponse.json({
@@ -101,6 +122,7 @@ export async function GET(request: NextRequest) {
       slowQueryLogDeleted,
       mcpInvocationsDeleted,
       faucetResonanceDeleted,
+      pageViewsDeleted,
     });
   } catch (err) {
     _logger.error("[cron/observability-prune] failed:", err);

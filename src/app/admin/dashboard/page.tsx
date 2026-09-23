@@ -3,8 +3,8 @@
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { z } from "zod";
-import { readJson } from "@/lib/api/json";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { readJson } from "@/lib/api/json";
 import { Dashboard } from "../_dashboard/Dashboard";
 import { FALLBACK_DATA, type AdminDashboardData } from "../_dashboard/data";
 

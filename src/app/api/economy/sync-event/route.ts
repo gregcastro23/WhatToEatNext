@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { EconomySyncEventRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
     const authHeader = req.headers.get("X-Sync-Secret");
     const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
 
-    if (!syncSecret || authHeader !== syncSecret) {
+    if (!safeEqual(authHeader, syncSecret)) {
       return NextResponse.json(
         { ok: false, reason: "unauthorized" },
         { status: 401 }

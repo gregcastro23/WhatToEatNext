@@ -73,6 +73,7 @@
     "verify:full": "bun run verify && bun run build",
     "lint": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache --cache-strategy content src --max-warnings=10000",
     "lint:debt": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts",
+    "health:snapshot": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/codeHealthSnapshot.ts",
     "lint:debt:ratchet": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --ratchet",
     "lint:fix": "eslint --config eslint.config.mjs --fix src",
     "lint:fast": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache src",

@@ -28,7 +28,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
@@ -105,7 +105,23 @@ export async function GET(request: NextRequest) {
       alerts.push("chain-nft");
     }
 
-    await recordCronRun("chain-reconcile", { status: "success", startedAt });
+    // Coverage goes on the heartbeat so /admin/jobs can show a run that
+    // "succeeded" while verifying only part of what it scanned.
+    await recordCronRun("chain-reconcile", {
+      status: "success",
+      startedAt,
+      details: {
+        claims,
+        shop: { pairsChecked: shop.pairsChecked, healed: shop.healed, failures: shop.failures },
+        invariants: {
+          walletsChecked: invariants.walletsChecked,
+          walletsTotal: invariants.walletsTotal,
+          violations: invariants.violations.length,
+          failures: invariants.failures,
+        },
+        nfts,
+      },
+    });
     return NextResponse.json({
       success: true,
       rail,

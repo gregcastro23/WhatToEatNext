@@ -6,7 +6,7 @@
  * The "what's actually happening on the site right now" hero panel.
  * Polls /api/admin/live-activity every 10s and renders a chronological
  * feed merging signups, sign-ins, onboarding completions, recipe views,
- * food diary entries, token transactions, and agent events.
+ * food diary entries, token transactions, agent events, and site visits.
  *
  * Filter chips on top let the operator zoom in on a single category;
  * counts shown per chip.
@@ -25,7 +25,8 @@ type Category =
   | "recipe"
   | "economy"
   | "agent"
-  | "diary";
+  | "diary"
+  | "visit";
 
 type Status = "success" | "failure" | "info";
 
@@ -63,6 +64,7 @@ const CATEGORY_LABEL: Record<Category, string> = {
   economy: "Economy",
   agent: "Agent",
   diary: "Diary",
+  visit: "Visits",
 };
 
 const CATEGORY_STYLE: Record<Category, { dot: string; chip: string; ring: string }> = {
@@ -100,6 +102,11 @@ const CATEGORY_STYLE: Record<Category, { dot: string; chip: string; ring: string
     dot: "bg-pink-500",
     chip: "bg-pink-100 text-pink-800 border-pink-200",
     ring: "ring-pink-300",
+  },
+  visit: {
+    dot: "bg-teal-500",
+    chip: "bg-teal-100 text-teal-800 border-teal-200",
+    ring: "ring-teal-300",
   },
 };
 
@@ -205,6 +212,7 @@ export default function LiveActivityPanel(): React.JSX.Element | null {
     "economy",
     "agent",
     "diary",
+    "visit",
   ];
 
   return (
