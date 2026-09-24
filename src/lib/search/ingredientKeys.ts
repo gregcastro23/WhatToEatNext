@@ -26,6 +26,7 @@ function exactFormMap(ingredients: readonly IngredientRecord[]): Map<string, str
   // Names first so a name wins over another ingredient's key spelling.
   for (const { key, name } of ingredients) addForms(map, name, key);
   for (const { key } of ingredients) addForms(map, key.replace(/_/g, " "), key);
+  for (const { key, aliases } of ingredients) aliases.forEach((alias) => addForms(map, alias.replace(/_/g, " "), key));
   for (const { term, canonical } of INGREDIENT_SYNONYMS) addForms(map, term, canonical);
   return map;
 }

@@ -1,9 +1,10 @@
 /**
  * Regional and common names that point at a catalog ingredient (plan §4.1).
  *
- * Every entry names its basis. `canonical` must be a key of `allIngredients`,
- * and `term` must not itself be a catalog ingredient name. The corpus test
- * enforces both, so an entry can't dangle or shadow a real ingredient.
+ * Every entry names its basis. `canonical` must be a key of the ingredient
+ * catalog (lib/ingredients/ingredientCatalog), and `term` must not itself be
+ * a catalog ingredient name. The corpus test enforces both, so an entry can't
+ * dangle or shadow a real ingredient.
  */
 export interface IngredientSynonym {
   term: string;
@@ -31,4 +32,5 @@ export const INGREDIENT_SYNONYMS: readonly IngredientSynonym[] = [
   { term: "cornflour", canonical: "cornstarch", basis: "British name for corn starch" },
   { term: "bhindi", canonical: "okra", basis: "Hindi name for okra" },
   { term: "ladies finger", canonical: "okra", basis: "Indian English name for okra" },
+  { term: "egg", canonical: "chicken_egg", basis: "a recipe's unqualified egg is a hen's egg; duck, quail and goose eggs are named" },
 ];

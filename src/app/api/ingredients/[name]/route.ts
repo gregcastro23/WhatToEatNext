@@ -5,7 +5,11 @@ import {
   getRecipesForIngredient,
   resolveIngredientSlug,
 } from "@/data/ingredientRecipeIndex";
-import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import {
+  catalogRecord,
+  resolveCatalogIngredient,
+  type CatalogIngredient,
+} from "@/lib/ingredients/ingredientCatalog";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { IngredientService } from "@/services/IngredientService";
@@ -42,32 +46,74 @@ function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined 
   return undefined;
 }
 
-function buildSubstitutions(
-  ingredient: UnifiedIngredient | undefined,
-): Array<{ name: string; rationale: string; type: "complementary" | "direct" }> {
-  if (!ingredient) return [];
-  const subs: Array<{ name: string; rationale: string; type: "complementary" | "direct" }> = [];
+/**
+ * The card for a name. An exact identity (slug, key, either catalog's name,
+ * alias) wins; that alone fixes the 15 names the substring match sent to
+ * another card ("Apple Cider Vinegar" → Apple). The IngredientDrawer also
+ * sends recipe lines ("ground beef (80/20)"), which are not identities.
+ * [MEASURED 2026-09-23] Only 649 of 2,880 distinct recipe lines are exact
+ * names, so for the rest the legacy match still answers, mapped onto the union
+ * card: the drawer shows a card for every line it showed one before. Better
+ * line resolution is its own measured change; dossier URLs turn strictly
+ * exact in Phase 2.5b, when the page stops calling this route.
+ */
+function cardFor(text: string): CatalogIngredient | null {
+  const exact = resolveCatalogIngredient(text);
+  if (exact) return exact.entry;
+  const legacy = IngredientService.getInstance().getIngredientByName(text);
+  return legacy ? (resolveCatalogIngredient(legacy.name)?.entry ?? null) : null;
+}
 
-  const pairing = (ingredient as { pairingRecommendations?: { complementary?: string[]; contrasting?: string[] } })
-    .pairingRecommendations;
+type IndexMatch = ReturnType<typeof getRecipesForIngredient>[number];
 
-  if (pairing?.complementary) {
-    for (const alt of pairing.complementary.slice(0, 5)) {
-      subs.push({
-        name: alt,
-        rationale: `Shares flavor affinity with ${ingredient.name} — works well in similar contexts.`,
-        type: "complementary",
-      });
-    }
+/** The dossier shows the top 24 recipes with timing detail. */
+const RELATED_RECIPE_LIMIT = 24;
+
+function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRecipe {
+  const amount = typeof match.amount === "number" ? match.amount : undefined;
+  if (!recipe) {
+    // Fallback if not loaded in memory
+    return { id: match.recipeId, name: match.recipeName, cuisine: match.cuisine, amount, unit: match.unit };
   }
+  // Some catalog recipes carry an untyped baseServingSize.
+  const baseServings: unknown = Reflect.get(recipe, "baseServingSize");
+  return {
+    id: recipe.id,
+    name: recipe.name,
+    cuisine: recipe.cuisine,
+    description: recipe.description,
+    prepTime: extractTime(recipe, "prep"),
+    cookTime: extractTime(recipe, "cook"),
+    servings: typeof baseServings === "number" ? baseServings : (recipe.servingSize ?? recipe.numberOfServings),
+    amount,
+    unit: match.unit,
+  };
+}
 
-  return subs;
+/** `pairingRecommendations.complementary`, read defensively: cards store several shapes. */
+function complementaryOf(card: Record<string, unknown>): string[] {
+  const pairing = card.pairingRecommendations;
+  if (typeof pairing !== "object" || pairing === null || !("complementary" in pairing)) return [];
+  const { complementary } = pairing;
+  return Array.isArray(complementary) ? complementary.filter((alt): alt is string => typeof alt === "string") : [];
+}
+
+function buildSubstitutions(
+  card: Record<string, unknown> | null,
+  name: string,
+): Array<{ name: string; rationale: string; type: "complementary" | "direct" }> {
+  if (!card) return [];
+  return complementaryOf(card).slice(0, 5).map((alt) => ({
+    name: alt,
+    rationale: `Shares flavor affinity with ${name} — works well in similar contexts.`,
+    type: "complementary",
+  }));
 }
 
 export async function GET(
   request: Request,
   props: { params: Promise<{ name: string }> },
-) {
+): Promise<Response> {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "ingredients-by-name" });
   if (!rl.allowed) return rl.response!;
   try {
@@ -94,11 +140,11 @@ export async function GET(
       );
     }
 
-    const ingredientService = IngredientService.getInstance();
-    const ingredient = ingredientService.getIngredientByName(ingredientName);
+    const card = cardFor(ingredientName);
+    const ingredient = card ? catalogRecord(card) : null;
 
     // Resolve canonical slug for the recipe index
-    const canonicalName = ingredient?.name ?? ingredientName;
+    const canonicalName = card?.name ?? ingredientName;
     const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
     // Get from pre-computed recipe index
@@ -111,42 +157,16 @@ export async function GET(
     const allRecipes = await recipeService.getAllRecipes();
     const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
-    const relatedRecipes: RelatedRecipe[] = [];
-    for (const match of matches) {
-      const recipe = recipeMap.get(match.recipeId);
-      if (recipe) {
-        relatedRecipes.push({
-          id: recipe.id,
-          name: recipe.name,
-          cuisine: recipe.cuisine,
-          description: recipe.description,
-          prepTime: extractTime(recipe, "prep"),
-          cookTime: extractTime(recipe, "cook"),
-          servings:
-            (recipe as { baseServingSize?: number }).baseServingSize ??
-            recipe.servingSize ??
-            recipe.numberOfServings,
-          amount: typeof match.amount === "number" ? match.amount : undefined,
-          unit: match.unit,
-        });
-      } else {
-        // Fallback if not loaded in memory
-        relatedRecipes.push({
-          id: match.recipeId,
-          name: match.recipeName,
-          cuisine: match.cuisine,
-          amount: typeof match.amount === "number" ? match.amount : undefined,
-          unit: match.unit,
-        });
-      }
-      if (relatedRecipes.length >= 24) break;
-    }
+    const relatedRecipes = matches
+      .slice(0, RELATED_RECIPE_LIMIT)
+      .map((match) => relatedRecipe(match, recipeMap.get(match.recipeId)));
 
-    const substitutions = buildSubstitutions(ingredient);
+    const substitutions = buildSubstitutions(ingredient, canonicalName);
 
     return NextResponse.json({
       success: true,
-      ingredient: ingredient ?? null,
+      ingredient,
+      slug: card?.slug ?? null,
       relatedRecipes,
       recipesByCuisine,
       substitutions,

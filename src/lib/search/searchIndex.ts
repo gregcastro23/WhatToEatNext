@@ -2,6 +2,7 @@
  * The searchable index: every entity with its pre-normalized match strings,
  * plus the ingredient → recipe reverse index. Built once per catalog refresh.
  */
+import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
 import { buildRecipeIngredientIndex, type IngredientKeyResolver, type RecipeUse } from "./recipeIngredientIndex";
 import { INGREDIENT_SYNONYMS } from "./synonyms";
 import { normalizeText, type NormalizedText } from "./text";
@@ -41,10 +42,6 @@ export interface SearchIndex {
   synonyms: readonly IndexedSynonym[];
 }
 
-export function ingredientHref(name: string): string {
-  return `/ingredients/${encodeURIComponent(name)}`;
-}
-
 export function recipeHref(id: string): string {
   return `/recipes/${encodeURIComponent(id)}`;
 }
@@ -76,7 +73,7 @@ export function buildSearchIndex(
   const recipes = new Map(catalogs.recipes.map((record) => [record.id, record]));
   const entities: IndexedEntity[] = [
     ...catalogs.ingredients.map((r) =>
-      indexed("ingredient", { key: r.key, name: r.name, href: ingredientHref(r.name) }, [r.key.replace(/_/g, " ")]),
+      indexed("ingredient", { key: r.key, name: r.name, href: ingredientHref(r.slug) }, [r.key.replace(/_/g, " "), ...r.aliases]),
     ),
     ...[...recipes.values()].map((r) => indexed("recipe", { key: r.id, name: r.name, href: recipeHref(r.id) }, [])),
     ...namedEntities("cuisine", catalogs.cuisines),

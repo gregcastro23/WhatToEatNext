@@ -8,8 +8,8 @@
  */
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
-import { allIngredients } from "@/data/ingredients";
 import { allSauces } from "@/data/sauces";
+import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
 import {
@@ -28,7 +28,7 @@ let memo: { recipes: readonly Recipe[]; index: SearchIndex } | null = null;
 
 function catalogsWithout(): Omit<SearchCatalogs, "recipes"> {
   staticRecords ??= {
-    ingredients: ingredientRecords(allIngredients),
+    ingredients: ingredientRecords(getIngredientCatalog().entries),
     cuisines: cuisineRecords(CUISINES_METADATA),
     methods: methodRecords(),
     sauces: sauceRecords(allSauces),
