@@ -25,7 +25,8 @@ export interface OmnibarOptions {
 }
 
 const DEFAULT_PER_KIND = 6;
-const DEFAULT_CONTAINING = 12;
+/** Recipes listed under a hero; the dossier lists the same ones. */
+export const DEFAULT_CONTAINING = 12;
 
 /** Shown when the best hit needed a synonym, a mid-word match, or an edit. */
 function correctionFor(top: SearchHit, query: string): Correction | null {
@@ -61,7 +62,8 @@ function heroFor(index: SearchIndex, top: SearchHit, now: Date): IngredientHero 
   };
 }
 
-function containingRows(index: SearchIndex, key: string, limit: number): ContainingRecipeRow[] {
+/** The recipes that use an ingredient, ranked (title mentions, then required, then name). */
+export function containingRows(index: SearchIndex, key: string, limit: number): ContainingRecipeRow[] {
   const uses = index.recipeUses.get(key) ?? [];
   const nameOf = (id: string): string => index.recipes.get(id)?.name ?? id;
   return rankRecipeUses(uses, nameOf)

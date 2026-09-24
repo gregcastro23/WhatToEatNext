@@ -17,6 +17,7 @@ const STATUS_DECIDING_SEGMENTS = [
   "cuisines/[slug]",
   "cooking-methods/[method]",
   "restaurants/[id]/menu",
+  "ingredients/[slug]",
 ];
 
 /** "", "recipes", "recipes/[recipeId]" for "recipes/[recipeId]". */
