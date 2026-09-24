@@ -45,6 +45,25 @@ describe("ingredientRecipeIndex", () => {
     });
   });
 
+  describe("accepts: slugs a caller cannot use", () => {
+    it("by default every slug is usable, so the drawer keeps its answer", () => {
+      expect(resolveIngredientSlug("ground beef")).toBe("ground_beef");
+    });
+
+    it("a rejected slug is skipped at every step, reaching the name inside it", () => {
+      expect(resolveIngredientSlug("ground beef", (slug) => slug !== "ground_beef")).toBe("beef");
+    });
+  });
+
+  it.each([
+    ["juice of 2 lemons", "lemon"],
+    ["navel oranges", "orange"],
+    ["-2 jalapeño peppers", "jalapenos"],
+    ["crème fraîche", "creme_fraiche"],
+  ])("plurals and accents fold: %s → %s", (input, slug) => {
+    expect(resolveIngredientSlug(input)).toBe(slug);
+  });
+
   it("returns matches and count consistently", () => {
     const slug = resolveIngredientSlug("Pandan jelly");
     expect(slug).toBe("pandan_jelly");
