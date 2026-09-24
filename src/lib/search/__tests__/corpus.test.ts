@@ -5,21 +5,30 @@
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { allCookingMethods } from "@/data/cooking";
+import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
 import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { slugToCuisineKey } from "@/utils/cuisineSlug";
+import { buildIngredientKeyResolver } from "../ingredientKeys";
+import { createLineAuditor, summarizeLineAudits } from "../lineAudit";
 import { buildIndexForRecipes } from "../loader";
 import { searchOmnibar } from "../omnibar";
 import { rankEntities } from "../rank";
+import { keysForLine, type IngredientKeyResolver } from "../recipeIngredientIndex";
 import type { SearchIndex } from "../searchIndex";
 import { INGREDIENT_SYNONYMS } from "../synonyms";
 import { normalizeText } from "../text";
-import type { OmnibarResult } from "../types";
+import type { IngredientRecord, OmnibarResult } from "../types";
 
 const SEPTEMBER = new Date("2026-09-23T12:00:00Z");
 let index: SearchIndex;
+let ingredients: IngredientRecord[];
+let keyOf: IngredientKeyResolver;
 
 beforeAll(async () => {
   index = buildIndexForRecipes(await getServerRecipes());
+  ingredients = [...index.ingredients.values()];
+  // The resolver the loader builds, rebuilt here so lines can be probed one at a time.
+  keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlug);
 }, 120_000);
 
 function search(query: string, now: Date = SEPTEMBER): OmnibarResult {
@@ -85,6 +94,58 @@ describe("destinations resolve", () => {
     for (const { entity } of index.entities.filter((e) => e.entity.kind === "cuisine")) {
       expect(slugToCuisineKey(entity.href.replace("/cuisines/", ""))).toBe(entity.key);
     }
+  });
+});
+
+describe("reverse index: a recipe line is filed under its head ingredient", () => {
+  it.each([
+    ["garlic cloves", ["garlic"], false],
+    ["-4 cloves garlic", ["garlic"], false],
+    ["ground cloves", ["cloves"], false],
+    ["fresh lemon juice", ["lemon"], false],
+    ["lemon juice", ["lemon"], false],
+    ["freshly squeezed lime juice", ["lime"], false],
+    ["lemon or lime juice", ["lemon", "lime"], true],
+    ["unsweetened peanut butter", [], false],
+    ["lamb or mutton", ["lamb", "mutton"], true],
+    ["lamb, beef, or chicken", ["lamb", "beef", "chicken"], true],
+  ])("%s → %j", (line, keys, alternative) => {
+    expect(keysForLine(line, keyOf)).toEqual({ keys, alternative });
+  });
+
+  it("the probe flags a resolver that files a line under a portion, generic or modifier card", () => {
+    // Control: without it, zero flags below could mean a probe that cannot flag.
+    const wrong = (key: string): IngredientKeyResolver => () => key;
+    expect(createLineAuditor(ingredients, wrong("cloves"))("garlic cloves").flags).toEqual(["unit-word"]);
+    expect(createLineAuditor(ingredients, wrong("juice"))("juice of 1 lemon").flags).toEqual(["generic"]);
+    expect(createLineAuditor(ingredients, wrong("peanuts"))("peanut butter").flags).toEqual(["modifier"]);
+  });
+
+  it("no line is filed under a unit word; generic and modifier cards may not grow", () => {
+    const lines = [...new Set([...index.recipes.values()].flatMap((r) => r.ingredientLines))];
+    const summary = summarizeLineAudits(lines.map(createLineAuditor(ingredients, keyOf)));
+    expect(summary.lines).toBeGreaterThan(2500);
+    // [MEASURED 2026-09-24] over 2,880 distinct lines, before → after the fix:
+    //   unit-word  8 → 0   ("garlic cloves" → cloves)
+    //   generic   43 → 7   ("lemon juice" → juice; left: corn/oat flour → flour,
+    //                       ice water → water, date sugar → sugar, and "juice of 2
+    //                       lemons" / "juice oranges", whose plural is no index alias)
+    //   modifier  46 → 41  (for review, not all wrong: "jalapeno pepper" → jalapeno
+    //                       is right, "almond flour" → almonds awaits a ruling)
+    expect(summary.flagged["unit-word"]).toBe(0);
+    expect(summary.flagged.generic).toBeLessThanOrEqual(7);
+    expect(summary.flagged.modifier).toBeLessThanOrEqual(41);
+  });
+
+  it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {
+    const count = (query: string): number => search(query).hero?.recipeCount ?? -1;
+    // [MEASURED 2026-09-24] static catalog, before → after: lemon 61 → 172,
+    // lime 22 → 64, garlic 267 → 280, juice 203 → 6, cloves 33 → 20.
+    expect(count("lemon")).toBeGreaterThanOrEqual(150);
+    expect(count("lime")).toBeGreaterThanOrEqual(50);
+    expect(count("garlic")).toBeGreaterThanOrEqual(275);
+    expect(count("juice")).toBeLessThanOrEqual(10);
+    expect(count("cloves")).toBeLessThanOrEqual(25);
   });
 });
 

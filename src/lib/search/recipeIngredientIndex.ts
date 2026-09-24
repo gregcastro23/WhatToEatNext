@@ -18,22 +18,30 @@ export interface RecipeUse {
 export type IngredientKeyResolver = (text: string) => string | null;
 
 const ALTERNATIVE_SPLIT = /\s+or\s+/i;
+/** In an "or" line, commas separate alternatives too: "lamb, beef, or chicken". */
+const LIST_SPLIT = /,\s*/;
+
+function pieces(text: string, separator: RegExp): string[] {
+  return text
+    .split(separator)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 
 /** Catalog keys one recipe line names; every key of an "X or Y" line is an alternative. */
 export function keysForLine(
   line: string,
   keyOf: IngredientKeyResolver,
 ): { keys: string[]; alternative: boolean } {
-  const parts = line
-    .split(ALTERNATIVE_SPLIT)
-    .map((part) => part.trim())
-    .filter(Boolean);
+  const sides = pieces(line, ALTERNATIVE_SPLIT);
+  const alternative = sides.length > 1;
+  const parts = alternative ? sides.flatMap((side) => pieces(side, LIST_SPLIT)) : sides;
   const keys = new Set<string>();
   for (const part of parts) {
     const key = keyOf(part);
     if (key !== null) keys.add(key);
   }
-  return { keys: [...keys], alternative: parts.length > 1 };
+  return { keys: [...keys], alternative };
 }
 
 /** Whole-word (stemmed) containment: "Spinach Pasta" mentions spinach. */

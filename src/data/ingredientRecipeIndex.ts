@@ -95,23 +95,19 @@ function assertIndexPayload(payload: unknown): IngredientRecipeIndex {
 const INDEX = assertIndexPayload(rawIndex);
 const INDEX_KEYS = new Set(Object.keys(INDEX));
 
-const ALIAS_TO_SLUG = (() => {
-  const map = new Map<string, string>();
-  for (const slug of INDEX_KEYS) {
-    const norm = normalizeIngredientInput(slug);
-    const singular =
-      norm.endsWith("ies") && norm.length > 4
-        ? `${norm.slice(0, -3)}y`
-        : norm.endsWith("es") && norm.length > 3
-          ? norm.slice(0, -2)
-          : norm.endsWith("s") && norm.length > 2
-            ? norm.slice(0, -1)
-            : norm;
-    map.set(norm, slug);
-    map.set(singular, slug);
-  }
-  return map;
-})();
+/** "cherries" → "cherry", "tomatoes" → "tomato", "lemons" → "lemon". */
+function singularForm(norm: string): string {
+  if (norm.endsWith("ies") && norm.length > 4) return `${norm.slice(0, -3)}y`;
+  if (norm.endsWith("es") && norm.length > 3) return norm.slice(0, -2);
+  return norm.endsWith("s") && norm.length > 2 ? norm.slice(0, -1) : norm;
+}
+
+const ALIAS_TO_SLUG = new Map<string, string>();
+for (const slug of INDEX_KEYS) {
+  const norm = normalizeIngredientInput(slug);
+  ALIAS_TO_SLUG.set(norm, slug);
+  ALIAS_TO_SLUG.set(singularForm(norm), slug);
+}
 
 /**
  * Generic state/preparation descriptors that get promoted to slugs when a
@@ -125,17 +121,89 @@ const CONTAINMENT_STOPWORDS = new Set([
 ]);
 
 /**
- * Whole-word patterns for the containment fallback, longest alias first so
- * "fresh pandan leaves" resolves to "pandan leaves", not "fresh". Built once:
- * this used to re-sort every alias and rebuild the regexes on every call.
+ * Words that name a portion of another ingredient rather than an ingredient:
+ * "garlic cloves", "4 cloves garlic", "juice of 1 lemon", "thyme sprigs".
+ * Basis: a clove is one segment of a garlic bulb, juice is the liquid pressed
+ * from the fruit named with it, and heads, sprigs, stalks and leaves are how
+ * a vegetable or herb is counted. "cloves" (the spice) and "juice" are index
+ * slugs, so a portion word still resolves when it is the only name in the
+ * text ("ground cloves"), but it never wins against another name.
  */
-const CONTAINMENT_ALIASES: ReadonlyArray<readonly [RegExp, string]> = Array.from(ALIAS_TO_SLUG.entries())
-  .filter(([alias]) => alias.length >= 4 && !CONTAINMENT_STOPWORDS.has(alias))
-  .sort((a, b) => b[0].length - a[0].length)
-  .map(([alias, slug]): readonly [RegExp, string] => {
-    const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return [new RegExp(`(^|\\s)${escaped}(\\s|$)`), slug];
-  });
+const PORTION_WORDS = new Set([
+  "clove", "cloves", "juice", "head", "heads", "sprig", "sprigs",
+  "stalk", "stalks", "leaf", "leaves",
+]);
+
+/**
+ * Heads that make "<ingredient> <head>" a product of its own: neither the
+ * ingredient nor the plain head. Basis: the index carries almond, cashew and
+ * sunflower-seed butter as slugs distinct from the nut and from dairy butter,
+ * so "peanut butter", which has no slug, is not peanuts and not butter.
+ */
+const PRODUCT_HEADS = new Set(["butter"]);
+
+/** Containment aliases, matched as whole-token sequences of the input. */
+const CONTAINMENT_ALIASES: ReadonlyMap<string, string> = new Map(
+  Array.from(ALIAS_TO_SLUG.entries()).filter(
+    ([alias]) => alias.length >= 4 && !CONTAINMENT_STOPWORDS.has(alias),
+  ),
+);
+const MAX_ALIAS_TOKENS = Math.max(...Array.from(CONTAINMENT_ALIASES.keys(), (alias) => alias.split(" ").length));
+
+interface AliasMatch {
+  alias: string;
+  slug: string;
+  /** Token span [start, end) in the input. */
+  start: number;
+  end: number;
+}
+
+/** Every containment alias the input holds as whole words, with its span. */
+function aliasMatches(input: string): AliasMatch[] {
+  const tokens = input.split(" ");
+  const matches: AliasMatch[] = [];
+  for (let start = 0; start < tokens.length; start++) {
+    const last = Math.min(tokens.length, start + MAX_ALIAS_TOKENS);
+    for (let end = start + 1; end <= last; end++) {
+      const alias = tokens.slice(start, end).join(" ");
+      const slug = CONTAINMENT_ALIASES.get(alias);
+      if (slug !== undefined) matches.push({ alias, slug, start, end });
+    }
+  }
+  return matches;
+}
+
+function isInside(inner: AliasMatch, outer: AliasMatch): boolean {
+  return outer !== inner && outer.start <= inner.start && outer.end >= inner.end;
+}
+
+/** Drop each product head and the name right before it ("peanut butter"). */
+function withoutProducts(matches: readonly AliasMatch[]): AliasMatch[] {
+  const heads = matches.filter((m) => PRODUCT_HEADS.has(m.alias) && matches.some((p) => p.end === m.start));
+  return matches.filter((m) => !heads.some((head) => head === m || head.start === m.end));
+}
+
+/**
+ * The slug an input names by containment. Rules, in order:
+ *   1. A name inside a longer name drops out ("fresh pandan leaves").
+ *   2. Portion words yield to any other name ("garlic cloves" → garlic).
+ *   3. A product head and the name before it drop out ("peanut butter").
+ *   4. The longest remaining name wins; on equal length the rightmost, since
+ *      the last noun heads the phrase ("garlic chives" → chives).
+ * Rules 1–3 used to be approximated by length alone, with ties going to
+ * whichever slug came first in the JSON: "garlic cloves" → cloves.
+ */
+function containedSlug(input: string): string | null {
+  const all = aliasMatches(input);
+  const outer = all.filter((m) => !all.some((o) => isInside(m, o)));
+  const named = outer.filter((m) => !PORTION_WORDS.has(m.alias));
+  const kept = withoutProducts(named.length > 0 ? named : outer);
+  const best = kept.reduce<AliasMatch | null>(
+    (top, m) => (top === null || m.alias.length >= top.alias.length ? m : top),
+    null,
+  );
+  return best?.slug ?? null;
+}
 
 /**
  * Resolve a canonical index slug from a user-facing ingredient input.
@@ -162,11 +230,8 @@ export function resolveIngredientSlug(input: string): string | null {
     if (byAlias) return byAlias;
 
     // Containment fallback for prefixed names like "fresh pandan leaves".
-    // Longest alias first, so descriptive prefixes never win against the
-    // actual ingredient (see CONTAINMENT_ALIASES).
-    for (const [re, candidate] of CONTAINMENT_ALIASES) {
-      if (re.test(candidateInput)) return candidate;
-    }
+    const contained = containedSlug(candidateInput);
+    if (contained !== null) return contained;
   }
   return null;
 }
