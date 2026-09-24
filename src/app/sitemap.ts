@@ -37,6 +37,7 @@ const STATIC_ROUTES: Array<{
   { path: "/pantry", changeFrequency: "weekly", priority: 0.7 },
   { path: "/food-tracking", changeFrequency: "weekly", priority: 0.7 },
   { path: "/sauces", changeFrequency: "weekly", priority: 0.7 },
+  { path: "/ingredients", changeFrequency: "weekly", priority: 0.7 },
   { path: "/restaurants", changeFrequency: "weekly", priority: 0.65 },
   { path: "/vault", changeFrequency: "monthly", priority: 0.6 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.2 },
@@ -64,6 +65,26 @@ async function getRecipeEntries(now: Date): Promise<MetadataRoute.Sitemap> {
   }
 }
 
+/**
+ * One URL per ingredient card, at its canonical slug (omnibar Phase 2.5b).
+ * The catalog is static data, so this needs no database.
+ */
+async function getIngredientEntries(now: Date): Promise<MetadataRoute.Sitemap> {
+  try {
+    const { getIngredientCatalog } = await import("@/lib/ingredients/ingredientCatalog");
+    const { ingredientHref } = await import("@/lib/ingredients/ingredientSlug");
+    return getIngredientCatalog().entries.map(({ slug }) => ({
+      url: `${BASE_URL}${ingredientHref(slug)}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    }));
+  } catch (err) {
+    logger.warn("Failed to enumerate ingredients", { error: err });
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
@@ -74,7 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route.priority,
   }));
 
-  const recipeEntries = await getRecipeEntries(now);
+  const [recipeEntries, ingredientEntries] = await Promise.all([getRecipeEntries(now), getIngredientEntries(now)]);
 
-  return [...staticEntries, ...recipeEntries];
+  return [...staticEntries, ...recipeEntries, ...ingredientEntries];
 }
