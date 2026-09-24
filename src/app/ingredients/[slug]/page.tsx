@@ -25,6 +25,15 @@ import type { Metadata } from "next";
 // ISR, like recipe pages.
 export const revalidate = 3600;
 
+/**
+ * No slug is prebuilt (the live index needs the database, which builds should
+ * not depend on); returning [] is what makes the route on-demand ISR rather
+ * than rendered per request. Each slug renders on first visit, then caches.
+ */
+export function generateStaticParams(): Array<{ slug: string }> {
+  return [];
+}
+
 interface DossierPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -38,6 +47,8 @@ const loadDossier = cache(async (slug: string): Promise<IngredientDossier | null
 export async function generateMetadata({ params }: DossierPageProps): Promise<Metadata> {
   const { slug } = await params;
   const target = resolveDossierTarget(slug);
+  // A 308's body is never shown; its canonical still names the target.
+  if (target.kind === "redirect") return { alternates: { canonical: ingredientHref(target.slug) } };
   const dossier = target.kind === "dossier" ? await loadDossier(target.entry.slug) : null;
   if (!dossier) return { title: "Ingredient not found", robots: { index: false } };
   const title = `${titleCase(dossier.card.name)} · Ingredient`;
