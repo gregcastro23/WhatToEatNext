@@ -27,6 +27,20 @@
  * @file src/lib/auth/agentsBridge.ts
  */
 
+import { z } from "zod";
+
+const agentsSessionSchema = z.object({
+  user: z
+    .object({
+      id: z.string().nullable().optional(),
+      email: z.string().nullable().optional(),
+      name: z.string().nullable().optional(),
+      image: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+});
+
 // Trusted, fixed default. Only ever an alchm.kitchen-owned host; never derived
 // from request input.
 const AGENTS_BASE_URL = (
@@ -73,15 +87,9 @@ export async function resolveAgentsBridgeUser(
     });
     if (!res.ok) return null;
 
-    const data = (await res.json()) as {
-      user?: {
-        id?: string | null;
-        email?: string | null;
-        name?: string | null;
-        image?: string | null;
-      } | null;
-    };
-    const user = data?.user;
+    const parsed = agentsSessionSchema.safeParse(await res.json());
+    if (!parsed.success) return null;
+    const { user } = parsed.data;
     if (!user?.email) return null;
 
     return {

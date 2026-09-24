@@ -136,7 +136,7 @@ function buildServerUserContext(
 
   return {
     natalChart,
-    stats,
+    ...(stats ? { stats } : {}),
     prioritizeHarmony: typeof clientPriority === "boolean" ? clientPriority : true,
   };
 }

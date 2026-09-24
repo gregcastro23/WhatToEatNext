@@ -12,9 +12,7 @@ interface AlertItem {
   description: string;
 }
 
-export function AsolAlertBanner({ data }: Props): React.ReactElement | null {
-  if (!data) return null;
-
+function computeAlerts(data: AsolHealthOverview): AlertItem[] {
   const alerts: AlertItem[] = [];
 
   // 1. Stale locks (> 300s)
@@ -51,8 +49,8 @@ export function AsolAlertBanner({ data }: Props): React.ReactElement | null {
   }
 
   // 4. Misconfigured signature mode
-  if (data.feedStatus.signatureModeInfo && !data.feedStatus.signatureModeInfo.valid) {
-    const raw = data.feedStatus.signatureModeInfo.raw ?? "";
+  if (!data.feedStatus.signatureModeInfo.valid) {
+    const { raw } = data.feedStatus.signatureModeInfo;
     alerts.push({
       id: "sig-mode-invalid",
       severity: "critical",
@@ -61,6 +59,12 @@ export function AsolAlertBanner({ data }: Props): React.ReactElement | null {
     });
   }
 
+  return alerts;
+}
+
+export function AsolAlertBanner({ data }: Props): React.ReactElement | null {
+  if (!data) return null;
+  const alerts = computeAlerts(data);
   if (alerts.length === 0) return null;
 
   return (

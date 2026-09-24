@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import type { UserProfile } from "@/contexts/UserContext";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
@@ -29,11 +30,11 @@ interface ProfileApiResponse {
   message?: string;
   details?: Record<string, string[] | undefined>;
 }
-interface HonoProfileResponse {
-  success?: boolean;
-  profile?: UserProfile;
-  [key: string]: unknown;
-}
+
+const honoProfileResponseSchema = z.object({
+  success: z.boolean().optional(),
+  profile: z.custom<UserProfile>((val) => val === undefined || (typeof val === "object" && val !== null)).optional(),
+}).passthrough();
 
 /**
  * Migrates a natal chart with sub-arcminute planet positions if positions are missing
@@ -89,6 +90,33 @@ async function maybeMigrateNatalChart(
   return natalChart;
 }
 
+function getHonoHeaders(userId: string): Record<string, string> {
+  return {
+    "Content-Type": "application/json",
+    "x-user-id": userId,
+    ...(INTERNAL_SECRET ? { "x-internal-secret": INTERNAL_SECRET } : {}),
+  };
+}
+
+async function proxyHonoProfile(
+  honoResponse: Response,
+  userId?: string,
+  userEmail?: string,
+): Promise<NextResponse<ProfileApiResponse> | null> {
+  if (!honoResponse.ok) return null;
+  const parsed = honoProfileResponseSchema.safeParse(await honoResponse.json());
+  if (!parsed.success) return null;
+
+  const { profile } = parsed.data;
+  if (profile?.natalChart && userId) {
+    profile.natalChart = await maybeMigrateNatalChart(userId, userEmail, profile.natalChart);
+  }
+  return NextResponse.json({
+    success: true,
+    ...(profile !== undefined ? { profile } : {}),
+  });
+}
+
 /**
  * GET /api/user/profile
  * Get current user's profile (authenticated)
@@ -99,43 +127,18 @@ export async function GET(request: NextRequest): Promise<NextResponse<ProfileApi
 
     if (!user) {
       _logger.warn("[GET /api/user/profile] User not found or not authenticated");
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Authentication required",
-        },
-        { status: 401 },
-      );
+      return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
     }
 
     // Proxy to Hono if configured
     if (HONO_API_URL) {
       try {
-        const headers: Record<string, string> = {
-          "Content-Type": "application/json",
-          "x-user-id": user.id,
-        };
-        if (INTERNAL_SECRET) {
-          headers["x-internal-secret"] = INTERNAL_SECRET;
-        }
-
         const honoResponse = await fetch(`${HONO_API_URL}/api/user/profile`, {
           method: "GET",
-          headers,
+          headers: getHonoHeaders(user.id),
         });
-
-        if (honoResponse.ok) {
-          const data = (await honoResponse.json()) as HonoProfileResponse;
-          const { profile } = data;
-          if (profile?.natalChart) {
-            const chart = profile.natalChart;
-            profile.natalChart = await maybeMigrateNatalChart(user.id, user.email, chart);
-          }
-          return NextResponse.json({
-            success: true,
-            ...(data.profile !== undefined ? { profile: data.profile } : {}),
-          });
-        }
+        const proxied = await proxyHonoProfile(honoResponse, user.id, user.email);
+        if (proxied) return proxied;
       } catch (err) {
         _logger.error("Hono Gateway proxy failed for user profile:", err);
       }
@@ -242,25 +245,14 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
     // Proxy to Hono if configured
     if (HONO_API_URL) {
       try {
-        const headers: Record<string, string> = {
-          "Content-Type": "application/json",
-          "x-user-id": user.id,
-          ...(INTERNAL_SECRET ? { "x-internal-secret": INTERNAL_SECRET } : {}),
-        };
-
         const honoResponse = await fetch(`${HONO_API_URL}/api/user/profile`, {
           method: "PUT",
-          headers,
+          headers: getHonoHeaders(user.id),
           body: JSON.stringify(profileData),
         });
 
-        if (honoResponse.ok) {
-          const data = (await honoResponse.json()) as HonoProfileResponse;
-          return NextResponse.json({
-            success: true,
-            ...(data.profile !== undefined ? { profile: data.profile } : {}),
-          });
-        }
+        const proxied = await proxyHonoProfile(honoResponse);
+        if (proxied) return proxied;
       } catch (err) {
         _logger.error("Hono Gateway proxy failed for user profile update:", err);
       }

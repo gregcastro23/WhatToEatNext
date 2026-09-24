@@ -27,7 +27,7 @@ export function useAstroAndUserContext(
     lunarPhase: astroState.lunarPhase,
     activePlanets: astroState.activePlanets,
     domElements: astroState.domElements,
-    currentPlanetaryHour: astroState.currentPlanetaryHour ?? undefined,
+    ...(astroState.currentPlanetaryHour ? { currentPlanetaryHour: astroState.currentPlanetaryHour } : {}),
   }), [astroState]);
 
   const userContext: UserPersonalizationContext | undefined = useMemo(() => {
@@ -35,7 +35,7 @@ export function useAstroAndUserContext(
     return {
       natalChart: currentUser.natalChart,
       prioritizeHarmony: true,
-      stats: currentUser.stats,
+      ...(currentUser.stats ? { stats: currentUser.stats } : {}),
     };
   }, [currentUser]);
 

@@ -9,11 +9,16 @@
 // import type { Transporter } from "nodemailer";
 
 // Pure (string-only) template modules — safe to import anywhere.
+import { z } from "zod";
 import { renderBulletinEmail } from "@/lib/email/templates/bulletin";
 import type { NatalChart } from "@/types/natalChart";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("emailService");
+
+const resendSendResponseSchema = z.object({
+  id: z.string().optional(),
+});
 
 interface EmailOptions {
   to: string;
@@ -169,8 +174,8 @@ class EmailService {
         return false;
       }
 
-      const result = (await response.json()) as { id?: string };
-      logger.info("Email sent via Resend:", result.id);
+      const parsed = resendSendResponseSchema.safeParse(await response.json());
+      logger.info("Email sent via Resend:", parsed.success ? parsed.data.id : undefined);
       return true;
     } catch (error) {
       logger.error("Error sending email via Resend:", error);

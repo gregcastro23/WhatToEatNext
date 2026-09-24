@@ -68,10 +68,12 @@ function text(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 function record(value: unknown): Record<string, unknown> | null {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : null;
+  return isRecord(value) ? value : null;
 }
 
 function cents(value: unknown): number {
@@ -185,7 +187,7 @@ export class DeliverectClient {
       );
     }
 
-    const raw = (await response.json()) as Record<string, unknown>;
+    const raw = record(await response.json()) ?? {};
     const rawCategories = Array.isArray(raw.categories) ? raw.categories : [];
 
     const categories = rawCategories.flatMap((category, categoryIndex) => {
@@ -263,7 +265,7 @@ export class DeliverectClient {
       );
     }
 
-    const result = (await response.json()) as Record<string, unknown>;
+    const result = record(await response.json()) ?? {};
     const orderId = text(result.orderId ?? result.id);
     if (!orderId) {
       throw new Error("Deliverect response did not include an order id");

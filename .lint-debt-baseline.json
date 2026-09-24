@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1322,
+  "trackedTotal": 1320,
   "casts": {
     "total": 165,
     "asAny": 38,
@@ -8,20 +8,20 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 3186,
+    "total": 3147,
     "asAny": 37,
     "chained": 127,
-    "single": 3022,
-    "production": 2562,
+    "single": 2983,
+    "production": 2523,
     "test": 624,
-    "asConst": 571,
+    "asConst": 575,
     "nonNull": 602
   },
   "looseOptionality": {
-    "total": 305,
-    "domain": 216,
+    "total": 282,
+    "domain": 193,
     "wire": 89,
-    "production": 305,
+    "production": 282,
     "test": 0,
     "wireAllowlist": [
       "src/types/yelp.ts",
@@ -41,7 +41,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 211,
+      "total": 210,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -49,12 +49,12 @@
     }
   },
   "declined": {
-    "total": 4892,
+    "total": 4889,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1363,
+      "@typescript-eslint/explicit-function-return-type": 1361,
       "@typescript-eslint/explicit-module-boundary-types": 667,
       "complexity": 297,
-      "max-depth": 85,
+      "max-depth": 84,
       "max-lines": 515,
       "max-lines-per-function": 1591,
       "no-void": 374
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 824,
+      "count": 822,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -103,7 +103,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 211,
+      "count": 210,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {

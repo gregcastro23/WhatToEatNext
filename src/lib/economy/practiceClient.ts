@@ -12,7 +12,18 @@
  * doesn't pay must never surface an error — invisibility cuts both ways.
  */
 
+import { z } from "zod";
+
 export const PRACTICE_REWARD_EVENT = "practice:reward";
+
+const practiceRewardResponseSchema = z.object({
+  rewarded: z.boolean().optional(),
+  tokenType: z.string().optional(),
+  amount: z.number().optional(),
+  hint: z.string().optional(),
+});
+
+const stringArraySchema = z.array(z.string());
 
 export interface PracticeReward {
   tokenType: string;
@@ -52,12 +63,10 @@ export function firePractice(type: string, targetId?: string): void {
         return;
       }
       if (!res.ok) return;
-      const json = (await res.json()) as {
-        rewarded?: boolean;
-        tokenType?: string;
-        amount?: number;
-        hint?: string;
-      };
+      const rawJson: unknown = await res.json();
+      const parsed = practiceRewardResponseSchema.safeParse(rawJson);
+      if (!parsed.success) return;
+      const json = parsed.data;
       if (json.rewarded && json.tokenType && json.amount && json.hint) {
         revealPracticeReward({ tokenType: json.tokenType, amount: json.amount, hint: json.hint });
       }
@@ -72,7 +81,9 @@ const DISCOVERED_CACHE_KEY = "alchm:practice:discovered";
 function discoveredCache(): Set<string> {
   try {
     const raw = window.localStorage.getItem(DISCOVERED_CACHE_KEY);
-    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+    if (!raw) return new Set();
+    const parsed = stringArraySchema.safeParse(JSON.parse(raw));
+    return new Set(parsed.success ? parsed.data : []);
   } catch {
     return new Set();
   }
