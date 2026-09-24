@@ -42,9 +42,9 @@ const SHELL_CSS = `
 /*
  * Sized like the search button it replaces, so the header is no wider at any
  * width: the input's percentage width lets the field shrink from its natural
- * ~200px to min-width when squeezed. The header already overflows with the
- * pill nav below ~1530px (production 2026-09-24: 1470px of content at 1280
- * and 1440); there the ⌘K hint gives up its room to the text.
+ * ~200px to min-width when squeezed. Between 900 and 1539 the header's pill
+ * nav gets whatever width the right-hand group leaves it, so there the ⌘K hint
+ * gives up its room: the field is 177px instead of 208px.
  */
 .omni-inline {
   position: relative; display: none; align-items: center; gap: 8px;
