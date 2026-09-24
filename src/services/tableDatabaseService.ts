@@ -522,15 +522,15 @@ class TableDatabaseService {
     tableId: string,
     hostId: string,
     patch: {
-      title?: string | undefined;
-      description?: string | undefined;
-      scheduledAt?: string | undefined;
-      venue?: TableVenue | undefined;
-      visibility?: TableVisibility | undefined;
+      title?: string;
+      description?: string;
+      scheduledAt?: string;
+      venue?: TableVenue;
+      visibility?: TableVisibility;
       /** Discovery geo — forced null for home venues (route enforces + DB CHECK). */
-      venueLat?: number | null | undefined;
-      venueLng?: number | null | undefined;
-      seatCap?: number | null | undefined;
+      venueLat?: number | null;
+      venueLng?: number | null;
+      seatCap?: number | null;
     },
   ): Promise<TableRecord | null> {
     const sets: string[] = [];

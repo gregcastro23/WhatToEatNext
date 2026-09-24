@@ -13,17 +13,9 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { SELECT_DEVICE_SESSIONS_SQL } from "@/lib/auth/authQueries";
 import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
+import type { AuthSessionRow as SessionRow, AuthSessionsResponse } from "@/types/authSessions";
 
 export const dynamic = "force-dynamic";
-
-interface SessionRow {
-  id: string;
-  sub: string;
-  device: string;
-  loc: string;
-  time: string;
-  current: boolean;
-}
 
 interface DeviceSessionRow {
   id?: string | null;
@@ -144,21 +136,21 @@ export async function GET(request: Request) {
     });
 
     if (rows.length === 0) {
-      return NextResponse.json({
+      return NextResponse.json<AuthSessionsResponse>({
         sessions: jwtFallback(request, user.id, currentJti),
         source: "jwt-fallback",
         memberSince,
       });
     }
 
-    return NextResponse.json({ sessions: rows, source: "db", memberSince });
+    return NextResponse.json<AuthSessionsResponse>({ sessions: rows, source: "db", memberSince });
   } catch (err) {
     // DB unavailable or table missing — degrade to JWT introspection.
-    return NextResponse.json({
+    return NextResponse.json<AuthSessionsResponse>({
       sessions: jwtFallback(request, user.id, currentJti),
       source: "jwt-fallback",
       memberSince,
-      error: process.env.NODE_ENV === "development" ? String(err) : undefined,
+      ...(process.env.NODE_ENV === "development" ? { error: String(err) } : {}),
     });
   }
 }

@@ -21,6 +21,7 @@ import React, {
   useRef,
   type ReactNode,
 } from "react";
+import { z } from "zod";
 import type {
   SubscriptionTier,
   UserSubscription,
@@ -37,15 +38,6 @@ const BROADCAST_CHANNEL = "alchm_subscription_sync";
 interface CachedSubscription {
   subscription: UserSubscription;
   cachedAt: number;
-}
-
-interface SubscriptionApiResponse {
-  subscription?: UserSubscription;
-  [key: string]: unknown;
-}
-
-interface PortalApiResponse {
-  url?: string;
 }
 
 interface PremiumContextValue {
@@ -217,7 +209,11 @@ export function PremiumProvider({ children }: { children: ReactNode }): React.JS
         return;
       }
 
-      const data = (await res.json()) as SubscriptionApiResponse;
+      const subSchema = z.object({
+        subscription: z.custom<UserSubscription>().optional(),
+      });
+      const parsed = subSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
 
       if (res.ok) {
         if (data.subscription) {
@@ -272,7 +268,9 @@ export function PremiumProvider({ children }: { children: ReactNode }): React.JS
     try {
       const res = await fetch("/api/stripe/portal", { method: "POST" });
       if (res.ok) {
-        const data = (await res.json()) as PortalApiResponse;
+        const portalSchema = z.object({ url: z.string().optional() });
+        const portalParsed = portalSchema.safeParse(await res.json());
+        const data = portalParsed.success ? portalParsed.data : {};
         if (data.url) window.location.href = data.url;
       }
     } catch (error: unknown) {

@@ -10,6 +10,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { z } from "zod";
 import {
   getServerDayEntries,
   getServerDailySummary,
@@ -155,7 +156,12 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         { credentials: "include" },
       );
       if (res.ok) {
-        const data = (await res.json()) as FoodDiaryApiResponse;
+        const schema = z.object({
+          entries: z.array(z.custom<FoodDiaryEntry>()).optional(),
+          summary: z.custom<FoodDiaryApiResponse["summary"]>().optional(),
+        });
+        const parsed = schema.safeParse(await res.json());
+        const data = parsed.success ? parsed.data : {};
         const entries = data.entries ?? [];
         // The /api/food-diary GET returns a partial summary (totals only, no
         // `entries`/`mealBreakdown`). Merge the entries the API did return so
@@ -264,7 +270,11 @@ export function useFoodDiary(): UseFoodDiaryReturn {
             body: JSON.stringify(parsedInput.data),
           });
           if (!res.ok) throw new Error(`Server error (${res.status})`);
-          const data = (await res.json()) as { entry?: FoodDiaryEntry };
+          const schema = z.object({
+            entry: z.custom<FoodDiaryEntry>().optional(),
+          });
+          const parsed = schema.safeParse(await res.json());
+          const data = parsed.success ? parsed.data : {};
           entry = data.entry ?? null;
         } else {
           entry = await createServerEntry(userId, parsedInput.data as CreateFoodDiaryEntryInput);

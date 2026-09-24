@@ -83,6 +83,18 @@ function lowerArray(value: unknown): string[] | undefined {
   return undefined;
 }
 
+function applyIndexedFields(recipe: IndexedRecipe): void {
+  recipe._lcCuisine = recipe.cuisine?.toLowerCase() ?? "";
+  const tags = lowerArray(recipe.tags);
+  if (tags) recipe._lcTags = tags;
+  const lcCookingMethod = lowerArray(recipe.cookingMethod);
+  if (lcCookingMethod) recipe._lcCookingMethod = lcCookingMethod;
+  const seasons = lowerArray(recipe.season);
+  if (seasons) recipe._lcSeasons = seasons;
+  const mealTypes = lowerArray(recipe.mealType);
+  if (mealTypes) recipe._lcMealTypes = mealTypes;
+}
+
 /** Coerce a value to a finite number, or `undefined` when it isn't one. */
 function toFiniteNumber(value: unknown): number | undefined {
   const n = typeof value === "number" ? value : Number(value);
@@ -473,13 +485,7 @@ function extractRecipesFromCuisines(
           }
 
           // ── Precomputed lowercased fields for perf in the bridge ──
-          recipe._lcCuisine = recipe.cuisine?.toLowerCase() ?? "";
-          recipe._lcTags = lowerArray(recipe.tags);
-          recipe._lcCookingMethod = lowerArray(
-            (recipe as { cookingMethod?: unknown }).cookingMethod,
-          );
-          recipe._lcSeasons = lowerArray(recipe.season);
-          recipe._lcMealTypes = lowerArray(recipe.mealType);
+          applyIndexedFields(recipe);
 
           recipes.push(recipe);
         }

@@ -170,5 +170,5 @@ const after = await client.query<{ n: string }>(
   `SELECT count(*)::text AS n FROM user_profiles up JOIN users u ON u.id = up.user_id
     WHERE u.is_agent`,
 );
-console.log(`agents remaining: ${after.rows[0].n}`);
+console.log(`agents remaining: ${after.rows[0]?.n ?? 0}`);
 await client.end();

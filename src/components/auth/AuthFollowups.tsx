@@ -7,6 +7,11 @@ import { signOut, useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
 import { Logo } from "@/components/nav/Logo";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
+import {
+  AgentSyncStatusResponseSchema,
+  AuthSessionsResponseSchema,
+} from "@/lib/validation/accountResponseSchemas";
+import type { AuthSessionRow as SessionRow } from "@/types/authSessions";
 
 /* ============================================================================
  * SHARED ATOMS
@@ -1119,15 +1124,6 @@ export function UpgradeGateFromQuery({
  * sync, and the danger zone. Wired to /api/auth/sessions when available.
  * ========================================================================= */
 
-interface SessionRow {
-  id: string;
-  sub: string;
-  device: string;
-  loc: string;
-  time: string;
-  current: boolean;
-}
-
 const FALLBACK_SESSIONS: SessionRow[] = [
   { id: "current", sub: "kitchen.alchm.kitchen", device: "This browser", loc: "—", time: "Active now", current: true },
 ];
@@ -1162,13 +1158,10 @@ export function AccountSessions({
       try {
         const res = await fetch("/api/auth/sessions", { credentials: "include" });
         if (!res.ok) return;
-        const json = (await res.json()) as {
-          sessions?: SessionRow[];
-          memberSince?: string;
-        };
-        if (cancelled) return;
-        if (json.sessions) setSessions(json.sessions);
-        if (json.memberSince) setMemberSince(json.memberSince);
+        const parsed = AuthSessionsResponseSchema.safeParse(await res.json());
+        if (!parsed.success || cancelled) return;
+        setSessions(parsed.data.sessions);
+        if (parsed.data.memberSince) setMemberSince(parsed.data.memberSince);
       } catch {
         /* leave fallback */
       }
@@ -1189,12 +1182,9 @@ export function AccountSessions({
       try {
         const res = await fetch("/api/internal/agent-sync/status", { credentials: "include" });
         if (!res.ok) return;
-        const json = (await res.json()) as { active?: boolean; lastSync?: string };
-        if (cancelled) return;
-        setAgentSync({
-          active: Boolean(json.active),
-          lastSync: json.lastSync ?? null,
-        });
+        const parsed = AgentSyncStatusResponseSchema.safeParse(await res.json());
+        if (!parsed.success || cancelled) return;
+        setAgentSync({ active: parsed.data.active, lastSync: parsed.data.lastSync });
       } catch {
         /* ignore */
       }
