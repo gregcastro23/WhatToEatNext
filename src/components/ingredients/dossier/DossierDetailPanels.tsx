@@ -62,6 +62,7 @@ function RecipeRow({ recipe }: { recipe: DossierRecipe }): JSX.Element {
   return (
     <Link
       href={recipe.href}
+      prefetch={false}
       style={{
         display: "grid",
         gridTemplateColumns: "1fr auto",

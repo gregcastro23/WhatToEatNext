@@ -20,12 +20,19 @@ interface RowProps {
   onPicked: () => void;
 }
 
+/**
+ * No viewport prefetch: each result row is a page render (a recipe loads the
+ * whole catalog when its instance is cold), and a dropdown shows a dozen rows
+ * per keystroke. Production, 2026-09-24: one "aubergine" result list rendered
+ * five recipe pages at once, each waiting on a 6 s catalog-query timeout.
+ */
 function OptionRow({ row, id, selected, onHover, onPicked }: RowProps): JSX.Element {
   const external = row.type === "link" && row.external;
   return (
     <Link
       id={id}
       role="option"
+      prefetch={false}
       aria-selected={selected}
       tabIndex={-1}
       href={row.href}

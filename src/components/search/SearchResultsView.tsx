@@ -53,7 +53,7 @@ function Section({ title, rows }: { title: string; rows: readonly Row[] }): JSX.
       <ul className="srch-list">
         {rows.map((row) => (
           <li key={row.key}>
-            <Link href={row.href}>
+            <Link href={row.href} prefetch={false}>
               <span>{row.label}</span>
               <span className="srch-hint">{row.hint}</span>
             </Link>
@@ -97,7 +97,7 @@ function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null 
   const more = hero.recipeCount - result.recipesContaining.length;
   return (
     <>
-      <Link href={hero.href} className="srch-hero" aria-label={`${name}: open the ingredient`}>
+      <Link href={hero.href} prefetch={false} className="srch-hero" aria-label={`${name}: open the ingredient`}>
         <OmnibarHeroRow hero={hero} label={name} />
       </Link>
       <Section
